@@ -20,7 +20,7 @@ export const scenes = {
   RatweekScena: {
     path: './warplane/RatweekScena.js',
     name: 'Operation Ratweek',
-    icon: 'armies/britanci/avioni/bomber-lancaster2.png',
+    icon: 'armies/britanci/avioni/bomber-lancaster.png',
     height: 72
   },
   RajlovacScena: {
@@ -81,7 +81,7 @@ export const scenes = {
   },
   TenkiciScena: {
     path: './tenkici/TenkiciScena.js',
-    name: 'Tenkići',
+    name: 'Trieste',
     icon: 'armies/partizani/tenkovi/tenk-04.png'
   },
   SutjeskaScena: {

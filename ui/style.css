@@ -114,7 +114,11 @@ button.no-hover:hover {
         drop-shadow(1px 1px 0px rgba(0, 0, 0, .4)) 
         drop-shadow(-1px -1px 0px rgba(0, 0, 0, .4)) 
         drop-shadow(1px -1px 0px rgba(0, 0, 0, .4)) 
-        drop-shadow(-1px 1px 0px rgba(0, 0, 0, .4));
+        drop-shadow(-1px 1px 0px rgba(0, 0, 0, .4))
+        drop-shadow(2px 2px 0px rgba(255,255,255, .4)) 
+        drop-shadow(-2px -2px 0px rgba(255,255,255, .4)) 
+        drop-shadow(2px -2px 0px rgba(255,255,255, .4)) 
+        drop-shadow(-2px 2px 0px rgba(255,255,255, .4));
   }
 }
 
