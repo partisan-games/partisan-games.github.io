@@ -53,7 +53,7 @@ export const scenes = {
   },
   DrinaScena: {
     path: './drina/DrinaScena.js',
-    name: 'Crossing the Drina',
+    name: 'Drina',
     icon: 'armies/camac.png',
     height: 38
   },
@@ -68,9 +68,9 @@ export const scenes = {
     icon: 'armies/avionce.gif',
     height: 60
   },
-  TopScena: {
-    path: './top/TopScena.js',
-    name: 'Top',
+  KalinovikScena: {
+    path: './kalinovik/KalinovikScena.js',
+    name: 'Kalinovik',
     icon: 'armies/nemci/artiljerija/top-01.png',
     height: 32
   },
