@@ -71,7 +71,7 @@ export const scenes = {
   KalinovikScena: {
     path: './kalinovik/KalinovikScena.js',
     name: 'Kalinovik',
-    icon: 'armies/nemci/artiljerija/top-01.png',
+    icon: 'armies/partizani/artiljerija/100mm-skoda.png',
     height: 32
   },
   TenkicIde: {
