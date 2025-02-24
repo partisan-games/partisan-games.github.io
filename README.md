@@ -24,7 +24,10 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 
 - dodati ciljeve na Sutjesku, Neretvu, Jasenovac i dr.
 
-Tenk3D/Kraljevo
+TenkicIde
+- uništi bunkere, ne crkve
+
+Kraljevo
 - rasturiti neprijateljske bunkere/zidine, nešto što ima smisla
 
 Savo Mitraljezac 

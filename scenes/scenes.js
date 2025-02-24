@@ -77,7 +77,8 @@ export const scenes = {
   TenkicIde: {
     path: './tenkic-ide/TenkicIde.js',
     name: 'Tenkić ide',
-    icon: 'armies/partizani/tenkovi/tenk-02.png'
+    icon: 'buildings/crkva-01.png',
+    height: 60
   },
   TrstScena: {
     path: './tenkici/TrstScena.js',
