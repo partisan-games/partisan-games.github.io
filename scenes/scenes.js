@@ -40,9 +40,9 @@ export const scenes = {
     icon: 'armies/partizani/vojnici/bombasi/partizan-bombas.gif',
     height: 48
   },
-  NemciIzRovova: {
-    path: './rovovi/NemciIzRovova.js',
-    name: 'Nemci iz rovova',
+  NeretvaScena: {
+    path: './neretva/NeretvaScena.js',
+    name: 'Neretva',
     icon: 'armies/nemac-rov.gif',
     height: 60
   },
@@ -102,10 +102,6 @@ export const scenes = {
     icon: 'items/bodljikava-zica.gif',
     height: 28
   },
-  // TenkOdozgoScena: {
-  //   path: './jasenovac/TenkOdozgoScena.js',
-  //   name: 'Tenk odozgo'
-  // },
   MainMenu: {
     path: './MainMenu.js',
     name: 'Main Menu'

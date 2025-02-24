@@ -7,7 +7,7 @@ import Svabo from './Svabo.js'
 const DALJI_Y = 150
 const BLIZI_Y = 300
 
-export default class NemciIzRovova extends Scena2D {
+export default class NeretvaScena extends Scena2D {
   init() {
     this.pogoci = 0
     this.rekord = 0
@@ -45,10 +45,10 @@ export default class NemciIzRovova extends Scena2D {
     this.energija = Math.max(0, this.energija - damage * dt)
   }
 
-  proveriPogotke(rovovi) {
-    for (let i = 0; i < rovovi.length; i++)
-      if (rovovi[i].jePogodjen()) {
-        rovovi[i].padni()
+  proveriPogotke(neretva) {
+    for (let i = 0; i < neretva.length; i++)
+      if (neretva[i].jePogodjen()) {
+        neretva[i].padni()
         this.pogoci++
       }
   }

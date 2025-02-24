@@ -11,14 +11,11 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 ## TODO
 
 - BUG: Tank scena ne čisti džojstik
+- smisliti skaliranje likova https://chatgpt.com/c/67bc8613-f938-800a-a14a-09a54b124e88
 
 ### Glavni meni
 
-- izabrati mapu za pozadinu
-    - probati na svakoj ikonice (kule, tenkovi, avioni, vojnici)
-- kasnije prava leaflet mapa?
-
-- dodati naslovnu, kao na main grani, sa menijem: play, about, settings
+- nazive i ikonice svim scenama
 
 ### Scene dorada
 
@@ -61,13 +58,11 @@ Bekstvo iz Jasenovca
 
 Top scena
 - dodati dinamičku pozadinu, dim, avione kako lete...
-- smisliti naziv (proboj sa Sutjeske, sremski front, ustanak...)
 
 Bombas 
 - broj prepreka da zavisi od veličine ekrana, na većim ekranima prazno
 
 Nemci iz rovova 
-- smisliti naziv (Kadinjača, Neretva...)
 - dodati vremensku pobedu, ali da ne prekida partiju ranije (pobeda: Odbranio si položaj, ranjenici su spašeni.)
 - hercegovina 1942, četnici iskaču iza kamenja, pa zajedno sa italijanima
 
