@@ -11,9 +11,9 @@ export const scenes = {
     icon: 'ui/resistance-fighter.png',
     height: 54
   },
-  TenkScena: {
-    path: './tenk/TenkScena.js',
-    name: 'Tenk',
+  KraljevoScena: {
+    path: './kraljevo/KraljevoScena.js',
+    name: 'Kraljevo',
     icon: 'armies/nemci/tenkovi/tenk-odozgo-02.png',
     height: 90
   },
@@ -79,8 +79,8 @@ export const scenes = {
     name: 'Tenkić ide',
     icon: 'armies/partizani/tenkovi/tenk-02.png'
   },
-  TenkiciScena: {
-    path: './tenkici/TenkiciScena.js',
+  TrstScena: {
+    path: './tenkici/TrstScena.js',
     name: 'Trieste',
     icon: 'armies/partizani/tenkovi/tenk-04.png'
   },

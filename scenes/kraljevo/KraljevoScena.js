@@ -13,7 +13,7 @@ import { baseControls } from '/ui/Controls.js'
 
 const { randFloat } = THREE.MathUtils
 
-export default class TenkScena extends Scena3D {
+export default class KraljevoScena extends Scena3D {
   constructor(manager) {
     super(manager, {
       toon: true,

@@ -16,10 +16,16 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 ### Glavni meni
 
 - nazive i ikonice svim scenama
+    - dodati godinu pored mesta?
+    - koristiti pun naziv bitke?
+- bolje rasporediti ikone
 
 ### Scene dorada
 
 - dodati ciljeve na Sutjesku, Neretvu, Jasenovac i dr.
+
+Tenk3D/Kraljevo
+- rasturiti neprijateljske bunkere/zidine, nešto što ima smisla
 
 Savo Mitraljezac 
 - razuditi buriće, kutije (uvek je nasred polja)
