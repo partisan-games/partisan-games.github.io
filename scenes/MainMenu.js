@@ -1,7 +1,6 @@
 import Scena2D from '/core/Scena2D.js'
 import { platno } from '/core/io/platno.js'
 import { scenes } from './scenes.js'
-import { shuffle } from '/core3d/helpers.js'
 import { slucajnePozicije } from '/core/utils.js'
 
 const pozicije = slucajnePozicije(Object.keys(scenes).length, 140)
