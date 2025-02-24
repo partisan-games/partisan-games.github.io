@@ -86,7 +86,7 @@ class Keyboard {
   }
 
   get run() {
-    return this.#capsLock
+    return this.#capsLock || this.pressed.ShiftLeft
   }
 
   set run(bool) {
