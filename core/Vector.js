@@ -12,9 +12,6 @@ export default class Vector {
   }
 
   razmakDo(polozaj) {
-    const dx = this.x - polozaj.x
-    const dy = this.y - polozaj.y
-    const dz = this.z - polozaj.z
-    return Math.sqrt(dx ** 2 + dy ** 2 + dz ** 2)
+    return Math.hypot(this.x - polozaj.x, this.y - polozaj.y, this.z - polozaj.z)
   }
 }

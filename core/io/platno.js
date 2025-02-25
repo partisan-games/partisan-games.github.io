@@ -11,8 +11,6 @@ const resize = () => {
 resize()
 window.addEventListener('resize', resize)
 
-export const dijagonalaPlatna = Math.sqrt(platno.height * platno.height + platno.width * platno.width)
-
 export function crtaNebo(nivoTla, bojaNeba = 'blue', bojaNebaPreliv = 'lightblue', pocetakPreliva = 0) {
   const ctx = platno.getContext('2d')
   ctx.fillStyle = bojaNeba

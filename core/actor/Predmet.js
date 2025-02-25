@@ -64,7 +64,7 @@ export default class Predmet {
   }
 
   get dijagonala() {
-    return Math.sqrt(this.sirina ** 2 + this.visina ** 2)
+    return Math.hypot(this.sirina, this.visina)
   }
 
   /* POLOZAJ */
@@ -115,7 +115,7 @@ export default class Predmet {
   /* KRETANJE */
 
   get brzina() {
-    return Math.sqrt(this.dx * this.dx + this.dy * this.dy)
+    return Math.hypot(this.dx, this.dy)
   }
 
   set brzina(velicina) {

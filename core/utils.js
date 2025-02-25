@@ -1,5 +1,3 @@
-import { platno, dijagonalaPlatna } from './io/platno.js'
-
 export function randomInRange(min, max) {
   return Math.random() * (max - min) + min
 }
@@ -8,15 +6,9 @@ export function nasumicnoOkruglo(min, max) {
   return Math.floor(randomInRange(min, max + 1))
 }
 
-// vraca od 0 do 1 zavisno od razmaka dva predmeta, u odnosu na scenu
-export function skaliranRazmak(predmet, predmet2) {
-  const razmak = predmet.razmakDo(predmet2)
-  return 1 - razmak / dijagonalaPlatna
-}
-
 export function slucajnePozicije(n, velicinaPolja) {
-  const rows = Math.floor(platno.height / velicinaPolja)
-  const cols = Math.floor(platno.width / velicinaPolja)
+  const rows = Math.floor(window.innerHeight / velicinaPolja)
+  const cols = Math.floor(window.innerWidth / velicinaPolja)
   const allPositions = []
 
   for (let i = 0; i < rows; i++)
@@ -37,7 +29,7 @@ export function slucajnePozicije(n, velicinaPolja) {
     }))
 }
 
-const distance = (p1, p2) => Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2)
+const distance = (p1, p2) => Math.hypot(p1.x - p2.x, p1.y - p2.y)
 
 export function nadjiNajdaljeTacke(pozicije) {
   let maxDistance = 0

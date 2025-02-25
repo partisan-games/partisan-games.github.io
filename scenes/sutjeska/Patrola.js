@@ -1,4 +1,4 @@
-import { skaliranRazmak, nasumicnoOkruglo } from '/core/utils.js'
+import { nasumicnoOkruglo } from '/core/utils.js'
 import Predmet from '/core/actor/Predmet.js'
 import Vreme from '/core/Vreme.js'
 
@@ -36,7 +36,7 @@ export default class Patrola extends Predmet {
     const src = `/assets/sounds/patrola/${fajl}`
 
     this.zvuk = new Audio(src)
-    this.zvuk.volume = this.target ? skaliranRazmak(this, this.target) : .5
+    this.zvuk.volume = .5
     this.zvuk.addEventListener('canplaythrough', () => this.zvuk.play())
     this.zvuk.load()
   }
