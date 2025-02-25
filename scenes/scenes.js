@@ -31,7 +31,7 @@ export const scenes = {
   },
   SavoScena: {
     path: './savo/SavoScena.js',
-    name: 'Savo Mitraljezac',
+    name: 'Konjic 1943',
     icon: 'ui/mitraljez.png'
   },
   KrupanjScena: {
