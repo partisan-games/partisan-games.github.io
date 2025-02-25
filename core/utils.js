@@ -9,24 +9,21 @@ export function nasumicnoOkruglo(min, max) {
 export function slucajnePozicije(n, velicinaPolja) {
   const rows = Math.floor(window.innerHeight / velicinaPolja)
   const cols = Math.floor(window.innerWidth / velicinaPolja)
-  const allPositions = []
+  const positions = new Set()
 
-  for (let i = 0; i < rows; i++)
-    for (let j = 0; j < cols; j++)
-      allPositions.push([i, j])
-
-  // Fisher-Yates shuffle for better randomness
-  for (let i = allPositions.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-      ;[allPositions[i], allPositions[j]] = [allPositions[j], allPositions[i]]
+  while (positions.size < n) {
+    const i = Math.floor(Math.random() * rows)
+    const j = Math.floor(Math.random() * cols)
+    positions.add(`${i},${j}`)
   }
 
-  return allPositions
-    .slice(0, n)
-    .map(([i, j]) => ({
+  return Array.from(positions).map(pos => {
+    const [i, j] = pos.split(',').map(Number)
+    return {
       y: velicinaPolja * i + velicinaPolja / 2,
       x: velicinaPolja * j + velicinaPolja / 2
-    }))
+    }
+  })
 }
 
 const distance = (p1, p2) => Math.hypot(p1.x - p2.x, p1.y - p2.y)

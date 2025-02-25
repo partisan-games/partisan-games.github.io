@@ -1,11 +1,15 @@
 import Scena2D from '/core/Scena2D.js'
 import { platno } from '/core/io/platno.js'
 import { scenes } from './scenes.js'
+import { slucajnePozicije } from '/core/utils.js'
 
-function generateNonOverlappingCircles(n, r, width, height) {
+function generateNonOverlappingCircles(n, r, width = window.innerWidth, height = window.innerHeight, margin = r) {
   const positions = []
   const centerX = width / 2
   const centerY = height / 2
+
+  const effectiveWidth = width - 2 * margin
+  const effectiveHeight = height - 2 * margin
 
   for (let i = 0; i < n; i++) {
     let placed = false
@@ -13,24 +17,23 @@ function generateNonOverlappingCircles(n, r, width, height) {
 
     while (!placed) {
       const angle = Math.random() * 2 * Math.PI
-      const distance = radius + Math.random() * (Math.min(width, height) / 2 - radius)
+      const distance = radius + Math.random() * (Math.min(effectiveWidth, effectiveHeight) / 2 - radius)
       const x = centerX + Math.cos(angle) * distance
       const y = centerY + Math.sin(angle) * distance
 
-      if (!positions.some(p => Math.hypot(p.x - x, p.y - y) < 2 * r)) {
-        positions.push({ x, y })
-        placed = true
-      } else
-        radius += 1 // Povećava se poluprečnik traženja ako je mesto zauzeto
-
+      if (x >= margin && x <= width - margin && y >= margin && y <= height - margin)
+        if (!positions.some(p => Math.hypot(p.x - x, p.y - y) < 2 * r)) {
+          positions.push({ x, y })
+          placed = true
+        } else
+          radius += 1
     }
   }
-
   return positions
 }
 
-const pozicije = generateNonOverlappingCircles(Object.keys(scenes).length, 70, window.innerWidth, window.innerHeight)
 // const pozicije = slucajnePozicije(Object.keys(scenes).length, 140)
+const pozicije = generateNonOverlappingCircles(Object.keys(scenes).length - 1, 80)
 
 const renderIcon = (key, data, i) => {
   const style = `"top: ${pozicije[i].y}px; left: ${pozicije[i].x}px;"`
