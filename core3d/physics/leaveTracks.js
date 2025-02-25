@@ -31,8 +31,7 @@ function fixAngleRad(a) {
   return a
 }
 
-export function leaveTracks({ ground, scene, vehicle }) {
-  const { body, wheelMeshes } = vehicle
+export function leaveTracks({ ground, scene, body, wheelMeshes }) {
 
   const groundMesh = getMesh(ground)
   const velocity = new THREE.Vector3(0, 0, 0)

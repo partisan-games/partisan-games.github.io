@@ -10,8 +10,7 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 
 ## TODO
 
-- BUG: Tank scena ne čisti džojstik
-- smisliti skaliranje likova https://chatgpt.com/c/67bc8613-f938-800a-a14a-09a54b124e88
+- BUG: Savo ne čisti zvuk oluje
 
 ### Glavni meni
 
@@ -91,6 +90,8 @@ Profil
 - dodati profil korisnika
 - izbor slike partizana ili partizanke
 - dodati medalje za misije
+
+- smisliti skaliranje ekrana
 
 ### Test i optimizacija
 

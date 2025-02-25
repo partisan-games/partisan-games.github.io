@@ -58,8 +58,8 @@ export default class KraljevoScena extends Scena3D {
         this.world.add(warehouse, 0)
       }
 
-    this.tank = new Tank({ physicsWorld: this.world.physicsWorld, camera: this.camera, pos: { x: 0, y: 0, z: -20 } })
-    this.add(this.tank)
+    this.player = new Tank({ physicsWorld: this.world.physicsWorld, camera: this.camera, pos: { x: 0, y: 0, z: -20 } })
+    this.add(this.player)
   }
 
   sceneUI(t) {
@@ -76,10 +76,9 @@ export default class KraljevoScena extends Scena3D {
 
   update(dt, t) {
     super.update(dt)
-    if (!this.tank) return
 
-    if ((this.tank.input.left || this.tank.input.right) && this.tank.speed >= 30)
-      leaveTracks({ vehicle: this.tank, ground: this.ground, scene: this.scene })
+    if ((this.player.input.left || this.player.input.right) && this.player.speed >= 30)
+      leaveTracks({ body: this.player.body, wheelMeshes: this.player.wheelMeshes, ground: this.ground, scene: this.scene })
 
     this.world.update(dt)
 

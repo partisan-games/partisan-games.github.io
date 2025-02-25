@@ -198,4 +198,9 @@ export default class Vehicle {
     this.updateMeshes()
     this.chaseCamera?.update(dt)
   }
+
+  end() {
+    this.input.end()
+    this.chaseCamera?.end()
+  }
 }
