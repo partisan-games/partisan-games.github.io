@@ -26,10 +26,12 @@ Kraljevo
 - rasturiti neprijateljske bunkere/zidine, nešto što ima smisla
 
 Savo Mitraljezac 
+- probati sneg dole
 - razuditi buriće, kutije (uvek je nasred polja)
+    - da budu solid
 - dodati tenk na izlazu?
 - probati minimapu, dodati je negde, bar u dokumentaciju
-- grafite na zidove
+- grafite na zidove, možda i kratere
 - probati razne visine i texture
 
 urban-guerrilla

@@ -28,7 +28,7 @@ export default class SavoScena extends Scena3D {
   init() {
     this.bojaPozadine = 0x301934
     this.light = hemLight({ intensity: Math.PI * 1.5, scene: this.scene })
-    this.addMesh(createGround({ file: 'terrain/ground.jpg' }))
+    this.addMesh(createGround({ file: 'terrain/snow.jpg' }))
 
     this.maze = new Maze(8, 8, truePrims, 5)
     const walls = this.maze.toTiledMesh({ texture: 'terrain/concrete.jpg' })
