@@ -12,8 +12,7 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 
 ### Glavni meni
 
-- nazive i ikonice svim scenama
-    - jos samo savo
+- preimenovati savo
 - bolje rasporediti ikone
 
 ### Scene dorada
@@ -30,6 +29,8 @@ Savo Mitraljezac
 - razuditi buriće, kutije (uvek je nasred polja)
 - dodati tenk na izlazu?
 - probati minimapu, dodati je negde, bar u dokumentaciju
+- grafite na zidove
+- probati razne visine i texture
 
 urban-guerrilla
 - proveriti jel grad lavirint
@@ -89,6 +90,7 @@ Profil
 - dodati medalje za misije
 
 - smisliti skaliranje ekrana
+- dodati bazicnu statistiku, bar brojac poseta. koristiti arduino servise, firebase, napraviti api??
 
 ### Test i optimizacija
 

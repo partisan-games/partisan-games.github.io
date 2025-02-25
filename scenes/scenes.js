@@ -7,7 +7,7 @@ export const scenes = {
   },
   BanjaLukaScena: {
     path: './banja-luka/BanjaLukaScena.js',
-    name: 'Banja Luka 1943',
+    name: 'Banja Luka 1944',
     icon: 'ui/resistance-fighter.png',
     height: 54
   },
