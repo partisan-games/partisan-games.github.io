@@ -10,8 +10,6 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 
 ## TODO
 
-- BUG: Savo ne čisti zvuk oluje
-
 ### Glavni meni
 
 - nazive i ikonice svim scenama
@@ -23,7 +21,7 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 
 - dodati ciljeve na Sutjesku, Neretvu, Jasenovac i dr.
 
-TenkicIde
+LivnoScena
 - uništi bunkere, ne crkve
 
 Kraljevo

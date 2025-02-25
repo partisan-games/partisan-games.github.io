@@ -74,9 +74,9 @@ export const scenes = {
     icon: 'armies/partizani/artiljerija/100mm-skoda.png',
     height: 32
   },
-  TenkicIde: {
-    path: './tenkic-ide/TenkicIde.js',
-    name: 'Tenkić ide',
+  LivnoScena: {
+    path: './livno/LivnoScena.js',
+    name: 'Livno',
     icon: 'buildings/crkva-01.png',
     height: 60
   },

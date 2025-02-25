@@ -59,8 +59,8 @@ export default class SavoScena extends Scena3D {
       this.addMesh(mesh)
     }
 
-    this.rain = new Snow()
-    this.addMesh(this.rain.mesh)
+    this.show = new Snow()
+    this.addMesh(this.show.mesh)
   }
 
   end() {
@@ -70,7 +70,7 @@ export default class SavoScena extends Scena3D {
 
   update(dt, t) {
     super.update(dt, t)
-    this.rain.update()
+    this.show.update()
 
     const killed = this.enemies.filter(enemy => enemy.energy <= 0)
     const won = this.player.position.distanceTo(this.maze.exitPosition) < 5

@@ -14,7 +14,7 @@ const BROJ_ZBUNOVA = 10
 const PARALAX_1 = -160
 const nivoTla = platno.height * .75
 
-export default class TenkicIde extends Scena2D {
+export default class LivnoScena extends Scena2D {
   constructor(manager) {
     super(manager, { controlKeys: tankLeftControls })
   }
