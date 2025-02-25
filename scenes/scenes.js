@@ -44,7 +44,8 @@ export const scenes = {
     path: './neretva/NeretvaScena.js',
     name: 'Neretva 1943',
     icon: 'armies/nemac-rov.gif',
-    height: 60
+    height: 60,
+    koordinate: { 'lat': 43.65391537, 'lng': 17.76053537 },
   },
   FranjoKluzScena: {
     path: './franjo-kluz/FranjoKluzScena.js',
@@ -61,6 +62,7 @@ export const scenes = {
     path: './OtpisaniScena.js',
     name: 'Belgrade 1944',
     icon: 'buildings/ruina-04.png',
+    koordinate: { 'lat': 44.81072023, 'lng': 20.48544102 }
   },
   VisScena: {
     path: './vis/VisScena.js',
@@ -78,7 +80,8 @@ export const scenes = {
     path: './livno/LivnoScena.js',
     name: 'Livno 1943',
     icon: 'buildings/crkva-01.png',
-    height: 60
+    height: 60,
+    koordinate: { 'lat': 43.82941295, 'lng': 16.9979416 }
   },
   TrstScena: {
     path: './tenkici/TrstScena.js',
@@ -89,7 +92,8 @@ export const scenes = {
     path: './sutjeska/SutjeskaScena.js',
     name: 'Sutjeska 1943',
     icon: 'armies/ranjeni-partizan.png',
-    height: 21
+    height: 21,
+    koordinate: { 'lat': 43.34605402, 'lng': 18.68679495 }
   },
   DrvarScena: {
     path: './drvar/DrvarScena.js',
@@ -99,12 +103,56 @@ export const scenes = {
   },
   JasenovacScena: {
     path: './jasenovac/JasenovacScena.js',
-    name: 'Jasenovac 1942',
+    name: 'Jasenovac 1945',
     icon: 'items/bodljikava-zica.gif',
-    height: 28
+    height: 28,
+    koordinate: { 'lat': 45.28028223, 'lng': 16.92837349 }
   },
   MainMenu: {
     path: './MainMenu.js',
     name: 'Main Menu'
   }
+}
+
+function findMinMaxCoordinates(mesta, margin = 0.1) {
+  let latMin = Infinity
+  let latMax = -Infinity
+  let lngMin = Infinity
+  let lngMax = -Infinity
+
+  for (const kljuc in mesta) {
+    const mesto = scenes[kljuc]
+    if (!mesto.koordinate) continue
+
+    const { lat, lng } = mesto.koordinate
+
+    if (lat < latMin) latMin = lat
+    if (lat > latMax) latMax = lat
+    if (lng < lngMin) lngMin = lng
+    if (lng > lngMax) lngMax = lng
+  }
+
+  // Dodavanje margine (proširenje opsega)
+  const latPadding = (latMax - latMin) * margin
+  const lngPadding = (lngMax - lngMin) * margin
+
+  return {
+    latRange: { min: latMin - latPadding, max: latMax + latPadding },
+    lngRange: { min: lngMin - lngPadding, max: lngMax + lngPadding }
+  }
+}
+
+function calculatePercentage(koordinate, latRange, lngRange) {
+  const y = 1 - (koordinate.lat - latRange.min) / (latRange.max - latRange.min)
+  const x = (koordinate.lng - lngRange.min) / (lngRange.max - lngRange.min)
+
+  return { y, x }
+}
+
+const { latRange, lngRange } = findMinMaxCoordinates(scenes, 0.1) // 10% margine
+
+for (const kljuc in scenes) {
+  const scena = scenes[kljuc]
+  if (!scena.koordinate) continue
+  scena.procenti = calculatePercentage(scena.koordinate, latRange, lngRange)
 }
