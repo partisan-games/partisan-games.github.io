@@ -12,7 +12,6 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 
 ### Glavni meni
 
-- preimenovati savo
 - bolje rasporediti ikone
 
 ### Scene dorada

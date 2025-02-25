@@ -3,7 +3,7 @@ export const scenes = {
     path: './spomenici/SpomeniciScena.js',
     name: 'Spomeniks',
     icon: 'buildings/kosmaj.png',
-    height: 56
+    height: 70
   },
   BanjaLukaScena: {
     path: './banja-luka/BanjaLukaScena.js',
@@ -29,8 +29,8 @@ export const scenes = {
     icon: 'buildings/kula-01.png',
     height: 78
   },
-  SavoScena: {
-    path: './savo/SavoScena.js',
+  KonjicScena: {
+    path: './konjic/KonjicScena.js',
     name: 'Konjic 1943',
     icon: 'ui/mitraljez.png'
   },
@@ -99,7 +99,7 @@ export const scenes = {
   },
   JasenovacScena: {
     path: './jasenovac/JasenovacScena.js',
-    name: 'Jasenovac 1945',
+    name: 'Jasenovac 1942',
     icon: 'items/bodljikava-zica.gif',
     height: 28
   },

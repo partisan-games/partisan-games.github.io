@@ -14,7 +14,7 @@ import { fpsControls } from '/ui/Controls.js'
 import { Snow } from '/core3d/Particles.js'
 import { createCrate, createRustyBarrel, createMetalBarrel } from '/core3d/geometry/index.js'
 
-export default class SavoScena extends Scena3D {
+export default class KonjicScena extends Scena3D {
   constructor(manager) {
     super(manager, {
       toon: true,
