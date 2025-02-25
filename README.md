@@ -13,8 +13,7 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 ### Glavni meni
 
 - nazive i ikonice svim scenama
-    - dodati godinu pored mesta?
-    - koristiti pun naziv bitke?
+    - jos samo savo
 - bolje rasporediti ikone
 
 ### Scene dorada
