@@ -6,9 +6,13 @@ export function nasumicnoOkruglo(min, max) {
   return Math.floor(randomInRange(min, max + 1))
 }
 
-export function slucajnePozicije(n, velicinaPolja) {
-  const rows = Math.floor(window.innerHeight / velicinaPolja)
-  const cols = Math.floor(window.innerWidth / velicinaPolja)
+export function slucajnePozicije(n, velicinaPolja, marginaY = 0, marginaX = 0) {
+  const availableHeight = window.innerHeight - 2 * marginaY
+  const availableWidth = window.innerWidth - 2 * marginaX
+
+  const rows = Math.floor(availableHeight / velicinaPolja)
+  const cols = Math.floor(availableWidth / velicinaPolja)
+
   const positions = new Set()
 
   while (positions.size < n) {
@@ -20,8 +24,8 @@ export function slucajnePozicije(n, velicinaPolja) {
   return Array.from(positions).map(pos => {
     const [i, j] = pos.split(',').map(Number)
     return {
-      y: velicinaPolja * i + velicinaPolja / 2,
-      x: velicinaPolja * j + velicinaPolja / 2
+      y: marginaY + velicinaPolja * i + velicinaPolja / 2,
+      x: marginaX + velicinaPolja * j + velicinaPolja / 2
     }
   })
 }
