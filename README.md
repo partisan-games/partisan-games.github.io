@@ -13,6 +13,7 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 ### Glavni meni
 
 - dodati koordinate scena
+    - bez veze, negde zbijeno negde prazno
 
 ### Scene dorada
 
