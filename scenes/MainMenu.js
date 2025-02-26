@@ -1,7 +1,6 @@
 import Scena2D from '/core/Scena2D.js'
 import { platno } from '/core/io/platno.js'
 import { scenes } from './scenes.js'
-import { slucajnePozicije } from '/core/utils.js'
 
 function generateNonOverlappingCircles(n, r, width = window.innerWidth, height = window.innerHeight, margin = r) {
   const positions = []
@@ -14,8 +13,9 @@ function generateNonOverlappingCircles(n, r, width = window.innerWidth, height =
   for (let i = 0; i < n; i++) {
     let placed = false
     let radius = r
+    let attempts = 0
 
-    while (!placed) {
+    while (!placed && attempts < 1000) { // ograničenje na 1000 pokušaja
       const angle = Math.random() * 2 * Math.PI
       const distance = radius + Math.random() * (Math.min(effectiveWidth, effectiveHeight) / 2 - radius)
       const x = centerX + Math.cos(angle) * distance
@@ -27,12 +27,17 @@ function generateNonOverlappingCircles(n, r, width = window.innerWidth, height =
           placed = true
         } else
           radius += 1
+      attempts++
+    }
+
+    if (attempts >= 1000) {
+      console.warn(`Prekinuto generisanje nakon 1000 pokušaja za krug ${i + 1}.`)
+      break
     }
   }
   return positions
 }
 
-// const pozicije = slucajnePozicije(Object.keys(scenes).length, 140)
 const pozicije = generateNonOverlappingCircles(Object.keys(scenes).length - 1, 80)
 
 const renderIcon = (key, data, i) => {
