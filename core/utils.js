@@ -8,13 +8,17 @@ export function nasumicnoOkruglo(min, max) {
   return Math.floor(randomInRange(min, max + 1))
 }
 
+const randFloatSpread = range => (Math.random() - 0.5) * range
+
 export const getRandomCoords = ({
-  n, width = window.innerWidth, height = window.innerHeight, fieldSize = 100, margin = 0
+  n, width = window.innerWidth, height = window.innerHeight, fieldSize = 100, margin = 0, offSet = 0
 } = {}) => {
   const coords = []
   for (let x = margin; x < width - margin; x += fieldSize)
-    for (let y = margin; y < height - margin; y += fieldSize)
-      coords.push({ x, y })
+    for (let y = margin; y < height - margin; y += fieldSize) {
+      const xOffset = randFloatSpread(offSet), zOffset = randFloatSpread(offSet)
+      coords.push({ x: x + xOffset, y: y + zOffset })
+    }
 
   shuffle(coords)
   return n ? coords.slice(0, n) : coords

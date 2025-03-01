@@ -12,10 +12,6 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 
 - spojiti utils, helpers i sl.
 
-### Glavni meni
-
-- da svako polje random odstupa od centra
-
 ### Scene dorada
 
 - dodati ciljeve na Sutjesku, Neretvu, Jasenovac i dr.

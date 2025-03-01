@@ -14,7 +14,7 @@ export default class KrupanjScena extends Scena2D {
   init() {
     this.vreme = new Vreme()
     this.pozadina = new Pozadina('textures/terrain/beton.gif')
-    const pozicije = getRandomCoords({ n: BROJ_PREPREKA + 2, fieldSize: 100 })
+    const pozicije = getRandomCoords({ n: BROJ_PREPREKA + 2, fieldSize: 100, margin: 40 })
     const najdaljeTacke = nadjiNajdaljeTacke(pozicije)
 
     this.player = new Bombas(najdaljeTacke[0])

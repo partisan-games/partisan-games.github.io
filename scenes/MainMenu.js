@@ -3,8 +3,7 @@ import { platno } from '/core/io/platno.js'
 import { scenes } from './scenes.js'
 import { getRandomCoords } from '/core/utils.js'
 
-const coords = getRandomCoords({ fieldSize: 140, margin: 100 })
-// console.log(coords)
+const coords = getRandomCoords({ fieldSize: 150, margin: 100, offSet: 50 })
 
 const renderIcon = (key, data, i) => {
   const style = `"top: ${coords[i].y}px; left: ${coords[i].x}px;"`
