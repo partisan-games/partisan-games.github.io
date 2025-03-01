@@ -3,10 +3,11 @@ import Vreme from '/core/Vreme.js'
 import platno from '/core/io/platno.js'
 
 export default class Vracanje extends Predmet {
-  constructor({ src, tlo, procenat = .25, x = Math.random() * platno.width * 2, ...rest } = {}) {
+  constructor({ src, tlo, procenat = .25, x = Math.random() * platno.width * 2, callback, ...rest } = {}) {
     super(src, { x, ...rest })
     this.vreme = new Vreme()
     this.procenat = procenat
+    this.callback = callback
     if (tlo) this.onload = () => this.tlo(tlo)
   }
 
@@ -15,6 +16,7 @@ export default class Vracanje extends Predmet {
   }
 
   umri() {
+    if (this.callback) this.callback()
     this.ziv = false
   }
 
