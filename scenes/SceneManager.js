@@ -16,8 +16,8 @@ class SceneManager {
   handleIntro() {
     if (this.scene.ui.intro) {
       this.scene.clear()
+      this.scene.render()
       this.scene.ui.renderStartScreen()
-      this.scene.render() // first draw, TODO: scene predmeti onload za 2D?
     } else this.scene.start()
   }
 
@@ -33,7 +33,9 @@ class SceneManager {
     this.scene.init()
     this.spinner.hide()
 
-    if (firstTime) this.handleIntro()
+    if (firstTime)
+      if (this.scene.pozadina) this.scene.pozadina.onload = () => this.handleIntro()
+      else this.handleIntro()
   }
 
   async restart(name) {

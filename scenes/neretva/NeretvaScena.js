@@ -9,7 +9,7 @@ const BLIZI_Y = 300
 
 export default class NeretvaScena extends Scena2D {
   constructor(manager) {
-    super(manager, { intro: 'Zadrži Nemce po svaku cenu, ranjenici ne budu na bezbednom.' })
+    super(manager, { intro: 'Zadrži Nemce po svaku cenu, dok ranjenici ne budu na bezbednom.' })
   }
 
   init() {

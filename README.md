@@ -12,17 +12,13 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 
 ### Scene dorada
 
-- dodati ciljeve na Jasenovac i dr.
-    - uvodni prozor da se renderuje na sceni
-
 LivnoScena
 - uništi bunkere, ne crkve
 
 Kraljevo
 - rasturiti neprijateljske bunkere/zidine, nešto što ima smisla
 
-Savo Mitraljezac 
-- probati sneg dole
+Konjic
 - razuditi buriće, kutije (uvek je nasred polja)
     - da budu solid
 - dodati tenk na izlazu?
@@ -30,7 +26,7 @@ Savo Mitraljezac
 - grafite na zidove, možda i kratere
 - probati razne visine i texture
 
-urban-guerrilla
+Banja Luka
 - proveriti jel grad lavirint
 - spaliti i uništiti zgrade (nalepiti ruina tekstura)
 - dodati nemce
@@ -58,14 +54,15 @@ Bekstvo iz Jasenovca
 - Mora da pređe ulicu a da ga ne zgazi tenk.
 - Možda scena noć sa reflektorima ili rasvetom?
 - izbegava mine, spasava decu/ranjenike
+- spojiti sa Sutjeskom ili dodati intro
 
-Top scena
+Kalinovik
 - dodati dinamičku pozadinu, dim, avione kako lete...
 
 Bombas 
 - broj prepreka da zavisi od veličine ekrana, na većim ekranima prazno
 
-Nemci iz rovova 
+Neretva
 - dodati vremensku pobedu, ali da ne prekida partiju ranije (pobeda: Odbranio si položaj, ranjenici su spašeni.)
 - hercegovina 1942, četnici iskaču iza kamenja, pa zajedno sa italijanima
 
