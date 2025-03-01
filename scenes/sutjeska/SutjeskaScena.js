@@ -10,6 +10,10 @@ import Paljba from './Paljba.js'
 const RITAM_PALJBE = 1500
 
 export default class SutjeskaScena extends Scena2D {
+  constructor(manager) {
+    super(manager, { intro: 'Ranjen si tokom bitke na Sutjesci. Pokušaj da se izvučeš iz obruča.' })
+  }
+
   init() {
     this.scena = 0
     this.pozadina = new Pozadina('armies/shumarak-pozadina.png')
