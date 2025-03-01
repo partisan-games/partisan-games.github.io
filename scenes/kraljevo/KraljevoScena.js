@@ -11,6 +11,7 @@ import { leaveTracks } from '/core3d/physics/leaveTracks.js'
 import Tank from '/core3d/physics/Tank.js'
 import { baseControls } from '/ui/Controls.js'
 import { BigSmoke, Fire } from '/core3d/Particles.js'
+import { loadModel } from '/core3d/loaders.js'
 
 const { randFloat } = THREE.MathUtils
 
@@ -24,7 +25,7 @@ export default class KraljevoScena extends Scena3D {
     })
   }
 
-  init() {
+  async init() {
     hemLight({ intensity: Math.PI * 1.25, scene: this.scene })
 
     this.world = new PhysicsWorld({ scene: this.scene })
@@ -60,8 +61,12 @@ export default class KraljevoScena extends Scena3D {
     this.player = new Tank({ physicsWorld: this.world.physicsWorld, camera: this.camera, pos: { x: 0, y: 0, z: -20 } })
     this.add(this.player)
 
+    const germanTank = await loadModel({ file: 'tank/panzer-III-highpoly/model.fbx', size: 4 })
+    germanTank.position.set(-30, 0, 10)
+    this.addMesh(germanTank)
+
     this.smoke = new BigSmoke()
-    this.smoke.mesh.position.set(-10, 0, 10)
+    this.smoke.mesh.position.set(-30, 2, 10)
     this.addMesh(this.smoke.mesh)
 
     this.fire = new Fire()

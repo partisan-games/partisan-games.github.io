@@ -33,7 +33,8 @@ export default class MainMenu extends Scena2D {
 
   handleClick(e) {
     const target = e.target.closest('button')
-    if (target.classList.contains('js-start'))
+
+    if (target && target.classList.contains('js-start'))
       this.manager.start(target.value)
   }
 

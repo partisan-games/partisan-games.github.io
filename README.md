@@ -14,7 +14,7 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 
 Kraljevo
 - malo atmosfere
-    - uništen tenk se dimi
+    - neki vojnik da hoda ili nešto drugo radi
 
 Konjic
 - promeniti intro
