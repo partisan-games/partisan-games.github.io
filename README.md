@@ -13,8 +13,7 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 ### Scene dorada
 
 Kraljevo
-- malo atmosfere
-    - neki vojnik da hoda ili nešto drugo radi
+- proveriti zašto tenk secka
 
 Konjic
 - promeniti intro
