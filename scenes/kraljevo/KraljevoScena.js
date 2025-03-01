@@ -2,8 +2,8 @@ import * as THREE from 'three'
 import Scena3D from '/core/Scena3D.js'
 import PhysicsWorld from '/core3d/physics/PhysicsWorld.js'
 import { createGround } from '/core3d/ground.js'
-import { createMoonSphere, createTremplin, createCrates, createCrate, createRustyBarrel, createMetalBarrel } from '/core3d/geometry/index.js'
-import { createSun } from '/core3d/light.js'
+import { createMoonSphere, createTremplin, createBoxes, createCrate, createRustyBarrel, createMetalBarrel } from '/core3d/geometry/index.js'
+import { hemLight } from '/core3d/light.js'
 import { sample } from '/core3d/helpers.js'
 import { createFirTree } from '/core3d/geometry/trees.js'
 import { createWarehouse, createWarehouse2, createWarRuin, createRuin, createAirport } from '/core3d/city.js'
@@ -24,7 +24,7 @@ export default class KraljevoScena extends Scena3D {
   }
 
   init() {
-    this.addMesh(createSun({ intensity: Math.PI * 2 }))
+    hemLight({ intensity: Math.PI * 1.25, scene: this.scene })
 
     this.world = new PhysicsWorld({ scene: this.scene })
 
@@ -34,7 +34,7 @@ export default class KraljevoScena extends Scena3D {
     const tremplin = createTremplin({ color: 0xFFFCD7 })
     this.world.add(tremplin, 0)
 
-    const crates = createCrates({ z: 10, file: 'terrain/asphalt.jpg' })
+    const crates = createBoxes({ z: 10 })
     crates.forEach(mesh => this.world.add(mesh, 20))
     this.countableCrates = crates.filter(mesh => mesh.position.y > .5)
 

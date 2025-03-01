@@ -151,8 +151,10 @@ export function createRandomBoxes({ n = 100, size = 5, mapSize = 100 } = {}) {
   return arr
 }
 
-export function createCrates({ width = 8, height = 6, depth = 2, size = 1, x = 0, z = 0, file = 'crate.gif' } = {}) {
-  const box = createBox({ size, file, translateHeight: false })
+// 'crate.gif'
+
+export function createBoxes({ width = 8, height = 6, depth = 2, size = 1, x = 0, z = 0, file } = {}) {
+  const box = createBox({ file, size, translateHeight: false })
   const boxes = []
   for (let w = 0; w < width; w++)
     for (let h = 0; h < height; h++)
@@ -170,6 +172,8 @@ export function createCrates({ width = 8, height = 6, depth = 2, size = 1, x = 0
       }
   return boxes
 }
+
+export const createCrates = params => createBoxes({ ...params, file: 'crate.gif' })
 
 export function createWall({ brickWidth = 0.6, brickDepth = 1, rows = 8, columns = 6, brickMass = 2, friction, x = 0 } = {}) {
   const bricks = []
