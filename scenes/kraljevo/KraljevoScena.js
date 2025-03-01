@@ -18,7 +18,7 @@ export default class KraljevoScena extends Scena3D {
     super(manager, {
       toon: true,
       controlKeys: { ...baseControls, Space: 'break' },
-      intro: 'Demolish all crates',
+      intro: 'Demolish all enemy walls and barricades.',
     })
   }
 
@@ -33,7 +33,7 @@ export default class KraljevoScena extends Scena3D {
     const tremplin = createTremplin({ color: 0xFFFCD7 })
     this.world.add(tremplin, 0)
 
-    const crates = createCrates({ z: 10 })
+    const crates = createCrates({ z: 10, file: 'terrain/asphalt.jpg' })
     crates.forEach(mesh => this.world.add(mesh, 20))
     this.countableCrates = crates.filter(mesh => mesh.position.y > .5)
 

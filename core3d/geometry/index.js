@@ -151,8 +151,8 @@ export function createRandomBoxes({ n = 100, size = 5, mapSize = 100 } = {}) {
   return arr
 }
 
-export function createCrates({ width = 8, height = 6, depth = 2, size = 1, x = 0, z = 0 } = {}) {
-  const box = createCrate({ size, translateHeight: false })
+export function createCrates({ width = 8, height = 6, depth = 2, size = 1, x = 0, z = 0, file = 'crate.gif' } = {}) {
+  const box = createBox({ size, file, translateHeight: false })
   const boxes = []
   for (let w = 0; w < width; w++)
     for (let h = 0; h < height; h++)
