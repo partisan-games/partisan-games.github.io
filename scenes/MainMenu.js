@@ -1,9 +1,12 @@
 import Scena2D from '/core/Scena2D.js'
 import { platno } from '/core/io/platno.js'
 import { scenes } from './scenes.js'
+import { slucajnePozicije } from '/core/utils.js'
 
-const renderIcon = (key, data) => {
-  const style = `"transform: translate(-50%, -50%); top: ${data.procenti.y * 100}%; left: ${data.procenti.x * 100}%;"`
+const pozicije = slucajnePozicije(Object.keys(scenes).length, 140, 50, 100)
+
+const renderIcon = (key, data, i) => {
+  const style = `"top: ${pozicije[i].y}px; left: ${pozicije[i].x}px;"`
   return /* html */`
     <button value='${key}' class='menu-btn js-start' style=${style}>
     <img src="/assets/images/${data.icon}" height="${data.height || 40}">
@@ -14,8 +17,7 @@ const renderIcon = (key, data) => {
 
 const renderIcons = dict => Object.entries(dict)
   .filter(([key]) => key != 'MainMenu')
-  .filter(([key, value]) => value.procenti)
-  .map(([key, value]) => renderIcon(key, value))
+  .map(([key, value], i) => renderIcon(key, value, i))
   .join('')
 
 export default class MainMenu extends Scena2D {
