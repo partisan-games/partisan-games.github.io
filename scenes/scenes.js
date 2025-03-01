@@ -58,7 +58,7 @@ export const scenes = {
     path: './krupanj/KrupanjScena.js',
     name: 'Krupanj 1941',
     icon: 'armies/partizani/vojnici/bombasi/partizan-bombas.gif',
-    height: 48,
+    height: 52,
     koordinate: {
       'lat': 44.36377181,
       'lng': 19.3630543

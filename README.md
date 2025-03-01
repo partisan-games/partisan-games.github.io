@@ -10,10 +10,11 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 
 ## TODO
 
+- spojiti utils, helpers i sl.
+
 ### Glavni meni
 
-- dodati koordinate scena
-    - bez veze, negde zbijeno negde prazno
+- da svako polje random odstupa od centra
 
 ### Scene dorada
 

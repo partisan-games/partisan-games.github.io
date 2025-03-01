@@ -1,9 +1,23 @@
+import { shuffle } from '/core3d/helpers.js'
+
 export function randomInRange(min, max) {
   return Math.random() * (max - min) + min
 }
 
 export function nasumicnoOkruglo(min, max) {
   return Math.floor(randomInRange(min, max + 1))
+}
+
+export const getRandomCoords = ({
+  n, width = window.innerWidth, height = window.innerHeight, fieldSize = 100, margin = 0
+} = {}) => {
+  const coords = []
+  for (let x = margin; x < width - margin; x += fieldSize)
+    for (let y = margin; y < height - margin; y += fieldSize)
+      coords.push({ x, y })
+
+  shuffle(coords)
+  return n ? coords.slice(0, n) : coords
 }
 
 export function slucajnePozicije(n, velicinaPolja, marginaY = 0, marginaX = 0) {
