@@ -18,7 +18,8 @@ export default class KraljevoScena extends Scena3D {
     super(manager, {
       toon: true,
       controlKeys: { ...baseControls, Space: 'break' },
-      intro: 'Demolish all enemy walls and barricades.',
+      reportText: 'The enemy has erected barricades to block our entry into the city. Destroy them to clear the way for our troops.',
+      intro: 'Demolish enemy barricades.',
     })
   }
 

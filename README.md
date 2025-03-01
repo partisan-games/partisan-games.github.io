@@ -13,9 +13,11 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 ### Scene dorada
 
 Kraljevo
-- rasturiti neprijateljske bunkere/zidine, nešto što ima smisla
+- dodaj sive blokove
+- zid da bude širi i niži da liči na barikade
 
 Konjic
+- promeniti intro
 - razuditi buriće, kutije (uvek je nasred polja)
     - da budu solid
 - dodati tenk na izlazu?

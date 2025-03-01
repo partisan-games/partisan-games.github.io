@@ -164,6 +164,7 @@ button.no-hover:hover {
   background-image: url(/assets/images/ui/document.jpg);
   background-size: cover;
   width: 420px;
+  min-height: 260px;
 
   & p {
     color: #333;
