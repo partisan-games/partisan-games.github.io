@@ -12,10 +12,6 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 
 ### Scene dorada
 
-LivnoScena
-- logika: uništi bunkere, ne crkve
-    - upozorenje kad pogodi crkvu
-
 Kraljevo
 - rasturiti neprijateljske bunkere/zidine, nešto što ima smisla
 

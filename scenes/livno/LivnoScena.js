@@ -29,7 +29,10 @@ export default class LivnoScena extends Scena2D {
     const oblaci = Array.from({ length: BROJ_OBLAKA }, () => new Oblak(nivoTla - 100, PARALAX_1))
 
     const bunkerCallback = () => this.score++
-    const zgradaCallback = () => this.score--
+    const zgradaCallback = () => {
+      this.ui.showMessage('No! Destruction of civilian buildings is a war crime.')
+      this.score--
+    }
 
     this.bunkeri = [
       new Vracanje({ src: 'buildings/kuca-bunker.png', tlo: nivoTla + 15, skalar: .33, zapaljiv: true, brzina: PARALAX_1, callback: bunkerCallback }),
