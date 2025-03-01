@@ -16,11 +16,11 @@ const nivoTla = platno.height * .75
 
 export default class LivnoScena extends Scena2D {
   constructor(manager) {
-    super(manager, { controlKeys: tankLeftControls })
+    super(manager, { controlKeys: tankLeftControls, intro: 'Uništi ustaške bunkere, pazi civilne zgrade.' })
   }
 
   init() {
-    this.tenk = new TenkLevo({ y: nivoTla, skalar: .4 })
+    this.tenk = new TenkLevo({ y: nivoTla, skalar: .4, xLimit: platno.width * .9 })
 
     const planina = new Planina(nivoTla, PARALAX_1)
     const shumarak = new Shuma(nivoTla, PARALAX_1)

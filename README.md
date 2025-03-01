@@ -13,7 +13,7 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 ### Scene dorada
 
 LivnoScena
-- uništi bunkere, ne crkve
+- logika: uništi bunkere, ne crkve
 
 Kraljevo
 - rasturiti neprijateljske bunkere/zidine, nešto što ima smisla
@@ -76,6 +76,7 @@ Neretva
 - prebaciti potisak na predmet?
 
 UI
+- refaktorisati da prozori budu DOM elementi, a samo sceneUI u render loop?
 - dodati komande i ciljeve svuda, možda i izveštaj
 - prozor premali na prevelikim ekranima?
 

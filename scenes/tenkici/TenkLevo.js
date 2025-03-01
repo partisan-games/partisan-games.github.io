@@ -8,15 +8,17 @@ export default class TenkLevo extends Tenk {
     src = 'armies/partizanski-tenk-bez-cevi.png',
     cevSlika = 'armies/partizanski-tenk-cev.png',
     x = randomInRange(0, platno.width * 0.3),
+    xLimit = platno.width / 2,
     ...rest
   } = {}) {
     super(src, { cevSlika, x, ...rest })
     this.cev.ugao = Math.PI * 1.9
     this.cev.ishodiste = 'GORE_LEVO'
+    this.xLimit = xLimit
   }
 
   proveriGranice() {
-    this.x = Math.min(Math.max(this.x, 0), platno.width / 2)
+    this.x = Math.min(Math.max(this.x, 0), this.xLimit)
   }
 
   diziCev(dt) {
@@ -31,7 +33,7 @@ export default class TenkLevo extends Tenk {
   handleInput(dt) {
     if (keyboard.pressed.KeyA && this.x > 0)
       this.dodajSilu(this.potisak * 0.6, Math.PI)
-    if (keyboard.pressed.KeyD && this.x < platno.width / 2)
+    if (keyboard.pressed.KeyD && this.x < this.xLimit)
       this.dodajSilu(this.potisak, 0)
     if (keyboard.pressed.KeyW)
       this.diziCev(dt)
