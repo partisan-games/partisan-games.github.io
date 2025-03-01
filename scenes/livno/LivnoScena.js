@@ -27,12 +27,16 @@ export default class LivnoScena extends Scena2D {
     const zbunovi = Array.from({ length: BROJ_ZBUNOVA }, () => new Zbun(nivoTla, PARALAX_1))
     const oblaci = Array.from({ length: BROJ_OBLAKA }, () => new Oblak(nivoTla - 100, PARALAX_1))
 
-    const ciljevi = [
+    this.bunkeri = [
       new Vracanje({ src: 'buildings/kuca-bunker.png', tlo: nivoTla + 15, skalar: .33, zapaljiv: true, brzina: PARALAX_1 }),
-      new Vracanje({ src: 'buildings/crkva-01.png', tlo: nivoTla + 5, skalar: .5, zapaljiv: true, brzina: PARALAX_1 }),
+      new Vracanje({ src: 'buildings/bunker-02.png', tlo: nivoTla + 5, skalar: .5, zapaljiv: true, brzina: PARALAX_1 }),
     ]
-    this.add(planina, shumarak, ...ciljevi, ...zbunovi, this.tenk, ...oblaci)
-    this.tenk.ciljevi.push(...ciljevi)
+    this.zgrade = [
+      new Vracanje({ src: 'buildings/crkva-01.png', tlo: nivoTla + 5, skalar: .5, zapaljiv: true, brzina: PARALAX_1 }),
+      new Vracanje({ src: 'buildings/kuca-07.png', tlo: nivoTla + 5, skalar: .75, zapaljiv: true, brzina: PARALAX_1 }),
+    ]
+    this.add(planina, shumarak, ...this.bunkeri, ...this.zgrade, ...zbunovi, this.tenk, ...oblaci)
+    this.tenk.ciljevi.push(...this.bunkeri, ...this.zgrade)
   }
 
   clear() {
