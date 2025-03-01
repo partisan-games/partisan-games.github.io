@@ -8,6 +8,10 @@ const DALJI_Y = 150
 const BLIZI_Y = 300
 
 export default class NeretvaScena extends Scena2D {
+  constructor(manager) {
+    super(manager, { intro: 'Zadrži Nemce po svaku cenu, ranjenici ne budu na bezbednom.' })
+  }
+
   init() {
     this.pogoci = 0
     this.rekord = 0
@@ -90,7 +94,6 @@ export default class NeretvaScena extends Scena2D {
     return /* html */`
     <div class="top-left">
       Pogoci: ${this.pogoci} <br>
-      Rekord: ${this.rekord} <br>
       Energija 
       ${progresBar(energija)}
     </div>

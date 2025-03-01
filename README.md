@@ -10,11 +10,10 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 
 ## TODO
 
-- spojiti utils, helpers i sl.
-
 ### Scene dorada
 
-- dodati ciljeve na Neretvu, Jasenovac i dr.
+- dodati ciljeve na Jasenovac i dr.
+    - uvodni prozor da se renderuje na sceni
 
 LivnoScena
 - uništi bunkere, ne crkve
