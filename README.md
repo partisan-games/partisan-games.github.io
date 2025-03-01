@@ -13,8 +13,7 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 ### Scene dorada
 
 Kraljevo
-- dodaj sive blokove
-- zid da bude širi i niži da liči na barikade
+- malo atmosfere
 
 Konjic
 - promeniti intro

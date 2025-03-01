@@ -151,15 +151,12 @@ export function createRandomBoxes({ n = 100, size = 5, mapSize = 100 } = {}) {
   return arr
 }
 
-// 'crate.gif'
-
 export function createBoxes({ width = 8, height = 6, depth = 2, size = 1, x = 0, z = 0, file } = {}) {
-  const box = createBox({ file, size, translateHeight: false })
   const boxes = []
   for (let w = 0; w < width; w++)
     for (let h = 0; h < height; h++)
       for (let d = 0; d < depth; d++) {
-        const mesh = box.clone()
+        const mesh = createBox({ file, size, translateHeight: false })
 
         mesh.position.x = (w - width / 2 + 0.5) * size + x
         mesh.position.y = (h - height / 2 + 0.5) * size

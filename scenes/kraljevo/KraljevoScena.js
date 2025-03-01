@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import Scena3D from '/core/Scena3D.js'
 import PhysicsWorld from '/core3d/physics/PhysicsWorld.js'
 import { createGround } from '/core3d/ground.js'
-import { createMoonSphere, createTremplin, createBoxes, createCrate, createRustyBarrel, createMetalBarrel } from '/core3d/geometry/index.js'
+import { createMoonSphere, createBoxes, createCrate, createRustyBarrel, createMetalBarrel } from '/core3d/geometry/index.js'
 import { hemLight } from '/core3d/light.js'
 import { sample } from '/core3d/helpers.js'
 import { createFirTree } from '/core3d/geometry/trees.js'
@@ -31,10 +31,7 @@ export default class KraljevoScena extends Scena3D {
     this.ground = createGround({ color: 0x509f53 })
     this.world.add(this.ground, 0)
 
-    const tremplin = createTremplin({ color: 0xFFFCD7 })
-    this.world.add(tremplin, 0)
-
-    const crates = createBoxes({ z: 10 })
+    const crates = createBoxes({ width: 18, height: 3, depth: 1 })
     crates.forEach(mesh => this.world.add(mesh, 20))
     this.countableCrates = crates.filter(mesh => mesh.position.y > .5)
 
@@ -68,7 +65,7 @@ export default class KraljevoScena extends Scena3D {
     return /* html */`
       <div class="top-left">
         <p>
-          Crates left: ${this.countableCrates.length}
+          Blocks left: ${this.countableCrates.length}
           <br><small class="blink">Time: ${Math.floor(t)}</small>
         </p>
       </div>
@@ -89,6 +86,6 @@ export default class KraljevoScena extends Scena3D {
     })
 
     if (!this.countableCrates.length)
-      this.victory(`You demolished everything in ${Math.floor(t)} seconds.`)
+      this.victory(`You demolished enemy barricades in ${Math.floor(t)} seconds.`)
   }
 }
