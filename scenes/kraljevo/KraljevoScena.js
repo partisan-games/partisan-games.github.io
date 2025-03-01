@@ -10,7 +10,7 @@ import { createWarehouse, createWarehouse2, createWarRuin, createRuin, createAir
 import { leaveTracks } from '/core3d/physics/leaveTracks.js'
 import Tank from '/core3d/physics/Tank.js'
 import { baseControls } from '/ui/Controls.js'
-import { BigSmoke } from '/core3d/Particles.js'
+import { BigSmoke, Fire } from '/core3d/Particles.js'
 
 const { randFloat } = THREE.MathUtils
 
@@ -63,6 +63,10 @@ export default class KraljevoScena extends Scena3D {
     this.smoke = new BigSmoke()
     this.smoke.mesh.position.set(-10, 0, 10)
     this.addMesh(this.smoke.mesh)
+
+    this.fire = new Fire()
+    this.fire.mesh.position.set(0, 10, 50)
+    this.addMesh(this.fire.mesh)
   }
 
   update(dt, t) {
@@ -73,6 +77,7 @@ export default class KraljevoScena extends Scena3D {
 
     this.world.update(dt)
     this.smoke.update({ delta: dt })
+    this.fire.update({ delta: dt })
 
     this.countableCrates.forEach(mesh => {
       if (mesh.position.y <= 0.5)

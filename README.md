@@ -14,6 +14,7 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 
 Kraljevo
 - malo atmosfere
+    - uništen tenk se dimi
 
 Konjic
 - promeniti intro
