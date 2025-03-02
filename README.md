@@ -14,7 +14,6 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 
 Konjic
 - razuditi buriće, kutije (uvek je nasred polja)
-    - da budu solid
 - dodati tenk na izlazu?
 - probati minimapu, dodati je negde, bar u dokumentaciju
 - grafite na zidove, možda i kratere
@@ -62,6 +61,10 @@ Neretva
 
 1944
 - smisliti pobedu
+
+Naslovna
+- da ikone budu statične, ne random
+- da se otprilike zasnivaju na lokaciji (gde su zbijene pomeriti)
 
 ### Završno
 

@@ -26,12 +26,14 @@ export const fpsControls = {
   Q: 'strafe left',
   E: 'strafe right',
   'Left shift': 'run',
+  Space: 'jump',
   Mouse: 'attack',
 }
 
 export const thirdPersonControls = {
   ...baseControls,
   'Left shift': 'run',
+  Space: 'jump',
   Enter: 'attack',
 }
 

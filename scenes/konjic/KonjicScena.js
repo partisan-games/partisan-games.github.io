@@ -57,6 +57,7 @@ export default class KonjicScena extends Scena3D {
     for (let i = 0; i < 30; i++) {
       const mesh = sample(createObject)({ pos: coords.pop() })
       this.addMesh(mesh)
+      this.player.addSolids(mesh)
     }
 
     this.show = new Snow()
