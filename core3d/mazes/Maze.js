@@ -1,8 +1,10 @@
+import { MathUtils } from 'three'
 import { sample, shuffle } from '/core3d/helpers.js'
 import { meshFromMaze, meshFromTilemap, tileToPosition, calcPyramidHeight } from '/core3d/mazes/index.js'
 import { recursiveBacktracker } from '/core3d/mazes/algorithms.js'
 import Cell from './Cell.js'
 
+const { randFloatSpread } = MathUtils
 const EMPTY = 0, WALL = 1
 
 function getEmptyTiles(tilemap, skipFirst = false) {
@@ -147,10 +149,18 @@ export default class Maze {
     }
   }
 
-  getEmptyCoords(skipFirst) {
+  getEmptyCoords(skipFirst, offset = 0) {
     const fields = getEmptyTiles(this.tilemap, skipFirst)
     shuffle(fields)
-    return fields.map(field => tileToPosition(this.tilemap, field, this.cellSize))
+    return fields.map(field => {
+      const pos = tileToPosition(this.tilemap, field, this.cellSize)
+      if (offset) {
+        const xOffset = randFloatSpread(offset), zOffset = randFloatSpread(offset)
+        pos.x += xOffset
+        pos.z += zOffset
+      }
+      return pos
+    })
   }
 
   /* RENDER */
