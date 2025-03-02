@@ -13,6 +13,10 @@ import FirstAid from '/core3d/objects/FirstAid.js'
 import { fpsControls } from '/ui/Controls.js'
 import { Snow } from '/core3d/Particles.js'
 import { createCrate, createRustyBarrel, createMetalBarrel } from '/core3d/geometry/index.js'
+import * as THREE from 'three'
+const { randFloat, randFloatSpread } = THREE.MathUtils
+
+const cellSize = 5
 
 export default class KonjicScena extends Scena3D {
   constructor(manager) {
@@ -30,7 +34,7 @@ export default class KonjicScena extends Scena3D {
     this.light = hemLight({ intensity: Math.PI * 1.5, scene: this.scene })
     this.addMesh(createGround({ file: 'terrain/snow.jpg' }))
 
-    this.maze = new Maze(8, 8, truePrims, 5)
+    this.maze = new Maze(8, 8, truePrims, cellSize)
     const walls = this.maze.toTiledMesh({ texture: 'terrain/concrete.jpg' })
     this.addMesh(walls)
 
@@ -55,7 +59,12 @@ export default class KonjicScena extends Scena3D {
 
     const createObject = [createCrate, createRustyBarrel, createMetalBarrel]
     for (let i = 0; i < 30; i++) {
-      const mesh = sample(createObject)({ pos: coords.pop() })
+      const pos = coords.pop()
+      // prebaciti na Maze?
+      const xOffset = randFloatSpread(cellSize - 1), zOffset = randFloatSpread(cellSize - 1)
+      pos.x += xOffset
+      pos.z += zOffset
+      const mesh = sample(createObject)({ pos })
       this.addMesh(mesh)
       this.player.addSolids(mesh)
     }

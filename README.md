@@ -13,7 +13,6 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 ### Scene dorada
 
 Konjic
-- razuditi buriće, kutije (uvek je nasred polja)
 - dodati tenk na izlazu?
 - probati minimapu, dodati je negde, bar u dokumentaciju
 - grafite na zidove, možda i kratere
