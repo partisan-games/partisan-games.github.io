@@ -216,12 +216,12 @@ export class Fire extends Particles {
 }
 
 export class Smoke extends Particles {
-  constructor({ file = 'smoke.png', size = 1, num = 100, minRadius = 0, maxRadius = .5, color = 0x999999, blending = THREE.NormalBlending, ...rest } = {}) {
+  constructor({ file = 'smoke.png', size = 1, num = 100, minRadius = 0, maxRadius = .66, color = 0x999999, blending = THREE.NormalBlending, ...rest } = {}) {
     super({ num, file, size, minRadius, maxRadius, color, blending, ...rest })
     this.mesh.rotateX(Math.PI)
   }
 
-  update({ rotateY = .009, min = -4, max = 0, minVelocity = 2, maxVelocity = 5, ...rest } = {}) {
+  update({ rotateY = .01, min = -3.5, max = 0, minVelocity = 1, maxVelocity = 3, ...rest } = {}) {
     super.update({ rotateY, min, max, minVelocity, maxVelocity, axis: 1, ...rest })
   }
 }

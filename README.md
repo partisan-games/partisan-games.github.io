@@ -12,11 +12,13 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 
 ### Scene dorada
 
+Naslovna
+- da ikone budu statične
+- da se otprilike zasnivaju na lokaciji (gde su zbijene pomeriti)
+
 Konjic
-- dodati tenk na izlazu?
+- malo dima i atmosfere
 - probati minimapu, dodati je negde, bar u dokumentaciju
-- grafite na zidove, možda i kratere
-- probati razne visine i texture
 
 Banja Luka
 - proveriti jel grad lavirint
@@ -61,9 +63,9 @@ Neretva
 1944
 - smisliti pobedu
 
-Naslovna
-- da ikone budu statične, ne random
-- da se otprilike zasnivaju na lokaciji (gde su zbijene pomeriti)
+### Bagovi
+
+- FPS restart igrač ne ubija
 
 ### Završno
 

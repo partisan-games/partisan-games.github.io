@@ -11,7 +11,7 @@ import { NaziOfficerAI } from '/core3d/actor/derived/ww2/NaziOfficer.js'
 import { GermanFlameThrowerAI } from '/core3d/actor/derived/ww2/GermanFlameThrower.js'
 import FirstAid from '/core3d/objects/FirstAid.js'
 import { fpsControls } from '/ui/Controls.js'
-import { Snow } from '/core3d/Particles.js'
+import { Snow, Smoke, Fire } from '/core3d/Particles.js'
 import { createCrate, createRustyBarrel, createMetalBarrel } from '/core3d/geometry/index.js'
 
 const cellSize = 5
@@ -55,15 +55,23 @@ export default class KonjicScena extends Scena3D {
       this.addMesh(firstAid.mesh)
     }
 
+    this.smokes = []
     const createObject = [createCrate, createRustyBarrel, createMetalBarrel]
     for (let i = 0; i < 30; i++) {
       const mesh = sample(createObject)({ pos: coords.pop() })
       this.addMesh(mesh)
       this.player.addSolids(mesh)
+
+      if (i % 5 === 0) {
+        this.smoke = new Smoke()
+        this.smoke.mesh.position.set(mesh.position.x, mesh.position.y, mesh.position.z)
+        this.addMesh(this.smoke.mesh)
+        this.smokes.push(this.smoke)
+      }
     }
 
-    this.show = new Snow()
-    this.addMesh(this.show.mesh)
+    this.snow = new Snow()
+    this.addMesh(this.snow.mesh)
   }
 
   end() {
@@ -73,7 +81,8 @@ export default class KonjicScena extends Scena3D {
 
   update(dt, t) {
     super.update(dt, t)
-    this.show.update()
+    this.snow.update({ delta: dt })
+    this.smokes.forEach(smoke => smoke.update({ delta: dt }))
 
     const killed = this.enemies.filter(enemy => enemy.energy <= 0)
     const won = this.player.position.distanceTo(this.maze.exitPosition) < 5
