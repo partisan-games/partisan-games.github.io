@@ -6,7 +6,7 @@ import { Smoke } from '/core3d/Particles.js'
 const wheelFront = { x: .75, y: .1, z: 1.25 }
 const wheelBack = { x: .75, y: .1, z: -1.25 }
 
-const mesh = await loadModel({ file: 'tank/t-50/model.fbx', texture: 'metal/metal01.jpg' })
+const mesh = await loadModel({ file: 'tank/panther-a/model.fbx', angle: Math.PI, shouldCenter: true, size: 3 })
 
 const smokeParam = { size: .5, num: 25, maxRadius: .22, color: 0xffffff, opacity: .5 }
 
