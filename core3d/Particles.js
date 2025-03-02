@@ -16,10 +16,11 @@ function addVelocity({ geometry, minVelocity = .5, maxVelocity = 3 } = {}) {
  * Particles base class, creates particles in sphere space
  */
 export default class Particles {
-  constructor({ num = 10000, file = 'ball.png', color, size = .5, opacity = 1, unitAngle = 1, minRadius = 100, maxRadius = 1000, blending = THREE.AdditiveBlending } = {}) {
+  constructor({ num = 10000, file = 'ball.png', color, size = .5, opacity = 1, unitAngle = 1, minRadius = 100, maxRadius = 1000, blending = THREE.AdditiveBlending, pos } = {}) {
     this.t = 0
     this.unitAngle = unitAngle
     this.mesh = this.createParticles({ num, file, color, size, opacity, minRadius, maxRadius, blending })
+    if (pos) this.mesh.position.set(pos.x, pos.y, pos.z)
   }
 
   get particles() {

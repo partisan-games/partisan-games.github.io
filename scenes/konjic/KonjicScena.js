@@ -1,6 +1,6 @@
 import Scena3D from '/core/Scena3D.js'
 import { createGround } from '/core3d/ground.js'
-import { sample } from '/core3d/helpers.js'
+import { sample, getHeight } from '/core3d/helpers.js'
 import { hemLight, lightningStrike } from '/core3d/light.js'
 import FPSPlayer from '/core3d/actor/FPSPlayer.js'
 import Maze from '/core3d/mazes/Maze.js'
@@ -57,14 +57,15 @@ export default class KonjicScena extends Scena3D {
 
     this.smokes = []
     const createObject = [createCrate, createRustyBarrel, createMetalBarrel]
-    for (let i = 0; i < 30; i++) {
-      const mesh = sample(createObject)({ pos: coords.pop() })
+    for (let i = 0; i < 10; i++) {
+      const pos = coords.pop()
+      const mesh = sample(createObject)({ pos })
       this.addMesh(mesh)
       this.player.addSolids(mesh)
 
-      if (i % 5 === 0) {
-        this.smoke = new Smoke()
-        this.smoke.mesh.position.set(mesh.position.x, mesh.position.y, mesh.position.z)
+      if (i % 3 === 0) {
+        this.smoke = new Smoke({ pos })
+        this.smoke.mesh.position.y += getHeight(mesh)
         this.addMesh(this.smoke.mesh)
         this.smokes.push(this.smoke)
       }
@@ -72,6 +73,11 @@ export default class KonjicScena extends Scena3D {
 
     this.snow = new Snow()
     this.addMesh(this.snow.mesh)
+
+    this.fire = new Fire({ pos: this.maze.exitPosition })
+    // console.log(this.maze.exitPosition)
+    // console.log(this.fire.mesh.position)
+    this.addMesh(this.fire.mesh)
   }
 
   end() {
@@ -83,7 +89,7 @@ export default class KonjicScena extends Scena3D {
     super.update(dt, t)
     this.snow.update({ delta: dt })
     this.smokes.forEach(smoke => smoke.update({ delta: dt }))
-
+    this.snow.update({ delta: dt })
     const killed = this.enemies.filter(enemy => enemy.energy <= 0)
     const won = this.player.position.distanceTo(this.maze.exitPosition) < 5
 
@@ -94,6 +100,7 @@ export default class KonjicScena extends Scena3D {
       this.defeat('You are dead.')
 
     if (Math.random() > .998) lightningStrike(this.light, this.scene)
+    // this.player.energy = 100
   }
 
   sceneUI() {

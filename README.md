@@ -10,6 +10,8 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 
 ## TODO
 
+- refactor: this.fire.update({ delta: dt })
+
 ### Scene dorada
 
 Naslovna
@@ -17,7 +19,7 @@ Naslovna
 - da se otprilike zasnivaju na lokaciji (gde su zbijene pomeriti)
 
 Konjic
-- malo dima i atmosfere
+- dodati vatru na izlazu
 - probati minimapu, dodati je negde, bar u dokumentaciju
 
 Banja Luka

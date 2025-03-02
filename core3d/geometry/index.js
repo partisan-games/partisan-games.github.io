@@ -75,7 +75,7 @@ export const createMoonSphere = () => createSphere({ r: .5, file: 'planets/moon.
 
 /* BARRELS */
 
-export function createRustyBarrel({ r = .5, height = 1.5, segments = 32, file = 'metal/rust.jpg', topFile = 'barrel/rust-top.jpg', translateHeight = true } = {}) {
+export function createRustyBarrel({ r = .5, height = 1.5, segments = 32, file = 'metal/rust.jpg', topFile = 'barrel/rust-top.jpg', translateHeight = true, pos } = {}) {
   const geometry = new THREE.CylinderGeometry(r, r, height, segments)
   const sideMaterial = new THREE.MeshPhongMaterial({
     map: textureLoader.load(`/assets/images/textures/${file}`),
@@ -94,6 +94,7 @@ export function createRustyBarrel({ r = .5, height = 1.5, segments = 32, file = 
   ]
   const mesh = new THREE.Mesh(geometry, materials)
   if (translateHeight) translateY(mesh, height / 2)
+  if (pos) mesh.position.set(pos.x, pos.y, pos.z)
   mesh.castShadow = mesh.receiveShadow = true
   return mesh
 }
