@@ -155,8 +155,8 @@ export class Stars extends Particles {
 
 export class Rain extends Particles {
   // rain-drop.png je ukrivo
-  constructor({ file = 'rain-drop.png', num = 1000, size = .1, opacity = .75, minRadius = 2, maxRadius = 5, color = 0xDEF4FC } = {}) {
-    super({ file, num, size, opacity, minRadius, maxRadius, color, blending: THREE.NormalBlending })
+  constructor({ file = 'rain-drop.png', num = 1000, size = .1, opacity = .75, minRadius = 2, maxRadius = 5, color = 0xDEF4FC, ...rest } = {}) {
+    super({ file, num, size, opacity, minRadius, maxRadius, color, blending: THREE.NormalBlending, ...rest })
 
     this.audio = new Audio('/assets/sounds/rain.mp3')
     this.audio.volume = config.volume * .5
@@ -206,8 +206,8 @@ export class RedFlame extends Flame {
 }
 
 export class Fire extends Particles {
-  constructor({ file = 'fire.png', num = 30, size = 30, opacity = .7, minRadius = 1.5, maxRadius = 3, color = 0xffffff } = {}) {
-    super({ file, num, size, opacity, minRadius, maxRadius, color, blending: THREE.NormalBlending })
+  constructor({ file = 'fire.png', num = 30, size = 30, opacity = .7, minRadius = 1.5, maxRadius = 3, color = 0xffffff, ...rest } = {}) {
+    super({ file, num, size, opacity, minRadius, maxRadius, color, blending: THREE.NormalBlending, ...rest })
     this.mesh.rotateX(Math.PI)
   }
 

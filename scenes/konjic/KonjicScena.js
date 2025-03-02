@@ -75,8 +75,6 @@ export default class KonjicScena extends Scena3D {
     this.addMesh(this.snow.mesh)
 
     this.fire = new Fire({ pos: this.maze.exitPosition })
-    // console.log(this.maze.exitPosition)
-    // console.log(this.fire.mesh.position)
     this.addMesh(this.fire.mesh)
   }
 
@@ -89,7 +87,7 @@ export default class KonjicScena extends Scena3D {
     super.update(dt, t)
     this.snow.update({ delta: dt })
     this.smokes.forEach(smoke => smoke.update({ delta: dt }))
-    this.snow.update({ delta: dt })
+    this.fire.update({ delta: dt })
     const killed = this.enemies.filter(enemy => enemy.energy <= 0)
     const won = this.player.position.distanceTo(this.maze.exitPosition) < 5
 
