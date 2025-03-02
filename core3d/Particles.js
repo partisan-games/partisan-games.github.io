@@ -200,8 +200,19 @@ export class Flame extends Particles {
 }
 
 export class RedFlame extends Flame {
-  constructor() {
-    super(({ file: 'fire.png', size: 10, num: 150, minRadius: 0, maxRadius: .5, blending: THREE.NormalBlending }))
+  constructor(params = {}) {
+    super(({ file: 'fire.png', size: 10, num: 150, minRadius: 0, maxRadius: .5, blending: THREE.NormalBlending, ...params }))
+  }
+}
+
+export class FlameUp extends Flame {
+  constructor(params = {}) {
+    super(params)
+    this.mesh.rotateX(Math.PI)
+  }
+
+  update(params = {}) {
+    super.update({ axis: 1, min: -1.5, max: 0, minVelocity: 1, maxVelocity: 3, ...params })
   }
 }
 
@@ -228,8 +239,8 @@ export class Smoke extends Particles {
 }
 
 export class BigSmoke extends Smoke {
-  constructor() {
-    super({ num: 40, size: 10, opacity: .7, minRadius: 1.5, maxRadius: 3 })
+  constructor(params = {}) {
+    super({ num: 40, size: 10, opacity: .7, minRadius: 1.5, maxRadius: 3, ...params })
   }
 
   update({ min = -8, max = 4, minVelocity = 1.5, ...rest } = {}) {

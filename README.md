@@ -19,7 +19,6 @@ Naslovna
 - da se otprilike zasnivaju na lokaciji (gde su zbijene pomeriti)
 
 Konjic
-- iz nekih burića plamen, napraviti FlameUp klasu
 - probati minimapu, dodati je negde, bar u dokumentaciju
 
 Banja Luka

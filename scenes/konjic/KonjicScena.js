@@ -11,7 +11,7 @@ import { NaziOfficerAI } from '/core3d/actor/derived/ww2/NaziOfficer.js'
 import { GermanFlameThrowerAI } from '/core3d/actor/derived/ww2/GermanFlameThrower.js'
 import FirstAid from '/core3d/objects/FirstAid.js'
 import { fpsControls } from '/ui/Controls.js'
-import { Snow, Smoke, Fire } from '/core3d/Particles.js'
+import { Snow, Smoke, FlameUp, Fire } from '/core3d/Particles.js'
 import { createCrate, createRustyBarrel, createMetalBarrel } from '/core3d/geometry/index.js'
 
 const cellSize = 5
@@ -64,7 +64,8 @@ export default class KonjicScena extends Scena3D {
       this.player.addSolids(mesh)
 
       if (i % 3 === 0) {
-        this.smoke = new Smoke({ pos })
+        const Effect = Math.random > .5 ? Smoke : FlameUp
+        this.smoke = new Effect({ pos })
         this.smoke.mesh.position.y += getHeight(mesh)
         this.addMesh(this.smoke.mesh)
         this.smokes.push(this.smoke)
@@ -98,7 +99,6 @@ export default class KonjicScena extends Scena3D {
       this.defeat('You are dead.')
 
     if (Math.random() > .998) lightningStrike(this.light, this.scene)
-    // this.player.energy = 100
   }
 
   sceneUI() {
