@@ -97,6 +97,10 @@ class Keyboard {
     return this.pressed.Space
   }
 
+  get jump() {
+    return this.pressed.Space
+  }
+
   get attack() {
     return this.pressed[this.attackKey]
   }

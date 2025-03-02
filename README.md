@@ -12,11 +12,7 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 
 ### Scene dorada
 
-Kraljevo
-- proveriti zašto tenk secka
-
 Konjic
-- promeniti intro
 - razuditi buriće, kutije (uvek je nasred polja)
     - da budu solid
 - dodati tenk na izlazu?

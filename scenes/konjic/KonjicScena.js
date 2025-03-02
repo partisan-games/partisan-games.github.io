@@ -21,7 +21,7 @@ export default class KonjicScena extends Scena3D {
       usePointerLock: true,
       controlKeys: fpsControls,
       intro: '<ul><li>Find the way out</li><li>Bonus: Kill all enemies</li></ul>',
-      reportText: 'After a successful sabotage mission you stayed behind enemy lines.\n\nFind the way out of the enemy base.',
+      reportText: 'After the fierce battle of Konjic you stayed behind enemy lines.\n\nFind the way out of the enemy base.',
     })
   }
 
