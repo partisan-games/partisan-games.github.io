@@ -65,9 +65,9 @@ export default class KraljevoScena extends Scena3D {
     this.player = new Tank({ physicsWorld: this.world.physicsWorld, camera: this.camera, pos: { x: 0, y: 1, z: -20 } })
     this.add(this.player)
 
-    const germanTank = await loadModel({ file: 'tank/panzer-III-highpoly/model.fbx', size: 4 })
-    germanTank.position.set(-30, 0, 10)
-    this.addMesh(germanTank)
+    const destroyedTank = await loadModel({ file: 'tank/panzer-III-highpoly/model.fbx', size: 4 })
+    destroyedTank.position.set(-30, 0, 10)
+    this.addMesh(destroyedTank)
 
     this.smoke = new BigSmoke()
     this.smoke.mesh.position.set(-30, 2, 10)
