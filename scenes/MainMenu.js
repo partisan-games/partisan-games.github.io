@@ -1,12 +1,9 @@
 import Scena2D from '/core/Scena2D.js'
 import { platno } from '/core/io/platno.js'
 import { scenes } from './scenes.js'
-import { getRandomCoords } from '/core/utils.js'
 
-const coords = getRandomCoords({ fieldSize: 150, margin: 100, offSet: 50 })
-
-const renderIcon = (key, data, i) => {
-  const style = `"top: ${coords[i].y}px; left: ${coords[i].x}px;"`
+const renderIcon = (key, data) => {
+  const style = `"transform: translate(-50%, -50%); top: ${data.procenti.y * 100}%; left: ${data.procenti.x * 100}%;"`
   return /* html */`
     <button value='${key}' class='menu-btn js-start' style=${style}>
     <img src="/assets/images/${data.icon}" height="${data.height || 40}">
@@ -17,7 +14,8 @@ const renderIcon = (key, data, i) => {
 
 const renderIcons = dict => Object.entries(dict)
   .filter(([key]) => key != 'MainMenu')
-  .map(([key, value], i) => renderIcon(key, value, i))
+  .filter(([key, value]) => value.procenti)
+  .map(([key, value]) => renderIcon(key, value))
   .join('')
 
 export default class MainMenu extends Scena2D {
@@ -33,8 +31,7 @@ export default class MainMenu extends Scena2D {
 
   handleClick(e) {
     const target = e.target.closest('button')
-
-    if (target && target.classList.contains('js-start'))
+    if (target.classList.contains('js-start'))
       this.manager.start(target.value)
   }
 
