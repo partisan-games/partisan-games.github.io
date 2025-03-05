@@ -80,14 +80,14 @@ export const scenes = {
       'lng': 16.70867401
     }
   },
-  DrinaScena: {
-    path: './drina/DrinaScena.js',
-    name: 'Drina 1943',
+  KorculaScena: {
+    path: './korcula/KorculaScena.js',
+    name: 'Korčula 1944',
     icon: 'armies/camac.png',
     height: 38,
     koordinate: {
-      'lat': 43.4479221,
-      'lng': 18.7516879
+      'lat': 42.9448437,
+      'lng': 17.1265954
     }
   },
   OtpisaniScena: {
