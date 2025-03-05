@@ -7,7 +7,7 @@ import { thirdPersonControls } from '/ui/Controls.js'
 
 const mapSize = 200
 
-export default class BanjaLukaScena extends Scena3D {
+export default class BihacScena extends Scena3D {
   constructor(manager) {
     super(manager, { controlKeys: thirdPersonControls, toon: true })
   }

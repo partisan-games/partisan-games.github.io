@@ -9,14 +9,14 @@ export const scenes = {
       'lng': 20.57175998
     },
   },
-  BanjaLukaScena: {
-    path: './banja-luka/BanjaLukaScena.js',
-    name: 'Banja Luka 1944',
+  BihacScena: {
+    path: './bihac/BihacScena.js',
+    name: 'Bihać 1942',
     icon: 'ui/resistance-fighter.png',
     height: 54,
     koordinate: {
-      'lat': 44.74391062,
-      'lng': 17.16297489
+      'lat': 44.8158904,
+      'lng': 15.7857807
     }
   },
   KraljevoScena: {
@@ -74,9 +74,9 @@ export const scenes = {
       'lng': 17.6718828
     },
   },
-  FranjoKluzScena: {
-    path: './franjo-kluz/FranjoKluzScena.js',
-    name: 'Franjo Kluz 1942',
+  PrijedorScena: {
+    path: './prijedor/PrijedorScena.js',
+    name: 'Prijedor 1942',
     icon: 'armies/partizani/potez-25.png',
     koordinate: {
       'lat': 44.97754054,
