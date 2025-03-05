@@ -41,8 +41,8 @@ export const scenes = {
     icon: 'buildings/kula-01.png',
     height: 78,
     koordinate: {
-      'lat': 43.8936937,
-      'lng': 18.3005908
+      'lat': 43.8767521,
+      'lng': 18.30863
     }
   },
   TuzlaScena: {
@@ -70,8 +70,8 @@ export const scenes = {
     icon: 'armies/nemac-rov.gif',
     height: 60,
     koordinate: {
-      'lat': 43.7872977,
-      'lng': 17.6718828
+      'lat': 43.6565522,
+      'lng': 17.7455309
     },
   },
   PrijedorScena: {
