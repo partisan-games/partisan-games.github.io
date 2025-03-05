@@ -109,14 +109,14 @@ export const scenes = {
       'lng': 16.18390544
     }
   },
-  KalinovikScena: {
-    path: './kalinovik/KalinovikScena.js',
-    name: 'Kalinovik 1943',
+  DurmitorScena: {
+    path: './durmitor/DurmitorScena.js',
+    name: 'Durmitor 1943',
     icon: 'armies/partizani/artiljerija/100mm-skoda.png',
     height: 32,
     koordinate: {
-      'lat': 43.4331212,
-      'lng': 18.5569332
+      'lat': 43.2117033,
+      'lng': 19.1144196
     }
   },
   LivnoScena: {
@@ -141,8 +141,8 @@ export const scenes = {
     icon: 'armies/ranjeni-partizan.png',
     height: 21,
     koordinate: {
-      'lat': 43.204229,
-      'lng': 18.6865204
+      'lat': 43.3114466,
+      'lng': 18.5892073
     }
   },
   DrvarScena: {

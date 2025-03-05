@@ -14,9 +14,8 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 
 ### Scene dorada
 
-Naslovna
-- da ikone budu statične
-- da se otprilike zasnivaju na lokaciji (gde su zbijene pomeriti)
+Durmitor
+- tenk mora italijanski ili 1943
 
 Konjic
 - probati minimapu, dodati je negde, bar u dokumentaciju
