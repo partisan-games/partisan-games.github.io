@@ -79,8 +79,8 @@ export const scenes = {
     name: 'Prijedor 1942',
     icon: 'armies/partizani/potez-25.png',
     koordinate: {
-      'lat': 44.97754054,
-      'lng': 16.70867401
+      'lat': 44.9828938,
+      'lng': 16.6602294
     }
   },
   KorculaScena: {
