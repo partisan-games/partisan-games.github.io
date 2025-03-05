@@ -41,17 +41,17 @@ export const scenes = {
     icon: 'buildings/kula-01.png',
     height: 78,
     koordinate: {
-      'lat': 43.8767517,
-      'lng': 18.3034801
+      'lat': 43.8936937,
+      'lng': 18.3005908
     }
   },
-  KonjicScena: {
-    path: './konjic/KonjicScena.js',
-    name: 'Konjic 1943',
+  TuzlaScena: {
+    path: './tuzla/TuzlaScena.js',
+    name: 'Tuzla 1943',
     icon: 'ui/mitraljez.png',
     koordinate: {
-      'lat': 43.64986587,
-      'lng': 17.9637498
+      'lat': 44.7285887,
+      'lng': 17.9828499
     }
   },
   KrupanjScena: {
@@ -69,7 +69,10 @@ export const scenes = {
     name: 'Neretva 1943',
     icon: 'armies/nemac-rov.gif',
     height: 60,
-    koordinate: { 'lat': 43.65391537, 'lng': 17.76053537 },
+    koordinate: {
+      'lat': 43.7872977,
+      'lng': 17.6718828
+    },
   },
   FranjoKluzScena: {
     path: './franjo-kluz/FranjoKluzScena.js',
@@ -92,7 +95,7 @@ export const scenes = {
   },
   OtpisaniScena: {
     path: './OtpisaniScena.js',
-    name: 'Belgrade 1944',
+    name: 'Beograd 1944',
     icon: 'buildings/ruina-04.png',
     koordinate: { 'lat': 44.81072023, 'lng': 20.48544102 }
   },
@@ -112,8 +115,8 @@ export const scenes = {
     icon: 'armies/partizani/artiljerija/100mm-skoda.png',
     height: 32,
     koordinate: {
-      'lat': 43.4843394,
-      'lng': 18.4513019
+      'lat': 43.4331212,
+      'lng': 18.5569332
     }
   },
   LivnoScena: {
@@ -125,7 +128,7 @@ export const scenes = {
   },
   TrstScena: {
     path: './tenkici/TrstScena.js',
-    name: 'Trieste 1945',
+    name: 'Trst 1945',
     icon: 'armies/partizani/tenkovi/tenk-04.png',
     koordinate: {
       'lat': 45.6523727,
@@ -137,7 +140,10 @@ export const scenes = {
     name: 'Sutjeska 1943',
     icon: 'armies/ranjeni-partizan.png',
     height: 21,
-    koordinate: { 'lat': 43.34605402, 'lng': 18.68679495 }
+    koordinate: {
+      'lat': 43.204229,
+      'lng': 18.6865204
+    }
   },
   DrvarScena: {
     path: './drvar/DrvarScena.js',

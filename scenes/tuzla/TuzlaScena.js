@@ -16,14 +16,14 @@ import { createCrate, createRustyBarrel, createMetalBarrel } from '/core3d/geome
 
 const cellSize = 5
 
-export default class KonjicScena extends Scena3D {
+export default class TuzlaScena extends Scena3D {
   constructor(manager) {
     super(manager, {
       toon: true,
       usePointerLock: true,
       controlKeys: fpsControls,
       intro: '<ul><li>Find the way out</li><li>Bonus: Kill all enemies</li></ul>',
-      reportText: 'After the fierce battle of Konjic you stayed behind enemy lines.\n\nFind the way out of the enemy base.',
+      reportText: 'After the battle for Tuzla you remained behind enemy lines.\n\nFind the way out of the enemy base.',
     })
   }
 
