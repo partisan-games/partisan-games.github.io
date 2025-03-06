@@ -10,15 +10,8 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 
 ## TODO
 
-- refactor: this.fire.update({ delta: dt })
 
 ### Scene dorada
-
-Durmitor
-- tenk mora italijanski ili 1943
-
-Konjic
-- probati minimapu, dodati je negde, bar u dokumentaciju
 
 Banja Luka
 - proveriti jel grad lavirint
@@ -62,6 +55,9 @@ Neretva
 
 1944
 - smisliti pobedu
+
+Drvar 
+- https://mudroljub.github.io/partisans/ uporediti
 
 ### Bagovi
 
@@ -126,6 +122,9 @@ Odbrani bunker
 Partizanski kurir
 - partizanska verzija super mario ili endless runner:
 - trci, uzima hranu, izbegava metkove, preskace bombe...
+
+Refaktor
+- Particles.update({ delta: dt }) -> update(dt, t, {}) ??
 
 ## Credits
 
