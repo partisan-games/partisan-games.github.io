@@ -62,7 +62,7 @@ const getWindowColor = ({ chance = .5 } = {}) => {
 }
 
 // https://www.25yearsofprogramming.com/threejs-tutorials/how-to-do-a-procedural-city-in-100-lines.html
-export function createBuildingTexture({ night = false, wallColor = night ? '#151515' : '#FFFFFF', width = 32, height = 64, windowHeight = 4 } = {}) {
+export function createBuildingTexture({ night = false, wallColor = night ? '#151515' : '#FFFFFF', width = 16, height = 32, windowHeight = 4 } = {}) {
   const canvas = document.createElement('canvas')
   canvas.width = width
   canvas.height = height
