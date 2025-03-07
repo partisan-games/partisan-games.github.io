@@ -95,17 +95,15 @@ export function meshFromTilemap({ tilemap, cellSize = 1, maxHeight = cellSize, t
 }
 
 export function cityFromTilemap({
-  tilemap, cellSize = 1, maxHeight = cellSize, texture, bumpFile, material, city = false, cityTexture = false
+  tilemap, cellSize = 1, maxHeight = cellSize, texture,
 } = {}) {
   const geometries = []
   tilemap.forEach((row, j) => row.forEach((val, i) => {
     if (Object.is(val, 0)) return
     if (val > 0) {
       const height = randomHeight(row, j, i, cellSize, maxHeight)
-      const block = city
-        ? createBuildingGeometry({ width: cellSize, height })
-        : createBoxGeometry({ size: cellSize, height, maxHeight, texture })
-      block.translate(i * cellSize, city ? 0 : height * .5, j * cellSize)
+      const block = createBuildingGeometry({ width: cellSize, height })
+      block.translate(i * cellSize, 0, j * cellSize)
       geometries.push(block)
     }
   }))
@@ -114,11 +112,9 @@ export function cityFromTilemap({
   centerGeometry(geometry)
 
   const options = {
-    vertexColors: !texture,
-    map: cityTexture ? createBuildingTexture() : texture ? textureLoader.load(`/assets/images/textures/${texture}`) : null,
-    bumpMap: bumpFile ? textureLoader.load(`/assets/images/textures/${bumpFile}`) : null,
+    map: texture ? textureLoader.load(`/assets/images/textures/${texture}`) : null,
   }
-  const mesh = new THREE.Mesh(geometry, material || new THREE.MeshPhongMaterial(options))
+  const mesh = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial(options))
   return mesh
 }
 
