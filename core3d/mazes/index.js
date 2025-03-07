@@ -94,6 +94,34 @@ export function meshFromTilemap({ tilemap, cellSize = 1, maxHeight = cellSize, t
   return mesh
 }
 
+export function cityFromTilemap({
+  tilemap, cellSize = 1, maxHeight = cellSize, texture, bumpFile, material, city = false, cityTexture = false
+} = {}) {
+  const geometries = []
+  tilemap.forEach((row, j) => row.forEach((val, i) => {
+    if (Object.is(val, 0)) return
+    if (val > 0) {
+      const height = randomHeight(row, j, i, cellSize, maxHeight)
+      const block = city
+        ? createBuildingGeometry({ width: cellSize, height })
+        : createBoxGeometry({ size: cellSize, height, maxHeight, texture })
+      block.translate(i * cellSize, city ? 0 : height * .5, j * cellSize)
+      geometries.push(block)
+    }
+  }))
+
+  const geometry = BufferGeometryUtils.mergeGeometries(geometries)
+  centerGeometry(geometry)
+
+  const options = {
+    vertexColors: !texture,
+    map: cityTexture ? createBuildingTexture() : texture ? textureLoader.load(`/assets/images/textures/${texture}`) : null,
+    bumpMap: bumpFile ? textureLoader.load(`/assets/images/textures/${bumpFile}`) : null,
+  }
+  const mesh = new THREE.Mesh(geometry, material || new THREE.MeshPhongMaterial(options))
+  return mesh
+}
+
 /* MESH FROM GRID */
 
 const turnTo = (geometry, p1, p2) => {

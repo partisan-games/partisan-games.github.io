@@ -1,6 +1,6 @@
 import { MathUtils } from 'three'
 import { sample, shuffle } from '/core3d/helpers.js'
-import { meshFromMaze, meshFromTilemap, tileToPosition, calcPyramidHeight } from '/core3d/mazes/index.js'
+import { meshFromMaze, meshFromTilemap, tileToPosition, calcPyramidHeight, cityFromTilemap } from '/core3d/mazes/index.js'
 import { recursiveBacktracker } from '/core3d/mazes/algorithms.js'
 import Cell from './Cell.js'
 
@@ -193,11 +193,15 @@ export default class Maze {
     return meshFromTilemap({ ...params, tilemap: this.tilemap, cellSize: this.cellSize })
   }
 
+  toPyramid(params = {}) {
+    return this.toTiledMesh({ maxHeight: this.cellSize * this.tilemap.length * .33, calcHeight: calcPyramidHeight, ...params })
+  }
+
   toCity(params = {}) {
     return this.toTiledMesh({ city: true, maxHeight: 0, cityTexture: true, ...params })
   }
 
-  toPyramid(params = {}) {
-    return this.toTiledMesh({ maxHeight: this.cellSize * this.tilemap.length * .33, calcHeight: calcPyramidHeight, ...params })
+  toGraffitiCity(params = {}) {
+    return cityFromTilemap({ ...params, tilemap: this.tilemap, cellSize: this.cellSize })
   }
 }
