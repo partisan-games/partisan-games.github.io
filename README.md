@@ -16,8 +16,9 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 Bihać
 - probati grad lavirint
     - probati spoljni zid različite visine
-    - mora imati grafite, ako ne može vratiti običan grad
-        - napraviti metodu maze.toGraffitiCity koja neće spajati geometriju
+    - ukloniti spoljni zid? Maze.tilemap ga pravi
+    - mora imati grafite
+        - bez spajanja geometrije užasno sporo
 - niže zgrade
 - spaliti i uništiti zgrade (nalepiti ruina tekstura)
 - dodati nemce

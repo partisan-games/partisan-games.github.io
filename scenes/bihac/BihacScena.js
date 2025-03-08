@@ -9,8 +9,7 @@ import { truePrims } from '/core3d/mazes/algorithms.js'
 import { createFloor } from '/core3d/ground.js'
 
 const cellSize = 10
-const rows = 20
-// const mapSize = 200
+const rows = 8
 
 export default class BihacScena extends Scena3D {
   constructor(manager) {
@@ -22,15 +21,11 @@ export default class BihacScena extends Scena3D {
     this.addMesh(floor)
     this.addMesh(createSun({ pos: [50, 100, 50], intensity: 2 * Math.PI }))
 
-    // const city = createGraffitiCity({ scene: this.scene, mapSize, coords })
-    // this.addMesh(city)
-
     const maze = new Maze(rows, rows, truePrims, cellSize)
     const city = maze.toGraffitiCity({ texture: 'terrain/concrete.jpg', maxHeight: cellSize * 2.5 })
     this.addMesh(city)
 
     const coords = maze.getEmptyCoords(true, cellSize - 1)
-    // const coords = getEmptyCoords({ mapSize })
 
     this.player = new ResistanceFighterPlayer({ camera: this.camera, solids: city, pos: coords.pop(), showHealthBar: false })
     this.player.putInMaze(maze)

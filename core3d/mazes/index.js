@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js'
 import { createTexture } from '/core3d/helpers.js'
-import { createBuildingTexture, createBuildingGeometry } from '/core3d/city.js'
+import { createBuildingTexture, createBuildingGeometry, createGraffitiBuilding } from '/core3d/city.js'
 import chroma from '/libs/chroma.js'
 
 const { Vector2, Vector3 } = THREE
@@ -94,28 +94,23 @@ export function meshFromTilemap({ tilemap, cellSize = 1, maxHeight = cellSize, t
   return mesh
 }
 
+// inefficient, not mergeGeometries!
 export function cityFromTilemap({
-  tilemap, cellSize = 1, maxHeight = cellSize, texture,
+  tilemap, cellSize = 1, maxHeight = cellSize,
 } = {}) {
-  const geometries = []
+  const group = new THREE.Group()
   tilemap.forEach((row, j) => row.forEach((val, i) => {
-    if (Object.is(val, 0)) return
     if (val > 0) {
       const height = randomHeight(row, j, i, cellSize, maxHeight)
-      const block = createBuildingGeometry({ width: cellSize, height })
-      block.translate(i * cellSize, 0, j * cellSize)
-      geometries.push(block)
+      const building = createGraffitiBuilding({ x: i * cellSize, z: j * cellSize, width: cellSize, height })
+      group.add(building)
     }
   }))
-
-  const geometry = BufferGeometryUtils.mergeGeometries(geometries)
-  centerGeometry(geometry)
-
-  const options = {
-    map: texture ? textureLoader.load(`/assets/images/textures/${texture}`) : null,
-  }
-  const mesh = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial(options))
-  return mesh
+  const rows = (tilemap.length - 1) / 2
+  const columns = (tilemap[0].length - 1) / 2
+  group.translateX(-rows * cellSize)
+  group.translateZ(-columns * cellSize)
+  return group
 }
 
 /* MESH FROM GRID */
