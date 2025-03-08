@@ -23,14 +23,13 @@ function getEmptyTiles(tilemap, skipFirst = false) {
  */
 export default class Maze {
   constructor({
-    rows = 20, columns = rows, algorithm = recursiveBacktracker, cellSize = 3, hasEnter = false, hasExit = true, noOuterWalls = false
+    rows = 20, columns = rows, algorithm = recursiveBacktracker, cellSize = 3, hasEnter = false, hasExit = true
   } = {}) {
     this.rows = rows
     this.columns = columns
     this.cellSize = cellSize
     this.hasEnter = hasEnter
     this.hasExit = hasExit
-    this.noOuterWalls = noOuterWalls
     this.grid = this.createGrid(rows, columns)
     if (algorithm) algorithm(this)
     this.tilemap = this.createTilemap()
