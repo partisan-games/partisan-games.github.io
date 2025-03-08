@@ -16,7 +16,11 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 Bihać
 - probati grad lavirint
     - probati spoljni zid različite visine
-    - ukloniti spoljni zid? Maze.tilemap ga pravi
+    - ukloniti spoljni zid? 
+
+dodati metod:    
+const trimmedTilemap = tilemap.slice(1, -1).map(row => row.slice(1, -1));
+
     - mora imati grafite
         - bez spajanja geometrije užasno sporo
 - niže zgrade

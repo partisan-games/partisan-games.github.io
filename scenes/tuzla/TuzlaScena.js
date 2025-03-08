@@ -32,7 +32,7 @@ export default class TuzlaScena extends Scena3D {
     this.light = hemLight({ intensity: Math.PI * 1.5, scene: this.scene })
     this.addMesh(createGround({ file: 'terrain/snow.jpg' }))
 
-    this.maze = new Maze(8, 8, truePrims, cellSize)
+    this.maze = new Maze({ rows: 8, columns: 8, truePrims, cellSize })
     const walls = this.maze.toTiledMesh({ texture: 'terrain/concrete.jpg' })
     this.addMesh(walls)
 
