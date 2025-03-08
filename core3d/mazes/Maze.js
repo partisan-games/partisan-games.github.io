@@ -22,14 +22,17 @@ function getEmptyTiles(tilemap, skipFirst = false) {
  * credits to Jamis Buck: Mazes for Programmers
  */
 export default class Maze {
+  #tilemap
+
   constructor({
-    rows = 20, columns = rows, algorithm = recursiveBacktracker, cellSize = 3, hasEnter = false, hasExit = true
+    rows = 20, columns = rows, algorithm = recursiveBacktracker, cellSize = 3, hasEnter = false, hasExit = true, hasOuterWalls = true
   } = {}) {
     this.rows = rows
     this.columns = columns
     this.cellSize = cellSize
     this.hasEnter = hasEnter
     this.hasExit = hasExit
+    this.hasOuterWalls = hasOuterWalls
     this.grid = this.createGrid(rows, columns)
     if (algorithm) algorithm(this)
   }
@@ -69,6 +72,8 @@ export default class Maze {
   }
 
   get tilemap() {
+    if (this.#tilemap) return this.#tilemap
+
     const tilemap = [[...Array(this.columns * 2 + 1).keys()].map(() => WALL)] // first row
     for (const row of this.grid) {
       const top = [WALL]
@@ -91,6 +96,8 @@ export default class Maze {
       tilemap[0][1] = EMPTY
     if (this.hasExit)
       tilemap[tilemap.length - 1][tilemap[0].length - 2] = EMPTY
+
+    this.#tilemap = tilemap
     return tilemap
   }
 
