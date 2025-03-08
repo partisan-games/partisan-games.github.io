@@ -9,7 +9,7 @@ import { truePrims } from '/core3d/mazes/algorithms.js'
 import { createFloor } from '/core3d/ground.js'
 
 const cellSize = 10
-const rows = 8
+const rows = 6
 
 export default class BihacScena extends Scena3D {
   constructor(manager) {

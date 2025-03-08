@@ -43,7 +43,7 @@ export const calcPyramidHeight = (row, j, i, size, maxHeight) => {
   return height
 }
 
-const randomHeight = (row, j, i, size, maxHeight) => isRing(row, j, i, 0) ? size : randFloat(size, maxHeight)
+const randomInnerHeight = (row, j, i, size, maxHeight) => isRing(row, j, i, 0) ? size : randFloat(size, maxHeight)
 
 const addColors = ({ geometry, color, height, maxHeight } = {}) => {
   const f = chroma.scale([0x999999, 0xffffff]).domain([0, maxHeight])
@@ -60,7 +60,7 @@ const createBoxGeometry = ({ size, height, maxHeight, texture }) => {
   return geometry
 }
 
-export function meshFromTilemap({ tilemap, cellSize = 1, maxHeight = cellSize, texture, bumpFile, calcHeight = randomHeight, material, city = false, cityTexture = false, renderPath = false } = {}) {
+export function meshFromTilemap({ tilemap, cellSize = 1, maxHeight = cellSize, texture, bumpFile, calcHeight = randomInnerHeight, material, city = false, cityTexture = false, renderPath = false } = {}) {
   const geometries = []
   tilemap.forEach((row, j) => row.forEach((val, i) => {
     if (Object.is(val, 0)) return
@@ -94,14 +94,15 @@ export function meshFromTilemap({ tilemap, cellSize = 1, maxHeight = cellSize, t
   return mesh
 }
 
-// inefficient, not mergeGeometries!
+// inefficient, doesn't merge geometries
 export function cityFromTilemap({
   tilemap, cellSize = 1, maxHeight = cellSize,
 } = {}) {
   const group = new THREE.Group()
+  console.log(tilemap)
   tilemap.forEach((row, j) => row.forEach((val, i) => {
     if (val > 0) {
-      const height = randomHeight(row, j, i, cellSize, maxHeight)
+      const height = randFloat(cellSize, maxHeight)
       const building = createGraffitiBuilding({ x: i * cellSize, z: j * cellSize, width: cellSize, height })
       group.add(building)
     }
