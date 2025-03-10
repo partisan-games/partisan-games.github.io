@@ -48,8 +48,8 @@ export const slogans = [
   'ŽIVIO DRUG STARI',
 ]
 
-export const banksyArt = [
-  'anarchy.jpg', 'change.png', 'cleaning.jpg', 'cop.jpg', 'flower.jpg', 'heart.png', 'monaliza.png', 'bomb.jpg', 'cops.jpg', 'peace.jpg', 'kids.jpg', 'airplanes.jpg'
+export const posters = [
+  '15_rujan_zadnji_rok.webp', 'iz_naroda_hlapcev.webp', 'kultura_fasizma.jpg', 'ni_zrno_zita_okupatoru.webp', 'omladina_jugoslavije.webp', 'partizanka.webp', 'petokolonas_vreba.jpg', 'RED_ARMY_IS_HERE.jpg', 'smrt_fasizmu_sloboda_narodu.webp', 'svi_na_front.webp', 'svi_u_NOVJ.webp', 'tko bude uhvacen da pljacka.jpg', 'zar_ti_jos_ne_znas_citati.webp', 'zgrabimo_za_orozje_vsi.webp', 'zivio_27_mart.webp'
 ]
 
 /* TEXTURES */
@@ -262,10 +262,10 @@ export function createTexturedBuilding({ width, height, depth = width, color = 0
 export const createGraffitiBuilding = param =>
   createTexturedBuilding({ graffitiChance: .5, ...param })
 
-// return an array with a file at random index and rest empty
+// return an array with an image at random index (for one wall) and rest empty
 const getFiles = () => {
   const files = []
-  files[sample([0, 1, 3, 4])] = 'banksy/' + sample(banksyArt)
+  files[sample([0, 1, 3, 4])] = 'posters/' + sample(posters)
   return files
 }
 

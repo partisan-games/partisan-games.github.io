@@ -14,16 +14,15 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 ### Scene dorada
 
 Bihać
-- probati grad lavirint
-- probati spajanje geometrije
-- spaliti i uništiti zgrade (nalepiti ruina tekstura)
-- dodati nemce
-- preimenovati?? možda banja luka, tuzla, sarajevo
-    - probati manje zgrade
 - ukloniti banksyArt, staviti partizansku umetnost
+- spaliti i uništiti zgrade (nalepiti ruina tekstura)
+- probati spajanje geometrije
+- dodati nemce
 - dodati ćirilicu
-- probati asfalt podlogu
-- BUG: nekad počinje suprotno okrenut od scene
+- odlučiti grad običan ili lavirint
+- običan grad
+    - BUG: grad nekad počinje suprotno okrenut od scene
+    - probati asfalt podlogu
 
  Ratweek 
 - BUG: warplane se trese
