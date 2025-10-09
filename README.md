@@ -11,12 +11,12 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 ## Development
 
 ```
+git checkout develop
 npm i
 npm start
 ```
 
 ## TODO
-
 
 ### Scene dorada
 
