@@ -11,6 +11,7 @@ Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/pa
 ## Development
 
 ```
+git checkout develop
 npm i
 npm start
 ```
@@ -24,6 +25,8 @@ npm start
 - BUG: Top nakon igraj opet (par puta) ne skida lepo energiju
     - i Bombaš i drugi nivoi baguju, zeza GameLoop?
     - BUG: Savo igraj-opet ne ubija neprijatelje
+- REŠENJE: Igraj opet da radi reload? Vraća meni
+
 - Savo nebo nije tamno
 - BUG: Ratweek se trese
 - BUG: Nemci iz rovova mrtav igrač može da ubija
