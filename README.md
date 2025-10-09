@@ -8,6 +8,13 @@ Homepage: [partisan-games.github.io](https://partisan-games.github.io/)
 
 Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/partisan-games/partisan-games.github.io)
 
+## Development
+
+```
+npm i
+npm start
+```
+
 ## TODO
 
 ### UI
