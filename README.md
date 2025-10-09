@@ -22,14 +22,12 @@ npm start
 
 Bihać
 - spaliti i uništiti zgrade (nalepiti ruina tekstura)
+    - createTexturedBuilding prepraviti da dodaje teksturu na više stranica
+    - ispitati boju pozadine koju dodaje ispod tekstura
 - probati spajanje geometrije
 - dodati nemce
-- odlučiti grad običan ili lavirint
-- običan grad
-    - BUG: grad nekad počinje suprotno okrenut od scene
-    - probati asfalt podlogu
 
- Ratweek 
+Ratweek 
 - BUG: warplane se trese
 
 Franjo Kluz

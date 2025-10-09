@@ -20,7 +20,7 @@ export default class BihacScena extends Scena3D {
     this.addMesh(createSun({ pos: [50, 100, 50], intensity: 2 * Math.PI }))
 
     const maze = new Maze({ rows, columns: rows, truePrims, cellSize })
-    const city = maze.toGraffitiCity({ texture: 'terrain/concrete.jpg', maxHeight: cellSize * 2.5 })
+    const city = maze.toGraffitiCity({ texture: 'terrain/concrete.jpg', maxHeight: cellSize * .5 })
     this.addMesh(city)
 
     const coords = maze.getEmptyCoords(true, cellSize - 1)

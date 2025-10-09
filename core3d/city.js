@@ -16,7 +16,7 @@ const loadTexture = (filepath, halfWidth) => {
 
 /* GRAFFITI */
 
-export const slogans = [
+const slogans = [
   `SMRT FAŠIZMU, 
   SLOBODA NARODU!`,
   `СМРТ ФАШИЗМУ, 
@@ -263,12 +263,12 @@ export function createTexturedBuilding({ width, height, depth = width, color = 0
 
 // returns an array with an image at random index (for one wall) and rest empty
 const getTextures = () => {
-  const bricks = ['bricks.jpg', 'bricks-gray.jpg', 'cigle3.jpg']
   const posters = [
     '15_rujan_zadnji_rok.webp', 'iz_naroda_hlapcev.webp', 'kultura_fasizma.jpg', 'ni_zrno_zita_okupatoru.webp', 'omladina_jugoslavije.webp', 'partizanka.webp', 'petokolonas_vreba.jpg', 'RED_ARMY_IS_HERE.jpg', 'smrt_fasizmu_sloboda_narodu.webp', 'svi_na_front.webp', 'svi_u_NOVJ.webp', 'tko bude uhvacen da pljacka.jpg', 'zar_ti_jos_ne_znas_citati.webp', 'zgrabimo_za_orozje_vsi.webp', 'zivio_27_mart.webp'
   ]
+  const ruins = ['ruin-01.jpg', 'ruin-02.jpg', 'ruin-03.jpg', 'ruin-04.jpg', 'ruin-back.jpg', 'warehouse.jpg']
   const files = []
-  files[sample([0, 1, 3, 4])] = Math.random() > .25 ? 'walls/' + sample(bricks) : 'posters/' + sample(posters)
+  files[sample([0, 1, 3, 4])] = Math.random() > .25 ? 'buildings/' + sample(ruins) : 'posters/' + sample(posters)
   return files
 }
 
