@@ -2,7 +2,6 @@ import * as THREE from 'three'
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js'
 import { randomGrayish, getEmptyCoords, sample, mapRange, maxItems } from '/core3d/helpers.js'
 import { createTrees } from '/core3d/geometry/trees.js'
-import { createFloor } from '/core3d/ground.js'
 
 const { randInt, randFloat } = THREE.MathUtils
 
@@ -20,36 +19,39 @@ const loadTexture = (filepath, halfWidth) => {
 export const slogans = [
   `SMRT FAŠIZMU, 
   SLOBODA NARODU!`,
+  `СМРТ ФАШИЗМУ, 
+  СЛОБОДА НАРОДУ!`,
   `SMRT NARODNIM IZDAJICAMA
   USTAŠAMA I ČETNICIMA`,
   'ŽIVIO DRUG TITO',
   'ŽIVELA NARODNA VOJSKA!',
-  'ŽIVILA NARODNA VOJSKA!',
+  'ЖИВИЛА НАРОДНА ВОЈСКА!',
   'UNIŠTIMO FAŠIZAM!',
   `15. SEPTEMBAR
   JE ZADNJI ROK!`,
   `NAROD ĆE SVOJU SLOBODU
   PISATI SAM!`,
   'NI ZRNO ŽITA OKUPATORU!',
-  'ŽIVELA NARODNA VLAST!',
+  'ЖИВЕЛА НАРОДНА ВЛАСТ!',
   'KOMUNIZAM ĆE POBIJEDITI',
+  'КОМУНИЗАМ ЋЕ ПОБИЈЕДИТИ',
   'SMRT OKUPATORU I IZDAJICAMA!',
   'ZGRABIMO ORUŽJE SVI!',
   'CRVENA ARMIJA DOLAZI',
+  'ЦРВЕНА АРМИЈА ДОЛАЗИ',
   'U BORBU PROTIV OKUPATORA!',
   'SVI U PARTIZANE!',
+  'СВИ У ПАРТИЗАНЕ!',
   `SVI NA FRONT
   SVE ZA FRONT!`,
   `ZAR TI JOŠ NE ZNAŠ
   ČITATI?`,
+  `ЗАР ТИ ЈОШ НЕ ЗНАШ
+  ЧИТАТИ?`,
   'ŽIVJELA CRVENA ARMIJA',
   `ŽIVILA KOMUNISTIČKA 
   PARTIJA JUGOSLAVIJE`,
   'ŽIVIO DRUG STARI',
-]
-
-export const posters = [
-  '15_rujan_zadnji_rok.webp', 'iz_naroda_hlapcev.webp', 'kultura_fasizma.jpg', 'ni_zrno_zita_okupatoru.webp', 'omladina_jugoslavije.webp', 'partizanka.webp', 'petokolonas_vreba.jpg', 'RED_ARMY_IS_HERE.jpg', 'smrt_fasizmu_sloboda_narodu.webp', 'svi_na_front.webp', 'svi_u_NOVJ.webp', 'tko bude uhvacen da pljacka.jpg', 'zar_ti_jos_ne_znas_citati.webp', 'zgrabimo_za_orozje_vsi.webp', 'zivio_27_mart.webp'
 ]
 
 /* TEXTURES */
@@ -88,7 +90,7 @@ export function createBuildingTexture({ night = false, wallColor = night ? '#151
   return texture
 }
 
-const webFonts = ['Arial', 'Verdana', 'Trebuchet MS', 'Brush Script MT', 'Brush Script MT']
+const webFonts = ['Arial', 'Verdana', 'Trebuchet MS']
 const fontColors = ['red', 'blue', 'black', '#222222', 'green', 'purple']
 
 const sloganLengths = slogans.map(s => s.length)
@@ -98,7 +100,7 @@ const minLength = Math.min(...sloganLengths),
 export function createGraffitiTexture({
   buildingWidth,
   buildingHeight,
-  background = 0x999999,
+  background,
   color = sample(fontColors),
   text = sample(slogans),
   fontFamily = sample(webFonts),
@@ -233,7 +235,7 @@ export function createTexturedBuilding({ width, height, depth = width, color = 0
   const geometry = createBuildingGeometry({ width, height, depth, ...rest })
   const { width: buildingWidth, height: buildingHeight } = geometry.parameters // could be random values
 
-  const createTexture = half => defaultFile
+  const createTexture = (half = false) => defaultFile
     ? loadTexture(path + defaultFile, half)
     : Math.random() < graffitiChance
       ? createGraffitiTexture({ background: color, buildingWidth, buildingHeight })
@@ -247,8 +249,8 @@ export function createTexturedBuilding({ width, height, depth = width, color = 0
   const materials = [
     new THREE.MeshPhongMaterial({ map: textures[0] || createTexture(halfOnSides) }),  // 0: right
     new THREE.MeshPhongMaterial({ map: textures[1] || createTexture(halfOnSides) }),  // 1: left
-    new THREE.MeshPhongMaterial({ map: textures[2] || null, color }),              // 2: top
-    new THREE.MeshBasicMaterial({ color }),                                        // no bottom
+    new THREE.MeshPhongMaterial({ map: textures[2] || null, color }),                 // 2: top
+    new THREE.MeshBasicMaterial({ color }),                                           // no bottom
     new THREE.MeshPhongMaterial({ map: textures[3] || createTexture() }),             // 3: front
     new THREE.MeshPhongMaterial({ map: textures[4] || createTexture() }),             // 4: back
   ]
@@ -259,17 +261,18 @@ export function createTexturedBuilding({ width, height, depth = width, color = 0
   return mesh
 }
 
-export const createGraffitiBuilding = param =>
-  createTexturedBuilding({ graffitiChance: .5, ...param })
-
-// return an array with an image at random index (for one wall) and rest empty
-const getFiles = () => {
+// returns an array with an image at random index (for one wall) and rest empty
+const getTextures = () => {
+  const bricks = ['bricks.jpg', 'bricks-gray.jpg', 'cigle3.jpg']
+  const posters = [
+    '15_rujan_zadnji_rok.webp', 'iz_naroda_hlapcev.webp', 'kultura_fasizma.jpg', 'ni_zrno_zita_okupatoru.webp', 'omladina_jugoslavije.webp', 'partizanka.webp', 'petokolonas_vreba.jpg', 'RED_ARMY_IS_HERE.jpg', 'smrt_fasizmu_sloboda_narodu.webp', 'svi_na_front.webp', 'svi_u_NOVJ.webp', 'tko bude uhvacen da pljacka.jpg', 'zar_ti_jos_ne_znas_citati.webp', 'zgrabimo_za_orozje_vsi.webp', 'zivio_27_mart.webp'
+  ]
   const files = []
-  files[sample([0, 1, 3, 4])] = 'posters/' + sample(posters)
+  files[sample([0, 1, 3, 4])] = Math.random() > .25 ? 'walls/' + sample(bricks) : 'posters/' + sample(posters)
   return files
 }
 
-export const createArtBuilding = param => createGraffitiBuilding({ files: getFiles(), ...param })
+export const createGraffitiBuilding = param => createTexturedBuilding({ graffitiChance: 1, files: getTextures(), ...param })
 
 export const createWarehouse = () => createTexturedBuilding({ width: 20, height: 10, depth: 10, defaultFile: 'buildings/warehouse.jpg', files: [null, null, 'terrain/concrete.jpg'], halfOnSides: true })
 
@@ -329,22 +332,6 @@ export function createCity({
 export const createNightCity = ({ addWindows = true, colorParams = null, numLampposts = 15, ...rest } = {}) => createCity({ addWindows, colorParams, numLampposts, ...rest })
 
 export const createTexturedCity = param => createCity({ numBuildings: 10000, rotateEvery: 2, enlargeEvery: 10, map: createBuildingTexture(), colorParams: { colorful: .035, max: 1 }, ...param })
-
-export function createGraffitiCity({ mapSize, coords = getEmptyCoords({ mapSize }), nTrees = 20, nFirTrees = 10 } = {}) {
-  const group = new THREE.Group()
-  const floor = createFloor({ size: mapSize * 1.2, color: 0x509f53 })
-  group.add(floor)
-
-  const trees = createTrees({ coords, n: nTrees, nFirTrees })
-  group.add(trees)
-
-  for (let i = 0; i < 50; i++) {
-    const { x, z } = coords.pop()
-    const building = Math.random() > .10 ? createGraffitiBuilding({ x, z }) : createArtBuilding({ x, z })
-    group.add(building)
-  }
-  return group
-}
 
 /* CITY LIGHTS */
 

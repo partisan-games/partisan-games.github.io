@@ -1,7 +1,5 @@
 import Scena3D from '/core/Scena3D.js'
-import { createGraffitiCity } from '/core3d/city.js'
 import { createSun } from '/core3d/light.js'
-import { getEmptyCoords } from '/core3d/helpers.js'
 import { ResistanceFighterPlayer } from '/core3d/actor/derived/ww2/ResistanceFighter.js'
 import { thirdPersonControls } from '/ui/Controls.js'
 import Maze from '/core3d/mazes/Maze.js'

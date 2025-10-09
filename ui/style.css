@@ -29,7 +29,7 @@
 body {
   background-color: var(--gray);
   cursor: url(/assets/images/ui/cursor/default.png), auto;
-  filter: sepia(0.15);
+  /* filter: sepia(0.15); */
   font-size: 0.8em;
   line-height: 22px;
   margin: 0;

@@ -21,11 +21,9 @@ npm start
 ### Scene dorada
 
 Bihać
-- ukloniti banksyArt, staviti partizansku umetnost
 - spaliti i uništiti zgrade (nalepiti ruina tekstura)
 - probati spajanje geometrije
 - dodati nemce
-- dodati ćirilicu
 - odlučiti grad običan ili lavirint
 - običan grad
     - BUG: grad nekad počinje suprotno okrenut od scene

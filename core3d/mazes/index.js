@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js'
 import { createTexture } from '/core3d/helpers.js'
-import { createBuildingTexture, createBuildingGeometry, createGraffitiBuilding, createArtBuilding } from '/core3d/city.js'
+import { createBuildingTexture, createBuildingGeometry, createGraffitiBuilding } from '/core3d/city.js'
 import chroma from '/libs/chroma.js'
 
 const { Vector2, Vector3 } = THREE
@@ -101,9 +101,7 @@ export function cityFromTilemap({
   tilemap.forEach((row, j) => row.forEach((val, i) => {
     if (val > 0) {
       const height = randFloat(cellSize, maxHeight)
-      const building = Math.random() > .5
-        ? createGraffitiBuilding({ x: i * cellSize, z: j * cellSize, width: cellSize, height })
-        : createArtBuilding({ x: i * cellSize, z: j * cellSize, width: cellSize, height })
+      const building = createGraffitiBuilding({ x: i * cellSize, z: j * cellSize, width: cellSize, height })
       group.add(building)
     }
   }))
