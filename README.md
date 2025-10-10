@@ -23,7 +23,7 @@ npm start
 Bihać
 - spaliti i uništiti zgrade (nalepiti ruina tekstura)
     - createTexturedBuilding prepraviti da dodaje teksturu na više stranica
-    - ispitati boju pozadine koju dodaje ispod tekstura
+    - ispitati mora li prazna pozadina za grafite
 - probati spajanje geometrije
 - dodati nemce
 

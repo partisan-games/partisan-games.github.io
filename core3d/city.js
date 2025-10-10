@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js'
-import { randomGrayish, getEmptyCoords, sample, mapRange, maxItems } from '/core3d/helpers.js'
+import { randomGrayish, getEmptyCoords, sample, maxItems } from '/core3d/helpers.js'
 import { createTrees } from '/core3d/geometry/trees.js'
 
 const { randInt, randFloat } = THREE.MathUtils
@@ -93,9 +93,8 @@ export function createBuildingTexture({ night = false, wallColor = night ? '#151
 const webFonts = ['Arial', 'Verdana', 'Trebuchet MS']
 const fontColors = ['red', 'blue', 'black', '#222222', 'green', 'purple']
 
-const sloganLengths = slogans.map(s => s.length)
-const minLength = Math.min(...sloganLengths),
-  maxLength = Math.max(...sloganLengths)
+// Adds word-wrap + vertical fit. Keeps your API. Comments in English.
+// Word-wrap + bottom-aligned text block. Comments in English.
 
 export function createGraffitiTexture({
   buildingWidth,
@@ -104,35 +103,59 @@ export function createGraffitiTexture({
   color = sample(fontColors),
   text = sample(slogans),
   fontFamily = sample(webFonts),
+  resolution = 24
 } = {}) {
-  const width = buildingWidth * 12
-  const height = buildingHeight * 12
-
-  const fontSize = mapRange(text.length, minLength, maxLength, width * .075, width * .025)
-  const x = width * 0.5
-  const y = height * mapRange(text.length, minLength, maxLength, .9, .8)
+  const width = buildingWidth * resolution
+  const height = buildingHeight * resolution
 
   const canvas = document.createElement('canvas')
   canvas.width = width
   canvas.height = height
   const ctx = canvas.getContext('2d')
 
-  ctx.fillStyle = new THREE.Color(background).getStyle() // to css color string
+  ctx.fillStyle = new THREE.Color(background).getStyle()
   ctx.fillRect(0, 0, width, height)
+
+  const lines = String(text).split('\n')
+  const maxW = width * 0.8 // padding
+  const minFontSize = 8
+  let fontSize = Math.max(8, (width * 0.09) | 0)
+
+  for (; fontSize > minFontSize; fontSize--) {
+    ctx.font = `bold ${fontSize}px ${fontFamily}`
+    if (lines.every(l => ctx.measureText(l).width <= maxW)) break
+  }
+
+  const lineH = Math.ceil(fontSize * 1.15)
+  const x = width * 0.5
+
+  const marginBottom = height * 0.1 // 10% of height
+  const totalTextHeight = lines.length * lineH
+  const y0 = height - marginBottom - totalTextHeight + lineH / 2
 
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
   ctx.fillStyle = color
-  ctx.font = `bold ${fontSize}px ${fontFamily}`
 
-  const lines = text.split('\n')
   for (let i = 0; i < lines.length; i++) {
-    ctx.rotate(Math.random() > .4 ? randFloat(-.05, .05) : 0)
-    ctx.fillText(lines[i], x, y + (i * (fontSize + 2)))
+    const y = y0 + i * lineH
+    const rot = Math.random() < 0.4 ? (Math.random() * 0.1 - 0.05) : 0 // ~±0.05 rad
+    ctx.save()
+    ctx.translate(x, y)
+    ctx.rotate(rot)
+    ctx.font = `bold ${fontSize}px ${fontFamily}`
+    ctx.fillText(lines[i], 0, 0)
+    ctx.restore()
   }
-  ctx.setTransform(1, 0, 0, 1, 0, 0) // reset to identity matrix
 
-  return new THREE.CanvasTexture(canvas)
+  const texture = new THREE.CanvasTexture(canvas)
+  texture.colorSpace = THREE.SRGBColorSpace
+  texture.generateMipmaps = false
+  texture.minFilter = THREE.LinearFilter
+  texture.magFilter = THREE.LinearFilter
+  texture.wrapS = texture.wrapT = THREE.ClampToEdgeWrapping
+
+  return texture
 }
 
 /* WINDOWS */
