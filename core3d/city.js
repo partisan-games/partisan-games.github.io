@@ -93,9 +93,6 @@ export function createBuildingTexture({ night = false, wallColor = night ? '#151
 const webFonts = ['Arial', 'Verdana', 'Trebuchet MS']
 const fontColors = ['red', 'blue', 'black', '#222222', 'green', 'purple']
 
-// Adds word-wrap + vertical fit. Keeps your API. Comments in English.
-// Word-wrap + bottom-aligned text block. Comments in English.
-
 export function createGraffitiTexture({
   buildingWidth,
   buildingHeight,
@@ -103,7 +100,8 @@ export function createGraffitiTexture({
   color = sample(fontColors),
   text = sample(slogans),
   fontFamily = sample(webFonts),
-  resolution = 24
+  resolution = 24,
+  image,
 } = {}) {
   const width = buildingWidth * resolution
   const height = buildingHeight * resolution
@@ -113,40 +111,41 @@ export function createGraffitiTexture({
   canvas.height = height
   const ctx = canvas.getContext('2d')
 
+  const drawText = () => {
+    const lines = String(text).split('\n')
+    const maxW = width * 0.8
+    const minFontSize = 8
+    let fontSize = Math.max(8, (width * 0.09) | 0)
+
+    for (; fontSize > minFontSize; fontSize--) {
+      ctx.font = `bold ${fontSize}px ${fontFamily}`
+      if (lines.every(l => ctx.measureText(l).width <= maxW)) break
+    }
+
+    const lineH = Math.ceil(fontSize * 1.15)
+    const x = width * 0.5
+    const marginBottom = height * 0.1
+    const totalTextHeight = lines.length * lineH
+    const y0 = height - marginBottom - totalTextHeight + lineH / 2
+
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+    ctx.fillStyle = color
+
+    for (let i = 0; i < lines.length; i++) {
+      const y = y0 + i * lineH
+      const rot = Math.random() < 0.4 ? (Math.random() * 0.1 - 0.05) : 0
+      ctx.save()
+      ctx.translate(x, y)
+      ctx.rotate(rot)
+      ctx.fillText(lines[i], 0, 0)
+      ctx.restore()
+    }
+  }
+
   ctx.fillStyle = new THREE.Color(background).getStyle()
   ctx.fillRect(0, 0, width, height)
-
-  const lines = String(text).split('\n')
-  const maxW = width * 0.8 // padding
-  const minFontSize = 8
-  let fontSize = Math.max(8, (width * 0.09) | 0)
-
-  for (; fontSize > minFontSize; fontSize--) {
-    ctx.font = `bold ${fontSize}px ${fontFamily}`
-    if (lines.every(l => ctx.measureText(l).width <= maxW)) break
-  }
-
-  const lineH = Math.ceil(fontSize * 1.15)
-  const x = width * 0.5
-
-  const marginBottom = height * 0.1 // 10% of height
-  const totalTextHeight = lines.length * lineH
-  const y0 = height - marginBottom - totalTextHeight + lineH / 2
-
-  ctx.textAlign = 'center'
-  ctx.textBaseline = 'middle'
-  ctx.fillStyle = color
-
-  for (let i = 0; i < lines.length; i++) {
-    const y = y0 + i * lineH
-    const rot = Math.random() < 0.4 ? (Math.random() * 0.1 - 0.05) : 0 // ~±0.05 rad
-    ctx.save()
-    ctx.translate(x, y)
-    ctx.rotate(rot)
-    ctx.font = `bold ${fontSize}px ${fontFamily}`
-    ctx.fillText(lines[i], 0, 0)
-    ctx.restore()
-  }
+  drawText()
 
   const texture = new THREE.CanvasTexture(canvas)
   texture.colorSpace = THREE.SRGBColorSpace
@@ -154,6 +153,18 @@ export function createGraffitiTexture({
   texture.minFilter = THREE.LinearFilter
   texture.magFilter = THREE.LinearFilter
   texture.wrapS = texture.wrapT = THREE.ClampToEdgeWrapping
+
+  if (image) {
+    const img = new Image()
+    img.crossOrigin = 'anonymous' // needed for remote images
+    img.src = '/assets/images/textures/' + image
+    img.onload = () => {
+      ctx.clearRect(0, 0, width, height)
+      ctx.drawImage(img, 0, 0, width, height)
+      drawText()
+      texture.needsUpdate = true
+    }
+  }
 
   return texture
 }
