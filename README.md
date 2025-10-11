@@ -21,8 +21,6 @@ npm start
 ### Scene dorada
 
 Bihać
-- spaliti i uništiti zgrade (nalepiti ruina tekstura)
-    - createTexturedBuilding prepraviti da dodaje teksturu na više stranica
 - da puca na miš!!!
 - probati spajanje geometrije
 - dodati nemce

@@ -100,22 +100,27 @@ export function createGraffitiTexture({
   color = sample(fontColors),
   text = sample(slogans),
   fontFamily = sample(webFonts),
-  resolution = 24,
+  resolution = 64,
   bgImage,
+  poster,
 } = {}) {
-  const width = buildingWidth * resolution
-  const height = buildingHeight * resolution
-
   const canvas = document.createElement('canvas')
-  canvas.width = width
-  canvas.height = height
+  const canvasWidth = canvas.width = buildingWidth * resolution
+  const canvasHeight = canvas.height = buildingHeight * resolution
   const ctx = canvas.getContext('2d')
+
+  const texture = new THREE.CanvasTexture(canvas)
+  texture.colorSpace = THREE.SRGBColorSpace
+  texture.generateMipmaps = false
+  texture.minFilter = THREE.LinearFilter
+  texture.magFilter = THREE.LinearFilter
+  texture.wrapS = texture.wrapT = THREE.ClampToEdgeWrapping
 
   const drawText = () => {
     const lines = String(text).split('\n')
-    const maxW = width * 0.8
+    const maxW = canvasWidth * 0.8
     const minFontSize = 8
-    let fontSize = Math.max(8, (width * 0.09) | 0)
+    let fontSize = Math.max(8, (canvasWidth * 0.09) | 0)
 
     for (; fontSize > minFontSize; fontSize--) {
       ctx.font = `bold ${fontSize}px ${fontFamily}`
@@ -123,10 +128,10 @@ export function createGraffitiTexture({
     }
 
     const lineH = Math.ceil(fontSize * 1.15)
-    const x = width * 0.5
-    const marginBottom = height * 0.1
+    const x = canvasWidth * 0.5
+    const marginBottom = canvasHeight * 0.1
     const totalTextHeight = lines.length * lineH
-    const y0 = height - marginBottom - totalTextHeight + lineH / 2
+    const y0 = canvasHeight - marginBottom - totalTextHeight + lineH / 2
 
     ctx.textAlign = 'center'
     ctx.textBaseline = 'middle'
@@ -143,26 +148,40 @@ export function createGraffitiTexture({
     }
   }
 
-  const texture = new THREE.CanvasTexture(canvas)
-  texture.colorSpace = THREE.SRGBColorSpace
-  texture.generateMipmaps = false
-  texture.minFilter = THREE.LinearFilter
-  texture.magFilter = THREE.LinearFilter
-  texture.wrapS = texture.wrapT = THREE.ClampToEdgeWrapping
+  const drawPosterAndText = () => {
+    if (!poster)
+      drawText()
+    else {
+      const img = new Image()
+      img.src = '/assets/images/textures/' + poster
+      img.onload = () => {
+        const maxWidth = canvasWidth / 3
+        const maxHeight = canvasHeight / 3
+        const scale = Math.min(maxWidth / img.width, maxHeight / img.height)
+        const imgW = img.width * scale
+        const imgH = img.height * scale
+        const x = (canvasWidth - imgW) / 2
+        const y = (canvasHeight - imgH) / 2
+        ctx.drawImage(img, x, y, imgW, imgH)
+        drawText()
+        texture.needsUpdate = true
+      }
+    }
+  }
 
   if (bgImage) {
     const img = new Image()
     img.src = '/assets/images/textures/' + bgImage
     img.onload = () => {
-      ctx.clearRect(0, 0, width, height)
-      ctx.drawImage(img, 0, 0, width, height)
-      drawText()
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight)
+      ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight)
+      drawPosterAndText()
       texture.needsUpdate = true
     }
   } else {
     ctx.fillStyle = new THREE.Color(background).getStyle()
-    ctx.fillRect(0, 0, width, height)
-    drawText()
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight)
+    drawPosterAndText()
   }
 
   return texture
@@ -264,8 +283,6 @@ export function createBuilding(params = {}) {
   return new THREE.Mesh(geometry, material)
 }
 
-// lepiti postere na sred zida, ne preko celog, pomeriti u crta grafite
-// 'posters/' + sample(posters)
 const posters = [
   '15_rujan_zadnji_rok.webp', 'iz_naroda_hlapcev.webp', 'kultura_fasizma.jpg', 'ni_zrno_zita_okupatoru.webp', 'omladina_jugoslavije.webp', 'partizanka.webp', 'petokolonas_vreba.jpg', 'RED_ARMY_IS_HERE.jpg', 'smrt_fasizmu_sloboda_narodu.webp', 'svi_na_front.webp', 'svi_u_NOVJ.webp', 'tko bude uhvacen da pljacka.jpg', 'zar_ti_jos_ne_znas_citati.webp', 'zgrabimo_za_orozje_vsi.webp', 'zivio_27_mart.webp'
 ]
@@ -278,9 +295,15 @@ function createTexturedBuilding({ width, height, depth = width, color = 0x999999
     const halfWidth = halfOnSides && (i == 0 || i == 1)
     if (files[i]) return loadTexture(path + files[i], halfWidth)
 
-    if (i === 2) return null // roof
+    if (i === 2) return null // roof no texture
 
-    if (Math.random() < graffitiChance) return createGraffitiTexture({ background: color, buildingWidth, buildingHeight, bgImage: 'terrain/concrete.jpg' })
+    if (Math.random() < graffitiChance) return createGraffitiTexture({
+      background: color,
+      buildingWidth,
+      buildingHeight,
+      bgImage: 'terrain/concrete.jpg',
+      poster: Math.random() > .66 && 'posters/' + sample(posters)
+    })
 
     if (defaultFile) return loadTexture(path + defaultFile, halfWidth)
 
