@@ -91,7 +91,7 @@ export function createBuildingTexture({ night = false, wallColor = night ? '#151
 }
 
 const webFonts = ['Arial', 'Verdana', 'Trebuchet MS']
-const fontColors = ['red', 'blue', 'black', '#222222', 'green', 'purple']
+const fontColors = ['red', 'black', '#222222', 'brown']
 
 export function createGraffitiTexture({
   buildingWidth,
@@ -101,7 +101,7 @@ export function createGraffitiTexture({
   text = sample(slogans),
   fontFamily = sample(webFonts),
   resolution = 24,
-  image,
+  bgImage,
 } = {}) {
   const width = buildingWidth * resolution
   const height = buildingHeight * resolution
@@ -143,10 +143,6 @@ export function createGraffitiTexture({
     }
   }
 
-  ctx.fillStyle = new THREE.Color(background).getStyle()
-  ctx.fillRect(0, 0, width, height)
-  drawText()
-
   const texture = new THREE.CanvasTexture(canvas)
   texture.colorSpace = THREE.SRGBColorSpace
   texture.generateMipmaps = false
@@ -154,57 +150,19 @@ export function createGraffitiTexture({
   texture.magFilter = THREE.LinearFilter
   texture.wrapS = texture.wrapT = THREE.ClampToEdgeWrapping
 
-  if (image) {
+  if (bgImage) {
     const img = new Image()
-    img.src = '/assets/images/textures/' + image
+    img.src = '/assets/images/textures/' + bgImage
     img.onload = () => {
       ctx.clearRect(0, 0, width, height)
       ctx.drawImage(img, 0, 0, width, height)
       drawText()
       texture.needsUpdate = true
     }
-  }
-
-  return texture
-}
-
-function createPosterTexture({
-  buildingWidth,
-  buildingHeight,
-  background,
-  color = sample(fontColors),
-  text = sample(slogans),
-  fontFamily = sample(webFonts),
-  resolution = 24,
-  image,
-} = {}) {
-  const width = buildingWidth * resolution
-  const height = buildingHeight * resolution
-
-  const canvas = document.createElement('canvas')
-  canvas.width = width
-  canvas.height = height
-  const ctx = canvas.getContext('2d')
-
-  ctx.fillStyle = new THREE.Color(background).getStyle()
-  ctx.fillRect(0, 0, width, height)
-
-  const texture = new THREE.CanvasTexture(canvas)
-  texture.colorSpace = THREE.SRGBColorSpace
-  texture.generateMipmaps = false
-  texture.minFilter = THREE.LinearFilter
-  texture.magFilter = THREE.LinearFilter
-  texture.wrapS = texture.wrapT = THREE.ClampToEdgeWrapping
-
-  if (image) {
-    const img = new Image()
-    img.src = '/assets/images/textures/' + image
-    img.onload = () => {
-      ctx.clearRect(0, 0, width, height)
-      ctx.drawImage(img, 0, 0, width, height)
-      drawText()
-      texture.needsUpdate = true
-    }
+  } else {
+    ctx.fillStyle = new THREE.Color(background).getStyle()
+    ctx.fillRect(0, 0, width, height)
+    drawText()
   }
 
   return texture
@@ -322,7 +280,7 @@ function createTexturedBuilding({ width, height, depth = width, color = 0x999999
 
     if (i === 2) return null // roof
 
-    if (Math.random() < graffitiChance) return createGraffitiTexture({ background: color, buildingWidth, buildingHeight })
+    if (Math.random() < graffitiChance) return createGraffitiTexture({ background: color, buildingWidth, buildingHeight, bgImage: 'terrain/concrete.jpg' })
 
     if (defaultFile) return loadTexture(path + defaultFile, halfWidth)
 
