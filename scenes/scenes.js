@@ -33,7 +33,11 @@ export const scenes = {
     path: './warplane/RatweekScena.js',
     name: 'Operation Ratweek 1944',
     icon: 'armies/britanci/avioni/bomber-lancaster.png',
-    height: 72
+    height: 72,
+    koordinate: {
+      'lat': 44.1360533,
+      'lng': 15.248928
+    }
   },
   RajlovacScena: {
     path: './rajlovac/RajlovacScena.js',

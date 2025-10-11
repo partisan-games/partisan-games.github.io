@@ -156,7 +156,48 @@ export function createGraffitiTexture({
 
   if (image) {
     const img = new Image()
-    img.crossOrigin = 'anonymous' // needed for remote images
+    img.src = '/assets/images/textures/' + image
+    img.onload = () => {
+      ctx.clearRect(0, 0, width, height)
+      ctx.drawImage(img, 0, 0, width, height)
+      drawText()
+      texture.needsUpdate = true
+    }
+  }
+
+  return texture
+}
+
+function createPosterTexture({
+  buildingWidth,
+  buildingHeight,
+  background,
+  color = sample(fontColors),
+  text = sample(slogans),
+  fontFamily = sample(webFonts),
+  resolution = 24,
+  image,
+} = {}) {
+  const width = buildingWidth * resolution
+  const height = buildingHeight * resolution
+
+  const canvas = document.createElement('canvas')
+  canvas.width = width
+  canvas.height = height
+  const ctx = canvas.getContext('2d')
+
+  ctx.fillStyle = new THREE.Color(background).getStyle()
+  ctx.fillRect(0, 0, width, height)
+
+  const texture = new THREE.CanvasTexture(canvas)
+  texture.colorSpace = THREE.SRGBColorSpace
+  texture.generateMipmaps = false
+  texture.minFilter = THREE.LinearFilter
+  texture.magFilter = THREE.LinearFilter
+  texture.wrapS = texture.wrapT = THREE.ClampToEdgeWrapping
+
+  if (image) {
+    const img = new Image()
     img.src = '/assets/images/textures/' + image
     img.onload = () => {
       ctx.clearRect(0, 0, width, height)
@@ -265,28 +306,36 @@ export function createBuilding(params = {}) {
   return new THREE.Mesh(geometry, material)
 }
 
-export function createTexturedBuilding({ width, height, depth = width, color = 0x999999, path = '/assets/images/textures/', files = [], defaultFile, halfOnSides = false, graffitiChance = 0, ...rest } = {}) {
+// lepiti postere na sred zida, ne preko celog, pomeriti u crta grafite
+// 'posters/' + sample(posters)
+const posters = [
+  '15_rujan_zadnji_rok.webp', 'iz_naroda_hlapcev.webp', 'kultura_fasizma.jpg', 'ni_zrno_zita_okupatoru.webp', 'omladina_jugoslavije.webp', 'partizanka.webp', 'petokolonas_vreba.jpg', 'RED_ARMY_IS_HERE.jpg', 'smrt_fasizmu_sloboda_narodu.webp', 'svi_na_front.webp', 'svi_u_NOVJ.webp', 'tko bude uhvacen da pljacka.jpg', 'zar_ti_jos_ne_znas_citati.webp', 'zgrabimo_za_orozje_vsi.webp', 'zivio_27_mart.webp'
+]
+
+function createTexturedBuilding({ width, height, depth = width, color = 0x999999, path = '/assets/images/textures/', files = [], defaultFile, halfOnSides = false, graffitiChance = 0, ...rest } = {}) {
   const geometry = createBuildingGeometry({ width, height, depth, ...rest })
-  const { width: buildingWidth, height: buildingHeight } = geometry.parameters // could be random values
+  const { width: buildingWidth, height: buildingHeight } = geometry.parameters
 
-  const createTexture = (half = false) => defaultFile
-    ? loadTexture(path + defaultFile, half)
-    : Math.random() < graffitiChance
-      ? createGraffitiTexture({ background: color, buildingWidth, buildingHeight })
-      : createBuildingTexture({ width: buildingWidth, height: buildingHeight })
+  const textures = Array(5).fill().map((x, i) => {
+    const halfWidth = halfOnSides && (i == 0 || i == 1)
+    if (files[i]) return loadTexture(path + files[i], halfWidth)
 
-  const textures = files.map((file, i) => file
-    ? loadTexture(path + file, halfOnSides && (i == 0 || i == 1))  // right || left
-    : null
-  )
+    if (i === 2) return null // roof
+
+    if (Math.random() < graffitiChance) return createGraffitiTexture({ background: color, buildingWidth, buildingHeight })
+
+    if (defaultFile) return loadTexture(path + defaultFile, halfWidth)
+
+    return createBuildingTexture({ width: buildingWidth, height: buildingHeight })
+  })
 
   const materials = [
-    new THREE.MeshPhongMaterial({ map: textures[0] || createTexture(halfOnSides) }),  // 0: right
-    new THREE.MeshPhongMaterial({ map: textures[1] || createTexture(halfOnSides) }),  // 1: left
-    new THREE.MeshPhongMaterial({ map: textures[2] || null, color }),                 // 2: top
-    new THREE.MeshBasicMaterial({ color }),                                           // no bottom
-    new THREE.MeshPhongMaterial({ map: textures[3] || createTexture() }),             // 3: front
-    new THREE.MeshPhongMaterial({ map: textures[4] || createTexture() }),             // 4: back
+    new THREE.MeshPhongMaterial({ map: textures[0] }),          // 0: right
+    new THREE.MeshPhongMaterial({ map: textures[1] }),          // 1: left
+    new THREE.MeshPhongMaterial({ map: textures[2], color }),   // 2: top
+    new THREE.MeshBasicMaterial({ color }),                     // no bottom
+    new THREE.MeshPhongMaterial({ map: textures[3] }),          // 3: front
+    new THREE.MeshPhongMaterial({ map: textures[4] }),          // 4: back
   ]
 
   const mesh = new THREE.Mesh(geometry, materials)
@@ -295,18 +344,9 @@ export function createTexturedBuilding({ width, height, depth = width, color = 0
   return mesh
 }
 
-// returns an array with an image at random index (for one wall) and rest empty
-const getTextures = () => {
-  const posters = [
-    '15_rujan_zadnji_rok.webp', 'iz_naroda_hlapcev.webp', 'kultura_fasizma.jpg', 'ni_zrno_zita_okupatoru.webp', 'omladina_jugoslavije.webp', 'partizanka.webp', 'petokolonas_vreba.jpg', 'RED_ARMY_IS_HERE.jpg', 'smrt_fasizmu_sloboda_narodu.webp', 'svi_na_front.webp', 'svi_u_NOVJ.webp', 'tko bude uhvacen da pljacka.jpg', 'zar_ti_jos_ne_znas_citati.webp', 'zgrabimo_za_orozje_vsi.webp', 'zivio_27_mart.webp'
-  ]
-  const ruins = ['ruin-01.jpg', 'ruin-02.jpg', 'ruin-03.jpg', 'ruin-04.jpg', 'ruin-back.jpg', 'warehouse.jpg']
-  const files = []
-  files[sample([0, 1, 3, 4])] = Math.random() > .25 ? 'buildings/' + sample(ruins) : 'posters/' + sample(posters)
-  return files
-}
+const getTexture = () => 'buildings/' + sample(['ruin-01.jpg', 'ruin-02.jpg', 'ruin-03.jpg', 'ruin-04.jpg', 'ruin-back.jpg', 'warehouse.jpg'])
 
-export const createGraffitiBuilding = param => createTexturedBuilding({ graffitiChance: 1, files: getTextures(), ...param })
+export const createGraffitiBuilding = param => createTexturedBuilding({ graffitiChance: .2, defaultFile: getTexture(), ...param })
 
 export const createWarehouse = () => createTexturedBuilding({ width: 20, height: 10, depth: 10, defaultFile: 'buildings/warehouse.jpg', files: [null, null, 'terrain/concrete.jpg'], halfOnSides: true })
 
