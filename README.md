@@ -21,7 +21,6 @@ npm start
 ### Scene dorada
 
 Bihać
-- da puca na miš!!!
 - probati spajanje geometrije
 - dodati nemce
 

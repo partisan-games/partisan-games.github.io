@@ -21,7 +21,6 @@ export default class FPSPlayer extends Player {
       useKeyboard: true,
       attackDistance,
       attackSound,
-      attackKey: 'pointer',
       ...rest,
     })
     this.mouseSensitivity = mouseSensitivity
