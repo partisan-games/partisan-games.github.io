@@ -3,7 +3,7 @@ import Scena2D from '/core/Scena2D.js'
 import Pozadina from '/core/objects/Pozadina.js'
 import Vreme from '/core/Vreme.js'
 import Bombas from './Bombas.js'
-import Bunker from './Bunker.js'
+import Bunker from '/core/objects/Bunker.js'
 import Mina from './Mina.js'
 import Mitraljezac from './Mitraljezac.js'
 

@@ -7,7 +7,7 @@ import Posada from './Posada.js'
 import TenkDesno from '../tenkici/TenkDesno.js'
 import { progresBar } from '/ui/components.js'
 import Controls, { tankRightControls } from '/ui/Controls.js'
-import Bunker from '../krupanj/Bunker.js'
+import Bunker from '/core/objects/Bunker.js'
 
 const tlo = platno.height * .75
 let aiPlayer = true
