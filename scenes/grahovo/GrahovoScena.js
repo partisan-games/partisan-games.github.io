@@ -7,6 +7,7 @@ import Posada from './Posada.js'
 import TenkDesno from '../tenkici/TenkDesno.js'
 import { progresBar } from '/ui/components.js'
 import Controls, { tankRightControls } from '/ui/Controls.js'
+import Bunker from '../krupanj/Bunker.js'
 
 const tlo = platno.height * .75
 let aiPlayer = true
@@ -17,6 +18,8 @@ export default class GrahovoScena extends Scena2D {
   }
 
   init() {
+    this.bunker = new Bunker({ x: platno.width * .75, ziv: false, z: 1 })
+    this.bunker.onload = () => this.bunker.tlo(tlo + 10)
     const zastavnik = new Zastavnik(40, tlo + 1)
     this.top = new Top({ x: 230, y: tlo - 32 })
     const posada = new Posada(110, tlo + 8)
@@ -31,7 +34,7 @@ export default class GrahovoScena extends Scena2D {
     })
     this.tenk.ciljevi.push(this.top)
     this.top.ciljevi.push(this.tenk)
-    this.add(this.tenk, this.top, strelac, posada, zastavnik)
+    this.add(this.bunker, this.tenk, this.top, strelac, posada, zastavnik)
     this.controls2UI = new Controls({ containerClass: 'bottom-right', controlKeys: tankRightControls })
   }
 

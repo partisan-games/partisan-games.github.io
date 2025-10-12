@@ -20,8 +20,15 @@ npm start
 
 ### Scene dorada
 
-GrahovoScena / Ustanak u Crnoj Gori 1941
-- dodati dinamičku pozadinu, dim, avione kako lete...
+Franjo Kluz
+- intro da prikaže scenu ne samo nebo
+- granatom razara i pali kuce?
+
+GrahovoScena
+- dodati dinamičku pozadinu:
+    - dim (prepraviti Plamen u Dim?)
+    - planina
+    - avioni lete
 
 Bombas 
 - broj prepreka da zavisi od veličine ekrana, na većim ekranima prazno
