@@ -8,8 +8,9 @@ import TenkDesno from '../tenkici/TenkDesno.js'
 import { progresBar } from '/ui/components.js'
 import Controls, { tankRightControls } from '/ui/Controls.js'
 import Bunker from '/core/objects/Bunker.js'
+import Planina from '/core/objects/Planina.js'
 
-const tlo = platno.height * .75
+const nivoTla = platno.height * .75
 let aiPlayer = true
 
 export default class GrahovoScena extends Scena2D {
@@ -19,22 +20,23 @@ export default class GrahovoScena extends Scena2D {
 
   init() {
     this.bunker = new Bunker({ x: platno.width * .75, ziv: false, z: 1 })
-    this.bunker.onload = () => this.bunker.tlo(tlo + 10)
-    const zastavnik = new Zastavnik(40, tlo + 1)
-    this.top = new Top({ x: 230, y: tlo - 32 })
-    const posada = new Posada(110, tlo + 8)
-    const strelac = new Strelac(300, tlo + 8)
+    this.bunker.onload = () => this.bunker.tlo(nivoTla + 20)
+    const zastavnik = new Zastavnik(40, nivoTla + 1)
+    this.top = new Top({ x: 230, y: nivoTla - 32 })
+    const posada = new Posada(110, nivoTla + 8)
+    const strelac = new Strelac(300, nivoTla + 8)
     this.tenk = new TenkDesno({
       src: 'armies/game-ready/m42-02.png',
       cevSlika: 'armies/game-ready/m42-02-cev.png',
-      y: tlo,
+      y: nivoTla,
       skalar: 1,
       vremePunjenjaAI: 3000,
       ai: aiPlayer
     })
     this.tenk.ciljevi.push(this.top)
     this.top.ciljevi.push(this.tenk)
-    this.add(this.bunker, this.tenk, this.top, strelac, posada, zastavnik)
+    const planina = new Planina({ nivoTla, skalar: 2, z: 2 })
+    this.add(planina, this.bunker, this.tenk, this.top, strelac, posada, zastavnik)
     this.controls2UI = new Controls({ containerClass: 'bottom-right', controlKeys: tankRightControls })
   }
 
@@ -45,7 +47,7 @@ export default class GrahovoScena extends Scena2D {
   }
 
   clear() {
-    crtaNeboZemlju(tlo, { linija: true })
+    crtaNeboZemlju(nivoTla, { linija: true })
   }
 
   update(dt, t) {

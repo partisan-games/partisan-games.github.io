@@ -23,7 +23,7 @@ export default class LivnoScena extends Scena2D {
     this.score = 0
     this.tenk = new TenkLevo({ y: nivoTla, skalar: .4, xLimit: platno.width * .9 })
 
-    const planina = new Planina(nivoTla, PARALAX_1)
+    const planina = new Planina({ nivoTla, dx: PARALAX_1 })
     const shumarak = new Shuma(nivoTla, PARALAX_1)
     const zbunovi = Array.from({ length: BROJ_ZBUNOVA }, () => new Zbun(nivoTla, PARALAX_1))
     const oblaci = Array.from({ length: BROJ_OBLAKA }, () => new Oblak(nivoTla - 100, PARALAX_1))

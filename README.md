@@ -27,7 +27,6 @@ Franjo Kluz
 GrahovoScena
 - dodati dinamičku pozadinu:
     - dim (prepraviti Plamen u Dim?)
-    - planina
     - avioni lete
 
 Bombas 
@@ -45,6 +44,9 @@ Drvar
 
 Bihać
 - dodati nemce
+
+Livno
+- dodati uvod: partizanski tenk Gruber
 
 ### Bagovi
 
