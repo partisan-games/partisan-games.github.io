@@ -20,13 +20,6 @@ npm start
 
 ### Scene dorada
 
-Bihać
-- probati spajanje geometrije
-- dodati nemce
-
-Ratweek 
-- BUG: warplane se trese
-
 Franjo Kluz
 - ukloniti uvodni ekran?
 - UI u kontrole
@@ -58,6 +51,9 @@ Neretva
 
 Drvar 
 - https://mudroljub.github.io/partisans/ uporediti
+
+Bihać
+- dodati nemce
 
 ### Bagovi
 

@@ -11,7 +11,7 @@ export const scenes = {
   },
   BihacScena: {
     path: './bihac/BihacScena.js',
-    name: 'Bihać 1942',
+    name: 'Bihaćka republika 1942',
     icon: 'ui/resistance-fighter.png',
     height: 54,
     koordinate: {
@@ -41,7 +41,7 @@ export const scenes = {
   },
   RajlovacScena: {
     path: './rajlovac/RajlovacScena.js',
-    name: 'Rajlovac 1943',
+    name: 'Napad na aerodrom Rajlovac 1943',
     icon: 'buildings/kula-01.png',
     height: 78,
     koordinate: {
@@ -51,7 +51,7 @@ export const scenes = {
   },
   TuzlaScena: {
     path: './tuzla/TuzlaScena.js',
-    name: 'Tuzla 1943',
+    name: 'Savo Mitraljezac (Bitka za Tuzlu 1943)',
     icon: 'ui/mitraljez.png',
     koordinate: {
       'lat': 44.7285887,
@@ -60,7 +60,7 @@ export const scenes = {
   },
   KrupanjScena: {
     path: './krupanj/KrupanjScena.js',
-    name: 'Krupanj 1941',
+    name: 'Žikica Jovanović (Bitka za Krupanj 1941)',
     icon: 'armies/partizani/vojnici/bombasi/partizan-bombas.gif',
     height: 52,
     koordinate: {
@@ -78,9 +78,9 @@ export const scenes = {
       'lng': 17.7455309
     },
   },
-  PrijedorScena: {
-    path: './prijedor/PrijedorScena.js',
-    name: 'Prijedor 1942',
+  DubicaScena: {
+    path: './dubica/DubicaScena.js',
+    name: 'Franjo Kluz (Napad na Dubicu 1942)',
     icon: 'armies/partizani/potez-25.png',
     koordinate: {
       'lat': 44.9828938,
@@ -159,13 +159,13 @@ export const scenes = {
       'lng': 16.38698686
     }
   },
-  JasenovacScena: {
-    path: './jasenovac/JasenovacScena.js',
-    name: 'Jasenovac 1945',
-    icon: 'items/bodljikava-zica.gif',
-    height: 28,
-    koordinate: { 'lat': 45.28028223, 'lng': 16.92837349 }
-  },
+  // JasenovacScena: {
+  //   path: './jasenovac/JasenovacScena.js',
+  //   name: 'Jasenovac 1945',
+  //   icon: 'items/bodljikava-zica.gif',
+  //   height: 28,
+  //   koordinate: { 'lat': 45.28028223, 'lng': 16.92837349 }
+  // },
   MainMenu: {
     path: './MainMenu.js',
     name: 'Main Menu'
