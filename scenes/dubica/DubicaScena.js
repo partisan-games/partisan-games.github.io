@@ -7,6 +7,7 @@ import Oblak from '/core/objects/Oblak.js'
 import Zbun from '/core/objects/Zbun.js'
 import Shuma from '/core/objects/Shuma.js'
 import Vracanje from '/core/objects/Vracanje.js'
+import { baseControls } from '/ui/Controls.js'
 
 const nivoTla = platno.height
 
@@ -27,11 +28,17 @@ const DIZAJ = 10
 const MAX_DIGNUTOST = 5555
 
 export default class DubicaScena extends Scena2D {
+  constructor(manager) {
+    super(manager, {
+      controlKeys: { ...baseControls, Space: 'Pucanje', Enter: 'Prateća' },
+    })
+  }
+
   init() {
     this.brzinaScene = 0
     this.dignutostScene = 0
 
-    this.aerodrom = new Vracanje({src: 'buildings/aerodrom.png', tlo: nivoTla, procenat: .25 })
+    this.aerodrom = new Vracanje({ src: 'buildings/aerodrom.png', tlo: nivoTla, procenat: .25 })
     this.ruina = new Vracanje({ src: 'buildings/ruina.png', tlo: nivoTla, x: -400 })
     this.player = new AvionIgrac(nivoTla)
     this.vozilo = new VoziloBocno('armies/hummel.png', { x: 150, y: nivoTla, skalar: .75, ciljevi: [this.player] })
@@ -135,14 +142,5 @@ export default class DubicaScena extends Scena2D {
     this.vozilo.patroliraj()
     this.proveriTlo()
     this.proveriSmrt()
-  }
-
-  sceneUI() {
-    return /* html */`
-      <div class='top-left'>
-        Pucanje: Space <br>
-        Prateća: Enter <br>
-      </div>
-    `
   }
 }
