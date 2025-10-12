@@ -80,7 +80,7 @@ export const scenes = {
   },
   DubicaScena: {
     path: './dubica/DubicaScena.js',
-    name: 'Franjo Kluz (Napad na Dubicu 1942)',
+    name: 'Franjo Kluz (Bosanska Dubica 1942)',
     icon: 'armies/partizani/potez-25.png',
     koordinate: {
       'lat': 44.9828938,
