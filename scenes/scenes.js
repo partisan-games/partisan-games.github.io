@@ -113,14 +113,14 @@ export const scenes = {
       'lng': 16.18390544
     }
   },
-  DurmitorScena: {
-    path: './durmitor/DurmitorScena.js',
+  GrahovoScena: {
+    path: './grahovo/GrahovoScena.js',
     name: 'Ustanak u Crnoj Gori 1941',
     icon: 'armies/partizani/artiljerija/100mm-skoda.png',
     height: 32,
     koordinate: {
-      'lat': 43.2117033,
-      'lng': 19.1144196
+      'lat': 42.651389,
+      'lng': 18.669444
     }
   },
   LivnoScena: {

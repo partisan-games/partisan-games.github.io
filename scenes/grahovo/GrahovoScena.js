@@ -11,7 +11,7 @@ import Controls, { tankRightControls } from '/ui/Controls.js'
 const tlo = platno.height * .75
 let aiPlayer = true
 
-export default class DurmitorScena extends Scena2D {
+export default class GrahovoScena extends Scena2D {
   constructor(manager) {
     super(manager, { controlKeys: { W: 'up', S: 'down', Space: 'shoot ' } })
   }

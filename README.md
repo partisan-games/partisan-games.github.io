@@ -20,7 +20,7 @@ npm start
 
 ### Scene dorada
 
-DurmitorScena / Ustanak u Crnoj Gori 1941
+GrahovoScena / Ustanak u Crnoj Gori 1941
 - dodati dinamičku pozadinu, dim, avione kako lete...
 
 Bombas 
