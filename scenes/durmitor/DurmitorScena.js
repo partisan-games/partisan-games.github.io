@@ -22,8 +22,8 @@ export default class DurmitorScena extends Scena2D {
     const posada = new Posada(110, tlo + 8)
     const strelac = new Strelac(300, tlo + 8)
     this.tenk = new TenkDesno({
-      src: 'armies/game-ready/talijanski-tenk.png',
-      cevSlika: 'armies/game-ready/talijanski-tenk-cev.png',
+      src: 'armies/game-ready/m42-02.png',
+      cevSlika: 'armies/game-ready/m42-02-cev.png',
       y: tlo,
       skalar: 1,
       vremePunjenjaAI: 3000,
