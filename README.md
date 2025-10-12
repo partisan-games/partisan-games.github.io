@@ -21,13 +21,11 @@ npm start
 ### Scene dorada
 
 Franjo Kluz
-- UI u kontrole
 - probati da tenkovi dolaze i pucaju
 - granatom razara i pali kuce?
 
 DurmitorScena / Ustanak u Crnoj Gori 1941
 - dodati dinamičku pozadinu, dim, avione kako lete...
-- italijanski tenk
 
 Bombas 
 - broj prepreka da zavisi od veličine ekrana, na većim ekranima prazno

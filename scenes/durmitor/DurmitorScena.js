@@ -21,7 +21,14 @@ export default class DurmitorScena extends Scena2D {
     this.top = new Top({ x: 230, y: tlo - 32 })
     const posada = new Posada(110, tlo + 8)
     const strelac = new Strelac(300, tlo + 8)
-    this.tenk = new TenkDesno({ y: tlo, skalar: .6, vremePunjenjaAI: 3000, ai: aiPlayer })
+    this.tenk = new TenkDesno({
+      src: 'armies/game-ready/talijanski-tenk.png',
+      cevSlika: 'armies/game-ready/talijanski-tenk-cev.png',
+      y: tlo,
+      skalar: 1,
+      vremePunjenjaAI: 3000,
+      ai: aiPlayer
+    })
     this.tenk.ciljevi.push(this.top)
     this.top.ciljevi.push(this.tenk)
     this.add(this.tenk, this.top, strelac, posada, zastavnik)
