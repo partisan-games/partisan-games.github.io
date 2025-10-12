@@ -115,7 +115,7 @@ export const scenes = {
   },
   DurmitorScena: {
     path: './durmitor/DurmitorScena.js',
-    name: 'Durmitor 1943',
+    name: 'Ustanak u Crnoj Gori 1941',
     icon: 'armies/partizani/artiljerija/100mm-skoda.png',
     height: 32,
     koordinate: {
@@ -141,7 +141,7 @@ export const scenes = {
   },
   SutjeskaScena: {
     path: './sutjeska/SutjeskaScena.js',
-    name: 'Sutjeska 1943',
+    name: 'Ranjenik na Sutjesci 1943',
     icon: 'armies/ranjeni-partizan.png',
     height: 21,
     koordinate: {

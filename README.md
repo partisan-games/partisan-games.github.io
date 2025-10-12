@@ -21,23 +21,13 @@ npm start
 ### Scene dorada
 
 Franjo Kluz
-- ukloniti uvodni ekran?
 - UI u kontrole
 - probati da tenkovi dolaze i pucaju
 - granatom razara i pali kuce?
-- ubaciti bonuse, da uhvatis novi zivot, novo oruzje, bombu, pojacanje, brzinu...
 
-Bekstvo iz Jasenovca
-- Tenk patrolira nasumično levo desno ispred žice.
-- Nikad ne ide do kraja, uvek se okrene u drugo vreme.
-- Ranjeni i isprebijani lik (četnik, partizan, Jevrej, nebitno, zatvorenik) puže.
-- Mora da pređe ulicu a da ga ne zgazi tenk.
-- Možda scena noć sa reflektorima ili rasvetom?
-- izbegava mine, spasava decu/ranjenike
-- spojiti sa Sutjeskom ili dodati intro
-
-Kalinovik
+DurmitorScena / Ustanak u Crnoj Gori 1941
 - dodati dinamičku pozadinu, dim, avione kako lete...
+- italijanski tenk
 
 Bombas 
 - broj prepreka da zavisi od veličine ekrana, na većim ekranima prazno
@@ -62,6 +52,7 @@ Bihać
 
 ### Završno
 
+- prevod na engleski
 - prevesti nazive klasa na engleski
 - proveriti zaostale TODO poruke
 - prebaciti potisak na predmet?
