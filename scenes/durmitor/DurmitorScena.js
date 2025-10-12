@@ -48,7 +48,7 @@ export default class DurmitorScena extends Scena2D {
   update(dt, t) {
     super.update(dt, t)
     if (this.top.mrtav) this.defeat('Partizanski top je uništen.')
-    if (this.tenk.mrtav) this.victory('Nemački tenk je uništen!')
+    if (this.tenk.mrtav) this.victory('Talijanski tenk je uništen!')
   }
 
   sceneUI() {
