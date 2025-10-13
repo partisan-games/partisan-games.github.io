@@ -25,8 +25,7 @@ Franjo Kluz
 - granatom razara i pali kuce?
 
 GrahovoScena
-- dodati dinamičku pozadinu:
-    - avioni lete
+- avioni da lete sinusoidno?
 
 Bombas 
 - broj prepreka da zavisi od veličine ekrana, na većim ekranima prazno
