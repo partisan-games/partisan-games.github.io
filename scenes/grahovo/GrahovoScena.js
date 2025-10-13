@@ -19,7 +19,7 @@ export default class GrahovoScena extends Scena2D {
   }
 
   init() {
-    this.bunker = new Bunker({ x: platno.width * .75, ziv: false, z: 1 })
+    this.bunker = new Bunker({ x: platno.width * .75, ziv: false, zadimljen: true, z: 1 })
     this.bunker.onload = () => this.bunker.tlo(nivoTla + 20)
     const zastavnik = new Zastavnik(40, nivoTla + 1)
     this.top = new Top({ x: 230, y: nivoTla - 32 })

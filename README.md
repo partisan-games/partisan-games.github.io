@@ -26,7 +26,6 @@ Franjo Kluz
 
 GrahovoScena
 - dodati dinamičku pozadinu:
-    - dim (prepraviti Plamen u Dim?)
     - avioni lete
 
 Bombas 
@@ -51,6 +50,7 @@ Livno
 ### Bagovi
 
 - popraviti visoku rezoluciju (renderovati sniženu ako je ekran prevelik?)
+- na 4k ekranima ai tenk ne dobacuje
 - FPS restart igrač ne ubija
 
 ### Završno

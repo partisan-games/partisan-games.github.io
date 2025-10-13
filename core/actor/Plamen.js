@@ -5,6 +5,20 @@ const velicina = 20
 const zivotniVek = 1.25
 const cesticaPoSekundi = 200
 
+const getFlameColor = vreme => {
+  const red = 260 - vreme * 2
+  const green = vreme * 2 + 50
+  const blue = vreme * 2
+  const opacity = (zivotniVek - vreme) / zivotniVek * 0.4
+  return `rgba(${red}, ${green}, ${blue}, ${opacity})`
+}
+
+const getSmokeColor = vreme => {
+  const siva = 100 + vreme * 30
+  const opacity = (zivotniVek - vreme) / zivotniVek * 0.3
+  return `rgba(${siva}, ${siva}, ${siva}, ${opacity})`
+}
+
 class Iskra {
   constructor(x, y, dx, dy) {
     this.x = x
@@ -20,12 +34,8 @@ class Iskra {
     this.vreme += dt
   }
 
-  render() {
-    const red = 260 - this.vreme * 2
-    const green = this.vreme * 2 + 50
-    const blue = this.vreme * 2
-    const opacity = (zivotniVek - this.vreme) / zivotniVek * 0.4
-    ctx.fillStyle = `rgba(${red}, ${green}, ${blue}, ${opacity})`
+  render(praviDim) {
+    ctx.fillStyle = praviDim ? getSmokeColor(this.vreme) : getFlameColor(this.vreme)
     ctx.beginPath()
     const radius = (zivotniVek - this.vreme) / zivotniVek * velicina / 2 + velicina / 2
     ctx.arc(this.x, this.y, radius, 0, 2 * Math.PI)
@@ -55,9 +65,9 @@ export default class Plamen {
     this.iskre = this.iskre.filter(iskra => iskra.vreme < zivotniVek)
   }
 
-  render() {
-    ctx.globalCompositeOperation = 'lighter'
-    this.iskre.forEach(iskra => iskra.render())
+  render(praviDim = false) {
+    if (!praviDim) ctx.globalCompositeOperation = 'lighter'
+    this.iskre.forEach(iskra => iskra.render(praviDim))
     ctx.globalCompositeOperation = 'source-over'
   }
 }

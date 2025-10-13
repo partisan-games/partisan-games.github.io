@@ -70,7 +70,7 @@ export default class Renderer2D {
       this.crtaSliku(predmet)
 
     ctx.restore()
-    if (predmet.zapaljen) predmet.plamen.render()
+    if (predmet.zapaljen) predmet.plamen.render(predmet.zadimljen)
   }
 
   crtaPredmete(predmeti) {
