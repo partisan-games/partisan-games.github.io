@@ -14,7 +14,7 @@ const getFlameColor = vreme => {
 }
 
 const getSmokeColor = vreme => {
-  const siva = 100 + vreme * 30
+  const siva = 50
   const opacity = (zivotniVek - vreme) / zivotniVek * 0.3
   return `rgba(${siva}, ${siva}, ${siva}, ${opacity})`
 }
