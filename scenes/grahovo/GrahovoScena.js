@@ -35,8 +35,8 @@ export default class GrahovoScena extends Scena2D {
     })
     this.tenk.ciljevi.push(this.top)
     this.top.ciljevi.push(this.tenk)
-    const planina = new Planina({ nivoTla, skalar: 2, z: 2 })
-    this.add(planina, this.bunker, this.tenk, this.top, strelac, posada, zastavnik)
+    const planine = new Array(3).fill().map(() => new Planina({ nivoTla, z: 2, skalar: 2 }))
+    this.add(...planine, this.bunker, this.tenk, this.top, strelac, posada, zastavnik)
     this.controls2UI = new Controls({ containerClass: 'bottom-right', controlKeys: tankRightControls })
   }
 
