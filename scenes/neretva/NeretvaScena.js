@@ -3,25 +3,28 @@ import Scena2D from '/core/Scena2D.js'
 import Pozadina from '/core/objects/Pozadina.js'
 import { progresBar } from '/ui/components.js'
 import Svabo from './Svabo.js'
+import Vreme from '/core/Vreme.js'
 
 const DALJI_Y = 150
 const BLIZI_Y = 300
 
 export default class NeretvaScena extends Scena2D {
   constructor(manager) {
-    super(manager, { intro: 'Zadrži Nemce po svaku cenu, dok ranjenici ne budu na bezbednom.' })
+    super(manager, { intro: 'Zadrži Nemce po svaku cenu, dok ranjenici ne budu na bezbednom.', showControls: false })
   }
 
   init() {
     this.pogoci = 0
     this.rekord = 0
     this.energija = 100
+    this.preostaloVreme = 120
     this.ubrzano = false
     this.bliziRovovi = this.praviSvabe(10, BLIZI_Y, { skalar: 1, ucestalost: 0.03, callback: this.nanesiStetu.bind(this) })
     this.daljiRovovi = this.praviSvabe(12, DALJI_Y, { skalar: .5, ucestalost: 0.02, callback: this.nanesiStetu.bind(this) })
     this.sveSvabe = [...this.bliziRovovi, ...this.daljiRovovi]
     this.add(...this.sveSvabe)
     this.pozadina = new Pozadina('textures/terrain/suva-trava.jpg')
+    this.vreme = new Vreme()
     this.ucitajRekord()
     mish.dodajNishan()
   }
@@ -57,9 +60,7 @@ export default class NeretvaScena extends Scena2D {
       }
   }
 
-  proveriKraj() {
-    if (this.energija > 0) return
-
+  smrt() {
     let poruka = 'Hrabro si pao. '
     if (this.pogoci > this.rekord) {
       poruka += `Ubio si ${this.pogoci} okupatora. To je novi rekord!`
@@ -78,21 +79,27 @@ export default class NeretvaScena extends Scena2D {
     mish.ukloniNishan()
   }
 
-  update(dt, t) {
+  update(dt) {
     if (this.energija <= 0) return
 
-    super.update(dt, t)
-    if (!this.ubrzano && t >= 30) {
+    if (Math.ceil(this.preostaloVreme) < 1)
+      return this.victory('Odbranio si položaj, ranjenici su spašeni.')
+
+    this.preostaloVreme -= dt
+
+    super.update(dt)
+    if (!this.ubrzano && this.preostaloVreme < 60) {
       this.sveSvabe.forEach(svabo => svabo.ubrzaj(2))
       this.ubrzano = true
     }
-    this.proveriKraj()
+    if (this.energija <= 0) this.smrt()
   }
 
   sceneUI() {
     const energija = Math.round(this.energija)
     return /* html */`
     <div class="top-left">
+      Preostalo vreme: ${Math.ceil(this.preostaloVreme)}<br>
       Pogoci: ${this.pogoci} <br>
       Energija 
       ${progresBar(energija)}

@@ -21,7 +21,6 @@ npm start
 ### Scene dorada
 
 Neretva
-- dodati vremensku pobedu, ali da ne prekida partiju ranije (pobeda: Odbranio si položaj, ranjenici su spašeni.)
 - hercegovina 1942, četnici iskaču iza kamenja, pa zajedno sa italijanima
 
 1944
@@ -29,8 +28,9 @@ Neretva
 
 Drvar 
 - https://mudroljub.github.io/partisans/ uporediti
+- da bude animacija, auto rotate / zoom
 
-Bihać
+Bihac
 - dodati nemce
 
 Livno
