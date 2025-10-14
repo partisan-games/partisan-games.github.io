@@ -269,7 +269,7 @@ export default class Predmet {
   }
 
   azurirajPlamen(dt) {
-    if (!this.zapaljiv) return
+    if (!this.zapaljen) return
 
     this.plamen.x = this.x
     this.plamen.y = this.y

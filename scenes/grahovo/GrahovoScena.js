@@ -9,7 +9,7 @@ import { progresBar } from '/ui/components.js'
 import Controls, { tankRightControls } from '/ui/Controls.js'
 import Bunker from '/core/objects/Bunker.js'
 import Planina from '/core/objects/Planina.js'
-import Vracanje from '/core/objects/Vracanje.js'
+import Avion from '/core/objects/Avion.js'
 
 const nivoTla = platno.height * .75
 let aiPlayer = true
@@ -35,10 +35,10 @@ export default class GrahovoScena extends Scena2D {
       ai: aiPlayer
     })
     this.tenk.ciljevi.push(this.top)
-    this.top.ciljevi.push(this.tenk)
     const planine = new Array(3).fill().map(() => new Planina({ nivoTla, z: 2, skalar: 2 }))
-    const avion = new Vracanje({ src: 'armies/talijani/avioni/fiat-cr42.png', y: platno.height * .4, skalar: 1, zapaljiv: true, brzina: -240 })
-    const avion2 = new Vracanje({ src: 'armies/talijani/avioni/imam-ro57.png', y: platno.height * .2, skalar: 0.66, zapaljiv: true, brzina: -320 })
+    const avion = new Avion({ src: 'armies/talijani/avioni/fiat-cr42.png', y: platno.height * .4, skalar: .85, brzina: -240 })
+    const avion2 = new Avion({ src: 'armies/talijani/avioni/imam-ro57.png', y: platno.height * .2, skalar: 0.66, brzina: -320 })
+    this.top.ciljevi.push(this.tenk, avion, avion2)
     this.add(...planine, avion, avion2, this.bunker, this.tenk, this.top, strelac, posada, zastavnik)
     this.controls2UI = new Controls({ containerClass: 'bottom-right', controlKeys: tankRightControls })
   }

@@ -3,7 +3,7 @@ import Vreme from '/core/Vreme.js'
 import platno from '/core/io/platno.js'
 
 export default class Vracanje extends Predmet {
-  constructor({ src, tlo, procenat = .25, x = Math.random() * platno.width * 2, callback, ...rest } = {}) {
+  constructor({ src, tlo, procenat = .25, x = Math.random() * platno.width + platno.width, callback, ...rest } = {}) {
     super(src, { x, ...rest })
     this.vreme = new Vreme()
     this.procenat = procenat
