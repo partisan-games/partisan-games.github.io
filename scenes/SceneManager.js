@@ -16,7 +16,9 @@ class SceneManager {
   handleIntro() {
     if (this.scene.ui.intro) {
       this.scene.clear()
-      this.scene.render()
+      this.scene.slikeUcitane().then(() => {
+        this.scene.render()
+      })
       this.scene.ui.renderStartScreen()
     } else this.scene.start()
   }

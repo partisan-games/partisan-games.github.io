@@ -71,6 +71,14 @@ export default class Scena {
       this.pause()
   }
 
+  slikeUcitane() {
+    const obecanja = this.predmeti.map(({ slika }) => new Promise(resolve => {
+      if (slika.complete) resolve(slika)
+      else slika.addEventListener('load', () => resolve(slika))
+    }))
+    return Promise.all(obecanja)
+  }
+
   /* LOOP */
 
   start() {

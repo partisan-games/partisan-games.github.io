@@ -20,10 +20,6 @@ npm start
 
 ### Scene dorada
 
-Franjo Kluz
-- intro da prikaže scenu ne samo nebo
-- granatom razara i pali kuce?
-
 Bombas 
 - broj prepreka da zavisi od veličine ekrana, na većim ekranima prazno
 
@@ -45,6 +41,7 @@ Livno
 
 ### Bagovi
 
+- glavni meni vozi loop: crtaPredmete
 - popraviti visoku rezoluciju (renderovati sniženu ako je ekran prevelik?)
 - na 4k ekranima ai tenk ne dobacuje
 - FPS restart igrač ne ubija

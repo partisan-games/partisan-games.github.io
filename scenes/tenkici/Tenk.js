@@ -24,6 +24,7 @@ export default class Tenk extends Predmet {
     this.tenkDesno = tenkDesno
     this.vremePunjenjaAI = vremePunjenjaAI
     this.cev = new Predmet(cevSlika, { skalar })
+    this.cev.onload = () => this.azurirajCev()
     this.vreme = new Vreme()
     this.potisak = 25
     this.meci = []
