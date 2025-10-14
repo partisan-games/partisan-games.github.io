@@ -20,9 +20,6 @@ npm start
 
 ### Scene dorada
 
-Bombas 
-- broj prepreka da zavisi od veličine ekrana, na većim ekranima prazno
-
 Neretva
 - dodati vremensku pobedu, ali da ne prekida partiju ranije (pobeda: Odbranio si položaj, ranjenici su spašeni.)
 - hercegovina 1942, četnici iskaču iza kamenja, pa zajedno sa italijanima
@@ -57,6 +54,7 @@ UI
 - refaktorisati da prozori budu DOM elementi, a samo sceneUI u render loop?
 - dodati komande i ciljeve svuda, možda i izveštaj
 - prozor premali na prevelikim ekranima?
+- probati tač skrin
 
 Profil 
 - dodati profil korisnika

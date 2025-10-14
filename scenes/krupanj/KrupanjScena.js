@@ -1,3 +1,4 @@
+import platno from '/core/io/platno.js'
 import { getRandomCoords, nadjiNajdaljeTacke } from '/core/utils.js'
 import Scena2D from '/core/Scena2D.js'
 import Pozadina from '/core/objects/Pozadina.js'
@@ -8,13 +9,14 @@ import Mina from './Mina.js'
 import Mitraljezac from './Mitraljezac.js'
 
 const ZADATO_VREME = 30
-const BROJ_PREPREKA = 20
+const fieldSize = 100
+const BROJ_PREPREKA = (platno.width / fieldSize) * (platno.height / fieldSize) / 4
 
 export default class KrupanjScena extends Scena2D {
   init() {
     this.vreme = new Vreme()
     this.pozadina = new Pozadina('textures/terrain/beton.gif')
-    const pozicije = getRandomCoords({ n: BROJ_PREPREKA + 2, fieldSize: 100, margin: 40 })
+    const pozicije = getRandomCoords({ n: BROJ_PREPREKA, fieldSize, margin: 40 })
     const najdaljeTacke = nadjiNajdaljeTacke(pozicije)
 
     this.player = new Bombas(najdaljeTacke[0])
