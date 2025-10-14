@@ -24,9 +24,6 @@ Franjo Kluz
 - intro da prikaže scenu ne samo nebo
 - granatom razara i pali kuce?
 
-GrahovoScena
-- avioni da lete sinusoidno?
-
 Bombas 
 - broj prepreka da zavisi od veličine ekrana, na većim ekranima prazno
 
