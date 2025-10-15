@@ -47,18 +47,14 @@ export default class Renderer2D {
       ctx.shadowColor = 'rgba(0, 0, 0, 0.5)'
       ctx.shadowOffsetX = 10
       ctx.shadowOffsetY = 10
-    } else {
-      ctx.shadowColor = 'rgba(0, 0, 0, 0)'
-      ctx.shadowOffsetX = 0
-      ctx.shadowOffsetY = 0
     }
   }
 
   crtaPredmet(predmet) {
     if (!predmet.prikazan) return
-    this.dodajSenku(predmet)
 
     ctx.save()
+    this.dodajSenku(predmet)
     ctx.translate(predmet.x, predmet.y)
     ctx.rotate(predmet.ugao)
     ctx.scale(predmet.odrazY, predmet.odrazX)

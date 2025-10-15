@@ -20,11 +20,8 @@ npm start
 
 ### Scene dorada
 
-Neretva
-- hercegovina 1942, četnici iskaču iza kamenja, pa zajedno sa italijanima
-
 1944
-- smisliti pobedu
+- ukloniti neprijatelje nakon pobede
 
 Drvar 
 - https://mudroljub.github.io/partisans/ uporediti

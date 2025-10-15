@@ -5,12 +5,14 @@ import PokretnaPozadina from './PokretnaPozadina.js'
 import Pokretno from './Pokretno.js'
 import Oblak from './Oblak.js'
 import Neprijatelj from './Neprijatelj.js'
+import Baza from './Baza.js'
 
 const brojOblaka = 3
 const brzina = 150
 
 export default class VisScena extends Scena2D {
   init() {
+    this.preostaloVreme = 5
     this.oblaci = Array.from({ length: brojOblaka }, () => new Oblak(brzina))
     this.ostrvo = new Pokretno('nature/ostrvo.gif', { potisak: brzina, skalar: 2 })
     this.zdravlje = new Pokretno('items/zdravlje.png', { potisak: brzina, skalar: .66, faktorY: 10, senka: true })
@@ -23,8 +25,8 @@ export default class VisScena extends Scena2D {
     ]
     this.player.ciljevi = this.neprijatelji
     this.neprijatelji.forEach(neprijatelj => neprijatelj.ciljevi.push(this.player))
-    const pozadina = new PokretnaPozadina(brzina, platno.width)
-    this.add(pozadina, this.zdravlje, this.ostrvo, ...this.neprijatelji, this.player, ...this.oblaci)
+    const okean = new PokretnaPozadina(brzina, platno.width)
+    this.add(okean, this.zdravlje, this.ostrvo, ...this.neprijatelji, this.player, ...this.oblaci)
   }
 
   proveriSudare() {
@@ -45,7 +47,18 @@ export default class VisScena extends Scena2D {
   update(dt, t) {
     super.update(dt, t)
     this.proveriSudare()
+
     if (this.player.zivoti <= 0) this.defeat()
+
+    if (Math.ceil(this.preostaloVreme) < 1)
+      if (!this.baza) {
+        this.baza = new Baza({ brzina })
+        this.add(this.baza)
+        this.remove(this.ostrvo)
+        this.victory()
+      }
+
+    this.preostaloVreme -= dt
   }
 
   sceneUI() {

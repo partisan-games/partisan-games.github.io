@@ -33,6 +33,10 @@ export default class Scena {
     this.predmeti.push(...predmeti)
   }
 
+  remove(...predmeti) {
+    this.predmeti = this.predmeti.filter(p => !predmeti.includes(p))
+  }
+
   /* VELIČINA */
 
   get sirina() {

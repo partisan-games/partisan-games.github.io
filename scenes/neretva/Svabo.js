@@ -17,8 +17,8 @@ export default class Svabo extends Predmet {
     this.stoji = false
     this.vreme = new Vreme()
     this.vremeNisanjenja = 2.5
-    this.slikaGore = '/assets/images/armies/nemac-rov.gif'
-    this.slikaDole = '/assets/images/armies/rov-prazan.gif'
+    this.slikaGore = 'armies/nemac-rov.gif'
+    this.slikaDole = 'armies/rov-prazan.gif'
   }
 
   povremenoUstaje(dt) {
@@ -29,7 +29,7 @@ export default class Svabo extends Predmet {
   stav(bul) {
     this.stoji = bul
     const slika = bul ? this.slikaGore : this.slikaDole
-    this.zameniSliku(slika)
+    this.postaviSliku(slika)
     if (bul) this.vreme.reset()
   }
 

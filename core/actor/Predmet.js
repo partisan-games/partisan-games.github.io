@@ -11,7 +11,7 @@ export default class Predmet {
 
   constructor(src, {
     sirina, visina, x = 200, y = 200, z = 0, skalar = 1, brzina = 0, zapaljiv = false, ishodiste = ishodista.centar,
-    odrazY = 1, odrazX = 1, scaleX = 1, scaleY = 1, senka = false, debug = false, ziv = true, zadimljen = false
+    odrazY = 1, odrazX = 1, scaleX = 1, scaleY = 1, senka = false, debug = false, ziv = true, zadimljen = false, vidljiv = true
   } = {}) {
     this.polozaj = new Vector(x, y, z)
     if (src) this.ucitajSliku(src, sirina, visina, skalar)
@@ -30,7 +30,7 @@ export default class Predmet {
     this.debug = debug
     this.ziv = ziv
     this.zadimljen = zadimljen
-    this.vidljiv = true
+    this.vidljiv = vidljiv
     this.oznake = new Set()
     this.predmeti = []
   }
@@ -43,13 +43,13 @@ export default class Predmet {
       this.dodeliVelicinu(sirina, visina, skalar)
       this.onload()
     }
-    this.slika.src = '/assets/images/' + src
+    this.postaviSliku(src)
   }
 
   onload() {} // za naslednike
 
-  zameniSliku(src) {
-    this.slika.src = src
+  postaviSliku(src) {
+    this.slika.src = '/assets/images/' + src
   }
 
   /* VELICINA */
