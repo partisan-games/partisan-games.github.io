@@ -21,7 +21,7 @@ npm start
 ### Scene dorada
 
 1944
-- ukloniti neprijatelje nakon pobede
+- ukloniti neprijatelje nakon pobede (da se više ne vraćaju)
 
 Drvar 
 - https://mudroljub.github.io/partisans/ uporediti

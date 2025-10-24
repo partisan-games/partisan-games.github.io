@@ -9,10 +9,11 @@ import Baza from './Baza.js'
 
 const brojOblaka = 3
 const brzina = 150
+const LANDING_TIME = 3000
 
 export default class VisScena extends Scena2D {
   init() {
-    this.preostaloVreme = 5
+    this.preostaloVreme = 60
     this.oblaci = Array.from({ length: brojOblaka }, () => new Oblak(brzina))
     this.ostrvo = new Pokretno('nature/ostrvo.gif', { potisak: brzina, skalar: 2 })
     this.zdravlje = new Pokretno('items/zdravlje.png', { potisak: brzina, skalar: .66, faktorY: 10, senka: true })
@@ -44,19 +45,27 @@ export default class VisScena extends Scena2D {
     })
   }
 
+  landToBase() {
+    this.baza = new Baza({ brzina })
+    this.add(this.baza)
+    this.neprijatelji.forEach(neprijatelj => {
+      neprijatelj.umri()
+      setTimeout(() => this.remove(neprijatelj), LANDING_TIME * .5)
+    })
+    setTimeout(() => this.victory(), LANDING_TIME)
+  }
+
   update(dt, t) {
     super.update(dt, t)
     this.proveriSudare()
 
     if (this.player.zivoti <= 0) this.defeat()
 
-    if (Math.ceil(this.preostaloVreme) < 1)
-      if (!this.baza) {
-        this.baza = new Baza({ brzina })
-        this.add(this.baza)
-        this.remove(this.ostrvo)
-        this.victory()
-      }
+    if (this.preostaloVreme < 5)
+      [this.ostrvo, this.zdravlje].forEach(predmet => this.remove(predmet))
+
+    if (this.preostaloVreme < 1 && !this.baza)
+      this.landToBase()
 
     this.preostaloVreme -= dt
   }
