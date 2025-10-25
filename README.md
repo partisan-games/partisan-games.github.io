@@ -20,12 +20,9 @@ npm start
 
 ### Scene dorada
 
-1944
-- ukloniti neprijatelje nakon pobede (da se više ne vraćaju)
-
 Drvar 
 - https://mudroljub.github.io/partisans/ uporediti
-- da bude animacija, auto rotate / zoom
+- da bude animacija, auto rotate / zoom (ne može zbog renderera)
 
 Bihac
 - dodati nemce

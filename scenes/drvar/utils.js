@@ -12,8 +12,7 @@ export function praviPanoramu(r = 300) {
     map: texture,
     side: THREE.BackSide,
     alphaTest: .5,
-    color: 0x000000,
+    color: 0x555555,
   })
-  const valjak = new THREE.Mesh(geometry, material)
-  return valjak
+  return new THREE.Mesh(geometry, material)
 }

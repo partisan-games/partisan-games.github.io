@@ -14,7 +14,7 @@ export default class DrvarScena extends Scena3D {
   }
 
   init() {
-    this.addMesh(createGround())
+    this.addMesh(createGround({ color: 0x407138 }))
     elements.forEach(el => {
       for (let i = 0; i < el.number; ++i)
         this.dodajSprite(el, i)
@@ -30,6 +30,7 @@ export default class DrvarScena extends Scena3D {
     this.partizani = []
     this.eksplozija = new Sprite('assets/images/sprites/efekti/eksplozija-01.png', 8, 4)
     this.addMesh(this.eksplozija.mesh)
+    this.bojaPozadine = '#403'
   }
 
   dodajSprite(el, i) {
