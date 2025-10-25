@@ -11,7 +11,7 @@ export const scenes = {
   },
   BihacScena: {
     path: './bihac/BihacScena.js',
-    name: 'Bihaćka republika 1942',
+    name: 'Bihać 1942 (demo)',
     icon: 'ui/resistance-fighter.png',
     height: 54,
     koordinate: {
@@ -151,7 +151,7 @@ export const scenes = {
   },
   DrvarScena: {
     path: './drvar/DrvarScena.js',
-    name: 'Drvar 1944',
+    name: 'Drvar 1944 (animacija)',
     icon: 'armies/nemci/padobranci/padobranac-01.png',
     height: 90,
     koordinate: {

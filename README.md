@@ -18,14 +18,6 @@ npm start
 
 ## TODO
 
-### Scene dorada
-
-Bihac
-- dodati nemce
-
-Livno
-- dodati uvod: partizanski tenk Gruber
-
 ### Bagovi
 
 - glavni meni vozi loop: crtaPredmete
