@@ -20,10 +20,6 @@ npm start
 
 ### Scene dorada
 
-Drvar 
-- https://mudroljub.github.io/partisans/ uporediti
-- da bude animacija, auto rotate / zoom (ne može zbog renderera)
-
 Bihac
 - dodati nemce
 

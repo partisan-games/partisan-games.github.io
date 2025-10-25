@@ -31,6 +31,7 @@ export default class DrvarScena extends Scena3D {
     this.eksplozija = new Sprite('assets/images/sprites/efekti/eksplozija-01.png', 8, 4)
     this.addMesh(this.eksplozija.mesh)
     this.bojaPozadine = '#403'
+    document.body.style.filter = 'sepia(0.3)'
   }
 
   dodajSprite(el, i) {
@@ -55,6 +56,11 @@ export default class DrvarScena extends Scena3D {
 
       if (el.type) this[el.type].push(mesh)
     })
+  }
+
+  end() {
+    super.end()
+    document.body.style.filter = ''
   }
 
   update(dt) {
