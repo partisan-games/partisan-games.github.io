@@ -18,24 +18,19 @@ npm start
 
 ## TODO
 
-### Bagovi
+### Popraviti visoku rezoluciju
 
-- glavni meni vozi loop: crtaPredmete
-- popraviti visoku rezoluciju (renderovati sniženu ako je ekran prevelik?)
+- skalirati predmete ili renderovati nižu rezoluciju ako je ekran prevelik?
 - na 4k ekranima ai tenk ne dobacuje
-- FPS restart igrač ne ubija
-
+- UI prozor premali na prevelikim ekranima?
+ 
 ### Završno
 
 - prevod na engleski
-- prevesti nazive klasa na engleski
-- proveriti zaostale TODO poruke
-- prebaciti potisak na predmet?
 
 UI
 - refaktorisati da prozori budu DOM elementi, a samo sceneUI u render loop?
 - dodati komande i ciljeve svuda, možda i izveštaj
-- prozor premali na prevelikim ekranima?
 - probati tač skrin
 
 Profil 
@@ -56,6 +51,10 @@ Profil
 npm install -g polymer-bundler
 polymer-bundler --inline-scripts ulaz.html > izlaz.html
 ```
+
+### Bagovi za kasnije
+
+- FPS restart igrač ne ubija
 
 ### Ideje za kasnije
 
@@ -93,4 +92,3 @@ Refaktor
 ## Credits
 
 - [JuniorGeneral](https://www.juniorgeneral.org/) - pixel art soldiers and ideas 
-

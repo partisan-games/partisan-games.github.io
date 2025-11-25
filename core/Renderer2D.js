@@ -10,7 +10,7 @@ export default class Renderer2D {
     if (Renderer2D.instance) return Renderer2D.instance
     Renderer2D.instance = this
 
-    this.kameraX = this.kameraY = 0 // TODO: integriši sa kamerom
+    this.kameraX = this.kameraY = 0
   }
 
   clear({ pozadina, bojaPozadine } = {}) {

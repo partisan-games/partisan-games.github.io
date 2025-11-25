@@ -22,7 +22,7 @@ export default class IdleState extends State {
       this.actor.setState('walk')
 
     if (this.input.strafeLeft || this.input.strafeRight)
-      this.actor.setState('walk') // TODO: strafe state?
+      this.actor.setState('walk')
 
     if (this.actor.inAir)
       this.actor.setState('fall')

@@ -1,7 +1,7 @@
 import Joystick from './Joystick.js'
 import Keyboard from './Keyboard.js'
 
-const isTouchScreen = 'ontouchstart' in window // TODO: isMobile
+const isTouchScreen = 'ontouchstart' in window
 
 /**
  * Interface for all user inputs
