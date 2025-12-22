@@ -76,10 +76,12 @@ export default class Scena {
   }
 
   slikeUcitane() {
-    const obecanja = this.predmeti.map(({ slika }) => new Promise(resolve => {
-      if (slika.complete) resolve(slika)
-      else slika.addEventListener('load', () => resolve(slika))
-    }))
+    const obecanja = this.predmeti
+      .filter(({ slika }) => slika)
+      .map(({ slika }) => new Promise(resolve => {
+        if (slika.complete) resolve(slika)
+        else slika.addEventListener('load', () => resolve(slika))
+      }))
     return Promise.all(obecanja)
   }
 
