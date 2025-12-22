@@ -3,6 +3,9 @@ import platno, { ctx } from '/core/io/platno.js'
 import mish from '/core/io/mish.js'
 import Vreme from '/core/Vreme.js'
 import { randomInRange } from '/core/utils.js'
+import config from '/config.js'
+
+const rafal = new Audio('/assets/sounds/rafal.mp3')
 
 export default class Okupator extends Sprite {
   constructor({ callback } = {}) {
@@ -29,6 +32,8 @@ export default class Okupator extends Sprite {
   pucaj(dt) {
     this.dodeliAnimaciju('nadole', false)
     this.stani()
+    rafal.volume = randomInRange(config.volume * 0.5, config.volume * 1.25)
+    rafal.play()
     this.pripucao = true
     if (this.callback) this.callback(dt)
   }
