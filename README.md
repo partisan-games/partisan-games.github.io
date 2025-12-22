@@ -18,6 +18,9 @@ npm start
 
 ## TODO
 
+- BUG Sutjeska: Uncaught (in promise) TypeError: can't access property "complete", slika is undefined
+- Kraljevo: zvuci su iritantni
+
 ### Završno
 
 - prevod na engleski

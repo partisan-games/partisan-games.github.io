@@ -2,9 +2,9 @@ import Predmet from '/core/actor/Predmet.js'
 import Vreme from '/core/Vreme.js'
 import mish from '/core/io/mish.js'
 import config from '/config.js'
+import { randomInRange } from '/core/utils.js'
 
 const rafal = new Audio('/assets/sounds/rafal.mp3')
-rafal.volume = config.volume
 
 export default class Svabo extends Predmet {
 
@@ -12,6 +12,7 @@ export default class Svabo extends Predmet {
     super ('armies/rov-prazan.gif', { skalar })
     this.ucestalost = ucestalost
     this.callback = callback
+    rafal.volume = randomInRange(config.volume * 0.5, config.volume * 1.25)
     this.init()
   }
 
