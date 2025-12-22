@@ -1,8 +1,10 @@
 import Predmet from '/core/actor/Predmet.js'
 import Vreme from '/core/Vreme.js'
 import mish from '/core/io/mish.js'
+import config from '/config.js'
 
 const rafal = new Audio('/assets/sounds/rafal.mp3')
+rafal.volume = config.volume
 
 export default class Svabo extends Predmet {
 
