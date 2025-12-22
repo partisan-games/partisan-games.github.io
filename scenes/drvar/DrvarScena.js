@@ -20,6 +20,7 @@ export default class DrvarScena extends Scena3D {
         this.dodajSprite(el, i)
     })
     this.addMesh(praviPanoramu())
+    this.camera.position.z += 50
     this.controls = createOrbitControls(this.camera, this.renderer.domElement)
     this.controls.enablePan = false
     this.controls.minAzimuthAngle = -Math.PI / 8

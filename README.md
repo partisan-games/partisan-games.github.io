@@ -18,10 +18,6 @@ npm start
 
 ## TODO
 
-### Popraviti visoku rezoluciju
-
-- UI prozor premali na prevelikim ekranima?
- 
 ### Završno
 
 - prevod na engleski
