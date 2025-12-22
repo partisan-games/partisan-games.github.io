@@ -15,7 +15,6 @@ import { loadModel } from '/core3d/loaders.js'
 import { GermanMachineGunnerAI } from '/core3d/actor/derived/ww2/GermanMachineGunner.js'
 import { SSSoldierAI } from '/core3d/actor/derived/ww2/SSSoldier.js'
 import { NaziOfficerAI } from '/core3d/actor/derived/ww2/NaziOfficer.js'
-import { GermanFlameThrowerAI } from '/core3d/actor/derived/ww2/GermanFlameThrower.js'
 
 const { randFloat } = THREE.MathUtils
 
@@ -77,7 +76,7 @@ export default class KraljevoScena extends Scena3D {
     this.fire.mesh.position.set(0, 10, 50)
     this.addMesh(this.fire.mesh)
 
-    ;[GermanMachineGunnerAI, GermanFlameThrowerAI, SSSoldierAI, SSSoldierAI, NaziOfficerAI].forEach(AIClass => {
+    ;[GermanMachineGunnerAI, SSSoldierAI, SSSoldierAI, NaziOfficerAI].forEach(AIClass => {
       const soldier = new AIClass({ pos: [0, 0, 20], target: this.player.mesh })
       this.add(soldier)
     })

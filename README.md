@@ -18,10 +18,12 @@ npm start
 
 ## TODO
 
-- Kraljevo: zvuci su iritantni
+- Kraljevo: zvuci su iritantni (rafal posebno, uvek isti)
+    - dodati zvuk tenka normalan ako ima
 
 ### Završno
 
+- naslovna scena: umesto ikonica slike nivoa (kao heroji)?
 - prevod na engleski
 
 UI
