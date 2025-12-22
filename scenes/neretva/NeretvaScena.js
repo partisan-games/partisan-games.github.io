@@ -5,8 +5,8 @@ import { progresBar } from '/ui/components.js'
 import Svabo from './Svabo.js'
 import Vreme from '/core/Vreme.js'
 
-const DALJI_Y = 150
-const BLIZI_Y = 300
+const DALJI_Y = window.innerHeight * 0.25
+const BLIZI_Y = window.innerHeight * 0.5
 
 export default class NeretvaScena extends Scena2D {
   constructor(manager) {
