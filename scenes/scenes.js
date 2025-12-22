@@ -87,16 +87,16 @@ export const scenes = {
       'lng': 16.6602294
     }
   },
-  KorculaScena: {
-    path: './korcula/KorculaScena.js',
-    name: 'Korčula 1944',
-    icon: 'armies/camac.png',
-    height: 38,
-    koordinate: {
-      'lat': 42.9448437,
-      'lng': 17.1265954
-    }
-  },
+  // KorculaScena: {
+  //   path: './korcula/KorculaScena.js',
+  //   name: 'Korčula 1944',
+  //   icon: 'armies/camac.png',
+  //   height: 38,
+  //   koordinate: {
+  //     'lat': 42.9448437,
+  //     'lng': 17.1265954
+  //   }
+  // },
   OtpisaniScena: {
     path: './OtpisaniScena.js',
     name: 'Beograd 1944',
