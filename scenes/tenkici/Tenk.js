@@ -9,7 +9,7 @@ import Granata from '/core/actor/projektili/Granata.js'
 const gravitacija = 90
 const statickoTrenje = 0.3
 const kinetickoTrenje = 0.1
-const potisakMetka = 500
+const potisakMetka = window.innerWidth > 1920 ? 520 : 500
 
 /* Abstract class */
 export default class Tenk extends Predmet {

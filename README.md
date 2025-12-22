@@ -20,8 +20,6 @@ npm start
 
 ### Popraviti visoku rezoluciju
 
-- skalirati predmete ili renderovati nižu rezoluciju ako je ekran prevelik?
-- na 4k ekranima ai tenk ne dobacuje
 - UI prozor premali na prevelikim ekranima?
  
 ### Završno
