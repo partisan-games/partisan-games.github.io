@@ -18,7 +18,7 @@ npm start
 
 ## TODO
 
-- Kraljevo: zvuci su iritantni (rafal posebno, uvek isti)
+- Kraljevo:
     - dodati zvuk tenka normalan ako ima
 
 ### Završno

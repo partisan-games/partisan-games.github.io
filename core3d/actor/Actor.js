@@ -4,6 +4,7 @@ import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js'
 import GameObject from '/core3d/objects/GameObject.js'
 import { getGroundY, directionBlocked, getMesh, intersect, belongsTo } from '/core3d/helpers.js'
 import { dir, RIGHT_ANGLE, reactions, jumpStyles } from '/core3d/constants.js'
+import { randomInRange } from '/core/utils.js'
 import config from '/config.js'
 
 const { randInt } = THREE.MathUtils
@@ -73,10 +74,8 @@ export default class Actor extends GameObject {
       if (rightHandWeapon) this.addRightHandWeapon(clone(rightHandWeapon))
     }
 
-    if (attackSound) {
+    if (attackSound)
       this.audio = new Audio(`/assets/sounds/${attackSound}`)
-      this.audio.volume = config.volume
-    }
 
     if (mapSize) {
       const halfMap = mapSize / 2
@@ -222,6 +221,7 @@ export default class Actor extends GameObject {
 
   playAttackSound() {
     this.audio.currentTime = 0
+    this.audio.volume = randomInRange(config.volume * 0.5, config.volume * 1.25)
     this.audio.play()
   }
 
