@@ -4,8 +4,7 @@ import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js'
 import GameObject from '/core3d/objects/GameObject.js'
 import { getGroundY, directionBlocked, getMesh, intersect, belongsTo } from '/core3d/helpers.js'
 import { dir, RIGHT_ANGLE, reactions, jumpStyles } from '/core3d/constants.js'
-import { randomInRange } from '/core/utils.js'
-import config from '/config.js'
+import { randomVolume } from '/core/utils.js'
 
 const { randInt } = THREE.MathUtils
 
@@ -221,7 +220,7 @@ export default class Actor extends GameObject {
 
   playAttackSound() {
     this.audio.currentTime = 0
-    this.audio.volume = randomInRange(config.volume * 0.5, config.volume * 1.25)
+    this.audio.volume = randomVolume()
     this.audio.play()
   }
 

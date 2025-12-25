@@ -2,6 +2,7 @@ import { mapRange } from '/core3d/helpers.js'
 import { loadModel } from '/core3d/loaders.js'
 import Vehicle from '/core3d/physics/Vehicle.js'
 import { Smoke } from '/core3d/Particles.js'
+import { randomVolume } from '/core/utils.js'
 
 const wheelFront = { x: .75, y: .1, z: 1.25 }
 const wheelBack = { x: .75, y: .1, z: -1.25 }
@@ -13,7 +14,7 @@ const smokeParam = { size: .5, num: 25, maxRadius: .22, color: 0xffffff, opacity
 export default class Tank extends Vehicle {
   constructor(param = {}) {
     super({ mesh, wheelFront, wheelBack, maxSpeed: 40, maxEngineForce: 1000, ...param })
-
+    this.zvuk = new Audio('/assets/sounds/engine-6000.mp3')
     this.smokeLeft = this.createSmoke()
     this.smokeLeft.mesh.translateX(.4)
     this.smokeRight = this.createSmoke()
@@ -27,6 +28,12 @@ export default class Tank extends Vehicle {
     smoke.mesh.rotateX(-Math.PI * .5)
     this.mesh.add(smoke.mesh)
     return smoke
+  }
+
+  forward() {
+    super.forward()
+    this.zvuk.volume = randomVolume()
+    this.zvuk.play()
   }
 
   update(delta) {

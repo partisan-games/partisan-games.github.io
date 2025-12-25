@@ -18,9 +18,6 @@ npm start
 
 ## TODO
 
-- Kraljevo:
-    - dodati zvuk tenka normalan ako ima
-
 ### Završno
 
 - naslovna scena: umesto ikonica slike nivoa (kao heroji)?
