@@ -1,82 +1,18 @@
 {
-  "SpomeniciScena": {
-    "path": "./spomenici/SpomeniciScena.js",
-    "name": "Spomeniks",
-    "icon": "buildings/kosmaj.png"
-  },
-  "BihacScena": {
-    "path": "./bihac/BihacScena.js",
-    "name": "Bihać 1942 (demo)",
-    "icon": "ui/resistance-fighter.png"
-  },
-  "KraljevoScena": {
-    "path": "./kraljevo/KraljevoScena.js",
-    "name": "Kraljevo 1941",
-    "icon": "armies/nemci/tenkovi/tenk-odozgo-02.png"
-  },
-  "RatweekScena": {
-    "path": "./warplane/RatweekScena.js",
-    "name": "Operation Ratweek 1944",
-    "icon": "armies/britanci/avioni/bomber-lancaster.png"
-  },
-  "RajlovacScena": {
-    "path": "./rajlovac/RajlovacScena.js",
-    "name": "Napad na aerodrom Rajlovac 1943",
-    "icon": "buildings/kula-01.png"
-  },
-  "TuzlaScena": {
-    "path": "./tuzla/TuzlaScena.js",
-    "name": "Savo Mitraljezac (Bitka za Tuzlu 1943)",
-    "icon": "ui/mitraljez.png"
-  },
-  "KrupanjScena": {
-    "path": "./krupanj/KrupanjScena.js",
-    "name": "Žikica Jovanović (Bitka za Krupanj 1941)",
-    "icon": "armies/partizani/vojnici/bombasi/partizan-bombas.gif"
-  },
-  "NeretvaScena": {
-    "path": "./neretva/NeretvaScena.js",
-    "name": "Neretva 1943",
-    "icon": "armies/nemac-rov.gif"
-  },
-  "DubicaScena": {
-    "path": "./dubica/DubicaScena.js",
-    "name": "Franjo Kluz (Bosanska Dubica 1942)",
-    "icon": "armies/partizani/potez-25.png"
-  },
-  "OtpisaniScena": {
-    "path": "./OtpisaniScena.js",
-    "name": "Beograd 1944",
-    "icon": "buildings/ruina-04.png"
-  },
-  "VisScena": {
-    "path": "./vis/VisScena.js",
-    "name": "Vis 1944",
-    "icon": "armies/avionce.gif"
-  },
-  "GrahovoScena": {
-    "path": "./grahovo/GrahovoScena.js",
-    "name": "Ustanak u Crnoj Gori 1941",
-    "icon": "armies/partizani/artiljerija/100mm-skoda.png"
-  },
-  "LivnoScena": {
-    "path": "./livno/LivnoScena.js",
-    "name": "Livno 1943",
-    "icon": "buildings/crkva-01.png"
-  },
-  "TrstScena": {
-    "path": "./tenkici/TrstScena.js",
-    "name": "Trst 1945",
-    "icon": "armies/partizani/tenkovi/tenk-04.png"
-  },
-  "SutjeskaScena": {
-    "path": "./sutjeska/SutjeskaScena.js",
-    "name": "Ranjenik na Sutjesci 1943",
-    "icon": "armies/ranjeni-partizan.png"
-  },
-  "DrvarScena": {
-    "path": "./drvar/DrvarScena.js",
-    "name": "Drvar 1944 (animacija)",
-    "icon": "armies/nemci/padobranci/padobranac-01.png"
-  }
+  "SpomeniciScena": "./spomenici/SpomeniciScena.js",
+  "BihacScena": "./bihac/BihacScena.js",
+  "KraljevoScena": "./kraljevo/KraljevoScena.js",
+  "RatweekScena": "./warplane/RatweekScena.js",
+  "RajlovacScena": "./rajlovac/RajlovacScena.js",
+  "TuzlaScena": "./tuzla/TuzlaScena.js",
+  "KrupanjScena": "./krupanj/KrupanjScena.js",
+  "NeretvaScena": "./neretva/NeretvaScena.js",
+  "DubicaScena": "./dubica/DubicaScena.js",
+  "OtpisaniScena": "./OtpisaniScena.js",
+  "VisScena": "./vis/VisScena.js",
+  "GrahovoScena": "./grahovo/GrahovoScena.js",
+  "LivnoScena": "./livno/LivnoScena.js",
+  "TrstScena": "./tenkici/TrstScena.js",
+  "SutjeskaScena": "./sutjeska/SutjeskaScena.js",
+  "DrvarScena": "./drvar/DrvarScena.js"
 }

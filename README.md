@@ -19,10 +19,10 @@ npm start
 ## TODO
 
 - promeniti naslove
-- dodati slike ekrana
 - dodati ostale igre
     - srediti neke igre ako treba (warplane vratiti u full mode)
-- dodati rute za scene??
+- dodati slike ekrana gde treba
+- dodati rutiranje
 - spojiti sa create 3D worlds??
 
 ### Završno
