@@ -2,158 +2,82 @@
   "SpomeniciScena": {
     "path": "./spomenici/SpomeniciScena.js",
     "name": "Spomeniks",
-    "icon": "buildings/kosmaj.png",
-    "height": 70,
-    "koordinate": {
-      "lat": 44.46785,
-      "lng": 20.57175998
-    }
+    "icon": "buildings/kosmaj.png"
   },
   "BihacScena": {
     "path": "./bihac/BihacScena.js",
     "name": "Bihać 1942 (demo)",
-    "icon": "ui/resistance-fighter.png",
-    "height": 54,
-    "koordinate": {
-      "lat": 44.8158904,
-      "lng": 15.7857807
-    }
+    "icon": "ui/resistance-fighter.png"
   },
   "KraljevoScena": {
     "path": "./kraljevo/KraljevoScena.js",
     "name": "Kraljevo 1941",
-    "icon": "armies/nemci/tenkovi/tenk-odozgo-02.png",
-    "height": 90,
-    "koordinate": {
-      "lat": 43.72786269,
-      "lng": 20.69171242
-    }
+    "icon": "armies/nemci/tenkovi/tenk-odozgo-02.png"
   },
   "RatweekScena": {
     "path": "./warplane/RatweekScena.js",
     "name": "Operation Ratweek 1944",
-    "icon": "armies/britanci/avioni/bomber-lancaster.png",
-    "height": 72,
-    "koordinate": {
-      "lat": 44.1360533,
-      "lng": 15.248928
-    }
+    "icon": "armies/britanci/avioni/bomber-lancaster.png"
   },
   "RajlovacScena": {
     "path": "./rajlovac/RajlovacScena.js",
     "name": "Napad na aerodrom Rajlovac 1943",
-    "icon": "buildings/kula-01.png",
-    "height": 78,
-    "koordinate": {
-      "lat": 43.8767521,
-      "lng": 18.30863
-    }
+    "icon": "buildings/kula-01.png"
   },
   "TuzlaScena": {
     "path": "./tuzla/TuzlaScena.js",
     "name": "Savo Mitraljezac (Bitka za Tuzlu 1943)",
-    "icon": "ui/mitraljez.png",
-    "koordinate": {
-      "lat": 44.7285887,
-      "lng": 17.9828499
-    }
+    "icon": "ui/mitraljez.png"
   },
   "KrupanjScena": {
     "path": "./krupanj/KrupanjScena.js",
     "name": "Žikica Jovanović (Bitka za Krupanj 1941)",
-    "icon": "armies/partizani/vojnici/bombasi/partizan-bombas.gif",
-    "height": 52,
-    "koordinate": {
-      "lat": 44.36377181,
-      "lng": 19.3630543
-    }
+    "icon": "armies/partizani/vojnici/bombasi/partizan-bombas.gif"
   },
   "NeretvaScena": {
     "path": "./neretva/NeretvaScena.js",
     "name": "Neretva 1943",
-    "icon": "armies/nemac-rov.gif",
-    "height": 60,
-    "koordinate": {
-      "lat": 43.6565522,
-      "lng": 17.7455309
-    }
+    "icon": "armies/nemac-rov.gif"
   },
   "DubicaScena": {
     "path": "./dubica/DubicaScena.js",
     "name": "Franjo Kluz (Bosanska Dubica 1942)",
-    "icon": "armies/partizani/potez-25.png",
-    "koordinate": {
-      "lat": 44.9828938,
-      "lng": 16.6602294
-    }
+    "icon": "armies/partizani/potez-25.png"
   },
   "OtpisaniScena": {
     "path": "./OtpisaniScena.js",
     "name": "Beograd 1944",
-    "icon": "buildings/ruina-04.png",
-    "koordinate": {
-      "lat": 44.81072023,
-      "lng": 20.48544102
-    }
+    "icon": "buildings/ruina-04.png"
   },
   "VisScena": {
     "path": "./vis/VisScena.js",
     "name": "Vis 1944",
-    "icon": "armies/avionce.gif",
-    "height": 60,
-    "koordinate": {
-      "lat": 43.06081146,
-      "lng": 16.18390544
-    }
+    "icon": "armies/avionce.gif"
   },
   "GrahovoScena": {
     "path": "./grahovo/GrahovoScena.js",
     "name": "Ustanak u Crnoj Gori 1941",
-    "icon": "armies/partizani/artiljerija/100mm-skoda.png",
-    "height": 32,
-    "koordinate": {
-      "lat": 42.651389,
-      "lng": 18.669444
-    }
+    "icon": "armies/partizani/artiljerija/100mm-skoda.png"
   },
   "LivnoScena": {
     "path": "./livno/LivnoScena.js",
     "name": "Livno 1943",
-    "icon": "buildings/crkva-01.png",
-    "height": 60,
-    "koordinate": {
-      "lat": 43.82941295,
-      "lng": 16.9979416
-    }
+    "icon": "buildings/crkva-01.png"
   },
   "TrstScena": {
     "path": "./tenkici/TrstScena.js",
     "name": "Trst 1945",
-    "icon": "armies/partizani/tenkovi/tenk-04.png",
-    "koordinate": {
-      "lat": 45.6523727,
-      "lng": 13.7424627
-    }
+    "icon": "armies/partizani/tenkovi/tenk-04.png"
   },
   "SutjeskaScena": {
     "path": "./sutjeska/SutjeskaScena.js",
     "name": "Ranjenik na Sutjesci 1943",
-    "icon": "armies/ranjeni-partizan.png",
-    "height": 21,
-    "koordinate": {
-      "lat": 43.3114466,
-      "lng": 18.5892073
-    }
+    "icon": "armies/ranjeni-partizan.png"
   },
   "DrvarScena": {
     "path": "./drvar/DrvarScena.js",
     "name": "Drvar 1944 (animacija)",
-    "icon": "armies/nemci/padobranci/padobranac-01.png",
-    "height": 90,
-    "koordinate": {
-      "lat": 44.38001221,
-      "lng": 16.38698686
-    }
+    "icon": "armies/nemci/padobranci/padobranac-01.png"
   },
   "MainMenu": {
     "path": "./MainMenu.js",
