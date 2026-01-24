@@ -18,7 +18,7 @@ npm start
 
 ## TODO
 
-- naslovna sa igrama, kao three.js games
+- naslovna
     - promeniti naslove
     - prebaciti u statičan html
     - dodati slike ekrana

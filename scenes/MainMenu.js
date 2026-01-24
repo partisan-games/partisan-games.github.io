@@ -41,6 +41,10 @@ export default class MainMenu extends Scena2D {
   sceneUI() {
     return /* html */`
       <h1>Partisan Games ★</h1>
+      <div class="uvod">
+        <p>My browser games made in my free time over the last 15 years.</p>
+        <p>Mudroljub, Game Developer</p>
+      </div>
       <div class="main-menu">
         ${this.manuItems}
       </div>
