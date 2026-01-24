@@ -18,10 +18,9 @@ npm start
 
 ## TODO
 
-- naslovna
-    - promeniti naslove
-    - prebaciti u statičan html
-    - dodati slike ekrana
+- promeniti naslove
+- spojiti MainManu i main, obrisati MainManu
+- dodati slike ekrana
 - dodati ostale igre
     - srediti neke igre ako treba (warplane vratiti u full mode)
 - dodati rute za scene??

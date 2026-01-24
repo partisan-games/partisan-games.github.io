@@ -40,7 +40,6 @@ body {
   min-height: 100vh;
   background-image: url("/assets/images/art/milan-vasek-map-sepia.jpg");
   background-size: cover;
-  padding: 0 60px;
   overflow-x: hidden;
 }
 
@@ -89,7 +88,7 @@ img {
   flex-wrap: wrap;
   justify-content: center;
   gap: 40px;
-  padding-bottom: 40px;
+  padding: 0 20px 40px;
 }
 
 .menu-item {
