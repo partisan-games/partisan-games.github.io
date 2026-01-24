@@ -19,7 +19,11 @@ npm start
 ## TODO
 
 - naslovna sa zasebnim igrama, kao three.js games
+    - renderovati prazne kocke sa naslovima
+    - dodavati slike ekrana
+- srediti neke igre ako treba (warplane vratiti u full mode)
 - dodati github traku
+- proveriti jel import json radi na serveru
 - spojiti sa create 3D worlds??
 
 ### Završno

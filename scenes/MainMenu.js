@@ -5,26 +5,22 @@ import { dodajProcente } from '/core/utils/geo.js'
 
 dodajProcente(scenes)
 
-const renderIcon = (key, data) => {
-  const style = `"transform: translate(-50%, -50%); top: ${data.procenti.y * 100}%; left: ${data.procenti.x * 100}%;"`
-  return /* html */`
-    <button value='${key}' class='menu-btn js-start' style=${style}>
-    <img src="/assets/images/${data.icon}" height="${data.height || 40}">
-    <br>${data.name}
-    </button>
-  `
-}
+const renderIcon = (key, item) => /* html */`
+  <button value='${key}' class='menu-item js-start'>
+    <p>${item.name}</p>
+    <img src="/assets/images/${item.icon}">
+  </button>
+`
 
 const renderIcons = dict => Object.entries(dict)
   .filter(([key]) => key != 'MainMenu')
-  .filter(([key, value]) => value.procenti)
   .map(([key, value]) => renderIcon(key, value))
   .join('')
 
 export default class MainMenu extends Scena2D {
   constructor(manager) {
     super(manager, { showControls: false })
-    this.manuIcons = renderIcons(scenes)
+    this.manuItems = renderIcons(scenes)
   }
 
   start() {
@@ -43,9 +39,11 @@ export default class MainMenu extends Scena2D {
   handleVisibilityChange() {}
 
   sceneUI() {
-    return `
+    return /* html */`
       <h1>Partisan Games ★</h1>
-      ${this.manuIcons}
+      <div class="main-menu">
+        ${this.manuItems}
+      </div>
     `
   }
 }
