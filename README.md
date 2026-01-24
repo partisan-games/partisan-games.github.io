@@ -18,23 +18,24 @@ npm start
 
 ## TODO
 
+- naslovna sa zasebnim igrama, kao three.js games
+- dodati github traku
+- spojiti sa create 3D worlds??
+
 ### Završno
 
-- naslovna scena: umesto ikonica slike nivoa (kao heroji)?
 - prevod na engleski
+- dodati bazicnu statistiku, bar brojac poseta.
+- probati tač skrin
 
 UI
-- refaktorisati da prozori budu DOM elementi, a samo sceneUI u render loop?
 - dodati komande i ciljeve svuda, možda i izveštaj
-- probati tač skrin
+- refaktorisati da prozori budu DOM elementi, a samo sceneUI u render loop?
 
 Profil 
 - dodati profil korisnika
 - izbor slike partizana ili partizanke
 - dodati medalje za misije
-
-- smisliti skaliranje ekrana
-- dodati bazicnu statistiku, bar brojac poseta. koristiti arduino servise, firebase, napraviti api??
 
 ### Test i optimizacija
 

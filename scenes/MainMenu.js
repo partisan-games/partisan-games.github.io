@@ -1,6 +1,9 @@
 import Scena2D from '/core/Scena2D.js'
 import { platno } from '/core/io/platno.js'
-import { scenes } from './scenes.js'
+import scenes from './scenes.json' with { type: 'json' }
+import { dodajProcente } from '/core/utils/geo.js'
+
+dodajProcente(scenes)
 
 const renderIcon = (key, data) => {
   const style = `"transform: translate(-50%, -50%); top: ${data.procenti.y * 100}%; left: ${data.procenti.x * 100}%;"`

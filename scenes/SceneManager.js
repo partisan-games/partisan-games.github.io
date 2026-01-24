@@ -1,5 +1,5 @@
 import { Spinner } from '/core3d/loaders.js'
-import { scenes } from './scenes.js'
+import scenes from './scenes.json' with { type: 'json' }
 
 class SceneManager {
   static instance = null
