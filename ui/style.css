@@ -41,6 +41,7 @@ body {
   background-image: url("/assets/images/art/milan-vasek-map-sepia.jpg");
   background-repeat: no-repeat;
   background-size: cover;
+  padding: 0 60px;
 }
 
 body,
@@ -76,7 +77,7 @@ img {
   overflow: auto;
 }
 
-/* MENU */
+/* HOMEPAGE */
 
 .main-menu {
   display: flex;
@@ -95,6 +96,7 @@ img {
   text-align: center;
   background-color: rgba(27, 27, 27, .85);
   border-radius: 8px;
+  transition: 0.5s;
 }
 
 .menu-item:hover {
@@ -103,6 +105,26 @@ img {
 
 .menu-item img {
   max-height: 120px;
+}
+
+#forkongithub a {
+  background: var(--black);
+  color: #fff;
+  overflow: hidden;
+  padding: 8px 40px;
+  position: absolute;
+  right: -60px;
+  text-align: center;
+  text-decoration: none;
+  top: 50px;
+  transform: rotate(45deg);
+  transition: 0.5s;
+  width: 250px;
+  z-index: 9;
+}
+
+#forkongithub a:hover {
+  background: var(--red);
 }
 
 /* BUTTONS */
@@ -125,6 +147,7 @@ button {
 button:hover {
   background-color: var(--red);
 }
+
 button.no-hover:hover {
   background-color: unset;
 }
