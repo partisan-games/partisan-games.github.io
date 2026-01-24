@@ -1,14 +1,12 @@
 import SceneManager from './SceneManager.js'
 
-const handleClick = e => {
+document.addEventListener('click', e => {
   const target = e.target.closest('.js-start')
-  if (target?.classList.contains('js-start')) {
-    const manager = new SceneManager()
-    manager.start(target.value)
-  }
-}
+  if (!target) return
 
-document.addEventListener('click', handleClick)
+  new SceneManager().start(target.dataset.name)
+  document.getElementById('ui').innerHTML = ''
+})
 
 window.addEventListener('popstate', () => {
   const confirmation = window.confirm('Pritiskom na back napuštate sajt. Potvrdite komandu.')
