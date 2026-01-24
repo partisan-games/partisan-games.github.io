@@ -78,9 +78,5 @@
     "path": "./drvar/DrvarScena.js",
     "name": "Drvar 1944 (animacija)",
     "icon": "armies/nemci/padobranci/padobranac-01.png"
-  },
-  "MainMenu": {
-    "path": "./MainMenu.js",
-    "name": "Main Menu"
   }
 }

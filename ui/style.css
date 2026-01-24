@@ -111,7 +111,7 @@ img {
   max-height: 120px;
 }
 
-#forkongithub a {
+#forkongithub {
   background: var(--black);
   color: #fff;
   padding: 8px 40px;
@@ -126,7 +126,7 @@ img {
   z-index: 9;
 }
 
-#forkongithub a:hover {
+#forkongithub:hover {
   background: var(--red);
 }
 

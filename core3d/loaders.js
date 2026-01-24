@@ -176,6 +176,7 @@ export class Spinner {
     this.img.src = '/assets/images/ui/loader.gif'
     this.img.classList.add('central-screen')
     document.body.appendChild(this.img)
+    this.hide()
   }
 
   show() {

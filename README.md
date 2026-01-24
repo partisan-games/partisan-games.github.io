@@ -19,7 +19,6 @@ npm start
 ## TODO
 
 - promeniti naslove
-- spojiti MainManu i main, obrisati MainManu
 - dodati slike ekrana
 - dodati ostale igre
     - srediti neke igre ako treba (warplane vratiti u full mode)
