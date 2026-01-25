@@ -110,7 +110,7 @@ img {
 }
 
 #forkongithub {
-  background: var(--black);
+  background-color: rgba(27, 27, 27, .75);
   color: #fff;
   padding: 8px 40px;
   position: absolute;
