@@ -19,7 +19,6 @@ npm start
 ## TODO
 
 - promeniti naslove
-- dodati slike ekrana gde treba
 - dodati rutiranje
 - dodati ostale igre, scene, animacije i primere
     - srediti neke igre ako treba (warplane vratiti u full mode)
