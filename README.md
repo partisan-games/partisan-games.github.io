@@ -23,6 +23,7 @@ npm start
 - dodati ostale igre, scene, animacije i primere
     - srediti neke igre ako treba (warplane vratiti u full mode)
 - spojiti sa create 3D worlds??
+- dodati animaciju aviona za GSP
 
 ### Završno
 
