@@ -32,6 +32,7 @@ npm start
 - probati tač skrin
 
 UI
+- dodati pauzu u kontrole svuda
 - dodati komande i ciljeve svuda, možda i izveštaj
 - refaktorisati da prozori budu DOM elementi, a samo sceneUI u render loop?
 
