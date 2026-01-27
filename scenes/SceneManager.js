@@ -28,7 +28,7 @@ class SceneManager {
       this.scene.end()
 
     const SceneClass = path
-      ? (await import(`/scenes/${path}`)).default
+      ? (await import(`/scenes/${path}/Main.js`)).default
       : this.scene.constructor
     this.scene = new SceneClass(this)
     this.scene.init()

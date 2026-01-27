@@ -19,7 +19,6 @@ npm start
 ## TODO
 
 - promeniti naslove u kodu
-    - da sve scene budu Scena? već postoji Scena.js!
 - dodati rutiranje na scene i back
 - Tank Physics
     - da gazi naciste
