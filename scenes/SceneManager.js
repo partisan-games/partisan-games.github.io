@@ -1,5 +1,4 @@
 import { Spinner } from '/core3d/loaders.js'
-import putanje from './scenes.json' with { type: 'json' }
 
 class SceneManager {
   static instance = null
@@ -23,25 +22,25 @@ class SceneManager {
     } else this.scene.start()
   }
 
-  async start(name, firstTime = true) {
+  async start(path) {
     this.spinner.show()
     if (this.scene)
       this.scene.end()
 
-    const SceneClass = firstTime
-      ? (await import(putanje[name])).default
+    const SceneClass = path
+      ? (await import(`/scenes/${path}`)).default
       : this.scene.constructor
     this.scene = new SceneClass(this)
     this.scene.init()
     this.spinner.hide()
 
-    if (firstTime)
+    if (path)
       if (this.scene.pozadina) this.scene.pozadina.onload = () => this.handleIntro()
       else this.handleIntro()
   }
 
-  async restart(name) {
-    await this.start(name, false)
+  async restart() {
+    await this.start()
     this.scene.start()
   }
 }

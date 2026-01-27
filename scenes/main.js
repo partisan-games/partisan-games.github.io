@@ -4,7 +4,7 @@ document.addEventListener('click', e => {
   const target = e.target.closest('.js-start')
   if (!target) return
 
-  new SceneManager().start(target.dataset.name)
+  new SceneManager().start(target.dataset.path)
   document.getElementById('ui').innerHTML = ''
 })
 

@@ -56,7 +56,7 @@ export default class Scena {
       this.start()
 
     if (target?.id == 'igraj-opet')
-      this.manager.restart(this.constructor.name)
+      this.manager.restart()
 
     if (target?.id == 'menu')
       location.reload()
