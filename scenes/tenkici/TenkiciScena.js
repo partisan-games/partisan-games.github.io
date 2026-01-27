@@ -9,7 +9,7 @@ import Controls, { tankLeftControls, tankRightControls } from '/ui/Controls.js'
 const nivoTla = platno.height * 0.8
 let aiPlayer = true
 
-export default class TrstScena extends Scena2D {
+export default class TenkiciScena extends Scena2D {
   constructor(manager) {
     super(manager, { controlKeys: tankLeftControls })
   }

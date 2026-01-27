@@ -14,7 +14,7 @@ import Avion from '/core/objects/Avion.js'
 const nivoTla = platno.height * .75
 let aiPlayer = true
 
-export default class GrahovoScena extends Scena2D {
+export default class UstanakScena extends Scena2D {
   constructor(manager) {
     super(manager, { controlKeys: { W: 'up', S: 'down', Space: 'shoot ' } })
   }
