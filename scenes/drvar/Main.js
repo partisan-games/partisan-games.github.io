@@ -2,11 +2,26 @@ import * as THREE from 'three'
 import Scena3D from '/core/Scena3D.js'
 import { elements } from './data.js'
 import { createGround } from '/core3d/ground.js'
-import { randSpread, praviPanoramu } from './utils.js'
 import Sprite from './Sprite.js'
 import { createOrbitControls } from '/core3d/helpers.js'
+import { randSpread } from '/core/utils.js'
 
 const textureLoader = new THREE.TextureLoader()
+
+function praviPanoramu(r = 300) {
+  const textureLoader = new THREE.TextureLoader()
+  const texture = textureLoader.load('/assets/images/background/planine.png')
+  texture.wrapS = THREE.RepeatWrapping
+  texture.repeat.x = -1
+  const geometry = new THREE.CylinderGeometry(r, r, 600, 32, 1, true) // Cilindar bez gornje/donje strane
+  const material = new THREE.MeshBasicMaterial({
+    map: texture,
+    side: THREE.BackSide,
+    alphaTest: .5,
+    color: 0x555555,
+  })
+  return new THREE.Mesh(geometry, material)
+}
 
 export default class extends Scena3D {
   constructor(manager) {
@@ -14,7 +29,7 @@ export default class extends Scena3D {
   }
 
   init() {
-    this.addMesh(createGround({ color: 0x407138 }))
+    this.addMesh(createGround({ color: 0x606b60 }))
     elements.forEach(el => {
       for (let i = 0; i < el.number; ++i)
         this.dodajSprite(el, i)
@@ -32,7 +47,7 @@ export default class extends Scena3D {
     this.eksplozija = new Sprite('assets/images/sprites/efekti/eksplozija-01.png', 8, 4)
     this.addMesh(this.eksplozija.mesh)
     this.bojaPozadine = '#403'
-    document.body.style.filter = 'sepia(0.2)'
+    document.body.style.filter = 'sepia(0.4)'
   }
 
   dodajSprite(el, i) {

@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { randSpread } from './utils.js'
+import { randSpread } from '/core/utils.js'
 
 export default class Sprite {
   constructor(imgSrc, frameCount, frameRate = 10) {

@@ -1,13 +1,20 @@
 import SceneManager from './SceneManager.js'
 
+const manager = new SceneManager()
+
 /** ROUTER */
+
+if (location.hash) {
+  document.getElementById('ui').innerHTML = ''
+  manager.start(location.hash.slice(1))
+}
 
 document.addEventListener('click', e => {
   const button = e.target.closest('button')
   const jsStart = e.target.closest('.js-start')
 
   if (jsStart) {
-    new SceneManager().start(jsStart.dataset.path)
+    manager.start(jsStart.dataset.path)
     document.getElementById('ui').innerHTML = ''
     window.location.hash = jsStart.dataset.path
   }

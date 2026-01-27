@@ -9,6 +9,8 @@ export function nasumicnoOkruglo(min, max) {
   return Math.floor(randomInRange(min, max + 1))
 }
 
+export const randSpread = range => range * (Math.random() - Math.random())
+
 const randFloatSpread = range => (Math.random() - 0.5) * range
 
 export const getRandomCoords = ({
