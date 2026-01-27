@@ -27,20 +27,20 @@ class SceneManager {
     if (this.scene)
       this.scene.end()
 
-    const SceneClass = path
-      ? (await import(`/scenes/${path}/Main.js`)).default
-      : this.scene.constructor
+    const SceneClass = (await import(`/scenes/${path}/Main.js`)).default
     this.scene = new SceneClass(this)
     this.scene.init()
     this.spinner.hide()
 
-    if (path)
-      if (this.scene.pozadina) this.scene.pozadina.onload = () => this.handleIntro()
-      else this.handleIntro()
+    if (this.scene.pozadina)
+      this.scene.pozadina.onload = () => this.handleIntro()
+    else this.handleIntro()
   }
 
-  async restart() {
-    await this.start()
+  restart() {
+    this.scene.end()
+    this.scene = new this.scene.constructor(this)
+    this.scene.init()
     this.scene.start()
   }
 }
