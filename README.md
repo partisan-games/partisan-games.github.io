@@ -19,9 +19,6 @@ npm start
 ## TODO
 
 - dodati rutiranje na scene i back
-- Tank Physics
-    - da gazi naciste
-    - da zvuci manje iritiraju
 - dodati ostale igre, scene, animacije i primere
     - dodati korčula demo
     - srediti neke igre ako treba (warplane vratiti u full mode)

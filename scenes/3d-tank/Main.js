@@ -4,7 +4,7 @@ import PhysicsWorld from '/core3d/physics/PhysicsWorld.js'
 import { createGround } from '/core3d/ground.js'
 import { createMoonSphere, createBoxes, createCrate, createRustyBarrel, createMetalBarrel } from '/core3d/geometry/index.js'
 import { hemLight } from '/core3d/light.js'
-import { sample } from '/core3d/helpers.js'
+import { sample, intersect } from '/core3d/helpers.js'
 import { createFirTree } from '/core3d/geometry/trees.js'
 import { createWarehouse, createWarehouse2, createWarRuin, createRuin, createAirport } from '/core3d/city.js'
 import { leaveTracks } from '/core3d/physics/leaveTracks.js'
@@ -76,8 +76,10 @@ export default class extends Scena3D {
     this.fire.mesh.position.set(0, 10, 50)
     this.addMesh(this.fire.mesh)
 
+    this.enemies = []
     ;[GermanMachineGunnerAI, SSSoldierAI, SSSoldierAI, NaziOfficerAI].forEach(AIClass => {
       const soldier = new AIClass({ pos: [0, 0, 20], target: this.player.mesh })
+      this.enemies.push(soldier)
       this.add(soldier)
     })
   }
@@ -95,6 +97,11 @@ export default class extends Scena3D {
     this.countableCrates.forEach(mesh => {
       if (mesh.position.y <= 0.5)
         this.countableCrates.splice(this.countableCrates.findIndex(c => c === mesh), 1)
+    })
+
+    this.enemies.forEach(enemy => {
+      const distance = this.player.mesh.position.distanceTo(enemy.position)
+      if (distance < 1.5) enemy.damageAmount = 100
     })
 
     if (!this.countableCrates.length)
