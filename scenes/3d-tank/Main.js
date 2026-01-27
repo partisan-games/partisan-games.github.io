@@ -100,8 +100,7 @@ export default class extends Scena3D {
     })
 
     this.enemies.forEach(enemy => {
-      const distance = this.player.mesh.position.distanceTo(enemy.position)
-      if (distance < 1.5) enemy.damageAmount = 100
+      enemy.damageAmount = enemy.distanceTo(this.player.mesh) < 1.5 ? 100 : 0
     })
 
     if (!this.countableCrates.length)
