@@ -27,7 +27,7 @@ const MAX_BRZINA = 600
 const DIZAJ = 10
 const MAX_DIGNUTOST = 5555
 
-export default class DubicaScena extends Scena2D {
+export default class extends Scena2D {
   constructor(manager) {
     super(manager, {
       controlKeys: { ...baseControls, Space: 'Pucanje', Enter: 'Prateća' },

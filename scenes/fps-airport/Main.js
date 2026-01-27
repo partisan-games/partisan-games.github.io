@@ -18,7 +18,7 @@ import { NaziOfficerAI } from '/core3d/actor/derived/ww2/NaziOfficer.js'
 const mapSize = 200
 const dornierNum = 8, stukaNum = 8, heinkelNum = 7
 
-export default class RajlovacScena extends Scena3D {
+export default class extends Scena3D {
   constructor(manager) {
     super(manager, {
       usePointerLock: true,

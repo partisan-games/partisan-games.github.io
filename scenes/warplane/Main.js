@@ -33,7 +33,7 @@ const createBuilding = async time => {
   }
 }
 
-export default class RatweekScena extends Scena3D {
+export default class extends Scena3D {
   constructor(manager) {
     super(manager, {
       toon: true,

@@ -18,7 +18,7 @@ import { NaziOfficerAI } from '/core3d/actor/derived/ww2/NaziOfficer.js'
 
 const { randFloat } = THREE.MathUtils
 
-export default class KraljevoScena extends Scena3D {
+export default class extends Scena3D {
   constructor(manager) {
     super(manager, {
       toon: true,

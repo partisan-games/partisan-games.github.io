@@ -8,7 +8,7 @@ import Vreme from '/core/Vreme.js'
 const DALJI_Y = window.innerHeight * 0.25
 const BLIZI_Y = window.innerHeight * 0.5
 
-export default class NeretvaScena extends Scena2D {
+export default class extends Scena2D {
   constructor(manager) {
     super(manager, { intro: 'Zadrži Nemce po svaku cenu, dok ranjenici ne budu na bezbednom.', showControls: false })
   }

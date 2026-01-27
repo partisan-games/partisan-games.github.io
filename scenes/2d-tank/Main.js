@@ -14,7 +14,7 @@ const BROJ_ZBUNOVA = 10
 const PARALAX_1 = -160
 const nivoTla = platno.height * .75
 
-export default class LivnoScena extends Scena2D {
+export default class extends Scena2D {
   constructor(manager) {
     super(manager, { controlKeys: tankLeftControls, intro: 'Uništi ustaške bunkere, pazi civilne zgrade.' })
   }

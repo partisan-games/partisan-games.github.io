@@ -18,7 +18,6 @@ npm start
 
 ## TODO
 
-- promeniti naslove u kodu
 - dodati rutiranje na scene i back
 - Tank Physics
     - da gazi naciste

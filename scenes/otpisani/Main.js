@@ -6,7 +6,7 @@ import { progresBar } from '/ui/components.js'
 import { praviEnergiju } from '/core/actor/prosirenja/energija.js'
 import Vreme from '/core/Vreme.js'
 
-export default class OtpisaniScena extends Scena2D {
+export default class extends Scena2D {
   init() {
     Object.defineProperties(this, Object.getOwnPropertyDescriptors(praviEnergiju()))
     this.pozadina = new Pozadina('background/rusevine-varsava.jpg')

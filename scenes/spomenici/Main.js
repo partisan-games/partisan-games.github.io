@@ -7,7 +7,7 @@ import { wave } from '/core3d/ground.js'
 import { PartisanPlayer } from '/core3d/actor/derived/ww2/Partisan.js'
 import { thirdPersonControls } from '/ui/Controls.js'
 
-export default class SpomeniciScena extends Scena3D {
+export default class extends Scena3D {
   constructor(manager) {
     super(manager, { controlKeys: thirdPersonControls, toon: true })
   }

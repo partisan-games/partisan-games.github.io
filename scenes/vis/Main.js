@@ -11,7 +11,7 @@ const brojOblaka = 3
 const brzina = 150
 const LANDING_TIME = 3000
 
-export default class VisScena extends Scena2D {
+export default class extends Scena2D {
   init() {
     this.preostaloVreme = 60
     this.oblaci = Array.from({ length: brojOblaka }, () => new Oblak(brzina))

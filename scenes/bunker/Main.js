@@ -12,7 +12,7 @@ const ZADATO_VREME = 30
 const fieldSize = 100
 const BROJ_PREPREKA = (platno.width / fieldSize) * (platno.height / fieldSize) / 4
 
-export default class BunkerScena extends Scena2D {
+export default class extends Scena2D {
   init() {
     this.vreme = new Vreme()
     this.pozadina = new Pozadina('textures/terrain/beton.gif')

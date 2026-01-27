@@ -2,7 +2,7 @@ import Scena2D from '/core/Scena2D.js'
 import CamacIgracOdozgo from '/core/actor/CamacIgracOdozgo.js'
 import Obala from './Obala.js'
 
-export default class KorculaScena extends Scena2D {
+export default class extends Scena2D {
   init() {
     this.player = new CamacIgracOdozgo()
     this.obala = new Obala()
