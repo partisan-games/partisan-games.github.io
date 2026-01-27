@@ -18,8 +18,11 @@ npm start
 
 ## TODO
 
-- promeniti naslove
-- dodati rutiranje
+- promeniti naslove u kodu
+- dodati rutiranje na scene i back
+- Tank Physics
+    - da gazi naciste
+    - da zvuci manje iritiraju
 - dodati ostale igre, scene, animacije i primere
     - srediti neke igre ako treba (warplane vratiti u full mode)
 - spojiti sa create 3D worlds??

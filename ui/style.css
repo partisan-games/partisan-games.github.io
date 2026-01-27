@@ -55,6 +55,10 @@ h1 {
   color: var(--olive);
 }
 
+h2 {
+  margin: 20px 0;
+}
+
 ul {
   list-style-position: inside;
   padding-left: 0;
