@@ -1,15 +1,21 @@
 import SceneManager from './SceneManager.js'
 
-document.addEventListener('click', e => {
-  const target = e.target.closest('.js-start')
-  if (!target) return
+/** ROUTER */
 
-  new SceneManager().start(target.dataset.path)
-  document.getElementById('ui').innerHTML = ''
+document.addEventListener('click', e => {
+  const button = e.target.closest('button')
+  const jsStart = e.target.closest('.js-start')
+
+  if (jsStart) {
+    new SceneManager().start(jsStart.dataset.path)
+    document.getElementById('ui').innerHTML = ''
+    window.location.hash = jsStart.dataset.path
+  }
+
+  if (button?.id == 'menu')
+    window.location.hash = ''
 })
 
-window.addEventListener('popstate', () => {
-  const confirmation = window.confirm('Pritiskom na back napuštate sajt. Potvrdite komandu.')
-  if (!confirmation)
-    history.pushState(null, null, location.href)
+addEventListener('hashchange', () => {
+  if (!location.hash) location.reload()
 })

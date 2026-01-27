@@ -58,9 +58,6 @@ export default class Scena {
     if (target?.id == 'igraj-opet')
       this.manager.restart()
 
-    if (target?.id == 'menu')
-      location.reload()
-
     if (target?.id == 'continue')
       this.unpause()
   }

@@ -18,7 +18,6 @@ npm start
 
 ## TODO
 
-- dodati rutiranje na scene i back
 - dodati ostale igre, scene, animacije i primere
     - dodati korčula demo
     - srediti neke igre ako treba (warplane vratiti u full mode)
