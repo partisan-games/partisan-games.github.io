@@ -18,11 +18,9 @@ npm start
 
 ## TODO
 
-- dodati ostale igre, scene, animacije i primere
-    - dodati korčula demo
-    - srediti neke igre ako treba (warplane vratiti u full mode)
-- spojiti sa create 3D worlds??
-- dodati animaciju aviona za GSP
+- dodati ostale igre, scene i animacije sa create 3D worlds
+    - warplane da se bira avion
+- dodati animaciju aviona za GSP?
 
 ### Završno
 
