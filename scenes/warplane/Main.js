@@ -44,6 +44,11 @@ export default class extends Scena3D {
     this.render()
   }
 
+  restart() {
+    this.init()
+    this.ui.renderStartScreen()
+  }
+
   async handleClick(e) {
     super.handleClick(e)
     if (e.target.tagName != 'INPUT') return

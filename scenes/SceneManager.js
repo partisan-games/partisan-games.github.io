@@ -39,8 +39,7 @@ class SceneManager {
   restart() {
     this.scene.end()
     this.scene = new this.scene.constructor(this)
-    this.scene.init()
-    this.scene.start()
+    this.scene.restart()
   }
 }
 

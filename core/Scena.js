@@ -104,6 +104,11 @@ export default class Scena {
     document.removeEventListener('pointerlockchange', this.handlePointerLockChange)
   }
 
+  restart() {
+    this.init()
+    this.start()
+  }
+
   pause() {
     if (this.ui.outro) return
 
