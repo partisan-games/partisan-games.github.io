@@ -4,10 +4,11 @@ const elementUI = document.getElementById('ui')
 const modalElement = document.getElementById('modal')
 
 export default class UI {
-  constructor(scene, { reportText, intro = '' } = {}) {
+  constructor(scene, { intro = '', reportText, customStartScreen } = {}) {
     this.scene = scene
     this.intro = intro
     this.reportText = reportText
+    this.customStartScreen = customStartScreen
     this.cachedSceneUI = this.cachedModal = this.outro = ''
   }
 
@@ -24,7 +25,7 @@ export default class UI {
   /* CENTRAL SCREEN */
 
   startScreen() {
-    return /* html */`
+    return this.customStartScreen || /* html */`
       <div class="central-screen simple-container" id="start-screen">
         <p>${this.intro}</p>
         <button id="start"><span>🔥</span> To battle</button>

@@ -3,14 +3,11 @@ import Scena3D from '/core/Scena3D.js'
 import { createSun } from '/core3d/light.js'
 import { createTerrain } from '/core3d/ground.js'
 import { createFirTree } from '/core3d/geometry/trees.js'
-import { createWarehouse, createWarehouse2, createWarRuin, createRuin, createAirport } from '/core3d/city.js'
-import { loadModel } from '/core3d/loaders.js'
-import Building from '/core3d/objects/Building.js'
-import Tower from '/core3d/objects/Tower.js'
 import Bomber from '/core3d/aircraft/derived/Bomber.js'
 import { baseControls } from '/ui/Controls.js'
+import { createBuilding, createStartScreen } from './utils.js'
 
-const { randInt, randFloatSpread } = THREE.MathUtils
+const { randFloatSpread } = THREE.MathUtils
 
 const totalTime = 150
 const mapSize = 800
@@ -18,27 +15,13 @@ const buildingInterval = 2000
 const buildingDistance = mapSize * .4
 const groundDistance = mapSize * .99
 
-const createBuilding = async time => {
-  const minutes = Math.floor(time / 60)
-  switch (randInt(1, 7 + minutes)) {
-    case 1:
-      const factory = await loadModel({ file: 'building/factory/model.fbx', size: 25 })
-      return new Building({ mesh: factory, name: 'factory' })
-    case 2: return new Building({ mesh: createAirport() })
-    case 3: return new Building({ mesh: createWarRuin(), name: 'civil' })
-    case 4: return new Building({ mesh: createRuin(), name: 'civil' })
-    case 5: return new Building({ mesh: createWarehouse() })
-    case 6: return new Building({ mesh: createWarehouse2() })
-    default: return new Tower()
-  }
-}
-
 export default class extends Scena3D {
   constructor(manager) {
     super(manager, {
       toon: true,
       controlKeys: { ...baseControls, Enter: 'attack' },
       intro: 'Destroy enemy factories, do not target civilian buildings!',
+      customStartScreen: createStartScreen()
     })
   }
 
@@ -58,12 +41,27 @@ export default class extends Scena3D {
     this.ground2.position.z = -groundDistance
     this.addMesh(this.ground, this.ground2)
 
-    this.player = new Bomber({ camera: this.camera, limit: mapSize * .25 })
-    this.addMesh(this.player.mesh)
-    this.entities.push(this.player)
+    // this.player = new Bomber({ camera: this.camera, limit: mapSize * .25 })
+    // this.addMesh(this.player.mesh)
+    // this.entities.push(this.player)
 
     this.score = 0
     this.render()
+  }
+
+  async handleClick(e) {
+    super.handleClick(e)
+    if (e.target.tagName != 'INPUT') return
+
+    this.manager.spinner.show()
+    // gui.clearScreen()
+    const obj = await import(`/core3d/aircraft/derived/${e.target.id}.js`)
+    this.player = new obj.default({ camera: this.camera, limit: mapSize * .25 })
+    this.addMesh(this.player.mesh)
+    this.entities.push(this.player)
+    this.manager.spinner.hide()
+    this.start()
+    // gui.showMessage('Destroy enemy factories,<br><br>do not target civilian buildings')
   }
 
   pushMesh(mesh, spread = .33) {

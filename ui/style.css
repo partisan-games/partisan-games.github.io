@@ -164,7 +164,8 @@ button.no-hover:hover {
   top: 50%;
   transform: translate(-50%, -50%);
   z-index: 1;
-  max-width: 512px;
+  text-align: center;
+  /* max-width: 512px; */
   min-width: 320px;
 }
 
@@ -176,9 +177,8 @@ button.no-hover:hover {
   border-image-width: 7px;
   border-radius: var(--radius);
   color: #8D9573;
-  max-width: 480px;
   padding: 20px;
-  text-align: center;
+  display: inline-block;
 }
 
 .white-window {
@@ -194,6 +194,12 @@ button.no-hover:hover {
   flex-direction: column;
   align-items: center;
   gap: 8px;
+}
+
+.game-screen-select {
+  /* display: flex; */
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 /* REPORT */

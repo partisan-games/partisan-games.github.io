@@ -20,7 +20,6 @@ npm start
 
 - dodati ostale igre, scene i animacije sa create 3D worlds
     - warplane da se bira avion
-- dodati animaciju aviona za GSP?
 
 ### Završno
 
