@@ -31,7 +31,7 @@ export default class extends Scena3D {
     this.objects = []
 
     this.camera.position.set(0, 29, 0)
-    this.scene.fog = new THREE.FogExp2(0xFFFFFF, 0.003)
+    this.scene.fog = new THREE.Fog(0xE5C5AB, mapSize * .25, buildingDistance)
     this.addMesh(createSun({ pos: [50, 200, 50], intensity: Math.PI * 2 }))
 
     const groundParams = { size: mapSize, color: 0x91A566, colorRange: .1, segments: 50, min: 0, max: 15 }
