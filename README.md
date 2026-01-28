@@ -18,8 +18,11 @@ npm start
 
 ## TODO
 
+- warplane
+    - probati bez linija
+    - probati boje sa izvornog primera 1943
+    - dodati dim na fabriku
 - dodati ostale igre, scene i animacije sa create 3D worlds
-    - warplane da se bira avion
 
 ### Završno
 
