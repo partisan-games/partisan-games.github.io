@@ -19,9 +19,9 @@ npm start
 ## TODO
 
 - warplane
+    - BUG: restart is not working
     - probati bez linija
     - probati boje sa izvornog primera 1943
-    - dodati dim na fabriku
 - dodati ostale igre, scene i animacije sa create 3D worlds
 
 ### Završno
