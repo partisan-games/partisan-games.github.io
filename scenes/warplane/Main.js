@@ -3,7 +3,6 @@ import Scena3D from '/core/Scena3D.js'
 import { createSun } from '/core3d/light.js'
 import { createTerrain } from '/core3d/ground.js'
 import { createFirTree } from '/core3d/geometry/trees.js'
-import Bomber from '/core3d/aircraft/derived/Bomber.js'
 import { baseControls } from '/ui/Controls.js'
 import { createBuilding, createStartScreen } from './utils.js'
 
@@ -41,10 +40,6 @@ export default class extends Scena3D {
     this.ground2.position.z = -groundDistance
     this.addMesh(this.ground, this.ground2)
 
-    // this.player = new Bomber({ camera: this.camera, limit: mapSize * .25 })
-    // this.addMesh(this.player.mesh)
-    // this.entities.push(this.player)
-
     this.score = 0
     this.render()
   }
@@ -54,14 +49,13 @@ export default class extends Scena3D {
     if (e.target.tagName != 'INPUT') return
 
     this.manager.spinner.show()
-    // gui.clearScreen()
     const obj = await import(`/core3d/aircraft/derived/${e.target.id}.js`)
     this.player = new obj.default({ camera: this.camera, limit: mapSize * .25 })
     this.addMesh(this.player.mesh)
     this.entities.push(this.player)
     this.manager.spinner.hide()
     this.start()
-    // gui.showMessage('Destroy enemy factories,<br><br>do not target civilian buildings')
+    this.ui.showMessage('Destroy enemy factories,<br><br>do not target civilian buildings')
   }
 
   pushMesh(mesh, spread = .33) {
