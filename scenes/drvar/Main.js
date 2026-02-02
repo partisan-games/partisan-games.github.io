@@ -30,6 +30,10 @@ export default class extends Scena3D {
 
   init() {
     this.addMesh(createGround({ color: 0x606b60 }))
+    this.avioni = []
+    this.padobranci = []
+    this.vozila = []
+    this.partizani = []
     elements.forEach(el => {
       for (let i = 0; i < el.number; ++i)
         this.dodajSprite(el, i)
@@ -40,10 +44,6 @@ export default class extends Scena3D {
     this.controls.enablePan = false
     this.controls.minAzimuthAngle = -Math.PI / 8
     this.controls.maxAzimuthAngle = Math.PI / 8
-    this.avioni = []
-    this.padobranci = []
-    this.vozila = []
-    this.partizani = []
     this.eksplozija = new Sprite('assets/images/sprites/efekti/eksplozija-01.png', 8, 4)
     this.addMesh(this.eksplozija.mesh)
     this.bojaPozadine = '#403'
