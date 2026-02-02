@@ -22,7 +22,7 @@ export const createBuilding = async time => {
 export const createStartScreen = () => {
   const style = 'border: 3px solid black; height: 140px'
   const options = ['Biplane', 'Triplane', 'Messerschmitt', 'Bomber', 'F18']
-    .map(name => `<input type="image" id="${name}" src="/assets/images/scenes/${name}.png" style="${style}" />`)
+    .map(name => `<input type="image" id="${name}" src="/assets/images/scenes/warplane/${name}.webp" style="${style}" />`)
     .join('')
 
   return /* html */`
