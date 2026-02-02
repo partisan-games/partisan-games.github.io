@@ -1,11 +1,13 @@
 @font-face {
   font-family: "Press Start 2P";
   src: url("/assets/fonts/PressStart2P.ttf");
+  font-display: swap;
 }
 
 @font-face {
   font-family: "1942 Report";
   src: url("/assets/fonts/1942.ttf");
+  font-display: swap;
 }
 
 :root {
