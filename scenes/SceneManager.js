@@ -1,5 +1,3 @@
-import { Spinner } from '/core3d/loaders.js'
-
 class SceneManager {
   static instance = null
 
@@ -9,7 +7,6 @@ class SceneManager {
 
     this.scene = null
     SceneManager.instance = this
-    this.spinner = new Spinner()
   }
 
   handleIntro() {
@@ -21,7 +18,15 @@ class SceneManager {
       this.scene.start()
   }
 
+  async initSpinner() {
+    if (!this.spinner) {
+      const module = await import('/core3d/loaders.js')
+      this.spinner = new module.Spinner()
+    }
+  }
+
   async start(path) {
+    await this.initSpinner()
     this.spinner.show()
     if (this.scene)
       this.scene.end()
