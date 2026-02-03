@@ -9,7 +9,6 @@ import { Spinner } from '/core3d/loaders.js'
 
 const numBoxes = 400, mapSize = 200, lavaSize = 50
 const numCoins = numBoxes / 4
-const coins = []
 
 const withinCircle = position => Math.pow(position.x, 2) + Math.pow(position.z, 2) < Math.pow(lavaSize, 2)
 
@@ -67,6 +66,7 @@ export default class extends Scena3D {
   }
 
   createCoins() {
+    this.coins = []
     for (let i = 0; i < numCoins; i++) {
       const pos = this.boxes[i].position.clone()
       pos.y += 6.15
@@ -78,7 +78,7 @@ export default class extends Scena3D {
       }
 
       const coin = new Coin({ pos })
-      coins.push(coin)
+      this.coins.push(coin)
       this.add(coin)
     }
   }
@@ -107,7 +107,7 @@ export default class extends Scena3D {
   checkCollision(coin) {
     if (this.player.distanceTo(coin.mesh) > 1.4) return
 
-    coins.splice(coins.findIndex(c => c === coin), 1)
+    this.coins.splice(this.coins.findIndex(c => c === coin), 1)
     this.removeMesh(coin.mesh)
     this.score ++
     this.showMotivationalMessage()
@@ -116,7 +116,6 @@ export default class extends Scena3D {
   showMotivationalMessage() {
     const message = messageDict[this.score]
     if (message) this.ui.showMessage(message)
-    if (coins.length === 0) this.victory()
   }
 
   sceneUI() {
@@ -124,7 +123,7 @@ export default class extends Scena3D {
       <div class="top-left">
         <p>
           Score: ${this.score}<br>
-          coins left: ${coins.length}
+          coins left: ${this.coins.length}
         </p>
       </div>
     `
@@ -134,18 +133,19 @@ export default class extends Scena3D {
     super.update(dt)
     if (!this.player) return
 
-    coins.forEach(coin => this.checkCollision(coin))
-
+    this.lava.material.uniforms.time.value = t * .5
     if (inLava(this.player) && this.player.skin != 'LAVA') {
       this.ui.showMessage('Get out of the lava, you\'re burning!')
       this.player.energy -= .1
     }
+
+    this.coins.forEach(coin => this.checkCollision(coin))
 
     if (this.player.dead)
       this.defeat()
     else
       this.player.update(dt)
 
-    this.lava.material.uniforms.time.value = t * .5
+    if (this.coins.length === 0) this.victory()
   }
 }
