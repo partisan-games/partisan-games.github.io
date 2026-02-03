@@ -9,7 +9,6 @@ import { Spinner } from '/core3d/loaders.js'
 
 const numBoxes = 400, mapSize = 200, lavaSize = 50
 const numCoins = numBoxes / 4
-const platforms = []
 const coins = []
 
 const withinCircle = position => Math.pow(position.x, 2) + Math.pow(position.z, 2) < Math.pow(lavaSize, 2)
@@ -74,14 +73,13 @@ export default class extends Scena3D {
 
       if (Math.random() > .8) {
         const platform = new Platform({ pos, file: null })
-        platforms.push(platform)
-        this.addMesh(platform.mesh)
+        this.add(platform)
         this.player.addSolids(platform.mesh)
       }
 
       const coin = new Coin({ pos })
       coins.push(coin)
-      this.addMesh(coin.mesh)
+      this.add(coin)
     }
   }
 
@@ -136,10 +134,7 @@ export default class extends Scena3D {
     super.update(dt)
     if (!this.player) return
 
-    coins.forEach(coin => {
-      coin.update(dt)
-      this.checkCollision(coin)
-    })
+    coins.forEach(coin => this.checkCollision(coin))
 
     if (inLava(this.player) && this.player.skin != 'LAVA') {
       this.ui.showMessage('Get out of the lava, you\'re burning!')
@@ -151,7 +146,6 @@ export default class extends Scena3D {
     else
       this.player.update(dt)
 
-    platforms.forEach(platform => platform.update(dt))
     this.lava.material.uniforms.time.value = t * .5
   }
 }
