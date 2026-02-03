@@ -27,15 +27,15 @@ const customStartScreen = /* html */`
     <h2>Choose your avatar</h2>
     <div class="game-screen-select">
       <div>
-        <input type="image" id="STONE" src="/assets/images/scenes/avatar/STONE.jpg" style="border: 3px solid black" /><br>
+        <input type="image" id="STONE" src="/assets/images/scenes/avatar/STONE.jpg" /><br>
         Normal
       </div>
       <div>
-        <input type="image" id="DISCO" src="/assets/images/scenes/avatar/DISCO.jpg" style="border: 3px solid black" /><br>
+        <input type="image" id="DISCO" src="/assets/images/scenes/avatar/DISCO.jpg" /><br>
         Can fly
       </div>
       <div>
-        <input type="image" id="LAVA" src="/assets/images/scenes/avatar/LAVA.jpg" style="border: 3px solid black" /><br>
+        <input type="image" id="LAVA" src="/assets/images/scenes/avatar/LAVA.jpg" /><br>
         Immune to lava
       </div>
     </div>

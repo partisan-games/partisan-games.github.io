@@ -22,14 +22,17 @@ npm start
     - dodati veličinu uvodnih slika?
     - dodati rpgui
     - dodati pobedu?
+- BUG nestaje meni: Čisti ga uvodna poruka!!!!
+    - warplane esc pauza nestaje meni
+    - avatar pobeda nestaje meni
 - ukloniti manager iz scene
 - dodati ostale igre, scene i animacije sa create 3D worlds
-- BUG: warplane esc pauza nestaje meni
 
 ### Završno
 
 - prevod na engleski
 - dodati bazicnu statistiku, bar brojac poseta.
+- sistem ocenjivanja igara
 - probati tač skrin
 
 UI

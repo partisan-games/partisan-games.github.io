@@ -16,13 +16,12 @@ const buildingDistance = mapSize * .4
 const groundDistance = mapSize * .99
 
 const createStartScreen = () => {
-  const style = 'border: 3px solid black; height: 140px'
   const options = ['Biplane', 'Triplane', 'Messerschmitt', 'Bomber', 'F18']
-    .map(name => `<input type="image" id="${name}" src="/assets/images/scenes/warplane/${name}.webp" style="${style}" />`)
+    .map(name => `<input type="image" id="${name}" src="/assets/images/scenes/warplane/${name}.webp" />`)
     .join('')
 
   return /* html */`
-    <div class="central-screen simple-container" style="width:540px">
+    <div class="central-screen simple-container">
         <h2>Choose your aircraft</h2>
         <div class="game-screen-select">
             ${options}

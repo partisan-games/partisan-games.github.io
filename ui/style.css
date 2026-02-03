@@ -120,10 +120,16 @@ button.no-hover:hover {
 }
 
 .main-menu {
-  display:grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap:40px;
-  padding: 0 40px;
+    display:grid;
+    gap:20px;
+}
+
+@media (min-width: 500px) {
+  .main-menu {
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    padding: 0 40px;
+    gap:40px;
+  }
 }
 
 .menu-item {
@@ -168,7 +174,7 @@ button.no-hover:hover {
   transform: translate(-50%, -50%);
   z-index: 1;
   text-align: center;
-  /* max-width: 512px; */
+  max-width: 540px;
   min-width: 320px;
 }
 
@@ -203,7 +209,19 @@ button.no-hover:hover {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+
+  input[type="image"] {
+    height: 110px;
+    border: 3px solid black;
+  }
 }
+
+@media (min-width: 500px) {
+  .game-screen-select input[type="image"] {
+    height: 140px;
+  }
+}
+
 
 /* REPORT */
 
@@ -237,7 +255,13 @@ button.no-hover:hover {
 
 .top-left {
   left: var(--spacing);
-  top: var(--spacing);
+  top: 40px; /* za fps scene */
+}
+
+@media (min-width: 500px) {
+  .top-left {
+    top: var(--spacing);
+  }
 }
 
 .top-right {
@@ -256,18 +280,12 @@ button.no-hover:hover {
 }
 
 .progress {
-  width: 220px;
+  width: 96%;
 }
 
-@media (max-width: 500px) {
+@media (min-width: 500px) {
   .progress {
-    width: 96%;
-  }
-}
-
-@media (max-width: 500px) {
-  .top-left {
-    top: 40px;
+    width: 220px;
   }
 }
 
