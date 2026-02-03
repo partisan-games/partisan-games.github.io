@@ -106,10 +106,8 @@ export default class extends Scena3D {
     const left = this.enemies.length - killed.length
     return /* html */`
       <div class="top-left ">
-        <p>
-          Score: ${killed.length}<br>
-          <small>Enemy left: ${left}</small>
-        </p>
+        Score: ${killed.length}<br>
+        <small>Enemy left: ${left}</small>
       </div>
     `
   }

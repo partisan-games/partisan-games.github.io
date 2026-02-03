@@ -19,9 +19,7 @@ npm start
 ## TODO
 
 - dodati avatar
-    - dodati veličinu uvodnih slika?
     - dodati rpgui
-    - dodati pobedu?
 - BUG nestaje meni: Čisti ga uvodna poruka!!!!
     - warplane esc pauza nestaje meni
     - avatar pobeda nestaje meni

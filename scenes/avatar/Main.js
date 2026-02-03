@@ -28,15 +28,15 @@ const customStartScreen = /* html */`
     <div class="game-screen-select">
       <div>
         <input type="image" id="STONE" src="/assets/images/scenes/avatar/STONE.jpg" /><br>
-        Normal
+        Kamenko<br><small>(basic)</small>
       </div>
       <div>
         <input type="image" id="DISCO" src="/assets/images/scenes/avatar/DISCO.jpg" /><br>
-        Can fly
+        Balonko<br><small>(can fly)</small>
       </div>
       <div>
         <input type="image" id="LAVA" src="/assets/images/scenes/avatar/LAVA.jpg" /><br>
-        Immune to lava
+        Laveni<br><small>(immune to lava)</small>
       </div>
     </div>
   </div>
@@ -121,10 +121,8 @@ export default class extends Scena3D {
   sceneUI() {
     return /* html */`
       <div class="top-left">
-        <p>
-          Score: ${this.score}<br>
-          coins left: ${this.coins.length}
-        </p>
+        Score: ${this.score}<br>
+        coins left: ${this.coins.length}
       </div>
     `
   }

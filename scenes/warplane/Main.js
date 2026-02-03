@@ -127,10 +127,8 @@ export default class extends Scena3D {
     const timeLeft = totalTime - Math.floor(time)
     return /* html */`
       <div class="top-left">
-        <p>
-          Score: ${this.score}<br>
-          <small class="blink">Time left: ${Math.max(timeLeft, 0)}</small>
-        </p>
+        Score: ${this.score}<br>
+        <small class="blink">Time left: ${Math.max(timeLeft, 0)}</small>
       </div>
     `
   }
