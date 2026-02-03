@@ -115,7 +115,7 @@ button.no-hover:hover {
 }
 
 .potpis {
-  margin-bottom: 20px;
+  margin-bottom: 40px;
   text-align: right;
 }
 
@@ -123,6 +123,7 @@ button.no-hover:hover {
   display:grid;
   grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
   gap:40px;
+  padding: 0 40px;
 }
 
 .menu-item {
