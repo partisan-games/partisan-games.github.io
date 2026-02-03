@@ -121,7 +121,7 @@ button.no-hover:hover {
 
 .main-menu {
   display:grid;
-  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap:40px;
   padding: 0 40px;
 }
@@ -200,7 +200,7 @@ button.no-hover:hover {
 }
 
 .game-screen-select {
-  /* display: flex; */
+  display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }

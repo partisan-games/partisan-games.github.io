@@ -41,12 +41,21 @@ export default class Scena3D extends Scena {
   }
 
   add(...predmeti) {
-    this.predmeti.push(...predmeti)
-    this.scene.add(...predmeti.map(arg => arg.mesh))
+    super.add(...predmeti)
+    this.scene.add(...predmeti.map(predmet => predmet.mesh))
   }
 
-  addMesh(...predmeti) {
-    this.scene.add(...predmeti)
+  remove(...predmeti) {
+    super.remove(...predmeti)
+    this.scene.remove(...predmeti.map(predmet => predmet.mesh))
+  }
+
+  addMesh(...meshes) {
+    this.scene.add(...meshes)
+  }
+
+  removeMesh(...meshes) {
+    this.scene.remove(...meshes)
   }
 
   end() {

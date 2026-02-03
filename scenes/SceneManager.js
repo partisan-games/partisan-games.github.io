@@ -10,7 +10,7 @@ class SceneManager {
   }
 
   handleIntro() {
-    if (this.scene.ui.intro) {
+    if (this.scene.hasStartScreen) {
       this.scene.clear()
       this.scene.slikeUcitane().then(() => this.scene.render())
       this.scene.ui.renderStartScreen()
@@ -39,12 +39,6 @@ class SceneManager {
     if (this.scene.pozadina)
       this.scene.pozadina.onload = () => this.handleIntro()
     else this.handleIntro()
-  }
-
-  restart() {
-    this.scene.end()
-    this.scene = new this.scene.constructor(this)
-    this.scene.restart()
   }
 }
 

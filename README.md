@@ -18,7 +18,13 @@ npm start
 
 ## TODO
 
+- dodati avatar
+    - dodati veličinu uvodnih slika?
+    - dodati rpgui
+    - dodati pobedu?
+- ukloniti manager iz scene
 - dodati ostale igre, scene i animacije sa create 3D worlds
+- BUG: warplane esc pauza nestaje meni
 
 ### Završno
 
