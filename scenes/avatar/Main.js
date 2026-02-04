@@ -23,7 +23,7 @@ const messageDict = {
 }
 
 const customStartScreen = /* html */`
-  <div class="central-screen simple-container">
+  <div class="central-screen rpgui-container framed">
     <h2>Choose your avatar</h2>
     <div class="game-screen-select">
       <div>
@@ -90,7 +90,7 @@ export default class extends Scena3D {
     const spinner = new Spinner()
 
     const Avatar = await import('/core3d/actor/Avatar.js')
-    this.player = new Avatar.default({ camera: this.camera, solids: [this.ground, ...this.boxes], skin: e.target.id, showHealthBar: true, maxJumpTime: .99 })
+    this.player = new Avatar.default({ camera: this.camera, solids: [this.ground, ...this.boxes], skin: e.target.id, showHealthBar: true, maxJumpTime: .99, rpgStyle: true })
     this.player.chaseCamera.distance = 6
     this.addMesh(this.player.mesh)
 
@@ -120,9 +120,11 @@ export default class extends Scena3D {
 
   sceneUI() {
     return /* html */`
-      <div class="top-left">
-        Score: ${this.score}<br>
-        coins left: ${this.coins.length}
+      <div class="top-left rpgui-button golden">
+        <div> 
+          Score: ${this.score}<br>
+          coins left: ${this.coins.length}
+        </div>
       </div>
     `
   }

@@ -18,13 +18,13 @@ npm start
 
 ## TODO
 
-- dodati avatar
-    - dodati rpgui
 - BUG nestaje meni: Čisti ga uvodna poruka!!!!
     - warplane esc pauza nestaje meni
     - avatar pobeda nestaje meni
 - ukloniti manager iz scene
 - dodati ostale igre, scene i animacije sa create 3D worlds
+- neretva energiju gore desno
+- dodati tač skrin jump na avatara i drugde (baguje na three.js games)
 
 ### Završno
 
@@ -94,3 +94,15 @@ Refaktor
 ## Credits
 
 - [JuniorGeneral](https://www.juniorgeneral.org/) - pixel art soldiers and ideas 
+- Game UI: https://ronenness.github.io/RPGUI/
+
+Free 3D Models are from: 
+- 3dwarehouse.sketchup.com
+- sketchfab.com
+- turbosquid.com 
+- mixamo.com
+- archive3d.net
+- rigmodels.com
+and other respected sites.
+
+If I have missed some source, please let me know. I've been following various books, courses, repositories and other materials for more than a decade, I don't even know where I found something anymore.

@@ -34,7 +34,7 @@ html {
 
 body {
   background-color: var(--gray);
-  cursor: url(/assets/images/ui/cursor/default.png), auto;
+  cursor: url(/assets/images/rpgui/cursor/default.png), auto;
   filter: sepia(0.15);
   font-size: 0.8em;
   line-height: 22px;
@@ -43,6 +43,7 @@ body {
   background-image: url("/assets/images/art/milan-vasek-map-sepia.jpg");
   background-size: cover;
   overflow-x: hidden;
+  image-rendering: pixelated;
 }
 
 body,
@@ -89,7 +90,7 @@ button {
   background-color: transparent;
   border-radius: var(--radius);
   border: none;
-  cursor: url("/assets/images/ui/cursor/point.png") 10 0, auto;
+  cursor: url("/assets/images/rpgui/cursor/point.png") 10 0, auto;
   padding: 12px 16px;
   transition: background-color 0.45s;
   text-transform: uppercase;
@@ -134,7 +135,7 @@ button.no-hover:hover {
 
 .menu-item {
   color: var(--olive);
-  cursor: url("/assets/images/ui/cursor/point.png") 10 0, auto;
+  cursor: url("/assets/images/rpgui/cursor/point.png") 10 0, auto;
   padding: 8px 16px;
   text-align: center;
   background-color: rgba(27, 27, 27, .75);
@@ -182,7 +183,7 @@ button.no-hover:hover {
   background-color: rgba(0, 0, 0, 0.8);
   border-image-repeat: repeat;
   border-image-slice: 3 3 3 3;
-  border-image-source: url(/assets/images/ui/border-image-grey.png);
+  border-image-source: url(/assets/images/rpgui/border-image-grey.png);
   border-image-width: 7px;
   border-radius: var(--radius);
   color: #8D9573;
