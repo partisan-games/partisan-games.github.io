@@ -24,7 +24,8 @@ npm start
 - ukloniti manager iz scene
 - dodati ostale igre, scene i animacije sa create 3D worlds
 - neretva energiju gore desno
-- dodati tač skrin jump na avatara i drugde (baguje na three.js games)
+- BUG: avatar dosta baguje i blokira
+    - dualni tač doprinosi?
 
 ### Završno
 
