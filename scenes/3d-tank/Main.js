@@ -110,10 +110,8 @@ export default class extends Scena3D {
   sceneUI(t) {
     return /* html */`
       <div class="top-left">
-        <p>
-          Blocks left: ${this.countableCrates.length}
-          <br><small class="blink">Time: ${Math.floor(t)}</small>
-        </p>
+        Blocks left: ${this.countableCrates.length}
+        <br><small class="blink">Time: ${Math.floor(t)}</small>
       </div>
     `
   }

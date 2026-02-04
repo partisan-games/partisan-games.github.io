@@ -4,7 +4,8 @@ import { createSun } from '/core3d/light.js'
 import { createTerrain } from '/core3d/ground.js'
 import { createFirTree } from '/core3d/geometry/trees.js'
 import { baseControls } from '/ui/Controls.js'
-import { createBuilding, createStartScreen } from './utils.js'
+import { createBuilding } from './utils.js'
+import { Spinner } from '/core3d/loaders.js'
 
 const { randFloatSpread } = THREE.MathUtils
 
@@ -14,12 +15,26 @@ const buildingInterval = 2000
 const buildingDistance = mapSize * .4
 const groundDistance = mapSize * .99
 
+const createStartScreen = () => {
+  const options = ['Biplane', 'Triplane', 'Messerschmitt', 'Bomber', 'F18']
+    .map(name => `<input type="image" id="${name}" src="/assets/images/scenes/warplane/${name}.webp" />`)
+    .join('')
+
+  return /* html */`
+    <div class="central-screen simple-container">
+        <h2>Choose your aircraft</h2>
+        <div class="game-screen-select">
+            ${options}
+        </div>
+    </div>
+`
+}
+
 export default class extends Scena3D {
   constructor(manager) {
     super(manager, {
       toon: true,
       controlKeys: { ...baseControls, Enter: 'attack' },
-      intro: 'Destroy enemy factories, do not target civilian buildings!',
       customStartScreen: createStartScreen()
     })
   }
@@ -44,21 +59,16 @@ export default class extends Scena3D {
     this.render()
   }
 
-  restart() {
-    this.init()
-    this.ui.renderStartScreen()
-  }
-
   async handleClick(e) {
     super.handleClick(e)
     if (e.target.tagName != 'INPUT') return
 
-    this.manager.spinner.show()
+    const spinner = new Spinner()
     const obj = await import(`/core3d/aircraft/derived/${e.target.id}.js`)
     this.player = new obj.default({ camera: this.camera, limit: mapSize * .25 })
     this.addMesh(this.player.mesh)
     this.entities.push(this.player)
-    this.manager.spinner.hide()
+    spinner.hide()
     this.start()
     this.ui.showMessage('Destroy enemy factories,<br><br>do not target civilian buildings')
   }
@@ -117,10 +127,8 @@ export default class extends Scena3D {
     const timeLeft = totalTime - Math.floor(time)
     return /* html */`
       <div class="top-left">
-        <p>
-          Score: ${this.score}<br>
-          <small class="blink">Time left: ${Math.max(timeLeft, 0)}</small>
-        </p>
+        Score: ${this.score}<br>
+        <small class="blink">Time left: ${Math.max(timeLeft, 0)}</small>
       </div>
     `
   }

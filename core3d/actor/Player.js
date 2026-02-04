@@ -16,6 +16,7 @@ export default class Player extends Actor {
     shouldRaycastGround = true,
     attackDistance = 1.5,
     showHealthBar = true,
+    rpgStyle = false,
     camera,
     cameraClass,
     ...rest
@@ -29,7 +30,7 @@ export default class Player extends Actor {
       this.chaseCamera = new ChaseCamera({ camera, mesh: this.mesh, height: this.height, cameraClass })
     }
 
-    if (showHealthBar) this.crateHealthBar()
+    if (showHealthBar) this.crateHealthBar(rpgStyle)
   }
 
   /* GETTERS & SETTERS */
@@ -63,10 +64,10 @@ export default class Player extends Actor {
 
   /* UTILS */
 
-  crateHealthBar() {
+  crateHealthBar(rpgStyle) {
     this.healthBar = document.createElement('progress')
     this.healthBar.value = this.healthBar.max = this.energy
-    this.healthBar.className = 'progress top-right'
+    this.healthBar.className = `progress top-right ${rpgStyle ? 'rpgui-progress' : ''}`
     document.body.appendChild(this.healthBar)
   }
 

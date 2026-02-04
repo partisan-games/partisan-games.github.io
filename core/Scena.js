@@ -37,7 +37,7 @@ export default class Scena {
     this.predmeti = this.predmeti.filter(p => !predmeti.includes(p))
   }
 
-  /* VELIČINA */
+  /* GETTERS */
 
   get sirina() {
     return platno.width
@@ -45,6 +45,10 @@ export default class Scena {
 
   get visina() {
     return platno.height
+  }
+
+  get hasStartScreen() {
+    return Boolean(this.ui.intro || this.ui.customStartScreen)
   }
 
   /* EVENTS */
@@ -56,7 +60,7 @@ export default class Scena {
       this.start()
 
     if (target?.id == 'igraj-opet')
-      this.manager.restart()
+      location.reload()
 
     if (target?.id == 'continue')
       this.unpause()
@@ -102,11 +106,6 @@ export default class Scena {
     document.removeEventListener('click', this.handleClick)
     document.removeEventListener('visibilitychange', this.handleVisibilityChange)
     document.removeEventListener('pointerlockchange', this.handlePointerLockChange)
-  }
-
-  restart() {
-    this.init()
-    this.start()
   }
 
   pause() {
