@@ -261,7 +261,7 @@ button.no-hover:hover {
   box-sizing: border-box;
   padding: 12px;
 
-  h1, h2, h3, button {
+  h1, h2, h3, #start {
     /* order is important */
     background: linear-gradient(to bottom, #ff8a00 0%, yellow 100%);
     background-clip: text;
@@ -270,7 +270,7 @@ button.no-hover:hover {
     text-shadow: none;
   }
 
-  button {
+  #start {
     font-size: 1rem;
   }
 }

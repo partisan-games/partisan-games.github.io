@@ -25,6 +25,7 @@ export default class extends Scena3D {
     super({
       controlKeys: thirdPersonControls,
       customStartScreen,
+      modalClass: 'rpgui-container framed'
     })
   }
 
@@ -62,7 +63,7 @@ export default class extends Scena3D {
     }
 
     const { ResistanceFighterPlayer } = await import('/core3d/actor/derived/ww2/ResistanceFighter.js')
-    this.player = new ResistanceFighterPlayer({ camera: this.camera, solids: this.solids })
+    this.player = new ResistanceFighterPlayer({ camera: this.camera, solids: this.solids, rpgStyle: true })
     this.add(this.player)
 
     const { Smoke } = await import('/core3d/Particles.js')
