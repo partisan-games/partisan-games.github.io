@@ -19,12 +19,11 @@ npm start
 ## TODO
 
 - dodati ostale igre, scene i animacije
-    - Moon landing
     - Graveyard survival
     - Cannon shooting
     - Kill all the Orcs
     - Zeppelin
-    -  dark-city
+    - dark-city
     - planets
     - tank
     - train
