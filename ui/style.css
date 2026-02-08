@@ -183,6 +183,7 @@ button.no-hover:hover {
   text-align: center;
   max-width: 540px;
   min-width: 320px;
+  padding: 20px;
 }
 
 .simple-container {
@@ -193,18 +194,20 @@ button.no-hover:hover {
   border-image-width: 7px;
   border-radius: var(--radius);
   color: #8D9573;
-  padding: 20px;
-  display: inline-block;
 }
 
-.white-window {
+.white-container {
   background-color: rgba(0, 0, 0, 0.4);
   border: 1px solid var(--black);
   border-radius: var(--radius);
   outline: 1px solid var(--white);
+}
+
+.bottom-left .white-container {
   padding: 10px;
   margin-top: 10px;
 }
+
 
 .game-paused {
   display: flex;

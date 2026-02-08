@@ -53,7 +53,7 @@ export default class Controls {
     const button = document.createElement('button')
 
     const content = document.createElement('div')
-    content.className = 'white-window'
+    content.className = 'white-container'
     content.innerHTML = Object.keys(controlKeys)
       .filter(key => controlKeys[key])
       .map(key => `${key} - ${controlKeys[key]}<br>`)
