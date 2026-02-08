@@ -28,12 +28,17 @@ npm start
 - BUG: avatar dosta baguje i blokira
     - dualni tač doprinosi?
 
+### BUGFIX
+
+- avatar komande zakoče se
+
 ### Završno
 
+- da bude upotrebljivo za telefone
+    - promeniti joystick u četiri strelice
 - prevod na engleski
 - dodati bazicnu statistiku, bar brojac poseta.
 - sistem ocenjivanja igara
-- probati tač skrin
 
 UI
 - dodati pauzu u kontrole svuda
