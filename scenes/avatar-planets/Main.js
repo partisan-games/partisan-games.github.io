@@ -33,7 +33,7 @@ export default class extends Scena3D {
     this.terrain = createTerrain({ size: mapSize, wireframe: true })
     this.addMesh(this.terrain)
 
-    this.stars = new Stars({ num: 10000 })
+    this.stars = new Stars({ num: 10000, minVelocity: 5, maxVelocity: 30 })
     this.add(this.stars)
 
     const solids = [...this.planets.map(o => o.mesh), this.terrain]
@@ -46,6 +46,5 @@ export default class extends Scena3D {
   update(delta, time) {
     super.update(delta)
     shake({ geometry: this.terrain.geometry, time })
-    // this.stars.update({ delta: delta * .1 })
   }
 }
