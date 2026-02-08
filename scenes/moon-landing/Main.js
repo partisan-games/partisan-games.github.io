@@ -26,8 +26,7 @@ export default class extends Scena3D {
   }
 
   async init() {
-    // TODO: boja pozadine
-    // document.body.style.background = 'linear-gradient(to bottom, #020111 70%, #191621 100%)'
+    this.bojaPlatna = 'linear-gradient(to bottom, #020111 70%, #191621 100%)'
     this.camera.position.z = 18
 
     ambLight({ scene: this.scene })
