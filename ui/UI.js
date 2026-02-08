@@ -110,6 +110,7 @@ export default class UI {
   showMessage(txt) {
     modalElement.innerHTML = this.getMessage(txt)
     setTimeout(() => {
+      if (this.modal) return
       modalElement.innerHTML = ''
     }, 3000)
   }
