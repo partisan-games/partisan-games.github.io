@@ -114,6 +114,51 @@ button.no-hover:hover {
   background-color: unset;
 }
 
+.rpgui-button {
+  background: url("/assets/images/rpgui/button.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  min-width: 160px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 35px;
+  padding-right: 35px;
+}
+
+.rpgui-button:hover {
+  background-image: url("/assets/images/rpgui/button-hover.png");
+}
+
+.rpgui-button.golden {
+  background-image: url("/assets/images/rpgui/button-golden.png");
+  background-size: 100% 90%;
+  padding-top: 5px;
+  justify-content: space-between;
+}
+
+.rpgui-button.golden:before,
+.rpgui-button.golden:after {
+  content: "";
+  width: 34px;
+  height: 110%;
+  margin-top: -5%;
+}
+
+.rpgui-button.golden:before {
+  background: transparent url("/assets/images/rpgui/button-golden-left.png") no-repeat right center;
+  background-size: 100% 100%;
+  margin-left: -46px;
+}
+
+.rpgui-button.golden:after {
+  background: transparent url("/assets/images/rpgui/button-golden-right.png") no-repeat left center;
+  background-size: 100% 100%;
+  margin-right: -46px;
+}
+
 /* HOMEPAGE */
 
 .homepage {
@@ -208,6 +253,39 @@ button.no-hover:hover {
   margin-top: 10px;
 }
 
+.rpgui-container {
+  border-image-repeat: repeat;
+  border-image-width: 18px;
+  border-style: solid;
+  border-width: 15px;
+  box-sizing: border-box;
+  padding: 12px;
+
+  h1, h2, h3, button {
+    /* order is important */
+    background: linear-gradient(to bottom, #ff8a00 0%, yellow 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none;
+  }
+
+  button {
+    font-size: 1rem;
+  }
+}
+
+.rpgui-container.framed {
+  background-color: #4E4A4E;
+  border-image-slice: 6 6 6 6;
+  border-image-source: url("/assets/images/rpgui/border-image.png");
+}
+
+.rpgui-container.framed-golden {
+  background-color: #854C30;
+  border-image-slice: 4 4 4 4;
+  border-image-source: url("/assets/images/rpgui/border-image-golden.png");
+}
 
 .game-paused {
   display: flex;
@@ -234,7 +312,6 @@ button.no-hover:hover {
     height: 140px;
   }
 }
-
 
 /* REPORT */
 
@@ -292,6 +369,8 @@ button.no-hover:hover {
   bottom: var(--spacing);
 }
 
+/* PROGRESS */
+
 .progress {
   width: 96%;
 }
@@ -301,8 +380,6 @@ button.no-hover:hover {
     width: 220px;
   }
 }
-
-/* PROGRESS */
 
 progress {
   width: 100%;
@@ -341,6 +418,28 @@ progress.potisak::-moz-progress-bar {
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
+  }
+}
+
+.rpgui-progress::-webkit-progress-value {
+  background-image: url("/assets/images/rpgui/progress-red.png");
+  background-repeat: repeat-x;
+  background-size: 36px 100%;
+  border-radius: 7px;
+}
+
+.rpgui-progress::-moz-progress-bar {
+  background-image: url("/assets/images/rpgui/progress-red.png");
+  background-repeat: repeat-x;
+  background-size: 36px 100%;
+  border-radius: 7px;
+}
+
+.rpgui-button.top-left {
+  margin-left: var(--spacing);
+
+  p, div {
+      padding: 0 8px;
   }
 }
 

@@ -20,6 +20,9 @@ npm start
 
 - dodati ostale igre, scene i animacije
     - Graveyard survival
+        - pucanje ne radi
+        - lazy load
+        - srediti pucanje za treće lice (pucanje na Enter? ili neki nišan)
     - Cannon shooting
     - Kill all the Orcs
     - Zeppelin

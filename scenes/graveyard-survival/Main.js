@@ -16,12 +16,19 @@ let last = Date.now()
 
 const zombies = ['GothGirl', 'ZombieBarefoot', 'ZombieCop', 'ZombieDoctor', 'ZombieGuard']
 
-// gui.showGameScreen({ goals: ['Survive until morning', 'Bonus: Kill zombies'], subtitle: 'Meet the morning<br>at the cursed graveyard.', callback: () => loop.start(), autoClose: true })
+const customStartScreen = /* html */`
+  <div class="central-screen rpgui-container framed">
+    <ul><li>Survive until morning</li><li>Bonus: Kill zombies</li></ul>
+    <button id="start">Press to START!</button>
+    <p>Meet the morning at the cursed graveyard.<p>
+  </div>
+`
 
 export default class extends Scena3D {
   constructor() {
     super({
       controlKeys: thirdPersonControls,
+      customStartScreen,
     })
   }
 
@@ -59,8 +66,6 @@ export default class extends Scena3D {
     this.player = new ResistanceFighterPlayer({ camera: this.camera, solids })
     this.addMesh(this.player.mesh)
 
-    // const gui = new GUI.default({ scoreTitle: 'Zombies killed', subtitle: 'Time left', useBlink: true, this.player, controls: { P: 'pause' } })
-
     const { Smoke } = await import('/core3d/Particles.js')
     this.particles = new Smoke({ size: 1, num: 100, minRadius: 0, maxRadius: .5 })
     this.addMesh(this.particles.mesh)
@@ -73,7 +78,7 @@ export default class extends Scena3D {
       last = Date.now()
 
       const name = sample(zombies)
-      const obj = await import(`/core/actor/derived/horror/${name}.js`)
+      const obj = await import(`/core3d/actor/derived/horror/${name}.js`)
       const ZombieClass = obj[name + 'AI']
       const pos = sample(this.coords)
       const zombie = new ZombieClass({ mapSize, target: this.player.mesh, solids, pos })
@@ -86,20 +91,31 @@ export default class extends Scena3D {
 
   /* LOOP */
 
+  sceneUI() {
+    if (!this.player) return ''
+    const kills = this.player.enemies.filter(mesh => mesh.userData.energy <= 0)
+    return /* html */`
+      <div class="top-left rpgui-button golden">
+        <p>
+          Zombies killed: ${kills.length}<br>
+          <small class="blink">Time left: ${this.timeLeft}</small>
+        </p>
+      </div>
+    `
+  }
+
   update(delta, time) {
     super.update(delta)
     if (!this.player) return
 
-    const timeLeft = Math.ceil(totalTime - time)
-    const isNight = timeLeft >= 0
+    this.timeLeft = Math.ceil(totalTime - time)
+    const isNight = this.timeLeft >= 0
 
     const moonTime = isNight ? time * moonSpeed : (time - totalTime) * moonSpeed
     orbiting(this.moon, moonTime, 150, 1)
 
     if (isNight) {
       this.spawnZombie(10000)
-      const kills = this.player.enemies.filter(mesh => mesh.userData.energy <= 0)
-      // if (!this.player.dead) gui.renderScore(kills.length, timeLeft)
       if (this.player.dead) this.ui.defeat('You have been killed at the cursed graveyard.')
     } else {
       this.moon.material.color = new THREE.Color(0xFCE570)
