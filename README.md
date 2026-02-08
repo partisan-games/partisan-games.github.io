@@ -18,7 +18,6 @@ npm start
 
 ## TODO
 
-- refaktorisati particles da primaju min i max velocity
 - BUG nestaje meni: Čisti ga uvodna poruka!!!!
     - warplane esc pauza nestaje meni
     - avatar pobeda nestaje meni

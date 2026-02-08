@@ -95,7 +95,7 @@ export default class Actor extends GameObject {
       const promise = import('/core3d/Particles.js')
       promise.then(obj => {
         const { Flame } = obj
-        this.flame = new Flame({ num: 25, minRadius: 0, maxRadius: .5 })
+        this.flame = new Flame({ num: 25, minRadius: 0, maxRadius: .5, minVelocity: 2.5, maxVelocity: 5 })
         this.flame.mesh.material.opacity = 0
       })
     }
@@ -404,7 +404,7 @@ export default class Actor extends GameObject {
   }
 
   updateFlame(delta) {
-    this.flame?.update({ delta, max: this.attackDistance, loop: this.shouldLoop, minVelocity: 2.5, maxVelocity: 5 })
+    this.flame?.update({ delta, max: this.attackDistance, loop: this.shouldLoop })
   }
 
   update(delta = 1 / 60) {
