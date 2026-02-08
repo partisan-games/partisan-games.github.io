@@ -40,18 +40,19 @@ export default class Scena3D extends Scena {
     this.renderer = new OutlineEffect(this.renderer, { defaultThickness })
   }
 
+  /* dodaje mesh i radi update */
   add(...predmeti) {
     super.add(...predmeti)
     this.scene.add(...predmeti.map(predmet => predmet.mesh))
   }
 
+  addMesh(...meshes) {
+    this.scene.add(...meshes)
+  }
+
   remove(...predmeti) {
     super.remove(...predmeti)
     this.scene.remove(...predmeti.map(predmet => predmet.mesh))
-  }
-
-  addMesh(...meshes) {
-    this.scene.add(...meshes)
   }
 
   removeMesh(...meshes) {

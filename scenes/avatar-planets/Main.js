@@ -17,7 +17,7 @@ export default class extends Scena3D {
 
   async init() {
     this.bojaPozadine = 0x000000
-    this.addMesh(createMoon())
+    const moon = createMoon()
 
     this.planets = []
     const mapSize = 400
@@ -31,14 +31,13 @@ export default class extends Scena3D {
     })
 
     this.terrain = createTerrain({ size: mapSize, wireframe: true })
-    this.addMesh(this.terrain)
+    this.addMesh(this.terrain, moon)
 
     this.stars = new Stars({ num: 10000, minVelocity: 5, maxVelocity: 30 })
-    this.add(this.stars)
 
-    const solids = [...this.planets.map(o => o.mesh), this.terrain]
+    const solids = [...this.planets.map(o => o.mesh), this.terrain, moon]
     this.player = new Avatar({ solids, camera: this.camera, skin: 'DISCO', showHealthBar: false, jumpStyle: 'FLY' })
-    this.add(this.player)
+    this.add(this.player, this.stars)
   }
 
   /* LOOP */
