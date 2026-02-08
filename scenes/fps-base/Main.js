@@ -17,8 +17,8 @@ import { createCrate, createRustyBarrel, createMetalBarrel } from '/core3d/geome
 const cellSize = 5
 
 export default class extends Scena3D {
-  constructor(manager) {
-    super(manager, {
+  constructor() {
+    super({
       toon: true,
       usePointerLock: true,
       controlKeys: fpsControls,

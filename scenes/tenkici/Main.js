@@ -10,8 +10,8 @@ const nivoTla = platno.height * 0.8
 let aiPlayer = true
 
 export default class extends Scena2D {
-  constructor(manager) {
-    super(manager, { controlKeys: tankLeftControls })
+  constructor() {
+    super({ controlKeys: tankLeftControls })
   }
 
   init() {

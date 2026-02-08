@@ -18,7 +18,7 @@ npm start
 
 ## TODO
 
-- ukloniti manager iz scene
+- srediti izveštaj da ne skaču slova
 - dodati ostale igre, scene i animacije sa create 3D worlds
 - neretva energiju gore desno
 - BUG: avatar dosta baguje i blokira

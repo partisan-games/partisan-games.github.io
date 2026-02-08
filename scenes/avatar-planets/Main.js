@@ -9,8 +9,8 @@ import Avatar from '/core3d/actor/Avatar.js'
 import Platform from '/core3d/objects/Platform.js'
 
 export default class extends Scena3D {
-  constructor(manager) {
-    super(manager, {
+  constructor() {
+    super({
       controlKeys: { ...baseControls, Space: 'jump' },
     })
   }

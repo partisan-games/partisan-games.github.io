@@ -15,8 +15,8 @@ const cellSize = 10
 const rows = 6
 
 export default class extends Scena3D {
-  constructor(manager) {
-    super(manager, { controlKeys: thirdPersonControls, toon: true })
+  constructor() {
+    super({ controlKeys: thirdPersonControls, toon: true })
   }
 
   init() {

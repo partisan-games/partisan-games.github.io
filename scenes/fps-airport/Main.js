@@ -19,8 +19,8 @@ const mapSize = 200
 const dornierNum = 8, stukaNum = 8, heinkelNum = 7
 
 export default class extends Scena3D {
-  constructor(manager) {
-    super(manager, {
+  constructor() {
+    super({
       usePointerLock: true,
       controlKeys: fpsControls,
       intro: 'Destroy all enemy aircraft.',

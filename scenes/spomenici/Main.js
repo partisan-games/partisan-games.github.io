@@ -8,8 +8,8 @@ import { PartisanPlayer } from '/core3d/actor/derived/ww2/Partisan.js'
 import { thirdPersonControls } from '/ui/Controls.js'
 
 export default class extends Scena3D {
-  constructor(manager) {
-    super(manager, { controlKeys: thirdPersonControls, toon: true })
+  constructor() {
+    super({ controlKeys: thirdPersonControls, toon: true })
   }
 
   async init() {

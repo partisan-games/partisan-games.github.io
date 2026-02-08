@@ -5,10 +5,9 @@ import UI from '../ui/UI.js'
 import Controls from '../ui/Controls.js'
 
 export default class Scena {
-  constructor(manager, {
+  constructor({
     usePointerLock, controlKeys, intro, controlsWindowClass, reportText, customStartScreen, showControls = true
   } = {}) {
-    this.manager = manager
     this.usePointerLock = usePointerLock
     this.gameLoop = new GameLoop(this.loop)
     this.ui = new UI(this, { reportText, intro, customStartScreen })

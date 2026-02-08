@@ -5,8 +5,8 @@ const platno3D = document.getElementById('platno-3d')
 platno3D.style.display = 'none'
 
 export default class Scena3D extends Scena {
-  constructor(manager, { toon = false, ...rest } = {}) {
-    super(manager, { ...rest })
+  constructor({ toon = false, ...rest } = {}) {
+    super({ ...rest })
     this.scene = new THREE.Scene()
     this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
     this.camera.position.set(0, 5, 30)

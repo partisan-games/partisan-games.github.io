@@ -31,8 +31,8 @@ const createStartScreen = () => {
 }
 
 export default class extends Scena3D {
-  constructor(manager) {
-    super(manager, {
+  constructor() {
+    super({
       toon: true,
       controlKeys: { ...baseControls, Enter: 'attack' },
       customStartScreen: createStartScreen()

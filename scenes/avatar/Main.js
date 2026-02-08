@@ -43,8 +43,8 @@ const customStartScreen = /* html */`
 `
 
 export default class extends Scena3D {
-  constructor(manager) {
-    super(manager, {
+  constructor() {
+    super({
       toon: true,
       controlKeys: { ...baseControls, Space: 'jump' },
       customStartScreen,
