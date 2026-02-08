@@ -59,7 +59,7 @@ export default class Scena {
       this.start()
 
     if (target?.id == 'igraj-opet')
-      this.reload ? this.reload() : location.reload()
+      this.reset ? this.reset() : location.reload()
 
     if (target?.id == 'continue')
       this.unpause()

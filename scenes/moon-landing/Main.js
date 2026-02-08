@@ -55,6 +55,11 @@ export default class extends Scena3D {
     this.addMesh(this.lander.mesh)
   }
 
+  reset() {
+    this.ui.clear()
+    this.lander.reset()
+  }
+
   /* LOOP */
 
   sceneUI() {
