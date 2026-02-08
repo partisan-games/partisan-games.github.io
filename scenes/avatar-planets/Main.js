@@ -19,36 +19,33 @@ export default class extends Scena3D {
     this.bojaPozadine = 0x000000
     this.addMesh(createMoon())
 
-    this.objects = []
+    this.planets = []
     const mapSize = 400
     const coords = getEmptyCoords({ mapSize: mapSize / 2, fieldSize: 30 })
 
     coords.forEach((pos, i) => {
       pos.y = Math.random() * 10 + 5
       const planet = Math.random() > .25 ? new Planet({ pos, i }) : new Platform({ pos })
-      this.objects.push(planet)
-      this.addMesh(planet.mesh)
+      this.planets.push(planet)
+      this.add(planet)
     })
 
     this.terrain = createTerrain({ size: mapSize, wireframe: true })
     this.addMesh(this.terrain)
 
     this.stars = new Stars({ num: 10000 })
-    this.addMesh(this.stars.mesh)
+    this.add(this.stars)
 
-    const solids = [...this.objects.map(o => o.mesh), this.terrain]
+    const solids = [...this.planets.map(o => o.mesh), this.terrain]
     this.player = new Avatar({ solids, camera: this.camera, skin: 'DISCO', showHealthBar: false, jumpStyle: 'FLY' })
-    this.addMesh(this.player.mesh)
+    this.add(this.player)
   }
 
   /* LOOP */
 
   update(delta, time) {
     super.update(delta)
-    this.objects.forEach(planet => planet.update(delta))
-
     shake({ geometry: this.terrain.geometry, time })
-    this.stars.update({ delta: delta * .1 })
-    this.player.update()
+    // this.stars.update({ delta: delta * .1 })
   }
 }
