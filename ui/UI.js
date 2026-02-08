@@ -4,13 +4,14 @@ const elementUI = document.getElementById('ui')
 const modalElement = document.getElementById('modal')
 
 export default class UI {
-  constructor(scene, { intro = '', reportText, customStartScreen, startButtonText = 'To battle' } = {}) {
+  constructor(scene, { intro = '', reportText, customStartScreen, startButtonText = 'To battle', modalClass = 'simple-container' } = {}) {
     this.scene = scene
     this.intro = intro
     this.startButtonText = startButtonText
     this.reportText = reportText
     this.customStartScreen = customStartScreen
     this.cachedSceneUI = this.cachedModal = this.outro = ''
+    this.modalClass = modalClass
   }
 
   clear() {
@@ -27,7 +28,7 @@ export default class UI {
 
   startScreen() {
     return this.customStartScreen || /* html */`
-      <div class="central-screen simple-container" id="start-screen">
+      <div class="central-screen ${this.modalClass}" id="start-screen">
         <p>${this.intro}</p>
         <button id="start"><span>🔥</span> ${this.startButtonText}</button>
       </div>
@@ -36,7 +37,7 @@ export default class UI {
 
   escModal() {
     return /* html */`
-      <div class="central-screen simple-container game-paused">
+      <div class="central-screen ${this.modalClass} game-paused">
         <h3 class="olive">Game paused</h3>
         <button id="continue"><span>🔥</span> Continue</button>
         <button id="menu"><span>☰</span> Main menu</button>
@@ -47,7 +48,7 @@ export default class UI {
 
   endScreen() {
     return /* html */`
-      <div class="central-screen simple-container">
+      <div class="central-screen ${this.modalClass}">
         ${this.outro}
         <button id="menu"><span>☰</span> Main menu</button>
         <button id="igraj-opet"><span>↻</span> Play again</button>
@@ -100,16 +101,8 @@ export default class UI {
 
   /* MESSAGE */
 
-  getMessage(txt, className = '') {
-    return /* html */`
-      <div class="central-screen">
-        <h3 class="${className}">${txt}</h3>
-      </div>
-    `
-  }
-
   showMessage(txt) {
-    modalElement.innerHTML = this.getMessage(txt)
+    modalElement.innerHTML = `<div class="central-screen"><h3>${txt}</h3></div>`
     setTimeout(() => {
       if (this.modal) return
       modalElement.innerHTML = ''

@@ -198,11 +198,12 @@ button.no-hover:hover {
 }
 
 .white-window {
-  margin-top: 10px;
+  background-color: rgba(0, 0, 0, 0.4);
   border: 1px solid var(--black);
+  border-radius: var(--radius);
   outline: 1px solid var(--white);
   padding: 10px;
-  border-radius: var(--radius);
+  margin-top: 10px;
 }
 
 .game-paused {

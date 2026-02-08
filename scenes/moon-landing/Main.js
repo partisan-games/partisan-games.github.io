@@ -16,12 +16,12 @@ const controls = {
 
 export default class extends Scena3D {
   constructor() {
-    // TODO: providni UI prozor?
     super({
       toon: true,
       controlKeys: controls,
       intro: 'Land on the platform gently',
-      startButtonText: 'Start'
+      startButtonText: 'Start',
+      modalClass: 'white-window',
     })
   }
 
