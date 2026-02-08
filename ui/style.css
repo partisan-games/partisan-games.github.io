@@ -222,6 +222,7 @@ button.no-hover:hover {
   justify-content: center;
 
   input[type="image"] {
+    min-width: 140px;
     height: 110px;
     border: 3px solid black;
   }
@@ -229,6 +230,7 @@ button.no-hover:hover {
 
 @media (min-width: 500px) {
   .game-screen-select input[type="image"] {
+    min-width: 180px;
     height: 140px;
   }
 }
