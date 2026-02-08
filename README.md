@@ -20,6 +20,7 @@ npm start
 
 - dodati ostale igre, scene i animacije
     - Graveyard survival
+        - this.add particles
         - pucanje ne radi
         - lazy load
         - srediti pucanje za treće lice (pucanje na Enter? ili neki nišan)

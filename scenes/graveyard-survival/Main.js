@@ -9,10 +9,6 @@ import { createTombstone } from '/core3d/geometry/shapes.js'
 const moonSpeed = .005
 const totalTime = 300
 const mapSize = 100
-const npcs = []
-const solids = []
-
-let last = Date.now()
 
 const zombies = ['GothGirl', 'ZombieBarefoot', 'ZombieCop', 'ZombieDoctor', 'ZombieGuard']
 
@@ -33,6 +29,9 @@ export default class extends Scena3D {
   }
 
   async init() {
+    this.npcs = []
+    this.solids = []
+    this.last = Date.now()
     this.bojaPozadine = 0x202030
 
     this.coords = getEmptyCoords({ mapSize, fieldSize: 1, emptyCenter: 1 })
@@ -42,7 +41,7 @@ export default class extends Scena3D {
 
     for (let i = 0; i < 60; i++) {
       const tombstone = createTombstone({ pos: this.coords.pop() })
-      solids.push(tombstone)
+      this.solids.push(tombstone)
       this.addMesh(tombstone)
     }
 
@@ -51,48 +50,47 @@ export default class extends Scena3D {
     const DeadTree = await import('/core3d/objects/DeadTree.js')
     for (let i = 0; i < 10; i++) {
       const tree = new DeadTree.default({ pos: this.coords.pop(), scale: Math.random() * 1 + 1, rotateY: Math.random() * Math.PI })
-      solids.push(tree.mesh)
+      this.solids.push(tree.mesh)
       this.addMesh(tree.mesh)
     }
 
     const { GhostAI } = await import('/core3d/actor/derived/horror/Ghost.js')
     for (let i = 0; i < 30; i++) {
       const ghost = new GhostAI({ pos: this.coords.pop(), mapSize })
-      npcs.push(ghost)
-      this.addMesh(ghost.mesh)
+      this.npcs.push(ghost)
+      this.add(ghost)
     }
 
     const { ResistanceFighterPlayer } = await import('/core3d/actor/derived/ww2/ResistanceFighter.js')
-    this.player = new ResistanceFighterPlayer({ camera: this.camera, solids })
-    this.addMesh(this.player.mesh)
+    this.player = new ResistanceFighterPlayer({ camera: this.camera, solids: this.solids })
+    this.add(this.player)
 
     const { Smoke } = await import('/core3d/Particles.js')
-    this.particles = new Smoke({ size: 1, num: 100, minRadius: 0, maxRadius: .5 })
+    this.particles = new Smoke({ size: 1, num: 100, minRadius: 0, maxRadius: .5, minVelocity: .2, maxVelocity: .5 })
     this.addMesh(this.particles.mesh)
   }
 
   /* FUNCTIONS */
 
   async spawnZombie(interval) {
-    if (Date.now() - last >= interval) {
-      last = Date.now()
+    if (Date.now() - this.last >= interval) {
+      this.last = Date.now()
 
       const name = sample(zombies)
       const obj = await import(`/core3d/actor/derived/horror/${name}.js`)
       const ZombieClass = obj[name + 'AI']
       const pos = sample(this.coords)
-      const zombie = new ZombieClass({ mapSize, target: this.player.mesh, solids, pos })
+      const zombie = new ZombieClass({ mapSize, target: this.player.mesh, solids: this.solids, pos })
       this.particles.reset({ pos })
       this.player.addSolids(zombie.mesh)
-      this.addMesh(zombie.mesh)
-      npcs.push(zombie)
+      this.add(zombie)
+      this.npcs.push(zombie)
     }
   }
 
   /* LOOP */
 
   sceneUI() {
-    if (!this.player) return ''
     const kills = this.player.enemies.filter(mesh => mesh.userData.energy <= 0)
     return /* html */`
       <div class="top-left rpgui-button golden">
@@ -106,7 +104,6 @@ export default class extends Scena3D {
 
   update(delta, time) {
     super.update(delta)
-    if (!this.player) return
 
     this.timeLeft = Math.ceil(totalTime - time)
     const isNight = this.timeLeft >= 0
@@ -121,14 +118,12 @@ export default class extends Scena3D {
       this.moon.material.color = new THREE.Color(0xFCE570)
       this.moon.scale.set(2, 2, 2)
       this.scene.background.lerp(new THREE.Color(0x7ec0ee), delta * .2)
+      this.npcs.forEach(npc => {
+        npc.hitAmount = 100
+      })
       if (!this.player.dead) this.ui.victory('Victory!<br>You met the morning at the cursed graveyard.')
     }
 
-    this.player.update(delta)
-    npcs.forEach(npc => {
-      npc.update(delta)
-      if (!isNight) npc.hitAmount = 100
-    })
-    this.particles?.update({ delta, min: -1, max: 0, minVelocity: .2, maxVelocity: .5, loop: false })
+    this.particles?.update({ delta, min: -1, max: 0, loop: false })
   }
 }
