@@ -18,20 +18,41 @@ npm start
 
 ## TODO
 
-- srediti izveštaj da ne skaču slova
-- dodati ostale igre, scene i animacije sa create 3D worlds
-- neretva energiju gore desno
+- dodati ostale igre, scene i animacije
+    - Moon landing
+    - Graveyard survival
+    - Cannon shooting
+    - Kill all the Orcs
+    - Zeppelin
+    -  dark-city
+    - planets
+    - tank
+    - train
+    - parting-the-sea
+    - flying-through-space
+    - lava
+    - third-person-camera
+    - city-led
+    - minas-tirith
+    - pyramid
+    - ruins
+    - walls
+    - city-colorful (dodati kruženje kamere)
+    - city-night
+    - physics-vehicle
+    - model-lookat-cursor
+    - follow (okupi sve sledbenike)
+    - demon
+    - rasporediti preostale karaktere po scenama
+- promeniti joystick u četiri strelice da bude upotrebljivo za telefone
+    - proveriti na telefonu
+
+### BAGOVI
+
 - BUG: avatar dosta baguje i blokira
-    - dualni tač doprinosi?
-
-### BUGFIX
-
-- avatar zakoči sve komande
 
 ### Završno
 
-- da bude upotrebljivo za telefone
-    - promeniti joystick u četiri strelice
 - prevod na engleski
 - dodati bazicnu statistiku, bar brojac poseta.
 - sistem ocenjivanja igara

@@ -1,7 +1,6 @@
 import mish from '/core/io/mish.js'
 import Scena2D from '/core/Scena2D.js'
 import Pozadina from '/core/objects/Pozadina.js'
-import { progresBar } from '/ui/components.js'
 import Svabo from './Svabo.js'
 import Vreme from '/core/Vreme.js'
 
@@ -101,9 +100,9 @@ export default class extends Scena2D {
     <div class="top-left">
       Preostalo vreme: ${Math.ceil(this.preostaloVreme)}<br>
       Pogoci: ${this.pogoci} <br>
-      Energija 
-      ${progresBar(energija)}
     </div>
+
+    <progress class="progress top-right" value="${energija}" max='100'></progress>
     `
   }
 }
