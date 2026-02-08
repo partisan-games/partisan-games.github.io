@@ -54,6 +54,15 @@
   border-width: 15px;
   box-sizing: border-box;
   padding: 12px;
+
+  h1, h2, h3 {
+    /* order is important */
+    background: linear-gradient(to bottom, #ff8a00 0%, yellow 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none;
+  }
 }
 
 .rpgui-container.framed {
@@ -66,17 +75,6 @@
   background-color: #854C30;
   border-image-slice: 4 4 4 4;
   border-image-source: url("/assets/images/rpgui/border-image-golden.png");
-}
-
-.rpgui-container h1,
-.rpgui-container h2,
-.rpgui-container h3 {
-  /* order is important */
-  background: linear-gradient(to bottom, #ff8a00 0%, yellow 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: none;
 }
 
 /* PROGRESS */
