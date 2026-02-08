@@ -6,11 +6,11 @@ import Controls from '../ui/Controls.js'
 
 export default class Scena {
   constructor({
-    usePointerLock, controlKeys, intro, controlsWindowClass, reportText, customStartScreen, showControls = true
+    usePointerLock, controlKeys, intro, controlsWindowClass, reportText, customStartScreen, startButtonText, showControls = true
   } = {}) {
     this.usePointerLock = usePointerLock
     this.gameLoop = new GameLoop(this.loop)
-    this.ui = new UI(this, { reportText, intro, customStartScreen })
+    this.ui = new UI(this, { reportText, intro, customStartScreen, startButtonText })
     this.predmeti = []
     if (showControls)
       this.controlsUI = new Controls({ controlKeys, containerClass: controlsWindowClass })
@@ -59,7 +59,7 @@ export default class Scena {
       this.start()
 
     if (target?.id == 'igraj-opet')
-      location.reload()
+      this.reload ? this.reload() : location.reload()
 
     if (target?.id == 'continue')
       this.unpause()

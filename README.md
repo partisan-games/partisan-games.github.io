@@ -46,6 +46,7 @@ npm start
     - rasporediti preostale karaktere po scenama
 - promeniti joystick u četiri strelice da bude upotrebljivo za telefone
     - proveriti na telefonu
+- dodati mogućnost restart bez refresh, da scena (poput moon-landing, this.lander.reset()) može da prepiše metod
 
 ### BAGOVI
 
