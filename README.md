@@ -21,6 +21,7 @@ npm start
 - BUG nestaje meni: Čisti ga uvodna poruka!!!!
     - warplane esc pauza nestaje meni
     - avatar pobeda nestaje meni
+    - REŠENJA: sprečiti čišćenje? koristiti zasebne prozore? ne prikazivati kad je zauzet div? (dodati red za čekanje)
 - ukloniti manager iz scene
 - dodati ostale igre, scene i animacije sa create 3D worlds
 - neretva energiju gore desno

@@ -21,6 +21,11 @@
   --sand: #f2e6d8;
 }
 
+/* BREAKPOINTS:
+- sm 500px
+- md 800px
+*/
+
 /* DEFAULTS */
 
 * {
@@ -122,13 +127,14 @@ button.no-hover:hover {
 
 .main-menu {
     display:grid;
+    padding: 0 40px;
     gap:20px;
 }
 
-@media (min-width: 500px) {
+@media (min-width: 800px) {
   .main-menu {
     grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    padding: 0 40px;
+    padding: 0 60px;
     gap:40px;
   }
 }
