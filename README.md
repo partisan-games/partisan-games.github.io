@@ -18,7 +18,10 @@ npm start
 
 - dodati ostale igre, scene i animacije
     - Kill all the Orcs
+        - svetlo nebo
+        - motivacione poruke kad ubije neprijatelja??
     - Graveyard survival
+        - dodati enemy na duha
         - srediti pucanje za treće lice (pucanje na Enter? ili neki nišan)
         - promeniti oružje da bude bliska borba ili area efekat (možda čudovište ili bacač plamena)
     - Cannon shooting
@@ -48,7 +51,9 @@ npm start
 
 ### BAGOVI
 
-- BUG: avatar dosta baguje i blokira
+- BUG: tač komande baguju i zakucavaju, npr. rpg special se beskonačno ponavlja
+    - dugme mora da se resetuje nakon pritiska, na button leave ili slično
+- BUG: avatar dosta baguje i blokira (možda ima veze tač komande)
 
 ### Završno
 

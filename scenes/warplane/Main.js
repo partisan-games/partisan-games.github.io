@@ -55,7 +55,6 @@ export default class extends Scena3D {
     this.addMesh(this.ground, this.ground2)
 
     this.score = 0
-    this.render()
   }
 
   async handleClick(e) {

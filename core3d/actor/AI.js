@@ -17,12 +17,12 @@ export default class AI extends Actor {
     jumpStyle = jumpStyles.ANIM_JUMP,
     attackStyle = attackStyles.LOOP,
     baseState = baseStates.wander,
-    name = 'enemy',
     sightDistance = 25,
     followDistance = 1.5,
     patrolDistance = 10,
     attackDistance = 1.25,
     target,
+    name = target ? 'enemy' : 'ai',
     ...params
   } = {}) {
     super({

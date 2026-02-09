@@ -61,7 +61,6 @@ export default class extends Scena3D {
     this.addMesh(this.ground, ...this.boxes, this.lava)
 
     this.score = 0
-    this.render()
   }
 
   createCoins() {

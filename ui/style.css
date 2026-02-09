@@ -271,7 +271,12 @@ button.no-hover:hover {
   }
 
   #start {
-    font-size: 1rem;
+    font-size: 1.2rem;
+    text-transform: unset;
+  }
+
+  li {
+    color: yellow;
   }
 }
 
