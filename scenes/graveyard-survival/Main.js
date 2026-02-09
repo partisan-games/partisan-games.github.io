@@ -1,6 +1,6 @@
+import * as THREE from 'three'
 import Scena3D from '/core/Scena3D.js'
 import { thirdPersonControls } from '/ui/Controls.js'
-import * as THREE from 'three'
 import { createGround } from '/core3d/ground.js'
 import { createMoon, orbiting } from '/core3d/light.js'
 import { getEmptyCoords, sample } from '/core3d/helpers.js'
@@ -67,8 +67,8 @@ export default class extends Scena3D {
     this.add(this.player)
 
     const { Smoke } = await import('/core3d/Particles.js')
-    this.particles = new Smoke({ size: 1, num: 100, minRadius: 0, maxRadius: .5, minVelocity: .2, maxVelocity: .5 })
-    this.addMesh(this.particles.mesh)
+    this.particles = new Smoke({ size: 1, num: 100, minRadius: 0, maxRadius: .5, minVelocity: .2, maxVelocity: .5, min: -1, max: 0, loop: false })
+    this.add(this.particles)
   }
 
   /* FUNCTIONS */
@@ -124,7 +124,5 @@ export default class extends Scena3D {
       })
       if (!this.player.dead) this.ui.victory('Victory!<br>You met the morning at the cursed graveyard.')
     }
-
-    this.particles?.update({ delta, min: -1, max: 0, loop: false })
   }
 }
