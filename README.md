@@ -4,9 +4,7 @@
 
 Small games inspired by Yugoslav partisans.
 
-Homepage: [partisan-games.github.io](https://partisan-games.github.io/)
-
-Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/partisan-games/partisan-games.github.io)
+Play here: [partisan-games.github.io](https://partisan-games.github.io/)
 
 ## Development
 
@@ -19,10 +17,11 @@ npm start
 ## TODO
 
 - dodati ostale igre, scene i animacije
+    - Kill all the Orcs
     - Graveyard survival
         - srediti pucanje za treće lice (pucanje na Enter? ili neki nišan)
+        - promeniti oružje da bude bliska borba ili area efekat (možda čudovište ili bacač plamena)
     - Cannon shooting
-    - Kill all the Orcs
     - Zeppelin
     - dark-city
     - planets
