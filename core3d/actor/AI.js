@@ -35,6 +35,7 @@ export default class AI extends Actor {
       shouldRaycastGround: false,
       useRicochet: false,
       leaveDecals: false,
+      baseState,
       ...params,
     })
 

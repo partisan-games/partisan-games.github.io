@@ -14,7 +14,7 @@ export default class WalkState extends State {
 
     // if (this.prevState === 'run') this.syncLegs()
 
-    this.transitFrom(oldAction, chooseDuration(oldState.name))
+    this.transitFrom(oldAction, chooseDuration(oldState?.name))
 
     if (this.actor.input.down) this.reverseAction()
   }

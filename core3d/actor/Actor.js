@@ -3,7 +3,7 @@ import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js'
 
 import GameObject from '/core3d/objects/GameObject.js'
 import { getGroundY, directionBlocked, getMesh, intersect, belongsTo } from '/core3d/helpers.js'
-import { dir, RIGHT_ANGLE, reactions, jumpStyles } from '/core3d/constants.js'
+import { dir, RIGHT_ANGLE, reactions, jumpStyles, baseStates } from '/core3d/constants.js'
 import { randomVolume } from '/core/utils.js'
 
 const { randInt } = THREE.MathUtils
@@ -42,6 +42,7 @@ export default class Actor extends GameObject {
     shouldRaycastGround = Boolean(altitude),
     flame = null,
     turnWhileAttack = !flame,
+    baseState = baseStates.idle,
     ...rest
   }) {
     super({ altitude, ...rest })
@@ -107,7 +108,7 @@ export default class Actor extends GameObject {
       })
     }
 
-    this.setState('idle')
+    this.setState(baseState)
   }
 
   /* GETTERS & SETTERS */
