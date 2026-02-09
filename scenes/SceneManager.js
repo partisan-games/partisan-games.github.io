@@ -33,7 +33,7 @@ class SceneManager {
 
     const SceneClass = (await import(`/scenes/${path}/Main.js`)).default
     this.scene = new SceneClass(this)
-    this.scene.init()
+    await this.scene.init()
     this.spinner.hide()
 
     if (this.scene.pozadina)
