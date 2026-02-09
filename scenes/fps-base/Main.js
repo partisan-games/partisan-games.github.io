@@ -45,9 +45,9 @@ export default class extends Scena3D {
     const soldiers = [GermanMachineGunnerAI, SSSoldierAI, NaziOfficerAI, GermanFlameThrowerAI]
     for (let i = 0; i < 10; i++) {
       const EnemyClass = sample(soldiers)
-      const enemy = new EnemyClass({ pos: coords.pop(), target: this.player.mesh, solids: walls })
-      this.enemies.push(enemy)
-      this.add(enemy)
+      const soldier = new EnemyClass({ pos: coords.pop(), target: this.player.mesh, solids: walls })
+      this.enemies.push(soldier)
+      this.add(soldier)
     }
 
     for (let i = 0; i < 2; i++) {
@@ -64,7 +64,7 @@ export default class extends Scena3D {
       this.player.addSolids(mesh)
 
       if (i % 3 === 0) {
-        const Effect = Math.random > .5 ? Smoke : FlameUp
+        const Effect = Math.random() > .5 ? Smoke : FlameUp
         this.smoke = new Effect({ pos })
         this.smoke.mesh.position.y += getHeight(mesh)
         this.addMesh(this.smoke.mesh)
