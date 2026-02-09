@@ -5,7 +5,6 @@ import { baseControls } from '/ui/Controls.js'
 import { createRandomBoxes } from '/core3d/geometry/index.js'
 import Coin from '/core3d/objects/Coin.js'
 import Platform from '/core3d/objects/Platform.js'
-import { Spinner } from '/core3d/loaders.js'
 
 const numBoxes = 400, mapSize = 200, lavaSize = 50
 const numCoins = numBoxes / 4
@@ -87,8 +86,6 @@ export default class extends Scena3D {
     super.handleClick(e)
     if (e.target.tagName != 'INPUT') return
 
-    const spinner = new Spinner()
-
     const Avatar = await import('/core3d/actor/Avatar.js')
     this.player = new Avatar.default({ camera: this.camera, solids: [this.ground, ...this.boxes], skin: e.target.id, showHealthBar: true, maxJumpTime: .99, rpgStyle: true })
     this.player.chaseCamera.distance = 6
@@ -98,7 +95,6 @@ export default class extends Scena3D {
     this.player.position = [0, 0, 50]
     this.player.energy = 100
     this.player.lookAt(this.scene.position)
-    spinner.hide()
     this.start()
   }
 

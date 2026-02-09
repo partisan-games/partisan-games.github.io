@@ -5,7 +5,6 @@ import { createTerrain } from '/core3d/ground.js'
 import { createFirTree } from '/core3d/geometry/trees.js'
 import { baseControls } from '/ui/Controls.js'
 import { createBuilding } from './utils.js'
-import { Spinner } from '/core3d/loaders.js'
 
 const { randFloatSpread } = THREE.MathUtils
 
@@ -63,12 +62,10 @@ export default class extends Scena3D {
     super.handleClick(e)
     if (e.target.tagName != 'INPUT') return
 
-    const spinner = new Spinner()
     const obj = await import(`/core3d/aircraft/derived/${e.target.id}.js`)
     this.player = new obj.default({ camera: this.camera, limit: mapSize * .25 })
     this.addMesh(this.player.mesh)
     this.entities.push(this.player)
-    spinner.hide()
     this.start()
     this.ui.showMessage('Destroy enemy factories,<br><br>do not target civilian buildings')
   }
