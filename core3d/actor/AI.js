@@ -51,8 +51,6 @@ export default class AI extends Actor {
     this.last = Date.now() // for ai intervals
 
     this.mesh.rotateY(Math.random() * Math.PI * 2)
-
-    this.setState(baseState)
     this.randomizeAction()
 
     // turnSmooth variables
@@ -65,7 +63,7 @@ export default class AI extends Actor {
 
   /* GETTERS */
 
-  get inPursueState() {
+  get canPursue() {
     return pursueStates.includes(this.baseState)
   }
 
