@@ -22,9 +22,7 @@ export default class Player extends Actor {
     ...rest
   } = {}) {
 
-    super({ input, animDict, jumpStyle, getState, shouldRaycastGround, attackDistance, ...rest })
-    this.name = 'player'
-
+    super({ name: 'player', input, animDict, jumpStyle, getState, shouldRaycastGround, attackDistance, ...rest })
     if (camera) {
       this.shouldAlignCamera = true
       this.chaseCamera = new ChaseCamera({ camera, mesh: this.mesh, height: this.height, cameraClass })
