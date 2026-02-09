@@ -20,7 +20,6 @@ npm start
 
 - dodati ostale igre, scene i animacije
     - Graveyard survival
-        - BUG: ne radi pucanje (ima veze sa await)
         - srediti pucanje za treće lice (pucanje na Enter? ili neki nišan)
     - Cannon shooting
     - Kill all the Orcs

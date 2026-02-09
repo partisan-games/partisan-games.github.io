@@ -5,12 +5,15 @@ import { createGround } from '/core3d/ground.js'
 import { createMoon, orbiting } from '/core3d/light.js'
 import { getEmptyCoords, sample } from '/core3d/helpers.js'
 import { createTombstone } from '/core3d/geometry/shapes.js'
+import { GothGirlAI } from '/core3d/actor/derived/horror/GothGirl.js'
+import { ZombieBarefootAI } from '/core3d/actor/derived/horror/ZombieBarefoot.js'
+import { ZombieCopAI } from '/core3d/actor/derived/horror/ZombieCop.js'
+import { ZombieDoctorAI } from '/core3d/actor/derived/horror/ZombieDoctor.js'
+import { ZombieGuardAI } from '/core3d/actor/derived/horror/ZombieGuard.js'
 
 const moonSpeed = .005
 const totalTime = 300
 const mapSize = 100
-
-const zombies = ['GothGirl', 'ZombieBarefoot', 'ZombieCop', 'ZombieDoctor', 'ZombieGuard']
 
 const customStartScreen = /* html */`
   <div class="central-screen rpgui-container framed">
@@ -76,10 +79,9 @@ export default class extends Scena3D {
   async spawnZombie(interval) {
     if (Date.now() - this.last >= interval) {
       this.last = Date.now()
+      const zombies = [GothGirlAI, ZombieBarefootAI, ZombieCopAI, ZombieDoctorAI, ZombieGuardAI]
 
-      const name = sample(zombies)
-      const obj = await import(`/core3d/actor/derived/horror/${name}.js`)
-      const ZombieClass = obj[name + 'AI']
+      const ZombieClass = sample(zombies)
       const pos = sample(this.coords)
       const zombie = new ZombieClass({ mapSize, target: this.player.mesh, solids: this.solids, pos })
       this.particles.reset({ pos })
