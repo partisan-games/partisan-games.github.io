@@ -4,20 +4,20 @@ import { getAIState } from './states/ai/index.js'
 export default class FSM {
   constructor(actor, stateName) {
     this.actor = actor
-    this.currentState = null
+    this.state = null
     this.setState(stateName)
   }
 
   get action() {
-    return this.currentState.action
+    return this.state.action
   }
 
   get stateName() {
-    return this.currentState?.name
+    return this.state?.name
   }
 
   setState(name) {
-    const oldState = this.currentState
+    const oldState = this.state
     if (oldState) {
       if (oldState.name == name) return
       oldState.exit()
@@ -26,11 +26,11 @@ export default class FSM {
       ? getPlayerState(name, this.actor.jumpStyle, this.actor.attackStyle)
       : getAIState(name, this.actor.jumpStyle, this.actor.attackStyle)
 
-    this.currentState = new State(this.actor, name)
-    this.currentState.enter(oldState, oldState?.action)
+    this.state = new State(this.actor, name)
+    this.state.enter(oldState, oldState?.action)
   }
 
   update(delta) {
-    this.currentState.update(delta)
+    this.state.update(delta)
   }
 }
