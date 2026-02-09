@@ -5,8 +5,7 @@ import GameObject from '/core3d/objects/GameObject.js'
 import { getGroundY, directionBlocked, getMesh, intersect, belongsTo } from '/core3d/helpers.js'
 import { dir, RIGHT_ANGLE, reactions, jumpStyles, baseStates } from '/core3d/constants.js'
 import { randomVolume } from '/core/utils.js'
-import { getPlayerState } from './states/index.js'
-import { getAIState } from './states/ai/index.js'
+import FSM from './FSM.js'
 
 const { randInt } = THREE.MathUtils
 
@@ -110,7 +109,7 @@ export default class Actor extends GameObject {
       })
     }
 
-    this.setState(baseState)
+    this.fsm = new FSM(this, baseState)
   }
 
   /* GETTERS & SETTERS */
@@ -132,11 +131,11 @@ export default class Actor extends GameObject {
   }
 
   get action() {
-    return this.currentState.action
+    return this.fsm.action
   }
 
   get state() {
-    return this.currentState?.name
+    return this.fsm.stateName
   }
 
   get acceleration() {
@@ -165,17 +164,7 @@ export default class Actor extends GameObject {
   /* STATE MACHINE */
 
   setState(name) {
-    const oldState = this.currentState
-    if (oldState) {
-      if (oldState.name == name) return
-      oldState.exit()
-    }
-    const State = this.name === 'player'
-      ? getPlayerState(name, this.jumpStyle, this.attackStyle)
-      : getAIState(name, this.jumpStyle, this.attackStyle)
-
-    this.currentState = new State(this, name)
-    this.currentState.enter(oldState, oldState?.action)
+    this.fsm.setState(name)
   }
 
   /* ANIMATIONS */
@@ -415,7 +404,7 @@ export default class Actor extends GameObject {
 
   update(delta = 1 / 60) {
     this.updateGround()
-    this.currentState.update(delta)
+    this.fsm.update(delta)
     this.mixer?.update(delta)
     if (!this.dead && !['jump', 'fall'].includes(this.state))
       this.handleTerrain(2 * delta)

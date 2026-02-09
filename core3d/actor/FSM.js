@@ -12,7 +12,7 @@ export default class FSM {
     return this.currentState.action
   }
 
-  get state() {
+  get stateName() {
     return this.currentState?.name
   }
 
@@ -32,6 +32,5 @@ export default class FSM {
 
   update(delta) {
     this.currentState.update(delta)
-    // this.currentState?.update?.(delta)
   }
 }

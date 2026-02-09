@@ -123,10 +123,10 @@ export default class Avatar extends Player {
 
   update(delta = 1 / 60) {
     super.update(delta)
-    const { name } = this.currentState
+    const { stateName } = this.fsm
 
-    if (name === 'walk' || name === 'run')
-      this.walkAnim(name)
+    if (stateName === 'walk' || stateName === 'run')
+      this.walkAnim(stateName)
     else if (this.input.jump)
       this.jumpAnim()
     else
