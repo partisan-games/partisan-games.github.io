@@ -32,6 +32,10 @@ export default class Particles {
     return this.mesh
   }
 
+  get isParticles() {
+    return true
+  }
+
   createParticles({ num = 10000, file = 'ball.png', color, size = .5, opacity = 1, minRadius = 100, maxRadius = 1000, blending = THREE.AdditiveBlending } = {}) {
     const { unitAngle } = this
     const geometry = new THREE.BufferGeometry()

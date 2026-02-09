@@ -20,8 +20,6 @@ npm start
 
 - dodati ostale igre, scene i animacije
     - Graveyard survival
-        - this.add particles
-        - handle particles.update({ delta = 1 / 60 })
         - pucanje ne radi
         - lazy load
         - srediti pucanje za treće lice (pucanje na Enter? ili neki nišan)

@@ -131,7 +131,7 @@ export default class Scena {
 
   update(dt, t) {
     const rekurzivnoAzuriraj = predmet => {
-      if (predmet.update) predmet.update(dt, t)
+      if (predmet.update) predmet.isParticles ? predmet.update({ delta: dt }) : predmet.update(dt, t)
       if (predmet?.predmeti?.length) predmet.predmeti.forEach(rekurzivnoAzuriraj)
     }
     this.predmeti.forEach(rekurzivnoAzuriraj)
