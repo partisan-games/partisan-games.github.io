@@ -5,6 +5,8 @@ import GameObject from '/core3d/objects/GameObject.js'
 import { getGroundY, directionBlocked, getMesh, intersect, belongsTo } from '/core3d/helpers.js'
 import { dir, RIGHT_ANGLE, reactions, jumpStyles, baseStates } from '/core3d/constants.js'
 import { randomVolume } from '/core/utils.js'
+import { getPlayerState } from './states/index.js'
+import { getAIState } from './states/ai/index.js'
 
 const { randInt } = THREE.MathUtils
 
@@ -23,12 +25,12 @@ export default class Actor extends GameObject {
     input,
     speed = 2,
     jumpStyle,
+    attackStyle,
     gravity = 42,
     jumpForce = gravity * 1.66,
     maxVelocityY = gravity / 3, // actually much greater than gravity with applied delta
     maxJumpTime = .28,
     drag = 0.5,
-    getState,
     twoHandedWeapon,
     rightHandWeapon,
     mapSize,
@@ -53,12 +55,12 @@ export default class Actor extends GameObject {
     this.velocity = new THREE.Vector3()
     this.maxVelocityY = maxVelocityY
     this.jumpStyle = jumpStyle
+    this.attackStyle = attackStyle
     this.maxJumpTime = maxJumpTime
     this.jumpForce = jumpForce
     this.drag = drag
     this.input = input
     this.actions = {}
-    this.getState = getState
     this.shouldRaycastGround = shouldRaycastGround
     this.runCoefficient = runCoefficient
     this.attackDistance = this.depth > attackDistance ? Math.ceil(this.depth) : attackDistance
@@ -168,7 +170,10 @@ export default class Actor extends GameObject {
       if (oldState.name == name) return
       oldState.exit()
     }
-    const State = this.getState(name)
+    const State = this.name === 'player'
+      ? getPlayerState(name, this.jumpStyle, this.attackStyle)
+      : getAIState(name, this.jumpStyle, this.attackStyle)
+
     this.currentState = new State(this, name)
     this.currentState.enter(oldState, oldState?.action)
   }
