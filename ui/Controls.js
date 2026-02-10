@@ -1,3 +1,5 @@
+import { uiStyles, containers } from './UI.js'
+
 export const baseControls = {
   '← or A': 'left',
   '→ or D': 'right',
@@ -37,27 +39,32 @@ export const thirdPersonControls = {
   Space: 'jump',
 }
 
+const buttons = {
+  simple: '',
+  rpg: 'rpgui-button',
+  white: 'no-hover',
+}
+
 export default class Controls {
   constructor({
     controlKeys = baseControls,
-    rpgStyle = false,
+    uiStyle = uiStyles.simple,
     containerClass = 'bottom-left',
-    windowClass = 'white-container',
-    buttonClass = '',
   } = {}) {
     this.controlsOpen = false
-    this.init({ controlKeys, containerClass, buttonClass, windowClass })
+    this.uiStyle = uiStyle
+    this.init({ controlKeys, containerClass })
   }
 
-  init({ controlKeys, containerClass, buttonClass, windowClass }) {
+  init({ controlKeys, containerClass }) {
     this.div = document.createElement('div')
     this.div.className = containerClass
 
     const button = document.createElement('button')
-    button.className = buttonClass
+    button.className = buttons[this.uiStyle]
 
     const content = document.createElement('div')
-    content.className = windowClass
+    content.className = containers[this.uiStyle]
     content.innerHTML = Object.keys(controlKeys)
       .filter(key => controlKeys[key])
       .map(key => `${key} - ${controlKeys[key]}<br>`)

@@ -6,14 +6,14 @@ import Controls from '../ui/Controls.js'
 
 export default class Scena {
   constructor({
-    usePointerLock, controlKeys, intro, controlsContainerClass, reportText, customStartScreen, startButtonText, showControls = true, controlsButtonClass, controlsWindowClass, uiStyle
+    usePointerLock, controlKeys, intro, controlsContainerClass, reportText, customStartScreen, startButtonText, showControls = true, uiStyle
   } = {}) {
     this.usePointerLock = usePointerLock
     this.gameLoop = new GameLoop(this.loop)
     this.ui = new UI(this, { reportText, intro, customStartScreen, startButtonText, uiStyle })
     this.predmeti = []
     if (showControls)
-      this.controlsUI = new Controls({ controlKeys, containerClass: controlsContainerClass, buttonClass: controlsButtonClass, windowClass: controlsWindowClass, uiStyle })
+      this.controlsUI = new Controls({ controlKeys, containerClass: controlsContainerClass, uiStyle })
 
     this.handleClick = this.handleClick.bind(this)
     this.handlePointerLockChange = this.handlePointerLockChange.bind(this)

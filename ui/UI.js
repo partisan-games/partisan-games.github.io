@@ -3,13 +3,13 @@ import Report from './Report.js'
 const elementUI = document.getElementById('ui')
 const modalElement = document.getElementById('modal')
 
-const uiStyles = {
+export const uiStyles = {
   simple: 'simple',
   rpg: 'rpg',
   white: 'white',
 }
 
-const containers = {
+export const containers = {
   simple: 'simple-container',
   rpg: 'rpgui-container framed',
   white: 'white-container',

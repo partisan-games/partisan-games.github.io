@@ -228,7 +228,10 @@ button.no-hover:hover {
   text-align: center;
   max-width: 540px;
   min-width: 320px;
-  padding: 20px;
+}
+
+.simple-container, .white-container, .rpgui-container {
+  padding: 12px;
 }
 
 .simple-container {
@@ -248,18 +251,12 @@ button.no-hover:hover {
   outline: 1px solid var(--white);
 }
 
-.bottom-left .white-container {
-  padding: 10px;
-  margin-top: 10px;
-}
-
 .rpgui-container {
   border-image-repeat: repeat;
   border-image-width: 18px;
   border-style: solid;
   border-width: 15px;
   box-sizing: border-box;
-  padding: 12px;
 
   h1, h2, h3, #start {
     /* order is important */
