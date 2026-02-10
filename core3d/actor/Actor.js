@@ -44,6 +44,7 @@ export default class Actor extends GameObject {
     flame = null,
     turnWhileAttack = !flame,
     baseState = baseStates.idle,
+    deathCallback,
     ...rest
   }) {
     super({ altitude, ...rest })
@@ -68,6 +69,7 @@ export default class Actor extends GameObject {
     this.leaveDecals = leaveDecals
     this.altitude = altitude
     this.turnWhileAttack = turnWhileAttack
+    this.deathCallback = deathCallback
 
     if (animations?.length && animDict) {
       this.setupMixer(animations, animDict)
@@ -322,9 +324,10 @@ export default class Actor extends GameObject {
 
     this.applyDamage()
 
-    if (this.dead)
+    if (this.dead) {
       this.setState('death')
-    else
+      this.deathCallback?.()
+    } else
       this.setState('pain')
   }
 

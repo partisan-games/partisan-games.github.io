@@ -426,6 +426,12 @@ progress.potisak::-moz-progress-bar {
   }
 }
 
+.rpgui-progress {
+  background-color: #4E4A4E;
+  border-radius: 7px;
+  border: 2px solid black;
+}
+
 .rpgui-progress::-webkit-progress-value {
   background-image: url("/assets/images/rpgui/progress-red.png");
   background-repeat: repeat-x;

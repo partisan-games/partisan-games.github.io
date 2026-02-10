@@ -29,10 +29,10 @@ export default class extends Scena3D {
       controlKeys: thirdPersonControls, // dodati special
       customStartScreen,
     })
+    this.score = 0
   }
 
   async init() {
-    this.npcs = []
     this.camera.position.set(0, 50, 150)
 
     const sun = createSun({ pos: [15, 100, 50], intensity: 2 * Math.PI })
@@ -57,7 +57,7 @@ export default class extends Scena3D {
       const name = sample(orcs)
       const obj = await import(`/core3d/actor/derived/fantasy/${name}.js`)
       const Enemy = obj[name + 'AI']
-      const enemy = new Enemy({ pos: coords.pop(), target: this.player.mesh, mapSize, solids, shouldRaycastGround: true })
+      const enemy = new Enemy({ pos: coords.pop(), target: this.player.mesh, mapSize, solids, shouldRaycastGround: true, deathCallback: () => this.showMotivationalMessage() })
       this.add(enemy)
     }
 
@@ -88,13 +88,20 @@ export default class extends Scena3D {
     this.add(airship)
   }
 
+  showMotivationalMessage() {
+    this.score ++
+    const message = messageDict[this.score]
+    if (message) this.ui.showMessage(message)
+  }
+
   /* LOOP */
 
   sceneUI() {
+    this.left = this.player.enemies.length - this.score
     return /* html */`
       <div class="top-left rpgui-button golden">
         <div> 
-          Score: ${this.killed.length}<br>
+          Score: ${this.score}<br>
           <small>Orcs left: ${this.left}</small>
         </div>
       </div>
@@ -104,9 +111,6 @@ export default class extends Scena3D {
   update(dt, t) {
     super.update(dt, t)
 
-    this.killed = this.player.enemies.filter(enemy => enemy.userData.energy <= 0)
-    this.left = this.player.enemies.length - this.killed.length
-
-    if (!this.left) this.victory()
+    if (this.left === 0) this.victory()
   }
 }
