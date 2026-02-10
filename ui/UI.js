@@ -21,6 +21,12 @@ const scores = {
   white: '',
 }
 
+const buttons = {
+  simple: '',
+  rpg: 'rpgui-button',
+  white: '',
+}
+
 export default class UI {
   constructor(scene, { intro = '', reportText, customStartScreen, startButtonText = 'To battle', uiStyle = uiStyles.simple } = {}) {
     this.scene = scene
@@ -46,30 +52,30 @@ export default class UI {
 
   startScreen() {
     return this.customStartScreen || /* html */`
-      <div class="central-screen ${containers[this.uiStyle]}" id="start-screen">
+      <div class="central-screen flex-column ${containers[this.uiStyle]}" id="start-screen">
         <p>${this.intro}</p>
-        <button id="start"><span>🔥</span> ${this.startButtonText}</button>
+        <button class="${buttons[this.uiStyle]}" id="start"><span class="icon">🔥</span> ${this.startButtonText}</button>
       </div>
     `
   }
 
   escModal() {
     return /* html */`
-      <div class="central-screen ${containers[this.uiStyle]} game-paused">
+      <div class="central-screen flex-column ${containers[this.uiStyle]}">
         <h3 class="olive">Game paused</h3>
-        <button id="continue"><span>🔥</span> Continue</button>
-        <button id="menu"><span>☰</span> Main menu</button>
-        <button id="igraj-opet"><span>↻</span> Play again</button>
+        <button class="${buttons[this.uiStyle]}" id="continue"><span span class="icon">🔥</span> Continue</button>
+        <button class="${buttons[this.uiStyle]}" id="menu"><span span class="icon">☰</span> Main menu</button>
+        <button class="${buttons[this.uiStyle]}" id="igraj-opet"><span span class="icon">↻</span> Play again</button>
       </div>
     `
   }
 
   endScreen() {
     return /* html */`
-      <div class="central-screen ${containers[this.uiStyle]}">
+      <div class="central-screen flex-column ${containers[this.uiStyle]}">
         ${this.outro}
-        <button id="menu"><span>☰</span> Main menu</button>
-        <button id="igraj-opet"><span>↻</span> Play again</button>
+        <button class="${buttons[this.uiStyle]}" id="menu"><span span class="icon">☰</span> Main menu</button>
+        <button class="${buttons[this.uiStyle]}" id="igraj-opet"><span span class="icon">↻</span> Play again</button>
       </div>
     `
   }
@@ -102,8 +108,8 @@ export default class UI {
     this.outro = html
   }
 
-  victory(text) {
-    let html = '<h3 class="olive"><span class="medal">🎖️</span> Pobeda!</h3>'
+  victory(text, title = 'Pobeda!') {
+    let html = `<h3 class="olive"><span class="medal">🎖️</span> ${title}</h3>`
     if (text) html += `<p>${text}</p>`
     this.outro = html
   }

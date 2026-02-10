@@ -42,6 +42,8 @@ npm start
     - rasporediti preostale karaktere po scenama
 - promeniti joystick u četiri strelice da bude upotrebljivo za telefone
     - proveriti na telefonu
+- proveriti chrome
+- ujednačiti stilove dugmića (osnovne veličine + klase za svaki stil)
 
 ### BAGOVI
 

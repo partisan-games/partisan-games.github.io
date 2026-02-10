@@ -17,7 +17,7 @@ const messageDict = {
 const customStartScreen = /* html */`
   <div class="central-screen rpgui-container framed">
       <ul><li>Kill all the Orcs</li></ul>
-      <button id="start">Press to START!</button>
+      <button id="start" class="game-title">Press to START!</button>
       <p>Free the land<br>from their vile presence!</p>
   </div>
 `

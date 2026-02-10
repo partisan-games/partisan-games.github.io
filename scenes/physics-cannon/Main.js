@@ -52,7 +52,7 @@ export default class extends Scena3D {
     this.countableCrates = this.boxes.filter(mesh => mesh.position.y > .5)
 
     if (!this.countableCrates.length)
-      this.victory('Bravo!<br>You demolished everything.')
+      this.victory('You demolished everything.', 'Bravo!')
   }
 
   sceneUI() {
