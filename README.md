@@ -19,6 +19,7 @@ npm start
 - dodati ostale igre, scene i animacije
     - physics-cannon
         - stilizovati createInputRange
+        - victory screen za rpg ubije boju ikonica
     - Zeppelin
     - dark-city
     - planets

@@ -63,9 +63,9 @@ export default class UI {
     return /* html */`
       <div class="central-screen flex-column ${containers[this.uiStyle]}">
         <h3 class="olive">Game paused</h3>
-        <button class="${buttons[this.uiStyle]}" id="continue"><span span class="icon">🔥</span> Continue</button>
-        <button class="${buttons[this.uiStyle]}" id="menu"><span span class="icon">☰</span> Main menu</button>
-        <button class="${buttons[this.uiStyle]}" id="igraj-opet"><span span class="icon">↻</span> Play again</button>
+        <button class="${buttons[this.uiStyle]}" id="continue"><span class="icon">🔥</span> Continue</button>
+        <button class="${buttons[this.uiStyle]}" id="menu"><span class="icon">☰</span> Main menu</button>
+        <button class="${buttons[this.uiStyle]}" id="igraj-opet"><span class="icon">↻</span> Play again</button>
       </div>
     `
   }
@@ -74,8 +74,8 @@ export default class UI {
     return /* html */`
       <div class="central-screen flex-column ${containers[this.uiStyle]}">
         ${this.outro}
-        <button class="${buttons[this.uiStyle]}" id="menu"><span span class="icon">☰</span> Main menu</button>
-        <button class="${buttons[this.uiStyle]}" id="igraj-opet"><span span class="icon">↻</span> Play again</button>
+        <button class="${buttons[this.uiStyle]}" id="menu"><span class="icon">☰</span> Main menu</button>
+        <button class="${buttons[this.uiStyle]}" id="igraj-opet"><span class="icon">↻</span> Play again</button>
       </div>
     `
   }
@@ -103,13 +103,13 @@ export default class UI {
   /* OUTRO */
 
   defeat(text) {
-    let html = '<h3 class="red">☠️ Game over</h3>'
+    let html = '<h3 class="red"><span class="icon">☠️</span> Game over</h3>'
     if (text) html += `<p>${text}</p>`
     this.outro = html
   }
 
   victory(text, title = 'Pobeda!') {
-    let html = `<h3 class="olive"><span class="medal">🎖️</span> ${title}</h3>`
+    let html = `<h3 class="olive"><span class="icon">🎖️</span> ${title}</h3>`
     if (text) html += `<p>${text}</p>`
     this.outro = html
   }
