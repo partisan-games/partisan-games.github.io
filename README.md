@@ -18,7 +18,6 @@ npm start
 
 - dodati ostale igre, scene i animacije
     - Graveyard survival
-        - srediti pucanje za treće lice (pucanje na Enter? ili neki nišan)
         - promeniti oružje da bude bliska borba ili area efekat (možda čudovište ili bacač plamena)
     - Cannon shooting
     - Zeppelin

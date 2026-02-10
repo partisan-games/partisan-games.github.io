@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import Scena3D from '/core/Scena3D.js'
-import { thirdPersonControls } from '/ui/Controls.js'
+import { baseControls } from '/ui/Controls.js'
 import { createGround } from '/core3d/ground.js'
 import { createMoon, orbiting } from '/core3d/light.js'
 import { getEmptyCoords, sample } from '/core3d/helpers.js'
@@ -26,7 +26,7 @@ const customStartScreen = /* html */`
 export default class extends Scena3D {
   constructor() {
     super({
-      controlKeys: thirdPersonControls,
+      controlKeys: { ...baseControls, Enter: 'attack' },
       customStartScreen,
       uiStyle: 'rpg',
     })
@@ -35,6 +35,7 @@ export default class extends Scena3D {
   async init() {
     this.npcs = []
     this.solids = []
+    this.zombies = []
     this.last = Date.now()
     this.bojaPozadine = 0x202030
 
@@ -66,7 +67,7 @@ export default class extends Scena3D {
     }
 
     const { ResistanceFighterPlayer } = await import('/core3d/actor/derived/ww2/ResistanceFighter.js')
-    this.player = new ResistanceFighterPlayer({ camera: this.camera, solids: this.solids, rpgStyle: true })
+    this.player = new ResistanceFighterPlayer({ camera: this.camera, solids: this.solids, rpgStyle: true, attackKey: 'Enter' })
     this.add(this.player)
 
     const { Smoke } = await import('/core3d/Particles.js')
@@ -79,22 +80,21 @@ export default class extends Scena3D {
   async spawnZombie(interval) {
     if (Date.now() - this.last >= interval) {
       this.last = Date.now()
-      const zombies = [GothGirlAI, ZombieBarefootAI, ZombieCopAI, ZombieDoctorAI, ZombieGuardAI]
-
-      const ZombieClass = sample(zombies)
+      const ZombieClass = sample([GothGirlAI, ZombieBarefootAI, ZombieCopAI, ZombieDoctorAI, ZombieGuardAI])
       const pos = sample(this.coords)
       const zombie = new ZombieClass({ mapSize, target: this.player.mesh, solids: this.solids, pos })
       this.particles.reset({ pos })
       this.player.addSolids(zombie.mesh)
       this.add(zombie)
       this.npcs.push(zombie)
+      this.zombies.push(zombie)
     }
   }
 
   /* LOOP */
 
   sceneUI() {
-    const kills = this.player.enemies.filter(mesh => mesh.userData.energy <= 0)
+    const kills = this.zombies.filter(zombie => zombie.energy <= 0)
     return this.ui.scoreUI('Zombies killed', kills.length, 'Time left', this.timeLeft, 'blink')
   }
 
