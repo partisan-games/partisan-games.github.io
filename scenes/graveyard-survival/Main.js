@@ -60,7 +60,7 @@ export default class extends Scena3D {
 
     const { GhostAI } = await import('/core3d/actor/derived/horror/Ghost.js')
     for (let i = 0; i < 30; i++) {
-      const ghost = new GhostAI({ pos: this.coords.pop(), mapSize })
+      const ghost = new GhostAI({ pos: this.coords.pop(), mapSize, name: 'enemy' })
       this.npcs.push(ghost)
       this.add(ghost)
     }

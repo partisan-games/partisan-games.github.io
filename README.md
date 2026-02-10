@@ -21,7 +21,6 @@ npm start
         - svetlo nebo
         - motivacione poruke kad ubije neprijatelja??
     - Graveyard survival
-        - dodati enemy na duha
         - srediti pucanje za treće lice (pucanje na Enter? ili neki nišan)
         - promeniti oružje da bude bliska borba ili area efekat (možda čudovište ili bacač plamena)
     - Cannon shooting
@@ -63,7 +62,7 @@ npm start
 - sistem ocenjivanja igara
 
 UI
-- refaktorisati da se na jedno mestu podešava RPG style za sve elemente (kamera, energija, score...)
+- refaktorisati da se na jedno mestu podešava RPG style za sve elemente (energija, kamera)
 - integrisati customStartScreen sa rpg-fantasy i graveyard, nije toliko različit?
 - dodati pauzu u kontrole svuda
 - dodati komande i ciljeve svuda, možda i izveštaj
