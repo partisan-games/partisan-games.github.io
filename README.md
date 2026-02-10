@@ -17,7 +17,8 @@ npm start
 ## TODO
 
 - dodati ostale igre, scene i animacije
-    - Cannon shooting
+    - physics-cannon
+        - stilizovati createInputRange
     - Zeppelin
     - dark-city
     - planets

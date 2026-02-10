@@ -30,8 +30,6 @@ export default class Cannon extends Vehicle {
     this.impulse = createInputRange()
     this.minImpulse = this.impulse.value = this.impulse.min
     this.maxImpulse = 25
-
-    document.addEventListener('pointerup', this.shoot)
   }
 
   shoot = () => {
