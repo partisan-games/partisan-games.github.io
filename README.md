@@ -17,9 +17,6 @@ npm start
 ## TODO
 
 - dodati ostale igre, scene i animacije
-    - Kill all the Orcs
-        - svetlo nebo
-        - motivacione poruke kad ubije neprijatelja??
     - Graveyard survival
         - srediti pucanje za treće lice (pucanje na Enter? ili neki nišan)
         - promeniti oružje da bude bliska borba ili area efekat (možda čudovište ili bacač plamena)
