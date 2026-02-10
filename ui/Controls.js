@@ -35,7 +35,7 @@ export const fpsControls = {
 export const thirdPersonControls = {
   ...baseControls,
   'Left shift': 'run',
-  Mouse: 'attack',
+  Enter: 'attack',
   Space: 'jump',
 }
 

@@ -12,7 +12,7 @@ export default class Player extends Actor {
     jumpStyle = jumpStyles.ANIM_JUMP,
     shouldRaycastGround = true,
     attackDistance = 1.5,
-    attackKey = 'pointer',
+    attackKey = 'Enter',
     showHealthBar = true,
     rpgStyle = false,
     input = new Input({ useJoystick, useKeyboard, animDict, attackKey }),

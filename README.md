@@ -21,6 +21,7 @@ npm start
         - kontrole za pucanje
         - kontrole za trčanje
         - BUG: čarobnica ne gine (bacač plamena i drugi ginu)
+        - čarobnica preniska, smanjiti malo visinu
     - Cannon shooting
     - Zeppelin
     - dark-city

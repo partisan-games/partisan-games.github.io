@@ -2,10 +2,11 @@ import * as THREE from 'three'
 import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js'
 
 import GameObject from '/core3d/objects/GameObject.js'
-import { getGroundY, directionBlocked, getMesh, intersect, belongsTo } from '/core3d/helpers.js'
+import { getGroundY, directionBlocked, getMesh, intersect, belongsTo, arrowHelper } from '/core3d/helpers.js'
 import { dir, RIGHT_ANGLE, reactions, jumpStyles, baseStates } from '/core3d/constants.js'
 import { randomVolume } from '/core/utils.js'
 import FSM from './FSM.js'
+import { isDev } from '/config.js'
 
 const { randInt } = THREE.MathUtils
 
@@ -205,7 +206,7 @@ export default class Actor extends GameObject {
 
   /* COMBAT */
 
-  intersect(height = this.height * .75) {
+  intersect(height) {
     return intersect(this.mesh, this.solids, dir.forward, height)
   }
 
@@ -215,18 +216,14 @@ export default class Actor extends GameObject {
       mesh.userData.damageAmount = randInt(...damage)
   }
 
-  playAttackSound() {
-    this.audio.currentTime = 0
-    this.audio.volume = randomVolume()
-    this.audio.play()
-  }
-
-  enterAttack(name, height) {
+  enterAttack(name, height = this.height * .75) {
     const timeToHit = this.action ? (this.action.getClip().duration * 1000 * .5) : 200
 
     setTimeout(() => {
       if (this.dead) return
       if (this.attackSound) this.playAttackSound()
+
+      if (isDev) arrowHelper(this, height)
 
       const intersects = this.intersect(height)
       if (!intersects.length) return
@@ -243,6 +240,12 @@ export default class Actor extends GameObject {
         this.shootDecals(intersects[0], { scene: this.scene, color: 0x000000 })
       }
     }, timeToHit)
+  }
+
+  playAttackSound() {
+    this.audio.currentTime = 0
+    this.audio.volume = randomVolume()
+    this.audio.play()
   }
 
   /* PARTICLES */
