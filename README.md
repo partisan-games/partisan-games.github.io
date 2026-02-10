@@ -18,10 +18,7 @@ npm start
 
 - dodati ostale igre, scene i animacije
     - Graveyard survival
-        - kontrole za pucanje
-        - kontrole za trčanje
-        - BUG: čarobnica ne gine (bacač plamena i drugi ginu)
-        - čarobnica preniska, smanjiti malo visinu
+        - čarobnica nema pain
     - Cannon shooting
     - Zeppelin
     - dark-city

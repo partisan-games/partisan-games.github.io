@@ -216,7 +216,7 @@ export default class Actor extends GameObject {
       mesh.userData.damageAmount = randInt(...damage)
   }
 
-  enterAttack(name, height = this.height * .75) {
+  enterAttack(name, height = this.height * .66) {
     const timeToHit = this.action ? (this.action.getClip().duration * 1000 * .5) : 200
 
     setTimeout(() => {
