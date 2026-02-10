@@ -52,9 +52,8 @@ export default class extends Scena3D {
     this.player = new BarbarianPlayer({ pos: coords.pop(), mapSize, solids, camera: this.camera, cameraClass: 'rpgui-button', rpgStyle: true })
     this.add(this.player)
 
-    const orcs = ['Orc', 'OrcOgre']
     for (let i = 0; i < 20; i++) {
-      const name = sample(orcs)
+      const name = sample(['Orc', 'OrcOgre'])
       const obj = await import(`/core3d/actor/derived/fantasy/${name}.js`)
       const Enemy = obj[name + 'AI']
       const enemy = new Enemy({ pos: coords.pop(), target: this.player.mesh, mapSize, solids, shouldRaycastGround: true, deathCallback: () => this.showMotivationalMessage() })
