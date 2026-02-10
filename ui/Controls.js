@@ -41,19 +41,22 @@ export default class Controls {
   constructor({
     controlKeys = baseControls,
     containerClass = 'bottom-left',
+    windowClass = 'white-container',
+    buttonClass = '',
   } = {}) {
     this.controlsOpen = false
-    this.init(controlKeys, containerClass)
+    this.init({ controlKeys, containerClass, buttonClass, windowClass })
   }
 
-  init(controlKeys, containerClass) {
+  init({ controlKeys, containerClass, buttonClass, windowClass }) {
     this.div = document.createElement('div')
     this.div.className = containerClass
 
     const button = document.createElement('button')
+    button.className = buttonClass
 
     const content = document.createElement('div')
-    content.className = 'white-container'
+    content.className = windowClass
     content.innerHTML = Object.keys(controlKeys)
       .filter(key => controlKeys[key])
       .map(key => `${key} - ${controlKeys[key]}<br>`)

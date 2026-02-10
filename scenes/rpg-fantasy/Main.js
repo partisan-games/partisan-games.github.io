@@ -28,6 +28,8 @@ export default class extends Scena3D {
       toon: true,
       controlKeys: thirdPersonControls, // dodati special
       customStartScreen,
+      controlsButtonClass: 'rpgui-button',
+      controlsWindowClass: 'rpgui-container framed'
     })
     this.score = 0
   }

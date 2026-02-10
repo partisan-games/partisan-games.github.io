@@ -62,6 +62,8 @@ npm start
 - sistem ocenjivanja igara
 
 UI
+- refaktorisati da se na jedno mestu podešava RPG običan ili minimal/white style za sve elemente
+- integrisati customStartScreen sa rpg-fantasy i graveyard, nije toliko različit?
 - dodati pauzu u kontrole svuda
 - dodati komande i ciljeve svuda, možda i izveštaj
 - refaktorisati da prozori budu DOM elementi, a samo sceneUI u render loop?
