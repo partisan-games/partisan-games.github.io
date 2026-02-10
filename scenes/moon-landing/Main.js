@@ -21,7 +21,7 @@ export default class extends Scena3D {
       controlKeys: controls,
       intro: 'Land on the platform gently',
       startButtonText: 'Start',
-      modalClass: 'white-container',
+      uiStyle: 'white',
     })
   }
 

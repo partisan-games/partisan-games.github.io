@@ -28,7 +28,7 @@ export default class extends Scena3D {
     super({
       controlKeys: thirdPersonControls,
       customStartScreen,
-      modalClass: 'rpgui-container framed'
+      uiStyle: 'rpg',
     })
   }
 

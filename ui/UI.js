@@ -3,15 +3,27 @@ import Report from './Report.js'
 const elementUI = document.getElementById('ui')
 const modalElement = document.getElementById('modal')
 
+const uiStyles = {
+  simple: 'simple',
+  rpg: 'rpg',
+  white: 'white',
+}
+
+const containers = {
+  simple: 'simple-container',
+  rpg: 'rpgui-container framed',
+  white: 'white-container',
+}
+
 export default class UI {
-  constructor(scene, { intro = '', reportText, customStartScreen, startButtonText = 'To battle', modalClass = 'simple-container' } = {}) {
+  constructor(scene, { intro = '', reportText, customStartScreen, startButtonText = 'To battle', uiStyle = uiStyles.simple } = {}) {
     this.scene = scene
     this.intro = intro
     this.startButtonText = startButtonText
     this.reportText = reportText
     this.customStartScreen = customStartScreen
     this.cachedSceneUI = this.cachedModal = this.outro = ''
-    this.modalClass = modalClass
+    this.uiStyle = uiStyle
   }
 
   clear() {
@@ -28,7 +40,7 @@ export default class UI {
 
   startScreen() {
     return this.customStartScreen || /* html */`
-      <div class="central-screen ${this.modalClass}" id="start-screen">
+      <div class="central-screen ${containers[this.uiStyle]}" id="start-screen">
         <p>${this.intro}</p>
         <button id="start"><span>🔥</span> ${this.startButtonText}</button>
       </div>
@@ -37,7 +49,7 @@ export default class UI {
 
   escModal() {
     return /* html */`
-      <div class="central-screen ${this.modalClass} game-paused">
+      <div class="central-screen ${containers[this.uiStyle]} game-paused">
         <h3 class="olive">Game paused</h3>
         <button id="continue"><span>🔥</span> Continue</button>
         <button id="menu"><span>☰</span> Main menu</button>
@@ -48,7 +60,7 @@ export default class UI {
 
   endScreen() {
     return /* html */`
-      <div class="central-screen ${this.modalClass}">
+      <div class="central-screen ${containers[this.uiStyle]}">
         ${this.outro}
         <button id="menu"><span>☰</span> Main menu</button>
         <button id="igraj-opet"><span>↻</span> Play again</button>
@@ -102,7 +114,11 @@ export default class UI {
   /* MESSAGE */
 
   showMessage(txt) {
-    modalElement.innerHTML = `<div class="central-screen"><h3>${txt}</h3></div>`
+    modalElement.innerHTML = /* html */`
+      <div class="central-screen ${containers[this.uiStyle]}">
+        <h3>${txt}</h3>
+      </div>
+    `
     setTimeout(() => {
       if (this.modal) return
       modalElement.innerHTML = ''

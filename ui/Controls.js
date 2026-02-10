@@ -40,6 +40,7 @@ export const thirdPersonControls = {
 export default class Controls {
   constructor({
     controlKeys = baseControls,
+    rpgStyle = false,
     containerClass = 'bottom-left',
     windowClass = 'white-container',
     buttonClass = '',
