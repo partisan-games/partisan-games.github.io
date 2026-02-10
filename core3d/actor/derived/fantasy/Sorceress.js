@@ -21,7 +21,11 @@ const sharedProps = { mesh, animations: mesh.userData.animations, animDict, jump
 
 export class SorceressPlayer extends Player {
   constructor(props = {}) {
-    super({ ...sharedProps, ...props })
+    super({ ...sharedProps, attackDistance: 3, ...props })
+  }
+
+  hit(mesh, damage = [55, 75]) {
+    super.hit(mesh, damage)
   }
 
   enterAttack() {

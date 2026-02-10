@@ -17,8 +17,6 @@ npm start
 ## TODO
 
 - dodati ostale igre, scene i animacije
-    - Graveyard survival
-        - promeniti oružje da bude bliska borba ili area efekat (možda čudovište ili bacač plamena)
     - Cannon shooting
     - Zeppelin
     - dark-city
@@ -59,7 +57,7 @@ npm start
 
 UI
 - refaktorisati da se na jedno mestu podešava RPG style za sve elemente (energija, kamera)
-- integrisati customStartScreen sa rpg-fantasy i graveyard, nije toliko različit?
+- integrisati customStartScreen ponegde (rpg-fantasy, graveyard), gde nije toliko različit?
 - dodati pauzu u kontrole svuda
 - dodati komande i ciljeve svuda, možda i izveštaj
 - refaktorisati da prozori budu DOM elementi, a samo sceneUI u render loop?

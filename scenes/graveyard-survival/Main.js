@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import Scena3D from '/core/Scena3D.js'
-import { baseControls } from '/ui/Controls.js'
+import { thirdPersonControls } from '/ui/Controls.js'
 import { createGround } from '/core3d/ground.js'
 import { createMoon, orbiting } from '/core3d/light.js'
 import { getEmptyCoords, sample } from '/core3d/helpers.js'
@@ -26,9 +26,10 @@ const customStartScreen = /* html */`
 export default class extends Scena3D {
   constructor() {
     super({
-      controlKeys: { ...baseControls, Enter: 'attack' },
+      controlKeys: thirdPersonControls,
       customStartScreen,
       uiStyle: 'rpg',
+      toon: true
     })
   }
 
@@ -66,8 +67,8 @@ export default class extends Scena3D {
       this.add(ghost)
     }
 
-    const { ResistanceFighterPlayer } = await import('/core3d/actor/derived/ww2/ResistanceFighter.js')
-    this.player = new ResistanceFighterPlayer({ camera: this.camera, solids: this.solids, rpgStyle: true, attackKey: 'Enter' })
+    const { SorceressPlayer } = await import('/core3d/actor/derived/fantasy/Sorceress.js')
+    this.player = new SorceressPlayer({ camera: this.camera, solids: this.solids, rpgStyle: true, attackKey: 'Enter' })
     this.add(this.player)
 
     const { Smoke } = await import('/core3d/Particles.js')

@@ -9,6 +9,7 @@ export default class FPSPlayer extends Player {
     camera,
     attackDistance = 100,
     mouseSensitivity = .002,
+    attackKey = 'pointer',
     attackSound = 'rifle.mp3',
     ...rest
   } = {}) {
@@ -21,6 +22,7 @@ export default class FPSPlayer extends Player {
       useKeyboard: true,
       attackDistance,
       attackSound,
+      attackKey,
       ...rest,
     })
     this.mouseSensitivity = mouseSensitivity

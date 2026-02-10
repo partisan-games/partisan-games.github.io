@@ -194,3 +194,16 @@ export function shuffle(a) {
   }
   return a
 }
+
+/* DEBUG */
+
+export function arrowHelper(actor, height) {
+  const start = actor.mesh.position.clone()
+  start.y += height
+  const attackDir = dir.forward.clone().applyQuaternion(actor.mesh.quaternion).normalize()
+  const arrow = new THREE.ArrowHelper(attackDir, start, actor.attackDistance, 0xff0000)
+  actor.scene.add(arrow)
+  setTimeout(() => {
+    actor.scene.remove(arrow)
+  }, 3000)
+}
