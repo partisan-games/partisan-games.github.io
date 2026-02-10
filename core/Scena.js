@@ -165,12 +165,7 @@ export default class Scena {
     this.finish()
   }
 
-  sceneUI(text = 'Score', points = 0, subtext, subpoints, blink = '') {
-    return /* html */`
-      <div class="top-left">
-        ${text}: ${points}<br>
-        ${subtext ? `<small class="${blink}">${subtext}: ${subpoints}</small>` : ''}
-      </div>
-    `
+  sceneUI(t) {
+    return ''
   }
 }

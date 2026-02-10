@@ -132,7 +132,7 @@ export default class UI {
 
   showMessage(txt) {
     modalElement.innerHTML = /* html */`
-      <div class="central-screen ${containers[this.uiStyle]}">
+      <div class="central-screen">
         <h3>${txt}</h3>
       </div>
     `

@@ -47,6 +47,7 @@ export default class extends Scena3D {
       toon: true,
       controlKeys: { ...baseControls, Space: 'jump' },
       customStartScreen,
+      uiStyle: 'rpg'
     })
   }
 
@@ -114,14 +115,7 @@ export default class extends Scena3D {
   }
 
   sceneUI() {
-    return /* html */`
-      <div class="top-left rpgui-button golden">
-        <div> 
-          Score: ${this.score}<br>
-          coins left: ${this.coins.length}
-        </div>
-      </div>
-    `
+    return this.ui.scoreUI('Score', this.score, 'coins left', this.coins.length)
   }
 
   update(dt, t) {
