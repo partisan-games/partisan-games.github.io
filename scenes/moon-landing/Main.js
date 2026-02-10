@@ -57,12 +57,7 @@ export default class extends Scena3D {
 
   sceneUI() {
     const points = this.lander.hasLanded ? this.lander.fuel : 0
-    return /* html */`
-      <div class="top-left">
-        Score: ${points}
-        <br><small>Fuel left: ${this.lander.fuel}</small>
-      </div>
-    `
+    return this.ui.scoreUI('Score', points, 'Fuel left', this.lander.fuel)
   }
 
   update(dt, time) {

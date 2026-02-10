@@ -9,6 +9,7 @@ export default class Scena {
     usePointerLock, controlKeys, intro, reportText, customStartScreen, startButtonText, showControls = true, uiStyle
   } = {}) {
     this.usePointerLock = usePointerLock
+    this.uiStyle = uiStyle
     this.gameLoop = new GameLoop(this.loop)
     this.ui = new UI(this, { reportText, intro, customStartScreen, startButtonText, uiStyle })
     this.predmeti = []
@@ -164,7 +165,12 @@ export default class Scena {
     this.finish()
   }
 
-  sceneUI() {
-    return ''
+  sceneUI(text = 'Score', points = 0, subtext, subpoints, blink = '') {
+    return /* html */`
+      <div class="top-left">
+        ${text}: ${points}<br>
+        ${subtext ? `<small class="${blink}">${subtext}: ${subpoints}</small>` : ''}
+      </div>
+    `
   }
 }

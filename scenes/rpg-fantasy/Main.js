@@ -98,14 +98,7 @@ export default class extends Scena3D {
 
   sceneUI() {
     this.left = this.player.enemies.length - this.score
-    return /* html */`
-      <div class="top-left rpgui-button golden">
-        <div> 
-          Score: ${this.score}<br>
-          <small>Orcs left: ${this.left}</small>
-        </div>
-      </div>
-    `
+    return this.ui.scoreUI('Score', this.score, 'Orcs left', this.left)
   }
 
   update(dt, t) {

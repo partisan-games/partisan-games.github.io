@@ -62,7 +62,7 @@ npm start
 - sistem ocenjivanja igara
 
 UI
-- refaktorisati da se na jedno mestu podešava RPG običan ili minimal/white style za sve elemente (uvodni ekran, pauza, završni ekran, kontrole, kamera, energija, score...)
+- refaktorisati da se na jedno mestu podešava RPG style za sve elemente (kamera, energija, score...)
 - integrisati customStartScreen sa rpg-fantasy i graveyard, nije toliko različit?
 - dodati pauzu u kontrole svuda
 - dodati komande i ciljeve svuda, možda i izveštaj

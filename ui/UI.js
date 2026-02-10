@@ -15,6 +15,12 @@ export const containers = {
   white: 'white-container',
 }
 
+const scores = {
+  simple: '',
+  rpg: 'rpgui-button golden',
+  white: '',
+}
+
 export default class UI {
   constructor(scene, { intro = '', reportText, customStartScreen, startButtonText = 'To battle', uiStyle = uiStyles.simple } = {}) {
     this.scene = scene
@@ -103,6 +109,17 @@ export default class UI {
   }
 
   /* SCENE UI */
+
+  scoreUI(text = 'Score', points = 0, subtext, subpoints, smallClass = '') {
+    return /* html */`
+      <div class="top-left ${scores[this.uiStyle]}">
+        <div>
+          ${text}: ${points}
+          ${subtext ? `<br><small class="${smallClass}">${subtext}: ${subpoints}</small>` : ''}
+        </div>
+      </div>
+    `
+  }
 
   renderSceneUI(t) {
     if (this.cachedSceneUI === this.scene.sceneUI(t)) return
