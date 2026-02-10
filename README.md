@@ -4,9 +4,7 @@
 
 Small games inspired by Yugoslav partisans.
 
-Homepage: [partisan-games.github.io](https://partisan-games.github.io/)
-
-Repo: [github.com/partisan-games/partisan-games.github.io](https://github.com/partisan-games/partisan-games.github.io)
+Play here: [partisan-games.github.io](https://partisan-games.github.io/)
 
 ## Development
 
@@ -18,22 +16,50 @@ npm start
 
 ## TODO
 
-- BUG nestaje meni: Čisti ga uvodna poruka!!!!
-    - warplane esc pauza nestaje meni
-    - avatar pobeda nestaje meni
-- ukloniti manager iz scene
-- dodati ostale igre, scene i animacije sa create 3D worlds
-- neretva energiju gore desno
-- dodati tač skrin jump na avatara i drugde (baguje na three.js games)
+- dodati ostale igre, scene i animacije
+    - Graveyard survival
+        - promeniti oružje da bude bliska borba ili area efekat (možda čudovište ili bacač plamena)
+    - Cannon shooting
+    - Zeppelin
+    - dark-city
+    - planets
+    - tank
+    - train
+    - parting-the-sea
+    - flying-through-space
+    - lava
+    - third-person-camera
+    - city-led
+    - minas-tirith
+    - pyramid
+    - ruins
+    - walls
+    - city-colorful (dodati kruženje kamere)
+    - city-night
+    - physics-vehicle
+    - model-lookat-cursor
+    - follow (okupi sve sledbenike)
+    - demon
+    - rasporediti preostale karaktere po scenama
+- promeniti joystick u četiri strelice da bude upotrebljivo za telefone
+    - proveriti na telefonu
+
+### BAGOVI
+
+- BUG: tač komande baguju i zakucavaju, npr. rpg special se beskonačno ponavlja
+    - dugme mora da se resetuje nakon pritiska, na button leave ili slično
+- BUG: avatar dosta baguje i blokira (možda ima veze tač komande)
 
 ### Završno
 
+- restart na Žikicu i još negde
 - prevod na engleski
 - dodati bazicnu statistiku, bar brojac poseta.
 - sistem ocenjivanja igara
-- probati tač skrin
 
 UI
+- refaktorisati da se na jedno mestu podešava RPG style za sve elemente (energija, kamera)
+- integrisati customStartScreen sa rpg-fantasy i graveyard, nije toliko različit?
 - dodati pauzu u kontrole svuda
 - dodati komande i ciljeve svuda, možda i izveštaj
 - refaktorisati da prozori budu DOM elementi, a samo sceneUI u render loop?

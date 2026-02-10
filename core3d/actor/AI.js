@@ -2,7 +2,6 @@ import { Vector3, MathUtils } from 'three'
 
 import Actor from './Actor.js'
 import Keyboard from '/core/io/Keyboard.js'
-import { getAIState } from './states/ai/index.js'
 import { jumpStyles, attackStyles, baseStates, dir } from '/core3d/constants.js'
 import { belongsTo, directionBlocked } from '/core3d/helpers.js'
 
@@ -18,23 +17,25 @@ export default class AI extends Actor {
     jumpStyle = jumpStyles.ANIM_JUMP,
     attackStyle = attackStyles.LOOP,
     baseState = baseStates.wander,
-    name = 'enemy',
     sightDistance = 25,
     followDistance = 1.5,
     patrolDistance = 10,
     attackDistance = 1.25,
     target,
+    name = target ? 'enemy' : 'ai',
     ...params
   } = {}) {
     super({
       name,
       speed,
       attackDistance,
+      jumpStyle,
+      attackStyle,
       input: new Keyboard({ listen: false }),
-      getState: name => getAIState(name, jumpStyle, attackStyle),
       shouldRaycastGround: false,
       useRicochet: false,
       leaveDecals: false,
+      baseState,
       ...params,
     })
 
@@ -50,8 +51,6 @@ export default class AI extends Actor {
     this.last = Date.now() // for ai intervals
 
     this.mesh.rotateY(Math.random() * Math.PI * 2)
-
-    this.setState(baseState)
     this.randomizeAction()
 
     // turnSmooth variables
@@ -64,7 +63,7 @@ export default class AI extends Actor {
 
   /* GETTERS */
 
-  get inPursueState() {
+  get canPursue() {
     return pursueStates.includes(this.baseState)
   }
 

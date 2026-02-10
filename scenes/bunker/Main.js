@@ -13,6 +13,10 @@ const fieldSize = 100
 const BROJ_PREPREKA = (platno.width / fieldSize) * (platno.height / fieldSize) / 4
 
 export default class extends Scena2D {
+  constructor() {
+    super({ intro: 'Dovedi Žikicu Jovanovića Španca do nemačkog bunkera!' })
+  }
+
   init() {
     this.vreme = new Vreme()
     this.pozadina = new Pozadina('textures/terrain/beton.gif')
@@ -50,6 +54,7 @@ export default class extends Scena2D {
 
   sceneUI(t) {
     const preostalo = ZADATO_VREME - Math.floor(t)
+    return this.ui.scoreUI('Vreme', preostalo)
     return /* html */`
       <main class='absolute full'>
         <h3 class="centar">Dovedi Žikicu Jovanovića Španca do nemačkog bunkera!</h3>

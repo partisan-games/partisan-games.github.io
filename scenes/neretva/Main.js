@@ -1,7 +1,6 @@
 import mish from '/core/io/mish.js'
 import Scena2D from '/core/Scena2D.js'
 import Pozadina from '/core/objects/Pozadina.js'
-import { progresBar } from '/ui/components.js'
 import Svabo from './Svabo.js'
 import Vreme from '/core/Vreme.js'
 
@@ -9,8 +8,8 @@ const DALJI_Y = window.innerHeight * 0.25
 const BLIZI_Y = window.innerHeight * 0.5
 
 export default class extends Scena2D {
-  constructor(manager) {
-    super(manager, { intro: 'Zadrži Nemce po svaku cenu, dok ranjenici ne budu na bezbednom.', showControls: false })
+  constructor() {
+    super({ intro: 'Zadrži Nemce po svaku cenu, dok ranjenici ne budu na bezbednom.', showControls: false })
   }
 
   init() {
@@ -97,13 +96,10 @@ export default class extends Scena2D {
 
   sceneUI() {
     const energija = Math.round(this.energija)
+
     return /* html */`
-    <div class="top-left">
-      Preostalo vreme: ${Math.ceil(this.preostaloVreme)}<br>
-      Pogoci: ${this.pogoci} <br>
-      Energija 
-      ${progresBar(energija)}
-    </div>
+    ${this.ui.scoreUI('Preostalo vreme', Math.ceil(this.preostaloVreme), 'Pogoci', this.pogoci)}
+    <progress class="progress top-right" value="${energija}" max='100'></progress>
     `
   }
 }

@@ -3,8 +3,9 @@ import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js'
 
 import GameObject from '/core3d/objects/GameObject.js'
 import { getGroundY, directionBlocked, getMesh, intersect, belongsTo } from '/core3d/helpers.js'
-import { dir, RIGHT_ANGLE, reactions, jumpStyles } from '/core3d/constants.js'
+import { dir, RIGHT_ANGLE, reactions, jumpStyles, baseStates } from '/core3d/constants.js'
 import { randomVolume } from '/core/utils.js'
+import FSM from './FSM.js'
 
 const { randInt } = THREE.MathUtils
 
@@ -23,12 +24,12 @@ export default class Actor extends GameObject {
     input,
     speed = 2,
     jumpStyle,
+    attackStyle,
     gravity = 42,
     jumpForce = gravity * 1.66,
     maxVelocityY = gravity / 3, // actually much greater than gravity with applied delta
     maxJumpTime = .28,
     drag = 0.5,
-    getState,
     twoHandedWeapon,
     rightHandWeapon,
     mapSize,
@@ -42,6 +43,8 @@ export default class Actor extends GameObject {
     shouldRaycastGround = Boolean(altitude),
     flame = null,
     turnWhileAttack = !flame,
+    baseState = baseStates.idle,
+    deathCallback,
     ...rest
   }) {
     super({ altitude, ...rest })
@@ -52,12 +55,12 @@ export default class Actor extends GameObject {
     this.velocity = new THREE.Vector3()
     this.maxVelocityY = maxVelocityY
     this.jumpStyle = jumpStyle
+    this.attackStyle = attackStyle
     this.maxJumpTime = maxJumpTime
     this.jumpForce = jumpForce
     this.drag = drag
     this.input = input
     this.actions = {}
-    this.getState = getState
     this.shouldRaycastGround = shouldRaycastGround
     this.runCoefficient = runCoefficient
     this.attackDistance = this.depth > attackDistance ? Math.ceil(this.depth) : attackDistance
@@ -66,6 +69,7 @@ export default class Actor extends GameObject {
     this.leaveDecals = leaveDecals
     this.altitude = altitude
     this.turnWhileAttack = turnWhileAttack
+    this.deathCallback = deathCallback
 
     if (animations?.length && animDict) {
       this.setupMixer(animations, animDict)
@@ -95,7 +99,7 @@ export default class Actor extends GameObject {
       const promise = import('/core3d/Particles.js')
       promise.then(obj => {
         const { Flame } = obj
-        this.flame = new Flame({ num: 25, minRadius: 0, maxRadius: .5 })
+        this.flame = new Flame({ num: 25, minRadius: 0, maxRadius: .5, minVelocity: 2.5, maxVelocity: 5 })
         this.flame.mesh.material.opacity = 0
       })
     }
@@ -107,7 +111,7 @@ export default class Actor extends GameObject {
       })
     }
 
-    this.setState('idle')
+    this.fsm = new FSM(this, baseState)
   }
 
   /* GETTERS & SETTERS */
@@ -129,11 +133,11 @@ export default class Actor extends GameObject {
   }
 
   get action() {
-    return this.currentState.action
+    return this.fsm.action
   }
 
   get state() {
-    return this.currentState?.name
+    return this.fsm.stateName
   }
 
   get acceleration() {
@@ -162,14 +166,7 @@ export default class Actor extends GameObject {
   /* STATE MACHINE */
 
   setState(name) {
-    const oldState = this.currentState
-    if (oldState) {
-      if (oldState.name == name) return
-      oldState.exit()
-    }
-    const State = this.getState(name)
-    this.currentState = new State(this, name)
-    this.currentState.enter(oldState, oldState?.action)
+    this.fsm.setState(name)
   }
 
   /* ANIMATIONS */
@@ -327,9 +324,10 @@ export default class Actor extends GameObject {
 
     this.applyDamage()
 
-    if (this.dead)
+    if (this.dead) {
       this.setState('death')
-    else
+      this.deathCallback?.()
+    } else
       this.setState('pain')
   }
 
@@ -404,12 +402,12 @@ export default class Actor extends GameObject {
   }
 
   updateFlame(delta) {
-    this.flame?.update({ delta, max: this.attackDistance, loop: this.shouldLoop, minVelocity: 2.5, maxVelocity: 5 })
+    this.flame?.update({ delta, max: this.attackDistance, loop: this.shouldLoop })
   }
 
   update(delta = 1 / 60) {
     this.updateGround()
-    this.currentState.update(delta)
+    this.fsm.update(delta)
     this.mixer?.update(delta)
     if (!this.dead && !['jump', 'fall'].includes(this.state))
       this.handleTerrain(2 * delta)

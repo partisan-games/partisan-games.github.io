@@ -4,7 +4,7 @@ import PhysicsWorld from '/core3d/physics/PhysicsWorld.js'
 import { createGround } from '/core3d/ground.js'
 import { createMoonSphere, createBoxes, createCrate, createRustyBarrel, createMetalBarrel } from '/core3d/geometry/index.js'
 import { hemLight } from '/core3d/light.js'
-import { sample, intersect } from '/core3d/helpers.js'
+import { sample } from '/core3d/helpers.js'
 import { createFirTree } from '/core3d/geometry/trees.js'
 import { createWarehouse, createWarehouse2, createWarRuin, createRuin, createAirport } from '/core3d/city.js'
 import { leaveTracks } from '/core3d/physics/leaveTracks.js'
@@ -19,8 +19,8 @@ import { NaziOfficerAI } from '/core3d/actor/derived/ww2/NaziOfficer.js'
 const { randFloat } = THREE.MathUtils
 
 export default class extends Scena3D {
-  constructor(manager) {
-    super(manager, {
+  constructor() {
+    super({
       toon: true,
       controlKeys: { ...baseControls, Space: 'break' },
       reportText: 'The enemy has erected barricades to block our entry into the city. Destroy them to clear the way for our troops.',
@@ -108,11 +108,6 @@ export default class extends Scena3D {
   }
 
   sceneUI(t) {
-    return /* html */`
-      <div class="top-left">
-        Blocks left: ${this.countableCrates.length}
-        <br><small class="blink">Time: ${Math.floor(t)}</small>
-      </div>
-    `
+    return this.ui.scoreUI('Blocks left', this.countableCrates.length, 'Time', Math.floor(t), 'blink')
   }
 }

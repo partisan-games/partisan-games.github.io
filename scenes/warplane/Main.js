@@ -5,7 +5,6 @@ import { createTerrain } from '/core3d/ground.js'
 import { createFirTree } from '/core3d/geometry/trees.js'
 import { baseControls } from '/ui/Controls.js'
 import { createBuilding } from './utils.js'
-import { Spinner } from '/core3d/loaders.js'
 
 const { randFloatSpread } = THREE.MathUtils
 
@@ -31,8 +30,8 @@ const createStartScreen = () => {
 }
 
 export default class extends Scena3D {
-  constructor(manager) {
-    super(manager, {
+  constructor() {
+    super({
       toon: true,
       controlKeys: { ...baseControls, Enter: 'attack' },
       customStartScreen: createStartScreen()
@@ -56,19 +55,16 @@ export default class extends Scena3D {
     this.addMesh(this.ground, this.ground2)
 
     this.score = 0
-    this.render()
   }
 
   async handleClick(e) {
     super.handleClick(e)
     if (e.target.tagName != 'INPUT') return
 
-    const spinner = new Spinner()
     const obj = await import(`/core3d/aircraft/derived/${e.target.id}.js`)
     this.player = new obj.default({ camera: this.camera, limit: mapSize * .25 })
     this.addMesh(this.player.mesh)
     this.entities.push(this.player)
-    spinner.hide()
     this.start()
     this.ui.showMessage('Destroy enemy factories,<br><br>do not target civilian buildings')
   }
@@ -125,12 +121,7 @@ export default class extends Scena3D {
 
   sceneUI(time) {
     const timeLeft = totalTime - Math.floor(time)
-    return /* html */`
-      <div class="top-left">
-        Score: ${this.score}<br>
-        <small class="blink">Time left: ${Math.max(timeLeft, 0)}</small>
-      </div>
-    `
+    return this.ui.scoreUI('Score', this.score, 'Time left', Math.max(timeLeft, 0), 'blink')
   }
 
   update(delta, time) {

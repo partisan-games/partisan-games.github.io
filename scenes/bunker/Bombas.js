@@ -12,6 +12,7 @@ export default class Bombas extends Player2D {
     })
     this.krv.sakrij()
     this.predmeti.push(this.krv)
+    this.polozaj.z = -1
   }
 
   reagujNaPogodak() {

@@ -3,13 +3,33 @@ import Report from './Report.js'
 const elementUI = document.getElementById('ui')
 const modalElement = document.getElementById('modal')
 
+export const uiStyles = {
+  simple: 'simple',
+  rpg: 'rpg',
+  white: 'white',
+}
+
+export const containers = {
+  simple: 'simple-container',
+  rpg: 'rpgui-container framed',
+  white: 'white-container',
+}
+
+const scores = {
+  simple: '',
+  rpg: 'rpgui-button golden',
+  white: '',
+}
+
 export default class UI {
-  constructor(scene, { intro = '', reportText, customStartScreen } = {}) {
+  constructor(scene, { intro = '', reportText, customStartScreen, startButtonText = 'To battle', uiStyle = uiStyles.simple } = {}) {
     this.scene = scene
     this.intro = intro
+    this.startButtonText = startButtonText
     this.reportText = reportText
     this.customStartScreen = customStartScreen
     this.cachedSceneUI = this.cachedModal = this.outro = ''
+    this.uiStyle = uiStyle
   }
 
   clear() {
@@ -26,16 +46,16 @@ export default class UI {
 
   startScreen() {
     return this.customStartScreen || /* html */`
-      <div class="central-screen simple-container" id="start-screen">
+      <div class="central-screen ${containers[this.uiStyle]}" id="start-screen">
         <p>${this.intro}</p>
-        <button id="start"><span>🔥</span> To battle</button>
+        <button id="start"><span>🔥</span> ${this.startButtonText}</button>
       </div>
     `
   }
 
   escModal() {
     return /* html */`
-      <div class="central-screen simple-container game-paused">
+      <div class="central-screen ${containers[this.uiStyle]} game-paused">
         <h3 class="olive">Game paused</h3>
         <button id="continue"><span>🔥</span> Continue</button>
         <button id="menu"><span>☰</span> Main menu</button>
@@ -46,7 +66,7 @@ export default class UI {
 
   endScreen() {
     return /* html */`
-      <div class="central-screen simple-container">
+      <div class="central-screen ${containers[this.uiStyle]}">
         ${this.outro}
         <button id="menu"><span>☰</span> Main menu</button>
         <button id="igraj-opet"><span>↻</span> Play again</button>
@@ -90,6 +110,17 @@ export default class UI {
 
   /* SCENE UI */
 
+  scoreUI(text = 'Score', points = 0, subtext, subpoints, smallClass = '') {
+    return /* html */`
+      <div class="top-left ${scores[this.uiStyle]}">
+        <div>
+          ${text}: ${points}
+          ${subtext ? `<br><small class="${smallClass}">${subtext}: ${subpoints}</small>` : ''}
+        </div>
+      </div>
+    `
+  }
+
   renderSceneUI(t) {
     if (this.cachedSceneUI === this.scene.sceneUI(t)) return
 
@@ -99,17 +130,14 @@ export default class UI {
 
   /* MESSAGE */
 
-  getMessage(txt, className = '') {
-    return /* html */`
+  showMessage(txt) {
+    modalElement.innerHTML = /* html */`
       <div class="central-screen">
-        <h3 class="${className}">${txt}</h3>
+        <h3>${txt}</h3>
       </div>
     `
-  }
-
-  showMessage(txt) {
-    modalElement.innerHTML = this.getMessage(txt)
     setTimeout(() => {
+      if (this.modal) return
       modalElement.innerHTML = ''
     }, 3000)
   }

@@ -21,6 +21,11 @@
   --sand: #f2e6d8;
 }
 
+/* BREAKPOINTS:
+- sm 500px
+- md 800px
+*/
+
 /* DEFAULTS */
 
 * {
@@ -109,6 +114,51 @@ button.no-hover:hover {
   background-color: unset;
 }
 
+.rpgui-button {
+  background: url("/assets/images/rpgui/button.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  min-width: 160px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 35px;
+  padding-right: 35px;
+}
+
+.rpgui-button:hover {
+  background-image: url("/assets/images/rpgui/button-hover.png");
+}
+
+.rpgui-button.golden {
+  background-image: url("/assets/images/rpgui/button-golden.png");
+  background-size: 100% 90%;
+  padding-top: 5px;
+  justify-content: space-between;
+}
+
+.rpgui-button.golden:before,
+.rpgui-button.golden:after {
+  content: "";
+  width: 34px;
+  height: 110%;
+  margin-top: -5%;
+}
+
+.rpgui-button.golden:before {
+  background: transparent url("/assets/images/rpgui/button-golden-left.png") no-repeat right center;
+  background-size: 100% 100%;
+  margin-left: -46px;
+}
+
+.rpgui-button.golden:after {
+  background: transparent url("/assets/images/rpgui/button-golden-right.png") no-repeat left center;
+  background-size: 100% 100%;
+  margin-right: -46px;
+}
+
 /* HOMEPAGE */
 
 .homepage {
@@ -122,13 +172,14 @@ button.no-hover:hover {
 
 .main-menu {
     display:grid;
+    padding: 0 40px;
     gap:20px;
 }
 
-@media (min-width: 500px) {
+@media (min-width: 800px) {
   .main-menu {
     grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    padding: 0 40px;
+    padding: 0 60px;
     gap:40px;
   }
 }
@@ -179,6 +230,10 @@ button.no-hover:hover {
   min-width: 320px;
 }
 
+.simple-container, .white-container, .rpgui-container {
+  padding: 12px;
+}
+
 .simple-container {
   background-color: rgba(0, 0, 0, 0.8);
   border-image-repeat: repeat;
@@ -187,16 +242,51 @@ button.no-hover:hover {
   border-image-width: 7px;
   border-radius: var(--radius);
   color: #8D9573;
-  padding: 20px;
-  display: inline-block;
 }
 
-.white-window {
-  margin-top: 10px;
+.white-container {
+  background-color: rgba(0, 0, 0, 0.4);
   border: 1px solid var(--black);
-  outline: 1px solid var(--white);
-  padding: 10px;
   border-radius: var(--radius);
+  outline: 1px solid var(--white);
+}
+
+.rpgui-container {
+  border-image-repeat: repeat;
+  border-image-width: 18px;
+  border-style: solid;
+  border-width: 15px;
+  box-sizing: border-box;
+
+  h1, h2, h3, #start {
+    /* order is important */
+    background: linear-gradient(to bottom, #ff8a00 0%, yellow 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none;
+  }
+
+  #start {
+    font-size: 1.2rem;
+    text-transform: unset;
+  }
+
+  li {
+    color: yellow;
+  }
+}
+
+.rpgui-container.framed {
+  background-color: #4E4A4E;
+  border-image-slice: 6 6 6 6;
+  border-image-source: url("/assets/images/rpgui/border-image.png");
+}
+
+.rpgui-container.framed-golden {
+  background-color: #854C30;
+  border-image-slice: 4 4 4 4;
+  border-image-source: url("/assets/images/rpgui/border-image-golden.png");
 }
 
 .game-paused {
@@ -212,6 +302,7 @@ button.no-hover:hover {
   justify-content: center;
 
   input[type="image"] {
+    min-width: 140px;
     height: 110px;
     border: 3px solid black;
   }
@@ -219,10 +310,10 @@ button.no-hover:hover {
 
 @media (min-width: 500px) {
   .game-screen-select input[type="image"] {
+    min-width: 180px;
     height: 140px;
   }
 }
-
 
 /* REPORT */
 
@@ -280,6 +371,8 @@ button.no-hover:hover {
   bottom: var(--spacing);
 }
 
+/* PROGRESS */
+
 .progress {
   width: 96%;
 }
@@ -289,8 +382,6 @@ button.no-hover:hover {
     width: 220px;
   }
 }
-
-/* PROGRESS */
 
 progress {
   width: 100%;
@@ -329,6 +420,34 @@ progress.potisak::-moz-progress-bar {
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
+  }
+}
+
+.rpgui-progress {
+  background-color: #4E4A4E;
+  border-radius: 7px;
+  border: 2px solid black;
+}
+
+.rpgui-progress::-webkit-progress-value {
+  background-image: url("/assets/images/rpgui/progress-red.png");
+  background-repeat: repeat-x;
+  background-size: 36px 100%;
+  border-radius: 7px;
+}
+
+.rpgui-progress::-moz-progress-bar {
+  background-image: url("/assets/images/rpgui/progress-red.png");
+  background-repeat: repeat-x;
+  background-size: 36px 100%;
+  border-radius: 7px;
+}
+
+.rpgui-button.top-left {
+  margin-left: var(--spacing);
+
+  p, div {
+      padding: 0 8px;
   }
 }
 

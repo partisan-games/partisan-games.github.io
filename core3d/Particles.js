@@ -16,15 +16,24 @@ function addVelocity({ geometry, minVelocity = .5, maxVelocity = 3 } = {}) {
  * Particles base class, creates particles in sphere space
  */
 export default class Particles {
-  constructor({ num = 10000, file = 'ball.png', color, size = .5, opacity = 1, unitAngle = 1, minRadius = 100, maxRadius = 1000, blending = THREE.AdditiveBlending, pos } = {}) {
+  constructor({ num = 10000, file = 'ball.png', color, size = .5, opacity = 1, unitAngle = 1, minRadius = 100, maxRadius = 1000, minVelocity = 50, maxVelocity = 300, blending = THREE.AdditiveBlending, loop = true, min = -500, max = 500, pos } = {}) {
     this.t = 0
     this.unitAngle = unitAngle
+    this.minVelocity = minVelocity
+    this.maxVelocity = maxVelocity
+    this.min = min
+    this.max = max
+    this.loop = loop
     this.mesh = this.createParticles({ num, file, color, size, opacity, minRadius, maxRadius, blending })
     if (pos) this.mesh.position.set(pos.x, pos.y, pos.z)
   }
 
   get particles() {
     return this.mesh
+  }
+
+  get isParticles() {
+    return true
   }
 
   createParticles({ num = 10000, file = 'ball.png', color, size = .5, opacity = 1, minRadius = 100, maxRadius = 1000, blending = THREE.AdditiveBlending } = {}) {
@@ -120,7 +129,7 @@ export default class Particles {
   /**
    * moves particles vertically or horizontally according to axis
    */
-  update({ delta = 1 / 60, min = -500, max = 500, axis = 2, minVelocity = 50, maxVelocity = 300, loop = true, maxRounds = 250, pos, rotateY } = {}) {
+  update({ delta = 1 / 60, axis = 2, min = this.min, max = this.max, minVelocity = this.minVelocity, maxVelocity = this.maxVelocity, loop = this.loop, maxRounds = 250, pos, rotateY } = {}) {
     if (!this.mesh.visible) return
     if (!loop) this.fadeOut(maxRounds)
 
@@ -155,17 +164,19 @@ export class Stars extends Particles {
 
 export class Rain extends Particles {
   // rain-drop.png je ukrivo
-  constructor({ file = 'rain-drop.png', num = 1000, size = .1, opacity = .75, minRadius = 2, maxRadius = 5, color = 0xDEF4FC, ...rest } = {}) {
-    super({ file, num, size, opacity, minRadius, maxRadius, color, blending: THREE.NormalBlending, ...rest })
+  constructor({ file = 'rain-drop.png', num = 1000, size = .1, opacity = .75, minRadius = 2, maxRadius = 5, minVelocity = 30, maxVelocity = 90, color = 0xDEF4FC, min = 0, max = 50, ...rest } = {}) {
+    super({ file, num, size, opacity, minRadius, maxRadius, color, minVelocity, maxVelocity, blending: THREE.NormalBlending, ...rest })
 
     this.audio = new Audio('/assets/sounds/rain.mp3')
     this.audio.volume = config.volume * .5
     this.audio.loop = true
     this.playing = false
+    this.min = min
+    this.max = max
   }
 
-  update({ min = 0, max = 50, minVelocity = 30, maxVelocity = 90, ...rest } = {}) {
-    super.update({ min, max, axis: 1, minVelocity, maxVelocity, ...rest })
+  update(params = {}) {
+    super.update({ axis: 1, ...params })
     if (!this.playing) {
       this.audio.play()
       this.playing = true
@@ -174,12 +185,12 @@ export class Rain extends Particles {
 }
 
 export class Snow extends Particles {
-  constructor(params = {}) {
-    super({ file: 'snowflake.png', num: 1000, color: 0xffffff, size: .3, opacity: .6, minRadius: 2, maxRadius: 50, ...params })
+  constructor({ file = 'snowflake.png', num = 1000, color = 0xffffff, size = .3, opacity = .6, minRadius = 2, maxRadius = 50, minVelocity = 3, maxVelocity = 9, ...rest } = {}) {
+    super({ file, num, color, size, opacity, minRadius, maxRadius, minVelocity, maxVelocity, ...rest })
   }
 
-  update(params = {}) {
-    super.update({ axis: 1, rotateY: .009, min: -5, max: 15, minVelocity: 3, maxVelocity: 9, ...params })
+  update({ minVelocity = this.minVelocity, maxVelocity = this.maxVelocity, ...rest } = {}) {
+    super.update({ axis: 1, rotateY: .009, min: -5, max: 15, minVelocity, maxVelocity, ...rest })
   }
 }
 
@@ -190,12 +201,12 @@ export class Explosion extends Particles {
 }
 
 export class Flame extends Particles {
-  constructor({ file = 'fire.png', size = 5, num = 50, minRadius = 0, maxRadius = .5, ...rest } = {}) {
-    super({ num, file, size, minRadius, maxRadius, ...rest })
+  constructor({ file = 'fire.png', size = 5, num = 50, minRadius = 0, maxRadius = .5, minVelocity = 5, maxVelocity = 10, min = 0, max = 8, ...rest } = {}) {
+    super({ num, file, size, minRadius, maxRadius, minVelocity, maxVelocity, min, max, ...rest })
   }
 
-  update({ delta, maxRounds = 75, min = 0, max = 8, axis = 2, minVelocity = 5, maxVelocity = 10, ...rest } = {}) {
-    super.update({ delta, maxRounds, min, max, axis, minVelocity, maxVelocity, ...rest })
+  update({ delta, maxRounds = 75, axis = 2, ...rest } = {}) {
+    super.update({ delta, maxRounds, axis, ...rest })
   }
 }
 
@@ -206,44 +217,40 @@ export class RedFlame extends Flame {
 }
 
 export class FlameUp extends Flame {
-  constructor(params = {}) {
-    super(params)
+  constructor({ minVelocity = 1, maxVelocity = 3, min = -1.5, max = 0, ...params } = {}) {
+    super({ minVelocity, maxVelocity, min, max, ...params })
     this.mesh.rotateX(Math.PI)
   }
 
   update(params = {}) {
-    super.update({ axis: 1, min: -1.5, max: 0, minVelocity: 1, maxVelocity: 3, ...params })
+    super.update({ axis: 1, ...params })
   }
 }
 
 export class Fire extends Particles {
-  constructor({ file = 'fire.png', num = 30, size = 30, opacity = .7, minRadius = 1.5, maxRadius = 3, color = 0xffffff, ...rest } = {}) {
-    super({ file, num, size, opacity, minRadius, maxRadius, color, blending: THREE.NormalBlending, ...rest })
+  constructor({ file = 'fire.png', num = 30, size = 30, opacity = .7, minRadius = 1.5, maxRadius = 3, minVelocity = 1.5, maxVelocity = 5, min = -8, max = 4, color = 0xffffff, ...rest } = {}) {
+    super({ file, num, size, opacity, minRadius, maxRadius, minVelocity, maxVelocity, min, max, color, blending: THREE.NormalBlending, ...rest })
     this.mesh.rotateX(Math.PI)
   }
 
-  update({ rotateY = .009, min = -8, max = 4, minVelocity = 1.5, maxVelocity = 5, ...rest } = {}) {
-    super.update({ axis: 1, rotateY, min, max, minVelocity, maxVelocity, ...rest })
+  update({ rotateY = .009, ...rest } = {}) {
+    super.update({ axis: 1, rotateY, ...rest })
   }
 }
 
 export class Smoke extends Particles {
-  constructor({ file = 'smoke.png', size = 1, num = 100, minRadius = 0, maxRadius = .66, color = 0x999999, blending = THREE.NormalBlending, ...rest } = {}) {
-    super({ num, file, size, minRadius, maxRadius, color, blending, ...rest })
+  constructor({ file = 'smoke.png', size = 1, num = 100, minRadius = 0, maxRadius = .66, color = 0x999999, minVelocity = 1, maxVelocity = 3, min = -3.5, max = 0, blending = THREE.NormalBlending, ...rest } = {}) {
+    super({ num, file, size, minRadius, maxRadius, color, blending, minVelocity, maxVelocity, min, max, ...rest })
     this.mesh.rotateX(Math.PI)
   }
 
-  update({ rotateY = .01, min = -3.5, max = 0, minVelocity = 1, maxVelocity = 3, ...rest } = {}) {
-    super.update({ rotateY, min, max, minVelocity, maxVelocity, axis: 1, ...rest })
+  update({ rotateY = .01, ...rest } = {}) {
+    super.update({ rotateY, axis: 1, ...rest })
   }
 }
 
 export class BigSmoke extends Smoke {
-  constructor(params = {}) {
-    super({ num: 40, size: 10, opacity: .7, minRadius: 1.5, maxRadius: 3, ...params })
-  }
-
-  update({ min = -8, max = 4, minVelocity = 1.5, ...rest } = {}) {
-    super.update({ min, max, minVelocity, ...rest })
+  constructor({ num = 40, size = 10, opacity = .7, minRadius = 1.5, maxRadius = 3, minVelocity = 1.5, min = -8, max = 4, ...params } = {}) {
+    super({ num, size, opacity, minRadius, maxRadius, minVelocity, min, max, ...params })
   }
 }

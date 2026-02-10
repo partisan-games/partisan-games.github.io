@@ -1,6 +1,5 @@
 import Input from '/core/io/Input.js'
 import { jumpStyles, attackStyles, reactions } from '/core3d/constants.js'
-import { getPlayerState } from './states/index.js'
 import Actor from './Actor.js'
 import ChaseCamera from '/core3d/actor/ChaseCamera.js'
 
@@ -9,22 +8,20 @@ export default class Player extends Actor {
     animDict,
     useJoystick,
     useKeyboard,
-    input = new Input({ useJoystick, useKeyboard, animDict, attackKey: 'pointer' }),
     attackStyle = attackStyles.LOOP,
     jumpStyle = jumpStyles.ANIM_JUMP,
-    getState = name => getPlayerState(name, jumpStyle, attackStyle),
     shouldRaycastGround = true,
     attackDistance = 1.5,
+    attackKey = 'pointer',
     showHealthBar = true,
     rpgStyle = false,
+    input = new Input({ useJoystick, useKeyboard, animDict, attackKey }),
     camera,
     cameraClass,
     ...rest
   } = {}) {
 
-    super({ input, animDict, jumpStyle, getState, shouldRaycastGround, attackDistance, ...rest })
-    this.name = 'player'
-
+    super({ name: 'player', input, animDict, jumpStyle, attackStyle, shouldRaycastGround, attackDistance, ...rest })
     if (camera) {
       this.shouldAlignCamera = true
       this.chaseCamera = new ChaseCamera({ camera, mesh: this.mesh, height: this.height, cameraClass })

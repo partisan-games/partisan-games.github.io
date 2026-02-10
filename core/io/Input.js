@@ -1,13 +1,14 @@
 import Joystick from './Joystick.js'
 import Keyboard from './Keyboard.js'
 
-const isTouchScreen = 'ontouchstart' in window
+const isTouchScreen = 'ontouchstart' in window || navigator.maxTouchPoints > 0
+const hasMouse = window.matchMedia('(any-hover: hover) and (any-pointer: fine)').matches
 
 /**
  * Interface for all user inputs
  */
 class Input {
-  constructor({ useKeyboard = !isTouchScreen, useJoystick = isTouchScreen, animDict, attackKey } = {}) {
+  constructor({ useKeyboard = hasMouse, useJoystick = isTouchScreen, animDict, attackKey } = {}) {
     if (useKeyboard) this.keyboard = new Keyboard({ attackKey })
     if (useJoystick) this.screen = new Joystick({ animDict })
   }

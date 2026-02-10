@@ -24,7 +24,7 @@ export default class AIIdleState extends IdleState {
     if (actor.inAir)
       actor.setState('fall')
 
-    if (actor.inPursueState && actor.targetSpotted)
+    if (actor.canPursue && actor.targetSpotted)
       actor.setState('pursue')
 
     if (baseState == baseStates.defend && targetInAttackRange)

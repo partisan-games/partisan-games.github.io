@@ -71,11 +71,6 @@ export default class extends Scena2D {
   }
 
   sceneUI() {
-    return /* html */`
-      <div class='top-left'>
-        Poeni: ${this.player.poeni}<br>
-        Životi: ${this.player.zivoti}<br>
-      </div>
-    `
+    return this.ui.scoreUI('Poeni', this.player.poeni, 'Životi', this.player.zivoti)
   }
 }

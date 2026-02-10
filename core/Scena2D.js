@@ -3,8 +3,8 @@ import Renderer2D from './Renderer2D.js'
 import { platno } from '/core/io/platno.js'
 
 export default class Scena2D extends Scena {
-  constructor(manager, params) {
-    super(manager, params)
+  constructor(params) {
+    super(params)
     this.bojaPozadine = null
     this.renderer = new Renderer2D()
     platno.style.display = 'block'

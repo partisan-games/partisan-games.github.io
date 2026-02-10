@@ -2,17 +2,20 @@ export default class State {
   constructor(actor, name) {
     this.actor = actor
     this.name = name
-    this.action = actor?.actions[name]
     this.prevState = ''
     this.last = Date.now() // for ai intervals
   }
 
-  get input() {
-    return this.actor.input
+  get action() {
+    if (this.name === 'attack' && this.actor === 'enemy')
+      return this.actor.actions.attack2
+        ? Math.random() > .5 ? this.actor.actions.attack : this.actor.actions.attack2
+        : this.actor.actions.attack
+    return this.actor?.actions[this.name]
   }
 
-  get actions() {
-    return this.actor.actions
+  get input() {
+    return this.actor.input
   }
 
   get prevOrIdle() {
@@ -56,7 +59,7 @@ export default class State {
   }
 
   syncLegs() {
-    const oldAction = this.actions[this.prevState]
+    const oldAction = this.actor.actions[this.prevState]
     const ratio = this.action.getClip().duration / oldAction.getClip().duration
     this.action.time = oldAction.time * ratio
   }

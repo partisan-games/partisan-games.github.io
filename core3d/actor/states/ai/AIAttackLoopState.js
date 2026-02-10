@@ -3,10 +3,6 @@ import State from '../State.js'
 export default class AIAttackLoopState extends State {
   constructor(...args) {
     super(...args)
-    const { actions } = this.actor
-    this.action = actions.attack2
-      ? Math.random() > .5 ? actions.attack : actions.attack2
-      : actions.attack
     this.attackAgain = this.attackAgain.bind(this)
     this.shouldFinishAttack = false
   }

@@ -10,11 +10,11 @@ const chooseDuration = prevState => {
 export default class WalkState extends State {
   enter(oldState, oldAction) {
     super.enter(oldState)
-    if (!this.actions.walk) return
+    if (!this.actor.actions.walk) return
 
     // if (this.prevState === 'run') this.syncLegs()
 
-    this.transitFrom(oldAction, chooseDuration(oldState.name))
+    this.transitFrom(oldAction, chooseDuration(oldState?.name))
 
     if (this.actor.input.down) this.reverseAction()
   }

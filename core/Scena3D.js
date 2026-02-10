@@ -5,8 +5,8 @@ const platno3D = document.getElementById('platno-3d')
 platno3D.style.display = 'none'
 
 export default class Scena3D extends Scena {
-  constructor(manager, { toon = false, ...rest } = {}) {
-    super(manager, { ...rest })
+  constructor({ toon = false, ...rest } = {}) {
+    super({ ...rest })
     this.scene = new THREE.Scene()
     this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
     this.camera.position.set(0, 5, 30)
@@ -40,18 +40,19 @@ export default class Scena3D extends Scena {
     this.renderer = new OutlineEffect(this.renderer, { defaultThickness })
   }
 
+  /* dodaje mesh i radi update */
   add(...predmeti) {
     super.add(...predmeti)
     this.scene.add(...predmeti.map(predmet => predmet.mesh))
   }
 
+  addMesh(...meshes) {
+    this.scene.add(...meshes)
+  }
+
   remove(...predmeti) {
     super.remove(...predmeti)
     this.scene.remove(...predmeti.map(predmet => predmet.mesh))
-  }
-
-  addMesh(...meshes) {
-    this.scene.add(...meshes)
   }
 
   removeMesh(...meshes) {

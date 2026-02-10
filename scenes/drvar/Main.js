@@ -24,8 +24,8 @@ function praviPanoramu(r = 300) {
 }
 
 export default class extends Scena3D {
-  constructor(manager) {
-    super(manager, { showControls: false })
+  constructor() {
+    super({ showControls: false })
   }
 
   init() {
