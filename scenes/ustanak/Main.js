@@ -40,7 +40,7 @@ export default class extends Scena2D {
     const avion2 = new Avion({ src: 'armies/talijani/avioni/imam-ro57.png', y: platno.height * .2, skalar: 0.66, brzina: -320 })
     this.top.ciljevi.push(this.tenk, avion, avion2)
     this.add(...planine, avion, avion2, this.bunker, this.tenk, this.top, strelac, posada, zastavnik)
-    this.controls2UI = new Controls({ containerClass: 'bottom-right', controlKeys: tankRightControls })
+    this.controls2UI = new Controls({ positionClass: 'bottom-right', controlKeys: tankRightControls })
   }
 
   handleClick(e) {

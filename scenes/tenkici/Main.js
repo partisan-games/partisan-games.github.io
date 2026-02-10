@@ -21,7 +21,7 @@ export default class extends Scena2D {
     this.tenk.ciljevi.push(this.tenk2)
     this.tenk2.ciljevi.push(this.tenk)
     this.predmeti = [this.tenk, this.tenk2]
-    this.controls2UI = new Controls({ containerClass: 'bottom-right', controlKeys: tankRightControls })
+    this.controls2UI = new Controls({ positionClass: 'bottom-right', controlKeys: tankRightControls })
   }
 
   handleClick(e) {

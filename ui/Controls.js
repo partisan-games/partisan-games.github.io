@@ -49,16 +49,16 @@ export default class Controls {
   constructor({
     controlKeys = baseControls,
     uiStyle = uiStyles.simple,
-    containerClass = 'bottom-left',
+    positionClass = 'bottom-left',
   } = {}) {
     this.controlsOpen = false
     this.uiStyle = uiStyle
-    this.init({ controlKeys, containerClass })
+    this.init({ controlKeys, positionClass })
   }
 
-  init({ controlKeys, containerClass }) {
+  init({ controlKeys, positionClass }) {
     this.div = document.createElement('div')
-    this.div.className = containerClass
+    this.div.className = positionClass
 
     const button = document.createElement('button')
     button.className = buttons[this.uiStyle]
