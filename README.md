@@ -17,8 +17,6 @@ npm start
 ## TODO
 
 - dodati ostale igre, scene i animacije
-    - Graveyard survival
-        - čarobnica nema pain
     - Cannon shooting
     - Zeppelin
     - dark-city
