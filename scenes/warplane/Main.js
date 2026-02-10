@@ -121,12 +121,7 @@ export default class extends Scena3D {
 
   sceneUI(time) {
     const timeLeft = totalTime - Math.floor(time)
-    return /* html */`
-      <div class="top-left">
-        Score: ${this.score}<br>
-        <small class="blink">Time left: ${Math.max(timeLeft, 0)}</small>
-      </div>
-    `
+    return this.ui.scoreUI('Score', this.score, 'Time left', Math.max(timeLeft, 0), 'blink')
   }
 
   update(delta, time) {

@@ -96,12 +96,9 @@ export default class extends Scena2D {
 
   sceneUI() {
     const energija = Math.round(this.energija)
-    return /* html */`
-    <div class="top-left">
-      Preostalo vreme: ${Math.ceil(this.preostaloVreme)}<br>
-      Pogoci: ${this.pogoci} <br>
-    </div>
 
+    return /* html */`
+    ${this.ui.scoreUI('Preostalo vreme', Math.ceil(this.preostaloVreme), 'Pogoci', this.pogoci)}
     <progress class="progress top-right" value="${energija}" max='100'></progress>
     `
   }

@@ -80,12 +80,7 @@ export default class extends Scena3D {
   sceneUI() {
     const destroyed = this.aircraft.filter(plane => plane.energy <= 0)
     const left = this.aircraft.length - destroyed.length
-    return /* html */`
-      <div class="top-left">
-        Score: ${destroyed.length}<br>
-        <small>Enemy left: ${left}</small>
-      </div>
-    `
+    return this.ui.scoreUI('Score', destroyed.length, 'Enemy left', left)
   }
 
   update(dt) {

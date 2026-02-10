@@ -104,11 +104,6 @@ export default class extends Scena3D {
   sceneUI() {
     const killed = this.enemies.filter(enemy => enemy.energy <= 0)
     const left = this.enemies.length - killed.length
-    return /* html */`
-      <div class="top-left ">
-        Score: ${killed.length}<br>
-        <small>Enemy left: ${left}</small>
-      </div>
-    `
+    return this.ui.scoreUI('Score', killed.length, 'Enemy left', left)
   }
 }

@@ -57,6 +57,7 @@ npm start
 
 ### Završno
 
+- restart na Žikicu i još negde
 - prevod na engleski
 - dodati bazicnu statistiku, bar brojac poseta.
 - sistem ocenjivanja igara

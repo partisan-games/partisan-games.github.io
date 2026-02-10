@@ -95,14 +95,7 @@ export default class extends Scena3D {
 
   sceneUI() {
     const kills = this.player.enemies.filter(mesh => mesh.userData.energy <= 0)
-    return /* html */`
-      <div class="top-left rpgui-button golden">
-        <p>
-          Zombies killed: ${kills.length}<br>
-          <small class="blink">Time left: ${this.timeLeft}</small>
-        </p>
-      </div>
-    `
+    return this.ui.scoreUI('Zombies killed', kills.length, 'Time left', this.timeLeft, 'blink')
   }
 
   update(delta, time) {
