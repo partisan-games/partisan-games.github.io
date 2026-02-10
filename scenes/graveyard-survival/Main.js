@@ -29,6 +29,7 @@ export default class extends Scena3D {
       controlKeys: { ...baseControls, Enter: 'attack' },
       customStartScreen,
       uiStyle: 'rpg',
+      toon: true
     })
   }
 
@@ -66,8 +67,8 @@ export default class extends Scena3D {
       this.add(ghost)
     }
 
-    const { ResistanceFighterPlayer } = await import('/core3d/actor/derived/ww2/ResistanceFighter.js')
-    this.player = new ResistanceFighterPlayer({ camera: this.camera, solids: this.solids, rpgStyle: true, attackKey: 'Enter' })
+    const { SorceressPlayer } = await import('/core3d/actor/derived/fantasy/Sorceress.js')
+    this.player = new SorceressPlayer({ camera: this.camera, solids: this.solids, rpgStyle: true, attackKey: 'Enter' })
     this.add(this.player)
 
     const { Smoke } = await import('/core3d/Particles.js')
