@@ -5,11 +5,6 @@ import { thirdPersonControls } from '/ui/Controls.js'
 import Maze from '/core3d/mazes/Maze.js'
 import { truePrims } from '/core3d/mazes/algorithms.js'
 import { createFloor } from '/core3d/ground.js'
-import { PartisanAI } from '/core3d/actor/derived/ww2/Partisan.js'
-import { PartisanAimAI } from '/core3d/actor/derived/ww2/PartisanAim.js'
-import { PartisanLowpolyAI } from '/core3d/actor/derived/ww2/PartisanLowpoly.js'
-import { SovietPartisanAI } from '/core3d/actor/derived/ww2/SovietPartisan.js'
-import { sample } from '/core3d/helpers.js'
 
 const cellSize = 10
 const rows = 6
@@ -74,12 +69,8 @@ export const slogans = [
   WHAT WE PUT INTO IT NOW`
 ]
 
-export const banksyArt = [
+export const posters = [
   'anarchy.jpg', 'change.png', 'cleaning.jpg', 'cop.jpg', 'flower.jpg', 'heart.png', 'monaliza.png', 'bomb.jpg', 'cops.jpg', 'peace.jpg', 'kids.jpg', 'airplanes.jpg'
-]
-
-const posters = [
-  '15_rujan_zadnji_rok.webp', 'iz_naroda_hlapcev.webp', 'kultura_fasizma.jpg', 'ni_zrno_zita_okupatoru.webp', 'omladina_jugoslavije.webp', 'partizanka.webp', 'petokolonas_vreba.jpg', 'RED_ARMY_IS_HERE.jpg', 'smrt_fasizmu_sloboda_narodu.webp', 'svi_na_front.webp', 'svi_u_NOVJ.webp', 'tko bude uhvacen da pljacka.jpg', 'zar_ti_jos_ne_znas_citati.webp', 'zgrabimo_za_orozje_vsi.webp', 'zivio_27_mart.webp'
 ]
 
 export default class extends Scena3D {
@@ -93,7 +84,7 @@ export default class extends Scena3D {
     this.addMesh(createSun({ pos: [50, 100, 50], intensity: 2 * Math.PI }))
 
     const maze = new Maze({ rows, columns: rows, truePrims, cellSize })
-    const city = maze.toGraffitiCity({ texture: 'terrain/concrete.jpg', maxHeight: cellSize * .5, posters, slogans })
+    const city = maze.toGraffitiCity({ texture: 'terrain/concrete.jpg', maxHeight: cellSize * .5, posters, slogans, postersPath: 'posters/banksy/' })
     this.addMesh(city)
 
     const coords = maze.getEmptyCoords(true, cellSize - 1)
@@ -101,13 +92,5 @@ export default class extends Scena3D {
     this.player = new ResistanceFighterPlayer({ camera: this.camera, solids: city, pos: coords.pop(), showHealthBar: false })
     this.player.putInMaze(maze)
     this.add(this.player)
-
-    this.comrades = []
-    for (let i = 0; i < 10; i++) {
-      const AIClass = sample([PartisanAI, PartisanAimAI, PartisanLowpolyAI, SovietPartisanAI])
-      const comrade = new AIClass({ pos: coords.pop(), solids: city })
-      this.comrades.push(comrade)
-      this.add(comrade)
-    }
   }
 }

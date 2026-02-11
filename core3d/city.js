@@ -243,7 +243,7 @@ export function createBuilding(params = {}) {
   return new THREE.Mesh(geometry, material)
 }
 
-function createTexturedBuilding({ width, height, depth = width, color = 0x999999, path = '/assets/images/textures/', files = [], defaultFile, halfOnSides = false, graffitiChance = 0, posters = [], slogans = [], ...rest } = {}) {
+function createTexturedBuilding({ width, height, depth = width, color = 0x999999, path = '/assets/images/textures/', files = [], defaultFile, halfOnSides = false, graffitiChance = 0, posters = [], slogans = [], postersPath = 'posters/', ...rest } = {}) {
   const geometry = createBuildingGeometry({ width, height, depth, ...rest })
   const { width: buildingWidth, height: buildingHeight } = geometry.parameters
 
@@ -258,7 +258,7 @@ function createTexturedBuilding({ width, height, depth = width, color = 0x999999
       buildingWidth,
       buildingHeight,
       bgImage: 'terrain/concrete.jpg',
-      poster: Math.random() > .66 && 'posters/' + sample(posters),
+      poster: Math.random() > .66 && postersPath + sample(posters),
       text: sample(slogans),
     })
 
