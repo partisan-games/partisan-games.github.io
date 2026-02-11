@@ -4,7 +4,7 @@ import { meshFromPolarMaze, createPipe, createCityWall, createWall } from '/core
 
 export default class PolarMaze extends Maze {
   constructor(rows, algorithm, cellSize = 10) {
-    super(rows, 1, algorithm, cellSize)
+    super({ rows, columns: 1, algorithm, cellSize })
   }
 
   /* GETTERS */
