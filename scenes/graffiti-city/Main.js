@@ -73,6 +73,9 @@ const posters = [
   'anarchy.jpg', 'change.png', 'cleaning.jpg', 'cop.jpg', 'flower.jpg', 'heart.png', 'monaliza.png', 'bomb.jpg', 'cops.jpg', 'peace.jpg', 'kids.jpg', 'airplanes.jpg'
 ]
 
+const webFonts = ['Arial', 'Verdana', 'Trebuchet MS', 'Brush Script MT', 'Brush Script MT']
+const fontColors = ['red', 'blue', 'black', '#222222', 'green', 'purple']
+
 // return an array with a file at random index and rest empty
 const getFiles = () => {
   const files = []
@@ -97,11 +100,11 @@ export default class extends Scena3D {
     this.addMesh(trees)
     solids.push(trees)
 
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 40; i++) {
       const { x, z } = coords.pop()
       const building = Math.random() > .10
-        ? createGraffitiBuilding({ x, z, slogans })
-        : createGraffitiBuilding({ x, z, slogans, files: getFiles() })
+        ? createGraffitiBuilding({ x, z, slogans, webFonts, fontColors })
+        : createGraffitiBuilding({ x, z, slogans, webFonts, fontColors, files: getFiles() })
       this.addMesh(building)
       solids.push(trees, building)
     }

@@ -17,9 +17,6 @@ npm start
 ## TODO
 
 - dodati ostale igre, scene i animacije
-    - revolutionary-city tour
-        - vratiti grad bez lavirinta
-        - još fontova
     - dark-city
     - planets
     - tank

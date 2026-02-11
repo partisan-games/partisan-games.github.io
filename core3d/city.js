@@ -50,15 +50,14 @@ export function createBuildingTexture({ night = false, wallColor = night ? '#151
   return texture
 }
 
-const webFonts = ['Arial', 'Verdana', 'Trebuchet MS']
-const fontColors = ['red', 'black', '#222222', 'brown']
-
-export function createGraffitiTexture({
+function createGraffitiTexture({
   buildingWidth,
   buildingHeight,
   background,
   text,
+  fontColors = ['red', 'black', '#222222', 'brown'],
   color = sample(fontColors),
+  webFonts = ['Arial', 'Verdana', 'Trebuchet MS'],
   fontFamily = sample(webFonts),
   resolution = 64,
   graffitiBgTexture,
@@ -247,7 +246,7 @@ export function createBuilding(params = {}) {
   return new THREE.Mesh(geometry, material)
 }
 
-function createTexturedBuilding({ width, height, depth = width, color = 0x999999, path = '/assets/images/textures/', files = [], defaultFile, halfOnSides = false, graffitiChance = 0, posters = [], slogans = [], postersPath = 'posters/', graffitiBgTexture, bigMural = false, ...rest } = {}) {
+function createTexturedBuilding({ width, height, depth = width, color = 0x999999, path = '/assets/images/textures/', files = [], defaultFile, halfOnSides = false, graffitiChance = 0, posters = [], slogans = [], postersPath = 'posters/', graffitiBgTexture, webFonts, fontColors, bigMural = false, ...rest } = {}) {
   const geometry = createBuildingGeometry({ width, height, depth, ...rest })
   const { width: buildingWidth, height: buildingHeight } = geometry.parameters
 
@@ -265,6 +264,8 @@ function createTexturedBuilding({ width, height, depth = width, color = 0x999999
       poster: Math.random() > .66 && postersPath + sample(posters),
       text: sample(slogans),
       bigMural,
+      webFonts,
+      fontColors,
     })
 
     if (defaultFile) return loadTexture(path + defaultFile, halfWidth)
