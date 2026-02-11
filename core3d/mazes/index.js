@@ -95,13 +95,13 @@ export function meshFromTilemap({ tilemap, cellSize = 1, maxHeight = cellSize, t
 }
 
 export function cityFromTilemap({
-  tilemap, cellSize = 1, maxHeight = cellSize,
+  tilemap, cellSize = 1, maxHeight = cellSize, ...rest
 } = {}) {
   const group = new THREE.Group()
   tilemap.forEach((row, j) => row.forEach((val, i) => {
     if (val > 0) {
       const height = randFloat(cellSize, maxHeight)
-      const building = createGraffitiBuilding({ x: i * cellSize, z: j * cellSize, width: cellSize, height })
+      const building = createGraffitiBuilding({ x: i * cellSize, z: j * cellSize, width: cellSize, height, ...rest })
       group.add(building)
     }
   }))

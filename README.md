@@ -38,7 +38,6 @@ npm start
     - follow (okupi sve sledbenike)
     - rasporediti preostale karaktere po scenama
         - demon mora negde, možda u ruševine
-        - dodati  partisan-lowpoly u oslobođeni grad 
 - probati grid nejednakih slika, možda staviti i neku uspravnu
 - promeniti joystick u četiri strelice da bude upotrebljivo za telefone
     - proveriti na telefonu
