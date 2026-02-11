@@ -282,9 +282,7 @@ function createTexturedBuilding({ width, height, depth = width, color = 0x999999
   return mesh
 }
 
-const getTexture = () => 'buildings/' + sample(['ruin-01.jpg', 'ruin-02.jpg', 'ruin-03.jpg', 'ruin-04.jpg', 'ruin-back.jpg', 'warehouse.jpg'])
-
-export const createGraffitiBuilding = param => createTexturedBuilding({ graffitiChance: .2, defaultFile: getTexture(), ...param })
+export const createGraffitiBuilding = param => createTexturedBuilding({ graffitiChance: .2, ...param })
 
 export const createWarehouse = () => createTexturedBuilding({ width: 20, height: 10, depth: 10, defaultFile: 'buildings/warehouse.jpg', files: [null, null, 'terrain/concrete.jpg'], halfOnSides: true })
 
