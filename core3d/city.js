@@ -14,46 +14,6 @@ const loadTexture = (filepath, halfWidth) => {
   return texture
 }
 
-/* GRAFFITI */
-
-const slogans = [
-  `SMRT FAŠIZMU, 
-  SLOBODA NARODU!`,
-  `СМРТ ФАШИЗМУ, 
-  СЛОБОДА НАРОДУ!`,
-  `SMRT NARODNIM IZDAJICAMA
-  USTAŠAMA I ČETNICIMA`,
-  'ŽIVIO DRUG TITO',
-  'ŽIVELA NARODNA VOJSKA!',
-  'ЖИВИЛА НАРОДНА ВОЈСКА!',
-  'UNIŠTIMO FAŠIZAM!',
-  `15. SEPTEMBAR
-  JE ZADNJI ROK!`,
-  `NAROD ĆE SVOJU SLOBODU
-  PISATI SAM!`,
-  'NI ZRNO ŽITA OKUPATORU!',
-  'ЖИВЕЛА НАРОДНА ВЛАСТ!',
-  'KOMUNIZAM ĆE POBIJEDITI',
-  'КОМУНИЗАМ ЋЕ ПОБИЈЕДИТИ',
-  'SMRT OKUPATORU I IZDAJICAMA!',
-  'ZGRABIMO ORUŽJE SVI!',
-  'CRVENA ARMIJA DOLAZI',
-  'ЦРВЕНА АРМИЈА ДОЛАЗИ',
-  'U BORBU PROTIV OKUPATORA!',
-  'SVI U PARTIZANE!',
-  'СВИ У ПАРТИЗАНЕ!',
-  `SVI NA FRONT
-  SVE ZA FRONT!`,
-  `ZAR TI JOŠ NE ZNAŠ
-  ČITATI?`,
-  `ЗАР ТИ ЈОШ НЕ ЗНАШ
-  ЧИТАТИ?`,
-  'ŽIVJELA CRVENA ARMIJA',
-  `ŽIVILA KOMUNISTIČKA 
-  PARTIJA JUGOSLAVIJE`,
-  'ŽIVIO DRUG STARI',
-]
-
 /* TEXTURES */
 
 const getWindowColor = ({ chance = .5 } = {}) => {
@@ -90,19 +50,19 @@ export function createBuildingTexture({ night = false, wallColor = night ? '#151
   return texture
 }
 
-const webFonts = ['Arial', 'Verdana', 'Trebuchet MS']
-const fontColors = ['red', 'black', '#222222', 'brown']
-
-export function createGraffitiTexture({
+function createGraffitiTexture({
   buildingWidth,
   buildingHeight,
   background,
+  text,
+  fontColors = ['red', 'black', '#222222', 'brown'],
   color = sample(fontColors),
-  text = sample(slogans),
+  webFonts = ['Arial', 'Verdana', 'Trebuchet MS'],
   fontFamily = sample(webFonts),
   resolution = 64,
-  bgImage,
+  graffitiBgTexture,
   poster,
+  bigMural = false
 } = {}) {
   const canvas = document.createElement('canvas')
   const canvasWidth = canvas.width = buildingWidth * resolution
@@ -148,40 +108,43 @@ export function createGraffitiTexture({
     }
   }
 
-  const drawPosterAndText = () => {
-    if (!poster)
-      drawText()
-    else {
+  const drawArtAndText = () => {
+    if (poster) {
       const img = new Image()
       img.src = '/assets/images/textures/' + poster
       img.onload = () => {
-        const maxWidth = canvasWidth / 3
-        const maxHeight = canvasHeight / 3
-        const scale = Math.min(maxWidth / img.width, maxHeight / img.height)
-        const imgW = img.width * scale
-        const imgH = img.height * scale
-        const x = (canvasWidth - imgW) / 2
-        const y = (canvasHeight - imgH) / 2
-        ctx.drawImage(img, x, y, imgW, imgH)
-        drawText()
+        if (bigMural)
+          ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight)
+        else { // small poster + text
+          const maxWidth = canvasWidth / 3
+          const maxHeight = canvasHeight / 3
+          const scale = Math.min(maxWidth / img.width, maxHeight / img.height)
+          const imgW = img.width * scale
+          const imgH = img.height * scale
+          const x = (canvasWidth - imgW) / 2
+          const y = (canvasHeight - imgH) / 2
+          ctx.drawImage(img, x, y, imgW, imgH)
+          drawText()
+        }
         texture.needsUpdate = true
       }
-    }
+    } else
+      drawText()
   }
 
-  if (bgImage) {
+  if (graffitiBgTexture) {
     const img = new Image()
-    img.src = '/assets/images/textures/' + bgImage
+    img.src = '/assets/images/textures/' + graffitiBgTexture
     img.onload = () => {
       ctx.clearRect(0, 0, canvasWidth, canvasHeight)
       ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight)
-      drawPosterAndText()
+      drawArtAndText()
       texture.needsUpdate = true
     }
   } else {
     ctx.fillStyle = new THREE.Color(background).getStyle()
     ctx.fillRect(0, 0, canvasWidth, canvasHeight)
-    drawPosterAndText()
+    drawArtAndText()
   }
 
   return texture
@@ -283,11 +246,7 @@ export function createBuilding(params = {}) {
   return new THREE.Mesh(geometry, material)
 }
 
-const posters = [
-  '15_rujan_zadnji_rok.webp', 'iz_naroda_hlapcev.webp', 'kultura_fasizma.jpg', 'ni_zrno_zita_okupatoru.webp', 'omladina_jugoslavije.webp', 'partizanka.webp', 'petokolonas_vreba.jpg', 'RED_ARMY_IS_HERE.jpg', 'smrt_fasizmu_sloboda_narodu.webp', 'svi_na_front.webp', 'svi_u_NOVJ.webp', 'tko bude uhvacen da pljacka.jpg', 'zar_ti_jos_ne_znas_citati.webp', 'zgrabimo_za_orozje_vsi.webp', 'zivio_27_mart.webp'
-]
-
-function createTexturedBuilding({ width, height, depth = width, color = 0x999999, path = '/assets/images/textures/', files = [], defaultFile, halfOnSides = false, graffitiChance = 0, ...rest } = {}) {
+function createTexturedBuilding({ width, height, depth = width, color = 0x999999, path = '/assets/images/textures/', files = [], defaultFile, halfOnSides = false, graffitiChance = 0, posters = [], slogans = [], postersPath = 'posters/', graffitiBgTexture, webFonts, fontColors, bigMural = false, ...rest } = {}) {
   const geometry = createBuildingGeometry({ width, height, depth, ...rest })
   const { width: buildingWidth, height: buildingHeight } = geometry.parameters
 
@@ -301,8 +260,12 @@ function createTexturedBuilding({ width, height, depth = width, color = 0x999999
       background: color,
       buildingWidth,
       buildingHeight,
-      bgImage: 'terrain/concrete.jpg',
-      poster: Math.random() > .66 && 'posters/' + sample(posters)
+      graffitiBgTexture,
+      poster: Math.random() > .66 && postersPath + sample(posters),
+      text: sample(slogans),
+      bigMural,
+      webFonts,
+      fontColors,
     })
 
     if (defaultFile) return loadTexture(path + defaultFile, halfWidth)
@@ -325,9 +288,7 @@ function createTexturedBuilding({ width, height, depth = width, color = 0x999999
   return mesh
 }
 
-const getTexture = () => 'buildings/' + sample(['ruin-01.jpg', 'ruin-02.jpg', 'ruin-03.jpg', 'ruin-04.jpg', 'ruin-back.jpg', 'warehouse.jpg'])
-
-export const createGraffitiBuilding = param => createTexturedBuilding({ graffitiChance: .2, defaultFile: getTexture(), ...param })
+export const createGraffitiBuilding = param => createTexturedBuilding({ graffitiChance: .2, ...param })
 
 export const createWarehouse = () => createTexturedBuilding({ width: 20, height: 10, depth: 10, defaultFile: 'buildings/warehouse.jpg', files: [null, null, 'terrain/concrete.jpg'], halfOnSides: true })
 

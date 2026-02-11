@@ -160,8 +160,8 @@ export default class Scena {
     this.finish()
   }
 
-  victory(text) {
-    this.ui.victory(text)
+  victory(text, title) {
+    this.ui.victory(text, title)
     this.finish()
   }
 

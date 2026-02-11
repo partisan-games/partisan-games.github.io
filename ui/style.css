@@ -99,11 +99,11 @@ button {
   padding: 12px 16px;
   transition: background-color 0.45s;
   text-transform: uppercase;
+}
 
-  & span {
-    font-size: 1.6em;
-    line-height: 1;
-  }
+.icon {
+  font-size: 1.4rem;
+  -webkit-text-fill-color: initial;
 }
 
 button:hover {
@@ -228,6 +228,10 @@ button.no-hover:hover {
   text-align: center;
   max-width: 540px;
   min-width: 320px;
+
+  & .rpgui-button {
+    display: initial;
+  }
 }
 
 .simple-container, .white-container, .rpgui-container {
@@ -258,7 +262,7 @@ button.no-hover:hover {
   border-width: 15px;
   box-sizing: border-box;
 
-  h1, h2, h3, #start {
+  h1, h2, h3, .game-title {
     /* order is important */
     background: linear-gradient(to bottom, #ff8a00 0%, yellow 100%);
     background-clip: text;
@@ -267,7 +271,7 @@ button.no-hover:hover {
     text-shadow: none;
   }
 
-  #start {
+  .game-title {
     font-size: 1.2rem;
     text-transform: unset;
   }
@@ -289,7 +293,7 @@ button.no-hover:hover {
   border-image-source: url("/assets/images/rpgui/border-image-golden.png");
 }
 
-.game-paused {
+.flex-column {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -527,10 +531,6 @@ progress.potisak::-moz-progress-bar {
 
 .bold {
   font-weight: bold;
-}
-
-.medal {
-  font-size: 1.25em;
 }
 
 .blink {

@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js'
-import { createTexture } from '/core3d/helpers.js'
+import { createTexture, sample } from '/core3d/helpers.js'
 import { createBuildingTexture, createBuildingGeometry, createGraffitiBuilding } from '/core3d/city.js'
 import chroma from '/libs/chroma.js'
 
@@ -95,13 +95,20 @@ export function meshFromTilemap({ tilemap, cellSize = 1, maxHeight = cellSize, t
 }
 
 export function cityFromTilemap({
-  tilemap, cellSize = 1, maxHeight = cellSize,
+  tilemap, cellSize = 1, maxHeight = cellSize, textures = [], ...rest
 } = {}) {
   const group = new THREE.Group()
   tilemap.forEach((row, j) => row.forEach((val, i) => {
     if (val > 0) {
       const height = randFloat(cellSize, maxHeight)
-      const building = createGraffitiBuilding({ x: i * cellSize, z: j * cellSize, width: cellSize, height })
+      const building = createGraffitiBuilding({
+        x: i * cellSize,
+        z: j * cellSize,
+        width: cellSize,
+        height,
+        defaultFile: textures.length ? 'buildings/' + sample(textures) : null,
+        ...rest
+      })
       group.add(building)
     }
   }))
