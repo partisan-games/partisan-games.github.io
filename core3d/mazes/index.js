@@ -94,8 +94,6 @@ export function meshFromTilemap({ tilemap, cellSize = 1, maxHeight = cellSize, t
   return mesh
 }
 
-const getRandTexture = textures => textures.length ? 'buildings/' + sample(textures) : null
-
 export function cityFromTilemap({
   tilemap, cellSize = 1, maxHeight = cellSize, textures = [], ...rest
 } = {}) {
@@ -103,7 +101,14 @@ export function cityFromTilemap({
   tilemap.forEach((row, j) => row.forEach((val, i) => {
     if (val > 0) {
       const height = randFloat(cellSize, maxHeight)
-      const building = createGraffitiBuilding({ x: i * cellSize, z: j * cellSize, width: cellSize, height, defaultFile: getRandTexture(textures), ...rest })
+      const building = createGraffitiBuilding({
+        x: i * cellSize,
+        z: j * cellSize,
+        width: cellSize,
+        height,
+        defaultFile: textures.length ? 'buildings/' + sample(textures) : null,
+        ...rest
+      })
       group.add(building)
     }
   }))

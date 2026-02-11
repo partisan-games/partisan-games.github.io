@@ -17,7 +17,10 @@ npm start
 ## TODO
 
 - dodati ostale igre, scene i animacije
-    - Urban guerrilla promeniti lika i ime, revolutionary-city tour?
+    - revolutionary-city tour
+        - vratiti grad bez lavirinta
+        - murali preko celog zida 
+        - promeniti lika
     - dark-city
     - planets
     - tank
