@@ -17,8 +17,8 @@ npm start
 ## TODO
 
 - dodati ostale igre, scene i animacije
-    - lava
-    - third-person-camera
+    - avatar-trees
+        - tekstura na kamenku se ne vidi
     - city-led
     - minas-tirith
     - pyramid
