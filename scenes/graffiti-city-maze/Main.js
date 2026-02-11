@@ -79,7 +79,7 @@ export default class extends Scena3D {
   }
 
   init() {
-    const floor = createFloor({ file: 'terrain/ground.jpg' })
+    const floor = createFloor()
     this.addMesh(floor)
     this.addMesh(createSun({ pos: [50, 100, 50], intensity: 2 * Math.PI }))
 
