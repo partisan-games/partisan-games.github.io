@@ -7,20 +7,10 @@ export const baseControls = {
   '↓ or S': 'backward',
 }
 
-export const tankLeftControls = {
-  'A': 'left',
-  'D': 'right',
-  'W': 'up',
-  'S': 'down',
-  Space: 'shoot'
-}
-
-export const tankRightControls = {
-  '←': 'left',
-  '→': 'right',
-  '↑': 'up',
-  '↓': 'down',
-  Enter: 'shoot'
+export const avatarControls = {
+  ...baseControls,
+  CapsLock: 'run',
+  Space: 'jump',
 }
 
 export const fpsControls = {
@@ -37,6 +27,22 @@ export const thirdPersonControls = {
   CapsLock: 'run',
   Enter: 'attack',
   Space: 'jump',
+}
+
+export const tankLeftControls = {
+  'A': 'left',
+  'D': 'right',
+  'W': 'up',
+  'S': 'down',
+  Space: 'shoot'
+}
+
+export const tankRightControls = {
+  '←': 'left',
+  '→': 'right',
+  '↑': 'up',
+  '↓': 'down',
+  Enter: 'shoot'
 }
 
 export default class Controls {

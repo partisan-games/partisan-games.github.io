@@ -18,6 +18,7 @@ npm start
 
 - dodati ostale igre, scene i animacije
     - pyramid
+        - camera distance
     - ruins
     - walls
     - city-colorful (dodati kruženje kamere)
@@ -51,6 +52,7 @@ npm start
 - sistem ocenjivanja igara?
 
 UI
+- koristiti avatarControls
 - refaktorisati da se na jedno mestu podešava RPG style za sve elemente (energija, kamera...)
     - Cannon: stilizovati createInputRange
 - integrisati customStartScreen ponegde (rpg-fantasy, graveyard), gde nije toliko različit?

@@ -3,7 +3,6 @@ import PolarMaze from '/core3d/mazes/PolarMaze.js'
 import { recursiveBacktracker } from '/core3d/mazes/algorithms.js'
 import { createSun, ambLight } from '/core3d/light.js'
 import { createHill } from '/core3d/ground.js'
-import Avatar from '/core3d/actor/Avatar.js'
 import { baseControls } from '/ui/Controls.js'
 import { GolemPlayer } from '/core3d/actor/derived/fantasy/Golem.js'
 
@@ -14,7 +13,7 @@ const mazeSize = rows * cellSize
 export default class extends Scena3D {
   constructor() {
     super({
-      controlKeys: { ...baseControls, Space: 'jump' },
+      controlKeys: baseControls,
       toon: true,
     })
   }
