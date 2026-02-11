@@ -17,7 +17,6 @@ npm start
 ## TODO
 
 - dodati ostale igre, scene i animacije
-    - Zeppelin
     - Urban guerrilla promeniti lika i ime, revolutionary-city tour?
     - dark-city
     - planets
