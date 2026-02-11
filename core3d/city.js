@@ -63,6 +63,7 @@ export function createGraffitiTexture({
   resolution = 64,
   graffitiBgTexture,
   poster,
+  bigMural = false
 } = {}) {
   const canvas = document.createElement('canvas')
   const canvasWidth = canvas.width = buildingWidth * resolution
@@ -108,25 +109,28 @@ export function createGraffitiTexture({
     }
   }
 
-  const drawPosterAndText = () => {
-    if (!poster)
-      drawText()
-    else {
+  const drawArtAndText = () => {
+    if (poster) {
       const img = new Image()
       img.src = '/assets/images/textures/' + poster
       img.onload = () => {
-        const maxWidth = canvasWidth / 3
-        const maxHeight = canvasHeight / 3
-        const scale = Math.min(maxWidth / img.width, maxHeight / img.height)
-        const imgW = img.width * scale
-        const imgH = img.height * scale
-        const x = (canvasWidth - imgW) / 2
-        const y = (canvasHeight - imgH) / 2
-        ctx.drawImage(img, x, y, imgW, imgH)
-        drawText()
+        if (bigMural)
+          ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight)
+        else { // small poster + text
+          const maxWidth = canvasWidth / 3
+          const maxHeight = canvasHeight / 3
+          const scale = Math.min(maxWidth / img.width, maxHeight / img.height)
+          const imgW = img.width * scale
+          const imgH = img.height * scale
+          const x = (canvasWidth - imgW) / 2
+          const y = (canvasHeight - imgH) / 2
+          ctx.drawImage(img, x, y, imgW, imgH)
+          drawText()
+        }
         texture.needsUpdate = true
       }
-    }
+    } else
+      drawText()
   }
 
   if (graffitiBgTexture) {
@@ -135,13 +139,13 @@ export function createGraffitiTexture({
     img.onload = () => {
       ctx.clearRect(0, 0, canvasWidth, canvasHeight)
       ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight)
-      drawPosterAndText()
+      drawArtAndText()
       texture.needsUpdate = true
     }
   } else {
     ctx.fillStyle = new THREE.Color(background).getStyle()
     ctx.fillRect(0, 0, canvasWidth, canvasHeight)
-    drawPosterAndText()
+    drawArtAndText()
   }
 
   return texture
@@ -243,7 +247,7 @@ export function createBuilding(params = {}) {
   return new THREE.Mesh(geometry, material)
 }
 
-function createTexturedBuilding({ width, height, depth = width, color = 0x999999, path = '/assets/images/textures/', files = [], defaultFile, halfOnSides = false, graffitiChance = 0, posters = [], slogans = [], postersPath = 'posters/', graffitiBgTexture, ...rest } = {}) {
+function createTexturedBuilding({ width, height, depth = width, color = 0x999999, path = '/assets/images/textures/', files = [], defaultFile, halfOnSides = false, graffitiChance = 0, posters = [], slogans = [], postersPath = 'posters/', graffitiBgTexture, bigMural = false, ...rest } = {}) {
   const geometry = createBuildingGeometry({ width, height, depth, ...rest })
   const { width: buildingWidth, height: buildingHeight } = geometry.parameters
 
@@ -260,6 +264,7 @@ function createTexturedBuilding({ width, height, depth = width, color = 0x999999
       graffitiBgTexture,
       poster: Math.random() > .66 && postersPath + sample(posters),
       text: sample(slogans),
+      bigMural,
     })
 
     if (defaultFile) return loadTexture(path + defaultFile, halfWidth)
