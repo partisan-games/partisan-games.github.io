@@ -9,7 +9,7 @@ import { createFloor } from '/core3d/ground.js'
 const cellSize = 10
 const rows = 6
 
-export const slogans = [
+const slogans = [
   `BE REALISTIC
   DEMAND THE IMPOSSIBLE!`,
   `THE BARRICADE BLOCKS THE
@@ -69,7 +69,7 @@ export const slogans = [
   WHAT WE PUT INTO IT NOW`
 ]
 
-export const posters = [
+const posters = [
   'anarchy.jpg', 'change.png', 'cleaning.jpg', 'cop.jpg', 'flower.jpg', 'heart.png', 'monaliza.png', 'bomb.jpg', 'cops.jpg', 'peace.jpg', 'kids.jpg', 'airplanes.jpg'
 ]
 
