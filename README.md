@@ -19,8 +19,6 @@ npm start
 - dodati ostale igre, scene i animacije
     - revolutionary-city tour
         - vratiti grad bez lavirinta
-        - murali preko celog zida 
-        - promeniti lika
     - dark-city
     - planets
     - tank
@@ -46,6 +44,7 @@ npm start
     - proveriti na telefonu
 - proveriti chrome
 - ujednačiti stilove dugmića (osnovne veličine + klase za svaki stil)
+- kapuera girl + iskopati još ponešto
 
 ### BAGOVI
 

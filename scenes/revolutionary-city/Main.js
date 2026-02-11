@@ -1,6 +1,6 @@
 import Scena3D from '/core/Scena3D.js'
 import { createSun } from '/core3d/light.js'
-import { ResistanceFighterPlayer } from '/core3d/actor/derived/ww2/ResistanceFighter.js'
+import { WorkerPlayer } from '/core3d/actor/derived/ww2/Worker.js'
 import { thirdPersonControls } from '/ui/Controls.js'
 import Maze from '/core3d/mazes/Maze.js'
 import { truePrims } from '/core3d/mazes/algorithms.js'
@@ -89,7 +89,7 @@ export default class extends Scena3D {
 
     const coords = maze.getEmptyCoords(true, cellSize - 1)
 
-    this.player = new ResistanceFighterPlayer({ camera: this.camera, solids: city, pos: coords.pop(), showHealthBar: false })
+    this.player = new WorkerPlayer({ camera: this.camera, solids: city, pos: coords.pop(), showHealthBar: false })
     this.player.putInMaze(maze)
     this.add(this.player)
   }
