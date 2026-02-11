@@ -17,10 +17,8 @@ npm start
 ## TODO
 
 - dodati ostale igre, scene i animacije
-    - physics-cannon
-        - stilizovati createInputRange
-        - victory screen za rpg ubije boju ikonica
     - Zeppelin
+    - Urban guerrilla promeniti lika i ime, revolutionary-city tour?
     - dark-city
     - planets
     - tank
@@ -39,8 +37,10 @@ npm start
     - physics-vehicle
     - model-lookat-cursor
     - follow (okupi sve sledbenike)
-    - demon
     - rasporediti preostale karaktere po scenama
+        - demon mora negde, možda u ruševine
+        - dodati  partisan-lowpoly u oslobođeni grad 
+- probati grid nejednakih slika, možda staviti i neku uspravnu
 - promeniti joystick u četiri strelice da bude upotrebljivo za telefone
     - proveriti na telefonu
 - proveriti chrome
@@ -56,20 +56,19 @@ npm start
 
 - restart na Žikicu i još negde
 - prevod na engleski
-- dodati bazicnu statistiku, bar brojac poseta.
-- sistem ocenjivanja igara
+- sistem ocenjivanja igara?
 
 UI
-- refaktorisati da se na jedno mestu podešava RPG style za sve elemente (energija, kamera)
+- refaktorisati da se na jedno mestu podešava RPG style za sve elemente (energija, kamera...)
+    - Cannon: stilizovati createInputRange
 - integrisati customStartScreen ponegde (rpg-fantasy, graveyard), gde nije toliko različit?
-- dodati pauzu u kontrole svuda
-- dodati komande i ciljeve svuda, možda i izveštaj
+- dodati esc: pauza u kontrole svuda?
+- dodati komande i ciljeve svuda
 - refaktorisati da prozori budu DOM elementi, a samo sceneUI u render loop?
 
 Profil 
 - dodati profil korisnika
 - izbor slike partizana ili partizanke
-- dodati medalje za misije
 
 ### Test i optimizacija
 
