@@ -19,7 +19,6 @@ npm start
 - dodati ostale igre, scene i animacije
     - avatar-trees
         - tekstura na kamenku se ne vidi
-    - city-led
     - minas-tirith
     - pyramid
     - ruins
