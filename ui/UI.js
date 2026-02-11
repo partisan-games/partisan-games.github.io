@@ -21,10 +21,10 @@ const scores = {
   white: '',
 }
 
-const buttons = {
+export const buttons = {
   simple: '',
   rpg: 'rpgui-button',
-  white: '',
+  white: 'white-button',
 }
 
 export default class UI {

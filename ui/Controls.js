@@ -1,4 +1,4 @@
-import { uiStyles, containers } from './UI.js'
+import { uiStyles, containers, buttons } from './UI.js'
 
 export const baseControls = {
   '← or A': 'left',
@@ -37,12 +37,6 @@ export const thirdPersonControls = {
   CapsLock: 'run',
   Enter: 'attack',
   Space: 'jump',
-}
-
-const buttons = {
-  simple: '',
-  rpg: 'rpgui-button',
-  white: 'no-hover',
 }
 
 export default class Controls {

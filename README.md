@@ -17,9 +17,6 @@ npm start
 ## TODO
 
 - dodati ostale igre, scene i animacije
-    - avatar-trees
-        - tekstura na kamenku se ne vidi
-    - minas-tirith
     - pyramid
     - ruins
     - walls
@@ -30,6 +27,10 @@ npm start
     - follow (okupi sve sledbenike)
     - rasporediti preostale karaktere po scenama
         - demon mora negde, možda u ruševine
+    - avatar-trees
+        - tekstura na kamenku se ne vidi
+
+
 - probati grid nejednakih slika, možda staviti i neku uspravnu
 - promeniti joystick u četiri strelice da bude upotrebljivo za telefone
     - proveriti na telefonu

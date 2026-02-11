@@ -5,6 +5,7 @@ import { createSun, ambLight } from '/core3d/light.js'
 import { createHill } from '/core3d/ground.js'
 import Avatar from '/core3d/actor/Avatar.js'
 import { baseControls } from '/ui/Controls.js'
+import { GolemPlayer } from '/core3d/actor/derived/fantasy/Golem.js'
 
 const rows = 20
 const cellSize = 10
@@ -30,7 +31,7 @@ export default class extends Scena3D {
     const city = maze.toCity({ texture: 'terrain/snow.jpg' })
     this.addMesh(city)
 
-    const player = new Avatar({ camera: this.camera, solids: [city, hill] })
+    const player = new GolemPlayer({ camera: this.camera, solids: [city, hill] })
     player.chaseCamera.zoomIn()
     this.add(player)
     player.putInPolarMaze(maze)

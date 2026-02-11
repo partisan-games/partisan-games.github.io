@@ -114,6 +114,11 @@ button.no-hover:hover {
   background-color: unset;
 }
 
+.white-button:hover {
+  background-color: unset;
+  outline: 1px solid white;
+}
+
 .rpgui-button {
   background: url("/assets/images/rpgui/button.png");
   background-repeat: no-repeat;
