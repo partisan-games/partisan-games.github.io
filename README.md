@@ -17,9 +17,6 @@ npm start
 ## TODO
 
 - dodati ostale igre, scene i animacije
-    - train
-    - parting-the-sea
-    - flying-through-space
     - lava
     - third-person-camera
     - city-led

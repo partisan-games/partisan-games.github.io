@@ -18,7 +18,7 @@ export default class Scena3D extends Scena {
     if (toon) this.createToonRenderer()
 
     platno3D.style.display = 'block'
-    platno3D.style.background = 'linear-gradient(180deg, #0B3D91 0%, #000000 100%)'
+    this.bojaPlatna = 'linear-gradient(180deg, #0B3D91 0%, #000000 100%)'
 
     window.addEventListener('resize', () => {
       this.renderer.setSize(window.innerWidth, window.innerHeight)
