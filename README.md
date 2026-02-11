@@ -17,9 +17,6 @@ npm start
 ## TODO
 
 - dodati ostale igre, scene i animacije
-    - dark-city
-    - planets
-    - tank
     - train
     - parting-the-sea
     - flying-through-space
