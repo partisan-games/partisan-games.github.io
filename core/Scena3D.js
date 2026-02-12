@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import Scena from './Scena.js'
 
 const platno3D = document.getElementById('platno-3d')
-platno3D.style.display = 'none'
+// platno3D.style.display = 'none'
 
 export default class Scena3D extends Scena {
   constructor({ toon = false, ...rest } = {}) {

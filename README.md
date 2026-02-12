@@ -17,7 +17,7 @@ npm start
 ## TODO
 
 - dodati ostale igre, scene i animacije
-    - model-lookat-cursor
+    - model-lookat-cursor na naslovnu
     - follow (okupi sve sledbenike)
     - rasporediti preostale karaktere po scenama
         - demon mora negde, možda u ruševine
@@ -26,6 +26,7 @@ npm start
     - lokomotiva
         - dodati drveće i još nešto
 
+- skloniti/zameniti pozadinu
 - probati grid nejednakih slika, možda staviti i neku uspravnu
 - promeniti joystick u četiri strelice da bude upotrebljivo za telefone
     - proveriti na telefonu
