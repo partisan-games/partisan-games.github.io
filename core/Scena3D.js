@@ -2,22 +2,20 @@ import * as THREE from 'three'
 import Scena from './Scena.js'
 
 const platno3D = document.getElementById('platno-3d')
-// platno3D.style.display = 'none'
 
 export default class Scena3D extends Scena {
-  constructor({ toon = false, ...rest } = {}) {
-    super({ ...rest })
+  constructor({ canvas = platno3D, toon = false, ...rest } = {}) {
+    super({ canvas, ...rest })
     this.scene = new THREE.Scene()
     this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
     this.camera.position.set(0, 5, 30)
 
-    this.renderer = new THREE.WebGLRenderer({ canvas: platno3D, alpha: true, antialias: true })
+    this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, alpha: true, antialias: true })
     this.renderer.setSize(window.innerWidth, window.innerHeight)
     this.renderer.setPixelRatio(Math.min(2, window.devicePixelRatio)) // save battery by limit pixel ratio to 2
     this.renderer.shadowMap.enabled = true
     if (toon) this.createToonRenderer()
 
-    platno3D.style.display = 'block'
     this.bojaPlatna = 'linear-gradient(180deg, #0B3D91 0%, #000000 100%)'
 
     window.addEventListener('resize', () => {
@@ -32,7 +30,7 @@ export default class Scena3D extends Scena {
   }
 
   set bojaPlatna(boja) {
-    platno3D.style.background = boja
+    this.canvas.style.background = boja
   }
 
   async createToonRenderer(defaultThickness = 0.0025) {
@@ -57,11 +55,6 @@ export default class Scena3D extends Scena {
 
   removeMesh(...meshes) {
     this.scene.remove(...meshes)
-  }
-
-  end() {
-    super.end()
-    platno3D.style.display = 'none'
   }
 
   handleInput(dt) {
