@@ -17,14 +17,14 @@ npm start
 ## TODO
 
 - dodati ostale igre, scene i animacije
-    - city-night
-    - physics-vehicle
     - model-lookat-cursor
     - follow (okupi sve sledbenike)
     - rasporediti preostale karaktere po scenama
         - demon mora negde, možda u ruševine
     - avatar-trees
         - tekstura na kamenku se ne vidi
+    - lokomotiva
+        - dodati drveće i još nešto
 
 - probati grid nejednakih slika, možda staviti i neku uspravnu
 - promeniti joystick u četiri strelice da bude upotrebljivo za telefone
@@ -33,6 +33,7 @@ npm start
 - ujednačiti stilove dugmića (osnovne veličine + klase za svaki stil)
 - kapuera girl + iskopati još ponešto
 - default bojaPlatna ??
+- mozda this.add sam da hendla this.addMesh
 
 ### BAGOVI
 

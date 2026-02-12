@@ -33,7 +33,8 @@ export default class extends Scena3D {
     this.boxes.forEach(mesh => this.world.add(mesh))
 
     this.cannon = new Cannon({ world: this.world, camera: this.camera })
-    this.addMesh(this.cannon.mesh, ...this.cannon.wheelMeshes)
+    this.add(this.cannon)
+    this.addMesh(...this.cannon.wheelMeshes)
   }
 
   handleClick(e) {
@@ -47,7 +48,6 @@ export default class extends Scena3D {
   update(dt, t) {
     super.update(dt, t)
 
-    this.cannon?.update(dt)
     this.world.update(dt)
     this.countableCrates = this.boxes.filter(mesh => mesh.position.y > .5)
 
