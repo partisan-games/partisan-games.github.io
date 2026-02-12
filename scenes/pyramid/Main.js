@@ -4,7 +4,6 @@ import Maze from '/core3d/mazes/Maze.js'
 import { huntAndKill } from '/core3d/mazes/algorithms.js'
 import { hemLight } from '/core3d/light.js'
 import { createMarble } from '/core3d/ground.js'
-import Avatar from '/core3d/actor/Avatar.js'
 import { SorceressPlayer } from '/core3d/actor/derived/fantasy/Sorceress.js'
 
 const cellSize = 8

@@ -17,9 +17,6 @@ npm start
 ## TODO
 
 - dodati ostale igre, scene i animacije
-    - pyramid
-        - camera distance
-    - ruins
     - walls
     - city-colorful (dodati kruženje kamere)
     - city-night
@@ -31,13 +28,13 @@ npm start
     - avatar-trees
         - tekstura na kamenku se ne vidi
 
-
 - probati grid nejednakih slika, možda staviti i neku uspravnu
 - promeniti joystick u četiri strelice da bude upotrebljivo za telefone
     - proveriti na telefonu
 - proveriti chrome
 - ujednačiti stilove dugmića (osnovne veličine + klase za svaki stil)
 - kapuera girl + iskopati još ponešto
+- default bojaPlatna ??
 
 ### BAGOVI
 
@@ -54,6 +51,7 @@ npm start
 UI
 - koristiti avatarControls
 - refaktorisati da se na jedno mestu podešava RPG style za sve elemente (energija, kamera...)
+    - da player čita uiStyle iz this.scene?
     - Cannon: stilizovati createInputRange
 - integrisati customStartScreen ponegde (rpg-fantasy, graveyard), gde nije toliko različit?
 - dodati esc: pauza u kontrole svuda?
