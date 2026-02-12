@@ -4,14 +4,14 @@ import Scena from './Scena.js'
 const platno3D = document.getElementById('platno-3d')
 
 export default class Scena3D extends Scena {
-  constructor({ canvas = platno3D, toon = false, ...rest } = {}) {
+  constructor({ canvas = platno3D, canvasWidth = window.innerWidth, canvasHeight = window.innerHeight, toon = false, ...rest } = {}) {
     super({ canvas, ...rest })
     this.scene = new THREE.Scene()
-    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+    this.camera = new THREE.PerspectiveCamera(75, canvasWidth / canvasHeight, 0.1, 1000)
     this.camera.position.set(0, 5, 30)
 
     this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, alpha: true, antialias: true })
-    this.renderer.setSize(window.innerWidth, window.innerHeight)
+    this.renderer.setSize(canvasWidth, canvasHeight)
     this.renderer.setPixelRatio(Math.min(2, window.devicePixelRatio)) // save battery by limit pixel ratio to 2
     this.renderer.shadowMap.enabled = true
     if (toon) this.createToonRenderer()
@@ -19,8 +19,8 @@ export default class Scena3D extends Scena {
     this.bojaPlatna = 'linear-gradient(180deg, #0B3D91 0%, #000000 100%)'
 
     window.addEventListener('resize', () => {
-      this.renderer.setSize(window.innerWidth, window.innerHeight)
-      this.camera.aspect = window.innerWidth / window.innerHeight
+      this.renderer.setSize(canvasWidth, canvasHeight)
+      this.camera.aspect = canvasWidth / canvasHeight
       this.camera.updateProjectionMatrix()
     })
   }

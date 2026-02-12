@@ -1,9 +1,10 @@
 import Scena3D from '/core/Scena3D.js'
 import * as THREE from 'three'
 import { createSun } from '/core3d/light.js'
-import { createGround } from '/core3d/ground.js'
 import { loadModel, loadFbxAnimations } from '/core3d/loaders.js'
 import { getCursorPosition } from '/core3d/helpers.js'
+
+const canvas = document.getElementById('malo-platno')
 
 function cursorToDegrees(cursor, degreeMax) {
   const { x, y } = cursor
@@ -31,6 +32,9 @@ export default class extends Scena3D {
   constructor() {
     super({
       toon: true,
+      canvas,
+      canvasWidth: 250,
+      canvasHeight: 250,
     })
     this.followCursor = this.followCursor.bind(this)
     document.addEventListener('pointermove', this.followCursor)
@@ -38,9 +42,8 @@ export default class extends Scena3D {
 
   async init() {
     this.addMesh(createSun())
-    this.camera.position.set(0, 1.5, 3)
-
-    this.addMesh(createGround())
+    this.bojaPlatna = 'transparent'
+    this.camera.position.set(0, 1, 1.75)
 
     const mesh = await loadModel({ file: 'character/soldier/partisan.fbx' })
     const animations = await loadFbxAnimations({ idle: 'Rifle Idle' }, 'character/soldier/')
@@ -84,7 +87,6 @@ export default class extends Scena3D {
 
   end() {
     super.end()
-    this.fpsRenderer.remove()
     document.removeEventListener('pointermove', this.followCursor)
   }
 }
