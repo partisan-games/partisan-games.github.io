@@ -6,7 +6,7 @@ export default class Scena2D extends Scena {
   constructor({ canvas = platno, ...params }) {
     super({ canvas, ...params })
     this.bojaPozadine = null
-    this.renderer = new Renderer2D()
+    this.renderer = new Renderer2D({ canvas: this.canvas })
   }
 
   clear() {

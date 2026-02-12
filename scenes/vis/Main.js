@@ -1,4 +1,3 @@
-import platno from '/core/io/platno.js'
 import Scena2D from '/core/Scena2D.js'
 import { Avionce } from './Avionce.js'
 import PokretnaPozadina from './PokretnaPozadina.js'
@@ -26,7 +25,7 @@ export default class extends Scena2D {
     ]
     this.player.ciljevi = this.neprijatelji
     this.neprijatelji.forEach(neprijatelj => neprijatelj.ciljevi.push(this.player))
-    const okean = new PokretnaPozadina(brzina, platno.width)
+    const okean = new PokretnaPozadina(brzina, this.sirina)
     this.add(okean, this.zdravlje, this.ostrvo, ...this.neprijatelji, this.player, ...this.oblaci)
   }
 
