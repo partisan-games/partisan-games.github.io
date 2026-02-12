@@ -37,7 +37,6 @@ export default class extends Scena3D {
       canvasHeight: 250,
     })
     this.followCursor = this.followCursor.bind(this)
-    document.addEventListener('pointermove', this.followCursor)
   }
 
   async init() {
@@ -65,6 +64,8 @@ export default class extends Scena3D {
     // removes spine and neck from animation
     clip.tracks = clip.tracks.filter(t => !t.name.includes('Spine') && !t.name.includes('Neck'))
     this.mixer.clipAction(clip).play()
+
+    document.addEventListener('pointermove', this.followCursor)
   }
 
   followCursor(e) {

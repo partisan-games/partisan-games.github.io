@@ -35,6 +35,7 @@ npm start
 - kapuera girl + iskopati još ponešto
 - default bojaPlatna ??
 - mozda this.add sam da hendla this.addMesh
+- tenkici i top: izbor za dva igrača
 
 ### BAGOVI
 
