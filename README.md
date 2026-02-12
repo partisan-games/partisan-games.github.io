@@ -17,7 +17,6 @@ npm start
 ## TODO
 
 - dodati ostale igre, scene i animacije
-    - city-colorful (dodati kruženje kamere)
     - city-night
     - physics-vehicle
     - model-lookat-cursor
@@ -43,6 +42,7 @@ npm start
 
 ### Završno
 
+- createOrbitControls u async?
 - restart na Žikicu i još negde
 - prevod na engleski
 - sistem ocenjivanja igara?

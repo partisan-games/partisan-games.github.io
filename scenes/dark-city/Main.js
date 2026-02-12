@@ -30,6 +30,7 @@ export default class extends Scena3D {
     }
 
     this.grow()
+    setTimeout(() => this.ui.showMessage('Click to morph city'), 2000)
   }
 
   grow() {
