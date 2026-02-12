@@ -17,7 +17,6 @@ npm start
 ## TODO
 
 - dodati ostale igre, scene i animacije
-    - walls
     - city-colorful (dodati kruženje kamere)
     - city-night
     - physics-vehicle
@@ -52,6 +51,7 @@ UI
 - koristiti avatarControls
 - refaktorisati da se na jedno mestu podešava RPG style za sve elemente (energija, kamera...)
     - da player čita uiStyle iz this.scene?
+    - povezati komande sa raspoloživim animacijama igrača??
     - Cannon: stilizovati createInputRange
 - integrisati customStartScreen ponegde (rpg-fantasy, graveyard), gde nije toliko različit?
 - dodati esc: pauza u kontrole svuda?
