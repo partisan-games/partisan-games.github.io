@@ -18,6 +18,7 @@ npm start
 
 - dodati ostale igre, scene i animacije
     - model-lookat-cursor na naslovnu
+        - da proporcionalno prati mis
     - follow (okupi sve sledbenike)
     - rasporediti preostale karaktere po scenama
         - demon mora negde, možda u ruševine

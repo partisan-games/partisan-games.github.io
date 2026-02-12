@@ -562,7 +562,7 @@ progress.potisak::-moz-progress-bar {
 }
 @media (min-width: 800px) {
   #malo-platno {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: -50px;
   }
