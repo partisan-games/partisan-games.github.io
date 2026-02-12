@@ -5,6 +5,7 @@ import { huntAndKill } from '/core3d/mazes/algorithms.js'
 import { hemLight } from '/core3d/light.js'
 import { createMarble } from '/core3d/ground.js'
 import Avatar from '/core3d/actor/Avatar.js'
+import { SorceressPlayer } from '/core3d/actor/derived/fantasy/Sorceress.js'
 
 const cellSize = 8
 const matrixSize = 12
@@ -26,7 +27,8 @@ export default class extends Scena3D {
     const pyramid = maze.toPyramid({ texture: 'walls/mayan.jpg' })
     this.addMesh(pyramid)
 
-    const player = new Avatar({ camera: this.camera, solids: pyramid, skin: 'LAVA' })
+    const player = new SorceressPlayer({ camera: this.camera, solids: pyramid, skin: 'LAVA' })
+    player.chaseCamera.distance = 1.5
     player.putInMaze(maze)
     this.add(player)
   }
