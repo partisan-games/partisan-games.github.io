@@ -1,4 +1,4 @@
-import { uiStyles, containers, buttons } from './UI.js'
+import { uiStyles, containers, controlButtons } from './UI.js'
 
 export const baseControls = {
   '← or A': 'left',
@@ -61,7 +61,7 @@ export default class Controls {
     this.div.className = positionClass
 
     const button = document.createElement('button')
-    button.className = buttons[this.uiStyle]
+    button.className = controlButtons[this.uiStyle]
 
     const content = document.createElement('div')
     content.className = containers[this.uiStyle]

@@ -16,11 +16,19 @@ const mesh = await loadModel({ file: 'model.fbx', prefix: 'character/demon/', an
 
 /* EXTENDED CLASSES */
 
-const sharedProps = { mesh, animations: mesh.userData.animations, animDict }
+const sharedProps = { mesh, animations: mesh.userData.animations, animDict, flame: { num: 25, minRadius: 0, maxRadius: .5 } }
 
 export class DemonPlayer extends Player {
   constructor(props = {}) {
     super({ ...sharedProps, ...props })
+  }
+
+  enterSpecial() {
+    this.startFlame(1000, () => this.areaDamage())
+  }
+
+  exitSpecial() {
+    this.endFlame()
   }
 }
 

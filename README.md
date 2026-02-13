@@ -17,8 +17,6 @@ npm start
 ## TODO
 
 - dodati ostale igre, scene i animacije
-    - dodati demona
-        - demon da bljuje vatru
     - avatar-trees
         - tekstura na kamenku se ne vidi
     - lokomotiva

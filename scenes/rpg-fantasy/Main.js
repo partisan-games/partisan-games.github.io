@@ -5,6 +5,7 @@ import { createSun } from '/core3d/light.js'
 import { sample, getEmptyCoords, putOnSolids } from '/core3d/helpers.js'
 import { loadModel } from '/core3d/loaders.js'
 import { thirdPersonControls } from '/ui/Controls.js'
+import { BarbarianPlayer } from '/core3d/actor/derived/fantasy/Barbarian.js'
 
 const mapSize = 400
 
@@ -50,7 +51,6 @@ export default class extends Scena3D {
 
     const solids = [terrain, castle]
 
-    const { BarbarianPlayer } = await import('/core3d/actor/derived/fantasy/Barbarian.js')
     this.player = new BarbarianPlayer({ pos: coords.pop(), mapSize, solids, camera: this.camera, cameraClass: 'rpgui-button', rpgStyle: true })
     this.add(this.player)
 

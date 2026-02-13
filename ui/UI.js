@@ -27,6 +27,12 @@ export const buttons = {
   white: 'white-button',
 }
 
+export const controlButtons = {
+  simple: 'no-hover',
+  rpg: 'rpgui-button',
+  white: 'white-button',
+}
+
 export default class UI {
   constructor(scene, { intro = '', reportText, customStartScreen, startButtonText = 'To battle', uiStyle = uiStyles.simple } = {}) {
     this.scene = scene
