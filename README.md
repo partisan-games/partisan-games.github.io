@@ -26,7 +26,9 @@ npm start
 - mozda this.add sam da hendla this.addMesh
 - tenkici i top: izbor za dva igrača
 - 3d top da ne bude vozilo
-- train -> partisan train da nekako postane?
+- train
+    - podići lokomotivu
+    - partisan train da nekako postane?
 
 ### BAGOVI
 

@@ -31,7 +31,7 @@ export default class extends Scena3D {
     this.addMesh(outerLine, innerLine)
 
     this.locomotive = await loadModel({
-      file: 'vehicle/train/toy-locomotive/scene.gltf', angle: Math.PI, axis: [0, 1, 0]
+      file: 'vehicle/train/toy-locomotive/scene.glb', angle: Math.PI, axis: [0, 1, 0]
     })
     this.addMesh(this.locomotive)
 
@@ -51,7 +51,7 @@ export default class extends Scena3D {
   update(delta, elapsedTime) {
     super.update(delta, elapsedTime)
 
-    followPath({ path: this.path, mesh: this.locomotive, elapsedTime, speed: .025, y: .75 })
+    followPath({ path: this.path, mesh: this.locomotive, elapsedTime, speed: .025 })
     this.particles.update({ delta })
     this.mixer.update(delta * 15)
   }
