@@ -16,12 +16,6 @@ npm start
 
 ## TODO
 
-- dodati ostale igre, scene i animacije
-    - avatar-trees
-        - tekstura na kamenku se ne vidi
-    - lokomotiva
-        - dodati drveće i još nešto
-
 - skloniti/zameniti pozadinu
 - probati grid nejednakih slika, možda staviti i neku uspravnu
 - promeniti joystick u četiri strelice da bude upotrebljivo za telefone

@@ -6,6 +6,7 @@ import { Smoke } from '/core3d/Particles.js'
 import { followPath, createEllipse, createRailroadTracks } from '/core3d/path.js'
 import { loadModel } from '/core3d/loaders.js'
 import { createOrbitControls } from '/core3d/helpers.js'
+import { createTrees } from '/core3d/geometry/trees.js'
 
 export default class extends Scena3D {
   constructor() {
@@ -18,6 +19,8 @@ export default class extends Scena3D {
 
     this.addMesh(createSun())
     this.addMesh(createGround({ size: 50, circle: true }))
+    const trees = createTrees({ mapSize: 25, size: 1, n: 0, nFirTrees: 100 })
+    this.addMesh(trees)
 
     const xRadius = 40, yRadius = 15
 
