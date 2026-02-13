@@ -4,22 +4,17 @@ import { createSun } from '/core3d/light.js'
 import { loadModel, loadFbxAnimations } from '/core3d/loaders.js'
 import { getCursorPosition } from '/core3d/helpers.js'
 
-const canvas = document.getElementById('malo-platno')
-
 function cursorToDegrees(cursor, degreeMax) {
   const { x, y } = cursor
-  let degreeX = 0, degreeY = 0
-  const halfX = window.innerWidth / 2
-  const halfY = window.innerHeight / 2
 
-  const xdiff = x - halfX
-  degreeX = degreeMax * xdiff / halfX
+  // calculate relative distance from center (-1 to 1)
+  const percentX = (x - window.innerWidth / 2) / (window.innerWidth / 2)
+  const percentY = (y - window.innerHeight / 2) / (window.innerHeight / 2)
 
-  const ydiff = y - halfY
-  if (ydiff < 0) degreeMax *= 0.5
-  degreeY = degreeMax * ydiff / halfY
-
-  return { x: degreeX, y: degreeY }
+  return {
+    x: percentX * degreeMax,
+    y: percentY * (percentY < 0 ? degreeMax * 0.5 : degreeMax)
+  }
 }
 
 function lookAt(cursor, joint, degreeMax) {
@@ -32,7 +27,7 @@ export default class extends Scena3D {
   constructor() {
     super({
       toon: true,
-      canvas,
+      canvas: document.getElementById('malo-platno'),
       canvasWidth: 250,
       canvasHeight: 250,
     })
@@ -75,7 +70,7 @@ export default class extends Scena3D {
   }
 
   update(dt, t) {
-    super.update(dt)
+    super.update(dt, t)
     this.mixer?.update(dt)
     if (this.twoHandedWeapon) this.updateRifle()
   }
