@@ -18,7 +18,7 @@ export default class extends Scena3D {
     this.camera.position.z = 20
 
     this.addMesh(createSun())
-    this.addMesh(createGround({ size: 50, circle: true }))
+    this.addMesh(createGround({ size: 100, circle: true }))
     const trees = createTrees({ mapSize: 25, size: 1, n: 0, nFirTrees: 100 })
     this.addMesh(trees)
 
@@ -33,7 +33,12 @@ export default class extends Scena3D {
     this.locomotive = await loadModel({
       file: 'vehicle/train/toy-locomotive/scene.glb', angle: Math.PI, axis: [0, 1, 0]
     })
-    this.addMesh(this.locomotive)
+    const castle = await loadModel({ file: 'building/castle/bridge-castle/scene.gltf', size: 12, shouldCenter: true, shouldAdjustHeight: true })
+    castle.position.x = 38.5
+    const wizardHouse = await loadModel({ file: 'building/house/wizard-house/model.fbx', size: 12, shouldCenter: true, shouldAdjustHeight: true })
+    wizardHouse.position.x = -25
+    const city = await loadModel({ file: 'building/castle/medieval-city/model.fbx', size: 12, shouldCenter: true, shouldAdjustHeight: true, angle: Math.PI / 2 })
+    this.addMesh(this.locomotive, castle, city, wizardHouse)
 
     this.mixer = new THREE.AnimationMixer(this.locomotive)
     const action = this.mixer.clipAction(this.locomotive.userData.animations[0])
