@@ -53,7 +53,7 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background: url("/assets/images/art/milan-vasek-map.jpg") center / cover no-repeat;
+  background: url("/assets/images/art/milan-vasek-map.webp") center / cover no-repeat;
   z-index: -2;
   filter: sepia(0.4);
   opacity: 0.85; 
@@ -180,7 +180,8 @@ button.no-hover:hover {
 }
 
 .uvod {
-  margin-bottom: 40px;
+  margin-bottom: 20px;
+  padding: 8px 24px;
 }
 
 .main-menu {
@@ -208,7 +209,7 @@ button.no-hover:hover {
   background-color: #353135 !important;
 }
 
-#forkongithub {
+.github {
   background-color: rgba(27, 27, 27, .75);
   color: #fff;
   padding: 8px 40px;
@@ -223,7 +224,7 @@ button.no-hover:hover {
   z-index: 9;
 }
 
-#forkongithub:hover {
+.github:hover {
   background: var(--red);
 }
 
