@@ -17,6 +17,7 @@ const controlKeys = {
   'PgUp': 'speed up',
   'PgDn': 'slow down',
 }
+const mapSize = 800
 
 export default class extends Scena3D {
   constructor() {
@@ -28,9 +29,6 @@ export default class extends Scena3D {
   }
 
   async init() {
-    this.bojaPlatna = 'linear-gradient(to bottom, #94c5f8 1%, #a6e6ff 70%, #b1b5ea 100%)'
-    const mapSize = 800
-
     this.addMesh(createSun({ intensity: Math.PI * 2, pos: [75, 140, -75], r: 5 }))
 
     const terrain = await createHillyTerrain({ size: mapSize, factorY: 30 })

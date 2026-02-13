@@ -1,12 +1,11 @@
 import { keyboard } from './io/Keyboard.js'
-import { platno } from './io/platno.js'
 import GameLoop from './GameLoop.js'
 import UI from '../ui/UI.js'
 import Controls from '../ui/Controls.js'
 
 export default class Scena {
   constructor({
-    usePointerLock, controlKeys, intro, reportText, customStartScreen, startButtonText, showControls = true, uiStyle
+    usePointerLock, controlKeys, intro, reportText, customStartScreen, startButtonText, showControls = true, uiStyle, canvas, disableEvents = false
   } = {}) {
     this.usePointerLock = usePointerLock
     this.uiStyle = uiStyle
@@ -15,6 +14,11 @@ export default class Scena {
     this.predmeti = []
     if (showControls)
       this.controlsUI = new Controls({ controlKeys, uiStyle })
+
+    this.canvas = canvas
+    this.canvas.style.display = 'block'
+
+    if (disableEvents) return
 
     this.handleClick = this.handleClick.bind(this)
     this.handlePointerLockChange = this.handlePointerLockChange.bind(this)
@@ -40,11 +44,11 @@ export default class Scena {
   /* GETTERS */
 
   get sirina() {
-    return platno.width
+    return this.canvas.width
   }
 
   get visina() {
-    return platno.height
+    return this.canvas.height
   }
 
   get hasStartScreen() {
@@ -102,6 +106,8 @@ export default class Scena {
     if (this.controlsUI) this.controlsUI.end()
     if (this.controls2UI) this.controls2UI.end()
     if (this.player) this.player.end()
+
+    this.canvas.style.display = 'none'
 
     document.removeEventListener('click', this.handleClick)
     document.removeEventListener('visibilitychange', this.handleVisibilityChange)

@@ -1,4 +1,4 @@
-import Scena3D from '/core/Scena3D.js'
+import Scena3D, { bojeNeba } from '/core/Scena3D.js'
 import { ambLight, createMoon, orbitAround } from '/core3d/light.js'
 import { Stars } from '/core3d/Particles.js'
 import Platform from '/core3d/objects/Platform.js'
@@ -22,11 +22,11 @@ export default class extends Scena3D {
       intro: 'Land on the platform gently',
       startButtonText: 'Start',
       uiStyle: 'white',
+      bojaPlatna: bojeNeba.crna
     })
   }
 
   async init() {
-    this.bojaPlatna = 'linear-gradient(to bottom, #020111 70%, #191621 100%)'
     this.camera.position.z = 18
 
     ambLight({ scene: this.scene })

@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import Scena3D from '/core/Scena3D.js'
+import Scena3D, { bojeNeba } from '/core/Scena3D.js'
 import PhysicsWorld from '/core3d/physics/PhysicsWorld.js'
 import { createGround } from '/core3d/ground.js'
 import { createMoonSphere, createBoxes, createCrate, createRustyBarrel, createMetalBarrel } from '/core3d/geometry/index.js'
@@ -25,6 +25,7 @@ export default class extends Scena3D {
       controlKeys: { ...baseControls, Space: 'break' },
       reportText: 'The enemy has erected barricades to block our entry into the city. Destroy them to clear the way for our troops.',
       intro: 'Demolish enemy barricades.',
+      bojaPlatna: bojeNeba.modra,
     })
   }
 

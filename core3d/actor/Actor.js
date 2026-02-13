@@ -134,7 +134,7 @@ export default class Actor extends GameObject {
   }
 
   get action() {
-    return this.fsm.action
+    return this.fsm?.action
   }
 
   get state() {

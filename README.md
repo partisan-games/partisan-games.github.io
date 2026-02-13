@@ -16,48 +16,36 @@ npm start
 
 ## TODO
 
-- dodati ostale igre, scene i animacije
-    - dark-city
-    - planets
-    - tank
-    - train
-    - parting-the-sea
-    - flying-through-space
-    - lava
-    - third-person-camera
-    - city-led
-    - minas-tirith
-    - pyramid
-    - ruins
-    - walls
-    - city-colorful (dodati kruženje kamere)
-    - city-night
-    - physics-vehicle
-    - model-lookat-cursor
-    - follow (okupi sve sledbenike)
-    - rasporediti preostale karaktere po scenama
-        - demon mora negde, možda u ruševine
 - probati grid nejednakih slika, možda staviti i neku uspravnu
 - promeniti joystick u četiri strelice da bude upotrebljivo za telefone
     - proveriti na telefonu
 - proveriti chrome
 - ujednačiti stilove dugmića (osnovne veličine + klase za svaki stil)
 - kapuera girl + iskopati još ponešto
+- default bojaPlatna ??
+- mozda this.add sam da hendla this.addMesh
+- tenkici i top: izbor za dva igrača
 
 ### BAGOVI
 
 - BUG: tač komande baguju i zakucavaju, npr. rpg special se beskonačno ponavlja
     - dugme mora da se resetuje nakon pritiska, na button leave ili slično
 - BUG: avatar dosta baguje i blokira (možda ima veze tač komande)
+- na početku 3D scena modeli raširenih ruku. probati bar jedan loop inicijalno (firstLoop = true)
+- BUG: golemi se nekad tresu u mestu (follow)
 
 ### Završno
 
+- createOrbitControls u async?
 - restart na Žikicu i još negde
 - prevod na engleski
 - sistem ocenjivanja igara?
 
 UI
+- koristiti avatarControls
 - refaktorisati da se na jedno mestu podešava RPG style za sve elemente (energija, kamera...)
+    - da player čita uiStyle iz this.scene?
+    - povezati komande sa raspoloživim animacijama igrača??
     - Cannon: stilizovati createInputRange
 - integrisati customStartScreen ponegde (rpg-fantasy, graveyard), gde nije toliko različit?
 - dodati esc: pauza u kontrole svuda?

@@ -13,7 +13,6 @@ export default class extends Scena3D {
   }
 
   async init() {
-    this.bojaPlatna = 'linear-gradient(to bottom, #94c5f8 1%, #a6e6ff 70%, #b1b5ea 100%)'
     this.addMesh(createSun({ intensity: 2 * Math.PI }))
 
     const terrain = await terrainFromHeightmap({ file: 'yu-crop.png', heightFactor: 3, snow: false })

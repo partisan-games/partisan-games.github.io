@@ -40,15 +40,24 @@ html {
 body {
   background-color: var(--gray);
   cursor: url(/assets/images/rpgui/cursor/default.png), auto;
-  filter: sepia(0.15);
   font-size: 0.8em;
   line-height: 22px;
   margin: 0;
   min-height: 100vh;
-  background-image: url("/assets/images/art/milan-vasek-map-sepia.jpg");
-  background-size: cover;
   overflow-x: hidden;
   image-rendering: pixelated;
+  position: relative; /* za pseudo-element */
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: url("/assets/images/art/milan-vasek-map.jpg") center / cover no-repeat;
+  z-index: -2;
+  filter: sepia(0.4);
+  opacity: 0.85; 
+  pointer-events: none; /* da ne blokira evente */
 }
 
 body,
@@ -112,6 +121,11 @@ button:hover {
 
 button.no-hover:hover {
   background-color: unset;
+}
+
+.white-button:hover {
+  background-color: unset;
+  outline: 1px solid white;
 }
 
 .rpgui-button {
@@ -540,5 +554,16 @@ progress.potisak::-moz-progress-bar {
 @keyframes blinker {
   50% {
     opacity: 0;
+  }
+}
+
+#malo-platno {
+  margin: 0 auto;
+}
+@media (min-width: 800px) {
+  #malo-platno {
+    position: fixed;
+    top: 0;
+    left: -50px;
   }
 }

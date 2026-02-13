@@ -1,4 +1,4 @@
-import { uiStyles, containers } from './UI.js'
+import { uiStyles, containers, controlButtons } from './UI.js'
 
 export const baseControls = {
   '← or A': 'left',
@@ -7,20 +7,10 @@ export const baseControls = {
   '↓ or S': 'backward',
 }
 
-export const tankLeftControls = {
-  'A': 'left',
-  'D': 'right',
-  'W': 'up',
-  'S': 'down',
-  Space: 'shoot'
-}
-
-export const tankRightControls = {
-  '←': 'left',
-  '→': 'right',
-  '↑': 'up',
-  '↓': 'down',
-  Enter: 'shoot'
+export const avatarControls = {
+  ...baseControls,
+  CapsLock: 'run',
+  Space: 'jump',
 }
 
 export const fpsControls = {
@@ -39,10 +29,20 @@ export const thirdPersonControls = {
   Space: 'jump',
 }
 
-const buttons = {
-  simple: '',
-  rpg: 'rpgui-button',
-  white: 'no-hover',
+export const tankLeftControls = {
+  'A': 'left',
+  'D': 'right',
+  'W': 'up',
+  'S': 'down',
+  Space: 'shoot'
+}
+
+export const tankRightControls = {
+  '←': 'left',
+  '→': 'right',
+  '↑': 'up',
+  '↓': 'down',
+  Enter: 'shoot'
 }
 
 export default class Controls {
@@ -61,7 +61,7 @@ export default class Controls {
     this.div.className = positionClass
 
     const button = document.createElement('button')
-    button.className = buttons[this.uiStyle]
+    button.className = controlButtons[this.uiStyle]
 
     const content = document.createElement('div')
     content.className = containers[this.uiStyle]
