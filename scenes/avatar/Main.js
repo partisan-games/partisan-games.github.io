@@ -1,4 +1,4 @@
-import Scena3D from '/core/Scena3D.js'
+import Scena3D, { bojeNeba } from '/core/Scena3D.js'
 import { createGround, createLava } from '/core3d/ground.js'
 import { hemLight } from '/core3d/light.js'
 import { baseControls } from '/ui/Controls.js'
@@ -47,7 +47,8 @@ export default class extends Scena3D {
       toon: true,
       controlKeys: { ...baseControls, Space: 'jump' },
       customStartScreen,
-      uiStyle: 'rpg'
+      uiStyle: 'rpg',
+      bojaPlatna: bojeNeba.suton,
     })
   }
 

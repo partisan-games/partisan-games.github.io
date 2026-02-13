@@ -17,7 +17,6 @@ export default class extends Scena3D {
 
   async init() {
     hemLight({ scene: this.scene })
-    this.bojaPlatna = 'linear-gradient(to bottom, #94c5f8 1%, #a6e6ff 70%, #b1b5ea 100%)'
     const maze = new Maze({ columns: 10, rows: 20, algorithm: recursiveDivision, cellSize: 10 })
     const ruins = maze.toMesh()
     this.addMesh(ruins)

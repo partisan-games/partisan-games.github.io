@@ -1,5 +1,5 @@
 // https://codepen.io/MAKIO135/pen/vmBzMv
-import Scena3D from '/core/Scena3D.js'
+import Scena3D, { bojeNeba } from '/core/Scena3D.js'
 import TWEEN from 'three/examples/jsm/libs/tween.module.js'
 import { createFloor } from '/core3d/ground.js'
 import { createBuilding, createBuildingTexture } from '/core3d/city.js'
@@ -9,7 +9,7 @@ const mapSize = 400
 
 export default class extends Scena3D {
   constructor() {
-    super({ toon: true, showControls: false })
+    super({ toon: true, showControls: false, bojaPlatna: bojeNeba.modra })
 
     document.addEventListener('pointerdown', () => this.grow())
   }

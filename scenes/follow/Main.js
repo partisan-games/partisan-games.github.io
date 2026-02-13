@@ -21,7 +21,6 @@ export default class extends Scena3D {
     this.golems = []
     this.followers = []
     const coords = getEmptyCoords({ mapSize })
-    this.bojaPlatna = 'linear-gradient(to bottom, #94c5f8 1%, #a6e6ff 70%, #b1b5ea 100%)'
 
     ambLight({ scene: this.scene })
     this.camera.position.set(0, 10, 15)

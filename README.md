@@ -16,7 +16,6 @@ npm start
 
 ## TODO
 
-- skloniti/zameniti pozadinu
 - probati grid nejednakih slika, možda staviti i neku uspravnu
 - promeniti joystick u četiri strelice da bude upotrebljivo za telefone
     - proveriti na telefonu

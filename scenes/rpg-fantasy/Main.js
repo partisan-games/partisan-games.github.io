@@ -35,7 +35,6 @@ export default class extends Scena3D {
   }
 
   async init() {
-    this.bojaPlatna = 'linear-gradient(to bottom, #94c5f8 1%, #a6e6ff 70%, #b1b5ea 100%)'
     this.camera.position.set(0, 50, 150)
 
     const sun = createSun({ pos: [15, 100, 50], intensity: 2 * Math.PI })

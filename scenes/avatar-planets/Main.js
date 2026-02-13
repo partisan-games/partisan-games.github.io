@@ -1,5 +1,5 @@
-import Scena3D from '/core/Scena3D.js'
-import { baseControls } from '/ui/Controls.js'
+import Scena3D, { bojeNeba } from '/core/Scena3D.js'
+import { avatarControls } from '/ui/Controls.js'
 import Planet from '/core3d/geometry/Planet.js'
 import { createTerrain, shake } from '/core3d/ground.js'
 import { Stars } from '/core3d/Particles.js'
@@ -11,12 +11,13 @@ import Platform from '/core3d/objects/Platform.js'
 export default class extends Scena3D {
   constructor() {
     super({
-      controlKeys: { ...baseControls, Space: 'jump' },
+      controlKeys: avatarControls,
+      bojaPlatna: bojeNeba.mrkla,
+      toon: false,
     })
   }
 
   async init() {
-    this.bojaPozadine = 0x000000
     const moon = createMoon()
 
     this.planets = []
