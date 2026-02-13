@@ -16,7 +16,6 @@ npm start
 
 ## TODO
 
-- probati grid nejednakih slika, možda staviti i neku uspravnu
 - probati da se vrte sličice ili budu 3D kao karte na hover
 - promeniti joystick u četiri strelice da bude upotrebljivo za telefone
     - proveriti na telefonu
@@ -27,6 +26,7 @@ npm start
 - mozda this.add sam da hendla this.addMesh
 - tenkici i top: izbor za dva igrača
 - 3d top da ne bude vozilo
+- train -> partisan train da nekako postane?
 
 ### BAGOVI
 

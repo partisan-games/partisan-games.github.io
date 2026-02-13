@@ -31,6 +31,7 @@ export default class extends Scena3D {
       canvasWidth: 250,
       canvasHeight: 250,
       disableEvents: true,
+      showControls: false,
     })
     this.followCursor = this.followCursor.bind(this)
   }

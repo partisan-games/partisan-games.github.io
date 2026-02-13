@@ -179,9 +179,8 @@ button.no-hover:hover {
   padding: 0 10% 40px;
 }
 
-.potpis {
+.uvod {
   margin-bottom: 40px;
-  text-align: right;
 }
 
 .main-menu {
@@ -199,17 +198,14 @@ button.no-hover:hover {
 }
 
 .menu-item {
-  color: var(--olive);
   cursor: url("/assets/images/rpgui/cursor/point.png") 10 0, auto;
-  padding: 8px 16px;
   text-align: center;
-  background-color: rgba(27, 27, 27, .75);
   border-radius: 8px;
-  transition: 0.5s;
+  transition: 0.4s;
 }
 
 .menu-item:hover {
-  background-color: rgba(27, 27, 27, 1);
+  background-color: #353135 !important;
 }
 
 #forkongithub {
@@ -249,6 +245,7 @@ button.no-hover:hover {
 }
 
 .simple-container, .white-container, .rpgui-container {
+  display: inline-block;
   padding: 12px;
 }
 
@@ -539,8 +536,8 @@ progress.potisak::-moz-progress-bar {
   text-align: center;
 }
 
-.levo {
-  text-align: left;
+.align-right {
+  text-align: right;
 }
 
 .bold {
