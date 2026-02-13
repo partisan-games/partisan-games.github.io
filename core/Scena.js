@@ -5,7 +5,7 @@ import Controls from '../ui/Controls.js'
 
 export default class Scena {
   constructor({
-    usePointerLock, controlKeys, intro, reportText, customStartScreen, startButtonText, showControls = true, uiStyle, canvas
+    usePointerLock, controlKeys, intro, reportText, customStartScreen, startButtonText, showControls = true, uiStyle, canvas, disableEvents = false
   } = {}) {
     this.usePointerLock = usePointerLock
     this.uiStyle = uiStyle
@@ -18,7 +18,8 @@ export default class Scena {
     this.canvas = canvas
     this.canvas.style.display = 'block'
 
-    /* EVENTS */
+    if (disableEvents) return
+
     this.handleClick = this.handleClick.bind(this)
     this.handlePointerLockChange = this.handlePointerLockChange.bind(this)
     this.handleVisibilityChange = this.handleVisibilityChange.bind(this)

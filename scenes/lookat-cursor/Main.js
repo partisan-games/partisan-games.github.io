@@ -30,6 +30,7 @@ export default class extends Scena3D {
       canvas: document.getElementById('malo-platno'),
       canvasWidth: 250,
       canvasHeight: 250,
+      disableEvents: true,
     })
     this.followCursor = this.followCursor.bind(this)
   }
