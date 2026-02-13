@@ -18,7 +18,7 @@ export default class extends Scena3D {
   }
 
   async init() {
-    this.bojaPozadine = 0
+    this.bojaPlatna = 'black'
     hemLight({ scene: this.scene })
 
     this.addMesh(createFloor())
