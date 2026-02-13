@@ -64,7 +64,21 @@ body,
 button {
   color: var(--white);
   font-family: 'Press Start 2P', Courier;
-  text-shadow: -2px 0 var(--black), 0 2px var(--black), 2px 0 var(--black), 0 -2px var(--black);
+  text-shadow:
+    1px 0 0 var(--black),
+   -1px 0 0 var(--black),
+    0 1px 0 var(--black),
+    0 -1px 0 var(--black),
+
+    1px 1px 0 var(--black),
+   -1px 1px 0 var(--black),
+    1px -1px 0 var(--black),
+   -1px -1px 0 var(--black),
+
+    2px 0 0 var(--black),
+   -2px 0 0 var(--black),
+    0 2px 0 var(--black),
+    0 -2px 0 var(--black);
 }
 
 h1 {
@@ -182,6 +196,7 @@ button.no-hover:hover {
 .uvod {
   margin-bottom: 20px;
   padding: 8px 24px;
+  /* background-color: rgba(0, 0, 0, 0.7); */
 }
 
 .main-menu {
@@ -202,11 +217,12 @@ button.no-hover:hover {
   cursor: url("/assets/images/rpgui/cursor/point.png") 10 0, auto;
   text-align: center;
   border-radius: 8px;
-  transition: 0.4s;
+  transition: 0.5s;
 }
 
 .menu-item:hover {
-  background-color: #353135 !important;
+  /* background-color: #353135 !important; */
+  background-color: rgba(0, 0, 0, 1);
 }
 
 .github {
