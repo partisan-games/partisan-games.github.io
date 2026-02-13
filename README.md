@@ -16,10 +16,10 @@ npm start
 
 ## TODO
 
+- BUG: prikazuje vojnika kad se reloaduje bilo koja scena, prikazivati samo na home
 - dodati ostale igre, scene i animacije
-    - model-lookat-cursor na naslovnu
-        - da proporcionalno prati mis
-    - follow (okupi sve sledbenike)
+    - follow
+        - pobeda: okupio si sve sledbenike za x sekundi
     - rasporediti preostale karaktere po scenama
         - demon mora negde, možda u ruševine
     - avatar-trees
@@ -43,6 +43,7 @@ npm start
 - BUG: tač komande baguju i zakucavaju, npr. rpg special se beskonačno ponavlja
     - dugme mora da se resetuje nakon pritiska, na button leave ili slično
 - BUG: avatar dosta baguje i blokira (možda ima veze tač komande)
+- na početku 3D scena modeli raširenih ruku. probati bar jedan loop inicijalno (firstLoop = true)
 
 ### Završno
 

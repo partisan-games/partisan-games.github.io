@@ -7,7 +7,6 @@ class SceneManager {
 
     this.scene = null
     SceneManager.instance = this
-    this.start('lookat-cursor')
   }
 
   handleIntro() {
