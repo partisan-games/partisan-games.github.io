@@ -6,6 +6,7 @@ import { GolemAI } from '/core3d/actor/derived/fantasy/Golem.js'
 import { getEmptyCoords, createOrbitControls } from '/core3d/helpers.js'
 
 const mapSize = 100
+const golemsNum = 10
 
 export default class extends Scena3D {
   constructor() {
@@ -17,24 +18,33 @@ export default class extends Scena3D {
   }
 
   async init() {
+    this.golems = []
+    this.followers = []
     const coords = getEmptyCoords({ mapSize })
+    this.bojaPlatna = 'linear-gradient(to bottom, #94c5f8 1%, #a6e6ff 70%, #b1b5ea 100%)'
 
     ambLight({ scene: this.scene })
     this.camera.position.set(0, 10, 15)
     this.controls = createOrbitControls(this.camera, this.renderer.domElement)
 
-    this.addMesh(createFloor({ size: mapSize }))
+    this.addMesh(createFloor({ size: mapSize * 2 }))
 
-    const player = new SorceressPlayer()
-    this.add(player)
-
-    for (let i = 0; i < 10; i++) {
-      const ai = new GolemAI({ mapSize, pos: coords.pop(), baseState: 'follow', target: player.mesh })
+    this.player = new SorceressPlayer()
+    this.add(this.player)
+    for (let i = 0; i < golemsNum; i++) {
+      const ai = new GolemAI({ mapSize, pos: coords.pop(), baseState: 'follow', target: this.player.mesh })
       this.add(ai)
+      this.golems.push(ai)
     }
   }
 
   sceneUI(t) {
-    return this.ui.scoreUI('Vreme', Math.floor(t))
+    return this.ui.scoreUI('Vreme', Math.floor(t), 'Broj sledbenika', this.followers.length)
+  }
+
+  update(dt, t) {
+    super.update(dt, t)
+    this.followers = this.golems.filter(golem => golem.distanceTo(this.player.mesh) < golem.followDistance * 2)
+    if (this.followers.length === golemsNum) this.victory(`You have gathered your army of followers in ${Math.floor(t)} seconds.`)
   }
 }
