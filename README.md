@@ -22,7 +22,6 @@ npm start
 - proveriti chrome
 - veštica area damage, videti barbarian special
 - kapuera girl
-    - toggleCamera
     - shouldReplay
 
 ### BAGOVI

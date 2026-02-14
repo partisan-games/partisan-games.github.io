@@ -77,4 +77,12 @@ export const css = /* css */`
   .random-wrapper input {
     margin-right: 8px;
   }
+
+  #camera {
+    bottom: 4px;
+    font-size: 22px;
+    line-height: 22px;
+    position: absolute;
+    right: 4px;
+  }
 `

@@ -135,4 +135,8 @@ export const html = /* html */`
 
     <label class="random-wrapper"><input id="random-moves" type="checkbox"> Random moves</label>
   </nav>
+
+  <button id="camera" class="no-hover">
+    <img src="/assets/images/ui/change-camera.png" alt="switch camera" title="Switch camera">
+  </button>
 `
