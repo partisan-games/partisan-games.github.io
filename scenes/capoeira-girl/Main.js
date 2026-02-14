@@ -4,8 +4,6 @@ import { createGround } from '/core3d/ground.js'
 import { createSun } from '/core3d/light.js'
 import { html } from './html.js'
 import { css } from './style.js'
-const buttons = document.querySelectorAll('.idle,.special')
-const moves = [...document.querySelectorAll('.special')].map(btn => btn.innerText)
 import { loadFbx } from '/core3d/loaders.js'
 
 export default class extends Scena3D {
@@ -25,7 +23,7 @@ export default class extends Scena3D {
     const sun = createSun()
     this.addMesh(sun)
 
-    this.player = new CapoeiraGirlPlayer({ camera: this.camera, useKeyboard: false, useJoystick: false })
+    this.player = new CapoeiraGirlPlayer({ camera: this.camera, useKeyboard: false, useJoystick: false, showHealthBar: false })
     this.add(this.player)
     this.player.setState('Ginga')
   }

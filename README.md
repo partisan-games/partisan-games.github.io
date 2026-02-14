@@ -16,12 +16,14 @@ npm start
 
 ## TODO
 
-- kapuera girl + iskopati još ponešto
 - 3d top da ne bude vozilo
 - promeniti joystick u četiri strelice da bude upotrebljivo za telefone
     - proveriti na telefonu
 - proveriti chrome
 - veštica area damage, videti barbarian special
+- kapuera girl
+    - toggleCamera
+    - shouldReplay
 
 ### BAGOVI
 
