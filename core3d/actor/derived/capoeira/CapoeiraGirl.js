@@ -1,13 +1,18 @@
 import Player from '/core3d/actor/Player.js'
 import AI from '/core3d/actor/AI.js'
 import { loadModel } from '/core3d/loaders.js'
-import IdleState from '../../states/IdleState.js'
-import SpecialState from '../../states/SpecialState.js'
 
 const animDict = {
   idle: 'Ginga',
-  Ginga: 'Ginga',
+  walk: 'Catwalk Walk Forward',
+  run: 'Drunk Walking',
+  attack: 'Ponteira',
 }
+
+// case 'special': return SpecialState
+// case 'jump': return chooseJumpState(jumpStyle)
+// case 'attack':
+// case 'attack2': {
 
 /* LOADING */
 
@@ -20,11 +25,6 @@ const sharedProps = { mesh, animations: mesh.userData.animations, animDict }
 export class CapoeiraGirlPlayer extends Player {
   constructor(props = {}) {
     super({ ...sharedProps, ...props })
-  }
-
-  setState(name, state) {
-    const chooseState = () => state === 'special' ? SpecialState : IdleState
-    this.fsm.setState(name, chooseState)
   }
 }
 

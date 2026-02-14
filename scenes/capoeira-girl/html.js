@@ -1,30 +1,6 @@
 export const html = /* html */`
   <nav class="tabs">
     <div class="tab">
-      <input type="checkbox" id="warm-up">
-      <label class="tab-label" for="warm-up">Workout</label>
-      <div class="tab-content">
-        <button class="idle">Arm stretch dance</button>
-        <button class="idle">Leg stretch dance</button>
-        <button class="idle">Pike walk</button>
-        <button class="idle">Burpee</button>
-        <button class="idle">Jump push up</button>
-        <button class="idle">Situps</button>
-      </div>
-    </div>
-
-    <div class="tab">
-      <input type="checkbox" id="gingas" checked autofocus>
-      <label class="tab-label" for="gingas">Basic Move</label>
-      <div class="tab-content">
-        <button class="idle" title="Sway">Ginga</button>
-        <button class="idle">Ginga variation</button>
-        <button class="idle">Ginga low</button>
-        <button class="idle">Ginga com balança</button>
-      </div>
-    </div>
-
-    <div class="tab">
       <input type="checkbox" id="attacks">
       <label class="tab-label" for="attacks">Kicks</label>
       <div class="tab-content">
@@ -93,50 +69,6 @@ export const html = /* html */`
         <button class="special">Aú batido</button>
         <button class="special" title="Aerial cartwheel">Aú sem mão</button>
       </div>
-    </div>
-
-    <div class="tab">
-      <input type="checkbox" id="acrobatics">
-      <label class="tab-label" for="acrobatics">Acrobatics</label>
-      <div class="tab-content">
-        <button class="special" title="Headspin">Pião de cabeça</button>
-        <button class="special" title="Kip Up">Mola</button>
-        <button class="special" title="Monkey">Macaco</button>
-        <button class="special">Macaco lateral</button>
-        <button class="special">Meia-lua de coluna</button>
-        <button class="special" title="Butterfly">Mariposa</button>
-        <button class="special">Backflip</button>
-      </div>
-    </div>
-
-    <div class="tab">
-      <input type="checkbox" id="sequences">
-      <label class="tab-label" for="sequences">Sequences</label>
-      <div class="tab-content">
-        <button class="special">Aú to Role</button>
-        <button class="special">Esquiva to Role</button>
-        <button class="special">Armada to Esquiva</button>
-        <button class="special">Meia-lua de compasso double</button>
-      </div>
-    </div>
-
-    <div class="tab">
-      <input type="checkbox" id="mma">
-      <label class="tab-label" for="mma">MMA Kicks</label>
-      <div class="tab-content">
-        <button class="special">Mma <b>Chapa</b></button>
-        <button class="special">Mma Chapa giratória</button>
-
-        <button class="special">Mma <b>Martelo</b></button>
-        <button class="special">Mma Martelo low</button>
-        <button class="special" title="Spinning Hammer">Mma Martelo rotado</button>
-      </div>
-    </div>        
-
-    <label class="random-wrapper"><input id="random-moves" type="checkbox"> Random moves</label>
+    </div>   
   </nav>
-
-  <button id="camera" class="no-hover">
-    <img src="/assets/images/ui/change-camera.png" alt="switch camera" title="Switch camera">
-  </button>
 `

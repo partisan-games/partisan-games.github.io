@@ -65,24 +65,4 @@ export const css = /* css */`
   input:checked~.tab-content {
     max-height: 100vh;
   }
-
-  .random-wrapper {
-    align-items: center;
-    background: white;
-    display: flex;
-    font-size: 15px;
-    padding: 4px;
-  }
-
-  .random-wrapper input {
-    margin-right: 8px;
-  }
-
-  #camera {
-    bottom: 4px;
-    font-size: 22px;
-    line-height: 22px;
-    position: absolute;
-    right: 4px;
-  }
 `

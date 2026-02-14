@@ -16,13 +16,14 @@ npm start
 
 ## TODO
 
+- kapuera girl
+    - da može da šeta, ginga je idle
+    - izbornik pokreta ostaje
 - 3d top da ne bude vozilo
 - promeniti joystick u četiri strelice da bude upotrebljivo za telefone
     - proveriti na telefonu
 - proveriti chrome
 - veštica area damage, videti barbarian special
-- kapuera girl
-    - shouldReplay
 
 ### BAGOVI
 
