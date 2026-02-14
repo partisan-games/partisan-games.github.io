@@ -7,33 +7,47 @@ import TenkDesno from './TenkDesno.js'
 import Controls, { tankLeftControls, tankRightControls } from '/ui/Controls.js'
 
 const nivoTla = platno.height * 0.8
-let aiPlayer = true
+
+const customStartScreen = /* html */`
+  <div class="central-screen simple-container">
+    <h2>Choose mode</h2>
+    <button class="bg-olive">
+      1 player
+    </button>
+    <button id="dva-igraca" class="bg-olive">
+      2 players
+    </button>
+  </div>
+`
 
 export default class extends Scena2D {
   constructor() {
-    super({ controlKeys: tankLeftControls })
+    super({ controlKeys: tankLeftControls, customStartScreen })
+    this.controls2UI = new Controls({ positionClass: 'bottom-right', controlKeys: tankRightControls })
+    this.pozadina = new Pozadina('background/razrusen-grad-savremen.jpg')
   }
 
   init() {
-    this.pozadina = new Pozadina('background/razrusen-grad-savremen.jpg')
     this.tenk = new TenkLevo({ y: nivoTla })
-    this.tenk2 = new TenkDesno({ y: nivoTla, ai: aiPlayer })
+    this.tenk2 = new TenkDesno({ y: nivoTla, ai: true })
     this.tenk.ciljevi.push(this.tenk2)
     this.tenk2.ciljevi.push(this.tenk)
     this.predmeti = [this.tenk, this.tenk2]
-    this.controls2UI = new Controls({ positionClass: 'bottom-right', controlKeys: tankRightControls })
   }
 
   handleClick(e) {
     super.handleClick(e)
+    if (!e.target.closest('button')) return
+
     if (e.target.id == 'dva-igraca')
-      this.tenk2.ai = aiPlayer = !aiPlayer
+      this.tenk2.ai = !this.tenk2.ai
+    this.start()
   }
 
   update(dt) {
     super.update(dt)
-    const porazeni = this.tenk2.mrtav ? 'Nemački' : 'Partizanski'
-    const poruka = `${porazeni} tenk je uništen.`
+    const porazeni = this.tenk2.mrtav ? 'German' : 'Partisan'
+    const poruka = `${porazeni} tank destroyed.`
 
     if (this.tenk2.mrtav) this.victory(poruka)
     if (this.tenk.mrtav) this.defeat(poruka)
@@ -42,16 +56,13 @@ export default class extends Scena2D {
   sceneUI() {
     return /* html*/`
       <div class='top-left'>
-        Partizanski tenk
+        Partisan tank
         ${progresBar(this.tenk.energija, 'rpg')}
       </div>
 
       <div class='top-right'>
-        Nemački tenk
+        German tank
         ${progresBar(this.tenk2.energija, 'rpg')}
-        <button id="dva-igraca" class="bg-olive full">
-          ${this.tenk2.ai ? 'Dodaj igrača' : 'Uključi<br> neprijatelja'}
-        </button>
       </div>
     `
   }

@@ -16,16 +16,13 @@ npm start
 
 ## TODO
 
-- probati da se vrte sličice ili budu 3D kao karte na hover
+- ujednačiti stilove dugmića (osnovne veličine + klase za svaki stil)
+- kapuera girl + iskopati još ponešto
+- tenkici i top: izbor za dva igrača
+- 3d top da ne bude vozilo
 - promeniti joystick u četiri strelice da bude upotrebljivo za telefone
     - proveriti na telefonu
 - proveriti chrome
-- ujednačiti stilove dugmića (osnovne veličine + klase za svaki stil)
-- kapuera girl + iskopati još ponešto
-- default bojaPlatna ??
-- mozda this.add sam da hendla this.addMesh
-- tenkici i top: izbor za dva igrača
-- 3d top da ne bude vozilo
 
 ### BAGOVI
 
@@ -43,6 +40,7 @@ npm start
 - sistem ocenjivanja igara?
 
 UI
+- dodati indikacije za 2 igrača na naslovnu
 - koristiti avatarControls
 - refaktorisati da se na jedno mestu podešava RPG style za sve elemente (energija, kamera...)
     - da player čita uiStyle iz this.scene?

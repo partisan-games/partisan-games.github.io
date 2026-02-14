@@ -261,7 +261,7 @@ button.no-hover:hover {
 }
 
 .simple-container, .white-container, .rpgui-container {
-  display: inline-block;
+  display: inline-block; /* za UI book */
   padding: 12px;
 }
 
