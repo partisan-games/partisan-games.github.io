@@ -22,9 +22,8 @@ export class CapoeiraGirlPlayer extends Player {
     super({ ...sharedProps, ...props })
   }
 
-  setState(name) {
-    const moves = [...document.querySelectorAll('.special')].map(btn => btn.innerText)
-    const chooseState = name => moves.includes(name) ? SpecialState : IdleState
+  setState(name, state) {
+    const chooseState = () => state === 'special' ? SpecialState : IdleState
     this.fsm.setState(name, chooseState)
   }
 }

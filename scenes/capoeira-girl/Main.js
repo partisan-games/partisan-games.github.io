@@ -36,10 +36,10 @@ export default class extends Scena3D {
     if (!['idle', 'special'].includes(button?.className)) return
 
     const name = button.innerText
-    // const state = button.className
+    const state = button.className
     const res = await loadFbx({ name, file: `character/capoeira/${name}.fbx` })
     const clip = res.children[0].animations[0]
     this.player.addAction(name, clip)
-    this.player.setState(name)
+    this.player.setState(name, state)
   }
 }

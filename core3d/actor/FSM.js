@@ -29,7 +29,6 @@ export default class FSM {
       oldState.exit()
     }
     const State = chooseState ? chooseState(name) : this.chooseState(name)
-    console.log(State) // uvek IdleState
 
     this.currentState = new State(this.actor, name)
     this.currentState.enter(oldState, oldState?.action)
