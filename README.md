@@ -16,11 +16,6 @@ npm start
 
 ## TODO
 
-- brisati bespotrebne dodate modele pre komita
-- locomotive
-    - dodati kuću, zamak, spomenik, bilo šta
-    - partizanski da nekako postane?
-        - mozda fabriku i rudnik
 - probati da se vrte sličice ili budu 3D kao karte na hover
 - promeniti joystick u četiri strelice da bude upotrebljivo za telefone
     - proveriti na telefonu
