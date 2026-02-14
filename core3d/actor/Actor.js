@@ -174,14 +174,21 @@ export default class Actor extends GameObject {
 
   setupMixer(animations, animDict) {
     this.mixer = new THREE.AnimationMixer(getMesh(this.mesh))
-    for (const key in animDict) {
-      const clip = animations.find(anim => anim.name == animDict[key])
-      this.actions[key] = this.mixer.clipAction(clip)
+    for (const state in animDict) {
+      const clip = animations.find(anim => anim.name === animDict[state])
+      this.addAction(state, clip)
     }
-    if (!animDict.run && animDict.walk) {
-      const clip = animations.find(anim => anim.name == animDict.walk)
-      this.actions.run = this.mixer.clipAction(clip.clone()).setEffectiveTimeScale(1.5)
-    }
+    if (!animDict.run && animDict.walk)
+      this.setDefaultRun()
+  }
+
+  addAction(state, clip) {
+    this.actions[state] = this.mixer.clipAction(clip)
+  }
+
+  setDefaultRun() {
+    const clip = this.actions.walk._clip
+    this.actions.run = this.mixer.clipAction(clip.clone()).setEffectiveTimeScale(1.5)
   }
 
   findHands() {

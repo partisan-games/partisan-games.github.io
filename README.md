@@ -21,6 +21,7 @@ npm start
 - promeniti joystick u četiri strelice da bude upotrebljivo za telefone
     - proveriti na telefonu
 - proveriti chrome
+- veštica area damage, videti barbarian special
 
 ### BAGOVI
 

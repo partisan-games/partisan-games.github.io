@@ -41,7 +41,6 @@ body {
   background-color: var(--gray);
   cursor: url(/assets/images/rpgui/cursor/default.png), auto;
   font-size: 0.8em;
-  line-height: 22px;
   margin: 0;
   min-height: 100vh;
   overflow-x: hidden;
@@ -64,6 +63,7 @@ body,
 button {
   color: var(--white);
   font-family: 'Press Start 2P', Courier;
+  line-height: 1.2rem;
   text-shadow:
     1px 0 0 var(--black),
    -1px 0 0 var(--black),

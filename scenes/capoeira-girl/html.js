@@ -1,0 +1,138 @@
+export const html = /* html */`
+  <nav class="tabs">
+    <div class="tab">
+      <input type="checkbox" id="warm-up">
+      <label class="tab-label" for="warm-up">Workout</label>
+      <div class="tab-content">
+        <button class="idle">Arm stretch dance</button>
+        <button class="idle">Leg stretch dance</button>
+        <button class="idle">Pike walk</button>
+        <button class="idle">Burpee</button>
+        <button class="idle">Jump push up</button>
+        <button class="idle">Situps</button>
+      </div>
+    </div>
+
+    <div class="tab">
+      <input type="checkbox" id="gingas" checked autofocus>
+      <label class="tab-label" for="gingas">Basic Move</label>
+      <div class="tab-content">
+        <button class="idle" title="Sway">Ginga</button>
+        <button class="idle">Ginga variation</button>
+        <button class="idle">Ginga low</button>
+        <button class="idle">Ginga com balança</button>
+      </div>
+    </div>
+
+    <div class="tab">
+      <input type="checkbox" id="attacks">
+      <label class="tab-label" for="attacks">Kicks</label>
+      <div class="tab-content">
+        <button class="special" title="Pointer">Ponteira</button>
+
+        <button class="special" title="Sole of the foot"><b>Chapa</b></button>
+        <button class="special" title="Blessing">Benção</button>
+        <button class="special">Chapa from a step back</button>
+        <button class="special">Chapa giratória</button>
+        <button class="special">Chapa giratória pulada</button>
+
+        <button class="special" title="Front Half Moon"><b>Meia-lua de frente</b></button>
+        <button class="special" title="Armed or Back Half Moon">Armada or Meia-lua de costas</button>
+        <button class="special" title="Jawbone">Queixada</button>
+        <button class="special">Queixada from a step back</button>
+
+        <button class="special" title="Compass Half Moon"><b>Meia-lua de compasso</b></button>
+        <button class="special">Meia-lua de compasso back</button>
+        <button class="special" title="Stingray's tail">Rabo de arraia</button>
+
+        <button class="special" title="Hammer"><b>Martelo</b></button>
+        <button class="special">Martelo from a step forward</button>
+        <button class="special" title="Hammer from the ground">Martelo no chão</button>
+        <button class="special" title="Hammer from the ground without hand">Martelo no chão sem mão</button>
+        <button class="special" title="Leather hat">Chapéu de couro</button>
+        <button class="special" title="Jumping hammer">Martelo pulado</button>
+      </div>
+    </div>
+
+    <div class="tab">
+      <input type="checkbox" id="defences">
+      <label class="tab-label" for="defences">Escapes</label>
+      <div class="tab-content">
+        <button class="special" title="Coconut">Cocorinha</button>
+        <button class="special">Esquiva lateral</button>
+        <button class="special">Esquiva de frente</button>
+        <button class="special">Esquiva de costas</button>
+
+        <button class="special" title="Roll">Role</button>
+        <button class="special" title="Whirl">Corrupio</button>
+        <button class="special" title="Foot change">Troca de pé</button>
+        <button class="special" title="Fall on kidneys">Queda de rins</button>
+      </div>
+    </div>
+
+    <div class="tab">
+      <input type="checkbox" id="takedowns">
+      <label class="tab-label" for="takedowns">Takedowns</label>
+      <div class="tab-content">
+        <button class="special" title="Leg sweep front">Rasteira de fronte</button>
+        <button class="special">Rasteira Meia-lua de frente</button>
+        <button class="special" title="Leg sweep back">Rasteira de costas</button>
+        <button class="special">Rasteira Rabo de arraia</button>
+        <button class="special" title="Standing sweep">Rasteira em pé</button>
+      </div>
+    </div>
+
+    <div class="tab">
+      <input type="checkbox" id="cartwheels">
+      <label class="tab-label" for="cartwheels">Cartwheels</label>
+      <div class="tab-content">
+        <button class="special" title="Cartwheel">Aú</button>
+        <button class="special">Aú sideways</button>
+        <button class="special">Aú giratória</button>
+        <button class="special">Aú de coluna</button>
+        <button class="special">Aú batido</button>
+        <button class="special" title="Aerial cartwheel">Aú sem mão</button>
+      </div>
+    </div>
+
+    <div class="tab">
+      <input type="checkbox" id="acrobatics">
+      <label class="tab-label" for="acrobatics">Acrobatics</label>
+      <div class="tab-content">
+        <button class="special" title="Headspin">Pião de cabeça</button>
+        <button class="special" title="Kip Up">Mola</button>
+        <button class="special" title="Monkey">Macaco</button>
+        <button class="special">Macaco lateral</button>
+        <button class="special">Meia-lua de coluna</button>
+        <button class="special" title="Butterfly">Mariposa</button>
+        <button class="special">Backflip</button>
+      </div>
+    </div>
+
+    <div class="tab">
+      <input type="checkbox" id="sequences">
+      <label class="tab-label" for="sequences">Sequences</label>
+      <div class="tab-content">
+        <button class="special">Aú to Role</button>
+        <button class="special">Esquiva to Role</button>
+        <button class="special">Armada to Esquiva</button>
+        <button class="special">Meia-lua de compasso double</button>
+      </div>
+    </div>
+
+    <div class="tab">
+      <input type="checkbox" id="mma">
+      <label class="tab-label" for="mma">MMA Kicks</label>
+      <div class="tab-content">
+        <button class="special">Mma <b>Chapa</b></button>
+        <button class="special">Mma Chapa giratória</button>
+
+        <button class="special">Mma <b>Martelo</b></button>
+        <button class="special">Mma Martelo low</button>
+        <button class="special" title="Spinning Hammer">Mma Martelo rotado</button>
+      </div>
+    </div>        
+
+    <label class="random-wrapper"><input id="random-moves" type="checkbox"> Random moves</label>
+  </nav>
+`
