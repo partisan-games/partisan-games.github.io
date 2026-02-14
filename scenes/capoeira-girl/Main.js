@@ -4,7 +4,6 @@ import { createGround } from '/core3d/ground.js'
 import { createSun } from '/core3d/light.js'
 import { html } from './html.js'
 import { css } from './style.js'
-import { loadFbx } from '/core3d/loaders.js'
 
 export default class extends Scena3D {
   constructor() {

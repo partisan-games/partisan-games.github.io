@@ -29,46 +29,5 @@ export const html = /* html */`
         <button class="special" title="Jumping hammer">Martelo pulado</button>
       </div>
     </div>
-
-    <div class="tab">
-      <input type="checkbox" id="defences">
-      <label class="tab-label" for="defences">Escapes</label>
-      <div class="tab-content">
-        <button class="special" title="Coconut">Cocorinha</button>
-        <button class="special">Esquiva lateral</button>
-        <button class="special">Esquiva de frente</button>
-        <button class="special">Esquiva de costas</button>
-
-        <button class="special" title="Roll">Role</button>
-        <button class="special" title="Whirl">Corrupio</button>
-        <button class="special" title="Foot change">Troca de pé</button>
-        <button class="special" title="Fall on kidneys">Queda de rins</button>
-      </div>
-    </div>
-
-    <div class="tab">
-      <input type="checkbox" id="takedowns">
-      <label class="tab-label" for="takedowns">Takedowns</label>
-      <div class="tab-content">
-        <button class="special" title="Leg sweep front">Rasteira de fronte</button>
-        <button class="special">Rasteira Meia-lua de frente</button>
-        <button class="special" title="Leg sweep back">Rasteira de costas</button>
-        <button class="special">Rasteira Rabo de arraia</button>
-        <button class="special" title="Standing sweep">Rasteira em pé</button>
-      </div>
-    </div>
-
-    <div class="tab">
-      <input type="checkbox" id="cartwheels">
-      <label class="tab-label" for="cartwheels">Cartwheels</label>
-      <div class="tab-content">
-        <button class="special" title="Cartwheel">Aú</button>
-        <button class="special">Aú sideways</button>
-        <button class="special">Aú giratória</button>
-        <button class="special">Aú de coluna</button>
-        <button class="special">Aú batido</button>
-        <button class="special" title="Aerial cartwheel">Aú sem mão</button>
-      </div>
-    </div>   
   </nav>
 `
