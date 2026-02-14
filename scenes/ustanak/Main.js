@@ -12,11 +12,22 @@ import Planina from '/core/objects/Planina.js'
 import Avion from '/core/objects/Avion.js'
 
 const nivoTla = platno.height * .75
-let aiPlayer = true
+
+const customStartScreen = /* html */`
+  <div class="central-screen simple-container">
+    <h2>Choose mode</h2>
+    <button class="bg-olive" id="jedan-igrac" >
+      1 player
+    </button>
+    <button class="bg-olive" id="dva-igraca">
+      2 players
+    </button>
+  </div>
+`
 
 export default class extends Scena2D {
   constructor() {
-    super({ controlKeys: { W: 'up', S: 'down', Space: 'shoot ' } })
+    super({ controlKeys: { W: 'up', S: 'down', Space: 'shoot ' }, customStartScreen })
   }
 
   init() {
@@ -32,7 +43,7 @@ export default class extends Scena2D {
       y: nivoTla,
       skalar: 1,
       vremePunjenjaAI: 3000,
-      ai: aiPlayer
+      ai: true
     })
     this.tenk.ciljevi.push(this.top)
     const planine = new Array(3).fill().map(() => new Planina({ nivoTla, z: 2, skalar: 2 }))
@@ -45,8 +56,12 @@ export default class extends Scena2D {
 
   handleClick(e) {
     super.handleClick(e)
-    if (e.target.id == 'dva-igraca')
-      this.tenk.ai = aiPlayer = !aiPlayer
+    const button = e.target.closest('button')
+    if (!['jedan-igrac', 'dva-igraca'].includes(button.id)) return
+
+    if (button.id == 'dva-igraca')
+      this.tenk.ai = !this.tenk.ai
+    this.start()
   }
 
   clear() {
@@ -68,9 +83,6 @@ export default class extends Scena2D {
 
     <div class='top-right'>
       ${progresBar(this.tenk.energija)}
-      <button id="dva-igraca" class="bg-olive full">
-        ${this.tenk.ai ? 'Dodaj igrača' : 'Uključi<br> neprijatelja'}
-      </button>
     </div>
     `
   }

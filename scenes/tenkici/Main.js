@@ -11,10 +11,10 @@ const nivoTla = platno.height * 0.8
 const customStartScreen = /* html */`
   <div class="central-screen simple-container">
     <h2>Choose mode</h2>
-    <button class="bg-olive">
+    <button class="bg-olive" id="jedan-igrac" >
       1 player
     </button>
-    <button id="dva-igraca" class="bg-olive">
+    <button class="bg-olive" id="dva-igraca">
       2 players
     </button>
   </div>
@@ -23,11 +23,11 @@ const customStartScreen = /* html */`
 export default class extends Scena2D {
   constructor() {
     super({ controlKeys: tankLeftControls, customStartScreen })
-    this.controls2UI = new Controls({ positionClass: 'bottom-right', controlKeys: tankRightControls })
-    this.pozadina = new Pozadina('background/razrusen-grad-savremen.jpg')
   }
 
   init() {
+    this.pozadina = new Pozadina('background/razrusen-grad-savremen.jpg')
+    this.controls2UI = new Controls({ positionClass: 'bottom-right', controlKeys: tankRightControls })
     this.tenk = new TenkLevo({ y: nivoTla })
     this.tenk2 = new TenkDesno({ y: nivoTla, ai: true })
     this.tenk.ciljevi.push(this.tenk2)
@@ -37,9 +37,10 @@ export default class extends Scena2D {
 
   handleClick(e) {
     super.handleClick(e)
-    if (!e.target.closest('button')) return
+    const button = e.target.closest('button')
+    if (!['jedan-igrac', 'dva-igraca'].includes(button.id)) return
 
-    if (e.target.id == 'dva-igraca')
+    if (button.id == 'dva-igraca')
       this.tenk2.ai = !this.tenk2.ai
     this.start()
   }
