@@ -6,13 +6,11 @@ const animDict = {
   idle: 'Ginga',
   walk: 'Catwalk Walk Forward',
   run: 'Drunk Walking',
-  attack: 'Ponteira',
+  attack: 'Benção',
+  attack2: 'Chapa giratória',
+  special: 'Aú de coluna',
+  jump: 'Backflip',
 }
-
-// case 'special': return SpecialState
-// case 'jump': return chooseJumpState(jumpStyle)
-// case 'attack':
-// case 'attack2': {
 
 /* LOADING */
 

@@ -34,15 +34,9 @@ export default class extends Scena3D {
   async handleClick(e) {
     super.handleClick(e)
     // const button = e.target.closest('button')
-    // if (!button) return
 
-    // if (button.id == 'camera') this.toggleCamera()
-
-    // if (['idle', 'special'].includes(button.className)) {
+    // if (['idle', 'special'].includes(button?.className)) {
     //   const name = button.innerText
-    //   const res = await loadFbx({ name, file: `character/capoeira/${name}.fbx` })
-    //   const clip = res.children[0].animations[0]
-    //   this.player.addAction(name, clip)
     //   this.player.setState(name, button.className)
     // }
   }
