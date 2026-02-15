@@ -32,19 +32,20 @@ export class CannonPlayer extends Player {
   }
 
   shoot = world => {
-    const ball = createSphere({ r: .2, color: 0x202020 })
-
-    const pos = this.mesh.position.clone()
-    pos.y += this.height
+    const ball = createSphere({ r: 0.2, color: 0x202020 })
 
     const dir = new THREE.Vector3()
-    this.mesh.getWorldDirection(dir)
-    dir.negate()
-    // pos.add(dir.clone().multiplyScalar(1.2))
-    ball.position.copy(pos)
+    this.mesh.getWorldDirection(dir).negate() // smer topa
+
+    ball.position.copy(this.mesh.position)
+      .add({ x: 0, y: this.height * 0.66, z: 0 }) // gore
+      .addScaledVector(dir, 1.5)  // ispred
+
     world.add(ball, 4)
 
-    dir.multiplyScalar(this.range.value)
+    dir.y += 0.25 // podizanje ugla pucanja
+    dir.normalize().multiplyScalar(this.range.value)
+
     const velocity = new Ammo.btVector3(dir.x, dir.y, dir.z)
     ball.userData.body.setLinearVelocity(velocity)
 
