@@ -9,7 +9,6 @@ const animDict = {
   run: 'Fast Run',
   jump: 'Mutant Jumping',
   attack: 'Sword And Shield Slash', // Mma Kick
-  // attack2: 'Standing Melee Kick',
   special: 'Standing 2H Magic Attack 05',
   pain: 'Standing React Large From Right',
   death: 'Falling Back Death',

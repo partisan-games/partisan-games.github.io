@@ -17,8 +17,6 @@ npm start
 ## TODO
 
 - kapuera girl
-    - hod od varvarke?
-        - spojiti varvarku i kapueru
     - izbornik pokreta
 - 3d top da ne bude vozilo
 - promeniti joystick u četiri strelice da bude upotrebljivo za telefone
