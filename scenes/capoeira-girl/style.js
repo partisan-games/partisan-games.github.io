@@ -1,16 +1,12 @@
 export const css = /* css */`
   .tabs {
     position: absolute;
-    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
-    border-radius: 8px;
     box-shadow: 0 4px 4px -2px rgba(0, 0, 0, 0.5);
-    max-width: 220px;
+    max-width: 240px;
     position: absolute;
   }
 
   .tab {
-    width: 100%;
-    color: white;
     overflow: hidden;
   }
 
@@ -27,10 +23,6 @@ export const css = /* css */`
     background: #2C6E63;
     font-weight: bold;
     border-bottom: 1px solid #1C4740;
-  }
-
-  .tab-label:hover {
-    background: #1C4740;
   }
 
   .tab-label::after {
@@ -50,7 +42,6 @@ export const css = /* css */`
   .tab-content button {
     width: 100%;
     text-align: left;
-    padding: 4px;
     text-transform: none;
   }
 
