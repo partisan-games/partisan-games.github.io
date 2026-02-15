@@ -1,5 +1,4 @@
 import { Vector3, MathUtils } from 'three'
-
 import Actor from './Actor.js'
 import Keyboard from '/core/io/Keyboard.js'
 import { jumpStyles, attackStyles, baseStates, dir } from '/core3d/constants.js'

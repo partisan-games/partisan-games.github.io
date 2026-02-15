@@ -6,21 +6,21 @@ const walkingStates = ['wander', 'follow', 'patrol']
 const runningStates = ['pursue', 'flee']
 
 export default class Animator {
-  constructor({ actor, animations, animDict, twoHandedWeapon, rightHandWeapon }) {
-    this.actor = actor
+  constructor({ mesh, animations, animDict, twoHandedWeapon, rightHandWeapon, isAi }) {
+    this.mesh = mesh
     this.actions = {}
     this.rightHand = null
     this.leftHand = null
 
     this.setupMixer(animations, animDict)
-    if (this.actor.name !== 'player') this.setupAIActions()
+    if (isAi) this.setupAIActions()
 
     if (twoHandedWeapon) this.addTwoHandedWeapon(clone(twoHandedWeapon))
     if (rightHandWeapon) this.addRightHandWeapon(clone(rightHandWeapon))
   }
 
   setupMixer(animations, animDict) {
-    this.mixer = new THREE.AnimationMixer(getMesh(this.actor.mesh))
+    this.mixer = new THREE.AnimationMixer(getMesh(this.mesh))
     for (const state in animDict) {
       const clip = animations.find(anim => anim.name === animDict[state])
       this.addAction(state, clip)
@@ -49,7 +49,7 @@ export default class Animator {
   }
 
   findHands() {
-    this.actor.mesh.traverse(child => {
+    this.mesh.traverse(child => {
       if (child.name === 'mixamorigRightHand') this.rightHand = child
       if (child.name === 'mixamorigLeftHandMiddle1') this.leftHand = child
     })

@@ -1,7 +1,6 @@
 import * as THREE from 'three'
-import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js'
 import GameObject from '/core3d/objects/GameObject.js'
-import { getGroundY, directionBlocked, getMesh, intersect, belongsTo, arrowHelper } from '/core3d/helpers.js'
+import { getGroundY, directionBlocked, intersect, belongsTo, arrowHelper } from '/core3d/helpers.js'
 import { dir, RIGHT_ANGLE, reactions, jumpStyles, baseStates } from '/core3d/constants.js'
 import { randomVolume } from '/core/utils.js'
 import FSM from './FSM.js'
@@ -73,7 +72,7 @@ export default class Actor extends GameObject {
     this.canMove = canMove
 
     if (animations?.length && animDict)
-      this.animator = new Animator({ actor: this, animations, animDict, twoHandedWeapon, rightHandWeapon })
+      this.animator = new Animator({ mesh: this.mesh, animations, animDict, twoHandedWeapon, rightHandWeapon, isAi: this.name != 'player' })
 
     if (attackSound)
       this.audio = new Audio(`/assets/sounds/${attackSound}`)
