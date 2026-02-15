@@ -16,9 +16,6 @@ npm start
 
 ## TODO
 
-- kapuera girl
-    - lepše dugmiće?
-    - dodati još ponešto?
 - 3d top da ne bude vozilo
 - promeniti joystick u četiri strelice da bude upotrebljivo za telefone
     - proveriti na telefonu
