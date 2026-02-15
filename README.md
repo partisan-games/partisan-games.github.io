@@ -16,10 +16,10 @@ npm start
 
 ## TODO
 
+- akcije i animacije iz states u Animator
 - gledati sa chrome neko vreme
 - promeniti joystick u četiri strelice
     - proveriti na telefonu
-- odvojiti klasu za Animacije?
 
 ### BAGOVI
 

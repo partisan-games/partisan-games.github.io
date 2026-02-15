@@ -1,12 +1,12 @@
 import * as THREE from 'three'
 import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js'
-
 import GameObject from '/core3d/objects/GameObject.js'
 import { getGroundY, directionBlocked, getMesh, intersect, belongsTo, arrowHelper } from '/core3d/helpers.js'
 import { dir, RIGHT_ANGLE, reactions, jumpStyles, baseStates } from '/core3d/constants.js'
 import { randomVolume } from '/core/utils.js'
 import FSM from './FSM.js'
 import { isDev } from '/config.js'
+import Animator from './Animator.js'
 
 const { randInt } = THREE.MathUtils
 
@@ -18,7 +18,6 @@ const getParent = (object, name) =>
  * @param animDict: maps state to animation
  */
 export default class Actor extends GameObject {
-
   constructor({
     animations,
     animDict,
@@ -62,7 +61,6 @@ export default class Actor extends GameObject {
     this.jumpForce = jumpForce
     this.drag = drag
     this.input = input
-    this.actions = {}
     this.shouldRaycastGround = shouldRaycastGround
     this.runCoefficient = runCoefficient
     this.attackDistance = this.depth > attackDistance ? Math.ceil(this.depth) : attackDistance
@@ -74,11 +72,8 @@ export default class Actor extends GameObject {
     this.deathCallback = deathCallback
     this.canMove = canMove
 
-    if (animations?.length && animDict) {
-      this.setupMixer(animations, animDict)
-      if (twoHandedWeapon) this.addTwoHandedWeapon(clone(twoHandedWeapon))
-      if (rightHandWeapon) this.addRightHandWeapon(clone(rightHandWeapon))
-    }
+    if (animations?.length && animDict)
+      this.animator = new Animator({ actor: this, animations, animDict, twoHandedWeapon, rightHandWeapon })
 
     if (attackSound)
       this.audio = new Audio(`/assets/sounds/${attackSound}`)
@@ -166,6 +161,14 @@ export default class Actor extends GameObject {
     return this.actions.jump || this.jumpStyle != jumpStyles.ANIM_JUMP
   }
 
+  get actions() {
+    return this.animator.actions
+  }
+
+  get mixer() {
+    return this.animator.mixer
+  }
+
   /* STATE MACHINE */
 
   setState(name) {
@@ -174,43 +177,8 @@ export default class Actor extends GameObject {
 
   /* ANIMATIONS */
 
-  setupMixer(animations, animDict) {
-    this.mixer = new THREE.AnimationMixer(getMesh(this.mesh))
-    for (const state in animDict) {
-      const clip = animations.find(anim => anim.name === animDict[state])
-      this.addAction(state, clip)
-    }
-    if (!animDict.run && animDict.walk)
-      this.setDefaultRun()
-  }
-
   addAction(state, clip) {
-    this.actions[state] = this.mixer.clipAction(clip)
-  }
-
-  setDefaultRun() {
-    const clip = this.actions.walk._clip
-    this.actions.run = this.mixer.clipAction(clip.clone()).setEffectiveTimeScale(1.5)
-  }
-
-  findHands() {
-    this.rightHand = null
-    this.leftHand = null
-    this.mesh.traverse(child => {
-      if (child.name === 'mixamorigRightHand') this.rightHand = child
-      if (child.name === 'mixamorigLeftHandMiddle1') this.leftHand = child
-    })
-  }
-
-  addTwoHandedWeapon(mesh) {
-    if (!this.rightHand || !this.leftHand) this.findHands()
-    this.rightHand.add(mesh)
-    this.twoHandedWeapon = mesh
-  }
-
-  addRightHandWeapon(mesh) {
-    if (!this.rightHand) this.findHands()
-    this.rightHand.add(mesh)
+    this.animator.addAction(state, clip)
   }
 
   /* COMBAT */
@@ -325,12 +293,6 @@ export default class Actor extends GameObject {
 
   /* UPDATES */
 
-  updateRifle() {
-    const pos = new THREE.Vector3()
-    this.leftHand.getWorldPosition(pos)
-    this.twoHandedWeapon.lookAt(pos)
-  }
-
   checkHit() {
     if (!this.damageAmount) return
 
@@ -422,13 +384,12 @@ export default class Actor extends GameObject {
   update(delta = 1 / 60) {
     this.updateGround()
     this.fsm.update(delta)
-    this.mixer?.update(delta)
+    this.animator?.update(delta)
     if (!this.dead && !['jump', 'fall'].includes(this.state))
       this.handleTerrain(2 * delta)
 
     this.checkHit()
 
-    if (this.twoHandedWeapon) this.updateRifle()
     if (this.outOfBounds) this.bounce()
 
     if (this.useRicochet) this.ricochet?.expand({ velocity: 1.2, maxRounds: 5, gravity: .02 })

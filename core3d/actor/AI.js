@@ -7,8 +7,6 @@ import { belongsTo, directionBlocked } from '/core3d/helpers.js'
 
 const { randFloat, randFloatSpread } = MathUtils
 
-const walking = ['wander', 'follow', 'patrol']
-const running = ['pursue', 'flee']
 const pursueStates = [baseStates.idle, baseStates.patrol, baseStates.wander]
 
 export default class AI extends Actor {
@@ -114,17 +112,6 @@ export default class AI extends Actor {
   }
 
   /* ANIMATIONS */
-
-  setupMixer(animations, animDict) {
-    const { actions } = this
-    super.setupMixer(animations, animDict)
-    walking.forEach(name => {
-      if (!actions[name]) actions[name] = actions.walk
-    })
-    running.forEach(name => {
-      if (!actions[name]) actions[name] = actions.run
-    })
-  }
 
   randomizeAction() {
     if (!this.action) return
