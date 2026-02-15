@@ -45,6 +45,7 @@ export default class Actor extends GameObject {
     flame = null,
     turnWhileAttack = !flame,
     baseState = baseStates.idle,
+    canMove = true,
     deathCallback,
     ...rest
   }) {
@@ -71,6 +72,7 @@ export default class Actor extends GameObject {
     this.altitude = altitude
     this.turnWhileAttack = turnWhileAttack
     this.deathCallback = deathCallback
+    this.canMove = canMove
 
     if (animations?.length && animDict) {
       this.setupMixer(animations, animDict)
@@ -351,6 +353,8 @@ export default class Actor extends GameObject {
   }
 
   updateMove(delta, reaction = reactions.BOUNCE) {
+    if (!this.canMove) return
+
     const direction = this.input.up ? dir.forward
       : this.input.down ? dir.backward : null
 

@@ -25,13 +25,16 @@ function createInputRange() {
 
 export class CannonPlayer extends Player {
   constructor(props = {}) {
-    super({ mesh, showHealthBar: false, speed: .5, ...props })
+    super({ mesh, showHealthBar: false, canMove: false, speed: .5, ...props })
     this.range = createInputRange()
     this.minImpulse = this.range.value = this.range.min
     this.maxImpulse = 25
+    this.shots = 20
   }
 
   shoot = world => {
+    if (!this.shots) return
+
     const ball = createSphere({ r: 0.2, color: 0x202020 })
 
     const dir = new THREE.Vector3()
@@ -50,6 +53,7 @@ export class CannonPlayer extends Player {
     ball.userData.body.setLinearVelocity(velocity)
 
     this.range.value = this.minImpulse
+    this.shots --
   }
 
   update(dt) {

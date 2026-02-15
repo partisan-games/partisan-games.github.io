@@ -13,7 +13,7 @@ const controlKeys = {
 export default class extends Scena3D {
   constructor() {
     super({
-      // intro: 'Demolish all blocks',
+      intro: 'Demolish the wall — leave no stone on stone.',
       toon: true,
       controlKeys,
       uiStyle: 'rpg',
@@ -31,7 +31,7 @@ export default class extends Scena3D {
     const ground = createGround({ size: 40 })
     this.world.add(ground, 0)
 
-    this.boxes = createSideWall({ rows: 9, columns: 10, brickMass: 3, friction: 5, z: -8 })
+    this.boxes = createSideWall({ rows: 9, columns: 10, brickMass: 3, friction: 5, z: -9 })
     this.boxes.forEach(mesh => this.world.add(mesh))
   }
 
@@ -51,9 +51,12 @@ export default class extends Scena3D {
 
     if (!this.countableCrates.length)
       this.victory('You demolished everything.', 'Bravo!')
+
+    if (this.player.shots == 0)
+      this.defeat('You are out of ammo.')
   }
 
   sceneUI() {
-    return this.ui.scoreUI('Blocks left', this.countableCrates.length)
+    return this.ui.scoreUI('Blocks left', this.countableCrates.length, 'Shots left', this.player.shots)
   }
 }

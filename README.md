@@ -18,9 +18,6 @@ npm start
 
 - 3d top
     - srediti kameru
-    - ograničiti broj hitaca
-    - ograničiti pomeranje topa
-        - da top ne ide, samo da se okreće
 - veštica area damage, videti huntress special
 - promeniti joystick u četiri strelice da bude upotrebljivo za telefone
     - proveriti na telefonu
