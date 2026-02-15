@@ -38,7 +38,8 @@ export default class extends Scena3D {
     if (button) {
       const name = button.innerText
       console.log(name)
-      const [clip] = await loadFbxAnimations([name], 'character/capoeira/')
+      // ako ima ne učitavati
+      const [clip] = await loadFbxAnimations([name], 'character/huntress/')
       console.log(clip)
       this.player.addAction(name, clip)
       this.player.setState(name)

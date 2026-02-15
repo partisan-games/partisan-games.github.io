@@ -17,14 +17,12 @@ npm start
 ## TODO
 
 - kapuera girl
-    - izbornik pokreta
-        - napraviti mehanizam za izbornik pokreta (dinamičko učitavanje??)
-        - dodati nove dugmiće i pokrete
+    - dodati dugmiće i pokrete
 - 3d top da ne bude vozilo
 - promeniti joystick u četiri strelice da bude upotrebljivo za telefone
     - proveriti na telefonu
 - proveriti chrome
-- veštica area damage, videti barbarian special
+- veštica area damage, videti huntress special
 
 ### BAGOVI
 

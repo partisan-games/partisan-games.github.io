@@ -14,7 +14,7 @@ const animDict = {
 
 /* LOADING */
 
-const mesh = await loadModel({ prefix: 'character/barbarian/', file: 'capoeira-girl.fbx', animDict, axis: [0, 1, 0], angle: Math.PI })
+const mesh = await loadModel({ prefix: 'character/huntress/', file: 'capoeira-girl.fbx', animDict, axis: [0, 1, 0], angle: Math.PI })
 
 /* EXTENDED CLASSES */
 
