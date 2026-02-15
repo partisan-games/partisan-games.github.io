@@ -18,6 +18,8 @@ npm start
 
 - kapuera girl
     - izbornik pokreta
+        - napraviti mehanizam za izbornik pokreta (dinamičko učitavanje??)
+        - dodati nove dugmiće i pokrete
 - 3d top da ne bude vozilo
 - promeniti joystick u četiri strelice da bude upotrebljivo za telefone
     - proveriti na telefonu

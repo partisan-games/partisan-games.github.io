@@ -4,6 +4,7 @@ import { createGround } from '/core3d/ground.js'
 import { createSun } from '/core3d/light.js'
 import { html } from './html.js'
 import { css } from './style.js'
+import { loadFbxAnimations } from '/core3d/loaders.js'
 
 export default class extends Scena3D {
   constructor() {
@@ -32,11 +33,15 @@ export default class extends Scena3D {
 
   async handleClick(e) {
     super.handleClick(e)
-    // const button = e.target.closest('button')
+    const button = e.target.closest('button.special')
 
-    // if (['idle', 'special'].includes(button?.className)) {
-    //   const name = button.innerText
-    //   this.player.setState(name, button.className)
-    // }
+    if (button) {
+      const name = button.innerText
+      console.log(name)
+      const [clip] = await loadFbxAnimations([name], 'character/capoeira/')
+      console.log(clip)
+      this.player.addAction(name, clip)
+      this.player.setState(name)
+    }
   }
 }
