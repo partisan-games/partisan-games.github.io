@@ -34,15 +34,14 @@ export default class extends Scena3D {
   async handleClick(e) {
     super.handleClick(e)
     const button = e.target.closest('button.special')
+    if (!button) return
 
-    if (button) {
-      const name = button.innerText
-      console.log(name)
-      // ako ima ne učitavati
+    const name = button.innerText
+    if (!(name in this.player.actions)) {
       const [clip] = await loadFbxAnimations([name], 'character/huntress/')
-      console.log(clip)
       this.player.addAction(name, clip)
-      this.player.setState(name)
     }
+
+    this.player.setState(name)
   }
 }

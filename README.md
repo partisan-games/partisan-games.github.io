@@ -17,12 +17,15 @@ npm start
 ## TODO
 
 - kapuera girl
-    - dodati dugmiće i pokrete
+    - dodati i glavne napade u meni
+    - lepše dugmiće?
+    - dodati još ponešto?
 - 3d top da ne bude vozilo
 - promeniti joystick u četiri strelice da bude upotrebljivo za telefone
     - proveriti na telefonu
 - proveriti chrome
 - veštica area damage, videti huntress special
+- odvojiti klasu za Animacije?
 
 ### BAGOVI
 
