@@ -31,7 +31,7 @@ export default class extends Scena3D {
     const ground = createGround({ size: 40 })
     this.world.add(ground, 0)
 
-    this.boxes = createSideWall({ brickMass: 3, friction: 5, z: -7 })
+    this.boxes = createSideWall({ rows: 9, columns: 10, brickMass: 3, friction: 5, z: -8 })
     this.boxes.forEach(mesh => this.world.add(mesh))
   }
 

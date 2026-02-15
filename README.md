@@ -18,7 +18,7 @@ npm start
 
 - 3d top
     - srediti kameru
-    - veći zid
+    - ograničiti broj hitaca
     - ograničiti pomeranje topa
         - da top ne ide, samo da se okreće
 - veštica area damage, videti huntress special
