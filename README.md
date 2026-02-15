@@ -16,9 +16,7 @@ npm start
 
 ## TODO
 
-- 3d top
-    - srediti kameru
-- veštica area damage, videti huntress special
+- veštica area damage
 - promeniti joystick u četiri strelice da bude upotrebljivo za telefone
     - proveriti na telefonu
 - proveriti chrome

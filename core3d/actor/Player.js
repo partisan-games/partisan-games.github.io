@@ -54,9 +54,9 @@ export default class Player extends Actor {
     super.hit(mesh, damage)
   }
 
-  areaDamage() {
+  areaDamage(damage = [89, 135]) {
     const near = this.enemies.filter(mesh => this.distanceTo(mesh) < 3)
-    near.forEach(mesh => this.hit(mesh, [89, 135]))
+    near.forEach(mesh => this.hit(mesh, damage))
   }
 
   /* UTILS */
