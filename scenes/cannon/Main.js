@@ -22,9 +22,10 @@ export default class extends Scena3D {
 
   async init() {
     this.player = new CannonPlayer({ camera: this.camera })
-    this.player.chaseCamera.distance = 2.5
+    this.player.chaseCamera.distance = 2
     this.player.chaseCamera.height = 2
     this.player.chaseCamera.lookAt = [0, 2, 0]
+    this.player.chaseCamera.alignCamera()
     this.add(this.player)
 
     const sun = createSun({ pos: [-5, 10, 5] })
