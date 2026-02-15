@@ -6,7 +6,7 @@ import { Ammo } from '/core3d/physics/index.js'
 
 /* LOADING */
 
-const mesh = await loadModel({ file: 'weapon/cannon/civil-war-cannon.fbx', size: 1 })
+const mesh = await loadModel({ file: 'weapon/cannon/civil-war-cannon.fbx', size: 1.5 })
 
 /* EXTENDED CLASSES */
 
@@ -35,20 +35,18 @@ export class CannonPlayer extends Player {
     const ball = createSphere({ r: .2, color: 0x202020 })
 
     const pos = this.mesh.position.clone()
-    pos.y += 1
+    pos.y += this.height
 
     const dir = new THREE.Vector3()
     this.mesh.getWorldDirection(dir)
     dir.negate()
-    pos.add(dir.clone().multiplyScalar(1.2))
+    // pos.add(dir.clone().multiplyScalar(1.2))
     ball.position.copy(pos)
     world.add(ball, 4)
 
     dir.multiplyScalar(this.range.value)
     const velocity = new Ammo.btVector3(dir.x, dir.y, dir.z)
-    const { body } = ball.userData
-    // body.activate()
-    body.setLinearVelocity(velocity)
+    ball.userData.body.setLinearVelocity(velocity)
 
     this.range.value = this.minImpulse
   }
