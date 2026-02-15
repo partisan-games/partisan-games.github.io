@@ -18,7 +18,7 @@ const mapSize = 100
 const customStartScreen = /* html */`
   <div class="central-screen rpgui-container framed">
     <ul><li>Survive until morning</li><li>Bonus: Kill zombies</li></ul>
-    <button id="start">Press to START!</button>
+    <button id="start" class="rpgui-button">Press to START!</button>
     <p>Meet the morning at the cursed graveyard.<p>
   </div>
 `

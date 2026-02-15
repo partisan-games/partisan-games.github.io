@@ -6,6 +6,8 @@ import { createSideWall } from '/core3d/geometry/index.js'
 import { CannonPlayer } from '/core3d/actor/derived/Cannon.js'
 
 const controlKeys = {
+  '← or A': 'left',
+  '→ or D': 'right',
   'Mouse down': 'add force',
   'Mouse up': 'shoot'
 }

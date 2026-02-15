@@ -24,10 +24,6 @@ export class SorceressPlayer extends Player {
     super({ ...sharedProps, attackDistance: 3, ...props })
   }
 
-  hit(mesh, damage = [55, 75]) {
-    super.hit(mesh, damage)
-  }
-
   enterAttack() {
     this.startFlame(1000, () => this.areaDamage([55, 110]))
   }

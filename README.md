@@ -16,10 +16,9 @@ npm start
 
 ## TODO
 
-- veštica area damage
-- promeniti joystick u četiri strelice da bude upotrebljivo za telefone
+- gledati sa chrome neko vreme
+- promeniti joystick u četiri strelice
     - proveriti na telefonu
-- proveriti chrome
 - odvojiti klasu za Animacije?
 
 ### BAGOVI
@@ -29,6 +28,7 @@ npm start
 - BUG: avatar dosta baguje i blokira (možda ima veze tač komande)
 - na početku 3D scena modeli raširenih ruku. probati bar jedan loop inicijalno (firstLoop = true)
 - BUG: golemi se nekad tresu u mestu (follow)
+- bug: graveyard game over a čarobnica stoji kao živa
 
 ### Završno
 
@@ -49,6 +49,7 @@ UI
 - dodati esc: pauza u kontrole svuda?
 - dodati komande i ciljeve svuda
 - refaktorisati da prozori budu DOM elementi, a samo sceneUI u render loop?
+- PRESS TO START ne treba crveni hover
 
 Profil 
 - dodati profil korisnika
