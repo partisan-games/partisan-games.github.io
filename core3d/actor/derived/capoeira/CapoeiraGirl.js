@@ -5,7 +5,6 @@ import { loadModel } from '/core3d/loaders.js'
 const animDict = {
   idle: 'Ginga',
   walk: 'Catwalk Walk Forward',
-  run: 'Drunk Walking',
   attack: 'Benção',
   attack2: 'Chapa giratória',
   special: 'Aú de coluna',
@@ -14,7 +13,7 @@ const animDict = {
 
 /* LOADING */
 
-const mesh = await loadModel({ prefix: 'character/capoeira/', file: 'model.fbx', animDict, axis: [0, 1, 0], angle: Math.PI })
+const mesh = await loadModel({ prefix: 'character/capoeira/', file: 'capoeira-girl.fbx', animDict, axis: [0, 1, 0], angle: Math.PI })
 
 /* EXTENDED CLASSES */
 
