@@ -25,7 +25,7 @@ function createInputRange() {
 
 export class CannonPlayer extends Player {
   constructor(props = {}) {
-    super({ mesh, showHealthBar: false, ...props })
+    super({ mesh, showHealthBar: false, speed: .5, ...props })
     this.range = createInputRange()
     this.minImpulse = this.range.value = this.range.min
     this.maxImpulse = 25

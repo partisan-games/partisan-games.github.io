@@ -373,7 +373,7 @@ export default class Actor extends GameObject {
 
   updateTurn(delta) {
     if (!delta) return
-    const angle = (this.input.run ? RIGHT_ANGLE : RIGHT_ANGLE * .75) * delta // angle per second
+    const angle = (this.input.run ? RIGHT_ANGLE : RIGHT_ANGLE * this.speed * .25) * delta // angle per second
 
     if (this.input.left)
       this.turn(angle)

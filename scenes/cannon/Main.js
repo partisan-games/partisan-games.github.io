@@ -35,19 +35,6 @@ export default class extends Scena3D {
     this.boxes.forEach(mesh => this.world.add(mesh))
   }
 
-  // shoot = () => {
-  //   const pos = this.player.mesh.position.clone()
-  //   pos.y += 0.5
-  //   ball.position.copy(pos)
-  //   this.world.add(ball, 4)
-
-  //   const angle = this.player.mesh.rotation.y
-  //   const x = this.range.value * Math.sin(angle)
-  //   const z = this.range.value * Math.cos(angle)
-  //   ball.userData.body.setLinearVelocity(new Ammo.btVector3(x, this.range.value * .2, z))
-  //   this.range.value = this.minImpulse
-  // }
-
   handleClick(e) {
     super.handleClick(e)
     if (!e.target.closest('button'))
