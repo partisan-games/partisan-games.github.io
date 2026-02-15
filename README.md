@@ -17,7 +17,6 @@ npm start
 ## TODO
 
 - kapuera girl
-    - dodati i glavne napade u meni
     - lepše dugmiće?
     - dodati još ponešto?
 - 3d top da ne bude vozilo

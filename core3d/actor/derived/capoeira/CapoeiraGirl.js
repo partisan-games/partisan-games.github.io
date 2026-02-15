@@ -7,9 +7,7 @@ const animDict = {
   walk: 'Dwarf Walk',
   run: 'Fast Run',
   attack: 'Benção',
-  attack2: 'Mma Kick',
-  special: 'Chapa giratória',
-  jump: 'Aú de coluna', // Backflip
+  jump: 'Aú sem mão', // Aú de coluna, Backflip
 }
 
 /* LOADING */
