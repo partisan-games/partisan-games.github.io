@@ -17,10 +17,10 @@ npm start
 ## TODO
 
 - 3d top da ne bude vozilo
+- veštica area damage, videti huntress special
 - promeniti joystick u četiri strelice da bude upotrebljivo za telefone
     - proveriti na telefonu
 - proveriti chrome
-- veštica area damage, videti huntress special
 - odvojiti klasu za Animacije?
 
 ### BAGOVI
