@@ -22,6 +22,9 @@ export default class extends Scena3D {
 
   async init() {
     this.player = new CannonPlayer({ camera: this.camera })
+    this.player.chaseCamera.distance = 2.5
+    this.player.chaseCamera.height = 2
+    this.player.chaseCamera.lookAt = [0, 2, 0]
     this.add(this.player)
 
     const sun = createSun({ pos: [-5, 10, 5] })
@@ -37,8 +40,17 @@ export default class extends Scena3D {
 
   handleClick(e) {
     super.handleClick(e)
-    if (!e.target.closest('button'))
-      this.player.shoot(this.world)
+    if (e.target.closest('button')) return
+
+    this.player.shoot(this.world)
+    if (this.player.shots == 0) this.checkDefeat()
+  }
+
+  checkDefeat() {
+    setTimeout(() => {
+      if (this.countableCrates.length > 0)
+        this.defeat('You are out of ammo.')
+    }, 2000)
   }
 
   /* LOOP */
@@ -51,9 +63,6 @@ export default class extends Scena3D {
 
     if (!this.countableCrates.length)
       this.victory('You demolished everything.', 'Bravo!')
-
-    if (this.player.shots == 0)
-      this.defeat('You are out of ammo.')
   }
 
   sceneUI() {
