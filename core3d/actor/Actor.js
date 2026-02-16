@@ -160,14 +160,6 @@ export default class Actor extends GameObject {
     return this.fsm?.action
   }
 
-  get actions() {
-    return this.anim?.actions
-  }
-
-  get mixer() {
-    return this.anim.mixer
-  }
-
   /* STATE MACHINE */
 
   setState(name) {
