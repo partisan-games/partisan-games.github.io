@@ -96,13 +96,14 @@ export default class Animator {
     action.play()
   }
 
-  // playLoopAction() {
-  //   if (action) {
-  //     action.reset()
-  //     transitFrom(oldAction, .25)
-  //     actor.anim?.addEventListener('loop', onLoopEnd)
-  //   }
-  // }
+  playLoopAction(oldAction, name, onLoopEnd) {
+    const action = this.getAction(name)
+    if (action) {
+      action.reset()
+      this.transitFrom(oldAction, name, .25)
+      this.addEventListener('loop', onLoopEnd)
+    }
+  }
 
   findActiveAction(prevAction) {
     if (prevAction) return prevAction
