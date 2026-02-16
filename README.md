@@ -16,14 +16,13 @@ npm start
 
 ## TODO
 
-- iz states u Animator: action, play... 
-- gledati sa chrome neko vreme
-- promeniti joystick u četiri strelice
-    - proveriti na telefonu
-- dodati report stil i font u html
+- report customElements?
+- createOrbitControls u async?
 - groblje 
     - zombiji često promašuju (možda još spustiti napad)
     - veštica plamen na gore i oko sebe?
+- promeniti joystick u četiri strelice
+    - proveriti na telefonu
 
 ### BAGOVI
 
@@ -36,7 +35,6 @@ npm start
 
 ### Završno
 
-- createOrbitControls u async?
 - restart na Žikicu i još negde
 - prevod na engleski
 - sistem ocenjivanja igara?

@@ -1,5 +1,32 @@
 import config from '/config.js'
 
+const css = /* css */`
+  @font-face {
+    font-family: "1942 Report";
+    src: url("/assets/fonts/1942.ttf");
+    font-display: swap;
+  }
+
+  .report {
+    background-color: #cccccc;
+    background-image: url(/assets/images/ui/document.jpg);
+    background-size: cover;
+    width: 420px;
+    min-height: 260px;
+
+    & p {
+      color: #333;
+      font-family: '1942 Report', Courier, monospace;
+      font-size: initial;
+      font-weight: bold;
+      line-height: 1.2;
+      margin: 0;
+      padding: 150px 15% 8px;
+      text-shadow: none;
+    }
+  }
+`
+
 function createHtml(id) {
   const div = document.createElement('div')
   div.className = 'report'
@@ -21,6 +48,12 @@ export default class Report {
     this.text = text
     this.containerId = containerId
     this.p = createHtml(containerId)
+
+    // TODO: dodati u html element ne u body?
+    const style = document.createElement('style')
+    style.textContent = css
+    document.head.appendChild(style)
+
     this.audio = new Audio('/assets/sounds/typing.mp3')
     this.audio.volume = config.volume
     this.init()
