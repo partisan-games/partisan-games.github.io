@@ -1,24 +1,46 @@
+const spacing = '16px'
+
 const css = /* css */`
-  .joystick {
+  .joystick, .button-container {
     position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 180px;
-    height: 180px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
+    bottom: ${spacing};
     user-select: none;
     touch-action: none;
     z-index: 9;
   }
 
-  .joystick-button {
+  .joystick {
+    left: ${spacing};
+    height: 120px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .button-container {
+    display: flex;
+    right: ${spacing};
+    gap: ${spacing};
+  }
+
+  .joystick-btn, .game-btn {
+    background: rgba(126, 126, 126, 0.25);
+    border: 2px solid white;
+    outline: 2px solid black;
+  }
+
+  .joystick-btn:hover,
+  .game-btn:hover,
+  .joystick-btn:active,
+  .game-btn:active {
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .joystick-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.15);
     border-radius: 8px;
     font-size: 32px;
     font-weight: bold;
@@ -26,32 +48,11 @@ const css = /* css */`
   }
 
   .game-btn {
-    background: rgba(126, 126, 126, 0.5);
     border-radius: 50%;
-    border: 2px solid white;
-    outline: 2px solid black;
-    bottom: 8px;
     height: 60px;
-    position: absolute;
-    transform: translateX(-50%);
     width: 60px;
     padding: 0;
-  }
-
-  .special-btn {
-    left: calc(50% - 190px);
-  }
-
-  .jump-btn {
-    left: calc(50% - 100px);
-  }
-
-  .attack-btn {
-    left: calc(50% + 100px);
-  }
-
-  .attack2-btn {
-    left: calc(50% + 190px);
+    font-size: 1.5rem;
   }
 `
 
@@ -72,27 +73,23 @@ export default class Joystick {
     document.head.appendChild(style)
 
     this.addJoystick()
-
-    if (animDict?.jump) this.addButton('jump', 'Jmp')
-    if (animDict?.attack) this.addButton('attack', 'Atk')
-    if (animDict?.attack2) this.addButton('attack2', 'Atk')
-    if (animDict?.special) this.addButton('special', 'Spl')
+    this.addGameButtons(animDict)
   }
 
   addJoystick() {
-    this.container = document.createElement('div')
-    this.container.className = 'joystick'
+    this.joystick = document.createElement('div')
+    this.joystick.className = 'joystick'
 
-    const buttons = [
+    const arrows = [
       { text: '▲', row: 1, col: 2, dir: 'up' },
-      { text: '▼', row: 3, col: 2, dir: 'down' },
+      { text: '▼', row: 2, col: 2, dir: 'down' },
       { text: '◀', row: 2, col: 1, dir: 'left' },
       { text: '▶', row: 2, col: 3, dir: 'right' }
     ]
 
-    buttons.forEach(btn => {
+    arrows.forEach(btn => {
       const button = document.createElement('button')
-      button.className = 'joystick-button'
+      button.className = 'joystick-btn'
       button.innerText = btn.text
 
       Object.assign(button.style, {
@@ -102,8 +99,6 @@ export default class Joystick {
 
       const setActive = active => {
         this[btn.dir] = active
-        // button.style.background = active ? 'rgba(255, 255, 255, 0.5)' : 'rgba(255, 255, 255, 0.15)'
-        // button.style.transform = active ? 'scale(0.9)' : 'scale(1)'
       }
 
       button.addEventListener('pointerdown', e => {
@@ -115,29 +110,40 @@ export default class Joystick {
       button.addEventListener('pointerleave', () => setActive(false))
       button.addEventListener('pointercancel', () => setActive(false))
 
-      this.container.appendChild(button)
+      this.joystick.appendChild(button)
     })
 
-    document.body.appendChild(this.container)
+    document.body.appendChild(this.joystick)
   }
 
-  addButton(name, label = name) {
+  addGameButtons(animDict) {
+    this.buttons = document.createElement('div')
+    this.buttons.className = 'button-container'
+    document.body.appendChild(this.buttons)
+
+    if (animDict?.jump) this.addButton('jump', '↑')
+    if (animDict?.attack) this.addButton('attack', '🗡️')
+    if (animDict?.attack2) this.addButton('attack2', '⚔️')
+    if (animDict?.special) this.addButton('special', '💥')
+  }
+
+  addButton(state, label = state) {
     const btn = document.createElement('button')
     btn.innerText = label
-    btn.title = name
-    btn.classList.add('game-btn', `${name}-btn`)
-    document.body.appendChild(btn)
+    btn.title = state
+    btn.classList.add('game-btn')
+    this.buttons.appendChild(btn)
 
     btn.addEventListener('pointerdown', () => {
-      this[name] = true
+      this[state] = true
     })
     btn.addEventListener('pointerup', () => {
-      this[name] = false
+      this[state] = false
     })
   }
 
   end() {
-    this.container.remove()
-    document.querySelectorAll('.game-btn').forEach(el => el.remove())
+    this.joystick.remove()
+    this.buttons.remove()
   }
 }

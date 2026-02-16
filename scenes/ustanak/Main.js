@@ -86,4 +86,9 @@ export default class extends Scena2D {
     </div>
     `
   }
+
+  end() {
+    super.end()
+    this.controls2UI.end()
+  }
 }
