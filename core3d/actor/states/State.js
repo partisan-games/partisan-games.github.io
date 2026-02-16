@@ -36,11 +36,7 @@ export default class State {
 
   /* ANIM HELPERS */
 
-  transitFrom(name, duration = .25) {
-    const oldAction = this.actor.anim.findActiveAction(name)
-    if (this.action === oldAction) return
-
-    if (this.action && oldAction) this.action.crossFadeFrom(oldAction, duration)
-    this.action?.play()
+  transitFrom(oldName, duration) {
+    return this.actor.anim.transitFrom(oldName, this.name, duration)
   }
 }

@@ -96,6 +96,14 @@ export default class Animator {
     action.play()
   }
 
+  // playLoopAction() {
+  //   if (action) {
+  //     action.reset()
+  //     transitFrom(oldAction, .25)
+  //     actor.anim?.addEventListener('loop', onLoopEnd)
+  //   }
+  // }
+
   findActiveAction(prevAction) {
     if (prevAction) return prevAction
 
@@ -115,6 +123,15 @@ export default class Animator {
       action.time = action.getClip().duration
     action.paused = false
     action.setEffectiveTimeScale(timescale)
+  }
+
+  transitFrom(oldName, name, duration = .25) {
+    const oldAction = this.findActiveAction(oldName)
+    const action = this.getAction(name)
+    if (action === oldAction) return
+
+    if (action && oldAction) action.crossFadeFrom(oldAction, duration)
+    action?.play()
   }
 
   /* EVENTS */
