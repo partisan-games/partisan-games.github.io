@@ -27,6 +27,15 @@ export default class Animator {
     return this.actions.walk
   }
 
+  getAction(stateName) {
+    // const { actions } = this
+    // if (this.actor === 'enemy' && stateName === 'attack')
+    //   return actions.attack2
+    //     ? Math.random() > .5 ? actions.attack : actions.attack2
+    //     : actions.attack
+    return this.actions[stateName]
+  }
+
   setupMixer(animations, animDict) {
     this.mixer = new THREE.AnimationMixer(getMesh(this.mesh))
     for (const state in animDict) {
@@ -74,7 +83,18 @@ export default class Animator {
     this.rightHand.add(mesh)
   }
 
-  /* ANIM HELPERS */
+  /* ACTION HELPERS */
+
+  playAction(oldAction, name, onFinish) {
+    const action = this.getAction(name)
+    this.addEventListener('finished', onFinish)
+    action.reset()
+    action.setLoop(THREE.LoopOnce, 1)
+    action.clampWhenFinished = true
+    if (oldAction) action.crossFadeFrom(oldAction, .25)
+
+    action.play()
+  }
 
   findActiveAction(prevAction) {
     if (prevAction) return prevAction

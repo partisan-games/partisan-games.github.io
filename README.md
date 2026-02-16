@@ -16,12 +16,14 @@ npm start
 
 ## TODO
 
-- iz states u Animator: actions, action, play... 
+- iz states u Animator: action, play... 
 - gledati sa chrome neko vreme
 - promeniti joystick u četiri strelice
     - proveriti na telefonu
 - dodati report stil i font u html
-- veštica groblje plamen na gore i oko sebe?
+- groblje 
+    - zombiji često promašuju (možda još spustiti napad)
+    - veštica plamen na gore i oko sebe?
 
 ### BAGOVI
 
