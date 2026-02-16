@@ -72,7 +72,7 @@ export default class Actor extends GameObject {
     this.canMove = canMove
 
     if (animations?.length && animDict)
-      this.animator = new Animator({ mesh: this.mesh, animations, animDict, twoHandedWeapon, rightHandWeapon, isAi: this.name != 'player' })
+      this.anim = new Animator({ mesh: this.mesh, animations, animDict, twoHandedWeapon, rightHandWeapon, isAi: this.name != 'player' })
 
     if (attackSound)
       this.audio = new Audio(`/assets/sounds/${attackSound}`)
@@ -129,14 +129,6 @@ export default class Actor extends GameObject {
     return this.heightDifference <= .001
   }
 
-  get action() {
-    return this.fsm?.action
-  }
-
-  get state() {
-    return this.fsm.stateName
-  }
-
   get acceleration() {
     const { input, speed, runCoefficient } = this
     if (input.screen?.forward)
@@ -157,15 +149,23 @@ export default class Actor extends GameObject {
   }
 
   get ableToJump() {
-    return this.actions.jump || this.jumpStyle != jumpStyles.ANIM_JUMP
+    return this.anim?.actions.jump || this.jumpStyle != jumpStyles.ANIM_JUMP
+  }
+
+  get state() {
+    return this.fsm.stateName
+  }
+
+  get action() {
+    return this.fsm?.action
   }
 
   get actions() {
-    return this.animator.actions
+    return this.anim?.actions
   }
 
   get mixer() {
-    return this.animator.mixer
+    return this.anim.mixer
   }
 
   /* STATE MACHINE */
@@ -177,7 +177,7 @@ export default class Actor extends GameObject {
   /* ANIMATIONS */
 
   addAction(state, clip) {
-    this.animator.addAction(state, clip)
+    this.anim.addAction(state, clip)
   }
 
   /* COMBAT */
@@ -383,7 +383,7 @@ export default class Actor extends GameObject {
   update(delta = 1 / 60) {
     this.updateGround()
     this.fsm.update(delta)
-    this.animator?.update(delta)
+    this.anim?.update(delta)
     if (!this.dead && !['jump', 'fall'].includes(this.state))
       this.handleTerrain(2 * delta)
 

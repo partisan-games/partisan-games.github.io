@@ -7,11 +7,14 @@ export default class State {
   }
 
   get action() {
-    if (this.name === 'attack' && this.actor === 'enemy')
-      return this.actor.actions.attack2
-        ? Math.random() > .5 ? this.actor.actions.attack : this.actor.actions.attack2
-        : this.actor.actions.attack
-    return this.actor?.actions[this.name]
+    if (!this.actor.anim) return null
+
+    const { actions } = this.actor.anim
+    if (this.actor === 'enemy' && this.name === 'attack')
+      return actions.attack2
+        ? Math.random() > .5 ? actions.attack : actions.attack2
+        : actions.attack
+    return actions[this.name]
   }
 
   get input() {
@@ -59,7 +62,7 @@ export default class State {
   }
 
   syncLegs() {
-    const oldAction = this.actor.actions[this.prevState]
+    const oldAction = this.actor.anim.actions[this.prevState]
     const ratio = this.action.getClip().duration / oldAction.getClip().duration
     this.action.time = oldAction.time * ratio
   }

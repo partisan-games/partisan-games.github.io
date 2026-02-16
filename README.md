@@ -20,6 +20,8 @@ npm start
 - gledati sa chrome neko vreme
 - promeniti joystick u četiri strelice
     - proveriti na telefonu
+- dodati report stil i font u html
+- veštica groblje plamen na gore i oko sebe?
 
 ### BAGOVI
 
