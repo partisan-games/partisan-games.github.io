@@ -27,7 +27,7 @@ export default class ChaseCamera {
     birdsEyeLookAt = [0, 0, -height * 3],
     orbitalOffset = [-height * 10, height * 10, height * 10],
 
-    cameraClass = 'no-hover',
+    cameraClass = '',
     rotate = true,
   }) {
     this.mesh = mesh

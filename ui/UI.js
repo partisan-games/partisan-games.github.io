@@ -22,13 +22,13 @@ const scores = {
 }
 
 export const buttons = {
-  simple: '',
+  simple: 'default-button',
   rpg: 'rpgui-button',
   white: 'white-button',
 }
 
 export const controlButtons = {
-  simple: 'no-hover',
+  simple: '',
   rpg: 'rpgui-button',
   white: 'white-button',
 }

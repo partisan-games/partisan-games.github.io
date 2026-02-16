@@ -123,11 +123,11 @@ button {
   -webkit-text-fill-color: initial;
 }
 
-button:hover {
+.default-button:hover {
   background-color: var(--red);
 }
 
-button.no-hover:hover {
+.no-hover:hover {
   background-color: unset;
 }
 
@@ -453,44 +453,6 @@ progress.potisak::-moz-progress-bar {
   p, div {
       padding: 0 8px;
   }
-}
-
-/* SCREEN BUTTONS */
-
-.game-btn {
-  background: rgba(126, 126, 126, 0.5);
-  border-radius: 50%;
-  border: 2px solid var(--white);
-  outline: 2px solid var(--black);
-  bottom: 30px;
-  height: 60px;
-  position: absolute;
-  transform: translateX(-50%);
-  width: 60px;
-  padding: 0;
-}
-
-.joystick {
-  height: 80px;
-  left: 50%;
-  width: 80px;
-  box-sizing: content-box;
-}
-
-.jump-btn {
-  left: calc(50% - 100px);
-}
-
-.special-btn {
-  left: calc(50% - 190px);
-}
-
-.attack-btn {
-  left: calc(50% + 100px);
-}
-
-.attack2-btn {
-  left: calc(50% + 190px);
 }
 
 /* BOJE */

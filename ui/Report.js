@@ -49,7 +49,6 @@ export default class Report {
     this.containerId = containerId
     this.p = createHtml(containerId)
 
-    // TODO: dodati u html element ne u body?
     const style = document.createElement('style')
     style.textContent = css
     document.head.appendChild(style)
