@@ -40,21 +40,8 @@ export default class State {
 
   /* ANIM HELPERS */
 
-  findActiveAction(prevAction) {
-    if (prevAction) return prevAction
-    const { mixer } = this.actor
-
-    const othersActive = mixer?._actions.filter(action => action.isRunning() && action !== this.action)
-    const first = othersActive.shift()
-
-    if (!first) mixer.stopAllAction()
-    else othersActive.forEach(action => action.stop())
-
-    return first
-  }
-
   transitFrom(prevAction, duration = .25) {
-    const oldAction = this.findActiveAction(prevAction)
+    const oldAction = this.actor.anim.findActiveAction(prevAction)
     if (this.action === oldAction) return
 
     if (this.action && oldAction) this.action.crossFadeFrom(oldAction, duration)

@@ -66,6 +66,35 @@ export default class Animator {
     this.rightHand.add(mesh)
   }
 
+  /* ANIM HELPERS */
+
+  findActiveAction(prevAction) {
+    if (prevAction) return prevAction
+
+    const othersActive = this.mixer?._actions.filter(action => action.isRunning() && action !== action)
+    const first = othersActive.shift()
+
+    if (!first) this.mixer.stopAllAction()
+    else othersActive.forEach(action => action.stop())
+
+    return first
+  }
+
+  // syncLegs(prevState, action) {
+  //   const oldAction = this.actions[prevState]
+  //   const ratio = action.getClip().duration / oldAction.getClip().duration
+  //   action.time = oldAction.time * ratio
+  // }
+
+  // // https://gist.github.com/rtpHarry/2d41811d04825935039dfc075116d0ad
+  // reverseAction(action, timescale = -1) {
+  //   if (!action) return
+  //   if (action.time === 0)
+  //     action.time = action.getClip().duration
+  //   action.paused = false
+  //   action.setEffectiveTimeScale(timescale)
+  // }
+
   /* UPDATES */
 
   updateRifle() {
