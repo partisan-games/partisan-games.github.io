@@ -1,12 +1,11 @@
 import * as THREE from 'three'
-import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js'
-
 import GameObject from '/core3d/objects/GameObject.js'
-import { getGroundY, directionBlocked, getMesh, intersect, belongsTo, arrowHelper } from '/core3d/helpers.js'
+import { getGroundY, directionBlocked, intersect, belongsTo, arrowHelper } from '/core3d/helpers.js'
 import { dir, RIGHT_ANGLE, reactions, jumpStyles, baseStates } from '/core3d/constants.js'
 import { randomVolume } from '/core/utils.js'
 import FSM from './FSM.js'
 import { isDev } from '/config.js'
+import Animator from './Animator.js'
 
 const { randInt } = THREE.MathUtils
 
@@ -18,7 +17,6 @@ const getParent = (object, name) =>
  * @param animDict: maps state to animation
  */
 export default class Actor extends GameObject {
-
   constructor({
     animations,
     animDict,
@@ -34,7 +32,7 @@ export default class Actor extends GameObject {
     twoHandedWeapon,
     rightHandWeapon,
     mapSize,
-    attackDistance,
+    attackDistance = 1.5,
     hitColor = 0x8a0303,
     runCoefficient = 2,
     leaveDecals = attackDistance > 9,
@@ -42,9 +40,10 @@ export default class Actor extends GameObject {
     attackSound = '',
     altitude = 0, // for flying objects
     shouldRaycastGround = Boolean(altitude),
-    flame = null,
-    turnWhileAttack = !flame,
+    useFlame = null,
+    turnWhileAttack = !useFlame,
     baseState = baseStates.idle,
+    canMove = true,
     deathCallback,
     ...rest
   }) {
@@ -61,7 +60,6 @@ export default class Actor extends GameObject {
     this.jumpForce = jumpForce
     this.drag = drag
     this.input = input
-    this.actions = {}
     this.shouldRaycastGround = shouldRaycastGround
     this.runCoefficient = runCoefficient
     this.attackDistance = this.depth > attackDistance ? Math.ceil(this.depth) : attackDistance
@@ -71,12 +69,10 @@ export default class Actor extends GameObject {
     this.altitude = altitude
     this.turnWhileAttack = turnWhileAttack
     this.deathCallback = deathCallback
+    this.canMove = canMove
 
-    if (animations?.length && animDict) {
-      this.setupMixer(animations, animDict)
-      if (twoHandedWeapon) this.addTwoHandedWeapon(clone(twoHandedWeapon))
-      if (rightHandWeapon) this.addRightHandWeapon(clone(rightHandWeapon))
-    }
+    if (animations?.length && animDict)
+      this.anim = new Animator({ mesh: this.mesh, animations, animDict, twoHandedWeapon, rightHandWeapon, isAi: this.name != 'player' })
 
     if (attackSound)
       this.audio = new Audio(`/assets/sounds/${attackSound}`)
@@ -96,7 +92,7 @@ export default class Actor extends GameObject {
       })
     }
 
-    if (flame) {
+    if (useFlame) {
       const promise = import('/core3d/Particles.js')
       promise.then(obj => {
         const { Flame } = obj
@@ -133,14 +129,6 @@ export default class Actor extends GameObject {
     return this.heightDifference <= .001
   }
 
-  get action() {
-    return this.fsm?.action
-  }
-
-  get state() {
-    return this.fsm.stateName
-  }
-
   get acceleration() {
     const { input, speed, runCoefficient } = this
     if (input.screen?.forward)
@@ -161,7 +149,15 @@ export default class Actor extends GameObject {
   }
 
   get ableToJump() {
-    return this.actions.jump || this.jumpStyle != jumpStyles.ANIM_JUMP
+    return this.anim?.actions.jump || this.jumpStyle != jumpStyles.ANIM_JUMP
+  }
+
+  get state() {
+    return this.fsm.stateName
+  }
+
+  get action() {
+    return this.fsm?.action
   }
 
   /* STATE MACHINE */
@@ -172,36 +168,8 @@ export default class Actor extends GameObject {
 
   /* ANIMATIONS */
 
-  setupMixer(animations, animDict) {
-    this.mixer = new THREE.AnimationMixer(getMesh(this.mesh))
-    for (const key in animDict) {
-      const clip = animations.find(anim => anim.name == animDict[key])
-      this.actions[key] = this.mixer.clipAction(clip)
-    }
-    if (!animDict.run && animDict.walk) {
-      const clip = animations.find(anim => anim.name == animDict.walk)
-      this.actions.run = this.mixer.clipAction(clip.clone()).setEffectiveTimeScale(1.5)
-    }
-  }
-
-  findHands() {
-    this.rightHand = null
-    this.leftHand = null
-    this.mesh.traverse(child => {
-      if (child.name === 'mixamorigRightHand') this.rightHand = child
-      if (child.name === 'mixamorigLeftHandMiddle1') this.leftHand = child
-    })
-  }
-
-  addTwoHandedWeapon(mesh) {
-    if (!this.rightHand || !this.leftHand) this.findHands()
-    this.rightHand.add(mesh)
-    this.twoHandedWeapon = mesh
-  }
-
-  addRightHandWeapon(mesh) {
-    if (!this.rightHand) this.findHands()
-    this.rightHand.add(mesh)
+  addAction(state, clip) {
+    this.anim.addAction(state, clip)
   }
 
   /* COMBAT */
@@ -316,12 +284,6 @@ export default class Actor extends GameObject {
 
   /* UPDATES */
 
-  updateRifle() {
-    const pos = new THREE.Vector3()
-    this.leftHand.getWorldPosition(pos)
-    this.twoHandedWeapon.lookAt(pos)
-  }
-
   checkHit() {
     if (!this.damageAmount) return
 
@@ -344,6 +306,8 @@ export default class Actor extends GameObject {
   }
 
   updateMove(delta, reaction = reactions.BOUNCE) {
+    if (!this.canMove) return
+
     const direction = this.input.up ? dir.forward
       : this.input.down ? dir.backward : null
 
@@ -366,7 +330,7 @@ export default class Actor extends GameObject {
 
   updateTurn(delta) {
     if (!delta) return
-    const angle = (this.input.run ? RIGHT_ANGLE : RIGHT_ANGLE * .75) * delta // angle per second
+    const angle = (this.input.run ? RIGHT_ANGLE : RIGHT_ANGLE * this.speed * .25) * delta // angle per second
 
     if (this.input.left)
       this.turn(angle)
@@ -404,23 +368,18 @@ export default class Actor extends GameObject {
       this.mesh.position.y = this.groundY
   }
 
-  updateFlame(delta) {
-    this.flame?.update({ delta, max: this.attackDistance, loop: this.shouldLoop })
-  }
-
   update(delta = 1 / 60) {
     this.updateGround()
     this.fsm.update(delta)
-    this.mixer?.update(delta)
+    this.anim?.update(delta)
     if (!this.dead && !['jump', 'fall'].includes(this.state))
       this.handleTerrain(2 * delta)
 
     this.checkHit()
 
-    if (this.twoHandedWeapon) this.updateRifle()
     if (this.outOfBounds) this.bounce()
 
     if (this.useRicochet) this.ricochet?.expand({ velocity: 1.2, maxRounds: 5, gravity: .02 })
-    if (this.flame) this.updateFlame(delta)
+    this.flame?.update({ delta, max: this.attackDistance, loop: this.shouldLoop })
   }
 }

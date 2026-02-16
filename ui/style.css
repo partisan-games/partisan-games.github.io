@@ -4,12 +4,6 @@
   font-display: swap;
 }
 
-@font-face {
-  font-family: "1942 Report";
-  src: url("/assets/fonts/1942.ttf");
-  font-display: swap;
-}
-
 :root {
   --spacing: 8px;
   --radius: 4px;
@@ -41,7 +35,6 @@ body {
   background-color: var(--gray);
   cursor: url(/assets/images/rpgui/cursor/default.png), auto;
   font-size: 0.8em;
-  line-height: 22px;
   margin: 0;
   min-height: 100vh;
   overflow-x: hidden;
@@ -53,7 +46,7 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background: url("/assets/images/art/milan-vasek-map.jpg") center / cover no-repeat;
+  background: url("/assets/images/art/milan-vasek-map.webp") center / cover no-repeat;
   z-index: -2;
   filter: sepia(0.4);
   opacity: 0.85; 
@@ -64,7 +57,22 @@ body,
 button {
   color: var(--white);
   font-family: 'Press Start 2P', Courier;
-  text-shadow: -2px 0 var(--black), 0 2px var(--black), 2px 0 var(--black), 0 -2px var(--black);
+  line-height: 1.2rem;
+  text-shadow:
+    1px 0 0 var(--black),
+   -1px 0 0 var(--black),
+    0 1px 0 var(--black),
+    0 -1px 0 var(--black),
+
+    1px 1px 0 var(--black),
+   -1px 1px 0 var(--black),
+    1px -1px 0 var(--black),
+   -1px -1px 0 var(--black),
+
+    2px 0 0 var(--black),
+   -2px 0 0 var(--black),
+    0 2px 0 var(--black),
+    0 -2px 0 var(--black);
 }
 
 h1 {
@@ -115,11 +123,11 @@ button {
   -webkit-text-fill-color: initial;
 }
 
-button:hover {
+.default-button:hover {
   background-color: var(--red);
 }
 
-button.no-hover:hover {
+.no-hover:hover {
   background-color: unset;
 }
 
@@ -179,9 +187,9 @@ button.no-hover:hover {
   padding: 0 10% 40px;
 }
 
-.potpis {
-  margin-bottom: 40px;
-  text-align: right;
+.uvod {
+  margin-bottom: 20px;
+  padding: 8px 24px;
 }
 
 .main-menu {
@@ -199,20 +207,18 @@ button.no-hover:hover {
 }
 
 .menu-item {
-  color: var(--olive);
   cursor: url("/assets/images/rpgui/cursor/point.png") 10 0, auto;
-  padding: 8px 16px;
   text-align: center;
-  background-color: rgba(27, 27, 27, .75);
   border-radius: 8px;
-  transition: 0.5s;
+  transition: 0.4s;
 }
 
 .menu-item:hover {
-  background-color: rgba(27, 27, 27, 1);
+  /* background-color: rgba(0, 0, 0, 1); */
+  transform: rotateY(-20deg);
 }
 
-#forkongithub {
+.github {
   background-color: rgba(27, 27, 27, .75);
   color: #fff;
   padding: 8px 40px;
@@ -227,7 +233,7 @@ button.no-hover:hover {
   z-index: 9;
 }
 
-#forkongithub:hover {
+.github:hover {
   background: var(--red);
 }
 
@@ -249,6 +255,7 @@ button.no-hover:hover {
 }
 
 .simple-container, .white-container, .rpgui-container {
+  display: inline-block; /* za UI book */
   padding: 12px;
 }
 
@@ -330,27 +337,6 @@ button.no-hover:hover {
   .game-screen-select input[type="image"] {
     min-width: 180px;
     height: 140px;
-  }
-}
-
-/* REPORT */
-
-.report {
-  background-color: #cccccc;
-  background-image: url(/assets/images/ui/document.jpg);
-  background-size: cover;
-  width: 420px;
-  min-height: 260px;
-
-  & p {
-    color: #333;
-    font-family: '1942 Report', Courier, monospace;
-    font-size: initial;
-    font-weight: bold;
-    line-height: 1.2;
-    margin: 0;
-    padding: 150px 15% 8px;
-    text-shadow: none;
   }
 }
 
@@ -469,44 +455,6 @@ progress.potisak::-moz-progress-bar {
   }
 }
 
-/* SCREEN BUTTONS */
-
-.game-btn {
-  background: rgba(126, 126, 126, 0.5);
-  border-radius: 50%;
-  border: 2px solid var(--white);
-  outline: 2px solid var(--black);
-  bottom: 30px;
-  height: 60px;
-  position: absolute;
-  transform: translateX(-50%);
-  width: 60px;
-  padding: 0;
-}
-
-.joystick {
-  height: 80px;
-  left: 50%;
-  width: 80px;
-  box-sizing: content-box;
-}
-
-.jump-btn {
-  left: calc(50% - 100px);
-}
-
-.special-btn {
-  left: calc(50% - 190px);
-}
-
-.attack-btn {
-  left: calc(50% + 100px);
-}
-
-.attack2-btn {
-  left: calc(50% + 190px);
-}
-
 /* BOJE */
 
 .red {
@@ -539,8 +487,8 @@ progress.potisak::-moz-progress-bar {
   text-align: center;
 }
 
-.levo {
-  text-align: left;
+.align-right {
+  text-align: right;
 }
 
 .bold {

@@ -1,19 +1,16 @@
 import { keyboard } from './io/Keyboard.js'
 import GameLoop from './GameLoop.js'
 import UI from '../ui/UI.js'
-import Controls from '../ui/Controls.js'
 
 export default class Scena {
   constructor({
-    usePointerLock, controlKeys, intro, reportText, customStartScreen, startButtonText, showControls = true, uiStyle, canvas, disableEvents = false
+    usePointerLock, controlKeys, intro, reportText, customStartScreen, startButtonText, showControls, uiStyle, canvas, disableEvents = false
   } = {}) {
     this.usePointerLock = usePointerLock
     this.uiStyle = uiStyle
     this.gameLoop = new GameLoop(this.loop)
-    this.ui = new UI(this, { reportText, intro, customStartScreen, startButtonText, uiStyle })
+    this.ui = new UI(this, { reportText, intro, customStartScreen, startButtonText, uiStyle, showControls, controlKeys })
     this.predmeti = []
-    if (showControls)
-      this.controlsUI = new Controls({ controlKeys, uiStyle })
 
     this.canvas = canvas
     this.canvas.style.display = 'block'
@@ -102,9 +99,7 @@ export default class Scena {
     this.gameLoop.stop()
     this.predmeti = []
     this.clear()
-    this.ui.clear()
-    if (this.controlsUI) this.controlsUI.end()
-    if (this.controls2UI) this.controls2UI.end()
+    this.ui.end()
     if (this.player) this.player.end()
 
     this.canvas.style.display = 'none'

@@ -1,7 +1,4 @@
-import * as THREE from 'three'
 import State from './State.js'
-
-const duration = .25
 
 export default class AnimOnceState extends State {
   constructor(...args) {
@@ -13,26 +10,21 @@ export default class AnimOnceState extends State {
     super.enter(oldState)
     if (this.name == 'death' && !this.action) return
 
-    if (!this.action) return this.actor.setState(this.prevOrIdle)
+    if (!this.action)
+      return this.actor.setState(this.prevOrIdle)
 
     this.oldState = oldState
-    const { mixer } = this.actor
-    mixer.addEventListener('finished', this.onFinish)
-    this.action.reset()
-    this.action.setLoop(THREE.LoopOnce, 1)
-    this.action.clampWhenFinished = true
-    if (oldAction) this.action.crossFadeFrom(oldAction, duration)
 
-    this.action.play()
+    this.actor.anim?.playAction(oldAction, this.name, this.onFinish)
   }
 
   onFinish() {
-    this.actor?.mixer?.removeEventListener('finished', this.onFinish)
+    this.actor.anim?.removeEventListener('finished', this.onFinish)
     if (this.name == 'death') return
     this.actor.setState(this.prevOrIdle)
   }
 
   exit() {
-    this.actor?.mixer?.removeEventListener('finished', this.onFinish)
+    this.actor.anim?.removeEventListener('finished', this.onFinish)
   }
 }

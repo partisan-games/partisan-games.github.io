@@ -8,8 +8,8 @@ const animDict = {
   walk: 'Dwarf Walk',
   run: 'Fast Run',
   jump: 'Mutant Jumping',
-  attack: 'Sword And Shield Slash', // Mma Kick
-  // attack2: 'Standing Melee Kick',
+  attack: 'Sword And Shield Slash',
+  attack2: 'Mma Kick',
   special: 'Standing 2H Magic Attack 05',
   pain: 'Standing React Large From Right',
   death: 'Falling Back Death',
@@ -18,13 +18,13 @@ const animDict = {
 /* LOADING */
 
 const [mesh, rightHandWeapon] = await Promise.all([
-  await loadModel({ prefix: 'character/barbarian/', file: 'model.fbx', angle: Math.PI, animDict, size: 1.78, runCoefficient: 4 }),
+  await loadModel({ prefix: 'character/huntress/', file: 'model.fbx', angle: Math.PI, animDict, size: 1.78, runCoefficient: 4 }),
   await loadModel({ file: 'weapon/axe-lowpoly/model.fbx', scale: .18 }),
 ])
 
 /* EXTENDED CLASSES */
 
-const sharedProps = { rightHandWeapon, mesh, animations: mesh.userData.animations, animDict, jumpStyle: 'FLY_JUMP', maxJumpTime: .3, runCoefficient: 2.5, attackStyle: 'LOOP', flame: { num: 25, minRadius: 0, maxRadius: .5 } }
+const sharedProps = { rightHandWeapon, mesh, animations: mesh.userData.animations, animDict, jumpStyle: 'FLY_JUMP', maxJumpTime: .3, runCoefficient: 2.5, attackStyle: 'LOOP' }
 
 export class BarbarianPlayer extends Player {
   constructor(props = {}) {

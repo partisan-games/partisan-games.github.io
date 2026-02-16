@@ -45,7 +45,7 @@ export function createEllipse({ xRadius, yRadius }) {
 export function createRailroadTracks(path, num) {
   const currPosition = new THREE.Vector2()
   const nextPosition = new THREE.Vector2()
-  const track = createBox({ width: 1, height: .2, depth: .2, file: 'crate.gif' })
+  const track = createBox({ width: 1.8, height: .2, depth: .2, file: 'crate.gif' })
   const tracks = []
 
   for (let i = 0; i < num; i++) {

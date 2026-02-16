@@ -18,7 +18,7 @@ export default class Factory extends Building {
     promise.then(obj => {
       this.smoke = new obj.BigSmoke()
       this.add(this.smoke.mesh)
-      this.smoke.mesh.position.y += 25
+      this.smoke.mesh.position.y += 28
       this.smoke.mesh.position.x += 13
     })
   }

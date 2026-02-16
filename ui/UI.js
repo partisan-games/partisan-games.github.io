@@ -1,3 +1,5 @@
+import { isTouchScreen } from '/config.js'
+import Controls from '../ui/Controls.js'
 import Report from './Report.js'
 
 const elementUI = document.getElementById('ui')
@@ -22,19 +24,27 @@ const scores = {
 }
 
 export const buttons = {
-  simple: '',
+  simple: 'default-button',
   rpg: 'rpgui-button',
   white: 'white-button',
 }
 
 export const controlButtons = {
-  simple: 'no-hover',
+  simple: '',
   rpg: 'rpgui-button',
   white: 'white-button',
 }
 
 export default class UI {
-  constructor(scene, { intro = '', reportText, customStartScreen, startButtonText = 'To battle', uiStyle = uiStyles.simple } = {}) {
+  constructor(scene, {
+    intro = '',
+    showControls = !isTouchScreen,
+    startButtonText = 'To battle',
+    uiStyle = uiStyles.simple,
+    reportText,
+    controlKeys,
+    customStartScreen,
+  } = {}) {
     this.scene = scene
     this.intro = intro
     this.startButtonText = startButtonText
@@ -42,6 +52,9 @@ export default class UI {
     this.customStartScreen = customStartScreen
     this.cachedSceneUI = this.cachedModal = this.outro = ''
     this.uiStyle = uiStyle
+
+    if (showControls)
+      this.controlsUI = new Controls({ controlKeys, uiStyle })
   }
 
   clear() {
@@ -152,6 +165,11 @@ export default class UI {
       if (this.modal) return
       modalElement.innerHTML = ''
     }, 3000)
+  }
+
+  end() {
+    this.clear()
+    if (this.controlsUI) this.controlsUI.end()
   }
 
   /* LOOP */

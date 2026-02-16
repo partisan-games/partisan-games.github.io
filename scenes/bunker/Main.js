@@ -55,13 +55,5 @@ export default class extends Scena2D {
   sceneUI(t) {
     const preostalo = ZADATO_VREME - Math.floor(t)
     return this.ui.scoreUI('Vreme', preostalo)
-    return /* html */`
-      <main class='absolute full'>
-        <h3 class="centar">Dovedi Žikicu Jovanovića Španca do nemačkog bunkera!</h3>
-        <div class='top-left'>
-          Vreme: ${preostalo} <br>
-        </div>
-      </main>
-    `
   }
 }

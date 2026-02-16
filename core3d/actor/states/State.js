@@ -1,3 +1,5 @@
+import { isDev } from '/config.js'
+
 export default class State {
   constructor(actor, name) {
     this.actor = actor
@@ -7,11 +9,7 @@ export default class State {
   }
 
   get action() {
-    if (this.name === 'attack' && this.actor === 'enemy')
-      return this.actor.actions.attack2
-        ? Math.random() > .5 ? this.actor.actions.attack : this.actor.actions.attack2
-        : this.actor.actions.attack
-    return this.actor?.actions[this.name]
+    return this.actor.anim?.getAction(this.name)
   }
 
   get input() {
@@ -26,7 +24,8 @@ export default class State {
   /* FSM */
 
   enter(oldState, oldAction) {
-    // if (this.actor.name == 'player') console.log(this.name, this.action)
+    if (isDev && this.actor.name == 'player') console.log('State enter:', this.name, this.action)
+
     this.prevState = oldState?.name
     if (this.action) this.action.enabled = true
   }
@@ -37,39 +36,7 @@ export default class State {
 
   /* ANIM HELPERS */
 
-  findActiveAction(prevAction) {
-    if (prevAction) return prevAction
-    const { mixer } = this.actor
-
-    const othersActive = mixer?._actions.filter(action => action.isRunning() && action !== this.action)
-    const first = othersActive.shift()
-
-    if (!first) mixer.stopAllAction()
-    else othersActive.forEach(action => action.stop())
-
-    return first
-  }
-
-  transitFrom(prevAction, duration = .25) {
-    const oldAction = this.findActiveAction(prevAction)
-    if (this.action === oldAction) return
-
-    if (this.action && oldAction) this.action.crossFadeFrom(oldAction, duration)
-    this.action?.play()
-  }
-
-  syncLegs() {
-    const oldAction = this.actor.actions[this.prevState]
-    const ratio = this.action.getClip().duration / oldAction.getClip().duration
-    this.action.time = oldAction.time * ratio
-  }
-
-  // https://gist.github.com/rtpHarry/2d41811d04825935039dfc075116d0ad
-  reverseAction(action = this.action, timescale = -1) {
-    if (!action) return
-    if (action.time === 0)
-      action.time = action.getClip().duration
-    action.paused = false
-    action.setEffectiveTimeScale(timescale)
+  transitFrom(oldName, duration) {
+    return this.actor.anim.transitFrom(oldName, this.name, duration)
   }
 }

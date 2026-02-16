@@ -10,13 +10,11 @@ const chooseDuration = prevState => {
 export default class WalkState extends State {
   enter(oldState, oldAction) {
     super.enter(oldState)
-    if (!this.actor.actions.walk) return
-
-    // if (this.prevState === 'run') this.syncLegs()
+    if (!this.actor.anim?.walk) return
 
     this.transitFrom(oldAction, chooseDuration(oldState?.name))
 
-    if (this.actor.input.down) this.reverseAction()
+    if (this.actor.input.down) this.actor.anim.reverseClip(this.name)
   }
 
   update(delta) {
@@ -49,6 +47,6 @@ export default class WalkState extends State {
   }
 
   exit() {
-    this.action?.setEffectiveTimeScale(1)
+    this.actor.anim.resetSpeed(this.name)
   }
 }

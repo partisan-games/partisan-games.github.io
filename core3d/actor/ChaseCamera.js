@@ -1,4 +1,4 @@
-/* credit to simon dev */
+import { isTouchScreen } from '/config.js'
 import * as THREE from 'three'
 
 const calc = (mesh, pos, rotate) => {
@@ -18,6 +18,7 @@ const speedFactor = state => {
 const THIRD_PERSON = 'THIRD_PERSON', BIRDS_EYE = 'BIRDS_EYE', ORBITAL = 'ORBITAL'
 const cameraStyles = [THIRD_PERSON, BIRDS_EYE, ORBITAL]
 
+/* credit to Simon Dev */
 export default class ChaseCamera {
   constructor({ camera, mesh, height = 2, speed = 2,
     offset = [0, height * .95, height * 1.5],
@@ -27,7 +28,8 @@ export default class ChaseCamera {
     birdsEyeLookAt = [0, 0, -height * 3],
     orbitalOffset = [-height * 10, height * 10, height * 10],
 
-    cameraClass = 'no-hover',
+    showCameraButton = !isTouchScreen,
+    cameraClass = '',
     rotate = true,
   }) {
     this.mesh = mesh
@@ -50,7 +52,7 @@ export default class ChaseCamera {
     this.camera.position.copy(calc(mesh, offset, rotate))
     this.camera.lookAt(calc(mesh, lookAt, rotate))
 
-    this.addButton(cameraClass)
+    if (showCameraButton) this.addButton(cameraClass)
   }
 
   /* SETTERS */

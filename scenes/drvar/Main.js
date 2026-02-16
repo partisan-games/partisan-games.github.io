@@ -28,7 +28,7 @@ export default class extends Scena3D {
     super({ showControls: false })
   }
 
-  init() {
+  async init() {
     this.addMesh(createGround({ color: 0x606b60 }))
     this.avioni = []
     this.padobranci = []
@@ -40,7 +40,7 @@ export default class extends Scena3D {
     })
     this.addMesh(praviPanoramu())
     this.camera.position.z += 50
-    this.controls = createOrbitControls(this.camera, this.renderer.domElement)
+    this.controls = await createOrbitControls(this.camera, this.renderer.domElement)
     this.controls.enablePan = false
     this.controls.minAzimuthAngle = -Math.PI / 8
     this.controls.maxAzimuthAngle = Math.PI / 8

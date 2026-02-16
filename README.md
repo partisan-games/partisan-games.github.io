@@ -16,15 +16,8 @@ npm start
 
 ## TODO
 
-- probati grid nejednakih slika, možda staviti i neku uspravnu
-- promeniti joystick u četiri strelice da bude upotrebljivo za telefone
+- promeniti joystick u četiri strelice
     - proveriti na telefonu
-- proveriti chrome
-- ujednačiti stilove dugmića (osnovne veličine + klase za svaki stil)
-- kapuera girl + iskopati još ponešto
-- default bojaPlatna ??
-- mozda this.add sam da hendla this.addMesh
-- tenkici i top: izbor za dva igrača
 
 ### BAGOVI
 
@@ -33,15 +26,17 @@ npm start
 - BUG: avatar dosta baguje i blokira (možda ima veze tač komande)
 - na početku 3D scena modeli raširenih ruku. probati bar jedan loop inicijalno (firstLoop = true)
 - BUG: golemi se nekad tresu u mestu (follow)
+- bug: graveyard game over a čarobnica stoji kao živa
 
 ### Završno
 
-- createOrbitControls u async?
 - restart na Žikicu i još negde
 - prevod na engleski
 - sistem ocenjivanja igara?
 
 UI
+- dodati indikacije za 2 igrača na naslovnu
+- ujednačiti stilove dugmića (osnovne veličine + klase za svaki stil)
 - koristiti avatarControls
 - refaktorisati da se na jedno mestu podešava RPG style za sve elemente (energija, kamera...)
     - da player čita uiStyle iz this.scene?
@@ -51,6 +46,7 @@ UI
 - dodati esc: pauza u kontrole svuda?
 - dodati komande i ciljeve svuda
 - refaktorisati da prozori budu DOM elementi, a samo sceneUI u render loop?
+- PRESS TO START ne treba crveni hover
 
 Profil 
 - dodati profil korisnika

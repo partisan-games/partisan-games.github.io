@@ -1,170 +1,146 @@
-import { getCursorPosition } from '/core3d/helpers.js'
+const spacing = '16px'
 
-/**
- * Joystick and screen controls
- * credit to Nicholas Lever
- */
+const css = /* css */`
+  .joystick, .button-container {
+    position: fixed;
+    bottom: ${spacing};
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+    z-index: 9;
+  }
+  .joystick {
+    left: ${spacing};
+    height: 120px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 8px;
+  }
+  .button-container {
+    display: flex;
+    right: ${spacing};
+    gap: ${spacing};
+  }
+  .joystick-btn, .game-btn {
+    background: rgba(126, 126, 126, 0.25);
+    border: 2px solid white;
+    outline: 2px solid black;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .joystick-btn:hover,
+  .game-btn:hover,
+  .joystick-btn:active,
+  .game-btn:active {
+    background: rgba(0, 0, 0, 0.5);
+  }
+  .joystick-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-size: 32px;
+    font-weight: bold;
+    transition: all 0.1s ease;
+  }
+  .game-btn {
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+    padding: 0;
+    font-size: 1.5rem;
+  }
+`
+
+const arrowsData = [
+  { icon: '▲', field: 'up', row: 1, col: 2 },
+  { icon: '▼', field: 'down', row: 2, col: 2 },
+  { icon: '◀', field: 'left', row: 2, col: 1 },
+  { icon: '▶', field: 'right', row: 2, col: 3 }
+]
+
+const buttonsData = [
+  { icon: '↑', field: 'jump' },
+  { icon: '🗡️', field: 'attack' },
+  { icon: '⚔️', field: 'attack2' },
+  { icon: '💥', field: 'special' }
+]
+
 export default class Joystick {
-  #jump = false
-  #attack = false
-  #attack2 = false
-  #special = false
+  constructor({ animDict }) {
+    this.up = false
+    this.down = false
+    this.left = false
+    this.right = false
+    this.jump = false
+    this.attack = false
+    this.attack2 = false
+    this.special = false
 
-  constructor({ animDict, maxRadius = 40 } = {}) {
-    this.forward = this.turn = 0
-    this.maxRadius = maxRadius
-    this.maxRadiusSquared = this.maxRadius * this.maxRadius
+    this.style = document.createElement('style')
+    this.style.textContent = css
+    document.head.appendChild(this.style)
 
     this.addJoystick()
-
-    if (animDict?.jump) this.addButton('jump', 'Jmp')
-    if (animDict?.attack) this.addButton('attack', 'Atk')
-    if (animDict?.attack2) this.addButton('attack2', 'Atk')
-    if (animDict?.special) this.addButton('special', 'Spl')
-
-    this.handleDown = this.handleDown.bind(this)
-    this.handleMove = this.handleMove.bind(this)
-    this.handleEnd = this.handleEnd.bind(this)
-
-    this.thumb.addEventListener('pointerdown', this.handleDown)
+    this.addGameButtons(animDict)
   }
-
-  /* GETTERS */
-
-  get up() {
-    return this.forward < -.1
-  }
-
-  get down() {
-    return this.forward > .1
-  }
-
-  get left() {
-    return this.turn < -.1
-  }
-
-  get right() {
-    return this.turn > .1
-  }
-
-  get run() {
-    return Math.abs(this.forward) > .75
-  }
-
-  get attack() {
-    return this.#attack
-  }
-
-  set attack(bool) {
-    this.#attack = bool
-  }
-
-  get jump() {
-    return this.#jump
-  }
-
-  set jump(bool) {
-    this.#jump = bool
-  }
-
-  get attack2() {
-    return this.#attack2
-  }
-
-  set attack2(bool) {
-    this.#attack2 = bool
-  }
-
-  get special() {
-    return this.#special
-  }
-
-  set special(bool) {
-    this.#special = bool
-  }
-
-  /* BUTTONS */
 
   addJoystick() {
-    this.circle = document.createElement('div')
-    this.circle.classList.add('game-btn', 'joystick')
-    document.body.appendChild(this.circle)
+    this.joystick = document.createElement('div')
+    this.joystick.className = 'joystick'
 
-    const thumb = document.createElement('div')
-    // style is required here to set origin
-    thumb.style = `
-      position: absolute; 
-      left: 20px; 
-      top: 20px; 
-      width: 40px; 
-      height: 40px; 
-      border-radius: 50%; 
-      background: #fff;
-    `
-    this.circle.appendChild(thumb)
-    this.thumb = thumb
-
-    this.origin = { left: thumb.offsetLeft, top: thumb.offsetTop }
+    arrowsData.forEach(data => this.addArrow(data))
+    document.body.appendChild(this.joystick)
   }
 
-  addButton(name, label = name) {
-    const btn = document.createElement('button')
-    btn.innerText = label
-    btn.title = name
-    btn.classList.add('game-btn', `${name}-btn`)
-    document.body.appendChild(btn)
-
-    btn.addEventListener('pointerdown', () => {
-      this[name] = true
+  addArrow(data) {
+    const element = document.createElement('button')
+    element.className = 'joystick-btn'
+    element.innerText = data.icon
+    Object.assign(element.style, {
+      gridRow: data.row,
+      gridColumn: data.col,
     })
-    btn.addEventListener('pointerup', () => {
-      this[name] = false
+
+    this.addBtnEvents(element, data)
+    this.joystick.appendChild(element)
+  }
+
+  addGameButtons(animDict) {
+    this.buttonContainer = document.createElement('div')
+    this.buttonContainer.className = 'button-container'
+    document.body.appendChild(this.buttonContainer)
+
+    buttonsData.forEach(data => {
+      if (data.field in animDict) this.addButton(data)
     })
   }
 
-  /* HANDLERS */
+  addButton(data) {
+    const element = document.createElement('button')
+    element.innerText = data.icon
+    element.title = data.field
+    element.classList.add('game-btn')
 
-  handleDown(e) {
-    this.offset = getCursorPosition(e)
-    document.onpointermove = this.handleMove
-    document.onpointerup = this.handleEnd
+    this.addBtnEvents(element, data)
+    this.buttonContainer.appendChild(element)
   }
 
-  handleMove(e) {
-    const mouse = getCursorPosition(e)
-
-    let left = mouse.x - this.offset.x
-    let top = mouse.y - this.offset.y
-
-    const sqMag = left * left + top * top
-    if (sqMag > this.maxRadiusSquared) {
-      // Only use sqrt if essential
-      const magnitude = Math.sqrt(sqMag)
-      left /= magnitude
-      top /= magnitude
-      left *= this.maxRadius
-      top *= this.maxRadius
+  addBtnEvents = (element, data) => {
+    const handleEvent = (val, e) => {
+      e.preventDefault()
+      this[data.field] = val
     }
 
-    this.thumb.style.top = `${top + this.thumb.clientHeight / 2}px`
-    this.thumb.style.left = `${left + this.thumb.clientWidth / 2}px`
-
-    this.forward = (top - this.origin.top + this.thumb.clientHeight / 2) / this.maxRadius
-    this.turn = (left - this.origin.left + this.thumb.clientWidth / 2) / this.maxRadius
-  }
-
-  handleEnd() {
-    document.onpointermove = document.onpointerup = null
-
-    this.thumb.style.top = `${this.origin.top}px`
-    this.thumb.style.left = `${this.origin.left}px`
-
-    this.forward = this.turn = 0
+    element.addEventListener('pointerdown', e => handleEvent(true, e))
+    element.addEventListener('pointerup', e => handleEvent(false, e))
+    element.addEventListener('pointerleave', e => handleEvent(false, e))
+    element.addEventListener('pointercancel', e => handleEvent(false, e))
   }
 
   end() {
-    this.thumb.removeEventListener('pointerdown', this.handleDown)
-    this.circle.remove()
-    document.querySelectorAll('.game-btn').forEach(el => el.remove())
+    this.joystick?.remove()
+    this.buttonContainer?.remove()
+    this.style?.remove()
   }
 }

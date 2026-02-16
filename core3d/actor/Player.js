@@ -11,7 +11,6 @@ export default class Player extends Actor {
     attackStyle = attackStyles.LOOP,
     jumpStyle = jumpStyles.ANIM_JUMP,
     shouldRaycastGround = true,
-    attackDistance = 1.5,
     attackKey,
     showHealthBar = true,
     rpgStyle = false,
@@ -21,7 +20,7 @@ export default class Player extends Actor {
     ...rest
   } = {}) {
 
-    super({ name: 'player', input, animDict, jumpStyle, attackStyle, shouldRaycastGround, attackDistance, ...rest })
+    super({ name: 'player', input, animDict, jumpStyle, attackStyle, shouldRaycastGround, ...rest })
     if (camera) {
       this.shouldAlignCamera = true
       this.chaseCamera = new ChaseCamera({ camera, mesh: this.mesh, height: this.height, cameraClass })
@@ -54,9 +53,9 @@ export default class Player extends Actor {
     super.hit(mesh, damage)
   }
 
-  areaDamage() {
+  areaDamage(damage = [89, 135]) {
     const near = this.enemies.filter(mesh => this.distanceTo(mesh) < 3)
-    near.forEach(mesh => this.hit(mesh, [89, 135]))
+    near.forEach(mesh => this.hit(mesh, damage))
   }
 
   /* UTILS */

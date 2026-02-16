@@ -11,11 +11,7 @@ export default class AttackLoopState extends State {
     super.enter(oldState)
     this.actor.enterAttack()
 
-    if (this.action) {
-      this.action.reset()
-      this.transitFrom(oldAction, .25)
-      this.actor.mixer.addEventListener('loop', this.onLoopEnd)
-    }
+    this.actor.anim.playLoopAction(oldAction, this.name, this.onLoopEnd)
   }
 
   onLoopEnd() {
@@ -29,7 +25,7 @@ export default class AttackLoopState extends State {
   }
 
   exit() {
-    this.actor?.mixer?.removeEventListener('loop', this.onLoopEnd)
+    this.actor.anim?.removeEventListener('loop', this.onLoopEnd)
     if (this.actor.exitAttack) this.actor.exitAttack()
   }
 }

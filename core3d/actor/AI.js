@@ -1,5 +1,4 @@
 import { Vector3, MathUtils } from 'three'
-
 import Actor from './Actor.js'
 import Keyboard from '/core/io/Keyboard.js'
 import { jumpStyles, attackStyles, baseStates, dir } from '/core3d/constants.js'
@@ -7,8 +6,6 @@ import { belongsTo, directionBlocked } from '/core3d/helpers.js'
 
 const { randFloat, randFloatSpread } = MathUtils
 
-const walking = ['wander', 'follow', 'patrol']
-const running = ['pursue', 'flee']
 const pursueStates = [baseStates.idle, baseStates.patrol, baseStates.wander]
 
 export default class AI extends Actor {
@@ -20,7 +17,6 @@ export default class AI extends Actor {
     sightDistance = 25,
     followDistance = 1.5,
     patrolDistance = 10,
-    attackDistance = 1.25,
     target,
     name = target ? 'enemy' : 'ai',
     ...params
@@ -28,7 +24,6 @@ export default class AI extends Actor {
     super({
       name,
       speed,
-      attackDistance,
       jumpStyle,
       attackStyle,
       input: new Keyboard({ listen: false }),
@@ -114,17 +109,6 @@ export default class AI extends Actor {
   }
 
   /* ANIMATIONS */
-
-  setupMixer(animations, animDict) {
-    const { actions } = this
-    super.setupMixer(animations, animDict)
-    walking.forEach(name => {
-      if (!actions[name]) actions[name] = actions.walk
-    })
-    running.forEach(name => {
-      if (!actions[name]) actions[name] = actions.run
-    })
-  }
 
   randomizeAction() {
     if (!this.action) return
