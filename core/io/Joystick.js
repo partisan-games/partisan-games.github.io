@@ -95,7 +95,7 @@ export default class Joystick {
     this.joystick = document.createElement('div')
     this.joystick.className = 'joystick'
 
-    arrows.forEach(this.addArrow)
+    arrows.forEach(arrow => this.addArrow(arrow))
     document.body.appendChild(this.joystick)
   }
 
