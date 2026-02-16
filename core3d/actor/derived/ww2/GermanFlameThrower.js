@@ -21,7 +21,7 @@ const [mesh, twoHandedWeapon] = await Promise.all([
 
 /* EXTENDED CLASSES */
 
-const sharedProps = { mesh, animations: mesh.userData.animations, animDict, twoHandedWeapon, speed: 1.8, attackStyle: 'LOOP', attackDistance: 7, attackSound: 'fire-swoosh.mp3', flame: {} }
+const sharedProps = { mesh, animations: mesh.userData.animations, animDict, twoHandedWeapon, speed: 1.8, attackStyle: 'LOOP', attackDistance: 7, attackSound: 'fire-swoosh.mp3', useFlame: true }
 
 export class GermanFlameThrowerPlayer extends Player {
   constructor(props = {}) {

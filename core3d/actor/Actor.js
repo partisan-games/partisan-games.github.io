@@ -40,8 +40,8 @@ export default class Actor extends GameObject {
     attackSound = '',
     altitude = 0, // for flying objects
     shouldRaycastGround = Boolean(altitude),
-    flame = null,
-    turnWhileAttack = !flame,
+    useFlame = null,
+    turnWhileAttack = !useFlame,
     baseState = baseStates.idle,
     canMove = true,
     deathCallback,
@@ -92,11 +92,11 @@ export default class Actor extends GameObject {
       })
     }
 
-    if (flame) {
+    if (useFlame) {
       const promise = import('/core3d/Particles.js')
       promise.then(obj => {
         const { Flame } = obj
-        this.flame = new Flame({ num: 25, minRadius: 0, maxRadius: .5, minVelocity: 2.5, maxVelocity: 5, ...flame })
+        this.flame = new Flame({ num: 25, minRadius: 0, maxRadius: .5, minVelocity: 2.5, maxVelocity: 5 })
         this.flame.mesh.material.opacity = 0
       })
     }

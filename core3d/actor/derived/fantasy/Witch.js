@@ -17,7 +17,7 @@ const mesh = await loadModel({ file: 'model.fbx', angle: Math.PI, animDict, pref
 
 /* EXTENDED CLASSES */
 
-const sharedProps = { mesh, animations: mesh.userData.animations, animDict, attackStyle: 'ONCE', attackDistance: 3, flame: {} }
+const sharedProps = { mesh, animations: mesh.userData.animations, animDict, attackStyle: 'ONCE', attackDistance: 3, useFlame: true }
 
 export class WitchPlayer extends Player {
   constructor(props = {}) {
