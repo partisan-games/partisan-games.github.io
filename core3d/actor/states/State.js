@@ -48,12 +48,6 @@ export default class State {
     this.action?.play()
   }
 
-  syncLegs() {
-    const oldAction = this.actor.anim.actions[this.prevState]
-    const ratio = this.action.getClip().duration / oldAction.getClip().duration
-    this.action.time = oldAction.time * ratio
-  }
-
   // https://gist.github.com/rtpHarry/2d41811d04825935039dfc075116d0ad
   reverseAction(action = this.action, timescale = -1) {
     if (!action) return

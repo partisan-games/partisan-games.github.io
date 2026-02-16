@@ -12,8 +12,6 @@ export default class WalkState extends State {
     super.enter(oldState)
     if (!this.actor.anim || !this.actor.anim.actions.walk) return
 
-    // if (this.prevState === 'run') this.syncLegs()
-
     this.transitFrom(oldAction, chooseDuration(oldState?.name))
 
     if (this.actor.input.down) this.reverseAction()

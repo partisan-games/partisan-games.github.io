@@ -11,8 +11,6 @@ export default class RunState extends State {
     super.enter(oldState)
     if (!this.actor.anim || !this.actor.anim.actions.run) return
 
-    if (this.prevState === 'walk') this.syncLegs()
-
     this.transitFrom(oldAction, chooseDuration(this.prevState))
 
     this.timeScale = this.action.timeScale

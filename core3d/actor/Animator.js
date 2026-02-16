@@ -80,20 +80,14 @@ export default class Animator {
     return first
   }
 
-  // syncLegs(prevState, action) {
-  //   const oldAction = this.actions[prevState]
-  //   const ratio = action.getClip().duration / oldAction.getClip().duration
-  //   action.time = oldAction.time * ratio
-  // }
-
-  // // https://gist.github.com/rtpHarry/2d41811d04825935039dfc075116d0ad
-  // reverseAction(action, timescale = -1) {
-  //   if (!action) return
-  //   if (action.time === 0)
-  //     action.time = action.getClip().duration
-  //   action.paused = false
-  //   action.setEffectiveTimeScale(timescale)
-  // }
+  // https://gist.github.com/rtpHarry/2d41811d04825935039dfc075116d0ad
+  reverseAction(action, timescale = -1) {
+    if (!action) return
+    if (action.time === 0)
+      action.time = action.getClip().duration
+    action.paused = false
+    action.setEffectiveTimeScale(timescale)
+  }
 
   /* UPDATES */
 
