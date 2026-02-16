@@ -1,14 +1,13 @@
 const spacing = '16px'
-
 const css = /* css */`
   .joystick, .button-container {
     position: fixed;
     bottom: ${spacing};
     user-select: none;
+    -webkit-user-select: none;
     touch-action: none;
     z-index: 9;
   }
-
   .joystick {
     left: ${spacing};
     height: 120px;
@@ -17,26 +16,23 @@ const css = /* css */`
     grid-template-rows: repeat(2, 1fr);
     gap: 8px;
   }
-
   .button-container {
     display: flex;
     right: ${spacing};
     gap: ${spacing};
   }
-
   .joystick-btn, .game-btn {
     background: rgba(126, 126, 126, 0.25);
     border: 2px solid white;
     outline: 2px solid black;
+    -webkit-tap-highlight-color: transparent;
   }
-
   .joystick-btn:hover,
   .game-btn:hover,
   .joystick-btn:active,
   .game-btn:active {
     background: rgba(0, 0, 0, 0.5);
   }
-
   .joystick-btn {
     display: flex;
     align-items: center;
@@ -46,7 +42,6 @@ const css = /* css */`
     font-weight: bold;
     transition: all 0.1s ease;
   }
-
   .game-btn {
     border-radius: 50%;
     height: 60px;
@@ -62,15 +57,14 @@ export default class Joystick {
     this.down = false
     this.left = false
     this.right = false
-
     this.jump = false
     this.attack = false
     this.attack2 = false
     this.special = false
 
-    const style = document.createElement('style')
-    style.textContent = css
-    document.head.appendChild(style)
+    this.style = document.createElement('style')
+    this.style.textContent = css
+    document.head.appendChild(this.style)
 
     this.addJoystick()
     this.addGameButtons(animDict)
@@ -91,28 +85,23 @@ export default class Joystick {
       const button = document.createElement('button')
       button.className = 'joystick-btn'
       button.innerText = btn.text
-
       Object.assign(button.style, {
         gridRow: btn.row,
         gridColumn: btn.col,
       })
 
-      const setActive = active => {
-        this[btn.dir] = active
+      const handleEvent = (val, e) => {
+        e.preventDefault()
+        this[btn.dir] = val
       }
 
-      button.addEventListener('pointerdown', e => {
-        e.preventDefault()
-        setActive(true)
-      })
-
-      button.addEventListener('pointerup', () => setActive(false))
-      button.addEventListener('pointerleave', () => setActive(false))
-      button.addEventListener('pointercancel', () => setActive(false))
+      button.addEventListener('pointerdown', e => handleEvent(true, e))
+      button.addEventListener('pointerup', e => handleEvent(false, e))
+      button.addEventListener('pointerleave', e => handleEvent(false, e))
+      button.addEventListener('pointercancel', e => handleEvent(false, e))
 
       this.joystick.appendChild(button)
     })
-
     document.body.appendChild(this.joystick)
   }
 
@@ -132,18 +121,23 @@ export default class Joystick {
     btn.innerText = label
     btn.title = state
     btn.classList.add('game-btn')
-    this.buttons.appendChild(btn)
 
-    btn.addEventListener('pointerdown', () => {
-      this[state] = true
-    })
-    btn.addEventListener('pointerup', () => {
-      this[state] = false
-    })
+    const handleEvent = (val, e) => {
+      e.preventDefault()
+      this[state] = val
+    }
+
+    btn.addEventListener('pointerdown', e => handleEvent(true, e))
+    btn.addEventListener('pointerup', e => handleEvent(false, e))
+    btn.addEventListener('pointerleave', e => handleEvent(false, e))
+    btn.addEventListener('pointercancel', e => handleEvent(false, e))
+
+    this.buttons.appendChild(btn)
   }
 
   end() {
-    this.joystick.remove()
-    this.buttons.remove()
+    this.joystick?.remove()
+    this.buttons?.remove()
+    this.style?.remove()
   }
 }
