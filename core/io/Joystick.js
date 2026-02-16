@@ -1,4 +1,5 @@
 const spacing = '16px'
+
 const css = /* css */`
   .joystick, .button-container {
     position: fixed;
@@ -51,26 +52,19 @@ const css = /* css */`
   }
 `
 
-const arrows = [
+const arrowsData = [
   { icon: '▲', field: 'up', row: 1, col: 2 },
   { icon: '▼', field: 'down', row: 2, col: 2 },
   { icon: '◀', field: 'left', row: 2, col: 1 },
   { icon: '▶', field: 'right', row: 2, col: 3 }
 ]
 
-const buttons = [
+const buttonsData = [
   { icon: '↑', field: 'jump' },
   { icon: '🗡️', field: 'attack' },
   { icon: '⚔️', field: 'attack2' },
   { icon: '💥', field: 'special' }
 ]
-
-const handleBtnEvents = (button, callback) => {
-  button.addEventListener('pointerdown', e => callback(true, e))
-  button.addEventListener('pointerup', e => callback(false, e))
-  button.addEventListener('pointerleave', e => callback(false, e))
-  button.addEventListener('pointercancel', e => callback(false, e))
-}
 
 export default class Joystick {
   constructor({ animDict }) {
@@ -95,25 +89,20 @@ export default class Joystick {
     this.joystick = document.createElement('div')
     this.joystick.className = 'joystick'
 
-    arrows.forEach(arrow => this.addArrow(arrow))
+    arrowsData.forEach(data => this.addArrow(data))
     document.body.appendChild(this.joystick)
   }
 
-  addArrow(arrow) {
+  addArrow(data) {
     const element = document.createElement('button')
     element.className = 'joystick-btn'
-    element.innerText = arrow.icon
+    element.innerText = data.icon
     Object.assign(element.style, {
-      gridRow: arrow.row,
-      gridColumn: arrow.col,
+      gridRow: data.row,
+      gridColumn: data.col,
     })
 
-    const handleEvent = (val, e) => {
-      e.preventDefault()
-      this[arrow.field] = val
-    }
-
-    handleBtnEvents(element, handleEvent)
+    this.addBtnEvents(element, data)
     this.joystick.appendChild(element)
   }
 
@@ -122,24 +111,31 @@ export default class Joystick {
     this.buttonContainer.className = 'button-container'
     document.body.appendChild(this.buttonContainer)
 
-    buttons.forEach(button => {
-      if (button.field in animDict) this.addButton(button)
+    buttonsData.forEach(data => {
+      if (data.field in animDict) this.addButton(data)
     })
   }
 
-  addButton(button) {
+  addButton(data) {
     const element = document.createElement('button')
-    element.innerText = button.icon
-    element.title = button.field
+    element.innerText = data.icon
+    element.title = data.field
     element.classList.add('game-btn')
 
+    this.addBtnEvents(element, data)
+    this.buttonContainer.appendChild(element)
+  }
+
+  addBtnEvents = (element, data) => {
     const handleEvent = (val, e) => {
       e.preventDefault()
-      this[button.field] = val
+      this[data.field] = val
     }
 
-    handleBtnEvents(element, handleEvent)
-    this.buttonContainer.appendChild(element)
+    element.addEventListener('pointerdown', e => handleEvent(true, e))
+    element.addEventListener('pointerup', e => handleEvent(false, e))
+    element.addEventListener('pointerleave', e => handleEvent(false, e))
+    element.addEventListener('pointercancel', e => handleEvent(false, e))
   }
 
   end() {
