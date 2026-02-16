@@ -14,7 +14,7 @@ export default class RunState extends State {
     this.transitFrom(oldAction, chooseDuration(this.prevState))
 
     this.timeScale = this.action.timeScale
-    if (this.actor.input.down) this.actor.anim.reverseClip(this.action, -this.timeScale)
+    if (this.actor.input.down) this.actor.anim.reverseClip(this.name, -this.timeScale)
   }
 
   update(delta) {

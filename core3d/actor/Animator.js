@@ -125,8 +125,10 @@ export default class Animator {
   }
 
   // https://gist.github.com/rtpHarry/2d41811d04825935039dfc075116d0ad
-  reverseClip(action, timescale = -1) {
+  reverseClip(name, timescale = -1) {
+    const action = this.getAction(name)
     if (!action) return
+
     if (action.time === 0)
       action.time = action.getClip().duration
     action.paused = false
@@ -140,6 +142,12 @@ export default class Animator {
 
     if (action && oldAction) action.crossFadeFrom(oldAction, duration)
     action?.play()
+  }
+
+  resetSpeed(name) {
+    const action = this.getAction(name)
+
+    action?.setEffectiveTimeScale(1)
   }
 
   /* EVENTS */

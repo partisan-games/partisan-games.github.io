@@ -5,7 +5,7 @@ export default class JumpState extends AnimOnceState {
   enter(oldState, oldAction) {
     super.enter(oldState, oldAction)
 
-    if (this.actor.input.down) this.actor.anim.reverseClip(this.action)
+    if (this.actor.input.down) this.actor.anim.reverseClip(this.name)
   }
 
   update(delta) {
@@ -13,6 +13,6 @@ export default class JumpState extends AnimOnceState {
   }
 
   exit() {
-    this.action?.setEffectiveTimeScale(1)
+    this.actor.anim.resetSpeed(this.name)
   }
 }

@@ -14,7 +14,7 @@ export default class WalkState extends State {
 
     this.transitFrom(oldAction, chooseDuration(oldState?.name))
 
-    if (this.actor.input.down) this.actor.anim.reverseClip(this.action)
+    if (this.actor.input.down) this.actor.anim.reverseClip(this.name)
   }
 
   update(delta) {
