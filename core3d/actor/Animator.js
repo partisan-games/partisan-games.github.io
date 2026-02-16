@@ -28,11 +28,6 @@ export default class Animator {
   }
 
   getAction(stateName) {
-    // const { actions } = this
-    // if (this.actor === 'enemy' && stateName === 'attack')
-    //   return actions.attack2
-    //     ? Math.random() > .5 ? actions.attack : actions.attack2
-    //     : actions.attack
     return this.actions[stateName]
   }
 
@@ -96,13 +91,25 @@ export default class Animator {
     action.play()
   }
 
+  playActionOnce(oldAction, name, shouldReverse = false) {
+    const action = this.getAction(name)
+    if (!action) return
+
+    action.reset()
+    action.setLoop(THREE.LoopOnce, 1)
+    action.clampWhenFinished = true
+    this.transitFrom(oldAction, name, .5)
+
+    if (shouldReverse) this.reverseClip(this.action)
+  }
+
   playLoopAction(oldAction, name, onLoopEnd) {
     const action = this.getAction(name)
-    if (action) {
-      action.reset()
-      this.transitFrom(oldAction, name, .25)
-      this.addEventListener('loop', onLoopEnd)
-    }
+    if (!action) return
+
+    action.reset()
+    this.transitFrom(oldAction, name, .25)
+    this.addEventListener('loop', onLoopEnd)
   }
 
   findActiveAction(prevAction) {

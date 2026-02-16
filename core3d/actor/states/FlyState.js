@@ -1,4 +1,3 @@
-import * as THREE from 'three'
 import State from './State.js'
 import { dir } from '/core3d/constants.js'
 
@@ -12,14 +11,7 @@ export default class FlyState extends State {
     super.enter(oldState, oldAction)
     this.jumpTime = 0
 
-    if (this.action) {
-      this.action.reset()
-      this.action.setLoop(THREE.LoopOnce, 1)
-      this.action.clampWhenFinished = true
-      this.transitFrom(oldAction, .5)
-
-      if (this.actor.input.down) this.actor.anim.reverseClip(this.action)
-    }
+    this.actor.anim?.playActionOnce(oldAction, this.name, this.actor.input.down)
   }
 
   get ableToJump() {
