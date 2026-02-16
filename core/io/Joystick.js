@@ -51,6 +51,27 @@ const css = /* css */`
   }
 `
 
+const arrows = [
+  { icon: '▲', field: 'up', row: 1, col: 2 },
+  { icon: '▼', field: 'down', row: 2, col: 2 },
+  { icon: '◀', field: 'left', row: 2, col: 1 },
+  { icon: '▶', field: 'right', row: 2, col: 3 }
+]
+
+const buttons = [
+  { icon: '↑', field: 'jump' },
+  { icon: '🗡️', field: 'attack' },
+  { icon: '⚔️', field: 'attack2' },
+  { icon: '💥', field: 'special' }
+]
+
+const handleBtnEvents = (button, callback) => {
+  button.addEventListener('pointerdown', e => callback(true, e))
+  button.addEventListener('pointerup', e => callback(false, e))
+  button.addEventListener('pointerleave', e => callback(false, e))
+  button.addEventListener('pointercancel', e => callback(false, e))
+}
+
 export default class Joystick {
   constructor({ animDict }) {
     this.up = false
@@ -74,70 +95,56 @@ export default class Joystick {
     this.joystick = document.createElement('div')
     this.joystick.className = 'joystick'
 
-    const arrows = [
-      { text: '▲', row: 1, col: 2, dir: 'up' },
-      { text: '▼', row: 2, col: 2, dir: 'down' },
-      { text: '◀', row: 2, col: 1, dir: 'left' },
-      { text: '▶', row: 2, col: 3, dir: 'right' }
-    ]
-
-    arrows.forEach(btn => {
-      const button = document.createElement('button')
-      button.className = 'joystick-btn'
-      button.innerText = btn.text
-      Object.assign(button.style, {
-        gridRow: btn.row,
-        gridColumn: btn.col,
-      })
-
-      const handleEvent = (val, e) => {
-        e.preventDefault()
-        this[btn.dir] = val
-      }
-
-      button.addEventListener('pointerdown', e => handleEvent(true, e))
-      button.addEventListener('pointerup', e => handleEvent(false, e))
-      button.addEventListener('pointerleave', e => handleEvent(false, e))
-      button.addEventListener('pointercancel', e => handleEvent(false, e))
-
-      this.joystick.appendChild(button)
-    })
+    arrows.forEach(this.addArrow)
     document.body.appendChild(this.joystick)
   }
 
-  addGameButtons(animDict) {
-    this.buttons = document.createElement('div')
-    this.buttons.className = 'button-container'
-    document.body.appendChild(this.buttons)
-
-    if (animDict?.jump) this.addButton('jump', '↑')
-    if (animDict?.attack) this.addButton('attack', '🗡️')
-    if (animDict?.attack2) this.addButton('attack2', '⚔️')
-    if (animDict?.special) this.addButton('special', '💥')
-  }
-
-  addButton(state, label = state) {
-    const btn = document.createElement('button')
-    btn.innerText = label
-    btn.title = state
-    btn.classList.add('game-btn')
+  addArrow(arrow) {
+    const element = document.createElement('button')
+    element.className = 'joystick-btn'
+    element.innerText = arrow.icon
+    Object.assign(element.style, {
+      gridRow: arrow.row,
+      gridColumn: arrow.col,
+    })
 
     const handleEvent = (val, e) => {
       e.preventDefault()
-      this[state] = val
+      this[arrow.field] = val
     }
 
-    btn.addEventListener('pointerdown', e => handleEvent(true, e))
-    btn.addEventListener('pointerup', e => handleEvent(false, e))
-    btn.addEventListener('pointerleave', e => handleEvent(false, e))
-    btn.addEventListener('pointercancel', e => handleEvent(false, e))
+    handleBtnEvents(element, handleEvent)
+    this.joystick.appendChild(element)
+  }
 
-    this.buttons.appendChild(btn)
+  addGameButtons(animDict) {
+    this.buttonContainer = document.createElement('div')
+    this.buttonContainer.className = 'button-container'
+    document.body.appendChild(this.buttonContainer)
+
+    buttons.forEach(button => {
+      if (button.field in animDict) this.addButton(button)
+    })
+  }
+
+  addButton(button) {
+    const element = document.createElement('button')
+    element.innerText = button.icon
+    element.title = button.field
+    element.classList.add('game-btn')
+
+    const handleEvent = (val, e) => {
+      e.preventDefault()
+      this[button.field] = val
+    }
+
+    handleBtnEvents(element, handleEvent)
+    this.buttonContainer.appendChild(element)
   }
 
   end() {
     this.joystick?.remove()
-    this.buttons?.remove()
+    this.buttonContainer?.remove()
     this.style?.remove()
   }
 }
