@@ -96,7 +96,7 @@ export default class Actor extends GameObject {
       const promise = import('/core3d/Particles.js')
       promise.then(obj => {
         const { Flame } = obj
-        this.flame = new Flame({ num: 25, minRadius: 0, maxRadius: .5, minVelocity: 2.5, maxVelocity: 5 })
+        this.flame = new Flame({ num: 25, minRadius: 0, maxRadius: .5, minVelocity: 2.5, maxVelocity: 5, ...flame })
         this.flame.mesh.material.opacity = 0
       })
     }
