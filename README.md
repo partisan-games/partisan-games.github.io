@@ -16,8 +16,11 @@ npm start
 
 ## TODO
 
-- promeniti joystick u četiri strelice
-    - proveriti na telefonu
+- proveriti joystick na telefonu
+- dodati game buttons za 2d nivoe
+    - vis
+    - franjo-kluz
+    - za 2 igrača jel moguće?
 
 ### BAGOVI
 
