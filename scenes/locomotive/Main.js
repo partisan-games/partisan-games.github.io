@@ -15,7 +15,7 @@ export default class extends Scena3D {
   }
 
   async init() {
-    this.controls = createOrbitControls(this.camera, this.renderer.domElement)
+    this.controls = await createOrbitControls(this.camera, this.renderer.domElement)
     this.camera.position.z = 20
 
     this.addMesh(createSun())

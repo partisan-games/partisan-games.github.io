@@ -24,7 +24,7 @@ export default class extends Scena3D {
 
     ambLight({ scene: this.scene })
     this.camera.position.set(0, 10, 15)
-    this.controls = createOrbitControls(this.camera, this.renderer.domElement)
+    this.controls = await createOrbitControls(this.camera, this.renderer.domElement)
 
     this.addMesh(createFloor({ size: mapSize * 2 }))
 

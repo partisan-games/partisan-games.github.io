@@ -16,8 +16,6 @@ npm start
 
 ## TODO
 
-- report customElements?
-- createOrbitControls u async?
 - groblje 
     - zombiji često promašuju (možda još spustiti napad)
     - veštica plamen na gore i oko sebe?

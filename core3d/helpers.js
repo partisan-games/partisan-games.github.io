@@ -1,11 +1,11 @@
 import * as THREE from 'three'
 import { dir } from '/core3d/constants.js'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 const { randFloat, randFloatSpread } = THREE.MathUtils
 const raycaster = new THREE.Raycaster()
 
-export function createOrbitControls(camera, domElement) {
+export async function createOrbitControls(camera, domElement) {
+  const { OrbitControls } = await import('three/examples/jsm/controls/OrbitControls.js')
   const controls = new OrbitControls(camera, domElement)
   controls.maxPolarAngle = Math.PI / 2 - 0.1 // prevent bellow ground, negde ne radi
   controls.enableKeys = false

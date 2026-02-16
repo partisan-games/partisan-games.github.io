@@ -15,7 +15,7 @@ export default class extends Scena3D {
   async init() {
     this.bojaPozadine = 0x000000
     hemLight({ scene: this.scene })
-    this.controls = createOrbitControls(this.camera, this.renderer.domElement)
+    this.controls = await createOrbitControls(this.camera, this.renderer.domElement)
     this.controls.autoRotate = true
     this.camera.position.set(0, mapSize * .6, mapSize * 1.1)
 
