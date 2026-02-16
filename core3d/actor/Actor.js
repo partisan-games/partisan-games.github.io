@@ -32,7 +32,7 @@ export default class Actor extends GameObject {
     twoHandedWeapon,
     rightHandWeapon,
     mapSize,
-    attackDistance,
+    attackDistance = 1.5,
     hitColor = 0x8a0303,
     runCoefficient = 2,
     leaveDecals = attackDistance > 9,

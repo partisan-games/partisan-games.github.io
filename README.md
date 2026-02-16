@@ -17,7 +17,6 @@ npm start
 ## TODO
 
 - groblje 
-    - zombiji često promašuju (možda još spustiti napad)
     - veštica plamen na gore i oko sebe?
 - promeniti joystick u četiri strelice
     - proveriti na telefonu

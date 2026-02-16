@@ -17,7 +17,6 @@ export default class AI extends Actor {
     sightDistance = 25,
     followDistance = 1.5,
     patrolDistance = 10,
-    attackDistance = 1.25,
     target,
     name = target ? 'enemy' : 'ai',
     ...params
@@ -25,7 +24,6 @@ export default class AI extends Actor {
     super({
       name,
       speed,
-      attackDistance,
       jumpStyle,
       attackStyle,
       input: new Keyboard({ listen: false }),
