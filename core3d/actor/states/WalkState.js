@@ -47,6 +47,6 @@ export default class WalkState extends State {
   }
 
   exit() {
-    this.action?.setEffectiveTimeScale(1)
+    this.actor.anim.resetSpeed(this.name)
   }
 }

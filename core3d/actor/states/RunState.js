@@ -47,6 +47,6 @@ export default class RunState extends State {
   }
 
   exit() {
-    this.action?.setEffectiveTimeScale(this.timeScale)
+    this.actor.anim.resetSpeed(this.name, this.timeScale)
   }
 }

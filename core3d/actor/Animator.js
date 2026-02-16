@@ -144,10 +144,10 @@ export default class Animator {
     action?.play()
   }
 
-  resetSpeed(name) {
+  resetSpeed(name, scale = 1) {
     const action = this.getAction(name)
 
-    action?.setEffectiveTimeScale(1)
+    action?.setEffectiveTimeScale(scale)
   }
 
   /* EVENTS */
