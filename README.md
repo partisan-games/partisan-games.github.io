@@ -16,8 +16,6 @@ npm start
 
 ## TODO
 
-- groblje 
-    - veštica plamen na gore i oko sebe?
 - promeniti joystick u četiri strelice
     - proveriti na telefonu
 

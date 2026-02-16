@@ -2,6 +2,7 @@ import Player from '/core3d/actor/Player.js'
 import AI from '/core3d/actor/AI.js'
 import { loadModel } from '/core3d/loaders.js'
 import { jumpStyles } from '/core3d/constants.js'
+import { FlameUp } from '/core3d/Particles.js'
 
 const animDict = {
   idle: 'Standing Idle',
@@ -17,11 +18,12 @@ const mesh = await loadModel({ file: 'model.fbx', angle: Math.PI, animDict, pref
 
 /* EXTENDED CLASSES */
 
-const sharedProps = { mesh, animations: mesh.userData.animations, animDict, jumpStyle: jumpStyles.FLY_JUMP, useFlame: true }
+const sharedProps = { mesh, animations: mesh.userData.animations, animDict, jumpStyle: jumpStyles.FLY_JUMP }
 
 export class SorceressPlayer extends Player {
   constructor(props = {}) {
     super({ ...sharedProps, attackDistance: 3, ...props })
+    this.flame = new FlameUp()
   }
 
   enterAttack() {

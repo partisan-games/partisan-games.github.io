@@ -23,7 +23,7 @@ const [mesh, rightHandWeapon] = await Promise.all([
 
 /* EXTENDED CLASSES */
 
-const sharedProps = { rightHandWeapon, mesh, animations: mesh.userData.animations, animDict, jumpStyle: 'FLY_JUMP', maxJumpTime: .3, runCoefficient: 2.5, attackStyle: 'LOOP', useFlame: true }
+const sharedProps = { rightHandWeapon, mesh, animations: mesh.userData.animations, animDict, jumpStyle: 'FLY_JUMP', maxJumpTime: .3, runCoefficient: 2.5, attackStyle: 'LOOP' }
 
 export class BarbarianPlayer extends Player {
   constructor(props = {}) {

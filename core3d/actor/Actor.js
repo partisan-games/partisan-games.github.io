@@ -368,10 +368,6 @@ export default class Actor extends GameObject {
       this.mesh.position.y = this.groundY
   }
 
-  updateFlame(delta) {
-    this.flame?.update({ delta, max: this.attackDistance, loop: this.shouldLoop })
-  }
-
   update(delta = 1 / 60) {
     this.updateGround()
     this.fsm.update(delta)
@@ -384,6 +380,6 @@ export default class Actor extends GameObject {
     if (this.outOfBounds) this.bounce()
 
     if (this.useRicochet) this.ricochet?.expand({ velocity: 1.2, maxRounds: 5, gravity: .02 })
-    if (this.flame) this.updateFlame(delta)
+    this.flame?.update({ delta, max: this.attackDistance, loop: this.shouldLoop })
   }
 }
