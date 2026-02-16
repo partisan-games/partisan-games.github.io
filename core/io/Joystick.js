@@ -82,7 +82,9 @@ export default class Joystick {
     document.head.appendChild(this.style)
 
     this.addJoystick()
-    this.addGameButtons(animDict)
+
+    if (animDict)
+      this.addGameButtons(animDict)
   }
 
   addJoystick() {
