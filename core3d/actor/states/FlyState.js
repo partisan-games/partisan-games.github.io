@@ -18,7 +18,7 @@ export default class FlyState extends State {
       this.action.clampWhenFinished = true
       this.transitFrom(oldAction, .5)
 
-      if (this.actor.input.down) this.reverseAction()
+      if (this.actor.input.down) this.actor.anim.reverseAction(this.action)
     }
   }
 

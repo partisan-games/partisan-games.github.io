@@ -47,13 +47,4 @@ export default class State {
     if (this.action && oldAction) this.action.crossFadeFrom(oldAction, duration)
     this.action?.play()
   }
-
-  // https://gist.github.com/rtpHarry/2d41811d04825935039dfc075116d0ad
-  reverseAction(action = this.action, timescale = -1) {
-    if (!action) return
-    if (action.time === 0)
-      action.time = action.getClip().duration
-    action.paused = false
-    action.setEffectiveTimeScale(timescale)
-  }
 }
