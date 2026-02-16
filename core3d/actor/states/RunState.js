@@ -9,12 +9,12 @@ const chooseDuration = prevState => {
 export default class RunState extends State {
   enter(oldState, oldAction) {
     super.enter(oldState)
-    if (!this.actor.anim || !this.actor.anim.actions.run) return
+    if (!this.actor.anim?.run) return
 
     this.transitFrom(oldAction, chooseDuration(this.prevState))
 
     this.timeScale = this.action.timeScale
-    if (this.actor.input.down) this.actor.anim.reverseAction(this.action, -this.timeScale)
+    if (this.actor.input.down) this.actor.anim.reverseClip(this.action, -this.timeScale)
   }
 
   update(delta) {

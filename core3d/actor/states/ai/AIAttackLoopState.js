@@ -13,7 +13,7 @@ export default class AIAttackLoopState extends State {
 
     if (this.actor.anim) {
       if (this.action) this.transitFrom(oldAction, .25)
-      this.actor.anim.mixer.addEventListener('loop', this.attackAgain)
+      this.actor.anim?.addEventListener('loop', this.attackAgain)
     } else
       this.myInterval = setInterval(() => this.attackAgain(), 3000)
   }
@@ -36,7 +36,7 @@ export default class AIAttackLoopState extends State {
   }
 
   cleanup() {
-    this.actor?.mixer?.removeEventListener('loop', this.attackAgain)
+    this.actor.anim?.removeEventListener('loop', this.attackAgain)
     if (this.myInterval) clearInterval(this.myInterval)
   }
 

@@ -16,7 +16,7 @@ npm start
 
 ## TODO
 
-- iz states u Animator: mixer, actions, action... 
+- iz states u Animator: actions, action, play... 
 - gledati sa chrome neko vreme
 - promeniti joystick u četiri strelice
     - proveriti na telefonu

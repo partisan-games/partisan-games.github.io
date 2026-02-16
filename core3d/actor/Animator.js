@@ -19,6 +19,14 @@ export default class Animator {
     if (rightHandWeapon) this.addRightHandWeapon(clone(rightHandWeapon))
   }
 
+  get run() {
+    return this.actions.run
+  }
+
+  get walk() {
+    return this.actions.walk
+  }
+
   setupMixer(animations, animDict) {
     this.mixer = new THREE.AnimationMixer(getMesh(this.mesh))
     for (const state in animDict) {
@@ -81,12 +89,22 @@ export default class Animator {
   }
 
   // https://gist.github.com/rtpHarry/2d41811d04825935039dfc075116d0ad
-  reverseAction(action, timescale = -1) {
+  reverseClip(action, timescale = -1) {
     if (!action) return
     if (action.time === 0)
       action.time = action.getClip().duration
     action.paused = false
     action.setEffectiveTimeScale(timescale)
+  }
+
+  /* EVENTS */
+
+  addEventListener(name, callback) {
+    this.mixer.addEventListener(name, callback)
+  }
+
+  removeEventListener(name, callback) {
+    this.mixer.removeEventListener(name, callback)
   }
 
   /* UPDATES */
