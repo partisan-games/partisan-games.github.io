@@ -47,7 +47,8 @@ const css = /* css */`
   }
   .button-container {
     display: flex;
-    right: ${spacing};
+    left: 50%;
+    transform: translateX(-50%);
     gap: ${spacing};
   }
 `
