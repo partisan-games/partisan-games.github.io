@@ -19,7 +19,7 @@ export default class Player2D extends Predmet {
     if (this.input.right) this.nadesno()
     if (this.input.up) this.nagore()
     if (this.input.down) this.nadole()
-    if (this.input.keyboard.space || this.input.attack) this.puca()
+    if (this.input.attack) this.puca()
   }
 
   nalevo() {
