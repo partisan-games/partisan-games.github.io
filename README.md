@@ -17,7 +17,7 @@ npm start
 ## TODO
 
 ### BAGOVI
-
+- joystick na mobilnom se preklapa sa pucanjem
 - na početku 3D scena modeli raširenih ruku. probati bar jedan loop inicijalno (firstLoop = true)
 - BUG: golemi se nekad tresu u mestu (follow)
 - bug: graveyard game over a čarobnica stoji kao živa
