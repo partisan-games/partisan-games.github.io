@@ -1,5 +1,5 @@
 import Scena2D from '/core/Scena2D.js'
-import { Avionce } from './Avionce.js'
+import { Avionce } from '/core/actor/derived/Avionce.js'
 import PokretnaPozadina from './PokretnaPozadina.js'
 import Pokretno from './Pokretno.js'
 import Oblak from './Oblak.js'

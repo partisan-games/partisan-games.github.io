@@ -1,4 +1,4 @@
-import VoziloIgracOdozgo from '/core/actor/VoziloIgracOdozgo.js'
+import VoziloIgracOdozgo from '/core/actor/derived/VoziloIgracOdozgo.js'
 import platno from '/core/io/platno.js'
 
 const JACINA_STRUJE = 6

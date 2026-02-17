@@ -16,7 +16,6 @@ npm start
 
 ## TODO
 
-- organizovati sve koji extends Player2D u derived
 - proveriti kontrole svuda u 2D (ustanak..)
 
 - REFAKTOR: opciono prosleđivati inputKeys za sve, odnosno default inputKeys za 2D i 3D igrača
@@ -90,8 +89,8 @@ Ideje za nivoe:
 - odbrani polozaj (kamera odozgo, nadiru sa svih strana)
 - podmornica
 
-Glavni meni
-- nakon pređene misije bitka postaje spomenik
+Avionce:
+- dodati bombu (special)
 
 Odbrani bunker
 - partizanska verzija tower defense (odbrana Užica, Kadinjača, Bihać...)
