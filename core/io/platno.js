@@ -4,8 +4,16 @@ export const ctx = platno.getContext('2d')
 platno.style.display = 'none'
 
 const resize = () => {
-  platno.width = window.innerWidth
-  platno.height = window.innerHeight
+  // platno.width = window.innerWidth
+  // platno.height = window.innerHeight
+  const dpr = Math.min(2, window.devicePixelRatio || 1) // save battery by limit pixel ratio to 2
+  platno.style.width = window.innerWidth + 'px'
+  platno.style.height = window.innerHeight + 'px'
+
+  platno.width = Math.floor(window.innerWidth * dpr)
+  platno.height = Math.floor(window.innerHeight * dpr)
+
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
 }
 
 resize()
