@@ -1,4 +1,3 @@
-import { keyboard } from '/core/io/Keyboard.js'
 import platno, { crtaNebo } from '/core/io/platno.js'
 import Scena2D from '/core/Scena2D.js'
 import AvionIgrac from './AvionIgrac.js'
@@ -121,19 +120,19 @@ export default class extends Scena2D {
     super.handleInput()
     if (!this.player.ziv) return
 
-    if (keyboard.right && this.brzinaScene < MAX_BRZINA)
+    if (this.player.input.right && this.brzinaScene < MAX_BRZINA)
       this.ubrzavaOstale(Math.PI, POTISAK)
 
-    if (keyboard.left && this.brzinaScene >= MIN_BRZINA)
+    if (this.player.input.left && this.brzinaScene >= MIN_BRZINA)
       this.ubrzavaOstale(Math.PI, -POTISAK)
 
-    if (keyboard.up && this.dignutostScene - DIZAJ < MAX_DIGNUTOST) {
+    if (this.player.input.up && this.dignutostScene - DIZAJ < MAX_DIGNUTOST) {
       if (this.player.y < this.visina * 0.5)
         this.dizePredmete(DIZAJ)
       if (this.brzinaScene === 0) this.pocniParalax() // kada avion ponovo uzlece
     }
 
-    if (keyboard.down && this.dignutostScene - DIZAJ >= 0)
+    if (this.player.input.down && this.dignutostScene - DIZAJ >= 0)
       this.dizePredmete(-DIZAJ * 2)
   }
 

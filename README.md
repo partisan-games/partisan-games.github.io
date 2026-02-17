@@ -17,6 +17,7 @@ npm start
 ## TODO
 
 - BUG: keyboard ne postoji na mobilnim, zameniti svuda sa input
+    - ostalo na tenkici, ustanak
 - dodati game buttons za 2d nivoe
     - franjo-kluz
     - za 2 igrača jel moguće?

@@ -51,16 +51,18 @@ export default class extends Scena2D {
     const avion2 = new Avion({ src: 'armies/talijani/avioni/imam-ro57.png', y: platno.height * .2, skalar: 0.66, brzina: -320 })
     this.top.ciljevi.push(this.tenk, avion, avion2)
     this.add(...planine, avion, avion2, this.bunker, this.tenk, this.top, strelac, posada, zastavnik)
-    this.controls2UI = new Controls({ positionClass: 'bottom-right', controlKeys: tankRightControls })
   }
 
   handleClick(e) {
     super.handleClick(e)
     const button = e.target.closest('button')
-    if (!['jedan-igrac', 'dva-igraca'].includes(button.id)) return
+    if (!button || !['jedan-igrac', 'dva-igraca'].includes(button.id)) return
 
-    if (button.id == 'dva-igraca')
+    if (button.id == 'dva-igraca') {
+      this.controls2UI = new Controls({ positionClass: 'bottom-right', controlKeys: tankRightControls })
       this.tenk.ai = !this.tenk.ai
+    }
+
     this.start()
   }
 
@@ -89,6 +91,6 @@ export default class extends Scena2D {
 
   end() {
     super.end()
-    this.controls2UI.end()
+    this.controls2UI?.end()
   }
 }

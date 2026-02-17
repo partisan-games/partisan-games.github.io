@@ -37,7 +37,7 @@ export default class extends Scena2D {
   handleClick(e) {
     super.handleClick(e)
     const button = e.target.closest('button')
-    if (!['jedan-igrac', 'dva-igraca'].includes(button.id)) return
+    if (!button || !['jedan-igrac', 'dva-igraca'].includes(button.id)) return
 
     if (button.id == 'dva-igraca') {
       this.tenk2.ai = !this.tenk2.ai
