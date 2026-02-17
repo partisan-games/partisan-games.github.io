@@ -16,9 +16,7 @@ npm start
 
 ## TODO
 
-- umesto kamere full screen dugme (ne može kada je tu pucanje)
-    - pomeriti pucanje na sredinu
-    - automatski full screen?
+- po defaultu, umesto kamere full screen dugme
 - sakriti igre na telefonu koje ne rade
 - organizovati sve koji extends Player2D u derived
 - proveriti kontrole svuda u 2D (ustanak..)

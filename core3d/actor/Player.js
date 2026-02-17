@@ -3,7 +3,7 @@ import { jumpStyles, attackStyles, reactions } from '/core3d/constants.js'
 import Actor from './Actor.js'
 import ChaseCamera from '/core3d/actor/ChaseCamera.js'
 
-const emptyDict = dict => Object.fromEntries(Object.keys(dict).map(k => [k, '']))
+const emptyDict = dict => dict && Object.fromEntries(Object.keys(dict).map(k => [k, '']))
 
 export default class Player extends Actor {
   constructor({
