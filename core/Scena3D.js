@@ -30,11 +30,12 @@ export default class Scena3D extends Scena {
 
     this.bojaPlatna = bojaPlatna
 
-    window.addEventListener('resize', () => {
-      this.renderer.setSize(canvasWidth, canvasHeight)
-      this.camera.aspect = canvasWidth / canvasHeight
-      this.camera.updateProjectionMatrix()
-    })
+    if (canvasWidth == window.innerWidth)
+      window.addEventListener('resize', () => {
+        this.renderer.setSize(window.innerWidth, window.innerHeight)
+        this.camera.aspect = window.innerWidth / window.innerHeight
+        this.camera.updateProjectionMatrix()
+      })
   }
 
   set bojaPlatna(boja) {
