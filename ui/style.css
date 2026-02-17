@@ -9,6 +9,7 @@
   --radius: 4px;
   --white: #FFFFFF;
   --black: #1B1B1B;
+  --charcoal: #222;
   --gray: #ECEBE4;
   --red: #D94A38;
   --olive: #848C58;
@@ -32,25 +33,13 @@ html {
 }
 
 body {
-  background-color: var(--gray);
+  background-color: var(--charcoal);
   cursor: url(/assets/images/rpgui/cursor/default.png), auto;
   font-size: 0.8em;
   margin: 0;
   min-height: 100vh;
   overflow-x: hidden;
   image-rendering: pixelated;
-  position: relative; /* za pseudo-element */
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: url("/assets/images/art/milan-vasek-map.webp") center / cover no-repeat;
-  z-index: -2;
-  filter: sepia(0.4);
-  opacity: 0.85; 
-  pointer-events: none; /* da ne blokira evente */
 }
 
 body,
@@ -78,6 +67,7 @@ button {
 h1 {
   text-align: center;
   color: var(--olive);
+  font-size: 2rem;
 }
 
 h2 {

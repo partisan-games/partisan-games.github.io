@@ -21,6 +21,7 @@ npm start
 - REŠENJE: opciono prosleđivati inputKeys za sve, odnosno default inputKeys za 2D i 3D igrača
     - odatle renderovati dugmiće
 
+- BUG: keyboard ne postoji na mobilnim, zameniti svuda sa input
 - dodati game buttons za 2d nivoe
     - franjo-kluz
     - za 2 igrača jel moguće?

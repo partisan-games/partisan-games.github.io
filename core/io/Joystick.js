@@ -1,5 +1,5 @@
 const spacing = '16px'
-const btnSize = 80
+const btnSize = '66px'
 
 const css = /* css */`
   .joystick, .button-container {
@@ -12,8 +12,6 @@ const css = /* css */`
   }
   .joystick {
     left: ${spacing};
-    width: ${btnSize * 3}px;
-    height: ${btnSize * 2}px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
@@ -21,9 +19,15 @@ const css = /* css */`
   }
   .joystick-btn, .game-btn {
     background: rgba(126, 126, 126, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: ${btnSize};
+    width: ${btnSize};
     border: 2px solid white;
     outline: 2px solid black;
     -webkit-tap-highlight-color: transparent;
+    padding: 0;
   }
   .joystick-btn:hover,
   .game-btn:hover,
@@ -32,25 +36,19 @@ const css = /* css */`
     background: rgba(0, 0, 0, 0.5);
   }
   .joystick-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     border-radius: 8px;
     font-size: 2.5rem;
     font-weight: bold;
     transition: all 0.1s ease;
   }
+  .game-btn {
+    border-radius: 50%;
+    font-size: 1.85rem;
+  }
   .button-container {
     display: flex;
     right: ${spacing};
     gap: ${spacing};
-  }
-  .game-btn {
-    border-radius: 50%;
-    height: ${btnSize}px;
-    width: ${btnSize}px;
-    padding: 0;
-    font-size: 1.85rem;
   }
 `
 
