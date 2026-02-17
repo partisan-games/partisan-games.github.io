@@ -11,7 +11,7 @@ export default class Player2D extends Predmet {
     this.cvrstaTela = []
     this.okret = 0.047
     this.faktorTrenja = .1
-    this.input = new Input({ animDict: { attack: '' } })
+    this.input = new Input({ buttonDict: { attack: '' } })
   }
 
   handleInput() {

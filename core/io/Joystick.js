@@ -69,7 +69,7 @@ const buttonsData = {
 }
 
 export default class Joystick {
-  constructor({ animDict }) {
+  constructor({ buttonDict }) {
     this.up = false
     this.down = false
     this.left = false
@@ -85,8 +85,8 @@ export default class Joystick {
 
     this.addJoystick()
 
-    if (animDict)
-      this.addGameButtons(animDict)
+    if (buttonDict)
+      this.addGameButtons(buttonDict)
   }
 
   addJoystick() {
@@ -110,13 +110,13 @@ export default class Joystick {
     this.joystick.appendChild(element)
   }
 
-  addGameButtons(animDict) {
+  addGameButtons(buttonDict) {
     this.buttonContainer = document.createElement('div')
     this.buttonContainer.className = 'button-container'
     document.body.appendChild(this.buttonContainer)
 
     Object.keys(buttonsData)
-      .filter(key => key in animDict)
+      .filter(key => key in buttonDict)
       .forEach(key => this.addButton(key, buttonsData[key]))
   }
 

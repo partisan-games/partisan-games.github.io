@@ -20,7 +20,7 @@ export default class Warplane extends GameObject {
     this.explosion = new Explosion({ size: 4 })
     this.time = 0
     this.propellers = []
-    this.input = new Input({ animDict: { attack: true } })
+    this.input = new Input({ buttonDict: { attack: '' } })
 
     if (camera) {
       this.chaseCamera = new ChaseCamera({

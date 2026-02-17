@@ -17,9 +17,9 @@ npm start
 ## TODO
 
 - dodati game buttons za 2d nivoe
-    - prosleđivati rečnik sa ikonicama buttonsDict
-        - default samo vaditi ključeve animDict bez vrednosti
+    - prosleđivati rečnik sa ikonicama buttonDict
         - ako nema vrednosti koristiti default ikonice
+        - slati i buttonDict kao param 
     - vis
     - franjo-kluz
     - za 2 igrača jel moguće?
