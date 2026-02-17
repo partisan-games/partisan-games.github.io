@@ -4,7 +4,7 @@ import { praviPucanje } from '/core/actor/prosirenja/pucanje.js'
 
 export class Avionce extends Player2D {
   constructor() {
-    super('armies/avionce.gif', { skalar: .75, zapaljiv: true, senka: true })
+    super('armies/avionce.gif', { skalar: .75, zapaljiv: true, senka: true, buttonDict: { attack: '💥' } })
     this.brzina = 0
     this.poeni = 0
     this.zivoti = 2

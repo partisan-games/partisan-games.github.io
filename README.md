@@ -16,8 +16,14 @@ npm start
 
 ## TODO
 
-- promeniti joystick u četiri strelice
-    - proveriti na telefonu
+- BUG: prateca ne radi u franjo-kluz
+    - Player2D  odlučiti šta je pucanje (space || attack) this.puca()
+- dodati game buttons za 2d nivoe
+    - franjo-kluz
+    - za 2 igrača jel moguće?
+- og slika promeniti
+- umesto kamere full screen dugme
+- sakriti igre na telefonu koje ne rade
 
 ### BAGOVI
 

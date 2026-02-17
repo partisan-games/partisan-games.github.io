@@ -1,4 +1,5 @@
 const spacing = '16px'
+const btnSize = 80
 
 const css = /* css */`
   .joystick, .button-container {
@@ -11,16 +12,12 @@ const css = /* css */`
   }
   .joystick {
     left: ${spacing};
-    height: 120px;
+    width: ${btnSize * 3}px;
+    height: ${btnSize * 2}px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
     gap: 8px;
-  }
-  .button-container {
-    display: flex;
-    right: ${spacing};
-    gap: ${spacing};
   }
   .joystick-btn, .game-btn {
     background: rgba(126, 126, 126, 0.25);
@@ -39,35 +36,40 @@ const css = /* css */`
     align-items: center;
     justify-content: center;
     border-radius: 8px;
-    font-size: 32px;
+    font-size: 2.5rem;
     font-weight: bold;
     transition: all 0.1s ease;
   }
+  .button-container {
+    display: flex;
+    right: ${spacing};
+    gap: ${spacing};
+  }
   .game-btn {
     border-radius: 50%;
-    height: 60px;
-    width: 60px;
+    height: ${btnSize}px;
+    width: ${btnSize}px;
     padding: 0;
-    font-size: 1.5rem;
+    font-size: 1.85rem;
   }
 `
 
 const arrowsData = [
-  { icon: '▲', field: 'up', row: 1, col: 2 },
-  { icon: '▼', field: 'down', row: 2, col: 2 },
-  { icon: '◀', field: 'left', row: 2, col: 1 },
-  { icon: '▶', field: 'right', row: 2, col: 3 }
+  { icon: '▲', key: 'up', row: 1, col: 2 },
+  { icon: '▼', key: 'down', row: 2, col: 2 },
+  { icon: '◀', key: 'left', row: 2, col: 1 },
+  { icon: '▶', key: 'right', row: 2, col: 3 }
 ]
 
-const buttonsData = [
-  { icon: '↑', field: 'jump' },
-  { icon: '🗡️', field: 'attack' },
-  { icon: '⚔️', field: 'attack2' },
-  { icon: '💥', field: 'special' }
-]
+const buttonsData = {
+  jump: '↑',
+  attack: '🗡️',
+  attack2: '⚔️',
+  special: '💥',
+}
 
 export default class Joystick {
-  constructor({ animDict }) {
+  constructor({ buttonDict }) {
     this.up = false
     this.down = false
     this.left = false
@@ -83,8 +85,8 @@ export default class Joystick {
 
     this.addJoystick()
 
-    if (animDict)
-      this.addGameButtons(animDict)
+    if (buttonDict)
+      this.addGameButtons(buttonDict)
   }
 
   addJoystick() {
@@ -104,34 +106,33 @@ export default class Joystick {
       gridColumn: data.col,
     })
 
-    this.addBtnEvents(element, data)
+    this.addBtnEvents(element, data.key)
     this.joystick.appendChild(element)
   }
 
-  addGameButtons(animDict) {
+  addGameButtons(buttonDict) {
     this.buttonContainer = document.createElement('div')
     this.buttonContainer.className = 'button-container'
     document.body.appendChild(this.buttonContainer)
 
-    buttonsData.forEach(data => {
-      if (data.field in animDict) this.addButton(data)
-    })
+    Object.keys(buttonDict)
+      .filter(key => key in buttonsData)
+      .forEach(key => this.addButton(key, buttonDict[key] || buttonsData[key]))
   }
 
-  addButton(data) {
+  addButton(key, icon) {
     const element = document.createElement('button')
-    element.innerText = data.icon
-    element.title = data.field
+    element.innerText = icon
     element.classList.add('game-btn')
 
-    this.addBtnEvents(element, data)
+    this.addBtnEvents(element, key)
     this.buttonContainer.appendChild(element)
   }
 
-  addBtnEvents = (element, data) => {
+  addBtnEvents = (element, key) => {
     const handleEvent = (val, e) => {
       e.preventDefault()
-      this[data.field] = val
+      this[key] = val
     }
 
     element.addEventListener('pointerdown', e => handleEvent(true, e))
