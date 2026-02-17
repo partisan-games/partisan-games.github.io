@@ -8,6 +8,7 @@ const emptyDict = dict => Object.fromEntries(Object.keys(dict).map(k => [k, ''])
 export default class Player extends Actor {
   constructor({
     animDict,
+    buttonDict,
     useJoystick,
     useKeyboard,
     attackStyle = attackStyles.LOOP,
@@ -16,7 +17,7 @@ export default class Player extends Actor {
     attackKey,
     showHealthBar = true,
     rpgStyle = false,
-    input = new Input({ useJoystick, useKeyboard, attackKey, buttonDict: emptyDict(animDict) }),
+    input = new Input({ useJoystick, useKeyboard, attackKey, buttonDict: buttonDict || emptyDict(animDict) }),
     camera,
     cameraClass,
     ...rest
