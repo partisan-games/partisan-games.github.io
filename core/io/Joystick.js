@@ -1,5 +1,5 @@
 const spacing = '16px'
-const btnSize = '50px'
+const btnSize = '80px'
 
 const css = /* css */`
   .joystick, .button-container {
@@ -36,13 +36,13 @@ const css = /* css */`
   }
   .joystick-btn {
     border-radius: 8px;
-    font-size: 2.25rem;
+    font-size: 2.5rem;
     font-weight: bold;
     transition: all 0.1s ease;
   }
   .game-btn {
     border-radius: 50%;
-    font-size: 1.5rem;
+    font-size: 1.75rem;
   }
   .button-container {
     display: flex;

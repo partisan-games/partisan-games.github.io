@@ -16,8 +16,6 @@ npm start
 
 ## TODO
 
-- avionce kad pogine da svetluca par sekundi
-
 ### BAGOVI
 - joystick na mobilnom se preklapa sa pucanjem
 - na početku 3D scena modeli raširenih ruku. probati bar jedan loop inicijalno (firstLoop = true)

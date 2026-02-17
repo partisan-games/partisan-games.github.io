@@ -16,6 +16,7 @@ export default class extends Scena2D {
     super({
       controlKeys: { ...baseControls, Enter: 'pucanje' },
     })
+    this.bojaPozadine = '#165a8d'
   }
 
   init() {
