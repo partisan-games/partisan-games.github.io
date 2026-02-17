@@ -54,14 +54,14 @@ const css = /* css */`
   }
 `
 
-const arrowsData = [
+const arrowsDict = [
   { icon: '▲', field: 'up', row: 1, col: 2 },
   { icon: '▼', field: 'down', row: 2, col: 2 },
   { icon: '◀', field: 'left', row: 2, col: 1 },
   { icon: '▶', field: 'right', row: 2, col: 3 }
 ]
 
-const buttonsData = [
+const buttonsDict = [
   { icon: '↑', field: 'jump' },
   { icon: '🗡️', field: 'attack' },
   { icon: '⚔️', field: 'attack2' },
@@ -93,7 +93,7 @@ export default class Joystick {
     this.joystick = document.createElement('div')
     this.joystick.className = 'joystick'
 
-    arrowsData.forEach(data => this.addArrow(data))
+    arrowsDict.forEach(data => this.addArrow(data))
     document.body.appendChild(this.joystick)
   }
 
@@ -115,7 +115,7 @@ export default class Joystick {
     this.buttonContainer.className = 'button-container'
     document.body.appendChild(this.buttonContainer)
 
-    buttonsData.forEach(data => {
+    buttonsDict.forEach(data => {
       if (data.field in animDict) this.addButton(data)
     })
   }

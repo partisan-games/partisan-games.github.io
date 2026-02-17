@@ -17,11 +17,13 @@ npm start
 ## TODO
 
 - dodati game buttons za 2d nivoe
+    - prosleđivati rečnik sa ikonicama (default samo vaditi ključeve animDict)
     - vis
     - franjo-kluz
     - za 2 igrača jel moguće?
 - og slika promeniti
 - umesto kamere full screen dugme
+- sakriti igre na telefonu koje ne rade
 
 ### BAGOVI
 
