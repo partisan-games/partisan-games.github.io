@@ -16,11 +16,12 @@ npm start
 
 ## TODO
 
-- proveriti joystick na telefonu
 - dodati game buttons za 2d nivoe
     - vis
     - franjo-kluz
     - za 2 igrača jel moguće?
+- og slika promeniti
+- umesto kamere full screen dugme
 
 ### BAGOVI
 

@@ -1,4 +1,5 @@
 const spacing = '16px'
+const btnSize = 80
 
 const css = /* css */`
   .joystick, .button-container {
@@ -11,16 +12,12 @@ const css = /* css */`
   }
   .joystick {
     left: ${spacing};
-    height: 120px;
+    width: ${btnSize * 3}px;
+    height: ${btnSize * 2}px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
     gap: 8px;
-  }
-  .button-container {
-    display: flex;
-    right: ${spacing};
-    gap: ${spacing};
   }
   .joystick-btn, .game-btn {
     background: rgba(126, 126, 126, 0.25);
@@ -39,16 +36,21 @@ const css = /* css */`
     align-items: center;
     justify-content: center;
     border-radius: 8px;
-    font-size: 32px;
+    font-size: 2.5rem;
     font-weight: bold;
     transition: all 0.1s ease;
   }
+  .button-container {
+    display: flex;
+    right: ${spacing};
+    gap: ${spacing};
+  }
   .game-btn {
     border-radius: 50%;
-    height: 60px;
-    width: 60px;
+    height: ${btnSize}px;
+    width: ${btnSize}px;
     padding: 0;
-    font-size: 1.5rem;
+    font-size: 1.85rem;
   }
 `
 

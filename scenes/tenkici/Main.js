@@ -27,7 +27,6 @@ export default class extends Scena2D {
 
   init() {
     this.pozadina = new Pozadina('background/razrusen-grad-savremen.jpg')
-    this.controls2UI = new Controls({ positionClass: 'bottom-right', controlKeys: tankRightControls })
     this.tenk = new TenkLevo({ y: nivoTla })
     this.tenk2 = new TenkDesno({ y: nivoTla, ai: true })
     this.tenk.ciljevi.push(this.tenk2)
@@ -40,8 +39,11 @@ export default class extends Scena2D {
     const button = e.target.closest('button')
     if (!['jedan-igrac', 'dva-igraca'].includes(button.id)) return
 
-    if (button.id == 'dva-igraca')
+    if (button.id == 'dva-igraca') {
       this.tenk2.ai = !this.tenk2.ai
+      this.controls2UI = new Controls({ positionClass: 'bottom-right', controlKeys: tankRightControls })
+    }
+
     this.start()
   }
 
@@ -70,6 +72,6 @@ export default class extends Scena2D {
 
   end() {
     super.end()
-    this.controls2UI.end()
+    this.controls2UI?.end()
   }
 }
