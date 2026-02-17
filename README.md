@@ -16,11 +16,9 @@ npm start
 
 ## TODO
 
-- napomena igre su pravljene za desktop
-
 ### BAGOVI
 
-- BUG: sa viewport preveliko, bez viewport premalo (joystick na mobilnom se preklapa sa pucanjem)
+- mesto za fullscreen dugme??
 - bug: graveyard game over a čarobnica stoji kao živa
 - na početku 3D scena modeli raširenih ruku. probati bar jedan loop inicijalno (firstLoop = true)
 - BUG: golemi se nekad tresu u mestu (follow)
