@@ -7,7 +7,7 @@ export class Avionce extends Player2D {
     super('armies/avionce.gif', { skalar: .75, zapaljiv: true, senka: true, buttonDict: { attack: '💥' } })
     this.brzina = 0
     this.poeni = 0
-    this.zivoti = 2
+    this.zivoti = 3
     Object.assign(this, praviPucanje({ potisakMetka: 1000, vremePunjenja: .1, ugloviPucanja: [-.33, 0, .33] }))
   }
 
