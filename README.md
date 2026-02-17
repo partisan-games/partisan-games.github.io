@@ -16,8 +16,9 @@ npm start
 
 ## TODO
 
-- po defaultu, umesto kamere full screen dugme
-- sakriti igre na telefonu koje ne rade
+- umesto kamere full screen dugme
+    - BUG: sjebao sam resize dugme za 3D scene
+    - fix: ako je canvasWidth onda ne radi resize, inače full screen
 - organizovati sve koji extends Player2D u derived
 - proveriti kontrole svuda u 2D (ustanak..)
 

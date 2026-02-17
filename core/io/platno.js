@@ -10,6 +10,7 @@ const resize = () => {
 
 resize()
 window.addEventListener('resize', resize)
+window.addEventListener('fullscreenchange', resize)
 
 export function crtaNebo(nivoTla, bojaNeba = 'blue', bojaNebaPreliv = 'lightblue', pocetakPreliva = 0) {
   const ctx = platno.getContext('2d')
