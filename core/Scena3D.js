@@ -21,6 +21,7 @@ export default class Scena3D extends Scena {
     this.scene = new THREE.Scene()
     this.camera = new THREE.PerspectiveCamera(75, canvasWidth / canvasHeight, 0.1, 1000)
     this.camera.position.set(0, 5, 30)
+    this.bojaPlatna = bojaPlatna
 
     this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, alpha: true, antialias: true })
     this.renderer.setSize(canvasWidth, canvasHeight)
@@ -28,14 +29,12 @@ export default class Scena3D extends Scena {
     this.renderer.shadowMap.enabled = true
     if (toon) this.createToonRenderer()
 
-    this.bojaPlatna = bojaPlatna
+    this.handleResize = this.handleResize.bind(this)
 
-    if (canvasWidth == window.innerWidth)
-      window.addEventListener('resize', () => {
-        this.renderer.setSize(window.innerWidth, window.innerHeight)
-        this.camera.aspect = window.innerWidth / window.innerHeight
-        this.camera.updateProjectionMatrix()
-      })
+    if (canvasWidth == window.innerWidth) {
+      window.addEventListener('resize', this.handleResize)
+      screen.orientation.addEventListener('change', this.handleResize)
+    }
   }
 
   set bojaPlatna(boja) {
@@ -44,6 +43,12 @@ export default class Scena3D extends Scena {
 
   set bojaPozadine(boja) {
     this.scene.background = new THREE.Color(boja)
+  }
+
+  handleResize() {
+    this.renderer.setSize(window.innerWidth, window.innerHeight)
+    this.camera.aspect = window.innerWidth / window.innerHeight
+    this.camera.updateProjectionMatrix()
   }
 
   async createToonRenderer(defaultThickness = 0.0025) {
@@ -77,5 +82,11 @@ export default class Scena3D extends Scena {
 
   render() {
     this.renderer.render(this.scene, this.camera)
+  }
+
+  end() {
+    super.end()
+    window.removeEventListener('resize', this.handleResize)
+    screen.orientation.removeEventListener('change', this.handleResize)
   }
 }

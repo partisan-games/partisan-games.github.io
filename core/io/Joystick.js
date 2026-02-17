@@ -1,5 +1,5 @@
 const spacing = '16px'
-const btnSize = '66px'
+const btnSize = '60px'
 
 const css = /* css */`
   .joystick, .button-container {
