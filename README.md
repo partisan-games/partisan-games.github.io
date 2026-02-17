@@ -16,19 +16,15 @@ npm start
 
 ## TODO
 
-- BUG: keyboard ne postoji na mobilnim, zameniti svuda sa input
-    - ostalo na tenkici, ustanak
-- dodati game buttons za 2d nivoe
-    - franjo-kluz
-    - za 2 igrača jel moguće?
-- og slika promeniti
-- umesto kamere full screen dugme
+- umesto kamere full screen dugme (ne može kada je tu pucanje)
+    - automatski full screen?
 - sakriti igre na telefonu koje ne rade
 - organizovati sve koji extends Player2D u derived
 - proveriti kontrole svuda u 2D (ustanak..)
 
 - REFAKTOR: opciono prosleđivati inputKeys za sve, odnosno default inputKeys za 2D i 3D igrača
     - odatle renderovati dugmiće
+- tenkici i ustanak koriste keyboard, mozda su desktop only
 
 ### BAGOVI
 

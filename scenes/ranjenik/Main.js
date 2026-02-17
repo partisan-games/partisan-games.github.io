@@ -11,7 +11,7 @@ const RITAM_PALJBE = 1500
 
 export default class extends Scena2D {
   constructor() {
-    super({ intro: 'Ranjen si tokom bitke na Sutjesci. Pokušaj da se izvučeš iz obruča.' })
+    super({ intro: 'You were wounded during the Battle of Sutjeska. Try to break out of the encirclement.' })
   }
 
   init() {
@@ -31,7 +31,7 @@ export default class extends Scena2D {
 
     this.patrola.stani()
     this.patrola.pustiNadjen()
-    this.defeat('Uhvaćen si. Sva nada je izgubljena...')
+    this.defeat('You\'re caught. All hope is lost...')
   }
 
   proveriPobedu() {
@@ -41,7 +41,7 @@ export default class extends Scena2D {
       this.patrola.nestani()
       this.pozadina.slika.src = '/assets/images/shumarak-pozadina.png'
       this.predmeti = this.predmeti.filter(p => p.constructor.name !== 'Paljba')
-      this.victory('Uspeo si da pronađeš spas!')
+      this.victory('You\'ve made it to safety!')
     }
   }
 
@@ -61,7 +61,7 @@ export default class extends Scena2D {
     this.vreme.reset()
 
     if (this.player.sudara(krater))
-      this.defeat('Hrabro si pao u pokušaju bega.')
+      this.defeat('You fell bravely while trying to escape.')
   }
 
   update(dt, t) {
