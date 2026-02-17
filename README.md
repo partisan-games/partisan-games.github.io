@@ -16,8 +16,6 @@ npm start
 
 ## TODO
 
-- proveriti kontrole svuda u 2D (ustanak..)
-
 - REFAKTOR: opciono prosleđivati inputKeys za sve, odnosno default inputKeys za 2D i 3D igrača
     - odatle renderovati dugmiće
 - tenkici i ustanak koriste keyboard, mozda su desktop only
