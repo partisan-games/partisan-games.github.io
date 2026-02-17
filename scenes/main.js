@@ -8,7 +8,7 @@ if (location.hash) {
   document.getElementById('ui').innerHTML = ''
   manager.start(location.hash.slice(1))
 } else
-  manager.start('lookat-cursor')
+  manager.start('lookat-cursor', false)
 
 document.addEventListener('click', e => {
   const button = e.target.closest('button')

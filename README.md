@@ -18,8 +18,6 @@ npm start
 
 - avionce kad pogine da svetluca par sekundi
 
-- ne treba loader za lookat cursor
-
 ### BAGOVI
 - joystick na mobilnom se preklapa sa pucanjem
 - na početku 3D scena modeli raširenih ruku. probati bar jedan loop inicijalno (firstLoop = true)

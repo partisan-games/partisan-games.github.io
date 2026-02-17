@@ -25,16 +25,18 @@ class SceneManager {
     }
   }
 
-  async start(path) {
-    await this.initSpinner()
-    this.spinner.show()
+  async start(path, showSpinner = true) {
+    if (showSpinner) {
+      await this.initSpinner()
+      this.spinner.show()
+    }
     if (this.scene)
       this.scene.end()
 
     const SceneClass = (await import(`/scenes/${path}/Main.js`)).default
     this.scene = new SceneClass(this)
     await this.scene.init()
-    this.spinner.hide()
+    this.spinner?.hide()
 
     if (this.scene.pozadina)
       this.scene.pozadina.onload = () => this.handleIntro()
