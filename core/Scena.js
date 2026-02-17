@@ -15,8 +15,6 @@ export default class Scena {
     this.canvas = canvas
     this.canvas.style.display = 'block'
 
-    document.querySelector('meta[name="viewport"]')?.remove()
-
     if (disableEvents) return
 
     this.handleClick = this.handleClick.bind(this)
