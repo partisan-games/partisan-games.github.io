@@ -16,8 +16,9 @@ npm start
 
 ## TODO
 
+- BUG: prateca ne radi u franjo-kluz
+    - Player2D  odlučiti šta je pucanje (space || attack) this.puca()
 - dodati game buttons za 2d nivoe
-    - vis
     - franjo-kluz
     - za 2 igrača jel moguće?
 - og slika promeniti

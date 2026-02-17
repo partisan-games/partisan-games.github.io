@@ -4,7 +4,6 @@ import Input from '/core/io/Input.js'
 
 export default class Player2D extends Predmet {
   constructor(src, { buttonDict, ...rest } = {}) {
-    console.log(buttonDict)
     super(src, rest)
     this.oznake.add('igrac')
     this.potisak = 31
