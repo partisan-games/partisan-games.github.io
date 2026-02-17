@@ -18,6 +18,9 @@ npm start
 
 - BUG: prateca ne radi u franjo-kluz
     - Player2D  odlučiti šta je pucanje (space || attack) this.puca()
+- REŠENJE: opciono prosleđivati inputKeys za sve, odnosno default inputKeys za 2D i 3D igrača
+    - odatle renderovati dugmiće
+
 - dodati game buttons za 2d nivoe
     - franjo-kluz
     - za 2 igrača jel moguće?
