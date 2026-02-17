@@ -4,12 +4,12 @@ import UI from '../ui/UI.js'
 
 export default class Scena {
   constructor({
-    usePointerLock, controlKeys, intro, reportText, customStartScreen, startButtonText, showControls, uiStyle, canvas, disableEvents = false
+    usePointerLock, controlKeys, intro, reportText, customStartScreen, startButtonText, showControls, uiStyle, canvas, disableEvents = false, showFullScreen
   } = {}) {
     this.usePointerLock = usePointerLock
     this.uiStyle = uiStyle
     this.gameLoop = new GameLoop(this.loop)
-    this.ui = new UI(this, { reportText, intro, customStartScreen, startButtonText, uiStyle, showControls, controlKeys })
+    this.ui = new UI(this, { reportText, intro, customStartScreen, startButtonText, uiStyle, showControls, controlKeys, showFullScreen })
     this.predmeti = []
 
     this.canvas = canvas

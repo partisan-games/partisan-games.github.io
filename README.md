@@ -16,18 +16,8 @@ npm start
 
 ## TODO
 
-- organizovati sve koji extends Player2D u derived
-- proveriti kontrole svuda u 2D (ustanak..)
-
-- REFAKTOR: opciono prosleđivati inputKeys za sve, odnosno default inputKeys za 2D i 3D igrača
-    - odatle renderovati dugmiće
-- tenkici i ustanak koriste keyboard, mozda su desktop only
-
 ### BAGOVI
-
-- BUG: tač komande baguju i zakucavaju, npr. rpg special se beskonačno ponavlja
-    - dugme mora da se resetuje nakon pritiska, na button leave ili slično
-- BUG: avatar dosta baguje i blokira (možda ima veze tač komande)
+- joystick na mobilnom se preklapa sa pucanjem
 - na početku 3D scena modeli raširenih ruku. probati bar jedan loop inicijalno (firstLoop = true)
 - BUG: golemi se nekad tresu u mestu (follow)
 - bug: graveyard game over a čarobnica stoji kao živa
@@ -90,8 +80,8 @@ Ideje za nivoe:
 - odbrani polozaj (kamera odozgo, nadiru sa svih strana)
 - podmornica
 
-Glavni meni
-- nakon pređene misije bitka postaje spomenik
+Avionce:
+- dodati bombu (special)
 
 Odbrani bunker
 - partizanska verzija tower defense (odbrana Užica, Kadinjača, Bihać...)

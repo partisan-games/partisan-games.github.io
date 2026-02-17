@@ -6,7 +6,7 @@ import { createRandomBoxes } from '/core3d/geometry/index.js'
 import Coin from '/core3d/objects/Coin.js'
 import Platform from '/core3d/objects/Platform.js'
 
-const numBoxes = 400, mapSize = 200, lavaSize = 50
+const numBoxes = 400, mapSize = 200, lavaSize = 100
 const numCoins = numBoxes / 4
 
 const withinCircle = position => Math.pow(position.x, 2) + Math.pow(position.z, 2) < Math.pow(lavaSize, 2)
@@ -93,7 +93,7 @@ export default class extends Scena3D {
     this.addMesh(this.player.mesh)
 
     this.createCoins()
-    this.player.position = [0, 0, 50]
+    this.player.position = [0, 0, lavaSize]
     this.player.energy = 100
     this.player.lookAt(this.scene.position)
     this.start()

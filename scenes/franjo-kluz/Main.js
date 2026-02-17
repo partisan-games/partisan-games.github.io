@@ -1,6 +1,6 @@
 import platno, { crtaNebo } from '/core/io/platno.js'
 import Scena2D from '/core/Scena2D.js'
-import AvionIgrac from './AvionIgrac.js'
+import AvionIgrac from '/core/actor/derived/AvionIgrac.js'
 import VoziloBocno from '/core/actor/VoziloBocno.js'
 import Oblak from '/core/objects/Oblak.js'
 import Zbun from '/core/objects/Zbun.js'
