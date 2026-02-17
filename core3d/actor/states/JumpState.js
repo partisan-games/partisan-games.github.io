@@ -13,6 +13,6 @@ export default class JumpState extends AnimOnceState {
   }
 
   exit() {
-    this.actor.anim.resetSpeed(this.name)
+    this.actor.anim?.resetSpeed(this.name)
   }
 }

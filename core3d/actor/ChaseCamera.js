@@ -1,4 +1,3 @@
-import { isTouchScreen } from '/config.js'
 import * as THREE from 'three'
 
 const calc = (mesh, pos, rotate) => {
@@ -28,7 +27,7 @@ export default class ChaseCamera {
     birdsEyeLookAt = [0, 0, -height * 3],
     orbitalOffset = [-height * 10, height * 10, height * 10],
 
-    showCameraButton = !isTouchScreen,
+    showCameraButton = false,
     cameraClass = '',
     rotate = true,
   }) {
