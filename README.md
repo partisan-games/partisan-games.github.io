@@ -21,6 +21,7 @@ npm start
 - na početku 3D scena modeli raširenih ruku. probati bar jedan loop inicijalno (firstLoop = true)
 - BUG: golemi se nekad tresu u mestu (follow)
 - bug: graveyard game over a čarobnica stoji kao živa
+- nemci iz rovova nemaju glave (gornji rovovi se crtaju preko njih), povecati z index
 
 ### Završno
 
