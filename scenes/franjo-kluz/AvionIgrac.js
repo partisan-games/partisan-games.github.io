@@ -1,4 +1,3 @@
-import { keyboard } from '/core/io/Keyboard.js'
 import Player2D from '/core/actor/Player2D.js'
 import { praviRakete } from '/core/actor/prosirenja/pucanje.js'
 
@@ -8,7 +7,7 @@ const gravitacija = 3
 
 export default class AvionIgrac extends Player2D {
   constructor(nivoTla, src = 'armies/partizani/potez-25.png') {
-    super(src, { skalar: .55, zapaljiv: true })
+    super(src, { skalar: .55, zapaljiv: true, buttonDict: { attack: '🚀', special: '🎯' } })
     this.brzina = 0
     this.nivoTla = nivoTla
     Object.assign(this, praviRakete({ vremePunjenja: 1.5 }))
@@ -30,7 +29,7 @@ export default class AvionIgrac extends Player2D {
 
   handleInput() {
     super.handleInput()
-    if (keyboard.pressed.Enter)
+    if (this.input.special)
       this.pucaCiljano()
   }
 
@@ -62,7 +61,7 @@ export default class AvionIgrac extends Player2D {
   /** OSTALO ***/
 
   ispraviAvion() {
-    if (keyboard.up || keyboard.down || this.ugao === 0) return
+    if (this.input.up || this.input.down || this.ugao === 0) return
     this.ugao += this.ugao < Math.PI ? -OKRET : OKRET
   }
 

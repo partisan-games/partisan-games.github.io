@@ -30,7 +30,7 @@ const MAX_DIGNUTOST = 5555
 export default class extends Scena2D {
   constructor() {
     super({
-      controlKeys: { ...baseControls, Space: 'Pucanje', Enter: 'Prateća' },
+      controlKeys: { ...baseControls, Enter: 'Pucanje', V: 'Prateća' },
     })
   }
 
