@@ -1,5 +1,5 @@
 const spacing = '16px'
-const btnSize = '80px'
+const btnSize = '60px'
 
 const css = /* css */`
   .joystick, .button-container {
@@ -14,7 +14,8 @@ const css = /* css */`
     left: ${spacing};
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 4px;
   }
   .joystick-btn, .game-btn {
     background: rgba(126, 126, 126, 0.25);
@@ -46,15 +47,14 @@ const css = /* css */`
   }
   .button-container {
     display: flex;
-    left: 50%;
-    transform: translateX(-50%);
+    right: ${spacing};
     gap: ${spacing};
   }
 `
 
 const arrowsData = [
   { icon: '▲', key: 'up', row: 1, col: 2 },
-  { icon: '▼', key: 'down', row: 3, col: 2 },
+  { icon: '▼', key: 'down', row: 2, col: 2 },
   { icon: '◀', key: 'left', row: 2, col: 1 },
   { icon: '▶', key: 'right', row: 2, col: 3 }
 ]
