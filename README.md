@@ -18,7 +18,6 @@ npm start
 
 - dodati game buttons za 2d nivoe
     - prosleđivati rečnik sa ikonicama buttonDict
-        - ako nema vrednosti koristiti default ikonice
         - slati i buttonDict kao param 
     - vis
     - franjo-kluz

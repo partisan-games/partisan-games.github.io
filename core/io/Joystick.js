@@ -115,9 +115,9 @@ export default class Joystick {
     this.buttonContainer.className = 'button-container'
     document.body.appendChild(this.buttonContainer)
 
-    Object.keys(buttonsData)
-      .filter(key => key in buttonDict)
-      .forEach(key => this.addButton(key, buttonsData[key]))
+    Object.keys(buttonDict)
+      .filter(key => key in buttonsData)
+      .forEach(key => this.addButton(key, buttonDict[key] || buttonsData[key]))
   }
 
   addButton(key, icon) {
