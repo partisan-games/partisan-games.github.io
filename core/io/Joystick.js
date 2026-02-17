@@ -54,19 +54,19 @@ const css = /* css */`
   }
 `
 
-const arrowsDict = [
-  { icon: '▲', field: 'up', row: 1, col: 2 },
-  { icon: '▼', field: 'down', row: 2, col: 2 },
-  { icon: '◀', field: 'left', row: 2, col: 1 },
-  { icon: '▶', field: 'right', row: 2, col: 3 }
+const arrowsData = [
+  { icon: '▲', key: 'up', row: 1, col: 2 },
+  { icon: '▼', key: 'down', row: 2, col: 2 },
+  { icon: '◀', key: 'left', row: 2, col: 1 },
+  { icon: '▶', key: 'right', row: 2, col: 3 }
 ]
 
-const buttonsDict = [
-  { icon: '↑', field: 'jump' },
-  { icon: '🗡️', field: 'attack' },
-  { icon: '⚔️', field: 'attack2' },
-  { icon: '💥', field: 'special' }
-]
+const buttonsData = {
+  jump: '↑',
+  attack: '🗡️',
+  attack2: '⚔️',
+  special: '💥',
+}
 
 export default class Joystick {
   constructor({ animDict }) {
@@ -93,7 +93,7 @@ export default class Joystick {
     this.joystick = document.createElement('div')
     this.joystick.className = 'joystick'
 
-    arrowsDict.forEach(data => this.addArrow(data))
+    arrowsData.forEach(data => this.addArrow(data))
     document.body.appendChild(this.joystick)
   }
 
@@ -106,7 +106,7 @@ export default class Joystick {
       gridColumn: data.col,
     })
 
-    this.addBtnEvents(element, data)
+    this.addBtnEvents(element, data.key)
     this.joystick.appendChild(element)
   }
 
@@ -115,25 +115,24 @@ export default class Joystick {
     this.buttonContainer.className = 'button-container'
     document.body.appendChild(this.buttonContainer)
 
-    buttonsDict.forEach(data => {
-      if (data.field in animDict) this.addButton(data)
-    })
+    Object.keys(buttonsData)
+      .filter(key => key in animDict)
+      .forEach(key => this.addButton(key, buttonsData[key]))
   }
 
-  addButton(data) {
+  addButton(key, icon) {
     const element = document.createElement('button')
-    element.innerText = data.icon
-    element.title = data.field
+    element.innerText = icon
     element.classList.add('game-btn')
 
-    this.addBtnEvents(element, data)
+    this.addBtnEvents(element, key)
     this.buttonContainer.appendChild(element)
   }
 
-  addBtnEvents = (element, data) => {
+  addBtnEvents = (element, key) => {
     const handleEvent = (val, e) => {
       e.preventDefault()
-      this[data.field] = val
+      this[key] = val
     }
 
     element.addEventListener('pointerdown', e => handleEvent(true, e))
