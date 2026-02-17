@@ -41,7 +41,7 @@ export default class extends Scena3D {
     this.bojaPlatna = 'transparent'
     this.camera.position.set(0, 1, 1.75)
 
-    const mesh = await loadModel({ file: 'character/soldier/partisan.fbx' })
+    const mesh = await loadModel({ file: 'character/soldier/partisan-lowpoly.fbx' })
     const animations = await loadFbxAnimations({ idle: 'Rifle Idle' }, 'character/soldier/')
 
     this.rightHand = null
