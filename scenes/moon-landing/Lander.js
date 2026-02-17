@@ -1,5 +1,5 @@
 import { Vector2 } from 'three'
-import { keyboard } from '/core/io/Keyboard.js'
+import Input from '/core/io/Input.js'
 import { Flame } from '/core3d/Particles.js'
 import GameObject from '/core3d/objects/GameObject.js'
 import { loadModel } from '/core3d/loaders.js'
@@ -12,7 +12,7 @@ export default class Lander extends GameObject {
   constructor({ platform }) {
     super ({ mesh })
     this.name = 'player'
-    this.input = keyboard
+    this.input = new Input()
     this.platform = platform
     this.flame = new Flame()
     this.flame.mesh.rotateX(Math.PI * .5)

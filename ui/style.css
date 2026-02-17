@@ -209,7 +209,7 @@ button {
 }
 
 .github {
-  background-color: rgba(27, 27, 27, .75);
+  background: var(--red);
   color: #fff;
   padding: 8px 40px;
   position: absolute;
@@ -224,7 +224,7 @@ button {
 }
 
 .github:hover {
-  background: var(--red);
+  background-color: rgba(27, 27, 27, .75);
 }
 
 /* GAME SCREEN */
@@ -503,5 +503,11 @@ progress.potisak::-moz-progress-bar {
     position: fixed;
     top: 0;
     left: -50px;
+  }
+}
+
+@media (pointer: coarse) and (hover: none){
+  .hide-on-mobile {
+    display: none;
   }
 }
