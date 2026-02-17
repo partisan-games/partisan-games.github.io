@@ -5,13 +5,12 @@ class FullScreen extends HTMLElement {
   }
 
   connectedCallback() {
-    this.innerHTML = `
+    this.innerHTML = /* html */`
       <style>
         .full-screen-icon {
-          right: 10px;
-          padding: 4px;
           position: fixed;
-          bottom: 10px;
+          right: 16px;
+          bottom: 16px;
           z-index: 2;
           transition: transform 0.25s;
         }
