@@ -78,6 +78,15 @@ export default class extends Scena2D {
   }
 
   sceneUI() {
-    return this.ui.scoreUI('Poeni', this.player.poeni, 'Životi', this.player.zivoti)
+    // return this.ui.scoreUI('Poeni', this.player.poeni, 'Životi', this.player.zivoti)
+    const hearts = '❤️'.repeat(Math.max(0, this.player.zivoti))
+    return /* html */`
+      <div class="top-left">
+        <div>
+          Poeni: ${this.player.poeni}
+          <br>${hearts}
+        </div>
+      </div>
+      `
   }
 }
