@@ -68,10 +68,23 @@ h1 {
   text-align: center;
   color: var(--olive);
   font-size: 2rem;
+  line-height: initial;
 }
 
 h2 {
   margin: 20px 0;
+}
+
+.homepage h2, 
+.rpgui-container h2, 
+.rpgui-container h3, 
+.rpgui-container .game-title {
+  /* order is important */
+  background: linear-gradient(to bottom, #ff8a00 0%, yellow 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
 }
 
 ul {
@@ -272,15 +285,6 @@ button {
   border-style: solid;
   border-width: 15px;
   box-sizing: border-box;
-
-  h1, h2, h3, .game-title {
-    /* order is important */
-    background: linear-gradient(to bottom, #ff8a00 0%, yellow 100%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: none;
-  }
 
   .game-title {
     font-size: 1.2rem;
