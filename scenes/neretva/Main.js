@@ -20,7 +20,7 @@ export default class extends Scena2D {
     this.ubrzano = false
     this.bliziRovovi = this.praviSvabe(10, BLIZI_Y, { skalar: 1, ucestalost: 0.03, callback: this.nanesiStetu.bind(this) })
     this.daljiRovovi = this.praviSvabe(12, DALJI_Y, { skalar: .5, ucestalost: 0.02, callback: this.nanesiStetu.bind(this) })
-    this.sveSvabe = [...this.bliziRovovi, ...this.daljiRovovi]
+    this.sveSvabe = [...this.daljiRovovi, ...this.bliziRovovi]
     this.add(...this.sveSvabe)
     this.pozadina = new Pozadina('textures/terrain/suva-trava.jpg')
     this.vreme = new Vreme()
