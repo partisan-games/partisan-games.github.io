@@ -7,7 +7,7 @@ const manager = new SceneManager()
 if (location.hash) {
   document.getElementById('ui').innerHTML = ''
   manager.start(location.hash.slice(1))
-} else
+} else if (window.innerWidth >= 800)
   manager.start('lookat-cursor', false)
 
 document.addEventListener('click', e => {
