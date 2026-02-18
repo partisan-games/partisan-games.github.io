@@ -37,6 +37,6 @@ export default class State {
   /* ANIM HELPERS */
 
   transitFrom(oldName, duration) {
-    return this.actor.anim.transitFrom(oldName, this.name, duration)
+    return this.actor.anim?.transitFrom(oldName, this.name, duration)
   }
 }

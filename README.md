@@ -18,17 +18,17 @@ npm start
 
 UI
 
-- ujednačiti stilove dugmića (osnovne veličine + klase za svaki stil)
-- koristiti avatarControls
+- proveriti sve scene na mobilnom
+    - cannon kontrole ne rade
 - refaktorisati da se na jedno mestu podešava RPG style za sve elemente (energija, kamera...)
     - da player čita uiStyle iz this.scene?
-    - povezati komande sa raspoloživim animacijama igrača??
     - Cannon: stilizovati createInputRange
 - integrisati customStartScreen ponegde (rpg-fantasy, graveyard), gde nije toliko različit?
 - dodati esc: pauza u kontrole svuda?
 - dodati komande i ciljeve svuda
 - refaktorisati da prozori budu DOM elementi, a samo sceneUI u render loop?
 - PRESS TO START ne treba crveni hover
+- ujednačiti stilove dugmića (osnovne veličine + klase za svaki stil)
 
 Profil 
 - dodati profil korisnika
@@ -55,6 +55,8 @@ polymer-bundler --inline-scripts ulaz.html > izlaz.html
 - BUG: golemi se nekad tresu u mestu (follow)
 - bug: graveyard game over a čarobnica stoji kao živa
 - na početku 3D scena modeli raširenih ruku. probati bar jedan loop inicijalno (firstLoop = true)
+- warcraft ne radi na mobilnom, a trese se nekad i na PC
+- Lander potisak se ne vidi na mobilnom
 
 ### Ideje za kasnije
 

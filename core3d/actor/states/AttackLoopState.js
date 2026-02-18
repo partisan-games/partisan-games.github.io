@@ -11,7 +11,7 @@ export default class AttackLoopState extends State {
     super.enter(oldState)
     this.actor.enterAttack()
 
-    this.actor.anim.playLoopAction(oldAction, this.name, this.onLoopEnd)
+    this.actor.anim?.playLoopAction(oldAction, this.name, this.onLoopEnd)
   }
 
   onLoopEnd() {
