@@ -6,14 +6,15 @@ platno.style.display = 'none'
 const resize = () => {
   // platno.width = window.innerWidth
   // platno.height = window.innerHeight
-  const dpr = window.devicePixelRatio || 1
-  platno.width = window.innerWidth * dpr
-  platno.height = window.innerHeight * dpr
+
+  platno.width = window.innerWidth
+  platno.height = window.innerHeight
+
   platno.style.width = window.innerWidth + 'px'
   platno.style.height = window.innerHeight + 'px'
 
+  const ctx = platno.getContext('2d')
   ctx.setTransform(1, 0, 0, 1, 0, 0)
-  ctx.scale(dpr, dpr)
 }
 
 resize()
