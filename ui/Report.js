@@ -11,7 +11,7 @@ const css = /* css */`
     background-color: #cccccc;
     background-image: url(/assets/images/ui/document.jpg);
     background-size: cover;
-    width: 420px;
+    min-width: 320px;
     min-height: 260px;
 
     & p {
