@@ -1,5 +1,5 @@
 import { isTouchScreen, hasMouse } from '/config.js'
-import Joystick from './Joystick.js'
+import Touch from './Touch.js'
 import Keyboard from './Keyboard.js'
 
 /**
@@ -8,7 +8,7 @@ import Keyboard from './Keyboard.js'
 class Input {
   constructor({ useKeyboard = hasMouse, useJoystick = isTouchScreen, buttonDict, attackKey } = {}) {
     if (useKeyboard) this.keyboard = new Keyboard({ attackKey })
-    this.screen = new Joystick({ useJoystick, buttonDict })
+    this.screen = new Touch({ useJoystick, buttonDict })
   }
 
   /* GETTERS */

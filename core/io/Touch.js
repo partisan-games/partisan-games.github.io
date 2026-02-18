@@ -66,7 +66,7 @@ const buttonsData = {
   special: '💥',
 }
 
-export default class Joystick {
+export default class Touch {
   constructor({ useJoystick, buttonDict }) {
     this.up = false
     this.down = false

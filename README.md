@@ -16,16 +16,12 @@ npm start
 
 ## TODO
 
-- Joystick -> Touch?
 - sledbenici da ističe vreme
 
 ### BAGOVI
 
 - viewport: previše zumira canvas
-- bug: graveyard game over a čarobnica stoji kao živa
-- na početku 3D scena modeli raširenih ruku. probati bar jedan loop inicijalno (firstLoop = true)
-- BUG: golemi se nekad tresu u mestu (follow)
-- BUG: fps na mobilnom ne radi, dodati strelice i srediti šta treba
+- BUG: fps na mobilnom ne radi, dodati strelice, upravljati bez pointer lock
 
 ### Završno
 
@@ -65,7 +61,9 @@ polymer-bundler --inline-scripts ulaz.html > izlaz.html
 
 ### Bagovi za kasnije
 
-- FPS restart igrač ne ubija
+- BUG: golemi se nekad tresu u mestu (follow)
+- bug: graveyard game over a čarobnica stoji kao živa
+- na početku 3D scena modeli raširenih ruku. probati bar jedan loop inicijalno (firstLoop = true)
 
 ### Ideje za kasnije
 
