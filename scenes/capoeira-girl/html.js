@@ -1,7 +1,7 @@
 export const html = /* html */`
   <nav class="tabs">
     <div class="tab">
-      <input type="checkbox" id="attacks" checked>
+      <input type="checkbox" id="attacks">
       <label class="tab-label" for="attacks">Kicks</label>
       <div class="tab-content">
         <button class="special">Chapa</button>
