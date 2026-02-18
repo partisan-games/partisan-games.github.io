@@ -23,7 +23,7 @@ npm start
 - ubacivanje žetona
 
 UI
-- džojstik da radi prevent
+- report preširok na mobilnom
 - ujednačiti stilove dugmića (osnovne veličine + klase za svaki stil)
 - koristiti avatarControls
 - refaktorisati da se na jedno mestu podešava RPG style za sve elemente (energija, kamera...)
