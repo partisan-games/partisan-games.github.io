@@ -20,9 +20,6 @@ npm start
 
 ### BAGOVI
 
-- full screen dugme vratiti staro
-- BUG: fps na mobilnom ne radi, dodati strelice, upravljati bez pointer lock
-
 ### Završno
 
 - restart na 2D igre gde god može
