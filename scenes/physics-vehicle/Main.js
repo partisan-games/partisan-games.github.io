@@ -43,5 +43,7 @@ export default class extends Scena3D {
   update(dt, t) {
     super.update(dt, t)
     this.world?.update(dt)
+
+    if (this.vehicle.isFlipped) this.defeat()
   }
 }

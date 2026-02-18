@@ -19,7 +19,6 @@ npm start
 UI
 
 - proveriti sve scene na mobilnom
-    - cannon kontrole ne rade
 - refaktorisati da se na jedno mestu podešava RPG style za sve elemente (energija, kamera...)
     - da player čita uiStyle iz this.scene?
     - Cannon: stilizovati createInputRange
@@ -55,8 +54,10 @@ polymer-bundler --inline-scripts ulaz.html > izlaz.html
 - BUG: golemi se nekad tresu u mestu (follow)
 - bug: graveyard game over a čarobnica stoji kao živa
 - na početku 3D scena modeli raširenih ruku. probati bar jedan loop inicijalno (firstLoop = true)
-- warcraft ne radi na mobilnom, a trese se nekad i na PC
-- Lander potisak se ne vidi na mobilnom
+Mobilni:
+    - warcraft ne radi na mobilnom, a trese se nekad i na PC
+    - Lander potisak se ne vidi na mobilnom
+    - cannon kontrole ne rade
 
 ### Ideje za kasnije
 

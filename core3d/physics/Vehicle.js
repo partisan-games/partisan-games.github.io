@@ -79,6 +79,11 @@ export default class Vehicle {
     return this.vehicle.getCurrentSpeedKmHour()
   }
 
+  get isFlipped() {
+    const up = new THREE.Vector3(0, 1, 0).applyQuaternion(this.mesh.quaternion)
+    return up.y < 0.1
+  }
+
   addWheelMeshes(wheelMesh) {
     this.wheelMeshes = []
     for (let i = 0; i < 4; i++) {
