@@ -13,7 +13,7 @@ class FullScreen extends HTMLElement {
           right: 16px;
           top: 50%;
           transform: translateY(-50%);
-          z-index: 2;
+          z-index: 1;
           font-size: 2.5rem;
         }
       </style>
