@@ -16,7 +16,7 @@ npm start
 
 ## TODO
 
-- mesto za fullscreen dugme??
+- renderovati game dugmiće i na desktopu, samo ne joystick
 
 ### BAGOVI
 
