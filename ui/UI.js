@@ -58,7 +58,7 @@ export default class UI {
     if (showControls)
       this.controlsUI = new Controls({ controlKeys, uiStyle })
 
-    if (showFullScreen && (document.fullscreenEnabled))
+    if (showFullScreen && document.fullscreenEnabled)
       document.body.appendChild(document.createElement('full-screen-btn'))
   }
 
