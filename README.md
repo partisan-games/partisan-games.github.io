@@ -23,7 +23,7 @@ npm start
 - ubacivanje žetona
 
 UI
-- dodati indikacije za 2 igrača na naslovnu
+- džojstik da radi prevent
 - ujednačiti stilove dugmića (osnovne veličine + klase za svaki stil)
 - koristiti avatarControls
 - refaktorisati da se na jedno mestu podešava RPG style za sve elemente (energija, kamera...)

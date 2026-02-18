@@ -131,6 +131,7 @@ export default class Touch {
   addBtnEvents = (element, key) => {
     const handleEvent = (val, e) => {
       e.preventDefault()
+      e.stopPropagation()
       this[key] = val
     }
 
