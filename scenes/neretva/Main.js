@@ -98,7 +98,7 @@ export default class extends Scena2D {
     const energija = Math.round(this.energija)
 
     return /* html */`
-    ${this.ui.scoreUI('Preostalo vreme', Math.ceil(this.preostaloVreme), 'Pogoci', this.pogoci)}
+    ${this.ui.scoreUI('Poeni', this.pogoci, 'Evakuacija za', Math.ceil(this.preostaloVreme))}
     <progress class="progress top-right" value="${energija}" max='100'></progress>
     `
   }

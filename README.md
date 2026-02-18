@@ -28,9 +28,10 @@ npm start
 
 ### Završno
 
-- restart na Žikicu i još negde
+- restart na 2D igre gde god može
 - prevod na engleski
 - sistem ocenjivanja igara?
+- ubacivanje žetona
 
 UI
 - dodati indikacije za 2 igrača na naslovnu
