@@ -16,12 +16,6 @@ npm start
 
 ## TODO
 
-### Završno
-
-- prevod na engleski
-- sistem ocenjivanja igara?
-- ubacivanje žetona
-
 UI
 
 - ujednačiti stilove dugmića (osnovne veličine + klase za svaki stil)
@@ -50,6 +44,11 @@ Profil
 npm install -g polymer-bundler
 polymer-bundler --inline-scripts ulaz.html > izlaz.html
 ```
+
+### Za kasnije
+
+- sistem ocenjivanja igara?
+- ubacivanje žetona
 
 ### Bagovi za kasnije
 
