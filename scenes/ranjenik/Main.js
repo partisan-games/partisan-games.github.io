@@ -11,7 +11,9 @@ const RITAM_PALJBE = 1500
 
 export default class extends Scena2D {
   constructor() {
-    super({ intro: 'You were wounded during the Battle of Sutjeska. Try to break out of the encirclement.' })
+    super({
+      intro: 'You were wounded during the Battle of Sutjeska. Try to crawl out of the encirclement.',
+    })
   }
 
   init() {

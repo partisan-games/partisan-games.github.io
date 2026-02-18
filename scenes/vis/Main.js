@@ -15,11 +15,12 @@ export default class extends Scena2D {
   constructor() {
     super({
       controlKeys: { ...baseControls, Enter: 'pucanje' },
+      intro: 'Reach the island of Vis.'
     })
-    this.bojaPozadine = '#165a8d'
   }
 
   init() {
+    this.bojaPozadine = '#165a8d'
     this.preostaloVreme = 60
     this.oblaci = Array.from({ length: brojOblaka }, () => new Oblak(brzina))
     this.ostrvo = new Pokretno('nature/ostrvo.gif', { potisak: brzina, skalar: 2 })
@@ -59,7 +60,7 @@ export default class extends Scena2D {
       neprijatelj.umri()
       setTimeout(() => this.remove(neprijatelj), LANDING_TIME * .5)
     })
-    setTimeout(() => this.victory(), LANDING_TIME)
+    setTimeout(() => this.victory('You have successfully reached the island of Vis.'), LANDING_TIME)
   }
 
   update(dt, t) {
@@ -78,12 +79,11 @@ export default class extends Scena2D {
   }
 
   sceneUI() {
-    // return this.ui.scoreUI('Poeni', this.player.poeni, 'Životi', this.player.zivoti)
     const hearts = '❤️'.repeat(Math.max(0, this.player.zivoti))
     return /* html */`
       <div class="top-left">
         <div>
-          Poeni: ${this.player.poeni}
+          Score: ${this.player.poeni}
           <br>${hearts}
         </div>
       </div>

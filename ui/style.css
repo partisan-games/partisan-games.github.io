@@ -261,6 +261,9 @@ button {
 
 .simple-container, .white-container, .rpgui-container {
   display: inline-block; /* za UI book */
+}
+
+.white-container, .rpgui-container {
   padding: 12px;
 }
 
@@ -271,6 +274,7 @@ button {
   border-image-source: url(/assets/images/rpgui/border-image-grey.png);
   border-image-width: 7px;
   border-radius: var(--radius);
+  padding: 12px 20px;
   color: #8D9573;
 }
 
@@ -410,17 +414,6 @@ progress.potisak::-webkit-progress-value {
 
 progress.potisak::-moz-progress-bar {
   background-color: var(--olive);
-}
-
-.progress-wrapper {
-  position: relative;
-
-  & .energija {
-    left: 50%;
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
 }
 
 .rpgui-progress {

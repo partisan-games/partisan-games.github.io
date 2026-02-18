@@ -18,7 +18,6 @@ npm start
 
 ### Završno
 
-- restart na 2D igre gde god može
 - prevod na engleski
 - sistem ocenjivanja igara?
 - ubacivanje žetona
@@ -59,6 +58,8 @@ polymer-bundler --inline-scripts ulaz.html > izlaz.html
 - na početku 3D scena modeli raširenih ruku. probati bar jedan loop inicijalno (firstLoop = true)
 
 ### Ideje za kasnije
+
+- ujednačiti Predmet i GameObject (napraviti običan i 3D koji nasleđuje?)
 
 - smisliti osnovnu mehaniku bitke
     - probati sa figuricama i kockama

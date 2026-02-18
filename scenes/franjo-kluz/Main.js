@@ -29,7 +29,7 @@ const MAX_DIGNUTOST = 5555
 export default class extends Scena2D {
   constructor() {
     super({
-      controlKeys: { ...baseControls, Enter: 'Pucanje', V: 'Prateća' },
+      controlKeys: { ...baseControls, Enter: 'Shoot', V: 'Homing missile' },
     })
   }
 
@@ -52,7 +52,7 @@ export default class extends Scena2D {
 
     this.add(this.aerodrom, this.player, this.ruina, this.vozilo, ...this.oblaci, ...this.zbunovi, ...this.shume)
     this.pocniParalax()
-    this.ui.intro = 'Uništi nemački tenk i bezbedno sleti!'
+    this.ui.intro = 'Destroy the German tank and land safely!'
   }
 
   get ostaliPredmeti() {
@@ -102,13 +102,13 @@ export default class extends Scena2D {
       this.dizePredmete(-DIZAJ * .5)
 
     this.zaustaviParalax()
-    this.defeat('Slavno si pao.')
+    this.defeat('You fell gloriously.')
   }
 
   proveriTlo() {
     if (this.player.jePrizemljen && this.dignutostScene <= 0) {
       this.zaustaviParalax()
-      if (this.player.ziv && this.vozilo.mrtav) this.victory('Misija je uspešno završena!')
+      if (this.player.ziv && this.vozilo.mrtav) this.victory('Mission successfully completed!')
     }
   }
 

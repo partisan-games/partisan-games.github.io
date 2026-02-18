@@ -72,8 +72,8 @@ export default class extends Scena2D {
 
   update(dt, t) {
     super.update(dt, t)
-    if (this.top.mrtav) this.defeat('Partizanski top je uništen.')
-    if (this.tenk.mrtav) this.victory('Talijanski tenk je uništen!')
+    if (this.top.mrtav) this.defeat('The partisan artillery has been destroyed.')
+    if (this.tenk.mrtav) this.victory('The Italian tank has been destroyed!')
   }
 
   sceneUI() {

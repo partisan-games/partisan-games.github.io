@@ -14,7 +14,7 @@ const BROJ_PREPREKA = (platno.width / fieldSize) * (platno.height / fieldSize) /
 
 export default class extends Scena2D {
   constructor() {
-    super({ intro: 'Dovedi Žikicu Jovanovića Španca do nemačkog bunkera!' })
+    super({ intro: 'Bring Žikica Jovanović Španac to the German bunker!' })
   }
 
   init() {
@@ -36,7 +36,7 @@ export default class extends Scena2D {
   proveriPobedu() {
     if (this.player.razmakDo(this.bunker) < this.bunker.sirina / 2) {
       this.bunker.umri()
-      this.victory('Neprijateljski bunker je uništen!')
+      this.victory('The enemy bunker has been destroyed!')
     }
   }
 
@@ -44,8 +44,8 @@ export default class extends Scena2D {
     super.update(dt, t)
     this.mine.forEach(mina => mina.proveriSudar(this.player))
 
-    if (this.player.mrtav) this.defeat('Slavno si pao.')
-    if (t > ZADATO_VREME) this.defeat('Tvoje vreme je isteklo.')
+    if (this.player.mrtav) this.defeat('You fell gloriously.')
+    if (t > ZADATO_VREME) this.defeat('Your time is up.')
 
     this.proveriPobedu()
   }
@@ -54,6 +54,6 @@ export default class extends Scena2D {
 
   sceneUI(t) {
     const preostalo = ZADATO_VREME - Math.floor(t)
-    return this.ui.scoreUI('Vreme', preostalo)
+    return this.ui.scoreUI('Time left', preostalo)
   }
 }

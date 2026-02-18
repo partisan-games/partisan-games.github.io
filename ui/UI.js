@@ -40,7 +40,7 @@ export default class UI {
   constructor(scene, {
     intro = '',
     showControls = !isTouchScreen,
-    startButtonText = 'To battle',
+    startButtonText = 'Start mission',
     uiStyle = uiStyles.simple,
     reportText,
     controlKeys,

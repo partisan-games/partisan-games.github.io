@@ -60,12 +60,12 @@ export default class extends Scena2D {
     return /* html*/`
       <div class='top-left'>
         Partisan tank
-        ${progresBar(this.tenk.energija, 'rpg')}
+        ${progresBar(this.tenk.energija)}
       </div>
 
       <div class='top-right'>
         German tank
-        ${progresBar(this.tenk2.energija, 'rpg')}
+        ${progresBar(this.tenk2.energija)}
       </div>
     `
   }

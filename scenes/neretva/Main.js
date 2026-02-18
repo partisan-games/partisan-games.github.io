@@ -9,7 +9,7 @@ const BLIZI_Y = window.innerHeight * 0.5
 
 export default class extends Scena2D {
   constructor() {
-    super({ intro: 'Zadrži Nemce po svaku cenu, dok ranjenici ne budu na bezbednom.', showControls: false })
+    super({ intro: 'Hold the Germans at all costs until the wounded are safe.', showControls: false })
   }
 
   init() {
@@ -60,9 +60,9 @@ export default class extends Scena2D {
   }
 
   smrt() {
-    let poruka = 'Hrabro si pao. '
+    let poruka = 'You fell bravely. '
     if (this.pogoci > this.rekord) {
-      poruka += `Ubio si ${this.pogoci} okupatora. To je novi rekord!`
+      poruka += `You killed ${this.pogoci} occupiers. That’s a new record!`
       localStorage.setItem('svabeRekord', this.pogoci)
     }
     this.defeat(poruka)
@@ -82,7 +82,7 @@ export default class extends Scena2D {
     if (this.energija <= 0) return
 
     if (Math.ceil(this.preostaloVreme) < 1)
-      return this.victory('Odbranio si položaj, ranjenici su spašeni.')
+      return this.victory('You defended the position; the wounded have been saved.')
 
     this.preostaloVreme -= dt
 
@@ -98,7 +98,7 @@ export default class extends Scena2D {
     const energija = Math.round(this.energija)
 
     return /* html */`
-    ${this.ui.scoreUI('Poeni', this.pogoci, 'Evakuacija za', Math.ceil(this.preostaloVreme))}
+    ${this.ui.scoreUI('Score', this.pogoci, 'Evacuation in', Math.ceil(this.preostaloVreme))}
     <progress class="progress top-right" value="${energija}" max='100'></progress>
     `
   }

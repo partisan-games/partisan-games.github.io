@@ -7,6 +7,12 @@ import { praviEnergiju } from '/core/actor/prosirenja/energija.js'
 import Vreme from '/core/Vreme.js'
 
 export default class extends Scena2D {
+  constructor() {
+    super({
+      intro: 'Kill all the occupiers!<br>Liberation is near.',
+    })
+  }
+
   init() {
     Object.defineProperties(this, Object.getOwnPropertyDescriptors(praviEnergiju()))
     this.pozadina = new Pozadina('background/rusevine-varsava.jpg')
@@ -49,15 +55,12 @@ export default class extends Scena2D {
 
   sceneUI() {
     return /* html */`
-      <main class='absolute full centar'>
-        <h1>Ubij okupatora!</h1>
-        <p>Oslobođenje se bliži</p>
-        <div class="top-left">
-          Pogoci: ${this.poeni} <br>
-          Energija 
-          ${progresBar(this.energija)}
-        </div>
-      </main>
+      <div class="top-left">
+        Score: ${this.poeni} <br>
+      </div>
+      <div class="top-right">
+        ${progresBar(this.energija)}
+      </div>
     `
   }
 }

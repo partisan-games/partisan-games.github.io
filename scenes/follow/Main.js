@@ -42,7 +42,7 @@ export default class extends Scena3D {
 
   sceneUI(t) {
     const preostalo = ZADATO_VREME - Math.floor(t)
-    return this.ui.scoreUI('Followers', this.followers.length, 'Time remaining', preostalo)
+    return this.ui.scoreUI('Followers', this.followers.length, 'Time left', preostalo)
   }
 
   update(dt, t) {
