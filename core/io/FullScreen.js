@@ -11,7 +11,7 @@ class FullScreen extends HTMLElement {
         .full-screen-icon {
           position: fixed;
           right: 16px;
-          top: 50px;
+          bottom: 24px;
           z-index: 2;
         }
       </style>
