@@ -16,10 +16,6 @@ npm start
 
 ## TODO
 
-- sledbenici da ističe vreme
-
-### BAGOVI
-
 ### Završno
 
 - restart na 2D igre gde god može
