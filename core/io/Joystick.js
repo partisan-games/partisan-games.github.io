@@ -67,7 +67,7 @@ const buttonsData = {
 }
 
 export default class Joystick {
-  constructor({ buttonDict }) {
+  constructor({ useJoystick, buttonDict }) {
     this.up = false
     this.down = false
     this.left = false
@@ -81,7 +81,8 @@ export default class Joystick {
     this.style.textContent = css
     document.head.appendChild(this.style)
 
-    this.addJoystick()
+    if (useJoystick)
+      this.addJoystick()
 
     if (buttonDict)
       this.addGameButtons(buttonDict)

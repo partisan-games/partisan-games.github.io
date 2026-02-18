@@ -8,7 +8,7 @@ import Keyboard from './Keyboard.js'
 class Input {
   constructor({ useKeyboard = hasMouse, useJoystick = isTouchScreen, buttonDict, attackKey } = {}) {
     if (useKeyboard) this.keyboard = new Keyboard({ attackKey })
-    if (useJoystick) this.screen = new Joystick({ buttonDict })
+    this.screen = new Joystick({ useJoystick, buttonDict })
   }
 
   /* GETTERS */

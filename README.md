@@ -16,7 +16,8 @@ npm start
 
 ## TODO
 
-- renderovati game dugmiće i na desktopu, samo ne joystick
+- Joystick -> Touch?
+- sledbenici da ističe vreme
 
 ### BAGOVI
 

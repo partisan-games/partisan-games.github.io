@@ -16,7 +16,7 @@ const mesh = await loadModel({ prefix: 'character/huntress/', file: 'capoeira-gi
 
 /* EXTENDED CLASSES */
 
-const sharedProps = { mesh, animations: mesh.userData.animations, animDict }
+const sharedProps = { mesh, animations: mesh.userData.animations, animDict, buttonDict: { attack: '💥', jump: '' } }
 
 export class CapoeiraGirlPlayer extends Player {
   constructor(props = {}) {
