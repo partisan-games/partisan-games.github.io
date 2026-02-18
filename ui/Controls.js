@@ -5,6 +5,7 @@ export const baseControls = {
   '→ or D': 'right',
   '↑ or W': 'forward',
   '↓ or S': 'backward',
+  'Esc': 'pause',
 }
 
 export const avatarControls = {

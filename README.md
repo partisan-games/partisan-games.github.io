@@ -22,10 +22,6 @@ UI
     - da player čita uiStyle iz this.scene?
     - Cannon: stilizovati createInputRange
 - integrisati customStartScreen ponegde (rpg-fantasy, graveyard), gde nije toliko različit?
-- dodati esc: pauza u kontrole svuda?
-- dodati komande i ciljeve svuda
-- refaktorisati da prozori budu DOM elementi, a samo sceneUI u render loop?
-- PRESS TO START ne treba crveni hover
 - ujednačiti stilove dugmića (osnovne veličine + klase za svaki stil)
 
 Profil 
@@ -43,7 +39,7 @@ npm install -g polymer-bundler
 polymer-bundler --inline-scripts ulaz.html > izlaz.html
 ```
 
-### Za kasnije
+## Za kasnije
 
 - sistem ocenjivanja igara?
 - ubacivanje žetona
@@ -57,6 +53,10 @@ Mobilni:
     - warcraft ne radi na mobilnom, a trese se nekad i na PC
     - Lander potisak se ne vidi na mobilnom
     - cannon kontrole ne rade
+
+### Refaktor
+
+- da prozori budu DOM elementi, a samo sceneUI u render loop?
 
 ### Ideje za kasnije
 
