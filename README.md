@@ -16,33 +16,8 @@ npm start
 
 ## TODO
 
-UI
-
-- refaktorisati da se na jedno mestu podešava RPG style za sve elemente (energija, kamera...)
-    - da player čita uiStyle iz this.scene?
-    - Cannon: stilizovati createInputRange
-- integrisati customStartScreen ponegde (rpg-fantasy, graveyard), gde nije toliko različit?
-- ujednačiti stilove dugmića (osnovne veličine + klase za svaki stil)
-
-Profil 
-- dodati profil korisnika
-- izbor slike partizana ili partizanke
-
-### Test i optimizacija
-
-- proveriti sve nivoe sa sporijim i bržim fps
-- probati neki build
-    - vite
-    - polymer-bundler
-```
-npm install -g polymer-bundler
-polymer-bundler --inline-scripts ulaz.html > izlaz.html
-```
-
-## Za kasnije
-
-- sistem ocenjivanja igara?
 - ubacivanje žetona
+- ocenjivanje igara?
 
 ### Bagovi za kasnije
 
@@ -57,41 +32,21 @@ Mobilni:
 ### Refaktor
 
 - da prozori budu DOM elementi, a samo sceneUI u render loop?
+- refaktorisati da se na jedno mestu podešava RPG style za sve elemente (energija, kamera...)
+- Cannon: stilizovati createInputRange ili koristiti progress
+- ujednačiti Predmet i GameObject (napraviti običan i 3D koji nasleđuje?)
+- Particles.update({ delta: dt }) -> update(dt, t, {}) ??
 
 ### Ideje za kasnije
 
-- ujednačiti Predmet i GameObject (napraviti običan i 3D koji nasleđuje?)
-
-- smisliti osnovnu mehaniku bitke
-    - probati sa figuricama i kockama
-    - estetika kao desant na drvar
-    - dodavanje novih vojnika?
-    - pucanje automatsko ili izbor neprijatelja
-    - potezno ili polu-automatsko?
-
-- iskoristi dobre slike (možda za loader)
-    - Ustanak_u_Jugoslaviji_1943.png
-    - captured-joe/Spanish Civil War -- Charge by CapturedJoe.png
-    - captured-joe/Partisans and Chetniks by CapturedJoe.png
-
-Ideje za nivoe:
-- sremski front (topovi)
-- odbrani polozaj (kamera odozgo, nadiru sa svih strana)
-- podmornica
+- dodati profil korisnika
 
 Avionce:
 - dodati bombu (special)
 
-Odbrani bunker
-- partizanska verzija tower defense (odbrana Užica, Kadinjača, Bihać...)
-- svaki nivo prelaziš tako što izgubiš (bilo ih je previše), ali se gleda koliko si ih ubio
-
-Partizanski kurir
-- partizanska verzija super mario ili endless runner:
-- trci, uzima hranu, izbegava metkove, preskace bombe...
-
-Refaktor
-- Particles.update({ delta: dt }) -> update(dt, t, {}) ??
+Ideje za nivoe:
+- sremski front (topovi)
+- odbrani polozaj (kamera odozgo, nadiru sa svih strana)
 
 ## Credits
 

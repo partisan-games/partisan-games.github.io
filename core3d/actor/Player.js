@@ -83,7 +83,7 @@ export default class Player extends Actor {
         health.userData.energy--
         this.energy++
       } else
-        this.scene.remove(health)
+        this.scene?.remove(health)
     })
   }
 
