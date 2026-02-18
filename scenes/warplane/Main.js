@@ -13,9 +13,10 @@ const mapSize = 800
 const buildingInterval = 2000
 const buildingDistance = mapSize * .4
 const groundDistance = mapSize * .99
+const planes = ['Biplane', 'Triplane', 'Messerschmitt', 'Bomber', 'F18']
 
 const createStartScreen = () => {
-  const options = ['Biplane', 'Triplane', 'Messerschmitt', 'Bomber', 'F18']
+  const options = planes
     .map(name => `<input type="image" id="${name}" src="/assets/images/scenes/warplane/${name}.webp" />`)
     .join('')
 
@@ -59,7 +60,7 @@ export default class extends Scena3D {
 
   async handleClick(e) {
     super.handleClick(e)
-    if (e.target.tagName != 'INPUT') return
+    if (e.target.tagName !== 'INPUT' || !planes.includes(e.target.id)) return
 
     const obj = await import(`/core3d/aircraft/derived/${e.target.id}.js`)
     this.player = new obj.default({ camera: this.camera, limit: mapSize * .25 })
