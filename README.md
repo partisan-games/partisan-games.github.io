@@ -16,9 +16,11 @@ npm start
 
 ## TODO
 
+- mesto za fullscreen dugme??
+
 ### BAGOVI
 
-- mesto za fullscreen dugme??
+- viewport: previše zumira canvas
 - bug: graveyard game over a čarobnica stoji kao živa
 - na početku 3D scena modeli raširenih ruku. probati bar jedan loop inicijalno (firstLoop = true)
 - BUG: golemi se nekad tresu u mestu (follow)
