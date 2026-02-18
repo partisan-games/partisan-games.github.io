@@ -7,10 +7,10 @@ const resize = () => {
   platno.width = window.innerWidth
   platno.height = window.innerHeight
 
-  platno.style.width = window.innerWidth + 'px'
-  platno.style.height = window.innerHeight + 'px'
+  // platno.style.width = window.innerWidth + 'px'
+  // platno.style.height = window.innerHeight + 'px'
 
-  ctx.setTransform(1, 0, 0, 1, 0, 0)
+  // ctx.setTransform(1, 0, 0, 1, 0, 0)
 }
 
 resize()

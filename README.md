@@ -18,7 +18,6 @@ npm start
 
 UI
 
-- proveriti sve scene na mobilnom
 - refaktorisati da se na jedno mestu podešava RPG style za sve elemente (energija, kamera...)
     - da player čita uiStyle iz this.scene?
     - Cannon: stilizovati createInputRange
