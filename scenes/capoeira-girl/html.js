@@ -15,4 +15,6 @@ export const html = /* html */`
       </div>
     </div>
   </nav>
+
+  <a class="full-version" href="https://mudroljub.github.io/capoeira-girl/" target="_blank">Full version</a>
 `

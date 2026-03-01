@@ -56,4 +56,11 @@ export const css = /* css */`
   input:checked~.tab-content {
     max-height: 100vh;
   }
+
+  .full-version {
+    position: absolute;
+    top:0;
+    right:0;
+    color: white;
+  }
 `
