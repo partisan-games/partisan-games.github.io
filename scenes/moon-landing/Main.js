@@ -27,6 +27,7 @@ export default class extends Scena3D {
   }
 
   async init() {
+    this.bojaPozadine = 0x000000
     this.camera.position.z = 18
 
     ambLight({ scene: this.scene })
