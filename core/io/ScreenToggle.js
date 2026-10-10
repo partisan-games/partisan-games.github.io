@@ -1,4 +1,4 @@
-class FullScreen extends HTMLElement {
+class ScreenToggle extends HTMLElement {
   constructor() {
     super()
     this.toggle = this.toggle.bind(this)
@@ -36,4 +36,4 @@ class FullScreen extends HTMLElement {
   }
 }
 
-customElements.define('full-screen-btn', FullScreen)
+customElements.define('full-screen-btn', ScreenToggle)

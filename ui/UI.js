@@ -1,7 +1,7 @@
 import { isTouchScreen } from '/config.js'
 import Controls from '../ui/Controls.js'
 import Report from './Report.js'
-import '/core/io/FullScreen.js'
+import '/core/io/ScreenToggle.js'
 
 const elementUI = document.getElementById('ui')
 const modalElement = document.getElementById('modal')
