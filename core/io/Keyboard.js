@@ -19,7 +19,7 @@ class Keyboard {
     this.handleKeyUp = this.handleKeyUp.bind(this)
     this.reset = this.reset.bind(this)
 
-    document.addEventListener('contextmenu', e => e.preventDefault())
+    document.addEventListener('contextmenu', this.preventContextMenu)
 
     document.addEventListener('keydown', this.handleKeyDown)
     document.addEventListener('keyup', this.handleKeyUp)
@@ -32,6 +32,8 @@ class Keyboard {
   }
 
   /* EVENT LISTENERS */
+
+  preventContextMenu = e => e.preventDefault()
 
   handlePointerDown(e) {
     if (e.button === 0) this.pressed.pointer = true
@@ -136,6 +138,7 @@ class Keyboard {
   }
 
   end() {
+    document.removeEventListener('contextmenu', this.preventContextMenu)
     document.removeEventListener('keydown', this.handleKeyDown)
     document.removeEventListener('keyup', this.handleKeyUp)
 

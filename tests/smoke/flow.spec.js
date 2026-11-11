@@ -1,12 +1,8 @@
 import { expect as baseExpect } from '@playwright/test'
-import { test, scenes, watchProblems, waitForScene, startGame, errorScreen } from './helpers.js'
+import { test, scenes, watchProblems, waitForScene, startGame, errorScreen, onScene } from './helpers.js'
 
 // with several heavy 3D games rendering in software at once, one frame can take seconds
 const expect = baseExpect.configure({ timeout: 30_000 })
-
-/** Runs a function on the current scene in the page. */
-const onScene = (page, fn, arg) => page.evaluate(([source, value]) =>
-  new Function('scene', 'value', `return (${source})(scene, value)`)(window.sceneManager.instance.scene, value), [fn.toString(), arg])
 
 const gameTime = page => onScene(page, scene => scene.gameLoop.time)
 

@@ -116,8 +116,8 @@ export default class extends Scena2D {
     crtaNebo(nivoTla + this.dignutostScene, 'blue', 'lightblue', this.dignutostScene)
   }
 
-  handleInput() {
-    super.handleInput()
+  handleInput(dt) {
+    super.handleInput(dt)
     if (!this.player.ziv) return
 
     if (this.player.input.right && this.brzinaScene < MAX_BRZINA)

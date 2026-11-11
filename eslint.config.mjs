@@ -134,4 +134,16 @@ export default [{
       exceptRange: true,
     }],
   },
+}, {
+  // timers that caused bugs in games: they keep running through pause, game over and a switch to another game
+  files: ['core/**/*.js', 'core3d/**/*.js', 'scenes/**/*.js'],
+  rules: {
+    'no-restricted-syntax': ['error', {
+      selector: "MethodDefinition[key.name='update'] CallExpression[callee.name='setTimeout']",
+      message: 'update() runs every frame, so this schedules a new timer each frame; count game time with dt instead.',
+    }, {
+      selector: "CallExpression[callee.name='setInterval'], CallExpression[callee.property.name='setInterval']",
+      message: 'An interval keeps running through pause and after the game ends; count game time with dt in update() instead.',
+    }],
+  },
 }]

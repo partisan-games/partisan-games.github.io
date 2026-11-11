@@ -129,8 +129,9 @@ export default class Predmet {
     this.dy += velicina * Math.sin(ugao)
   }
 
-  trenje(faktorTrenja = 0.1) {
-    const modifikator = 1 - faktorTrenja
+  /** faktorTrenja is the share of speed lost per frame at 60 fps */
+  trenje(faktorTrenja = 0.1, dt = 1 / 60) {
+    const modifikator = (1 - faktorTrenja) ** (dt * 60)
     this.dx *= modifikator
     this.dy *= modifikator
   }

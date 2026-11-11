@@ -1,4 +1,4 @@
-import Player2D from '/core/actor/Player2D.js'
+import Player2D, { frames } from '/core/actor/Player2D.js'
 import { praviRakete } from '/core/actor/prosirenja/pucanje.js'
 
 const OKRET = 0.01
@@ -27,30 +27,30 @@ export default class AvionIgrac extends Player2D {
 
   /** KOMANDE ***/
 
-  handleInput() {
-    super.handleInput()
+  handleInput(dt) {
+    super.handleInput(dt)
     if (this.input.special)
       this.pucaCiljano()
   }
 
-  nalevo() {
-    if (!this.jePrizemljen) super.nalevo()
+  nalevo(dt) {
+    if (!this.jePrizemljen) super.nalevo(dt)
   }
 
-  nagore() {
+  nagore(dt) {
     if (this.jeNaVrhu) return
 
-    super.nagore()
+    super.nagore(dt)
     if (this.ugao === 0 || this.ugao >= 2 * Math.PI - MOGUCNOST_OKRETA)
-      this.ugao -= OKRET
+      this.ugao -= OKRET * frames(dt)
   }
 
-  nadole() {
+  nadole(dt) {
     if (this.jePrizemljen) return
 
-    super.nadole()
+    super.nadole(dt)
     if (this.ugao <= MOGUCNOST_OKRETA)
-      this.ugao += OKRET
+      this.ugao += OKRET * frames(dt)
   }
 
   puca() {
@@ -60,9 +60,13 @@ export default class AvionIgrac extends Player2D {
 
   /** OSTALO ***/
 
-  ispraviAvion() {
+  ispraviAvion(dt) {
     if (this.input.up || this.input.down || this.ugao === 0) return
-    this.ugao += this.ugao < Math.PI ? -OKRET : OKRET
+    const korak = OKRET * frames(dt)
+    const doVodoravnog = this.ugao < Math.PI ? this.ugao : 2 * Math.PI - this.ugao
+    // steps vary with the frame length, so snap to level instead of overshooting it
+    if (doVodoravnog <= korak) this.ugao = 0
+    else this.ugao += this.ugao < Math.PI ? -korak : korak
   }
 
   proveriTlo() {
@@ -70,11 +74,11 @@ export default class AvionIgrac extends Player2D {
     if (this.ugao > MOGUCNOST_OKRETA / 2) this.umri()
   }
 
-  dodajGravitaciju() {
+  dodajGravitaciju(dt) {
     if (this.jePrizemljen) return
 
     const teza = this.mrtav ? gravitacija * 100 : gravitacija
-    this.dodajSilu(teza, Math.PI * .5)
+    this.dodajSilu(teza * frames(dt), Math.PI * .5)
   }
 
   proveriSudare() {
@@ -90,7 +94,7 @@ export default class AvionIgrac extends Player2D {
     this.proveriTlo()
     this.proveriSudare()
     this.proveriPogotke()
-    this.dodajGravitaciju()
-    this.ispraviAvion()
+    this.dodajGravitaciju(dt)
+    this.ispraviAvion(dt)
   }
 }

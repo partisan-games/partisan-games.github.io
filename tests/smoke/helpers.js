@@ -39,6 +39,10 @@ export function watchProblems(page) {
   return problems
 }
 
+/** Runs a function on the current scene in the page; the function must not use variables from the test. */
+export const onScene = (page, fn, arg) => page.evaluate(([source, value]) =>
+  new Function('scene', 'value', `return (${source})(scene, value)`)(window.sceneManager.instance.scene, value), [fn.toString(), arg])
+
 /** Waits until the game in the address has loaded: it exists and the loading spinner is gone. */
 export async function waitForScene(page) {
   await page.waitForFunction(() => {

@@ -18,3 +18,22 @@ test('on a touch screen without a keyboard, a held touch control counts as a pre
   assert.equal(input.keyPressed, false)
   assert.equal(input.controlsPressed, false)
 })
+
+test('a keyboard removes every document and window listener it added', t => {
+  const active = new Set()
+  for (const target of [document, window]) {
+    const add = target.addEventListener.bind(target)
+    const remove = target.removeEventListener.bind(target)
+    t.mock.method(target, 'addEventListener', (type, listener, options) => {
+      active.add(listener)
+      add(type, listener, options)
+    })
+    t.mock.method(target, 'removeEventListener', (type, listener, options) => {
+      active.delete(listener)
+      remove(type, listener, options)
+    })
+  }
+
+  new Input({ useKeyboard: true, useJoystick: false }).end()
+  assert.equal(active.size, 0)
+})

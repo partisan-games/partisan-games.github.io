@@ -78,3 +78,20 @@ test('a message does not cover the pause menu', () => {
   assert.match(document.getElementById('modal').textContent, /Game paused/)
   ui.end()
 })
+
+test('start screen reports share one stylesheet', async() => {
+  const { default: Report } = await import('/ui/Report.js')
+  const container = document.createElement('div')
+  container.id = 'report-test'
+  document.body.appendChild(container)
+  const countStyles = () => [...document.head.querySelectorAll('style')].filter(style => style.textContent.includes('1942 Report')).length
+
+  for (let i = 0; i < 3; i++) new Report({ text: 'x', containerId: 'report-test' }).stop()
+
+  assert.equal(countStyles(), 1)
+  await new Promise(resolve => {
+    setTimeout(resolve, 10) // each report adds its paper to the container a moment later
+  })
+  container.remove()
+})
+

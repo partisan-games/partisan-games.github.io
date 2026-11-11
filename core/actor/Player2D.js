@@ -2,6 +2,9 @@ import { KRUZNICA } from '/core/konstante.js'
 import Predmet from './Predmet.js'
 import Input from '/core/io/Input.js'
 
+// thrust and turn values are tuned per frame at 60 fps; frames turns a frame's dt into that unit
+export const frames = dt => dt * 60
+
 export default class Player2D extends Predmet {
   constructor(src, { buttonDict, ...rest } = {}) {
     super(src, rest)
@@ -14,37 +17,37 @@ export default class Player2D extends Predmet {
     this.input = new Input({ buttonDict })
   }
 
-  handleInput() {
-    if (this.input.left) this.nalevo()
-    if (this.input.right) this.nadesno()
-    if (this.input.up) this.nagore()
-    if (this.input.down) this.nadole()
+  handleInput(dt) {
+    if (this.input.left) this.nalevo(dt)
+    if (this.input.right) this.nadesno(dt)
+    if (this.input.up) this.nagore(dt)
+    if (this.input.down) this.nadole(dt)
     if (this.input.attack) this.puca()
   }
 
-  nalevo() {
+  nalevo(dt) {
     if (this.komandeNapredne)
-      this.ugao -= this.okret
+      this.ugao -= this.okret * frames(dt)
     else
-      this.dodajSilu(this.potisak, KRUZNICA / 2)
+      this.dodajSilu(this.potisak * frames(dt), KRUZNICA / 2)
   }
 
-  nadesno() {
+  nadesno(dt) {
     if (this.komandeNapredne)
-      this.ugao += this.okret
+      this.ugao += this.okret * frames(dt)
     else
-      this.dodajSilu(this.potisak, 0)
+      this.dodajSilu(this.potisak * frames(dt), 0)
   }
 
-  nagore() {
+  nagore(dt) {
     const ugao = this.komandeNapredne ? this.ugao : -KRUZNICA / 4
-    this.dodajSilu(this.potisak, ugao)
+    this.dodajSilu(this.potisak * frames(dt), ugao)
   }
 
-  nadole() {
+  nadole(dt) {
     const ugao = this.komandeNapredne ? this.ugao : KRUZNICA / 4
     const potisak = this.komandeNapredne ? (-this.potisak / 2) : this.potisak
-    this.dodajSilu(potisak, ugao)
+    this.dodajSilu(potisak * frames(dt), ugao)
   }
 
   puca() {
@@ -53,7 +56,7 @@ export default class Player2D extends Predmet {
 
   update(dt) {
     super.update(dt)
-    this.trenje(this.faktorTrenja)
+    this.trenje(this.faktorTrenja, dt)
   }
 
   end() {

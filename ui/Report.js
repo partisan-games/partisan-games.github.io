@@ -28,6 +28,10 @@ const css = /* css */`
   }
 `
 
+// one stylesheet for the whole page, shared by every start screen report
+const style = document.createElement('style')
+style.textContent = css
+
 function createHtml(id) {
   const div = document.createElement('div')
   div.className = 'report'
@@ -50,9 +54,7 @@ export default class Report {
     this.containerId = containerId
     this.p = createHtml(containerId)
 
-    const style = document.createElement('style')
-    style.textContent = css
-    document.head.appendChild(style)
+    if (!style.isConnected) document.head.appendChild(style)
 
     this.audio = new Audio('/assets/sounds/typing.mp3')
     this.audio.volume = config.volume

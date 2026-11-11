@@ -8,6 +8,7 @@ Small 2D and 3D browser games in plain ES modules, no build step. `index.html` m
 - `init()` is async. A newer start can end a scene while its `init` still runs; `SceneManager` ends it again when `init` finishes. Async click handlers in scenes must check `this.ui.ended` after each `await` and guard against a second click.
 - The game loop keeps running after victory or defeat: `finish()` only stops game time. Scenes check end conditions every frame, so `Scena.defeat`/`victory` keep the first result and `UI.showMessage` stays silent while any menu (start, pause, end) is shown. Scenes call `this.defeat`/`this.victory`; `ui.showDefeatScreen`/`showVictoryScreen` only draw the screen and are for `Scena`.
 - Per-frame values need `dt`; a value per frame changes with the screen's refresh rate.
+- Anything a module adds to `document`, `window` or `head` must be removable: keep the handler in a field (not an inline arrow) so `end()` can remove it, and add page-wide styles once. `tests/smoke/leaks.spec.js` catches what grows across game switches.
 - Three.js `AnimationMixer` reports `finished` and `loop` for every action, including the one fading out; listeners must check `e.action`.
 
 ## Working rules
