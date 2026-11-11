@@ -2,13 +2,19 @@ import Player2D from '/core/actor/Player2D.js'
 import platno from '/core/io/platno.js'
 import { praviPucanje } from '/core/actor/prosirenja/pucanje.js'
 import { after } from '/core/timers.js'
+import { createSound } from '/core/io/sound.js'
+
+const BOMBS = 2
+const bombRadius = () => Math.min(platno.width, platno.height) * .5
 
 export class Avionce extends Player2D {
   constructor() {
-    super('armies/avionce.gif', { skalar: .75, zapaljiv: true, senka: true, buttonDict: { attack: '💥' } })
+    super('armies/avionce.gif', { skalar: .75, zapaljiv: true, senka: true, buttonDict: { attack: '💥', special: '💣' } })
     this.brzina = 0
     this.poeni = 0
     this.zivoti = 3
+    this.bombs = BOMBS
+    this.specialHeld = false
     Object.assign(this, praviPucanje({ potisakMetka: 1000, vremePunjenja: .1, ugloviPucanja: [-.33, 0, .33] }))
   }
 
@@ -23,6 +29,26 @@ export class Avionce extends Player2D {
   puca() {
     const poz = { x: this.x, y: this.y - this.visina / 4 }
     this.pali(poz, Math.PI * 1.5)
+  }
+
+  handleInput(dt) {
+    super.handleInput(dt)
+    if (this.input.special && !this.specialHeld) this.dropBomb()
+    this.specialHeld = this.input.special
+  }
+
+  /** Every enemy plane around the player goes down. */
+  dropBomb() {
+    if (!this.bombs) return
+
+    this.bombs--
+    createSound('explosion.mp3').play()
+    this.ciljevi
+      .filter(plane => plane.alive && this.razmakDo(plane) < bombRadius())
+      .forEach(plane => {
+        plane.umri()
+        this.poeni++
+      })
   }
 
   reset() {

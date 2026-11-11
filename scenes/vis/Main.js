@@ -7,6 +7,7 @@ import Neprijatelj from './Neprijatelj.js'
 import Baza from './Baza.js'
 import { baseControls } from '/ui/Controls.js'
 import { after } from '/core/timers.js'
+import { keys } from '/core/io/keys.js'
 
 const brojOblaka = 3
 const brzina = 150
@@ -15,7 +16,7 @@ const LANDING_TIME = 3 // seconds
 export default class extends Scena2D {
   constructor() {
     super({
-      controlKeys: { ...baseControls, Enter: 'pucanje' },
+      controlKeys: { ...baseControls, Enter: 'pucanje', [keys.special.label]: 'bomb' },
       intro: 'Reach the island of Vis.'
     })
   }
@@ -81,11 +82,13 @@ export default class extends Scena2D {
 
   sceneUI() {
     const hearts = '❤️'.repeat(Math.max(0, this.player.zivoti))
+    const bombs = '💣'.repeat(this.player.bombs)
     return /* html */`
       <div class="top-left">
         <div>
           Score: ${this.player.poeni}
           <br>${hearts}
+          <br>${bombs}
         </div>
       </div>
       `

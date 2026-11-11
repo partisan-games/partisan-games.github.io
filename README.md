@@ -37,9 +37,6 @@ Mobilni:
 
 - dodati profil korisnika
 
-Avionce:
-- dodati bombu (special)
-
 Ideje za nivoe:
 - sremski front (topovi)
 - odbrani polozaj (kamera odozgo, nadiru sa svih strana)
