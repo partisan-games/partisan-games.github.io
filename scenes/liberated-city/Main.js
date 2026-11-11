@@ -68,7 +68,7 @@ export default class extends Scena3D {
     this.addMesh(floor)
     this.addMesh(createSun({ pos: [50, 100, 50], intensity: 2 * Math.PI }))
 
-    const maze = new Maze({ rows, columns: rows, truePrims, cellSize })
+    const maze = new Maze({ rows, columns: rows, algorithm: truePrims, cellSize })
     const city = maze.toGraffitiCity({ maxHeight: cellSize * .5, posters, slogans, postersPath: 'posters/partisan/', textures, graffitiBgTexture: 'terrain/concrete.jpg' })
     this.addMesh(city)
 

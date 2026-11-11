@@ -261,7 +261,7 @@ function createTexturedBuilding({ width, height, depth = width, color = 0x999999
       buildingWidth,
       buildingHeight,
       graffitiBgTexture,
-      poster: Math.random() > .66 && postersPath + sample(posters),
+      poster: posters.length > 0 && Math.random() > .66 && postersPath + sample(posters),
       text: sample(slogans),
       bigMural,
       webFonts,

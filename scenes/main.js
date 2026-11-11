@@ -4,15 +4,34 @@ const manager = new SceneManager()
 const elementUI = document.getElementById('ui')
 const modalElement = document.getElementById('modal')
 
-const showLoadError = error => {
-  console.error(error)
+const showError = title => {
   modalElement.innerHTML = /* html */`
     <div class="central-screen flex-column simple-container">
-      <h3 class="red">The game could not be loaded</h3>
+      <h3 class="red">${title}</h3>
       <button class="default-button" id="menu"><span class="icon">☰</span> Main menu</button>
     </div>
   `
 }
+
+const showLoadError = error => {
+  console.error(error)
+  showError('The game could not be loaded')
+}
+
+// a sound the browser refuses to play (autoplay policy) or interrupts does not break the game
+const harmlessRejections = ['NotAllowedError', 'AbortError']
+
+// the browser has already logged the error itself
+const handleRuntimeError = event => {
+  if (!location.hash) return // the menu background scene fails silently
+  if (harmlessRejections.includes(event.reason?.name)) return
+
+  manager.endScene()
+  showError('The game has stopped because of an error')
+}
+
+addEventListener('error', handleRuntimeError)
+addEventListener('unhandledrejection', handleRuntimeError)
 
 /** ROUTER */
 
@@ -35,7 +54,7 @@ document.addEventListener('click', e => {
   if (jsStart)
     location.hash = jsStart.dataset.path
 
-  if (button?.id == 'menu')
+  if (button?.id === 'menu')
     location.hash = ''
 })
 

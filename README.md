@@ -14,6 +14,15 @@ npm i
 npm start
 ```
 
+Before committing, run every check (lint, unit tests, project check and the browser smoke test):
+
+```
+npx playwright install chromium   # once
+npm run verify
+```
+
+The separate checks and how the tests work: [docs/TESTING.md](docs/TESTING.md).
+
 ## TODO
 
 - ubacivanje žetona
@@ -21,13 +30,8 @@ npm start
 
 ### Bagovi
 
-- BUG: golemi se nekad tresu u mestu (follow)
-- bug: graveyard game over a čarobnica stoji kao živa
-- na početku 3D scena modeli raširenih ruku. probati bar jedan loop inicijalno (firstLoop = true)
 Mobilni:
-    - warplane ne radi na mobilnom, a trese se nekad i na PC
-    - Lander potisak se ne vidi na mobilnom
-    - cannon kontrole ne rade
+    - warplane ne radi na mobilnom
 
 ### Refaktor
 

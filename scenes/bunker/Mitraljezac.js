@@ -14,7 +14,7 @@ export default class Mitraljezac extends Predmet {
   update(dt, t) {
     super.update(dt, t)
     const cilj = this.traziNajblizuMetu()
-    this.ugao = this.ugaoKa(cilj) + Math.PI
+    if (cilj) this.ugao = this.ugaoKa(cilj) + Math.PI
     this.rafalPovremenoCiljano(t)
     this.proveriPogotke()
   }

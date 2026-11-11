@@ -109,6 +109,8 @@ export default class Actor extends GameObject {
     }
 
     this.fsm = new FSM(this, baseState)
+    // pose the model as its first state's animation before the first render, instead of the T-pose
+    this.anim?.mixer.update(0)
   }
 
   /* GETTERS & SETTERS */
@@ -188,7 +190,7 @@ export default class Actor extends GameObject {
     const timeToHit = this.action ? (this.action.getClip().duration * 1000 * .5) : 200
 
     setTimeout(() => {
-      if (this.dead) return
+      if (this.dead || !this.scene) return // the actor may have died or left the scene meanwhile
       if (this.attackSound) this.playAttackSound()
 
       if (isDev) arrowHelper(this, height)
@@ -205,7 +207,7 @@ export default class Actor extends GameObject {
         if (this.useRicochet) this.addRicochet(point, mesh.userData.hitColor)
       } else if (this.leaveDecals) { // if not hit enemy
         this.addRicochet(point, 0xcccccc)
-        this.shootDecals(intersects[0], { scene: this.scene, color: 0x000000 })
+        this.shootDecals?.(intersects[0], { scene: this.scene, color: 0x000000 })
       }
     }, timeToHit)
   }
@@ -219,6 +221,7 @@ export default class Actor extends GameObject {
   /* PARTICLES */
 
   addRicochet(pos, color) {
+    if (!this.ricochet) return // still loading lazily
     this.ricochet.reset({ pos, unitAngle: 0.2, color })
     this.scene.add(this.ricochet.mesh)
   }
@@ -235,13 +238,16 @@ export default class Actor extends GameObject {
 
   startFlame(defer = 1000, callback, randomize) {
     this.scene.add(this.flame.mesh)
-    setTimeout(() => {
+    clearTimeout(this.flameTimer)
+    this.flameTimer = setTimeout(() => {
+      if (this.dead) return
       this.resetFlame(randomize)
       if (callback) callback()
     }, defer)
   }
 
   endFlame() {
+    clearTimeout(this.flameTimer) // a flame that has not started yet must not start after the attack ended
     this.shouldLoop = false
   }
 
@@ -286,6 +292,10 @@ export default class Actor extends GameObject {
 
   checkHit() {
     if (!this.damageAmount) return
+    if (this.dead) { // a corpse can still be hit, but must not die again
+      this.damageAmount = 0
+      return
+    }
 
     this.applyDamage()
 

@@ -43,7 +43,7 @@ export default class extends Scena3D {
 
   handleClick(e) {
     super.handleClick(e)
-    if (e.target.closest('button, input')) return
+    if (e.target.closest('button, input') || !this.gameLoop.isRunning || this.ui.outro) return
 
     this.player.shoot(this.world)
     if (this.player.shots == 0) this.checkDefeat()

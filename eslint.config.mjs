@@ -1,6 +1,8 @@
 import globals from 'globals'
 
 export default [{
+  ignores: ['libs/**', 'node_modules/**', 'test-results/**'],
+}, {
   languageOptions: {
     globals: {
       ...globals.browser,
@@ -19,6 +21,12 @@ export default [{
   },
 
   rules: {
+    'array-callback-return': 'error',
+    'no-constant-binary-expression': 'error',
+    'no-promise-executor-return': 'error',
+    'no-self-compare': 'error',
+    'no-unmodified-loop-condition': 'error',
+    'no-unsafe-optional-chaining': 'error',
     'array-bracket-spacing': ['warn', 'never'],
     'arrow-body-style': ['warn', 'as-needed'],
     'arrow-parens': ['warn', 'as-needed'],
@@ -78,7 +86,7 @@ export default [{
     'no-unreachable': 'error',
     'no-unused-private-class-members': 'warn',
 
-    'no-unused-vars': ['warn', {
+    'no-unused-vars': ['error', {
       args: 'after-used',
     }],
 

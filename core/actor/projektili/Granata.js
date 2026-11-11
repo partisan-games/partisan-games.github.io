@@ -19,6 +19,7 @@ export default class Granata extends Metak {
 
   reset() {
     super.reset()
+    clearTimeout(this.timerId)
     this.timerId = null
     this.plamicak?.sakrij()
   }

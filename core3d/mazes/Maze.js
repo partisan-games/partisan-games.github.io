@@ -43,7 +43,7 @@ export default class Maze {
 
   set distances(distances) {
     this._distances = distances
-    const [_, maximum] = distances.max()
+    const [, maximum] = distances.max()
     this.maximum = maximum
   }
 

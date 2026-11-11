@@ -25,10 +25,19 @@ export default class extends Scena3D {
   }
 
   addUI() {
-    document.body.insertAdjacentHTML('afterbegin', html)
-    const style = document.createElement('style')
-    style.textContent = css
-    document.head.appendChild(style)
+    const container = document.createElement('div')
+    container.innerHTML = html
+    this.uiElements = [...container.children]
+    document.body.prepend(...this.uiElements)
+    this.style = document.createElement('style')
+    this.style.textContent = css
+    document.head.appendChild(this.style)
+  }
+
+  end() {
+    super.end()
+    this.uiElements?.forEach(element => element.remove())
+    this.style?.remove()
   }
 
   async handleClick(e) {

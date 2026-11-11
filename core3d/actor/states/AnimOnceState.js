@@ -18,7 +18,8 @@ export default class AnimOnceState extends State {
     this.actor.anim?.playAction(oldAction, this.name, this.onFinish)
   }
 
-  onFinish() {
+  onFinish(e) {
+    if (e.action !== this.action) return // the mixer reports every action, also the one fading out
     this.actor.anim?.removeEventListener('finished', this.onFinish)
     if (this.name == 'death') return
     this.actor.setState(this.prevOrIdle)

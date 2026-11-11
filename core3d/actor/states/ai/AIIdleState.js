@@ -8,11 +8,13 @@ export default class AIIdleState extends IdleState {
   enter(oldState, oldAction) {
     super.enter(oldState, oldAction)
     this.interval = randInt(3000, 5000)
+    // a follower may stop short of followDistance when the target blocks its way
+    this.resumeFollowDistance = Math.max(this.actor.followDistance, this.actor.distanceToTarget) * 1.25
   }
 
   update() {
     const { actor } = this
-    const { baseState, followDistance, targetInSightRange, targetInAttackRange, distanceToTarget } = actor
+    const { baseState, targetInSightRange, targetInAttackRange, distanceToTarget } = actor
 
     actor.turnEvery(this.interval, Math.PI / 4)
 
@@ -33,7 +35,7 @@ export default class AIIdleState extends IdleState {
     if (baseState == baseStates.flee && targetInSightRange)
       actor.setState('flee')
 
-    if (baseState == baseStates.follow && targetInSightRange && distanceToTarget > followDistance * 1.25)
+    if (baseState == baseStates.follow && targetInSightRange && distanceToTarget > this.resumeFollowDistance)
       actor.setState('follow')
   }
 }

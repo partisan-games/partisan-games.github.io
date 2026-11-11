@@ -104,6 +104,7 @@ export default class extends Scena3D {
   update(dt, t) {
     super.update(dt, t)
 
+    if (this.player.dead) this.defeat('The orcs have defeated you.')
     if (this.left === 0) this.victory()
   }
 }

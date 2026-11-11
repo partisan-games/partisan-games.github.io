@@ -226,7 +226,7 @@ export function ellers(maze) {
 
     if (row[0].south) {
       const next_row = row_state.next()
-      for (const [set, cells] of row_state.each_set()) {
+      for (const [, cells] of row_state.each_set()) {
         shuffle(cells)
         cells.forEach((cell, i) => {
           if (i == 0 || Math.random() < 0.33) {

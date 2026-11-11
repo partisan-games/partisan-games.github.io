@@ -86,6 +86,7 @@ export default class Scena3D extends Scena {
 
   end() {
     super.end()
+    this.controls?.dispose() // orbit controls listen on the canvas that the next scene reuses
     window.removeEventListener('resize', this.handleResize)
     screen.orientation.removeEventListener('change', this.handleResize)
   }

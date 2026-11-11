@@ -129,4 +129,8 @@ export default class Lander extends GameObject {
     this.applyVelocity(delta)
     this.updateFlame(delta)
   }
+
+  end() {
+    this.input.end()
+  }
 }

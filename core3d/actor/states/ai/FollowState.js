@@ -13,15 +13,13 @@ export default class FollowState extends WalkState {
     const { actor } = this
 
     actor.lookAtTarget()
-    actor.updateMove(delta, reactions.STEP_OFF)
 
     /* TRANSIT */
 
-    if (!actor.targetInSightRange)
-      actor.setState('idle')
+    if (!actor.targetInSightRange || actor.distanceToTarget < actor.followDistance || actor.blockedByTarget)
+      return actor.setState('idle')
 
-    if (actor.distanceToTarget < actor.followDistance)
-      actor.setState('idle')
+    actor.updateMove(delta, reactions.STEP_OFF)
   }
 
   exit() {

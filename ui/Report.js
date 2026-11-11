@@ -62,7 +62,8 @@ export default class Report {
   init() {
     if (this.intervalId) return
     this.intervalId = setInterval(this.kucaj, 80)
-    this.audio.play()
+    // the typing sound is optional: the browser may block it, and stop() may pause it before it starts
+    this.audio.play().catch(() => {})
   }
 
   kucaj = () => {

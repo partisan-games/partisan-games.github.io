@@ -85,9 +85,11 @@ export default class extends Scena3D {
 
   async handleClick(e) {
     super.handleClick(e)
-    if (e.target.tagName != 'INPUT') return
+    if (e.target.tagName != 'INPUT' || this.choosingAvatar) return
+    this.choosingAvatar = true // a second click while the avatar loads would add a second one
 
     const Avatar = await import('/core3d/actor/Avatar.js')
+    if (this.ui.ended) return
     this.player = new Avatar.default({ camera: this.camera, solids: [this.ground, ...this.boxes], skin: e.target.id, showHealthBar: true, maxJumpTime: .99, rpgStyle: true })
     this.player.chaseCamera.distance = 6
     this.addMesh(this.player.mesh)
@@ -121,12 +123,12 @@ export default class extends Scena3D {
 
   update(dt, t) {
     super.update(dt)
-    if (!this.player) return
+    if (!this.player || this.ui.outro) return
 
     this.lava.material.uniforms.time.value = t * .5
     if (inLava(this.player) && this.player.skin != 'LAVA') {
       this.ui.showMessage('Get out of the lava, you\'re burning!')
-      this.player.energy -= .1
+      this.player.energy -= 6 * dt // 6 per second, the old .1 per frame at 60 fps
     }
 
     this.coins.forEach(coin => this.checkCollision(coin))

@@ -100,7 +100,7 @@ export default class Animator {
     action.clampWhenFinished = true
     this.transitFrom(oldAction, name, .5)
 
-    if (shouldReverse) this.reverseClip(this.action)
+    if (shouldReverse) this.reverseClip(name)
   }
 
   playLoopAction(oldAction, name, onLoopEnd) {
@@ -112,10 +112,10 @@ export default class Animator {
     this.addEventListener('loop', onLoopEnd)
   }
 
-  findActiveAction(prevAction) {
+  findActiveAction(prevAction, nextAction) {
     if (prevAction) return prevAction
 
-    const othersActive = this.mixer?._actions.filter(action => action.isRunning() && action !== action)
+    const othersActive = this.mixer?._actions.filter(action => action.isRunning() && action !== nextAction)
     const first = othersActive.shift()
 
     if (!first) this.mixer.stopAllAction()
@@ -136,8 +136,8 @@ export default class Animator {
   }
 
   transitFrom(oldName, name, duration = .25) {
-    const oldAction = this.findActiveAction(oldName)
     const action = this.getAction(name)
+    const oldAction = this.findActiveAction(oldName, action)
     if (action === oldAction) return
 
     if (action && oldAction) action.crossFadeFrom(oldAction, duration)

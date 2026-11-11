@@ -10,8 +10,6 @@ const mapSize = 400
 export default class extends Scena3D {
   constructor() {
     super({ toon: true, showControls: false, bojaPlatna: bojeNeba.modra })
-
-    document.addEventListener('pointerdown', () => this.grow())
   }
 
   init() {
@@ -30,10 +28,16 @@ export default class extends Scena3D {
     }
 
     this.grow()
+    document.addEventListener('pointerdown', this.grow)
     setTimeout(() => this.ui.showMessage('Click to morph city'), 2000)
   }
 
-  grow() {
+  end() {
+    super.end()
+    document.removeEventListener('pointerdown', this.grow)
+  }
+
+  grow = () => {
     this.buildings.forEach(building => {
       const y = 1 + Math.random() * 20 + (Math.random() < 0.1 ? 15 : 0)
 

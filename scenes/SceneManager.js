@@ -10,10 +10,11 @@ const imageLoaded = img => img.complete
 class SceneManager {
   static instance = null
 
-  constructor() {
+  constructor(importScene = path => import(`/scenes/${path}/Main.js`)) {
     if (SceneManager.instance)
       return SceneManager.instance
 
+    this.importScene = importScene
     this.scene = null
     this.startId = 0
     SceneManager.instance = this
@@ -54,12 +55,13 @@ class SceneManager {
 
       if (!validPath.test(path)) throw new Error(`Invalid scene name: ${path}`)
 
-      const SceneClass = (await import(`/scenes/${path}/Main.js`)).default
+      const SceneClass = (await this.importScene(path)).default
       if (!isCurrent()) return
 
-      this.scene = new SceneClass(this)
-      await this.scene.init()
-      if (!isCurrent()) return
+      const scene = this.scene = new SceneClass(this)
+      await scene.init()
+      // a newer start ended this scene while init was still running; end what init set up after that
+      if (!isCurrent()) return scene.end()
 
       if (this.scene.pozadina) await imageLoaded(this.scene.pozadina.slika)
       if (!isCurrent()) return

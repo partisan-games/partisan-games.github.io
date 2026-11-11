@@ -22,7 +22,7 @@ export default class TenkLevo extends Tenk {
   }
 
   diziCev(dt) {
-    if (this.cev.ugao <= Math.PI || this.cev.ugao >= Math.PI * 1.8) 
+    if (this.cev.ugao <= Math.PI || this.cev.ugao >= Math.PI * 1.8)
       this.cev.ugao -= dt * .5
   }
 

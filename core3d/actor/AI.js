@@ -87,6 +87,12 @@ export default class AI extends Actor {
     return this.distanceToTarget < this.sightDistance
   }
 
+  /** The target itself stands in the way, so moving closer is impossible. */
+  get blockedByTarget() {
+    if (!this.target) return false
+    return Boolean(this.directionBlocked(dir.forward, [this.target]))
+  }
+
   get targetAbove() {
     if (!this.target) return false
     return this.target.position.y >= this.position.y + this.height * .5
@@ -94,7 +100,7 @@ export default class AI extends Actor {
 
   get targetNear() {
     if (!this.target || this.targetAbove) return false
-    return (this.targetInSightRange && this.lookingAtTarget) || (this.targetInSightRange * .3) // feel if too close
+    return (this.targetInSightRange && this.lookingAtTarget) || this.distanceToTarget < this.sightDistance * .3 // feel if too close
   }
 
   get targetSpotted() {
@@ -113,6 +119,7 @@ export default class AI extends Actor {
   randomizeAction() {
     if (!this.action) return
     this.action.time = Math.random() * this.action.getClip().duration
+    this.anim.mixer.update(0)
   }
 
   /* UTILS */

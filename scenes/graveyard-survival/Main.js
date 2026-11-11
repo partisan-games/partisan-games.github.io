@@ -96,11 +96,12 @@ export default class extends Scena3D {
 
   sceneUI() {
     const kills = this.zombies.filter(zombie => zombie.energy <= 0)
-    return this.ui.scoreUI('Zombies killed', kills.length, 'Time left', this.timeLeft, 'blink')
+    return this.ui.scoreUI('Zombies killed', kills.length, 'Time left', Math.max(this.timeLeft, 0), 'blink')
   }
 
   update(delta, time) {
     super.update(delta)
+    if (this.ui.outro) return // no more zombies or moon after the end
 
     this.timeLeft = Math.ceil(totalTime - time)
     const isNight = this.timeLeft >= 0
@@ -118,7 +119,7 @@ export default class extends Scena3D {
       this.npcs.forEach(npc => {
         npc.hitAmount = 100
       })
-      if (!this.player.dead) this.ui.victory('Victory!<br>You met the morning at the cursed graveyard.')
+      if (!this.player.dead) this.victory('Victory!<br>You met the morning at the cursed graveyard.')
     }
   }
 }

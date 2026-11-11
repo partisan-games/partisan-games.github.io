@@ -27,30 +27,6 @@ export const getRandomCoords = ({
   return n ? coords.slice(0, n) : coords
 }
 
-export function slucajnePozicije(n, velicinaPolja, marginaY = 0, marginaX = 0) {
-  const availableHeight = window.innerHeight - 2 * marginaY
-  const availableWidth = window.innerWidth - 2 * marginaX
-
-  const rows = Math.floor(availableHeight / velicinaPolja)
-  const cols = Math.floor(availableWidth / velicinaPolja)
-
-  const positions = new Set()
-
-  while (positions.size < n) {
-    const i = Math.floor(Math.random() * rows)
-    const j = Math.floor(Math.random() * cols)
-    positions.add(`${i},${j}`)
-  }
-
-  return Array.from(positions).map(pos => {
-    const [i, j] = pos.split(',').map(Number)
-    return {
-      y: marginaY + velicinaPolja * i + velicinaPolja / 2,
-      x: marginaX + velicinaPolja * j + velicinaPolja / 2
-    }
-  })
-}
-
 const distance = (p1, p2) => Math.hypot(p1.x - p2.x, p1.y - p2.y)
 
 export function nadjiNajdaljeTacke(pozicije) {

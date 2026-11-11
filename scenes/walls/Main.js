@@ -20,7 +20,7 @@ export default class extends Scena3D {
     this.addMesh(createSun())
     this.addMesh(createGround())
 
-    const maze = new Maze(4, 8, recursiveBacktracker, 5)
+    const maze = new Maze({ rows: 20, algorithm: recursiveBacktracker, cellSize: 3 })
     const walls = maze.toTiledMesh({ texture: 'walls/stonetiles.jpg', maxHeight: 6 })
     this.addMesh(walls)
 

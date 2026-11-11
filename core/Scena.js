@@ -97,10 +97,10 @@ export default class Scena {
 
   end() {
     this.gameLoop.stop()
+    new Set([...this.predmeti, this.player]).forEach(predmet => predmet?.end?.())
     this.predmeti = []
     this.clear()
     this.ui.end()
-    if (this.player) this.player.end()
 
     this.canvas.style.display = 'none'
 
@@ -165,17 +165,20 @@ export default class Scena {
     if (this.usePointerLock) document.exitPointerLock()
   }
 
+  // scenes keep checking their end conditions every frame; the first result stands
   defeat(text) {
+    if (this.ui.outro) return
     this.ui.defeat(text)
     this.finish()
   }
 
   victory(text, title) {
+    if (this.ui.outro) return
     this.ui.victory(text, title)
     this.finish()
   }
 
-  sceneUI(t) {
+  sceneUI() {
     return ''
   }
 }

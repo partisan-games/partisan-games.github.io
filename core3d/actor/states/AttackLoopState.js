@@ -14,7 +14,8 @@ export default class AttackLoopState extends State {
     this.actor.anim?.playLoopAction(oldAction, this.name, this.onLoopEnd)
   }
 
-  onLoopEnd() {
+  onLoopEnd(e) {
+    if (e.action !== this.action) return // the mixer reports every action, also the one fading out
     if (this.actor.input[this.name]) this.actor.enterAttack()
     else this.actor.setState(this.prevOrIdle)
   }

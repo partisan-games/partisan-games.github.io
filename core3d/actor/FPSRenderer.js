@@ -25,11 +25,19 @@ export default class FPSRenderer extends HTMLCanvasElement {
     this.weaponImg = new Image()
     this.targetImg = new Image()
     this.targetY = targetY
+  }
 
-    window.addEventListener('resize', () => {
-      this.width = window.innerWidth
-      this.height = window.innerHeight
-    })
+  connectedCallback() {
+    window.addEventListener('resize', this.handleResize)
+  }
+
+  disconnectedCallback() {
+    window.removeEventListener('resize', this.handleResize)
+  }
+
+  handleResize = () => {
+    this.width = window.innerWidth
+    this.height = window.innerHeight
   }
 
   get ctx() {

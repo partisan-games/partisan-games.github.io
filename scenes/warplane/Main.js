@@ -13,6 +13,7 @@ const mapSize = 800
 const buildingInterval = 2000
 const buildingDistance = mapSize * .4
 const groundDistance = mapSize * .99
+const endDelay = 2.5 // seconds between the end of the flight and the end screen
 const planes = ['Biplane', 'Triplane', 'Messerschmitt', 'Bomber', 'F18']
 
 const createStartScreen = () => {
@@ -56,13 +57,16 @@ export default class extends Scena3D {
     this.addMesh(this.ground, this.ground2)
 
     this.score = 0
+    this.sinceEnd = 0
   }
 
   async handleClick(e) {
     super.handleClick(e)
-    if (e.target.tagName !== 'INPUT' || !planes.includes(e.target.id)) return
+    if (e.target.tagName !== 'INPUT' || !planes.includes(e.target.id) || this.choosingPlane) return
+    this.choosingPlane = true // a second click while the plane loads would add a second one
 
     const obj = await import(`/core3d/aircraft/derived/${e.target.id}.js`)
+    if (this.ui.ended) return
     this.player = new obj.default({ camera: this.camera, limit: mapSize * .25 })
     this.addMesh(this.player.mesh)
     this.entities.push(this.player)
@@ -120,6 +124,13 @@ export default class extends Scena3D {
     entity.update(delta)
   })
 
+  /** Shows the end screen once, after the plane has had time to crash or land. */
+  finishAfterDelay(delta, finish) {
+    if (this.ui.outro) return
+    this.sinceEnd += delta
+    if (this.sinceEnd >= endDelay) finish()
+  }
+
   sceneUI(time) {
     const timeLeft = totalTime - Math.floor(time)
     return this.ui.scoreUI('Score', this.score, 'Time left', Math.max(timeLeft, 0), 'blink')
@@ -134,14 +145,12 @@ export default class extends Scena3D {
     this.updateEntities(delta)
 
     if (this.player.dead)
-      return setTimeout(() => this.defeat('You have failed.'), 2500)
+      return this.finishAfterDelay(delta, () => this.defeat('You have failed.'))
 
     if (time < totalTime - 10) this.spawnObjects(time)
     if (time >= totalTime) {
       this.player.land(delta)
-      setTimeout(() => {
-        this.victory('You have completed the mission.')
-      }, 2500)
+      this.finishAfterDelay(delta, () => this.victory('You have completed the mission.'))
     }
   }
 }

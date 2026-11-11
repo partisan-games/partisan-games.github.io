@@ -26,8 +26,8 @@ let tracks = []
 let decRot = 0
 
 function fixAngleRad(a) {
-  if (a > Math.PI) a -= Math.PI * 2
-  else if (a < -Math.PI) a += Math.PI * 2
+  if (a > Math.PI) return a - Math.PI * 2
+  if (a < -Math.PI) return a + Math.PI * 2
   return a
 }
 

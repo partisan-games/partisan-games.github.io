@@ -2,7 +2,7 @@ import Scena3D from '/core/Scena3D.js'
 import { baseControls } from '/ui/Controls.js'
 import { createFloor } from '/core3d/ground.js'
 import Maze from '/core3d/mazes/Maze.js'
-import { aldousBroder } from '/core3d/mazes/algorithms.js'
+import { recursiveBacktracker } from '/core3d/mazes/algorithms.js'
 import Avatar from '/core3d/actor/Avatar.js'
 import { hemLight } from '/core3d/light.js'
 import { material, uniforms } from '/core3d/shaders/lightning-led.js'
@@ -23,7 +23,7 @@ export default class extends Scena3D {
 
     this.addMesh(createFloor())
 
-    const maze = new Maze(10, 10, aldousBroder, cellSize)
+    const maze = new Maze({ rows: 20, algorithm: recursiveBacktracker, cellSize })
     const city = maze.toTiledMesh({ maxHeight: cellSize * 3, material })
     this.addMesh(city)
 

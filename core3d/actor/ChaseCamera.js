@@ -149,7 +149,8 @@ export default class ChaseCamera {
     const idealPosition = calc(this.mesh, this.offset, this.rotate)
     const idealLookAt = calc(this.mesh, this.lookAt, this.rotate)
 
-    const deltaSpeed = delta * this.speed * speedFactor(stateName)
+    // above 1 the camera would overshoot the target on a long frame and swing back and forth
+    const deltaSpeed = Math.min(1, delta * this.speed * speedFactor(stateName))
     this.currentPosition.lerp(idealPosition, deltaSpeed)
     this.currentLookAt.lerp(idealLookAt, deltaSpeed)
 
@@ -158,6 +159,6 @@ export default class ChaseCamera {
   }
 
   end() {
-    this.button.remove()
+    this.button?.remove()
   }
 }

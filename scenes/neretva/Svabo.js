@@ -4,6 +4,7 @@ import mish from '/core/io/mish.js'
 import { randomVolume } from '/core/utils.js'
 
 const rafal = new Audio('/assets/sounds/rafal.mp3')
+const slikaPuca = '/assets/images/armies/nemac-rov-puca.gif'
 
 export default class Svabo extends Predmet {
 
@@ -44,7 +45,8 @@ export default class Svabo extends Predmet {
   }
 
   puca() {
-    this.slika.src = '/assets/images/armies/nemac-rov-puca.gif'
+    // setting the same src again reloads the image on every frame
+    if (!this.slika.src.endsWith(slikaPuca)) this.slika.src = slikaPuca
   }
 
   jePogodjen() {

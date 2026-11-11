@@ -59,7 +59,7 @@ export default class UI {
       this.controlsUI = new Controls({ controlKeys, uiStyle })
 
     if (showFullScreen && document.fullscreenEnabled)
-      document.body.appendChild(document.createElement('full-screen-btn'))
+      this.fullScreenButton = document.body.appendChild(document.createElement('full-screen-btn'))
   }
 
   clear() {
@@ -166,20 +166,25 @@ export default class UI {
   /* MESSAGE */
 
   showMessage(txt) {
+    if (this.ended || this.modal) return // a message would cover the start, pause or end screen
+
     modalElement.innerHTML = /* html */`
       <div class="central-screen">
         <h3>${txt}</h3>
       </div>
     `
     setTimeout(() => {
-      if (this.modal) return
+      if (this.ended || this.modal) return // the modal may belong to the next game by now
       modalElement.innerHTML = ''
     }, 3000)
   }
 
   end() {
+    this.ended = true
     this.clear()
-    if (this.controlsUI) this.controlsUI.end()
+    this.report?.stop()
+    this.controlsUI?.end()
+    this.fullScreenButton?.remove()
   }
 
   /* LOOP */
