@@ -8,6 +8,14 @@ export const bojeNeba = {
   mrkla: 'linear-gradient(to bottom, #020111 70%, #191621 100%)',
 }
 
+// One renderer per canvas for the whole site: games draw on the same canvas, and a new renderer
+// would leave the previous one's state and shaders on the graphics card.
+const renderers = new WeakMap()
+const rendererFor = canvas => {
+  if (!renderers.has(canvas)) renderers.set(canvas, new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true }))
+  return renderers.get(canvas)
+}
+
 export default class Scena3D extends Scena {
   constructor({
     canvas = document.getElementById('platno-3d'),
@@ -23,7 +31,7 @@ export default class Scena3D extends Scena {
     this.camera.position.set(0, 5, 30)
     this.bojaPlatna = bojaPlatna
 
-    this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, alpha: true, antialias: true })
+    this.renderer = rendererFor(this.canvas)
     this.renderer.setSize(canvasWidth, canvasHeight)
     this.renderer.setPixelRatio(Math.min(2, window.devicePixelRatio)) // save battery by limit pixel ratio to 2
     this.renderer.shadowMap.enabled = true
@@ -89,5 +97,28 @@ export default class Scena3D extends Scena {
     this.controls?.dispose() // orbit controls listen on the canvas that the next scene reuses
     window.removeEventListener('resize', this.handleResize)
     screen.orientation.removeEventListener('change', this.handleResize)
+    this.disposeScene()
+  }
+
+  /**
+   * Frees what this game holds on the graphics card, which the shared renderer keeps otherwise.
+   * A model shared with a later game is uploaded again when that game draws it.
+   */
+  disposeScene() {
+    const disposeTextures = values => Object.values(values).forEach(value => {
+      if (value?.isTexture) value.dispose()
+      else if (value?.value?.isTexture) value.value.dispose() // a shader uniform
+    })
+    this.scene.traverse(object => {
+      if (object.isLight) object.dispose() // its shadow map
+      if (object.isSkinnedMesh) object.skeleton.dispose() // the texture with its bones
+      object.geometry?.dispose()
+      for (const material of [object.material].flat().filter(Boolean)) {
+        disposeTextures(material)
+        if (material.uniforms) disposeTextures(material.uniforms)
+        material.dispose()
+      }
+    })
+    if (this.scene.background?.isTexture) this.scene.background.dispose()
   }
 }

@@ -29,7 +29,7 @@ Iza menija na širokom ekranu radi igra `lookat-cursor`, na sopstvenom platnu `#
 
 ## Scena
 
-`core/Scena.js` je osnova svake igre; `Scena2D` crta na 2D platno preko `Renderer2D`, a `Scena3D` pravi three.js scenu, kameru i `WebGLRenderer`. Igra nasleđuje jednu od njih i preko konstruktora zadaje opcije (`intro`, `controlKeys`, `uiStyle`, `usePointerLock` i druge).
+`core/Scena.js` je osnova svake igre; `Scena2D` crta na 2D platno preko `Renderer2D`, a `Scena3D` pravi three.js scenu i kameru i crta preko jednog `WebGLRenderer`-a koji sve igre na istom platnu dele. Igra nasleđuje jednu od njih i preko konstruktora zadaje opcije (`intro`, `controlKeys`, `uiStyle`, `usePointerLock` i druge).
 
 Igra može da napiše ove metode:
 
@@ -97,4 +97,4 @@ Sat prazni konstruktor `Scena`, a ne `end()`, pa radnja stare igre nikad ne okin
 
 ## Gašenje igre
 
-Pošto se stranica pri promeni igre ne učitava ponovo, sve što igra ili njen objekat doda u `document`, `window`, `body` ili na zajedničko platno `#platno-3d` mora se ukloniti u `end()`. Rukovalac se čuva u polju (ne kao anonimna arrow funkcija), da bi `end()` mogao da ga ukloni, a stilovi za celu stranicu dodaju se samo jednom. Test `tests/smoke/leaks.spec.js` hvata ono što raste posle više promena igre.
+Pošto se stranica pri promeni igre ne učitava ponovo, sve što igra ili njen objekat doda u `document`, `window`, `body` ili na zajedničko platno `#platno-3d` mora se ukloniti u `end()`. Rukovalac se čuva u polju (ne kao anonimna arrow funkcija), da bi `end()` mogao da ga ukloni, a stilovi za celu stranicu dodaju se samo jednom. Za grafičku karticu to radi `Scena3D.end()`: oslobađa geometrije, materijale, teksture, kosti i senke svega što je na kraju u sceni, a crtač ostaje za sledeću igru. Zato igra ne menja podešavanja zajedničkog crtača, a ono što ukloni iz scene usred igre oslobađa sama. Test `tests/smoke/leaks.spec.js` hvata ono što raste posle više promena igre, uključujući teksture, bafere i programe na grafičkoj kartici.

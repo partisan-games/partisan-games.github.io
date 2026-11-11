@@ -33,10 +33,6 @@ The separate checks and how the tests work: [docs/TESTING.md](docs/TESTING.md).
 Mobilni:
     - warplane ne radi na mobilnom
 
-### Refaktor
-
-- jedan WebGLRenderer za ceo sajt i oslobađanje resursa scene pri izlasku (sada nov renderer po igri, core/Scena3D.js:26, dispose skoro nigde); prvo izmeriti memoriju
-
 ### Ideje za kasnije
 
 - dodati profil korisnika
