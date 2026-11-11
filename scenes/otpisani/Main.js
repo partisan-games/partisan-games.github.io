@@ -41,7 +41,7 @@ export default class extends Scena2D {
   }
 
   update(dt, t) {
-    if (this.outro) return
+    if (this.ui.outro) return
     super.update(dt, t)
 
     if (this.vreme.proteklo > Math.max(this.intervalIzlaska, 500)) {

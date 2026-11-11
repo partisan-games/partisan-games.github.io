@@ -26,7 +26,6 @@ export default class GameLoop {
 
     cancelAnimationFrame(this.loopId)
     this.isPaused = false
-    this.sceneLoop = null
     this.loopId = null
     this.lastTimestamp = 0
     this.time = 0
@@ -49,15 +48,19 @@ export default class GameLoop {
     this.timeStopped = true
   }
 
+  resumeTime() {
+    this.timeStopped = false
+  }
+
   /* LOOP */
 
   mainLoop = timestamp => {
     if (!this.isRunning) return
-    if (this.isPaused) {
-      requestAnimationFrame(this.mainLoop)
-      return
-    }
+    if (!this.isPaused) this.tick(timestamp)
+    if (this.isRunning) this.loopId = requestAnimationFrame(this.mainLoop)
+  }
 
+  tick(timestamp) {
     if (this.lastTimestamp === 0)
       this.lastTimestamp = timestamp
 
@@ -66,9 +69,6 @@ export default class GameLoop {
     this.lastTimestamp = timestamp
     if (!this.timeStopped) this.time += deltaTime
 
-    if (this.sceneLoop)
-      this.sceneLoop(deltaTime * 0.001, this.time * 0.001) // to seconds
-
-    requestAnimationFrame(this.mainLoop)
+    this.sceneLoop(deltaTime * 0.001, this.time * 0.001) // to seconds
   }
 }

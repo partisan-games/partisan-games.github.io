@@ -1,29 +1,42 @@
 import SceneManager from './SceneManager.js'
 
 const manager = new SceneManager()
+const elementUI = document.getElementById('ui')
+const modalElement = document.getElementById('modal')
+
+const showLoadError = error => {
+  console.error(error)
+  modalElement.innerHTML = /* html */`
+    <div class="central-screen flex-column simple-container">
+      <h3 class="red">The game could not be loaded</h3>
+      <button class="default-button" id="menu"><span class="icon">☰</span> Main menu</button>
+    </div>
+  `
+}
 
 /** ROUTER */
 
-if (location.hash) {
-  document.getElementById('ui').innerHTML = ''
-  manager.start(location.hash.slice(1))
-} else if (window.innerWidth >= 800)
-  manager.start('lookat-cursor', false)
+const route = () => {
+  const path = location.hash.slice(1)
+  if (!path) return location.reload()
+
+  elementUI.innerHTML = modalElement.innerHTML = ''
+  manager.start(path).catch(showLoadError)
+}
+
+if (location.hash) route()
+else if (window.innerWidth >= 800)
+  manager.start('lookat-cursor', false).catch(console.error)
 
 document.addEventListener('click', e => {
   const button = e.target.closest('button')
   const jsStart = e.target.closest('.js-start')
 
-  if (jsStart) {
-    manager.start(jsStart.dataset.path)
-    document.getElementById('ui').innerHTML = ''
-    window.location.hash = jsStart.dataset.path
-  }
+  if (jsStart)
+    location.hash = jsStart.dataset.path
 
   if (button?.id == 'menu')
-    window.location.hash = ''
+    location.hash = ''
 })
 
-addEventListener('hashchange', () => {
-  if (!location.hash) location.reload()
-})
+addEventListener('hashchange', route)

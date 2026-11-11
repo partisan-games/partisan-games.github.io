@@ -66,6 +66,11 @@ export default class UI {
     elementUI.innerHTML = modalElement.innerHTML = ''
   }
 
+  reset() {
+    this.outro = this.cachedSceneUI = this.cachedModal = ''
+    this.clear()
+  }
+
   clearIntro() {
     this.intro = ''
     modalElement.innerHTML = ''

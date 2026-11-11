@@ -61,7 +61,7 @@ export default class Scena {
       this.start()
 
     if (target?.id == 'igraj-opet')
-      this.reset ? this.reset() : location.reload()
+      this.playAgain()
 
     if (target?.id == 'continue')
       this.unpause()
@@ -107,6 +107,15 @@ export default class Scena {
     document.removeEventListener('click', this.handleClick)
     document.removeEventListener('visibilitychange', this.handleVisibilityChange)
     document.removeEventListener('pointerlockchange', this.handlePointerLockChange)
+  }
+
+  playAgain() {
+    if (!this.reset) return location.reload()
+
+    this.ui.reset()
+    this.gameLoop.resumeTime()
+    this.unpause()
+    this.reset()
   }
 
   pause() {

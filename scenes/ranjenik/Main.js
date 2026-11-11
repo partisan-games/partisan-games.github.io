@@ -37,14 +37,18 @@ export default class extends Scena2D {
   }
 
   proveriPobedu() {
-    if (izasaoDesno(this.player)) this.promeniScenu()
+    if (!izasaoDesno(this.player)) return
 
-    if (this.scena === 2) {
-      this.patrola.nestani()
-      this.pozadina.slika.src = '/assets/images/shumarak-pozadina.png'
-      this.predmeti = this.predmeti.filter(p => p.constructor.name !== 'Paljba')
-      this.victory('You\'ve made it to safety!')
-    }
+    if (this.scena === 0) this.promeniScenu()
+    else this.pobedi()
+  }
+
+  pobedi() {
+    this.patrola.nestani()
+    this.pozadina.slika.src = '/assets/images/armies/shumarak-pozadina.png'
+    this.predmeti = this.predmeti.filter(p => !(p instanceof Paljba))
+    this.player.x = 10
+    this.victory('You\'ve made it to safety!')
   }
 
   promeniScenu() {
@@ -67,7 +71,7 @@ export default class extends Scena2D {
   }
 
   update(dt, t) {
-    if (this.outro) return
+    if (this.ui.outro) return
     super.update(dt, t)
     this.proveriSudare()
     this.proveriPobedu()

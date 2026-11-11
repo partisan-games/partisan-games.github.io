@@ -50,7 +50,6 @@ export default class extends Scena3D {
   }
 
   reset() {
-    this.ui.clear()
     this.lander.reset()
   }
 
