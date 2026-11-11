@@ -19,13 +19,13 @@ npm start
 - ubacivanje žetona
 - ocenjivanje igara?
 
-### Bagovi za kasnije
+### Bagovi
 
 - BUG: golemi se nekad tresu u mestu (follow)
 - bug: graveyard game over a čarobnica stoji kao živa
 - na početku 3D scena modeli raširenih ruku. probati bar jedan loop inicijalno (firstLoop = true)
 Mobilni:
-    - warcraft ne radi na mobilnom, a trese se nekad i na PC
+    - warplane ne radi na mobilnom, a trese se nekad i na PC
     - Lander potisak se ne vidi na mobilnom
     - cannon kontrole ne rade
 

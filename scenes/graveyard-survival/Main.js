@@ -110,7 +110,7 @@ export default class extends Scena3D {
 
     if (isNight) {
       this.spawnZombie(10000)
-      if (this.player.dead) this.ui.defeat('You have been killed at the cursed graveyard.')
+      if (this.player.dead) this.defeat('You have been killed at the cursed graveyard.')
     } else {
       this.moon.material.color = new THREE.Color(0xFCE570)
       this.moon.scale.set(2, 2, 2)

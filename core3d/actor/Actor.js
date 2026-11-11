@@ -296,6 +296,12 @@ export default class Actor extends GameObject {
       this.setState('pain')
   }
 
+  /** Without a death animation the actor would keep standing in its last pose. */
+  fallDead() {
+    this.anim?.mixer.stopAllAction()
+    this.mesh.rotateX(Math.PI / 2)
+  }
+
   stepOff(val) {
     this.mesh.translateX(val)
     this.mesh.translateZ(val)

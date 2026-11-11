@@ -25,7 +25,8 @@ function createInputRange() {
 
 export class CannonPlayer extends Player {
   constructor(props = {}) {
-    super({ mesh, showHealthBar: false, canMove: false, speed: .5, ...props })
+    // the keyboard also tracks a held pointer, which charges the shot on touch screens too
+    super({ mesh, showHealthBar: false, canMove: false, speed: .5, useKeyboard: true, ...props })
     this.range = createInputRange()
     this.minImpulse = this.range.value = this.range.min
     this.maxImpulse = 25
@@ -60,5 +61,10 @@ export class CannonPlayer extends Player {
     super.update(dt)
     if (this.input.pressed.pointer && this.range.value < this.maxImpulse)
       this.range.value = parseFloat(this.range.value) + .2
+  }
+
+  end() {
+    super.end()
+    this.range.remove()
   }
 }

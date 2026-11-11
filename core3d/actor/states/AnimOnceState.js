@@ -8,7 +8,7 @@ export default class AnimOnceState extends State {
 
   enter(oldState, oldAction) {
     super.enter(oldState)
-    if (this.name == 'death' && !this.action) return
+    if (this.name == 'death' && !this.action) return this.actor.fallDead()
 
     if (!this.action)
       return this.actor.setState(this.prevOrIdle)

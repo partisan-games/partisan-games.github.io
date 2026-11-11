@@ -88,6 +88,14 @@ export default class Touch {
       this.addGameButtons(buttonDict)
   }
 
+  get controlsPressed() {
+    return this.up || this.down || this.left || this.right
+  }
+
+  get keyPressed() {
+    return this.controlsPressed || this.jump || this.attack || this.attack2 || this.special
+  }
+
   addJoystick() {
     this.joystick = document.createElement('div')
     this.joystick.className = 'joystick'

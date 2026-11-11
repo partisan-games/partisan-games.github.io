@@ -58,15 +58,15 @@ class Input {
   }
 
   get pressed() {
-    return this.keyboard?.pressed
+    return this.keyboard?.pressed ?? {}
   }
 
   get controlsPressed() {
-    return this.keyboard?.controlsPressed
+    return Boolean(this.keyboard?.controlsPressed || this.screen?.controlsPressed)
   }
 
   get keyPressed() {
-    return this.keyboard?.keyPressed
+    return Boolean(this.keyboard?.keyPressed || this.screen?.keyPressed)
   }
 
   get touched() {
