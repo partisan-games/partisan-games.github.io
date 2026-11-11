@@ -1,4 +1,4 @@
-import { test, before, mock } from 'node:test'
+import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 import { installFakeFrames } from './helpers/frames.js'
@@ -39,13 +39,6 @@ test('end ends a player that is also in the scene list only once', () => {
 })
 
 const modal = () => document.getElementById('modal').textContent
-const clickButton = id => {
-  const button = document.createElement('button')
-  button.id = id
-  document.body.appendChild(button)
-  button.click()
-  button.remove()
-}
 
 test('defeat shows the end screen on the next frame', () => {
   const frames = installFakeFrames()
@@ -69,55 +62,6 @@ test('pause is ignored once the game is over', () => {
   scene.pause()
 
   assert.equal(scene.gameLoop.isPaused, false)
-  scene.end()
-})
-
-test('play again from the pause menu resets the scene and continues the game', () => {
-  const frames = installFakeFrames()
-  const scene = createScene()
-  let resets = 0
-  scene.reset = () => resets++
-  scene.start()
-  frames.step()
-  scene.pause()
-
-  clickButton('igraj-opet')
-  frames.step()
-
-  assert.equal(resets, 1)
-  assert.equal(scene.gameLoop.isPaused, false)
-  assert.equal(modal(), '')
-  scene.end()
-})
-
-test('play again after the end clears the end screen and restarts game time', () => {
-  const frames = installFakeFrames()
-  const scene = createScene()
-  scene.reset = () => {}
-  scene.start()
-  frames.step()
-  scene.victory('won')
-  frames.step()
-  assert.match(modal(), /won/)
-
-  clickButton('igraj-opet')
-  frames.step()
-
-  assert.equal(scene.ui.outro, '')
-  assert.equal(scene.gameLoop.timeStopped, false)
-  assert.equal(modal(), '')
-  scene.end()
-})
-
-test('play again without a reset method reloads the page', () => {
-  installFakeFrames()
-  const reload = mock.method(location, 'reload', () => {})
-  const scene = createScene()
-
-  clickButton('igraj-opet')
-
-  assert.equal(reload.mock.callCount(), 1)
-  reload.mock.restore()
   scene.end()
 })
 

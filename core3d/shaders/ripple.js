@@ -1,5 +1,7 @@
 import * as THREE from 'three'
 
+const water = new THREE.TextureLoader().load('/assets/images/textures/water512.jpg')
+
 const vertexShader = /* glsl */`
   varying vec2 vUv;
 
@@ -30,14 +32,14 @@ const fragmentShader = /* glsl */`
   }
 `
 
-export const uniforms = {
-  u_texture: { value: new THREE.TextureLoader().load('/assets/images/textures/water512.jpg') },
+const createUniforms = () => ({
+  u_texture: { value: water },
   u_time: { value: 0.0 },
   u_resolution: { value: { x: window.innerWidth, y: window.innerHeight } }
-}
+})
 
-export const material = new THREE.ShaderMaterial({
-  uniforms,
+export const createMaterial = () => new THREE.ShaderMaterial({
+  uniforms: createUniforms(),
   vertexShader,
   fragmentShader
 })

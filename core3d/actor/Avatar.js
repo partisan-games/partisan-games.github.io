@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import Player from './Player.js'
-import { material } from '/core3d/shaders/lava.js'
+import { createMaterial as createLavaMaterial } from '/core3d/shaders/lava.js'
+import { getMesh } from '/core3d/helpers.js'
 import { jumpStyles } from '/core3d/constants.js'
 import { FPS } from '/core/konstante.js'
 
@@ -17,7 +18,7 @@ const createMaterial = skin => {
   if (skin == STONE) return new THREE.MeshStandardMaterial({
     map: new THREE.TextureLoader().load('/assets/images/textures/terrain/snow.jpg')
   })
-  if (skin == LAVA) return material
+  if (skin == LAVA) return createLavaMaterial()
   return new THREE.MeshNormalMaterial()
 }
 
@@ -83,7 +84,6 @@ export default class Avatar extends Player {
       animDict: { jump: true },
       ...params,
     })
-    console.log(jumpStyle)
     this.skin = skin
     this.jumpForce = this.gravity * 1.8
     if (this.chaseCamera) {
@@ -134,6 +134,6 @@ export default class Avatar extends Player {
     else
       this.idleAnim(true)
 
-    if (this.skin == LAVA) material.uniforms.time.value += 0.8 * delta
+    if (this.skin == LAVA) getMesh(this.mesh).material.uniforms.time.value += 0.8 * delta
   }
 }

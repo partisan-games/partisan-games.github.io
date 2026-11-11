@@ -14,8 +14,8 @@ export async function captureScreens(uiStyle) {
   const { default: Scena } = await import('/core/Scena.js')
   const frames = installFakeFrames()
   const html = {}
-  const scene = new Scena({ canvas: document.createElement('canvas'), uiStyle, intro: 'Reach the forest' })
-  scene.reset = () => {}
+  const createScene = () => new Scena({ canvas: document.createElement('canvas'), uiStyle, intro: 'Reach the forest' })
+  let scene = createScene()
 
   scene.ui.renderStartScreen()
   html.start = modal()
@@ -49,16 +49,15 @@ export async function captureScreens(uiStyle) {
   key('keyup', 'Escape')
   html.pauseAfterEnd = modal()
 
-  clickButton('igraj-opet')
-  frames.step()
-  html.afterPlayAgain = modal()
-
+  // play again starts a new scene of the same game (scenes/main.js)
+  scene.end()
+  scene = createScene()
   scene.victory('All gathered')
   frames.step()
   html.victory = modal()
-  clickButton('igraj-opet')
-  frames.step()
 
+  scene.end()
+  scene = createScene()
   scene.victory('Bridge destroyed', 'Mission complete')
   frames.step()
   html.victoryWithTitle = modal()

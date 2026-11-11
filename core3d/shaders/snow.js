@@ -3,7 +3,7 @@ import * as THREE from 'three'
 
 const loader = new THREE.TextureLoader()
 
-const map = await loader.loadAsync('/assets/images/noise.png')
+const map = loader.load('/assets/images/noise.png')
 map.wrapS = map.wrapT = THREE.RepeatWrapping
 
 const vertexShader = /* glsl */`
@@ -55,17 +55,14 @@ const fragmentShader = /* glsl */`
   }
 `
 
-const uniforms = {
+const createUniforms = () => ({
   u_time: { type: 'f', value: 1.0 },
-  u_resolution: { type: 'v2', value: new THREE.Vector2() },
+  u_resolution: { type: 'v2', value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
   u_noise: { type: 't', value: map },
-}
+})
 
-uniforms.u_resolution.value.x = window.innerWidth
-uniforms.u_resolution.value.y = window.innerHeight
-
-export const material = new THREE.ShaderMaterial({
-  uniforms,
+export const createMaterial = () => new THREE.ShaderMaterial({
+  uniforms: createUniforms(),
   vertexShader,
   fragmentShader
 })

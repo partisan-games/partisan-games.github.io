@@ -5,7 +5,7 @@ import Maze from '/core3d/mazes/Maze.js'
 import { recursiveBacktracker } from '/core3d/mazes/algorithms.js'
 import Avatar from '/core3d/actor/Avatar.js'
 import { hemLight } from '/core3d/light.js'
-import { material, uniforms } from '/core3d/shaders/lightning-led.js'
+import { createMaterial } from '/core3d/shaders/lightning-led.js'
 
 const cellSize = 3
 
@@ -24,7 +24,8 @@ export default class extends Scena3D {
     this.addMesh(createFloor())
 
     const maze = new Maze({ rows: 20, algorithm: recursiveBacktracker, cellSize })
-    const city = maze.toTiledMesh({ maxHeight: cellSize * 3, material })
+    this.material = createMaterial()
+    const city = maze.toTiledMesh({ maxHeight: cellSize * 3, material: this.material })
     this.addMesh(city)
 
     const player = new Avatar({ size: .5, camera: this.camera, solids: city })
@@ -35,6 +36,6 @@ export default class extends Scena3D {
 
   update(dt, t) {
     super.update(dt)
-    uniforms.iTime.value = t * 0.5
+    this.material.uniforms.iTime.value = t * 0.5
   }
 }

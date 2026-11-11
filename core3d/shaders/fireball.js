@@ -60,13 +60,13 @@ const vertexShader = /* glsl */`
   }
 `
 
-export const uniforms = {
+const createUniforms = () => ({
   time: { value: 0 },
   iResolution: { value: new THREE.Vector3(1, 1, 1) },
-}
+})
 
-export const material = new THREE.ShaderMaterial({
+export const createMaterial = () => new THREE.ShaderMaterial({
   vertexShader,
   fragmentShader,
-  uniforms,
+  uniforms: createUniforms(),
 })

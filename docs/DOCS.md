@@ -20,7 +20,7 @@ Svi importi idu od korena sajta (`/core/...`). Kod u `core/`, `core3d/` i `ui/` 
 
 ## Od klika do igre
 
-1. Klik na igru u meniju menja adresu u `#<ime>`. Stranica se ne učitava ponovo: `scenes/main.js` na `hashchange` zove `SceneManager.start(ime)`, a prazna adresa vraća meni ponovnim učitavanjem.
+1. Klik na igru u meniju menja adresu u `#<ime>`. Stranica se ne učitava ponovo: `scenes/main.js` na `hashchange` zove `SceneManager.start(ime)`, a prazna adresa vraća meni ponovnim učitavanjem. „Play again“ na isti način pravi novu scenu iste igre, bez ponovnog učitavanja stranice.
 2. `SceneManager` gasi prethodnu igru (`end()`), uvozi `/scenes/<ime>/Main.js`, pravi scenu i čeka njen async `init()`. Ako u međuvremenu krene druga igra, važi samo poslednji poziv, a zakasnelu scenu gasi čim njen `init` završi.
 3. Ako igra ima uvod, prikazuje se početni ekran, a dugme „Start“ pokreće `scene.start()`. Inače igra kreće odmah.
 4. Greška pri učitavanju ili tokom igre gasi igru i prikazuje ekran sa dugmetom za meni (`scenes/main.js`).
@@ -36,7 +36,6 @@ Igra može da napiše ove metode:
 - `init()` jednom, pre početka: pravi svet i objekte, i dodaje ih sa `this.add(...)`;
 - `update(dt, t)` svaki frejm, posle `super.update(dt, t)`: proverava uslove kraja i zove `this.victory(tekst)` ili `this.defeat(tekst)`;
 - `sceneUI(t)` vraća HTML rezultata koji se crta svaki frejm, npr. `this.ui.scoreUI('Time', t)`;
-- `reset()` za „Play again“ bez ponovnog učitavanja;
 - `handleClick(e)`, a u 2D i `clear()`/`render()` za crtanje;
 - `end()` uklanja sve što je igra sama dodala na stranicu; prvo zove `super.end()`.
 
@@ -67,7 +66,7 @@ Vrednost koja se menja svaki frejm (potisak, trenje, ubrzanje) mora se množiti 
 
 **2D** (`core/actor/`): `Predmet` je slika sa položajem, brzinom (`dx`, `dy`), uglom, granicama ekrana i sudarima; stanje je `alive`/`dead`. `Player2D` mu dodaje upravljanje preko `Input`. Dodatna ponašanja se dodaju funkcijama iz `prosirenja/`: `praviEnergiju` za energiju i `praviPucanje`/`praviRakete` za pucanje, sa projektilima iz `projektili/`. Platno (`core/io/platno.js`) prati veličinu prozora, a `mish.js` kursor i nišan.
 
-**3D** (`core3d/`): `GameObject` je mesh sa položajem, energijom i stanjem `dead`. `Actor` mu dodaje kretanje po tlu i preprekama, animacije (`Animator`) i mašinu stanja (`FSM`, stanja u `actor/states/`). Iz njega su izvedeni `Player` (ulaz, kamera koja prati, traka zdravlja) i `AI` (stanja u `states/ai/`: lutanje, patrola, potera, napad, bekstvo). Konkretni likovi su u `actor/derived/`, sa modelom učitanim preko `loaders.js`. Vozila sa fizikom (`physics/`) koriste ammo.js, a letelice su u `aircraft/`.
+**3D** (`core3d/`): `GameObject` je mesh sa položajem, energijom i stanjem `dead`. `Actor` mu dodaje kretanje po tlu i preprekama, animacije (`Animator`) i mašinu stanja (`FSM`, stanja u `actor/states/`). Iz njega su izvedeni `Player` (ulaz, kamera koja prati, traka zdravlja) i `AI` (stanja u `states/ai/`: lutanje, patrola, potera, napad, bekstvo). Konkretni likovi su u `actor/derived/`, sa modelom koji `loaders.js` učitava pri uvozu modula. Šejderi u `shaders/` izvoze `createMaterial()`, koja svaki put pravi nov materijal sa svojim vrednostima; jedan zajednički materijal bi prenosio vreme animacije iz jedne igre ili objekta u drugi. Vozila sa fizikom (`physics/`) koriste ammo.js, a letelice su u `aircraft/`.
 
 ## Ulaz
 

@@ -40,11 +40,6 @@ export default class UI {
     this.hideScreen()
   }
 
-  reset() {
-    this.outro = this.cachedSceneUI = ''
-    this.clear()
-  }
-
   clearIntro() {
     this.intro = ''
     this.hideScreen()

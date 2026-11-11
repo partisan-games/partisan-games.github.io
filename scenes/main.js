@@ -56,6 +56,10 @@ document.addEventListener('click', e => {
 
   if (button?.id === 'menu')
     location.hash = ''
+
+  // a new scene of the same game, without reloading the page
+  if (button?.id === 'igraj-opet')
+    route()
 })
 
 addEventListener('hashchange', route)

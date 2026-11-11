@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { material } from '/core3d/shaders/heightmap-shader.js'
+import { createMaterial } from '/core3d/shaders/heightmap-shader.js'
 import { heightColors, desertPlanetColors } from '/core3d/ground.js'
 import { assets } from '/config.js'
 
@@ -26,6 +26,7 @@ export async function terrainFromHeightmap({
 ) {
   const { data, width, depth } = await getHeightData(`${assets.images}heightmaps/${file}`, heightFactor)
 
+  const material = createMaterial()
   material.uniforms.heightmap.value = await textureLoader.loadAsync(`${assets.images}heightmaps/${file}`)
   material.uniforms.seaLevel.value = seaLevel
   material.uniforms.snow.value = snow

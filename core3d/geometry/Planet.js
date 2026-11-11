@@ -1,14 +1,14 @@
 import * as THREE from 'three'
 import { createSphere } from '/core3d/geometry/index.js'
-import { material as fractalMaterial } from '/core3d/shaders/fractal-planet.js'
-import { material as fireMaterial } from '/core3d/shaders/fireball.js'
-import { material as lavaMaterial } from '/core3d/shaders/lava.js'
+import { createMaterial as createFractalMaterial } from '/core3d/shaders/fractal-planet.js'
+import { createMaterial as createFireMaterial } from '/core3d/shaders/fireball.js'
+import { createMaterial as createLavaMaterial } from '/core3d/shaders/lava.js'
 import { addRings } from '/core3d/geometry/planets.js'
 
 const { randFloat } = THREE.MathUtils
 
 const textures = ['jupiter.jpg', 'saturn.jpg', 'venus.jpg', 'mars.jpg']
-const materials = [fractalMaterial, fireMaterial, lavaMaterial]
+const createMaterials = [createFractalMaterial, createFireMaterial, createLavaMaterial]
 
 function addMoon(planet, r) {
   const moon = createSphere({ r: r * .33, file: 'planets/moon.jpg' })
@@ -29,8 +29,8 @@ function createPlanet({ r = randFloat(2, 5), pos, i = 0 } = {}) {
   if (pos) planet.position.copy(pos)
   planet.userData.angleSpeed = randFloat(-1, 1)
 
-  if (i < materials.length)
-    planet.material = materials[i]
+  if (i < createMaterials.length)
+    planet.material = createMaterials[i]()
   else if (r > 3 && Math.abs(planet.userData.angleSpeed) > .5)
     addMoon(planet, r)
   else if (Math.random() > .75)

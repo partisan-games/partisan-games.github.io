@@ -13,10 +13,10 @@ const fragmentShader = /* glsl */`
   }
 `
 
-const uniforms = {
+const createUniforms = () => ({
   color1: { value: new THREE.Color(skyColors.top) },
   color2: { value: new THREE.Color(skyColors.horizon) },
   resolution: { type: 'v2', value: new THREE.Vector2(window.innerWidth, window.innerHeight) }
-}
+})
 
-export const material = new THREE.ShaderMaterial({ uniforms, fragmentShader })
+export const createMaterial = () => new THREE.ShaderMaterial({ uniforms: createUniforms(), fragmentShader })

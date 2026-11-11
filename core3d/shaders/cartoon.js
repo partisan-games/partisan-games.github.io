@@ -35,11 +35,11 @@ export const fragmentShader = /* glsl */`
   }
 `
 
-export const uniforms = {
+const createUniforms = () => ({
   uLightPos:	{ type: 'v3', value: new THREE.Vector3(0, 100, 0) },
   uLightColor: { type: 'c', value: new THREE.Color(0xFFFFFF) },
   uMaterialColor: { type: 'c', value: new THREE.Color(0xFFFFFF) },
   uLightness: { type: 'f', value: 0.98 }
-}
+})
 
-export const material = new THREE.ShaderMaterial({ uniforms, vertexShader, fragmentShader })
+export const createMaterial = () => new THREE.ShaderMaterial({ uniforms: createUniforms(), vertexShader, fragmentShader })

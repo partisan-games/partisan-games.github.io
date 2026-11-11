@@ -36,8 +36,6 @@ Mobilni:
 ### Refaktor
 
 - jedan WebGLRenderer za ceo sajt i oslobađanje resursa scene pri izlasku (sada nov renderer po igri, core/Scena3D.js:26, dispose skoro nigde); prvo izmeriti memoriju
-- modeli se učitavaju pri uvozu modula (top-level await u 63 fajla): greška jednog modela ruši celu igru, nema prikaza napretka
-- shader materijali su deljeni na nivou modula (core3d/shaders), pa vrednosti (npr. vreme) prelaze iz jedne posete igri u drugu
 
 ### Ideje za kasnije
 

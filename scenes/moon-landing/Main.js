@@ -49,10 +49,6 @@ export default class extends Scena3D {
     this.add(this.lander, stars, platform)
   }
 
-  reset() {
-    this.lander.reset()
-  }
-
   /* LOOP */
 
   sceneUI() {

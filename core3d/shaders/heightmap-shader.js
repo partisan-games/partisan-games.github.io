@@ -57,15 +57,15 @@ const fragmentShader = /* glsl */`
 	}
 `
 
-const uniforms = {
+const createUniforms = () => ({
   snow: { type: 'f', value: true },
   seaLevel: { type: 'f', value: 0.05 },
   heightmap: { type: 't', value: null },
   displacementScale: { type: 'f', value: 1.0 },
-}
+})
 
-export const material = new THREE.ShaderMaterial({
-  uniforms,
+export const createMaterial = () => new THREE.ShaderMaterial({
+  uniforms: createUniforms(),
   vertexShader,
   fragmentShader
 })

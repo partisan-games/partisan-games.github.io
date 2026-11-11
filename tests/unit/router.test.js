@@ -1,4 +1,4 @@
-import { test, before } from 'node:test'
+import { test, before, mock } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 import { createSceneClass, settle } from './helpers/scenes.js'
@@ -62,4 +62,23 @@ test('a sound blocked by the browser does not stop the game', async() => {
   window.dispatchEvent(Object.assign(new Event('unhandledrejection'), { reason }))
 
   assert.equal(scene.ended, 0)
+})
+
+test('play again starts the same game anew without reloading the page', async() => {
+  location.hash = '#fifth'
+  await settle()
+  const scene = log.at(-1)
+  const reload = mock.method(location, 'reload', () => {})
+  modal().innerHTML = '<button id="igraj-opet">Play again</button>'
+
+  modal().querySelector('#igraj-opet').click()
+  await settle()
+
+  assert.equal(reload.mock.callCount(), 0)
+  assert.equal(scene.ended, 1)
+  assert.notEqual(log.at(-1), scene)
+  assert.equal(log.at(-1).started, 1)
+  assert.equal(location.hash, '#fifth')
+  assert.equal(modal().innerHTML, '')
+  reload.mock.restore()
 })

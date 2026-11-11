@@ -1,11 +1,6 @@
 // https://codepen.io/AixDen/pen/mdVXeaP
 import * as THREE from 'three'
 
-const loader = new THREE.TextureLoader()
-
-const texture = loader.load('/assets/images/noise.png')
-texture.wrapS = texture.wrapT = THREE.RepeatWrapping
-
 const vertexShader = /* glsl */`
   varying vec2 vUv;
 
@@ -51,12 +46,12 @@ const fragmentShader = /* glsl */`
 	}
 `
 
-export const uniforms = {
+const createUniforms = () => ({
   time: { type: 'f', value: 1.0 },
-}
+})
 
-export const material = new THREE.ShaderMaterial({
-  uniforms,
+export const createMaterial = () => new THREE.ShaderMaterial({
+  uniforms: createUniforms(),
   vertexShader,
   fragmentShader
 })

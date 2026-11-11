@@ -1,6 +1,6 @@
 import { Color, Vector3, ShaderMaterial } from 'three'
 
-const uniforms = {
+const createUniforms = () => ({
   colorMap: {
     value: [
       new Color('#427062'),
@@ -13,7 +13,7 @@ const uniforms = {
     value: [0.9, 0.45, 0.001], // [0.6, 0.35, 0.001],
   },
   lightPosition: { value: new Vector3(15, 15, 15) },
-}
+})
 
 const vertexShader = /* glsl */ `
   // Set the precision for data types used in this shader
@@ -68,8 +68,8 @@ const fragmentShader = /* glsl */ `
   }
 `
 
-export const material = new ShaderMaterial({
-  uniforms,
+export const createMaterial = () => new ShaderMaterial({
+  uniforms: createUniforms(),
   vertexShader,
   fragmentShader
 })

@@ -61,7 +61,7 @@ for (const scene of scenes.filter(name => name !== 'lookat-cursor'))
     await expect(modal(page)).toContainText('Ended by the smoke test.')
 
     await page.locator('#igraj-opet').click()
-    // play again either resets the game or reloads the page; both clear the end screen
+    // play again starts the game anew, without reloading the page
     await expect(modal(page)).not.toContainText('Ended by the smoke test.')
     await waitForScene(page)
     await startGame(page)

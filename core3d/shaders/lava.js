@@ -3,6 +3,14 @@ import * as THREE from 'three'
 
 const textureLoader = new THREE.TextureLoader()
 
+const loadRepeating = file => {
+  const texture = textureLoader.load(file)
+  texture.wrapS = texture.wrapT = THREE.RepeatWrapping
+  return texture
+}
+const cloud = loadRepeating('/assets/images/textures/lavacloud.png')
+const tile = loadRepeating('/assets/images/textures/lavatile.jpg')
+
 const vertexShader = /* glsl */`
   uniform vec2 uvScale;
   varying vec2 vUv;
@@ -52,17 +60,15 @@ const fragmentShader = /* glsl */`
   }
 `
 
-export const uniforms = {
+const createUniforms = () => ({
   time: { value: 1.0 },
   uvScale: { value: new THREE.Vector2(3.0, 1.0) },
-  texture1: { value: textureLoader.load('/assets/images/textures/lavacloud.png') },
-  texture2: { value: textureLoader.load('/assets/images/textures/lavatile.jpg') }
-}
-uniforms.texture1.value.wrapS = uniforms.texture1.value.wrapT = THREE.RepeatWrapping
-uniforms.texture2.value.wrapS = uniforms.texture2.value.wrapT = THREE.RepeatWrapping
+  texture1: { value: cloud },
+  texture2: { value: tile },
+})
 
-export const material = new THREE.ShaderMaterial({
-  uniforms,
+export const createMaterial = () => new THREE.ShaderMaterial({
+  uniforms: createUniforms(),
   vertexShader,
   fragmentShader,
   side: THREE.DoubleSide,

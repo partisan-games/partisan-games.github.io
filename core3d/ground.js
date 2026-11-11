@@ -60,16 +60,16 @@ export function createFloor({ color = 0x808080, circle = false, ...rest } = {}) 
 export async function createLava({ size = 100 } = {}) {
   const geometry = new THREE.CircleGeometry(size)
   geometry.rotateX(- Math.PI / 2)
-  const { material } = await import('/core3d/shaders/lava.js')
-  const mesh = new THREE.Mesh(geometry, material)
+  const { createMaterial } = await import('/core3d/shaders/lava.js')
+  const mesh = new THREE.Mesh(geometry, createMaterial())
   mesh.translateY(.1)
   return mesh
 }
 
 export async function createMarble({ size = 100 } = {}) {
   const geometry = new THREE.PlaneGeometry(size, size)
-  const { material } = await import('/core3d/shaders/marble.js')
-  const mesh = new THREE.Mesh(geometry, material)
+  const { createMaterial } = await import('/core3d/shaders/marble.js')
+  const mesh = new THREE.Mesh(geometry, createMaterial())
   mesh.rotateX(-Math.PI * 0.5)
   return mesh
 }

@@ -31,7 +31,7 @@ const fragmentShader = /* glsl */`
   }
 `
 
-export const material = new THREE.ShaderMaterial({
+export const createMaterial = () => new THREE.ShaderMaterial({
   vertexShader,
   fragmentShader
 })

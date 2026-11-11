@@ -54,7 +54,7 @@ test('pause skips the scene and unpause does not jump in time', () => {
   assert.equal(calls[3].dt, 0.016)
 })
 
-test('stopTime freezes game time and resumeTime continues it', () => {
+test('stopTime freezes game time while the loop goes on', () => {
   loop.start()
   frames.step(16)
   frames.step(16)
@@ -63,10 +63,6 @@ test('stopTime freezes game time and resumeTime continues it', () => {
   const frozen = calls.at(-1).t
   frames.step(16)
   assert.equal(calls.at(-1).t, frozen)
-
-  loop.resumeTime()
-  frames.step(16)
-  assert.ok(calls.at(-1).t > frozen)
 })
 
 test('a scene that stops the loop during its frame schedules nothing more', () => {

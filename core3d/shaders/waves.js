@@ -54,7 +54,7 @@ const fragmentShader = /* glsl */`
   }
 `
 
-const uniforms = {
+const createUniforms = () => ({
   uTime: { value: 0 },
   uBigWavesElevation: { value: 0.2 },
   uBigWavesFrequency: { value: new THREE.Vector2(4, 2) },
@@ -69,10 +69,10 @@ const uniforms = {
   uSurfaceColor: { value: new THREE.Color('#4d9aaa') },
   uColorOffset: { value: 0.08 },
   uColorMultiplier: { value: 5 },
-}
+})
 
-export const material = new THREE.ShaderMaterial({
+export const createMaterial = () => new THREE.ShaderMaterial({
   vertexShader,
   fragmentShader,
-  uniforms
+  uniforms: createUniforms()
 })

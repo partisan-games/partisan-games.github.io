@@ -48,10 +48,6 @@ export default class GameLoop {
     this.timeStopped = true
   }
 
-  resumeTime() {
-    this.timeStopped = false
-  }
-
   /* LOOP */
 
   mainLoop = timestamp => {
