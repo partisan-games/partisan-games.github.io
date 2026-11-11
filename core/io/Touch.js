@@ -1,17 +1,16 @@
-const spacing = '16px'
 const btnSize = '60px'
 
 const css = /* css */`
   .joystick, .button-container {
     position: fixed;
-    bottom: ${spacing};
+    bottom: var(--edge);
     user-select: none;
     -webkit-user-select: none;
     touch-action: none;
-    z-index: 9;
+    z-index: var(--z-top);
   }
   .joystick {
-    left: ${spacing};
+    left: var(--edge);
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
@@ -47,8 +46,8 @@ const css = /* css */`
   }
   .button-container {
     display: flex;
-    right: ${spacing};
-    gap: ${spacing};
+    right: var(--edge);
+    gap: var(--edge);
   }
 `
 

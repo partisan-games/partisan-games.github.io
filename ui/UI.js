@@ -1,47 +1,17 @@
 import { isTouchScreen } from '/config.js'
 import Controls from '../ui/Controls.js'
 import Report from './Report.js'
+import { currentStyleClasses } from './styles.js'
 import '/core/io/ScreenToggle.js'
 
 const elementUI = document.getElementById('ui')
 const modalElement = document.getElementById('modal')
-
-export const uiStyles = {
-  simple: 'simple',
-  rpg: 'rpg',
-  white: 'white',
-}
-
-export const containers = {
-  simple: 'simple-container',
-  rpg: 'rpgui-container framed',
-  white: 'white-container',
-}
-
-const scores = {
-  simple: '',
-  rpg: 'rpgui-button golden',
-  white: '',
-}
-
-export const buttons = {
-  simple: 'default-button',
-  rpg: 'rpgui-button',
-  white: 'white-button',
-}
-
-export const controlButtons = {
-  simple: '',
-  rpg: 'rpgui-button',
-  white: 'white-button',
-}
 
 export default class UI {
   constructor(scene, {
     intro = '',
     showControls = !isTouchScreen,
     startButtonText = 'Start mission',
-    uiStyle = uiStyles.simple,
     reportText,
     controlKeys,
     customStartScreen,
@@ -52,81 +22,93 @@ export default class UI {
     this.startButtonText = startButtonText
     this.reportText = reportText
     this.customStartScreen = customStartScreen
-    this.cachedSceneUI = this.cachedModal = this.outro = ''
-    this.uiStyle = uiStyle
+    this.cachedSceneUI = this.outro = ''
+    this.screen = null // 'start', 'pause', 'end' or null
+    this.messageElement = document.createElement('div')
+    this.messageElement.className = 'message'
+    modalElement.after(this.messageElement)
 
     if (showControls)
-      this.controlsUI = new Controls({ controlKeys, uiStyle })
+      this.controlsUI = new Controls({ controlKeys })
 
     if (showFullScreen && document.fullscreenEnabled)
       this.fullScreenButton = document.body.appendChild(document.createElement('full-screen-btn'))
   }
 
   clear() {
-    elementUI.innerHTML = modalElement.innerHTML = ''
+    elementUI.innerHTML = ''
+    this.hideScreen()
   }
 
   reset() {
-    this.outro = this.cachedSceneUI = this.cachedModal = ''
+    this.outro = this.cachedSceneUI = ''
     this.clear()
   }
 
   clearIntro() {
     this.intro = ''
-    modalElement.innerHTML = ''
+    this.hideScreen()
     if (this.report) this.report.stop()
   }
 
   /* CENTRAL SCREEN */
 
+  showScreen(name, html) {
+    this.screen = name
+    modalElement.innerHTML = html
+    this.messageElement.hidden = true
+  }
+
+  hideScreen() {
+    this.screen = null
+    modalElement.innerHTML = ''
+    this.messageElement.hidden = false
+  }
+
   startScreen() {
-    return this.customStartScreen || /* html */`
-      <div class="central-screen flex-column ${containers[this.uiStyle]}" id="start-screen">
+    const classes = currentStyleClasses()
+    if (this.customStartScreen) return this.customStartScreen(classes)
+
+    const { container, button } = classes
+    return /* html */`
+      <div class="central-screen flex-column ${container}" id="start-screen">
         <p>${this.intro}</p>
-        <button class="${buttons[this.uiStyle]}" id="start"><span class="icon">🔥</span> ${this.startButtonText}</button>
+        <button class="${button}" id="start"><span class="icon">🔥</span> ${this.startButtonText}</button>
       </div>
     `
   }
 
   escModal() {
+    const { container, button } = currentStyleClasses()
     return /* html */`
-      <div class="central-screen flex-column ${containers[this.uiStyle]}">
+      <div class="central-screen flex-column ${container}">
         <h3 class="olive">Game paused</h3>
-        <button class="${buttons[this.uiStyle]}" id="continue"><span class="icon">🔥</span> Continue</button>
-        <button class="${buttons[this.uiStyle]}" id="menu"><span class="icon">☰</span> Main menu</button>
-        <button class="${buttons[this.uiStyle]}" id="igraj-opet"><span class="icon">↻</span> Play again</button>
+        <button class="${button}" id="continue"><span class="icon">🔥</span> Continue</button>
+        <button class="${button}" id="menu"><span class="icon">☰</span> Main menu</button>
+        <button class="${button}" id="igraj-opet"><span class="icon">↻</span> Play again</button>
       </div>
     `
   }
 
   endScreen() {
+    const { container, button } = currentStyleClasses()
     return /* html */`
-      <div class="central-screen flex-column ${containers[this.uiStyle]}">
+      <div class="central-screen flex-column ${container}">
         ${this.outro}
-        <button class="${buttons[this.uiStyle]}" id="menu"><span class="icon">☰</span> Main menu</button>
-        <button class="${buttons[this.uiStyle]}" id="igraj-opet"><span class="icon">↻</span> Play again</button>
+        <button class="${button}" id="menu"><span class="icon">☰</span> Main menu</button>
+        <button class="${button}" id="igraj-opet"><span class="icon">↻</span> Play again</button>
       </div>
     `
   }
 
   renderStartScreen() {
-    modalElement.innerHTML = this.startScreen()
+    this.showScreen('start', this.startScreen())
     if (this.reportText)
       this.report = new Report({ text: this.reportText, containerId: 'start-screen' })
   }
 
-  get modal() {
-    if (this.outro) return this.endScreen()
-    if (this.scene.gameLoop.isPaused) return this.escModal()
-    if (this.intro) return this.startScreen()
-    return ''
-  }
-
-  renderModal() {
-    if (this.cachedModal === this.modal) return
-
-    modalElement.innerHTML = this.modal
-    this.cachedModal = this.modal
+  showPauseScreen() {
+    this.showScreen('pause', this.escModal())
   }
 
   /* OUTRO */
@@ -135,19 +117,21 @@ export default class UI {
     let html = '<h3 class="red"><span class="icon">☠️</span> Game over</h3>'
     if (text) html += `<p>${text}</p>`
     this.outro = html
+    this.showScreen('end', this.endScreen())
   }
 
   showVictoryScreen(text, title = 'Pobeda!') {
     let html = `<h3 class="olive"><span class="icon">🎖️</span> ${title}</h3>`
     if (text) html += `<p>${text}</p>`
     this.outro = html
+    this.showScreen('end', this.endScreen())
   }
 
   /* SCENE UI */
 
   scoreUI(text = 'Score', points = 0, subtext, subpoints, smallClass = '') {
     return /* html */`
-      <div class="top-left ${scores[this.uiStyle]}">
+      <div class="top-left ${currentStyleClasses().score}">
         <div>
           ${text}: ${points}
           ${subtext ? `<br><small class="${smallClass}">${subtext}: ${subpoints}</small>` : ''}
@@ -156,32 +140,28 @@ export default class UI {
     `
   }
 
-  renderSceneUI(t) {
-    if (this.cachedSceneUI === this.scene.sceneUI(t)) return
-
-    elementUI.innerHTML = this.scene.sceneUI(t)
-    this.cachedSceneUI = this.scene.sceneUI(t)
-  }
-
   /* MESSAGE */
 
   showMessage(txt) {
-    if (this.ended || this.modal) return // a message would cover the start, pause or end screen
+    if (this.ended || this.screen) return // a message would cover the start, pause or end screen
 
-    modalElement.innerHTML = /* html */`
+    this.message = txt
+    this.messageElement.innerHTML = /* html */`
       <div class="central-screen">
         <h3>${txt}</h3>
       </div>
     `
     setTimeout(() => {
-      if (this.ended || this.modal) return // the modal may belong to the next game by now
-      modalElement.innerHTML = ''
+      if (this.message !== txt) return // a newer message keeps its own time
+      this.message = ''
+      this.messageElement.innerHTML = ''
     }, 3000)
   }
 
   end() {
     this.ended = true
     this.clear()
+    this.messageElement.remove()
     this.report?.stop()
     this.controlsUI?.end()
     this.fullScreenButton?.remove()
@@ -190,7 +170,9 @@ export default class UI {
   /* LOOP */
 
   render(t) {
-    this.renderModal()
-    this.renderSceneUI(t)
+    const html = this.scene.sceneUI(t)
+    if (this.cachedSceneUI === html) return
+
+    elementUI.innerHTML = this.cachedSceneUI = html
   }
 }

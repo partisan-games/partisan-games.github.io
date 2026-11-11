@@ -2,9 +2,10 @@ import Sprite from '/core/actor/Sprite.js'
 import platno, { ctx } from '/core/io/platno.js'
 import mish from '/core/io/mish.js'
 import Vreme from '/core/Vreme.js'
-import { randomInRange, randomVolume } from '/core/utils.js'
+import { randomInRange } from '/core/utils.js'
+import { createSound, randomVolume } from '/core/io/sound.js'
 
-const rafal = new Audio('/assets/sounds/rafal.mp3')
+const rafal = createSound('rafal.mp3')
 
 export default class Okupator extends Sprite {
   constructor({ callback } = {}) {
@@ -14,7 +15,7 @@ export default class Okupator extends Sprite {
     this.y = platno.height * .75
     this.callback = callback
     this.pucanjeSlika = new Image()
-    this.pucanjeSlika.src = 'assets/images/pucanje.png'
+    this.pucanjeSlika.src = '/assets/images/pucanje.png'
     this.pripucao = false
     this.vreme = new Vreme()
     this.vremeHodanja = randomInRange(700, 3200)
@@ -38,7 +39,7 @@ export default class Okupator extends Sprite {
   }
 
   proveriPogodak(callback) {
-    if (this.mrtav || !mish.iznad(this)) return
+    if (this.dead || !mish.iznad(this)) return
     this.umri()
     if (callback) callback()
   }
@@ -57,7 +58,7 @@ export default class Okupator extends Sprite {
 
   update(dt, t) {
     super.update(dt, t)
-    if (!this.ziv) return
+    if (!this.alive) return
 
     if (this.vreme.proteklo > this.vremeHodanja)
       this.pucaj(dt)

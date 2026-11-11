@@ -3,7 +3,7 @@
   "license": "MIT",
   "name": "partisan-games",
   "version": "0.0.1",
-  "description": "Male igrice o Nemcima i partizanima.",
+  "description": "Small 2D and 3D browser games inspired by Yugoslav partisans and more.",
   "type": "module",
   "repository": {
     "type": "git",

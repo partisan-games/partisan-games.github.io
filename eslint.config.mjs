@@ -135,12 +135,15 @@ export default [{
     }],
   },
 }, {
-  // timers that caused bugs in games: they keep running through pause, game over and a switch to another game
+  // browser timers caused bugs in games: they keep running through pause, game over and a switch to another game
   files: ['core/**/*.js', 'core3d/**/*.js', 'scenes/**/*.js'],
   rules: {
     'no-restricted-syntax': ['error', {
       selector: "MethodDefinition[key.name='update'] CallExpression[callee.name='setTimeout']",
       message: 'update() runs every frame, so this schedules a new timer each frame; count game time with dt instead.',
+    }, {
+      selector: "CallExpression[callee.name='setTimeout']:not(MethodDefinition[key.name='update'] CallExpression)",
+      message: 'A browser timer keeps running through pause and into the next game; use after() from /core/timers.js.',
     }, {
       selector: "CallExpression[callee.name='setInterval'], CallExpression[callee.property.name='setInterval']",
       message: 'An interval keeps running through pause and after the game ends; count game time with dt in update() instead.',

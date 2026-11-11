@@ -1,4 +1,5 @@
-import Player2D, { frames } from '/core/actor/Player2D.js'
+import Player2D from '/core/actor/Player2D.js'
+import { frames } from '/core/konstante.js'
 import { praviRakete } from '/core/actor/prosirenja/pucanje.js'
 
 const OKRET = 0.01
@@ -77,7 +78,7 @@ export default class AvionIgrac extends Player2D {
   dodajGravitaciju(dt) {
     if (this.jePrizemljen) return
 
-    const teza = this.mrtav ? gravitacija * 100 : gravitacija
+    const teza = this.dead ? gravitacija * 100 : gravitacija
     this.dodajSilu(teza * frames(dt), Math.PI * .5)
   }
 

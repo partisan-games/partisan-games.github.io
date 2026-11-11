@@ -1,5 +1,6 @@
 import Predmet from '/core/actor/Predmet.js'
 import { keyboard } from '/core/io/Keyboard.js'
+import { leftPlayerKeys as keys } from '/core/io/keys.js'
 
 export default class Posada extends Predmet {
   constructor(x, y) {
@@ -9,7 +10,7 @@ export default class Posada extends Predmet {
   }
 
   handleInput(dt) {
-    if (keyboard.space)
+    if (keyboard.isDown(keys.shoot))
       this.x = Math.min(this.x + 20 * dt, this.maxX)
     else
       this.x = this.pocetniX

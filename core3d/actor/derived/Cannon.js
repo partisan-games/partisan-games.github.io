@@ -3,6 +3,7 @@ import Player from '/core3d/actor/Player.js'
 import { loadModel } from '/core3d/loaders.js'
 import { createSphere } from '/core3d/geometry/index.js'
 import { Ammo } from '/core3d/physics/index.js'
+import PowerMeter from '/ui/PowerMeter.js'
 
 /* LOADING */
 
@@ -10,26 +11,12 @@ const mesh = await loadModel({ file: 'weapon/cannon/civil-war-cannon.fbx', size:
 
 /* EXTENDED CLASSES */
 
-function createInputRange() {
-  const range = document.createElement('input')
-  range.type = 'range'
-  range.min = 10
-  range.max = 25
-  range.step = 0.2
-  range.style.position = 'absolute'
-  range.style.right = '20px'
-  range.style.top = '10px'
-  document.body.prepend(range)
-  return range
-}
-
 export class CannonPlayer extends Player {
   constructor(props = {}) {
     // the keyboard also tracks a held pointer, which charges the shot on touch screens too
     super({ mesh, showHealthBar: false, canMove: false, speed: .5, useKeyboard: true, ...props })
-    this.range = createInputRange()
-    this.minImpulse = this.range.value = this.range.min
-    this.maxImpulse = 25
+    // 0.2 per frame at 60 frames per second, as when the power was a slider
+    this.power = new PowerMeter({ min: 10, max: 25, chargePerSecond: 12 })
     this.shots = 20
   }
 
@@ -48,23 +35,22 @@ export class CannonPlayer extends Player {
     world.add(ball, 4)
 
     dir.y += 0.25 // podizanje ugla pucanja
-    dir.normalize().multiplyScalar(this.range.value)
+    dir.normalize().multiplyScalar(this.power.value)
 
     const velocity = new Ammo.btVector3(dir.x, dir.y, dir.z)
     ball.userData.body.setLinearVelocity(velocity)
 
-    this.range.value = this.minImpulse
+    this.power.reset()
     this.shots --
   }
 
   update(dt) {
     super.update(dt)
-    if (this.input.pressed.pointer && this.range.value < this.maxImpulse)
-      this.range.value = parseFloat(this.range.value) + .2
+    if (this.input.pressed.pointer) this.power.charge(dt)
   }
 
   end() {
     super.end()
-    this.range.remove()
+    this.power.end()
   }
 }

@@ -1,9 +1,10 @@
 import { platno, ctx } from '../io/platno.js'
+import { assets } from '/config.js'
 
 export default class Pozadina {
   constructor(src) {
     this.slika = new Image()
-    this.slika.src = '/assets/images/' + src
+    this.slika.src = assets.images + src
     this.slika.onload = () => {
       this.onload()
     }

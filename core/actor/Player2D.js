@@ -1,9 +1,6 @@
-import { KRUZNICA } from '/core/konstante.js'
+import { KRUZNICA, frames } from '/core/konstante.js'
 import Predmet from './Predmet.js'
 import Input from '/core/io/Input.js'
-
-// thrust and turn values are tuned per frame at 60 fps; frames turns a frame's dt into that unit
-export const frames = dt => dt * 60
 
 export default class Player2D extends Predmet {
   constructor(src, { buttonDict, ...rest } = {}) {

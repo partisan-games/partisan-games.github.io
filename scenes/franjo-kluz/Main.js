@@ -7,6 +7,7 @@ import Zbun from '/core/objects/Zbun.js'
 import Shuma from '/core/objects/Shuma.js'
 import Vracanje from '/core/objects/Vracanje.js'
 import { baseControls } from '/ui/Controls.js'
+import { frames } from '/core/konstante.js'
 
 const nivoTla = platno.height
 
@@ -73,11 +74,12 @@ export default class extends Scena2D {
     })
   }
 
-  zaustaviParalax() {
+  zaustaviParalax(dt) {
+    const kocenje = 0.9 ** frames(dt)
     this.ostaliPredmeti
       .filter(predmet => !predmet.oznake.has('neprijatelj'))
       .forEach(predmet => {
-        predmet.dx *= 0.9
+        predmet.dx *= kocenje
       })
     this.brzinaScene = 0
   }
@@ -94,21 +96,21 @@ export default class extends Scena2D {
     this.dignutostScene += pomak
   }
 
-  proveriSmrt() {
-    if (this.vozilo.mrtav) this.vozilo.dx = PARALAX_1 - this.brzinaScene
-    if (!this.player.mrtav) return
+  proveriSmrt(dt) {
+    if (this.vozilo.dead) this.vozilo.dx = PARALAX_1 - this.brzinaScene
+    if (!this.player.dead) return
 
     if (this.dignutostScene > 0)
-      this.dizePredmete(-DIZAJ * .5)
+      this.dizePredmete(-DIZAJ * .5 * frames(dt))
 
-    this.zaustaviParalax()
+    this.zaustaviParalax(dt)
     this.defeat('You fell gloriously.')
   }
 
-  proveriTlo() {
+  proveriTlo(dt) {
     if (this.player.jePrizemljen && this.dignutostScene <= 0) {
-      this.zaustaviParalax()
-      if (this.player.ziv && this.vozilo.mrtav) this.victory('Mission successfully completed!')
+      this.zaustaviParalax(dt)
+      if (this.player.alive && this.vozilo.dead) this.victory('Mission successfully completed!')
     }
   }
 
@@ -118,28 +120,31 @@ export default class extends Scena2D {
 
   handleInput(dt) {
     super.handleInput(dt)
-    if (!this.player.ziv) return
+    if (!this.player.alive) return
+
+    const potisak = POTISAK * frames(dt)
+    const dizanje = DIZAJ * frames(dt)
 
     if (this.player.input.right && this.brzinaScene < MAX_BRZINA)
-      this.ubrzavaOstale(Math.PI, POTISAK)
+      this.ubrzavaOstale(Math.PI, potisak)
 
     if (this.player.input.left && this.brzinaScene >= MIN_BRZINA)
-      this.ubrzavaOstale(Math.PI, -POTISAK)
+      this.ubrzavaOstale(Math.PI, -potisak)
 
-    if (this.player.input.up && this.dignutostScene - DIZAJ < MAX_DIGNUTOST) {
+    if (this.player.input.up && this.dignutostScene - dizanje < MAX_DIGNUTOST) {
       if (this.player.y < this.visina * 0.5)
-        this.dizePredmete(DIZAJ)
+        this.dizePredmete(dizanje)
       if (this.brzinaScene === 0) this.pocniParalax() // kada avion ponovo uzlece
     }
 
-    if (this.player.input.down && this.dignutostScene - DIZAJ >= 0)
-      this.dizePredmete(-DIZAJ * 2)
+    if (this.player.input.down && this.dignutostScene - dizanje >= 0)
+      this.dizePredmete(-dizanje * 2)
   }
 
   update(dt, t) {
     super.update(dt, t)
     this.vozilo.patroliraj()
-    this.proveriTlo()
-    this.proveriSmrt()
+    this.proveriTlo(dt)
+    this.proveriSmrt(dt)
   }
 }

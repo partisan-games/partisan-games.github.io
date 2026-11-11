@@ -48,7 +48,7 @@ test('cannon turns with the arrows and fires a charged shot with a long press', 
   const problems = watchProblems(page)
   const cdp = await context.newCDPSession(page)
   const shots = async() => Number((await page.locator('#ui').innerText()).match(/Shots left:\s*(\d+)/i)[1])
-  const power = page.locator('input[type=range]')
+  const power = () => page.locator('progress.top-right').evaluate(meter => meter.value)
 
   await page.goto('/#cannon')
   await waitForScene(page)
@@ -63,10 +63,34 @@ test('cannon turns with the arrows and fires a charged shot with a long press', 
   const touchPoints = [{ x: width / 2, y: height / 3 }] // the open sky, away from every control
   await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints })
   await page.waitForTimeout(1000)
-  expect(Number(await power.inputValue())).toBeGreaterThan(Number(await power.getAttribute('min')))
+  expect(await power()).toBeGreaterThan(0)
   await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] })
 
   await expect.poll(shots).toBe(before - 1)
   await expect(errorScreen(page)).toHaveCount(0)
   expect(problems).toEqual([])
+})
+
+test('touch controls and the full screen button keep their place and layer', async({ page }) => {
+  await page.goto('/#warplane')
+  await waitForScene(page)
+  await page.locator('.game-screen-select input').first().tap()
+  await expect(page.locator('.joystick-btn')).toHaveCount(4)
+
+  const placement = await page.evaluate(() => {
+    const style = selector => getComputedStyle(document.querySelector(selector))
+    const joystick = style('.joystick'), buttons = style('.button-container'), fullScreen = style('.full-screen-icon')
+    return {
+      joystick: [joystick.left, joystick.bottom, joystick.zIndex],
+      buttons: [buttons.right, buttons.bottom, buttons.gap, buttons.zIndex],
+      fullScreen: [fullScreen.right, fullScreen.zIndex],
+    }
+  })
+
+  // measured before the edge and the layers became CSS variables
+  expect(placement).toEqual({
+    joystick: ['16px', '16px', '9'],
+    buttons: ['16px', '16px', '16px', '9'],
+    fullScreen: ['16px', '1'],
+  })
 })

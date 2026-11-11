@@ -44,7 +44,7 @@ export default class extends Scena2D {
     super.update(dt, t)
     this.mine.forEach(mina => mina.proveriSudar(this.player))
 
-    if (this.player.mrtav) this.defeat('You fell gloriously.')
+    if (this.player.dead) this.defeat('You fell gloriously.')
     if (t > ZADATO_VREME) this.defeat('Your time is up.')
 
     this.proveriPobedu()

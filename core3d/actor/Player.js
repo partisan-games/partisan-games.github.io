@@ -2,6 +2,8 @@ import Input from '/core/io/Input.js'
 import { jumpStyles, attackStyles, reactions } from '/core3d/constants.js'
 import Actor from './Actor.js'
 import ChaseCamera from '/core3d/actor/ChaseCamera.js'
+import { currentStyleClasses } from '/ui/styles.js'
+import { FPS } from '/core/konstante.js'
 
 const emptyDict = dict => dict && Object.fromEntries(Object.keys(dict).map(k => [k, '']))
 
@@ -16,20 +18,19 @@ export default class Player extends Actor {
     shouldRaycastGround = true,
     attackKey,
     showHealthBar = true,
-    rpgStyle = false,
     input = new Input({ useJoystick, useKeyboard, attackKey, buttonDict: buttonDict || emptyDict(animDict) }),
     camera,
-    cameraClass,
+    showCameraButton,
     ...rest
   } = {}) {
 
     super({ name: 'player', input, animDict, jumpStyle, attackStyle, shouldRaycastGround, ...rest })
     if (camera) {
       this.shouldAlignCamera = true
-      this.chaseCamera = new ChaseCamera({ camera, mesh: this.mesh, height: this.height, cameraClass })
+      this.chaseCamera = new ChaseCamera({ camera, mesh: this.mesh, height: this.height, showCameraButton })
     }
 
-    if (showHealthBar) this.crateHealthBar(rpgStyle)
+    if (showHealthBar) this.createHealthBar()
   }
 
   /* GETTERS & SETTERS */
@@ -63,10 +64,10 @@ export default class Player extends Actor {
 
   /* UTILS */
 
-  crateHealthBar(rpgStyle) {
+  createHealthBar() {
     this.healthBar = document.createElement('progress')
     this.healthBar.value = this.healthBar.max = this.energy
-    this.healthBar.className = `progress top-right ${rpgStyle ? 'rpgui-progress' : ''}`
+    this.healthBar.className = `progress top-right ${currentStyleClasses().healthBar}`
     document.body.appendChild(this.healthBar)
   }
 
@@ -106,7 +107,7 @@ export default class Player extends Actor {
     super.updateMove(delta, reaction)
   }
 
-  update(delta = 1 / 60) {
+  update(delta = 1 / FPS) {
     super.update(delta)
     if (this.shouldAlignCamera) {
       this.chaseCamera.alignCamera()

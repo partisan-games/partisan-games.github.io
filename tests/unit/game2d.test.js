@@ -83,13 +83,13 @@ test('a moving shot hits its target once and scores one point', () => {
 
   for (let i = 0; i < 120; i++) {
     shot.update(1 / 60)
-    if (target.ziv && shot.sudara(target)) {
+    if (target.alive && shot.sudara(target)) {
       target.umri()
       score++
     }
   }
 
-  assert.equal(target.mrtav, true)
+  assert.equal(target.dead, true)
   assert.equal(score, 1)
 })
 

@@ -1,5 +1,7 @@
 import * as THREE from 'three'
 import { dir } from '/core3d/constants.js'
+import { assets } from '/config.js'
+import { after } from '/core/timers.js'
 
 const { randFloat, randFloatSpread } = THREE.MathUtils
 const raycaster = new THREE.Raycaster()
@@ -175,7 +177,7 @@ export function getCameraIntersects(camera, target) {
 /* TEXTURES */
 
 export const createTexture = ({ file, repeat = 1 } = {}) => {
-  const texture = new THREE.TextureLoader().load(`/assets/images/textures/${file}`)
+  const texture = new THREE.TextureLoader().load(`${assets.textures}${file}`)
   texture.wrapS = texture.wrapT = THREE.RepeatWrapping
   texture.magFilter = THREE.NearestFilter
   // texture.minFilter = THREE.LinearMipMapLinearFilter
@@ -203,7 +205,7 @@ export function arrowHelper(actor, height) {
   const attackDir = dir.forward.clone().applyQuaternion(actor.mesh.quaternion).normalize()
   const arrow = new THREE.ArrowHelper(attackDir, start, actor.attackDistance, 0xff0000)
   actor.scene.add(arrow)
-  setTimeout(() => {
+  after(3, () => {
     actor.scene.remove(arrow)
-  }, 3000)
+  })
 }

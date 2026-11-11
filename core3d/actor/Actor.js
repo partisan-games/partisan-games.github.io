@@ -2,10 +2,12 @@ import * as THREE from 'three'
 import GameObject from '/core3d/objects/GameObject.js'
 import { getGroundY, directionBlocked, intersect, belongsTo, arrowHelper } from '/core3d/helpers.js'
 import { dir, RIGHT_ANGLE, reactions, jumpStyles, baseStates } from '/core3d/constants.js'
-import { randomVolume } from '/core/utils.js'
+import { createSound, randomVolume } from '/core/io/sound.js'
 import FSM from './FSM.js'
 import { isDev } from '/config.js'
 import Animator from './Animator.js'
+import { FPS } from '/core/konstante.js'
+import { after, cancel } from '/core/timers.js'
 
 const { randInt } = THREE.MathUtils
 
@@ -75,7 +77,7 @@ export default class Actor extends GameObject {
       this.anim = new Animator({ mesh: this.mesh, animations, animDict, twoHandedWeapon, rightHandWeapon, isAi: this.name != 'player' })
 
     if (attackSound)
-      this.audio = new Audio(`/assets/sounds/${attackSound}`)
+      this.audio = createSound(attackSound)
 
     if (mapSize) {
       const halfMap = mapSize / 2
@@ -187,9 +189,9 @@ export default class Actor extends GameObject {
   }
 
   enterAttack(name, height = this.height * .66) {
-    const timeToHit = this.action ? (this.action.getClip().duration * 1000 * .5) : 200
+    const timeToHit = this.action ? this.action.getClip().duration * .5 : .2
 
-    setTimeout(() => {
+    after(timeToHit, () => {
       if (this.dead || !this.scene) return // the actor may have died or left the scene meanwhile
       if (this.attackSound) this.playAttackSound()
 
@@ -209,7 +211,7 @@ export default class Actor extends GameObject {
         this.addRicochet(point, 0xcccccc)
         this.shootDecals?.(intersects[0], { scene: this.scene, color: 0x000000 })
       }
-    }, timeToHit)
+    })
   }
 
   playAttackSound() {
@@ -236,18 +238,18 @@ export default class Actor extends GameObject {
     this.shouldLoop = true
   }
 
-  startFlame(defer = 1000, callback, randomize) {
+  startFlame(defer = 1, callback, randomize) {
     this.scene.add(this.flame.mesh)
-    clearTimeout(this.flameTimer)
-    this.flameTimer = setTimeout(() => {
+    cancel(this.flameTimer)
+    this.flameTimer = after(defer, () => {
       if (this.dead) return
       this.resetFlame(randomize)
       if (callback) callback()
-    }, defer)
+    })
   }
 
   endFlame() {
-    clearTimeout(this.flameTimer) // a flame that has not started yet must not start after the attack ended
+    cancel(this.flameTimer) // a flame that has not started yet must not start after the attack ended
     this.shouldLoop = false
   }
 
@@ -384,7 +386,7 @@ export default class Actor extends GameObject {
       this.mesh.position.y = this.groundY
   }
 
-  update(delta = 1 / 60) {
+  update(delta = 1 / FPS, t) {
     this.updateGround()
     this.fsm.update(delta)
     this.anim?.update(delta)
@@ -396,6 +398,6 @@ export default class Actor extends GameObject {
     if (this.outOfBounds) this.bounce()
 
     if (this.useRicochet) this.ricochet?.expand({ velocity: 1.2, maxRounds: 5, gravity: .02 })
-    this.flame?.update({ delta, max: this.attackDistance, loop: this.shouldLoop })
+    this.flame?.update(delta, t, { max: this.attackDistance, loop: this.shouldLoop })
   }
 }

@@ -1,6 +1,7 @@
 import Player2D from '/core/actor/Player2D.js'
 import platno from '/core/io/platno.js'
 import { praviPucanje } from '/core/actor/prosirenja/pucanje.js'
+import { after } from '/core/timers.js'
 
 export class Avionce extends Player2D {
   constructor() {
@@ -25,18 +26,18 @@ export class Avionce extends Player2D {
   }
 
   reset() {
-    this.ziv = true
+    this.alive = true
     this.scaleX = this.scaleY = 1
   }
 
   umri() {
-    this.ziv = false
+    this.alive = false
     this.pada = true
     this.zivoti--
-    setTimeout(() => {
+    after(2.5, () => {
       this.pada = false
       if (this.zivoti) this.reset()
-    }, 2500)
+    })
   }
 
   update(dt, t) {

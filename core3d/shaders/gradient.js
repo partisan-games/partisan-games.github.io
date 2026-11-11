@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import { skyColors } from '/core3d/constants.js'
 
 const fragmentShader = /* glsl */`
   uniform vec2 resolution; // uniform variables must be declared here
@@ -13,8 +14,8 @@ const fragmentShader = /* glsl */`
 `
 
 const uniforms = {
-  color1: { value: new THREE.Color(0x0077ff) },
-  color2: { value: new THREE.Color(0xffffff) },
+  color1: { value: new THREE.Color(skyColors.top) },
+  color2: { value: new THREE.Color(skyColors.horizon) },
   resolution: { type: 'v2', value: new THREE.Vector2(window.innerWidth, window.innerHeight) }
 }
 

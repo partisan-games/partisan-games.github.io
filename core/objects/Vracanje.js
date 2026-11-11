@@ -12,12 +12,12 @@ export default class Vracanje extends Predmet {
   }
 
   reset() {
-    this.ziv = true
+    this.alive = true
   }
 
   umri() {
     if (this.callback) this.callback()
-    this.ziv = false
+    this.alive = false
   }
 
   proveriGranice() {

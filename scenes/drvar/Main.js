@@ -5,6 +5,7 @@ import { createGround } from '/core3d/ground.js'
 import Sprite from './Sprite.js'
 import { createOrbitControls } from '/core3d/helpers.js'
 import { randSpread } from '/core/utils.js'
+import { assets } from '/config.js'
 
 const textureLoader = new THREE.TextureLoader()
 
@@ -44,7 +45,7 @@ export default class extends Scena3D {
     this.controls.enablePan = false
     this.controls.minAzimuthAngle = -Math.PI / 8
     this.controls.maxAzimuthAngle = Math.PI / 8
-    this.eksplozija = new Sprite('assets/images/sprites/efekti/eksplozija-01.png', 8, 4)
+    this.eksplozija = new Sprite('/assets/images/sprites/efekti/eksplozija-01.png', 8, 4)
     this.addMesh(this.eksplozija.mesh)
     this.bojaPozadine = '#403'
     document.body.style.filter = 'sepia(0.4)'
@@ -52,7 +53,7 @@ export default class extends Scena3D {
 
   dodajSprite(el, i) {
     const src = el.urls[i % el.urls.length]
-    textureLoader.load('/assets/images/' + src, texture => {
+    textureLoader.load(assets.images + src, texture => {
       texture.minFilter = THREE.NearestFilter // pikselizovano iz daleka
       texture.magFilter = THREE.NearestFilter // glatko blizu
 

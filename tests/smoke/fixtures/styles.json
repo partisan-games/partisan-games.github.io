@@ -1,0 +1,197 @@
+{
+  "2d-tank": {
+    "startScreen": "<div class=\"central-screen flex-column simple-container\" id=\"start-screen\"> <p>Uništi ustaške bunkere, pazi civilne zgrade.</p> <button class=\"default-button\" id=\"start\"><span class=\"icon\">🔥</span> Start mission</button> </div>",
+    "healthBar": null,
+    "cameraButton": null
+  },
+  "3d-tank": {
+    "startScreen": "<div class=\"central-screen flex-column simple-container\" id=\"start-screen\"> <p>Demolish enemy barricades.</p> <button class=\"default-button\" id=\"start\"><span class=\"icon\">🔥</span> Start mission</button> </div>",
+    "healthBar": null,
+    "cameraButton": null
+  },
+  "avatar-planets": {
+    "startScreen": "",
+    "healthBar": null,
+    "cameraButton": null
+  },
+  "avatar": {
+    "startScreen": "<div class=\"central-screen rpgui-container framed\"> <h2>Choose your avatar</h2> <div class=\"game-screen-select\"> <div> <input type=\"image\" id=\"STONE\" src=\"/assets/images/scenes/avatar/STONE.webp\"><br> Kamenko<br><small>(basic)</small> </div> <div> <input type=\"image\" id=\"DISCO\" src=\"/assets/images/scenes/avatar/DISCO.webp\"><br> Balonko<br><small>(can fly)</small> </div> <div> <input type=\"image\" id=\"LAVA\" src=\"/assets/images/scenes/avatar/LAVA.webp\"><br> Laveni<br><small>(immune to lava)</small> </div> </div> </div>",
+    "healthBar": "progress top-right rpgui-progress",
+    "cameraButton": null
+  },
+  "bunker": {
+    "startScreen": "<div class=\"central-screen flex-column simple-container\" id=\"start-screen\"> <p>Bring Žikica Jovanović Španac to the German bunker!</p> <button class=\"default-button\" id=\"start\"><span class=\"icon\">🔥</span> Start mission</button> </div>",
+    "healthBar": null,
+    "cameraButton": null
+  },
+  "camac": {
+    "startScreen": "",
+    "healthBar": null,
+    "cameraButton": null
+  },
+  "cannon": {
+    "startScreen": "<div class=\"central-screen flex-column rpgui-container framed\" id=\"start-screen\"> <p>Demolish the wall — leave no stone on stone.</p> <button class=\"rpgui-button\" id=\"start\"><span class=\"icon\">🔥</span> Start mission</button> </div>",
+    "healthBar": "progress top-right rpgui-progress",
+    "cameraButton": null
+  },
+  "capoeira-girl": {
+    "startScreen": "",
+    "healthBar": null,
+    "cameraButton": null
+  },
+  "city-colorful": {
+    "startScreen": "",
+    "healthBar": null,
+    "cameraButton": null
+  },
+  "dark-city": {
+    "startScreen": "",
+    "healthBar": null,
+    "cameraButton": null
+  },
+  "demon-forest": {
+    "startScreen": "",
+    "healthBar": "progress top-right",
+    "cameraButton": null
+  },
+  "drvar": {
+    "startScreen": "",
+    "healthBar": null,
+    "cameraButton": null
+  },
+  "flying-through-space": {
+    "startScreen": "",
+    "healthBar": null,
+    "cameraButton": null
+  },
+  "follow": {
+    "startScreen": "<div class=\"central-screen flex-column rpgui-container framed\" id=\"start-screen\"> <p>Gather your followers</p> <button class=\"rpgui-button\" id=\"start\"><span class=\"icon\">🔥</span> Start mission</button> </div>",
+    "healthBar": "progress top-right rpgui-progress",
+    "cameraButton": null
+  },
+  "fps-airport": {
+    "startScreen": "<div class=\"central-screen flex-column simple-container\" id=\"start-screen\"> <p>Destroy all enemy aircraft.</p> <button class=\"default-button\" id=\"start\"><span class=\"icon\">🔥</span> Start mission</button> </div>",
+    "healthBar": "progress top-right",
+    "cameraButton": null
+  },
+  "fps-base": {
+    "startScreen": "<div class=\"central-screen flex-column simple-container\" id=\"start-screen\"> <p></p><ul><li>Find the way out</li><li>Bonus: Kill all enemies</li></ul><p></p> <button class=\"default-button\" id=\"start\"><span class=\"icon\">🔥</span> Start mission</button> </div>",
+    "healthBar": "progress top-right",
+    "cameraButton": null
+  },
+  "franjo-kluz": {
+    "startScreen": "<div class=\"central-screen flex-column simple-container\" id=\"start-screen\"> <p>Destroy the German tank and land safely!</p> <button class=\"default-button\" id=\"start\"><span class=\"icon\">🔥</span> Start mission</button> </div>",
+    "healthBar": null,
+    "cameraButton": null
+  },
+  "graffiti-city-maze": {
+    "startScreen": "",
+    "healthBar": null,
+    "cameraButton": null
+  },
+  "graffiti-city": {
+    "startScreen": "",
+    "healthBar": null,
+    "cameraButton": null
+  },
+  "graveyard-survival": {
+    "startScreen": "<div class=\"central-screen rpgui-container framed\"> <ul><li>Survive until morning</li><li>Bonus: Kill zombies</li></ul> <button id=\"start\" class=\"rpgui-button\">Press to START!</button> <p>Meet the morning at the cursed graveyard.</p><p> </p></div>",
+    "healthBar": "progress top-right rpgui-progress",
+    "cameraButton": null
+  },
+  "led-city": {
+    "startScreen": "",
+    "healthBar": null,
+    "cameraButton": null
+  },
+  "liberated-city": {
+    "startScreen": "",
+    "healthBar": null,
+    "cameraButton": null
+  },
+  "locomotive": {
+    "startScreen": "",
+    "healthBar": null,
+    "cameraButton": null
+  },
+  "lookat-cursor": {
+    "startScreen": "",
+    "healthBar": null,
+    "cameraButton": null
+  },
+  "minas-tirith": {
+    "startScreen": "",
+    "healthBar": "progress top-right",
+    "cameraButton": null
+  },
+  "moon-landing": {
+    "startScreen": "<div class=\"central-screen flex-column white-container\" id=\"start-screen\"> <p>Land on the platform gently</p> <button class=\"white-button\" id=\"start\"><span class=\"icon\">🔥</span> Start</button> </div>",
+    "healthBar": null,
+    "cameraButton": null
+  },
+  "neretva": {
+    "startScreen": "<div class=\"central-screen flex-column simple-container\" id=\"start-screen\"> <p>Hold the Germans at all costs until the wounded are safe.</p> <button class=\"default-button\" id=\"start\"><span class=\"icon\">🔥</span> Start mission</button> </div>",
+    "healthBar": "progress top-right",
+    "cameraButton": null
+  },
+  "otpisani": {
+    "startScreen": "<div class=\"central-screen flex-column simple-container\" id=\"start-screen\"> <p>Kill all the occupiers!<br>Liberation is near.</p> <button class=\"default-button\" id=\"start\"><span class=\"icon\">🔥</span> Start mission</button> </div>",
+    "healthBar": null,
+    "cameraButton": null
+  },
+  "physics-vehicle": {
+    "startScreen": "",
+    "healthBar": null,
+    "cameraButton": null
+  },
+  "ranjenik": {
+    "startScreen": "<div class=\"central-screen flex-column simple-container\" id=\"start-screen\"> <p>You were wounded during the Battle of Sutjeska. Try to crawl out of the encirclement.</p> <button class=\"default-button\" id=\"start\"><span class=\"icon\">🔥</span> Start mission</button> </div>",
+    "healthBar": null,
+    "cameraButton": null
+  },
+  "rpg-fantasy": {
+    "startScreen": "<div class=\"central-screen rpgui-container framed\"> <ul><li>Kill all the Orcs</li></ul> <button id=\"start\" class=\"game-title\">Press to START!</button> <p>Free the land<br>from their vile presence!</p> </div>",
+    "healthBar": "progress top-right rpgui-progress",
+    "cameraButton": "bottom-right rpgui-button"
+  },
+  "ruins": {
+    "startScreen": "",
+    "healthBar": "progress top-right rpgui-progress",
+    "cameraButton": null
+  },
+  "spomenici": {
+    "startScreen": "",
+    "healthBar": "progress top-right",
+    "cameraButton": null
+  },
+  "tenkici": {
+    "startScreen": "<div class=\"central-screen simple-container\"> <h2>Choose mode</h2> <button class=\"bg-olive\" id=\"jedan-igrac\"> 1 player </button> <button class=\"bg-olive\" id=\"dva-igraca\"> 2 players </button> </div>",
+    "healthBar": null,
+    "cameraButton": null
+  },
+  "ustanak": {
+    "startScreen": "<div class=\"central-screen simple-container\"> <h2>Choose mode</h2> <button class=\"bg-olive\" id=\"jedan-igrac\"> 1 player </button> <button class=\"bg-olive\" id=\"dva-igraca\"> 2 players </button> </div>",
+    "healthBar": null,
+    "cameraButton": null
+  },
+  "vis": {
+    "startScreen": "<div class=\"central-screen flex-column simple-container\" id=\"start-screen\"> <p>Reach the island of Vis.</p> <button class=\"default-button\" id=\"start\"><span class=\"icon\">🔥</span> Start mission</button> </div>",
+    "healthBar": null,
+    "cameraButton": null
+  },
+  "walls": {
+    "startScreen": "<div class=\"central-screen flex-column rpgui-container framed\" id=\"start-screen\"> <p>Find the way out</p> <button class=\"rpgui-button\" id=\"start\"><span class=\"icon\">🔥</span> Start mission</button> </div>",
+    "healthBar": "progress top-right rpgui-progress",
+    "cameraButton": null
+  },
+  "warplane": {
+    "startScreen": "<div class=\"central-screen simple-container\"> <h2>Choose your aircraft</h2> <div class=\"game-screen-select\"> <input type=\"image\" id=\"Biplane\" src=\"/assets/images/scenes/warplane/Biplane.webp\"><input type=\"image\" id=\"Triplane\" src=\"/assets/images/scenes/warplane/Triplane.webp\"><input type=\"image\" id=\"Messerschmitt\" src=\"/assets/images/scenes/warplane/Messerschmitt.webp\"><input type=\"image\" id=\"Bomber\" src=\"/assets/images/scenes/warplane/Bomber.webp\"><input type=\"image\" id=\"F18\" src=\"/assets/images/scenes/warplane/F18.webp\"> </div> </div>",
+    "healthBar": null,
+    "cameraButton": null
+  },
+  "zeppelin": {
+    "startScreen": "",
+    "healthBar": null,
+    "cameraButton": "bottom-right rpgui-button"
+  }
+}

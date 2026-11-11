@@ -15,8 +15,8 @@ const messageDict = {
   19: 'You smell victory in the air...',
 }
 
-const customStartScreen = /* html */`
-  <div class="central-screen rpgui-container framed">
+const customStartScreen = ({ container }) => /* html */`
+  <div class="central-screen ${container}">
       <ul><li>Kill all the Orcs</li></ul>
       <button id="start" class="game-title">Press to START!</button>
       <p>Free the land<br>from their vile presence!</p>
@@ -50,7 +50,7 @@ export default class extends Scena3D {
 
     const solids = [terrain, castle]
 
-    this.player = new BarbarianPlayer({ pos: coords.pop(), mapSize, solids, camera: this.camera, cameraClass: 'rpgui-button', rpgStyle: true })
+    this.player = new BarbarianPlayer({ pos: coords.pop(), mapSize, solids, camera: this.camera, showCameraButton: true })
     this.add(this.player)
 
     for (let i = 0; i < 20; i++) {

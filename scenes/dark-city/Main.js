@@ -4,6 +4,7 @@ import TWEEN from 'three/examples/jsm/libs/tween.module.js'
 import { createFloor } from '/core3d/ground.js'
 import { createBuilding, createBuildingTexture } from '/core3d/city.js'
 import { createMoon } from '/core3d/light.js'
+import { after } from '/core/timers.js'
 
 const mapSize = 400
 
@@ -29,7 +30,7 @@ export default class extends Scena3D {
 
     this.grow()
     document.addEventListener('pointerdown', this.grow)
-    setTimeout(() => this.ui.showMessage('Click to morph city'), 2000)
+    after(2, () => this.ui.showMessage('Click to morph city'))
   }
 
   end() {

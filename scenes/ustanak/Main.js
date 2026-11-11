@@ -13,8 +13,8 @@ import Avion from '/core/objects/Avion.js'
 
 const nivoTla = platno.height * .75
 
-const customStartScreen = /* html */`
-  <div class="central-screen simple-container">
+const customStartScreen = ({ container }) => /* html */`
+  <div class="central-screen ${container}">
     <h2>Choose mode</h2>
     <button class="bg-olive" id="jedan-igrac" >
       1 player
@@ -31,7 +31,7 @@ export default class extends Scena2D {
   }
 
   init() {
-    this.bunker = new Bunker({ x: platno.width * .75, ziv: false, zadimljen: true, z: 1 })
+    this.bunker = new Bunker({ x: platno.width * .75, alive: false, zadimljen: true, z: 1 })
     this.bunker.onload = () => this.bunker.tlo(nivoTla + 20)
     const zastavnik = new Zastavnik(40, nivoTla + 1)
     this.top = new Top({ x: 230, y: nivoTla - 32 })
@@ -72,8 +72,8 @@ export default class extends Scena2D {
 
   update(dt, t) {
     super.update(dt, t)
-    if (this.top.mrtav) this.defeat('The partisan artillery has been destroyed.')
-    if (this.tenk.mrtav) this.victory('The Italian tank has been destroyed!')
+    if (this.top.dead) this.defeat('The partisan artillery has been destroyed.')
+    if (this.tenk.dead) this.victory('The Italian tank has been destroyed!')
   }
 
   sceneUI() {

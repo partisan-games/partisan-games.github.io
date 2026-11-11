@@ -2,6 +2,9 @@ import * as THREE from 'three'
 
 const { Vector3 } = THREE
 
+/** The two ends of the gradient skies: blue overhead, white at the horizon. */
+export const skyColors = { top: 0x0077ff, horizon: 0xffffff }
+
 export const CIRCLE = 2 * Math.PI
 
 export const DEGREE = Math.PI / 180

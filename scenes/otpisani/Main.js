@@ -5,6 +5,7 @@ import mish from '/core/io/mish.js'
 import { progresBar } from '/ui/components.js'
 import { praviEnergiju } from '/core/actor/prosirenja/energija.js'
 import Vreme from '/core/Vreme.js'
+import { createSound } from '/core/io/sound.js'
 
 export default class extends Scena2D {
   constructor() {
@@ -16,7 +17,7 @@ export default class extends Scena2D {
   init() {
     Object.defineProperties(this, Object.getOwnPropertyDescriptors(praviEnergiju()))
     this.pozadina = new Pozadina('background/rusevine-varsava.jpg')
-    this.audio = new Audio('/assets/sounds/otpisani.mp3')
+    this.audio = createSound('otpisani.mp3')
     this.vreme = new Vreme()
     this.dodajNeprijatelja()
     mish.dodajNishan()
@@ -37,7 +38,8 @@ export default class extends Scena2D {
   end() {
     super.end()
     mish.ukloniNishan()
-    setTimeout(() => this.audio.pause(), 1) // klik na izlaz ponovo pušta
+    // eslint-disable-next-line no-restricted-syntax -- runs after the scene has ended, when the game clock no longer moves
+    setTimeout(() => this.audio.pause(), 1) // the click on the exit button plays the music again
   }
 
   update(dt, t) {

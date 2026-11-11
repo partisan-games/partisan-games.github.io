@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import { meadowColor } from '/core3d/ground.js'
 
 const deform = mesh => {
   const vertex = new THREE.Vector3()
@@ -14,7 +15,7 @@ const deform = mesh => {
   }
 }
 
-export function createGround(r = 2000, height = 2000, color = 0x91A566) {
+export function createGround(r = 2000, height = 2000, color = meadowColor) {
   const geometry = new THREE.CylinderGeometry(r, r, height, 200, 50)
   const matrix = new THREE.Matrix4().makeRotationX(Math.PI * .5).makeRotationZ(Math.PI * .5)
   geometry.applyMatrix4(matrix)

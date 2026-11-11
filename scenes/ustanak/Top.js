@@ -1,4 +1,5 @@
 import { keyboard } from '/core/io/Keyboard.js'
+import { leftPlayerKeys as keys } from '/core/io/keys.js'
 import Predmet from '/core/actor/Predmet.js'
 import { praviEnergiju } from '/core/actor/prosirenja/energija.js'
 import Djule from './Djule.js'
@@ -39,14 +40,14 @@ export default class Top extends Predmet {
   }
 
   handleInput(dt) {
-    if (keyboard.space)
+    if (keyboard.isDown(keys.shoot))
       this.sila += 10
     else if (this.sila > this.minSila)
       this.pali()
 
-    if (keyboard.pressed.KeyW)
+    if (keyboard.isDown(keys.up))
       this.ugao = Math.max(this.ugao - 0.5 * dt, GORNJI_UGAO)
-    if (keyboard.pressed.KeyS)
+    if (keyboard.isDown(keys.down))
       this.ugao = Math.min(this.ugao + 0.5 * dt, DONJI_UGAO)
   }
 

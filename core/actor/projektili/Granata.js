@@ -1,8 +1,9 @@
 import Predmet from '/core/actor/Predmet.js'
 import { platno } from '/core/io/platno.js'
 import Metak from './Metak.js'
+import { after, cancel } from '/core/timers.js'
 
-const duzinaEksplozije = 150
+const duzinaEksplozije = .15 // seconds
 
 const blizuTla = () => platno.height - Math.random() * platno.height * 0.2
 
@@ -19,7 +20,7 @@ export default class Granata extends Metak {
 
   reset() {
     super.reset()
-    clearTimeout(this.timerId)
+    cancel(this.timerId)
     this.timerId = null
     this.plamicak?.sakrij()
   }
@@ -36,7 +37,7 @@ export default class Granata extends Metak {
     this.eksplodiraj()
 
     if (!this.timerId)
-      this.timerId = setTimeout(() => this.povredi(cilj), duzinaEksplozije)
+      this.timerId = after(duzinaEksplozije, () => this.povredi(cilj))
   }
 
   eksplodiraj() {

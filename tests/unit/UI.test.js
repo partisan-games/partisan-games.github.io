@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 
 let UI
-const fakeScene = { gameLoop: { isPaused: false }, sceneUI: () => '' }
+const fakeScene = { sceneUI: () => '' }
 
 before(async() => {
   createPageElements()
@@ -48,11 +48,10 @@ test('end stops the typing report of the start screen', () => {
 test('a message does not cover the end screen', () => {
   const ui = new UI(fakeScene)
   ui.showDefeatScreen('burned')
-  ui.render()
 
   ui.showMessage('you are burning')
   assert.match(document.getElementById('modal').textContent, /burned/)
-  assert.doesNotMatch(document.getElementById('modal').textContent, /you are burning/)
+  assert.doesNotMatch(document.body.textContent, /you are burning/)
   ui.end()
 })
 
@@ -70,12 +69,12 @@ test('a message from a game that has ended does not clear the next game screen l
 })
 
 test('a message does not cover the pause menu', () => {
-  const pausedScene = { gameLoop: { isPaused: true }, sceneUI: () => '' }
-  const ui = new UI(pausedScene)
-  ui.render()
+  const ui = new UI(fakeScene)
+  ui.showPauseScreen()
 
   ui.showMessage('Click to morph city')
   assert.match(document.getElementById('modal').textContent, /Game paused/)
+  assert.doesNotMatch(document.body.textContent, /morph city/)
   ui.end()
 })
 

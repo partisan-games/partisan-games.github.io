@@ -26,8 +26,8 @@ export default class Building extends GameObject {
     if (this.energy <= 0 && !this.fire) this.addFire()
   }
 
-  update(delta) {
+  update(delta, t) {
     super.update()
-    this.fire?.update({ delta, min: this.fireMin, max: 0 })
+    this.fire?.update(delta, t, { min: this.fireMin, max: 0 })
   }
 }

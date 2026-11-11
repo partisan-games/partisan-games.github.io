@@ -3,7 +3,7 @@ import { createSun } from '/core3d/light.js'
 import { WorkerPlayer } from '/core3d/actor/derived/ww2/Worker.js'
 import { thirdPersonControls } from '/ui/Controls.js'
 import { getEmptyCoords, sample } from '/core3d/helpers.js'
-import { createFloor } from '/core3d/ground.js'
+import { createFloor, grassColor } from '/core3d/ground.js'
 import { createGraffitiBuilding } from '/core3d/city.js'
 import { createTrees } from '/core3d/geometry/trees.js'
 
@@ -92,7 +92,7 @@ export default class extends Scena3D {
     const solids = []
 
     this.addMesh(createSun({ pos: [50, 100, 50], intensity: 2 * Math.PI }))
-    const floor = createFloor({ size: mapSize * 1.2, color: 0x509f53 })
+    const floor = createFloor({ size: mapSize * 1.2, color: grassColor })
     this.addMesh(floor)
 
     const coords = getEmptyCoords({ mapSize })

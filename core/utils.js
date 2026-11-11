@@ -1,5 +1,4 @@
 import { shuffle } from '/core3d/helpers.js'
-import config from '/config.js'
 
 export function randomInRange(min, max) {
   return Math.random() * (max - min) + min
@@ -45,4 +44,3 @@ export function nadjiNajdaljeTacke(pozicije) {
   return najdaljeTacke.sort((a, b) => a.x - b.x)
 }
 
-export const randomVolume = () => randomInRange(config.volume * 0.5, config.volume * 1.25)

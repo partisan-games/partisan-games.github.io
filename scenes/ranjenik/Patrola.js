@@ -1,7 +1,7 @@
 import { nasumicnoOkruglo } from '/core/utils.js'
 import Predmet from '/core/actor/Predmet.js'
 import Vreme from '/core/Vreme.js'
-import config from '/config.js'
+import { createSound } from '/core/io/sound.js'
 
 const zvuciTraganje = ['eatdirtpig.wav', 'killthepig.wav', 'QuicklyQuickly.wav', 'schnell.wav', 'UpThere.wav', 'whereishe.wav']
 const zvuciNadjen = ['Stop.wav', 'StopStayWhereYouAre.wav', 'thereheis.wav']
@@ -34,10 +34,7 @@ export default class Patrola extends Predmet {
     if (this.zvuk && !this.zvuk.paused) return
 
     const fajl = zvuci[nasumicnoOkruglo(0, zvuci.length - 1)]
-    const src = `/assets/sounds/patrola/${fajl}`
-
-    this.zvuk = new Audio(src)
-    this.zvuk.volume = config.volume
+    this.zvuk = createSound(`patrola/${fajl}`)
     this.zvuk.addEventListener('canplaythrough', () => this.zvuk.play())
     this.zvuk.load()
   }

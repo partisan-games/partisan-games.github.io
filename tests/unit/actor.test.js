@@ -3,6 +3,7 @@ import assert from 'node:assert/strict'
 import { AnimationClip, BoxGeometry, Mesh, NumberKeyframeTrack, Scene } from 'three'
 import AI from '/core3d/actor/AI.js'
 import Animator from '/core3d/actor/Animator.js'
+import * as timers from '/core/timers.js'
 
 const clipNames = ['idle', 'walk', 'pain', 'attack', 'jump']
 const animDict = Object.fromEntries(clipNames.map(name => [name, name]))
@@ -80,22 +81,20 @@ test('an AI notices a target behind it only when the target is close', () => {
   assert.equal(ai.targetNear, true)
 })
 
-test('a delayed flame does not start after the attack has already ended', t => {
-  t.mock.timers.enable({ apis: ['setTimeout'] })
+test('a delayed flame does not start after the attack has already ended', () => {
   const { ai } = createActor()
   ai.flame = { mesh: new Mesh(), reset() {} }
   let damaged = 0
 
-  ai.startFlame(1000, () => damaged++)
+  ai.startFlame(1, () => damaged++)
   ai.endFlame()
-  t.mock.timers.tick(1000)
+  timers.update(1)
 
   assert.equal(damaged, 0)
   assert.equal(ai.shouldLoop, false)
 })
 
-test('an attack that lands after the actor left the scene does nothing', t => {
-  t.mock.timers.enable({ apis: ['setTimeout'] })
+test('an attack that lands after the actor left the scene does nothing', () => {
   const { ai, scene } = createActor()
   let sounds = 0
   ai.attackSound = 'shot.mp3'
@@ -103,7 +102,7 @@ test('an attack that lands after the actor left the scene does nothing', t => {
 
   ai.enterAttack('player')
   scene.remove(ai.mesh)
-  t.mock.timers.tick(1000)
+  timers.update(1)
 
   assert.equal(sounds, 0)
 })

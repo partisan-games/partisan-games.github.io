@@ -1,59 +1,53 @@
-import { uiStyles, containers, controlButtons } from './UI.js'
+import { keys, attackLabels, leftPlayerKeys, rightPlayerKeys } from '/core/io/keys.js'
+import { currentStyleClasses } from './styles.js'
 
 export const baseControls = {
-  '← or A': 'left',
-  '→ or D': 'right',
-  '↑ or W': 'forward',
-  '↓ or S': 'backward',
-  'Esc': 'pause',
+  [keys.left.label]: 'left',
+  [keys.right.label]: 'right',
+  [keys.up.label]: 'forward',
+  [keys.down.label]: 'backward',
+  [keys.pause.label]: 'pause',
 }
 
 export const avatarControls = {
   ...baseControls,
-  CapsLock: 'run',
-  Space: 'jump',
+  [keys.run.label]: 'run',
+  [keys.jump.label]: 'jump',
 }
 
 export const fpsControls = {
   ...baseControls,
-  Q: 'strafe left',
-  E: 'strafe right',
-  CapsLock: 'run',
-  Mouse: 'attack',
-  Space: 'jump',
+  [keys.strafeLeft.label]: 'strafe left',
+  [keys.strafeRight.label]: 'strafe right',
+  [keys.run.label]: 'run',
+  [attackLabels.pointer]: 'attack',
+  [keys.jump.label]: 'jump',
 }
 
 export const thirdPersonControls = {
   ...baseControls,
-  CapsLock: 'run',
-  Enter: 'attack',
-  Space: 'jump',
+  [keys.run.label]: 'run',
+  [attackLabels.Enter]: 'attack',
+  [keys.jump.label]: 'jump',
 }
 
-export const tankLeftControls = {
-  'A': 'left',
-  'D': 'right',
-  'W': 'up',
-  'S': 'down',
-  Space: 'shoot'
-}
+const playerControls = playerKeys => ({
+  [playerKeys.left.label]: 'left',
+  [playerKeys.right.label]: 'right',
+  [playerKeys.up.label]: 'up',
+  [playerKeys.down.label]: 'down',
+  [playerKeys.shoot.label]: 'shoot',
+})
 
-export const tankRightControls = {
-  '←': 'left',
-  '→': 'right',
-  '↑': 'up',
-  '↓': 'down',
-  Enter: 'shoot'
-}
+export const tankLeftControls = playerControls(leftPlayerKeys)
+export const tankRightControls = playerControls(rightPlayerKeys)
 
 export default class Controls {
   constructor({
     controlKeys = baseControls,
-    uiStyle = uiStyles.simple,
     positionClass = 'bottom-left',
   } = {}) {
     this.controlsOpen = false
-    this.uiStyle = uiStyle
     this.init({ controlKeys, positionClass })
   }
 
@@ -61,11 +55,12 @@ export default class Controls {
     this.div = document.createElement('div')
     this.div.className = positionClass
 
+    const classes = currentStyleClasses()
     const button = document.createElement('button')
-    button.className = controlButtons[this.uiStyle]
+    button.className = classes.controlButton
 
     const content = document.createElement('div')
-    content.className = containers[this.uiStyle]
+    content.className = classes.container
     content.innerHTML = Object.keys(controlKeys)
       .filter(key => controlKeys[key])
       .map(key => `${key} - ${controlKeys[key]}<br>`)

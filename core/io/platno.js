@@ -17,7 +17,10 @@ resize()
 window.addEventListener('resize', resize)
 screen.orientation.addEventListener('change', resize)
 
-export function crtaNebo(nivoTla, bojaNeba = 'blue', bojaNebaPreliv = 'lightblue', pocetakPreliva = 0) {
+/** The 2D sky fades from blue overhead to light blue at the ground. */
+export const skyColors = { deep: 'blue', clear: '#3299CC', horizon: 'lightblue' }
+
+export function crtaNebo(nivoTla, bojaNeba = skyColors.deep, bojaNebaPreliv = skyColors.horizon, pocetakPreliva = 0) {
   const ctx = platno.getContext('2d')
   ctx.fillStyle = bojaNeba
   if (bojaNebaPreliv) {
@@ -44,7 +47,7 @@ function crtaLiniju(nivoTla) {
 }
 
 export function crtaNeboZemlju(nivoTla,
-  { bojaNeba = '#3299CC', bojaZemlje = '#32cd32', bojaNebaPreliv = 'lightblue', linija = false } = {}
+  { bojaNeba = skyColors.clear, bojaZemlje = '#32cd32', bojaNebaPreliv = skyColors.horizon, linija = false } = {}
 ) {
   crtaNebo(nivoTla, bojaNeba, bojaNebaPreliv)
   if (linija) crtaLiniju(nivoTla)

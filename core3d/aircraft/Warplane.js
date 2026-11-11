@@ -140,7 +140,7 @@ export default class Warplane extends GameObject {
     this.land(delta, true)
   }
 
-  update(delta) {
+  update(delta, t) {
     this.chaseCamera?.update(delta)
 
     this.missiles.forEach(missile => {
@@ -148,7 +148,7 @@ export default class Warplane extends GameObject {
       missile.update(delta)
     })
 
-    this.smoke?.update({ delta, min: (this.energy / 100) - 5 })
+    this.smoke?.update(delta, t, { min: (this.energy / 100) - 5 })
     this.explosion.expand({ velocity: 1.1, maxRounds: 30 })
     this.propellers.forEach(propeller => propeller.rotateZ(delta * -this.speed))
 

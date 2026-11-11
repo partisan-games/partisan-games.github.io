@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import { randomGray } from '../helpers.js'
+import { assets } from '/config.js'
 
 const { randFloat, randFloatSpread } = THREE.MathUtils
 
@@ -16,10 +17,10 @@ const translateY = (mesh, y) => {
 export function createBox({ size = 1, width = size, height = size, depth = size, file, bumpFile, normalFile, color = randomGray(), castShadow = true, receiveShadow = true, translateHeight = true, pos, quat } = {}) {
   const geometry = new THREE.BoxGeometry(width, height, depth)
   const options = {
-    map: file ? textureLoader.load(`/assets/images/textures/${file}`) : null,
+    map: file ? textureLoader.load(`${assets.textures}${file}`) : null,
     color: !file ? color : null,
-    bumpMap: bumpFile ? textureLoader.load(`/assets/images/textures/${bumpFile}`) : null,
-    normalMap: normalFile ? textureLoader.load(`/assets/images/textures/${normalFile}`) : null,
+    bumpMap: bumpFile ? textureLoader.load(`${assets.textures}${bumpFile}`) : null,
+    normalMap: normalFile ? textureLoader.load(`${assets.textures}${normalFile}`) : null,
   }
   const material = new THREE.MeshPhongMaterial(options)
   const mesh = new THREE.Mesh(geometry, material)
@@ -59,8 +60,8 @@ export function createSphere({
   const geometry = new THREE.SphereGeometry(r, segments, segments)
   const material = new THREE.MeshStandardMaterial({
     color,
-    map: file ? textureLoader.load(`/assets/images/textures/${file}`) : null,
-    bumpMap: bumpFile ? textureLoader.load(`/assets/images/textures/${bumpFile}`) : null,
+    map: file ? textureLoader.load(`${assets.textures}${file}`) : null,
+    bumpMap: bumpFile ? textureLoader.load(`${assets.textures}${bumpFile}`) : null,
   })
   const mesh = new THREE.Mesh(geometry, material)
   mesh.receiveShadow = receiveShadow
@@ -78,13 +79,13 @@ export const createMoonSphere = () => createSphere({ r: .5, file: 'planets/moon.
 export function createRustyBarrel({ r = .5, height = 1.5, segments = 32, file = 'metal/rust.jpg', topFile = 'barrel/rust-top.jpg', translateHeight = true, pos } = {}) {
   const geometry = new THREE.CylinderGeometry(r, r, height, segments)
   const sideMaterial = new THREE.MeshPhongMaterial({
-    map: textureLoader.load(`/assets/images/textures/${file}`),
-    bumpMap: textureLoader.load(`/assets/images/textures/${file}`),
+    map: textureLoader.load(`${assets.textures}${file}`),
+    bumpMap: textureLoader.load(`${assets.textures}${file}`),
     bumpScale: .02
   })
   const topMaterial = new THREE.MeshPhongMaterial({
-    map: textureLoader.load(`/assets/images/textures/${topFile || file}`),
-    bumpMap: textureLoader.load(`/assets/images/textures/${topFile || file}`),
+    map: textureLoader.load(`${assets.textures}${topFile || file}`),
+    bumpMap: textureLoader.load(`${assets.textures}${topFile || file}`),
     bumpScale: .02
   })
   const materials = [
@@ -248,7 +249,7 @@ export function createFlag({ file = 'prva-proleterska.jpg', scale = 1 } = {}) {
   const group = new THREE.Group()
   group.rotateY(-Math.PI * .5)
 
-  const texture = new THREE.TextureLoader().load(`/assets/images/${file}`)
+  const texture = new THREE.TextureLoader().load(`${assets.images}${file}`)
   const plane = new THREE.Mesh(
     new THREE.PlaneGeometry(600, 430, 20, 20, true),
     new THREE.MeshBasicMaterial({ map: texture, side: THREE.DoubleSide }))

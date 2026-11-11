@@ -1,4 +1,4 @@
-import config from '/config.js'
+import { createSound } from '/core/io/sound.js'
 
 const css = /* css */`
   @font-face {
@@ -56,8 +56,7 @@ export default class Report {
 
     if (!style.isConnected) document.head.appendChild(style)
 
-    this.audio = new Audio('/assets/sounds/typing.mp3')
-    this.audio.volume = config.volume
+    this.audio = createSound('typing.mp3')
     this.init()
   }
 

@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import { currentStyleClasses } from '/ui/styles.js'
 
 const calc = (mesh, pos, rotate) => {
   const cameraPos = new THREE.Vector3(...pos)
@@ -28,7 +29,6 @@ export default class ChaseCamera {
     orbitalOffset = [-height * 10, height * 10, height * 10],
 
     showCameraButton = false,
-    cameraClass = '',
     rotate = true,
   }) {
     this.mesh = mesh
@@ -51,7 +51,7 @@ export default class ChaseCamera {
     this.camera.position.copy(calc(mesh, offset, rotate))
     this.camera.lookAt(calc(mesh, lookAt, rotate))
 
-    if (showCameraButton) this.addButton(cameraClass)
+    if (showCameraButton) this.addButton()
   }
 
   /* SETTERS */
@@ -76,9 +76,9 @@ export default class ChaseCamera {
 
   /* UTILS */
 
-  addButton(cameraClass) {
+  addButton() {
     this.button = document.createElement('button')
-    this.button.className = `bottom-right ${cameraClass}`
+    this.button.className = `bottom-right ${currentStyleClasses().cameraButton}`
     const img = document.createElement('img')
     img.src = '/assets/images/ui/change-camera.png'
     img.alt = 'change camera'
@@ -138,6 +138,7 @@ export default class ChaseCamera {
 
   zoomIn(ms = 1000) {
     this.setCamera(2)
+    // eslint-disable-next-line no-restricted-syntax -- a camera move, not a game event: it also finishes during a pause
     setTimeout(() => this.setCamera(0), ms)
   }
 

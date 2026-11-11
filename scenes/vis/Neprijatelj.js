@@ -1,6 +1,7 @@
 import Pokretno from './Pokretno.js'
 import { randomInRange } from '/core/utils.js'
 import { praviPucanje } from '/core/actor/prosirenja/pucanje.js'
+import { after } from '/core/timers.js'
 
 export default class Neprijatelj extends Pokretno {
   constructor(src, { potisak }) {
@@ -21,22 +22,22 @@ export default class Neprijatelj extends Pokretno {
 
   reset() {
     super.reset()
-    this.ziv = true
+    this.alive = true
     this.scaleX = this.scaleY = 1
   }
 
   umri() {
-    this.ziv = false
+    this.alive = false
     this.pada = true
-    setTimeout(() => {
+    after(2, () => {
       this.pada = false
       this.reset()
-    }, 2000)
+    })
   }
 
   update(dt, t) {
     super.update(dt, t)
-    if (this.ziv)
+    if (this.alive)
       this.rafalPovremeno(t)
 
     this.proveriPogotke()

@@ -1,9 +1,9 @@
 import Predmet from '/core/actor/Predmet.js'
 import Vreme from '/core/Vreme.js'
 import mish from '/core/io/mish.js'
-import { randomVolume } from '/core/utils.js'
+import { createSound, randomVolume } from '/core/io/sound.js'
 
-const rafal = new Audio('/assets/sounds/rafal.mp3')
+const rafal = createSound('rafal.mp3')
 const slikaPuca = '/assets/images/armies/nemac-rov-puca.gif'
 
 export default class Svabo extends Predmet {

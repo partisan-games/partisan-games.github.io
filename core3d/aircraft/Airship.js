@@ -3,6 +3,7 @@ import Input from '/core/io/Input.js'
 import { getMesh, getGroundY } from '/core3d/helpers.js'
 import ChaseCamera from '/core3d/actor/ChaseCamera.js'
 import GameObject from '/core3d/objects/GameObject.js'
+import { FPS } from '/core/konstante.js'
 
 const yawAngle = .01
 const pitchAngle = yawAngle / 5
@@ -10,7 +11,7 @@ const maxRoll = Infinity
 
 export default class Airship extends GameObject {
   constructor({
-    mesh, speed = 1, maxSpeed = speed * 2.5, minSpeed = speed * .1, minHeight = 2, minDistance = 10, maxPitch = .1, animations, solids, camera, pos, altitude = minHeight * 3, name, cameraClass
+    mesh, speed = 1, maxSpeed = speed * 2.5, minSpeed = speed * .1, minHeight = 2, minDistance = 10, maxPitch = .1, animations, solids, camera, pos, altitude = minHeight * 3, name, showCameraButton
   } = {}) {
     super({ mesh, pos, solids, altitude, name })
     this.speed = speed
@@ -34,7 +35,7 @@ export default class Airship extends GameObject {
     }
 
     if (camera) {
-      this.chaseCamera = new ChaseCamera({ camera, cameraClass, mesh: this.mesh, height: 2, speed: this.speed * .5 })
+      this.chaseCamera = new ChaseCamera({ camera, showCameraButton, mesh: this.mesh, height: 2, speed: this.speed * .5 })
       this.chaseCamera.distance = 6
       this.shouldAlignCamera = true
     }
@@ -177,7 +178,7 @@ export default class Airship extends GameObject {
     else this.action.play()
   }
 
-  update(delta = 1 / 60) {
+  update(delta = 1 / FPS) {
     if (!this.mesh) return
 
     if (this.t % 3 == 0)
@@ -199,5 +200,10 @@ export default class Airship extends GameObject {
       this.propellers.forEach(propeller => propeller.rotateZ(delta * -this.speed))
 
     this.t++
+  }
+
+  end() {
+    this.input.end()
+    this.chaseCamera?.end()
   }
 }

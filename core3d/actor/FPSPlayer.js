@@ -3,6 +3,7 @@ import FPSRenderer from '/core3d/actor/FPSRenderer.js'
 import { getCameraIntersects } from '/core3d/helpers.js'
 import { attackStyles, jumpStyles } from '/core3d/constants.js'
 import { createPlayerBox } from '/core3d/geometry/index.js'
+import { after } from '/core/timers.js'
 
 export default class FPSPlayer extends Player {
   constructor({
@@ -80,9 +81,9 @@ export default class FPSPlayer extends Player {
 
   painEffect() {
     this.hurting = true
-    setTimeout(() => {
+    after(.3, () => {
       this.hurting = this.dead // red screen if dead
-    }, 300)
+    })
   }
 
   checkHit() {

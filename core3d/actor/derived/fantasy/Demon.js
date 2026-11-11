@@ -24,7 +24,7 @@ export class DemonPlayer extends Player {
   }
 
   enterSpecial() {
-    this.startFlame(1000, () => this.areaDamage())
+    this.startFlame(1, () => this.areaDamage())
   }
 
   exitSpecial() {

@@ -6,10 +6,11 @@ import Oblak from './Oblak.js'
 import Neprijatelj from './Neprijatelj.js'
 import Baza from './Baza.js'
 import { baseControls } from '/ui/Controls.js'
+import { after } from '/core/timers.js'
 
 const brojOblaka = 3
 const brzina = 150
-const LANDING_TIME = 3000
+const LANDING_TIME = 3 // seconds
 
 export default class extends Scena2D {
   constructor() {
@@ -39,14 +40,14 @@ export default class extends Scena2D {
   }
 
   proveriSudare() {
-    if (!this.player.ziv) return
+    if (!this.player.alive) return
 
     if (this.player.sudara(this.zdravlje)) {
       this.zdravlje.reset()
       this.player.zivoti++
     }
     this.neprijatelji.forEach(neprijatelj => {
-      if (neprijatelj.ziv && this.player.sudara(neprijatelj)) {
+      if (neprijatelj.alive && this.player.sudara(neprijatelj)) {
         neprijatelj.umri()
         this.player.umri()
       }
@@ -58,9 +59,9 @@ export default class extends Scena2D {
     this.add(this.baza)
     this.neprijatelji.forEach(neprijatelj => {
       neprijatelj.umri()
-      setTimeout(() => this.remove(neprijatelj), LANDING_TIME * .5)
+      after(LANDING_TIME * .5, () => this.remove(neprijatelj))
     })
-    setTimeout(() => this.victory('You have successfully reached the island of Vis.'), LANDING_TIME)
+    after(LANDING_TIME, () => this.victory('You have successfully reached the island of Vis.'))
   }
 
   update(dt, t) {

@@ -6,6 +6,9 @@
 
 :root {
   --spacing: 8px;
+  --edge: 16px; /* from the screen edge to the controls along it */
+  --z-top: 9; /* touch controls and the menu ribbon, above everything */
+  --z-screen: 1; /* central screens and the full screen button, above the game */
   --radius: 4px;
   --white: #FFFFFF;
   --black: #1B1B1B;
@@ -235,7 +238,7 @@ button {
   transform: rotate(45deg);
   transition: 0.5s;
   width: 250px;
-  z-index: 9;
+  z-index: var(--z-top);
 }
 
 .github:hover {
@@ -249,7 +252,7 @@ button {
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1;
+  z-index: var(--z-screen);
   text-align: center;
   max-width: 540px;
   min-width: 320px;

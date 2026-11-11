@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js'
 import { randomGrayish, getEmptyCoords, sample, maxItems } from '/core3d/helpers.js'
 import { createTrees } from '/core3d/geometry/trees.js'
+import { assets } from '/config.js'
 
 const { randInt, randFloat } = THREE.MathUtils
 
@@ -111,7 +112,7 @@ function createGraffitiTexture({
   const drawArtAndText = () => {
     if (poster) {
       const img = new Image()
-      img.src = '/assets/images/textures/' + poster
+      img.src = assets.textures + poster
       img.onload = () => {
         if (bigMural)
           ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight)
@@ -134,7 +135,7 @@ function createGraffitiTexture({
 
   if (graffitiBgTexture) {
     const img = new Image()
-    img.src = '/assets/images/textures/' + graffitiBgTexture
+    img.src = assets.textures + graffitiBgTexture
     img.onload = () => {
       ctx.clearRect(0, 0, canvasWidth, canvasHeight)
       ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight)
@@ -246,7 +247,7 @@ export function createBuilding(params = {}) {
   return new THREE.Mesh(geometry, material)
 }
 
-function createTexturedBuilding({ width, height, depth = width, color = 0x999999, path = '/assets/images/textures/', files = [], defaultFile, halfOnSides = false, graffitiChance = 0, posters = [], slogans = [], postersPath = 'posters/', graffitiBgTexture, webFonts, fontColors, bigMural = false, ...rest } = {}) {
+function createTexturedBuilding({ width, height, depth = width, color = 0x999999, path = assets.textures, files = [], defaultFile, halfOnSides = false, graffitiChance = 0, posters = [], slogans = [], postersPath = 'posters/', graffitiBgTexture, webFonts, fontColors, bigMural = false, ...rest } = {}) {
   const geometry = createBuildingGeometry({ width, height, depth, ...rest })
   const { width: buildingWidth, height: buildingHeight } = geometry.parameters
 

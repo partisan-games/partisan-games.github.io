@@ -20,14 +20,20 @@ export default class extends Scena3D {
     this.addMesh(createSun())
     this.addMesh(createGround())
 
-    const maze = new Maze({ rows: 20, algorithm: recursiveBacktracker, cellSize: 3 })
-    const walls = maze.toTiledMesh({ texture: 'walls/stonetiles.jpg', maxHeight: 6 })
+    this.maze = new Maze({ rows: 20, algorithm: recursiveBacktracker, cellSize: 3 })
+    const walls = this.maze.toTiledMesh({ texture: 'walls/stonetiles.jpg', maxHeight: 6 })
     this.addMesh(walls)
 
-    const player = new SorceressPlayer({ camera: this.camera, solids: walls })
-    player.chaseCamera.distance = 1.5
-    player.putInMaze(maze)
-    this.add(player)
+    this.player = new SorceressPlayer({ camera: this.camera, solids: walls })
+    this.player.chaseCamera.distance = 1.5
+    this.player.putInMaze(this.maze)
+    this.add(this.player)
+  }
+
+  update(dt, t) {
+    super.update(dt, t)
+    if (this.player.position.distanceTo(this.maze.exitPosition) < this.maze.cellSize)
+      this.victory(`You found the way out in ${Math.round(t)} seconds.`)
   }
 
   sceneUI(t) {

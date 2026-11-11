@@ -3,11 +3,11 @@ export function praviEnergiju() {
     energija: 100,
     zapaljivost: 20,
 
-    get ziv() {
+    get alive() {
       return this.energija > 0
     },
 
-    set ziv(bul) {
+    set alive(bul) {
       this.energija = bul ? 100 : 0
     },
 

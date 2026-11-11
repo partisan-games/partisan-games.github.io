@@ -21,8 +21,8 @@ const messageDict = {
   75: 'You smell victory in the air...',
 }
 
-const customStartScreen = /* html */`
-  <div class="central-screen rpgui-container framed">
+const customStartScreen = ({ container }) => /* html */`
+  <div class="central-screen ${container}">
     <h2>Choose your avatar</h2>
     <div class="game-screen-select">
       <div>
@@ -90,7 +90,7 @@ export default class extends Scena3D {
 
     const Avatar = await import('/core3d/actor/Avatar.js')
     if (this.ui.ended) return
-    this.player = new Avatar.default({ camera: this.camera, solids: [this.ground, ...this.boxes], skin: e.target.id, showHealthBar: true, maxJumpTime: .99, rpgStyle: true })
+    this.player = new Avatar.default({ camera: this.camera, solids: [this.ground, ...this.boxes], skin: e.target.id, showHealthBar: true, maxJumpTime: .99 })
     this.player.chaseCamera.distance = 6
     this.addMesh(this.player.mesh)
 

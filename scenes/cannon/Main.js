@@ -4,6 +4,7 @@ import PhysicsWorld from '/core3d/physics/PhysicsWorld.js'
 import { createGround } from '/core3d/ground.js'
 import { createSideWall } from '/core3d/geometry/index.js'
 import { CannonPlayer } from '/core3d/actor/derived/Cannon.js'
+import { after } from '/core/timers.js'
 
 const controlKeys = {
   '← or A': 'left',
@@ -43,17 +44,17 @@ export default class extends Scena3D {
 
   handleClick(e) {
     super.handleClick(e)
-    if (e.target.closest('button, input') || !this.gameLoop.isRunning || this.ui.outro) return
+    if (e.target.closest('button, input, progress') || !this.gameLoop.isRunning || this.ui.outro) return
 
     this.player.shoot(this.world)
     if (this.player.shots == 0) this.checkDefeat()
   }
 
   checkDefeat() {
-    setTimeout(() => {
+    after(2, () => {
       if (this.countableCrates.length > 0)
         this.defeat('You are out of ammo.')
-    }, 2000)
+    })
   }
 
   /* LOOP */

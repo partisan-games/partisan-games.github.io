@@ -43,7 +43,7 @@ export default class extends Scena3D {
     putOnSolids(castle, terrain)
     this.addMesh(castle)
 
-    const player = new Dirigible({ camera: this.camera, solids: terrain, cameraClass: 'rpgui-button' })
+    const player = new Dirigible({ camera: this.camera, solids: terrain, showCameraButton: true })
     player.position.z = 200
     player.solids.push(castle)
     this.add(player)

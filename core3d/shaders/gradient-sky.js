@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import { skyColors } from '/core3d/constants.js'
 
 const vertexShader = /* glsl */`
   varying vec3 vWorldPosition;
@@ -24,8 +25,8 @@ const fragmentShader = /* glsl */`
 `
 
 const uniforms = {
-  color1: { value: new THREE.Color(0x0077ff) },
-  color2: { value: new THREE.Color(0xffffff) },
+  color1: { value: new THREE.Color(skyColors.top) },
+  color2: { value: new THREE.Color(skyColors.horizon) },
   offset: { value: 33 },
   exponent: { value: 0.6 }
 }

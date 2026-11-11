@@ -1,4 +1,5 @@
 import { keyboard } from '/core/io/Keyboard.js'
+import { rightPlayerKeys as keys } from '/core/io/keys.js'
 import platno from '/core/io/platno.js'
 import { randomInRange } from '/core/utils.js'
 import Tenk from './Tenk.js'
@@ -35,16 +36,16 @@ export default class TenkDesno extends Tenk {
   handleInput(dt) {
     if (this.ai) return
 
-    if (keyboard.pressed.ArrowLeft && this.x > platno.width / 2)
+    if (keyboard.isDown(keys.left) && this.x > platno.width / 2)
       this.dodajSilu(this.potisak, Math.PI)
-    if (keyboard.pressed.ArrowRight && this.x < platno.width)
+    if (keyboard.isDown(keys.right) && this.x < platno.width)
       this.dodajSilu(this.potisak * 0.6, 0)
-    if (keyboard.pressed.ArrowUp)
+    if (keyboard.isDown(keys.up))
       this.diziCev(dt)
-    if (keyboard.pressed.ArrowDown)
+    if (keyboard.isDown(keys.down))
       this.spustajCev(dt)
 
-    this.pokusajPucanje('Enter')
+    this.pokusajPucanje(keys.shoot)
   }
 
   azurirajCev() {

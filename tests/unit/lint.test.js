@@ -23,11 +23,24 @@ export default class Game {
   assert.match(problems[0].message, /each frame/)
 })
 
-test('a timer outside update() is allowed', async() => {
+test('a browser timer outside update() is reported, pointing to the game clock', async() => {
   const problems = await timerProblems(`
 export default class Game {
   enterAttack() {
     setTimeout(() => this.hit(), 200)
+  }
+}
+`)
+  assert.equal(problems.length, 1)
+  assert.match(problems[0].message, /after\(\) from \/core\/timers\.js/)
+})
+
+test('a delayed action on the game clock is allowed', async() => {
+  const problems = await timerProblems(`
+import { after } from '/core/timers.js'
+export default class Game {
+  enterAttack() {
+    after(.2, () => this.hit())
   }
 }
 `)

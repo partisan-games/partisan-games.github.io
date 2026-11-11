@@ -1,6 +1,8 @@
 import * as THREE from 'three'
-import config from '/config.js'
+import { createSound } from '/core/io/sound.js'
 import { mapRange } from './helpers.js'
+import { assets } from '/config.js'
+import { after } from '/core/timers.js'
 
 const { randInt } = THREE.MathUtils
 
@@ -68,7 +70,7 @@ export function createSun({ color = 0xffffff, intensity = Math.PI * 1.5, target,
       color: planetColor,
       transparent,
       opacity: transparent ? 0 : 1,
-      map: file ? new THREE.TextureLoader().load(`/assets/images/textures/${file}`) : null
+      map: file ? new THREE.TextureLoader().load(`${assets.textures}${file}`) : null
     })
   )
   if (addLight) {
@@ -90,10 +92,8 @@ export function lightningStrike(light, scene) {
   if (!oldIntensity) oldIntensity = light.intensity
   if (!oldBackground) oldBackground = new THREE.Color(scene.background)
 
-  const audio = new Audio('/assets/sounds/thunder.mp3')
-
   const distance = randInt(100, 3000)
-  audio.volume = mapRange(distance, 3000, 100, config.volume / 4, config.volume)
+  const audio = createSound('thunder.mp3', { volume: mapRange(distance, 3000, 100, .25, 1) })
   light.intensity = mapRange(distance, 3000, 100, 1.2, 2)
 
   const newColor = new THREE.Color().lerpColors(
@@ -102,15 +102,16 @@ export function lightningStrike(light, scene) {
 
   scene.background = newColor
 
-  setTimeout(() => {
+  after(.5, () => {
     light.intensity = oldIntensity
     scene.background = oldBackground
-  }, 500)
+  })
 
-  setTimeout(() => {
+  // sound travels about 333 m in a second
+  after(distance * .003, () => {
     audio.currentTime = 0
     audio.play()
-  }, distance * 3)
+  })
 }
 
 /* UPDATES */

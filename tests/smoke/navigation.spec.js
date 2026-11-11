@@ -17,7 +17,7 @@ test('switching games through the address leaves nothing of the previous game be
   }
 
   expect(await countFullScreenButtons(page)).toBeLessThanOrEqual(1)
-  await expect(page.locator('input[type=range]')).toHaveCount(0)
+  await expect(page.locator('progress.top-right')).toHaveCount(0) // the cannon power meter
   expect(problems).toEqual([])
 })
 

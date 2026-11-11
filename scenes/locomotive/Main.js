@@ -64,7 +64,7 @@ export default class extends Scena3D {
     super.update(delta, elapsedTime)
 
     followPath({ path: this.path, mesh: this.locomotive, elapsedTime, speed: .025, y: 2 })
-    this.particles.update({ delta })
+    this.particles.update(delta, elapsedTime)
     this.mixer.update(delta * 15)
   }
 }

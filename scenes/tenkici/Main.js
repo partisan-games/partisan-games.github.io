@@ -8,8 +8,8 @@ import Controls, { tankLeftControls, tankRightControls } from '/ui/Controls.js'
 
 const nivoTla = platno.height * 0.8
 
-const customStartScreen = /* html */`
-  <div class="central-screen simple-container">
+const customStartScreen = ({ container }) => /* html */`
+  <div class="central-screen ${container}">
     <h2>Choose mode</h2>
     <button class="bg-olive" id="jedan-igrac" >
       1 player
@@ -49,11 +49,11 @@ export default class extends Scena2D {
 
   update(dt) {
     super.update(dt)
-    const porazeni = this.tenk2.mrtav ? 'German' : 'Partisan'
+    const porazeni = this.tenk2.dead ? 'German' : 'Partisan'
     const poruka = `${porazeni} tank destroyed.`
 
-    if (this.tenk2.mrtav) this.victory(poruka)
-    if (this.tenk.mrtav) this.defeat(poruka)
+    if (this.tenk2.dead) this.victory(poruka)
+    if (this.tenk.dead) this.defeat(poruka)
   }
 
   sceneUI() {

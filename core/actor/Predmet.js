@@ -4,14 +4,15 @@ import {
   izasaoDole, izasaoGore, izasaoDesno, izasaoLevo, izasaoLevoSkroz, izasaoDesnoSkroz, vanEkrana
 } from '/core/utils/granice.js'
 import Vector from '../Vector.js'
-import { ishodista } from '../konstante.js'
+import { ishodista, FPS, frames } from '../konstante.js'
+import { assets } from '/config.js'
 
 export default class Predmet {
   #ugao = 0
 
   constructor(src, {
     sirina, visina, x = 200, y = 200, z = 0, skalar = 1, brzina = 0, zapaljiv = false, ishodiste = ishodista.centar,
-    odrazY = 1, odrazX = 1, scaleX = 1, scaleY = 1, senka = false, debug = false, ziv = true, zadimljen = false, vidljiv = true
+    odrazY = 1, odrazX = 1, scaleX = 1, scaleY = 1, senka = false, debug = false, alive = true, zadimljen = false, vidljiv = true
   } = {}) {
     this.polozaj = new Vector(x, y, z)
     if (src) this.ucitajSliku(src, sirina, visina, skalar)
@@ -28,7 +29,7 @@ export default class Predmet {
     this.scaleY = scaleY
     this.senka = senka
     this.debug = debug
-    this.ziv = ziv
+    this.alive = alive
     this.zadimljen = zadimljen
     this.vidljiv = vidljiv
     this.oznake = new Set()
@@ -49,7 +50,7 @@ export default class Predmet {
   onload() {} // za naslednike
 
   postaviSliku(src) {
-    this.slika.src = '/assets/images/' + src
+    this.slika.src = assets.images + src
   }
 
   /* VELICINA */
@@ -129,9 +130,9 @@ export default class Predmet {
     this.dy += velicina * Math.sin(ugao)
   }
 
-  /** faktorTrenja is the share of speed lost per frame at 60 fps */
-  trenje(faktorTrenja = 0.1, dt = 1 / 60) {
-    const modifikator = (1 - faktorTrenja) ** (dt * 60)
+  /** faktorTrenja is the share of speed lost per frame at FPS */
+  trenje(faktorTrenja = 0.1, dt = 1 / FPS) {
+    const modifikator = (1 - faktorTrenja) ** frames(dt)
     this.dx *= modifikator
     this.dy *= modifikator
   }
@@ -146,8 +147,8 @@ export default class Predmet {
     return this.vidljiv && !this.vanEkrana
   }
 
-  get mrtav() {
-    return !this.ziv
+  get dead() {
+    return !this.alive
   }
 
   pokazi() {
@@ -165,7 +166,7 @@ export default class Predmet {
 
   umri() {
     this.stani()
-    this.ziv = false
+    this.alive = false
   }
 
   /* KOLIZIJA */
@@ -241,7 +242,7 @@ export default class Predmet {
   }
 
   get zapaljen() {
-    return this.zapaljiv && this.mrtav
+    return this.zapaljiv && this.dead
   }
 
   /* DEBUG */
@@ -257,7 +258,7 @@ export default class Predmet {
     const dy = this.dy.toFixed()
     const brzina = this.brzina.toFixed()
     const ugao = this.ugao.toFixed(2)
-    console.log(`${this.constructor.name} x: ${x}, y: ${y}, sirina: ${sirina}, visina: ${visina}, dx: ${dx}, dy: ${dy}, brzina: ${brzina}, ugao: ${ugao}, vidljiv: ${this.vidljiv}, ziv: ${this.ziv}`)
+    console.log(`${this.constructor.name} x: ${x}, y: ${y}, sirina: ${sirina}, visina: ${visina}, dx: ${dx}, dy: ${dy}, brzina: ${brzina}, ugao: ${ugao}, vidljiv: ${this.vidljiv}, alive: ${this.alive}`)
   }
 
   /* LOOP */

@@ -13,7 +13,7 @@ export default class VoziloBocno extends Predmet {
   }
 
   patroliraj() {
-    if (this.mrtav) return
+    if (this.dead) return
 
     if (this.x <= 150)
       this.skreni(0)

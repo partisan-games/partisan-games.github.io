@@ -64,6 +64,9 @@ const wins = {
   vis: scene => {
     scene.preostaloVreme = 0
   },
+  walls: scene => {
+    scene.player.position = scene.maze.exitPosition
+  },
   warplane: scene => {
     scene.gameLoop.time = 150_000
   },

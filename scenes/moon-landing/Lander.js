@@ -115,19 +115,19 @@ export default class Lander extends GameObject {
     this.position.y += this.velocity.y * delta
   }
 
-  updateFlame(delta) {
+  updateFlame(delta, t) {
     if (!this.input.keyPressed || !this.fuel) this.shouldLoop = false
     if (this.failure) this.shouldLoop = true
-    this.flame.update({ delta, max: 3, loop: this.shouldLoop })
+    this.flame.update(delta, t, { max: 3, loop: this.shouldLoop })
   }
 
-  update(delta) {
+  update(delta, t) {
     this.handleInput()
     this.checkLanding()
 
     if (!this.onPlatform) this.applyGravity(delta)
     this.applyVelocity(delta)
-    this.updateFlame(delta)
+    this.updateFlame(delta, t)
   }
 
   end() {

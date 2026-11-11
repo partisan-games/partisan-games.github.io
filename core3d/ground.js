@@ -3,6 +3,11 @@ import { createTexture, similarColor } from '/core3d/helpers.js'
 
 const { randFloat } = THREE.MathUtils
 
+/** The green of the default ground and of grassy floors. */
+export const grassColor = 0x509f53
+/** The olive green of the large hilly terrains. */
+export const meadowColor = 0x91A566
+
 export const groundColors = [0xA62A2A, 0x7a8a46, 0x228b22, 0xf0e68c]
 export const sandColors = [0xc2b280, 0xF2D16B, 0xf0e68c, 0xfffacd]
 export const cratersColors = [0x5C4033, 0xA62A2A, 0xc2b280]
@@ -12,14 +17,14 @@ export const desertPlanetColors = [0xB0E0E6, 0xCD853F, 0xEEE8AA, 0xA62A2A, 0x666
 
 export function createHill(r, height = r * .4) {
   const geometry = new THREE.ConeGeometry(r, height, 32)
-  const material = new THREE.MeshPhongMaterial({ color: 0x509f53 })
+  const material = new THREE.MeshPhongMaterial({ color: grassColor })
   const cone = new THREE.Mesh(geometry, material)
   return cone
 }
 
 /* GROUND */
 
-export function createGroundMaterial({ color = 0x509f53, file, repeat } = {}) {
+export function createGroundMaterial({ color = grassColor, file, repeat } = {}) {
   const params = { side: THREE.FrontSide }
   const material = new THREE.MeshBasicMaterial({
     ...params,
@@ -177,7 +182,7 @@ export function createTerrain({ size = 400, width, height, segments = 50, colorP
   return mesh
 }
 
-export const createTerrain2 = ({ size = 2000 } = {}) => createTerrain({ size, segments: 100, max: 12, min: 3, color: 0x91A566, colorRange: .05 })
+export const createTerrain2 = ({ size = 2000 } = {}) => createTerrain({ size, segments: 100, max: 12, min: 3, color: meadowColor, colorRange: .05 })
 
 /* CRATERS */
 

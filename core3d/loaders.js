@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 
 import { getHeight, centerMesh, adjustHeight } from '/core3d/helpers.js'
+import { assets } from '/config.js'
 
 const textureLoader = new THREE.TextureLoader()
 
@@ -25,7 +26,7 @@ const prepareMesh = async({ model, size = 2, texture, angle, axis = [0, 1, 0], a
   if (shouldCenter) centerMesh(model)
   if (shouldAdjustHeight) adjustHeight(model)
 
-  const map = texture ? await textureLoader.loadAsync(`/assets/images/textures/${texture}`) : null
+  const map = texture ? await textureLoader.loadAsync(`${assets.textures}${texture}`) : null
 
   model.traverse(child => {
     if (child.isMesh) {
@@ -59,10 +60,10 @@ export const loadObj = async params => {
   mtlLoader.setMaterialOptions({ side: THREE.DoubleSide })
 
   if (mtl) {
-    const materials = await mtlLoader.loadAsync(`/assets/models/${mtl}`)
+    const materials = await mtlLoader.loadAsync(`${assets.models}${mtl}`)
     objLoader.setMaterials(materials)
   }
-  const model = await objLoader.loadAsync(`/assets/models/${file}`)
+  const model = await objLoader.loadAsync(`${assets.models}${file}`)
   return await prepareMesh({ model, ...params })
 }
 
@@ -72,7 +73,7 @@ export async function loadGlb(params) {
   const { GLTFLoader } = await import('three/examples/jsm/loaders/GLTFLoader.js')
 
   const gtflLoader = new GLTFLoader()
-  const { scene, animations } = await gtflLoader.loadAsync(`/assets/models/${params.file}`)
+  const { scene, animations } = await gtflLoader.loadAsync(`${assets.models}${params.file}`)
   return await prepareMesh({ model: scene, animations, ...params })
 }
 
@@ -82,7 +83,7 @@ export async function loadDae(params) {
   const { ColladaLoader } = await import('three/examples/jsm/loaders/ColladaLoader.js')
 
   const colladaLoader = new ColladaLoader()
-  const { scene } = await colladaLoader.loadAsync(`/assets/models/${params.file}`)
+  const { scene } = await colladaLoader.loadAsync(`${assets.models}${params.file}`)
   return await prepareMesh({ model: scene, animations: scene.animations, ...params })
 }
 
@@ -93,8 +94,8 @@ export async function loadMd2(params) {
   const { MD2Loader } = await import('three/examples/jsm/loaders/MD2Loader.js')
 
   const loader = new MD2Loader()
-  const map = await textureLoader.loadAsync(`/assets/models/${texture}`)
-  const geometry = await loader.loadAsync(`/assets/models/${file}`)
+  const map = await textureLoader.loadAsync(`${assets.models}${texture}`)
+  const geometry = await loader.loadAsync(`${assets.models}${file}`)
   const { animations } = geometry
   const material = new THREE.MeshLambertMaterial({ map })
   const model = new THREE.Mesh(geometry, material)
@@ -108,7 +109,7 @@ export async function loadFbx(params) {
 
   const loader = new FBXLoader()
   const { file = 'model.fbx', doubleSide } = params
-  const model = await loader.loadAsync(`/assets/models/${file}`)
+  const model = await loader.loadAsync(`${assets.models}${file}`)
 
   // fix holes in model
   if (doubleSide) model.traverse(child => {

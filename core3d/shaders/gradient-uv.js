@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import { skyColors } from '/core3d/constants.js'
 
 const vertexShader = /* glsl */`
   varying vec2 vUv;
@@ -20,8 +21,8 @@ const fragmentShader = /* glsl */`
 `
 
 const uniforms = {
-  color1: { type: 'vec3', value: new THREE.Color(0xffffff) },
-  color2: { type: 'vec3', value: new THREE.Color(0x0077ff) },
+  color1: { type: 'vec3', value: new THREE.Color(skyColors.horizon) },
+  color2: { type: 'vec3', value: new THREE.Color(skyColors.top) },
 }
 
 export const material = new THREE.ShaderMaterial({

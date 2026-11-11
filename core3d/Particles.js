@@ -1,6 +1,8 @@
 import * as THREE from 'three'
 import { similarColor } from '/core3d/helpers.js'
-import config from '/config.js'
+import { createSound } from '/core/io/sound.js'
+import { assets } from '/config.js'
+import { FPS } from '/core/konstante.js'
 
 const { randFloat } = THREE.MathUtils
 const textureLoader = new THREE.TextureLoader()
@@ -30,10 +32,6 @@ export default class Particles {
 
   get particles() {
     return this.mesh
-  }
-
-  get isParticles() {
-    return true
   }
 
   createParticles({ num = 10000, file = 'ball.png', color, size = .5, opacity = 1, minRadius = 100, maxRadius = 1000, blending = THREE.AdditiveBlending } = {}) {
@@ -66,7 +64,7 @@ export default class Particles {
       opacity,
     })
     if (file) {
-      material.map = textureLoader.load(`/assets/images/textures/particles/${file}`)
+      material.map = textureLoader.load(`${assets.textures}particles/${file}`)
       material.blending = blending
       material.depthWrite = false // for explosion
     }
@@ -127,9 +125,9 @@ export default class Particles {
   }
 
   /**
-   * moves particles vertically or horizontally according to axis
+   * moves particles vertically or horizontally according to axis; t is unused, as for every object the scene updates
    */
-  update({ delta = 1 / 60, axis = 2, min = this.min, max = this.max, minVelocity = this.minVelocity, maxVelocity = this.maxVelocity, loop = this.loop, maxRounds = 250, pos, rotateY } = {}) {
+  update(dt = 1 / FPS, t, { axis = 2, min = this.min, max = this.max, minVelocity = this.minVelocity, maxVelocity = this.maxVelocity, loop = this.loop, maxRounds = 250, pos, rotateY } = {}) {
     if (!this.mesh.visible) return
     if (!loop) this.fadeOut(maxRounds)
 
@@ -142,10 +140,10 @@ export default class Particles {
       const currentPos = position.array[index]
 
       if (axis === 1) // y: vertical axis
-        position.array[index] = (loop && currentPos < min) ? max : (currentPos - vel * delta)
+        position.array[index] = (loop && currentPos < min) ? max : (currentPos - vel * dt)
 
       if (axis === 2) // z: horizontal axis
-        position.array[index] = (loop && currentPos > max) ? min : (currentPos + vel * delta)
+        position.array[index] = (loop && currentPos > max) ? min : (currentPos + vel * dt)
     })
 
     position.needsUpdate = true
@@ -157,8 +155,8 @@ export default class Particles {
 /* CHILD CLASSES */
 
 export class Stars extends Particles {
-  update({ min = -500, max = 500, ...rest } = {}) {
-    super.update({ min, max, axis: 2, ...rest })
+  update(dt, t, { min = -500, max = 500, ...rest } = {}) {
+    super.update(dt, t, { min, max, axis: 2, ...rest })
   }
 }
 
@@ -167,16 +165,15 @@ export class Rain extends Particles {
   constructor({ file = 'rain-drop.png', num = 1000, size = .1, opacity = .75, minRadius = 2, maxRadius = 5, minVelocity = 30, maxVelocity = 90, color = 0xDEF4FC, min = 0, max = 50, ...rest } = {}) {
     super({ file, num, size, opacity, minRadius, maxRadius, color, minVelocity, maxVelocity, blending: THREE.NormalBlending, ...rest })
 
-    this.audio = new Audio('/assets/sounds/rain.mp3')
-    this.audio.volume = config.volume * .5
+    this.audio = createSound('rain.mp3', { volume: .5 })
     this.audio.loop = true
     this.playing = false
     this.min = min
     this.max = max
   }
 
-  update(params = {}) {
-    super.update({ axis: 1, ...params })
+  update(dt, t, options = {}) {
+    super.update(dt, t, { axis: 1, ...options })
     if (!this.playing) {
       this.audio.play()
       this.playing = true
@@ -189,8 +186,8 @@ export class Snow extends Particles {
     super({ file, num, color, size, opacity, minRadius, maxRadius, minVelocity, maxVelocity, ...rest })
   }
 
-  update({ minVelocity = this.minVelocity, maxVelocity = this.maxVelocity, ...rest } = {}) {
-    super.update({ axis: 1, rotateY: .009, min: -5, max: 15, minVelocity, maxVelocity, ...rest })
+  update(dt, t, { minVelocity = this.minVelocity, maxVelocity = this.maxVelocity, ...rest } = {}) {
+    super.update(dt, t, { axis: 1, rotateY: .009, min: -5, max: 15, minVelocity, maxVelocity, ...rest })
   }
 }
 
@@ -205,8 +202,8 @@ export class Flame extends Particles {
     super({ num, file, size, minRadius, maxRadius, minVelocity, maxVelocity, min, max, ...rest })
   }
 
-  update({ delta, maxRounds = 75, axis = 2, ...rest } = {}) {
-    super.update({ delta, maxRounds, axis, ...rest })
+  update(dt, t, { maxRounds = 75, axis = 2, ...rest } = {}) {
+    super.update(dt, t, { maxRounds, axis, ...rest })
   }
 }
 
@@ -222,8 +219,8 @@ export class FlameUp extends Flame {
     this.mesh.rotateX(Math.PI)
   }
 
-  update(params = {}) {
-    super.update({ axis: 1, ...params })
+  update(dt, t, options = {}) {
+    super.update(dt, t, { axis: 1, ...options })
   }
 }
 
@@ -233,8 +230,8 @@ export class Fire extends Particles {
     this.mesh.rotateX(Math.PI)
   }
 
-  update({ rotateY = .009, ...rest } = {}) {
-    super.update({ axis: 1, rotateY, ...rest })
+  update(dt, t, { rotateY = .009, ...rest } = {}) {
+    super.update(dt, t, { axis: 1, rotateY, ...rest })
   }
 }
 
@@ -244,8 +241,8 @@ export class Smoke extends Particles {
     this.mesh.rotateX(Math.PI)
   }
 
-  update({ rotateY = .01, ...rest } = {}) {
-    super.update({ rotateY, axis: 1, ...rest })
+  update(dt, t, { rotateY = .01, ...rest } = {}) {
+    super.update(dt, t, { rotateY, axis: 1, ...rest })
   }
 }
 

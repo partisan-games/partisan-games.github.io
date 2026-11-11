@@ -53,9 +53,9 @@ export default class Tenk extends Predmet {
 
   /* PUCANJE */
 
-  pokusajPucanje(key) {
-    if (keyboard.pressed[key]) this.spremno = true
-    if (this.spremno && !keyboard.pressed[key]) {
+  pokusajPucanje(binding) {
+    if (keyboard.isDown(binding)) this.spremno = true
+    if (this.spremno && !keyboard.isDown(binding)) {
       this.pucaj(this.vrhCevi, this.cev.ugao)
       this.spremno = false
     }
@@ -110,10 +110,10 @@ export default class Tenk extends Predmet {
   }
 
   samohod() {
-    if (this.mrtav) return
+    if (this.dead) return
     this.mrdajNasumicno()
     const cilj = this.traziNajblizuMetu()
-    if (!cilj || cilj.mrtav) return
+    if (!cilj || cilj.dead) return
     this.nisani(cilj)
     this.pucajNasumicno()
   }
@@ -124,7 +124,7 @@ export default class Tenk extends Predmet {
     super.update(dt)
     if (this.ai) this.samohod()
     this.azurirajCev()
-    this.trenje(this.brzina > 0.1 ? kinetickoTrenje : statickoTrenje)
+    this.trenje(this.brzina > 0.1 ? kinetickoTrenje : statickoTrenje, dt)
     this.proveriPogotke()
   }
 }

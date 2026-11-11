@@ -27,7 +27,7 @@ export class SorceressPlayer extends Player {
   }
 
   enterAttack() {
-    this.startFlame(1000, () => this.areaDamage([55, 110]))
+    this.startFlame(1, () => this.areaDamage([55, 110]))
   }
 
   exitAttack() {

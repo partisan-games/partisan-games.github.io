@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import Scena3D, { bojeNeba } from '/core/Scena3D.js'
 import PhysicsWorld from '/core3d/physics/PhysicsWorld.js'
-import { createGround } from '/core3d/ground.js'
+import { createGround, grassColor } from '/core3d/ground.js'
 import { createMoonSphere, createBoxes, createCrate, createRustyBarrel, createMetalBarrel } from '/core3d/geometry/index.js'
 import { hemLight } from '/core3d/light.js'
 import { sample } from '/core3d/helpers.js'
@@ -34,7 +34,7 @@ export default class extends Scena3D {
 
     this.world = new PhysicsWorld({ scene: this.scene })
 
-    this.ground = createGround({ color: 0x509f53 })
+    this.ground = createGround({ color: grassColor })
     this.world.add(this.ground, 0)
 
     const crates = createBoxes({ width: 18, height: 3, depth: 1 })
@@ -92,8 +92,8 @@ export default class extends Scena3D {
       leaveTracks({ body: this.player.body, wheelMeshes: this.player.wheelMeshes, ground: this.ground, scene: this.scene })
 
     this.world.update(dt)
-    this.smoke?.update({ delta: dt })
-    this.fire?.update({ delta: dt })
+    this.smoke?.update(dt, t)
+    this.fire?.update(dt, t)
 
     this.countableCrates.forEach(mesh => {
       if (mesh.position.y <= 0.5)

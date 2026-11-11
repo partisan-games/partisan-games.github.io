@@ -25,7 +25,7 @@ export default class Avion extends Vracanje {
   }
 
   update(dt) {
-    if (this.ziv)
+    if (this.alive)
       this.letiGoreDole(dt)
     else
       this.pada(dt)

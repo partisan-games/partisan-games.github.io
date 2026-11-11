@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import Player from './Player.js'
 import { material } from '/core3d/shaders/lava.js'
 import { jumpStyles } from '/core3d/constants.js'
+import { FPS } from '/core/konstante.js'
 
 const clock = new THREE.Clock()
 
@@ -122,7 +123,7 @@ export default class Avatar extends Player {
     })
   }
 
-  update(delta = 1 / 60) {
+  update(delta = 1 / FPS) {
     super.update(delta)
     const { stateName } = this.fsm
 

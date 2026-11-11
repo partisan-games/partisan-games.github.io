@@ -86,9 +86,9 @@ export default class extends Scena3D {
 
   update(dt, t) {
     super.update(dt, t)
-    this.snow.update({ delta: dt })
-    this.smokes.forEach(smoke => smoke.update({ delta: dt }))
-    this.fire.update({ delta: dt })
+    this.snow.update(dt, t)
+    this.smokes.forEach(smoke => smoke.update(dt, t))
+    this.fire.update(dt, t)
     const killed = this.enemies.filter(enemy => enemy.energy <= 0)
     const won = this.player.position.distanceTo(this.maze.exitPosition) < 5
 

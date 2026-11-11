@@ -1,14 +1,13 @@
 import Predmet from '/core/actor/Predmet.js'
 import { platno } from '/core/io/platno.js'
 import { randomInRange } from '/core/utils.js'
+import { createSound } from '/core/io/sound.js'
 
 export default class Paljba extends Predmet {
   constructor() {
     super('items/krateri/krater.gif')
     this.postaviRandom()
-    const zvuk = new Audio('/assets/sounds/explosion.mp3')
-    zvuk.volume = Math.random()
-    zvuk.play()
+    createSound('explosion.mp3', { random: true }).play()
   }
 
   randomX(marginaX) {

@@ -10,10 +10,10 @@ class ScreenToggle extends HTMLElement {
       <style>
         .full-screen-icon {
           position: fixed;
-          right: 16px;
+          right: var(--edge);
           top: 50%;
           transform: translateY(-50%);
-          z-index: 1;
+          z-index: var(--z-screen);
           font-size: 2.5rem;
         }
       </style>

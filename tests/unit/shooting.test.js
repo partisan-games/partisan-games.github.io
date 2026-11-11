@@ -1,6 +1,7 @@
 import { test, before, mock } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
+import * as timers from '/core/timers.js'
 
 let praviPucanje, Okupator, Granata, mish
 
@@ -12,8 +13,8 @@ before(async() => {
   mish = (await import('/core/io/mish.js')).default
 })
 
-const target = (x, ziv = true) => ({ polozaj: { x, y: 0, z: 0 }, ziv, get mrtav() {
-  return !this.ziv
+const target = (x, alive = true) => ({ polozaj: { x, y: 0, z: 0 }, alive, get dead() {
+  return !this.alive
 } })
 
 const shooter = ciljevi => Object.assign(
@@ -35,10 +36,10 @@ test('finds no target when all are dead', () => {
 
 test('a volley hitting in the same frame kills the target only once', () => {
   let deaths = 0
-  const cilj = { prikazan: true, ziv: true, get mrtav() {
-    return !this.ziv
+  const cilj = { prikazan: true, alive: true, get dead() {
+    return !this.alive
   }, umri() {
-    this.ziv = false; deaths++
+    this.alive = false; deaths++
   } }
   const s = shooter([cilj])
   s.meci = [1, 2, 3].map(() => ({ prikazan: true, proveriPogodak: c => c.umri() }))
@@ -60,8 +61,7 @@ test('a dead occupier gives no more points when clicked', () => {
   mish.iznad.mock.restore()
 })
 
-test('a grenade reset before its explosion finishes does not hurt the target later', t => {
-  t.mock.timers.enable({ apis: ['setTimeout'] })
+test('a grenade reset before its explosion finishes does not hurt the target later', () => {
   const granata = new Granata()
   granata.pokazi()
   let hurt = 0
@@ -69,7 +69,7 @@ test('a grenade reset before its explosion finishes does not hurt the target lat
 
   granata.proveriPogodak(cilj)
   granata.reset()
-  t.mock.timers.tick(1000)
+  timers.update(1)
 
   assert.equal(hurt, 0)
 })

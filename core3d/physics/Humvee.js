@@ -21,12 +21,12 @@ export default class Humvee extends Vehicle {
     this.mesh.add(this.smoke.mesh)
   }
 
-  update(delta) {
+  update(delta, t) {
     super.update(delta)
 
     const maxVelocity = mapRange(this.speed, 0, 30, 3, 8)
-    const param = { delta, min: -1.25, minVelocity: maxVelocity / 2, maxVelocity, loop: this.input.keyPressed }
-    this.smoke.update(param)
+    const options = { min: -1.25, minVelocity: maxVelocity / 2, maxVelocity, loop: this.input.keyPressed }
+    this.smoke.update(delta, t, options)
 
     if (!this.input.controlsPressed)
       this.smoke.reset({ randomize: false, opacity: smokeParam.opacity })

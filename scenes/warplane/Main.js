@@ -1,10 +1,11 @@
 import * as THREE from 'three'
 import Scena3D from '/core/Scena3D.js'
 import { createSun } from '/core3d/light.js'
-import { createTerrain } from '/core3d/ground.js'
+import { createTerrain, meadowColor } from '/core3d/ground.js'
 import { createFirTree } from '/core3d/geometry/trees.js'
 import { baseControls } from '/ui/Controls.js'
 import { createBuilding } from './utils.js'
+import { assets } from '/config.js'
 
 const { randFloatSpread } = THREE.MathUtils
 
@@ -16,13 +17,13 @@ const groundDistance = mapSize * .99
 const endDelay = 2.5 // seconds between the end of the flight and the end screen
 const planes = ['Biplane', 'Triplane', 'Messerschmitt', 'Bomber', 'F18']
 
-const createStartScreen = () => {
+const customStartScreen = ({ container }) => {
   const options = planes
-    .map(name => `<input type="image" id="${name}" src="/assets/images/scenes/warplane/${name}.webp" />`)
+    .map(name => `<input type="image" id="${name}" src="${assets.images}scenes/warplane/${name}.webp" />`)
     .join('')
 
   return /* html */`
-    <div class="central-screen simple-container">
+    <div class="central-screen ${container}">
         <h2>Choose your aircraft</h2>
         <div class="game-screen-select">
             ${options}
@@ -36,7 +37,7 @@ export default class extends Scena3D {
     super({
       toon: true,
       controlKeys: { ...baseControls, Enter: 'attack' },
-      customStartScreen: createStartScreen()
+      customStartScreen
     })
   }
 
@@ -50,7 +51,7 @@ export default class extends Scena3D {
     this.scene.fog = new THREE.Fog(0xE5C5AB, mapSize * .25, buildingDistance)
     this.addMesh(createSun({ pos: [50, 200, 50], intensity: Math.PI * 2 }))
 
-    const groundParams = { size: mapSize, color: 0x91A566, colorRange: .1, segments: 50, min: 0, max: 15 }
+    const groundParams = { size: mapSize, color: meadowColor, colorRange: .1, segments: 50, min: 0, max: 15 }
     this.ground = createTerrain(groundParams)
     this.ground2 = createTerrain(groundParams)
     this.ground2.position.z = -groundDistance

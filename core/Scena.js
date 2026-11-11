@@ -1,15 +1,19 @@
 import { keyboard } from './io/Keyboard.js'
+import { keys } from './io/keys.js'
 import GameLoop from './GameLoop.js'
 import UI from '../ui/UI.js'
+import { setUiStyle } from '../ui/styles.js'
+import * as timers from './timers.js'
 
 export default class Scena {
   constructor({
     usePointerLock, controlKeys, intro, reportText, customStartScreen, startButtonText, showControls, uiStyle, canvas, disableEvents = false, showFullScreen
   } = {}) {
     this.usePointerLock = usePointerLock
-    this.uiStyle = uiStyle
+    setUiStyle(uiStyle)
+    timers.clear() // the previous game's delayed actions must not fire in this one
     this.gameLoop = new GameLoop(this.loop)
-    this.ui = new UI(this, { reportText, intro, customStartScreen, startButtonText, uiStyle, showControls, controlKeys, showFullScreen })
+    this.ui = new UI(this, { reportText, intro, customStartScreen, startButtonText, showControls, controlKeys, showFullScreen })
     this.predmeti = []
 
     this.canvas = canvas
@@ -119,30 +123,31 @@ export default class Scena {
   }
 
   pause() {
-    if (this.ui.outro) return
+    if (this.ui.outro || !this.gameLoop.isRunning) return
 
     this.gameLoop.pause()
-    this.ui.renderModal()
+    this.ui.showPauseScreen()
   }
 
   unpause() {
     this.gameLoop.unpause()
+    this.ui.hideScreen()
     if (this.usePointerLock) document.body.requestPointerLock()
   }
 
   handleInput(dt) {
     if (this.ui.outro) return
 
-    if (keyboard.pressed.Escape) this.gameLoop.pause()
+    if (keyboard.isDown(keys.pause)) this.pause()
 
     this.predmeti.forEach(predmet => {
-      if (predmet.ziv && predmet.handleInput) predmet.handleInput(dt)
+      if (predmet.alive && predmet.handleInput) predmet.handleInput(dt)
     })
   }
 
   update(dt, t) {
     const rekurzivnoAzuriraj = predmet => {
-      if (predmet.update) predmet.isParticles ? predmet.update({ delta: dt }) : predmet.update(dt, t)
+      if (predmet.update) predmet.update(dt, t)
       if (predmet?.predmeti?.length) predmet.predmeti.forEach(rekurzivnoAzuriraj)
     }
     this.predmeti.forEach(rekurzivnoAzuriraj)
@@ -153,6 +158,7 @@ export default class Scena {
   render() {}
 
   loop = (dt, t) => {
+    timers.update(dt)
     this.handleInput(dt)
     this.update(dt, t)
     this.clear()

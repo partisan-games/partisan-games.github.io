@@ -23,8 +23,8 @@ export default class Factory extends Building {
     })
   }
 
-  update(delta) {
+  update(delta, t) {
     super.update()
-    this.smoke?.update({ delta, min: this.smokeMin, max: 0 })
+    this.smoke?.update(delta, t, { min: this.smokeMin, max: 0 })
   }
 }

@@ -37,10 +37,10 @@ export function praviPucanje({
     },
 
     proveriPogodak(cilj, callback) {
-      if (!cilj.prikazan || cilj.mrtav) return
+      if (!cilj.prikazan || cilj.dead) return
 
       this.meci.forEach(metak => {
-        if (!metak.prikazan || cilj.mrtav) return
+        if (!metak.prikazan || cilj.dead) return
 
         metak.proveriPogodak(cilj, callback)
       })
@@ -57,7 +57,7 @@ export function praviPucanje({
       let najblizaMeta
       this.ciljevi.forEach(cilj => {
         const razmak = this.razmakDo(cilj)
-        if (cilj.ziv && razmak < minRazmak) {
+        if (cilj.alive && razmak < minRazmak) {
           minRazmak = razmak
           najblizaMeta = cilj
         }
@@ -66,7 +66,7 @@ export function praviPucanje({
     },
 
     pucaCiljano() {
-      if (!this.ciljevi.some(cilj => cilj.ziv)) return
+      if (!this.ciljevi.some(cilj => cilj.alive)) return
       const meta = this.traziNajblizuMetu()
       if (!meta) return
 

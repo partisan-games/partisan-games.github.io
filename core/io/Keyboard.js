@@ -1,3 +1,5 @@
+import { keys, defaultAttackKey } from './keys.js'
+
 // prevent shake, click on enter, scroll, etc.
 const preventSome = e => {
   if (['Space', 'Enter', 'PageUp', 'PageDown'].includes(e.code) || e.code.startsWith('Arrow'))
@@ -7,7 +9,7 @@ const preventSome = e => {
 class Keyboard {
   #capsLock = false
 
-  constructor({ listen = true, attackKey = 'Enter' } = {}) {
+  constructor({ listen = true, attackKey = defaultAttackKey } = {}) {
     this.pressed = {}
     this.attackKey = attackKey
 
@@ -50,57 +52,59 @@ class Keyboard {
 
   handleKeyUp(e) {
     this.pressed[e.code] = false
-    this.run = e.getModifierState('CapsLock')
+    this.run = e.getModifierState(keys.run.lock)
   }
 
   reset() {
     for (const key in this.pressed) delete this.pressed[key]
   }
 
+  /** Whether any key of a binding from core/io/keys.js is held. */
+  isDown({ codes }) {
+    return codes.some(code => this.pressed[code])
+  }
+
   /* GETTERS & SETTERS */
 
   get up() {
-    return this.pressed.ArrowUp || this.pressed.KeyW
+    return this.isDown(keys.up)
   }
 
+  // AI characters steer with a keyboard that does not listen
   set up(bool) {
-    this.pressed.ArrowUp = bool
+    this.pressed[keys.up.codes[0]] = bool
   }
 
   get down() {
-    return this.pressed.ArrowDown || this.pressed.KeyS
+    return this.isDown(keys.down)
   }
 
   get left() {
-    return this.pressed.ArrowLeft || this.pressed.KeyA
+    return this.isDown(keys.left)
   }
 
   get right() {
-    return this.pressed.ArrowRight || this.pressed.KeyD
+    return this.isDown(keys.right)
   }
 
   get strafeLeft() {
-    return this.pressed.PageUp || this.pressed.KeyQ
+    return this.isDown(keys.strafeLeft)
   }
 
   get strafeRight() {
-    return this.pressed.PageDown || this.pressed.KeyE
+    return this.isDown(keys.strafeRight)
   }
 
   get run() {
-    return this.#capsLock || this.pressed.ShiftLeft
+    return this.#capsLock || this.isDown(keys.run)
   }
 
   set run(bool) {
     this.#capsLock = bool
   }
 
-  get space() {
-    return this.pressed.Space
-  }
-
   get jump() {
-    return this.pressed.Space
+    return this.isDown(keys.jump)
   }
 
   get attack() {
@@ -108,21 +112,17 @@ class Keyboard {
   }
 
   get attack2() {
-    return this.pressed.KeyC
+    return this.isDown(keys.attack2)
   }
 
   get special() {
-    return this.pressed.KeyV
+    return this.isDown(keys.special)
   }
 
   /* UTILS */
 
-  get arrowPressed() {
-    return this.pressed.ArrowRight || this.pressed.ArrowLeft || this.pressed.ArrowDown || this.pressed.ArrowUp
-  }
-
   get controlsPressed() {
-    return this.arrowPressed || this.pressed.KeyW || this.pressed.KeyA || this.pressed.KeyS || this.pressed.KeyD
+    return this.up || this.down || this.left || this.right
   }
 
   get totalPressed() {

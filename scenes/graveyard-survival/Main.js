@@ -15,10 +15,10 @@ const moonSpeed = .005
 const totalTime = 300
 const mapSize = 100
 
-const customStartScreen = /* html */`
-  <div class="central-screen rpgui-container framed">
+const customStartScreen = ({ container, button }) => /* html */`
+  <div class="central-screen ${container}">
     <ul><li>Survive until morning</li><li>Bonus: Kill zombies</li></ul>
-    <button id="start" class="rpgui-button">Press to START!</button>
+    <button id="start" class="${button}">Press to START!</button>
     <p>Meet the morning at the cursed graveyard.<p>
   </div>
 `
@@ -68,7 +68,7 @@ export default class extends Scena3D {
     }
 
     const { SorceressPlayer } = await import('/core3d/actor/derived/fantasy/Sorceress.js')
-    this.player = new SorceressPlayer({ camera: this.camera, solids: this.solids, rpgStyle: true, attackKey: 'Enter' })
+    this.player = new SorceressPlayer({ camera: this.camera, solids: this.solids, attackKey: 'Enter' })
     this.add(this.player)
 
     const { Smoke } = await import('/core3d/Particles.js')
