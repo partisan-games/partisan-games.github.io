@@ -168,13 +168,13 @@ export default class Scena {
   // scenes keep checking their end conditions every frame; the first result stands
   defeat(text) {
     if (this.ui.outro) return
-    this.ui.defeat(text)
+    this.ui.showDefeatScreen(text)
     this.finish()
   }
 
   victory(text, title) {
     if (this.ui.outro) return
-    this.ui.victory(text, title)
+    this.ui.showVictoryScreen(text, title)
     this.finish()
   }
 

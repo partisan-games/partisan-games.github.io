@@ -131,13 +131,13 @@ export default class UI {
 
   /* OUTRO */
 
-  defeat(text) {
+  showDefeatScreen(text) {
     let html = '<h3 class="red"><span class="icon">☠️</span> Game over</h3>'
     if (text) html += `<p>${text}</p>`
     this.outro = html
   }
 
-  victory(text, title = 'Pobeda!') {
+  showVictoryScreen(text, title = 'Pobeda!') {
     let html = `<h3 class="olive"><span class="icon">🎖️</span> ${title}</h3>`
     if (text) html += `<p>${text}</p>`
     this.outro = html

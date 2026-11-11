@@ -6,7 +6,7 @@ Small 2D and 3D browser games in plain ES modules, no build step. `index.html` m
 
 - Switching games changes `location.hash` without a page reload (`scenes/main.js`, `scenes/SceneManager.js`). Whatever a scene or its objects add to `document`, `window`, `body` or the shared `#platno-3d` canvas must be removed in `end()`, or it lives on in the next game.
 - `init()` is async. A newer start can end a scene while its `init` still runs; `SceneManager` ends it again when `init` finishes. Async click handlers in scenes must check `this.ui.ended` after each `await` and guard against a second click.
-- The game loop keeps running after victory or defeat: `finish()` only stops game time. Scenes check end conditions every frame, so `Scena.defeat`/`victory` keep the first result and `UI.showMessage` stays silent while any menu (start, pause, end) is shown. Call `this.defeat`/`this.victory`, never `this.ui.defeat`/`victory`, which skip `finish()`.
+- The game loop keeps running after victory or defeat: `finish()` only stops game time. Scenes check end conditions every frame, so `Scena.defeat`/`victory` keep the first result and `UI.showMessage` stays silent while any menu (start, pause, end) is shown. Scenes call `this.defeat`/`this.victory`; `ui.showDefeatScreen`/`showVictoryScreen` only draw the screen and are for `Scena`.
 - Per-frame values need `dt`; a value per frame changes with the screen's refresh rate.
 - Three.js `AnimationMixer` reports `finished` and `loop` for every action, including the one fading out; listeners must check `e.action`.
 

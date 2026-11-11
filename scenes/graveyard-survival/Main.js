@@ -101,7 +101,6 @@ export default class extends Scena3D {
 
   update(delta, time) {
     super.update(delta)
-    if (this.ui.outro) return // no more zombies or moon after the end
 
     this.timeLeft = Math.ceil(totalTime - time)
     const isNight = this.timeLeft >= 0
@@ -110,7 +109,7 @@ export default class extends Scena3D {
     orbiting(this.moon, moonTime, 150, 1)
 
     if (isNight) {
-      this.spawnZombie(10000)
+      if (!this.ui.outro) this.spawnZombie(10000) // no new zombies behind the end screen
       if (this.player.dead) this.defeat('You have been killed at the cursed graveyard.')
     } else {
       this.moon.material.color = new THREE.Color(0xFCE570)

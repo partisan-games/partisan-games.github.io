@@ -47,7 +47,7 @@ test('end stops the typing report of the start screen', () => {
 
 test('a message does not cover the end screen', () => {
   const ui = new UI(fakeScene)
-  ui.defeat('burned')
+  ui.showDefeatScreen('burned')
   ui.render()
 
   ui.showMessage('you are burning')
