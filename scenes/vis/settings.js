@@ -37,18 +37,18 @@ export const settings = {
   enemyBulletSpeed: 350, // px per second
   enemies: {
     fighter: {
-      images: ['armies/nemci/avioni/avion-odozgo-01.png', 'armies/nemci/avioni/avion-odozgo-03.png', 'armies/nemci/avioni/avion-odozgo-05.png'],
-      scale: .45, hits: 1, points: 100, speed: 190,
+      images: ['armies/nemci/avioni/bf-109-odozgo.svg', 'armies/nemci/avioni/fw-190-odozgo.svg'],
+      scale: 1, hits: 1, points: 100, speed: 190,
       fire: { interval: 2.5, spread: [0] }, // seconds between shots, angles of one shot
     },
     heavy: {
-      images: ['armies/nemci/avioni/Reggiane-Re-2005.png'],
-      scale: .8, hits: 5, points: 500, speed: 110,
+      images: ['armies/nemci/avioni/bf-110-odozgo.svg'],
+      scale: 1, hits: 5, points: 500, speed: 110,
       fire: { interval: 2, spread: [-.25, 0, .25] },
     },
     boss: {
-      images: ['armies/nemci/avioni/avion-odozgo-02.png'],
-      scale: 1.6, hits: 60, points: 5000, speed: 60,
+      images: ['armies/nemci/avioni/he-111-odozgo.svg'],
+      scale: 1, hits: 60, points: 5000, speed: 60,
       fire: { interval: 1.2, spread: [-.5, -.25, 0, .25, .5] },
       timeLimit: 35, // seconds before it flies away
     },

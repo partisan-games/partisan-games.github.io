@@ -14,7 +14,7 @@ const {
 
 export class Avionce extends Player2D {
   constructor() {
-    super('armies/avionce.gif', { skalar: .75, zapaljiv: true, senka: true, buttonDict: { attack: '💥', attack2: '➰', special: '💣' } })
+    super('armies/partizani/avioni/spitfire-odozgo.png', { skalar: .5, zapaljiv: true, senka: true, buttonDict: { attack: '💥', attack2: '➰', special: '💣' } })
     this.brzina = 0
     this.poeni = 0
     this.zivoti = lives
