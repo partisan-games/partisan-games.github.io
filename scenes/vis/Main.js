@@ -1,5 +1,5 @@
 import Scena2D from '/core/Scena2D.js'
-import { Avionce } from './Avionce.js'
+import { Avionce, inputOptions } from './Avionce.js'
 import PokretnaPozadina from './PokretnaPozadina.js'
 import Pokretno from './Pokretno.js'
 import Oblak from './Oblak.js'
@@ -10,7 +10,7 @@ import { levels } from './levels.js'
 import { baseControls } from '/ui/Controls.js'
 import { currentStyleClasses } from '/ui/styles.js'
 import { after } from '/core/timers.js'
-import { keys } from '/core/io/keys.js'
+import { keys, attackLabels } from '/core/io/keys.js'
 import { settings } from './settings.js'
 
 const { scrollSpeed: brzina, clouds, landingTime } = settings
@@ -18,7 +18,7 @@ const { scrollSpeed: brzina, clouds, landingTime } = settings
 export default class extends Scena2D {
   constructor() {
     super({
-      controlKeys: { ...baseControls, Enter: 'pucanje', [keys.attack2.label]: 'loop', [keys.special.label]: 'bomb' },
+      controlKeys: { ...baseControls, [attackLabels[inputOptions.attackKey]]: 'shoot', [keys.attack2.label]: 'loop', [keys.special.label]: 'bomb' },
       intro: 'Reach the island of Vis.'
     })
   }

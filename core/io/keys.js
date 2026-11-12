@@ -19,7 +19,7 @@ export const keys = {
 
 /** Games pick the attack key; 'pointer' is the left mouse button. */
 export const defaultAttackKey = 'Enter'
-export const attackLabels = { Enter: 'Enter', pointer: 'Mouse' }
+export const attackLabels = { Enter: 'Enter', Space: 'Space', pointer: 'Mouse' }
 
 /** The two players of tenkici and ustanak share one keyboard; the left one also aims the ustanak cannon. */
 export const leftPlayerKeys = {

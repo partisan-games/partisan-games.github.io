@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 import * as timers from '/core/timers.js'
 
-let Avionce, Enemy, Input, settings, platno, PowerUps
+let Avionce, inputOptions, Enemy, Input, settings, platno, PowerUps, attackLabels
 
 before(async() => {
   createPageElements()
@@ -12,12 +12,13 @@ before(async() => {
       return Promise.resolve()
     }
   }
-  ;({ Avionce } = await import('/scenes/vis/Avionce.js'))
+  ;({ Avionce, inputOptions } = await import('/scenes/vis/Avionce.js'))
   Enemy = (await import('/scenes/vis/Enemy.js')).default
   Input = (await import('/core/io/Input.js')).default
   ;({ settings } = await import('/scenes/vis/settings.js'))
   platno = (await import('/core/io/platno.js')).default
   PowerUps = (await import('/scenes/vis/PowerUps.js')).default
+  ;({ attackLabels } = await import('/core/io/keys.js'))
 })
 
 const key = (type, code) => document.dispatchEvent(new KeyboardEvent(type, { code }))
@@ -26,7 +27,7 @@ const key = (type, code) => document.dispatchEvent(new KeyboardEvent(type, { cod
 function createPlayer(t) {
   const player = new Avionce()
   player.input.end()
-  player.input = new Input({ useKeyboard: true, useJoystick: false })
+  player.input = new Input({ ...inputOptions, useKeyboard: true, useJoystick: false })
   player.x = 500
   player.y = 400
   player.sirina = player.visina = 80 // as its image would give
@@ -165,6 +166,22 @@ test('the vis player starts with one bullet a shot; fire power-ups bring two, th
 
   loseLife(player)
   assert.equal(bulletsPerShot(player), 1)
+})
+
+test('the vis player fires with its attack key, which the controls window can name, and not with Enter', t => {
+  const { player } = createPlayer(t)
+  const shotsWhileHeld = code => {
+    player.meci.forEach(bullet => bullet.reset())
+    player.reload = 0
+    key('keydown', code)
+    player.handleInput(1 / 60)
+    key('keyup', code)
+    return player.meci.filter(bullet => bullet.vidljiv).length
+  }
+
+  assert.equal(shotsWhileHeld(inputOptions.attackKey), 1)
+  assert.ok(attackLabels[inputOptions.attackKey])
+  assert.equal(shotsWhileHeld('Enter'), 0)
 })
 
 test('the vis player fires again only after the reload, by game time', t => {

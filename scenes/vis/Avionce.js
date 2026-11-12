@@ -9,12 +9,15 @@ import { settings } from './settings.js'
 
 const {
   lives, bombs, bombRadius, bombHits, bombBursts, bombSpread, respawnTime, shieldTime, blinkTime, loops, loop,
-  reloadTime, bulletSpeed, fire,
+  reloadTime, bulletSpeed, fire, propeller,
 } = settings.player
+
+/** The plane fires on Space; on a phone, with its buttons. */
+export const inputOptions = { attackKey: 'Space', buttonDict: { attack: '💥', attack2: '➰', special: '💣' } }
 
 export class Avionce extends Player2D {
   constructor() {
-    super('armies/partizani/avioni/spitfire-odozgo.png', { skalar: .5, zapaljiv: true, senka: true, buttonDict: { attack: '💥', attack2: '➰', special: '💣' } })
+    super('armies/partizani/avioni/spitfire-odozgo.png', { skalar: .5, zapaljiv: true, senka: true, ...inputOptions })
     this.brzina = 0
     this.poeni = 0
     this.zivoti = lives
@@ -25,6 +28,7 @@ export class Avionce extends Player2D {
     this.shield = 0 // seconds of safety left after coming back
     this.fireLevel = 0 // which of settings.player.fire
     this.reload = 0 // seconds until the next shot
+    this.propellerTime = 0
     this.explosions = Array.from({ length: bombBursts }, () => new Explosion()) // loaded before the first bomb
     this.predmeti.push(...this.explosions)
     Object.assign(this, praviPucanje())
@@ -190,6 +194,7 @@ export class Avionce extends Player2D {
     if (this.looping) this.flyLoop(dt)
     this.shield = Math.max(this.shield - dt, 0)
     this.reload = Math.max(this.reload - dt, 0)
+    this.propellerTime += dt
     super.update(dt, t)
     this.ciljevi.forEach(plane => this.proveriPogodak(plane, () => this.scoreIfDown(plane)))
     this.checkCrashes()
@@ -205,6 +210,27 @@ export class Avionce extends Player2D {
     renderer.ctx.save()
     if (faint) renderer.ctx.globalAlpha = .3
     renderer.crtaPredmet(this)
+    if (this.prikazan) this.drawPropeller(renderer.ctx)
     renderer.ctx.restore()
+  }
+
+  /** The turning blades, seen edge on: a bar at the nose that flickers between a few lengths. */
+  drawPropeller(ctx) {
+    const { frames, frameTime } = propeller
+    const frame = frames[Math.floor(this.propellerTime / frameTime) % frames.length]
+    const half = this.sirina * propeller.span * frame.span / 2
+    const thickness = Math.max(this.visina * .008, 1.5)
+    ctx.save()
+    ctx.translate(this.x, this.y)
+    ctx.rotate(this.ugao)
+    ctx.scale(this.scaleX, this.scaleY)
+    ctx.translate(0, this.visina * (propeller.nose - .5))
+    ctx.globalAlpha *= frame.alpha
+    ctx.fillStyle = '#1c1c1a'
+    ctx.fillRect(-half, -thickness / 2, half * 2, thickness)
+    ctx.fillStyle = '#d6aa28'
+    ctx.fillRect(-half, -thickness / 2, half * .12, thickness)
+    ctx.fillRect(half * .88, -thickness / 2, half * .12, thickness)
+    ctx.restore()
   }
 }

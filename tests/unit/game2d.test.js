@@ -52,6 +52,21 @@ test('an arrow key moves the 2D player, and it glides to a stop after release', 
   assert.ok(Math.abs(player.x - stoppedAt) < 1, 'stopped')
 })
 
+test('a 2D player attacks on the key its game picks, and on Enter when the game picks none', t => {
+  const attacksOn = (options, code) => {
+    const player = new Player2D(null, options)
+    t.after(() => player.end())
+    key('keydown', code)
+    const { attack } = player.input
+    key('keyup', code)
+    return Boolean(attack)
+  }
+
+  assert.equal(attacksOn({ attackKey: 'Space' }, 'Space'), true)
+  assert.equal(attacksOn({ attackKey: 'Space' }, 'Enter'), false)
+  assert.equal(attacksOn({}, 'Enter'), true)
+})
+
 test('the 2D player covers about the same distance at 30 and at 60 frames per second', t => {
   const distance = fps => {
     const player = createPlayer(t)

@@ -16,6 +16,8 @@ export const settings = {
     loops: 3, // per life
     loop: { duration: 1, grow: .5, ahead: 60 }, // seconds; how much bigger and how many px ahead at the top of the loop
     reloadTime: .1, // seconds between shots
+    // the propeller seen edge on: shares of the plane's width and height, and how it flickers as it turns
+    propeller: { span: .29, nose: .066, frames: [{ span: 1, alpha: .55 }, { span: .82, alpha: .35 }, { span: .92, alpha: .45 }], frameTime: .04 },
     bulletSpeed: 1000, // px per second
     // the guns of each fire level, from the start up: px across from the nose, radians off straight ahead
     fire: [
@@ -37,18 +39,18 @@ export const settings = {
   enemyBulletSpeed: 350, // px per second
   enemies: {
     fighter: {
-      images: ['armies/nemci/avioni/bf-109-odozgo.svg', 'armies/nemci/avioni/fw-190-odozgo.svg'],
-      scale: 1, hits: 1, points: 100, speed: 190,
+      images: ['armies/nemci/avioni/bf-109-odozgo.png', 'armies/nemci/avioni/fw-190-odozgo.png'],
+      scale: .5, hits: 1, points: 100, speed: 190,
       fire: { interval: 2.5, spread: [0] }, // seconds between shots, angles of one shot
     },
     heavy: {
-      images: ['armies/nemci/avioni/bf-110-odozgo.svg'],
-      scale: 1, hits: 5, points: 500, speed: 110,
+      images: ['armies/nemci/avioni/bf-110-odozgo.png'],
+      scale: .5, hits: 5, points: 500, speed: 110,
       fire: { interval: 2, spread: [-.25, 0, .25] },
     },
     boss: {
-      images: ['armies/nemci/avioni/he-111-odozgo.svg'],
-      scale: 1, hits: 60, points: 5000, speed: 60,
+      images: ['armies/nemci/avioni/he-111-odozgo.png'],
+      scale: .5, hits: 60, points: 5000, speed: 60,
       fire: { interval: 1.2, spread: [-.5, -.25, 0, .25, .5] },
       timeLimit: 35, // seconds before it flies away
     },

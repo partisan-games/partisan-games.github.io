@@ -3,7 +3,7 @@ import Predmet from './Predmet.js'
 import Input from '/core/io/Input.js'
 
 export default class Player2D extends Predmet {
-  constructor(src, { buttonDict, ...rest } = {}) {
+  constructor(src, { buttonDict, attackKey, ...rest } = {}) {
     super(src, rest)
     this.oznake.add('igrac')
     this.potisak = 31
@@ -11,7 +11,7 @@ export default class Player2D extends Predmet {
     this.cvrstaTela = []
     this.okret = 0.047
     this.faktorTrenja = .1
-    this.input = new Input({ buttonDict })
+    this.input = new Input({ buttonDict, attackKey })
   }
 
   handleInput(dt) {

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 import * as timers from '/core/timers.js'
 
-let Avionce, Enemy, Input, settings, platno, Explosion
+let Avionce, inputOptions, Enemy, Input, settings, platno, Explosion
 
 before(async() => {
   createPageElements()
@@ -12,7 +12,7 @@ before(async() => {
       return Promise.resolve()
     }
   }
-  ;({ Avionce } = await import('/scenes/vis/Avionce.js'))
+  ;({ Avionce, inputOptions } = await import('/scenes/vis/Avionce.js'))
   Enemy = (await import('/scenes/vis/Enemy.js')).default
   Input = (await import('/core/io/Input.js')).default
   ;({ settings } = await import('/scenes/vis/settings.js'))
@@ -26,7 +26,7 @@ const key = (type, code) => document.dispatchEvent(new KeyboardEvent(type, { cod
 function createBattle(t) {
   const player = new Avionce()
   player.input.end()
-  player.input = new Input({ useKeyboard: true, useJoystick: false })
+  player.input = new Input({ ...inputOptions, useKeyboard: true, useJoystick: false })
   player.x = 500
   player.y = 400
   const near = new Enemy()
