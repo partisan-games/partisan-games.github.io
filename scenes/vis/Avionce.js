@@ -3,17 +3,17 @@ import platno from '/core/io/platno.js'
 import { praviPucanje } from '/core/actor/prosirenja/pucanje.js'
 import { after } from '/core/timers.js'
 import { createSound } from '/core/io/sound.js'
+import { settings } from './settings.js'
 
-const BOMBS = 2
-const bombRadius = () => Math.min(platno.width, platno.height) * .5
+const { lives, bombs, bombRadius, bombHits, respawnTime } = settings.player
 
 export class Avionce extends Player2D {
   constructor() {
     super('armies/avionce.gif', { skalar: .75, zapaljiv: true, senka: true, buttonDict: { attack: '💥', special: '💣' } })
     this.brzina = 0
     this.poeni = 0
-    this.zivoti = 3
-    this.bombs = BOMBS
+    this.zivoti = lives
+    this.bombs = bombs
     this.specialHeld = false
     Object.assign(this, praviPucanje({ potisakMetka: 1000, vremePunjenja: .1, ugloviPucanja: [-.33, 0, .33] }))
   }
@@ -37,18 +37,22 @@ export class Avionce extends Player2D {
     this.specialHeld = this.input.special
   }
 
-  /** Every enemy plane around the player goes down. */
+  /** A heavy blow to every enemy plane around the player: fighters and heavy planes go down, the boss is hurt. */
   dropBomb() {
     if (!this.bombs) return
 
     this.bombs--
     createSound('explosion.mp3').play()
     this.ciljevi
-      .filter(plane => plane.alive && this.razmakDo(plane) < bombRadius())
+      .filter(plane => plane.alive && this.razmakDo(plane) < bombRadius * Math.min(platno.width, platno.height))
       .forEach(plane => {
-        plane.umri()
-        this.poeni++
+        plane.damage(bombHits)
+        this.scoreIfDown(plane)
       })
+  }
+
+  scoreIfDown(plane) {
+    if (plane.dead) this.poeni += plane.points
   }
 
   reset() {
@@ -60,7 +64,7 @@ export class Avionce extends Player2D {
     this.alive = false
     this.pada = true
     this.zivoti--
-    after(2.5, () => {
+    after(respawnTime, () => {
       this.pada = false
       if (this.zivoti) this.reset()
     })
@@ -68,7 +72,7 @@ export class Avionce extends Player2D {
 
   update(dt, t) {
     super.update(dt, t)
-    this.proveriPogotke(() => this.poeni++)
+    this.ciljevi.forEach(plane => this.proveriPogodak(plane, () => this.scoreIfDown(plane)))
 
     if (this.pada)
       this.scaleX = this.scaleY = this.scaleX * Math.pow(0.8, dt)

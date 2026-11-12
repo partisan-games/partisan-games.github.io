@@ -62,7 +62,12 @@ const wins = {
     scene.tenk.energija = 0
   },
   vis: scene => {
-    scene.preostaloVreme = 0
+    // every wave has flown but the last, the boss, which comes now and goes down
+    const { waves } = scene
+    waves.enemies.forEach(enemy => enemy.umri())
+    waves.next = waves.schedule.length
+    waves.launch(waves.schedule.at(-1))
+    waves.boss.damage(waves.boss.hits)
   },
   walls: scene => {
     scene.player.position = scene.maze.exitPosition

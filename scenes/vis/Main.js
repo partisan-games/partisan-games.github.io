@@ -1,17 +1,18 @@
 import Scena2D from '/core/Scena2D.js'
-import { Avionce } from '/core/actor/derived/Avionce.js'
+import { Avionce } from './Avionce.js'
 import PokretnaPozadina from './PokretnaPozadina.js'
 import Pokretno from './Pokretno.js'
 import Oblak from './Oblak.js'
-import Neprijatelj from './Neprijatelj.js'
 import Baza from './Baza.js'
+import Waves from './Waves.js'
+import { levels } from './levels.js'
 import { baseControls } from '/ui/Controls.js'
+import { currentStyleClasses } from '/ui/styles.js'
 import { after } from '/core/timers.js'
 import { keys } from '/core/io/keys.js'
+import { settings } from './settings.js'
 
-const brojOblaka = 3
-const brzina = 150
-const LANDING_TIME = 3 // seconds
+const { scrollSpeed: brzina, clouds, landingTime } = settings
 
 export default class extends Scena2D {
   constructor() {
@@ -23,21 +24,13 @@ export default class extends Scena2D {
 
   init() {
     this.bojaPozadine = '#165a8d'
-    this.preostaloVreme = 60
-    this.oblaci = Array.from({ length: brojOblaka }, () => new Oblak(brzina))
+    this.oblaci = Array.from({ length: clouds }, () => new Oblak(brzina))
     this.ostrvo = new Pokretno('nature/ostrvo.gif', { potisak: brzina, skalar: 2 })
     this.zdravlje = new Pokretno('items/zdravlje.png', { potisak: brzina, skalar: .66, faktorY: 10, senka: true })
     this.player = new Avionce()
-    this.neprijatelji = [
-      new Neprijatelj('armies/nemci/avioni/avion-odozgo-01.png', { potisak: brzina }),
-      new Neprijatelj('armies/nemci/avioni/avion-odozgo-03.png', { potisak: brzina }),
-      new Neprijatelj('armies/nemci/avioni/avion-odozgo-05.png', { potisak: brzina }),
-      new Neprijatelj('armies/nemci/avioni/Reggiane-Re-2005.png', { potisak: brzina }),
-    ]
-    this.player.ciljevi = this.neprijatelji
-    this.neprijatelji.forEach(neprijatelj => neprijatelj.ciljevi.push(this.player))
+    this.waves = new Waves({ scene: this, player: this.player, schedule: levels[0] })
     const okean = new PokretnaPozadina(brzina, this.sirina)
-    this.add(okean, this.zdravlje, this.ostrvo, ...this.neprijatelji, this.player, ...this.oblaci)
+    this.add(okean, this.zdravlje, this.ostrvo, this.player, ...this.oblaci)
   }
 
   proveriSudare() {
@@ -47,9 +40,9 @@ export default class extends Scena2D {
       this.zdravlje.reset()
       this.player.zivoti++
     }
-    this.neprijatelji.forEach(neprijatelj => {
-      if (neprijatelj.alive && this.player.sudara(neprijatelj)) {
-        neprijatelj.umri()
+    this.waves.enemies.forEach(enemy => {
+      if (enemy.alive && this.player.sudara(enemy)) {
+        enemy.damage(1)
         this.player.umri()
       }
     })
@@ -57,27 +50,20 @@ export default class extends Scena2D {
 
   landToBase() {
     this.baza = new Baza({ brzina })
+    this.remove(this.ostrvo, this.zdravlje)
     this.add(this.baza)
-    this.neprijatelji.forEach(neprijatelj => {
-      neprijatelj.umri()
-      after(LANDING_TIME * .5, () => this.remove(neprijatelj))
-    })
-    after(LANDING_TIME, () => this.victory('You have successfully reached the island of Vis.'))
+    after(landingTime, () => this.victory('You have successfully reached the island of Vis.'))
   }
 
   update(dt, t) {
     super.update(dt, t)
+    this.waves.update(dt)
     this.proveriSudare()
 
     if (this.player.zivoti <= 0) this.defeat()
 
-    if (this.preostaloVreme < 5)
-      [this.ostrvo, this.zdravlje].forEach(predmet => this.remove(predmet))
-
-    if (this.preostaloVreme < 1 && !this.baza)
+    if (this.waves.finished && !this.baza)
       this.landToBase()
-
-    this.preostaloVreme -= dt
   }
 
   sceneUI() {
@@ -91,6 +77,13 @@ export default class extends Scena2D {
           <br>${bombs}
         </div>
       </div>
+      ${this.bossBar()}
       `
+  }
+
+  bossBar() {
+    const { boss } = this.waves
+    if (!boss?.alive) return ''
+    return `<progress class="progress top-right ${currentStyleClasses().healthBar}" value="${boss.hitsLeft * 100}" max="100"></progress>`
   }
 }

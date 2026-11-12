@@ -41,19 +41,19 @@ function assertHappensAfter(play, seconds, happened) {
   assert.equal(happened(), true, `done after ${seconds} s`)
 }
 
-test('a shot down enemy plane in vis comes back after 2 s', async t => {
+test('a shot down enemy plane in vis falls for 2 s and then is gone', async t => {
   const { scene, play } = startScene(t)
-  const { default: Neprijatelj } = await import('/scenes/vis/Neprijatelj.js')
-  const plane = new Neprijatelj('armies/nemci/avioni/avion-odozgo-01.png', { potisak: 150 })
+  const { default: Enemy } = await import('/scenes/vis/Enemy.js')
+  const plane = new Enemy({ path: 'boss' }) // stays on the screen
   scene.add(plane)
 
   plane.umri()
-  assertHappensAfter(play, 2, () => plane.alive)
+  assertHappensAfter(play, 2, () => plane.gone)
 })
 
 test('the player plane in vis flies again 2.5 s after it is shot down', async t => {
   const { scene, play } = startScene(t)
-  const { Avionce } = await import('/core/actor/derived/Avionce.js')
+  const { Avionce } = await import('/scenes/vis/Avionce.js')
   const plane = new Avionce()
   scene.add(plane)
 

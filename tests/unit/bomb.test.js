@@ -2,7 +2,7 @@ import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 
-let Avionce, Neprijatelj, Input
+let Avionce, Enemy, Input
 
 before(async() => {
   createPageElements()
@@ -11,8 +11,8 @@ before(async() => {
       return Promise.resolve()
     }
   }
-  ;({ Avionce } = await import('/core/actor/derived/Avionce.js'))
-  Neprijatelj = (await import('/scenes/vis/Neprijatelj.js')).default
+  ;({ Avionce } = await import('/scenes/vis/Avionce.js'))
+  Enemy = (await import('/scenes/vis/Enemy.js')).default
   Input = (await import('/core/io/Input.js')).default
 })
 
@@ -25,8 +25,8 @@ function createBattle(t) {
   player.input = new Input({ useKeyboard: true, useJoystick: false })
   player.x = 500
   player.y = 400
-  const near = new Neprijatelj('armies/nemci/avioni/avion-odozgo-01.png', { potisak: 150 })
-  const far = new Neprijatelj('armies/nemci/avioni/avion-odozgo-03.png', { potisak: 150 })
+  const near = new Enemy()
+  const far = new Enemy()
   near.x = 600
   near.y = 350
   far.x = 5000
@@ -44,14 +44,14 @@ function dropBomb(player) {
   player.handleInput(1 / 60)
 }
 
-test('a bomb in vis shoots down the enemy planes around the player, one point each', t => {
+test('a bomb in vis shoots down the enemy fighters around the player, with their points', t => {
   const { player, near, far } = createBattle(t)
 
   dropBomb(player)
 
   assert.equal(near.alive, false, 'the near plane goes down')
   assert.equal(far.alive, true, 'the far plane flies on')
-  assert.equal(player.poeni, 1)
+  assert.equal(player.poeni, 100)
   assert.equal(player.bombs, 1, 'holding the key drops one bomb')
 })
 
@@ -67,5 +67,5 @@ test('the vis player has two bombs per game', t => {
 
   assert.equal(player.bombs, 0)
   assert.equal(near.alive, true, 'no bomb is left for the third try')
-  assert.equal(player.poeni, 2)
+  assert.equal(player.poeni, 200)
 })
