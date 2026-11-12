@@ -11,9 +11,10 @@ import { baseControls } from '/ui/Controls.js'
 import { currentStyleClasses } from '/ui/styles.js'
 import { after } from '/core/timers.js'
 import { keys, attackLabels } from '/core/io/keys.js'
+import { createSound } from '/core/io/sound.js'
 import { settings } from './settings.js'
 
-const { scrollSpeed: brzina, clouds, landingTime } = settings
+const { scrollSpeed: brzina, clouds, landingTime, engineVolume } = settings
 
 export default class extends Scena2D {
   constructor() {
@@ -35,6 +36,35 @@ export default class extends Scena2D {
     })
     const okean = new PokretnaPozadina(brzina, this.sirina)
     this.add(okean, this.zdravlje, this.ostrvo, this.player, ...this.oblaci)
+    this.engineSound = createSound('avion-mali.mp3', { volume: engineVolume })
+    this.engineSound.loop = true
+  }
+
+  /* the engine hums while the game runs */
+
+  start() {
+    super.start()
+    this.engineSound.play()
+  }
+
+  unpause() {
+    super.unpause()
+    this.engineSound.play()
+  }
+
+  pause() {
+    super.pause()
+    this.engineSound.pause()
+  }
+
+  finish() {
+    super.finish()
+    this.engineSound.pause()
+  }
+
+  end() {
+    super.end()
+    this.engineSound.pause()
   }
 
   collectHealth() {

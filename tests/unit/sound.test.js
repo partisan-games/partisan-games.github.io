@@ -127,6 +127,51 @@ test('a shell explosion in ranjenik plays at a random volume around the game vol
   assert.deepEqual(soundsOf(() => new Paljba(), 1), [{ file: 'explosion.mp3', volume: .5 }])
 })
 
+test('every bullet of the vis plane is heard as it leaves the gun, at a random volume', async t => {
+  const { Avionce } = await import('/scenes/vis/Avionce.js')
+  const player = new Avionce()
+  t.after(() => player.end())
+  const fire = () => {
+    player.reload = 0
+    player.puca()
+  }
+  const shot = { file: 'pucanj.wav', volume: .2 }
+
+  assert.deepEqual(soundsOf(() => {
+    fire()
+    fire()
+  }, 0), [shot, shot])
+  player.fireLevel = 1 // two guns
+  assert.deepEqual(soundsOf(fire, 0), [shot, shot])
+})
+
+test('a vis enemy explodes once when shot down, at a random volume', async() => {
+  const { default: Enemy } = await import('/scenes/vis/Enemy.js')
+  const enemy = new Enemy()
+  assert.deepEqual(soundsOf(() => enemy.damage(enemy.hits), 1), [{ file: 'explosion.mp3', volume: .5 }])
+  assert.deepEqual(soundsOf(() => enemy.damage(1)), [])
+})
+
+test('the vis engine hums in a loop while the game runs, and stops in a pause, at the end screen and when the game ends', async() => {
+  const { default: Vis } = await import('/scenes/vis/Main.js')
+  const scene = new Vis()
+  scene.init()
+  scene.clear = () => {} // happy-dom has no 2D canvas to draw the background on
+  const { engineSound } = scene
+  const hum = [{ file: 'avion-mali.mp3', volume: .12 }]
+
+  assert.deepEqual(soundsOf(() => scene.start()), hum)
+  assert.ok(engineSound.loop)
+  scene.pause()
+  assert.ok(engineSound.paused)
+  assert.deepEqual(soundsOf(() => scene.unpause()), hum)
+  scene.defeat()
+  assert.ok(engineSound.paused)
+  engineSound.play()
+  scene.end()
+  assert.ok(engineSound.paused)
+})
+
 test('the otpisani music plays at the game volume', async() => {
   const { default: Otpisani } = await import('/scenes/otpisani/Main.js')
   const scene = new Otpisani()

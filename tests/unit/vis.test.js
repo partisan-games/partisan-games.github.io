@@ -11,6 +11,8 @@ before(async() => {
     play() {
       return Promise.resolve()
     }
+
+    pause() {}
   }
   Enemy = (await import('/scenes/vis/Enemy.js')).default
   Waves = (await import('/scenes/vis/Waves.js')).default

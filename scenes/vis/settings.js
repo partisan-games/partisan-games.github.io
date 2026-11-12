@@ -3,6 +3,7 @@ export const settings = {
   scrollSpeed: 150, // px per second: the sea, the island and the base
   clouds: 3,
   landingTime: 3, // seconds from the base appearing to the victory
+  engineVolume: .3, // of the game volume, a hum under the guns
   player: {
     lives: 3,
     bombs: 3,

@@ -4,6 +4,7 @@ import platno from '/core/io/platno.js'
 import { praviPucanje } from '/core/actor/prosirenja/pucanje.js'
 import { after } from '/core/timers.js'
 import { createSound } from '/core/io/sound.js'
+import Bullet from './Bullet.js'
 import Explosion from './Explosion.js'
 import { settings } from './settings.js'
 
@@ -31,7 +32,7 @@ export class Avionce extends Player2D {
     this.propellerTime = 0
     this.explosions = Array.from({ length: bombBursts }, () => new Explosion()) // loaded before the first bomb
     this.predmeti.push(...this.explosions)
-    Object.assign(this, praviPucanje())
+    Object.assign(this, praviPucanje({ projektil: Bullet }))
   }
 
   onload() {

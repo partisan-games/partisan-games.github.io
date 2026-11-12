@@ -3,6 +3,7 @@ import platno from '/core/io/platno.js'
 import { randomInRange } from '/core/utils.js'
 import { praviPucanje } from '/core/actor/prosirenja/pucanje.js'
 import { after } from '/core/timers.js'
+import { createSound } from '/core/io/sound.js'
 import { paths } from './paths.js'
 import { settings } from './settings.js'
 
@@ -73,6 +74,7 @@ export default class Enemy extends Predmet {
   /** A shot down plane leaves its path and formation and goes on straight ahead, the way its nose points. */
   umri() {
     super.umri()
+    createSound('explosion.mp3', { random: true }).play()
     this.falling = true
     const heading = this.ugao - Math.PI / 2 // the image points up
     this.dx = this.route.speed * Math.cos(heading)
