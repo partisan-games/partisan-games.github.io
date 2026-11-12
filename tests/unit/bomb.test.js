@@ -73,6 +73,17 @@ test('a bomb in vis also shoots down a plane at the edge of its fire, but not on
   assert.equal(far.alive, true)
 })
 
+test('a bomb in vis also takes out the enemy bullets in its fire, but not those past it', t => {
+  const { player, near, far } = createBattle(t)
+  near.pali({ x: player.x, y: player.y - 100 }, Math.PI / 2)
+  far.pali({ x: far.x, y: far.y }, Math.PI / 2)
+
+  dropBomb(player)
+
+  assert.equal(near.meci[0].vidljiv, false, 'the bullet close to the player is gone')
+  assert.equal(far.meci[0].vidljiv, true)
+})
+
 test('the vis player has three bombs per game', t => {
   const { player, near } = createBattle(t)
 

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 import * as timers from '/core/timers.js'
 
-let Avionce, Enemy, Input, settings, platno
+let Avionce, Enemy, Input, settings, platno, PowerUps
 
 before(async() => {
   createPageElements()
@@ -17,6 +17,7 @@ before(async() => {
   Input = (await import('/core/io/Input.js')).default
   ;({ settings } = await import('/scenes/vis/settings.js'))
   platno = (await import('/core/io/platno.js')).default
+  PowerUps = (await import('/scenes/vis/PowerUps.js')).default
 })
 
 const key = (type, code) => document.dispatchEvent(new KeyboardEvent(type, { code }))
@@ -28,6 +29,7 @@ function createPlayer(t) {
   player.input = new Input({ useKeyboard: true, useJoystick: false })
   player.x = 500
   player.y = 400
+  player.sirina = player.visina = 80 // as its image would give
   const enemy = new Enemy()
   enemy.x = enemy.y = 5000
   player.ciljevi = [enemy]
@@ -138,4 +140,76 @@ test('holding C makes one loop, and the vis player has three per life', t => {
 
   loseLife(player)
   assert.equal(player.loopsLeft, loops, 'a new life brings new loops')
+})
+
+/* V3-01 · power-ups */
+
+/** How many bullets one press of fire sends out. */
+function bulletsPerShot(player) {
+  player.meci.forEach(bullet => bullet.reset())
+  player.reload = 0
+  player.puca()
+  return player.meci.filter(bullet => bullet.vidljiv).length
+}
+
+test('the vis player starts with one bullet a shot; fire power-ups bring two, then three, until a life is lost', t => {
+  const { player } = createPlayer(t)
+
+  assert.equal(bulletsPerShot(player), 1)
+  player.powerUp('fire')
+  assert.equal(bulletsPerShot(player), 2)
+  player.powerUp('fire')
+  assert.equal(bulletsPerShot(player), 3)
+  player.powerUp('fire')
+  assert.equal(bulletsPerShot(player), 3, 'three is the most')
+
+  loseLife(player)
+  assert.equal(bulletsPerShot(player), 1)
+})
+
+test('the vis player fires again only after the reload, by game time', t => {
+  const { player } = createPlayer(t)
+
+  player.puca()
+  player.puca()
+  assert.equal(player.meci.filter(bullet => bullet.vidljiv).length, 1)
+
+  fly(player, settings.player.reloadTime + .01)
+  player.puca()
+  assert.equal(player.meci.filter(bullet => bullet.vidljiv).length, 2)
+})
+
+test('power-ups drop in their order, the player picks up the one it touches, and one past the bottom is gone', t => {
+  const { player } = createPlayer(t)
+  const scene = { predmeti: [], add(...items) {
+    this.predmeti.push(...items)
+  }, remove(...items) {
+    this.predmeti = this.predmeti.filter(item => !items.includes(item))
+  } }
+  const powerUps = new PowerUps({ scene, player })
+  const { order } = settings.powerUps
+
+  order.forEach(() => powerUps.drop({ x: 100, y: 100 }))
+  powerUps.drop({ x: player.x, y: player.y })
+  powerUps.items.forEach(item => {
+    item.sirina = item.visina = 40
+  })
+  assert.deepEqual(powerUps.items.map(item => item.kind), [...order, order[0]], 'round and round')
+
+  const { bombs } = player
+  powerUps.update()
+  assert.equal(powerUps.items.length, order.length, 'the touched one is picked up')
+  assert.equal(player.fireLevel, 1, `the first is ${order[0]}`)
+  assert.equal(scene.predmeti.length, order.length)
+
+  player.powerUp('bomb')
+  player.powerUp('life')
+  assert.equal(player.bombs, bombs + 1)
+  assert.equal(player.zivoti, settings.player.lives + 1)
+
+  powerUps.items.forEach(item => {
+    item.y = platno.height + 200
+  })
+  powerUps.update()
+  assert.deepEqual(scene.predmeti, [])
 })

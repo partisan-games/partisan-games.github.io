@@ -15,6 +15,21 @@ export const settings = {
     blinkTime: .1, // seconds between solid and faint while it cannot be hit
     loops: 3, // per life
     loop: { duration: 1, grow: .5, ahead: 60 }, // seconds; how much bigger and how many px ahead at the top of the loop
+    reloadTime: .1, // seconds between shots
+    bulletSpeed: 1000, // px per second
+    // the guns of each fire level, from the start up: px across from the nose, radians off straight ahead
+    fire: [
+      [{ x: 0, angle: 0 }],
+      [{ x: -12, angle: 0 }, { x: 12, angle: 0 }],
+      [{ x: 0, angle: -.33 }, { x: 0, angle: 0 }, { x: 0, angle: .33 }],
+    ],
+  },
+  // a formation shot down to the last plane leaves one of these, in this order, round and round
+  powerUps: {
+    order: ['fire', 'bomb', 'fire', 'life'],
+    fallSpeed: 100, // px per second, slower than the sea
+    images: { fire: 'items/municija.png', bomb: 'items/bomba.png', life: 'items/zdravlje.png' },
+    scale: .5,
   },
   formationGap: 125, // px between planes in a formation, a little more than a fighter's width
   explosion: { duration: 1, scale: 1.8 }, // seconds, size of the 128 px frame

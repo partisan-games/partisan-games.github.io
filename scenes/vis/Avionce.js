@@ -7,7 +7,10 @@ import { createSound } from '/core/io/sound.js'
 import Explosion from './Explosion.js'
 import { settings } from './settings.js'
 
-const { lives, bombs, bombRadius, bombHits, bombBursts, bombSpread, respawnTime, shieldTime, blinkTime, loops, loop } = settings.player
+const {
+  lives, bombs, bombRadius, bombHits, bombBursts, bombSpread, respawnTime, shieldTime, blinkTime, loops, loop,
+  reloadTime, bulletSpeed, fire,
+} = settings.player
 
 export class Avionce extends Player2D {
   constructor() {
@@ -20,9 +23,11 @@ export class Avionce extends Player2D {
     this.loopsLeft = loops
     this.loopAge = null // seconds into the loop, while it lasts
     this.shield = 0 // seconds of safety left after coming back
+    this.fireLevel = 0 // which of settings.player.fire
+    this.reload = 0 // seconds until the next shot
     this.explosions = Array.from({ length: bombBursts }, () => new Explosion()) // loaded before the first bomb
     this.predmeti.push(...this.explosions)
-    Object.assign(this, praviPucanje({ potisakMetka: 1000, vremePunjenja: .1, ugloviPucanja: [-.33, 0, .33] }))
+    Object.assign(this, praviPucanje())
   }
 
   onload() {
@@ -46,9 +51,24 @@ export class Avionce extends Player2D {
     this.ogranici()
   }
 
+  /** One bullet from every gun of the fire level; the reload goes by game time, so it waits in a pause. */
   puca() {
-    const poz = { x: this.x, y: this.y - this.visina / 4 }
-    this.pali(poz, Math.PI * 1.5)
+    if (this.reload > 0) return
+
+    this.reload = reloadTime
+    const y = this.y - this.visina / 4
+    fire[this.fireLevel].forEach(gun => this.fireBullet({ x: this.x + gun.x, y }, Math.PI * 1.5 + gun.angle))
+  }
+
+  fireBullet(position, angle) {
+    const bullet = this.meci.find(free => !free.vidljiv) || this.novMetak()
+    bullet.pali(position, angle, bulletSpeed)
+  }
+
+  powerUp(kind) {
+    if (kind === 'fire') this.fireLevel = Math.min(this.fireLevel + 1, fire.length - 1)
+    if (kind === 'bomb') this.bombs++
+    if (kind === 'life') this.zivoti++
   }
 
   handleInput(dt) {
@@ -79,21 +99,26 @@ export class Avionce extends Player2D {
     if (progress === 1) this.loopAge = null
   }
 
-  /** A heavy blow to every enemy plane around the player: fighters and heavy planes go down, the boss is hurt. */
+  /** A heavy blow to everything around the player: fighters and heavy planes go down, the boss is hurt, enemy bullets are gone. */
   dropBomb() {
     if (!this.bombs) return
 
     this.bombs--
     createSound('explosion.mp3').play()
     const radius = bombRadius * Math.min(platno.width, platno.height)
-    // every plane the fire touches goes down, also one just past the outermost burst
+    // whatever the fire touches, also just past the outermost burst
+    const inBlast = thing => this.razmakDo(thing) < radius + Explosion.reach
     this.ciljevi
-      .filter(plane => plane.alive && this.razmakDo(plane) < radius + Explosion.reach)
+      .filter(plane => plane.alive && inBlast(plane))
       .forEach(plane => {
         plane.damage(bombHits)
         this.scoreIfDown(plane)
         this.explode(plane.x, plane.y)
       })
+    this.ciljevi
+      .flatMap(plane => plane.meci)
+      .filter(bullet => bullet.vidljiv && inBlast(bullet))
+      .forEach(bullet => bullet.reset())
     this.spreadBursts(radius)
   }
 
@@ -148,9 +173,11 @@ export class Avionce extends Player2D {
     this.loopsLeft = loops
   }
 
+  /** A lost life also takes away the fire power-ups. */
   umri() {
     this.alive = false
     this.loopAge = null
+    this.fireLevel = 0
     this.pada = true
     this.zivoti--
     after(respawnTime, () => {
@@ -162,6 +189,7 @@ export class Avionce extends Player2D {
   update(dt, t) {
     if (this.looping) this.flyLoop(dt)
     this.shield = Math.max(this.shield - dt, 0)
+    this.reload = Math.max(this.reload - dt, 0)
     super.update(dt, t)
     this.ciljevi.forEach(plane => this.proveriPogodak(plane, () => this.scoreIfDown(plane)))
     this.checkCrashes()

@@ -5,6 +5,7 @@ import Pokretno from './Pokretno.js'
 import Oblak from './Oblak.js'
 import Baza from './Baza.js'
 import Waves from './Waves.js'
+import PowerUps from './PowerUps.js'
 import { levels } from './levels.js'
 import { baseControls } from '/ui/Controls.js'
 import { currentStyleClasses } from '/ui/styles.js'
@@ -28,7 +29,10 @@ export default class extends Scena2D {
     this.ostrvo = new Pokretno('nature/ostrvo.gif', { potisak: brzina, skalar: 2 })
     this.zdravlje = new Pokretno('items/zdravlje.png', { potisak: brzina, skalar: .66, faktorY: 10, senka: true })
     this.player = new Avionce()
-    this.waves = new Waves({ scene: this, player: this.player, schedule: levels[0] })
+    this.powerUps = new PowerUps({ scene: this, player: this.player })
+    this.waves = new Waves({
+      scene: this, player: this.player, schedule: levels[0], onFormationDown: position => this.powerUps.drop(position),
+    })
     const okean = new PokretnaPozadina(brzina, this.sirina)
     this.add(okean, this.zdravlje, this.ostrvo, this.player, ...this.oblaci)
   }
@@ -38,7 +42,7 @@ export default class extends Scena2D {
 
     if (this.player.sudara(this.zdravlje)) {
       this.zdravlje.reset()
-      this.player.zivoti++
+      this.player.powerUp('life')
     }
   }
 
@@ -52,6 +56,7 @@ export default class extends Scena2D {
   update(dt, t) {
     super.update(dt, t)
     this.waves.update(dt)
+    this.powerUps.update()
     this.collectHealth()
 
     if (this.player.zivoti <= 0) this.defeat()

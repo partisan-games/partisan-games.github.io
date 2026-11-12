@@ -145,6 +145,50 @@ test('a shot down plane leaves its formation and goes on straight ahead, while t
   assert.equal(flying.x, flying.routePosition(flying.age).x, 'the other plane keeps to its path')
 })
 
+/* V3-01 · a formation shot down to the last plane */
+
+/** A pair of fighters on the screen, with every power-up drop written down. */
+function createPair() {
+  timers.clear()
+  const world = createWorld([{ at: 0, formation: 'pair', path: 'straight', x: .5 }])
+  const drops = []
+  world.waves.onFormationDown = position => drops.push(position)
+  world.play(1.5)
+  return { ...world, drops }
+}
+
+test('a formation shot down to the last plane drops one power-up where that plane fell', () => {
+  const { waves, play, drops } = createPair()
+  const [first, last] = waves.enemies
+
+  first.umri()
+  play(.5)
+  assert.equal(drops.length, 0, 'not while a plane of it flies')
+
+  last.umri()
+  play(1 / 60)
+  assert.equal(drops.length, 1)
+  assert.ok(Math.hypot(drops[0].x - last.x, drops[0].y - last.y) < 10)
+
+  play(1)
+  assert.equal(drops.length, 1, 'only once')
+})
+
+test('a formation with a plane that got away drops no power-up, and neither does a single plane', () => {
+  const { waves, play, drops } = createPair()
+  waves.enemies[0].umri()
+  play(10)
+  assert.equal(drops.length, 0)
+
+  timers.clear()
+  const single = createWorld([{ at: 0, path: 'straight', x: .5 }])
+  single.waves.onFormationDown = position => drops.push(position)
+  single.play(1)
+  single.waves.enemies[0].umri()
+  single.play(1)
+  assert.equal(drops.length, 0)
+})
+
 /* V2-02 · enemy types */
 
 test('a heavy plane takes five hits and its points come with the last one; a fighter falls from one', async() => {
