@@ -4,8 +4,9 @@ import { loadModel } from '/core3d/loaders.js'
 import { terrainFromHeightmap } from '/core3d/terrain/heightmap.js'
 import { createFlag } from '/core3d/geometry/index.js'
 import { wave } from '/core3d/ground.js'
-import { PartisanPlayer } from '/core3d/actor/derived/ww2/Partisan.js'
+import { PartisanPlayer, models as partisanModels } from '/core3d/actor/derived/ww2/Partisan.js'
 import { thirdPersonControls } from '/ui/Controls.js'
+import { requestModels } from '/core3d/assets/models.js'
 
 export default class extends Scena3D {
   constructor() {
@@ -13,6 +14,7 @@ export default class extends Scena3D {
   }
 
   async init() {
+    await requestModels([...partisanModels])
     this.addMesh(createSun({ intensity: 2 * Math.PI }))
 
     const terrain = await terrainFromHeightmap({ file: 'yu-crop.png', heightFactor: 3, snow: false })

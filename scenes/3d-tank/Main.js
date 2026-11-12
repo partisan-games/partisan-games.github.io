@@ -8,13 +8,14 @@ import { sample } from '/core3d/helpers.js'
 import { createFirTree } from '/core3d/geometry/trees.js'
 import { createWarehouse, createWarehouse2, createWarRuin, createRuin, createAirport } from '/core3d/city.js'
 import { leaveTracks } from '/core3d/physics/leaveTracks.js'
-import Tank from '/core3d/physics/Tank.js'
+import Tank, { models as tankModels } from '/core3d/physics/Tank.js'
 import { baseControls } from '/ui/Controls.js'
 import { BigSmoke, Fire } from '/core3d/Particles.js'
 import { loadModel } from '/core3d/loaders.js'
-import { GermanMachineGunnerAI } from '/core3d/actor/derived/ww2/GermanMachineGunner.js'
-import { SSSoldierAI } from '/core3d/actor/derived/ww2/SSSoldier.js'
-import { NaziOfficerAI } from '/core3d/actor/derived/ww2/NaziOfficer.js'
+import { GermanMachineGunnerAI, models as germanMachineGunnerModels } from '/core3d/actor/derived/ww2/GermanMachineGunner.js'
+import { SSSoldierAI, models as ssSoldierModels } from '/core3d/actor/derived/ww2/SSSoldier.js'
+import { NaziOfficerAI, models as naziOfficerModels } from '/core3d/actor/derived/ww2/NaziOfficer.js'
+import { requestModels } from '/core3d/assets/models.js'
 
 const { randFloat } = THREE.MathUtils
 
@@ -30,9 +31,11 @@ export default class extends Scena3D {
   }
 
   async init() {
+    await requestModels([...tankModels, ...germanMachineGunnerModels, ...ssSoldierModels, ...naziOfficerModels])
     hemLight({ intensity: Math.PI * 1.25, scene: this.scene })
 
     this.world = new PhysicsWorld({ scene: this.scene })
+    this.session.scope.add(() => this.world.dispose())
 
     this.ground = createGround({ color: grassColor })
     this.world.add(this.ground, 0)
@@ -62,7 +65,7 @@ export default class extends Scena3D {
         this.world.add(warehouse, 0)
       }
 
-    this.player = new Tank({ physicsWorld: this.world.physicsWorld, camera: this.camera, pos: { x: 0, y: 1, z: -20 } })
+    this.player = new Tank({ world: this.world, camera: this.camera, pos: { x: 0, y: 1, z: -20 } })
     this.add(this.player)
 
     const destroyedTank = await loadModel({ file: 'tank/panzer-III-highpoly/model.fbx', size: 4 })

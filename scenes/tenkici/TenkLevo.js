@@ -33,9 +33,9 @@ export default class TenkLevo extends Tenk {
 
   handleInput(dt) {
     if (keyboard.isDown(keys.left) && this.x > 0)
-      this.dodajSilu(this.potisak * 0.6, Math.PI)
+      this.vozi(this.potisak * 0.6, Math.PI, dt)
     if (keyboard.isDown(keys.right) && this.x < this.xLimit)
-      this.dodajSilu(this.potisak, 0)
+      this.vozi(this.potisak, 0, dt)
     if (keyboard.isDown(keys.up))
       this.diziCev(dt)
     if (keyboard.isDown(keys.down))

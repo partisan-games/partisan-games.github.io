@@ -2,7 +2,7 @@ import mish from '/core/io/mish.js'
 import Scena2D from '/core/Scena2D.js'
 import Pozadina from '/core/objects/Pozadina.js'
 import Svabo from './Svabo.js'
-import Vreme from '/core/Vreme.js'
+import Health from '/core/gameplay/Health.js'
 
 const DALJI_Y = window.innerHeight * 0.25
 const BLIZI_Y = window.innerHeight * 0.5
@@ -15,7 +15,7 @@ export default class extends Scena2D {
   init() {
     this.pogoci = 0
     this.rekord = 0
-    this.energija = 100
+    this.health = new Health()
     this.preostaloVreme = 120
     this.ubrzano = false
     this.bliziRovovi = this.praviSvabe(10, BLIZI_Y, { skalar: 1, ucestalost: 0.03, callback: this.nanesiStetu.bind(this) })
@@ -23,7 +23,6 @@ export default class extends Scena2D {
     this.sveSvabe = [...this.daljiRovovi, ...this.bliziRovovi]
     this.add(...this.sveSvabe)
     this.pozadina = new Pozadina('textures/terrain/suva-trava.jpg')
-    this.vreme = new Vreme()
     this.ucitajRekord()
     mish.dodajNishan()
   }
@@ -41,14 +40,18 @@ export default class extends Scena2D {
 
   handleClick(e) {
     super.handleClick(e)
-    if (this.energija <= 0) return
+    if (this.ui.outro || this.energija <= 0) return
 
     const ciljaniRovovi = (mish.y <= DALJI_Y) ? this.daljiRovovi : this.bliziRovovi
     this.proveriPogotke(ciljaniRovovi)
   }
 
   nanesiStetu(damage, dt) {
-    this.energija = Math.max(0, this.energija - damage * dt)
+    this.health.damage(damage * dt)
+  }
+
+  get energija() {
+    return this.health.current
   }
 
   proveriPogotke(neretva) {
@@ -79,7 +82,7 @@ export default class extends Scena2D {
   }
 
   update(dt) {
-    if (this.energija <= 0) return
+    if (this.ui.outro || this.energija <= 0) return
 
     if (Math.ceil(this.preostaloVreme) < 1)
       return this.victory('You defended the position; the wounded have been saved.')

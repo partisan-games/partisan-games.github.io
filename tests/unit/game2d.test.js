@@ -110,7 +110,8 @@ test('a moving shot hits its target once and scores one point', () => {
 
 test('a tilted player plane levels out exactly, also when frame lengths vary', async t => {
   const { default: AvionIgrac } = await import('/core/actor/derived/AvionIgrac.js')
-  const plane = new AvionIgrac(10_000)
+  const { default: GameSession } = await import('/core/runtime/GameSession.js')
+  const plane = new AvionIgrac(10_000, undefined, { session: new GameSession() })
   t.after(() => plane.end())
   plane.ugao = .05
 

@@ -1,13 +1,16 @@
 import * as THREE from 'three'
 import Building from './Building.js'
-import { loadModel } from '/core3d/loaders.js'
+import { loadedModel } from '/core3d/assets/models.js'
 
 const { randFloat } = THREE.MathUtils
 
-const mesh = await loadModel({ file: 'building/factory/model.fbx', size: 25 })
+const model = { file: 'building/factory/model.fbx', size: 25 }
+
+/** What to load; a game awaits requestModels(models) before it creates one. */
+export const models = [model]
 
 export default class Factory extends Building {
-  constructor(rest) {
+  constructor({ mesh = loadedModel(model), ...rest } = {}) {
     super({ mesh, name: 'factory', ...rest })
     this.smokeMin = randFloat(-this.height, -this.height * .75)
     this.addSmoke()

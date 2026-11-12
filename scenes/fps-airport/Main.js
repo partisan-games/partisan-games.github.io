@@ -6,14 +6,15 @@ import FPSPlayer from '/core3d/actor/FPSPlayer.js'
 import { fpsControls } from '/ui/Controls.js'
 import { createAirport } from '/core3d/city.js'
 import { loadModel } from '/core3d/loaders.js'
-import DornierBomber from '/core3d/objects/DornierBomber.js'
-import JunkersStuka from '/core3d/objects/JunkersStuka.js'
-import HeinkelBomber from '/core3d/objects/HeinkelBomber.js'
-import { AirportTower } from '/core3d/objects/Tower.js'
-import { TankAI } from '/core3d/actor/derived/Tank.js'
-import { GermanMachineGunnerAI } from '/core3d/actor/derived/ww2/GermanMachineGunner.js'
-import { SSSoldierAI } from '/core3d/actor/derived/ww2/SSSoldier.js'
-import { NaziOfficerAI } from '/core3d/actor/derived/ww2/NaziOfficer.js'
+import DornierBomber, { models as dornierBomberModels } from '/core3d/objects/DornierBomber.js'
+import JunkersStuka, { models as junkersStukaModels } from '/core3d/objects/JunkersStuka.js'
+import HeinkelBomber, { models as heinkelBomberModels } from '/core3d/objects/HeinkelBomber.js'
+import { AirportTower, models as towerModels } from '/core3d/objects/Tower.js'
+import { TankAI, models as tankModels } from '/core3d/actor/derived/Tank.js'
+import { GermanMachineGunnerAI, models as germanMachineGunnerModels } from '/core3d/actor/derived/ww2/GermanMachineGunner.js'
+import { SSSoldierAI, models as ssSoldierModels } from '/core3d/actor/derived/ww2/SSSoldier.js'
+import { NaziOfficerAI, models as naziOfficerModels } from '/core3d/actor/derived/ww2/NaziOfficer.js'
+import { requestModels } from '/core3d/assets/models.js'
 
 const mapSize = 200
 const dornierNum = 8, stukaNum = 8, heinkelNum = 7
@@ -29,6 +30,7 @@ export default class extends Scena3D {
   }
 
   async init() {
+    await requestModels([...dornierBomberModels, ...junkersStukaModels, ...heinkelBomberModels, ...towerModels, ...tankModels, ...germanMachineGunnerModels, ...ssSoldierModels, ...naziOfficerModels])
     const ground = createGround({ file: 'terrain/ground.jpg' })
     ground.position.y -= .1
     const floor = createFloor({ size: mapSize, file: 'terrain/asphalt.jpg' })

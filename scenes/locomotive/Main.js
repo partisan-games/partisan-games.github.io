@@ -4,10 +4,10 @@ import { createSun } from '/core3d/light.js'
 import { createGround } from '/core3d/ground.js'
 import { Smoke } from '/core3d/Particles.js'
 import { followPath, createEllipse, createRailroadTracks } from '/core3d/path.js'
-import { loadModel } from '/core3d/loaders.js'
+import { requestModel, requestModels } from '/core3d/assets/models.js'
+import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js'
 import { createOrbitControls } from '/core3d/helpers.js'
 import { createTrees } from '/core3d/geometry/trees.js'
-import Factory from '/core3d/objects/Factory.js'
 
 export default class extends Scena3D {
   constructor() {
@@ -15,7 +15,7 @@ export default class extends Scena3D {
   }
 
   async init() {
-    this.controls = await createOrbitControls(this.camera, this.renderer.domElement)
+    this.controls = await this.session.keep(createOrbitControls(this.camera, this.renderer.domElement), controls => controls.dispose())
     this.camera.position.z = 25
 
     this.addMesh(createSun())
@@ -32,21 +32,28 @@ export default class extends Scena3D {
     const innerLine = createEllipse({ xRadius: xRadius - .4, yRadius: yRadius - .4 })
     this.addMesh(outerLine, innerLine)
 
-    this.locomotive = await loadModel({
+    const train = await this.session.keep(requestModel({
       file: 'vehicle/train/toy-locomotive/scene.glb', angle: Math.PI, axis: [0, 1, 0], size: 4
-    })
-    const castle = await loadModel({ file: 'building/castle/bridge-castle/scene.gltf', size: 12, shouldCenter: true, shouldAdjustHeight: true })
-    castle.position.x = 38.5
-    const rudnik = await loadModel({ file: 'building/mine/scene.gltf', size: 5, shouldCenter: true, shouldAdjustHeight: true })
+    }))
+    this.locomotive = clone(train)
+    this.addMesh(this.locomotive)
+    const mine = await this.session.keep(requestModel({ file: 'building/mine/scene.gltf', size: 5, shouldCenter: true, shouldAdjustHeight: true }))
+    const rudnik = clone(mine)
     rudnik.position.x = -8
     // rudnik.position.z = -14
     // rudnik.position.x = -50
-    this.addMesh(this.locomotive, rudnik)
+    this.addMesh(rudnik)
 
     this.mixer = new THREE.AnimationMixer(this.locomotive)
-    const action = this.mixer.clipAction(this.locomotive.userData.animations[0])
+    const action = this.mixer.clipAction(train.userData.animations[0])
     action.play()
+    this.session.scope.add(() => {
+      this.mixer.stopAllAction()
+      this.mixer.uncacheRoot(this.locomotive)
+    })
 
+    const { default: Factory, models: factoryModels } = await this.session.keep(import('/core3d/objects/Factory.js'))
+    await this.session.keep(requestModels(factoryModels))
     const tvornica = new Factory()
     tvornica.position.z = -35
     this.add(tvornica)

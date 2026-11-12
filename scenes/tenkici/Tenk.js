@@ -1,43 +1,50 @@
 import { keyboard } from '/core/io/Keyboard.js'
 import platno from '/core/io/platno.js'
-import Vreme from '/core/Vreme.js'
 import Predmet from '/core/actor/Predmet.js'
-import { praviEnergiju } from '/core/actor/prosirenja/energija.js'
-import { praviPucanje } from '/core/actor/prosirenja/pucanje.js'
+import ProjectilePool from '/core/actor/ProjectilePool.js'
 import Granata from '/core/actor/projektili/Granata.js'
+import Cooldown from '/core/gameplay/Cooldown.js'
+import Health from '/core/gameplay/Health.js'
+import Weapon from '/core/gameplay/Weapon.js'
+import { frames } from '/core/konstante.js'
 
 const gravitacija = 90
 const statickoTrenje = 0.3
 const kinetickoTrenje = 0.1
 const potisakMetka = window.innerWidth > 1920 ? 520 : 500
+const reloadTime = 1 // seconds
+const burnBelow = 20 // energy at which a tank catches fire
 
-/* Abstract class */
+/** Abstract class. `clock` is the game clock: reloading and the AI's timing wait in a pause. */
 export default class Tenk extends Predmet {
   constructor(src, {
+    clock,
     cevSlika,
     tenkDesno = false,
     skalar = window.innerWidth > 1280 ? 0.5 : 0.4,
-    vremePunjenjaAI = 1500,
+    vremePunjenjaAI = 1.5, // seconds between AI shots
     ...rest
   } = {}) {
     super(src, { zapaljiv: true, skalar, z: -1, ...rest })
+    this.health = new Health({ maximum: 100 })
     this.tenkDesno = tenkDesno
-    this.vremePunjenjaAI = vremePunjenjaAI
     this.cev = new Predmet(cevSlika, { skalar })
     this.cev.onload = () => this.azurirajCev()
-    this.vreme = new Vreme()
     this.potisak = 25
-    this.meci = []
     this.spremno = false
-    // AI
+    this.ciljevi = []
+    this.granate = new ProjectilePool({ owner: this, create: () => new Granata({ gravitacija, clock }) })
+    this.weapon = new Weapon({
+      cooldown: new Cooldown({ seconds: reloadTime, clock }),
+      spawnProjectile: (position, angle) => this.granate.fire(position, angle, potisakMetka),
+    })
+    // AI: each wait starts with the tank, as on the old wall clock
     this.ai = false
     this.smer = this.ugao
-    this.vremeSile = new Vreme()
-    this.vremeSmera = new Vreme()
-    this.vremePucanja = new Vreme()
-    // proširenja
-    Object.defineProperties(this, Object.getOwnPropertyDescriptors(praviEnergiju()))
-    Object.assign(this, praviPucanje({ projektil: Granata, vremePunjenja: 1, potisakMetka, gravitacija }))
+    this.aiPush = new Cooldown({ seconds: .07, clock })
+    this.aiTurn = new Cooldown({ seconds: .3, clock })
+    this.aiFire = new Cooldown({ seconds: vremePunjenjaAI, clock })
+    ;[this.aiPush, this.aiTurn, this.aiFire].forEach(wait => wait.start())
     this.predmeti.push(this.cev)
   }
 
@@ -45,6 +52,27 @@ export default class Tenk extends Predmet {
     const x = Math.cos(this.cev.ugao) * this.cev.dijagonala + this.cev.x
     const y = Math.sin(this.cev.ugao) * this.cev.dijagonala + this.cev.y
     return { x, y }
+  }
+
+  /* ZDRAVLJE: the old names, read from the one health */
+
+  get energija() {
+    return this.health.current
+  }
+
+  get alive() {
+    return this.health.alive
+  }
+
+  /** Coming back to life restores full energy, as it always has. */
+  set alive(value) {
+    if (!this.health) return // Predmet sets it before the tank has its health, which starts full anyway
+    if (value) this.health.reset()
+    else this.health.damage(this.health.current)
+  }
+
+  get zapaljen() {
+    return this.zapaljiv && this.health.current <= burnBelow
   }
 
   get ugaoUnazad() {
@@ -61,9 +89,14 @@ export default class Tenk extends Predmet {
     }
   }
 
+  /** The recoil comes only with a shot that the reload allowed. */
   pucaj(poz, ugao) {
-    this.pali(poz, ugao)
-    this.trzaj()
+    if (this.weapon.tryFire(poz, ugao)) this.trzaj()
+  }
+
+  /** A push while a key is held, as one a frame at the frame rate the game was tuned at, on any screen. */
+  vozi(snaga, ugao, dt) {
+    this.dodajSilu(snaga * frames(dt, this.tunedFps), ugao)
   }
 
   trzaj() {
@@ -72,7 +105,7 @@ export default class Tenk extends Predmet {
 
   reagujNaPogodak(steta) {
     this.trzaj()
-    this.skiniEnergiju(steta)
+    this.health.damage(steta)
   }
 
   /* AI */
@@ -82,9 +115,9 @@ export default class Tenk extends Predmet {
   }
 
   izaberiSmer() {
-    if (this.vremeSmera.proteklo > 300) {
+    if (this.aiTurn.ready) {
       this.smer = Math.random() > 0.4 ? this.ugao : this.ugaoUnazad
-      this.vremeSmera.reset()
+      this.aiTurn.start()
     }
 
     if (this.x > platno.width * 0.9) this.smer = this.ugao
@@ -92,9 +125,9 @@ export default class Tenk extends Predmet {
   }
 
   povremenoDodajSilu() {
-    if (this.vremeSile.proteklo > 70) {
+    if (this.aiPush.ready) {
       this.dodajSilu(Math.random() * this.potisak, this.smer)
-      this.vremeSile.reset()
+      this.aiPush.start()
     }
   }
 
@@ -104,15 +137,20 @@ export default class Tenk extends Predmet {
   }
 
   pucajNasumicno() {
-    if (this.vremePucanja.proteklo < this.vremePunjenjaAI) return
+    if (!this.aiFire.ready) return
     this.pucaj(this.vrhCevi, this.cev.ugao)
-    this.vremePucanja.reset()
+    this.aiFire.start()
+  }
+
+  najbliziCilj() {
+    const zivi = this.ciljevi.filter(cilj => cilj.alive)
+    return zivi.reduce((najblizi, cilj) => this.razmakDo(cilj) < this.razmakDo(najblizi) ? cilj : najblizi, zivi[0])
   }
 
   samohod() {
     if (this.dead) return
     this.mrdajNasumicno()
-    const cilj = this.traziNajblizuMetu()
+    const cilj = this.najbliziCilj()
     if (!cilj || cilj.dead) return
     this.nisani(cilj)
     this.pucajNasumicno()
@@ -125,6 +163,6 @@ export default class Tenk extends Predmet {
     if (this.ai) this.samohod()
     this.azurirajCev()
     this.trenje(this.brzina > 0.1 ? kinetickoTrenje : statickoTrenje, dt)
-    this.proveriPogotke()
+    this.granate.checkHits(this.ciljevi)
   }
 }

@@ -4,6 +4,8 @@ import Actor from './Actor.js'
 import ChaseCamera from '/core3d/actor/ChaseCamera.js'
 import { currentStyleClasses } from '/ui/styles.js'
 import { FPS } from '/core/konstante.js'
+import PlayerController from './behaviors/PlayerController.js'
+import PlayerView from './behaviors/PlayerView.js'
 
 const emptyDict = dict => dict && Object.fromEntries(Object.keys(dict).map(k => [k, '']))
 
@@ -21,10 +23,20 @@ export default class Player extends Actor {
     input = new Input({ useJoystick, useKeyboard, attackKey, buttonDict: buttonDict || emptyDict(animDict) }),
     camera,
     showCameraButton,
+    useComposedMovement = false,
     ...rest
   } = {}) {
 
-    super({ name: 'player', input, animDict, jumpStyle, attackStyle, shouldRaycastGround, ...rest })
+    super({
+      name: 'player', input, controller: useComposedMovement ? new PlayerController(input) : undefined,
+      useComposedMovement, animDict, jumpStyle, attackStyle, shouldRaycastGround, ...rest,
+    })
+    if (useComposedMovement) {
+      this.view = new PlayerView({ mesh: this.mesh, height: this.height, health: this.health, camera, showCameraButton, showHealthBar })
+      this.chaseCamera = this.view.chaseCamera
+      this.healthBar = this.view.healthBar
+      return
+    }
     if (camera) {
       this.shouldAlignCamera = true
       this.chaseCamera = new ChaseCamera({ camera, mesh: this.mesh, height: this.height, showCameraButton })
@@ -72,6 +84,7 @@ export default class Player extends Actor {
   }
 
   updateHealthBar() {
+    if (this.view) return this.view.updateHealthBar()
     this.healthBar.value = this.energy
   }
 
@@ -109,16 +122,24 @@ export default class Player extends Actor {
 
   update(delta = 1 / FPS) {
     super.update(delta)
-    if (this.shouldAlignCamera) {
+    if (this.view) this.view.update(delta, this.state)
+    else if (this.shouldAlignCamera) {
       this.chaseCamera.alignCamera()
       this.shouldAlignCamera = false
     }
-    if (this.chaseCamera) this.chaseCamera.update(delta, this.state)
-    if (this.healthBar) this.updateHealthBar()
+    if (!this.view) {
+      if (this.chaseCamera) this.chaseCamera.update(delta, this.state)
+      if (this.healthBar) this.updateHealthBar()
+    }
     if (this.healths) this.checkHealths()
   }
 
   end() {
+    if (this.view) {
+      this.controller.end()
+      this.view.end()
+      return
+    }
     this.input.end()
     this.healthBar?.remove()
     this.chaseCamera?.end()

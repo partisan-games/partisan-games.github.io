@@ -5,11 +5,17 @@ import { createGround } from '/core3d/ground.js'
 import { createMoon, orbiting } from '/core3d/light.js'
 import { getEmptyCoords, sample } from '/core3d/helpers.js'
 import { createTombstone } from '/core3d/geometry/shapes.js'
-import { GothGirlAI } from '/core3d/actor/derived/horror/GothGirl.js'
-import { ZombieBarefootAI } from '/core3d/actor/derived/horror/ZombieBarefoot.js'
-import { ZombieCopAI } from '/core3d/actor/derived/horror/ZombieCop.js'
-import { ZombieDoctorAI } from '/core3d/actor/derived/horror/ZombieDoctor.js'
-import { ZombieGuardAI } from '/core3d/actor/derived/horror/ZombieGuard.js'
+import { GothGirlAI, models as gothModels } from '/core3d/actor/derived/horror/GothGirl.js'
+import { ZombieBarefootAI, models as barefootModels } from '/core3d/actor/derived/horror/ZombieBarefoot.js'
+import { ZombieCopAI, models as copModels } from '/core3d/actor/derived/horror/ZombieCop.js'
+import { ZombieDoctorAI, models as doctorModels } from '/core3d/actor/derived/horror/ZombieDoctor.js'
+import { ZombieGuardAI, models as guardModels } from '/core3d/actor/derived/horror/ZombieGuard.js'
+import { GhostAI, models as ghostModels } from '/core3d/actor/derived/horror/Ghost.js'
+import DeadTree, { models as treeModels } from '/core3d/objects/DeadTree.js'
+import { SorceressPlayer, models as sorceressModels } from '/core3d/actor/derived/fantasy/Sorceress.js'
+import { Smoke } from '/core3d/Particles.js'
+import { requestModels } from '/core3d/assets/models.js'
+import ZombieWaves from './ZombieWaves.js'
 
 const moonSpeed = .005
 const totalTime = 300
@@ -34,10 +40,13 @@ export default class extends Scena3D {
   }
 
   async init() {
+    await this.session.keep(requestModels([
+      ...gothModels, ...barefootModels, ...copModels, ...doctorModels, ...guardModels,
+      ...ghostModels, ...treeModels, ...sorceressModels,
+    ]))
     this.npcs = []
     this.solids = []
     this.zombies = []
-    this.last = Date.now()
     this.bojaPozadine = 0x202030
 
     this.coords = getEmptyCoords({ mapSize, fieldSize: 1, emptyCenter: 1 })
@@ -53,43 +62,41 @@ export default class extends Scena3D {
 
     /* LAZY LOAD */
 
-    const DeadTree = await import('/core3d/objects/DeadTree.js')
     for (let i = 0; i < 10; i++) {
-      const tree = new DeadTree.default({ pos: this.coords.pop(), scale: Math.random() * 1 + 1, rotateY: Math.random() * Math.PI })
+      const tree = new DeadTree({ pos: this.coords.pop(), scale: Math.random() * 1 + 1, rotateY: Math.random() * Math.PI })
       this.solids.push(tree.mesh)
       this.addMesh(tree.mesh)
     }
 
-    const { GhostAI } = await import('/core3d/actor/derived/horror/Ghost.js')
     for (let i = 0; i < 30; i++) {
-      const ghost = new GhostAI({ pos: this.coords.pop(), mapSize, name: 'enemy' })
+      const ghost = new GhostAI({ pos: this.coords.pop(), mapSize, name: 'enemy', useComposedMovement: true })
       this.npcs.push(ghost)
       this.add(ghost)
     }
 
-    const { SorceressPlayer } = await import('/core3d/actor/derived/fantasy/Sorceress.js')
-    this.player = new SorceressPlayer({ camera: this.camera, solids: this.solids, attackKey: 'Enter' })
+    this.player = new SorceressPlayer({ camera: this.camera, solids: this.solids, attackKey: 'Enter', useComposedMovement: true })
     this.add(this.player)
 
-    const { Smoke } = await import('/core3d/Particles.js')
     this.particles = new Smoke({ size: 1, num: 100, minRadius: 0, maxRadius: .5, minVelocity: .2, maxVelocity: .5, min: -1, max: 0, loop: false })
     this.add(this.particles)
+    this.spawner = new ZombieWaves({ session: this.session, spawn: () => this.addZombie() })
   }
 
   /* FUNCTIONS */
 
-  async spawnZombie(interval) {
-    if (Date.now() - this.last >= interval) {
-      this.last = Date.now()
-      const ZombieClass = sample([GothGirlAI, ZombieBarefootAI, ZombieCopAI, ZombieDoctorAI, ZombieGuardAI])
-      const pos = sample(this.coords)
-      const zombie = new ZombieClass({ mapSize, target: this.player.mesh, solids: this.solids, pos })
-      this.particles.reset({ pos })
-      this.player.addSolids(zombie.mesh)
-      this.add(zombie)
-      this.npcs.push(zombie)
-      this.zombies.push(zombie)
-    }
+  spawnZombie(interval) {
+    this.spawner.update(interval / 1000)
+  }
+
+  addZombie() {
+    const ZombieClass = sample([GothGirlAI, ZombieBarefootAI, ZombieCopAI, ZombieDoctorAI, ZombieGuardAI])
+    const pos = sample(this.coords)
+    const zombie = new ZombieClass({ mapSize, target: this.player.mesh, solids: this.solids, pos, useComposedMovement: true })
+    this.particles.reset({ pos })
+    this.player.addSolids(zombie.mesh)
+    this.add(zombie)
+    this.npcs.push(zombie)
+    this.zombies.push(zombie)
   }
 
   /* LOOP */

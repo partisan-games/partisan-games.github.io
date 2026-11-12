@@ -143,10 +143,24 @@ export default [{
       message: 'update() runs every frame, so this schedules a new timer each frame; count game time with dt instead.',
     }, {
       selector: "CallExpression[callee.name='setTimeout']:not(MethodDefinition[key.name='update'] CallExpression)",
-      message: 'A browser timer keeps running through pause and into the next game; use after() from /core/timers.js.',
+      message: 'A browser timer keeps running through pause and into the next game; use after() of the session scopes (this.session.gameplay or presentation) or of an actor clock.',
     }, {
       selector: "CallExpression[callee.name='setInterval'], CallExpression[callee.property.name='setInterval']",
       message: 'An interval keeps running through pause and after the game ends; count game time with dt in update() instead.',
+    }, {
+      selector: "CallExpression[callee.object.name=/^(Date|performance)$/][callee.property.name='now'], NewExpression[callee.name='Date']",
+      message: 'Wall-clock time runs on through pause and after the game ends; count game time with dt or read the session clock.',
+    }],
+  },
+}, {
+  // the rules and the runtime are plain logic that every game shares: they must not reach into games, the page or rendering
+  files: ['core/gameplay/**/*.js', 'core/runtime/**/*.js'],
+  rules: {
+    'no-restricted-imports': ['error', {
+      patterns: [{
+        regex: '^(/|three)',
+        message: 'core/gameplay and core/runtime import only each other, by relative path: no games, page, rendering or io.',
+      }],
     }],
   },
 }]

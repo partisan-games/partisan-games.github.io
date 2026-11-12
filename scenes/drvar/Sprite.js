@@ -32,8 +32,8 @@ export default class Sprite {
     this.timeAccumulator += dt
     const frameDuration = 1 / this.frameRate
 
-    if (this.timeAccumulator >= frameDuration) {
-      this.timeAccumulator -= frameDuration
+    while (this.timeAccumulator + frameDuration * 1e-12 >= frameDuration) {
+      this.timeAccumulator = Math.max(0, this.timeAccumulator - frameDuration)
       this.currentFrame = (this.currentFrame + 1) % this.frameCount
       this.texture.offset.x = this.currentFrame / this.frameCount
 

@@ -7,11 +7,11 @@ import AI from '/core3d/actor/AI.js'
 const createBody = height => new Mesh(new BoxGeometry(1, height, 1).translate(0, height / 2, 0))
 
 /** Like the golem, the follower's forward ray hits the target before it gets within followDistance. */
-function createFollower() {
+function createFollower(options = {}) {
   const scene = new Scene()
   const target = createBody(2)
   target.name = 'player'
-  const ai = new AI({ mesh: createBody(2.5), pos: [6, 0, 0], baseState: 'follow', target })
+  const ai = new AI({ mesh: createBody(2.5), pos: [6, 0, 0], baseState: 'follow', target, ...options })
   scene.add(target, ai.mesh)
   const play = seconds => {
     let switches = 0
@@ -43,4 +43,24 @@ test('a stopped follower walks again once the target moves away', () => {
   target.position.x -= 3
   play(.5)
   assert.equal(ai.state, 'follow')
+})
+
+test('the composed movement of the follow pilot follows, stops and walks again exactly like the old one', () => {
+  const runs = [{}, { useComposedMovement: true }].map(options => {
+    const { ai, target, play } = createFollower(options)
+    const path = []
+    for (let i = 0; i < 4; i++) {
+      play(1.25)
+      path.push([ai.state, ai.position.x, ai.position.z])
+    }
+    target.position.x -= 3
+    play(.5)
+    path.push([ai.state, ai.position.x, ai.position.z])
+    return path
+  })
+  runs[0].forEach(([state, x, z], i) => {
+    const [composedState, cx, cz] = runs[1][i]
+    assert.equal(composedState, state, `state ${i}`)
+    assert.ok(Math.abs(cx - x) < 1e-7 && Math.abs(cz - z) < 1e-7, `position ${i}`)
+  })
 })

@@ -3,7 +3,6 @@ import assert from 'node:assert/strict'
 import { AnimationClip, BoxGeometry, Mesh, NumberKeyframeTrack, Scene } from 'three'
 import AI from '/core3d/actor/AI.js'
 import Animator from '/core3d/actor/Animator.js'
-import * as timers from '/core/timers.js'
 
 const clipNames = ['idle', 'walk', 'pain', 'attack', 'jump']
 const animDict = Object.fromEntries(clipNames.map(name => [name, name]))
@@ -88,7 +87,7 @@ test('a delayed flame does not start after the attack has already ended', () => 
 
   ai.startFlame(1, () => damaged++)
   ai.endFlame()
-  timers.update(1)
+  ai.clock.advance(1)
 
   assert.equal(damaged, 0)
   assert.equal(ai.shouldLoop, false)
@@ -102,7 +101,7 @@ test('an attack that lands after the actor left the scene does nothing', () => {
 
   ai.enterAttack('player')
   scene.remove(ai.mesh)
-  timers.update(1)
+  ai.clock.advance(1)
 
   assert.equal(sounds, 0)
 })

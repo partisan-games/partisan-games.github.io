@@ -1,5 +1,4 @@
 import Predmet from '/core/actor/Predmet.js'
-import Vreme from '/core/Vreme.js'
 import mish from '/core/io/mish.js'
 import { createSound, randomVolume } from '/core/io/sound.js'
 
@@ -18,7 +17,7 @@ export default class Svabo extends Predmet {
 
   init() {
     this.stoji = false
-    this.vreme = new Vreme()
+    this.aimElapsed = 0
     this.vremeNisanjenja = 2.5
     this.slikaGore = 'armies/nemac-rov.gif'
     this.slikaDole = 'armies/rov-prazan.gif'
@@ -33,7 +32,7 @@ export default class Svabo extends Predmet {
     this.stoji = bul
     const slika = bul ? this.slikaGore : this.slikaDole
     this.postaviSliku(slika)
-    if (bul) this.vreme.reset()
+    if (bul) this.aimElapsed = 0
   }
 
   ustani() {
@@ -55,7 +54,7 @@ export default class Svabo extends Predmet {
 
   jeSpreman() {
     if (!this.stoji) return false
-    return this.vreme.protekloSekundi >= this.vremeNisanjenja
+    return this.aimElapsed >= this.vremeNisanjenja
   }
 
   ubrzaj(n) {
@@ -65,6 +64,7 @@ export default class Svabo extends Predmet {
   update(dt) {
     super.update(dt)
     this.povremenoUstaje(dt)
+    if (this.stoji) this.aimElapsed += dt
     if (this.jeSpreman()) {
       this.puca()
       rafal.play()

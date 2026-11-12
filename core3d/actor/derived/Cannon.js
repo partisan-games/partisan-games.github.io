@@ -1,20 +1,23 @@
 import * as THREE from 'three'
 import Player from '/core3d/actor/Player.js'
-import { loadModel } from '/core3d/loaders.js'
+import { loadedModel } from '/core3d/assets/models.js'
 import { createSphere } from '/core3d/geometry/index.js'
 import { Ammo } from '/core3d/physics/index.js'
 import PowerMeter from '/ui/PowerMeter.js'
 
 /* LOADING */
 
-const mesh = await loadModel({ file: 'weapon/cannon/civil-war-cannon.fbx', size: 1.5 })
+const model = { file: 'weapon/cannon/civil-war-cannon.fbx', size: 1.5 }
+
+/** What to load; a game awaits requestModels(models) before it creates one. */
+export const models = [model]
 
 /* EXTENDED CLASSES */
 
 export class CannonPlayer extends Player {
   constructor(props = {}) {
     // the keyboard also tracks a held pointer, which charges the shot on touch screens too
-    super({ mesh, showHealthBar: false, canMove: false, speed: .5, useKeyboard: true, ...props })
+    super({ mesh: loadedModel(model), showHealthBar: false, canMove: false, speed: .5, useKeyboard: true, ...props })
     // 0.2 per frame at 60 frames per second, as when the power was a slider
     this.power = new PowerMeter({ min: 10, max: 25, chargePerSecond: 12 })
     this.shots = 20
@@ -38,7 +41,8 @@ export class CannonPlayer extends Player {
     dir.normalize().multiplyScalar(this.power.value)
 
     const velocity = new Ammo.btVector3(dir.x, dir.y, dir.z)
-    ball.userData.body.setLinearVelocity(velocity)
+    ball.userData.body.setLinearVelocity(velocity) // the body copies it
+    Ammo.destroy(velocity)
 
     this.power.reset()
     this.shots --

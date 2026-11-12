@@ -113,7 +113,8 @@ function actionsOf(vehicle, methods, reset = () => {}) {
 
 test('the left tank drives, aims and fires with A, D, W, S and Space', async() => {
   const { default: TenkLevo } = await import('/scenes/tenkici/TenkLevo.js')
-  const tank = new TenkLevo({ x: 100, xLimit: 500 })
+  const { default: GameClock } = await import('/core/runtime/GameClock.js')
+  const tank = new TenkLevo({ x: 100, xLimit: 500, clock: new GameClock() })
   assert.deepEqual(actionsOf(tank, ['dodajSilu', 'diziCev', 'spustajCev', 'pucaj']), {
     KeyA: ['dodajSilu'], KeyD: ['dodajSilu'], KeyW: ['diziCev'], KeyS: ['spustajCev'], Space: ['pucaj'],
   })
@@ -122,7 +123,8 @@ test('the left tank drives, aims and fires with A, D, W, S and Space', async() =
 test('the right tank drives, aims and fires with the arrows and Enter', async() => {
   const { default: TenkDesno } = await import('/scenes/tenkici/TenkDesno.js')
   const { default: platno } = await import('/core/io/platno.js')
-  const tank = new TenkDesno({ ai: false })
+  const { default: GameClock } = await import('/core/runtime/GameClock.js')
+  const tank = new TenkDesno({ ai: false, clock: new GameClock() })
   tank.x = platno.width * .75
   assert.deepEqual(actionsOf(tank, ['dodajSilu', 'diziCev', 'spustajCev', 'pucaj']), {
     ArrowLeft: ['dodajSilu'], ArrowRight: ['dodajSilu'], ArrowUp: ['diziCev'], ArrowDown: ['spustajCev'], Enter: ['pucaj'],

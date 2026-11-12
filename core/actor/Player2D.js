@@ -24,27 +24,27 @@ export default class Player2D extends Predmet {
 
   nalevo(dt) {
     if (this.komandeNapredne)
-      this.ugao -= this.okret * frames(dt)
+      this.ugao -= this.okret * frames(dt, this.tunedFps)
     else
-      this.dodajSilu(this.potisak * frames(dt), KRUZNICA / 2)
+      this.dodajSilu(this.potisak * frames(dt, this.tunedFps), KRUZNICA / 2)
   }
 
   nadesno(dt) {
     if (this.komandeNapredne)
-      this.ugao += this.okret * frames(dt)
+      this.ugao += this.okret * frames(dt, this.tunedFps)
     else
-      this.dodajSilu(this.potisak * frames(dt), 0)
+      this.dodajSilu(this.potisak * frames(dt, this.tunedFps), 0)
   }
 
   nagore(dt) {
     const ugao = this.komandeNapredne ? this.ugao : -KRUZNICA / 4
-    this.dodajSilu(this.potisak * frames(dt), ugao)
+    this.dodajSilu(this.potisak * frames(dt, this.tunedFps), ugao)
   }
 
   nadole(dt) {
     const ugao = this.komandeNapredne ? this.ugao : KRUZNICA / 4
     const potisak = this.komandeNapredne ? (-this.potisak / 2) : this.potisak
-    this.dodajSilu(potisak * frames(dt), ugao)
+    this.dodajSilu(potisak * frames(dt, this.tunedFps), ugao)
   }
 
   puca() {

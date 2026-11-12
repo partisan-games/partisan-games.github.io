@@ -85,10 +85,10 @@ export default class extends Scena3D {
 
   async handleClick(e) {
     super.handleClick(e)
-    if (e.target.tagName != 'INPUT' || this.choosingAvatar) return
+    if (e.target.tagName != 'INPUT' || !['STONE', 'DISCO', 'LAVA'].includes(e.target.id) || this.choosingAvatar) return
     this.choosingAvatar = true // a second click while the avatar loads would add a second one
 
-    const Avatar = await import('/core3d/actor/Avatar.js')
+    const Avatar = await this.session.keep(import('/core3d/actor/Avatar.js'))
     if (this.ui.ended) return
     this.player = new Avatar.default({ camera: this.camera, solids: [this.ground, ...this.boxes], skin: e.target.id, showHealthBar: true, maxJumpTime: .99 })
     this.player.chaseCamera.distance = 6
@@ -126,7 +126,7 @@ export default class extends Scena3D {
     if (!this.player || this.ui.outro) return
 
     this.lava.material.uniforms.time.value = t * .5
-    if (inLava(this.player) && this.player.skin != 'LAVA') {
+    if (inLava(this.player) && !this.player.immuneToLava) {
       this.ui.showMessage('Get out of the lava, you\'re burning!')
       this.player.energy -= 6 * dt // 6 per second, the old .1 per frame at 60 fps
     }

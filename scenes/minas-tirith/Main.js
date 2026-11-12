@@ -4,7 +4,8 @@ import { recursiveBacktracker } from '/core3d/mazes/algorithms.js'
 import { createSun, ambLight } from '/core3d/light.js'
 import { createHill } from '/core3d/ground.js'
 import { baseControls } from '/ui/Controls.js'
-import { GolemPlayer } from '/core3d/actor/derived/fantasy/Golem.js'
+import { GolemPlayer, models as golemModels } from '/core3d/actor/derived/fantasy/Golem.js'
+import { requestModels } from '/core3d/assets/models.js'
 
 const rows = 20
 const cellSize = 10
@@ -19,6 +20,7 @@ export default class extends Scena3D {
   }
 
   async init() {
+    await requestModels([...golemModels])
     const hill = createHill(mazeSize * 2.05, 164)
     this.addMesh(hill)
 

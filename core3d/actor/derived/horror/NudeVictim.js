@@ -1,6 +1,6 @@
 import Player from '/core3d/actor/Player.js'
 import AI from '/core3d/actor/AI.js'
-import { loadModel } from '/core3d/loaders.js'
+import { loadedModel } from '/core3d/assets/models.js'
 
 const animDict = {
   idle: 'Unarmed Idle',
@@ -10,23 +10,27 @@ const animDict = {
   special: 'Zombie Agonizing',
 }
 
-/* LOADING */
+/* MODEL DESCRIPTION: the scene awaits requestModels(models) before construction. */
 
 // BUG: model is not centered
-const mesh = await loadModel({ file: 'model.fbx', size: 1.75, prefix: 'character/nude-victim/', animDict, angle: Math.PI })
+export const model = { file: 'model.fbx', size: 1.75, prefix: 'character/nude-victim/', animDict, angle: Math.PI }
+export const models = [model]
 
 /* EXTENDED CLASSES */
 
-const sharedProps = { mesh, animations: mesh.userData.animations, animDict, runCoefficient: 1 }
+const sharedProps = () => {
+  const mesh = loadedModel(model)
+  return { mesh, animations: mesh.userData.animations, animDict, runCoefficient: 1 }
+}
 
 export class NudeVictimPlayer extends Player {
   constructor(props = {}) {
-    super({ ...sharedProps, ...props })
+    super({ ...sharedProps(), ...props })
   }
 }
 
 export class NudeVictimAI extends AI {
   constructor(props = {}) {
-    super({ ...sharedProps, ...props })
+    super({ ...sharedProps(), ...props })
   }
 }

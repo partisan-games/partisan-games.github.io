@@ -1,7 +1,6 @@
 import * as THREE from 'three'
 import { dir } from '/core3d/constants.js'
 import { assets } from '/config.js'
-import { after } from '/core/timers.js'
 
 const { randFloat, randFloatSpread } = THREE.MathUtils
 const raycaster = new THREE.Raycaster()
@@ -205,7 +204,7 @@ export function arrowHelper(actor, height) {
   const attackDir = dir.forward.clone().applyQuaternion(actor.mesh.quaternion).normalize()
   const arrow = new THREE.ArrowHelper(attackDir, start, actor.attackDistance, 0xff0000)
   actor.scene.add(arrow)
-  after(3, () => {
+  actor.clock.after(3, () => {
     actor.scene.remove(arrow)
   })
 }

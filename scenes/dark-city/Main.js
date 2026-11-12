@@ -1,10 +1,9 @@
 // https://codepen.io/MAKIO135/pen/vmBzMv
 import Scena3D, { bojeNeba } from '/core/Scena3D.js'
-import TWEEN from 'three/examples/jsm/libs/tween.module.js'
+import CityMorph from './CityMorph.js'
 import { createFloor } from '/core3d/ground.js'
 import { createBuilding, createBuildingTexture } from '/core3d/city.js'
 import { createMoon } from '/core3d/light.js'
-import { after } from '/core/timers.js'
 
 const mapSize = 400
 
@@ -28,41 +27,21 @@ export default class extends Scena3D {
       this.addMesh(building)
     }
 
+    this.morph = new CityMorph({ buildings: this.buildings, clock: this.session.presentationClock })
+    this.session.scope.add(() => this.morph.end())
     this.grow()
     document.addEventListener('pointerdown', this.grow)
-    after(2, () => this.ui.showMessage('Click to morph city'))
-  }
-
-  end() {
-    super.end()
-    document.removeEventListener('pointerdown', this.grow)
+    this.session.scope.add(() => document.removeEventListener('pointerdown', this.grow))
+    this.session.gameplay.after(2, () => this.ui.showMessage('Click to morph city'))
   }
 
   grow = () => {
-    this.buildings.forEach(building => {
-      const y = 1 + Math.random() * 20 + (Math.random() < 0.1 ? 15 : 0)
-
-      new TWEEN.Tween(building.scale)
-        .to({
-          x: 1 + Math.random() * 3,
-          y,
-          z: 1 + Math.random() * 3,
-        })
-        .start()
-
-      new TWEEN.Tween(building.position)
-        .to({
-          x: -mapSize * .5 + Math.random() * mapSize,
-          z: -mapSize * .5 + Math.random() * mapSize,
-          y: y / 2,
-        })
-        .start()
-    })
+    if (this.session.active) this.morph.grow(mapSize)
   }
 
   update(dt) {
     super.update(dt)
-    TWEEN.update()
+    this.morph.update()
   }
 
 }

@@ -44,7 +44,7 @@ function assertHappensAfter(play, seconds, happened) {
 test('a shot down enemy plane in vis falls for 2 s and then is gone', async t => {
   const { scene, play } = startScene(t)
   const { default: Enemy } = await import('/scenes/vis/Enemy.js')
-  const plane = new Enemy({ path: 'boss' }) // stays on the screen
+  const plane = new Enemy({ session: scene.session, path: 'boss' }) // stays on the screen
   scene.add(plane)
 
   plane.umri()
@@ -54,7 +54,7 @@ test('a shot down enemy plane in vis falls for 2 s and then is gone', async t =>
 test('the player plane in vis flies again 2.5 s after it is shot down', async t => {
   const { scene, play } = startScene(t)
   const { Avionce } = await import('/scenes/vis/Avionce.js')
-  const plane = new Avionce()
+  const plane = new Avionce({ session: scene.session })
   scene.add(plane)
 
   plane.umri()
@@ -65,7 +65,7 @@ test('the player plane in vis flies again 2.5 s after it is shot down', async t 
 test('a grenade hurts its target 0.15 s after it hits', async t => {
   const { scene, play } = startScene(t)
   const { default: Granata } = await import('/core/actor/projektili/Granata.js')
-  const grenade = new Granata()
+  const grenade = new Granata({ clock: scene.session.clock })
   let hurt = false
   grenade.povredi = () => {
     hurt = true
@@ -79,7 +79,7 @@ test('a grenade hurts its target 0.15 s after it hits', async t => {
 test('a grenade that is reset before it hurts its target never hurts it', async t => {
   const { scene, play } = startScene(t)
   const { default: Granata } = await import('/core/actor/projektili/Granata.js')
-  const grenade = new Granata()
+  const grenade = new Granata({ clock: scene.session.clock })
   let hurt = false
   grenade.povredi = () => {
     hurt = true
@@ -93,15 +93,20 @@ test('a grenade that is reset before it hurts its target never hurts it', async 
 })
 
 const createActor = async() => {
-  const { default: Actor } = await import('/core3d/actor/Actor.js')
-  const actor = new Actor({ mesh: new Mesh(new BoxGeometry(1, 2, 1)) })
+  const { default: AI } = await import('/core3d/actor/AI.js')
+  const actor = new AI({ mesh: new Mesh(new BoxGeometry(1, 2, 1)) })
   new Scene().add(actor.mesh)
   return actor
 }
 
-test('an attack strikes halfway through its animation', async t => {
-  const { play } = startScene(t)
+/** Plays the actor alone, frame by frame: its delayed actions wait on its own game time. */
+const playActor = actor => seconds => {
+  for (let i = 0; i < Math.round(seconds * 60); i++) actor.update(1 / 60)
+}
+
+test('an attack strikes halfway through its animation', async() => {
   const actor = await createActor()
+  const play = playActor(actor)
   let struck = false
   actor.intersect = () => {
     struck = true
@@ -113,9 +118,9 @@ test('an attack strikes halfway through its animation', async t => {
   assertHappensAfter(play, .4, () => struck)
 })
 
-test('a fire attack starts its flame after the delay it asks for', async t => {
-  const { play } = startScene(t)
+test('a fire attack starts its flame after the delay it asks for', async() => {
   const actor = await createActor()
+  const play = playActor(actor)
   const { Flame } = await import('/core3d/Particles.js')
   actor.flame = new Flame()
   let burning = false
@@ -127,7 +132,7 @@ test('a fire attack starts its flame after the delay it asks for', async t => {
 })
 
 test('lightning lights the sky for half a second and the thunder follows by distance', async t => {
-  const { play } = startScene(t)
+  const { scene, play } = startScene(t)
   const { lightningStrike } = await import('/core3d/light.js')
   const light = new AmbientLight(0xffffff, 1)
   let thunder = false
@@ -138,60 +143,11 @@ test('lightning lights the sky for half a second and the thunder follows by dist
   }
   t.mock.method(Math, 'random', () => 0) // the closest strike: 100 m, thunder after 0.3 s
 
-  lightningStrike(light, new Scene())
+  lightningStrike(light, new Scene(), scene.session.presentation)
   assert.notEqual(light.intensity, 1)
   assertHappensAfter(play, .3, () => thunder)
   play(.1)
   assert.notEqual(light.intensity, 1, 'still lit at 0.45 s')
   play(.1)
   assert.equal(light.intensity, 1, 'dark again at 0.55 s')
-})
-
-test('a delayed action waits while the game is paused', async t => {
-  const { scene, play } = startScene(t)
-  const { after } = await import('/core/timers.js')
-  let done = false
-  after(1, () => {
-    done = true
-  })
-
-  play(.5)
-  scene.pause()
-  play(5)
-  assert.equal(done, false, 'not during the pause')
-
-  scene.unpause()
-  assertHappensAfter(play, .5, () => done)
-})
-
-test('a delayed action of a game that has ended never fires in the next game', async t => {
-  const { scene, play } = startScene(t)
-  const { after } = await import('/core/timers.js')
-  let done = false
-  after(1, () => {
-    done = true
-  })
-
-  scene.end()
-  const next = new Scena({ canvas: document.createElement('canvas') })
-  next.start()
-  play(3)
-  next.end()
-
-  assert.equal(done, false)
-})
-
-test('a cancelled action never fires, and one action can cancel another due at the same time', async t => {
-  const { play } = startScene(t)
-  const { after, cancel } = await import('/core/timers.js')
-  const fired = []
-  let second = null
-  after(1, () => cancel(second))
-  second = after(1, () => fired.push('second'))
-  after(.5, () => fired.push('first'))
-  const third = after(2, () => fired.push('third'))
-  cancel(third)
-
-  play(3)
-  assert.deepEqual(fired, ['first'])
 })

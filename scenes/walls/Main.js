@@ -4,7 +4,8 @@ import Maze from '/core3d/mazes/Maze.js'
 import { recursiveBacktracker } from '/core3d/mazes/algorithms.js'
 import { createGround } from '/core3d/ground.js'
 import { createSun } from '/core3d/light.js'
-import { SorceressPlayer } from '/core3d/actor/derived/fantasy/Sorceress.js'
+import { SorceressPlayer, models as sorceressModels } from '/core3d/actor/derived/fantasy/Sorceress.js'
+import { requestModels } from '/core3d/assets/models.js'
 
 export default class extends Scena3D {
   constructor() {
@@ -17,6 +18,7 @@ export default class extends Scena3D {
   }
 
   async init() {
+    await requestModels([...sorceressModels])
     this.addMesh(createSun())
     this.addMesh(createGround())
 

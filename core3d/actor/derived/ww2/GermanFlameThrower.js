@@ -1,6 +1,6 @@
 import Player from '/core3d/actor/Player.js'
 import AI from '/core3d/actor/AI.js'
-import { loadModel } from '/core3d/loaders.js'
+import { loadedModel } from '/core3d/assets/models.js'
 
 const animDict = {
   idle: 'Machine Gun Idle',
@@ -14,18 +14,23 @@ const animDict = {
 
 /* LOADING */
 
-const [mesh, twoHandedWeapon] = await Promise.all([
-  await loadModel({ file: 'german-machine-gunner.fbx', animDict, prefix: 'character/soldier/', angle: Math.PI }),
-  await loadModel({ file: 'weapon/flame-gun/model.fbx', scale: .75 }),
-])
+const meshModel = { file: 'german-machine-gunner.fbx', animDict, prefix: 'character/soldier/', angle: Math.PI }
+const twoHandedWeaponModel = { file: 'weapon/flame-gun/model.fbx', scale: .75 }
+
+/** What to load; a game awaits requestModels(models) before it creates one of these. */
+export const models = [meshModel, twoHandedWeaponModel]
 
 /* EXTENDED CLASSES */
 
-const sharedProps = { mesh, animations: mesh.userData.animations, animDict, twoHandedWeapon, speed: 1.8, attackStyle: 'LOOP', attackDistance: 7, attackSound: 'fire-swoosh.mp3', useFlame: true }
+const sharedProps = () => {
+  const mesh = loadedModel(meshModel)
+  const twoHandedWeapon = loadedModel(twoHandedWeaponModel)
+  return { mesh, animations: mesh.userData.animations, animDict, twoHandedWeapon, speed: 1.8, attackStyle: 'LOOP', attackDistance: 7, attackSound: 'fire-swoosh.mp3', useFlame: true }
+}
 
 export class GermanFlameThrowerPlayer extends Player {
   constructor(props = {}) {
-    super({ ...sharedProps, ...props })
+    super({ ...sharedProps(), ...props })
   }
 
   enterAttack() {
@@ -40,7 +45,7 @@ export class GermanFlameThrowerPlayer extends Player {
 
 export class GermanFlameThrowerAI extends AI {
   constructor(props = {}) {
-    super({ ...sharedProps, ...props })
+    super({ ...sharedProps(), ...props })
   }
 
   enterAttack() {

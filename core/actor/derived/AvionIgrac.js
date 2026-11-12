@@ -1,17 +1,27 @@
 import Player2D from '/core/actor/Player2D.js'
 import { frames } from '/core/konstante.js'
-import { praviRakete } from '/core/actor/prosirenja/pucanje.js'
+import ProjectilePool from '/core/actor/ProjectilePool.js'
+import Metak from '/core/actor/projektili/Metak.js'
+import Weapon from '/core/gameplay/Weapon.js'
+import Cooldown from '/core/gameplay/Cooldown.js'
+import { nearestTarget } from '/core/actor/targeting.js'
 
 const OKRET = 0.01
 const MOGUCNOST_OKRETA = 0.066
 const gravitacija = 3
 
 export default class AvionIgrac extends Player2D {
-  constructor(nivoTla, src = 'armies/partizani/potez-25.png') {
+  constructor(nivoTla, src = 'armies/partizani/potez-25.png', { session } = {}) {
     super(src, { skalar: .55, zapaljiv: true, buttonDict: { attack: '🚀', special: '🎯' } })
     this.brzina = 0
     this.nivoTla = nivoTla
-    Object.assign(this, praviRakete({ vremePunjenja: 1.5 }))
+    this.session = session
+    this.ciljevi = []
+    this.bullets = new ProjectilePool({ owner: this, create: () => new Metak({ src: 'items/raketa.png', skalar: .55 }) })
+    this.weapon = new Weapon({
+      cooldown: new Cooldown({ seconds: 1.5, clock: session.clock }),
+      spawnProjectile: (position, angle) => this.bullets.fire(position, angle, 500),
+    })
   }
 
   get jeNaVrhu() {
@@ -55,8 +65,15 @@ export default class AvionIgrac extends Player2D {
   }
 
   puca() {
+    if (this.session.state !== 'running') return
     const poz = { x: this.x + 5, y: this.y + 15 }
-    this.pali(poz, this.ugao + Math.PI / 16)
+    this.weapon.tryFire(poz, this.ugao + Math.PI / 16)
+  }
+
+  pucaCiljano() {
+    if (this.session.state !== 'running') return
+    const target = nearestTarget(this.polozaj, this.ciljevi)
+    if (target) this.weapon.tryFire(this.polozaj, this.ugaoKa(target))
   }
 
   /** OSTALO ***/
@@ -94,7 +111,7 @@ export default class AvionIgrac extends Player2D {
     super.update(dt, t)
     this.proveriTlo()
     this.proveriSudare()
-    this.proveriPogotke()
+    if (this.session.state === 'running') this.bullets.checkHits(this.ciljevi)
     this.dodajGravitaciju(dt)
     this.ispraviAvion(dt)
   }

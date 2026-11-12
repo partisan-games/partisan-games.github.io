@@ -1,7 +1,6 @@
 import Sprite from '/core/actor/Sprite.js'
 import platno, { ctx } from '/core/io/platno.js'
 import mish from '/core/io/mish.js'
-import Vreme from '/core/Vreme.js'
 import { randomInRange } from '/core/utils.js'
 import { createSound, randomVolume } from '/core/io/sound.js'
 
@@ -17,7 +16,7 @@ export default class Okupator extends Sprite {
     this.pucanjeSlika = new Image()
     this.pucanjeSlika.src = '/assets/images/pucanje.png'
     this.pripucao = false
-    this.vreme = new Vreme()
+    this.walked = 0
     this.vremeHodanja = randomInRange(700, 3200)
     this.kreni()
   }
@@ -60,7 +59,8 @@ export default class Okupator extends Sprite {
     super.update(dt, t)
     if (!this.alive) return
 
-    if (this.vreme.proteklo > this.vremeHodanja)
+    this.walked += dt
+    if (this.walked * 1000 > this.vremeHodanja)
       this.pucaj(dt)
   }
 }

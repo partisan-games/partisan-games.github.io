@@ -2,7 +2,8 @@ import { test, before, mock } from 'node:test'
 import assert from 'node:assert/strict'
 import { Mesh, BoxGeometry, Scene, AmbientLight } from 'three'
 import { createPageElements } from './helpers/dom.js'
-import * as timers from '/core/timers.js'
+import GameClock from '/core/runtime/GameClock.js'
+import ResourceScope from '/core/runtime/ResourceScope.js'
 
 /** Records every sound a game object makes: its file and its volume when it starts playing. */
 class FakeAudio {
@@ -92,8 +93,9 @@ test('rain plays at half the game volume', async() => {
 test('thunder is quieter the farther the lightning strikes', async() => {
   const { lightningStrike } = await import('/core3d/light.js')
   const strike = random => soundsOf(() => {
-    lightningStrike(new AmbientLight(), new Scene())
-    timers.update(10)
+    const clock = new GameClock()
+    lightningStrike(new AmbientLight(), new Scene(), new ResourceScope({ clock }))
+    clock.advance(10)
   }, random)
 
   assert.deepEqual(strike(0), [{ file: 'thunder.mp3', volume: .4 }])
@@ -129,10 +131,11 @@ test('a shell explosion in ranjenik plays at a random volume around the game vol
 
 test('every bullet of the vis plane is heard as it leaves the gun, at a random volume', async t => {
   const { Avionce } = await import('/scenes/vis/Avionce.js')
-  const player = new Avionce()
+  const { default: GameSession } = await import('/core/runtime/GameSession.js')
+  const player = new Avionce({ session: new GameSession() })
   t.after(() => player.end())
   const fire = () => {
-    player.reload = 0
+    player.weapon.cooldown.start(0)
     player.puca()
   }
   const shot = { file: 'pucanj.wav', volume: .2 }
@@ -147,7 +150,8 @@ test('every bullet of the vis plane is heard as it leaves the gun, at a random v
 
 test('a vis enemy explodes once when shot down, at a random volume', async() => {
   const { default: Enemy } = await import('/scenes/vis/Enemy.js')
-  const enemy = new Enemy()
+  const { default: GameSession } = await import('/core/runtime/GameSession.js')
+  const enemy = new Enemy({ session: new GameSession() })
   assert.deepEqual(soundsOf(() => enemy.damage(enemy.hits), 1), [{ file: 'explosion.mp3', volume: .5 }])
   assert.deepEqual(soundsOf(() => enemy.damage(1)), [])
 })

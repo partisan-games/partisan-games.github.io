@@ -34,15 +34,16 @@ export default class extends Scena2D {
     this.bunker = new Bunker({ x: platno.width * .75, alive: false, zadimljen: true, z: 1 })
     this.bunker.onload = () => this.bunker.tlo(nivoTla + 20)
     const zastavnik = new Zastavnik(40, nivoTla + 1)
-    this.top = new Top({ x: 230, y: nivoTla - 32 })
+    this.top = new Top({ x: 230, y: nivoTla - 32, clock: this.session.clock })
     const posada = new Posada(110, nivoTla + 8)
     const strelac = new Strelac(300, nivoTla + 8)
     this.tenk = new TenkDesno({
       src: 'armies/game-ready/m42-02.png',
       cevSlika: 'armies/game-ready/m42-02-cev.png',
       y: nivoTla,
+      clock: this.session.clock,
       skalar: 1,
-      vremePunjenjaAI: 3000,
+      vremePunjenjaAI: 3,
       ai: true
     })
     this.tenk.ciljevi.push(this.top)
@@ -71,6 +72,7 @@ export default class extends Scena2D {
   }
 
   update(dt, t) {
+    if (this.ui.outro) return
     super.update(dt, t)
     if (this.top.dead) this.defeat('The partisan artillery has been destroyed.')
     if (this.tenk.dead) this.victory('The Italian tank has been destroyed!')

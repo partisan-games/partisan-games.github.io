@@ -2,15 +2,21 @@ import { Vector2 } from 'three'
 import Input from '/core/io/Input.js'
 import { Flame } from '/core3d/Particles.js'
 import GameObject from '/core3d/objects/GameObject.js'
-import { loadModel } from '/core3d/loaders.js'
+import { loadedModel } from '/core3d/assets/models.js'
+import { frames } from '/core/konstante.js'
 
-const mesh = await loadModel({ file: 'space/lunar-module/model.fbx', size: 2.5 })
+/** What to load; the game awaits requestModel(model) in init(), before it creates the lander. */
+export const model = { file: 'space/lunar-module/model.fbx', size: 2.5 }
 
 const lowerBound = -30
 
+/**
+ * Its thrust, fuel and gravity were tuned per frame at 30 frames per second; scaled by frames(dt),
+ * and run in the scene's fixed steps, it flies the same at any refresh rate.
+ */
 export default class Lander extends GameObject {
-  constructor({ platform }) {
-    super ({ mesh })
+  constructor({ platform, mesh = loadedModel(model) }) {
+    super({ mesh })
     this.name = 'player'
     this.input = new Input()
     this.platform = platform
@@ -52,27 +58,28 @@ export default class Lander extends GameObject {
     this.resetFlame()
   }
 
-  handleInput() {
+  handleInput(delta) {
     if (this.onPlatform) return
     const { input } = this
+    const share = frames(delta)
 
-    if (this.fuel >= .5) {
+    if (this.fuel >= .5 * share) {
       if (input.left) {
         this.resetFlame(-Math.PI * .5, [-1.75, 1.5, 0])
-        this.applyForce(0, .1)
-        this.fuel -= 0.5
+        this.applyForce(0, .1 * share)
+        this.fuel -= .5 * share
       }
       if (input.right) {
         this.resetFlame(Math.PI * .5, [1.75, 1.5, 0])
-        this.applyForce(Math.PI, .1)
-        this.fuel -= 0.5
+        this.applyForce(Math.PI, .1 * share)
+        this.fuel -= .5 * share
       }
     }
 
-    if (this.fuel >= 1 && input.down) {
+    if (this.fuel >= share && input.down) {
       this.resetFlame(0, [0, -1, 0])
-      this.applyForce(Math.PI / 2, .09)
-      this.fuel--
+      this.applyForce(Math.PI / 2, .09 * share)
+      this.fuel -= share
     }
   }
 
@@ -106,8 +113,8 @@ export default class Lander extends GameObject {
 
   /* UPDATES */
 
-  applyGravity() {
-    this.applyForce(-Math.PI / 2, .01625)
+  applyGravity(delta) {
+    this.applyForce(-Math.PI / 2, .01625 * frames(delta))
   }
 
   applyVelocity(delta) {
@@ -122,7 +129,7 @@ export default class Lander extends GameObject {
   }
 
   update(delta, t) {
-    this.handleInput()
+    this.handleInput(delta)
     this.checkLanding()
 
     if (!this.onPlatform) this.applyGravity(delta)

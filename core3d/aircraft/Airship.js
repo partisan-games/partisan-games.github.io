@@ -3,10 +3,14 @@ import Input from '/core/io/Input.js'
 import { getMesh, getGroundY } from '/core3d/helpers.js'
 import ChaseCamera from '/core3d/actor/ChaseCamera.js'
 import GameObject from '/core3d/objects/GameObject.js'
-import { FPS } from '/core/konstante.js'
+import { FPS, frames } from '/core/konstante.js'
 
+// turns, speed changes and settling are per frame at 60 frames per second, scaled by frames(dt)
 const yawAngle = .01
 const pitchAngle = yawAngle / 5
+
+/** The share that is left after `share` a frame goes away for the frames in dt. */
+const decay = (share, delta) => Math.pow(1 - share, frames(delta))
 const maxRoll = Infinity
 
 export default class Airship extends GameObject {
@@ -84,21 +88,21 @@ export default class Airship extends GameObject {
   up(delta) {
     if (this.isTouchingGround) this.speed = this.maxSpeed * .5
     this.mesh.translateY(this.speed * delta)
-    this.pitch(pitchAngle)
+    this.pitch(pitchAngle * frames(delta))
   }
 
   down(delta) {
-    if (this.isTouchingGround) return this.slowDown()
+    if (this.isTouchingGround) return this.slowDown(.5, delta)
     this.mesh.translateY(-this.speed * delta)
-    this.pitch(-pitchAngle)
+    this.pitch(-pitchAngle * frames(delta))
   }
 
-  left() {
-    this.yaw(yawAngle)
+  left(delta) {
+    this.yaw(yawAngle * frames(delta))
   }
 
-  right() {
-    this.yaw(-yawAngle)
+  right(delta) {
+    this.yaw(-yawAngle * frames(delta))
   }
 
   pitch(angle) {
@@ -127,16 +131,17 @@ export default class Airship extends GameObject {
   accelerate(delta) {
     if (this.isTouchingGround) this.up(delta)
     if (this.speed < this.maxSpeed)
-      this.speed += this.speedFactor
+      this.speed += this.speedFactor * frames(delta)
   }
 
-  deaccelerate() {
+  deaccelerate(delta) {
     if (this.speed >= this.minSpeed)
-      this.speed -= this.speedFactor
+      this.speed -= this.speedFactor * frames(delta)
   }
 
-  slowDown(slowFactor = 0.5) {
-    this.speed *= slowFactor
+  /** Keeps `slowFactor` of the speed per frame at 60 frames per second. */
+  slowDown(slowFactor, delta) {
+    this.speed *= Math.pow(slowFactor, frames(delta))
   }
 
   /* UPDATES */
@@ -149,7 +154,7 @@ export default class Airship extends GameObject {
     if (this.input.down) this.down(delta)
 
     if (this.input.pressed.PageUp) this.accelerate(delta)
-    if (this.input.pressed.PageDown) this.deaccelerate()
+    if (this.input.pressed.PageDown) this.deaccelerate(delta)
   }
 
   autoHeight(delta) {
@@ -157,17 +162,18 @@ export default class Airship extends GameObject {
     if (this.isTooLow) this.up(delta)
   }
 
-  stabilize() {
+  /** Without input the airship levels out: it loses a share of its roll and pitch each frame at 60. */
+  stabilize(delta) {
     if (this.input.keyPressed) return
-    const unrollFactor = 0.04
+    const unroll = 1 - decay(.04, delta)
     const rollAngle = Math.abs(this.mesh.rotation.z)
-    if (this.mesh.rotation.z > 0) this.roll(-rollAngle * unrollFactor)
-    if (this.mesh.rotation.z < 0) this.roll(rollAngle * unrollFactor)
+    if (this.mesh.rotation.z > 0) this.roll(-rollAngle * unroll)
+    if (this.mesh.rotation.z < 0) this.roll(rollAngle * unroll)
 
-    const unpitchFactor = 0.01
+    const unpitch = 1 - decay(.01, delta)
     const pitchAngle = Math.abs(this.mesh.rotation.x)
-    if (this.mesh.rotation.x > 0) this.pitch(-pitchAngle * unpitchFactor)
-    if (this.mesh.rotation.x < 0) this.pitch(pitchAngle * unpitchFactor)
+    if (this.mesh.rotation.x > 0) this.pitch(-pitchAngle * unpitch)
+    if (this.mesh.rotation.x < 0) this.pitch(pitchAngle * unpitch)
   }
 
   updateMixer(delta) {
@@ -187,7 +193,7 @@ export default class Airship extends GameObject {
     this.handleInput(delta)
     if (!this.input.down) this.autoHeight(delta)
     this.moveForward(delta)
-    this.stabilize()
+    this.stabilize(delta)
 
     if (this.shouldAlignCamera) {
       this.chaseCamera.alignCamera()

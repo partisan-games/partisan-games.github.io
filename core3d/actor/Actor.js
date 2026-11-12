@@ -7,9 +7,9 @@ import FSM from './FSM.js'
 import { isDev } from '/config.js'
 import Animator from './Animator.js'
 import { FPS } from '/core/konstante.js'
-import { after, cancel } from '/core/timers.js'
-
-const { randInt } = THREE.MathUtils
+import GameClock from '/core/runtime/GameClock.js'
+import KinematicMovement from './behaviors/KinematicMovement.js'
+import { damageAt } from '/core/gameplay/damage.js'
 
 const getParent = (object, name) =>
   object.name === name ? object : getParent(object.parent, name)
@@ -23,6 +23,8 @@ export default class Actor extends GameObject {
     animations,
     animDict,
     input,
+    controller,
+    useComposedMovement = false,
     speed = 2,
     jumpStyle,
     attackStyle,
@@ -61,7 +63,8 @@ export default class Actor extends GameObject {
     this.maxJumpTime = maxJumpTime
     this.jumpForce = jumpForce
     this.drag = drag
-    this.input = input
+    this.controller = controller
+    this.input = controller ? controller.intent : input
     this.shouldRaycastGround = shouldRaycastGround
     this.runCoefficient = runCoefficient
     this.attackDistance = this.depth > attackDistance ? Math.ceil(this.depth) : attackDistance
@@ -110,6 +113,21 @@ export default class Actor extends GameObject {
       })
     }
 
+    if (useComposedMovement)
+      this.movement = new KinematicMovement({
+        mesh: this.mesh, velocity: this.velocity,
+        isBlocked: direction => this.directionBlocked(direction),
+        groundHeight: getGroundY,
+        rotate: angle => this.turn(angle),
+        react: (reaction, dt) => {
+          if (reaction === reactions.BOUNCE) this.bounce()
+          else if (reaction === reactions.TURN_SMOOTH) this.turnSmooth()
+          else if (reaction === reactions.STEP_OFF) this.stepOff(dt * 2.5)
+        },
+      })
+
+    // game time this actor has lived: its states, AI intervals and delayed blows wait on it, so they stop when it is not updated
+    this.clock = new GameClock()
     this.fsm = new FSM(this, baseState)
     // pose the model as its first state's animation before the first render, instead of the T-pose
     this.anim?.mixer.update(0)
@@ -135,6 +153,7 @@ export default class Actor extends GameObject {
 
   get acceleration() {
     const { input, speed, runCoefficient } = this
+    if (this.movement) return this.movement.acceleration(input, { speed, runCoefficient })
     if (input.screen?.forward)
       return speed * -input.screen.forward * (input.up ? runCoefficient : runCoefficient * .75)
 
@@ -183,16 +202,21 @@ export default class Actor extends GameObject {
   }
 
   hit(mesh, damage = [35, 55]) {
-    const distance = this.distanceTo(mesh)
-    if (distance <= this.attackDistance)
-      mesh.userData.damageAmount = randInt(...damage)
+    const amount = damageAt({ distance: this.distanceTo(mesh), reach: this.attackDistance, range: damage })
+    if (amount) mesh.userData.damageAmount = amount
   }
 
+  /**
+   * The blow lands halfway through the attack animation. Death cancels it; pain does not,
+   * so a hurt attacker still lands a blow already under way, as it always has.
+   */
   enterAttack(name, height = this.height * .66) {
     const timeToHit = this.action ? this.action.getClip().duration * .5 : .2
 
-    after(timeToHit, () => {
-      if (this.dead || !this.scene) return // the actor may have died or left the scene meanwhile
+    this.clock.cancel(this.pendingHit)
+    this.pendingHit = this.clock.after(timeToHit, () => {
+      this.pendingHit = null
+      if (!this.scene) return // the actor may have left the scene meanwhile
       if (this.attackSound) this.playAttackSound()
 
       if (isDev) arrowHelper(this, height)
@@ -240,8 +264,8 @@ export default class Actor extends GameObject {
 
   startFlame(defer = 1, callback, randomize) {
     this.scene.add(this.flame.mesh)
-    cancel(this.flameTimer)
-    this.flameTimer = after(defer, () => {
+    this.clock.cancel(this.flameTimer)
+    this.flameTimer = this.clock.after(defer, () => {
       if (this.dead) return
       this.resetFlame(randomize)
       if (callback) callback()
@@ -249,13 +273,14 @@ export default class Actor extends GameObject {
   }
 
   endFlame() {
-    cancel(this.flameTimer) // a flame that has not started yet must not start after the attack ended
+    this.clock.cancel(this.flameTimer) // a flame that has not started yet must not start after the attack ended
     this.shouldLoop = false
   }
 
   /* UTILS */
 
   handleTerrain(step) {
+    if (this.movement) return this.movement.followTerrain(step, this.groundY)
     if (this.heightDifference == 0) return
 
     if (Math.abs(this.heightDifference) <= step) {
@@ -302,6 +327,7 @@ export default class Actor extends GameObject {
     this.applyDamage()
 
     if (this.dead) {
+      this.clock.cancel(this.pendingHit)
       this.setState('death')
       this.deathCallback?.()
     } else
@@ -324,6 +350,10 @@ export default class Actor extends GameObject {
   }
 
   updateMove(delta, reaction = reactions.BOUNCE) {
+    if (this.movement) return this.movement.move(delta, {
+      input: this.input, speed: this.speed, runCoefficient: this.runCoefficient,
+      drag: this.drag, canMove: this.canMove, state: this.state, reaction,
+    })
     if (!this.canMove) return
 
     const direction = this.input.up ? dir.forward
@@ -347,6 +377,7 @@ export default class Actor extends GameObject {
   }
 
   updateTurn(delta) {
+    if (this.movement) return this.movement.turn(delta, { input: this.input, speed: this.speed })
     if (!delta) return
     const angle = (this.input.run ? RIGHT_ANGLE : RIGHT_ANGLE * this.speed * .25) * delta // angle per second
 
@@ -357,6 +388,9 @@ export default class Actor extends GameObject {
   }
 
   updateStrafe(delta) {
+    if (this.movement) return this.movement.strafe(delta, {
+      input: this.input, speed: this.speed, runCoefficient: this.runCoefficient,
+    })
     const acceleration = this.speed * (this.input.run ? this.runCoefficient : 1)
 
     if (this.input.strafeLeft && !this.directionBlocked(dir.left))
@@ -370,15 +404,22 @@ export default class Actor extends GameObject {
     const { solids } = this
     if (!solids || !this.shouldRaycastGround) return
 
+    if (this.movement) {
+      this.groundY = this.movement.sampleGround({ solids, height: this.height, altitude: this.altitude })
+      return
+    }
+
     this.groundY = getGroundY({ pos: this.position, solids, y: this.height }) + this.altitude
   }
 
   applyGravity(delta) {
+    if (this.movement) return this.movement.gravity(delta, { gravity: this.gravity, maxVelocityY: this.maxVelocityY })
     if (this.velocity.y > -this.maxVelocityY)
       this.velocity.y -= this.gravity * delta
   }
 
   applyVelocityY(delta) {
+    if (this.movement) return this.movement.vertical(delta, this.groundY)
     const deltaVelocity = this.velocity.y * delta
     if (this.mesh.position.y + deltaVelocity > this.groundY)
       this.mesh.translateY(deltaVelocity)
@@ -386,7 +427,14 @@ export default class Actor extends GameObject {
       this.mesh.position.y = this.groundY
   }
 
+  /** Seconds of game time this actor has lived. */
+  get age() {
+    return this.clock.now
+  }
+
   update(delta = 1 / FPS, t) {
+    this.clock.advance(delta)
+    this.controller?.update?.()
     this.updateGround()
     this.fsm.update(delta)
     this.anim?.update(delta)

@@ -1,11 +1,14 @@
 import GameObject from '/core3d/objects/GameObject.js'
-import { loadModel } from '/core3d/loaders.js'
+import { loadedModel } from '/core3d/assets/models.js'
 
-const mesh = await loadModel({ file: 'nature/cloud/lowpoly.gltf', size: 20, angle: Math.PI })
+const model = { file: 'nature/cloud/lowpoly.gltf', size: 20, angle: Math.PI }
+
+/** What to load; a game awaits requestModels(models) before it creates one. */
+export const models = [model]
 
 export default class Cloud extends GameObject {
   constructor({ mapSize = 400, ...rest } = {}) {
-    super({ mesh, ...rest })
+    super({ mesh: loadedModel(model), ...rest })
     this.mesh.position.y = 120
     this.halfSize = mapSize / 2
     this.speed = Math.random() + .5

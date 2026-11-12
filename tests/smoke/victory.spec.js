@@ -56,10 +56,10 @@ const wins = {
     scene.score = scene.player.enemies.length
   },
   tenkici: scene => {
-    scene.tenk2.energija = 0
+    scene.tenk2.alive = false
   },
   ustanak: scene => {
-    scene.tenk.energija = 0
+    scene.tenk.alive = false
   },
   vis: scene => {
     // every wave has flown but the last, the boss, which comes now and goes down

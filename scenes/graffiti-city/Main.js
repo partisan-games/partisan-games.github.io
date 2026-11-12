@@ -1,6 +1,7 @@
 import Scena3D from '/core/Scena3D.js'
 import { createSun } from '/core3d/light.js'
-import { WorkerPlayer } from '/core3d/actor/derived/ww2/Worker.js'
+import { WorkerPlayer, models as workerModels } from '/core3d/actor/derived/ww2/Worker.js'
+import { requestModels } from '/core3d/assets/models.js'
 import { thirdPersonControls } from '/ui/Controls.js'
 import { getEmptyCoords, sample } from '/core3d/helpers.js'
 import { createFloor, grassColor } from '/core3d/ground.js'
@@ -88,7 +89,8 @@ export default class extends Scena3D {
     super({ controlKeys: thirdPersonControls, toon: true })
   }
 
-  init() {
+  async init() {
+    await this.session.keep(requestModels(workerModels))
     const solids = []
 
     this.addMesh(createSun({ pos: [50, 100, 50], intensity: 2 * Math.PI }))
@@ -109,7 +111,7 @@ export default class extends Scena3D {
       solids.push(trees, building)
     }
 
-    this.player = new WorkerPlayer({ camera: this.camera, solids, pos: coords.pop(), showHealthBar: false })
+    this.player = new WorkerPlayer({ camera: this.camera, solids, pos: coords.pop(), showHealthBar: false, useComposedMovement: true })
     this.player.lookAt(this.scene.position)
 
     this.add(this.player)

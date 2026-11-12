@@ -37,9 +37,9 @@ export default class TenkDesno extends Tenk {
     if (this.ai) return
 
     if (keyboard.isDown(keys.left) && this.x > platno.width / 2)
-      this.dodajSilu(this.potisak, Math.PI)
+      this.vozi(this.potisak, Math.PI, dt)
     if (keyboard.isDown(keys.right) && this.x < platno.width)
-      this.dodajSilu(this.potisak * 0.6, 0)
+      this.vozi(this.potisak * 0.6, 0, dt)
     if (keyboard.isDown(keys.up))
       this.diziCev(dt)
     if (keyboard.isDown(keys.down))

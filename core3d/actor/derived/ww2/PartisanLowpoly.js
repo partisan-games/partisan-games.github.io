@@ -1,4 +1,4 @@
-import { loadModel } from '/core3d/loaders.js'
+import { loadedModel } from '/core3d/assets/models.js'
 import AI from '/core3d/actor/AI.js'
 import Player from '/core3d/actor/Player.js'
 
@@ -16,23 +16,28 @@ const animDict = {
 
 /* LOADING */
 
-const [mesh, twoHandedWeapon] = await Promise.all([
-  await loadModel({ file: 'partisan-lowpoly.fbx', angle: Math.PI, animDict, prefix: 'character/soldier/', size: 1.8 }),
-  await loadModel({ file: 'weapon/rifle.fbx', scale: 1.25, angle: Math.PI }),
-])
+const meshModel = { file: 'partisan-lowpoly.fbx', angle: Math.PI, animDict, prefix: 'character/soldier/', size: 1.8 }
+const twoHandedWeaponModel = { file: 'weapon/rifle.fbx', scale: 1.25, angle: Math.PI }
+
+/** What to load; a game awaits requestModels(models) before it creates one of these. */
+export const models = [meshModel, twoHandedWeaponModel]
 
 /* EXTENDED CLASSES */
 
-const sharedProps = { mesh, animations: mesh.userData.animations, animDict, twoHandedWeapon, attackSound: 'rifle.mp3' }
+const sharedProps = () => {
+  const mesh = loadedModel(meshModel)
+  const twoHandedWeapon = loadedModel(twoHandedWeaponModel)
+  return { mesh, animations: mesh.userData.animations, animDict, twoHandedWeapon, attackSound: 'rifle.mp3' }
+}
 
 export class PartisanLowpolyPlayer extends Player {
   constructor(props = {}) {
-    super({ ...sharedProps, ...props })
+    super({ ...sharedProps(), ...props })
   }
 }
 
 export class PartisanLowpolyAI extends AI {
   constructor(props = {}) {
-    super({ ...sharedProps, attackDistance: 10, ...props })
+    super({ ...sharedProps(), attackDistance: 10, ...props })
   }
 }

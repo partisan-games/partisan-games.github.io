@@ -4,7 +4,6 @@ import Pozadina from '/core/objects/Pozadina.js'
 import Ranjenik from '/core/actor/derived/Ranjenik.js'
 import Patrola from './Patrola.js'
 import Strelica from './Strelica.js'
-import Vreme from '/core/Vreme.js'
 import Paljba from './Paljba.js'
 
 const RITAM_PALJBE = 1500
@@ -23,7 +22,7 @@ export default class extends Scena2D {
     this.patrola = new Patrola('armies/nemci-patrola.gif', this.player)
     this.patrola.postavi(this.sirina * 3 / 4, this.visina * 3 / 4)
     this.strelica = new Strelica()
-    this.vreme = new Vreme()
+    this.fireElapsed = 0
     this.pocetakPaljbe = 500
     this.add(this.player, this.patrola, this.strelica)
   }
@@ -60,11 +59,11 @@ export default class extends Scena2D {
   }
 
   pali() {
-    if (this.vreme.proteklo < RITAM_PALJBE) return
+    if (this.fireElapsed * 1000 < RITAM_PALJBE) return
 
     const krater = new Paljba()
     this.predmeti.unshift(krater)
-    this.vreme.reset()
+    this.fireElapsed = 0
 
     if (this.player.sudara(krater))
       this.defeat('You fell bravely while trying to escape.')
@@ -73,7 +72,9 @@ export default class extends Scena2D {
   update(dt, t) {
     if (this.ui.outro) return
     super.update(dt, t)
+    this.fireElapsed += dt
     this.proveriSudare()
+    if (this.ui.outro) return
     this.proveriPobedu()
     if (this.scena === 1) this.pali()
   }

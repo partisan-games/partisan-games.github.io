@@ -1,6 +1,7 @@
 import { Vector3, MathUtils } from 'three'
 import Actor from './Actor.js'
 import Keyboard from '/core/io/Keyboard.js'
+import AIController from './behaviors/AIController.js'
 import { jumpStyles, attackStyles, baseStates, dir } from '/core3d/constants.js'
 import { belongsTo, directionBlocked } from '/core3d/helpers.js'
 
@@ -19,6 +20,7 @@ export default class AI extends Actor {
     patrolDistance = 10,
     target,
     name = target ? 'enemy' : 'ai',
+    useComposedMovement = false,
     ...params
   } = {}) {
     super({
@@ -26,7 +28,9 @@ export default class AI extends Actor {
       speed,
       jumpStyle,
       attackStyle,
-      input: new Keyboard({ listen: false }),
+      input: useComposedMovement ? undefined : new Keyboard({ listen: false }),
+      controller: useComposedMovement ? new AIController() : undefined,
+      useComposedMovement,
       shouldRaycastGround: false,
       useRicochet: false,
       leaveDecals: false,
@@ -43,7 +47,7 @@ export default class AI extends Actor {
     this.followDistance = followDistance
     this.sightDistance = sightDistance
     this.patrolDistance = patrolDistance
-    this.last = Date.now() // for ai intervals
+    this.last = this.age // for ai intervals
 
     this.mesh.rotateY(Math.random() * Math.PI * 2)
     this.randomizeAction()
@@ -134,7 +138,7 @@ export default class AI extends Actor {
   turnSmooth(angle = Math.PI, duration = 2500) {
     this.startRotationY = this.mesh.rotation.y
     this.targetRotationY = this.mesh.rotation.y + angle
-    this.rotationStart = performance.now()
+    this.rotationStart = this.age
     this.rotationDuration = duration
     this.isRotating = true
   }
@@ -142,7 +146,7 @@ export default class AI extends Actor {
   checkRotation() {
     if (!this.isRotating) return
 
-    const elapsed = performance.now() - this.rotationStart
+    const elapsed = (this.age - this.rotationStart) * 1000
     const progress = Math.min(1, elapsed / this.rotationDuration)
     this.mesh.rotation.y = this.startRotationY + (this.targetRotationY - this.startRotationY) * progress
 
@@ -150,9 +154,9 @@ export default class AI extends Actor {
   }
 
   turnEvery(interval, angle = Math.PI / 2, duration = 1000) {
-    if (Date.now() - this.last >= interval) {
+    if ((this.age - this.last) * 1000 >= interval) {
       this.turnSmooth(randFloat(-angle, angle), duration)
-      this.last = Date.now()
+      this.last = this.age
     }
   }
 

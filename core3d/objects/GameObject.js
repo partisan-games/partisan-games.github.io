@@ -1,5 +1,8 @@
 import { getMesh, putOnSolids, getSize } from '/core3d/helpers.js'
 import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js'
+import Health from '/core/gameplay/Health.js'
+
+const owners = new WeakMap()
 
 const getScene = object => {
   if (!object.parent) return null
@@ -9,6 +12,17 @@ const getScene = object => {
 
 export default class GameObject {
   #solids = []
+  #health
+  #damageAmount = 0
+
+  /** Finds the nearest owning object, including for raycast hits on a model's children. */
+  static ownerOf(mesh) {
+    for (let node = mesh; node; node = node.parent) {
+      const owner = owners.get(node)
+      if (owner) return owner
+    }
+    return null
+  }
 
   constructor({ mesh, name, pos, color, solids, scale, rotateY, altitude = 0, energy = 100
   } = {}) {
@@ -18,8 +32,25 @@ export default class GameObject {
       this.mesh = mesh.clone()
 
     this.name = name
-    this.energy = this.maxEnergy = energy
-    this.damageAmount = 0
+    this.#health = new Health({ maximum: energy })
+    owners.set(this.mesh, this)
+    // Legacy attackers and pickups still use userData; accessors keep one authoritative state.
+    Object.defineProperties(this.mesh.userData, {
+      energy: {
+        configurable: true, enumerable: true,
+        get: () => this.energy,
+        set: value => {
+          this.energy = value
+        },
+      },
+      damageAmount: {
+        configurable: true, enumerable: true,
+        get: () => this.damageAmount,
+        set: value => {
+          this.damageAmount = value
+        },
+      },
+    })
 
     if (pos) this.position = pos
 
@@ -27,7 +58,11 @@ export default class GameObject {
     if (solids) this.addSolids(solids)
 
     if (scale) this.mesh.scale.set(scale, scale, scale)
-    if (color != undefined) getMesh(this.mesh).material.color.setHex(color)
+    if (color != undefined) {
+      const colored = getMesh(this.mesh)
+      colored.material = colored.material.clone() // a clone shares the model's material; the color is this object's own
+      colored.material.color.setHex(color)
+    }
     if (rotateY) this.mesh.rotateY(rotateY)
 
     const { x, y, z } = getSize(this.mesh)
@@ -51,25 +86,33 @@ export default class GameObject {
   }
 
   get energy() {
-    return this.mesh.userData.energy
+    return this.#health.current
   }
 
   set energy(newEnergy) {
-    if (newEnergy < 0) this.mesh.userData.energy = 0
-    else if (newEnergy > this.maxEnergy) this.mesh.userData.energy = this.maxEnergy
-    else this.mesh.userData.energy = newEnergy
+    const amount = Math.max(0, Math.min(this.maxEnergy, newEnergy)) - this.energy
+    if (amount < 0) this.#health.damage(-amount)
+    else this.#health.heal(amount)
+  }
+
+  get health() {
+    return this.#health
+  }
+
+  get maxEnergy() {
+    return this.#health.maximum
   }
 
   get damageAmount() {
-    return this.mesh.userData.damageAmount
+    return this.#damageAmount
   }
 
   set damageAmount(damageAmount) {
-    this.mesh.userData.damageAmount = damageAmount
+    this.#damageAmount = damageAmount
   }
 
   get dead() {
-    return this.mesh.userData.energy <= 0
+    return !this.#health.alive
   }
 
   get position() {

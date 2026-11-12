@@ -1,11 +1,16 @@
 import Input from '/core/io/Input.js'
 import GameObject from '/core3d/objects/GameObject.js'
 import Missile from './Missile.js'
-import { Explosion } from '/core3d/Particles.js'
+import WarplaneView from './WarplaneView.js'
 import ChaseCamera from '/core3d/actor/ChaseCamera.js'
+import Cooldown from '/core/gameplay/Cooldown.js'
 
+const reloadTime = .5 // seconds between missiles
+const landingBrake = 3 // speed lost per second on the ground, as .1 a frame at 30 frames per second
+
+/** The player's plane. `clock` is the game clock: the missile reload waits in a pause. */
 export default class Warplane extends GameObject {
-  constructor({ camera, limit, speed = 40, y = 29, ...rest } = {}) {
+  constructor({ clock, camera, limit, speed = 40, y = 29, ...rest }) {
     super({ name: 'player', energy: 500, ...rest })
     this.speed = speed
     this.limit = limit
@@ -15,11 +20,9 @@ export default class Warplane extends GameObject {
     this.maxHeight = y * 2
     this.maxRoll = Math.PI * .4
     this.missiles = []
-    this.last = Date.now()
-    this.interval = 500
-    this.explosion = new Explosion({ size: 4 })
+    this.missileReload = new Cooldown({ seconds: reloadTime, clock })
     this.time = 0
-    this.propellers = []
+    this.view = new WarplaneView(this)
     this.input = new Input({ buttonDict: { attack: '💣' } })
 
     if (camera) {
@@ -39,13 +42,11 @@ export default class Warplane extends GameObject {
   /* GETTERS AND SETTERS */
 
   get timeToShoot() {
-    return Date.now() - this.last >= this.interval
+    return this.missileReload.ready
   }
 
   set propeller(propeller) {
-    propeller.position.set(0, .63, -this.depth * .5)
-    this.mesh.add(propeller)
-    this.propellers.push(propeller)
+    this.view.addPropeller(propeller)
   }
 
   get inAir() {
@@ -57,10 +58,11 @@ export default class Warplane extends GameObject {
   addMissile() {
     const pos = this.position.clone()
     pos.y -= this.height * .33
-    const missile = new Missile({ pos, explosion: this.explosion })
+    const { explosion } = this.view
+    const missile = new Missile({ pos, explosion })
     this.scene.add(missile.mesh)
     this.missiles.push(missile)
-    this.scene.add(this.explosion.mesh)
+    this.scene.add(explosion.mesh)
   }
 
   removeMissile(missile) {
@@ -90,7 +92,7 @@ export default class Warplane extends GameObject {
 
     if (this.input.attack && this.timeToShoot) {
       this.addMissile()
-      this.last = Date.now()
+      this.missileReload.start()
     }
   }
 
@@ -105,23 +107,11 @@ export default class Warplane extends GameObject {
     if (this.inAir) this.mesh.rotateZ(Math.sin(this.time) * .001)
   }
 
-  addSmoke() {
-    const promise = import('/core3d/Particles.js')
-    promise.then(obj => {
-      const { Smoke } = obj
-      this.smoke = new Smoke()
-      this.add(this.smoke.mesh)
-      this.smoke.mesh.position.y += this.height * .4
-      this.smoke.mesh.position.z += this.depth * .4
-    })
-  }
-
   checkHit() {
     if (!this.damageAmount) return
 
     this.applyDamage()
-
-    if (!this.smoke) this.addSmoke()
+    this.view.showDamage()
   }
 
   land(delta, broken = false) {
@@ -132,7 +122,7 @@ export default class Warplane extends GameObject {
     } else {
       this.chaseCamera.offset[1] = this.height * 1.5
       this.chaseCamera.offset[2] = this.depth * 1.5
-      if (this.speed > 0) this.speed -= .1
+      if (this.speed > 0) this.speed -= landingBrake * delta
     }
   }
 
@@ -148,9 +138,7 @@ export default class Warplane extends GameObject {
       missile.update(delta)
     })
 
-    this.smoke?.update(delta, t, { min: (this.energy / 100) - 5 })
-    this.explosion.expand({ velocity: 1.1, maxRounds: 30 })
-    this.propellers.forEach(propeller => propeller.rotateZ(delta * -this.speed))
+    this.view.update(delta, t)
 
     if (this.dead) this.die(delta)
 

@@ -1,6 +1,6 @@
 import Player from '/core3d/actor/Player.js'
 import AI from '/core3d/actor/AI.js'
-import { loadModel } from '/core3d/loaders.js'
+import { loadedModel } from '/core3d/assets/models.js'
 import { jumpStyles } from '/core3d/constants.js'
 import { FlameUp } from '/core3d/Particles.js'
 
@@ -12,17 +12,18 @@ const animDict = {
   attack2: 'Standing 2H Magic Attack 04',
 }
 
-/* LOADING */
+/** What to load; a game awaits requestModel(model) in init(), before it creates a sorceress. */
+export const model = { file: 'model.fbx', angle: Math.PI, animDict, prefix: 'character/sorceress/', size: 1.72 }
+export const models = [model]
 
-const mesh = await loadModel({ file: 'model.fbx', angle: Math.PI, animDict, prefix: 'character/sorceress/', size: 1.72 })
-
-/* EXTENDED CLASSES */
-
-const sharedProps = { mesh, animations: mesh.userData.animations, animDict, jumpStyle: jumpStyles.FLY_JUMP }
+const sharedProps = () => {
+  const mesh = loadedModel(model)
+  return { mesh, animations: mesh.userData.animations, animDict, jumpStyle: jumpStyles.FLY_JUMP }
+}
 
 export class SorceressPlayer extends Player {
   constructor(props = {}) {
-    super({ ...sharedProps, attackDistance: 3, ...props })
+    super({ ...sharedProps(), attackDistance: 3, ...props })
     this.flame = new FlameUp()
   }
 
@@ -37,6 +38,6 @@ export class SorceressPlayer extends Player {
 
 export class SorceressAI extends AI {
   constructor(props = {}) {
-    super({ ...sharedProps, ...props })
+    super({ ...sharedProps(), ...props })
   }
 }

@@ -4,7 +4,8 @@ import Maze from '/core3d/mazes/Maze.js'
 import { recursiveDivision } from '/core3d/mazes/algorithms.js'
 import { hemLight } from '/core3d/light.js'
 import { createDunes } from '/core3d/ground.js'
-import { WitchPlayer } from '/core3d/actor/derived/fantasy/Witch.js'
+import { WitchPlayer, models as witchModels } from '/core3d/actor/derived/fantasy/Witch.js'
+import { requestModels } from '/core3d/assets/models.js'
 
 export default class extends Scena3D {
   constructor() {
@@ -16,6 +17,7 @@ export default class extends Scena3D {
   }
 
   async init() {
+    await requestModels([...witchModels])
     hemLight({ scene: this.scene })
     const maze = new Maze({ columns: 10, rows: 20, algorithm: recursiveDivision, cellSize: 10 })
     const ruins = maze.toMesh()

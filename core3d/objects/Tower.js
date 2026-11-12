@@ -1,23 +1,27 @@
-import { loadModel } from '/core3d/loaders.js'
+import { loadedModel } from '/core3d/assets/models.js'
 import Bullet from './Bullet.js'
 import Building from './Building.js'
 
-const mesh = await loadModel({
+const model = {
   file: 'building/tower/ww2/D85VT1X9UHDSYASVUM1UY02HA.obj',
   mtl: 'building/tower/ww2/D85VT1X9UHDSYASVUM1UY02HA.mtl',
   size: 18,
   shouldAdjustHeight: true
-})
+}
+
+/** What to load; a game awaits requestModels(models) before it creates one. */
+export const models = [model]
 
 export default class Tower extends Building {
-  constructor({ range = 200, interval = 500, damage = 100, damageDistance = 2, ...rest } = {}) {
+  constructor({ mesh = loadedModel(model), range = 200, interval = 500, damage = 100, damageDistance = 2, ...rest } = {}) {
     super({ mesh, name: 'tower', ...rest })
     this.range = range
     this.damage = damage
     this.damageDistance = damageDistance
     this.bullets = []
-    this.last = Date.now()
-    this.interval = interval
+    this.age = 0 // seconds of game time, so the tower waits in a pause
+    this.last = 0
+    this.interval = interval // milliseconds
   }
 
   get targetInRange() {
@@ -26,7 +30,7 @@ export default class Tower extends Building {
   }
 
   get ableToShoot() {
-    return !this.dead && Date.now() - this.last >= this.interval
+    return !this.dead && (this.age - this.last) * 1000 >= this.interval
   }
 
   createBullet() {
@@ -48,11 +52,12 @@ export default class Tower extends Building {
   }
 
   update(delta) {
+    this.age += delta
     super.update(delta)
 
     if (this.targetInRange && this.ableToShoot) {
       this.createBullet()
-      this.last = Date.now()
+      this.last = this.age
     }
 
     if (!this.targetInRange) this.removeBullets()

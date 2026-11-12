@@ -1,7 +1,7 @@
 import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
-import * as timers from '/core/timers.js'
+import GameSession from '/core/runtime/GameSession.js'
 
 let Avionce, inputOptions, Enemy, Input, settings, platno, PowerUps, attackLabels
 
@@ -25,13 +25,15 @@ const key = (type, code) => document.dispatchEvent(new KeyboardEvent(type, { cod
 
 /** The vis player plane with the keyboard, and an enemy plane far away. */
 function createPlayer(t) {
-  const player = new Avionce()
+  const session = new GameSession()
+  session.start()
+  const player = new Avionce({ session })
   player.input.end()
   player.input = new Input({ ...inputOptions, useKeyboard: true, useJoystick: false })
   player.x = 500
   player.y = 400
   player.sirina = player.visina = 80 // as its image would give
-  const enemy = new Enemy()
+  const enemy = new Enemy({ session })
   enemy.x = enemy.y = 5000
   player.ciljevi = [enemy]
   t.after(() => player.end())
@@ -41,7 +43,7 @@ function createPlayer(t) {
 /** Flies the player plane, and the game clock with it. */
 function fly(player, seconds, fps = 60) {
   for (let i = 0; i < seconds * fps; i++) {
-    timers.update(1 / fps)
+    player.session.update(1 / fps)
     player.update(1 / fps)
   }
 }
@@ -147,10 +149,10 @@ test('holding C makes one loop, and the vis player has three per life', t => {
 
 /** How many bullets one press of fire sends out. */
 function bulletsPerShot(player) {
-  player.meci.forEach(bullet => bullet.reset())
-  player.reload = 0
+  player.bullets.projectiles.forEach(bullet => bullet.reset())
+  player.weapon.cooldown.start(0)
   player.puca()
-  return player.meci.filter(bullet => bullet.vidljiv).length
+  return player.bullets.projectiles.filter(bullet => bullet.vidljiv).length
 }
 
 test('the vis player starts with one bullet a shot; fire power-ups bring two, then three, until a life is lost', t => {
@@ -171,12 +173,12 @@ test('the vis player starts with one bullet a shot; fire power-ups bring two, th
 test('the vis player fires with its attack key, which the controls window can name, and not with Enter', t => {
   const { player } = createPlayer(t)
   const shotsWhileHeld = code => {
-    player.meci.forEach(bullet => bullet.reset())
-    player.reload = 0
+    player.bullets.projectiles.forEach(bullet => bullet.reset())
+    player.weapon.cooldown.start(0)
     key('keydown', code)
     player.handleInput(1 / 60)
     key('keyup', code)
-    return player.meci.filter(bullet => bullet.vidljiv).length
+    return player.bullets.projectiles.filter(bullet => bullet.vidljiv).length
   }
 
   assert.equal(shotsWhileHeld(inputOptions.attackKey), 1)
@@ -189,11 +191,11 @@ test('the vis player fires again only after the reload, by game time', t => {
 
   player.puca()
   player.puca()
-  assert.equal(player.meci.filter(bullet => bullet.vidljiv).length, 1)
+  assert.equal(player.bullets.projectiles.filter(bullet => bullet.vidljiv).length, 1)
 
   fly(player, settings.player.reloadTime + .01)
   player.puca()
-  assert.equal(player.meci.filter(bullet => bullet.vidljiv).length, 2)
+  assert.equal(player.bullets.projectiles.filter(bullet => bullet.vidljiv).length, 2)
 })
 
 test('power-ups drop in their order, the player picks up the one it touches, and one past the bottom is gone', t => {

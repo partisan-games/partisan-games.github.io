@@ -1,11 +1,14 @@
 import GameObject from '/core3d/objects/GameObject.js'
-import { loadModel } from '/core3d/loaders.js'
+import { loadedModel } from '/core3d/assets/models.js'
 
-const mesh = await loadModel({ file: 'aircraft/airship/aerial-screw/model.fbx', size: 10, shouldCenter: true })
+const model = { file: 'aircraft/airship/aerial-screw/model.fbx', size: 10, shouldCenter: true }
+
+/** What to load; a game awaits requestModels(models) before it creates one. */
+export const models = [model]
 
 export default class AerialScrew extends GameObject {
   constructor(param = {}) {
-    super({ mesh, ...param })
+    super({ mesh: loadedModel(model), ...param })
     this.sign = 1
     this.range = 20
     this.initialY = this.position.y

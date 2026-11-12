@@ -1,37 +1,28 @@
 import { test, before, mock } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
-import * as timers from '/core/timers.js'
+import GameClock from '/core/runtime/GameClock.js'
+import ProjectilePool from '/core/actor/ProjectilePool.js'
+import { nearestTarget } from '/core/actor/targeting.js'
 
-let praviPucanje, Okupator, Granata, mish
+let Okupator, Granata, mish
 
 before(async() => {
   createPageElements()
-  ;({ praviPucanje } = await import('/core/actor/prosirenja/pucanje.js'))
   Okupator = (await import('/core/actor/Okupator.js')).default
   Granata = (await import('/core/actor/projektili/Granata.js')).default
   mish = (await import('/core/io/mish.js')).default
 })
 
-const target = (x, alive = true) => ({ polozaj: { x, y: 0, z: 0 }, alive, get dead() {
-  return !this.alive
-} })
-
-const shooter = ciljevi => Object.assign(
-  { polozaj: { x: 0, y: 0, z: 0 }, razmakDo(c) {
-    return Math.abs(c.polozaj.x)
-  } },
-  praviPucanje(),
-  { ciljevi },
-)
+const target = (x, alive = true) => ({ x, y: 0, alive })
 
 test('aims at the nearest living target', () => {
   const far = target(300), near = target(100), deadNearest = target(10, false)
-  assert.equal(shooter([far, deadNearest, near]).traziNajblizuMetu(), near)
+  assert.equal(nearestTarget({ x: 0, y: 0 }, [far, deadNearest, near]), near)
 })
 
 test('finds no target when all are dead', () => {
-  assert.equal(shooter([target(10, false)]).traziNajblizuMetu(), undefined)
+  assert.equal(nearestTarget({ x: 0, y: 0 }, [target(10, false)]), null)
 })
 
 test('a volley hitting in the same frame kills the target only once', () => {
@@ -41,10 +32,10 @@ test('a volley hitting in the same frame kills the target only once', () => {
   }, umri() {
     this.alive = false; deaths++
   } }
-  const s = shooter([cilj])
-  s.meci = [1, 2, 3].map(() => ({ prikazan: true, proveriPogodak: c => c.umri() }))
+  const pool = new ProjectilePool({ owner: { predmeti: [] }, create: () => null })
+  pool.projectiles = [1, 2, 3].map(() => ({ prikazan: true, proveriPogodak: c => c.umri() }))
 
-  s.proveriPogodak(cilj)
+  pool.checkHits([cilj])
 
   assert.equal(deaths, 1)
 })
@@ -62,14 +53,15 @@ test('a dead occupier gives no more points when clicked', () => {
 })
 
 test('a grenade reset before its explosion finishes does not hurt the target later', () => {
-  const granata = new Granata()
+  const clock = new GameClock()
+  const granata = new Granata({ clock })
   granata.pokazi()
   let hurt = 0
   const cilj = { sudara: () => true, umri: () => hurt++ }
 
   granata.proveriPogodak(cilj)
   granata.reset()
-  timers.update(1)
+  clock.advance(1)
 
   assert.equal(hurt, 0)
 })

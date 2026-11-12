@@ -1,8 +1,10 @@
 import Predmet from '/core/actor/Predmet.js'
 import platno from '/core/io/platno.js'
 import { randomInRange } from '/core/utils.js'
-import { praviPucanje } from '/core/actor/prosirenja/pucanje.js'
-import { after } from '/core/timers.js'
+import ProjectilePool from '/core/actor/ProjectilePool.js'
+import Metak from '/core/actor/projektili/Metak.js'
+import Cooldown from '/core/gameplay/Cooldown.js'
+import Weapon from '/core/gameplay/Weapon.js'
 import { createSound } from '/core/io/sound.js'
 import { paths } from './paths.js'
 import { settings } from './settings.js'
@@ -15,22 +17,32 @@ const outside = 150 // px past the edge where a plane that has left the screen i
 const isOnScreen = ({ x, y }) => x >= 0 && x <= platno.width && y >= 0 && y <= platno.height
 const isFarOut = ({ x, y }) => x < -outside || x > platno.width + outside || y < -outside || y > platno.height + outside
 
-/** An enemy plane that flies its path, shoots at the player and falls when shot down. */
+/**
+ * An enemy plane that flies its path, shoots at the player and falls when shot down.
+ * Its shots and its fall wait on the game `session`.
+ */
 export default class Enemy extends Predmet {
-  constructor({ type = 'fighter', path = 'straight', x = Math.random(), y = .1, side = 'left', across = 0, delay = 0 } = {}) {
+  constructor({ session, type = 'fighter', path = 'straight', x = Math.random(), y = .1, side = 'left', across = 0, delay = 0 }) {
     const kind = settings.enemies[type]
     super(pick(kind.images), { skalar: kind.scale, zapaljiv: true, senka: true })
     this.type = type
     this.points = kind.points
     this.maxHits = this.hits = kind.hits
+    this.session = session
     this.fire = kind.fire
-    this.fireTimer = kind.fire.interval * Math.random()
     this.path = paths[path]
     this.route = { x, y, side, speed: kind.speed }
     this.across = across
     this.age = -delay // a later member of a formation is still behind the leader on the path
     this.entered = this.falling = this.gone = false
-    Object.assign(this, praviPucanje({ ugloviPucanja: kind.fire.spread, potisakMetka: enemyBulletSpeed, vremePunjenja: 0 }))
+    this.ciljevi = []
+    this.bullets = new ProjectilePool({ owner: this, create: () => new Metak() })
+    this.weapon = new Weapon({
+      cooldown: new Cooldown({ seconds: kind.fire.interval, clock: session.clock }),
+      barrels: kind.fire.spread.map(angle => ({ angle })),
+      spawnProjectile: (origin, angle) => this.bullets.fire(origin, angle, enemyBulletSpeed),
+    })
+    this.weapon.cooldown.start(kind.fire.interval * Math.random()) // planes of a formation do not fire together
     this.fly(0)
   }
 
@@ -79,7 +91,7 @@ export default class Enemy extends Predmet {
     const heading = this.ugao - Math.PI / 2 // the image points up
     this.dx = this.route.speed * Math.cos(heading)
     this.dy = this.route.speed * Math.sin(heading)
-    after(fallTime, () => {
+    this.session.gameplay.after(fallTime, () => {
       this.gone = true
     })
   }
@@ -89,21 +101,20 @@ export default class Enemy extends Predmet {
     return { x: this.x, y: this.y }
   }
 
-  shoot(dt) {
-    this.fireTimer -= dt
+  shoot() {
     const target = this.ciljevi[0]
-    if (this.fireTimer > 0 || !target?.alive || !isOnScreen(this)) return
+    if (!this.weapon.cooldown.ready || !target?.alive || !isOnScreen(this)) return
 
-    this.fireTimer = this.fire.interval * randomInRange(.8, 1.2)
     const gun = this.nextGun()
-    this.pali(gun, Math.atan2(target.y - gun.y, target.x - gun.x))
+    if (this.weapon.tryFire(gun, Math.atan2(target.y - gun.y, target.x - gun.x)))
+      this.weapon.cooldown.start(this.fire.interval * randomInRange(.8, 1.2))
   }
 
   update(dt, t) {
     if (!this.falling) this.fly(dt)
     super.update(dt, t)
-    if (this.alive) this.shoot(dt)
-    this.proveriPogotke()
+    if (this.alive) this.shoot()
+    this.bullets.checkHits(this.ciljevi)
 
     if (this.falling)
       this.scaleX = this.scaleY = this.scaleX * Math.pow(0.8, dt)

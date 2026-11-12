@@ -1,7 +1,7 @@
 import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
-import * as timers from '/core/timers.js'
+import GameSession from '/core/runtime/GameSession.js'
 
 let Enemy, Waves, paths, formationMembers, settings, platno
 
@@ -22,9 +22,16 @@ before(async() => {
   platno = (await import('/core/io/platno.js')).default
 })
 
+/** A game session that runs, as in a started game. */
+const startedSession = () => {
+  const session = new GameSession()
+  session.start()
+  return session
+}
+
 /** A stand-in for the scene and the player: only what Waves and the enemy planes use. */
 function createWorld(schedule) {
-  const scene = { predmeti: [], add(...planes) {
+  const scene = { session: startedSession(), predmeti: [], add(...planes) {
     this.predmeti.push(...planes)
   }, remove(...planes) {
     this.predmeti = this.predmeti.filter(plane => !planes.includes(plane))
@@ -34,7 +41,7 @@ function createWorld(schedule) {
   /** Plays the level as the scene does: the game clock, the planes, then the waves. */
   const play = (seconds, fps = 60) => {
     for (let i = 0; i < seconds * fps; i++) {
-      timers.update(1 / fps)
+      scene.session.update(1 / fps)
       scene.predmeti.forEach(plane => plane.update(1 / fps, waves.time))
       waves.update(1 / fps)
     }
@@ -45,7 +52,6 @@ function createWorld(schedule) {
 /* V1-02 · waves */
 
 test('a wave comes at its time, and a shot down plane leaves the scene and the player\'s targets after its fall', () => {
-  timers.clear()
   const { scene, player, waves, play } = createWorld([{ at: 2, path: 'straight', x: .5 }])
 
   play(1.9)
@@ -65,7 +71,6 @@ test('a wave comes at its time, and a shot down plane leaves the scene and the p
 })
 
 test('a plane that flies across the screen and out is gone, and the level ends after the last wave', () => {
-  timers.clear()
   const { waves, play } = createWorld([{ at: 0, path: 'straight', x: .5 }, { at: 1, path: 'fromBelow', x: .3 }])
 
   play(1.1)
@@ -81,7 +86,7 @@ test('a plane that flies across the screen and out is gone, and the level ends a
 for (const name of ['straight', 'wave', 'fromSide', 'fromBelow', 'uTurn'])
   test(`the ${name} path brings a plane onto the screen and flies the same at 30 and 60 frames per second`, () => {
     const positionAfter = (seconds, fps) => {
-      const plane = new Enemy({ path: name, x: .5, y: .1, side: 'left' })
+      const plane = new Enemy({ session: startedSession(), path: name, x: .5, y: .1, side: 'left' })
       for (let i = 0; i < seconds * fps; i++) plane.fly(1 / fps)
       return { x: plane.x, y: plane.y }
     }
@@ -121,7 +126,6 @@ test('a formation has its planes at the formation gap, across the path or one be
 })
 
 test('a formation launched by a wave flies with its members at their places', () => {
-  timers.clear()
   const { waves, play } = createWorld([{ at: 0, formation: 'line', count: 3, path: 'straight', x: .5 }])
   play(2)
   const xs = waves.enemies.map(plane => Math.round(plane.x))
@@ -130,7 +134,6 @@ test('a formation launched by a wave flies with its members at their places', ()
 })
 
 test('a shot down plane leaves its formation and goes on straight ahead, while the others fly on', () => {
-  timers.clear()
   const { waves, play } = createWorld([{ at: 0, formation: 'line', count: 2, path: 'wave', x: .5 }])
   play(1)
   const [shot, flying] = waves.enemies
@@ -151,7 +154,6 @@ test('a shot down plane leaves its formation and goes on straight ahead, while t
 
 /** A pair of fighters on the screen, with every power-up drop written down. */
 function createPair() {
-  timers.clear()
   const world = createWorld([{ at: 0, formation: 'pair', path: 'straight', x: .5 }])
   const drops = []
   world.waves.onFormationDown = position => drops.push(position)
@@ -182,7 +184,6 @@ test('a formation with a plane that got away drops no power-up, and neither does
   play(10)
   assert.equal(drops.length, 0)
 
-  timers.clear()
   const single = createWorld([{ at: 0, path: 'straight', x: .5 }])
   single.waves.onFormationDown = position => drops.push(position)
   single.play(1)
@@ -194,7 +195,6 @@ test('a formation with a plane that got away drops no power-up, and neither does
 /* V2-02 · enemy types */
 
 test('a heavy plane takes five hits and its points come with the last one; a fighter falls from one', async() => {
-  timers.clear()
   const { player, waves } = createWorld([])
   waves.launch({ enemy: 'heavy', path: 'boss' })
   waves.launch({ path: 'boss' })
@@ -219,28 +219,52 @@ test('a heavy plane takes five hits and its points come with the last one; a fig
 
 test('the player scores a plane\'s points when it goes down, not for every hit', async t => {
   const { Avionce } = await import('/scenes/vis/Avionce.js')
-  const player = new Avionce()
+  const session = startedSession()
+  const player = new Avionce({ session })
   t.after(() => player.end())
-  const heavy = new Enemy({ type: 'heavy', path: 'boss' })
+  const heavy = new Enemy({ session, type: 'heavy', path: 'boss' })
   player.ciljevi = [heavy]
   const hit = () => {
-    const bullet = player.novMetak()
-    bullet.pokazi()
+    player.bullets.fire({ x: 0, y: 0 }, 0, 0)
+    const bullet = player.bullets.projectiles.find(shot => shot.vidljiv)
     bullet.proveriPogodak = (target, callback) => bullet.povredi(target, callback)
-    player.proveriPogodak(heavy, () => player.scoreIfDown(heavy))
-    bullet.reset()
+    player.bullets.checkHits([heavy], plane => player.scoreIfDown(plane))
   }
 
   for (let i = 0; i < 4; i++) hit()
   assert.equal(player.poeni, 0)
   hit()
   assert.equal(player.poeni, 500)
+  hit() // a bullet into the falling plane
+  assert.equal(player.poeni, 500, 'a plane scores once')
+})
+
+test('after the result of a vis game no new wave comes and no plane scores', async t => {
+  const { default: Vis } = await import('/scenes/vis/Main.js')
+  const scene = new Vis()
+  scene.init()
+  scene.session.start()
+  scene.waves.schedule = [{ at: 1, path: 'straight', x: .5 }]
+  t.after(() => {
+    scene.clear = () => {} // happy-dom has no 2D canvas
+    scene.end()
+  })
+  const fighter = new Enemy({ session: scene.session })
+  fighter.umri()
+
+  scene.defeat()
+  for (let i = 0; i < 120; i++) {
+    scene.session.update(1 / 60)
+    scene.update(1 / 60, i / 60)
+  }
+  scene.player.scoreIfDown(fighter)
+  assert.deepEqual(scene.waves.enemies, [])
+  assert.equal(scene.player.poeni, 0)
 })
 
 /* V2-03 · aimed fire */
 
 test('an enemy plane shoots at where the player is, and a shot down one does not shoot', () => {
-  timers.clear()
   const { player, waves } = createWorld([])
   waves.launch({ path: 'boss' })
   const [plane] = waves.enemies
@@ -249,24 +273,23 @@ test('an enemy plane shoots at where the player is, and a shot down one does not
   player.x = platno.width / 4
   player.y = platno.height * .8
 
-  plane.fireTimer = 0
-  plane.shoot(1 / 60)
-  const bullet = plane.meci.find(shot => shot.vidljiv)
+  plane.weapon.cooldown.start(0)
+  plane.shoot()
+  const bullet = plane.bullets.projectiles.find(shot => shot.vidljiv)
   const aim = Math.atan2(player.y - plane.y, player.x - plane.x)
   const flight = Math.atan2(bullet.dy, bullet.dx)
   assert.ok(Math.abs(flight - aim) < .05, `aimed at ${aim}, flies at ${flight}`)
 
-  plane.meci.forEach(shot => shot.reset())
+  plane.bullets.projectiles.forEach(shot => shot.reset())
   plane.umri()
-  plane.fireTimer = 0
+  plane.weapon.cooldown.start(0)
   plane.update(1 / 60, 0)
-  assert.equal(plane.meci.filter(shot => shot.vidljiv).length, 0)
+  assert.equal(plane.bullets.projectiles.filter(shot => shot.vidljiv).length, 0)
 })
 
 /* V2-04 · boss */
 
 test('the boss comes after the last wave, and the level ends only when it is down', () => {
-  timers.clear()
   const { waves, play } = createWorld([{ at: 0, path: 'straight', x: .5 }, { at: 1, enemy: 'boss' }])
 
   play(1.1)
@@ -282,7 +305,6 @@ test('the boss comes after the last wave, and the level ends only when it is dow
 })
 
 test('the boss flies away if it is not shot down in time', () => {
-  timers.clear()
   const { waves, play } = createWorld([{ at: 0, enemy: 'boss' }])
   play(settings.enemies.boss.timeLimit - 1)
   assert.equal(waves.finished, false)
@@ -291,10 +313,10 @@ test('the boss flies away if it is not shot down in time', () => {
 })
 
 test('in the vis game the boss is the end: the victory comes only after it is down', async t => {
-  timers.clear()
   const { default: Vis } = await import('/scenes/vis/Main.js')
   const scene = new Vis()
   scene.init()
+  scene.session.start()
   scene.waves.schedule = [{ at: 0, enemy: 'boss' }]
   t.after(() => {
     scene.clear = () => {} // happy-dom has no 2D canvas
@@ -302,7 +324,7 @@ test('in the vis game the boss is the end: the victory comes only after it is do
   })
   const play = seconds => {
     for (let i = 0; i < seconds * 60; i++) {
-      timers.update(1 / 60)
+      scene.session.update(1 / 60)
       scene.update(1 / 60, i / 60)
     }
   }

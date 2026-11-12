@@ -78,8 +78,9 @@ test('in franjo-kluz the scenery slows down on the ground as fast at 30 as at 60
 
 test('a tenkici tank rolls as far at 30 as at 60 frames per second after a push', async() => {
   const { default: TenkLevo } = await import('/scenes/tenkici/TenkLevo.js')
+  const { default: GameClock } = await import('/core/runtime/GameClock.js')
   assertSameAt30And60(fps => {
-    const tank = new TenkLevo({ x: 100, xLimit: 5000 })
+    const tank = new TenkLevo({ x: 100, xLimit: 5000, clock: new GameClock() })
     tank.dodajSilu(100, 0)
     for (let i = 0; i < fps; i++) tank.update(1 / fps)
     return tank.x - 100

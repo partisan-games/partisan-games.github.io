@@ -27,8 +27,9 @@ export default class extends Scena2D {
 
   init() {
     this.pozadina = new Pozadina('background/razrusen-grad-savremen.jpg')
-    this.tenk = new TenkLevo({ y: nivoTla })
-    this.tenk2 = new TenkDesno({ y: nivoTla, ai: true })
+    const { clock } = this.session
+    this.tenk = new TenkLevo({ y: nivoTla, clock })
+    this.tenk2 = new TenkDesno({ y: nivoTla, ai: true, clock })
     this.tenk.ciljevi.push(this.tenk2)
     this.tenk2.ciljevi.push(this.tenk)
     this.predmeti = [this.tenk, this.tenk2]

@@ -1,6 +1,6 @@
 import Player from '/core3d/actor/Player.js'
 import AI from '/core3d/actor/AI.js'
-import { loadModel } from '/core3d/loaders.js'
+import { loadedModel } from '/core3d/assets/models.js'
 
 const animDict = {
   idle: 'Unarmed Idle',
@@ -15,20 +15,26 @@ const animDict = {
 
 /* LOADING */
 
-const mesh = await loadModel({ file: 'model.fbx', prefix: 'character/orc/', animDict, angle: Math.PI })
+const meshModel = { file: 'model.fbx', prefix: 'character/orc/', animDict, angle: Math.PI }
+
+/** What to load; a game awaits requestModels(models) before it creates one of these. */
+export const models = [meshModel]
 
 /* EXTENDED CLASSES */
 
-const sharedProps = { mesh, animations: mesh.userData.animations, animDict }
+const sharedProps = () => {
+  const mesh = loadedModel(meshModel)
+  return { mesh, animations: mesh.userData.animations, animDict }
+}
 
 export class OrcPlayer extends Player {
   constructor(props = {}) {
-    super({ ...sharedProps, ...props })
+    super({ ...sharedProps(), ...props })
   }
 }
 
 export class OrcAI extends AI {
   constructor(props = {}) {
-    super({ ...sharedProps, ...props })
+    super({ ...sharedProps(), ...props })
   }
 }

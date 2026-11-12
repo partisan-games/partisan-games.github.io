@@ -5,8 +5,8 @@ const { timeLimit } = settings.enemies.boss
 
 /** The big bomber at the end of a level: it sways across the upper screen, fires from its nose and wings, and flies away if it is not shot down in time. */
 export default class Boss extends Enemy {
-  constructor() {
-    super({ type: 'boss', path: 'boss' })
+  constructor({ session }) {
+    super({ session, type: 'boss', path: 'boss' })
     this.gunIndex = 0
   }
 

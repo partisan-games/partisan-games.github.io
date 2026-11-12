@@ -3,8 +3,8 @@ import { createSun } from '/core3d/light.js'
 import PhysicsWorld from '/core3d/physics/PhysicsWorld.js'
 import { createGround } from '/core3d/ground.js'
 import { createSideWall } from '/core3d/geometry/index.js'
-import { CannonPlayer } from '/core3d/actor/derived/Cannon.js'
-import { after } from '/core/timers.js'
+import { CannonPlayer, models as cannonModels } from '/core3d/actor/derived/Cannon.js'
+import { requestModels } from '/core3d/assets/models.js'
 
 const controlKeys = {
   '← or A': 'left',
@@ -24,6 +24,7 @@ export default class extends Scena3D {
   }
 
   async init() {
+    await requestModels([...cannonModels])
     this.player = new CannonPlayer({ camera: this.camera })
     this.player.chaseCamera.distance = 2
     this.player.chaseCamera.height = 2
@@ -35,6 +36,7 @@ export default class extends Scena3D {
     this.addMesh(sun)
 
     this.world = new PhysicsWorld({ scene: this.scene })
+    this.session.scope.add(() => this.world.dispose())
     const ground = createGround({ size: 40 })
     this.world.add(ground, 0)
 
@@ -51,7 +53,7 @@ export default class extends Scena3D {
   }
 
   checkDefeat() {
-    after(2, () => {
+    this.session.gameplay.after(2, () => {
       if (this.countableCrates.length > 0)
         this.defeat('You are out of ammo.')
     })

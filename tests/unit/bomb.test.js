@@ -1,7 +1,7 @@
 import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
-import * as timers from '/core/timers.js'
+import GameSession from '/core/runtime/GameSession.js'
 
 let Avionce, inputOptions, Enemy, Input, settings, platno, Explosion
 
@@ -24,13 +24,15 @@ const key = (type, code) => document.dispatchEvent(new KeyboardEvent(type, { cod
 
 /** The vis player plane in the middle of the screen, an enemy plane close to it and one far away. */
 function createBattle(t) {
-  const player = new Avionce()
+  const session = new GameSession()
+  session.start()
+  const player = new Avionce({ session })
   player.input.end()
   player.input = new Input({ ...inputOptions, useKeyboard: true, useJoystick: false })
   player.x = 500
   player.y = 400
-  const near = new Enemy()
-  const far = new Enemy()
+  const near = new Enemy({ session })
+  const far = new Enemy({ session })
   near.x = 600
   near.y = 350
   far.x = 5000
@@ -75,13 +77,13 @@ test('a bomb in vis also shoots down a plane at the edge of its fire, but not on
 
 test('a bomb in vis also takes out the enemy bullets in its fire, but not those past it', t => {
   const { player, near, far } = createBattle(t)
-  near.pali({ x: player.x, y: player.y - 100 }, Math.PI / 2)
-  far.pali({ x: far.x, y: far.y }, Math.PI / 2)
+  near.bullets.fire({ x: player.x, y: player.y - 100 }, Math.PI / 2, 350)
+  far.bullets.fire({ x: far.x, y: far.y }, Math.PI / 2, 350)
 
   dropBomb(player)
 
-  assert.equal(near.meci[0].vidljiv, false, 'the bullet close to the player is gone')
-  assert.equal(far.meci[0].vidljiv, true)
+  assert.equal(near.bullets.projectiles[0].vidljiv, false, 'the bullet close to the player is gone')
+  assert.equal(far.bullets.projectiles[0].vidljiv, true)
 })
 
 test('the vis player has three bombs per game', t => {
@@ -107,7 +109,7 @@ test('a bomb in vis bursts on the plane it hits and over the blast, and the burs
   dropBomb(player)
   assert.deepEqual(shown().map(({ x, y }) => ({ x, y })), [{ x: near.x, y: near.y }], 'at once on the hit plane')
 
-  timers.update(bombSpread)
+  player.session.update(bombSpread)
   assert.equal(shown().length, 1 + bombBursts, 'the bursts over the blast follow')
 
   player.explosions.forEach(burst => burst.update(settings.explosion.duration))

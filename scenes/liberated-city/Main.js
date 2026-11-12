@@ -1,15 +1,16 @@
 import Scena3D from '/core/Scena3D.js'
 import { createSun } from '/core3d/light.js'
-import { ResistanceFighterPlayer } from '/core3d/actor/derived/ww2/ResistanceFighter.js'
+import { ResistanceFighterPlayer, models as resistanceFighterModels } from '/core3d/actor/derived/ww2/ResistanceFighter.js'
 import { thirdPersonControls } from '/ui/Controls.js'
 import Maze from '/core3d/mazes/Maze.js'
 import { truePrims } from '/core3d/mazes/algorithms.js'
 import { createFloor } from '/core3d/ground.js'
-import { PartisanAI } from '/core3d/actor/derived/ww2/Partisan.js'
-import { PartisanAimAI } from '/core3d/actor/derived/ww2/PartisanAim.js'
-import { PartisanLowpolyAI } from '/core3d/actor/derived/ww2/PartisanLowpoly.js'
-import { SovietPartisanAI } from '/core3d/actor/derived/ww2/SovietPartisan.js'
+import { PartisanAI, models as partisanModels } from '/core3d/actor/derived/ww2/Partisan.js'
+import { PartisanAimAI, models as partisanAimModels } from '/core3d/actor/derived/ww2/PartisanAim.js'
+import { PartisanLowpolyAI, models as partisanLowpolyModels } from '/core3d/actor/derived/ww2/PartisanLowpoly.js'
+import { SovietPartisanAI, models as sovietPartisanModels } from '/core3d/actor/derived/ww2/SovietPartisan.js'
 import { sample } from '/core3d/helpers.js'
+import { requestModels } from '/core3d/assets/models.js'
 
 const cellSize = 10
 const rows = 6
@@ -63,7 +64,8 @@ export default class extends Scena3D {
     super({ controlKeys: thirdPersonControls, toon: true })
   }
 
-  init() {
+  async init() {
+    await requestModels([...resistanceFighterModels, ...partisanModels, ...partisanAimModels, ...partisanLowpolyModels, ...sovietPartisanModels])
     const floor = createFloor({ file: 'terrain/ground.jpg' })
     this.addMesh(floor)
     this.addMesh(createSun({ pos: [50, 100, 50], intensity: 2 * Math.PI }))

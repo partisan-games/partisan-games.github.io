@@ -22,7 +22,7 @@ function createWheelMesh(radius, width) {
 
 export default class Vehicle {
   constructor({
-    physicsWorld,
+    world,
     mesh,
     defaultRadius = .4,
     wheelMesh = createWheelMesh(defaultRadius, defaultRadius * .5),
@@ -58,16 +58,19 @@ export default class Vehicle {
       this.chaseCamera = new ChaseCamera({ camera, mesh, offset: [0, this.height, -this.depth], lookAt: [0, this.height, this.depth], speed: 4 })
 
     // body
-    const shape = new Ammo.btBoxShape(new Ammo.btVector3(this.width * .5, this.height * .25, this.depth * .5))
-    this.body = createRigidBody({ mesh, mass, shape })
-    physicsWorld.addRigidBody(this.body)
+    this.world = world
+    const { own } = world
+    const shape = own(new Ammo.btBoxShape(own(new Ammo.btVector3(this.width * .5, this.height * .25, this.depth * .5))))
+    this.body = createRigidBody({ own, mesh, mass, shape })
+    world.addBody(this.body)
 
     // vehicle
+    // this Ammo build cannot destroy a tuning (it has no __destroy__), so it is not owned; it is a few bytes per vehicle
     const tuning = new Ammo.btVehicleTuning()
-    const rayCaster = new Ammo.btDefaultVehicleRaycaster(physicsWorld)
-    this.vehicle = new Ammo.btRaycastVehicle(tuning, this.body, rayCaster)
+    const rayCaster = own(new Ammo.btDefaultVehicleRaycaster(world.physicsWorld))
+    this.vehicle = own(new Ammo.btRaycastVehicle(tuning, this.body, rayCaster))
     this.vehicle.setCoordinateSystem(0, 1, 2)
-    physicsWorld.addAction(this.vehicle)
+    world.addAction(this.vehicle)
 
     this.createWheels(tuning)
     this.addWheelMeshes(wheelMesh)
@@ -101,8 +104,9 @@ export default class Vehicle {
     const suspensionRestLength = 0.6
     const rollInfluence = 0.2
 
-    const wheelDirection = new Ammo.btVector3(0, -1, 0)
-    const wheelAxle = new Ammo.btVector3(-1, 0, 0)
+    const { own } = this.world
+    const wheelDirection = own(new Ammo.btVector3(0, -1, 0))
+    const wheelAxle = own(new Ammo.btVector3(-1, 0, 0))
 
     const wheelInfo = this.vehicle.addWheel(
       position, wheelDirection, wheelAxle, suspensionRestLength,
@@ -119,12 +123,13 @@ export default class Vehicle {
   createWheels(tuning) {
     const { y } = getSize(this.wheelMesh)
     const { wheelFront, wheelBack } = this
+    const { own } = this.world
     const wheelRadiusFront = y * .5, wheelRadiusBack = y * .5
 
-    this.createWheel(true, new Ammo.btVector3(wheelFront.x, wheelFront.y, wheelFront.z), wheelRadiusFront, tuning)
-    this.createWheel(true, new Ammo.btVector3(-wheelFront.x, wheelFront.y, wheelFront.z), wheelRadiusFront, tuning)
-    this.createWheel(false, new Ammo.btVector3(-wheelBack.x, wheelBack.y, wheelBack.z), wheelRadiusBack, tuning)
-    this.createWheel(false, new Ammo.btVector3(wheelBack.x, wheelBack.y, wheelBack.z), wheelRadiusBack, tuning)
+    this.createWheel(true, own(new Ammo.btVector3(wheelFront.x, wheelFront.y, wheelFront.z)), wheelRadiusFront, tuning)
+    this.createWheel(true, own(new Ammo.btVector3(-wheelFront.x, wheelFront.y, wheelFront.z)), wheelRadiusFront, tuning)
+    this.createWheel(false, own(new Ammo.btVector3(-wheelBack.x, wheelBack.y, wheelBack.z)), wheelRadiusBack, tuning)
+    this.createWheel(false, own(new Ammo.btVector3(wheelBack.x, wheelBack.y, wheelBack.z)), wheelRadiusBack, tuning)
   }
 
   /* UPDATE */

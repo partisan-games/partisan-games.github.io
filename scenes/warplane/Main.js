@@ -4,6 +4,8 @@ import { createSun } from '/core3d/light.js'
 import { createTerrain, meadowColor } from '/core3d/ground.js'
 import { createFirTree } from '/core3d/geometry/trees.js'
 import { baseControls } from '/ui/Controls.js'
+import Cooldown from '/core/gameplay/Cooldown.js'
+import { requestModels } from '/core3d/assets/models.js'
 import { createBuilding } from './utils.js'
 import { assets } from '/config.js'
 
@@ -11,7 +13,7 @@ const { randFloatSpread } = THREE.MathUtils
 
 const totalTime = 150
 const mapSize = 800
-const buildingInterval = 2000
+const buildingInterval = 2 // seconds of game time
 const buildingDistance = mapSize * .4
 const groundDistance = mapSize * .99
 const endDelay = 2.5 // seconds between the end of the flight and the end screen
@@ -43,7 +45,7 @@ export default class extends Scena3D {
 
   init() {
     this.i = 0
-    this.last = Date.now()
+    this.buildingWait = new Cooldown({ seconds: buildingInterval, clock: this.session.clock })
     this.entities = []
     this.objects = []
 
@@ -67,8 +69,9 @@ export default class extends Scena3D {
     this.choosingPlane = true // a second click while the plane loads would add a second one
 
     const obj = await import(`/core3d/aircraft/derived/${e.target.id}.js`)
+    await requestModels(obj.models)
     if (this.ui.ended) return
-    this.player = new obj.default({ camera: this.camera, limit: mapSize * .25 })
+    this.player = new obj.default({ clock: this.session.clock, camera: this.camera, limit: mapSize * .25 })
     this.addMesh(this.player.mesh)
     this.entities.push(this.player)
     this.start()
@@ -83,6 +86,7 @@ export default class extends Scena3D {
 
   async addBuilding(time) {
     const building = await createBuilding(time)
+    if (!this.session.active) return // the game ended while the building was made
     this.entities.push(building)
     this.pushMesh(building.mesh)
   }
@@ -92,9 +96,9 @@ export default class extends Scena3D {
   spawnObjects(time) {
     if (this.i++ % 5 === 0) this.addTree()
 
-    if (Date.now() - this.last >= buildingInterval) {
+    if (this.buildingWait.ready) {
       this.addBuilding(time)
-      this.last = Date.now()
+      this.buildingWait.start()
     }
   }
 

@@ -1,6 +1,7 @@
 import Scena3D from '/core/Scena3D.js'
 import { createSun } from '/core3d/light.js'
-import { WorkerPlayer } from '/core3d/actor/derived/ww2/Worker.js'
+import { WorkerPlayer, models as workerModels } from '/core3d/actor/derived/ww2/Worker.js'
+import { requestModels } from '/core3d/assets/models.js'
 import { thirdPersonControls } from '/ui/Controls.js'
 import Maze from '/core3d/mazes/Maze.js'
 import { truePrims } from '/core3d/mazes/algorithms.js'
@@ -78,7 +79,8 @@ export default class extends Scena3D {
     super({ controlKeys: thirdPersonControls, toon: true })
   }
 
-  init() {
+  async init() {
+    await this.session.keep(requestModels(workerModels))
     const floor = createFloor()
     this.addMesh(floor)
     this.addMesh(createSun({ pos: [50, 100, 50], intensity: 2 * Math.PI }))
@@ -89,7 +91,7 @@ export default class extends Scena3D {
 
     const coords = maze.getEmptyCoords(true, cellSize - 1)
 
-    this.player = new WorkerPlayer({ camera: this.camera, solids: city, pos: coords.pop(), showHealthBar: false })
+    this.player = new WorkerPlayer({ camera: this.camera, solids: city, pos: coords.pop(), showHealthBar: false, useComposedMovement: true })
     this.player.putInMaze(maze)
     this.add(this.player)
   }

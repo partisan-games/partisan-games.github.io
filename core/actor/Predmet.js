@@ -12,8 +12,10 @@ export default class Predmet {
 
   constructor(src, {
     sirina, visina, x = 200, y = 200, z = 0, skalar = 1, brzina = 0, zapaljiv = false, ishodiste = ishodista.centar,
-    odrazY = 1, odrazX = 1, scaleX = 1, scaleY = 1, senka = false, debug = false, alive = true, zadimljen = false, vidljiv = true
+    odrazY = 1, odrazX = 1, scaleX = 1, scaleY = 1, senka = false, debug = false, alive = true, zadimljen = false, vidljiv = true,
+    tunedFps = FPS,
   } = {}) {
+    this.tunedFps = tunedFps // the frame rate its per-frame values, such as friction, were tuned at
     this.polozaj = new Vector(x, y, z)
     if (src) this.ucitajSliku(src, sirina, visina, skalar)
     else {
@@ -130,9 +132,9 @@ export default class Predmet {
     this.dy += velicina * Math.sin(ugao)
   }
 
-  /** faktorTrenja is the share of speed lost per frame at FPS */
-  trenje(faktorTrenja = 0.1, dt = 1 / FPS) {
-    const modifikator = (1 - faktorTrenja) ** frames(dt)
+  /** faktorTrenja is the share of speed lost per frame at tunedFps */
+  trenje(faktorTrenja = 0.1, dt = 1 / this.tunedFps) {
+    const modifikator = (1 - faktorTrenja) ** frames(dt, this.tunedFps)
     this.dx *= modifikator
     this.dy *= modifikator
   }

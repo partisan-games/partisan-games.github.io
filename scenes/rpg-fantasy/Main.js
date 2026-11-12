@@ -5,7 +5,8 @@ import { createSun } from '/core3d/light.js'
 import { sample, getEmptyCoords, putOnSolids } from '/core3d/helpers.js'
 import { loadModel } from '/core3d/loaders.js'
 import { thirdPersonControls } from '/ui/Controls.js'
-import { BarbarianPlayer } from '/core3d/actor/derived/fantasy/Barbarian.js'
+import { BarbarianPlayer, models as barbarianModels } from '/core3d/actor/derived/fantasy/Barbarian.js'
+import { requestModels } from '/core3d/assets/models.js'
 
 const mapSize = 400
 
@@ -35,6 +36,7 @@ export default class extends Scena3D {
   }
 
   async init() {
+    await requestModels([...barbarianModels])
     this.camera.position.set(0, 50, 150)
 
     const sun = createSun({ pos: [15, 100, 50], intensity: 2 * Math.PI })
@@ -56,34 +58,40 @@ export default class extends Scena3D {
     for (let i = 0; i < 20; i++) {
       const name = sample(['Orc', 'OrcOgre'])
       const obj = await import(`/core3d/actor/derived/fantasy/${name}.js`)
+      await requestModels(obj.models)
       const Enemy = obj[name + 'AI']
       const enemy = new Enemy({ pos: coords.pop(), target: this.player.mesh, mapSize, solids, shouldRaycastGround: true, deathCallback: () => this.showMotivationalMessage() })
       this.add(enemy)
     }
 
     const Potion = await import('/core3d/objects/Potion.js')
+    await requestModels(Potion.models)
     for (let i = 0; i < 3; i++) {
       const potion = new Potion.default({ pos: coords.pop(), solids })
       this.addMesh(potion.mesh)
     }
 
     const Monument = await import('/core3d/objects/Monument.js')
+    await requestModels(Monument.models)
     const monument = new Monument.default({ pos: coords.pop(), solids: terrain })
     this.addMesh(monument.mesh)
 
-    const { FlamingoAI } = await import('/core3d/actor/derived/Flamingo.js')
+    const { FlamingoAI, models: flamingoModels } = await import('/core3d/actor/derived/Flamingo.js')
+    await requestModels(flamingoModels)
     for (let i = 0; i < 10; i++) {
       const bird = new FlamingoAI({ mapSize, pos: coords.pop() })
       this.add(bird)
     }
 
     const Cloud = await import('/core3d/objects/Cloud.js')
+    await requestModels(Cloud.models)
     for (let i = 0; i < 5; i++) {
       const cloud = new Cloud.default({ mapSize, pos: coords.pop() })
       this.add(cloud)
     }
 
-    const { ZeppelinAI } = await import('/core3d/actor/derived/Zeppelin.js')
+    const { ZeppelinAI, models: zeppelinModels } = await import('/core3d/actor/derived/Zeppelin.js')
+    await requestModels(zeppelinModels)
     const airship = new ZeppelinAI({ mapSize, solids: terrain })
     this.add(airship)
   }

@@ -5,14 +5,57 @@ import { getMesh } from '/core3d/helpers.js'
 import { jumpStyles } from '/core3d/constants.js'
 import { FPS } from '/core/konstante.js'
 
-const clock = new THREE.Clock()
-
 const skins = {
   STONE: 'STONE',
   LAVA: 'LAVA',
   DISCO: 'DISCO'
 }
 const { STONE, LAVA, DISCO } = skins
+
+export const avatarAbilities = {
+  STONE: { jumpStyle: jumpStyles.FLY_JUMP, immuneToLava: false },
+  LAVA: { jumpStyle: jumpStyles.FLY_JUMP, immuneToLava: true },
+  DISCO: { jumpStyle: jumpStyles.FLY, immuneToLava: false },
+}
+
+/** Visual pose belongs to one avatar, so waiting in another scene cannot advance it. */
+class AvatarPose {
+  constructor(mesh, height, skin) {
+    this.height = height
+    this.time = 0
+    this.limbs = ['leftHand', 'rightHand', 'leftLeg', 'rightLeg'].map(name => mesh.getObjectByName(name))
+    this.lava = skin === LAVA ? getMesh(mesh).material : null
+  }
+
+  idle(dt) {
+    const range = .09
+    this.limbs.forEach(({ position }) => {
+      position.z = position.z > range ? position.z * Math.pow(.9, dt * FPS) : Math.sin(this.time) * range
+    })
+  }
+
+  walk(name) {
+    const time = Math.sin(this.time * (name === 'run' ? 9 : 6)) * this.height * .5
+    const elapsed = Math.sin(time) * .666
+    this.limbs.forEach((limb, i) => {
+      limb.position.z = i % 2 ? elapsed : -elapsed
+    })
+  }
+
+  jump() {
+    this.limbs.forEach(limb => {
+      limb.position.z = this.height * .3
+    })
+  }
+
+  update(dt, state, jump) {
+    this.time += dt
+    if (state === 'walk' || state === 'run') this.walk(state)
+    else if (jump) this.jump()
+    else this.idle(dt)
+    if (this.lava) this.lava.uniforms.time.value += .8 * dt
+  }
+}
 
 const createMaterial = skin => {
   if (skin == STONE) return new THREE.MeshStandardMaterial({
@@ -68,11 +111,12 @@ export function createAvatar({ skin = STONE, r = 1.2 } = {}) {
 export default class Avatar extends Player {
   constructor({
     skin = STONE,
-    jumpStyle = skin == DISCO ? jumpStyles.FLY : jumpStyles.FLY_JUMP,
+    jumpStyle = (avatarAbilities[skin] || avatarAbilities.STONE).jumpStyle,
     maxJumpTime = .66,
     size = 1,
     speed = size * 4,
     showHealthBar = false,
+    useComposedMovement = true,
     ...params
   } = {}) {
     super({
@@ -81,6 +125,7 @@ export default class Avatar extends Player {
       jumpStyle,
       maxJumpTime,
       showHealthBar,
+      useComposedMovement,
       animDict: { jump: true },
       ...params,
     })
@@ -90,50 +135,28 @@ export default class Avatar extends Player {
       this.chaseCamera.speed = 4
       this.chaseCamera.distance = 4
     }
-    this.limbs = [
-      this.mesh.getObjectByName('leftHand'), this.mesh.getObjectByName('rightHand'),
-      this.mesh.getObjectByName('leftLeg'), this.mesh.getObjectByName('rightLeg')
-    ]
+    this.pose = new AvatarPose(this.mesh, this.height, skin)
+    this.limbs = this.pose.limbs
   }
 
-  idleAnim() {
-    const idleRange = .09
-    this.limbs.forEach(({ position }) => {
-      position.z = position.z > idleRange
-        ? position.z * .9 // normalize
-        : Math.sin(clock.getElapsedTime()) * idleRange // breathe
-    })
+  get immuneToLava() {
+    return Boolean(avatarAbilities[this.skin]?.immuneToLava)
+  }
+
+  idleAnim(dt = 1 / FPS) {
+    this.pose.idle(dt)
   }
 
   walkAnim(name) {
-    const r = this.height * .5
-    const speedFactor = name === 'run' ? 9 : 6
-
-    const time = Math.sin(clock.getElapsedTime() * speedFactor) * r
-    const elapsed = Math.sin(time) * .666
-
-    this.limbs.forEach((limb, i) => {
-      limb.position.z = i % 2 ? elapsed : -elapsed
-    })
+    this.pose.walk(name)
   }
 
   jumpAnim() {
-    this.limbs.forEach(limb => {
-      limb.position.z = this.height * .3
-    })
+    this.pose.jump()
   }
 
   update(delta = 1 / FPS) {
     super.update(delta)
-    const { stateName } = this.fsm
-
-    if (stateName === 'walk' || stateName === 'run')
-      this.walkAnim(stateName)
-    else if (this.input.jump)
-      this.jumpAnim()
-    else
-      this.idleAnim(true)
-
-    if (this.skin == LAVA) getMesh(this.mesh).material.uniforms.time.value += 0.8 * delta
+    this.pose.update(delta, this.fsm.stateName, this.input.jump)
   }
 }

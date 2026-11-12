@@ -9,7 +9,6 @@ import PowerUps from './PowerUps.js'
 import { levels } from './levels.js'
 import { baseControls } from '/ui/Controls.js'
 import { currentStyleClasses } from '/ui/styles.js'
-import { after } from '/core/timers.js'
 import { keys, attackLabels } from '/core/io/keys.js'
 import { createSound } from '/core/io/sound.js'
 import { settings } from './settings.js'
@@ -29,7 +28,7 @@ export default class extends Scena2D {
     this.oblaci = Array.from({ length: clouds }, () => new Oblak(brzina))
     this.ostrvo = new Pokretno('nature/ostrvo.gif', { potisak: brzina, skalar: 2 })
     this.zdravlje = new Pokretno('items/zdravlje.png', { potisak: brzina, skalar: .66, faktorY: 10, senka: true })
-    this.player = new Avionce()
+    this.player = new Avionce({ session: this.session })
     this.powerUps = new PowerUps({ scene: this, player: this.player })
     this.waves = new Waves({
       scene: this, player: this.player, schedule: levels[0], onFormationDown: position => this.powerUps.drop(position),
@@ -80,11 +79,14 @@ export default class extends Scena2D {
     this.baza = new Baza({ brzina })
     this.remove(this.ostrvo, this.zdravlje)
     this.add(this.baza)
-    after(landingTime, () => this.victory('You have successfully reached the island of Vis.'))
+    this.session.gameplay.after(landingTime, () => this.victory('You have successfully reached the island of Vis.'))
   }
 
+  /** The world keeps moving behind the end screen, but the rules stop: no new waves, power-ups or landing. */
   update(dt, t) {
     super.update(dt, t)
+    if (this.session.state !== 'running') return
+
     this.waves.update(dt)
     this.powerUps.update()
     this.collectHealth()

@@ -1,7 +1,8 @@
 import Scena3D from '/core/Scena3D.js'
 import * as THREE from 'three'
 import { createSun } from '/core3d/light.js'
-import { loadModel, loadFbxAnimations } from '/core3d/loaders.js'
+import { requestModel } from '/core3d/assets/models.js'
+import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js'
 import { getCursorPosition } from '/core3d/helpers.js'
 
 function cursorToDegrees(cursor, degreeMax) {
@@ -41,8 +42,9 @@ export default class extends Scena3D {
     this.bojaPlatna = 'transparent'
     this.camera.position.set(0, 1, 1.75)
 
-    const mesh = await loadModel({ file: 'character/soldier/partisan.fbx' })
-    const animations = await loadFbxAnimations({ idle: 'Rifle Idle' }, 'character/soldier/')
+    const model = await this.session.keep(requestModel({ file: 'partisan.fbx', prefix: 'character/soldier/', animDict: { idle: 'Rifle Idle' } }))
+    const mesh = clone(model)
+    this.addMesh(mesh)
 
     this.rightHand = null
     this.leftHand = null
@@ -52,17 +54,22 @@ export default class extends Scena3D {
       if (child.name === 'mixamorigNeck') this.neck = child
       if (child.name === 'mixamorigSpine') this.spine = child
     })
-    this.twoHandedWeapon = await loadModel({ file: 'weapon/rifle.fbx', scale: 1.25, angle: Math.PI })
+    const rifle = await this.session.keep(requestModel({ file: 'weapon/rifle.fbx', scale: 1.25, angle: Math.PI }))
+    this.twoHandedWeapon = clone(rifle)
     this.rightHand.add(this.twoHandedWeapon)
-    this.addMesh(mesh)
 
     this.mixer = new THREE.AnimationMixer(mesh)
-    const clip = animations[0]
+    const clip = model.userData.animations[0].clone()
     // removes spine and neck from animation
     clip.tracks = clip.tracks.filter(t => !t.name.includes('Spine') && !t.name.includes('Neck'))
     this.mixer.clipAction(clip).play()
+    this.session.scope.add(() => {
+      this.mixer.stopAllAction()
+      this.mixer.uncacheRoot(mesh)
+    })
 
     document.addEventListener('pointermove', this.followCursor)
+    this.session.scope.add(() => document.removeEventListener('pointermove', this.followCursor))
   }
 
   followCursor(e) {
@@ -83,8 +90,4 @@ export default class extends Scena3D {
     this.twoHandedWeapon.lookAt(pos)
   }
 
-  end() {
-    super.end()
-    document.removeEventListener('pointermove', this.followCursor)
-  }
 }

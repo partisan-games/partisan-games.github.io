@@ -5,7 +5,8 @@ import Platform from '/core3d/objects/Platform.js'
 import { loadModel } from '/core3d/loaders.js'
 import { createSphere } from '/core3d/geometry/index.js'
 import { createJupiter, createSaturn } from '/core3d/geometry/planets.js'
-import Lander from './Lander.js'
+import { requestModel } from '/core3d/assets/models.js'
+import Lander, { model as landerModel } from './Lander.js'
 
 const controls = {
   '← or A': 'thrust left',
@@ -22,7 +23,8 @@ export default class extends Scena3D {
       intro: 'Land on the platform gently',
       startButtonText: 'Start',
       uiStyle: 'white',
-      bojaPlatna: bojeNeba.crna
+      bojaPlatna: bojeNeba.crna,
+      fixedStep: true,
     })
   }
 
@@ -41,7 +43,11 @@ export default class extends Scena3D {
     this.saturn = createSaturn({ r: 3 })
     this.saturn.position.set(85, 20, -50)
 
-    this.arcology = await loadModel({ file: 'space/arcology-ring/model.fbx', scale: .5, shouldCenter: true })
+    const [arcology] = await Promise.all([
+      loadModel({ file: 'space/arcology-ring/model.fbx', scale: .5, shouldCenter: true }),
+      requestModel(landerModel),
+    ])
+    this.arcology = arcology
     this.arcology.position.z = -100
     this.addMesh(this.jupiter, this.saturn, this.moon, moonLight, this.arcology)
 
@@ -52,18 +58,18 @@ export default class extends Scena3D {
   /* LOOP */
 
   sceneUI() {
-    const points = this.lander.hasLanded ? this.lander.fuel : 0
-    return this.ui.scoreUI('Score', points, 'Fuel left', this.lander.fuel)
+    const fuel = Math.floor(this.lander.fuel)
+    return this.ui.scoreUI('Score', this.lander.hasLanded ? fuel : 0, 'Fuel left', fuel)
   }
 
-  update(dt, time) {
-    super.update(dt)
-
+  present(dt, time) {
     this.arcology?.rotateY(dt * .02)
     this.jupiter.rotateY(dt * .2)
     this.moon.rotateY(dt)
     orbitAround({ moon: this.moon, planet: this.jupiter, time: time * .75 })
+  }
 
+  fixedUpdate() {
     if (this.lander.hasLanded) this.victory ('Nice landing!')
     if (this.lander.broken) this.defeat('Landing failure!')
     if (this.lander.outOfFuel) this.defeat('Out of fuel, platform missed!')

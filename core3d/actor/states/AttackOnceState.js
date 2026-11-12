@@ -5,7 +5,7 @@ export default class AttackOnceState extends AnimOnceState {
     if (this.action)
       super.enter(oldState, oldAction)
     else
-      this.duration = 300
+      this.duration = .3 // seconds
 
     this.actor.enterAttack()
   }
@@ -16,7 +16,7 @@ export default class AttackOnceState extends AnimOnceState {
 
     /* TRANSIT */
 
-    if (!this.action && Date.now() - this.last >= this.duration)
+    if (!this.action && this.actor.age - this.last >= this.duration)
       this.actor.setState(this.prevOrIdle)
   }
 

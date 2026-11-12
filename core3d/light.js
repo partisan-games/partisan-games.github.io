@@ -2,7 +2,6 @@ import * as THREE from 'three'
 import { createSound } from '/core/io/sound.js'
 import { mapRange } from './helpers.js'
 import { assets } from '/config.js'
-import { after } from '/core/timers.js'
 
 const { randInt } = THREE.MathUtils
 
@@ -88,7 +87,8 @@ export const createMoon = ({
 
 /* EFFECTS */
 
-export function lightningStrike(light, scene) {
+/** `scope` is the ResourceScope whose clock the flash and the thunder wait on. */
+export function lightningStrike(light, scene, scope) {
   if (!oldIntensity) oldIntensity = light.intensity
   if (!oldBackground) oldBackground = new THREE.Color(scene.background)
 
@@ -102,13 +102,13 @@ export function lightningStrike(light, scene) {
 
   scene.background = newColor
 
-  after(.5, () => {
+  scope.after(.5, () => {
     light.intensity = oldIntensity
     scene.background = oldBackground
   })
 
   // sound travels about 333 m in a second
-  after(distance * .003, () => {
+  scope.after(distance * .003, () => {
     audio.currentTime = 0
     audio.play()
   })

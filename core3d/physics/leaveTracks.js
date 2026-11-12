@@ -31,13 +31,15 @@ function fixAngleRad(a) {
   return a
 }
 
+// shared by every call: tracks are left every frame, and new native vectors would never be freed
+const dec = new Ammo.btVector3(0, 0, 0)
+const dec2 = new Ammo.btVector3(0, 0, 0)
+const dec3 = new Ammo.btVector3(0, 0, 0)
+
 export function leaveTracks({ ground, scene, body, wheelMeshes }) {
 
   const groundMesh = getMesh(ground)
   const velocity = new THREE.Vector3(0, 0, 0)
-  const dec = new Ammo.btVector3(0, 0, 0)
-  const dec2 = new Ammo.btVector3(0, 0, 0)
-  const dec3 = new Ammo.btVector3(0, 0, 0)
 
   const position = new THREE.Vector3(0, 0, 0)
   const orientation = new THREE.Euler(0, 0, 0, 'XYZ')

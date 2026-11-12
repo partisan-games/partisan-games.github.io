@@ -1,10 +1,11 @@
 import Scena3D from '/core/Scena3D.js'
-import { CapoeiraGirlPlayer } from '/core3d/actor/derived/capoeira/CapoeiraGirl.js'
+import CapoeiraGirl, { model } from './Character.js'
 import { createGround } from '/core3d/ground.js'
 import { createSun } from '/core3d/light.js'
 import { html } from './html.js'
 import { css } from './style.js'
-import { loadFbxAnimations } from '/core3d/loaders.js'
+import { requestModel } from '/core3d/assets/models.js'
+import SpecialActions from './SpecialActions.js'
 
 export default class extends Scena3D {
   constructor() {
@@ -14,14 +15,20 @@ export default class extends Scena3D {
   }
 
   async init() {
+    await this.session.keep(requestModel(model))
     this.addMesh(createGround({ file: 'terrain/ground.jpg' }))
     const sun = createSun()
     this.addMesh(sun)
 
-    this.player = new CapoeiraGirlPlayer({ camera: this.camera, showHealthBar: false })
+    this.player = new CapoeiraGirl({ camera: this.camera, showHealthBar: false, useComposedMovement: true })
     this.add(this.player)
 
     this.addUI()
+    this.actions = new SpecialActions({
+      player: this.player, session: this.session,
+      loadClip: name => requestModel({ file: `${name}.fbx`, prefix: 'character/huntress/', name })
+        .then(mesh => mesh.userData.animations[0]),
+    })
   }
 
   addUI() {
@@ -32,25 +39,17 @@ export default class extends Scena3D {
     this.style = document.createElement('style')
     this.style.textContent = css
     document.head.appendChild(this.style)
-  }
-
-  end() {
-    super.end()
-    this.uiElements?.forEach(element => element.remove())
-    this.style?.remove()
+    this.session.scope.add(() => {
+      this.uiElements.forEach(element => element.remove())
+      this.style.remove()
+    })
   }
 
   async handleClick(e) {
     super.handleClick(e)
     const button = e.target.closest('button.special')
-    if (!button) return
+    if (!button || !this.session.active || !this.player) return
 
-    const name = button.innerText
-    if (!(name in this.player.anim.actions)) {
-      const [clip] = await loadFbxAnimations([name], 'character/huntress/')
-      this.player.addAction(name, clip)
-    }
-
-    this.player.setState(name)
+    await this.actions.select(button.innerText)
   }
 }

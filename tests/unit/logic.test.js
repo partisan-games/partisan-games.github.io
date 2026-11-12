@@ -2,7 +2,6 @@ import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 import Vector from '/core/Vector.js'
-import Vreme from '/core/Vreme.js'
 import { sudar, unutar } from '/core/utils/sudari.js'
 import { nasumicnoOkruglo, nadjiNajdaljeTacke, getRandomCoords } from '/core/utils.js'
 import Maze from '/core3d/mazes/Maze.js'
@@ -25,16 +24,6 @@ test('Vector measures distance in 3D and set changes only given axes', () => {
   v.set({ y: 0 })
   assert.deepEqual([v.x, v.y, v.z], [1, 0, 3])
   assert.equal(new Vector().razmakDo({ x: 3, y: 4, z: 0 }), 5)
-})
-
-test('Vreme measures elapsed time from the last reset', t => {
-  t.mock.timers.enable({ apis: ['Date'], now: 1000 })
-  const vreme = new Vreme()
-  t.mock.timers.tick(1500)
-  assert.equal(vreme.proteklo, 1500)
-  assert.equal(vreme.protekloSekundi, 1.5)
-  vreme.reset()
-  assert.equal(vreme.proteklo, 0)
 })
 
 test('sudar detects overlap but not boxes that only touch', () => {

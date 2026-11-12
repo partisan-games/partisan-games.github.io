@@ -1,10 +1,13 @@
 import * as THREE from 'three'
 import { Ammo } from '/core3d/physics/index.js'
-import { loadModel } from '/core3d/loaders.js'
+import { loadedModel } from '/core3d/assets/models.js'
 import Vehicle from '/core3d/physics/Vehicle.js'
 import { createSphere } from '/core3d/geometry/index.js'
 
-const mesh = await loadModel({ file: 'weapon/cannon/mortar/mortar.obj', mtl: 'weapon/cannon/mortar/mortar.mtl', size: 1, angle: Math.PI * .5 })
+const model = { file: 'weapon/cannon/mortar/mortar.obj', mtl: 'weapon/cannon/mortar/mortar.mtl', size: 1, angle: Math.PI * .5 }
+
+/** What to load; a game awaits requestModels(models) before it creates one. */
+export const models = [model]
 
 function createInputRange() {
   const range = document.createElement('input')
@@ -20,8 +23,8 @@ function createInputRange() {
 }
 
 export default class Cannon extends Vehicle {
-  constructor({ world, ...rest } = {}) {
-    super({ mesh, physicsWorld: world.physicsWorld, defaultRadius: .18, wheelFront: { x: .3, y: .12, z: .32 }, wheelBack: { x: .3, y: .18, z: -.56 }, maxEngineForce: 20, mass: 100, ...rest })
+  constructor({ mesh = loadedModel(model), world, ...rest } = {}) {
+    super({ mesh, world, defaultRadius: .18, wheelFront: { x: .3, y: .12, z: .32 }, wheelBack: { x: .3, y: .18, z: -.56 }, maxEngineForce: 20, mass: 100, ...rest })
 
     this.world = world
     this.chaseCamera.offset = [0, 1, -2.5]
@@ -48,7 +51,9 @@ export default class Cannon extends Vehicle {
     ball.position.copy(pos)
     this.world.add(ball, 4)
 
-    ball.userData.body.setLinearVelocity(new Ammo.btVector3(x, this.range.value * .2, z))
+    const velocity = new Ammo.btVector3(x, this.range.value * .2, z)
+    ball.userData.body.setLinearVelocity(velocity) // the body copies it
+    Ammo.destroy(velocity)
     this.backward(this.range.value)
     this.range.value = this.minImpulse
   }

@@ -1,0 +1,346 @@
+{
+  "node": "v22.22.2",
+  "method": {
+    "durationSeconds": 1.5,
+    "stallSchedule": "0.5 s regular + 0.5 s single frame + 0.5 s regular",
+    "physical": "project PhysicsWorld, sphere at (0,100,0), mass 1, initial vx=6, gravity=9.82, no contacts",
+    "kinematic": "franjo-kluz logic with ArrowUp+ArrowRight, happy-dom, images not loaded, scenery only",
+    "candidate": "external dt=1/60, max 5 steps/frame, frame clamp 0.25, discard excess full steps, Ammo maxSubSteps=0"
+  },
+  "ammoSha256": "9ce5f6e8dd9da3aa70871786dad77dd87deb3b169f6e94d4f2d2a8d6bfe80ee9",
+  "api": {
+    "destroy": "function",
+    "malloc": "function",
+    "free": "undefined",
+    "heapBytes": 67108864,
+    "removeAction": "function",
+    "removeConstraint": "function",
+    "latencySetter": "undefined"
+  },
+  "native": {
+    "defaultSequence": {
+      "returned": {
+        "sum": 4,
+        "min": 0,
+        "max": 2
+      },
+      "bodyX": 0.40000004,
+      "motionX": 0.35999998,
+      "velocityX": 6,
+      "owned": 14
+    },
+    "explicit60": {
+      "returned": {
+        "sum": 4,
+        "min": 0,
+        "max": 2
+      },
+      "bodyX": 0.40000004,
+      "motionX": 0.35999998,
+      "velocityX": 6,
+      "owned": 14
+    },
+    "belowDefault": {
+      "returned": [
+        0
+      ],
+      "bodyX": 0,
+      "motionX": 0,
+      "velocityX": 6,
+      "owned": 14
+    },
+    "twoHalves": {
+      "returned": [
+        0,
+        1
+      ],
+      "bodyX": 0.10000001,
+      "motionX": 0,
+      "velocityX": 6,
+      "owned": 14
+    },
+    "explicit120": {
+      "returned": [
+        1
+      ],
+      "bodyX": 0.05,
+      "motionX": 0,
+      "velocityX": 6,
+      "owned": 14
+    },
+    "stalledDefault": {
+      "returned": [
+        29
+      ],
+      "bodyX": 1.00000012,
+      "motionX": 1,
+      "velocityX": 6,
+      "owned": 14
+    },
+    "afterStall": {
+      "returned": [
+        29,
+        1
+      ],
+      "bodyX": 1.10000014,
+      "motionX": 1.10000002,
+      "velocityX": 6,
+      "owned": 14
+    },
+    "stalledCap5": {
+      "returned": [
+        29
+      ],
+      "bodyX": 0.50000006,
+      "motionX": 0.49999997,
+      "velocityX": 6,
+      "owned": 14
+    },
+    "variable": {
+      "returned": [
+        1
+      ],
+      "bodyX": 3,
+      "motionX": 3,
+      "velocityX": 6,
+      "owned": 14
+    },
+    "exactExternal": {
+      "returned": {
+        "sum": 60,
+        "min": 1,
+        "max": 1
+      },
+      "bodyX": 5.99999666,
+      "motionX": 5.99999666,
+      "velocityX": 6,
+      "owned": 14
+    },
+    "exactWithInner": {
+      "returned": {
+        "sum": 60,
+        "min": 1,
+        "max": 1
+      },
+      "bodyX": 5.99999666,
+      "motionX": 5.89999676,
+      "velocityX": 6,
+      "owned": 14
+    }
+  },
+  "physical": [
+    {
+      "fps": 30,
+      "stalled": false,
+      "wallSeconds": 1.5,
+      "meshX": 8.89999771,
+      "meshY": 89.07524109,
+      "bodyX": 8.99999809,
+      "bodyY": 88.82974243,
+      "velocityY": -14.73000431
+    },
+    {
+      "fps": 30,
+      "stalled": true,
+      "wallSeconds": 1.5,
+      "meshX": 6.99999571,
+      "meshY": 93.22147369,
+      "bodyX": 6.99999571,
+      "bodyY": 93.22147369,
+      "velocityY": -11.45666981
+    },
+    {
+      "fps": 60,
+      "stalled": false,
+      "wallSeconds": 1.5,
+      "meshX": 8.89999771,
+      "meshY": 89.07524109,
+      "bodyX": 8.99999809,
+      "bodyY": 88.82974243,
+      "velocityY": -14.73000431
+    },
+    {
+      "fps": 60,
+      "stalled": true,
+      "wallSeconds": 1.5,
+      "meshX": 6.99999571,
+      "meshY": 93.22147369,
+      "bodyX": 6.99999571,
+      "bodyY": 93.22147369,
+      "velocityY": -11.45666981
+    },
+    {
+      "fps": 120,
+      "stalled": false,
+      "wallSeconds": 1.5,
+      "meshX": 8.89999771,
+      "meshY": 89.07524109,
+      "bodyX": 8.99999809,
+      "bodyY": 88.82974243,
+      "velocityY": -14.73000431
+    },
+    {
+      "fps": 120,
+      "stalled": true,
+      "wallSeconds": 1.5,
+      "meshX": 6.99999571,
+      "meshY": 93.22147369,
+      "bodyX": 6.99999571,
+      "bodyY": 93.22147369,
+      "velocityY": -11.45666981
+    }
+  ],
+  "candidate": [
+    {
+      "fps": 30,
+      "stalled": false,
+      "wallSeconds": 1.5,
+      "simulatedSeconds": 1.5,
+      "discardedSeconds": 0,
+      "returned": {
+        "sum": 90,
+        "min": 1,
+        "max": 1
+      },
+      "bodyX": 8.99999809,
+      "motionX": 8.99999809,
+      "velocityX": 6,
+      "owned": 14
+    },
+    {
+      "fps": 30,
+      "stalled": true,
+      "wallSeconds": 1.5,
+      "simulatedSeconds": 1.0833333333333333,
+      "discardedSeconds": 0.41666667,
+      "returned": {
+        "sum": 65,
+        "min": 1,
+        "max": 1
+      },
+      "bodyX": 6.49999619,
+      "motionX": 6.49999619,
+      "velocityX": 6,
+      "owned": 14
+    },
+    {
+      "fps": 60,
+      "stalled": false,
+      "wallSeconds": 1.5,
+      "simulatedSeconds": 1.5,
+      "discardedSeconds": 0,
+      "returned": {
+        "sum": 90,
+        "min": 1,
+        "max": 1
+      },
+      "bodyX": 8.99999809,
+      "motionX": 8.99999809,
+      "velocityX": 6,
+      "owned": 14
+    },
+    {
+      "fps": 60,
+      "stalled": true,
+      "wallSeconds": 1.5,
+      "simulatedSeconds": 1.0833333333333333,
+      "discardedSeconds": 0.41666667,
+      "returned": {
+        "sum": 65,
+        "min": 1,
+        "max": 1
+      },
+      "bodyX": 6.49999619,
+      "motionX": 6.49999619,
+      "velocityX": 6,
+      "owned": 14
+    },
+    {
+      "fps": 120,
+      "stalled": false,
+      "wallSeconds": 1.5,
+      "simulatedSeconds": 1.5,
+      "discardedSeconds": 0,
+      "returned": {
+        "sum": 90,
+        "min": 1,
+        "max": 1
+      },
+      "bodyX": 8.99999809,
+      "motionX": 8.99999809,
+      "velocityX": 6,
+      "owned": 14
+    },
+    {
+      "fps": 120,
+      "stalled": true,
+      "wallSeconds": 1.5,
+      "simulatedSeconds": 1.0833333333333333,
+      "discardedSeconds": 0.41666667,
+      "returned": {
+        "sum": 65,
+        "min": 1,
+        "max": 1
+      },
+      "bodyX": 6.49999619,
+      "motionX": 6.49999619,
+      "velocityX": 6,
+      "owned": 14
+    }
+  ],
+  "kinematic": [
+    {
+      "fps": 30,
+      "stalled": false,
+      "wallSeconds": 1.5,
+      "scenerySpeed": 450,
+      "height": 900
+    },
+    {
+      "fps": 30,
+      "stalled": true,
+      "wallSeconds": 1.5,
+      "scenerySpeed": 450,
+      "height": 900
+    },
+    {
+      "fps": 60,
+      "stalled": false,
+      "wallSeconds": 1.5,
+      "scenerySpeed": 450,
+      "height": 900
+    },
+    {
+      "fps": 60,
+      "stalled": true,
+      "wallSeconds": 1.5,
+      "scenerySpeed": 450,
+      "height": 900
+    },
+    {
+      "fps": 120,
+      "stalled": false,
+      "wallSeconds": 1.5,
+      "scenerySpeed": 450,
+      "height": 900
+    },
+    {
+      "fps": 120,
+      "stalled": true,
+      "wallSeconds": 1.5,
+      "scenerySpeed": 450,
+      "height": 900
+    }
+  ],
+  "assertionsPassed": true,
+  "probeSha256": "849866bc036e30313ed8220cb43facd637e22390f64d9c20d2f5ef12cce5f781",
+  "head": "86f6c575b6af077ce4cc733913009471c36492eb",
+  "sourceSha256": {
+    "libs/ammo.js": "9ce5f6e8dd9da3aa70871786dad77dd87deb3b169f6e94d4f2d2a8d6bfe80ee9",
+    "core3d/physics/PhysicsWorld.js": "9079f4ed6af00e701f938ceb4461b741b442090dd3d17d6fa0acac1f4ca02020",
+    "core3d/physics/index.js": "8aefc203c7369d089fe1592180940c08b9a0b87b5244b2de858d14306f7825b1",
+    "scenes/franjo-kluz/Main.js": "d096793edb94c374463cf6561651dd3216c6ecda7fc75ca52e876b1e9eb7feda",
+    "core/actor/Predmet.js": "22f65e53ea8a2afe87ec5c3734e63b7f194b485f9a26835253cfe63de0abda77",
+    "core/actor/Player2D.js": "633ebcedc53c7c72edf67d6919f77a10fb56c4e64b2272dae409e7e2bbfc7db7"
+  }
+}

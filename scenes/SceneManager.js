@@ -62,6 +62,7 @@ class SceneManager {
       await scene.init()
       // a newer start ended this scene while init was still running; end what init set up after that
       if (!isCurrent()) return scene.end()
+      scene.session.ready()
 
       if (this.scene.pozadina) await imageLoaded(this.scene.pozadina.slika)
       if (!isCurrent()) return

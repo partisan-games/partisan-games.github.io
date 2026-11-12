@@ -4,7 +4,6 @@ import { AnimationClip, BoxGeometry, Mesh, NumberKeyframeTrack, Scene } from 'th
 import AI from '/core3d/actor/AI.js'
 import Player from '/core3d/actor/Player.js'
 import Input from '/core/io/Input.js'
-import * as timers from '/core/timers.js'
 
 const createClips = names => names.map(name =>
   new AnimationClip(name, .5, [new NumberKeyframeTrack('.position[y]', [0, .5], [0, 0])]))
@@ -48,7 +47,6 @@ test('an enemy spots the player, runs up, attacks until the player dies and then
     player.update(1 / 60)
     states.add(enemy.state)
     t.mock.timers.tick(1000 / 60)
-    timers.update(1 / 60)
   }
 
   assert.ok(states.has('pursue'), `enemy states: ${[...states]}`)
@@ -62,7 +60,6 @@ test('an enemy spots the player, runs up, attacks until the player dies and then
     enemy.update(1 / 60)
     player.update(1 / 60)
     t.mock.timers.tick(1000 / 60)
-    timers.update(1 / 60)
   }
   assert.equal(enemy.target, null, 'the enemy lets go of a dead target')
   assert.equal(hitsAfterDeath, 0)

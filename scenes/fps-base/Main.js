@@ -5,14 +5,15 @@ import { hemLight, lightningStrike } from '/core3d/light.js'
 import FPSPlayer from '/core3d/actor/FPSPlayer.js'
 import Maze from '/core3d/mazes/Maze.js'
 import { truePrims } from '/core3d/mazes/algorithms.js'
-import { GermanMachineGunnerAI } from '/core3d/actor/derived/ww2/GermanMachineGunner.js'
-import { SSSoldierAI } from '/core3d/actor/derived/ww2/SSSoldier.js'
-import { NaziOfficerAI } from '/core3d/actor/derived/ww2/NaziOfficer.js'
-import { GermanFlameThrowerAI } from '/core3d/actor/derived/ww2/GermanFlameThrower.js'
-import FirstAid from '/core3d/objects/FirstAid.js'
+import { GermanMachineGunnerAI, models as germanMachineGunnerModels } from '/core3d/actor/derived/ww2/GermanMachineGunner.js'
+import { SSSoldierAI, models as ssSoldierModels } from '/core3d/actor/derived/ww2/SSSoldier.js'
+import { NaziOfficerAI, models as naziOfficerModels } from '/core3d/actor/derived/ww2/NaziOfficer.js'
+import { GermanFlameThrowerAI, models as germanFlameThrowerModels } from '/core3d/actor/derived/ww2/GermanFlameThrower.js'
+import FirstAid, { models as firstAidModels } from '/core3d/objects/FirstAid.js'
 import { fpsControls } from '/ui/Controls.js'
 import { Snow, Smoke, FlameUp, Fire } from '/core3d/Particles.js'
 import { createCrate, createRustyBarrel, createMetalBarrel } from '/core3d/geometry/index.js'
+import { requestModels } from '/core3d/assets/models.js'
 
 const cellSize = 5
 
@@ -27,7 +28,8 @@ export default class extends Scena3D {
     })
   }
 
-  init() {
+  async init() {
+    await requestModels([...germanMachineGunnerModels, ...ssSoldierModels, ...naziOfficerModels, ...germanFlameThrowerModels, ...firstAidModels])
     this.bojaPozadine = 0x301934
     this.light = hemLight({ intensity: Math.PI * 1.5, scene: this.scene })
     this.addMesh(createGround({ file: 'terrain/snow.jpg' }))
@@ -98,7 +100,7 @@ export default class extends Scena3D {
     if (this.player.dead)
       this.defeat('You are dead.')
 
-    if (Math.random() > .998) lightningStrike(this.light, this.scene)
+    if (Math.random() > .998) lightningStrike(this.light, this.scene, this.session.presentation)
   }
 
   sceneUI() {

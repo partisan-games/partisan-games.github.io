@@ -6,6 +6,19 @@ import '/core/io/ScreenToggle.js'
 
 const elementUI = document.getElementById('ui')
 const modalElement = document.getElementById('modal')
+// the UI that last drew into each shared element; a game ended late must not wipe the next game's screen
+const drawnBy = new Map([[elementUI, null], [modalElement, null]])
+
+const draw = (element, ui, html) => {
+  element.innerHTML = html
+  drawnBy.set(element, ui)
+}
+
+const erase = (element, ui) => {
+  if (drawnBy.get(element) !== ui) return
+  element.innerHTML = ''
+  drawnBy.set(element, null)
+}
 
 export default class UI {
   constructor(scene, {
@@ -36,7 +49,7 @@ export default class UI {
   }
 
   clear() {
-    elementUI.innerHTML = ''
+    erase(elementUI, this)
     this.hideScreen()
   }
 
@@ -50,13 +63,13 @@ export default class UI {
 
   showScreen(name, html) {
     this.screen = name
-    modalElement.innerHTML = html
+    draw(modalElement, this, html)
     this.messageElement.hidden = true
   }
 
   hideScreen() {
     this.screen = null
-    modalElement.innerHTML = ''
+    erase(modalElement, this)
     this.messageElement.hidden = false
   }
 
@@ -168,6 +181,7 @@ export default class UI {
     const html = this.scene.sceneUI(t)
     if (this.cachedSceneUI === html) return
 
-    elementUI.innerHTML = this.cachedSceneUI = html
+    this.cachedSceneUI = html
+    draw(elementUI, this, html)
   }
 }

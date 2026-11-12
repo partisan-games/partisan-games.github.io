@@ -1,22 +1,26 @@
 import Player from '/core3d/actor/Player.js'
 import AI from '/core3d/actor/AI.js'
-import { loadModel } from '/core3d/loaders.js'
+import { loadedModel } from '/core3d/assets/models.js'
 
 const animDict = {
   idle: 'Take 001'
 }
 
-/* LOADING */
+/* MODEL DESCRIPTION: the scene awaits requestModels(models) before construction. */
 
-const mesh = await loadModel({ file: 'character/ghost/scene.gltf', angle: Math.PI })
+export const model = { file: 'character/ghost/scene.gltf', angle: Math.PI }
+export const models = [model]
 
 /* EXTENDED CLASSES */
 
-const sharedProps = { mesh, animations: mesh.userData.animations, animDict }
+const sharedProps = () => {
+  const mesh = loadedModel(model)
+  return { mesh, animations: mesh.userData.animations, animDict }
+}
 
 export class GhostPlayer extends Player {
   constructor(props = {}) {
-    super({ ...sharedProps, ...props })
+    super({ ...sharedProps(), ...props })
   }
 
   directionBlocked() {
@@ -26,7 +30,7 @@ export class GhostPlayer extends Player {
 
 export class GhostAI extends AI {
   constructor(props = {}) {
-    super({ ...sharedProps, ...props })
+    super({ ...sharedProps(), ...props })
   }
 
   directionBlocked() {

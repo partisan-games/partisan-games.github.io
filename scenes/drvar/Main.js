@@ -41,19 +41,27 @@ export default class extends Scena3D {
     })
     this.addMesh(praviPanoramu())
     this.camera.position.z += 50
-    this.controls = await createOrbitControls(this.camera, this.renderer.domElement)
+    this.controls = await this.session.keep(createOrbitControls(this.camera, this.renderer.domElement), controls => controls.dispose())
     this.controls.enablePan = false
     this.controls.minAzimuthAngle = -Math.PI / 8
     this.controls.maxAzimuthAngle = Math.PI / 8
     this.eksplozija = new Sprite('/assets/images/sprites/efekti/eksplozija-01.png', 8, 4)
     this.addMesh(this.eksplozija.mesh)
     this.bojaPozadine = '#403'
+    const previousFilter = document.body.style.filter
     document.body.style.filter = 'sepia(0.4)'
+    this.session.scope.add(() => {
+      document.body.style.filter = previousFilter
+    })
   }
 
   dodajSprite(el, i) {
     const src = el.urls[i % el.urls.length]
     textureLoader.load(assets.images + src, texture => {
+      if (!this.session.active) {
+        texture.dispose()
+        return
+      }
       texture.minFilter = THREE.NearestFilter // pikselizovano iz daleka
       texture.magFilter = THREE.NearestFilter // glatko blizu
 
@@ -73,11 +81,6 @@ export default class extends Scena3D {
 
       if (el.type) this[el.type].push(mesh)
     })
-  }
-
-  end() {
-    super.end()
-    document.body.style.filter = ''
   }
 
   update(dt) {

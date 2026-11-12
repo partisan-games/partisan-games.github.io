@@ -5,7 +5,8 @@ import PhysicsWorld from '/core3d/physics/PhysicsWorld.js'
 import { getHeightData } from '/core3d/terrain/heightmap.js'
 import { createTerrain } from '/core3d/physics/index.js'
 import { createSphere, createTremplin } from '/core3d/geometry/index.js'
-import Humvee from '/core3d/physics/Humvee.js'
+import Humvee, { models as humveeModels } from '/core3d/physics/Humvee.js'
+import { requestModels } from '/core3d/assets/models.js'
 
 const { randFloatSpread } = THREE.MathUtils
 
@@ -15,12 +16,14 @@ export default class extends Scena3D {
   }
 
   async init() {
+    await requestModels([...humveeModels])
     this.world = new PhysicsWorld({ scene: this.scene })
+    this.session.scope.add(() => this.world.dispose())
 
     this.addMesh(createSun({ planetColor: 0xB0E0E6 }))
 
     const { data, width, depth } = await getHeightData('/assets/images/heightmaps/wiki.png', 5)
-    const terrain = await createTerrain({ data, width, depth, minHeight: -2, maxHeight: 16 })
+    const terrain = await createTerrain({ data, width, depth, minHeight: -2, maxHeight: 16, own: this.world.own })
     this.world.add(terrain)
 
     const tremplin = createTremplin({ color: 0xfffacd })
@@ -33,7 +36,7 @@ export default class extends Scena3D {
       this.world.add(ball, 800)
     }
 
-    this.vehicle = new Humvee({ camera: this.camera, physicsWorld: this.world.physicsWorld })
+    this.vehicle = new Humvee({ camera: this.camera, world: this.world })
     this.add(this.vehicle)
     this.addMesh(...this.vehicle.wheelMeshes)
   }

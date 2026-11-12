@@ -21,7 +21,7 @@ export default class extends Scena2D {
 
   init() {
     this.score = 0
-    this.tenk = new TenkLevo({ y: nivoTla, skalar: .4, xLimit: platno.width * .9 })
+    this.tenk = new TenkLevo({ y: nivoTla, skalar: .4, xLimit: platno.width * .9, clock: this.session.clock })
 
     const planina = new Planina({ nivoTla, dx: PARALAX_1 })
     const shumarak = new Shuma(nivoTla, PARALAX_1)

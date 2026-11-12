@@ -40,8 +40,8 @@ export default class extends Scena2D {
 
     this.aerodrom = new Vracanje({ src: 'buildings/aerodrom.png', tlo: nivoTla, procenat: .25 })
     this.ruina = new Vracanje({ src: 'buildings/ruina.png', tlo: nivoTla, x: -400 })
-    this.player = new AvionIgrac(nivoTla)
-    this.vozilo = new VoziloBocno('armies/hummel.png', { x: 150, y: nivoTla, skalar: .75, ciljevi: [this.player] })
+    this.player = new AvionIgrac(nivoTla, undefined, { session: this.session })
+    this.vozilo = new VoziloBocno('armies/hummel.png', { x: 150, y: nivoTla, skalar: .75, session: this.session })
 
     this.player.cvrstaTela.push(this.vozilo, this.ruina)
     this.player.ciljevi.push(this.vozilo)
@@ -120,7 +120,7 @@ export default class extends Scena2D {
 
   handleInput(dt) {
     super.handleInput(dt)
-    if (!this.player.alive) return
+    if (this.ui.outro || !this.player.alive) return
 
     const potisak = POTISAK * frames(dt)
     const dizanje = DIZAJ * frames(dt)

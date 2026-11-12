@@ -1,7 +1,10 @@
+import GameSession from '/core/runtime/GameSession.js'
+
 /** A stand-in for a scene module, recording what the SceneManager does with it. */
 export function createSceneClass({ init = () => {}, pozadina, log = [] } = {}) {
   return class FakeScene {
     constructor() {
+      this.session = new GameSession()
       this.pozadina = pozadina
       this.hasStartScreen = false
       log.push(this)
@@ -15,10 +18,12 @@ export function createSceneClass({ init = () => {}, pozadina, log = [] } = {}) {
 
     start() {
       this.started++
+      this.session.start()
     }
 
     end() {
       this.ended++
+      this.session.dispose()
     }
   }
 }

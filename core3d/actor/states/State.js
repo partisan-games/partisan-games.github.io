@@ -5,7 +5,7 @@ export default class State {
     this.actor = actor
     this.name = name
     this.prevState = ''
-    this.last = Date.now() // for ai intervals
+    this.last = actor.age // when the state began, in the actor's game time, for ai intervals
   }
 
   get action() {

@@ -1,18 +1,24 @@
 import Player from '/core3d/actor/Player.js'
 import AI from '/core3d/actor/AI.js'
-import { loadModel } from '/core3d/loaders.js'
+import { loadedModel } from '/core3d/assets/models.js'
 
 /* LOADING */
 
-const mesh = await loadModel({ file: 'aircraft/airship/zeppelin.fbx', size: 20 })
+const meshModel = { file: 'aircraft/airship/zeppelin.fbx', size: 20 }
+
+/** What to load; a game awaits requestModels(models) before it creates one of these. */
+export const models = [meshModel]
 
 /* EXTENDED CLASSES */
 
-const sharedProps = { mesh, shouldRaycastGround: true, speed: 4, baseState: 'patrol', patrolDistance: Infinity, altitude: 40 }
+const sharedProps = () => {
+  const mesh = loadedModel(meshModel)
+  return { mesh, shouldRaycastGround: true, speed: 4, baseState: 'patrol', patrolDistance: Infinity, altitude: 40 }
+}
 
 export class ZeppelinPlayer extends Player {
   constructor(props = {}) {
-    super({ ...sharedProps, ...props })
+    super({ ...sharedProps(), ...props })
     this.mesh.position.y = 60
     this.propeller = this.mesh.getObjectByName('propeler')
   }
@@ -25,7 +31,7 @@ export class ZeppelinPlayer extends Player {
 
 export class ZeppelinAI extends AI {
   constructor(props = {}) {
-    super({ ...sharedProps, ...props })
+    super({ ...sharedProps(), ...props })
     this.mesh.position.y = 60
     this.propeller = this.mesh.getObjectByName('propeler')
   }

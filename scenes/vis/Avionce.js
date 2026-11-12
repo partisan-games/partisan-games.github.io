@@ -1,24 +1,30 @@
 import Player2D from '/core/actor/Player2D.js'
-import Renderer2D from '/core/Renderer2D.js'
+import ProjectilePool from '/core/actor/ProjectilePool.js'
 import platno from '/core/io/platno.js'
-import { praviPucanje } from '/core/actor/prosirenja/pucanje.js'
-import { after } from '/core/timers.js'
 import { createSound } from '/core/io/sound.js'
+import Cooldown from '/core/gameplay/Cooldown.js'
+import Weapon from '/core/gameplay/Weapon.js'
 import Bullet from './Bullet.js'
 import Explosion from './Explosion.js'
+import PlayerView from './PlayerView.js'
 import { settings } from './settings.js'
 
 const {
-  lives, bombs, bombRadius, bombHits, bombBursts, bombSpread, respawnTime, shieldTime, blinkTime, loops, loop,
-  reloadTime, bulletSpeed, fire, propeller,
+  lives, bombs, bombRadius, bombHits, bombBursts, bombSpread, respawnTime, shieldTime, loops, loop,
+  reloadTime, bulletSpeed, fire,
 } = settings.player
 
 /** The plane fires on Space; on a phone, with its buttons. */
 export const inputOptions = { attackKey: 'Space', buttonDict: { attack: '💥', attack2: '➰', special: '💣' } }
 
+/** The player plane. Its reload, respawn and bomb bursts wait on the game `session`. */
 export class Avionce extends Player2D {
-  constructor() {
-    super('armies/partizani/avioni/spitfire-odozgo.png', { skalar: .5, zapaljiv: true, senka: true, ...inputOptions })
+  #fireLevel = 0
+
+  constructor({ session }) {
+    // vis was tuned on a 60 Hz screen, unlike the older games
+    super('armies/partizani/avioni/spitfire-odozgo.png', { skalar: .5, zapaljiv: true, senka: true, tunedFps: 60, ...inputOptions })
+    this.session = session
     this.brzina = 0
     this.poeni = 0
     this.zivoti = lives
@@ -27,12 +33,26 @@ export class Avionce extends Player2D {
     this.loopsLeft = loops
     this.loopAge = null // seconds into the loop, while it lasts
     this.shield = 0 // seconds of safety left after coming back
-    this.fireLevel = 0 // which of settings.player.fire
-    this.reload = 0 // seconds until the next shot
-    this.propellerTime = 0
+    this.ciljevi = []
+    this.bullets = new ProjectilePool({ owner: this, create: () => new Bullet() })
+    this.weapon = new Weapon({
+      cooldown: new Cooldown({ seconds: reloadTime, clock: session.clock }),
+      barrels: fire[0],
+      spawnProjectile: (origin, angle) => this.bullets.fire(origin, angle, bulletSpeed),
+    })
+    this.view = new PlayerView()
     this.explosions = Array.from({ length: bombBursts }, () => new Explosion()) // loaded before the first bomb
     this.predmeti.push(...this.explosions)
-    Object.assign(this, praviPucanje({ projektil: Bullet }))
+  }
+
+  /** Which of settings.player.fire: the guns that fire together. */
+  get fireLevel() {
+    return this.#fireLevel
+  }
+
+  set fireLevel(level) {
+    this.#fireLevel = level
+    this.weapon.barrels = fire[level]
   }
 
   onload() {
@@ -58,16 +78,7 @@ export class Avionce extends Player2D {
 
   /** One bullet from every gun of the fire level; the reload goes by game time, so it waits in a pause. */
   puca() {
-    if (this.reload > 0) return
-
-    this.reload = reloadTime
-    const y = this.y - this.visina / 4
-    fire[this.fireLevel].forEach(gun => this.fireBullet({ x: this.x + gun.x, y }, Math.PI * 1.5 + gun.angle))
-  }
-
-  fireBullet(position, angle) {
-    const bullet = this.meci.find(free => !free.vidljiv) || this.novMetak()
-    bullet.pali(position, angle, bulletSpeed)
+    this.weapon.tryFire({ x: this.x, y: this.y - this.visina / 4 }, Math.PI * 1.5)
   }
 
   powerUp(kind) {
@@ -121,7 +132,7 @@ export class Avionce extends Player2D {
         this.explode(plane.x, plane.y)
       })
     this.ciljevi
-      .flatMap(plane => plane.meci)
+      .flatMap(plane => plane.bullets.projectiles)
       .filter(bullet => bullet.vidljiv && inBlast(bullet))
       .forEach(bullet => bullet.reset())
     this.spreadBursts(radius)
@@ -135,7 +146,7 @@ export class Avionce extends Player2D {
       const x = this.x + Math.cos(angle) * distance
       const below = Math.sin(angle) * distance
       const y = this.y + (this.y + below > platno.height ? -below : below) // a burst under the screen's edge shows above instead
-      after(Math.random() * bombSpread, () => this.explode(x, y))
+      this.session.presentation.after(Math.random() * bombSpread, () => this.explode(x, y))
     }
   }
 
@@ -149,8 +160,9 @@ export class Avionce extends Player2D {
     explosion.start(x, y)
   }
 
+  /** Points count only while the game runs, not after its result. */
   scoreIfDown(plane) {
-    if (plane.dead) this.poeni += plane.points
+    if (plane.dead && this.session.state === 'running') this.poeni += plane.points
   }
 
   /** A bullet takes a life unless the plane is invulnerable. */
@@ -185,7 +197,7 @@ export class Avionce extends Player2D {
     this.fireLevel = 0
     this.pada = true
     this.zivoti--
-    after(respawnTime, () => {
+    this.session.gameplay.after(respawnTime, () => {
       this.pada = false
       if (this.zivoti) this.reset()
     })
@@ -194,44 +206,16 @@ export class Avionce extends Player2D {
   update(dt, t) {
     if (this.looping) this.flyLoop(dt)
     this.shield = Math.max(this.shield - dt, 0)
-    this.reload = Math.max(this.reload - dt, 0)
-    this.propellerTime += dt
+    this.view.update(dt)
     super.update(dt, t)
-    this.ciljevi.forEach(plane => this.proveriPogodak(plane, () => this.scoreIfDown(plane)))
+    this.bullets.checkHits(this.ciljevi, plane => this.scoreIfDown(plane))
     this.checkCrashes()
 
     if (this.pada)
       this.scaleX = this.scaleY = this.scaleX * Math.pow(0.8, dt)
   }
 
-  /** Just after coming back, the plane blinks between solid and faint. */
   render() {
-    const renderer = Renderer2D.instance
-    const faint = this.shield > 0 && Math.floor(this.shield / blinkTime) % 2
-    renderer.ctx.save()
-    if (faint) renderer.ctx.globalAlpha = .3
-    renderer.crtaPredmet(this)
-    if (this.prikazan) this.drawPropeller(renderer.ctx)
-    renderer.ctx.restore()
-  }
-
-  /** The turning blades, seen edge on: a bar at the nose that flickers between a few lengths. */
-  drawPropeller(ctx) {
-    const { frames, frameTime } = propeller
-    const frame = frames[Math.floor(this.propellerTime / frameTime) % frames.length]
-    const half = this.sirina * propeller.span * frame.span / 2
-    const thickness = Math.max(this.visina * .008, 1.5)
-    ctx.save()
-    ctx.translate(this.x, this.y)
-    ctx.rotate(this.ugao)
-    ctx.scale(this.scaleX, this.scaleY)
-    ctx.translate(0, this.visina * (propeller.nose - .5))
-    ctx.globalAlpha *= frame.alpha
-    ctx.fillStyle = '#1c1c1a'
-    ctx.fillRect(-half, -thickness / 2, half * 2, thickness)
-    ctx.fillStyle = '#d6aa28'
-    ctx.fillRect(-half, -thickness / 2, half * .12, thickness)
-    ctx.fillRect(half * .88, -thickness / 2, half * .12, thickness)
-    ctx.restore()
+    this.view.render(this)
   }
 }

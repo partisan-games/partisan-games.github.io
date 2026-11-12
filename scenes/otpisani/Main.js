@@ -3,8 +3,7 @@ import Pozadina from '/core/objects/Pozadina.js'
 import Okupator from '/core/actor/Okupator.js'
 import mish from '/core/io/mish.js'
 import { progresBar } from '/ui/components.js'
-import { praviEnergiju } from '/core/actor/prosirenja/energija.js'
-import Vreme from '/core/Vreme.js'
+import Health from '/core/gameplay/Health.js'
 import { createSound } from '/core/io/sound.js'
 
 export default class extends Scena2D {
@@ -15,10 +14,10 @@ export default class extends Scena2D {
   }
 
   init() {
-    Object.defineProperties(this, Object.getOwnPropertyDescriptors(praviEnergiju()))
+    this.health = new Health()
     this.pozadina = new Pozadina('background/rusevine-varsava.jpg')
     this.audio = createSound('otpisani.mp3')
-    this.vreme = new Vreme()
+    this.spawnElapsed = 0
     this.dodajNeprijatelja()
     mish.dodajNishan()
     this.intervalIzlaska = 3000
@@ -26,11 +25,16 @@ export default class extends Scena2D {
   }
 
   dodajNeprijatelja() {
-    this.predmeti.push(new Okupator({ callback: dt => this.skiniEnergiju(dt * 5) }))
+    this.predmeti.push(new Okupator({ callback: dt => this.health.damage(dt * 5) }))
+  }
+
+  get energija() {
+    return this.health.current
   }
 
   handleClick(e) {
     super.handleClick(e)
+    if (e.target.closest('button') || this.ui.ended || this.ui.outro) return
     this.predmeti.forEach(svabo => svabo.proveriPogodak(() => this.poeni++))
     this.audio.play()
   }
@@ -38,17 +42,17 @@ export default class extends Scena2D {
   end() {
     super.end()
     mish.ukloniNishan()
-    // eslint-disable-next-line no-restricted-syntax -- runs after the scene has ended, when the game clock no longer moves
-    setTimeout(() => this.audio.pause(), 1) // the click on the exit button plays the music again
+    this.audio.pause()
   }
 
   update(dt, t) {
     if (this.ui.outro) return
     super.update(dt, t)
 
-    if (this.vreme.proteklo > Math.max(this.intervalIzlaska, 500)) {
+    this.spawnElapsed += dt
+    if (this.spawnElapsed * 1000 > Math.max(this.intervalIzlaska, 500)) {
       this.dodajNeprijatelja()
-      this.vreme.reset()
+      this.spawnElapsed = 0
     }
     this.intervalIzlaska -= dt * 100
 

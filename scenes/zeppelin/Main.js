@@ -4,10 +4,11 @@ import { loadModel } from '/core3d/loaders.js'
 import { createHillyTerrain, createWater } from '/core3d/ground.js'
 import { getEmptyCoords, putOnSolids } from '/core3d/helpers.js'
 import { createTreesOnTerrain } from '/core3d/geometry/trees.js'
-import Dirigible from '/core3d/aircraft/derived/Dirigible.js'
-import Cloud from '/core3d/objects/Cloud.js'
-import AerialScrew from '/core3d/objects/AerialScrew.js'
-import WizardIsle from '/core3d/objects/WizardIsle.js'
+import Dirigible, { models as dirigibleModels } from '/core3d/aircraft/derived/Dirigible.js'
+import { requestModels } from '/core3d/assets/models.js'
+import Cloud, { models as cloudModels } from '/core3d/objects/Cloud.js'
+import AerialScrew, { models as aerialScrewModels } from '/core3d/objects/AerialScrew.js'
+import WizardIsle, { models as wizardIsleModels } from '/core3d/objects/WizardIsle.js'
 
 const controlKeys = {
   '← or A': 'left',
@@ -29,6 +30,7 @@ export default class extends Scena3D {
   }
 
   async init() {
+    await requestModels([...cloudModels, ...aerialScrewModels, ...wizardIsleModels])
     this.addMesh(createSun({ intensity: Math.PI * 2, pos: [75, 140, -75], r: 5 }))
 
     const terrain = await createHillyTerrain({ size: mapSize, factorY: 30 })
@@ -39,7 +41,10 @@ export default class extends Scena3D {
 
     const coords = getEmptyCoords({ mapSize: mapSize * .75, fieldSize: 40, emptyCenter: 50 })
 
-    const castle = await loadModel({ file: 'building/castle/magic-castle.fbx', size: 100 })
+    const [castle] = await Promise.all([
+      loadModel({ file: 'building/castle/magic-castle.fbx', size: 100 }),
+      requestModels(dirigibleModels),
+    ])
     putOnSolids(castle, terrain)
     this.addMesh(castle)
 

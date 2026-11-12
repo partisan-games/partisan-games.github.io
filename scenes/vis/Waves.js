@@ -41,7 +41,8 @@ export default class Waves {
   }
 
   launch(wave) {
-    const planes = wave.enemy === 'boss' ? [new Boss()] : this.formation(wave)
+    const { session } = this.scene
+    const planes = wave.enemy === 'boss' ? [new Boss({ session })] : this.formation(wave, session)
     planes.forEach(plane => plane.ciljevi.push(this.player))
     if (planes.length > 1) this.formations.push({ planes, lastAlive: planes[0] })
     this.enemies.push(...planes)
@@ -49,10 +50,10 @@ export default class Waves {
     this.scene.add(...planes)
   }
 
-  formation({ enemy = 'fighter', formation, count, path, x, y, side }) {
+  formation({ enemy = 'fighter', formation, count, path, x, y, side }, session) {
     const { speed } = settings.enemies[enemy]
     return formationMembers({ formation, count, gap: settings.formationGap, speed })
-      .map(({ across, delay }) => new Enemy({ type: enemy, path, x, y, side, across, delay }))
+      .map(({ across, delay }) => new Enemy({ session, type: enemy, path, x, y, side, across, delay }))
   }
 
   /** A formation is down when none of its planes flies; the one alive in the last frame fell last. */

@@ -78,3 +78,59 @@ test('the first result stands: a later victory does not replace a defeat', () =>
   assert.doesNotMatch(modal(), /all gathered/)
   scene.end()
 })
+
+test('the scene moves its session clock only while the game runs, and ends the session with the game', () => {
+  const frames = installFakeFrames()
+  const scene = createScene()
+  const fired = []
+  let cleanups = 0
+  scene.session.scope.add(() => cleanups++)
+  scene.start()
+  scene.session.gameplay.after(.05, () => fired.push('due'))
+
+  frames.step() // the first frame only sets the start time
+  frames.step(40)
+  scene.pause()
+  frames.step(1000)
+  frames.step(1000)
+  assert.deepEqual(fired, [])
+  scene.unpause()
+  frames.step(1000) // the first frame after a pause starts the time again
+  frames.step(20)
+  assert.deepEqual(fired, ['due'])
+
+  scene.session.gameplay.after(.01, () => fired.push('after the end'))
+  scene.defeat()
+  frames.step(1000)
+  assert.deepEqual(fired, ['due'])
+
+  scene.end()
+  assert.equal(scene.session.state, 'disposed')
+  assert.equal(cleanups, 1)
+})
+
+test('a game ended late, after the next one began, leaves the next game its screen, canvas, results and timers', () => {
+  installFakeFrames()
+  const canvas = document.createElement('canvas')
+  const old = new Scena({ canvas, intro: 'old' })
+  const next = new Scena({ canvas, intro: 'next' })
+  next.sceneUI = () => '<b>next score</b>'
+  next.ui.renderStartScreen()
+  next.ui.render(0)
+  const fired = []
+  next.start()
+  next.session.gameplay.after(0, () => fired.push('next timer'))
+  next.ui.showPauseScreen()
+
+  old.end() // a slow init finished after the next game had started
+  old.end()
+
+  assert.match(modal(), /Paused|Continue/i)
+  assert.equal(document.getElementById('ui').innerHTML, '<b>next score</b>')
+  assert.equal(canvas.style.display, 'block')
+  next.session.update(0)
+  assert.deepEqual(fired, ['next timer'])
+  next.end()
+  assert.equal(canvas.style.display, 'none')
+  assert.equal(modal(), '')
+})
