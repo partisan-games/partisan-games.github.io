@@ -70,9 +70,13 @@ export default class Enemy extends Predmet {
     return this.zapaljiv && (this.dead || this.hits <= this.maxHits / 2)
   }
 
+  /** A shot down plane leaves its path and formation and goes on straight ahead, the way its nose points. */
   umri() {
     super.umri()
     this.falling = true
+    const heading = this.ugao - Math.PI / 2 // the image points up
+    this.dx = this.route.speed * Math.cos(heading)
+    this.dy = this.route.speed * Math.sin(heading)
     after(fallTime, () => {
       this.gone = true
     })
@@ -94,7 +98,7 @@ export default class Enemy extends Predmet {
   }
 
   update(dt, t) {
-    this.fly(dt)
+    if (!this.falling) this.fly(dt)
     super.update(dt, t)
     if (this.alive) this.shoot(dt)
     this.proveriPogotke()

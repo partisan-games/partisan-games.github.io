@@ -25,8 +25,9 @@ The separate checks and how the tests work: [docs/TESTING.md](docs/TESTING.md).
 
 ## TODO
 
-- ubacivanje žetona
-- ocenjivanje igara?
+### Arhitektura
+
+- trenutno koristimo uglavnom nasleđivanje klasa, ali pokušavam da pređem na kompoziciju umesto nasleđivanja. jel ovo ispravan pristup: core/actor/prosirenja ? 
 
 ### Bagovi
 
@@ -35,6 +36,8 @@ Mobilni:
 
 ### Ideje za kasnije
 
+- ubacivanje žetona
+- ocenjivanje igara?
 - dodati profil korisnika
 
 Ideje za nivoe:

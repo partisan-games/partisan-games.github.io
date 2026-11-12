@@ -1,8 +1,9 @@
 import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
+import * as timers from '/core/timers.js'
 
-let Avionce, Enemy, Input
+let Avionce, Enemy, Input, settings, platno, Explosion
 
 before(async() => {
   createPageElements()
@@ -14,6 +15,9 @@ before(async() => {
   ;({ Avionce } = await import('/scenes/vis/Avionce.js'))
   Enemy = (await import('/scenes/vis/Enemy.js')).default
   Input = (await import('/core/io/Input.js')).default
+  ;({ settings } = await import('/scenes/vis/settings.js'))
+  platno = (await import('/core/io/platno.js')).default
+  Explosion = (await import('/scenes/vis/Explosion.js')).default
 })
 
 const key = (type, code) => document.dispatchEvent(new KeyboardEvent(type, { code }))
@@ -52,13 +56,27 @@ test('a bomb in vis shoots down the enemy fighters around the player, with their
   assert.equal(near.alive, false, 'the near plane goes down')
   assert.equal(far.alive, true, 'the far plane flies on')
   assert.equal(player.poeni, 100)
-  assert.equal(player.bombs, 1, 'holding the key drops one bomb')
+  assert.equal(player.bombs, settings.player.bombs - 1, 'holding the key drops one bomb')
 })
 
-test('the vis player has two bombs per game', t => {
+test('a bomb in vis also shoots down a plane at the edge of its fire, but not one past it', t => {
+  const { player, near, far } = createBattle(t)
+  const radius = settings.player.bombRadius * Math.min(platno.width, platno.height)
+  near.x = player.x + radius + Explosion.reach - 10
+  near.y = player.y
+  far.x = player.x + radius + Explosion.reach + 10
+  far.y = player.y
+
+  dropBomb(player)
+
+  assert.equal(near.alive, false, 'the fire reaches it')
+  assert.equal(far.alive, true)
+})
+
+test('the vis player has three bombs per game', t => {
   const { player, near } = createBattle(t)
 
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 3; i++) {
     near.alive = true
     dropBomb(player)
   }
@@ -66,6 +84,21 @@ test('the vis player has two bombs per game', t => {
   dropBomb(player)
 
   assert.equal(player.bombs, 0)
-  assert.equal(near.alive, true, 'no bomb is left for the third try')
-  assert.equal(player.poeni, 200)
+  assert.equal(near.alive, true, 'no bomb is left for the fourth try')
+  assert.equal(player.poeni, 300)
+})
+
+test('a bomb in vis bursts on the plane it hits and over the blast, and the bursts go out', t => {
+  const { player, near } = createBattle(t)
+  const { bombBursts, bombSpread } = settings.player
+  const shown = () => player.explosions.filter(burst => burst.vidljiv)
+
+  dropBomb(player)
+  assert.deepEqual(shown().map(({ x, y }) => ({ x, y })), [{ x: near.x, y: near.y }], 'at once on the hit plane')
+
+  timers.update(bombSpread)
+  assert.equal(shown().length, 1 + bombBursts, 'the bursts over the blast follow')
+
+  player.explosions.forEach(burst => burst.update(settings.explosion.duration))
+  assert.equal(shown().length, 0)
 })

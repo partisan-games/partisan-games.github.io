@@ -17,7 +17,7 @@ const { scrollSpeed: brzina, clouds, landingTime } = settings
 export default class extends Scena2D {
   constructor() {
     super({
-      controlKeys: { ...baseControls, Enter: 'pucanje', [keys.special.label]: 'bomb' },
+      controlKeys: { ...baseControls, Enter: 'pucanje', [keys.attack2.label]: 'loop', [keys.special.label]: 'bomb' },
       intro: 'Reach the island of Vis.'
     })
   }
@@ -33,19 +33,13 @@ export default class extends Scena2D {
     this.add(okean, this.zdravlje, this.ostrvo, this.player, ...this.oblaci)
   }
 
-  proveriSudare() {
+  collectHealth() {
     if (!this.player.alive) return
 
     if (this.player.sudara(this.zdravlje)) {
       this.zdravlje.reset()
       this.player.zivoti++
     }
-    this.waves.enemies.forEach(enemy => {
-      if (enemy.alive && this.player.sudara(enemy)) {
-        enemy.damage(1)
-        this.player.umri()
-      }
-    })
   }
 
   landToBase() {
@@ -58,7 +52,7 @@ export default class extends Scena2D {
   update(dt, t) {
     super.update(dt, t)
     this.waves.update(dt)
-    this.proveriSudare()
+    this.collectHealth()
 
     if (this.player.zivoti <= 0) this.defeat()
 
@@ -69,12 +63,14 @@ export default class extends Scena2D {
   sceneUI() {
     const hearts = '❤️'.repeat(Math.max(0, this.player.zivoti))
     const bombs = '💣'.repeat(this.player.bombs)
+    const loops = '➰'.repeat(this.player.loopsLeft)
     return /* html */`
       <div class="top-left">
         <div>
           Score: ${this.player.poeni}
           <br>${hearts}
           <br>${bombs}
+          <br>${loops}
         </div>
       </div>
       ${this.bossBar()}

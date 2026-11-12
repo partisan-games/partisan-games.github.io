@@ -127,6 +127,24 @@ test('a formation launched by a wave flies with its members at their places', ()
   assert.deepEqual(xs, [middle - settings.formationGap, middle, middle + settings.formationGap])
 })
 
+test('a shot down plane leaves its formation and goes on straight ahead, while the others fly on', () => {
+  timers.clear()
+  const { waves, play } = createWorld([{ at: 0, formation: 'line', count: 2, path: 'wave', x: .5 }])
+  play(1)
+  const [shot, flying] = waves.enemies
+  shot.umri()
+  const fall = { x: shot.x, y: shot.y, ugao: shot.ugao }
+  const { speed } = settings.enemies.fighter
+
+  play(1)
+
+  const heading = fall.ugao - Math.PI / 2
+  assert.ok(Math.abs(shot.x - (fall.x + speed * Math.cos(heading))) < 1, 'ahead at its speed')
+  assert.ok(Math.abs(shot.y - (fall.y + speed * Math.sin(heading))) < 1)
+  assert.equal(shot.ugao, fall.ugao, 'without turning')
+  assert.equal(flying.x, flying.routePosition(flying.age).x, 'the other plane keeps to its path')
+})
+
 /* V2-02 · enemy types */
 
 test('a heavy plane takes five hits and its points come with the last one; a fighter falls from one', async() => {

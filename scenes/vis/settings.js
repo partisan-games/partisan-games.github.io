@@ -5,12 +5,19 @@ export const settings = {
   landingTime: 3, // seconds from the base appearing to the victory
   player: {
     lives: 3,
-    bombs: 2,
-    bombRadius: .5, // of the shorter side of the screen
+    bombs: 3,
+    bombRadius: .5, // of the shorter side of the screen, where the bursts go off
     bombHits: 10, // a fighter or a heavy plane goes down, the boss loses a sixth
+    bombBursts: 12, // explosions spread over the blast, besides one on every plane it hits
+    bombSpread: .4, // seconds over which the bursts go off
     respawnTime: 2.5, // seconds
+    shieldTime: 2, // seconds the plane cannot be hit after coming back
+    blinkTime: .1, // seconds between solid and faint while it cannot be hit
+    loops: 3, // per life
+    loop: { duration: 1, grow: .5, ahead: 60 }, // seconds; how much bigger and how many px ahead at the top of the loop
   },
   formationGap: 125, // px between planes in a formation, a little more than a fighter's width
+  explosion: { duration: 1, scale: 1.8 }, // seconds, size of the 128 px frame
   fallTime: 2, // seconds a shot down plane falls before it is gone
   enemyBulletSpeed: 350, // px per second
   enemies: {
