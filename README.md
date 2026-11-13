@@ -26,7 +26,6 @@ The separate checks and how the tests work: [docs/TESTING.md](docs/TESTING.md).
 ## TODO
 
 - bunker: istraži online kako se pravi animirani sprite. pronađi u našem projektu klase koje to podržavaju. neka bombaš postane animirani sprite koji diše kada je idle.
-- tenkici: slika pozadine je ok, ali promeniti boje pozadine
 - vis: nađi bolji zvuk pucanja
 
 ### Bagovi
