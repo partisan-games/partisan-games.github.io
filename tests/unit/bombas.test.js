@@ -36,7 +36,7 @@ test('walking phase follows speed without restarting when speed changes', () => 
   }
 })
 
-test('idle switches to walking during input and coasting, returns after stopping and freezes on death', () => {
+test('walking briefly decelerates on input release, then returns to idle and freezes on death', () => {
   const player = new Bombas({ x: 200, y: 200 })
   Object.defineProperties(player.sprite.slika, {
     naturalWidth: { value: 528 }, naturalHeight: { value: 144 },
@@ -65,12 +65,18 @@ test('idle switches to walking during input and coasting, returns after stopping
     document.dispatchEvent(new KeyboardEvent('keyup', { code: 'ArrowRight' }))
 
     player.dx = 20
-    step(.1)
+    step(.05)
+    assert.ok(player.brzina > 1)
     assert.equal(player.sprite.animacija.ime, 'kretanje')
-    assert.ok(player.sprite.protekloAnimacije > movingPhase)
+    const decelerationAdvance = player.sprite.protekloAnimacije - movingPhase
+    assert.ok(decelerationAdvance > 0)
+    assert.ok(decelerationAdvance < .05 * player.brzina / 160)
+    step(.11)
+    assert.equal(player.sprite.animacija.ime, 'idle')
+    assert.equal(player.sprite.protekloAnimacije, .11)
     player.stani()
     step(.1)
-    assert.equal(player.sprite.protekloAnimacije, .1)
+    assert.ok(Math.abs(player.sprite.protekloAnimacije - .21) < 1e-10)
     assert.equal(player.sprite.animacija.ime, 'idle')
 
     player.umri()

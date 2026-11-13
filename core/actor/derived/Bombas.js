@@ -26,7 +26,7 @@ export default class Bombas extends Player2D {
 
   update(dt) {
     super.update(dt)
-    const moving = this.input.left || this.input.right || this.input.up || this.input.down || this.brzina > 1
+    const moving = this.input.left || this.input.right || this.input.up || this.input.down
     this.sprite.animira = this.alive
     this.sprite.kretanje = Boolean(moving)
     this.sprite.brzinaHoda = this.brzina

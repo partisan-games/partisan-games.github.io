@@ -29,7 +29,6 @@ The separate checks and how the tests work: [docs/TESTING.md](docs/TESTING.md).
 
 ### Bagovi
 
-- bunker se ne zapali kada je uništen, samo bude pobeda. ustanak: isti problem, neprijatelj ne gori kada je pobeda, zaledi se ekran. pozadina treba da nastavi da se kreće (vatra gori, zastava se vije i slično) i nakon pobede. tako mnogo lepše izgleda nego freeze. pre ai refaktora je tako radilo.
 - ranije kada bombaš nagazi minu pogine, ali vatra ostane da gori.
 - fps-airport: nema kontrola
 - warplane: komande neprirodno trzaju
