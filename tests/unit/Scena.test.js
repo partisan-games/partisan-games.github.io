@@ -11,6 +11,41 @@ before(async() => {
 })
 
 const createScene = () => new Scena({ canvas: document.createElement('canvas') })
+
+test('cached images still wait for object dimensions and load callbacks', async() => {
+  const scene = createScene()
+  let finishLoading
+  const slikaUcitana = new Promise(resolve => { finishLoading = resolve })
+  scene.add({ slika: { complete: true }, slikaUcitana })
+  let ready = false
+  const loaded = scene.slikeUcitane().then(() => { ready = true })
+  await Promise.resolve()
+  await Promise.resolve()
+  assert.equal(ready, false)
+  finishLoading()
+  await loaded
+  assert.equal(ready, true)
+  scene.end()
+})
+
+test('initial drawing waits for nested images as well as the tank body', async() => {
+  const scene = createScene()
+  const body = new EventTarget()
+  const barrel = new EventTarget()
+  body.complete = false
+  barrel.complete = false
+  scene.add({ slika: body, predmeti: [{ predmeti: [{ slika: barrel }] }] })
+  let ready = false
+  const loaded = scene.slikeUcitane().then(() => { ready = true })
+
+  body.dispatchEvent(new Event('load'))
+  await Promise.resolve()
+  assert.equal(ready, false)
+  barrel.dispatchEvent(new Event('load'))
+  await loaded
+  assert.equal(ready, true)
+  scene.end()
+})
 const createObject = () => ({ ended: 0, end() {
   this.ended++
 } })

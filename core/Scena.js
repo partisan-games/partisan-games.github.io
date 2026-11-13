@@ -93,9 +93,12 @@ export default class Scena {
   }
 
   slikeUcitane() {
-    const obecanja = this.predmeti
+    const saDelovima = predmeti => predmeti.flatMap(predmet =>
+      [predmet, ...saDelovima(predmet.predmeti || [])]
+    )
+    const obecanja = saDelovima(this.predmeti)
       .filter(({ slika }) => slika)
-      .map(({ slika }) => new Promise(resolve => {
+      .map(({ slika, slikaUcitana }) => slikaUcitana || new Promise(resolve => {
         if (slika.complete) resolve(slika)
         else slika.addEventListener('load', () => resolve(slika))
       }))

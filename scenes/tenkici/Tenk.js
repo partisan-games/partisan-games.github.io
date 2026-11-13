@@ -48,6 +48,10 @@ export default class Tenk extends Predmet {
     this.predmeti.push(this.cev)
   }
 
+  onload() {
+    this.azurirajCev()
+  }
+
   get vrhCevi() {
     const x = Math.cos(this.cev.ugao) * this.cev.dijagonala + this.cev.x
     const y = Math.sin(this.cev.ugao) * this.cev.dijagonala + this.cev.y

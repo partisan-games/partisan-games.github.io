@@ -21,10 +21,13 @@ class SceneManager {
   }
 
   handleIntro() {
-    if (this.scene.hasStartScreen) {
-      this.scene.clear()
-      this.scene.slikeUcitane().then(() => this.scene.render())
-      this.scene.ui.renderStartScreen()
+    const scene = this.scene
+    if (scene.hasStartScreen) {
+      scene.clear()
+      scene.slikeUcitane().then(() => {
+        if (this.scene === scene) scene.render()
+      })
+      scene.ui.renderStartScreen()
     } else
       this.scene.start()
   }

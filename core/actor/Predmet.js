@@ -42,10 +42,13 @@ export default class Predmet {
     this.sirina = sirina
     this.visina = visina
     this.slika = new Image()
-    this.slika.onload = () => {
-      this.dodeliVelicinu(sirina, visina, skalar)
-      this.onload()
-    }
+    this.slikaUcitana = new Promise(resolve => {
+      this.slika.onload = () => {
+        this.dodeliVelicinu(sirina, visina, skalar)
+        this.onload()
+        resolve(this.slika)
+      }
+    })
     this.postaviSliku(src)
   }
 

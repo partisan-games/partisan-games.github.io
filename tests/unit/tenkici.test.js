@@ -13,6 +13,20 @@ before(async() => {
 
 const key = (type, code) => document.dispatchEvent(new KeyboardEvent(type, { code }))
 
+test('barrels are positioned when the body finishes loading after the barrel', () => {
+  for (const Tank of [TenkLevo, TenkDesno]) {
+    const tank = new Tank({ x: 400, y: 200, clock: new GameClock() })
+    tank.cev.onload()
+    tank.sirina = 150
+    tank.visina = 60
+    tank.onload()
+
+    assert.ok(Number.isFinite(tank.cev.x))
+    assert.ok(Number.isFinite(tank.cev.y))
+    assert.ok(tank.cev.y < tank.y)
+  }
+})
+
 /** Presses and releases Space for the left tank, which fires on the release. */
 function pressSpace(tank) {
   key('keydown', 'Space')
