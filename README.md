@@ -25,6 +25,7 @@ The separate checks and how the tests work: [docs/TESTING.md](docs/TESTING.md).
 
 ## TODO
 
+- napravi backup granu od poslednjeg komita pre ai izmena
 - vis: nađi bolji zvuk pucanja
 
 ### Arhitektura
