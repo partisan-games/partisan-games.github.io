@@ -25,11 +25,17 @@ The separate checks and how the tests work: [docs/TESTING.md](docs/TESTING.md).
 
 ## TODO
 
+- vis: nađi bolji zvuk pucanja
+
 ### Arhitektura
 
 - trenutno koristimo uglavnom nasleđivanje klasa, ali pokušavam da pređem na kompoziciju umesto nasleđivanja. jel ovo ispravan pristup: core/actor/prosirenja ? 
 
 ### Bagovi
+
+- bunker se ne zapali kada je uništen, samo bude pobeda. ustanak: isti problem, neprijatelj ne gori kada je pobeda, zaledi se ekran. pozadina treba da nastavi da se kreće (vatra gori, zastava se vije i slično) i nakon pobede. tako mnogo lepše izgleda nego freeze. pre ai refaktora je tako radilo.
+- fps-airport: nema kontrola
+- warplane: komande neprirodno trzaju
 
 Mobilni:
     - warplane ne radi na mobilnom
