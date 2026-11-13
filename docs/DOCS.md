@@ -88,6 +88,8 @@ Oznake su usklađene sa [šemom JK448, 352. eskadrila, strana 21](https://www.ed
 
 Početni ekran Visa nudi Spitfire Mk Vb i Hurricane Mk IV, po obrascu izbora iz Warplanea. Katalog `scenes/vis/aircraft.js` određuje nazive i slike; klik sačeka učitavanje izabranog aviona pre početka misije i odbija ponovljene klikove. Oba izbora koriste iste kontrole, naoružanje i dimenzije u igri. `hurricane-mkiv-realistic.png` je AI slika prema fotografijama pravog [Hurricanea Mk IV iz zbirke Vintage Wings of Canada](https://www.vintagewings.ca/hawker-hurricane-mk-iv), sa zeleno-sivom kamuflažom i partizanskim oznakama; nije prepravljena postojeća ilustracija Hurricanea. Nova igra ponovo otvara izbor.
 
+Aktuelne slike ciljaju izgled fotografisanih profesionalnih maketa: Spitfire ima uži trup i eliptična krila, Hurricane puniji trup, konvencionalnija krila i rebrasti zadnji deo. Razlike treba proveravati na prikaznoj veličini od 150 px raspona, ne samo u velikom izvorniku. Isti ugao i slična istorijska kamuflaža prirodno približavaju izgled; povećanje detaljnosti samo po sebi ne garantuje prepoznatljivost. Izvornici su ponovo generisani prema referentnim fotografijama, sa očuvanom providnošću i dimenzijama 300×255.
+
 ## Ulaz
 
 `Input` (`core/io/Input.js`) spaja tastaturu i dodirne kontrole: na uređaju sa mišem koristi tastaturu, a na ekranu na dodir džojstik i dugmad (`Touch.js`). Igrač čita `input.up`, `input.attack` i slično, bez obzira na izvor.
