@@ -1,6 +1,6 @@
 import { platno } from '/core/io/platno.js'
 import Scena2D from '/core/Scena2D.js'
-import Pozadina from '/core/objects/Pozadina.js'
+import PozadinaGrada from './PozadinaGrada.js'
 import { progresBar } from '/ui/components.js'
 import TenkLevo from './TenkLevo.js'
 import TenkDesno from './TenkDesno.js'
@@ -26,7 +26,7 @@ export default class extends Scena2D {
   }
 
   init() {
-    this.pozadina = new Pozadina('background/razrusen-grad-savremen.jpg')
+    this.pozadina = new PozadinaGrada(this.canvas)
     const { clock } = this.session
     this.tenk = new TenkLevo({ y: nivoTla, clock })
     this.tenk2 = new TenkDesno({ y: nivoTla, ai: true, clock })
@@ -49,6 +49,7 @@ export default class extends Scena2D {
   }
 
   update(dt) {
+    this.pozadina.update(dt)
     super.update(dt)
     const porazeni = this.tenk2.dead ? 'German' : 'Partisan'
     const poruka = `${porazeni} tank destroyed.`
