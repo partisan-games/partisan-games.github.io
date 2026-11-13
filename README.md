@@ -25,12 +25,9 @@ The separate checks and how the tests work: [docs/TESTING.md](docs/TESTING.md).
 
 ## TODO
 
-- napravi backup granu od poslednjeg komita pre ai izmena
+- bunker: istraži online kako se pravi animirani sprite. pronađi u našem projektu klase koje to podržavaju. neka bombaš postane animirani sprite koji diše kada je idle.
+- tenkici: slika pozadine je ok, ali promeniti boje pozadine
 - vis: nađi bolji zvuk pucanja
-
-### Arhitektura
-
-- trenutno koristimo uglavnom nasleđivanje klasa, ali pokušavam da pređem na kompoziciju umesto nasleđivanja. jel ovo ispravan pristup: core/actor/prosirenja ? 
 
 ### Bagovi
 

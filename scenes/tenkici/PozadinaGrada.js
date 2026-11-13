@@ -114,7 +114,10 @@ export default class PozadinaGrada {
   render(t = this.vreme) {
     const { ctx, canvas } = this
     if (!this.slika.complete || !this.slika.naturalWidth) return
+    ctx.save()
+    ctx.filter = 'sepia(20%)'
     ctx.drawImage(this.slika, 0, 0, canvas.width, canvas.height)
+    ctx.restore()
     this.crtez.clearRect(0, 0, sirina, visina)
     for (const profil of stuboviDima) this.gustiDim(t, profil)
     this.dim(t)
