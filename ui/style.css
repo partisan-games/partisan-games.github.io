@@ -343,6 +343,24 @@ button {
   }
 }
 
+.vis-aircraft-select {
+  gap: 16px;
+
+  label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  input[type="image"] {
+    width: 150px;
+    min-width: 0;
+    height: 128px;
+    object-fit: contain;
+  }
+}
+
 /* SCENE UI */
 
 .top-left,

@@ -8,6 +8,7 @@ import Bullet from './Bullet.js'
 import Explosion from './Explosion.js'
 import PlayerView from './PlayerView.js'
 import { settings } from './settings.js'
+import { getAircraft } from './aircraft.js'
 
 const {
   lives, bombs, bombRadius, bombHits, bombBursts, bombSpread, respawnTime, shieldTime, loops, loop,
@@ -21,9 +22,10 @@ export const inputOptions = { attackKey: 'Space', buttonDict: { attack: '💥', 
 export class Avionce extends Player2D {
   #fireLevel = 0
 
-  constructor({ session }) {
+  constructor({ session, aircraftId = 'spitfire' }) {
     // vis was tuned on a 60 Hz screen, unlike the older games
-    super('armies/partizani/avioni/spitfire-odozgo.png', { skalar: .5, zapaljiv: true, senka: true, tunedFps: 60, ...inputOptions })
+    super(getAircraft(aircraftId).image, { skalar: .5, zapaljiv: true, senka: true, tunedFps: 60, ...inputOptions })
+    this.aircraftId = aircraftId
     this.session = session
     this.brzina = 0
     this.poeni = 0
@@ -53,6 +55,15 @@ export class Avionce extends Player2D {
   set fireLevel(level) {
     this.#fireLevel = level
     this.weapon.barrels = fire[level]
+  }
+
+  selectAircraft(id) {
+    const plane = getAircraft(id)
+    if (this.aircraftId !== id) {
+      this.aircraftId = id
+      this.ucitajSliku(plane.image, undefined, undefined, .5)
+    }
+    return this.slikaUcitana
   }
 
   onload() {

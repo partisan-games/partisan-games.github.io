@@ -23,6 +23,27 @@ before(async() => {
 
 const key = (type, code) => document.dispatchEvent(new KeyboardEvent(type, { code }))
 
+test('choosing a Vis aircraft loads its image while keeping the player, input and weapons', async t => {
+  const player = new Avionce({ session: new GameSession() })
+  t.after(() => player.end())
+  const { input, weapon, session } = player
+  assert.equal(player.aircraftId, 'spitfire')
+  const loaded = player.selectAircraft('hurricane')
+  Object.defineProperties(player.slika, {
+    naturalWidth: { value: 300 }, naturalHeight: { value: 255 },
+  })
+  player.slika.onload()
+  await loaded
+  assert.equal(player.aircraftId, 'hurricane')
+  assert.ok(player.slika.src.endsWith('/hurricane-mkiv-realistic.png'))
+  assert.deepEqual([player.sirina, player.visina], [150, 127.5])
+  assert.equal(player.input, input)
+  assert.equal(player.weapon, weapon)
+  assert.equal(player.session, session)
+  assert.throws(() => player.selectAircraft('unknown'), /Unknown aircraft/)
+  assert.equal(player.aircraftId, 'hurricane')
+})
+
 /** The vis player plane with the keyboard, and an enemy plane far away. */
 function createPlayer(t) {
   const session = new GameSession()

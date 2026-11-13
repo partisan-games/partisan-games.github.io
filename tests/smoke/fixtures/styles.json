@@ -175,7 +175,7 @@
     "cameraButton": null
   },
   "vis": {
-    "startScreen": "<div class=\"central-screen flex-column simple-container\" id=\"start-screen\"> <p>Reach the island of Vis.</p> <button class=\"default-button\" id=\"start\"><span class=\"icon\">🔥</span> Start mission</button> </div>",
+    "startScreen": "<div class=\"central-screen flex-column simple-container\" id=\"start-screen\"> <p>Reach the island of Vis.</p> <h2>Choose your aircraft</h2> <div class=\"game-screen-select vis-aircraft-select\"> <label> <input type=\"image\" data-aircraft=\"spitfire\" src=\"/assets/images/armies/partizani/avioni/spitfire-mkvb-realistic.png\" alt=\"Fly Spitfire Mk Vb\"> <span>Spitfire Mk Vb</span> </label> <label> <input type=\"image\" data-aircraft=\"hurricane\" src=\"/assets/images/armies/partizani/avioni/hurricane-mkiv-realistic.png\" alt=\"Fly Hurricane Mk IV\"> <span>Hurricane Mk IV</span> </label> </div> </div>",
     "healthBar": null,
     "cameraButton": null
   },

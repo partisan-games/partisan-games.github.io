@@ -12,14 +12,32 @@ import { currentStyleClasses } from '/ui/styles.js'
 import { keys, attackLabels } from '/core/io/keys.js'
 import { createSound } from '/core/io/sound.js'
 import { settings } from './settings.js'
+import { aircraft } from './aircraft.js'
+import { assets } from '/config.js'
 
 const { scrollSpeed: brzina, clouds, landingTime, engineVolume } = settings
+
+const customStartScreen = ({ container }) => /* html */`
+  <div class="central-screen flex-column ${container}" id="start-screen">
+    <p>Reach the island of Vis.</p>
+    <h2>Choose your aircraft</h2>
+    <div class="game-screen-select vis-aircraft-select">
+      ${aircraft.map(plane => /* html */`
+        <label>
+          <input type="image" data-aircraft="${plane.id}" src="${assets.images}${plane.image}" alt="Fly ${plane.name}">
+          <span>${plane.name}</span>
+        </label>
+      `).join('')}
+    </div>
+  </div>
+`
 
 export default class extends Scena2D {
   constructor() {
     super({
       controlKeys: { ...baseControls, [attackLabels[inputOptions.attackKey]]: 'shoot', [keys.attack2.label]: 'loop', [keys.special.label]: 'bomb' },
-      intro: 'Reach the island of Vis.'
+      intro: 'Reach the island of Vis.',
+      customStartScreen,
     })
   }
 
@@ -29,6 +47,7 @@ export default class extends Scena2D {
     this.ostrvo = new Pokretno('nature/ostrvo.gif', { potisak: brzina, skalar: 2 })
     this.zdravlje = new Pokretno('items/zdravlje.png', { potisak: brzina, skalar: .66, faktorY: 10, senka: true })
     this.player = new Avionce({ session: this.session })
+    this.player.sakrij()
     this.powerUps = new PowerUps({ scene: this, player: this.player })
     this.waves = new Waves({
       scene: this, player: this.player, schedule: levels[0], onFormationDown: position => this.powerUps.drop(position),
@@ -41,7 +60,17 @@ export default class extends Scena2D {
 
   /* the engine hums while the game runs */
 
+  async handleClick(e) {
+    super.handleClick(e)
+    const id = e.target.dataset?.aircraft
+    if (!aircraft.some(plane => plane.id === id) || this.ui.screen !== 'start' || this.choosingPlane) return
+    this.choosingPlane = true
+    await this.player.selectAircraft(id)
+    if (this.session.state === 'ready') this.start()
+  }
+
   start() {
+    this.player.pokazi()
     super.start()
     this.engineSound.play()
   }
