@@ -38,8 +38,8 @@ export default class extends Scena2D {
     const posada = new Posada(110, nivoTla + 8)
     const strelac = new Strelac(300, nivoTla + 8)
     this.tenk = new TenkDesno({
-      src: 'armies/game-ready/m42-02.png',
-      cevSlika: 'armies/game-ready/m42-02-cev.png',
+      src: 'armies/game-ready/tenkovi/m42-02.png',
+      cevSlika: 'armies/game-ready/tenkovi/m42-02-cev.png',
       y: nivoTla,
       clock: this.session.clock,
       skalar: 1,

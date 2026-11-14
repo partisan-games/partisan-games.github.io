@@ -15,6 +15,12 @@ export default class ProjectilePool {
     projectile.pali(position, angle, speed)
   }
 
+  /** Create inactive projectiles before loading assets; existing flights are left alone. */
+  prepare(count = 1) {
+    if (!Number.isInteger(count) || count < 0) throw new RangeError('Projectile count must be a non-negative integer')
+    while (this.projectiles.length < count) this.#add().reset()
+  }
+
   /** Calls `onHit(target)` after a projectile hits one of the shown, living targets. */
   checkHits(targets, onHit) {
     targets.forEach(target => {

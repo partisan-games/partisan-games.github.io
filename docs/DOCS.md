@@ -7,12 +7,12 @@ Zajednička osnova za razvoj 2D i 3D igara, sa istorijski zasnovanim sadržajem.
 | Oblast | Autoritativno mesto | Sadržaj |
 |---|---|---|
 | Istorija | [Istorijska vernost](ISTORIJA.md) | Vojske, periodi, područja, jedinice, vozila, avioni, oružje i prihvaćeni art. |
-| Ugao 2D arta | [Indeks prikaza](../assets/images/armies/README.md) | Vizuelne oznake za izbor bočnih, gornjih i drugih prikaza, uz same slike. |
+| Ugao 2D arta | [Indeks prikaza](../assets/images/armies/index.csv) | Vizuelne oznake za izbor bočnih, gornjih i drugih prikaza, uz same slike. |
 | Arhitektura i obrasci | [ARHITEKTURA](ARHITEKTURA.md) | Odgovornosti zajedničkog engine-a, obrasci i bitna ograničenja. |
 | Provere | [TESTING](TESTING.md) | Komande, pokrivenost i ograničenja provera. |
 | Posebna tehnika prikaza | [Animacija pozadine](ANIMACIJA-POZADINE.md) | Konkretno rešenje, neuspešni pristupi i preventivne provere. |
-| Razvoj engine-a | [Plan arhitekture](PLAN-ARHITEKTURA.md) | Objedinjavanje dokumentacije, pregled zajedničke osnove i konkretne potrebne popravke. |
-| Razvoj igre | [README TODO](../README.md#todo) i povezani lokalni planovi igara | Sadržaj, nivoi, koraci i statusi; nije trajna baza znanja. |
+| Agentovi poslovi | [TODO](TODO.md) | Agentove razvojne stavke, pregledi i potrebne popravke. |
+| Razvoj igre | Lokalni planovi igara | Sadržaj, nivoi, koraci i statusi; nije trajna baza znanja. |
 
 Pokretanje projekta opisuje [README](../README.md). Istorijske slike i poreklo čuvaju se u [references/ww2-yu](references/ww2-yu/), a merni artefakti se povezuju iz tehničkog opisa.
 
@@ -30,7 +30,17 @@ Istorijski zapis dodatno prati period, područje, korisnika opreme i varijantu; 
 
 Pre rada pročitati relevantnu istorijsku temu, arhitektonska pravila i ugovor sistema koji se menja. Posle rada ažurirati postojeći zapis; novu datoteku otvarati samo za samostalnu temu koja bi opteretila postojeću. Plan nije dokaz implementacije, a razvojni cilj nije tvrdnja da danas nema tehničkog duga.
 
+## Pravilo za umetnost
+
+Konačni vojni art u `assets/images/armies/game-ready` organizovati po vrsti opreme, ne po nivou ili igri. Isti resurs koriste svi nivoi kojima je potreban, bez kopiranja u zasebne foldere nivoa.
+
+Sav art koji koristimo, iz `assets` ili drugih izvora, služi kao osnova za konačnu grafiku igre. Crtati ga za stvarnu veličinu prikaza u igri i ujednačen stil: jasna silueta, čitljivi oblici i samo detalji koji se na toj veličini vide. Izvorna slika može biti veća ako je nacrtana za manji prikaz; ne oslanjati se na smanjivanje detaljnih velikih ilustracija da samo proizvede čitljiv mali sprite. Pravilo važi za likove, vozila, oružje, objekte, pozadine i ostalu vizuelnu umetnost, ne samo vojni art.
+
+Sačuvati prepoznatljive i istorijski bitne detalje reference, odabrati perspektivu prema nivou i koristiti providnu pozadinu gde je potrebna. Izvornike čuvati odvojeno od konačnih verzija. Istorijsko prihvatanje reference ne znači da je ona konačan grafički materijal. Već završeni art koji zadovoljava ovo pravilo ne precrtavati ponovo; rad obuhvata materijal potreban za konkretnu igru, ne automatsku preradu cele zbirke.
+
 ## Statusi u planovima postupne izrade igara
+
+README TODO uređuje isključivo vlasnik; agent ga ne menja. Agentove stavke pripadaju [TODO](TODO.md), a koraci pojedinačnih igara njihovim postojećim planovima.
 
 Kada agent završi dogovoreni posao neke stavke, odmah je označava `✅ Done`. Posle završenog posla `🔄 In progress` ostaje samo ako je vlasnik izričito postavio svoje odobrenje kao uslov za Done. Vlasnik pregleda Done stavke ako želi i kada želi; nastavak rada prati zaseban dogovor. Izvršene provere beleže se prema stvarnim dokazima, odvojeno od statusa izrade. Testovi i izvršne provere pokreću se samo uz vlasnikovu dozvolu. Ovo pravilo važi za ovu vrstu planova i prati [centralno pravilo skilova](C:/Users/Lenovo/.agents/skills/slusaj/references/prihvatanje.md).
 

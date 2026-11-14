@@ -5,10 +5,12 @@ import Zbun from '/core/objects/Zbun.js'
 import Shuma from '/core/objects/Shuma.js'
 import Planina from '/core/objects/Planina.js'
 import Oblak from '/core/objects/Oblak.js'
+import Vracanje from '/core/objects/Vracanje.js'
 import TenkLevo from '../tenkici/TenkLevo.js'
-import CombatTarget from './CombatTarget.js'
 import Bunker from './Bunker.js'
-import { createCannon } from './BunkerWeapons.js'
+import createGroundEnemies from './GroundEnemies.js'
+import prepareCombatAssets from './prepareCombatAssets.js'
+import CombatLayers from './CombatLayers.js'
 import { tankLeftControls } from '/ui/Controls.js'
 
 const BROJ_OBLAKA = 3
@@ -18,10 +20,10 @@ const LEVEL_LENGTH = null // Scroll pixels; choose the length when the level con
 
 export default class extends Scena2D {
   constructor() {
-    super({ controlKeys: tankLeftControls, intro: 'Uništi ustaške bunkere, pazi civilne zgrade.' })
+    super({ controlKeys: tankLeftControls, intro: 'Uništi osovinska uporišta i vozila.' })
   }
 
-  init() {
+  async init() {
     this.groundY = platno.height * .75
     const nivoTla = this.groundY
     this.score = 0
@@ -35,23 +37,24 @@ export default class extends Scena2D {
     const oblaci = Array.from({ length: BROJ_OBLAKA }, () => new Oblak(nivoTla - 100, PARALAX_1))
 
     const bunkerCallback = () => this.score++
-    const zgradaCallback = source => {
-      if (source === 'enemy') return
-      this.ui.showMessage('No! Destruction of civilian buildings is a war crime.')
-      this.score--
-    }
-
     this.zgrade = [
-      new CombatTarget({ src: 'buildings/crkva-01.png', tlo: nivoTla + 5, skalar: .5, zapaljiv: true, brzina: PARALAX_1, callback: zgradaCallback }),
-      new CombatTarget({ src: 'buildings/kuca-07.png', tlo: nivoTla + 5, skalar: .75, zapaljiv: true, brzina: PARALAX_1, callback: zgradaCallback }),
+      new Vracanje({ src: 'buildings/crkva-01.png', tlo: nivoTla + 5, skalar: .5, brzina: PARALAX_1 }),
+      new Vracanje({ src: 'buildings/kuca-07.png', tlo: nivoTla + 5, skalar: .75, brzina: PARALAX_1 }),
     ]
-    const bunkerOptions = { clock: this.session.clock, target: this.tenk, groundY: nivoTla, obstacles: this.zgrade, callback: bunkerCallback, zapaljiv: true, brzina: PARALAX_1 }
+    const bunkerOptions = { clock: this.session.clock, target: this.tenk, groundY: nivoTla, callback: bunkerCallback, zapaljiv: true, brzina: PARALAX_1 }
     this.bunkeri = [
       new Bunker({ ...bunkerOptions, src: 'buildings/kuca-bunker.png', tlo: nivoTla + 15, skalar: .33 }),
-      new Bunker({ ...bunkerOptions, src: 'buildings/bunker-02.png', tlo: nivoTla + 5, skalar: .5, createWeapon: createCannon }),
+      new Bunker({ ...bunkerOptions, src: 'buildings/bunker-02.png', tlo: nivoTla + 5, skalar: .5 }),
     ]
-    this.add(planina, shumarak, ...this.bunkeri, ...this.zgrade, ...zbunovi, this.tenk, ...oblaci)
-    this.tenk.ciljevi.push(...this.bunkeri, ...this.zgrade)
+    this.enemies = createGroundEnemies({ clock: this.session.clock, target: this.tenk, groundY: nivoTla, scrollSpeed: PARALAX_1, callback: bunkerCallback })
+    this.add(planina, shumarak, ...this.bunkeri, ...this.zgrade, ...this.enemies, ...zbunovi, this.tenk, ...oblaci)
+    this.tenk.ciljevi.push(...this.bunkeri, ...this.enemies)
+    const pools = [this.tenk.granate, ...[...this.bunkeri, ...this.enemies]
+      .filter(shooter => shooter.fire).map(shooter => shooter.fire.projectiles)]
+    const combatReady = prepareCombatAssets(pools)
+    await Promise.all([combatReady, this.slikeUcitane()])
+    if (!this.session.active) return
+    this.combatLayers = new CombatLayers([this.tenk, ...this.bunkeri, ...this.enemies])
   }
 
   update(dt, t) {
@@ -59,6 +62,8 @@ export default class extends Scena2D {
     this.distance += Math.abs(PARALAX_1) * dt
     super.update(dt, t)
     this.bunkeri.forEach(bunker => bunker.checkHits())
+    this.enemies.forEach(enemy => enemy.checkHits())
+    this.combatLayers.update()
     if (this.tenk.dead) this.defeat('Tvoj tenk je uništen.')
   }
 

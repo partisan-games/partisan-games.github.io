@@ -40,7 +40,7 @@ export default class Arcade {
     this.dialog = document.createElement('dialog')
     this.dialog.className = 'arcade-dialog'
     this.dialog.setAttribute('aria-labelledby', 'arcade-dialog-title')
-    this.dialog.innerHTML = `${coin}<p class="arcade-eyebrow">PARTISAN ARCADE</p><h2 id="arcade-dialog-title"></h2><p class="arcade-dialog-message"></p><button type="button" class="arcade-slot arcade-dialog-insert">INSERT COIN · 1 COIN</button><form method="dialog"><button class="arcade-dialog-close">BACK</button></form>`
+    this.dialog.innerHTML = `${coin}<p class="arcade-eyebrow">PARTISAN ARCADE</p><h2 id="arcade-dialog-title"></h2><p class="arcade-dialog-message"></p><button type="button" class="arcade-slot arcade-dialog-insert">INSERT COIN</button><form method="dialog"><button class="arcade-dialog-close">BACK</button></form>`
     document.body.appendChild(this.dialog)
     this.dialog.querySelector('.arcade-dialog-insert').addEventListener('click', () => this.onInsert?.(this.requestedPath))
     this.dialog.addEventListener('cancel', event => {

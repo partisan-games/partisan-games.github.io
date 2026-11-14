@@ -67,7 +67,8 @@ export default class Renderer2D {
       this.crtaSliku(predmet)
 
     this.ctx.restore()
-    if (predmet.zapaljen) predmet.plamen.render(predmet.zadimljen)
+    // A separately registered flame drawable controls its own layer and must not be drawn twice.
+    if (predmet.zapaljen && !predmet.flameLayer) predmet.plamen.render(predmet.zadimljen)
   }
 
   crtaPredmete(predmeti) {

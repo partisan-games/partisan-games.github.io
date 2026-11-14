@@ -1,6 +1,6 @@
 # Arhitektura
 
-Zajednički engine za 2D i 3D igre. Ovde čuvamo odgovornosti, razloge i bitna ograničenja; implementaciju opisuje kod. Otvorene izmene pripadaju [planu](PLAN-ARHITEKTURA.md), a sadržaj [istorijskoj vernosti](ISTORIJA.md).
+Zajednički engine za 2D i 3D igre. Ovde čuvamo odgovornosti, razloge i bitna ograničenja; implementaciju opisuje kod. Otvorene izmene pripadaju [planu](TODO.md), a sadržaj [istorijskoj vernosti](ISTORIJA.md).
 
 ## Odgovornosti
 
@@ -26,6 +26,8 @@ Jedno stanje ima jednog vlasnika. Stara imena mogu biti pristupnici istom stanju
 Akumulator vremena i interpolacija položaja imaju po jednog vlasnika. [Ammo wrapper](../core3d/physics/PhysicsWorld.js) prepušta podkorake fizičkom svetu; ne dodavati spoljašnju catch-up petlju bez promene tog ugovora. Interpolirani položaj za prikaz ne vraćati u autoritativno fizičko telo. Numeričke probe i njihov obim čuva [merni artefakt](../tests/unit/fixtures/ammo-measurement.json), bez prepisivanja rezultata ovde.
 
 ## Učitavanje i resursi
+
+Preuzeta ili dekodirana slika nije dokaz da je prvo crtanje jeftino: Canvas može naknadno dekodirati i skalirati za traženu veličinu. U svakom nivou za male prikaze koristiti odgovarajući radni raster i proveravati prvo pojavljivanje u kadru, ne samo mrežu i JavaScript; velika izvorna ilustracija može ostati odvojeno sačuvana. Ako nivo zastaje pri ulasku vozila ili efekta, uporediti isti početak sa manjim rasterom pre menjanja fizike ili proširivanja preloada: mala cena JS koda ne isključuje zastoj u prikazu.
 
 [Keš modela](../core3d/assets/models.js) razdvaja opis resursa od njegovog učitavanja, spaja zahteve i omogućava ponovni pokušaj posle greške. Učitavanje, odbacivanje zastarelog rezultata i oslobađanje resursa su različite odgovornosti. Otkazivanje jednog korisnika ne sme poništiti resurs koji još koristi drugi; AbortController ne zaustavlja proizvoljan Promise.
 

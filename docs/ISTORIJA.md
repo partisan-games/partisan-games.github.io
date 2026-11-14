@@ -6,7 +6,7 @@ Autoritativno mesto za istorijski izbor protivnika, vozila, aviona i oružja. [P
 
 Vlasnik je 14. 11. 2026. potvrdio da je sav postojeći art u `assets` istorijski prihvaćen. Pri izboru i korišćenju tog arta ne tražiti ponovnu istorijsku proveru ili odobrenje. Koristiti ga kao prihvaćenu osnovu za igre; starije istraživačke napomene ispod ne otvaraju ponovo njegovo prihvatanje.
 
-Prioritet: model, slika, pogled, rezolucija, poreklo i priprema za igru. Profili zahtevaju izdvajanje pozadine. Prava korišćenja proveriti pre objavljivanja.
+Za pripremu konačne grafike važi [projektno pravilo za umetnost](DOCS.md#pravilo-za-umetnost). Prioritet: model, slika, pogled, rezolucija, poreklo i priprema za igru. Profili zahtevaju izdvajanje pozadine. Prava korišćenja proveriti pre objavljivanja.
 
 ## Izbor sadržaja igre
 

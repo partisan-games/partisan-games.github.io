@@ -37,7 +37,7 @@ export function shellAngle(origin, target, speed = shellSpeed, gravity = shellGr
   return dx < 0 ? Math.PI + elevation : -elevation
 }
 
-class BunkerWeapon {
+class EnemyWeapon {
   constructor({ owner, clock, createProjectile, aim, speed, burstSize, interval, reload }) {
     this.aim = aim
     this.burstSize = burstSize
@@ -57,9 +57,8 @@ class BunkerWeapon {
     this.weapon.cooldown.start(0)
   }
 
-  fire(origin, target) {
+  fire(origin, target, angle = this.aim(origin, target)) {
     if (!this.burst.ready) return
-    const angle = this.aim(origin, target)
     if (angle === null || !this.weapon.tryFire(origin, angle)) return
     if (++this.shots === this.burstSize) {
       this.shots = 0
@@ -69,7 +68,7 @@ class BunkerWeapon {
 }
 
 export function createMachineGun({ owner, clock }) {
-  return new BunkerWeapon({
+  return new EnemyWeapon({
     owner, clock,
     createProjectile: () => {
       const bullet = new EnemyBullet({ src: null, sirina: 9, visina: 2 })
@@ -77,12 +76,12 @@ export function createMachineGun({ owner, clock }) {
       return bullet
     },
     aim: (origin, target) => Math.atan2(target.y - origin.y, target.x - origin.x),
-    speed: 720, burstSize: 5, interval: .13, reload: 3,
+    speed: 720, burstSize: 5, interval: .13, reload: 4,
   })
 }
 
 export function createCannon({ owner, clock, groundY }) {
-  return new BunkerWeapon({
+  return new EnemyWeapon({
     owner, clock,
     createProjectile: () => {
       const shell = new EnemyShell({ clock, gravitacija: shellGravity, nivoTla: groundY })
@@ -90,6 +89,6 @@ export function createCannon({ owner, clock, groundY }) {
       return shell
     },
     aim: shellAngle,
-    speed: shellSpeed, burstSize: 1, interval: 0, reload: 3.5,
+    speed: shellSpeed, burstSize: 1, interval: 0, reload: 4.5,
   })
 }
