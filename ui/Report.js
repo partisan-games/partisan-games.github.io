@@ -60,9 +60,9 @@ export default class Report {
     this.p = createHtml(containerId)
     this.characters = []
 
-    for (const token of text.match(/\s+|\S+/g) || []) {
-      if (/^\s+$/.test(token)) {
-        for (const character of token) {
+    for (const segment of text.match(/\s+|\S+/g) || []) {
+      if (/^\s+$/.test(segment)) {
+        for (const character of segment) {
           this.p.append(character === '\n' ? document.createElement('br') : document.createTextNode(character))
           this.characters.push(null)
         }
@@ -71,7 +71,7 @@ export default class Report {
 
       const word = document.createElement('span')
       word.className = 'report-word'
-      for (const character of token) {
+      for (const character of segment) {
         const letter = document.createElement('span')
         letter.textContent = character
         letter.style.visibility = 'hidden'

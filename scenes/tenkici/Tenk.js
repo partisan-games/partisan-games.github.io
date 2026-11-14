@@ -19,6 +19,7 @@ const burnBelow = 20 // energy at which a tank catches fire
 export default class Tenk extends Predmet {
   constructor(src, {
     clock,
+    groundY,
     cevSlika,
     tenkDesno = false,
     skalar = window.innerWidth > 1280 ? 0.5 : 0.4,
@@ -33,7 +34,7 @@ export default class Tenk extends Predmet {
     this.potisak = 25
     this.spremno = false
     this.ciljevi = []
-    this.granate = new ProjectilePool({ owner: this, create: () => new Granata({ gravitacija, clock }) })
+    this.granate = new ProjectilePool({ owner: this, create: () => new Granata({ gravitacija, clock, nivoTla: groundY }) })
     this.weapon = new Weapon({
       cooldown: new Cooldown({ seconds: reloadTime, clock }),
       spawnProjectile: (position, angle) => this.granate.fire(position, angle, potisakMetka),

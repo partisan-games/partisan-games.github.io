@@ -65,10 +65,10 @@ const route = async() => {
     await manager.start(path)
     if (currentNavigation !== navigation) {
       manager.endScene()
-      await arcade.tokens.refund(receipt)
+      await arcade.coins.refund(receipt)
     } else document.body.dataset.loadedGame = path
   } catch (error) {
-    await arcade.tokens.refund(receipt)
+    await arcade.coins.refund(receipt)
     showLoadError(error)
   } finally {
     arcade.setBusy(false)
@@ -82,7 +82,7 @@ arcade.onInsert = async path => {
   arcade.setBusy(true, path)
   let receipt
   try {
-    receipt = await arcade.tokens.spend()
+    receipt = await arcade.coins.spend()
     arcade.refresh()
     if (!receipt) {
       arcade.prompt(path, 'empty')
@@ -96,7 +96,7 @@ arcade.onInsert = async path => {
   }
   await arcade.insertCoin(path)
   if (insertionNavigation !== navigation) {
-    await arcade.tokens.refund(receipt)
+    await arcade.coins.refund(receipt)
     arcade.setBusy(false)
     arcade.refresh()
     return

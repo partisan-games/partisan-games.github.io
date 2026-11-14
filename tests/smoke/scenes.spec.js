@@ -11,6 +11,6 @@ for (const scene of scenes)
     await play(page)
 
     await expect(errorScreen(page)).toHaveCount(0)
-    expect(await countFullScreenButtons(page)).toBeLessThanOrEqual(1)
+    expect(await countFullScreenButtons(page)).toBe(0)
     expect(problems).toEqual([])
   })

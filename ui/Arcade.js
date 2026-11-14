@@ -1,11 +1,13 @@
-import DailyTokens, { tokenStorageKey } from './DailyTokens.js'
+import DailyCoins from './DailyCoins.js'
+import DevelopmentCoins, { isLocalCoinHost } from './DevelopmentCoins.js'
 
 const coin = '<span class="arcade-coin" aria-hidden="true">★</span>'
 
 /** The cabinet frontage and coin door; routing and loading stay in scenes/main. */
 export default class Arcade {
   constructor() {
-    this.tokens = new DailyTokens()
+    this.isLocal = isLocalCoinHost(location.hostname)
+    this.coins = this.isLocal ? new DevelopmentCoins() : new DailyCoins()
     this.busy = false
     this.cards = [...document.querySelectorAll('.menu-item[data-path]')]
     this.games = new Map(this.cards.map(card => [card.dataset.path, card.querySelector('h3').textContent]))
@@ -17,7 +19,7 @@ export default class Arcade {
     this.wallet = document.createElement('aside')
     this.wallet.className = 'arcade-wallet'
     this.wallet.setAttribute('aria-label', 'Daily arcade coins')
-    this.wallet.innerHTML = `${coin}<div><small>10 coins every day</small><strong class="arcade-balance" aria-live="polite"></strong><span class="arcade-eyebrow">coins left</span></div>`
+    this.wallet.innerHTML = `${coin}<div><small>${this.isLocal ? 'LOCAL DEVELOPMENT' : `${this.coins.allowance} coins every day`}</small><strong class="arcade-balance" aria-live="polite"></strong><span class="arcade-eyebrow">coins left</span></div>`
     document.body.appendChild(this.wallet)
 
     for (const card of this.cards) {
@@ -54,7 +56,7 @@ export default class Arcade {
     })
 
     window.addEventListener('storage', event => {
-      if (event.key === tokenStorageKey || event.key === null) this.refresh()
+      if (event.key === this.coins.storageKey || event.key === null) this.refresh()
     })
     window.addEventListener('focus', () => this.refresh())
     document.addEventListener('visibilitychange', () => {
@@ -75,7 +77,7 @@ export default class Arcade {
 
   refresh() {
     try {
-      const { remaining } = this.tokens.read()
+      const { remaining } = this.coins.read()
       this.wallet.querySelector('.arcade-balance').textContent = String(remaining)
       document.body.classList.toggle('arcade-empty', remaining === 0)
       this.storageAvailable = true
@@ -97,13 +99,13 @@ export default class Arcade {
   async insertCoin(path) {
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return
     const card = this.cards.find(item => item.dataset.path === path)
-    const token = this.dialog.open ? this.dialog.querySelector('.arcade-coin') : card?.querySelector('.arcade-slot .arcade-coin')
-    if (!token?.isConnected || !token.getClientRects().length) return
+    const coin = this.dialog.open ? this.dialog.querySelector('.arcade-coin') : card?.querySelector('.arcade-slot .arcade-coin')
+    if (!coin?.isConnected || !coin.getClientRects().length) return
     const target = this.dialog.open ? this.dialog.querySelector('.arcade-dialog-insert') : card.querySelector('.arcade-slot-mouth')
-    const from = token.getBoundingClientRect(), to = target.getBoundingClientRect()
+    const from = coin.getBoundingClientRect(), to = target.getBoundingClientRect()
     const x = to.left + to.width / 2 - from.left - from.width / 2
     const y = to.top + to.height / 2 - from.top - from.height / 2
-    const animation = token.animate([
+    const animation = coin.animate([
       { transform: 'translateY(0) rotateY(0)', opacity: 1 },
       { transform: `translate(${x * .7}px, ${y - 6}px) rotateY(65deg)`, opacity: 1, offset: .7 },
       { transform: `translate(${x}px, ${y}px) rotateY(90deg) scale(.8)`, opacity: 0 },
@@ -121,7 +123,7 @@ export default class Arcade {
     insert.hidden = mode !== 'entry'
     if (mode === 'empty') {
       title.textContent = 'OUT OF COINS'
-      message.textContent = 'You have used today’s coins. Your cabinet gets 10 fresh coins at midnight. See you tomorrow!'
+      message.textContent = `You have used today’s coins. Your cabinet gets ${this.coins.allowance} fresh coins at midnight. See you tomorrow!`
     } else if (mode === 'storage') {
       title.textContent = 'COIN DOOR JAMMED'
       message.textContent = 'Allow this site to save browser data, then try again. Your daily coins need local storage.'

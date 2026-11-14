@@ -27,7 +27,7 @@ const customStartScreen = ({ container }) => /* html */`
 
 export default class extends Scena2D {
   constructor() {
-    super({ controlKeys: { W: 'up', S: 'down', Space: 'shoot ' }, customStartScreen, showControls: true, showFullScreen: false })
+    super({ controlKeys: { W: 'up', S: 'down', Space: 'shoot ' }, customStartScreen, showControls: true })
   }
 
   init() {

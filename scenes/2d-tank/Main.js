@@ -6,13 +6,14 @@ import Shuma from '/core/objects/Shuma.js'
 import Planina from '/core/objects/Planina.js'
 import Oblak from '/core/objects/Oblak.js'
 import TenkLevo from '../tenkici/TenkLevo.js'
-import Vracanje from '/core/objects/Vracanje.js'
+import CombatTarget from './CombatTarget.js'
+import Bunker from './Bunker.js'
 import { tankLeftControls } from '/ui/Controls.js'
 
 const BROJ_OBLAKA = 3
 const BROJ_ZBUNOVA = 10
 const PARALAX_1 = -160
-const nivoTla = platno.height * .75
+const LEVEL_LENGTH = null // Scroll pixels; choose the length when the level content is ready.
 
 export default class extends Scena2D {
   constructor() {
@@ -20,8 +21,12 @@ export default class extends Scena2D {
   }
 
   init() {
+    this.groundY = platno.height * .75
+    const nivoTla = this.groundY
     this.score = 0
-    this.tenk = new TenkLevo({ y: nivoTla, skalar: .4, xLimit: platno.width * .9, clock: this.session.clock })
+    this.distance = 0
+    this.levelLength = LEVEL_LENGTH
+    this.tenk = new TenkLevo({ y: nivoTla, groundY: nivoTla, skalar: .4, xLimit: platno.width * .9, clock: this.session.clock })
 
     const planina = new Planina({ nivoTla, dx: PARALAX_1 })
     const shumarak = new Shuma(nivoTla, PARALAX_1)
@@ -35,19 +40,27 @@ export default class extends Scena2D {
     }
 
     this.bunkeri = [
-      new Vracanje({ src: 'buildings/kuca-bunker.png', tlo: nivoTla + 15, skalar: .33, zapaljiv: true, brzina: PARALAX_1, callback: bunkerCallback }),
-      new Vracanje({ src: 'buildings/bunker-02.png', tlo: nivoTla + 5, skalar: .5, zapaljiv: true, brzina: PARALAX_1, callback: bunkerCallback }),
+      new Bunker({ src: 'buildings/kuca-bunker.png', tlo: nivoTla + 15, skalar: .33, zapaljiv: true, brzina: PARALAX_1, callback: bunkerCallback, clock: this.session.clock, target: this.tenk }),
+      new Bunker({ src: 'buildings/bunker-02.png', tlo: nivoTla + 5, skalar: .5, zapaljiv: true, brzina: PARALAX_1, callback: bunkerCallback, clock: this.session.clock, target: this.tenk }),
     ]
     this.zgrade = [
-      new Vracanje({ src: 'buildings/crkva-01.png', tlo: nivoTla + 5, skalar: .5, zapaljiv: true, brzina: PARALAX_1, callback: zgradaCallback }),
-      new Vracanje({ src: 'buildings/kuca-07.png', tlo: nivoTla + 5, skalar: .75, zapaljiv: true, brzina: PARALAX_1, callback: zgradaCallback }),
+      new CombatTarget({ src: 'buildings/crkva-01.png', tlo: nivoTla + 5, skalar: .5, zapaljiv: true, brzina: PARALAX_1, callback: zgradaCallback }),
+      new CombatTarget({ src: 'buildings/kuca-07.png', tlo: nivoTla + 5, skalar: .75, zapaljiv: true, brzina: PARALAX_1, callback: zgradaCallback }),
     ]
     this.add(planina, shumarak, ...this.bunkeri, ...this.zgrade, ...zbunovi, this.tenk, ...oblaci)
     this.tenk.ciljevi.push(...this.bunkeri, ...this.zgrade)
   }
 
+  update(dt, t) {
+    if (this.session.state !== 'running') return
+    this.distance += Math.abs(PARALAX_1) * dt
+    super.update(dt, t)
+    this.bunkeri.forEach(bunker => bunker.projectiles.checkHits([this.tenk]))
+    if (this.tenk.dead) this.defeat('Tvoj tenk je uništen.')
+  }
+
   clear() {
-    crtaNeboZemlju(nivoTla)
+    crtaNeboZemlju(this.groundY)
   }
 
   sceneUI() {

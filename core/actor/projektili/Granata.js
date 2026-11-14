@@ -26,22 +26,39 @@ export default class Granata extends Metak {
   }
 
   proveriGranice() {
+    if (this.timerId) return
     if (this.vanEkrana || this.y > this.nivoTla) this.reset()
   }
 
   /* SUDAR */
 
   proveriPogodak(cilj) {
-    if (!cilj.sudara(this)) return
+    if (this.timerId || !cilj.sudara(this)) return
 
+    this.stani()
     this.eksplodiraj()
 
-    if (!this.timerId)
-      this.timerId = this.clock.after(duzinaEksplozije, () => this.povredi(cilj))
+    if (!this.timerId) {
+      const lifeId = cilj.lifeId
+      this.timerId = this.clock.after(duzinaEksplozije, () => {
+        // A recycled target is a new life; the old hit must not follow it.
+        if (lifeId !== undefined && (cilj.lifeId !== lifeId || cilj.dead)) {
+          this.reset()
+          return
+        }
+        this.povredi(cilj)
+      })
+    }
   }
 
   eksplodiraj() {
     this.plamicak.polozaj = this.polozaj
     this.plamicak.pokazi()
+  }
+
+  update(dt) {
+    // Keep the confirmed impact still until its delayed damage resolves.
+    if (this.timerId) return
+    super.update(dt)
   }
 }

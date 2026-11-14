@@ -10,19 +10,27 @@ before(async() => {
   UI = (await import('/ui/UI.js')).default
 })
 
-test('end removes the full screen button it added', () => {
+test('start, pause and end screens never add a full screen button', () => {
   const ui = new UI(fakeScene)
-  assert.equal(document.querySelectorAll('full-screen-btn').length, 1)
-
+  assert.equal(document.querySelectorAll('full-screen-btn').length, 0)
+  for (const show of [
+    () => ui.renderStartScreen(),
+    () => ui.showPauseScreen(),
+    () => ui.showDefeatScreen('Finished'),
+    () => ui.showVictoryScreen('Finished'),
+  ]) {
+    show()
+    assert.equal(document.querySelectorAll('full-screen-btn').length, 0)
+  }
   ui.end()
   assert.equal(document.querySelectorAll('full-screen-btn').length, 0)
 })
 
-test('switching games keeps a single full screen button', () => {
+test('switching games does not add a full screen button', () => {
   for (let i = 0; i < 3; i++) new UI(fakeScene).end()
   const last = new UI(fakeScene)
 
-  assert.equal(document.querySelectorAll('full-screen-btn').length, 1)
+  assert.equal(document.querySelectorAll('full-screen-btn').length, 0)
   last.end()
 })
 

@@ -1,6 +1,6 @@
 # Izvorne slike: Potkozarje
 
-Preuzeto 14. 11. 2026. sa [strane Partizanska Eskadrila](https://potkozarje.net/partizanska-eskadrila/). Fajlovi i nazivi su izvorni; nisu prerađivani. Identifikacija i namena: [katalog](../../../WW2-YU.md).
+Preuzeto 14. 11. 2026. sa [strane Partizanska Eskadrila](https://potkozarje.net/partizanska-eskadrila/). Fajlovi i nazivi su izvorni; nisu prerađivani. Identifikacija i namena: [katalog](../../../ISTORIJA.md).
 
 | Lokalni fajl | Izvorna adresa |
 |---|---|

@@ -71,19 +71,19 @@ test('cannon turns with the arrows and fires a charged shot with a long press', 
   expect(problems).toEqual([])
 })
 
-test('touch controls and the full screen button keep their place and layer', async({ page }) => {
+test('touch controls keep their place and layer without a full screen button', async({ page }) => {
   await page.goto('/#warplane')
   await waitForScene(page)
   await page.locator('.game-screen-select input').first().tap()
   await expect(page.locator('.joystick-btn')).toHaveCount(4)
+  await expect(page.locator('full-screen-btn')).toHaveCount(0)
 
   const placement = await page.evaluate(() => {
     const style = selector => getComputedStyle(document.querySelector(selector))
-    const joystick = style('.joystick'), buttons = style('.button-container'), fullScreen = style('.full-screen-icon')
+    const joystick = style('.joystick'), buttons = style('.button-container')
     return {
       joystick: [joystick.left, joystick.bottom, joystick.zIndex],
       buttons: [buttons.right, buttons.bottom, buttons.gap, buttons.zIndex],
-      fullScreen: [fullScreen.right, fullScreen.zIndex],
     }
   })
 
@@ -91,6 +91,5 @@ test('touch controls and the full screen button keep their place and layer', asy
   expect(placement).toEqual({
     joystick: ['16px', '16px', '9'],
     buttons: ['16px', '16px', '16px', '9'],
-    fullScreen: ['16px', '1'],
   })
 })

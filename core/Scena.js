@@ -12,7 +12,7 @@ const canvasOwners = new WeakMap()
 
 export default class Scena {
   constructor({
-    usePointerLock, controlKeys, intro, reportText, customStartScreen, startButtonText, showControls, uiStyle, canvas, disableEvents = false, showFullScreen,
+    usePointerLock, controlKeys, intro, reportText, customStartScreen, startButtonText, showControls, uiStyle, canvas, disableEvents = false,
     fixedStep = false,
   } = {}) {
     this.usePointerLock = usePointerLock
@@ -24,7 +24,7 @@ export default class Scena {
       this.simulation = new UpdateRegistry()
     }
     this.gameLoop = new GameLoop(this.loop)
-    this.ui = new UI(this, { reportText, intro, customStartScreen, startButtonText, showControls, controlKeys, showFullScreen })
+    this.ui = new UI(this, { reportText, intro, customStartScreen, startButtonText, showControls, controlKeys })
     this.predmeti = []
 
     this.canvas = canvas

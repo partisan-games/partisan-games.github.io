@@ -1,37 +1,40 @@
 export const dailyAllowance = 10
-export const tokenStorageKey = 'partisan-games.daily-tokens.v1'
+// Keep the established storage key so existing balances and cross-tab locks survive the rename.
+export const coinStorageKey = 'partisan-games.daily-tokens.v1'
 
 const dayOf = date => [date.getFullYear(), date.getMonth() + 1, date.getDate()]
   .map((value, index) => index ? String(value).padStart(2, '0') : value).join('-')
 
 /** One local-calendar allowance, shared by the games and tabs of this browser. */
-export default class DailyTokens {
-  constructor({ storage = localStorage, now = () => new Date(), locks = navigator.locks } = {}) {
+export default class DailyCoins {
+  constructor({ storage = localStorage, now = () => new Date(), locks = navigator.locks, allowance = dailyAllowance, storageKey = coinStorageKey } = {}) {
     this.storage = storage
     this.now = now
     this.locks = locks
+    this.allowance = allowance
+    this.storageKey = storageKey
   }
 
   read() {
     const day = dayOf(this.now())
     let saved
     try {
-      saved = JSON.parse(this.storage.getItem(tokenStorageKey))
+      saved = JSON.parse(this.storage.getItem(this.storageKey))
     } catch (error) {
       if (!(error instanceof SyntaxError)) throw error
     }
-    if (saved?.day === day && Number.isInteger(saved.remaining) && saved.remaining >= 0 && saved.remaining <= dailyAllowance)
+    if (saved?.day === day && Number.isInteger(saved.remaining) && saved.remaining >= 0 && saved.remaining <= this.allowance)
       return saved
 
-    return { day, remaining: dailyAllowance }
+    return { day, remaining: this.allowance }
   }
 
   save(state) {
-    this.storage.setItem(tokenStorageKey, JSON.stringify(state))
+    this.storage.setItem(this.storageKey, JSON.stringify(state))
   }
 
   transact(action) {
-    return this.locks ? this.locks.request(tokenStorageKey, action) : Promise.resolve().then(action)
+    return this.locks ? this.locks.request(this.storageKey, action) : Promise.resolve().then(action)
   }
 
   spend() {
@@ -48,7 +51,7 @@ export default class DailyTokens {
       const state = this.read()
       // Yesterday's failed entry must not add to today's allowance.
       if (receipt.day === state.day)
-        this.save({ ...state, remaining: Math.min(dailyAllowance, state.remaining + 1) })
+        this.save({ ...state, remaining: Math.min(this.allowance, state.remaining + 1) })
     })
   }
 }

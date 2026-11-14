@@ -1,6 +1,6 @@
 # Izvorne slike: Antifašistički vjesnik
 
-[Strana izvora](https://www.antifasisticki-vjesnik.org/hr/kalendar/6/4/236/); preuzeto 14. 11. 2026. Originali sa galerijskih linkova, bez prerade; ne umanjene sličice. [Katalog i namena](../../../WW2-YU.md#av-001-antifašistički-vjesnik).
+[Strana izvora](https://www.antifasisticki-vjesnik.org/hr/kalendar/6/4/236/); preuzeto 14. 11. 2026. Originali sa galerijskih linkova, bez prerade; ne umanjene sličice. [Katalog i namena](../../../ISTORIJA.md#av-001-antifašistički-vjesnik).
 
 | Fajl | Izvorna adresa |
 |---|---|

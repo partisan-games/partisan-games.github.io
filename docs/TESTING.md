@@ -1,5 +1,7 @@
 # Testing
 
+Architecture and ownership: [ARHITEKTURA](ARHITEKTURA.md). Check execution requires the project owner's permission; a prepared test or an earlier passing run does not establish that the current working copy passes.
+
 `npm run verify` runs every check; run it before committing. CI (`.github/workflows/ci.yml`) runs the same steps.
 
 | Command | What it checks | Time |
@@ -25,6 +27,7 @@ First time only: `npx playwright install chromium`.
 - Images never load in unit tests, so a `Predmet` made from an image file has no `sirina` or `visina`, and checks such as "on the ground" stay false; set the size in the test.
 - A model module only describes its model, so it can be imported in a unit test; creating its object before the model has loaded throws. Physics modules need Ammo, which does not load in unit tests; move the logic to test into its own module, as `ui/PowerMeter.js` was. `scenes/moon-landing/Lander.js` also takes a `mesh`, so `lander.test.js` gives it a box.
 - A test marked `todo` documents a known issue that is not fixed yet; it runs but does not fail the suite.
+- `DailyCoins.test.js` checks the ordinary daily wallet; `DevelopmentCoins.test.js` checks the local 1000-coin allowance with the same persistence, spending, refund, exhaustion and daily-reset behavior. The new local-mode tests are prepared and await permission to run.
 
 ## Smoke tests (`tests/smoke/`)
 
@@ -36,7 +39,9 @@ First time only: `npx playwright install chromium`.
 - `leaks.spec.js`: 20 game switches; listeners on `document` and `window`, WebGL contexts and page elements must not grow, nor the textures, buffers and shader programs left on the graphics card after a 3D game (counted in a 2D game, from the second round on, when the shared renderer has compiled its shaders).
 - `styles.spec.js`: each game's start screen HTML and the classes of its health bar and camera button match `fixtures/styles.json`. After an intended change, rerun with `RECORD_STYLES=<folder>` to write one file per game, then merge them into the fixture.
 
-A test fails on any uncaught error, console error, failed request, or more than one full screen button. Textures that models reference but the repository lacks are listed in `known-issues.js`.
+A test fails on any uncaught error, console error, failed request, or any full screen button (removed from all game screens). Textures that models reference but the repository lacks are listed in `known-issues.js`.
+
+The daily-limit cases in `arcade.spec.js` use the secure non-local test origin `https://coins.test`, with every request served through the local test server, so that the ordinary 10-coin limit and Web Locks are exercised separately from local development. A local-origin case checks spending from 1000 to 999, persistence across reload and separation from the ordinary wallet. These new browser cases have not been run; the project owner performs browser review.
 
 Import `test` from `helpers.js`, not from Playwright: it exposes the game's `SceneManager` as `window.sceneManager`, which `waitForScene`, `startGame` and `onScene` use. `onScene(page, fn)` runs `fn(scene)` in the page; `fn` is sent as source text, so it cannot use variables from the test.
 

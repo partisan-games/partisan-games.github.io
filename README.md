@@ -25,8 +25,11 @@ The separate checks and how the tests work: [docs/TESTING.md](docs/TESTING.md).
 
 ## TODO
 
+- 2d tank: bunker loše i krajnje nerealno puca. ako koristi granate, treba da lete kao projektili, klasičnom putanjom projektila. ako koristi mitraljez, kao nivo bunker, onda može i pravolinijski da leti. osmisliti vrste pucanja i popraviti da bude bolje.
+- 2d tank: uništavanje civilnih zgrada. moja inicijalna ideja je da civilne zgrade malo smetaju igraču, jer se nalaze na putu a ne sme da ih uništi. ali sada kada neprijatelji pucaju, to postaje ogromna smetnja jer igrač ne sme da uzvrati i tako gine. postoji li drugo rešenje osim da ukinemo pogađanje civilnih zgrada?
+- ukloni zatamnjeni sloj sa igara na naslovnoj. smisliti drugi indikator zaključanosti. zatamnjenje smeta. treba da se lepo vide nivoi i privuku igrača.
 - vis: nađi bolji zvuk pucanja
-- proveriti koje se igre sa index skrivaju na mobilnom
+- proveri warplane na mobilnom (privremeno isključeno hide-on-mobile)
 
 ### Ideje za kasnije
 
@@ -34,7 +37,6 @@ The separate checks and how the tests work: [docs/TESTING.md](docs/TESTING.md).
 - dodati profil korisnika
 
 Ideje za nivoe:
-- tenkic ide
 - sremski front (topovi)
 - odbrani polozaj (kamera odozgo, nadiru sa svih strana)
 

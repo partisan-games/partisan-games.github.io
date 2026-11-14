@@ -2,7 +2,6 @@ import { isTouchScreen } from '/config.js'
 import Controls from '../ui/Controls.js'
 import Report from './Report.js'
 import { currentStyleClasses } from './styles.js'
-import '/core/io/ScreenToggle.js'
 
 const elementUI = document.getElementById('ui')
 const modalElement = document.getElementById('modal')
@@ -28,7 +27,6 @@ export default class UI {
     reportText,
     controlKeys,
     customStartScreen,
-    showFullScreen = true,
   } = {}) {
     this.scene = scene
     this.intro = intro
@@ -44,8 +42,6 @@ export default class UI {
     if (showControls)
       this.controlsUI = new Controls({ controlKeys })
 
-    if (showFullScreen && document.fullscreenEnabled)
-      this.fullScreenButton = document.body.appendChild(document.createElement('full-screen-btn'))
   }
 
   clear() {
@@ -172,7 +168,6 @@ export default class UI {
     this.messageElement.remove()
     this.report?.stop()
     this.controlsUI?.end()
-    this.fullScreenButton?.remove()
   }
 
   /* LOOP */
