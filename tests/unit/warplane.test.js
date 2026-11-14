@@ -22,7 +22,7 @@ function createPlane(t, clock = new GameClock()) {
   plane.input = new Input({ useKeyboard: true, useJoystick: false })
   scene.add(plane.mesh)
   t.after(() => {
-    ;['ArrowRight', 'Enter'].forEach(code => key('keyup', code))
+    ;['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown', 'Enter'].forEach(code => key('keyup', code))
     plane.end()
   })
   return { plane, scene, clock }
@@ -32,14 +32,55 @@ const fly = (plane, seconds, fps = 60) => {
   for (let i = 0; i < seconds * fps; i++) plane.update(1 / fps, i / fps)
 }
 
-test('the warplane flies right at its speed and rolls into the turn, up to the side limit', t => {
+test('the warplane accelerates into a turn and stays exactly inside the side limit', t => {
+  const { plane } = createPlane(t)
+  key('keydown', 'ArrowRight')
+  fly(plane, 1 / 60)
+  assert.ok(plane.position.x > 0 && plane.position.x < plane.speed / 60, 'does not jump straight to full speed')
+  fly(plane, .5)
+  assert.ok(plane.position.x > 16 && plane.position.x < 20, `x ${plane.position.x}`)
+  assert.ok(plane.mesh.rotation.z < 0, 'rolls right')
+  fly(plane, 10)
+  assert.equal(plane.position.x, 100, 'does not overshoot the limit')
+  assert.equal(plane.velocityX, 0)
+})
+
+test('releasing or reversing steering changes velocity smoothly', t => {
   const { plane } = createPlane(t)
   key('keydown', 'ArrowRight')
   fly(plane, .5)
-  assert.ok(Math.abs(plane.position.x - 20) < .01, `x ${plane.position.x}`)
-  assert.ok(plane.mesh.rotation.z < 0, 'rolls right')
-  fly(plane, 10)
-  assert.ok(plane.position.x <= 100 + plane.speed / 60, 'stays inside the limit')
+  const speed = plane.velocityX
+  key('keyup', 'ArrowRight')
+  fly(plane, 1 / 60)
+  assert.ok(plane.velocityX > 0 && plane.velocityX < speed, 'brief braking instead of an instant stop')
+  key('keydown', 'ArrowLeft')
+  fly(plane, 1 / 60)
+  assert.ok(plane.velocityX > 0, 'does not instantly reverse velocity')
+  fly(plane, .2)
+  assert.ok(plane.velocityX < 0)
+  assert.ok(Math.abs(plane.mesh.rotation.z) <= plane.maxRoll)
+})
+
+test('steering and braking cover the same distance at 30, 60 and 120 fps', t => {
+  const positions = [30, 60, 120].map(fps => {
+    const { plane } = createPlane(t)
+    key('keydown', 'ArrowRight')
+    fly(plane, 1, fps)
+    key('keyup', 'ArrowRight')
+    fly(plane, .5, fps)
+    return plane.position.x
+  })
+  for (const x of positions) assert.ok(Math.abs(x - positions[0]) < 1e-9)
+})
+
+test('the chase camera follows the current frame position', t => {
+  const { plane } = createPlane(t)
+  let followedX
+  plane.chaseCamera.update = () => { followedX = plane.position.x }
+  key('keydown', 'ArrowRight')
+  fly(plane, 1 / 60)
+  assert.ok(followedX > 0)
+  assert.equal(followedX, plane.position.x)
 })
 
 test('the warplane fires a missile, and the next one only after the reload of game time', t => {

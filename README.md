@@ -26,13 +26,13 @@ The separate checks and how the tests work: [docs/TESTING.md](docs/TESTING.md).
 ## TODO
 
 - vis: nađi bolji zvuk pucanja
+- proveriti koje se igre sa index skrivaju na mobilnom
 
 ### Bagovi
 
 - ranije kada bombaš nagazi minu pogine, ali vatra ostane da gori.
 - fps-airport: nema kontrola
-- warplane: komande neprirodno trzaju
-- proveriti koje se igre sa index skrivaju na mobilnom
+- vis: kad avionce pogine, vatra se pojavi prvo na pogrešnom mestu pa onda kod aviona. mislim da se to dešava i za neprijatelje.
 
 Mobilni:
     - warplane ne radi na mobilnom

@@ -8,6 +8,7 @@ import Weapon from '/core/gameplay/Weapon.js'
 import { createSound } from '/core/io/sound.js'
 import { paths } from './paths.js'
 import { settings } from './settings.js'
+import { resetFlame } from './flame.js'
 
 const { fallTime, enemyBulletSpeed } = settings
 const pick = list => list[Math.floor(Math.random() * list.length)]
@@ -74,6 +75,7 @@ export default class Enemy extends Predmet {
 
   damage(hits) {
     if (this.dead) return
+    if (!this.zapaljen) resetFlame(this)
     this.hits -= hits
     if (this.hits <= 0) this.umri()
   }
@@ -85,6 +87,7 @@ export default class Enemy extends Predmet {
 
   /** A shot down plane leaves its path and formation and goes on straight ahead, the way its nose points. */
   umri() {
+    if (!this.zapaljen) resetFlame(this)
     super.umri()
     createSound('explosion.mp3', { random: true }).play()
     this.falling = true

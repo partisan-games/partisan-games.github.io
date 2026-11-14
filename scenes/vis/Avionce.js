@@ -9,6 +9,7 @@ import Explosion from './Explosion.js'
 import PlayerView from './PlayerView.js'
 import { settings } from './settings.js'
 import { getAircraft } from './aircraft.js'
+import { resetFlame } from './flame.js'
 
 const {
   lives, bombs, bombRadius, bombHits, bombBursts, bombSpread, respawnTime, shieldTime, loops, loop,
@@ -198,11 +199,13 @@ export class Avionce extends Player2D {
     this.stani()
     this.toStart()
     this.shield = shieldTime
+    resetFlame(this)
     this.loopsLeft = loops
   }
 
   /** A lost life also takes away the fire power-ups. */
   umri() {
+    resetFlame(this)
     this.alive = false
     this.loopAge = null
     this.fireLevel = 0

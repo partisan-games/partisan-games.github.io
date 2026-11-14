@@ -92,6 +92,14 @@ Početni ekran Visa nudi Spitfire Mk Vb, Hurricane Mk IV, Breguet 19, Yak-1b i I
 
 Aktuelne slike ciljaju izgled fotografisanih profesionalnih maketa: Spitfire ima uži trup i eliptična krila, Hurricane puniji trup, konvencionalnija krila i rebrasti zadnji deo. Razlike treba proveravati na prikaznoj veličini od 150 px raspona, ne samo u velikom izvorniku. Isti ugao i slična istorijska kamuflaža prirodno približavaju izgled; povećanje detaljnosti samo po sebi ne garantuje prepoznatljivost. Izvornici su ponovo generisani prema referentnim fotografijama, sa očuvanom providnošću i dimenzijama 300×255.
 
+### Vis: početak vatre posle pogibije
+
+Čestice `Plamen` čuvaju apsolutne koordinate, a dok je avion živ ne napreduju. Posle povratka igrača u život stara vatra je zato mogla da se prikaže pri narednoj pogibiji na prethodnom mestu. `scenes/vis/flame.js` prazni stare čestice i postavlja žarište na trenutni položaj pri resetu i novoj pogibiji igrača. Neprijatelj priprema novo žarište pre prvog paljenja; već zapaljeni teški avion pri obaranju zadržava svoj postojeći trag. Zajedničke klase vatre i renderera nisu menjane. Regresije su opisane u `tests/unit/visFlame.test.js`; testovi još nisu pokrenuti, čeka se posebno korisnikovo odobrenje. Uzrok kod neprijatelja nije zasebno vizuelno reprodukovan.
+
+### Warplane: odziv upravljanja
+
+`core3d/aircraft/Warplane.js` koristi prigušenu bočnu i vertikalnu brzinu, sa zasebnim ubrzavanjem i kočenjem. Položaj se računa integracijom brzine kroz `dt`, ograničava bez prekoračenja, a nagib prati bočnu brzinu do 30°. Kamera se ažurira posle pomeranja aviona. Prethodno su pritisak i puštanje komande trenutno menjali brzinu; dodatno oscilovanje nagiba zavisilo je od broja frejmova. Izmena obuhvata pet modela igre Warplane, bez menjanja zajedničkog ChaseCamera ili upravljanja cepelinom. Uz korisnikovo odobrenje prošlo je svih šest ciljanih provera u `tests/unit/warplane.test.js`: ubrzavanje i granice, kočenje i promena smera, isti pređeni put na 30/60/120 FPS, redosled praćenja kamerom, punjenje projektila i usporavanje pri sletanju. Osećaj upravljanja još zahteva proveru u igri; odobrenje ovih provera nije opšte odobrenje za buduće testove.
+
 ## Ulaz
 
 `Input` (`core/io/Input.js`) spaja tastaturu i dodirne kontrole: na uređaju sa mišem koristi tastaturu, a na ekranu na dodir džojstik i dugmad (`Touch.js`). Igrač čita `input.up`, `input.attack` i slično, bez obzira na izvor.
