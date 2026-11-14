@@ -345,6 +345,9 @@ button {
 
 .vis-aircraft-select {
   gap: 16px;
+  max-height: 55vh;
+  overflow-y: auto;
+  padding: 4px;
 
   label {
     display: flex;

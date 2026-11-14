@@ -32,6 +32,7 @@ The separate checks and how the tests work: [docs/TESTING.md](docs/TESTING.md).
 - ranije kada bombaš nagazi minu pogine, ali vatra ostane da gori.
 - fps-airport: nema kontrola
 - warplane: komande neprirodno trzaju
+- proveriti koje se igre sa index skrivaju na mobilnom
 
 Mobilni:
     - warplane ne radi na mobilnom

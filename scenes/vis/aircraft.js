@@ -1,6 +1,8 @@
 export const aircraft = [
   { id: 'spitfire', name: 'Spitfire Mk Vb', image: 'armies/partizani/avioni/spitfire-mkvb-realistic.png' },
   { id: 'hurricane', name: 'Hurricane Mk IV', image: 'armies/partizani/avioni/hurricane-mkiv-realistic.png' },
+  { id: 'breguet', name: 'Breguet 19', image: 'armies/partizani/avioni/breguet-19-realistic.png' },
+  { id: 'yak', name: 'Yak-1b', image: 'armies/partizani/avioni/yak-1b-realistic.png' },
 ]
 
 export function getAircraft(id) {

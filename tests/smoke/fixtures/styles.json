@@ -175,7 +175,7 @@
     "cameraButton": null
   },
   "vis": {
-    "startScreen": "<div class=\"central-screen flex-column simple-container\" id=\"start-screen\"> <p>Reach the island of Vis.</p> <h2>Choose your aircraft</h2> <div class=\"game-screen-select vis-aircraft-select\"> <label> <input type=\"image\" data-aircraft=\"spitfire\" src=\"/assets/images/armies/partizani/avioni/spitfire-mkvb-realistic.png\" alt=\"Fly Spitfire Mk Vb\"> <span>Spitfire Mk Vb</span> </label> <label> <input type=\"image\" data-aircraft=\"hurricane\" src=\"/assets/images/armies/partizani/avioni/hurricane-mkiv-realistic.png\" alt=\"Fly Hurricane Mk IV\"> <span>Hurricane Mk IV</span> </label> </div> </div>",
+    "startScreen": "<div class=\"central-screen flex-column simple-container\" id=\"start-screen\"> <p>Reach the island of Vis.</p> <h2>Choose your aircraft</h2> <div class=\"game-screen-select vis-aircraft-select\"> <label> <input type=\"image\" data-aircraft=\"spitfire\" src=\"/assets/images/armies/partizani/avioni/spitfire-mkvb-realistic.png\" alt=\"Fly Spitfire Mk Vb\"> <span>Spitfire Mk Vb</span> </label> <label> <input type=\"image\" data-aircraft=\"hurricane\" src=\"/assets/images/armies/partizani/avioni/hurricane-mkiv-realistic.png\" alt=\"Fly Hurricane Mk IV\"> <span>Hurricane Mk IV</span> </label> <label> <input type=\"image\" data-aircraft=\"breguet\" src=\"/assets/images/armies/partizani/avioni/breguet-19-realistic.png\" alt=\"Fly Breguet 19\"> <span>Breguet 19</span> </label> <label> <input type=\"image\" data-aircraft=\"yak\" src=\"/assets/images/armies/partizani/avioni/yak-1b-realistic.png\" alt=\"Fly Yak-1b\"> <span>Yak-1b</span> </label> </div> </div>",
     "healthBar": null,
     "cameraButton": null
   },

@@ -2,6 +2,8 @@
 
 Partisan Games je sajt sa 39 malih 2D i 3D igara u pregledaču. Pisan je kao čisti ES moduli, bez build koraka: šta je u repozitorijumu, to se služi. Pokretanje je opisano u [README.md](../README.md), a provere i testovi u [TESTING.md](TESTING.md).
 
+Istorijski podaci za sadržaj igara: [WW2 u Jugoslaviji — avioni, vozila i oružje](WW2-YU.md).
+
 ## Struktura
 
 | Folder | Šta je u njemu |
@@ -86,7 +88,7 @@ Pre izmene proveriti redom identitet lika i poze, tempo, pa prelaze pri puštanj
 
 Oznake su usklađene sa [šemom JK448, 352. eskadrila, strana 21](https://www.eduard.com/out/media/11162.pdf#page=21): veće petokrake preko belog i plavog krilnog polja, žute prednje ivice, svetli spinner i traka ispred repa, uz oznaku na uspravnom repu. Šema služi za oznake; slika ostaje AI interpretacija prema prikazima modela, a ne autentična fotografija JK448.
 
-Početni ekran Visa nudi Spitfire Mk Vb i Hurricane Mk IV, po obrascu izbora iz Warplanea. Katalog `scenes/vis/aircraft.js` određuje nazive i slike; klik sačeka učitavanje izabranog aviona pre početka misije i odbija ponovljene klikove. Oba izbora koriste iste kontrole, naoružanje i dimenzije u igri. `hurricane-mkiv-realistic.png` je AI slika prema fotografijama pravog [Hurricanea Mk IV iz zbirke Vintage Wings of Canada](https://www.vintagewings.ca/hawker-hurricane-mk-iv), sa zeleno-sivom kamuflažom i partizanskim oznakama; nije prepravljena postojeća ilustracija Hurricanea. Nova igra ponovo otvara izbor.
+Početni ekran Visa nudi Spitfire Mk Vb, Hurricane Mk IV, Breguet 19, Yak-1b i Ilyushin Il-2, po obrascu izbora iz Warplanea. Na manjim ekranima izbor se vertikalno pomera. Katalog `scenes/vis/aircraft.js` određuje nazive i slike; klik sačeka učitavanje izabranog aviona pre početka misije i odbija ponovljene klikove. Svi izbori koriste iste kontrole i naoružanje; lovci su 150×127.5, a Breguet 150×100 piksela u igri, prema proporcijama slika. `hurricane-mkiv-realistic.png` je AI slika prema fotografijama pravog [Hurricanea Mk IV iz zbirke Vintage Wings of Canada](https://www.vintagewings.ca/hawker-hurricane-mk-iv), sa zeleno-sivom kamuflažom i partizanskim oznakama; nije prepravljena postojeća ilustracija Hurricanea. Nova igra ponovo otvara izbor.
 
 Aktuelne slike ciljaju izgled fotografisanih profesionalnih maketa: Spitfire ima uži trup i eliptična krila, Hurricane puniji trup, konvencionalnija krila i rebrasti zadnji deo. Razlike treba proveravati na prikaznoj veličini od 150 px raspona, ne samo u velikom izvorniku. Isti ugao i slična istorijska kamuflaža prirodno približavaju izgled; povećanje detaljnosti samo po sebi ne garantuje prepoznatljivost. Izvornici su ponovo generisani prema referentnim fotografijama, sa očuvanom providnošću i dimenzijama 300×255.
 
