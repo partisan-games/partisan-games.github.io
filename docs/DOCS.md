@@ -98,7 +98,11 @@ Aktuelne slike ciljaju izgled fotografisanih profesionalnih maketa: Spitfire ima
 
 ### Warplane: odziv upravljanja
 
-`core3d/aircraft/Warplane.js` koristi prigušenu bočnu i vertikalnu brzinu, sa zasebnim ubrzavanjem i kočenjem. Položaj se računa integracijom brzine kroz `dt`, ograničava bez prekoračenja, a nagib prati bočnu brzinu do 30°. Kamera se ažurira posle pomeranja aviona. Prethodno su pritisak i puštanje komande trenutno menjali brzinu; dodatno oscilovanje nagiba zavisilo je od broja frejmova. Izmena obuhvata pet modela igre Warplane, bez menjanja zajedničkog ChaseCamera ili upravljanja cepelinom. Uz korisnikovo odobrenje prošlo je svih šest ciljanih provera u `tests/unit/warplane.test.js`: ubrzavanje i granice, kočenje i promena smera, isti pređeni put na 30/60/120 FPS, redosled praćenja kamerom, punjenje projektila i usporavanje pri sletanju. Osećaj upravljanja još zahteva proveru u igri; odobrenje ovih provera nije opšte odobrenje za buduće testove.
+Profilisanje je odvojeno izmerilo oko 254 ms u `render()` pri prvom drveću. Pokušaj dodavanja prvog drveta na početnom ekranu i iscrtavanja aviona pre `start()` nije uklonio te zastoje, pa je povučen; ne ponavljati ga kao dokazanu optimizaciju. U tom dodatnom snimanju zabeležen je i zastoj od 3.94 s, bez utvrđenog uzroka. Popravka kamere ne rešava ove zasebne troškove prikaza ili pravljenja objekata.
+
+Naknadno snimanje sa 32 promene komandi otkrilo je trzaj kamere: interpolacija `min(1, dt * 30)` pri dužem kadru odmah sustigne avion. U letu sa ravnomernom bočnom brzinom izmeren je skok centra aviona od 42.72 px na ekranu širine 960 px. Warplane sada koristi postojeći `alignCamera()` posle pomeranja: upravljanje zadržava ubrzavanje i kočenje, a kamera stalan položaj u odnosu na avion. Ponovljeno snimanje sa istim nizom komandi pokazalo je 0 px pomeranja centra u odnosu na kameru. Zajednički ChaseCamera nije menjan. Ostaju zasebni zastoji pri prvom prikazu objekata; ovaj nalaz ne potvrđuje uklanjanje svih padova FPS-a. Lokalni snimci i merenja su u ignorisanom `test-results/warplane-diagnostic/`. Provera kamere u postojećem jediničnom testu ažurirana je za nejednak `dt`, ali nije pokrenuta zbog korisnikove zabrane; snimanje je posebno traženo.
+
+`core3d/aircraft/Warplane.js` koristi prigušenu bočnu i vertikalnu brzinu, sa zasebnim ubrzavanjem i kočenjem. Položaj se računa integracijom brzine kroz `dt`, ograničava bez prekoračenja, a nagib prati bočnu brzinu do 30°. Kamera se ažurira posle pomeranja aviona. Prethodno su pritisak i puštanje komande trenutno menjali brzinu; dodatno oscilovanje nagiba zavisilo je od broja frejmova. Izmena obuhvata pet modela igre Warplane, bez menjanja zajedničkog ChaseCamera ili upravljanja cepelinom. Uz korisnikovo odobrenje prošlo je svih šest ciljanih provera u `tests/unit/warplane.test.js`: ubrzavanje i granice, kočenje i promena smera, isti pređeni put na 30/60/120 FPS, redosled praćenja kamerom, punjenje projektila i usporavanje pri sletanju.
 
 ## Ulaz
 
@@ -113,6 +117,10 @@ Aktuelne slike ciljaju izgled fotografisanih profesionalnih maketa: Spitfire ima
 Središnji ekrani (početni, pauza, kraj) prikazuju se na događaj, a ne u petlji: `UI.showScreen(name, html)` i `hideScreen()`, a `ui.screen` kaže koji je otvoren (`'start'`, `'pause'`, `'end'` ili `null`). Igra ne zove ove metode sama, nego `this.victory`/`this.defeat`.
 
 Poruke (`ui.showMessage`) imaju svoj element `div.message`. Ne prikazuju se dok je otvoren središnji ekran, a poruka koja već stoji skriva se iza njega i vraća posle nastavka. `Controls` crta spisak kontrola iz `controlKeys`, a `Report` kuca uvodni tekst.
+
+`Report` unapred raspoređuje tekst u cele reči bez preloma unutar reči, sa nevidljivim slovima koja zauzimaju prostor. Kucanje otkriva po jedno slovo na 80 ms, pa reč ne preskače u sledeći red usred kucanja; eksplicitni novi redovi ostaju sačuvani. Promena obuhvata sve uvodne izveštaje. Testovi nisu pokretani po korisnikovom zahtevu.
+
+`fps-airport` izričito uključuje `showControls: true`: podrazumevani UI skriva spisak kada `isTouchScreen` prepozna dodir, što obuhvata i računare sa ekranom na dodir i mišem. Spisak koristi postojeći `fpsControls`, bez dodatnog reda za pomeranje miša, po korisnikovom zahtevu; pri proveri prikaza obuhvatiti i računar sa podrškom za dodir. Zajedničko pravilo drugih igara nije promenjeno; testovi ove izmene nisu pokretani po korisnikovom zahtevu.
 
 ## Podešavanja na jednom mestu
 

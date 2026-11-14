@@ -73,14 +73,21 @@ test('steering and braking cover the same distance at 30, 60 and 120 fps', t => 
   for (const x of positions) assert.ok(Math.abs(x - positions[0]) < 1e-9)
 })
 
-test('the chase camera follows the current frame position', t => {
+test('uneven frame durations do not shift the plane relative to its camera', t => {
   const { plane } = createPlane(t)
-  let followedX
-  plane.chaseCamera.update = () => { followedX = plane.position.x }
   key('keydown', 'ArrowRight')
-  fly(plane, 1 / 60)
-  assert.ok(followedX > 0)
-  assert.equal(followedX, plane.position.x)
+  key('keydown', 'ArrowUp')
+  for (const delta of [1 / 60, 1 / 30, 1 / 120, .1, 1 / 60]) {
+    plane.update(delta)
+    const { camera } = plane.chaseCamera
+    camera.updateMatrixWorld()
+    const screen = plane.position.clone().project(camera)
+    assert.ok(Math.abs(screen.x) < 1e-9, `horizontal screen position at dt ${delta}`)
+    assert.ok(Math.abs(screen.y) < 1e-9, `vertical screen position at dt ${delta}`)
+    assert.equal(camera.position.z - plane.position.z, plane.depth)
+  }
+  assert.ok(plane.position.x > 0)
+  assert.ok(plane.position.y > 29)
 })
 
 test('the warplane fires a missile, and the next one only after the reload of game time', t => {

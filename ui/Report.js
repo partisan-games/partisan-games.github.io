@@ -25,6 +25,11 @@ const css = /* css */`
       padding: 150px 15% 8px;
       text-shadow: none;
     }
+
+    & .report-word {
+      display: inline-block;
+      white-space: nowrap;
+    }
   }
 `
 
@@ -53,6 +58,28 @@ export default class Report {
     this.text = text
     this.containerId = containerId
     this.p = createHtml(containerId)
+    this.characters = []
+
+    for (const token of text.match(/\s+|\S+/g) || []) {
+      if (/^\s+$/.test(token)) {
+        for (const character of token) {
+          this.p.append(character === '\n' ? document.createElement('br') : document.createTextNode(character))
+          this.characters.push(null)
+        }
+        continue
+      }
+
+      const word = document.createElement('span')
+      word.className = 'report-word'
+      for (const character of token) {
+        const letter = document.createElement('span')
+        letter.textContent = character
+        letter.style.visibility = 'hidden'
+        word.appendChild(letter)
+        this.characters.push(letter)
+      }
+      this.p.appendChild(word)
+    }
 
     if (!style.isConnected) document.head.appendChild(style)
 
@@ -68,11 +95,9 @@ export default class Report {
   }
 
   kucaj = () => {
-    this.p.innerHTML += this.text.charAt(this.i)
-    this.p.innerHTML = this.p.innerHTML.replace(/\n/g, '<br>')
-    if (this.i >= this.text.length)
-      this.stop()
-    this.i++
+    const letter = this.characters[this.i++]
+    if (letter) letter.style.visibility = 'visible'
+    if (this.i >= this.characters.length) this.stop()
   }
 
   stop() {

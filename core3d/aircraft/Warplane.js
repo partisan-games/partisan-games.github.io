@@ -141,7 +141,9 @@ export default class Warplane extends GameObject {
     if (this.dead) this.die(delta)
     else this.handleInput(delta)
     this.normalizePlane(delta)
-    this.chaseCamera?.update(delta)
+    // Steering already damps the movement. A second camera lag makes frame-time
+    // changes shift the plane on screen, even during a steady turn.
+    this.chaseCamera?.alignCamera()
   }
 
   end() {
