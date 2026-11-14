@@ -41,6 +41,6 @@ Najpre pronaći postojeću odgovornost i njene korisnike, pa odrediti najmanju p
 
 Zavisnosti prosleđivati usko, npr. sat ili funkciju stvaranja projektila. Parametar balansa ima jedno mesto; nije istorijski podatak. Dimenzije nivoa pripadaju instanci scene, a ponašanje pri promeni prozora usred partije mora biti izričito određeno.
 
-Pri kopiranju ponašanja getter nije obična vrednost: Object.assign ne prenosi njegov descriptor. Prednost dati eksplicitnim saradnicima. Vremenske rokove i animacije proveravati i na granici intervala, pri različitim frekvencijama i posle zastoja; poređenje ishoda je važnije od broja poziva metode.
+Pri kopiranju ponašanja getter nije obična vrednost: Object.assign ne prenosi njegov descriptor. Prednost dati eksplicitnim saradnicima. Vremenske rokove i animacije proveravati i na granici intervala, pri različitim frekvencijama i posle zastoja; poređenje ishoda je važnije od broja poziva metode. Kod brzih projektila proveravati i prostor između uzastopnih položaja i birati prvi pogodak: sam presek na kraju frejma može preskočiti celu metu ili zaklon.
 
 Dokaz birati prema promenjenom ugovoru. Smoke test ne dokazuje oslobađanje native memorije, unit test ne dokazuje osećaj upravljanja, a raniji prolazak ne dokazuje današnju radnu kopiju. Način provera je u [TESTING](TESTING.md); pravila dokumentacije i statusa u [DOCS](DOCS.md).

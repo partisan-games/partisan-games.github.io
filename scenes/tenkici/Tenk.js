@@ -7,11 +7,10 @@ import Cooldown from '/core/gameplay/Cooldown.js'
 import Health from '/core/gameplay/Health.js'
 import Weapon from '/core/gameplay/Weapon.js'
 import { frames } from '/core/konstante.js'
+import { shellGravity as gravitacija, shellSpeed as potisakMetka } from './shellPhysics.js'
 
-const gravitacija = 90
 const statickoTrenje = 0.3
 const kinetickoTrenje = 0.1
-const potisakMetka = window.innerWidth > 1920 ? 520 : 500
 const reloadTime = 1 // seconds
 const burnBelow = 20 // energy at which a tank catches fire
 

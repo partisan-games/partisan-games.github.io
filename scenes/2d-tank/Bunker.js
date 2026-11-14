@@ -1,39 +1,55 @@
 import CombatTarget from './CombatTarget.js'
-import ProjectilePool from '/core/actor/ProjectilePool.js'
-import Metak from '/core/actor/projektili/Metak.js'
-import Cooldown from '/core/gameplay/Cooldown.js'
-
-const FIRST_SHOT_DELAY = 1.5
-const RELOAD_SECONDS = 2.5
-const PROJECTILE_SPEED = 320
+import { createMachineGun } from './BunkerWeapons.js'
+import { firstHit } from './lineOfFire.js'
+import platno from '/core/io/platno.js'
 
 export default class Bunker extends CombatTarget {
-  constructor({ clock, target, ...rest } = {}) {
-    super(rest)
+  constructor({ clock, target, groundY, obstacles = [], createWeapon = createMachineGun, ...rest } = {}) {
+    super({ z: -1, ...rest })
     this.target = target
-    this.reload = new Cooldown({ clock, seconds: RELOAD_SECONDS })
-    this.reload.start(FIRST_SHOT_DELAY)
-    this.projectiles = new ProjectilePool({ owner: this, create: () => new Metak() })
+    this.obstacles = obstacles
+    this.armament = createWeapon({ owner: this, clock, groundY })
+    this.projectiles = this.armament.projectiles
   }
 
   reset() {
     super.reset()
-    this.reload.start(FIRST_SHOT_DELAY)
+    this.armament.reset()
   }
 
   update(dt) {
     super.update(dt)
-    if (this.dead || !this.target.prikazan || this.target.dead) return
-    if (!this.prikazan) {
-      this.reload.start(FIRST_SHOT_DELAY)
+    this.updateFire()
+    // Children move after their owner; retain the start of each flight segment.
+    for (const projectile of this.projectiles.projectiles) {
+      projectile.previousPosition = { x: projectile.x, y: projectile.y }
+      projectile.wasFlying = projectile.vidljiv && !projectile.timerId
+    }
+  }
+
+  updateFire() {
+    const direction = this.target.x < this.x ? -1 : 1
+    const origin = { x: this.x + direction * this.sirina * .28, y: this.y + this.visina * .1 }
+    const muzzleVisible = Number.isFinite(origin.x) && Number.isFinite(origin.y) && origin.x >= 0 && origin.x <= platno.width && origin.y >= 0 && origin.y <= platno.height
+    if (this.dead || !muzzleVisible || !this.prikazan || this.target.dead || !this.target.prikazan) {
+      this.armament.reset()
       return
     }
-    if (!this.reload.ready) return
+    this.armament.fire(origin, this.target)
+  }
 
-    const direction = this.target.x < this.x ? -1 : 1
-    const position = { x: this.x + direction * this.sirina / 2, y: this.y }
-    const angle = Math.atan2(this.target.y - position.y, this.target.x - position.x)
-    this.projectiles.fire(position, angle, PROJECTILE_SPEED)
-    this.reload.start()
+  checkHits() {
+    for (const projectile of this.projectiles.projectiles) {
+      if (!projectile.wasFlying || projectile.timerId) continue
+      const start = projectile.previousPosition
+      const end = { x: projectile.x, y: projectile.y }
+      const hit = firstHit(start, end, [...this.obstacles, this.target], { x: projectile.sirina / 2, y: projectile.visina / 2 })
+      if (!hit) continue
+      const time = Math.min(1, hit.time + 1e-6)
+      projectile.postavi(start.x + (end.x - start.x) * time, start.y + (end.y - start.y) * time)
+      projectile.pokazi()
+      projectile.proveriPogodak(hit.target)
+      projectile.wasFlying = false
+    }
   }
 }

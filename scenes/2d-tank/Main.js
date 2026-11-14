@@ -8,6 +8,7 @@ import Oblak from '/core/objects/Oblak.js'
 import TenkLevo from '../tenkici/TenkLevo.js'
 import CombatTarget from './CombatTarget.js'
 import Bunker from './Bunker.js'
+import { createCannon } from './BunkerWeapons.js'
 import { tankLeftControls } from '/ui/Controls.js'
 
 const BROJ_OBLAKA = 3
@@ -34,18 +35,20 @@ export default class extends Scena2D {
     const oblaci = Array.from({ length: BROJ_OBLAKA }, () => new Oblak(nivoTla - 100, PARALAX_1))
 
     const bunkerCallback = () => this.score++
-    const zgradaCallback = () => {
+    const zgradaCallback = source => {
+      if (source === 'enemy') return
       this.ui.showMessage('No! Destruction of civilian buildings is a war crime.')
       this.score--
     }
 
-    this.bunkeri = [
-      new Bunker({ src: 'buildings/kuca-bunker.png', tlo: nivoTla + 15, skalar: .33, zapaljiv: true, brzina: PARALAX_1, callback: bunkerCallback, clock: this.session.clock, target: this.tenk }),
-      new Bunker({ src: 'buildings/bunker-02.png', tlo: nivoTla + 5, skalar: .5, zapaljiv: true, brzina: PARALAX_1, callback: bunkerCallback, clock: this.session.clock, target: this.tenk }),
-    ]
     this.zgrade = [
       new CombatTarget({ src: 'buildings/crkva-01.png', tlo: nivoTla + 5, skalar: .5, zapaljiv: true, brzina: PARALAX_1, callback: zgradaCallback }),
       new CombatTarget({ src: 'buildings/kuca-07.png', tlo: nivoTla + 5, skalar: .75, zapaljiv: true, brzina: PARALAX_1, callback: zgradaCallback }),
+    ]
+    const bunkerOptions = { clock: this.session.clock, target: this.tenk, groundY: nivoTla, obstacles: this.zgrade, callback: bunkerCallback, zapaljiv: true, brzina: PARALAX_1 }
+    this.bunkeri = [
+      new Bunker({ ...bunkerOptions, src: 'buildings/kuca-bunker.png', tlo: nivoTla + 15, skalar: .33 }),
+      new Bunker({ ...bunkerOptions, src: 'buildings/bunker-02.png', tlo: nivoTla + 5, skalar: .5, createWeapon: createCannon }),
     ]
     this.add(planina, shumarak, ...this.bunkeri, ...this.zgrade, ...zbunovi, this.tenk, ...oblaci)
     this.tenk.ciljevi.push(...this.bunkeri, ...this.zgrade)
@@ -55,7 +58,7 @@ export default class extends Scena2D {
     if (this.session.state !== 'running') return
     this.distance += Math.abs(PARALAX_1) * dt
     super.update(dt, t)
-    this.bunkeri.forEach(bunker => bunker.projectiles.checkHits([this.tenk]))
+    this.bunkeri.forEach(bunker => bunker.checkHits())
     if (this.tenk.dead) this.defeat('Tvoj tenk je uništen.')
   }
 

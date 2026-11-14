@@ -1,4 +1,4 @@
-/* Painted steel cabinets, smoked glass and a mechanical coin door. */
+/* Painted steel cabinets and a mechanical coin door. */
 .arcade-home .homepage { padding-top: 16px; }
 .arcade-home .homepage > h1 { color: #e6c978; }
 .arcade-wallet {
@@ -83,27 +83,6 @@
   width: 100%;
   aspect-ratio: 16 / 10;
   object-fit: cover;
-  filter: saturate(.7) brightness(.65);
-  transition: filter .2s;
-}
-.arcade-cabinet:hover .arcade-screen > img { filter: saturate(.95) brightness(.85); }
-.arcade-screen::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: repeating-linear-gradient(0deg, #0000 0 3px, #0002 3px 4px), linear-gradient(125deg, #fff1, #fff0 40%);
-}
-.arcade-lock {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 18px;
-  color: #ffe8a8;
-  font-size: 11px;
-  line-height: 1.8;
-  text-shadow: 2px 2px #000, 0 0 12px #000;
-  pointer-events: none;
 }
 .arcade-slot {
   display: flex;
@@ -169,5 +148,5 @@
   .arcade-wallet small { font-size: 9px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .arcade-cabinet, .arcade-screen > img, .arcade-slot { transition: none; }
+  .arcade-cabinet, .arcade-slot { transition: none; }
 }

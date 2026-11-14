@@ -28,10 +28,6 @@ export default class Arcade {
       screen.className = 'arcade-screen'
       card.querySelector('img').before(screen)
       screen.appendChild(card.querySelector('img'))
-      const lock = document.createElement('span')
-      lock.className = 'arcade-lock'
-      lock.innerHTML = '<span aria-hidden="true">▣</span> INSERT COIN'
-      screen.appendChild(lock)
       const slot = document.createElement('button')
       slot.type = 'button'
       slot.className = 'arcade-slot'

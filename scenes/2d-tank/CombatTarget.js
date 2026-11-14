@@ -9,9 +9,9 @@ export default class CombatTarget extends Vracanje {
     super.reset()
   }
 
-  umri() {
+  umri(source) {
     if (this.dead) return
     this.alive = false
-    this.callback?.()
+    this.callback?.(source)
   }
 }
