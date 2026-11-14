@@ -17,6 +17,8 @@ Zajednička pravila sastavljaju se kroz male saradnike, poput zdravlja i oružja
 
 ## Stanje, vreme i život objekta
 
+Kod efekta vezanog za pokretni objekat razlikovati kretanje izvora od sopstvenog kretanja čestica. Pomeraj izvora preneti na postojeće čestice pre stvaranja novih; ne ispravljati kosi trag sabijanjem njihovih položaja ili ukidanjem brzina, jer to menja izgled efekta. Regresiona provera poredi efekat sa izvornim pri mirovanju, pa iste relativne putanje pri pomeranju izvora.
+
 Jedno stanje ima jednog vlasnika. Stara imena mogu biti pristupnici istom stanju, a ne dodatna kopija. Bodovanje pripada igri; smrt, respawn i vraćanje u pool nisu ista operacija. Odloženi efekat mora pripadati životu objekta koji ga je pokrenuo, da reciklirani objekat ne primi stari pogodak.
 
 [Sesija](../core/runtime/GameSession.js) razdvaja gameplay vreme i vreme prikaza: posle ishoda mogu trajati završni efekti, ali ne nova borba. Petlja sama ne zaustavlja sva pravila igre; njihovi vlasnici moraju poštovati stanje sesije. Odložene akcije i ostali resursi vezuju se za vlasnikov životni ciklus.

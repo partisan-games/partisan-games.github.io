@@ -11,6 +11,7 @@ import Bunker from './Bunker.js'
 import createGroundEnemies from './GroundEnemies.js'
 import prepareCombatAssets from './prepareCombatAssets.js'
 import CombatLayers from './CombatLayers.js'
+import AttachedFlame from './AttachedFlame.js'
 import { tankLeftControls } from '/ui/Controls.js'
 
 const BROJ_OBLAKA = 3
@@ -54,7 +55,9 @@ export default class extends Scena2D {
     const combatReady = prepareCombatAssets(pools)
     await Promise.all([combatReady, this.slikeUcitane()])
     if (!this.session.active) return
-    this.combatLayers = new CombatLayers([this.tenk, ...this.bunkeri, ...this.enemies])
+    const units = [this.tenk, ...this.bunkeri, ...this.enemies]
+    for (const unit of units) unit.plamen = new AttachedFlame(unit.x, unit.y)
+    this.combatLayers = new CombatLayers(units)
   }
 
   update(dt, t) {

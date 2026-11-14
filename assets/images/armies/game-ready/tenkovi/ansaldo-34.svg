@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="242" height="99" viewBox="0 0 284 116">
+  <defs>
+    <linearGradient id="armor" x2="0" y2="1">
+      <stop stop-color="#8a9367"/><stop offset=".34" stop-color="#626e46"/>
+      <stop offset="1" stop-color="#3b462e"/>
+    </linearGradient>
+    <linearGradient id="side" x2="0" y2="1">
+      <stop stop-color="#778158"/><stop offset=".6" stop-color="#59653e"/>
+      <stop offset="1" stop-color="#424d33"/>
+    </linearGradient>
+    <linearGradient id="steel" x2="0" y2="1">
+      <stop stop-color="#93998a"/><stop offset=".35" stop-color="#596253"/>
+      <stop offset="1" stop-color="#262f29"/>
+    </linearGradient>
+    <linearGradient id="rubber" x2="0" y2="1">
+      <stop stop-color="#40473c"/><stop offset="1" stop-color="#1f2824"/>
+    </linearGradient>
+    <linearGradient id="exhaust" x2="0" y2="1">
+      <stop stop-color="#b08058"/><stop offset=".35" stop-color="#8f593b"/>
+      <stop offset="1" stop-color="#4d3427"/>
+    </linearGradient>
+    <g id="bolt"><circle r="1.15" fill="#a4ab7f"/><path d="M-.6 1H.7" stroke="#303e2d" stroke-width=".8"/></g>
+    <g id="roadwheel">
+      <circle r="8.8" fill="url(#rubber)" stroke="#202b23" stroke-width="1.3"/>
+      <circle r="6.3" fill="#80895e" stroke="#404d37" stroke-width="1.1"/>
+      <circle r="2.8" fill="#52613e" stroke="#b1b58d" stroke-width=".8"/>
+      <circle r="1" fill="#283b29"/>
+    </g>
+  </defs>
+  <!-- Suspension and continuous track, including the raised front sprocket. -->
+  <path fill="#242e27" stroke="#1c2721" stroke-width="2" d="M16 49L53 46L249 55Q268 60 267 77L253 91L216 105L64 105L37 96L16 83Q2 70 9 57Z"/>
+  <path fill="#566249" stroke="#899078" stroke-width="1.2" d="M18 54L52 51L246 60Q260 63 260 75L248 86L215 99L65 99L39 91L21 79Q8 68 14 58Z"/>
+  <path fill="#27352b" stroke="#354130" d="M25 59L50 56L241 64L254 71L244 82L213 95L67 95L41 86L23 76Z"/>
+  <g stroke="#92977e" stroke-width="2" opacity=".65">
+    <path d="M9 61L16 63M9 72L16 71M15 82L21 77M26 90L30 84M38 97L42 90M52 102L55 96M68 105V98M82 105V99M96 105V99M110 105V99M124 105V99M138 105V99M152 105V99M166 105V99M180 105V99M194 105V99M208 104L207 98M222 102L220 95M235 97L232 91M248 90L242 85M260 81L253 77M264 70L257 71M258 60L252 65"/>
+  </g>
+  <g stroke="#263623" stroke-width="1.6">
+    <circle cx="34" cy="66" r="18" fill="url(#side)"/>
+    <circle cx="34" cy="66" r="13.5" fill="#829069" stroke="#a2ab84" stroke-width="1"/>
+    <circle cx="34" cy="66" r="7.5" fill="#68764c"/>
+    <circle cx="34" cy="66" r="3" fill="#3c4e33"/>
+    <path stroke="#495c3b" stroke-width="3" d="M34 52V57M34 75V80M20 66H25M43 66H48M24 56L28 60M40 72L44 76M24 76L28 72M40 60L44 56"/>
+    <circle cx="249" cy="76" r="10.5" fill="url(#side)"/>
+    <circle cx="249" cy="76" r="6.5" fill="#75855b"/>
+    <circle cx="249" cy="76" r="2.7" fill="#34472e"/>
+  </g>
+  <path fill="#414f32" stroke="#263725" stroke-width="1.5" d="M58 68H224L226 78L204 83L197 92H178L167 80H132L119 94H99L85 81H60Z"/>
+  <path fill="none" stroke="#87966b" stroke-width="2" d="M60 69H222M88 82L100 90H118L129 79M171 80L182 89H195L206 80"/>
+  <g>
+    <use xlink:href="#roadwheel" x="92" y="93"/><use xlink:href="#roadwheel" x="112" y="94"/>
+    <use xlink:href="#roadwheel" x="174" y="94"/><use xlink:href="#roadwheel" x="194" y="93"/>
+  </g>
+  <g fill="#687b50" stroke="#293b2b" stroke-width="1.3">
+    <path d="M79 76L84 69H119L126 77L119 80H85Z"/>
+    <path d="M161 76L166 70H202L209 77L202 81H168Z"/>
+    <path d="M100 77L97 92H104L108 78ZM181 77L177 92H184L189 78Z"/>
+  </g>
+  <path stroke="#a2ac7d" stroke-width="1" fill="none" d="M85 73H119M166 74H201"/>
+  <!-- Hull: long low nose, central casemate and separate rear engine compartment. -->
+  <g stroke="#2c3b29" stroke-width="1.7" stroke-linejoin="round">
+    <path fill="url(#armor)" d="M16 43L35 40L71 42L101 42L111 35L192 27L256 29L261 54L252 65L63 65L39 58L17 56L12 50Z"/>
+    <path fill="#8a966b" d="M17 42L38 40L72 43L106 43L115 48L37 48L13 48Z"/>
+    <path fill="#596b41" d="M19 50L41 49L111 50L111 58L51 58L31 54L17 55Z"/>
+    <path fill="url(#side)" d="M105 39L107 25L116 10L130 6L184 4L191 11L194 48L112 49Z"/>
+    <path fill="#7e8b5d" d="M116 10L130 6L184 4L187 8L133 10L119 13L110 29L107 29Z"/>
+    <path fill="#4e613a" d="M109 31L120 13L132 10L130 46L111 47Z"/>
+    <path fill="#83905e" d="M131 10L184 8L189 13L190 45L132 46Z"/>
+    <path fill="url(#side)" d="M193 30L254 32L259 52L250 58L194 55Z"/>
+    <path fill="#4c5c37" d="M193 30L203 29L257 30L258 34L195 34Z"/>
+    <path fill="#33442d" d="M43 61L254 61L254 67L44 67Z"/>
+    <path fill="#8b9871" stroke-width="1.1" d="M37 56L111 55L114 59L250 58L258 55L258 60L250 63H109L104 60H40Z"/>
+    <path fill="#4a5938" d="M126 8V4L140 3L143 7ZM168 7V3L182 2L186 6Z"/>
+  </g>
+  <!-- Twin barrels and their thick mounting collar, pointing left. -->
+  <g stroke="#29362b" stroke-width="1.2">
+    <path fill="url(#steel)" d="M111 30H72V33H109Z"/>
+    <path fill="url(#steel)" d="M111 35H74V38H110Z"/>
+    <path fill="#47583a" d="M108 27L120 27L121 42H108Z"/>
+    <path fill="#76845a" d="M109 28H115V41H109Z"/>
+    <path stroke="#bbc1a5" stroke-width=".8" d="M76 30.7H105M78 35.7H105"/>
+    <path stroke="#1d2924" stroke-width="1.8" d="M72 30V33M74 35V38"/>
+  </g>
+  <!-- Hatches, seams and broad highlights remain visible in the small sprite. -->
+  <g fill="none" stroke="#35492e" stroke-width="1.2">
+    <path d="M135 12L135 43M185 13L187 43M196 35V53M202 36H229V52H202Z"/>
+    <path d="M145 10V15H164V9M149 15V18H160V15M120 17L119 24L125 25L126 17Z"/>
+    <path d="M206 38H226M206 42H226M206 46H226M235 36H252M236 40H253M237 44H254"/>
+    <path d="M221 24V29M224 26H234V30M241 24V30M244 27H251V30"/>
+  </g>
+  <g stroke="#adb78a" stroke-width=".9" opacity=".8">
+    <path d="M139 12H180M139 43H180M197 35H252M44 45H99M115 50H186M49 63H103"/>
+  </g>
+  <g fill="#2d3e2a" stroke="#9ca97d" stroke-width="1">
+    <path d="M205 50Q201 45 205 42Q210 40 212 45L211 51Z"/>
+    <path d="M34 41L39 38H47L51 42Z"/>
+  </g>
+  <g fill="url(#exhaust)" stroke="#3d3327" stroke-width="1.3">
+    <path d="M236 35H264Q269 36 269 40Q269 44 264 45H236Q232 43 232 40Q232 37 236 35Z"/>
+    <path fill="#4c3b2c" d="M264 38H275V42H264Z"/>
+    <path fill="#252a22" d="M273 38H276V42H273Z"/>
+    <path fill="none" stroke="#c3976c" d="M238 36H260"/>
+    <path fill="none" stroke="#493a29" stroke-width="2" d="M241 35V45M259 35V45"/>
+  </g>
+  <g>
+    <use xlink:href="#bolt" x="139" y="17"/><use xlink:href="#bolt" x="181" y="17"/>
+    <use xlink:href="#bolt" x="139" y="38"/><use xlink:href="#bolt" x="182" y="38"/>
+    <use xlink:href="#bolt" x="197" y="39"/><use xlink:href="#bolt" x="197" y="50"/>
+    <use xlink:href="#bolt" x="229" y="50"/><use xlink:href="#bolt" x="252" y="49"/>
+    <use xlink:href="#bolt" x="64" y="52"/><use xlink:href="#bolt" x="95" y="52"/>
+  </g>
+  <!-- The accepted reference's Croatian checkerboard shield. -->
+  <path fill="#e7e3ca" stroke="#bfc49b" stroke-width=".7" d="M154 17H175V34L170 39H159L154 34Z"/>
+  <path fill="#b94132" d="M154 17H158.2V21.4H154ZM162.4 17H166.6V21.4H162.4ZM170.8 17H175V21.4H170.8ZM158.2 21.4H162.4V25.8H158.2ZM166.6 21.4H170.8V25.8H166.6ZM154 25.8H158.2V30.2H154ZM162.4 25.8H166.6V30.2H162.4ZM170.8 25.8H175V30.2H170.8ZM158.2 30.2H162.4V34.6H158.2ZM166.6 30.2H170.8V34.6H166.6ZM159 34.6H162.4V39H159ZM166.6 34.6H170V39H166.6Z"/>
+</svg>
