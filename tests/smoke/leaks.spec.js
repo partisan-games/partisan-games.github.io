@@ -65,6 +65,8 @@ test(`${switches} game switches leave no listeners, WebGL contexts, graphics car
 
   let afterSecond, gpuInSecondRound
   for (let i = 0; i <= switches; i++) {
+    // Twenty switches span three daily allowances, using the real coin door.
+    await page.clock.setFixedTime(new Date(2026, 10, 14 + Math.floor(i / 10), 12))
     const game = games[i % games.length]
     if (i === 0) await page.goto(`/#${game}`)
     else await page.evaluate(name => {

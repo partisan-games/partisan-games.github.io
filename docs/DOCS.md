@@ -22,12 +22,20 @@ Svi importi idu od korena sajta (`/core/...`). Kod u `core/`, `core3d/` i `ui/` 
 
 ## Od klika do igre
 
-1. Klik na igru u meniju menja adresu u `#<ime>`. Stranica se ne učitava ponovo: `scenes/main.js` na `hashchange` zove `SceneManager.start(ime)`, a prazna adresa vraća meni ponovnim učitavanjem. „Play again“ na isti način pravi novu scenu iste igre, bez ponovnog učitavanja stranice.
+1. Slot „Insert coin“ troši jedan dnevni žeton i menja adresu u `#<ime>`. Stranica se ne učitava ponovo: `scenes/main.js` posle odobrene naplate zove `SceneManager.start(ime)`, a prazna adresa vraća meni ponovnim učitavanjem. Direktan link, osvežavanje i istorija pregledača traže novo ubacivanje žetona. „Play again“ troši još jedan žeton i pravi novu scenu iste igre, bez ponovnog učitavanja stranice; „Continue“ se ne naplaćuje.
 2. `SceneManager` gasi prethodnu igru (`end()`), uvozi `/scenes/<ime>/Main.js`, pravi scenu i čeka njen async `init()`. Ako u međuvremenu krene druga igra, važi samo poslednji poziv, a zakasnelu scenu gasi čim njen `init` završi.
 3. Ako igra ima uvod, prikazuje se početni ekran, a dugme „Start“ pokreće `scene.start()`. Inače igra kreće odmah.
 4. Greška pri učitavanju ili tokom igre gasi igru i prikazuje ekran sa dugmetom za meni (`scenes/main.js`).
 
 Iza menija na širokom ekranu radi igra `lookat-cursor`, na sopstvenom platnu `#malo-platno`.
+
+### Dnevni žetoni
+
+`ui/DailyTokens.js` daje 10 žetona po lokalnom datumu uređaja, zajednički za sve igre. Preostali saldo se čuva u `localStorage` pod `partisan-games.daily-tokens.v1`; prvi novi datum daje ponovo tačno 10, bez prenošenja ostatka. Stanje je vezano za pregledač, bez naloga ili servera. Naplata i povraćaj koriste isti Web Lock za sve tabove; u pregledačima bez Web Locks postoji samo lokalni read/write, bez garancije atomarnosti između tabova. Čitanje brojača ne zapisuje stanje, da osvežavanje drugog taba ne pregazi naplatu pri promeni dana.
+
+`ui/Arcade.js` dodaje brojač gore desno, slotove na karticama, animaciju žetona i dijalog za direktne linkove ili prazan saldo; izgled je u `ui/arcade.css`. Brojač se osvežava u ponoć, pri povratku na stranicu i promeni skladišta u drugom tabu. Brzi ponovljeni klikovi se blokiraju do završetka učitavanja. Neuspelo ili prekinuto učitavanje vraća žeton istog dana; povraćaj prethodnog dana ne dopunjava novi saldo. Pozadinska animacija naslovnice ne troši žeton. Bez dostupnog lokalnog skladišta prikazuje se objašnjenje umesto besplatnog zaobilaženja naplate.
+
+Pripremljene su ciljane provere dnevnog salda i ulaska/ponovne igre u `tests/unit/DailyTokens.test.js` i `tests/smoke/arcade.spec.js`; čeka se korisnikovo odobrenje za pokretanje. Postojeći smoke pomoćnik sada ubacuje pravi žeton pre učitavanja scene; duga provera 20 promena igara pomera kalendarski datum posle svakih 10 ulazaka, bez isključivanja naplate.
 
 ## Scena
 

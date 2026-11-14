@@ -226,25 +226,6 @@ button {
   transform: rotateY(-20deg);
 }
 
-.github {
-  background: var(--red);
-  color: #fff;
-  padding: 8px 40px;
-  position: absolute;
-  right: -60px;
-  text-align: center;
-  text-decoration: none;
-  top: 50px;
-  transform: rotate(45deg);
-  transition: 0.5s;
-  width: 250px;
-  z-index: var(--z-top);
-}
-
-.github:hover {
-  background-color: rgba(27, 27, 27, .75);
-}
-
 /* GAME SCREEN */
 
 .central-screen {

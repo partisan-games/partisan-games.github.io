@@ -45,6 +45,12 @@ export const onScene = (page, fn, arg) => page.evaluate(([source, value]) =>
 
 /** Waits until the game in the address has loaded: it exists and the loading spinner is gone. */
 export async function waitForScene(page) {
+  await page.waitForFunction(() =>
+    document.querySelector('.arcade-dialog[open] .arcade-dialog-insert:not([hidden])') ||
+    document.body.dataset.loadedGame === location.hash.slice(1), null, { timeout: 60_000 })
+  const coinDoor = page.locator('.arcade-dialog[open] .arcade-dialog-insert')
+  if (await coinDoor.isVisible()) await coinDoor.click()
+  await page.waitForFunction(() => document.body.dataset.loadedGame === location.hash.slice(1), null, { timeout: 60_000 })
   await page.waitForFunction(() => {
     const spinner = document.querySelector('img[src*="loader.gif"]')
     if (spinner && spinner.style.display !== 'none') return false

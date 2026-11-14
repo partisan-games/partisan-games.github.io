@@ -30,11 +30,11 @@ The separate checks and how the tests work: [docs/TESTING.md](docs/TESTING.md).
 
 ### Ideje za kasnije
 
-- analiziraj i napiši plan: dodati ubacivanje žetona. želim da igrač svaki dan dobije po 10 besplatnih žetona koje može iskorititi za bilo koju igru. žetoni se ne talože, svaki dan počinje sa 10. treba osmisliti dizajn da ima izgled i osećaj stare arkadne mašine. na naslovnici svaka igra treba da bude nekako zaključana, i da ima slot da se ubaci žeton, nakon čega se može igrati. play again troši još jedan žeton. na naslovnici treba prikazivati broj žetona, možda gore desno.
 - ocenjivanje igara?
 - dodati profil korisnika
 
 Ideje za nivoe:
+- tenkic ide
 - sremski front (topovi)
 - odbrani polozaj (kamera odozgo, nadiru sa svih strana)
 
