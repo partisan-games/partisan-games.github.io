@@ -52,13 +52,11 @@ test('shore positions fit the actual coast and remain fixed while the camera mov
   assert.ok(post.x > cameraX + platno.width)
 })
 
-test('the gun waits, fires four rounds from its visible barrel, rests and stops on death or pause', t => {
+test('the gun fires immediately, fires four rounds from its visible barrel, rests and stops on death or pause', t => {
   const { session, target } = setup(t)
   const post = new MachineGun({ session, target, viewLeft: () => 0 })
   post.deploy(400, 20, -1)
-  post.update(0)
   assert.equal(post.bullets.projectiles.some(p => p.vidljiv), false)
-  session.update(.41)
   const muzzle = post.muzzle
   post.update(0)
   const first = post.bullets.projectiles[0]
@@ -90,6 +88,31 @@ test('a coastal gun does not shoot through the landward side of its position', t
   target.y = 10
   for (let i = 0; i < 10; i++) { session.update(1); post.update(.1) }
   assert.equal(post.bullets.projectiles.some(p => p.vidljiv), false)
+})
+
+test('the first visible edge of a position starts fire without a distance or aiming wait', t => {
+  const { session, target } = setup(t)
+  const post = new MachineGun({ session, target, viewLeft: () => 0 })
+  post.deploy(platno.width + 20, 20, -1)
+  post.update(0)
+  assert.equal(post.prikazan, true)
+  assert.ok(post.bullets.projectiles.some(p => p.vidljiv))
+})
+
+test('both shores can engage the middle of the water on a tall viewport', t => {
+  const originalHeight = platno.height
+  t.after(() => { platno.height = originalHeight })
+  platno.height = 1200
+  for (const side of [-1, 1]) {
+    const { session, target } = setup(t)
+    target.y = 600
+    const post = new MachineGun({ session, target, viewLeft: () => 0 })
+    post.deploy(400, side < 0 ? 20 : 1180, side)
+    post.update(0)
+    session.update(.41)
+    post.update(0)
+    assert.ok(post.bullets.projectiles.some(p => p.vidljiv))
+  }
 })
 
 test('destruction ignites once, pauses, and clears before the position is reused', t => {

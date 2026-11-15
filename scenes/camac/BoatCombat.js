@@ -24,8 +24,9 @@ function hitTime(shot, target, before) {
 
 /** One hit phase after all actors and projectiles have moved. */
 export default class BoatCombat {
-  constructor(session) {
+  constructor(session, onHit = () => {}) {
     this.session = session
+    this.onHit = onHit
     this.actors = new Map()
     this.before = new Map()
   }
@@ -58,8 +59,9 @@ export default class BoatCombat {
           const { target, time, lifeId } = first
           shot.postavi(shot.start.x + (shot.end.x - shot.start.x) * time,
             shot.start.y + (shot.end.y - shot.start.y) * time)
+          const { x, y } = shot
           shot.reset()
-          target.reagujNaPogodak(shot.steta, lifeId)
+          if (target.reagujNaPogodak(shot.steta, lifeId)) this.onHit(x, y, target)
         } else if (shot.vanEkrana) shot.reset()
         shot.start = shot.end = null
       }

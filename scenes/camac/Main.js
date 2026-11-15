@@ -8,6 +8,7 @@ import collideWithWreck from './wreckCollision.js'
 import BoatCamera from './BoatCamera.js'
 import ShoreDefenses from './ShoreDefenses.js'
 import Landing from './Landing.js'
+import WaterEffects from './WaterEffects.js'
 
 export default class extends Scena2D {
   constructor(options = {}) {
@@ -17,12 +18,15 @@ export default class extends Scena2D {
   init() {
     this.cameraX = 0
     this.camera = new BoatCamera()
-    this.combat = new BoatCombat(this.session)
+    this.combat = new BoatCombat(this.session, (x, y, target) =>
+      this.waterEffects.hit(x, y, target === this.player || target === this.encounter.boat))
     const startX = this.camera.screenX(platno.width, 0)
     this.player = new Boat(() => this.cameraX, this.session, startX)
     this.player.postavi(startX, platno.height / 2)
     this.obala = new Obala(() => this.cameraX)
     this.add(this.obala)
+    this.waterEffects = new WaterEffects({ session: this.session, viewLeft: () => this.cameraX })
+    this.add(...this.waterEffects.drawables)
     this.addCombatant(this.player, 'partisan')
     this.encounter = new SBoatEncounter({ session: this.session, viewLeft: () => this.cameraX, target: this.player })
     this.addCombatant(this.encounter.boat, 'axis')
@@ -43,6 +47,7 @@ export default class extends Scena2D {
 
   update(dt, t) {
     if (this.session.state !== 'running') return
+    this.waterEffects.update(dt)
     if (this.landing.active) {
       this.landing.update()
       if (this.landing.complete) this.victory('Your troops have landed on Šolta.')
@@ -58,6 +63,8 @@ export default class extends Scena2D {
     this.cameraX = this.camera.left(this.player.x, platno.width, this.player.sirina || 0)
     this.combat.resolve()
     collideWithWreck(this.player, this.encounter.boat, previousPlayer, previousWreck)
+    this.waterEffects.trail(this.player, previousPlayer, dt)
+    this.waterEffects.trail(this.encounter.boat, previousWreck, dt)
     this.landing.update()
     this.cameraX = this.camera.left(this.player.x, platno.width, this.player.sirina || 0)
     if (this.player.dead) this.defeat()
