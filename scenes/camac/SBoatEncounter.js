@@ -18,7 +18,7 @@ export default class SBoatEncounter {
     if (boat.active) {
       const outside = boat.x + boat.sirina / 2 < this.viewLeft() ||
         (boat.withdrawing && boat.x - boat.sirina / 2 > this.viewLeft() + platno.width)
-      if ((boat.dead && now >= boat.wreckUntil) || (!boat.dead && (outside || now - boat.born >= 18))) {
+      if ((boat.dead && boat.wreck.finished) || (!boat.dead && (outside || now - boat.born >= 18))) {
         boat.active = false
         boat.nestani()
         this.nextAt = now + 28

@@ -4,6 +4,7 @@ import Boat from './Boat.js'
 import Obala from './Obala.js'
 import BoatCombat from './BoatCombat.js'
 import SBoatEncounter from './SBoatEncounter.js'
+import collideWithWreck from './wreckCollision.js'
 
 export default class extends Scena2D {
   init() {
@@ -27,10 +28,14 @@ export default class extends Scena2D {
   update(dt, t) {
     if (this.session.state !== 'running') return
     this.encounter.update()
+    const previousPlayer = { x: this.player.x, y: this.player.y }
+    const previousWreck = { x: this.encounter.boat.x, y: this.encounter.boat.y }
     this.combat.beginFrame()
     super.update(dt, t)
     this.cameraX = this.player.x - platno.width / 3
     this.combat.resolve()
+    collideWithWreck(this.player, this.encounter.boat, previousPlayer, previousWreck)
+    this.cameraX = this.player.x - platno.width / 3
     if (this.player.dead) this.defeat()
   }
 

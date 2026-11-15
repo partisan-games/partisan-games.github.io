@@ -4,6 +4,7 @@ import Weapon from '/core/gameplay/Weapon.js'
 import Cooldown from '/core/gameplay/Cooldown.js'
 import CombatTarget from './CombatTarget.js'
 import BoatBullet from './BoatBullet.js'
+import SinkingWreck from './SinkingWreck.js'
 
 const GUN_MOUNTS = [-84 / 300, 101 / 300]
 const difference = (to, from) => Math.atan2(Math.sin(to - from), Math.cos(to - from))
@@ -17,6 +18,8 @@ export default class SBoat extends CombatTarget {
     this.session = session
     this.target = target
     this.active = false
+    this.wreck = new SinkingWreck(this, session.clock)
+    this.predmeti.push(this.wreck.effects)
     this.bullets = new ProjectilePool({ owner: this, create: () => {
       const bullet = new BoatBullet(viewLeft)
       bullet.steta = 5
@@ -39,7 +42,8 @@ export default class SBoat extends CombatTarget {
     this.shots = this.bursts = 0
     this.withdrawing = false
     this.born = this.session.clock.now
-    this.wreckUntil = null
+    this.wreck.reset()
+    this.polozaj.z = 0
     this.active = true
     this.burstWait.start(1.8)
     this.weapon.cooldown.start(0)
@@ -59,12 +63,16 @@ export default class SBoat extends CombatTarget {
   reagujNaPogodak(damage, lifeId = this.lifeId) {
     const alive = this.alive
     const applied = super.reagujNaPogodak(damage, lifeId)
-    if (alive && this.dead) this.wreckUntil = this.session.clock.now + 5
+    if (alive && this.dead) this.wreck.start()
     return applied
   }
 
   update(dt) {
-    if (!this.active || this.session.state !== 'running' || this.dead) return
+    if (!this.active || this.session.state !== 'running') return
+    if (this.dead) {
+      this.polozaj.z = this.wreck.solid ? 0 : .5
+      return
+    }
     const age = this.session.clock.now - this.born
     if (age > 10 || this.bursts >= 2) this.withdrawing = true
     const lane = platno.height * (this.side > 0 ? .7 : .3)
@@ -91,18 +99,18 @@ export default class SBoat extends CombatTarget {
 
   render() {
     if (!this.prikazan || !this.slika.naturalWidth) return
+    const sinking = this.dead ? this.wreck.progress : 0
+    if (sinking >= 1) return
     ctx.save()
-    ctx.globalAlpha = this.dead ? .55 : 1
+    ctx.globalAlpha = (1 - sinking) ** .7
     ctx.translate(this.x, this.y)
     ctx.rotate(this.ugao)
+    ctx.scale(1 - sinking * .08, 1 - sinking * .45)
     ctx.drawImage(this.slika, -this.sirina / 2, -this.visina / 2, this.sirina, this.visina)
-    ctx.restore()
     for (let i = 0; i < GUN_MOUNTS.length; i++) {
-      const mount = this.mount(i)
       ctx.save()
-      ctx.globalAlpha = this.dead ? .55 : 1
-      ctx.translate(mount.x, mount.y)
-      ctx.rotate(this.gunAngle)
+      ctx.translate(GUN_MOUNTS[i] * this.sirina, 0)
+      ctx.rotate(this.gunAngle - this.ugao)
       ctx.fillStyle = '#33483e'
       ctx.fillRect(-4, -2.5, 10, 5)
       ctx.fillStyle = '#aab8a1'
@@ -112,5 +120,6 @@ export default class SBoat extends CombatTarget {
       ctx.fillRect(9, -1.5, 3, 3)
       ctx.restore()
     }
+    ctx.restore()
   }
 }

@@ -11,6 +11,7 @@ export default class Boat extends CamacIgracOdozgo {
   constructor(viewLeft, session) {
     super()
     if (this.input.keyboard) this.input.keyboard.attackKey = 'Space'
+    this.input.screen.addGameButtons({ attack: '💥' })
     this.viewLeft = viewLeft
     this.session = session
     this.combatLife = new CombatLife({ session, onDeath: () => this.stani() })

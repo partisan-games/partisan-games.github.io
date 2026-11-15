@@ -25,6 +25,8 @@ Uništenje ne poništava brzinu objekta: odvojiti borbenu smrt od pada, dodira t
 
 Jedno stanje ima jednog vlasnika. Stara imena mogu biti pristupnici istom stanju, a ne dodatna kopija. Bodovanje pripada igri; smrt, respawn i vraćanje u pool nisu ista operacija. Odloženi efekat mora pripadati životu objekta koji ga je pokrenuo, da reciklirani objekat ne primi stari pogodak.
 
+Smrt borbene mete ne uklanja automatski njenu fizičku prepreku. Kod tonjenja posebno odrediti kada olupina prestaje da blokira plovidbu, a preostali podvodni prikaz staviti iza plovila; brzi sudar proveravati duž pomeranja, ne samo preklapanjem na kraju frejma. Provere obuhvataju rotirane trupove, izlazak iz početnog preklapanja, pauzu i brisanje stanja tonjenja pri ponovnoj upotrebi.
+
 [Sesija](../core/runtime/GameSession.js) razdvaja gameplay vreme i vreme prikaza: posle ishoda mogu trajati završni efekti, ali ne nova borba. Petlja sama ne zaustavlja sva pravila igre; njihovi vlasnici moraju poštovati stanje sesije. Odložene akcije i ostali resursi vezuju se za vlasnikov životni ciklus.
 
 [Scena](../core/Scena.js) ima rekurzivni i zaseban opt-in fiksni put ažuriranja. Isti objekat ne uključivati u oba puta niti ga ručno ažurirati ako je već registrovan. Grafički roditelj, vlasnik simulacije i vlasnik gašenja nisu automatski ista stvar. Jednokratna komanda igrača ne sme se ponoviti kroz više simulacionih podkoraka.
