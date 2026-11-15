@@ -1,6 +1,6 @@
 import Vector from '/core/Vector.js'
 
-const layers = { unit: -1, projectile: -2, effect: -3 }
+export const layers = Object.freeze({ background: 10, ground: -.5, unit: -1, projectile: -2, effect: -3 })
 
 class FlameLayer {
   constructor(owner) {

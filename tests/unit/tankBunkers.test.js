@@ -1,6 +1,7 @@
 import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
+import spaceBunkers from '/scenes/2d-tank/spaceBunkers.js'
 
 let Bunker, GameClock, TenkLevo, CombatTarget, createCannon, shellAngle, firstHit, shellGravity, shellSpeed, platno
 
@@ -22,6 +23,27 @@ function battle(options = {}) {
   const bunker = new Bunker({ clock, target, src: null, sirina: 50, visina: 50, x: 400, y: 200, groundY: 300, ...options })
   return { clock, target, bunker }
 }
+
+test('different-width bunkers keep an edge gap initially and throughout repeated returns', () => {
+  const bunkers = [
+    battle({ x: 900, sirina: 300 }).bunker,
+    battle({ x: 920, sirina: 80 }).bunker,
+  ]
+  spaceBunkers(bunkers, 800)
+  assert.ok(bunkers[1].x - bunkers[1].sirina / 2 - (bunkers[0].x + bunkers[0].sirina / 2) >= 120)
+  for (let index = 0; index < 8; index++) {
+    const bunker = bunkers[index % 2]
+    const other = bunkers[(index + 1) % 2]
+    const life = bunker.lifeId
+    bunker.umri()
+    bunker.x = -bunker.sirina
+    bunker.proveriGranice()
+    assert.ok(bunker.x - bunker.sirina / 2 - (other.x + other.sirina / 2) >= 120)
+    assert.ok(bunker.x - bunker.sirina / 2 > 800)
+    assert.equal(bunker.lifeId, life + 1)
+    assert.equal(bunker.alive, true)
+  }
+})
 
 test('machine guns wait, aim at the tank and reuse spent bullets within a burst', () => {
   const { clock, target, bunker } = battle()

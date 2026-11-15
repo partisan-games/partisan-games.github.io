@@ -4,15 +4,17 @@
  * A projectile back in the pool is out of play, not destroyed.
  */
 export default class ProjectilePool {
-  constructor({ owner, create }) {
+  constructor({ owner, create, onFire }) {
     this.owner = owner
     this.create = create
+    this.onFire = onFire
     this.projectiles = []
   }
 
   fire(position, angle, speed) {
     const projectile = this.projectiles.find(free => !free.vidljiv) || this.#add()
     projectile.pali(position, angle, speed)
+    this.onFire?.({ projectile, position, angle })
   }
 
   /** Create inactive projectiles before loading assets; existing flights are left alone. */

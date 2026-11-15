@@ -67,3 +67,25 @@ test('a decoding failure rejects preparation instead of reporting assets ready',
   }) })
   await assert.rejects(prepareCombatAssets([pool]), /decode failed/)
 })
+
+test('shot feedback is called after launch for both new and reused projectiles, never during preparation', () => {
+  const events = []
+  const pool = new ProjectilePool({ owner: { predmeti: [] }, create: () => ({
+    vidljiv: false,
+    reset() { this.vidljiv = false },
+    pali() { this.vidljiv = true },
+  }), onFire: event => {
+    assert.equal(event.projectile.vidljiv, true)
+    events.push(event)
+  } })
+  pool.prepare()
+  assert.equal(events.length, 0)
+  const position = { x: 10, y: 20 }
+  pool.fire(position, .3, 500)
+  pool.projectiles[0].reset()
+  pool.fire(position, .7, 500)
+  assert.equal(events.length, 2)
+  assert.equal(events[0].projectile, events[1].projectile)
+  assert.equal(events[0].position, position)
+  assert.equal(events[1].angle, .7)
+})
