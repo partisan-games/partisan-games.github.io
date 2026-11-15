@@ -6,7 +6,7 @@ let createGroundEnemies, GameClock, TenkLevo, platno
 
 before(async() => {
   createPageElements()
-  createGroundEnemies = (await import('/scenes/2d-tank/GroundEnemies.js')).default
+  createGroundEnemies = (await import('/scenes/to-trieste/GroundEnemies.js')).default
   GameClock = (await import('/core/runtime/GameClock.js')).default
   TenkLevo = (await import('/scenes/tenkici/TenkLevo.js')).default
   platno = (await import('/core/io/platno.js')).default

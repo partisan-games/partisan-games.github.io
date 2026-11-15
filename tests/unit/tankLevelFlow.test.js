@@ -26,7 +26,7 @@ test('the complete level keeps scrolling through ground combat, aircraft passes,
   const imageDescriptor = Object.getOwnPropertyDescriptor(globalThis, 'Image')
   Object.defineProperty(globalThis, 'Image', { value: LoadedImage, configurable: true, writable: true })
   t.after(() => Object.defineProperty(globalThis, 'Image', imageDescriptor))
-  const Scene = (await import('/scenes/2d-tank/Main.js')).default
+  const Scene = (await import('/scenes/to-trieste/Main.js')).default
   const scene = new Scene()
   t.after(() => scene.end())
   await scene.init()

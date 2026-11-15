@@ -6,7 +6,7 @@ let CombatTarget, Granata, GameClock, Predmet, platno
 
 before(async() => {
   createPageElements()
-  CombatTarget = (await import('/scenes/2d-tank/CombatTarget.js')).default
+  CombatTarget = (await import('/scenes/to-trieste/CombatTarget.js')).default
   Granata = (await import('/core/actor/projektili/Granata.js')).default
   GameClock = (await import('/core/runtime/GameClock.js')).default
   Predmet = (await import('/core/actor/Predmet.js')).default

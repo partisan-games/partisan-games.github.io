@@ -7,7 +7,7 @@ let AirRaids, TenkLevo, Granata, platno, shellGravity
 
 before(async() => {
   createPageElements()
-  AirRaids = (await import('/scenes/2d-tank/AirRaids.js')).default
+  AirRaids = (await import('/scenes/to-trieste/AirRaids.js')).default
   TenkLevo = (await import('/scenes/tenkici/TenkLevo.js')).default
   Granata = (await import('/core/actor/projektili/Granata.js')).default
   platno = (await import('/core/io/platno.js')).default

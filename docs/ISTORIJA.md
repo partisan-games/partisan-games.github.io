@@ -22,6 +22,10 @@ Dokaz upotrebe proveravati u pouzdanom izvoru za konkretan kontekst, prvenstveno
 
 Brzina, šteta, učestalost pojavljivanja i druga podešavanja igre vode se kao balans, odvojeno od istorijskih karakteristika. Novi zapis dodati po predmetu ili jedinici kada postoji dovoljno podataka; izvorne zbirke ispod ostaju dokazni materijal, bez prepisivanja svih podataka u više kataloga.
 
+## Istorijsko polazište za Pohod na Trst
+
+Polazište za dalju istorijsku razradu je nastupanje Prve tenkovske brigade u sastavu Četvrte armije prema Trstu 1945. godine ([Vojno delo, Oklopne jedinice, str. 143](https://www.vojnodelo.mod.gov.rs/multimedia/file/vojna_biblioteka/vbnp-32-1962-1_deo-1-230.pdf)). To ne potvrđuje postojeći sastav protivnika i opreme za svaku borbu; svaki izabrani deo trase proveriti prema pravilima iznad. Dogovoreni okvir igre čuva [kontekst igre](IGRE.md#to-trieste).
+
 ## Glavni izvori za bitke i kontekst nivoa
 
 Po odluci vlasnika, sledeće stranice su glavne polazne reference za istorijsko istraživanje nivoa:

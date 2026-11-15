@@ -7,7 +7,7 @@ let BattleFeedback
 
 before(async() => {
   createPageElements()
-  BattleFeedback = (await import('/scenes/2d-tank/BattleFeedback.js')).default
+  BattleFeedback = (await import('/scenes/to-trieste/BattleFeedback.js')).default
 })
 
 test('feedback is bounded, expires on its clock, and observes damage and death once', () => {

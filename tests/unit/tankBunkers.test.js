@@ -1,18 +1,18 @@
 import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
-import spaceBunkers from '/scenes/2d-tank/spaceBunkers.js'
+import spaceBunkers from '/scenes/to-trieste/spaceBunkers.js'
 
 let Bunker, GameClock, TenkLevo, CombatTarget, createCannon, shellAngle, firstHit, shellGravity, shellSpeed, platno
 
 before(async() => {
   createPageElements()
-  Bunker = (await import('/scenes/2d-tank/Bunker.js')).default
+  Bunker = (await import('/scenes/to-trieste/Bunker.js')).default
   GameClock = (await import('/core/runtime/GameClock.js')).default
   TenkLevo = (await import('/scenes/tenkici/TenkLevo.js')).default
-  CombatTarget = (await import('/scenes/2d-tank/CombatTarget.js')).default
-  ;({ createCannon, shellAngle } = await import('/scenes/2d-tank/EnemyWeapons.js'))
-  ;({ firstHit } = await import('/scenes/2d-tank/lineOfFire.js'))
+  CombatTarget = (await import('/scenes/to-trieste/CombatTarget.js')).default
+  ;({ createCannon, shellAngle } = await import('/scenes/to-trieste/EnemyWeapons.js'))
+  ;({ firstHit } = await import('/scenes/to-trieste/lineOfFire.js'))
   ;({ shellGravity, shellSpeed } = await import('/scenes/tenkici/shellPhysics.js'))
   platno = (await import('/core/io/platno.js')).default
 })

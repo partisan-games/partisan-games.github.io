@@ -3,7 +3,7 @@ import Plamen from '/core/actor/Plamen.js'
 /** Preserve the original particle motion in the moving emitter's coordinate frame. */
 export default class AttachedFlame extends Plamen {
   constructor(x, y) {
-    super(x, y)
+    super(x, y, { reuseParticles: true })
     this.previousX = this.x
     this.previousY = this.y
   }

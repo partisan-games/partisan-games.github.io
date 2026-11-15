@@ -1,7 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import ProjectilePool from '/core/actor/ProjectilePool.js'
-import prepareCombatAssets from '/scenes/2d-tank/prepareCombatAssets.js'
+import prepareCombatAssets from '/scenes/to-trieste/prepareCombatAssets.js'
 
 test('prepared projectiles stay inactive, are reused by fire, and preparation leaves flights untouched', () => {
   const owner = { predmeti: [] }

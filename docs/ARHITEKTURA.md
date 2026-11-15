@@ -19,6 +19,10 @@ Zajednička pravila sastavljaju se kroz male saradnike, poput zdravlja i oružja
 
 Kod efekta vezanog za pokretni objekat razlikovati kretanje izvora od sopstvenog kretanja čestica. Pomeraj izvora preneti na postojeće čestice pre stvaranja novih; ne ispravljati kosi trag sabijanjem njihovih položaja ili ukidanjem brzina, jer to menja izgled efekta. Regresiona provera poredi efekat sa izvornim pri mirovanju, pa iste relativne putanje pri pomeranju izvora.
 
+Ponovna upotreba čestica mora resetovati ceo njihov život i sačuvati redosled preživelih pri uklanjanju isteklih iz istog niza. Optimizacija memorije ne sme usput menjati broj, putanje, trajanje ili crtanje čestica; proveravati jednakost sa izvornim efektom i posle ponovne upotrebe.
+
+Uništenje ne poništava brzinu objekta: odvojiti borbenu smrt od pada, dodira tla i uklanjanja olupine. Pri klizanju trenje smanjuje brzinu u odnosu na teren, ne u odnosu na ekran koji se pomera; proveriti kontinuitet brzine pri pogotku i dodiru tla.
+
 Jedno stanje ima jednog vlasnika. Stara imena mogu biti pristupnici istom stanju, a ne dodatna kopija. Bodovanje pripada igri; smrt, respawn i vraćanje u pool nisu ista operacija. Odloženi efekat mora pripadati životu objekta koji ga je pokrenuo, da reciklirani objekat ne primi stari pogodak.
 
 [Sesija](../core/runtime/GameSession.js) razdvaja gameplay vreme i vreme prikaza: posle ishoda mogu trajati završni efekti, ali ne nova borba. Petlja sama ne zaustavlja sva pravila igre; njihovi vlasnici moraju poštovati stanje sesije. Odložene akcije i ostali resursi vezuju se za vlasnikov životni ciklus.
@@ -40,6 +44,8 @@ Klon modela može deliti materijale, geometriju i klipove sa drugim instancama. 
 JS garbage collector ne dokazuje oslobađanje Ammo memorije. Native vlasnik oslobađa svoje alokacije, ne pozajmljene reference iz gettera, i prethodno ih odvaja od sveta. [Heightfield podaci](../core3d/physics/index.js) ostaju poznato ograničenje lokalnog build-a: oslobađanje shape-a ne oslobađa njegov zaseban heap buffer. Rešenje tog ograničenja prati plan.
 
 ## Obrasci pri nadogradnji
+
+Redosled crtanja definisati za sve delove jedinice i efekte: grafičko roditeljstvo ne prenosi automatski sloj. U 2D tenku pejzaž i civilna dekoracija ostaju iza tela i cevi, zatim dolaze projektili, pa plamen i eksplozije. Izdvojeni plamen crta se samo jednom i poštuje vidljivost vlasnika; provera treba da prati stvarni redosled crtanja, ne samo vrednosti slojeva.
 
 Najpre pronaći postojeću odgovornost i njene korisnike, pa odrediti najmanju potpunu promenu. Pravilo jedne igre ostaje uz nju; zajednički deo izdvojiti kada je zajednički ugovor stvarno poznat. Izmena engine-a mora razjasniti posledice po sve pogođene korisnike, bez skrivenih promena podrazumevanog ponašanja.
 

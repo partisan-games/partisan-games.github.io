@@ -39,7 +39,7 @@ export default class Aircraft extends CombatTarget {
 
   launch() {
     this.reset()
-    if (this.plamen) this.plamen.iskre.length = 0
+    if (this.plamen) this.plamen.clear()
     this.postavi(platno.width + this.sirina / 2 + 20,
       this.groundY - Math.min(230, Math.max(120, platno.height * .28)))
     this.dx = -this.flightSpeed

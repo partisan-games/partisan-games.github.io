@@ -21,6 +21,10 @@ const getSmokeColor = vreme => {
 
 class Iskra {
   constructor(x, y, dx, dy) {
+    this.reset(x, y, dx, dy)
+  }
+
+  reset(x, y, dx, dy) {
     this.x = x
     this.y = y
     this.dx = dx
@@ -44,8 +48,9 @@ class Iskra {
 }
 
 export default class Plamen {
-  constructor(x = 200, y = 200) {
+  constructor(x = 200, y = 200, { reuseParticles = false } = {}) {
     this.iskre = []
+    this.freeParticles = reuseParticles ? [] : null
     this.x = x
     this.y = y
   }
@@ -55,14 +60,34 @@ export default class Plamen {
     for (let i = 0; i < cesticaPoKrugu; i++) {
       const dx = (Math.random() * 2 * brzina - brzina) / 2
       const dy = 0 - Math.random() * 2 * brzina
-      this.iskre.push(new Iskra(this.x, this.y, dx, dy))
+      const particle = this.freeParticles?.pop()
+      if (particle) particle.reset(this.x, this.y, dx, dy)
+      this.iskre.push(particle || new Iskra(this.x, this.y, dx, dy))
     }
   }
 
   update(dt) {
     this.stvaraj(dt)
+    if (this.freeParticles) {
+      let active = 0
+      for (let i = 0; i < this.iskre.length; i++) {
+        const particle = this.iskre[i]
+        particle.update(dt)
+        if (particle.vreme < zivotniVek) this.iskre[active++] = particle
+        else this.freeParticles.push(particle)
+      }
+      this.iskre.length = active
+      return
+    }
     this.iskre.forEach(iskra => iskra.update(dt))
     this.iskre = this.iskre.filter(iskra => iskra.vreme < zivotniVek)
+  }
+
+  clear() {
+    if (this.freeParticles) {
+      for (const particle of this.iskre) this.freeParticles.push(particle)
+    }
+    this.iskre.length = 0
   }
 
   render(praviDim = false) {

@@ -25,14 +25,9 @@ The separate checks and how the tests work: [docs/TESTING.md](docs/TESTING.md).
 
 ## TODO
 
-- vis: nađi bolji zvuk pucanja
 - camac: uskladiti kretanje čamca i kretanje pozadine, odnosno obala i reke. trenutno kada čamac ide previše desno dođe do kraja ekrana i kretanje reke prestaje. smisliti bolje rešenje. odrediti žanr igre i ispitati standardna rešenja u okviru žanra.
+- vis: nađi bolji zvuk pucanja
 - proveri warplane na mobilnom (privremeno isključeno hide-on-mobile)
-
-### Ideje za kasnije
-
-- ocenjivanje igara?
-- dodati profil korisnika
 
 Ideje za nivoe:
 - sremski front (topovi)

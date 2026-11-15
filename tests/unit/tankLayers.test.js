@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import CombatLayers from '/scenes/2d-tank/CombatLayers.js'
+import CombatLayers from '/scenes/to-trieste/CombatLayers.js'
 import Renderer2D from '/core/Renderer2D.js'
 
 const sprite = (name, z = 0) => ({

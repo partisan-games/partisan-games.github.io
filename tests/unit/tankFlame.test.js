@@ -6,7 +6,7 @@ let AttachedFlame, Plamen
 
 before(async() => {
   createPageElements()
-  AttachedFlame = (await import('/scenes/2d-tank/AttachedFlame.js')).default
+  AttachedFlame = (await import('/scenes/to-trieste/AttachedFlame.js')).default
   Plamen = (await import('/core/actor/Plamen.js')).default
 })
 
@@ -42,4 +42,23 @@ test('scroll and recoil translate old particles without altering their motion or
       assert.equal(particle.vreme, reference.vreme)
     }
   }
+})
+
+test('attached flames retain their active array and reuse expired particles after clearing', t => {
+  t.mock.method(Math, 'random', () => .75)
+  const flame = new AttachedFlame(400, 300)
+  const active = flame.iskre
+  flame.update(.1)
+  const firstGeneration = new Set(active)
+  flame.update(1.25)
+  assert.equal(flame.iskre, active)
+  assert.equal(active.length, 0)
+  assert.ok([...firstGeneration].every(p => flame.freeParticles.includes(p)))
+  flame.update(.1)
+  const reused = [...active]
+  flame.clear()
+  flame.update(.1)
+  assert.equal(flame.iskre, active)
+  assert.ok(active.every(p => reused.includes(p)), 'cleared particles return to the pool')
+  assert.ok(active.every(p => p.vreme === .1), 'reused particles start a fresh lifetime')
 })

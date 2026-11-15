@@ -3,6 +3,13 @@ import platno, { ctx } from '/core/io/platno.js'
 import { layers } from './CombatLayers.js'
 
 const TILE_WIDTH = 512
+const CLOUD_SPACING = 1300
+const CLOUDS = [
+  { x: 90, height: .28, scale: .7, alpha: .48 },
+  { x: 410, height: .36, scale: 1, alpha: .65 },
+  { x: 760, height: .23, scale: .8, alpha: .5 },
+  { x: 1080, height: .32, scale: 1.1, alpha: .6 },
+]
 const VILLAGE_DEPTHS = [
   { speed: .32, setback: 66, scale: .6, alpha: .65, trees: [50, 300], houses: [] },
   { speed: .45, setback: 40, scale: .8, alpha: .78, trees: [1200], houses: [] },
@@ -17,12 +24,13 @@ export default class Battlefield extends Predmet {
     this.distance = distance
     this.roadHeight = Math.min(140, Math.max(64, platno.height * .16))
     this.forest = new Predmet('nature/shumarak.png', { sirina: 250, vidljiv: false })
+    this.cloud = new Predmet('nature/oblak.gif', { sirina: 190, vidljiv: false })
     this.buildings = [
       new Predmet('buildings/kuca-07.png', { sirina: 72, vidljiv: false }),
       new Predmet('buildings/kuca-04.png', { sirina: 90, vidljiv: false }),
       new Predmet('buildings/crkva-01.png', { sirina: 78, vidljiv: false }),
     ]
-    this.predmeti.push(this.forest, ...this.buildings)
+    this.predmeti.push(this.forest, this.cloud, ...this.buildings)
     this.road = this.createRoad()
     this.sprites = new Map()
   }
@@ -129,19 +137,28 @@ export default class Battlefield extends Predmet {
     ctx.restore()
   }
 
+  renderClouds(distance) {
+    const phase = distance * .04 % CLOUD_SPACING
+    ctx.save()
+    for (let origin = -CLOUD_SPACING - phase; origin < platno.width; origin += CLOUD_SPACING) {
+      for (const cloud of CLOUDS) {
+        const x = origin + cloud.x
+        const width = this.cloud.sirina * cloud.scale
+        if (x + width < 0 || x > platno.width) continue
+        ctx.globalAlpha = cloud.alpha
+        this.drawSprite(this.cloud, x, this.groundY * cloud.height, cloud.scale)
+      }
+    }
+    ctx.restore()
+  }
+
   render() {
     const distance = this.distance()
     const ground = this.groundY
     ctx.save()
     ctx.fillStyle = this.sky
     ctx.fillRect(0, 0, platno.width, platno.height)
-    ctx.fillStyle = '#e8e9d599'
-    for (let i = -1; i < Math.ceil(platno.width / 440) + 1; i++) {
-      const x = i * 440 - distance * .04 % 440
-      ctx.beginPath()
-      ctx.ellipse(x + 120, ground * .3 + i % 2 * 24, 85, 13, 0, 0, Math.PI * 2)
-      ctx.fill()
-    }
+    this.renderClouds(distance)
     this.ridge(distance * .1, ground - 120, 27, '#9ba99a')
     this.ridge(distance * .24, ground - 65, 20, '#7d9276')
     this.ridge(distance * .28, ground - 82, 5, '#87946d')

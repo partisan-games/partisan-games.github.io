@@ -7,12 +7,13 @@ Zajednička osnova za razvoj 2D i 3D igara, sa istorijski zasnovanim sadržajem.
 | Oblast | Autoritativno mesto | Sadržaj |
 |---|---|---|
 | Istorija | [Istorijska vernost](ISTORIJA.md) | Vojske, periodi, područja, jedinice, vozila, avioni, oružje i prihvaćeni art. |
+| Konteksti igara | [IGRE](IGRE.md) | Dogovorene teme, istorijski okvir i zamišljeni tok malih igara i njihovih etapa. |
 | Ugao 2D arta | [Indeks prikaza](../assets/images/armies/index.csv) | Vizuelne oznake za izbor bočnih, gornjih i drugih prikaza, uz same slike. |
 | Arhitektura i obrasci | [ARHITEKTURA](ARHITEKTURA.md) | Odgovornosti zajedničkog engine-a, obrasci i bitna ograničenja. |
 | Provere | [TESTING](TESTING.md) | Komande, pokrivenost i ograničenja provera. |
 | Posebna tehnika prikaza | [Animacija pozadine](ANIMACIJA-POZADINE.md) | Konkretno rešenje, neuspešni pristupi i preventivne provere. |
 | Agentovi poslovi | [TODO](TODO.md) | Agentove razvojne stavke, pregledi i potrebne popravke. |
-| Razvoj igre | Lokalni planovi igara | Sadržaj, nivoi, koraci i statusi; nije trajna baza znanja. |
+| Razvoj igre | Lokalni planovi igara | Koraci izrade i statusi; nije trajna baza znanja. |
 
 Pokretanje projekta opisuje [README](../README.md). Istorijske slike i poreklo čuvaju se u [references/ww2-yu](references/ww2-yu/), a merni artefakti se povezuju iz tehničkog opisa.
 
