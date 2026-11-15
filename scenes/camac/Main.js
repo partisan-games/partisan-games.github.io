@@ -37,7 +37,7 @@ export default class extends Scena2D {
       player: this.player, viewLeft: () => this.cameraX })
     this.add({ polozaj: this.landing.polozaj, render: () => this.landing.render() })
     this.add(this.landing.passengerLayer)
-    this.bojaPozadine = '#000066'
+    this.bojaPozadine = '#173f5a'
   }
 
   addCombatant(actor, team) {
@@ -53,8 +53,10 @@ export default class extends Scena2D {
       if (this.landing.complete) this.victory('Your troops have landed on Šolta.')
       return
     }
-    this.encounter.update()
     this.shoreDefenses.update()
+    const underShoreFire = this.shoreDefenses.positions.some(post =>
+      post.alive && post.prikazan && (this.player.y - post.y) * post.side < 0)
+    this.encounter.update({ allowSpawn: !underShoreFire && this.landing.x - this.player.x > 800 })
     const previousPlayer = { x: this.player.x, y: this.player.y }
     const previousWreck = { x: this.encounter.boat.x, y: this.encounter.boat.y }
     this.combat.beginFrame()

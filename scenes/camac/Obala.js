@@ -35,7 +35,7 @@ export default class Obala {
     const right = left + platno.width
     const first = Math.floor(left / this.noiseResolution) * this.noiseResolution
     const last = Math.ceil(right / this.noiseResolution) * this.noiseResolution
-    ctx.fillStyle = '#228B22'
+    ctx.fillStyle = '#667752'
     for (const side of [-1, 1]) {
       const edge = side < 0 ? 0 : platno.height
       ctx.beginPath()

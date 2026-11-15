@@ -7,7 +7,7 @@ export default class ShoreDefenses {
     this.coast = coast
     this.viewLeft = options.viewLeft
     this.session = options.session
-    this.spacing = Math.max(1400, platno.width * 1.6)
+    this.spacing = Math.max(1800, platno.width * 1.9)
     this.positions = [-1, 1].map(side => {
       const post = new ShoreMachineGun(options)
       post.side = side

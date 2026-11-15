@@ -43,6 +43,8 @@ Sav art koji koristimo, iz `assets` ili drugih izvora, služi kao osnova za kona
 
 Sačuvati prepoznatljive i istorijski bitne detalje reference, odabrati perspektivu prema nivou i koristiti providnu pozadinu gde je potrebna. Izvornike čuvati odvojeno od konačnih verzija. Istorijsko prihvatanje reference ne znači da je ona konačan grafički materijal. Već završeni art koji zadovoljava ovo pravilo ne precrtavati ponovo; rad obuhvata materijal potreban za konkretnu igru, ne automatsku preradu cele zbirke.
 
+Pre ukrašavanja okruženja izabrati vizuelne uzore, paletu i odnos dekoracije prema borbi. Detalje grupisati uz prazne delove između grupa, uskladiti osvetljenje i gustinu piksela; ne prikrivati loše uklapanje nasumičnim rotacijama ili odsecanjem silueta. Polazište: [Environment Art — The Level Design Book](https://book.leveldesignbook.com/process/env-art).
+
 ## Statusi u planovima postupne izrade igara
 
 README TODO uređuje isključivo vlasnik; agent ga ne menja. Agentove stavke pripadaju [TODO](TODO.md), a koraci pojedinačnih igara njihovim postojećim planovima.

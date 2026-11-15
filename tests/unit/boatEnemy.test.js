@@ -58,6 +58,21 @@ test('S-boat encounters use gameplay time, retain a visible wreck and reuse a fr
   assert.equal(boat.side, -1)
 })
 
+test('a deferred encounter waits for a clear approach without interrupting an active boat', t => {
+  const { session, encounter, boat } = setup(t)
+  session.update(10)
+  encounter.update({ allowSpawn: false })
+  assert.equal(boat.active, false)
+  session.update(3)
+  encounter.update({ allowSpawn: true })
+  assert.equal(boat.active, true)
+  encounter.update({ allowSpawn: false })
+  assert.equal(boat.active, true)
+  session.update(19)
+  encounter.update({ allowSpawn: false })
+  assert.equal(boat.active, false)
+})
+
 test('deck fire follows the visible barrel and stops on pause, death or a close pass', t => {
   const { session, target, boat } = setup(t)
   boat.launch(1)

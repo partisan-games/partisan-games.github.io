@@ -11,7 +11,7 @@ export default class SBoatEncounter {
     this.side = 1
   }
 
-  update() {
+  update({ allowSpawn = true } = {}) {
     if (this.session.state !== 'running') return
     const now = this.session.clock.now
     const boat = this.boat
@@ -23,7 +23,7 @@ export default class SBoatEncounter {
         boat.nestani()
         this.nextAt = now + 28
       }
-    } else if (now >= this.nextAt) {
+    } else if (allowSpawn && now >= this.nextAt) {
       boat.launch(this.side)
       this.side *= -1
     }
