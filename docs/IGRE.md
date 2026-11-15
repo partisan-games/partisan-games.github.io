@@ -17,6 +17,7 @@ Za svaku igru dodati kratak odeljak tek kada je kontekst dogovoren. Istorijske �
 
 - **Žanr:** arkadna plovidba sa pogledom odozgo i horizontalnim praćenjem plovila.
 - **Istorijski okvir:** desant na Šoltu u maju 1944; [istorijski izvori](ISTORIJA.md#pregled-kategorije-bitaka-novj). Izbor operacije je dogovoren; konkretno plovilo i sastav protivnika tek treba proveriti.
-- **Osnovno kretanje:** čamac slobodno plovi kroz svet; kamera ga drži približno na levoj trećini ekrana radi pregleda puta ispred njega. Obale prate stvarno pomeranje kroz svet, uključujući povratak, bez prisilnog stalnog napredovanja.
+- **Osnovno kretanje:** početni položaj čamca u kadru ujedno je njegova krajnja desna pozicija. Prvi potisak ne pomera ga udesno u kadru; po puštanju tokom plovidbe može polako otići ulevo, a novi potisak vraća ga samo do početnog položaja. Kamera prati svet i ovo pomeranje u kadru, bez promene fizičke brzine čamca.
+- **Početak i povratak:** početni čamac i kadar miruju bez potiska. Povratak ulevo dozvoljen je samo do početne pozicije; kamera ne prikazuje prostor pre početka trase.
 - **Osnova izbora kamere:** [Itay Keren — Scroll Back](https://www.gamedeveloper.com/design/scroll-back-the-theory-and-practice-of-cameras-in-side-scrollers), praćenje igrača i prostor ispred njega.
 - **Za razradu:** plovilo, radnja i ciljevi u okviru izabrane operacije; postojeći rečni prizor prilagoditi morskoj obali, ostrvima i kanalima tek kroz dogovorene razvojne stavke.

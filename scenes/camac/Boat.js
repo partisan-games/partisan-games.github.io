@@ -8,11 +8,12 @@ import CombatLife from './CombatLife.js'
 
 /** This boat lives in river coordinates; only its vertical movement has screen bounds. */
 export default class Boat extends CamacIgracOdozgo {
-  constructor(viewLeft, session) {
+  constructor(viewLeft, session, startX = 0) {
     super()
     if (this.input.keyboard) this.input.keyboard.attackKey = 'Space'
     this.input.screen.addGameButtons({ attack: '💥' })
     this.viewLeft = viewLeft
+    this.startX = startX
     this.session = session
     this.combatLife = new CombatLife({ session, onDeath: () => this.stani() })
     this.bullets = new ProjectilePool({ owner: this, create: () => new BoatBullet(viewLeft) })
@@ -60,6 +61,10 @@ export default class Boat extends CamacIgracOdozgo {
   }
 
   proveriGranice() {
+    if (this.x <= this.startX) {
+      this.x = this.startX
+      if (this.dx < 0) this.dx = 0
+    }
     const margin = 75
     if (this.y < margin || this.y > platno.height - margin) {
       this.skreni(2 * Math.PI - this.ugao)
@@ -68,7 +73,7 @@ export default class Boat extends CamacIgracOdozgo {
   }
 
   dodajStruju() {
-    // World coordinates have no shore at x = 0; the current also acts upstream of it.
+    if (this.x <= this.startX && this.dx <= 0) return
     this.dodajSilu(6, Math.PI)
   }
 }

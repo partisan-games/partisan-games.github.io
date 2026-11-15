@@ -18,6 +18,7 @@ function setup(t) {
   scene.init()
   scene.player.sirina = 60
   scene.player.visina = 24
+  scene.player.startX = 0
   scene.player.postavi(100, 200)
   scene.cameraX = 100 - platno.width / 3
   scene.session.ready()

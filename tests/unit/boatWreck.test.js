@@ -21,6 +21,7 @@ function setup(t) {
   scene.session.start()
   scene.player.sirina = 60
   scene.player.visina = 24
+  scene.player.startX = 0
   scene.player.postavi(100, 200)
   const enemy = scene.encounter.boat
   enemy.launch(1)
@@ -37,7 +38,7 @@ test('a fast player cannot cross a surface wreck, loses speed and is gently refl
   assert.ok(player.dx < 0 && Math.abs(player.dx) < 200)
   assert.equal(player.energija, 100)
   assert.equal(enemy.dead, true)
-  assert.equal(scene.cameraX, player.x - scene.canvas.width / 3)
+  assert.equal(scene.cameraX, scene.camera.left(player.x, scene.canvas.width, player.sirina))
 })
 
 test('sinking is gradual, pauses, releases the surface obstacle and clears fully before reuse', t => {

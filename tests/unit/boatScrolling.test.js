@@ -10,7 +10,7 @@ before(async() => {
   platno = (await import('/core/io/platno.js')).default
 })
 
-test('boat and camera travel past either screen edge, reverse, and stop together', t => {
+test('boat movement and throttle framing share world coordinates and pause together', t => {
   const scene = new Scene()
   t.after(() => scene.end())
   scene.init()
@@ -18,24 +18,49 @@ test('boat and camera travel past either screen edge, reverse, and stop together
   scene.player.visina = 25
   scene.session.ready()
   scene.session.start()
-  for (const x of [platno.width * 3, -platno.width * 2]) {
+  for (const speed of [120, -120]) {
+    const x = platno.width * 3
     scene.player.x = x
-    scene.player.dx = x > 0 ? 120 : -120
-    const speed = scene.player.dx
+    scene.player.dx = speed
     scene.update(.1)
     assert.ok(Math.abs(scene.player.x - (x + speed * .1)) < 1e-8)
-    assert.ok(Math.abs(scene.player.x - scene.cameraX - platno.width / 3) < 1e-8)
+    assert.ok(Math.abs(scene.player.x - scene.cameraX - scene.camera.screenX(platno.width, scene.player.sirina)) < 1e-8)
     assert.equal(scene.player.prikazan, true, 'world coordinates must not hide the tracked boat')
   }
   scene.player.stani()
-  const camera = scene.cameraX
+  const stationaryX = scene.player.x
   scene.update(.1)
-  assert.equal(scene.cameraX, camera, 'without displacement the bank does not scroll')
+  assert.equal(scene.player.x, stationaryX, 'framing does not move the boat in the world')
+  assert.equal(scene.cameraX, scene.camera.left(scene.player.x, platno.width, scene.player.sirina))
+  const camera = scene.cameraX
   scene.session.pause()
   const x = scene.player.x
   scene.update(1)
   assert.equal(scene.player.x, x)
   assert.equal(scene.cameraX, camera)
+})
+
+test('initial rest stays still and returning left stops at the start of the route', t => {
+  const scene = new Scene()
+  t.after(() => scene.end())
+  scene.init()
+  scene.player.sirina = 60
+  scene.player.visina = 25
+  scene.session.start()
+  const startX = scene.player.x
+  for (let i = 0; i < 60; i++) scene.update(1 / 60)
+  assert.equal(scene.player.x, startX)
+  assert.equal(scene.player.dx, 0)
+  assert.equal(scene.cameraX, 0)
+  scene.player.x = startX + 20
+  scene.player.dx = -200
+  scene.update(.5)
+  assert.equal(scene.player.x, startX)
+  assert.equal(scene.player.dx, 0)
+  assert.equal(scene.cameraX, 0)
+  scene.player.dx = 100
+  scene.update(.1)
+  assert.ok(scene.player.x > startX, 'the route boundary still allows forward travel')
 })
 
 test('boat rendering restores the shared camera even when drawing fails', t => {

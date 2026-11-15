@@ -26,6 +26,10 @@ export default class Obala {
     return lerp(this.sample(index), this.sample(index + 1), t)
   }
 
+  edgeAt(x, side) {
+    return platno.height / 2 + this.offsetAt(x) + side * this.sirinaReke / 2
+  }
+
   render() {
     const left = this.viewLeft()
     const right = left + platno.width
@@ -37,7 +41,7 @@ export default class Obala {
       ctx.beginPath()
       ctx.moveTo(first, edge)
       for (let x = first; x <= last; x += this.noiseResolution) {
-        ctx.lineTo(x, platno.height / 2 + this.offsetAt(x) + side * this.sirinaReke / 2)
+        ctx.lineTo(x, this.edgeAt(x, side))
       }
       ctx.lineTo(last, edge)
       ctx.closePath()
