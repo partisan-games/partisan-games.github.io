@@ -4,8 +4,9 @@ import { createPageElements } from './helpers/dom.js'
 import ProjectilePool from '/core/actor/ProjectilePool.js'
 
 let Scene, CombatTarget, BoatBullet, platno
-before(async() => {
+before(async t => {
   createPageElements()
+  t.mock.method(HTMLCanvasElement.prototype, 'getContext', () => ({ fillRect() {} }))
   Scene = (await import('/scenes/camac/Main.js')).default
   CombatTarget = (await import('/scenes/camac/CombatTarget.js')).default
   BoatBullet = (await import('/scenes/camac/BoatBullet.js')).default

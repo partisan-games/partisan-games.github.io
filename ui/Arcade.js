@@ -13,7 +13,7 @@ export default class Arcade {
     this.games = new Map(this.cards.map(card => [card.dataset.path, card.querySelector('h3').textContent]))
     // Existing direct links to scenes omitted from the homepage still use the coin door.
     for (const [path, title] of Object.entries({
-      'to-trieste': 'To Trieste!', camac: 'Boat', 'graffiti-city-maze': 'Graffiti City Maze', 'lookat-cursor': 'Look at Cursor',
+      'to-trieste': 'To Trieste!', 'graffiti-city-maze': 'Graffiti City Maze', 'lookat-cursor': 'Look at Cursor',
     })) this.games.set(path, title)
 
     this.wallet = document.createElement('aside')

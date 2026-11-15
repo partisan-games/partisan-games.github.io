@@ -38,10 +38,14 @@ export default class Boat extends CamacIgracOdozgo {
   }
 
   umri() { return this.reagujNaPogodak(this.energija) }
-  reset() { this.stani(); this.combatLife.reset() }
+  reset() { this.stani(); this.controlsLocked = false; this.combatLife.reset() }
 
   update(dt) {
-    if (!this.dead) super.update(dt)
+    if (!this.dead && !this.controlsLocked) super.update(dt)
+  }
+
+  handleInput(dt) {
+    if (!this.controlsLocked) super.handleInput(dt)
   }
 
   get muzzle() {
@@ -50,7 +54,7 @@ export default class Boat extends CamacIgracOdozgo {
   }
 
   puca() {
-    if (this.session.state !== 'running' || this.dead || !this.prikazan) return false
+    if (this.session.state !== 'running' || this.dead || this.controlsLocked || !this.prikazan) return false
     return this.weapon.tryFire(this.muzzle, this.ugao)
   }
 

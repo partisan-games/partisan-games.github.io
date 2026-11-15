@@ -14,7 +14,7 @@ const turn = (from, to, speed, dt) => from + Math.sign(difference(to, from)) * M
 export default class SBoat extends CombatTarget {
   constructor({ session, viewLeft, target }) {
     super({ session, viewLeft, maximum: 60, src: 'armies/game-ready/brodovi/schnellboot-s30.svg',
-      sirina: 220, visina: 39.6, vidljiv: false })
+      sirina: 275, visina: 49.5, vidljiv: false })
     this.session = session
     this.target = target
     this.active = false

@@ -3,8 +3,9 @@ import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 
 let Scene, Obala, platno
-before(async() => {
+before(async t => {
   createPageElements()
+  t.mock.method(HTMLCanvasElement.prototype, 'getContext', () => ({ fillRect() {} }))
   Scene = (await import('/scenes/camac/Main.js')).default
   Obala = (await import('/scenes/camac/Obala.js')).default
   platno = (await import('/core/io/platno.js')).default

@@ -8,6 +8,8 @@ Vlasnik je 14. 11. 2026. potvrdio da je sav postojeći art u `assets` istorijski
 
 Za pripremu konačne grafike važi [projektno pravilo za umetnost](DOCS.md#pravilo-za-umetnost). Prioritet: model, slika, pogled, rezolucija, poreklo i priprema za igru. Profili zahtevaju izdvajanje pozadine. Prava korišćenja proveriti pre objavljivanja.
 
+**Prikaz partizana — zahtev vlasnika:** koristiti prepoznatljivu partizanku ili triglavku, ne generičku okruglu kapu ili beretku. U sitnom prikazu odozgo kapa se čita kao izdužena maslinastozelena kapa po sredini glave, sa suženim krajevima, pregibom i kosom sa obe strane; prednja zvezda se iz tog ugla ne vidi. Ovo je pravilo izbora grafike projekta, ne tvrdnja da su istorijski svi partizani nosili istu kapu.
+
 ## Izbor sadržaja igre
 
 Pre izbora odrediti **period, područje i sukobljene strane** konkretnog nivoa. Za novog protivnika ili opremu zapisati **naziv i varijantu → ko je koristi → kada i gde → ulogu i naoružanje → izvor i stepen pouzdanosti → vezani asset i primenu u igri**. Ako podatak nije poznat, označiti ga kao neproveren; ne popunjavati pretpostavkom. Ovo je format narednih zapisa, ne tvrdnja da je istorijsko istraživanje već urađeno.

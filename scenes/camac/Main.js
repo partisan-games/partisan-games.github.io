@@ -7,8 +7,13 @@ import SBoatEncounter from './SBoatEncounter.js'
 import collideWithWreck from './wreckCollision.js'
 import BoatCamera from './BoatCamera.js'
 import ShoreDefenses from './ShoreDefenses.js'
+import Landing from './Landing.js'
 
 export default class extends Scena2D {
+  constructor(options = {}) {
+    super(options)
+  }
+
   init() {
     this.cameraX = 0
     this.camera = new BoatCamera()
@@ -24,6 +29,10 @@ export default class extends Scena2D {
     this.shoreDefenses = new ShoreDefenses({ coast: this.obala, session: this.session,
       viewLeft: () => this.cameraX, target: this.player })
     for (const post of this.shoreDefenses.positions) this.addCombatant(post, 'axis')
+    this.landing = new Landing({ coast: this.obala, session: this.session,
+      player: this.player, viewLeft: () => this.cameraX })
+    this.add({ polozaj: this.landing.polozaj, render: () => this.landing.render() })
+    this.add(this.landing.passengerLayer)
     this.bojaPozadine = '#000066'
   }
 
@@ -34,6 +43,11 @@ export default class extends Scena2D {
 
   update(dt, t) {
     if (this.session.state !== 'running') return
+    if (this.landing.active) {
+      this.landing.update()
+      if (this.landing.complete) this.victory('Your troops have landed on Šolta.')
+      return
+    }
     this.encounter.update()
     this.shoreDefenses.update()
     const previousPlayer = { x: this.player.x, y: this.player.y }
@@ -44,6 +58,7 @@ export default class extends Scena2D {
     this.cameraX = this.camera.left(this.player.x, platno.width, this.player.sirina || 0)
     this.combat.resolve()
     collideWithWreck(this.player, this.encounter.boat, previousPlayer, previousWreck)
+    this.landing.update()
     this.cameraX = this.camera.left(this.player.x, platno.width, this.player.sirina || 0)
     if (this.player.dead) this.defeat()
   }
