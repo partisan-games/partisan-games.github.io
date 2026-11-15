@@ -13,10 +13,10 @@ Za svaku igru dodati kratak odeljak tek kada je kontekst dogovoren. Istorijske �
 
 ## Čamac
 
-[Razvojni TODO](CAMAC-TODO.md) odvaja zadato pucanje od predloga budućeg sadržaja.
-
 - **Žanr:** arkadna plovidba sa pogledom odozgo i horizontalnim praćenjem plovila.
 - **Cilj prve etape:** dolazak do kraja trase pokreće automatsku završnu animaciju bez obzira na visinu čamca u kadru, kao sletanje u igri Vis: upravljanje i borba prestaju, čamac se poravnava, miruje tokom iskrcavanja partizana i sledi pobeda. Pristanište je zamišljeno mesto za potrebe igre, bez tvrdnje da predstavlja potvrđenu istorijsku lokaciju.
+- **Borbeno ponašanje:** obalski mitraljez počinje rafal čim uđe u kadar, uz predah između rafala. Uništena posada ostaje oborena, sa spuštenim oružjem i plamenom iznad nje. Uništeni neprijateljski čamac postepeno tone; dok je na površini, olupina sprečava prolazak kroz nju bez dodatne štete igraču.
+- **Posada:** partizani su vidljivi u čamcu tokom plovidbe i iskrcavaju se iz svojih mesta; koriste mali piksel art, različite uniforme i uglove okrenutosti, prema [pravilu prikaza partizana](ISTORIJA.md#prihvaćen-art-projekta).
 - **Istorijski okvir:** desant na Šoltu u maju 1944; [istorijski izvori](ISTORIJA.md#pregled-kategorije-bitaka-novj). Izbor operacije je dogovoren; konkretno plovilo i sastav protivnika tek treba proveriti.
 - **Osnovno kretanje:** početni položaj čamca u kadru ujedno je njegova krajnja desna pozicija. Prvi potisak ne pomera ga udesno u kadru; po puštanju tokom plovidbe može polako otići ulevo, a novi potisak vraća ga samo do početnog položaja. Kamera prati svet i ovo pomeranje u kadru, bez promene fizičke brzine čamca.
 - **Početak i povratak:** početni čamac i kadar miruju bez potiska. Povratak ulevo dozvoljen je samo do početne pozicije; kamera ne prikazuje prostor pre početka trase.

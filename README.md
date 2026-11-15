@@ -29,7 +29,6 @@ The separate checks and how the tests work: [docs/TESTING.md](docs/TESTING.md).
 - proveri warplane na mobilnom (privremeno isključeno hide-on-mobile)
 
 Ideje za nivoe:
-- sremski front (topovi)
 - odbrani polozaj (kamera odozgo, nadiru sa svih strana)
 
 ## Credits
