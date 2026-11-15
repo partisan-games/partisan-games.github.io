@@ -1,6 +1,6 @@
 {
   "2d-tank": {
-    "startScreen": "<div class=\"central-screen flex-column simple-container\" id=\"start-screen\"> <p>Uništi ustaške bunkere, pazi civilne zgrade.</p> <button class=\"default-button\" id=\"start\"><span class=\"icon\">🔥</span> Start mission</button> </div>",
+    "startScreen": "<div class=\"central-screen flex-column simple-container\" id=\"start-screen\"> <p>Probij se kroz neprijateljske položaje, obori avione i stigni do kraja puta.</p> <button class=\"default-button\" id=\"start\"><span class=\"icon\">🔥</span> Start mission</button> </div>",
     "healthBar": null,
     "cameraButton": null
   },

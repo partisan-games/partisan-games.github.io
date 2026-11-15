@@ -2,11 +2,11 @@ import platno from '/core/io/platno.js'
 import CombatTarget from './CombatTarget.js'
 import EnemyFire from './EnemyFire.js'
 import AimedBarrel from './AimedBarrel.js'
-import { createMachineGun, createCannon } from './EnemyWeapons.js'
+import { createCannon } from './EnemyWeapons.js'
 import { groundEnemyArt } from './enemyArt.js'
 
 const profiles = [
-  { kind: 'tankette', driveSpeed: 55, createWeapon: createMachineGun },
+  { kind: 'germanTank', driveSpeed: 55, createWeapon: createCannon },
   { kind: 'truck', driveSpeed: 80 },
   { kind: 'antiTankGun', driveSpeed: 0, createWeapon: createCannon },
   { kind: 'tank', driveSpeed: 35, createWeapon: createCannon },
@@ -61,12 +61,12 @@ export class GroundEnemy extends CombatTarget {
 }
 
 export default function createGroundEnemies(options) {
-  const gap = Math.max(360, platno.width * .65)
+  const gap = Math.max(720, platno.width * 1.25)
   const enemies = []
   const nextSpawnX = () => Math.max(platno.width, ...enemies.map(enemy => enemy.x + (enemy.sirina || 0) / 2)) + gap
   for (const [index, profile] of profiles.entries()) enemies.push(new GroundEnemy({
     ...options, ...profile, art: groundEnemyArt[profile.kind],
-    x: platno.width + 120 + index * gap, nextSpawnX,
+    x: platno.width + gap * .5 + index * gap, nextSpawnX,
   }))
   return enemies
 }

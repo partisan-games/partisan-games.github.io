@@ -9,6 +9,10 @@ const expect = baseExpect.configure({ timeout: 30_000 })
  * The other games have no victory at all; they are listed in docs/TESTING.md.
  */
 const wins = {
+  '2d-tank': scene => {
+    scene.tenk.health.reset()
+    scene.distance = scene.levelLength - 1
+  },
   '3d-tank': scene => {
     scene.countableCrates = []
   },

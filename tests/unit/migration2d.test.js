@@ -126,7 +126,8 @@ test('neretva aiming waits for game updates and its health cannot fall below zer
 })
 
 test('all remaining 2D scenes can initialize, pause, finish and be replaced without model loads', async t => {
-  const names = ['2d-tank', 'bunker', 'camac', 'franjo-kluz', 'neretva', 'otpisani', 'ranjenik', 'ustanak']
+  // The tank's async asset preparation and full replay flow are covered by tankLevelFlow.test.js.
+  const names = ['bunker', 'camac', 'franjo-kluz', 'neretva', 'otpisani', 'ranjenik', 'ustanak']
   for (const name of names)
     await t.test(name, async() => {
       const { default: Scene } = await import(`/scenes/${name}/Main.js`)

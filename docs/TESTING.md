@@ -35,7 +35,7 @@ First time only: `npx playwright install chromium`.
 - `flow.spec.js`: each game pauses and continues, ends, plays again and returns to the menu; 3D games must draw a picture.
 - `navigation.spec.js`: menu, switching games, Back/Forward, unknown game, runtime error screen.
 - `phone.spec.js` (project `phone`, Pixel 7 emulation): touch controls of `warplane`, `moon-landing`, `cannon`.
-- `victory.spec.js`: each of the 18 games that can be won is put just before winning, and the victory must show and stay. The other 21 games have no victory: `2d-tank`, `avatar-planets`, `camac`, `capoeira-girl`, `city-colorful`, `dark-city`, `demon-forest`, `drvar`, `flying-through-space`, `graffiti-city`, `graffiti-city-maze`, `led-city`, `liberated-city`, `locomotive`, `lookat-cursor`, `minas-tirith`, `otpisani`, `physics-vehicle`, `ruins`, `spomenici`, `zeppelin`.
+- `victory.spec.js`: each game with a victory condition is put just before winning; the victory must appear and stay. The cases in the test are the maintained roster.
 - `leaks.spec.js`: 20 game switches; listeners on `document` and `window`, WebGL contexts and page elements must not grow, nor the textures, buffers and shader programs left on the graphics card after a 3D game (counted in a 2D game, from the second round on, when the shared renderer has compiled its shaders).
 - `styles.spec.js`: each game's start screen HTML and the classes of its health bar and camera button match `fixtures/styles.json`. After an intended change, rerun with `RECORD_STYLES=<folder>` to write one file per game, then merge them into the fixture.
 

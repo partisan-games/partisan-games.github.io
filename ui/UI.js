@@ -89,7 +89,7 @@ export default class UI {
         <h3 class="olive">Game paused</h3>
         <button class="${button}" id="continue"><span class="icon">🔥</span> Continue</button>
         <button class="${button}" id="menu"><span class="icon">☰</span> Main menu</button>
-        <button class="${button}" id="igraj-opet"><span class="icon">↻</span> Play again · 1 coin</button>
+        <button class="${button}" id="igraj-opet"><span class="icon">↻</span> Play again</button>
       </div>
     `
   }
@@ -100,7 +100,7 @@ export default class UI {
       <div class="central-screen flex-column ${container}">
         ${this.outro}
         <button class="${button}" id="menu"><span class="icon">☰</span> Main menu</button>
-        <button class="${button}" id="igraj-opet"><span class="icon">↻</span> Play again · 1 coin</button>
+        <button class="${button}" id="igraj-opet"><span class="icon">↻</span> Play again</button>
       </div>
     `
   }

@@ -21,6 +21,7 @@ export default class EnemyFire {
   }
 
   update(enabled = true) {
+    let fired = false
     const solution = this.barrel && enabled && !this.owner.dead
       ? this.barrel.aimAt(this.target, this.armament.aim) : null
     const origin = this.barrel ? (solution?.origin || this.barrel.muzzle) : this.muzzle()
@@ -28,13 +29,14 @@ export default class EnemyFire {
     if (!enabled || this.owner.dead || !muzzleVisible || !this.owner.prikazan || this.target.dead || !this.target.prikazan)
       this.reset()
     else if (!this.barrel || solution)
-      this.armament.fire(origin, this.target, solution?.angle)
+      fired = this.armament.fire(origin, this.target, solution?.angle)
 
     // Children move after their owner; retain the start of each flight segment.
     for (const projectile of this.projectiles.projectiles) {
       projectile.previousPosition = { x: projectile.x, y: projectile.y }
       projectile.wasFlying = projectile.vidljiv && !projectile.timerId
     }
+    return fired
   }
 
   checkHits() {

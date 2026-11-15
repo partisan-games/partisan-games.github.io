@@ -48,6 +48,10 @@ export default class Battlefield extends Predmet {
     this.groundY = centerY - this.roadHeight / 2 + 3
   }
 
+  get roadTop() {
+    return this.groundY - 3
+  }
+
   createRoad() {
     const tile = document.createElement('canvas')
     tile.width = TILE_WIDTH
@@ -146,19 +150,19 @@ export default class Battlefield extends Predmet {
     ctx.fillRect(0, ground - 8, platno.width, platno.height - ground + 8)
     const phase = distance % TILE_WIDTH
     for (let x = -phase; x < platno.width; x += TILE_WIDTH)
-      ctx.drawImage(this.road, x, ground - 3)
+      ctx.drawImage(this.road, x, this.roadTop)
     ctx.fillStyle = '#596e43'
-    const verge = this.roadHeight + ground - 3
+    const verge = this.roadHeight + this.roadTop
     ctx.fillRect(0, verge, platno.width, 3)
     // Small tufts frame the road without crossing the aiming area.
     ctx.fillStyle = '#657b4d'
     for (let x = -(distance % 83); x < platno.width; x += 83) {
       ctx.beginPath()
-      ctx.moveTo(x, ground - 3)
+      ctx.moveTo(x, this.roadTop)
       ctx.lineTo(x + 3, ground - 11)
       ctx.lineTo(x + 6, ground - 4)
       ctx.lineTo(x + 10, ground - 8)
-      ctx.lineTo(x + 13, ground - 3)
+      ctx.lineTo(x + 13, this.roadTop)
       ctx.fill()
     }
     ctx.restore()

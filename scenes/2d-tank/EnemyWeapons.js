@@ -38,10 +38,11 @@ export function shellAngle(origin, target, speed = shellSpeed, gravity = shellGr
 }
 
 class EnemyWeapon {
-  constructor({ owner, clock, createProjectile, aim, speed, burstSize, interval, reload }) {
+  constructor({ owner, clock, createProjectile, aim, speed, burstSize, interval, reload, firstShotDelay = FIRST_SHOT_DELAY }) {
     this.aim = aim
     this.burstSize = burstSize
     this.shots = 0
+    this.firstShotDelay = firstShotDelay
     this.burst = new Cooldown({ clock, seconds: reload })
     this.projectiles = new ProjectilePool({ owner, create: createProjectile })
     this.weapon = new Weapon({
@@ -53,17 +54,18 @@ class EnemyWeapon {
 
   reset() {
     this.shots = 0
-    this.burst.start(FIRST_SHOT_DELAY)
+    this.burst.start(this.firstShotDelay)
     this.weapon.cooldown.start(0)
   }
 
   fire(origin, target, angle = this.aim(origin, target)) {
-    if (!this.burst.ready) return
-    if (angle === null || !this.weapon.tryFire(origin, angle)) return
+    if (!this.burst.ready) return false
+    if (angle === null || !this.weapon.tryFire(origin, angle)) return false
     if (++this.shots === this.burstSize) {
       this.shots = 0
       this.burst.start()
     }
+    return true
   }
 }
 
@@ -90,5 +92,34 @@ export function createCannon({ owner, clock, groundY }) {
     },
     aim: shellAngle,
     speed: shellSpeed, burstSize: 1, interval: 0, reload: 4.5,
+  })
+}
+
+export function createAircraftGun({ owner, clock }) {
+  return new EnemyWeapon({
+    owner, clock,
+    createProjectile: () => {
+      const bullet = new EnemyBullet({ src: null, sirina: 9, visina: 2 })
+      bullet.steta = 2
+      return bullet
+    },
+    // Fixed aircraft guns follow the nose, rather than aiming independently of it.
+    aim: () => Math.atan2(owner.dy, owner.dx),
+    speed: 720, burstSize: 3, interval: .16, reload: 5, firstShotDelay: .35,
+  })
+}
+
+export function createAirBomb({ owner, clock, groundY }) {
+  return new EnemyWeapon({
+    owner, clock,
+    createProjectile: () => {
+      const bomb = new EnemyShell({ clock, gravitacija: shellGravity, nivoTla: groundY })
+      bomb.steta = 12
+      bomb.oznake.add('air-bomb')
+      return bomb
+    },
+    // Release inherits horizontal aircraft speed; gravity determines the rest of the flight.
+    aim: () => Math.PI,
+    speed: owner.flightSpeed, burstSize: 1, interval: 0, reload: 8, firstShotDelay: 0,
   })
 }

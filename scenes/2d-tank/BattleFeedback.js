@@ -26,6 +26,10 @@ export default class BattleFeedback {
   }
 
   fire(owner, { position, angle, projectile }) {
+    if (projectile.oznake?.has('air-bomb')) {
+      this.add({ kind: 'smoke', x: position.x, y: position.y, duration: .25 })
+      return
+    }
     const shell = Boolean(projectile.gravitacija)
     this.add({ kind: 'flash', owner, lifeId: owner.lifeId, angle, shell, duration: shell ? .11 : .07 })
     if (shell) this.add({ kind: 'smoke', x: position.x, y: position.y, duration: .4 })
@@ -43,7 +47,7 @@ export default class BattleFeedback {
       state.alive = unit.alive
       state.health = unit.energija
       const motion = Math.abs(unit.dx - this.scrollSpeed)
-      if (unit.prikazan && unit.alive && motion > 15 && now >= state.dustAt) {
+      if (!unit.airborne && unit.prikazan && unit.alive && motion > 15 && now >= state.dustAt) {
         this.add({ kind: 'dust', x: unit.x - Math.sign(unit.dx - this.scrollSpeed) * unit.sirina * .3,
           y: unit.y + unit.visina * .4, duration: .4 })
         state.dustAt = now + .15
@@ -55,7 +59,7 @@ export default class BattleFeedback {
     ctx.save()
     ctx.fillStyle = '#313b2938'
     for (const unit of this.units) {
-      if (!unit.prikazan) continue
+      if (!unit.prikazan || unit.airborne) continue
       ctx.beginPath()
       ctx.ellipse(unit.x, unit.y + unit.visina * .46, unit.sirina * .43, 3.5, 0, 0, Math.PI * 2)
       ctx.fill()
@@ -64,6 +68,7 @@ export default class BattleFeedback {
   }
 
   muzzle(effect) {
+    if (effect.owner.airborne) return { ...effect.owner.muzzle, angle: effect.owner.muzzleAngle }
     if (effect.owner.cev) return { ...effect.owner.vrhCevi, angle: effect.owner.cev.ugao }
     if (effect.owner.barrel) return { ...effect.owner.barrel.muzzle, angle: effect.owner.barrel.ugao }
     return { ...effect.owner.fire.muzzle(), angle: effect.angle }

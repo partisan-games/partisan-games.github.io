@@ -97,7 +97,7 @@ test('a passed or destroyed enemy stops opening fire without removing its flying
   assert.equal(shot.vidljiv, true)
 })
 
-for (const kind of ['tank', 'antiTankGun']) test(`${kind} launches along its separate barrel from its actual tip`, () => {
+for (const kind of ['germanTank', 'tank', 'antiTankGun']) test(`${kind} launches along its separate barrel from its actual tip`, () => {
   const { clock, target, enemies } = encounter()
   const tank = enemies.find(enemy => enemy.kind === kind)
   tank.x = 400
@@ -115,7 +115,7 @@ for (const kind of ['tank', 'antiTankGun']) test(`${kind} launches along its sep
   assert.ok(Math.abs(shot.y + shot.dy * time + shot.gravitacija * time * time / 2 - target.y) < .01)
 })
 
-for (const kind of ['tank', 'antiTankGun']) test(`${kind} barrel follows range and wreck layers and resets on return`, () => {
+for (const kind of ['germanTank', 'tank', 'antiTankGun']) test(`${kind} barrel follows range and wreck layers and resets on return`, () => {
   const { enemies, target } = encounter()
   const tank = enemies.find(enemy => enemy.kind === kind)
   tank.x = 400

@@ -1,6 +1,14 @@
 // Finished side-view sprites face left; display width is independent of source resolution.
 export const groundEnemyArt = {
-  tankette: { src: 'armies/ndh/tenkovi/ansaldo-34.png', sirina: 121 },
+  germanTank: {
+    src: 'armies/game-ready/tenkovi/nemacki-tenk-bez-cevi-pixel.png', sirina: 121,
+    barrel: {
+      src: 'armies/game-ready/tenkovi/nemacki-tenk-cev-pixel.png',
+      sirina: 121 * 182 / 327, visina: 121 * 26 / 327,
+      anchor: { x: 112 / 327 - .5, y: 33 / 137 - .5 },
+      sourceRect: [0, 0, 182, 26],
+    },
+  },
   tank: {
     src: 'armies/game-ready/tenkovi/somua-s35-body-readable.png', sirina: 151,
     barrel: {
