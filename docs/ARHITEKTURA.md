@@ -45,6 +45,8 @@ JS garbage collector ne dokazuje oslobađanje Ammo memorije. Native vlasnik oslo
 
 ## Obrasci pri nadogradnji
 
+Kod sveta većeg od ekrana razdvojiti položaj u svetu, kameru i položaj na ekranu. Vidljivost i ograničenja ne smeju odbacivati objekat samo zato što mu je svetski položaj van dimenzija platna. Ako scene dele renderer, lokalno podešavanje kamere vratiti posle crtanja, uključujući prekid greškom; povratak u drugi nivo ne sme naslediti tuđu kameru. Proceduralni teren vezati za svetsku koordinatu, da pri povratku ostane isti bez neograničene istorije pređenog puta.
+
 Redosled crtanja definisati za sve delove jedinice i efekte: grafičko roditeljstvo ne prenosi automatski sloj. U 2D tenku pejzaž i civilna dekoracija ostaju iza tela i cevi, zatim dolaze projektili, pa plamen i eksplozije. Izdvojeni plamen crta se samo jednom i poštuje vidljivost vlasnika; provera treba da prati stvarni redosled crtanja, ne samo vrednosti slojeva.
 
 Najpre pronaći postojeću odgovornost i njene korisnike, pa odrediti najmanju potpunu promenu. Pravilo jedne igre ostaje uz nju; zajednički deo izdvojiti kada je zajednički ugovor stvarno poznat. Izmena engine-a mora razjasniti posledice po sve pogođene korisnike, bez skrivenih promena podrazumevanog ponašanja.

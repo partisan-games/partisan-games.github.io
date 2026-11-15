@@ -2,37 +2,46 @@ import platno, { ctx } from '/core/io/platno.js'
 
 const lerp = (a, b, t) => a + (b - a) * t
 
-const random = opsegSuma => Math.random() * opsegSuma * 2 - opsegSuma
-
 export default class Obala {
-  constructor() {
+  constructor(viewLeft = () => 0) {
+    this.viewLeft = viewLeft
+    this.polozaj = { z: 1 }
     this.noiseResolution = 75
     this.opsegSuma = 10
     this.sirinaReke = platno.height - this.noiseResolution * .75
-    this.noisePoints = Array.from({ length: platno.width / this.noiseResolution + 2 }, () => random(this.opsegSuma))
-    this.history = []
+    this.seed = Math.floor(Math.random() * 0x100000000)
   }
 
-  napred() {
-    this.history.push([...this.noisePoints])
-    this.noisePoints.shift()
-    this.noisePoints.push(random(this.opsegSuma))
+  sample(index) {
+    // A position has the same bank on every visit, without storing the traveled river.
+    let hash = (index ^ this.seed) | 0
+    hash = Math.imul(hash ^ (hash >>> 16), 0x45d9f3b)
+    hash = Math.imul(hash ^ (hash >>> 16), 0x45d9f3b)
+    return (((hash ^ (hash >>> 16)) >>> 0) / 0xffffffff * 2 - 1) * this.opsegSuma
   }
 
-  nazad() {
-    if (this.history.length > 0)
-      this.noisePoints = this.history.pop()
+  offsetAt(x) {
+    const index = Math.floor(x / this.noiseResolution)
+    const t = x / this.noiseResolution - index
+    return lerp(this.sample(index), this.sample(index + 1), t)
   }
 
   render() {
-    for (let i = 0; i < platno.width; i++) {
-      const index = Math.floor(i / this.noiseResolution)
-      const t = (i % this.noiseResolution) / this.noiseResolution
-      const offset = lerp(this.noisePoints[index], this.noisePoints[index + 1], t)
-
-      ctx.fillStyle = '#228B22'
-      ctx.fillRect(i, 0, 1, platno.height / 2 + offset - this.sirinaReke / 2)
-      ctx.fillRect(i, platno.height / 2 + offset + this.sirinaReke / 2, 1, platno.height)
+    const left = this.viewLeft()
+    const right = left + platno.width
+    const first = Math.floor(left / this.noiseResolution) * this.noiseResolution
+    const last = Math.ceil(right / this.noiseResolution) * this.noiseResolution
+    ctx.fillStyle = '#228B22'
+    for (const side of [-1, 1]) {
+      const edge = side < 0 ? 0 : platno.height
+      ctx.beginPath()
+      ctx.moveTo(first, edge)
+      for (let x = first; x <= last; x += this.noiseResolution) {
+        ctx.lineTo(x, platno.height / 2 + this.offsetAt(x) + side * this.sirinaReke / 2)
+      }
+      ctx.lineTo(last, edge)
+      ctx.closePath()
+      ctx.fill()
     }
   }
 }
