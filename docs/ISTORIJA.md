@@ -33,8 +33,49 @@ Po odluci vlasnika, sledeće stranice su glavne polazne reference za istorijsko 
 - [Drugi svjetski rat u Jugoslaviji — šablon](https://sh.wikipedia.org/wiki/%C5%A0ablon:Drugi_svjetski_rat_u_Jugoslaviji) — glavni ulazni indeks: od njega započeti traženje relevantne teme, pa nastaviti ka konkretnom događaju i njegovim izvorima.
 - [Lista osovinskih operacija u Jugoslaviji](https://sh.wikipedia.org/wiki/Lista_osovinskih_operacija_u_Jugoslaviji) — pregled operacija, trajanja, područja i sukobljenih snaga.
 - [Napadi na garnizone Nezavisne Države Hrvatske](https://sh.wikipedia.org/wiki/Napadi_na_garnizone_Nezavisne_Dr%C5%BEave_Hrvatske) — izbor garnizonskih borbi i veza ka pojedinačnim događajima i njihovim izvorima.
+- [Bitke Narodnooslobodilačke vojske Jugoslavije — kategorija](https://sh.wikipedia.org/wiki/Kategorija:Bitke_Narodnooslobodila%C4%8Dke_vojske_Jugoslavije) — dodatni indeks za izbor događaja; pregledati i sve potkategorije, a istorijske tvrdnje proveriti u literaturi pojedinačnih članaka.
 
 Ovo su pregledni, sekundarni izvori i polazište za detaljnije istraživanje. Za izabrani nivo pratiti članak o konkretnom događaju i njegovu literaturu, ratne izveštaje, monografije jedinica, karte i fotografije kada su dostupni. Za ključne tvrdnje sačuvati tačnu referencu i stranicu/odeljak uz kontekst konkretnog nivoa; ne prepisivati cele spiskove ovde niti pretpostavljati da je oprema opšteg učesnika bila prisutna u svakoj njegovoj borbi. Neslaganja i nepotvrđene pojedinosti ostaju označeni do razrešenja.
+
+### Pregled kategorije bitaka NOVJ
+
+Rekurzivnim čitanjem članstva preko Wikipedia API-ja 15. 11. 2026. obuhvaćeni su koren i svih 16 dostupnih potkategorija, sa 455 jedinstvenih stranica glavnog prostora; to nisu 455 različitih bitaka, jer grana uključuje i ličnosti, jedinice i preglede. [Lokalni snimak članstva i veza](../test-results/history/novj-categories.json) beleži obuhvat tog pregleda, ne katalog koji treba ručno održavati. Pregled članstva nije potpuna provera istorijskih tvrdnji svih članaka.
+
+Obuhvaćene su grane Neretve i Sutjeske (uključujući poginule), borbi za Srbiju, borbi sa Italijanima, Nemcima i snagama NDH (uključujući napade na garnizone), Drvara, kapitulacije Italije, operacija NOVJ, Sremskog fronta i zajedničkih operacija sa Saveznicima. Proverene su i dalje grane nemačke zimske ofanzive 1943–1944, proboja Armijske grupe E iz Grčke i njenog proboja kroz istočnu Bosnu. Isti članak ne tumačiti kao drugi događaj zato što se javlja u više grana.
+
+Za pomorsku igru izdvojeni su sledeći ulazi u istraživanje; ovo su kandidati, ne odabrane etape ni potvrda konkretnog naoružanja našeg čamca:
+
+| Događaj i izvor | Period | Šta istražiti za igru |
+|---|---|---|
+| [Desant na Korčulu](https://sh.wikipedia.org/wiki/Desant_na_Kor%C4%8Dulu) | 22–24. april 1944. | Transport iz pravca Visa i obezbeđenje konvoja; članak upućuje na monografiju Prve dalmatinske brigade, str. 282–285, za sastav transporta. |
+| [Desant na Šoltu](https://sh.wikipedia.org/wiki/Desant_na_%C5%A0oltu) | maj 1944. | Dolazak sa Visa, iskrcavanje i povratak; razlikovati savezničke desantne čamce od plovila Mornarice NOVJ. Članak povezuje i nemačke operativne dokumente za 10–11. maj. |
+| [Desant na Brač](https://sh.wikipedia.org/wiki/Desant_na_Bra%C4%8D_(juni_1944.)) | jun 1944. | Zajednička desantna akcija i podrška sa mora; zaseban događaj od septembarskog oslobođenja ostrva. Naslov je pronađen u kategoriji; detaljna provera članka i literature još nije urađena. |
+| [Bitka za Brač](https://sh.wikipedia.org/wiki/Bitka_za_Bra%C4%8D_(1944.)) | 12–17. septembar 1944. | Sumartin, Supetar i sprečavanje evakuacije; članak vodi ka monografijama brigada i ratnom dnevniku Komande Jugoistok. |
+| [Borbe za Hvar](https://sh.wikipedia.org/wiki/Borbe_za_Hvar_(1944.)) | septembar 1944. | Razlikovati partizansko zauzimanje ostrva i nemački pokušaj ponovnog zauzimanja; tek zatim birati zadatak plovila. |
+
+Rečne teme u istoj grani uključuju Batinu, Virovitički mostobran i forsiranje Neretve. Sam naziv „forsiranje” ne potvrđuje borbu motornih čamaca: [članak o Neretvi](https://sh.wikipedia.org/wiki/Forsiranje_Neretve) opisuje i prelazak preko porušenog i naknadno podignutog mosta. Virovitički mostobran ostaje ulaz za dalje istraživanje, bez potvrđene misije ili plovila.
+
+## Šolta, 9–11. maj 1944 — sastav za igru čamca
+
+Izabrana operacija nije konačno oslobođenje Šolte u septembru: majski napad završio se povratkom na Vis. Monografija Mirka Novovića i Stevana Petkovića, [Prva dalmatinska brigada na Visu, odeljak o Šolti, strane PDF-a 42–49](https://znaci.org/00001/108_11.pdf#page=42), opisuje sastav, iskrcavanje i povlačenje; [nemački izveštaj od 12. maja, Zbornik XII/4, dokument 56](https://www.znaci.org/00001/4_12_4_56.htm) potvrđuje pojačanja i povlačenje napadača, uz perspektivu i procene protivničke komande. Brojeve gubitaka i protivničke procene ne preuzimati nekritički.
+
+| Element | Potvrđeno i granice primene |
+|---|---|
+| Nemački položaji na kopnu | 3. i 7. četa 892. puka 264. pešadijske divizije; mitraljezi i minobacači 81 mm (monografija, strane PDF-a 42–43). Izraz „šarac” ne određuje sam po sebi MG 34 ili MG 42. Koristiti opšti mitraljeski položaj, bez neproverene oznake modela. |
+| Nemačka artiljerija | Podrška sa Čiova, ne potvrđena baterija na samoj Šolti (isti odeljak). Ne postavljati proizvoljne obalske topove na Šoltu niti mešati septembarski raspored sa majskim. |
+| Nemački brzi torpedni čamci | S 30 i S 61 na području Visa u noći 10/11. maja; [HMA, ratni put S 30, zapis za taj datum](https://www.historisches-marinearchiv.de/projekte/s_boote/lebenslauf_boot.php?where_value=23). S 33 se vratio zbog kvara. Ovo potvrđuje protivnika na povratnoj ruti, ne njegovo patroliranje između šoltanskih uvala. Monografija opisuje napad vatrom; tačan sklop palubnog oružja tih plovila tada još nije potvrđen za detaljno crtanje. |
+| Sopstvene i savezničke snage | Delovi 26. divizije, Mornarica NOVJ i saveznička podrška. Transport uključuje LCI, LCA, Sea Star, NB-4, NB-8, Marin II, Dupin i leut (monografija, 44. strana PDF-a). Ne predstavljati sve ove različite vrste plovila istom siluetom. |
+| Moguća podrška izvlačenju | Ukrcavanje u Senjskoj i Šešuli i povratak prema Visu daju istorijsku osnovu za zadatak; to je okvir za razradu radnje, ne dokaz konkretne akcije našeg čamca. Marin II je potopljen: ne predstavljati njegov uspešan povratak kao istorijsku činjenicu. |
+
+**Izbor za razvoj:** prvi kopneni protivnik je nemački mitraljeski položaj; prvi pomorski protivnik je S-čamac na povratnom pravcu prema Visu, sa S 30 kao konkretnom referencom. Minobacač 81 mm je potvrđen dodatni kandidat, ne nalog za uvođenje još jedne vrste protivnika. Tačan zadatak i ponašanje protivnika ostaju dizajn igre, odvojen od činjenica iz izvora.
+
+**Palubno oružje za prikaz tipa:** Ingo Bauernfeind, *Schnell- und Torpedoboote: Deutsche und alliierte Einheiten 1939–1945*, Motorbuch Verlag, 2024, [str. 13](https://api.pageplace.de/preview/DT0400.9783613313187_A50355208/preview-9783613313187_A50355208.pdf#page=13), navodi dva topa 20 mm i dve torpedne cevi 533 mm za serije S 30–37 i S 54–61, uz napomenu o naknadnom dodavanju prednjeg topa nekim plovilima. Za igru je izabrana interpretacija tipa sa dva topa; to nije potvrda tačnog rasporeda i modernizacije pojedinačnog S 30 u noći 10/11. maja. Torpeda nisu deo trenutne paljbe u igri.
+
+**Art:** [indeks prikaza](../assets/images/armies/index.csv) sadrži postojeći čamac i nemačku pešadiju odozgo, dok su britanski desantni čamci bočni. Postojeći `camac.png` ostaje prihvaćena grafička osnova, bez identifikacije kao istorijski potvrđenog modela iz operacije. [S-čamac](../assets/images/armies/game-ready/brodovi/schnellboot-s30.svg) je zaseban lokalni crtež tipa S 30 odozgo, sa uskim trupom, zatvorenim niskim kormilarskim prostorom, parom prednjih torpednih cevi i palubnim postoljima; cevi topova crta i okreće igra. Bez oznaka koje bi tvrdile da je rekonstruisan konkretan brod. Za mitraljeski položaj još je potreban konačni prikaz odozgo; bočne desantne slike ne koristiti za gornji pogled.
+
+## Rečne misije — kandidati
+
+**Batinska bitka, Dunav, novembar 1944.** Sovjetske i jugoslovenske jedinice forsirale su Dunav kod Batine; kandidat za misiju prebacivanja boraca i snabdevanja mostobrana, ne još odabrana radnja igre. [Pregled događaja](https://sh.wikipedia.org/wiki/Batinska_bitka); [Batinska operacija, str. 31, deveta strana PDF-a](https://znaci.org/00001/152_3.pdf#page=9) izričito navodi da je 51. divizija za prve talase koristila ribarske i druge lokalno prikupljene čamce, bez dovoljno formacijskih sredstava za prelazak. To potvrđuje transport čamcima, ali ne dokazuje upotrebu brzog motornog čamca sa pramčanim mitraljezom niti duel patrolnih čamaca. Za takav prikaz potrebna je posebna provera plovila, posade i naoružanja; postojeći art nije dokaz njihove upotrebe u toj bici.
 
 ## Osnovni izvor za oružje NOB
 
