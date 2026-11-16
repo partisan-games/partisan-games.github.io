@@ -18,7 +18,9 @@ function encounter(callback = () => {}) {
   const clock = new GameClock()
   const target = new TenkLevo({ clock, src: null, cevSlika: null, width: 50, height: 40, x: 100, y: 400 })
   const raids = new AirRaids({ clock, target, groundY: 400, crashY: () => 470, scrollSpeed: -160, callback })
-  for (const plane of raids.planes) { plane.width = 180; plane.height = 50 }
+  for (const plane of raids.planes) {
+    plane.width = 180; plane.height = 50
+  }
   return { clock, target, raids }
 }
 

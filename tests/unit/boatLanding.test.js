@@ -11,7 +11,9 @@ before(async() => {
 function setup() {
   const session = { state: 'running', clock: { now: 0 } }
   const player = { startX: 200, x: 200, y: 200, height: 76, angle: 0, speed: 200,
-    dead: false, stop() { this.speed = 0 } }
+    dead: false, stop() {
+      this.speed = 0
+    } }
   const landing = new Landing({ coast: { edgeAt: () => 30 }, session, player, viewLeft: () => 0 })
   return { session, player, landing }
 }

@@ -59,7 +59,9 @@ export default class ShoreMachineGun extends CombatTarget {
     return applied
   }
 
-  get mount() { return { x: this.x, y: this.y - this.side * 4 } }
+  get mount() {
+    return { x: this.x, y: this.y - this.side * 4 }
+  }
   get muzzle() {
     const { mount } = this
     return { x: mount.x + Math.cos(this.gunAngle) * 14, y: mount.y + Math.sin(this.gunAngle) * 14 }
@@ -118,9 +120,9 @@ export default class ShoreMachineGun extends CombatTarget {
         ctx.fillRect(-1, -4, 2, 8)
         ctx.fillStyle = '#242b29'
         ctx.fillRect(-.5, -11, 1, 9)
-      } else {
+      } else
         ctx.drawImage(this.crew.image, 0, 0, 32, 36, -12, -13.5, 24, 27)
-      }
+
       ctx.restore()
     }
     ctx.restore()

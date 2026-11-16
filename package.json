@@ -11,7 +11,7 @@
   },
   "scripts": {
     "start": "npx live-server",
-    "lint": "eslint core core3d scenes ui scripts tests config.js playwright.config.js",
+    "lint": "eslint --fix core core3d scenes ui scripts tests config.js playwright.config.js",
     "test": "node --import ./tests/unit/setup/register.js --test \"tests/unit/**/*.test.js\"",
     "check": "node scripts/check-project.js",
     "smoke": "playwright test",

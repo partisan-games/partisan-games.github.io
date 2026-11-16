@@ -12,7 +12,9 @@ test('the renderer draws a burning tank and barrel before its flame, with scener
   const sceneRenderer = Renderer2D.instance
   Renderer2D.instance = null
   const ctx = { save() {}, restore() {}, translate() {}, rotate() {}, scale() {},
-    drawImage(image) { draws.push(image.name) } }
+    drawImage(image) {
+      draws.push(image.name)
+    } }
   const renderer = new Renderer2D({ canvas: { getContext: () => ctx } })
   try {
     const building = sprite('building')

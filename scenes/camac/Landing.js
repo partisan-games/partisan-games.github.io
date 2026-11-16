@@ -45,9 +45,15 @@ export default class Landing {
     }))
   }
 
-  get shoreY() { return this.coast.edgeAt(this.x, -1) }
-  get pierY() { return Math.min(canvas2d.height * .45, Math.max(115, this.shoreY + 85)) }
-  get active() { return this.startedAt !== null }
+  get shoreY() {
+    return this.coast.edgeAt(this.x, -1)
+  }
+  get pierY() {
+    return Math.min(canvas2d.height * .45, Math.max(115, this.shoreY + 85))
+  }
+  get active() {
+    return this.startedAt !== null
+  }
 
   update() {
     if (this.session.state !== 'running' || this.complete) return

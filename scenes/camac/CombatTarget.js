@@ -10,14 +10,20 @@ export default class CombatTarget extends GameObject2D {
     this.combatLife = new CombatLife({ session, maximum, onDeath: () => this.stop() })
   }
 
-  get alive() { return this.combatLife?.health.alive ?? true }
+  get alive() {
+    return this.combatLife?.health.alive ?? true
+  }
   set alive(value) {
     if (!this.combatLife) return
     if (!value) this.die()
     else if (this.dead) this.reset()
   }
-  get lifeId() { return this.combatLife.lifeId }
-  get energija() { return this.combatLife.health.current }
+  get lifeId() {
+    return this.combatLife.lifeId
+  }
+  get energija() {
+    return this.combatLife.health.current
+  }
 
   get shown() {
     const x = this.x - this.viewLeft()
@@ -29,6 +35,10 @@ export default class CombatTarget extends GameObject2D {
     return this.combatLife.damage(damage, lifeId)
   }
 
-  die() { return this.takeHit(this.energija) }
-  reset() { this.stop(); this.combatLife.reset() }
+  die() {
+    return this.takeHit(this.energija)
+  }
+  reset() {
+    this.stop(); this.combatLife.reset()
+  }
 }

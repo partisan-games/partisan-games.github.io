@@ -17,7 +17,9 @@ function wallet() {
   }
   let date = new Date(2026, 10, 14)
   const options = { storage, now: () => date, locks: undefined }
-  return { coins: new DevelopmentCoins(options), options, storage, setDate: value => { date = value } }
+  return { coins: new DevelopmentCoins(options), options, storage, setDate: value => {
+    date = value
+  } }
 }
 
 test('local balance starts at 1000, spends, persists across reload and refunds without changing the ordinary wallet', async() => {

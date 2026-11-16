@@ -119,7 +119,7 @@ export default class Svabo extends GameObject2D {
     if (!this.shown || !this.image.naturalWidth) return
     ctx.save()
     ctx.imageSmoothingEnabled = false
-    if ((this.stoji || this.fallenFor) && this.frames) {
+    if ((this.stoji || this.fallenFor) && this.frames)
       if (!this.stoji) {
         const elapsed = FALL_TIME - this.fallenFor
         const collapse = Math.min(1, elapsed / .35)
@@ -142,7 +142,7 @@ export default class Svabo extends GameObject2D {
         this.renderFigure(1, { x: Math.sin(this.animationTime * 1.3 + this.idlePhase) * .45,
           y: (1 - rise) * 10 + breath * .65, angle: breath * .006, alpha: rise })
       }
-    }
+
     ctx.drawImage(this.image, this.x - this.width / 2, this.y - this.height / 2, this.width, this.height)
     ctx.restore()
   }

@@ -28,9 +28,9 @@ export default class CombatLayers {
   update() {
     for (const unit of this.units) {
       unit.position.z = layers.unit
-      for (const barrel of [unit.cev, unit.barrel]) {
+      for (const barrel of [unit.cev, unit.barrel])
         if (barrel) barrel.position.z = layers.unit
-      }
+
       const pool = unit.granate || unit.fire?.projectiles
       for (const projectile of pool?.projectiles || []) {
         projectile.position.z = layers.projectile
