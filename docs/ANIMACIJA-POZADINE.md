@@ -6,6 +6,10 @@ Svaka pozadina ima živ ambijent, naročito kada prikazuje dim i vatru. Osnovnu 
 
 Proveravati same slojeve efekata kroz više trenutaka, uz pauzu i ishod; promena cele slike zbog aviona ili zastave ne dokazuje da dim radi.
 
+Ako igra ima vetar, jedan izvor smera i jačine upravlja i balistikom i povezanim efektima: dimom i vrhovima plamena. Žarišta ostaju na mestu; pomera se dim i savija plamen. Brzinu efekata prevoditi u koordinate njihovog platna, da druga rezolucija ne promeni smer ili prividnu jačinu. Proveriti oba smera, različite jačine, isključen vetar, pauzu i nastavak posle ishoda; vetar samo na granatama nije završen efekat.
+
+U Ustanku zastave po izričitoj odluci vlasnika zadržavaju položaj i smer ka sredini ekrana, nezavisno od vetra. Obe koriste jedan statičan crtež platna i isti talas iz zajedničkog vremena scene; ne dodavati promenu unapred nacrtanih kadrova samo jednoj zastavi. Promena smera sekla je levu zastavu na ivici ekrana; top i raspored boraca ne pomerati zbog tog efekta. Zastave nisu pokazatelj smera vetra.
+
 ## Ustanak
 
 [VillageFire](../scenes/ustanak/VillageFire.js) crta sva seoska žarišta na posebnom transparentnom platnu. Izvori prate oštećene krovove i udaljene ruševine; razlikuju se po veličini plamena, putanji, širini, trajanju i nijansi dima. [Battlefield](../scenes/ustanak/Battlefield.js) sastavlja očišćenu sliku i žive efekte, istim poravnanjem sa tlom. Browser provera poredi direktno sloj vatre/dima, uključujući pauzu i nastavak posle pobede.

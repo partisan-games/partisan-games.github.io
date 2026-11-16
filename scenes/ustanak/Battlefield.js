@@ -13,10 +13,11 @@ const image = src => {
 
 /** Background only: every battlefield shares the same flat firing line. */
 export default class Battlefield {
-  constructor({ canvas, groundY }) {
+  constructor({ canvas, groundY, wind }) {
     this.canvas = canvas
     this.ctx = canvas.getContext('2d')
     this.groundY = groundY
+    this.wind = wind
     this.time = 0
     this.mountains = image('background/planine.png')
     this.village = image('background/crnogorsko-selo-1941-pixel.png')
@@ -64,13 +65,13 @@ export default class Battlefield {
       this.ctx.drawImage(this.village, 0, 0, width, horizon, 0, 0, this.canvas.width, this.groundY)
       this.ctx.drawImage(this.village, 0, horizon, width, height - horizon,
         0, this.groundY, this.canvas.width, this.canvas.height - this.groundY)
-      this.villageFire.render(this.time)
       const effects = this.villageFire.canvas
+      this.villageFire.render(this.time, this.wind ? this.wind.drift * effects.width / this.canvas.width : undefined)
       this.ctx.drawImage(effects, 0, 0, effects.width, effects.height * villageGroundRatio,
         0, 0, this.canvas.width, this.groundY)
     } else if (round === 3 && this.city.image.complete && this.city.image.naturalWidth) {
       this.cityViewport.width = this.canvas.width
-      this.city.render()
+      this.city.render(undefined, this.wind ? this.wind.drift * this.city.efekti.width / this.canvas.width : undefined)
     } else this.landscape()
     this.ctx.restore()
   }

@@ -40,6 +40,8 @@ Pre brisanja bilo kog plana obavezno pregledati njegov sadržaj i sačuvati kori
 
 Svaki novi UI element zahteva prethodno izričito odobrenje vlasnika, uključujući brojače, tekstove, indikatore, dugmad i obaveštenja. Nalog za izmenu gameplay-a ili završetak plana sam po sebi ne odobrava dodavanje UI elemenata.
 
+Ni planirana mogućnost uključivanja/isključivanja opcije ne odobrava checkbox, indikator ili drugo UI rešenje. Pre izmene prikazati konkretan predlog i sačekati izričito odobrenje; do tada pripremiti samo logiku.
+
 ## Pravilo za umetnost
 
 Art i zvukovi su obavezni delovi svake igre. Uključiti ih u početni plan, bez čekanja da ih vlasnik zatraži: grafiku i animacije, zvukove radnji i ambijenta, usklađivanje sa događajima i kontrolu jačine/utišavanja. Pre završetka proveriti oba; funkcionalan gameplay sam po sebi nije završena igra.

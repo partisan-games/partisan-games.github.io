@@ -1,6 +1,6 @@
 /**
  * The projectiles of one shooter: it reuses the ones that are out of play and checks them against targets.
- * They go into the owner's `predmeti`, so the scene updates and draws them with the owner.
+ * They go into the owner's `children`, so the scene updates and draws them with the owner.
  * A projectile back in the pool is out of play, not destroyed.
  */
 export default class ProjectilePool {

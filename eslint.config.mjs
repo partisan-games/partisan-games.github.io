@@ -154,7 +154,7 @@ export default [{
     }],
   },
 }, {
-  // layers, lowest first: core/runtime and core/gameplay, core/io, ui, core, core3d, scenes; a module imports only from lower layers
+  // layers, lowest first: core/runtime, core/gameplay and core/collision, core/io, ui, core, core3d, scenes; a module imports only from lower layers
   files: ['core/**/*.js'],
   rules: {
     'no-restricted-imports': ['error', {
@@ -195,13 +195,13 @@ export default [{
     }],
   },
 }, {
-  // the rules and the runtime are plain logic that every game shares: they must not reach into games, the page or rendering
-  files: ['core/gameplay/**/*.js', 'core/runtime/**/*.js'],
+  // the rules, the runtime and collision geometry are plain logic that every game shares: they must not reach into games, the page or rendering
+  files: ['core/gameplay/**/*.js', 'core/runtime/**/*.js', 'core/collision/**/*.js'],
   rules: {
     'no-restricted-imports': ['error', {
       patterns: [{
         regex: '^(/|three)',
-        message: 'core/gameplay and core/runtime import only each other, by relative path: no games, page, rendering or io.',
+        message: 'core/gameplay, core/runtime and core/collision import only each other, by relative path: no games, page, rendering or io.',
       }],
     }],
   },

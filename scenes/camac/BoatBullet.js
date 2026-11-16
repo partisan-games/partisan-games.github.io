@@ -9,11 +9,6 @@ export default class BoatBullet extends Projectile {
     this.damage = 10
   }
 
-  reset() {
-    super.reset()
-    this.start = this.end = null
-  }
-
   get offScreen() {
     const x = this.x - this.viewLeft()
     return x < -this.width || x > canvas2d.width + this.width ||
@@ -22,10 +17,10 @@ export default class BoatBullet extends Projectile {
 
   update(dt) {
     if (!this.visible) return
-    if (this.offScreen) { this.reset(); return }
-    this.start = { x: this.x, y: this.y }
+    if (this.offScreen) {
+      this.reset(); return
+    }
     this.updateMovement(dt)
-    this.end = { x: this.x, y: this.y }
     // Hit resolution precedes retirement, even if this segment leaves the screen.
   }
 

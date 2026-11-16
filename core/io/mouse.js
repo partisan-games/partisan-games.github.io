@@ -1,4 +1,4 @@
-import { isInside } from '/core/utils/collisions.js'
+import { isInside } from '/core/collision/rectangles.js'
 import { createSound } from '/core/io/sound.js'
 
 const mouse = {

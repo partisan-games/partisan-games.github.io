@@ -4,14 +4,14 @@ import Zastava from './Zastava.js'
 import artFrame from './artFrame.js'
 
 export default class Zastavnik extends Sprite {
-  constructor(x, y, { italian = false } = {}) {
+  constructor(x, y, { italian = false, flagTime } = {}) {
     super(`armies/game-ready/vojnici/${italian ? 'zastavnici' : 'partizanski-zastavnik'}-sprites.png`, {
       x, y, width: italian ? 80 : 60, height: 80, names: italian ? ['partisan', 'italian'] : ['partisan'], frameCount: 4,
       defaultAnimation: italian ? 'italian' : 'partisan', animationTime: 1.6,
     })
     this.direction = italian ? -1 : 1
     this.poleX = x + 19 * this.direction
-    this.children.push(new Zastava({ x: this.poleX, y: y - 105, italian }))
+    this.children.push(new Zastava({ x: this.poleX, y: y - 105, italian, getTime: flagTime }))
   }
 
   render() {
