@@ -1,0 +1,8 @@
+{
+  "waves": [
+    { "name": "Art i model tla", "sequential": ["T-01", "T-02"] },
+    { "name": "Crtanje i pad", "sequential": ["T-03", "T-04"] },
+    { "name": "Pregled", "sequential": ["T-05"] }
+  ],
+  "handoffs": []
+}
