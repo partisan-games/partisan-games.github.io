@@ -7,10 +7,10 @@ export default class Sprite {
     this.frameRate = frameRate
     this.currentFrame = 0
     this.timeAccumulator = 0
-    const skalar = .25
+    const scale = .25
     this.texture = new THREE.TextureLoader().load(imgSrc, texture => {
       const frameWidth = texture.image.width / frameCount
-      this.mesh.scale.set(frameWidth * skalar, texture.image.height * skalar, 1)
+      this.mesh.scale.set(frameWidth * scale, texture.image.height * scale, 1)
       this.randPosition()
     })
     this.texture.wrapS = THREE.RepeatWrapping

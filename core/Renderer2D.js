@@ -1,7 +1,7 @@
-import { ishodista } from './konstante.js'
+import { origins } from './constants.js'
 
 const poravnajNiz = niz => niz.flatMap(predmet =>
-  [predmet, ...(predmet.predmeti ? poravnajNiz(predmet.predmeti) : [])]
+  [predmet, ...(predmet.children ? poravnajNiz(predmet.children) : [])]
 )
 
 export default class Renderer2D {
@@ -11,73 +11,73 @@ export default class Renderer2D {
 
     this.canvas = canvas
     this.ctx = canvas.getContext('2d')
-    this.kameraX = this.kameraY = 0
+    this.cameraX = this.cameraY = 0
   }
 
-  clear({ pozadina, bojaPozadine } = {}) {
-    if (pozadina)
-      pozadina.render()
-    else if (bojaPozadine) {
-      this.ctx.fillStyle = bojaPozadine
+  clear({ background, backgroundColor } = {}) {
+    if (background)
+      background.render()
+    else if (backgroundColor) {
+      this.ctx.fillStyle = backgroundColor
       this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
     } else
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
   }
 
-  crtaOblik(predmet) {
+  drawShape(predmet) {
     this.ctx.fillStyle = 'black'
-    if (predmet.ishodiste === ishodista.centar)
-      this.ctx.fillRect(-predmet.sirina / 2, -predmet.visina / 2, predmet.sirina, predmet.visina)
-    else if (predmet.ishodiste === ishodista.goreLevo)
-      this.ctx.fillRect(0, 0, predmet.sirina, predmet.visina)
-    else if (predmet.ishodiste === ishodista.doleDesno)
-      this.ctx.fillRect(-predmet.sirina, -predmet.visina, predmet.sirina, predmet.visina)
+    if (predmet.origin === origins.center)
+      this.ctx.fillRect(-predmet.width / 2, -predmet.height / 2, predmet.width, predmet.height)
+    else if (predmet.origin === origins.topLeft)
+      this.ctx.fillRect(0, 0, predmet.width, predmet.height)
+    else if (predmet.origin === origins.bottomRight)
+      this.ctx.fillRect(-predmet.width, -predmet.height, predmet.width, predmet.height)
   }
 
-  crtaSliku(predmet) {
-    if (predmet.ishodiste === ishodista.centar)
-      this.ctx.drawImage(predmet.slika, -predmet.sirina / 2, -predmet.visina / 2, predmet.sirina, predmet.visina)
-    else if (predmet.ishodiste === ishodista.goreLevo)
-      this.ctx.drawImage(predmet.slika, 0, 0, predmet.sirina, predmet.visina)
-    else if (predmet.ishodiste === ishodista.doleDesno)
-      this.ctx.drawImage(predmet.slika, -predmet.sirina, -predmet.visina, predmet.sirina, predmet.visina)
+  drawFrame(predmet) {
+    if (predmet.origin === origins.center)
+      this.ctx.drawImage(predmet.image, -predmet.width / 2, -predmet.height / 2, predmet.width, predmet.height)
+    else if (predmet.origin === origins.topLeft)
+      this.ctx.drawImage(predmet.image, 0, 0, predmet.width, predmet.height)
+    else if (predmet.origin === origins.bottomRight)
+      this.ctx.drawImage(predmet.image, -predmet.width, -predmet.height, predmet.width, predmet.height)
   }
 
-  dodajSenku(predmet) {
-    if (predmet.senka) {
+  addShadow(predmet) {
+    if (predmet.shadow) {
       this.ctx.shadowColor = 'rgba(0, 0, 0, 0.5)'
       this.ctx.shadowOffsetX = 10
       this.ctx.shadowOffsetY = 10
     }
   }
 
-  crtaPredmet(predmet) {
-    if (!predmet.prikazan) return
+  drawObject(predmet) {
+    if (!predmet.shown) return
 
     this.ctx.save()
-    this.dodajSenku(predmet)
+    this.addShadow(predmet)
     this.ctx.translate(predmet.x, predmet.y)
-    this.ctx.rotate(predmet.ugao)
-    this.ctx.scale(predmet.odrazY, predmet.odrazX)
+    this.ctx.rotate(predmet.angle)
+    this.ctx.scale(predmet.flipY, predmet.flipX)
     this.ctx.scale(predmet.scaleX, predmet.scaleY)
 
-    if (!predmet.slika || predmet.debug)
-      this.crtaOblik(predmet)
+    if (!predmet.image || predmet.debug)
+      this.drawShape(predmet)
     else
-      this.crtaSliku(predmet)
+      this.drawFrame(predmet)
 
     this.ctx.restore()
     // A separately registered flame drawable controls its own layer and must not be drawn twice.
-    if (predmet.zapaljen && !predmet.flameLayer) predmet.plamen.render(predmet.zadimljen)
+    if (predmet.burning && !predmet.flameLayer) predmet.flame.render(predmet.smoky)
   }
 
-  crtaPredmete(predmeti) {
+  drawObjects(children) {
     this.ctx.save()
-    this.ctx.translate(-this.kameraX, -this.kameraY)
+    this.ctx.translate(-this.cameraX, -this.cameraY)
 
-    poravnajNiz(predmeti)
-      .sort((a, b) => b.polozaj?.z - a.polozaj?.z)
-      .forEach(predmet => predmet.render ? predmet.render() : this.crtaPredmet(predmet))
+    poravnajNiz(children)
+      .sort((a, b) => b.position?.z - a.position?.z)
+      .forEach(predmet => predmet.render ? predmet.render() : this.drawObject(predmet))
 
     this.ctx.restore()
   }

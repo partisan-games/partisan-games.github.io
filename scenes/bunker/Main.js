@@ -1,27 +1,27 @@
-import platno from '/core/io/platno.js'
-import { getRandomCoords, nadjiNajdaljeTacke } from '/core/utils.js'
-import Scena2D from '/core/Scena2D.js'
-import Pozadina from '/core/objects/Pozadina.js'
-import Bombas from '/core/actor/derived/Bombas.js'
+import canvas2d from '/core/io/canvas2d.js'
+import { getRandomCoords, findFarthestPoints } from '/core/utils.js'
+import Scene2D from '/core/Scene2D.js'
+import Background from '/core/objects/Background.js'
+import Grenadier from '/core/actor/derived/Grenadier.js'
 import Bunker from '/core/objects/Bunker.js'
 import Mina from './Mina.js'
 import Mitraljezac from './Mitraljezac.js'
 
 const ZADATO_VREME = 30
 const fieldSize = 100
-const BROJ_PREPREKA = (platno.width / fieldSize) * (platno.height / fieldSize) / 4
+const BROJ_PREPREKA = (canvas2d.width / fieldSize) * (canvas2d.height / fieldSize) / 4
 
-export default class extends Scena2D {
+export default class BunkerScene extends Scene2D {
   constructor() {
     super({ intro: 'Bring Žikica Jovanović Španac to the German bunker!' })
   }
 
   init() {
-    this.pozadina = new Pozadina('textures/terrain/beton.gif')
+    this.background = new Background('textures/terrain/beton.gif')
     const pozicije = getRandomCoords({ n: BROJ_PREPREKA, fieldSize, margin: 40 })
-    const najdaljeTacke = nadjiNajdaljeTacke(pozicije)
+    const najdaljeTacke = findFarthestPoints(pozicije)
 
-    this.player = new Bombas(najdaljeTacke[0])
+    this.player = new Grenadier(najdaljeTacke[0])
     this.bunker = new Bunker(najdaljeTacke[1])
     this.mitraljezac = new Mitraljezac(this.bunker.x + 60, this.bunker.y + 20, this.player, this.session)
 
@@ -32,15 +32,15 @@ export default class extends Scena2D {
   }
 
   proveriPobedu() {
-    if (this.player.razmakDo(this.bunker) < this.bunker.sirina / 2) {
-      this.bunker.umri()
+    if (this.player.distanceTo(this.bunker) < this.bunker.width / 2) {
+      this.bunker.die()
       this.victory('The enemy bunker has been destroyed!')
     }
   }
 
   update(dt, t) {
-    if (this.ui.outro) return
     super.update(dt, t)
+    if (this.ui.outro) return
     this.mine.forEach(mina => mina.proveriSudar(this.player))
 
     if (this.player.dead) this.defeat('You fell gloriously.')
@@ -48,8 +48,6 @@ export default class extends Scena2D {
 
     this.proveriPobedu()
   }
-
-  /* UI */
 
   sceneUI(t) {
     const preostalo = ZADATO_VREME - Math.floor(t)

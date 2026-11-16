@@ -1,4 +1,4 @@
-import Scena3D from '/core/Scena3D.js'
+import Scene3D from '/core/Scene3D.js'
 import CapoeiraGirl, { model } from './Character.js'
 import { createGround } from '/core3d/ground.js'
 import { createSun } from '/core3d/light.js'
@@ -7,7 +7,7 @@ import { css } from './style.js'
 import { requestModel } from '/core3d/assets/models.js'
 import SpecialActions from './SpecialActions.js'
 
-export default class extends Scena3D {
+export default class CapoeiraGirlScene extends Scene3D {
   constructor() {
     super({
       showControls: false,
@@ -20,7 +20,7 @@ export default class extends Scena3D {
     const sun = createSun()
     this.addMesh(sun)
 
-    this.player = new CapoeiraGirl({ camera: this.camera, showHealthBar: false, useComposedMovement: true })
+    this.player = new CapoeiraGirl({ camera: this.camera, showHealthBar: false })
     this.add(this.player)
 
     this.addUI()
@@ -46,7 +46,6 @@ export default class extends Scena3D {
   }
 
   async handleClick(e) {
-    super.handleClick(e)
     const button = e.target.closest('button.special')
     if (!button || !this.session.active || !this.player) return
 

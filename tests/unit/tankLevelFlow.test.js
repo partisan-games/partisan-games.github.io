@@ -7,21 +7,35 @@ test('the complete level keeps scrolling through ground combat, aircraft passes,
   createPageElements()
   const draws = []
   const ctx = { createLinearGradient: () => ({ addColorStop() {} }), fillRect() {}, clearRect() {},
-    drawImage(...args) { draws.push(args) }, save() {}, restore() {}, beginPath() {}, closePath() {},
+    drawImage(...args) {
+      draws.push(args)
+    }, save() {}, restore() {}, beginPath() {}, closePath() {},
     moveTo() {}, lineTo() {}, fill() {}, stroke() {}, ellipse() {} }
   t.mock.method(HTMLCanvasElement.prototype, 'getContext', () => ctx)
   // Asset stand-ins let the real scene finish init without a browser or actual rasterization.
-  class LoadedImage {
+  class LoadedImage extends EventTarget {
     naturalWidth = 256
     naturalHeight = 128
     set src(value) {
       this.url = value
-      if (value.endsWith('/items/granata.gif')) { this.naturalWidth = 32; this.naturalHeight = 8 }
-      if (value.endsWith('/plamen.gif')) { this.naturalWidth = 75; this.naturalHeight = 98 }
-      queueMicrotask(() => { this.complete = true; this.onload?.() })
+      if (value.endsWith('/items/granata.gif')) {
+        this.naturalWidth = 32; this.naturalHeight = 8
+      }
+      if (value.endsWith('/plamen.gif')) {
+        this.naturalWidth = 75; this.naturalHeight = 98
+      }
+      queueMicrotask(() => {
+        this.complete = true
+        this.onload?.()
+        this.dispatchEvent(new Event('load'))
+      })
     }
-    get src() { return this.url }
-    decode() { return Promise.resolve() }
+    get src() {
+      return this.url
+    }
+    decode() {
+      return Promise.resolve()
+    }
   }
   const imageDescriptor = Object.getOwnPropertyDescriptor(globalThis, 'Image')
   Object.defineProperty(globalThis, 'Image', { value: LoadedImage, configurable: true, writable: true })
@@ -41,7 +55,7 @@ test('the complete level keeps scrolling through ground combat, aircraft passes,
   const step = 1 / 60
   for (let frame = 0; frame < 12_000 && scene.session.state === 'running'; frame++) {
     if (!paused && scene.distance > scene.levelLength / 3) {
-      const distance = scene.distance, now = scene.session.clock.now
+      const { distance } = scene, { now } = scene.session.clock
       scene.session.pause()
       scene.session.update(2)
       scene.update(2)
@@ -50,7 +64,9 @@ test('the complete level keeps scrolling through ground combat, aircraft passes,
       scene.session.resume()
       paused = true
     }
-    if (frame % 72 === 0) { scene.tenk.pucaj(scene.tenk.vrhCevi, scene.tenk.cev.ugao); shots++ }
+    if (frame % 72 === 0) {
+      scene.tenk.fire(scene.tenk.vrhCevi, scene.tenk.cev.angle); shots++
+    }
     const before = scene.distance
     scene.session.update(step)
     scene.update(step)
@@ -72,7 +88,7 @@ test('the complete level keeps scrolling through ground combat, aircraft passes,
   assert.ok(paused && shots > 100 && passes >= 4)
   assert.equal(scene.distance, scene.levelLength)
   assert.equal(scene.session.state, 'finished')
-  const distance = scene.distance
+  const { distance } = scene
   scene.session.update(1)
   scene.update(1)
   assert.equal(scene.distance, distance)
@@ -82,5 +98,5 @@ test('the complete level keeps scrolling through ground combat, aircraft passes,
   await replay.init()
   assert.equal(replay.distance, 0)
   assert.equal(replay.session.clock.now, 0)
-  assert.ok(replay.airRaids.planes.every(plane => !plane.active && !plane.vidljiv))
+  assert.ok(replay.airRaids.planes.every(plane => !plane.active && !plane.visible))
 })

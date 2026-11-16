@@ -1,9 +1,9 @@
-import Scena3D from '/core/Scena3D.js'
+import Scene3D from '/core/Scene3D.js'
 import { Stars } from '/core3d/Particles.js'
 
-export default class extends Scena3D {
+export default class FlyingThroughSpaceScene extends Scene3D {
   async init() {
-    this.bojaPozadine = 0x000000
+    this.backgroundColor = 0x000000
     this.add(new Stars())
   }
 }

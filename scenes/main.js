@@ -4,7 +4,7 @@ import Arcade from '/ui/Arcade.js'
 const manager = new SceneManager()
 const elementUI = document.getElementById('ui')
 const modalElement = document.getElementById('modal')
-const arcade = new Arcade()
+export const arcade = new Arcade()
 let paidEntry = null
 let navigation = 0
 

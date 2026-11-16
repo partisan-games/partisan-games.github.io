@@ -24,8 +24,6 @@ export default class WalkState extends State {
     actor.updateTurn(delta)
     actor.updateStrafe(delta)
 
-    /* TRANSIT */
-
     if (actor.input.jump && this.actor.ableToJump)
       actor.setState('jump')
 

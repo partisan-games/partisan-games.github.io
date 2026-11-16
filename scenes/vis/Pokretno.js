@@ -1,22 +1,22 @@
-import Predmet from '/core/actor/Predmet.js'
-import platno from '/core/io/platno.js'
+import GameObject2D from '/core/actor/GameObject2D.js'
+import canvas2d from '/core/io/canvas2d.js'
 
-export default class Pokretno extends Predmet {
-  constructor(src, { potisak, faktorY = .5, ...rest }) {
+export default class Pokretno extends GameObject2D {
+  constructor(src, { thrust, faktorY = .5, ...rest }) {
     super(src, { ...rest })
-    this.potisak = potisak
+    this.thrust = thrust
     this.faktorY = faktorY
     this.reset()
   }
 
   postaviBrzinu() {
-    this.dy = this.potisak
+    this.dy = this.thrust
     this.dx = 0
   }
 
   postaviPolozaj() {
-    const x = Math.random() * platno.width
-    this.postavi(x, -platno.height * Math.random() * this.faktorY)
+    const x = Math.random() * canvas2d.width
+    this.setPosition(x, -canvas2d.height * Math.random() * this.faktorY)
   }
 
   reset() {
@@ -24,7 +24,7 @@ export default class Pokretno extends Predmet {
     this.postaviPolozaj()
   }
 
-  proveriGranice() {
-    if (this.y > platno.height + this.visina) this.reset()
+  checkBounds() {
+    if (this.y > canvas2d.height + this.height) this.reset()
   }
 }

@@ -1,4 +1,4 @@
-import Scena3D from '/core/Scena3D.js'
+import Scene3D from '/core/Scene3D.js'
 import { createSun } from '/core3d/light.js'
 import { WorkerPlayer, models as workerModels } from '/core3d/actor/derived/ww2/Worker.js'
 import { requestModels } from '/core3d/assets/models.js'
@@ -74,7 +74,7 @@ const posters = [
   'anarchy.jpg', 'change.png', 'cleaning.jpg', 'cop.jpg', 'flower.jpg', 'heart.png', 'monaliza.png', 'bomb.jpg', 'cops.jpg', 'peace.jpg', 'kids.jpg', 'airplanes.jpg'
 ]
 
-export default class extends Scena3D {
+export default class GraffitiCityMazeScene extends Scene3D {
   constructor() {
     super({ controlKeys: thirdPersonControls, toon: true })
   }
@@ -91,7 +91,7 @@ export default class extends Scena3D {
 
     const coords = maze.getEmptyCoords(true, cellSize - 1)
 
-    this.player = new WorkerPlayer({ camera: this.camera, solids: city, pos: coords.pop(), showHealthBar: false, useComposedMovement: true })
+    this.player = new WorkerPlayer({ camera: this.camera, solids: city, pos: coords.pop(), showHealthBar: false })
     this.player.putInMaze(maze)
     this.add(this.player)
   }

@@ -1,4 +1,4 @@
-import Scena3D, { bojeNeba } from '/core/Scena3D.js'
+import Scene3D, { skyGradients } from '/core/Scene3D.js'
 import { avatarControls } from '/ui/Controls.js'
 import Planet from '/core3d/geometry/Planet.js'
 import { createTerrain, shake } from '/core3d/ground.js'
@@ -8,11 +8,11 @@ import { getEmptyCoords } from '/core3d/helpers.js'
 import Avatar from '/core3d/actor/Avatar.js'
 import Platform from '/core3d/objects/Platform.js'
 
-export default class extends Scena3D {
+export default class AvatarPlanetsScene extends Scene3D {
   constructor() {
     super({
       controlKeys: avatarControls,
-      bojaPlatna: bojeNeba.mrkla,
+      canvasBackground: skyGradients.mrkla,
       toon: false,
     })
   }
@@ -40,8 +40,6 @@ export default class extends Scena3D {
     this.player = new Avatar({ solids, camera: this.camera, skin: 'DISCO', showHealthBar: false, jumpStyle: 'FLY' })
     this.add(this.player, this.stars)
   }
-
-  /* LOOP */
 
   update(delta, time) {
     super.update(delta)

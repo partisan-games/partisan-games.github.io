@@ -1,14 +1,14 @@
-import Predmet from '/core/actor/Predmet.js'
+import GameObject2D from '/core/actor/GameObject2D.js'
 
-export default class Mina extends Predmet {
+export default class Mina extends GameObject2D {
   constructor(params) {
-    super('items/nagazna.png', { skalar: .75, zapaljiv: true, ...params })
+    super('items/nagazna.png', { scale: .75, flammable: true, ...params })
   }
 
   proveriSudar(telo) {
-    if (this.sudara(telo)) {
-      this.umri()
-      telo.umri()
+    if (this.collidesWith(telo)) {
+      this.die()
+      telo.die()
     }
   }
 }

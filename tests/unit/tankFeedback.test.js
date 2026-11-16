@@ -13,10 +13,10 @@ before(async() => {
 test('feedback is bounded, expires on its clock, and observes damage and death once', () => {
   const clock = new GameClock()
   const unit = { alive: true, get dead() { return !this.alive }, energija: 100,
-    x: 200, y: 100, sirina: 100, visina: 40, dx: -160, prikazan: true,
-    granate: {}, predmeti: [], lifeId: 1 }
+    x: 200, y: 100, width: 100, height: 40, dx: -160, shown: true,
+    granate: {}, children: [], lifeId: 1 }
   const feedback = new BattleFeedback({ units: [unit], clock, scrollSpeed: -160 })
-  for (let i = 0; i < 100; i++) unit.granate.onFire({ position: { x: 240, y: 90 }, angle: 0, projectile: { gravitacija: 90 } })
+  for (let i = 0; i < 100; i++) unit.granate.onFire({ position: { x: 240, y: 90 }, angle: 0, projectile: { gravity: 90 } })
   assert.ok(feedback.effects.length <= 40)
   feedback.update()
   assert.ok(feedback.effects.length > 0, 'without clock advancement effects do not expire')

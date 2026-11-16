@@ -8,14 +8,10 @@ const animDict = {
   attack: 'Zombie Punching',
 }
 
-/* LOADING */
-
 const meshModel = { file: 'model.fbx', prefix: 'character/bigfoot/', angle: Math.PI, animDict }
 
 /** What to load; a game awaits requestModels(models) before it creates one of these. */
 export const models = [meshModel]
-
-/* EXTENDED CLASSES */
 
 const sharedProps = () => {
   const mesh = loadedModel(meshModel)

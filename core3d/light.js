@@ -7,8 +7,6 @@ const { randInt } = THREE.MathUtils
 
 let oldIntensity, oldBackground
 
-/* LIGHTS */
-
 export function dirLight({
   scene,
   pos = [20, 50, 20],
@@ -26,8 +24,6 @@ export function dirLight({
   if (scene) scene.add(light)
   light.shadow.camera.left = light.shadow.camera.bottom = -area
   light.shadow.camera.right = light.shadow.camera.top = area
-  // const helper = new THREE.CameraHelper(light.shadow.camera)
-  // scene.add(helper)
   return light
 }
 
@@ -60,8 +56,6 @@ export function ambLight({ scene, color = 0xffffff, intensity = Math.PI } = {}) 
   return light
 }
 
-/* SUN */
-
 export function createSun({ color = 0xffffff, intensity = Math.PI * 1.5, target, pos = [15, 50, 50], mapSize = 1024, r = 1, transparent = false, planetColor = 0xFCE570, addLight = true, file } = {}) {
   const mesh = new THREE.Mesh(
     new THREE.SphereGeometry(r),
@@ -84,8 +78,6 @@ export function createSun({ color = 0xffffff, intensity = Math.PI * 1.5, target,
 export const createMoon = ({
   pos = [50, 100, 50], color = 0xFFF8DE, planetColor = 0xF6F1D5, r = 4, ...rest
 } = {}) => createSun({ pos, color, planetColor, r, ...rest })
-
-/* EFFECTS */
 
 /** `scope` is the ResourceScope whose clock the flash and the thunder wait on. */
 export function lightningStrike(light, scene, scope) {
@@ -114,8 +106,6 @@ export function lightningStrike(light, scene, scope) {
   })
 }
 
-/* UPDATES */
-
 export function sunFollow(sun, pos) {
   sun.position.copy(pos)
   sun.position.add(new THREE.Vector3(-10, 500, -10))
@@ -128,8 +118,6 @@ export function lightFollow(light, target, distance = [12, 8, 1]) {
   const newPos = new THREE.Vector3(...distance).add(target.position)
   light.position.copy(newPos)
 }
-
-/* ORBIT */
 
 export function orbiting(planet, time, radiusX = 8, axis = 0, radiusZ = radiusX) {
   const x = Math.cos(time) * radiusX

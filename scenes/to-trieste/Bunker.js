@@ -17,9 +17,9 @@ export default class Bunker extends CombatTarget {
     this.fire.reset()
   }
 
-  proveriGranice() {
-    if (!this.nextSpawnX) return super.proveriGranice()
-    if (!Number.isFinite(this.sirina) || this.x + this.sirina / 2 >= 0) return
+  checkBounds() {
+    if (!this.nextSpawnX) return super.checkBounds()
+    if (!Number.isFinite(this.width) || this.x + this.width / 2 >= 0) return
     this.x = this.nextSpawnX()
     this.wrapElapsed = 0
     this.reset()

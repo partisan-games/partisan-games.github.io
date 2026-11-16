@@ -7,8 +7,6 @@ export const Ammo = await AmmoPromise()
 // `own` takes ownership of each new native object (see NativeAllocations); without an owner nothing is freed
 const unowned = object => object
 
-/* WORLD */
-
 export function createPhysicsWorld({ gravity = 9.82, softBody = false, own = unowned } = {}) {
   const collisionConfiguration = own(new Ammo.btDefaultCollisionConfiguration())
   const dispatcher = own(new Ammo.btCollisionDispatcher(collisionConfiguration))
@@ -20,8 +18,6 @@ export function createPhysicsWorld({ gravity = 9.82, softBody = false, own = uno
   physicsWorld.setGravity(own(new Ammo.btVector3(0, -gravity, 0)))
   return physicsWorld
 }
-
-/* SHAPE */
 
 const guessMassFromMesh = obj => {
   const mesh = getMesh(obj)
@@ -79,8 +75,6 @@ export const createShapeFromMesh = (mesh, own = unowned) => {
   return shape
 }
 
-/* BODIES */
-
 export function createRigidBody({ own = unowned, mesh, mass = guessMassFromMesh(mesh), shape = createShapeFromMesh(mesh, own), friction, kinematic = false }) {
   const { position, quaternion: quat } = mesh
 
@@ -102,8 +96,6 @@ export function createRigidBody({ own = unowned, mesh, mass = guessMassFromMesh(
 
   return body
 }
-
-/* TERRAIN */
 
 /** Its height data stays in the Ammo heap for the page's life: this build cannot free `_malloc` memory. */
 function createTerrainShape({ data, width, depth, mapWidth, mapDepth, minHeight, maxHeight, own = unowned }) {
@@ -153,15 +145,11 @@ export async function createTerrain({ data, width, depth, minHeight = 0, maxHeig
   return mesh
 }
 
-/* TERRAIN ALT */
-
 export function createTerrainBodyFromData({ data, width, depth, mapWidth, mapDepth, minHeight, maxHeight }) {
   const shape = createTerrainShape({ data, width, depth, mapWidth, mapDepth, minHeight, maxHeight })
   const position = new THREE.Vector3(0, (maxHeight + minHeight) / 2, 0)
   return createRigidBody({ mesh: { position }, mass: 0, shape })
 }
-
-/* UPDATE */
 
 export function updateMeshTransform(mesh, transform) {
   const position = transform.getOrigin()

@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import Scena3D, { bojeNeba } from '/core/Scena3D.js'
+import Scene3D, { skyGradients } from '/core/Scene3D.js'
 import PhysicsWorld from '/core3d/physics/PhysicsWorld.js'
 import { createGround, grassColor } from '/core3d/ground.js'
 import { createMoonSphere, createBoxes, createCrate, createRustyBarrel, createMetalBarrel } from '/core3d/geometry/index.js'
@@ -19,14 +19,14 @@ import { requestModels } from '/core3d/assets/models.js'
 
 const { randFloat } = THREE.MathUtils
 
-export default class extends Scena3D {
+export default class Tank3DScene extends Scene3D {
   constructor() {
     super({
       toon: true,
       controlKeys: { ...baseControls, Space: 'break' },
       reportText: 'The enemy has erected barricades to block our entry into the city. Destroy them to clear the way for our troops.',
       intro: 'Demolish enemy barricades.',
-      bojaPlatna: bojeNeba.modra,
+      canvasBackground: skyGradients.modra,
     })
   }
 
@@ -34,27 +34,27 @@ export default class extends Scena3D {
     await requestModels([...tankModels, ...germanMachineGunnerModels, ...ssSoldierModels, ...naziOfficerModels])
     hemLight({ intensity: Math.PI * 1.25, scene: this.scene })
 
-    this.world = new PhysicsWorld({ scene: this.scene })
-    this.session.scope.add(() => this.world.dispose())
+    this.physics = new PhysicsWorld({ scene: this.scene })
+    this.session.scope.add(() => this.physics.dispose())
 
     this.ground = createGround({ color: grassColor })
-    this.world.add(this.ground, 0)
+    this.physics.add(this.ground, 0)
 
     const crates = createBoxes({ width: 18, height: 3, depth: 1 })
-    crates.forEach(mesh => this.world.add(mesh, 20))
+    crates.forEach(mesh => this.physics.add(mesh, 20))
     this.countableCrates = crates.filter(mesh => mesh.position.y > .5)
 
     for (let i = 0; i < 20; i++) {
       const mesh = createFirTree()
       mesh.position.set(randFloat(10, 50), 0, randFloat(-50, 50))
-      this.world.add(mesh, 0)
+      this.physics.add(mesh, 0)
     }
 
     const createObject = [createCrate, createRustyBarrel, createMetalBarrel, createMoonSphere]
     for (let i = 0; i < 30; i++) {
       const mesh = sample(createObject)({ translateHeight: false })
       mesh.position.set(randFloat(-10, -50), 0, randFloat(-30, 30))
-      this.world.add(mesh, 10)
+      this.physics.add(mesh, 10)
     }
 
     const createBuilding = [createRuin, createWarehouse, createWarehouse2, createWarRuin, createAirport]
@@ -62,10 +62,10 @@ export default class extends Scena3D {
       for (let j = 0; j < 3; j++) {
         const warehouse = sample(createBuilding)()
         warehouse.position.set(-i * 30, 0, j * 30 + 60)
-        this.world.add(warehouse, 0)
+        this.physics.add(warehouse, 0)
       }
 
-    this.player = new Tank({ world: this.world, camera: this.camera, pos: { x: 0, y: 1, z: -20 } })
+    this.player = new Tank({ world: this.physics, camera: this.camera, pos: { x: 0, y: 1, z: -20 } })
     this.add(this.player)
 
     const destroyedTank = await loadModel({ file: 'tank/panzer-III-highpoly/model.fbx', size: 4 })
@@ -94,7 +94,7 @@ export default class extends Scena3D {
     if ((this.player.input.left || this.player.input.right) && this.player.speed >= 30)
       leaveTracks({ body: this.player.body, wheelMeshes: this.player.wheelMeshes, ground: this.ground, scene: this.scene })
 
-    this.world.update(dt)
+    this.physics.update(dt)
     this.smoke?.update(dt, t)
     this.fire?.update(dt, t)
 
@@ -104,7 +104,7 @@ export default class extends Scena3D {
     })
 
     this.enemies.forEach(enemy => {
-      enemy.damageAmount = enemy.distanceTo(this.player.mesh) < 1.5 ? 100 : 0
+      enemy.pendingDamage = enemy.distanceTo(this.player.mesh) < 1.5 ? 100 : 0
     })
 
     if (!this.countableCrates.length)

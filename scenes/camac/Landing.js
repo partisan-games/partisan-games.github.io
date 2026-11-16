@@ -1,5 +1,5 @@
-import platno, { ctx } from '/core/io/platno.js'
-import Predmet from '/core/actor/Predmet.js'
+import canvas2d, { ctx } from '/core/io/canvas2d.js'
+import GameObject2D from '/core/actor/GameObject2D.js'
 
 /** A fictional landing site within the historical operation, not a mapped wartime pier. */
 export default class Landing {
@@ -9,11 +9,11 @@ export default class Landing {
     this.player = player
     this.viewLeft = viewLeft
     this.x = player.startX + 6500
-    this.polozaj = { z: .5 }
+    this.position = { z: .5 }
     this.startedAt = null
     this.progress = 0
     this.complete = false
-    this.passengerLayer = new Predmet('armies/game-ready/vojnici/partizan-odozgo.png', { z: -3, sirina: 24, visina: 27 })
+    this.passengerLayer = new GameObject2D('armies/game-ready/vojnici/partizan-odozgo.png', { z: -3, width: 24, height: 27 })
     this.passengerLayer.render = () => this.renderPassengers()
     this.uniforms = []
     this.passengerLayer.onload = () => {
@@ -23,7 +23,7 @@ export default class Landing {
         canvas.width = 32
         canvas.height = 36
         const context = canvas.getContext('2d')
-        context.drawImage(this.passengerLayer.slika, 0, 0, 32, 36, 0, 0, 32, 36)
+        context.drawImage(this.passengerLayer.image, 0, 0, 32, 36, 0, 0, 32, 36)
         const pixels = context.getImageData(0, 0, 32, 36)
         for (let offset = 0; offset < pixels.data.length; offset += 4) {
           if (pixels.data[offset] !== 101 || pixels.data[offset + 1] !== 115 || pixels.data[offset + 2] !== 73) continue
@@ -46,7 +46,7 @@ export default class Landing {
   }
 
   get shoreY() { return this.coast.edgeAt(this.x, -1) }
-  get pierY() { return Math.min(platno.height * .45, Math.max(115, this.shoreY + 85)) }
+  get pierY() { return Math.min(canvas2d.height * .45, Math.max(115, this.shoreY + 85)) }
   get active() { return this.startedAt !== null }
 
   update() {
@@ -56,25 +56,25 @@ export default class Landing {
     if (!this.active) {
       if (boat.x < this.x - 85) return
       this.startedAt = this.session.clock.now
-      this.approach = { x: boat.x, y: boat.y, angle: boat.ugao }
+      this.approach = { x: boat.x, y: boat.y, angle: boat.angle }
       this.arrivalTime = Math.max(.8, Math.hypot(this.x - boat.x,
-        this.pierY + boat.visina / 2 + 8 - boat.y) / 200)
+        this.pierY + boat.height / 2 + 8 - boat.y) / 200)
       boat.controlsLocked = true
-      boat.stani()
+      boat.stop()
     }
     const elapsed = this.session.clock.now - this.startedAt
     const arrival = Math.min(1, elapsed / this.arrivalTime)
     const eased = arrival * arrival * (3 - 2 * arrival)
     boat.x = this.approach.x + (this.x - this.approach.x) * eased
-    boat.y = this.approach.y + (this.pierY + boat.visina / 2 + 8 - this.approach.y) * eased
+    boat.y = this.approach.y + (this.pierY + boat.height / 2 + 8 - this.approach.y) * eased
     const turn = Math.atan2(Math.sin(-this.approach.angle), Math.cos(-this.approach.angle))
-    boat.ugao = this.approach.angle + turn * eased
+    boat.angle = this.approach.angle + turn * eased
     this.progress = Math.min(1, Math.max(0, (elapsed - this.arrivalTime) / 3.6))
     this.complete = this.progress === 1
   }
 
   render() {
-    if (this.x + 110 < this.viewLeft() || this.x - 110 > this.viewLeft() + platno.width) return
+    if (this.x + 110 < this.viewLeft() || this.x - 110 > this.viewLeft() + canvas2d.width) return
     const shore = this.shoreY, end = this.pierY
     ctx.save()
     ctx.fillStyle = '#66513b'
@@ -94,16 +94,16 @@ export default class Landing {
   }
 
   renderPassengers() {
-    if (!this.uniforms.length || !this.player.vidljiv) return
+    if (!this.uniforms.length || !this.player.visible) return
     ctx.save()
     for (let i = 0; i < 4; i++) {
       const passenger = this.passengers[i]
       const progress = Math.min(1, Math.max(0, this.progress * 1.5 - i / 6))
       const boat = this.player
-      const seatX = (i % 2 ? .075 : -.075) * boat.sirina + passenger.offsetX
-      const seatY = (i < 2 ? -.17 : .17) * boat.visina + passenger.offsetY
-      const aboardX = boat.x + Math.cos(boat.ugao) * seatX - Math.sin(boat.ugao) * seatY
-      const aboardY = boat.y + Math.sin(boat.ugao) * seatX + Math.cos(boat.ugao) * seatY
+      const seatX = (i % 2 ? .075 : -.075) * boat.width + passenger.offsetX
+      const seatY = (i < 2 ? -.17 : .17) * boat.height + passenger.offsetY
+      const aboardX = boat.x + Math.cos(boat.angle) * seatX - Math.sin(boat.angle) * seatY
+      const aboardY = boat.y + Math.sin(boat.angle) * seatX + Math.cos(boat.angle) * seatY
       const spread = Math.max(0, (progress - .85) / .15)
       const x = aboardX + (this.x - aboardX) * Math.min(1, progress * 3) + (i - 1.5) * 16 * spread
       const y = aboardY + (this.shoreY - 13 - aboardY) * progress
@@ -111,7 +111,7 @@ export default class Landing {
       ctx.save()
       ctx.translate(x + stride, y)
       // The source faces northwest; passengers face the bow aboard, then the shore.
-      const aboardAngle = boat.ugao + Math.PI * .75 + passenger.seatedAngle
+      const aboardAngle = boat.angle + Math.PI * .75 + passenger.seatedAngle
       const turn = Math.atan2(Math.sin(Math.PI / 4 - aboardAngle), Math.cos(Math.PI / 4 - aboardAngle))
       ctx.rotate(aboardAngle + turn * Math.min(1, progress * 5) + passenger.angle)
       ctx.scale(passenger.scale, passenger.scale)

@@ -1,5 +1,5 @@
 import Sprite from '/core/actor/Sprite.js'
-import { ctx } from '/core/io/platno.js'
+import { ctx } from '/core/io/canvas2d.js'
 import { settings } from './settings.js'
 
 const { duration, scale } = settings.explosion
@@ -11,22 +11,22 @@ export default class Explosion extends Sprite {
   static reach = frameSize * scale / 2
 
   constructor() {
-    super('sprites/efekti/eksplozija-01.png', { imena: ['burst'], brojKadrova: 8, vremeAnimacije: duration })
+    super('sprites/efekti/eksplozija-01.png', { names: ['burst'], frameCount: 8, animationTime: duration })
     this.scaleX = this.scaleY = scale
-    this.polozaj.z = -1 // above the planes
-    this.sakrij()
+    this.position.z = -1 // above the planes
+    this.hide()
   }
 
   // a burst can start before its image has loaded, and the animation only exists after that
   onload() {
     super.onload()
-    this.dodeliAnimaciju('burst', false)
+    this.setAnimation('burst', false)
   }
 
   start(x, y) {
-    this.postavi(x, y)
+    this.setPosition(x, y)
     this.age = 0
-    this.pokazi()
+    this.show()
     this.reset()
   }
 
@@ -34,17 +34,17 @@ export default class Explosion extends Sprite {
   update(dt) {
     super.update(dt)
     this.age += dt
-    if (this.age >= duration) this.sakrij()
+    if (this.age >= duration) this.hide()
   }
 
   /** Sprite draws every frame at its own size and even when hidden. */
   render() {
-    if (!this.prikazan) return
+    if (!this.shown) return
 
     ctx.save()
     ctx.translate(this.x, this.y)
     ctx.scale(this.scaleX, this.scaleY)
-    this.crtaSliku()
+    this.drawFrame()
     ctx.restore()
   }
 }

@@ -1,15 +1,15 @@
-import platno, { crtaNebo } from '/core/io/platno.js'
-import Scena2D from '/core/Scena2D.js'
-import AvionIgrac from '/core/actor/derived/AvionIgrac.js'
-import VoziloBocno from '/core/actor/VoziloBocno.js'
-import Oblak from '/core/objects/Oblak.js'
-import Zbun from '/core/objects/Zbun.js'
-import Shuma from '/core/objects/Shuma.js'
-import Vracanje from '/core/objects/Vracanje.js'
+import canvas2d, { drawSky } from '/core/io/canvas2d.js'
+import Scene2D from '/core/Scene2D.js'
+import PlayerPlane from '/core/actor/derived/PlayerPlane.js'
+import SideVehicle from '/core/actor/SideVehicle.js'
+import Cloud2D from '/core/objects/Cloud2D.js'
+import Bush from '/core/objects/Bush.js'
+import Forest from '/core/objects/Forest.js'
+import Recurring from '/core/objects/Recurring.js'
 import { baseControls } from '/ui/Controls.js'
-import { frames } from '/core/konstante.js'
+import { frames } from '/core/constants.js'
 
-const nivoTla = platno.height
+const groundLevel = canvas2d.height
 
 const BROJ_OBLAKA = 3
 const BROJ_ZBUNOVA = 10
@@ -27,7 +27,7 @@ const MAX_BRZINA = 600
 const DIZAJ = 10
 const MAX_DIGNUTOST = 5555
 
-export default class extends Scena2D {
+export default class FranjoKluzScene extends Scene2D {
   constructor() {
     super({
       controlKeys: { ...baseControls, Enter: 'Shoot', V: 'Homing missile' },
@@ -38,18 +38,18 @@ export default class extends Scena2D {
     this.brzinaScene = 0
     this.dignutostScene = 0
 
-    this.aerodrom = new Vracanje({ src: 'buildings/aerodrom.png', tlo: nivoTla, procenat: .25 })
-    this.ruina = new Vracanje({ src: 'buildings/ruina.png', tlo: nivoTla, x: -400 })
-    this.player = new AvionIgrac(nivoTla, undefined, { session: this.session })
-    this.vozilo = new VoziloBocno('armies/hummel.png', { x: 150, y: nivoTla, skalar: .75, session: this.session })
+    this.aerodrom = new Recurring({ src: 'buildings/aerodrom.png', groundY: groundLevel, probability: .25 })
+    this.ruina = new Recurring({ src: 'buildings/ruina.png', groundY: groundLevel, x: -400 })
+    this.player = new PlayerPlane(groundLevel, undefined, { session: this.session })
+    this.vozilo = new SideVehicle('armies/hummel.png', { x: 150, y: groundLevel, scale: .75, session: this.session })
 
-    this.player.cvrstaTela.push(this.vozilo, this.ruina)
-    this.player.ciljevi.push(this.vozilo)
-    this.vozilo.ciljevi.push(this.player)
+    this.player.solidBodies.push(this.vozilo, this.ruina)
+    this.player.targets.push(this.vozilo)
+    this.vozilo.targets.push(this.player)
 
-    this.oblaci = Array.from({ length: BROJ_OBLAKA }, () => new Oblak())
-    this.zbunovi = Array.from({ length: BROJ_ZBUNOVA }, () => new Zbun())
-    this.shume = Array.from({ length: BROJ_SHUME }, () => new Shuma())
+    this.oblaci = Array.from({ length: BROJ_OBLAKA }, () => new Cloud2D())
+    this.zbunovi = Array.from({ length: BROJ_ZBUNOVA }, () => new Bush())
+    this.shume = Array.from({ length: BROJ_SHUME }, () => new Forest())
 
     this.add(this.aerodrom, this.player, this.ruina, this.vozilo, ...this.oblaci, ...this.zbunovi, ...this.shume)
     this.pocniParalax()
@@ -57,7 +57,7 @@ export default class extends Scena2D {
   }
 
   get ostaliPredmeti() {
-    return this.predmeti.filter(predmet => !predmet.oznake.has('igrac') && !predmet.oznake.has('raketa'))
+    return this.children.filter(predmet => !predmet.tags.has('igrac') && !predmet.tags.has('raketa'))
   }
 
   pocniParalax() {
@@ -77,15 +77,15 @@ export default class extends Scena2D {
   zaustaviParalax(dt) {
     const kocenje = 0.9 ** frames(dt)
     this.ostaliPredmeti
-      .filter(predmet => !predmet.oznake.has('neprijatelj'))
+      .filter(predmet => !predmet.tags.has('neprijatelj'))
       .forEach(predmet => {
         predmet.dx *= kocenje
       })
     this.brzinaScene = 0
   }
 
-  ubrzavaOstale(ugao, pomak) {
-    this.ostaliPredmeti.forEach(predmet => predmet.dodajSilu(pomak, ugao))
+  ubrzavaOstale(angle, pomak) {
+    this.ostaliPredmeti.forEach(predmet => predmet.addForce(pomak, angle))
     this.brzinaScene += pomak
   }
 
@@ -107,32 +107,32 @@ export default class extends Scena2D {
     this.defeat('You fell gloriously.')
   }
 
-  proveriTlo(dt) {
-    if (this.player.jePrizemljen && this.dignutostScene <= 0) {
+  checkGround(dt) {
+    if (this.player.isGrounded && this.dignutostScene <= 0) {
       this.zaustaviParalax(dt)
       if (this.player.alive && this.vozilo.dead) this.victory('Mission successfully completed!')
     }
   }
 
   clear() {
-    crtaNebo(nivoTla + this.dignutostScene, 'blue', 'lightblue', this.dignutostScene)
+    drawSky(groundLevel + this.dignutostScene, 'blue', 'lightblue', this.dignutostScene)
   }
 
   handleInput(dt) {
     super.handleInput(dt)
     if (this.ui.outro || !this.player.alive) return
 
-    const potisak = POTISAK * frames(dt)
+    const thrust = POTISAK * frames(dt)
     const dizanje = DIZAJ * frames(dt)
 
     if (this.player.input.right && this.brzinaScene < MAX_BRZINA)
-      this.ubrzavaOstale(Math.PI, potisak)
+      this.ubrzavaOstale(Math.PI, thrust)
 
     if (this.player.input.left && this.brzinaScene >= MIN_BRZINA)
-      this.ubrzavaOstale(Math.PI, -potisak)
+      this.ubrzavaOstale(Math.PI, -thrust)
 
     if (this.player.input.up && this.dignutostScene - dizanje < MAX_DIGNUTOST) {
-      if (this.player.y < this.visina * 0.5)
+      if (this.player.y < this.height * 0.5)
         this.dizePredmete(dizanje)
       if (this.brzinaScene === 0) this.pocniParalax() // kada avion ponovo uzlece
     }
@@ -143,8 +143,8 @@ export default class extends Scena2D {
 
   update(dt, t) {
     super.update(dt, t)
-    this.vozilo.patroliraj()
-    this.proveriTlo(dt)
+    this.vozilo.patrol()
+    this.checkGround(dt)
     this.proveriSmrt(dt)
   }
 }

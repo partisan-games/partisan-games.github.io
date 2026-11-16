@@ -91,7 +91,7 @@ export default class Vehicle {
     this.wheelMeshes = []
     for (let i = 0; i < 4; i++) {
       const mesh = wheelMesh.clone()
-      if (i == 0 || i == 3) mesh.quaternion.setFromAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI)
+      if (i === 0 || i === 3) mesh.quaternion.setFromAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI)
       this.wheelMeshes.push(mesh)
     }
   }
@@ -131,8 +131,6 @@ export default class Vehicle {
     this.createWheel(false, own(new Ammo.btVector3(-wheelBack.x, wheelBack.y, wheelBack.z)), wheelRadiusBack, tuning)
     this.createWheel(false, own(new Ammo.btVector3(wheelBack.x, wheelBack.y, wheelBack.z)), wheelRadiusBack, tuning)
   }
-
-  /* UPDATE */
 
   updateMeshes() {
     const { vehicle, wheelMeshes } = this

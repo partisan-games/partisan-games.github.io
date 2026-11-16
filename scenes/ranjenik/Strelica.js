@@ -1,4 +1,4 @@
-import { platno, ctx } from '/core/io/platno.js'
+import { canvas2d, ctx } from '/core/io/canvas2d.js'
 
 const trajanjeStrelice = 500
 const pauzaCrtanja = 3000
@@ -23,11 +23,11 @@ export default class Strelica {
     ctx.lineWidth = 5
     ctx.strokeStyle = 'red'
     ctx.beginPath()
-    ctx.moveTo(platno.width * 0.6, platno.height * 0.5)
-    ctx.lineTo(platno.width * 0.9, platno.height * 0.5)
-    ctx.moveTo(platno.width * 0.8, platno.height * 0.4)
-    ctx.lineTo(platno.width * 0.9, platno.height * 0.5)
-    ctx.lineTo(platno.width * 0.8, platno.height * 0.6)
+    ctx.moveTo(canvas2d.width * 0.6, canvas2d.height * 0.5)
+    ctx.lineTo(canvas2d.width * 0.9, canvas2d.height * 0.5)
+    ctx.moveTo(canvas2d.width * 0.8, canvas2d.height * 0.4)
+    ctx.lineTo(canvas2d.width * 0.9, canvas2d.height * 0.5)
+    ctx.lineTo(canvas2d.width * 0.8, canvas2d.height * 0.6)
     ctx.stroke()
   }
 }

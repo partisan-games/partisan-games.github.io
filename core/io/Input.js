@@ -11,8 +11,6 @@ class Input {
     this.screen = new Touch({ useJoystick, buttonDict })
   }
 
-  /* GETTERS */
-
   get up() {
     return this.keyboard?.up || this.screen?.up
   }

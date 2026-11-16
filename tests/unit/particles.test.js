@@ -2,11 +2,11 @@ import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 
-let Scena, Particles
+let Scene, Particles
 
 before(async() => {
   createPageElements()
-  Scena = (await import('/core/Scena.js')).default
+  Scene = (await import('/core/Scene.js')).default
   Particles = await import('/core3d/Particles.js')
 })
 
@@ -17,7 +17,7 @@ for (const name of ['Stars', 'Snow', 'Smoke'])
     // the same random numbers make both sets of particles alike, also their speeds picked on the first update
     t.mock.method(Math, 'random', () => .3)
     const inScene = new Particles[name](), alone = new Particles[name]()
-    const scene = new Scena({ canvas: document.createElement('canvas') })
+    const scene = new Scene({ canvas: document.createElement('canvas') })
     scene.add(inScene)
     const before = positions(inScene)
 

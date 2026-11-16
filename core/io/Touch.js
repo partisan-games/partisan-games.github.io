@@ -49,6 +49,10 @@ const css = /* css */`
     right: var(--edge);
     gap: var(--edge);
   }
+  /* a camera button or meter in the same corner goes above the touch buttons instead of under them */
+  .button-container ~ .bottom-right {
+    bottom: calc(var(--edge) * 2 + ${btnSize} + 8px);
+  }
 `
 
 const arrowsData = [

@@ -1,4 +1,4 @@
-import Scena3D from '/core/Scena3D.js'
+import Scene3D from '/core/Scene3D.js'
 import { baseControls } from '/ui/Controls.js'
 import Maze from '/core3d/mazes/Maze.js'
 import { recursiveDivision } from '/core3d/mazes/algorithms.js'
@@ -7,7 +7,7 @@ import { createDunes } from '/core3d/ground.js'
 import { WitchPlayer, models as witchModels } from '/core3d/actor/derived/fantasy/Witch.js'
 import { requestModels } from '/core3d/assets/models.js'
 
-export default class extends Scena3D {
+export default class RuinsScene extends Scene3D {
   constructor() {
     super({
       toon: true,

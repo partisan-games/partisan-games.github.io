@@ -12,8 +12,6 @@ const translateY = (mesh, y) => {
   mesh.geometry.applyMatrix4(mesh.matrix)
 }
 
-/* BOXES */
-
 export function createBox({ size = 1, width = size, height = size, depth = size, file, bumpFile, normalFile, color = randomGray(), castShadow = true, receiveShadow = true, translateHeight = true, pos, quat } = {}) {
   const geometry = new THREE.BoxGeometry(width, height, depth)
   const options = {
@@ -52,8 +50,6 @@ export function createTremplin({ width = 8, height = 4, depth = 12, y = -1.5, co
   return jumpBoard
 }
 
-/* SPHERES */
-
 export function createSphere({
   r = 1, segments = 32, color = null, castShadow = true, receiveShadow = false, file, bumpFile } = {}
 ) {
@@ -73,8 +69,6 @@ export const createBullet = ({ color = 0x333333, r = .1, widthSegments = 6 } = {
   createSphere({ r, color, widthSegments, castShadow: true, receiveShadow: false })
 
 export const createMoonSphere = () => createSphere({ r: .5, file: 'planets/moon.jpg' })
-
-/* BARRELS */
 
 export function createRustyBarrel({ r = .5, height = 1.5, segments = 32, file = 'metal/rust.jpg', topFile = 'barrel/rust-top.jpg', translateHeight = true, pos } = {}) {
   const geometry = new THREE.CylinderGeometry(r, r, height, segments)
@@ -139,8 +133,6 @@ export function createWoodBarrel({ r = .4, R = .5, h = 1 } = {}) {
   return mesh
 }
 
-/* STRUCTURES */
-
 export function createRandomBoxes({ n = 100, size = 5, mapSize = 100 } = {}) {
   const arr = []
   for (let i = 0; i < n; i++) {
@@ -182,20 +174,20 @@ export function createWall({ brickWidth = 0.6, brickDepth = 1, rows = 8, columns
   pos.set(x, brickHeight * 0.5, z)
 
   for (let j = 0; j < rows; j++) {
-    const oddRow = (j % 2) == 1
+    const oddRow = (j % 2) === 1
     const nRow = oddRow ? columns + 1 : columns
 
     pos.z = oddRow ? z - brickDepth * .25 : z
 
     for (let i = 0; i < nRow; i++) {
-      const firstOrLast = oddRow && (i == 0 || i == nRow - 1)
+      const firstOrLast = oddRow && (i === 0 || i === nRow - 1)
       const depth = firstOrLast ? brickDepth * .5 : brickDepth
       const mass = firstOrLast ? brickMass * .5 : brickMass
       const brick = createBox({ width: brickWidth, height: brickHeight, depth, mass, pos, friction, translateHeight: false })
 
       bricks.push(brick)
 
-      pos.z = oddRow && (i == 0 || i == nRow - 2)
+      pos.z = oddRow && (i === 0 || i === nRow - 2)
         ? pos.z + brickDepth * .75
         : pos.z + brickDepth
     }
@@ -213,20 +205,20 @@ export function createSideWall({ brickWidth = 0.6, brickDepth = 1, rows = 8, col
   pos.set(x, brickHeight * 0.5, z)
 
   for (let j = 0; j < rows; j++) {
-    const oddRow = (j % 2) == 1
+    const oddRow = (j % 2) === 1
     const nRow = oddRow ? columns + 1 : columns
 
     pos.x = oddRow ? x - brickDepth * .25 : x
 
     for (let i = 0; i < nRow; i++) {
-      const firstOrLast = oddRow && (i == 0 || i == nRow - 1)
+      const firstOrLast = oddRow && (i === 0 || i === nRow - 1)
       const depth = firstOrLast ? brickDepth * .5 : brickDepth
       const mass = firstOrLast ? brickMass * .5 : brickMass
       const brick = createBox({ width: depth, height: brickHeight, depth: brickWidth, mass, pos, friction, translateHeight: false })
 
       bricks.push(brick)
 
-      pos.x = oddRow && (i == 0 || i == nRow - 2)
+      pos.x = oddRow && (i === 0 || i === nRow - 2)
         ? pos.x + brickDepth * .75
         : pos.x + brickDepth
     }

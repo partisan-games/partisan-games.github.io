@@ -1,14 +1,14 @@
-import { ctx } from '/core/io/platno.js'
-import Plamen from '/core/actor/Plamen.js'
+import { ctx } from '/core/io/canvas2d.js'
+import Flame from '/core/actor/Flame.js'
 
 /** A short impact burst followed by the existing pooled flame, above body and gun. */
 export default class ShoreDestruction {
   constructor(owner, session) {
     this.owner = owner
     this.session = session
-    this.flame = new Plamen(0, 0, { reuseParticles: true })
+    this.flame = new Flame(0, 0, { reuseParticles: true })
     this.startedAt = null
-    this.drawable = { polozaj: { z: -2 }, render: () => this.render() }
+    this.drawable = { position: { z: -2 }, render: () => this.render() }
   }
 
   reset() {
@@ -21,13 +21,13 @@ export default class ShoreDestruction {
   }
 
   update(dt) {
-    if (this.session.state === 'running' && this.startedAt !== null && this.owner.dead && this.owner.prikazan)
+    if (this.session.state === 'running' && this.startedAt !== null && this.owner.dead && this.owner.shown)
       this.flame.update(dt)
   }
 
   render() {
-    const owner = this.owner
-    if (this.startedAt === null || !owner.dead || !owner.prikazan) return
+    const { owner } = this
+    if (this.startedAt === null || !owner.dead || !owner.shown) return
     const age = this.session.clock.now - this.startedAt
     ctx.save()
     ctx.translate(owner.x, owner.y)

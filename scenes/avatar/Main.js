@@ -1,4 +1,4 @@
-import Scena3D, { bojeNeba } from '/core/Scena3D.js'
+import Scene3D, { skyGradients } from '/core/Scene3D.js'
 import { createGround, createLava } from '/core3d/ground.js'
 import { hemLight } from '/core3d/light.js'
 import { baseControls } from '/ui/Controls.js'
@@ -41,14 +41,14 @@ const customStartScreen = ({ container }) => /* html */`
   </div>
 `
 
-export default class extends Scena3D {
+export default class AvatarScene extends Scene3D {
   constructor() {
     super({
       toon: true,
       controlKeys: { ...baseControls, Space: 'jump' },
       customStartScreen,
       uiStyle: 'rpg',
-      bojaPlatna: bojeNeba.suton,
+      canvasBackground: skyGradients.suton,
     })
   }
 
@@ -84,8 +84,7 @@ export default class extends Scena3D {
   }
 
   async handleClick(e) {
-    super.handleClick(e)
-    if (e.target.tagName != 'INPUT' || !['STONE', 'DISCO', 'LAVA'].includes(e.target.id) || this.choosingAvatar) return
+    if (e.target.tagName !== 'INPUT' || !['STONE', 'DISCO', 'LAVA'].includes(e.target.id) || this.choosingAvatar) return
     this.choosingAvatar = true // a second click while the avatar loads would add a second one
 
     const Avatar = await this.session.keep(import('/core3d/actor/Avatar.js'))
@@ -100,8 +99,6 @@ export default class extends Scena3D {
     this.player.lookAt(this.scene.position)
     this.start()
   }
-
-  /* LOOP */
 
   checkCollision(coin) {
     if (this.player.distanceTo(coin.mesh) > 1.4) return

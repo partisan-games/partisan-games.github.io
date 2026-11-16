@@ -38,9 +38,9 @@ const wins = {
     scene.player.position = scene.maze.exitPosition
   },
   'franjo-kluz': scene => {
-    scene.vozilo.umri()
+    scene.vozilo.die()
     scene.vozilo.x = -9999
-    scene.player.y = scene.visina
+    scene.player.y = scene.height
   },
   'graveyard-survival': scene => {
     scene.gameLoop.time = 302_000
@@ -63,12 +63,13 @@ const wins = {
     scene.tenk2.alive = false
   },
   ustanak: scene => {
-    scene.tenk.alive = false
+    scene.score[0] = 1
+    scene.opponent.alive = false
   },
   vis: scene => {
     // every wave has flown but the last, the boss, which comes now and goes down
     const { waves } = scene
-    waves.enemies.forEach(enemy => enemy.umri())
+    waves.enemies.forEach(enemy => enemy.die())
     waves.next = waves.schedule.length
     waves.launch(waves.schedule.at(-1))
     waves.boss.damage(waves.boss.hits)
@@ -96,6 +97,21 @@ for (const [scene, win] of Object.entries(wins))
     await onScene(page, win)
     await expect(victoryTitle(page)).toBeVisible()
     await expect(page.locator('#modal #igraj-opet')).toBeVisible()
+
+    if (scene === 'bunker' || scene === 'ustanak') {
+      await expect.poll(() => onScene(page, scene => {
+        const target = scene.opponent ?? scene.bunker
+        return target.burning && target.flame.sparks.length > 0
+      })).toBe(true)
+      const before = await onScene(page, scene => ({
+        canvas: scene.canvas.toDataURL(),
+        flagTime: scene.children.flatMap(item => item.children).find(item => item.defaultAnimation === 'vijori')?.animationElapsed,
+      }))
+      await expect.poll(() => onScene(page, scene => scene.canvas.toDataURL())).not.toBe(before.canvas)
+      if (scene === 'ustanak')
+        await expect.poll(() => onScene(page, scene => scene.children.flatMap(item => item.children)
+          .find(item => item.defaultAnimation === 'vijori').animationElapsed)).toBeGreaterThan(before.flagTime)
+    }
 
     await page.waitForTimeout(1500)
     await expect(victoryTitle(page), 'a later defeat must not replace the victory').toBeVisible()

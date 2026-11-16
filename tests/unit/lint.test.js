@@ -78,3 +78,32 @@ test('the shared rules and runtime may import each other but not games, the page
     assert.equal((await importProblems(`import x from '${source}'`, 'core/runtime/Example.js')).length, 1, source)
   assert.deepEqual(await importProblems('import x from \'/ui/UI.js\'', 'core/actor/Example.js'), [], 'other folders are not bound')
 })
+
+test('each layer imports only from lower layers', async() => {
+  const allowed = [
+    ['core/actor/Example.js', '/ui/UI.js'],
+    ['core/actor/Example.js', '../io/keys.js'],
+    ['core/io/Example.js', '/core/utils.js'],
+    ['ui/Example.js', '/core/io/keys.js'],
+    ['ui/Example.js', '../core/io/sound.js'],
+    ['core3d/actor/Example.js', '/core/utils.js'],
+    ['core3d/actor/Example.js', '/ui/styles.js'],
+  ]
+  for (const [file, source] of allowed)
+    assert.deepEqual(await importProblems(`import x from '${source}'`, file), [], `${file} -> ${source}`)
+
+  const forbidden = [
+    ['core/utils.js', '/core3d/helpers.js'],
+    ['core/actor/Example.js', '../../core3d/helpers.js'],
+    ['core/Example.js', '/scenes/vis/Main.js'],
+    ['core/io/Example.js', '/ui/UI.js'],
+    ['core/io/Example.js', '../../ui/styles.js'],
+    ['ui/Example.js', '/core3d/helpers.js'],
+    ['ui/Example.js', '/core/Scene.js'],
+    ['ui/Example.js', '../core/actor/GameObject2D.js'],
+    ['core3d/Example.js', '/scenes/vis/Main.js'],
+    ['core3d/actor/Example.js', '../../scenes/vis/Main.js'],
+  ]
+  for (const [file, source] of forbidden)
+    assert.equal((await importProblems(`import x from '${source}'`, file)).length, 1, `${file} -> ${source}`)
+})

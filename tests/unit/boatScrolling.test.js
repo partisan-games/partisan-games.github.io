@@ -2,40 +2,40 @@ import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 
-let Scene, Obala, platno
+let Scene, Obala, canvas2d
 before(async t => {
   createPageElements()
   t.mock.method(HTMLCanvasElement.prototype, 'getContext', () => ({ fillRect() {} }))
   Scene = (await import('/scenes/camac/Main.js')).default
   Obala = (await import('/scenes/camac/Obala.js')).default
-  platno = (await import('/core/io/platno.js')).default
+  canvas2d = (await import('/core/io/canvas2d.js')).default
 })
 
 test('boat movement and throttle framing share world coordinates and pause together', t => {
   const scene = new Scene()
   t.after(() => scene.end())
   scene.init()
-  scene.player.sirina = 60
-  scene.player.visina = 25
+  scene.player.width = 60
+  scene.player.height = 25
   scene.session.ready()
   scene.session.start()
   for (const speed of [120, -120]) {
-    const x = platno.width * 3
+    const x = canvas2d.width * 3
     scene.player.x = x
     scene.player.dx = speed
     scene.update(.1)
     assert.ok(Math.abs(scene.player.x - (x + speed * .1)) < 1e-8)
-    assert.ok(Math.abs(scene.player.x - scene.cameraX - scene.camera.screenX(platno.width, scene.player.sirina)) < 1e-8)
-    assert.equal(scene.player.prikazan, true, 'world coordinates must not hide the tracked boat')
+    assert.ok(Math.abs(scene.player.x - scene.cameraX - scene.camera.screenX(canvas2d.width, scene.player.width)) < 1e-8)
+    assert.equal(scene.player.shown, true, 'world coordinates must not hide the tracked boat')
   }
-  scene.player.stani()
+  scene.player.stop()
   const stationaryX = scene.player.x
   scene.update(.1)
   assert.equal(scene.player.x, stationaryX, 'framing does not move the boat in the world')
-  assert.equal(scene.cameraX, scene.camera.left(scene.player.x, platno.width, scene.player.sirina))
+  assert.equal(scene.cameraX, scene.camera.left(scene.player.x, canvas2d.width, scene.player.width))
   const camera = scene.cameraX
   scene.session.pause()
-  const x = scene.player.x
+  const { x } = scene.player
   scene.update(1)
   assert.equal(scene.player.x, x)
   assert.equal(scene.cameraX, camera)
@@ -45,8 +45,8 @@ test('initial rest stays still and returning left stops at the start of the rout
   const scene = new Scene()
   t.after(() => scene.end())
   scene.init()
-  scene.player.sirina = 60
-  scene.player.visina = 25
+  scene.player.width = 60
+  scene.player.height = 25
   scene.session.start()
   const startX = scene.player.x
   for (let i = 0; i < 60; i++) scene.update(1 / 60)
@@ -68,15 +68,15 @@ test('boat rendering restores the shared camera even when drawing fails', t => {
   const scene = new Scene()
   t.after(() => scene.end())
   scene.init()
-  const previous = [scene.renderer.kameraX, scene.renderer.kameraY]
+  const previous = [scene.renderer.cameraX, scene.renderer.cameraY]
   scene.cameraX = 500
-  t.mock.method(scene.renderer, 'crtaPredmete', () => {
-    assert.equal(scene.renderer.kameraX, 500)
-    assert.equal(scene.renderer.kameraY, 0)
+  t.mock.method(scene.renderer, 'drawObjects', () => {
+    assert.equal(scene.renderer.cameraX, 500)
+    assert.equal(scene.renderer.cameraY, 0)
     throw new Error('draw interrupted')
   })
   assert.throws(() => scene.render(), /draw interrupted/)
-  assert.deepEqual([scene.renderer.kameraX, scene.renderer.kameraY], previous)
+  assert.deepEqual([scene.renderer.cameraX, scene.renderer.cameraY], previous)
 })
 
 test('banks remain continuous at segment boundaries and repeat on revisiting world positions', () => {

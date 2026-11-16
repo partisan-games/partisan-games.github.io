@@ -4,11 +4,11 @@ import { BoxGeometry, Mesh, Scene, AmbientLight } from 'three'
 import { createPageElements } from './helpers/dom.js'
 import { installFakeFrames } from './helpers/frames.js'
 
-let Scena
+let GameScene
 
 before(async() => {
   createPageElements()
-  Scena = (await import('/core/Scena.js')).default
+  GameScene = (await import('/core/Scene.js')).default
 })
 
 const frame = 1000 / 60
@@ -20,7 +20,7 @@ const frame = 1000 / 60
 function startScene(t) {
   t.mock.timers.enable({ apis: ['setTimeout'] })
   const frames = installFakeFrames()
-  const scene = new Scena({ canvas: document.createElement('canvas') })
+  const scene = new GameScene({ canvas: document.createElement('canvas') })
   scene.start()
   frames.step(frame)
   t.after(() => scene.end())
@@ -47,7 +47,7 @@ test('a shot down enemy plane in vis falls for 2 s and then is gone', async t =>
   const plane = new Enemy({ session: scene.session, path: 'boss' }) // stays on the screen
   scene.add(plane)
 
-  plane.umri()
+  plane.die()
   assertHappensAfter(play, 2, () => plane.gone)
 })
 
@@ -57,36 +57,36 @@ test('the player plane in vis flies again 2.5 s after it is shot down', async t 
   const plane = new Avionce({ session: scene.session })
   scene.add(plane)
 
-  plane.umri()
+  plane.die()
   assertHappensAfter(play, 2.5, () => plane.alive)
   plane.end()
 })
 
 test('a grenade hurts its target 0.15 s after it hits', async t => {
   const { scene, play } = startScene(t)
-  const { default: Granata } = await import('/core/actor/projektili/Granata.js')
-  const grenade = new Granata({ clock: scene.session.clock })
+  const { default: Shell } = await import('/core/actor/projectiles/Shell.js')
+  const grenade = new Shell({ clock: scene.session.clock })
   let hurt = false
-  grenade.povredi = () => {
+  grenade.hit = () => {
     hurt = true
   }
   scene.add(grenade)
 
-  grenade.proveriPogodak({ sudara: () => true })
+  grenade.checkHit({ collidesWith: () => true })
   assertHappensAfter(play, .15, () => hurt)
 })
 
 test('a grenade that is reset before it hurts its target never hurts it', async t => {
   const { scene, play } = startScene(t)
-  const { default: Granata } = await import('/core/actor/projektili/Granata.js')
-  const grenade = new Granata({ clock: scene.session.clock })
+  const { default: Shell } = await import('/core/actor/projectiles/Shell.js')
+  const grenade = new Shell({ clock: scene.session.clock })
   let hurt = false
-  grenade.povredi = () => {
+  grenade.hit = () => {
     hurt = true
   }
   scene.add(grenade)
 
-  grenade.proveriPogodak({ sudara: () => true })
+  grenade.checkHit({ collidesWith: () => true })
   grenade.reset()
   play(1)
   assert.equal(hurt, false)

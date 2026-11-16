@@ -33,8 +33,6 @@ class Keyboard {
     window.addEventListener('blur', this.reset)
   }
 
-  /* EVENT LISTENERS */
-
   preventContextMenu = e => e.preventDefault()
 
   handlePointerDown(e) {
@@ -118,8 +116,6 @@ class Keyboard {
   get special() {
     return this.isDown(keys.special)
   }
-
-  /* UTILS */
 
   get controlsPressed() {
     return this.up || this.down || this.left || this.right

@@ -13,7 +13,7 @@ export default class Boss extends Enemy {
   /** It keeps its nose down while it sways. */
   fly(dt) {
     super.fly(dt)
-    this.ugao = Math.PI
+    this.angle = Math.PI
   }
 
   routePosition(age = this.age) {
@@ -30,7 +30,7 @@ export default class Boss extends Enemy {
   /** Nose, left wing and right wing in turn. */
   nextGun() {
     const offsets = [0, -.35, .35]
-    const offset = offsets[this.gunIndex++ % offsets.length] * (this.sirina || 0)
+    const offset = offsets[this.gunIndex++ % offsets.length] * (this.width || 0)
     return { x: this.x + offset, y: this.y }
   }
 }

@@ -1,4 +1,4 @@
-import Scena3D from '/core/Scena3D.js'
+import Scene3D from '/core/Scene3D.js'
 import { baseControls } from '/ui/Controls.js'
 import { createFloor } from '/core3d/ground.js'
 import Maze from '/core3d/mazes/Maze.js'
@@ -9,7 +9,7 @@ import { createMaterial } from '/core3d/shaders/lightning-led.js'
 
 const cellSize = 3
 
-export default class extends Scena3D {
+export default class LedCityScene extends Scene3D {
   constructor() {
     super({
       controlKeys: { ...baseControls, Space: 'jump' },
@@ -18,7 +18,7 @@ export default class extends Scena3D {
   }
 
   async init() {
-    this.bojaPlatna = 'black'
+    this.canvasBackground = 'black'
     hemLight({ scene: this.scene })
 
     this.addMesh(createFloor())

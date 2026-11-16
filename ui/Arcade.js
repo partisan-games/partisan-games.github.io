@@ -16,50 +16,74 @@ export default class Arcade {
       'to-trieste': 'To Trieste!', 'graffiti-city-maze': 'Graffiti City Maze', 'lookat-cursor': 'Look at Cursor',
     })) this.games.set(path, title)
 
-    this.wallet = document.createElement('aside')
-    this.wallet.className = 'arcade-wallet'
-    this.wallet.setAttribute('aria-label', 'Daily arcade coins')
-    this.wallet.innerHTML = `${coin}<div><small>${this.isLocal ? 'LOCAL DEVELOPMENT' : `${this.coins.allowance} coins every day`}</small><strong class="arcade-balance" aria-live="polite"></strong><span class="arcade-eyebrow">coins left</span></div>`
-    document.body.appendChild(this.wallet)
+    this.wallet = this.createWallet()
+    this.cards.forEach(card => this.addCoinSlot(card))
+    this.dialog = this.createDialog()
 
-    for (const card of this.cards) {
-      card.classList.add('arcade-cabinet')
-      const screen = document.createElement('div')
-      screen.className = 'arcade-screen'
-      card.querySelector('img').before(screen)
-      screen.appendChild(card.querySelector('img'))
-      const slot = document.createElement('button')
-      slot.type = 'button'
-      slot.className = 'arcade-slot'
-      slot.dataset.arcadeGame = card.dataset.path
-      slot.setAttribute('aria-label', `Insert one coin to play ${this.games.get(card.dataset.path)}`)
-      slot.innerHTML = `${coin}<span class="arcade-slot-label">INSERT COIN<small>1 COIN · 1 PLAY</small></span><span class="arcade-slot-mouth" aria-hidden="true"></span>`
-      card.appendChild(slot)
-    }
+    window.addEventListener('storage', this.handleStorage)
+    window.addEventListener('focus', this.refresh)
+    document.addEventListener('visibilitychange', this.handleVisibilityChange)
+    this.refresh()
+    this.scheduleReset()
+  }
 
-    this.dialog = document.createElement('dialog')
-    this.dialog.className = 'arcade-dialog'
-    this.dialog.setAttribute('aria-labelledby', 'arcade-dialog-title')
-    this.dialog.innerHTML = `${coin}<p class="arcade-eyebrow">PARTISAN ARCADE</p><h2 id="arcade-dialog-title"></h2><p class="arcade-dialog-message"></p><button type="button" class="arcade-slot arcade-dialog-insert">INSERT COIN</button><form method="dialog"><button class="arcade-dialog-close">BACK</button></form>`
-    document.body.appendChild(this.dialog)
-    this.dialog.querySelector('.arcade-dialog-insert').addEventListener('click', () => this.onInsert?.(this.requestedPath))
-    this.dialog.addEventListener('cancel', event => {
+  createWallet() {
+    const wallet = document.createElement('aside')
+    wallet.className = 'arcade-wallet'
+    wallet.setAttribute('aria-label', 'Daily arcade coins')
+    wallet.innerHTML = `${coin}<div><small>${this.isLocal ? 'LOCAL DEVELOPMENT' : `${this.coins.allowance} coins every day`}</small><strong class="arcade-balance" aria-live="polite"></strong><span class="arcade-eyebrow">coins left</span></div>`
+    document.body.appendChild(wallet)
+    return wallet
+  }
+
+  addCoinSlot(card) {
+    card.classList.add('arcade-cabinet')
+    const screen = document.createElement('div')
+    screen.className = 'arcade-screen'
+    card.querySelector('img').before(screen)
+    screen.appendChild(card.querySelector('img'))
+    const slot = document.createElement('button')
+    slot.type = 'button'
+    slot.className = 'arcade-slot'
+    slot.dataset.arcadeGame = card.dataset.path
+    slot.setAttribute('aria-label', `Insert one coin to play ${this.games.get(card.dataset.path)}`)
+    slot.innerHTML = `${coin}<span class="arcade-slot-label">INSERT COIN<small>1 COIN · 1 PLAY</small></span><span class="arcade-slot-mouth" aria-hidden="true"></span>`
+    card.appendChild(slot)
+  }
+
+  createDialog() {
+    const dialog = document.createElement('dialog')
+    dialog.className = 'arcade-dialog'
+    dialog.setAttribute('aria-labelledby', 'arcade-dialog-title')
+    dialog.innerHTML = `${coin}<p class="arcade-eyebrow">PARTISAN ARCADE</p><h2 id="arcade-dialog-title"></h2><p class="arcade-dialog-message"></p><button type="button" class="arcade-slot arcade-dialog-insert">INSERT COIN</button><form method="dialog"><button class="arcade-dialog-close">BACK</button></form>`
+    document.body.appendChild(dialog)
+    dialog.querySelector('.arcade-dialog-insert').addEventListener('click', () => this.onInsert?.(this.requestedPath))
+    dialog.addEventListener('cancel', event => {
       if (this.busy) event.preventDefault()
       else if (this.mode === 'entry') this.onCancel?.()
     })
-    this.dialog.querySelector('.arcade-dialog-close').addEventListener('click', () => {
+    dialog.querySelector('.arcade-dialog-close').addEventListener('click', () => {
       if (this.mode === 'entry') this.onCancel?.()
     })
+    return dialog
+  }
 
-    window.addEventListener('storage', event => {
-      if (event.key === this.coins.storageKey || event.key === null) this.refresh()
-    })
-    window.addEventListener('focus', () => this.refresh())
-    document.addEventListener('visibilitychange', () => {
-      if (!document.hidden) this.refresh()
-    })
-    this.refresh()
-    this.scheduleReset()
+  handleStorage = event => {
+    if (event.key === this.coins.storageKey || event.key === null) this.refresh()
+  }
+
+  handleVisibilityChange = () => {
+    if (!document.hidden) this.refresh()
+  }
+
+  /** The cabinet lives as long as the page; a test that builds one removes it, or its midnight timer keeps Node running for hours. */
+  dispose() {
+    clearTimeout(this.resetTimer)
+    window.removeEventListener('storage', this.handleStorage)
+    window.removeEventListener('focus', this.refresh)
+    document.removeEventListener('visibilitychange', this.handleVisibilityChange)
+    this.wallet.remove()
+    this.dialog.remove()
   }
 
   scheduleReset() {
@@ -71,7 +95,7 @@ export default class Arcade {
     }, midnight - Date.now())
   }
 
-  refresh() {
+  refresh = () => {
     try {
       const { remaining } = this.coins.read()
       this.wallet.querySelector('.arcade-balance').textContent = String(remaining)

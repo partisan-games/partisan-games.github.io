@@ -10,14 +10,10 @@ const animDict = {
   death: 'Mutant Dying',
 }
 
-/* LOADING */
-
 const meshModel = { file: 'model.fbx', angle: Math.PI, animDict, prefix: 'character/troll/', size: 3 }
 
 /** What to load; a game awaits requestModels(models) before it creates one of these. */
 export const models = [meshModel]
-
-/* EXTENDED CLASSES */
 
 const sharedProps = () => {
   const mesh = loadedModel(meshModel)

@@ -1,4 +1,4 @@
-import Scena3D from '/core/Scena3D.js'
+import Scene3D from '/core/Scene3D.js'
 import { createFloor } from '/core3d/ground.js'
 import { createCity, createCityLights } from '/core3d/city.js'
 import { hemLight, createMoon } from '/core3d/light.js'
@@ -7,13 +7,13 @@ import { createOrbitControls } from '/core3d/helpers.js'
 const mapSize = 300
 const numBuildings = 200
 
-export default class extends Scena3D {
+export default class CityColorfulScene extends Scene3D {
   constructor() {
     super({ toon: true })
   }
 
   async init() {
-    this.bojaPozadine = 0x000000
+    this.backgroundColor = 0x000000
     hemLight({ scene: this.scene })
     this.controls = await this.session.keep(createOrbitControls(this.camera, this.renderer.domElement), controls => controls.dispose())
     this.controls.autoRotate = true

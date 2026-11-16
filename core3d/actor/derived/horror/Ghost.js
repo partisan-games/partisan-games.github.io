@@ -11,8 +11,6 @@ const animDict = {
 export const model = { file: 'character/ghost/scene.gltf', angle: Math.PI }
 export const models = [model]
 
-/* EXTENDED CLASSES */
-
 const sharedProps = () => {
   const mesh = loadedModel(model)
   return { mesh, animations: mesh.userData.animations, animDict }

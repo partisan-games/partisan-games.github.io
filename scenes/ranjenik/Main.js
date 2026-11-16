@@ -1,14 +1,14 @@
-import { izasaoDesno } from '/core/utils/granice.js'
-import Scena2D from '/core/Scena2D.js'
-import Pozadina from '/core/objects/Pozadina.js'
-import Ranjenik from '/core/actor/derived/Ranjenik.js'
+import { exitedRight } from '/core/utils/bounds.js'
+import Scene2D from '/core/Scene2D.js'
+import Background from '/core/objects/Background.js'
+import WoundedSoldier from '/core/actor/derived/WoundedSoldier.js'
 import Patrola from './Patrola.js'
 import Strelica from './Strelica.js'
 import Paljba from './Paljba.js'
 
 const RITAM_PALJBE = 1500
 
-export default class extends Scena2D {
+export default class RanjenikScene extends Scene2D {
   constructor() {
     super({
       intro: 'You were wounded during the Battle of Sutjeska. Try to crawl out of the encirclement.',
@@ -17,55 +17,55 @@ export default class extends Scena2D {
 
   init() {
     this.scena = 0
-    this.pozadina = new Pozadina('armies/shumarak-pozadina.png')
-    this.player = new Ranjenik(this.sirina / 4, this.visina / 2)
+    this.background = new Background('armies/shumarak-pozadina.png')
+    this.player = new WoundedSoldier(this.width / 4, this.height / 2)
     this.patrola = new Patrola('armies/nemci-patrola.gif', this.player)
-    this.patrola.postavi(this.sirina * 3 / 4, this.visina * 3 / 4)
+    this.patrola.setPosition(this.width * 3 / 4, this.height * 3 / 4)
     this.strelica = new Strelica()
     this.fireElapsed = 0
     this.pocetakPaljbe = 500
     this.add(this.player, this.patrola, this.strelica)
   }
 
-  proveriSudare() {
-    if (!this.patrola.sudara(this.player)) return
+  checkCollisions() {
+    if (!this.patrola.collidesWith(this.player)) return
 
-    this.patrola.stani()
+    this.patrola.stop()
     this.patrola.pustiNadjen()
     this.defeat('You\'re caught. All hope is lost...')
   }
 
   proveriPobedu() {
-    if (!izasaoDesno(this.player)) return
+    if (!exitedRight(this.player)) return
 
     if (this.scena === 0) this.promeniScenu()
     else this.pobedi()
   }
 
   pobedi() {
-    this.patrola.nestani()
-    this.pozadina.slika.src = '/assets/images/armies/shumarak-pozadina.png'
-    this.predmeti = this.predmeti.filter(p => !(p instanceof Paljba))
+    this.patrola.vanish()
+    this.background.image.src = '/assets/images/armies/shumarak-pozadina.png'
+    this.remove(...this.children.filter(p => p instanceof Paljba))
     this.player.x = 10
     this.victory('You\'ve made it to safety!')
   }
 
   promeniScenu() {
-    this.pozadina.slika.src = '/assets/images/textures/sprzena-zemlja.jpg'
-    this.patrola.slika.src = '/assets/images/armies/talijani-patrola.gif'
-    this.patrola.postavi(this.sirina * 3 / 4, this.visina * 3 / 4)
+    this.background.image.src = '/assets/images/textures/sprzena-zemlja.jpg'
+    this.patrola.image.src = '/assets/images/armies/talijani-patrola.gif'
+    this.patrola.setPosition(this.width * 3 / 4, this.height * 3 / 4)
     this.player.x = 10
     this.scena++
   }
 
-  pali() {
+  launch() {
     if (this.fireElapsed * 1000 < RITAM_PALJBE) return
 
     const krater = new Paljba()
-    this.predmeti.unshift(krater)
+    this.addBehind(krater)
     this.fireElapsed = 0
 
-    if (this.player.sudara(krater))
+    if (this.player.collidesWith(krater))
       this.defeat('You fell bravely while trying to escape.')
   }
 
@@ -73,9 +73,9 @@ export default class extends Scena2D {
     if (this.ui.outro) return
     super.update(dt, t)
     this.fireElapsed += dt
-    this.proveriSudare()
+    this.checkCollisions()
     if (this.ui.outro) return
     this.proveriPobedu()
-    if (this.scena === 1) this.pali()
+    if (this.scena === 1) this.launch()
   }
 }

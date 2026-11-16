@@ -1,4 +1,4 @@
-import Scena3D from '/core/Scena3D.js'
+import Scene3D from '/core/Scene3D.js'
 import { createSun } from '/core3d/light.js'
 import { loadModel } from '/core3d/loaders.js'
 import { terrainFromHeightmap } from '/core3d/terrain/heightmap.js'
@@ -8,7 +8,7 @@ import { PartisanPlayer, models as partisanModels } from '/core3d/actor/derived/
 import { thirdPersonControls } from '/ui/Controls.js'
 import { requestModels } from '/core3d/assets/models.js'
 
-export default class extends Scena3D {
+export default class SpomeniciScene extends Scene3D {
   constructor() {
     super({ controlKeys: thirdPersonControls, toon: true })
   }

@@ -1,12 +1,12 @@
 import * as THREE from 'three'
 import GameObject from '/core3d/objects/GameObject.js'
 import { getGroundY, directionBlocked, intersect, belongsTo, arrowHelper } from '/core3d/helpers.js'
-import { dir, RIGHT_ANGLE, reactions, jumpStyles, baseStates } from '/core3d/constants.js'
+import { dir, reactions, jumpStyles, baseStates } from '/core3d/constants.js'
 import { createSound, randomVolume } from '/core/io/sound.js'
 import FSM from './FSM.js'
 import { isDev } from '/config.js'
 import Animator from './Animator.js'
-import { FPS } from '/core/konstante.js'
+import { FPS } from '/core/constants.js'
 import GameClock from '/core/runtime/GameClock.js'
 import KinematicMovement from './behaviors/KinematicMovement.js'
 import { damageAt } from '/core/gameplay/damage.js'
@@ -24,7 +24,6 @@ export default class Actor extends GameObject {
     animDict,
     input,
     controller,
-    useComposedMovement = false,
     speed = 2,
     jumpStyle,
     attackStyle,
@@ -77,7 +76,7 @@ export default class Actor extends GameObject {
     this.canMove = canMove
 
     if (animations?.length && animDict)
-      this.anim = new Animator({ mesh: this.mesh, animations, animDict, twoHandedWeapon, rightHandWeapon, isAi: this.name != 'player' })
+      this.anim = new Animator({ mesh: this.mesh, animations, animDict, twoHandedWeapon, rightHandWeapon, isAi: this.name !== 'player' })
 
     if (attackSound)
       this.audio = createSound(attackSound)
@@ -113,18 +112,17 @@ export default class Actor extends GameObject {
       })
     }
 
-    if (useComposedMovement)
-      this.movement = new KinematicMovement({
-        mesh: this.mesh, velocity: this.velocity,
-        isBlocked: direction => this.directionBlocked(direction),
-        groundHeight: getGroundY,
-        rotate: angle => this.turn(angle),
-        react: (reaction, dt) => {
-          if (reaction === reactions.BOUNCE) this.bounce()
-          else if (reaction === reactions.TURN_SMOOTH) this.turnSmooth()
-          else if (reaction === reactions.STEP_OFF) this.stepOff(dt * 2.5)
-        },
-      })
+    this.movement = new KinematicMovement({
+      mesh: this.mesh, velocity: this.velocity,
+      isBlocked: direction => this.directionBlocked(direction),
+      groundHeight: getGroundY,
+      rotate: angle => this.turn(angle),
+      react: (reaction, dt) => {
+        if (reaction === reactions.BOUNCE) this.bounce()
+        else if (reaction === reactions.TURN_SMOOTH) this.turnSmooth()
+        else if (reaction === reactions.STEP_OFF) this.stepOff(dt * 2.5)
+      },
+    })
 
     // game time this actor has lived: its states, AI intervals and delayed blows wait on it, so they stop when it is not updated
     this.clock = new GameClock()
@@ -153,14 +151,7 @@ export default class Actor extends GameObject {
 
   get acceleration() {
     const { input, speed, runCoefficient } = this
-    if (this.movement) return this.movement.acceleration(input, { speed, runCoefficient })
-    if (input.screen?.forward)
-      return speed * -input.screen.forward * (input.up ? runCoefficient : runCoefficient * .75)
-
-    if (input.up) return speed * (input.run ? runCoefficient : 1)
-    if (input.down) return -speed * (input.run ? runCoefficient * .75 : 1)
-
-    return 0
+    return this.movement.acceleration(input, { speed, runCoefficient })
   }
 
   get outOfBounds() {
@@ -172,7 +163,7 @@ export default class Actor extends GameObject {
   }
 
   get ableToJump() {
-    return this.anim?.actions.jump || this.jumpStyle != jumpStyles.ANIM_JUMP
+    return this.anim?.actions.jump || this.jumpStyle !== jumpStyles.ANIM_JUMP
   }
 
   get state() {
@@ -183,19 +174,13 @@ export default class Actor extends GameObject {
     return this.fsm?.action
   }
 
-  /* STATE MACHINE */
-
   setState(name) {
     this.fsm.setState(name)
   }
 
-  /* ANIMATIONS */
-
   addAction(state, clip) {
     this.anim.addAction(state, clip)
   }
-
-  /* COMBAT */
 
   intersect(height) {
     return intersect(this.mesh, this.solids, dir.forward, height)
@@ -203,7 +188,8 @@ export default class Actor extends GameObject {
 
   hit(mesh, damage = [35, 55]) {
     const amount = damageAt({ distance: this.distanceTo(mesh), reach: this.attackDistance, range: damage })
-    if (amount) mesh.userData.damageAmount = amount
+    const target = GameObject.ownerOf(mesh)
+    if (amount && target) target.pendingDamage = amount
   }
 
   /**
@@ -244,8 +230,6 @@ export default class Actor extends GameObject {
     this.audio.play()
   }
 
-  /* PARTICLES */
-
   addRicochet(pos, color) {
     if (!this.ricochet) return // still loading lazily
     this.ricochet.reset({ pos, unitAngle: 0.2, color })
@@ -277,27 +261,12 @@ export default class Actor extends GameObject {
     this.shouldLoop = false
   }
 
-  /* UTILS */
-
   handleTerrain(step) {
-    if (this.movement) return this.movement.followTerrain(step, this.groundY)
-    if (this.heightDifference == 0) return
-
-    if (Math.abs(this.heightDifference) <= step) {
-      this.mesh.position.y = this.groundY
-      return
-    }
-
-    if (this.heightDifference < 0)
-      this.mesh.translateY(step)
-
-    if (this.heightDifference > 0)
-      this.mesh.translateY(-step)
-
+    this.movement.followTerrain(step, this.groundY)
   }
 
   directionBlocked(currDir, solids = this.solids) {
-    const rayLength = currDir == dir.forward ? this.depth : this.height
+    const rayLength = currDir === dir.forward ? this.depth : this.height
     return directionBlocked(this.mesh, solids, currDir, rayLength)
   }
 
@@ -315,12 +284,10 @@ export default class Actor extends GameObject {
     this.mesh.rotateY(Math.PI)
   }
 
-  /* UPDATES */
-
   checkHit() {
-    if (!this.damageAmount) return
+    if (!this.pendingDamage) return
     if (this.dead) { // a corpse can still be hit, but must not die again
-      this.damageAmount = 0
+      this.pendingDamage = 0
       return
     }
 
@@ -350,81 +317,35 @@ export default class Actor extends GameObject {
   }
 
   updateMove(delta, reaction = reactions.BOUNCE) {
-    if (this.movement) return this.movement.move(delta, {
+    this.movement.move(delta, {
       input: this.input, speed: this.speed, runCoefficient: this.runCoefficient,
       drag: this.drag, canMove: this.canMove, state: this.state, reaction,
     })
-    if (!this.canMove) return
-
-    const direction = this.input.up ? dir.forward
-      : this.input.down ? dir.backward : null
-
-    if (direction && this.directionBlocked(direction))
-      if (reaction == reactions.BOUNCE) this.bounce()
-      else if (reaction == reactions.TURN_SMOOTH) this.turnSmooth()
-      else if (reaction == reactions.STEP_OFF) this.stepOff(delta * 2.5)
-      else if (reaction == reactions.STOP) return
-
-    if (this.state == 'jump') {
-      const jumpDir = this.input.up ? dir.upForward
-        : this.input.down ? dir.upBackward : null
-      if (jumpDir && this.directionBlocked(jumpDir)) return
-    }
-
-    this.velocity.z += -this.acceleration * delta
-    this.velocity.z *= (1 - this.drag)
-    this.mesh.translateZ(this.velocity.z)
   }
 
   updateTurn(delta) {
-    if (this.movement) return this.movement.turn(delta, { input: this.input, speed: this.speed })
-    if (!delta) return
-    const angle = (this.input.run ? RIGHT_ANGLE : RIGHT_ANGLE * this.speed * .25) * delta // angle per second
-
-    if (this.input.left)
-      this.turn(angle)
-    if (this.input.right)
-      this.turn(angle * -1)
+    this.movement.turn(delta, { input: this.input, speed: this.speed })
   }
 
   updateStrafe(delta) {
-    if (this.movement) return this.movement.strafe(delta, {
+    this.movement.strafe(delta, {
       input: this.input, speed: this.speed, runCoefficient: this.runCoefficient,
     })
-    const acceleration = this.speed * (this.input.run ? this.runCoefficient : 1)
-
-    if (this.input.strafeLeft && !this.directionBlocked(dir.left))
-      this.mesh.translateX(-acceleration * delta)
-
-    if (this.input.strafeRight && !this.directionBlocked(dir.right))
-      this.mesh.translateX(acceleration * delta)
   }
 
   updateGround() {
     const { solids } = this
     if (!solids || !this.shouldRaycastGround) return
 
-    if (this.movement) {
-      this.groundY = this.movement.sampleGround({ solids, height: this.height, altitude: this.altitude })
-      return
-    }
-
-    this.groundY = getGroundY({ pos: this.position, solids, y: this.height }) + this.altitude
+    this.groundY = this.movement.sampleGround({ solids, height: this.height, altitude: this.altitude })
   }
 
   applyGravity(delta) {
-    if (this.movement) return this.movement.gravity(delta, { gravity: this.gravity, maxVelocityY: this.maxVelocityY })
-    if (this.velocity.y > -this.maxVelocityY)
-      this.velocity.y -= this.gravity * delta
+    this.movement.gravity(delta, { gravity: this.gravity, maxVelocityY: this.maxVelocityY })
   }
 
   applyVelocityY(delta) {
-    if (this.movement) return this.movement.vertical(delta, this.groundY)
-    const deltaVelocity = this.velocity.y * delta
-    if (this.mesh.position.y + deltaVelocity > this.groundY)
-      this.mesh.translateY(deltaVelocity)
-    else
-      this.mesh.position.y = this.groundY
+    this.movement.vertical(delta, this.groundY)
   }
 
   /** Seconds of game time this actor has lived. */

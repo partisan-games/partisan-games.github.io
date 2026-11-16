@@ -43,6 +43,7 @@ export default [{
     'constructor-super': 'error',
     curly: ['warn', 'multi'],
     'dot-notation': 'warn',
+    eqeqeq: ['error', 'always', { null: 'ignore' }],
     'getter-return': 'error',
 
     indent: ['warn', 2, {
@@ -153,13 +154,54 @@ export default [{
     }],
   },
 }, {
-  // the rules and the runtime are plain logic that every game shares: they must not reach into games, the page or rendering
-  files: ['core/gameplay/**/*.js', 'core/runtime/**/*.js'],
+  // layers, lowest first: core/runtime, core/gameplay and core/collision, core/io, ui, core, core3d, scenes; a module imports only from lower layers
+  files: ['core/**/*.js'],
+  rules: {
+    'no-restricted-imports': ['error', {
+      patterns: [{
+        regex: '(^|/)(core3d|scenes)/',
+        message: 'core is the 2D and shared base: it does not import 3D code or games.',
+      }],
+    }],
+  },
+}, {
+  files: ['core/io/**/*.js'],
+  rules: {
+    'no-restricted-imports': ['error', {
+      patterns: [{
+        regex: '(^|/)(ui|core3d|scenes)/',
+        message: 'core/io sits below the UI and the engine: it does not import ui, 3D code or games.',
+      }],
+    }],
+  },
+}, {
+  files: ['ui/**/*.js'],
+  rules: {
+    'no-restricted-imports': ['error', {
+      patterns: [{
+        regex: '(^|/)(core3d|scenes)/|(^|/)core/(?!io/)',
+        message: 'ui sits below the engine: it imports only core/io, not scenes, 3D code or games.',
+      }],
+    }],
+  },
+}, {
+  files: ['core3d/**/*.js'],
+  rules: {
+    'no-restricted-imports': ['error', {
+      patterns: [{
+        regex: '(^|/)scenes/',
+        message: 'core3d is shared by every 3D game: it does not import games.',
+      }],
+    }],
+  },
+}, {
+  // the rules, the runtime and collision geometry are plain logic that every game shares: they must not reach into games, the page or rendering
+  files: ['core/gameplay/**/*.js', 'core/runtime/**/*.js', 'core/collision/**/*.js'],
   rules: {
     'no-restricted-imports': ['error', {
       patterns: [{
         regex: '^(/|three)',
-        message: 'core/gameplay and core/runtime import only each other, by relative path: no games, page, rendering or io.',
+        message: 'core/gameplay, core/runtime and core/collision import only each other, by relative path: no games, page, rendering or io.',
       }],
     }],
   },

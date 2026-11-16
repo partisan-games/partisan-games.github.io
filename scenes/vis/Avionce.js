@@ -1,6 +1,6 @@
 import Player2D from '/core/actor/Player2D.js'
 import ProjectilePool from '/core/actor/ProjectilePool.js'
-import platno from '/core/io/platno.js'
+import canvas2d from '/core/io/canvas2d.js'
 import { createSound } from '/core/io/sound.js'
 import Cooldown from '/core/gameplay/Cooldown.js'
 import Weapon from '/core/gameplay/Weapon.js'
@@ -25,10 +25,10 @@ export class Avionce extends Player2D {
 
   constructor({ session, aircraftId = 'spitfire' }) {
     // vis was tuned on a 60 Hz screen, unlike the older games
-    super(getAircraft(aircraftId).image, { skalar: .5, zapaljiv: true, senka: true, tunedFps: 60, ...inputOptions })
+    super(getAircraft(aircraftId).image, { scale: .5, flammable: true, shadow: true, tunedFps: 60, ...inputOptions })
     this.aircraftId = aircraftId
     this.session = session
-    this.brzina = 0
+    this.speed = 0
     this.poeni = 0
     this.zivoti = lives
     this.bombs = bombs
@@ -36,7 +36,7 @@ export class Avionce extends Player2D {
     this.loopsLeft = loops
     this.loopAge = null // seconds into the loop, while it lasts
     this.shield = 0 // seconds of safety left after coming back
-    this.ciljevi = []
+    this.targets = []
     this.bullets = new ProjectilePool({ owner: this, create: () => new Bullet() })
     this.weapon = new Weapon({
       cooldown: new Cooldown({ seconds: reloadTime, clock: session.clock }),
@@ -45,7 +45,7 @@ export class Avionce extends Player2D {
     })
     this.view = new PlayerView()
     this.explosions = Array.from({ length: bombBursts }, () => new Explosion()) // loaded before the first bomb
-    this.predmeti.push(...this.explosions)
+    this.children.push(...this.explosions)
   }
 
   /** Which of settings.player.fire: the guns that fire together. */
@@ -62,9 +62,9 @@ export class Avionce extends Player2D {
     const plane = getAircraft(id)
     if (this.aircraftId !== id) {
       this.aircraftId = id
-      this.ucitajSliku(plane.image, undefined, undefined, .5)
+      this.loadImage(plane.image, undefined, undefined, .5)
     }
-    return this.slikaUcitana
+    return this.imageLoaded
   }
 
   onload() {
@@ -72,7 +72,7 @@ export class Avionce extends Player2D {
   }
 
   toStart() {
-    this.postavi(platno.width / 2, platno.height - this.visina)
+    this.setPosition(canvas2d.width / 2, canvas2d.height - this.height)
   }
 
   get looping() {
@@ -84,13 +84,13 @@ export class Avionce extends Player2D {
     return this.shield > 0 || this.looping
   }
 
-  proveriGranice() {
-    this.ogranici()
+  checkBounds() {
+    this.keepOnScreen()
   }
 
   /** One bullet from every gun of the fire level; the reload goes by game time, so it waits in a pause. */
-  puca() {
-    this.weapon.tryFire({ x: this.x, y: this.y - this.visina / 4 }, Math.PI * 1.5)
+  shoot() {
+    this.weapon.tryFire({ x: this.x, y: this.y - this.height / 4 }, Math.PI * 1.5)
   }
 
   powerUp(kind) {
@@ -133,19 +133,19 @@ export class Avionce extends Player2D {
 
     this.bombs--
     createSound('explosion.mp3').play()
-    const radius = bombRadius * Math.min(platno.width, platno.height)
+    const radius = bombRadius * Math.min(canvas2d.width, canvas2d.height)
     // whatever the fire touches, also just past the outermost burst
-    const inBlast = thing => this.razmakDo(thing) < radius + Explosion.reach
-    this.ciljevi
+    const inBlast = thing => this.distanceTo(thing) < radius + Explosion.reach
+    this.targets
       .filter(plane => plane.alive && inBlast(plane))
       .forEach(plane => {
         plane.damage(bombHits)
         this.scoreIfDown(plane)
         this.explode(plane.x, plane.y)
       })
-    this.ciljevi
+    this.targets
       .flatMap(plane => plane.bullets.projectiles)
-      .filter(bullet => bullet.vidljiv && inBlast(bullet))
+      .filter(bullet => bullet.visible && inBlast(bullet))
       .forEach(bullet => bullet.reset())
     this.spreadBursts(radius)
   }
@@ -157,17 +157,17 @@ export class Avionce extends Player2D {
       const distance = radius * Math.sqrt(Math.random()) // evenly over the circle, not crowded in the middle
       const x = this.x + Math.cos(angle) * distance
       const below = Math.sin(angle) * distance
-      const y = this.y + (this.y + below > platno.height ? -below : below) // a burst under the screen's edge shows above instead
+      const y = this.y + (this.y + below > canvas2d.height ? -below : below) // a burst under the screen's edge shows above instead
       this.session.presentation.after(Math.random() * bombSpread, () => this.explode(x, y))
     }
   }
 
   explode(x, y) {
-    let explosion = this.explosions.find(burst => !burst.vidljiv)
+    let explosion = this.explosions.find(burst => !burst.visible)
     if (!explosion) {
       explosion = new Explosion()
       this.explosions.push(explosion)
-      this.predmeti.push(explosion)
+      this.children.push(explosion)
     }
     explosion.start(x, y)
   }
@@ -178,25 +178,25 @@ export class Avionce extends Player2D {
   }
 
   /** A bullet takes a life unless the plane is invulnerable. */
-  reagujNaPogodak() {
-    if (!this.invulnerable) this.umri()
+  takeHit() {
+    if (!this.invulnerable) this.die()
   }
 
   /** A crash into an enemy plane takes a life and one hit of the enemy. */
   checkCrashes() {
     if (!this.alive || this.invulnerable) return
 
-    const enemy = this.ciljevi.find(plane => plane.alive && this.sudara(plane))
+    const enemy = this.targets.find(plane => plane.alive && this.collidesWith(plane))
     if (!enemy) return
     enemy.damage(1)
-    this.umri()
+    this.die()
   }
 
   /** The plane comes back at the bottom of the screen, safe for a while, with its loops. */
   reset() {
     this.alive = true
     this.scaleX = this.scaleY = 1
-    this.stani()
+    this.stop()
     this.toStart()
     this.shield = shieldTime
     resetFlame(this)
@@ -204,15 +204,15 @@ export class Avionce extends Player2D {
   }
 
   /** A lost life also takes away the fire power-ups. */
-  umri() {
+  die() {
     resetFlame(this)
     this.alive = false
     this.loopAge = null
     this.fireLevel = 0
-    this.pada = true
+    this.fall = true
     this.zivoti--
     this.session.gameplay.after(respawnTime, () => {
-      this.pada = false
+      this.fall = false
       if (this.zivoti) this.reset()
     })
   }
@@ -222,10 +222,10 @@ export class Avionce extends Player2D {
     this.shield = Math.max(this.shield - dt, 0)
     this.view.update(dt)
     super.update(dt, t)
-    this.bullets.checkHits(this.ciljevi, plane => this.scoreIfDown(plane))
+    this.bullets.checkHits(this.targets, plane => this.scoreIfDown(plane))
     this.checkCrashes()
 
-    if (this.pada)
+    if (this.fall)
       this.scaleX = this.scaleY = this.scaleX * Math.pow(0.8, dt)
   }
 

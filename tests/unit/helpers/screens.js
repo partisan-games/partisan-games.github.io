@@ -11,10 +11,10 @@ const clickButton = id => document.querySelector(`#modal #${id}`).click()
  * and returns the HTML of #modal at each point.
  */
 export async function captureScreens(uiStyle) {
-  const { default: Scena } = await import('/core/Scena.js')
+  const { default: Scene } = await import('/core/Scene.js')
   const frames = installFakeFrames()
   const html = {}
-  const createScene = () => new Scena({ canvas: document.createElement('canvas'), uiStyle, intro: 'Reach the forest' })
+  const createScene = () => new Scene({ canvas: document.createElement('canvas'), uiStyle, intro: 'Reach the forest' })
   let scene = createScene()
 
   scene.ui.renderStartScreen()

@@ -1,4 +1,4 @@
-import Scena3D from '/core/Scena3D.js'
+import Scene3D from '/core/Scene3D.js'
 import PolarMaze from '/core3d/mazes/PolarMaze.js'
 import { recursiveBacktracker } from '/core3d/mazes/algorithms.js'
 import { createSun, ambLight } from '/core3d/light.js'
@@ -11,7 +11,7 @@ const rows = 20
 const cellSize = 10
 const mazeSize = rows * cellSize
 
-export default class extends Scena3D {
+export default class MinasTirithScene extends Scene3D {
   constructor() {
     super({
       controlKeys: baseControls,

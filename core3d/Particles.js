@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { similarColor } from '/core3d/helpers.js'
 import { createSound } from '/core/io/sound.js'
 import { assets } from '/config.js'
-import { FPS } from '/core/konstante.js'
+import { FPS } from '/core/constants.js'
 
 const { randFloat } = THREE.MathUtils
 const textureLoader = new THREE.TextureLoader()
@@ -17,6 +17,39 @@ function addVelocity({ geometry, minVelocity = .5, maxVelocity = 3 } = {}) {
 /**
  * Particles base class, creates particles in sphere space
  */
+/** Random positions within the spread angle, and a similar random color for each when the particles have no one color. */
+function createParticleGeometry({ num, unitAngle, minRadius, maxRadius, randomColors }) {
+  const positions = []
+  const colors = []
+  for (let i = 0; i < num; i++) {
+    const vertex = new THREE.Vector3(
+      randFloat(-unitAngle, unitAngle), randFloat(-unitAngle, unitAngle), randFloat(-unitAngle, unitAngle)
+    )
+    vertex.multiplyScalar(randFloat(minRadius, maxRadius))
+    positions.push(vertex.x, vertex.y, vertex.z)
+    if (randomColors) {
+      const color = similarColor(0xf2c5f3)
+      colors.push(color.r, color.g, color.b)
+    }
+  }
+  const geometry = new THREE.BufferGeometry()
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3))
+  if (randomColors) geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3))
+  return geometry
+}
+
+function createParticleMaterial({ file, color, size, opacity, blending }) {
+  const material = new THREE.PointsMaterial({ size, transparent: true, opacity })
+  if (file) {
+    material.map = textureLoader.load(`${assets.textures}particles/${file}`)
+    material.blending = blending
+    material.depthWrite = false // for explosion
+  }
+  if (color) material.color = new THREE.Color(color)
+  else material.vertexColors = true
+  return material
+}
+
 export default class Particles {
   constructor({ num = 10000, file = 'ball.png', color, size = .5, opacity = 1, unitAngle = 1, minRadius = 100, maxRadius = 1000, minVelocity = 50, maxVelocity = 300, blending = THREE.AdditiveBlending, loop = true, min = -500, max = 500, pos } = {}) {
     this.t = 0
@@ -35,45 +68,8 @@ export default class Particles {
   }
 
   createParticles({ num = 10000, file = 'ball.png', color, size = .5, opacity = 1, minRadius = 100, maxRadius = 1000, blending = THREE.AdditiveBlending } = {}) {
-    const { unitAngle } = this
-    const geometry = new THREE.BufferGeometry()
-    const positions = []
-    const colors = []
-
-    for (let i = 0; i < num; i++) {
-      const vertex = new THREE.Vector3(
-        randFloat(-unitAngle, unitAngle), randFloat(-unitAngle, unitAngle), randFloat(-unitAngle, unitAngle)
-      )
-      const radius = randFloat(minRadius, maxRadius)
-      vertex.multiplyScalar(radius)
-      const { x, y, z } = vertex
-      positions.push(x, y, z)
-
-      if (!color) {
-        const color = similarColor(0xf2c5f3)
-        colors.push(color.r, color.g, color.b)
-      }
-    }
-
-    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3))
-    if (!color) geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3))
-
-    const material = new THREE.PointsMaterial({
-      size,
-      transparent: true,
-      opacity,
-    })
-    if (file) {
-      material.map = textureLoader.load(`${assets.textures}particles/${file}`)
-      material.blending = blending
-      material.depthWrite = false // for explosion
-    }
-
-    if (color)
-      material.color = new THREE.Color(color)
-    else
-      material.vertexColors = true
-
+    const geometry = createParticleGeometry({ num, unitAngle: this.unitAngle, minRadius, maxRadius, randomColors: !color })
+    const material = createParticleMaterial({ file, color, size, opacity, blending })
     return new THREE.Points(geometry, material)
   }
 
@@ -152,8 +148,6 @@ export default class Particles {
   }
 }
 
-/* CHILD CLASSES */
-
 export class Stars extends Particles {
   update(dt, t, { min = -500, max = 500, ...rest } = {}) {
     super.update(dt, t, { min, max, axis: 2, ...rest })
@@ -161,7 +155,7 @@ export class Stars extends Particles {
 }
 
 export class Rain extends Particles {
-  // rain-drop.png je ukrivo
+  // rain-drop.png is drawn slanted
   constructor({ file = 'rain-drop.png', num = 1000, size = .1, opacity = .75, minRadius = 2, maxRadius = 5, minVelocity = 30, maxVelocity = 90, color = 0xDEF4FC, min = 0, max = 50, ...rest } = {}) {
     super({ file, num, size, opacity, minRadius, maxRadius, color, minVelocity, maxVelocity, blending: THREE.NormalBlending, ...rest })
 

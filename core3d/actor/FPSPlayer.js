@@ -42,8 +42,6 @@ export default class FPSPlayer extends Player {
     document.addEventListener('pointermove', this.moveCursor)
   }
 
-  /* GETTERS */
-
   get cameraHeight() {
     return this.height * .82
   }
@@ -54,8 +52,6 @@ export default class FPSPlayer extends Player {
     return pos
   }
 
-  /* UTILS */
-
   moveCursor(e) {
     if (this.hurting || this.dead || !document.pointerLockElement) return
 
@@ -65,8 +61,6 @@ export default class FPSPlayer extends Player {
     const upperRotation = Math.PI / 8
     this.camera.rotation.x = Math.max(lowerRotation, Math.min(upperRotation, this.camera.rotation.x))
   }
-
-  /* COMBAT */
 
   // parent method overriding
   intersect() {
@@ -86,11 +80,9 @@ export default class FPSPlayer extends Player {
   }
 
   checkHit() {
-    if (this.damageAmount) this.painEffect()
+    if (this.pendingDamage) this.painEffect()
     super.checkHit()
   }
-
-  /* UPDATES */
 
   update(delta) {
     super.update(delta)

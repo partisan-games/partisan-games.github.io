@@ -1,12 +1,12 @@
-import { platno } from '/core/io/platno.js'
-import Scena2D from '/core/Scena2D.js'
+import { canvas2d } from '/core/io/canvas2d.js'
+import Scene2D from '/core/Scene2D.js'
 import PozadinaGrada from './PozadinaGrada.js'
 import { progresBar } from '/ui/components.js'
 import TenkLevo from './TenkLevo.js'
 import TenkDesno from './TenkDesno.js'
 import Controls, { tankLeftControls, tankRightControls } from '/ui/Controls.js'
 
-const nivoTla = platno.height * 0.8
+const groundLevel = canvas2d.height * 0.8
 
 const customStartScreen = ({ container }) => /* html */`
   <div class="central-screen ${container}">
@@ -20,27 +20,26 @@ const customStartScreen = ({ container }) => /* html */`
   </div>
 `
 
-export default class extends Scena2D {
+export default class TenkiciScene extends Scene2D {
   constructor() {
     super({ controlKeys: tankLeftControls, customStartScreen, showControls: true })
   }
 
   init() {
-    this.pozadina = new PozadinaGrada(this.canvas)
+    this.background = new PozadinaGrada(this.canvas)
     const { clock } = this.session
-    this.tenk = new TenkLevo({ y: nivoTla, clock })
-    this.tenk2 = new TenkDesno({ y: nivoTla, ai: true, clock })
-    this.tenk.ciljevi.push(this.tenk2)
-    this.tenk2.ciljevi.push(this.tenk)
-    this.predmeti = [this.tenk, this.tenk2]
+    this.tenk = new TenkLevo({ y: groundLevel, clock })
+    this.tenk2 = new TenkDesno({ y: groundLevel, ai: true, clock })
+    this.tenk.targets.push(this.tenk2)
+    this.tenk2.targets.push(this.tenk)
+    this.add(this.tenk, this.tenk2)
   }
 
   handleClick(e) {
-    super.handleClick(e)
     const button = e.target.closest('button')
     if (!button || !['jedan-igrac', 'dva-igraca'].includes(button.id)) return
 
-    if (button.id == 'dva-igraca') {
+    if (button.id === 'dva-igraca') {
       this.tenk2.ai = !this.tenk2.ai
       this.controls2UI = new Controls({ positionClass: 'bottom-right', controlKeys: tankRightControls })
     }
@@ -49,7 +48,7 @@ export default class extends Scena2D {
   }
 
   update(dt) {
-    this.pozadina.update(dt)
+    this.background.update(dt)
     super.update(dt)
     const porazeni = this.tenk2.dead ? 'German' : 'Partisan'
     const poruka = `${porazeni} tank destroyed.`

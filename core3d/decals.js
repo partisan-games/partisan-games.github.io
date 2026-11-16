@@ -4,8 +4,6 @@ import { DecalGeometry } from 'three/examples/jsm/geometries/DecalGeometry.js'
 const { randFloat } = THREE.MathUtils
 const textureLoader = new THREE.TextureLoader()
 
-/* SHOOT */
-
 const decalMaterial = new THREE.MeshPhongMaterial({
   color: 0x000000,
   map: textureLoader.load('/assets/images/textures/decal-diffuse.png'),

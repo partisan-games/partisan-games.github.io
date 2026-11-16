@@ -1,6 +1,5 @@
-import { sample, shuffle } from '/core3d/helpers.js'
-
-/* BINARY TREE */
+import { sample } from '/core3d/helpers.js'
+import { shuffle } from '/core/utils.js'
 
 export function binaryTree(maze) {
   for (const cell of maze.each_cell()) {
@@ -11,8 +10,6 @@ export function binaryTree(maze) {
     if (neighbor) cell.link(neighbor)
   }
 }
-
-/* SIDEWINDER */
 
 export function sideWinder(maze) {
   for (const row of maze.each_row()) {
@@ -30,8 +27,6 @@ export function sideWinder(maze) {
   }
 }
 
-/* ALDOUS BRODER */
-
 export function aldousBroder(maze) {
   let cell = maze.random_cell
   let unvisited = maze.size - 1
@@ -45,8 +40,6 @@ export function aldousBroder(maze) {
     cell = neighbor
   }
 }
-
-/* WILSONS */
 
 export function wilsons(maze) {
   let unvisited = []
@@ -63,7 +56,7 @@ export function wilsons(maze) {
       const { neighbors } = cell
       cell = sample(neighbors)
       const index = path.findIndex(x => x.id === cell.id)
-      if (index != -1)
+      if (index !== -1)
         path = path.slice(0, index + 1)
       else
         path.push(cell)
@@ -75,8 +68,6 @@ export function wilsons(maze) {
     }
   }
 }
-
-/* HUNT AND KILL */
 
 export function huntAndKill(maze) {
   let current = maze.random_cell
@@ -138,7 +129,7 @@ export function simplifiedPrims(maze, start_at = maze.random_cell) {
       cell.link(neighbor)
       active.push(neighbor)
     } else
-      active = active.filter(c => c.id != cell.id)
+      active = active.filter(c => c.id !== cell.id)
   }
 }
 
@@ -160,7 +151,7 @@ export function truePrims(maze, start_at = maze.random_cell) {
       cell.link(neighbor)
       active.push(neighbor)
     } else
-      active = active.filter(c => c.id != cell.id)
+      active = active.filter(c => c.id !== cell.id)
   }
 }
 
@@ -217,7 +208,7 @@ export function ellers(maze) {
       const set = row_state.set_for(cell)
       const prior_set = row_state.set_for(cell.west)
 
-      const should_link = set != prior_set && (cell.south == null || Math.random() < 0.5)
+      const should_link = set !== prior_set && (cell.south == null || Math.random() < 0.5)
       if (should_link) {
         cell.link(cell.west)
         row_state.merge(prior_set, set)
@@ -229,7 +220,7 @@ export function ellers(maze) {
       for (const [, cells] of row_state.each_set()) {
         shuffle(cells)
         cells.forEach((cell, i) => {
-          if (i == 0 || Math.random() < 0.33) {
+          if (i === 0 || Math.random() < 0.33) {
             cell.link(cell.south)
             next_row.record(row_state.set_for(cell), cell.south)
           }
@@ -239,8 +230,6 @@ export function ellers(maze) {
     }
   }
 }
-
-/* RECURSIVE DIVISION */
 
 function divide(maze, row, column, height, width) {
   if (height <= 1 || width <= 1 || height < 5 && width < 5 && Math.random() < 0.25) return
@@ -256,7 +245,7 @@ function divide_horizontally(maze, row, column, height, width) {
   const passage_at = Math.floor(Math.random() * width)
 
   for (let x = 0; x < width; x += 1) {
-    if (passage_at == x) continue
+    if (passage_at === x) continue
     const cell = maze.cell(row + divide_south_of, column + x)
     cell.unlink(cell.south)
   }
@@ -270,7 +259,7 @@ function divide_vertically(maze, row, column, height, width) {
   const passage_at = Math.floor(Math.random() * height)
 
   for (let y = 0; y < height; y += 1) {
-    if (passage_at == y) continue
+    if (passage_at === y) continue
     const cell = maze.cell(row + y, column + divide_east_of)
     cell.unlink(cell.east)
   }

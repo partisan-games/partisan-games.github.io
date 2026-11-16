@@ -6,14 +6,10 @@ const animDict = {
   walk: 'Take 001'
 }
 
-/* LOADING */
-
 const meshModel = { file: 'animal/elephant/Unity2Skfb.gltf', size: 8, angle: Math.PI }
 
 /** What to load; a game awaits requestModels(models) before it creates one of these. */
 export const models = [meshModel]
-
-/* EXTENDED CLASSES */
 
 const sharedProps = () => {
   const mesh = loadedModel(meshModel)

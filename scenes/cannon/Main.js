@@ -1,4 +1,4 @@
-import Scena3D from '/core/Scena3D.js'
+import Scene3D from '/core/Scene3D.js'
 import { createSun } from '/core3d/light.js'
 import PhysicsWorld from '/core3d/physics/PhysicsWorld.js'
 import { createGround } from '/core3d/ground.js'
@@ -13,7 +13,7 @@ const controlKeys = {
   'Mouse up': 'shoot'
 }
 
-export default class extends Scena3D {
+export default class CannonScene extends Scene3D {
   constructor() {
     super({
       intro: 'Demolish the wall — leave no stone on stone.',
@@ -35,21 +35,20 @@ export default class extends Scena3D {
     const sun = createSun({ pos: [-5, 10, 5] })
     this.addMesh(sun)
 
-    this.world = new PhysicsWorld({ scene: this.scene })
-    this.session.scope.add(() => this.world.dispose())
+    this.physics = new PhysicsWorld({ scene: this.scene })
+    this.session.scope.add(() => this.physics.dispose())
     const ground = createGround({ size: 40 })
-    this.world.add(ground, 0)
+    this.physics.add(ground, 0)
 
     this.boxes = createSideWall({ rows: 9, columns: 10, brickMass: 3, friction: 5, z: -9 })
-    this.boxes.forEach(mesh => this.world.add(mesh))
+    this.boxes.forEach(mesh => this.physics.add(mesh))
   }
 
   handleClick(e) {
-    super.handleClick(e)
     if (e.target.closest('button, input, progress') || !this.gameLoop.isRunning || this.ui.outro) return
 
-    this.player.shoot(this.world)
-    if (this.player.shots == 0) this.checkDefeat()
+    this.player.shoot(this.physics)
+    if (this.player.shots === 0) this.checkDefeat()
   }
 
   checkDefeat() {
@@ -59,12 +58,10 @@ export default class extends Scena3D {
     })
   }
 
-  /* LOOP */
-
   update(dt, t) {
     super.update(dt, t)
 
-    this.world.update(dt)
+    this.physics.update(dt)
     this.countableCrates = this.boxes.filter(mesh => mesh.position.y > .5)
 
     if (!this.countableCrates.length)

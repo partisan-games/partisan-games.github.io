@@ -130,7 +130,7 @@
     "cameraButton": null
   },
   "neretva": {
-    "startScreen": "<div class=\"central-screen flex-column simple-container\" id=\"start-screen\"> <p>Hold the Germans at all costs until the wounded are safe.</p> <button class=\"default-button\" id=\"start\"><span class=\"icon\">🔥</span> Start mission</button> </div>",
+    "startScreen": "<div class=\"central-screen flex-column simple-container\" id=\"start-screen\"> <p>Hold the enemy at all costs until the wounded are safe.</p> <button class=\"default-button\" id=\"start\"><span class=\"icon\">🔥</span> Start mission</button> </div>",
     "healthBar": "progress top-right",
     "cameraButton": null
   },
@@ -152,7 +152,7 @@
   "rpg-fantasy": {
     "startScreen": "<div class=\"central-screen rpgui-container framed\"> <ul><li>Kill all the Orcs</li></ul> <button id=\"start\" class=\"game-title\">Press to START!</button> <p>Free the land<br>from their vile presence!</p> </div>",
     "healthBar": "progress top-right rpgui-progress",
-    "cameraButton": "bottom-right rpgui-button"
+    "cameraButton": "bottom-right camera-button rpgui-button"
   },
   "ruins": {
     "startScreen": "",
@@ -170,12 +170,12 @@
     "cameraButton": null
   },
   "ustanak": {
-    "startScreen": "<div class=\"central-screen simple-container\"> <h2>Choose mode</h2> <button class=\"bg-olive\" id=\"jedan-igrac\"> 1 player </button> <button class=\"bg-olive\" id=\"dva-igraca\"> 2 players </button> </div>",
+    "startScreen": "<div class=\"central-screen simple-container\"> <h2>Choose mode</h2> <button class=\"bg-olive\" id=\"jedan-igrac\"> Player vs computer </button> <button class=\"bg-olive\" id=\"dva-igraca\"> 2 players </button> </div>",
     "healthBar": null,
     "cameraButton": null
   },
   "vis": {
-    "startScreen": "<div class=\"central-screen flex-column simple-container\" id=\"start-screen\"> <p>Reach the island of Vis.</p> <h2>Choose your aircraft</h2> <div class=\"game-screen-select vis-aircraft-select\"> <label> <input type=\"image\" data-aircraft=\"spitfire\" src=\"/assets/images/armies/partizani/avioni/spitfire-mkvb-realistic.png\" alt=\"Fly Spitfire Mk Vb\"> <span>Spitfire Mk Vb</span> </label> <label> <input type=\"image\" data-aircraft=\"hurricane\" src=\"/assets/images/armies/partizani/avioni/hurricane-mkiv-realistic.png\" alt=\"Fly Hurricane Mk IV\"> <span>Hurricane Mk IV</span> </label> <label> <input type=\"image\" data-aircraft=\"breguet\" src=\"/assets/images/armies/partizani/avioni/breguet-19-realistic.png\" alt=\"Fly Breguet 19\"> <span>Breguet 19</span> </label> <label> <input type=\"image\" data-aircraft=\"yak\" src=\"/assets/images/armies/partizani/avioni/yak-1b-realistic.png\" alt=\"Fly Yak-1b\"> <span>Yak-1b</span> </label> </div> </div>",
+    "startScreen": "<div class=\"central-screen flex-column simple-container\" id=\"start-screen\"> <p>Reach the Island of Vis</p> <h2>Choose your aircraft</h2> <div class=\"game-screen-select vis-aircraft-select\"> <label> <input type=\"image\" data-aircraft=\"spitfire\" src=\"/assets/images/armies/partizani/avioni/spitfire-mkvb-realistic.png\" alt=\"Fly Spitfire Mk Vb\"> <span>Spitfire Mk Vb</span> </label> <label> <input type=\"image\" data-aircraft=\"hurricane\" src=\"/assets/images/armies/partizani/avioni/hurricane-mkiv-realistic.png\" alt=\"Fly Hurricane Mk IV\"> <span>Hurricane Mk IV</span> </label> <label> <input type=\"image\" data-aircraft=\"breguet\" src=\"/assets/images/armies/partizani/avioni/breguet-19-realistic.png\" alt=\"Fly Breguet 19\"> <span>Breguet 19</span> </label> <label> <input type=\"image\" data-aircraft=\"yak\" src=\"/assets/images/armies/partizani/avioni/yak-1b-realistic.png\" alt=\"Fly Yak-1b\"> <span>Yak-1b</span> </label> </div> </div>",
     "healthBar": null,
     "cameraButton": null
   },
@@ -192,6 +192,6 @@
   "zeppelin": {
     "startScreen": "",
     "healthBar": null,
-    "cameraButton": "bottom-right rpgui-button"
+    "cameraButton": "bottom-right camera-button rpgui-button"
   }
 }

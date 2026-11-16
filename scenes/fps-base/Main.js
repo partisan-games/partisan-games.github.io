@@ -1,4 +1,4 @@
-import Scena3D from '/core/Scena3D.js'
+import Scene3D from '/core/Scene3D.js'
 import { createGround } from '/core3d/ground.js'
 import { sample, getHeight } from '/core3d/helpers.js'
 import { hemLight, lightningStrike } from '/core3d/light.js'
@@ -17,7 +17,7 @@ import { requestModels } from '/core3d/assets/models.js'
 
 const cellSize = 5
 
-export default class extends Scena3D {
+export default class FpsBaseScene extends Scene3D {
   constructor() {
     super({
       toon: true,
@@ -30,7 +30,7 @@ export default class extends Scena3D {
 
   async init() {
     await requestModels([...germanMachineGunnerModels, ...ssSoldierModels, ...naziOfficerModels, ...germanFlameThrowerModels, ...firstAidModels])
-    this.bojaPozadine = 0x301934
+    this.backgroundColor = 0x301934
     this.light = hemLight({ intensity: Math.PI * 1.5, scene: this.scene })
     this.addMesh(createGround({ file: 'terrain/snow.jpg' }))
 

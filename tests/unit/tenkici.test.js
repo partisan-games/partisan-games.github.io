@@ -17,8 +17,8 @@ test('barrels are positioned when the body finishes loading after the barrel', (
   for (const Tank of [TenkLevo, TenkDesno]) {
     const tank = new Tank({ x: 400, y: 200, clock: new GameClock() })
     tank.cev.onload()
-    tank.sirina = 150
-    tank.visina = 60
+    tank.width = 150
+    tank.height = 60
     tank.onload()
 
     assert.ok(Number.isFinite(tank.cev.x))
@@ -31,24 +31,24 @@ test('barrels are positioned when the body finishes loading after the barrel', (
 function pressSpace(tank) {
   key('keydown', 'Space')
   tank.handleInput(1 / 60)
-  const beforeRelease = tank.granate.projectiles.filter(g => g.vidljiv).length
+  const beforeRelease = tank.granate.projectiles.filter(g => g.visible).length
   key('keyup', 'Space')
   tank.handleInput(1 / 60)
   return beforeRelease
 }
 
-const shownGrenades = tank => tank.granate.projectiles.filter(g => g.vidljiv)
+const shownGrenades = tank => tank.granate.projectiles.filter(g => g.visible)
 
 test('the left tank fires on the release of Space, its grenade leaves the barrel tip along the barrel, and the tank recoils', () => {
   const tank = new TenkLevo({ x: 100, xLimit: 500, clock: new GameClock() })
   const tip = tank.vrhCevi
-  const angle = tank.cev.ugao
+  const { angle } = tank.cev
 
   assert.equal(pressSpace(tank), 0, 'nothing is fired while Space is held')
   const [grenade] = shownGrenades(tank)
   assert.ok(grenade)
   assert.deepEqual({ x: grenade.x, y: grenade.y }, tip)
-  assert.equal(grenade.ugao, angle)
+  assert.equal(grenade.angle, angle)
   assert.ok(Math.abs(Math.hypot(grenade.dx, grenade.dy) - (window.innerWidth > 1920 ? 520 : 500)) < 1e-9)
   assert.ok(tank.dx < 0, 'the recoil pushes the tank back')
 })
@@ -73,7 +73,7 @@ test('the AI tank fires first after its wait of game time, however long the game
   const clock = new GameClock()
   const ai = new TenkDesno({ ai: true, clock })
   const target = new TenkLevo({ x: 100, xLimit: 500, clock })
-  ai.ciljevi.push(target)
+  ai.targets.push(target)
 
   ai.samohod()
   assert.equal(shownGrenades(ai).length, 0)
@@ -83,25 +83,25 @@ test('the AI tank fires first after its wait of game time, however long the game
 })
 
 test('a grenade hit takes the target health and pushes it back, and leaves the shooter whole', async() => {
-  const { default: Granata } = await import('/core/actor/projektili/Granata.js')
+  const { default: Shell } = await import('/core/actor/projectiles/Shell.js')
   const clock = new GameClock()
   const shooter = new TenkLevo({ x: 100, xLimit: 500, clock })
   const target = new TenkDesno({ ai: false, clock })
-  const grenade = new Granata({ clock })
+  const grenade = new Shell({ clock })
   let hits = 0
   const { settle } = await import('./helpers/scenes.js')
   await settle() // a flammable object gets its flame from a module it loads on its own
 
-  grenade.povredi(target, () => hits++)
-  assert.equal(target.energija, 100 - grenade.steta)
+  grenade.hit(target, () => hits++)
+  assert.equal(target.energija, 100 - grenade.damage)
   assert.ok(target.dx > 0, 'the right tank is pushed back to the right')
   assert.equal(shooter.energija, 100)
   assert.equal(hits, 1)
-  assert.equal(target.zapaljen, false)
+  assert.equal(target.burning, false)
 
-  target.reagujNaPogodak(target.energija - 20)
-  assert.equal(target.zapaljen, true)
-  target.reagujNaPogodak(50)
+  target.takeHit(target.energija - 20)
+  assert.equal(target.burning, true)
+  target.takeHit(50)
   assert.equal(target.energija, 0)
   assert.ok(target.dead)
   target.alive = true // the old setter brings a tank back with full energy
@@ -149,11 +149,11 @@ test('a tank grenade that hits does its damage after the blast, on the game cloc
   const target = new TenkDesno({ ai: false, clock })
   pressSpace(shooter)
   const [grenade] = shownGrenades(shooter)
-  target.sudara = () => true
+  target.collidesWith = () => true
 
-  grenade.proveriPogodak(target)
+  grenade.checkHit(target)
   clock.advance(.1)
   assert.equal(target.energija, 100, 'not during the blast, nor while the game stands still')
   clock.advance(.05)
-  assert.equal(target.energija, 100 - grenade.steta)
+  assert.equal(target.energija, 100 - grenade.damage)
 })

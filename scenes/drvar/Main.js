@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import Scena3D from '/core/Scena3D.js'
+import Scene3D from '/core/Scene3D.js'
 import { elements } from './data.js'
 import { createGround } from '/core3d/ground.js'
 import Sprite from './Sprite.js'
@@ -24,7 +24,7 @@ function praviPanoramu(r = 300) {
   return new THREE.Mesh(geometry, material)
 }
 
-export default class extends Scena3D {
+export default class DrvarScene extends Scene3D {
   constructor() {
     super({ showControls: false })
   }
@@ -47,7 +47,7 @@ export default class extends Scena3D {
     this.controls.maxAzimuthAngle = Math.PI / 8
     this.eksplozija = new Sprite('/assets/images/sprites/efekti/eksplozija-01.png', 8, 4)
     this.addMesh(this.eksplozija.mesh)
-    this.bojaPozadine = '#403'
+    this.backgroundColor = '#403'
     const previousFilter = document.body.style.filter
     document.body.style.filter = 'sepia(0.4)'
     this.session.scope.add(() => {
@@ -68,15 +68,15 @@ export default class extends Scena3D {
       const material = new THREE.SpriteMaterial({ map: texture })
       const mesh = new THREE.Sprite(material)
 
-      const skalar = .05
-      mesh.scale.set(texture.image.width * skalar, texture.image.height * skalar, 1)
+      const scale = .05
+      mesh.scale.set(texture.image.width * scale, texture.image.height * scale, 1)
 
       const origin = el.origin ?? { x: 0, y: 0, z: 0 }
       const range = el.range ?? { x: 100, y: 0, z: 100 }
       const x = origin.x + randSpread(range.x)
       const y = origin.y + randSpread(range.y)
       const z = origin.z + randSpread(range.z)
-      mesh.position.set(x, y + texture.image.height * skalar * .5, z)
+      mesh.position.set(x, y + texture.image.height * scale * .5, z)
       this.addMesh(mesh)
 
       if (el.type) this[el.type].push(mesh)

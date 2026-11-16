@@ -17,14 +17,12 @@ export default class State {
   }
 
   get prevOrIdle() {
-    if (this.prevState == 'pain') return 'idle' // bugfix
+    if (this.prevState === 'pain') return 'idle' // bugfix
     return this.prevState || 'idle'
   }
 
-  /* FSM */
-
   enter(oldState) {
-    if (isDev && this.actor.name == 'player') console.log('State enter:', this.name, this.action)
+    if (isDev && this.actor.name === 'player') console.log('State enter:', this.name, this.action)
 
     this.prevState = oldState?.name
     if (this.action) this.action.enabled = true
@@ -33,8 +31,6 @@ export default class State {
   update() {}
 
   exit() {}
-
-  /* ANIM HELPERS */
 
   transitFrom(oldName, duration) {
     return this.actor.anim?.transitFrom(oldName, this.name, duration)

@@ -5,6 +5,7 @@ import { createPageElements } from './helpers/dom.js'
 import Avatar from '/core3d/actor/Avatar.js'
 import GameSession from '/core/runtime/GameSession.js'
 import SpecialActions from '/scenes/capoeira-girl/SpecialActions.js'
+import World from '/core/World.js'
 
 before(() => createPageElements())
 const input = () => ({ end() {} })
@@ -128,7 +129,7 @@ test('avatar lava damage and coin collection keep their game rules', async t => 
     coin.mesh.position.set(50, 10, 0)
     let removed = 0
     const scene = {
-      player, predmeti: [], coins: [coin], score: 0, ui: { outro: false, showMessage() {} },
+      player, world: new World(), coins: [coin], score: 0, ui: { outro: false, showMessage() {} },
       lava: { material: { uniforms: { time: { value: 0 } } } },
       removeMesh: () => removed++, showMotivationalMessage() {}, defeat() {}, victory() {},
       checkCollision: AvatarScene.prototype.checkCollision,
