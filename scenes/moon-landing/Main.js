@@ -1,4 +1,4 @@
-import Scena3D, { bojeNeba } from '/core/Scena3D.js'
+import Scene3D, { skyGradients } from '/core/Scene3D.js'
 import { ambLight, createMoon, orbitAround } from '/core3d/light.js'
 import { Stars } from '/core3d/Particles.js'
 import Platform from '/core3d/objects/Platform.js'
@@ -15,7 +15,7 @@ const controls = {
   '↑ or W': '',
 }
 
-export default class extends Scena3D {
+export default class MoonLandingScene extends Scene3D {
   constructor() {
     super({
       toon: true,
@@ -23,13 +23,13 @@ export default class extends Scena3D {
       intro: 'Land on the platform gently',
       startButtonText: 'Start',
       uiStyle: 'white',
-      bojaPlatna: bojeNeba.crna,
+      canvasBackground: skyGradients.crna,
       fixedStep: true,
     })
   }
 
   async init() {
-    this.bojaPozadine = 0x000000
+    this.backgroundColor = 0x000000
     this.camera.position.z = 18
 
     ambLight({ scene: this.scene })
@@ -54,8 +54,6 @@ export default class extends Scena3D {
     this.lander = new Lander({ platform })
     this.add(this.lander, stars, platform)
   }
-
-  /* LOOP */
 
   sceneUI() {
     const fuel = Math.floor(this.lander.fuel)

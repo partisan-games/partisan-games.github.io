@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 import GameSession from '/core/runtime/GameSession.js'
 
-let Avionce, inputOptions, Enemy, Input, settings, platno, PowerUps, attackLabels
+let Avionce, inputOptions, Enemy, Input, settings, canvas2d, PowerUps, attackLabels
 
 before(async() => {
   createPageElements()
@@ -16,7 +16,7 @@ before(async() => {
   Enemy = (await import('/scenes/vis/Enemy.js')).default
   Input = (await import('/core/io/Input.js')).default
   ;({ settings } = await import('/scenes/vis/settings.js'))
-  platno = (await import('/core/io/platno.js')).default
+  canvas2d = (await import('/core/io/canvas2d.js')).default
   PowerUps = (await import('/scenes/vis/PowerUps.js')).default
   ;({ attackLabels } = await import('/core/io/keys.js'))
 })
@@ -29,14 +29,14 @@ test('choosing a Vis aircraft loads its image while keeping the player, input an
   const { input, weapon, session } = player
   assert.equal(player.aircraftId, 'spitfire')
   const loaded = player.selectAircraft('hurricane')
-  Object.defineProperties(player.slika, {
+  Object.defineProperties(player.image, {
     naturalWidth: { value: 300 }, naturalHeight: { value: 255 },
   })
-  player.slika.onload()
+  player.image.onload()
   await loaded
   assert.equal(player.aircraftId, 'hurricane')
-  assert.ok(player.slika.src.endsWith('/hurricane-mkiv-realistic.png'))
-  assert.deepEqual([player.sirina, player.visina], [150, 127.5])
+  assert.ok(player.image.src.endsWith('/hurricane-mkiv-realistic.png'))
+  assert.deepEqual([player.width, player.height], [150, 127.5])
   assert.equal(player.input, input)
   assert.equal(player.weapon, weapon)
   assert.equal(player.session, session)
@@ -53,10 +53,10 @@ function createPlayer(t) {
   player.input = new Input({ ...inputOptions, useKeyboard: true, useJoystick: false })
   player.x = 500
   player.y = 400
-  player.sirina = player.visina = 80 // as its image would give
+  player.width = player.height = 80 // as its image would give
   const enemy = new Enemy({ session })
   enemy.x = enemy.y = 5000
-  player.ciljevi = [enemy]
+  player.targets = [enemy]
   t.after(() => player.end())
   return { player, enemy }
 }
@@ -71,7 +71,7 @@ function fly(player, seconds, fps = 60) {
 
 /** Shoots the plane down and waits until it is back. */
 function loseLife(player) {
-  player.reagujNaPogodak()
+  player.takeHit()
   fly(player, settings.player.respawnTime + .05)
 }
 
@@ -96,8 +96,8 @@ test('the vis player plane comes back at the bottom middle of the screen', t => 
   loseLife(player)
 
   assert.equal(player.alive, true)
-  assert.equal(player.x, platno.width / 2)
-  assert.equal(player.y, platno.height - player.visina)
+  assert.equal(player.x, canvas2d.width / 2)
+  assert.equal(player.y, canvas2d.height - player.height)
 })
 
 test('for 2 s after coming back, neither a bullet nor a crash takes a life of the vis player', t => {
@@ -105,13 +105,13 @@ test('for 2 s after coming back, neither a bullet nor a crash takes a life of th
   const { lives, shieldTime } = settings.player
 
   loseLife(player)
-  player.reagujNaPogodak()
+  player.takeHit()
   crashInto(player, enemy)
   assert.equal(player.alive, true)
   assert.equal(player.zivoti, lives - 1)
 
   fly(player, shieldTime)
-  player.reagujNaPogodak()
+  player.takeHit()
   assert.equal(player.zivoti, lives - 2, 'then a bullet takes one')
 
   loseLife(player)
@@ -125,11 +125,11 @@ test('during a loop a bullet does not take a life of the vis player, after it do
 
   pressLoop(player)
   fly(player, settings.player.loop.duration / 2)
-  player.reagujNaPogodak()
+  player.takeHit()
   assert.equal(player.alive, true)
 
   fly(player, settings.player.loop.duration)
-  player.reagujNaPogodak()
+  player.takeHit()
   assert.equal(player.alive, false)
 })
 
@@ -172,8 +172,8 @@ test('holding C makes one loop, and the vis player has three per life', t => {
 function bulletsPerShot(player) {
   player.bullets.projectiles.forEach(bullet => bullet.reset())
   player.weapon.cooldown.start(0)
-  player.puca()
-  return player.bullets.projectiles.filter(bullet => bullet.vidljiv).length
+  player.shoot()
+  return player.bullets.projectiles.filter(bullet => bullet.visible).length
 }
 
 test('the vis player starts with one bullet a shot; fire power-ups bring two, then three, until a life is lost', t => {
@@ -199,7 +199,7 @@ test('the vis player fires with its attack key, which the controls window can na
     key('keydown', code)
     player.handleInput(1 / 60)
     key('keyup', code)
-    return player.bullets.projectiles.filter(bullet => bullet.vidljiv).length
+    return player.bullets.projectiles.filter(bullet => bullet.visible).length
   }
 
   assert.equal(shotsWhileHeld(inputOptions.attackKey), 1)
@@ -210,21 +210,21 @@ test('the vis player fires with its attack key, which the controls window can na
 test('the vis player fires again only after the reload, by game time', t => {
   const { player } = createPlayer(t)
 
-  player.puca()
-  player.puca()
-  assert.equal(player.bullets.projectiles.filter(bullet => bullet.vidljiv).length, 1)
+  player.shoot()
+  player.shoot()
+  assert.equal(player.bullets.projectiles.filter(bullet => bullet.visible).length, 1)
 
   fly(player, settings.player.reloadTime + .01)
-  player.puca()
-  assert.equal(player.bullets.projectiles.filter(bullet => bullet.vidljiv).length, 2)
+  player.shoot()
+  assert.equal(player.bullets.projectiles.filter(bullet => bullet.visible).length, 2)
 })
 
 test('power-ups drop in their order, the player picks up the one it touches, and one past the bottom is gone', t => {
   const { player } = createPlayer(t)
-  const scene = { predmeti: [], add(...items) {
-    this.predmeti.push(...items)
+  const scene = { children: [], add(...items) {
+    this.children.push(...items)
   }, remove(...items) {
-    this.predmeti = this.predmeti.filter(item => !items.includes(item))
+    this.children = this.children.filter(item => !items.includes(item))
   } }
   const powerUps = new PowerUps({ scene, player })
   const { order } = settings.powerUps
@@ -232,7 +232,7 @@ test('power-ups drop in their order, the player picks up the one it touches, and
   order.forEach(() => powerUps.drop({ x: 100, y: 100 }))
   powerUps.drop({ x: player.x, y: player.y })
   powerUps.items.forEach(item => {
-    item.sirina = item.visina = 40
+    item.width = item.height = 40
   })
   assert.deepEqual(powerUps.items.map(item => item.kind), [...order, order[0]], 'round and round')
 
@@ -240,7 +240,7 @@ test('power-ups drop in their order, the player picks up the one it touches, and
   powerUps.update()
   assert.equal(powerUps.items.length, order.length, 'the touched one is picked up')
   assert.equal(player.fireLevel, 1, `the first is ${order[0]}`)
-  assert.equal(scene.predmeti.length, order.length)
+  assert.equal(scene.children.length, order.length)
 
   player.powerUp('bomb')
   player.powerUp('life')
@@ -248,8 +248,8 @@ test('power-ups drop in their order, the player picks up the one it touches, and
   assert.equal(player.zivoti, settings.player.lives + 1)
 
   powerUps.items.forEach(item => {
-    item.y = platno.height + 200
+    item.y = canvas2d.height + 200
   })
   powerUps.update()
-  assert.deepEqual(scene.predmeti, [])
+  assert.deepEqual(scene.children, [])
 })

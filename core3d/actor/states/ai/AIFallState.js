@@ -8,8 +8,6 @@ export default class AIFallState extends State {
     actor.applyGravity(delta)
     actor.applyVelocityY(delta)
 
-    /* TRANSIT */
-
     if (actor.onGround)
       actor.setState(this.prevOrIdle)
   }

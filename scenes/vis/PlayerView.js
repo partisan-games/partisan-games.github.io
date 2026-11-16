@@ -18,8 +18,8 @@ export default class PlayerView {
     const faint = plane.shield > 0 && Math.floor(plane.shield / blinkTime) % 2
     renderer.ctx.save()
     if (faint) renderer.ctx.globalAlpha = .3
-    renderer.crtaPredmet(plane)
-    if (plane.prikazan) this.drawPropeller(renderer.ctx, plane)
+    renderer.drawObject(plane)
+    if (plane.shown) this.drawPropeller(renderer.ctx, plane)
     renderer.ctx.restore()
   }
 
@@ -27,13 +27,13 @@ export default class PlayerView {
   drawPropeller(ctx, plane) {
     const { frames, frameTime } = propeller
     const frame = frames[Math.floor(this.propellerTime / frameTime) % frames.length]
-    const half = plane.sirina * propeller.span * frame.span / 2
-    const thickness = Math.max(plane.visina * .008, 1.5)
+    const half = plane.width * propeller.span * frame.span / 2
+    const thickness = Math.max(plane.height * .008, 1.5)
     ctx.save()
     ctx.translate(plane.x, plane.y)
-    ctx.rotate(plane.ugao)
+    ctx.rotate(plane.angle)
     ctx.scale(plane.scaleX, plane.scaleY)
-    ctx.translate(0, plane.visina * (propeller.nose - .5))
+    ctx.translate(0, plane.height * (propeller.nose - .5))
     ctx.globalAlpha *= frame.alpha
     ctx.fillStyle = '#1c1c1a'
     ctx.fillRect(-half, -thickness / 2, half * 2, thickness)

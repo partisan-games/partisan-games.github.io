@@ -2,24 +2,24 @@ import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 
-let Player2D, Predmet, Input, platno
+let Player2D, GameObject2D, Input, canvas2d
 
 before(async() => {
   createPageElements()
   Player2D = (await import('/core/actor/Player2D.js')).default
-  Predmet = (await import('/core/actor/Predmet.js')).default
+  GameObject2D = (await import('/core/actor/GameObject2D.js')).default
   Input = (await import('/core/io/Input.js')).default
-  platno = (await import('/core/io/platno.js')).default
+  canvas2d = (await import('/core/io/canvas2d.js')).default
 })
 
 /** A 2D player kept on the screen, like the player planes, steered by real keyboard events. */
 function createPlayer(t) {
   class BoundedPlayer extends Player2D {
-    proveriGranice() {
-      this.ogranici()
+    checkBounds() {
+      this.keepOnScreen()
     }
   }
-  const player = new BoundedPlayer(null, { sirina: 40, visina: 20, x: platno.width / 2, y: platno.height / 2 })
+  const player = new BoundedPlayer(null, { width: 40, height: 20, x: canvas2d.width / 2, y: canvas2d.height / 2 })
   player.input.end()
   player.input = new Input({ useKeyboard: true, useJoystick: false })
   t.after(() => player.end())
@@ -88,18 +88,18 @@ test('the 2D player stays on the screen when it keeps flying into the edge', t =
   play(player, 10)
   key('keyup', 'ArrowRight')
 
-  assert.ok(player.x <= platno.width - player.sirina / 4, `x ${player.x} of ${platno.width}`)
+  assert.ok(player.x <= canvas2d.width - player.width / 4, `x ${player.x} of ${canvas2d.width}`)
 })
 
 test('a moving shot hits its target once and scores one point', () => {
-  const target = new Predmet(null, { sirina: 50, visina: 50, x: 500, y: 100 })
-  const shot = new Predmet(null, { sirina: 6, visina: 6, x: 100, y: 100, brzina: 600 })
+  const target = new GameObject2D(null, { width: 50, height: 50, x: 500, y: 100 })
+  const shot = new GameObject2D(null, { width: 6, height: 6, x: 100, y: 100, speed: 600 })
   let score = 0
 
   for (let i = 0; i < 120; i++) {
     shot.update(1 / 60)
-    if (target.alive && shot.sudara(target)) {
-      target.umri()
+    if (target.alive && shot.collidesWith(target)) {
+      target.die()
       score++
     }
   }
@@ -109,15 +109,15 @@ test('a moving shot hits its target once and scores one point', () => {
 })
 
 test('a tilted player plane levels out exactly, also when frame lengths vary', async t => {
-  const { default: AvionIgrac } = await import('/core/actor/derived/AvionIgrac.js')
+  const { default: PlayerPlane } = await import('/core/actor/derived/PlayerPlane.js')
   const { default: GameSession } = await import('/core/runtime/GameSession.js')
-  const plane = new AvionIgrac(10_000, undefined, { session: new GameSession() })
+  const plane = new PlayerPlane(10_000, undefined, { session: new GameSession() })
   t.after(() => plane.end())
-  plane.ugao = .05
+  plane.angle = .05
 
   for (let i = 0; i < 120; i++) plane.update(i % 2 ? 1 / 50 : 1 / 70)
-  assert.equal(plane.ugao, 0)
+  assert.equal(plane.angle, 0)
   plane.update(1 / 60)
-  assert.equal(plane.ugao, 0)
+  assert.equal(plane.angle, 0)
 })
 

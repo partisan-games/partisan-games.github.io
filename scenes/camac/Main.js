@@ -1,5 +1,5 @@
-import Scena2D from '/core/Scena2D.js'
-import platno from '/core/io/platno.js'
+import Scene2D from '/core/Scene2D.js'
+import canvas2d from '/core/io/canvas2d.js'
 import Boat from './Boat.js'
 import Obala from './Obala.js'
 import BoatCombat from './BoatCombat.js'
@@ -10,7 +10,7 @@ import ShoreDefenses from './ShoreDefenses.js'
 import Landing from './Landing.js'
 import WaterEffects from './WaterEffects.js'
 
-export default class extends Scena2D {
+export default class CamacScene extends Scene2D {
   constructor(options = {}) {
     super(options)
   }
@@ -20,9 +20,9 @@ export default class extends Scena2D {
     this.camera = new BoatCamera()
     this.combat = new BoatCombat(this.session, (x, y, target) =>
       this.waterEffects.hit(x, y, target === this.player || target === this.encounter.boat))
-    const startX = this.camera.screenX(platno.width, 0)
+    const startX = this.camera.screenX(canvas2d.width, 0)
     this.player = new Boat(() => this.cameraX, this.session, startX)
-    this.player.postavi(startX, platno.height / 2)
+    this.player.setPosition(startX, canvas2d.height / 2)
     this.obala = new Obala(() => this.cameraX)
     this.add(this.obala)
     this.waterEffects = new WaterEffects({ session: this.session, viewLeft: () => this.cameraX })
@@ -35,9 +35,9 @@ export default class extends Scena2D {
     for (const post of this.shoreDefenses.positions) this.addCombatant(post, 'axis')
     this.landing = new Landing({ coast: this.obala, session: this.session,
       player: this.player, viewLeft: () => this.cameraX })
-    this.add({ polozaj: this.landing.polozaj, render: () => this.landing.render() })
+    this.add({ position: this.landing.position, render: () => this.landing.render() })
     this.add(this.landing.passengerLayer)
-    this.bojaPozadine = '#173f5a'
+    this.backgroundColor = '#173f5a'
   }
 
   addCombatant(actor, team) {
@@ -55,33 +55,33 @@ export default class extends Scena2D {
     }
     this.shoreDefenses.update()
     const underShoreFire = this.shoreDefenses.positions.some(post =>
-      post.alive && post.prikazan && (this.player.y - post.y) * post.side < 0)
+      post.alive && post.shown && (this.player.y - post.y) * post.side < 0)
     this.encounter.update({ allowSpawn: !underShoreFire && this.landing.x - this.player.x > 800 })
     const previousPlayer = { x: this.player.x, y: this.player.y }
     const previousWreck = { x: this.encounter.boat.x, y: this.encounter.boat.y }
     this.combat.beginFrame()
     super.update(dt, t)
     this.camera.update(dt, this.player.alive && this.player.input.up, this.player.x > this.player.startX)
-    this.cameraX = this.camera.left(this.player.x, platno.width, this.player.sirina || 0)
+    this.cameraX = this.camera.left(this.player.x, canvas2d.width, this.player.width || 0)
     this.combat.resolve()
     collideWithWreck(this.player, this.encounter.boat, previousPlayer, previousWreck)
     this.waterEffects.trail(this.player, previousPlayer, dt)
     this.waterEffects.trail(this.encounter.boat, previousWreck, dt)
     this.landing.update()
-    this.cameraX = this.camera.left(this.player.x, platno.width, this.player.sirina || 0)
+    this.cameraX = this.camera.left(this.player.x, canvas2d.width, this.player.width || 0)
     if (this.player.dead) this.defeat()
   }
 
   render() {
-    const { kameraX, kameraY } = this.renderer
-    this.renderer.kameraX = this.cameraX
-    this.renderer.kameraY = 0
+    const { cameraX, cameraY } = this.renderer
+    this.renderer.cameraX = this.cameraX
+    this.renderer.cameraY = 0
     try {
       super.render()
     } finally {
       // The renderer is shared with other scenes; camera ownership remains local.
-      this.renderer.kameraX = kameraX
-      this.renderer.kameraY = kameraY
+      this.renderer.cameraX = cameraX
+      this.renderer.cameraY = cameraY
     }
   }
 }

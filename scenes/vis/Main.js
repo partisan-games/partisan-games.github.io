@@ -1,8 +1,8 @@
-import Scena2D from '/core/Scena2D.js'
+import Scene2D from '/core/Scene2D.js'
 import { Avionce, inputOptions } from './Avionce.js'
 import PokretnaPozadina from './PokretnaPozadina.js'
 import Pokretno from './Pokretno.js'
-import Oblak from './Oblak.js'
+import Cloud2D from './Oblak.js'
 import Baza from './Baza.js'
 import Waves from './Waves.js'
 import PowerUps from './PowerUps.js'
@@ -15,11 +15,11 @@ import { settings } from './settings.js'
 import { aircraft } from './aircraft.js'
 import { assets } from '/config.js'
 
-const { scrollSpeed: brzina, clouds, landingTime, engineVolume } = settings
+const { scrollSpeed: speed, clouds, landingTime, engineVolume } = settings
 
 const customStartScreen = ({ container }) => /* html */`
   <div class="central-screen flex-column ${container}" id="start-screen">
-    <p>Reach the island of Vis.</p>
+    <p>Reach the Island of Vis</p>
     <h2>Choose your aircraft</h2>
     <div class="game-screen-select vis-aircraft-select">
       ${aircraft.map(plane => /* html */`
@@ -32,27 +32,27 @@ const customStartScreen = ({ container }) => /* html */`
   </div>
 `
 
-export default class extends Scena2D {
+export default class VisScene extends Scene2D {
   constructor() {
     super({
       controlKeys: { ...baseControls, [attackLabels[inputOptions.attackKey]]: 'shoot', [keys.attack2.label]: 'loop', [keys.special.label]: 'bomb' },
-      intro: 'Reach the island of Vis.',
+      intro: 'Reach the Island of Vis',
       customStartScreen,
     })
   }
 
   init() {
-    this.bojaPozadine = '#165a8d'
-    this.oblaci = Array.from({ length: clouds }, () => new Oblak(brzina))
-    this.ostrvo = new Pokretno('nature/ostrvo.gif', { potisak: brzina, skalar: 2 })
-    this.zdravlje = new Pokretno('items/zdravlje.png', { potisak: brzina, skalar: .66, faktorY: 10, senka: true })
+    this.backgroundColor = '#165a8d'
+    this.oblaci = Array.from({ length: clouds }, () => new Cloud2D(speed))
+    this.ostrvo = new Pokretno('nature/ostrvo.gif', { thrust: speed, scale: 2 })
+    this.zdravlje = new Pokretno('items/zdravlje.png', { thrust: speed, scale: .66, faktorY: 10, shadow: true })
     this.player = new Avionce({ session: this.session })
-    this.player.sakrij()
+    this.player.hide()
     this.powerUps = new PowerUps({ scene: this, player: this.player })
     this.waves = new Waves({
       scene: this, player: this.player, schedule: levels[0], onFormationDown: position => this.powerUps.drop(position),
     })
-    const okean = new PokretnaPozadina(brzina, this.sirina)
+    const okean = new PokretnaPozadina(speed, this.width)
     this.add(okean, this.zdravlje, this.ostrvo, this.player, ...this.oblaci)
     this.engineSound = createSound('avion-mali.mp3', { volume: engineVolume })
     this.engineSound.loop = true
@@ -61,7 +61,6 @@ export default class extends Scena2D {
   /* the engine hums while the game runs */
 
   async handleClick(e) {
-    super.handleClick(e)
     const id = e.target.dataset?.aircraft
     if (!aircraft.some(plane => plane.id === id) || this.ui.screen !== 'start' || this.choosingPlane) return
     this.choosingPlane = true
@@ -70,7 +69,7 @@ export default class extends Scena2D {
   }
 
   start() {
-    this.player.pokazi()
+    this.player.show()
     super.start()
     this.engineSound.play()
   }
@@ -98,14 +97,14 @@ export default class extends Scena2D {
   collectHealth() {
     if (!this.player.alive) return
 
-    if (this.player.sudara(this.zdravlje)) {
+    if (this.player.collidesWith(this.zdravlje)) {
       this.zdravlje.reset()
       this.player.powerUp('life')
     }
   }
 
   landToBase() {
-    this.baza = new Baza({ brzina })
+    this.baza = new Baza({ speed })
     this.remove(this.ostrvo, this.zdravlje)
     this.add(this.baza)
     this.session.gameplay.after(landingTime, () => this.victory('You have successfully reached the island of Vis.'))

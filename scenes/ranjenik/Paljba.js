@@ -1,9 +1,9 @@
-import Predmet from '/core/actor/Predmet.js'
-import { platno } from '/core/io/platno.js'
+import GameObject2D from '/core/actor/GameObject2D.js'
+import { canvas2d } from '/core/io/canvas2d.js'
 import { randomInRange } from '/core/utils.js'
 import { createSound } from '/core/io/sound.js'
 
-export default class Paljba extends Predmet {
+export default class Paljba extends GameObject2D {
   constructor() {
     super('items/krateri/krater.gif')
     this.postaviRandom()
@@ -11,11 +11,11 @@ export default class Paljba extends Predmet {
   }
 
   randomX(marginaX) {
-    this.x = randomInRange(marginaX, platno.width - marginaX)
+    this.x = randomInRange(marginaX, canvas2d.width - marginaX)
   }
 
   randomY(marginaY) {
-    this.y = randomInRange(marginaY, platno.height - marginaY)
+    this.y = randomInRange(marginaY, canvas2d.height - marginaY)
   }
 
   postaviRandom(marginaX = 10, marginaY = 10) {

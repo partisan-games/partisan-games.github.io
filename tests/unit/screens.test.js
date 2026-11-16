@@ -8,11 +8,11 @@ import { captureScreens } from './helpers/screens.js'
 // recorded from the screens as they were before they became event driven
 const recorded = JSON.parse(readFileSync(new URL('./fixtures/screens.json', import.meta.url)))
 
-let Scena
+let Scene
 
 before(async() => {
   createPageElements()
-  Scena = (await import('/core/Scena.js')).default
+  Scene = (await import('/core/Scene.js')).default
 })
 
 for (const style of Object.keys(recorded))
@@ -22,7 +22,7 @@ for (const style of Object.keys(recorded))
 
 const modal = () => document.getElementById('modal')
 const message = () => document.querySelector('div.message')
-const createScene = () => new Scena({ canvas: document.createElement('canvas'), intro: 'Reach the forest' })
+const createScene = () => new Scene({ canvas: document.createElement('canvas'), intro: 'Reach the forest' })
 
 test('the scene UI drawn every frame leaves the central screen alone', () => {
   const frames = installFakeFrames()

@@ -2,23 +2,23 @@ import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 
-let CombatTarget, Granata, GameClock, Predmet, platno
+let CombatTarget, Shell, GameClock, GameObject2D, canvas2d
 
 before(async() => {
   createPageElements()
   CombatTarget = (await import('/scenes/to-trieste/CombatTarget.js')).default
-  Granata = (await import('/core/actor/projektili/Granata.js')).default
+  Shell = (await import('/core/actor/projectiles/Shell.js')).default
   GameClock = (await import('/core/runtime/GameClock.js')).default
-  Predmet = (await import('/core/actor/Predmet.js')).default
-  platno = (await import('/core/io/platno.js')).default
+  GameObject2D = (await import('/core/actor/GameObject2D.js')).default
+  canvas2d = (await import('/core/io/canvas2d.js')).default
 })
 
-const createTarget = callback => new CombatTarget({ src: null, sirina: 50, visina: 50, x: 400, y: 200, callback })
+const createTarget = callback => new CombatTarget({ src: null, width: 50, height: 50, x: 400, y: 200, callback })
 
 function hit(target, clock) {
-  const grenade = new Granata({ clock, sirina: 10, visina: 10 })
-  grenade.pali(target.polozaj, 0, 0)
-  grenade.proveriPogodak(target)
+  const grenade = new Shell({ clock, width: 10, height: 10 })
+  grenade.launch(target.position, 0, 0)
+  grenade.checkHit(target)
   return grenade
 }
 
@@ -26,17 +26,17 @@ test('a target awards its callback once per life, even when destruction is reent
   let points = 0
   const target = createTarget(() => {
     points++
-    target.umri()
+    target.die()
   })
   const firstLife = target.lifeId
-  target.umri()
-  target.umri()
+  target.die()
+  target.die()
   assert.equal(points, 1)
   assert.equal(target.dead, true)
   target.reset()
   assert.notEqual(target.lifeId, firstLife)
   assert.equal(target.alive, true)
-  target.umri()
+  target.die()
   assert.equal(points, 2)
 })
 
@@ -44,15 +44,15 @@ test('returning from the left edge starts a new life without stopping the origin
   t.mock.method(Math, 'random', () => .5)
   const target = createTarget(() => {})
   target.dx = -160
-  target.procenat = 1
-  target.x = -target.sirina - 1
+  target.probability = 1
+  target.x = -target.width - 1
   target.wrapElapsed = 1
   const firstLife = target.lifeId
-  target.umri()
-  target.proveriGranice()
+  target.die()
+  target.checkBounds()
   assert.equal(target.alive, true)
   assert.notEqual(target.lifeId, firstLife)
-  assert.equal(target.x, platno.width + target.sirina / 2)
+  assert.equal(target.x, canvas2d.width + target.width / 2)
   assert.equal(target.dx, -160)
 })
 
@@ -65,7 +65,7 @@ test('a delayed grenade hit cannot destroy a target after it starts a new life',
   clock.advance(.15)
   assert.equal(target.alive, true)
   assert.equal(points, 0)
-  assert.equal(grenade.vidljiv, false)
+  assert.equal(grenade.visible, false)
 })
 
 test('two queued grenade hits score once for the same target life', () => {
@@ -77,13 +77,13 @@ test('two queued grenade hits score once for the same target life', () => {
   clock.advance(.15)
   assert.equal(target.dead, true)
   assert.equal(points, 1)
-  assert.equal(first.vidljiv, false)
-  assert.equal(second.vidljiv, false)
+  assert.equal(first.visible, false)
+  assert.equal(second.visible, false)
 })
 
 test('targets without a combat-life identifier keep their existing delayed-hit behavior', () => {
   const clock = new GameClock()
-  const target = new Predmet(null, { sirina: 50, visina: 50, x: 400, y: 200 })
+  const target = new GameObject2D(null, { width: 50, height: 50, x: 400, y: 200 })
   hit(target, clock)
   clock.advance(.1)
   assert.equal(target.alive, true)
@@ -95,22 +95,22 @@ test('a confirmed impact stays still and survives ground and screen boundary che
   const clock = new GameClock()
   let points = 0
   const target = createTarget(() => points++)
-  const grenade = new Granata({ clock, sirina: 10, visina: 10, nivoTla: 190 })
-  grenade.pali(target.polozaj, 0, 500)
-  grenade.proveriPogodak(target)
+  const grenade = new Shell({ clock, width: 10, height: 10, groundLevel: 190 })
+  grenade.launch(target.position, 0, 500)
+  grenade.checkHit(target)
   const { x, y } = grenade
   grenade.update(.1)
-  grenade.proveriGranice()
+  grenade.checkBounds()
   assert.equal(grenade.x, x)
   assert.equal(grenade.y, y)
   assert.equal(grenade.dx, 0)
   assert.equal(grenade.dy, 0)
-  assert.equal(grenade.vidljiv, true)
-  grenade.x = -platno.width - 100
-  grenade.proveriGranice()
+  assert.equal(grenade.visible, true)
+  grenade.x = -canvas2d.width - 100
+  grenade.checkBounds()
   clock.advance(.15)
   assert.equal(points, 1)
-  assert.equal(grenade.vidljiv, false)
+  assert.equal(grenade.visible, false)
 })
 
 test('a pending impact cannot switch targets and the reused grenade retains gravity', () => {
@@ -118,11 +118,11 @@ test('a pending impact cannot switch targets and the reused grenade retains grav
   const first = createTarget(() => {})
   const second = createTarget(() => {})
   const grenade = hit(first, clock)
-  grenade.proveriPogodak(second)
+  grenade.checkHit(second)
   clock.advance(.15)
   assert.equal(first.dead, true)
   assert.equal(second.alive, true)
-  grenade.pali(second.polozaj, 0, 100)
+  grenade.launch(second.position, 0, 100)
   grenade.update(.01)
   assert.ok(grenade.x > second.x)
   assert.ok(grenade.dy > 0)

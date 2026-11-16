@@ -1,16 +1,16 @@
-import Predmet from '/core/actor/Predmet.js'
+import GameObject2D from '/core/actor/GameObject2D.js'
 import ProjectilePool from '/core/actor/ProjectilePool.js'
-import Metak from '/core/actor/projektili/Metak.js'
+import Projectile from '/core/actor/projectiles/Projectile.js'
 import Weapon from '/core/gameplay/Weapon.js'
 import Cooldown from '/core/gameplay/Cooldown.js'
 import { nearestTarget } from '/core/actor/targeting.js'
 
-export default class Mitraljezac extends Predmet {
+export default class Mitraljezac extends GameObject2D {
   constructor(x, y, cilj, session) {
-    super('armies/nemci/mitraljezac-01.png', { x, y, z: -1, ishodiste: 'DOLE_DESNO' })
+    super('armies/nemci/mitraljezac-01.png', { x, y, z: -1, origin: 'DOLE_DESNO' })
     this.session = session
-    this.ciljevi = [cilj]
-    this.bullets = new ProjectilePool({ owner: this, create: () => new Metak({ skalar: .4 }) })
+    this.targets = [cilj]
+    this.bullets = new ProjectilePool({ owner: this, create: () => new Projectile({ scale: .4 }) })
     this.weapon = new Weapon({
       cooldown: new Cooldown({ seconds: .1, clock: session.clock }),
       barrels: [{ y: -10 }],
@@ -24,13 +24,13 @@ export default class Mitraljezac extends Predmet {
   update(dt, t) {
     super.update(dt, t)
     if (this.session.state !== 'running' || this.dead) return
-    const cilj = nearestTarget(this.polozaj, this.ciljevi)
-    if (cilj) this.ugao = this.ugaoKa(cilj) + Math.PI
-    if (cilj && this.burst.ready && this.weapon.tryFire(this.polozaj, this.ugaoKa(cilj))) this.shots++
+    const cilj = nearestTarget(this.position, this.targets)
+    if (cilj) this.angle = this.angleTo(cilj) + Math.PI
+    if (cilj && this.burst.ready && this.weapon.tryFire(this.position, this.angleTo(cilj))) this.shots++
     if (this.shots === 5) {
       this.shots = 0
       this.burst.start()
     }
-    this.bullets.checkHits(this.ciljevi)
+    this.bullets.checkHits(this.targets)
   }
 }

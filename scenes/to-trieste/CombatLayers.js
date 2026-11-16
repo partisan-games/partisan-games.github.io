@@ -5,12 +5,12 @@ export const layers = Object.freeze({ background: 10, ground: -.5, unit: -1, pro
 class FlameLayer {
   constructor(owner) {
     this.owner = owner
-    this.polozaj = new Vector(0, 0, layers.effect)
+    this.position = new Vector(0, 0, layers.effect)
   }
 
   render() {
-    if (this.owner.prikazan && this.owner.zapaljen)
-      this.owner.plamen.render(this.owner.zadimljen)
+    if (this.owner.shown && this.owner.burning)
+      this.owner.flame.render(this.owner.smoky)
   }
 }
 
@@ -20,21 +20,21 @@ export default class CombatLayers {
     this.units = units
     for (const unit of units) {
       unit.flameLayer = new FlameLayer(unit)
-      unit.predmeti.push(unit.flameLayer)
+      unit.children.push(unit.flameLayer)
     }
     this.update()
   }
 
   update() {
     for (const unit of this.units) {
-      unit.polozaj.z = layers.unit
+      unit.position.z = layers.unit
       for (const barrel of [unit.cev, unit.barrel]) {
-        if (barrel) barrel.polozaj.z = layers.unit
+        if (barrel) barrel.position.z = layers.unit
       }
       const pool = unit.granate || unit.fire?.projectiles
       for (const projectile of pool?.projectiles || []) {
-        projectile.polozaj.z = layers.projectile
-        for (const effect of projectile.predmeti || []) effect.polozaj.z = layers.effect
+        projectile.position.z = layers.projectile
+        for (const effect of projectile.children || []) effect.position.z = layers.effect
       }
     }
   }

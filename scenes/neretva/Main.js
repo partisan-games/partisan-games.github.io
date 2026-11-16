@@ -1,13 +1,13 @@
-import mish from '/core/io/mish.js'
-import Scena2D from '/core/Scena2D.js'
-import Pozadina from '/core/objects/Pozadina.js'
+import mouse from '/core/io/mouse.js'
+import Scene2D from '/core/Scene2D.js'
+import Background from '/core/objects/Background.js'
 import Svabo from './Svabo.js'
 import Health from '/core/gameplay/Health.js'
 
 const DALJI_Y = window.innerHeight * 0.25
 const BLIZI_Y = window.innerHeight * 0.5
 
-export default class extends Scena2D {
+export default class NeretvaScene extends Scene2D {
   constructor() {
     super({ intro: 'Hold the enemy at all costs until the wounded are safe.', showControls: false })
   }
@@ -18,31 +18,30 @@ export default class extends Scena2D {
     this.health = new Health()
     this.preostaloVreme = 120
     this.ubrzano = false
-    this.bliziRovovi = this.praviSvabe(10, BLIZI_Y, { skalar: 1, ucestalost: 0.03, callback: this.nanesiStetu.bind(this) })
-    this.daljiRovovi = this.praviSvabe(12, DALJI_Y, { skalar: .5, ucestalost: 0.02, callback: this.nanesiStetu.bind(this) })
+    this.bliziRovovi = this.praviSvabe(10, BLIZI_Y, { scale: 1, ucestalost: 0.03, callback: this.nanesiStetu.bind(this) })
+    this.daljiRovovi = this.praviSvabe(12, DALJI_Y, { scale: .5, ucestalost: 0.02, callback: this.nanesiStetu.bind(this) })
     this.sveSvabe = [...this.daljiRovovi, ...this.bliziRovovi]
     this.add(...this.sveSvabe)
-    this.pozadina = new Pozadina('textures/terrain/suva-trava.jpg')
+    this.background = new Background('textures/terrain/suva-trava.jpg')
     this.ucitajRekord()
-    mish.dodajNishan()
+    mouse.showCrosshair()
   }
 
   praviSvabe(n, y, params) {
-    const razmak = this.sirina / n
+    const razmak = this.width / n
     const polaRazmaka = razmak / 2
     return Array.from({ length: n }, (_, i) => {
       const x = i * razmak + polaRazmaka
       const svabo = new Svabo({ ...params, faction: i % 2 ? 'cetnici' : 'nemci', variant: Math.floor(i / 2) % 3 })
-      svabo.postavi(x, y)
+      svabo.setPosition(x, y)
       return svabo
     })
   }
 
-  handleClick(e) {
-    super.handleClick(e)
+  handleClick() {
     if (this.ui.outro || this.energija <= 0) return
 
-    const ciljaniRovovi = (mish.y <= DALJI_Y) ? this.daljiRovovi : this.bliziRovovi
+    const ciljaniRovovi = (mouse.y <= DALJI_Y) ? this.daljiRovovi : this.bliziRovovi
     this.proveriPogotke(ciljaniRovovi)
   }
 
@@ -78,7 +77,7 @@ export default class extends Scena2D {
 
   end() {
     super.end()
-    mish.ukloniNishan()
+    mouse.hideCrosshair()
   }
 
   update(dt) {

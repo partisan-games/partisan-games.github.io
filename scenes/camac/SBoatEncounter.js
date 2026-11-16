@@ -1,4 +1,4 @@
-import platno from '/core/io/platno.js'
+import canvas2d from '/core/io/canvas2d.js'
 import SBoat from './SBoat.js'
 
 /** A sparse encounter on the return leg; one reused enemy, with a quiet interval. */
@@ -13,14 +13,14 @@ export default class SBoatEncounter {
 
   update({ allowSpawn = true } = {}) {
     if (this.session.state !== 'running') return
-    const now = this.session.clock.now
-    const boat = this.boat
+    const { now } = this.session.clock
+    const { boat } = this
     if (boat.active) {
-      const outside = boat.x + boat.sirina / 2 < this.viewLeft() ||
-        (boat.withdrawing && boat.x - boat.sirina / 2 > this.viewLeft() + platno.width)
+      const outside = boat.x + boat.width / 2 < this.viewLeft() ||
+        (boat.withdrawing && boat.x - boat.width / 2 > this.viewLeft() + canvas2d.width)
       if ((boat.dead && boat.wreck.finished) || (!boat.dead && (outside || now - boat.born >= 18))) {
         boat.active = false
-        boat.nestani()
+        boat.vanish()
         this.nextAt = now + 28
       }
     } else if (allowSpawn && now >= this.nextAt) {

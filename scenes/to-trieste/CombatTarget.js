@@ -1,7 +1,7 @@
-import Vracanje from '/core/objects/Vracanje.js'
+import Recurring from '/core/objects/Recurring.js'
 
 /** Reuses the original scrolling, with a distinct combat life on every return. */
-export default class CombatTarget extends Vracanje {
+export default class CombatTarget extends Recurring {
   lifeId = 1
 
   reset() {
@@ -9,7 +9,7 @@ export default class CombatTarget extends Vracanje {
     super.reset()
   }
 
-  umri(source) {
+  die(source) {
     if (this.dead) return
     this.alive = false
     this.callback?.(source)

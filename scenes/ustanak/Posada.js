@@ -1,22 +1,53 @@
-import Predmet from '/core/actor/Predmet.js'
+import Sprite from '/core/actor/Sprite.js'
+import artFrame from './artFrame.js'
 import { keyboard } from '/core/io/Keyboard.js'
 import { leftPlayerKeys as keys } from '/core/io/keys.js'
 
-export default class Posada extends Predmet {
-  constructor(x, y) {
-    super('armies/partizani/artiljerija/posada-01.png', { x, y })
+const clips = { idle: 1.4, load: .75, fire: .32, recoil: .55 }
+
+export default class Posada extends Sprite {
+  constructor(x, y, { italian = false, direction = 1 } = {}) {
+    super(`armies/game-ready/artiljerija/${italian ? 'italijanska' : 'partizanska'}-posada-sprites.png`, {
+      x, y, width: 60, height: 60,
+      names: Object.keys(clips), frameCount: 4, defaultAnimation: 'idle', animationTime: clips.idle,
+    })
     this.pocetniX = x
-    this.maxX = x + 10
+    this.pocetniY = y
+    this.direction = direction
   }
 
-  handleInput(dt) {
-    if (keyboard.isDown(keys.shoot))
-      this.x = Math.min(this.x + 20 * dt, this.maxX)
-    else
-      this.x = this.pocetniX
+  play(name) {
+    if (this.animation?.name === name) return
+    this.animationTime = clips[name]
+    this.setAnimation(name, name === 'idle')
   }
 
-  update(dt, t) {
-    this.x += Math.sin(t) * dt
+  handleInput() {
+    if (['fire', 'recoil'].includes(this.animation?.name)) return
+    if (keyboard.isDown(keys.shoot)) this.play('load')
+    else this.play('idle')
+  }
+
+  fire() {
+    this.play('fire')
+  }
+
+  resetRound() {
+    this.play('idle')
+    this.animationElapsed = 0
+    this.x = this.pocetniX
+    this.y = this.pocetniY
+  }
+
+  update(dt) {
+    if (this.animation && this.animationFinished(dt)) {
+      if (this.animation.name === 'fire') this.play('recoil')
+      else if (this.animation.name === 'recoil') this.play('idle')
+    }
+    super.update(dt)
+  }
+
+  drawFrame() {
+    artFrame(this, { footOffset: 26, baseline: .965, direction: this.direction })
   }
 }

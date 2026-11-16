@@ -4,8 +4,6 @@ import { randomGray, getHeight } from '/core3d/helpers.js'
 
 const { randFloatSpread } = THREE.MathUtils
 
-/*  LOCOMOTIVE */
-
 export function createLocomotive() {
   const group = new THREE.Group()
 
@@ -44,7 +42,12 @@ export function createLocomotive() {
   return wrapper
 }
 
-/*  CLOUD */
+const cloudParts = [
+  { name: 'leftPart', position: [-1.2, -0.3, 0], scale: 0.8 },
+  { name: 'rightPart', position: [1.2, -0.3, 0], scale: 0.8 },
+  { name: 'frontPart', position: [0, -0.4, 0.9], scale: 0.7 },
+  { name: 'backPart', position: [0, -0.4, -0.9], scale: 0.7 },
+]
 
 export function createCloud() {
   const group = new THREE.Group()
@@ -54,32 +57,17 @@ export function createCloud() {
     flatShading: true
   })
 
-  const partGeometry = new THREE.IcosahedronGeometry(1, 0)
-  const upperPart = new THREE.Mesh(partGeometry, material)
+  const upperPart = new THREE.Mesh(new THREE.IcosahedronGeometry(1, 0), material)
   upperPart.name = 'upperPart'
   group.add(upperPart)
 
-  const leftPart = upperPart.clone()
-  leftPart.position.set(-1.2, -0.3, 0)
-  leftPart.scale.set(0.8, 0.8, 0.8)
-  leftPart.name = 'leftPart'
-  group.add(leftPart)
-
-  const rightPart = leftPart.clone()
-  rightPart.position.x = -leftPart.position.x
-  rightPart.name = 'rightPart'
-  group.add(rightPart)
-
-  const frontPart = leftPart.clone()
-  frontPart.position.set(0, -0.4, 0.9)
-  frontPart.scale.set(0.7, 0.7, 0.7)
-  frontPart.name = 'frontPart'
-  group.add(frontPart)
-
-  const backPart = frontPart.clone()
-  backPart.position.z = -frontPart.position.z
-  backPart.name = 'backPart'
-  group.add(backPart)
+  for (const { name, position, scale } of cloudParts) {
+    const part = upperPart.clone()
+    part.name = name
+    part.position.set(...position)
+    part.scale.setScalar(scale)
+    group.add(part)
+  }
 
   group.traverse(part => {
     part.castShadow = true
@@ -98,82 +86,63 @@ export function updateCloud(group, elapsedTime) {
   group.getObjectByName('backPart').position.y = -Math.cos(time) * 0.08 - 0.3
 }
 
-/* TANK */
+function addTankWheels(body, { tankWidth, tankHeight, tankLength }) {
+  const radius = 1
+  const thickness = 0.5
+  const geometry = new THREE.CylinderGeometry(radius, radius, thickness, 8)
+  const material = new THREE.MeshPhongMaterial({ color: 0x444444 })
+  const side = tankWidth / 2 + thickness / 2
+  const y = -tankHeight / 2
+  const positions = [tankLength / 3, 0, -tankLength / 3].flatMap(z => [[-side, y, z], [side, y, z]])
 
-export function createTank({ tankWidth = 4, tankHeight = 1.2, tankLength = 8 } = {}) {
-  const tank = new THREE.Object3D()
-
-  const bodyGeometry = new THREE.BoxGeometry(
-    tankWidth, tankHeight, tankLength
-  )
-
-  const bodyMaterial = new THREE.MeshPhongMaterial({ color: 0x615E3E })
-  const bodyMesh = new THREE.Mesh(bodyGeometry, bodyMaterial)
-  bodyMesh.position.y = 1.4
-  bodyMesh.castShadow = true
-  tank.add(bodyMesh)
-
-  const wheelRadius = 1
-  const wheelThickness = 0.5
-  const wheelSegments = 8
-  const wheelGeometry = new THREE.CylinderGeometry(
-    wheelRadius, wheelRadius, wheelThickness, wheelSegments
-  )
-  const wheelMaterial = new THREE.MeshPhongMaterial({ color: 0x444444 })
-  const wheelPositions = [
-    [-tankWidth / 2 - wheelThickness / 2, -tankHeight / 2, tankLength / 3],
-    [tankWidth / 2 + wheelThickness / 2, -tankHeight / 2, tankLength / 3],
-    [-tankWidth / 2 - wheelThickness / 2, -tankHeight / 2, 0],
-    [tankWidth / 2 + wheelThickness / 2, -tankHeight / 2, 0],
-    [-tankWidth / 2 - wheelThickness / 2, -tankHeight / 2, -tankLength / 3],
-    [tankWidth / 2 + wheelThickness / 2, -tankHeight / 2, -tankLength / 3]
-  ]
-
-  const wheels = wheelPositions.map(position => {
-    const mesh = new THREE.Mesh(wheelGeometry, wheelMaterial)
+  return positions.map(position => {
+    const mesh = new THREE.Mesh(geometry, material)
     mesh.position.set(...position)
     mesh.rotation.z = Math.PI * 0.5
     mesh.castShadow = true
-
-    bodyMesh.add(mesh)
+    body.add(mesh)
     return mesh
   })
-
-  const domeRadius = 1.75
-  const domeWidthSubdivisions = 12
-  const domeHeightSubdivisions = 12
-  const domePhiStart = 0
-  const domePhiEnd = Math.PI * 2
-  const domeThetaStart = 0
-  const domeThetaEnd = Math.PI * 0.5
-  const domeGeometry = new THREE.SphereGeometry(
-    domeRadius, domeWidthSubdivisions, domeHeightSubdivisions,
-    domePhiStart, domePhiEnd, domeThetaStart, domeThetaEnd
-  )
-  const domeMesh = new THREE.Mesh(domeGeometry, bodyMaterial)
-  domeMesh.castShadow = true
-  domeMesh.position.set(0, 0.5, -0.75)
-  bodyMesh.add(domeMesh)
-
-  const turretWidth = 0.06
-  const turretHeight = 0.06
-  const turretLength = tankLength * 0.16
-  const turretGeometry = new THREE.CylinderGeometry(turretWidth, turretHeight, turretLength, 12)
-  turretGeometry.rotateX(Math.PI / 2)
-  const turretMesh = new THREE.Mesh(turretGeometry, bodyMaterial)
-  turretMesh.castShadow = true
-  turretMesh.position.z = turretLength * .5
-
-  const tankGun = new THREE.Object3D()
-  tankGun.scale.set(5, 5, 5)
-  tankGun.position.y = .5
-  tankGun.add(turretMesh)
-  domeMesh.add(tankGun)
-
-  return { tank, wheels, tankGun }
 }
 
-/* TOMB */
+function addTankDome(body, material) {
+  const geometry = new THREE.SphereGeometry(1.75, 12, 12, 0, Math.PI * 2, 0, Math.PI * 0.5)
+  const dome = new THREE.Mesh(geometry, material)
+  dome.castShadow = true
+  dome.position.set(0, 0.5, -0.75)
+  body.add(dome)
+  return dome
+}
+
+function addTankGun(dome, material, tankLength) {
+  const length = tankLength * 0.16
+  const geometry = new THREE.CylinderGeometry(0.06, 0.06, length, 12)
+  geometry.rotateX(Math.PI / 2)
+  const barrel = new THREE.Mesh(geometry, material)
+  barrel.castShadow = true
+  barrel.position.z = length * .5
+
+  const gun = new THREE.Object3D()
+  gun.scale.set(5, 5, 5)
+  gun.position.y = .5
+  gun.add(barrel)
+  dome.add(gun)
+  return gun
+}
+
+export function createTank({ tankWidth = 4, tankHeight = 1.2, tankLength = 8 } = {}) {
+  const tank = new THREE.Object3D()
+  const material = new THREE.MeshPhongMaterial({ color: 0x615E3E })
+  const body = new THREE.Mesh(new THREE.BoxGeometry(tankWidth, tankHeight, tankLength), material)
+  body.position.y = 1.4
+  body.castShadow = true
+  tank.add(body)
+
+  const wheels = addTankWheels(body, { tankWidth, tankHeight, tankLength })
+  const dome = addTankDome(body, material)
+  const tankGun = addTankGun(dome, material, tankLength)
+  return { tank, wheels, tankGun }
+}
 
 const createTombShape = () => new THREE.Shape()
   .moveTo(40, 40)

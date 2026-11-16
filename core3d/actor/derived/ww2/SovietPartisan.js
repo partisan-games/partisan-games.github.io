@@ -11,17 +11,11 @@ const animDict = {
   death: 'Dying',
 }
 
-/* LOADERS */
-
-/* LOADING */
-
 const meshModel = { file: 'soviet-partisan.fbx', prefix: 'character/soldier/', animDict, angle: Math.PI, size: 1.8 }
 const twoHandedWeaponModel = { file: 'weapon/mg-42/model.fbx', scale: .4 }
 
 /** What to load; a game awaits requestModels(models) before it creates one of these. */
 export const models = [meshModel, twoHandedWeaponModel]
-
-/* EXTENDED CLASSES */
 
 const sharedProps = () => {
   const mesh = loadedModel(meshModel)

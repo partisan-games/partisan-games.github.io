@@ -1,4 +1,4 @@
-import Scena3D from '/core/Scena3D.js'
+import Scene3D from '/core/Scene3D.js'
 import { avatarControls } from '/ui/Controls.js'
 import Maze from '/core3d/mazes/Maze.js'
 import { recursiveBacktracker } from '/core3d/mazes/algorithms.js'
@@ -7,7 +7,7 @@ import { createSun } from '/core3d/light.js'
 import { SorceressPlayer, models as sorceressModels } from '/core3d/actor/derived/fantasy/Sorceress.js'
 import { requestModels } from '/core3d/assets/models.js'
 
-export default class extends Scena3D {
+export default class WallsScene extends Scene3D {
   constructor() {
     super({
       toon: true,

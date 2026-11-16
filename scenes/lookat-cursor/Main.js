@@ -1,4 +1,4 @@
-import Scena3D from '/core/Scena3D.js'
+import Scene3D from '/core/Scene3D.js'
 import * as THREE from 'three'
 import { createSun } from '/core3d/light.js'
 import { requestModel } from '/core3d/assets/models.js'
@@ -24,7 +24,7 @@ function lookAt(cursor, joint, degreeMax) {
   joint.rotation.x = THREE.MathUtils.degToRad(degrees.y)
 }
 
-export default class extends Scena3D {
+export default class LookatCursorScene extends Scene3D {
   constructor() {
     super({
       toon: true,
@@ -39,7 +39,7 @@ export default class extends Scena3D {
 
   async init() {
     this.addMesh(createSun())
-    this.bojaPlatna = 'transparent'
+    this.canvasBackground = 'transparent'
     this.camera.position.set(0, 1, 1.75)
 
     const model = await this.session.keep(requestModel({ file: 'partisan.fbx', prefix: 'character/soldier/', animDict: { idle: 'Rifle Idle' } }))

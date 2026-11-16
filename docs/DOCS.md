@@ -1,5 +1,7 @@
 # Dokumentacija
 
+Zahtevne operacije, naročito velike testne serije, buildovi i paralelni browseri, zahtevaju posebno izričito odobrenje pre pokretanja. Priprema za komit i ranija dozvola za ciljane testove ne daju tu dozvolu; unapred navesti obim i očekivano opterećenje.
+
 Zajednička osnova za razvoj 2D i 3D igara, sa istorijski zasnovanim sadržajem.
 
 ## Gde pripada znanje
@@ -40,13 +42,17 @@ Svaki novi UI element zahteva prethodno izričito odobrenje vlasnika, uključuju
 
 ## Pravilo za umetnost
 
+Art i zvukovi su obavezni delovi svake igre. Uključiti ih u početni plan, bez čekanja da ih vlasnik zatraži: grafiku i animacije, zvukove radnji i ambijenta, usklađivanje sa događajima i kontrolu jačine/utišavanja. Pre završetka proveriti oba; funkcionalan gameplay sam po sebi nije završena igra.
+
+Pozadina nikada ne sme biti statična: svaki ambijent ima vidljivo kretanje. Dim, vatra i slični pokretni elementi crtaju se kao stvarna animacija, odvojeno od osnovne slike; statično naslikani efekti nisu zamena. Animacija miruje u pauzi i nastavlja se posle ishoda. Postupak i provere su u [Animaciji pozadine](ANIMACIJA-POZADINE.md).
+
 Konačni vojni art u `assets/images/armies/game-ready` organizovati po vrsti opreme, ne po nivou ili igri. Isti resurs koriste svi nivoi kojima je potreban, bez kopiranja u zasebne foldere nivoa.
 
 Sav art koji koristimo, iz `assets` ili drugih izvora, služi kao osnova za konačnu grafiku igre. Crtati ga za stvarnu veličinu prikaza u igri i ujednačen stil: jasna silueta, čitljivi oblici i samo detalji koji se na toj veličini vide. Izvorna slika može biti veća ako je nacrtana za manji prikaz; ne oslanjati se na smanjivanje detaljnih velikih ilustracija da samo proizvede čitljiv mali sprite. Pravilo važi za likove, vozila, oružje, objekte, pozadine i ostalu vizuelnu umetnost, ne samo vojni art.
 
 Sačuvati prepoznatljive i istorijski bitne detalje reference, odabrati perspektivu prema nivou i koristiti providnu pozadinu gde je potrebna. Izvornike čuvati odvojeno od konačnih verzija. Istorijsko prihvatanje reference ne znači da je ona konačan grafički materijal. Već završeni art koji zadovoljava ovo pravilo ne precrtavati ponovo; rad obuhvata materijal potreban za konkretnu igru, ne automatsku preradu cele zbirke.
 
-Pre ukrašavanja okruženja izabrati vizuelne uzore, paletu i odnos dekoracije prema borbi. Detalje grupisati uz prazne delove između grupa, uskladiti osvetljenje i gustinu piksela; ne prikrivati loše uklapanje nasumičnim rotacijama ili odsecanjem silueta. Polazište: [Environment Art — The Level Design Book](https://book.leveldesignbook.com/process/env-art).
+Pre ukrašavanja okruženja izabrati vizuelne uzore, paletu i odnos dekoracije prema borbi. Detalje grupisati uz prazne delove između grupa, uskladiti osvetljenje i gustinu piksela; ne prikrivati loše uklapanje nasumičnim rotacijama ili odsecanjem silueta. Čitljivost borbe planirati lokalno: iza silueta jedinica ostaviti mirne površine odgovarajućeg kontrasta, a van tih zona sačuvati oštrinu i korisne detalje. Globalno zamućenje ili prigušivanje cele pozadine ne rešava lošu kompoziciju. Kada je uzor gotov game art, poput grada iz Tenkića, ponovljeni spriteovi na ravnim geometrijskim oblicima nisu odgovarajuća zamena: napraviti celovit ambijent i pregledati ga iza jedinica u igri. Polazište: [Environment Art — The Level Design Book](https://book.leveldesignbook.com/process/env-art).
 
 ## Statusi u planovima postupne izrade igara
 

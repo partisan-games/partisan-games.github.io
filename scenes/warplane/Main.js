@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import Scena3D from '/core/Scena3D.js'
+import Scene3D from '/core/Scene3D.js'
 import { createSun } from '/core3d/light.js'
 import { createTerrain, meadowColor } from '/core3d/ground.js'
 import { createFirTree } from '/core3d/geometry/trees.js'
@@ -34,7 +34,7 @@ const customStartScreen = ({ container }) => {
 `
 }
 
-export default class extends Scena3D {
+export default class WarplaneScene extends Scene3D {
   constructor() {
     super({
       toon: true,
@@ -64,7 +64,6 @@ export default class extends Scena3D {
   }
 
   async handleClick(e) {
-    super.handleClick(e)
     if (e.target.tagName !== 'INPUT' || !planes.includes(e.target.id) || this.choosingPlane) return
     this.choosingPlane = true // a second click while the plane loads would add a second one
 
@@ -102,8 +101,6 @@ export default class extends Scena3D {
     }
   }
 
-  /* UPDATES */
-
   moveGround = deltaSpeed => [this.ground, this.ground2].forEach(g => {
     g.translateZ(deltaSpeed)
     if (g.position.z >= mapSize * .75) g.position.z = -groundDistance
@@ -119,9 +116,9 @@ export default class extends Scena3D {
 
   updateEntities = delta => this.entities.forEach(entity => {
     if (!entity.scene) this.entities.splice(this.entities.indexOf(entity), 1)
-    if (entity.damageAmount) {
-      if (entity.name == 'factory') this.score++
-      if (entity.name == 'civil') {
+    if (entity.pendingDamage) {
+      if (entity.name === 'factory') this.score++
+      if (entity.name === 'civil') {
         this.ui.showMessage('No! Destruction of civilian buildings is a war crime.')
         this.score--
       }

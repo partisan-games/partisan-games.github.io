@@ -1,9 +1,9 @@
 import { Vector3, MathUtils } from 'three'
 import Actor from './Actor.js'
-import Keyboard from '/core/io/Keyboard.js'
 import AIController from './behaviors/AIController.js'
 import { jumpStyles, attackStyles, baseStates, dir } from '/core3d/constants.js'
 import { belongsTo, directionBlocked } from '/core3d/helpers.js'
+import GameObject from '/core3d/objects/GameObject.js'
 
 const { randFloat, randFloatSpread } = MathUtils
 
@@ -20,7 +20,6 @@ export default class AI extends Actor {
     patrolDistance = 10,
     target,
     name = target ? 'enemy' : 'ai',
-    useComposedMovement = false,
     ...params
   } = {}) {
     super({
@@ -28,9 +27,7 @@ export default class AI extends Actor {
       speed,
       jumpStyle,
       attackStyle,
-      input: useComposedMovement ? undefined : new Keyboard({ listen: false }),
-      controller: useComposedMovement ? new AIController() : undefined,
-      useComposedMovement,
+      controller: new AIController(),
       shouldRaycastGround: false,
       useRicochet: false,
       leaveDecals: false,
@@ -59,8 +56,6 @@ export default class AI extends Actor {
     this.rotationStart = 0
     this.rotationDuration = 0
   }
-
-  /* GETTERS */
 
   get canPursue() {
     return pursueStates.includes(this.baseState)
@@ -118,15 +113,11 @@ export default class AI extends Actor {
     return belongsTo(object, this.target.name)
   }
 
-  /* ANIMATIONS */
-
   randomizeAction() {
     if (!this.action) return
     this.action.time = Math.random() * this.action.getClip().duration
     this.anim.mixer.update(0)
   }
-
-  /* UTILS */
 
   lookAtTarget() {
     if (!this.target) return
@@ -161,11 +152,9 @@ export default class AI extends Actor {
   }
 
   directionBlocked(currDir, solids = this.solids) {
-    const rayLength = currDir == dir.forward ? this.depth * 2 : this.height
+    const rayLength = currDir === dir.forward ? this.depth * 2 : this.height
     return directionBlocked(this.mesh, solids, currDir, rayLength)
   }
-
-  /* COMBAT */
 
   hit(mesh, range = [15, 35]) {
     if (!this.lookingAtTarget) return
@@ -178,11 +167,8 @@ export default class AI extends Actor {
     super.enterAttack(name)
   }
 
-  /* UPDATE */
-
   checkTarget() {
-    if (this?.target?.userData?.energy <= 0)
-      this.target = null
+    if (GameObject.ownerOf(this.target)?.dead) this.target = null
   }
 
   update(delta) {

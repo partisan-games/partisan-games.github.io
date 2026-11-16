@@ -45,8 +45,6 @@ export function meshFromData({ data, width, depth, minHeight, maxHeight }) {
   return mesh
 }
 
-/* FUNCTIONS */
-
 function loadImage(url) {
   return new Promise((resolve, reject) => {
     const img = new Image()

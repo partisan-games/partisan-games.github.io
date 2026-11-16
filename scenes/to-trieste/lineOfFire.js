@@ -2,10 +2,10 @@
 export function firstHit(start, end, targets, padding = { x: 0, y: 0 }) {
   let first = null
   for (const target of targets) {
-    if (target.dead || !target.vidljiv || !Number.isFinite(target.sirina) || !Number.isFinite(target.visina)) continue
+    if (target.dead || !target.visible || !Number.isFinite(target.width) || !Number.isFinite(target.height)) continue
     let enter = 0
     let exit = 1
-    for (const [axis, size] of [['x', 'sirina'], ['y', 'visina']]) {
+    for (const [axis, size] of [['x', 'width'], ['y', 'height']]) {
       const half = target[size] / 2 + padding[axis]
       const near = target[axis] - half
       const far = target[axis] + half

@@ -1,59 +1,57 @@
-import { KRUZNICA, frames } from '/core/konstante.js'
-import Predmet from './Predmet.js'
+import { FULL_CIRCLE, frames } from '/core/constants.js'
+import GameObject2D from './GameObject2D.js'
 import Input from '/core/io/Input.js'
 
-export default class Player2D extends Predmet {
+export default class Player2D extends GameObject2D {
   constructor(src, { buttonDict, attackKey, ...rest } = {}) {
     super(src, rest)
-    this.oznake.add('igrac')
-    this.potisak = 31
-    this.komandeNapredne = false // ne okreće se oko svoje ose
-    this.cvrstaTela = []
-    this.okret = 0.047
-    this.faktorTrenja = .1
+    this.tags.add('igrac')
+    this.thrust = 31
+    this.tankControls = false // true turns the body with left and right instead of moving sideways
+    this.solidBodies = []
+    this.turnRate = 0.047
+    this.frictionFactor = .1
     this.input = new Input({ buttonDict, attackKey })
   }
 
   handleInput(dt) {
-    if (this.input.left) this.nalevo(dt)
-    if (this.input.right) this.nadesno(dt)
-    if (this.input.up) this.nagore(dt)
-    if (this.input.down) this.nadole(dt)
-    if (this.input.attack) this.puca()
+    if (this.input.left) this.moveLeft(dt)
+    if (this.input.right) this.moveRight(dt)
+    if (this.input.up) this.moveUp(dt)
+    if (this.input.down) this.moveDown(dt)
+    if (this.input.attack) this.shoot()
   }
 
-  nalevo(dt) {
-    if (this.komandeNapredne)
-      this.ugao -= this.okret * frames(dt, this.tunedFps)
+  moveLeft(dt) {
+    if (this.tankControls)
+      this.angle -= this.turnRate * frames(dt, this.tunedFps)
     else
-      this.dodajSilu(this.potisak * frames(dt, this.tunedFps), KRUZNICA / 2)
+      this.addForce(this.thrust * frames(dt, this.tunedFps), FULL_CIRCLE / 2)
   }
 
-  nadesno(dt) {
-    if (this.komandeNapredne)
-      this.ugao += this.okret * frames(dt, this.tunedFps)
+  moveRight(dt) {
+    if (this.tankControls)
+      this.angle += this.turnRate * frames(dt, this.tunedFps)
     else
-      this.dodajSilu(this.potisak * frames(dt, this.tunedFps), 0)
+      this.addForce(this.thrust * frames(dt, this.tunedFps), 0)
   }
 
-  nagore(dt) {
-    const ugao = this.komandeNapredne ? this.ugao : -KRUZNICA / 4
-    this.dodajSilu(this.potisak * frames(dt, this.tunedFps), ugao)
+  moveUp(dt) {
+    const angle = this.tankControls ? this.angle : -FULL_CIRCLE / 4
+    this.addForce(this.thrust * frames(dt, this.tunedFps), angle)
   }
 
-  nadole(dt) {
-    const ugao = this.komandeNapredne ? this.ugao : KRUZNICA / 4
-    const potisak = this.komandeNapredne ? (-this.potisak / 2) : this.potisak
-    this.dodajSilu(potisak * frames(dt, this.tunedFps), ugao)
+  moveDown(dt) {
+    const angle = this.tankControls ? this.angle : FULL_CIRCLE / 4
+    const thrust = this.tankControls ? (-this.thrust / 2) : this.thrust
+    this.addForce(thrust * frames(dt, this.tunedFps), angle)
   }
 
-  puca() {
-    console.log('puca')
-  }
+  shoot() {} // a player with a weapon fires it here
 
   update(dt) {
     super.update(dt)
-    this.trenje(this.faktorTrenja, dt)
+    this.applyFriction(this.frictionFactor, dt)
   }
 
   end() {

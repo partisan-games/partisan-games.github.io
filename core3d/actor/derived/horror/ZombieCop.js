@@ -17,8 +17,6 @@ const animDict = {
 export const model = { file: 'zombie-cop.fbx', size: 1.8, prefix: 'character/zombie/', animDict, angle: Math.PI }
 export const models = [model]
 
-/* EXTENDED CLASSES */
-
 const sharedProps = () => {
   const mesh = loadedModel(model)
   return { mesh, animations: mesh.userData.animations, animDict, speed: .5, runCoefficient: 8, sightDistance: 15 }

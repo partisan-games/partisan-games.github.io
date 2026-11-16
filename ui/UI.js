@@ -1,7 +1,7 @@
 import { isTouchScreen } from '/config.js'
 import Controls from '../ui/Controls.js'
 import Report from './Report.js'
-import { currentStyleClasses } from './styles.js'
+import { currentStyleClasses, setUiStyle } from './styles.js'
 
 const elementUI = document.getElementById('ui')
 const modalElement = document.getElementById('modal')
@@ -27,7 +27,11 @@ export default class UI {
     reportText,
     controlKeys,
     customStartScreen,
+    uiStyle,
+    onStart,
+    onContinue,
   } = {}) {
+    setUiStyle(uiStyle)
     this.scene = scene
     this.intro = intro
     this.startButtonText = startButtonText
@@ -42,6 +46,15 @@ export default class UI {
     if (showControls)
       this.controlsUI = new Controls({ controlKeys })
 
+    this.onStart = onStart
+    this.onContinue = onContinue
+    if (onStart || onContinue) modalElement.addEventListener('click', this.handleScreenClick)
+  }
+
+  handleScreenClick = e => {
+    const id = e.target.closest('button')?.id
+    if (id === 'start') this.onStart?.()
+    if (id === 'continue') this.onContinue?.()
   }
 
   clear() {
@@ -54,8 +67,6 @@ export default class UI {
     this.hideScreen()
     if (this.report) this.report.stop()
   }
-
-  /* CENTRAL SCREEN */
 
   showScreen(name, html) {
     this.screen = name
@@ -115,8 +126,6 @@ export default class UI {
     this.showScreen('pause', this.escModal())
   }
 
-  /* OUTRO */
-
   showDefeatScreen(text) {
     let html = '<h3 class="red"><span class="icon">☠️</span> Game over</h3>'
     if (text) html += `<p>${text}</p>`
@@ -131,8 +140,6 @@ export default class UI {
     this.showScreen('end', this.endScreen())
   }
 
-  /* SCENE UI */
-
   scoreUI(text = 'Score', points = 0, subtext, subpoints, smallClass = '') {
     return /* html */`
       <div class="top-left ${currentStyleClasses().score}">
@@ -143,8 +150,6 @@ export default class UI {
       </div>
     `
   }
-
-  /* MESSAGE */
 
   showMessage(txt) {
     if (this.ended || this.screen) return // a message would cover the start, pause or end screen
@@ -164,13 +169,12 @@ export default class UI {
 
   end() {
     this.ended = true
+    modalElement.removeEventListener('click', this.handleScreenClick)
     this.clear()
     this.messageElement.remove()
     this.report?.stop()
     this.controlsUI?.end()
   }
-
-  /* LOOP */
 
   render(t) {
     const html = this.scene.sceneUI(t)

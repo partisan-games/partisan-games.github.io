@@ -17,8 +17,6 @@ export default class FleeState extends RunState {
     actor.mesh.lookAt(actor.target.position) // looks away
     actor.updateMove(delta) // order is important
 
-    /* TRANSIT */
-
     if ((actor.age - this.last) * 1000 > this.minFleeTime && !actor.targetInSightRange)
       actor.setState('idle')
   }

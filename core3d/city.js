@@ -15,8 +15,6 @@ const loadTexture = (filepath, halfWidth) => {
   return texture
 }
 
-/* TEXTURES */
-
 const getWindowColor = ({ chance = .5 } = {}) => {
   const lightColors = [0xffff00, 0xF5F5DC, 0xFFEA00, 0xF6F1D5, 0xFFFF8F, 0xFFFDD0, 0xFBFFFF]
   const lightColor = lightColors[Math.floor(Math.random() * lightColors.length)]
@@ -51,6 +49,47 @@ export function createBuildingTexture({ night = false, wallColor = night ? '#151
   return texture
 }
 
+/** Fits the lines into the lower part of the wall, each slightly tilted at random. */
+function drawGraffitiText(ctx, { text, fontFamily, color }) {
+  const { width, height } = ctx.canvas
+  const lines = String(text).split('\n')
+  const maxW = width * 0.8
+  const minFontSize = 8
+  let fontSize = Math.max(8, (width * 0.09) | 0)
+
+  for (; fontSize > minFontSize; fontSize--) {
+    ctx.font = `bold ${fontSize}px ${fontFamily}`
+    if (lines.every(l => ctx.measureText(l).width <= maxW)) break
+  }
+
+  const lineH = Math.ceil(fontSize * 1.15)
+  const x = width * 0.5
+  const marginBottom = height * 0.1
+  const y0 = height - marginBottom - lines.length * lineH + lineH / 2
+
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  ctx.fillStyle = color
+
+  for (let i = 0; i < lines.length; i++) {
+    const rot = Math.random() < 0.4 ? (Math.random() * 0.1 - 0.05) : 0
+    ctx.save()
+    ctx.translate(x, y0 + i * lineH)
+    ctx.rotate(rot)
+    ctx.fillText(lines[i], 0, 0)
+    ctx.restore()
+  }
+}
+
+/** A poster at most a third of the wall, in its middle. */
+function drawSmallPoster(ctx, img) {
+  const { width, height } = ctx.canvas
+  const scale = Math.min(width / 3 / img.width, height / 3 / img.height)
+  const imgW = img.width * scale
+  const imgH = img.height * scale
+  ctx.drawImage(img, (width - imgW) / 2, (height - imgH) / 2, imgW, imgH)
+}
+
 function createGraffitiTexture({
   buildingWidth,
   buildingHeight,
@@ -77,37 +116,7 @@ function createGraffitiTexture({
   texture.magFilter = THREE.LinearFilter
   texture.wrapS = texture.wrapT = THREE.ClampToEdgeWrapping
 
-  const drawText = () => {
-    const lines = String(text).split('\n')
-    const maxW = canvasWidth * 0.8
-    const minFontSize = 8
-    let fontSize = Math.max(8, (canvasWidth * 0.09) | 0)
-
-    for (; fontSize > minFontSize; fontSize--) {
-      ctx.font = `bold ${fontSize}px ${fontFamily}`
-      if (lines.every(l => ctx.measureText(l).width <= maxW)) break
-    }
-
-    const lineH = Math.ceil(fontSize * 1.15)
-    const x = canvasWidth * 0.5
-    const marginBottom = canvasHeight * 0.1
-    const totalTextHeight = lines.length * lineH
-    const y0 = canvasHeight - marginBottom - totalTextHeight + lineH / 2
-
-    ctx.textAlign = 'center'
-    ctx.textBaseline = 'middle'
-    ctx.fillStyle = color
-
-    for (let i = 0; i < lines.length; i++) {
-      const y = y0 + i * lineH
-      const rot = Math.random() < 0.4 ? (Math.random() * 0.1 - 0.05) : 0
-      ctx.save()
-      ctx.translate(x, y)
-      ctx.rotate(rot)
-      ctx.fillText(lines[i], 0, 0)
-      ctx.restore()
-    }
-  }
+  const drawText = () => drawGraffitiText(ctx, { text, fontFamily, color })
 
   const drawArtAndText = () => {
     if (poster) {
@@ -117,14 +126,7 @@ function createGraffitiTexture({
         if (bigMural)
           ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight)
         else { // small poster + text
-          const maxWidth = canvasWidth / 3
-          const maxHeight = canvasHeight / 3
-          const scale = Math.min(maxWidth / img.width, maxHeight / img.height)
-          const imgW = img.width * scale
-          const imgH = img.height * scale
-          const x = (canvasWidth - imgW) / 2
-          const y = (canvasHeight - imgH) / 2
-          ctx.drawImage(img, x, y, imgW, imgH)
+          drawSmallPoster(ctx, img)
           drawText()
         }
         texture.needsUpdate = true
@@ -150,8 +152,6 @@ function createGraffitiTexture({
 
   return texture
 }
-
-/* WINDOWS */
 
 function createWindow(windowWidth, windowHeight) {
   const geometry = new THREE.PlaneGeometry(windowWidth, windowHeight)
@@ -210,12 +210,9 @@ function createWindows(bWidth, bHeight) {
   return windows
 }
 
-/* BUILDING */
-
 export function createBuildingGeometry({
   color = randomGrayish({ min: .3, max: .6 }), width = randInt(10, 20), height = randInt(width, width * 4), depth = width, x = 0, z = 0, y = height * .5, addWindows = false, rotY = 0,
 } = {}) {
-
   const geometry = new THREE.BoxGeometry(width, height, depth)
 
   if (color?.isColor) { // is THREE.Color
@@ -252,7 +249,7 @@ function createTexturedBuilding({ width, height, depth = width, color = 0x999999
   const { width: buildingWidth, height: buildingHeight } = geometry.parameters
 
   const textures = Array(5).fill().map((x, i) => {
-    const halfWidth = halfOnSides && (i == 0 || i == 1)
+    const halfWidth = halfOnSides && (i === 0 || i === 1)
     if (files[i]) return loadTexture(path + files[i], halfWidth)
 
     if (i === 2) return null // roof no texture
@@ -301,11 +298,9 @@ export const createRuin = () => createTexturedBuilding({ width: 12, height: 10, 
 
 export const createAirport = () => createTexturedBuilding({ width: 20, height: 10, depth: 10, defaultFile: 'buildings/airport.png', files: [null, null, 'terrain/beton.gif'], halfOnSides: true })
 
-/* CITY */
+const shouldRotate = (rotateEvery, i) => rotateEvery && i % rotateEvery === 0
 
-const shouldRotate = (rotateEvery, i) => rotateEvery && i % rotateEvery == 0
-
-const shouldEnlarge = (enlargeEvery, i) => enlargeEvery && i % enlargeEvery == 0
+const shouldEnlarge = (enlargeEvery, i) => enlargeEvery && i % enlargeEvery === 0
 
 export function createCity({
   mapSize = 400, fieldSize = 20, numBuildings = maxItems(mapSize, fieldSize) / 2, emptyCenter = 0, coords = getEmptyCoords({ mapSize, fieldSize, emptyCenter }), rotateEvery = 9, enlargeEvery = 0, addWindows = false, colorParams = { min: 0, max: .1, colorful: .1 }, map, castShadow = true, receiveShadow = true, numLampposts = 0, numTrees = 0
@@ -349,8 +344,6 @@ export function createCity({
 export const createNightCity = ({ addWindows = true, colorParams = null, numLampposts = 15, ...rest } = {}) => createCity({ addWindows, colorParams, numLampposts, ...rest })
 
 export const createTexturedCity = param => createCity({ numBuildings: 10000, rotateEvery: 2, enlargeEvery: 10, map: createBuildingTexture(), colorParams: { colorful: .035, max: 1 }, ...param })
-
-/* CITY LIGHTS */
 
 function createLamppost({ x = 0, z = 0, height = 20 } = {}) {
   const group = new THREE.Group()

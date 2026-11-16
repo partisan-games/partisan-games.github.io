@@ -9,9 +9,9 @@ const calc = (mesh, pos, rotate) => {
 }
 
 const speedFactor = state => {
-  if (state == 'jump') return 3
-  if (state == 'fall') return 4
-  if (state == 'run') return 2
+  if (state === 'jump') return 3
+  if (state === 'fall') return 4
+  if (state === 'run') return 2
   return 1
 }
 
@@ -54,8 +54,6 @@ export default class ChaseCamera {
     if (showCameraButton) this.addButton()
   }
 
-  /* SETTERS */
-
   set height(y) {
     this.offset[1] = y
   }
@@ -74,11 +72,9 @@ export default class ChaseCamera {
     this.camera.updateProjectionMatrix()
   }
 
-  /* UTILS */
-
   addButton() {
     this.button = document.createElement('button')
-    this.button.className = `bottom-right ${currentStyleClasses().cameraButton}`
+    this.button.className = `bottom-right camera-button ${currentStyleClasses().cameraButton}`
     const img = document.createElement('img')
     img.src = '/assets/images/ui/change-camera.png'
     img.alt = 'change camera'
@@ -141,8 +137,6 @@ export default class ChaseCamera {
     // eslint-disable-next-line no-restricted-syntax -- a camera move, not a game event: it also finishes during a pause
     setTimeout(() => this.setCamera(0), ms)
   }
-
-  /* UPDATE */
 
   update(delta, stateName) {
     this.currentPosition.copy(this.camera.position)

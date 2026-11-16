@@ -1,5 +1,5 @@
-import CamacIgracOdozgo from '/core/actor/CamacIgracOdozgo.js'
-import platno from '/core/io/platno.js'
+import TopDownPlayerBoat from '/core/actor/TopDownPlayerBoat.js'
+import canvas2d from '/core/io/canvas2d.js'
 import ProjectilePool from '/core/actor/ProjectilePool.js'
 import Weapon from '/core/gameplay/Weapon.js'
 import Cooldown from '/core/gameplay/Cooldown.js'
@@ -7,7 +7,7 @@ import BoatBullet from './BoatBullet.js'
 import CombatLife from './CombatLife.js'
 
 /** This boat lives in river coordinates; only its vertical movement has screen bounds. */
-export default class Boat extends CamacIgracOdozgo {
+export default class Boat extends TopDownPlayerBoat {
   constructor(viewLeft, session, startX = 0) {
     super()
     if (this.input.keyboard) this.input.keyboard.attackKey = 'Space'
@@ -15,7 +15,7 @@ export default class Boat extends CamacIgracOdozgo {
     this.viewLeft = viewLeft
     this.startX = startX
     this.session = session
-    this.combatLife = new CombatLife({ session, onDeath: () => this.stani() })
+    this.combatLife = new CombatLife({ session, onDeath: () => this.stop() })
     this.bullets = new ProjectilePool({ owner: this, create: () => new BoatBullet(viewLeft) })
     this.bullets.prepare(8)
     this.weapon = new Weapon({
@@ -27,18 +27,18 @@ export default class Boat extends CamacIgracOdozgo {
   get alive() { return this.combatLife?.health.alive ?? true }
   set alive(value) {
     if (!this.combatLife) return
-    if (!value) this.umri()
+    if (!value) this.die()
     else if (this.dead) this.reset()
   }
   get lifeId() { return this.combatLife.lifeId }
   get energija() { return this.combatLife.health.current }
 
-  reagujNaPogodak(damage, lifeId = this.lifeId) {
+  takeHit(damage, lifeId = this.lifeId) {
     return this.combatLife.damage(damage, lifeId)
   }
 
-  umri() { return this.reagujNaPogodak(this.energija) }
-  reset() { this.stani(); this.controlsLocked = false; this.combatLife.reset() }
+  die() { return this.takeHit(this.energija) }
+  reset() { this.stop(); this.controlsLocked = false; this.combatLife.reset() }
 
   update(dt) {
     if (!this.dead && !this.controlsLocked) super.update(dt)
@@ -49,35 +49,35 @@ export default class Boat extends CamacIgracOdozgo {
   }
 
   get muzzle() {
-    return { x: this.x + Math.cos(this.ugao) * this.sirina / 2,
-      y: this.y + Math.sin(this.ugao) * this.sirina / 2 }
+    return { x: this.x + Math.cos(this.angle) * this.width / 2,
+      y: this.y + Math.sin(this.angle) * this.width / 2 }
   }
 
-  puca() {
-    if (this.session.state !== 'running' || this.dead || this.controlsLocked || !this.prikazan) return false
-    return this.weapon.tryFire(this.muzzle, this.ugao)
+  shoot() {
+    if (this.session.state !== 'running' || this.dead || this.controlsLocked || !this.shown) return false
+    return this.weapon.tryFire(this.muzzle, this.angle)
   }
 
-  get prikazan() {
+  get shown() {
     const x = this.x - this.viewLeft()
-    return this.vidljiv && x + this.sirina / 2 >= 0 && x - this.sirina / 2 <= platno.width &&
-      this.y + this.visina / 2 >= 0 && this.y - this.visina / 2 <= platno.height
+    return this.visible && x + this.width / 2 >= 0 && x - this.width / 2 <= canvas2d.width &&
+      this.y + this.height / 2 >= 0 && this.y - this.height / 2 <= canvas2d.height
   }
 
-  proveriGranice() {
+  checkBounds() {
     if (this.x <= this.startX) {
       this.x = this.startX
       if (this.dx < 0) this.dx = 0
     }
     const margin = 75
-    if (this.y < margin || this.y > platno.height - margin) {
-      this.skreni(2 * Math.PI - this.ugao)
-      this.dodajSilu(5)
+    if (this.y < margin || this.y > canvas2d.height - margin) {
+      this.turn(2 * Math.PI - this.angle)
+      this.addForce(5)
     }
   }
 
-  dodajStruju() {
+  applyCurrent() {
     if (this.x <= this.startX && this.dx <= 0) return
-    this.dodajSilu(6, Math.PI)
+    this.addForce(6, Math.PI)
   }
 }

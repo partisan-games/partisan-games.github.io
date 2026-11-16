@@ -1,22 +1,22 @@
-import Predmet from '/core/actor/Predmet.js'
-import mish from '/core/io/mish.js'
+import GameObject2D from '/core/actor/GameObject2D.js'
+import mouse from '/core/io/mouse.js'
 import { createSound, randomVolume } from '/core/io/sound.js'
-import { ctx } from '/core/io/platno.js'
+import { ctx } from '/core/io/canvas2d.js'
 
 const rafal = createSound('rafal.mp3')
 const SHOT_INTERVAL = .18
 const FALL_TIME = 1.2
 const frameCache = new Map()
 
-export default class Svabo extends Predmet {
+export default class Svabo extends GameObject2D {
 
-  constructor({ skalar, ucestalost = 0.03, callback, faction = 'nemci', variant = 0 }) {
-    super ('armies/rov-prazan.gif', { skalar })
-    this.skalar = skalar
+  constructor({ scale, ucestalost = 0.03, callback, faction = 'nemci', variant = 0 }) {
+    super ('armies/rov-prazan.gif', { scale })
+    this.scale = scale
     this.variant = variant
     this.idlePhase = Math.random() * Math.PI * 2
-    this.art = new Predmet(`armies/game-ready/vojnici/${faction}-spreda.png`,
-      { vidljiv: false, sirina: 64, visina: 72 })
+    this.art = new GameObject2D(`armies/game-ready/vojnici/${faction}-spreda.png`,
+      { visible: false, width: 64, height: 72 })
     this.frames = null
     this.art.onload = () => {
       if (!frameCache.has(faction)) {
@@ -25,14 +25,14 @@ export default class Svabo extends Predmet {
             const frame = document.createElement('canvas')
             frame.width = 68
             frame.height = 76
-            frame.getContext('2d').drawImage(this.art.slika, column * 64, row * 72, 64, 72, 2, 2, 64, 72)
+            frame.getContext('2d').drawImage(this.art.image, column * 64, row * 72, 64, 72, 2, 2, 64, 72)
             return frame
           }))
         frameCache.set(faction, frames)
       }
       this.frames = frameCache.get(faction)
     }
-    this.predmeti.push(this.art)
+    this.children.push(this.art)
     this.ucestalost = ucestalost
     this.callback = callback
     rafal.volume = randomVolume()
@@ -70,7 +70,7 @@ export default class Svabo extends Predmet {
     this.stav(false)
   }
 
-  puca() {
+  shoot() {
     if (!this.firing) {
       this.firing = true
       this.fireElapsed = 0
@@ -78,7 +78,7 @@ export default class Svabo extends Predmet {
   }
 
   jePogodjen() {
-    return this.stoji && mish.iznad(this)
+    return this.stoji && mouse.isOver(this)
   }
 
   jeSpreman() {
@@ -98,14 +98,14 @@ export default class Svabo extends Predmet {
     this.povremenoUstaje(dt)
     if (this.stoji) this.aimElapsed += dt
     if (this.jeSpreman()) {
-      this.puca()
+      this.shoot()
       rafal.play()
       this.callback(10, dt)
     }
   }
 
   renderFigure(row, { x = 0, y = 0, angle = 0, alpha = 1 } = {}) {
-    const scale = this.skalar
+    const { scale } = this
     ctx.save()
     ctx.globalAlpha *= alpha
     ctx.translate(this.x + x * scale, this.y + y * scale)
@@ -116,7 +116,7 @@ export default class Svabo extends Predmet {
   }
 
   render() {
-    if (!this.prikazan || !this.slika.naturalWidth) return
+    if (!this.shown || !this.image.naturalWidth) return
     ctx.save()
     ctx.imageSmoothingEnabled = false
     if ((this.stoji || this.fallenFor) && this.frames) {
@@ -143,7 +143,7 @@ export default class Svabo extends Predmet {
           y: (1 - rise) * 10 + breath * .65, angle: breath * .006, alpha: rise })
       }
     }
-    ctx.drawImage(this.slika, this.x - this.sirina / 2, this.y - this.visina / 2, this.sirina, this.visina)
+    ctx.drawImage(this.image, this.x - this.width / 2, this.y - this.height / 2, this.width, this.height)
     ctx.restore()
   }
 }

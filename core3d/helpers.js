@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { dir } from '/core3d/constants.js'
 import { assets } from '/config.js'
+import { shuffle } from '/core/utils.js'
 
 const { randFloat, randFloatSpread } = THREE.MathUtils
 const raycaster = new THREE.Raycaster()
@@ -8,7 +9,7 @@ const raycaster = new THREE.Raycaster()
 export async function createOrbitControls(camera, domElement) {
   const { OrbitControls } = await import('three/examples/jsm/controls/OrbitControls.js')
   const controls = new OrbitControls(camera, domElement)
-  controls.maxPolarAngle = Math.PI / 2 - 0.1 // prevent bellow ground, negde ne radi
+  controls.maxPolarAngle = Math.PI / 2 - 0.1 // keeps the camera above the ground, though not in every scene
   controls.enableKeys = false
   controls.minDistance = 2
   controls.zoomSpeed = .3
@@ -16,8 +17,6 @@ export async function createOrbitControls(camera, domElement) {
   controls.dampingFactor = 0.1
   return controls
 }
-
-/* MATH */
 
 export const mapRange = (value, inMin, inMax, outMin, outMax) =>
   (value - inMin) * (outMax - outMin) / (inMax - inMin) + outMin
@@ -58,13 +57,11 @@ export const getCursorPosition = e => {
   return { x: clientX, y: clientY }
 }
 
-/* MESHES */
-
 export const getMesh = obj => {
-  if (obj.type == 'Mesh') return obj
+  if (obj.type === 'Mesh') return obj
   let mesh = obj
   obj.traverse(child => {
-    if (child.type == 'Mesh') mesh = child
+    if (child.type === 'Mesh') mesh = child
     return
   })
   return mesh
@@ -99,8 +96,6 @@ export const belongsTo = (object, name) => {
   return belongsTo(object.parent, name)
 }
 
-/* COLORS */
-
 export function randomGray(min = 175, max = 250) { // range 0-255
   const v = (randFloat(min, max) | 0).toString(16)
   return '#' + v + v + v
@@ -126,13 +121,11 @@ export function similarColor(color, range = .25) {
   return newCol
 }
 
-/* RAYCAST */
-
 export const getIntersects = (raycaster, target) => (
   Array.isArray(target)
     ? raycaster.intersectObjects(target)
     : raycaster.intersectObject(target)
-).filter(x => x.object.type != 'Points') // ignore particles
+).filter(x => x.object.type !== 'Points') // ignore particles
 
 export function findGround({ solids, pos, y = 200 }) {
   const origin = { x: pos.x, y: pos.y + y, z: pos.z }
@@ -161,7 +154,7 @@ export const intersect = (mesh, solids, dir, height = getHeight(mesh) * .5) => {
 }
 
 const defaultLength = (currDir, mesh) =>
-  currDir == dir.forward ? getSize(mesh, 'z') : getSize(mesh, 'y')
+  currDir === dir.forward ? getSize(mesh, 'z') : getSize(mesh, 'y')
 
 export const directionBlocked = (mesh, solids, currDir, rayLength = defaultLength(currDir, mesh)) => {
   const intersects = intersect(mesh, solids, currDir)
@@ -173,30 +166,15 @@ export function getCameraIntersects(camera, target) {
   return getIntersects(raycaster, target)
 }
 
-/* TEXTURES */
-
 export const createTexture = ({ file, repeat = 1 } = {}) => {
   const texture = new THREE.TextureLoader().load(`${assets.textures}${file}`)
   texture.wrapS = texture.wrapT = THREE.RepeatWrapping
   texture.magFilter = THREE.NearestFilter
-  // texture.minFilter = THREE.LinearMipMapLinearFilter
   texture.repeat.set(repeat, repeat)
   return texture
 }
 
-/* ARRAYS */
-
 export const sample = arr => arr[Math.floor(Math.random() * arr.length)]
-
-export function shuffle(a) {
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]]
-  }
-  return a
-}
-
-/* DEBUG */
 
 export function arrowHelper(actor, height) {
   const start = actor.mesh.position.clone()

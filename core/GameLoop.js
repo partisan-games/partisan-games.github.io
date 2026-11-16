@@ -11,8 +11,6 @@ export default class GameLoop {
     return this.loopId !== null
   }
 
-  /* METHODS */
-
   start() {
     if (this.isRunning) return
 
@@ -47,8 +45,6 @@ export default class GameLoop {
   stopTime() {
     this.timeStopped = true
   }
-
-  /* LOOP */
 
   mainLoop = timestamp => {
     if (!this.isRunning) return

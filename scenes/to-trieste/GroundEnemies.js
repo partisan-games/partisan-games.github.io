@@ -1,4 +1,4 @@
-import platno from '/core/io/platno.js'
+import canvas2d from '/core/io/canvas2d.js'
 import CombatTarget from './CombatTarget.js'
 import EnemyFire from './EnemyFire.js'
 import AimedBarrel from './AimedBarrel.js'
@@ -15,23 +15,23 @@ const profiles = [
 export class GroundEnemy extends CombatTarget {
   constructor({ kind, art, clock, target, obstacles, groundY, scrollSpeed, driveSpeed = 0, createWeapon, nextSpawnX, x, ...rest }) {
     const { barrel, ...bodyArt } = art
-    super({ ...bodyArt, x, tlo: groundY + 5, brzina: scrollSpeed - driveSpeed, z: -1, zapaljiv: true, ...rest })
+    super({ ...bodyArt, x, groundY: groundY + 5, speed: scrollSpeed - driveSpeed, z: -1, flammable: true, ...rest })
     this.kind = kind
     this.scrollSpeed = scrollSpeed
     this.driveSpeed = driveSpeed
     this.nextSpawnX = nextSpawnX
     if (barrel) {
       this.barrel = new AimedBarrel({ ...barrel, owner: this })
-      this.predmeti.push(this.barrel)
+      this.children.push(this.barrel)
     }
     if (createWeapon) this.fire = new EnemyFire({
       owner: this, clock, target, obstacles, groundY, createWeapon, barrel: this.barrel,
-      muzzle: () => ({ x: this.x - this.sirina * .45, y: this.y - this.visina * .2 }),
+      muzzle: () => ({ x: this.x - this.width * .45, y: this.y - this.height * .2 }),
     })
   }
 
-  umri(source) {
-    super.umri(source)
+  die(source) {
+    super.die(source)
     // Wrecks travel with the scenery instead of continuing under their own power.
     this.dx = this.scrollSpeed
   }
@@ -43,8 +43,8 @@ export class GroundEnemy extends CombatTarget {
     this.barrel?.reset()
   }
 
-  proveriGranice() {
-    if (!Number.isFinite(this.sirina) || this.x + this.sirina / 2 >= 0) return
+  checkBounds() {
+    if (!Number.isFinite(this.width) || this.x + this.width / 2 >= 0) return
     this.x = this.nextSpawnX()
     this.reset()
   }
@@ -61,12 +61,12 @@ export class GroundEnemy extends CombatTarget {
 }
 
 export default function createGroundEnemies(options) {
-  const gap = Math.max(720, platno.width * 1.25)
+  const gap = Math.max(720, canvas2d.width * 1.25)
   const enemies = []
-  const nextSpawnX = () => Math.max(platno.width, ...enemies.map(enemy => enemy.x + (enemy.sirina || 0) / 2)) + gap
+  const nextSpawnX = () => Math.max(canvas2d.width, ...enemies.map(enemy => enemy.x + (enemy.width || 0) / 2)) + gap
   for (const [index, profile] of profiles.entries()) enemies.push(new GroundEnemy({
     ...options, ...profile, art: groundEnemyArt[profile.kind],
-    x: platno.width + gap * .5 + index * gap, nextSpawnX,
+    x: canvas2d.width + gap * .5 + index * gap, nextSpawnX,
   }))
   return enemies
 }

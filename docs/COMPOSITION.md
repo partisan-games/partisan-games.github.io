@@ -71,14 +71,14 @@ Primeri sa `import` pokreću se kao ES moduli dok lokalni server projekta radi; 
 
 ## Kako to izgleda u našem tenku
 
-Stvarni [Tenk](../scenes/tenkici/Tenk.js) i dalje nasleđuje [Predmet](../core/actor/Predmet.js), koji mu daje položaj, sliku i osnovno ažuriranje. Unutar konstruktora sastavlja dodatna ponašanja:
+Stvarni [Tenk](../scenes/tenkici/Tenk.js) i dalje nasleđuje [GameObject2D](../core/actor/GameObject2D.js), koji mu daje položaj, sliku i osnovno ažuriranje. Unutar konstruktora sastavlja dodatna ponašanja:
 
 ```js
 // Skraćen fragment konstruktora Tenk; clock i granate su već dostupni.
 this.health = new Health({ maximum: 100 })
 this.weapon = new Weapon({
   cooldown: new Cooldown({ seconds: 1, clock }),
-  spawnProjectile: (pozicija, ugao) => this.granate.fire(pozicija, ugao, 500),
+  spawnProjectile: (position, angle) => this.granate.fire(position, angle, 500),
 })
 ```
 
@@ -96,8 +96,8 @@ Kada tenk pokuša da puca, njegova metoda delegira posao oružju, odnosno poziva
 
 ```js
 // Metoda klase Tenk.
-pucaj(pozicija, ugao) {
-  if (this.weapon.tryFire(pozicija, ugao)) this.trzaj()
+fire(position, angle) {
+  if (this.weapon.tryFire(position, angle)) this.trzaj()
 }
 ```
 
@@ -147,7 +147,7 @@ Zato premeštanje metoda u drugi fajl i njihovo kopiranje na prototip nije samo 
 
 ## Kada zadržati nasleđivanje
 
-Nasleđivanje odgovara kada podklasa može da se koristi na mestu roditelja i deli njegov osnovni ugovor. U ovom projektu `TenkLevo` i `TenkDesno` nasleđuju `Tenk`; oba ostaju tenkovi, sa istim osnovnim operacijama. Konkretna igra nasleđuje `Scena2D` ili `Scena3D` da bi radila kroz postojeći životni ciklus scene.
+Nasleđivanje odgovara kada podklasa može da se koristi na mestu roditelja i deli njegov osnovni ugovor. U ovom projektu `TenkLevo` i `TenkDesno` nasleđuju `Tenk`; oba ostaju tenkovi, sa istim osnovnim operacijama. Konkretna igra nasleđuje `Scene2D` ili `Scene3D` da bi radila kroz postojeći životni ciklus scene.
 
 Kompozicija odgovara ponašanju koje treba različitim vrstama objekata: zdravlje tenku i zgradi, oružje tenku i avionu. Tada se promena tog ponašanja održava u njegovom malom objektu, a ne u zajedničkom pretku svih tih vrsta.
 

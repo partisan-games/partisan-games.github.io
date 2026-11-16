@@ -12,8 +12,6 @@ const animDict = {
 export const model = { file: 'resistance-fighter.fbx', angle: Math.PI, animDict, prefix: 'character/soldier/', size: 1.8 }
 export const models = [model]
 
-/* EXTENDED CLASSES */
-
 const sharedProps = () => {
   const mesh = loadedModel(model)
   return { mesh, animations: mesh.userData.animations, animDict }

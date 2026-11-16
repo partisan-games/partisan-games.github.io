@@ -2,6 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { BoxGeometry, Mesh, Scene } from 'three'
 import AI from '/core3d/actor/AI.js'
+import GameObject from '/core3d/objects/GameObject.js'
 import { damageAt } from '/core/gameplay/damage.js'
 
 /** A box standing on the ground, with its origin at its feet like a character model. */
@@ -10,8 +11,7 @@ const createBody = height => new Mesh(new BoxGeometry(1, height, 1).translate(0,
 /** An attacker without animations whose forward ray meets a target 1.5 away. */
 function createFight() {
   const scene = new Scene()
-  const target = createBody(2)
-  target.name = 'player'
+  const target = new GameObject({ mesh: createBody(2), name: 'player' }).mesh
   target.position.z = 1.5
   const attacker = new AI({ mesh: createBody(2), baseState: 'idle', attackDistance: 3, attackStyle: 'ONCE', target })
   scene.add(attacker.mesh, target)
@@ -33,26 +33,26 @@ test('a blow lands halfway through the attack, on game time', () => {
   const { attacker, target } = createFight()
   attacker.enterAttack('player')
   attacker.clock.advance(.19)
-  assert.equal(target.userData.damageAmount, undefined)
+  assert.equal(GameObject.ownerOf(target).pendingDamage, 0)
   attacker.clock.advance(.01)
-  assert.ok(target.userData.damageAmount > 0)
+  assert.ok(GameObject.ownerOf(target).pendingDamage > 0)
 })
 
 test('an attacker that dies before its blow lands does no damage, and one in pain still does', () => {
   const dying = createFight()
   dying.attacker.enterAttack('player')
-  dying.attacker.mesh.userData.damageAmount = 1000
+  dying.attacker.pendingDamage = 1000
   dying.attacker.checkHit()
   dying.attacker.clock.advance(1)
-  assert.equal(dying.target.userData.damageAmount, undefined)
+  assert.equal(GameObject.ownerOf(dying.target).pendingDamage, 0)
 
   const hurt = createFight()
   hurt.attacker.enterAttack('player')
-  hurt.attacker.mesh.userData.damageAmount = 10
+  hurt.attacker.pendingDamage = 10
   hurt.attacker.checkHit()
   assert.ok(!hurt.attacker.dead)
   hurt.attacker.clock.advance(1)
-  assert.ok(hurt.target.userData.damageAmount > 0)
+  assert.ok(GameObject.ownerOf(hurt.target).pendingDamage > 0)
 })
 
 test('a player attack without animation ends after .3 s of the player game time, not of the wall clock', async t => {

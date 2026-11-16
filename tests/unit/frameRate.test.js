@@ -66,8 +66,8 @@ test('in franjo-kluz the scenery slows down on the ground as fast at 30 as at 60
   for (const fps of [60, 30]) {
     const scene = await createFranjoKluz(t)
     // landed: images do not load in unit tests, so the plane has no height of its own
-    scene.player.visina = 20
-    scene.player.y = scene.player.nivoTla - 10
+    scene.player.height = 20
+    scene.player.y = scene.player.groundLevel - 10
     scene.pocniParalax()
     play(scene, .25, fps)
     results[fps] = scene.zbunovi[0].dx
@@ -81,7 +81,7 @@ test('a tenkici tank rolls as far at 30 as at 60 frames per second after a push'
   const { default: GameClock } = await import('/core/runtime/GameClock.js')
   assertSameAt30And60(fps => {
     const tank = new TenkLevo({ x: 100, xLimit: 5000, clock: new GameClock() })
-    tank.dodajSilu(100, 0)
+    tank.addForce(100, 0)
     for (let i = 0; i < fps; i++) tank.update(1 / fps)
     return tank.x - 100
   }, 'distance')

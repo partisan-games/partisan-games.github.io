@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 import spaceBunkers from '/scenes/to-trieste/spaceBunkers.js'
 
-let Bunker, GameClock, TenkLevo, CombatTarget, createCannon, shellAngle, firstHit, shellGravity, shellSpeed, platno
+let Bunker, GameClock, TenkLevo, CombatTarget, createCannon, shellAngle, firstHit, shellGravity, shellSpeed, canvas2d
 
 before(async() => {
   createPageElements()
@@ -14,32 +14,32 @@ before(async() => {
   ;({ createCannon, shellAngle } = await import('/scenes/to-trieste/EnemyWeapons.js'))
   ;({ firstHit } = await import('/scenes/to-trieste/lineOfFire.js'))
   ;({ shellGravity, shellSpeed } = await import('/scenes/tenkici/shellPhysics.js'))
-  platno = (await import('/core/io/platno.js')).default
+  canvas2d = (await import('/core/io/canvas2d.js')).default
 })
 
 function battle(options = {}) {
   const clock = new GameClock()
-  const target = new TenkLevo({ clock, src: null, cevSlika: null, sirina: 50, visina: 50, x: 100, y: 200 })
-  const bunker = new Bunker({ clock, target, src: null, sirina: 50, visina: 50, x: 400, y: 200, groundY: 300, ...options })
+  const target = new TenkLevo({ clock, src: null, cevSlika: null, width: 50, height: 50, x: 100, y: 200 })
+  const bunker = new Bunker({ clock, target, src: null, width: 50, height: 50, x: 400, y: 200, groundY: 300, ...options })
   return { clock, target, bunker }
 }
 
 test('different-width bunkers keep an edge gap initially and throughout repeated returns', () => {
   const bunkers = [
-    battle({ x: 900, sirina: 300 }).bunker,
-    battle({ x: 920, sirina: 80 }).bunker,
+    battle({ x: 900, width: 300 }).bunker,
+    battle({ x: 920, width: 80 }).bunker,
   ]
   spaceBunkers(bunkers, 800)
-  assert.ok(bunkers[1].x - bunkers[1].sirina / 2 - (bunkers[0].x + bunkers[0].sirina / 2) >= 120)
+  assert.ok(bunkers[1].x - bunkers[1].width / 2 - (bunkers[0].x + bunkers[0].width / 2) >= 120)
   for (let index = 0; index < 8; index++) {
     const bunker = bunkers[index % 2]
     const other = bunkers[(index + 1) % 2]
     const life = bunker.lifeId
-    bunker.umri()
-    bunker.x = -bunker.sirina
-    bunker.proveriGranice()
-    assert.ok(bunker.x - bunker.sirina / 2 - (other.x + other.sirina / 2) >= 120)
-    assert.ok(bunker.x - bunker.sirina / 2 > 800)
+    bunker.die()
+    bunker.x = -bunker.width
+    bunker.checkBounds()
+    assert.ok(bunker.x - bunker.width / 2 - (other.x + other.width / 2) >= 120)
+    assert.ok(bunker.x - bunker.width / 2 > 800)
     assert.equal(bunker.lifeId, life + 1)
     assert.equal(bunker.alive, true)
   }
@@ -53,43 +53,44 @@ test('machine guns wait, aim at the tank and reuse spent bullets within a burst'
   bunker.update(0)
   const [shot] = bunker.projectiles.projectiles
   assert.ok(shot.dx < 0)
-  assert.equal(shot.gravitacija, 0)
-  assert.equal(shot.steta, 3)
+  assert.equal(shot.gravity, 0)
+  assert.equal(shot.damage, 3)
   assert.ok(shot.dy < 0)
   assert.ok(shot.x > target.x)
   shot.reset()
   clock.advance(.1)
   bunker.update(0)
-  assert.equal(shot.vidljiv, false)
+  assert.equal(shot.visible, false)
   clock.advance(.04)
   bunker.update(0)
-  assert.equal(shot.vidljiv, true)
+  assert.equal(shot.visible, true)
   assert.equal(bunker.projectiles.projectiles.length, 1)
 })
 
-test('machine guns fire five spaced shots and then leave a reload gap', t => {
+test('machine guns fire a burst of spaced shots and then leave a reload gap', t => {
   const { clock, bunker } = battle()
+  const { burstSize, weapon, burst } = bunker.fire.armament
   let shots = 0
   t.mock.method(bunker.projectiles, 'fire', () => shots++)
   clock.advance(1.5)
   bunker.update(0)
   assert.equal(shots, 1)
-  for (let i = 0; i < 4; i++) {
-    clock.advance(.14)
+  for (let i = 1; i < burstSize; i++) {
+    clock.advance(weapon.cooldown.seconds + .01)
     bunker.update(0)
   }
-  assert.equal(shots, 5)
-  clock.advance(2.9)
+  assert.equal(shots, burstSize)
+  clock.advance(burst.seconds - .1)
   bunker.update(0)
-  assert.equal(shots, 5)
+  assert.equal(shots, burstSize, 'no shot during the reload')
   clock.advance(.2)
   bunker.update(0)
-  assert.equal(shots, 6)
+  assert.equal(shots, burstSize + 1)
 })
 
 test('offscreen and destroyed bunkers do not fire, but fired shots can still damage the tank', () => {
   const { clock, target, bunker } = battle()
-  bunker.x = platno.width + 100
+  bunker.x = canvas2d.width + 100
   clock.advance(10)
   bunker.update(0)
   assert.equal(bunker.projectiles.projectiles.length, 0)
@@ -99,28 +100,28 @@ test('offscreen and destroyed bunkers do not fire, but fired shots can still dam
   clock.advance(1.5)
   bunker.update(0)
   const [shot] = bunker.projectiles.projectiles
-  bunker.umri()
+  bunker.die()
   clock.advance(10)
   bunker.update(0)
   assert.equal(bunker.projectiles.projectiles.length, 1)
-  shot.sirina = shot.visina = 10
-  shot.postavi(target.x, target.y)
+  shot.width = shot.height = 10
+  shot.setPosition(target.x, target.y)
   const health = target.energija
   bunker.checkHits()
-  assert.equal(target.energija, health - shot.steta)
-  assert.equal(shot.vidljiv, false)
+  assert.equal(target.energija, health - shot.damage)
+  assert.equal(shot.visible, false)
   bunker.checkHits()
-  assert.equal(target.energija, health - shot.steta)
+  assert.equal(target.energija, health - shot.damage)
 })
 
 test('a new bunker life waits again and a destroyed tank is no longer targeted', () => {
   const { clock, target, bunker } = battle()
   clock.advance(10)
-  bunker.umri()
+  bunker.die()
   bunker.reset()
   bunker.update(0)
   assert.equal(bunker.projectiles.projectiles.length, 0)
-  target.reagujNaPogodak(100)
+  target.takeHit(100)
   clock.advance(2)
   bunker.update(0)
   assert.equal(bunker.projectiles.projectiles.length, 0)
@@ -128,8 +129,8 @@ test('a new bunker life waits again and a destroyed tank is no longer targeted',
 
 test('partly visible bunkers wait until their firing opening is on screen', () => {
   const { clock, bunker } = battle()
-  bunker.x = platno.width + 20
-  assert.equal(bunker.prikazan, true)
+  bunker.x = canvas2d.width + 20
+  assert.equal(bunker.shown, true)
   clock.advance(10)
   bunker.update(0)
   assert.equal(bunker.projectiles.projectiles.length, 0)
@@ -140,14 +141,14 @@ test('cannons use the same shell physics as the tank, with an upward launch and 
   clock.advance(1.5)
   bunker.update(0)
   const [shell] = bunker.projectiles.projectiles
-  target.pucaj(target.polozaj, 0)
+  target.fire(target.position, 0)
   const [tankShell] = target.granate.projectiles
-  assert.equal(shell.gravitacija, tankShell.gravitacija)
-  assert.ok(Math.abs(shell.brzina - tankShell.brzina) < 1e-6)
-  assert.equal(shell.nivoTla, 300)
-  assert.equal(shell.steta, 20)
+  assert.equal(shell.gravity, tankShell.gravity)
+  assert.ok(Math.abs(shell.speed - tankShell.speed) < 1e-6)
+  assert.equal(shell.groundLevel, 300)
+  assert.equal(shell.damage, 20)
   assert.ok(shell.dy < 0)
-  shell.sirina = shell.visina = 10
+  shell.width = shell.height = 10
   const initialY = shell.y
   const initialVelocity = shell.dy
   shell.update(.1)
@@ -182,7 +183,7 @@ test('tank-like ballistic aim is almost horizontal nearby and rises into a large
 
 test('bunkers keep firing through a civilian obstruction and reach the tank after destroying it', () => {
   const { clock, bunker } = battle()
-  const cover = new CombatTarget({ src: null, sirina: 80, visina: 120, x: 250, y: 200 })
+  const cover = new CombatTarget({ src: null, width: 80, height: 120, x: 250, y: 200 })
   bunker.obstacles.push(cover)
   clock.advance(1.5)
   bunker.update(0)
@@ -194,7 +195,7 @@ test('bunkers keep firing through a civilian obstruction and reach the tank afte
   assert.equal(bunker.target.energija, 100)
   clock.advance(.14)
   bunker.update(0)
-  assert.equal(shot.vidljiv, true)
+  assert.equal(shot.visible, true)
   shot.update(.6)
   bunker.checkHits()
   assert.equal(bunker.target.energija, 97)
@@ -203,7 +204,7 @@ test('bunkers keep firing through a civilian obstruction and reach the tank afte
 test('cover intercepts an already fired bullet crossing an entire building in one frame', () => {
   const { clock, target, bunker } = battle()
   const sources = []
-  const cover = new CombatTarget({ src: null, sirina: 50, visina: 120, x: 250, y: 200, callback: source => sources.push(source) })
+  const cover = new CombatTarget({ src: null, width: 50, height: 120, x: 250, y: 200, callback: source => sources.push(source) })
   clock.advance(1.5)
   bunker.update(0)
   bunker.obstacles.push(cover)
@@ -211,7 +212,7 @@ test('cover intercepts an already fired bullet crossing an entire building in on
   shot.update(.6)
   bunker.checkHits()
   assert.equal(target.energija, 100)
-  assert.equal(shot.vidljiv, false)
+  assert.equal(shot.visible, false)
   assert.equal(cover.dead, true)
   assert.deepEqual(sources, ['enemy'])
 })
@@ -219,12 +220,12 @@ test('cover intercepts an already fired bullet crossing an entire building in on
 test('enemy shells destroy the first building after their impact delay and identify the attacker', () => {
   const { clock, target, bunker } = battle({ createWeapon: createCannon })
   const sources = []
-  const cover = new CombatTarget({ src: null, sirina: 80, visina: 120, x: 250, y: 200, callback: source => sources.push(source) })
+  const cover = new CombatTarget({ src: null, width: 80, height: 120, x: 250, y: 200, callback: source => sources.push(source) })
   bunker.obstacles.push(cover)
   clock.advance(1.5)
   bunker.update(0)
   const [shell] = bunker.projectiles.projectiles
-  shell.sirina = shell.visina = 10
+  shell.width = shell.height = 10
   shell.update(.4)
   bunker.checkHits()
   assert.equal(cover.alive, true)
@@ -232,28 +233,28 @@ test('enemy shells destroy the first building after their impact delay and ident
   assert.equal(cover.dead, true)
   assert.deepEqual(sources, ['enemy'])
   assert.equal(target.energija, 100)
-  assert.equal(shell.vidljiv, false)
+  assert.equal(shell.visible, false)
 })
 
 test('a building behind the tank cannot intercept a hit that reaches the tank first', () => {
   const { clock, target, bunker } = battle()
   clock.advance(1.5)
   bunker.update(0)
-  bunker.obstacles.push(new CombatTarget({ src: null, sirina: 30, visina: 120, x: 40, y: 200 }))
+  bunker.obstacles.push(new CombatTarget({ src: null, width: 30, height: 120, x: 40, y: 200 }))
   const [shot] = bunker.projectiles.projectiles
   shot.update(.6)
   bunker.checkHits()
   assert.equal(target.energija, 97)
-  assert.equal(shot.vidljiv, false)
+  assert.equal(shot.visible, false)
 })
 
 test('cover remains vulnerable to the player and retains its destruction penalty', () => {
   const { clock, target } = battle()
   let penalties = 0
-  const cover = new CombatTarget({ src: null, sirina: 50, visina: 120, x: 250, y: 200, callback: () => penalties++ })
-  target.granate.fire(cover.polozaj, 0, 0)
+  const cover = new CombatTarget({ src: null, width: 50, height: 120, x: 250, y: 200, callback: () => penalties++ })
+  target.granate.fire(cover.position, 0, 0)
   const [shell] = target.granate.projectiles
-  shell.sirina = shell.visina = 10
+  shell.width = shell.height = 10
   target.granate.checkHits([cover])
   clock.advance(.15)
   assert.equal(cover.dead, true)
@@ -261,10 +262,10 @@ test('cover remains vulnerable to the player and retains its destruction penalty
 })
 
 test('line-of-fire intersection ignores gaps and destroyed cover, and chooses the nearest hit', () => {
-  const near = new CombatTarget({ src: null, sirina: 20, visina: 40, x: 200, y: 200 })
-  const far = new CombatTarget({ src: null, sirina: 20, visina: 40, x: 100, y: 200 })
+  const near = new CombatTarget({ src: null, width: 20, height: 40, x: 200, y: 200 })
+  const far = new CombatTarget({ src: null, width: 20, height: 40, x: 100, y: 200 })
   assert.equal(firstHit({ x: 400, y: 200 }, { x: 0, y: 200 }, [far, near]).target, near)
   assert.equal(firstHit({ x: 400, y: 150 }, { x: 0, y: 150 }, [near]), null)
-  near.umri()
+  near.die()
   assert.equal(firstHit({ x: 400, y: 200 }, { x: 0, y: 200 }, [near]), null)
 })

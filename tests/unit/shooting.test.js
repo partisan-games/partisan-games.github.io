@@ -5,13 +5,13 @@ import GameClock from '/core/runtime/GameClock.js'
 import ProjectilePool from '/core/actor/ProjectilePool.js'
 import { nearestTarget } from '/core/actor/targeting.js'
 
-let Okupator, Granata, mish
+let Occupier, Shell, mouse
 
 before(async() => {
   createPageElements()
-  Okupator = (await import('/core/actor/Okupator.js')).default
-  Granata = (await import('/core/actor/projektili/Granata.js')).default
-  mish = (await import('/core/io/mish.js')).default
+  Occupier = (await import('/core/actor/Occupier.js')).default
+  Shell = (await import('/core/actor/projectiles/Shell.js')).default
+  mouse = (await import('/core/io/mouse.js')).default
 })
 
 const target = (x, alive = true) => ({ x, y: 0, alive })
@@ -27,13 +27,13 @@ test('finds no target when all are dead', () => {
 
 test('a volley hitting in the same frame kills the target only once', () => {
   let deaths = 0
-  const cilj = { prikazan: true, alive: true, get dead() {
+  const cilj = { shown: true, alive: true, get dead() {
     return !this.alive
-  }, umri() {
+  }, die() {
     this.alive = false; deaths++
   } }
-  const pool = new ProjectilePool({ owner: { predmeti: [] }, create: () => null })
-  pool.projectiles = [1, 2, 3].map(() => ({ prikazan: true, proveriPogodak: c => c.umri() }))
+  const pool = new ProjectilePool({ owner: { children: [] }, create: () => null })
+  pool.projectiles = [1, 2, 3].map(() => ({ shown: true, checkHit: c => c.die() }))
 
   pool.checkHits([cilj])
 
@@ -41,25 +41,25 @@ test('a volley hitting in the same frame kills the target only once', () => {
 })
 
 test('a dead occupier gives no more points when clicked', () => {
-  const okupator = new Okupator()
-  mock.method(mish, 'iznad', () => true)
+  const okupator = new Occupier()
+  mock.method(mouse, 'isOver', () => true)
   let points = 0
 
-  okupator.proveriPogodak(() => points++)
-  okupator.proveriPogodak(() => points++)
+  okupator.checkHit(() => points++)
+  okupator.checkHit(() => points++)
 
   assert.equal(points, 1)
-  mish.iznad.mock.restore()
+  mouse.isOver.mock.restore()
 })
 
 test('a grenade reset before its explosion finishes does not hurt the target later', () => {
   const clock = new GameClock()
-  const granata = new Granata({ clock })
-  granata.pokazi()
+  const granata = new Shell({ clock })
+  granata.show()
   let hurt = 0
-  const cilj = { sudara: () => true, umri: () => hurt++ }
+  const cilj = { collidesWith: () => true, die: () => hurt++ }
 
-  granata.proveriPogodak(cilj)
+  granata.checkHit(cilj)
   granata.reset()
   clock.advance(1)
 

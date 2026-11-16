@@ -25,7 +25,7 @@ export default class FSM {
   setState(name, chooseState) {
     const oldState = this.currentState
     if (oldState) {
-      if (oldState.name == name) return
+      if (oldState.name === name) return
       oldState.exit()
     }
     const State = chooseState ? chooseState(name) : this.chooseState(name)

@@ -5,6 +5,7 @@ import { createPageElements } from './helpers/dom.js'
 import GameSession from '/core/runtime/GameSession.js'
 import ZombieWaves from '/scenes/graveyard-survival/ZombieWaves.js'
 import AI from '/core3d/actor/AI.js'
+import World from '/core/World.js'
 
 before(() => createPageElements())
 
@@ -56,14 +57,14 @@ test('the ghost death without an animation uses the shared actor death exactly o
   let deaths = 0
   const actor = new AI({
     mesh: new Mesh(new BoxGeometry(1, 2, 1).translate(0, 1, 0)),
-    baseState: 'idle', useComposedMovement: true, deathCallback: () => deaths++,
+    baseState: 'idle', deathCallback: () => deaths++,
   })
-  actor.damageAmount = 1000
+  actor.pendingDamage = 1000
   GhostAI.prototype.checkHit.call(actor)
   assert.equal(actor.dead, true)
   assert.equal(actor.state, 'death')
   assert.equal(deaths, 1)
-  actor.damageAmount = 50
+  actor.pendingDamage = 50
   GhostAI.prototype.checkHit.call(actor)
   assert.equal(deaths, 1)
 })
@@ -73,7 +74,7 @@ test('graveyard keeps its morning victory and does not spawn behind the result s
   let spawns = 0
   let wins = 0
   const scene = {
-    predmeti: [], ui: { outro: false }, player: { dead: false }, npcs: [],
+    world: new World(), ui: { outro: false }, player: { dead: false }, npcs: [],
     moon: new Mesh(new BoxGeometry()), scene: new Scene(),
     spawnZombie: () => spawns++, defeat() {},
     victory() {

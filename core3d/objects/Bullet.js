@@ -31,7 +31,8 @@ export default class Bullet extends GameObject {
     this.position.lerp(this.target, this.speed * delta)
 
     if (this.distanceTo(this.playerMesh) < this.damageDistance) {
-      this.playerMesh.userData.damageAmount = this.damage
+      const player = GameObject.ownerOf(this.playerMesh)
+      if (player) player.pendingDamage = this.damage
       this.energy = 0
     }
 

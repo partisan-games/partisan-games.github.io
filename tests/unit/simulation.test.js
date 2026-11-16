@@ -3,13 +3,12 @@ import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 import { installFakeFrames } from './helpers/frames.js'
 import FixedStep from '/core/runtime/FixedStep.js'
-import UpdateRegistry from '/core/runtime/UpdateRegistry.js'
 
-let Scena
+let Scene
 
 before(async() => {
   createPageElements()
-  Scena = (await import('/core/Scena.js')).default
+  Scene = (await import('/core/Scene.js')).default
 })
 
 const near = (a, b) => Math.abs(a - b) < 1e-9
@@ -40,44 +39,9 @@ test('time from before a pause is not owed after it', () => {
   assert.equal(stepper.advance(1 / 120), 1)
 })
 
-const counter = (log, name) => ({ update: () => log.push(name) })
-
-test('the registry updates an object once per step, however often it was added', () => {
-  const registry = new UpdateRegistry()
-  const log = []
-  const parent = counter(log, 'parent')
-  const child = counter(log, 'child')
-  registry.add(parent, child, child)
-  registry.add(parent)
-
-  registry.step(1 / 60)
-  assert.deepEqual(log, ['parent', 'child'])
-})
-
-test('an object added during a step joins from the next one; a removed one stops at once', () => {
-  const registry = new UpdateRegistry()
-  const log = []
-  const spawned = counter(log, 'spawned')
-  const target = counter(log, 'target')
-  const shooter = { update: () => {
-    log.push('shooter')
-    registry.add(spawned)
-    registry.remove(target)
-    assert.equal(registry.has(target), false, 'a removed target cannot be hit again in the same step')
-  } }
-  registry.add(shooter, target)
-
-  registry.step(1 / 60)
-  assert.deepEqual(log, ['shooter'])
-  log.length = 0
-  registry.step(1 / 60)
-  assert.deepEqual(log, ['shooter', 'spawned'])
-  assert.equal(registry.has(target), false)
-})
-
 test('a fixed-step scene reads input and draws once per frame, and runs the rules once per step', () => {
   const frames = installFakeFrames()
-  const scene = new Scena({ canvas: document.createElement('canvas'), fixedStep: true })
+  const scene = new Scene({ canvas: document.createElement('canvas'), fixedStep: true })
   const counts = { input: 0, steps: 0, present: 0, updates: 0 }
   scene.add({ alive: true, handleInput: () => counts.input++, update: () => counts.updates++ })
   scene.fixedUpdate = () => counts.steps++
@@ -98,13 +62,12 @@ test('a fixed-step scene reads input and draws once per frame, and runs the rule
 
 test('a scene without fixedStep keeps its loop: one update per frame through the object tree', () => {
   const frames = installFakeFrames()
-  const scene = new Scena({ canvas: document.createElement('canvas') })
+  const scene = new Scene({ canvas: document.createElement('canvas') })
   let childUpdates = 0
-  scene.add({ update() {}, predmeti: [{ update: () => childUpdates++ }] })
+  scene.add({ update() {}, children: [{ update: () => childUpdates++ }] })
   scene.start()
   frames.step()
   frames.step(1000 / 20)
   assert.equal(childUpdates, 2)
-  assert.equal(scene.simulation, undefined)
   scene.end()
 })

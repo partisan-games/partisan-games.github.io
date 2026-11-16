@@ -15,15 +15,11 @@ const animDict = {
   death: 'Falling Back Death',
 }
 
-/* LOADING */
-
 const meshModel = { prefix: 'character/huntress/', file: 'model.fbx', angle: Math.PI, animDict, size: 1.78, runCoefficient: 4 }
 const rightHandWeaponModel = { file: 'weapon/axe-lowpoly/model.fbx', scale: .18 }
 
 /** What to load; a game awaits requestModels(models) before it creates one of these. */
 export const models = [meshModel, rightHandWeaponModel]
-
-/* EXTENDED CLASSES */
 
 const sharedProps = () => {
   const mesh = loadedModel(meshModel)

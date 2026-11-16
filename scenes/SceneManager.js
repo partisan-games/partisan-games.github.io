@@ -1,12 +1,5 @@
 const validPath = /^[\w-]+$/
 
-const imageLoaded = img => img.complete
-  ? Promise.resolve()
-  : new Promise(resolve => {
-    img.addEventListener('load', resolve, { once: true })
-    img.addEventListener('error', resolve, { once: true })
-  })
-
 class SceneManager {
   static instance = null
 
@@ -21,12 +14,10 @@ class SceneManager {
   }
 
   handleIntro() {
-    const scene = this.scene
+    const { scene } = this
     if (scene.hasStartScreen) {
       scene.clear()
-      scene.slikeUcitane().then(() => {
-        if (this.scene === scene) scene.render()
-      })
+      scene.render()
       scene.ui.renderStartScreen()
     } else
       this.scene.start()
@@ -65,10 +56,9 @@ class SceneManager {
       await scene.init()
       // a newer start ended this scene while init was still running; end what init set up after that
       if (!isCurrent()) return scene.end()
+      await scene.imagesLoaded()
+      if (!isCurrent() || this.scene !== scene) return
       scene.session.ready()
-
-      if (this.scene.pozadina) await imageLoaded(this.scene.pozadina.slika)
-      if (!isCurrent()) return
 
       this.handleIntro()
     } catch (error) {

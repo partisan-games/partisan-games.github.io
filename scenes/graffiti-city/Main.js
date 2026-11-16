@@ -1,4 +1,4 @@
-import Scena3D from '/core/Scena3D.js'
+import Scene3D from '/core/Scene3D.js'
 import { createSun } from '/core3d/light.js'
 import { WorkerPlayer, models as workerModels } from '/core3d/actor/derived/ww2/Worker.js'
 import { requestModels } from '/core3d/assets/models.js'
@@ -84,7 +84,7 @@ const getFiles = () => {
   return files
 }
 
-export default class extends Scena3D {
+export default class GraffitiCityScene extends Scene3D {
   constructor() {
     super({ controlKeys: thirdPersonControls, toon: true })
   }
@@ -111,7 +111,7 @@ export default class extends Scena3D {
       solids.push(trees, building)
     }
 
-    this.player = new WorkerPlayer({ camera: this.camera, solids, pos: coords.pop(), showHealthBar: false, useComposedMovement: true })
+    this.player = new WorkerPlayer({ camera: this.camera, solids, pos: coords.pop(), showHealthBar: false })
     this.player.lookAt(this.scene.position)
 
     this.add(this.player)

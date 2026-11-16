@@ -14,13 +14,13 @@ const clips = () => names.map(name => new AnimationClip(name, .5, [new NumberKey
 const body = () => new Mesh(new BoxGeometry(1, 2, 1).translate(0, 1, 0))
 const key = (type, code) => document.dispatchEvent(new KeyboardEvent(type, { code }))
 
-function createPlayer(t, useComposedMovement, camera) {
+function createPlayer(t, camera) {
   const scene = new Scene()
   const ground = new Mesh(new BoxGeometry(100, 1, 100).translate(0, -.5, 0))
   const player = new Player({
     mesh: body(), animations: clips(), animDict: Object.fromEntries(names.map(name => [name, name])),
     input: new Input({ useKeyboard: true, useJoystick: false }),
-    solids: [ground], showHealthBar: false, camera, useComposedMovement,
+    solids: [ground], showHealthBar: false, camera,
   })
   scene.add(ground, player.mesh)
   t.after(() => player.end())
@@ -46,7 +46,7 @@ test('the same kinematic movement consumes player and AI intentions without plat
   assert.equal(measure(player.intent), measure(ai.intent))
 })
 
-test('the opt-in AI controller creates no document or window event subscriptions', t => {
+test('the AI controller creates no document or window event subscriptions', t => {
   let listeners = 0
   const documentAdd = document.addEventListener.bind(document)
   const windowAdd = window.addEventListener.bind(window)
@@ -58,40 +58,47 @@ test('the opt-in AI controller creates no document or window event subscriptions
     listeners++
     return windowAdd(...args)
   })
-  const ai = new AI({ mesh: body(), baseState: 'idle', useComposedMovement: true })
+  const ai = new AI({ mesh: body(), baseState: 'idle' })
   assert.ok(ai.controller instanceof AIController)
   assert.equal(ai.input, ai.controller.intent)
   assert.equal(listeners, 0)
 })
 
-test('opt-in movement preserves keyboard, FSM and animation outcomes at 30 and 60 Hz', async t => {
-  const cases = [
-    ['walk', ['ArrowUp']], ['run', ['ArrowUp', 'ShiftLeft']],
-    ['turn', ['ArrowLeft']], ['strafe', [keys.strafeLeft.codes[0]]], ['jump', ['Space']],
-  ]
+test('keys move, turn and jump the player the same at 30 and 60 Hz', async t => {
+  const play = (sub, codes, fps) => {
+    const { player, step } = createPlayer(sub)
+    codes.forEach(code => key('keydown', code))
+    sub.after(() => codes.forEach(code => key('keyup', code)))
+    const states = new Set()
+    for (let frame = 0; frame < fps; frame++) {
+      step(1 / fps)
+      states.add(player.state)
+    }
+    return { position: player.position.clone(), rotation: player.mesh.rotation.y, states }
+  }
   for (const fps of [30, 60])
-    for (const [name, codes] of cases)
-      await t.test(`${name} at ${fps} Hz`, sub => {
-        const legacy = createPlayer(sub, false)
-        const composed = createPlayer(sub, true)
-        codes.forEach(code => key('keydown', code))
-        sub.after(() => codes.forEach(code => key('keyup', code)))
-        for (let frame = 0; frame < fps; frame++) {
-          legacy.step(1 / fps)
-          composed.step(1 / fps)
-          assert.ok(legacy.player.position.distanceTo(composed.player.position) < 1e-7)
-          assert.equal(legacy.player.state, composed.player.state)
-          assert.ok(Math.abs(legacy.player.mesh.rotation.y - composed.player.mesh.rotation.y) < 1e-7)
-        }
-        for (const action of names)
-          assert.equal(legacy.player.anim.actions[action].isRunning(), composed.player.anim.actions[action].isRunning())
-      })
+    await t.test(`at ${fps} Hz`, sub => {
+      const walk = play(sub, ['ArrowUp'], fps)
+      const run = play(sub, ['ArrowUp', 'ShiftLeft'], fps)
+      const turn = play(sub, ['ArrowLeft'], fps)
+      const strafe = play(sub, [keys.strafeLeft.codes[0]], fps)
+      const jump = play(sub, ['Space'], fps)
+
+      assert.ok(Math.abs(walk.position.z + 1.9) < .1, `walk ${walk.position.z}`)
+      assert.ok(Math.abs(run.position.z / walk.position.z - 2) < .01, 'running covers twice the distance')
+      assert.ok(run.states.has('run'))
+      assert.ok(Math.abs(turn.rotation - Math.PI / 4) < 1e-3, `turn ${turn.rotation}`)
+      assert.equal(turn.position.length(), 0)
+      assert.ok(Math.abs(strafe.position.x + 1.95) < .05, `strafe ${strafe.position.x}`)
+      assert.equal(strafe.position.z, 0)
+      assert.ok(jump.states.has('jump'))
+    })
 })
 
-test('opt-in camera and HUD read state and clean up without moving the player', t => {
+test('the camera and HUD read state and clean up without moving the player', t => {
   const camera = new PerspectiveCamera()
   const player = new Player({
-    mesh: body(), showHealthBar: true, camera, useComposedMovement: true,
+    mesh: body(), showHealthBar: true, camera,
     input: new Input({ useKeyboard: false, useJoystick: false }),
   })
   t.after(() => player.end())

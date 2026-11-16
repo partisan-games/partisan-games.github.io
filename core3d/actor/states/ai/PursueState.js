@@ -2,7 +2,6 @@ import RunState from '../RunState.js'
 import { reactions } from '/core3d/constants.js'
 
 export default class PursueState extends RunState {
-
   enter(oldState, oldAction) {
     super.enter(oldState, oldAction)
     this.input.run = this.input.up = true
@@ -13,8 +12,6 @@ export default class PursueState extends RunState {
 
     if (!actor.targetAbove) actor.lookAtTarget()
     actor.updateMove(delta, reactions.STEP_OFF)
-
-    /* TRANSIT */
 
     if (actor.distanceToTarget < actor.attackDistance)
       actor.setState('attack')

@@ -17,12 +17,10 @@ export default class PatrolState extends WalkState {
       this.distance = 0
     }
 
-    if (actor.damageAmount)
+    if (actor.pendingDamage)
       actor.lookAtTarget()
 
     actor.updateMove(delta)
-
-    /* TRANSIT */
 
     if (actor.inAir)
       actor.setState('fall')

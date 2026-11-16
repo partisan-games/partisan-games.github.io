@@ -13,16 +13,12 @@ export const sandColors = [0xc2b280, 0xF2D16B, 0xf0e68c, 0xfffacd]
 export const cratersColors = [0x5C4033, 0xA62A2A, 0xc2b280]
 export const desertPlanetColors = [0xB0E0E6, 0xCD853F, 0xEEE8AA, 0xA62A2A, 0x666666] // 0xbf8040
 
-/* HILL */
-
 export function createHill(r, height = r * .4) {
   const geometry = new THREE.ConeGeometry(r, height, 32)
   const material = new THREE.MeshPhongMaterial({ color: grassColor })
   const cone = new THREE.Mesh(geometry, material)
   return cone
 }
-
-/* GROUND */
 
 export function createGroundMaterial({ color = grassColor, file, repeat } = {}) {
   const params = { side: THREE.FrontSide }
@@ -55,8 +51,6 @@ export function createFloor({ color = 0x808080, circle = false, ...rest } = {}) 
   return createGround({ color, circle, ...rest })
 }
 
-/* SHADER MATERIALS */
-
 export async function createLava({ size = 100 } = {}) {
   const geometry = new THREE.CircleGeometry(size)
   geometry.rotateX(- Math.PI / 2)
@@ -73,8 +67,6 @@ export async function createMarble({ size = 100 } = {}) {
   mesh.rotateX(-Math.PI * 0.5)
   return mesh
 }
-
-/* NOISE HELPERS */
 
 async function cratersNoise(geometry) {
   const xZoom = 20
@@ -121,8 +113,6 @@ async function hillyNoise(geometry, segments, factorX, factorY, factorZ, aboveSe
   }
 }
 
-/* COLOR HELPERS */
-
 function randomShades(geometry, colorParam, range) { // h = .25, s = 0.5, l = 0.2
   const colors = []
   for (let i = 0, l = geometry.attributes.position.count; i < l; i++) {
@@ -148,8 +138,6 @@ export async function heightColors({ geometry, maxY, minY = 0, terrainColors = g
   }
   geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3))
 }
-
-/* TERRAIN */
 
 function createTerrainMesh({ size = 400, width = size, height = size, segments = 100 } = {}) {
   const geometry = crateGroundGeometry({ size, width, height, segments, circle: false })
@@ -184,16 +172,12 @@ export function createTerrain({ size = 400, width, height, segments = 50, colorP
 
 export const createTerrain2 = ({ size = 2000 } = {}) => createTerrain({ size, segments: 100, max: 12, min: 3, color: meadowColor, colorRange: .05 })
 
-/* CRATERS */
-
 export async function createCraters({ size = 100, segments = 100 } = {}) {
   const mesh = createTerrainMesh({ size, segments })
   await cratersNoise(mesh.geometry)
   await heightColors({ geometry: mesh.geometry, minY: -2, maxY: 2, terrainColors: cratersColors })
   return mesh
 }
-
-/* DUNES */
 
 export async function createDunes({ size = 400, segments = 100 } = {}) {
   const mesh = createTerrainMesh({ size, segments })
@@ -203,8 +187,6 @@ export async function createDunes({ size = 400, segments = 100 } = {}) {
   return mesh
 }
 
-/* HILLY TERRAIN */
-
 export const createHillyTerrain = async(
   { size = 400, segments = size / 20, factorX = size / 20, factorZ = size / 40, factorY = size / 10, aboveSea = .5, terrainColors = groundColors } = {}
 ) => {
@@ -213,8 +195,6 @@ export const createHillyTerrain = async(
   await heightColors({ geometry: mesh.geometry, maxY: factorY * 1.25, minY: -factorY * .25, terrainColors })
   return mesh
 }
-
-/* WATER */
 
 export const createWater = ({ size = 1200, segments = 20, opacity = .6, file = 'water512.jpg' } = {}) => {
   const material = new THREE.MeshLambertMaterial({
@@ -234,8 +214,6 @@ export const createWater = ({ size = 1200, segments = 20, opacity = .6, file = '
   mesh.name = 'water'
   return mesh
 }
-
-/* WAVE */
 
 function setInitialHeight(geometry) {
   const { position } = geometry.attributes
@@ -286,8 +264,6 @@ export function shake({ geometry, time }) {
   }
   position.needsUpdate = true
 }
-
-/* TERRAIN WAVE */
 
 export function createTerrainFromData({ data, width, height, widthSegments, heightSegments }) {
   const geometry = new THREE.PlaneGeometry(width, height, widthSegments, heightSegments)

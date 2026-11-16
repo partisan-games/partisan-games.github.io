@@ -43,6 +43,7 @@ for (const scene of scenes.filter(name => name !== 'lookat-cursor'))
     await page.goto(`/#${scene}`)
     await waitForScene(page)
     await startGame(page)
+    await expect.poll(() => onScene(page, scene => document.activeElement === scene.canvas), { message: 'starting focuses the game' }).toBe(true)
     await letGameRun(page)
 
     if (await onScene(page, scene => Boolean(scene.renderer.isWebGLRenderer)))
@@ -54,6 +55,7 @@ for (const scene of scenes.filter(name => name !== 'lookat-cursor'))
     expect(await gameTime(page), 'game time stands still while paused').toBe(pausedAt)
 
     await page.locator('#continue').click()
+    await expect.poll(() => onScene(page, scene => document.activeElement === scene.canvas), { message: 'continuing focuses the game' }).toBe(true)
     await expect(modal(page)).not.toContainText('Game paused')
     await expect.poll(() => gameTime(page), { message: 'game time runs again' }).toBeGreaterThan(pausedAt)
 

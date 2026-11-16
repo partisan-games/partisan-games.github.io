@@ -88,7 +88,7 @@ export function buildCastle({ rows = 10, brickInWall = 30, rowSize = 10, towerRa
   const notPlaceForGate = (x, y) =>
     (x < wallWidth * 3 / 8 || x > wallWidth * 5 / 8) || y > rows * brickSize / 2  // not in center and not to hight
 
-  const isEven = y => Math.floor(y / brickSize) % 2 == 0
+  const isEven = y => Math.floor(y / brickSize) % 2 === 0
 
   function addBlock(x, y, z) {
     const geometry = new THREE.BoxGeometry(rowSize, rowSize, rowSize)

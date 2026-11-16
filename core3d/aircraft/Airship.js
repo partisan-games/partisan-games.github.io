@@ -3,7 +3,7 @@ import Input from '/core/io/Input.js'
 import { getMesh, getGroundY } from '/core3d/helpers.js'
 import ChaseCamera from '/core3d/actor/ChaseCamera.js'
 import GameObject from '/core3d/objects/GameObject.js'
-import { FPS, frames } from '/core/konstante.js'
+import { FPS, frames } from '/core/constants.js'
 
 // turns, speed changes and settling are per frame at 60 frames per second, scaled by frames(dt)
 const yawAngle = .01
@@ -45,8 +45,6 @@ export default class Airship extends GameObject {
     }
   }
 
-  /* GETTERS */
-
   get direction() {
     if (!this.mesh) return { x: 0, y: 0, z: 0 }
     return new THREE.Vector3(0, 0, -1).applyQuaternion(this.mesh.quaternion)
@@ -68,8 +66,6 @@ export default class Airship extends GameObject {
     return this.speed > this.minSpeed
   }
 
-  /* UTILS */
-
   updateGround() {
     const { solids } = this
     if (!solids) return
@@ -82,8 +78,6 @@ export default class Airship extends GameObject {
     this.mesh.rotation.y %= Math.PI * 2
     this.mesh.rotation.z %= Math.PI * 2
   }
-
-  /* CONTROLS */
 
   up(delta) {
     if (this.isTouchingGround) this.speed = this.maxSpeed * .5
@@ -144,8 +138,6 @@ export default class Airship extends GameObject {
     this.speed *= Math.pow(slowFactor, frames(delta))
   }
 
-  /* UPDATES */
-
   handleInput(delta) {
     if (this.input.left) this.left(delta)
     if (this.input.right) this.right(delta)
@@ -187,7 +179,7 @@ export default class Airship extends GameObject {
   update(delta = 1 / FPS) {
     if (!this.mesh) return
 
-    if (this.t % 3 == 0)
+    if (this.t % 3 === 0)
       this.updateGround()
     this.normalizeAngles()
     this.handleInput(delta)

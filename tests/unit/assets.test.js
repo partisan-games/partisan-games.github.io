@@ -36,11 +36,11 @@ async function requestsOf(load) {
 }
 
 test('2D objects and backgrounds take their images from /assets/images', async() => {
-  const { default: Predmet } = await import('/core/actor/Predmet.js')
-  const { default: Pozadina } = await import('/core/objects/Pozadina.js')
+  const { default: GameObject2D } = await import('/core/actor/GameObject2D.js')
+  const { default: Background } = await import('/core/objects/Background.js')
 
-  assert.equal(pathOf(new Predmet('armies/tenk.png').slika.src), '/assets/images/armies/tenk.png')
-  assert.equal(pathOf(new Pozadina('background/nebo.jpg').slika.src), '/assets/images/background/nebo.jpg')
+  assert.equal(pathOf(new GameObject2D('armies/tenk.png').image.src), '/assets/images/armies/tenk.png')
+  assert.equal(pathOf(new Background('background/nebo.jpg').image.src), '/assets/images/background/nebo.jpg')
 })
 
 test('model loaders take models from /assets/models and textures from /assets/images/textures', async() => {
