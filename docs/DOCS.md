@@ -16,7 +16,7 @@ Zajednička osnova za razvoj 2D i 3D igara, sa istorijski zasnovanim sadržajem.
 | Provere | [TESTING](TESTING.md) | Komande, pokrivenost i ograničenja provera. |
 | Posebna tehnika prikaza | [Animacija pozadine](ANIMACIJA-POZADINE.md) | Konkretno rešenje, neuspešni pristupi i preventivne provere. |
 | Agentovi poslovi | [TODO](TODO.md) | Agentove razvojne stavke, pregledi i potrebne popravke. |
-| Razvoj igre | Lokalni planovi igara | Koraci izrade i statusi; nije trajna baza znanja. |
+| Razvoj igre | Planovi igara (`docs/PLAN-*.md`) | Koraci izrade i statusi; nije trajna baza znanja. Planovi su u gitu, nikad u `.git/info/exclude`. |
 
 Pokretanje projekta opisuje [README](../README.md). Istorijske slike i poreklo čuvaju se u [references/ww2-yu](references/ww2-yu/), a merni artefakti se povezuju iz tehničkog opisa.
 
