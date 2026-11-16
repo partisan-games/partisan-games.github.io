@@ -55,7 +55,7 @@ export default class Projectile extends GameObject2D {
     if (!this.shown) return
 
     if (this.gravity) {
-      this.addForce(this.gravity * dt, Math.PI / 2)
+      this.dy += this.gravity * dt // straight down: cos(π / 2) is not exactly 0 and would push it sideways
       this.updateAngle()
     }
     super.update(dt)
