@@ -36,14 +36,18 @@ export default class Posada extends Sprite {
     this.play('idle')
     this.animationElapsed = 0
     this.x = this.pocetniX
-    this.y = this.pocetniY
+    this.standAt(0)
+  }
+
+  standAt(depth) {
+    this.y = this.pocetniY + depth
   }
 
   update(dt) {
-    if (this.animation && this.animationFinished(dt)) {
+    if (this.animation && this.animationFinished(dt))
       if (this.animation.name === 'fire') this.play('recoil')
       else if (this.animation.name === 'recoil') this.play('idle')
-    }
+
     super.update(dt)
   }
 

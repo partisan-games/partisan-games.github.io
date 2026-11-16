@@ -11,7 +11,14 @@ export default class Zastavnik extends Sprite {
     })
     this.direction = italian ? -1 : 1
     this.poleX = x + 19 * this.direction
-    this.children.push(new Zastava({ x: this.poleX, y: y - 105, italian, getTime: flagTime }))
+    this.baseY = y
+    this.flag = new Zastava({ x: this.poleX, y: y - 105, italian, getTime: flagTime })
+    this.children.push(this.flag)
+  }
+
+  standAt(depth) {
+    this.y = this.baseY + depth
+    this.flag.y = this.baseY - 105 + depth
   }
 
   render() {

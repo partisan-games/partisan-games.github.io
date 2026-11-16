@@ -46,6 +46,8 @@ Ni planirana mogućnost uključivanja/isključivanja opcije ne odobrava checkbox
 
 Art i zvukovi su obavezni delovi svake igre. Uključiti ih u početni plan, bez čekanja da ih vlasnik zatraži: grafiku i animacije, zvukove radnji i ambijenta, usklađivanje sa događajima i kontrolu jačine/utišavanja. Pre završetka proveriti oba; funkcionalan gameplay sam po sebi nije završena igra.
 
+Placeholder nije art, ni za pregled: igre su realistične ratne, pa nacrtani oblici (elipse, pravougaonici) deluju crtano. Pre crtanja u kodu potražiti postojeći art iste stvari u `assets/images/` i drugim igrama i iskoristiti ga; krateri u Ustanku su spljoštena slika kratera iz Ranjenika. Ako arta nema, reći to i planirati pravi art.
+
 Pozadina nikada ne sme biti statična: svaki ambijent ima vidljivo kretanje. Dim, vatra i slični pokretni elementi crtaju se kao stvarna animacija, odvojeno od osnovne slike; statično naslikani efekti nisu zamena. Animacija miruje u pauzi i nastavlja se posle ishoda. Postupak i provere su u [Animaciji pozadine](ANIMACIJA-POZADINE.md).
 
 Konačni vojni art u `assets/images/armies/game-ready` organizovati po vrsti opreme, ne po nivou ili igri. Isti resurs koriste svi nivoi kojima je potreban, bez kopiranja u zasebne foldere nivoa.

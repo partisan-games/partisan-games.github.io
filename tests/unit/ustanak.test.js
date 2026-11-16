@@ -5,6 +5,7 @@ import GameSession from '/core/runtime/GameSession.js'
 import Turns from '/scenes/ustanak/Turns.js'
 import CannonAI from '/scenes/ustanak/CannonAI.js'
 import Wind from '/scenes/ustanak/Wind.js'
+import Terrain from '/scenes/ustanak/Terrain.js'
 import WindEffects from '/scenes/ustanak/WindEffects.js'
 import VillageFire from '/scenes/ustanak/VillageFire.js'
 import PozadinaGrada from '/scenes/tenkici/PozadinaGrada.js'
@@ -186,7 +187,7 @@ test('opposing cannons launch at mirrored positions and velocities, against the 
   assert.ok(Math.abs(a.dy - b.dy) < 1e-9)
   assert.ok(a.dy < 0 && b.dy < 0)
   assert.equal(left.launch(), false, 'one cannon cannot overlap its shots')
-  for (const projectile of [...left.projektili, ...right.projektili]) assert.equal(projectile.groundLevel, a.groundLevel)
+  for (const projectile of [...left.projektili, ...right.projektili]) assert.equal(projectile.ground.floorY, a.ground.floorY)
 })
 
 test('charging depends on elapsed time, has a maximum and uses the same aiming direction on either side', t => {
@@ -224,7 +225,7 @@ test('an impact keeps the turn until delayed damage resolves', () => {
 test('a high artillery arc keeps moving above the screen and a ground miss settles its explosion', () => {
   const session = new GameSession()
   session.start()
-  const shell = new Djule({ clock: session.clock, groundLevel: 200 })
+  const shell = new Djule({ clock: session.clock, ground: new Terrain({ floorY: 200 }) })
   shell.launch({ x: 100, y: -30 }, -Math.PI / 2, 10)
   shell.update(.1)
   assert.ok(shell.y < -30)
@@ -235,7 +236,7 @@ test('a high artillery arc keeps moving above the screen and a ground miss settl
   shell.update(.1)
   shell.resolveFlight([])
   assert.ok(shell.timerId)
-  assert.equal(shell.y, 196, 'it explodes where it reached the ground, not below it')
+  assert.ok(Math.abs(shell.y - 196) < 1e-3, 'it explodes where it reached the ground, not below it')
   session.update(.16)
   assert.equal(shell.visible, false)
   assert.equal(shell.timerId, null)

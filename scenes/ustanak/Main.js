@@ -14,8 +14,10 @@ import Battlefield from './Battlefield.js'
 import Airplane from '/core/objects/Airplane.js'
 import Wind from './Wind.js'
 import WindEffects from './WindEffects.js'
+import Terrain from './Terrain.js'
 
 const groundLevel = canvas2d.height * .75
+const cannonY = groundLevel - 32
 
 const customStartScreen = ({ container }) => /* html */`
   <div class="central-screen ${container}">
@@ -44,12 +46,13 @@ export default class UstanakScene extends Scene2D {
     this.instructionsShown = false
     this.wind = new Wind()
     this.windEffects = new WindEffects(this.wind)
-    this.battlefield = new Battlefield({ canvas: this.canvas, groundY: groundLevel, wind: this.wind })
+    this.terrain = new Terrain({ floorY: Top.floorY(cannonY) })
+    this.battlefield = new Battlefield({ canvas: this.canvas, groundY: groundLevel, wind: this.wind, terrain: this.terrain })
     this.bunker = new Bunker({ x: canvas2d.width * .75, alive: false, smoky: true, z: 1 })
     this.bunker.onload = () => this.bunker.placeOnGround(groundLevel + 20)
     const flagTime = () => this.battlefield.time
     const zastavnik = new Zastavnik(40, groundLevel + 1, { flagTime })
-    this.top = new Top({ x: 230, y: groundLevel - 32, clock: this.session.clock, wind: this.wind,
+    this.top = new Top({ x: 230, y: cannonY, clock: this.session.clock, wind: this.wind, terrain: this.terrain,
       canFire: () => this.canShoot(0), onFire: () => {
         this.turns.fire(0)
         this.shotTargetHealth = this.opponent.energija
@@ -58,8 +61,8 @@ export default class UstanakScene extends Scene2D {
     this.posada = new Posada(110, groundLevel + 8)
     this.strelac = new Strelac(300, groundLevel + 8)
     this.opponent = new Top({
-      x: canvas2d.width - 230, y: groundLevel - 32, direction: -1,
-      clock: this.session.clock, wind: this.wind,
+      x: canvas2d.width - 230, y: cannonY, direction: -1,
+      clock: this.session.clock, wind: this.wind, terrain: this.terrain,
       canFire: () => this.canShoot(1), onFire: () => {
         this.turns.fire(1)
         this.shotTargetHealth = this.top.energija
@@ -74,6 +77,7 @@ export default class UstanakScene extends Scene2D {
     const avion = new Airplane({ src: 'armies/talijani/avioni/fiat-cr42.png', y: canvas2d.height * .4, scale: .85, speed: -240 })
     const avion2 = new Airplane({ src: 'armies/talijani/avioni/imam-ro57.png', y: canvas2d.height * .2, scale: 0.66, speed: -320 })
     this.add(avion, avion2, this.opponent, this.top, this.strelac, this.posada, zastavnik, this.enemyCrew, enemyFlag)
+    this.terrain.support(this.top, this.opponent, this.posada, this.enemyCrew, this.strelac, zastavnik, enemyFlag)
     this.setRoundScenery()
   }
 
@@ -228,6 +232,7 @@ export default class UstanakScene extends Scene2D {
     keyboard.reset()
     this.round++
     this.wind.nextRound()
+    this.terrain.reset()
     this.setRoundScenery()
     this.roundWinner = null
     this.turns = new Turns()

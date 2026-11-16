@@ -8,6 +8,11 @@ export default class Strelac extends Sprite {
       defaultAnimation: 'idle', animationTime: 1.4,
     })
     this.shotElapsed = 0
+    this.baseY = y
+  }
+
+  standAt(depth) {
+    this.y = this.baseY + depth
   }
 
   resetRound() {

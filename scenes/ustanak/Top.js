@@ -5,6 +5,7 @@ import Health from '/core/gameplay/Health.js'
 import Collider from '/core/collision/Collider.js'
 import { box, circle, fromImage } from '/core/collision/shapes.js'
 import Djule from './Djule.js'
+import Terrain from './Terrain.js'
 
 const scale = .75
 const minElevation = Math.PI * 2 - 6.2
@@ -27,19 +28,30 @@ const carriageShapes = fromImage(carriageImage, scale, [
 ])
 // Shells land where the wheels and the crews stand, below the far edge of the field.
 const floorBelowCarriage = (wheel.y + wheel.r - carriageImage.height / 2) * scale
+const carriageOffset = { x: -40, y: 32 } // from the barrel, for a cannon facing right
 
 export default class Top extends GameObject2D {
-  constructor({ x, y, clock, wind, targets = [], direction = 1, canFire = () => true, onFire = () => {} } = {}) {
+  /** The ground line under the wheel of a cannon whose barrel is at y. */
+  static floorY(y) {
+    return y + carriageOffset.y + floorBelowCarriage
+  }
+
+  constructor({
+    x, y, clock, wind, terrain = new Terrain({ floorY: Top.floorY(y) }), targets = [], direction = 1,
+    canFire = () => true, onFire = () => {},
+  } = {}) {
     super('armies/game-ready/artiljerija/top-cev.gif', { x, y, scale, flammable: true })
     this.direction = direction
     this.flipX = direction
-    this.postolje = new GameObject2D('armies/game-ready/artiljerija/top-postolje.gif', { x: x - 40 * direction, y: y + 32, scale, scaleX: direction })
+    this.postolje = new GameObject2D('armies/game-ready/artiljerija/top-postolje.gif', {
+      x: x + carriageOffset.x * direction, y: y + carriageOffset.y, scale, scaleX: direction,
+    })
     this.pocetniX = x
     this.pocetniY = y
     this.elevation = .2
     this.sila = this.minSila = 300
     this.maxForce = this.minSila * 3
-    this.projektili = Array.from({ length: 5 }, () => new Djule({ clock, wind, groundLevel: this.postolje.y + floorBelowCarriage }))
+    this.projektili = Array.from({ length: 5 }, () => new Djule({ clock, wind, ground: terrain }))
     this.children = [...this.projektili, this.postolje]
     this.collider = new Collider([
       { body: this, shapes: barrelShapes },
@@ -58,11 +70,22 @@ export default class Top extends GameObject2D {
   resetRound() {
     this.projektili.forEach(projectile => projectile.reset())
     this.health.reset()
-    this.setPosition(this.pocetniX, this.pocetniY)
+    this.x = this.pocetniX
+    this.standAt(0)
     this.stop()
     this.elevation = .2
     this.sila = this.minSila
     this.flame?.clear()
+  }
+
+  /** Where the wheel stands: a crater there lets the whole cannon sink. */
+  get footX() {
+    return this.postolje.x + (wheel.x - carriageImage.width / 2) * scale * this.direction
+  }
+
+  standAt(depth) {
+    this.y = this.pocetniY + depth
+    this.postolje.y = this.pocetniY + carriageOffset.y + depth
   }
 
   get alive() {

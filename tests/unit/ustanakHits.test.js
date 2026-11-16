@@ -49,7 +49,7 @@ test('shells land on the line under the wheels, where the cannons stand, so a lo
   const { postolje } = target
   const wheelBottom = postolje.y + (64.5 + 31.5 - 99 / 2) * .75
   const { shooter, shell } = shellAt({ x: postolje.x + 100, y: wheelBottom - 20 }, { x: -1000, y: 0 }, { target, session })
-  assert.equal(shell.groundLevel, wheelBottom)
+  assert.equal(shell.ground.floorY, wheelBottom)
   shell.update(.1)
   shooter.resolveShots()
   session.update(.2)
@@ -105,11 +105,11 @@ test('of the ground and the cannon, whichever the shell reaches first in a step 
   session.start()
   const target = cannon({ session })
   // Falling short: the way of this step meets the ground before the cannon.
-  const floor = target.projektili[0].groundLevel
+  const floor = target.projektili[0].ground.floorY
   const short = shellAt({ x: 600, y: floor - 20 }, { x: -2000, y: 400 }, { target, session })
   short.shell.update(.1)
   short.shooter.resolveShots()
-  assert.equal(short.shell.y, short.shell.groundLevel - 4, 'it explodes on the ground')
+  assert.ok(Math.abs(short.shell.y - (floor - 4)) < 1e-3, 'it explodes on the ground')
   session.update(.2)
   assert.equal(target.energija, 100)
 
@@ -117,7 +117,7 @@ test('of the ground and the cannon, whichever the shell reaches first in a step 
   const over = shellAt({ x: 420, y: groundY - 30 }, { x: -2000, y: 400 }, { target, session })
   over.shell.update(.1)
   over.shooter.resolveShots()
-  assert.ok(over.shell.y < over.shell.groundLevel - 4, 'it stops on the cannon, above the ground')
+  assert.ok(over.shell.y < floor - 4, 'it stops on the cannon, above the ground')
   session.update(.2)
   assert.ok(target.energija < 100)
   session.dispose()
