@@ -18,6 +18,10 @@ Za svaku igru dodati kratak odeljak tek kada je kontekst dogovoren. Istorijske �
 - **Likovni ton:** protivnici su odrasli, prekaljeni vojnici sa ozbiljnim, pretećim izrazima i uverljivim proporcijama u piksel stilu; bez dečjih, simpatičnih lica ili karikaturalno velikih očiju.
 - **Za razradu:** konkretne lokacije, datumi, jedinice, borbene uloge, trajanje etapa i prelaz između njih. [Istorijsko polazište](ISTORIJA.md#neretva--polazište-za-izbor-protivnika) odvaja potvrđeno učešće od tek zamišljenog prizora. Italijani i ustaše ostaju mogućnost za kasnije, van ove dve etape.
 
+## Vis
+
+Vertikalna arkadna pucačina o partizanskom letu do Visa, sa sopstvenim izgledom i sadržajem. Zamišljeni tok su tri etape: posle prve dve sletanje na aerodrom, posle treće na Vis; ovo opisuje koncept, ne stanje implementacije.
+
 ## Čamac
 
 - **Žanr:** arkadna plovidba sa pogledom odozgo i horizontalnim praćenjem plovila.

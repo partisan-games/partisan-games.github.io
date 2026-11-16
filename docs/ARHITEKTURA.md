@@ -65,6 +65,8 @@ Najpre pronaći postojeću odgovornost i njene korisnike, pa odrediti najmanju p
 
 Zavisnosti prosleđivati usko, npr. sat ili funkciju stvaranja projektila. Parametar balansa ima jedno mesto; nije istorijski podatak. Dimenzije nivoa pripadaju instanci scene, a ponašanje pri promeni prozora usred partije mora biti izričito određeno.
 
+Ako dizajn propisuje broj pogodaka do obaranja, kao u Visu, koristiti brojač pogodaka: nasumična šteta metka inače menja taj broj. Nagradu za formaciju vezati za obaranje svih članova, ne za njihovo nestajanje sa ekrana.
+
 Pri kopiranju ponašanja getter nije obična vrednost: Object.assign ne prenosi njegov descriptor. Prednost dati eksplicitnim saradnicima. Vremenske rokove i animacije proveravati i na granici intervala, pri različitim frekvencijama i posle zastoja; poređenje ishoda je važnije od broja poziva metode. Kod brzih projektila proveravati i prostor između uzastopnih položaja i birati prvi pogodak: sam presek na kraju frejma može preskočiti celu metu ili zaklon.
 
 AnimationMixer javlja kraj i za akciju koja se gasi: rukovalac mora proveriti kojoj akciji događaj pripada. Početnu pozu primeniti pre prvog crtanja; inače početni ekran može prikazati T-pozu. [Testovi animacija](../tests/unit/actor.test.js) čuvaju te ugovore.
