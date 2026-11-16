@@ -49,6 +49,7 @@ There are no screenshot or FPS tests on purpose: screenshots would catch only vi
 
 ### Pitfalls
 
+- In `bunker` and `ustanak`, keep `super.update(dt, t)` before the result guard: returning before it freezes fire particles and the flag after victory. `victory.spec.js` checks that destroyed targets burn, the canvas keeps changing and the `ustanak` flag animation advances while the victory stays visible.
 - 3D renders in software (SwiftShader); with four games at once one frame can take seconds. Hold a key until its effect shows instead of pressing it, and wait with generous timeouts.
 - Random play can end a game (a mine, a zombie). Do not play randomly before a step that needs a running game.
 - Headless Escape does not release a locked mouse; first-person games pause on that release, so the flow test calls `document.exitPointerLock()`.

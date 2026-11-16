@@ -15,6 +15,8 @@ Zajednički engine za 2D i 3D igre. Ovde čuvamo odgovornosti, razloge i bitna o
 
 Zajednička pravila sastavljaju se kroz male saradnike, poput zdravlja i oružja. Sprite i mesh imaju različite adaptere; ne zahtevaju dve kopije iste borbene logike. Čista logika i runtime ne zavise od konkretne scene ili prikaza; tu granicu štiti [lint](../eslint.config.mjs).
 
+Uporedni primeri nasleđivanja, mixina i kompozicije su u [vodiču](COMPOSITION.md).
+
 ## Stanje, vreme i život objekta
 
 Kod efekta vezanog za pokretni objekat razlikovati kretanje izvora od sopstvenog kretanja čestica. Pomeraj izvora preneti na postojeće čestice pre stvaranja novih; ne ispravljati kosi trag sabijanjem njihovih položaja ili ukidanjem brzina, jer to menja izgled efekta. Regresiona provera poredi efekat sa izvornim pri mirovanju, pa iste relativne putanje pri pomeranju izvora.
@@ -28,6 +30,10 @@ Jedno stanje ima jednog vlasnika. Stara imena mogu biti pristupnici istom stanju
 Smrt borbene mete ne uklanja automatski njenu fizičku prepreku. Kod tonjenja posebno odrediti kada olupina prestaje da blokira plovidbu, a preostali podvodni prikaz staviti iza plovila; brzi sudar proveravati duž pomeranja, ne samo preklapanjem na kraju frejma. Provere obuhvataju rotirane trupove, izlazak iz početnog preklapanja, pauzu i brisanje stanja tonjenja pri ponovnoj upotrebi.
 
 [Sesija](../core/runtime/GameSession.js) razdvaja gameplay vreme i vreme prikaza: posle ishoda mogu trajati završni efekti, ali ne nova borba. Petlja sama ne zaustavlja sva pravila igre; njihovi vlasnici moraju poštovati stanje sesije. Odložene akcije i ostali resursi vezuju se za vlasnikov životni ciklus.
+
+Za ponašanje pre AI refaktora referenca je lokalna grana `backup/pre-ai-changes` (`69281020`). Animacije posle ishoda čuvati tamo gde su ranije radile. U bunkeru i ustanku provera ishoda pre ažuriranja objekata zamrzla je vatru i zastavu; provera sada preskače pravila scene tek posle ažuriranja objekata. [Regresioni test](../tests/smoke/victory.spec.js) proverava i nastavak animacija i očuvanu pobedu.
+
+Spremnost oružja nije dozvola za akciju: zaustavljen sat ne poništava već završeno punjenje. Pozivalac proverava stanje partije. Pri migraciji borbe sačuvati i reakcije na pogodak: direktna promena zdravlja ne zamenjuje tok bola/smrti niti automatski čuva redosled odložene štete.
 
 [Scena](../core/Scena.js) ima rekurzivni i zaseban opt-in fiksni put ažuriranja. Isti objekat ne uključivati u oba puta niti ga ručno ažurirati ako je već registrovan. Grafički roditelj, vlasnik simulacije i vlasnik gašenja nisu automatski ista stvar. Jednokratna komanda igrača ne sme se ponoviti kroz više simulacionih podkoraka.
 
@@ -45,6 +51,8 @@ Klon modela može deliti materijale, geometriju i klipove sa drugim instancama. 
 
 JS garbage collector ne dokazuje oslobađanje Ammo memorije. Native vlasnik oslobađa svoje alokacije, ne pozajmljene reference iz gettera, i prethodno ih odvaja od sveta. [Heightfield podaci](../core3d/physics/index.js) ostaju poznato ograničenje lokalnog build-a: oslobađanje shape-a ne oslobađa njegov zaseban heap buffer. Rešenje tog ograničenja prati plan.
 
+Lokalni Ammo nema podržan destruktor za `btVehicleTuning`; pokušaj njegovog oslobađanja rušio je izlazak i ponovno igranje. [NativeAllocations](../core3d/physics/NativeAllocations.js) zato odbija vlasništvo nad objektima bez destruktora.
+
 ## Obrasci pri nadogradnji
 
 Kod sveta većeg od ekrana razdvojiti položaj u svetu, kameru i položaj na ekranu. Vidljivost i ograničenja ne smeju odbacivati objekat samo zato što mu je svetski položaj van dimenzija platna. Ako scene dele renderer, lokalno podešavanje kamere vratiti posle crtanja, uključujući prekid greškom; povratak u drugi nivo ne sme naslediti tuđu kameru. Proceduralni teren vezati za svetsku koordinatu, da pri povratku ostane isti bez neograničene istorije pređenog puta.
@@ -56,5 +64,7 @@ Najpre pronaći postojeću odgovornost i njene korisnike, pa odrediti najmanju p
 Zavisnosti prosleđivati usko, npr. sat ili funkciju stvaranja projektila. Parametar balansa ima jedno mesto; nije istorijski podatak. Dimenzije nivoa pripadaju instanci scene, a ponašanje pri promeni prozora usred partije mora biti izričito određeno.
 
 Pri kopiranju ponašanja getter nije obična vrednost: Object.assign ne prenosi njegov descriptor. Prednost dati eksplicitnim saradnicima. Vremenske rokove i animacije proveravati i na granici intervala, pri različitim frekvencijama i posle zastoja; poređenje ishoda je važnije od broja poziva metode. Kod brzih projektila proveravati i prostor između uzastopnih položaja i birati prvi pogodak: sam presek na kraju frejma može preskočiti celu metu ili zaklon.
+
+AnimationMixer javlja kraj i za akciju koja se gasi: rukovalac mora proveriti kojoj akciji događaj pripada. Početnu pozu primeniti pre prvog crtanja; inače početni ekran može prikazati T-pozu. [Testovi animacija](../tests/unit/actor.test.js) čuvaju te ugovore.
 
 Dokaz birati prema promenjenom ugovoru. Smoke test ne dokazuje oslobađanje native memorije, unit test ne dokazuje osećaj upravljanja, a raniji prolazak ne dokazuje današnju radnu kopiju. Način provera je u [TESTING](TESTING.md); pravila dokumentacije i statusa u [DOCS](DOCS.md).

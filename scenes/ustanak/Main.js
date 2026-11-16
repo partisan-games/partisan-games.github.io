@@ -72,8 +72,8 @@ export default class extends Scena2D {
   }
 
   update(dt, t) {
-    if (this.ui.outro) return
     super.update(dt, t)
+    if (this.ui.outro) return
     if (this.top.dead) this.defeat('The partisan artillery has been destroyed.')
     if (this.tenk.dead) this.victory('The Italian tank has been destroyed!')
   }
