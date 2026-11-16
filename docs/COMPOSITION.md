@@ -146,18 +146,6 @@ this.collider = new Collider([
 
 Granata se sastoji od putanje i borbenog pravila: `firstContact` kaže šta je prvo na putu koraka, a `Shell.strike` pravi eksploziju i odloženu štetu. Collider ne zna za zdravlje, timove ni štetu, pa isti oblici služe i drugoj igri sa drugim pravilima.
 
-## A gde su tu mixini
-
-Mixin kopira ili dodaje metode postojećoj klasi. Kompozicija čuva saradnika u posebnom polju i poziva njegove metode.
-
-| Pristup | Gde se nalazi ponašanje | Kako ga tenk koristi |
-|---|---|---|
-| Nasleđivanje | U roditeljskoj klasi | Nasleđenom metodom, npr. `this.pogodak(30)` |
-| Mixin | Metode su dodate klasi tenka | Takođe preko metoda na samom tenku |
-| Kompozicija | U objektu `this.health` | Pozivom `this.health.damage(30)` |
-
-Zato premeštanje metoda u drugi fajl i njihovo kopiranje na prototip nije samo po sebi prelazak na kompoziciju. Bitno je da deo ima jasno stanje i dogovorene metode, a vlasnik ga povezuje sa ostatkom objekta.
-
 ## Kada zadržati nasleđivanje
 
 Nasleđivanje odgovara kada podklasa može da se koristi na mestu roditelja i deli njegov osnovni ugovor. U ovom projektu `TenkLevo` i `TenkDesno` nasleđuju `Tenk`; oba ostaju tenkovi, sa istim osnovnim operacijama. Konkretna igra nasleđuje `Scene2D` ili `Scene3D` da bi radila kroz postojeći životni ciklus scene.
