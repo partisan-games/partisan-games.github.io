@@ -9,15 +9,31 @@ function whenReaches(from, to, limit) {
   return to >= limit ? (limit - from) / (to - from) : null
 }
 
+/** When a shell moving from start to end first touches the ground, which may have craters, or null. */
+function landingTime(start, end, radius, ground) {
+  const below = time => start.y + (end.y - start.y) * time + radius >= ground.heightAt(start.x + (end.x - start.x) * time)
+  if (below(0)) return 0
+  if (!below(1)) return null
+  let above = 0
+  let under = 1
+  for (let i = 0; i < 30; i++) {
+    const middle = (above + under) / 2
+    if (below(middle)) under = middle
+    else above = middle
+  }
+  return under
+}
+
 const earliest = (...times) => times.reduce((first, time) => time !== null && (first === null || time < first) ? time : first, null)
 
 export default class Djule extends Shell {
-  constructor({ r = 4, wind, ...rest } = {}) {
+  constructor({ r = 4, wind, ground, ...rest } = {}) {
     super({ src: null, ...rest })
     this.r = r
     this.width = this.height = r * 2
     this.damage = randomInRange(20, 30)
     this.wind = wind
+    this.ground = ground
   }
 
   get shown() {
@@ -40,7 +56,7 @@ export default class Djule extends Shell {
     if (!this.visible || this.timerId || !this.path) return
     const { start, end } = this.path
     const hit = firstContact({ start, end, radius: this.r }, targets)
-    const landing = whenReaches(start.y + this.r, end.y + this.r, this.groundLevel)
+    const landing = landingTime(start, end, this.r, this.ground)
     const exit = earliest(
       whenReaches(-start.x - this.r, -end.x - this.r, 0),
       whenReaches(start.x - this.r, end.x - this.r, canvas2d.width),
@@ -61,6 +77,7 @@ export default class Djule extends Shell {
   land() {
     this.stop()
     this.explode()
+    this.ground.blast(this.x)
     this.timerId = this.clock.after(.15, () => this.reset())
   }
 
