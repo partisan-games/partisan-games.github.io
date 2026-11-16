@@ -11,6 +11,12 @@ Za svaku igru dodati kratak odeljak tek kada je kontekst dogovoren. Istorijske �
 - **Zamišljeni tok:** nekoliko povezanih etapa, sa dolaskom tenka do Trsta na kraju.
 - **Za razradu:** broj etapa, polazna tačka, trasa, pojedinačni događaji, ciljevi i radnja. Sastav protivnika i opreme vezati za provereni kontekst svake etape.
 
+## Neretva
+
+- **Žanr i cilj:** stacionarna arkadna pucačina sa nišanjenjem mišem i odbranom ranjenika; ekran se ne pomera. Bez ograničenja municije i punjenja.
+- **Dogovoreni redosled:** prvi ekran protiv Nemaca, drugi protiv četnika; njihove pozadine vezati za izabrani položaj i vreme.
+- **Za razradu:** konkretne lokacije, datumi, jedinice, borbene uloge, trajanje etapa i prelaz između njih. [Istorijsko polazište](ISTORIJA.md#neretva--polazište-za-izbor-protivnika) odvaja potvrđeno učešće od tek zamišljenog prizora. Italijani i ustaše ostaju mogućnost za kasnije, van ove dve etape.
+
 ## Čamac
 
 - **Žanr:** arkadna plovidba sa pogledom odozgo i horizontalnim praćenjem plovila.

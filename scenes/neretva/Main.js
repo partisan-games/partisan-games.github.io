@@ -9,7 +9,7 @@ const BLIZI_Y = window.innerHeight * 0.5
 
 export default class extends Scena2D {
   constructor() {
-    super({ intro: 'Hold the Germans at all costs until the wounded are safe.', showControls: false })
+    super({ intro: 'Hold the enemy at all costs until the wounded are safe.', showControls: false })
   }
 
   init() {
@@ -32,7 +32,7 @@ export default class extends Scena2D {
     const polaRazmaka = razmak / 2
     return Array.from({ length: n }, (_, i) => {
       const x = i * razmak + polaRazmaka
-      const svabo = new Svabo(params)
+      const svabo = new Svabo({ ...params, faction: i % 2 ? 'cetnici' : 'nemci', variant: Math.floor(i / 2) % 3 })
       svabo.postavi(x, y)
       return svabo
     })

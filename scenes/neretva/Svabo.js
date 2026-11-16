@@ -1,14 +1,22 @@
 import Predmet from '/core/actor/Predmet.js'
 import mish from '/core/io/mish.js'
 import { createSound, randomVolume } from '/core/io/sound.js'
+import { ctx } from '/core/io/platno.js'
 
 const rafal = createSound('rafal.mp3')
-const slikaPuca = '/assets/images/armies/nemac-rov-puca.gif'
+const SHOT_INTERVAL = .18
+const FALL_TIME = 1.2
 
 export default class Svabo extends Predmet {
 
-  constructor({ skalar, ucestalost = 0.03, callback }) {
+  constructor({ skalar, ucestalost = 0.03, callback, faction = 'nemci', variant = 0 }) {
     super ('armies/rov-prazan.gif', { skalar })
+    this.skalar = skalar
+    this.variant = variant
+    this.idlePhase = Math.random() * Math.PI * 2
+    this.art = new Predmet(`armies/game-ready/vojnici/${faction}-spreda.png`,
+      { vidljiv: false, sirina: 64, visina: 72 })
+    this.predmeti.push(this.art)
     this.ucestalost = ucestalost
     this.callback = callback
     rafal.volume = randomVolume()
@@ -19,19 +27,22 @@ export default class Svabo extends Predmet {
     this.stoji = false
     this.aimElapsed = 0
     this.vremeNisanjenja = 2.5
-    this.slikaGore = 'armies/nemac-rov.gif'
-    this.slikaDole = 'armies/rov-prazan.gif'
+    this.firing = false
+    this.fallenFor = 0
+    this.animationTime = 0
+    this.fireElapsed = 0
   }
 
   povremenoUstaje(dt) {
-    if (!this.stoji && Math.random() < this.ucestalost * dt)
+    if (!this.stoji && !this.fallenFor && Math.random() < this.ucestalost * dt)
       this.ustani()
   }
 
   stav(bul) {
     this.stoji = bul
-    const slika = bul ? this.slikaGore : this.slikaDole
-    this.postaviSliku(slika)
+    this.firing = false
+    this.fallenFor = bul ? 0 : FALL_TIME
+    this.fireElapsed = 0
     if (bul) this.aimElapsed = 0
   }
 
@@ -44,8 +55,10 @@ export default class Svabo extends Predmet {
   }
 
   puca() {
-    // setting the same src again reloads the image on every frame
-    if (!this.slika.src.endsWith(slikaPuca)) this.slika.src = slikaPuca
+    if (!this.firing) {
+      this.firing = true
+      this.fireElapsed = 0
+    }
   }
 
   jePogodjen() {
@@ -63,6 +76,9 @@ export default class Svabo extends Predmet {
 
   update(dt) {
     super.update(dt)
+    this.animationTime += dt
+    if (this.firing) this.fireElapsed += dt
+    this.fallenFor = Math.max(0, this.fallenFor - dt)
     this.povremenoUstaje(dt)
     if (this.stoji) this.aimElapsed += dt
     if (this.jeSpreman()) {
@@ -70,5 +86,48 @@ export default class Svabo extends Predmet {
       rafal.play()
       this.callback(10, dt)
     }
+  }
+
+  renderFigure(row, { x = 0, y = 0, angle = 0, alpha = 1 } = {}) {
+    const scale = this.skalar
+    ctx.save()
+    ctx.globalAlpha *= alpha
+    ctx.translate(this.x + x * scale, this.y + y * scale)
+    ctx.rotate(angle)
+    ctx.drawImage(this.art.slika, this.variant * 64, row * 72, 64, 72,
+      -32 * scale, -60 * scale, 64 * scale, 72 * scale)
+    ctx.restore()
+  }
+
+  render() {
+    if (!this.prikazan || !this.slika.naturalWidth) return
+    ctx.save()
+    ctx.imageSmoothingEnabled = false
+    if ((this.stoji || this.fallenFor) && this.art.slika.naturalWidth) {
+      if (!this.stoji) {
+        const elapsed = FALL_TIME - this.fallenFor
+        const collapse = Math.min(1, elapsed / .35)
+        const settle = Math.min(1, Math.max(0, (elapsed - .35) / .85))
+        const direction = this.variant % 2 ? 1 : -1
+        if (collapse < 1) this.renderFigure(1, {
+          x: direction * collapse * 3, y: collapse * 6,
+          angle: direction * collapse * .2, alpha: 1 - collapse,
+        })
+        this.renderFigure(3, { x: direction * collapse * 3, y: collapse * 6 + settle * 16,
+          angle: direction * settle * .08, alpha: collapse })
+      } else if (this.firing) {
+        const phase = this.fireElapsed % SHOT_INTERVAL
+        const recoil = Math.max(0, 1 - phase / .09)
+        this.renderFigure(phase < .055 ? 2 : 1, { y: recoil * 1.8, angle: recoil * .012 })
+      } else {
+        const breath = Math.sin(this.animationTime * 2.7 + this.idlePhase)
+        const rise = Math.min(1, this.aimElapsed / .28)
+        if (rise < 1) this.renderFigure(0, { alpha: 1 - rise })
+        this.renderFigure(1, { x: Math.sin(this.animationTime * 1.3 + this.idlePhase) * .45,
+          y: (1 - rise) * 10 + breath * .65, angle: breath * .006, alpha: rise })
+      }
+    }
+    ctx.drawImage(this.slika, this.x - this.sirina / 2, this.y - this.visina / 2, this.sirina, this.visina)
+    ctx.restore()
   }
 }

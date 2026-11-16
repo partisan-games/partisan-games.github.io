@@ -28,6 +28,18 @@ Brzina, šteta, učestalost pojavljivanja i druga podešavanja igre vode se kao 
 
 Polazište za dalju istorijsku razradu je nastupanje Prve tenkovske brigade u sastavu Četvrte armije prema Trstu 1945. godine ([Vojno delo, Oklopne jedinice, str. 143](https://www.vojnodelo.mod.gov.rs/multimedia/file/vojna_biblioteka/vbnp-32-1962-1_deo-1-230.pdf)). To ne potvrđuje postojeći sastav protivnika i opreme za svaku borbu; svaki izabrani deo trase proveriti prema pravilima iznad. Dogovoreni okvir igre čuva [kontekst igre](IGRE.md#to-trieste).
 
+## Neretva — polazište za izbor protivnika
+
+**Februar–mart 1943:** u širem sklopu bitke učestvuju nemačke, italijanske, ustaške i četničke snage. Njihov raspored zavisi od pravca i trenutka; to ne potvrđuje sve četiri grupe u svakom pojedinačnom položaju odbrane ranjenika.
+
+- **Četnici:** potvrđen protivnik pri prelasku na istočnu obalu i daljem prodoru. Jozo Tomasevich, [Bitka na Neretvi i njene posljedice](https://znaci.org/00001/40_51.htm), završni pregled prelaska 7–15. marta, razlikuje pritisak nemačkih, ustaških i italijanskih snaga zapadno od reke od četničkih i italijanskih snaga istočno. Primarni trag za kasniji raspored: [izveštaj italijanskog VI korpusa od 21. marta 1943](https://znaci.org/dokument.php?br=13064), Zbornik IV/11, str. 517, o organizaciji sadejstva na levoj obali; katalog nije zamena za čitanje dokumenta pri izboru jedinice.
+- **Italijani:** [naređenje VI korpusa od 13. marta 1943](https://znaci.org/zb/4_4_11_2.pdf) traži izveštaje o porazima garnizona u dolini Neretve i Prozoru. Njihovo prisustvo ne pretvara napad na garnizon automatski u odbranu ranjenika; zadatak igre povezati sa izabranim događajem.
+- **Ustaše i Nemci:** Goran Despotović, [Bitka na Neretvi](https://www.znaci.org/00001/30_60.htm), odeljci o protivudaru kod Gornjeg Vakufa i završnom prelasku, daje polazište za raspored ustaških i nemačkih snaga na pravcu Gornji Vakuf–Prozor i četnika kod mostobrana. Sekundarni pregled koristiti za nalaženje konkretnog dokumenta, jedinice i datuma pre izrade etape. Ustaše i domobrani nisu ista formacija.
+
+**Vizuelni zahtev vlasnika za Neretvu:** četnički likovi imaju guste, jasno vidljive brade i brkove, čitljive i u daljem planu. Brada mora polaziti sa obraza i brade lica, ne izgledati kao marama na vratu. To je izbor prikaza ove igre, ne tvrdnja da je svaki istorijski četnik bio bradat.
+
+**Za igru:** vlasnik želi četnike kao protivnike; italijanske i ustaške etape su kandidati za razradu. Odvojiti frakciju od borbene uloge: strelac ili mitraljezac nisu osobine cele frakcije. Broj etapa, redosled, njihove pozadine i tačne jedinice još nisu izabrani; postojeći nemački rov nije dokaz istorijskog sastava svih budućih etapa.
+
 ## Glavni izvori za bitke i kontekst nivoa
 
 Po odluci vlasnika, sledeće stranice su glavne polazne reference za istorijsko istraživanje nivoa:
