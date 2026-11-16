@@ -39,8 +39,8 @@ export default class extends Scena2D {
   }
 
   update(dt, t) {
-    if (this.ui.outro) return
     super.update(dt, t)
+    if (this.ui.outro) return
     this.mine.forEach(mina => mina.proveriSudar(this.player))
 
     if (this.player.dead) this.defeat('You fell gloriously.')

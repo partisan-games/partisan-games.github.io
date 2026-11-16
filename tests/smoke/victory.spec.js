@@ -97,6 +97,21 @@ for (const [scene, win] of Object.entries(wins))
     await expect(victoryTitle(page)).toBeVisible()
     await expect(page.locator('#modal #igraj-opet')).toBeVisible()
 
+    if (scene === 'bunker' || scene === 'ustanak') {
+      await expect.poll(() => onScene(page, scene => {
+        const target = scene.tenk ?? scene.bunker
+        return target.zapaljen && target.plamen.iskre.length > 0
+      })).toBe(true)
+      const before = await onScene(page, scene => ({
+        canvas: scene.canvas.toDataURL(),
+        flagTime: scene.predmeti.flatMap(item => item.predmeti).find(item => item.defaultAnimacija === 'vijori')?.protekloAnimacije,
+      }))
+      await expect.poll(() => onScene(page, scene => scene.canvas.toDataURL())).not.toBe(before.canvas)
+      if (scene === 'ustanak')
+        await expect.poll(() => onScene(page, scene => scene.predmeti.flatMap(item => item.predmeti)
+          .find(item => item.defaultAnimacija === 'vijori').protekloAnimacije)).toBeGreaterThan(before.flagTime)
+    }
+
     await page.waitForTimeout(1500)
     await expect(victoryTitle(page), 'a later defeat must not replace the victory').toBeVisible()
     await expect(errorScreen(page)).toHaveCount(0)
