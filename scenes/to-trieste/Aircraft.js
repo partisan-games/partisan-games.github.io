@@ -95,9 +95,9 @@ export default class Aircraft extends CombatTarget {
           this.attackStarted = true
           this.divePitchTarget = Math.min(MAX_DIVE_ANGLE, Math.atan2(Math.max(0, this.target.y - this.y), lead))
         }
-        if (this.attackStarted && (this.y >= this.pullUpY || lead <= 180)) {
+        if (this.attackStarted && (this.y >= this.pullUpY || lead <= 180))
           this.attackFinished = true
-        }
+
         const pitch = Math.atan2(this.dy, this.flightSpeed)
         const desired = this.attackStarted && !this.attackFinished ? this.divePitchTarget : 0
         const change = desired - pitch

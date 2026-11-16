@@ -84,9 +84,9 @@ export default class Flame {
   }
 
   clear() {
-    if (this.freeParticles) {
+    if (this.freeParticles)
       for (const particle of this.sparks) this.freeParticles.push(particle)
-    }
+
     this.sparks.length = 0
   }
 

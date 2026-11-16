@@ -44,7 +44,9 @@ test('wind carries smoke and fire particles once, preserves their sources, and s
 
 test('smoke in the village and city follows the same signed wind', () => {
   const positions = []
-  const ctx = { beginPath() {}, moveTo() {}, arc(x) { positions.push(x) }, fill() {} }
+  const ctx = { beginPath() {}, moveTo() {}, arc(x) {
+    positions.push(x)
+  }, fill() {} }
   const village = new VillageFire()
   village.ctx = ctx
   const city = new PozadinaGrada({ getContext: () => ctx })

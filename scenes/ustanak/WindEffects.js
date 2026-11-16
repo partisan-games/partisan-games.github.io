@@ -11,13 +11,13 @@ export default class WindEffects {
     const visit = object => {
       if (seen.has(object)) return
       seen.add(object)
-      if (object.burning && object.flame) {
+      if (object.burning && object.flame)
         for (const particle of object.flame.sparks) {
           if (seen.has(particle)) continue
           seen.add(particle)
           particle.x += shift
         }
-      }
+
       object.children?.forEach(visit)
     }
     objects.forEach(visit)

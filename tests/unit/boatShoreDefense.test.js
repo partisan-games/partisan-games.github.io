@@ -64,7 +64,9 @@ test('the gun fires immediately, fires four rounds from its visible barrel, rest
   assert.equal(first.y, muzzle.y)
   assert.equal(first.angle, post.gunAngle)
   assert.equal(first.damage, 3)
-  for (let i = 0; i < 3; i++) { session.update(.15); post.update(0) }
+  for (let i = 0; i < 3; i++) {
+    session.update(.15); post.update(0)
+  }
   const count = () => post.bullets.projectiles.filter(p => p.visible).length
   assert.equal(count(), 4)
   session.update(1)
@@ -86,7 +88,9 @@ test('a coastal gun does not shoot through the landward side of its position', t
   const post = new MachineGun({ session, target, viewLeft: () => 0 })
   post.deploy(400, 40, -1)
   target.y = 10
-  for (let i = 0; i < 10; i++) { session.update(1); post.update(.1) }
+  for (let i = 0; i < 10; i++) {
+    session.update(1); post.update(.1)
+  }
   assert.equal(post.bullets.projectiles.some(p => p.visible), false)
 })
 
@@ -101,7 +105,9 @@ test('the first visible edge of a position starts fire without a distance or aim
 
 test('both shores can engage the middle of the water on a tall viewport', t => {
   const originalHeight = canvas2d.height
-  t.after(() => { canvas2d.height = originalHeight })
+  t.after(() => {
+    canvas2d.height = originalHeight
+  })
   canvas2d.height = 1200
   for (const side of [-1, 1]) {
     const { session, target } = setup(t)

@@ -25,7 +25,9 @@ export default class WaterEffects {
     if (boat.dead || !boat.visible || !Number.isFinite(boat.width)) return
     const dx = boat.x - before.x, dy = boat.y - before.y
     const distance = Math.hypot(dx, dy)
-    if (!dt || distance / dt < 20) { this.trailDistance.delete(boat); return }
+    if (!dt || distance / dt < 20) {
+      this.trailDistance.delete(boat); return
+    }
     // Uniform distance sampling avoids gaps after a slow frame and keeps both directions valid.
     const carried = this.trailDistance.get(boat) || 0
     const count = Math.min(12, Math.floor((carried + distance) / 12))

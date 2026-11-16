@@ -24,21 +24,31 @@ export default class Boat extends TopDownPlayerBoat {
     })
   }
 
-  get alive() { return this.combatLife?.health.alive ?? true }
+  get alive() {
+    return this.combatLife?.health.alive ?? true
+  }
   set alive(value) {
     if (!this.combatLife) return
     if (!value) this.die()
     else if (this.dead) this.reset()
   }
-  get lifeId() { return this.combatLife.lifeId }
-  get energija() { return this.combatLife.health.current }
+  get lifeId() {
+    return this.combatLife.lifeId
+  }
+  get energija() {
+    return this.combatLife.health.current
+  }
 
   takeHit(damage, lifeId = this.lifeId) {
     return this.combatLife.damage(damage, lifeId)
   }
 
-  die() { return this.takeHit(this.energija) }
-  reset() { this.stop(); this.controlsLocked = false; this.combatLife.reset() }
+  die() {
+    return this.takeHit(this.energija)
+  }
+  reset() {
+    this.stop(); this.controlsLocked = false; this.combatLife.reset()
+  }
 
   update(dt) {
     if (!this.dead && !this.controlsLocked) super.update(dt)

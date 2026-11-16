@@ -140,7 +140,7 @@ export default class Battlefield extends GameObject2D {
   renderClouds(distance) {
     const phase = distance * .04 % CLOUD_SPACING
     ctx.save()
-    for (let origin = -CLOUD_SPACING - phase; origin < canvas2d.width; origin += CLOUD_SPACING) {
+    for (let origin = -CLOUD_SPACING - phase; origin < canvas2d.width; origin += CLOUD_SPACING)
       for (const cloud of CLOUDS) {
         const x = origin + cloud.x
         const width = this.cloud.width * cloud.scale
@@ -148,7 +148,7 @@ export default class Battlefield extends GameObject2D {
         ctx.globalAlpha = cloud.alpha
         this.drawSprite(this.cloud, x, this.groundY * cloud.height, cloud.scale)
       }
-    }
+
     ctx.restore()
   }
 

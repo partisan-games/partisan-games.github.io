@@ -13,12 +13,24 @@ export default class SinkingWreck {
     this.effects = { position: { z: -2 }, render: () => this.renderEffects() }
   }
 
-  reset() { this.startedAt = null }
-  start() { if (this.startedAt === null) this.startedAt = this.clock.now }
-  get age() { return this.startedAt === null ? 0 : this.clock.now - this.startedAt }
-  get progress() { return Math.min(1, this.age / SINK_TIME) }
-  get solid() { return this.startedAt !== null && this.age < SURFACE_TIME }
-  get finished() { return this.startedAt !== null && this.age >= EFFECT_TIME }
+  reset() {
+    this.startedAt = null
+  }
+  start() {
+    if (this.startedAt === null) this.startedAt = this.clock.now
+  }
+  get age() {
+    return this.startedAt === null ? 0 : this.clock.now - this.startedAt
+  }
+  get progress() {
+    return Math.min(1, this.age / SINK_TIME)
+  }
+  get solid() {
+    return this.startedAt !== null && this.age < SURFACE_TIME
+  }
+  get finished() {
+    return this.startedAt !== null && this.age >= EFFECT_TIME
+  }
 
   renderEffects() {
     const boat = this.owner

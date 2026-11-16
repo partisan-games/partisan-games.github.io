@@ -7,7 +7,9 @@ function wallet() {
   const storage = { getItem: key => values.get(key) ?? null, setItem: (key, value) => values.set(key, value) }
   let date = new Date(2026, 10, 14, 23, 59)
   const coins = new DailyCoins({ storage, now: () => date, locks: undefined })
-  return { coins, storage, setDate: value => { date = value } }
+  return { coins, storage, setDate: value => {
+    date = value
+  } }
 }
 
 test('all games share ten coins; refresh does not refill the spent allowance', async() => {
@@ -76,6 +78,8 @@ test('a broken saved record resets safely, but denied storage does not grant fre
   assert.equal(coins.read().remaining, 10)
   storage.setItem(coinStorageKey, JSON.stringify({ day: '2026-11-14', remaining: -2 }))
   assert.equal(coins.read().remaining, 10)
-  storage.setItem = () => { throw new Error('Storage disabled') }
+  storage.setItem = () => {
+    throw new Error('Storage disabled')
+  }
   await assert.rejects(coins.spend(), /Storage disabled/)
 })

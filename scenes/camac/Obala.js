@@ -40,9 +40,9 @@ export default class Obala {
       const edge = side < 0 ? 0 : canvas2d.height
       ctx.beginPath()
       ctx.moveTo(first, edge)
-      for (let x = first; x <= last; x += this.noiseResolution) {
+      for (let x = first; x <= last; x += this.noiseResolution)
         ctx.lineTo(x, this.edgeAt(x, side))
-      }
+
       ctx.lineTo(last, edge)
       ctx.closePath()
       ctx.fill()

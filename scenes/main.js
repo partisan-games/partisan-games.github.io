@@ -105,7 +105,9 @@ arcade.onInsert = async path => {
   if (location.hash.slice(1) === path) route()
   else location.hash = path
 }
-arcade.onCancel = () => { location.hash = '' }
+arcade.onCancel = () => {
+  location.hash = ''
+}
 
 if (location.hash) route()
 else if (window.innerWidth >= 800)

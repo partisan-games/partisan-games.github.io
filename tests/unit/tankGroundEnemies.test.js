@@ -72,10 +72,10 @@ test('armed vehicles and guns fire after the approach delay while transport rema
   for (const enemy of enemies) enemy.x = 400
   clock.advance(1.5)
   for (const enemy of enemies) enemy.update(0)
-  for (const enemy of enemies) {
+  for (const enemy of enemies)
     if (enemy.kind === 'truck') assert.equal(enemy.fire, undefined)
     else assert.equal(enemy.fire.projectiles.projectiles.length, 1)
-  }
+
 })
 
 test('a passed or destroyed enemy stops opening fire without removing its flying projectiles', () => {

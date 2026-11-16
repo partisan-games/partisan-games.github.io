@@ -10,8 +10,12 @@ test('prepared projectiles stay inactive, are reused by fire, and preparation le
     created++
     return {
       visible: true,
-      reset() { this.visible = false },
-      launch(position, angle, speed) { this.visible = true; this.flight = { position, angle, speed } },
+      reset() {
+        this.visible = false
+      },
+      launch(position, angle, speed) {
+        this.visible = true; this.flight = { position, angle, speed }
+      },
     }
   } })
   assert.equal(created, 0, 'unprepared pools keep their existing lazy behavior')
@@ -31,10 +35,14 @@ test('prepared projectiles stay inactive, are reused by fire, and preparation le
 test('combat preparation waits for the explosion child to load and decode before becoming ready', async() => {
   let finishLoading, finishDecoding, decoding = false, ready = false
   const explosion = {
-    imageLoaded: new Promise(resolve => { finishLoading = resolve }),
+    imageLoaded: new Promise(resolve => {
+      finishLoading = resolve
+    }),
     image: { decode: () => {
       decoding = true
-      return new Promise(resolve => { finishDecoding = resolve })
+      return new Promise(resolve => {
+        finishDecoding = resolve
+      })
     } },
   }
   const owner = { children: [] }
@@ -42,9 +50,13 @@ test('combat preparation waits for the explosion child to load and decode before
     children: [explosion],
     imageLoaded: Promise.resolve(),
     image: { decode: async() => {} },
-    reset() { this.visible = false },
+    reset() {
+      this.visible = false
+    },
   }) })
-  const preparation = prepareCombatAssets([pool]).then(() => { ready = true })
+  const preparation = prepareCombatAssets([pool]).then(() => {
+    ready = true
+  })
   assert.equal(pool.projectiles.length, 1)
   await Promise.resolve()
   assert.equal(decoding, false)
@@ -62,7 +74,9 @@ test('combat preparation waits for the explosion child to load and decode before
 test('a decoding failure rejects preparation instead of reporting assets ready', async() => {
   const pool = new ProjectilePool({ owner: { children: [] }, create: () => ({
     imageLoaded: Promise.resolve(),
-    image: { decode: async() => { throw new Error('decode failed') } },
+    image: { decode: async() => {
+      throw new Error('decode failed')
+    } },
     reset() {},
   }) })
   await assert.rejects(prepareCombatAssets([pool]), /decode failed/)
@@ -72,8 +86,12 @@ test('shot feedback is called after launch for both new and reused projectiles, 
   const events = []
   const pool = new ProjectilePool({ owner: { children: [] }, create: () => ({
     visible: false,
-    reset() { this.visible = false },
-    launch() { this.visible = true },
+    reset() {
+      this.visible = false
+    },
+    launch() {
+      this.visible = true
+    },
   }), onFire: event => {
     assert.equal(event.projectile.visible, true)
     events.push(event)
