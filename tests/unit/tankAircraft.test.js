@@ -3,29 +3,29 @@ import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 import GameClock from '/core/runtime/GameClock.js'
 
-let AirRaids, TenkLevo, Granata, platno, shellGravity
+let AirRaids, TenkLevo, Shell, canvas2d, shellGravity
 
 before(async() => {
   createPageElements()
   AirRaids = (await import('/scenes/to-trieste/AirRaids.js')).default
   TenkLevo = (await import('/scenes/tenkici/TenkLevo.js')).default
-  Granata = (await import('/core/actor/projektili/Granata.js')).default
-  platno = (await import('/core/io/platno.js')).default
+  Shell = (await import('/core/actor/projectiles/Shell.js')).default
+  canvas2d = (await import('/core/io/canvas2d.js')).default
   ;({ shellGravity } = await import('/scenes/tenkici/shellPhysics.js'))
 })
 
 function encounter(callback = () => {}) {
   const clock = new GameClock()
-  const target = new TenkLevo({ clock, src: null, cevSlika: null, sirina: 50, visina: 40, x: 100, y: 400 })
+  const target = new TenkLevo({ clock, src: null, cevSlika: null, width: 50, height: 40, x: 100, y: 400 })
   const raids = new AirRaids({ clock, target, groundY: 400, crashY: () => 470, scrollSpeed: -160, callback })
-  for (const plane of raids.planes) { plane.sirina = 180; plane.visina = 50 }
+  for (const plane of raids.planes) { plane.width = 180; plane.height = 50 }
   return { clock, target, raids }
 }
 
 test('aircraft wait for the gameplay clock and alternate without overlapping passes', () => {
   const { clock, raids } = encounter()
   raids.update()
-  assert.ok(raids.planes.every(p => !p.active && !p.vidljiv))
+  assert.ok(raids.planes.every(p => !p.active && !p.visible))
   clock.advance(28)
   raids.update()
   const [fighter, bomber] = raids.planes
@@ -34,8 +34,8 @@ test('aircraft wait for the gameplay clock and alternate without overlapping pas
   clock.advance(40)
   raids.update()
   assert.equal(bomber.active, false, 'an ongoing pass is never interrupted by the next aircraft')
-  fighter.x = -fighter.sirina
-  fighter.proveriGranice()
+  fighter.x = -fighter.width
+  fighter.checkBounds()
   raids.update()
   assert.equal(bomber.active, true)
   assert.equal(fighter.active, false)
@@ -46,27 +46,27 @@ test('a shot-down aircraft scores once, falls, and its next pass invalidates an 
   const { clock, raids } = encounter(() => points++)
   const plane = raids.planes[0]
   plane.launch()
-  plane.postavi(400, 200)
+  plane.setPosition(400, 200)
   const oldLife = plane.lifeId
-  const shell = new Granata({ clock, src: null, sirina: 10, visina: 10, nivoTla: 400 })
-  shell.pali(plane, 0, 0)
-  shell.proveriPogodak(plane)
-  plane.umri()
-  plane.umri()
+  const shell = new Shell({ clock, src: null, width: 10, height: 10, groundLevel: 400 })
+  shell.launch(plane, 0, 0)
+  shell.checkHit(plane)
+  plane.die()
+  plane.die()
   assert.equal(points, 1)
-  const y = plane.y
+  const { y } = plane
   plane.update(.1)
   assert.ok(plane.y > y)
   assert.equal(plane.dx, -plane.flightSpeed)
   plane.y = 440
-  plane.proveriGranice()
+  plane.checkBounds()
   assert.equal(plane.active, true, 'crossing the road does not remove the falling plane')
   plane.y = 475
   plane.update(0)
   assert.equal(plane.y, 470)
   assert.equal(plane.dy, 0)
   assert.equal(plane.crashed, true)
-  assert.equal(plane.vidljiv, true)
+  assert.equal(plane.visible, true)
   assert.equal(plane.dead, true, 'the visible wreck remains burning')
   const wreckX = plane.x
   const landingSpeed = plane.dx
@@ -88,9 +88,9 @@ test('wrecks slide after touching down and friction brings them to rest relative
   const { raids } = encounter()
   for (const plane of raids.planes) {
     plane.launch()
-    plane.postavi(600, 470)
+    plane.setPosition(600, 470)
     plane.dx = -320
-    plane.umri()
+    plane.die()
     plane.update(0)
     assert.equal(plane.crashed, true)
     assert.equal(plane.dx, -320, 'touchdown preserves horizontal momentum')
@@ -100,7 +100,7 @@ test('wrecks slide after touching down and friction brings them to rest relative
     assert.equal(plane.y, 470)
     for (let i = 0; i < 14; i++) plane.update(.1)
     assert.equal(plane.dx, plane.scrollSpeed, 'friction stops sliding without reversing it')
-    const x = plane.x
+    const { x } = plane
     plane.update(.1)
     assert.ok(Math.abs(plane.x - (x + plane.scrollSpeed * .1)) < 1e-8)
   }
@@ -110,11 +110,11 @@ test('both aircraft preserve velocity at impact and keep horizontal momentum whi
   const { raids } = encounter()
   for (const plane of raids.planes) {
     plane.launch()
-    plane.postavi(500, 180)
+    plane.setPosition(500, 180)
     plane.dy = 12
-    const dx = plane.dx
-    const dy = plane.dy
-    plane.umri()
+    const { dx } = plane
+    const { dy } = plane
+    plane.die()
     assert.equal(plane.dx, dx, 'being hit does not abruptly remove horizontal velocity')
     assert.equal(plane.dy, dy, 'being hit does not abruptly change vertical velocity')
     plane.update(.2)
@@ -130,7 +130,7 @@ test('a fighter strafes along its visible nose, then levels out and stops firing
   const { clock, raids } = encounter()
   const plane = raids.planes[0]
   plane.launch()
-  plane.postavi(500, 200)
+  plane.setPosition(500, 200)
   plane.update(.1)
   assert.ok(plane.dy > 0 && plane.dy < plane.flightSpeed * Math.tan(Math.PI / 10), 'entry into the dive is gradual')
   clock.advance(.36)
@@ -138,7 +138,7 @@ test('a fighter strafes along its visible nose, then levels out and stops firing
   const [bullet] = plane.fire.projectiles.projectiles
   assert.ok(bullet)
   assert.ok(bullet.dx < 0 && bullet.dy > 0)
-  assert.ok(Math.abs(Math.sin(bullet.ugao - (plane.ugao + Math.PI))) < 1e-8)
+  assert.ok(Math.abs(Math.sin(bullet.angle - (plane.angle + Math.PI))) < 1e-8)
   assert.equal(bullet.x, plane.muzzle.x)
   assert.equal(bullet.y, plane.muzzle.y)
   plane.y = plane.groundY - 80
@@ -149,7 +149,7 @@ test('a fighter strafes along its visible nose, then levels out and stops firing
   for (let i = 0; i < 10; i++) plane.update(.1)
   assert.equal(plane.dy, 0)
   assert.equal(plane.fire.projectiles.projectiles.length, 1)
-  assert.equal(bullet.vidljiv, true, 'leveling out leaves existing shots in flight')
+  assert.equal(bullet.visible, true, 'leveling out leaves existing shots in flight')
 })
 
 test('a bomber releases one unguided falling bomb and never fires while hidden', () => {
@@ -159,19 +159,19 @@ test('a bomber releases one unguided falling bomb and never fires while hidden',
   bomber.y = 250
   const fall = Math.sqrt(2 * (target.y - bomber.muzzle.y) / shellGravity)
   bomber.x = target.x + bomber.flightSpeed * fall
-  assert.ok(bomber.x < platno.width)
+  assert.ok(bomber.x < canvas2d.width)
   bomber.update(0)
   const [bomb] = bomber.fire.projectiles.projectiles
   assert.ok(bomb)
   assert.ok(Math.abs(bomb.dx + bomber.flightSpeed) < 1e-8)
-  assert.ok(bomb.oznake.has('air-bomb'))
+  assert.ok(bomb.tags.has('air-bomb'))
   bomb.update(.1)
   assert.ok(bomb.dy > 0)
   clock.advance(20)
   bomber.update(0)
   assert.equal(bomber.fire.projectiles.projectiles.length, 1)
   bomber.active = false
-  bomber.nestani()
+  bomber.vanish()
   bomber.update(.1)
   assert.equal(bomber.fire.projectiles.projectiles.length, 1)
 })

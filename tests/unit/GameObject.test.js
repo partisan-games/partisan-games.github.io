@@ -8,53 +8,43 @@ import Input from '/core/io/Input.js'
 
 const box = () => new Mesh(new BoxGeometry(1, 2, 1).translate(0, 1, 0))
 
-test('legacy energy and the composed health read and write a single state', () => {
+test('energy is the composed health, clamped to its maximum', () => {
   const object = new GameObject({ mesh: box(), energy: 40 })
   assert.equal(object.health.maximum, 40)
-  object.mesh.userData.energy = 25
+  object.health.damage(15)
   assert.equal(object.energy, 25)
-  assert.equal(object.health.current, 25)
-  object.health.damage(5)
-  assert.equal(object.mesh.userData.energy, 20)
   object.energy = 100
   assert.equal(object.health.current, 40)
-  object.mesh.userData.energy = -10
+  object.energy = -10
   assert.equal(object.health.current, 0)
   assert.equal(object.dead, true)
   object.energy++
   assert.equal(object.health.current, 1)
   assert.equal(object.dead, false)
-  object.mesh.userData.energy = Infinity
-  assert.equal(object.health.current, 40)
 })
 
-test('legacy queued damage remains deferred and multiple writes keep the last hit', () => {
+test('pending damage waits for the next update and multiple hits keep the last one', () => {
   const object = new GameObject({ mesh: box() })
-  object.mesh.userData.damageAmount = 10
-  object.damageAmount = 25
-  assert.equal(object.mesh.userData.damageAmount, 25)
+  object.pendingDamage = 10
+  object.pendingDamage = 25
   assert.equal(object.health.current, 100)
   object.update()
   assert.equal(object.health.current, 75)
-  assert.equal(object.damageAmount, 0)
-  assert.equal(object.mesh.userData.damageAmount, 0)
+  assert.equal(object.pendingDamage, 0)
   object.update()
   assert.equal(object.health.current, 75)
 })
 
-test('the old mesh-only attack can hit a composed target and a legacy target', () => {
+test('a blow reaches the game object that owns the hit mesh, and a mesh without an owner takes none', () => {
   const attacker = new Actor({ mesh: box(), attackDistance: 10 })
-  const composed = new GameObject({ mesh: box() })
-  attacker.hit(composed.mesh, [20, 20])
-  composed.update()
-  assert.equal(composed.health.current, 80)
+  const target = new GameObject({ mesh: box() })
+  attacker.hit(target.mesh, [20, 20])
+  target.update()
+  assert.equal(target.health.current, 80)
 
-  const legacy = box()
-  legacy.userData = { energy: 100, damageAmount: 0 }
-  attacker.hit(legacy, [20, 20])
-  assert.equal(legacy.userData.damageAmount, 20)
-  assert.equal(legacy.userData.energy, 100)
-  assert.equal(GameObject.ownerOf(legacy), null)
+  const scenery = box()
+  attacker.hit(scenery, [20, 20])
+  assert.deepEqual(scenery.userData, {})
 })
 
 test('raycast hits on a cloned skinned child resolve to its owning game object', () => {
@@ -78,7 +68,7 @@ test('raycast hits on a cloned skinned child resolve to its owning game object',
   assert.ok(hit)
   assert.equal(GameObject.ownerOf(hit.object), object)
   assert.equal(GameObject.ownerOf(object.mesh.getObjectByName('root-bone')), object)
-  GameObject.ownerOf(hit.object).damageAmount = 35
+  GameObject.ownerOf(hit.object).pendingDamage = 35
   object.update()
   assert.equal(object.health.current, 65)
 })
@@ -95,17 +85,13 @@ test('owners stay distinct for clones and the closest nested object owns its chi
   assert.equal(GameObject.ownerOf(null), null)
 })
 
-test('cloning a bound mesh copies numeric legacy data without copying a live owner', () => {
+test('a cloned mesh does not copy its live owner', () => {
   const first = new GameObject({ mesh: box() })
   first.energy = 50
   const copy = first.mesh.clone()
-  assert.equal(copy.userData.energy, 50)
   assert.equal(GameObject.ownerOf(copy), null)
-  copy.userData.energy = 10
-  assert.equal(first.energy, 50)
   const second = new GameObject({ mesh: first.mesh, energy: 30 })
   assert.equal(second.health.current, 30)
-  assert.equal(second.mesh.userData.energy, 30)
   assert.equal(first.health.current, 50)
 })
 

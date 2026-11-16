@@ -7,7 +7,6 @@ const chooseDuration = prevState => {
 }
 
 export default class IdleState extends State {
-
   enter(oldState, oldAction) {
     super.enter(oldState)
     if (this.action) this.transitFrom(oldAction, chooseDuration(oldState?.name))
@@ -15,8 +14,6 @@ export default class IdleState extends State {
 
   update(delta) {
     this.actor.updateTurn(delta)
-
-    /* TRANSIT */
 
     if (this.actor.input.up || this.actor.input.down)
       this.actor.setState('walk')

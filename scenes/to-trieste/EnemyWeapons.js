@@ -1,6 +1,6 @@
 import ProjectilePool from '/core/actor/ProjectilePool.js'
-import Metak from '/core/actor/projektili/Metak.js'
-import Granata from '/core/actor/projektili/Granata.js'
+import Projectile from '/core/actor/projectiles/Projectile.js'
+import Shell from '/core/actor/projectiles/Shell.js'
 import Cooldown from '/core/gameplay/Cooldown.js'
 import Weapon from '/core/gameplay/Weapon.js'
 import { shellGravity, shellSpeed } from '../tenkici/shellPhysics.js'
@@ -8,18 +8,18 @@ import CombatTarget from './CombatTarget.js'
 
 const FIRST_SHOT_DELAY = 1.5
 
-class EnemyBullet extends Metak {
-  povredi(target) {
-    if (!(target instanceof CombatTarget)) return super.povredi(target)
-    target.umri('enemy')
+class EnemyBullet extends Projectile {
+  hit(target) {
+    if (!(target instanceof CombatTarget)) return super.hit(target)
+    target.die('enemy')
     this.reset()
   }
 }
 
-class EnemyShell extends Granata {
-  povredi(target) {
-    if (!(target instanceof CombatTarget)) return super.povredi(target)
-    target.umri('enemy')
+class EnemyShell extends Shell {
+  hit(target) {
+    if (!(target instanceof CombatTarget)) return super.hit(target)
+    target.die('enemy')
     this.reset()
   }
 }
@@ -73,8 +73,8 @@ export function createMachineGun({ owner, clock }) {
   return new EnemyWeapon({
     owner, clock,
     createProjectile: () => {
-      const bullet = new EnemyBullet({ src: null, sirina: 9, visina: 2 })
-      bullet.steta = 3
+      const bullet = new EnemyBullet({ src: null, width: 9, height: 2 })
+      bullet.damage = 3
       return bullet
     },
     aim: (origin, target) => Math.atan2(target.y - origin.y, target.x - origin.x),
@@ -86,8 +86,8 @@ export function createCannon({ owner, clock, groundY }) {
   return new EnemyWeapon({
     owner, clock,
     createProjectile: () => {
-      const shell = new EnemyShell({ clock, gravitacija: shellGravity, nivoTla: groundY })
-      shell.steta = 20
+      const shell = new EnemyShell({ clock, gravity: shellGravity, groundLevel: groundY })
+      shell.damage = 20
       return shell
     },
     aim: shellAngle,
@@ -99,8 +99,8 @@ export function createAircraftGun({ owner, clock }) {
   return new EnemyWeapon({
     owner, clock,
     createProjectile: () => {
-      const bullet = new EnemyBullet({ src: null, sirina: 9, visina: 2 })
-      bullet.steta = 2
+      const bullet = new EnemyBullet({ src: null, width: 9, height: 2 })
+      bullet.damage = 2
       return bullet
     },
     // Fixed aircraft guns follow the nose, rather than aiming independently of it.
@@ -113,9 +113,9 @@ export function createAirBomb({ owner, clock, groundY }) {
   return new EnemyWeapon({
     owner, clock,
     createProjectile: () => {
-      const bomb = new EnemyShell({ clock, gravitacija: shellGravity, nivoTla: groundY })
-      bomb.steta = 12
-      bomb.oznake.add('air-bomb')
+      const bomb = new EnemyShell({ clock, gravity: shellGravity, groundLevel: groundY })
+      bomb.damage = 12
+      bomb.tags.add('air-bomb')
       return bomb
     },
     // Release inherits horizontal aircraft speed; gravity determines the rest of the flight.

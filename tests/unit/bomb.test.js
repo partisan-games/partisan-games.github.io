@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 import GameSession from '/core/runtime/GameSession.js'
 
-let Avionce, inputOptions, Enemy, Input, settings, platno, Explosion
+let Avionce, inputOptions, Enemy, Input, settings, canvas2d, Explosion
 
 before(async() => {
   createPageElements()
@@ -16,7 +16,7 @@ before(async() => {
   Enemy = (await import('/scenes/vis/Enemy.js')).default
   Input = (await import('/core/io/Input.js')).default
   ;({ settings } = await import('/scenes/vis/settings.js'))
-  platno = (await import('/core/io/platno.js')).default
+  canvas2d = (await import('/core/io/canvas2d.js')).default
   Explosion = (await import('/scenes/vis/Explosion.js')).default
 })
 
@@ -37,7 +37,7 @@ function createBattle(t) {
   near.y = 350
   far.x = 5000
   far.y = 400
-  player.ciljevi = [near, far]
+  player.targets = [near, far]
   t.after(() => player.end())
   return { player, near, far }
 }
@@ -63,7 +63,7 @@ test('a bomb in vis shoots down the enemy fighters around the player, with their
 
 test('a bomb in vis also shoots down a plane at the edge of its fire, but not one past it', t => {
   const { player, near, far } = createBattle(t)
-  const radius = settings.player.bombRadius * Math.min(platno.width, platno.height)
+  const radius = settings.player.bombRadius * Math.min(canvas2d.width, canvas2d.height)
   near.x = player.x + radius + Explosion.reach - 10
   near.y = player.y
   far.x = player.x + radius + Explosion.reach + 10
@@ -82,8 +82,8 @@ test('a bomb in vis also takes out the enemy bullets in its fire, but not those 
 
   dropBomb(player)
 
-  assert.equal(near.bullets.projectiles[0].vidljiv, false, 'the bullet close to the player is gone')
-  assert.equal(far.bullets.projectiles[0].vidljiv, true)
+  assert.equal(near.bullets.projectiles[0].visible, false, 'the bullet close to the player is gone')
+  assert.equal(far.bullets.projectiles[0].visible, true)
 })
 
 test('the vis player has three bombs per game', t => {
@@ -104,7 +104,7 @@ test('the vis player has three bombs per game', t => {
 test('a bomb in vis bursts on the plane it hits and over the blast, and the bursts go out', t => {
   const { player, near } = createBattle(t)
   const { bombBursts, bombSpread } = settings.player
-  const shown = () => player.explosions.filter(burst => burst.vidljiv)
+  const shown = () => player.explosions.filter(burst => burst.visible)
 
   dropBomb(player)
   assert.deepEqual(shown().map(({ x, y }) => ({ x, y })), [{ x: near.x, y: near.y }], 'at once on the hit plane')

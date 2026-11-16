@@ -1,10 +1,16 @@
-import { shuffle } from '/core3d/helpers.js'
+export function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]]
+  }
+  return a
+}
 
 export function randomInRange(min, max) {
   return Math.random() * (max - min) + min
 }
 
-export function nasumicnoOkruglo(min, max) {
+export function randomInt(min, max) {
   return Math.floor(randomInRange(min, max + 1))
 }
 
@@ -28,7 +34,7 @@ export const getRandomCoords = ({
 
 const distance = (p1, p2) => Math.hypot(p1.x - p2.x, p1.y - p2.y)
 
-export function nadjiNajdaljeTacke(pozicije) {
+export function findFarthestPoints(pozicije) {
   let maxDistance = 0
   let najdaljeTacke = []
 

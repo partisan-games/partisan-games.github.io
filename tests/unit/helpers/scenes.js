@@ -1,15 +1,21 @@
 import GameSession from '/core/runtime/GameSession.js'
+import imageReady from '/core/io/imageReady.js'
 
 /** A stand-in for a scene module, recording what the SceneManager does with it. */
-export function createSceneClass({ init = () => {}, pozadina, log = [] } = {}) {
+export function createSceneClass({ init = () => {}, background, log = [] } = {}) {
   return class FakeScene {
     constructor() {
       this.session = new GameSession()
-      this.pozadina = pozadina
+      this.background = background
       this.hasStartScreen = false
       log.push(this)
       this.ended = 0
       this.started = 0
+      this.paused = 0
+    }
+
+    pause() {
+      this.paused++
     }
 
     init() {
@@ -19,6 +25,10 @@ export function createSceneClass({ init = () => {}, pozadina, log = [] } = {}) {
     start() {
       this.started++
       this.session.start()
+    }
+
+    imagesLoaded() {
+      return this.background?.image ? imageReady(this.background.image) : Promise.resolve()
     }
 
     end() {

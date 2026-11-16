@@ -11,15 +11,11 @@ const animDict = {
   death: 'Crouch Death',
 }
 
-/* LOADING */
-
 const meshModel = { file: 'german-machine-gunner.fbx', animDict, prefix: 'character/soldier/', angle: Math.PI }
 const twoHandedWeaponModel = { file: 'weapon/mg-42/lowpoly.fbx', scale: 1.4 }
 
 /** What to load; a game awaits requestModels(models) before it creates one of these. */
 export const models = [meshModel, twoHandedWeaponModel]
-
-/* EXTENDED CLASSES */
 
 const sharedProps = () => {
   const mesh = loadedModel(meshModel)

@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import Scena3D from '/core/Scena3D.js'
+import Scene3D from '/core/Scene3D.js'
 import { thirdPersonControls } from '/ui/Controls.js'
 import { createGround } from '/core3d/ground.js'
 import { createMoon, orbiting } from '/core3d/light.js'
@@ -29,7 +29,7 @@ const customStartScreen = ({ container, button }) => /* html */`
   </div>
 `
 
-export default class extends Scena3D {
+export default class GraveyardSurvivalScene extends Scene3D {
   constructor() {
     super({
       controlKeys: thirdPersonControls,
@@ -47,7 +47,7 @@ export default class extends Scena3D {
     this.npcs = []
     this.solids = []
     this.zombies = []
-    this.bojaPozadine = 0x202030
+    this.backgroundColor = 0x202030
 
     this.coords = getEmptyCoords({ mapSize, fieldSize: 1, emptyCenter: 1 })
     this.moon = createMoon({ intensity: Math.PI * 1.5, pos: [15, 25, -30] })
@@ -60,8 +60,6 @@ export default class extends Scena3D {
       this.addMesh(tombstone)
     }
 
-    /* LAZY LOAD */
-
     for (let i = 0; i < 10; i++) {
       const tree = new DeadTree({ pos: this.coords.pop(), scale: Math.random() * 1 + 1, rotateY: Math.random() * Math.PI })
       this.solids.push(tree.mesh)
@@ -69,20 +67,18 @@ export default class extends Scena3D {
     }
 
     for (let i = 0; i < 30; i++) {
-      const ghost = new GhostAI({ pos: this.coords.pop(), mapSize, name: 'enemy', useComposedMovement: true })
+      const ghost = new GhostAI({ pos: this.coords.pop(), mapSize, name: 'enemy' })
       this.npcs.push(ghost)
       this.add(ghost)
     }
 
-    this.player = new SorceressPlayer({ camera: this.camera, solids: this.solids, attackKey: 'Enter', useComposedMovement: true })
+    this.player = new SorceressPlayer({ camera: this.camera, solids: this.solids, attackKey: 'Enter' })
     this.add(this.player)
 
     this.particles = new Smoke({ size: 1, num: 100, minRadius: 0, maxRadius: .5, minVelocity: .2, maxVelocity: .5, min: -1, max: 0, loop: false })
     this.add(this.particles)
     this.spawner = new ZombieWaves({ session: this.session, spawn: () => this.addZombie() })
   }
-
-  /* FUNCTIONS */
 
   spawnZombie(interval) {
     this.spawner.update(interval / 1000)
@@ -91,15 +87,13 @@ export default class extends Scena3D {
   addZombie() {
     const ZombieClass = sample([GothGirlAI, ZombieBarefootAI, ZombieCopAI, ZombieDoctorAI, ZombieGuardAI])
     const pos = sample(this.coords)
-    const zombie = new ZombieClass({ mapSize, target: this.player.mesh, solids: this.solids, pos, useComposedMovement: true })
+    const zombie = new ZombieClass({ mapSize, target: this.player.mesh, solids: this.solids, pos })
     this.particles.reset({ pos })
     this.player.addSolids(zombie.mesh)
     this.add(zombie)
     this.npcs.push(zombie)
     this.zombies.push(zombie)
   }
-
-  /* LOOP */
 
   sceneUI() {
     const kills = this.zombies.filter(zombie => zombie.energy <= 0)

@@ -13,7 +13,7 @@ const getScene = object => {
 export default class GameObject {
   #solids = []
   #health
-  #damageAmount = 0
+  #pendingDamage = 0
 
   /** Finds the nearest owning object, including for raycast hits on a model's children. */
   static ownerOf(mesh) {
@@ -34,23 +34,6 @@ export default class GameObject {
     this.name = name
     this.#health = new Health({ maximum: energy })
     owners.set(this.mesh, this)
-    // Legacy attackers and pickups still use userData; accessors keep one authoritative state.
-    Object.defineProperties(this.mesh.userData, {
-      energy: {
-        configurable: true, enumerable: true,
-        get: () => this.energy,
-        set: value => {
-          this.energy = value
-        },
-      },
-      damageAmount: {
-        configurable: true, enumerable: true,
-        get: () => this.damageAmount,
-        set: value => {
-          this.damageAmount = value
-        },
-      },
-    })
 
     if (pos) this.position = pos
 
@@ -58,7 +41,7 @@ export default class GameObject {
     if (solids) this.addSolids(solids)
 
     if (scale) this.mesh.scale.set(scale, scale, scale)
-    if (color != undefined) {
+    if (color != null) {
       const colored = getMesh(this.mesh)
       colored.material = colored.material.clone() // a clone shares the model's material; the color is this object's own
       colored.material.color.setHex(color)
@@ -103,12 +86,12 @@ export default class GameObject {
     return this.#health.maximum
   }
 
-  get damageAmount() {
-    return this.#damageAmount
+  get pendingDamage() {
+    return this.#pendingDamage
   }
 
-  set damageAmount(damageAmount) {
-    this.#damageAmount = damageAmount
+  set pendingDamage(pendingDamage) {
+    this.#pendingDamage = pendingDamage
   }
 
   get dead() {
@@ -133,8 +116,6 @@ export default class GameObject {
   get playerMesh() {
     return this.scene?.getObjectByName('player')
   }
-
-  /* UTILS */
 
   add(obj) {
     this.mesh.add(obj)
@@ -162,15 +143,13 @@ export default class GameObject {
   }
 
   applyDamage() {
-    this.energy -= this.damageAmount
-    this.damageAmount = 0
+    this.energy -= this.pendingDamage
+    this.pendingDamage = 0
   }
 
   checkHit() {
-    if (this.damageAmount) this.applyDamage()
+    if (this.pendingDamage) this.applyDamage()
   }
-
-  /* UPDATE */
 
   update() {
     this.checkHit()

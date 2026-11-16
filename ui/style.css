@@ -159,6 +159,13 @@ button {
   padding-right: 35px;
 }
 
+/* the 76 × 26 pixel frame at twice its size, the smallest whole scale that holds the 32px icon, so it is neither stretched nor blurred */
+.camera-button.rpgui-button {
+  min-width: 152px;
+  height: 52px;
+  padding: 0;
+}
+
 .rpgui-button:hover {
   background-image: url("/assets/images/rpgui/button-hover.png");
 }

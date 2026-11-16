@@ -78,8 +78,6 @@ export default class Animator {
     this.rightHand.add(mesh)
   }
 
-  /* ACTION HELPERS */
-
   playAction(oldAction, name, onFinish) {
     const action = this.getAction(name)
     this.addEventListener('finished', onFinish)
@@ -150,8 +148,6 @@ export default class Animator {
     action?.setEffectiveTimeScale(scale)
   }
 
-  /* EVENTS */
-
   addEventListener(name, callback) {
     this.mixer.addEventListener(name, callback)
   }
@@ -159,8 +155,6 @@ export default class Animator {
   removeEventListener(name, callback) {
     this.mixer.removeEventListener(name, callback)
   }
-
-  /* UPDATES */
 
   updateRifle() {
     const pos = new THREE.Vector3()

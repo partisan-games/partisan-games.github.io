@@ -12,8 +12,8 @@ export default class ProjectilePool {
   }
 
   fire(position, angle, speed) {
-    const projectile = this.projectiles.find(free => !free.vidljiv) || this.#add()
-    projectile.pali(position, angle, speed)
+    const projectile = this.projectiles.find(free => !free.visible) || this.#add()
+    projectile.launch(position, angle, speed)
     this.onFire?.({ projectile, position, angle })
   }
 
@@ -26,9 +26,9 @@ export default class ProjectilePool {
   /** Calls `onHit(target)` after a projectile hits one of the shown, living targets. */
   checkHits(targets, onHit) {
     targets.forEach(target => {
-      if (!target.prikazan || target.dead) return
+      if (!target.shown || target.dead) return
       this.projectiles.forEach(projectile => {
-        if (projectile.prikazan && !target.dead) projectile.proveriPogodak(target, () => onHit?.(target))
+        if (projectile.shown && !target.dead) projectile.checkHit(target, () => onHit?.(target))
       })
     })
   }
@@ -36,7 +36,7 @@ export default class ProjectilePool {
   #add() {
     const projectile = this.create()
     this.projectiles.push(projectile)
-    this.owner.predmeti.push(projectile)
+    this.owner.children.push(projectile)
     return projectile
   }
 }

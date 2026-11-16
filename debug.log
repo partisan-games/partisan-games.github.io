@@ -1,0 +1,60 @@
+[1116/103905.716:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x581c009b3e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[1116/103905.731:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x229c0060f400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[1116/103906.077:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x229c0060f400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[1116/103907.925:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x581c009b3e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[1116/103908.412:ERROR:media\gpu\gpu_video_encode_accelerator_factory.cc:122] Failed to enum adapter by LUID
+[1116/103908.412:ERROR:media\gpu\gpu_video_encode_accelerator_factory.cc:142] Failed to get an adapter by LUID
+[1116/103908.868:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x581c009b3e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[1116/103909.231:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x581c009b3e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)
+[1116/103911.013:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x35c0162f800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[1116/103934.259:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x794009ad800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[1116/103934.327:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x794009ad800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[1116/103934.918:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x794009ad800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[1116/103934.975:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x794009ad800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)
+[1116/103935.031:ERROR:media\gpu\gpu_video_encode_accelerator_factory.cc:122] Failed to enum adapter by LUID
+[1116/103935.031:ERROR:media\gpu\gpu_video_encode_accelerator_factory.cc:142] Failed to get an adapter by LUID
+[1116/105931.354:ERROR:gpu\command_buffer\service\shared_image\shared_image_manager.cc:260] SharedImageManager::ProduceSkia: Trying to Produce a Skia representation from a non-existent mailbox.
+[1116/122205.759:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x644401199c00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[1116/122205.957:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x644401199c00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[1116/122206.075:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x5c94009b0000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[1116/122206.610:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x644401199c00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[1116/122206.688:ERROR:media\gpu\gpu_video_encode_accelerator_factory.cc:122] Failed to enum adapter by LUID
+[1116/122206.688:ERROR:media\gpu\gpu_video_encode_accelerator_factory.cc:142] Failed to get an adapter by LUID
+[1116/122206.705:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x644401199c00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)
+[1116/122207.571:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x5c94009b0000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[1116/122208.060:ERROR:media\gpu\gpu_video_encode_accelerator_factory.cc:122] Failed to enum adapter by LUID
+[1116/122208.061:ERROR:media\gpu\gpu_video_encode_accelerator_factory.cc:142] Failed to get an adapter by LUID
+[1116/122208.933:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x5c94009b0000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[1116/122209.366:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x5c94009b0000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)
+[1116/122212.334:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x7aa401fac200]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[1116/122832.337:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x34fc009b0e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[1116/122832.349:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x2e2c0060a000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[1116/122832.501:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x2e2c0060a000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[1116/122832.674:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x287c00c0b200]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[1116/122833.054:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x287c00c0b200]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[1116/122833.135:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x287c00c0b200]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[1116/122833.191:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x2e2c0060a000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[1116/122833.225:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x287c00c0b200]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)
+[1116/122833.298:ERROR:media\gpu\gpu_video_encode_accelerator_factory.cc:122] Failed to enum adapter by LUID
+[1116/122833.298:ERROR:media\gpu\gpu_video_encode_accelerator_factory.cc:142] Failed to get an adapter by LUID
+[1116/122833.309:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x2e2c0060a000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)
+[1116/122834.904:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x6a8401f98800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[1116/122835.336:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x34fc009b0e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[1116/122835.839:ERROR:media\gpu\gpu_video_encode_accelerator_factory.cc:122] Failed to enum adapter by LUID
+[1116/122835.839:ERROR:media\gpu\gpu_video_encode_accelerator_factory.cc:142] Failed to get an adapter by LUID
+[1116/122836.532:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x34fc009b0e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[1116/122836.998:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x34fc009b0e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)
+[1116/122843.554:WARNING:services\audio\sync_reader.cc:154] ASR: No room in socket buffer.: The pipe is being closed. (0xE8)
+[1116/122850.884:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x217c00e75c00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[1116/122853.917:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x4a400989600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[1116/122854.743:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x4a400989600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)
+[1116/122857.557:ERROR:media\gpu\gpu_video_encode_accelerator_factory.cc:122] Failed to enum adapter by LUID
+[1116/122857.557:ERROR:media\gpu\gpu_video_encode_accelerator_factory.cc:142] Failed to get an adapter by LUID
+[1116/122859.118:ERROR:media\gpu\gpu_video_encode_accelerator_factory.cc:122] Failed to enum adapter by LUID
+[1116/122859.118:ERROR:media\gpu\gpu_video_encode_accelerator_factory.cc:142] Failed to get an adapter by LUID
+[1116/123040.151:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x693c0097ac00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[1116/123040.816:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x693c0097ac00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[1116/123042.400:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x693c0097ac00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[1116/123042.575:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x693c0097ac00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)
+[1116/123043.133:ERROR:media\gpu\gpu_video_encode_accelerator_factory.cc:122] Failed to enum adapter by LUID
+[1116/123043.133:ERROR:media\gpu\gpu_video_encode_accelerator_factory.cc:142] Failed to get an adapter by LUID

@@ -13,14 +13,10 @@ const animDict = {
   death: 'Death From The Back',
 }
 
-/* LOADING */
-
 const meshModel = { file: 'model.fbx', prefix: 'character/orc/', animDict, angle: Math.PI }
 
 /** What to load; a game awaits requestModels(models) before it creates one of these. */
 export const models = [meshModel]
-
-/* EXTENDED CLASSES */
 
 const sharedProps = () => {
   const mesh = loadedModel(meshModel)

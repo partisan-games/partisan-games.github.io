@@ -14,8 +14,6 @@ export default class AttackOnceState extends AnimOnceState {
     if (this.actor.turnWhileAttack)
       this.actor.updateTurn(delta)
 
-    /* TRANSIT */
-
     if (!this.action && this.actor.age - this.last >= this.duration)
       this.actor.setState(this.prevOrIdle)
   }

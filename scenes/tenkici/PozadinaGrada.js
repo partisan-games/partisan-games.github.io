@@ -1,26 +1,26 @@
 import { assets } from '/config.js'
 
-const sirina = 724
-const visina = 543
+const width = 724
+const height = 543
 const pozari = [
   { x: 176, y: 365, velicina: 1, faza: 0 },
   { x: 520, y: 241, velicina: .65, faza: 2.7 },
   { x: 604, y: 230, velicina: .4, faza: 5.1 },
 ]
 const stuboviDima = [
-  { izvor: 1, broj: 32, trajanje: 16, brzina: 18, vetar: 1.9, sirenje: 4.1, vijuganje: 5, seme: 1.3, nijansa: 36 },
-  { izvor: 2, broj: 26, trajanje: 17, brzina: 16, vetar: 5.4, sirenje: 6.2, vijuganje: 11, seme: 4.7, nijansa: 45 },
+  { izvor: 1, broj: 32, trajanje: 16, speed: 18, vetar: 1.9, sirenje: 4.1, vijuganje: 5, seme: 1.3, nijansa: 36 },
+  { izvor: 2, broj: 26, trajanje: 17, speed: 16, vetar: 5.4, sirenje: 6.2, vijuganje: 11, seme: 4.7, nijansa: 45 },
 ]
 
 export default class PozadinaGrada {
   constructor(canvas) {
     this.canvas = canvas
     this.ctx = canvas.getContext('2d')
-    this.slika = new Image()
-    this.slika.src = `${assets.images}background/razrusen-grad-ww2-pixel.png`
+    this.image = new Image()
+    this.image.src = `${assets.images}background/razrusen-grad-ww2-pixel.png`
     this.efekti = document.createElement('canvas')
-    this.efekti.width = sirina
-    this.efekti.height = visina
+    this.efekti.width = width
+    this.efekti.height = height
     this.crtez = this.efekti.getContext('2d')
     this.vreme = 0
   }
@@ -32,7 +32,7 @@ export default class PozadinaGrada {
   gustiDim(t, profil) {
     const ctx = this.crtez
     const izvor = pozari[profil.izvor]
-    const { broj, trajanje, brzina, vetar, sirenje, vijuganje, seme, nijansa } = profil
+    const { broj, trajanje, speed, vetar, sirenje, vijuganje, seme, nijansa } = profil
     for (let i = 0; i < broj; i++) {
       const starost = (t + izvor.faza + i * trajanje / broj) % trajanje
       const nestajanje = Math.min(1, starost / .8, (trajanje - starost) / 3)
@@ -40,7 +40,7 @@ export default class PozadinaGrada {
       const x = izvor.x + starost * vetar
         + Math.sin(starost * .55 + seme) * vijuganje * razvitak
         + Math.sin(i * 2.3 + seme) * 3 * razvitak
-      const y = izvor.y - 5 - starost * brzina
+      const y = izvor.y - 5 - starost * speed
       const poluprecnik = (3 + Math.sqrt(starost) * sirenje)
         * (.85 + .2 * Math.sin(i * 1.7 + seme))
       const ton = nijansa + (i % 3) * 5
@@ -48,9 +48,9 @@ export default class PozadinaGrada {
       // Unequal billows keep each column distinct instead of forming matching cones.
       ctx.beginPath()
       for (let deo = 0; deo < 5; deo++) {
-        const ugao = deo * Math.PI * 2 / 5 + i * 2.1 + seme
-        const cx = Math.round(x + Math.cos(ugao) * poluprecnik * .45)
-        const cy = Math.round(y + Math.sin(ugao) * poluprecnik * .35)
+        const angle = deo * Math.PI * 2 / 5 + i * 2.1 + seme
+        const cx = Math.round(x + Math.cos(angle) * poluprecnik * .45)
+        const cy = Math.round(y + Math.sin(angle) * poluprecnik * .35)
         const r = Math.max(1, Math.round(poluprecnik * (.6 + .15 * Math.sin(deo * 2 + i + seme))))
         ctx.moveTo(cx + r, cy)
         ctx.arc(cx, cy, r, 0, Math.PI * 2)
@@ -113,12 +113,12 @@ export default class PozadinaGrada {
 
   render(t = this.vreme) {
     const { ctx, canvas } = this
-    if (!this.slika.complete || !this.slika.naturalWidth) return
+    if (!this.image.complete || !this.image.naturalWidth) return
     ctx.save()
     ctx.filter = 'sepia(20%)'
-    ctx.drawImage(this.slika, 0, 0, canvas.width, canvas.height)
+    ctx.drawImage(this.image, 0, 0, canvas.width, canvas.height)
     ctx.restore()
-    this.crtez.clearRect(0, 0, sirina, visina)
+    this.crtez.clearRect(0, 0, width, height)
     for (const profil of stuboviDima) this.gustiDim(t, profil)
     this.dim(t)
     this.vatra(t)

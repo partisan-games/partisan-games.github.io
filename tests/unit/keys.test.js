@@ -115,19 +115,19 @@ test('the left tank drives, aims and fires with A, D, W, S and Space', async() =
   const { default: TenkLevo } = await import('/scenes/tenkici/TenkLevo.js')
   const { default: GameClock } = await import('/core/runtime/GameClock.js')
   const tank = new TenkLevo({ x: 100, xLimit: 500, clock: new GameClock() })
-  assert.deepEqual(actionsOf(tank, ['dodajSilu', 'diziCev', 'spustajCev', 'pucaj']), {
-    KeyA: ['dodajSilu'], KeyD: ['dodajSilu'], KeyW: ['diziCev'], KeyS: ['spustajCev'], Space: ['pucaj'],
+  assert.deepEqual(actionsOf(tank, ['addForce', 'diziCev', 'spustajCev', 'fire']), {
+    KeyA: ['addForce'], KeyD: ['addForce'], KeyW: ['diziCev'], KeyS: ['spustajCev'], Space: ['fire'],
   })
 })
 
 test('the right tank drives, aims and fires with the arrows and Enter', async() => {
   const { default: TenkDesno } = await import('/scenes/tenkici/TenkDesno.js')
-  const { default: platno } = await import('/core/io/platno.js')
+  const { default: canvas2d } = await import('/core/io/canvas2d.js')
   const { default: GameClock } = await import('/core/runtime/GameClock.js')
   const tank = new TenkDesno({ ai: false, clock: new GameClock() })
-  tank.x = platno.width * .75
-  assert.deepEqual(actionsOf(tank, ['dodajSilu', 'diziCev', 'spustajCev', 'pucaj']), {
-    ArrowLeft: ['dodajSilu'], ArrowRight: ['dodajSilu'], ArrowUp: ['diziCev'], ArrowDown: ['spustajCev'], Enter: ['pucaj'],
+  tank.x = canvas2d.width * .75
+  assert.deepEqual(actionsOf(tank, ['addForce', 'diziCev', 'spustajCev', 'fire']), {
+    ArrowLeft: ['addForce'], ArrowRight: ['addForce'], ArrowUp: ['diziCev'], ArrowDown: ['spustajCev'], Enter: ['fire'],
   })
 })
 
@@ -136,14 +136,14 @@ test('the ustanak cannon aims with W and S and fires when Space is released', as
   const cannon = new Top({ x: 230, y: 300 })
   const angles = {}
   for (const code of ['KeyW', 'KeyS']) {
-    cannon.ugao = 6
+    cannon.angle = 6
     press('keydown', code)
     cannon.handleInput(1)
     press('keyup', code)
-    angles[code] = Number(cannon.ugao.toFixed(4))
+    angles[code] = Number(cannon.angle.toFixed(4))
   }
   assert.deepEqual(angles, { KeyW: 5.68, KeyS: 6.2 })
-  assert.deepEqual(actionsOf(cannon, ['pali'], () => {
+  assert.deepEqual(actionsOf(cannon, ['launch'], () => {
     cannon.sila = cannon.minSila // what firing does
-  }), { Space: ['pali'] })
+  }), { Space: ['launch'] })
 })

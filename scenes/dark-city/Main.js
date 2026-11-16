@@ -1,5 +1,5 @@
 // https://codepen.io/MAKIO135/pen/vmBzMv
-import Scena3D, { bojeNeba } from '/core/Scena3D.js'
+import Scene3D, { skyGradients } from '/core/Scene3D.js'
 import CityMorph from './CityMorph.js'
 import { createFloor } from '/core3d/ground.js'
 import { createBuilding, createBuildingTexture } from '/core3d/city.js'
@@ -7,9 +7,9 @@ import { createMoon } from '/core3d/light.js'
 
 const mapSize = 400
 
-export default class extends Scena3D {
+export default class DarkCityScene extends Scene3D {
   constructor() {
-    super({ toon: true, showControls: false, bojaPlatna: bojeNeba.modra })
+    super({ toon: true, showControls: false, canvasBackground: skyGradients.modra })
   }
 
   init() {

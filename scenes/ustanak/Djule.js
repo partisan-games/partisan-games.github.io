@@ -1,17 +1,34 @@
-import { ctx } from '/core/io/platno.js'
-import Granata from '/core/actor/projektili/Granata.js'
+import canvas2d, { ctx } from '/core/io/canvas2d.js'
+import Shell from '/core/actor/projectiles/Shell.js'
 import { randomInRange } from '/core/utils.js'
 
-export default class Djule extends Granata {
+export default class Djule extends Shell {
   constructor({ r = 4, ...rest } = {}) {
     super({ src: null, ...rest })
     this.r = r
-    this.sirina = this.visina = r * 2
-    this.steta = randomInRange(20, 30)
+    this.width = this.height = r * 2
+    this.damage = randomInRange(20, 30)
+  }
+
+  get shown() {
+    return this.visible
+  }
+
+  checkBounds() {
+    if (this.timerId) return
+    if (this.x + this.r < 0 || this.x - this.r > canvas2d.width) {
+      this.reset()
+      return
+    }
+    if (this.y + this.r >= this.groundLevel) {
+      this.stop()
+      this.explode()
+      this.timerId = this.clock.after(.15, () => this.reset())
+    }
   }
 
   render() {
-    if (!this.vidljiv) return
+    if (!this.visible) return
 
     ctx.fillStyle = 'black'
     ctx.beginPath()

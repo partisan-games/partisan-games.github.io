@@ -1,10 +1,10 @@
-import Predmet from '/core/actor/Predmet.js'
-import { platno, ctx } from '/core/io/platno.js'
+import GameObject2D from '/core/actor/GameObject2D.js'
+import { canvas2d, ctx } from '/core/io/canvas2d.js'
 
-export default class Baza extends Predmet {
-  constructor({ brzina, ...rest }) {
-    super('vis.png', { x: 0, y: -platno.height, z: 1, sirina: platno.width, ishodiste: 'GORE_LEVO', senka: false, ...rest })
-    this.korak = brzina
+export default class Baza extends GameObject2D {
+  constructor({ speed, ...rest }) {
+    super('vis.png', { x: 0, y: -canvas2d.height, z: 1, width: canvas2d.width, origin: 'GORE_LEVO', shadow: false, ...rest })
+    this.korak = speed
   }
 
   update(dt) {
@@ -13,6 +13,6 @@ export default class Baza extends Predmet {
   }
 
   render() {
-    ctx.drawImage(this.slika, 0, this.y, this.sirina, this.visina)
+    ctx.drawImage(this.image, 0, this.y, this.width, this.height)
   }
 }

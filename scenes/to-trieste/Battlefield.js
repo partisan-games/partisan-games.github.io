@@ -1,5 +1,5 @@
-import Predmet from '/core/actor/Predmet.js'
-import platno, { ctx } from '/core/io/platno.js'
+import GameObject2D from '/core/actor/GameObject2D.js'
+import canvas2d, { ctx } from '/core/io/canvas2d.js'
 import { layers } from './CombatLayers.js'
 
 const TILE_WIDTH = 512
@@ -17,20 +17,20 @@ const VILLAGE_DEPTHS = [
 ]
 
 /** Decorative scenery has no collision targets or simulation of its own. */
-export default class Battlefield extends Predmet {
+export default class Battlefield extends GameObject2D {
   constructor({ groundY, distance }) {
     super(null, { z: layers.background })
     this.groundY = groundY
     this.distance = distance
-    this.roadHeight = Math.min(140, Math.max(64, platno.height * .16))
-    this.forest = new Predmet('nature/shumarak.png', { sirina: 250, vidljiv: false })
-    this.cloud = new Predmet('nature/oblak.gif', { sirina: 190, vidljiv: false })
+    this.roadHeight = Math.min(140, Math.max(64, canvas2d.height * .16))
+    this.forest = new GameObject2D('nature/shumarak.png', { width: 250, visible: false })
+    this.cloud = new GameObject2D('nature/oblak.gif', { width: 190, visible: false })
     this.buildings = [
-      new Predmet('buildings/kuca-07.png', { sirina: 72, vidljiv: false }),
-      new Predmet('buildings/kuca-04.png', { sirina: 90, vidljiv: false }),
-      new Predmet('buildings/crkva-01.png', { sirina: 78, vidljiv: false }),
+      new GameObject2D('buildings/kuca-07.png', { width: 72, visible: false }),
+      new GameObject2D('buildings/kuca-04.png', { width: 90, visible: false }),
+      new GameObject2D('buildings/crkva-01.png', { width: 78, visible: false }),
     ]
-    this.predmeti.push(this.forest, this.cloud, ...this.buildings)
+    this.children.push(this.forest, this.cloud, ...this.buildings)
     this.road = this.createRoad()
     this.sprites = new Map()
   }
@@ -40,13 +40,13 @@ export default class Battlefield extends Predmet {
     this.sky.addColorStop(0, '#9db8bd')
     this.sky.addColorStop(.8, '#d0d8c9')
     this.sky.addColorStop(1, '#e0dfc4')
-    for (const sprite of this.predmeti) {
+    for (const sprite of this.children) {
       const canvas = document.createElement('canvas')
-      canvas.width = Math.ceil(sprite.sirina)
-      canvas.height = Math.ceil(sprite.visina)
+      canvas.width = Math.ceil(sprite.width)
+      canvas.height = Math.ceil(sprite.height)
       const paint = canvas.getContext('2d')
       paint.filter = 'saturate(55%) contrast(88%)'
-      paint.drawImage(sprite.slika, 0, 0, canvas.width, canvas.height)
+      paint.drawImage(sprite.image, 0, 0, canvas.width, canvas.height)
       this.sprites.set(sprite, canvas)
     }
   }
@@ -90,19 +90,19 @@ export default class Battlefield extends Predmet {
     ctx.fillStyle = color
     ctx.beginPath()
     ctx.moveTo(0, this.groundY)
-    for (let x = -24; x <= platno.width + 24; x += 24) {
+    for (let x = -24; x <= canvas2d.width + 24; x += 24) {
       const worldX = x + distance
       const y = base + Math.sin(worldX / 240) * height + Math.sin(worldX / 93) * height * .25
       ctx.lineTo(x, y)
     }
-    ctx.lineTo(platno.width + 24, this.groundY)
+    ctx.lineTo(canvas2d.width + 24, this.groundY)
     ctx.closePath()
     ctx.fill()
   }
 
   drawSprite(sprite, x, bottom, scale = 1) {
-    if (!sprite.slika.naturalWidth || !Number.isFinite(sprite.visina)) return
-    ctx.drawImage(this.sprites.get(sprite) || sprite.slika, x, bottom - sprite.visina * scale, sprite.sirina * scale, sprite.visina * scale)
+    if (!sprite.image.naturalWidth || !Number.isFinite(sprite.height)) return
+    ctx.drawImage(this.sprites.get(sprite) || sprite.image, x, bottom - sprite.height * scale, sprite.width * scale, sprite.height * scale)
   }
 
   village(distance) {
@@ -112,7 +112,7 @@ export default class Battlefield extends Predmet {
       const phase = distance * depth.speed % tileWidth
       const bottom = this.groundY - depth.setback
       ctx.globalAlpha = depth.alpha
-      for (let origin = -tileWidth - phase; origin < platno.width; origin += tileWidth) {
+      for (let origin = -tileWidth - phase; origin < canvas2d.width; origin += tileWidth) {
         for (const x of depth.trees) this.drawSprite(this.forest, origin + x, bottom + 3, depth.scale)
         for (const [index, x] of depth.houses) {
           const sprite = this.buildings[index]
@@ -122,7 +122,7 @@ export default class Battlefield extends Predmet {
           ctx.lineWidth = 1.5
           ctx.beginPath()
           // Short fences frame each house.
-          for (const start of [origin + x - 35, origin + x + sprite.sirina + 5]) {
+          for (const start of [origin + x - 35, origin + x + sprite.width + 5]) {
             ctx.moveTo(start, bottom - 7)
             ctx.lineTo(start + 30, bottom - 7)
             for (let post = start; post <= start + 30; post += 10) {
@@ -140,11 +140,11 @@ export default class Battlefield extends Predmet {
   renderClouds(distance) {
     const phase = distance * .04 % CLOUD_SPACING
     ctx.save()
-    for (let origin = -CLOUD_SPACING - phase; origin < platno.width; origin += CLOUD_SPACING) {
+    for (let origin = -CLOUD_SPACING - phase; origin < canvas2d.width; origin += CLOUD_SPACING) {
       for (const cloud of CLOUDS) {
         const x = origin + cloud.x
-        const width = this.cloud.sirina * cloud.scale
-        if (x + width < 0 || x > platno.width) continue
+        const width = this.cloud.width * cloud.scale
+        if (x + width < 0 || x > canvas2d.width) continue
         ctx.globalAlpha = cloud.alpha
         this.drawSprite(this.cloud, x, this.groundY * cloud.height, cloud.scale)
       }
@@ -157,23 +157,23 @@ export default class Battlefield extends Predmet {
     const ground = this.groundY
     ctx.save()
     ctx.fillStyle = this.sky
-    ctx.fillRect(0, 0, platno.width, platno.height)
+    ctx.fillRect(0, 0, canvas2d.width, canvas2d.height)
     this.renderClouds(distance)
     this.ridge(distance * .1, ground - 120, 27, '#9ba99a')
     this.ridge(distance * .24, ground - 65, 20, '#7d9276')
     this.ridge(distance * .28, ground - 82, 5, '#87946d')
     this.village(distance)
     ctx.fillStyle = '#7c885b'
-    ctx.fillRect(0, ground - 8, platno.width, platno.height - ground + 8)
+    ctx.fillRect(0, ground - 8, canvas2d.width, canvas2d.height - ground + 8)
     const phase = distance % TILE_WIDTH
-    for (let x = -phase; x < platno.width; x += TILE_WIDTH)
+    for (let x = -phase; x < canvas2d.width; x += TILE_WIDTH)
       ctx.drawImage(this.road, x, this.roadTop)
     ctx.fillStyle = '#596e43'
     const verge = this.roadHeight + this.roadTop
-    ctx.fillRect(0, verge, platno.width, 3)
+    ctx.fillRect(0, verge, canvas2d.width, 3)
     // Small tufts frame the road without crossing the aiming area.
     ctx.fillStyle = '#657b4d'
-    for (let x = -(distance % 83); x < platno.width; x += 83) {
+    for (let x = -(distance % 83); x < canvas2d.width; x += 83) {
       ctx.beginPath()
       ctx.moveTo(x, this.roadTop)
       ctx.lineTo(x + 3, ground - 11)

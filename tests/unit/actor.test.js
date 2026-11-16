@@ -59,9 +59,9 @@ test('hitting a corpse does not count as a new death', () => {
   let deaths = 0
   const { ai } = createActor({ deathCallback: () => deaths++ })
 
-  ai.damageAmount = 1000
+  ai.pendingDamage = 1000
   ai.update(1 / 60)
-  ai.damageAmount = 50
+  ai.pendingDamage = 50
   ai.update(1 / 60)
 
   assert.equal(deaths, 1)

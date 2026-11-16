@@ -1,28 +1,45 @@
 import { keyboard } from '/core/io/Keyboard.js'
 import { leftPlayerKeys as keys } from '/core/io/keys.js'
-import Predmet from '/core/actor/Predmet.js'
+import GameObject2D from '/core/actor/GameObject2D.js'
 import Health from '/core/gameplay/Health.js'
 import Djule from './Djule.js'
 
-const skalar = .75
-const GORNJI_UGAO = 5.68
-const DONJI_UGAO = 6.2
+const scale = .75
+const minElevation = Math.PI * 2 - 6.2
+const maxElevation = Math.PI * 2 - 5.68
+const chargeRate = 300
 
-export default class Top extends Predmet {
-  constructor({ x, y, clock, ciljevi = [] } = {}) {
-    super('armies/game-ready/artiljerija/top-cev.gif', { x, y, skalar, zapaljiv: true })
-    this.postolje = new Predmet('armies/game-ready/artiljerija/top-postolje.gif', { x: x - 40, y: y + 32, skalar })
+export default class Top extends GameObject2D {
+  constructor({ x, y, clock, targets = [], direction = 1, groundY = y + 32, canFire = () => true, onFire = () => {} } = {}) {
+    super('armies/game-ready/artiljerija/top-cev.gif', { x, y, scale, flammable: true })
+    this.direction = direction
+    this.flipX = direction
+    this.postolje = new GameObject2D('armies/game-ready/artiljerija/top-postolje.gif', { x: x - 40 * direction, y: y + 32, scale, scaleX: direction })
     this.pocetniX = x
-    this.ugao = -0.2
+    this.pocetniY = y
+    this.elevation = .2
     this.sila = this.minSila = 300
-    this.projektili = Array.from({ length: 5 }, () => new Djule({ clock }))
-    this.predmeti = [...this.projektili, this.postolje]
-    this.ciljevi = ciljevi
+    this.maxForce = this.minSila * 3
+    this.projektili = Array.from({ length: 5 }, () => new Djule({ clock, groundLevel: groundY }))
+    this.children = [...this.projektili, this.postolje]
+    this.targets = targets
     this.health = new Health()
+    this.canFire = canFire
+    this.onFire = onFire
   }
 
   get energija() {
     return this.health.current
+  }
+
+  resetRound() {
+    this.projektili.forEach(projectile => projectile.reset())
+    this.health.reset()
+    this.setPosition(this.pocetniX, this.pocetniY)
+    this.stop()
+    this.elevation = .2
+    this.sila = this.minSila
+    this.flame?.clear()
   }
 
   get alive() {
@@ -35,58 +52,75 @@ export default class Top extends Predmet {
     else this.health.damage(this.health.current)
   }
 
-  get zapaljen() {
-    return this.zapaljiv && this.health.current <= 20
+  get burning() {
+    return this.flammable && this.health.current <= 20
   }
 
   get vrhX() {
-    return this.x + this.sirina * 0.5 * Math.cos(-this.ugao)
+    return this.x + this.width * .5 * Math.cos(this.angle) - 8 * this.direction * Math.sin(this.angle)
   }
 
   get vrhY() {
-    return this.y - this.sirina * 0.5 * Math.sin(-this.ugao) + 8
+    return this.y + this.width * .5 * Math.sin(this.angle) + 8 * this.direction * Math.cos(this.angle)
   }
 
-  pali() {
-    const projektil = this.projektili.find(p => !p.vidljiv)
-    if (!projektil) return
+  get elevation() {
+    return this.direction === 1 ? (Math.PI * 2 - this.angle) % (Math.PI * 2) : this.angle - Math.PI
+  }
 
-    const polozaj = { x: this.vrhX, y: this.vrhY }
-    projektil.pali(polozaj, this.ugao, this.sila)
-    this.x -= 5
+  set elevation(value) {
+    const angle = Math.max(minElevation, Math.min(maxElevation, value))
+    this.angle = this.direction === 1 ? -angle : Math.PI + angle
+  }
+
+  get hasActiveShot() {
+    return this.projektili.some(projectile => projectile.visible || projectile.timerId !== null)
+  }
+
+  launch() {
+    if (this.dead || !this.canFire() || this.hasActiveShot) return false
+    const projektil = this.projektili.find(p => !p.visible)
+    if (!projektil) return false
+
+    const position = { x: this.vrhX, y: this.vrhY }
+    projektil.launch(position, this.angle, this.sila)
+    this.x -= 5 * this.direction
     this.sila = this.minSila
+    this.onFire()
+    return true
   }
 
   handleInput(dt) {
     if (keyboard.isDown(keys.shoot))
-      this.sila += 10
+      this.sila = Math.min(this.maxForce, this.sila + chargeRate * dt)
     else if (this.sila > this.minSila)
-      this.pali()
+      this.launch()
 
     if (keyboard.isDown(keys.up))
-      this.ugao = Math.max(this.ugao - 0.5 * dt, GORNJI_UGAO)
+      this.elevation += .5 * dt
     if (keyboard.isDown(keys.down))
-      this.ugao = Math.min(this.ugao + 0.5 * dt, DONJI_UGAO)
+      this.elevation -= .5 * dt
   }
 
-  proveriPogodak() {
+  checkHit() {
     this.projektili.forEach(projektil => {
-      if (projektil.vidljiv)
-        this.ciljevi.forEach(cilj => projektil.proveriPogodak(cilj))
+      if (projektil.visible)
+        this.targets.filter(cilj => cilj.alive).forEach(cilj => projektil.checkHit(cilj))
     })
   }
 
-  reagujNaPogodak(steta) {
-    this.health.damage(steta)
+  takeHit(damage) {
+    this.health.damage(damage)
   }
 
-  sudara(predmet) {
-    return super.sudara(predmet) || this.postolje.sudara(predmet)
+  collidesWith(predmet) {
+    return super.collidesWith(predmet) || this.postolje.collidesWith(predmet)
   }
 
   update(dt) {
     super.update(dt)
-    this.proveriPogodak()
-    if (this.x < this.pocetniX) this.x += 20 * dt
+    this.checkHit()
+    const recoil = this.pocetniX - this.x
+    this.x += Math.sign(recoil) * Math.min(Math.abs(recoil), 20 * dt)
   }
 }

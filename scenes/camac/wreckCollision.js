@@ -1,14 +1,14 @@
 const dot = (a, b) => a.x * b.x + a.y * b.y
 const axesOf = actor => {
-  const cos = Math.cos(actor.ugao), sin = Math.sin(actor.ugao)
+  const cos = Math.cos(actor.angle), sin = Math.sin(actor.angle)
   return [{ x: cos, y: sin }, { x: -sin, y: cos }]
 }
-const radius = (actor, axes, normal) => Math.abs(dot(axes[0], normal)) * actor.sirina / 2 +
-  Math.abs(dot(axes[1], normal)) * actor.visina / 2
+const radius = (actor, axes, normal) => Math.abs(dot(axes[0], normal)) * actor.width / 2 +
+  Math.abs(dot(axes[1], normal)) * actor.height / 2
 
 /** Continuous rectangle contact: even a fast frame cannot carry the boat through a surface wreck. */
 export default function collideWithWreck(player, wreck, previousPlayer, previousWreck) {
-  if (player.dead || !wreck.vidljiv || !wreck.wreck.solid) return false
+  if (player.dead || !wreck.visible || !wreck.wreck.solid) return false
   const playerAxes = axesOf(player), wreckAxes = axesOf(wreck)
   const start = { x: previousPlayer.x - previousWreck.x, y: previousPlayer.y - previousWreck.y }
   const end = { x: player.x - wreck.x, y: player.y - wreck.y }

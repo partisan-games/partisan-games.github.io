@@ -1,4 +1,4 @@
-import platno, { ctx } from '/core/io/platno.js'
+import canvas2d, { ctx } from '/core/io/canvas2d.js'
 
 /** Bounded world-space effects; rendering never advances their lifetime. */
 export default class WaterEffects {
@@ -10,8 +10,8 @@ export default class WaterEffects {
     this.wakeIndex = this.hitIndex = 0
     this.trailDistance = new WeakMap()
     this.drawables = [
-      { polozaj: { z: .75 }, render: () => this.renderWakes() },
-      { polozaj: { z: -2 }, render: () => this.renderHits() },
+      { position: { z: .75 }, render: () => this.renderWakes() },
+      { position: { z: -2 }, render: () => this.renderHits() },
     ]
   }
 
@@ -22,7 +22,7 @@ export default class WaterEffects {
   }
 
   trail(boat, before, dt) {
-    if (boat.dead || !boat.vidljiv || !Number.isFinite(boat.sirina)) return
+    if (boat.dead || !boat.visible || !Number.isFinite(boat.width)) return
     const dx = boat.x - before.x, dy = boat.y - before.y
     const distance = Math.hypot(dx, dy)
     if (!dt || distance / dt < 20) { this.trailDistance.delete(boat); return }
@@ -33,10 +33,10 @@ export default class WaterEffects {
     for (let i = 0; i < count; i++) {
       const fraction = (12 - carried + i * 12) / distance
       const mark = this.wakes[this.wakeIndex++ % this.wakes.length]
-      mark.x = before.x + dx * fraction - dx / distance * boat.sirina * .4
-      mark.y = before.y + dy * fraction - dy / distance * boat.sirina * .4
+      mark.x = before.x + dx * fraction - dx / distance * boat.width * .4
+      mark.y = before.y + dy * fraction - dy / distance * boat.width * .4
       mark.angle = Math.atan2(dy, dx)
-      mark.width = boat.visina * .35
+      mark.width = boat.height * .35
       mark.life = 1.6
     }
   }
@@ -47,7 +47,7 @@ export default class WaterEffects {
   }
 
   visible(x, margin = 50) {
-    return x >= this.viewLeft() - margin && x <= this.viewLeft() + platno.width + margin
+    return x >= this.viewLeft() - margin && x <= this.viewLeft() + canvas2d.width + margin
   }
 
   renderWakes() {

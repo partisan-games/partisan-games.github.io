@@ -43,8 +43,6 @@ export default class Warplane extends GameObject {
     }
   }
 
-  /* GETTERS AND SETTERS */
-
   get timeToShoot() {
     return this.missileReload.ready
   }
@@ -56,8 +54,6 @@ export default class Warplane extends GameObject {
   get inAir() {
     return this.position.y > this.height * 2 / 3
   }
-
-  /* METHODS */
 
   addMissile() {
     const pos = this.position.clone()
@@ -106,7 +102,7 @@ export default class Warplane extends GameObject {
   }
 
   checkHit() {
-    if (!this.damageAmount) return
+    if (!this.pendingDamage) return
 
     this.applyDamage()
     this.view.showDamage()

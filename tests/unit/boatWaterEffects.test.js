@@ -11,7 +11,7 @@ before(async() => {
 function setup() {
   const session = { state: 'running', clock: { now: 0 } }
   const effects = new WaterEffects({ session, coast: {}, viewLeft: () => 0 })
-  const boat = { x: 120, y: 200, sirina: 100, visina: 30, vidljiv: true, dead: false }
+  const boat = { x: 120, y: 200, width: 100, height: 30, visible: true, dead: false }
   return { effects, session, boat }
 }
 

@@ -1,4 +1,4 @@
-import Scena3D from '/core/Scena3D.js'
+import Scene3D from '/core/Scene3D.js'
 import { createSun } from '/core3d/light.js'
 import { loadModel } from '/core3d/loaders.js'
 import { createHillyTerrain, createWater } from '/core3d/ground.js'
@@ -20,7 +20,7 @@ const controlKeys = {
 }
 const mapSize = 800
 
-export default class extends Scena3D {
+export default class ZeppelinScene extends Scene3D {
   constructor() {
     super({
       toon: true,

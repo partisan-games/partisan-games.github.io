@@ -1,0 +1,201 @@
+import { keyboard } from './io/Keyboard.js'
+import { keys } from './io/keys.js'
+import imageReady from './io/imageReady.js'
+import GameLoop from './GameLoop.js'
+import UI from '../ui/UI.js'
+import GameSession from './runtime/GameSession.js'
+import FixedStep from './runtime/FixedStep.js'
+import PausePolicy from './PausePolicy.js'
+import World from './World.js'
+
+// the scene that last showed each shared canvas; a scene ended late must not hide or wipe the next scene's drawing
+const canvasOwners = new WeakMap()
+
+export default class Scene {
+  constructor({
+    usePointerLock, controlKeys, intro, reportText, customStartScreen, startButtonText, showControls, uiStyle, canvas, disableEvents = false,
+    fixedStep = false,
+  } = {}) {
+    this.usePointerLock = usePointerLock
+    this.disableEvents = disableEvents
+    this.session = new GameSession()
+    // a scene that opts in updates its world in equal steps instead of once per drawn frame
+    if (fixedStep) this.stepper = new FixedStep()
+    this.gameLoop = new GameLoop(this.loop)
+    this.ui = new UI(this, {
+      reportText, intro, customStartScreen, startButtonText, showControls, controlKeys, uiStyle,
+      ...disableEvents ? {} : { onStart: () => this.start(), onContinue: () => this.unpause() },
+    })
+    this.world = new World()
+
+    this.canvas = canvas
+    this.canvas.style.display = 'block'
+    canvasOwners.set(canvas, this)
+
+    if (disableEvents) return
+
+    this.handleClick = this.handleClick.bind(this)
+    document.addEventListener('click', this.handleClick)
+    this.pausePolicy = new PausePolicy({ usePointerLock, pause: () => this.pause() })
+  }
+
+  init() {}
+
+  add(...objects) {
+    this.world.add(...objects)
+  }
+
+  /** Adds 2D objects drawn behind the others. */
+  addBehind(...objects) {
+    this.world.addBehind(...objects)
+  }
+
+  remove(...objects) {
+    this.world.remove(...objects)
+  }
+
+  get children() {
+    return this.world.objects
+  }
+
+  get width() {
+    return this.canvas.width
+  }
+
+  get height() {
+    return this.canvas.height
+  }
+
+  get hasStartScreen() {
+    return Boolean(this.ui.intro || this.ui.customStartScreen)
+  }
+
+  /** A click anywhere on the page, for games that react to it; the start and pause screens handle their own buttons. */
+  handleClick() {}
+
+  imagesLoaded() {
+    const withDescendants = children => children.flatMap(object =>
+      [object, ...withDescendants(object.children || [])]
+    )
+    const roots = [...new Set([...this.children, this.player, this.background].filter(Boolean))]
+    const images = withDescendants(roots)
+      .filter(({ image }) => image)
+      .map(({ image, imageLoaded }) => imageReady(image, imageLoaded))
+    return Promise.all(images)
+  }
+
+  start() {
+    this.gameLoop.start()
+    this.session.start()
+    this.ui.clearIntro()
+    this.focusCanvas()
+    if (this.usePointerLock) document.body.requestPointerLock()
+  }
+
+  focusCanvas() {
+    if (this.disableEvents) return
+    this.canvas.tabIndex = -1
+    this.canvas.focus({ preventScroll: true })
+  }
+
+  end() {
+    this.gameLoop.stop()
+    this.world.end(this.player)
+    this.session.dispose()
+    this.ui.end()
+    if (canvasOwners.get(this.canvas) === this) {
+      this.clear()
+      this.canvas.style.display = 'none'
+      canvasOwners.delete(this.canvas)
+    }
+
+    document.removeEventListener('click', this.handleClick)
+    this.pausePolicy?.end()
+  }
+
+  pause() {
+    if (this.ui.outro || !this.gameLoop.isRunning) return
+
+    this.gameLoop.pause()
+    this.session.pause()
+    this.ui.showPauseScreen()
+  }
+
+  unpause() {
+    this.gameLoop.unpause()
+    this.stepper?.reset()
+    this.session.resume()
+    this.ui.hideScreen()
+    this.focusCanvas()
+    if (this.usePointerLock) document.body.requestPointerLock()
+  }
+
+  handleInput(dt) {
+    if (this.ui.outro) return
+
+    if (keyboard.isDown(keys.pause)) this.pause()
+
+    this.world.handleInput(dt)
+  }
+
+  update(dt, t) {
+    this.world.update(dt, t)
+  }
+
+  clear() {}
+
+  render() {}
+
+  /** Game rules for one simulation step, in a scene with `fixedStep`. */
+  fixedUpdate() {}
+
+  /** Camera, animations and anything else seen, once per drawn frame, in a scene with `fixedStep`. */
+  present() {}
+
+  loop = (dt, t) => {
+    if (this.stepper) this.simulate(dt, t)
+    else {
+      this.session.update(dt)
+      this.handleInput(dt)
+      this.update(dt, t)
+    }
+    this.clear()
+    this.render()
+    this.ui.render(t)
+  }
+
+  /** Input once per drawn frame, so a press acts once however many steps follow; then the steps; then what is seen. */
+  simulate(dt, t) {
+    this.handleInput(dt)
+    const { step } = this.stepper
+    for (let i = this.stepper.advance(dt); i > 0; i--) {
+      this.session.update(step)
+      this.update(step, t)
+      this.fixedUpdate(step)
+    }
+    this.present(dt, t)
+  }
+
+  finish() {
+    this.gameLoop.stopTime()
+    this.session.finish()
+    if (this.usePointerLock) document.exitPointerLock()
+  }
+
+  // scenes keep checking their end conditions every frame; the first result stands
+  defeat(text) {
+    if (this.ui.outro) return
+    this.ui.showDefeatScreen(text)
+    this.finish()
+  }
+
+  victory(text, title) {
+    if (this.ui.outro) return
+    this.ui.showVictoryScreen(text, title)
+    this.finish()
+  }
+
+  sceneUI() {
+    return ''
+  }
+}

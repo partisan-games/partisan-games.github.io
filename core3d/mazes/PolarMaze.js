@@ -7,8 +7,6 @@ export default class PolarMaze extends Maze {
     super({ rows, columns: 1, algorithm, cellSize })
   }
 
-  /* GETTERS */
-
   get random_cell() {
     const row = Math.floor(Math.random() * this.rows)
     const col = Math.floor(Math.random() * this.grid[row].length)
@@ -19,8 +17,6 @@ export default class PolarMaze extends Maze {
     if (row < 0 || row > this.rows - 1) return null
     return this.grid[row][column % this.grid[row].length]
   }
-
-  /* UTILS */
 
   createGrid(rows) {
     const grid = new Array(rows)
@@ -44,7 +40,7 @@ export default class PolarMaze extends Maze {
     for (const row of grid)
       for (const cell of row) {
         const { row, column } = cell
-        if (row == 0) continue
+        if (row === 0) continue
 
         cell.cw = grid[row][column + 1]
         cell.ccw = grid[row][column - 1]
@@ -56,8 +52,6 @@ export default class PolarMaze extends Maze {
 
     return grid
   }
-
-  /* RENDER */
 
   toMesh(params = {}) {
     return meshFromPolarMaze({ ...params, maze: this, cellSize: this.cellSize })

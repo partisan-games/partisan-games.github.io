@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import Scena3D from '/core/Scena3D.js'
+import Scene3D from '/core/Scene3D.js'
 import { createSun } from '/core3d/light.js'
 import { createGround } from '/core3d/ground.js'
 import { Smoke } from '/core3d/Particles.js'
@@ -9,7 +9,7 @@ import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js'
 import { createOrbitControls } from '/core3d/helpers.js'
 import { createTrees } from '/core3d/geometry/trees.js'
 
-export default class extends Scena3D {
+export default class LocomotiveScene extends Scene3D {
   constructor() {
     super({ toon: true })
   }
@@ -40,8 +40,6 @@ export default class extends Scena3D {
     const mine = await this.session.keep(requestModel({ file: 'building/mine/scene.gltf', size: 5, shouldCenter: true, shouldAdjustHeight: true }))
     const rudnik = clone(mine)
     rudnik.position.x = -8
-    // rudnik.position.z = -14
-    // rudnik.position.x = -50
     this.addMesh(rudnik)
 
     this.mixer = new THREE.AnimationMixer(this.locomotive)

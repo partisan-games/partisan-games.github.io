@@ -5,14 +5,10 @@ import { createSphere } from '/core3d/geometry/index.js'
 import { Ammo } from '/core3d/physics/index.js'
 import PowerMeter from '/ui/PowerMeter.js'
 
-/* LOADING */
-
 const model = { file: 'weapon/cannon/civil-war-cannon.fbx', size: 1.5 }
 
 /** What to load; a game awaits requestModels(models) before it creates one. */
 export const models = [model]
-
-/* EXTENDED CLASSES */
 
 export class CannonPlayer extends Player {
   constructor(props = {}) {

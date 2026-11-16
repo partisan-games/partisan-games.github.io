@@ -11,7 +11,7 @@ export default class Vector {
     if (z !== undefined) this.z = z
   }
 
-  razmakDo(polozaj) {
-    return Math.hypot(this.x - polozaj.x, this.y - polozaj.y, this.z - polozaj.z)
+  distanceTo(position) {
+    return Math.hypot(this.x - position.x, this.y - position.y, this.z - position.z)
   }
 }

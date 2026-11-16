@@ -3,7 +3,7 @@ import Input from '/core/io/Input.js'
 import { Flame } from '/core3d/Particles.js'
 import GameObject from '/core3d/objects/GameObject.js'
 import { loadedModel } from '/core3d/assets/models.js'
-import { frames } from '/core/konstante.js'
+import { frames } from '/core/constants.js'
 
 /** What to load; the game awaits requestModel(model) in init(), before it creates the lander. */
 export const model = { file: 'space/lunar-module/model.fbx', size: 2.5 }
@@ -25,8 +25,6 @@ export default class Lander extends GameObject {
     this.reset()
   }
 
-  /* GETTERS */
-
   get onPlatform() {
     return this.platform.playerOnPlatform
   }
@@ -46,8 +44,6 @@ export default class Lander extends GameObject {
   get lost() {
     return this.position.y < lowerBound
   }
-
-  /* METHODS */
 
   reset() {
     this.fuel = 300
@@ -110,8 +106,6 @@ export default class Lander extends GameObject {
   applyForce(angle, thrust) {
     this.velocity.add({ x: thrust * Math.cos(angle), y: thrust * Math.sin(angle) })
   }
-
-  /* UPDATES */
 
   applyGravity(delta) {
     this.applyForce(-Math.PI / 2, .01625 * frames(delta))

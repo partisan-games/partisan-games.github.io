@@ -1,12 +1,12 @@
-import Metak from '/core/actor/projektili/Metak.js'
-import platno, { ctx } from '/core/io/platno.js'
+import Projectile from '/core/actor/projectiles/Projectile.js'
+import canvas2d, { ctx } from '/core/io/canvas2d.js'
 
 /** Projectile simulation uses world coordinates; visibility uses the current camera. */
-export default class BoatBullet extends Metak {
+export default class BoatBullet extends Projectile {
   constructor(viewLeft) {
-    super({ src: null, sirina: 10, visina: 2, z: -1 })
+    super({ src: null, width: 10, height: 2, z: -1 })
     this.viewLeft = viewLeft
-    this.steta = 10
+    this.damage = 10
   }
 
   reset() {
@@ -14,28 +14,28 @@ export default class BoatBullet extends Metak {
     this.start = this.end = null
   }
 
-  get vanEkrana() {
+  get offScreen() {
     const x = this.x - this.viewLeft()
-    return x < -this.sirina || x > platno.width + this.sirina ||
-      this.y < -this.sirina || this.y > platno.height + this.sirina
+    return x < -this.width || x > canvas2d.width + this.width ||
+      this.y < -this.width || this.y > canvas2d.height + this.width
   }
 
   update(dt) {
-    if (!this.vidljiv) return
-    if (this.vanEkrana) { this.reset(); return }
+    if (!this.visible) return
+    if (this.offScreen) { this.reset(); return }
     this.start = { x: this.x, y: this.y }
-    this.azurirajKretanje(dt)
+    this.updateMovement(dt)
     this.end = { x: this.x, y: this.y }
     // Hit resolution precedes retirement, even if this segment leaves the screen.
   }
 
   render() {
-    if (!this.prikazan) return
+    if (!this.shown) return
     ctx.save()
     ctx.translate(this.x, this.y)
-    ctx.rotate(this.ugao)
+    ctx.rotate(this.angle)
     ctx.fillStyle = '#ffe2a0'
-    ctx.fillRect(-this.sirina / 2, -this.visina / 2, this.sirina, this.visina)
+    ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height)
     ctx.restore()
   }
 }

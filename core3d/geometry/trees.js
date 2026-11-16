@@ -12,8 +12,6 @@ const randomBrown = () => browns[Math.floor(Math.random() * browns.length)]
 const randomNuance = ({ h = .25, s = 0.5, l = 0.2 } = {}) =>
   new THREE.Color().setHSL(Math.random() * 0.1 + h, s, Math.random() * 0.25 + l)
 
-/* SIMPLE TREE */
-
 function createTrunk(size, color) {
   const geometry = new THREE.CylinderGeometry(size / 5, size / 4, size * 2, 8)
   const material = new THREE.MeshToonMaterial({
@@ -56,8 +54,6 @@ export function createTree({ x = 0, y = 0, z = 0, size = 5, trunkColor, crownCol
   return trunk
 }
 
-/* FIR TREE */
-
 export function createFirTree({ x = 0, y = 0, z = 0, size = 5 } = {}) {
   const trunk = new THREE.Mesh(
     new THREE.CylinderGeometry(1.5, 1.5, 12, 6, 1, true),
@@ -88,8 +84,6 @@ export function createFirTree({ x = 0, y = 0, z = 0, size = 5 } = {}) {
   return group
 }
 
-/* SIMPLE FIR TREE */
-
 export function createSimpleFir({ size = 15, x = 0, y = 0, z = 0 } = {}) {
   size = size * randFloat(0.6, 1.4) // eslint-disable-line
   const treeData = {
@@ -116,8 +110,6 @@ export function createSimpleFir({ size = 15, x = 0, y = 0, z = 0 } = {}) {
   group.position.set(x, y, z)
   return group
 }
-
-/* FACTORIES */
 
 export function createTrees({ mapSize = 100, size = 4, n = maxItems(mapSize, size) / 4, nFirTrees = 0, coords = getEmptyCoords({ mapSize, fieldSize: size }) } = {}) {
   const group = new THREE.Group()

@@ -1,5 +1,6 @@
 import { MathUtils } from 'three'
-import { sample, shuffle } from '/core3d/helpers.js'
+import { sample } from '/core3d/helpers.js'
+import { shuffle } from '/core/utils.js'
 import { meshFromMaze, meshFromTilemap, tileToPosition, calcPyramidHeight, cityFromTilemap } from '/core3d/mazes/index.js'
 import { recursiveBacktracker } from '/core3d/mazes/algorithms.js'
 import Cell from './Cell.js'
@@ -34,8 +35,6 @@ export default class Maze {
     if (algorithm) algorithm(this)
     this.tilemap = this.createTilemap()
   }
-
-  /* GETTERS */
 
   get size() {
     return this.rows * this.columns
@@ -109,8 +108,6 @@ export default class Maze {
     return tileToPosition(this.tilemap, [row, column], this.cellSize)
   }
 
-  /* UTILS */
-
   createGrid(rows, columns) {
     const grid = new Array(rows)
     for (let i = 0; i < rows; i += 1) {
@@ -145,11 +142,11 @@ export default class Maze {
   /* remove deadends */
   braid(percent = 0.5) {
     for (const cell of this.each_cell()) {
-      if (cell.links_length != 1 || Math.random() > percent)
+      if (cell.links_length !== 1 || Math.random() > percent)
         continue
 
       const unlinked = cell.neighbors.filter(c => !c.linked(cell))
-      const unlinkedOneway = unlinked.filter(c => c.links_length == 1)
+      const unlinkedOneway = unlinked.filter(c => c.links_length === 1)
       const best = unlinkedOneway.length ? unlinkedOneway : unlinked
 
       cell.link(sample(best))
@@ -169,8 +166,6 @@ export default class Maze {
       return pos
     })
   }
-
-  /* RENDER */
 
   toString() {
     let output = ''

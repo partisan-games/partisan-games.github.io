@@ -1,4 +1,5 @@
 import { loadedModel } from '/core3d/assets/models.js'
+import GameObject from './GameObject.js'
 import Bullet from './Bullet.js'
 import Building from './Building.js'
 
@@ -26,7 +27,8 @@ export default class Tower extends Building {
 
   get targetInRange() {
     if (!this.playerMesh) return false
-    return this.playerMesh.userData.energy && this.distanceTo(this.playerMesh) < this.range
+    const player = GameObject.ownerOf(this.playerMesh)
+    return Boolean(player && !player.dead) && this.distanceTo(this.playerMesh) < this.range
   }
 
   get ableToShoot() {

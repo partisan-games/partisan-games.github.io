@@ -1,7 +1,7 @@
-import Predmet from '/core/actor/Predmet.js'
+import GameObject2D from '/core/actor/GameObject2D.js'
 
-export default class Bunker extends Predmet {
-  constructor({ x, y, skalar = .5, zapaljiv = true, ...rest } = {}) {
-    super('buildings/kuca-bunker.png', { x, y, z: -1, skalar, zapaljiv, ...rest })
+export default class Bunker extends GameObject2D {
+  constructor({ x, y, scale = .5, flammable = true, ...rest } = {}) {
+    super('buildings/kuca-bunker.png', { x, y, z: -1, scale, flammable, ...rest })
   }
 }

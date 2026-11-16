@@ -82,18 +82,85 @@ test('of two quick starts only the latest one runs and the older one stays silen
   assert.equal(manager.scene, fastScene)
 })
 
-test('waits for the background image before the intro, also when the image fails', async() => {
+test('waits for the background image and reports a failed image without starting', async() => {
   for (const eventName of ['load', 'error']) {
     const log = []
-    const slika = Object.assign(new EventTarget(), { complete: false })
-    modules.game = async() => ({ default: createSceneClass({ log, pozadina: { slika } }) })
+    const image = Object.assign(new EventTarget(), { complete: false })
+    modules.game = async() => ({ default: createSceneClass({ log, background: { image } }) })
 
     const starting = createManager().start('game')
     await flush()
     assert.equal(log[0].started, 0)
 
-    slika.dispatchEvent(new Event(eventName))
-    await starting
-    assert.equal(log[0].started, 1, eventName)
+    image.dispatchEvent(new Event(eventName))
+    if (eventName === 'load') {
+      await starting
+      assert.equal(log[0].started, 1)
+    } else {
+      await assert.rejects(starting, /Image could not be loaded/)
+      assert.equal(log[0].started, 0)
+      assert.equal(log[0].ended, 1)
+    }
+    assert.equal(spinner.visible, false)
   }
+})
+
+test('draws the complete scene before showing its start menu and hiding the spinner', async() => {
+  const calls = []
+  let finishImages
+  const ready = new Promise(resolve => {
+    finishImages = resolve
+  })
+  const log = []
+  modules.game = async() => ({ default: class extends createSceneClass({ log }) {
+    constructor() {
+      super()
+      this.hasStartScreen = true
+      this.ui = { renderStartScreen: () => calls.push('menu') }
+    }
+    imagesLoaded() {
+      return ready
+    }
+    clear() {
+      calls.push('background')
+    }
+    render() {
+      calls.push('objects')
+    }
+  } })
+  const starting = createManager().start('game')
+  await flush()
+  assert.deepEqual(calls, [])
+  assert.equal(spinner.visible, true)
+  assert.equal(log[0].session.state, 'loading')
+  finishImages()
+  await starting
+  assert.deepEqual(calls, ['background', 'objects', 'menu'])
+  assert.equal(log[0].session.state, 'ready')
+  assert.equal(log[0].started, 0)
+  assert.equal(spinner.visible, false)
+})
+
+test('finishing old image loading cannot draw or start a scene after navigation', async() => {
+  let finishImages
+  const ready = new Promise(resolve => {
+    finishImages = resolve
+  })
+  const log = []
+  modules.old = async() => ({ default: class extends createSceneClass({ log }) {
+    imagesLoaded() {
+      return ready
+    }
+  } })
+  modules.next = async() => ({ default: createSceneClass({ log }) })
+  const manager = createManager()
+  const old = manager.start('old')
+  await flush()
+  await manager.start('next')
+  finishImages()
+  await old
+  assert.equal(log[0].started, 0)
+  assert.equal(log[0].session.state, 'disposed')
+  assert.equal(log[1].started, 1)
+  assert.equal(manager.scene, log[1])
 })

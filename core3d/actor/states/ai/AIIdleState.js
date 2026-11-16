@@ -18,10 +18,8 @@ export default class AIIdleState extends IdleState {
 
     actor.turnEvery(this.interval, Math.PI / 4)
 
-    if (actor.damageAmount)
+    if (actor.pendingDamage)
       actor.lookAtTarget()
-
-    /* TRANSIT */
 
     if (actor.inAir)
       actor.setState('fall')
@@ -29,13 +27,13 @@ export default class AIIdleState extends IdleState {
     if (actor.canPursue && actor.targetSpotted)
       actor.setState('pursue')
 
-    if (baseState == baseStates.defend && targetInAttackRange)
+    if (baseState === baseStates.defend && targetInAttackRange)
       actor.setState('attack')
 
-    if (baseState == baseStates.flee && targetInSightRange)
+    if (baseState === baseStates.flee && targetInSightRange)
       actor.setState('flee')
 
-    if (baseState == baseStates.follow && targetInSightRange && distanceToTarget > this.resumeFollowDistance)
+    if (baseState === baseStates.follow && targetInSightRange && distanceToTarget > this.resumeFollowDistance)
       actor.setState('follow')
   }
 }

@@ -40,8 +40,6 @@ export default class FlyState extends State {
 
     actor.applyVelocityY(delta)
 
-    /* TRANSIT */
-
     if (this.actor.velocity.y < 0 && !this.ableToJump)
       this.actor.setState('fall')
   }

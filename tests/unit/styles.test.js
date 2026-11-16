@@ -2,11 +2,11 @@ import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 
-let Scena
+let Scene
 
 before(async() => {
   createPageElements()
-  Scena = (await import('/core/Scena.js')).default
+  Scene = (await import('/core/Scene.js')).default
 })
 
 // the classes each style gave its elements before the styles moved to one place
@@ -20,7 +20,7 @@ const classesOf = element => element.className.replace(/\s+/g, ' ').trim()
 
 /** Reads the classes that a scene of this style puts on its screen, score, and controls. */
 function renderedClasses(uiStyle) {
-  const scene = new Scena({ canvas: document.createElement('canvas'), uiStyle, intro: 'x', showControls: true })
+  const scene = new Scene({ canvas: document.createElement('canvas'), uiStyle, intro: 'x', showControls: true })
   scene.ui.renderStartScreen()
   const screen = document.querySelector('#start-screen')
   const score = new DOMParser().parseFromString(scene.ui.scoreUI(), 'text/html').body.firstElementChild
@@ -44,7 +44,7 @@ for (const [style, expected] of Object.entries(recorded))
   })
 
 test('a scene without a style uses the simple style', () => {
-  const scene = new Scena({ canvas: document.createElement('canvas'), intro: 'x' })
+  const scene = new Scene({ canvas: document.createElement('canvas'), intro: 'x' })
   scene.ui.renderStartScreen()
   assert.equal(classesOf(document.querySelector('#start')), 'default-button')
   scene.end()
@@ -53,7 +53,7 @@ test('a scene without a style uses the simple style', () => {
 test('the next scene does not inherit the style of the previous one', () => {
   renderedClasses('rpg')
   assert.deepEqual(renderedClasses('white').button, 'white-button')
-  const scene = new Scena({ canvas: document.createElement('canvas'), intro: 'x' })
+  const scene = new Scene({ canvas: document.createElement('canvas'), intro: 'x' })
   scene.ui.renderStartScreen()
   assert.equal(classesOf(document.querySelector('#start')), 'default-button')
   scene.end()

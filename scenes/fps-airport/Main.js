@@ -1,4 +1,4 @@
-import Scena3D from '/core/Scena3D.js'
+import Scene3D from '/core/Scene3D.js'
 import { createGround, createFloor } from '/core3d/ground.js'
 import { createMoon } from '/core3d/light.js'
 import { sample, getEmptyCoords } from '/core3d/helpers.js'
@@ -20,7 +20,7 @@ import { requestModels } from '/core3d/assets/models.js'
 const mapSize = 200
 const dornierNum = 8, stukaNum = 8, heinkelNum = 7
 
-export default class extends Scena3D {
+export default class FpsAirportScene extends Scene3D {
   constructor() {
     super({
       usePointerLock: true,
@@ -96,7 +96,7 @@ export default class extends Scena3D {
     if (this.player.dead)
       this.defeat('You are dead.')
 
-    if (destroyed.length == this.aircraft.length)
+    if (destroyed.length === this.aircraft.length)
       this.victory('All enemy planes were destroyed.')
   }
 }

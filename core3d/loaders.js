@@ -5,8 +5,6 @@ import { assets } from '/config.js'
 
 const textureLoader = new THREE.TextureLoader()
 
-/* HELPERS */
-
 const getScale = (mesh, newHeight) => {
   const height = getHeight(mesh)
   const scale = newHeight / height
@@ -35,7 +33,6 @@ const prepareMesh = async({ model, size = 2, texture, angle, axis = [0, 1, 0], a
       if (map) {
         child.material = new THREE.MeshLambertMaterial()
         child.material.map = map
-        // child.material.side = THREE.DoubleSide
       }
       if (!child.geometry.attributes.normal) child.geometry.computeVertexNormals()
     }
@@ -47,8 +44,6 @@ const prepareMesh = async({ model, size = 2, texture, angle, axis = [0, 1, 0], a
   if (animations) mesh.userData.animations = animations
   return mesh
 }
-
-/* OBJ */
 
 export const loadObj = async params => {
   const { file, mtl } = params
@@ -67,8 +62,6 @@ export const loadObj = async params => {
   return await prepareMesh({ model, ...params })
 }
 
-/* GLB */
-
 export async function loadGlb(params) {
   const { GLTFLoader } = await import('three/examples/jsm/loaders/GLTFLoader.js')
 
@@ -77,8 +70,6 @@ export async function loadGlb(params) {
   return await prepareMesh({ model: scene, animations, ...params })
 }
 
-/* DAE */
-
 export async function loadDae(params) {
   const { ColladaLoader } = await import('three/examples/jsm/loaders/ColladaLoader.js')
 
@@ -86,8 +77,6 @@ export async function loadDae(params) {
   const { scene } = await colladaLoader.loadAsync(`${assets.models}${params.file}`)
   return await prepareMesh({ model: scene, animations: scene.animations, ...params })
 }
-
-/* MD2 */
 
 export async function loadMd2(params) {
   const { file, texture } = params
@@ -101,8 +90,6 @@ export async function loadMd2(params) {
   const model = new THREE.Mesh(geometry, material)
   return await prepareMesh({ model, animations, ...params, texture: null })
 }
-
-/* FBX */
 
 export async function loadFbx(params) {
   const { FBXLoader } = await import('three/examples/jsm/loaders/FBXLoader.js')
@@ -134,8 +121,6 @@ export async function loadFbxAnimations(names, prefix = '') {
   const responses = await Promise.all(promises)
   return responses.map(res => res.children[0].animations[0])
 }
-
-/* MASTER LOADER */
 
 /*
 * Handle model load and preparation (scale, rotate, etc.)
@@ -169,8 +154,6 @@ export const loadModel = async param => {
   }
 }
 
-/* INDICATOR */
-
 export class Spinner {
   constructor() {
     this.img = document.createElement('img')
@@ -189,6 +172,6 @@ export class Spinner {
   }
 
   get loading() {
-    return this.img.style.display != 'none'
+    return this.img.style.display !== 'none'
   }
 }

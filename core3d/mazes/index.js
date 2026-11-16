@@ -10,8 +10,6 @@ const { randInt, randFloat } = THREE.MathUtils
 
 const textureLoader = new THREE.TextureLoader()
 
-/* HELPERS */
-
 export const tileToPosition = (tilemap, [row, column], cellSize = 1) => {
   const x = column * cellSize + cellSize / 2 - tilemap[0].length / 2 * cellSize
   const z = row * cellSize + cellSize / 2 - tilemap.length / 2 * cellSize
@@ -26,12 +24,10 @@ const centerGeometry = geometry => {
   geometry.translate(_offset.x, 0, _offset.z)
 }
 
-/* MESH FROM TILEMAP */
-
 const scale = (value, range1, range2) =>
   (value - range1[0]) * (range2[1] - range2[0]) / (range1[1] - range1[0]) + range2[0]
 
-const isRing = (row, j, i, ringIndex) => i == ringIndex || j == ringIndex || j == row.length - (1 + ringIndex) || i == row.length - (1 + ringIndex)
+const isRing = (row, j, i, ringIndex) => i === ringIndex || j === ringIndex || j === row.length - (1 + ringIndex) || i === row.length - (1 + ringIndex)
 
 export const calcPyramidHeight = (row, j, i, size, maxHeight) => {
   const flatRoof = 2
@@ -120,8 +116,6 @@ export function cityFromTilemap({
   return group
 }
 
-/* MESH FROM GRID */
-
 const turnTo = (geometry, p1, p2) => {
   const mesh = new THREE.Mesh(geometry)
   mesh.position.set(p1.x, 0, p1.z)
@@ -161,100 +155,61 @@ export function createCityWall(p1, p2) {
   return geometry
 }
 
-export function meshFromMaze({ maze, cellSize = 10, connect = createWall, color = 'white', texture } = {}) {
-  const geometries = []
+/** The wall ends around one cell of a square maze: its open sides toward a linked neighbour get no wall. */
+function squareCellWalls(cell, cellSize) {
+  const x1 = cell.column * cellSize
+  const y1 = cell.row * cellSize
+  const x2 = (cell.column + 1) * cellSize
+  const y2 = (cell.row + 1) * cellSize
+  const walls = []
+  if (!cell.north) walls.push([x1, y1, x2, y1])
+  if (!cell.west) walls.push([x1, y1, x1, y2])
+  if (!cell.east || !cell.linked(cell.east)) walls.push([x2, y1, x2, y2])
+  if (!cell.south || !cell.linked(cell.south)) walls.push([x1, y2, x2, y2])
+  return walls
+}
 
-  for (const row of maze.grid)
-    for (const cell of row) {
-      const x1 = cell.column * cellSize
-      const y1 = cell.row * cellSize
-      const x2 = (cell.column + 1) * cellSize
-      const y2 = (cell.row + 1) * cellSize
+/** The wall ends around one cell of a polar maze; the outer ring keeps one entrance. */
+function polarCellWalls(cell, row, maze, cellSize) {
+  const theta = 2 * Math.PI / maze.grid[cell.row].length
+  const innerRadius = cell.row * cellSize
+  const outerRadius = (cell.row + 1) * cellSize
+  const ccw = cell.column * theta
+  const cw = (cell.column + 1) * theta
+  const point = (radius, angle) => [Math.round(radius * Math.cos(angle)), Math.round(radius * Math.sin(angle))]
+  const [ax, ay] = point(innerRadius, ccw)
+  const [bx, by] = point(outerRadius, ccw)
+  const [cx, cy] = point(innerRadius, cw)
+  const [dx, dy] = point(outerRadius, cw)
 
-      if (!cell.north) {
-        const p1 = new Vector3(x1, 0, y1)
-        const p2 = new Vector3(x2, 0, y1)
-        geometries.push(connect(p1, p2))
-      }
-      if (!cell.west) {
-        const p1 = new Vector3(x1, 0, y1)
-        const p2 = new Vector3(x1, 0, y2)
-        geometries.push(connect(p1, p2))
-      }
-      if ((cell.east && !cell.linked(cell.east)) || !cell.east) {
-        const p1 = new Vector3(x2, 0, y1)
-        const p2 = new Vector3(x2, 0, y2)
-        geometries.push(connect(p1, p2))
-      }
-      if ((cell.south && !cell.linked(cell.south)) || !cell.south) {
-        const p1 = new Vector3(x1, 0, y2)
-        const p2 = new Vector3(x2, 0, y2)
-        geometries.push(connect(p1, p2))
-      }
-    }
+  const walls = []
+  if (!cell.linked(cell.inward)) walls.push([ax, ay, cx, cy])
+  if (!cell.linked(cell.cw)) walls.push([cx, cy, dx, dy])
+  if (cell.row === maze.size - 1 && cell.column !== row.length * 0.75) walls.push([bx, by, dx, dy])
+  return walls
+}
 
+function mazeMesh(walls, { connect, color, texture }) {
+  const geometries = walls.map(([x1, z1, x2, z2]) => connect(new Vector3(x1, 0, z1), new Vector3(x2, 0, z2)))
   const geometry = BufferGeometryUtils.mergeGeometries(geometries)
   geometry.translate(0, .5, 0)
-  centerGeometry(geometry)
   const material = new THREE.MeshLambertMaterial({
     color,
     map: texture ? createTexture({ file: texture }) : null
   })
-  const mesh = new THREE.Mesh(geometry, material)
+  return new THREE.Mesh(geometry, material)
+}
+
+export function meshFromMaze({ maze, cellSize = 10, connect = createWall, color = 'white', texture } = {}) {
+  const walls = maze.grid.flatMap(row => row.flatMap(cell => squareCellWalls(cell, cellSize)))
+  const mesh = mazeMesh(walls, { connect, color, texture })
+  centerGeometry(mesh.geometry)
   return mesh
 }
 
-/* MESH FROM POLAR GRID */
-
 export function meshFromPolarMaze({ maze, cellSize = 10, connect = createPipe, color = 'gray', texture } = {}) {
-  const center = 0
-  const geometries = []
-
-  for (const row of maze.grid)
-    for (const cell of row) {
-      if (cell.row == 0) continue // center cell is empty
-
-      const cell_count = maze.grid[cell.row].length
-      const theta = 2 * Math.PI / cell_count
-      const inner_radius = cell.row * cellSize
-      const outer_radius = (cell.row + 1) * cellSize
-      const theta_ccw = cell.column * theta // counter-clockwise wall
-      const theta_cw = (cell.column + 1) * theta // clockwise wall
-
-      const ax = Math.round(center + (inner_radius * Math.cos(theta_ccw)))
-      const ay = Math.round(center + (inner_radius * Math.sin(theta_ccw)))
-      const bx = Math.round(center + (outer_radius * Math.cos(theta_ccw)))
-      const by = Math.round(center + (outer_radius * Math.sin(theta_ccw)))
-      const cx = Math.round(center + (inner_radius * Math.cos(theta_cw)))
-      const cy = Math.round(center + (inner_radius * Math.sin(theta_cw)))
-      const dx = Math.round(center + (outer_radius * Math.cos(theta_cw)))
-      const dy = Math.round(center + (outer_radius * Math.sin(theta_cw)))
-
-      if (!cell.linked(cell.inward)) {
-        const p1 = new Vector3(ax, 0, ay)
-        const p2 = new Vector3(cx, 0, cy)
-        geometries.push(connect(p1, p2))
-      }
-      if (!cell.linked(cell.cw)) {
-        const p1 = new Vector3(cx, 0, cy)
-        const p2 = new Vector3(dx, 0, dy)
-        geometries.push(connect(p1, p2))
-      }
-
-      // last ringIndex with entrance
-      if (cell.row === maze.size - 1 && cell.column !== row.length * 0.75) {
-        const p1 = new Vector3(bx, 0, by)
-        const p2 = new Vector3(dx, 0, dy)
-        geometries.push(connect(p1, p2))
-      }
-    }
-
-  const geometry = BufferGeometryUtils.mergeGeometries(geometries)
-  geometry.translate(0, .5, 0)
-  const material = new THREE.MeshLambertMaterial({
-    color,
-    map: texture ? createTexture({ file: texture }) : null
-  })
-  const mesh = new THREE.Mesh(geometry, material)
-  return mesh
+  const walls = maze.grid.flatMap(row => row
+    .filter(cell => cell.row !== 0) // the center cell is empty
+    .flatMap(cell => polarCellWalls(cell, row, maze, cellSize)))
+  return mazeMesh(walls, { connect, color, texture })
 }

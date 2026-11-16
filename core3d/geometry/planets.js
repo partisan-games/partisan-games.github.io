@@ -6,8 +6,6 @@ import { assets } from '/config.js'
 const textureLoader = new THREE.TextureLoader()
 textureLoader.setPath(`${assets.textures}planets/`)
 
-/* EARTH */
-
 export function createEarth({ r = 15, segments = 64 } = {}) {
   const map = textureLoader.load('earthmap4k.jpg') // max width is 4096
   const bumpMap = textureLoader.load('earthbump4k.jpg')
@@ -19,8 +17,6 @@ export function createEarth({ r = 15, segments = 64 } = {}) {
   mesh.castShadow = mesh.receiveShadow = true
   return mesh
 }
-
-/* SATURN */
 
 function createRing(radius, tube, color) {
   const geometry = new THREE.TorusGeometry(radius, tube, 2, 35)
@@ -44,8 +40,6 @@ export function createSaturn({ r = 1 } = {}) {
   const planet = createSphere({ r, file: 'planets/saturn.jpg' }) // color: 0xDDBC77
   return addRings(planet)
 }
-
-/* JUPITER */
 
 export const createJupiter = ({ r = 10, segments = 32 } = {}) =>
   createSphere({ r, segments, file: 'planets/jupiter.jpg' })

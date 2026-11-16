@@ -17,6 +17,14 @@ Za svaku igru dodati kratak odeljak tek kada je kontekst dogovoren. Istorijske �
 - **Dogovoreni redosled:** prvi ekran protiv Nemaca, drugi protiv četnika; njihove pozadine vezati za izabrani položaj i vreme.
 - **Za razradu:** konkretne lokacije, datumi, jedinice, borbene uloge, trajanje etapa i prelaz između njih. [Istorijsko polazište](ISTORIJA.md#neretva--polazište-za-izbor-protivnika) odvaja potvrđeno učešće od tek zamišljenog prizora. Italijani i ustaše ostaju mogućnost za kasnije, van ove dve etape.
 
+## Ustanak
+
+Dogovoreni okvir: ustanak u Crnoj Gori 1941. Levo su ustanici/partizani, desno italijanska artiljerija sa posadom i zastavom. Pre precrtavanja proveriti topove, uniforme i oznake za taj period; konkretna bitka još nije izabrana.
+
+Meč traje do dve dobijene runde, najviše tri. Strane naizmenično otvaraju runde; između njih igrač bira nastavak, rezultat ostaje, a topovi i nišanjenje kreću iz početka. U 2P ishod imenuje pobedničkog igrača; protiv računara poraz znači gubitak meča.
+
+Ambijenti redom: kamenita brda, bombardovano i spaljeno kameno selo, razrušeni grad iz Tenkića. Menjaju se između rundi; položaji jedinica i tlo za granate ostaju usklađeni. U prvoj rundi gori bunker, drugu čine nagorele kuće, urušeni krovovi i živa zgarišta sa dimom širom sela, a treću gradske ruševine. Bunker se prikazuje samo u prvoj; sva seoska žarišta imaju animiranu vatru i dim, koji nastavljaju i posle ishoda. U selu su iza topova svetli, mirni zidovi i čist put; okolne ruševine i planine ostaju oštre i detaljne.
+
 ## Vis
 
 Vertikalna arkadna pucačina o partizanskom letu do Visa, sa sopstvenim izgledom i sadržajem. Zamišljeni tok su tri etape: posle prve dve sletanje na aerodrom, posle treće na Vis; ovo opisuje koncept, ne stanje implementacije.

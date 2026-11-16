@@ -1,4 +1,4 @@
-import platno from '/core/io/platno.js'
+import canvas2d from '/core/io/canvas2d.js'
 import CombatTarget from './CombatTarget.js'
 import EnemyFire from './EnemyFire.js'
 import { createAircraftGun, createAirBomb } from './EnemyWeapons.js'
@@ -10,7 +10,7 @@ const WRECK_FRICTION = 120
 
 export default class Aircraft extends CombatTarget {
   constructor({ kind, art, clock, target, groundY, crashY = () => groundY + 60, scrollSpeed = -160, callback }) {
-    super({ ...art, x: platno.width + 250, y: 100, z: -1, zapaljiv: true, callback, vidljiv: false })
+    super({ ...art, x: canvas2d.width + 250, y: 100, z: -1, flammable: true, callback, visible: false })
     this.kind = kind
     this.airborne = true
     this.target = target
@@ -18,7 +18,7 @@ export default class Aircraft extends CombatTarget {
     this.clock = clock
     this.crashY = crashY
     this.scrollSpeed = scrollSpeed
-    this.flightSpeed = Math.max(120, Math.min(320, platno.width * .24)) * (kind === 'diveBomber' ? .8 : 1)
+    this.flightSpeed = Math.max(120, Math.min(320, canvas2d.width * .24)) * (kind === 'diveBomber' ? .8 : 1)
     this.active = false
     this.alive = false
     this.fire = new EnemyFire({ owner: this, target, clock, groundY,
@@ -28,9 +28,9 @@ export default class Aircraft extends CombatTarget {
   }
 
   get muzzle() {
-    const forward = this.kind === 'diveBomber' ? 0 : this.sirina * .4
+    const forward = this.kind === 'diveBomber' ? 0 : this.width * .4
     const angle = Math.atan2(this.dy, this.dx)
-    return { x: this.x + Math.cos(angle) * forward, y: this.y + Math.sin(angle) * forward + this.visina * .12 }
+    return { x: this.x + Math.cos(angle) * forward, y: this.y + Math.sin(angle) * forward + this.height * .12 }
   }
 
   get muzzleAngle() {
@@ -39,12 +39,12 @@ export default class Aircraft extends CombatTarget {
 
   launch() {
     this.reset()
-    if (this.plamen) this.plamen.clear()
-    this.postavi(platno.width + this.sirina / 2 + 20,
-      this.groundY - Math.min(230, Math.max(120, platno.height * .28)))
+    if (this.flame) this.flame.clear()
+    this.setPosition(canvas2d.width + this.width / 2 + 20,
+      this.groundY - Math.min(230, Math.max(120, canvas2d.height * .28)))
     this.dx = -this.flightSpeed
     this.dy = 0
-    this.ugao = 0
+    this.angle = 0
     this.active = true
     this.crashed = false
     this.wreckUntil = null
@@ -53,23 +53,23 @@ export default class Aircraft extends CombatTarget {
     this.divePitchTarget = 0
     this.pullUpY = this.groundY - Math.min(130, (this.groundY - this.y) * .6)
     this.bombReleased = false
-    this.pokazi()
+    this.show()
     this.fire.reset()
   }
 
-  proveriGranice() {
+  checkBounds() {
     if (this.dead && !this.crashed && this.y >= this.crashY(this)) {
       this.y = this.crashY(this)
       this.dy = 0
-      this.ugao = -.12
+      this.angle = -.12
       this.crashed = true
       this.wreckUntil = this.clock.now + 6
     }
-    if (this.x + this.sirina / 2 < 0 ||
-      (!this.dead && this.y - this.visina / 2 > this.groundY) ||
+    if (this.x + this.width / 2 < 0 ||
+      (!this.dead && this.y - this.height / 2 > this.groundY) ||
       (this.crashed && this.clock.now >= this.wreckUntil)) {
       this.active = false
-      this.nestani()
+      this.vanish()
     }
   }
 
@@ -88,10 +88,10 @@ export default class Aircraft extends CombatTarget {
         this.dx -= Math.sign(relativeSpeed) * Math.min(Math.abs(relativeSpeed), WRECK_FRICTION * dt)
       } else if (this.dead) {
         this.dy += 180 * dt
-        this.ugao = -Math.min(.55, Math.atan2(this.dy, Math.abs(this.dx)))
+        this.angle = -Math.min(.55, Math.atan2(this.dy, Math.abs(this.dx)))
       } else if (!this.dead && this.kind === 'fighter') {
         const lead = this.x - this.target.x
-        if (!this.attackStarted && lead > 160 && lead < Math.min(900, platno.width * .9)) {
+        if (!this.attackStarted && lead > 160 && lead < Math.min(900, canvas2d.width * .9)) {
           this.attackStarted = true
           this.divePitchTarget = Math.min(MAX_DIVE_ANGLE, Math.atan2(Math.max(0, this.target.y - this.y), lead))
         }
@@ -103,7 +103,7 @@ export default class Aircraft extends CombatTarget {
         const change = desired - pitch
         const nextPitch = pitch + Math.sign(change) * Math.min(Math.abs(change), PITCH_RATE * dt)
         this.dy = this.flightSpeed * Math.tan(nextPitch)
-        this.ugao = Math.atan2(this.dy, this.dx) - Math.PI
+        this.angle = Math.atan2(this.dy, this.dx) - Math.PI
         attack = this.attackStarted && !this.attackFinished && lead > 160
       }
       super.update(dt)

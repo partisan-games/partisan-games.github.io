@@ -1,4 +1,4 @@
-import Scena3D from '/core/Scena3D.js'
+import Scene3D from '/core/Scene3D.js'
 import { createHillyTerrain } from '/core3d/ground.js'
 import { createTreesOnTerrain } from '/core3d/geometry/trees.js'
 import { createSun } from '/core3d/light.js'
@@ -24,7 +24,7 @@ const customStartScreen = ({ container }) => /* html */`
   </div>
 `
 
-export default class extends Scena3D {
+export default class RpgFantasyScene extends Scene3D {
   constructor() {
     super({
       toon: true,
@@ -101,8 +101,6 @@ export default class extends Scena3D {
     const message = messageDict[this.score]
     if (message) this.ui.showMessage(message)
   }
-
-  /* LOOP */
 
   sceneUI() {
     this.left = this.player.enemies.length - this.score

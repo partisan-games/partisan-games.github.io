@@ -1,32 +1,32 @@
-import { nasumicnoOkruglo } from '/core/utils.js'
-import Predmet from '/core/actor/Predmet.js'
+import { randomInt } from '/core/utils.js'
+import GameObject2D from '/core/actor/GameObject2D.js'
 import { createSound } from '/core/io/sound.js'
 
 const zvuciTraganje = ['eatdirtpig.wav', 'killthepig.wav', 'QuicklyQuickly.wav', 'schnell.wav', 'UpThere.wav', 'whereishe.wav']
 const zvuciNadjen = ['Stop.wav', 'StopStayWhereYouAre.wav', 'thereheis.wav']
 
-export default class Patrola extends Predmet {
+export default class Patrola extends GameObject2D {
   constructor(src = 'armies/nemci-patrola.gif', target) {
     super(src)
-    this.brzina = 90
+    this.speed = 90
     this.talkElapsed = 0
     this.turnElapsed = 0
     this.ended = false
     this.target = target // opciono, za jačinu zvuka
-    this.brojac
+    this.counter
     this.zvuk
   }
 
-  proveriGranice() {
-    this.kruzi()
+  checkBounds() {
+    this.wrapAround()
   }
 
   skreci() {
-    if (this.brzina === 0) return
+    if (this.speed === 0) return
     if (this.turnElapsed < .3) return
 
     const nasumicno = Math.random() * Math.PI / 2 - Math.PI / 4
-    this.skreni(nasumicno)
+    this.turn(nasumicno)
     this.turnElapsed = 0
   }
 
@@ -34,7 +34,7 @@ export default class Patrola extends Predmet {
     if (this.ended) return
     if (this.zvuk && !this.zvuk.paused) return
 
-    const fajl = zvuci[nasumicnoOkruglo(0, zvuci.length - 1)]
+    const fajl = zvuci[randomInt(0, zvuci.length - 1)]
     this.zvuk = createSound(`patrola/${fajl}`)
     const sound = this.zvuk
     sound.addEventListener('canplaythrough', () => {

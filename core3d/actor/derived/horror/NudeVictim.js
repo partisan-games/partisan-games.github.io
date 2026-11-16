@@ -16,8 +16,6 @@ const animDict = {
 export const model = { file: 'model.fbx', size: 1.75, prefix: 'character/nude-victim/', animDict, angle: Math.PI }
 export const models = [model]
 
-/* EXTENDED CLASSES */
-
 const sharedProps = () => {
   const mesh = loadedModel(model)
   return { mesh, animations: mesh.userData.animations, animDict, runCoefficient: 1 }

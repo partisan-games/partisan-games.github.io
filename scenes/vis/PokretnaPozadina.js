@@ -1,19 +1,19 @@
-import Predmet from '/core/actor/Predmet.js'
+import GameObject2D from '/core/actor/GameObject2D.js'
 
-export default class PokretnaPozadina extends Predmet {
+export default class PokretnaPozadina extends GameObject2D {
 
-  constructor(brzina = 10, sirina = window.innerWidth) {
-    super('textures/okean.gif', { sirina, z: 2 })
+  constructor(speed = 10, width = window.innerWidth) {
+    super('textures/okean.gif', { width, z: 2 })
     this.dx = 0
-    this.dy = brzina
+    this.dy = speed
   }
 
   onload() {
-    this.postavi(this.sirina / 2, 0)
+    this.setPosition(this.width / 2, 0)
   }
 
-  proveriGranice() {
-    if (this.y > this.visina / 2)
-      this.y -= this.visina / 2
+  checkBounds() {
+    if (this.y > this.height / 2)
+      this.y -= this.height / 2
   }
 }

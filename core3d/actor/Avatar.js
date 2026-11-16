@@ -3,7 +3,7 @@ import Player from './Player.js'
 import { createMaterial as createLavaMaterial } from '/core3d/shaders/lava.js'
 import { getMesh } from '/core3d/helpers.js'
 import { jumpStyles } from '/core3d/constants.js'
-import { FPS } from '/core/konstante.js'
+import { FPS } from '/core/constants.js'
 
 const skins = {
   STONE: 'STONE',
@@ -58,17 +58,17 @@ class AvatarPose {
 }
 
 const createMaterial = skin => {
-  if (skin == STONE) return new THREE.MeshStandardMaterial({
+  if (skin === STONE) return new THREE.MeshStandardMaterial({
     map: new THREE.TextureLoader().load('/assets/images/textures/terrain/snow.jpg')
   })
-  if (skin == LAVA) return createLavaMaterial()
+  if (skin === LAVA) return createLavaMaterial()
   return new THREE.MeshNormalMaterial()
 }
 
 const chooseGeometry = skin => {
-  if (skin == STONE) return THREE.DodecahedronGeometry
-  if (skin == LAVA) return THREE.SphereGeometry
-  if (skin == DISCO) return THREE.SphereGeometry
+  if (skin === STONE) return THREE.DodecahedronGeometry
+  if (skin === LAVA) return THREE.SphereGeometry
+  if (skin === DISCO) return THREE.SphereGeometry
   return THREE.SphereGeometry
 }
 
@@ -116,7 +116,6 @@ export default class Avatar extends Player {
     size = 1,
     speed = size * 4,
     showHealthBar = false,
-    useComposedMovement = true,
     ...params
   } = {}) {
     super({
@@ -125,7 +124,6 @@ export default class Avatar extends Player {
       jumpStyle,
       maxJumpTime,
       showHealthBar,
-      useComposedMovement,
       animDict: { jump: true },
       ...params,
     })

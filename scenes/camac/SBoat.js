@@ -1,4 +1,4 @@
-import platno, { ctx } from '/core/io/platno.js'
+import canvas2d, { ctx } from '/core/io/canvas2d.js'
 import ProjectilePool from '/core/actor/ProjectilePool.js'
 import Weapon from '/core/gameplay/Weapon.js'
 import Cooldown from '/core/gameplay/Cooldown.js'
@@ -14,15 +14,15 @@ const turn = (from, to, speed, dt) => from + Math.sign(difference(to, from)) * M
 export default class SBoat extends CombatTarget {
   constructor({ session, viewLeft, target }) {
     super({ session, viewLeft, maximum: 60, src: 'armies/game-ready/brodovi/schnellboot-s30.svg',
-      sirina: 275, visina: 49.5, vidljiv: false })
+      width: 275, height: 49.5, visible: false })
     this.session = session
     this.target = target
     this.active = false
     this.wreck = new SinkingWreck(this, session.clock)
-    this.predmeti.push(this.wreck.effects)
+    this.children.push(this.wreck.effects)
     this.bullets = new ProjectilePool({ owner: this, create: () => {
       const bullet = new BoatBullet(viewLeft)
-      bullet.steta = 5
+      bullet.damage = 5
       return bullet
     } })
     this.bullets.prepare(8)
@@ -34,25 +34,25 @@ export default class SBoat extends CombatTarget {
   launch(side) {
     this.reset()
     this.side = side
-    this.postavi(this.viewLeft() + platno.width + this.sirina / 2 + 20,
-      platno.height * (side > 0 ? .7 : .3))
-    this.ugao = Math.PI
+    this.setPosition(this.viewLeft() + canvas2d.width + this.width / 2 + 20,
+      canvas2d.height * (side > 0 ? .7 : .3))
+    this.angle = Math.PI
     this.gunAngle = Math.PI
     this.gunIndex = 0
     this.shots = this.bursts = 0
     this.withdrawing = false
     this.born = this.session.clock.now
     this.wreck.reset()
-    this.polozaj.z = 0
+    this.position.z = 0
     this.active = true
     this.burstWait.start(1.8)
     this.weapon.cooldown.start(0)
-    this.pokazi()
+    this.show()
   }
 
   mount(index) {
-    const offset = GUN_MOUNTS[index] * this.sirina
-    return { x: this.x + Math.cos(this.ugao) * offset, y: this.y + Math.sin(this.ugao) * offset }
+    const offset = GUN_MOUNTS[index] * this.width
+    return { x: this.x + Math.cos(this.angle) * offset, y: this.y + Math.sin(this.angle) * offset }
   }
 
   get muzzle() {
@@ -60,9 +60,9 @@ export default class SBoat extends CombatTarget {
     return { x: mount.x + Math.cos(this.gunAngle) * 12, y: mount.y + Math.sin(this.gunAngle) * 12 }
   }
 
-  reagujNaPogodak(damage, lifeId = this.lifeId) {
-    const alive = this.alive
-    const applied = super.reagujNaPogodak(damage, lifeId)
+  takeHit(damage, lifeId = this.lifeId) {
+    const { alive } = this
+    const applied = super.takeHit(damage, lifeId)
     if (alive && this.dead) this.wreck.start()
     return applied
   }
@@ -70,23 +70,23 @@ export default class SBoat extends CombatTarget {
   update(dt) {
     if (!this.active || this.session.state !== 'running') return
     if (this.dead) {
-      this.polozaj.z = this.wreck.solid ? 0 : .5
+      this.position.z = this.wreck.solid ? 0 : .5
       return
     }
     const age = this.session.clock.now - this.born
     if (age > 10 || this.bursts >= 2) this.withdrawing = true
-    const lane = platno.height * (this.side > 0 ? .7 : .3)
-    const ahead = this.target.x + platno.width * .5
+    const lane = canvas2d.height * (this.side > 0 ? .7 : .3)
+    const ahead = this.target.x + canvas2d.width * .5
     const heading = this.withdrawing ? 0 : Math.atan2(lane - this.y, ahead - this.x)
-    this.ugao = turn(this.ugao, heading, .65, dt)
-    this.brzina = this.withdrawing ? 170 : 110
+    this.angle = turn(this.angle, heading, .65, dt)
+    this.speed = this.withdrawing ? 170 : 110
     super.update(dt)
 
     const mount = this.mount(this.gunIndex)
     const bearing = Math.atan2(this.target.y - mount.y, this.target.x - mount.x)
     this.gunAngle = turn(this.gunAngle, bearing, 1.2, dt)
     const distance = Math.hypot(this.target.x - mount.x, this.target.y - mount.y)
-    if (this.withdrawing || this.target.dead || !this.target.prikazan || !this.prikazan ||
+    if (this.withdrawing || this.target.dead || !this.target.shown || !this.shown ||
       distance < 160 || distance > 650 || Math.abs(difference(bearing, this.gunAngle)) > .08 || !this.burstWait.ready) return
     if (!this.weapon.tryFire(this.muzzle, this.gunAngle)) return
     this.gunIndex = (this.gunIndex + 1) % GUN_MOUNTS.length
@@ -98,19 +98,19 @@ export default class SBoat extends CombatTarget {
   }
 
   render() {
-    if (!this.prikazan || !this.slika.naturalWidth) return
+    if (!this.shown || !this.image.naturalWidth) return
     const sinking = this.dead ? this.wreck.progress : 0
     if (sinking >= 1) return
     ctx.save()
     ctx.globalAlpha = (1 - sinking) ** .7
     ctx.translate(this.x, this.y)
-    ctx.rotate(this.ugao)
+    ctx.rotate(this.angle)
     ctx.scale(1 - sinking * .08, 1 - sinking * .45)
-    ctx.drawImage(this.slika, -this.sirina / 2, -this.visina / 2, this.sirina, this.visina)
+    ctx.drawImage(this.image, -this.width / 2, -this.height / 2, this.width, this.height)
     for (let i = 0; i < GUN_MOUNTS.length; i++) {
       ctx.save()
-      ctx.translate(GUN_MOUNTS[i] * this.sirina, 0)
-      ctx.rotate(this.gunAngle - this.ugao)
+      ctx.translate(GUN_MOUNTS[i] * this.width, 0)
+      ctx.rotate(this.gunAngle - this.angle)
       ctx.fillStyle = '#33483e'
       ctx.fillRect(-4, -2.5, 10, 5)
       ctx.fillStyle = '#aab8a1'

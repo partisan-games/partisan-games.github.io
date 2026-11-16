@@ -8,7 +8,7 @@ export default class AnimOnceState extends State {
 
   enter(oldState, oldAction) {
     super.enter(oldState)
-    if (this.name == 'death' && !this.action) return this.actor.fallDead()
+    if (this.name === 'death' && !this.action) return this.actor.fallDead()
 
     if (!this.action)
       return this.actor.setState(this.prevOrIdle)
@@ -21,7 +21,7 @@ export default class AnimOnceState extends State {
   onFinish(e) {
     if (e.action !== this.action) return // the mixer reports every action, also the one fading out
     this.actor.anim?.removeEventListener('finished', this.onFinish)
-    if (this.name == 'death') return
+    if (this.name === 'death') return
     this.actor.setState(this.prevOrIdle)
   }
 

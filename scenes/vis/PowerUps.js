@@ -1,20 +1,20 @@
-import Predmet from '/core/actor/Predmet.js'
-import platno from '/core/io/platno.js'
+import GameObject2D from '/core/actor/GameObject2D.js'
+import canvas2d from '/core/io/canvas2d.js'
 import { settings } from './settings.js'
 
 const { order, fallSpeed, images, scale } = settings.powerUps
 
 /** A power-up that slowly falls down the screen until the player picks it up or it is past the bottom. */
-export class PowerUp extends Predmet {
+export class PowerUp extends GameObject2D {
   constructor(kind, { x, y }) {
-    super(images[kind], { skalar: scale, senka: true })
+    super(images[kind], { scale, shadow: true })
     this.kind = kind
-    this.postavi(x, y)
+    this.setPosition(x, y)
     this.dy = fallSpeed
   }
 
   get gone() {
-    return this.y > platno.height + this.visina
+    return this.y > canvas2d.height + this.height
   }
 }
 
@@ -34,7 +34,7 @@ export default class PowerUps {
   }
 
   update() {
-    const picked = this.player.alive ? this.items.filter(item => this.player.sudara(item)) : []
+    const picked = this.player.alive ? this.items.filter(item => this.player.collidesWith(item)) : []
     picked.forEach(item => this.player.powerUp(item.kind))
 
     const done = this.items.filter(item => picked.includes(item) || item.gone)

@@ -1,4 +1,4 @@
-import Scena3D from '/core/Scena3D.js'
+import Scene3D from '/core/Scene3D.js'
 import { createFloor } from '/core3d/ground.js'
 import { ambLight } from '/core3d/light.js'
 import { SorceressPlayer, models as sorceressModels } from '/core3d/actor/derived/fantasy/Sorceress.js'
@@ -10,7 +10,7 @@ const ZADATO_VREME = 120
 const mapSize = 100
 const golemsNum = 10
 
-export default class extends Scena3D {
+export default class FollowScene extends Scene3D {
   constructor() {
     super({
       toon: true,
@@ -31,10 +31,10 @@ export default class extends Scena3D {
 
     this.addMesh(createFloor({ size: mapSize * 2 }))
 
-    this.player = new SorceressPlayer({ useComposedMovement: true })
+    this.player = new SorceressPlayer()
     this.add(this.player)
     for (let i = 0; i < golemsNum; i++) {
-      const ai = new GolemAI({ mapSize, pos: coords.pop(), baseState: 'follow', target: this.player.mesh, useComposedMovement: true })
+      const ai = new GolemAI({ mapSize, pos: coords.pop(), baseState: 'follow', target: this.player.mesh })
       this.add(ai)
       this.golems.push(ai)
     }

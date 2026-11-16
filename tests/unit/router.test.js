@@ -1,4 +1,4 @@
-import { test, before, mock } from 'node:test'
+import { test, before, after, mock } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 import { createSceneClass, settle } from './helpers/scenes.js'
@@ -6,9 +6,22 @@ import SceneManager from '/scenes/SceneManager.js'
 
 const log = []
 const modal = () => document.getElementById('modal')
+const games = ['first', 'second', 'third', 'fourth', 'fifth']
+let arcade
+
+const menuCard = path => `<div class="menu-item" data-path="${path}"><h3>${path}</h3><img></div>`
+
+/** Opens a game the way a player does: the address asks for a coin, and the coin starts the game. */
+async function play(path) {
+  location.hash = `#${path}`
+  await settle()
+  document.querySelector('.arcade-dialog-insert').click()
+  await settle()
+}
 
 before(async() => {
   createPageElements()
+  document.body.insertAdjacentHTML('beforeend', games.map(menuCard).join(''))
   SceneManager.instance = null
   const manager = new SceneManager(async path => {
     if (path === 'missing') throw new Error('404')
@@ -17,9 +30,14 @@ before(async() => {
   manager.spinner = { show() {}, hide() {} }
 
   location.hash = '#first'
-  await import('/scenes/main.js')
+  ;({ arcade } = await import('/scenes/main.js'))
+  mock.method(arcade, 'insertCoin', async() => {}) // happy-dom never finishes a Web Animation
+  await settle()
+  document.querySelector('.arcade-dialog-insert').click()
   await settle()
 })
+
+after(() => arcade.dispose())
 
 test('the game in the address starts on load', () => {
   assert.equal(log.length, 1)
@@ -27,8 +45,7 @@ test('the game in the address starts on load', () => {
 })
 
 test('changing the address switches to the other game', async() => {
-  location.hash = '#second'
-  await settle()
+  await play('second')
 
   assert.equal(log[0].ended, 1)
   assert.equal(log[1].started, 1)
@@ -43,8 +60,7 @@ test('an unknown game shows an error with a way back to the menu', async() => {
 })
 
 test('an error during play stops the game and shows a message', async() => {
-  location.hash = '#third'
-  await settle()
+  await play('third')
   const scene = log.at(-1)
 
   window.dispatchEvent(new ErrorEvent('error', { error: new Error('boom') }))
@@ -54,8 +70,7 @@ test('an error during play stops the game and shows a message', async() => {
 })
 
 test('a sound blocked by the browser does not stop the game', async() => {
-  location.hash = '#fourth'
-  await settle()
+  await play('fourth')
   const scene = log.at(-1)
 
   const reason = new DOMException('play() failed', 'NotAllowedError')
@@ -65,8 +80,7 @@ test('a sound blocked by the browser does not stop the game', async() => {
 })
 
 test('play again starts the same game anew without reloading the page', async() => {
-  location.hash = '#fifth'
-  await settle()
+  await play('fifth')
   const scene = log.at(-1)
   const reload = mock.method(location, 'reload', () => {})
   modal().innerHTML = '<button id="igraj-opet">Play again</button>'

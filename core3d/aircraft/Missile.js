@@ -42,10 +42,8 @@ export default class Missile extends GameObject {
     const intersects = raycaster.intersectObject(this.scene)
 
     this.enemies.forEach(mesh => {
-      if (this.distanceTo(mesh) < getSize(mesh, 'x')) {
-        if (mesh.userData.energy <= 0) return
-        mesh.userData.damageAmount = 1000
-      }
+      const enemy = GameObject.ownerOf(mesh)
+      if (enemy && !enemy.dead && this.distanceTo(mesh) < getSize(mesh, 'x')) enemy.pendingDamage = 1000
     })
 
     if (intersects.length) {

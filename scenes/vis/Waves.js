@@ -43,10 +43,10 @@ export default class Waves {
   launch(wave) {
     const { session } = this.scene
     const planes = wave.enemy === 'boss' ? [new Boss({ session })] : this.formation(wave, session)
-    planes.forEach(plane => plane.ciljevi.push(this.player))
+    planes.forEach(plane => plane.targets.push(this.player))
     if (planes.length > 1) this.formations.push({ planes, lastAlive: planes[0] })
     this.enemies.push(...planes)
-    this.player.ciljevi.push(...planes)
+    this.player.targets.push(...planes)
     this.scene.add(...planes)
   }
 
@@ -77,6 +77,6 @@ export default class Waves {
     const stays = enemy => !gone.includes(enemy)
     this.scene.remove(...gone)
     this.enemies = this.enemies.filter(stays)
-    this.player.ciljevi = this.player.ciljevi.filter(stays)
+    this.player.targets = this.player.targets.filter(stays)
   }
 }

@@ -81,7 +81,7 @@ export default class Controls {
 
     button.addEventListener('pointerup', e => {
       e.stopPropagation()
-      if (content.style.display == 'none') open()
+      if (content.style.display === 'none') open()
       else close()
     })
 

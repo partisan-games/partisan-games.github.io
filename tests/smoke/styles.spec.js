@@ -44,8 +44,8 @@ for (const scene of ['rpg-fantasy', 'zeppelin'])
     await startGame(page)
     await page.waitForTimeout(1500)
     const cameraOffset = () => page.evaluate(() => {
-      const { player, predmeti } = window.sceneManager.instance.scene
-      const { chaseCamera } = player ?? predmeti.find(object => object.chaseCamera)
+      const { player, children } = window.sceneManager.instance.scene
+      const { chaseCamera } = player ?? children.find(object => object.chaseCamera)
       return chaseCamera.offset.join()
     })
     const before = await cameraOffset()

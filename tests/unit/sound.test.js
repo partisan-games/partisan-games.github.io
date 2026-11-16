@@ -49,24 +49,24 @@ before(() => {
 // the game volume is 0.4 (config.js); random volumes lie between 0.5 and 1.25 of it
 
 test('the gun sight shot plays at the game volume', async() => {
-  const { default: mish } = await import('/core/io/mish.js')
-  mish.dodajNishan()
-  assert.deepEqual(soundsOf(() => mish.pucaj()), [{ file: 'pucanj.wav', volume: .4 }])
-  mish.ukloniNishan()
+  const { default: mouse } = await import('/core/io/mouse.js')
+  mouse.showCrosshair()
+  assert.deepEqual(soundsOf(() => mouse.fire()), [{ file: 'pucanj.wav', volume: .4 }])
+  mouse.hideCrosshair()
 })
 
 test('the occupier burst plays at a random volume around the game volume', async() => {
-  const { default: Okupator } = await import('/core/actor/Okupator.js')
-  const occupier = new Okupator()
-  assert.deepEqual(soundsOf(() => occupier.pucaj(0), 0), [{ file: 'rafal.mp3', volume: .2 }])
-  assert.deepEqual(soundsOf(() => occupier.pucaj(0), .5), [{ file: 'rafal.mp3', volume: .35 }])
+  const { default: Occupier } = await import('/core/actor/Occupier.js')
+  const occupier = new Occupier()
+  assert.deepEqual(soundsOf(() => occupier.fire(0), 0), [{ file: 'rafal.mp3', volume: .2 }])
+  assert.deepEqual(soundsOf(() => occupier.fire(0), .5), [{ file: 'rafal.mp3', volume: .35 }])
 })
 
 test('the trench soldier burst plays at the random volume picked when he appears', async() => {
   const { default: Svabo } = await import('/scenes/neretva/Svabo.js')
   let soldier
   soundsOf(() => {
-    soldier = new Svabo({ skalar: 1, callback: () => {} })
+    soldier = new Svabo({ scale: 1, callback: () => {} })
   }, 1)
   soldier.jeSpreman = () => true
   assert.deepEqual(soundsOf(() => soldier.update(1 / 60), 0), [{ file: 'rafal.mp3', volume: .5 }])
@@ -136,7 +136,7 @@ test('every bullet of the vis plane is heard as it leaves the gun, at a random v
   t.after(() => player.end())
   const fire = () => {
     player.weapon.cooldown.start(0)
-    player.puca()
+    player.shoot()
   }
   const shot = { file: 'pucanj.wav', volume: .2 }
 

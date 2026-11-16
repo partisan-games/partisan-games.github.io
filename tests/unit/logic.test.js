@@ -2,60 +2,60 @@ import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 import Vector from '/core/Vector.js'
-import { sudar, unutar } from '/core/utils/sudari.js'
-import { nasumicnoOkruglo, nadjiNajdaljeTacke, getRandomCoords } from '/core/utils.js'
+import { overlaps, isInside } from '/core/utils/collisions.js'
+import { randomInt, findFarthestPoints, getRandomCoords } from '/core/utils.js'
 import Maze from '/core3d/mazes/Maze.js'
 import * as algorithms from '/core3d/mazes/algorithms.js'
 
-let granice, platno
+let granice, canvas2d
 
 before(async() => {
   createPageElements()
-  granice = await import('/core/utils/granice.js')
-  platno = document.getElementById('platno')
-  platno.width = 800
-  platno.height = 600
+  granice = await import('/core/utils/bounds.js')
+  canvas2d = document.getElementById('platno')
+  canvas2d.width = 800
+  canvas2d.height = 600
 })
 
-const box = (x, y, size = 10) => ({ x, y, sirina: size, visina: size })
+const box = (x, y, size = 10) => ({ x, y, width: size, height: size })
 
 test('Vector measures distance in 3D and set changes only given axes', () => {
   const v = new Vector(1, 2, 3)
   v.set({ y: 0 })
   assert.deepEqual([v.x, v.y, v.z], [1, 0, 3])
-  assert.equal(new Vector().razmakDo({ x: 3, y: 4, z: 0 }), 5)
+  assert.equal(new Vector().distanceTo({ x: 3, y: 4, z: 0 }), 5)
 })
 
 test('sudar detects overlap but not boxes that only touch', () => {
-  assert.equal(sudar(box(0, 0), box(5, 5)), true)
-  assert.equal(sudar(box(0, 0), box(10, 0)), false)
-  assert.equal(sudar(box(0, 0), box(50, 50)), false)
+  assert.equal(overlaps(box(0, 0), box(5, 5)), true)
+  assert.equal(overlaps(box(0, 0), box(10, 0)), false)
+  assert.equal(overlaps(box(0, 0), box(50, 50)), false)
 })
 
 test('unutar is true only strictly inside the box', () => {
-  assert.equal(unutar({ x: 0, y: 0 }, box(0, 0)), true)
-  assert.equal(unutar({ x: 5, y: 0 }, box(0, 0)), false)
+  assert.equal(isInside({ x: 0, y: 0 }, box(0, 0)), true)
+  assert.equal(isInside({ x: 5, y: 0 }, box(0, 0)), false)
 })
 
 test('screen bounds: leaving and leaving completely differ by half the size', () => {
-  const { izasaoDesno, izasaoDesnoSkroz, izasaoGore, vanEkrana, izasaoIgde } = granice
-  assert.equal(izasaoDesno(box(platno.width + 1, 0)), true)
-  assert.equal(izasaoDesnoSkroz(box(platno.width + 1, 0)), false)
-  assert.equal(izasaoDesnoSkroz(box(platno.width + 6, 0)), true)
-  assert.equal(izasaoGore(box(10, -1)), true)
-  assert.equal(izasaoIgde(box(400, 300)), false)
-  assert.equal(vanEkrana(box(400, 300)), false)
+  const { exitedRight, exitedRightFully, exitedTop, offScreen, exitedAnywhere } = granice
+  assert.equal(exitedRight(box(canvas2d.width + 1, 0)), true)
+  assert.equal(exitedRightFully(box(canvas2d.width + 1, 0)), false)
+  assert.equal(exitedRightFully(box(canvas2d.width + 6, 0)), true)
+  assert.equal(exitedTop(box(10, -1)), true)
+  assert.equal(exitedAnywhere(box(400, 300)), false)
+  assert.equal(offScreen(box(400, 300)), false)
 })
 
 test('nasumicnoOkruglo returns whole numbers including both limits', () => {
-  const results = new Set(Array.from({ length: 500 }, () => nasumicnoOkruglo(1, 3)))
+  const results = new Set(Array.from({ length: 500 }, () => randomInt(1, 3)))
   assert.deepEqual([...results].sort(), [1, 2, 3])
 })
 
 test('nadjiNajdaljeTacke returns the two farthest points, left one first', () => {
   const points = [{ x: 5, y: 5 }, { x: 10, y: 0 }, { x: 0, y: 0 }, { x: 6, y: 4 }]
-  assert.deepEqual(nadjiNajdaljeTacke(points), [{ x: 0, y: 0 }, { x: 10, y: 0 }])
-  assert.deepEqual(nadjiNajdaljeTacke([{ x: 1, y: 1 }]), [])
+  assert.deepEqual(findFarthestPoints(points), [{ x: 0, y: 0 }, { x: 10, y: 0 }])
+  assert.deepEqual(findFarthestPoints([{ x: 1, y: 1 }]), [])
 })
 
 test('getRandomCoords covers the grid inside the margin and respects n', () => {

@@ -43,6 +43,7 @@ export default [{
     'constructor-super': 'error',
     curly: ['warn', 'multi'],
     'dot-notation': 'warn',
+    eqeqeq: ['error', 'always', { null: 'ignore' }],
     'getter-return': 'error',
 
     indent: ['warn', 2, {
@@ -150,6 +151,47 @@ export default [{
     }, {
       selector: "CallExpression[callee.object.name=/^(Date|performance)$/][callee.property.name='now'], NewExpression[callee.name='Date']",
       message: 'Wall-clock time runs on through pause and after the game ends; count game time with dt or read the session clock.',
+    }],
+  },
+}, {
+  // layers, lowest first: core/runtime and core/gameplay, core/io, ui, core, core3d, scenes; a module imports only from lower layers
+  files: ['core/**/*.js'],
+  rules: {
+    'no-restricted-imports': ['error', {
+      patterns: [{
+        regex: '(^|/)(core3d|scenes)/',
+        message: 'core is the 2D and shared base: it does not import 3D code or games.',
+      }],
+    }],
+  },
+}, {
+  files: ['core/io/**/*.js'],
+  rules: {
+    'no-restricted-imports': ['error', {
+      patterns: [{
+        regex: '(^|/)(ui|core3d|scenes)/',
+        message: 'core/io sits below the UI and the engine: it does not import ui, 3D code or games.',
+      }],
+    }],
+  },
+}, {
+  files: ['ui/**/*.js'],
+  rules: {
+    'no-restricted-imports': ['error', {
+      patterns: [{
+        regex: '(^|/)(core3d|scenes)/|(^|/)core/(?!io/)',
+        message: 'ui sits below the engine: it imports only core/io, not scenes, 3D code or games.',
+      }],
+    }],
+  },
+}, {
+  files: ['core3d/**/*.js'],
+  rules: {
+    'no-restricted-imports': ['error', {
+      patterns: [{
+        regex: '(^|/)scenes/',
+        message: 'core3d is shared by every 3D game: it does not import games.',
+      }],
     }],
   },
 }, {

@@ -1,9 +1,8 @@
 import Input from '/core/io/Input.js'
 import { jumpStyles, attackStyles, reactions } from '/core3d/constants.js'
 import Actor from './Actor.js'
-import ChaseCamera from '/core3d/actor/ChaseCamera.js'
-import { currentStyleClasses } from '/ui/styles.js'
-import { FPS } from '/core/konstante.js'
+import GameObject from '/core3d/objects/GameObject.js'
+import { FPS } from '/core/constants.js'
 import PlayerController from './behaviors/PlayerController.js'
 import PlayerView from './behaviors/PlayerView.js'
 
@@ -23,26 +22,15 @@ export default class Player extends Actor {
     input = new Input({ useJoystick, useKeyboard, attackKey, buttonDict: buttonDict || emptyDict(animDict) }),
     camera,
     showCameraButton,
-    useComposedMovement = false,
     ...rest
   } = {}) {
-
     super({
-      name: 'player', input, controller: useComposedMovement ? new PlayerController(input) : undefined,
-      useComposedMovement, animDict, jumpStyle, attackStyle, shouldRaycastGround, ...rest,
+      name: 'player', input, controller: new PlayerController(input),
+      animDict, jumpStyle, attackStyle, shouldRaycastGround, ...rest,
     })
-    if (useComposedMovement) {
-      this.view = new PlayerView({ mesh: this.mesh, height: this.height, health: this.health, camera, showCameraButton, showHealthBar })
-      this.chaseCamera = this.view.chaseCamera
-      this.healthBar = this.view.healthBar
-      return
-    }
-    if (camera) {
-      this.shouldAlignCamera = true
-      this.chaseCamera = new ChaseCamera({ camera, mesh: this.mesh, height: this.height, showCameraButton })
-    }
-
-    if (showHealthBar) this.createHealthBar()
+    this.view = new PlayerView({ mesh: this.mesh, height: this.height, health: this.health, camera, showCameraButton, showHealthBar })
+    this.chaseCamera = this.view.chaseCamera
+    this.healthBar = this.view.healthBar
   }
 
   /* GETTERS & SETTERS */
@@ -59,8 +47,6 @@ export default class Player extends Actor {
     return [...super.solids, ...this.enemies]
   }
 
-  /* COMBAT */
-
   enterAttack(name = 'enemy', height) {
     super.enterAttack(name, height)
   }
@@ -74,30 +60,21 @@ export default class Player extends Actor {
     near.forEach(mesh => this.hit(mesh, damage))
   }
 
-  /* UTILS */
-
-  createHealthBar() {
-    this.healthBar = document.createElement('progress')
-    this.healthBar.value = this.healthBar.max = this.energy
-    this.healthBar.className = `progress top-right ${currentStyleClasses().healthBar}`
-    document.body.appendChild(this.healthBar)
-  }
-
   updateHealthBar() {
-    if (this.view) return this.view.updateHealthBar()
-    this.healthBar.value = this.energy
+    this.view.updateHealthBar()
   }
 
   checkHealths() {
-    this.healths.forEach(health => {
-      if (this.distanceTo(health) >= 1) return
-      if (this.energy == this.maxEnergy) return
+    this.healths.forEach(mesh => {
+      if (this.distanceTo(mesh) >= 1) return
+      if (this.energy === this.maxEnergy) return
 
-      if (health.userData.energy) {
-        health.userData.energy--
+      const firstAid = GameObject.ownerOf(mesh)
+      if (firstAid.energy) {
+        firstAid.energy--
         this.energy++
       } else
-        this.scene?.remove(health)
+        this.scene?.remove(mesh)
     })
   }
 
@@ -114,34 +91,18 @@ export default class Player extends Actor {
     this.mesh.lookAt(0, 0, -mazeSize * 2)
   }
 
-  /* UPDATES */
-
   updateMove(delta, reaction = reactions.STOP) {
     super.updateMove(delta, reaction)
   }
 
   update(delta = 1 / FPS) {
     super.update(delta)
-    if (this.view) this.view.update(delta, this.state)
-    else if (this.shouldAlignCamera) {
-      this.chaseCamera.alignCamera()
-      this.shouldAlignCamera = false
-    }
-    if (!this.view) {
-      if (this.chaseCamera) this.chaseCamera.update(delta, this.state)
-      if (this.healthBar) this.updateHealthBar()
-    }
+    this.view.update(delta, this.state)
     if (this.healths) this.checkHealths()
   }
 
   end() {
-    if (this.view) {
-      this.controller.end()
-      this.view.end()
-      return
-    }
-    this.input.end()
-    this.healthBar?.remove()
-    this.chaseCamera?.end()
+    this.controller.end()
+    this.view.end()
   }
 }

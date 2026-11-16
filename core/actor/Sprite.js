@@ -1,94 +1,92 @@
-import Predmet from './Predmet.js'
-import { ctx } from '../io/platno.js'
+import GameObject2D from './GameObject2D.js'
+import { ctx } from '../io/canvas2d.js'
 
-class Animacija {
-  constructor(ime, brojKadrova, pocetniKadar, sirinaSlicice, visinaSlicice, loop = true) {
-    this.ime = ime
-    this.brojKadrova = brojKadrova
-    this.pocetniKadar = pocetniKadar
-    this.sirina = sirinaSlicice
-    this.visina = visinaSlicice
+class Animation {
+  constructor(name, frameCount, startFrame, frameWidth, frameHeight, loop = true) {
+    this.name = name
+    this.frameCount = frameCount
+    this.startFrame = startFrame
+    this.width = frameWidth
+    this.height = frameHeight
     this.loop = loop
   }
 }
 
 /**
- * brojKadrova: broj ili niz brojeva ako su animacije nejednake
+ * frameCount: a number, or one number per animation when their lengths differ
  */
-export default class Sprite extends Predmet {
-  constructor(src, { imena, brojKadrova, defaultAnimacija, vremeAnimacije = .5, ...rest }) {
+export default class Sprite extends GameObject2D {
+  constructor(src, { names, frameCount, defaultAnimation, animationTime = .5, ...rest }) {
     super(src, rest)
-    this.animacija = null
-    this.imeAnimacije = ''
-    this.vremeAnimacije = vremeAnimacije // sekundi
-    this.protekloAnimacije = 0
-    this.imena = imena
-    this.brojKadrova = brojKadrova
-    this.defaultAnimacija = defaultAnimacija
+    this.animation = null
+    this.animationName = ''
+    this.animationTime = animationTime // sekundi
+    this.animationElapsed = 0
+    this.names = names
+    this.frameCount = frameCount
+    this.defaultAnimation = defaultAnimation
   }
 
   onload() {
-    this.animacije = this.praviAnimacije(this.imena, this.brojKadrova)
-    if (this.defaultAnimacija) this.dodeliAnimaciju(this.defaultAnimacija)
+    this.animations = this.createAnimations(this.names, this.frameCount)
+    if (this.defaultAnimation) this.setAnimation(this.defaultAnimation)
   }
 
-  praviAnimacije(imena, duzine) {
+  createAnimations(names, duzine) {
     const brojKolona = duzine.length ? Math.max(...duzine) : duzine
-    const sirina = this.slika.naturalWidth / brojKolona
-    const visina = this.slika.naturalHeight / imena.length
-    return imena.map((ime, i) => {
-      const brojKadrova = duzine[i] || duzine
-      return new Animacija(ime, brojKadrova, i * brojKadrova, sirina, visina)
+    const width = this.image.naturalWidth / brojKolona
+    const height = this.image.naturalHeight / names.length
+    return names.map((name, i) => {
+      const frameCount = duzine[i] || duzine
+      return new Animation(name, frameCount, i * frameCount, width, height)
     })
   }
 
   reset() {
-    this.protekloAnimacije = 0
+    this.animationElapsed = 0
   }
 
-  dodeliAnimaciju(ime, loop) {
-    if (!this.animacije) return
-    if (this.animacija?.ime != ime) this.reset()
+  setAnimation(name, loop) {
+    if (!this.animations) return
+    if (this.animation?.name !== name) this.reset()
 
-    this.animacija = this.animacije.find(anim => anim.ime === ime)
-    if (loop !== undefined) this.animacija.loop = loop
+    this.animation = this.animations.find(anim => anim.name === name)
+    if (loop !== undefined) this.animation.loop = loop
   }
 
-  animacijaZavrsena(dt) {
-    return this.protekloAnimacije + dt >= this.vremeAnimacije
+  animationFinished(dt) {
+    return this.animationElapsed + dt >= this.animationTime
   }
-
-  /* LOOP */
 
   update(dt) {
     super.update(dt)
-    if (!this.animacija) return
+    if (!this.animation) return
 
-    if (this.animacija.loop || !this.animacijaZavrsena(dt))
-      this.protekloAnimacije += dt
+    if (this.animation.loop || !this.animationFinished(dt))
+      this.animationElapsed += dt
   }
 
-  crtaSliku() {
-    if (!this.animacija) return
+  drawFrame() {
+    if (!this.animation) return
 
-    const { pocetniKadar, sirina, visina, brojKadrova } = this.animacija
+    const { startFrame, width, height, frameCount } = this.animation
 
-    const duzinaKadra = this.vremeAnimacije / brojKadrova
-    const trenutniKadar = Math.floor((this.protekloAnimacije % this.vremeAnimacije) / duzinaKadra)
-    const trenutniRed = Math.floor((pocetniKadar + trenutniKadar) / brojKadrova)
-    const trenutnaKolona = (pocetniKadar + trenutniKadar) - (trenutniRed * Math.floor(brojKadrova))
-    const slikaX = trenutnaKolona * sirina
-    const slikaY = trenutniRed * visina
+    const duzinaKadra = this.animationTime / frameCount
+    const trenutniKadar = Math.floor((this.animationElapsed % this.animationTime) / duzinaKadra)
+    const trenutniRed = Math.floor((startFrame + trenutniKadar) / frameCount)
+    const trenutnaKolona = (startFrame + trenutniKadar) - (trenutniRed * Math.floor(frameCount))
+    const slikaX = trenutnaKolona * width
+    const slikaY = trenutniRed * height
 
     ctx.drawImage(
-      this.slika, slikaX, slikaY, sirina, visina, 0 - sirina / 2, 0 - visina / 2, sirina, visina
+      this.image, slikaX, slikaY, width, height, 0 - width / 2, 0 - height / 2, width, height
     )
   }
 
   render() {
     ctx.save()
     ctx.translate(this.x, this.y)
-    this.crtaSliku()
+    this.drawFrame()
     ctx.restore()
   }
 }
