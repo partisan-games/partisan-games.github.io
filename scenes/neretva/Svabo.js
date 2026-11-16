@@ -6,6 +6,7 @@ import { ctx } from '/core/io/platno.js'
 const rafal = createSound('rafal.mp3')
 const SHOT_INTERVAL = .18
 const FALL_TIME = 1.2
+const frameCache = new Map()
 
 export default class Svabo extends Predmet {
 
@@ -16,6 +17,21 @@ export default class Svabo extends Predmet {
     this.idlePhase = Math.random() * Math.PI * 2
     this.art = new Predmet(`armies/game-ready/vojnici/${faction}-spreda.png`,
       { vidljiv: false, sirina: 64, visina: 72 })
+    this.frames = null
+    this.art.onload = () => {
+      if (!frameCache.has(faction)) {
+        const frames = Array.from({ length: 4 }, (_, row) =>
+          Array.from({ length: 3 }, (_, column) => {
+            const frame = document.createElement('canvas')
+            frame.width = 68
+            frame.height = 76
+            frame.getContext('2d').drawImage(this.art.slika, column * 64, row * 72, 64, 72, 2, 2, 64, 72)
+            return frame
+          }))
+        frameCache.set(faction, frames)
+      }
+      this.frames = frameCache.get(faction)
+    }
     this.predmeti.push(this.art)
     this.ucestalost = ucestalost
     this.callback = callback
@@ -94,8 +110,8 @@ export default class Svabo extends Predmet {
     ctx.globalAlpha *= alpha
     ctx.translate(this.x + x * scale, this.y + y * scale)
     ctx.rotate(angle)
-    ctx.drawImage(this.art.slika, this.variant * 64, row * 72, 64, 72,
-      -32 * scale, -60 * scale, 64 * scale, 72 * scale)
+    // An isolated, padded frame cannot sample neighboring poses when rotated or scaled.
+    ctx.drawImage(this.frames[row][this.variant], -34 * scale, -62 * scale, 68 * scale, 76 * scale)
     ctx.restore()
   }
 
@@ -103,7 +119,7 @@ export default class Svabo extends Predmet {
     if (!this.prikazan || !this.slika.naturalWidth) return
     ctx.save()
     ctx.imageSmoothingEnabled = false
-    if ((this.stoji || this.fallenFor) && this.art.slika.naturalWidth) {
+    if ((this.stoji || this.fallenFor) && this.frames) {
       if (!this.stoji) {
         const elapsed = FALL_TIME - this.fallenFor
         const collapse = Math.min(1, elapsed / .35)

@@ -35,6 +35,8 @@ Akumulator vremena i interpolacija položaja imaju po jednog vlasnika. [Ammo wra
 
 ## Učitavanje i resursi
 
+Kod sprite tabli proveriti svako polje zasebno na providnoj i kontrastnoj pozadini: ravnomerna mreža nije dokaz da crtež ne prelazi granicu polja. U Neretvi su delovi susednih poza ostali kao odvojene crte iznad likova; ukloniti takve ostatke bez sečenja tela i opreme. Frejmove koji se rotiraju ili pomeraju pripremiti jednom, izdvojene sa providnim rubom, da uzorkovanje ne zahvata susednu pozu; deliti pripremljene frejmove među istim likovima. Posle obrade proveriti i boje i alfa kanal, ne samo siluetu.
+
 Preuzeta ili dekodirana slika nije dokaz da je prvo crtanje jeftino: Canvas može naknadno dekodirati i skalirati za traženu veličinu. U svakom nivou za male prikaze koristiti odgovarajući radni raster i proveravati prvo pojavljivanje u kadru, ne samo mrežu i JavaScript; velika izvorna ilustracija može ostati odvojeno sačuvana. Ako nivo zastaje pri ulasku vozila ili efekta, uporediti isti početak sa manjim rasterom pre menjanja fizike ili proširivanja preloada: mala cena JS koda ne isključuje zastoj u prikazu.
 
 [Keš modela](../core3d/assets/models.js) razdvaja opis resursa od njegovog učitavanja, spaja zahteve i omogućava ponovni pokušaj posle greške. Učitavanje, odbacivanje zastarelog rezultata i oslobađanje resursa su različite odgovornosti. Otkazivanje jednog korisnika ne sme poništiti resurs koji još koristi drugi; AbortController ne zaustavlja proizvoljan Promise.
