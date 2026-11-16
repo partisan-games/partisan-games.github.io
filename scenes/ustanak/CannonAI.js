@@ -19,13 +19,18 @@ export default class CannonAI {
 
   prepareAim() {
     const { cannon, target } = this
-    const { gravity } = cannon.projektili[0]
+    const { gravity, wind } = cannon.projektili[0]
     const solutions = [.15, .22, .3, .4, .5].map(elevation => {
       cannon.elevation = elevation
       const distance = Math.abs(target.x - cannon.vrhX)
       const height = target.y - cannon.vrhY
-      const denominator = 2 * Math.cos(elevation) ** 2 * (distance * Math.tan(elevation) + height)
-      return { elevation, force: denominator > 0 ? Math.sqrt(gravity * distance ** 2 / denominator) : cannon.minSila }
+      const acceleration = cannon.direction * (wind?.acceleration || 0)
+      const timeSquared = 2 * (distance * Math.tan(elevation) + height)
+        / (gravity + acceleration * Math.tan(elevation))
+      const force = timeSquared > 0
+        ? (distance - acceleration * timeSquared / 2) / (Math.cos(elevation) * Math.sqrt(timeSquared))
+        : cannon.minSila
+      return { elevation, force }
     })
     const reachable = solutions.filter(aim => aim.force >= cannon.minSila && aim.force <= cannon.maxForce)
     const choices = reachable.length ? reachable : solutions.slice(0, 1)

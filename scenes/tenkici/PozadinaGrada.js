@@ -29,7 +29,7 @@ export default class PozadinaGrada {
     this.vreme += dt
   }
 
-  gustiDim(t, profil) {
+  gustiDim(t, profil, windSpeed) {
     const ctx = this.crtez
     const izvor = pozari[profil.izvor]
     const { broj, trajanje, speed, vetar, sirenje, vijuganje, seme, nijansa } = profil
@@ -37,7 +37,7 @@ export default class PozadinaGrada {
       const starost = (t + izvor.faza + i * trajanje / broj) % trajanje
       const nestajanje = Math.min(1, starost / .8, (trajanje - starost) / 3)
       const razvitak = Math.min(1, starost / 3)
-      const x = izvor.x + starost * vetar
+      const x = izvor.x + starost * (windSpeed ?? vetar)
         + Math.sin(starost * .55 + seme) * vijuganje * razvitak
         + Math.sin(i * 2.3 + seme) * 3 * razvitak
       const y = izvor.y - 5 - starost * speed
@@ -59,7 +59,7 @@ export default class PozadinaGrada {
     }
   }
 
-  dim(t) {
+  dim(t, windSpeed) {
     const ctx = this.crtez
     for (const { x, y, velicina, faza } of pozari) {
       ctx.save()
@@ -71,7 +71,8 @@ export default class PozadinaGrada {
         const starost = (t + faza + i * trajanje / 24) % trajanje
         const napredak = starost / trajanje
         const alpha = Math.sin(Math.PI * napredak) ** 2 * .15
-        const centarX = starost * 2 + Math.sin(starost * .8 + i * 2.4) * starost * 1.1
+        const centarX = starost * (windSpeed === undefined ? 2 : windSpeed / velicina)
+          + Math.sin(starost * .8 + i * 2.4) * starost * 1.1
         const centarY = -starost * 10
         const poluprecnik = 3 + starost * 2.7
         ctx.fillStyle = `rgba(76, 73, 71, ${alpha})`
@@ -89,7 +90,7 @@ export default class PozadinaGrada {
     }
   }
 
-  vatra(t) {
+  vatra(t, windSpeed = 0) {
     const ctx = this.crtez
     for (const { x, y, velicina, faza } of pozari) {
       ctx.save()
@@ -101,7 +102,7 @@ export default class PozadinaGrada {
         const visinaPlamena = (1 - Math.abs(i) / 12)
           * (13 + 4 * Math.sin(vreme * 5 + i * .7) + 3 * Math.sin(vreme * 8 - i))
         for (let h = 0; h < visinaPlamena; h++) {
-          const otklon = Math.sin(vreme * 4 + h * .35 + i) * h * .12
+          const otklon = Math.sin(vreme * 4 + h * .35 + i) * h * .12 + windSpeed / 60 * h
           ctx.fillStyle = h < visinaPlamena * .3 ? '#f6c768'
             : h < visinaPlamena * .65 ? '#df8739' : '#aa4829'
           ctx.fillRect(i + Math.round(otklon), -h, 1, 1)
@@ -111,7 +112,7 @@ export default class PozadinaGrada {
     }
   }
 
-  render(t = this.vreme) {
+  render(t = this.vreme, windSpeed) {
     const { ctx, canvas } = this
     if (!this.image.complete || !this.image.naturalWidth) return
     ctx.save()
@@ -119,9 +120,9 @@ export default class PozadinaGrada {
     ctx.drawImage(this.image, 0, 0, canvas.width, canvas.height)
     ctx.restore()
     this.crtez.clearRect(0, 0, width, height)
-    for (const profil of stuboviDima) this.gustiDim(t, profil)
-    this.dim(t)
-    this.vatra(t)
+    for (const profil of stuboviDima) this.gustiDim(t, profil, windSpeed)
+    this.dim(t, windSpeed)
+    this.vatra(t, windSpeed)
     ctx.save()
     ctx.imageSmoothingEnabled = false
     ctx.drawImage(this.efekti, 0, 0, canvas.width, canvas.height)

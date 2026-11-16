@@ -31,22 +31,24 @@ export default class Shell extends Projectile {
   }
 
   checkHit(cilj) {
-    if (this.timerId || !cilj.collidesWith(this)) return
+    if (cilj.collidesWith(this)) this.strike(cilj)
+  }
+
+  /** Explodes where it is and damages the target when the explosion ends, once. */
+  strike(cilj) {
+    if (this.timerId) return
 
     this.stop()
     this.explode()
-
-    if (!this.timerId) {
-      const { lifeId } = cilj
-      this.timerId = this.clock.after(explosionDuration, () => {
-        // A recycled target is a new life; the old hit must not follow it.
-        if (lifeId !== undefined && (cilj.lifeId !== lifeId || cilj.dead)) {
-          this.reset()
-          return
-        }
-        this.hit(cilj)
-      })
-    }
+    const { lifeId } = cilj
+    this.timerId = this.clock.after(explosionDuration, () => {
+      // A recycled target is a new life; the old hit must not follow it.
+      if (lifeId !== undefined && (cilj.lifeId !== lifeId || cilj.dead)) {
+        this.reset()
+        return
+      }
+      this.hit(cilj)
+    })
   }
 
   explode() {

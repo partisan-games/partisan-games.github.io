@@ -18,14 +18,14 @@ export default class VillageFire {
     this.ctx = this.canvas.getContext('2d')
   }
 
-  smoke(time, source) {
+  smoke(time, source, windSpeed) {
     const { ctx, canvas } = this
     const count = 40
     for (let i = 0; i < count; i++) {
       const age = (time + source.phase + i * source.life / count) % source.life
       const fade = Math.min(1, age / .8, (source.life - age) / 3)
       const radius = source.scale * (3 + Math.sqrt(age) * source.spread) * (.85 + .2 * Math.sin(i * 2.3))
-      const x = source.x * canvas.width + age * source.drift
+      const x = source.x * canvas.width + age * (windSpeed ?? source.drift)
         + Math.sin(age * .6 + source.phase + i * .7) * age * .45
       const y = source.y * canvas.height - 3 - age * source.rise
       const tone = source.tone + i % 3 * 5
@@ -42,7 +42,7 @@ export default class VillageFire {
     }
   }
 
-  flame(time, source) {
+  flame(time, source, windSpeed = 0) {
     const { ctx, canvas } = this
     ctx.save()
     ctx.translate(Math.round(source.x * canvas.width), Math.round(source.y * canvas.height))
@@ -50,7 +50,7 @@ export default class VillageFire {
     for (let x = -12; x <= 12; x++) {
       const height = (1 - Math.abs(x) / 16)
         * (16 + 4 * Math.sin(time * 6 + x * .7 + source.phase) + 3 * Math.sin(time * 9 - x))
-      const sway = Math.round(Math.sin(time * 4 + x * .3) * height * .12)
+      const sway = Math.round(Math.sin(time * 4 + x * .3) * height * .12 + windSpeed / 60 * height)
       ctx.fillStyle = '#a64b30'
       ctx.fillRect(x + sway, -height, 1, height)
       ctx.fillStyle = '#d6833c'
@@ -61,9 +61,9 @@ export default class VillageFire {
     ctx.restore()
   }
 
-  render(time) {
+  render(time, windSpeed) {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
-    for (const source of sources) this.smoke(time, source)
-    for (const source of sources) this.flame(time, source)
+    for (const source of sources) this.smoke(time, source, windSpeed)
+    for (const source of sources) this.flame(time, source, windSpeed)
   }
 }

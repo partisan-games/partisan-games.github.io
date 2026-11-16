@@ -12,6 +12,7 @@ export default class Projectile extends GameObject2D {
 
   reset() {
     this.vanish()
+    this.path = null // a new flight does not continue the last one
   }
 
   launch(poz, angle, thrust = this.thrust) {
@@ -37,6 +38,13 @@ export default class Projectile extends GameObject2D {
       cilj.die()
     this.reset()
     if (callback) callback()
+  }
+
+  /** Keeps the way of the last step, so a hit anywhere along it can be found, not only at its end. */
+  updateMovement(dt) {
+    const start = { x: this.x, y: this.y }
+    super.updateMovement(dt)
+    this.path = { start, end: { x: this.x, y: this.y } }
   }
 
   updateAngle() {

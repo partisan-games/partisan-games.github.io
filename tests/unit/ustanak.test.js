@@ -4,6 +4,10 @@ import { createPageElements } from './helpers/dom.js'
 import GameSession from '/core/runtime/GameSession.js'
 import Turns from '/scenes/ustanak/Turns.js'
 import CannonAI from '/scenes/ustanak/CannonAI.js'
+import Wind from '/scenes/ustanak/Wind.js'
+import WindEffects from '/scenes/ustanak/WindEffects.js'
+import VillageFire from '/scenes/ustanak/VillageFire.js'
+import PozadinaGrada from '/scenes/tenkici/PozadinaGrada.js'
 
 let Top, Djule, keyboard
 
@@ -13,6 +17,141 @@ before(async() => {
   Djule = (await import('/scenes/ustanak/Djule.js')).default
   ;({ keyboard } = await import('/core/io/Keyboard.js'))
 })
+
+test('wind carries smoke and fire particles once, preserves their sources, and stops when disabled', () => {
+  const wind = new Wind({ random: () => .75 })
+  const effects = new WindEffects(wind)
+  const particle = { x: 100, y: 200, dx: 3, vreme: .5 }
+  const source = { x: 100, y: 200, burning: true, flame: { sparks: [particle] } }
+  effects.update([source, { children: [source] }], .5)
+  assert.equal(particle.x, 100 + wind.drift * .5)
+  assert.equal(source.x, 100)
+  assert.equal(particle.y, 200)
+  assert.equal(particle.dx, 3)
+  assert.equal(particle.vreme, .5)
+  wind.strength *= -1
+  effects.update([source], .5)
+  assert.equal(particle.x, 100)
+  wind.enabled = false
+  effects.update([source], 1)
+  assert.equal(particle.x, 100)
+})
+
+test('smoke in the village and city follows the same signed wind', () => {
+  const positions = []
+  const ctx = { beginPath() {}, moveTo() {}, arc(x) { positions.push(x) }, fill() {} }
+  const village = new VillageFire()
+  village.ctx = ctx
+  const city = new PozadinaGrada({ getContext: () => ctx })
+  city.crtez = ctx
+  const source = { x: .5, y: .5, phase: 1, life: 10, scale: 1, spread: 2, drift: 1, rise: 10, tone: 50 }
+  const profile = { izvor: 1, broj: 4, trajanje: 16, speed: 18, vetar: 2, sirenje: 4, vijuganje: 5, seme: 1, nijansa: 36 }
+  for (const draw of [speed => village.smoke(2, source, speed), speed => city.gustiDim(2, profile, speed)]) {
+    positions.length = 0
+    draw(12)
+    const right = [...positions]
+    positions.length = 0
+    draw(-12)
+    assert.equal(positions.length, right.length)
+    assert.ok(right.every((x, i) => x > positions[i]))
+  }
+})
+
+test('flags share a wave, face the battlefield and keep their cloth inside the screen', async t => {
+  const Flag = (await import('/scenes/ustanak/Zastava.js')).default
+  const { ctx } = await import('/core/io/canvas2d.js')
+  const clock = { time: .25 }
+  const flags = [
+    new Flag({ x: 59, y: 400, getTime: () => clock.time }),
+    new Flag({ x: 1181, y: 400, italian: true, getTime: () => clock.time }),
+  ]
+  flags.forEach((flag, i) => {
+    flag.animation = {}
+    flag.animationElapsed = i * .7
+    flag.image = { naturalWidth: 488, naturalHeight: 76 }
+  })
+  const directions = []
+  const draws = []
+  t.mock.method(ctx, 'scale', x => directions.push(x))
+  t.mock.method(ctx, 'drawImage', (...args) => draws.push(args))
+  for (const time of [.25, .6]) {
+    clock.time = time
+    draws.length = directions.length = 0
+    flags.forEach(flag => flag.drawFrame())
+    assert.deepEqual(directions, [1, -1])
+    const middle = draws.length / 2
+    assert.deepEqual(draws.slice(0, middle).map(args => args.slice(5)),
+      draws.slice(middle).map(args => args.slice(5)), 'both cloths use identical deformations')
+    assert.equal(draws[0][1], 0, 'the partisan cloth does not also cycle through baked animation frames')
+    flags.forEach((flag, i) => {
+      for (const draw of draws.slice(i * middle, (i + 1) * middle)) {
+        const x = flag.x + directions[i] * draw[5]
+        const end = x + directions[i] * draw[7]
+        assert.ok(Math.min(x, end) >= 0 && Math.max(x, end) <= 1280)
+      }
+    })
+  }
+})
+
+test('round wind stays constant, can be disabled and is shared by both cannons', () => {
+  const wind = new Wind({ random: () => .75 })
+  const left = new Top({ x: 200, y: 300, wind })
+  const right = new Top({ x: 800, y: 300, wind, direction: -1 })
+  const strength = wind.acceleration
+  assert.ok(strength >= 8 && strength <= 16)
+  for (const cannon of [left, right]) {
+    const shell = cannon.projektili[0]
+    shell.launch({ x: 500, y: -100 }, 0, 0)
+    shell.update(.1)
+    assert.equal(shell.dx, strength * .1)
+    assert.equal(wind.acceleration, strength)
+    wind.enabled = false
+    const before = shell.dx
+    shell.update(.1)
+    assert.equal(shell.dx, before)
+    wind.enabled = true
+  }
+  wind.random = () => .25
+  wind.nextRound()
+  assert.ok(wind.acceleration < 0, 'a new round may change direction')
+})
+
+test('wind does not move a hidden shell or a confirmed impact awaiting damage', () => {
+  const session = new GameSession()
+  session.start()
+  const shell = new Djule({ clock: session.clock, wind: new Wind({ random: () => .75 }) })
+  shell.update(.1)
+  assert.equal(shell.dx, 0)
+  shell.launch({ x: 500, y: 100 }, 0, 300)
+  shell.checkHit({ collidesWith: () => true, takeHit() {} })
+  const position = { x: shell.x, y: shell.y }
+  shell.update(.1)
+  assert.deepEqual({ x: shell.x, y: shell.y }, position)
+  assert.equal(shell.dx, 0)
+  session.dispose()
+})
+
+for (const direction of [-1, 1])
+  test(`computer compensates for headwind and tailwind facing ${direction}`, () => {
+    const wind = new Wind()
+    const cannon = new Top({ x: direction === 1 ? 200 : 1000, y: 300, direction, wind })
+    const target = new Top({ x: direction === 1 ? 1000 : 200, y: 300 })
+    cannon.width = 200
+    cannon.minSila = 0
+    cannon.maxForce = 10000
+    const ai = new CannonAI({ cannon, target, clock: { now: 0 }, random: () => .5 })
+    wind.enabled = false
+    ai.prepareAim()
+    const calm = ai.nextForce
+    wind.enabled = true
+    wind.strength = 12 * direction
+    ai.prepareAim()
+    const tailwind = ai.nextForce
+    wind.strength *= -1
+    ai.prepareAim()
+    assert.ok(tailwind < calm, 'tailwind needs less power')
+    assert.ok(ai.nextForce > calm, 'headwind needs more power')
+  })
 
 test('only the active artillery side may fire and the turn changes once after settlement', () => {
   const turns = new Turns()
@@ -29,8 +168,8 @@ test('only the active artillery side may fire and the turn changes once after se
 
 test('opposing cannons launch at mirrored positions and velocities, against the same ground', () => {
   const session = new GameSession()
-  const left = new Top({ x: 200, y: 300, clock: session.clock, groundY: 332 })
-  const right = new Top({ x: 800, y: 300, direction: -1, clock: session.clock, groundY: 332 })
+  const left = new Top({ x: 200, y: 300, clock: session.clock })
+  const right = new Top({ x: 800, y: 300, direction: -1, clock: session.clock })
   left.width = right.width = 100
   assert.ok(Math.abs(left.vrhX + right.vrhX - 1000) < 1e-9)
   assert.ok(Math.abs(left.vrhY - right.vrhY) < 1e-9)
@@ -41,7 +180,7 @@ test('opposing cannons launch at mirrored positions and velocities, against the 
   assert.ok(Math.abs(a.dy - b.dy) < 1e-9)
   assert.ok(a.dy < 0 && b.dy < 0)
   assert.equal(left.launch(), false, 'one cannon cannot overlap its shots')
-  for (const projectile of [...left.projektili, ...right.projektili]) assert.equal(projectile.groundLevel, 332)
+  for (const projectile of [...left.projektili, ...right.projektili]) assert.equal(projectile.groundLevel, a.groundLevel)
 })
 
 test('charging depends on elapsed time, has a maximum and uses the same aiming direction on either side', t => {
@@ -84,10 +223,13 @@ test('a high artillery arc keeps moving above the screen and a ground miss settl
   shell.update(.1)
   assert.ok(shell.y < -30)
   assert.equal(shell.visible, true)
-  shell.setPosition(100, 199)
-  shell.dx = shell.dy = 0
-  shell.update(.01)
+  shell.setPosition(100, 195)
+  shell.dx = 0
+  shell.dy = 100
+  shell.update(.1)
+  shell.resolveFlight([])
   assert.ok(shell.timerId)
+  assert.equal(shell.y, 196, 'it explodes where it reached the ground, not below it')
   session.update(.16)
   assert.equal(shell.visible, false)
   assert.equal(shell.timerId, null)
@@ -130,7 +272,29 @@ test('the scene routes shared keys only to the active human cannon', async t => 
   assert.equal(scene.top.sila, 300)
 })
 
-test('turn announcements name the chosen mode, block input and wait through a pause', async t => {
+test('a player can charge and fire while the opening instructions remain visible', async t => {
+  const Scene = (await import('/scenes/ustanak/Main.js')).default
+  const scene = new Scene()
+  scene.init()
+  t.after(() => {
+    keyboard.reset()
+    scene.end()
+  })
+  scene.session.start()
+  scene.announceTurn()
+  scene.handleInput(0)
+  keyboard.pressed.Space = true
+  scene.handleInput(.2)
+  assert.ok(scene.top.sila > scene.top.minSila)
+  keyboard.pressed.Space = false
+  scene.handleInput(0)
+  assert.equal(scene.turns.phase, 'flight')
+  assert.equal(scene.top.hasActiveShot, true)
+  assert.equal(scene.announcingTurn, true)
+  assert.match(scene.ui.messageElement.textContent, /Hold Space/)
+})
+
+test('turn announcements inform without blocking play and wait through a pause', async t => {
   const Scene = (await import('/scenes/ustanak/Main.js')).default
   const scene = new Scene()
   scene.init()
@@ -138,55 +302,56 @@ test('turn announcements name the chosen mode, block input and wait through a pa
   t.after(() => scene.end())
   scene.session.start()
   scene.announceTurn()
-  assert.equal(scene.ui.messageElement.textContent, 'Your turn')
-  assert.equal(scene.canShoot(0), false)
+  assert.equal(scene.ui.messageElement.querySelector('h3').textContent, 'Your turn')
+  assert.match(scene.ui.messageElement.textContent, /Hold Space/)
+  assert.equal(scene.canShoot(0), true)
   scene.session.pause()
   scene.session.update(100)
-  assert.equal(scene.ui.messageElement.textContent, 'Your turn')
+  assert.equal(scene.ui.messageElement.querySelector('h3').textContent, 'Your turn')
   scene.session.resume()
-  scene.session.update(1.2)
+  scene.session.update(5)
   assert.equal(scene.ui.messageElement.textContent, '')
   assert.equal(scene.canShoot(0), true)
   scene.turns.fire(0)
   scene.turns.settle(false)
   scene.announceTurn()
-  assert.equal(scene.ui.messageElement.textContent, 'Computer\'s turn')
-  assert.equal(scene.canShoot(1), false)
+  assert.equal(scene.ui.messageElement.querySelector('h3').textContent, 'Computer\'s turn')
+  assert.equal(scene.canShoot(1), true)
   scene.session.update(1.2)
   assert.equal(scene.canShoot(1), true)
   scene.vsComputer = false
   scene.turns.active = 0
   scene.announceTurn()
-  assert.equal(scene.ui.messageElement.textContent, 'Player 1\'s turn')
+  assert.equal(scene.ui.messageElement.querySelector('h3').textContent, 'Player 1\'s turn')
 })
 
 for (const [distance, random] of [[600, .5], [820, .1]])
   test(`the computer corrects its opening miss on its next shot at distance ${distance}`, () => {
     const session = new GameSession()
     session.start()
-    const target = new Top({ x: 200, y: 568, clock: session.clock, groundY: 600 })
-    const cannon = new Top({ x: target.x + distance, y: 568, direction: -1, clock: session.clock, groundY: 600, targets: [target] })
+    const target = new Top({ x: 200, y: 568, clock: session.clock })
+    const cannon = new Top({ x: target.x + distance, y: 568, direction: -1, clock: session.clock, targets: [target] })
     for (const gun of [target, cannon]) {
-      gun.width = 200
-      gun.height = 40
-      gun.postolje.width = 200
-      gun.postolje.height = 60
+      gun.width = 274 * .75
+      gun.height = 52 * .75
     }
     const ai = new CannonAI({ cannon, target, clock: session.clock, random: () => random })
     const forces = []
     const health = []
     const misses = []
-    for (let shot = 0; shot < 2 && target.energija === 100; shot++) {
+    // The real outline leaves room under a raised barrel, so a near miss may need a third shot.
+    for (let shot = 0; shot < 3 && target.energija === 100; shot++) {
       session.update(1.2)
       ai.update()
       const shell = cannon.projektili.find(projectile => projectile.visible)
       assert.ok(shell)
       if (shot === 0) {
+        // Measured where the shell comes down to the cannon's height: the ground lies lower, under the wheels.
         const flightTime = (-shell.dy + Math.sqrt(shell.dy ** 2
-        + 2 * shell.gravity * (shell.groundLevel - shell.r - shell.y))) / shell.gravity
-        const landingX = shell.x + shell.dx * flightTime
-        assert.ok(Math.abs(landingX - target.x) < Math.abs(cannon.x - target.x) * .55,
-          `the opening trajectory stays close instead of landing far beyond the screen: ${landingX}`)
+        + 2 * shell.gravity * (target.y - shell.y))) / shell.gravity
+        const passingX = shell.x + shell.dx * flightTime
+        assert.ok(Math.abs(passingX - target.x) < Math.abs(cannon.x - target.x) * .55,
+          `the opening trajectory passes close to the cannon instead of far beyond it: ${passingX}`)
       }
       forces.push(Math.hypot(shell.dx, shell.dy))
       let frames = 0
@@ -194,6 +359,7 @@ for (const [distance, random] of [[600, .5], [820, .1]])
         session.update(1 / 120)
         cannon.update(1 / 120)
         cannon.projektili.forEach(projectile => projectile.update(1 / 120))
+        cannon.resolveShots()
       }
       assert.equal(cannon.hasActiveShot, false, 'the shot must finish')
       health.push(target.energija)

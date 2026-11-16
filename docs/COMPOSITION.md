@@ -133,6 +133,19 @@ Tenk ne mora da odlučuje kako je saradnik napravljen; koristi ga kroz dogovoren
 
 Samo menjanje maksimuma ne zahteva prosleđivanje celog `Health` objekta: dovoljan može biti i parametar `maximum`. Prosleđivanje saradnika koristi kada zaista želiš da promeniš njegovo stvaranje ili ponašanje. Ne prosleđuj istu promenljivu `health` dvema nezavisnim metama, jer bi tada delile zdravlje.
 
+## Top: sudar od delova
+
+Top u Ustanku nije jedan pravougaonik: točak je krug, a cev i postolje su uski pravougaonici. Umesto podklase „precizan top” on dobija saradnika `collider`, koji zna samo oblike i tela sa kojima se delovi crtaju:
+
+```js
+this.collider = new Collider([
+  { body: this, shapes: barrelShapes },              // cev se okreće sa topom
+  { body: this.postolje, shapes: carriageShapes },   // točak i lafet stoje
+])
+```
+
+Granata se sastoji od putanje i borbenog pravila: `firstContact` kaže šta je prvo na putu koraka, a `Shell.strike` pravi eksploziju i odloženu štetu. Collider ne zna za zdravlje, timove ni štetu, pa isti oblici služe i drugoj igri sa drugim pravilima.
+
 ## A gde su tu mixini
 
 Mixin kopira ili dodaje metode postojećoj klasi. Kompozicija čuva saradnika u posebnom polju i poziva njegove metode.

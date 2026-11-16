@@ -53,10 +53,10 @@ for (const mode of [
     await page.getByRole('button', { name: mode.button, exact: true }).click()
     await expect(page.locator('#platno')).toBeFocused()
     await expect(page.getByRole('heading', { name: mode.first, exact: true })).toBeVisible()
-    expect(await onScene(page, scene => scene.canShoot(0))).toBe(false)
-    await expect.poll(() => onScene(page, scene => scene.canShoot(0)), turnNotice).toBe(true)
+    expect(await onScene(page, scene => scene.canShoot(0))).toBe(true)
     await page.keyboard.down('Space')
     await expect.poll(() => onScene(page, scene => scene.top.sila)).toBeGreaterThan(300)
+    await expect(page.getByRole('heading', { name: mode.first, exact: true })).toBeVisible()
     await page.keyboard.up('Space')
     await expect.poll(() => onScene(page, scene => scene.turns.phase)).toBe('flight')
     await onScene(page, scene => {
@@ -64,7 +64,7 @@ for (const mode of [
       scene.top.projektili[0].setPosition(-100, scene.top.y)
     })
     await expect(page.getByRole('heading', { name: mode.next, exact: true })).toBeVisible()
-    expect(await onScene(page, scene => scene.canShoot(1))).toBe(false)
+    expect(await onScene(page, scene => scene.canShoot(1))).toBe(true)
     expect(problems).toEqual([])
   })
 

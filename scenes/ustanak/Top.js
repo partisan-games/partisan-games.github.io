@@ -2,6 +2,8 @@ import { keyboard } from '/core/io/Keyboard.js'
 import { leftPlayerKeys as keys } from '/core/io/keys.js'
 import GameObject2D from '/core/actor/GameObject2D.js'
 import Health from '/core/gameplay/Health.js'
+import Collider from '/core/collision/Collider.js'
+import { box, circle, fromImage } from '/core/collision/shapes.js'
 import Djule from './Djule.js'
 
 const scale = .75
@@ -9,8 +11,25 @@ const minElevation = Math.PI * 2 - 6.2
 const maxElevation = Math.PI * 2 - 5.68
 const chargeRate = 300
 
+// Measured on the images in their pixels; their transparent edges and the ground under the carriage are no target.
+const barrelShapes = fromImage({ width: 274, height: 52 }, scale, [
+  box(160, 36, 228, 12), // barrel and breech
+  box(84.5, 46.5, 169, 9), // cradle
+  box(91, 15, 32, 7, Math.atan2(30, 12)), // lever
+  box(56, 26, 14, 8), // sight
+])
+const carriageImage = { width: 400, height: 99 }
+const wheel = { x: 220.5, y: 64.5, r: 31.5 }
+const carriageShapes = fromImage(carriageImage, scale, [
+  circle(wheel.x, wheel.y, wheel.r),
+  box(122.5, 80.5, 136, 12, -.096), // trail
+  box(29.5, 81.5, 7, 13), // spade
+])
+// Shells land where the wheels and the crews stand, below the far edge of the field.
+const floorBelowCarriage = (wheel.y + wheel.r - carriageImage.height / 2) * scale
+
 export default class Top extends GameObject2D {
-  constructor({ x, y, clock, targets = [], direction = 1, groundY = y + 32, canFire = () => true, onFire = () => {} } = {}) {
+  constructor({ x, y, clock, wind, targets = [], direction = 1, canFire = () => true, onFire = () => {} } = {}) {
     super('armies/game-ready/artiljerija/top-cev.gif', { x, y, scale, flammable: true })
     this.direction = direction
     this.flipX = direction
@@ -20,8 +39,12 @@ export default class Top extends GameObject2D {
     this.elevation = .2
     this.sila = this.minSila = 300
     this.maxForce = this.minSila * 3
-    this.projektili = Array.from({ length: 5 }, () => new Djule({ clock, groundLevel: groundY }))
+    this.projektili = Array.from({ length: 5 }, () => new Djule({ clock, wind, groundLevel: this.postolje.y + floorBelowCarriage }))
     this.children = [...this.projektili, this.postolje]
+    this.collider = new Collider([
+      { body: this, shapes: barrelShapes },
+      { body: this.postolje, shapes: carriageShapes },
+    ])
     this.targets = targets
     this.health = new Health()
     this.canFire = canFire
@@ -102,24 +125,19 @@ export default class Top extends GameObject2D {
       this.elevation -= .5 * dt
   }
 
-  checkHit() {
-    this.projektili.forEach(projektil => {
-      if (projektil.visible)
-        this.targets.filter(cilj => cilj.alive).forEach(cilj => projektil.checkHit(cilj))
-    })
+  /** After everything has moved in a step, so a shell sees its whole way and where the targets ended. */
+  resolveShots() {
+    const targets = this.targets.filter(target => target.alive)
+    this.projektili.forEach(projectile => projectile.resolveFlight(targets))
   }
 
   takeHit(damage) {
     this.health.damage(damage)
   }
 
-  collidesWith(predmet) {
-    return super.collidesWith(predmet) || this.postolje.collidesWith(predmet)
-  }
-
   update(dt) {
+    this.collider.beginStep()
     super.update(dt)
-    this.checkHit()
     const recoil = this.pocetniX - this.x
     this.x += Math.sign(recoil) * Math.min(Math.abs(recoil), 20 * dt)
   }

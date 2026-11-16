@@ -12,6 +12,8 @@ import CannonAI from './CannonAI.js'
 import Bunker from '/core/objects/Bunker.js'
 import Battlefield from './Battlefield.js'
 import Airplane from '/core/objects/Airplane.js'
+import Wind from './Wind.js'
+import WindEffects from './WindEffects.js'
 
 const groundLevel = canvas2d.height * .75
 
@@ -40,11 +42,14 @@ export default class UstanakScene extends Scene2D {
     this.vsComputer = true
     this.announcingTurn = false
     this.instructionsShown = false
-    this.battlefield = new Battlefield({ canvas: this.canvas, groundY: groundLevel })
+    this.wind = new Wind()
+    this.windEffects = new WindEffects(this.wind)
+    this.battlefield = new Battlefield({ canvas: this.canvas, groundY: groundLevel, wind: this.wind })
     this.bunker = new Bunker({ x: canvas2d.width * .75, alive: false, smoky: true, z: 1 })
     this.bunker.onload = () => this.bunker.placeOnGround(groundLevel + 20)
-    const zastavnik = new Zastavnik(40, groundLevel + 1)
-    this.top = new Top({ x: 230, y: groundLevel - 32, clock: this.session.clock, groundY: groundLevel,
+    const flagTime = () => this.battlefield.time
+    const zastavnik = new Zastavnik(40, groundLevel + 1, { flagTime })
+    this.top = new Top({ x: 230, y: groundLevel - 32, clock: this.session.clock, wind: this.wind,
       canFire: () => this.canShoot(0), onFire: () => {
         this.turns.fire(0)
         this.shotTargetHealth = this.opponent.energija
@@ -54,7 +59,7 @@ export default class UstanakScene extends Scene2D {
     this.strelac = new Strelac(300, groundLevel + 8)
     this.opponent = new Top({
       x: canvas2d.width - 230, y: groundLevel - 32, direction: -1,
-      clock: this.session.clock, groundY: groundLevel,
+      clock: this.session.clock, wind: this.wind,
       canFire: () => this.canShoot(1), onFire: () => {
         this.turns.fire(1)
         this.shotTargetHealth = this.top.energija
@@ -65,7 +70,7 @@ export default class UstanakScene extends Scene2D {
     this.top.targets.push(this.opponent)
     this.ai = new CannonAI({ cannon: this.opponent, target: this.top, clock: this.session.clock })
     this.enemyCrew = new Posada(canvas2d.width - 110, groundLevel + 8, { italian: true, direction: -1 })
-    const enemyFlag = new Zastavnik(canvas2d.width - 80, groundLevel - 3, { italian: true })
+    const enemyFlag = new Zastavnik(canvas2d.width - 80, groundLevel - 3, { italian: true, flagTime })
     const avion = new Airplane({ src: 'armies/talijani/avioni/fiat-cr42.png', y: canvas2d.height * .4, scale: .85, speed: -240 })
     const avion2 = new Airplane({ src: 'armies/talijani/avioni/imam-ro57.png', y: canvas2d.height * .2, scale: 0.66, speed: -320 })
     this.add(avion, avion2, this.opponent, this.top, this.strelac, this.posada, zastavnik, this.enemyCrew, enemyFlag)
@@ -90,11 +95,12 @@ export default class UstanakScene extends Scene2D {
   canShoot(side) {
     return this.session.state === 'running' && !this.ui.outro
       && this.roundWinner === null
-      && !this.announcingTurn && this.turns.phase === 'aim' && this.turns.active === side
+      && this.turns.phase === 'aim' && this.turns.active === side
   }
 
   start() {
     super.start()
+    this.turns.waitForRelease = keyboard.isDown(leftPlayerKeys.shoot)
     this.announceTurn()
   }
 
@@ -125,13 +131,12 @@ export default class UstanakScene extends Scene2D {
     }
     this.ui.message = text
     this.ui.messageElement.replaceChildren(screen)
+    this.ai.beginTurn()
+    if (this.vsComputer && this.turns.active === 1) this.enemyCrew.play('load')
     this.turnNotice.after(showInstructions ? 5 : result ? 2 : 1.2, () => {
       this.ui.message = ''
       this.ui.messageElement.replaceChildren()
       this.announcingTurn = false
-      this.focusCanvas()
-      this.ai.beginTurn()
-      if (this.vsComputer && this.turns.active === 1) this.enemyCrew.play('load')
     })
   }
 
@@ -144,7 +149,7 @@ export default class UstanakScene extends Scene2D {
     if (this.roundWinner !== null) return
     if (this.turns.waitForRelease && !keyboard.isDown(leftPlayerKeys.shoot))
       this.turns.waitForRelease = false
-    if (this.announcingTurn || this.turns.phase !== 'aim' || (this.vsComputer && this.turns.active === 1)) return
+    if (this.turns.phase !== 'aim' || (this.vsComputer && this.turns.active === 1)) return
     if (this.turns.waitForRelease) return
     const cannon = this.turns.active === 0 ? this.top : this.opponent
     const crew = this.turns.active === 0 ? this.posada : this.enemyCrew
@@ -163,6 +168,8 @@ export default class UstanakScene extends Scene2D {
   update(dt, t) {
     this.battlefield.update(dt)
     super.update(dt, t)
+    for (const cannon of [this.top, this.opponent]) cannon.resolveShots()
+    this.windEffects.update(this.children, dt)
     if (this.ui.outro || this.roundWinner !== null || this.session.state !== 'running') return
     if (this.top.dead) return this.finishRound(1)
     if (this.opponent.dead) return this.finishRound(0)
@@ -220,6 +227,7 @@ export default class UstanakScene extends Scene2D {
     this.turnNotice?.dispose()
     keyboard.reset()
     this.round++
+    this.wind.nextRound()
     this.setRoundScenery()
     this.roundWinner = null
     this.turns = new Turns()

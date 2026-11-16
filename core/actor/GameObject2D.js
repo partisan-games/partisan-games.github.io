@@ -1,5 +1,7 @@
 import { canvas2d } from '../io/canvas2d.js'
-import { overlaps } from '../utils/collisions.js'
+import { overlaps } from '../collision/rectangles.js'
+import { anyOverlap } from '../collision/overlap.js'
+import { shapesOf } from '../collision/shapes.js'
 import {
   exitedBottom, exitedTop, exitedRight, exitedLeft, exitedLeftFully, exitedRightFully, offScreen
 } from '/core/utils/bounds.js'
@@ -164,9 +166,11 @@ export default class GameObject2D {
     this.alive = false
   }
 
-  collidesWith(predmet) {
-    if (!this.visible || !predmet.visible) return false
-    return overlaps(this, predmet)
+  /** Objects without a collider keep the unturned rectangle; with one, its precise shapes count. */
+  collidesWith(other) {
+    if (!this.visible || !other.visible) return false
+    if (!this.collider && !other.collider) return overlaps(this, other)
+    return anyOverlap(shapesOf(this), shapesOf(other))
   }
 
   distanceTo(predmet) {
