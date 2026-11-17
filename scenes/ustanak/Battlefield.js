@@ -29,6 +29,8 @@ export default class Battlefield {
     // The city artwork's street begins at 395/543 of its height.
     this.cityViewport = { width: canvas.width, height: groundY * 543 / 395, getContext: () => this.ctx }
     this.city = new PozadinaGrada(this.cityViewport)
+    this.audioChildren = [this.villageFire, this.city]
+    this.round = 1
   }
 
   loaded() {
@@ -37,7 +39,8 @@ export default class Battlefield {
 
   update(dt) {
     this.time += dt
-    this.city.update(dt)
+    this.villageFire.fireSound.setPlaying(this.round === 2)
+    this.city.update(dt, this.round === 3)
   }
 
   landscape() {

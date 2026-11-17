@@ -92,3 +92,38 @@ test('the scene shares one ground between both cannons and their crews, and a ne
   assert.deepEqual(scene.terrain.craters, [])
   assert.equal(scene.enemyCrew.y, crewY)
 })
+
+for (const windEnabled of [false, true])
+  for (const terrainEnabled of [false, true])
+    test(`wind=${windEnabled} and terrain=${terrainEnabled} affect a landing independently and survive a new round`, async t => {
+      const Scene = (await import('/scenes/ustanak/Main.js')).default
+      const scene = new Scene()
+      scene.init()
+      scene.clear = () => {}
+      t.after(() => scene.end())
+      scene.session.start()
+      scene.vsComputer = false
+      scene.wind.enabled = windEnabled
+      scene.terrain.enabled = terrainEnabled
+      scene.wind.strength = 12
+
+      const shell = scene.top.projektili[0]
+      shell.launch({ x: 500, y: scene.terrain.floorY - 10 }, Math.PI / 2, 100)
+      shell.update(.1)
+      shell.resolveFlight([])
+      assert.ok(shell.timerId, 'the shot really reached the ground')
+      assert.equal(scene.terrain.craters.length, terrainEnabled ? 1 : 0)
+      // Landing stops the shell; its swept path preserves the horizontal drift before impact.
+      const drift = shell.path.end.x - shell.path.start.x
+      if (windEnabled) assert.ok(drift > 0)
+      else assert.ok(Math.abs(drift) < 1e-9)
+
+      scene.finishRound(0)
+      scene.nextRound()
+      assert.equal(scene.wind.enabled, windEnabled)
+      assert.equal(scene.terrain.enabled, terrainEnabled)
+      assert.deepEqual(scene.terrain.craters, [])
+      assert.equal(shell.timerId, null)
+      assert.deepEqual(scene.score, [1, 0])
+      assert.equal(scene.round, 2)
+    })

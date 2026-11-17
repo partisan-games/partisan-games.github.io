@@ -12,7 +12,7 @@
 
 ## Obim
 
-Samo Ustanak (`scenes/ustanak/`, njegovi testovi i art). Zajednički engine, Tenkići i druge igre se ne menjaju. Ovaj plan zamenjuje sadašnji krater-decal iz koraka 9 [plana Ustanka](PLAN-USTANAK.md); decal se briše, ne ostaje kao druga putanja. Nije u obimu: naginjanje topa između točka i lafeta, rupe ispod površine (pećine), uticaj na štetu i UI.
+Samo Ustanak (`scenes/ustanak/`, njegovi testovi i art). Zajednički engine, Tenkići i druge igre se ne menjaju. Ovaj plan zamenjuje sadašnji krater-decal iz koraka 9 [prihvaćene verzije Ustanka](IGRE.md#ustanak); decal se briše, ne ostaje kao druga putanja. Nije u obimu: naginjanje topa između točka i lafeta, rupe ispod površine (pećine), uticaj na štetu i UI.
 
 ## Kako se čita
 
@@ -68,7 +68,7 @@ Provereno na `a3ccd89d` uz lokalne izmene koraka 9.
 <a id="t-05"></a>
 ### T-05 · Provere i pregled · 0.25 / 0.5 / 1 p · Claude
 
-**Šta:** ceo unit skup, lint i `npm run check`; jedan browser snimak po rundi. Ugovor tla (jedna visinska mapa za đulad, borce i crtanje) kratko u [arhitekturi](ARHITEKTURA.md). U [planu Ustanka](PLAN-USTANAK.md) korak 9 upućuje na ishod.
+**Šta:** ceo unit skup, lint i `npm run check`; jedan browser snimak po rundi. Ugovor tla (jedna visinska mapa za đulad, borce i crtanje) kratko u [arhitekturi](ARHITEKTURA.md). Ishod sačuvati u [opisu Ustanka](IGRE.md#ustanak), uz pošten zapis izvršenih provera u [TESTING](TESTING.md).
 
 **Gotovo kada:** provere prolaze ili su pošteno navedene, vlasnik je odigrao partiju i rekao da li teren ostaje. Posle toga se ovaj plan briše, a pouke ostaju u dokumentaciji.
 

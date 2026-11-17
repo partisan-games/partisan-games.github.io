@@ -25,6 +25,7 @@ The separate checks and how the tests work: [docs/TESTING.md](docs/TESTING.md).
 
 ## TODO
 
+- dodati globalni settings za volume i možda još nešto
 - vis: nađi bolji zvuk pucanja
 - proveri warplane na mobilnom (privremeno isključeno hide-on-mobile)
 

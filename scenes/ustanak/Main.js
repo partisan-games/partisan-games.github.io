@@ -48,6 +48,7 @@ export default class UstanakScene extends Scene2D {
     this.windEffects = new WindEffects(this.wind)
     this.terrain = new Terrain({ floorY: Top.floorY(cannonY) })
     this.battlefield = new Battlefield({ canvas: this.canvas, groundY: groundLevel, wind: this.wind, terrain: this.terrain })
+    this.audioChildren = [this.wind, this.battlefield]
     this.bunker = new Bunker({ x: canvas2d.width * .75, alive: false, smoky: true, z: 1 })
     this.bunker.onload = () => this.bunker.placeOnGround(groundLevel + 20)
     const flagTime = () => this.battlefield.time
@@ -82,6 +83,8 @@ export default class UstanakScene extends Scene2D {
   }
 
   setRoundScenery() {
+    this.battlefield.round = this.round
+    this.battlefield.update(0)
     this.remove(this.bunker)
     if (this.round === 1) this.add(this.bunker)
     else this.bunker.flame?.clear()
@@ -134,6 +137,7 @@ export default class UstanakScene extends Scene2D {
       this.instructionsShown = true
     }
     this.ui.message = text
+    this.ui.turnSound.play()
     this.ui.messageElement.replaceChildren(screen)
     this.ai.beginTurn()
     if (this.vsComputer && this.turns.active === 1) this.enemyCrew.play('load')
@@ -170,6 +174,7 @@ export default class UstanakScene extends Scene2D {
   }
 
   update(dt, t) {
+    this.wind.update(dt)
     this.battlefield.update(dt)
     super.update(dt, t)
     for (const cannon of [this.top, this.opponent]) cannon.resolveShots()
@@ -209,6 +214,8 @@ export default class UstanakScene extends Scene2D {
       else this.victory(text)
       return
     }
+    if (this.vsComputer && winner === 1) this.ui.defeatSound.play()
+    else this.ui.victorySound.play()
     this.showRoundResult()
   }
 
@@ -224,6 +231,7 @@ export default class UstanakScene extends Scene2D {
 
   nextRound() {
     if (this.roundWinner === null || this.ui.outro || this.session.state !== 'running') return
+    this.ui.sounds.forEach(sound => sound.stop())
     for (const cannon of [this.top, this.opponent]) cannon.resetRound()
     this.posada.resetRound()
     this.enemyCrew.resetRound()

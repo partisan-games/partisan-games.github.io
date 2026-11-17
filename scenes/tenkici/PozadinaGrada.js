@@ -1,4 +1,5 @@
 import { assets } from '/config.js'
+import Sound from '/core/io/ManagedSound.js'
 
 const width = 724
 const height = 543
@@ -14,6 +15,8 @@ const stuboviDima = [
 
 export default class PozadinaGrada {
   constructor(canvas) {
+    this.fireSound = new Sound('fire.mp3', { volume: .6, loop: true })
+    this.sounds = [this.fireSound]
     this.canvas = canvas
     this.ctx = canvas.getContext('2d')
     this.image = new Image()
@@ -25,8 +28,9 @@ export default class PozadinaGrada {
     this.vreme = 0
   }
 
-  update(dt) {
+  update(dt, active = true) {
     this.vreme += dt
+    this.fireSound.setPlaying(active)
   }
 
   gustiDim(t, profil, windSpeed) {

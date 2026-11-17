@@ -52,6 +52,8 @@ Preuzeta ili dekodirana slika nije dokaz da je prvo crtanje jeftino: Canvas mož
 
 Svaki slušalac, tajmer, zvuk i GPU/native resurs ima vlasnika i završnu operaciju. Uklanjanje iz prikaza nije oslobađanje resursa, a gašenje roditelja nije dokaz da su ugašeni svi njegovi saradnici. Zakasneli rezultat ugašene scene ne sme izmeniti novu scenu.
 
+Zvuk radnje poseduje objekat koji je izvodi, u svom nizu `sounds`; necrtani saradnici pripadaju nizu `audioChildren`. [SceneAudio](../core/io/SceneAudio.js) prati vlasništvo scene, utišava njene zvukove u pauzi, zaustavlja uklonjene vlasnike i gasi reprodukciju pri izlasku. Posle ishoda dozvoljeni su samo zvukovi označeni `afterFinish`. [ManagedSound](../core/io/ManagedSound.js) čuva tok reprodukcije i čita zajednički `config.volume`; postojeći [sound helper](../core/io/sound.js) ostaje za ranije potrošače. Imena ova dva modula razlikuju se celom reči, jer Windows ne razlikuje velika i mala slova u putanjama. Izvori novih deljenih snimaka su uz [zvukove](../assets/sounds/SOURCES.md).
+
 Klon modela može deliti materijale, geometriju i klipove sa drugim instancama. Resurs koji će se menjati izolovati pre izmene; deljeni resurs ne oslobađati dok ga drugi koriste. Runtime vlasnike i objekte sa ponašanjem ne smeštati u podatke prototipa koji se kopiraju JSON serijalizacijom. Identitet pogođenog dela modela rešava [GameObject](../core3d/objects/GameObject.js).
 
 JS garbage collector ne dokazuje oslobađanje Ammo memorije. Native vlasnik oslobađa svoje alokacije, ne pozajmljene reference iz gettera, i prethodno ih odvaja od sveta. [Heightfield podaci](../core3d/physics/index.js) ostaju poznato ograničenje lokalnog build-a: oslobađanje shape-a ne oslobađa njegov zaseban heap buffer. Rešenje tog ograničenja prati plan.

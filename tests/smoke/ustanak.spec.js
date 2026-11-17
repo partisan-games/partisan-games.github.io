@@ -129,3 +129,68 @@ test('scene ustanak computer ranges its opening shot instead of immediately hitt
   expect(await onScene(page, scene => scene.top.energija)).toBe(100)
   expect(problems).toEqual([])
 })
+
+for (const match of [
+  { button: 'Player vs computer', winners: [0, 1, 0], result: 'You win the match! 2 : 1' },
+  { button: 'Player vs computer', winners: [1, 1], result: 'Computer wins the match! 0 : 2' },
+  { button: '2 players', winners: [0, 1, 0], result: 'Player 1 wins the match! 2 : 1' },
+])
+  test(`scene ustanak resolves round-ending hits, pauses and replays after ${match.result}`, async({ page }) => {
+    const problems = watchProblems(page)
+    await page.goto('/#ustanak')
+    await waitForScene(page)
+    await page.getByRole('button', { name: match.button, exact: true }).click()
+    const score = [0, 0]
+
+    for (const [round, winner] of match.winners.entries()) {
+      expect(await onScene(page, scene => scene.round)).toBe(round + 1)
+      expect(await onScene(page, scene => scene.turns.active)).toBe(round % 2)
+      // Stage only the last hit: normal shell damage and scene updates must finish the round.
+      // Aiming and complete human play remain separate checks.
+      await onScene(page, (scene, winner) => {
+        scene.turns.active = winner
+        const cannon = winner === 0 ? scene.top : scene.opponent
+        const target = winner === 0 ? scene.opponent : scene.top
+        target.health.damage(99)
+        if (!cannon.launch()) throw new Error('The staged round-ending shot was refused')
+        cannon.projektili.find(shell => shell.visible).strike(target)
+        scene.pause()
+      }, winner)
+      await expect(page.getByText('Game paused', { exact: true })).toBeVisible()
+      await page.waitForTimeout(250)
+      expect(await onScene(page, scene => scene.score)).toEqual(score)
+      expect(await onScene(page, (scene, winner) => (winner === 0 ? scene.opponent : scene.top).energija, winner)).toBe(1)
+      expect(await onScene(page, scene => [...scene.sceneAudio.sounds].every(sound => sound.audio.paused))).toBe(true)
+      await page.getByRole('button', { name: /Continue/ }).click()
+      score[winner]++
+      await expect.poll(() => onScene(page, scene => scene.score)).toEqual(score)
+
+      if (round === match.winners.length - 1) break
+      await page.getByRole('button', { name: 'Next round', exact: true }).click()
+      await expect(page.locator('#platno')).toBeFocused()
+      expect(await onScene(page, scene => [scene.top.energija, scene.opponent.energija])).toEqual([100, 100])
+      expect(await onScene(page, scene => scene.top.hasActiveShot || scene.opponent.hasActiveShot)).toBe(false)
+    }
+
+    await expect(page.getByText(match.result, { exact: true })).toBeVisible()
+    expect(await onScene(page, scene => scene.session.state)).toBe('finished')
+    expect(await onScene(page, scene => [...scene.sceneAudio.sounds]
+      .filter(sound => !sound.afterFinish).every(sound => sound.audio.paused))).toBe(true)
+    await onScene(page, scene => {
+      window.endedUstanakAudio = [...scene.sceneAudio.sounds].map(sound => sound.audio)
+    })
+    await page.locator('#igraj-opet').click()
+    await waitForScene(page)
+    await expect(page.getByRole('button', { name: match.button, exact: true })).toBeVisible()
+    expect(await onScene(page, scene => ({ round: scene.round, score: scene.score }))).toEqual({ round: 1, score: [0, 0] })
+    expect(await page.evaluate(() => window.endedUstanakAudio.every(sound => sound.paused))).toBe(true)
+    await page.getByRole('button', { name: match.button, exact: true }).click()
+    await expect(page.locator('#platno')).toBeFocused()
+    await page.keyboard.down('Escape')
+    await expect(page.getByText('Game paused', { exact: true })).toBeVisible()
+    await page.keyboard.up('Escape')
+    await page.locator('#menu').click()
+    await expect(page.locator('.js-start').first()).toBeVisible()
+    expect(await page.evaluate(() => window.endedUstanakAudio.every(sound => sound.paused))).toBe(true)
+    expect(problems).toEqual([])
+  })
