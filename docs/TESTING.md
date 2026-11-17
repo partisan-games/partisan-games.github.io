@@ -13,6 +13,12 @@ Architecture and ownership: [ARHITEKTURA](ARHITEKTURA.md). Check execution requi
 
 First time only: `npx playwright install chromium`.
 
+## Ustanak verification limits
+
+The owner closed the Ustanak work on 2026-11-17. Final source and prepared tests received an independent source review without confirmed actionable findings; unit tests, lint, project checks and browser execution were not run for the final working copy, by the owner's decision. Acceptance does not establish a passing runtime or an auditioned final sound mix.
+
+[Terrain tests](../tests/unit/ustanakTerrain.test.js) include all four independent wind/destruction combinations and round reset. [Managed sound tests](../tests/unit/managedSound.test.js) cover ownership and playback lifecycle. [Ustanak browser cases](../tests/smoke/ustanak.spec.js) stage the last hit of each round for 1P victory/defeat and 2P victory, pause during delayed damage, replay and old-scene sound shutdown; they do not replace a naturally played full match or listening review. These additions remain unrun.
+
 ## Unit tests (`tests/unit/`)
 
 - Run on `node:test` with `@happy-dom/global-registrator` as the DOM. `setup/register.js` also resolves the browser imports (`/core/...`, `three`) the way `index.html` does.

@@ -20,6 +20,12 @@ Za svaku igru dodati kratak odeljak tek kada je kontekst dogovoren. Istorijske �
 
 ## Ustanak
 
+Po jedan nepokretan top sa posadom i zastavom na obe strane; levi sastav i raspored ostaju sačuvani. Nišanjenje nema tajmer: W/S menja ugao, držanje Space puni ograničenu snagu, puštanje ispaljuje. Samo aktivni igrač upravlja svojim topom i posadom; potez se menja tek posle završetka leta, eksplozije i štete. Zdravlje pripada topu; posada i zastava su dekoracija, a samostalno opaljivanje strelca nema štetu ni uticaj na poteze. AI koristi istu fiziku i koriguje početne promašaje.
+
+Vetar i razaranje terena prihvaćeni su bez dodatnog UI-ja i mogu se nezavisno isključiti u konfiguraciji objekata radi poređenja. Dim pokazuje vetar; zastave ostaju okrenute ka sredini prema [pravilu animacije](ANIMACIJA-POZADINE.md). Teren ostavlja plitke kratere koji se produbljuju ponovljenim udarima, a jedinice prate tlo pod osloncem; nova runda vraća ravno tlo. Ovo opisuje prihvaćenu verziju, ne predloženi zasebni Worms teren.
+
+Za punjenje je prihvaćen samo zvuk mehanizma, bez dodatnog metalnog udarca; za požar snimak velikog požara zgrade. Prihvaćeni snimci i njihovo poreklo su uz [deljene zvukove](../assets/sounds/SOURCES.md). Glavna jačina je zajednički `config.volume`, bez posebnih podešavanja po igri; pauza utišava zvukove scene. Dalji razvoj prostornog zvuka vodi [globalni plan](PLAN-ZVUK.md).
+
 Dogovoreni okvir: ustanak u Crnoj Gori 1941. Levo su ustanici/partizani, desno italijanska artiljerija sa posadom i zastavom. Pre precrtavanja proveriti topove, uniforme i oznake za taj period; konkretna bitka još nije izabrana.
 
 Meč traje do dve dobijene runde, najviše tri. Strane naizmenično otvaraju runde; između njih igrač bira nastavak, rezultat ostaje, a topovi i nišanjenje kreću iz početka. U 2P ishod imenuje pobedničkog igrača; protiv računara poraz znači gubitak meča.

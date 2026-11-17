@@ -1,5 +1,6 @@
 import Sprite from '/core/actor/Sprite.js'
 import artFrame from './artFrame.js'
+import Sound from '/core/io/ManagedSound.js'
 
 export default class Strelac extends Sprite {
   constructor(x, y) {
@@ -9,6 +10,8 @@ export default class Strelac extends Sprite {
     })
     this.shotElapsed = 0
     this.baseY = y
+    this.shotSound = new Sound('rifle.mp3', { volume: .25 })
+    this.sounds.push(this.shotSound)
   }
 
   standAt(depth) {
@@ -16,6 +19,7 @@ export default class Strelac extends Sprite {
   }
 
   resetRound() {
+    this.shotSound.stop()
     this.shotElapsed = 0
     this.animationTime = 1.4
     this.setAnimation('idle', true)
@@ -28,6 +32,7 @@ export default class Strelac extends Sprite {
       this.shotElapsed %= 3
       this.animationTime = .4
       this.setAnimation('fire', false)
+      this.shotSound.play()
     } else if (this.animation?.name === 'fire' && this.animationFinished(dt)) {
       this.animationTime = 1.4
       this.setAnimation('idle', true)

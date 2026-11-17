@@ -1,6 +1,7 @@
 import GameObject2D from '/core/actor/GameObject2D.js'
 import { canvas2d } from '/core/io/canvas2d.js'
 import Projectile from './Projectile.js'
+import Sound from '/core/io/ManagedSound.js'
 
 const explosionDuration = .15 // seconds
 
@@ -13,6 +14,9 @@ export default class Shell extends Projectile {
     this.groundLevel = groundLevel
     this.gravity = gravity
     this.timerId = null
+    this.flightSound = new Sound('shell-flight.mp3', { volume: .45, loop: true })
+    this.explosionSound = new Sound('explosion.mp3', { volume: .9 })
+    this.sounds.push(this.flightSound, this.explosionSound)
     this.smallFlame = new GameObject2D('plamen.gif', { scale: 0.4 })
     this.children.push(this.smallFlame)
     this.reset()
@@ -20,9 +24,15 @@ export default class Shell extends Projectile {
 
   reset() {
     super.reset()
+    this.flightSound?.stop()
     if (this.timerId) this.clock.cancel(this.timerId) // Metak resets before the clock is set
     this.timerId = null
     this.smallFlame?.hide()
+  }
+
+  launch(position, angle, thrust) {
+    super.launch(position, angle, thrust)
+    this.flightSound.setPlaying(true)
   }
 
   checkBounds() {
@@ -52,11 +62,14 @@ export default class Shell extends Projectile {
   }
 
   explode() {
+    this.flightSound.stop()
+    this.explosionSound.play()
     this.smallFlame.position = this.position
     this.smallFlame.show()
   }
 
   update(dt) {
+    this.flightSound.setPlaying(Boolean(this.visible && this.shown && !this.timerId))
     // Keep the confirmed impact still until its delayed damage resolves.
     if (this.timerId) return
     super.update(dt)

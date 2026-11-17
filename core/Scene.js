@@ -7,6 +7,7 @@ import GameSession from './runtime/GameSession.js'
 import FixedStep from './runtime/FixedStep.js'
 import PausePolicy from './PausePolicy.js'
 import World from './World.js'
+import SceneAudio from './io/SceneAudio.js'
 
 // the scene that last showed each shared canvas; a scene ended late must not hide or wipe the next scene's drawing
 const canvasOwners = new WeakMap()
@@ -27,6 +28,8 @@ export default class Scene {
       ...disableEvents ? {} : { onStart: () => this.start(), onContinue: () => this.unpause() },
     })
     this.world = new World()
+    this.sceneAudio = new SceneAudio()
+    this.audioChildren = []
 
     this.canvas = canvas
     this.canvas.style.display = 'block'
@@ -43,15 +46,22 @@ export default class Scene {
 
   add(...objects) {
     this.world.add(...objects)
+    this.syncSounds()
   }
 
   /** Adds 2D objects drawn behind the others. */
   addBehind(...objects) {
     this.world.addBehind(...objects)
+    this.syncSounds()
   }
 
   remove(...objects) {
     this.world.remove(...objects)
+    this.syncSounds()
+  }
+
+  syncSounds() {
+    this.sceneAudio.sync([...this.children, this.player, this.background, this.ui, ...this.audioChildren], this.session.state)
   }
 
   get children() {
@@ -87,6 +97,7 @@ export default class Scene {
   start() {
     this.gameLoop.start()
     this.session.start()
+    this.syncSounds()
     this.ui.clearIntro()
     this.focusCanvas()
     if (this.usePointerLock) document.body.requestPointerLock()
@@ -100,6 +111,8 @@ export default class Scene {
 
   end() {
     this.gameLoop.stop()
+    this.syncSounds()
+    this.sceneAudio.end()
     this.world.end(this.player)
     this.session.dispose()
     this.ui.end()
@@ -118,6 +131,7 @@ export default class Scene {
 
     this.gameLoop.pause()
     this.session.pause()
+    this.syncSounds()
     this.ui.showPauseScreen()
   }
 
@@ -125,6 +139,7 @@ export default class Scene {
     this.gameLoop.unpause()
     this.stepper?.reset()
     this.session.resume()
+    this.syncSounds()
     this.ui.hideScreen()
     this.focusCanvas()
     if (this.usePointerLock) document.body.requestPointerLock()
@@ -153,12 +168,14 @@ export default class Scene {
   present() {}
 
   loop = (dt, t) => {
+    this.syncSounds()
     if (this.stepper) this.simulate(dt, t)
     else {
       this.session.update(dt)
       this.handleInput(dt)
       this.update(dt, t)
     }
+    this.syncSounds()
     this.clear()
     this.render()
     this.ui.render(t)
@@ -179,6 +196,7 @@ export default class Scene {
   finish() {
     this.gameLoop.stopTime()
     this.session.finish()
+    this.syncSounds()
     if (this.usePointerLock) document.exitPointerLock()
   }
 

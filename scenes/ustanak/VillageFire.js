@@ -1,3 +1,5 @@
+import Sound from '/core/io/ManagedSound.js'
+
 const sources = [
   { x: .39, y: .565, flame: .18, scale: .5, life: 13, rise: 9, drift: .7, spread: 1.8, tone: 91, phase: 1.1 },
   { x: .55, y: .596, flame: .3, scale: .65, life: 17, rise: 10, drift: 1.4, spread: 2.1, tone: 65, phase: 4.7 },
@@ -12,6 +14,8 @@ const sources = [
 /** Animated independently of the clean village artwork, using the scene's presentation time. */
 export default class VillageFire {
   constructor() {
+    this.fireSound = new Sound('fire.mp3', { volume: .65, loop: true })
+    this.sounds = [this.fireSound]
     this.canvas = document.createElement('canvas')
     this.canvas.width = 792
     this.canvas.height = 496

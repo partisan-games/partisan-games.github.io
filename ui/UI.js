@@ -2,6 +2,7 @@ import { isTouchScreen } from '/config.js'
 import Controls from '../ui/Controls.js'
 import Report from './Report.js'
 import { currentStyleClasses, setUiStyle } from './styles.js'
+import Sound from '/core/io/ManagedSound.js'
 
 const elementUI = document.getElementById('ui')
 const modalElement = document.getElementById('modal')
@@ -33,6 +34,11 @@ export default class UI {
   } = {}) {
     setUiStyle(uiStyle)
     this.scene = scene
+    this.turnSound = new Sound('fire-swoosh.mp3', { volume: .2 })
+    this.victorySound = new Sound('fairy-arcade-sparkle.mp3', { volume: .5, afterFinish: true })
+    this.defeatSound = new Sound('fire-swoosh.mp3', { volume: .5, afterFinish: true })
+    this.defeatSound.audio.playbackRate = .7
+    this.sounds = [this.turnSound, this.victorySound, this.defeatSound]
     this.intro = intro
     this.startButtonText = startButtonText
     this.reportText = reportText
@@ -127,6 +133,7 @@ export default class UI {
   }
 
   showDefeatScreen(text) {
+    this.defeatSound.play()
     let html = '<h3 class="red"><span class="icon">☠️</span> Game over</h3>'
     if (text) html += `<p>${text}</p>`
     this.outro = html
@@ -134,6 +141,7 @@ export default class UI {
   }
 
   showVictoryScreen(text, title = 'Pobeda!') {
+    this.victorySound.play()
     let html = `<h3 class="olive"><span class="icon">🎖️</span> ${title}</h3>`
     if (text) html += `<p>${text}</p>`
     this.outro = html

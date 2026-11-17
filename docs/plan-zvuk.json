@@ -1,0 +1,21 @@
+{
+  "waves": [
+    { "name": "W1", "sequential": ["ZV-01", "ZV-02"] },
+    { "name": "W2", "sequential": ["ZV-03", "ZV-04", "ZV-05"] },
+    { "name": "W3", "sequential": ["ZV-06", "ZV-07", "ZV-08", "ZV-09", "ZV-10"] },
+    { "name": "W4", "sequential": ["ZV-11", "ZV-12"] }
+  ],
+  "handoffs": [
+    ["ZV-01", "ZV-02"],
+    ["ZV-02", "ZV-03"],
+    ["ZV-03", "ZV-04"],
+    ["ZV-04", "ZV-05"],
+    ["ZV-05", "ZV-06"],
+    ["ZV-06", "ZV-07"],
+    ["ZV-07", "ZV-08"],
+    ["ZV-08", "ZV-09"],
+    ["ZV-09", "ZV-10"],
+    ["ZV-10", "ZV-11"],
+    ["ZV-11", "ZV-12"]
+  ]
+}

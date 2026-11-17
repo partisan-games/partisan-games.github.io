@@ -1,7 +1,11 @@
+import Sound from '/core/io/ManagedSound.js'
+
 export default class Wind {
   constructor({ random = Math.random } = {}) {
     this.random = random
     this.enabled = true
+    this.windSound = new Sound('wind.mp3', { volume: .2, loop: true })
+    this.sounds = [this.windSound]
     this.nextRound()
   }
 
@@ -11,6 +15,11 @@ export default class Wind {
 
   get acceleration() {
     return this.enabled ? this.strength : 0
+  }
+
+  update() {
+    this.windSound.volume = Math.abs(this.acceleration) / 16 * .3
+    this.windSound.setPlaying(this.enabled)
   }
 
   get drift() {
