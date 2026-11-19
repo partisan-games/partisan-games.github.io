@@ -67,7 +67,10 @@ test('in franjo-kluz the plane rolls out on the ground as fast at 30 as at 60 fr
     const scene = await createFranjoKluz(t)
     // landed: images do not load in unit tests, so the plane has no height of its own
     scene.player.height = 20
-    scene.player.y = scene.player.groundY - 10
+    scene.aerodrom.width = 400
+    // on the runway, where the plane may roll
+    scene.player.setPosition(scene.aerodrom.runway.left + 100, scene.player.groundY - 10)
+    scene.cameraX = scene.player.x - 200
     play(scene, .25, fps)
     results[fps] = scene.player.airspeed
   }

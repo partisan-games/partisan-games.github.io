@@ -40,7 +40,10 @@ const wins = {
   'franjo-kluz': scene => {
     scene.vozilo.die()
     scene.vozilo.x = -9999
-    scene.player.y = scene.height
+    const { left, right } = scene.aerodrom.runway
+    scene.player.airspeed = scene.player.angle = 0
+    scene.player.setPosition((left + right) / 2, scene.height - scene.player.height / 2)
+    scene.cameraX = scene.player.x - 200 // the plane stays inside the view
   },
   'graveyard-survival': scene => {
     scene.gameLoop.time = 302_000

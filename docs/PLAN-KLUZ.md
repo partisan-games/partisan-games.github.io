@@ -1,6 +1,6 @@
 # Franjo Kluz: od jedne mete do misija nad Kozarom
 
-Igra postaje let sa misijom: poletanje sa aerodroma, bombardovanje i mitraljiranje istorijskih ciljeva, povratak i sletanje, u više nivoa.
+Igra postaje let sa misijom: bombardovanje i mitraljiranje istorijskih ciljeva i sletanje na aerodrom na kraju puta, u više nivoa.
 
 **Status:** 📋 TODO · 🔄 In progress · ✅ Done · ⛔ Blocked · — Not assessed.
 
@@ -8,10 +8,10 @@ Igra postaje let sa misijom: poletanje sa aerodroma, bombardovanje i mitraljiran
 |---|---|---|---|---|
 | 1 | [FK-01](#fk-01) | Protivnici na Kozari 1942 | Kratko u ISTORIJA: ko su protivnici i koji crtež im odgovara | ✅ Done |
 | 2 | [FK-02](#fk-02) | Kamera i svet | Avion leti kroz svet sa stalnim mestima; kamera ga prati | ✅ Done |
-| 3 | [FK-03](#fk-03) | Sletanje na aerodrom | Pobeda samo na pisti; drugde je prinudno sletanje ili pad | 📋 TODO |
+| 3 | [FK-03](#fk-03) | Sletanje na aerodrom | Pobeda samo na pisti; drugde je pad, a promašena pista gubi nivo | 🔄 In progress<br>Waiting: zvuk točkova [1](#note-1) |
 | 4 | [FK-04](#fk-04) | Bombe | Bomba pada po putanji; rakete i automatsko nišanjenje nestaju | 📋 TODO |
 | 5 | [FK-05](#fk-05) | Prednji mitraljez | Rafal za meke ciljeve | 📋 TODO |
-| 6 | [FK-06](#fk-06) | Okret, gorivo, municija i dopuna | Avion se vraća na aerodrom; sletanje puni bombe, municiju i gorivo | 📋 TODO |
+| 6 | [FK-06](#fk-06) | Gorivo, municija i dopuna | Sletanje na usputni aerodrom puni bombe, municiju i gorivo | 📋 TODO |
 | 7 | [FK-07](#fk-07) | Ciljevi na zemlji i PVO | Kolona i protivavionska vatra iz FK-01 umesto Hummela | 📋 TODO |
 | 8 | [FK-08](#fk-08) | Zadnji strelac i lovac | Osmatrač gađa lovca koji goni avion | — |
 | 9 | [FK-09](#fk-09) | Nivoi i prvi nivo: prelazak | Izbor nivoa; let Banjaluka → Urije 23. maja 1942 | 📋 TODO |
@@ -39,7 +39,7 @@ Igra postaje let sa misijom: poletanje sa aerodroma, bombardovanje i mitraljiran
 Provereno na `a2ad3198` uz lokalne izmene FK-02.
 
 - Posle FK-02 avion ([Potez](../scenes/franjo-kluz/Potez.js)) leti kroz svet brzinom `airspeed` ([Potez:19](../scenes/franjo-kluz/Potez.js#L19)), kamera ide tom brzinom i diže se sa avionom, a levo i desno pomeraju avion i po ekranu, kao ranije ([Main:53-56](../scenes/franjo-kluz/Main.js#L53-L56)). Objekti u svetu ocenjuju vidljivost po kameri ([view.js](../scenes/franjo-kluz/view.js)); pozadina su slojevi paralakse ([ParallaxLayer](../scenes/franjo-kluz/ParallaxLayer.js)).
-- Aerodrom stoji na stalnoj tački (x 2500), ali avion leti samo udesno, pa se na njega ne može vratiti; sletanje i dalje važi bilo gde ([Main:65-68](../scenes/franjo-kluz/Main.js#L65-L68)).
+- Avion leti samo udesno; okreta nema po vlasnikovoj odluci: ko promaši aerodrom, gubi nivo. Aerodrom Urije stoji na x 12 000, a pista je 2000 px asfalta iza zgrade ([Airfield](../scenes/franjo-kluz/Airfield.js)).
 - Oružje: raketa na Space i raketa sa automatskim nišanjenjem na V, 1,5 s ([Potez:34-37](../scenes/franjo-kluz/Potez.js#L34-L37), [Potez:88](../scenes/franjo-kluz/Potez.js#L88)); rakete nasleđuju brzinu strelca. Jedini protivnik, [Hummel](../scenes/franjo-kluz/Hummel.js), prati avion i patrolira isti deo ekrana kao ranije; gađa raketom na 10 s ([SideVehicle:19](../core/actor/SideVehicle.js#L19)).
 - Kamera sa ličnim rendererom već postoji u Čamcu ([camac/Main:77-85](../scenes/camac/Main.js#L77-L85)); [Scene2D](../core/Scene2D.js) iz `cameraX/cameraY` daje zvuku vidljivi prozor.
 - Istorija: rakete i Hummel ne pripadaju 1942; Potez 25 je imao mitraljeze i bombe ([ISTORIJA](ISTORIJA.md#kozara-majjul-1942--polazište-za-igru-franjo-kluz)).
@@ -70,9 +70,8 @@ Provereno na `a2ad3198` uz lokalne izmene FK-02.
 <a id="fk-03"></a>
 ### FK-03 · Sletanje na aerodrom · 0.5 / 0.75 / 1 p · Claude
 
-- **Šta:** pista Urija ima svetske granice. Sletanje uspeva na pisti ispod granice brzine i nagiba, sa zvukom točkova na pisti (nagib kao sada, [Potez:116](../scenes/franjo-kluz/Potez.js#L116)); van piste ili prebrzo avion se razbije. Pobeda posle ispunjenog zadatka nivoa i sletanja; ocena sletanja (meko, tvrdo) ide u tekst pobede.
-- **Gotovo kada:** unit testovi za: sletanje na pisti, pad van piste, pad pri prevelikoj brzini, pobedu samo posle zadatka. [victory.spec:40-44](../tests/smoke/victory.spec.js#L40-L44) postavlja avion na pistu.
-- **Zamke:** igrač sada startuje sa tla; poletanje mora ostati moguće i van „sletanja” (avion na pisti pri startu nije pobeda).
+- **Šta:** urađeno: asfaltna pista je 2000 px iza zgrade aerodroma ([Airfield](../scenes/franjo-kluz/Airfield.js)); dodir tla van piste, brže od 600 px/s ili spuštanje brže od 350 px/s razbija avion (vlasnik želi lako sletanje), prelet piste gubi nivo, a zaustavljanje na pisti posle uništenog tenka je pobeda sa ocenom „soft/hard landing” ([Main checkLanding](../scenes/franjo-kluz/Main.js)). Ruševina se ne vraća preko aerodroma. Pista je traka tamnog asfalta (`textures/terrain/asphalt.jpg`, kao na 3D aerodromu), pa se vidi gde se sleće. Ostaje zvuk točkova na pisti.
+- **Gotovo kada:** unit testovi za sletanje na pisti, pad van piste, pad pri prevelikoj brzini, pobedu samo posle zadatka i prelet piste prolaze; [victory.spec](../tests/smoke/victory.spec.js) postavlja avion na pistu (smoke u FK-12); zvuk točkova je izabrao vlasnik.
 
 <a id="fk-04"></a>
 ### FK-04 · Bombe · 0.75 / 1 / 1.5 p · Claude
@@ -90,10 +89,10 @@ Provereno na `a2ad3198` uz lokalne izmene FK-02.
 - **Zamke:** ESLint zabranjuje browser tajmere; hlađenje preko `Cooldown` i sata sesije kao kod sadašnjeg oružja ([Potez:34-37](../scenes/franjo-kluz/Potez.js#L34-L37)).
 
 <a id="fk-06"></a>
-### FK-06 · Okret, gorivo, municija i dopuna · 1 / 1.5 / 2 p · Claude
+### FK-06 · Gorivo, municija i dopuna · 0.75 / 1 / 1.5 p · Claude
 
-- **Šta:** avion može da se okrene i leti ulevo, da bi se vratio na aerodrom (sada leti samo udesno). Gorivo opada sa vremenom i gasom; bez goriva motor staje i avion klizi. Sletanje na aerodrom posle par sekundi mirovanja puni bombe, municiju i gorivo. HUD (gorivo, bombe, municija) po [stilu igre](../ui/styles.js).
-- **Gotovo kada:** unit testovi: okret menja smer leta i kamera ga prati; potrošnja zavisi od dt i gasa; dopuna samo na pisti i u mirovanju; prazan rezervoar gasi motor. Vlasnik je odobrio HUD.
+- **Šta:** gorivo opada sa vremenom i gasom; bez goriva motor staje i avion klizi. Okreta nema (odluka vlasnika), pa dopuna postoji samo na usputnim aerodromima nivoa: sletanje i par sekundi mirovanja pune bombe, municiju i gorivo, a poletanje nastavlja let. HUD (gorivo, bombe, municija) po [stilu igre](../ui/styles.js).
+- **Gotovo kada:** unit testovi: potrošnja zavisi od dt i gasa; dopuna samo na pisti i u mirovanju; prazan rezervoar gasi motor. Vlasnik je odobrio HUD.
 - **Zamke:** dopuna ne sme da pokrene pobedu iz FK-03 pre ispunjenog zadatka.
 
 <a id="fk-07"></a>
@@ -121,7 +120,7 @@ Provereno na `a2ad3198` uz lokalne izmene FK-02.
 <a id="fk-10"></a>
 ### FK-10 · Drugi nivo: prvi borbeni let · 0.5 / 1 / 1.5 p · Claude
 
-- **Šta:** poletanje sa aerodroma iz FK-01 (Prijedor ili Međuvođe), napad na ciljeve iz FK-07, povratak i sletanje; dopuna iz FK-06 je potrebna za ceo zadatak.
+- **Šta:** poletanje sa aerodroma iz FK-01 (Prijedor ili Međuvođe), napad na ciljeve iz FK-07 i sletanje na aerodrom na kraju puta; dopuna na usputnom aerodromu iz FK-06 je potrebna za ceo zadatak.
 - **Gotovo kada:** unit test: nivo se ne može završiti bez sletanja i uništenih ciljeva; vlasnik je odigrao nivo.
 
 <a id="fk-11"></a>
@@ -139,11 +138,11 @@ Provereno na `a2ad3198` uz lokalne izmene FK-02.
 
 ## Raspored
 
-Jedan izvršilac. Ukupno **7 / 10.5 / 15 p** bez uslovnih koraka; uslovni FK-08 i FK-11 dodaju **1.75 / 2.5 / 3.5 p**. FK-01 je kratak i ide prvi jer od njega zavise ciljevi; FK-02 se radi dok vlasnik bira protivnike. [Raspored](plan-kluz.json).
+Jedan izvršilac. Ukupno **6.75 / 10 / 14.5 p** bez uslovnih koraka; uslovni FK-08 i FK-11 dodaju **1.75 / 2.5 / 3.5 p**. FK-01 je kratak i ide prvi jer od njega zavise ciljevi; FK-02 se radi dok vlasnik bira protivnike. [Raspored](plan-kluz.json).
 
 **Kontrolne tačke**
 1. **Posle FK-02:** let kroz svet sa stalnim aerodromom, stara igra i dalje radi.
-2. **Posle FK-06:** ciklus poletanje–napad–povratak–dopuna radi na Hummelu.
+2. **Posle FK-06:** let sa napadom, dopunom na usputnom aerodromu i sletanjem radi na Hummelu.
 3. **Posle FK-10:** dva nivoa igriva od početka do kraja.
 
 ## Rizici
@@ -153,3 +152,9 @@ Jedan izvršilac. Ukupno **7 / 10.5 / 15 p** bez uslovnih koraka; uslovni FK-08 
 | Nema crteža za izabrana vozila | Nivo čeka art | Bira se cilj sa postojećim crtežom; nedostajući art ide u poseban plan |
 | Prelazak na kameru menja osećaj leta | Igra deluje drugačije od sadašnje | Brzine i ubrzanja prenose se iz sadašnjih konstanti; vlasnik proba posle FK-02 |
 | Brisanje core `PlayerPlane` | Neka igra koja ga uvozi pukne | Pretraga uvoza je prazna; smoke u FK-12 |
+
+## Notes
+
+**Status:** `Waiting` čeka vlasnika; `To do` je preostali posao.
+
+1. <a id="note-1"></a>**Zvuk točkova:** u projektu nema snimka dodira točkova ili kotrljanja po travi; nov snimak ulazi tek kad ga vlasnik izabere.

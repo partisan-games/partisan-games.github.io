@@ -29,9 +29,11 @@ export const ceiling = 5555
  * that speed and also move the plane forward and back across the screen, up and down climb and dive.
  */
 export default class Potez extends Player2D {
-  constructor({ groundY, camera, session, x = 200, y = 200 }) {
+  /** `groundAt(x)` gives the height of the surface under the wheels: the runway stands above the ground line `groundY`. */
+  constructor({ groundY, groundAt = () => groundY, camera, session, x = 200, y = 200 }) {
     super('armies/partizani/potez-25.png', { x, y, scale: .55, flammable: true, attackKey: 'Space', buttonDict: { attack: '🚀', special: '🎯' } })
     this.groundY = groundY
+    this.groundAt = groundAt
     this.camera = camera
     this.session = session
     this.airspeed = airspeed.start
@@ -45,6 +47,8 @@ export default class Potez extends Player2D {
     this.children.push(...this.bursts)
     /** Whether the shot down plane has hit the ground. */
     this.wrecked = false
+    /** Airspeed and sink rate when the wheels last touched the ground; null in the air. */
+    this.touchdown = null
     this.targets = []
     this.bullets = new ProjectilePool({ owner: this, create: () => new WorldRocket(camera), onFire: inheritVelocity(this) })
     this.weapon = new Weapon({
@@ -58,7 +62,7 @@ export default class Potez extends Player2D {
   }
 
   get isGrounded() {
-    return this.y + this.height / 2 >= this.groundY
+    return this.y + this.height / 2 >= this.groundAt(this.x)
   }
 
   get atCeiling() {
@@ -146,7 +150,7 @@ export default class Potez extends Player2D {
     this.explode()
   }
 
-  /** The edges of the screen, the ground and the ceiling stop the plane; touching the ground too steeply wrecks it. */
+  /** The edges of the screen, the ground and the ceiling stop the plane; a shot down plane is wrecked by the ground. */
   checkBounds() {
     const margin = this.width / 4
     const left = this.camera.cameraX + margin
@@ -155,10 +159,11 @@ export default class Potez extends Player2D {
       this.x = Math.min(right, Math.max(left, this.x))
       this.screenDx = 0
     }
-    if (this.isGrounded) {
-      this.y = this.groundY - this.height / 2
+    if (!this.isGrounded) this.touchdown = null
+    else {
+      this.touchdown ??= { airspeed: this.airspeed, sink: this.dy }
+      this.y = this.groundAt(this.x) - this.height / 2
       if (this.dy > 0) this.dy = 0
-      if (this.alive && this.angle > maxTilt / 2) this.die()
       if (this.dead && !this.wrecked) this.wreck()
     }
     if (this.atCeiling && this.dy < 0) {

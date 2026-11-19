@@ -192,3 +192,102 @@ test('a shot down plane blows up, tumbles as it falls, blows up again on the gro
   for (let j = 0; j < 60; j++) frame(i + j)
   assert.match(scene.ui.outro, /Game over/)
 })
+
+/** The scene with sizes the images would give, and the plane put just above the ground at `x`. */
+function approach(t, x, { airspeed: speed = 250, sink = 50, tankDestroyed = true } = {}) {
+  const scene = createScene(t)
+  const { player, aerodrom } = scene
+  aerodrom.width = 400
+  player.width = 100
+  player.height = 40
+  if (tankDestroyed) scene.vozilo.die()
+  const runwayX = x(aerodrom.runway)
+  player.setPosition(runwayX, scene.height - player.height / 2 - 1)
+  scene.cameraX = runwayX - 200
+  player.airspeed = speed
+  player.dy = sink
+  return scene
+}
+
+const play = (scene, seconds) => {
+  for (let i = 0; i < seconds * 30; i++) {
+    scene.session.update(1 / 30)
+    scene.update(1 / 30, i / 30)
+  }
+}
+
+test('a slow landing on the runway after the tank is destroyed wins, and says how soft it was', t => {
+  const soft = approach(t, runway => runway.left + 100)
+  play(soft, 3)
+  assert.match(soft.ui.outro, /Mission successfully completed! A soft landing/)
+
+  const hard = approach(t, runway => runway.left + 100, { sink: 250 })
+  play(hard, 3)
+  assert.match(hard.ui.outro, /A hard landing/)
+})
+
+test('touching the ground off the runway or too fast wrecks the plane', t => {
+  const short = approach(t, runway => runway.left - 300)
+  play(short, 1 / 15)
+  assert.equal(short.player.wrecked, true, 'before the runway')
+
+  const fast = approach(t, runway => runway.left + 100, { airspeed: 700 })
+  play(fast, 1 / 15)
+  assert.equal(fast.player.wrecked, true, 'too fast')
+})
+
+test('landing while the tank still fights is no victory, and flying past the runway loses the mission', t => {
+  const early = approach(t, runway => runway.left + 100, { tankDestroyed: false })
+  play(early, 3)
+  assert.equal(early.player.alive, true)
+  assert.equal(early.ui.outro, '')
+
+  const past = approach(t, runway => runway.right + 50)
+  past.player.y -= 300
+  play(past, 1 / 15)
+  assert.match(past.ui.outro, /You missed the airfield/)
+})
+
+test('the ruin never comes back over the airfield or its runway', t => {
+  const scene = createScene(t)
+  const { aerodrom, ruina } = scene
+  aerodrom.width = 400
+  ruina.width = 300
+  for (let i = 0; i < 200; i++) {
+    scene.cameraX = aerodrom.x - 3000 + i * 20
+    ruina.x = scene.cameraX - 1000
+    scene.returnRuin()
+    const clear = ruina.x - ruina.width / 2 > aerodrom.runway.right || ruina.x + ruina.width / 2 < aerodrom.x - aerodrom.width / 2
+    assert.ok(clear, `ruin at ${ruina.x}`)
+  }
+})
+
+test('the plane rolls on top of the asphalt runway, not in it', t => {
+  const scene = approach(t, runway => runway.left + 100)
+  play(scene, 1)
+  assert.equal(scene.player.y + scene.player.height / 2, scene.aerodrom.surface)
+  assert.ok(scene.aerodrom.surface < scene.height)
+})
+
+test('the asphalt runway is drawn from the airfield building to the end of the runway', t => {
+  const scene = createScene(t)
+  const [runway] = scene.aerodrom.children
+  assert.ok(runway.image.src.endsWith('textures/terrain/asphalt.jpg'))
+  assert.ok(scene.aerodrom.children.includes(runway))
+})
+
+test('a landing survives with the nose tipped down by the descent or up in a flare, and with down held, but not a plunge', t => {
+  for (const angle of [.07, 2 * Math.PI - .07]) {
+    const scene = approach(t, runway => runway.left + 100, { sink: 100 })
+    scene.player.angle = angle
+    play(scene, 3)
+    assert.match(scene.ui.outro, /Mission successfully completed/, `angle ${angle}`)
+  }
+  const held = approach(t, runway => runway.left + 100, { airspeed: 550, sink: 306 })
+  play(held, 3)
+  assert.match(held.ui.outro, /A hard landing/)
+  const plunge = approach(t, runway => runway.left + 100, { sink: 400 })
+  play(plunge, 3)
+  assert.equal(plunge.player.wrecked, true)
+  assert.match(plunge.ui.outro, /You landed too hard/)
+})
