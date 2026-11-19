@@ -8,7 +8,7 @@ import { setVolume } from './settings.js'
 const elementUI = document.getElementById('ui')
 const modalElement = document.getElementById('modal')
 // the UI that last drew into each shared element; a game ended late must not wipe the next game's screen
-/** On every screen the top button goes back to the main menu, like Esc; the bottom one confirms or carries on. */
+/** After the start screen, the top button of every screen goes back to the main menu, like Esc; the bottom one confirms or carries on. */
 export const mainMenuButton = buttonClass => /* html */`<button class="${buttonClass}" id="menu"><span class="icon">☰</span> Main menu</button>`
 
 const drawnBy = new Map([[elementUI, null], [modalElement, null]])
@@ -98,13 +98,12 @@ export default class UI {
 
   startScreen() {
     const classes = currentStyleClasses()
-    if (this.customStartScreen) return this.customStartScreen({ ...classes, mainMenuButton })
+    if (this.customStartScreen) return this.customStartScreen(classes)
 
     const { container, button } = classes
     return /* html */`
       <div class="central-screen flex-column ${container}" id="start-screen">
         <p>${this.intro}</p>
-        ${mainMenuButton(button)}
         <button class="${button}" id="start"><span class="icon">🔥</span> ${this.startButtonText}</button>
       </div>
     `

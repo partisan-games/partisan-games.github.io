@@ -3,11 +3,11 @@ import assert from 'node:assert/strict'
 import { BoxGeometry, Mesh, PerspectiveCamera, Scene } from 'three'
 import { createPageElements } from './helpers/dom.js'
 
-let Warplane, Input, GameClock
+let Warplane, inputOptions, Input, GameClock
 
 before(async() => {
   createPageElements()
-  Warplane = (await import('/core3d/aircraft/Warplane.js')).default
+  ;({ default: Warplane, inputOptions } = await import('/core3d/aircraft/Warplane.js'))
   Input = (await import('/core/io/Input.js')).default
   GameClock = (await import('/core/runtime/GameClock.js')).default
 })
@@ -19,10 +19,10 @@ function createPlane(t, clock = new GameClock()) {
   const scene = new Scene()
   const plane = new Warplane({ clock, camera: new PerspectiveCamera(), limit: 100, mesh: new Mesh(new BoxGeometry(2, 1, 4)) })
   plane.input.end()
-  plane.input = new Input({ useKeyboard: true, useJoystick: false })
+  plane.input = new Input({ ...inputOptions, useKeyboard: true, useJoystick: false })
   scene.add(plane.mesh)
   t.after(() => {
-    ;['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown', 'Enter'].forEach(code => key('keyup', code))
+    ;['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown', 'Space'].forEach(code => key('keyup', code))
     plane.end()
   })
   return { plane, scene, clock }
@@ -90,9 +90,13 @@ test('uneven frame durations do not shift the plane relative to its camera', t =
   assert.ok(plane.position.y > 29)
 })
 
-test('the warplane fires a missile, and the next one only after the reload of game time', t => {
+test('the warplane fires a missile on Space, and the next one only after the reload of game time', t => {
   const { plane, clock } = createPlane(t)
   key('keydown', 'Enter')
+  fly(plane, .2)
+  assert.equal(plane.missiles.length, 0, 'Enter does not fire')
+  key('keyup', 'Enter')
+  key('keydown', 'Space')
   fly(plane, .2)
   assert.equal(plane.missiles.length, 1)
   clock.advance(.5)

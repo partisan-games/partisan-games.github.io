@@ -16,10 +16,9 @@ const messageDict = {
   19: 'You smell victory in the air...',
 }
 
-const customStartScreen = ({ container, button, mainMenuButton }) => /* html */`
+const customStartScreen = ({ container }) => /* html */`
   <div class="central-screen ${container}">
       <ul><li>Kill all the Orcs</li></ul>
-      ${mainMenuButton(button)}
       <button id="start" class="game-title">Press to START!</button>
       <p>Free the land<br>from their vile presence!</p>
   </div>

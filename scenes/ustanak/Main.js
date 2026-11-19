@@ -23,7 +23,6 @@ const cannonY = groundLevel - 32
 const customStartScreen = ({ container }) => /* html */`
   <div class="central-screen ${container}">
     <h2>Choose mode</h2>
-    ${mainMenuButton('bg-olive')}
     <button class="bg-olive" id="jedan-igrac" >
       Player vs computer
     </button>

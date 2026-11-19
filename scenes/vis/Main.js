@@ -17,11 +17,10 @@ import { assets } from '/config.js'
 
 const { scrollSpeed: speed, clouds, landingTime, engineVolume } = settings
 
-const customStartScreen = ({ container, button, mainMenuButton }) => /* html */`
+const customStartScreen = ({ container }) => /* html */`
   <div class="central-screen flex-column ${container}" id="start-screen">
     <p>Reach the Island of Vis</p>
     <h2>Choose your aircraft</h2>
-    ${mainMenuButton(button)}
     <div class="game-screen-select vis-aircraft-select">
       ${aircraft.map(plane => /* html */`
         <label>

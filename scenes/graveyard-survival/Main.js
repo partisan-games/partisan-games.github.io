@@ -21,10 +21,9 @@ const moonSpeed = .005
 const totalTime = 300
 const mapSize = 100
 
-const customStartScreen = ({ container, button, mainMenuButton }) => /* html */`
+const customStartScreen = ({ container, button }) => /* html */`
   <div class="central-screen ${container}">
     <ul><li>Survive until morning</li><li>Bonus: Kill zombies</li></ul>
-    ${mainMenuButton(button)}
     <button id="start" class="${button}">Press to START!</button>
     <p>Meet the morning at the cursed graveyard.<p>
   </div>

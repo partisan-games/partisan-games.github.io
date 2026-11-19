@@ -30,7 +30,7 @@ const MAX_DIGNUTOST = 5555
 export default class FranjoKluzScene extends Scene2D {
   constructor() {
     super({
-      controlKeys: { ...baseControls, Enter: 'Shoot', V: 'Homing missile' },
+      controlKeys: { ...baseControls, Space: 'Shoot', V: 'Homing missile' },
     })
   }
 

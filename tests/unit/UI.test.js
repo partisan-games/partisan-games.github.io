@@ -148,11 +148,10 @@ test('saved settings survive a reload, and broken or missing values keep the def
   assert.equal(config.volume, original)
 })
 
-test('the top button of every game screen goes back to the main menu and the bottom one carries on', () => {
+test('the start screen only starts, and the top button of every later screen goes back to the main menu while the bottom one carries on', () => {
   const ui = new UI(fakeScene, { intro: 'Reach the forest', onStart() {}, onContinue() {} })
   const modal = document.getElementById('modal')
   for (const [show, last] of [
-    [() => ui.renderStartScreen(), 'start'],
     [() => ui.showPauseScreen(), 'continue'],
     [() => ui.showScreen('pause', ui.settingsScreen()), 'settings-back'],
     [() => ui.showDefeatScreen('Finished'), 'igraj-opet'],
@@ -163,5 +162,7 @@ test('the top button of every game screen goes back to the main menu and the bot
     assert.equal(buttons[0].id, 'menu')
     assert.equal(buttons.at(-1).id, last)
   }
+  ui.renderStartScreen()
+  assert.deepEqual([...modal.querySelectorAll('button')].map(button => button.id), ['start'])
   ui.end()
 })

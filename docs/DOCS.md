@@ -42,7 +42,11 @@ Svaki novi UI element zahteva prethodno izričito odobrenje vlasnika, uključuju
 
 Ni planirana mogućnost uključivanja/isključivanja opcije ne odobrava checkbox, indikator ili drugo UI rešenje. Pre izmene prikazati konkretan predlog i sačekati izričito odobrenje; do tada pripremiti samo logiku.
 
-Redosled dugmadi na svakom centralnom ekranu (početak, pauza, podešavanja, runda, kraj, greška) je isti: gornje dugme vraća na glavni meni, kao Esc, a donje potvrđuje ili nastavlja igru. Dugme za glavni meni pravi zajednički `mainMenuButton` iz [UI](../ui/UI.js); poseban početni ekran ga dobija kao parametar.
+Uvodni ekran svakog nivoa ima samo dugme za početak (ili izbor načina igre), bez glavnog menija; tako je vlasnik odlučio. Redosled dugmadi na ostalim centralnim ekranima (pauza, podešavanja, runda, kraj, greška) je isti: gornje dugme vraća na glavni meni, kao Esc, a donje potvrđuje ili nastavlja igru. Dugme za glavni meni pravi zajednički `mainMenuButton` iz [UI](../ui/UI.js).
+
+## Tasteri
+
+Načelno je Space skok kad lik skače, inače pucanje. Izuzeci su dozvoljeni, npr. kočnica 3D tenka i desni igrač za dvoje (Enter). Tasteri su u [keys.js](../core/io/keys.js).
 
 ## Pravilo za umetnost
 

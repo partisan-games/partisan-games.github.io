@@ -108,6 +108,22 @@ test('a moving shot hits its target once and scores one point', () => {
   assert.equal(score, 1)
 })
 
+test('the player plane shoots on Space, not on Enter', async t => {
+  const { default: PlayerPlane } = await import('/core/actor/derived/PlayerPlane.js')
+  const { default: GameSession } = await import('/core/runtime/GameSession.js')
+  const plane = new PlayerPlane(10_000, undefined, { session: new GameSession() })
+  t.after(() => plane.end())
+  const attacksOn = code => {
+    key('keydown', code)
+    const { attack } = plane.input
+    key('keyup', code)
+    return Boolean(attack)
+  }
+
+  assert.equal(attacksOn('Space'), true)
+  assert.equal(attacksOn('Enter'), false)
+})
+
 test('a tilted player plane levels out exactly, also when frame lengths vary', async t => {
   const { default: PlayerPlane } = await import('/core/actor/derived/PlayerPlane.js')
   const { default: GameSession } = await import('/core/runtime/GameSession.js')

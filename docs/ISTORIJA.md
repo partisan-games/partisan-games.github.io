@@ -101,6 +101,10 @@ Vlasnik je zadao okvir: Franjo Kluz leti prvim partizanskim avionom 1942, u kraj
 
 **Posledice za igru:** Potez 25 igrača je tačan, a teren oko Kozare, Prijedora i Dubice (šume, aerodrom, ruševine) odgovara. Rakete nisu bile oružje Poteza 25 u 1942: imao je mitraljeze i bombe. Neprijateljski Hummel je samohodna haubica iz 1943, pa ne pripada Kozari 1942; protivnik su snage NDH i Nemci u ofanzivi na Kozaru (leto 1942), čija vozila i oružje treba odabrati prema izvorima.
 
+**Protivnici u ofanzivi na Kozaru (10. jun – sredina jula 1942):** oko 15.000 Nemaca i oko 22.000 vojnika NDH (domobrani i ustaše), uz mađarske rečne monitore ili topovnjače na Savi (izvori navode 5 ili 6) i podršku artiljerije i avijacije ([Kozara Offensive](https://en.wikipedia.org/wiki/Kozara_Offensive)). Koji avioni i vozila su tačno učestvovali, opšti izvor ne kaže. Okvirni crteži iz `assets/images/armies/`: nemačka pešadija (`nemci/vojnici/`), kamioni (`ndh/kamioni/opel-blitz-*.png`), laka PVO (`nemci/pvo/2cm-flak-madsten.png`, `flak-m39.png`), oklopni voz (`nemci/vozovi/oklopni-vozovi/`), avioni (`ndh/avioni/fi156*.png`, `nemci/avioni/`); za mađarske monitore crteža nema.
+
+**Izbor vlasnika za igru:** ciljevi su nemačka pešadija, kolona kamiona i oklopni voz, a glavna opasnost laka PVO. Oklopni voz kod Kozare nije potvrđen; igra nije strogo istorijska simulacija, pa ostaje.
+
 ## Krupanj, 1941 — polazište za igru Bunker
 
 Vlasnik je zadao okvir: igra je bitka za Krupanj 1941, a Žikica Jovanović Španac je bombaš koji napada bunker. Potvrđeno u izvorima:

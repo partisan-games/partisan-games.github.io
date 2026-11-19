@@ -12,6 +12,8 @@ const landingBrake = 3 // speed lost per second on the ground, as .1 a frame at 
 const steeringResponse = 12
 const brakingResponse = 18
 const bankingResponse = 6
+/** A plane has nothing to jump, so it fires on Space. */
+export const inputOptions = { attackKey: 'Space', buttonDict: { attack: '💣' } }
 
 /** The player's plane. `clock` is the game clock: the missile reload waits in a pause. */
 export default class Warplane extends GameObject {
@@ -33,7 +35,7 @@ export default class Warplane extends GameObject {
     this.audioChildren = this.missiles
     this.missileReload = new Cooldown({ seconds: reloadTime, clock })
     this.view = new WarplaneView(this)
-    this.input = new Input({ buttonDict: { attack: '💣' } })
+    this.input = new Input(inputOptions)
 
     if (camera) {
       this.chaseCamera = new ChaseCamera({

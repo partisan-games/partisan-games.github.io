@@ -13,7 +13,7 @@ const gravity = 3
 
 export default class PlayerPlane extends Player2D {
   constructor(groundLevel, src = 'armies/partizani/potez-25.png', { session } = {}) {
-    super(src, { scale: .55, flammable: true, buttonDict: { attack: '🚀', special: '🎯' } })
+    super(src, { scale: .55, flammable: true, attackKey: 'Space', buttonDict: { attack: '🚀', special: '🎯' } })
     this.speed = 0
     this.groundLevel = groundLevel
     this.session = session
