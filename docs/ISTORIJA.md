@@ -71,6 +71,74 @@ Za pomorsku igru izdvojeni su sledeći ulazi u istraživanje; ovo su kandidati, 
 
 Rečne teme u istoj grani uključuju Batinu, Virovitički mostobran i forsiranje Neretve. Sam naziv „forsiranje” ne potvrđuje borbu motornih čamaca: [članak o Neretvi](https://sh.wikipedia.org/wiki/Forsiranje_Neretve) opisuje i prelazak preko porušenog i naknadno podignutog mosta. Virovitički mostobran ostaje ulaz za dalje istraživanje, bez potvrđene misije ili plovila.
 
+## Sremski front, početak 1945 — polazište za igru Tenkići
+
+Vlasnik je izabrao okvir: tenkovski duel na Sremskom frontu početkom 1945. Potvrđeno u izvorima:
+
+- **Front i proboj:** posle teške zimske kampanje Jugoslovenska armija, uz sovjetsku podršku i bugarske i italijanske jedinice, probija front 12. aprila 1945; napad počinje u noći 11/12. aprila, pre nemačkog povlačenja ([Syrmian Front](https://en.wikipedia.org/wiki/Syrmian_Front)).
+- **Tenkovi:** u sremskoj operativnoj grupi su 1. proleterska, 21, 22, 42. i 48. divizija, 2. tenkovska brigada i inženjerijska brigada; proboj utvrđene zone počinje 12. aprila u 5 časova ([znaci.org](https://www.znaci.org/00001/224_17.pdf)). Nemački 34. armijski korpus ima oko 120.000 vojnika, oko 700 oruđa i nekoliko desetina tenkova; 21. srpska divizija nije mogla da se odbrani od SS jedinica i tenkova.
+
+**Posledice za igru:** okvir daje stvaran tenkovski sukob, ali ne potvrđuje sadašnje crteže. Partizanski tenk nalik zarobljenom Pantheru i nemački Tiger I nisu vezani za ovaj front; naoružanje 2. tenkovske brigade (sovjetski T-34/85 se pretpostavlja) i tipovi nemačkih tenkova moraju se potvrditi pre novog crteža, najverovatnije u studiji „Sremski front 1944–1945“ (Pajović, Uzelac, Džlebdžić, 1979). Ravničarsko bojište sa rovovima zamenilo bi razrušen grad.
+
+**Više nivoa (odluka vlasnika):** Tenk duel može imati više nivoa, svaki u drugoj bici sa svojim tenkovima i bojištem; Sremski front je prvi. Kandidati za ostale, još neprovereni: Mostar, Knin ili Lika 1944–45 (1. tenkovska brigada NOVJ, M3 Stuart), Beograd oktobar 1944 (sovjetski T-34 uz partizane, u gradu, uz preklapanje sa Otpisanima), zaplenjeni nemački tenkovi u NOVJ (sadašnji partizanski crtež, ako se nađe izvor) i Trst/Rijeka maj 1945 (preklapanje sa Pohodom na Trst).
+
+## Beograd, oktobar 1944 — polazište za igru Otpisani
+
+Vlasnik je zadao okvir: igra je „Povratak otpisanih“, ilegalci u Beogradu 1944, u borbama za oslobođenje grada. Serija je igrani film, ne istorijski izvor; istorijski okvir je Beogradska operacija:
+
+- **Tok:** borbe za Beograd traju od 12. do 20. oktobra 1944, posle tri godine i sedam meseci okupacije; jedinice NOVJ i Crvene armije napreduju sa Avale ka centru, pod Pekom Dapčevićem i maršalom Tolbuhinom ([Kosovo online](https://www.kosovo-online.com/vesti/drustvo/na-danasnji-dan-u-drugom-svetskom-ratu-oslobodjen-beograd-20-10-2023)). Istoričari dele operaciju na tri faze, sa slabom saradnjom saveznika u prvoj ([Vreme](https://vreme.com/vreme/nasi-tragicni-slavni-i-veliki-dani)).
+- **Gubici:** na Groblju oslobodilaca Beograda sahranjena su 2.944 pripadnika NOVJ i 961 borac Crvene armije ([Vreme](https://vreme.com/?p=4491402)).
+
+**Posledice za igru:** protivnik su nemačke jedinice koje brane Beograd; borba ulicu po ulicu odgovara poslednjim danima operacije. Uloga ilegalaca kao u seriji je umetnički okvir igre i ne treba je predstavljati kao istorijsku tvrdnju; za stvarnu ulogu beogradske ilegale u oktobru 1944. naći poseban izvor. Muzika iz serije ostaje neprostorni sloj kao i do sada.
+
+## Kozara, maj–jul 1942 — polazište za igru Franjo Kluz
+
+Vlasnik je zadao okvir: Franjo Kluz leti prvim partizanskim avionom 1942, u kraju Prijedora i Bosanske Dubice. Potvrđeno u izvorima:
+
+- **Prelazak:** 23. maja 1942. Franjo Kluz (Potez 25) i Rudi Čajavec sa mehaničarom Milutinom Jazbecom (Breguet 19) preleću iz vazduhoplovstva NDH u Banjaluci partizanima u tek oslobođeni Prijedor; Kluz sleće na aerodrom Urije ([Franjo Kluz](https://en.wikipedia.org/wiki/Franjo_Kluz), [Grad Prijedor](https://gradprijedor.com/drustvo/sjecanje-na-podvig-franje-kluze-i-rudija-cajavca)).
+- **Borba:** prva partizanska vazduhoplovna baza je u maju 1942. u Međuvođu, sredinom juna premeštena u Lušci Palanku; prvi borbeni letovi su 4. juna 1942. iz Prijedora i Međuvođa kod Kozare. Nemačka avijacija 6. jula uništava Potez na zemlji ([znaci.org](https://www.znaci.org/00001/115_12.pdf)). Čajavec gine ubrzo; datum se u izvorima razlikuje (4. jun ili 2. jul 1942).
+- **Kluz:** rođen u Jošiku kod Bosanske Dubice; kasnije pilot 1. lovačke eskadrile, oboren 14. septembra 1944. kod Omiša, narodni heroj.
+
+**Posledice za igru:** Potez 25 igrača je tačan, a teren oko Kozare, Prijedora i Dubice (šume, aerodrom, ruševine) odgovara. Rakete nisu bile oružje Poteza 25 u 1942: imao je mitraljeze i bombe. Neprijateljski Hummel je samohodna haubica iz 1943, pa ne pripada Kozari 1942; protivnik su snage NDH i Nemci u ofanzivi na Kozaru (leto 1942), čija vozila i oružje treba odabrati prema izvorima.
+
+## Krupanj, 1941 — polazište za igru Bunker
+
+Vlasnik je zadao okvir: igra je bitka za Krupanj 1941, a Žikica Jovanović Španac je bombaš koji napada bunker. Potvrđeno u izvorima:
+
+- **Žikica Jovanović Španac:** učitelj i novinar, borac iz Španskog građanskog rata, u Rađevskoj četi Valjevskog partizanskog odreda. Njegov pucanj u Beloj Crkvi kod Krupnja 7. jula 1941. smatra se početkom ustanka u Srbiji. Poginuo je 13. marta 1942. u Radanovcima, a narodnim herojem je proglašen 1945 ([Wikipedia](https://en.wikipedia.org/wiki/%C5%BDikica_Jovanovi%C4%87_%C5%A0panac), [Bela Crkva incident](https://en.wikipedia.org/wiki/Bela_Crkva_incident)).
+- **Krupanj:** oslobođen je pre sredine septembra 1941; posle toga Tito dolazi u obližnje Stolice, gde je 26. septembra savetovanje glavnih štabova ([Stolice conference](https://en.wikipedia.org/wiki/Stolice_conference), [znaci.org](https://www.znaci.org/00001/53_9.pdf)).
+
+**Posledice za igru:** Rađevina i Krupanj su Žikicin kraj i prostor njegovog odreda, pa okvir odgovara. Izvori koje sam proverio ne opisuju sam napad na krupanjski garnizon: Žikičina uloga bombaša, bunker i sastav posade (Nemci ili žandarmi) još nisu potvrđeni. Proveriti u zborniku „Ustanak naroda Jugoslavije 1941“ ili u istoriji Valjevskog odreda pre tvrdnje o nemačkom bunkeru, koju sada iznosi uvod igre.
+
+## Crna Gora, jul 1941 — polazište za igru Ustanak
+
+Vlasnik je zadao okvir: Ustanak je Trinaestojulski ustanak u Crnoj Gori 1941. Potvrđeno u izvorima:
+
+- **Početak i protivnik:** ustanak protiv italijanske okupacije počinje 13. jula 1941, dan posle skupštine na Cetinju koja je 12. jula pod italijanskim pokroviteljstvom proglasila „nezavisnu“ Crnu Goru ([Uprising in Montenegro (1941)](https://en.wikipedia.org/wiki/Uprising_in_Montenegro_(1941))). Brzo se diže oko 32.000 naoružanih ljudi.
+- **Tok:** ustanici oslobađaju veća mesta, među njima Berane, gde su zajedno sa komunistima učestvovale i snage Pavla Đurišića; zarobljeni italijanski vojnici drže se u logorima u Danilovgradu, Beranama, okolini Nikšića i na Brezi kod Kolašina ([Istorijski zapisi](https://istorijskizapisi.me/wp-content/uploads/2022/04/19-B-Miljic-231-253.pdf)).
+
+**Posledice za igru:** italijanski protivnik i zastava odgovaraju; tri ambijenta (brda, kameno selo, razrušen grad) uklapaju se u crnogorski teren i spaljena sela leta 1941. Nije potvrđeno da su ustanici imali top u dvoboju sa italijanskom artiljerijom: zarobljena oruđa i mesto takve borbe treba tražiti u vojnim istorijama napada na Berane i Kolašin (npr. Zoran Lakić). Do tada je partizanski top pretpostavka igre, a avioni nad bojištem su italijanski.
+
+## Sutjeska 1943 — polazište za igru Ranjenik
+
+Vlasnik je zadao okvir: junak je ranjeni borac koji je preživeo bitku na Sutjesci 1943. Potvrđeno u izvorima:
+
+- **Operacija:** nemački „Schwarz“, kod partizana Peta neprijateljska ofanziva, od 15. maja do 16. juna 1943 ([Case Black](https://en.wikipedia.org/wiki/Case_Black)); [Danas](https://www.danas.rs/kultura/srce-te-zaboli-goranka-matic-povodom-svojih-radova-u-okviru-izlozbe-sutjeska-80-godina-najveca-gerilska-bitka-drugog-svetskog-rata/) navodi 15. jun kao kraj.
+- **Ranjenici:** Centralna bolnica je išla sa Glavnom operativnom grupom, a prethodnica je trebalo da probije obruč i za nju; vojska je 11. juna izbila na desnu obalu Sutjeske ([sećanje, znaci.org](https://www.znaci.org/00001/257_17.pdf)). Deo teških ranjenika je skrivan po pivskim pećinama ([Vreme](https://vreme.com/vreme/nas-moral-nikad-se-ne-predati/)). Da li je postojalo naređenje da se ranjenici ostave, izvori se spore.
+
+**Posledice za igru:** ranjenik koji puzi iz obruča i krije se od patrole odgovara sudbini ranjenika iz pivskih pećina i probojnih dana sredinom juna 1943. Sastav patrole (nemačka, a ne italijanska, bugarska ili ustaška) i opremu još treba potvrditi za mesto i dan; nemački govor patrole je zato pretpostavka igre. Tok Centralne bolnice proveriti u monografiji o bitci (Vojnoistorijski institut) pre tvrdnje o tačnom mestu.
+
+## Vis 1944 — polazište za igru Vis
+
+Vlasnik je zadao okvir: Vis 1944, kada su na ostrvu bili Vrhovni štab NOVJ i aerodrom sa britanskim i partizanskim avionima. Potvrđeno u izvorima:
+
+- **Vrhovni štab:** posle desanta na Drvar Vis postaje vojno i političko središte; štab je u selu Žena Glava ispod Huma, a Tito radi u pećini na Humu ([Vis 1944, Hrvatski povijesni muzej, 1964](https://ftp.hismus.hr/media/documents/izdavastvo/ID-2-1964_Vis_1944.pdf)). Boravak od 7. juna do 19. septembra 1944. navodi samo [blog](https://mwalkeristra.blogspot.com/search/label/Vis); datume potvrditi istorijskim izvorom.
+- **Aerodrom:** prva vazduhoplovna baza na Visu nastaje u maju 1944. (isti izvor iz 1964); RAF-ov spisak baza navodi Plisko Polje.
+- **Partizanski avioni:** [No. 352 Squadron RAF](https://en.wikipedia.org/wiki/No._352_Squadron_RAF), jugoslovenska eskadrila, leti prvo na Hurricane-ima, zatim na Spitfire-ima. Prvi borbeni let je 18. avgusta 1944. iz Canne u Italiji; odred je na Visu od oktobra 1944, a cela eskadrila od 25. januara do 4. aprila 1945 ([History of War](https://www.historyofwar.org/air/units/RAF/352_wwII.html)). Franjo Kluz je oboren protivavionskom vatrom iznad Omiša 14. septembra 1944.
+- **Britanci:** savezničke jedinice koriste aerodrom tokom 1944; fotografije pokazuju Tita i Šubašića na aerodromu u julu 1944.
+
+**Posledice za igru:** Spitfire sa crvenom zvezdom odgovara jugoslovenskoj eskadrili tek od leta 1944, a stalno na Visu od oktobra; pre toga su na ostrvu britanski avioni. Protivnik je Luftwaffe nad Jadranom; tipove nemačkih aviona u igri još treba potvrditi za taj prostor i period. Za ime i zadatak nivoa ne tvrditi tačan datum koji izvori ne potvrđuju.
+
 ## Šolta, 9–11. maj 1944 — sastav za igru čamca
 
 Izabrana operacija nije konačno oslobođenje Šolte u septembru: majski napad završio se povratkom na Vis. Monografija Mirka Novovića i Stevana Petkovića, [Prva dalmatinska brigada na Visu, odeljak o Šolti, strane PDF-a 42–49](https://znaci.org/00001/108_11.pdf#page=42), opisuje sastav, iskrcavanje i povlačenje; [nemački izveštaj od 12. maja, Zbornik XII/4, dokument 56](https://www.znaci.org/00001/4_12_4_56.htm) potvrđuje pojačanja i povlačenje napadača, uz perspektivu i procene protivničke komande. Brojeve gubitaka i protivničke procene ne preuzimati nekritički.

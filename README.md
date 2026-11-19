@@ -26,6 +26,7 @@ The separate checks and how the tests work: [docs/TESTING.md](docs/TESTING.md).
 ## TODO
 
 - proveri warplane na mobilnom (privremeno isključeno hide-on-mobile)
+- dodati godinu ispred naziva svake 2d igre?
 - razrađivati postojeće nivoe redom
 
 Ideje za nivoe:
