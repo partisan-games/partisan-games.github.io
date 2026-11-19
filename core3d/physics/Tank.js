@@ -2,7 +2,8 @@ import { mapRange } from '/core3d/helpers.js'
 import { loadedModel } from '/core3d/assets/models.js'
 import Vehicle from '/core3d/physics/Vehicle.js'
 import { Smoke } from '/core3d/Particles.js'
-import { createSound, randomVolume } from '/core/io/sound.js'
+import Sound from '/core/io/audio/SoundSource.js'
+import { audioPoint } from '/core/io/audio/audio3d.js'
 
 const wheelFront = { x: .75, y: .1, z: 1.25 }
 const wheelBack = { x: .75, y: .1, z: -1.25 }
@@ -17,7 +18,8 @@ const smokeParam = { size: .5, num: 25, maxRadius: .22, color: 0xffffff, opacity
 export default class Tank extends Vehicle {
   constructor(param = {}) {
     super({ mesh: loadedModel(model), wheelFront, wheelBack, maxSpeed: 40, maxEngineForce: 1000, ...param })
-    this.zvuk = createSound('engine-6000.mp3')
+    this.zvuk = new Sound('engine-6000.mp3', { volume: .2, loop: true, profile: 'engine', spatial: audioPoint(this) })
+    this.sounds.push(this.zvuk)
     this.smokeLeft = this.createSmoke()
     this.smokeLeft.mesh.translateX(.4)
     this.smokeRight = this.createSmoke()
@@ -33,19 +35,15 @@ export default class Tank extends Vehicle {
     return smoke
   }
 
-  forward() {
-    super.forward()
-    this.zvuk.volume = randomVolume()
-    this.zvuk.play()
-  }
-
   end() {
     super.end()
-    this.zvuk.pause() // the engine must not go on in the next game
+    this.zvuk.stop() // the engine must not go on in the next game
   }
 
   update(delta, t) {
     super.update(delta)
+    this.zvuk.volume = .15 + .2 * Math.min(1, Math.abs(this.engineForce) / this.maxEngineForce)
+    this.zvuk.setPlaying(true)
 
     const maxVelocity = mapRange(this.speed, 0, 30, 3, 8)
     const options = { min: -1.25, minVelocity: maxVelocity / 2, maxVelocity, loop: this.input.keyPressed }

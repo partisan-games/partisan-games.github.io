@@ -10,7 +10,7 @@ import { levels } from './levels.js'
 import { baseControls } from '/ui/Controls.js'
 import { currentStyleClasses } from '/ui/styles.js'
 import { keys, attackLabels } from '/core/io/keys.js'
-import { createSound } from '/core/io/sound.js'
+import Sound from '/core/io/audio/SoundSource.js'
 import { settings } from './settings.js'
 import { aircraft } from './aircraft.js'
 import { assets } from '/config.js'
@@ -42,6 +42,7 @@ export default class VisScene extends Scene2D {
   }
 
   init() {
+    this.audioWorldOffset = { x: 0, y: 0 }
     this.backgroundColor = '#165a8d'
     this.oblaci = Array.from({ length: clouds }, () => new Cloud2D(speed))
     this.ostrvo = new Pokretno('nature/ostrvo.gif', { thrust: speed, scale: 2 })
@@ -54,8 +55,8 @@ export default class VisScene extends Scene2D {
     })
     const okean = new PokretnaPozadina(speed, this.width)
     this.add(okean, this.zdravlje, this.ostrvo, this.player, ...this.oblaci)
-    this.engineSound = createSound('avion-mali.mp3', { volume: engineVolume })
-    this.engineSound.loop = true
+    this.engineSound = new Sound('avion-mali.mp3', { volume: engineVolume, loop: true, profile: 'engine', spatial: { getPosition: () => this.player.position } })
+    this.player.sounds.push(this.engineSound)
   }
 
   /* the engine hums while the game runs */
@@ -71,27 +72,7 @@ export default class VisScene extends Scene2D {
   start() {
     this.player.show()
     super.start()
-    this.engineSound.play()
-  }
-
-  unpause() {
-    super.unpause()
-    this.engineSound.play()
-  }
-
-  pause() {
-    super.pause()
-    this.engineSound.pause()
-  }
-
-  finish() {
-    super.finish()
-    this.engineSound.pause()
-  }
-
-  end() {
-    super.end()
-    this.engineSound.pause()
+    this.engineSound.setPlaying(true)
   }
 
   collectHealth() {
@@ -112,7 +93,9 @@ export default class VisScene extends Scene2D {
 
   /** The world keeps moving behind the end screen, but the rules stop: no new waves, power-ups or landing. */
   update(dt, t) {
+    if (this.session.state === 'running') this.audioWorldOffset.y -= speed * dt
     super.update(dt, t)
+    this.engineSound.setPlaying(this.player.alive)
     if (this.session.state !== 'running') return
 
     this.waves.update(dt)

@@ -1,4 +1,6 @@
 import { Vector2 } from 'three'
+import Sound from '/core/io/audio/SoundSource.js'
+import { audioPoint } from '/core/io/audio/audio3d.js'
 import Input from '/core/io/Input.js'
 import { Flame } from '/core3d/Particles.js'
 import GameObject from '/core3d/objects/GameObject.js'
@@ -20,6 +22,9 @@ export default class Lander extends GameObject {
     this.name = 'player'
     this.input = new Input()
     this.platform = platform
+    this.thrustSound = new Sound('rocket-thrust.mp3', { volume: .3, loop: true, profile: 'engine', spatial: audioPoint(this) })
+    this.contactSound = new Sound('metal-impact.mp3', { profile: 'impact', spatial: audioPoint(this) })
+    this.sounds.push(this.thrustSound, this.contactSound)
     this.flame = new Flame()
     this.flame.mesh.rotateX(Math.PI * .5)
     this.reset()
@@ -51,6 +56,8 @@ export default class Lander extends GameObject {
     this.mesh.rotation.z = 0
     this.velocity = new Vector2()
     this.failure = false
+    this.audioContact = false
+    this.audioRevision = (this.audioRevision ?? 0) + 1
     this.resetFlame()
   }
 
@@ -94,6 +101,10 @@ export default class Lander extends GameObject {
 
   checkLanding() {
     if (!this.onPlatform) return
+    if (!this.audioContact) {
+      this.audioContact = true
+      this.contactSound.play()
+    }
 
     if (this.velocity.y < -2.4)
       this.doFailure()
@@ -129,6 +140,7 @@ export default class Lander extends GameObject {
     if (!this.onPlatform) this.applyGravity(delta)
     this.applyVelocity(delta)
     this.updateFlame(delta, t)
+    this.thrustSound.setPlaying(Boolean(!this.onPlatform && !this.failure && this.fuel > 0 && (this.input.left || this.input.right || this.input.down)))
   }
 
   end() {

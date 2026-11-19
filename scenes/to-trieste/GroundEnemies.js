@@ -1,3 +1,4 @@
+import Sound from '/core/io/audio/SoundSource.js'
 import canvas2d from '/core/io/canvas2d.js'
 import CombatTarget from './CombatTarget.js'
 import EnemyFire from './EnemyFire.js'
@@ -18,6 +19,8 @@ export class GroundEnemy extends CombatTarget {
     super({ ...bodyArt, x, groundY: groundY + 5, speed: scrollSpeed - driveSpeed, z: -1, flammable: true, ...rest })
     this.kind = kind
     this.scrollSpeed = scrollSpeed
+    this.engineSound = new Sound('engine-diesel.mp3', { volume: .2, loop: true, profile: 'engine', spatial: { getPosition: () => this.position, getRevision: () => this.lifeId } })
+    this.sounds.push(this.engineSound)
     this.driveSpeed = driveSpeed
     this.nextSpawnX = nextSpawnX
     if (barrel) {
@@ -50,6 +53,7 @@ export class GroundEnemy extends CombatTarget {
   }
 
   update(dt) {
+    this.engineSound.setPlaying(!this.dead && this.driveSpeed > 0)
     super.update(dt)
     this.barrel?.sync()
     this.fire?.update(this.fire.target.x < this.x)

@@ -1,3 +1,4 @@
+import Sound from '/core/io/audio/SoundSource.js'
 import mouse from '/core/io/mouse.js'
 import Scene2D from '/core/Scene2D.js'
 import Background from '/core/objects/Background.js'
@@ -13,6 +14,10 @@ export default class NeretvaScene extends Scene2D {
   }
 
   init() {
+    // The stationary gunner's world position is a model point, independent of the aim cursor.
+    this.player = { position: { x: this.width * .5, y: this.height * .95 }, sounds: [] }
+    this.player.shotSound = new Sound('pucanj.mp3', { profile: 'rifle', spatial: { getPosition: () => this.player.position } })
+    this.player.sounds.push(this.player.shotSound)
     this.pogoci = 0
     this.rekord = 0
     this.health = new Health()
@@ -24,7 +29,7 @@ export default class NeretvaScene extends Scene2D {
     this.add(...this.sveSvabe)
     this.background = new Background('textures/terrain/suva-trava.jpg')
     this.ucitajRekord()
-    mouse.showCrosshair()
+    mouse.showCrosshair(this.player.shotSound)
   }
 
   praviSvabe(n, y, params) {

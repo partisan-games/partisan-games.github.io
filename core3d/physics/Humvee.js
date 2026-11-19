@@ -1,3 +1,5 @@
+import Sound from '/core/io/audio/SoundSource.js'
+import { audioPoint } from '/core/io/audio/audio3d.js'
 import { mapRange } from '/core3d/helpers.js'
 import { loadedModel } from '/core3d/assets/models.js'
 import Vehicle from '/core3d/physics/Vehicle.js'
@@ -17,6 +19,8 @@ const smokeParam = { size: .5, num: 25, maxRadius: .22, color: 0xffffff, opacity
 export default class Humvee extends Vehicle {
   constructor(param = {}) {
     super({ mesh: loadedModel(body), wheelFront, wheelBack, wheelMesh: loadedModel(wheel), mass: 1200, maxEngineForce: 2600, ...param })
+    this.engineSound = new Sound('engine-diesel.mp3', { volume: .2, loop: true, profile: 'engine', spatial: audioPoint(this) })
+    this.sounds.push(this.engineSound)
     this.smoke = new Smoke(smokeParam)
     this.smoke.mesh.translateY(-1.75)
     this.smoke.mesh.translateX(1.2)
@@ -26,6 +30,8 @@ export default class Humvee extends Vehicle {
 
   update(delta, t) {
     super.update(delta)
+    this.engineSound.volume = .15 + .2 * Math.min(1, Math.abs(this.engineForce) / this.maxEngineForce)
+    this.engineSound.setPlaying(true)
 
     const maxVelocity = mapRange(this.speed, 0, 30, 3, 8)
     const options = { min: -1.25, minVelocity: maxVelocity / 2, maxVelocity, loop: this.input.keyPressed }

@@ -47,6 +47,8 @@ export default class WarplaneScene extends Scene3D {
     this.i = 0
     this.buildingWait = new Cooldown({ seconds: buildingInterval, clock: this.session.clock })
     this.entities = []
+    this.audioChildren = this.entities
+    this.audioWorldOffset = { x: 0, y: 0, z: 0 }
     this.objects = []
 
     this.camera.position.set(0, 29, 0)
@@ -141,6 +143,7 @@ export default class WarplaneScene extends Scene3D {
   update(delta, time) {
     super.update(delta, time)
     const deltaSpeed = this.player.speed * delta
+    this.audioWorldOffset.z -= deltaSpeed
 
     this.moveGround(deltaSpeed)
     this.moveObjects(deltaSpeed)

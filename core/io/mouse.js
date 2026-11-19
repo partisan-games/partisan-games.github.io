@@ -1,5 +1,4 @@
 import { isInside } from '/core/collision/rectangles.js'
-import { createSound } from '/core/io/sound.js'
 
 const mouse = {
   pressed: false,
@@ -12,8 +11,8 @@ const mouse = {
     return mouse.pressed && mouse.isOver(predmet)
   },
 
-  showCrosshair() {
-    mouse.shotSound = createSound('pucanj.wav')
+  showCrosshair(shotSound) {
+    mouse.shotSound = shotSound
     document.body.addEventListener('click', mouse.fire)
     document.body.setAttribute('style', 'cursor:url(/assets/images/ui/nisan.png) 50 50, crosshair')
   },
@@ -24,9 +23,9 @@ const mouse = {
     document.body.setAttribute('style', 'cursor:auto')
   },
 
-  fire() {
-    if (mouse.shotSound.currentTime !== 0) mouse.shotSound.currentTime = 0
-    mouse.shotSound.play()
+  fire(event) {
+    if (event?.target?.closest?.('button')) return
+    mouse.shotSound?.play()
   }
 }
 

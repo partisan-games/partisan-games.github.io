@@ -1,4 +1,6 @@
 import * as THREE from 'three'
+import Sound from '/core/io/audio/SoundSource.js'
+import { audioPoint } from '/core/io/audio/audio3d.js'
 import Input from '/core/io/Input.js'
 import { getMesh, getGroundY } from '/core3d/helpers.js'
 import ChaseCamera from '/core3d/actor/ChaseCamera.js'
@@ -31,6 +33,8 @@ export default class Airship extends GameObject {
     this.mixer = new THREE.AnimationMixer(getMesh(this.mesh))
     this.mesh.rotation.order = 'YZX' // fix controls (default is 'ZYX')
     this.input = new Input()
+    this.engineSound = new Sound('engine-aircraft.mp3', { volume: .2, loop: true, profile: 'engine', spatial: audioPoint(this) })
+    this.sounds.push(this.engineSound)
 
     if (animations) {
       const clip = this.animations[0]
@@ -178,6 +182,7 @@ export default class Airship extends GameObject {
 
   update(delta = 1 / FPS) {
     if (!this.mesh) return
+    this.engineSound.setPlaying(!this.dead && !this.isTouchingGround)
 
     if (this.t % 3 === 0)
       this.updateGround()

@@ -1,5 +1,5 @@
 import { assets } from '/config.js'
-import Sound from '/core/io/ManagedSound.js'
+import Sound from '/core/io/audio/SoundSource.js'
 
 const width = 724
 const height = 543
@@ -15,7 +15,7 @@ const stuboviDima = [
 
 export default class PozadinaGrada {
   constructor(canvas) {
-    this.fireSound = new Sound('fire.mp3', { volume: .6, loop: true })
+    this.fireSound = new Sound('fire.mp3', { volume: .6, loop: true, profile: 'fire', ambienceKey: this, spatial: { getArea: () => ({ min: { x: canvas.width * 176 / width, y: canvas.height * 230 / height }, max: { x: canvas.width * 604 / width, y: canvas.height * 365 / height } }) } })
     this.sounds = [this.fireSound]
     this.canvas = canvas
     this.ctx = canvas.getContext('2d')

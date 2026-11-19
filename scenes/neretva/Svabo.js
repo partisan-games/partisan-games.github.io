@@ -1,9 +1,8 @@
 import GameObject2D from '/core/actor/GameObject2D.js'
 import mouse from '/core/io/mouse.js'
-import { createSound, randomVolume } from '/core/io/sound.js'
+import Sound from '/core/io/audio/SoundSource.js'
 import { ctx } from '/core/io/canvas2d.js'
 
-const rafal = createSound('rafal.mp3')
 const SHOT_INTERVAL = .18
 const FALL_TIME = 1.2
 const frameCache = new Map()
@@ -35,7 +34,8 @@ export default class Svabo extends GameObject2D {
     this.children.push(this.art)
     this.ucestalost = ucestalost
     this.callback = callback
-    rafal.volume = randomVolume()
+    this.burstSound = new Sound('rafal.mp3', { loop: true, profile: 'rifle', spatial: { getPosition: () => this.position } })
+    this.sounds.push(this.burstSound)
     this.init()
   }
 
@@ -55,6 +55,7 @@ export default class Svabo extends GameObject2D {
   }
 
   stav(bul) {
+    this.burstSound.setPlaying(false)
     this.stoji = bul
     this.firing = false
     this.fallenFor = bul ? 0 : FALL_TIME
@@ -72,6 +73,7 @@ export default class Svabo extends GameObject2D {
 
   shoot() {
     if (!this.firing) {
+      this.burstSound.setPlaying(true)
       this.firing = true
       this.fireElapsed = 0
     }
@@ -99,7 +101,6 @@ export default class Svabo extends GameObject2D {
     if (this.stoji) this.aimElapsed += dt
     if (this.jeSpreman()) {
       this.shoot()
-      rafal.play()
       this.callback(10, dt)
     }
   }

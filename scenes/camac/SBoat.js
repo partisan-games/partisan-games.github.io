@@ -1,3 +1,4 @@
+import Sound from '/core/io/audio/SoundSource.js'
 import canvas2d, { ctx } from '/core/io/canvas2d.js'
 import ProjectilePool from '/core/actor/ProjectilePool.js'
 import Weapon from '/core/gameplay/Weapon.js'
@@ -16,11 +17,17 @@ export default class SBoat extends CombatTarget {
     super({ session, viewLeft, maximum: 60, src: 'armies/game-ready/brodovi/schnellboot-s30.svg',
       width: 275, height: 49.5, visible: false })
     this.session = session
+    this.shotSound = new Sound('rifle.mp3', { profile: 'rifle', spatial: { getPosition: () => this.muzzle } })
+    this.sounds.push(this.shotSound)
+    this.engineSound = new Sound('engine-boat.mp3', { volume: .25, loop: true, profile: 'engine', spatial: { getPosition: () => this.position, getRevision: () => this.lifeId } })
+    this.sounds.push(this.engineSound)
+    this.sinkingSound = new Sound('water-impact.mp3', { profile: 'impact', spatial: { getPosition: () => this.position } })
+    this.sounds.push(this.sinkingSound)
     this.target = target
     this.active = false
     this.wreck = new SinkingWreck(this, session.clock)
     this.children.push(this.wreck.effects)
-    this.bullets = new ProjectilePool({ owner: this, create: () => {
+    this.bullets = new ProjectilePool({ owner: this, onFire: () => this.shotSound.play(), create: () => {
       const bullet = new BoatBullet(viewLeft)
       bullet.damage = 5
       return bullet
@@ -63,11 +70,15 @@ export default class SBoat extends CombatTarget {
   takeHit(damage, lifeId = this.lifeId) {
     const { alive } = this
     const applied = super.takeHit(damage, lifeId)
-    if (alive && this.dead) this.wreck.start()
+    if (alive && this.dead) {
+      this.wreck.start()
+      this.sinkingSound.play()
+    }
     return applied
   }
 
   update(dt) {
+    this.engineSound.setPlaying(this.active && !this.dead)
     if (!this.active || this.session.state !== 'running') return
     if (this.dead) {
       this.position.z = this.wreck.solid ? 0 : .5

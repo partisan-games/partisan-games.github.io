@@ -1,3 +1,5 @@
+import Sound from '/core/io/audio/SoundSource.js'
+import { audioPosition } from '/core/io/audio/audio3d.js'
 import * as THREE from 'three'
 import { Ammo } from '/core3d/physics/index.js'
 import { loadedModel } from '/core3d/assets/models.js'
@@ -26,6 +28,8 @@ export default class Cannon extends Vehicle {
   constructor({ mesh = loadedModel(model), world, ...rest } = {}) {
     super({ mesh, world, defaultRadius: .18, wheelFront: { x: .3, y: .12, z: .32 }, wheelBack: { x: .3, y: .18, z: -.56 }, maxEngineForce: 20, mass: 100, ...rest })
 
+    this.shotSound = new Sound('cannon-shot.mp3', { profile: 'cannon', spatial: { getPosition: () => this.audioShotPoint ?? audioPosition(this.mesh) } })
+    this.sounds.push(this.shotSound)
     this.world = world
     this.chaseCamera.offset = [0, 1, -2.5]
     this.chaseCamera.lookAt = [0, 1, 0]
@@ -36,6 +40,7 @@ export default class Cannon extends Vehicle {
   }
 
   shoot = () => {
+    this.audioScene?.output.preload('metal-impact.mp3')
     const angle = this.mesh.rotation.y
     const x = this.range.value * Math.sin(angle)
     const z = this.range.value * Math.cos(angle)
@@ -50,6 +55,9 @@ export default class Cannon extends Vehicle {
     const ball = createSphere({ r: .2, color: 0x202020 })
     ball.position.copy(pos)
     this.world.add(ball, 4)
+    this.audioShotPoint = { x: ball.position.x, y: ball.position.y, z: ball.position.z }
+    this.shotSound.play()
+    this.world.contacts.once(ball.userData.body, point => this.audioScene?.emit('metal-impact.mp3', { profile: 'impact', spatial: { position: point } }))
 
     const velocity = new Ammo.btVector3(x, this.range.value * .2, z)
     ball.userData.body.setLinearVelocity(velocity) // the body copies it

@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 
 import GameObject from '/core3d/objects/GameObject.js'
-import { createSound } from '/core/io/sound.js'
+import Sound from '/core/io/audio/SoundSource.js'
 
 const material = new THREE.MeshPhongMaterial({ color: 0xffd700 })
 
@@ -18,11 +18,11 @@ export default class Coin extends GameObject {
   constructor(param = {}) {
     super({ mesh: createCoin(), name: 'coin', ...param })
     this.mesh.rotateZ(Math.random() * Math.PI)
-    this.audio = createSound('fairy-arcade-sparkle.mp3')
+    this.audio = new Sound('fairy-arcade-sparkle.mp3', { profile: 'ui' })
+    this.sounds.push(this.audio)
   }
 
   playSound() {
-    this.audio.currentTime = 0
     this.audio.play()
   }
 

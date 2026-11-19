@@ -1,186 +1,199 @@
-import { test, before, mock } from 'node:test'
+import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
-import { Mesh, BoxGeometry, Scene, AmbientLight } from 'three'
-import { createPageElements } from './helpers/dom.js'
+import { Mesh, BoxGeometry, Scene, AmbientLight, Group, Vector3, PerspectiveCamera } from 'three'
+import config from '/config.js'
+import SceneAudio from '/core/io/audio/SceneAudio.js'
+import SoundSource from '/core/io/audio/SoundSource.js'
+import GameSession from '/core/runtime/GameSession.js'
 import GameClock from '/core/runtime/GameClock.js'
 import ResourceScope from '/core/runtime/ResourceScope.js'
+import { audioPosition, audioListener } from '/core/io/audio/audio3d.js'
+import { createPageElements } from './helpers/dom.js'
+import { fixture } from './helpers/audioBackend.js'
 
-/** Records every sound a game object makes: its file and its volume when it starts playing. */
-class FakeAudio {
-  static played = []
-  constructor(src = '') {
-    this.src = src
-    this.volume = 1
-    this.currentTime = 0
-    this.paused = true
-  }
-
-  play() {
-    FakeAudio.played.push({ file: this.src.replace(/^\/assets\/sounds\//, ''), volume: Number(this.volume.toFixed(4)) })
-    this.paused = false
-    return Promise.resolve()
-  }
-
-  pause() {
-    this.paused = true
-  }
-
-  load() {
-    this.play()
-  }
-
-  addEventListener() {}
+before(() => createPageElements())
+const settle = async() => { for (let i = 0; i < 24; i++) await Promise.resolve() }
+async function audioFor(t, dimensions = 2) {
+  const backend = fixture()
+  await backend.engine.unlock()
+  const player = { position: { x: 0, y: 0, z: 0 }, forward: { x: 0, y: 0, z: -1 }, up: { x: 0, y: 1, z: 0 }, identity: 'player' }
+  const audio = new SceneAudio({ engine: backend.engine, coordinates: { dimensions, unitsPerAudioUnit: dimensions === 2 ? 100 : 1 }, getListener: () => player })
+  t.after(async() => { audio.end(); await backend.engine.dispose() })
+  return { ...backend, audio, player }
 }
 
-/** Runs the code with Math.random fixed and returns the sounds it played. */
-function soundsOf(action, random = .5) {
-  FakeAudio.played = []
-  const restore = mock.method(Math, 'random', () => random)
-  action()
-  restore.mock.restore()
-  return FakeAudio.played
-}
-
-before(() => {
-  createPageElements()
-  globalThis.Audio = FakeAudio
-})
-
-// the game volume is 0.4 (config.js); random volumes lie between 0.5 and 1.25 of it
-
-test('the gun sight shot plays at the game volume', async() => {
+test('the gun sight uses the actual player-owned source and ignores buttons', async t => {
+  const { audio } = await audioFor(t)
   const { default: mouse } = await import('/core/io/mouse.js')
-  mouse.showCrosshair()
-  assert.deepEqual(soundsOf(() => mouse.fire()), [{ file: 'pucanj.wav', volume: .4 }])
-  mouse.hideCrosshair()
+  const point = { x: 123, y: 321 }
+  const sound = new SoundSource('pucanj.mp3', { profile: 'rifle', spatial: { getPosition: () => point } })
+  audio.sync([{ sounds: [sound] }], 'running')
+  mouse.showCrosshair(sound)
+  t.after(() => mouse.hideCrosshair())
+  mouse.x = 900; mouse.y = 1
+  mouse.fire()
+  assert.deepEqual(sound.playback.audio.spatialModel.position, { x: 1.23, y: -3.21, z: 0 })
+  const voices = sound.playback.voices.size
+  mouse.fire({ target: { closest: () => ({}) } })
+  assert.equal(sound.playback.voices.size, voices)
 })
 
-test('the occupier burst plays at a random volume around the game volume', async() => {
+test('different occupiers have independent burst points and sound randomness does not consume gameplay random', async t => {
+  const { audio, engine } = await audioFor(t)
   const { default: Occupier } = await import('/core/actor/Occupier.js')
-  const occupier = new Occupier()
-  assert.deepEqual(soundsOf(() => occupier.fire(0), 0), [{ file: 'rafal.mp3', volume: .2 }])
-  assert.deepEqual(soundsOf(() => occupier.fire(0), .5), [{ file: 'rafal.mp3', volume: .35 }])
+  const first = new Occupier(), second = new Occupier()
+  first.x = 100; second.x = 500
+  audio.sync([first, second], 'running')
+  first.fire(0); second.fire(0)
+  assert.notEqual(first.burstSound.playback.audio, second.burstSound.playback.audio)
+  assert.notDeepEqual(first.burstSound.playback.audio.spatialModel.position, second.burstSound.playback.audio.spatialModel.position)
+  await settle()
+  const random = t.mock.method(Math, 'random', () => { throw new Error('audio touched gameplay random') })
+  const voice = first.burstSound.play()
+  random.mock.restore()
+  await voice.started
+  assert.equal(engine.master.gain.value, config.volume)
+  const group = audio.output.groupDestination('effects', engine.context)
+  assert.equal(group.gain.value, audio.output.groupLevels.effects)
+  assert.equal(voice.processing.gain.gain.value, voice.volume * voice.profile.trim * voice.variationVolume * voice.spatialState.gain)
 })
 
-test('the trench soldier burst plays at the random volume picked when he appears', async() => {
+test('a trench firing transition starts one repeating burst instead of replaying the entire clip per bullet', async t => {
+  const { audio } = await audioFor(t)
   const { default: Svabo } = await import('/scenes/neretva/Svabo.js')
-  let soldier
-  soundsOf(() => {
-    soldier = new Svabo({ scale: 1, callback: () => {} })
-  }, 1)
-  soldier.jeSpreman = () => true
-  assert.deepEqual(soundsOf(() => soldier.update(1 / 60), 0), [{ file: 'rafal.mp3', volume: .5 }])
+  const soldier = new Svabo({ scale: 1, callback() {} })
+  audio.sync([soldier], 'running')
+  soldier.ustani(); soldier.shoot(); soldier.shoot()
+  await settle()
+  assert.equal(soldier.burstSound.options.loop, true)
+  assert.equal(soldier.burstSound.playback.voices.size, 1)
+  soldier.padni()
+  assert.equal(soldier.burstSound.playing, false)
 })
 
-test('an attack sound plays at a random volume around the game volume', async() => {
+test('3D points include parent transforms and remain independent of camera placement', () => {
+  const parent = new Group(), mesh = new Mesh(new BoxGeometry())
+  parent.position.set(10, 20, 30)
+  mesh.position.set(1, 2, 3)
+  parent.add(mesh)
+  assert.deepEqual(audioPosition(mesh).toArray(), [11, 22, 33])
+  parent.position.x = 40
+  assert.deepEqual(audioPosition(mesh).toArray(), [41, 22, 33])
+})
+
+test('model forward axes and an attached FPS view define orientation while camera offsets never move the listener', () => {
+  const mesh = new Mesh(new BoxGeometry()), camera = new PerspectiveCamera()
+  mesh.position.set(1, 2, 3)
+  camera.position.set(500, 20, 100)
+  const player = { mesh, camera }
+  assert.deepEqual(audioListener(player).position.toArray(), [1, 2, 3])
+  assert.deepEqual(audioListener(player).forward.toArray(), [0, 0, -1])
+  const vehicle = { mesh, audioForward: { x: 0, y: 0, z: 1 } }
+  assert.deepEqual(audioListener(vehicle).forward.toArray(), [0, 0, 1])
+  mesh.add(camera)
+  camera.rotation.y = Math.PI / 2
+  const listener = audioListener(player)
+  assert.deepEqual(listener.position.toArray(), [1, 2, 3])
+  assert.ok(listener.forward.x < -.999)
+  assert.throws(() => audioListener({ camera }), /actual player/)
+})
+
+test('actor attacks have independent world origins and collected coins remain nonspatial feedback', async t => {
+  const { audio } = await audioFor(t, 3)
   const { default: Actor } = await import('/core3d/actor/Actor.js')
-  const actor = new Actor({ mesh: new Mesh(new BoxGeometry(1, 2, 1)), attackSound: 'rifle.mp3' })
-  assert.deepEqual(soundsOf(() => actor.playAttackSound(), 1), [{ file: 'rifle.mp3', volume: .5 }])
-})
-
-test('a coin sparkles at the game volume', async() => {
   const { default: Coin } = await import('/core3d/objects/Coin.js')
+  const actor = new Actor({ mesh: new Mesh(new BoxGeometry(1, 2, 1)), attackSound: 'rifle.mp3' })
   const coin = new Coin()
-  assert.deepEqual(soundsOf(() => coin.playSound()), [{ file: 'fairy-arcade-sparkle.mp3', volume: .4 }])
+  actor.mesh.position.set(2, 0, 3)
+  audio.sync([actor, coin], 'running')
+  actor.playAttackSound(); coin.playSound()
+  assert.deepEqual(actor.audio.playback.audio.spatialModel.position, { x: 2, y: 0, z: 3 })
+  assert.equal(coin.audio.playback.audio.spatialModel, null)
+  assert.equal(coin.audio.playback.audio.profile.group, 'ui')
 })
 
-test('rain plays at half the game volume', async() => {
+test('rain has one scene-owned ambient loop and stops with the session', async t => {
+  const { audio } = await audioFor(t, 3)
   const { Rain } = await import('/core3d/Particles.js')
-  const rain = new Rain()
-  assert.deepEqual(soundsOf(() => rain.update(1 / 60)), [{ file: 'rain.mp3', volume: .2 }])
+  const rain = new Rain({ num: 1 })
+  audio.sync([rain], 'running')
+  rain.update(1 / 60); rain.update(1 / 60)
+  await settle()
+  assert.equal(rain.audio.playback.voices.size, 1)
+  assert.equal(rain.audio.playback.options.profile.group, 'ambience')
+  audio.end()
+  assert.equal(rain.audio.playback.audio.disposed, true)
 })
 
-test('thunder is quieter the farther the lightning strikes', async() => {
+test('weather thunder keeps its one delay and uses explicit nonspatial ambience without a second distance curve', async t => {
+  const { audio } = await audioFor(t, 3)
+  audio.sync([], 'running')
   const { lightningStrike } = await import('/core3d/light.js')
-  const strike = random => soundsOf(() => {
-    const clock = new GameClock()
-    lightningStrike(new AmbientLight(), new Scene(), new ResourceScope({ clock }))
-    clock.advance(10)
-  }, random)
-
-  assert.deepEqual(strike(0), [{ file: 'thunder.mp3', volume: .4 }])
-  assert.deepEqual(strike(.9999), [{ file: 'thunder.mp3', volume: .1 }])
+  const scene = new Scene(), clock = new GameClock()
+  scene.userData.audio = audio
+  const scope = new ResourceScope({ clock })
+  t.after(() => scope.dispose())
+  lightningStrike(new AmbientLight(), scene, scope)
+  assert.equal(audio.output.events.size, 0)
+  clock.advance(10)
+  assert.equal(audio.output.events.size, 1)
+  const event = [...audio.output.events][0]
+  assert.equal(event.spatialModel, null)
+  assert.equal(event.profile.group, 'ambience')
+  assert.equal(event.volume, 1)
 })
 
-test('the patrol talks at the game volume', async() => {
+test('patrol speech selection uses independent voices and cannot start after teardown', async t => {
+  const { audio } = await audioFor(t)
   const { default: Patrola } = await import('/scenes/ranjenik/Patrola.js')
   const patrol = new Patrola()
-  assert.deepEqual(soundsOf(() => patrol.pustiNadjen(), 0), [{ file: 'patrola/Stop.wav', volume: .4 }])
+  audio.sync([patrol], 'running')
+  patrol.talkElapsed = 8; patrol.pricaj()
+  assert.equal(patrol.zvuk.playback.voices.size, 1)
+  assert.equal(patrol.zvuk.options.profile, 'speech')
+  patrol.end()
+  assert.equal(patrol.zvuk.playing, false)
+  audio.end()
+  patrol.talkElapsed = 8; patrol.pricaj()
+  assert.equal(audio.output.events.size, 0)
 })
 
-test('the start screen report types at the game volume', async() => {
-  const { default: Report } = await import('/ui/Report.js')
-  const container = document.createElement('div')
-  container.id = 'sound-report'
-  document.body.appendChild(container)
-  let report
-  assert.deepEqual(soundsOf(() => {
-    report = new Report({ text: 'x', containerId: 'sound-report' })
-  }), [{ file: 'typing.mp3', volume: .4 }])
-  report.stop()
-  await new Promise(resolve => {
-    setTimeout(resolve, 10) // the report adds its paper to the container a moment later
-  })
-  container.remove()
-})
-
-test('a shell explosion in ranjenik plays at a random volume around the game volume', async() => {
+test('a newly attached impact emits once at its own location', async t => {
+  const { audio } = await audioFor(t)
   const { default: Paljba } = await import('/scenes/ranjenik/Paljba.js')
-  assert.deepEqual(soundsOf(() => new Paljba(), 1), [{ file: 'explosion.mp3', volume: .5 }])
+  const impact = new Paljba()
+  audio.sync([impact], 'running'); audio.sync([impact], 'running')
+  assert.equal(audio.output.events.size, 1)
+  const event = [...audio.output.events][0]
+  assert.equal(event.spatialModel.position.x, impact.x / 100)
 })
 
-test('every bullet of the vis plane is heard as it leaves the gun, at a random volume', async t => {
-  const { Avionce } = await import('/scenes/vis/Avionce.js')
-  const { default: GameSession } = await import('/core/runtime/GameSession.js')
-  const player = new Avionce({ session: new GameSession() })
-  t.after(() => player.end())
-  const fire = () => {
-    player.weapon.cooldown.start(0)
-    player.shoot()
-  }
-  const shot = { file: 'pucanj.wav', volume: .2 }
-
-  assert.deepEqual(soundsOf(() => {
-    fire()
-    fire()
-  }, 0), [shot, shot])
-  player.fireLevel = 1 // two guns
-  assert.deepEqual(soundsOf(fire, 0), [shot, shot])
-})
-
-test('a vis enemy explodes once when shot down, at a random volume', async() => {
+test('a Vis pooled first bullet is emitted from its launch point and enemy destruction only sounds once', async t => {
+  const { audio } = await audioFor(t)
+  const { default: Bullet } = await import('/scenes/vis/Bullet.js')
+  const { default: ProjectilePool } = await import('/core/actor/ProjectilePool.js')
   const { default: Enemy } = await import('/scenes/vis/Enemy.js')
-  const { default: GameSession } = await import('/core/runtime/GameSession.js')
+  const owner = { sounds: [], children: [] }
+  audio.sync([owner], 'running')
+  const pool = new ProjectilePool({ owner, create: () => new Bullet() })
+  pool.fire({ x: 200, y: 150 }, 0, 100)
+  const shot = pool.projectiles[0].sound.playback.audio
+  assert.deepEqual(shot.spatialModel.position, { x: 2, y: -1.5, z: 0 })
   const enemy = new Enemy({ session: new GameSession() })
-  assert.deepEqual(soundsOf(() => enemy.damage(enemy.hits), 1), [{ file: 'explosion.mp3', volume: .5 }])
-  assert.deepEqual(soundsOf(() => enemy.damage(1)), [])
+  audio.attach(enemy)
+  enemy.damage(enemy.hits); enemy.damage(1)
+  assert.equal(enemy.explosionSound.playback.voices.size, 1)
 })
 
-test('the vis engine hums in a loop while the game runs, and stops in a pause, at the end screen and when the game ends', async() => {
-  const { default: Vis } = await import('/scenes/vis/Main.js')
-  const scene = new Vis()
-  scene.init()
-  scene.clear = () => {} // happy-dom has no 2D canvas to draw the background on
-  const { engineSound } = scene
-  const hum = [{ file: 'avion-mali.mp3', volume: .12 }]
-
-  assert.deepEqual(soundsOf(() => scene.start()), hum)
-  assert.ok(engineSound.loop)
-  scene.pause()
-  assert.ok(engineSound.paused)
-  assert.deepEqual(soundsOf(() => scene.unpause()), hum)
-  scene.defeat()
-  assert.ok(engineSound.paused)
-  engineSound.play()
-  scene.end()
-  assert.ok(engineSound.paused)
-})
-
-test('the otpisani music plays at the game volume', async() => {
-  const { default: Otpisani } = await import('/scenes/otpisani/Main.js')
-  const scene = new Otpisani()
-  scene.init()
-  assert.deepEqual(soundsOf(() => scene.audio.play()), [{ file: 'otpisani.mp3', volume: .4 }])
-  scene.clear = () => {} // happy-dom has no 2D canvas to draw the background on
-  scene.end()
+test('new object types register a new recording through the same contract without class-name handling', async t => {
+  const { audio } = await audioFor(t, 3)
+  const position = new Vector3(3, 0, 2)
+  const source = new SoundSource('future-object.ogg', { profile: 'impact', spatial: { getPosition: () => position } })
+  audio.sync([{ sounds: [source] }], 'running')
+  const voice = source.play()
+  await voice.started
+  assert.equal(voice.profile.budgetKey, 'impact')
+  assert.ok(voice.spatialModel)
+  audio.end()
+  assert.equal(voice.disposed, true)
 })

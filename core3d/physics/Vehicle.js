@@ -37,6 +37,8 @@ export default class Vehicle {
     camera,
   }) {
     this.mesh = mesh
+    this.sounds = []
+    this.audioForward = { x: 0, y: 0, z: 1 }
     this.wheelMesh = wheelMesh
     this.wheelFront = wheelFront
     this.wheelBack = wheelBack

@@ -37,6 +37,7 @@ export default class FranjoKluzScene extends Scene2D {
   init() {
     this.brzinaScene = 0
     this.dignutostScene = 0
+    this.audioWorldOffset = { x: 0, y: 0 }
 
     this.aerodrom = new Recurring({ src: 'buildings/aerodrom.png', groundY: groundLevel, probability: .25 })
     this.ruina = new Recurring({ src: 'buildings/ruina.png', groundY: groundLevel, x: -400 })
@@ -90,6 +91,7 @@ export default class FranjoKluzScene extends Scene2D {
   }
 
   dizePredmete(pomak) {
+    this.audioWorldOffset.y -= pomak
     this.ostaliPredmeti.forEach(predmet => {
       predmet.y += pomak
     })
@@ -142,6 +144,7 @@ export default class FranjoKluzScene extends Scene2D {
   }
 
   update(dt, t) {
+    this.audioWorldOffset.x += this.brzinaScene * dt
     super.update(dt, t)
     this.vozilo.patrol()
     this.checkGround(dt)

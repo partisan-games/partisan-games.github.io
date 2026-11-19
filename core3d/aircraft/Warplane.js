@@ -1,4 +1,6 @@
 import Input from '/core/io/Input.js'
+import Sound from '/core/io/audio/SoundSource.js'
+import { audioPoint } from '/core/io/audio/audio3d.js'
 import GameObject from '/core3d/objects/GameObject.js'
 import Missile from './Missile.js'
 import WarplaneView from './WarplaneView.js'
@@ -24,7 +26,11 @@ export default class Warplane extends GameObject {
     this.maxRoll = Math.PI / 6
     this.velocityX = 0
     this.velocityY = 0
+    this.engineSound = new Sound('engine-aircraft.mp3', { volume: .25, loop: true, profile: 'engine', spatial: audioPoint(this) })
+    this.crashSound = new Sound('metal-impact.mp3', { profile: 'impact', spatial: audioPoint(this) })
+    this.sounds.push(this.engineSound, this.crashSound)
     this.missiles = []
+    this.audioChildren = this.missiles
     this.missileReload = new Cooldown({ seconds: reloadTime, clock })
     this.view = new WarplaneView(this)
     this.input = new Input({ buttonDict: { attack: '💣' } })
@@ -56,16 +62,20 @@ export default class Warplane extends GameObject {
   }
 
   addMissile() {
+    this.audioScene?.output.preload('explosion.mp3')
     const pos = this.position.clone()
     pos.y -= this.height * .33
     const { explosion } = this.view
     const missile = new Missile({ pos, explosion })
     this.scene.add(missile.mesh)
     this.missiles.push(missile)
+    this.audioScene?.attach(missile)
+    missile.thrustSound.setPlaying(true)
     this.scene.add(explosion.mesh)
   }
 
   removeMissile(missile) {
+    missile.thrustSound.stop()
     this.scene.remove(missile.mesh)
     this.missiles.splice(this.missiles.indexOf(missile), 1)
   }
@@ -126,6 +136,11 @@ export default class Warplane extends GameObject {
   }
 
   update(delta, t) {
+    this.engineSound.setPlaying(!this.dead && !this.landing)
+    if (this.dead && !this.inAir && !this.audioCrashed) {
+      this.audioCrashed = true
+      this.crashSound.play()
+    }
     this.missiles.forEach(missile => {
       if (missile.dead) this.removeMissile(missile)
       missile.update(delta)

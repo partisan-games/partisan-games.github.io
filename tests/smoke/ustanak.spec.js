@@ -160,7 +160,7 @@ for (const match of [
       await page.waitForTimeout(250)
       expect(await onScene(page, scene => scene.score)).toEqual(score)
       expect(await onScene(page, (scene, winner) => (winner === 0 ? scene.opponent : scene.top).energija, winner)).toBe(1)
-      expect(await onScene(page, scene => [...scene.sceneAudio.sounds].every(sound => sound.audio.paused))).toBe(true)
+      expect(await onScene(page, scene => [...scene.sceneAudio.sounds].every(sound => !sound.active && sound.playback?.audio?.paused !== false))).toBe(true)
       await page.getByRole('button', { name: /Continue/ }).click()
       score[winner]++
       await expect.poll(() => onScene(page, scene => scene.score)).toEqual(score)
@@ -175,9 +175,10 @@ for (const match of [
     await expect(page.getByText(match.result, { exact: true })).toBeVisible()
     expect(await onScene(page, scene => scene.session.state)).toBe('finished')
     expect(await onScene(page, scene => [...scene.sceneAudio.sounds]
-      .filter(sound => !sound.afterFinish).every(sound => sound.audio.paused))).toBe(true)
+      .filter(sound => !sound.afterFinish).every(sound => !sound.active && sound.playback?.audio?.paused !== false))).toBe(true)
     await onScene(page, scene => {
-      window.endedUstanakAudio = [...scene.sceneAudio.sounds].map(sound => sound.audio)
+      window.endedUstanakAudio = [...scene.sceneAudio.sounds].flatMap(sound => sound.playback?.voices
+        ? [...sound.playback.voices.keys()] : [sound.playback?.audio]).filter(Boolean)
     })
     await page.locator('#igraj-opet').click()
     await waitForScene(page)

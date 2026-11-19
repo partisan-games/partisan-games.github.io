@@ -1,9 +1,8 @@
-import { randomInt } from '/core/utils.js'
 import GameObject2D from '/core/actor/GameObject2D.js'
-import { createSound } from '/core/io/sound.js'
+import Sound from '/core/io/audio/SoundSource.js'
 
-const zvuciTraganje = ['eatdirtpig.wav', 'killthepig.wav', 'QuicklyQuickly.wav', 'schnell.wav', 'UpThere.wav', 'whereishe.wav']
-const zvuciNadjen = ['Stop.wav', 'StopStayWhereYouAre.wav', 'thereheis.wav']
+const zvuciTraganje = ['eatdirtpig.mp3', 'killthepig.mp3', 'QuicklyQuickly.mp3', 'schnell.mp3', 'UpThere.mp3', 'whereishe.mp3']
+const zvuciNadjen = ['Stop.mp3', 'StopStayWhereYouAre.mp3', 'thereheis.mp3']
 
 export default class Patrola extends GameObject2D {
   constructor(src = 'armies/nemci-patrola.gif', target) {
@@ -14,7 +13,11 @@ export default class Patrola extends GameObject2D {
     this.ended = false
     this.target = target // opciono, za jačinu zvuka
     this.counter
-    this.zvuk
+    const speech = files => new Sound(`patrola/${files[0]}`, { variants: files.slice(1).map(file => `patrola/${file}`), profile: 'speech', follow: true, spatial: { getPosition: () => this.position } })
+    this.searchVoice = speech(zvuciTraganje)
+    this.foundVoice = speech(zvuciNadjen)
+    this.sounds.push(this.searchVoice, this.foundVoice)
+    this.zvuk = null
   }
 
   checkBounds() {
@@ -32,15 +35,10 @@ export default class Patrola extends GameObject2D {
 
   pustiNasumicno(zvuci) {
     if (this.ended) return
-    if (this.zvuk && !this.zvuk.paused) return
+    if (this.zvuk?.playing) return
 
-    const fajl = zvuci[randomInt(0, zvuci.length - 1)]
-    this.zvuk = createSound(`patrola/${fajl}`)
-    const sound = this.zvuk
-    sound.addEventListener('canplaythrough', () => {
-      if (!this.ended) sound.play()
-    }, { once: true })
-    this.zvuk.load()
+    this.zvuk = zvuci === zvuciTraganje ? this.searchVoice : this.foundVoice
+    this.zvuk.play()
   }
 
   pricaj() {
@@ -63,6 +61,6 @@ export default class Patrola extends GameObject2D {
 
   end() {
     this.ended = true
-    this.zvuk?.pause()
+    this.sounds.forEach(sound => sound.stop())
   }
 }

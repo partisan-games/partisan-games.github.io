@@ -59,6 +59,7 @@ class SceneManager {
       await scene.imagesLoaded()
       if (!isCurrent() || this.scene !== scene) return
       scene.session.ready()
+      scene.syncSounds?.()
 
       this.handleIntro()
     } catch (error) {

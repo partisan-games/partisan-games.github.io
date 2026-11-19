@@ -1,3 +1,4 @@
+import Sound from '/core/io/audio/SoundSource.js'
 import canvas2d from '/core/io/canvas2d.js'
 import CombatTarget from './CombatTarget.js'
 import EnemyFire from './EnemyFire.js'
@@ -19,6 +20,8 @@ export default class Aircraft extends CombatTarget {
     this.crashY = crashY
     this.scrollSpeed = scrollSpeed
     this.flightSpeed = Math.max(120, Math.min(320, canvas2d.width * .24)) * (kind === 'diveBomber' ? .8 : 1)
+    this.engineSound = new Sound('engine-aircraft.mp3', { volume: .2, loop: true, profile: 'engine', spatial: { getPosition: () => this.position, getRevision: () => this.lifeId } })
+    this.sounds.push(this.engineSound)
     this.active = false
     this.alive = false
     this.fire = new EnemyFire({ owner: this, target, clock, groundY,
@@ -81,6 +84,7 @@ export default class Aircraft extends CombatTarget {
   }
 
   update(dt) {
+    this.engineSound.setPlaying(this.active && !this.dead)
     let attack = false
     if (this.active) {
       if (this.crashed) {

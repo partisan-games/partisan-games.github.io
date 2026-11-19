@@ -1,5 +1,4 @@
 import * as THREE from 'three'
-import { createSound } from '/core/io/sound.js'
 import { mapRange } from './helpers.js'
 import { assets } from '/config.js'
 
@@ -81,11 +80,11 @@ export const createMoon = ({
 
 /** `scope` is the ResourceScope whose clock the flash and the thunder wait on. */
 export function lightningStrike(light, scene, scope) {
+  scene.userData.audio?.output.preload('thunder.mp3')
   if (!oldIntensity) oldIntensity = light.intensity
   if (!oldBackground) oldBackground = new THREE.Color(scene.background)
 
   const distance = randInt(100, 3000)
-  const audio = createSound('thunder.mp3', { volume: mapRange(distance, 3000, 100, .25, 1) })
   light.intensity = mapRange(distance, 3000, 100, 1.2, 2)
 
   const newColor = new THREE.Color().lerpColors(
@@ -101,8 +100,8 @@ export function lightningStrike(light, scene, scope) {
 
   // sound travels about 333 m in a second
   scope.after(distance * .003, () => {
-    audio.currentTime = 0
-    audio.play()
+    // No strike position is modelled here: this is explicitly a nonspatial weather event.
+    scene.userData.audio?.emit('thunder.mp3', { profile: 'ambience' })
   })
 }
 

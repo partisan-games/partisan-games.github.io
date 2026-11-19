@@ -23,6 +23,7 @@ export default class DemonForestScene extends Scene3D {
     this.addMesh(trees)
 
     const player = new DemonPlayer({ camera: this.camera, solids: trees })
+    this.audioPlayer = () => player
     this.add(player)
   }
 }

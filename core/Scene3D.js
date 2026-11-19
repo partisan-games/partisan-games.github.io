@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import Scene from './Scene.js'
+import { audioListener } from '/core/io/audio/audio3d.js'
 
 export const skyGradients = {
   svetla: 'linear-gradient(to bottom, #94c5f8 1%, #a6e6ff 70%, #b1b5ea 100%)',
@@ -27,6 +28,12 @@ export default class Scene3D extends Scene {
   } = {}) {
     super({ canvas, ...rest })
     this.scene = new THREE.Scene()
+    this.scene.userData.audio = this.sceneAudio
+    this.audioWorldOffset = { x: 0, y: 0, z: 0 }
+    this.sceneAudio.setSpatialContext({
+      coordinates: { dimensions: 3, unitsPerAudioUnit: 1, getWorldOffset: () => this.audioWorldOffset },
+      getListener: () => audioListener(this.audioPlayer?.() ?? this.player),
+    })
     this.camera = new THREE.PerspectiveCamera(75, canvasWidth / canvasHeight, 0.1, 1000)
     this.camera.position.set(0, 5, 30)
     this.canvasBackground = canvasBackground

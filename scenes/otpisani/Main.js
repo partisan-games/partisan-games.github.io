@@ -1,10 +1,10 @@
+import Sound from '/core/io/audio/SoundSource.js'
 import Scene2D from '/core/Scene2D.js'
 import Background from '/core/objects/Background.js'
 import Occupier from '/core/actor/Occupier.js'
 import mouse from '/core/io/mouse.js'
 import { progresBar } from '/ui/components.js'
 import Health from '/core/gameplay/Health.js'
-import { createSound } from '/core/io/sound.js'
 
 export default class OtpisaniScene extends Scene2D {
   constructor() {
@@ -14,12 +14,17 @@ export default class OtpisaniScene extends Scene2D {
   }
 
   init() {
+    // The stationary gunner's world position is a model point, independent of the aim cursor.
+    this.player = { position: { x: this.width * .5, y: this.height * .95 }, sounds: [] }
+    this.player.shotSound = new Sound('pucanj.mp3', { profile: 'rifle', spatial: { getPosition: () => this.player.position } })
+    this.player.sounds.push(this.player.shotSound)
     this.health = new Health()
     this.background = new Background('background/rusevine-varsava.jpg')
-    this.audio = createSound('otpisani.mp3')
+    this.audio = new Sound('otpisani.mp3', { stream: true, profile: 'music', loop: true })
+    this.player.sounds.push(this.audio)
     this.spawnElapsed = 0
     this.dodajNeprijatelja()
-    mouse.showCrosshair()
+    mouse.showCrosshair(this.player.shotSound)
     this.intervalIzlaska = 3000
     this.poeni = 0
   }
@@ -35,13 +40,13 @@ export default class OtpisaniScene extends Scene2D {
   handleClick(e) {
     if (e.target.closest('button') || this.ui.ended || this.ui.outro) return
     this.children.forEach(svabo => svabo.checkHit(() => this.poeni++))
-    this.audio.play()
+    this.audio.setPlaying(true)
   }
 
   end() {
     super.end()
     mouse.hideCrosshair()
-    this.audio.pause()
+    this.audio.stop()
   }
 
   update(dt, t) {

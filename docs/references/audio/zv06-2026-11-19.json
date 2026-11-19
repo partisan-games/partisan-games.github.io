@@ -1,0 +1,1626 @@
+﻿{
+    "measured_at":  "2026-11-19T08:17:22.559907+00:00",
+    "elapsed_s":  26.422,
+    "method":  "Sequential ffprobe metadata then ffmpeg single-thread decode. Process tree restricted to one allowed logical processor, BelowNormal priority. No playback or source changes. Silence threshold -50 dBFS for \u003e=50 ms; LUFS is gated EBU R128, not directly comparable across all event lengths. Boundary is decoded MP3 sample jump, not proof of audible click or seamless browser looping. None means unavailable or zero amplitude.",
+    "files":  [
+                  {
+                      "file":  "assets/sounds/avion-mali.mp3",
+                      "bytes":  368640,
+                      "sha256":  "447b423845a3c03583c86b12d340891cd954cd1f5f34984221a7e149aa629da8",
+                      "codec":  "mp3",
+                      "sample_rate":  24000,
+                      "channels":  2,
+                      "container_duration_s":  18.432,
+                      "decoded_duration_s":  18.432,
+                      "peak_dbfs":  -5.160516,
+                      "rms_dbfs":  -20.101179,
+                      "integrated_lufs":  -17.3,
+                      "true_peak_dbtp":  -5.2,
+                      "silence_intervals_s":  [
+                                                  [
+                                                      0.0,
+                                                      0.0924167
+                                                  ],
+                                                  [
+                                                      18.381125,
+                                                      18.432
+                                                  ]
+                                              ],
+                      "leading_silence_s":  0.092417,
+                      "trailing_silence_s":  0.050875,
+                      "loop_boundary_jump_dbfs":  -115.117,
+                      "first_5ms_peak_dbfs":  -182.855,
+                      "last_5ms_peak_dbfs":  -102.717,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  4.173
+                  },
+                  {
+                      "file":  "assets/sounds/cannon-load.mp3",
+                      "bytes":  67237,
+                      "sha256":  "99cbec5c7e83f28851c03b6b0e210947134872b4365e72043bea1f18eaaf50e6",
+                      "codec":  "mp3",
+                      "sample_rate":  44100,
+                      "channels":  2,
+                      "container_duration_s":  3.14093,
+                      "decoded_duration_s":  3.14093,
+                      "peak_dbfs":  0.794918,
+                      "rms_dbfs":  -21.284054,
+                      "integrated_lufs":  -16.4,
+                      "true_peak_dbtp":  1.3,
+                      "silence_intervals_s":  [
+                                                  [
+                                                      0.284762,
+                                                      0.566349
+                                                  ],
+                                                  [
+                                                      0.908526,
+                                                      1.269093
+                                                  ],
+                                                  [
+                                                      2.03542,
+                                                      3.14093
+                                                  ]
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  1.10551,
+                      "loop_boundary_jump_dbfs":  -40.07,
+                      "first_5ms_peak_dbfs":  -37.18,
+                      "last_5ms_peak_dbfs":  -68.985,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  1.004
+                  },
+                  {
+                      "file":  "assets/sounds/cannon-shot.mp3",
+                      "bytes":  16749,
+                      "sha256":  "e056dddc89956c657bc65b66b2ea309339b0cc4358fd2da4a957e968f2c5be70",
+                      "codec":  "mp3",
+                      "sample_rate":  44100,
+                      "channels":  2,
+                      "container_duration_s":  0.8,
+                      "decoded_duration_s":  0.8,
+                      "peak_dbfs":  -10.749157,
+                      "rms_dbfs":  -19.312507,
+                      "integrated_lufs":  -17.6,
+                      "true_peak_dbtp":  -10.7,
+                      "silence_intervals_s":  [
+                                                  [
+                                                      0.72839,
+                                                      0.8
+                                                  ]
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  0.07161,
+                      "loop_boundary_jump_dbfs":  -82.012,
+                      "first_5ms_peak_dbfs":  -22.929,
+                      "last_5ms_peak_dbfs":  null,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.667
+                  },
+                  {
+                      "file":  "assets/sounds/engine-6000.mp3",
+                      "bytes":  62208,
+                      "sha256":  "c688f12ecb12e9992aa026e41f139715041339ee7eadec8c067f91c26147de36",
+                      "codec":  "mp3",
+                      "sample_rate":  48000,
+                      "channels":  1,
+                      "container_duration_s":  1.944,
+                      "decoded_duration_s":  1.944,
+                      "peak_dbfs":  -1.537089,
+                      "rms_dbfs":  -9.729235,
+                      "integrated_lufs":  -10.9,
+                      "true_peak_dbtp":  -1.5,
+                      "silence_intervals_s":  [
+
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  0,
+                      "loop_boundary_jump_dbfs":  null,
+                      "first_5ms_peak_dbfs":  -102.431,
+                      "last_5ms_peak_dbfs":  null,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.614
+                  },
+                  {
+                      "file":  "assets/sounds/explosion.mp3",
+                      "bytes":  43200,
+                      "sha256":  "62394a4fb8554b89e4fa830caf9b84bc2b6a0e0a42f9acc3180531b1a46ce32e",
+                      "codec":  "mp3",
+                      "sample_rate":  24000,
+                      "channels":  2,
+                      "container_duration_s":  2.16,
+                      "decoded_duration_s":  2.16,
+                      "peak_dbfs":  -0.967013,
+                      "rms_dbfs":  -16.155931,
+                      "integrated_lufs":  -13.5,
+                      "true_peak_dbtp":  -0.9,
+                      "silence_intervals_s":  [
+                                                  [
+                                                      0.0,
+                                                      0.105333
+                                                  ],
+                                                  [
+                                                      1.498667,
+                                                      2.16
+                                                  ]
+                                              ],
+                      "leading_silence_s":  0.105333,
+                      "trailing_silence_s":  0.661333,
+                      "loop_boundary_jump_dbfs":  null,
+                      "first_5ms_peak_dbfs":  null,
+                      "last_5ms_peak_dbfs":  null,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  1.25
+                  },
+                  {
+                      "file":  "assets/sounds/fairy-arcade-sparkle.mp3",
+                      "bytes":  44155,
+                      "sha256":  "3fa5e2ed671c3f894cc9b1b67db9969766ce84b41f20524e4c8ca5016429f0ec",
+                      "codec":  "mp3",
+                      "sample_rate":  44100,
+                      "channels":  2,
+                      "container_duration_s":  1.362132,
+                      "decoded_duration_s":  1.362132,
+                      "peak_dbfs":  -2.188937,
+                      "rms_dbfs":  -24.327395,
+                      "integrated_lufs":  -17.3,
+                      "true_peak_dbtp":  -1.6,
+                      "silence_intervals_s":  [
+
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  0,
+                      "loop_boundary_jump_dbfs":  -43.703,
+                      "first_5ms_peak_dbfs":  -2.189,
+                      "last_5ms_peak_dbfs":  -49.449,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  1.839
+                  },
+                  {
+                      "file":  "assets/sounds/fire-swoosh.mp3",
+                      "bytes":  107040,
+                      "sha256":  "9d88c55a84753027f658f435b6a96f7ed076dda1aad3aec6085310b5ba56dc7b",
+                      "codec":  "mp3",
+                      "sample_rate":  48000,
+                      "channels":  2,
+                      "container_duration_s":  3.024313,
+                      "decoded_duration_s":  3.024313,
+                      "peak_dbfs":  -0.258593,
+                      "rms_dbfs":  -16.422651,
+                      "integrated_lufs":  -12.8,
+                      "true_peak_dbtp":  -0.1,
+                      "silence_intervals_s":  [
+
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  0,
+                      "loop_boundary_jump_dbfs":  -21.185,
+                      "first_5ms_peak_dbfs":  -8.83,
+                      "last_5ms_peak_dbfs":  -46.784,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  1.556
+                  },
+                  {
+                      "file":  "assets/sounds/fire.mp3",
+                      "bytes":  923040,
+                      "sha256":  "948714049973a80740a36a9e036a7fd409635404b65e0491b2f68c26641f8455",
+                      "codec":  "mp3",
+                      "sample_rate":  48000,
+                      "channels":  1,
+                      "container_duration_s":  42.710604,
+                      "decoded_duration_s":  42.710604,
+                      "peak_dbfs":  -12.301335,
+                      "rms_dbfs":  -28.075104,
+                      "integrated_lufs":  -27.3,
+                      "true_peak_dbtp":  -12.3,
+                      "silence_intervals_s":  [
+
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  0,
+                      "loop_boundary_jump_dbfs":  -40.354,
+                      "first_5ms_peak_dbfs":  -50.715,
+                      "last_5ms_peak_dbfs":  -19.292,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  3.116
+                  },
+                  {
+                      "file":  "assets/sounds/grom.mp3",
+                      "bytes":  406566,
+                      "sha256":  "c688e7852d20bd98a605d6e180dec71feaa4212de63cc8ddc39946e06d057c2a",
+                      "codec":  "mp3",
+                      "sample_rate":  44100,
+                      "channels":  2,
+                      "container_duration_s":  21.362358,
+                      "decoded_duration_s":  21.362358,
+                      "peak_dbfs":  1.009177,
+                      "rms_dbfs":  -18.905786,
+                      "integrated_lufs":  -13.7,
+                      "true_peak_dbtp":  1.0,
+                      "silence_intervals_s":  [
+
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  0,
+                      "loop_boundary_jump_dbfs":  -37.195,
+                      "first_5ms_peak_dbfs":  -35.157,
+                      "last_5ms_peak_dbfs":  -29.803,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  2.867
+                  },
+                  {
+                      "file":  "assets/sounds/halt.mp3",
+                      "bytes":  18288,
+                      "sha256":  "d5cbad18b96be8c1ed6a5be49fde8d6f3061ae19e92ca19df9f9a45190d8310d",
+                      "codec":  "mp3",
+                      "sample_rate":  44100,
+                      "channels":  2,
+                      "container_duration_s":  1.079,
+                      "decoded_duration_s":  1.07102,
+                      "peak_dbfs":  -4.768853,
+                      "rms_dbfs":  -23.707619,
+                      "integrated_lufs":  -17.3,
+                      "true_peak_dbtp":  -4.8,
+                      "silence_intervals_s":  [
+                                                  [
+                                                      0.0,
+                                                      0.0562812
+                                                  ],
+                                                  [
+                                                      0.892336,
+                                                      1.07102
+                                                  ]
+                                              ],
+                      "leading_silence_s":  0.056281,
+                      "trailing_silence_s":  0.178684,
+                      "loop_boundary_jump_dbfs":  null,
+                      "first_5ms_peak_dbfs":  -136.182,
+                      "last_5ms_peak_dbfs":  null,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.176
+                  },
+                  {
+                      "file":  "assets/sounds/kisha.mp3",
+                      "bytes":  577728,
+                      "sha256":  "3ad3f6959fa956d995a3fadbc278dd95ebcbe24de3c54b5290e8543077edf7a7",
+                      "codec":  "mp3",
+                      "sample_rate":  44100,
+                      "channels":  2,
+                      "container_duration_s":  33.297415,
+                      "decoded_duration_s":  33.297415,
+                      "peak_dbfs":  -3.910245,
+                      "rms_dbfs":  -24.492969,
+                      "integrated_lufs":  -19.2,
+                      "true_peak_dbtp":  -3.4,
+                      "silence_intervals_s":  [
+
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  0,
+                      "loop_boundary_jump_dbfs":  -13.804,
+                      "first_5ms_peak_dbfs":  -12.725,
+                      "last_5ms_peak_dbfs":  -13.059,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.628
+                  },
+                  {
+                      "file":  "assets/sounds/otpisani.mp3",
+                      "bytes":  767271,
+                      "sha256":  "e2d12647fa19e37bb6b8f095d78bf1a631c35955f42d1735026579cbf02ab71c",
+                      "codec":  "mp3",
+                      "sample_rate":  44100,
+                      "channels":  2,
+                      "container_duration_s":  47.890438,
+                      "decoded_duration_s":  47.882449,
+                      "peak_dbfs":  -4.496102,
+                      "rms_dbfs":  -20.171065,
+                      "integrated_lufs":  -16.0,
+                      "true_peak_dbtp":  -4.5,
+                      "silence_intervals_s":  [
+
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  0,
+                      "loop_boundary_jump_dbfs":  -132.604,
+                      "first_5ms_peak_dbfs":  -111.586,
+                      "last_5ms_peak_dbfs":  -95.176,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.528
+                  },
+                  {
+                      "file":  "assets/sounds/pucanj2.mp3",
+                      "bytes":  20378,
+                      "sha256":  "4db8777e3f5170d86b57be2ed852ad66e3f2d6471ccce3c22d45466c9e14ebe6",
+                      "codec":  "mp3",
+                      "sample_rate":  44100,
+                      "channels":  2,
+                      "container_duration_s":  1.209625,
+                      "decoded_duration_s":  1.201633,
+                      "peak_dbfs":  1.064837,
+                      "rms_dbfs":  -17.10432,
+                      "integrated_lufs":  -13.6,
+                      "true_peak_dbtp":  1.4,
+                      "silence_intervals_s":  [
+
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  0,
+                      "loop_boundary_jump_dbfs":  null,
+                      "first_5ms_peak_dbfs":  -95.517,
+                      "last_5ms_peak_dbfs":  null,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.103
+                  },
+                  {
+                      "file":  "assets/sounds/pucnji.mp3",
+                      "bytes":  36679,
+                      "sha256":  "ccb17169e482f15b96c3261b6ea231c62bb61f59c0d23106f50e060c08b23dde",
+                      "codec":  "mp3",
+                      "sample_rate":  44100,
+                      "channels":  2,
+                      "container_duration_s":  2.228438,
+                      "decoded_duration_s":  2.220408,
+                      "peak_dbfs":  1.370243,
+                      "rms_dbfs":  -16.764227,
+                      "integrated_lufs":  -11.5,
+                      "true_peak_dbtp":  1.7,
+                      "silence_intervals_s":  [
+                                                  [
+                                                      0.0,
+                                                      0.0672562
+                                                  ],
+                                                  [
+                                                      1.455442,
+                                                      1.601565
+                                                  ]
+                                              ],
+                      "leading_silence_s":  0.067256,
+                      "trailing_silence_s":  0,
+                      "loop_boundary_jump_dbfs":  null,
+                      "first_5ms_peak_dbfs":  null,
+                      "last_5ms_peak_dbfs":  -129.778,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.125
+                  },
+                  {
+                      "file":  "assets/sounds/rafal.mp3",
+                      "bytes":  27065,
+                      "sha256":  "c8f52ed2fc9755121d432f841dc32662ee6b393edace73629876d25bc6f3cdf4",
+                      "codec":  "mp3",
+                      "sample_rate":  44100,
+                      "channels":  2,
+                      "container_duration_s":  0.813781,
+                      "decoded_duration_s":  0.809796,
+                      "peak_dbfs":  0.649583,
+                      "rms_dbfs":  -6.756859,
+                      "integrated_lufs":  -3.6,
+                      "true_peak_dbtp":  0.6,
+                      "silence_intervals_s":  [
+
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  0,
+                      "loop_boundary_jump_dbfs":  -78.356,
+                      "first_5ms_peak_dbfs":  -132.078,
+                      "last_5ms_peak_dbfs":  -63.312,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.115
+                  },
+                  {
+                      "file":  "assets/sounds/rain.mp3",
+                      "bytes":  577902,
+                      "sha256":  "22f7c2744123b37ea80453b2a9e27208b8046237a181fbd196ce781df903a074",
+                      "codec":  "mp3",
+                      "sample_rate":  44100,
+                      "channels":  2,
+                      "container_duration_s":  33.297415,
+                      "decoded_duration_s":  33.297415,
+                      "peak_dbfs":  -3.910245,
+                      "rms_dbfs":  -24.492969,
+                      "integrated_lufs":  -19.2,
+                      "true_peak_dbtp":  -3.4,
+                      "silence_intervals_s":  [
+
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  0,
+                      "loop_boundary_jump_dbfs":  -13.804,
+                      "first_5ms_peak_dbfs":  -12.725,
+                      "last_5ms_peak_dbfs":  -13.059,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.418
+                  },
+                  {
+                      "file":  "assets/sounds/rifle-burst.mp3",
+                      "bytes":  27271,
+                      "sha256":  "810540770496c4e2a932e1d63184225c61f22911643834589fcd812054d8b728",
+                      "codec":  "mp3",
+                      "sample_rate":  44100,
+                      "channels":  2,
+                      "container_duration_s":  0.820219,
+                      "decoded_duration_s":  0.809796,
+                      "peak_dbfs":  -5.371018,
+                      "rms_dbfs":  -12.777459,
+                      "integrated_lufs":  -9.6,
+                      "true_peak_dbtp":  -5.4,
+                      "silence_intervals_s":  [
+
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  0,
+                      "loop_boundary_jump_dbfs":  -84.376,
+                      "first_5ms_peak_dbfs":  -138.099,
+                      "last_5ms_peak_dbfs":  -69.332,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.121
+                  },
+                  {
+                      "file":  "assets/sounds/rifle.mp3",
+                      "bytes":  20462,
+                      "sha256":  "4ba67d3d8c18fa6e2da79c31d5c1814aef4db774b456d31ad25e2db849868dbe",
+                      "codec":  "mp3",
+                      "sample_rate":  48000,
+                      "channels":  2,
+                      "container_duration_s":  0.646854,
+                      "decoded_duration_s":  0.646854,
+                      "peak_dbfs":  5.044338,
+                      "rms_dbfs":  -14.341601,
+                      "integrated_lufs":  -14.1,
+                      "true_peak_dbtp":  5.1,
+                      "silence_intervals_s":  [
+
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  0,
+                      "loop_boundary_jump_dbfs":  -37.91,
+                      "first_5ms_peak_dbfs":  null,
+                      "last_5ms_peak_dbfs":  -37.296,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  true,
+                      "elapsed_s":  0.098
+                  },
+                  {
+                      "file":  "assets/sounds/shell-flight.mp3",
+                      "bytes":  26828,
+                      "sha256":  "9cd313b05fdf0e1e2bb3d8c341fd133ec5e6a3af926ae65443cb490beb1176d6",
+                      "codec":  "mp3",
+                      "sample_rate":  48000,
+                      "channels":  1,
+                      "container_duration_s":  2.8,
+                      "decoded_duration_s":  2.8,
+                      "peak_dbfs":  -20.237598,
+                      "rms_dbfs":  -28.146713,
+                      "integrated_lufs":  -25.5,
+                      "true_peak_dbtp":  -20.2,
+                      "silence_intervals_s":  [
+
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  0,
+                      "loop_boundary_jump_dbfs":  -93.056,
+                      "first_5ms_peak_dbfs":  -46.687,
+                      "last_5ms_peak_dbfs":  -52.224,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.111
+                  },
+                  {
+                      "file":  "assets/sounds/thunder.mp3",
+                      "bytes":  406740,
+                      "sha256":  "5d05cf91ade24935ef16cd152e5a5ed51960c74201b8da80a9b8d9a3516cda85",
+                      "codec":  "mp3",
+                      "sample_rate":  44100,
+                      "channels":  2,
+                      "container_duration_s":  21.362358,
+                      "decoded_duration_s":  21.362358,
+                      "peak_dbfs":  1.009177,
+                      "rms_dbfs":  -18.905786,
+                      "integrated_lufs":  -13.7,
+                      "true_peak_dbtp":  1.0,
+                      "silence_intervals_s":  [
+
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  0,
+                      "loop_boundary_jump_dbfs":  -37.195,
+                      "first_5ms_peak_dbfs":  -35.157,
+                      "last_5ms_peak_dbfs":  -29.803,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.3
+                  },
+                  {
+                      "file":  "assets/sounds/typing.mp3",
+                      "bytes":  321727,
+                      "sha256":  "ea5ac04acb1fd7426299c34b9bd37917f9b48b9ca31af7d39ca0845d1e29a064",
+                      "codec":  "mp3",
+                      "sample_rate":  44100,
+                      "channels":  2,
+                      "container_duration_s":  20.043938,
+                      "decoded_duration_s":  20.035918,
+                      "peak_dbfs":  -0.060246,
+                      "rms_dbfs":  -28.031728,
+                      "integrated_lufs":  -21.4,
+                      "true_peak_dbtp":  0.0,
+                      "silence_intervals_s":  [
+                                                  [
+                                                      0.0,
+                                                      0.119138
+                                                  ],
+                                                  [
+                                                      1.998299,
+                                                      2.095079
+                                                  ],
+                                                  [
+                                                      9.431633,
+                                                      9.501655
+                                                  ],
+                                                  [
+                                                      9.554649,
+                                                      9.626689
+                                                  ],
+                                                  [
+                                                      17.287166,
+                                                      17.38356
+                                                  ],
+                                                  [
+                                                      19.637166,
+                                                      19.705918
+                                                  ],
+                                                  [
+                                                      19.76966,
+                                                      19.832834
+                                                  ]
+                                              ],
+                      "leading_silence_s":  0.119138,
+                      "trailing_silence_s":  0,
+                      "loop_boundary_jump_dbfs":  null,
+                      "first_5ms_peak_dbfs":  null,
+                      "last_5ms_peak_dbfs":  -150.897,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.286
+                  },
+                  {
+                      "file":  "assets/sounds/wind.mp3",
+                      "bytes":  926592,
+                      "sha256":  "cf0ee0f0ac5a8b9e90e389de33446b7c70f0e18f162b86ae1ecc361199a87b8a",
+                      "codec":  "mp3",
+                      "sample_rate":  48000,
+                      "channels":  2,
+                      "container_duration_s":  41.142854,
+                      "decoded_duration_s":  41.142854,
+                      "peak_dbfs":  -19.578641,
+                      "rms_dbfs":  -34.077091,
+                      "integrated_lufs":  -38.2,
+                      "true_peak_dbtp":  -19.6,
+                      "silence_intervals_s":  [
+
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  0,
+                      "loop_boundary_jump_dbfs":  -49.316,
+                      "first_5ms_peak_dbfs":  -25.675,
+                      "last_5ms_peak_dbfs":  -26.998,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.493
+                  },
+                  {
+                      "file":  "assets/sounds/zvuk-tenka.mp3",
+                      "bytes":  18288,
+                      "sha256":  "8e3bc8a7cbfeeec74b2e0a11b1d1931a981d68623e77c5c8db7e057af5851203",
+                      "codec":  "mp3",
+                      "sample_rate":  44100,
+                      "channels":  2,
+                      "container_duration_s":  1.079,
+                      "decoded_duration_s":  1.07102,
+                      "peak_dbfs":  -2.375784,
+                      "rms_dbfs":  -14.875545,
+                      "integrated_lufs":  -12.3,
+                      "true_peak_dbtp":  -2.4,
+                      "silence_intervals_s":  [
+
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  0,
+                      "loop_boundary_jump_dbfs":  -125.09,
+                      "first_5ms_peak_dbfs":  null,
+                      "last_5ms_peak_dbfs":  -97.713,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.117
+                  },
+                  {
+                      "file":  "assets/sounds/patrola/eatdirtpig.wav",
+                      "bytes":  430724,
+                      "sha256":  "5d88d4e407a1e3d58810f979318b5c44e43ee95832ff3bce3ca957650c4cf5f4",
+                      "codec":  "pcm_s16le",
+                      "sample_rate":  44100,
+                      "channels":  2,
+                      "container_duration_s":  2.441497,
+                      "decoded_duration_s":  2.441497,
+                      "peak_dbfs":  0.000265,
+                      "rms_dbfs":  -15.493726,
+                      "integrated_lufs":  -10.9,
+                      "true_peak_dbtp":  0.0,
+                      "silence_intervals_s":  [
+                                                  [
+                                                      2.04771,
+                                                      2.20542
+                                                  ],
+                                                  [
+                                                      2.207279,
+                                                      2.351043
+                                                  ],
+                                                  [
+                                                      2.369433,
+                                                      2.440249
+                                                  ]
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  0.072064,
+                      "loop_boundary_jump_dbfs":  -44.734,
+                      "first_5ms_peak_dbfs":  -74.746,
+                      "last_5ms_peak_dbfs":  -36.923,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.153
+                  },
+                  {
+                      "file":  "assets/sounds/patrola/killthepig.wav",
+                      "bytes":  404408,
+                      "sha256":  "ed3ad37b44ac8e9e766c42dd0613c7bff4486303b9bcf01f2ce1428e58c47add",
+                      "codec":  "pcm_s16le",
+                      "sample_rate":  44100,
+                      "channels":  2,
+                      "container_duration_s":  2.292313,
+                      "decoded_duration_s":  2.292313,
+                      "peak_dbfs":  0.000265,
+                      "rms_dbfs":  -14.332634,
+                      "integrated_lufs":  -8.8,
+                      "true_peak_dbtp":  0.2,
+                      "silence_intervals_s":  [
+                                                  [
+                                                      0.0,
+                                                      0.495737
+                                                  ],
+                                                  [
+                                                      1.957755,
+                                                      2.010113
+                                                  ],
+                                                  [
+                                                      2.019977,
+                                                      2.117256
+                                                  ],
+                                                  [
+                                                      2.16941,
+                                                      2.292313
+                                                  ]
+                                              ],
+                      "leading_silence_s":  0.495737,
+                      "trailing_silence_s":  0.122903,
+                      "loop_boundary_jump_dbfs":  -84.288,
+                      "first_5ms_peak_dbfs":  -76.33,
+                      "last_5ms_peak_dbfs":  -54.051,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.157
+                  },
+                  {
+                      "file":  "assets/sounds/patrola/QuicklyQuickly.wav",
+                      "bytes":  169916,
+                      "sha256":  "3ee17b80fcecf5702ef15237a8aa1f836fa5335e3413a4995ae94afb42d95dcd",
+                      "codec":  "pcm_s16le",
+                      "sample_rate":  44100,
+                      "channels":  2,
+                      "container_duration_s":  0.962993,
+                      "decoded_duration_s":  0.962993,
+                      "peak_dbfs":  -0.885247,
+                      "rms_dbfs":  -15.232497,
+                      "integrated_lufs":  -10.1,
+                      "true_peak_dbtp":  -0.9,
+                      "silence_intervals_s":  [
+                                                  [
+                                                      0.0,
+                                                      0.0876644
+                                                  ],
+                                                  [
+                                                      0.891451,
+                                                      0.962993
+                                                  ]
+                                              ],
+                      "leading_silence_s":  0.087664,
+                      "trailing_silence_s":  0.071542,
+                      "loop_boundary_jump_dbfs":  -74.746,
+                      "first_5ms_peak_dbfs":  -76.33,
+                      "last_5ms_peak_dbfs":  -56.505,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.126
+                  },
+                  {
+                      "file":  "assets/sounds/patrola/schnell.wav",
+                      "bytes":  339940,
+                      "sha256":  "36af9bd6838c038d6276bf1190001e1eb74572b1001a573f7374fbaceb0d104c",
+                      "codec":  "pcm_s16le",
+                      "sample_rate":  44100,
+                      "channels":  2,
+                      "container_duration_s":  1.926848,
+                      "decoded_duration_s":  1.926848,
+                      "peak_dbfs":  0.000265,
+                      "rms_dbfs":  -16.578919,
+                      "integrated_lufs":  -10.8,
+                      "true_peak_dbtp":  0.1,
+                      "silence_intervals_s":  [
+                                                  [
+                                                      0.0,
+                                                      0.0688662
+                                                  ],
+                                                  [
+                                                      1.284263,
+                                                      1.642449
+                                                  ],
+                                                  [
+                                                      1.643492,
+                                                      1.926848
+                                                  ]
+                                              ],
+                      "leading_silence_s":  0.068866,
+                      "trailing_silence_s":  0.283356,
+                      "loop_boundary_jump_dbfs":  -66.787,
+                      "first_5ms_peak_dbfs":  -59.679,
+                      "last_5ms_peak_dbfs":  -69.481,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.149
+                  },
+                  {
+                      "file":  "assets/sounds/patrola/Stop.wav",
+                      "bytes":  92300,
+                      "sha256":  "de76be327486c16d0d8f992c8cb1c303a1f987cc9133bf748926c07f74eef9a8",
+                      "codec":  "pcm_s16le",
+                      "sample_rate":  44100,
+                      "channels":  2,
+                      "container_duration_s":  0.522993,
+                      "decoded_duration_s":  0.522993,
+                      "peak_dbfs":  -1.20818,
+                      "rms_dbfs":  -18.914818,
+                      "integrated_lufs":  -14.4,
+                      "true_peak_dbtp":  -1.2,
+                      "silence_intervals_s":  [
+                                                  [
+                                                      0.411746,
+                                                      0.521791
+                                                  ]
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  0.111247,
+                      "loop_boundary_jump_dbfs":  -48.165,
+                      "first_5ms_peak_dbfs":  -46.672,
+                      "last_5ms_peak_dbfs":  -47.575,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.117
+                  },
+                  {
+                      "file":  "assets/sounds/patrola/StopStayWhereYouAre.wav",
+                      "bytes":  307244,
+                      "sha256":  "ffbb533d42ace731e7687b7ced7336314435bf3771f92a126fa3bdb38ec813f3",
+                      "codec":  "pcm_s16le",
+                      "sample_rate":  44100,
+                      "channels":  2,
+                      "container_duration_s":  1.741497,
+                      "decoded_duration_s":  1.741497,
+                      "peak_dbfs":  -0.998995,
+                      "rms_dbfs":  -20.755562,
+                      "integrated_lufs":  -15.0,
+                      "true_peak_dbtp":  -1.0,
+                      "silence_intervals_s":  [
+                                                  [
+                                                      0.0,
+                                                      0.244014
+                                                  ],
+                                                  [
+                                                      1.390476,
+                                                      1.741497
+                                                  ]
+                                              ],
+                      "leading_silence_s":  0.244014,
+                      "trailing_silence_s":  0.351021,
+                      "loop_boundary_jump_dbfs":  -84.288,
+                      "first_5ms_peak_dbfs":  -76.33,
+                      "last_5ms_peak_dbfs":  -74.746,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.167
+                  },
+                  {
+                      "file":  "assets/sounds/patrola/thereheis.wav",
+                      "bytes":  272528,
+                      "sha256":  "a1aacfd14f5568aa9b2afdd077c669f682d099dbf87cc56e91b00f4808d8d086",
+                      "codec":  "pcm_s16le",
+                      "sample_rate":  44100,
+                      "channels":  2,
+                      "container_duration_s":  1.544694,
+                      "decoded_duration_s":  1.544694,
+                      "peak_dbfs":  0.000265,
+                      "rms_dbfs":  -13.539494,
+                      "integrated_lufs":  -9.1,
+                      "true_peak_dbtp":  0.1,
+                      "silence_intervals_s":  [
+                                                  [
+                                                      1.196236,
+                                                      1.41322
+                                                  ],
+                                                  [
+                                                      1.413243,
+                                                      1.519229
+                                                  ]
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  0,
+                      "loop_boundary_jump_dbfs":  -69.481,
+                      "first_5ms_peak_dbfs":  -66.227,
+                      "last_5ms_peak_dbfs":  -61.366,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.154
+                  },
+                  {
+                      "file":  "assets/sounds/patrola/UpThere.wav",
+                      "bytes":  278572,
+                      "sha256":  "9fe1ec392be34d85ebe496b3bffa9f46cfe4dbd16eb86154d12fda9ee6fa7553",
+                      "codec":  "pcm_s16le",
+                      "sample_rate":  44100,
+                      "channels":  2,
+                      "container_duration_s":  1.578957,
+                      "decoded_duration_s":  1.578957,
+                      "peak_dbfs":  -0.999292,
+                      "rms_dbfs":  -18.365579,
+                      "integrated_lufs":  -12.7,
+                      "true_peak_dbtp":  -1.0,
+                      "silence_intervals_s":  [
+                                                  [
+                                                      0.0,
+                                                      0.345238
+                                                  ],
+                                                  [
+                                                      1.105215,
+                                                      1.578957
+                                                  ]
+                                              ],
+                      "leading_silence_s":  0.345238,
+                      "trailing_silence_s":  0.473742,
+                      "loop_boundary_jump_dbfs":  -78.268,
+                      "first_5ms_peak_dbfs":  -74.746,
+                      "last_5ms_peak_dbfs":  -72.247,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.158
+                  },
+                  {
+                      "file":  "assets/sounds/patrola/whereishe.wav",
+                      "bytes":  286080,
+                      "sha256":  "82a7c45c26a54a4a160e8af40ad534f557f8bacbd2664cc088a9117467561bcf",
+                      "codec":  "pcm_s16le",
+                      "sample_rate":  44100,
+                      "channels":  2,
+                      "container_duration_s":  1.621519,
+                      "decoded_duration_s":  1.621519,
+                      "peak_dbfs":  -0.000795,
+                      "rms_dbfs":  -15.643812,
+                      "integrated_lufs":  -11.9,
+                      "true_peak_dbtp":  0.0,
+                      "silence_intervals_s":  [
+                                                  [
+                                                      1.338095,
+                                                      1.621519
+                                                  ]
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  0.283424,
+                      "loop_boundary_jump_dbfs":  -80.767,
+                      "first_5ms_peak_dbfs":  -68.03,
+                      "last_5ms_peak_dbfs":  -76.33,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.147
+                  },
+                  {
+                      "file":  "assets/sounds/pucanj.wav",
+                      "bytes":  96936,
+                      "sha256":  "13276ae015753065bc34f7a78d99699ab5424b870613b1ef83182e8702ead406",
+                      "codec":  "pcm_s16le",
+                      "sample_rate":  48000,
+                      "channels":  2,
+                      "container_duration_s":  0.504,
+                      "decoded_duration_s":  0.504,
+                      "peak_dbfs":  0.000265,
+                      "rms_dbfs":  -10.350797,
+                      "integrated_lufs":  -9.2,
+                      "true_peak_dbtp":  4.1,
+                      "silence_intervals_s":  [
+
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  0,
+                      "loop_boundary_jump_dbfs":  null,
+                      "first_5ms_peak_dbfs":  0.0,
+                      "last_5ms_peak_dbfs":  -59.939,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.112
+                  },
+                  {
+                      "file":  "01-avion-stalan-motor.mp3",
+                      "bytes":  526464,
+                      "sha256":  "b695496d27bdc5795da6d464db2843042b93614ea9593ceb61fec0eaddd196f5",
+                      "codec":  "mp3",
+                      "sample_rate":  48000,
+                      "channels":  1,
+                      "container_duration_s":  24.442625,
+                      "decoded_duration_s":  24.442625,
+                      "peak_dbfs":  -10.743817,
+                      "rms_dbfs":  -28.407986,
+                      "integrated_lufs":  -27.3,
+                      "true_peak_dbtp":  -10.7,
+                      "silence_intervals_s":  [
+                                                  [
+                                                      0.0,
+                                                      0.0613958
+                                                  ],
+                                                  [
+                                                      0.06225,
+                                                      0.341562
+                                                  ],
+                                                  [
+                                                      0.341708,
+                                                      1.033312
+                                                  ],
+                                                  [
+                                                      2.017979,
+                                                      2.165437
+                                                  ],
+                                                  [
+                                                      24.075208,
+                                                      24.442625
+                                                  ]
+                                              ],
+                      "leading_silence_s":  0.061396,
+                      "trailing_silence_s":  0.367417,
+                      "loop_boundary_jump_dbfs":  -74.905,
+                      "first_5ms_peak_dbfs":  -63.126,
+                      "last_5ms_peak_dbfs":  -54.507,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.237
+                  },
+                  {
+                      "file":  "02-camac-dizel.mp3",
+                      "bytes":  2032944,
+                      "sha256":  "3010e85de70016fa4cb307da37e68b7f7a3466af76c74a8872b202807f907b2f",
+                      "codec":  "mp3",
+                      "sample_rate":  48000,
+                      "channels":  2,
+                      "container_duration_s":  73.372,
+                      "decoded_duration_s":  73.372,
+                      "peak_dbfs":  -4.856196,
+                      "rms_dbfs":  -18.97179,
+                      "integrated_lufs":  -18.1,
+                      "true_peak_dbtp":  -4.6,
+                      "silence_intervals_s":  [
+
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  0,
+                      "loop_boundary_jump_dbfs":  -11.785,
+                      "first_5ms_peak_dbfs":  -7.45,
+                      "last_5ms_peak_dbfs":  -9.643,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.78
+                  },
+                  {
+                      "file":  "03-dizel-motor.mp3",
+                      "bytes":  1010016,
+                      "sha256":  "1855131a456d04f2751fa94115330b93694ee8cf55f0e72a08521ff52d687502",
+                      "codec":  "mp3",
+                      "sample_rate":  48000,
+                      "channels":  2,
+                      "container_duration_s":  44.096,
+                      "decoded_duration_s":  44.096,
+                      "peak_dbfs":  -0.162779,
+                      "rms_dbfs":  -16.611126,
+                      "integrated_lufs":  -13.6,
+                      "true_peak_dbtp":  -0.1,
+                      "silence_intervals_s":  [
+
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  0,
+                      "loop_boundary_jump_dbfs":  -9.837,
+                      "first_5ms_peak_dbfs":  -6.466,
+                      "last_5ms_peak_dbfs":  -5.497,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.508
+                  },
+                  {
+                      "file":  "04-koraci-sljunak.mp3",
+                      "bytes":  106752,
+                      "sha256":  "e5a55799e76de63bba9b5d9f66e63210d0e70fb649402fa5cc7f3e9821eee1ea",
+                      "codec":  "mp3",
+                      "sample_rate":  48000,
+                      "channels":  1,
+                      "container_duration_s":  6.11825,
+                      "decoded_duration_s":  6.11825,
+                      "peak_dbfs":  -17.69704,
+                      "rms_dbfs":  -45.52206,
+                      "integrated_lufs":  -44.2,
+                      "true_peak_dbtp":  -17.7,
+                      "silence_intervals_s":  [
+                                                  [
+                                                      0.249083,
+                                                      0.533458
+                                                  ],
+                                                  [
+                                                      0.775208,
+                                                      1.075813
+                                                  ],
+                                                  [
+                                                      1.267583,
+                                                      1.596437
+                                                  ],
+                                                  [
+                                                      1.724417,
+                                                      2.053979
+                                                  ],
+                                                  [
+                                                      2.183271,
+                                                      2.54075
+                                                  ],
+                                                  [
+                                                      2.694271,
+                                                      3.092771
+                                                  ],
+                                                  [
+                                                      3.241104,
+                                                      3.536646
+                                                  ],
+                                                  [
+                                                      3.662167,
+                                                      4.062146
+                                                  ],
+                                                  [
+                                                      4.249062,
+                                                      4.53075
+                                                  ],
+                                                  [
+                                                      4.750667,
+                                                      5.043687
+                                                  ],
+                                                  [
+                                                      5.207063,
+                                                      5.550292
+                                                  ],
+                                                  [
+                                                      5.788208,
+                                                      6.11825
+                                                  ]
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  0.330042,
+                      "loop_boundary_jump_dbfs":  -125.134,
+                      "first_5ms_peak_dbfs":  -109.851,
+                      "last_5ms_peak_dbfs":  -151.835,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.131
+                  },
+                  {
+                      "file":  "05-mali-pljusak.mp3",
+                      "bytes":  59136,
+                      "sha256":  "53b73c7c8fd1d0a4b745daad3dcf1350cf42fe2a515204cc17073fe036454753",
+                      "codec":  "mp3",
+                      "sample_rate":  48000,
+                      "channels":  2,
+                      "container_duration_s":  2.445479,
+                      "decoded_duration_s":  2.445479,
+                      "peak_dbfs":  -0.197333,
+                      "rms_dbfs":  -19.87635,
+                      "integrated_lufs":  -14.5,
+                      "true_peak_dbtp":  -0.2,
+                      "silence_intervals_s":  [
+
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  0,
+                      "loop_boundary_jump_dbfs":  -77.677,
+                      "first_5ms_peak_dbfs":  -52.613,
+                      "last_5ms_peak_dbfs":  -94.597,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.114
+                  },
+                  {
+                      "file":  "06-lansiranje-rakete.mp3",
+                      "bytes":  1618475,
+                      "sha256":  "4bbea5603ff6bf3011bb4f75da0da68eabca728a9a4f197d0d9080b68da50853",
+                      "codec":  "mp3",
+                      "sample_rate":  44100,
+                      "channels":  2,
+                      "container_duration_s":  63.169796,
+                      "decoded_duration_s":  63.169796,
+                      "peak_dbfs":  -0.247187,
+                      "rms_dbfs":  -15.549745,
+                      "integrated_lufs":  -13.5,
+                      "true_peak_dbtp":  -0.2,
+                      "silence_intervals_s":  [
+                                                  [
+                                                      0.0,
+                                                      0.113039
+                                                  ],
+                                                  [
+                                                      62.69102,
+                                                      63.169796
+                                                  ]
+                                              ],
+                      "leading_silence_s":  0.113039,
+                      "trailing_silence_s":  0.478776,
+                      "loop_boundary_jump_dbfs":  -86.383,
+                      "first_5ms_peak_dbfs":  -81.778,
+                      "last_5ms_peak_dbfs":  -79.729,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.652
+                  },
+                  {
+                      "file":  "07-ljudski-napor.mp3",
+                      "bytes":  609984,
+                      "sha256":  "5de2cc59ee06f1be607c96ecd8958bfc399fb42a09aba38adbe17887d77587fa",
+                      "codec":  "mp3",
+                      "sample_rate":  48000,
+                      "channels":  2,
+                      "container_duration_s":  26.785563,
+                      "decoded_duration_s":  26.785563,
+                      "peak_dbfs":  -2.230885,
+                      "rms_dbfs":  -27.533353,
+                      "integrated_lufs":  -20.9,
+                      "true_peak_dbtp":  -2.2,
+                      "silence_intervals_s":  [
+                                                  [
+                                                      0.0,
+                                                      0.062
+                                                  ],
+                                                  [
+                                                      0.402042,
+                                                      0.872146
+                                                  ],
+                                                  [
+                                                      1.168583,
+                                                      1.790729
+                                                  ],
+                                                  [
+                                                      2.078396,
+                                                      2.686354
+                                                  ],
+                                                  [
+                                                      2.955021,
+                                                      3.679729
+                                                  ],
+                                                  [
+                                                      4.138146,
+                                                      4.649167
+                                                  ],
+                                                  [
+                                                      4.996562,
+                                                      5.672937
+                                                  ],
+                                                  [
+                                                      5.920083,
+                                                      6.642062
+                                                  ],
+                                                  [
+                                                      6.902271,
+                                                      7.620312
+                                                  ],
+                                                  [
+                                                      7.834,
+                                                      8.772833
+                                                  ],
+                                                  [
+                                                      9.167208,
+                                                      9.863333
+                                                  ],
+                                                  [
+                                                      10.181875,
+                                                      11.048792
+                                                  ],
+                                                  [
+                                                      11.302188,
+                                                      12.141854
+                                                  ],
+                                                  [
+                                                      12.47325,
+                                                      13.365833
+                                                  ],
+                                                  [
+                                                      13.708,
+                                                      14.591667
+                                                  ],
+                                                  [
+                                                      14.956667,
+                                                      15.890292
+                                                  ],
+                                                  [
+                                                      16.21975,
+                                                      17.10825
+                                                  ],
+                                                  [
+                                                      17.609188,
+                                                      18.404563
+                                                  ],
+                                                  [
+                                                      18.713854,
+                                                      19.686646
+                                                  ],
+                                                  [
+                                                      19.960167,
+                                                      20.857208
+                                                  ],
+                                                  [
+                                                      21.238604,
+                                                      22.052437
+                                                  ],
+                                                  [
+                                                      22.313167,
+                                                      23.28
+                                                  ],
+                                                  [
+                                                      23.566604,
+                                                      24.756521
+                                                  ],
+                                                  [
+                                                      25.003958,
+                                                      25.928958
+                                                  ],
+                                                  [
+                                                      26.205229,
+                                                      26.785562
+                                                  ]
+                                              ],
+                      "leading_silence_s":  0.062,
+                      "trailing_silence_s":  0.580334,
+                      "loop_boundary_jump_dbfs":  -73.079,
+                      "first_5ms_peak_dbfs":  -66.904,
+                      "last_5ms_peak_dbfs":  -70.552,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.348
+                  },
+                  {
+                      "file":  "08-doskoci-udarci.mp3",
+                      "bytes":  217839,
+                      "sha256":  "ef08325aee01eaf302c0b7a512d555b748ba1df709bf265af2edf19fb4074a64",
+                      "codec":  "mp3",
+                      "sample_rate":  44100,
+                      "channels":  1,
+                      "container_duration_s":  9.430091,
+                      "decoded_duration_s":  9.430091,
+                      "peak_dbfs":  -1.21086,
+                      "rms_dbfs":  -26.861646,
+                      "integrated_lufs":  -24.4,
+                      "true_peak_dbtp":  -1.2,
+                      "silence_intervals_s":  [
+                                                  [
+                                                      0.0,
+                                                      0.114785
+                                                  ],
+                                                  [
+                                                      1.807188,
+                                                      2.618957
+                                                  ],
+                                                  [
+                                                      3.562562,
+                                                      4.181905
+                                                  ],
+                                                  [
+                                                      4.97542,
+                                                      5.032857
+                                                  ],
+                                                  [
+                                                      5.03288,
+                                                      5.130907
+                                                  ],
+                                                  [
+                                                      5.400363,
+                                                      5.473424
+                                                  ],
+                                                  [
+                                                      6.801451,
+                                                      6.906939
+                                                  ],
+                                                  [
+                                                      6.957687,
+                                                      7.558753
+                                                  ],
+                                                  [
+                                                      8.837506,
+                                                      8.92127
+                                                  ],
+                                                  [
+                                                      8.928118,
+                                                      9.430091
+                                                  ]
+                                              ],
+                      "leading_silence_s":  0.114785,
+                      "trailing_silence_s":  0.501973,
+                      "loop_boundary_jump_dbfs":  -68.998,
+                      "first_5ms_peak_dbfs":  -64.546,
+                      "last_5ms_peak_dbfs":  -77.794,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.145
+                  },
+                  {
+                      "file":  "09-magijski-udar.mp3",
+                      "bytes":  302528,
+                      "sha256":  "4269333050ec38e02c6faaf4993fc7d65ba34ce3eed92bb088c236a152931bbb",
+                      "codec":  "mp3",
+                      "sample_rate":  44100,
+                      "channels":  2,
+                      "container_duration_s":  13.042358,
+                      "decoded_duration_s":  13.042358,
+                      "peak_dbfs":  -2.908871,
+                      "rms_dbfs":  -21.532899,
+                      "integrated_lufs":  -16.8,
+                      "true_peak_dbtp":  -2.5,
+                      "silence_intervals_s":  [
+                                                  [
+                                                      9.660159,
+                                                      9.72542
+                                                  ],
+                                                  [
+                                                      9.776417,
+                                                      9.839932
+                                                  ],
+                                                  [
+                                                      9.855896,
+                                                      10.014739
+                                                  ],
+                                                  [
+                                                      10.064898,
+                                                      10.149184
+                                                  ],
+                                                  [
+                                                      10.149637,
+                                                      10.233923
+                                                  ],
+                                                  [
+                                                      10.233946,
+                                                      10.318685
+                                                  ],
+                                                  [
+                                                      10.321474,
+                                                      10.488163
+                                                  ],
+                                                  [
+                                                      10.488617,
+                                                      13.042358
+                                                  ]
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  2.553741,
+                      "loop_boundary_jump_dbfs":  -70.228,
+                      "first_5ms_peak_dbfs":  -57.059,
+                      "last_5ms_peak_dbfs":  -73.678,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.211
+                  },
+                  {
+                      "file":  "10-plovidba-voda.mp3",
+                      "bytes":  1415328,
+                      "sha256":  "812e0d4180b6c7352f72cbda7661c9d4ee524229ea72b7a730f137a56651ce25",
+                      "codec":  "mp3",
+                      "sample_rate":  48000,
+                      "channels":  2,
+                      "container_duration_s":  75.176021,
+                      "decoded_duration_s":  75.176021,
+                      "peak_dbfs":  -7.981346,
+                      "rms_dbfs":  -29.119662,
+                      "integrated_lufs":  -25.8,
+                      "true_peak_dbtp":  -7.9,
+                      "silence_intervals_s":  [
+
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  0,
+                      "loop_boundary_jump_dbfs":  -38.016,
+                      "first_5ms_peak_dbfs":  -29.515,
+                      "last_5ms_peak_dbfs":  -25.089,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.797
+                  },
+                  {
+                      "file":  "11-veliki-pljusak.mp3",
+                      "bytes":  52560,
+                      "sha256":  "b8227adae409996ceee3481c7057ceda717575fa7569cec5d9d0ee1b94a8fe33",
+                      "codec":  "mp3",
+                      "sample_rate":  48000,
+                      "channels":  2,
+                      "container_duration_s":  2.17225,
+                      "decoded_duration_s":  2.17225,
+                      "peak_dbfs":  -0.043993,
+                      "rms_dbfs":  -18.860543,
+                      "integrated_lufs":  -14.7,
+                      "true_peak_dbtp":  0.0,
+                      "silence_intervals_s":  [
+
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  0,
+                      "loop_boundary_jump_dbfs":  -45.308,
+                      "first_5ms_peak_dbfs":  -5.307,
+                      "last_5ms_peak_dbfs":  -63.973,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.109
+                  },
+                  {
+                      "file":  "12-metalni-udar.mp3",
+                      "bytes":  28272,
+                      "sha256":  "7e402e1a3c7394e3039746063b8ccb96a065bbdde229ed39f0278f347ebf2d19",
+                      "codec":  "mp3",
+                      "sample_rate":  48000,
+                      "channels":  2,
+                      "container_duration_s":  1.369292,
+                      "decoded_duration_s":  1.369292,
+                      "peak_dbfs":  -0.249088,
+                      "rms_dbfs":  -27.868321,
+                      "integrated_lufs":  -22.6,
+                      "true_peak_dbtp":  0.0,
+                      "silence_intervals_s":  [
+                                                  [
+                                                      0.421396,
+                                                      0.666458
+                                                  ],
+                                                  [
+                                                      1.0835,
+                                                      1.369292
+                                                  ]
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  0.285792,
+                      "loop_boundary_jump_dbfs":  -89.324,
+                      "first_5ms_peak_dbfs":  -75.15,
+                      "last_5ms_peak_dbfs":  -69.716,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.113
+                  },
+                  {
+                      "file":  "13-potisak-petlja.mp3",
+                      "bytes":  105721,
+                      "sha256":  "23989578e6bc77b24c8f238fbc482a623188277812ddc54d5907e5eae4bad749",
+                      "codec":  "mp3",
+                      "sample_rate":  44100,
+                      "channels":  1,
+                      "container_duration_s":  4.75,
+                      "decoded_duration_s":  4.75,
+                      "peak_dbfs":  -2.473231,
+                      "rms_dbfs":  -14.651151,
+                      "integrated_lufs":  -18.7,
+                      "true_peak_dbtp":  -2.5,
+                      "silence_intervals_s":  [
+
+                                              ],
+                      "leading_silence_s":  0,
+                      "trailing_silence_s":  0,
+                      "loop_boundary_jump_dbfs":  -35.314,
+                      "first_5ms_peak_dbfs":  -13.256,
+                      "last_5ms_peak_dbfs":  -9.687,
+                      "boundary_jump_exceeds_3x_adjacent_and_minus40dbfs":  false,
+                      "elapsed_s":  0.112
+                  }
+              ],
+    "tool_version":  "ffmpeg version 9.0.1-full_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers",
+    "resource_limits":  {
+                            "logical_processors":  1,
+                            "priority":  "BelowNormal",
+                            "memory_limit_enforced":  false,
+                            "peak_memory_measured":  false
+                        },
+    "candidate_sources":  [
+                              {
+                                  "file":  "01-avion-stalan-motor.mp3",
+                                  "source":  "https://freesound.org/people/craigsmith/sounds/479512/",
+                                  "preview":  "https://cdn.freesound.org/previews/479/479512_2524442-hq.mp3",
+                                  "license":  "CC0-1.0",
+                                  "checked":  "2026-11-19",
+                                  "bytes":  526464,
+                                  "status":  "Candidate only; not listened to, analyzed or selected"
+                              },
+                              {
+                                  "file":  "02-camac-dizel.mp3",
+                                  "source":  "https://freesound.org/people/AugustSandberg/sounds/264864/",
+                                  "preview":  "https://cdn.freesound.org/previews/264/264864_1934171-hq.mp3",
+                                  "license":  "CC0-1.0",
+                                  "checked":  "2026-11-19",
+                                  "bytes":  2032944,
+                                  "status":  "Candidate only; not listened to, analyzed or selected"
+                              },
+                              {
+                                  "file":  "03-dizel-motor.mp3",
+                                  "source":  "https://freesound.org/people/AugustSandberg/sounds/237292/",
+                                  "preview":  "https://cdn.freesound.org/previews/237/237292_1934171-hq.mp3",
+                                  "license":  "CC0-1.0",
+                                  "checked":  "2026-11-19",
+                                  "bytes":  1010016,
+                                  "status":  "Candidate only; not listened to, analyzed or selected"
+                              },
+                              {
+                                  "file":  "04-koraci-sljunak.mp3",
+                                  "source":  "https://freesound.org/people/IENBA/sounds/818562/",
+                                  "preview":  "https://cdn.freesound.org/previews/818/818562_9616576-hq.mp3",
+                                  "license":  "CC0-1.0",
+                                  "checked":  "2026-11-19",
+                                  "bytes":  106752,
+                                  "status":  "Candidate only; not listened to, analyzed or selected"
+                              },
+                              {
+                                  "file":  "05-mali-pljusak.mp3",
+                                  "source":  "https://freesound.org/people/qubodup/sounds/210428/",
+                                  "preview":  "https://cdn.freesound.org/previews/210/210428_71257-hq.mp3",
+                                  "license":  "CC0-1.0",
+                                  "checked":  "2026-11-19",
+                                  "bytes":  59136,
+                                  "status":  "Candidate only; not listened to, analyzed or selected"
+                              },
+                              {
+                                  "file":  "06-lansiranje-rakete.mp3",
+                                  "source":  "https://freesound.org/people/Sanderboah/sounds/803852/",
+                                  "preview":  "https://cdn.freesound.org/previews/803/803852_13017680-hq.mp3",
+                                  "license":  "CC0-1.0",
+                                  "checked":  "2026-11-19",
+                                  "bytes":  1618475,
+                                  "status":  "Candidate only; not listened to, analyzed or selected"
+                              },
+                              {
+                                  "file":  "07-ljudski-napor.mp3",
+                                  "source":  "https://freesound.org/people/BaggoNotes/sounds/718967/",
+                                  "preview":  "https://cdn.freesound.org/previews/718/718967_15107322-hq.mp3",
+                                  "license":  "CC0-1.0",
+                                  "checked":  "2026-11-19",
+                                  "bytes":  609984,
+                                  "status":  "Candidate only; not listened to, analyzed or selected"
+                              },
+                              {
+                                  "file":  "08-doskoci-udarci.mp3",
+                                  "source":  "https://freesound.org/people/Vrymaa/sounds/734629/",
+                                  "preview":  "https://cdn.freesound.org/previews/734/734629_13973196-hq.mp3",
+                                  "license":  "CC0-1.0",
+                                  "checked":  "2026-11-19",
+                                  "bytes":  217839,
+                                  "status":  "Candidate only; not listened to, analyzed or selected"
+                              },
+                              {
+                                  "file":  "09-magijski-udar.mp3",
+                                  "source":  "https://freesound.org/people/CVLTIV8R/sounds/849412/",
+                                  "preview":  "https://cdn.freesound.org/previews/849/849412_2520418-hq.mp3",
+                                  "license":  "CC0-1.0",
+                                  "checked":  "2026-11-19",
+                                  "bytes":  302528,
+                                  "status":  "Candidate only; not listened to, analyzed or selected"
+                              },
+                              {
+                                  "file":  "10-plovidba-voda.mp3",
+                                  "source":  "https://freesound.org/people/myLoop/sounds/852108/",
+                                  "preview":  "https://cdn.freesound.org/previews/852/852108_18387771-hq.mp3",
+                                  "license":  "CC0-1.0",
+                                  "checked":  "2026-11-19",
+                                  "bytes":  1415328,
+                                  "status":  "Candidate only; not listened to, analyzed or selected"
+                              },
+                              {
+                                  "file":  "11-veliki-pljusak.mp3",
+                                  "source":  "https://freesound.org/people/qubodup/sounds/442773/",
+                                  "preview":  "https://cdn.freesound.org/previews/442/442773_71257-hq.mp3",
+                                  "license":  "CC0-1.0",
+                                  "checked":  "2026-11-19",
+                                  "bytes":  52560,
+                                  "status":  "Candidate only; not listened to, analyzed or selected"
+                              },
+                              {
+                                  "file":  "12-metalni-udar.mp3",
+                                  "source":  "https://freesound.org/people/RyanKingArt/sounds/620077/",
+                                  "preview":  "https://cdn.freesound.org/previews/620/620077_11069322-hq.mp3",
+                                  "license":  "CC0-1.0",
+                                  "checked":  "2026-11-19",
+                                  "bytes":  28272,
+                                  "status":  "Candidate only; not listened to, analyzed or selected"
+                              },
+                              {
+                                  "file":  "13-potisak-petlja.mp3",
+                                  "source":  "https://freesound.org/people/qubodup/sounds/146770/",
+                                  "preview":  "https://cdn.freesound.org/previews/146/146770_71257-hq.mp3",
+                                  "license":  "CC0-1.0",
+                                  "checked":  "2026-11-19",
+                                  "bytes":  105721,
+                                  "status":  "Candidate only; not listened to, analyzed or selected"
+                              }
+                          ]
+}

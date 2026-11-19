@@ -12,6 +12,22 @@ before(async() => {
 
 const createScene = () => new Scene({ canvas: document.createElement('canvas') })
 
+test('automatic starts and synthetic clicks leave audio locked; trusted input unlocks it', t => {
+  installFakeFrames()
+  const scene = createScene()
+  t.after(() => scene.end())
+  let unlocks = 0
+  scene.sceneAudio.unlock = async() => { unlocks++ }
+  scene.start()
+  scene.pause()
+  scene.unpause()
+  assert.equal(unlocks, 0)
+  document.dispatchEvent(new Event('click'))
+  assert.equal(unlocks, 0, 'synthetic clicks are not user activation')
+  scene.unlockAudio({ isTrusted: true })
+  assert.equal(unlocks, 1)
+})
+
 test('starting and continuing focus the game, while a decorative scene leaves focus alone', t => {
   installFakeFrames()
   const scene = createScene()
@@ -34,6 +50,24 @@ test('starting and continuing focus the game, while a decorative scene leaves fo
   decoration.start()
   assert.equal(document.activeElement, scene.canvas)
   assert.equal(decoration.canvas.hasAttribute('tabindex'), false)
+})
+
+test('audio transitions advance with simulated time instead of dropped fixed-step frame time', t => {
+  const frames = installFakeFrames()
+  const scene = new Scene({ canvas: document.createElement('canvas'), fixedStep: true, disableEvents: true })
+  t.after(() => scene.end())
+  const elapsed = []
+  t.mock.method(scene.sceneAudio, 'update', dt => elapsed.push(dt))
+  scene.start()
+  frames.step()
+  frames.step(2000)
+  assert.ok(elapsed.at(-1) > 0)
+  assert.ok(elapsed.at(-1) < .1, 'dropped time cannot finish an audio transition instantly')
+  assert.equal(elapsed.at(-1), scene.session.presentationClock.now)
+  scene.pause()
+  const count = elapsed.length
+  frames.step(2000)
+  assert.equal(elapsed.length, count)
 })
 
 test('cached images still wait for object dimensions and load callbacks', async() => {

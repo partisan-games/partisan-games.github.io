@@ -1,10 +1,10 @@
-import Sound from '/core/io/ManagedSound.js'
+import Sound from '/core/io/audio/SoundSource.js'
 
 export default class Wind {
   constructor({ random = Math.random } = {}) {
     this.random = random
     this.enabled = true
-    this.windSound = new Sound('wind.mp3', { volume: .2, loop: true })
+    this.windSound = new Sound('wind.mp3', { volume: .2, loop: true, profile: 'ambience' })
     this.sounds = [this.windSound]
     this.nextRound()
   }

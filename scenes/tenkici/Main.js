@@ -29,6 +29,7 @@ export default class TenkiciScene extends Scene2D {
     this.background = new PozadinaGrada(this.canvas)
     const { clock } = this.session
     this.tenk = new TenkLevo({ y: groundLevel, clock })
+    this.audioPlayer = () => this.tenk
     this.tenk2 = new TenkDesno({ y: groundLevel, ai: true, clock })
     this.tenk.targets.push(this.tenk2)
     this.tenk2.targets.push(this.tenk)

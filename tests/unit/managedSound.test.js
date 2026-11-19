@@ -1,245 +1,265 @@
-import { test, before, mock } from 'node:test'
+import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
-import config from '/config.js'
-import ManagedSound from '/core/io/ManagedSound.js'
-import SceneAudio from '/core/io/SceneAudio.js'
+import SceneAudio from '/core/io/audio/SceneAudio.js'
+import SoundSource from '/core/io/audio/SoundSource.js'
 import GameClock from '/core/runtime/GameClock.js'
 import { createPageElements } from './helpers/dom.js'
-
-class RecordingAudio extends EventTarget {
-  constructor(src) {
-    super()
-    this.src = src
-    this.volume = 1
-    this.currentTime = 0
-    this.paused = true
-    this.ended = false
-    this.plays = 0
-  }
-
-  play() {
-    this.plays++
-    this.paused = false
-    this.ended = false
-    return Promise.resolve()
-  }
-
-  pause() {
-    this.paused = true
-  }
-}
+import { fixture } from './helpers/audioBackend.js'
 
 let Top, Shell, Posada, Strelac, Wind, Airplane, GameObject2D, Ustanak, Tenk
-
 before(async() => {
   createPageElements()
-  globalThis.Audio = RecordingAudio
-  mock.method(HTMLCanvasElement.prototype, 'getContext', () => ({ save() {}, restore() {}, clearRect() {} }))
   ;[Top, Shell, Posada, Strelac, Wind, Airplane, GameObject2D, Ustanak, Tenk] = await Promise.all([
     import('/scenes/ustanak/Top.js'), import('/core/actor/projectiles/Shell.js'),
     import('/scenes/ustanak/Posada.js'), import('/scenes/ustanak/Strelac.js'),
     import('/scenes/ustanak/Wind.js'), import('/core/objects/Airplane.js'),
-    import('/core/actor/GameObject2D.js'), import('/scenes/ustanak/Main.js'),
-    import('/scenes/tenkici/Tenk.js'),
+    import('/core/actor/GameObject2D.js'), import('/scenes/ustanak/Main.js'), import('/scenes/tenkici/Tenk.js'),
   ]).then(modules => modules.map(module => module.default))
 })
 
-test('one-shot audio is silent before start, resumes its position after pause, and follows global volume', t => {
-  const originalVolume = config.volume
-  t.after(() => { config.volume = originalVolume })
-  const sound = new ManagedSound('rifle.mp3', { volume: .5 })
-  const owner = { sounds: [sound] }
-  const audio = new SceneAudio()
-  audio.sync([owner], 'ready')
-  sound.play()
+const settle = async() => { for (let i = 0; i < 24; i++) await Promise.resolve() }
+async function audioFor(t, options = {}) {
+  const backend = fixture()
+  await backend.engine.unlock()
+  const listener = { position: { x: 0, y: 0 }, identity: 'player' }
+  const audio = new SceneAudio({ engine: backend.engine, getListener: () => listener,
+    coordinates: { dimensions: 2, unitsPerAudioUnit: 100 }, ...options })
+  t.after(async() => { audio.end(); await backend.engine.dispose() })
+  return { ...backend, audio, listener }
+}
+
+test('owner declarations allocate nothing before attachment and late pooled children keep their first shot', async t => {
+  const { audio, context } = await audioFor(t)
+  const source = new SoundSource('rifle.mp3', { profile: 'rifle', spatial: { position: { x: 10, y: 0 } } })
+  assert.equal(source.play(), null)
+  assert.equal(context.sources.length, 0)
+  const owner = { sounds: [] }
   audio.sync([owner], 'running')
-  assert.equal(sound.audio.plays, 0)
-  sound.play()
-  assert.equal(sound.audio.volume, originalVolume * .5)
-  sound.audio.currentTime = .25
-  audio.sync([owner], 'paused')
-  assert.ok(sound.audio.paused)
-  sound.play()
-  assert.equal(sound.audio.plays, 1, 'paused commands do not queue a new shot')
-  config.volume = .2
-  audio.sync([owner], 'running')
-  assert.equal(sound.audio.currentTime, .25)
-  assert.equal(sound.audio.volume, .1)
-  assert.equal(sound.audio.plays, 2)
-  sound.audio.ended = true
-  sound.audio.dispatchEvent(new Event('ended'))
-  audio.sync([owner], 'paused')
-  audio.sync([owner], 'running')
-  assert.equal(sound.audio.plays, 2, 'a completed shot is not replayed')
+  const { default: ProjectilePool } = await import('/core/actor/ProjectilePool.js')
+  const pool = new ProjectilePool({ owner: { ...owner, children: [], audioScene: audio }, create: () => ({
+    visible: false, sounds: [source], launch() { this.visible = true; source.play() },
+  }) })
+  pool.fire({ x: 10, y: 0 }, 0, 100)
+  await settle()
+  assert.equal(context.sources.length, 1)
+  assert.equal(source.playback.audio.paused, false)
 })
 
-test('loops start once, follow their condition, and cannot restart after the scene ends', () => {
-  const sound = new ManagedSound('wind.mp3', { loop: true })
-  const owner = { sounds: [sound] }
-  const audio = new SceneAudio()
-  sound.setPlaying(true)
-  audio.sync([owner], 'loading')
-  assert.equal(sound.audio.plays, 0)
+test('an emitted point stays frozen after its owner moves or leaves while its tail remains scene-owned', async t => {
+  const { audio } = await audioFor(t)
+  const owner = { position: { x: 100, y: 50 }, sounds: [] }
+  const sound = new SoundSource('rifle.mp3', { profile: 'rifle', spatial: { getPosition: () => owner.position } })
+  owner.sounds.push(sound)
   audio.sync([owner], 'running')
-  for (let i = 0; i < 10; i++) sound.setPlaying(true)
-  assert.equal(sound.audio.plays, 1)
+  const event = sound.play()
+  await event.started
+  const position = { ...event.spatialModel.position }
+  owner.position.x = 500
   audio.sync([], 'running')
-  assert.ok(sound.audio.paused)
-  assert.equal(sound.playing, false)
-  audio.sync([owner], 'running')
-  sound.setPlaying(true)
+  audio.update(.1)
+  assert.deepEqual(event.spatialModel.position, position)
+  assert.equal(event.disposed, false)
   audio.end()
+  assert.equal(event.disposed, true)
+})
+
+test('a loop intent set before attachment starts once and preserves its cursor through pause', async t => {
+  const { audio, context } = await audioFor(t)
+  const sound = new SoundSource('wind.mp3', { loop: true, profile: 'ambience' })
   sound.setPlaying(true)
-  sound.play()
-  audio.sync([owner], 'running')
-  assert.ok(sound.audio.paused)
-  assert.equal(sound.audio.plays, 2)
+  audio.sync([{ sounds: [sound] }], 'running')
+  await settle()
+  context.currentTime = 2
+  audio.sync([{ sounds: [sound] }], 'paused')
+  const cursor = sound.playback.audio.currentTime
+  assert.equal(sound.playback.audio.paused, true)
+  audio.sync([{ sounds: [sound] }], 'running')
+  await settle()
+  assert.equal(sound.playback.audio.currentTime, cursor)
+  assert.equal(sound.playback.audio.paused, false)
 })
 
-test('new pooled projectiles retain their first sound and finishing one scene does not silence another', () => {
-  const oldScene = new SceneAudio()
-  const newScene = new SceneAudio()
-  const owner = { children: [] }
-  oldScene.sync([owner], 'running')
-  const sound = new ManagedSound('explosion.mp3')
-  owner.children.push({ sounds: [sound] })
-  sound.play()
-  oldScene.sync([owner], 'running')
-  assert.equal(sound.audio.plays, 1)
-  const other = new ManagedSound('wind.mp3', { loop: true })
-  newScene.sync([{ sounds: [other] }], 'running')
-  other.setPlaying(true)
-  oldScene.end()
-  assert.ok(sound.audio.paused)
-  assert.equal(other.audio.paused, false)
+test('a loop volume change reaches its playing voice without waiting for the next sync', async t => {
+  const { audio } = await audioFor(t)
+  const sound = new SoundSource('wind.mp3', { loop: true, profile: 'ambience' })
+  audio.sync([{ sounds: [sound] }], 'running')
+  sound.setPlaying(true)
+  await settle()
+  sound.volume = .25
+  assert.equal(sound.playback.audio.volume, .25)
 })
 
-test('only result sounds can continue after the match ends', () => {
-  const shot = new ManagedSound('rifle.mp3')
-  const result = new ManagedSound('fairy-arcade-sparkle.mp3', { afterFinish: true })
-  const owner = { sounds: [shot, result] }
-  const audio = new SceneAudio()
-  audio.sync([owner], 'running')
-  shot.play()
-  result.play()
-  audio.sync([owner], 'finished')
-  assert.ok(shot.audio.paused)
-  assert.equal(result.audio.paused, false)
-  shot.play()
-  assert.equal(shot.audio.plays, 1)
-  audio.end()
-  assert.ok(result.audio.paused)
+test('only explicitly allowed UI streams play before start and only result sources survive a finish', async t => {
+  const { audio, stats } = await audioFor(t)
+  const shot = new SoundSource('rifle.mp3', { profile: 'rifle' })
+  const report = new SoundSource('typing.mp3', { stream: true, beforeStart: true, profile: 'ui' })
+  const result = new SoundSource('fairy-arcade-sparkle.mp3', { afterFinish: true, profile: 'ui' })
+  const root = { sounds: [shot, report, result] }
+  audio.sync([root], 'ready')
+  assert.equal(shot.play(), null)
+  report.play()
+  await settle()
+  assert.equal(stats.media.length, 1)
+  assert.equal(stats.media[0].volume, 1, 'master/source gain is not multiplied on the media element')
+  audio.sync([root], 'running')
+  const ordinary = shot.play(), ending = result.play()
+  await Promise.all([ordinary.started, ending.started])
+  audio.sync([root], 'finished')
+  assert.equal(ordinary.disposed, true)
+  assert.equal(ending.disposed, false)
+  assert.equal(shot.play(), null)
 })
 
-test('a shared shell whistles during flight, explodes once at impact, and stops whistling on reset', () => {
+test('shell flight follows the projectile but a repeated impact emits only once and reset stops flight', async t => {
+  const { audio } = await audioFor(t)
   const shell = new Shell({ clock: new GameClock() })
-  const audio = new SceneAudio()
   audio.sync([shell], 'running')
   shell.launch({ x: 100, y: 100 }, 0, 300)
-  assert.equal(shell.flightSound.audio.plays, 1)
-  const target = { lifeId: 1, takeHit() {} }
-  shell.strike(target)
-  shell.strike(target)
-  assert.equal(shell.explosionSound.audio.plays, 1)
-  assert.ok(shell.flightSound.audio.paused)
+  await settle()
+  assert.equal(shell.flightSound.playback.audio.paused, false)
+  shell.strike({ lifeId: 1, takeHit() {} })
+  const impact = shell.explosionSound.playback.audio
+  shell.strike({})
+  assert.equal(shell.explosionSound.playback.voices.size, 1)
+  assert.equal(shell.explosionSound.playback.audio, impact)
   shell.reset()
-  assert.ok(shell.flightSound.audio.paused)
+  assert.equal(shell.flightSound.playing, false)
 })
 
-test('cannons sound only successful shots and round reset cancels their remaining sounds', () => {
+test('cannon emits only successful shots from its muzzle and loading follows animation transitions', async t => {
+  const { audio } = await audioFor(t)
   const cannon = new Top({ x: 100, y: 300, clock: new GameClock() })
   cannon.width = 100
-  const audio = new SceneAudio()
-  audio.sync([cannon], 'running')
-  assert.ok(cannon.launch())
+  const crew = new Posada(100, 300), rifle = new Strelac(200, 300)
+  crew.onload(); rifle.onload()
+  audio.sync([cannon, crew, rifle], 'running')
+  assert.equal(cannon.launch(), true)
   assert.equal(cannon.launch(), false)
-  assert.equal(cannon.shotSound.audio.plays, 1)
-  assert.equal(cannon.projektili[0].flightSound.audio.plays, 1)
-  cannon.resetRound()
-  for (const owner of [cannon, ...cannon.projektili])
-    for (const sound of owner.sounds) assert.ok(sound.audio.paused)
-})
-
-test('loading sounds once per animation transition and the rifle sounds when its firing animation starts', () => {
-  const crew = new Posada(100, 300)
-  const rifle = new Strelac(200, 300)
-  for (const actor of [crew, rifle]) actor.onload()
-  const audio = new SceneAudio()
-  audio.sync([crew, rifle], 'running')
-  crew.play('load')
-  crew.play('load')
-  assert.equal(crew.loadSound.audio.plays, 1)
+  assert.equal(cannon.shotSound.playback.voices.size, 1)
+  crew.play('load'); crew.play('load')
+  assert.equal(crew.loadSound.playback.voices.size, 1)
   crew.fire()
-  assert.ok(crew.loadSound.audio.paused)
+  assert.equal(crew.loadSound.playing, false)
   rifle.update(2.9)
-  assert.equal(rifle.shotSound.audio.plays, 0)
+  assert.equal(rifle.shotSound.playback.voices.size, 0)
   rifle.update(.1)
-  assert.equal(rifle.animation.name, 'fire')
-  assert.equal(rifle.shotSound.audio.plays, 1)
-  rifle.resetRound()
-  assert.ok(rifle.shotSound.audio.paused)
+  assert.equal(rifle.shotSound.playback.voices.size, 1)
+  cannon.resetRound()
+  assert.equal(cannon.flightSound, undefined)
+  for (const owner of [cannon, ...cannon.projektili])
+    for (const sound of owner.sounds) assert.equal(sound.playing, false)
 })
 
-test('wind, visible aircraft and burning objects each own their continuous sound', () => {
+test('aircraft outside the image stay logical sources and wrap revisions reset their motion', async t => {
+  const { audio } = await audioFor(t)
+  const plane = new Airplane({ x: -200, y: 100, flammable: false })
+  plane.width = 100; plane.height = 30
+  audio.sync([plane], 'running')
+  plane.update(0)
+  assert.equal(plane.engineSound.desired, true)
+  const revision = plane.audioRevision ?? 0
+  plane.reset()
+  assert.ok(plane.audioRevision > revision)
+  plane.alive = false
+  plane.update(0)
+  assert.equal(plane.engineSound.desired, false)
   const wind = new Wind()
-  const plane = new Airplane({ x: 200, y: 100, flammable: false })
-  plane.width = 100
-  plane.height = 30
-  const burning = new GameObject2D(null, { x: 100, y: 100, flammable: true, alive: false })
-  burning.flame = { update() {} }
-  const audio = new SceneAudio()
-  audio.sync([wind, plane, burning], 'running')
-  wind.update()
-  plane.update(0)
-  burning.update(0)
-  for (const sound of [wind.windSound, plane.engineSound, burning.burnSound]) assert.equal(sound.audio.paused, false)
-  wind.enabled = false
-  plane.hide()
-  burning.alive = true
-  wind.update()
-  plane.update(0)
-  burning.update(0)
-  for (const sound of [wind.windSound, plane.engineSound, burning.burnSound]) assert.ok(sound.audio.paused)
+  const burning = new GameObject2D(null, { x: 20, y: 20, alive: false })
+  assert.equal(wind.windSound.options.profile, 'ambience')
+  assert.equal(burning.alive, false)
 })
 
-test('tank sound follows the weapon cooldown and its dynamically pooled shells belong to the scene audio', () => {
+test('tank gun uses the supplied muzzle and a denied cooldown creates no extra shot', async t => {
+  const { audio } = await audioFor(t)
   const tank = new Tenk(null, { clock: new GameClock(), groundY: 600 })
-  const audio = new SceneAudio()
   audio.sync([tank], 'running')
-  tank.fire({ x: 100, y: 100 }, 0)
-  tank.fire({ x: 100, y: 100 }, 0)
-  audio.sync([tank], 'running')
-  assert.equal(tank.shotSound.audio.plays, 1)
-  assert.equal(tank.loadSound.audio.plays, 1)
-  assert.equal(tank.granate.projectiles[0].flightSound.audio.plays, 1)
-  audio.end()
-  assert.ok(tank.granate.projectiles[0].flightSound.audio.paused)
+  tank.fire({ x: 123, y: 99 }, 0)
+  tank.fire({ x: 999, y: 999 }, 0)
+  assert.equal(tank.shotSound.playback.voices.size, 1)
+  const voice = tank.shotSound.playback.audio
+  assert.deepEqual(voice.spatialModel.position, { x: 1.23, y: -.99, z: 0 })
 })
 
-test('the real Ustanak scene switches fire by round and silences all owners on pause, result and exit', t => {
+test('Ustanak listener remains the left cannon in 1P and switches only when flight settles in 2P', async t => {
+  t.mock.method(HTMLCanvasElement.prototype, 'getContext', () => ({}))
   const scene = new Ustanak()
+  const previous = scene.sceneAudio
+  const { audio } = await audioFor(t, { coordinates: previous.output.coordinates, getListener: previous.output.getListener })
+  previous.end()
+  scene.sceneAudio = audio
   scene.init()
   scene.clear = () => {}
-  t.mock.method(scene.gameLoop, 'start', () => { scene.gameLoop.loopId = 1 })
   t.after(() => scene.end())
-  scene.start()
-  scene.update(0)
-  assert.equal(scene.wind.windSound.audio.paused, false)
-  assert.ok(scene.battlefield.villageFire.fireSound.audio.paused)
-  scene.round = 2
-  scene.setRoundScenery()
-  assert.equal(scene.battlefield.villageFire.fireSound.audio.paused, false)
-  scene.pause()
-  for (const sound of scene.sceneAudio.sounds) assert.ok(sound.audio.paused)
-  scene.unpause()
-  assert.equal(scene.battlefield.villageFire.fireSound.audio.paused, false)
-  scene.round = 3
-  scene.setRoundScenery()
-  assert.ok(scene.battlefield.villageFire.fireSound.audio.paused)
-  assert.equal(scene.battlefield.city.fireSound.audio.paused, false)
-  scene.victory('Done')
-  assert.ok(scene.battlefield.city.fireSound.audio.paused)
-  assert.equal(scene.ui.victorySound.audio.paused, false)
-  scene.end()
-  assert.ok(scene.ui.victorySound.audio.paused)
+  const listener = () => audio.output.getListener().identity
+  assert.equal(listener(), scene.top)
+  scene.turns.fire(0); scene.turns.settle(false)
+  assert.equal(listener(), scene.top, 'AI turn never changes the 1P listener')
+  scene.vsComputer = false
+  assert.equal(listener(), scene.opponent)
+  scene.turns.fire(1)
+  assert.equal(scene.turns.settle(true), false)
+  assert.equal(listener(), scene.opponent)
+  scene.turns.settle(false)
+  assert.equal(listener(), scene.top)
+})
+
+test('a living speaker follows its owner and ends on removal while ordinary shots retain their fixed origins', async t => {
+  const { audio } = await audioFor(t)
+  const owner = { position: { x: 100, y: 0 }, sounds: [] }
+  const speech = new SoundSource('speech.ogg', { profile: 'speech', follow: true, spatial: { getPosition: () => owner.position } })
+  owner.sounds.push(speech)
+  audio.sync([owner], 'running')
+  const voice = speech.play()
+  await voice.started
+  owner.position.x = 200
+  audio.update(.1)
+  assert.equal(voice.spatialState.distance, 2)
+  audio.sync([], 'running')
+  assert.equal(voice.disposed, true)
+})
+
+test('a loop declared while audio is locked creates no repeated handles and starts after activation', async t => {
+  const { engine, context, stats } = fixture()
+  const audio = new SceneAudio({ engine })
+  t.after(async() => { audio.end(); await engine.dispose() })
+  const sound = new SoundSource('locked-loop.ogg', { loop: true, profile: 'ambience' })
+  const root = { sounds: [sound] }
+  sound.play()
+  for (let i = 0; i < 100; i++) audio.sync([root], 'running')
+  assert.equal(audio.output.playbacks.size, 0)
+  assert.equal(stats.contexts, 0)
+  assert.equal(stats.fetches, 0)
+  await audio.unlock()
+  audio.sync([root], 'running')
+  await sound.playback.audio.play()
+  audio.sync([root], 'running')
+  assert.equal(context.sources.length, 1)
+  assert.equal(sound.desired, true)
+  assert.equal(sound.playback.audio.paused, false)
+})
+
+test('a failed loop does not retry on every frame and the next explicit activation can recover', async t => {
+  let fetches = 0
+  const { engine } = fixture({ fetchFile: async() => {
+    if (++fetches === 1) throw new Error('recording unavailable')
+    return { ok: true, arrayBuffer: async() => new ArrayBuffer(1) }
+  } })
+  const audio = new SceneAudio({ engine })
+  t.after(async() => { audio.end(); await engine.dispose() })
+  await audio.unlock()
+  const sound = new SoundSource('recover-loop.ogg', { loop: true, profile: 'ambience' })
+  const root = { sounds: [sound] }
+  audio.sync([root], 'running')
+  sound.setPlaying(true)
+  await assert.rejects(sound.playback.audio.play(), /recording unavailable/)
+  for (let i = 0; i < 100; i++) {
+    audio.sync([root], 'running')
+    sound.setPlaying(true)
+  }
+  assert.equal(fetches, 1)
+  await audio.unlock()
+  audio.sync([root], 'running')
+  await sound.playback.audio.play()
+  assert.equal(fetches, 2)
+  assert.equal(sound.playback.audio.paused, false)
 })

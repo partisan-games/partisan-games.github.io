@@ -31,6 +31,7 @@ export default class LedCityScene extends Scene3D {
     const player = new Avatar({ size: .5, camera: this.camera, solids: city })
     player.chaseCamera.distance = 1.75
     player.putInMaze(maze)
+    this.audioPlayer = () => player
     this.add(player)
   }
 

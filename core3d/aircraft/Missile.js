@@ -1,4 +1,6 @@
 import * as THREE from 'three'
+import Sound from '/core/io/audio/SoundSource.js'
+import { audioPoint } from '/core/io/audio/audio3d.js'
 import GameObject from '/core3d/objects/GameObject.js'
 import { getSize } from '/core3d/helpers.js'
 
@@ -14,6 +16,8 @@ export default class Missile extends GameObject {
     this.range = 300
     this.initPosition = pos.clone()
     this.explosion = explosion
+    this.thrustSound = new Sound('rocket-thrust.mp3', { volume: .3, loop: true, profile: 'flight', spatial: audioPoint(this) })
+    this.sounds.push(this.thrustSound)
   }
 
   get direction() {
@@ -49,6 +53,8 @@ export default class Missile extends GameObject {
     if (intersects.length) {
       const { point } = intersects[0]
       this.explosion.reset({ pos: point, unitAngle: 0.2 })
+      this.thrustSound.stop()
+      this.audioScene?.emit('explosion.mp3', { profile: 'explosion', spatial: { position: point } })
       this.energy = 0
     }
   }

@@ -1,3 +1,4 @@
+import Sound from '/core/io/audio/SoundSource.js'
 import TopDownPlayerBoat from '/core/actor/TopDownPlayerBoat.js'
 import canvas2d from '/core/io/canvas2d.js'
 import ProjectilePool from '/core/actor/ProjectilePool.js'
@@ -15,8 +16,14 @@ export default class Boat extends TopDownPlayerBoat {
     this.viewLeft = viewLeft
     this.startX = startX
     this.session = session
+    this.shotSound = new Sound('rifle.mp3', { profile: 'rifle', spatial: { getPosition: () => this.muzzle } })
+    this.sounds.push(this.shotSound)
+    this.engineSound = new Sound('engine-boat.mp3', { steady: true, loop: true, profile: 'engine', spatial: { getPosition: () => this.position, getRevision: () => this.lifeId } })
+    this.sounds.push(this.engineSound)
+    this.wakeSound = new Sound('water-wake.mp3', { volume: .2, mixOffset: -1, loop: true, profile: 'water', spatial: { getPosition: () => this.position } })
+    this.sounds.push(this.wakeSound)
     this.combatLife = new CombatLife({ session, onDeath: () => this.stop() })
-    this.bullets = new ProjectilePool({ owner: this, create: () => new BoatBullet(viewLeft) })
+    this.bullets = new ProjectilePool({ owner: this, onFire: () => this.shotSound.play(), create: () => new BoatBullet(viewLeft) })
     this.bullets.prepare(8)
     this.weapon = new Weapon({
       cooldown: new Cooldown({ seconds: .18, clock: session.clock }),
@@ -51,6 +58,8 @@ export default class Boat extends TopDownPlayerBoat {
   }
 
   update(dt) {
+    this.engineSound.setPlaying(!this.dead)
+    this.wakeSound?.setPlaying(!this.dead && Math.hypot(this.dx, this.dy) > 20)
     if (!this.dead && !this.controlsLocked) super.update(dt)
   }
 

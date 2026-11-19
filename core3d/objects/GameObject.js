@@ -32,6 +32,7 @@ export default class GameObject {
       this.mesh = mesh.clone()
 
     this.name = name
+    this.sounds = []
     this.#health = new Health({ maximum: energy })
     owners.set(this.mesh, this)
 

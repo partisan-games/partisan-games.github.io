@@ -1,9 +1,14 @@
 import canvas2d, { ctx } from '/core/io/canvas2d.js'
+import Sound from '/core/io/audio/SoundSource.js'
 
 /** Bounded world-space effects; rendering never advances their lifetime. */
 export default class WaterEffects {
   constructor({ session, viewLeft }) {
     this.session = session
+    const spatial = { getPosition: () => this.hitPoint }
+    this.metalSound = new Sound('metal-impact.mp3', { volume: .4, profile: 'impact', spatial })
+    this.groundSound = new Sound('body-impact-01.mp3', { volume: .4, profile: 'impact', spatial })
+    this.sounds = [this.metalSound, this.groundSound]
     this.viewLeft = viewLeft
     this.wakes = Array.from({ length: 96 }, () => ({ life: 0 }))
     this.hits = Array.from({ length: 24 }, () => ({ life: 0 }))
@@ -44,6 +49,8 @@ export default class WaterEffects {
   }
 
   hit(x, y, onWater) {
+    this.hitPoint = { x, y }
+    ;(onWater ? this.metalSound : this.groundSound).play()
     const hit = this.hits[this.hitIndex++ % this.hits.length]
     Object.assign(hit, { x, y, onWater, life: .35 })
   }

@@ -2,9 +2,7 @@ import Sprite from '/core/actor/Sprite.js'
 import canvas2d, { ctx } from '/core/io/canvas2d.js'
 import mouse from '/core/io/mouse.js'
 import { randomInRange } from '/core/utils.js'
-import { createSound, randomVolume } from '/core/io/sound.js'
-
-const rafal = createSound('rafal.mp3')
+import Sound from '/core/io/audio/SoundSource.js'
 
 export default class Occupier extends Sprite {
   constructor({ callback } = {}) {
@@ -15,6 +13,8 @@ export default class Occupier extends Sprite {
     this.callback = callback
     this.shootingImage = new Image()
     this.shootingImage.src = '/assets/images/pucanje.png'
+    this.burstSound = new Sound('rafal.mp3', { profile: 'rifle', spatial: { getPosition: () => this.position } })
+    this.sounds.push(this.burstSound)
     this.hasFired = false
     this.walked = 0
     this.walkTime = randomInRange(700, 3200)
@@ -31,8 +31,7 @@ export default class Occupier extends Sprite {
   fire(dt) {
     this.setAnimation('nadole', false)
     this.stop()
-    rafal.volume = randomVolume()
-    rafal.play()
+    this.burstSound.play()
     this.hasFired = true
     if (this.callback) this.callback(dt)
   }

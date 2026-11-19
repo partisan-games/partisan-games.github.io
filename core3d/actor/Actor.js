@@ -2,7 +2,8 @@ import * as THREE from 'three'
 import GameObject from '/core3d/objects/GameObject.js'
 import { getGroundY, directionBlocked, intersect, belongsTo, arrowHelper } from '/core3d/helpers.js'
 import { dir, reactions, jumpStyles, baseStates } from '/core3d/constants.js'
-import { createSound, randomVolume } from '/core/io/sound.js'
+import Sound from '/core/io/audio/SoundSource.js'
+import { audioPoint, audioPosition } from '/core/io/audio/audio3d.js'
 import FSM from './FSM.js'
 import { isDev } from '/config.js'
 import Animator from './Animator.js'
@@ -41,6 +42,7 @@ export default class Actor extends GameObject {
     leaveDecals = attackDistance > 9,
     useRicochet = attackDistance > 9,
     attackSound = '',
+    attackProfile = 'rifle',
     altitude = 0, // for flying objects
     shouldRaycastGround = Boolean(altitude),
     useFlame = null,
@@ -78,8 +80,20 @@ export default class Actor extends GameObject {
     if (animations?.length && animDict)
       this.anim = new Animator({ mesh: this.mesh, animations, animDict, twoHandedWeapon, rightHandWeapon, isAi: this.name !== 'player' })
 
-    if (attackSound)
-      this.audio = createSound(attackSound)
+    if (attackSound) {
+      this.audio = new Sound(attackSound, { profile: attackProfile, spatial: audioPoint(this) })
+      this.sounds.push(this.audio)
+    }
+    this.stepSound = new Sound('footstep-gravel-01.mp3', { variants: Array.from({ length: 11 }, (_, i) => `footstep-gravel-${String(i + 2).padStart(2, '0')}.mp3`), profile: 'footstep', spatial: audioPoint(this) })
+    this.impactSound = new Sound('body-impact-01.mp3', { variants: ['body-impact-02.mp3', 'body-impact-03.mp3', 'body-impact-04.mp3'], profile: 'impact', spatial: audioPoint(this) })
+    this.sounds.push(this.stepSound, this.impactSound)
+    this.audioPreviousPosition = audioPosition(this.mesh).clone()
+    this.audioStepDistance = 0
+    this.audioWasAirborne = false
+    if (useFlame) {
+      this.fireSound = new Sound('fire.mp3', { loop: true, volume: .2, profile: 'fire', spatial: audioPoint(this) })
+      this.sounds.push(this.fireSound)
+    }
 
     if (mapSize) {
       const halfMap = mapSize / 2
@@ -225,9 +239,7 @@ export default class Actor extends GameObject {
   }
 
   playAttackSound() {
-    this.audio.currentTime = 0
-    this.audio.volume = randomVolume()
-    this.audio.play()
+    this.audio?.play()
   }
 
   addRicochet(pos, color) {
@@ -291,6 +303,7 @@ export default class Actor extends GameObject {
       return
     }
 
+    this.impactSound.play()
     this.applyDamage()
 
     if (this.dead) {
@@ -368,5 +381,20 @@ export default class Actor extends GameObject {
 
     if (this.useRicochet) this.ricochet?.expand({ velocity: 1.2, maxRounds: 5, gravity: .02 })
     this.flame?.update(delta, t, { max: this.attackDistance, loop: this.shouldLoop })
+    this.fireSound?.setPlaying(Boolean(this.shouldLoop && !this.dead))
+    const point = audioPosition(this.mesh)
+    const moved = point.distanceTo(this.audioPreviousPosition)
+    const airborne = ['jump', 'fall'].includes(this.state) || !this.onGround || Boolean(this.altitude)
+    if (!this.dead && this.audioWasAirborne && !airborne) this.impactSound.play()
+    if (!this.dead && !airborne && !['idle', 'attack', 'pain', 'death'].includes(this.state) && moved < Math.max(1, this.speed * delta * 4)) {
+      this.audioStepDistance += moved
+      const stride = Math.max(.25, this.height * .4)
+      if (this.audioStepDistance >= stride) {
+        this.audioStepDistance %= stride
+        this.stepSound.play()
+      }
+    } else this.audioStepDistance = 0
+    this.audioWasAirborne = airborne
+    this.audioPreviousPosition.copy(point)
   }
 }

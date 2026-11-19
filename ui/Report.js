@@ -1,4 +1,4 @@
-import { createSound } from '/core/io/sound.js'
+import Sound from '/core/io/audio/SoundSource.js'
 
 const css = /* css */`
   @font-face {
@@ -83,15 +83,15 @@ export default class Report {
 
     if (!style.isConnected) document.head.appendChild(style)
 
-    this.audio = createSound('typing.mp3')
+    this.audio = new Sound('typing.mp3', { stream: true, profile: 'ui', beforeStart: true, autoplay: true })
+    this.sounds = [this.audio]
     this.init()
   }
 
   init() {
     if (this.intervalId) return
     this.intervalId = setInterval(this.kucaj, 80)
-    // the typing sound is optional: the browser may block it, and stop() may pause it before it starts
-    this.audio.play().catch(() => {})
+    // The scene attaches the optional typing track; no media is created outside its audio session.
   }
 
   kucaj = () => {
@@ -101,7 +101,7 @@ export default class Report {
   }
 
   stop() {
-    this.audio.pause()
+    this.audio.stop()
     clearInterval(this.intervalId)
   }
 }

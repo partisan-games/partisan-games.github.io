@@ -26,6 +26,7 @@ export default class CamacScene extends Scene2D {
     this.obala = new Obala(() => this.cameraX)
     this.add(this.obala)
     this.waterEffects = new WaterEffects({ session: this.session, viewLeft: () => this.cameraX })
+    this.audioChildren.push(this.waterEffects)
     this.add(...this.waterEffects.drawables)
     this.addCombatant(this.player, 'partisan')
     this.encounter = new SBoatEncounter({ session: this.session, viewLeft: () => this.cameraX, target: this.player })
