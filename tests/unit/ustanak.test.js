@@ -128,7 +128,7 @@ test('round wind stays constant, can be disabled and is shared by both cannons',
 test('wind does not move a hidden shell or a confirmed impact awaiting damage', () => {
   const session = new GameSession()
   session.start()
-  const shell = new Djule({ clock: session.clock, wind: new Wind({ random: () => .75 }) })
+  const shell = new Djule({ clock: session.clock, wind: new Wind({ random: () => .75 }), ground: new Terrain({ floorY: 500 }) })
   shell.update(.1)
   assert.equal(shell.dx, 0)
   shell.launch({ x: 500, y: 100 }, 0, 300)

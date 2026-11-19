@@ -2,10 +2,9 @@ import { assets } from '/config.js'
 import PozadinaGrada from '/scenes/tenkici/PozadinaGrada.js'
 import VillageFire from './VillageFire.js'
 import imageReady from '/core/io/imageReady.js'
+import GroundLayer from './GroundLayer.js'
 
 const villageGroundRatio = .806
-// The ground is seen at a shallow angle, so a round crater looks flat.
-const craterFlattening = .32
 
 const image = src => {
   const result = new Image()
@@ -13,28 +12,28 @@ const image = src => {
   return result
 }
 
-/** The background of each round, with the craters the shells leave in its ground. */
+/** The background of each round, with the front layer of earth that shells cut into. */
 export default class Battlefield {
   constructor({ canvas, groundY, wind, terrain }) {
     this.canvas = canvas
     this.ctx = canvas.getContext('2d')
     this.groundY = groundY
     this.wind = wind
-    this.terrain = terrain
     this.time = 0
     this.mountains = image('background/planine.png')
     this.village = image('background/crnogorsko-selo-1941-pixel.png')
-    this.crater = image('items/krateri/krater.gif')
     this.villageFire = new VillageFire({ canvas, groundY })
     // The city artwork's street begins at 395/543 of its height.
     this.cityViewport = { width: canvas.width, height: groundY * 543 / 395, getContext: () => this.ctx }
     this.city = new PozadinaGrada(this.cityViewport)
     this.audioChildren = [this.villageFire, this.city]
+    this.ground = new GroundLayer({ width: canvas.width, height: canvas.height, floorY: terrain.floorY })
+    terrain.view = this.ground
     this.round = 1
   }
 
   loaded() {
-    return Promise.all([this.mountains, this.village, this.crater, this.city.image].map(img => imageReady(img)))
+    return Promise.all([...[this.mountains, this.village, this.city.image].map(img => imageReady(img)), this.ground.loaded()])
   }
 
   update(dt) {
@@ -62,16 +61,6 @@ export default class Battlefield {
     ctx.fillRect(0, groundY - 10, canvas.width, 10)
   }
 
-  craters() {
-    if (!this.terrain || !this.crater.complete || !this.crater.naturalWidth) return
-    for (const { x, radius, depth } of this.terrain.craters) {
-      const width = radius * 2.4
-      // Deep enough for a unit that sank into it to stand inside the hollow.
-      const height = Math.max(width * craterFlattening, depth * 2.2)
-      this.ctx.drawImage(this.crater, x - width / 2, this.terrain.floorY - height / 2, width, height)
-    }
-  }
-
   render(round) {
     this.ctx.save()
     this.ctx.imageSmoothingEnabled = false
@@ -90,7 +79,7 @@ export default class Battlefield {
       this.cityViewport.width = this.canvas.width
       this.city.render(undefined, this.wind ? this.wind.drift * this.city.efekti.width / this.canvas.width : undefined)
     } else this.landscape()
-    this.craters()
+    this.ground.render(this.ctx)
     this.ctx.restore()
   }
 }

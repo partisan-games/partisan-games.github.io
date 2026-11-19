@@ -47,7 +47,8 @@ export default class UstanakScene extends Scene2D {
     this.instructionsShown = false
     this.wind = new Wind()
     this.windEffects = new WindEffects(this.wind)
-    this.terrain = new Terrain({ floorY: Top.floorY(cannonY) })
+    // Craters stop 8 px above the bottom of the screen, so the layer never opens to nothing.
+    this.terrain = new Terrain({ floorY: Top.floorY(cannonY), width: canvas2d.width, bottom: canvas2d.height - 8 })
     this.battlefield = new Battlefield({ canvas: this.canvas, groundY: groundLevel, wind: this.wind, terrain: this.terrain })
     this.audioChildren = [this.wind, this.battlefield]
     this.bunker = new Bunker({ x: canvas2d.width * .75, alive: false, smoky: true, z: 1 })
@@ -177,6 +178,7 @@ export default class UstanakScene extends Scene2D {
   update(dt, t) {
     this.wind.update(dt)
     this.battlefield.update(dt)
+    this.terrain.update(dt)
     super.update(dt, t)
     for (const cannon of [this.top, this.opponent]) cannon.resolveShots()
     this.windEffects.update(this.children, dt)
@@ -255,6 +257,11 @@ export default class UstanakScene extends Scene2D {
   unpause() {
     super.unpause()
     if (this.roundWinner !== null && !this.ui.outro) this.showRoundResult()
+  }
+
+  end() {
+    super.end()
+    this.battlefield?.ground.dispose()
   }
 
   sceneUI() {

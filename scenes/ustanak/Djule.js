@@ -74,6 +74,13 @@ export default class Djule extends Shell {
     } else this.reset()
   }
 
+  /** A hit explodes on the target and still leaves a crater in the ground beneath it. */
+  strike(target) {
+    if (this.timerId) return
+    super.strike(target)
+    this.ground.blast(this.x)
+  }
+
   land() {
     this.stop()
     this.explode()

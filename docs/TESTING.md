@@ -45,6 +45,10 @@ Low-end acceptance still requires comparing identical scenes with and without so
 
 After permission, run the targeted audio/scene tests and changed-file lint/import checks first. Then use one browser sequentially: Ustanak 1P/2P and replay; offscreen aircraft and scrolling 2D worlds; moving patrol speech; parented 3D player/FPS and vehicle orientation; tank muzzle/contact, Lander thrust/landing, Warplane missile/crash; pause, tab return and scene replacement. Listen to near/middle/far and crossing sources on headphones, stereo and mono. Finally compare the same workload with/without audio on an identified slow device using the fixture below; do not infer performance from voice caps alone.
 
+## Ustanak terrain checks · 2026-11-20
+
+Unit tests (563), lint and `npm run check` pass. [Terrain cases](../tests/unit/ustanakTerrain.test.js) cover the crater shape, deepening to the bottom, a shell landing in a crater and on its far wall, units falling with gravity (cannon collider included), a new round, and the drawn layer cutting the same floors as the height map. One headless Chrome took a screenshot of each round with craters cut by `Terrain.blast` in the running game, including one under the enemy cannon. The agent did not play a match; the owner played one and accepted the terrain (2026-11-20).
+
 ## Unit tests (`tests/unit/`)
 
 - [Audio engine tests](../tests/unit/audioEngine.test.js) use injected fake context, network and media factories to cover lazy activation and retry, shared decoding, request cancellation across owners, late completion, load recovery, pause cursors, streamed music routing/resource recovery and extensible source descriptors. They also cover SceneAudio opt-in without multiplying the main volume twice; [scene tests](../tests/unit/Scene.test.js) distinguish automatic startup and synthetic clicks from trusted input. These tests were prepared for ZV-02 and have not been run; real autoplay, decoding and playback remain unverified.
