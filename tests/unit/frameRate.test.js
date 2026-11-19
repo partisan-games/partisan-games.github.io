@@ -47,33 +47,32 @@ const holding = (t, codes, seconds, measure) => async fps => {
   return measure(scene)
 }
 
-test('in franjo-kluz the scenery speeds up and rises as fast at 30 as at 60 frames per second', async t => {
+test('in franjo-kluz the plane speeds up and climbs as fast at 30 as at 60 frames per second', async t => {
   const measureAt = async(codes, seconds, measure) => {
     const run = holding(t, codes, seconds, measure)
     return { 60: await run(60), 30: await run(30) }
   }
 
-  const speed = await measureAt(['ArrowUp', 'ArrowRight'], 1.5, scene => scene.brzinaScene)
-  assertSameAt30And60(fps => speed[fps], 'scenery speed')
+  const speed = await measureAt(['ArrowUp', 'ArrowRight'], 1.5, scene => scene.player.airspeed)
+  assertSameAt30And60(fps => speed[fps], 'airspeed')
 
-  const height = await measureAt(['ArrowUp'], 4, scene => scene.dignutostScene)
-  assert.ok(height[60] > 0, 'the scenery rose')
-  assertSameAt30And60(fps => height[fps], 'scenery height')
+  const height = await measureAt(['ArrowUp'], 4, scene => -scene.cameraY)
+  assert.ok(height[60] > 0, 'the view rose with the plane')
+  assertSameAt30And60(fps => height[fps], 'view height')
 })
 
-test('in franjo-kluz the scenery slows down on the ground as fast at 30 as at 60 frames per second', async t => {
+test('in franjo-kluz the plane rolls out on the ground as fast at 30 as at 60 frames per second', async t => {
   const results = {}
   for (const fps of [60, 30]) {
     const scene = await createFranjoKluz(t)
     // landed: images do not load in unit tests, so the plane has no height of its own
     scene.player.height = 20
-    scene.player.y = scene.player.groundLevel - 10
-    scene.pocniParalax()
+    scene.player.y = scene.player.groundY - 10
     play(scene, .25, fps)
-    results[fps] = scene.zbunovi[0].dx
+    results[fps] = scene.player.airspeed
   }
-  assert.ok(results[60] < 0 && results[60] > -312, `the bushes slow down but still move: ${results[60]}`)
-  assertSameAt30And60(fps => results[fps], 'bush speed')
+  assert.ok(results[60] > 0 && results[60] < 312, `the plane slows down but still rolls: ${results[60]}`)
+  assertSameAt30And60(fps => results[fps], 'airspeed on the ground')
 })
 
 test('a tenkici tank rolls as far at 30 as at 60 frames per second after a push', async() => {

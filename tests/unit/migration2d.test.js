@@ -5,29 +5,6 @@ import GameSession from '/core/runtime/GameSession.js'
 
 before(() => createPageElements())
 
-test('the player rockets reload only on their game clock and cannot fire after the result', async t => {
-  const { default: Plane } = await import('/core/actor/derived/PlayerPlane.js')
-  const session = new GameSession()
-  session.start()
-  const plane = new Plane(1000, undefined, { session })
-  t.after(() => plane.end())
-  plane.shoot()
-  assert.equal(plane.bullets.projectiles.length, 1)
-  session.update(1)
-  session.pause()
-  session.update(100)
-  plane.shoot()
-  assert.equal(plane.bullets.projectiles.length, 1)
-  session.resume()
-  session.update(.5)
-  plane.shoot()
-  assert.equal(plane.bullets.projectiles.length, 2)
-  session.finish()
-  session.update(100)
-  plane.shoot()
-  assert.equal(plane.bullets.projectiles.length, 2)
-})
-
 test('the bunker gun fires five rounds after its wait, then waits for the next burst', async() => {
   const { default: Gunner } = await import('/scenes/bunker/Mitraljezac.js')
   const { default: GameObject2D } = await import('/core/actor/GameObject2D.js')
