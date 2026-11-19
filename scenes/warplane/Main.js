@@ -19,7 +19,7 @@ const groundDistance = mapSize * .99
 const endDelay = 2.5 // seconds between the end of the flight and the end screen
 const planes = ['Biplane', 'Triplane', 'Messerschmitt', 'Bomber', 'F18']
 
-const customStartScreen = ({ container }) => {
+const customStartScreen = ({ container, button, mainMenuButton }) => {
   const options = planes
     .map(name => `<input type="image" id="${name}" src="${assets.images}scenes/warplane/${name}.webp" />`)
     .join('')
@@ -27,6 +27,7 @@ const customStartScreen = ({ container }) => {
   return /* html */`
     <div class="central-screen ${container}">
         <h2>Choose your aircraft</h2>
+        ${mainMenuButton(button)}
         <div class="game-screen-select">
             ${options}
         </div>

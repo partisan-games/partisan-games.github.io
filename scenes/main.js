@@ -1,5 +1,6 @@
 import SceneManager from './SceneManager.js'
 import Arcade from '/ui/Arcade.js'
+import { mainMenuButton } from '/ui/UI.js'
 
 const manager = new SceneManager()
 const elementUI = document.getElementById('ui')
@@ -12,7 +13,7 @@ const showError = title => {
   modalElement.innerHTML = /* html */`
     <div class="central-screen flex-column simple-container">
       <h3 class="red">${title}</h3>
-      <button class="default-button" id="menu"><span class="icon">☰</span> Main menu</button>
+      ${mainMenuButton('default-button')}
     </div>
   `
 }

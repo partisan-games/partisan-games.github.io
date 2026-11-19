@@ -1,12 +1,16 @@
-import { isTouchScreen } from '/config.js'
+import config, { isTouchScreen } from '/config.js'
 import Controls from '../ui/Controls.js'
 import Report from './Report.js'
 import { currentStyleClasses, setUiStyle } from './styles.js'
 import Sound from '/core/io/audio/SoundSource.js'
+import { setVolume } from './settings.js'
 
 const elementUI = document.getElementById('ui')
 const modalElement = document.getElementById('modal')
 // the UI that last drew into each shared element; a game ended late must not wipe the next game's screen
+/** On every screen the top button goes back to the main menu, like Esc; the bottom one confirms or carries on. */
+export const mainMenuButton = buttonClass => /* html */`<button class="${buttonClass}" id="menu"><span class="icon">☰</span> Main menu</button>`
+
 const drawnBy = new Map([[elementUI, null], [modalElement, null]])
 
 const draw = (element, ui, html) => {
@@ -54,12 +58,19 @@ export default class UI {
     this.onStart = onStart
     this.onContinue = onContinue
     if (onStart || onContinue) modalElement.addEventListener('click', this.handleScreenClick)
+    modalElement.addEventListener('input', this.handleScreenInput)
   }
 
   handleScreenClick = e => {
     const id = e.target.closest('button')?.id
     if (id === 'start') this.onStart?.()
     if (id === 'continue') this.onContinue?.()
+    if (id === 'settings') this.showScreen('pause', this.settingsScreen())
+    if (id === 'settings-back') this.showScreen('pause', this.escModal())
+  }
+
+  handleScreenInput = e => {
+    if (e.target.id === 'volume') setVolume(e.target.value / 100)
   }
 
   clear() {
@@ -87,12 +98,13 @@ export default class UI {
 
   startScreen() {
     const classes = currentStyleClasses()
-    if (this.customStartScreen) return this.customStartScreen(classes)
+    if (this.customStartScreen) return this.customStartScreen({ ...classes, mainMenuButton })
 
     const { container, button } = classes
     return /* html */`
       <div class="central-screen flex-column ${container}" id="start-screen">
         <p>${this.intro}</p>
+        ${mainMenuButton(button)}
         <button class="${button}" id="start"><span class="icon">🔥</span> ${this.startButtonText}</button>
       </div>
     `
@@ -103,9 +115,24 @@ export default class UI {
     return /* html */`
       <div class="central-screen flex-column ${container}">
         <h3 class="olive">Game paused</h3>
-        <button class="${button}" id="continue"><span class="icon">🔥</span> Continue</button>
-        <button class="${button}" id="menu"><span class="icon">☰</span> Main menu</button>
+        ${mainMenuButton(button)}
+        <button class="${button}" id="settings"><span class="icon">⚙️</span> Settings</button>
         <button class="${button}" id="igraj-opet"><span class="icon">↻</span> Play again</button>
+        <button class="${button}" id="continue"><span class="icon">🔥</span> Continue</button>
+      </div>
+    `
+  }
+
+  /** Shared by every game; more settings join the volume here. */
+  settingsScreen() {
+    const { container, button } = currentStyleClasses()
+    return /* html */`
+      <div class="central-screen flex-column ${container}">
+        <h3 class="olive"><span class="icon">⚙️</span> Settings</h3>
+        ${mainMenuButton(button)}
+        <label for="volume">Volume</label>
+        <input type="range" id="volume" min="0" max="100" step="5" value="${Math.round(config.volume * 100)}">
+        <button class="${button}" id="settings-back"><span class="icon">←</span> Back</button>
       </div>
     `
   }
@@ -115,7 +142,7 @@ export default class UI {
     return /* html */`
       <div class="central-screen flex-column ${container}">
         ${this.outro}
-        <button class="${button}" id="menu"><span class="icon">☰</span> Main menu</button>
+        ${mainMenuButton(button)}
         <button class="${button}" id="igraj-opet"><span class="icon">↻</span> Play again</button>
       </div>
     `
@@ -180,6 +207,7 @@ export default class UI {
   end() {
     this.ended = true
     modalElement.removeEventListener('click', this.handleScreenClick)
+    modalElement.removeEventListener('input', this.handleScreenInput)
     this.clear()
     this.messageElement.remove()
     this.report?.stop()

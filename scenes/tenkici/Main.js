@@ -8,9 +8,10 @@ import Controls, { tankLeftControls, tankRightControls } from '/ui/Controls.js'
 
 const groundLevel = canvas2d.height * 0.8
 
-const customStartScreen = ({ container }) => /* html */`
+const customStartScreen = ({ container, mainMenuButton }) => /* html */`
   <div class="central-screen ${container}">
     <h2>Choose mode</h2>
+    ${mainMenuButton('bg-olive')}
     <button class="bg-olive" id="jedan-igrac" >
       1 player
     </button>

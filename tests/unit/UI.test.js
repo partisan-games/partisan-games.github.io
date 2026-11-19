@@ -102,3 +102,66 @@ test('start screen reports share one stylesheet', async() => {
   container.remove()
 })
 
+test('the pause screen opens shared settings whose volume slider changes and remembers the game volume', async() => {
+  const { default: config } = await import('/config.js')
+  const original = config.volume
+  const ui = new UI(fakeScene, { onContinue() {} })
+  const modal = document.getElementById('modal')
+  const click = id => modal.querySelector(`#${id}`).dispatchEvent(new Event('click', { bubbles: true }))
+  ui.showPauseScreen()
+  click('settings')
+  const slider = modal.querySelector('#volume')
+  assert.equal(Number(slider.value), Math.round(original * 100))
+  slider.value = '70'
+  slider.dispatchEvent(new Event('input', { bubbles: true }))
+  assert.equal(config.volume, .7)
+  assert.equal(JSON.parse(localStorage.getItem('partisan-games-settings')).volume, .7)
+  click('settings-back')
+  assert.match(modal.textContent, /Game paused/)
+  assert.equal(ui.screen, 'pause')
+  ui.end()
+  config.volume = original
+  localStorage.removeItem('partisan-games-settings')
+})
+
+test('saved settings survive a reload, and broken or missing values keep the default', async() => {
+  const { default: config } = await import('/config.js')
+  const { loadSettings, setVolume } = await import('/ui/settings.js')
+  const original = config.volume
+  const values = new Map()
+  const storage = { getItem: key => values.get(key) ?? null, setItem: (key, value) => values.set(key, value) }
+  setVolume(2, storage)
+  assert.equal(config.volume, 1, 'clamped')
+  config.volume = original
+  loadSettings(storage)
+  assert.equal(config.volume, 1)
+  config.volume = original
+  values.set('partisan-games-settings', '{broken')
+  loadSettings(storage)
+  assert.equal(config.volume, original)
+  const blocked = {
+    getItem() {
+      throw new Error('blocked')
+    },
+  }
+  loadSettings(blocked)
+  assert.equal(config.volume, original)
+})
+
+test('the top button of every game screen goes back to the main menu and the bottom one carries on', () => {
+  const ui = new UI(fakeScene, { intro: 'Reach the forest', onStart() {}, onContinue() {} })
+  const modal = document.getElementById('modal')
+  for (const [show, last] of [
+    [() => ui.renderStartScreen(), 'start'],
+    [() => ui.showPauseScreen(), 'continue'],
+    [() => ui.showScreen('pause', ui.settingsScreen()), 'settings-back'],
+    [() => ui.showDefeatScreen('Finished'), 'igraj-opet'],
+    [() => ui.showVictoryScreen('Finished'), 'igraj-opet'],
+  ]) {
+    show()
+    const buttons = [...modal.querySelectorAll('button')]
+    assert.equal(buttons[0].id, 'menu')
+    assert.equal(buttons.at(-1).id, last)
+  }
+  ui.end()
+})

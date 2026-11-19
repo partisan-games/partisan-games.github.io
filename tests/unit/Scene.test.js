@@ -52,6 +52,21 @@ test('starting and continuing focus the game, while a decorative scene leaves fo
   assert.equal(decoration.canvas.hasAttribute('tabindex'), false)
 })
 
+test('Esc on the menu background does not open a pause menu that the decorative scene could never leave', t => {
+  const frames = installFakeFrames()
+  const decoration = new Scene({ canvas: document.createElement('canvas'), disableEvents: true })
+  t.after(() => {
+    document.dispatchEvent(new KeyboardEvent('keyup', { code: 'Escape' }))
+    decoration.end()
+  })
+  decoration.start()
+  document.dispatchEvent(new KeyboardEvent('keydown', { code: 'Escape' }))
+  frames.step()
+  assert.equal(decoration.ui.screen, null)
+  assert.equal(decoration.gameLoop.isRunning, true)
+  assert.equal(document.getElementById('modal').textContent.includes('Game paused'), false)
+})
+
 test('audio transitions advance with simulated time instead of dropped fixed-step frame time', t => {
   const frames = installFakeFrames()
   const scene = new Scene({ canvas: document.createElement('canvas'), fixedStep: true, disableEvents: true })

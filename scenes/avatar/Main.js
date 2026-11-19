@@ -21,9 +21,10 @@ const messageDict = {
   75: 'You smell victory in the air...',
 }
 
-const customStartScreen = ({ container }) => /* html */`
+const customStartScreen = ({ container, button, mainMenuButton }) => /* html */`
   <div class="central-screen ${container}">
     <h2>Choose your avatar</h2>
+    ${mainMenuButton(button)}
     <div class="game-screen-select">
       <div>
         <input type="image" id="STONE" src="/assets/images/scenes/avatar/STONE.webp" /><br>

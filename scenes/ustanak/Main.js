@@ -5,6 +5,7 @@ import Strelac from './Strelac.js'
 import Zastavnik from './Zastavnik.js'
 import Posada from './Posada.js'
 import { progresBar } from '/ui/components.js'
+import { mainMenuButton } from '/ui/UI.js'
 import { keyboard } from '/core/io/Keyboard.js'
 import { keys, leftPlayerKeys } from '/core/io/keys.js'
 import Turns from './Turns.js'
@@ -22,6 +23,7 @@ const cannonY = groundLevel - 32
 const customStartScreen = ({ container }) => /* html */`
   <div class="central-screen ${container}">
     <h2>Choose mode</h2>
+    ${mainMenuButton('bg-olive')}
     <button class="bg-olive" id="jedan-igrac" >
       Player vs computer
     </button>
@@ -227,6 +229,7 @@ export default class UstanakScene extends Scene2D {
       <div class="central-screen simple-container">
         <h3>Round ${this.round}: ${this.sideName(this.roundWinner)} ${this.vsComputer && this.roundWinner === 0 ? 'win' : 'wins'}!</h3>
         <p>${this.score.join(' : ')}</p>
+        ${mainMenuButton('bg-olive')}
         <button class="bg-olive" id="next-round">Next round</button>
       </div>
     `)

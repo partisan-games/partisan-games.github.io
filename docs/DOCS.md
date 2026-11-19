@@ -42,6 +42,8 @@ Svaki novi UI element zahteva prethodno izričito odobrenje vlasnika, uključuju
 
 Ni planirana mogućnost uključivanja/isključivanja opcije ne odobrava checkbox, indikator ili drugo UI rešenje. Pre izmene prikazati konkretan predlog i sačekati izričito odobrenje; do tada pripremiti samo logiku.
 
+Redosled dugmadi na svakom centralnom ekranu (početak, pauza, podešavanja, runda, kraj, greška) je isti: gornje dugme vraća na glavni meni, kao Esc, a donje potvrđuje ili nastavlja igru. Dugme za glavni meni pravi zajednički `mainMenuButton` iz [UI](../ui/UI.js); poseban početni ekran ga dobija kao parametar.
+
 ## Pravilo za umetnost
 
 Art i zvukovi su obavezni delovi svake igre. Uključiti ih u početni plan, bez čekanja da ih vlasnik zatraži: grafiku i animacije, zvukove radnji i ambijenta, usklađivanje sa događajima i kontrolu jačine/utišavanja. Pre završetka proveriti oba; funkcionalan gameplay sam po sebi nije završena igra.
