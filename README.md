@@ -25,8 +25,8 @@ The separate checks and how the tests work: [docs/TESTING.md](docs/TESTING.md).
 
 ## TODO
 
-- vis: nađi bolji zvuk pucanja
 - proveri warplane na mobilnom (privremeno isključeno hide-on-mobile)
+- razrađivati postojeće nivoe redom
 
 Ideje za nivoe:
 - odbrani polozaj (kamera odozgo, nadiru sa svih strana)

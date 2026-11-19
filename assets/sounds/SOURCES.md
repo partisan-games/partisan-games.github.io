@@ -4,6 +4,7 @@ Owner-selected sources below are labelled CC0 1.0 on their source pages (Ustanak
 
 | Shared file | Author and source | Basic preparation before final calibration |
 |---|---|---|
+| aircraft-gun.mp3 | [qubodup — Clean Machine Gun Burst](https://freesound.org/people/qubodup/sounds/482122/) | Mono; one shot with its natural tail, the last of the burst |
 | cannon-shot.mp3 | [qubodup — Howitzer Artillery Gun Shot Sound Effect 01](https://freesound.org/people/qubodup/sounds/161343/) | Average-channel mono; source character retained |
 | cannon-load.mp3 | [MaximBomba — Rifle-or-shotgun-reload](https://freesound.org/people/MaximBomba/sounds/432141/) | Mono, −4.3 dB; trim empty tail at 2.06542 s with 10 ms fade |
 | shell-flight.mp3 | [craigsmith — R12-28-Cannon Shot and Whistling](https://freesound.org/people/craigsmith/sounds/486026/) | Existing 4.72–7.52 s excerpt; 30 ms fade in, 150 ms fade out; unchanged in this preparation |

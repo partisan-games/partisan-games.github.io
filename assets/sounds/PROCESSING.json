@@ -1085,6 +1085,16 @@
       "license": "Legacy source provenance unconfirmed",
       "bytes": 105452,
       "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix"
+    },
+    {
+      "file": "aircraft-gun.mp3",
+      "original": "https://cdn.freesound.org/previews/482/482122_71257-hq.mp3",
+      "original_sha256": "ac12c79b300f6436519cf5d8978d6aaa994eb3258e9dcd59499378b873135562",
+      "processed": true,
+      "license": "CC0 1.0 (freesound.org/people/qubodup/sounds/482122, checked 2026-11-20)",
+      "review": "Owner chose the recording and approved the cut shot in the game (2026-11-20)",
+      "processing": "Mono; last of 16 shots in the burst, from 1.330 s to the end (0.27 s) so its natural tail stays whole; 2 ms fade-in, 30 ms fade-out, -2.6 dB to -3.5 dBFS peak",
+      "prepared_sha256": "a6927b5650fbdfd12cb55aea083a2fccc5b37b2de52d581f520d5e31d4bf2339"
     }
   ],
   "post_processing_measurement": "../../docs/references/audio/zv06-prepared-2026-11-19.json"

@@ -5,7 +5,7 @@ import Sound from '/core/io/audio/SoundSource.js'
 export default class Bullet extends Projectile {
   constructor(options) {
     super(options)
-    this.sound = new Sound('pucanj.mp3', { profile: 'rifle', spatial: { getPosition: () => this.position } })
+    this.sound = new Sound('aircraft-gun.mp3', { profile: 'rifle', spatial: { getPosition: () => this.position } })
     this.sounds.push(this.sound)
   }
 
