@@ -5,7 +5,7 @@ import ProjectilePool from '/core/actor/ProjectilePool.js'
 import Projectile from '/core/actor/projectiles/Projectile.js'
 import Cooldown from '/core/gameplay/Cooldown.js'
 import Weapon from '/core/gameplay/Weapon.js'
-import { createSound } from '/core/io/sound.js'
+import Sound from '/core/io/audio/SoundSource.js'
 import { paths } from './paths.js'
 import { settings } from './settings.js'
 import { resetFlame } from './flame.js'
@@ -26,6 +26,10 @@ export default class Enemy extends GameObject2D {
   constructor({ session, type = 'fighter', path = 'straight', x = Math.random(), y = .1, side = 'left', across = 0, delay = 0 }) {
     const kind = settings.enemies[type]
     super(pick(kind.images), { scale: kind.scale, flammable: true, shadow: true })
+    this.engineSound = new Sound('engine-aircraft.mp3', { loop: true, profile: 'engine', volume: .2, spatial: { getPosition: () => this.position } })
+    this.explosionSound = new Sound('explosion.mp3', { profile: 'explosion', spatial: { getPosition: () => this.position } })
+    this.shotSound = new Sound('rifle.mp3', { profile: 'rifle', spatial: { getPosition: () => this.nextGun() } })
+    this.sounds.push(this.engineSound, this.explosionSound, this.shotSound)
     this.type = type
     this.points = kind.points
     this.maxHits = this.hits = kind.hits
@@ -41,7 +45,10 @@ export default class Enemy extends GameObject2D {
     this.weapon = new Weapon({
       cooldown: new Cooldown({ seconds: kind.fire.interval, clock: session.clock }),
       barrels: kind.fire.spread.map(angle => ({ angle })),
-      spawnProjectile: (origin, angle) => this.bullets.fire(origin, angle, enemyBulletSpeed),
+      spawnProjectile: (origin, angle) => {
+        this.bullets.fire(origin, angle, enemyBulletSpeed)
+        this.shotSound.play()
+      },
     })
     this.weapon.cooldown.start(kind.fire.interval * Math.random()) // planes of a formation do not fire together
     this.fly(0)
@@ -89,7 +96,7 @@ export default class Enemy extends GameObject2D {
   die() {
     if (!this.burning) resetFlame(this)
     super.die()
-    createSound('explosion.mp3', { random: true }).play()
+    this.explosionSound.play()
     this.falling = true
     const heading = this.angle - Math.PI / 2 // the image points up
     this.dx = this.route.speed * Math.cos(heading)
@@ -114,6 +121,7 @@ export default class Enemy extends GameObject2D {
   }
 
   update(dt, t) {
+    this.engineSound.setPlaying(this.alive && !this.gone && this.age >= 0)
     if (!this.falling) this.fly(dt)
     super.update(dt, t)
     if (this.alive) this.shoot()

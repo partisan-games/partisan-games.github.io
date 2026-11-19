@@ -8,7 +8,7 @@ import {
 import Vector from '../Vector.js'
 import { origins, FPS, frames } from '../constants.js'
 import { assets } from '/config.js'
-import Sound from '/core/io/ManagedSound.js'
+import Sound from '/core/io/audio/SoundSource.js'
 
 export default class GameObject2D {
   #angle = 0
@@ -196,6 +196,7 @@ export default class GameObject2D {
     if (!exitedLeftFully(this)) return
 
     this.x = canvas2d.width + this.width / 2
+    this.audioRevision = (this.audioRevision ?? 0) + 1
     if (callback) callback()
   }
 
@@ -228,7 +229,7 @@ export default class GameObject2D {
   set flammable(bul) {
     if (bul) {
       if (!this.burnSound) {
-        this.burnSound = new Sound('fire.mp3', { volume: .3, loop: true })
+        this.burnSound = new Sound('fire.mp3', { volume: .3, loop: true, profile: 'fire', spatial: { getPosition: () => this.position } })
         this.sounds.push(this.burnSound)
       }
       import('./Flame.js')
@@ -268,7 +269,7 @@ export default class GameObject2D {
   }
 
   updateFlame(dt) {
-    this.burnSound?.setPlaying(Boolean(this.burning && this.shown))
+    this.burnSound?.setPlaying(Boolean(this.burning && this.visible))
     if (!this.burning) return
 
     this.flame.x = this.x

@@ -25,7 +25,7 @@ export default class Battlefield {
     this.mountains = image('background/planine.png')
     this.village = image('background/crnogorsko-selo-1941-pixel.png')
     this.crater = image('items/krateri/krater.gif')
-    this.villageFire = new VillageFire()
+    this.villageFire = new VillageFire({ canvas, groundY })
     // The city artwork's street begins at 395/543 of its height.
     this.cityViewport = { width: canvas.width, height: groundY * 543 / 395, getContext: () => this.ctx }
     this.city = new PozadinaGrada(this.cityViewport)

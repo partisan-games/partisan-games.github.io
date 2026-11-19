@@ -1,3 +1,5 @@
+import Sound from '/core/io/audio/SoundSource.js'
+import { audioPosition } from '/core/io/audio/audio3d.js'
 import * as THREE from 'three'
 import Player from '/core3d/actor/Player.js'
 import { loadedModel } from '/core3d/assets/models.js'
@@ -15,12 +17,15 @@ export class CannonPlayer extends Player {
     // the keyboard also tracks a held pointer, which charges the shot on touch screens too
     super({ mesh: loadedModel(model), showHealthBar: false, canMove: false, speed: .5, useKeyboard: true, ...props })
     // 0.2 per frame at 60 frames per second, as when the power was a slider
+    this.shotSound = new Sound('cannon-shot.mp3', { profile: 'cannon', spatial: { getPosition: () => this.audioShotPoint ?? audioPosition(this.mesh) } })
+    this.sounds.push(this.shotSound)
     this.power = new PowerMeter({ min: 10, max: 25, chargePerSecond: 12 })
     this.shots = 20
   }
 
   shoot = world => {
     if (!this.shots) return
+    this.audioScene?.output.preload('metal-impact.mp3')
 
     const ball = createSphere({ r: 0.2, color: 0x202020 })
 
@@ -32,6 +37,9 @@ export class CannonPlayer extends Player {
       .addScaledVector(dir, 1.5)  // ispred
 
     world.add(ball, 4)
+    this.audioShotPoint = { x: ball.position.x, y: ball.position.y, z: ball.position.z }
+    this.shotSound.play()
+    world.contacts.once(ball.userData.body, point => this.audioScene?.emit('metal-impact.mp3', { profile: 'impact', spatial: { position: point } }))
 
     dir.y += 0.25 // podizanje ugla pucanja
     dir.normalize().multiplyScalar(this.power.value)

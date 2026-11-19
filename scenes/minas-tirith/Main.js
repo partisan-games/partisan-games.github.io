@@ -34,6 +34,7 @@ export default class MinasTirithScene extends Scene3D {
 
     const player = new GolemPlayer({ camera: this.camera, solids: [city, hill] })
     player.chaseCamera.zoomIn()
+    this.audioPlayer = () => player
     this.add(player)
     player.putInPolarMaze(maze)
   }

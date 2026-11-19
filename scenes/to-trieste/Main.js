@@ -26,6 +26,8 @@ export default class ToTriesteScene extends Scene2D {
     const groundLevel = this.groundY
     this.score = 0
     this.distance = 0
+    this.audioWorldOffset = { x: 0, y: 0 }
+    this.audioPlayer = () => this.tenk
     this.levelLength = LEVEL_LENGTH
     this.battlefield = new Battlefield({ groundY: groundLevel, distance: () => this.distance })
     this.zgrade = this.battlefield.buildings
@@ -63,6 +65,7 @@ export default class ToTriesteScene extends Scene2D {
 
   update(dt, t) {
     if (this.session.state !== 'running') return
+    this.audioWorldOffset.x -= PARALAX_1 * dt
     this.distance = Math.min(this.levelLength, this.distance + Math.abs(PARALAX_1) * dt)
     this.airRaids.update()
     super.update(dt, t)

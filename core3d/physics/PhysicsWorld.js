@@ -1,5 +1,6 @@
 import { Ammo, createPhysicsWorld, createRigidBody, updateMesh } from '/core3d/physics/index.js'
 import NativeAllocations from '/core3d/physics/NativeAllocations.js'
+import ContactEvents from './ContactEvents.js'
 
 /**
  * The Ammo world of one game. It owns every native object made through it (`own`), and dispose()
@@ -17,6 +18,7 @@ export default class PhysicsWorld {
     this.rigidBodies = []
     this.own = this.#natives.own
     this.physicsWorld = createPhysicsWorld({ own: this.own })
+    this.contacts = new ContactEvents(body => Ammo.getPointer(body))
   }
 
   /** Native objects this world will free; for checks after leaving a game. */
@@ -46,6 +48,7 @@ export default class PhysicsWorld {
 
   remove(mesh) {
     if (!this.rigidBodies.includes(mesh)) return
+    this.contacts.remove(mesh.userData.body)
     this.physicsWorld.removeRigidBody(mesh.userData.body)
     this.#bodies.delete(mesh.userData.body)
     this.rigidBodies.splice(this.rigidBodies.indexOf(mesh), 1)
@@ -55,9 +58,11 @@ export default class PhysicsWorld {
   update(dt) {
     this.physicsWorld.stepSimulation(dt, this.maxSteps)
     this.rigidBodies.forEach(updateMesh)
+    this.contacts.update(this.physicsWorld.getDispatcher())
   }
 
   dispose() {
+    this.contacts.clear()
     this.#actions.forEach(action => this.physicsWorld.removeAction(action))
     this.#bodies.forEach(body => this.physicsWorld.removeRigidBody(body))
     this.#actions.clear()

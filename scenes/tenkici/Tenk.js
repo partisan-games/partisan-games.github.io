@@ -6,7 +6,7 @@ import Shell from '/core/actor/projectiles/Shell.js'
 import Cooldown from '/core/gameplay/Cooldown.js'
 import Health from '/core/gameplay/Health.js'
 import Weapon from '/core/gameplay/Weapon.js'
-import Sound from '/core/io/ManagedSound.js'
+import Sound from '/core/io/audio/SoundSource.js'
 import { frames } from '/core/constants.js'
 import { shellGravity as gravity, shellSpeed as potisakMetka } from './shellPhysics.js'
 
@@ -28,9 +28,10 @@ export default class Tenk extends GameObject2D {
   } = {}) {
     super(src, { flammable: true, scale, z: -1, ...rest })
     this.health = new Health({ maximum: 100 })
-    this.shotSound = new Sound('cannon-shot.mp3', { volume: .8 })
-    this.loadSound = new Sound('cannon-load.mp3', { volume: .4 })
-    this.sounds.push(this.shotSound, this.loadSound)
+    this.shotSound = new Sound('cannon-shot.mp3', { volume: .8, profile: 'cannon', spatial: { getPosition: () => this.audioShotPoint ?? this.position } })
+    this.loadSound = new Sound('cannon-load.mp3', { volume: .4, profile: 'cannon', spatial: { getPosition: () => this.position } })
+    this.engineSound = new Sound('engine-diesel.mp3', { volume: .2, loop: true, profile: 'engine', spatial: { getPosition: () => this.position } })
+    this.sounds.push(this.shotSound, this.loadSound, this.engineSound)
     this.tenkDesno = tenkDesno
     this.cev = new GameObject2D(cevSlika, { scale })
     this.cev.onload = () => this.azurirajCev()
@@ -97,6 +98,7 @@ export default class Tenk extends GameObject2D {
 
   /** The recoil comes only with a shot that the reload allowed. */
   fire(poz, angle) {
+    this.audioShotPoint = { x: poz.x, y: poz.y }
     if (this.weapon.tryFire(poz, angle)) {
       this.trzaj()
       this.shotSound.play()
@@ -165,6 +167,7 @@ export default class Tenk extends GameObject2D {
   }
 
   update(dt) {
+    this.engineSound.setPlaying(!this.dead)
     super.update(dt)
     if (this.ai) this.samohod()
     this.azurirajCev()

@@ -28,6 +28,7 @@ export default class RuinsScene extends Scene3D {
 
     const player = new WitchPlayer({ camera: this.camera, solids: [dunes, ruins] })
     player.chaseCamera.zoomIn()
+    this.audioPlayer = () => player
     this.add(player)
   }
 }

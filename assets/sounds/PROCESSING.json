@@ -1,0 +1,1091 @@
+{
+  "status": "Prepared recordings installed and analyzed after processing; native/browser mix and listening remain unverified",
+  "missing_recordings": "Owned by the migration of the affected object; do not reintroduce rejected candidates 05,06,07,09",
+  "variants": "One prepared file per logical asset/event; originals and intermediate versions remain outside this final folder",
+  "files": [
+    {
+      "file": "avion-mali.mp3",
+      "original": "assets/sounds/avion-mali.mp3",
+      "original_sha256": "447b423845a3c03583c86b12d340891cd954cd1f5f34984221a7e149aa629da8",
+      "processed": true,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "loop_processing": {
+        "start_s": 5,
+        "source_duration_s": 6.25,
+        "output_duration_s": 6.0,
+        "crossfade_s": 0.25,
+        "gain_db": 0,
+        "curve": "linear tail/head crossfade with cyclic rotation"
+      },
+      "prepared_sha256": "bbb3e94552b7b40a006d7966a6d40dfcd9bbdf4e9db3cdd2d4d6a6313b883ac0",
+      "bytes": 121484,
+      "before_calibration_sha256": "3bddcbec784a9b1c44563c69b8c358310a1424c2ed0790cb69da9fdab7649203",
+      "calibration": {
+        "gain_db": -7.2,
+        "method": "integrated_lufs",
+        "target": -24,
+        "input_value": -16.8,
+        "input_true_peak_dbtp": -5.6,
+        "peak_ceiling_dbtp": -3,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "cannon-load.mp3",
+      "original": "assets/sounds/cannon-load.mp3",
+      "original_sha256": "99cbec5c7e83f28851c03b6b0e210947134872b4365e72043bea1f18eaaf50e6",
+      "processed": true,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "a185e3cacd132bcc2406452b08b990fa3203593bf5da81d085bfcd531367ef4a",
+      "bytes": 51452
+    },
+    {
+      "file": "cannon-shot.mp3",
+      "original": "assets/sounds/cannon-shot.mp3",
+      "original_sha256": "e056dddc89956c657bc65b66b2ea309339b0cc4358fd2da4a957e968f2c5be70",
+      "processed": true,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "4c5d50dbc7d2032d53bac00ced06469b3604c93cd71f117e3339e06ab6b79bd8",
+      "bytes": 20732
+    },
+    {
+      "file": "engine-6000.mp3",
+      "original": "assets/sounds/engine-6000.mp3",
+      "original_sha256": "c688f12ecb12e9992aa026e41f139715041339ee7eadec8c067f91c26147de36",
+      "processed": true,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "loop_processing": {
+        "start_s": 0,
+        "source_duration_s": 1.944,
+        "output_duration_s": 1.88,
+        "crossfade_s": 0.064,
+        "gain_db": -1.5,
+        "curve": "linear tail/head crossfade with cyclic rotation"
+      },
+      "prepared_sha256": "ecb45719e7a8eb5445bfcb374cbc4cc8d710c122ed89586c9f802c095b0a722a",
+      "bytes": 46700,
+      "before_calibration_sha256": "4d3c0676918ecad43b600c18820500abdcc75d1a3c61da73c2c66c5024f4d269",
+      "calibration": {
+        "gain_db": -11.3,
+        "method": "integrated_lufs",
+        "target": -24,
+        "input_value": -12.7,
+        "input_true_peak_dbtp": -3.3,
+        "peak_ceiling_dbtp": -3,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "explosion.mp3",
+      "original": "assets/sounds/explosion.mp3",
+      "original_sha256": "62394a4fb8554b89e4fa830caf9b84bc2b6a0e0a42f9acc3180531b1a46ce32e",
+      "processed": true,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "17b5657a88c642d5065e0f6428e1799612d2d02bb32adb2d9985b735cf5e9157",
+      "bytes": 44684
+    },
+    {
+      "file": "fairy-arcade-sparkle.mp3",
+      "original": "assets/sounds/fairy-arcade-sparkle.mp3",
+      "original_sha256": "3fa5e2ed671c3f894cc9b1b67db9969766ce84b41f20524e4c8ca5016429f0ec",
+      "processed": false,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "3fa5e2ed671c3f894cc9b1b67db9969766ce84b41f20524e4c8ca5016429f0ec",
+      "bytes": 44155
+    },
+    {
+      "file": "fire-swoosh.mp3",
+      "original": "assets/sounds/fire-swoosh.mp3",
+      "original_sha256": "9d88c55a84753027f658f435b6a96f7ed076dda1aad3aec6085310b5ba56dc7b",
+      "processed": false,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "9d88c55a84753027f658f435b6a96f7ed076dda1aad3aec6085310b5ba56dc7b",
+      "bytes": 107040
+    },
+    {
+      "file": "fire.mp3",
+      "original": "assets/sounds/fire.mp3",
+      "original_sha256": "948714049973a80740a36a9e036a7fd409635404b65e0491b2f68c26641f8455",
+      "processed": true,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "loop_processing": {
+        "start_s": 0,
+        "source_duration_s": 42.710604,
+        "output_duration_s": 42.460604,
+        "crossfade_s": 0.25,
+        "gain_db": 0,
+        "curve": "linear tail/head crossfade with cyclic rotation"
+      },
+      "prepared_sha256": "048b2139a15af525b1da94172e9995a2d13c09a655ffe0b11e5642d1392e1a95",
+      "bytes": 1020716,
+      "before_calibration_sha256": "1f9af5772f05d30f4c3d013a6d6d50dab34a25e569a98be5772c457021843647",
+      "calibration": {
+        "gain_db": 5.5,
+        "method": "integrated_lufs",
+        "target": -22,
+        "input_value": -27.5,
+        "input_true_peak_dbtp": -12.5,
+        "peak_ceiling_dbtp": -3,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "grom.mp3",
+      "original": "assets/sounds/grom.mp3",
+      "original_sha256": "c688e7852d20bd98a605d6e180dec71feaa4212de63cc8ddc39946e06d057c2a",
+      "processed": true,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "gain_db": -4.0,
+      "prepared_sha256": "ebce5f8de380ca1e5ea286f7523f2de83c3cd469a01149f26812571bb3a5a0ff",
+      "bytes": 514132
+    },
+    {
+      "file": "halt.mp3",
+      "original": "assets/sounds/halt.mp3",
+      "original_sha256": "d5cbad18b96be8c1ed6a5be49fde8d6f3061ae19e92ca19df9f9a45190d8310d",
+      "processed": true,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "7ca65097f6cfdf85fc6143a564e9430ab33b2f11a777e6866b788f6597604e6c",
+      "bytes": 27018
+    },
+    {
+      "file": "kisha.mp3",
+      "original": "assets/sounds/kisha.mp3",
+      "original_sha256": "3ad3f6959fa956d995a3fadbc278dd95ebcbe24de3c54b5290e8543077edf7a7",
+      "processed": true,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "loop_processing": {
+        "start_s": 5,
+        "source_duration_s": 16.25,
+        "output_duration_s": 16.0,
+        "crossfade_s": 0.25,
+        "gain_db": 0,
+        "curve": "linear tail/head crossfade with cyclic rotation"
+      },
+      "prepared_sha256": "0cd990724e62734f825a860acb26735a018940e3595acf9d92d36319582d7a1d",
+      "bytes": 385610
+    },
+    {
+      "file": "otpisani.mp3",
+      "original": "assets/sounds/otpisani.mp3",
+      "original_sha256": "e2d12647fa19e37bb6b8f095d78bf1a631c35955f42d1735026579cbf02ab71c",
+      "processed": false,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "e2d12647fa19e37bb6b8f095d78bf1a631c35955f42d1735026579cbf02ab71c",
+      "bytes": 767271
+    },
+    {
+      "file": "patrola/eatdirtpig.mp3",
+      "original": "assets/sounds/patrola/eatdirtpig.wav",
+      "original_sha256": "5d88d4e407a1e3d58810f979318b5c44e43ee95832ff3bce3ca957650c4cf5f4",
+      "processed": true,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "ad67c0b4450775d40507705e730453e56065d3c67da4870f8425522272771f2b",
+      "bytes": 60229,
+      "before_calibration_sha256": "c5d7764754522747e752bc1f82a7c6f4e37020e930296ddb8b05485e3acfb5ab",
+      "calibration": {
+        "gain_db": -2.7,
+        "method": "integrated_lufs",
+        "target": -20,
+        "input_value": -17.3,
+        "input_true_peak_dbtp": -3.3,
+        "peak_ceiling_dbtp": -3,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "patrola/killthepig.mp3",
+      "original": "assets/sounds/patrola/killthepig.wav",
+      "original_sha256": "ed3ad37b44ac8e9e766c42dd0613c7bff4486303b9bcf01f2ce1428e58c47add",
+      "processed": true,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "0d7a09c1d76c60ea17f2f00be5d2db58ffbc9519208f9f675d651c5b408cd43e",
+      "bytes": 56467,
+      "before_calibration_sha256": "7f3e307289dc68382b28bbc7fdb9ebd799b6bb8ad14d5fc941c18546ed0c7d92",
+      "calibration": {
+        "gain_db": -4.7,
+        "method": "integrated_lufs",
+        "target": -20,
+        "input_value": -15.3,
+        "input_true_peak_dbtp": -3.4,
+        "peak_ceiling_dbtp": -3,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "patrola/QuicklyQuickly.mp3",
+      "original": "assets/sounds/patrola/QuicklyQuickly.wav",
+      "original_sha256": "3ee17b80fcecf5702ef15237a8aa1f836fa5335e3413a4995ae94afb42d95dcd",
+      "processed": true,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "9147a9f47378f618897406ab4318bedb923b01f96e73b25b5a6876bbe7e29f76",
+      "bytes": 24493,
+      "before_calibration_sha256": "9cca9b1f96431977f4a6aa616653b59bdb4ffabb0eea465841c7f6c5ad3ea358",
+      "calibration": {
+        "gain_db": -4.5,
+        "method": "integrated_lufs",
+        "target": -20,
+        "input_value": -15.5,
+        "input_true_peak_dbtp": -3.2,
+        "peak_ceiling_dbtp": -3,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "patrola/schnell.mp3",
+      "original": "assets/sounds/patrola/schnell.wav",
+      "original_sha256": "36af9bd6838c038d6276bf1190001e1eb74572b1001a573f7374fbaceb0d104c",
+      "processed": true,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "f7b1c145384423966d32fb5164675c89e5eb4b4e5c23cf4fd5906dffc35b2c45",
+      "bytes": 47690,
+      "before_calibration_sha256": "4ba31498c899e33c3bd8ebb8fee9876d17165c612e381b7ddec5d64d9f7590f7",
+      "calibration": {
+        "gain_db": -2.6,
+        "method": "integrated_lufs",
+        "target": -20,
+        "input_value": -17.4,
+        "input_true_peak_dbtp": -3.5,
+        "peak_ceiling_dbtp": -3,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "patrola/Stop.mp3",
+      "original": "assets/sounds/patrola/Stop.wav",
+      "original_sha256": "de76be327486c16d0d8f992c8cb1c303a1f987cc9133bf748926c07f74eef9a8",
+      "processed": true,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "00e9c899a34a6959bea7df2f4d933f791747c66380113bef4afc49bd5f211122",
+      "bytes": 14462,
+      "before_calibration_sha256": "d62a0483cfbf745f93f814e70aa96b350cf49bf4740c275e4dbd3b3c44d1e54b",
+      "calibration": {
+        "gain_db": -0.6,
+        "method": "integrated_lufs",
+        "target": -20,
+        "input_value": -19.4,
+        "input_true_peak_dbtp": -3.3,
+        "peak_ceiling_dbtp": -3,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "patrola/StopStayWhereYouAre.mp3",
+      "original": "assets/sounds/patrola/StopStayWhereYouAre.wav",
+      "original_sha256": "ffbb533d42ace731e7687b7ced7336314435bf3771f92a126fa3bdb38ec813f3",
+      "processed": true,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "e46a5a2d129ff7d45058da2fc04ccf1042dc22a167cd8d63c9c1bb5b22fe376a",
+      "bytes": 43301,
+      "before_calibration_sha256": "822b3c15ca94fe431b0f3d08f25256f84607cd819b0604ea87be907fa5fe6921",
+      "calibration": {
+        "gain_db": 0.3,
+        "method": "integrated_lufs",
+        "target": -20,
+        "input_value": -20.3,
+        "input_true_peak_dbtp": -3.3,
+        "peak_ceiling_dbtp": -3,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "patrola/thereheis.mp3",
+      "original": "assets/sounds/patrola/thereheis.wav",
+      "original_sha256": "a1aacfd14f5568aa9b2afdd077c669f682d099dbf87cc56e91b00f4808d8d086",
+      "processed": true,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "a8561efe13be355b8cd2a02eb2fd2a4e3aa960370e057aa5645b1478a7de48cc",
+      "bytes": 38913,
+      "before_calibration_sha256": "afabde8393dbe264211be587e65a8505b803e8e3717ed44d6e0ea9a7ecc6f9eb",
+      "calibration": {
+        "gain_db": -4.4,
+        "method": "integrated_lufs",
+        "target": -20,
+        "input_value": -15.6,
+        "input_true_peak_dbtp": -3.3,
+        "peak_ceiling_dbtp": -3,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "patrola/UpThere.mp3",
+      "original": "assets/sounds/patrola/UpThere.wav",
+      "original_sha256": "9fe1ec392be34d85ebe496b3bffa9f46cfe4dbd16eb86154d12fda9ee6fa7553",
+      "processed": true,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "6eef2eff5672bf20ad4590c34aa22b6eeae7408398776a0fc93f699f713e9e4d",
+      "bytes": 39540,
+      "before_calibration_sha256": "c2a8cb1e91050c8967e80afec3d21adf9d6f127279e7b52139aad8156397938b",
+      "calibration": {
+        "gain_db": -2.5,
+        "method": "integrated_lufs",
+        "target": -20,
+        "input_value": -17.5,
+        "input_true_peak_dbtp": -3.2,
+        "peak_ceiling_dbtp": -3,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "patrola/whereishe.mp3",
+      "original": "assets/sounds/patrola/whereishe.wav",
+      "original_sha256": "82a7c45c26a54a4a160e8af40ad534f557f8bacbd2664cc088a9117467561bcf",
+      "processed": true,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "c86d4a185616d763169409278ef740275d52fc239f0f035fbb611948442c33d6",
+      "bytes": 40794,
+      "before_calibration_sha256": "5296bf81cc51a32cbb4aa90ad12c8a64fc436c10961a6afd67c824f7b6461b32",
+      "calibration": {
+        "gain_db": -2.1,
+        "method": "integrated_lufs",
+        "target": -20,
+        "input_value": -17.9,
+        "input_true_peak_dbtp": -3.4,
+        "peak_ceiling_dbtp": -3,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "pucanj.mp3",
+      "original": "assets/sounds/pucanj.wav",
+      "original_sha256": "13276ae015753065bc34f7a78d99699ab5424b870613b1ef83182e8702ead406",
+      "processed": true,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "6d56eb20888c49e7d3f9e85447f1299b8a7155f609c79fc9c1d96340505d89e8",
+      "bytes": 13292
+    },
+    {
+      "file": "pucanj2.mp3",
+      "original": "assets/sounds/pucanj2.mp3",
+      "original_sha256": "4db8777e3f5170d86b57be2ed852ad66e3f2d6471ccce3c22d45466c9e14ebe6",
+      "processed": true,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "3ca34aafbfb7d46f51311a5f2a88fc2005d40b36259b92e35698721b4f665b72",
+      "bytes": 30153
+    },
+    {
+      "file": "pucnji.mp3",
+      "original": "assets/sounds/pucnji.mp3",
+      "original_sha256": "ccb17169e482f15b96c3261b6ea231c62bb61f59c0d23106f50e060c08b23dde",
+      "processed": true,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "41061dbc0ba31cd0fe0b6dcf9db7eff4ce5369df8b761e8473007a245613bc78",
+      "bytes": 54603
+    },
+    {
+      "file": "rafal.mp3",
+      "original": "assets/sounds/rafal.mp3",
+      "original_sha256": "c8f52ed2fc9755121d432f841dc32662ee6b393edace73629876d25bc6f3cdf4",
+      "processed": true,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "2b1186504d054623c64e4a98b42f03f432f10e11d7134df1e62783e3a22518c0",
+      "bytes": 20771
+    },
+    {
+      "file": "rain.mp3",
+      "original": "assets/sounds/rain.mp3",
+      "original_sha256": "22f7c2744123b37ea80453b2a9e27208b8046237a181fbd196ce781df903a074",
+      "processed": true,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "loop_processing": {
+        "start_s": 5,
+        "source_duration_s": 16.25,
+        "output_duration_s": 16.0,
+        "crossfade_s": 0.25,
+        "gain_db": 0,
+        "curve": "linear tail/head crossfade with cyclic rotation"
+      },
+      "prepared_sha256": "0cd990724e62734f825a860acb26735a018940e3595acf9d92d36319582d7a1d",
+      "bytes": 385610
+    },
+    {
+      "file": "rifle-burst.mp3",
+      "original": "assets/sounds/rifle-burst.mp3",
+      "original_sha256": "810540770496c4e2a932e1d63184225c61f22911643834589fcd812054d8b728",
+      "processed": true,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "e72749ce7c325fa4121dc940fabc6295cd0fb41784c18d1a67bb31af32cf3d9b",
+      "bytes": 20771
+    },
+    {
+      "file": "rifle.mp3",
+      "original": "assets/sounds/rifle.mp3",
+      "original_sha256": "4ba67d3d8c18fa6e2da79c31d5c1814aef4db774b456d31ad25e2db849868dbe",
+      "processed": true,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "e7706888b7a7be0fb8309dc174e3a6522c4eb33bfa565319f237a0ef452d93ab",
+      "bytes": 16748
+    },
+    {
+      "file": "shell-flight.mp3",
+      "original": "assets/sounds/shell-flight.mp3",
+      "original_sha256": "9cd313b05fdf0e1e2bb3d8c341fd133ec5e6a3af926ae65443cb490beb1176d6",
+      "processed": false,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "9cd313b05fdf0e1e2bb3d8c341fd133ec5e6a3af926ae65443cb490beb1176d6",
+      "bytes": 26828
+    },
+    {
+      "file": "thunder.mp3",
+      "original": "assets/sounds/thunder.mp3",
+      "original_sha256": "5d05cf91ade24935ef16cd152e5a5ed51960c74201b8da80a9b8d9a3516cda85",
+      "processed": true,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "gain_db": -4.0,
+      "prepared_sha256": "ebce5f8de380ca1e5ea286f7523f2de83c3cd469a01149f26812571bb3a5a0ff",
+      "bytes": 514132
+    },
+    {
+      "file": "typing.mp3",
+      "original": "assets/sounds/typing.mp3",
+      "original_sha256": "ea5ac04acb1fd7426299c34b9bd37917f9b48b9ca31af7d39ca0845d1e29a064",
+      "processed": false,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "ea5ac04acb1fd7426299c34b9bd37917f9b48b9ca31af7d39ca0845d1e29a064",
+      "bytes": 321727
+    },
+    {
+      "file": "wind.mp3",
+      "original": "assets/sounds/wind.mp3",
+      "original_sha256": "cf0ee0f0ac5a8b9e90e389de33446b7c70f0e18f162b86ae1ecc361199a87b8a",
+      "processed": true,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "loop_processing": {
+        "start_s": 5,
+        "source_duration_s": 16.25,
+        "output_duration_s": 16.0,
+        "crossfade_s": 0.25,
+        "gain_db": 0,
+        "curve": "linear tail/head crossfade with cyclic rotation"
+      },
+      "prepared_sha256": "ddc0b02a4a9d7943bf255a26a95d60c3e3f7a8f00a7a754ef21eb0ad58f46002",
+      "bytes": 385388,
+      "before_calibration_sha256": "3ab4a2353b7bfae3120a0cbf351da57c6f5e394bf3401464ed2e9694a9623d70",
+      "calibration": {
+        "gain_db": 8.0,
+        "method": "integrated_lufs",
+        "target": -30,
+        "input_value": -38.0,
+        "input_true_peak_dbtp": -19.9,
+        "peak_ceiling_dbtp": -3,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "zvuk-tenka.mp3",
+      "original": "assets/sounds/zvuk-tenka.mp3",
+      "original_sha256": "8e3bc8a7cbfeeec74b2e0a11b1d1931a981d68623e77c5c8db7e057af5851203",
+      "processed": true,
+      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "2b160f1788b9848ede98105213ee74c43a2f18010b196e612aa692d91e6ec556",
+      "bytes": 27018,
+      "before_calibration_sha256": "e9d906d1a8850886df29f7e257351fd3de35962301fb16e80b0cc27dedfd9759",
+      "calibration": {
+        "gain_db": -7.9,
+        "method": "integrated_lufs",
+        "target": -24,
+        "input_value": -16.1,
+        "input_true_peak_dbtp": -3.2,
+        "peak_ceiling_dbtp": -3,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "engine-aircraft.mp3",
+      "candidate": "01",
+      "source": "https://freesound.org/people/craigsmith/sounds/479512/",
+      "license": "CC0-1.0",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "ac732479577b65b7cc0a912a5fd46ea7e224dff75c480d1c7128ddf53800b2d5",
+      "bytes": 145196,
+      "before_calibration_sha256": "559673718486885b75f79fcf0c8dc9dad55288556e1eaa8af133accecc816126",
+      "calibration": {
+        "gain_db": 3.8,
+        "method": "integrated_lufs",
+        "target": -24,
+        "input_value": -27.8,
+        "input_true_peak_dbtp": -16.5,
+        "peak_ceiling_dbtp": -3,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "engine-boat.mp3",
+      "candidate": "02",
+      "source": "https://freesound.org/people/AugustSandberg/sounds/264864/",
+      "license": "CC0-1.0",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "dd8dd813ab917d4cc31c7c498de34d5cc789b6eb447f1820d48c4ca975bd7479",
+      "bytes": 145196,
+      "before_calibration_sha256": "aed54ac132bdbff95dbd117b20aaab0086b74896f1bed4204ca9444e0214ac2d",
+      "calibration": {
+        "gain_db": -0.6,
+        "method": "integrated_lufs",
+        "target": -24,
+        "input_value": -23.4,
+        "input_true_peak_dbtp": -8.0,
+        "peak_ceiling_dbtp": -3,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "engine-diesel.mp3",
+      "candidate": "03",
+      "source": "https://freesound.org/people/AugustSandberg/sounds/237292/",
+      "license": "CC0-1.0",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "4dac39f178f9fd891872e035463bf3fc025c193eedeff7f64c065354f59c70f5",
+      "bytes": 145196,
+      "before_calibration_sha256": "de65d1c4f0557bf8c08b1613a44d07374fd71c256f9fb80a516f3ce851a997fb",
+      "calibration": {
+        "gain_db": -3.0,
+        "method": "integrated_lufs",
+        "target": -24,
+        "input_value": -21.0,
+        "input_true_peak_dbtp": -6.9,
+        "peak_ceiling_dbtp": -3,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "water-wake.mp3",
+      "candidate": "10",
+      "source": "https://freesound.org/people/myLoop/sounds/852108/",
+      "license": "CC0-1.0",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "d65e8b4926cdcfa53781c89deb237ffd35369132a771ae67810cc2b698ac89d1",
+      "bytes": 145196,
+      "before_calibration_sha256": "5cc29e201508ba47988f08e0d2711fd818aa51fb1e114bb196f497250caaee1b",
+      "calibration": {
+        "gain_db": 1.0,
+        "method": "integrated_lufs",
+        "target": -28,
+        "input_value": -29.0,
+        "input_true_peak_dbtp": -14.2,
+        "peak_ceiling_dbtp": -3,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "water-impact.mp3",
+      "candidate": "11",
+      "source": "https://freesound.org/people/qubodup/sounds/442773/",
+      "license": "CC0-1.0",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "1220f99254327f7b073460dbcf4ce3b9a8ad7babf5f799d7534f156a92bc4773",
+      "bytes": 53612,
+      "before_calibration_sha256": "92c8fcaec4262dc929a9682cdc2ec91787e7cd9d6b2b146195971da4170a5546",
+      "calibration": {
+        "gain_db": -0.9,
+        "method": "integrated_lufs",
+        "target": -22,
+        "input_value": -21.1,
+        "input_true_peak_dbtp": -3.9,
+        "peak_ceiling_dbtp": -3,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "metal-impact.mp3",
+      "candidate": "12",
+      "source": "https://freesound.org/people/RyanKingArt/sounds/620077/",
+      "license": "CC0-1.0",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "2f7e9bbddb0cfffce347e2c009282cfc269bec7e77241210112db42ca33806a8",
+      "bytes": 34604
+    },
+    {
+      "file": "rocket-thrust.mp3",
+      "candidate": "13",
+      "source": "https://freesound.org/people/qubodup/sounds/146770/",
+      "license": "CC0-1.0",
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "23989578e6bc77b24c8f238fbc482a623188277812ddc54d5907e5eae4bad749",
+      "bytes": 105721
+    },
+    {
+      "file": "footstep-gravel-01.mp3",
+      "candidate": "04",
+      "source": "https://freesound.org/people/IENBA/sounds/818562/",
+      "license": "CC0-1.0",
+      "processing": {
+        "preview": "04-koraci-sljunak-01.mp3",
+        "master": "04-koraci-sljunak-01.wav",
+        "source_start_s": 0,
+        "source_end_s": 0.274083,
+        "duration_s": 0.274083
+      },
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "9120adba5528eb2b35ec50c7cd2af28ffa7244e55d3f23e0daefb9e1c85e090b",
+      "bytes": 8108,
+      "before_calibration_sha256": "c7eb055b62125b2a8edf487ba27c4c01e1854387aca1834f3134d83d8165125a",
+      "calibration": {
+        "gain_db": 10.842,
+        "method": "rms_dbfs",
+        "target": -30,
+        "input_value": -40.842384,
+        "input_true_peak_dbtp": -19.9,
+        "peak_ceiling_dbtp": -6,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "footstep-gravel-02.mp3",
+      "candidate": "04",
+      "source": "https://freesound.org/people/IENBA/sounds/818562/",
+      "license": "CC0-1.0",
+      "processing": {
+        "preview": "04-koraci-sljunak-02.mp3",
+        "master": "04-koraci-sljunak-02.wav",
+        "source_start_s": 0.513458,
+        "source_end_s": 0.800208,
+        "duration_s": 0.28675
+      },
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "013c6e5808379ccbcf26c65cf1bebe72155aeed0f90725abbc9b058c779ce893",
+      "bytes": 8108,
+      "before_calibration_sha256": "f23946002685581a517de8b222313171a752617a965a35d86dba5ab616e64b1a",
+      "calibration": {
+        "gain_db": 10.81,
+        "method": "rms_dbfs",
+        "target": -30,
+        "input_value": -40.810242,
+        "input_true_peak_dbtp": -23.1,
+        "peak_ceiling_dbtp": -6,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "footstep-gravel-03.mp3",
+      "candidate": "04",
+      "source": "https://freesound.org/people/IENBA/sounds/818562/",
+      "license": "CC0-1.0",
+      "processing": {
+        "preview": "04-koraci-sljunak-03.mp3",
+        "master": "04-koraci-sljunak-03.wav",
+        "source_start_s": 1.055813,
+        "source_end_s": 1.2925829999999998,
+        "duration_s": 0.23677
+      },
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "dd87f172ff46ce10b38a7d73ceee1bced980883a1255517eb11ff8319bd215b7",
+      "bytes": 6956,
+      "before_calibration_sha256": "a54dced4c44f107ca165ace762a93a0834c98f286f3e9b3047068aa5f81c4290",
+      "calibration": {
+        "gain_db": 8.502,
+        "method": "rms_dbfs",
+        "target": -30,
+        "input_value": -38.501907,
+        "input_true_peak_dbtp": -17.9,
+        "peak_ceiling_dbtp": -6,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "footstep-gravel-04.mp3",
+      "candidate": "04",
+      "source": "https://freesound.org/people/IENBA/sounds/818562/",
+      "license": "CC0-1.0",
+      "processing": {
+        "preview": "04-koraci-sljunak-04.mp3",
+        "master": "04-koraci-sljunak-04.wav",
+        "source_start_s": 1.576437,
+        "source_end_s": 1.749417,
+        "duration_s": 0.17298
+      },
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "17a37b567ceb1e0156250718e076a5605ab0de712762424b2fc38c5727690ba7",
+      "bytes": 5804,
+      "before_calibration_sha256": "1eea48cbee829461c37952021e6f6016cc032f26cff6d8f72671d2115ea58278",
+      "calibration": {
+        "gain_db": 12,
+        "method": "rms_dbfs",
+        "target": -30,
+        "input_value": -42.891531,
+        "input_true_peak_dbtp": -24.3,
+        "peak_ceiling_dbtp": -6,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "footstep-gravel-05.mp3",
+      "candidate": "04",
+      "source": "https://freesound.org/people/IENBA/sounds/818562/",
+      "license": "CC0-1.0",
+      "processing": {
+        "preview": "04-koraci-sljunak-05.mp3",
+        "master": "04-koraci-sljunak-05.wav",
+        "source_start_s": 2.033979,
+        "source_end_s": 2.208271,
+        "duration_s": 0.174292
+      },
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "98d8fee902aa8615a964dbd4df653976c292a1f4549829d8c750f539eddc8e89",
+      "bytes": 5804,
+      "before_calibration_sha256": "b0765586fd8791c74447425a4668ba63f02631fe963cbb5f8d63ae47b4238f5a",
+      "calibration": {
+        "gain_db": 12,
+        "method": "rms_dbfs",
+        "target": -30,
+        "input_value": -46.288557,
+        "input_true_peak_dbtp": -23.1,
+        "peak_ceiling_dbtp": -6,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "footstep-gravel-06.mp3",
+      "candidate": "04",
+      "source": "https://freesound.org/people/IENBA/sounds/818562/",
+      "license": "CC0-1.0",
+      "processing": {
+        "preview": "04-koraci-sljunak-06.mp3",
+        "master": "04-koraci-sljunak-06.wav",
+        "source_start_s": 2.52075,
+        "source_end_s": 2.719271,
+        "duration_s": 0.198521
+      },
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "93feca32466e2330315dd62ef50d24d2f780e737a0105578412b91705db55280",
+      "bytes": 6380,
+      "before_calibration_sha256": "0b74d1b8def6929d0b96c5e85ec8ba42c10a35d5976e119f72b5267eee0f80e0",
+      "calibration": {
+        "gain_db": 12,
+        "method": "rms_dbfs",
+        "target": -30,
+        "input_value": -43.387408,
+        "input_true_peak_dbtp": -27.5,
+        "peak_ceiling_dbtp": -6,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "footstep-gravel-07.mp3",
+      "candidate": "04",
+      "source": "https://freesound.org/people/IENBA/sounds/818562/",
+      "license": "CC0-1.0",
+      "processing": {
+        "preview": "04-koraci-sljunak-07.mp3",
+        "master": "04-koraci-sljunak-07.wav",
+        "source_start_s": 3.072771,
+        "source_end_s": 3.266104,
+        "duration_s": 0.193333
+      },
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "1f8a7ac7f7be17b508bd8414f169fd8299cbda16568c5ec8d4fae1662680ef27",
+      "bytes": 6380,
+      "before_calibration_sha256": "244a30114671a4dc2f2e17a6ba1edc40cdfe17b687cf380f810a7033d0e73eb9",
+      "calibration": {
+        "gain_db": 12,
+        "method": "rms_dbfs",
+        "target": -30,
+        "input_value": -45.647062,
+        "input_true_peak_dbtp": -28.8,
+        "peak_ceiling_dbtp": -6,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "footstep-gravel-08.mp3",
+      "candidate": "04",
+      "source": "https://freesound.org/people/IENBA/sounds/818562/",
+      "license": "CC0-1.0",
+      "processing": {
+        "preview": "04-koraci-sljunak-08.mp3",
+        "master": "04-koraci-sljunak-08.wav",
+        "source_start_s": 3.516646,
+        "source_end_s": 3.687167,
+        "duration_s": 0.170521
+      },
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "74e6e393eb6af840fc278960b6846b77f8d0545a76841078f8ef2401367be5e2",
+      "bytes": 5804,
+      "before_calibration_sha256": "c259a77be9065c889629152fb42c507e3e34b28e6ade2c964789cfa3fa8758d9",
+      "calibration": {
+        "gain_db": 10.531,
+        "method": "rms_dbfs",
+        "target": -30,
+        "input_value": -40.531132,
+        "input_true_peak_dbtp": -22.3,
+        "peak_ceiling_dbtp": -6,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "footstep-gravel-09.mp3",
+      "candidate": "04",
+      "source": "https://freesound.org/people/IENBA/sounds/818562/",
+      "license": "CC0-1.0",
+      "processing": {
+        "preview": "04-koraci-sljunak-09.mp3",
+        "master": "04-koraci-sljunak-09.wav",
+        "source_start_s": 4.042146000000001,
+        "source_end_s": 4.274062000000001,
+        "duration_s": 0.231916
+      },
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "0300becfc6d2d862b851c3f48987697d24d831277cee99b8c04fad2c85e03b5e",
+      "bytes": 6956,
+      "before_calibration_sha256": "3d4eabaee27396eb7ef0ddbb1aca898242cf547f828845cda28c69063e8126ea",
+      "calibration": {
+        "gain_db": 12,
+        "method": "rms_dbfs",
+        "target": -30,
+        "input_value": -45.427607,
+        "input_true_peak_dbtp": -28.1,
+        "peak_ceiling_dbtp": -6,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "footstep-gravel-10.mp3",
+      "candidate": "04",
+      "source": "https://freesound.org/people/IENBA/sounds/818562/",
+      "license": "CC0-1.0",
+      "processing": {
+        "preview": "04-koraci-sljunak-10.mp3",
+        "master": "04-koraci-sljunak-10.wav",
+        "source_start_s": 4.510750000000001,
+        "source_end_s": 4.775667,
+        "duration_s": 0.264917
+      },
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "6bddbfe798ddd167e998d273fcc454bfa1891de32b3422e1c5f98f2ad7826ddc",
+      "bytes": 8108,
+      "before_calibration_sha256": "f4c923d7e73163fd5aceb11eeb1114abe4d3d43fad170db5a52b8498de2384e9",
+      "calibration": {
+        "gain_db": 12,
+        "method": "rms_dbfs",
+        "target": -30,
+        "input_value": -43.124281,
+        "input_true_peak_dbtp": -24.1,
+        "peak_ceiling_dbtp": -6,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "footstep-gravel-11.mp3",
+      "candidate": "04",
+      "source": "https://freesound.org/people/IENBA/sounds/818562/",
+      "license": "CC0-1.0",
+      "processing": {
+        "preview": "04-koraci-sljunak-11.mp3",
+        "master": "04-koraci-sljunak-11.wav",
+        "source_start_s": 5.023687000000001,
+        "source_end_s": 5.232063,
+        "duration_s": 0.208376
+      },
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "0541b042b7e350d455686226147ea43cadda4c1025127b284afbfe5d91d9926c",
+      "bytes": 6380,
+      "before_calibration_sha256": "3c12cf113e891ce007e9614f64d626ce580b7c4a05cd435506212072a5e52c52",
+      "calibration": {
+        "gain_db": 11.432,
+        "method": "rms_dbfs",
+        "target": -30,
+        "input_value": -41.431638,
+        "input_true_peak_dbtp": -21.9,
+        "peak_ceiling_dbtp": -6,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "footstep-gravel-12.mp3",
+      "candidate": "04",
+      "source": "https://freesound.org/people/IENBA/sounds/818562/",
+      "license": "CC0-1.0",
+      "processing": {
+        "preview": "04-koraci-sljunak-12.mp3",
+        "master": "04-koraci-sljunak-12.wav",
+        "source_start_s": 5.530292,
+        "source_end_s": 5.813208,
+        "duration_s": 0.282916
+      },
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "464cec9bbd10daf1a49a6b919a3daf99efa538676cf7f4c411ce5af31089e6d4",
+      "bytes": 8108,
+      "before_calibration_sha256": "fd7249e29187b240846762fbdd249aec230b0870ad1e3d488a4c1ae80fc60412",
+      "calibration": {
+        "gain_db": 12,
+        "method": "rms_dbfs",
+        "target": -30,
+        "input_value": -47.854828,
+        "input_true_peak_dbtp": -27.0,
+        "peak_ceiling_dbtp": -6,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "body-impact-01.mp3",
+      "candidate": "08",
+      "source": "https://freesound.org/people/Vrymaa/sounds/734629/",
+      "license": "CC0-1.0",
+      "processing": {
+        "preview": "08-doskoci-udarci-01.mp3",
+        "master": "08-doskoci-udarci-01.wav",
+        "source_start_s": 0.094785,
+        "source_end_s": 1.832188,
+        "duration_s": 1.737403
+      },
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "b75bae7a4747a4ac3cda23d68239fbdb983e4793af248414f824ee47acaa2584",
+      "bytes": 43301,
+      "before_calibration_sha256": "49e274a7d3f7aa410566e902dccd0077d0d85af755de702aceb3e326b7968251",
+      "calibration": {
+        "gain_db": -2.8,
+        "method": "integrated_lufs",
+        "target": -24,
+        "input_value": -21.2,
+        "input_true_peak_dbtp": -1.5,
+        "peak_ceiling_dbtp": -3,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "body-impact-02.mp3",
+      "candidate": "08",
+      "source": "https://freesound.org/people/Vrymaa/sounds/734629/",
+      "license": "CC0-1.0",
+      "processing": {
+        "preview": "08-doskoci-udarci-02.mp3",
+        "master": "08-doskoci-udarci-02.wav",
+        "source_start_s": 2.598957,
+        "source_end_s": 3.5875619999999997,
+        "duration_s": 0.988605
+      },
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "33c4424ac2b02e5c324e1ba1ca3aa4d492a12a64c7473098acacf080959a9465",
+      "bytes": 25120
+    },
+    {
+      "file": "body-impact-03.mp3",
+      "candidate": "08",
+      "source": "https://freesound.org/people/Vrymaa/sounds/734629/",
+      "license": "CC0-1.0",
+      "processing": {
+        "preview": "08-doskoci-udarci-03.mp3",
+        "master": "08-doskoci-udarci-03.wav",
+        "source_start_s": 4.161905000000001,
+        "source_end_s": 6.982687,
+        "duration_s": 2.820782
+      },
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "0d72b10c3224a1d9f7ff2578b85a1edf0ef6d17a1cdd5a3d90af2544f16379fe",
+      "bytes": 69006,
+      "before_calibration_sha256": "f8244866e8d2eadb841e6fdd35e598a68d4fa480a9c9d1c27f638f7d0eccc657",
+      "calibration": {
+        "gain_db": 2.4,
+        "method": "integrated_lufs",
+        "target": -24,
+        "input_value": -26.4,
+        "input_true_peak_dbtp": -7.3,
+        "peak_ceiling_dbtp": -3,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "body-impact-04.mp3",
+      "candidate": "08",
+      "source": "https://freesound.org/people/Vrymaa/sounds/734629/",
+      "license": "CC0-1.0",
+      "processing": {
+        "preview": "08-doskoci-udarci-04.mp3",
+        "master": "08-doskoci-udarci-04.wav",
+        "source_start_s": 7.538753000000001,
+        "source_end_s": 8.953118,
+        "duration_s": 1.414365
+      },
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "ee8c3323acea6e122b18530725ba1d4e444f3cbb49db58fa0d402f70a5386b2f",
+      "bytes": 35778,
+      "before_calibration_sha256": "3fa0e7a81ea548d36e636e16beda69edcbc6a8ab3a65c32b89e981ac4c1dca0b",
+      "calibration": {
+        "gain_db": 0.8,
+        "method": "integrated_lufs",
+        "target": -24,
+        "input_value": -24.8,
+        "input_true_peak_dbtp": -7.8,
+        "peak_ceiling_dbtp": -3,
+        "maximum_boost_db": 12,
+        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
+      }
+    },
+    {
+      "file": "defeat-swoosh.mp3",
+      "original": "assets/sounds/fire-swoosh.mp3",
+      "original_sha256": "9d88c55a84753027f658f435b6a96f7ed076dda1aad3aec6085310b5ba56dc7b",
+      "prepared_sha256": "660e5cdef1f0689f8074bbdb0a1d20f305a8c9dac061eba9d221ab727f385739",
+      "processing": "Bake the existing defeat cue playbackRate=0.7 into the recording; preserve the UI pitch policy and do not create a separate player.",
+      "license": "Legacy source provenance unconfirmed",
+      "bytes": 105452,
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix"
+    }
+  ],
+  "post_processing_measurement": "../../docs/references/audio/zv06-prepared-2026-11-19.json"
+}

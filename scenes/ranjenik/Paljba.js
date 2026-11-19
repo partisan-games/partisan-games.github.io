@@ -1,13 +1,13 @@
 import GameObject2D from '/core/actor/GameObject2D.js'
 import { canvas2d } from '/core/io/canvas2d.js'
 import { randomInRange } from '/core/utils.js'
-import { createSound } from '/core/io/sound.js'
+import Sound from '/core/io/audio/SoundSource.js'
 
 export default class Paljba extends GameObject2D {
   constructor() {
     super('items/krateri/krater.gif')
     this.postaviRandom()
-    createSound('explosion.mp3', { random: true }).play()
+    this.sounds.push(new Sound('explosion.mp3', { autoplay: true, profile: 'explosion', spatial: { getPosition: () => this.position } }))
   }
 
   randomX(marginaX) {

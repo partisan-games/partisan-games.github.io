@@ -7,7 +7,7 @@ import GameSession from './runtime/GameSession.js'
 import FixedStep from './runtime/FixedStep.js'
 import PausePolicy from './PausePolicy.js'
 import World from './World.js'
-import SceneAudio from './io/SceneAudio.js'
+import SceneAudio from './io/audio/SceneAudio.js'
 
 // the scene that last showed each shared canvas; a scene ended late must not hide or wipe the next scene's drawing
 const canvasOwners = new WeakMap()
@@ -38,6 +38,11 @@ export default class Scene {
     if (disableEvents) return
 
     this.handleClick = this.handleClick.bind(this)
+    this.unlockAudio = event => {
+      if (event.isTrusted && !event.repeat) this.sceneAudio.unlock().catch(() => {})
+    }
+    document.addEventListener('click', this.unlockAudio, true)
+    document.addEventListener('keydown', this.unlockAudio, true)
     document.addEventListener('click', this.handleClick)
     this.pausePolicy = new PausePolicy({ usePointerLock, pause: () => this.pause() })
   }
@@ -61,7 +66,7 @@ export default class Scene {
   }
 
   syncSounds() {
-    this.sceneAudio.sync([...this.children, this.player, this.background, this.ui, ...this.audioChildren], this.session.state)
+    this.sceneAudio.sync([this.children, this.player, this.background, this.ui, this.audioChildren], this.session.state)
   }
 
   get children() {
@@ -123,6 +128,8 @@ export default class Scene {
     }
 
     document.removeEventListener('click', this.handleClick)
+    document.removeEventListener('click', this.unlockAudio, true)
+    document.removeEventListener('keydown', this.unlockAudio, true)
     this.pausePolicy?.end()
   }
 
@@ -168,6 +175,7 @@ export default class Scene {
   present() {}
 
   loop = (dt, t) => {
+    const audioTime = this.session.presentationClock.now
     this.syncSounds()
     if (this.stepper) this.simulate(dt, t)
     else {
@@ -176,6 +184,7 @@ export default class Scene {
       this.update(dt, t)
     }
     this.syncSounds()
+    this.sceneAudio.update(this.session.presentationClock.now - audioTime)
     this.clear()
     this.render()
     this.ui.render(t)

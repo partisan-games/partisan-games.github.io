@@ -1,6 +1,6 @@
 import Sprite from '/core/actor/Sprite.js'
 import artFrame from './artFrame.js'
-import Sound from '/core/io/ManagedSound.js'
+import Sound from '/core/io/audio/SoundSource.js'
 
 export default class Strelac extends Sprite {
   constructor(x, y) {
@@ -10,7 +10,7 @@ export default class Strelac extends Sprite {
     })
     this.shotElapsed = 0
     this.baseY = y
-    this.shotSound = new Sound('rifle.mp3', { volume: .25 })
+    this.shotSound = new Sound('rifle.mp3', { volume: .25, profile: 'rifle', spatial: { getPosition: () => this.position } })
     this.sounds.push(this.shotSound)
   }
 

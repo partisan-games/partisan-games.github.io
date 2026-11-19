@@ -28,6 +28,7 @@ The separate checks and how the tests work: [docs/TESTING.md](docs/TESTING.md).
 - dodati globalni settings za volume i možda još nešto
 - vis: nađi bolji zvuk pucanja
 - proveri warplane na mobilnom (privremeno isključeno hide-on-mobile)
+- UI: dugme za back, glavni meni i sve što vodi na index uvek treba da bude na vrhu, u svakom prozoru
 
 Ideje za nivoe:
 - odbrani polozaj (kamera odozgo, nadiru sa svih strana)

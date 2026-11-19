@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import { similarColor } from '/core3d/helpers.js'
-import { createSound } from '/core/io/sound.js'
+import Sound from '/core/io/audio/SoundSource.js'
 import { assets } from '/config.js'
 import { FPS } from '/core/constants.js'
 
@@ -159,8 +159,8 @@ export class Rain extends Particles {
   constructor({ file = 'rain-drop.png', num = 1000, size = .1, opacity = .75, minRadius = 2, maxRadius = 5, minVelocity = 30, maxVelocity = 90, color = 0xDEF4FC, min = 0, max = 50, ...rest } = {}) {
     super({ file, num, size, opacity, minRadius, maxRadius, color, minVelocity, maxVelocity, blending: THREE.NormalBlending, ...rest })
 
-    this.audio = createSound('rain.mp3', { volume: .5 })
-    this.audio.loop = true
+    this.audio = new Sound('rain.mp3', { volume: .5, loop: true, profile: 'ambience' })
+    this.sounds = [this.audio]
     this.playing = false
     this.min = min
     this.max = max
@@ -169,7 +169,7 @@ export class Rain extends Particles {
   update(dt, t, options = {}) {
     super.update(dt, t, { axis: 1, ...options })
     if (!this.playing) {
-      this.audio.play()
+      this.audio.setPlaying(true)
       this.playing = true
     }
   }

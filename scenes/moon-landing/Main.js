@@ -52,6 +52,7 @@ export default class MoonLandingScene extends Scene3D {
     this.addMesh(this.jupiter, this.saturn, this.moon, moonLight, this.arcology)
 
     this.lander = new Lander({ platform })
+    this.audioPlayer = () => this.lander
     this.add(this.lander, stars, platform)
   }
 

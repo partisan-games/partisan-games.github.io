@@ -1,4 +1,4 @@
-import { exitedRight } from '/core/utils/bounds.js'
+﻿import { exitedRight } from '/core/utils/bounds.js'
 import Scene2D from '/core/Scene2D.js'
 import Background from '/core/objects/Background.js'
 import WoundedSoldier from '/core/actor/derived/WoundedSoldier.js'
@@ -16,6 +16,7 @@ export default class RanjenikScene extends Scene2D {
   }
 
   init() {
+    this.sceneAudio.output.preload('explosion.mp3')
     this.scena = 0
     this.background = new Background('armies/shumarak-pozadina.png')
     this.player = new WoundedSoldier(this.width / 4, this.height / 2)
@@ -46,6 +47,7 @@ export default class RanjenikScene extends Scene2D {
     this.patrola.vanish()
     this.background.image.src = '/assets/images/armies/shumarak-pozadina.png'
     this.remove(...this.children.filter(p => p instanceof Paljba))
+    this.player.audioRevision = (this.player.audioRevision ?? 0) + 1
     this.player.x = 10
     this.victory('You\'ve made it to safety!')
   }
@@ -54,6 +56,7 @@ export default class RanjenikScene extends Scene2D {
     this.background.image.src = '/assets/images/textures/sprzena-zemlja.jpg'
     this.patrola.image.src = '/assets/images/armies/talijani-patrola.gif'
     this.patrola.setPosition(this.width * 3 / 4, this.height * 3 / 4)
+    this.player.audioRevision = (this.player.audioRevision ?? 0) + 1
     this.player.x = 10
     this.scena++
   }

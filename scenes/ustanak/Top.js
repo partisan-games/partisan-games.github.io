@@ -6,7 +6,7 @@ import Collider from '/core/collision/Collider.js'
 import { box, circle, fromImage } from '/core/collision/shapes.js'
 import Djule from './Djule.js'
 import Terrain from './Terrain.js'
-import Sound from '/core/io/ManagedSound.js'
+import Sound from '/core/io/audio/SoundSource.js'
 
 const scale = .75
 const minElevation = Math.PI * 2 - 6.2
@@ -62,7 +62,7 @@ export default class Top extends GameObject2D {
     this.health = new Health()
     this.canFire = canFire
     this.onFire = onFire
-    this.shotSound = new Sound('cannon-shot.mp3')
+    this.shotSound = new Sound('cannon-shot.mp3', { profile: 'cannon', spatial: { getPosition: () => ({ x: this.vrhX, y: this.vrhY }) } })
     this.sounds.push(this.shotSound)
   }
 
@@ -71,6 +71,7 @@ export default class Top extends GameObject2D {
   }
 
   resetRound() {
+    this.audioRevision = (this.audioRevision ?? 0) + 1
     this.projektili.forEach(projectile => projectile.reset())
     for (const owner of [this, ...this.projektili]) owner.sounds.forEach(sound => sound.stop())
     this.health.reset()

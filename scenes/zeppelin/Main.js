@@ -51,6 +51,7 @@ export default class ZeppelinScene extends Scene3D {
     const player = new Dirigible({ camera: this.camera, solids: terrain, showCameraButton: true })
     player.position.z = 200
     player.solids.push(castle)
+    this.audioPlayer = () => player
     this.add(player)
 
     const treesCoords = getEmptyCoords({ mapSize: mapSize * .5, fieldSize: 4, emptyCenter: 50 })

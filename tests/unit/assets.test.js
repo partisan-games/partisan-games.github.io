@@ -59,6 +59,7 @@ test('textured shapes take their textures from /assets/images/textures', async()
 })
 
 test('sounds come from /assets/sounds', async() => {
-  const { createSound } = await import('/core/io/sound.js')
-  assert.equal(pathOf(createSound('rafal.mp3').src), '/assets/sounds/rafal.mp3')
+  const { AudioEngine } = await import('/core/io/audio/AudioEngine.js')
+  const engine = new AudioEngine()
+  assert.equal(pathOf(engine.url('rafal.mp3')), '/assets/sounds/rafal.mp3')
 })

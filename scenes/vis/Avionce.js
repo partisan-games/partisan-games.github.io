@@ -1,7 +1,7 @@
 import Player2D from '/core/actor/Player2D.js'
 import ProjectilePool from '/core/actor/ProjectilePool.js'
 import canvas2d from '/core/io/canvas2d.js'
-import { createSound } from '/core/io/sound.js'
+import Sound from '/core/io/audio/SoundSource.js'
 import Cooldown from '/core/gameplay/Cooldown.js'
 import Weapon from '/core/gameplay/Weapon.js'
 import Bullet from './Bullet.js'
@@ -26,6 +26,8 @@ export class Avionce extends Player2D {
   constructor({ session, aircraftId = 'spitfire' }) {
     // vis was tuned on a 60 Hz screen, unlike the older games
     super(getAircraft(aircraftId).image, { scale: .5, flammable: true, shadow: true, tunedFps: 60, ...inputOptions })
+    this.bombSound = new Sound('explosion.mp3', { profile: 'explosion', spatial: { getPosition: () => this.position } })
+    this.sounds.push(this.bombSound)
     this.aircraftId = aircraftId
     this.session = session
     this.speed = 0
@@ -72,6 +74,7 @@ export class Avionce extends Player2D {
   }
 
   toStart() {
+    this.audioRevision = (this.audioRevision ?? 0) + 1
     this.setPosition(canvas2d.width / 2, canvas2d.height - this.height)
   }
 
@@ -132,7 +135,7 @@ export class Avionce extends Player2D {
     if (!this.bombs) return
 
     this.bombs--
-    createSound('explosion.mp3').play()
+    this.bombSound.play()
     const radius = bombRadius * Math.min(canvas2d.width, canvas2d.height)
     // whatever the fire touches, also just past the outermost burst
     const inBlast = thing => this.distanceTo(thing) < radius + Explosion.reach

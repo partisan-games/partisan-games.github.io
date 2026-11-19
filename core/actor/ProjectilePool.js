@@ -37,6 +37,7 @@ export default class ProjectilePool {
     const projectile = this.create()
     this.projectiles.push(projectile)
     this.owner.children.push(projectile)
+    this.owner.audioScene?.attach(projectile)
     return projectile
   }
 }

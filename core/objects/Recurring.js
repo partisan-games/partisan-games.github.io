@@ -12,6 +12,7 @@ export default class Recurring extends GameObject2D {
 
   reset() {
     this.alive = true
+    this.audioRevision = (this.audioRevision ?? 0) + 1
   }
 
   die() {

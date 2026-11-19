@@ -1,3 +1,4 @@
+import Sound from '/core/io/audio/SoundSource.js'
 import { ctx } from '/core/io/canvas2d.js'
 import ProjectilePool from '/core/actor/ProjectilePool.js'
 import Weapon from '/core/gameplay/Weapon.js'
@@ -15,6 +16,12 @@ export default class ShoreMachineGun extends CombatTarget {
     super({ session, viewLeft, maximum: 30, src: 'armies/game-ready/polozaji/mitraljesko-gnezdo-odozgo.svg',
       width: 60, height: 24, visible: false })
     this.session = session
+    this.shotSound = new Sound('rifle.mp3', { profile: 'rifle', spatial: { getPosition: () => this.muzzle } })
+    this.sounds.push(this.shotSound)
+    this.fireSound = new Sound('fire.mp3', { volume: .4, loop: true, profile: 'fire', spatial: { getPosition: () => this.position } })
+    this.sounds.push(this.fireSound)
+    this.explosionSound = new Sound('explosion.mp3', { profile: 'explosion', spatial: { getPosition: () => this.position } })
+    this.sounds.push(this.explosionSound)
     this.target = target
     this.engaged = false
     this.shots = 0
@@ -23,7 +30,7 @@ export default class ShoreMachineGun extends CombatTarget {
     this.crew = new GameObject2D('armies/nemci-patrola.gif', { z: -.5, width: 24, height: 27 })
     this.crew.render = () => this.renderCrew()
     this.children.push(this.crew)
-    this.bullets = new ProjectilePool({ owner: this, create: () => {
+    this.bullets = new ProjectilePool({ owner: this, onFire: () => this.shotSound.play(), create: () => {
       const bullet = new BoatBullet(viewLeft)
       bullet.damage = 3
       return bullet
@@ -55,7 +62,10 @@ export default class ShoreMachineGun extends CombatTarget {
   takeHit(damage, lifeId = this.lifeId) {
     const { alive } = this
     const applied = super.takeHit(damage, lifeId)
-    if (alive && this.dead) this.destruction.start()
+    if (alive && this.dead) {
+      this.destruction.start()
+      this.explosionSound.play()
+    }
     return applied
   }
 
@@ -68,6 +78,7 @@ export default class ShoreMachineGun extends CombatTarget {
   }
 
   update(dt) {
+    this.fireSound.setPlaying(this.visible && this.dead)
     if (this.session.state !== 'running' || !this.visible) return
     this.destruction.update(dt)
     if (this.dead) return

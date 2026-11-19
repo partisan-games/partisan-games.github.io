@@ -1,7 +1,7 @@
 import GameObject2D from '/core/actor/GameObject2D.js'
 import { canvas2d } from '/core/io/canvas2d.js'
 import Projectile from './Projectile.js'
-import Sound from '/core/io/ManagedSound.js'
+import Sound from '/core/io/audio/SoundSource.js'
 
 const explosionDuration = .15 // seconds
 
@@ -14,8 +14,8 @@ export default class Shell extends Projectile {
     this.groundLevel = groundLevel
     this.gravity = gravity
     this.timerId = null
-    this.flightSound = new Sound('shell-flight.mp3', { volume: .45, loop: true })
-    this.explosionSound = new Sound('explosion.mp3', { volume: .9 })
+    this.flightSound = new Sound('shell-flight.mp3', { volume: .45, loop: true, profile: 'flight', spatial: { getPosition: () => this.position } })
+    this.explosionSound = new Sound('explosion.mp3', { volume: .9, profile: 'explosion', spatial: { getPosition: () => this.position } })
     this.sounds.push(this.flightSound, this.explosionSound)
     this.smallFlame = new GameObject2D('plamen.gif', { scale: 0.4 })
     this.children.push(this.smallFlame)
@@ -69,7 +69,7 @@ export default class Shell extends Projectile {
   }
 
   update(dt) {
-    this.flightSound.setPlaying(Boolean(this.visible && this.shown && !this.timerId))
+    this.flightSound.setPlaying(Boolean(this.visible && !this.timerId))
     // Keep the confirmed impact still until its delayed damage resolves.
     if (this.timerId) return
     super.update(dt)

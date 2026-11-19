@@ -1,7 +1,8 @@
+import Sound from '/core/io/audio/SoundSource.js'
 import Player2D from '/core/actor/Player2D.js'
 import { frames } from '/core/constants.js'
 import ProjectilePool from '/core/actor/ProjectilePool.js'
-import Projectile from '/core/actor/projectiles/Projectile.js'
+import Rocket from '/core/actor/projectiles/Rocket.js'
 import Weapon from '/core/gameplay/Weapon.js'
 import Cooldown from '/core/gameplay/Cooldown.js'
 import { nearestTarget } from '/core/actor/targeting.js'
@@ -16,8 +17,10 @@ export default class PlayerPlane extends Player2D {
     this.speed = 0
     this.groundLevel = groundLevel
     this.session = session
+    this.engineSound = new Sound('engine-aircraft.mp3', { volume: .2, loop: true, profile: 'engine', spatial: { getPosition: () => this.position } })
+    this.sounds.push(this.engineSound)
     this.targets = []
-    this.bullets = new ProjectilePool({ owner: this, create: () => new Projectile({ src: 'items/raketa.png', scale: .55 }) })
+    this.bullets = new ProjectilePool({ owner: this, create: () => new Rocket({ src: 'items/raketa.png', scale: .55 }) })
     this.weapon = new Weapon({
       cooldown: new Cooldown({ seconds: 1.5, clock: session.clock }),
       spawnProjectile: (position, angle) => this.bullets.fire(position, angle, 500),
@@ -108,6 +111,7 @@ export default class PlayerPlane extends Player2D {
   }
 
   update(dt, t) {
+    this.engineSound.setPlaying(!this.dead)
     super.update(dt, t)
     this.checkGround()
     this.checkCollisions()

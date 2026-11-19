@@ -1,3 +1,4 @@
+import Sound from '/core/io/audio/SoundSource.js'
 import ProjectilePool from '/core/actor/ProjectilePool.js'
 import Projectile from '/core/actor/projectiles/Projectile.js'
 import Shell from '/core/actor/projectiles/Shell.js'
@@ -38,8 +39,13 @@ export function shellAngle(origin, target, speed = shellSpeed, gravity = shellGr
 }
 
 class EnemyWeapon {
-  constructor({ owner, clock, createProjectile, aim, speed, burstSize, interval, reload, firstShotDelay = FIRST_SHOT_DELAY }) {
+  constructor({ owner, clock, createProjectile, aim, speed, burstSize, interval, reload, sound = null, profile = 'rifle', firstShotDelay = FIRST_SHOT_DELAY }) {
     this.aim = aim
+    this.origin = null
+    if (sound) {
+      this.shotSound = new Sound(sound, { profile, spatial: { getPosition: () => this.origin } })
+      owner.sounds.push(this.shotSound)
+    }
     this.burstSize = burstSize
     this.shots = 0
     this.firstShotDelay = firstShotDelay
@@ -60,7 +66,9 @@ class EnemyWeapon {
 
   fire(origin, target, angle = this.aim(origin, target)) {
     if (!this.burst.ready) return false
+    this.origin = origin
     if (angle === null || !this.weapon.tryFire(origin, angle)) return false
+    this.shotSound?.play()
     if (++this.shots === this.burstSize) {
       this.shots = 0
       this.burst.start()
@@ -71,7 +79,7 @@ class EnemyWeapon {
 
 export function createMachineGun({ owner, clock }) {
   return new EnemyWeapon({
-    owner, clock,
+    owner, clock, sound: 'rifle.mp3',
     createProjectile: () => {
       const bullet = new EnemyBullet({ src: null, width: 9, height: 2 })
       bullet.damage = 3
@@ -84,7 +92,7 @@ export function createMachineGun({ owner, clock }) {
 
 export function createCannon({ owner, clock, groundY }) {
   return new EnemyWeapon({
-    owner, clock,
+    owner, clock, sound: 'cannon-shot.mp3', profile: 'cannon',
     createProjectile: () => {
       const shell = new EnemyShell({ clock, gravity: shellGravity, groundLevel: groundY })
       shell.damage = 20
@@ -97,7 +105,7 @@ export function createCannon({ owner, clock, groundY }) {
 
 export function createAircraftGun({ owner, clock }) {
   return new EnemyWeapon({
-    owner, clock,
+    owner, clock, sound: 'rifle.mp3',
     createProjectile: () => {
       const bullet = new EnemyBullet({ src: null, width: 9, height: 2 })
       bullet.damage = 2
@@ -111,7 +119,7 @@ export function createAircraftGun({ owner, clock }) {
 
 export function createAirBomb({ owner, clock, groundY }) {
   return new EnemyWeapon({
-    owner, clock,
+    owner, clock, sound: null,
     createProjectile: () => {
       const bomb = new EnemyShell({ clock, gravity: shellGravity, groundLevel: groundY })
       bomb.damage = 12

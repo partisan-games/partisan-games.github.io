@@ -2,7 +2,7 @@ import { isTouchScreen } from '/config.js'
 import Controls from '../ui/Controls.js'
 import Report from './Report.js'
 import { currentStyleClasses, setUiStyle } from './styles.js'
-import Sound from '/core/io/ManagedSound.js'
+import Sound from '/core/io/audio/SoundSource.js'
 
 const elementUI = document.getElementById('ui')
 const modalElement = document.getElementById('modal')
@@ -34,10 +34,9 @@ export default class UI {
   } = {}) {
     setUiStyle(uiStyle)
     this.scene = scene
-    this.turnSound = new Sound('fire-swoosh.mp3', { volume: .2 })
-    this.victorySound = new Sound('fairy-arcade-sparkle.mp3', { volume: .5, afterFinish: true })
-    this.defeatSound = new Sound('fire-swoosh.mp3', { volume: .5, afterFinish: true })
-    this.defeatSound.audio.playbackRate = .7
+    this.turnSound = new Sound('fire-swoosh.mp3', { volume: .2, profile: 'ui' })
+    this.victorySound = new Sound('fairy-arcade-sparkle.mp3', { volume: .5, profile: 'ui', afterFinish: true })
+    this.defeatSound = new Sound('defeat-swoosh.mp3', { volume: .5, profile: 'ui', afterFinish: true })
     this.sounds = [this.turnSound, this.victorySound, this.defeatSound]
     this.intro = intro
     this.startButtonText = startButtonText
@@ -124,8 +123,11 @@ export default class UI {
 
   renderStartScreen() {
     this.showScreen('start', this.startScreen())
-    if (this.reportText)
+    if (this.reportText) {
       this.report = new Report({ text: this.reportText, containerId: 'start-screen' })
+      this.audioChildren = [this.report]
+      this.scene.sceneAudio.attach(this.report)
+    }
   }
 
   showPauseScreen() {

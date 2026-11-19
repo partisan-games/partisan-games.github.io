@@ -24,7 +24,9 @@ Po jedan nepokretan top sa posadom i zastavom na obe strane; levi sastav i raspo
 
 Vetar i razaranje terena prihvaćeni su bez dodatnog UI-ja i mogu se nezavisno isključiti u konfiguraciji objekata radi poređenja. Dim pokazuje vetar; zastave ostaju okrenute ka sredini prema [pravilu animacije](ANIMACIJA-POZADINE.md). Teren ostavlja plitke kratere koji se produbljuju ponovljenim udarima, a jedinice prate tlo pod osloncem; nova runda vraća ravno tlo. Ovo opisuje prihvaćenu verziju, ne predloženi zasebni Worms teren.
 
-Za punjenje je prihvaćen samo zvuk mehanizma, bez dodatnog metalnog udarca; za požar snimak velikog požara zgrade. Prihvaćeni snimci i njihovo poreklo su uz [deljene zvukove](../assets/sounds/SOURCES.md). Glavna jačina je zajednički `config.volume`, bez posebnih podešavanja po igri; pauza utišava zvukove scene. Dalji razvoj prostornog zvuka vodi [globalni plan](PLAN-ZVUK.md).
+Za punjenje je prihvaćen samo zvuk mehanizma, bez dodatnog metalnog udarca; za požar snimak velikog požara zgrade. Prihvaćeni snimci i njihovo poreklo su uz [deljene zvukove](../assets/sounds/SOURCES.md). Glavna jačina je zajednički `config.volume`, bez posebnih podešavanja po igri; pauza utišava zvukove scene. Trajni ugovor je u [arhitekturi](ARHITEKTURA.md), a otvoreni slušni nalazi i neizvršene provere u [uputstvu za provere](TESTING.md#global-audio-migration-verification-limits).
+
+U 1P slušalac ostaje levi igrač/top i tokom računarevog poteza; prati njegov tačan položaj, uključujući spuštanje sa terenom. U 2P slušalac prelazi na sledećeg igrača tek pri stvarnoj smeni poteza, posle razrešenja granate i odložene štete. Zaglađuju se jačina i panorama, ne položaj između igrača; leva/desna strana ostaju strane sveta. Nova runda postavlja početnog igrača pre prvog zvuka, pauza zamrzava prelaz, a kraj meča zadržava poslednjeg slušaoca. Ovo je ugovor ponašanja, ne potvrda da je trenutni miks čujan.
 
 Dogovoreni okvir: ustanak u Crnoj Gori 1941. Levo su ustanici/partizani, desno italijanska artiljerija sa posadom i zastavom. Pre precrtavanja proveriti topove, uniforme i oznake za taj period; konkretna bitka još nije izabrana.
 

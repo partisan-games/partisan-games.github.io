@@ -2,7 +2,7 @@ import Sprite from '/core/actor/Sprite.js'
 import artFrame from './artFrame.js'
 import { keyboard } from '/core/io/Keyboard.js'
 import { leftPlayerKeys as keys } from '/core/io/keys.js'
-import Sound from '/core/io/ManagedSound.js'
+import Sound from '/core/io/audio/SoundSource.js'
 
 const clips = { idle: 1.4, load: .75, fire: .32, recoil: .55 }
 
@@ -15,7 +15,7 @@ export default class Posada extends Sprite {
     this.pocetniX = x
     this.pocetniY = y
     this.direction = direction
-    this.loadSound = new Sound('cannon-load.mp3', { volume: .65 })
+    this.loadSound = new Sound('cannon-load.mp3', { volume: .65, profile: 'cannon', spatial: { getPosition: () => this.position } })
     this.sounds.push(this.loadSound)
   }
 

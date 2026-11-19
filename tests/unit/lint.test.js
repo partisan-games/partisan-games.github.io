@@ -74,7 +74,7 @@ async function importProblems(code, filePath = 'core/gameplay/Example.js') {
 
 test('the shared rules and runtime may import each other but not games, the page or rendering', async() => {
   assert.deepEqual(await importProblems('import GameClock from \'../runtime/GameClock.js\''), [])
-  for (const source of ['/scenes/vis/Main.js', '/ui/UI.js', '/core/io/sound.js', 'three'])
+  for (const source of ['/scenes/vis/Main.js', '/ui/UI.js', '/core/io/audio/SoundSource.js', 'three'])
     assert.equal((await importProblems(`import x from '${source}'`, 'core/runtime/Example.js')).length, 1, source)
   assert.deepEqual(await importProblems('import x from \'/ui/UI.js\'', 'core/actor/Example.js'), [], 'other folders are not bound')
 })
@@ -85,7 +85,7 @@ test('each layer imports only from lower layers', async() => {
     ['core/actor/Example.js', '../io/keys.js'],
     ['core/io/Example.js', '/core/utils.js'],
     ['ui/Example.js', '/core/io/keys.js'],
-    ['ui/Example.js', '../core/io/sound.js'],
+    ['ui/Example.js', '../core/io/audio/SoundSource.js'],
     ['core3d/actor/Example.js', '/core/utils.js'],
     ['core3d/actor/Example.js', '/ui/styles.js'],
   ]

@@ -37,6 +37,7 @@ export default class PhysicsVehicleScene extends Scene3D {
     }
 
     this.vehicle = new Humvee({ camera: this.camera, world: this.physics })
+    this.audioPlayer = () => this.vehicle
     this.add(this.vehicle)
     this.addMesh(...this.vehicle.wheelMeshes)
   }

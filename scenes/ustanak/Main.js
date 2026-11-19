@@ -42,6 +42,7 @@ export default class UstanakScene extends Scene2D {
     this.roundWinner = null
     this.turns = new Turns()
     this.vsComputer = true
+    this.audioPlayer = () => this.vsComputer || this.turns.active === 0 ? this.top : this.opponent
     this.announcingTurn = false
     this.instructionsShown = false
     this.wind = new Wind()
