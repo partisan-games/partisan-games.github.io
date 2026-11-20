@@ -23,10 +23,13 @@ npm run verify
 
 The separate checks and how the tests work: [docs/TESTING.md](docs/TESTING.md).
 
+To try the game blocks one by one (soldiers, vehicles, aircraft, their states and shots), open `/storybook.html` on the same server; see [docs/STORYBOOK.md](docs/STORYBOOK.md).
+
 ## TODO
 
 - razrađivati postojeće nivoe redom
 - proveri warplane na mobilnom (privremeno isključeno hide-on-mobile)
+- Franjo Kluz: dodati pilota i mitraljesca
 
 Ideje za nivoe:
 - odbrani polozaj (kamera odozgo, nadiru sa svih strana)

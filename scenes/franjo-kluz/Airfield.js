@@ -6,7 +6,7 @@ import WorldSprite from './WorldSprite.js'
 export const runwayLength = 2000
 const runwayThickness = 14
 
-/** The Urije airfield: its building, and the asphalt runway behind it where the plane must land. */
+/** The partisan airfield: its building, and the asphalt runway behind it where the plane must land. */
 export default class Airfield extends WorldSprite {
   constructor(options) {
     super('buildings/aerodrom.png', options)

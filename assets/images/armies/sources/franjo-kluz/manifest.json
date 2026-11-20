@@ -1,0 +1,244 @@
+{
+  "schemaVersion": 1,
+  "tool": "Built-in image_gen",
+  "created": "2026-11-20",
+  "purpose": "FK-13: source artwork and sprite-sheet preparation recipe; gameplay integration and owner approval are separate.",
+  "assets": [
+    {
+      "key": "rifleman",
+      "name": "nemacki-strelac",
+      "category": "vojnici",
+      "source": "nemacki-strelac-generated.png",
+      "output": "../../game-ready/vojnici/nemacki-strelac-sprites.png",
+      "grid": {
+        "columns": 4,
+        "rows": 3
+      },
+      "frame": {
+        "width": 128,
+        "height": 128
+      },
+      "prompt": "Use case: historical-scene. Asset: production transparent PNG animation sprite sheet for an existing small 2D side-scrolling WW2 game. Image 1 is the exact German infantryman's identity/equipment reference; image 2 is the approved pixel-art animation style reference. Redraw the man from image 1, preserving his field cap (do not replace it with a helmet), gray-green uniform, dark boots, belt, compact long firearm silhouette, proportions and facing RIGHT. Match image 2's crisp pixel clusters, restrained olive/brown palette, dark readable outlines and small-game-scale readability. This sprite will appear about 56 pixels tall, so simplify detail purposefully rather than drawing a highly detailed illustration and shrinking it. Deliver exactly FOUR equally spaced columns and THREE equally spaced rows: twelve frames, no other objects or panels. Each cell is the same size and uses an identical ground baseline at 88% cell height and fixed foot anchor; every frame including the fallen body must fit entirely inside its own cell with transparent padding. Row 1, four frames: standing ready, a subtle breathing/weight-shift loop, feet stay planted. Row 2, four frames: raise/steady rifle, brief small warm muzzle flash with shoulder recoil, a tiny dissipating puff and recovery, return to ready. Row 3, four frames: non-graphic hit reaction, knees buckle/backward lean, controlled fall, fully fallen soldier resting on that same ground line. The death row progresses clearly; do not merely rotate the whole static sprite. Consistent identity, lighting, pixel density, camera and scale in all twelve frames. Strict side view, not isometric. True transparent alpha background throughout, including between frames: no black, white, checkerboard or scenery, no ground strip, no cast ground shadow, no gridlines, no captions or watermarks. Target sheet aspect 4:3 (1024x768), exact regular four-by-three grid. Preserve all source insignia only as tiny original details; add no new symbols.",
+      "references": [
+        "assets/images/armies/nemci/vojnici/vojnik-01.png",
+        "assets/images/armies/game-ready/vojnici/partizanski-strelac-sprites.png"
+      ],
+      "append": {
+        "source": "nemacki-strelac-patrol-generated.png",
+        "grid": {
+          "columns": 4,
+          "rows": 3
+        },
+        "basePixelsSha256": "53f4fdf0afc1741b4192d56f535fdb30beff212c6b48658ade9c8024ce36f6e5",
+        "prompt": "Use case: precise-object-edit / game sprite-sheet extension.\nReference image: the EXISTING 512x384, four-column, three-row game-ready rifleman atlas. It defines the exact character identity, body proportions, pixel-art style, muted olive uniform, field cap, dark boots, small light skin areas, dark outlines, camera, facing RIGHT, sprite scale and foot placement.\nDeliver ONLY THREE NEW animation rows for this same adult game character, not a repaint of the reference rows. Output a FOUR-column by THREE-row atlas, exactly 12 complete square cells, overall aspect 4:3, genuinely transparent alpha background. The result will be appended BELOW the reference, becoming absolute rows 3, 4, 5. No old poses/death row in this output.\nGrid: every cell represents 128x128 game pixels; at that resolution the root is (64,120), ground contact at y=120, feet centered around x=60. Match the reference's FIRST-row character body height about 97 pixels and head about 18 pixels, relative to its 128-pixel cell. Keep camera, scale, fixed horizontal root and grounded supporting foot IDENTICAL in all 12 new frames. Leave empty transparent margins. No weapons or hands clipping top/right boundaries.\nNEW TOP ROW = rest, four subtly different frames: stands upright and RELAXED, rifle slung over shoulder with muzzle pointing mostly UP or held down along his side, NEVER aimed at a target. The same relaxed rifle position in all rest/walk frames. Only subtle breathing and slight head turns/weight shifts; boots stay planted. Recognizably the same long compact firearm, cap, gray-green jacket/trousers, belt and equipment as the reference.\nNEW MIDDLE ROW = walk, four-frame PATROL WALK CYCLE IN PLACE: same relaxed slung rifle, relaxed shoulders, no aiming. Four distinct readable phases of ordinary walking, alternating contact / passing / opposite contact / passing, opposite arm/leg movement, supporting boot consistently on the y=120 baseline, no whole-body horizontal travel. Same anatomical scale as rest and the reference, no running, crouching or jumping.\nNEW BOTTOM ROW = fireUp, four poses: standing posture and SAME soldier as the reference fire row, but the barrel points diagonally FORWARD RIGHT AND UP, about 50 degrees ABOVE horizontal, held against the shoulder. Frame 1: clean steady aiming pose, NO flash and NO smoke; this is the held ready pose between shots. Frame 2: same elevated aim with tiny warm yellow-orange MUZZLE FLASH right at the barrel tip and small shoulder recoil. Frame 3: same elevated aim with small local gray smoke puff at the tip, no flame. Frame 4: return to frame-1 elevated aiming pose, no flash/smoke. The weapon's visible slender barrel itself must clearly point up-right (not a horizontal gun with a diagonal flash).\nVisual style: reproduce the source's understated crisp small-scale outlined pixel art, limited olive/gray/brown palette, no smooth illustrated gradients, no 3D rendering, no extra microdetail. It must look like additional frames from THIS EXACT sprite artist.\nTransparency and exclusions: true transparent alpha-zero canvas/gutters/corners, no checkerboard or dark background baked in, no ground line, ground shadow, scenery, captions, labels, cell lines, UI, extra people, symbols or added insignia. No injury, no falling and no blood. Every pose and its entire weapon/effect stays inside its OWN cell. Exactly 4x3 cells.",
+        "references": [
+          "assets/images/armies/sources/franjo-kluz/nemacki-strelac-base-reference.png"
+        ],
+        "animations": [
+          {
+            "name": "rest",
+            "row": 3,
+            "frameCount": 4,
+            "duration": 1.6,
+            "loop": true
+          },
+          {
+            "name": "walk",
+            "row": 4,
+            "frameCount": 4,
+            "duration": 0.8,
+            "loop": true
+          },
+          {
+            "name": "fireUp",
+            "row": 5,
+            "frameCount": 4,
+            "duration": 0.32,
+            "loop": false,
+            "muzzle": {
+              "x": 87,
+              "y": 15
+            },
+            "previewLoop": false
+          }
+        ]
+      }
+    },
+    {
+      "key": "assault",
+      "name": "nemacki-jurisnik",
+      "category": "vojnici",
+      "source": "nemacki-jurisnik-padded-generated.png",
+      "output": "../../game-ready/vojnici/nemacki-jurisnik-sprites.png",
+      "grid": {
+        "columns": 4,
+        "rows": 3
+      },
+      "frame": {
+        "width": 128,
+        "height": 128
+      },
+      "prompt": "Create a clean transparent pixel-art sprite atlas for a fictional 2D WW2 arcade game's adult infantry character. Image 1 is the exact character reference. Image 2 is the approved visual style. Keep image 1's field cap, gray-green clothing, equipment, dark boots, forward ready stance, firearm and RIGHT-facing side view; preserve one consistent man in every frame. The style must match image 2: crisp bold pixel clusters and dark outlines, simple readable shading rather than a detailed painting. The man will appear only about 56 pixels tall. Exact sheet layout: 4 equal columns x 3 equal rows, 12 complete equal-size square cells on a regular 4:3 canvas. Row 1 has 4 subtly animated ready/breathing poses, feet planted without traveling. Row 2 has 4 game action poses: steady aim, small mechanical shoulder/weapon recoil and tiny localized muzzle sparkle, return/recovery, original ready pose. Row 3 is a non-graphic balance-loss animation: startled lean, bent knees, naturally articulated gentle sideways fall, resting prone on the same ground baseline. No wounds, blood, impact effects, suffering or graphic imagery. Do not rotate the whole figure as a rigid cutout; change arms, knees and torso naturally. Use the same root placement, scale, camera and ground height in all cells. Completely contain the body and weapon within each cell, including the prone pose. Clear space between cells, true fully transparent alpha background and corners. No background smoke or clouds, no scenery, no ground strips or cast shadows, no grid lines, captions, labels or watermarks. Only a very small localized muzzle sparkle is allowed in the second row; all other non-character pixels must be transparent.",
+      "references": [
+        "assets/images/armies/nemci/vojnici/juris-01.png",
+        "assets/images/armies/game-ready/vojnici/partizanski-strelac-sprites.png"
+      ],
+      "edits": [
+        {
+          "input": "nemacki-jurisnik-generated.png",
+          "prompt": "Precise sprite-atlas correction. Keep the same adult pixel-art game infantry character, same cap, face, green uniform, weapon, outlined pixel style and exact FOUR columns by THREE rows. The third and fourth poses of the BOTTOM row currently cross their cell edges. Redraw ONLY those two poses more compactly (bend limbs and tuck the weapon naturally) so each is wholly contained in its own equal-size cell with at least 6 percent EMPTY TRANSPARENT margin on BOTH left and right. Bottom-row sequence remains gentle lean, crouch, sideways fall, resting prone; no wounds or graphic imagery. Preserve all other eight ready/action frames without redesigning them, but give ALL twelve sprites matching transparent outer padding, a consistent baseline at 88 percent cell height, stable body scale and fixed root. No part of one pose may enter the next cell, and no cell may contain a stray fragment from its neighbors. Exact equally spaced 4x3 square-cell grid, complete bodies, true alpha-zero background and gutters. No background haze, shadow, floor, text or new objects."
+        }
+      ],
+      "append": {
+        "source": "nemacki-jurisnik-patrol-generated.png",
+        "grid": {
+          "columns": 4,
+          "rows": 3
+        },
+        "basePixelsSha256": "90c658d422fca63dd3840f4c3b0dfe0d8649bed7a0613824c5f963fe8875427c",
+        "sourceTrimTop": 48,
+        "prompt": "Use case: precise-object-edit / game sprite-sheet extension.\nInput image 1 is the existing game-ready ASSAULT infantry atlas: the exact adult character, face, field cap, light gray-olive uniform, brown wooden-stock long rifle, belt pouch, boots, RIGHT-facing side view, thick dark outline and deliberately simple small-game pixel art. Keep THIS character, not the darker-uniform rifleman. Deliver only 12 NEW animation frames in an evenly spaced FOUR-column THREE-row square-cell atlas (4:3 canvas), to append below the original. Do not copy old rows or include a falling/death sequence.\nEvery cell corresponds to 128x128 pixels, invariant foot root (64,120), planted/supporting boot at y=120, same anatomical scale as image 1. In the original idle/fire the soldier uses a LOW BENT-KNEE HALF-CROUCHED shooting stance with both feet on the ground: keep that low stance in the new fireUp row. Do not enlarge the man or his head. Allow complete weapons and effects with clean transparent margins on all four sides of every cell. Never translate the whole character across a cell.\nTOP NEW ROW, rest (4 frames, subtle calm loop): stands relaxed, long rifle carried over his shoulder on a sling with barrel pointing upward behind the shoulder, or hanging safely down along his side, NEVER sighting or pointing it forward. Use the SAME rifle carry position throughout the rest and walk rows. Four very small breathing and head-turn differences, planted boots. Calm patrol look. Preserve his gray-olive uniform color, field cap, face and brown wooden rifle.\nMIDDLE NEW ROW, walk (4 frames in-place calm patrol loop): same relaxed shoulder-slung rifle, no aiming. Four distinctly different natural walking phases (left foot contact, passing, right foot contact, passing), alternate legs and free arm, one supporting foot touching the same ground line each time, no travel on x and no running/jumping. Same body and head scale as rest and source.\nBOTTOM NEW ROW, fireUp (4 frames, upward rifle shot): maintain the source's characteristic bent-knee low shooting stance, not an upright rifleman pose. The actual long brown-stock rifle and its visible barrel point FORWARD RIGHT and sharply UP, close to 50 DEGREES ABOVE HORIZONTAL. The barrel rises visibly more than one pixel per pixel forward; it must not look like a level rifle or a shallow 20-degree shot. Draw shoulder stock, grip, forward hand and barrel as a coherent straight weapon aiming up into the air.\nFrame 1: clean steady elevated aim, no flash/smoke; this frame must also serve as the held aiming pose between shots.\nFrame 2: same elevated aim, small shoulder recoil and tiny warm orange/yellow muzzle flash starting at the real barrel tip.\nFrame 3: same aim, tiny local gray smoke puff leaving that same muzzle tip, no flame.\nFrame 4: recovery to the clean frame-1 elevated-aim pose.\nStyle: match source palette, simple face, cap shape, gear, body proportions, outlined crisp pixel clusters and flat side-on camera. Intended game display is only about 64 pixels tall; avoid painterly texture, antialiased/smooth vector look, gradients, 3D, new detailed costume, added insignia or embellishment.\nTrue transparent alpha-zero background, gutters and outer corners, no ground stripe, cast shadow, scenery, text, labels, gridlines, captions, watermark or added objects. All 12 complete figures fit within their own equal-size cells without contact or overlap. Exactly 4 columns x 3 rows.",
+        "references": [
+          "assets/images/armies/sources/franjo-kluz/nemacki-jurisnik-base-reference.png"
+        ],
+        "animations": [
+          {
+            "name": "rest",
+            "row": 3,
+            "frameCount": 4,
+            "duration": 1.6,
+            "loop": true
+          },
+          {
+            "name": "walk",
+            "row": 4,
+            "frameCount": 4,
+            "duration": 0.8,
+            "loop": true
+          },
+          {
+            "name": "fireUp",
+            "row": 5,
+            "frameCount": 4,
+            "duration": 0.32,
+            "loop": false,
+            "muzzle": {
+              "x": 100,
+              "y": 26
+            },
+            "previewLoop": false
+          }
+        ]
+      }
+    },
+    {
+      "key": "opel-blitz",
+      "name": "opel-blitz",
+      "category": "kamioni",
+      "source": "opel-blitz-generated.png",
+      "output": "../../game-ready/kamioni/opel-blitz-sprites.png",
+      "grid": {
+        "columns": 4,
+        "rows": 2
+      },
+      "frame": {
+        "width": 320,
+        "height": 160
+      },
+      "prompt": "Use case: historical-scene. Create a production transparent pixel-art vehicle sprite sheet for a small 2D side-scrolling WW2 game. Image 1 is the exact Opel Blitz truck reference: preserve the LEFT-facing strict side profile, cab, open slatted cargo body with four tall vertical posts, two large visible road wheels, proportions and small original red-white door marking. Image 2 is the approved crisp pixel-art style: readable dark outlines, controlled olive/gray/brown colors and simple shaded pixel clusters. Do not turn the truck into a caricature, toy, 3D isometric object or modern vehicle. Design for an on-screen truck width near 205 pixels, with only details visible at that scale. Deliver exactly FOUR columns and TWO rows, eight complete frames on a strict evenly spaced grid; identical wide rectangular cells, identical truck scale and wheel ground baseline in all frames. Target a wide 4:1 atlas: each cell is twice as wide as high. Row 1, four idle frames: wheels do not turn, subtle engine vibration and a small gray exhaust puff starting from the same exhaust outlet beneath the cab, expanding and fading. Row 2, four rolling frames: wheel spokes/hubs progress through a full smooth looping rotation, body has at most a one-pixel suspension movement, small controlled exhaust puffs progress and dissipate. Vehicle remains fixed at the same horizontal anchor; it does not drive across the sheet. All eight frames show the SAME complete truck, including both wheels, bumper, posts and rear body, with generous transparent padding for the smoke; never clip, overlap or morph vehicle parts. Strict side-on camera. TRUE transparent alpha background, no grass line, road, scenery, ground shadow, backdrop haze, huge smoke, panels, grids or text outside the vehicle. No newly added symbols or insignia. Small exhaust only, no fire or damage.",
+      "references": [
+        "assets/images/armies/ndh/kamioni/opel-blitz-01.png",
+        "assets/images/armies/game-ready/vojnici/partizanski-strelac-sprites.png"
+      ]
+    },
+    {
+      "key": "opel-blitz-legion",
+      "name": "opel-blitz-legion",
+      "category": "kamioni",
+      "source": "opel-blitz-legion-generated.png",
+      "output": "../../game-ready/kamioni/opel-blitz-legion-sprites.png",
+      "grid": {
+        "columns": 4,
+        "rows": 2
+      },
+      "frame": {
+        "width": 320,
+        "height": 160
+      },
+      "prompt": "Production transparent pixel-art animation sheet for a small existing 2D WW2 game. Image 1 is the exact reference truck variant. Image 2 is the matching truck sprite sheet just made for the same game: closely match its camera, silhouette scale, subdued gray-olive colors, outlined pixel-art rendering, wheel treatment and detail density. Preserve image 1's LEFT-facing side profile Opel Blitz, cab with tiny original red-white door marking, open wooden slat cargo body with FOUR tall posts, two road wheels and the small painted 'LEGIONE CROATA' wording on the cargo side. This is a variant of the same truck, not a different model. Draw for final on-screen body width about 205 pixels, keeping only legible game-scale details. Layout exactly FOUR columns and TWO rows of equal-size cells, eight whole trucks. Row 1: four idle frames, stationary wheels, tiny engine vibration and a restrained gray exhaust puff beneath the cab developing and fading. Row 2: four rolling frames, progressing spoke/hub rotation, very slight suspension motion, small exhaust puffs cycling at a fixed outlet; do not slide the whole truck sideways or morph its body. All cells share the same root, wheel ground baseline, full body size and strict side-on camera. Preserve transparent padding and keep posts, wheels, bumper and smoke fully inside each cell. All non-truck/non-local-exhaust pixels must be truly alpha-zero: no backdrop, road, ground strip, scenery, ambient clouds, cast ground shadow, labels, gridlines, captions or watermark. No fire or damage and no newly added insignia. Wide atlas, FOUR columns by TWO rows.",
+      "references": [
+        "assets/images/armies/ndh/kamioni/opel-blitz-02.png",
+        "assets/images/armies/sources/franjo-kluz/opel-blitz-generated.png"
+      ]
+    },
+    {
+      "key": "hummel",
+      "name": "hummel",
+      "category": "tenkovi",
+      "source": "hummel-padded-generated.png",
+      "output": "../../game-ready/tenkovi/hummel-sprites.png",
+      "grid": {
+        "columns": 4,
+        "rows": 2
+      },
+      "frame": {
+        "width": 320,
+        "height": 160
+      },
+      "prompt": "A production pixel-art sprite sheet of the tracked vehicle in reference image 1 for a small 2D retro arcade game. Image 2 supplies the matching outlined vehicle-art style. Preserve image 1's RIGHT-facing strict side silhouette: long horizontal barrel, slanted open upper hull and long low continuous tracks with many road wheels. Show the empty vehicle only, without people, flags or political emblems. Restrained olive camouflage, clear dark pixel outlines, simple readable light/shadow planes, not a realistic painting or 3D isometric view. Intended vehicle body width about 225 screen pixels. A regular atlas with exactly FOUR equal columns and TWO equal rows, eight complete matching vehicles with consistent scale and fixed ground baseline. First row: 4 idle frames with still tracks, very subtle engine vibration and a small rear gray exhaust puff on the LEFT that appears and dissipates. Second row: 4 rolling frames with real progression of the tread links around the closed track, rotating road-wheel hub details, slight suspension motion, small exhaust variation. The body itself never travels horizontally across a cell; preserve the same hull outline and fixed barrel in every frame. Do not merely duplicate the first frame. Keep the entire vehicle, full barrel and modest exhaust inside each cell, with transparent margins. True transparent alpha background, no ground strip, floor, grass, ground shadow, distant smoke, scenery, text, captions, grids or watermark. Calm isolated game asset, no battle scene, no firing, no damage.",
+      "references": [
+        "assets/images/armies/hummel.png",
+        "assets/images/armies/sources/franjo-kluz/opel-blitz-generated.png"
+      ],
+      "edits": [
+        {
+          "input": "hummel-generated.png",
+          "prompt": "Use case: background-extraction. Edit this exact eight-frame tracked-vehicle sprite atlas. Remove ONLY the unwanted pale white/gray checker-like canvas background and any backdrop haze. Make all background and gutters truly alpha=0, including all four corners. Preserve the eight vehicles, their colors, sharp pixel outlines, all track details, small exhaust puffs, positions, dimensions, exact FOUR columns by TWO rows, and the existing 1774x887 image canvas. Do not repaint, resize, rotate, rearrange, recrop or redesign any vehicle. Retain transparent holes between track wheels and around the long barrels. Keep only the actual vehicle pixels and the small local exhaust wisps; the entire rest of the image must be transparent, not a drawn checkerboard or translucent white sheet. Output a genuine transparent PNG, no new elements or text."
+        },
+        {
+          "input": "hummel-transparent-generated.png",
+          "prompt": "Precise sprite-atlas padding correction. Preserve this exact eight-frame pixel-art tracked vehicle atlas, same silhouette, colors, gun, track animation and small local exhaust. Keep exactly FOUR equal columns by TWO equal rows. Currently the small exhaust puffs cross the cell boundaries. Make the complete vehicle and exhaust slightly smaller UNIFORMLY in every cell, keeping the exact same shared scale and root, so each full vehicle, full barrel and entire puff has at least SIX percent fully transparent padding on BOTH the left and right of its own cell. A frame must never contain any trace of its neighbors. Do not add people, symbols, text, clouds, terrain or objects. Vehicle and wheel ground baseline must be identical in all cells. All non-vehicle/non-puff pixels, outer corners and gutters must be truly alpha-zero. Keep original crisp outlined pixel-art treatment; do not paint a background or translucent canvas."
+        }
+      ]
+    },
+    {
+      "key": "bp42",
+      "name": "bp42",
+      "category": "vozovi",
+      "source": "bp42-generated.png",
+      "output": "../../game-ready/vozovi/bp42-sprites.png",
+      "grid": {
+        "columns": 4,
+        "rows": 2
+      },
+      "frame": {
+        "width": 576,
+        "height": 256
+      },
+      "prompt": "Use case: historical-scene. Production transparent pixel-art sprite sheet of the armored railway wagon shown in image 1, in the same crisp small-game vehicle style as image 2. Preserve image 1's exact LEFT-facing broad side silhouette: long armored wagon body, faceted armor plates and hatches, raised gun cupola and left-projecting barrel, small visible lower railway wheels. Retain muted mustard/olive armor, dark steel parts and only the small original plain white cross; add no symbols. This is an ARMORED WAGON, NOT a steam locomotive: do not add a chimney, engine, exhaust plume, engine cab or new weapons. Remove the reference's gravel bed, ground and rails; leave the wagon itself on true transparent alpha. Intended body width about 380 screen pixels, so use clean dark pixel outlines and readable simple detail, not painterly/photo-real textures. Deliver exactly FOUR equal columns by TWO equal rows: eight complete consistent vehicles. Row 1 is a four-frame idle loop, tiny one-pixel body/steel vibration while wheel positions remain static. Row 2 is a four-frame rolling loop, the visible wheel hubs/spokes turn in progressing quarter-step phases, subtle bogie suspension and restrained small wheel-level dust wisps; no whole-wagon horizontal translation. Keep cannon, armor, hatches, body proportions and scale identical; wheel-contact baseline fixed across all cells. Use sufficient equal transparent padding that the entire long barrel and wagon fit inside EVERY cell and no frames touch or overlap. Strict flat side view. Transparent empty background, no rails, ground, grass, floor shadow, scenery, large clouds, text labels, panels, grid or watermark. No firing, damage or flames.",
+      "references": [
+        "assets/images/armies/nemci/vozovi/oklopni-vozovi/bp42.png",
+        "assets/images/armies/sources/franjo-kluz/opel-blitz-generated.png"
+      ]
+    },
+    {
+      "key": "muzzle-flash",
+      "name": "plamen-pucnja",
+      "category": "efekti",
+      "source": "plamen-pucnja-generated.png",
+      "output": "../../game-ready/efekti/plamen-pucnja-sprites.png",
+      "grid": {
+        "columns": 4,
+        "rows": 1
+      },
+      "frame": {
+        "width": 48,
+        "height": 48
+      },
+      "prompt": "Create a transparent pixel-art effects sprite strip based on the tiny existing muzzle-flash reference image, for a 2D retro game. Exactly FOUR equal square cells in ONE horizontal row. Each cell uses the same fixed muzzle origin one quarter of the cell width from its LEFT edge, vertically centered; the effect projects to the RIGHT. Frame 1: compact warm orange ignition flash. Frame 2: bright white-yellow core with a short jagged orange muzzle flame extending right. Frame 3: much smaller fading orange glow with a tiny gray smoke wisp. Frame 4: just a tiny dissipating gray wisp, otherwise transparent. This is a small mechanical firing flash only: no gun, soldier, projectile, scene, damage or large explosion. Preserve the reference's crisp deliberately low-resolution pixel style, warm yellow/orange/red flame and dark gray smoke; design to be readable at a final 16-24 pixel effect size. Keep the origin and apparent scale consistent and all effect pixels inside their own equal cells with generous fully transparent gutters. True alpha background, no black/white/checkerboard matte, no ambient smoke background, no gridlines, text, numbers or watermark. Very wide 4:1 canvas, exact four-frame strip.",
+      "references": [
+        "assets/images/pucanje.png"
+      ]
+    }
+  ]
+}

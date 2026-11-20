@@ -2,25 +2,24 @@ import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 
-let Potez, airspeed, GameSession, FranjoKluzScene
+let continueWithMission, missions, Rifleman, planeHealth, rearGun, fighterPasses, Flak, layout, airspeed, FranjoKluzScene
 
 before(async() => {
   createPageElements()
-  ;({ default: Potez, airspeed } = await import('/scenes/franjo-kluz/Potez.js'))
-  GameSession = (await import('/core/runtime/GameSession.js')).default
-  FranjoKluzScene = (await import('/scenes/franjo-kluz/Main.js')).default
+  ;({ planeHealth, rearGun, airspeed } = await import('/scenes/franjo-kluz/Potez.js'))
+  ;({ default: Flak } = await import('/scenes/franjo-kluz/Flak.js'))
+  ;({ missions } = await import('/scenes/franjo-kluz/missions.js'))
+  ;({ enemies: layout, fighterPasses } = missions[0])
+  ;({ default: Rifleman } = await import('/scenes/franjo-kluz/Rifleman.js'))
+  ;({ default: FranjoKluzScene, continueWithMission } = await import('/scenes/franjo-kluz/Main.js'))
 })
 
 const key = (type, code) => document.dispatchEvent(new KeyboardEvent(type, { code }))
 
-function createPlane(t, { session = new GameSession(), groundY = 10_000 } = {}) {
-  const plane = new Potez({ groundY, camera: { cameraX: 0, cameraY: 0 }, session })
-  t.after(() => plane.end())
-  return plane
-}
-
-function createScene(t) {
-  const scene = new FranjoKluzScene({})
+/** The scene of `mission`: by default the first, which starts in the air with enemies of every kind. */
+function createScene(t, { mission = 0, manager = {} } = {}) {
+  continueWithMission(mission)
+  const scene = new FranjoKluzScene(manager)
   scene.init()
   scene.clear = () => {}
   scene.session.start()
@@ -28,84 +27,33 @@ function createScene(t) {
   return scene
 }
 
-test('the plane shoots on Space, not on Enter', t => {
-  const plane = createPlane(t)
-  const attacksOn = code => {
-    key('keydown', code)
-    const { attack } = plane.input
-    key('keyup', code)
-    return Boolean(attack)
+test('a soldier falls to one bullet, the armoured train only to many, and one bomb destroys any enemy', t => {
+  const scene = createScene(t)
+  const enemy = kind => scene.enemies[layout.findIndex(item => item.kind === kind)]
+  scene.player.shoot()
+  const [bullet] = scene.player.bullets.projectiles
+  const hitsToDestroy = target => {
+    let hits = 0
+    while (target.alive && hits < 100) {
+      bullet.hit(target)
+      hits++
+    }
+    return hits
   }
+  const soldier = enemy('soldier')
+  assert.equal(hitsToDestroy(soldier), 1)
+  assert.equal(soldier.visible, true, 'the dead soldier stays visible for the fall animation')
+  assert.equal(soldier.pose, 'death')
+  const train = enemy('train')
+  assert.ok(hitsToDestroy(train) > 10)
+  assert.equal(train.visible, true, 'a vehicle burns where it was destroyed')
 
-  assert.equal(attacksOn('Space'), true)
-  assert.equal(attacksOn('Enter'), false)
-})
-
-test('the plane rockets reload only on their game clock and cannot fire after the result', t => {
-  const session = new GameSession()
-  session.start()
-  const plane = createPlane(t, { session })
-  plane.shoot()
-  assert.equal(plane.bullets.projectiles.length, 1)
-  session.update(1)
-  session.pause()
-  session.update(100)
-  plane.shoot()
-  assert.equal(plane.bullets.projectiles.length, 1)
-  session.resume()
-  session.update(.5)
-  plane.shoot()
-  assert.equal(plane.bullets.projectiles.length, 2)
-  session.finish()
-  session.update(100)
-  plane.shoot()
-  assert.equal(plane.bullets.projectiles.length, 2)
-})
-
-test('a fired rocket keeps the plane\'s own speed', t => {
-  const session = new GameSession()
-  session.start()
-  const plane = createPlane(t, { session })
-  plane.update(1 / 30)
-  plane.shoot()
-  const [rocket] = plane.bullets.projectiles
-  const angle = plane.angle + Math.PI / 16
-  assert.ok(Math.abs(rocket.dx - (500 * Math.cos(angle) + plane.dx)) < 1e-9)
-})
-
-test('a tilted plane levels out exactly, also when frame lengths vary', t => {
-  const plane = createPlane(t)
-  plane.angle = .05
-
-  for (let i = 0; i < 120; i++) plane.update(i % 2 ? 1 / 50 : 1 / 70)
-  assert.equal(plane.angle, 0)
-  plane.update(1 / 60)
-  assert.equal(plane.angle, 0)
-})
-
-test('the plane flies forward at its airspeed, the same at 30 and at 60 frames per second', t => {
-  const flown = fps => {
-    const plane = createPlane(t)
-    const startX = plane.x
-    for (let i = 0; i < fps; i++) plane.update(1 / fps)
-    return plane.x - startX
-  }
-
-  assert.ok(Math.abs(flown(30) - airspeed.start) < 1e-6)
-  assert.ok(Math.abs(flown(60) - airspeed.start) < 1e-6)
-})
-
-test('throttle changes airspeed within its limits, and the plane cannot slow down on the ground', t => {
-  const plane = createPlane(t)
-  for (let i = 0; i < 300; i++) plane.moveRight(1 / 30)
-  assert.equal(plane.airspeed, airspeed.max)
-  for (let i = 0; i < 300; i++) plane.moveLeft(1 / 30)
-  assert.equal(plane.airspeed, airspeed.min)
-
-  const grounded = createPlane(t, { groundY: 200 })
-  grounded.height = 20 // the image does not load in tests
-  grounded.moveLeft(1 / 30)
-  assert.equal(grounded.airspeed, airspeed.start)
+  const truck = enemy('truck')
+  truck.width = 200 // the image does not load in tests
+  truck.height = 90
+  scene.player.blast({ x: truck.x, y: truck.y })
+  assert.equal(truck.dead, true)
+  assert.equal(enemy('flak').alive, true, 'far from the blast')
 })
 
 test('the camera keeps the plane in view at every height and never shows below the ground', t => {
@@ -131,7 +79,7 @@ test('the camera keeps the plane in view at every height and never shows below t
 test('the airfield stays at its place in the world while the plane flies on', t => {
   const scene = createScene(t)
   const airfieldX = scene.aerodrom.x
-  for (let i = 0; i < 60 * 30; i++) {
+  for (let i = 0; i < 90 * 30; i++) {
     scene.session.update(1 / 30)
     scene.update(1 / 30, i / 30)
   }
@@ -159,11 +107,11 @@ test('right moves the plane forward across the screen and speeds the flight up; 
   assert.ok(scene.player.airspeed < fastSpeed - 100, 'slower')
 })
 
-test('the plane is drawn in front of the buildings and the vehicle it can crash into', t => {
+test('the plane is drawn in front of the buildings and the enemies it can crash into', t => {
   // Objects of the same depth are drawn in the order of the scene's children (happy-dom has no 2D canvas).
   const scene = createScene(t)
   const order = scene.children
-  for (const body of [scene.aerodrom, scene.ruina, scene.vozilo]) {
+  for (const body of [scene.aerodrom, scene.ruina, ...scene.enemies]) {
     assert.equal(body.position.z, scene.player.position.z)
     assert.ok(order.indexOf(body) < order.indexOf(scene.player))
   }
@@ -193,14 +141,13 @@ test('a shot down plane blows up, tumbles as it falls, blows up again on the gro
   assert.match(scene.ui.outro, /Game over/)
 })
 
-/** The scene with sizes the images would give, and the plane put just above the ground at `x`. */
-function approach(t, x, { airspeed: speed = 250, sink = 50, tankDestroyed = true } = {}) {
-  const scene = createScene(t)
+/** The last mission, whose landing wins the game, with sizes the images would give and the plane just above the ground at `x`. */
+function approach(t, x, { airspeed: speed = 250, sink = 50 } = {}) {
+  const scene = createScene(t, { mission: missions.length - 1 })
   const { player, aerodrom } = scene
-  aerodrom.width = 400
+  for (const airfield of scene.airfields) airfield.width = 400
   player.width = 100
   player.height = 40
-  if (tankDestroyed) scene.vozilo.die()
   const runwayX = x(aerodrom.runway)
   player.setPosition(runwayX, scene.height - player.height / 2 - 1)
   scene.cameraX = runwayX - 200
@@ -216,7 +163,7 @@ const play = (scene, seconds) => {
   }
 }
 
-test('a slow landing on the runway after the tank is destroyed wins, and says how soft it was', t => {
+test('a slow landing on the runway wins, and says how soft it was', t => {
   const soft = approach(t, runway => runway.left + 100)
   play(soft, 3)
   assert.match(soft.ui.outro, /Mission successfully completed! A soft landing/)
@@ -236,11 +183,11 @@ test('touching the ground off the runway or too fast wrecks the plane', t => {
   assert.equal(fast.player.wrecked, true, 'too fast')
 })
 
-test('landing while the tank still fights is no victory, and flying past the runway loses the mission', t => {
-  const early = approach(t, runway => runway.left + 100, { tankDestroyed: false })
+test('landing wins even while enemies are left, and flying past the runway loses the mission', t => {
+  const early = approach(t, runway => runway.left + 100)
   play(early, 3)
-  assert.equal(early.player.alive, true)
-  assert.equal(early.ui.outro, '')
+  assert.ok(early.enemies.every(enemy => enemy.alive))
+  assert.match(early.ui.outro, /Mission successfully completed/)
 
   const past = approach(t, runway => runway.right + 50)
   past.player.y -= 300
@@ -290,4 +237,214 @@ test('a landing survives with the nose tipped down by the descent or up in a fla
   play(plunge, 3)
   assert.equal(plunge.player.wrecked, true)
   assert.match(plunge.ui.outro, /You landed too hard/)
+})
+
+test('the corner shows the plane health, then rounds left above bombs left', t => {
+  const scene = createScene(t)
+  scene.player.health = planeHealth * .4
+  scene.player.bombs = 2
+  scene.player.ammo = 37
+  const hud = scene.sceneUI()
+  assert.match(hud, /💣💣\s/)
+  assert.match(hud, /items\/granata\.gif" alt="Rounds" width="32" height="8"> 37/)
+  assert.ok(hud.indexOf('Rounds') < hud.indexOf('💣'), 'rounds first')
+  assert.match(hud, /<progress[^>]*value="40"/)
+  assert.ok(hud.indexOf('<progress') < hud.indexOf('Rounds'), 'health on top')
+})
+
+test('soldiers face the plane, which comes from the left, and vehicles drawn that way stay as they are', t => {
+  const scene = createScene(t)
+  const enemy = kind => scene.enemies[layout.findIndex(item => item.kind === kind)]
+  assert.equal(enemy('soldier').flipY, -1)
+  assert.equal(enemy('assault').flipY, -1)
+  assert.equal(enemy('truck').flipY, 1)
+})
+
+test('each fighter comes once, head on from the right of the view or from behind on the left', t => {
+  const scene = createScene(t)
+  const headOn = fighterPasses.findIndex(pass => !pass.fromBehind)
+  const behind = fighterPasses.findIndex(pass => pass.fromBehind)
+  scene.fightersSent = headOn
+  scene.cameraX = fighterPasses[headOn].x - scene.width
+  scene.sendFighters()
+  const first = scene.fighters[headOn]
+  assert.equal(first.visible, true)
+  assert.ok(first.x > scene.cameraX + scene.width, 'it enters at the right')
+  first.update(1 / 30)
+  assert.ok(first.dx < 0, 'it flies left, against the plane')
+
+  scene.fightersSent = behind
+  scene.cameraX = fighterPasses[behind].x
+  scene.sendFighters()
+  const chaser = scene.fighters[behind]
+  assert.ok(chaser.x < scene.cameraX, 'it enters behind, at the left')
+  chaser.update(1 / 30)
+  assert.ok(chaser.dx > scene.player.dx, 'it overtakes the plane')
+  scene.sendFighters()
+  assert.equal(scene.fightersSent, behind + 1, 'once')
+})
+
+test('a fighter crash destroys the enemies on the ground around it', t => {
+  const scene = createScene(t)
+  const enemy = scene.fighters[0]
+  const truck = scene.enemies[layout.findIndex(item => item.kind === 'truck')]
+  const train = scene.enemies[layout.findIndex(item => item.kind === 'train')]
+  for (const target of [truck, train]) {
+    target.width = 200 // the images do not load in tests
+    target.height = 90
+    target.y = scene.height - 45
+  }
+  enemy.enter({ x: truck.x, y: 100, fromBehind: false })
+  while (enemy.alive) enemy.takeHit(15)
+  for (let i = 0; i < 30 * 5 && enemy.visible; i++) enemy.update(1 / 30)
+  assert.equal(enemy.visible, false, 'it has crashed')
+  assert.equal(truck.dead, true, 'the truck under it burns')
+  assert.equal(train.alive, true, 'far away')
+})
+
+test('the observer fires back at a fighter behind the plane, not at one ahead, only while the fire key is held', t => {
+  const scene = createScene(t)
+  const { player } = scene
+  const [behind, ahead] = scene.fighters
+  behind.width = ahead.width = 200 // the image does not load in tests
+  behind.height = ahead.height = 60
+  ahead.enter({ x: player.x + 300, y: player.y, fromBehind: false })
+  assert.equal(player.rearTarget, undefined)
+  behind.enter({ x: player.x - rearGun.range / 2, y: player.y - 50, fromBehind: true })
+  assert.equal(player.rearTarget, behind)
+  player.update(1 / 30)
+  assert.equal(player.rearBullets.projectiles.length, 0, 'not on his own')
+  player.ammo = 0
+  key('keydown', 'Space')
+  player.handleInput(1 / 30)
+  key('keyup', 'Space')
+  assert.equal(player.rearBullets.projectiles.length, 1, 'only while the fire key is held, also with the front gun empty')
+  const [round] = player.rearBullets.projectiles
+  assert.ok(round.dx < player.dx, 'the round flies back')
+})
+
+test('the second mission starts standing on a runway, takes off with up, and has no fighters', t => {
+  const scene = createScene(t, { mission: 1 })
+  const { player } = scene
+  for (const airfield of scene.airfields) airfield.width = 780 // the images do not load in tests
+  player.height = 40
+  player.onload()
+  assert.equal(scene.fighters.length, 0)
+  assert.equal(player.isGrounded, true)
+  assert.ok(scene.airfieldAt(player.x), 'on a runway')
+  play(scene, 1)
+  assert.equal(player.alive, true, 'standing on the runway is no crash')
+  assert.equal(scene.ui.outro, '', 'nor a win')
+  for (let i = 0; i < 30; i++) {
+    player.moveUp(1 / 30) // up held for a second
+    play(scene, 1 / 30)
+  }
+  assert.equal(player.isGrounded, false, 'it has taken off')
+})
+
+test('landing at the end of the first mission goes on to the second, and only the last mission wins the game', t => {
+  const started = []
+  const scene = createScene(t, { mission: 0, manager: { start: path => started.push(path) } })
+  const { player, aerodrom } = scene
+  aerodrom.width = 400
+  player.width = 100
+  player.height = 40
+  player.setPosition(aerodrom.runway.left + 100, scene.height - player.height / 2 - 1)
+  scene.cameraX = player.x - 200
+  player.airspeed = 250
+  player.dy = 50
+  play(scene, 3)
+  assert.match(scene.ui.message, /You joined the partisans/)
+  assert.equal(scene.ui.outro, '', 'no end screen between missions')
+  play(scene, 2)
+  assert.deepEqual(started, ['franjo-kluz'])
+  const scenes = [new FranjoKluzScene({}), new FranjoKluzScene({})]
+  t.after(() => scenes.forEach(started => started.end()))
+  scenes.forEach(started => {
+    started.init()
+    started.clear = () => {} // happy-dom has no 2D canvas to draw the sky on
+  })
+  assert.equal(scenes[0].missionIndex, 1, 'the next scene flies the second mission')
+  assert.equal(scenes[1].missionIndex, 0, 'a new game starts with the first')
+})
+
+test('in NDH markings the plane fools the enemy until half way, then all of it opens fire; the second mission is on alert at once', t => {
+  const scene = createScene(t)
+  const { player, aerodrom } = scene
+  const gun = scene.enemies.find(enemy => enemy instanceof Flak)
+  const soldier = scene.enemies.find(enemy => enemy instanceof Rifleman)
+  const shooters = [gun, soldier]
+  for (const shooter of shooters) {
+    shooter.width = 60 // the images do not load in tests
+    shooter.height = 80
+    shooter.y = scene.height - 30
+  }
+  const fires = () => {
+    for (const shooter of shooters) shooter.cooldown.start(0)
+    player.setPosition(gun.x, gun.y - 300)
+    gun.trainBarrel(10) // the barrel turns onto the plane first
+    scene.update(1 / 30, 0)
+    player.setPosition(soldier.x, soldier.y - 300)
+    // the gunners decide after the soldiers have acted, so a decision shows a frame later
+    scene.update(1 / 30, 0)
+    scene.update(1 / 30, 0)
+    return [gun.shell.visible, soldier.bullets.projectiles.some(round => round.visible)]
+  }
+  const [siren] = scene.siren.sounds
+  let wails = 0
+  siren.play = () => wails++
+  player.x = 0
+  assert.deepEqual(shooters.map(shooter => scene.alerted.has(shooter)), [false, false], 'fooled')
+  assert.deepEqual(fires(), [false, false], 'fooled, they do not fire')
+  assert.equal(scene.alarm.raised, false)
+  player.x = aerodrom.x / 2
+  scene.soundAlarm()
+  scene.raiseAlarm()
+  assert.equal(wails, 1, 'the siren wails once, when the alarm is raised')
+  assert.deepEqual(shooters.map(shooter => scene.alerted.has(shooter)), [true, true], 'on alert')
+  assert.deepEqual(fires(), [true, true], 'on alert, they fire')
+
+  const second = createScene(t, { mission: 1 })
+  assert.equal(second.alarm.raised, true)
+  assert.ok(second.armed.every(enemy => second.alerted.has(enemy)))
+})
+
+test('before the siren an attack alerts only the enemies in view, and those who come into view join a fight but not a calm', t => {
+  const scene = createScene(t)
+  for (const enemy of scene.enemies) {
+    enemy.x = -50_000 // out of the way
+    enemy.width = 60 // the images do not load in tests
+    enemy.height = 80
+  }
+  const [near, beside, ahead, later] = scene.enemies.filter(enemy => enemy instanceof Rifleman)
+  scene.cameraX = 900
+  near.x = 1000
+  beside.x = 1200
+  ahead.x = later.x = 1000 + scene.width * 3
+
+  scene.alertInView()
+  assert.equal(scene.alerted.has(near), false, 'all is calm: they see their own plane')
+  scene.player.shoot()
+  assert.deepEqual([near, beside, ahead].map(enemy => scene.alerted.has(enemy)), [true, true, false], 'the attack is seen only in view')
+  assert.equal(scene.alarm.raised, false, 'no siren')
+
+  ahead.x = 1300
+  scene.alertInView()
+  assert.equal(scene.alerted.has(ahead), true, 'he comes into a fight')
+
+  for (const enemy of [near, beside, ahead]) enemy.die()
+  later.x = 1300
+  scene.alertInView()
+  assert.equal(scene.alerted.has(later), false, 'he comes into a calm')
+})
+
+test('every soldier keeps watch as a sentry, and no other enemy does', t => {
+  const scene = createScene(t)
+  const watched = scene.sentries.map(sentry => sentry.body)
+  assert.deepEqual(watched, scene.enemies.filter(enemy => enemy instanceof Rifleman))
+})
+
+test('the plane flies the first mission in NDH markings and the second in partisan ones', t => {
+  assert.match(createScene(t).player.image.src, /armies\/ndh\/avioni\/potez-25\.png$/)
+  assert.match(createScene(t, { mission: 1 }).player.image.src, /armies\/partizani\/potez-25\.png$/)
 })

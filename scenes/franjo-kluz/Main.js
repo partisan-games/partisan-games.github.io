@@ -1,9 +1,20 @@
 import canvas2d, { drawSky } from '/core/io/canvas2d.js'
 import Scene2D from '/core/Scene2D.js'
 import { baseControls } from '/ui/Controls.js'
+import { progresBar } from '/ui/components.js'
 import { randomInRange } from '/core/utils.js'
-import Potez from './Potez.js'
-import Hummel from './Hummel.js'
+import { assets } from '/config.js'
+import Sound from '/core/io/audio/SoundSource.js'
+import Sentry from '/core/gameplay/Sentry.js'
+import Gunner from '/core/gameplay/Gunner.js'
+import Potez, { bombKey, planeHealth, markings } from './Potez.js'
+import Bullet from './Bullet.js'
+import Vehicle from './Vehicle.js'
+import Rifleman from './Rifleman.js'
+import Flak from './Flak.js'
+import Fighter from './Fighter.js'
+import { kinds } from './enemies.js'
+import { missions } from './missions.js'
 import WorldSprite from './WorldSprite.js'
 import Airfield from './Airfield.js'
 import ParallaxLayer from './ParallaxLayer.js'
@@ -11,9 +22,25 @@ import ParallaxLayer from './ParallaxLayer.js'
 const groundLevel = canvas2d.height
 /** The camera rises once the plane climbs above `cameraTop`. */
 const cameraTop = canvas2d.height / 4
-/** World x of the Urije airfield, about 40 seconds of flight at takeoff speed, and of the ruin the plane must fly over. */
-const airfieldX = 12_000
+/**
+ * World x of the ruin the plane must fly over, of the airfield a mission takes off from, and of the plane standing on
+ * its runway, which begins half the 780 px building past the airfield's x; the sizes come only with the pictures.
+ */
 const ruinX = 1200
+const departureX = -200
+const takeoffX = departureX + 600
+/** Where the scene is found, to start it again for the next mission. */
+const scenePath = 'franjo-kluz'
+/** Seconds the story of a won mission shows before the next one: as long as the UI shows a message. */
+const nextMissionDelay = 3
+
+/** The mission the next scene of this game starts with: the first, unless one was just won. */
+let missionToStart = 0
+
+/** The next scene of this game starts with mission `index`. */
+export const continueWithMission = index => {
+  missionToStart = index
+}
 /**
  * The fastest touchdown the plane survives, the sink rates of a hard landing and of a crash, in pixels per second,
  * and the speed under which it has stopped. The owner wants landing easy: holding down to the ground sinks about
@@ -22,27 +49,52 @@ const ruinX = 1200
 const landing = { airspeed: 600, hardSink: 150, crashSink: 350, stopped: 20 }
 /** The ruin comes back this far ahead after the plane passes it, as the old scrolling scenery did. */
 const ruinReturn = { min: canvas2d.width, max: canvas2d.width * 3 }
+/** A fighter enters this far outside the view, in pixels. */
+const fighterMargin = 200
 /** Seconds between the wreck hitting the ground and the defeat screen, so the crash is seen. */
 const crashScreenDelay = 1.5
 
 export default class FranjoKluzScene extends Scene2D {
-  constructor() {
+  constructor(manager) {
     super({
-      controlKeys: { ...baseControls, Space: 'Shoot', V: 'Homing missile' },
+      controlKeys: { ...baseControls, Space: 'Machine gun', [bombKey]: 'Drop bomb' },
     })
+    this.manager = manager
   }
 
   init() {
+    this.missionIndex = missionToStart
+    missionToStart = 0
+    this.mission = missions[this.missionIndex]
+    /** Whether the enemy knows the plane is hostile; the NDH plane of a disguised mission fools it until half way. */
+    this.alarm = { raised: !this.mission.disguised }
+    /** Heard everywhere, not from one place: the whole valley is on alert. */
+    this.siren = { sounds: [new Sound('air-raid-siren.mp3', { profile: 'ambience' })] }
+    this.audioChildren.push(this.siren)
     const camera = this
-    this.player = new Potez({ groundY: groundLevel, groundAt: x => this.aerodrom.groundAt(x), camera, session: this.session })
-    this.aerodrom = new Airfield({ camera, groundY: groundLevel, x: airfieldX })
+    const departure = this.mission.takeoff && new Airfield({ camera, groundY: groundLevel, x: departureX })
+    this.player = new Potez({ groundY: groundLevel, groundAt: x => this.groundAt(x), camera, session: this.session,
+      src: this.mission.disguised ? markings.ndh : markings.partisan, onAttack: () => this.alertInView(true),
+      ...departure && { x: takeoffX, onGround: true } })
+    this.aerodrom = new Airfield({ camera, groundY: groundLevel, x: this.mission.airfieldX })
+    this.airfields = [departure, this.aerodrom].filter(Boolean)
     this.ruina = new WorldSprite('buildings/ruina.png', { camera, groundY: groundLevel, x: ruinX })
-    this.vozilo = new Hummel({ camera, pace: () => this.player.airspeed, groundY: groundLevel, session: this.session })
+    this.enemies = this.mission.enemies.map(({ kind, x }) => this.createEnemy(kind, x))
+    /** Calm soldiers keep watch: they stand and walk their patrol in turn until they fire. */
+    this.sentries = this.enemies.filter(enemy => enemy.states?.includes('patrol')).map(soldier => new Sentry(soldier))
+    this.fighters = this.mission.fighterPasses.map(() => new Fighter({ plane: this.player, camera, groundY: groundLevel, session: this.session,
+      onCrash: point => this.player.destroyAround(point) }))
+    /** How many fighters have come so far. */
+    this.fightersSent = 0
+    /** Those who know the plane is hostile; soldiers and fighters among them fire at it as gunners. */
+    this.alerted = new Set()
+    this.gunners = [...this.enemies.filter(enemy => enemy instanceof Rifleman), ...this.fighters]
+      .map(enemy => new Gunner(enemy, this.player))
     this.followPlane(0)
 
-    this.player.solidBodies.push(this.vozilo, this.ruina)
-    this.player.targets.push(this.vozilo)
-    this.vozilo.targets.push(this.player)
+    this.player.solidBodies.push(this.ruina, ...this.enemies.filter(enemy => enemy.vehicle), ...this.fighters)
+    this.player.targets.push(...this.enemies, ...this.fighters)
+    this.player.fighters.push(...this.fighters)
 
     this.scenery = [
       new ParallaxLayer({ src: 'nature/shumarak.png', count: 10, depth: .2, z: 2, camera,
@@ -53,13 +105,65 @@ export default class FranjoKluzScene extends Scene2D {
         place: height => randomInRange(groundLevel - height / 2, canvas2d.height) }),
     ]
 
-    // The plane is drawn in front of the buildings and the vehicle, so a crash into them is seen burning and falling.
-    this.add(this.aerodrom, this.ruina, this.vozilo, this.player, ...this.scenery)
-    this.ui.intro = 'Destroy the German tank and land on the Urije airfield!'
-    // TEMP: owner's landing test; remove after it. The airfield is close, the tank is already destroyed.
-    this.aerodrom.x = 1800
-    this.ruina.x = 6000
-    this.vozilo.die()
+    // The plane is drawn in front of the buildings and the enemies, so a crash into them is seen burning and falling.
+    this.add(...this.airfields, this.ruina, ...this.enemies, ...this.fighters, this.player, ...this.scenery)
+    if (this.alarm.raised) this.openFire(this.armed)
+    this.ui.intro = this.mission.intro
+  }
+
+  createEnemy(kind, x) {
+    const place = { camera: this, groundY: groundLevel, x }
+    if (kind === 'flak') return new Flak({ plane: this.player, session: this.session, ...place })
+    return kinds[kind].rifle
+      ? new Rifleman({ ...kinds[kind], targets: [this.player], session: this.session, ...place })
+      : new Vehicle({ ...kinds[kind], ...place })
+  }
+
+  /** The enemies that can fire at the plane: those with a state to fire in. */
+  get armed() {
+    return [...this.enemies, ...this.fighters].filter(enemy => enemy.states?.includes('fire'))
+  }
+
+  /** The enemy knows the plane is hostile: the living among `enemies` fire at it, the flak at once. */
+  openFire(enemies) {
+    for (const enemy of enemies) {
+      if (!enemy.alive) continue
+      this.alerted.add(enemy)
+      if (enemy instanceof Flak) enemy.setState('fire')
+    }
+  }
+
+  /**
+   * Before the alarm, the armed enemies in view who see the plane attack, or see others in view firing at it, fire
+   * back. Those who come into view while all is calm stay fooled.
+   */
+  alertInView(attack = false) {
+    if (this.alarm.raised) return
+    const inView = this.armed.filter(enemy => enemy.alive && enemy.visible && !enemy.offScreen)
+    if (attack || inView.some(enemy => this.alerted.has(enemy))) this.openFire(inView)
+  }
+
+  /** Each fighter comes once, when the view reaches its place: head on from the right edge, or from behind the left. */
+  sendFighters() {
+    const pass = this.mission.fighterPasses[this.fightersSent]
+    if (!pass || this.session.state !== 'running') return
+    const edge = pass.fromBehind ? this.cameraX : this.cameraX + canvas2d.width
+    if (edge < pass.x) return
+    const fighter = this.fighters[this.fightersSent++]
+    fighter.enter({ x: pass.fromBehind ? this.cameraX - fighterMargin : edge + fighterMargin, y: this.player.y, fromBehind: pass.fromBehind })
+  }
+
+  /** Half way to the airfield the enemy sees through the disguise. */
+  raiseAlarm() {
+    if (this.alarm.raised || this.player.x < this.aerodrom.x / 2) return
+    this.soundAlarm()
+  }
+
+  /** The air raid siren wails and all the enemy opens fire. */
+  soundAlarm() {
+    this.alarm.raised = true
+    this.siren.sounds[0].play()
+    this.openFire(this.armed)
   }
 
   /** The view moves on at the plane's airspeed and rises with it above `cameraTop`, never sinking under the ground. */
@@ -68,7 +172,17 @@ export default class FranjoKluzScene extends Scene2D {
     this.cameraY = Math.min(0, this.player.y - cameraTop)
   }
 
-  /** The ruin never comes back over the airfield or its runway. */
+  /** The height of what stands under `x`: a runway's top, or the ground line elsewhere. */
+  groundAt(x) {
+    return this.airfieldAt(x)?.surface ?? groundLevel
+  }
+
+  /** The airfield whose runway is under `x`, if any. */
+  airfieldAt(x) {
+    return this.airfields.find(airfield => airfield.holds(x))
+  }
+
+  /** The ruin never comes back over the airfield to land on or its runway. */
   returnRuin() {
     if (this.ruina.x + this.ruina.width / 2 > this.cameraX) return
     let x = this.cameraX + canvas2d.width + randomInRange(ruinReturn.min, ruinReturn.max)
@@ -89,8 +203,8 @@ export default class FranjoKluzScene extends Scene2D {
   }
 
   /**
-   * The plane may touch the ground only on the runway and slowly enough, or it crashes. Flying past the runway loses
-   * the mission; stopping on it with the tank destroyed wins.
+   * The plane may touch the ground only on a runway and slowly enough, or it crashes. Flying past the runway to land
+   * on loses the mission; stopping on it wins, however many enemies were destroyed on the way.
    */
   checkLanding() {
     const { player, aerodrom } = this
@@ -100,14 +214,40 @@ export default class FranjoKluzScene extends Scene2D {
       return
     }
     const { airspeed, sink } = player.touchdown
-    this.crashReason = !aerodrom.holds(player.x) ? 'You touched down off the runway.'
+    this.crashReason = !this.airfieldAt(player.x) ? 'You touched down off the runway.'
       : airspeed > landing.airspeed ? 'You touched down too fast.'
         : sink > landing.crashSink ? 'You landed too hard.' : null
     if (this.crashReason) return player.die()
-    if (this.vozilo.dead && player.airspeed < landing.stopped) {
+    if (aerodrom.holds(player.x) && player.airspeed < landing.stopped) {
       const kind = sink < landing.hardSink ? 'A soft landing.' : 'A hard landing.'
-      this.victory(`Mission successfully completed! ${kind}`)
+      this.completeMission(`Mission successfully completed! ${kind}`)
     }
+  }
+
+  /** The last mission wins the game; any other tells how its story goes on and starts the next mission. */
+  completeMission(text) {
+    if (this.missionIndex === missions.length - 1) return this.victory(text)
+    if (this.missionCompleted) return
+    this.missionCompleted = true
+    this.ui.showMessage(this.mission.outro)
+    this.session.presentation.after(nextMissionDelay, () => {
+      continueWithMission(this.missionIndex + 1)
+      this.manager.start(scenePath)
+    })
+  }
+
+  /** The plane's health, then rounds above bombs, as similar games show them, top left as in Vis. */
+  sceneUI() {
+    const { bombs, ammo, health } = this.player
+    return /* html */`
+      <div class="top-left">
+        ${progresBar(Math.max(0, health) / planeHealth * 100)}
+        <div>
+          <img src="${assets.images}${Bullet.src}" alt="Rounds" width="32" height="8"> ${ammo}
+          <br>${'💣'.repeat(bombs)}
+        </div>
+      </div>
+    `
   }
 
   clear() {
@@ -117,8 +257,12 @@ export default class FranjoKluzScene extends Scene2D {
   update(dt, t) {
     this.followPlane(dt)
     super.update(dt, t)
-    this.vozilo.patrol()
     this.returnRuin()
+    this.sendFighters()
+    this.raiseAlarm()
+    this.alertInView()
+    for (const sentry of this.sentries) if (!this.alerted.has(sentry.body)) sentry.update(dt)
+    for (const gunner of this.gunners) if (this.alerted.has(gunner.body)) gunner.update()
     this.checkOutcome()
   }
 

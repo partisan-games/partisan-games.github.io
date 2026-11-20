@@ -2,15 +2,21 @@ import Sprite from '/core/actor/Sprite.js'
 import { ctx } from '/core/io/canvas2d.js'
 import { outsideView } from './view.js'
 
-/** Seconds one burst lasts, and its size against the 128 px frame. */
+/** Turns the fireball black and grey, as the smoke of a shell burst. */
+const smokeFilter = 'grayscale(1) brightness(.35) contrast(1.2)'
+/** Seconds one burst lasts. */
 const duration = 1
-const scale = 2
 
 /** One burst of fire and smoke in world coordinates that plays once and hides, as in Vis. */
 export default class Explosion extends Sprite {
-  constructor(camera) {
+  /**
+   * `scale` is the size against the 128 px frame. A `smoke` burst is the same fireball turned into the black cloud of
+   * an anti-aircraft shell.
+   */
+  constructor(camera, { scale = 2, smoke = false } = {}) {
     super('sprites/efekti/eksplozija-01.png', { names: ['burst'], frameCount: 8, animationTime: duration })
     this.camera = camera
+    this.smoke = smoke
     this.scaleX = this.scaleY = scale
     this.position.z = -1.5 // above the plane and the clouds, under the bushes in front
     this.hide()
@@ -47,6 +53,7 @@ export default class Explosion extends Sprite {
     ctx.save()
     ctx.translate(this.x, this.y)
     ctx.scale(this.scaleX, this.scaleY)
+    if (this.smoke) ctx.filter = smokeFilter
     this.drawFrame()
     ctx.restore()
   }

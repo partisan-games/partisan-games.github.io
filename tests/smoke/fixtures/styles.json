@@ -80,7 +80,7 @@
     "cameraButton": null
   },
   "franjo-kluz": {
-    "startScreen": "<div class=\"central-screen flex-column simple-container\" id=\"start-screen\"> <p>Destroy the German tank and land safely!</p> <button class=\"default-button\" id=\"start\"><span class=\"icon\">🔥</span> Start mission</button> </div>",
+    "startScreen": "<div class=\"central-screen flex-column simple-container\" id=\"start-screen\"> <p>Break through the enemy and join the partisans!</p> <button class=\"default-button\" id=\"start\"><span class=\"icon\">🔥</span> Start mission</button> </div>",
     "healthBar": null,
     "cameraButton": null
   },

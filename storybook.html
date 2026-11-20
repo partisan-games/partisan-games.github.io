@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="sr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Storybook blokova</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/ui/style.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "/libs/three/build/three.module.min.js",
+        "three/": "/libs/three/"
+      }
+    }
+  </script>
+  <style>
+    body { overflow: hidden; }
+    #platno { position: fixed; inset: 0; }
+    .storybook-panel, .storybook-list {
+      position: fixed; top: 12px; z-index: 10; width: 220px; max-height: calc(100vh - 24px); overflow: auto;
+      padding: 12px; background: rgb(0 0 0 / .7); font: 14px/1.4 system-ui, sans-serif; text-shadow: none;
+    }
+    .storybook-panel { right: 12px; }
+    .storybook-list { left: 12px; }
+    .storybook-panel h2, .storybook-list h2 { margin: 0 0 8px; font: 600 15px/1.3 system-ui, sans-serif; }
+    .storybook-list h2:not(:first-child) { margin-top: 16px; }
+    .storybook-panel p { margin: 0 0 12px; color: #bbb; }
+    .storybook-list a { display: block; padding: 3px 6px; color: #ddd; text-decoration: none; }
+    .storybook-list a[aria-current="true"] { background: #6a5d2c; color: white; }
+    .storybook-panel fieldset { margin: 0 0 12px; padding: 8px; border: 1px solid #666; }
+    .storybook-panel legend { padding: 0 4px; color: #bbb; }
+    .storybook-panel button {
+      margin: 2px; padding: 4px 8px; border: 1px solid #888; background: #333; font: 13px/1.3 system-ui, sans-serif;
+      text-shadow: none; cursor: pointer;
+    }
+    .storybook-panel button[aria-pressed="true"] { background: #6a5d2c; }
+    .storybook-panel .storybook-shot { display: block; }
+    @media (max-width: 600px) {
+      .storybook-list { top: auto; bottom: 12px; left: 16px; right: 16px; width: auto; max-height: 35vh; }
+      .storybook-panel { left: 16px; right: 16px; width: auto; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="platno"></canvas>
+  <main id="ui"></main>
+  <div id="modal"></div>
+  <nav class="storybook-list" id="storybook-list"></nav>
+  <aside class="storybook-panel" id="storybook-panel"></aside>
+  <script type="module" src="/storybook/main.js"></script>
+</body>
+</html>

@@ -4,6 +4,7 @@ import GameObject2D from '/core/actor/GameObject2D.js'
 import ProjectilePool from '/core/actor/ProjectilePool.js'
 import Shell from '/core/actor/projectiles/Shell.js'
 import Cooldown from '/core/gameplay/Cooldown.js'
+import StateMachine from '/core/gameplay/StateMachine.js'
 import Health from '/core/gameplay/Health.js'
 import Weapon from '/core/gameplay/Weapon.js'
 import Sound from '/core/io/audio/SoundSource.js'
@@ -14,6 +15,26 @@ const statickoTrenje = 0.3
 const kinetickoTrenje = 0.1
 const reloadTime = 1 // seconds
 const burnBelow = 20 // energy at which a tank catches fire
+/** How many pixels away a target must be for the barrel to rise one radian, and how high the barrel rises at most. */
+const aimReach = gravity * gravity * 0.8
+const highestBarrel = Math.PI * .2
+
+/**
+ * The tank stands, or drives ahead, or fires where its barrel points as often as it reloads, or burns destroyed. Each lasts until it is set to another; who does it, and when, is up to the world. A tank that a
+ * player drives with the keys, or that drives itself (`ai`), stays standing meanwhile.
+ */
+const states = {
+  idle: {},
+  drive: {
+    update: (tank, dt) => tank.vozi(tank.thrust, tank.angle, dt),
+  },
+  fire: {
+    update: tank => tank.fire(tank.vrhCevi, tank.cev.angle),
+  },
+  dead: {
+    enter: tank => tank.health.damage(tank.health.current),
+  },
+}
 
 /** Abstract class. `clock` is the game clock: reloading and the AI's timing wait in a pause. */
 export default class Tenk extends GameObject2D {
@@ -51,6 +72,19 @@ export default class Tenk extends GameObject2D {
     this.aiFire = new Cooldown({ seconds: vremePunjenjaAI, clock })
     ;[this.aiPush, this.aiTurn, this.aiFire].forEach(wait => wait.start())
     this.children.push(this.cev)
+    this.machine = new StateMachine(this, states, 'idle')
+  }
+
+  get states() {
+    return this.machine.names
+  }
+
+  get state() {
+    return this.machine.name
+  }
+
+  setState(name) {
+    this.machine.set(name)
   }
 
   onload() {
@@ -118,10 +152,38 @@ export default class Tenk extends GameObject2D {
   takeHit(damage) {
     this.trzaj()
     this.health.damage(damage)
+    if (this.dead) this.setState('dead')
   }
 
+  /**
+   * The shots of the turning barrel, and how far ahead a target must be for each: the barrel level for a near one,
+   * raised high for a far one.
+   */
+  get shots() {
+    return { straight: { x: 300, y: 0 }, up: { x: highestBarrel * aimReach, y: 0 } }
+  }
+
+  /** As far as the barrel raised highest carries. */
+  get reach() {
+    return highestBarrel * aimReach
+  }
+
+  /** Raises the barrel for `point`, if it is ahead: the turret does not turn round. */
+  aimAt(point) {
+    if (Math.sign(point.x - this.x) !== this.forward) return false
+    this.nisani(point)
+    return true
+  }
+
+  /** The way the tank faces: 1 right, -1 left. */
+  get forward() {
+    return Math.sign(Math.cos(this.angle))
+  }
+
+  /** Raises the barrel the more, the farther `predmet` is, on whichever side the tank faces, up to its highest. */
   nisani(predmet) {
-    this.cev.angle = Math.PI + this.distanceTo(predmet) / (gravity * gravity * 0.8)
+    const lift = Math.min(highestBarrel, Math.hypot(predmet.x - this.x, predmet.y - this.y) / aimReach)
+    this.cev.angle = Math.cos(this.angle) < 0 ? Math.PI + lift : 2 * Math.PI - lift
   }
 
   izaberiSmer() {
@@ -169,6 +231,7 @@ export default class Tenk extends GameObject2D {
   update(dt) {
     this.engineSound.setPlaying(!this.dead)
     super.update(dt)
+    if (this.alive) this.machine.update(dt)
     if (this.ai) this.samohod()
     this.azurirajCev()
     this.applyFriction(this.speed > 0.1 ? kinetickoTrenje : statickoTrenje, dt)

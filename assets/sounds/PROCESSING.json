@@ -1095,6 +1095,31 @@
       "review": "Owner chose the recording and approved the cut shot in the game (2026-11-20)",
       "processing": "Mono; last of 16 shots in the burst, from 1.330 s to the end (0.27 s) so its natural tail stays whole; 2 ms fade-in, 30 ms fade-out, -2.6 dB to -3.5 dBFS peak",
       "prepared_sha256": "a6927b5650fbdfd12cb55aea083a2fccc5b37b2de52d581f520d5e31d4bf2339"
+    },
+    {
+      "file": "air-raid-siren.mp3",
+      "source": "https://freesound.org/people/cocaine/sounds/157463/",
+      "license": "CC0-1.0",
+      "input": "public HQ MP3 preview https://cdn.freesound.org/previews/157/157463_143282-hq.mp3",
+      "original_sha256": "83b128b6a31fa4cbbfe532f773117ec687378cbd0e5913373c839690dc07e835",
+      "excerpt": {
+        "start_s": 15.0,
+        "duration_s": 14.5,
+        "fade_in_s": 0.03,
+        "fade_out_s": 1.0,
+        "channels": "mono"
+      },
+      "calibration": {
+        "gain_db": -5,
+        "method": "integrated_lufs",
+        "target": -26,
+        "input_value": -21.0,
+        "output_value": -25.9,
+        "output_peak_dbfs": -14.4
+      },
+      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
+      "prepared_sha256": "07281e5971f696b664cbab59853661c79e307794a718f659776978fcd2184727",
+      "bytes": 125826
     }
   ],
   "post_processing_measurement": "../../docs/references/audio/zv06-prepared-2026-11-19.json"

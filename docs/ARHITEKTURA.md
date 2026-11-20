@@ -18,6 +18,10 @@ Zajednička pravila sastavljaju se kroz male saradnike, poput zdravlja i oružja
 
 Uporedni primeri nasleđivanja, mixina i kompozicije su u [vodiču](COMPOSITION.md).
 
+## UI i ulaz
+
+Principe prikaza, vlasništvo nad UI resursima, granice ulaza i praktične primere održava [UI vodič](UI.md). Granice slojeva iz odeljka iznad važe i za UI; pregled samo centralnih elemenata nije dovoljan jer igrači i lokalni paneli mogu imati zaseban DOM.
+
 ## Stanje, vreme i život objekta
 
 Kod efekta vezanog za pokretni objekat razlikovati kretanje izvora od sopstvenog kretanja čestica. Pomeraj izvora preneti na postojeće čestice pre stvaranja novih; ne ispravljati kosi trag sabijanjem njihovih položaja ili ukidanjem brzina, jer to menja izgled efekta. Regresiona provera poredi efekat sa izvornim pri mirovanju, pa iste relativne putanje pri pomeranju izvora.
@@ -43,6 +47,10 @@ Akumulator vremena i interpolacija položaja imaju po jednog vlasnika. [Ammo wra
 ## Učitavanje i resursi
 
 Kod sprite tabli proveriti svako polje zasebno na providnoj i kontrastnoj pozadini: ravnomerna mreža nije dokaz da crtež ne prelazi granicu polja. U Neretvi su delovi susednih poza ostali kao odvojene crte iznad likova; ukloniti takve ostatke bez sečenja tela i opreme. Frejmove koji se rotiraju ili pomeraju pripremiti jednom, izdvojene sa providnim rubom, da uzorkovanje ne zahvata susednu pozu; deliti pripremljene frejmove među istim likovima. Posle obrade proveriti i boje i alfa kanal, ne samo siluetu.
+
+Providnost generisanog atlasa proveravati i brojčano: u FK-13 su skoro providni ostaci pozadine širili izmerene granice figura, a dve poze i dim prelazili su u susedno polje. Izvornik ispraviti pre pakovanja, odvojeno sačuvati generisani art i gotove listove, pa za svaki kadar proveriti providan rub, granice i stalno sidrište; konkretna priprema i provere su uz [Kluzov art](../assets/images/armies/sources/franjo-kluz/prepare.py).
+
+Pri dopuni postojećeg atlasa sačuvati stare redove odvojeno od generisanja novih poza. Ne računati novu zajedničku razmeru iz granica proširenog sadržaja: nova poza ili dim tada mogu promeniti i ranije kadrove. Sačuvati referencu prvobitnog lista, zaključati otisak njegovih piksela i proveriti isti otisak posle dodavanja redova. Novi redovi koriste jednu razmeru cele ćelije i isto sidrište, bez pojedinačnog uklapanja svake poze; vrh cevi vezati za tačno naveden kadar. Ove provere sprovodi priprema Kluzovog arta.
 
 Početni meni, uključujući izbor igrača, prikazati tek iza potpuno pripremljene i nacrtane scene. Zajednički upravljač čeka završetak učitavanja, dekodiranja i inicijalizacije slika, zatim ponovo crta pozadinu i stalne objekte pre menija. Obuhvatiti delove objekata, zasebnog igrača, pozadinu i dodatne resurse koje prijavi scena. Greška slike prekida učitavanje umesto beskrajnog čekanja; zakasnela scena ne sme crtati posle promene igre. [Browser provera](../tests/smoke/loading.spec.js) namerno zadržava sliku i proverava redosled.
 
@@ -123,6 +131,22 @@ Pri kopiranju ponašanja getter nije obična vrednost: Object.assign ne prenosi 
 AnimationMixer javlja kraj i za akciju koja se gasi: rukovalac mora proveriti kojoj akciji događaj pripada. Početnu pozu primeniti pre prvog crtanja; inače početni ekran može prikazati T-pozu. [Testovi animacija](../tests/unit/actor.test.js) čuvaju te ugovore.
 
 Dokaz birati prema promenjenom ugovoru. Smoke test ne dokazuje oslobađanje native memorije, unit test ne dokazuje osećaj upravljanja, a raniji prolazak ne dokazuje današnju radnu kopiju. Način provera je u [TESTING](TESTING.md); pravila dokumentacije i statusa u [DOCS](DOCS.md).
+
+## Gradivni blokovi
+
+Cilj projekta je skup blokova iz kojih se sastavlja bilo kakav 2D ili 3D svet, ne samo pojedinačne igre (odluka vlasnika, 2026-11-20). Blok je čista, nezavisna komponenta: sve što mu treba dobija kroz opcije pri stvaranju (kamera, sesija, tlo, ono što njegovi meci pogađaju, povratni pozivi), ne čita scenu ni globalno stanje igre, a podešavanja koja ima smisla menjati drži u jednom izvezenom objektu modula. Opšti blok pripada zajedničkom kodu, ne folderu igre.
+
+**Raspored.** Kod blokova se deli po vrsti, kao [art](DOCS.md#pravilo-za-umetnost) i spisak u storybook-u, ne po igri (odluka vlasnika): 2D tela u `core/actor/` po vrstama (`soldiers/`, `vehicles/`, `aircraft/`, `artillery/`, `effects/`, uz postojeći `projectiles/`), upravljači u `core/gameplay/controllers/`, 3D u `core3d/` po istoj podeli. U `scenes/<igra>/` ostaje samo ono što pripada igri: scena, misije, raspored neprijatelja, pravila uzbune i dodela upravljača. Blokovi se sele postepeno, kad dobiju priču u storybook-u.
+
+**Stanja.** Blok sa različitim ponašanjima ima stanja na zajedničkoj [mašini stanja](../core/gameplay/StateMachine.js) i isti ugovor: `states` (imena), `state` (trenutno) i `setState(name)`, npr. vojnik `idle`, `patrol`, `fire`, `dead`. Stanje traje dok ga neko ne promeni; jednokratna radnja, kao hitac posade i trzaj, sama se vraća u mirovanje. Blok bez različitih ponašanja (metak, eksplozija, zastavnik koji samo maše) nema stanja.
+
+**Telo i upravljač.** Blok je telo: zna šta ume, ne kada to da radi. Odluku donosi zaseban upravljač, kao Pawn i AIController u Unreal-u: igrač tastaturom, [Sentry](../core/gameplay/Sentry.js) (stražar naizmenično stoji i patrolira) ili [Gunner](../core/gameplay/Gunner.js) (gađa metu). Upravljač je i sam blok sa svojim testom. Pravila igre, kao uzbuna, misija ili pritajeni let, ostaju u sceni: ona dodeljuje upravljače i menja stanja, a blok za ta pravila ne zna. U 3D kodu [AI stanja](../core3d/actor/states/ai/) još mešaju telo i odluku; prelazak na zajedničku mašinu prati [plan storybook-a](PLAN-STORYBOOK.md).
+
+**Pucanje.** Telo ne zna za metu: `aimAt(point)` ga nanišani i kaže da li tamo može da puca, a u stanju `fire` puca gde nišani, koliko mu punjenje dozvoljava. Poze pucanja zadaje art: telo navodi pucanja koja crteži podržavaju (`shots`, npr. pravo i gore), i metak ide iz nacrtane cevi; pravac koji nijedan crtež ne prikazuje telo odbija.
+
+**Storybook.** [Storybook](STORYBOOK.md) prikazuje svaki blok sam na pozornici, sa dugmadima njegovih stanja i pucanja. To je i merilo: blok koji ne može sam na pozornicu još nije gotov.
+
+**Testovi.** Svaki blok ima svoj unit test sa lažnim zavisnostima umesto scene; test igre proverava samo kako igra slaže blokove i svoja pravila. Kad blok dobije test, provere njegovog ponašanja prelaze iz testa igre u njegov, bez gubitka pokrivenosti.
 
 ## Katalog za isprobavanje
 

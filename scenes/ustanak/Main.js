@@ -64,6 +64,7 @@ export default class UstanakScene extends Scene2D {
       } })
     this.posada = new Posada(110, groundLevel + 8)
     this.strelac = new Strelac(300, groundLevel + 8)
+    this.strelac.setState('fire')
     this.opponent = new Top({
       x: canvas2d.width - 230, y: cannonY, direction: -1,
       clock: this.session.clock, wind: this.wind, terrain: this.terrain,
@@ -164,7 +165,8 @@ export default class UstanakScene extends Scene2D {
     if (this.turns.waitForRelease) return
     const cannon = this.turns.active === 0 ? this.top : this.opponent
     const crew = this.turns.active === 0 ? this.posada : this.enemyCrew
-    crew.handleInput(dt)
+    // the crew loads while the fire key is held, and stands by again when it is let go before the shot
+    if (crew.state !== 'fire') crew.setState(keyboard.isDown(leftPlayerKeys.shoot) ? 'load' : 'idle')
     cannon.handleInput(dt)
   }
 

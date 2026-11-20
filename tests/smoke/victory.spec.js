@@ -38,8 +38,7 @@ const wins = {
     scene.player.position = scene.maze.exitPosition
   },
   'franjo-kluz': scene => {
-    scene.vozilo.die()
-    scene.vozilo.x = -9999
+    scene.missionIndex = 1 // only the last mission wins the game; landing after the first goes on to the next
     const { left, right } = scene.aerodrom.runway
     scene.player.airspeed = scene.player.angle = 0
     scene.player.setPosition((left + right) / 2, scene.height - scene.player.height / 2)

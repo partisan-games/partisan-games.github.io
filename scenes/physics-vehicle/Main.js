@@ -7,12 +7,17 @@ import { createTerrain } from '/core3d/physics/index.js'
 import { createSphere, createTremplin } from '/core3d/geometry/index.js'
 import Humvee, { models as humveeModels } from '/core3d/physics/Humvee.js'
 import { requestModels } from '/core3d/assets/models.js'
+import { keys } from '/core/io/keys.js'
+import { baseControls } from '/ui/Controls.js'
 
 const { randFloatSpread } = THREE.MathUtils
 
 export default class PhysicsVehicleScene extends Scene3D {
   constructor() {
-    super({ toon: true })
+    super({
+      toon: true,
+      controlKeys: { ...baseControls, [keys.jump.label]: 'brake' },
+    })
   }
 
   async init() {

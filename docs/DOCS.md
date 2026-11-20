@@ -8,12 +8,14 @@ Zajednička osnova za razvoj 2D i 3D igara, sa istorijski zasnovanim sadržajem.
 
 | Oblast | Autoritativno mesto | Sadržaj |
 |---|---|---|
-| Istorija | [Istorijska vernost](ISTORIJA.md) | Vojske, periodi, područja, jedinice, vozila, avioni, oružje i prihvaćeni art. |
-| Konteksti igara | [IGRE](IGRE.md) | Dogovorene teme, istorijski okvir i zamišljeni tok malih igara i njihovih etapa. |
+| Istorija | [Istorijski izvori](ISTORIJA.md) | Činjenice sa izvorima: vojske, periodi, područja, jedinice, vozila, avioni i oružje. |
+| Konteksti igara | [KONTEKST](KONTEKST.md) | Okvir, priča, protivnici, prikaz i prihvaćeni art svake igre i njenih etapa. |
 | Ugao 2D arta | [Indeks prikaza](../assets/images/armies/index.csv) | Vizuelne oznake za izbor bočnih, gornjih i drugih prikaza, uz same slike. |
 | Arhitektura i obrasci | [ARHITEKTURA](ARHITEKTURA.md) | Odgovornosti zajedničkog engine-a, obrasci i bitna ograničenja. |
+| UI | [UI](UI.md) | Principi, teme, prozori, HUD, komande i praktična upotreba postojećeg UI-ja. |
 | Učenje kompozicije | [Kompozicija umesto nasleđivanja](COMPOSITION.md) | Uporedni primeri i sastavljanje zdravlja i oružja. |
 | Provere | [TESTING](TESTING.md) | Komande, pokrivenost i ograničenja provera. |
+| Isprobavanje blokova | [Storybook](STORYBOOK.md) | Upotreba storybook-a i dodavanje priča za blokove. |
 | Posebna tehnika prikaza | [Animacija pozadine](ANIMACIJA-POZADINE.md) | Konkretno rešenje, neuspešni pristupi i preventivne provere. |
 | Agentovi poslovi | [TODO](TODO.md) | Agentove razvojne stavke, pregledi i potrebne popravke. |
 | Razvoj igre | Planovi igara (`docs/PLAN-*.md`) | Koraci izrade i statusi; nije trajna baza znanja. Planovi su u gitu, nikad u `.git/info/exclude`. |
@@ -21,6 +23,8 @@ Zajednička osnova za razvoj 2D i 3D igara, sa istorijski zasnovanim sadržajem.
 Pokretanje projekta opisuje [README](../README.md). Istorijske slike i poreklo čuvaju se u [references/ww2-yu](references/ww2-yu/), a merni artefakti se povezuju iz tehničkog opisa.
 
 ## Kako zapisujemo znanje
+
+HTML stranice čuvati van `docs`; iz dokumentacije voditi linkove do njih.
 
 Osoba koja vodi projekat i daje naloge agentu u dokumentaciji se naziva vlasnik projekta.
 
@@ -30,7 +34,7 @@ Jedna činjenica ili odluka ima jedno autoritativno mesto; ostali dokumenti vode
 
 Zapis čuvamo samo ako daje trajno znanje koje nije već dostupno na drugom mestu. Uz odluku navesti razlog i bitno ograničenje; uz istorijsku tvrdnju izvor i kontekst. Ako je merenje neophodno za razumevanje ograničenja, povezati dokaz sa datumom/revizijom, bez održavanja prepisa rezultata. Predloge i otvoren posao voditi u postojećem TODO-u ili povezanom planu, a ne kao važeću arhitekturu.
 
-Istorijski zapis dodatno prati period, područje, korisnika opreme i varijantu; tehnički zapis prati vlasnika stanja, zavisnosti i životni ciklus. Detaljni obrasci su u odgovarajućim dokumentima. Postojeći art u `assets` ostaje istorijski prihvaćen prema [vlasnikovoj odluci](ISTORIJA.md#prihvaćen-art-projekta).
+Istorijski zapis dodatno prati period, područje, korisnika opreme i varijantu; tehnički zapis prati vlasnika stanja, zavisnosti i životni ciklus. Detaljni obrasci su u odgovarajućim dokumentima. Postojeći art u `assets` ostaje istorijski prihvaćen prema [vlasnikovoj odluci](KONTEKST.md#prihvaćen-art-projekta).
 
 Pre rada pročitati relevantnu istorijsku temu, arhitektonska pravila i ugovor sistema koji se menja. Posle rada ažurirati postojeći zapis; novu datoteku otvarati samo za samostalnu temu koja bi opteretila postojeću. Plan nije dokaz implementacije, a razvojni cilj nije tvrdnja da danas nema tehničkog duga.
 
@@ -40,9 +44,25 @@ Pre brisanja bilo kog plana obavezno pregledati njegov sadržaj i sačuvati kori
 
 Svaki novi UI element zahteva prethodno izričito odobrenje vlasnika, uključujući brojače, tekstove, indikatore, dugmad i obaveštenja. Nalog za izmenu gameplay-a ili završetak plana sam po sebi ne odobrava dodavanje UI elemenata.
 
+Isto važi za izmenu postojećih UI tekstova: uvoda, poruka, ishoda, natpisa dugmadi i opisa kontrola. Izuzetak je usklađivanje teksta sa promenjenim gameplay-om bez kreativnosti i bez novih termina (npr. uklonjen tenk iz uvoda, „refuel” kad goriva više nema): radi se odmah i javlja vlasniku. Sve ostalo čeka odobrenje; do tada stari tekst ostaje, a predlog se pokazuje vlasniku.
+
+Za uputstva postojećih komandi važi dodatna odluka vlasnika: nedostajuće i netačne opise ispravljati automatski prema stvarnom kodu. Pitanje je potrebno kada dva tastera rade isto, a jedan je već naveden; skrivene prečice i granice ovog odobrenja opisuje [UI vodič](UI.md#komande-tastatura-i-touch).
+
+Pravilo važi za sadržaj igara. Razvojne stranice za pregled, kao [ui.html](../ui.html) i `storybook.html`, nisu igra: agent sam bira njihove kontrole i tekstove, a vlasnik ih pregleda kad su gotove (odluka vlasnika, 2026-11-20).
+
 Ni planirana mogućnost uključivanja/isključivanja opcije ne odobrava checkbox, indikator ili drugo UI rešenje. Pre izmene prikazati konkretan predlog i sačekati izričito odobrenje; do tada pripremiti samo logiku.
 
-Uvodni ekran svakog nivoa ima samo dugme za početak (ili izbor načina igre), bez glavnog menija; tako je vlasnik odlučio. Redosled dugmadi na ostalim centralnim ekranima (pauza, podešavanja, runda, kraj, greška) je isti: gornje dugme vraća na glavni meni, kao Esc, a donje potvrđuje ili nastavlja igru. Dugme za glavni meni pravi zajednički `mainMenuButton` iz [UI](../ui/UI.js).
+Uvodni tekst je kratak, jedna rečenica zadatka (npr. „Destroy the enemy and land on the airfield!”). Uvodni ekran svakog nivoa ima samo dugme za početak (ili izbor načina igre), bez glavnog menija; tako je vlasnik odlučio. Redosled dugmadi na ostalim centralnim ekranima (pauza, podešavanja, runda, kraj, greška) je isti: gornje dugme vraća na glavni meni, kao Esc, a donje potvrđuje ili nastavlja igru. Dugme za glavni meni pravi zajednički `mainMenuButton` iz [UI](../ui/UI.js).
+
+## UI stilovi
+
+Autoritativni opis tema i potvrđenog korisničkog izbora je u [UI vodiču](UI.md#stilovi); odobravanje novih elemenata i tekstova ostaje uređeno pravilom iznad.
+
+## Ulaz u igre i novčići
+
+Odluka vlasnika od 2026-11-20: igre koje nemaju startni prozor ostaju besplatne i kreću odmah po učitavanju, bez dodavanja prozora za novčić ili starta. To važi i za direktan link, reload i ponovnu igru; dostupnost novčića i njihovog skladišta ne sme uslovljavati besplatnu igru.
+
+Za igre sa startnim prozorom ostaje jedan prozor pre početka: Start ili izbor režima naplaćuje jedan novčić, a kartica u glavnom meniju ne naplaćuje. Play again naplaćuje novu partiju i pokreće je sa istim prethodnim izborom, bez ponavljanja startnog prozora. Preskakanje tog prozora pri replay-u ne menja cenu igre. Cilj je manje klikova, uz jasno prikazanu cenu; konkretni novi natpisi i poruke i dalje traže prethodno odobrenje po pravilu iznad. Ovo je pravilo željenog ponašanja, ne potvrda da ga trenutni kod sprovodi.
 
 ## Tasteri
 

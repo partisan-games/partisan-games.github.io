@@ -132,6 +132,7 @@ test('cannon emits only successful shots from its muzzle and loading follows ani
   cannon.width = 100
   const crew = new Posada(100, 300), rifle = new Strelac(200, 300)
   crew.onload(); rifle.onload()
+  rifle.setState('fire')
   audio.sync([cannon, crew, rifle], 'running')
   assert.equal(cannon.launch(), true)
   assert.equal(cannon.launch(), false)

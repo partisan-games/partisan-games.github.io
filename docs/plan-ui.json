@@ -1,0 +1,105 @@
+{
+  "waves": [
+    {
+      "name": "Analiza (zavrsena)",
+      "sequential": [
+        "UI-00"
+      ]
+    },
+    {
+      "name": "P0 Pouzdanost",
+      "sequential": [
+        "UI-06",
+        "UI-07"
+      ]
+    },
+    {
+      "name": "P0 Potrebni tekstovi i naplata",
+      "sequential": [
+        "UI-01",
+        "UI-05"
+      ]
+    },
+    {
+      "name": "P1 Doslednost prikaza",
+      "sequential": [
+        "UI-02",
+        "UI-03"
+      ]
+    },
+    {
+      "name": "P1 Provera osnovnog paketa",
+      "sequential": [
+        "UI-04"
+      ]
+    },
+    {
+      "name": "P2 Kasniji izbor teme",
+      "sequential": [
+        "UI-09"
+      ]
+    }
+  ],
+  "handoffs": [
+    [
+      "UI-00",
+      "UI-06"
+    ],
+    [
+      "UI-06",
+      "UI-07"
+    ],
+    [
+      "UI-00",
+      "UI-01"
+    ],
+    [
+      "UI-01",
+      "UI-05"
+    ],
+    [
+      "UI-06",
+      "UI-05"
+    ],
+    [
+      "UI-07",
+      "UI-05"
+    ],
+    [
+      "UI-01",
+      "UI-02"
+    ],
+    [
+      "UI-07",
+      "UI-02"
+    ],
+    [
+      "UI-02",
+      "UI-03"
+    ],
+    [
+      "UI-07",
+      "UI-03"
+    ],
+    [
+      "UI-03",
+      "UI-04"
+    ],
+    [
+      "UI-05",
+      "UI-04"
+    ],
+    [
+      "UI-03",
+      "UI-09"
+    ],
+    [
+      "UI-07",
+      "UI-09"
+    ],
+    [
+      "UI-04",
+      "UI-09"
+    ]
+  ]
+}
