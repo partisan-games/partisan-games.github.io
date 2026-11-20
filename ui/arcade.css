@@ -130,6 +130,36 @@
   .arcade-balance { font-size: 17px; }
   .arcade-wallet small { font-size: 9px; }
 }
+/* Over a game on a small screen the pocket shrinks to the coin and count, so it hides little of the game and its HUD;
+   the labels stay for screen readers. */
+@media (max-width: 600px), (max-height: 500px) {
+  .paid-screen .arcade-wallet {
+    top: max(8px, env(safe-area-inset-top));
+    right: max(8px, env(safe-area-inset-right));
+    gap: 6px;
+    padding: 3px 10px 3px 3px;
+    border-width: 1px;
+    border-radius: 16px;
+    box-shadow: 0 2px 0 #111, 0 4px 10px #0008;
+  }
+  .paid-screen .arcade-wallet .arcade-coin {
+    width: 24px;
+    height: 24px;
+    border-width: 2px;
+    box-shadow: inset 0 0 0 2px #f3cf7d;
+    font-size: 14px;
+  }
+  .paid-screen .arcade-balance { font-size: 14px; line-height: 20px; }
+  .paid-screen .arcade-wallet small,
+  .paid-screen .arcade-eyebrow {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   .arcade-cabinet, .arcade-slot { transition: none; }
 }

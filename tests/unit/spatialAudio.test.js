@@ -100,7 +100,9 @@ test('3D areas include height and depth rather than just their ground footprint'
 test('scroll offset moves player and live sources into one world while frozen events keep their emission point', () => {
   const offset = { x: 0, y: 0 }
   let reads = 0
-  const coordinates = coordinates2D({ getWorldOffset: () => { reads++; return offset } })
+  const coordinates = coordinates2D({ getWorldOffset: () => {
+    reads++; return offset
+  } })
   const position = { x: 500, y: 0 }
   const player = { position: { x: 100, y: 0 } }
   const frozen = new SpatialAudio({ position }, profile, coordinates)

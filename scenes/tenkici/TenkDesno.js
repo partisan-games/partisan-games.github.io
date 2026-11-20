@@ -1,18 +1,20 @@
 import canvas2d from '/core/io/canvas2d.js'
 import { randomInRange } from '/core/utils.js'
 import Tenk from './Tenk.js'
+import vehicleArt from '/core/actor/vehicleArt.js'
 
 // the settings of every tank, so the storybook gives this one their controls
 export { tank } from './Tenk.js'
 
 export default class TenkDesno extends Tenk {
   constructor({
-    src = 'armies/game-ready/tenkovi/nemacki-tenk-bez-cevi-pixel.png',
+    src = vehicleArt.germanTank.src,
+    art = src === vehicleArt.germanTank.src ? vehicleArt.germanTank : null,
     cevSlika = 'armies/game-ready/tenkovi/nemacki-tenk-cev-pixel.png',
     x = randomInRange(canvas2d.width * 0.7, canvas2d.width) - 100,
     ...rest
   }) {
-    super(src, { cevSlika, x, ...rest })
+    super(src, { art, cevSlika, x, ...rest })
     this.angle = Math.PI
     this.flipX = this.flipY = -1
     this.cev.angle = Math.PI * 1.1

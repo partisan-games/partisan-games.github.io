@@ -54,8 +54,7 @@ const secondEnemies = [
  * the start on screens 1024 to 1920 px wide: `distance` is how far outside the view a raider enters, in pixels.
  */
 const thirdRaids = [
-  { x: 0, kind: 'diveBomber', fromBehind: false, distance: 1300 },
-  { x: 0, kind: 'diveBomber', fromBehind: false, distance: 1600 },
+  { x: 0, kind: 'diveBomber', fromBehind: false, distance: 2000 },
   { x: 3000, kind: 'fighter', fromBehind: true },
   { x: 5000, kind: 'diveBomber', fromBehind: false },
   { x: 7000, kind: 'fighter', fromBehind: false },

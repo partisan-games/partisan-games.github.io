@@ -33,7 +33,9 @@ Blok koji ne može da se napravi samo sa opcijama pozornice još nije nezavisan;
 
 Pokrivenost aktera grafikom i prioriteti dopuna vode se u [ART](ART.md). Postojanje stanja ili priče samo po sebi ne dokazuje da telo ima poseban animirani klip.
 
-[storybookCatalog.test.js](../tests/unit/storybookCatalog.test.js) pravi svaku priču, prolazi kroz sva njena stanja i proverava da svako navedeno pucanje ispali metak. [storybookCoverage.test.js](../tests/unit/storybookCoverage.test.js) traži priču za svakog aktera u navedenim folderima. [storybookControls.test.js](../tests/unit/storybookControls.test.js) proverava podešavanja, a [storybookStage2D.test.js](../tests/unit/storybookStage2D.test.js) pozornicu, praćenje kamerom i da gašenje ne ostavlja rukovaoce na stranici. U browseru [storybook.spec.js](../tests/smoke/storybook.spec.js) dva puta otvara sve priče i proverava da nema grešaka ni zaostalih rukovalaca i elemenata. Izgled se proverava samo okom.
+Svaka dopuna arta mora postati dostupna u postojećoj ili novoj priči aktera. Priča i svi nivoi koriste isti objekat i zajedničko mapiranje arta; poseban HTML/GIF pregled nije zamena. Art zadatak se zatvara tek posle [obavezne integracije i provera](ART.md#obavezna-integracija).
+
+[storybookCatalog.test.js](../tests/unit/storybookCatalog.test.js) pravi svaku priču, prolazi kroz sva njena stanja i proverava da svako navedeno pucanje ispali metak. [storybookCoverage.test.js](../tests/unit/storybookCoverage.test.js) traži priču za svakog aktera u navedenim folderima. [storybookControls.test.js](../tests/unit/storybookControls.test.js) proverava podešavanja, a [storybookStage2D.test.js](../tests/unit/storybookStage2D.test.js) pozornicu, praćenje kamerom i da gašenje ne ostavlja rukovaoce na stranici. Izgled se proverava samo okom.
 
 ## Granice i odluke
 

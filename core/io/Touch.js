@@ -1,7 +1,8 @@
 import { hasBlockingUi } from './inputContext.js'
 import { icons } from './icons.js'
 
-const btnSize = '60px'
+/** Big enough for a thumb, smaller on a narrow phone so the arrows and two buttons fit side by side. */
+const btnSize = 'clamp(48px, 15vw, 60px)'
 
 const css = /* css */`
   .joystick, .button-container {
@@ -52,9 +53,15 @@ const css = /* css */`
     right: var(--edge);
     gap: var(--edge);
   }
-  /* a camera button or meter in the same corner goes above the touch buttons instead of under them */
+  /* beside the arrows, buttons that do not fit in one row wrap into rows above, so the two never overlap */
+  .joystick ~ .button-container {
+    flex-wrap: wrap-reverse;
+    justify-content: flex-end;
+    max-width: calc(100vw - var(--edge) * 3 - ${btnSize} * 3 - 8px);
+  }
+  /* a camera button or meter in the same corner goes above the touch buttons, however many rows they take */
   .button-container ~ .bottom-right {
-    bottom: calc(var(--edge) * 2 + ${btnSize} + 8px);
+    bottom: calc(var(--edge) * 2 + var(--touch-buttons-height, ${btnSize}) + 8px);
   }
 `
 
@@ -131,6 +138,8 @@ export default class Touch {
     this.buttonContainer = document.createElement('div')
     this.buttonContainer.className = 'button-container'
     document.body.appendChild(this.buttonContainer)
+    this.buttonsResize = new ResizeObserver(this.fitCorner)
+    this.buttonsResize.observe(this.buttonContainer)
 
     Object.keys(buttonDict)
       .filter(key => key in buttonsData)
@@ -178,8 +187,17 @@ export default class Touch {
       held.delete(e.code)
       update()
     })
-    element.addEventListener('blur', () => { held.clear(); update() })
-    element.addEventListener('click', e => { e.preventDefault(); e.stopPropagation() })
+    element.addEventListener('blur', () => {
+      held.clear(); update()
+    })
+    element.addEventListener('click', e => {
+      e.preventDefault(); e.stopPropagation()
+    })
+  }
+
+  /** Tells the corner how tall the buttons are now, as their rows change with the screen width. */
+  fitCorner = ([entry]) => {
+    document.documentElement.style.setProperty('--touch-buttons-height', `${entry.contentRect.height}px`)
   }
 
   reset = () => {
@@ -195,6 +213,8 @@ export default class Touch {
     document.removeEventListener('visibilitychange', this.reset)
     document.removeEventListener('game-input-reset', this.reset)
     this.joystick?.remove()
+    this.buttonsResize?.disconnect()
+    document.documentElement.style.removeProperty('--touch-buttons-height')
     this.buttonContainer?.remove()
     this.style?.remove()
   }

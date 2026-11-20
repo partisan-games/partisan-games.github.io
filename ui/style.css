@@ -271,8 +271,12 @@ button {
   transform: translate(-50%, -50%);
   z-index: var(--z-screen);
   text-align: center;
-  max-width: 540px;
-  min-width: 320px;
+  /* never wider than the phone, with the usual margin from its edges */
+  max-width: min(540px, calc(100vw - var(--edge) * 2));
+  min-width: min(320px, calc(100vw - var(--edge) * 2));
+  /* a window taller than the screen scrolls instead of losing its top and bottom off screen */
+  max-height: calc(100dvh - var(--edge) * 2);
+  overflow-y: auto;
 
   & .rpgui-button {
     display: initial;
@@ -577,7 +581,6 @@ progress.potisak::-moz-progress-bar {
   justify-content: center;
   gap: 8px;
   max-width: 100%;
-  white-space: nowrap;
 }
 
 .price {

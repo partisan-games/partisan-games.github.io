@@ -1,6 +1,7 @@
 import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
+import { loadAtlas } from './helpers/atlas.js'
 
 let Potez, settings, airspeed, gun, GameSession
 
@@ -214,4 +215,72 @@ test('a shot down plane blows up, tumbles as it falls and blows up again on the 
   assert.ok(frames > 10, 'it fell for a while, not at once')
   assert.notEqual(plane.angle, fallAngle, 'it tumbled')
   assert.equal(ground.visible, true, 'a second burst on the ground')
+})
+
+/** A plane whose airframe and moving parts have loaded, at their art sizes. */
+function loadedPlane(t, options) {
+  const plane = createPlane(t, options)
+  loadAtlas(plane, 400, 173)
+  loadAtlas(plane.crew, 1600, 173)
+  loadAtlas(plane.propeller, 80, 128)
+  loadAtlas(plane.rearGunPart, 48, 20)
+  return plane
+}
+
+test('the crew sits in the airframe, as big as it, and the propeller on the nose turns with the plane', t => {
+  const plane = loadedPlane(t)
+  plane.angle = .2
+  plane.update(1 / 30)
+  assert.deepEqual([plane.crew.width, plane.crew.height], [plane.width, plane.height])
+  assert.deepEqual([plane.crew.x, plane.crew.y, plane.crew.angle], [plane.x, plane.y, plane.angle])
+  const nose = plane.width / 2
+  assert.ok(Math.hypot(plane.propeller.x - plane.x - nose * Math.cos(plane.angle), plane.propeller.y - plane.y - nose * Math.sin(plane.angle)) < 10,
+    'the propeller is at the nose')
+  assert.equal(plane.propeller.angle, plane.angle)
+})
+
+test('the crew breathes and the propeller turns by game time, still in a pause, and a dead engine runs down to rest', t => {
+  const plane = loadedPlane(t)
+  const frames = () => [plane.crew.frame, plane.propeller.frame]
+  const seen = new Set()
+  for (let i = 0; i < 48; i++) {
+    plane.update(1 / 30)
+    seen.add(frames().join())
+  }
+  assert.ok(new Set([...seen].map(pair => pair.split(',')[0])).size === 4, 'every crew frame shows')
+  assert.ok(new Set([...seen].map(pair => pair.split(',')[1])).size > 1, 'the propeller turns')
+  const paused = frames()
+  plane.placeParts() // a pause draws again without updating
+  assert.deepEqual(frames(), paused)
+
+  plane.die()
+  for (let i = 0; i < 90; i++) plane.update(1 / 30)
+  assert.equal(plane.propeller.frame, 0, 'the propeller stands still')
+  assert.equal(plane.propellerRate, 0)
+})
+
+test('the observer gun follows a fighter behind, fires from the tip of its barrel, and swings back with none', t => {
+  const session = new GameSession()
+  session.start()
+  const plane = loadedPlane(t, { session })
+  const fighter = { x: plane.x - 300, y: plane.y - 100, shown: true, alive: true, collidesWith: () => false }
+  plane.fighters.push(fighter)
+  plane.update(1 / 30)
+  assert.ok(Math.abs(plane.rearAim - plane.angleTo(fighter)) < 1e-9, 'it aims at the fighter')
+  const turned = plane.rearGunPart.angle - (plane.rearAim - Math.PI)
+  assert.ok(Math.abs(Math.sin(turned)) < 1e-9 && Math.cos(turned) > 0, 'the picture, pointing left, turns with it')
+
+  plane.fireBack()
+  const [bullet] = plane.rearBullets.projectiles
+  const muzzle = plane.rearMuzzle
+  assert.ok(Math.hypot(bullet.x - muzzle.x, bullet.y - muzzle.y) < 1e-9, 'the bullet leaves the tip of the barrel')
+  const fromMount = Math.hypot(muzzle.x - plane.rearGunPart.x, muzzle.y - plane.rearGunPart.y)
+  assert.ok(fromMount > 5, 'the tip is out along the barrel, not at the middle of the gun')
+  const barrel = Math.atan2(muzzle.y - plane.rearGunPart.y, muzzle.x - plane.rearGunPart.x)
+  assert.ok(Math.abs(Math.atan2(Math.sin(barrel - plane.rearAim), Math.cos(barrel - plane.rearAim))) < .1, 'the barrel points at the fighter')
+
+  fighter.alive = false
+  for (let i = 0; i < 30; i++) plane.update(1 / 30)
+  assert.ok(Math.abs(Math.atan2(Math.sin(plane.rearAim - plane.angle - Math.PI), Math.cos(plane.rearAim - plane.angle - Math.PI))) < 1e-9,
+    'it points straight back again')
 })

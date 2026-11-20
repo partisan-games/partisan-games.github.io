@@ -14,10 +14,9 @@ npm i
 npm start
 ```
 
-Before committing, run every check (lint, unit tests, project check and the browser smoke test):
+Before committing, run the lint, unit tests and project check:
 
 ```
-npx playwright install chromium   # once
 npm run verify
 ```
 

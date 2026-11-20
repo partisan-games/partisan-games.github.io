@@ -23,7 +23,9 @@ test('native UI keys remain available and releasing over UI clears gameplay inpu
   const slider = document.createElement('input')
   slider.type = 'range'
   document.body.append(slider)
-  t.after(() => { keyboard.end(); slider.remove() })
+  t.after(() => {
+    keyboard.end(); slider.remove()
+  })
   document.body.focus()
   assert.equal(key(document.body, 'keydown', 'ArrowRight').defaultPrevented, true)
   assert.equal(keyboard.right, true)
@@ -51,7 +53,9 @@ test('canceling a pointer without a left-button release cannot leave fire held',
 test('opening a modal clears held input and keeps Tab inside without swallowing native activation', t => {
   const keyboard = new Keyboard()
   const ui = new UI({ sceneUI: () => '' })
-  t.after(() => { ui.end(); keyboard.end() })
+  t.after(() => {
+    ui.end(); keyboard.end()
+  })
   document.body.focus()
   key(document.body, 'keydown', 'ArrowUp')
   assert.equal(keyboard.up, true)
@@ -73,7 +77,9 @@ test('opening a modal clears held input and keeps Tab inside without swallowing 
 test('Controls use click activation and cannot toggle behind a modal', t => {
   const controls = new Controls()
   const ui = new UI({ sceneUI: () => '' })
-  t.after(() => { controls.end(); ui.end() })
+  t.after(() => {
+    controls.end(); ui.end()
+  })
   const [button, content] = controls.div.children
   button.click()
   assert.equal(content.style.display, 'block')
@@ -92,7 +98,9 @@ test('a native dialog above a game screen keeps its own Tab navigation', t => {
   dialog.innerHTML = '<button>Back</button><button>Insert</button>'
   document.body.append(dialog)
   dialog.showModal()
-  t.after(() => { dialog.close(); dialog.remove(); ui.end() })
+  t.after(() => {
+    dialog.close(); dialog.remove(); ui.end()
+  })
   const button = dialog.querySelector('button')
   button.focus()
   assert.equal(key(button, 'keydown', 'Tab').defaultPrevented, false)
@@ -129,12 +137,16 @@ test('two pointers holding one touch action release independently; keyboard hold
 test('touch catalog preserves missing, empty and unknown bindings and their order', t => {
   const omitted = new Touch({ useJoystick: false })
   const touch = new Touch({ useJoystick: false, buttonDict: { special: '', unknown: 'ignored', attack: icons.magic, jump: '' } })
-  t.after(() => { omitted.end(); touch.end() })
+  t.after(() => {
+    omitted.end(); touch.end()
+  })
   assert.equal(omitted.buttonContainer, undefined)
   assert.deepEqual([...touch.buttonContainer.children].map(button => button.innerText), [icons.special, icons.magic, icons.jump])
   const modal = document.getElementById('modal')
   modal.innerHTML = '<div>Paused</div>'
-  t.after(() => { modal.innerHTML = '' })
+  t.after(() => {
+    modal.innerHTML = ''
+  })
   touch.buttonContainer.children[1].dispatchEvent(new PointerEvent('pointerdown', { pointerId: 1, bubbles: true }))
   assert.equal(touch.attack, false)
 })

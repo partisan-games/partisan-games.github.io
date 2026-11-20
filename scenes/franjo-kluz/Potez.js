@@ -8,6 +8,9 @@ import Weapon from '/core/gameplay/Weapon.js'
 import Cooldown from '/core/gameplay/Cooldown.js'
 import { outsideView, turn } from '/core/actor/worldView.js'
 import Bullet, { inheritVelocity } from '/core/actor/projectiles/Bullet.js'
+import WorldPart from '/core/actor/WorldPart.js'
+import AtlasPart from '/core/actor/AtlasPart.js'
+import Renderer2D from '/core/Renderer2D.js'
 import Explosion from '/core/actor/effects/Explosion.js'
 import Bomb from '/core/actor/projectiles/Bomb.js'
 import { attackLabels } from '/core/io/keys.js'
@@ -26,9 +29,12 @@ export const airspeed = { start: 312, min: 200, max: 912, throttle: 5 }
 /**
  * The plane: its health, under half of which the damaged engine smokes; how high above the ground it can climb, in
  * pixels; rounds of the gun, about 20 seconds of fire; bombs per flight, chosen for play; seconds between two bombs,
- * so a quick tapping cannot drop the whole load on one spot; how close to a bomb's impact a target is destroyed.
+ * so a quick tapping cannot drop the whole load on one spot; how close to a bomb's impact a target is destroyed; the
+ * health a glancing blow from a falling wreck takes, for play, where a live enemy destroys the plane.
  */
-export const plane = { health: 100, ceiling: 5555, ammo: 200, bombs: 4, bombInterval: 1, blastRadius: 120 }
+export const plane = {
+  health: 100, ceiling: 5555, ammo: 200, bombs: 4, bombInterval: 1, blastRadius: 120, wreckDamage: 50,
+}
 /** The key that drops a bomb; on a phone the 💣 button. */
 export const bombKey = attackLabels.Enter
 /** A bomb's burst is drawn this far above its impact, so the fire stands on the ground. */
@@ -42,7 +48,30 @@ export const gun = { reload: .1, speed: 1000 }
  */
 export const rearGun = { range: 600, cone: Math.PI / 3, reload: .2 }
 /** The plane in partisan markings, and in the NDH markings it flew in until it went over to the partisans. */
-export const markings = { partisan: 'armies/partizani/potez-25.png', ndh: 'armies/ndh/avioni/potez-25.png' }
+export const markings = {
+  partisan: 'armies/game-ready/avioni/potez-25-partisan-bez-mitraljeza.png',
+  ndh: 'armies/game-ready/avioni/potez-25-ndh-bez-mitraljeza.png',
+}
+/** The picture of the plane is drawn at this share of its size. */
+const scale = .55
+/**
+ * The moving parts on the 400 × 173 airframe picture, in its pixels, from the art's `crew.json`: the crew strip of the
+ * same size, behind the airframe; the propeller hub; the observer's gun mount, and on the gun picture, which points
+ * left, its pivot and the tip of its barrel.
+ */
+const art = {
+  airframe: { width: 400, height: 173 },
+  crew: { src: 'armies/game-ready/avioni/potez-25-posada-sprites.png', frames: 4 },
+  propeller: { src: 'armies/game-ready/avioni/potez-25-propeler-sprites.png', frames: 4, hub: { x: 390, y: 80 } },
+  gun: { src: 'armies/game-ready/avioni/potez-25-zadnji-mitraljez.png', width: 48, height: 20, mount: { x: 210, y: 52 },
+    pivot: { x: 39, y: 12 }, muzzle: { x: 1, y: 12 } },
+}
+/**
+ * The crew's breathing loop and the propeller's turn at full power, in seconds; how fast a dead engine's propeller runs
+ * down, per second, and the turn rate under which it stands still; how fast the idle gun swings back, in radians per
+ * second.
+ */
+const motion = { crewLoop: 1.6, propellerLoop: .12, stall: 2, standstill: .5, gunReturn: 4 }
 
 /**
  * Franjo Kluz's Potez 25 in world coordinates. The camera moves on at the plane's airspeed; left and right change
@@ -56,7 +85,7 @@ export default class Potez extends Player2D {
   /** `onAttack()` is called on every shot and bomb, which give away a disguised plane to the enemy who sees it. */
   constructor({ groundY, groundAt = () => groundY, camera, session, x = 200, y = 200, onGround = false, src = markings.partisan,
     onAttack = () => {} }) {
-    super(src, { x, y, scale: .55, flammable: true, attackKey: 'Space', buttonDict: { attack: icons.shoot, special: icons.bomb } })
+    super(src, { x, y, scale, flammable: true, attackKey: 'Space', buttonDict: { attack: icons.shoot, special: icons.bomb } })
     this.groundY = groundY
     this.groundAt = groundAt
     this.camera = camera
@@ -99,6 +128,22 @@ export default class Potez extends Player2D {
     this.bombBay = Array.from({ length: plane.bombs }, () => new Bomb({ camera, groundAt, onImpact: bomb => this.blast(bomb) }))
     this.bombBursts = this.bombBay.map(() => new Explosion(camera))
     this.children.push(...this.bombBay, ...this.bombBursts)
+    /**
+     * The crew sits in the cockpit behind the airframe's sides, so the plane draws it itself (see `render`) and the
+     * renderer never shows it on its own; the propeller and the gun are drawn over the airframe.
+     */
+    this.crew = new AtlasPart(art.crew.src, { camera, scale, frames: art.crew.frames, visible: false })
+    this.propeller = new AtlasPart(art.propeller.src, { camera, scale, frames: art.propeller.frames })
+    this.rearGunPart = new WorldPart(art.gun.src, { camera, scale })
+    this.children.push(this.crew, this.propeller, this.rearGunPart)
+    /** Game seconds into the crew's breathing loop, and the propeller's turn as a share of its loop. */
+    this.crewTime = 0
+    this.propellerTurn = 0
+    /** Propeller turns per second. */
+    this.propellerRate = 1 / motion.propellerLoop
+    /** Where the observer's gun points, as a world angle; at rest straight back. */
+    this.rearAim = Math.PI
+    this.placeParts()
   }
 
   /** The plane's height is known only once its picture has loaded. */
@@ -182,7 +227,76 @@ export default class Potez extends Player2D {
   fireBack() {
     if (this.session.state !== 'running' || this.dead) return
     const target = this.rearTarget
-    if (target && this.rearWeapon.tryFire(this.position, this.angleTo(target))) this.onAttack()
+    if (!target) return
+    this.rearAim = this.angleTo(target)
+    if (this.rearWeapon.tryFire(this.rearMuzzle, this.rearAim)) this.onAttack()
+  }
+
+  /** A point of the airframe picture, in its pixels, in the world as the plane is now placed and turned. */
+  airframePoint({ x, y }) {
+    const localX = (x - art.airframe.width / 2) * scale
+    const localY = (y - art.airframe.height / 2) * scale
+    const cos = Math.cos(this.angle), sin = Math.sin(this.angle)
+    return { x: this.x + localX * cos - localY * sin, y: this.y + localX * sin + localY * cos }
+  }
+
+  /** A point of the gun picture, in its pixels, in the world, the gun turned about its pivot to `rearAim`. */
+  gunPoint({ x, y }) {
+    const mount = this.airframePoint(art.gun.mount)
+    const localX = (x - art.gun.pivot.x) * scale
+    const localY = (y - art.gun.pivot.y) * scale
+    // the picture points left, so it turns by the aim less a half turn
+    const cos = Math.cos(this.rearAim - Math.PI), sin = Math.sin(this.rearAim - Math.PI)
+    return { x: mount.x + localX * cos - localY * sin, y: mount.y + localX * sin + localY * cos }
+  }
+
+  /** The tip of the observer's barrel, where its bullets leave. */
+  get rearMuzzle() {
+    return this.gunPoint(art.gun.muzzle)
+  }
+
+  /** The gun follows a fighter behind the plane and, with none, swings back to point straight back. */
+  aimRearGun(dt) {
+    const target = this.alive && this.rearTarget
+    if (target) {
+      this.rearAim = this.angleTo(target)
+      return
+    }
+    const rest = this.angle + Math.PI
+    const left = turn(this.rearAim, rest)
+    const step = motion.gunReturn * dt
+    this.rearAim = Math.abs(left) <= step ? rest : this.rearAim + Math.sign(left) * step
+  }
+
+  /** The crew breathes and the propeller turns by game time, so both stand still in a pause. */
+  animateParts(dt) {
+    this.crewTime = (this.crewTime + dt) % motion.crewLoop
+    if (this.alive) this.propellerRate = 1 / motion.propellerLoop
+    else this.propellerRate *= Math.exp(-motion.stall * dt)
+    if (this.propellerRate < motion.standstill) this.propellerRate = this.propellerTurn = 0
+    this.propellerTurn = (this.propellerTurn + this.propellerRate * dt) % 1
+  }
+
+  /** The crew right before the airframe, so nothing else at the plane's depth comes between them. */
+  render() {
+    if (this.shown) this.crew.draw()
+    Renderer2D.instance.drawObject(this)
+  }
+
+  /** Puts the crew, propeller and gun on the airframe, with their current frames. */
+  placeParts() {
+    const { x, y } = this.airframePoint({ x: art.airframe.width / 2, y: art.airframe.height / 2 })
+    this.crew.setPosition(x, y)
+    this.crew.angle = this.angle
+    this.crew.frame = Math.floor(this.crewTime / motion.crewLoop * art.crew.frames)
+    const hub = this.airframePoint(art.propeller.hub)
+    this.propeller.setPosition(hub.x, hub.y)
+    this.propeller.angle = this.angle
+    this.propeller.frame = Math.floor(this.propellerTurn * art.propeller.frames)
+    const center = this.gunPoint({ x: art.gun.width / 2, y: art.gun.height / 2 })
+    this.rearGunPart.setPosition(center.x, center.y)
+    this.rearGunPart.angle = this.rearAim - Math.PI
+    for (const part of [this.propeller, this.rearGunPart]) part.visible = this.visible
   }
 
   /** The bomb leaves from under the wings with the plane's velocity. */
@@ -281,13 +395,19 @@ export default class Potez extends Player2D {
     this.addForce((this.dead ? wreckGravity : gravity) * frames(dt), Math.PI * .5)
   }
 
+  /** A live enemy destroys the plane; a shot down one's wreck damages it once and falls on. */
   checkCollisions() {
     if (this.dead) return
-    this.solidBodies.forEach(body => {
-      if (!this.collidesWith(body)) return
+    for (const body of [...this.solidBodies]) {
+      if (!this.collidesWith(body)) continue
+      if (body.dead) {
+        this.solidBodies.splice(this.solidBodies.indexOf(body), 1)
+        this.takeHit(plane.wreckDamage)
+        continue
+      }
       this.die()
       body.die()
-    })
+    }
   }
 
   update(dt, t) {
@@ -307,5 +427,8 @@ export default class Potez extends Player2D {
     this.applyGravity(dt)
     this.levelOut(dt)
     if (this.dead && !this.wrecked) this.angle += tumbleRate * dt
+    this.aimRearGun(dt)
+    this.animateParts(dt)
+    this.placeParts()
   }
 }

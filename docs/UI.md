@@ -4,7 +4,7 @@ Vodič kroz postojeći UI i dogovorena pravila njegovog razvoja. Primeri koriste
 
 ## Principi
 
-- **Tema je celina.** Prozori, dugmad, HUD i kontrole unutar iste teme treba vizuelno da pripadaju zajedno. Isti element mora biti dosledan u svim igrama koje koriste tu temu; promena teme ne menja značenje komande ili ponašanje komponente. Usklađivanje postojećih odstupanja je deo [plana](PLAN-UI.md#ui-03).
+- **Tema je celina.** Prozori, dugmad, HUD i kontrole unutar iste teme treba vizuelno da pripadaju zajedno. Isti element mora biti dosledan u svim igrama koje koriste tu temu; promena teme ne menja značenje komande ili ponašanje komponente. Odstupanje koje se primeti u igri ispravlja se u zajedničkom stilu teme.
 - **Igra određuje sadržaj i pravila.** Scena poseduje podatke, fazu partije i uslove pobede/poraza. UI prikazuje te podatke i prosleđuje korisničke akcije. Zajednički prikaz ne zahteva iste brojače, režime ili završetke u svakoj igri.
 - **Prikaz nije izvršenje radnje.** Nacrtano dugme samo po sebi ne pokreće igru, ne pauzira i ne naplaćuje. Scena upravlja partijom; ruter navigacijom i ulaskom, a džep transakcijom. Greška mora moći da se prikaže i kada aktivne scene nema.
 - **Radnja, taster, opis i touch kontrola su odvojeni.** Provera prati stvarnu sposobnost do svakog podržanog uređaja i prikazanog uputstva. Isti ulaz `attack` može značiti pucanje, udarac ili bombu; ikonica se bira po značenju. Touch `special` ne garantuje tastaturni V.
@@ -78,7 +78,7 @@ Postojeće šablone sastavlja [UI](../ui/UI.js#L99). Poziv igre treba da ide kro
 
 Na standardnoj pauzi redosled je Main menu, Settings, Play again, Continue; na ishodu Main menu, Play again. Uvod je poseban slučaj bez menija. Opšte pravilo je meni na vrhu i potvrda/nastavak na dnu tamo gde nastavak postoji; ekran greške ima samo meni.
 
-Danas Esc tokom igre otvara pauzu. Zajednički Escape handler koji iz svakog centralnog prozora vraća na meni nije implementiran; namera izraza „kao Esc” iz projektne odluke ostaje otvorena u [PD-4](PLAN-UI.md#pd-4). Ne zaključivati ponašanje iz komentara ili samog redosleda dugmadi.
+Danas Esc tokom igre otvara pauzu. Zajednički Escape handler koji iz svakog centralnog prozora vraća na meni nije implementiran; u pauzi i ostalim centralnim prozorima Esc ne radi ništa. Da li Esc iz prozora vraća u igru ili u meni, vlasnik još nije odlučio; do tada ostaje ovako. Ne zaključivati ponašanje iz komentara ili samog redosleda dugmadi.
 
 ### Prilagođeni početak
 
@@ -141,6 +141,10 @@ const inputOptions = {
 
 Opis mora odgovarati stvarnoj radnji, uključujući javne alternativne tastere, držanje i otpuštanje. Izričito skrivene prečice ne dopisuju se u korisničko uputstvo. `event.code` označava fizički taster, ne nužno znak sa lokalizovane tastature. Ne premeštati binding da bi odgovarao pogrešnom opisu i ne smatrati vidljivu karticu igre dokazom potpune touch podrške.
 
+**Poznata ograničenja touch-a:** touch nije ekvivalent tastature. Nema trčanja, bočnog kretanja, kočnice vozila ni brzine Zeppelina; Sorceress ima leteći skok bez touch dugmeta; Tenkići, Ustanak i Do Trsta nemaju touch, a FPS isključuje joystick. Touch nema ni dugme za pauzu, pa ni put do podešavanja i menija. Nova touch dugmad dodaju se tek kad vlasnik odobri koje radnje i gde; tada dobijaju isto značenje i pravilo držanja kao tastatura.
+
+**Raspored na uskom ekranu:** pored strelica akcijska dugmad koja ne staju u jedan red prelaze u red iznad, a na najužim telefonima se malo smanje; dugme kamere uvek ide iznad njih, koliko god redova bilo ([Touch](../core/io/Touch.js)). Centralni prozor nikad nije širi od ekrana, a viši od ekrana se pomera.
+
 **Automatske ispravke opisa — odluka vlasnika:** nedostajuću stvarnu komandu dopisati, a nevažeći ili netačan opis ispraviti bez pojedinačnog pitanja. Pitati kada dva tastera rade istu stvar, a jedan je već naveden, da vlasnik odluči da li treba otkriti i drugi. To važi za uputstva postojećih komandi; ne menja binding-e, ne odobrava nove gameplay radnje i ne otkriva već dogovorene tajne prečice.
 
 <a id="skrivena-precica-za-trcanje"></a>
@@ -175,7 +179,7 @@ U korisničkim tekstovima i dokumentaciji koristimo naziv **džep** (engleski **
 
 ### Potvrđena oznaka naplate
 
-Na dugmadima za početak, izbor i Play again naplative partije desno od postojećeg natpisa stoji samo zlatan žeton sa zvezdom, kao cena, bez broja i bez dodatka „1 coin” (odluka vlasnika 2026-11-20: broj na svakom dugmetu je suvišan). Koliko žetona ostaje prikazuje džep u uglu, isti kao na naslovnoj, dok je otvoren prozor sa naplativim dugmetom (`paid-screen`). Dostupno dugme ima animirani žeton, disabled mirni; uz smanjeno kretanje mirni i na dostupnom.
+Na dugmadima za početak, izbor i Play again naplative partije desno od postojećeg natpisa stoji samo zlatan žeton sa zvezdom, kao cena, bez broja i bez dodatka „1 coin” (odluka vlasnika 2026-11-20: broj na svakom dugmetu je suvišan). Koliko žetona ostaje prikazuje džep u uglu, isti kao na naslovnoj, dok je otvoren prozor sa naplativim dugmetom (`paid-screen`). Na malom ekranu (do 600 px širine ili 500 px visine) džep nad igrom se skuplja na žeton i broj, uz bezbedne ivice ekrana, da što manje pokriva igru i HUD; natpisi ostaju za čitače ekrana. Dostupno dugme ima animirani žeton, disabled mirni; uz smanjeno kretanje mirni i na dostupnom.
 
 **Granica odobrenja:** animirani novčić je za pojedinačan novčić u prozoru igre. Naslovnica i njene kartice zadržavaju prethodni CSS novčić; ne preuzimaju animaciju ili druge resurse samo zato što postoje u zajedničkom katalogu. Mnoštvo istovremenih rotacija odvlači pažnju, a odobrenje prikaza u prozoru ne odobrava promenu naslovnice.
 
@@ -198,4 +202,4 @@ Stalna [UI stranica](../ui.html) u korenu projekta služi za pregled i dalje usk
 
 Pri promeni UI-ja proveriti temu kroz stvarni start/pauzu/podešavanja/ishod/HUD i lokalne izbore, tastaturu i podržani touch; gašenje i brzu promenu scene proveriti posebno. HTML/reference test nije dokaz fokusa, čitljivosti, prirodnog ishoda ili rasporeda u browseru. Izvršavanje projektnih provera i browsera traži dozvolu prema [DOCS](DOCS.md); komande, pokrivenost i stvarna ograničenja su u [TESTING](TESTING.md#ui-verification-limits).
 
-Pri refaktoru ažurirati ovaj vodič uz kod. Otvorene odluke i rad pripadaju [planu](PLAN-UI.md), a implementacioni detalji i tačne vrednosti ostaju u izvoru.
+Pri refaktoru ažurirati ovaj vodič uz kod. Implementacioni detalji i tačne vrednosti ostaju u izvoru.

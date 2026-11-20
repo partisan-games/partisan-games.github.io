@@ -17,14 +17,18 @@ before(async() => {
   ]).then(modules => modules.map(module => module.default))
 })
 
-const settle = async() => { for (let i = 0; i < 24; i++) await Promise.resolve() }
+const settle = async() => {
+  for (let i = 0; i < 24; i++) await Promise.resolve()
+}
 async function audioFor(t, options = {}) {
   const backend = fixture()
   await backend.engine.unlock()
   const listener = { position: { x: 0, y: 0 }, identity: 'player' }
   const audio = new SceneAudio({ engine: backend.engine, getListener: () => listener,
     coordinates: { dimensions: 2, unitsPerAudioUnit: 100 }, ...options })
-  t.after(async() => { audio.end(); await backend.engine.dispose() })
+  t.after(async() => {
+    audio.end(); await backend.engine.dispose()
+  })
   return { ...backend, audio, listener }
 }
 
@@ -37,7 +41,9 @@ test('owner declarations allocate nothing before attachment and late pooled chil
   audio.sync([owner], 'running')
   const { default: ProjectilePool } = await import('/core/actor/ProjectilePool.js')
   const pool = new ProjectilePool({ owner: { ...owner, children: [], audioScene: audio }, create: () => ({
-    visible: false, sounds: [source], launch() { this.visible = true; source.play() },
+    visible: false, sounds: [source], launch() {
+      this.visible = true; source.play()
+    },
   }) })
   pool.fire({ x: 10, y: 0 }, 0, 100)
   await settle()
@@ -222,7 +228,9 @@ test('a living speaker follows its owner and ends on removal while ordinary shot
 test('a loop declared while audio is locked creates no repeated handles and starts after activation', async t => {
   const { engine, context, stats } = fixture()
   const audio = new SceneAudio({ engine })
-  t.after(async() => { audio.end(); await engine.dispose() })
+  t.after(async() => {
+    audio.end(); await engine.dispose()
+  })
   const sound = new SoundSource('locked-loop.ogg', { loop: true, profile: 'ambience' })
   const root = { sounds: [sound] }
   sound.play()
@@ -246,7 +254,9 @@ test('a failed loop does not retry on every frame and the next explicit activati
     return { ok: true, arrayBuffer: async() => new ArrayBuffer(1) }
   } })
   const audio = new SceneAudio({ engine })
-  t.after(async() => { audio.end(); await engine.dispose() })
+  t.after(async() => {
+    audio.end(); await engine.dispose()
+  })
   await audio.unlock()
   const sound = new SoundSource('recover-loop.ogg', { loop: true, profile: 'ambience' })
   const root = { sounds: [sound] }

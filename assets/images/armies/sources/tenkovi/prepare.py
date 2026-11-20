@@ -1,6 +1,7 @@
 """Pack image_gen tread phases over unchanged tank hulls; requires Pillow."""
 import hashlib
 import json
+import runpy
 from pathlib import Path
 
 from PIL import Image, ImageChops, ImageDraw
@@ -105,14 +106,18 @@ def main():
     assets = [build(asset) for asset in recipe['assets']]
     metadata = {
         'schemaVersion': 1, 'generatedWith': 'Built-in image_gen; Pillow atlas packing',
-        'integration': 'Art only. Existing static hulls and barrel resources are unchanged. '
+        'integration': 'Integrated through core/actor/vehicleArt.js and VehicleSprite.js into TenkLevo, TenkDesno '
+                       'and the German GroundEnemy in Do Trsta, including their existing Storybook stories. '
+                       'Existing static hulls and barrel resources are unchanged. '
                        'Anchor is the existing center origin; groundAnchor is a separate baseline. '
                        'Keep per-frame dimensions for collision and barrel positioning, never atlas dimensions. '
                        'Drive backwards by reversing phase order. Advance only by game time while moving; '
-                       'pause or stopping must freeze the loop. No gameplay consumer is changed by this build.',
+                       'pause freezes the loop; stopping selects the static idle row. '
+                       'This build also refreshes the generated shared runtime mapping.',
         'assets': assets,
     }
     (HERE / 'sprites.json').write_text(json.dumps(metadata, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    runpy.run_path(str(HERE.parents[4] / 'scripts/prepare-vehicle-art.py'), run_name='__main__')
     print(f'Packed {len(assets)} tank atlases; original hulls and barrels unchanged.')
 
 

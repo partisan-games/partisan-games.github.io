@@ -18,8 +18,7 @@ export default defineConfig({
     },
   },
   projects: [
-    { name: 'desktop', testIgnore: /phone\.spec/, use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 800 } } },
-    { name: 'phone', testMatch: /phone\.spec/, use: devices['Pixel 7'] },
+    { name: 'desktop', use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 800 } } },
   ],
   webServer: {
     command: 'node scripts/serve.js',

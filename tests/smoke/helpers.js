@@ -1,8 +1,5 @@
-import { readdirSync, existsSync } from 'node:fs'
 import { test as base } from '@playwright/test'
 import { missingModelTextures } from './known-issues.js'
-
-export const scenes = readdirSync('scenes').filter(name => existsSync(`scenes/${name}/Main.js`))
 
 /** Every page exposes the game's SceneManager as `window.sceneManager`, so tests can wait for and drive the current scene. */
 export const test = base.extend({
@@ -39,10 +36,6 @@ export function watchProblems(page) {
   return problems
 }
 
-/** Runs a function on the current scene in the page; the function must not use variables from the test. */
-export const onScene = (page, fn, arg) => page.evaluate(([source, value]) =>
-  new Function('scene', 'value', `return (${source})(scene, value)`)(window.sceneManager.instance.scene, value), [fn.toString(), arg])
-
 /** Waits until the game in the address has loaded: it exists and the loading spinner is gone. */
 export async function waitForScene(page) {
   await page.waitForFunction(() => document.body.dataset.loadedGame === location.hash.slice(1), null, { timeout: 60_000 })
@@ -54,30 +47,3 @@ export async function waitForScene(page) {
   }, null, { timeout: 60_000 })
   await page.waitForTimeout(500)
 }
-
-/**
- * Gets past the start screen, if one is open: a plain start button, a mode choice or an aircraft choice, each paid
- * with a token. Play again starts the last choice without it.
- */
-export async function startGame(page) {
-  const startScreen = await page.evaluate(() => window.sceneManager.instance.scene.ui.screen === 'start')
-  if (startScreen) await page.locator('#start, #jedan-igrac, .game-screen-select input').first().click()
-}
-
-const keys = ['ArrowUp', 'ArrowLeft', 'ArrowRight', 'ArrowDown', 'Space', 'Enter', 'KeyW', 'KeyA', 'KeyD', 'KeyS']
-
-/** Plays for a few seconds by holding keys in turn and clicking the middle of the screen. */
-export async function play(page, seconds = 5) {
-  const end = Date.now() + seconds * 1000
-  for (let i = 0; Date.now() < end; i++) {
-    const key = keys[i % keys.length]
-    await page.keyboard.down(key)
-    await page.waitForTimeout(250)
-    await page.keyboard.up(key)
-    if (i % 4 === 0) await page.mouse.click(640, 400)
-  }
-}
-
-export const errorScreen = page =>
-  page.locator('#modal h3.red', { hasText: /could not be loaded|stopped because of an error/ })
-export const countFullScreenButtons = page => page.locator('full-screen-btn').count()

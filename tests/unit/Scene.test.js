@@ -17,7 +17,9 @@ test('automatic starts and synthetic clicks leave audio locked; trusted input un
   const scene = createScene()
   t.after(() => scene.end())
   let unlocks = 0
-  scene.sceneAudio.unlock = async() => { unlocks++ }
+  scene.sceneAudio.unlock = async() => {
+    unlocks++
+  }
   scene.start()
   scene.pause()
   scene.unpause()
@@ -293,7 +295,9 @@ test('the start and continue buttons act on the live scene only, not on one that
   scene.session.ready()
   scene.ui.renderStartScreen()
   document.getElementById('start').click()
-  await new Promise(resolve => { setTimeout(resolve) }) // the start is paid for before it starts
+  await new Promise(resolve => {
+    setTimeout(resolve)
+  }) // the start is paid for before it starts
   assert.equal(start.mock.callCount(), 1)
   assert.equal(endedStart.mock.callCount(), 0)
 

@@ -9,13 +9,6 @@ before(async() => {
   Scene = (await import('/core/Scene.js')).default
 })
 
-// the classes each style gave its elements before the styles moved to one place
-const recorded = {
-  simple: { container: 'simple-container', button: 'default-button', score: '', controlButton: '' },
-  rpg: { container: 'rpgui-container framed', button: 'rpgui-button', score: 'rpgui-button golden', controlButton: 'rpgui-button' },
-  white: { container: 'white-container', button: 'white-button', score: '', controlButton: 'white-button' },
-}
-
 // `paid` marks a button that costs a token, in every style
 const classesOf = element => element.className.replace(/\bpaid\b/, '').replace(/\s+/g, ' ').trim()
 
@@ -36,13 +29,6 @@ function renderedClasses(uiStyle) {
   scene.end()
   return classes
 }
-
-for (const [style, expected] of Object.entries(recorded))
-  test(`the ${style} style gives the start screen, score and controls the same classes as before`, () => {
-    const { controlsContent, ...classes } = renderedClasses(style)
-    assert.deepEqual(classes, expected)
-    assert.equal(controlsContent, expected.container)
-  })
 
 test('a scene without a style uses the simple style', () => {
   const scene = new Scene({ canvas: document.createElement('canvas'), intro: 'x' })

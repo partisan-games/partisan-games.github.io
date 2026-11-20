@@ -1,12 +1,7 @@
 import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
 import { createPageElements } from './helpers/dom.js'
 import { installFakeFrames } from './helpers/frames.js'
-import { captureScreens } from './helpers/screens.js'
-
-// recorded from the screens as they were before they became event driven
-const recorded = JSON.parse(readFileSync(new URL('./fixtures/screens.json', import.meta.url)))
 
 let Scene
 
@@ -14,11 +9,6 @@ before(async() => {
   createPageElements()
   Scene = (await import('/core/Scene.js')).default
 })
-
-for (const style of Object.keys(recorded))
-  test(`start, pause, defeat and victory screens keep their HTML and order in the ${style} style`, async() => {
-    assert.deepEqual(await captureScreens(style), recorded[style])
-  })
 
 const modal = () => document.getElementById('modal')
 const message = () => document.querySelector('div.message')

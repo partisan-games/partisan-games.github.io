@@ -4,6 +4,8 @@ import Shell from '/core/actor/projectiles/Shell.js'
 import Cooldown from '/core/gameplay/Cooldown.js'
 import StateMachine from '/core/gameplay/StateMachine.js'
 import Health from '/core/gameplay/Health.js'
+import VehicleSprite from '/core/actor/VehicleSprite.js'
+import Renderer2D from '/core/Renderer2D.js'
 import Weapon from '/core/gameplay/Weapon.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import { frames } from '/core/constants.js'
@@ -45,11 +47,17 @@ export default class Tenk extends GameObject2D {
     clock,
     groundY,
     cevSlika,
+    art,
+    width,
+    height,
     tenkDesno = false,
     scale = window.innerWidth > 1280 ? 0.5 : 0.4,
     ...rest
   } = {}) {
-    super(src, { flammable: true, scale, z: -1, ...rest })
+    const bodyWidth = art ? width ?? (height ? height * art.frame.width / art.frame.height : art.frame.width * scale) : width
+    const bodyHeight = art ? height ?? (width ? width * art.frame.height / art.frame.width : art.frame.height * scale) : height
+    super(src, { flammable: true, scale, width: bodyWidth, height: bodyHeight, z: -1, ...rest })
+    this.bodySprite = art ? new VehicleSprite(art) : null
     this.health = new Health({ maximum: 100 })
     this.shotSound = new Sound('cannon-shot.mp3', { volume: .8, profile: 'cannon', spatial: { getPosition: () => this.audioShotPoint ?? this.position } })
     this.loadSound = new Sound('cannon-load.mp3', { volume: .4, profile: 'cannon', spatial: { getPosition: () => this.position } })
@@ -192,13 +200,23 @@ export default class Tenk extends GameObject2D {
     this.controller?.handleInput?.(dt)
   }
 
+  render() {
+    if (this.bodySprite && !this.debug) this.bodySprite.render(this)
+    else Renderer2D.instance.drawObject(this)
+  }
+
   update(dt) {
+    const previousX = this.x
     this.engineSound.setPlaying(!this.dead)
     super.update(dt)
     if (this.alive) this.machine.update(dt)
     this.controller?.update?.(dt)
     this.azurirajCev()
     this.applyFriction(this.speed > 0.1 ? tank.kineticFriction : tank.staticFriction, dt)
+    const movement = this.x - previousX
+    // The loop's first tick after resuming has dt=0: keep the held drive phase.
+    if (dt > 0 || !this.alive)
+      this.bodySprite?.update(dt, Math.abs(movement) > .001, Math.sign(movement) * this.forward, this.alive)
     this.granate.checkHits(this.targets)
   }
 }

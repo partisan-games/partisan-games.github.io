@@ -41,9 +41,17 @@ document.onmouseup = () => {
   mouse.pressed = false
 }
 
-document.addEventListener('game-input-reset', () => { mouse.pressed = false })
-document.addEventListener('pointercancel', () => { mouse.pressed = false })
-document.addEventListener('visibilitychange', () => { mouse.pressed = false })
-window.addEventListener('blur', () => { mouse.pressed = false })
+document.addEventListener('game-input-reset', () => {
+  mouse.pressed = false
+})
+document.addEventListener('pointercancel', () => {
+  mouse.pressed = false
+})
+document.addEventListener('visibilitychange', () => {
+  mouse.pressed = false
+})
+window.addEventListener('blur', () => {
+  mouse.pressed = false
+})
 
 export default mouse

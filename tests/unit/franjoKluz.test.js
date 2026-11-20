@@ -434,8 +434,8 @@ test('every soldier keeps watch as a sentry, and no other enemy does', t => {
 })
 
 test('the plane flies the first mission in NDH markings and the second in partisan ones', t => {
-  assert.match(createScene(t).player.image.src, /armies\/ndh\/avioni\/potez-25\.png$/)
-  assert.match(createScene(t, { mission: 1 }).player.image.src, /armies\/partizani\/potez-25\.png$/)
+  assert.match(createScene(t).player.image.src, /potez-25-ndh-[^/]*\.png$/)
+  assert.match(createScene(t, { mission: 1 }).player.image.src, /potez-25-partisan-[^/]*\.png$/)
 })
 
 /** The air raid, the last mission, with the sizes the images would give and the plane standing on the runway. */
@@ -460,10 +460,11 @@ test('the air raid starts standing on the runway under the siren, with the alarm
   for (const mission of [0, 1]) assert.equal(createScene(t, { mission }).siren.sounds[0].autoplay, false)
 })
 
-test('in the air raid two Ju 87s bomb the plane that stays on the ground within about 8 seconds', t => {
+test('in the air raid one Ju 87 comes first and bombs the plane that stays on the ground', t => {
   const scene = airRaid(t)
   const [first, second] = scene.mission.raids
-  assert.deepEqual([first.kind, second.kind], ['diveBomber', 'diveBomber'])
+  assert.equal(first.kind, 'diveBomber')
+  assert.ok(second.x > 0, 'the second raider comes later on the way')
   let seconds = 0
   while (scene.player.alive && seconds < 15) {
     play(scene, 1 / 30)
@@ -486,6 +487,28 @@ test('a bomb burst destroys the plane on the ground, not in the air or far from 
   player.onload()
   scene.bombGround({ x: player.x + 100, y: scene.height })
   assert.equal(player.dead, true, 'on the ground')
+})
+
+test('a shot down raider wreck damages the plane once, a live raider destroys it', t => {
+  const scene = airRaid(t)
+  play(scene, 1 / 30)
+  const [raider] = scene.raiders
+  const { player } = scene
+  raider.x = player.x
+  raider.y = player.y
+  assert.ok(player.collidesWith(raider), 'they overlap')
+  raider.die()
+  player.checkCollisions()
+  player.checkCollisions()
+  assert.equal(player.alive, true)
+  assert.equal(player.health, plane.health - plane.wreckDamage, 'hit once')
+
+  const live = airRaid(t)
+  play(live, 1 / 30)
+  const [next] = live.raiders
+  Object.assign(next, { x: live.player.x, y: live.player.y })
+  live.player.checkCollisions()
+  assert.equal(live.player.dead, true)
 })
 
 test('in the air raid a raider not shot down comes back from the other side; in the first mission it does not', t => {

@@ -78,6 +78,8 @@ Pozadina nikada ne sme biti statična: svaki ambijent ima vidljivo kretanje. Dim
 
 Konačni vojni art u `assets/images/armies/game-ready` organizovati po vrsti opreme, ne po nivou ili igri. Isti resurs koriste svi nivoi kojima je potreban, bez kopiranja u zasebne foldere nivoa.
 
+Svaka dopuna arta aktera obuhvata i povezivanje sa zajedničkim kodom objekta, pregled u Storybook-u i primenu u svim nivoima koji ga koriste (odluka vlasnika). Nivoi i Storybook koriste isto mapiranje resursa i stanja, tako da izmena zajedničkog objekta automatski stiže svim potrošačima. Gotov fajl ili izdvojeni HTML/GIF pregled nisu završen zadatak; obavezni postupak i uslovi završetka su u [ART — integracija](ART.md#obavezna-integracija).
+
 Sav art koji koristimo, iz `assets` ili drugih izvora, služi kao osnova za konačnu grafiku igre. Crtati ga za stvarnu veličinu prikaza u igri i ujednačen stil: jasna silueta, čitljivi oblici i samo detalji koji se na toj veličini vide. Izvorna slika može biti veća ako je nacrtana za manji prikaz; ne oslanjati se na smanjivanje detaljnih velikih ilustracija da samo proizvede čitljiv mali sprite. Pravilo važi za likove, vozila, oružje, objekte, pozadine i ostalu vizuelnu umetnost, ne samo vojni art.
 
 Sačuvati prepoznatljive i istorijski bitne detalje reference, odabrati perspektivu prema nivou i koristiti providnu pozadinu gde je potrebna. Izvornike čuvati odvojeno od konačnih verzija. Istorijsko prihvatanje reference ne znači da je ona konačan grafički materijal. Već završeni art koji zadovoljava ovo pravilo ne precrtavati ponovo; rad obuhvata materijal potreban za konkretnu igru, ne automatsku preradu cele zbirke.

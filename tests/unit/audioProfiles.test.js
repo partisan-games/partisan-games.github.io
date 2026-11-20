@@ -96,7 +96,9 @@ test('speech retains its pitch while the source moves; music and UI profiles als
 })
 
 test('audio variation has its own repeatable random stream and leaves gameplay randomness untouched', t => {
-  t.mock.method(Math, 'random', () => { throw new Error('gameplay random consumed') })
+  t.mock.method(Math, 'random', () => {
+    throw new Error('gameplay random consumed')
+  })
   const first = createAudioRandom(), second = createAudioRandom()
   for (let i = 0; i < 30; i++) {
     const a = sampleAudioRange(first, [.98, 1.02]), b = sampleAudioRange(second, [.98, 1.02])

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "measuredAt": "2026-11-20T18:20:07.534126+00:00",
-  "baseRevision": "b555fc2fb16a62b9bb7a846ca378457c36343805",
+  "measuredAt": "2026-11-20T19:24:45.250950+00:00",
+  "baseRevision": "beb19222b461d065776bc49bb4376a3eb9f83882",
   "scope": "Art linked by docs/ART.md, including shared variants; not all unused library art or a runtime/visual acceptance test.",
   "interpretation": "imageFrames counts file-container frames. A PNG atlas normally has one; named sprite clips require metadata and a runtime mapping. hashes detect exact input changes, not art quality.",
   "images": [
@@ -122,6 +122,104 @@
       "height": "74",
       "viewBox": "0 0 200 74",
       "containsAnimation": false
+    },
+    {
+      "asset": "assets/images/armies/game-ready/avioni/potez-25-ndh-bez-mitraljeza.png",
+      "sha256": "6b14af50b2fcd1caf42700cb08886fc21458ad3ea5c651a8e465fc0a6e7c1e73",
+      "kind": "PNG",
+      "width": 400,
+      "height": 173,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/armies/game-ready/avioni/potez-25-partisan-bez-mitraljeza.png",
+      "sha256": "425b3e2af67f174156956b8ce7c59142ae3983029ded25714c0d24f3b68cc6d4",
+      "kind": "PNG",
+      "width": 400,
+      "height": 173,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/armies/game-ready/avioni/potez-25-posada-sprites.png",
+      "sha256": "76f6effaf6979ebc66628e414559b995ab9b97bbc1f86d10ca668938e5b64fd4",
+      "kind": "PNG",
+      "width": 1600,
+      "height": 173,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/franjo-kluz/potez-crew/sprites.json",
+        "id": "potez-crew",
+        "frame": {
+          "width": 400,
+          "height": 173,
+          "columns": 4,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 200,
+          "y": 86.5
+        },
+        "clips": [
+          {
+            "name": "idle",
+            "row": 0,
+            "frameCount": 4,
+            "duration": 1.6,
+            "loop": true,
+            "measuredDistinctFrames": 4
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/avioni/potez-25-propeler-sprites.png",
+      "sha256": "d0a224dd09a91c13af5ee5ed3306b8c50bf7f403a054f52a7d1b7af823377709",
+      "kind": "PNG",
+      "width": 80,
+      "height": 128,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/franjo-kluz/potez-crew/sprites.json",
+        "id": "potez-propeller",
+        "frame": {
+          "width": 20,
+          "height": 128,
+          "columns": 4,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 10,
+          "y": 64
+        },
+        "clips": [
+          {
+            "name": "spin",
+            "row": 0,
+            "frameCount": 4,
+            "duration": 0.12,
+            "loop": true,
+            "measuredDistinctFrames": 4
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/avioni/potez-25-zadnji-mitraljez.png",
+      "sha256": "c74454be71913858cf5544e8cda9d97f1c9e4ce3587bc8cb960909b4ee3a49f2",
+      "kind": "PNG",
+      "width": 48,
+      "height": 20,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1
     },
     {
       "asset": "assets/images/armies/game-ready/brodovi/schnellboot-s30.svg",
@@ -791,6 +889,26 @@
       "distinctImageFrames": 1
     },
     {
+      "asset": "assets/images/armies/sources/do-trsta/previews/opel-blitz-drive-137.gif",
+      "sha256": "a5e8a83de3ed895bb78cf5d07c85c4ab586a60048e02c2411b1da23c4cd64ee7",
+      "kind": "GIF",
+      "width": 137,
+      "height": 60,
+      "imageFrames": 4,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 4
+    },
+    {
+      "asset": "assets/images/armies/sources/do-trsta/previews/opel-blitz-drive-137.png",
+      "sha256": "28ac028e55ee6b942e13078ada7003675f498a6820d3fdbb87d06930d743a3a5",
+      "kind": "PNG",
+      "width": 548,
+      "height": 60,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1
+    },
+    {
       "asset": "assets/images/armies/sources/tenkovi/previews/nemacki-tenk-drive-game-size.png",
       "sha256": "387d79bc29d24d7d294d3792fec09e636502fb4b339f19692f1cec18e1631afa",
       "kind": "PNG",
@@ -1021,6 +1139,26 @@
       "sha256": "4412ae36cc86bd1403910d6fe44f44f124636309f50106e27fbe7ec58561297d"
     },
     {
+      "path": "assets/images/armies/game-ready/avioni/potez-25-ndh-bez-mitraljeza.png",
+      "sha256": "6b14af50b2fcd1caf42700cb08886fc21458ad3ea5c651a8e465fc0a6e7c1e73"
+    },
+    {
+      "path": "assets/images/armies/game-ready/avioni/potez-25-partisan-bez-mitraljeza.png",
+      "sha256": "425b3e2af67f174156956b8ce7c59142ae3983029ded25714c0d24f3b68cc6d4"
+    },
+    {
+      "path": "assets/images/armies/game-ready/avioni/potez-25-posada-sprites.png",
+      "sha256": "76f6effaf6979ebc66628e414559b995ab9b97bbc1f86d10ca668938e5b64fd4"
+    },
+    {
+      "path": "assets/images/armies/game-ready/avioni/potez-25-propeler-sprites.png",
+      "sha256": "d0a224dd09a91c13af5ee5ed3306b8c50bf7f403a054f52a7d1b7af823377709"
+    },
+    {
+      "path": "assets/images/armies/game-ready/avioni/potez-25-zadnji-mitraljez.png",
+      "sha256": "c74454be71913858cf5544e8cda9d97f1c9e4ce3587bc8cb960909b4ee3a49f2"
+    },
+    {
       "path": "assets/images/armies/game-ready/brodovi/schnellboot-s30.svg",
       "sha256": "588566bb22ba94a1582a2b6b88d3e5709f66ca6d4888faaf80d76e0ece899c38"
     },
@@ -1165,6 +1303,38 @@
       "sha256": "2370a49b93ae6aa5ddfc2c9ed5de02ed429730f656822c8c94acaecfaadaf330"
     },
     {
+      "path": "assets/images/armies/sources/do-trsta/opel-blitz.json",
+      "sha256": "f2ec967976f616ff7505af1504eff1f1eaefebbc86828d71a7c74e5b73e9bf49"
+    },
+    {
+      "path": "assets/images/armies/sources/do-trsta/prepare.py",
+      "sha256": "750afc63dc816f9fdbe14f6c3ed544c8440496233bdfe3278911104bc944ba53"
+    },
+    {
+      "path": "assets/images/armies/sources/do-trsta/preview.html",
+      "sha256": "549dfb154cd3f16deca6418833b87548f04a61883f758f830dfed74d8996e6ac"
+    },
+    {
+      "path": "assets/images/armies/sources/do-trsta/previews/opel-blitz-drive-137.gif",
+      "sha256": "a5e8a83de3ed895bb78cf5d07c85c4ab586a60048e02c2411b1da23c4cd64ee7"
+    },
+    {
+      "path": "assets/images/armies/sources/do-trsta/previews/opel-blitz-drive-137.png",
+      "sha256": "28ac028e55ee6b942e13078ada7003675f498a6820d3fdbb87d06930d743a3a5"
+    },
+    {
+      "path": "assets/images/armies/sources/franjo-kluz/potez-crew/crew.json",
+      "sha256": "e25876608e7c35e65ec80661411a5c00b0ee3e8864811e02de356dc7f0c76905"
+    },
+    {
+      "path": "assets/images/armies/sources/franjo-kluz/potez-crew/preview.html",
+      "sha256": "dcef4ad380aff5bb3f04b1ab24d4d8a05935df87a16ca6c0e987a1098c858293"
+    },
+    {
+      "path": "assets/images/armies/sources/franjo-kluz/potez-crew/sprites.json",
+      "sha256": "45d67fd4a79596522543bb3643160b5a9d8bca5fa220cf8c7a422584d45562aa"
+    },
+    {
       "path": "assets/images/armies/sources/franjo-kluz/sprites.json",
       "sha256": "9dca7524582fe6f118ef26bc3c68ba2c3efb30e9fcbf5fc195e42aad88a3b214"
     },
@@ -1174,11 +1344,11 @@
     },
     {
       "path": "assets/images/armies/sources/tenkovi/prepare.py",
-      "sha256": "1977d9f6d73e60d6e4be951037d973a993bbc4c52e965cefeca21e8afb46302f"
+      "sha256": "28c3ea4d656cde0c26c5adae1aba6d367643514b1ec86446a492742aa33e4fea"
     },
     {
       "path": "assets/images/armies/sources/tenkovi/preview.html",
-      "sha256": "1913ca14d1ed6aa559cb5df2c8121b6277c9d13fec4b561454b622a928735a87"
+      "sha256": "517999725b5cdf8d4af6cd38ee289849620ae1a0da19edc08a89a90e73e80e81"
     },
     {
       "path": "assets/images/armies/sources/tenkovi/previews/nemacki-tenk-drive-game-size.png",
@@ -1202,7 +1372,7 @@
     },
     {
       "path": "assets/images/armies/sources/tenkovi/sprites.json",
-      "sha256": "c2dff52f800e3f3b3f11b7015e572c1799a65d808eaa582ef95a25dfe919231f"
+      "sha256": "a73b5bbfcdce037b9d6629f2b29278fba4762e6b4baab93fb3b96b5b07e2cf9b"
     },
     {
       "path": "assets/images/armies/talijani-patrola.gif",
@@ -1309,20 +1479,32 @@
       "sha256": "025978c93ab1d88b355918dd170a2506a493ce2a74ea01a5eddecf7ea5d2f1fb"
     },
     {
+      "path": "core/actor/vehicleArt.js",
+      "sha256": "5f6139cf51df6124faf1f17373d9cc1cfdf81f185dc4cdd1c50f8b9310b61215"
+    },
+    {
       "path": "core/actor/vehicles/Vehicle.js",
       "sha256": "1aed2e4649ef3dda62067a54c5d3810e1a39b3235418e7222a27ef01c352f955"
     },
     {
+      "path": "core/actor/VehicleSprite.js",
+      "sha256": "b26b55574123b837dc20eb3a52f75fd61263b08a954117b541712192b23ebe61"
+    },
+    {
       "path": "docs/ART.md",
-      "sha256": "d6c43440015c9210c33a81469f664b4c489733a490b593b6348bb19f6e48ce50"
+      "sha256": "dfe194de2b226acd236525714b0f786e652d4a392a2286ea4be82f4408bec20c"
     },
     {
       "path": "docs/KONTEKST.md",
-      "sha256": "f4e755166b56bae43dc7775988abc8946c7e1960ea0b212aa6634bd885ffdf2b"
+      "sha256": "59830c472490910f3c534b50208863d23e9587f56f457e56528ee4d5dbae1f01"
+    },
+    {
+      "path": "docs/PLAN-KLUZ.md",
+      "sha256": "119509f5a31055f8911f3aaa1f4e81223d0b6dac1348a831943f1c28e41f015a"
     },
     {
       "path": "docs/STORYBOOK.md",
-      "sha256": "041fcb4fc81858b70f37ddce16d2b2dae38f7747d4e76f429b79f6e902a186a7"
+      "sha256": "a9189690f09c0a6222e4dbb4c61dfe21b1a1d4e89852d8cf6b79a81a8d43bc0c"
     },
     {
       "path": "scenes/camac/Boat.js",
@@ -1338,19 +1520,19 @@
     },
     {
       "path": "scenes/franjo-kluz/Potez.js",
-      "sha256": "2cdf9194c621650548a5b4b19549b9104ce80faddc2b5c4ab33292e8c3a82637"
+      "sha256": "170e6f0ca3b57f64012f73edce4565969ade3e83f42f8257d832ca7c6a1a8160"
     },
     {
       "path": "scenes/tenkici/Tenk.js",
-      "sha256": "030eaad8881b8b7f1c7b75de67602ef2619a4181febd26149626abdfd7beec1a"
+      "sha256": "8f6688fc5b08bcc638940f88e30c76ef982f868622dcd4d97f0097c952ebf6a3"
     },
     {
       "path": "scenes/tenkici/TenkDesno.js",
-      "sha256": "4a6f738214009af3c7e60ad7e7af78583add425e7eae3b611f4aa9e3ac04b60b"
+      "sha256": "57b1b95d3689035fdad09d3f92659be5091546ad27b8ad09ca93b6bdfe9dc923"
     },
     {
       "path": "scenes/tenkici/TenkLevo.js",
-      "sha256": "febb7b06fabb155ab00c3b1848abb2e85110959b56baee3617719753a8024492"
+      "sha256": "f02323ebe0f2934436932dfa22d1e7168b38dd94a8a0cf7c75d13abb0dd9e179"
     },
     {
       "path": "scenes/to-trieste/Aircraft.js",
@@ -1362,11 +1544,11 @@
     },
     {
       "path": "scenes/to-trieste/enemyArt.js",
-      "sha256": "d9dbe8b1ff1fc8095579a2018d7f9573cbf1ca1be31d44e83c59195d3aacf27f"
+      "sha256": "2a94fc0e14b9cc4649e25c1875a91fe917936480c971c05b3d11ba61945739e2"
     },
     {
       "path": "scenes/to-trieste/GroundEnemies.js",
-      "sha256": "323fc17dfb7fa906b7666fda0e213da901e3f818cb90700e4c4a10c4006da708"
+      "sha256": "184c813eb49c4e9a5af0d84348ecb140053d46ae267c02074d5879f7245753bb"
     },
     {
       "path": "scenes/ustanak/Posada.js",
@@ -1405,6 +1587,10 @@
       "sha256": "f702b52ed3e289d80fc83d41cbf1420c931ded74a0b577d554caa25597d905fd"
     },
     {
+      "path": "scripts/prepare-vehicle-art.py",
+      "sha256": "9841f6963a0e6ed2b0e429f727df42ab251349794c115626a9c17b9998b3f9c9"
+    },
+    {
       "path": "storybook/stories/characters3d.js",
       "sha256": "f0ec6f74329f42745c52ec38d19fff2de2179aa9fda71f560ed97f3aa3a8e8cd"
     },
@@ -1415,6 +1601,34 @@
     {
       "path": "storybook/stories/objects3d.js",
       "sha256": "f8c7f3e9b5d15efefe67b041e3382d74e8a34b8d6cfd41dd7ded29bc68aa9424"
+    },
+    {
+      "path": "storybook.html",
+      "sha256": "0ffd4df285ab315dcde93057018af1990e2f1085be97e400bb491ec9c16a2a12"
+    },
+    {
+      "path": "tests/unit/groundTarget.test.js",
+      "sha256": "854dd931ccfdf6e7c59888f80ebc123056f68b4f8c056a8b3a00507e0a318508"
+    },
+    {
+      "path": "tests/unit/storybookCatalog.test.js",
+      "sha256": "346d1fe780d8aa7ce6f3e6f3e07a794cebca06a28819f67f24fc5bf98b0d242e"
+    },
+    {
+      "path": "tests/unit/tankGroundEnemies.test.js",
+      "sha256": "8274854ad58c2eaa224b5b6fa4271ea71038c47df494c5d315669747ca5724c6"
+    },
+    {
+      "path": "tests/unit/tenkici.test.js",
+      "sha256": "5aac5423592d1507660f94ee886bfde3675774ed2e4e3530e7625a0b68adce1e"
+    },
+    {
+      "path": "tests/unit/toTriesteGroundEnemy.test.js",
+      "sha256": "8de0f6d8244e8a74e0d4d7f439a7db7296ce9803612e7b39463d220939632b6c"
+    },
+    {
+      "path": "tests/unit/vehicleArt.test.js",
+      "sha256": "252082113f4ca14e6b424b3f3847be743803a26d16882e379224fb962187452b"
     }
   ]
 }

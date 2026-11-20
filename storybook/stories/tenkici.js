@@ -12,7 +12,8 @@ const put = (stage, block) => {
 /** A tank alone, firing at the target and driven with its player's keys, as in the game. */
 const tank = (Tank, keys) => stage => {
   const block = new Tank({
-    x: stage.width / 2, y: stage.groundY, groundY: stage.groundY, clock: stage.session.clock, xLimit: Infinity,
+    x: Tank === TenkDesno ? stage.width * .75 : stage.width / 2,
+    y: stage.groundY, groundY: stage.groundY, clock: stage.session.clock, xLimit: Infinity,
   })
   block.controller = new TankKeys(block, keys)
   block.targets.push(stage.target)

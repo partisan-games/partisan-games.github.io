@@ -12,13 +12,17 @@ import { createPageElements } from './helpers/dom.js'
 import { fixture } from './helpers/audioBackend.js'
 
 before(() => createPageElements())
-const settle = async() => { for (let i = 0; i < 24; i++) await Promise.resolve() }
+const settle = async() => {
+  for (let i = 0; i < 24; i++) await Promise.resolve()
+}
 async function audioFor(t, dimensions = 2) {
   const backend = fixture()
   await backend.engine.unlock()
   const player = { position: { x: 0, y: 0, z: 0 }, forward: { x: 0, y: 0, z: -1 }, up: { x: 0, y: 1, z: 0 }, identity: 'player' }
   const audio = new SceneAudio({ engine: backend.engine, coordinates: { dimensions, unitsPerAudioUnit: dimensions === 2 ? 100 : 1 }, getListener: () => player })
-  t.after(async() => { audio.end(); await backend.engine.dispose() })
+  t.after(async() => {
+    audio.end(); await backend.engine.dispose()
+  })
   return { ...backend, audio, player }
 }
 
@@ -51,7 +55,9 @@ test('different occupiers have independent burst points and sound randomness doe
   assert.notEqual(first.burstSound.playback.audio, second.burstSound.playback.audio)
   assert.notDeepEqual(first.burstSound.playback.audio.spatialModel.position, second.burstSound.playback.audio.spatialModel.position)
   await settle()
-  const random = t.mock.method(Math, 'random', () => { throw new Error('audio touched gameplay random') })
+  const random = t.mock.method(Math, 'random', () => {
+    throw new Error('audio touched gameplay random')
+  })
   const voice = first.burstSound.play()
   random.mock.restore()
   await voice.started

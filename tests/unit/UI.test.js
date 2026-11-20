@@ -100,7 +100,7 @@ test('start screen reports share one stylesheet', async() => {
   container.remove()
 })
 
-for (const middle of ['same', 'different']) {
+for (const middle of ['same', 'different'])
   test(`the latest repeated message keeps its full duration (${middle})`, t => {
     t.mock.timers.enable({ apis: ['setTimeout'] })
     const ui = new UI(fakeScene)
@@ -115,7 +115,6 @@ for (const middle of ['same', 'different']) {
     t.mock.timers.tick(1)
     assert.equal(ui.messageElement.textContent, '')
   })
-}
 
 test('a stopped report cannot insert itself into a replacement start screen', async t => {
   t.mock.timers.enable({ apis: ['setTimeout'] })

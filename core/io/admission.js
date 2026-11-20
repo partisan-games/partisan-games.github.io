@@ -4,9 +4,9 @@
  */
 export const admission = {
   /** Takes one token: gives a receipt, or null when none is left; throws when the pocket cannot be read. */
-  charge: async () => ({}),
+  charge: async() => ({}),
   /** Gives back the token of `receipt`. */
-  refund: async () => {},
+  refund: async() => {},
   /** Tokens left, or null when not known. */
   remaining: () => null,
 }

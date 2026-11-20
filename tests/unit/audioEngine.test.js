@@ -323,7 +323,9 @@ test('session spatial updates share a world snapshot and freeze their output tra
   await engine.unlock()
   const first = { position: { x: 0, y: 0 } }, second = { position: { x: 400, y: 0 } }
   let player = first, reads = 0
-  const coordinates = { dimensions: 2, unitsPerAudioUnit: 100, getWorldOffset: () => { reads++; return { x: 0, y: 0 } } }
+  const coordinates = { dimensions: 2, unitsPerAudioUnit: 100, getWorldOffset: () => {
+    reads++; return { x: 0, y: 0 }
+  } }
   const scene = engine.createSession({ getListener: () => player, coordinates })
   const profile = { nearDistance: 1, fadeStart: 8, maxDistance: 10 }
   const source = scene.createPlayback('spatial.ogg', { spatial: { position: { x: 100, y: 0 } }, profile })
@@ -682,7 +684,7 @@ test('spatial processing is correct before the first sample and routes through g
   await source.play()
   close(context.sources[1].offset, cursor)
   assert.equal(context.sources[1].playbackRate.value, 1, 'resume resets physical velocity history')
-  const processing = source.processing
+  const { processing } = source
   source.dispose()
   assert.equal(processing.filter.connections.size, 0)
   assert.equal(processing.panner.connections.size, 0)
@@ -719,7 +721,9 @@ test('a partial spatial graph is disconnected and a new loop can retry using the
     partial = makeFilter()
     return partial
   }
-  context.createStereoPanner = () => { throw new Error('panner failed') }
+  context.createStereoPanner = () => {
+    throw new Error('panner failed')
+  }
   sound.setPlaying(true)
   await assert.rejects(sound.audio.play(), /panner failed/)
   assert.equal(partial.connections.size, 0)
@@ -735,7 +739,9 @@ test('a partial spatial graph is disconnected and a new loop can retry using the
 
 test('failed application mix creation closes the partial context and a later gesture can retry cleanly', async t => {
   const first = new RecordingContext(), second = new RecordingContext()
-  first.createDynamicsCompressor = () => { throw new Error('mix failed') }
+  first.createDynamicsCompressor = () => {
+    throw new Error('mix failed')
+  }
   let count = 0
   const engine = new AudioEngine({ createContext: () => count++ ? second : first })
   t.after(() => engine.dispose())
@@ -809,7 +815,7 @@ test('virtual loops have no active graph, retain rate-adjusted phase through pau
   scene.setState('running')
   const source = scene.createPlayback('virtual-engine.ogg', { loop: true, profile: 'engine', spatial: { getPosition: () => position } })
   await source.play()
-  const buffer = source.buffer
+  const { buffer } = source
   context.currentTime = 2
   position.x = 1000
   scene.update(0)
@@ -892,7 +898,7 @@ test('streamed virtual loops disconnect processing, preserve metadata and resume
   scene.setState('running')
   const source = scene.createPlayback('virtual-music.ogg', { stream: true, loop: true })
   await source.play()
-  const media = source.media
+  const { media } = source
   media.currentTime = 3
   source.volume = 0
   scene.update(0)
@@ -1039,7 +1045,7 @@ test('distant ambient automation is throttled while exact positions and urgent l
   scene.setState('running')
   const source = scene.createPlayback('distant-fire.ogg', { loop: true, profile: 'fire', spatial: { getPosition: () => position } })
   await source.play()
-  const frequency = source.processing.filter.frequency
+  const { frequency } = source.processing.filter
   const initial = frequency.targets.length
   for (let i = 0; i < 5; i++) {
     position.x += .01
@@ -1175,7 +1181,9 @@ test('background preparation waits for a gesture and warms one recording at a ti
   const gate = deferred(), began = deferred()
   let calls = 0
   const { engine, stats } = fixture({ fetchFile: async() => {
-    if (++calls === 1) { began.resolve(); return gate.promise }
+    if (++calls === 1) {
+      began.resolve(); return gate.promise
+    }
     return response()
   } })
   t.after(() => engine.dispose())

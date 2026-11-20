@@ -33,7 +33,9 @@ export function createAudioWorkload({ engine = audioEngine, withAudio = true, lo
       time += dt
       frame++
       player.position.x = Math.sin(time * .2) * 10
-      positions.forEach((position, i) => { position.x = 10 + i * 2 + Math.sin(time + i) * 30 })
+      positions.forEach((position, i) => {
+        position.x = 10 + i * 2 + Math.sin(time + i) * 30
+      })
       const began = performance.now()
       if (session) {
         if (frame % 60 === 0) {
@@ -50,7 +52,9 @@ export function createAudioWorkload({ engine = audioEngine, withAudio = true, lo
       peakNative = Math.max(peakNative, native)
       peakReserved = Math.max(peakReserved, engine.budget.active.size)
     },
-    pause() { session?.setState('paused') },
+    pause() {
+      session?.setState('paused')
+    },
     resume() {
       if (!session) return
       session.setState('running')

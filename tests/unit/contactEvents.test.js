@@ -24,7 +24,9 @@ test('opted-in real contact emits a copied point once and repeated native manifo
 
 test('idle, removed and disposed listeners never enumerate contacts or deliver a late hit', () => {
   const contacts = new ContactEvents(body => body.id)
-  const unused = { getNumManifolds() { throw new Error('idle world scanned contacts') } }
+  const unused = { getNumManifolds() {
+    throw new Error('idle world scanned contacts')
+  } }
   contacts.update(unused)
   contacts.once({ id: 10 }, () => assert.fail('removed contact'))
   contacts.remove({ id: 10 })

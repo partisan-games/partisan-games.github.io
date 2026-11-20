@@ -35,7 +35,7 @@ GIF `assets/images/background/pozadina-dimi.gif` poslužio je kao vizuelni uzor 
 
 Pregledati više trenutaka animacije u pregledaču, a ne samo jednu sliku. Proveriti da žarišta ostaju na mestu, čestice nastaju i nestaju bez skoka, a grad izvan efekata ostaje nepromenjen.
 
-U [browser proverama Ustanka](../tests/smoke/ustanak.spec.js) porediti same slojeve efekata, proveriti mirovanje u pauzi i nastavak posle pobede. Vizuelno pregledati različite trenutke, uz praćenje grešaka stranice; prolazak ovih provera nije dokaz prolaska cele testne komande.
+Pri proveri u browseru porediti same slojeve efekata, proveriti mirovanje u pauzi i nastavak posle pobede, i vizuelno pregledati različite trenutke uz praćenje grešaka stranice.
 
 ## Izvori
 

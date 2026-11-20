@@ -1,8 +1,10 @@
+import vehicleArt from '/core/actor/vehicleArt.js'
+
 // Finished side-view sprites face left; display width is independent of source resolution, and the height keeps the
 // picture's proportions, so the size is known before the picture loads.
 export const groundEnemyArt = {
   germanTank: {
-    src: 'armies/game-ready/tenkovi/nemacki-tenk-bez-cevi-pixel.png', width: 121, height: 121 / 327 * 137,
+    src: vehicleArt.germanTank.src, sprite: vehicleArt.germanTank, width: 121, height: 121 / 327 * 137,
     barrel: {
       src: 'armies/game-ready/tenkovi/nemacki-tenk-cev-pixel.png',
       width: 121 * 182 / 327, height: 121 * 26 / 327,
@@ -18,7 +20,7 @@ export const groundEnemyArt = {
       sourceRect: [126, 203, 1923, 309],
     },
   },
-  truck: { src: 'armies/game-ready/kamioni/opel-blitz.svg', width: 137, height: 60 },
+  truck: { src: vehicleArt.opelBlitz.src, sprite: vehicleArt.opelBlitz, width: vehicleArt.opelBlitz.size[0], height: vehicleArt.opelBlitz.size[1] },
   antiTankGun: {
     src: 'armies/game-ready/artiljerija/pak38-postolje.png', width: 117, height: 117 / 233 * 51,
     barrel: {
