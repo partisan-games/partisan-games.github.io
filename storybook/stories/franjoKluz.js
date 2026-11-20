@@ -1,6 +1,7 @@
 import Rifleman, * as riflemanModule from '/core/actor/soldiers/Rifleman.js'
 import Vehicle, * as vehicleModule from '/core/actor/vehicles/Vehicle.js'
 import Fighter, * as fighterModule from '/core/actor/aircraft/Fighter.js'
+import DiveBomber, * as diveBomberModule from '/core/actor/aircraft/DiveBomber.js'
 import Flak, * as flakModule from '/core/actor/artillery/Flak.js'
 import Potez, * as potezModule from '/scenes/franjo-kluz/Potez.js'
 import { kinds } from '/scenes/franjo-kluz/enemies.js'
@@ -22,6 +23,13 @@ const vehicle = kind => stage => put(stage, new Vehicle({ ...kinds[kind], ...pla
 const fighter = fromBehind => stage => {
   const block = new Fighter({ ...place(stage), plane: stage.target })
   block.enter({ x: stage.width / 2, y: stage.groundY - 300, fromBehind })
+  return put(stage, block)
+}
+
+/** The Ju 87 comes head on over the right of the view, high enough to dive on the ground below it. */
+const diveBomber = stage => {
+  const block = new DiveBomber(place(stage))
+  block.enter({ x: stage.width * .8, y: stage.groundY - 400, fromBehind: false })
   return put(stage, block)
 }
 
@@ -50,13 +58,14 @@ export const vehicles = [
 ]
 
 export const aircraft = [
-  { id: 'potez-ndh', name: 'Potez 25, NDH oznake', game, block: potezModule, create: plane(potezModule.markings.ndh) },
-  { id: 'potez-partizanski', name: 'Potez 25, partizanske oznake', game, block: potezModule, create: plane(potezModule.markings.partisan) },
+  { id: 'potez-ndh', name: 'Potez 25, NDH', game, block: potezModule, create: plane(potezModule.markings.ndh) },
+  { id: 'potez-partizanski', name: 'Potez 25, partizanski', game, block: potezModule, create: plane(potezModule.markings.partisan) },
   { id: 'bf109-levo', name: 'Bf 109, nalevo', game, block: fighterModule, create: fighter(false) },
   { id: 'bf109-desno', name: 'Bf 109, nadesno', game, block: fighterModule, create: fighter(true) },
+  { id: 'ju87-obrusavac', name: 'Ju 87', game, block: diveBomberModule, create: diveBomber },
 ]
 
 export const artillery = [
-  { id: 'flak38', name: 'PVO top Flak 38', game, block: flakModule, create: flak },
+  { id: 'flak38', name: 'Flak 38', game, block: flakModule, create: flak },
 ]
 

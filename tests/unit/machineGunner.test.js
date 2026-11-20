@@ -2,11 +2,11 @@ import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 
-let Mitraljezac, machineGun, GameSession, GameObject2D
+let MachineGunner, machineGun, GameSession, GameObject2D
 
 before(async() => {
   createPageElements()
-  ;({ default: Mitraljezac, machineGun } = await import('/scenes/bunker/Mitraljezac.js'))
+  ;({ default: MachineGunner, machineGun } = await import('/core/actor/soldiers/MachineGunner.js'))
   GameSession = (await import('/core/runtime/GameSession.js')).default
   GameObject2D = (await import('/core/actor/GameObject2D.js')).default
 })
@@ -17,7 +17,7 @@ function gunnerAlone(t) {
   session.start()
   t.after(() => session.dispose())
   const target = new GameObject2D(null, { x: 500, y: 300 })
-  const gunner = new Mitraljezac({ x: 100, y: 100, targets: [target], session })
+  const gunner = new MachineGunner({ x: 100, y: 100, targets: [target], session })
   const step = seconds => {
     session.update(seconds)
     gunner.update(0)

@@ -2,16 +2,16 @@ import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 
-let Patrola, search
+let Patrol, search
 
 before(async() => {
   createPageElements()
-  ;({ default: Patrola, search } = await import('/scenes/ranjenik/Patrola.js'))
+  ;({ default: Patrol, search } = await import('/core/actor/soldiers/Patrol.js'))
 })
 
 /** A patrol alone, counting the times it calls out. */
 function patrolAlone(t) {
-  const patrol = new Patrola()
+  const patrol = new Patrol()
   t.after(() => patrol.end())
   const calls = []
   t.mock.method(patrol, 'pustiNasumicno', sounds => calls.push(sounds))

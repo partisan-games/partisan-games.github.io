@@ -14,26 +14,5 @@ export default class IdleState extends State {
 
   update(delta) {
     this.actor.updateTurn(delta)
-
-    if (this.actor.input.up || this.actor.input.down)
-      this.actor.setState('walk')
-
-    if (this.input.strafeLeft || this.input.strafeRight)
-      this.actor.setState('walk')
-
-    if (this.actor.inAir)
-      this.actor.setState('fall')
-
-    if (this.input.jump && this.actor.ableToJump)
-      this.actor.setState('jump')
-
-    if (this.input.attack)
-      this.actor.setState('attack')
-
-    if (this.input.attack2)
-      this.actor.setState('attack2')
-
-    if (this.input.special)
-      this.actor.setState('special')
   }
 }

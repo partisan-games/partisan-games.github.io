@@ -5,7 +5,7 @@ import Raider, { raid } from '/core/gameplay/controllers/Raider.js'
 /** A boat that records its state and the points it aims at. */
 function fakeBoat() {
   const boat = {
-    x: 900, y: 300, side: 1, born: 0, bursts: 0, alive: true, course: Math.PI, state: 'idle', aimed: [],
+    x: 900, y: 300, lane: 500, born: 0, bursts: 0, alive: true, course: Math.PI, state: 'idle', aimed: [],
     aimAt(point) {
       boat.aimed.push(point)
       return true
@@ -29,8 +29,7 @@ test('a raider heads along its lane for a point ahead of the target and fires at
   const { boat, target, raider: ai } = raider()
   ai.update()
   assert.equal(boat.state, 'fire')
-  const lane = view.height * raid.lanes.below
-  assert.equal(boat.course, Math.atan2(lane - boat.y, target.x + view.width * raid.ahead - boat.x))
+  assert.equal(boat.course, Math.atan2(boat.lane - boat.y, target.x + view.width * raid.ahead - boat.x))
   assert.deepEqual(boat.aimed, [target])
 })
 

@@ -26,7 +26,7 @@ const states = {
 }
 
 /** A machine gunner lying behind his gun, seen from above, who turns it anywhere. */
-export default class Mitraljezac extends GameObject2D {
+export default class MachineGunner extends GameObject2D {
   /** `targets` are what his rounds can hit. */
   constructor({ x, y, targets = [], session }) {
     super('armies/nemci/mitraljezac-01.png', { x, y, z: -1, origin: origins.bottomRight })

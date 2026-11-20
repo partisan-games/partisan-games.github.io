@@ -13,6 +13,7 @@ import Vehicle from '/core/actor/vehicles/Vehicle.js'
 import Rifleman from '/core/actor/soldiers/Rifleman.js'
 import Flak, { flak } from '/core/actor/artillery/Flak.js'
 import Fighter from '/core/actor/aircraft/Fighter.js'
+import DiveBomber from '/core/actor/aircraft/DiveBomber.js'
 import { kinds } from './enemies.js'
 import { missions } from './missions.js'
 import WorldSprite from '/core/actor/WorldSprite.js'
@@ -49,8 +50,10 @@ export const continueWithMission = index => {
 const landing = { airspeed: 600, hardSink: 150, crashSink: 350, stopped: 20 }
 /** The ruin comes back this far ahead after the plane passes it, as the old scrolling scenery did. */
 const ruinReturn = { min: canvas2d.width, max: canvas2d.width * 3 }
-/** A fighter enters this far outside the view, in pixels. */
-const fighterMargin = 200
+/** A raider enters this far outside the view unless its raid says otherwise, in pixels. */
+const raiderMargin = 200
+/** A Ju 87 flies this high above the ground, in pixels: high enough to dive, low enough to be fought. */
+const diveBomberAltitude = 450
 /** Seconds between the wreck hitting the ground and the defeat screen, so the crash is seen. */
 const crashScreenDelay = 1.5
 
@@ -68,8 +71,8 @@ export default class FranjoKluzScene extends Scene2D {
     this.mission = missions[this.missionIndex]
     /** Whether the enemy knows the plane is hostile; the NDH plane of a disguised mission fools it until half way. */
     this.alarm = { raised: !this.mission.disguised }
-    /** Heard everywhere, not from one place: the whole valley is on alert. */
-    this.siren = { sounds: [new Sound('air-raid-siren.mp3', { profile: 'ambience' })] }
+    /** Heard everywhere, not from one place: the whole valley is on alert; in an air raid, from the start. */
+    this.siren = { sounds: [new Sound('air-raid-siren.mp3', { profile: 'ambience', autoplay: this.mission.airRaid })] }
     this.audioChildren.push(this.siren)
     const camera = this
     const departure = this.mission.takeoff && new Airfield({ camera, groundY: groundLevel, x: departureX })
@@ -82,19 +85,21 @@ export default class FranjoKluzScene extends Scene2D {
     this.enemies = this.mission.enemies.map(({ kind, x }) => this.createEnemy(kind, x))
     /** Calm soldiers keep watch: they stand and walk their patrol in turn until they fire. */
     this.sentries = this.enemies.filter(enemy => enemy.states?.includes('patrol')).map(soldier => new Sentry(soldier))
-    this.fighters = this.mission.fighterPasses.map(() => new Fighter({ plane: this.player, camera, groundY: groundLevel, session: this.session,
-      onCrash: point => this.player.destroyAround(point) }))
-    /** How many fighters have come so far. */
-    this.fightersSent = 0
-    /** Those who know the plane is hostile; they fire at it as gunners, the flak leading it with its slow shell. */
+    this.raiders = this.mission.raids.map(({ kind }) => this.createRaider(kind))
+    /** How many raiders have come so far. */
+    this.raidersSent = 0
+    /**
+     * Those who know the plane is hostile; they fire at it as gunners, the flak leading it with its slow shell, and
+     * the Ju 87s dive on it while it stands on the ground.
+     */
     this.alerted = new Set()
-    this.gunners = this.armed.map(enemy =>
-      new Gunner(enemy, this.player, enemy instanceof Flak ? lead(flak.shellSpeed) : undefined))
+    this.gunners = this.armed.map(enemy => enemy instanceof DiveBomber ? new Gunner(enemy, this.groundedPlane())
+      : new Gunner(enemy, this.player, enemy instanceof Flak ? lead(flak.shellSpeed) : undefined))
     this.followPlane(0)
 
-    this.player.solidBodies.push(this.ruina, ...this.enemies.filter(enemy => enemy.vehicle), ...this.fighters)
-    this.player.targets.push(...this.enemies, ...this.fighters)
-    this.player.fighters.push(...this.fighters)
+    this.player.solidBodies.push(this.ruina, ...this.enemies.filter(enemy => enemy.vehicle), ...this.raiders)
+    this.player.targets.push(...this.enemies, ...this.raiders)
+    this.player.fighters.push(...this.raiders)
 
     this.scenery = [
       new ParallaxLayer({ src: 'nature/shumarak.png', count: 10, depth: .2, z: 2, camera,
@@ -106,7 +111,7 @@ export default class FranjoKluzScene extends Scene2D {
     ]
 
     // The plane is drawn in front of the buildings and the enemies, so a crash into them is seen burning and falling.
-    this.add(...this.airfields, this.ruina, ...this.enemies, ...this.fighters, this.player, ...this.scenery)
+    this.add(...this.airfields, this.ruina, ...this.enemies, ...this.raiders, this.player, ...this.scenery)
     if (this.alarm.raised) this.openFire(this.armed)
     this.ui.intro = this.mission.intro
   }
@@ -119,9 +124,42 @@ export default class FranjoKluzScene extends Scene2D {
       : new Vehicle({ ...kinds[kind], ...place })
   }
 
+  /** A Bf 109 flies at the plane; a Ju 87 at its height, and bombs what the scene says a burst reaches. */
+  createRaider(kind) {
+    const options = { camera: this, groundY: groundLevel, session: this.session, onCrash: point => this.player.destroyAround(point) }
+    return kind === 'diveBomber'
+      ? new DiveBomber({ ...options, groundAt: x => this.groundAt(x), onImpact: point => this.bombGround(point) })
+      : new Fighter({ ...options, plane: this.player })
+  }
+
+  /** What the Ju 87s dive on: the plane, only while it stands on the ground. */
+  groundedPlane() {
+    const { player } = this
+    return {
+      get x() {
+        return player.x
+      },
+      get y() {
+        return player.y
+      },
+      get alive() {
+        return player.alive && player.isGrounded
+      },
+    }
+  }
+
+  /** A Ju 87's bomb destroys the plane standing on the ground when its body reaches into the blast. */
+  bombGround({ x, y }) {
+    const { player } = this
+    if (player.dead || !player.isGrounded) return
+    if (Math.hypot(player.x - x, player.y - y) > plane.blastRadius + Math.max(player.width, player.height) / 2) return
+    this.crashReason = 'The bombs caught you on the ground.'
+    player.die()
+  }
+
   /** The enemies that can fire at the plane: those with a state to fire in. */
   get armed() {
-    return [...this.enemies, ...this.fighters].filter(enemy => enemy.states?.includes('fire'))
+    return [...this.enemies, ...this.raiders].filter(enemy => enemy.states?.includes('fire'))
   }
 
   /** The enemy knows the plane is hostile: the living among `enemies` fire at it. */
@@ -139,14 +177,28 @@ export default class FranjoKluzScene extends Scene2D {
     if (attack || inView.some(enemy => this.alerted.has(enemy))) this.openFire(inView)
   }
 
-  /** Each fighter comes once, when the view reaches its place: head on from the right edge, or from behind the left. */
-  sendFighters() {
-    const pass = this.mission.fighterPasses[this.fightersSent]
-    if (!pass || this.session.state !== 'running') return
-    const edge = pass.fromBehind ? this.cameraX : this.cameraX + canvas2d.width
-    if (edge < pass.x) return
-    const fighter = this.fighters[this.fightersSent++]
-    fighter.enter({ x: pass.fromBehind ? this.cameraX - fighterMargin : edge + fighterMargin, y: this.player.y, fromBehind: pass.fromBehind })
+  /** Each raider comes when the view reaches its place: head on from the right edge, or from behind the left. */
+  sendRaiders() {
+    const raid = this.mission.raids[this.raidersSent]
+    if (!raid || this.session.state !== 'running') return
+    const edge = raid.fromBehind ? this.cameraX : this.cameraX + canvas2d.width
+    if (edge < raid.x) return
+    const raider = this.raiders[this.raidersSent++]
+    if (raider.alive) this.enterRaider(raider, raid)
+  }
+
+  /** In an air raid a raider that has left the view comes back from the other side until it is shot down. */
+  returnRaiders() {
+    if (!this.mission.airRaid || this.session.state !== 'running') return
+    for (const raider of this.raiders.slice(0, this.raidersSent))
+      if (raider.alive && !raider.visible) this.enterRaider(raider, { fromBehind: !raider.fromBehind })
+  }
+
+  /** A fighter comes at the plane's height, a Ju 87 at its own. */
+  enterRaider(raider, { fromBehind, distance = raiderMargin }) {
+    const x = fromBehind ? this.cameraX - distance : this.cameraX + canvas2d.width + distance
+    const y = raider instanceof DiveBomber ? groundLevel - diveBomberAltitude : this.player.y
+    raider.enter({ x, y, fromBehind })
   }
 
   /** Half way to the airfield the enemy sees through the disguise. */
@@ -200,7 +252,8 @@ export default class FranjoKluzScene extends Scene2D {
 
   /**
    * The plane may touch the ground only on a runway and slowly enough, or it crashes. Flying past the runway to land
-   * on loses the mission; stopping on it wins, however many enemies were destroyed on the way.
+   * on loses the mission; stopping on it wins, however many enemies were destroyed on the way, but in an air raid
+   * only once no raider is left.
    */
   checkLanding() {
     const { player, aerodrom } = this
@@ -214,10 +267,14 @@ export default class FranjoKluzScene extends Scene2D {
       : airspeed > landing.airspeed ? 'You touched down too fast.'
         : sink > landing.crashSink ? 'You landed too hard.' : null
     if (this.crashReason) return player.die()
-    if (aerodrom.holds(player.x) && player.airspeed < landing.stopped) {
+    if (aerodrom.holds(player.x) && player.airspeed < landing.stopped && this.raidersDown) {
       const kind = sink < landing.hardSink ? 'A soft landing.' : 'A hard landing.'
       this.completeMission(`Mission successfully completed! ${kind}`)
     }
+  }
+
+  get raidersDown() {
+    return !this.mission.airRaid || this.raiders.every(raider => raider.dead)
   }
 
   /** The last mission wins the game; any other tells how its story goes on and starts the next mission. */
@@ -254,7 +311,8 @@ export default class FranjoKluzScene extends Scene2D {
     this.followPlane(dt)
     super.update(dt, t)
     this.returnRuin()
-    this.sendFighters()
+    this.sendRaiders()
+    this.returnRaiders()
     this.raiseAlarm()
     this.alertInView()
     for (const sentry of this.sentries) if (!this.alerted.has(sentry.body)) sentry.update(dt)

@@ -7,7 +7,7 @@ import Cooldown from '/core/gameplay/Cooldown.js'
 import Weapon from '/core/gameplay/Weapon.js'
 import StateMachine from '/core/gameplay/StateMachine.js'
 import Bullet from './Bullet.js'
-import Explosion from './Explosion.js'
+import Explosion from '/core/actor/effects/Explosion.js'
 import PlayerView from './PlayerView.js'
 import { getAircraft } from './aircraft.js'
 import { resetFlame } from './flame.js'
@@ -23,6 +23,7 @@ export const playerPlane = {
   bombHits: 10, // a fighter or a heavy plane goes down, the boss loses a sixth
   bombBursts: 12, // explosions spread over the blast, besides one on every plane it hits
   bombSpread: .4, // seconds over which the bursts go off
+  burstScale: 1.8, // a burst's size against its 128 px frame
   respawnTime: 2.5, // seconds
   shieldTime: 2, // seconds the plane cannot be hit after coming back
   loops: 3, // per life
@@ -49,13 +50,17 @@ const states = {
 /** The plane fires on Space; on a phone, with its buttons. */
 export const inputOptions = { attackKey: 'Space', buttonDict: { attack: icons.shoot, attack2: icons.loop, special: icons.bomb } }
 
-/** The player plane. Its reload, respawn and bomb bursts wait on the game `session`. */
+/**
+ * The player plane. Its reload, respawn and bomb bursts wait on the game `session`. `startAt(plane)` gives where it
+ * starts and comes back after a lost life, once its picture has loaded and its size is known; by default where it is made.
+ */
 export class Avionce extends Player2D {
   #fireLevel = 0
 
-  constructor({ session, aircraftId = 'spitfire' }) {
+  constructor({ session, aircraftId = 'spitfire', x = 0, y = 0, startAt = () => ({ x, y }) }) {
     // vis was tuned on a 60 Hz screen, unlike the older games
     super(getAircraft(aircraftId).image, { scale: .5, flammable: true, shadow: true, tunedFps: 60, ...inputOptions })
+    this.startAt = startAt
     this.bombSound = new Sound('explosion.mp3', { profile: 'explosion', spatial: { getPosition: () => this.position } })
     this.sounds.push(this.bombSound)
     this.aircraftId = aircraftId
@@ -76,7 +81,7 @@ export class Avionce extends Player2D {
       spawnProjectile: (origin, angle) => this.bullets.fire(origin, angle, playerPlane.bulletSpeed),
     })
     this.view = new PlayerView()
-    this.explosions = Array.from({ length: playerPlane.bombBursts }, () => new Explosion()) // loaded before the first bomb
+    this.explosions = Array.from({ length: playerPlane.bombBursts }, () => this.createBurst()) // loaded before the first bomb
     this.children.push(...this.explosions)
     this.machine = new StateMachine(this, states, 'fly')
   }
@@ -138,7 +143,8 @@ export class Avionce extends Player2D {
 
   toStart() {
     this.audioRevision = (this.audioRevision ?? 0) + 1
-    this.setPosition(canvas2d.width / 2, canvas2d.height - this.height)
+    const { x, y } = this.startAt(this)
+    this.setPosition(x, y)
   }
 
   get looping() {
@@ -202,7 +208,7 @@ export class Avionce extends Player2D {
     this.bombSound.play()
     const radius = playerPlane.bombRadius * Math.min(canvas2d.width, canvas2d.height)
     // whatever the fire touches, also just past the outermost burst
-    const inBlast = thing => this.distanceTo(thing) < radius + Explosion.reach
+    const inBlast = thing => this.distanceTo(thing) < radius + this.explosions[0].reach
     this.targets
       .filter(plane => plane.alive && inBlast(plane))
       .forEach(plane => {
@@ -230,10 +236,15 @@ export class Avionce extends Player2D {
     }
   }
 
+  /** A burst on the screen, above the planes. */
+  createBurst() {
+    return new Explosion(null, { scale: playerPlane.burstScale, z: -1 })
+  }
+
   explode(x, y) {
     let explosion = this.explosions.find(burst => !burst.visible)
     if (!explosion) {
-      explosion = new Explosion()
+      explosion = this.createBurst()
       this.explosions.push(explosion)
       this.children.push(explosion)
     }

@@ -2,18 +2,18 @@ import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 
-let Svabo, trench, mouse
+let TrenchSoldier, trench, mouse
 
 before(async() => {
   createPageElements()
-  ;({ default: Svabo, trench } = await import('/scenes/neretva/Svabo.js'))
+  ;({ default: TrenchSoldier, trench } = await import('/core/actor/soldiers/TrenchSoldier.js'))
   mouse = (await import('/core/io/mouse.js')).default
 })
 
 /** A soldier alone in his trench, counting the damage of each frame he fires. */
 function soldierAlone() {
   const strikes = []
-  const soldier = new Svabo({ scale: 1, callback: (damage, dt) => strikes.push(damage * dt) })
+  const soldier = new TrenchSoldier({ scale: 1, callback: (damage, dt) => strikes.push(damage * dt) })
   const live = seconds => {
     for (let i = 0; i < Math.round(seconds * 30); i++) soldier.update(1 / 30)
   }

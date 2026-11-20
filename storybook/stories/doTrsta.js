@@ -33,8 +33,8 @@ const bunker = (src, scale, [width, height]) => stage =>
 const game = 'Do Trsta'
 
 export const aircraft = [
-  { id: 'bf109-do-trsta', name: 'Bf 109, lovac', game, block: aircraftModule, create: plane('fighter') },
-  { id: 'ju87', name: 'Ju 87, obrušavajući bombarder', game, block: aircraftModule, create: plane('diveBomber') },
+  { id: 'bf109-do-trsta', name: 'Bf 109', game, block: aircraftModule, create: plane('fighter') },
+  { id: 'ju87', name: 'Ju 87', game, block: aircraftModule, create: plane('diveBomber') },
 ]
 
 export const vehicles = [

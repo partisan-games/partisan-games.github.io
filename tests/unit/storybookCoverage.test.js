@@ -36,7 +36,7 @@ const folders = {
   'scenes/tenkici': ['Main.js', 'Tenk.js', 'shellPhysics.js', 'PozadinaGrada.js'],
   'scenes/vis': [
     'Main.js', 'settings.js', 'levels.js', 'aircraft.js', 'paths.js', 'formations.js', 'flame.js', 'Waves.js',
-    'PlayerView.js', 'Baza.js', 'Bullet.js', 'Explosion.js', 'Oblak.js', 'PokretnaPozadina.js', 'Pokretno.js',
+    'PlayerView.js', 'Baza.js', 'Bullet.js', 'Oblak.js', 'PokretnaPozadina.js', 'Pokretno.js',
     'PowerUps.js',
   ],
   'core3d/actor/derived/fantasy': [],

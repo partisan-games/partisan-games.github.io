@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 import GameSession from '/core/runtime/GameSession.js'
 
-let Avionce, inputOptions, playerPlane, Enemy, Input, canvas2d, attackLabels, Flame
+let Avionce, inputOptions, playerPlane, Enemy, Input, attackLabels, Flame
 
 before(async() => {
   createPageElements()
@@ -15,7 +15,6 @@ before(async() => {
   ;({ Avionce, inputOptions, playerPlane } = await import('/scenes/vis/Avionce.js'))
   Enemy = (await import('/scenes/vis/Enemy.js')).default
   Input = (await import('/core/io/Input.js')).default
-  canvas2d = (await import('/core/io/canvas2d.js')).default
   Flame = (await import('/core/actor/Flame.js')).default
   ;({ attackLabels } = await import('/core/io/keys.js'))
 })
@@ -89,14 +88,23 @@ function pressLoop(player) {
   player.handleInput(1 / 60)
 }
 
-test('the vis player plane comes back at the bottom middle of the screen', t => {
+test('the vis player plane comes back where its start is, which knows its size', t => {
   const { player } = createPlayer(t)
+  player.startAt = plane => ({ x: 300, y: 700 - plane.height })
 
   loseLife(player)
 
   assert.equal(player.alive, true)
-  assert.equal(player.x, canvas2d.width / 2)
-  assert.equal(player.y, canvas2d.height - player.height)
+  assert.equal(player.x, 300)
+  assert.equal(player.y, 700 - player.height)
+})
+
+test('without a start of its own, the vis player plane starts where it is made', () => {
+  const player = new Avionce({ session: new GameSession(), x: 200, y: 150 })
+  player.x = player.y = 0
+  player.toStart()
+  assert.deepEqual([player.x, player.y], [200, 150])
+  player.end()
 })
 
 test('for 2 s after coming back, neither a bullet nor a crash takes a life of the vis player', t => {

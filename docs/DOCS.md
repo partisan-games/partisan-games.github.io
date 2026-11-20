@@ -60,6 +60,8 @@ Autoritativni opis tema i potvrđenog korisničkog izbora je u [UI vodiču](UI.m
 
 ## Ulaz u igre i novčići
 
+Animacije na naslovnoj su besplatne (odluka vlasnika od 2026-11-20): njihove kartice u [index.html](../index.html) imaju `data-free`, nemaju ubacivanje novčića i pokreću se klikom na karticu.
+
 Odluka vlasnika od 2026-11-20: igre koje nemaju startni prozor ostaju besplatne i kreću odmah po učitavanju, bez dodavanja prozora za novčić ili starta. To važi i za direktan link, reload i ponovnu igru; dostupnost novčića i njihovog skladišta ne sme uslovljavati besplatnu igru.
 
 Za igre sa startnim prozorom ostaje jedan prozor pre početka: Start ili izbor režima naplaćuje jedan novčić, a kartica u glavnom meniju ne naplaćuje. Play again naplaćuje novu partiju i pokreće je sa istim prethodnim izborom, bez ponavljanja startnog prozora. Preskakanje tog prozora pri replay-u ne menja cenu igre. Cilj je manje klikova, uz jasno prikazanu cenu; konkretni novi natpisi i poruke i dalje traže prethodno odobrenje po pravilu iznad. Ovo je pravilo željenog ponašanja, ne potvrda da ga trenutni kod sprovodi.

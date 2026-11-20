@@ -2,14 +2,14 @@ import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 
-let continueWithMission, missions, Rifleman, plane, rearGun, fighterPasses, Flak, layout, airspeed, FranjoKluzScene
+let continueWithMission, missions, Rifleman, plane, rearGun, raids, Flak, layout, airspeed, FranjoKluzScene
 
 before(async() => {
   createPageElements()
   ;({ plane, rearGun, airspeed } = await import('/scenes/franjo-kluz/Potez.js'))
   ;({ default: Flak } = await import('/core/actor/artillery/Flak.js'))
   ;({ missions } = await import('/scenes/franjo-kluz/missions.js'))
-  ;({ enemies: layout, fighterPasses } = missions[0])
+  ;({ enemies: layout, raids } = missions[0])
   ;({ default: Rifleman } = await import('/core/actor/soldiers/Rifleman.js'))
   ;({ default: FranjoKluzScene, continueWithMission } = await import('/scenes/franjo-kluz/Main.js'))
 })
@@ -139,6 +139,7 @@ test('the defeat screen comes only after the shot down plane has crashed and bee
 function approach(t, x, { airspeed: speed = 250, sink = 50 } = {}) {
   const scene = createScene(t, { mission: missions.length - 1 })
   const { player, aerodrom } = scene
+  for (const raider of scene.raiders) raider.die() // in an air raid landing wins only once they are shot down
   for (const airfield of scene.airfields) airfield.width = 400
   player.width = 100
   player.height = 40
@@ -249,31 +250,31 @@ test('soldiers face the plane, which comes from the left, and vehicles drawn tha
 
 test('each fighter comes once, head on from the right of the view or from behind on the left', t => {
   const scene = createScene(t)
-  const headOn = fighterPasses.findIndex(pass => !pass.fromBehind)
-  const behind = fighterPasses.findIndex(pass => pass.fromBehind)
-  scene.fightersSent = headOn
-  scene.cameraX = fighterPasses[headOn].x - scene.width
-  scene.sendFighters()
-  const first = scene.fighters[headOn]
+  const headOn = raids.findIndex(pass => !pass.fromBehind)
+  const behind = raids.findIndex(pass => pass.fromBehind)
+  scene.raidersSent = headOn
+  scene.cameraX = raids[headOn].x - scene.width
+  scene.sendRaiders()
+  const first = scene.raiders[headOn]
   assert.equal(first.visible, true)
   assert.ok(first.x > scene.cameraX + scene.width, 'it enters at the right')
   first.update(1 / 30)
   assert.ok(first.dx < 0, 'it flies left, against the plane')
 
-  scene.fightersSent = behind
-  scene.cameraX = fighterPasses[behind].x
-  scene.sendFighters()
-  const chaser = scene.fighters[behind]
+  scene.raidersSent = behind
+  scene.cameraX = raids[behind].x
+  scene.sendRaiders()
+  const chaser = scene.raiders[behind]
   assert.ok(chaser.x < scene.cameraX, 'it enters behind, at the left')
   chaser.update(1 / 30)
   assert.ok(chaser.dx > scene.player.dx, 'it overtakes the plane')
-  scene.sendFighters()
-  assert.equal(scene.fightersSent, behind + 1, 'once')
+  scene.sendRaiders()
+  assert.equal(scene.raidersSent, behind + 1, 'once')
 })
 
 test('a fighter crash destroys the enemies on the ground around it', t => {
   const scene = createScene(t)
-  const enemy = scene.fighters[0]
+  const enemy = scene.raiders[0]
   const truck = scene.enemies[layout.findIndex(item => item.kind === 'truck')]
   const train = scene.enemies[layout.findIndex(item => item.kind === 'train')]
   for (const target of [truck, train]) {
@@ -292,7 +293,7 @@ test('a fighter crash destroys the enemies on the ground around it', t => {
 test('the observer fires back at a fighter behind the plane, not at one ahead, only while the fire key is held', t => {
   const scene = createScene(t)
   const { player } = scene
-  const [behind, ahead] = scene.fighters
+  const [behind, ahead] = scene.raiders
   behind.width = ahead.width = 200 // the image does not load in tests
   behind.height = ahead.height = 60
   ahead.enter({ x: player.x + 300, y: player.y, fromBehind: false })
@@ -316,7 +317,7 @@ test('the second mission starts standing on a runway, takes off with up, and has
   for (const airfield of scene.airfields) airfield.width = 780 // the images do not load in tests
   player.height = 40
   player.onload()
-  assert.equal(scene.fighters.length, 0)
+  assert.equal(scene.raiders.length, 0)
   assert.equal(player.isGrounded, true)
   assert.ok(scene.airfieldAt(player.x), 'on a runway')
   play(scene, 1)
@@ -435,4 +436,101 @@ test('every soldier keeps watch as a sentry, and no other enemy does', t => {
 test('the plane flies the first mission in NDH markings and the second in partisan ones', t => {
   assert.match(createScene(t).player.image.src, /armies\/ndh\/avioni\/potez-25\.png$/)
   assert.match(createScene(t, { mission: 1 }).player.image.src, /armies\/partizani\/potez-25\.png$/)
+})
+
+/** The air raid, the last mission, with the sizes the images would give and the plane standing on the runway. */
+function airRaid(t) {
+  const scene = createScene(t, { mission: missions.length - 1 })
+  const { player } = scene
+  for (const airfield of scene.airfields) airfield.width = 780
+  player.width = 100
+  player.height = 40
+  player.onload()
+  return scene
+}
+
+test('the air raid starts standing on the runway under the siren, with the alarm raised', t => {
+  const scene = airRaid(t)
+  assert.equal(scene.mission.airRaid, true)
+  assert.equal(scene.player.isGrounded, true)
+  assert.ok(scene.airfieldAt(scene.player.x), 'on a runway')
+  assert.equal(scene.alarm.raised, true)
+  assert.ok(scene.armed.every(enemy => scene.alerted.has(enemy)))
+  assert.equal(scene.siren.sounds[0].autoplay, true, 'the siren wails from the start')
+  for (const mission of [0, 1]) assert.equal(createScene(t, { mission }).siren.sounds[0].autoplay, false)
+})
+
+test('in the air raid two Ju 87s bomb the plane that stays on the ground within about 8 seconds', t => {
+  const scene = airRaid(t)
+  const [first, second] = scene.mission.raids
+  assert.deepEqual([first.kind, second.kind], ['diveBomber', 'diveBomber'])
+  let seconds = 0
+  while (scene.player.alive && seconds < 15) {
+    play(scene, 1 / 30)
+    seconds += 1 / 30
+  }
+  assert.equal(scene.player.dead, true, 'a bomb burst destroys it')
+  assert.ok(seconds > 3 && seconds < 9, `after ${seconds.toFixed(1)} s`)
+  play(scene, 3)
+  assert.match(scene.ui.outro, /The bombs caught you on the ground/)
+})
+
+test('a bomb burst destroys the plane on the ground, not in the air or far from it', t => {
+  const scene = airRaid(t)
+  const { player } = scene
+  scene.bombGround({ x: player.x + 1000, y: scene.height })
+  assert.equal(player.alive, true, 'far from it')
+  player.y -= 100
+  scene.bombGround({ x: player.x, y: scene.height })
+  assert.equal(player.alive, true, 'in the air')
+  player.onload()
+  scene.bombGround({ x: player.x + 100, y: scene.height })
+  assert.equal(player.dead, true, 'on the ground')
+})
+
+test('in the air raid a raider not shot down comes back from the other side; in the first mission it does not', t => {
+  const scene = airRaid(t)
+  play(scene, 1 / 30)
+  const [raider] = scene.raiders
+  assert.equal(raider.visible, true, 'the first raider has come')
+  assert.equal(raider.fromBehind, false)
+  scene.cameraX = raider.x + 5000 // it has flown far past the view
+  play(scene, 1 / 15)
+  assert.equal(raider.visible, true, 'it is back')
+  assert.equal(raider.fromBehind, true, 'from behind')
+  assert.ok(raider.x < scene.cameraX, 'on the left')
+  raider.die()
+  scene.cameraX += 10_000
+  play(scene, 10)
+  assert.equal(raider.visible, false, 'shot down, it does not come back')
+
+  const first = createScene(t)
+  first.raidersSent = 0
+  first.cameraX = first.mission.raids[0].x - first.width
+  play(first, 1 / 30)
+  const [fighter] = first.raiders
+  assert.equal(fighter.visible, true)
+  first.cameraX = fighter.x + 5000
+  play(first, 1)
+  assert.equal(fighter.visible, false, 'gone for good')
+})
+
+test('in the air raid landing wins only once no raider is left', t => {
+  const scene = airRaid(t)
+  const { player, aerodrom } = scene
+  const kept = scene.raiders[scene.mission.raids.findIndex(raid => raid.kind === 'fighter')]
+  for (const raider of scene.raiders) if (raider !== kept) raider.die()
+  scene.alerted.delete(kept) // it does not fire on the landing plane
+  player.setPosition(aerodrom.runway.left + 100, scene.height - player.height / 2 - 1)
+  scene.cameraX = player.x - 200
+  player.airspeed = 250
+  player.dy = 50
+  play(scene, 3)
+  assert.equal(player.alive, true)
+  assert.ok(player.airspeed < 20, 'it has stopped on the runway')
+  assert.equal(scene.ui.outro, '', 'one raider is left')
+  assert.equal(kept.visible, true, 'and it keeps coming')
+  kept.die()
+  play(scene, 1)
+  assert.match(scene.ui.outro, /Mission successfully completed/)
 })

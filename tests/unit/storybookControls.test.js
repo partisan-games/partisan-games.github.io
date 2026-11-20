@@ -33,7 +33,7 @@ test('a single constant, a list or an object with words gets no controls; a nest
 })
 
 test('a module without settings objects has no controls', async() => {
-  assert.equal(controls.controlsHtml(await import('/scenes/tenkici/TenkLevo.js')), '')
+  assert.equal(controls.controlsHtml(await import('/scenes/ustanak/Zastavnik.js')), '')
 })
 
 test('a changed setting holds in the block made next, and restoring gives the first value back', t => {

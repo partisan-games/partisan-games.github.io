@@ -16,8 +16,11 @@ export default class Arcade {
       'to-trieste': 'To Trieste!', 'graffiti-city-maze': 'Graffiti City Maze', 'lookat-cursor': 'Look at Cursor',
     })) this.games.set(path, title)
 
+    /** The animations, which play without a coin. */
+    this.freeGames = new Set(this.cards.filter(card => 'free' in card.dataset).map(card => card.dataset.path))
+
     this.wallet = this.createWallet()
-    this.cards.forEach(card => this.addCoinSlot(card))
+    this.cards.filter(card => !this.isFree(card.dataset.path)).forEach(card => this.addCoinSlot(card))
     this.dialog = this.createDialog()
 
     window.addEventListener('storage', this.handleStorage)
@@ -25,6 +28,10 @@ export default class Arcade {
     document.addEventListener('visibilitychange', this.handleVisibilityChange)
     this.refresh()
     this.scheduleReset()
+  }
+
+  isFree(path) {
+    return this.freeGames.has(path)
   }
 
   createWallet() {

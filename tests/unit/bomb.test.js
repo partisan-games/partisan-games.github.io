@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 import GameSession from '/core/runtime/GameSession.js'
 
-let Avionce, inputOptions, playerPlane, Enemy, Input, canvas2d, Explosion, explosion
+let Avionce, inputOptions, playerPlane, Enemy, Input, canvas2d
 
 before(async() => {
   createPageElements()
@@ -16,7 +16,6 @@ before(async() => {
   Enemy = (await import('/scenes/vis/Enemy.js')).default
   Input = (await import('/core/io/Input.js')).default
   canvas2d = (await import('/core/io/canvas2d.js')).default
-  ;({ default: Explosion, explosion } = await import('/scenes/vis/Explosion.js'))
 })
 
 const key = (type, code) => document.dispatchEvent(new KeyboardEvent(type, { code }))
@@ -63,9 +62,9 @@ test('a bomb in vis shoots down the enemy fighters around the player, with their
 test('a bomb in vis also shoots down a plane at the edge of its fire, but not one past it', t => {
   const { player, near, far } = createBattle(t)
   const radius = playerPlane.bombRadius * Math.min(canvas2d.width, canvas2d.height)
-  near.x = player.x + radius + Explosion.reach - 10
+  near.x = player.x + radius + player.explosions[0].reach - 10
   near.y = player.y
-  far.x = player.x + radius + Explosion.reach + 10
+  far.x = player.x + radius + player.explosions[0].reach + 10
   far.y = player.y
 
   dropBomb(player)
@@ -111,6 +110,6 @@ test('a bomb in vis bursts on the plane it hits and over the blast, and the burs
   player.session.update(bombSpread)
   assert.equal(shown().length, 1 + bombBursts, 'the bursts over the blast follow')
 
-  player.explosions.forEach(burst => burst.update(explosion.duration))
+  player.explosions.forEach(burst => burst.update(1)) // a burst lasts a second
   assert.equal(shown().length, 0)
 })

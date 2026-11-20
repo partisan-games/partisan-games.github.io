@@ -14,11 +14,11 @@ const turn = (from, to, speed, dt) => from + Math.sign(difference(to, from)) * M
 
 /**
  * Cruising and full speed in pixels a second; how fast the hull and the guns turn, in radians a second; seconds
- * between rounds; rounds in a burst and seconds between bursts; and the nearest and farthest the guns fire, in pixels,
- * once they are on aim within `onAim` radians.
+ * between rounds; rounds in a burst and seconds between bursts; the nearest and farthest the guns fire, in pixels,
+ * once they are on aim within `onAim` radians; and where its lane lies, above and below, as a share of the view's height.
  */
 export const sBoat = { cruise: 110, full: 170, turn: .65, gunTurn: 1.2, interval: .22, burst: 3, burstWait: 4,
-  nearest: 160, reach: 650, onAim: .08 }
+  nearest: 160, reach: 650, onAim: .08, lanes: { above: .3, below: .7 } }
 
 const sail = (boat, dt) => {
   boat.angle = turn(boat.angle, boat.course, sBoat.turn, dt)
@@ -109,11 +109,15 @@ export default class SBoat extends CombatTarget {
     return distance >= sBoat.nearest && distance <= sBoat.reach
   }
 
+  /** The height of the lane it sails along, below the middle of the river or above it. */
+  get lane() {
+    return canvas2d.height * (this.side > 0 ? sBoat.lanes.below : sBoat.lanes.above)
+  }
+
   launch(side) {
     this.reset()
     this.side = side
-    this.setPosition(this.viewLeft() + canvas2d.width + this.width / 2 + 20,
-      canvas2d.height * (side > 0 ? .7 : .3))
+    this.setPosition(this.viewLeft() + canvas2d.width + this.width / 2 + 20, this.lane)
     this.angle = Math.PI
     this.course = Math.PI
     this.gunAngle = Math.PI

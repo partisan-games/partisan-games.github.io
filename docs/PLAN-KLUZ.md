@@ -16,14 +16,14 @@ Igra postaje let sa misijom: bombardovanje i mitraljiranje istorijskih ciljeva i
 | 8 | [FK-08](#fk-08) | Neprijatelji u vazduhu | Lovci napadaju avion; prednji mitraljez i osmatrač pozadi ih gađaju | ✅ Done<br>Provera u igri: [FK-12](#fk-12) |
 | 9 | [FK-09](#fk-09) | Misije redom | Prva misija se završava sletanjem, druga počinje poletanjem sa tog aerodroma | ✅ Done<br>Provera u igri: [FK-12](#fk-12) |
 | 10 | [FK-10](#fk-10) | Druga misija: borbeni let | Poletanje, napad na kolone i sletanje | ✅ Done<br>Provera u igri: [FK-12](#fk-12) |
-| 11 | [FK-11](#fk-11) | Treći nivo: odbrana baze | Napad nemačke avijacije na bazu, jul 1942 | — |
+| 11 | [FK-11](#fk-11) | Treći nivo: odbrana baze | Napad nemačke avijacije na bazu, jul 1942 | 🔄 In progress<br>Napravljen; tekstovi odobreni. Čeka vlasnikovu partiju |
 | 12 | [FK-13](#fk-13) | Produkcijski art neprijatelja | Precrtani neprijatelji sa sprite animacijama i pokretnom cevi PVO | 🔄 In progress<br>Codex: art i ugradnja pripremljeni; čekaju ciljane provere i odobrenje u igri |
 | 13 | [FK-12](#fk-12) | Provere i pregled | Testovi, smoke, dokumentacija, vlasnikova partija | 🔄 In progress<br>Waiting: vlasnikova kontrolna lista |
 
 ## Obim
 
 - **U obimu:** samo Franjo Kluz (`scenes/franjo-kluz/`), njeni testovi, art i zvuci, i istorijske beleške u [ISTORIJA](ISTORIJA.md#kozara-majjul-1942--polazište-za-igru-franjo-kluz).
-- **Zajednički kod:** avion je sada `Potez` u sceni, a core `PlayerPlane` je obrisan (FK-02; smoke u FK-12). [SideVehicle](../core/actor/SideVehicle.js) koriste i druge igre: ne menja se, scena pravi svoje klase.
+- **Zajednički kod:** avion je sada `Potez` u sceni, a core `PlayerPlane` je obrisan (FK-02; smoke u FK-12).
 - **Van obima:** naslov kartice na naslovnoj, 3D igre, novi zajednički sistem nivoa za druge igre, mobilne kontrole osim onih koje [Controls](../ui/Controls.js) već daje.
 
 ## Kako se čita
@@ -101,7 +101,7 @@ Provereno na `a2ad3198` uz lokalne izmene FK-02.
 - **Šta:** urađeno: Hummel je obrisan; duž puta stoji 30 neprijatelja na stalnim mestima ([enemies.js](../scenes/franjo-kluz/enemies.js)): vojnici (padaju od jednog metka i nestaju), kamioni Opel Blitz, dva tenka (crtež Hummela, oko sekundu pogodaka; vlasnik želi tenk, ali ne kao obavezan cilj), dva oklopna voza BP-42 (izdrže dugi rafal) i 7 PVO Flak 38 ([Flak](../core/actor/artillery/Flak.js)) koje gađaju avion sa predviđanjem, granata se rasprsne posle izračunatog vremena, a blizu aviona oduzme petinu energije; vojnici pucaju puškom i pogodak skida 3 energije (odluka vlasnika); ispod pola zdravlja avion se dimi. Bomba uništava svaki cilj. Pobeda je sletanje bez obzira na broj uništenih (odluka vlasnika); uvod je kratak: „Destroy the enemy and land on the airfield!” (odobrio vlasnik). Plan: Hummel se briše; umesto njega ciljevi koje je vlasnik izabrao: nemačka pešadija, kolona kamiona (`ndh/kamioni/opel-blitz-*.png`) i oklopni voz (`nemci/vozovi/oklopni-vozovi/`), na stalnim svetskim mestima, više njih duž celog puta, ne jedan cilj (vlasnik želi više neprijatelja); glavna opasnost je laka PVO. PVO puca rafalom ili granatom koja se rasprsne kod aviona, sa svojim zvukom i dimom rasprskavanja; oštećenje aviona traje do pada, a oštećen avion se dimi. Kandidati za crtež PVO su u `armies/nemci/pvo/` (npr. `flak-m39.png`, `2cm-flak-madsten.png`).
 - **Reference:** cilj i patrola iz [to-trieste/CombatTarget.js](../scenes/to-trieste/CombatTarget.js).
 - **Gotovo kada:** unit testovi: PVO gađa samo avion u dometu i vidnom polju, pogodak smanjuje zdravlje aviona, uništen cilj ostaje uništen. Snimak napada na kolonu.
-- **Zamke:** neprijateljska vatra ne sme početi pre starta ni posle kraja (`session.state`, kao [SideVehicle:48](../core/actor/SideVehicle.js#L48)).
+- **Zamke:** neprijateljska vatra ne sme početi pre starta ni posle kraja (proveriti `session.state`).
 
 <a id="fk-08"></a>
 ### FK-08 · Neprijatelji u vazduhu · 1 / 1.5 / 2 p · Claude
@@ -123,11 +123,14 @@ Provereno na `a2ad3198` uz lokalne izmene FK-02.
 - **Gotovo kada:** unit testovi iz FK-09 (poletanje, prelaz, pobeda samo na kraju) prolaze; vlasnik je odigrao misiju (kontrolna lista FK-12).
 
 <a id="fk-11"></a>
-### FK-11 · Treći nivo: odbrana baze · 0.75 / 1 / 1.5 p · conditional · Claude
+### FK-11 · Treći nivo: odbrana baze · 0.75 / 1 / 1.5 p · Claude
 
-- **Okidač:** vlasnik kasnije zatraži odbranu baze (opciono; Potez uništen na zemlji 6. jula); zavisi od FK-08.
-- **Šta:** poleteti pre udara i preživeti ili odvratiti napadače; tačan zadatak bira vlasnik posle FK-01.
-- **Gotovo kada:** unit test zadatka; vlasnik je odigrao nivo.
+- **Zadatak (odluka vlasnika):** omaž napadu na aerodrom u Lušci Palanci 6. jula 1942, ne istorijska simulacija: događaj daje povod, a igrivost odlučuje o detaljima. Potez stoji na pisti, sirena svira i on mora da poleti pre nego što ga Ju 87 unište na zemlji. Pobeda je kad obori ili otera sve napadače i ponovo sleti; poraz je pad Poteza, na zemlji ili u vazduhu.
+- **Šta:**
+  - treća misija u [missions.js](../scenes/franjo-kluz/missions.js): start na pisti kao druga misija, uzbuna od početka, talasi napadača;
+  - napadači su lovac [Fighter](../core/actor/aircraft/Fighter.js) i novi blok Ju 87 [DiveBomber](../core/actor/aircraft/DiveBomber.js) (crtež iz Do Trsta), koji u stanju `fire` obrušava se na tačku i baca bombu; obojicu vodi [Gunner](../core/gameplay/controllers/Gunner.js), a Ju 87 cilja Potez samo dok je na zemlji;
+  - pravila (talasi, „oteran” napadač koji izađe iz ekrana, pobeda posle poslednjeg talasa i sletanja) su u sceni, ne u blokovima.
+- **Gotovo kada:** unit testovi misije (start na pisti, uzbuna, pobeda, poraz na zemlji) i bloka Ju 87 prolaze; vlasnik je odigrao nivo.
 
 <a id="fk-13"></a>
 ### FK-13 · Produkcijski art neprijatelja · 2 / 3 / 5 p · Codex

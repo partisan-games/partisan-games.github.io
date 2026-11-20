@@ -63,8 +63,8 @@ test('different occupiers have independent burst points and sound randomness doe
 
 test('a trench firing transition starts one repeating burst instead of replaying the entire clip per bullet', async t => {
   const { audio } = await audioFor(t)
-  const { default: Svabo } = await import('/scenes/neretva/Svabo.js')
-  const soldier = new Svabo({ scale: 1, callback() {} })
+  const { default: TrenchSoldier } = await import('/core/actor/soldiers/TrenchSoldier.js')
+  const soldier = new TrenchSoldier({ scale: 1, callback() {} })
   audio.sync([soldier], 'running')
   soldier.setState('aim'); soldier.setState('fire'); soldier.setState('fire')
   await settle()
@@ -148,8 +148,8 @@ test('weather thunder keeps its one delay and uses explicit nonspatial ambience 
 
 test('patrol speech selection uses independent voices and cannot start after teardown', async t => {
   const { audio } = await audioFor(t)
-  const { default: Patrola } = await import('/scenes/ranjenik/Patrola.js')
-  const patrol = new Patrola()
+  const { default: Patrol } = await import('/core/actor/soldiers/Patrol.js')
+  const patrol = new Patrol()
   audio.sync([patrol], 'running')
   patrol.talkElapsed = 8; patrol.pricaj()
   assert.equal(patrol.zvuk.playback.voices.size, 1)

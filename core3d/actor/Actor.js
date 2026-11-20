@@ -370,7 +370,10 @@ export default class Actor extends GameObject {
     this.clock.advance(delta)
     this.controller?.update?.()
     this.updateGround()
+    const { state } = this
     this.fsm.update(delta)
+    // a state the body left on its own this frame, as an attack ending, waits for its controller until the next frame
+    if (this.state === state) this.controller?.decide?.(this)
     this.anim?.update(delta)
     if (!this.dead && !['jump', 'fall'].includes(this.state))
       this.handleTerrain(2 * delta)

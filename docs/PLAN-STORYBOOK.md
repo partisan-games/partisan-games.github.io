@@ -12,12 +12,12 @@ Sopstveni Storybook u kome se svaki blok 2D i 3D sveta isprobava sam, kroz svoja
 | 4 | [SB-03](#sb-03) | Kontrole parametara | Panel podešavanja sam nastaje iz izvezenih objekata podešavanja bloka | ✅ Done<br>Uvećanje, okviri sudara i izbor podloge nisu rađeni: uvode se kad zatrebaju |
 | 5 | [SB-04](#sb-04) | Ostali blokovi Franje Kluza i zajednički kod | PVO, efekti, aerodrom i pozadina imaju priče; opšti blokovi su u zajedničkom kodu, sa svojim unit testovima | ✅ Done<br>Ostao jedan mešani test pogodaka u [franjoKluz.test.js](../tests/unit/franjoKluz.test.js): zavisi od rasporeda neprijatelja u sceni |
 | 6 | [SB-05](#sb-05) | Više blokova na pozornici · uslovno | Blokovi se dodaju jedan uz drugi i deluju jedan na drugog | 📋 TODO |
-| 7 | [SB-06](#sb-06) | Ostali blokovi Ustanka, Visa i Tenkića | Priče, nezavisni blokovi i njihovi unit testovi | ✅ Done<br>Nalazi: [Nalazi](#nalazi) 1–4 |
-| 8 | [SB-07](#sb-07) | Ostali blokovi ostalih 2D igara | Priče i nezavisni blokovi za Do Trsta, Čamac, Bunker, Ranjenik, Neretvu i Otpisane | ✅ Done<br>Nalazi: [Nalazi](#nalazi) 5–7 |
-| 9 | [SB-08](#sb-08) | 3D pozornica | Orbitna kamera, svetlo, tlo, kontrole kao u 2D, dugmad stanja i animacija | 🔄 In progress<br>Pozornica i čarobnica gotove; čeka provera u browseru (traži dozvolu). Bez WebGL-a unit test ne može da napravi 3D scenu, pa 3D priče proverava samo browser |
-| 10 | [SB-13](#sb-13) | 3D likovi na zajedničkoj mašini stanja | 3D FSM koristi mašinu iz SB-12; ponašanje likova je isto | 🔄 In progress<br>Kod i [fsm3d.test.js](../tests/unit/fsm3d.test.js) gotovi; čeka ceo smoke (posle PLAN-UI, uz dozvolu) |
-| 11 | [SB-09](#sb-09) | 3D likovi | Priče za likove iz `core3d/actor/derived` | 🔄 In progress<br>38 priča; čeka provera u browseru. Top čeka pozornicu sa fizikom; testovi stanja po liku traže učitan model ([Nalazi](#nalazi) 8) |
-| 12 | [SB-10](#sb-10) | 3D letelice i objekti | Priče za `core3d/aircraft` i `core3d/objects` | 🔄 In progress<br>21 priča; čeka provera u browseru |
+| 7 | [SB-06](#sb-06) | Ostali blokovi Ustanka, Visa i Tenkića | Priče, nezavisni blokovi i njihovi unit testovi | ✅ Done |
+| 8 | [SB-07](#sb-07) | Ostali blokovi ostalih 2D igara | Priče i nezavisni blokovi za Do Trsta, Čamac, Bunker, Ranjenik, Neretvu i Otpisane | ✅ Done |
+| 9 | [SB-08](#sb-08) | 3D pozornica | Orbitna kamera, svetlo, tlo, kontrole kao u 2D, dugmad stanja i animacija | ✅ Done<br>Vlasnik pregledao u browseru; bez WebGL-a unit test ne pravi 3D scenu, pa 3D priče proverava browser |
+| 10 | [SB-13](#sb-13) | 3D likovi na zajedničkoj mašini stanja | 3D FSM koristi mašinu iz SB-12; ponašanje likova je isto | 🔄 In progress<br>Kod, [fsm3d.test.js](../tests/unit/fsm3d.test.js) i [playerController.test.js](../tests/unit/playerController.test.js) gotovi: izbor stanja iz tastera je u upravljaču igrača. Čeka ceo smoke (posle PLAN-UI, uz dozvolu) |
+| 11 | [SB-09](#sb-09) | 3D likovi | Priče za likove iz `core3d/actor/derived` | ✅ Done<br>Vlasnik pregledao u browseru. Top čeka pozornicu sa fizikom ([Nalazi](#nalazi) 1) |
+| 12 | [SB-10](#sb-10) | 3D letelice i objekti | Priče za `core3d/aircraft` i `core3d/objects` | ✅ Done<br>Vlasnik pregledao u browseru; samo letelice i kule sa topom, jer storybook prikazuje samo aktere |
 | 13 | [SB-11](#sb-11) | Smoke provera, dokumentacija i pregled | Svaka priča se otvara bez greške i curenja; vlasnik pregledao | 📋 TODO<br>Čeka kraj PLAN-UI, dozvolu za smoke i vlasnikov pregled |
 
 ## Cilj i obim
@@ -203,7 +203,7 @@ Provereno prema `d68b74500b18101da8d1171352d87589bba990a5` i radnoj kopiji od 20
 
 ### SB-07 · Ostali blokovi ostalih 2D igara · 1.5 / 2.5 / 3.5 p · Claude
 
-- **Šta:** priče i nezavisni blokovi koje SB-02 nije pokrio, npr. avion iz Do Trsta (`Aircraft`), `Mitraljezac`, `Patrola`, `Svabo`, i `Occupier`, `Grenadier`, `GrenadierSprite`, `WoundedSoldier`, `SideVehicle` i `TopDownPlayerVehicle` iz `core/actor`, za `scenes/to-trieste`, `scenes/camac`, `scenes/bunker`, `scenes/ranjenik`, `scenes/neretva` i `scenes/otpisani`, po pravilu iz SB-06.
+- **Šta:** priče i nezavisni blokovi koje SB-02 nije pokrio, npr. avion iz Do Trsta (`Aircraft`), `Mitraljezac`, `Patrola`, `Svabo`, i `Occupier`, `Grenadier`, `GrenadierSprite`, `WoundedSoldier` i `TopDownPlayerVehicle` iz `core/actor`, za `scenes/to-trieste`, `scenes/camac`, `scenes/bunker`, `scenes/ranjenik`, `scenes/neretva` i `scenes/otpisani`, po pravilu iz SB-06.
 - **Gotovo kada:** isti test pokrivenosti, testovi igara i tabela nalaza kao u SB-06.
 
 <a id="sb-08"></a>
@@ -267,14 +267,7 @@ Predlozi za vlasnika; blokovi rade, ali nisu potpuno čisti.
 
 | # | Nalaz | Predlog |
 |---|---|---|
-| 1 | Tenkovi Tenkića nemaju klizače: `TenkLevo` i `TenkDesno` ne izvoze `tank` iz [Tenk.js](../scenes/tenkici/Tenk.js) | Izvesti `tank` i u njima |
-| 2 | `Enemy` i `Boss` iz Visa sami prate putanju i pucaju u svom `update` | Stanja `fly`/`fire`/`fall`, uz upravljače putanje i pucanja |
-| 3 | Vis ima svoju eksploziju pored [zajedničke](../core/actor/effects/Explosion.js) | Prebaciti Vis na zajedničku posle poređenja arta |
-| 4 | Avion igrača iz Visa po učitavanju slike skače na dno platna, ispod tla pozornice | Položaj daje igra, ne blok |
-| 5 | Neprijatelji Do Trsta i Čamca (`Aircraft`, `GroundEnemy`, bunker, `SBoat`, `ShoreMachineGun`) sami biraju metu i trenutak | Telo sa stanjima i `aimAt`, plus upravljač, blok po blok |
-| 6 | [SideVehicle](../core/actor/SideVehicle.js) ne koristi nijedna igra i nema art | Obrisati |
-| 7 | `Mitraljezac`, `Svabo`, `Patrola`, mina i paljba su opšti blokovi u folderima igara | Preseliti u `core/actor/` po vrstama |
-| 8 | 3D lik ne može da se napravi u unit testu bez učitanog modela, a top iz igre Cannon traži Ammo fiziku | Zamenski model u testovima; pozornica sa fizikom za top |
+| 1 | 3D lik ne može da se napravi u unit testu bez učitanog modela, a top iz igre Cannon traži Ammo fiziku | Čeka sređivanje nivoa koji ih koriste (odluka vlasnika) |
 
 ## Rizici
 

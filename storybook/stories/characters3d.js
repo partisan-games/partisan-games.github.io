@@ -44,13 +44,13 @@ const library = 'Zajednička biblioteka'
 
 /**
  * A story of a 3D character, the one the player leads, with its model and weapon as its games have them. A 3D block
- * needs its models loaded before it is made.
+ * needs its models loaded before it is made. It has no controller, so a state it is set to lasts until another is set.
  */
 const character = (id, name, game, block, Character) => ({
   id, name, game, block, stage: Stage3D,
   create: async stage => {
     await requestModels(block.models)
-    const actor = new Character()
+    const actor = new Character({ controller: null })
     stage.add(actor)
     return actor
   },

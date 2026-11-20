@@ -2,7 +2,7 @@
 import Scene2D from '/core/Scene2D.js'
 import Background from '/core/objects/Background.js'
 import WoundedSoldier from '/core/actor/derived/WoundedSoldier.js'
-import Patrola from './Patrola.js'
+import Patrol from '/core/actor/soldiers/Patrol.js'
 import Strelica from './Strelica.js'
 import Paljba from './Paljba.js'
 
@@ -20,7 +20,7 @@ export default class RanjenikScene extends Scene2D {
     this.scena = 0
     this.background = new Background('armies/shumarak-pozadina.png')
     this.player = new WoundedSoldier(this.width / 4, this.height / 2)
-    this.patrola = new Patrola()
+    this.patrola = new Patrol()
     this.patrola.setPosition(this.width * 3 / 4, this.height * 3 / 4)
     this.strelica = new Strelica()
     this.fireElapsed = 0

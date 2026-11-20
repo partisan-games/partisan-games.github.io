@@ -2,7 +2,7 @@ import Sound from '/core/io/audio/SoundSource.js'
 import mouse from '/core/io/mouse.js'
 import Scene2D from '/core/Scene2D.js'
 import Background from '/core/objects/Background.js'
-import Svabo from './Svabo.js'
+import TrenchSoldier from '/core/actor/soldiers/TrenchSoldier.js'
 import Health from '/core/gameplay/Health.js'
 
 const DALJI_Y = window.innerHeight * 0.25
@@ -39,7 +39,7 @@ export default class NeretvaScene extends Scene2D {
     const polaRazmaka = razmak / 2
     return Array.from({ length: n }, (_, i) => {
       const x = i * razmak + polaRazmaka
-      const svabo = new Svabo({ ...params, faction: i % 2 ? 'cetnici' : 'nemci', variant: Math.floor(i / 2) % 3 })
+      const svabo = new TrenchSoldier({ ...params, faction: i % 2 ? 'cetnici' : 'nemci', variant: Math.floor(i / 2) % 3 })
       svabo.setPosition(x, y)
       return svabo
     })

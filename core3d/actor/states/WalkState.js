@@ -23,25 +23,6 @@ export default class WalkState extends State {
     actor.updateMove(delta)
     actor.updateTurn(delta)
     actor.updateStrafe(delta)
-
-    if (actor.input.jump && this.actor.ableToJump)
-      actor.setState('jump')
-
-    if (actor.inAir)
-      actor.setState('fall')
-
-    if (actor.input.attack)
-      actor.setState('attack')
-
-    if (this.input.attack2)
-      this.actor.setState('attack2')
-
-    if (actor.input.run)
-      actor.setState('run')
-
-    if (!actor.input.up && !actor.input.down
-      && !actor.input.strafeLeft && !actor.input.strafeRight)
-      actor.setState('idle')
   }
 
   exit() {

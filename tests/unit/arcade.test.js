@@ -19,3 +19,28 @@ test('a disposed cabinet stops its midnight timer and leaves the page', t => {
   assert.ok(!arcade.wallet.isConnected)
   assert.ok(!arcade.dialog.isConnected)
 })
+
+test('an animation plays without a coin: its card gets no coin slot', () => {
+  const card = (path, free) => {
+    const element = document.createElement('div')
+    element.className = 'menu-item'
+    element.dataset.path = path
+    if (free) element.dataset.free = ''
+    element.innerHTML = `<h3>${path}</h3><img alt="">`
+    document.body.append(element)
+    return element
+  }
+  const game = card('game', false)
+  const animation = card('animation', true)
+  const arcade = new Arcade()
+  try {
+    assert.equal(arcade.isFree('animation'), true)
+    assert.equal(arcade.isFree('game'), false)
+    assert.ok(game.querySelector('[data-arcade-game]'), 'a game takes a coin')
+    assert.equal(animation.querySelector('[data-arcade-game]'), null)
+  } finally {
+    arcade.dispose()
+    game.remove()
+    animation.remove()
+  }
+})

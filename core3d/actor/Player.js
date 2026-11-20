@@ -20,12 +20,13 @@ export default class Player extends Actor {
     attackKey,
     showHealthBar = true,
     input = new Input({ useJoystick, useKeyboard, attackKey, buttonDict: buttonDict || emptyDict(animDict) }),
+    controller = new PlayerController(input),
     camera,
     showCameraButton,
     ...rest
   } = {}) {
     super({
-      name: 'player', input, controller: new PlayerController(input),
+      name: 'player', input, controller,
       animDict, jumpStyle, attackStyle, shouldRaycastGround, ...rest,
     })
     this.view = new PlayerView({ mesh: this.mesh, height: this.height, health: this.health, camera, showCameraButton, showHealthBar })
@@ -102,7 +103,8 @@ export default class Player extends Actor {
   }
 
   end() {
-    this.controller.end()
+    if (this.controller) this.controller.end()
+    else this.input.end?.()
     this.view.end()
   }
 }

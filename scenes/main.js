@@ -57,12 +57,15 @@ const route = async() => {
     showError('The game could not be loaded')
     return
   }
-  if (paidEntry?.path !== path) {
+  const free = arcade.isFree(path)
+  if (!free && paidEntry?.path !== path) {
     arcade.prompt(path)
     return
   }
 
-  const { receipt } = paidEntry
+  // a free game has no coin to give back if it does not start
+  const receipt = free ? null : paidEntry.receipt
+  const refund = () => receipt && arcade.coins.refund(receipt)
   paidEntry = null
   arcade.close()
   elementUI.innerHTML = modalElement.innerHTML = ''
@@ -70,10 +73,10 @@ const route = async() => {
     await manager.start(path)
     if (currentNavigation !== navigation) {
       manager.endScene()
-      await arcade.coins.refund(receipt)
+      await refund()
     } else document.body.dataset.loadedGame = path
   } catch (error) {
-    await arcade.coins.refund(receipt)
+    await refund()
     showLoadError(error)
   } finally {
     arcade.setBusy(false)
@@ -83,6 +86,7 @@ const route = async() => {
 
 arcade.onInsert = async path => {
   if (arcade.busy || !arcade.games.has(path)) return
+  if (arcade.isFree(path)) return play(path)
   const insertionNavigation = navigation
   arcade.setBusy(true, path)
   let receipt
@@ -107,6 +111,11 @@ arcade.onInsert = async path => {
     return
   }
   paidEntry = { path, receipt }
+  play(path)
+}
+
+/** Opens `path`, or starts it anew when it is open already. */
+function play(path) {
   if (location.hash.slice(1) === path) route()
   else location.hash = path
 }
@@ -121,8 +130,10 @@ else if (window.innerWidth >= 800)
 document.addEventListener('click', e => {
   const button = e.target.closest('button')
   const coinSlot = e.target.closest('[data-arcade-game]')
+  const freeCard = e.target.closest('.menu-item[data-free]')
 
   if (coinSlot) arcade.onInsert(coinSlot.dataset.arcadeGame)
+  if (freeCard) play(freeCard.dataset.path)
 
   if (button?.id === 'menu')
     location.hash = ''

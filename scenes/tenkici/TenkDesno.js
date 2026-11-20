@@ -2,6 +2,9 @@ import canvas2d from '/core/io/canvas2d.js'
 import { randomInRange } from '/core/utils.js'
 import Tenk from './Tenk.js'
 
+// the settings of every tank, so the storybook gives this one their controls
+export { tank } from './Tenk.js'
+
 export default class TenkDesno extends Tenk {
   constructor({
     src = 'armies/game-ready/tenkovi/nemacki-tenk-bez-cevi-pixel.png',

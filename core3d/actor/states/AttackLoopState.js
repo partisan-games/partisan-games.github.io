@@ -16,7 +16,8 @@ export default class AttackLoopState extends State {
 
   onLoopEnd(e) {
     if (e.action !== this.action) return // the mixer reports every action, also the one fading out
-    if (this.actor.input[this.name]) this.actor.enterAttack()
+    // the swing has ended; whether another follows is its controller's call, and without one the attack goes on
+    if (this.actor.controller?.repeatsAttack(this.name) ?? true) this.actor.enterAttack()
     else this.actor.setState(this.prevOrIdle)
   }
 

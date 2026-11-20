@@ -1,5 +1,6 @@
 import { icons } from '/core/io/icons.js'
 import Scene2D from '/core/Scene2D.js'
+import canvas2d from '/core/io/canvas2d.js'
 import { Avionce, inputOptions } from './Avionce.js'
 import PokretnaPozadina from './PokretnaPozadina.js'
 import Pokretno from './Pokretno.js'
@@ -48,7 +49,8 @@ export default class VisScene extends Scene2D {
     this.oblaci = Array.from({ length: clouds }, () => new Cloud2D(speed))
     this.ostrvo = new Pokretno('nature/ostrvo.gif', { thrust: speed, scale: 2 })
     this.zdravlje = new Pokretno('items/zdravlje.png', { thrust: speed, scale: .66, faktorY: 10, shadow: true })
-    this.player = new Avionce({ session: this.session })
+    // the plane starts at the bottom middle of the screen
+    this.player = new Avionce({ session: this.session, startAt: plane => ({ x: canvas2d.width / 2, y: canvas2d.height - plane.height }) })
     this.player.hide()
     this.powerUps = new PowerUps({ scene: this, player: this.player })
     this.waves = new Waves({

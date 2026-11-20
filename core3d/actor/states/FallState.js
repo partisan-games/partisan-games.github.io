@@ -2,7 +2,6 @@ import { jumpStyles } from '/core3d/constants.js'
 import State from './State.js'
 
 const movableJumps = [jumpStyles.FLY, jumpStyles.FLY_JUMP]
-const flyingJumps = [jumpStyles.FLY]
 
 export default class FallState extends State {
   update(delta) {
@@ -15,12 +14,6 @@ export default class FallState extends State {
     if (movableJumps.includes(actor.jumpStyle) && actor.input.up)
       actor.updateMove(delta)
 
-    if (flyingJumps.includes(actor.jumpStyle) && this.input.jump)
-      actor.setState('jump')
-
-    if (actor.onGround) {
-      actor.velocity.y = 0
-      actor.setState('idle')
-    }
+    if (actor.onGround) actor.velocity.y = 0
   }
 }

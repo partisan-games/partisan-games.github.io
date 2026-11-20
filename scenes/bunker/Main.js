@@ -5,7 +5,7 @@ import Background from '/core/objects/Background.js'
 import Grenadier from '/core/actor/derived/Grenadier.js'
 import Bunker from '/core/objects/Bunker.js'
 import Mina from './Mina.js'
-import Mitraljezac from './Mitraljezac.js'
+import MachineGunner from '/core/actor/soldiers/MachineGunner.js'
 import Gunner from '/core/gameplay/controllers/Gunner.js'
 
 const ZADATO_VREME = 30
@@ -24,7 +24,7 @@ export default class BunkerScene extends Scene2D {
 
     this.player = new Grenadier(najdaljeTacke[0])
     this.bunker = new Bunker(najdaljeTacke[1])
-    this.mitraljezac = new Mitraljezac({ x: this.bunker.x + 60, y: this.bunker.y + 20, targets: [this.player], session: this.session })
+    this.mitraljezac = new MachineGunner({ x: this.bunker.x + 60, y: this.bunker.y + 20, targets: [this.player], session: this.session })
     this.gunner = new Gunner(this.mitraljezac, this.player)
 
     this.mine = pozicije

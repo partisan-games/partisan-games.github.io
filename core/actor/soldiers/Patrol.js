@@ -31,7 +31,7 @@ const states = {
 }
 
 /** A patrol seen from above, which wanders across the screen and comes back on the other side. */
-export default class Patrola extends GameObject2D {
+export default class Patrol extends GameObject2D {
   constructor(src = 'armies/nemci-patrola.gif') {
     super(src)
     this.talkElapsed = 0

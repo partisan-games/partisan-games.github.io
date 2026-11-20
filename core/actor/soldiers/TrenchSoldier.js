@@ -51,7 +51,7 @@ const states = {
 }
 
 /** A soldier seen from the front in his trench, who rises to fire at the viewer, who shoots him with the mouse. */
-export default class Svabo extends GameObject2D {
+export default class TrenchSoldier extends GameObject2D {
   /** `callback(damage, dt)` is called each frame he fires. */
   constructor({ scale, callback, faction = 'nemci', variant = 0 }) {
     super ('armies/rov-prazan.gif', { scale })
