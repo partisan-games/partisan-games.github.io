@@ -4,14 +4,15 @@
   "crewIdleSource": "crew-idle-generated.png",
   "crewGrid": {"columns": 4, "rows": 2},
   "crewDuration": 1.6,
+  "crewScaleReference": "Match the visible infantry head size at runtime. Keep the roughly one-third enlargement, with visible separation between the two heads and shoulders and unchanged waist baselines; the airframe still occludes their lower bodies.",
   "referenceImages": ["cockpit-reference.png", "rear-gun-reference.png"],
   "gunSource": "rear-gun-generated.png",
   "gunFrame": {"width": 48, "height": 20},
   "gunPivot": {"x": 39, "y": 12},
   "gunBoreY": 12,
   "figures": [
-    {"role": "pilot", "row": 0, "facing": "right", "targetBox": [231, 34, 254, 64]},
-    {"role": "observer", "row": 1, "facing": "left", "targetBox": [205, 30, 229, 60]}
+    {"role": "pilot", "row": 0, "facing": "right", "targetBox": [229, 24, 260, 64]},
+    {"role": "observer", "row": 1, "facing": "left", "targetBox": [197, 20, 229, 60]}
   ],
   "baseImages": {
     "partisan": "../../../partizani/potez-25.png",

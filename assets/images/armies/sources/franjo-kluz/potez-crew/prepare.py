@@ -195,7 +195,7 @@ def main():
     metadata = {
         'schemaVersion': 2, 'task': 'FK-14', 'artRevision': 'Full pixel-art redraw with separate animated layers',
         'generatedWith': 'Built-in image_gen; mechanical layer/atlas packing with Pillow',
-        'status': 'Art prepared; game and Storybook integration assigned to Claude in docs/PLAN-KLUZ.md.',
+        'status': 'Integrated into Potez and both Storybook variants; see docs/KONTEKST.md#franjo-kluz.',
         'frame': RECIPE['frame'], 'facing': 'right', 'crew': crew_descriptor,
         'rearGun': gun_descriptor, 'propeller': propeller_descriptor, 'variants': body_descriptors,
         'renderOrder': RECIPE['renderOrder'], 'nationalMarkingRegions': RECIPE['airframes']['ndhMarkingRegions'],
@@ -209,7 +209,7 @@ def main():
                        'Anchors are source pixels, scaled by plane.width/400 with owner rotation/camera. '
                        'Gun rotation equals world aim minus PI; transform muzzle-pivot for the shot/flash origin. '
                        'Both markings share geometry and moving layers. Airframe paths match the prior crew contract. '
-                       'Gameplay and Storybook code were not changed by this build; browser and unit tests were not run.',
+                       'This packing script neither edits gameplay code nor runs unit/browser checks; verification evidence belongs in docs/TESTING.md.',
         'sources': {name: digest(HERE / name) for name in (RECIPE['crewIdleSource'], RECIPE['gunSource'],
                     RECIPE['airframes']['masterSource'], RECIPE['airframes']['ndhSource'],
                     RECIPE['propeller']['source'], 'manifest.json')},

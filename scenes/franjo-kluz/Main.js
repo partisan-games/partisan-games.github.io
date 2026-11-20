@@ -118,7 +118,7 @@ export default class FranjoKluzScene extends Scene2D {
     this.scenery = [
       new ParallaxLayer({ src: 'nature/shumarak.png', count: 10, depth: .2, z: 2, camera,
         place: height => groundLevel + 5 - height / 2 }),
-      new ParallaxLayer({ src: 'nature/oblak.gif', count: 3, depth: .1, drift: -32, z: -1, camera,
+      new ParallaxLayer({ src: 'nature/oblak.gif', count: 3, depth: .1, drift: -32, z: 3, camera,
         place: () => randomInRange(0, groundLevel) }),
       new ParallaxLayer({ src: 'nature/zbun.png', count: 10, depth: 1, z: -2, camera,
         place: height => randomInRange(groundLevel - height / 2, canvas2d.height) }),

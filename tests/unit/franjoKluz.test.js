@@ -557,3 +557,12 @@ test('in the air raid landing wins only once no raider is left', t => {
   play(scene, 1)
   assert.match(scene.ui.outro, /Mission successfully completed/)
 })
+
+test('the far clouds are drawn behind the groves and the plane, so they never hide it', t => {
+  const scene = createScene(t)
+  const [groves, clouds] = scene.scenery
+  // the renderer draws the farther, higher z first
+  assert.ok(clouds.depth < groves.depth, 'the clouds are the farthest layer')
+  assert.ok(clouds.position.z > groves.position.z)
+  assert.ok(clouds.position.z > scene.player.position.z)
+})

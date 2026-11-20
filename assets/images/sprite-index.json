@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "measuredAt": "2026-11-20T19:24:45.250950+00:00",
-  "baseRevision": "beb19222b461d065776bc49bb4376a3eb9f83882",
+  "measuredAt": "2026-11-20T20:15:43.240221+00:00",
+  "baseRevision": "e3a7b1384e14f65c6da3ab0738d3fd86ead538b7",
   "scope": "Art linked by docs/ART.md, including shared variants; not all unused library art or a runtime/visual acceptance test.",
   "interpretation": "imageFrames counts file-container frames. A PNG atlas normally has one; named sprite clips require metadata and a runtime mapping. hashes detect exact input changes, not art quality.",
   "images": [
@@ -145,7 +145,7 @@
     },
     {
       "asset": "assets/images/armies/game-ready/avioni/potez-25-posada-sprites.png",
-      "sha256": "76f6effaf6979ebc66628e414559b995ab9b97bbc1f86d10ca668938e5b64fd4",
+      "sha256": "b36b76211d9b19174d076c39b5b6d4f9b5dda5cc52c8cbb78e3df2df439ef0f6",
       "kind": "PNG",
       "width": 1600,
       "height": 173,
@@ -759,16 +759,6 @@
       }
     },
     {
-      "asset": "assets/images/armies/ndh/avioni/potez-25.png",
-      "sha256": "c8adba135e1ce409b68eb3adda8adc9f9994a0f47d59e2ebf31a838874e0e80b",
-      "kind": "PNG",
-      "width": 400,
-      "height": 173,
-      "imageFrames": 1,
-      "hasTransparentPixelsInFirstFrame": true,
-      "distinctImageFrames": 1
-    },
-    {
       "asset": "assets/images/armies/nemci/avioni/bf-109-odozgo.png",
       "sha256": "1c14ccbadba68b05a97f759d9fd4634964ce2da89726c139ac7b3105817c4a08",
       "kind": "PNG",
@@ -869,16 +859,6 @@
       "distinctImageFrames": 1
     },
     {
-      "asset": "assets/images/armies/partizani/potez-25.png",
-      "sha256": "6dbd8f162ad291332b70edeca2e03cbfaa5965ca8c3899503f0a788a8a432685",
-      "kind": "PNG",
-      "width": 400,
-      "height": 173,
-      "imageFrames": 1,
-      "hasTransparentPixelsInFirstFrame": true,
-      "distinctImageFrames": 1
-    },
-    {
       "asset": "assets/images/armies/ranjeni-partizan.png",
       "sha256": "2370a49b93ae6aa5ddfc2c9ed5de02ed429730f656822c8c94acaecfaadaf330",
       "kind": "PNG",
@@ -956,6 +936,26 @@
       "height": 78,
       "imageFrames": 1,
       "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/background/crnogorsko-selo-1941-pixel.png",
+      "sha256": "dc01c58753f3ee58dee9efbcb3fe7eb8007591b1adc1ac71d3ac207fb3748316",
+      "kind": "PNG",
+      "width": 1586,
+      "height": 992,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/background/razrusen-grad-ww2-pixel.png",
+      "sha256": "ae47f03c0c71777b4931bd450ebdb9a9204686e873dcea2e3d6bff3d7aeec06c",
+      "kind": "PNG",
+      "width": 1448,
+      "height": 1086,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
       "distinctImageFrames": 1
     },
     {
@@ -1148,7 +1148,7 @@
     },
     {
       "path": "assets/images/armies/game-ready/avioni/potez-25-posada-sprites.png",
-      "sha256": "76f6effaf6979ebc66628e414559b995ab9b97bbc1f86d10ca668938e5b64fd4"
+      "sha256": "b36b76211d9b19174d076c39b5b6d4f9b5dda5cc52c8cbb78e3df2df439ef0f6"
     },
     {
       "path": "assets/images/armies/game-ready/avioni/potez-25-propeler-sprites.png",
@@ -1251,10 +1251,6 @@
       "sha256": "e1c008564c2f461011d51beb4761dba7379f7728c3e5f75aecf1d31b9a9e433b"
     },
     {
-      "path": "assets/images/armies/ndh/avioni/potez-25.png",
-      "sha256": "c8adba135e1ce409b68eb3adda8adc9f9994a0f47d59e2ebf31a838874e0e80b"
-    },
-    {
       "path": "assets/images/armies/nemci/avioni/bf-109-odozgo.png",
       "sha256": "1c14ccbadba68b05a97f759d9fd4634964ce2da89726c139ac7b3105817c4a08"
     },
@@ -1295,10 +1291,6 @@
       "sha256": "7c906bbb7ac5b432df92d47fbcc3dceaa5adb8dad27485489e708be36cf4bc18"
     },
     {
-      "path": "assets/images/armies/partizani/potez-25.png",
-      "sha256": "6dbd8f162ad291332b70edeca2e03cbfaa5965ca8c3899503f0a788a8a432685"
-    },
-    {
       "path": "assets/images/armies/ranjeni-partizan.png",
       "sha256": "2370a49b93ae6aa5ddfc2c9ed5de02ed429730f656822c8c94acaecfaadaf330"
     },
@@ -1324,7 +1316,7 @@
     },
     {
       "path": "assets/images/armies/sources/franjo-kluz/potez-crew/crew.json",
-      "sha256": "e25876608e7c35e65ec80661411a5c00b0ee3e8864811e02de356dc7f0c76905"
+      "sha256": "7157174d5002130d4afbd187cc4b527105e883a36c3f74e6f0239b12cc0a7566"
     },
     {
       "path": "assets/images/armies/sources/franjo-kluz/potez-crew/preview.html",
@@ -1336,7 +1328,7 @@
     },
     {
       "path": "assets/images/armies/sources/franjo-kluz/sprites.json",
-      "sha256": "9dca7524582fe6f118ef26bc3c68ba2c3efb30e9fcbf5fc195e42aad88a3b214"
+      "sha256": "e30a8d73656191032dffbeef4a9bfa161840c70a916afeecd6465ad1363f2d0a"
     },
     {
       "path": "assets/images/armies/sources/tenkovi/manifest.json",
@@ -1377,6 +1369,14 @@
     {
       "path": "assets/images/armies/talijani-patrola.gif",
       "sha256": "2c483ec2b7c6207523e716d96587983243b6992895c63f0ec07ab4cda2a7a1b5"
+    },
+    {
+      "path": "assets/images/background/crnogorsko-selo-1941-pixel.png",
+      "sha256": "dc01c58753f3ee58dee9efbcb3fe7eb8007591b1adc1ac71d3ac207fb3748316"
+    },
+    {
+      "path": "assets/images/background/razrusen-grad-ww2-pixel.png",
+      "sha256": "ae47f03c0c71777b4931bd450ebdb9a9204686e873dcea2e3d6bff3d7aeec06c"
     },
     {
       "path": "assets/images/buildings/bunker-02.png",
@@ -1488,23 +1488,31 @@
     },
     {
       "path": "core/actor/VehicleSprite.js",
-      "sha256": "b26b55574123b837dc20eb3a52f75fd61263b08a954117b541712192b23ebe61"
+      "sha256": "3f80f49104d167d0866fc49090af35468fdc29a8a685431e6541d0b437913624"
+    },
+    {
+      "path": "docs/ANIMACIJA-POZADINE.md",
+      "sha256": "6d49438041a06c8755353ec6c70f2e5b78acca866aeaa64d5a821bbb92697b27"
     },
     {
       "path": "docs/ART.md",
-      "sha256": "dfe194de2b226acd236525714b0f786e652d4a392a2286ea4be82f4408bec20c"
+      "sha256": "cf7f9373454c1f9d2a5f13f7da270a556bc9a5b3b9505e4be2ab1ac478329c1e"
+    },
+    {
+      "path": "docs/DOCS.md",
+      "sha256": "ff649b897ba6108417806812f6008d34cebd3854a7557d7c5f102e80f1921a6e"
+    },
+    {
+      "path": "docs/ISTORIJA.md",
+      "sha256": "4c45b49bf287a0da41bf54aa8b899d20aaff1fe5acb8238b537cfe505bb052ae"
     },
     {
       "path": "docs/KONTEKST.md",
-      "sha256": "59830c472490910f3c534b50208863d23e9587f56f457e56528ee4d5dbae1f01"
-    },
-    {
-      "path": "docs/PLAN-KLUZ.md",
-      "sha256": "119509f5a31055f8911f3aaa1f4e81223d0b6dac1348a831943f1c28e41f015a"
+      "sha256": "29ce83a5b92601ed4b0f28ef3fce7ba70a540db42b78cc1727035f38415eb865"
     },
     {
       "path": "docs/STORYBOOK.md",
-      "sha256": "a9189690f09c0a6222e4dbb4c61dfe21b1a1d4e89852d8cf6b79a81a8d43bc0c"
+      "sha256": "56f9fe6c916b5198436525ba889cfd623f228b0a64a75ca0035e21c18f09d808"
     },
     {
       "path": "scenes/camac/Boat.js",
@@ -1520,7 +1528,11 @@
     },
     {
       "path": "scenes/franjo-kluz/Potez.js",
-      "sha256": "170e6f0ca3b57f64012f73edce4565969ade3e83f42f8257d832ca7c6a1a8160"
+      "sha256": "8a01bd7e0f745db0897c3e419d977f99343c376c3b484e5ddab086dde5059baa"
+    },
+    {
+      "path": "scenes/tenkici/PozadinaGrada.js",
+      "sha256": "5e0bcecc4cec4abe0be8b8ab835def2f7072aa90be1d2053cb6a4115fdb80bf6"
     },
     {
       "path": "scenes/tenkici/Tenk.js",
@@ -1549,6 +1561,10 @@
     {
       "path": "scenes/to-trieste/GroundEnemies.js",
       "sha256": "184c813eb49c4e9a5af0d84348ecb140053d46ae267c02074d5879f7245753bb"
+    },
+    {
+      "path": "scenes/ustanak/Battlefield.js",
+      "sha256": "b00e154de574607d75c5db8d273ce38e4255bde328e729e2f1880eeb6fe2895d"
     },
     {
       "path": "scenes/ustanak/Posada.js",
@@ -1628,7 +1644,7 @@
     },
     {
       "path": "tests/unit/vehicleArt.test.js",
-      "sha256": "252082113f4ca14e6b424b3f3847be743803a26d16882e379224fb962187452b"
+      "sha256": "ccb7ecdcde2fbe6541ffa81887adef7328bb32bb66679214c5786ada7044939b"
     }
   ]
 }

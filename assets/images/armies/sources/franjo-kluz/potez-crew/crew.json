@@ -3,7 +3,7 @@
   "task": "FK-14",
   "artRevision": "Full pixel-art redraw with separate animated layers",
   "generatedWith": "Built-in image_gen; mechanical layer/atlas packing with Pillow",
-  "status": "Art prepared; game and Storybook integration assigned to Claude in docs/PLAN-KLUZ.md.",
+  "status": "Integrated into Potez and both Storybook variants; see docs/KONTEKST.md#franjo-kluz.",
   "frame": {
     "width": 400,
     "height": 173
@@ -12,7 +12,7 @@
   "crew": {
     "image": "../../../game-ready/avioni/potez-25-posada.png",
     "src": "armies/game-ready/avioni/potez-25-posada.png",
-    "sha256": "3144551f3c2116fe94ec8b1cc8ba8e19a365b339da57b6c743d4d94f205d6493",
+    "sha256": "e0865c47402919d18faecd739d5cece729c901529c549fc6b5bd0774a5995f69",
     "anchor": {
       "x": 200,
       "y": 86.5
@@ -23,9 +23,9 @@
         "row": 0,
         "facing": "right",
         "targetBox": [
-          231,
-          34,
-          254,
+          229,
+          24,
+          260,
           64
         ]
       },
@@ -34,8 +34,8 @@
         "row": 1,
         "facing": "left",
         "targetBox": [
-          205,
-          30,
+          197,
+          20,
           229,
           60
         ]
@@ -44,7 +44,7 @@
     "atlas": {
       "image": "../../../game-ready/avioni/potez-25-posada-sprites.png",
       "src": "armies/game-ready/avioni/potez-25-posada-sprites.png",
-      "sha256": "76f6effaf6979ebc66628e414559b995ab9b97bbc1f86d10ca668938e5b64fd4",
+      "sha256": "b36b76211d9b19174d076c39b5b6d4f9b5dda5cc52c8cbb78e3df2df439ef0f6",
       "frame": {
         "width": 400,
         "height": 173,
@@ -163,13 +163,13 @@
   ],
   "sharedAirframeAlpha": true,
   "sharedPixelsOutsideMarkings": true,
-  "integration": "image paths are relative to this file; src paths are relative to assets/images. Redrawn static bodies contain no crew, rear gun or propeller blades. Draw crew first so the airframe occludes it; propeller and rear gun go above the airframe. Crew atlas: 400x173 cells, four columns, idle loop 1.6 seconds. Propeller atlas: 20x128 cells, four columns, spin loop 0.12 seconds, fixed hub. Freeze phases in pause; hold propeller frame 0 when stopped and slow cadence with engine speed. Anchors are source pixels, scaled by plane.width/400 with owner rotation/camera. Gun rotation equals world aim minus PI; transform muzzle-pivot for the shot/flash origin. Both markings share geometry and moving layers. Airframe paths match the prior crew contract. Gameplay and Storybook code were not changed by this build; browser and unit tests were not run.",
+  "integration": "image paths are relative to this file; src paths are relative to assets/images. Redrawn static bodies contain no crew, rear gun or propeller blades. Draw crew first so the airframe occludes it; propeller and rear gun go above the airframe. Crew atlas: 400x173 cells, four columns, idle loop 1.6 seconds. Propeller atlas: 20x128 cells, four columns, spin loop 0.12 seconds, fixed hub. Freeze phases in pause; hold propeller frame 0 when stopped and slow cadence with engine speed. Anchors are source pixels, scaled by plane.width/400 with owner rotation/camera. Gun rotation equals world aim minus PI; transform muzzle-pivot for the shot/flash origin. Both markings share geometry and moving layers. Airframe paths match the prior crew contract. This packing script neither edits gameplay code nor runs unit/browser checks; verification evidence belongs in docs/TESTING.md.",
   "sources": {
     "crew-idle-generated.png": "98b63a53a29326afe0474c5404cb26a123c129f3143eb7f8f5a4f34cf75f2d49",
     "rear-gun-generated.png": "27d73ed12a8065f36c563019a7016ccc9489a82c39c9d8a4430d803626a63f54",
     "airframe-partisan-generated.png": "377f590e31472f304aaf001bbcdeb92b1c2899878dba5bcd2a289324b77be35e",
     "airframe-ndh-generated.png": "081d52d0697a95a974319bdff2316cc9217eea1dc5538fa6fde13b2344f1f57a",
     "propeller-generated.png": "f0885ccf61a187f82eacbf23db7c87d5908d66e2bbaa008235ff1ee1a67e159f",
-    "manifest.json": "f1736a684f4632f3ca699ed5033fff7e875082695d59cb5cab09c49b456efb4e"
+    "manifest.json": "b02d2f1ed7cdc6b29e24ed79dc7913a6160817400c96cec63b71782fcbea184c"
   }
 }

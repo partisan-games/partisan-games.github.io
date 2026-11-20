@@ -71,7 +71,7 @@ Unit tests (563), lint and `npm run check` pass. [Terrain cases](../tests/unit/u
 
 ## Franjo Kluz checks · 2026-11-20
 
-On the working copy of PLAN-KLUZ (missions, enemies, fighters, NDH disguise, siren): unit tests (607), `npm run check` and ESLint without `--fix` (0 errors; 41 warnings, none in Franjo Kluz files) pass. `npm run smoke -- --workers=1` ran once in one Chrome: 167 of 171 pass, including the Franjo Kluz victory and the deleted core `PlayerPlane`. The 4 failures are all in Ustanak browser cases, whose files this work did not change: the 2P match sees one battlefield background instead of three, and the round-ending cases read `.every` of an undefined scene value. In the later full run of the same day these cases passed. No browser playthrough or listening was done by the agent; the owner's checklist is in the plan.
+On the Franjo Kluz working copy (missions, enemies, fighters, NDH disguise, siren): unit tests (607), `npm run check` and ESLint without `--fix` (0 errors; 41 warnings, none in Franjo Kluz files) pass. `npm run smoke -- --workers=1` ran once in one Chrome: 167 of 171 pass, including the Franjo Kluz victory and the deleted core `PlayerPlane`. The 4 failures are all in Ustanak browser cases, whose files this work did not change: the 2P match sees one battlefield background instead of three, and the round-ending cases read `.every` of an undefined scene value. In the later full run of the same day these cases passed. No browser playthrough or listening was done by the agent; the owner's checklist is in the plan.
 
 ## Unit tests (`tests/unit/`)
 

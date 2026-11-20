@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "created": "2026-11-20",
   "generatedWith": "Built-in image_gen; mechanical atlas packing with Pillow",
-  "integration": "core/actor/Sprite.js uses four columns and named rows with a fixed ground anchor. Original soldier idle/fire/death rows are preserved. rest/walk loop in place; fireUp plays once and its frame 0 is the held aiming pose between shots. fireUp muzzle coordinates are local pixels in frame 0 and are also exported in spriteArt.js. Death holds its final frame. Patrol and alert gameplay integration belongs to Claude; this art preparation does not change it. Execution and owner approval are tracked in docs/PLAN-KLUZ.md.",
+  "integration": "core/actor/Sprite.js uses four columns and named rows with a fixed ground anchor. Original soldier idle/fire/death rows are preserved. rest/walk loop in place; fireUp plays once and its frame 0 is the held aiming pose between shots. fireUp muzzle coordinates are local pixels in frame 0 and are also exported in spriteArt.js. Death holds its final frame. Rifleman provides patrol and alert clip mapping. This script only packs art; project state and owner decisions live in docs/KONTEKST.md#franjo-kluz, verification evidence in docs/TESTING.md.",
   "assets": [
     {
       "id": "rifleman",
