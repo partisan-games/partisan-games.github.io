@@ -72,9 +72,9 @@ const thirdEnemies = [
 /**
  * The missions in the order they are flown; winning one shows its `outro` and goes on to the next. Each gives the
  * task shown at its start, whether the plane takes off from an airfield, whether it flies in NDH markings that fool
- * the enemy until half way, the world x of the airfield to land on, the enemies on the ground and the raids. In an
- * `airRaid` the siren wails from the start, a raider not shot down comes back after it leaves the view, and landing
- * wins only once none is left.
+ * the enemy until half way, whether it can crash into the ruin, the world x of the airfield to land on, the enemies on
+ * the ground and the raids. In an `airRaid` the siren wails from the start, a raider not shot down comes back after it
+ * leaves the view, and landing wins only once none is left.
  */
 export const missions = [
   {
@@ -82,6 +82,7 @@ export const missions = [
     outro: 'You joined the partisans! Your plane gets the red star.',
     takeoff: false,
     disguised: true,
+    solidRuin: true,
     airfieldX: 24_000,
     enemies: firstEnemies,
     raids: firstRaids,
@@ -92,6 +93,7 @@ export const missions = [
     outro: 'Stukas are coming for the airfield! Sirens wail.',
     takeoff: true,
     disguised: false,
+    solidRuin: true,
     airfieldX: 16_000,
     enemies: secondEnemies,
     raids: [],
@@ -101,6 +103,7 @@ export const missions = [
     intro: 'Air raid! Take off before the Stukas bomb you, shoot them all down and land!',
     takeoff: true,
     disguised: false,
+    solidRuin: false,
     airfieldX: 14_000,
     enemies: thirdEnemies,
     raids: thirdRaids,

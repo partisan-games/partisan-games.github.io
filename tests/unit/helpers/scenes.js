@@ -8,6 +8,8 @@ export function createSceneClass({ init = () => {}, background, log = [] } = {})
       this.session = new GameSession()
       this.background = background
       this.hasStartScreen = false
+      // the router redraws the paid buttons of the open game when the pocket changes
+      this.ui = { markPaid() {} }
       log.push(this)
       this.ended = 0
       this.started = 0

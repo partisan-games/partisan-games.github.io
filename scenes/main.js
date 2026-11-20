@@ -1,6 +1,7 @@
 import SceneManager from './SceneManager.js'
 import Arcade from '/ui/Arcade.js'
 import { mainMenuButton } from '/ui/UI.js'
+import { admission } from '/core/io/admission.js'
 
 const manager = new SceneManager()
 const elementUI = document.getElementById('ui')
@@ -10,7 +11,6 @@ export const arcade = new Arcade()
 // the development pages are linked only on the local server
 if (arcade.isLocal) document.querySelector('.dev-links')?.removeAttribute('hidden')
 
-let paidEntry = null
 let navigation = 0
 
 const showError = title => {
@@ -44,7 +44,15 @@ addEventListener('unhandledrejection', handleRuntimeError)
 
 /** ROUTER */
 
-const route = async() => {
+// a game with a start screen costs a token from the pocket of this page, paid at its start
+admission.charge = () => arcade.coins.spend().finally(arcade.refresh)
+admission.refund = receipt => arcade.coins.refund(receipt).finally(arcade.refresh)
+admission.remaining = () => arcade.storageAvailable ? arcade.coins.read().remaining : null
+// the paid buttons of the open game follow the pocket
+arcade.onChange = () => manager.scene?.ui.markPaid()
+
+/** Opens the game in the address; `replay` starts it again with the player's last choice, without its start screen. */
+const route = async({ replay = false } = {}) => {
   const currentNavigation = ++navigation
   const path = location.hash.slice(1)
   if (!path) return location.reload()
@@ -57,70 +65,14 @@ const route = async() => {
     showError('The game could not be loaded')
     return
   }
-  const free = arcade.isFree(path)
-  if (!free && paidEntry?.path !== path) {
-    arcade.prompt(path)
-    return
-  }
 
-  // a free game has no coin to give back if it does not start
-  const receipt = free ? null : paidEntry.receipt
-  const refund = () => receipt && arcade.coins.refund(receipt)
-  paidEntry = null
-  arcade.close()
   elementUI.innerHTML = modalElement.innerHTML = ''
   try {
-    await manager.start(path)
-    if (currentNavigation !== navigation) {
-      manager.endScene()
-      await refund()
-    } else document.body.dataset.loadedGame = path
+    await manager.start(path, true, { replay })
+    if (currentNavigation === navigation) document.body.dataset.loadedGame = path
   } catch (error) {
-    await refund()
     showLoadError(error)
-  } finally {
-    arcade.setBusy(false)
-    arcade.refresh()
   }
-}
-
-arcade.onInsert = async path => {
-  if (arcade.busy || !arcade.games.has(path)) return
-  if (arcade.isFree(path)) return play(path)
-  const insertionNavigation = navigation
-  arcade.setBusy(true, path)
-  let receipt
-  try {
-    receipt = await arcade.coins.spend()
-    arcade.refresh()
-    if (!receipt) {
-      arcade.prompt(path, 'empty')
-      arcade.setBusy(false)
-      return
-    }
-  } catch {
-    arcade.setBusy(false)
-    arcade.prompt(path, 'storage')
-    return
-  }
-  await arcade.insertCoin(path)
-  if (insertionNavigation !== navigation) {
-    await arcade.coins.refund(receipt)
-    arcade.setBusy(false)
-    arcade.refresh()
-    return
-  }
-  paidEntry = { path, receipt }
-  play(path)
-}
-
-/** Opens `path`, or starts it anew when it is open already. */
-function play(path) {
-  if (location.hash.slice(1) === path) route()
-  else location.hash = path
-}
-arcade.onCancel = () => {
-  location.hash = ''
 }
 
 if (location.hash) route()
@@ -129,18 +81,17 @@ else if (window.innerWidth >= 800)
 
 document.addEventListener('click', e => {
   const button = e.target.closest('button')
-  const coinSlot = e.target.closest('[data-arcade-game]')
-  const freeCard = e.target.closest('.menu-item[data-free]')
+  const card = e.target.closest('.menu-item[data-path]')
 
-  if (coinSlot) arcade.onInsert(coinSlot.dataset.arcadeGame)
-  if (freeCard) play(freeCard.dataset.path)
+  // a card opens its game for free; a game with a start screen asks for a token at its start
+  if (card) location.hash = card.dataset.path
 
   if (button?.id === 'menu')
     location.hash = ''
 
   // a new scene of the same game, without reloading the page
-  if (button?.id === 'igraj-opet')
-    arcade.onInsert(location.hash.slice(1))
+  if (button?.id === 'igraj-opet' && !button.disabled)
+    route({ replay: true })
 })
 
 addEventListener('hashchange', route)

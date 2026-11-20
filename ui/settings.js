@@ -30,7 +30,15 @@ export function loadSettings(storage = globalThis.localStorage) {
 export function setVolume(value, storage = globalThis.localStorage) {
   if (!Number.isFinite(Number(value))) return
   config.volume = clampVolume(value)
-  write(storage, { ...read(storage), volume: config.volume })
+  saveSetting('volume', config.volume, storage)
+}
+
+/** One saved setting, or undefined. */
+export const readSetting = (key, storage = globalThis.localStorage) => read(storage)[key]
+
+/** Saves one setting and keeps the others. */
+export function saveSetting(key, value, storage = globalThis.localStorage) {
+  write(storage, { ...read(storage), [key]: value })
 }
 
 loadSettings()

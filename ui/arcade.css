@@ -15,7 +15,8 @@
   background: linear-gradient(145deg, #343a39, #171c1c);
   box-shadow: inset 0 1px #ffffff30, 0 5px 0 #111, 0 10px 24px #0008;
 }
-.arcade-home .arcade-wallet { display: flex; }
+.arcade-home .arcade-wallet,
+.paid-screen .arcade-wallet { display: flex; }
 .arcade-wallet > div { display: grid; gap: 5px; }
 .arcade-eyebrow { color: #baa97d; font-size: 8px; letter-spacing: 2px; }
 .arcade-balance {
@@ -84,6 +85,7 @@
   aspect-ratio: 16 / 10;
   object-fit: cover;
 }
+/* the coin slot under each cabinet; the token is paid at the game's start */
 .arcade-slot {
   display: flex;
   align-items: center;
@@ -105,7 +107,6 @@
 }
 .arcade-slot:hover { background: linear-gradient(#515044, #36392e); border-color: #edc46b; }
 .arcade-slot:active { translate: 0 2px; box-shadow: inset 0 2px 4px #0009, 0 2px #111411; }
-.arcade-slot:focus-visible, .arcade-dialog-close:focus-visible { outline: 3px solid #ffe6a0; outline-offset: 4px; }
 .arcade-slot-label { flex: 1; }
 .arcade-slot small { display: block; margin-top: 5px; font: 10px/1.4 Courier, monospace; color: #c8c8b6; text-shadow: none; }
 .arcade-slot-mouth {
@@ -116,26 +117,8 @@
   background: #050a07;
   box-shadow: 0 0 0 5px #1c211d, 0 -9px 7px -3px #92c579;
 }
-.arcade-slot:disabled { cursor: wait; opacity: .65; }
-.arcade-empty .arcade-balance { color: #ef8c74; }
 .arcade-empty .arcade-slot-mouth { box-shadow: 0 0 0 5px #1c211d, 0 -9px 7px -3px #e16e52; }
-.arcade-dialog {
-  width: min(440px, calc(100% - 32px));
-  padding: 32px 24px 20px;
-  border: 3px solid #9b8355;
-  border-radius: 10px;
-  background: repeating-linear-gradient(0deg, #0000 0 3px, #0001 3px 4px), #222b29;
-  color: #f0e6ce;
-  box-shadow: inset 0 0 0 5px #141d1a, 0 12px 0 #101513, 0 24px 80px #000b;
-  text-align: center;
-}
-.arcade-dialog::backdrop { background: #080e0be6; backdrop-filter: blur(5px); }
-.arcade-dialog > .arcade-coin { width: 54px; height: 54px; font-size: 30px; margin-bottom: 16px; }
-.arcade-dialog h2 { color: #ffe0a0; font: 15px/1.7 'Press Start 2P', Courier; }
-.arcade-dialog-message { font: 16px/1.6 Courier, monospace; text-shadow: none; color: #cdd0c2; }
-.arcade-dialog-insert { width: 100%; margin: 24px 0 12px; min-height: 54px; text-align: center; }
-.arcade-dialog-insert[hidden] { display: none; }
-.arcade-dialog-close { font-size: 10px; color: #b8bba9; }
+.arcade-empty .arcade-balance { color: #ef8c74; }
 @media (max-width: 1100px) {
   .arcade-home .homepage { padding-top: 112px; }
 }

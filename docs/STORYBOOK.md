@@ -1,10 +1,10 @@
 # Storybook
 
-[storybook.html](../storybook.html) prikazuje svaki gradivni blok sam na praznoj pozornici, da se isproba kako radi. Otvara se na istom serveru kao igre, npr. `/storybook.html`. Nije deo igre, pa ne troši novčiće i nije u meniju; njegove kontrole bira agent, a vlasnik ih pregleda ([pravilo](DOCS.md#odobravanje-ui-elemenata)). Pravila samih blokova su u [arhitekturi](ARHITEKTURA.md#gradivni-blokovi).
+[storybook.html](../storybook.html) prikazuje igrače i neprijatelje samostalno na praznoj pozornici, da se isproba kako rade. Otvara se na istom serveru kao igre, npr. `/storybook.html`. Nije deo igre, pa ne troši novčiće i nije u meniju; njegove kontrole bira agent, a vlasnik ih pregleda ([pravilo](DOCS.md#odobravanje-ui-elemenata)). Pravila samih blokova su u [arhitekturi](ARHITEKTURA.md#gradivni-blokovi).
 
 ## Upotreba
 
-- Storybook prikazuje samo aktere, igrače i neprijatelje; pozadine, okolina, efekti i predmeti nemaju priče (odluka vlasnika).
+- Storybook prikazuje samo aktere, igrače i neprijatelje, uključujući bibliotečke klase za te uloge; pozadine, okolina, efekti, projektili i predmeti nemaju zasebne priče (odluka vlasnika). Saradnici poput metka ili eksplozije mogu se videti uz aktera tokom pucanja/pogotka, a svetlo, tlo i meta deo su pozornice. Obim određuje uloga, ne folder klase.
 - Levo je spisak vrsta (vojnici, tenkovi i vozila, avioni, brodovi, artiljerija i 3D vrste) i njihovih priča. Priča je jedan blok u jednom početnom podešavanju; adresa joj je `#vrsta/priča`, pa se otvara linkom i ostaje posle reload-a.
 - Desno su dugmad stanja bloka, zatim pucanja koja blok podržava („Pucaj gore”, „Pucaj pravo”), podešavanja bloka, „Prati kamerom” i „Reset”.
 - „Reset” ponovo pravi priču; potreban je jer stanje ne vraća mrtav blok, a blok koji odleti ili odveze se ostaje van ekrana. Isto radi klik na priču u spisku.
@@ -31,4 +31,12 @@ Blok koji ne može da se napravi samo sa opcijama pozornice još nije nezavisan;
 
 ## Provere
 
+Pokrivenost aktera grafikom i prioriteti dopuna vode se u [ART](ART.md). Postojanje stanja ili priče samo po sebi ne dokazuje da telo ima poseban animirani klip.
+
 [storybookCatalog.test.js](../tests/unit/storybookCatalog.test.js) pravi svaku priču, prolazi kroz sva njena stanja i proverava da svako navedeno pucanje ispali metak. [storybookCoverage.test.js](../tests/unit/storybookCoverage.test.js) traži priču za svakog aktera u navedenim folderima. [storybookControls.test.js](../tests/unit/storybookControls.test.js) proverava podešavanja, a [storybookStage2D.test.js](../tests/unit/storybookStage2D.test.js) pozornicu, praćenje kamerom i da gašenje ne ostavlja rukovaoce na stranici. U browseru [storybook.spec.js](../tests/smoke/storybook.spec.js) dva puta otvara sve priče i proverava da nema grešaka ni zaostalih rukovalaca i elemenata. Izgled se proverava samo okom.
+
+## Granice i odluke
+
+- 3D lik se ne može napraviti u unit testu bez učitanog modela, pa 3D priče proverava browser. Top iz igre Cannon nema priču: puca kroz Ammo fiziku, koju 3D pozornica nema. Oba čekaju sređivanje nivoa koji ih koriste (odluka vlasnika).
+- Pozornica prikazuje jednog aktera. Više aktera koji deluju jedan na drugog uvodi se tek ako vlasnik to zatraži.
+- Namerno nije preuzeto: biblioteka Storybook i React (traže build), kontrole iz unutrašnjih polja objekta (daju besmislena polja) i upravljanje vremenom igre, poput pauze ili usporavanja (vlasniku ne treba).

@@ -16,40 +16,10 @@
     .preview-kind { margin: 0 0 8px; color: #bbb; font: 14px/1.4 system-ui,sans-serif; text-shadow: none; }
     .preview-stage { min-height: 244px; margin-bottom: 20px; display: grid; place-items: center; }
     .preview-stage .central-screen { position: static; top: auto; left: auto; transform: none; min-width: 0; width: 100%; }
-    .preview-stage .central-screen .preview-paid { display: inline-flex; align-items: center; justify-content: center; gap: 8px; max-width: 100%; white-space: nowrap; }
-    /* The replay glyph's visible center sits below the font's line-box center. */
-    .preview-replay-icon { transform: translateY(-.18em); }
     .preview-mode-options { display: grid; gap: 12px; width: 100%; max-width: 320px; }
-    .preview-price { display: inline-flex; align-items: center; gap: 5px; flex: 0 0 auto; }
-    .preview-price img {
-      display: block; width: 24px; height: 24px; flex: 0 0 auto;
-      image-rendering: pixelated;
-      filter: drop-shadow(1px 0 0 var(--black)) drop-shadow(-1px 0 0 var(--black)) drop-shadow(0 1px 0 var(--black)) drop-shadow(0 -1px 0 var(--black));
-    }
-    .preview-count { font-size: 10px; color: var(--sand); font-variant-numeric: tabular-nums; }
-    .preview-paid:disabled { cursor: not-allowed; }
-    .preview-paid:disabled > .icon, .preview-paid:disabled > .preview-action, .preview-paid:disabled > .preview-price { opacity: .45; }
-    .preview-paid.rpgui-button { position: relative; isolation: isolate; background: none; }
-    .preview-paid.rpgui-button::before { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: url('/assets/images/rpgui/button.png') center / 100% 100% no-repeat; }
-    .preview-paid.rpgui-button:disabled::before { opacity: .6; }
-    .preview-paid.rpgui-button:not(:disabled):hover::before { background-image: url('/assets/images/rpgui/button-hover.png'); }
-    .preview-paid.bg-olive:disabled { background-color: #555d43; }
-    .no-coins .preview-count { color: #ff9b8e; }
-    .default-button:disabled:hover { background-color: transparent; }
-    .white-button:disabled:hover { outline: none; }
     @media (max-width: 1050px) { .preview-grid { grid-template-columns: 1fr; max-width: 540px; } }
-    @media (max-width: 440px) {
-      body { padding: 16px; }
-      .preview-stage .central-screen .preview-paid { gap: 4px; padding-inline: 8px; }
-      .preview-paid .icon { font-size: 1.1rem; }
-    }
-    @media (max-width: 360px) {
-      body { padding: 8px; }
-      .preview-stage .central-screen .preview-paid { gap: 3px; font-size: 12px; }
-      .preview-paid .icon { font-size: 1rem; }
-      .preview-price { gap: 3px; }
-      .preview-price img { width: 20px; height: 20px; }
-    }
+    @media (max-width: 440px) { body { padding: 16px; } }
+    @media (max-width: 360px) { body { padding: 8px; } }
   </style>
 </head>
 <body>
@@ -65,43 +35,40 @@
     const still = `/assets/images/${iconImages.coinStill}`
     const animated = `/assets/images/${iconImages.coin}`
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const coin = `<span class="preview-price" role="img" aria-label="0 of 1 required token available"><img src="${still}" alt="" width="24" height="24"><span class="preview-count" aria-hidden="true">0/1</span></span>`
+    const coin = `<span class="price" role="img" aria-label="costs 1 token"><img src="${still}" alt="" width="24" height="24"></span>`
     document.getElementById('preview').innerHTML = Object.entries(styleClasses).map(([key,{ container,button }]) => `
       <section class="preview-theme">
         <h2>${{ simple:'Simple',rpg:'RPG',white:'White' }[key]}</h2>
         <p class="preview-kind">Početak</p>
         <div class="preview-stage"><div class="central-screen flex-column ${container}">
           <p>Hold the enemy at all costs until the wounded are safe.</p>
-          <button class="${button} preview-paid"><span class="icon">🔥</span><span class="preview-action">Start mission</span>${coin}</button>
+          <button class="${button} paid"><span class="icon">🔥</span><span class="preview-action">Start mission</span>${coin}</button>
         </div></div>
         <p class="preview-kind">Izbor režima</p>
         <div class="preview-stage"><div class="central-screen flex-column ${container}">
           <h2>Choose mode</h2>
           <div class="preview-mode-options">
-            <button class="bg-olive preview-paid"><span class="preview-action">1 player</span>${coin}</button>
-            <button class="bg-olive preview-paid"><span class="preview-action">2 players</span>${coin}</button>
+            <button class="bg-olive paid"><span class="preview-action">1 player</span>${coin}</button>
+            <button class="bg-olive paid"><span class="preview-action">2 players</span>${coin}</button>
           </div>
         </div></div>
         <p class="preview-kind">Ponovna igra</p>
         <div class="preview-stage"><div class="central-screen flex-column ${container}">
           <h3 class="red"><span class="icon">☠️</span> Game over</h3>
           <button class="${button} preview-free"><span class="icon">☰</span> Main menu</button>
-          <button class="${button} preview-paid"><span class="icon preview-replay-icon">↻</span><span class="preview-action">Play again</span>${coin}</button>
+          <button class="${button} paid"><span class="icon replay-icon">↻</span><span class="preview-action">Play again</span>${coin}</button>
         </div></div>
       </section>`).join('')
     window.previewClicks = 0
-    const buttons = [...document.querySelectorAll('.preview-paid')]
+    const buttons = [...document.querySelectorAll('.paid')]
     buttons.forEach(button => button.addEventListener('click', () => window.previewClicks++))
     const update = () => {
       const available = document.getElementById('coins-available').checked
       const coinSource = available && !reducedMotion.matches ? animated : still
-      document.body.classList.toggle('no-coins', !available)
       buttons.forEach(button => {
         button.disabled = !available
         const image = button.querySelector('img')
         if (image.getAttribute('src') !== coinSource) image.src = coinSource
-        button.querySelector('.preview-count').textContent = available ? '1/1' : '0/1'
-        button.querySelector('.preview-price').setAttribute('aria-label', `${available ? 1 : 0} of 1 required token available`)
       })
     }
     document.getElementById('coins-available').addEventListener('change', update)

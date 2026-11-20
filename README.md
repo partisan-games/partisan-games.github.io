@@ -29,7 +29,6 @@ To try the game blocks one by one (soldiers, vehicles, aircraft, their states an
 
 - razrađivati postojeće nivoe redom
 - proveri warplane na mobilnom (privremeno isključeno hide-on-mobile)
-- Franjo Kluz: dodati pilota i mitraljesca
 
 Ideje za nivoe:
 - odbrani polozaj (kamera odozgo, nadiru sa svih strana)

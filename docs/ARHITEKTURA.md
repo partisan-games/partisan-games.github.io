@@ -1,6 +1,6 @@
 # Arhitektura
 
-Zajednički engine za 2D i 3D igre. Ovde čuvamo odgovornosti, razloge i bitna ograničenja; implementaciju opisuje kod. Otvorene izmene pripadaju [planu](TODO.md), a sadržaj [istorijskoj vernosti](ISTORIJA.md).
+Zajednički engine za 2D i 3D igre. Ovde čuvamo odgovornosti, razloge i bitna ograničenja; implementaciju opisuje kod. Otvorene izmene pripadaju planovima (`PLAN-*.md`), a sadržaj [istorijskoj vernosti](ISTORIJA.md).
 
 ## Odgovornosti
 

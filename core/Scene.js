@@ -8,9 +8,12 @@ import FixedStep from './runtime/FixedStep.js'
 import PausePolicy from './PausePolicy.js'
 import World from './World.js'
 import SceneAudio from './io/audio/SceneAudio.js'
+import { admission } from './io/admission.js'
 
 // the scene that last showed each shared canvas; a scene ended late must not hide or wipe the next scene's drawing
 const canvasOwners = new WeakMap()
+// what the player last chose on each game's start screen, so Play again starts the same game without asking
+const lastChoices = new WeakMap()
 
 export default class Scene {
   constructor({
@@ -25,7 +28,7 @@ export default class Scene {
     this.gameLoop = new GameLoop(this.loop)
     this.ui = new UI(this, {
       reportText, intro, customStartScreen, startButtonText, showControls, controlKeys, uiStyle,
-      ...disableEvents ? {} : { onStart: () => this.start(), onContinue: () => this.unpause() },
+      ...disableEvents ? {} : { onStart: () => this.play(), onContinue: () => this.unpause() },
     })
     this.world = new World()
     this.sceneAudio = new SceneAudio()
@@ -97,6 +100,59 @@ export default class Scene {
       .filter(({ image }) => image)
       .map(({ image, imageLoaded }) => imageReady(image, imageLoaded))
     return Promise.all(images)
+  }
+
+  /** Gets ready what the player chose on the start screen, such as a plane to load; a game with choices overrides it. */
+  async prepare() {}
+
+  /** The choice the player last started this game with, if any. */
+  get lastChoice() {
+    return lastChoices.get(this.constructor)
+  }
+
+  get remembersChoice() {
+    return lastChoices.has(this.constructor)
+  }
+
+  /**
+   * Starts what the player chose: a game with a start screen costs one token, paid after its choice is ready, so a
+   * failed load costs nothing; a scene `prepaid` by the game it continues costs none. A second click while starting
+   * does nothing; a scene ended meanwhile gives the token back.
+   */
+  async play(choice = null) {
+    // a game that has begun, or is beginning, is not started again
+    if (this.starting || !['loading', 'ready'].includes(this.session.state) || this.ui.ended) return
+    this.starting = true
+    // the next mission of a game already paid for starts without a token
+    const paid = this.hasStartScreen && !this.prepaid
+    try {
+      await this.prepare(choice)
+      if (this.ui.ended) return
+      let receipt = null
+      if (paid) {
+        try {
+          receipt = await admission.charge()
+        } catch {
+          return this.ui.showStartNotice('Allow this site to save data to use arcade tokens.')
+        }
+        if (!receipt) return
+        if (this.ui.ended) return await this.giveBack(receipt)
+      }
+      lastChoices.set(this.constructor, choice)
+      // Play again costs a token in a game with a start screen
+      this.costsToken = this.hasStartScreen
+      this.start()
+    } finally {
+      this.starting = false
+    }
+  }
+
+  async giveBack(receipt) {
+    try {
+      await admission.refund(receipt)
+    } catch {
+      this.ui.showStartNotice('The machine swallowed your token. Try giving it a kick.')
+    }
   }
 
   start() {

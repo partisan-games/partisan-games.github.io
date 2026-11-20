@@ -11,13 +11,13 @@ Zajednička osnova za razvoj 2D i 3D igara, sa istorijski zasnovanim sadržajem.
 | Istorija | [Istorijski izvori](ISTORIJA.md) | Činjenice sa izvorima: vojske, periodi, područja, jedinice, vozila, avioni i oružje. |
 | Konteksti igara | [KONTEKST](KONTEKST.md) | Okvir, priča, protivnici, prikaz i prihvaćeni art svake igre i njenih etapa. |
 | Ugao 2D arta | [Indeks prikaza](../assets/images/armies/index.csv) | Vizuelne oznake za izbor bočnih, gornjih i drugih prikaza, uz same slike. |
+| Sprite animacije aktera | [ART](ART.md) | Pokrivenost glavnih stanja igrača/neprijatelja, stvarni kadrovi naspram proceduralnog prikaza i prioriteti novog arta. |
 | Arhitektura i obrasci | [ARHITEKTURA](ARHITEKTURA.md) | Odgovornosti zajedničkog engine-a, obrasci i bitna ograničenja. |
 | UI | [UI](UI.md) | Principi, teme, prozori, HUD, komande i praktična upotreba postojećeg UI-ja. |
 | Učenje kompozicije | [Kompozicija umesto nasleđivanja](COMPOSITION.md) | Uporedni primeri i sastavljanje zdravlja i oružja. |
 | Provere | [TESTING](TESTING.md) | Komande, pokrivenost i ograničenja provera. |
 | Isprobavanje blokova | [Storybook](STORYBOOK.md) | Upotreba storybook-a i dodavanje priča za blokove. |
 | Posebna tehnika prikaza | [Animacija pozadine](ANIMACIJA-POZADINE.md) | Konkretno rešenje, neuspešni pristupi i preventivne provere. |
-| Agentovi poslovi | [TODO](TODO.md) | Agentove razvojne stavke, pregledi i potrebne popravke. |
 | Razvoj igre | Planovi igara (`docs/PLAN-*.md`) | Koraci izrade i statusi; nije trajna baza znanja. Planovi su u gitu, nikad u `.git/info/exclude`. |
 
 Pokretanje projekta opisuje [README](../README.md). Istorijske slike i poreklo čuvaju se u [references/ww2-yu](references/ww2-yu/), a merni artefakti se povezuju iz tehničkog opisa.
@@ -60,11 +60,9 @@ Autoritativni opis tema i potvrđenog korisničkog izbora je u [UI vodiču](UI.m
 
 ## Ulaz u igre i novčići
 
-Animacije na naslovnoj su besplatne (odluka vlasnika od 2026-11-20): njihove kartice u [index.html](../index.html) imaju `data-free`, nemaju ubacivanje novčića i pokreću se klikom na karticu.
-
 Odluka vlasnika od 2026-11-20: igre koje nemaju startni prozor ostaju besplatne i kreću odmah po učitavanju, bez dodavanja prozora za novčić ili starta. To važi i za direktan link, reload i ponovnu igru; dostupnost novčića i njihovog skladišta ne sme uslovljavati besplatnu igru.
 
-Za igre sa startnim prozorom ostaje jedan prozor pre početka: Start ili izbor režima naplaćuje jedan novčić, a kartica u glavnom meniju ne naplaćuje. Play again naplaćuje novu partiju i pokreće je sa istim prethodnim izborom, bez ponavljanja startnog prozora. Preskakanje tog prozora pri replay-u ne menja cenu igre. Cilj je manje klikova, uz jasno prikazanu cenu; konkretni novi natpisi i poruke i dalje traže prethodno odobrenje po pravilu iznad. Ovo je pravilo željenog ponašanja, ne potvrda da ga trenutni kod sprovodi.
+Za igre sa startnim prozorom ostaje jedan prozor pre početka: Start ili izbor režima naplaćuje jedan novčić, a kartica u glavnom meniju ne naplaćuje. Kartica ipak zadržava izgled automata sa „INSERT COIN” (odluka vlasnika 2026-11-20); klik na nju samo otvara igru. Play again naplaćuje novu partiju i pokreće je sa istim prethodnim izborom, bez ponavljanja startnog prozora. Preskakanje tog prozora pri replay-u ne menja cenu igre. Cilj je manje klikova, uz jasno prikazanu cenu; konkretni novi natpisi i poruke i dalje traže prethodno odobrenje po pravilu iznad. Ovo je pravilo željenog ponašanja, ne potvrda da ga trenutni kod sprovodi.
 
 ## Tasteri
 
@@ -88,7 +86,7 @@ Pre ukrašavanja okruženja izabrati vizuelne uzore, paletu i odnos dekoracije p
 
 ## Statusi u planovima postupne izrade igara
 
-README TODO uređuje isključivo vlasnik; agent ga ne menja. Agentove stavke pripadaju [TODO](TODO.md), a koraci pojedinačnih igara njihovim postojećim planovima.
+Vlasnik svaki plan zove i „TODO”: nova stavka ide u plan igre ili oblasti na koju se odnosi, a u [README TODO](../README.md#todo) samo ako takvog plana nema.
 
-Kada agent završi dogovoreni posao neke stavke, odmah je označava `✅ Done`. Posle završenog posla `🔄 In progress` ostaje samo ako je vlasnik izričito postavio svoje odobrenje kao uslov za Done. Vlasnik pregleda Done stavke ako želi i kada želi; nastavak rada prati zaseban dogovor. Izvršene provere beleže se prema stvarnim dokazima, odvojeno od statusa izrade. Testovi i izvršne provere pokreću se samo uz vlasnikovu dozvolu. Ovo pravilo važi za ovu vrstu planova i prati [centralno pravilo skilova](C:/Users/Lenovo/.agents/skills/slusaj/references/prihvatanje.md).
+Kada agent završi dogovoreni posao neke stavke, odmah je označava `✅ Done`. Posle završenog posla `🔄 In progress` ostaje samo ako je vlasnik izričito postavio svoje odobrenje kao uslov za Done. Vlasnik pregleda Done stavke ako želi i kada želi; nastavak rada prati zaseban dogovor. Izvršene provere beleže se prema stvarnim dokazima, odvojeno od statusa izrade. Testovi i izvršne provere pokreću se samo uz vlasnikovu dozvolu.
 

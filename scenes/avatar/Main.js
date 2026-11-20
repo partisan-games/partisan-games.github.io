@@ -25,15 +25,15 @@ const customStartScreen = ({ container }) => /* html */`
   <div class="central-screen ${container}">
     <h2>Choose your avatar</h2>
     <div class="game-screen-select">
-      <div>
+      <div data-paid>
         <input type="image" id="STONE" src="/assets/images/scenes/avatar/STONE.webp" /><br>
         Kamenko<br><small>(basic)</small>
       </div>
-      <div>
+      <div data-paid>
         <input type="image" id="DISCO" src="/assets/images/scenes/avatar/DISCO.webp" /><br>
         Balonko<br><small>(can fly)</small>
       </div>
-      <div>
+      <div data-paid>
         <input type="image" id="LAVA" src="/assets/images/scenes/avatar/LAVA.webp" /><br>
         Laveni<br><small>(immune to lava)</small>
       </div>
@@ -83,13 +83,14 @@ export default class AvatarScene extends Scene3D {
     }
   }
 
-  async handleClick(e) {
-    if (e.target.tagName !== 'INPUT' || !['STONE', 'DISCO', 'LAVA'].includes(e.target.id) || this.choosingAvatar) return
-    this.choosingAvatar = true // a second click while the avatar loads would add a second one
+  handleClick(e) {
+    if (e.target.tagName === 'INPUT' && ['STONE', 'DISCO', 'LAVA'].includes(e.target.id)) this.play(e.target.id)
+  }
 
+  async prepare(skin) {
     const Avatar = await this.session.keep(import('/core3d/actor/Avatar.js'))
     if (this.ui.ended) return
-    this.player = new Avatar.default({ camera: this.camera, solids: [this.ground, ...this.boxes], skin: e.target.id, showHealthBar: true, maxJumpTime: .99 })
+    this.player = new Avatar.default({ camera: this.camera, solids: [this.ground, ...this.boxes], skin, showHealthBar: true, maxJumpTime: .99 })
     this.player.chaseCamera.distance = 6
     this.addMesh(this.player.mesh)
 
@@ -97,7 +98,6 @@ export default class AvatarScene extends Scene3D {
     this.player.position = [0, 0, lavaSize]
     this.player.energy = 100
     this.player.lookAt(this.scene.position)
-    this.start()
   }
 
   checkCollision(coin) {

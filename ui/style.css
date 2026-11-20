@@ -132,8 +132,26 @@ button {
   -webkit-text-fill-color: initial;
 }
 
-.default-button:hover {
+.default-button:hover,
+.default-button:focus-visible {
   background-color: var(--red);
+}
+
+/*
+ * Focus never shows the browser's ring: every control the keyboard reaches shows it in the colors of the games, and
+ * the buttons of each style show it as they show hovering.
+ */
+:where(button, input, select, a, [tabindex]:not([tabindex="-1"])):focus-visible {
+  outline: 2px solid var(--sand);
+  outline-offset: 2px;
+}
+
+.default-button:focus-visible {
+  outline: none;
+}
+
+.white-button:focus-visible {
+  outline: 1px solid white;
 }
 
 .no-hover:hover {
@@ -166,8 +184,19 @@ button {
   padding: 0;
 }
 
-.rpgui-button:hover {
+.rpgui-button:hover,
+.rpgui-button:focus-visible {
   background-image: url("/assets/images/rpgui/button-hover.png");
+}
+
+/* in the RPG style focus lights a button up as hovering does, instead of the browser's blue ring */
+.rpgui-button:focus-visible,
+.rpgui-container .game-title:focus-visible {
+  outline: none;
+}
+
+.rpgui-container .game-title:focus-visible {
+  filter: brightness(1.3) drop-shadow(0 0 4px #ff8a00);
 }
 
 .rpgui-button.golden {
@@ -539,4 +568,81 @@ progress.potisak::-moz-progress-bar {
   .hide-on-mobile {
     display: none;
   }
+}
+
+/* a button that starts a paid game, with its token right of the label */
+.paid {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  max-width: 100%;
+  white-space: nowrap;
+}
+
+.price {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex: 0 0 auto;
+}
+
+.price img {
+  display: block;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 auto;
+  image-rendering: pixelated;
+  filter: drop-shadow(1px 0 0 var(--black)) drop-shadow(-1px 0 0 var(--black)) drop-shadow(0 1px 0 var(--black)) drop-shadow(0 -1px 0 var(--black));
+}
+
+
+.paid:disabled {
+  cursor: not-allowed;
+}
+
+.paid:disabled > * {
+  opacity: .45;
+}
+
+
+.start-notice {
+  color: #ff9b8e;
+}
+
+@media (max-width: 440px) {
+  .paid { gap: 4px; }
+}
+
+@media (max-width: 360px) {
+  .paid { gap: 3px; font-size: 12px; }
+  .price { gap: 3px; }
+  .price img { width: 20px; height: 20px; }
+}
+
+.paid.rpgui-button {
+  position: relative;
+  isolation: isolate;
+  background: none;
+}
+
+.paid.rpgui-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: url('/assets/images/rpgui/button.png') center / 100% 100% no-repeat;
+}
+
+.paid.rpgui-button:disabled::before { opacity: .6; }
+.paid.rpgui-button:not(:disabled):hover::before,
+.paid.rpgui-button:not(:disabled):focus-visible::before { background-image: url('/assets/images/rpgui/button-hover.png'); }
+.paid.bg-olive:disabled { background-color: #555d43; }
+.default-button:disabled:hover { background-color: transparent; }
+.white-button:disabled:hover { outline: none; }
+
+/* the replay glyph's visible center sits below the font's line-box center */
+.replay-icon {
+  transform: translateY(-.18em);
 }

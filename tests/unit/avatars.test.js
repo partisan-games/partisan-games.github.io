@@ -36,14 +36,13 @@ test('choosing an avatar twice while its module resolves creates exactly one pla
   const session = new GameSession()
   let added = 0
   let starts = 0
-  const scene = {
+  session.ready()
+  const scene = Object.assign(Object.create(AvatarScene.prototype), {
     session, ui: { ended: false }, scene: new Scene(), camera: new PerspectiveCamera(),
     ground: new Mesh(new BoxGeometry(10, 1, 10)), boxes: [],
     addMesh: () => added++, createCoins() {}, start: () => starts++,
-  }
-  const target = document.createElement('input')
-  target.id = 'DISCO'
-  await Promise.all([AvatarScene.prototype.handleClick.call(scene, { target }), AvatarScene.prototype.handleClick.call(scene, { target })])
+  })
+  await Promise.all([scene.play('DISCO'), scene.play('DISCO')])
   t.after(() => scene.player.end())
   assert.equal(added, 1)
   assert.equal(starts, 1)
@@ -53,9 +52,7 @@ test('a late avatar choice cannot create a player in a disposed scene', async() 
   const { default: AvatarScene } = await import('/scenes/avatar/Main.js')
   const session = new GameSession()
   const scene = { session, ui: { ended: false } }
-  const target = document.createElement('input')
-  target.id = 'DISCO'
-  const pending = AvatarScene.prototype.handleClick.call(scene, { target })
+  const pending = AvatarScene.prototype.prepare.call(scene, 'DISCO')
   session.dispose()
   await assert.rejects(pending, { name: 'AbortError' })
   assert.equal(scene.player, undefined)
@@ -71,6 +68,7 @@ const deferred = () => {
 
 test('special actions share pending loads and only the latest choice changes state', async() => {
   const session = new GameSession()
+  session.start() // special actions play only while the game runs
   const first = deferred()
   const second = deferred()
   const states = []

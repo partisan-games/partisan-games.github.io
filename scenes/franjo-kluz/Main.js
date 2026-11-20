@@ -16,6 +16,7 @@ import Fighter from '/core/actor/aircraft/Fighter.js'
 import DiveBomber from '/core/actor/aircraft/DiveBomber.js'
 import { kinds } from './enemies.js'
 import { missions } from './missions.js'
+import { isLocalCoinHost } from '/ui/DevelopmentCoins.js'
 import WorldSprite from '/core/actor/WorldSprite.js'
 import Airfield from './Airfield.js'
 import ParallaxLayer from './ParallaxLayer.js'
@@ -42,6 +43,16 @@ let missionToStart = 0
 export const continueWithMission = index => {
   missionToStart = index
 }
+
+/**
+ * On the local server, `?mission=3` before the `#` starts the game with that mission, to try a level without flying
+ * the ones before it.
+ */
+const missionToTry = () => {
+  if (!isLocalCoinHost(location.hostname)) return 0
+  const number = Number(new URLSearchParams(location.search).get('mission'))
+  return Number.isInteger(number) && number >= 1 && number <= missions.length ? number - 1 : 0
+}
 /**
  * The fastest touchdown the plane survives, the sink rates of a hard landing and of a crash, in pixels per second,
  * and the speed under which it has stopped. The owner wants landing easy: holding down to the ground sinks about
@@ -61,12 +72,13 @@ export default class FranjoKluzScene extends Scene2D {
   constructor(manager) {
     super({
       controlKeys: { ...baseControls, Space: 'Machine gun', [bombKey]: 'Drop bomb' },
+      intro: 'Break through the enemy to the partisan airfield.',
     })
     this.manager = manager
   }
 
   init() {
-    this.missionIndex = missionToStart
+    this.missionIndex = missionToStart || missionToTry()
     missionToStart = 0
     this.mission = missions[this.missionIndex]
     /** Whether the enemy knows the plane is hostile; the NDH plane of a disguised mission fools it until half way. */
@@ -97,7 +109,9 @@ export default class FranjoKluzScene extends Scene2D {
       : new Gunner(enemy, this.player, enemy instanceof Flak ? lead(flak.shellSpeed) : undefined))
     this.followPlane(0)
 
-    this.player.solidBodies.push(this.ruina, ...this.enemies.filter(enemy => enemy.vehicle), ...this.raiders)
+    // in the first missions the plane can crash into the ruin; later it is only scenery
+    if (this.mission.solidRuin) this.player.solidBodies.push(this.ruina)
+    this.player.solidBodies.push(...this.enemies.filter(enemy => enemy.vehicle), ...this.raiders)
     this.player.targets.push(...this.enemies, ...this.raiders)
     this.player.fighters.push(...this.raiders)
 
@@ -113,7 +127,14 @@ export default class FranjoKluzScene extends Scene2D {
     // The plane is drawn in front of the buildings and the enemies, so a crash into them is seen burning and falling.
     this.add(...this.airfields, this.ruina, ...this.enemies, ...this.raiders, this.player, ...this.scenery)
     if (this.alarm.raised) this.openFire(this.armed)
-    this.ui.intro = this.mission.intro
+  }
+
+  /** The task of the mission flashes up as the plane sets off; the start screen has the game's general orders. */
+  start() {
+    super.start()
+    // the sizes of the airfields and the ruin are known only once their pictures have loaded
+    this.ruina.x = this.clearOfAirfields(this.ruina.x)
+    this.ui.showMessage(this.mission.intro)
   }
 
   createEnemy(kind, x) {
@@ -231,13 +252,20 @@ export default class FranjoKluzScene extends Scene2D {
   }
 
   /** The ruin never comes back over the airfield to land on or its runway. */
+  /** Where the ruin may stand near `x`: past the building and runway of any airfield it would stand on. */
+  clearOfAirfields(x) {
+    const half = this.ruina.width / 2
+    let place = x
+    for (const airfield of this.airfields) {
+      const left = airfield.x - airfield.width / 2
+      if (place + half > left && place - half < airfield.runway.right) place = airfield.runway.right + this.ruina.width
+    }
+    return place
+  }
+
   returnRuin() {
     if (this.ruina.x + this.ruina.width / 2 > this.cameraX) return
-    let x = this.cameraX + canvas2d.width + randomInRange(ruinReturn.min, ruinReturn.max)
-    const airfieldLeft = this.aerodrom.x - this.aerodrom.width / 2
-    if (x + this.ruina.width / 2 > airfieldLeft && x - this.ruina.width / 2 < this.aerodrom.runway.right)
-      x = this.aerodrom.runway.right + this.ruina.width
-    this.ruina.x = x
+    this.ruina.x = this.clearOfAirfields(this.cameraX + canvas2d.width + randomInRange(ruinReturn.min, ruinReturn.max))
     this.ruina.alive = true
     this.ruina.audioRevision = (this.ruina.audioRevision ?? 0) + 1
   }
@@ -285,7 +313,7 @@ export default class FranjoKluzScene extends Scene2D {
     this.ui.showMessage(this.mission.outro)
     this.session.presentation.after(nextMissionDelay, () => {
       continueWithMission(this.missionIndex + 1)
-      this.manager.start(scenePath)
+      this.manager.start(scenePath, true, { prepaid: true })
     })
   }
 

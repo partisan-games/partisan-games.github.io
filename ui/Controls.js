@@ -1,5 +1,5 @@
 import { keys, attackLabels, leftPlayerKeys, rightPlayerKeys } from '/core/io/keys.js'
-import { currentStyleClasses } from './styles.js'
+import { currentStyleClasses, onStyleChange } from './styles.js'
 import { hasBlockingUi } from '/core/io/inputContext.js'
 
 export const baseControls = {
@@ -64,12 +64,15 @@ export default class Controls {
     this.div = document.createElement('div')
     this.div.className = positionClass
 
-    const classes = currentStyleClasses()
     const button = document.createElement('button')
-    button.className = classes.controlButton
-
     const content = document.createElement('div')
-    content.className = classes.container
+    const restyle = () => {
+      const classes = currentStyleClasses()
+      button.className = classes.controlButton
+      content.className = classes.container
+    }
+    restyle()
+    this.stopRestyling = onStyleChange(restyle)
     content.innerHTML = Object.keys(controlKeys)
       .filter(key => controlKeys[key])
       .map(key => `${key} - ${controlKeys[key]}<br>`)
@@ -101,6 +104,7 @@ export default class Controls {
   }
 
   end() {
+    this.stopRestyling()
     this.div.remove()
   }
 }

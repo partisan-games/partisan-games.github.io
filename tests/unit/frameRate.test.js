@@ -24,6 +24,7 @@ async function createFranjoKluz(t) {
   scene.init()
   scene.player.input.end()
   scene.player.input = new Input({ useKeyboard: true, useJoystick: false })
+  scene.session.start() // a scene takes the player's keys only while its game runs
   t.after(() => {
     scene.clear = () => {} // happy-dom has no 2D canvas to draw the sky on
     scene.end()

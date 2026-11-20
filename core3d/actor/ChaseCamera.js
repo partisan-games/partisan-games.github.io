@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { currentStyleClasses } from '/ui/styles.js'
+import { currentStyleClasses, onStyleChange } from '/ui/styles.js'
 import { hasBlockingUi } from '/core/io/inputContext.js'
 import { iconImages } from '/core/io/icons.js'
 
@@ -74,9 +74,14 @@ export default class ChaseCamera {
     this.camera.updateProjectionMatrix()
   }
 
+  restyleButton = () => {
+    this.button.className = `bottom-right camera-button ${currentStyleClasses().cameraButton}`
+  }
+
   addButton() {
     this.button = document.createElement('button')
-    this.button.className = `bottom-right camera-button ${currentStyleClasses().cameraButton}`
+    this.restyleButton()
+    this.stopRestyling = onStyleChange(this.restyleButton)
     const img = document.createElement('img')
     img.src = `/assets/images/${iconImages.camera}`
     img.alt = 'change camera'
@@ -157,6 +162,7 @@ export default class ChaseCamera {
   }
 
   end() {
+    this.stopRestyling?.()
     this.button?.remove()
   }
 }

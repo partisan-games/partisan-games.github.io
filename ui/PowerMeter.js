@@ -1,4 +1,4 @@
-import { currentStyleClasses } from './styles.js'
+import { currentStyleClasses, onStyleChange } from './styles.js'
 
 /** A bar at the top right, styled like the health bar, that fills while a shot is charged. */
 export default class PowerMeter {
@@ -7,9 +7,14 @@ export default class PowerMeter {
     this.max = max
     this.chargePerSecond = chargePerSecond
     this.element = document.createElement('progress')
-    this.element.className = `progress top-right ${currentStyleClasses().healthBar}`
+    this.restyle()
+    this.stopRestyling = onStyleChange(this.restyle)
     document.body.prepend(this.element)
     this.reset()
+  }
+
+  restyle = () => {
+    this.element.className = `progress top-right ${currentStyleClasses().healthBar}`
   }
 
   charge(dt) {
@@ -27,6 +32,7 @@ export default class PowerMeter {
   }
 
   end() {
+    this.stopRestyling()
     this.element.remove()
   }
 }

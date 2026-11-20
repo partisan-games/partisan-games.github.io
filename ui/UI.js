@@ -1,8 +1,9 @@
-import { icons } from '/core/io/icons.js'
-import config, { isTouchScreen } from '/config.js'
+import { icons, iconImages } from '/core/io/icons.js'
+import { admission } from '/core/io/admission.js'
+import config, { isTouchScreen, assets } from '/config.js'
 import Controls from '../ui/Controls.js'
 import Report from './Report.js'
-import { currentStyleClasses, setUiStyle } from './styles.js'
+import { currentStyleClasses, setUiStyle, styleChoices, uiStyleChoice, chooseUiStyle, onStyleChange } from './styles.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import { setVolume } from './settings.js'
 import { resetGameplayInput } from '/core/io/inputContext.js'
@@ -14,6 +15,14 @@ const modalElement = document.getElementById('modal')
 export const mainMenuButton = buttonClass => /* html */`<button class="${buttonClass}" id="menu"><span class="icon">${icons.menu}</span> Main menu</button>`
 
 const drawnBy = new Map([[elementUI, null], [modalElement, null]])
+
+const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)')
+
+/** The token a paid start costs, turning while one is available; how many are left shows in the pocket. */
+const priceTag = available => {
+  const image = available && !reducedMotion.matches ? iconImages.coin : iconImages.coinStill
+  return `<span class="price" role="img" aria-label="costs 1 token"><img src="${assets.images}${image}" alt="" width="24" height="24"></span>`
+}
 
 const draw = (element, ui, html) => {
   element.innerHTML = html
@@ -61,6 +70,8 @@ export default class UI {
     this.onContinue = onContinue
     if (onStart || onContinue) modalElement.addEventListener('click', this.handleScreenClick)
     modalElement.addEventListener('input', this.handleScreenInput)
+    modalElement.addEventListener('change', this.handleScreenChange)
+    this.stopRestyling = onStyleChange(this.restyle)
     document.addEventListener('keydown', this.handleModalKey)
   }
 
@@ -90,6 +101,23 @@ export default class UI {
     if (e.target.id === 'volume') setVolume(e.target.value / 100)
   }
 
+  handleScreenChange = e => {
+    if (this.ended || drawnBy.get(modalElement) !== this) return
+    if (e.target.id === 'ui-style') chooseUiStyle(e.target.value)
+  }
+
+  /** Gives the open screen the classes of the new style; the HUD takes them as it is drawn again. */
+  restyle = (before, after) => {
+    if (this.ended || drawnBy.get(modalElement) !== this) return
+    for (const role of ['container', 'button']) {
+      const old = before[role].split(' ')
+      for (const element of modalElement.querySelectorAll(`.${old.join('.')}`)) {
+        element.classList.remove(...old)
+        element.classList.add(...after[role].split(' '))
+      }
+    }
+  }
+
   clear() {
     erase(elementUI, this)
     this.hideScreen()
@@ -111,13 +139,44 @@ export default class UI {
     modalElement.setAttribute('aria-label', modalElement.querySelector('h2, h3')?.textContent || this.startButtonText)
     modalElement.tabIndex = -1
     resetGameplayInput()
+    this.markPaid()
     const first = modalElement.querySelector('button:not(:disabled), input:not(:disabled), select:not(:disabled)')
     ;(first || modalElement).focus({ preventScroll: true })
     this.messageElement.hidden = true
   }
 
+  /**
+   * Shows the token on every button that starts a paid game (`data-paid`), disables those buttons with none left and
+   * shows the pocket; called again when the pocket changes. An unknown pocket leaves them working, as it is not empty.
+   */
+  markPaid() {
+    if (this.ended || drawnBy.get(modalElement) !== this) return
+    const left = admission.remaining()
+    const paid = modalElement.querySelectorAll('[data-paid]')
+    // the pocket shows how many tokens are left while a screen asks for one
+    document.body.classList.toggle('paid-screen', paid.length > 0)
+    for (const element of paid) {
+      element.querySelector('.price')?.remove()
+      element.insertAdjacentHTML('beforeend', priceTag(left !== 0))
+      element.classList.add('paid')
+      const control = element.matches('button, input') ? element : element.querySelector('button, input')
+      if (control) control.disabled = left === 0
+    }
+  }
+
+  /** A word in the open start screen, such as why the game could not start. */
+  showStartNotice(text) {
+    if (this.ended || this.screen !== 'start' || drawnBy.get(modalElement) !== this) return
+    const notice = modalElement.querySelector('.start-notice') ?? modalElement.firstElementChild?.appendChild(document.createElement('p'))
+    if (!notice) return
+    notice.className = 'start-notice'
+    notice.setAttribute('role', 'alert')
+    notice.textContent = text
+  }
+
   hideScreen() {
     this.screen = null
+    if (drawnBy.get(modalElement) === this) document.body.classList.remove('paid-screen')
     if (drawnBy.get(modalElement) === this) {
       modalElement.removeAttribute('role')
       modalElement.removeAttribute('aria-modal')
@@ -136,7 +195,7 @@ export default class UI {
     return /* html */`
       <div class="central-screen flex-column ${container}" id="start-screen">
         <p>${this.intro}</p>
-        <button class="${button}" id="start"><span class="icon">${icons.start}</span> ${this.startButtonText}</button>
+        <button class="${button}" id="start" data-paid><span class="icon">${icons.start}</span> ${this.startButtonText}</button>
       </div>
     `
   }
@@ -148,7 +207,7 @@ export default class UI {
         <h3 class="olive">Game paused</h3>
         ${mainMenuButton(button)}
         <button class="${button}" id="settings"><span class="icon">${icons.settings}</span> Settings</button>
-        <button class="${button}" id="igraj-opet"><span class="icon">${icons.replay}</span> Play again</button>
+        <button class="${button}" id="igraj-opet" ${this.scene.costsToken ? 'data-paid' : ''}><span class="icon replay-icon">${icons.replay}</span> Play again</button>
         <button class="${button}" id="continue"><span class="icon">${icons.continue}</span> Continue</button>
       </div>
     `
@@ -163,6 +222,10 @@ export default class UI {
         ${mainMenuButton(button)}
         <label for="volume">Volume</label>
         <input type="range" id="volume" min="0" max="100" step="5" value="${Math.round(config.volume * 100)}">
+        <label for="ui-style">UI style</label>
+        <select id="ui-style">
+          ${Object.entries(styleChoices).map(([value, name]) => `<option value="${value}" ${value === uiStyleChoice() ? 'selected' : ''}>${name}</option>`).join('')}
+        </select>
         <button class="${button}" id="settings-back"><span class="icon">${icons.back}</span> Back</button>
       </div>
     `
@@ -174,7 +237,7 @@ export default class UI {
       <div class="central-screen flex-column ${container}">
         ${this.outro}
         ${mainMenuButton(button)}
-        <button class="${button}" id="igraj-opet"><span class="icon">${icons.replay}</span> Play again</button>
+        <button class="${button}" id="igraj-opet" ${this.scene.costsToken ? 'data-paid' : ''}><span class="icon replay-icon">${icons.replay}</span> Play again</button>
       </div>
     `
   }
@@ -246,6 +309,8 @@ export default class UI {
     clearTimeout(this.messageTimer)
     modalElement.removeEventListener('click', this.handleScreenClick)
     modalElement.removeEventListener('input', this.handleScreenInput)
+    modalElement.removeEventListener('change', this.handleScreenChange)
+    this.stopRestyling()
     document.removeEventListener('keydown', this.handleModalKey)
     this.clear()
     this.messageElement.remove()

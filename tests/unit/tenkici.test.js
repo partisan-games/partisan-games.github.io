@@ -22,15 +22,13 @@ function scene(t) {
   return game
 }
 
-test('one player drives the left tank with the left keys against a tank that drives itself; two players get a tank each', t => {
+test('one player drives the left tank with the left keys against a tank that drives itself; two players get a tank each', async t => {
   const game = scene(t)
   assert.ok(game.tenk.controller instanceof TankKeys)
   assert.equal(game.tenk.controller.keys, keys.leftPlayerKeys)
   assert.ok(game.tenk2.controller instanceof TankAI)
 
-  const button = document.createElement('button')
-  button.id = 'dva-igraca'
-  game.handleClick({ target: button })
+  await game.prepare('dva-igraca')
   assert.ok(game.tenk2.controller instanceof TankKeys)
   assert.equal(game.tenk2.controller.keys, keys.rightPlayerKeys)
 })

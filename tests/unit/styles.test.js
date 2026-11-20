@@ -16,7 +16,8 @@ const recorded = {
   white: { container: 'white-container', button: 'white-button', score: '', controlButton: 'white-button' },
 }
 
-const classesOf = element => element.className.replace(/\s+/g, ' ').trim()
+// `paid` marks a button that costs a token, in every style
+const classesOf = element => element.className.replace(/\bpaid\b/, '').replace(/\s+/g, ' ').trim()
 
 /** Reads the classes that a scene of this style puts on its screen, score, and controls. */
 function renderedClasses(uiStyle) {
@@ -57,4 +58,34 @@ test('the next scene does not inherit the style of the previous one', () => {
   scene.ui.renderStartScreen()
   assert.equal(classesOf(document.querySelector('#start')), 'default-button')
   scene.end()
+})
+
+test('the style picked in Settings wins over the style of every game, is kept, and Predefined gives each game its own', async() => {
+  const { chooseUiStyle, uiStyleChoice } = await import('/ui/styles.js')
+  const { readSetting } = await import('/ui/settings.js')
+  try {
+    chooseUiStyle('white')
+    assert.equal(renderedClasses('rpg').button, 'white-button')
+    assert.equal(uiStyleChoice(), 'white')
+    assert.equal(readSetting('uiStyle'), 'white', 'kept for the next visit')
+    chooseUiStyle('nonsense')
+    assert.equal(uiStyleChoice(), 'white', 'an unknown style is ignored')
+  } finally {
+    chooseUiStyle('predefined')
+  }
+  assert.equal(renderedClasses('rpg').button, 'rpgui-button')
+})
+
+test('a style picked while a screen is open restyles it at once, and an ended scene no longer listens', async() => {
+  const { chooseUiStyle } = await import('/ui/styles.js')
+  const scene = new Scene({ canvas: document.createElement('canvas'), intro: 'x', uiStyle: 'rpg' })
+  try {
+    scene.ui.renderStartScreen()
+    chooseUiStyle('simple')
+    assert.equal(classesOf(document.querySelector('#start')), 'default-button')
+    assert.equal(classesOf(document.querySelector('#start-screen')).replace('central-screen flex-column ', ''), 'simple-container')
+  } finally {
+    scene.end()
+    chooseUiStyle('predefined')
+  }
 })

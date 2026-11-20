@@ -31,7 +31,6 @@ for (const { scene, file } of [
     })
     try {
       await page.goto(`/#${scene}`, { waitUntil: 'domcontentloaded' })
-      await page.locator('.arcade-dialog-insert').click()
       await requested
       await page.waitForTimeout(200)
       await expect(page.locator('#jedan-igrac')).toHaveCount(0)

@@ -11,11 +11,9 @@ let arcade
 
 const menuCard = path => `<div class="menu-item" data-path="${path}"><h3>${path}</h3><img></div>`
 
-/** Opens a game the way a player does: the address asks for a coin, and the coin starts the game. */
+/** Opens a game the way a player does: its address opens it, with no token asked for. */
 async function play(path) {
   location.hash = `#${path}`
-  await settle()
-  document.querySelector('.arcade-dialog-insert').click()
   await settle()
 }
 
@@ -31,9 +29,6 @@ before(async() => {
 
   location.hash = '#first'
   ;({ arcade } = await import('/scenes/main.js'))
-  mock.method(arcade, 'insertCoin', async() => {}) // happy-dom never finishes a Web Animation
-  await settle()
-  document.querySelector('.arcade-dialog-insert').click()
   await settle()
 })
 

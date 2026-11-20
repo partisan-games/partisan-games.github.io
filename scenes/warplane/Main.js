@@ -23,7 +23,7 @@ const planes = ['Biplane', 'Triplane', 'Messerschmitt', 'Bomber', 'F18']
 
 const customStartScreen = ({ container }) => {
   const options = planes
-    .map(name => `<input type="image" id="${name}" src="${assets.images}scenes/warplane/${name}.webp" />`)
+    .map(name => `<span data-paid><input type="image" id="${name}" src="${assets.images}scenes/warplane/${name}.webp" /></span>`)
     .join('')
 
   return /* html */`
@@ -67,17 +67,21 @@ export default class WarplaneScene extends Scene3D {
     this.sinceEnd = 0
   }
 
-  async handleClick(e) {
-    if (e.target.tagName !== 'INPUT' || !planes.includes(e.target.id) || this.choosingPlane) return
-    this.choosingPlane = true // a second click while the plane loads would add a second one
+  handleClick(e) {
+    if (e.target.tagName === 'INPUT' && planes.includes(e.target.id)) this.play(e.target.id)
+  }
 
-    const obj = await import(`/core3d/aircraft/derived/${e.target.id}.js`)
+  async prepare(plane) {
+    const obj = await import(`/core3d/aircraft/derived/${plane}.js`)
     await requestModels(obj.models)
     if (this.ui.ended) return
     this.player = new obj.default({ clock: this.session.clock, camera: this.camera, limit: mapSize * .25 })
     this.addMesh(this.player.mesh)
     this.entities.push(this.player)
-    this.start()
+  }
+
+  start() {
+    super.start()
     this.ui.showMessage('Destroy enemy factories,<br><br>do not target civilian buildings')
   }
 

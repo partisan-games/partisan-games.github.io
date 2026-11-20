@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="sr-Latn">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tenkovi — pregled animacije gusenica</title>
+<style>
+  :root { color-scheme: dark; font: 16px/1.5 system-ui, sans-serif; background: #1c211b; color: #ecebd9; }
+  body { max-width: 1100px; margin: auto; padding: 24px; }
+  h1 { margin-bottom: 8px; font-size: 26px; }
+  p { color: #c8cbbd; }
+  .controls { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; padding: 16px 0; }
+  button, select { font: inherit; padding: 6px 12px; }
+  section { margin: 24px 0; padding: 20px; border: 1px solid #69705e; border-radius: 6px; }
+  h2 { margin-top: 0; }
+  .examples { display: flex; flex-wrap: wrap; gap: 32px; align-items: end; }
+  figure { margin: 0; }
+  figcaption { margin-bottom: 12px; color: #c8cbbd; }
+  canvas { image-rendering: pixelated; display: block; }
+  .stage { padding: 16px 10px 10px; border-bottom: 2px solid #a1a88c; background: #3d4332; width: fit-content; }
+  details { margin-top: 20px; }
+  .frames { overflow-x: auto; padding: 16px 0; }
+  .frames img { display: block; image-rendering: pixelated; max-width: none; }
+  a { color: #f0d57f; }
+</style>
+<h1>Tenkovi — animacija gusenica</h1>
+<p>Trup, oznake, silueta i cev ostaju originalni. Animirane su samo gusenice i točkovi; art još nije povezan u igre.</p>
+<div class="controls">
+  <label>Radnja <select id="action"><option value="drive">Vožnja</option><option value="idle">Mirovanje</option><option value="reverse">Unazad</option></select></label>
+  <button id="pause" type="button">Pauza</button>
+  <label><input id="barrel" type="checkbox" checked> Prikaži originalnu cev</label>
+  <span>4 kadra · petlja 0,64 s</span>
+</div>
+<main id="actors"></main>
+<p id="status" role="status">Učitavanje arta…</p>
+<p>Izvor, mere i sidrišta: <a href="sprites.json">metapodaci</a> · <a href="manifest.json">priprema</a> · <a href="prompts.json">imagegen opisi</a>.</p>
+<script type="module">
+  const action = document.querySelector('#action');
+  const pause = document.querySelector('#pause');
+  const barrel = document.querySelector('#barrel');
+  const actors = document.querySelector('#actors');
+  const status = document.querySelector('#status');
+  let paused = false;
+  let elapsed = 0;
+  let previous;
+  const views = [];
+  const load = src => new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => resolve(image);
+    image.onerror = () => reject(new Error(`Nije učitana slika: ${src}`));
+    image.src = src;
+  });
+  pause.addEventListener('click', () => {
+    paused = !paused;
+    pause.textContent = paused ? 'Nastavi' : 'Pauza';
+  });
+  action.addEventListener('change', () => { elapsed = 0; });
+  async function start() {
+    const response = await fetch('sprites.json');
+    if (!response.ok) throw new Error('Nisu učitani metapodaci.');
+    const { assets } = await response.json();
+    for (const asset of assets) {
+      const [sheet, original, cannon] = await Promise.all([
+        load(asset.image), load(asset.reference), load(asset.barrel.image),
+      ]);
+      const section = document.createElement('section');
+      const heading = document.createElement('h2');
+      heading.textContent = asset.title;
+      section.append(heading);
+      const examples = document.createElement('div');
+      examples.className = 'examples';
+      for (const [label, width, animated] of [
+        ['Original', 150, false], ['Animacija · 150 px', 150, true],
+        ['Animacija · 121 px', 121, true], ['Izvorna veličina', asset.frame.width, true],
+      ]) {
+        const figure = document.createElement('figure');
+        const caption = document.createElement('figcaption');
+        caption.textContent = label;
+        const stage = document.createElement('div');
+        stage.className = 'stage';
+        const canvas = document.createElement('canvas');
+        const padding = 80;
+        canvas.width = Math.ceil(width * (asset.frame.width + padding * 2) / asset.frame.width);
+        canvas.height = Math.ceil(width * asset.frame.height / asset.frame.width);
+        canvas.setAttribute('aria-label', `${asset.title}: ${label}`);
+        stage.append(canvas);
+        figure.append(caption, stage);
+        examples.append(figure);
+        views.push({ asset, sheet, original, cannon, canvas, animated, scale: width / asset.frame.width, padding });
+      }
+      section.append(examples);
+      const details = document.createElement('details');
+      const summary = document.createElement('summary');
+      summary.textContent = 'Sva četiri kadra gusenica';
+      const frames = document.createElement('div');
+      frames.className = 'frames';
+      const strip = document.createElement('img');
+      strip.src = `previews/${asset.id}-drive.png`;
+      strip.alt = `${asset.title}: četiri faze vožnje bez cevi`;
+      frames.append(strip);
+      details.append(summary, frames);
+      section.append(details);
+      actors.append(section);
+    }
+    status.textContent = 'Svi resursi su učitani. Mirovanje prikazuje originalni trup; pauza zamrzava trenutni kadar.';
+    requestAnimationFrame(draw);
+  }
+  function draw(now) {
+    if (previous !== undefined && !paused && !document.hidden) elapsed += Math.min((now - previous) / 1000, .1);
+    previous = now;
+    const phase = Math.floor(elapsed / .16) % 4;
+    const index = action.value === 'reverse' ? (4 - phase) % 4 : phase;
+    for (const { asset, sheet, original, cannon, canvas, animated, scale, padding } of views) {
+      const ctx = canvas.getContext('2d');
+      const { width, height } = asset.frame;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.imageSmoothingEnabled = false;
+      ctx.save();
+      ctx.scale(scale, scale);
+      ctx.translate(padding, 0);
+      if (!animated || action.value === 'idle') ctx.drawImage(original, 0, 0);
+      else ctx.drawImage(sheet, index * width, height, width, height, 0, 0, width, height);
+      if (barrel.checked) {
+        const anchor = asset.barrel.anchorFromCenter;
+        const x = width / 2 + anchor.x * width;
+        const y = height / 2 + anchor.y * height;
+        ctx.drawImage(cannon, asset.facing === 'right' ? x : x - cannon.width, y);
+      }
+      ctx.restore();
+    }
+    requestAnimationFrame(draw);
+  }
+  start().catch(error => { status.textContent = `${error.message} Otvori ovu stranicu preko razvojnog servera sajta.`; });
+</script>
+</html>

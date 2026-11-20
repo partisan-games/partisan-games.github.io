@@ -1,0 +1,41 @@
+{
+  "assets": [
+    {
+      "id": "partizanski-tenk",
+      "title": "Partizanski tenk",
+      "reference": "../../game-ready/tenkovi/partizanski-tenk-bez-cevi-pixel.png",
+      "source": "partizanski-tenk-drive-generated.png",
+      "sourceSize": [2180, 721],
+      "previewWidth": 150,
+      "sourceCrop": [8, 221, 541, 461],
+      "trackMask": [[24, 102], [30, 95], [43, 89], [252, 83], [270, 78], [285, 79], [296, 87], [299, 97], [296, 110], [282, 120], [267, 128], [60, 129], [40, 126], [27, 117]],
+      "output": "../../game-ready/tenkovi/partizanski-tenk-sprites.png",
+      "facing": "right",
+      "barrel": {
+        "image": "../../game-ready/tenkovi/partizanski-tenk-cev-pixel.png",
+        "anchorFromCenter": {"x": 0.07, "y": -0.33},
+        "note": "Existing TenkLevo barrel offset as fractions of the original hull width/height; do not use full atlas dimensions."
+      }
+    },
+    {
+      "id": "nemacki-tenk",
+      "title": "Nemački tenk",
+      "reference": "../../game-ready/tenkovi/nemacki-tenk-bez-cevi-pixel.png",
+      "source": "nemacki-tenk-drive-generated.png",
+      "sourceSize": [2172, 724],
+      "previewWidth": 121,
+      "sourceCrop": [8, 241, 540, 476],
+      "trackMask": [[0, 100], [6, 91], [16, 85], [31, 84], [49, 89], [105, 94], [288, 95], [309, 97], [306, 111], [296, 126], [280, 136], [43, 136], [20, 130], [5, 119], [0, 109]],
+      "output": "../../game-ready/tenkovi/nemacki-tenk-sprites.png",
+      "facing": "left",
+      "barrel": {
+        "image": "../../game-ready/tenkovi/nemacki-tenk-cev-pixel.png",
+        "anchorFromCenter": {"x": -0.12, "y": -0.35},
+        "otherConsumers": {
+          "doTrsta": {"anchorFromCenter": {"x": -0.15749235474006118, "y": -0.2591240875912409}}
+        },
+        "note": "Keep the existing consumer's barrel anchor. Do Trsta uses (112, 33) on the original 327 x 137 hull; TenkDesno uses a separate fractional offset."
+      }
+    }
+  ]
+}

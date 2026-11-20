@@ -14,10 +14,10 @@ const groundLevel = canvas2d.height * 0.8
 const customStartScreen = ({ container }) => /* html */`
   <div class="central-screen ${container}">
     <h2>Choose mode</h2>
-    <button class="bg-olive" id="jedan-igrac" >
+    <button class="bg-olive" id="jedan-igrac" data-paid>
       1 player
     </button>
-    <button class="bg-olive" id="dva-igraca">
+    <button class="bg-olive" id="dva-igraca" data-paid>
       2 players
     </button>
   </div>
@@ -43,14 +43,14 @@ export default class TenkiciScene extends Scene2D {
 
   handleClick(e) {
     const button = e.target.closest('button')
-    if (!button || !['jedan-igrac', 'dva-igraca'].includes(button.id)) return
+    if (button && ['jedan-igrac', 'dva-igraca'].includes(button.id)) this.play(button.id)
+  }
 
-    if (button.id === 'dva-igraca') {
-      this.tenk2.controller = new TankKeys(this.tenk2, rightPlayerKeys)
-      this.controls2UI = new Controls({ positionClass: 'bottom-right', controlKeys: tankRightControls })
-    }
-
-    this.start()
+  /** With two players the right tank is driven by the right player's keys. */
+  prepare(mode) {
+    if (mode !== 'dva-igraca') return
+    this.tenk2.controller = new TankKeys(this.tenk2, rightPlayerKeys)
+    this.controls2UI = new Controls({ positionClass: 'bottom-right', controlKeys: tankRightControls })
   }
 
   update(dt) {

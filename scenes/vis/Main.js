@@ -25,7 +25,7 @@ const customStartScreen = ({ container }) => /* html */`
     <h2>Choose your aircraft</h2>
     <div class="game-screen-select vis-aircraft-select">
       ${aircraft.map(plane => /* html */`
-        <label>
+        <label data-paid>
           <input type="image" data-aircraft="${plane.id}" src="${assets.images}${plane.image}" alt="Fly ${plane.name}">
           <span>${plane.name}</span>
         </label>
@@ -64,12 +64,13 @@ export default class VisScene extends Scene2D {
 
   /* the engine hums while the game runs */
 
-  async handleClick(e) {
+  handleClick(e) {
     const id = e.target.dataset?.aircraft
-    if (!aircraft.some(plane => plane.id === id) || this.ui.screen !== 'start' || this.choosingPlane) return
-    this.choosingPlane = true
-    await this.player.selectAircraft(id)
-    if (this.session.state === 'ready') this.start()
+    if (aircraft.some(plane => plane.id === id) && this.ui.screen === 'start') this.play(id)
+  }
+
+  prepare(id) {
+    return this.player.selectAircraft(id)
   }
 
   start() {

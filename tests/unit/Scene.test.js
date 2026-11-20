@@ -281,7 +281,7 @@ test('a game ended late, after the next one began, leaves the next game its scre
   assert.equal(modal(), '')
 })
 
-test('the start and continue buttons act on the live scene only, not on one that has ended', t => {
+test('the start and continue buttons act on the live scene only, not on one that has ended', async t => {
   installFakeFrames()
   const ended = createScene()
   const endedStart = t.mock.method(ended, 'start')
@@ -290,8 +290,10 @@ test('the start and continue buttons act on the live scene only, not on one that
   t.after(() => scene.end())
   const start = t.mock.method(scene, 'start')
 
+  scene.session.ready()
   scene.ui.renderStartScreen()
   document.getElementById('start').click()
+  await new Promise(resolve => { setTimeout(resolve) }) // the start is paid for before it starts
   assert.equal(start.mock.callCount(), 1)
   assert.equal(endedStart.mock.callCount(), 0)
 

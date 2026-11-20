@@ -25,15 +25,17 @@ Izvor tema je [styles](../ui/styles.js), a izgled i raspored određuje [CSS](../
 
 To je okvirna logika podrazumevanih tema, ne automatska klasifikacija svake scene. Postojeći izbor igre ostaje merodavan dok se izričito ne promeni; neki potrošači još imaju lokalne klase ili zaseban CSS.
 
-Danas se stil postavlja pri stvaranju UI-ja, pre opisa komandi, zdravlja i drugih elemenata. Zajednička mapa daje klase za kontejner, dugme, rezultat, opise komandi, zdravlje i kameru; prazna klasa znači da ostaje osnovni CSS. Potrošač uzima ulogu iz `currentStyleClasses()` umesto da unapred pretpostavi RPG ili simple klasu. Sama promena globalnog stila ne ažurira klase već napravljenog DOM-a i nije gotov mehanizam menjanja teme tokom igre.
+Danas se stil postavlja pri stvaranju UI-ja, pre opisa komandi, zdravlja i drugih elemenata. Zajednička mapa daje klase za kontejner, dugme, rezultat, opise komandi, zdravlje i kameru; prazna klasa znači da ostaje osnovni CSS. Potrošač uzima ulogu iz `currentStyleClasses()` umesto da unapred pretpostavi RPG ili simple klasu. Promena teme tokom igre ide kroz `chooseUiStyle`, a svaki potrošač koji je već napravio DOM pretplaćuje se na `onStyleChange` i odjavljuje u `end()`; sama promena globalnog stila ne menja već napravljene elemente.
 
-**Potvrđeno, još nije implementirano:** posle usklađivanja tema korisnik dobija izbor stila u Settings. Njegov izbor važi za sve igre i ima prednost nad podrazumevanim stilom igre. Izbor se pamti prema [pravilu čuvanja podešavanja](#podešavanja-i-ulaz-u-igru). Potvrđen je birač opisan ispod. Izrada i provere su u [UI-09](PLAN-UI.md#ui-09).
+**Izbor stila:** korisnik bira stil u Settings ([birač](#potvrđeni-birač-teme)). Njegov izbor važi za sve igre i ima prednost nad podrazumevanim stilom igre. Izbor se pamti prema [pravilu čuvanja podešavanja](#podešavanja-i-ulaz-u-igru).
 
 ### Potvrđeni birač teme
 
 U Settings, ispod Volume, dolazi padajuća lista sa oznakom **UI style**. Redosled i nazivi opcija su **Predefined, Simple, RPG, White**. Predefined prati podrazumevani stil svake igre; ostali izbori važe za sve igre. Simple bira `simple`, RPG `rpg`, a White `white`.
 
-Predefined je izbor načina određivanja teme, ne dodatna vizuelna tema: pre pravljenja UI elemenata razrešava se u stil koji konkretna igra zadaje. Naziv Simple opisuje izgled i ne tvrdi da je baš ta tema uvek podrazumevana. I izbor Predefined čuva se kao korisničko podešavanje. Ovaj birač je odobren, ali još nije implementiran.
+Predefined je izbor načina određivanja teme, ne dodatna vizuelna tema: pre pravljenja UI elemenata razrešava se u stil koji konkretna igra zadaje. Naziv Simple opisuje izgled i ne tvrdi da je baš ta tema uvek podrazumevana. I izbor Predefined čuva se kao korisničko podešavanje.
+
+**Fokus (odluka vlasnika, 2026-11-20):** nijedna kontrola ne pokazuje browserov plavo-beli okvir fokusa. Jedno pravilo u [CSS](../ui/style.css) daje svemu do čega tastatura stiže okvir u boji igara, a dugmad svake teme pokazuju fokus kao hover te teme. Novu kontrolu ne stilizovati posebno za fokus, osim kad njena tema ima drugačiji hover.
 
 ## UI u sceni
 
@@ -76,7 +78,7 @@ Postojeće šablone sastavlja [UI](../ui/UI.js#L99). Poziv igre treba da ide kro
 
 Na standardnoj pauzi redosled je Main menu, Settings, Play again, Continue; na ishodu Main menu, Play again. Uvod je poseban slučaj bez menija. Opšte pravilo je meni na vrhu i potvrda/nastavak na dnu tamo gde nastavak postoji; ekran greške ima samo meni.
 
-Danas Esc tokom igre otvara pauzu. Zajednički Escape handler koji iz svakog centralnog prozora vraća na meni nije implementiran; namera izraza „kao Esc” iz projektne odluke ostaje otvorena u [PD-4](PLAN-UI.md#otvorene-odluke-i-preostale-nepoznanice). Ne zaključivati ponašanje iz komentara ili samog redosleda dugmadi.
+Danas Esc tokom igre otvara pauzu. Zajednički Escape handler koji iz svakog centralnog prozora vraća na meni nije implementiran; namera izraza „kao Esc” iz projektne odluke ostaje otvorena u [PD-4](PLAN-UI.md#pd-4). Ne zaključivati ponašanje iz komentara ili samog redosleda dugmadi.
 
 ### Prilagođeni početak
 
@@ -159,29 +161,29 @@ Pauza petlje ne isključuje direktne DOM događaje. Proveravati i dozvoljenu faz
 
 **Pravilo:** sva korisnička podešavanja čuvaju se između poseta u istom browseru. To uključuje postojeću jačinu zvuka, dogovoreni globalni izbor teme i svako novo podešavanje. Izmena jednog podešavanja čuva ostala; pri učitavanju se prihvataju samo važeće vrednosti. Ako skladište nije dostupno, izabrana vrednost i dalje važi u otvorenoj stranici, bez tvrdnje da je trajno sačuvana.
 
-Trenutni Settings sadrži Volume, zajednički svim igrama. [settings](../ui/settings.js) primenjuje vrednost na config i već je čuva u browser skladištu. Birač teme iz [dogovora o stilovima](#stilovi) još ne postoji; njegovo čuvanje tek treba sprovesti kroz UI-09.
+Trenutni Settings sadrži Volume, zajednički svim igrama. [settings](../ui/settings.js) primenjuje vrednost na config i već je čuva u browser skladištu. Ispod Volume je birač **UI style** (Predefined, Simple, RPG, White); izbor važi za sve igre, čuva se kao `uiStyle` ([settings](../ui/settings.js), [styles](../ui/styles.js)) i odmah menja otvoreni prozor, HUD, Controls, trake zdravlja i dugme kamere preko `onStyleChange`. Predefined vraća stil svake igre.
 
-Sadašnji [ruter](../scenes/main.js) i [Arcade](../ui/Arcade.js) naplaćuju ulaz pre učitavanja, uključujući scene bez svog starta. To se razlikuje od [potvrđenog pravila naplate](DOCS.md#ulaz-u-igre-i-novčići); novi tok je posao [UI-05](PLAN-UI.md#ui-05), ne osobina koju današnji UI API već obezbeđuje. Pri njegovoj izmeni proveriti i dodatno učitavanje posle izbora, povraćaj novčića i zakasnele rezultate navigacije.
+Kartica i direktan link otvaraju igru bez naplate. Igra sa startnim prozorom naplaćuje jedan žeton tek na Start ili izboru, posle pripreme izbora ([Scene.play](../core/Scene.js), [admission](../core/io/admission.js)); Play again pokreće isti izbor za novi žeton, a sledeća misija iste partije (`prepaid`) je besplatna. Igra bez startnog prozora je besplatna. Na naplativim dugmadima (`data-paid`) [UI](../ui/UI.js) prikazuje žeton kao cenu, a džep u uglu stanje; bez žetona dugmad su onemogućena.
 
 ### Džep i arkadni žetoni
 
 U korisničkim tekstovima i dokumentaciji koristimo naziv **džep** (engleski **pocket**) za mesto gde igrač drži **arkadne žetone** (engleski **tokens**). Ova terminologija važi i za prikaz raspoloživih žetona, njihov povraćaj i poruke o greškama. Zlatna ikonica predstavlja žeton; postojeće putanje resursa i tehnički identifikatori ostaju izvor za implementaciju, bez preimenovanja skladišnih ključeva zbog promene naziva.
 
-**Blokirano čuvanje podataka:** potvrđena poruka je „Allow this site to save data to use arcade tokens.” Prikazuje se u istom početnom prozoru; stanje žetona tada je nedostupno i ne postavlja se na nulu. Besplatne igre ostaju dostupne. Ugradnja poruke pripada UI-05.
+**Blokirano čuvanje podataka:** potvrđena poruka je „Allow this site to save data to use arcade tokens.” Prikazuje se u istom početnom prozoru; stanje žetona tada je nedostupno i ne postavlja se na nulu. Besplatne igre ostaju dostupne.
 
-**Neuspešan povraćaj žetona:** potvrđena poruka je „The machine swallowed your token. Try giving it a kick.” Koristi se kada je žeton potrošen, a partija nije uspešno pokrenuta i povraćaj nije uspeo. To je šaljiv tekst u postojećem prozoru, bez nove kontrole ili gameplay radnje. Nerešen receipt i obaveza povraćaja ostaju sačuvani prema UI-05; poruka ne označava uspešan povraćaj. Ugradnja još nije sprovedena.
+**Neuspešan povraćaj žetona:** potvrđena poruka je „The machine swallowed your token. Try giving it a kick.” Koristi se kada je žeton potrošen, a partija nije uspešno pokrenuta i povraćaj nije uspeo. To je šaljiv tekst u postojećem prozoru, bez nove kontrole ili gameplay radnje. Poruka ne označava uspešan povraćaj.
 
 ### Potvrđena oznaka naplate
 
-Na dugmadima za početak, izbor i Play again naplative partije desno od postojećeg natpisa stoje zlatan žeton sa zvezdom i odnos dostupno/potrebno, bez dodatka „1 coin”. Stalni pregled pokazuje „0/1” bez žetona i „1/1” sa jednim žetonom. Kada je dugme dostupno, žeton se vrti punom bojom; kada je disabled, miruje i zadržava zlatnu nijansu, ali je prigušen zajedno sa brojem i ostalim sadržajem dugmeta. Natpis i oznaka ostaju u jednom redu, bez odsecanja ili prelivanja. Besplatna partija i radnje koje ne naplaćuju početak nemaju tu oznaku. Vlasnik je 2026-11-20 izričito prihvatio varijantu sa zvezdom kao zvaničnu; zvezda, boja i obod povezuju je sa žetonom na naslovnici. Povezivanje sa stvarnim tokom naplate ostaje u UI-05.
+Na dugmadima za početak, izbor i Play again naplative partije desno od postojećeg natpisa stoji samo zlatan žeton sa zvezdom, kao cena, bez broja i bez dodatka „1 coin” (odluka vlasnika 2026-11-20: broj na svakom dugmetu je suvišan). Koliko žetona ostaje prikazuje džep u uglu, isti kao na naslovnoj, dok je otvoren prozor sa naplativim dugmetom (`paid-screen`). Dostupno dugme ima animirani žeton, disabled mirni; uz smanjeno kretanje mirni i na dostupnom.
 
 **Granica odobrenja:** animirani novčić je za pojedinačan novčić u prozoru igre. Naslovnica i njene kartice zadržavaju prethodni CSS novčić; ne preuzimaju animaciju ili druge resurse samo zato što postoje u zajedničkom katalogu. Mnoštvo istovremenih rotacija odvlači pažnju, a odobrenje prikaza u prozoru ne odobrava promenu naslovnice.
 
-Odnos dostupno/potrebno pokazuje razlog nedostupnosti bez nove poruke. Uzor je [Grounded u Xbox smernicama](https://learn.microsoft.com/en-us/xbox/accessibility/xbox-accessibility-guidelines/103#symbols-and-shapes), koji razlikuje raspoložive i potrebne resurse.
+Razlog nedostupnosti, prazan džep, pokazuje džep u uglu, bez nove poruke.
 
-Resursi su [coin.gif](../assets/images/ui/coin.gif) za dostupno dugme i [coin-still.png](../assets/images/ui/coin-still.png) za disabled stanje, sa providnom pozadinom. Njihov [izmenjivi 3D izvor](../assets/images/ui/sources/coin-star.html) koristi oblik [Avatarovog žetona](../core3d/objects/Coin.js), dopunjen obodom i zvezdom; model u igri Avatar nije menjan. Uz `prefers-reduced-motion: reduce` koristi se mirni PNG i na dostupnom dugmetu; promena te postavke odmah osvežava prikaz i ne menja dostupnost radnje. Izvor je 96×96, a potvrđeni prikaz na dugmetu 24×24. Oba resursa prikazuju se sa oštrim pikselizovanim ivicama i tankim tamnim obrisom, usklađenim sa okolnim oznakama. UI prikazuje već napravljene resurse; za ovu ikonicu ne pokreće 3D renderer niti uvozi klasu Coin. Putanje pripadaju zajedničkom katalogu iz UI-02, a izbor prema dostupnosti i smanjenom kretanju UI sloju.
+Resursi su [coin.gif](../assets/images/ui/coin.gif) za dostupno dugme i [coin-still.png](../assets/images/ui/coin-still.png) za disabled stanje, sa providnom pozadinom. Njihov [izmenjivi 3D izvor](../assets/images/ui/sources/coin-star.html) koristi oblik [Avatarovog žetona](../core3d/objects/Coin.js), dopunjen obodom i zvezdom; model u igri Avatar nije menjan. Uz `prefers-reduced-motion: reduce` koristi se mirni PNG i na dostupnom dugmetu; promena te postavke odmah osvežava prikaz i ne menja dostupnost radnje. Izvor je 96×96, a potvrđeni prikaz na dugmetu 24×24. Oba resursa prikazuju se sa oštrim pikselizovanim ivicama i tankim tamnim obrisom, usklađenim sa okolnim oznakama. UI prikazuje već napravljene resurse; za ovu ikonicu ne pokreće 3D renderer niti uvozi klasu Coin. Putanje pripadaju zajedničkom katalogu [icons.js](../core/io/icons.js), a izbor prema dostupnosti i smanjenom kretanju UI sloju.
 
-**Bez novčića:** sva dugmad koja započinju naplativu partiju imaju native `disabled` stanje, bez poruke, obaveštenja ili dodatnog prozora. Sam izgled dugmeta i novčića mora jasno pokazati nedostatak valute; nije dovoljna neobjašnjiva promena funkcionalnosti. Besplatne igre i radnje bez nove naplate ostaju dostupne. Stanje se osvežava po promeni džepa i dnevnom resetu; greška čitanja džepa nije isto što i potvrđeno stanje nula. Tačan izgled disabled stanja proverava se u prikazu tema; ovaj dogovor još nije ugrađen u aktivni tok igre.
+**Bez novčića:** sva dugmad koja započinju naplativu partiju imaju native `disabled` stanje, bez poruke, obaveštenja ili dodatnog prozora. Sam izgled dugmeta i novčića mora jasno pokazati nedostatak valute; nije dovoljna neobjašnjiva promena funkcionalnosti. Besplatne igre i radnje bez nove naplate ostaju dostupne. Stanje se osvežava po promeni džepa i dnevnom resetu; greška čitanja džepa nije isto što i potvrđeno stanje nula. Tačan izgled disabled stanja proverava se u prikazu tema.
 
 Stalna [UI stranica](../ui.html) u korenu projekta služi za pregled i dalje usklađivanje UI-ja. Prikazuje dogovorenu oznaku naplate u sve tri teme; „Žetoni dostupni” prebacuje aktivno i disabled stanje. Izbori režima su jedno ispod drugog, jednake širine i sa jasnim razmakom. Stranica ne pokreće partiju niti troši novčiće, održava se uz izmene UI-ja i ostaje posle završetka plana.
 
@@ -196,4 +198,4 @@ Stalna [UI stranica](../ui.html) u korenu projekta služi za pregled i dalje usk
 
 Pri promeni UI-ja proveriti temu kroz stvarni start/pauzu/podešavanja/ishod/HUD i lokalne izbore, tastaturu i podržani touch; gašenje i brzu promenu scene proveriti posebno. HTML/reference test nije dokaz fokusa, čitljivosti, prirodnog ishoda ili rasporeda u browseru. Izvršavanje projektnih provera i browsera traži dozvolu prema [DOCS](DOCS.md); komande, pokrivenost i stvarna ograničenja su u [TESTING](TESTING.md#ui-verification-limits).
 
-Osnovni opis UI-ja proveren je čitanjem izvora 2026-11-20, bez izvršnih provera aktivnih scena. Zasebno je u browseru proveren usaglašeni prikaz oznake naplate; [obim i ograničenja provera](TESTING.md#ui-verification-limits) razlikuju taj pregled od stvarne igre. Projektni testovi nisu pokrenuti. Pri refaktoru ažurirati ovaj vodič uz kod. Otvorene odluke i rad pripadaju [planu](PLAN-UI.md), a implementacioni detalji i tačne vrednosti ostaju u izvoru.
+Pri refaktoru ažurirati ovaj vodič uz kod. Otvorene odluke i rad pripadaju [planu](PLAN-UI.md), a implementacioni detalji i tačne vrednosti ostaju u izvoru.

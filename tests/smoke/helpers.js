@@ -45,11 +45,6 @@ export const onScene = (page, fn, arg) => page.evaluate(([source, value]) =>
 
 /** Waits until the game in the address has loaded: it exists and the loading spinner is gone. */
 export async function waitForScene(page) {
-  await page.waitForFunction(() =>
-    document.querySelector('.arcade-dialog[open] .arcade-dialog-insert:not([hidden])') ||
-    document.body.dataset.loadedGame === location.hash.slice(1), null, { timeout: 60_000 })
-  const coinDoor = page.locator('.arcade-dialog[open] .arcade-dialog-insert')
-  if (await coinDoor.isVisible()) await coinDoor.click()
   await page.waitForFunction(() => document.body.dataset.loadedGame === location.hash.slice(1), null, { timeout: 60_000 })
   await page.waitForFunction(() => {
     const spinner = document.querySelector('img[src*="loader.gif"]')
@@ -60,10 +55,13 @@ export async function waitForScene(page) {
   await page.waitForTimeout(500)
 }
 
-/** Gets past any start screen: a plain start button, a mode choice or an aircraft choice. */
+/**
+ * Gets past the start screen, if one is open: a plain start button, a mode choice or an aircraft choice, each paid
+ * with a token. Play again starts the last choice without it.
+ */
 export async function startGame(page) {
-  const hasStartScreen = await page.evaluate(() => window.sceneManager.instance.scene.hasStartScreen)
-  if (hasStartScreen) await page.locator('#start, #jedan-igrac, .game-screen-select input').first().click()
+  const startScreen = await page.evaluate(() => window.sceneManager.instance.scene.ui.screen === 'start')
+  if (startScreen) await page.locator('#start, #jedan-igrac, .game-screen-select input').first().click()
 }
 
 const keys = ['ArrowUp', 'ArrowLeft', 'ArrowRight', 'ArrowDown', 'Space', 'Enter', 'KeyW', 'KeyA', 'KeyD', 'KeyS']

@@ -21,6 +21,7 @@ export async function captureScreens(uiStyle) {
   html.start = modal()
 
   clickButton('start')
+  await new Promise(resolve => { setTimeout(resolve) }) // the start is paid for before it starts
   frames.step()
   html.afterStart = modal()
 
