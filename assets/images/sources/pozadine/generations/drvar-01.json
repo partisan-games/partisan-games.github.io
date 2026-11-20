@@ -1,0 +1,47 @@
+{
+  "id": "drvar",
+  "tool": "built-in image_gen",
+  "exactPrompt": "Create one finished opaque landscape pixel-art background for a WWII Yugoslavia artillery/tank game. The two supplied project images are STYLE AND FRAMING references, not edit targets. Match their crisp pixel clusters, restrained natural colors, damaged period masonry, atmospheric distance and low side-view combat strip; do not make a smooth photograph or a flat geometric placeholder. Aim for a landscape canvas around 3:2; keep the actual delivered dimensions and never crop away landmarks to force a size. Make the far edge of a wide, level, dry foreground combat strip a perfectly horizontal line around 80.6 percent of image height. Keep the lower foreground and the band immediately above that line quiet, fairly light and low in small details across the entire width, so dark soldiers, cannons and tanks remain readable anywhere along it. Put distinctive landmarks and sharp grouped details in the middle distance, inside the central 80 percent of the canvas. Leave the upper corners and bottom corners visually calm for existing game overlays. Water, cliffs, trenches, wire and rubble remain BEHIND the playable foreground, never crossing the combat strip. Show clear WWII war damage in the middle distance, appropriate to this location. No people, playable vehicles, labels, text, UI, logos or borders. No modern buildings, memorial complexes, highways, powerlines, tourist platforms or modern bridges. NO painted flames, smoke plumes, sparks or glowing fires anywhere: draw cold charred damage instead; game code will animate effects later. This is a landscape homage with compressed geography, not a claim of a documented battle or tank deployment at this exact viewpoint. Preserve location-specific recognizable forms from the historical notes.\nLOCATION: A broad Drvar basin with low red-roofed period houses below a wooded limestone escarpment. Make a clearly readable dark cave mouth under a natural rock overhang the focal feature, with a modest rough timber shelter only if supported by the chosen wartime reference. Cave belongs on the cliff above town, not a tunnel in the flat battlefield. Show damaged ordinary roofs, a splintered tree and a broken timber fence in the middle distance. No postwar museum buildings, monumental stairways, visitor railings or souvenir facilities. Quiet level basin foreground.\nImages 1 and 2 are the finished project pixel-art style and framing: match their restrained olive/ochre/blue-grey palette, crisp cluster sizes, quiet lower strip and atmospheric woodland. Image 3 is a MODERN photograph of the natural Drvar cave/cliff setting: use the limestone overhang and dark natural recess, but omit the reconstructed timber hut, waterfall installation, power wires, railings, tourists and stairs. Compose a WIDE Drvar basin, with a prominent dark natural cave opening halfway up a pale wooded rock wall right of center, ABOVE an old low-roofed town. The cave must be visible from this viewpoint, dark and wide enough to recognize, not a tiny black pinhole. Small ordinary village houses left of center are visibly shelled with roof timbers exposed, broken fence and one splintered tree. Do not make the whole picture a cliff close-up or a generic open tunnel at ground level. Summer/early autumn vegetation, no snow despite the modern reference. Flat unobstructed pale earth foreground starts at y about 825 on a 1024-high image. Preferred 1536x1024 opaque canvas; no smoke, fire, labels or figures.",
+  "referenceImages": [
+    {
+      "image": "assets/images/sources/pozadine/references/crnogorsko-selo-1941-pixel.png",
+      "sha256": "dc01c58753f3ee58dee9efbcb3fe7eb8007591b1adc1ac71d3ac207fb3748316",
+      "repositoryImage": "assets/images/background/crnogorsko-selo-1941-pixel.png"
+    },
+    {
+      "image": "assets/images/background/bihac-ww2-pixel.png",
+      "sha256": "8b0d98c127645711eab2af647401bf7740149e7218c81de1dc33527597886ca9"
+    },
+    {
+      "image": "assets/images/sources/pozadine/references/drvar-cave.jpg",
+      "sha256": "856ee9fb8a2ac8afb2919fa2378dc11910e2cecdbbf71ce402727405aa59c735",
+      "source": "https://www.opstinadrvar.net/titova-pecina/",
+      "snapshotRetained": false
+    }
+  ],
+  "rawImage": "assets/images/sources/pozadine/raw/drvar-01.png",
+  "generatedFile": "C:\\Users\\d_pavlica\\.codex\\generated_images\\01a1f864-d971-7171-ada8-af676745fb10\\exec-f6530fa2-f0c4-45dc-8867-4182b045a541.png",
+  "groundY": 813,
+  "hotspots": [
+    {
+      "x": 234,
+      "y": 552,
+      "intensity": 0.6,
+      "kind": "fire"
+    },
+    {
+      "x": 558,
+      "y": 627,
+      "intensity": 0.45,
+      "kind": "smoke"
+    },
+    {
+      "x": 1394,
+      "y": 622,
+      "intensity": 0.4,
+      "kind": "fire"
+    }
+  ],
+  "sha256": "4e8ad7bd6a82aa8965738000a2073b20546e504615bc7fa195124057c84b6792",
+  "preservedImage": "assets/images/background/drvar-ww2-pixel.png"
+}

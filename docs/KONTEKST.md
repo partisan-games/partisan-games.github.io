@@ -16,7 +16,7 @@ Za pripremu konačne grafike važi [projektno pravilo za umetnost](DOCS.md#pravi
 
 - **Tema:** partizanski tenk napreduje prema Trstu.
 - **Istorijski okvir:** završne operacije 1945; [polazište za istraživanje](ISTORIJA.md#istorijsko-polazište-za-pohod-na-trst).
-- **Zamišljeni tok:** nekoliko povezanih etapa, sa dolaskom tenka do Trsta na kraju.
+- **Zamišljeni tok:** četiri etape redom trase: Lika, Senj i primorje, Rijeka (obavezna), Trst (odluka vlasnika).
 - **Za razradu:** broj etapa, polazna tačka, trasa, pojedinačni događaji, ciljevi i radnja. Sastav protivnika i opreme vezati za provereni kontekst svake etape.
 
 ## Franjo Kluz
@@ -53,7 +53,7 @@ Za punjenje je prihvaćen samo zvuk mehanizma, bez dodatnog metalnog udarca; za 
 
 U 1P slušalac ostaje levi igrač/top i tokom računarevog poteza; prati njegov tačan položaj, uključujući spuštanje sa terenom. U 2P slušalac prelazi na sledećeg igrača tek pri stvarnoj smeni poteza, posle razrešenja granate i odložene štete. Zaglađuju se jačina i panorama, ne položaj između igrača; leva/desna strana ostaju strane sveta. Nova runda postavlja početnog igrača pre prvog zvuka, pauza zamrzava prelaz, a kraj meča zadržava poslednjeg slušaoca. Ovo je ugovor ponašanja, ne potvrda da je trenutni miks čujan.
 
-**Okvir (vlasnik):** Trinaestojulski ustanak u Crnoj Gori 1941. Levo su ustanici/partizani, desno italijanska artiljerija sa posadom i zastavom. Pre precrtavanja proveriti topove, uniforme i oznake za taj period; konkretna bitka još nije izabrana.
+**Okvir (vlasnik):** Trinaestojulski ustanak u Crnoj Gori 1941. Levo su ustanici/partizani, desno italijanska artiljerija sa posadom i zastavom. Pre precrtavanja proveriti topove, uniforme i oznake za taj period; konkretna bitka još nije izabrana; pozadine Ustanka su mesta tog ustanka, sa Grahovom kao obaveznim ([ART-12](ART.md)).
 
 Meč traje do dve dobijene runde, najviše tri. Strane naizmenično otvaraju runde; između njih igrač bira nastavak, rezultat ostaje, a topovi i nišanjenje kreću iz početka. U 2P ishod imenuje pobedničkog igrača; protiv računara poraz znači gubitak meča.
 
@@ -95,6 +95,7 @@ Vertikalna arkadna pucačina o partizanskom letu do Visa, sa sopstvenim izgledom
 - **Osnova izbora kamere:** [Itay Keren — Scroll Back](https://www.gamedeveloper.com/design/scroll-back-the-theory-and-practice-of-cameras-in-side-scrollers), praćenje igrača i prostor ispred njega.
 - **Izbor protivnika:** prvi kopneni protivnik je nemački mitraljeski položaj; prvi pomorski protivnik je S-čamac na povratnom pravcu prema Visu, sa S 30 kao konkretnom referencom. Minobacač 81 mm je potvrđen dodatni kandidat, ne nalog za uvođenje još jedne vrste protivnika. Tačan zadatak i ponašanje protivnika ostaju dizajn igre, odvojen od činjenica iz izvora. Za igru je izabrana interpretacija tipa sa dva topa; to nije potvrda tačnog rasporeda i modernizacije pojedinačnog S 30 u noći 10/11. maja. Torpeda nisu deo trenutne paljbe u igri. [Sastav iz izvora](ISTORIJA.md#šolta-911-maj-1944--sastav-za-igru-čamca).
 - **Art:** [indeks prikaza](../assets/images/armies/index.csv) sadrži postojeći čamac i nemačku pešadiju odozgo, dok su britanski desantni čamci bočni. Postojeći `camac.png` ostaje prihvaćena grafička osnova, bez identifikacije kao istorijski potvrđenog modela iz operacije. [S-čamac](../assets/images/armies/game-ready/brodovi/schnellboot-s30.svg) je zaseban lokalni crtež tipa S 30 odozgo, sa uskim trupom, zatvorenim niskim kormilarskim prostorom, parom prednjih torpednih cevi i palubnim postoljima; cevi topova crta i okreće igra. Bez oznaka koje bi tvrdile da je rekonstruisan konkretan brod. [Mitraljesko gnezdo](../assets/images/armies/game-ready/polozaji/mitraljesko-gnezdo-odozgo.svg) je lokalni prikaz odozgo sa vrećama, posadom i odvojenom pokretnom cevi u igri; ne tvrdi konkretan MG model ili tačnu lokaciju položaja na Šolti. Bočne desantne slike ne koristiti za gornji pogled.
+- **Etape (odluka vlasnika):** noćno isplovljavanje sa Visa, desant na Šoltu, povratak na Vis pod napadom S-čamaca.
 - **Za razradu:** plovilo, radnja i ciljevi u okviru izabrane operacije; postojeći rečni prizor prilagoditi morskoj obali, ostrvima i kanalima tek kroz dogovorene razvojne stavke.
 
 ## Tenkići
@@ -103,7 +104,7 @@ Vertikalna arkadna pucačina o partizanskom letu do Visa, sa sopstvenim izgledom
 
 **Šta to znači za igru:** okvir daje stvaran tenkovski sukob, ali ne potvrđuje sadašnje crteže. Partizanski tenk nalik zarobljenom Pantheru i nemački Tiger I nisu vezani za ovaj front; naoružanje 2. tenkovske brigade (sovjetski T-34/85 se pretpostavlja) i tipovi nemačkih tenkova moraju se potvrditi pre novog crteža, najverovatnije u studiji „Sremski front 1944–1945“ (Pajović, Uzelac, Džlebdžić, 1979). Ravničarsko bojište sa rovovima zamenilo bi razrušen grad. Činjenice i izvori: [Sremski front, 1945](ISTORIJA.md#sremski-front-početak-1945--polazište-za-igru-tenkići).
 
-**Više nivoa (odluka vlasnika):** Tenk duel može imati više nivoa, svaki u drugoj bici sa svojim tenkovima i bojištem; Sremski front je prvi. Kandidati za ostale, još neprovereni: Mostar, Knin ili Lika 1944–45 (1. tenkovska brigada NOVJ, M3 Stuart), Beograd oktobar 1944 (sovjetski T-34 uz partizane, u gradu, uz preklapanje sa Otpisanima), zaplenjeni nemački tenkovi u NOVJ (sadašnji partizanski crtež, ako se nađe izvor) i Trst/Rijeka maj 1945 (preklapanje sa Pohodom na Trst).
+**Više nivoa (odluka vlasnika):** Tenk duel može imati više nivoa, svaki u drugoj bici sa svojim tenkovima i bojištem; Redom, hronološki: početak Sremskog fronta, Batina, proboj Sremskog fronta; Beograd je opcion i išao bi prvi, ako se ista pozadina ne koristi u drugoj igri (odluka vlasnika). Kandidati za ostale, još neprovereni: Mostar, Knin ili Lika 1944–45 (1. tenkovska brigada NOVJ, M3 Stuart), Beograd oktobar 1944 (sovjetski T-34 uz partizane, u gradu, uz preklapanje sa Otpisanima), zaplenjeni nemački tenkovi u NOVJ (sadašnji partizanski crtež, ako se nađe izvor) i Trst/Rijeka maj 1945 (preklapanje sa Pohodom na Trst).
 
 ## Otpisani
 

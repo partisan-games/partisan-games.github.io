@@ -1,0 +1,6 @@
+{
+  "prompt": "Remove the pale white/gray background, faint background veil, contact shadows and every background pixel from this existing pixel-art sprite strip. Output true transparent alpha background. Preserve every dark black outline, thin diagonal rifle barrel, color, pose, soldier count and layout exactly: FOUR horizontal frames, THREE tiny overhead tan-uniform soldiers per frame. Do not redraw people, change colors, scale, move, crop, rearrange, add or remove any figure, rifle or body part. This is only background removal for a game atlas. Keep black pixels fully opaque, including the thin rifle lines; make only the empty space truly alpha zero. No new shadow, blur, white fringe, checkerboard, matte, text or borders.",
+  "refs": [
+    "C:/Users/d_pavlica/OneDrive - Wargaming.net/Documents/GitHub/partisan-games.github.io/assets/images/armies/sources/ranjenik/italian-patrol-generated.png"
+  ]
+}

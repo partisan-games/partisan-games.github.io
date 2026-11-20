@@ -4,6 +4,7 @@ import Bomb from '/core/actor/projectiles/Bomb.js'
 import Explosion from '/core/actor/effects/Explosion.js'
 import StateMachine from '/core/gameplay/StateMachine.js'
 import { outsideView } from '/core/actor/worldView.js'
+import AircraftPropellers from './AircraftPropellers.js'
 
 /**
  * A Ju 87: its level speed, faster than the plane takes off, and its speed straight down, in pixels per second; how
@@ -59,6 +60,7 @@ export default class DiveBomber extends GameObject2D {
    */
   constructor({ camera, groundY, groundAt = () => groundY, session, onImpact, onCrash }) {
     super(art.src, { width: art.width, height: art.height, flammable: true, visible: false })
+    this.propellers = new AircraftPropellers(art.src)
     this.tags.add('neprijatelj')
     this.camera = camera
     this.groundY = groundY
@@ -206,6 +208,7 @@ export default class DiveBomber extends GameObject2D {
 
   update(dt, t) {
     if (!this.visible) return
+    this.propellers.update(dt, this.alive)
     this.machine.update(dt)
     // a wreck that has just hit the ground stays where it hit
     if (!this.visible) return

@@ -32,7 +32,7 @@ async function show() {
   drawList(story)
   const Stage = story.stage ?? Stage2D
   document.body.dataset.stage = Stage === Stage2D ? '2d' : '3d'
-  const stage = new Stage()
+  const stage = new Stage({ controlKeys: story.controlKeys })
   // a 3D block waits for its models
   await stage.init()
   const block = await story.create(stage)
@@ -83,8 +83,7 @@ function drawPanel() {
 panel.addEventListener('click', event => {
   const button = event.target.closest('button')
   if (!button || !shown) return
-  if ('again' in button.dataset) return show()
-  if ('restore' in button.dataset) {
+  if ('again' in button.dataset) {
     restore()
     return show()
   }

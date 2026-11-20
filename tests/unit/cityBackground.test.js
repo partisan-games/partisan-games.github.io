@@ -2,13 +2,13 @@ import { test, before, mock } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 
-let PozadinaGrada
+let BattleBackground
 
 before(async() => {
   createPageElements()
   // happy-dom has no 2D canvas
   mock.method(HTMLCanvasElement.prototype, 'getContext', () => ({}))
-  PozadinaGrada = (await import('/scenes/tenkici/PozadinaGrada.js')).default
+  BattleBackground = (await import('/scenes/tenkici/BattleBackground.js')).default
 })
 
 test('smoke over the ruined city follows the signed wind', () => {
@@ -16,9 +16,9 @@ test('smoke over the ruined city follows the signed wind', () => {
   const ctx = { beginPath() {}, moveTo() {}, arc(x) {
     positions.push(x)
   }, fill() {} }
-  const city = new PozadinaGrada({ getContext: () => ctx })
+  const city = new BattleBackground({ getContext: () => ctx })
   city.crtez = ctx
-  const profile = { izvor: 1, broj: 4, trajanje: 16, speed: 18, vetar: 2, sirenje: 4, vijuganje: 5, seme: 1, nijansa: 36 }
+  const profile = { x: 520, y: 241, faza: 2.7, broj: 4, trajanje: 16, speed: 18, vetar: 2, sirenje: 4, vijuganje: 5, seme: 1, nijansa: 36 }
   city.gustiDim(2, profile, 12)
   const right = [...positions]
   positions.length = 0
@@ -30,7 +30,7 @@ test('smoke over the ruined city follows the signed wind', () => {
 })
 
 test('the city burns on its own time, and its fire is heard only while it is shown', () => {
-  const city = new PozadinaGrada({ width: 800, height: 600, getContext: () => ({}) })
+  const city = new BattleBackground({ width: 800, height: 600, getContext: () => ({}) })
   const playing = []
   city.fireSound.setPlaying = value => playing.push(value)
   city.update(.5)
@@ -42,7 +42,7 @@ test('the city burns on its own time, and its fire is heard only while it is sho
 
 test('the city draws nothing until its picture has loaded', () => {
   const drawn = []
-  const city = new PozadinaGrada({ width: 800, height: 600, getContext: () => ({ drawImage: () => drawn.push(1) }) })
+  const city = new BattleBackground({ width: 800, height: 600, getContext: () => ({ drawImage: () => drawn.push(1) }) })
   city.render()
   assert.equal(drawn.length, 0)
 })

@@ -117,13 +117,16 @@
       ctx.save();
       ctx.scale(scale, scale);
       ctx.translate(padding, 0);
-      if (!animated || action.value === 'idle') ctx.drawImage(original, 0, 0);
+      if (!animated || action.value === 'idle') ctx.drawImage(original, 0, 0, width, height);
       else ctx.drawImage(sheet, index * width, height, width, height, 0, 0, width, height);
       if (barrel.checked) {
         const anchor = asset.barrel.anchorFromCenter;
         const x = width / 2 + anchor.x * width;
         const y = height / 2 + anchor.y * height;
-        ctx.drawImage(cannon, asset.facing === 'right' ? x : x - cannon.width, y);
+        const size = asset.barrel.renderSize || { width: cannon.width, height: cannon.height };
+        if (asset.barrel.sourceRect)
+          ctx.drawImage(cannon, ...asset.barrel.sourceRect, x - size.width, y - size.height / 2, size.width, size.height);
+        else ctx.drawImage(cannon, asset.facing === 'right' ? x : x - size.width, y);
       }
       ctx.restore();
     }

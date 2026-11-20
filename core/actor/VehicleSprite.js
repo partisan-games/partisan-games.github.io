@@ -1,9 +1,11 @@
 import { ctx } from '/core/io/canvas2d.js'
+import { bodyImage, wreckFor } from './wreckView.js'
 
 /** An atlas body view; the actor keeps its movement, collision size and separate barrel. */
 export default class VehicleSprite {
   constructor(art) {
     this.art = art
+    wreckFor(art.src)
     this.reset()
   }
 
@@ -48,7 +50,8 @@ export default class VehicleSprite {
       ctx.shadowColor = 'rgba(0, 0, 0, 0.5)'
       ctx.shadowOffsetX = ctx.shadowOffsetY = 10
     }
-    ctx.drawImage(body.image, this.frameIndex * frame.width, clips[this.name].row * frame.height,
+    const image = bodyImage(body), wrecked = image !== body.image
+    ctx.drawImage(image, wrecked ? 0 : this.frameIndex * frame.width, wrecked ? 0 : clips[this.name].row * frame.height,
       frame.width, frame.height, x, y, width, height)
     ctx.restore()
     if (body.burning && !body.flameLayer) body.flame.render(body.smoky)

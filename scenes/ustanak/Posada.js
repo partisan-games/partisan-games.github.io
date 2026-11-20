@@ -2,8 +2,9 @@ import Sprite from '/core/actor/Sprite.js'
 import StateMachine from '/core/gameplay/StateMachine.js'
 import artFrame from './artFrame.js'
 import Sound from '/core/io/audio/SoundSource.js'
+import ustanakArt from '/core/actor/ustanakArt.js'
 
-const clips = { idle: 1.4, load: .75, fire: .32, recoil: .55 }
+const clips = ustanakArt.partisanCrew.durations
 
 /**
  * The crew stands by the gun, or loads it, or fires it: the shot and its recoil play once and the crew stands by
@@ -26,10 +27,12 @@ const states = {
 
 export default class Posada extends Sprite {
   constructor(x, y, { italian = false, direction = 1 } = {}) {
-    super(`armies/game-ready/artiljerija/${italian ? 'italijanska' : 'partizanska'}-posada-sprites.png`, {
-      x, y, width: 60, height: 60,
-      names: Object.keys(clips), frameCount: 4, defaultAnimation: 'idle', animationTime: clips.idle,
+    const art = italian ? ustanakArt.italianCrew : ustanakArt.partisanCrew
+    super(art.src, {
+      x, y, width: art.width, height: art.height,
+      names: art.names, frameCount: art.columns, defaultAnimation: art.defaultAnimation, animationTime: clips.idle,
     })
+    this.art = art
     this.pocetniX = x
     this.pocetniY = y
     this.direction = direction
@@ -85,6 +88,6 @@ export default class Posada extends Sprite {
   }
 
   drawFrame() {
-    artFrame(this, { footOffset: 26, baseline: .965, direction: this.direction })
+    artFrame(this, { footOffset: this.art.footOffset, baseline: this.art.baseline, direction: this.direction })
   }
 }

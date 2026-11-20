@@ -1,4 +1,6 @@
 import { icons } from '/core/io/icons.js'
+import { keys, attackLabels } from '/core/io/keys.js'
+import { baseControls } from '/ui/Controls.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import TopDownPlayerBoat from '/core/actor/TopDownPlayerBoat.js'
 import canvas2d from '/core/io/canvas2d.js'
@@ -7,11 +9,16 @@ import Weapon from '/core/gameplay/Weapon.js'
 import Cooldown from '/core/gameplay/Cooldown.js'
 import BoatBullet from './BoatBullet.js'
 import CombatLife from './CombatLife.js'
+import { wreckFor } from '/core/actor/wreckView.js'
+
+/** The keys the controls list shows for the boat, which does not go back. */
+export const controlKeys = { ...baseControls, [keys.down.label]: '', [attackLabels.Space]: 'shoot' }
 
 /** This boat lives in river coordinates; only its vertical movement has screen bounds. */
 export default class Boat extends TopDownPlayerBoat {
   constructor(viewLeft, session, startX = 0) {
     super()
+    wreckFor('armies/camac.png')
     if (this.input.keyboard) this.input.keyboard.attackKey = 'Space'
     this.input.screen.addGameButtons({ attack: icons.shoot })
     this.viewLeft = viewLeft
@@ -34,6 +41,12 @@ export default class Boat extends TopDownPlayerBoat {
 
   get alive() {
     return this.combatLife?.health.alive ?? true
+  }
+  get states() {
+    return ['dead']
+  }
+  setState(name) {
+    if (name === 'dead') this.die()
   }
   set alive(value) {
     if (!this.combatLife) return

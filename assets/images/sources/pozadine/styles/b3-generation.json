@@ -1,0 +1,23 @@
+{
+  "id": "b3-lived-wartime-scene",
+  "name": "B3 · razrađena ratna scena",
+  "image": "b3-lived-wartime-scene.png",
+  "tool": "built-in image_gen",
+  "exactPrompt": "Refine this exact Bihac 16-bit pixel-art wartime background with a SMALL, PURPOSEFULLY STAGED HUMAN PRESENCE. This is one scene-direction still for review, not a sprite sheet. Keep the same image size, camera, fine-but-visible pixel clusters, no-black-outline environment style, river, cascades, wooded hills, old square tower with hipped roof, readable 'SMRT FAŠIZMU' wall graffiti, existing partisan flag, scorched plaster and ruined houses. Do not return to realism, do not enlarge pixel blocks, do not redesign the landscape. Tell small human stories at different depths, with restrained low-resolution silhouettes in plausible WWII clothes: 1. On the FRONT-LEFT roof edge of the tower, create a tiny plausible low sandbagged lookout/firing platform, let into the roof edge without demolishing the roof silhouette. One crouched olive-uniformed partisan operates a small dark WWII machine gun on a bipod, aimed to the right over the town. Sandbags and the parapet partially hide his body. Gun, hands and support must connect; no gun floating at the roof apex. 2. Near the CORNER of the RIGHT damaged house, behind the low foreground boundary wall, two small olive-clad riflemen patrol, one walking and one watching the lane. Relaxed low-held rifles, not both posed shooting at the camera. 3. At the partly broken doorway of the LEFT graffiti house, an unarmed civilian in muted work clothes shields a smaller family member behind the door jamb, mostly in shadow; natural cautious sheltering, no injury. 4. In the CENTRAL middle-distance lane below the house with the flag, one small fighter is caught running between cover, body leaning forward and legs in a clear stride. A second, even smaller low silhouette crouches or crawls close behind a riverside broken wall. 5. A TINY distant sentry with a rifle stands on a small pale path/ledge of the wooded hill left of center; this must remain a distant accent, not a giant foreground character. Limit this to these few grouped vignettes, roughly eight people total. People belong behind the main foreground wall and are smaller than the game's foreground player sprites: around 28–45 source pixels tall for nearer adults, 16–24 for the hill sentry, no oversized portraits. Use crisp economical clusters and a few readable clothing colors, not detailed photo-like faces. Ensure every foot, hand and machine gun is supported by a real roof, lane, ledge or wall; no floating figures, no people standing on the river, and no moving character on the empty lower combat strip. Keep upper sky and bottom 20% quiet, preserve the EXACT flat ground edge. No blood, bodies, explosions, painted smoke, muzzle flash or bullet trails; those would be separate moving effects in production. No extra flags or text. This must feel like a populated tense resistance town rather than a postcard or a crowd battle tableau. Output one opaque edited landscape image.",
+  "referenceImages": [
+    {
+      "image": "assets/images/sources/pozadine/styles/b2-partisan-atmosphere.png",
+      "sha256": "c54717697ec62b5e200389fd6cec9b7913c7d1ce21701d0db22301ff5777f20c"
+    }
+  ],
+  "generatedFile": "C:\\Users\\d_pavlica\\.codex\\generated_images\\01a1f864-d971-7171-ada8-af676745fb10\\exec-67a9e575-47c4-45a5-aa4c-77462e1654cc.png",
+  "groundY": 857,
+  "status": "scene-layout-study",
+  "ownerAccepted": false,
+  "animationStatus": "Still illustration of proposed placements and poses; moving background actors must become separate animated layers before production use.",
+  "sha256": "fc34511f02d96e8e39c76ab9d77fb34fee65248fcaaa7fbd274aeb3c5e71bf25",
+  "size": [
+    1536,
+    1024
+  ]
+}

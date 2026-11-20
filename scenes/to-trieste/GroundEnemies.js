@@ -9,6 +9,7 @@ import { createCannon } from './EnemyWeapons.js'
 import { groundEnemyArt } from './enemyArt.js'
 import VehicleSprite from '/core/actor/VehicleSprite.js'
 import Renderer2D from '/core/Renderer2D.js'
+import GunCrew from '/core/actor/artillery/GunCrew.js'
 
 /** Each kind of ground enemy: how fast it drives towards the tank, and its gun, if it has one. */
 export const profiles = [
@@ -54,6 +55,7 @@ export class GroundEnemy extends CombatTarget {
     super({ ...bodyArt, x, groundY: groundY + 5, z: -1, flammable: true, ...rest })
     this.bodySprite = sprite ? new VehicleSprite(sprite) : null
     this.kind = kind
+    if (kind === 'antiTankGun') this.crew = new GunCrew('pak38')
     this.scrollSpeed = scrollSpeed
     this.engineSound = new Sound('engine-diesel.mp3', { volume: .2, loop: true, profile: 'engine', spatial: { getPosition: () => this.position, getRevision: () => this.lifeId } })
     this.sounds.push(this.engineSound)
@@ -106,6 +108,7 @@ export class GroundEnemy extends CombatTarget {
 
   die(source) {
     super.die(source)
+    this.crew?.update(0, true)
     this.setState('dead')
   }
 
@@ -115,6 +118,7 @@ export class GroundEnemy extends CombatTarget {
     this.setState(this.initialState)
     this.fire?.reset()
     this.barrel?.reset()
+    this.crew?.update(0, false)
   }
 
   checkBounds() {
@@ -124,13 +128,14 @@ export class GroundEnemy extends CombatTarget {
   }
 
   update(dt) {
+    this.crew?.update(dt, this.dead)
     this.engineSound.setPlaying(!this.dead && this.driveSpeed > 0)
     super.update(dt)
     this.barrel?.sync()
     this.controller?.update(dt)
     // Firing retains the current drive speed; scenery scrolling is not self-propelled motion.
     this.bodySprite?.update(dt, this.dx !== this.scrollSpeed, 1, this.alive)
-    this.fire?.update(this.state === 'fire')
+    if (this.fire?.update(this.state === 'fire')) this.crew?.fire()
   }
 
   checkHits() {

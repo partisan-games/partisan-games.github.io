@@ -34,7 +34,10 @@ const states = {
     update: tank => tank.shoot(),
   },
   dead: {
-    enter: tank => tank.health.damage(tank.health.current),
+    enter: tank => {
+      tank.health.damage(tank.health.current)
+      tank.cev.hide()
+    },
   },
 }
 
@@ -92,6 +95,7 @@ export default class Tenk extends GameObject2D {
 
   onload() {
     this.azurirajCev()
+    this.cev.visible = this.alive
   }
 
   get vrhCevi() {
@@ -212,6 +216,7 @@ export default class Tenk extends GameObject2D {
     if (this.alive) this.machine.update(dt)
     this.controller?.update?.(dt)
     this.azurirajCev()
+    this.cev.visible = this.alive
     this.applyFriction(this.speed > 0.1 ? tank.kineticFriction : tank.staticFriction, dt)
     const movement = this.x - previousX
     // The loop's first tick after resuming has dt=0: keep the held drive phase.

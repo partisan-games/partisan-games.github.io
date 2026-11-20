@@ -10,9 +10,9 @@ import { createPageElements } from './helpers/dom.js'
  */
 const folders = {
   'scenes/franjo-kluz': ['Main.js', 'missions.js', 'enemies.js', 'Airfield.js', 'ParallaxLayer.js'],
-  'core/actor/aircraft': [],
-  'core/actor/artillery': [],
-  'core/actor/soldiers': [],
+  'core/actor/aircraft': ['AircraftPropellers.js', 'propellerArt.js'],
+  'core/actor/artillery': ['GunCrew.js', 'crewArt.js'],
+  'core/actor/soldiers': ['machineGunnerArt.js'],
   'core/actor/vehicles': [],
   'core/actor/derived': ['GrenadierSprite.js', 'TopDownPlayerVehicle.js'],
   'scenes/to-trieste': [
@@ -33,7 +33,7 @@ const folders = {
     'Main.js', 'Turns.js', 'artFrame.js', 'Battlefield.js', 'Djule.js', 'GroundLayer.js', 'Terrain.js',
     'VillageFire.js', 'Wind.js', 'WindEffects.js', 'Zastava.js',
   ],
-  'scenes/tenkici': ['Main.js', 'Tenk.js', 'shellPhysics.js', 'PozadinaGrada.js'],
+  'scenes/tenkici': ['Main.js', 'Tenk.js', 'shellPhysics.js', 'BattleBackground.js'],
   'scenes/vis': [
     'Main.js', 'settings.js', 'levels.js', 'aircraft.js', 'paths.js', 'formations.js', 'flame.js', 'Waves.js',
     'PlayerView.js', 'Baza.js', 'Bullet.js', 'Oblak.js', 'PokretnaPozadina.js', 'Pokretno.js',

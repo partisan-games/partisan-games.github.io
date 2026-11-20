@@ -8,7 +8,7 @@ SOURCE = ROOT / 'assets/images/armies/sources'
 metadata_path = SOURCE / 'tenkovi/sprites.json'
 metadata = json.loads(metadata_path.read_text(encoding='utf-8'))
 usage = json.loads((SOURCE / 'do-trsta/opel-blitz.json').read_text(encoding='utf-8'))
-names = {'partizanski-tenk': 'partisanTank', 'nemacki-tenk': 'germanTank'}
+names = {'partizanski-tenk': 'partisanTank', 'nemacki-tenk': 'germanTank', 'somua-s35': 'somuaS35'}
 assets = {}
 for asset in metadata['assets']:
     image = (metadata_path.parent / asset['image']).resolve()

@@ -2,6 +2,7 @@ import TenkLevo, * as tenkLevoModule from '/scenes/tenkici/TenkLevo.js'
 import TenkDesno, * as tenkDesnoModule from '/scenes/tenkici/TenkDesno.js'
 import TankKeys from '/core/io/controllers/TankKeys.js'
 import { leftPlayerKeys, rightPlayerKeys } from '/core/io/keys.js'
+import { tankLeftControls, tankRightControls } from '/ui/Controls.js'
 
 /** Puts `block` on the stage and gives it back. */
 const put = (stage, block) => {
@@ -23,7 +24,7 @@ const tank = (Tank, keys) => stage => {
 const game = 'Tenkići'
 
 export const vehicles = [
-  { id: 'partizanski-tenk', name: 'Partizanski tenk', game, block: tenkLevoModule, create: tank(TenkLevo, leftPlayerKeys) },
-  { id: 'nemacki-tenk', name: 'Nemački tenk', game, block: tenkDesnoModule, create: tank(TenkDesno, rightPlayerKeys) },
+  { id: 'partizanski-tenk', name: 'Partizanski tenk', game, block: tenkLevoModule, create: tank(TenkLevo, leftPlayerKeys), controlKeys: tankLeftControls },
+  { id: 'nemacki-tenk', name: 'Nemački tenk', game, block: tenkDesnoModule, create: tank(TenkDesno, rightPlayerKeys), controlKeys: tankRightControls },
 ]
 

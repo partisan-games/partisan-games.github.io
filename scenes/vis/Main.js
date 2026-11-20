@@ -1,7 +1,7 @@
 import { icons } from '/core/io/icons.js'
 import Scene2D from '/core/Scene2D.js'
 import canvas2d from '/core/io/canvas2d.js'
-import { Avionce, inputOptions } from './Avionce.js'
+import { Avionce, controlKeys } from './Avionce.js'
 import PokretnaPozadina from './PokretnaPozadina.js'
 import Pokretno from './Pokretno.js'
 import Cloud2D from './Oblak.js'
@@ -9,9 +9,7 @@ import Baza from './Baza.js'
 import Waves from './Waves.js'
 import PowerUps from './PowerUps.js'
 import { levels } from './levels.js'
-import { baseControls } from '/ui/Controls.js'
 import { currentStyleClasses } from '/ui/styles.js'
-import { keys, attackLabels } from '/core/io/keys.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import { settings } from './settings.js'
 import { aircraft } from './aircraft.js'
@@ -37,7 +35,7 @@ const customStartScreen = ({ container }) => /* html */`
 export default class VisScene extends Scene2D {
   constructor() {
     super({
-      controlKeys: { ...baseControls, [attackLabels[inputOptions.attackKey]]: 'shoot', [keys.attack2.label]: 'loop', [keys.special.label]: 'bomb' },
+      controlKeys,
       intro: 'Reach the Island of Vis',
       customStartScreen,
     })
@@ -53,9 +51,12 @@ export default class VisScene extends Scene2D {
     this.player = new Avionce({ session: this.session, startAt: plane => ({ x: canvas2d.width / 2, y: canvas2d.height - plane.height }) })
     this.player.hide()
     this.powerUps = new PowerUps({ scene: this, player: this.player })
-    this.waves = new Waves({
-      scene: this, player: this.player, schedule: levels[0], onFormationDown: position => this.powerUps.drop(position),
-    })
+    /** The stage being flown; each has its waves in `levels`. */
+    this.stage = 0
+    this.waves = this.wavesOf(this.stage)
+    this.landing = false
+    this.siren = { sounds: [new Sound('air-raid-siren.mp3', { profile: 'ambience' })] }
+    this.audioChildren.push(this.siren)
     const okean = new PokretnaPozadina(speed, this.width)
     this.add(okean, this.zdravlje, this.ostrvo, this.player, ...this.oblaci)
     this.engineSound = new Sound('avion-mali.mp3', { volume: engineVolume, loop: true, profile: 'engine', spatial: { getPosition: () => this.player.position } })
@@ -88,11 +89,32 @@ export default class VisScene extends Scene2D {
     }
   }
 
+  wavesOf(stage) {
+    return new Waves({
+      scene: this, player: this.player, schedule: levels[stage], onFormationDown: position => this.powerUps.drop(position),
+    })
+  }
+
+  /** After the last stage the plane lands on Vis and wins; after the others at an airfield on the way. */
   landToBase() {
+    this.landing = true
+    if (this.baza) this.remove(this.baza)
     this.baza = new Baza({ speed })
     this.remove(this.ostrvo, this.zdravlje)
     this.add(this.baza)
-    this.session.gameplay.after(landingTime, () => this.victory('You have successfully reached the island of Vis.'))
+    const last = this.stage === levels.length - 1
+    this.session.gameplay.after(landingTime, () => last ? this.victory('You have successfully reached the island of Vis.') : this.takeOff())
+  }
+
+  /** The sirens wail as the enemy attacks the airfield, and the next stage begins with the takeoff. */
+  takeOff() {
+    this.siren.sounds[0].play()
+    this.ui.showMessage('Sirens! The enemy is attacking the base!')
+    this.stage++
+    this.waves = this.wavesOf(this.stage)
+    this.landing = false
+    this.baza.leave()
+    this.add(this.ostrvo, this.zdravlje)
   }
 
   /** The world keeps moving behind the end screen, but the rules stop: no new waves, power-ups or landing. */
@@ -108,7 +130,11 @@ export default class VisScene extends Scene2D {
 
     if (this.player.zivoti <= 0) this.defeat()
 
-    if (this.waves.finished && !this.baza)
+    if (this.baza?.gone) {
+      this.remove(this.baza)
+      this.baza = null
+    }
+    if (this.waves.finished && !this.landing)
       this.landToBase()
   }
 

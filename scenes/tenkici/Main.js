@@ -1,6 +1,6 @@
 import { canvas2d } from '/core/io/canvas2d.js'
 import Scene2D from '/core/Scene2D.js'
-import PozadinaGrada from './PozadinaGrada.js'
+import BattleBackground, { battlefields } from './BattleBackground.js'
 import { progresBar } from '/ui/components.js'
 import TenkLevo from './TenkLevo.js'
 import TenkDesno from './TenkDesno.js'
@@ -10,6 +10,12 @@ import TankAI from '/core/gameplay/controllers/TankAI.js'
 import { leftPlayerKeys, rightPlayerKeys } from '/core/io/keys.js'
 
 const groundLevel = canvas2d.height * 0.8
+/**
+ * The battlefields in the order the matches are fought, starting over after the last (owner's decision); the Srem
+ * front and Batina come first once their pictures exist.
+ */
+export const battlefieldOrder = ['city', 'bihac', 'drvar', 'uzice']
+let nextBattlefield = 0
 
 const customStartScreen = ({ container }) => /* html */`
   <div class="central-screen ${container}">
@@ -29,7 +35,8 @@ export default class TenkiciScene extends Scene2D {
   }
 
   init() {
-    this.background = new PozadinaGrada(this.canvas)
+    this.battlefield = battlefieldOrder[nextBattlefield++ % battlefieldOrder.length]
+    this.background = new BattleBackground(this.canvas, battlefields[this.battlefield])
     const { clock } = this.session
     this.tenk = new TenkLevo({ y: groundLevel, clock })
     this.tenk.controller = new TankKeys(this.tenk, leftPlayerKeys)

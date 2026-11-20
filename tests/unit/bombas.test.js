@@ -14,7 +14,7 @@ test('walking phase follows speed without restarting when speed changes', () => 
   try {
     const { sprite } = player
     Object.defineProperties(sprite.image, {
-      naturalWidth: { value: 528 }, naturalHeight: { value: 144 },
+      naturalWidth: { value: 528 }, naturalHeight: { value: 216 },
     })
     sprite.onload()
     sprite.movement = true
@@ -36,10 +36,10 @@ test('walking phase follows speed without restarting when speed changes', () => 
   }
 })
 
-test('walking briefly decelerates on input release, then returns to idle and freezes on death', () => {
+test('walking decelerates on release, then death reaches and holds the fallen pose', () => {
   const player = new Grenadier({ x: 200, y: 200 })
   Object.defineProperties(player.sprite.image, {
-    naturalWidth: { value: 528 }, naturalHeight: { value: 144 },
+    naturalWidth: { value: 528 }, naturalHeight: { value: 216 },
   })
   player.sprite.onload()
   try {
@@ -81,7 +81,16 @@ test('walking briefly decelerates on input release, then returns to idle and fre
 
     player.die()
     step(.1)
-    assert.equal(player.sprite.animationElapsed, 0)
+    assert.equal(player.sprite.animation.name, 'death')
+    assert.equal(player.sprite.animation.frameCount, 6)
+    assert.equal(player.sprite.animation.loop, false)
+    assert.equal(player.sprite.animationElapsed, .1)
+    step(2)
+    const held = player.sprite.animationElapsed
+    assert.equal(Math.floor(held / player.sprite.animationTime * 6), 5)
+    player.die()
+    step(1)
+    assert.equal(player.sprite.animationElapsed, held, 'repeated death and large dt hold the last frame')
     player.hide()
     step(.1)
     assert.equal(player.sprite.visible, false)

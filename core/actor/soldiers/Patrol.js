@@ -1,6 +1,9 @@
 import GameObject2D from '/core/actor/GameObject2D.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import StateMachine from '/core/gameplay/StateMachine.js'
+import LocomotionSprite from '/core/actor/LocomotionSprite.js'
+import art from '/core/actor/ranjenikArt.js'
+import Renderer2D from '/core/Renderer2D.js'
 
 const zvuciTraganje = ['eatdirtpig.mp3', 'killthepig.mp3', 'QuicklyQuickly.mp3', 'schnell.mp3', 'UpThere.mp3', 'whereishe.mp3']
 const zvuciNadjen = ['Stop.mp3', 'StopStayWhereYouAre.mp3', 'thereheis.mp3']
@@ -25,6 +28,7 @@ const states = {
   halt: {
     enter: patrol => {
       patrol.stop()
+      patrol.bodySprite?.idle()
       patrol.pustiNadjen()
     },
   },
@@ -33,7 +37,9 @@ const states = {
 /** A patrol seen from above, which wanders across the screen and comes back on the other side. */
 export default class Patrol extends GameObject2D {
   constructor(src = 'armies/nemci-patrola.gif') {
-    super(src)
+    const sprite = src === 'armies/nemci-patrola.gif' ? art['german-patrol'] : src === 'armies/talijani-patrola.gif' ? art['italian-patrol'] : null
+    super(sprite?.src || src, { width: sprite?.frame.width, height: sprite?.frame.height })
+    this.bodySprite = sprite ? new LocomotionSprite(sprite) : null
     this.talkElapsed = 0
     this.turnElapsed = 0
     this.ended = false
@@ -55,6 +61,16 @@ export default class Patrol extends GameObject2D {
 
   setState(name) {
     this.machine.set(name)
+  }
+
+  /** Switch the complete view together when the route reaches another army's patrol. */
+  setFaction(faction) {
+    const sprite = art[`${faction}-patrol`]
+    if (!sprite) throw new RangeError(`Unknown patrol faction: ${faction}`)
+    this.bodySprite = new LocomotionSprite(sprite)
+    this.width = sprite.frame.width
+    this.height = sprite.frame.height
+    this.setImage(sprite.src)
   }
 
   checkBounds() {
@@ -92,6 +108,12 @@ export default class Patrol extends GameObject2D {
     this.talkElapsed += dt
     this.turnElapsed += dt
     this.machine.update(dt)
+    this.bodySprite?.update(dt, this.alive && this.state === 'search' && this.speed > .01)
+  }
+
+  render() {
+    if (this.bodySprite) this.bodySprite.render(this)
+    else Renderer2D.instance.drawObject(this)
   }
 
   end() {

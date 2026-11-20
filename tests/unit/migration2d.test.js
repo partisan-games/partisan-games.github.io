@@ -80,6 +80,24 @@ test('neretva raises hidden soldiers now and then, and twice as often in the las
   assert.ok(scene.daljiRovovi.every(soldier => soldier.state === 'aim'))
 })
 
+test('neretva: the Germans hold the trenches first, the Chetniks take over half way, and only the end wins', async t => {
+  const { default: Neretva } = await import('/scenes/neretva/Main.js')
+  const scene = new Neretva()
+  scene.init()
+  scene.clear = () => {}
+  t.after(() => scene.end())
+  const factions = () => new Set(scene.sveSvabe.map(soldier => soldier.art.image.src.match(/(\w+)-spreda/)[1]))
+  t.mock.method(scene.ui, 'showMessage')
+  assert.deepEqual([...factions()], ['nemci'])
+  scene.preostaloVreme = 60.5
+  scene.update(1)
+  assert.deepEqual([...factions()], ['cetnici'])
+  assert.equal(scene.ui.showMessage.mock.calls[0].arguments[0], 'Chetniks are next')
+  assert.ok(!scene.ui.outro, 'not won yet')
+  scene.update(1)
+  assert.equal(scene.ui.showMessage.mock.callCount(), 1, 'the Chetniks come once')
+})
+
 test('all remaining 2D scenes can initialize, pause, finish and be replaced without model loads', async t => {
   // The tank's async asset preparation and full replay flow are covered by tankLevelFlow.test.js.
   const names = ['bunker', 'camac', 'franjo-kluz', 'neretva', 'otpisani', 'ranjenik', 'ustanak']

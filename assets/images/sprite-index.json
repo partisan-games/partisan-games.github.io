@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "measuredAt": "2026-11-20T20:15:43.240221+00:00",
-  "baseRevision": "e3a7b1384e14f65c6da3ab0738d3fd86ead538b7",
+  "measuredAt": "2026-11-20T23:17:25.587402+00:00",
+  "baseRevision": "0e79a55486f7a7e16265587ce6d8317bd0f8764b",
   "scope": "Art linked by docs/ART.md, including shared variants; not all unused library art or a runtime/visual acceptance test.",
   "interpretation": "imageFrames counts file-container frames. A PNG atlas normally has one; named sprite clips require metadata and a runtime mapping. hashes detect exact input changes, not art quality.",
   "images": [
@@ -26,6 +26,56 @@
       "distinctImageFrames": 1
     },
     {
+      "asset": "assets/images/armies/game-ready/artiljerija/flak38-crew-sprites.png",
+      "sha256": "a164db8110374437bead5f60b9a82b6115996f19a23ac00b832b9c34f2421b9e",
+      "kind": "PNG",
+      "width": 1024,
+      "height": 320,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/infantry-art/crew-sprites.json",
+        "id": "flak38-crew",
+        "frame": {
+          "width": 256,
+          "height": 160,
+          "columns": 4,
+          "rows": 2
+        },
+        "anchor": {
+          "x": 128,
+          "y": 148
+        },
+        "clips": [
+          {
+            "name": "idle",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1.4,
+            "loop": true,
+            "measuredDistinctFrames": 1
+          },
+          {
+            "name": "fire",
+            "row": 0,
+            "frameCount": 4,
+            "duration": 0.8,
+            "loop": false,
+            "measuredDistinctFrames": 4
+          },
+          {
+            "name": "death",
+            "row": 1,
+            "frameCount": 4,
+            "duration": 0.64,
+            "loop": false,
+            "measuredDistinctFrames": 4
+          }
+        ]
+      }
+    },
+    {
       "asset": "assets/images/armies/game-ready/artiljerija/flak38-postolje.png",
       "sha256": "91693171cd592250b335bfc06b920dcb4ca2665ba6b5eb55e858901a1050b2db",
       "kind": "PNG",
@@ -43,7 +93,55 @@
       "height": 1254,
       "imageFrames": 1,
       "hasTransparentPixelsInFirstFrame": true,
-      "distinctImageFrames": 1
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/ustanak/sprites.json",
+        "id": "italijanska-posada",
+        "frame": {
+          "width": 313.5,
+          "height": 313.5,
+          "columns": 4,
+          "rows": 4
+        },
+        "anchor": {
+          "x": 156.75,
+          "y": 302.5275
+        },
+        "clips": [
+          {
+            "name": "idle",
+            "row": 0,
+            "frameCount": 4,
+            "duration": 1.4,
+            "loop": true,
+            "measuredDistinctFrames": 4
+          },
+          {
+            "name": "load",
+            "row": 1,
+            "frameCount": 4,
+            "duration": 0.75,
+            "loop": false,
+            "measuredDistinctFrames": 4
+          },
+          {
+            "name": "fire",
+            "row": 2,
+            "frameCount": 4,
+            "duration": 0.32,
+            "loop": false,
+            "measuredDistinctFrames": 4
+          },
+          {
+            "name": "recoil",
+            "row": 3,
+            "frameCount": 4,
+            "duration": 0.55,
+            "loop": false,
+            "measuredDistinctFrames": 4
+          }
+        ]
+      }
     },
     {
       "asset": "assets/images/armies/game-ready/artiljerija/pak38-cev.png",
@@ -54,6 +152,56 @@
       "imageFrames": 1,
       "hasTransparentPixelsInFirstFrame": true,
       "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/armies/game-ready/artiljerija/pak38-crew-sprites.png",
+      "sha256": "3a98bdfddfe498871fe39ff70ac0dfbac8c60fef112b4c79585a1180c0ab932f",
+      "kind": "PNG",
+      "width": 1024,
+      "height": 320,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/infantry-art/crew-sprites.json",
+        "id": "pak38-crew",
+        "frame": {
+          "width": 256,
+          "height": 160,
+          "columns": 4,
+          "rows": 2
+        },
+        "anchor": {
+          "x": 128,
+          "y": 148
+        },
+        "clips": [
+          {
+            "name": "idle",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1.4,
+            "loop": true,
+            "measuredDistinctFrames": 1
+          },
+          {
+            "name": "fire",
+            "row": 0,
+            "frameCount": 4,
+            "duration": 0.8,
+            "loop": false,
+            "measuredDistinctFrames": 4
+          },
+          {
+            "name": "death",
+            "row": 1,
+            "frameCount": 4,
+            "duration": 0.64,
+            "loop": false,
+            "measuredDistinctFrames": 4
+          }
+        ]
+      }
     },
     {
       "asset": "assets/images/armies/game-ready/artiljerija/pak38-postolje.png",
@@ -73,7 +221,55 @@
       "height": 1246,
       "imageFrames": 1,
       "hasTransparentPixelsInFirstFrame": true,
-      "distinctImageFrames": 1
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/ustanak/sprites.json",
+        "id": "partizanska-posada",
+        "frame": {
+          "width": 315.75,
+          "height": 311.5,
+          "columns": 4,
+          "rows": 4
+        },
+        "anchor": {
+          "x": 157.875,
+          "y": 300.59749999999997
+        },
+        "clips": [
+          {
+            "name": "idle",
+            "row": 0,
+            "frameCount": 4,
+            "duration": 1.4,
+            "loop": true,
+            "measuredDistinctFrames": 4
+          },
+          {
+            "name": "load",
+            "row": 1,
+            "frameCount": 4,
+            "duration": 0.75,
+            "loop": false,
+            "measuredDistinctFrames": 4
+          },
+          {
+            "name": "fire",
+            "row": 2,
+            "frameCount": 4,
+            "duration": 0.32,
+            "loop": false,
+            "measuredDistinctFrames": 4
+          },
+          {
+            "name": "recoil",
+            "row": 3,
+            "frameCount": 4,
+            "duration": 0.55,
+            "loop": false,
+            "measuredDistinctFrames": 4
+          }
+        ]
+      }
     },
     {
       "asset": "assets/images/armies/game-ready/artiljerija/top-cev.gif",
@@ -220,6 +416,74 @@
       "imageFrames": 1,
       "hasTransparentPixelsInFirstFrame": true,
       "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/armies/game-ready/avioni/propeller-side-sprites.png",
+      "sha256": "680973aa77041355a2339429f8a4ec01013d7a02d6fc2ac5ec1a18179cb48c91",
+      "kind": "PNG",
+      "width": 48,
+      "height": 48,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/aircraft-propellers/sprites.json",
+        "id": "propeller-side",
+        "frame": {
+          "width": 12,
+          "height": 48,
+          "columns": 4,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 6.0,
+          "y": 24.0
+        },
+        "clips": [
+          {
+            "name": "spin",
+            "row": 0,
+            "frameCount": 4,
+            "duration": 0.12,
+            "loop": true,
+            "measuredDistinctFrames": 4
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/avioni/propeller-top-sprites.png",
+      "sha256": "9c0e161bb3110f3cbecd8a8a983f96f4d084ff88c0b20321b1b952475b761bbd",
+      "kind": "PNG",
+      "width": 256,
+      "height": 12,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/aircraft-propellers/sprites.json",
+        "id": "propeller-top",
+        "frame": {
+          "width": 64,
+          "height": 12,
+          "columns": 4,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 32.0,
+          "y": 6.0
+        },
+        "clips": [
+          {
+            "name": "spin",
+            "row": 0,
+            "frameCount": 4,
+            "duration": 0.12,
+            "loop": true,
+            "measuredDistinctFrames": 4
+          }
+        ]
+      }
     },
     {
       "asset": "assets/images/armies/game-ready/brodovi/schnellboot-s30.svg",
@@ -509,14 +773,96 @@
       "distinctImageFrames": 1
     },
     {
-      "asset": "assets/images/armies/game-ready/tenkovi/somua-s35-body-readable.png",
-      "sha256": "41a69909b74d78fd990aaf642141b1081cae22acba91ddf685db78bb93bebf9b",
+      "asset": "assets/images/armies/game-ready/tenkovi/somua-s35-sprites.png",
+      "sha256": "c56b96b2d83b147882e99de1cf0b9ac2af18de48c30c02b0fe03c3be04d0788f",
       "kind": "PNG",
-      "width": 1895,
-      "height": 830,
+      "width": 1516,
+      "height": 332,
       "imageFrames": 1,
       "hasTransparentPixelsInFirstFrame": true,
-      "distinctImageFrames": 1
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/tenkovi/sprites.json",
+        "id": "somua-s35",
+        "frame": {
+          "width": 379,
+          "height": 166,
+          "columns": 4,
+          "rows": 2
+        },
+        "anchor": {
+          "x": 189.5,
+          "y": 83.0
+        },
+        "clips": [
+          {
+            "name": "idle",
+            "row": 0,
+            "frameCount": 4,
+            "duration": 1.4,
+            "loop": true,
+            "measuredDistinctFrames": 1
+          },
+          {
+            "name": "drive",
+            "row": 1,
+            "frameCount": 4,
+            "duration": 0.64,
+            "loop": true,
+            "measuredDistinctFrames": 4
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/vojnici/bombas-sprites.png",
+      "sha256": "aee25d9e5e9c0cd865fce10833b952c1d4bae5f750d4df43b24c38041b862ec9",
+      "kind": "PNG",
+      "width": 528,
+      "height": 216,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/infantry-art/sprites.json",
+        "id": "bombas",
+        "frame": {
+          "width": 66,
+          "height": 72,
+          "columns": 8,
+          "rows": 3
+        },
+        "anchor": {
+          "x": 33,
+          "y": 36
+        },
+        "clips": [
+          {
+            "name": "idle",
+            "row": 0,
+            "frameCount": 2,
+            "duration": 0.6,
+            "loop": true,
+            "measuredDistinctFrames": 2
+          },
+          {
+            "name": "kretanje",
+            "row": 1,
+            "frameCount": 8,
+            "duration": 0.8,
+            "loop": true,
+            "measuredDistinctFrames": 8
+          },
+          {
+            "name": "death",
+            "row": 2,
+            "frameCount": 6,
+            "duration": 0.6,
+            "loop": false,
+            "measuredDistinctFrames": 6
+          }
+        ]
+      }
     },
     {
       "asset": "assets/images/armies/game-ready/vojnici/cetnici-spreda.png",
@@ -527,6 +873,140 @@
       "imageFrames": 1,
       "hasTransparentPixelsInFirstFrame": true,
       "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/armies/game-ready/vojnici/german-patrol-sprites.png",
+      "sha256": "1ed9a0ea0079cf6dbfa7fa8597dc7ffe95c8f0d4d7ae086a3e92211baf14b7b2",
+      "kind": "PNG",
+      "width": 284,
+      "height": 160,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/ranjenik/sprites.json",
+        "id": "german-patrol",
+        "frame": {
+          "width": 71,
+          "height": 80,
+          "columns": 4,
+          "rows": 2
+        },
+        "anchor": {
+          "x": 35.5,
+          "y": 40.0
+        },
+        "clips": [
+          {
+            "name": "idle",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1.4,
+            "loop": true,
+            "measuredDistinctFrames": 1
+          },
+          {
+            "name": "walk",
+            "row": 1,
+            "frameCount": 4,
+            "duration": 0.8,
+            "loop": true,
+            "measuredDistinctFrames": 4
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/vojnici/italian-patrol-sprites.png",
+      "sha256": "13cb98e6a00b83e5545a890f0b54f595cba126b8db02edf4f588f35c2397304c",
+      "kind": "PNG",
+      "width": 284,
+      "height": 156,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/ranjenik/sprites.json",
+        "id": "italian-patrol",
+        "frame": {
+          "width": 71,
+          "height": 78,
+          "columns": 4,
+          "rows": 2
+        },
+        "anchor": {
+          "x": 35.5,
+          "y": 39.0
+        },
+        "clips": [
+          {
+            "name": "idle",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1.4,
+            "loop": true,
+            "measuredDistinctFrames": 1
+          },
+          {
+            "name": "walk",
+            "row": 1,
+            "frameCount": 4,
+            "duration": 0.8,
+            "loop": true,
+            "measuredDistinctFrames": 4
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/vojnici/mitraljezac-sprites.png",
+      "sha256": "c0aa4ef501c4902b310b4ca9336eb54811a1ab0e644c846385603d2bde00265a",
+      "kind": "PNG",
+      "width": 252,
+      "height": 81,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/bunker-gunner/sprites.json",
+        "id": "bunker-machine-gunner",
+        "frame": {
+          "width": 63,
+          "height": 27,
+          "columns": 4,
+          "rows": 3
+        },
+        "anchor": {
+          "x": 63,
+          "y": 27
+        },
+        "clips": [
+          {
+            "name": "idle",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1,
+            "loop": true,
+            "measuredDistinctFrames": 1
+          },
+          {
+            "name": "fire",
+            "row": 1,
+            "frameCount": 4,
+            "duration": 0.1,
+            "loop": false,
+            "measuredDistinctFrames": 4
+          },
+          {
+            "name": "death",
+            "row": 2,
+            "frameCount": 4,
+            "duration": 0.6,
+            "loop": false,
+            "measuredDistinctFrames": 4
+          }
+        ]
+      }
     },
     {
       "asset": "assets/images/armies/game-ready/vojnici/nemacki-jurisnik-sprites.png",
@@ -694,7 +1174,39 @@
       "height": 887,
       "imageFrames": 1,
       "hasTransparentPixelsInFirstFrame": true,
-      "distinctImageFrames": 1
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/ustanak/sprites.json",
+        "id": "partizanski-strelac",
+        "frame": {
+          "width": 443.5,
+          "height": 443.5,
+          "columns": 4,
+          "rows": 2
+        },
+        "anchor": {
+          "x": 221.75,
+          "y": 376.97499999999997
+        },
+        "clips": [
+          {
+            "name": "idle",
+            "row": 0,
+            "frameCount": 4,
+            "duration": 1.4,
+            "loop": true,
+            "measuredDistinctFrames": 4
+          },
+          {
+            "name": "fire",
+            "row": 1,
+            "frameCount": 4,
+            "duration": 0.4,
+            "loop": false,
+            "measuredDistinctFrames": 4
+          }
+        ]
+      }
     },
     {
       "asset": "assets/images/armies/game-ready/vojnici/partizanski-zastavnik-sprites.png",
@@ -704,7 +1216,73 @@
       "height": 724,
       "imageFrames": 1,
       "hasTransparentPixelsInFirstFrame": true,
-      "distinctImageFrames": 1
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/ustanak/sprites.json",
+        "id": "partizanski-zastavnik",
+        "frame": {
+          "width": 543.0,
+          "height": 724.0,
+          "columns": 4,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 271.5,
+          "y": 687.8
+        },
+        "clips": [
+          {
+            "name": "partisan",
+            "row": 0,
+            "frameCount": 4,
+            "duration": 1.6,
+            "loop": true,
+            "measuredDistinctFrames": 4
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/vojnici/wounded-sprites.png",
+      "sha256": "42fe3da455b928065a89505c0b479b72a3dab83627838ccb316af90592acad49",
+      "kind": "PNG",
+      "width": 276,
+      "height": 54,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/ranjenik/sprites.json",
+        "id": "wounded",
+        "frame": {
+          "width": 69,
+          "height": 27,
+          "columns": 4,
+          "rows": 2
+        },
+        "anchor": {
+          "x": 34.5,
+          "y": 13.5
+        },
+        "clips": [
+          {
+            "name": "idle",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1.4,
+            "loop": true,
+            "measuredDistinctFrames": 1
+          },
+          {
+            "name": "crawl",
+            "row": 1,
+            "frameCount": 4,
+            "duration": 1.2,
+            "loop": true,
+            "measuredDistinctFrames": 4
+          }
+        ]
+      }
     },
     {
       "asset": "assets/images/armies/game-ready/vojnici/zastavnici-sprites.png",
@@ -714,7 +1292,39 @@
       "height": 887,
       "imageFrames": 1,
       "hasTransparentPixelsInFirstFrame": true,
-      "distinctImageFrames": 1
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/ustanak/sprites.json",
+        "id": "zastavnici",
+        "frame": {
+          "width": 443.5,
+          "height": 443.5,
+          "columns": 4,
+          "rows": 2
+        },
+        "anchor": {
+          "x": 221.75,
+          "y": 421.325
+        },
+        "clips": [
+          {
+            "name": "partisan",
+            "row": 0,
+            "frameCount": 4,
+            "duration": 1.6,
+            "loop": true,
+            "measuredDistinctFrames": 4
+          },
+          {
+            "name": "italian",
+            "row": 1,
+            "frameCount": 4,
+            "duration": 1.6,
+            "loop": true,
+            "measuredDistinctFrames": 4
+          }
+        ]
+      }
     },
     {
       "asset": "assets/images/armies/game-ready/vozovi/bp42-sprites.png",
@@ -759,6 +1369,424 @@
       }
     },
     {
+      "asset": "assets/images/armies/game-ready/wrecks/bp42.png",
+      "sha256": "78090d5503c8af45f78ae4fa9a303cd474165dfb94c8d3cd49b8c81ead2767b4",
+      "kind": "PNG",
+      "width": 576,
+      "height": 256,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/wrecks/sprites.json",
+        "id": "bp42",
+        "frame": {
+          "width": 576,
+          "height": 256,
+          "columns": 1,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 288.0,
+          "y": 233
+        },
+        "clips": [
+          {
+            "name": "dead",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1,
+            "loop": false,
+            "measuredDistinctFrames": 1
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/wrecks/bunker.png",
+      "sha256": "94826e358e1b788a14111e5959cc1dd2557165691a6e5800d656dedb7053da6d",
+      "kind": "PNG",
+      "width": 246,
+      "height": 93,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/wrecks/sprites.json",
+        "id": "bunker",
+        "frame": {
+          "width": 246,
+          "height": 93,
+          "columns": 1,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 123.0,
+          "y": 93
+        },
+        "clips": [
+          {
+            "name": "dead",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1,
+            "loop": false,
+            "measuredDistinctFrames": 1
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/wrecks/flak38.png",
+      "sha256": "1050cc071cd47c176a7ddd2d1ab9afd9fef9623620891c4e43db8ac563511f0f",
+      "kind": "PNG",
+      "width": 204,
+      "height": 122,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/wrecks/sprites.json",
+        "id": "flak38",
+        "frame": {
+          "width": 204,
+          "height": 122,
+          "columns": 1,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 102.0,
+          "y": 122
+        },
+        "clips": [
+          {
+            "name": "dead",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1,
+            "loop": false,
+            "measuredDistinctFrames": 1
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/wrecks/german-tank.png",
+      "sha256": "cb6c9d229800bbcfdf28c6e048f14f272cb7c3c71a59b5f8f994614e37f19205",
+      "kind": "PNG",
+      "width": 327,
+      "height": 137,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/wrecks/sprites.json",
+        "id": "german-tank",
+        "frame": {
+          "width": 327,
+          "height": 137,
+          "columns": 1,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 163.5,
+          "y": 137
+        },
+        "clips": [
+          {
+            "name": "dead",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1,
+            "loop": false,
+            "measuredDistinctFrames": 1
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/wrecks/house-bunker.png",
+      "sha256": "593cbdae6401aacc328f58fdf81066a3cdd1e60281a976f4ecd17631a1054bd3",
+      "kind": "PNG",
+      "width": 428,
+      "height": 286,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/wrecks/sprites.json",
+        "id": "house-bunker",
+        "frame": {
+          "width": 428,
+          "height": 286,
+          "columns": 1,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 214.0,
+          "y": 286
+        },
+        "clips": [
+          {
+            "name": "dead",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1,
+            "loop": false,
+            "measuredDistinctFrames": 1
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/wrecks/hummel.png",
+      "sha256": "68b724d302a0f6a0e263fb5d71b3d3f105220920ebe86d5a6d66cf64cd420033",
+      "kind": "PNG",
+      "width": 320,
+      "height": 160,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/wrecks/sprites.json",
+        "id": "hummel",
+        "frame": {
+          "width": 320,
+          "height": 160,
+          "columns": 1,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 160.0,
+          "y": 149
+        },
+        "clips": [
+          {
+            "name": "dead",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1,
+            "loop": false,
+            "measuredDistinctFrames": 1
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/wrecks/opel-blitz-legion.png",
+      "sha256": "aada710f9dffdc0fe74b230994d63b29912e07fbb8e1a7958a1fb378187bb323",
+      "kind": "PNG",
+      "width": 320,
+      "height": 160,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/wrecks/sprites.json",
+        "id": "opel-blitz-legion",
+        "frame": {
+          "width": 320,
+          "height": 160,
+          "columns": 1,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 160.0,
+          "y": 149
+        },
+        "clips": [
+          {
+            "name": "dead",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1,
+            "loop": false,
+            "measuredDistinctFrames": 1
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/wrecks/opel-blitz.png",
+      "sha256": "ffd9f1c9abc35bfc42fc2166917d129e032fea4bd3d6783c9d2cd7b6a188ada3",
+      "kind": "PNG",
+      "width": 320,
+      "height": 160,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/wrecks/sprites.json",
+        "id": "opel-blitz",
+        "frame": {
+          "width": 320,
+          "height": 160,
+          "columns": 1,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 160.0,
+          "y": 149
+        },
+        "clips": [
+          {
+            "name": "dead",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1,
+            "loop": false,
+            "measuredDistinctFrames": 1
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/wrecks/pak38.png",
+      "sha256": "6ea284081a264b49860871b61a617e5c09cf8e657934c8b0eed60b286c448725",
+      "kind": "PNG",
+      "width": 233,
+      "height": 51,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/wrecks/sprites.json",
+        "id": "pak38",
+        "frame": {
+          "width": 233,
+          "height": 51,
+          "columns": 1,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 116.5,
+          "y": 51
+        },
+        "clips": [
+          {
+            "name": "dead",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1,
+            "loop": false,
+            "measuredDistinctFrames": 1
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/wrecks/partisan-tank.png",
+      "sha256": "01db18190d25b5c74cd03d6496812dc1d304edb37b31b3c16f90c8fb8b684cd3",
+      "kind": "PNG",
+      "width": 300,
+      "height": 129,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/wrecks/sprites.json",
+        "id": "partisan-tank",
+        "frame": {
+          "width": 300,
+          "height": 129,
+          "columns": 1,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 150.0,
+          "y": 129
+        },
+        "clips": [
+          {
+            "name": "dead",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1,
+            "loop": false,
+            "measuredDistinctFrames": 1
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/wrecks/player-boat.png",
+      "sha256": "9ff66fe9a66398abf9baf97d543a2e0f4c42b7a2cc2a16aa093edaa6cd133b33",
+      "kind": "PNG",
+      "width": 355,
+      "height": 152,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/wrecks/sprites.json",
+        "id": "player-boat",
+        "frame": {
+          "width": 355,
+          "height": 152,
+          "columns": 1,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 177.5,
+          "y": 152
+        },
+        "clips": [
+          {
+            "name": "dead",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1,
+            "loop": false,
+            "measuredDistinctFrames": 1
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/wrecks/somua-s35.png",
+      "sha256": "73b496834c292ef7b6796146c5e5aa9fa25c52a88ad7cb84b4b51d8229ec4b25",
+      "kind": "PNG",
+      "width": 379,
+      "height": 166,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/wrecks/sprites.json",
+        "id": "somua-s35",
+        "frame": {
+          "width": 379,
+          "height": 166,
+          "columns": 1,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 189.5,
+          "y": 165
+        },
+        "clips": [
+          {
+            "name": "dead",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1,
+            "loop": false,
+            "measuredDistinctFrames": 1
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/hummel.png",
+      "sha256": "9249fdca2ee514d43b1a8a6b1ec2306e97e8f20d398e95241d23887340731e7b",
+      "kind": "PNG",
+      "width": 298,
+      "height": 138,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1
+    },
+    {
       "asset": "assets/images/armies/nemci/avioni/bf-109-odozgo.png",
       "sha256": "1c14ccbadba68b05a97f759d9fd4634964ce2da89726c139ac7b3105817c4a08",
       "kind": "PNG",
@@ -794,16 +1822,6 @@
       "kind": "PNG",
       "width": 820,
       "height": 591,
-      "imageFrames": 1,
-      "hasTransparentPixelsInFirstFrame": true,
-      "distinctImageFrames": 1
-    },
-    {
-      "asset": "assets/images/armies/nemci/mitraljezac-01.png",
-      "sha256": "f1c877346e03f9f5575d060b43ea959bfeb946349e55f8d0ee80c8a1f1f09de9",
-      "kind": "PNG",
-      "width": 63,
-      "height": 27,
       "imageFrames": 1,
       "hasTransparentPixelsInFirstFrame": true,
       "distinctImageFrames": 1
@@ -859,14 +1877,54 @@
       "distinctImageFrames": 1
     },
     {
-      "asset": "assets/images/armies/ranjeni-partizan.png",
-      "sha256": "2370a49b93ae6aa5ddfc2c9ed5de02ed429730f656822c8c94acaecfaadaf330",
+      "asset": "assets/images/armies/sources/actor-state-review/states-game-size.png",
+      "sha256": "a519d478fa53e5da3cacff398e4efe575f85fc2555da12e0d22b6614fbad6336",
       "kind": "PNG",
-      "width": 69,
+      "width": 1050,
+      "height": 570,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/armies/sources/aircraft-propellers/propellers-game-size.png",
+      "sha256": "b18f271187a2b154694ce91c412315171c018d47881bf513b5015685e6088b69",
+      "kind": "PNG",
+      "width": 1800,
+      "height": 1010,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/armies/sources/bunker-gunner/death-game-size.png",
+      "sha256": "cd032b3ed72f90153dd60e679d9baa88a055e6fbf3c6eda8c06fa48c27cfd2b5",
+      "kind": "PNG",
+      "width": 252,
       "height": 27,
       "imageFrames": 1,
-      "hasTransparentPixelsInFirstFrame": true,
+      "hasTransparentPixelsInFirstFrame": false,
       "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/armies/sources/bunker-gunner/fire-game-size.png",
+      "sha256": "e7632ac4796bf38e6a158a78f89da506489943d2519ce577fe98ee7589fd89f4",
+      "kind": "PNG",
+      "width": 252,
+      "height": 27,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/armies/sources/bunker-gunner/fire.gif",
+      "sha256": "3532bccff717b42295801e0255c613fa3ccb1f1d9335e920614e5f45c09e079c",
+      "kind": "GIF",
+      "width": 63,
+      "height": 27,
+      "imageFrames": 4,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 4
     },
     {
       "asset": "assets/images/armies/sources/do-trsta/previews/opel-blitz-drive-137.gif",
@@ -886,6 +1944,46 @@
       "height": 60,
       "imageFrames": 1,
       "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/armies/sources/infantry-art/previews/bombas-death-game-size.png",
+      "sha256": "f7b092b4d107338c50dee670d438736aa43ad1396f5ef71dbe804987c65ca521",
+      "kind": "PNG",
+      "width": 396,
+      "height": 72,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/armies/sources/infantry-art/previews/bombas-death.gif",
+      "sha256": "0206ec5086a957b1ddd70a0e559c90a7c38f10d4dda5899c144bb77a2a902ef9",
+      "kind": "GIF",
+      "width": 66,
+      "height": 72,
+      "imageFrames": 6,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 6
+    },
+    {
+      "asset": "assets/images/armies/sources/infantry-art/previews/crews-game-size.png",
+      "sha256": "065ccf101ed3057514a3b52af03b70770f00260d3ca851767bc1ee54a8dde07a",
+      "kind": "PNG",
+      "width": 1100,
+      "height": 460,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/armies/sources/ranjenik/previews/ranjenik-game-size.png",
+      "sha256": "fd0dcbe968f8f5dccadbf3a23a729df1e90ed6422bf98d23165e213655789745",
+      "kind": "PNG",
+      "width": 650,
+      "height": 300,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
       "distinctImageFrames": 1
     },
     {
@@ -924,6 +2022,26 @@
       "kind": "GIF",
       "width": 300,
       "height": 129,
+      "imageFrames": 4,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 4
+    },
+    {
+      "asset": "assets/images/armies/sources/tenkovi/previews/somua-s35-drive-game-size.png",
+      "sha256": "a8e779783db51f3b4029dbb8288011909c306039c01f6ee1d2e236ab2b625a49",
+      "kind": "PNG",
+      "width": 604,
+      "height": 66,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/armies/sources/tenkovi/previews/somua-s35-drive.gif",
+      "sha256": "2a52120641656b20e3acf505172d2e56cfa67c01ca40396253db8d2ce280f440",
+      "kind": "GIF",
+      "width": 379,
+      "height": 166,
       "imageFrames": 4,
       "hasTransparentPixelsInFirstFrame": true,
       "distinctImageFrames": 4
@@ -989,13 +2107,53 @@
       "distinctImageFrames": 1
     },
     {
-      "asset": "assets/images/sprites/vojnici/bombas-idle.png",
-      "sha256": "6ae33ea1a19799f2123f2832f0763ed77bc3dbf37ad440922ac1bd49d063e121",
+      "asset": "assets/images/sources/pozadine/styles/a-8bit-arcade.png",
+      "sha256": "138466dbe8a41e523d903d409748c9975f9bacd9e75df542f8269a920435b063",
       "kind": "PNG",
-      "width": 528,
-      "height": 144,
+      "width": 1536,
+      "height": 1024,
       "imageFrames": 1,
-      "hasTransparentPixelsInFirstFrame": true,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/sources/pozadine/styles/b-16bit-clusters.png",
+      "sha256": "2333afbbd1a4c4326e6a026fca2a11acc8c7824d2ab2edba1111e3cfa74629ad",
+      "kind": "PNG",
+      "width": 1536,
+      "height": 1024,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/sources/pozadine/styles/b2-partisan-atmosphere.png",
+      "sha256": "c54717697ec62b5e200389fd6cec9b7913c7d1ce21701d0db22301ff5777f20c",
+      "kind": "PNG",
+      "width": 1536,
+      "height": 1024,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/sources/pozadine/styles/b3-lived-wartime-scene.png",
+      "sha256": "fc34511f02d96e8e39c76ab9d77fb34fee65248fcaaa7fbd274aeb3c5e71bf25",
+      "kind": "PNG",
+      "width": 1536,
+      "height": 1024,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/sources/pozadine/styles/c-four-color-handheld.png",
+      "sha256": "af33b40aab2be21873568ff037719160fc5fcdb5b74c28961fda87d29e48feef",
+      "kind": "PNG",
+      "width": 1536,
+      "height": 1024,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
       "distinctImageFrames": 1
     },
     {
@@ -1099,6 +2257,10 @@
       "sha256": "951756eeb3498b126e16edba94e46e2cf3241ab546687d62f54629dd63283461"
     },
     {
+      "path": "assets/images/armies/game-ready/artiljerija/flak38-crew-sprites.png",
+      "sha256": "a164db8110374437bead5f60b9a82b6115996f19a23ac00b832b9c34f2421b9e"
+    },
+    {
       "path": "assets/images/armies/game-ready/artiljerija/flak38-postolje.png",
       "sha256": "91693171cd592250b335bfc06b920dcb4ca2665ba6b5eb55e858901a1050b2db"
     },
@@ -1109,6 +2271,10 @@
     {
       "path": "assets/images/armies/game-ready/artiljerija/pak38-cev.png",
       "sha256": "f16c5d5c158cddd4558acaf52015e61f7aff04639110098ce3e53a323976d2d3"
+    },
+    {
+      "path": "assets/images/armies/game-ready/artiljerija/pak38-crew-sprites.png",
+      "sha256": "3a98bdfddfe498871fe39ff70ac0dfbac8c60fef112b4c79585a1180c0ab932f"
     },
     {
       "path": "assets/images/armies/game-ready/artiljerija/pak38-postolje.png",
@@ -1157,6 +2323,14 @@
     {
       "path": "assets/images/armies/game-ready/avioni/potez-25-zadnji-mitraljez.png",
       "sha256": "c74454be71913858cf5544e8cda9d97f1c9e4ce3587bc8cb960909b4ee3a49f2"
+    },
+    {
+      "path": "assets/images/armies/game-ready/avioni/propeller-side-sprites.png",
+      "sha256": "680973aa77041355a2339429f8a4ec01013d7a02d6fc2ac5ec1a18179cb48c91"
+    },
+    {
+      "path": "assets/images/armies/game-ready/avioni/propeller-top-sprites.png",
+      "sha256": "9c0e161bb3110f3cbecd8a8a983f96f4d084ff88c0b20321b1b952475b761bbd"
     },
     {
       "path": "assets/images/armies/game-ready/brodovi/schnellboot-s30.svg",
@@ -1211,12 +2385,28 @@
       "sha256": "4340290b4f1eb3ab3cd918b83fc4e9fd4807900477abc5b51b0b3c4db36247be"
     },
     {
-      "path": "assets/images/armies/game-ready/tenkovi/somua-s35-body-readable.png",
-      "sha256": "41a69909b74d78fd990aaf642141b1081cae22acba91ddf685db78bb93bebf9b"
+      "path": "assets/images/armies/game-ready/tenkovi/somua-s35-sprites.png",
+      "sha256": "c56b96b2d83b147882e99de1cf0b9ac2af18de48c30c02b0fe03c3be04d0788f"
+    },
+    {
+      "path": "assets/images/armies/game-ready/vojnici/bombas-sprites.png",
+      "sha256": "aee25d9e5e9c0cd865fce10833b952c1d4bae5f750d4df43b24c38041b862ec9"
     },
     {
       "path": "assets/images/armies/game-ready/vojnici/cetnici-spreda.png",
       "sha256": "6c784b8f0af073504e5ecc51724b761d03c76d00b3f85fa7af54c01e6a904bc0"
+    },
+    {
+      "path": "assets/images/armies/game-ready/vojnici/german-patrol-sprites.png",
+      "sha256": "1ed9a0ea0079cf6dbfa7fa8597dc7ffe95c8f0d4d7ae086a3e92211baf14b7b2"
+    },
+    {
+      "path": "assets/images/armies/game-ready/vojnici/italian-patrol-sprites.png",
+      "sha256": "13cb98e6a00b83e5545a890f0b54f595cba126b8db02edf4f588f35c2397304c"
+    },
+    {
+      "path": "assets/images/armies/game-ready/vojnici/mitraljezac-sprites.png",
+      "sha256": "c0aa4ef501c4902b310b4ca9336eb54811a1ab0e644c846385603d2bde00265a"
     },
     {
       "path": "assets/images/armies/game-ready/vojnici/nemacki-jurisnik-sprites.png",
@@ -1239,12 +2429,68 @@
       "sha256": "ff4d1958d367fc18b729365987dc930cd17c260f893b6f55ec97b47338920387"
     },
     {
+      "path": "assets/images/armies/game-ready/vojnici/wounded-sprites.png",
+      "sha256": "42fe3da455b928065a89505c0b479b72a3dab83627838ccb316af90592acad49"
+    },
+    {
       "path": "assets/images/armies/game-ready/vojnici/zastavnici-sprites.png",
       "sha256": "80a588e3d051fd66458a874b507aa418aae13678f108096a72baac4783a977f0"
     },
     {
       "path": "assets/images/armies/game-ready/vozovi/bp42-sprites.png",
       "sha256": "e43f6aef7402da1c7929d9769f1c323aad4a64b1c37c5a8d3b021389ee4a00bc"
+    },
+    {
+      "path": "assets/images/armies/game-ready/wrecks/bp42.png",
+      "sha256": "78090d5503c8af45f78ae4fa9a303cd474165dfb94c8d3cd49b8c81ead2767b4"
+    },
+    {
+      "path": "assets/images/armies/game-ready/wrecks/bunker.png",
+      "sha256": "94826e358e1b788a14111e5959cc1dd2557165691a6e5800d656dedb7053da6d"
+    },
+    {
+      "path": "assets/images/armies/game-ready/wrecks/flak38.png",
+      "sha256": "1050cc071cd47c176a7ddd2d1ab9afd9fef9623620891c4e43db8ac563511f0f"
+    },
+    {
+      "path": "assets/images/armies/game-ready/wrecks/german-tank.png",
+      "sha256": "cb6c9d229800bbcfdf28c6e048f14f272cb7c3c71a59b5f8f994614e37f19205"
+    },
+    {
+      "path": "assets/images/armies/game-ready/wrecks/house-bunker.png",
+      "sha256": "593cbdae6401aacc328f58fdf81066a3cdd1e60281a976f4ecd17631a1054bd3"
+    },
+    {
+      "path": "assets/images/armies/game-ready/wrecks/hummel.png",
+      "sha256": "68b724d302a0f6a0e263fb5d71b3d3f105220920ebe86d5a6d66cf64cd420033"
+    },
+    {
+      "path": "assets/images/armies/game-ready/wrecks/opel-blitz-legion.png",
+      "sha256": "aada710f9dffdc0fe74b230994d63b29912e07fbb8e1a7958a1fb378187bb323"
+    },
+    {
+      "path": "assets/images/armies/game-ready/wrecks/opel-blitz.png",
+      "sha256": "ffd9f1c9abc35bfc42fc2166917d129e032fea4bd3d6783c9d2cd7b6a188ada3"
+    },
+    {
+      "path": "assets/images/armies/game-ready/wrecks/pak38.png",
+      "sha256": "6ea284081a264b49860871b61a617e5c09cf8e657934c8b0eed60b286c448725"
+    },
+    {
+      "path": "assets/images/armies/game-ready/wrecks/partisan-tank.png",
+      "sha256": "01db18190d25b5c74cd03d6496812dc1d304edb37b31b3c16f90c8fb8b684cd3"
+    },
+    {
+      "path": "assets/images/armies/game-ready/wrecks/player-boat.png",
+      "sha256": "9ff66fe9a66398abf9baf97d543a2e0f4c42b7a2cc2a16aa093edaa6cd133b33"
+    },
+    {
+      "path": "assets/images/armies/game-ready/wrecks/somua-s35.png",
+      "sha256": "73b496834c292ef7b6796146c5e5aa9fa25c52a88ad7cb84b4b51d8229ec4b25"
+    },
+    {
+      "path": "assets/images/armies/hummel.png",
+      "sha256": "9249fdca2ee514d43b1a8a6b1ec2306e97e8f20d398e95241d23887340731e7b"
     },
     {
       "path": "assets/images/armies/index.csv",
@@ -1267,10 +2513,6 @@
       "sha256": "cd10b22baced707442d47840e16010603c9ca834b2b91721772a26718f5a02e8"
     },
     {
-      "path": "assets/images/armies/nemci/mitraljezac-01.png",
-      "sha256": "f1c877346e03f9f5575d060b43ea959bfeb946349e55f8d0ee80c8a1f1f09de9"
-    },
-    {
       "path": "assets/images/armies/nemci-patrola.gif",
       "sha256": "fae4a99571be783613d4dcfdecbb3609c1aa31dea31731d7d072794df0293331"
     },
@@ -1291,8 +2533,56 @@
       "sha256": "7c906bbb7ac5b432df92d47fbcc3dceaa5adb8dad27485489e708be36cf4bc18"
     },
     {
-      "path": "assets/images/armies/ranjeni-partizan.png",
-      "sha256": "2370a49b93ae6aa5ddfc2c9ed5de02ed429730f656822c8c94acaecfaadaf330"
+      "path": "assets/images/armies/sources/actor-state-review/prepare.py",
+      "sha256": "0a92c5304db6e24ccc82ca3b2d39f6e12a5f69ce84f05afd7eb125d94c3f256f"
+    },
+    {
+      "path": "assets/images/armies/sources/actor-state-review/review.json",
+      "sha256": "ddd14071c2af00e3cbf5d60d7bb744d61d006d4d55fc37a090d920f8a5fc906a"
+    },
+    {
+      "path": "assets/images/armies/sources/actor-state-review/states-game-size.png",
+      "sha256": "a519d478fa53e5da3cacff398e4efe575f85fc2555da12e0d22b6614fbad6336"
+    },
+    {
+      "path": "assets/images/armies/sources/aircraft-propellers/prepare.py",
+      "sha256": "d46edc8190dbc338099e9a85c1c012ee458792e059b35a577b6927fc4666a3f0"
+    },
+    {
+      "path": "assets/images/armies/sources/aircraft-propellers/preview.html",
+      "sha256": "eebde381906b459c217a2366643fdecc133275e27f34f90ca16c196f262ff04d"
+    },
+    {
+      "path": "assets/images/armies/sources/aircraft-propellers/propellers-game-size.png",
+      "sha256": "b18f271187a2b154694ce91c412315171c018d47881bf513b5015685e6088b69"
+    },
+    {
+      "path": "assets/images/armies/sources/aircraft-propellers/sprites.json",
+      "sha256": "af485442ee4f77d7d18f287246758f79dde0cca86991333a64400d4bc4e00c88"
+    },
+    {
+      "path": "assets/images/armies/sources/bunker-gunner/death-game-size.png",
+      "sha256": "cd032b3ed72f90153dd60e679d9baa88a055e6fbf3c6eda8c06fa48c27cfd2b5"
+    },
+    {
+      "path": "assets/images/armies/sources/bunker-gunner/fire-game-size.png",
+      "sha256": "e7632ac4796bf38e6a158a78f89da506489943d2519ce577fe98ee7589fd89f4"
+    },
+    {
+      "path": "assets/images/armies/sources/bunker-gunner/fire.gif",
+      "sha256": "3532bccff717b42295801e0255c613fa3ccb1f1d9335e920614e5f45c09e079c"
+    },
+    {
+      "path": "assets/images/armies/sources/bunker-gunner/prepare.py",
+      "sha256": "7e3b58681b736823a8e2e87eee0bfb584c1f6b4a848466fe99c972a7c1504ffb"
+    },
+    {
+      "path": "assets/images/armies/sources/bunker-gunner/prompt.json",
+      "sha256": "6deae61adfb2ff044acb2f83fb3c768f7b6cf74ac8005603d72022593d8ec623"
+    },
+    {
+      "path": "assets/images/armies/sources/bunker-gunner/sprites.json",
+      "sha256": "7fe6c28c756ec595b119735bfc5ac1aa670fc26c0db53b11e78c573c107d6218"
     },
     {
       "path": "assets/images/armies/sources/do-trsta/opel-blitz.json",
@@ -1315,6 +2605,10 @@
       "sha256": "28ac028e55ee6b942e13078ada7003675f498a6820d3fdbb87d06930d743a3a5"
     },
     {
+      "path": "assets/images/armies/sources/franjo-kluz/manifest.json",
+      "sha256": "7e7912a38ad09a3ab825fbe7c4986930bef2257a5dfcf11bd85325e4f14af0d9"
+    },
+    {
       "path": "assets/images/armies/sources/franjo-kluz/potez-crew/crew.json",
       "sha256": "7157174d5002130d4afbd187cc4b527105e883a36c3f74e6f0239b12cc0a7566"
     },
@@ -1327,20 +2621,72 @@
       "sha256": "45d67fd4a79596522543bb3643160b5a9d8bca5fa220cf8c7a422584d45562aa"
     },
     {
+      "path": "assets/images/armies/sources/franjo-kluz/prepare.py",
+      "sha256": "2a739c85668e7787df8197b90464ff53cd952b093449070d2d1ceca06f1de280"
+    },
+    {
       "path": "assets/images/armies/sources/franjo-kluz/sprites.json",
       "sha256": "e30a8d73656191032dffbeef4a9bfa161840c70a916afeecd6465ad1363f2d0a"
     },
     {
+      "path": "assets/images/armies/sources/infantry-art/crew-sprites.json",
+      "sha256": "25bd0b52c3c2cc64aeee557631646123870f976e7aed4d1690d1e81af61902a1"
+    },
+    {
+      "path": "assets/images/armies/sources/infantry-art/occupier-attempts.json",
+      "sha256": "70b4ab8382debfba46799f8712d99534356e528bf4135b16ea9f0f19910779db"
+    },
+    {
+      "path": "assets/images/armies/sources/infantry-art/prepare-crews.py",
+      "sha256": "0f2aadf5d882a12450661921470672c642ac1116c1a11a29f3cc3e9748f63bb4"
+    },
+    {
+      "path": "assets/images/armies/sources/infantry-art/prepare.py",
+      "sha256": "fb26576305fd839c96c155becd0c5f02a736a031af10e423160239ecfb78564f"
+    },
+    {
+      "path": "assets/images/armies/sources/infantry-art/previews/bombas-death-game-size.png",
+      "sha256": "f7b092b4d107338c50dee670d438736aa43ad1396f5ef71dbe804987c65ca521"
+    },
+    {
+      "path": "assets/images/armies/sources/infantry-art/previews/bombas-death.gif",
+      "sha256": "0206ec5086a957b1ddd70a0e559c90a7c38f10d4dda5899c144bb77a2a902ef9"
+    },
+    {
+      "path": "assets/images/armies/sources/infantry-art/previews/crews-game-size.png",
+      "sha256": "065ccf101ed3057514a3b52af03b70770f00260d3ca851767bc1ee54a8dde07a"
+    },
+    {
+      "path": "assets/images/armies/sources/infantry-art/sprites.json",
+      "sha256": "f3ce0869b21338c9456fbf03d5454dffc04b3cc746801505a6f0a229a90aeb90"
+    },
+    {
+      "path": "assets/images/armies/sources/ranjenik/prepare.py",
+      "sha256": "8c0c76aeecf96f6e2a3b52aec16756c626d32d3d5c5236e5019b2643881cff70"
+    },
+    {
+      "path": "assets/images/armies/sources/ranjenik/preview.html",
+      "sha256": "7f83d813b223b06a45222775566001e7ea2dce1be58784ee9ad4b19ffc994707"
+    },
+    {
+      "path": "assets/images/armies/sources/ranjenik/previews/ranjenik-game-size.png",
+      "sha256": "fd0dcbe968f8f5dccadbf3a23a729df1e90ed6422bf98d23165e213655789745"
+    },
+    {
+      "path": "assets/images/armies/sources/ranjenik/sprites.json",
+      "sha256": "1506d59bd165f1b93ab44a1809329794a93ba0f30ddceca4cfe3d88be5081a36"
+    },
+    {
       "path": "assets/images/armies/sources/tenkovi/manifest.json",
-      "sha256": "56b13ec8e64285e8e67c400db7d1dd853652f1a7dcb5460532e50d6b3f37465d"
+      "sha256": "5dba42cf1834c314473d7b678b86ce097fe5efa8b023e6d1d67863836e6513c2"
     },
     {
       "path": "assets/images/armies/sources/tenkovi/prepare.py",
-      "sha256": "28c3ea4d656cde0c26c5adae1aba6d367643514b1ec86446a492742aa33e4fea"
+      "sha256": "1079b831a4d1220fc547047bdd46c73a3941424a20ea1ad21154c670a6daaaf9"
     },
     {
       "path": "assets/images/armies/sources/tenkovi/preview.html",
-      "sha256": "517999725b5cdf8d4af6cd38ee289849620ae1a0da19edc08a89a90e73e80e81"
+      "sha256": "e4cefd857d355bfe133e9bdad8a13fb05e4a4f28234c8587577d66651a2820e6"
     },
     {
       "path": "assets/images/armies/sources/tenkovi/previews/nemacki-tenk-drive-game-size.png",
@@ -1359,12 +2705,48 @@
       "sha256": "bf3028cdd4c391da8a72776b66c06ef90465b421461dcfe202bb7bc1c910efd7"
     },
     {
+      "path": "assets/images/armies/sources/tenkovi/previews/somua-s35-drive-game-size.png",
+      "sha256": "a8e779783db51f3b4029dbb8288011909c306039c01f6ee1d2e236ab2b625a49"
+    },
+    {
+      "path": "assets/images/armies/sources/tenkovi/previews/somua-s35-drive.gif",
+      "sha256": "2a52120641656b20e3acf505172d2e56cfa67c01ca40396253db8d2ce280f440"
+    },
+    {
       "path": "assets/images/armies/sources/tenkovi/prompts.json",
       "sha256": "a4e284d32f7c860ee7e0879b967ff5ef6b85f597d82b14b33c3dcb6bea8aa443"
     },
     {
+      "path": "assets/images/armies/sources/tenkovi/somua-prompt.json",
+      "sha256": "95e5b001bbf4e20f13206cd70b9928a2dec59ea5cd3ac61b216812228fcbf5ec"
+    },
+    {
       "path": "assets/images/armies/sources/tenkovi/sprites.json",
-      "sha256": "a73b5bbfcdce037b9d6629f2b29278fba4762e6b4baab93fb3b96b5b07e2cf9b"
+      "sha256": "b67d79043d1ab09b54daa88ec9f160543cc55e569b37b751ac9355ed60c6bda8"
+    },
+    {
+      "path": "assets/images/armies/sources/ustanak/prepare.py",
+      "sha256": "27fe827dec1c51bafcea0ddc6d222e72a63ac583c724a4be3dfc1b1bed94b421"
+    },
+    {
+      "path": "assets/images/armies/sources/ustanak/preview.html",
+      "sha256": "69f2757028f675d0cef10507673cc73bb30b3b2c1c3a72770433cf94381610fe"
+    },
+    {
+      "path": "assets/images/armies/sources/ustanak/sprites.json",
+      "sha256": "4ead5c95e03e2afb6c97c1c414e7a1096dc6abb82b4384e8257e67471aa9b1c7"
+    },
+    {
+      "path": "assets/images/armies/sources/wrecks/prepare.py",
+      "sha256": "8fa3d5fa86896e44db7124136546aeb34eddf09c90dafc29fa14bef27b3f736a"
+    },
+    {
+      "path": "assets/images/armies/sources/wrecks/preview.html",
+      "sha256": "7b640f2cb46472261bd5ecb7b6a670076c6138fc1c3743e66b5a4fb1c569390c"
+    },
+    {
+      "path": "assets/images/armies/sources/wrecks/sprites.json",
+      "sha256": "d61b161b61ccb8731e6f3873b50c5e66e5ebae24e566510865e7c07c9d92bdbf"
     },
     {
       "path": "assets/images/armies/talijani-patrola.gif",
@@ -1391,8 +2773,64 @@
       "sha256": "9ecc1dd0dac612cfdb70527f9fe955dd6ab609c1f2f303d1260c43695d24eb50"
     },
     {
-      "path": "assets/images/sprites/vojnici/bombas-idle.png",
-      "sha256": "6ae33ea1a19799f2123f2832f0763ed77bc3dbf37ad440922ac1bd49d063e121"
+      "path": "assets/images/sources/pozadine/backgrounds.json",
+      "sha256": "833173d8ea9a6648e1eccb347c9ad23d3d80ec2e20cc73367e1f94d893382b37"
+    },
+    {
+      "path": "assets/images/sources/pozadine/manifest.json",
+      "sha256": "61fd528452af56116ead544491bf5bd40ebc957071dd4d77e39d70ae26a617b3"
+    },
+    {
+      "path": "assets/images/sources/pozadine/prepare.py",
+      "sha256": "8d437e3b9d098208a3b280d331c4b97091d5f167fdefc12a4122205b28c3e5d3"
+    },
+    {
+      "path": "assets/images/sources/pozadine/preview.html",
+      "sha256": "f316fffb18a35f39a6984b1c7e13ec9622774192649d03e65377f06397dffe9f"
+    },
+    {
+      "path": "assets/images/sources/pozadine/review.json",
+      "sha256": "409db70f425d8a7be91e04281866a1a875e94b8e0d7b68259478e1de2357e363"
+    },
+    {
+      "path": "assets/images/sources/pozadine/styles/a-8bit-arcade.png",
+      "sha256": "138466dbe8a41e523d903d409748c9975f9bacd9e75df542f8269a920435b063"
+    },
+    {
+      "path": "assets/images/sources/pozadine/styles/b-16bit-clusters.png",
+      "sha256": "2333afbbd1a4c4326e6a026fca2a11acc8c7824d2ab2edba1111e3cfa74629ad"
+    },
+    {
+      "path": "assets/images/sources/pozadine/styles/b2-partisan-atmosphere.png",
+      "sha256": "c54717697ec62b5e200389fd6cec9b7913c7d1ce21701d0db22301ff5777f20c"
+    },
+    {
+      "path": "assets/images/sources/pozadine/styles/b3-lived-wartime-scene.png",
+      "sha256": "fc34511f02d96e8e39c76ab9d77fb34fee65248fcaaa7fbd274aeb3c5e71bf25"
+    },
+    {
+      "path": "assets/images/sources/pozadine/styles/c-four-color-handheld.png",
+      "sha256": "af33b40aab2be21873568ff037719160fc5fcdb5b74c28961fda87d29e48feef"
+    },
+    {
+      "path": "assets/images/sources/pozadine/styles/manifest.json",
+      "sha256": "323894e8823c420a94af7d69d2775de5460de3df9c59ce06372726d724c5cb46"
+    },
+    {
+      "path": "assets/images/sources/pozadine/styles/prepare.py",
+      "sha256": "d15c3d316a10455f236f1752a38d1184f8d213cfc3c5141ed87e1b6e4de6665e"
+    },
+    {
+      "path": "assets/images/sources/pozadine/styles/preview.html",
+      "sha256": "984896396c1c4bf64acf6a20c20fae32758e00e68bf51ec6b2a1cb1cbbd967f8"
+    },
+    {
+      "path": "assets/images/sources/pozadine/styles/review.json",
+      "sha256": "10143460fc93fcf65209868771cf63cab8a1d8b895e1c31e09f45fd3a92d03ab"
+    },
+    {
+      "path": "assets/images/sources/pozadine/styles/scene-preview.html",
+      "sha256": "35c5db75c4d96090766cee6a1903c0edfa35fd9b04d6b490dca6e0c24a0a7753"
     },
     {
       "path": "assets/images/sprites/vojnici/nemac-01.png",
@@ -1432,7 +2870,7 @@
     },
     {
       "path": "core/actor/aircraft/DiveBomber.js",
-      "sha256": "3606b9070bbd3e0831d3585198c770bf0ccbce4b17ed25dd96beb8aaed4dde95"
+      "sha256": "08690b57f6a056a11449419bd161e2cd9f55535a0595ba989a7ba289ec6edcee"
     },
     {
       "path": "core/actor/aircraft/Fighter.js",
@@ -1440,19 +2878,23 @@
     },
     {
       "path": "core/actor/artillery/Flak.js",
-      "sha256": "e3cd212df852d6c5a83ee83e428e576dc65e474d35467ea42669aa11f2484e8c"
+      "sha256": "8a991e468cb82d7e808a0fc9c2e3491d269bd89008c1728db5edad1570c0bd59"
     },
     {
       "path": "core/actor/derived/Grenadier.js",
-      "sha256": "9983db433fa9118bcfc4349a6f1feac7afa3d23314a3275d2610b4bf1a7f7c5a"
+      "sha256": "5b9fbf84e9124685d217e5522b0da8c174f625ee3f670dc2515cd2ac17255024"
     },
     {
       "path": "core/actor/derived/GrenadierSprite.js",
-      "sha256": "d1818f3b75b2b42f4745274e8f5171c99dc03c35969cef4e76f6c20244285ed0"
+      "sha256": "ea32c32f6a9123514c68fff7ca75daaf81f349e632d6e05d7128ce43a923a97b"
     },
     {
       "path": "core/actor/derived/WoundedSoldier.js",
-      "sha256": "9374c6592e72b4de78d8aca4e9bfadcba1a5837d12869191eca9f0e1f671e525"
+      "sha256": "882dad3aeb0261b63fdc288c31d674754a2e2f248cdbb19c5b716987195b8df7"
+    },
+    {
+      "path": "core/actor/GroundTarget.js",
+      "sha256": "c04659701203482e177a10a574e400ed0caf881d4bfbcd94e3fc7b78fbb6a725"
     },
     {
       "path": "core/actor/Occupier.js",
@@ -1460,11 +2902,11 @@
     },
     {
       "path": "core/actor/soldiers/MachineGunner.js",
-      "sha256": "8c786688753bc19448142441e19d56854e1771b809459d1c322ff168649a4c49"
+      "sha256": "73c12c49592e33427f6417caf3a2984d7a1b98dac560d8a05cd13643aed30790"
     },
     {
       "path": "core/actor/soldiers/Patrol.js",
-      "sha256": "fe1a6b4cc9540619b8233b45c6dfc6d66dba8927130df07e2453ab40eb5062b0"
+      "sha256": "2a5c4e557b0e09e7a122e5a11a7bd7daba89e2da0e84e70f77d5addfd5c538ed"
     },
     {
       "path": "core/actor/soldiers/Rifleman.js",
@@ -1475,12 +2917,20 @@
       "sha256": "a51b3039752f2f156fc9c727a39d885846b9087e11fc1e87fcbad080c8853e3f"
     },
     {
+      "path": "core/actor/Sprite.js",
+      "sha256": "ac8ed80e30235502d5329ff0ec4fce2cfc4fec883558115d2f366ae7dc782cff"
+    },
+    {
       "path": "core/actor/TopDownPlayerBoat.js",
       "sha256": "025978c93ab1d88b355918dd170a2506a493ce2a74ea01a5eddecf7ea5d2f1fb"
     },
     {
+      "path": "core/actor/ustanakArt.js",
+      "sha256": "cd41d715dbaa393e55d7b70dc968ec43d4ead82e5c99fc7fe8a6c3124e3b9816"
+    },
+    {
       "path": "core/actor/vehicleArt.js",
-      "sha256": "5f6139cf51df6124faf1f17373d9cc1cfdf81f185dc4cdd1c50f8b9310b61215"
+      "sha256": "9f5375287d16d1fa4814984299effea268aa5f3d3d7b55dbbf72c4974164e0d8"
     },
     {
       "path": "core/actor/vehicles/Vehicle.js",
@@ -1488,35 +2938,43 @@
     },
     {
       "path": "core/actor/VehicleSprite.js",
-      "sha256": "3f80f49104d167d0866fc49090af35468fdc29a8a685431e6541d0b437913624"
+      "sha256": "d07ebb7cc3ce304b557495bdeb5b9f85b37af423d265844cdb42b74a27ff00f3"
+    },
+    {
+      "path": "core/actor/wreckArt.js",
+      "sha256": "ac134771b175be612bf96337d13a614a104958974d05fff0e64c88d93327008f"
     },
     {
       "path": "docs/ANIMACIJA-POZADINE.md",
-      "sha256": "6d49438041a06c8755353ec6c70f2e5b78acca866aeaa64d5a821bbb92697b27"
+      "sha256": "891cd5ddd8a968ef80e95cd0c6ec735b6fee34fb6a11ef93b4adcd6efe7f33ee"
     },
     {
       "path": "docs/ART.md",
-      "sha256": "cf7f9373454c1f9d2a5f13f7da270a556bc9a5b3b9505e4be2ab1ac478329c1e"
+      "sha256": "a9b435a1dd0bd1750c7c3293729ca0b6d87e26fefe507f1bef0593ef009f8275"
     },
     {
       "path": "docs/DOCS.md",
-      "sha256": "ff649b897ba6108417806812f6008d34cebd3854a7557d7c5f102e80f1921a6e"
+      "sha256": "db27e2a4cb1a8e36eef9bcca205577cee4f3602ce6ea81a91f734ef7ed58a2ca"
     },
     {
       "path": "docs/ISTORIJA.md",
-      "sha256": "4c45b49bf287a0da41bf54aa8b899d20aaff1fe5acb8238b537cfe505bb052ae"
+      "sha256": "22a27f78d76d3960f525362b06c5928360ef02983e644ccf5e7fe4709a122019"
     },
     {
       "path": "docs/KONTEKST.md",
-      "sha256": "29ce83a5b92601ed4b0f28ef3fce7ba70a540db42b78cc1727035f38415eb865"
+      "sha256": "72b399e85434ce474f52e8768e1c7303eb4f2efe959b33e3de436196a411c009"
+    },
+    {
+      "path": "docs/PLAN-ZA-IGRE.md",
+      "sha256": "ae112eced184d1e8353089ea584af5e7bf4853e7ec53a10d34f6f58ab91919f6"
     },
     {
       "path": "docs/STORYBOOK.md",
-      "sha256": "56f9fe6c916b5198436525ba889cfd623f228b0a64a75ca0035e21c18f09d808"
+      "sha256": "202d4676b9c4eda654a68943738db9f0025ae28b72cff4a6a2616311a602a521"
     },
     {
       "path": "scenes/camac/Boat.js",
-      "sha256": "d57ea7d627fdc3fe6db7a30ea5c5b59f68685208b84c007e72ad45c108d298cd"
+      "sha256": "59e01ff5364fe64f0a3ddf758fdceafc5d397b92bca0ee3fc05be8fa389b3e9c"
     },
     {
       "path": "scenes/camac/SBoat.js",
@@ -1528,15 +2986,19 @@
     },
     {
       "path": "scenes/franjo-kluz/Potez.js",
-      "sha256": "8a01bd7e0f745db0897c3e419d977f99343c376c3b484e5ddab086dde5059baa"
+      "sha256": "9279c96e193aaa205ebcadd0c93d487259302596534a83d01e3690fd24610642"
     },
     {
-      "path": "scenes/tenkici/PozadinaGrada.js",
-      "sha256": "5e0bcecc4cec4abe0be8b8ab835def2f7072aa90be1d2053cb6a4115fdb80bf6"
+      "path": "scenes/tenkici/BattleBackground.js",
+      "sha256": "48f90ab45f9bbec3275b6423eddc85caa89df7349cf7ec4d631b48c2d063ce98"
+    },
+    {
+      "path": "scenes/tenkici/Main.js",
+      "sha256": "561f0ca01bdc75628b7e32a5b15ae46eb2adc1abe320f0512ec6cf6ce0792144"
     },
     {
       "path": "scenes/tenkici/Tenk.js",
-      "sha256": "8f6688fc5b08bcc638940f88e30c76ef982f868622dcd4d97f0097c952ebf6a3"
+      "sha256": "7a5bc49f2860d96e518074575ea3325c9caad033166fec7759af8de4b4a28b01"
     },
     {
       "path": "scenes/tenkici/TenkDesno.js",
@@ -1548,7 +3010,7 @@
     },
     {
       "path": "scenes/to-trieste/Aircraft.js",
-      "sha256": "e6a3d946d4a2fda6cecf789e5450890f72b732b163eac224a5cdaef7afac1dba"
+      "sha256": "b7ae95570cb05d629e47cdc8da1d77c3f23f84423f15497abbca398c1c052c42"
     },
     {
       "path": "scenes/to-trieste/Bunker.js",
@@ -1556,23 +3018,31 @@
     },
     {
       "path": "scenes/to-trieste/enemyArt.js",
-      "sha256": "2a94fc0e14b9cc4649e25c1875a91fe917936480c971c05b3d11ba61945739e2"
+      "sha256": "b9bce52548167575ac76b5848339317e3774b30e8c61c7a1676b47084e13cc83"
     },
     {
       "path": "scenes/to-trieste/GroundEnemies.js",
-      "sha256": "184c813eb49c4e9a5af0d84348ecb140053d46ae267c02074d5879f7245753bb"
+      "sha256": "ecfe551d94f5595b795ad736cd9ed5124dd43743f1b4a2ba01420679b15a20e9"
     },
     {
       "path": "scenes/ustanak/Battlefield.js",
-      "sha256": "b00e154de574607d75c5db8d273ce38e4255bde328e729e2f1880eeb6fe2895d"
+      "sha256": "6eaf24d07327f82fe772edd63053b751fcc59159cd2a4562d181536d033bf766"
+    },
+    {
+      "path": "scenes/ustanak/GroundLayer.js",
+      "sha256": "ca1c85319997eef8a2026411cb24b57eb6ba0ad2c22b87d56ec7857ea4a222c0"
+    },
+    {
+      "path": "scenes/ustanak/Main.js",
+      "sha256": "901179d5bd1c942504aaee4bec11d451a8e56d677b16a95e664d558fd0a84059"
     },
     {
       "path": "scenes/ustanak/Posada.js",
-      "sha256": "3a6f0ff092bde9600716ef85714f0ed648706b59714d0001d02743b68b01e6fe"
+      "sha256": "66ead9200c725533e7d380dcaf84766b3ce62ecaace2f4742e193eb579ca71b8"
     },
     {
       "path": "scenes/ustanak/Strelac.js",
-      "sha256": "2991afb56ad78dccd0a607534dde812805484c79c5bdf88bd5b445b7c7219798"
+      "sha256": "f258ea20acf43e0b13d02ab6e4e0aaf2b86595a8d190fdc77230fa4c4d824834"
     },
     {
       "path": "scenes/ustanak/Top.js",
@@ -1580,11 +3050,11 @@
     },
     {
       "path": "scenes/ustanak/Zastavnik.js",
-      "sha256": "bf7e0fb50a6f4d071ac08fbb987dfb78e25b49f92d2c9a02e166322cea9402a4"
+      "sha256": "cb2b61ad497398334fe8a3ead83b6aefaaa14c438776e5d3415f805d0a43caca"
     },
     {
       "path": "scenes/vis/Avionce.js",
-      "sha256": "b1ee684ee54f82fb7306038942399614a6a7e17c9a04c69dc18577cd3f10c791"
+      "sha256": "6674bf3d5b87d877d95d2edd47caa371758015568996106c38e83c7a958235ca"
     },
     {
       "path": "scenes/vis/Boss.js",
@@ -1592,7 +3062,7 @@
     },
     {
       "path": "scenes/vis/Enemy.js",
-      "sha256": "7e8f2bf6f9621c2a22f30f5805d020ef69f4fda514b65dbe991ec8060eeccd3c"
+      "sha256": "f56e2cfdecece5ef0fd630f46f5b19b2254f9610b3249acceb499e3f308e0113"
     },
     {
       "path": "scenes/vis/PlayerView.js",
@@ -1600,11 +3070,11 @@
     },
     {
       "path": "scripts/index-sprite-art.py",
-      "sha256": "f702b52ed3e289d80fc83d41cbf1420c931ded74a0b577d554caa25597d905fd"
+      "sha256": "fb35e9a8fc70f48ba60e52594b5f74c1f7f3d37cee6dab3efd2e28b79ea4ecca"
     },
     {
       "path": "scripts/prepare-vehicle-art.py",
-      "sha256": "9841f6963a0e6ed2b0e429f727df42ab251349794c115626a9c17b9998b3f9c9"
+      "sha256": "7f7cbfbcfbed652a6146075759f59447c6a31663a4aea55d83673df9704dfb5f"
     },
     {
       "path": "storybook/stories/characters3d.js",
@@ -1612,7 +3082,7 @@
     },
     {
       "path": "storybook/stories/index.js",
-      "sha256": "e7080c4efc130949ed5d0f4f256d60bb5b4f1f67073edd212786e5d5661325f6"
+      "sha256": "46f9a4b99d462964ed217f1cddb16586595909d28c6eef2670be69f6c10a3d68"
     },
     {
       "path": "storybook/stories/objects3d.js",
@@ -1620,7 +3090,7 @@
     },
     {
       "path": "storybook.html",
-      "sha256": "0ffd4df285ab315dcde93057018af1990e2f1085be97e400bb491ec9c16a2a12"
+      "sha256": "2f4713885ee134b7848f03b4bf1c0b58a53c03f1da3d8950d16719850c71b5fe"
     },
     {
       "path": "tests/unit/groundTarget.test.js",
@@ -1636,7 +3106,7 @@
     },
     {
       "path": "tests/unit/tenkici.test.js",
-      "sha256": "5aac5423592d1507660f94ee886bfde3675774ed2e4e3530e7625a0b68adce1e"
+      "sha256": "a2b5d3f8e8e668bd2d17119dcd3b983fae4b257f791e07213d50ba8a16c61688"
     },
     {
       "path": "tests/unit/toTriesteGroundEnemy.test.js",
@@ -1644,7 +3114,7 @@
     },
     {
       "path": "tests/unit/vehicleArt.test.js",
-      "sha256": "ccb7ecdcde2fbe6541ffa81887adef7328bb32bb66679214c5786ada7044939b"
+      "sha256": "c58843f8dd4ae78a41faf4b7a0dd0c49635bc78113615eea8367668b8ba0594a"
     }
   ]
 }

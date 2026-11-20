@@ -58,8 +58,8 @@ export const vehicles = [
 ]
 
 export const aircraft = [
-  { id: 'potez-ndh', name: 'Potez 25, NDH', game, block: potezModule, create: plane(potezModule.markings.ndh) },
-  { id: 'potez-partizanski', name: 'Potez 25, partizanski', game, block: potezModule, create: plane(potezModule.markings.partisan) },
+  { id: 'potez-ndh', name: 'Potez 25, NDH', game, block: potezModule, create: plane(potezModule.markings.ndh), controlKeys: potezModule.controlKeys },
+  { id: 'potez-partizanski', name: 'Potez 25, partizanski', game, block: potezModule, create: plane(potezModule.markings.partisan), controlKeys: potezModule.controlKeys },
   { id: 'bf109-levo', name: 'Bf 109, nalevo', game, block: fighterModule, create: fighter(false) },
   { id: 'bf109-desno', name: 'Bf 109, nadesno', game, block: fighterModule, create: fighter(true) },
   { id: 'ju87-obrusavac', name: 'Ju 87', game, block: diveBomberModule, create: diveBomber },

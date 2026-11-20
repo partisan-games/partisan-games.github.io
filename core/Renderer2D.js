@@ -1,4 +1,5 @@
 import { origins } from './constants.js'
+import { bodyImage } from './actor/wreckView.js'
 
 const poravnajNiz = niz => niz.flatMap(predmet =>
   [predmet, ...(predmet.children ? poravnajNiz(predmet.children) : [])]
@@ -35,12 +36,13 @@ export default class Renderer2D {
   }
 
   drawFrame(predmet) {
+    const image = bodyImage(predmet)
     if (predmet.origin === origins.center)
-      this.ctx.drawImage(predmet.image, -predmet.width / 2, -predmet.height / 2, predmet.width, predmet.height)
+      this.ctx.drawImage(image, -predmet.width / 2, -predmet.height / 2, predmet.width, predmet.height)
     else if (predmet.origin === origins.topLeft)
-      this.ctx.drawImage(predmet.image, 0, 0, predmet.width, predmet.height)
+      this.ctx.drawImage(image, 0, 0, predmet.width, predmet.height)
     else if (predmet.origin === origins.bottomRight)
-      this.ctx.drawImage(predmet.image, -predmet.width, -predmet.height, predmet.width, predmet.height)
+      this.ctx.drawImage(image, -predmet.width, -predmet.height, predmet.width, predmet.height)
   }
 
   addShadow(predmet) {
@@ -61,10 +63,13 @@ export default class Renderer2D {
     this.ctx.scale(predmet.flipY, predmet.flipX)
     this.ctx.scale(predmet.scaleX, predmet.scaleY)
 
+    if (!predmet.debug) predmet.crew?.renderLocal?.(this.ctx, predmet)
     if (!predmet.image || predmet.debug)
       this.drawShape(predmet)
     else
       this.drawFrame(predmet)
+
+    if (!predmet.debug) predmet.propellers?.renderLocal(this.ctx, predmet)
 
     this.ctx.restore()
     // A separately registered flame drawable controls its own layer and must not be drawn twice.

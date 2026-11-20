@@ -1,6 +1,8 @@
 import Scene2D from '/core/Scene2D.js'
 import { drawSky } from '/core/io/canvas2d.js'
 import Target from './Target.js'
+import { isTouchScreen } from '/config.js'
+import { keys } from '/core/io/keys.js'
 
 /** The share of the view's height above the ground line, so the ground under the blocks is seen. */
 const skyShare = .8
@@ -10,8 +12,13 @@ const skyShare = .8
  * player, for a block that flies or drives after one.
  */
 export default class Stage2D extends Scene2D {
-  constructor() {
-    super({ disableEvents: true, showControls: false })
+  /** `controlKeys` of a block the keys drive are shown as in its game, without pause, which the stage does not have. */
+  constructor({ controlKeys } = {}) {
+    super({
+      disableEvents: true,
+      showControls: Boolean(controlKeys) && !isTouchScreen,
+      controlKeys: { ...controlKeys, [keys.pause.label]: '' },
+    })
     this.groundY = Math.round(this.height * skyShare)
     /** What a block that follows the player follows, as high as a plane flies; it is not drawn. */
     this.target = new Target({ x: this.width / 2, y: this.groundY - 300 })

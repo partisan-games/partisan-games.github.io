@@ -14,6 +14,7 @@ import Renderer2D from '/core/Renderer2D.js'
 import Explosion from '/core/actor/effects/Explosion.js'
 import Bomb from '/core/actor/projectiles/Bomb.js'
 import { attackLabels } from '/core/io/keys.js'
+import { baseControls } from '/ui/Controls.js'
 
 const tiltRate = 0.01
 const maxTilt = 0.066
@@ -37,6 +38,8 @@ export const plane = {
 }
 /** The key that drops a bomb; on a phone the 💣 button. */
 export const bombKey = attackLabels.Enter
+/** The keys the controls list shows for the plane. */
+export const controlKeys = { ...baseControls, Space: 'Machine gun', [bombKey]: 'Drop bomb' }
 /** A bomb's burst is drawn this far above its impact, so the fire stands on the ground. */
 const burstLift = 64
 /** The front machine gun: seconds between shots and bullet speed in pixels per second, as the guns in Vis. */

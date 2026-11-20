@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "pathBase": "assets/images",
+  "integrationStatus": "Retained usable variants; final pixel-art style review pending. Production stopped by owner.",
+  "coordinates": "Source pixels, top-left origin; groundY is the far edge of the flat combat strip, not an actor foot anchor",
+  "backgrounds": [
+    {
+      "id": "bihac",
+      "name": "Bihać",
+      "src": "background/bihac-ww2-pixel.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "groundY": 818,
+      "hotspots": [
+        {
+          "x": 170,
+          "y": 544,
+          "intensity": 0.55,
+          "kind": "fire"
+        },
+        {
+          "x": 1410,
+          "y": 569,
+          "intensity": 0.6,
+          "kind": "fire"
+        },
+        {
+          "x": 777,
+          "y": 498,
+          "intensity": 0.3,
+          "kind": "smoke"
+        }
+      ],
+      "sha256": "8b0d98c127645711eab2af647401bf7740149e7218c81de1dc33527597886ca9"
+    },
+    {
+      "id": "uzice",
+      "name": "Užice",
+      "src": "background/uzice-ww2-pixel.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "groundY": 813,
+      "hotspots": [
+        {
+          "x": 1340,
+          "y": 590,
+          "intensity": 0.6,
+          "kind": "fire"
+        },
+        {
+          "x": 1220,
+          "y": 509,
+          "intensity": 0.4,
+          "kind": "smoke"
+        },
+        {
+          "x": 1000,
+          "y": 540,
+          "intensity": 0.3,
+          "kind": "fire"
+        }
+      ],
+      "sha256": "08311c6e4ad88fb80099c7c3d182be611c78fb5d8cfa6b32d5860eda2e700827"
+    },
+    {
+      "id": "neretva",
+      "name": "Neretva",
+      "src": "background/neretva-ww2-pixel.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "groundY": 818,
+      "hotspots": [
+        {
+          "x": 976,
+          "y": 398,
+          "intensity": 0.6,
+          "kind": "fire"
+        },
+        {
+          "x": 1241,
+          "y": 444,
+          "intensity": 0.4,
+          "kind": "fire"
+        },
+        {
+          "x": 708,
+          "y": 628,
+          "intensity": 0.35,
+          "kind": "smoke"
+        }
+      ],
+      "sha256": "5083e1f4c1cd096a3a4eb3eea78dc1ec845d55389dac63d907b300a1dae1f57f"
+    },
+    {
+      "id": "drvar",
+      "name": "Drvar",
+      "src": "background/drvar-ww2-pixel.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "groundY": 813,
+      "hotspots": [
+        {
+          "x": 234,
+          "y": 552,
+          "intensity": 0.6,
+          "kind": "fire"
+        },
+        {
+          "x": 558,
+          "y": 627,
+          "intensity": 0.45,
+          "kind": "smoke"
+        },
+        {
+          "x": 1394,
+          "y": 622,
+          "intensity": 0.4,
+          "kind": "fire"
+        }
+      ],
+      "sha256": "4e8ad7bd6a82aa8965738000a2073b20546e504615bc7fa195124057c84b6792"
+    }
+  ],
+  "ownerStyleFeedback": "Owner stopped production: the images look too realistic. Keep every existing image as a usable variant. Future work needs visibly larger pixel clusters, simpler forms, fewer fine details and a more obvious pixel-art look. Do not resume or restyle the preserved images without a new instruction."
+}

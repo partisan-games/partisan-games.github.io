@@ -1,0 +1,53 @@
+{
+  "id": "neretva",
+  "tool": "built-in image_gen",
+  "exactPrompt": "Create one finished opaque landscape pixel-art background for a WWII Yugoslavia artillery/tank game. The two supplied project images are STYLE AND FRAMING references, not edit targets. Match their crisp pixel clusters, restrained natural colors, damaged period masonry, atmospheric distance and low side-view combat strip; do not make a smooth photograph or a flat geometric placeholder. Aim for a landscape canvas around 3:2; keep the actual delivered dimensions and never crop away landmarks to force a size. Make the far edge of a wide, level, dry foreground combat strip a perfectly horizontal line around 80.6 percent of image height. Keep the lower foreground and the band immediately above that line quiet, fairly light and low in small details across the entire width, so dark soldiers, cannons and tanks remain readable anywhere along it. Put distinctive landmarks and sharp grouped details in the middle distance, inside the central 80 percent of the canvas. Leave the upper corners and bottom corners visually calm for existing game overlays. Water, cliffs, trenches, wire and rubble remain BEHIND the playable foreground, never crossing the combat strip. Show clear WWII war damage in the middle distance, appropriate to this location. No people, playable vehicles, labels, text, UI, logos or borders. No modern buildings, memorial complexes, highways, powerlines, tourist platforms or modern bridges. NO painted flames, smoke plumes, sparks or glowing fires anywhere: draw cold charred damage instead; game code will animate effects later. This is a landscape homage with compressed geography, not a claim of a documented battle or tank deployment at this exact viewpoint. Preserve location-specific recognizable forms from the historical notes.\nLOCATION: Jablanica: a steep rocky Neretva gorge with green-blue water and the broken EARLY railway bridge of March 1943, its dark iron lattice span collapsed steeply toward the water with a clear gap and surviving masonry abutments. Use a verified 1943 archival view for the broken-span silhouette; do not copy the later replacement bridge, the 1968 film bridge or today's memorial pedestrian walkway. Do not paint a complete passable railway bridge, museum, memorial train display, modern road bridge or reservoir. Period houses and a ruined railway-side wall in the middle distance. River and collapsed bridge are behind a continuous dry foreground terrace.\nImages 1 and 2: established pixel-art style and horizontal combat-foreground composition only. Images 3 and 4: actual March 1943 broken railway bridge references: narrow riveted metal lattice bridge, twisted deck steeply descending from a surviving masonry abutment into the river, visible broken curved lower chord and damaged bracing. Translate this into a wider SIDE VIEW of the same type of broken iron span, not a modern tall straight deck truss or stone arch. The broken bridge must be clearly prominent in the central middle distance, its deck cut and fallen into turquoise Neretva, NEVER spanning the dry foreground. Rocky pale limestone gorge walls rise behind. Include one or two small damaged plastered railway-side houses, cold charred roof beams, a broken retaining wall; no museum, display locomotive, smoke or flames. Continuous flat pale dry earth combat strip below a straight edge at about y=825 on a 1024-high landscape canvas. No people or labels. Preferred 1536x1024.",
+  "referenceImages": [
+    {
+      "image": "assets/images/sources/pozadine/references/crnogorsko-selo-1941-pixel.png",
+      "sha256": "dc01c58753f3ee58dee9efbcb3fe7eb8007591b1adc1ac71d3ac207fb3748316",
+      "repositoryImage": "assets/images/background/crnogorsko-selo-1941-pixel.png"
+    },
+    {
+      "image": "assets/images/background/bihac-ww2-pixel.png",
+      "sha256": "8b0d98c127645711eab2af647401bf7740149e7218c81de1dc33527597886ca9"
+    },
+    {
+      "image": "assets/images/sources/pozadine/references/neretva-1943-11150.jpg",
+      "sha256": "7b6f4b01df136e89e330d3f36226327aaa6d9896f039d39d1cf3829aab7de667",
+      "source": "https://znaci.org/fotografija.php?br=11150",
+      "snapshotRetained": false
+    },
+    {
+      "image": "assets/images/sources/pozadine/references/neretva-1943-side.jpg",
+      "sha256": "2a4a968dfef9d923254e462e18695c33710ee041b023c280b81bdb11586e82f8",
+      "source": "https://znaci.org/fotografija.php?br=11351",
+      "snapshotRetained": false
+    }
+  ],
+  "rawImage": "assets/images/sources/pozadine/raw/neretva-01.png",
+  "generatedFile": "C:\\Users\\d_pavlica\\.codex\\generated_images\\01a1f864-d971-7171-ada8-af676745fb10\\exec-c217561a-6f9b-41bc-ac2c-25488cdbdb66.png",
+  "groundY": 818,
+  "hotspots": [
+    {
+      "x": 976,
+      "y": 398,
+      "intensity": 0.6,
+      "kind": "fire"
+    },
+    {
+      "x": 1241,
+      "y": 444,
+      "intensity": 0.4,
+      "kind": "fire"
+    },
+    {
+      "x": 708,
+      "y": 628,
+      "intensity": 0.35,
+      "kind": "smoke"
+    }
+  ],
+  "sha256": "5083e1f4c1cd096a3a4eb3eea78dc1ec845d55389dac63d907b300a1dae1f57f",
+  "preservedImage": "assets/images/background/neretva-ww2-pixel.png"
+}

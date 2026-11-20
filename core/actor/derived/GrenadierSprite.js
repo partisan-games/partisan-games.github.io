@@ -4,17 +4,35 @@ const vremeZaustavljanja = .15
 
 export default class GrenadierSprite extends Sprite {
   constructor() {
-    super('sprites/vojnici/bombas-idle.png', {
-      names: ['idle', 'kretanje'], frameCount: [2, 8], defaultAnimation: 'idle',
+    super('armies/game-ready/vojnici/bombas-sprites.png', {
+      names: ['idle', 'kretanje', 'death'], frameCount: [2, 8, 6], defaultAnimation: 'idle',
       animationTime: .6, width: 66, height: 72,
     })
     this.animate = true
     this.movement = false
     this.walkSpeed = 0
     this.stopsLeft = 0
+    this.falling = false
+  }
+
+  fall() {
+    if (this.falling) return
+    this.falling = true
+    this.animationTime = .6
+    this.setAnimation('death', false)
+  }
+
+  onload() {
+    super.onload()
+    if (this.falling) this.setAnimation('death', false)
   }
 
   update(dt) {
+    if (this.falling) {
+      // Large time steps must still reach and hold the final fallen pose.
+      this.animationElapsed = Math.min(this.animationElapsed + dt, this.animationTime - 1e-9)
+      return
+    }
     if (!this.animate) this.stopsLeft = 0
     else if (this.movement) this.stopsLeft = vremeZaustavljanja
     else this.stopsLeft = Math.max(0, this.stopsLeft - dt)

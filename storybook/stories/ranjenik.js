@@ -1,6 +1,7 @@
 import Patrol, * as patrolModule from '/core/actor/soldiers/Patrol.js'
 import WoundedSoldier, * as woundedSoldierModule from '/core/actor/derived/WoundedSoldier.js'
 import { fromAbove, put } from './helpers.js'
+import { baseControls } from '/ui/Controls.js'
 
 const patrol = src => stage => {
   fromAbove(stage)
@@ -20,6 +21,6 @@ const game = 'Ranjenik'
 export const soldiers = [
   { id: 'nemacka-patrola', name: 'Nemačka patrola', game, block: patrolModule, create: patrol('armies/nemci-patrola.gif') },
   { id: 'italijanska-patrola', name: 'Italijanska patrola', game, block: patrolModule, create: patrol('armies/talijani-patrola.gif') },
-  { id: 'ranjeni-partizan', name: 'Ranjeni partizan', game, block: woundedSoldierModule, create: wounded },
+  { id: 'ranjeni-partizan', name: 'Ranjeni partizan', game, block: woundedSoldierModule, create: wounded, controlKeys: baseControls },
 ]
 

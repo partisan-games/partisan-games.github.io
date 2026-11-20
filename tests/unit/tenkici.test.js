@@ -42,3 +42,17 @@ test('when both tanks are destroyed at once, the victory stands', t => {
   assert.match(document.getElementById('modal').textContent, /German tank destroyed/)
   assert.doesNotMatch(document.getElementById('modal').textContent, /Game over/)
 })
+
+test('each new tank match is fought on the next battlefield, starting over after the last', async() => {
+  const { default: Tenkici, battlefieldOrder } = await import('/scenes/tenkici/Main.js')
+  const seen = []
+  for (let i = 0; i <= battlefieldOrder.length; i++) {
+    const scene = new Tenkici()
+    scene.init()
+    seen.push(scene.battlefield)
+    scene.end()
+  }
+  const first = battlefieldOrder.indexOf(seen[0])
+  assert.deepEqual(seen, seen.map((_, i) => battlefieldOrder[(first + i) % battlefieldOrder.length]))
+  assert.equal(seen.at(-1), seen[0], 'after the last it starts over')
+})

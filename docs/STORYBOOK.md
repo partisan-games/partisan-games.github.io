@@ -6,10 +6,11 @@
 
 - Storybook prikazuje samo aktere, igrače i neprijatelje, uključujući bibliotečke klase za te uloge; pozadine, okolina, efekti, projektili i predmeti nemaju zasebne priče (odluka vlasnika). Saradnici poput metka ili eksplozije mogu se videti uz aktera tokom pucanja/pogotka, a svetlo, tlo i meta deo su pozornice. Obim određuje uloga, ne folder klase.
 - Levo je spisak vrsta (vojnici, tenkovi i vozila, avioni, brodovi, artiljerija i 3D vrste) i njihovih priča. Priča je jedan blok u jednom početnom podešavanju; adresa joj je `#vrsta/priča`, pa se otvara linkom i ostaje posle reload-a.
+- Blok kojim se upravlja tasterima (Potez, avioni sa Visa, tenkovi, čamac, ranjenik) ima dole levo, pored spiska priča, isto dugme „CONTROLS” kao u svojoj igri, bez pauze.
 - Desno su dugmad stanja bloka, zatim pucanja koja blok podržava („Pucaj gore”, „Pucaj pravo”), podešavanja bloka, „Prati kamerom” i „Reset”.
-- „Reset” ponovo pravi priču; potreban je jer stanje ne vraća mrtav blok, a blok koji odleti ili odveze se ostaje van ekrana. Isto radi klik na priču u spisku.
+- „Reset” vraća početna podešavanja i ponovo pravi priču; potreban je jer stanje ne vraća mrtav blok, a blok koji odleti ili odveze se ostaje van ekrana. Isto radi klik na priču u spisku.
 - Kamera stoji; „Prati kamerom” drži blok u sredini ekrana. Avion igrača, koji leti brzinom leta, prati od početka i vodi se tastaturom igre.
-- Podešavanja menjaju izvezene objekte podešavanja bloka, npr. `rifle` strelca: klizač ide od 0 do četiri puta veće početne vrednosti. Promena ponovo pravi priču, jer blok neke vrednosti čita samo pri stvaranju; „Vrati” i prelazak na drugu priču vraćaju početne vrednosti.
+- Podešavanja menjaju izvezene objekte podešavanja bloka, npr. `rifle` strelca: klizač ide od 0 do četiri puta veće početne vrednosti. Promena ponovo pravi priču, jer blok neke vrednosti čita samo pri stvaranju; „Reset” i prelazak na drugu priču vraćaju početne vrednosti.
 
 ## Pozornica
 

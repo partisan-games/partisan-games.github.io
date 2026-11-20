@@ -14,7 +14,7 @@ import * as objects3d from './objects3d.js'
 /**
  * The kinds of blocks, each with its stories. A story is one block alone on the stage: `create(stage)` puts it there
  * and gives it back; `block` is the module it comes from; `game` is where the world uses it; `stage` is the stage
- * class it needs, the 2D one by default.
+ * class it needs, the 2D one by default; `controlKeys`, for a block the keys drive, are the keys its game lists.
  */
 export default [
   { id: 'vojnici', title: 'Vojnici', stories: [...franjoKluz.soldiers, ...ustanak.soldiers, ...bunker.soldiers, ...ranjenik.soldiers, ...neretva.soldiers, ...otpisani.soldiers] },

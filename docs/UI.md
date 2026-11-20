@@ -78,7 +78,7 @@ Postojeće šablone sastavlja [UI](../ui/UI.js#L99). Poziv igre treba da ide kro
 
 Na standardnoj pauzi redosled je Main menu, Settings, Play again, Continue; na ishodu Main menu, Play again. Uvod je poseban slučaj bez menija. Opšte pravilo je meni na vrhu i potvrda/nastavak na dnu tamo gde nastavak postoji; ekran greške ima samo meni.
 
-Danas Esc tokom igre otvara pauzu. Zajednički Escape handler koji iz svakog centralnog prozora vraća na meni nije implementiran; u pauzi i ostalim centralnim prozorima Esc ne radi ništa. Da li Esc iz prozora vraća u igru ili u meni, vlasnik još nije odlučio; do tada ostaje ovako. Ne zaključivati ponašanje iz komentara ili samog redosleda dugmadi.
+Danas Esc tokom igre otvara pauzu. Zajednički Escape handler koji iz svakog centralnog prozora vraća na meni nije implementiran; u pauzi i ostalim centralnim prozorima Esc ne radi ništa. Tako i ostaje: Esc u pauzi i ostalim centralnim prozorima ne radi ništa (odluka vlasnika, 2026-11-20). Ne zaključivati ponašanje iz komentara ili samog redosleda dugmadi.
 
 ### Prilagođeni početak
 
@@ -141,7 +141,7 @@ const inputOptions = {
 
 Opis mora odgovarati stvarnoj radnji, uključujući javne alternativne tastere, držanje i otpuštanje. Izričito skrivene prečice ne dopisuju se u korisničko uputstvo. `event.code` označava fizički taster, ne nužno znak sa lokalizovane tastature. Ne premeštati binding da bi odgovarao pogrešnom opisu i ne smatrati vidljivu karticu igre dokazom potpune touch podrške.
 
-**Poznata ograničenja touch-a:** touch nije ekvivalent tastature. Nema trčanja, bočnog kretanja, kočnice vozila ni brzine Zeppelina; Sorceress ima leteći skok bez touch dugmeta; Tenkići, Ustanak i Do Trsta nemaju touch, a FPS isključuje joystick. Touch nema ni dugme za pauzu, pa ni put do podešavanja i menija. Nova touch dugmad dodaju se tek kad vlasnik odobri koje radnje i gde; tada dobijaju isto značenje i pravilo držanja kao tastatura.
+**Poznata ograničenja touch-a:** touch nije ekvivalent tastature. Nema trčanja, bočnog kretanja, kočnice vozila ni brzine Zeppelina; Sorceress ima leteći skok bez touch dugmeta; Tenkići, Ustanak i Do Trsta nemaju touch, a FPS isključuje joystick. Na mobilnom nema dugmeta za pauzu (odluka vlasnika, 2026-11-20): igre nisu pravljene za mobilni, kako piše i na naslovnoj, a ovako su dovoljno upotrebljive; igra se sama pauzira kad korisnik izađe iz nje, a browserovo „nazad” vraća u meni. Radnja bez koje igra na telefonu nije upotrebljiva dobija touch dugme kad ga ta igra zatraži (odluka vlasnika, 2026-11-20); dugme ima isto značenje i pravilo držanja kao tastatura, a mesto i oznaku odobrava vlasnik.
 
 **Raspored na uskom ekranu:** pored strelica akcijska dugmad koja ne staju u jedan red prelaze u red iznad, a na najužim telefonima se malo smanje; dugme kamere uvek ide iznad njih, koliko god redova bilo ([Touch](../core/io/Touch.js)). Centralni prozor nikad nije širi od ekrana, a viši od ekrana se pomera.
 

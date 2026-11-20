@@ -53,7 +53,7 @@ for (const [name, tankClass, width, height, x, forward] of [
   assert.equal(tank.bodySprite.frameIndex, 0)
 })
 
-for (const kind of ['germanTank', 'truck']) test(`${kind} animates its own drive, not road scrolling, and resets after destruction`, () => {
+for (const kind of ['germanTank', 'truck', 'tank']) test(`${kind} animates its own drive, not road scrolling, and resets after destruction`, () => {
   const art = groundEnemyArt[kind]
   const enemy = new GroundEnemy({ ...profiles.find(profile => profile.kind === kind),
     art, clock: new GameClock(), target: { x: 0, y: 300, width: 20, height: 20, alive: true },

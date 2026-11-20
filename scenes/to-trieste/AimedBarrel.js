@@ -45,7 +45,7 @@ export default class AimedBarrel extends GameObject2D {
   }
 
   render() {
-    if (!this.owner.shown || !this.visible || !this.image?.naturalWidth || !Number.isFinite(this.x + this.y)) return
+    if (this.owner.dead || !this.owner.shown || !this.visible || !this.image?.naturalWidth || !Number.isFinite(this.x + this.y)) return
     ctx.save()
     ctx.translate(this.x, this.y)
     ctx.rotate(this.angle - Math.PI)

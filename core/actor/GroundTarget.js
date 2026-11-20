@@ -1,6 +1,7 @@
 import { outsideView } from '/core/actor/worldView.js'
 import Sprite from '/core/actor/Sprite.js'
 import { ctx } from '/core/io/canvas2d.js'
+import { bodyImage, wreckFor } from './wreckView.js'
 
 /**
  * An enemy standing on the ground at a fixed place in the world. Bullets wear down its `health`; a bomb destroys it
@@ -17,6 +18,7 @@ export default class GroundTarget extends Sprite {
       defaultAnimation: 'idle', animationTime: art?.clips.idle.seconds || 1.4,
     })
     this.art = art
+    if (vehicle) wreckFor(art?.src || src)
     this.pose = 'idle'
     this.tags.add('neprijatelj')
     this.health = health
@@ -99,7 +101,9 @@ export default class GroundTarget extends Sprite {
       drawWidth = width * scale
       drawHeight = height * scale
     }
-    ctx.drawImage(this.image, frame * width, startFrame / frameCount * height, width, height, x, y, drawWidth, drawHeight)
+    const image = bodyImage(this), wrecked = image !== this.image
+    this.crew?.renderLocal?.(ctx, this)
+    ctx.drawImage(image, wrecked ? 0 : frame * width, wrecked ? 0 : startFrame / frameCount * height, width, height, x, y, drawWidth, drawHeight)
   }
 
   render() {

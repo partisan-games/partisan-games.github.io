@@ -1,0 +1,6 @@
+{
+  "prompt": "Edit this exact accepted side-on military game sprite into its destroyed wreck. ONE Hummel tracked self-propelled gun facing RIGHT, fully isolated on transparent background, no ground or shadows. Maintain exact original camera, direction, length-to-height proportions, recognizable vehicle construction, dark pixel outlines and muted olive-gray pixel-art palette. Same angular open fighting compartment, track chassis and long right-facing gun; now gun sagging/broken at the front, side armor torn open, broken caterpillar belt and several collapsed wheels. Add scorched dark openings and torn metal to make destruction readable at 150 pixels wide. No fire, smoke, explosion, people, blood, sky, terrain, text labels, extra vehicles, new markings or photorealistic rendering. The wreck remains within the original live vehicle's approximate footprint and stands at the same baseline, with empty transparent margin above. Clear pixel clusters, no soft brush or blur.",
+  "refs": [
+    "C:/Users/d_pavlica/OneDrive - Wargaming.net/Documents/GitHub/partisan-games.github.io/assets/images/armies/sources/wrecks/hummel-reference.png"
+  ]
+}

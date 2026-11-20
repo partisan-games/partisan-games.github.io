@@ -32,11 +32,15 @@ def build(recipe):
     original_path = (HERE / recipe['reference']).resolve()
     generated_path = HERE / recipe['source']
     original = Image.open(original_path).convert('RGBA')
+    if 'frameSize' in recipe:
+        original = original.resize(tuple(recipe['frameSize']), Image.Resampling.NEAREST)
     generated = Image.open(generated_path).convert('RGBA')
     assert generated.size == tuple(recipe['sourceSize']), f"Source crop needs review: {recipe['id']}"
     width, height = original.size
     mask = Image.new('L', original.size)
     ImageDraw.Draw(mask).polygon(recipe['trackMask'], fill=255)
+    for cutout in recipe.get('maskCutouts', []):
+        ImageDraw.Draw(mask).polygon(cutout, fill=0)
     mask = ImageChops.multiply(mask, original.getchannel('A'))
     frames = []
     for index in range(4):
@@ -107,7 +111,7 @@ def main():
     metadata = {
         'schemaVersion': 1, 'generatedWith': 'Built-in image_gen; Pillow atlas packing',
         'integration': 'Integrated through core/actor/vehicleArt.js and VehicleSprite.js into TenkLevo, TenkDesno '
-                       'and the German GroundEnemy in Do Trsta, including their existing Storybook stories. '
+                       'and the German and Somua GroundEnemy in Do Trsta, including their existing Storybook stories. '
                        'Existing static hulls and barrel resources are unchanged. '
                        'Anchor is the existing center origin; groundAnchor is a separate baseline. '
                        'Keep per-frame dimensions for collision and barrel positioning, never atlas dimensions. '

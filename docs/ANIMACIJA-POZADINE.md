@@ -16,12 +16,20 @@ U Ustanku zastave po izričitoj odluci vlasnika zadržavaju položaj i smer ka s
 
 ## Tenkići
 
-- `scenes/tenkici/PozadinaGrada.js` crta izvorni `assets/images/background/razrusen-grad-ww2-pixel.png` i preko njega animirane efekte.
+- `scenes/tenkici/BattleBackground.js` crta izvorni `assets/images/background/razrusen-grad-ww2-pixel.png` i preko njega animirane efekte.
 - Efekti se crtaju na transparentnom platnu 724 × 543 i uvećavaju bez zaglađivanja, tako da odgovaraju pikselima pozadine.
 - Tri žarišta imaju stalne koordinate. Vrhovi plamena menjaju visinu i otklon neprekidnim funkcijama vremena.
 - Dim se podiže, širi i postepeno nestaje. Svaka čestica izbledi pre nego što se njen prostor ponovo upotrebi, čime se izbegava vidljiv skok.
 - Dva gusta stuba imaju različitu širinu, brzinu, nagib, veličinu oblačića i ritam emisije. Samo pomeranje početne faze nije dovoljno da izgledaju različito.
 - Vreme napreduje kroz `update(dt)` scene: pauza zaustavlja animaciju, a završni ekran ostavlja vatru i dim u pokretu. Nema dodatnih tajmera ni zasebne petlje animacije.
+
+## Deljenje pozadine između nivoa
+
+Liniju tla meriti u pikselima izvornog PNG-a, od gornje ivice. Ona označava naslikanu granicu ravne borbene površine, ne visinu planinskog horizonta niti automatski tačku oslonca svakog aktera. Žarišta i regioni koriste isti koordinatni sistem; pri skaliranju prate isto mapiranje kao deo slike na kome leže. Sačuvati oštrinu piksela i poravnati gornji i donji deo prema geometriji nivoa, bez odsecanja ključnih motiva.
+
+Ustanak i Tenkići trenutno imaju različitu geometriju: u Ustanku je `groundLevel` na 75% visine, ispod njega su oslonac topa i zemljani sloj; Tenkići na 80% visine postavljaju **centre** tenkova. Procenat iz metapodataka zato nije dovoljan za zamenu pozadine ili pomeranje jedinica. Proveriti posebno naslikanu ivicu, oslonce i fizičko tlo projektila; pri pregledu Ustanka dodati stvarni prednji zemljani sloj, koji može sakriti donji deo slike. Izvori su [Battlefield](../scenes/ustanak/Battlefield.js), [Top](../scenes/ustanak/Top.js), [GroundLayer](../scenes/ustanak/GroundLayer.js) i [Tenkići](../scenes/tenkici/Main.js).
+
+Pomoćni PNG sa stvarnim artom i merama može proveriti kompoziciju bez pokretanja igre; ne dokazuje runtime transformacije, učitavanje, efekte, vetar, pauzu ili ishod. Osnovna slika bez efekata je art sloj; živ ambijent je završen tek kada igra pokreće njegove slojeve kroz vreme scene.
 
 ## Šta smo naučili
 

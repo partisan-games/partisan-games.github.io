@@ -9,6 +9,7 @@ import Weapon from '/core/gameplay/Weapon.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import { settings } from './settings.js'
 import { resetFlame } from './flame.js'
+import AircraftPropellers from '/core/actor/aircraft/AircraftPropellers.js'
 
 /** Seconds a shot down plane falls before it is gone, and px per second of its bullets. */
 export const enemy = { fallTime: 2, bulletSpeed: 350 }
@@ -47,6 +48,7 @@ export default class Enemy extends GameObject2D {
   constructor({ session, type = 'fighter' }) {
     const kind = settings.enemies[type]
     super(pick(kind.images), { scale: kind.scale, flammable: true, shadow: true })
+    this.propellers = new AircraftPropellers(this.image.src)
     this.engineSound = new Sound('engine-aircraft.mp3', { loop: true, profile: 'engine', volume: .2, spatial: { getPosition: () => this.position } })
     this.explosionSound = new Sound('explosion.mp3', { profile: 'explosion', spatial: { getPosition: () => this.position } })
     this.shotSound = new Sound('rifle.mp3', { profile: 'rifle', spatial: { getPosition: () => this.nextGun() } })
@@ -165,6 +167,7 @@ export default class Enemy extends GameObject2D {
   }
 
   update(dt, t) {
+    this.propellers.update(dt, this.alive && !this.gone && this.engineRunning)
     this.engineSound.setPlaying(this.alive && !this.gone && this.engineRunning)
     this.controller?.update?.(dt)
     if (this.alive) this.checkGone()

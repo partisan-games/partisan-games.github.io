@@ -5,6 +5,8 @@ import Weapon from '/core/gameplay/Weapon.js'
 import Cooldown from '/core/gameplay/Cooldown.js'
 import StateMachine from '/core/gameplay/StateMachine.js'
 import { origins } from '/core/constants.js'
+import { ctx } from '/core/io/canvas2d.js'
+import art from './machineGunnerArt.js'
 
 /**
  * The machine gun: the seconds between rounds, the rounds in one burst, the seconds of rest after a burst and before
@@ -17,11 +19,15 @@ const states = {
   idle: {},
   fire: {
     update: gunner => {
-      if (!gunner.burst.ready || !gunner.weapon.tryFire(gunner.position, gunner.aimAngle)) return
+      if (!gunner.burst.ready || !gunner.weapon.tryFire(gunner.muzzle, gunner.aimAngle)) return
+      gunner.fireElapsed = 0
       if (++gunner.fired < machineGun.burst) return
       gunner.fired = 0
       gunner.burst.start()
     },
+  },
+  dead: {
+    enter: gunner => { if (gunner.alive) gunner.die() },
   },
 }
 
@@ -29,7 +35,9 @@ const states = {
 export default class MachineGunner extends GameObject2D {
   /** `targets` are what his rounds can hit. */
   constructor({ x, y, targets = [], session }) {
-    super('armies/nemci/mitraljezac-01.png', { x, y, z: -1, origin: origins.bottomRight })
+    super(art.src, { x, y, z: -1, width: art.width, height: art.height, origin: origins.bottomRight })
+    this.fireElapsed = art.fireDuration
+    this.deathElapsed = 0
     this.session = session
     this.targets = targets
     /** Where the gun points; the picture points it left. */
@@ -37,7 +45,6 @@ export default class MachineGunner extends GameObject2D {
     this.bullets = new ProjectilePool({ owner: this, create: () => new Projectile({ scale: .4 }) })
     this.weapon = new Weapon({
       cooldown: new Cooldown({ seconds: machineGun.reload, clock: session.clock }),
-      barrels: [{ y: -10 }],
       spawnProjectile: (position, angle) => this.bullets.fire(position, angle, machineGun.speed),
     })
     this.burst = new Cooldown({ seconds: machineGun.pause, clock: session.clock })
@@ -81,9 +88,45 @@ export default class MachineGunner extends GameObject2D {
     return true
   }
 
+  /** The tip of the drawn barrel, rotated around the accepted bottom-right origin. */
+  get muzzle() {
+    const x = art.muzzle.x - art.width, y = art.muzzle.y - art.height
+    const cos = Math.cos(this.angle), sin = Math.sin(this.angle)
+    return { x: this.x + x * cos - y * sin, y: this.y + x * sin + y * cos }
+  }
+
+  get fireFrame() {
+    return Math.min(art.fireFrames - 1, Math.floor(this.fireElapsed / art.fireDuration * art.fireFrames))
+  }
+
+  die() {
+    if (this.dead) return
+    super.die()
+    this.deathElapsed = 0
+    this.machine.set('dead')
+  }
+
+  render() {
+    if (!this.shown) return
+    const firing = !this.dead && this.fireElapsed < art.fireDuration
+    const frame = this.dead ? Math.min(3, Math.floor(this.deathElapsed / art.deathDuration * 4)) : firing ? this.fireFrame : 0
+    ctx.save()
+    ctx.translate(this.x, this.y)
+    ctx.rotate(this.angle)
+    ctx.imageSmoothingEnabled = false
+    ctx.drawImage(this.image, frame * art.width, this.dead ? art.height * 2 : firing ? art.height : 0,
+      art.width, art.height, -this.width, -this.height, this.width, this.height)
+    ctx.restore()
+  }
+
   update(dt, t) {
     super.update(dt, t)
-    if (this.session.state !== 'running' || this.dead) return
+    if (this.session.state !== 'running') return
+    if (this.dead) {
+      this.deathElapsed = Math.min(art.deathDuration, this.deathElapsed + dt)
+      return
+    }
+    this.fireElapsed = Math.min(art.fireDuration, this.fireElapsed + dt)
     this.machine.update(dt)
     this.bullets.checkHits(this.targets)
   }

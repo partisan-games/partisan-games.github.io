@@ -5,6 +5,7 @@ import CombatTarget from './CombatTarget.js'
 import EnemyFire from './EnemyFire.js'
 import { createAircraftGun, createAirBomb } from './EnemyWeapons.js'
 import { shellGravity } from '../tenkici/shellPhysics.js'
+import AircraftPropellers from '/core/actor/aircraft/AircraftPropellers.js'
 
 /**
  * The steepest dive and how fast the nose turns, in radians and radians a second; how fast a shot-down plane falls and
@@ -35,6 +36,7 @@ const bomberStates = { fly: {}, fire: {}, crash }
 export default class Aircraft extends CombatTarget {
   constructor({ kind, art, clock, target, groundY, crashY = () => groundY + 60, scrollSpeed = -160, callback }) {
     super({ ...art, x: canvas2d.width + 250, y: 100, z: -1, flammable: true, callback, visible: false })
+    this.propellers = new AircraftPropellers(art.src)
     this.kind = kind
     this.airborne = true
     this.groundY = groundY
@@ -171,6 +173,7 @@ export default class Aircraft extends CombatTarget {
   }
 
   update(dt) {
+    this.propellers.update(dt, this.active && this.alive)
     this.engineSound.setPlaying(this.active && !this.dead)
     let firing = false
     if (this.active) {

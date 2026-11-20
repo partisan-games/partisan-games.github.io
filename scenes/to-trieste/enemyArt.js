@@ -13,7 +13,7 @@ export const groundEnemyArt = {
     },
   },
   tank: {
-    src: 'armies/game-ready/tenkovi/somua-s35-body-readable.png', width: 151, height: 151 / 1895 * 830,
+    src: vehicleArt.somuaS35.src, sprite: vehicleArt.somuaS35, width: 151, height: 151 / 1895 * 830,
     barrel: {
       src: 'armies/game-ready/tenkovi/somua-s35-barrel.png', width: 20, height: 3.2,
       anchor: { x: -.307, y: -.217 },

@@ -7,6 +7,7 @@ import MuzzleFlash from '/core/actor/effects/MuzzleFlash.js'
 import WorldPart from '/core/actor/WorldPart.js'
 import StateMachine from '/core/gameplay/StateMachine.js'
 import { turn } from '/core/actor/worldView.js'
+import GunCrew from './GunCrew.js'
 
 /**
  * Light anti-aircraft fire: how far the gun reaches, in pixels, the seconds between shots, the shell speed, how close
@@ -47,6 +48,7 @@ export default class Flak extends GroundTarget {
   constructor({ targets = [], session, ...options }) {
     super({ src: 'armies/game-ready/artiljerija/flak38-postolje.png', health: 30, vehicle: true, scale, ...options })
     this.targets = targets
+    this.crew = new GunCrew('flak38')
     this.session = session
     /** Where the shell is to burst, once the gun has aimed. */
     this.aimPoint = null
@@ -80,6 +82,9 @@ export default class Flak extends GroundTarget {
   die() {
     if (this.dead) return
     super.die()
+    this.barrel.hide()
+    this.muzzleFlash.hide()
+    this.crew.update(0, true)
     this.machine.set('dead')
   }
 
@@ -156,6 +161,7 @@ export default class Flak extends GroundTarget {
     this.muzzleFlash.start(this.muzzle, this.elevation)
     this.shotSound.play()
     this.cooldown.start()
+    this.crew.fire()
   }
 
   burst({ x, y }) {
@@ -167,6 +173,7 @@ export default class Flak extends GroundTarget {
 
   update(dt, t) {
     super.update(dt, t)
+    this.crew.update(dt, this.dead)
     if (this.alive) this.machine.update(dt)
     this.placeBarrel()
   }

@@ -1,14 +1,13 @@
 import { icons, iconImages } from '/core/io/icons.js'
 import canvas2d, { drawSky } from '/core/io/canvas2d.js'
 import Scene2D from '/core/Scene2D.js'
-import { baseControls } from '/ui/Controls.js'
 import { progresBar } from '/ui/components.js'
 import { randomInRange } from '/core/utils.js'
 import { assets } from '/config.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import Sentry from '/core/gameplay/controllers/Sentry.js'
 import Gunner, { lead } from '/core/gameplay/controllers/Gunner.js'
-import Potez, { bombKey, plane, markings } from './Potez.js'
+import Potez, { plane, markings, controlKeys } from './Potez.js'
 import Vehicle from '/core/actor/vehicles/Vehicle.js'
 import Rifleman from '/core/actor/soldiers/Rifleman.js'
 import Flak, { flak } from '/core/actor/artillery/Flak.js'
@@ -71,7 +70,7 @@ const crashScreenDelay = 1.5
 export default class FranjoKluzScene extends Scene2D {
   constructor(manager) {
     super({
-      controlKeys: { ...baseControls, Space: 'Machine gun', [bombKey]: 'Drop bomb' },
+      controlKeys,
       intro: 'Break through the enemy to the partisan airfield.',
     })
     this.manager = manager

@@ -1,8 +1,6 @@
 import Scene2D from '/core/Scene2D.js'
 import canvas2d from '/core/io/canvas2d.js'
-import { keys, attackLabels } from '/core/io/keys.js'
-import { baseControls } from '/ui/Controls.js'
-import Boat from './Boat.js'
+import Boat, { controlKeys } from './Boat.js'
 import Obala from './Obala.js'
 import BoatCombat from './BoatCombat.js'
 import SBoatEncounter from './SBoatEncounter.js'
@@ -15,11 +13,7 @@ import WaterEffects from './WaterEffects.js'
 export default class CamacScene extends Scene2D {
   constructor(options = {}) {
     super({
-      controlKeys: {
-        ...baseControls,
-        [keys.down.label]: '',
-        [attackLabels.Space]: 'shoot',
-      },
+      controlKeys,
       ...options,
     })
   }

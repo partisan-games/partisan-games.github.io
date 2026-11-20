@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "generatedWith": "Built-in image_gen; mechanical Pillow packing",
+  "assets": [
+    {
+      "id": "bombas",
+      "title": "Bombas",
+      "image": "../../game-ready/vojnici/bombas-sprites.png",
+      "frame": {
+        "width": 66,
+        "height": 72,
+        "columns": 8,
+        "rows": 3
+      },
+      "anchor": {
+        "x": 33,
+        "y": 36
+      },
+      "groundAnchor": {
+        "x": 33,
+        "y": 72
+      },
+      "reference": "references/bombas-idle.png",
+      "referenceSha256": "6ae33ea1a19799f2123f2832f0763ed77bc3dbf37ad440922ac1bd49d063e121",
+      "source": "bombas-death-generated.png",
+      "sourceSha256": "25fdcd0ab91622a9c314e8e1f8036beada0a6ff27dcfc6922eb56d8fd88c687a",
+      "sha256": "aee25d9e5e9c0cd865fce10833b952c1d4bae5f750d4df43b24c38041b862ec9",
+      "acceptedRowsUnchanged": true,
+      "animations": [
+        {
+          "name": "idle",
+          "row": 0,
+          "frameCount": 2,
+          "duration": 0.6,
+          "loop": true
+        },
+        {
+          "name": "kretanje",
+          "row": 1,
+          "frameCount": 8,
+          "duration": 0.8,
+          "loop": true
+        },
+        {
+          "name": "death",
+          "row": 2,
+          "frameCount": 6,
+          "duration": 0.6,
+          "loop": false
+        }
+      ],
+      "integration": "GrenadierSprite shared by Grenadier in Bunker and its existing Storybook story; preserve parent collision dimensions 66x72 and hold death frame 5."
+    }
+  ]
+}

@@ -1,8 +1,30 @@
 /*
- * The waves of each level: when they come (seconds), which formation, which enemy and which path.
+ * The waves of each stage, flown in turn: when they come (seconds), which formation, which enemy and which path.
  * Defaults: one fighter; x is the share of the screen width, y of the height, for entries from the side.
+ * The first two stages end at an airfield on the way, the last, with the boss, on Vis.
  */
 export const levels = [
+  [
+    { at: 1, path: 'straight', x: .5 },
+    { at: 4, path: 'straight', x: .3 },
+    { at: 6, path: 'straight', x: .7 },
+    { at: 9, formation: 'pair', path: 'straight', x: .5 },
+    { at: 13, formation: 'line', count: 3, path: 'straight', x: .5 },
+    { at: 17, formation: 'column', count: 4, path: 'wave', x: .4 },
+    { at: 21, formation: 'pair', path: 'fromBelow', x: .6 },
+    { at: 25, formation: 'vee', count: 5, path: 'straight', x: .5 },
+  ],
+  [
+    { at: 1, formation: 'pair', path: 'straight', x: .4 },
+    { at: 4, formation: 'column', count: 4, path: 'fromSide', side: 'left', y: .1 },
+    { at: 8, enemy: 'heavy', path: 'straight', x: .5 },
+    { at: 12, formation: 'line', count: 4, path: 'straight', x: .5 },
+    { at: 16, formation: 'column', count: 4, path: 'fromSide', side: 'right', y: .15 },
+    { at: 20, formation: 'line', count: 3, path: 'uTurn', x: .3 },
+    { at: 24, formation: 'vee', count: 5, path: 'wave', x: .6 },
+    { at: 28, enemy: 'heavy', formation: 'pair', path: 'straight', x: .5 },
+    { at: 33, formation: 'column', count: 5, path: 'wave', x: .3 },
+  ],
   [
     { at: 1, path: 'straight', x: .3 },
     { at: 3, path: 'straight', x: .7 },

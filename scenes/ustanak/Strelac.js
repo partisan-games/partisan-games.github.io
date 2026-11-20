@@ -2,9 +2,12 @@ import Sprite from '/core/actor/Sprite.js'
 import StateMachine from '/core/gameplay/StateMachine.js'
 import artFrame from './artFrame.js'
 import Sound from '/core/io/audio/SoundSource.js'
+import ustanakArt from '/core/actor/ustanakArt.js'
+
+const art = ustanakArt.rifleman
 
 /** Seconds between two shots of a firing rifleman, and the length of his standing and shooting animations. */
-export const rifle = { interval: 3, idle: 1.4, fire: .4 }
+export const rifle = { interval: 3, idle: art.durations.idle, fire: art.durations.fire }
 
 /**
  * The rifleman stands with his rifle, or fires it again and again. Each lasts until he is set to another; who does
@@ -30,9 +33,9 @@ const states = {
 
 export default class Strelac extends Sprite {
   constructor(x, y) {
-    super('armies/game-ready/vojnici/partizanski-strelac-sprites.png', {
-      x, y, width: 88, height: 80, names: ['idle', 'fire'], frameCount: 4,
-      defaultAnimation: 'idle', animationTime: rifle.idle,
+    super(art.src, {
+      x, y, width: art.width, height: art.height, names: art.names, frameCount: art.columns,
+      defaultAnimation: art.defaultAnimation, animationTime: rifle.idle,
     })
     this.shotElapsed = 0
     this.baseY = y
@@ -82,6 +85,6 @@ export default class Strelac extends Sprite {
   }
 
   drawFrame() {
-    artFrame(this, { footOffset: 26, baseline: .85 })
+    artFrame(this, { footOffset: art.footOffset, baseline: art.baseline })
   }
 }

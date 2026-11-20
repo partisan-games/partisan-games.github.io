@@ -16,9 +16,33 @@ Dokaz upotrebe proveravati u pouzdanom izvoru za konkretan kontekst, prvenstveno
 
 Brzina, šteta, učestalost pojavljivanja i druga podešavanja igre vode se kao balans, odvojeno od istorijskih karakteristika. Novi zapis dodati po predmetu ili jedinici kada postoji dovoljno podataka; izvorne zbirke ispod ostaju dokazni materijal, bez prepisivanja svih podataka u više kataloga.
 
+<a id="pejzazi-za-art-12"></a>
+
+## Pejzaži za ART-12
+
+Izvori pregledani 20. 11. 2026. Za ove pozadine vlasnik traži **omaž mestima**, sa izgledom iz Drugog svetskog rata, bez rekonstrukcije konkretne bitke. Sažimanje udaljenosti, izbor običnih oštećenih kuća, rovova i polomljenog drveća jesu umetnička rekonstrukcija; nisu dokaz dokumentovanog razaranja tih objekata niti prisustva jedinica iz igre na tom položaju. Ovo ne menja pravilo istorijskog istraživanja za nove misije.
+
+| Mesto | Prepoznatljivo i izvor | Smernica za istorijski izgled |
+|---|---|---|
+| Bihać | Una i sedreni slapovi; Kapetanova kula, četvorougaono kameno telo koje se sužava naviše i četvorovodni krov. [Zavod USK: opis i fotografija kule](https://www.kulturnonaslijedjeusk.ba/bs/clanak/historijska-gradevina-kapetanova-kula-u-bihacu/19); [Grad Bihać: znamenitosti](https://www.bihac.org/sadrzaj/znamenitosti/5); [NP Una: ilustracije slapova](https://npuna.com/wp-content/uploads/2020/03/Izleti-i-edukativne-avanture-u-NP-Una.pdf). | Kulu ne mešati sa susednim crkvenim zvonikom. Spoj kule i većih slapova je sažet omaž Pounju, ne tvrdnja da je Štrbački buk uz kulu. Brošura NP dostupna kroz indeks pretraživača, direktni PDF pri proveri vraća 404; nije sačuvan niti u celini pregledan. Fotografija kule sačuvana je uz [izvore arta](../assets/images/sources/pozadine/manifest.json). |
+| Sutjeska | Šumoviti masivi Zelengore, kanjon Sutjeske i stenoviti Maglić; [Turistička organizacija RS](https://visitsrpska.org/en/national-park-sutjeska/) opisuje njihov međusobni položaj i vidikovce. | Šumu i kanjon sačuvati kao glavni motiv; nisu svi vrhovi u jednom stvarnom bočnom kadru. Bez posleratnog spomen-kompleksa na Tjentištu. |
+| Užice | Đetinja sa tri strane opkoljava stenoviti greben Starog grada; grad se širi u kotlinu. [TO Užice: Stari grad](https://www.turizamuzica.org.rs/stari-grad/). | Tvrđava je rušena 1863, dakle u ratu prikazati stare ostatke, ne zamišljeni očuvani srednjovekovni zamak ili današnju rekonstrukciju; bez savremenog visećeg mosta i solitera. |
+| Neretva | Klisura i porušena železnička konstrukcija kod Jablanice. [Muzej: istorija mosta](https://muzej-jablanica.com/ba/bs/memorijalni-kompleks/most); [ratna fotografija iz marta 1943, MRNJ preko Znaci](https://znaci.org/fotografija.php?br=11150). | Original iz 1888. srušen je 1943; kasniji nemački most srušen je 1968. za film. Današnja fotografija memorijala nije pouzdan uzor prvobitne konstrukcije. Fotografija 11150 potvrđuje strmo oborenu rešetku i kameni oslonac, ne ceo bočni izgled; ne dopunjavati ga kopiranjem filmskog mosta. Bez muzeja, izloženog voza i modernog prelaza. |
+| Drvar | Kotlina i prirodna pećina u litici, korišćena za Vrhovni štab početkom 1944; [Opština Drvar](https://www.opstinadrvar.net/titova-pecina/). | Motiv je prirodni otvor iznad naselja. Sadašnja muzejska uređenja i pristupne konstrukcije nisu dokaz ratnog izgleda; drvenu baraku dodavati samo uz odgovarajući ratni snimak, inače je izostaviti. |
+| Kozara | Povezani niži grebeni, kose i usečene potočne doline; [NP Kozara: reljef](https://npkozara.com/reljef/). | Obliji šumoviti predeli razlikuju je od kamenitog Maglića. Bez posleratnog spomenika, muzeja i uređenog platoa Mrakovice. |
+| Sremski front | Ravničarski prostor Srema i odbrambeni rovovi; istorijski kontekst fronta i literature naveden je [ispod](#sremski-front-početak-1945--polazište-za-igru-tenkići). [TO Vojvodine](https://vojvodina.travel/atrakcije/spomen-obelezje-sremski-front-adasevci/) locira mesto proboja kod Adaševaca i Bosuta. | Raspored rovova je umetnička rekonstrukcija, ne prepis savremene muzejske postavke. [Ministarstvo odbrane](https://www.mod.gov.rs/lat/1214/ministar-odbrane-polozio-venac-na-spomen-kompleksu-sremski-front-1214) datira memorijal u osamdesete godine: memorijal i autoput izostaviti. |
+| Beograd | Greben tvrđave na ušću Save u Dunav, iznad ravnice; [JP Beogradska tvrđava: istorija](https://www.beogradskatvrdjava.co.rs/историја-београдске-тврђаве/?lang=la). | Kalemegdan i ušće smestiti iza suve obale za borbu; bez Novog Beograda i savremenih mostova. Pobednik sme biti mali prepoznatljiv detalj: [postavljen je 1928](https://www.beogradskatvrdjava.co.rs/споменик-победник/), pa zabrana posleratnih spomenika ne obuhvata njega. |
+
 ## Istorijsko polazište za Pohod na Trst
 
 Polazište za dalju istorijsku razradu je nastupanje Prve tenkovske brigade u sastavu Četvrte armije prema Trstu 1945. godine ([Vojno delo, Oklopne jedinice, str. 143](https://www.vojnodelo.mod.gov.rs/multimedia/file/vojna_biblioteka/vbnp-32-1962-1_deo-1-230.pdf)). To ne potvrđuje postojeći sastav protivnika i opreme za svaku borbu; svaki izabrani deo trase proveriti prema pravilima iznad. Dogovoreni okvir igre čuva [kontekst igre](KONTEKST.md#to-trieste).
+
+**Etape igre (provereno na Wikipediji 2026-11-20; tenkovsku brigadu imenom ne pominje nijedan od članaka, pa je proveriti u [Vojnom delu](https://www.vojnodelo.mod.gov.rs/multimedia/file/vojna_biblioteka/vbnp-32-1962-1_deo-1-230.pdf)):**
+
+- **Lika:** Ličko-primorska operacija, 20. mart – 15. april 1945; 4. armija zauzela je Gospić, Perušić, Lički Osik i Otočac. Branili su nemački XV brdski korpus (392. i 373. hrvatska pešadijska divizija) i 10. i 11. divizija NDH ([Lika-Primorje operation](https://en.wikipedia.org/wiki/Lika-Primorje_operation)).
+- **Senj i primorje:** članci ne opisuju Senj posebno, samo da je 4. armija u martu i aprilu oslobodila „čitavu Liku s primorjem”, uz Pag i Rab, a 16. aprila napala na frontu Lokve–Kraljevica protiv nemačke 237. divizije ([Riječka operacija](https://sh.wikipedia.org/wiki/Rije%C4%8Dka_operacija)). Detalje proveriti pre crtanja etape.
+- **Rijeka:** 16. april – 6. maj 1945; nemački 97. korpus (237. i 188. divizija i borbene grupe) držao je jaku utvrđenu liniju na zapadnoj obali Rječine; 19. divizija oslobodila je Sušak 21. aprila, a Nemci su napustili Rijeku u noći 2/3. maja, porušivši obalu u centru ([Riječka operacija](https://sh.wikipedia.org/wiki/Rije%C4%8Dka_operacija)).
+- **Trst:** 30. april – 3. maj 1945; branili su delovi 97. korpusa, policijski SS puk, snage Italijanske Socijalne Republike i četnička Dinarska divizija, u uporištima Palata pravde, tvrđava Sv. Justa i Opčine; pokretna grupa tenkova, motorizovane pešadije i artiljerije stigla je preko Divače ([Tršćanska operacija](https://sh.wikipedia.org/wiki/Tr%C5%A1%C4%87anska_operacija), [Race for Trieste](https://en.wikipedia.org/wiki/Race_for_Trieste)).
 
 ## Neretva — polazište za izbor protivnika
 
@@ -41,7 +65,7 @@ Ovo su pregledni, sekundarni izvori i polazište za detaljnije istraživanje. Za
 
 ### Pregled kategorije bitaka NOVJ
 
-Rekurzivnim čitanjem članstva preko Wikipedia API-ja 15. 11. 2026. obuhvaćeni su koren i svih 16 dostupnih potkategorija, sa 455 jedinstvenih stranica glavnog prostora; to nisu 455 različitih bitaka, jer grana uključuje i ličnosti, jedinice i preglede. [Lokalni snimak članstva i veza](../test-results/history/novj-categories.json) beleži obuhvat tog pregleda, ne katalog koji treba ručno održavati. Pregled članstva nije potpuna provera istorijskih tvrdnji svih članaka.
+Rekurzivnim čitanjem članstva preko Wikipedia API-ja 15. 11. 2026. obuhvaćeni su koren i svih 16 dostupnih potkategorija, sa 455 jedinstvenih stranica glavnog prostora; to nisu 455 različitih bitaka, jer grana uključuje i ličnosti, jedinice i preglede. Lokalni snimak članstva i veza (`test-results/history/novj-categories.json`, nije deo repozitorijuma) beleži obuhvat tog pregleda, ne katalog koji treba ručno održavati. Pregled članstva nije potpuna provera istorijskih tvrdnji svih članaka.
 
 Obuhvaćene su grane Neretve i Sutjeske (uključujući poginule), borbi za Srbiju, borbi sa Italijanima, Nemcima i snagama NDH (uključujući napade na garnizone), Drvara, kapitulacije Italije, operacija NOVJ, Sremskog fronta i zajedničkih operacija sa Saveznicima. Proverene su i dalje grane nemačke zimske ofanzive 1943–1944, proboja Armijske grupe E iz Grčke i njenog proboja kroz istočnu Bosnu. Isti članak ne tumačiti kao drugi događaj zato što se javlja u više grana.
 

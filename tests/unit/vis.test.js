@@ -298,6 +298,7 @@ test('in the vis game the boss is the end: the victory comes only after it is do
   const scene = new Vis()
   scene.init()
   scene.session.start()
+  scene.stage = 2 // the last stage
   scene.waves.schedule = [{ at: 0, enemy: 'boss' }]
   t.after(() => {
     scene.clear = () => {} // happy-dom has no 2D canvas
@@ -315,4 +316,31 @@ test('in the vis game the boss is the end: the victory comes only after it is do
   scene.waves.boss.damage(settings.enemies.boss.hits)
   play(enemy.fallTime + settings.landingTime + .5)
   assert.match(scene.ui.outro, /reached the island of Vis/)
+})
+
+test('in the vis game the first two stages end at an airfield, where the sirens send the plane on to the next', async t => {
+  const { default: Vis } = await import('/scenes/vis/Main.js')
+  const { levels } = await import('/scenes/vis/levels.js')
+  const scene = new Vis()
+  scene.init()
+  scene.session.start()
+  t.mock.method(scene.ui, 'showMessage')
+  t.after(() => {
+    scene.clear = () => {} // happy-dom has no 2D canvas
+    scene.end()
+  })
+  const play = seconds => {
+    for (let i = 0; i < seconds * 60; i++) {
+      scene.session.update(1 / 60)
+      scene.update(1 / 60, i / 60)
+    }
+  }
+  assert.equal(levels.length, 3)
+  scene.waves.schedule = []
+  play(settings.landingTime + .5)
+  assert.equal(scene.stage, 1, 'the second stage begins')
+  assert.equal(scene.ui.outro, '', 'no victory at an airfield on the way')
+  assert.equal(scene.ui.showMessage.mock.calls[0].arguments[0], 'Sirens! The enemy is attacking the base!')
+  assert.equal(scene.waves.schedule, levels[1])
+  assert.equal(scene.baza.leaving, true, 'the plane takes off as the airfield scrolls away')
 })

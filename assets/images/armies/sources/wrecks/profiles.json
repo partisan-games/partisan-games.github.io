@@ -1,0 +1,107 @@
+[
+  {
+    "id": "partisan-tank",
+    "original": "armies/game-ready/tenkovi/partizanski-tenk-bez-cevi-pixel.png",
+    "frame": [
+      300,
+      129
+    ],
+    "reference": "partisan-tank-reference.png"
+  },
+  {
+    "id": "german-tank",
+    "original": "armies/game-ready/tenkovi/nemacki-tenk-bez-cevi-pixel.png",
+    "frame": [
+      327,
+      137
+    ],
+    "reference": "german-tank-reference.png"
+  },
+  {
+    "id": "somua-s35",
+    "original": "armies/game-ready/tenkovi/somua-s35-body-readable.png",
+    "frame": [
+      379,
+      166
+    ],
+    "reference": "somua-s35-reference.png"
+  },
+  {
+    "id": "hummel",
+    "original": "armies/game-ready/tenkovi/hummel-sprites.png",
+    "frame": [
+      320,
+      160
+    ],
+    "reference": "hummel-reference.png"
+  },
+  {
+    "id": "opel-blitz",
+    "original": "armies/game-ready/kamioni/opel-blitz-sprites.png",
+    "frame": [
+      320,
+      160
+    ],
+    "reference": "opel-blitz-reference.png"
+  },
+  {
+    "id": "opel-blitz-legion",
+    "original": "armies/game-ready/kamioni/opel-blitz-legion-sprites.png",
+    "frame": [
+      320,
+      160
+    ],
+    "reference": "opel-blitz-legion-reference.png"
+  },
+  {
+    "id": "bp42",
+    "original": "armies/game-ready/vozovi/bp42-sprites.png",
+    "frame": [
+      576,
+      256
+    ],
+    "reference": "bp42-reference.png"
+  },
+  {
+    "id": "flak38",
+    "original": "armies/game-ready/artiljerija/flak38-postolje.png",
+    "frame": [
+      204,
+      122
+    ],
+    "reference": "flak38-reference.png"
+  },
+  {
+    "id": "pak38",
+    "original": "armies/game-ready/artiljerija/pak38-postolje.png",
+    "frame": [
+      233,
+      51
+    ],
+    "reference": "pak38-reference.png"
+  },
+  {
+    "id": "house-bunker",
+    "original": "buildings/kuca-bunker.png",
+    "frame": [
+      428,
+      286
+    ],
+    "reference": "house-bunker-reference.png"
+  },
+  {
+    "id": "bunker",
+    "original": "buildings/bunker-02.png",
+    "frame": [
+      246,
+      93
+    ],
+    "reference": "bunker-reference.png"
+  },
+  {
+    "id": "player-boat",
+    "original": "armies/camac.png",
+    "frame": [355, 152],
+    "reference": "player-boat-reference.png"
+  }
+]

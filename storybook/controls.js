@@ -67,7 +67,6 @@ export function controlsHtml(module) {
       <legend>Podešavanja</legend>
       ${found.map(([name, settings]) => /* html */`
         <fieldset><legend>${name}</legend>${fieldsHtml(settings, initial.get(settings), name)}</fieldset>`).join('')}
-      <button data-restore>Vrati</button>
     </fieldset>`
 }
 

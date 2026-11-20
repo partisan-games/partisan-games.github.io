@@ -42,6 +42,26 @@ export default {
       }
     }
   },
+  'somuaS35': {
+    'src': 'armies/game-ready/tenkovi/somua-s35-sprites.png',
+    'frame': {
+      'width': 379,
+      'height': 166
+    },
+    'columns': 4,
+    'clips': {
+      'idle': {
+        'row': 0,
+        'seconds': 1.4,
+        'loop': true
+      },
+      'drive': {
+        'row': 1,
+        'seconds': 0.64,
+        'loop': true
+      }
+    }
+  },
   'opelBlitz': {
     ...spriteArt['opel-blitz'],
     contentBounds: [15, 7, 306, 149],

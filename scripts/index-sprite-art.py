@@ -1,4 +1,4 @@
-"""Measure the actor art linked by docs/ART.md; never modify source images."""
+"""Measure the actor and background art linked by docs/ART.md; never modify source images."""
 import hashlib
 import json
 import re
@@ -40,7 +40,7 @@ def main():
             files.add(path)
 
     atlases = {}
-    for metadata_path in sorted(path for path in files if path.name == 'sprites.json'):
+    for metadata_path in sorted(path for path in files if path.name.endswith('sprites.json')):
         metadata = json.loads(metadata_path.read_text(encoding='utf-8'))
         for asset in metadata['assets']:
             image_path = (metadata_path.parent / asset['image']).resolve()
@@ -99,7 +99,7 @@ def main():
         'reviewInputs': [{'path': relative(path), 'sha256': digest(path)} for path in sorted(sources)],
     }
     OUTPUT.write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
-    print(f'Indexed {len(images)} actor-art files; {len(report["reviewInputs"])} review inputs. Source images unchanged.')
+    print(f'Indexed {len(images)} art files; {len(report["reviewInputs"])} review inputs. Source images unchanged.')
 
 
 if __name__ == '__main__':

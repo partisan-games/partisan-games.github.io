@@ -1,4 +1,6 @@
 import { icons } from '/core/io/icons.js'
+import { keys, attackLabels } from '/core/io/keys.js'
+import { baseControls } from '/ui/Controls.js'
 import Player2D from '/core/actor/Player2D.js'
 import ProjectilePool from '/core/actor/ProjectilePool.js'
 import canvas2d from '/core/io/canvas2d.js'
@@ -49,6 +51,8 @@ const states = {
 
 /** The plane fires on Space; on a phone, with its buttons. */
 export const inputOptions = { attackKey: 'Space', buttonDict: { attack: icons.shoot, attack2: icons.loop, special: icons.bomb } }
+/** The keys the controls list shows for the plane. */
+export const controlKeys = { ...baseControls, [attackLabels[inputOptions.attackKey]]: 'shoot', [keys.attack2.label]: 'loop', [keys.special.label]: 'bomb' }
 
 /**
  * The player plane. Its reload, respawn and bomb bursts wait on the game `session`. `startAt(plane)` gives where it

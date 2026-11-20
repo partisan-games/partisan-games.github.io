@@ -7,9 +7,18 @@ export default class Baza extends GameObject2D {
     this.korak = speed
   }
 
+  /** It scrolls in until it fills the screen; once the plane takes off it scrolls on and away. */
   update(dt) {
-    if (this.y + this.korak < 0)
+    if (this.leaving || this.y + this.korak < 0)
       this.y += this.korak * dt
+  }
+
+  leave() {
+    this.leaving = true
+  }
+
+  get gone() {
+    return this.y > canvas2d.height
   }
 
   render() {

@@ -53,7 +53,7 @@ export default class RanjenikScene extends Scene2D {
 
   promeniScenu() {
     this.background.image.src = '/assets/images/textures/sprzena-zemlja.jpg'
-    this.patrola.image.src = '/assets/images/armies/talijani-patrola.gif'
+    this.patrola.setFaction('italian')
     this.patrola.setPosition(this.width * 3 / 4, this.height * 3 / 4)
     this.player.audioRevision = (this.player.audioRevision ?? 0) + 1
     this.player.x = 10

@@ -1,0 +1,176 @@
+{
+  "task": "ART-12",
+  "gameExecuted": false,
+  "visualAcceptance": false,
+  "compositionPreviewsGenerated": false,
+  "references": [
+    {
+      "image": "../../background/crnogorsko-selo-1941-pixel.png",
+      "size": [
+        1586,
+        992
+      ],
+      "sha256": "dc01c58753f3ee58dee9efbcb3fe7eb8007591b1adc1ac71d3ac207fb3748316"
+    },
+    {
+      "image": "../../background/razrusen-grad-ww2-pixel.png",
+      "size": [
+        1448,
+        1086
+      ],
+      "sha256": "ae47f03c0c71777b4931bd450ebdb9a9204686e873dcea2e3d6bff3d7aeec06c"
+    },
+    {
+      "image": "references/kapetanova-kula.jpg",
+      "source": "https://www.kulturnonaslijedjeusk.ba/bs/clanak/historijska-gradevina-kapetanova-kula-u-bihacu/19",
+      "snapshotPresent": false,
+      "size": [
+        1800,
+        1198
+      ],
+      "sha256": "e0517041a565395d0e7f2fee742b3342ff5ec85e6d8be76bcbafd9dd123e12e9"
+    },
+    {
+      "image": "references/neretva-1943-11150.jpg",
+      "source": "https://znaci.org/fotografija.php?br=11150",
+      "snapshotPresent": false,
+      "size": [
+        1509,
+        2105
+      ],
+      "sha256": "7b6f4b01df136e89e330d3f36226327aaa6d9896f039d39d1cf3829aab7de667"
+    },
+    {
+      "image": "references/uzice-relief.jpg",
+      "source": "https://www.turizamuzica.org.rs/stari-grad/",
+      "snapshotPresent": false,
+      "size": [
+        1280,
+        854
+      ],
+      "sha256": "69959df504162b5c9d5b482b768c617198defd3e7f0d426224e6e5bda060c8f2"
+    },
+    {
+      "image": "references/neretva-1943-side.jpg",
+      "source": "https://znaci.org/fotografija.php?br=11351",
+      "snapshotPresent": false,
+      "size": [
+        953,
+        1421
+      ],
+      "sha256": "2a4a968dfef9d923254e462e18695c33710ee041b023c280b81bdb11586e82f8"
+    },
+    {
+      "image": "references/drvar-cave.jpg",
+      "source": "https://www.opstinadrvar.net/titova-pecina/",
+      "snapshotPresent": false,
+      "size": [
+        1536,
+        2048
+      ],
+      "sha256": "856ee9fb8a2ac8afb2919fa2378dc11910e2cecdbbf71ce402727405aa59c735"
+    },
+    {
+      "image": "references/sutjeska-panorama.jpg",
+      "source": "https://visitsrpska.org/en/national-park-sutjeska/",
+      "snapshotPresent": false,
+      "size": [
+        1900,
+        802
+      ],
+      "sha256": "6019c0a9c2ad51cc51a933565435ef82f72aa44ec030c51f6a7dd594357fa9dc"
+    },
+    {
+      "image": "references/kozara-forest.jpg",
+      "source": "https://visitsrpska.org/en/kozara/",
+      "snapshotPresent": false,
+      "size": [
+        700,
+        466
+      ],
+      "sha256": "331336cce736d51f02727e3f51320e0e45c26a6531d07cea4c10673ac8ef8641"
+    },
+    {
+      "image": "references/sremski-rovovi-1945.jpg",
+      "source": "https://znaci.org/fotogalerija/fotogalerija01.html",
+      "snapshotPresent": false,
+      "size": [
+        2125,
+        1329
+      ],
+      "sha256": "f62468f8a095ab780be4cfd9dcfbb56cab572f049f601b759834971d143a0396"
+    },
+    {
+      "image": "references/beograd-fortress.jpg",
+      "source": "https://www.serbia.travel/sr-lat/beogradska-tvrdjava/",
+      "snapshotPresent": false,
+      "size": [
+        1400,
+        800
+      ],
+      "sha256": "15b45f8e86db0843cab44843fb069b17f506e03d5bb68831ceb4fb2d047ddbeb"
+    },
+    {
+      "image": "references/kozara-ridges.jpg",
+      "source": "https://visitsrpska.org/en/kozara/",
+      "snapshotPresent": false,
+      "size": [
+        700,
+        466
+      ],
+      "sha256": "55aaacc5e1a56a3ed5702802fcc28a14d54ba1fdf1001f951ca03011160b28b5"
+    },
+    {
+      "image": "references/beograd-panorama.jpg",
+      "source": "https://www.serbia.travel/sr-lat/beogradska-tvrdjava/",
+      "snapshotPresent": false,
+      "size": [
+        450,
+        600
+      ],
+      "sha256": "3b7785deaf0f76ce6596bb2f3ef47c5171be78553c0c99847cac0f1e3a1c5b5b"
+    }
+  ],
+  "backgrounds": [
+    {
+      "id": "bihac",
+      "status": "in-progress",
+      "imagePresent": true
+    },
+    {
+      "id": "uzice",
+      "status": "in-progress",
+      "imagePresent": true
+    },
+    {
+      "id": "neretva",
+      "status": "in-progress",
+      "imagePresent": true
+    },
+    {
+      "id": "drvar",
+      "status": "in-progress",
+      "imagePresent": true
+    },
+    {
+      "id": "sutjeska",
+      "status": "in-progress",
+      "imagePresent": true
+    },
+    {
+      "id": "kozara",
+      "status": "in-progress",
+      "imagePresent": false
+    },
+    {
+      "id": "sremski-front",
+      "status": "planned",
+      "imagePresent": false
+    },
+    {
+      "id": "beograd",
+      "status": "planned",
+      "imagePresent": false
+    }
+  ]
+}

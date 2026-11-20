@@ -26,9 +26,23 @@ export default class Grenadier extends Player2D {
 
   takeHit() {
     if (this.alive) this.hitSound.play()
-    super.die()
+    this.die()
     this.blood.setAnimation('prska', false)
     this.blood.show()
+  }
+
+  die() {
+    if (this.dead) return
+    super.die()
+    this.sprite.fall()
+  }
+
+  get states() {
+    return ['dead']
+  }
+
+  setState(name) {
+    if (name === 'dead') this.die()
   }
 
   update(dt) {

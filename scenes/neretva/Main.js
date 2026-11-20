@@ -7,6 +7,9 @@ import Health from '/core/gameplay/Health.js'
 
 const DALJI_Y = window.innerHeight * 0.25
 const BLIZI_Y = window.innerHeight * 0.5
+/** Seconds to hold the position: the Germans attack first, the Chetniks in the second half (owner's decision). */
+const holdTime = 120
+const chetniksAt = holdTime / 2
 
 export default class NeretvaScene extends Scene2D {
   constructor() {
@@ -21,25 +24,53 @@ export default class NeretvaScene extends Scene2D {
     this.pogoci = 0
     this.rekord = 0
     this.health = new Health()
-    this.preostaloVreme = 120
+    this.preostaloVreme = holdTime
     this.ubrzano = false
-    this.bliziRovovi = this.praviSvabe(10, BLIZI_Y, { scale: 1, callback: this.nanesiStetu.bind(this) })
-    this.daljiRovovi = this.praviSvabe(12, DALJI_Y, { scale: .5, callback: this.nanesiStetu.bind(this) })
-    this.sveSvabe = [...this.daljiRovovi, ...this.bliziRovovi]
-    /** The chance per second that a hidden soldier of each row rises. */
-    this.ucestalost = new Map([[this.daljiRovovi, .02], [this.bliziRovovi, .03]])
-    this.add(...this.sveSvabe)
+    this.chetniks = this.army('cetnici')
+    this.manTrenches(this.army('nemci'))
     this.background = new Background('textures/terrain/suva-trava.jpg')
     this.ucitajRekord()
     mouse.showCrosshair(this.player.shotSound)
   }
 
-  praviSvabe(n, y, params) {
+  /** One side's soldiers in the near and the far row of trenches. */
+  army(faction) {
+    const callback = this.nanesiStetu.bind(this)
+    return {
+      near: this.praviSvabe(10, BLIZI_Y, { scale: 1, callback, faction }),
+      far: this.praviSvabe(12, DALJI_Y, { scale: .5, callback, faction }),
+    }
+  }
+
+  /** Puts an army in the trenches, in place of the one there. */
+  manTrenches({ near, far }) {
+    if (this.sveSvabe) {
+      for (const soldier of this.sveSvabe) soldier.setState('hidden')
+      this.remove(...this.sveSvabe)
+    }
+    const speedUp = this.ubrzano ? 2 : 1
+    this.bliziRovovi = near
+    this.daljiRovovi = far
+    this.sveSvabe = [...far, ...near]
+    /** The chance per second that a hidden soldier of each row rises. */
+    this.ucestalost = new Map([[far, .02 * speedUp], [near, .03 * speedUp]])
+    this.add(...this.sveSvabe)
+  }
+
+  /** Half way the Germans give way to the Chetniks. */
+  bringChetniks() {
+    if (!this.chetniks || this.preostaloVreme > chetniksAt) return
+    this.manTrenches(this.chetniks)
+    this.chetniks = null
+    this.ui.showMessage('Chetniks are next')
+  }
+
+  praviSvabe(n, y, { faction, ...params }) {
     const razmak = this.width / n
     const polaRazmaka = razmak / 2
     return Array.from({ length: n }, (_, i) => {
       const x = i * razmak + polaRazmaka
-      const svabo = new TrenchSoldier({ ...params, faction: i % 2 ? 'cetnici' : 'nemci', variant: Math.floor(i / 2) % 3 })
+      const svabo = new TrenchSoldier({ ...params, faction, variant: i % 3 })
       svabo.setPosition(x, y)
       return svabo
     })
@@ -106,11 +137,12 @@ export default class NeretvaScene extends Scene2D {
     this.preostaloVreme -= dt
 
     super.update(dt)
-    this.podizi(dt)
     if (!this.ubrzano && this.preostaloVreme < 60) {
       for (const [rovovi, ucestalost] of this.ucestalost) this.ucestalost.set(rovovi, ucestalost * 2)
       this.ubrzano = true
     }
+    this.bringChetniks()
+    this.podizi(dt)
     if (this.energija <= 0) this.smrt()
   }
 

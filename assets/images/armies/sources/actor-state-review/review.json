@@ -1,0 +1,55 @@
+{
+  "scope": "Source geometry, static source composition and unit checks only. Not a game screenshot or browser/motion acceptance.",
+  "sources": [
+    "core/actor/soldiers/TrenchSoldier.js",
+    "scenes/camac/Boat.js",
+    "scenes/camac/SBoat.js",
+    "scenes/camac/SinkingWreck.js",
+    "scenes/camac/ShoreMachineGun.js",
+    "scenes/camac/ShoreDestruction.js",
+    "scenes/camac/WaterEffects.js",
+    "core/actor/aircraft/DiveBomber.js",
+    "core/actor/aircraft/Fighter.js",
+    "scenes/to-trieste/Aircraft.js",
+    "scenes/vis/Enemy.js",
+    "scenes/vis/Avionce.js",
+    "scenes/vis/PlayerView.js"
+  ],
+  "findings": [
+    {
+      "actor": "player boat",
+      "finding": "Intact still hull on defeat",
+      "action": "Created player-boat wreck and integrated shared Renderer2D selection, reset and Storybook dead state."
+    },
+    {
+      "actor": "S-30",
+      "finding": "Four-second hull scale/fade, smoke/bubbles/ripple, separate rotating deck guns and water wake already present",
+      "action": "Retain existing procedural sinking and firing; game check deferred."
+    },
+    {
+      "actor": "trench soldiers, both factions",
+      "finding": "Three variants, four readable source poses; .28s rise blend, .18s shot/recoil, 1.2s collapse and sink; near scale1/far .5",
+      "action": "Retain accepted poses; no missing-state redraw supported by this source review."
+    },
+    {
+      "actor": "Bunker machine gunner",
+      "finding": "No defeated body art",
+      "action": "Created four-frame .6s collapse, same crop and origin, final pose held in shared actor."
+    },
+    {
+      "actor": "Flak38 and PaK38",
+      "finding": "No operators in previous body art",
+      "action": "Created independent two-man crews, ready/work/collapse clips, actual-shot triggers, preserved colliders and barrels."
+    },
+    {
+      "actor": "shore nest",
+      "finding": "Separate two-man crew drawable, live cropped rifleman and defeated body-only crop with separated dropped rifle, rotated sagging tube and timed destruction already present",
+      "action": "Retain existing crew depiction; defer in-game motion acceptance."
+    },
+    {
+      "actor": "planes",
+      "finding": "Separate props now present; bullets/bombs, fire and trajectory/shrinking crash already distinguish action and defeat",
+      "action": "Retain actual procedural flight/death; no redundant body state atlas."
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "id": "sutjeska",
+  "tool": "built-in image_gen",
+  "exactPrompt": "Create one finished opaque landscape pixel-art background for a WWII Yugoslavia artillery/tank game. The two supplied project images are STYLE AND FRAMING references, not edit targets. Match their crisp pixel clusters, restrained natural colors, damaged period masonry, atmospheric distance and low side-view combat strip; do not make a smooth photograph or a flat geometric placeholder. Aim for a landscape canvas around 3:2; keep the actual delivered dimensions and never crop away landmarks to force a size. Make the far edge of a wide, level, dry foreground combat strip a perfectly horizontal line around 80.6 percent of image height. Keep the lower foreground and the band immediately above that line quiet, fairly light and low in small details across the entire width, so dark soldiers, cannons and tanks remain readable anywhere along it. Put distinctive landmarks and sharp grouped details in the middle distance, inside the central 80 percent of the canvas. Leave the upper corners and bottom corners visually calm for existing game overlays. Water, cliffs, trenches, wire and rubble remain BEHIND the playable foreground, never crossing the combat strip. Show clear WWII war damage in the middle distance, appropriate to this location. No people, playable vehicles, labels, text, UI, logos or borders. No modern buildings, memorial complexes, highways, powerlines, tourist platforms or modern bridges. NO painted flames, smoke plumes, sparks or glowing fires anywhere: draw cold charred damage instead; game code will animate effects later. This is a landscape homage with compressed geography, not a claim of a documented battle or tank deployment at this exact viewpoint. Preserve location-specific recognizable forms from the historical notes.\nLOCATION: Layered forested Zelengora ridges and the deep Sutjeska canyon frame the distant sharper pale rocky summit of Maglic. A compressed but believable mountain-valley panorama, not one generic snowy alpine wall and not a lakeside Durmitor scene. Show a damaged small stone-and-timber mountain house, snapped trees and an abandoned shallow timber-lined position in the middle distance. No Tjentiste wing monument, concrete memorial, postwar hotel or modern park road. The near valley terrace is quiet, light and horizontal; dense woodland stays behind it.\nImages 1 and 2: project pixel style, palette, atmospheric layering and horizontal empty combat foreground only. Image 3: real Sutjeska landscape reference, use ONLY the distant forested canyon and pale jagged limestone summit; absolutely no tourists, backpacks, climbing equipment or foreground boulder viewpoint. Create a low valley-side view towards a grand densely forested canyon, with Zelengora's layered dark-green wooded slopes and pale grey Maglic rising conspicuously as the highest craggy peak behind them. The horizon must read as a much higher mountain environment than Kozara. Leave generous blue-grey sky above peaks, with pixel-art clouds. No giant cave, citadel, waterfall, glacial lake or memorial. A small roofless stone-and-dark-timber shepherd house sits to the LEFT in the middle ground; several snapped trunks and a short abandoned rough timber-lined shallow trench to the RIGHT show WWII damage. These objects are behind a wide calm pale grassy-earth foreground whose far edge is perfectly horizontal at about 80.6% height; no foreground vertical objects. Prefer 1536x1024 opaque. Match the first two art references' chunky crisp pixels, do not emulate the photograph's smoothness. No painted fire, smoke or text.",
+  "referenceImages": [
+    {
+      "image": "assets/images/sources/pozadine/references/crnogorsko-selo-1941-pixel.png",
+      "sha256": "dc01c58753f3ee58dee9efbcb3fe7eb8007591b1adc1ac71d3ac207fb3748316",
+      "repositoryImage": "assets/images/background/crnogorsko-selo-1941-pixel.png"
+    },
+    {
+      "image": "assets/images/background/bihac-ww2-pixel.png",
+      "sha256": "8b0d98c127645711eab2af647401bf7740149e7218c81de1dc33527597886ca9"
+    },
+    {
+      "image": "assets/images/sources/pozadine/references/sutjeska-panorama.jpg",
+      "sha256": "6019c0a9c2ad51cc51a933565435ef82f72aa44ec030c51f6a7dd594357fa9dc",
+      "source": "https://visitsrpska.org/en/national-park-sutjeska/",
+      "snapshotRetained": false
+    }
+  ],
+  "rawImage": "assets/images/sources/pozadine/raw/sutjeska-01.png",
+  "generatedFile": "C:\\Users\\d_pavlica\\.codex\\generated_images\\01a1f864-d971-7171-ada8-af676745fb10\\exec-b246cecd-e28e-4db6-9899-627032c22bf2.png",
+  "groundY": 825,
+  "hotspots": [
+    {
+      "x": 292,
+      "y": 606,
+      "intensity": 0.55,
+      "kind": "fire"
+    },
+    {
+      "x": 917,
+      "y": 723,
+      "intensity": 0.22,
+      "kind": "smoke"
+    }
+  ],
+  "sha256": "77c8d37da17e0a58172f7dbc6ab3188a1ee67855da6a4c24a9880a8b63bbbdef",
+  "preservedImage": "assets/images/background/sutjeska-ww2-pixel.png"
+}

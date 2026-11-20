@@ -25,10 +25,25 @@ function gunnerAlone(t) {
   return { session, gunner, target, step }
 }
 
-test('a machine gunner has the states idle and fire, and starts holding fire', t => {
+test('a machine gunner has the states idle, fire and dead, and starts holding fire', t => {
   const { gunner, step } = gunnerAlone(t)
-  assert.deepEqual(gunner.states, ['idle', 'fire'])
+  assert.deepEqual(gunner.states, ['idle', 'fire', 'dead'])
   assert.equal(gunner.state, 'idle')
+  step(10)
+  assert.equal(gunner.bullets.projectiles.length, 0)
+})
+
+test('a defeated gunner finishes his collapse once and holds it without firing', t => {
+  const { gunner, step } = gunnerAlone(t)
+  gunner.setState('dead')
+  gunner.update(.15)
+  assert.equal(gunner.deathElapsed, .15)
+  gunner.update(0)
+  assert.equal(gunner.deathElapsed, .15)
+  gunner.update(10)
+  assert.equal(gunner.deathElapsed, .6)
+  gunner.die()
+  assert.equal(gunner.deathElapsed, .6)
   step(10)
   assert.equal(gunner.bullets.projectiles.length, 0)
 })
@@ -61,4 +76,24 @@ test('the bunker gun fires five rounds after its wait, then waits for the next b
   session.finish()
   step(100)
   assert.equal(gunner.bullets.projectiles.length, 6)
+})
+
+test('the shot starts at the rotated artwork muzzle and the recoil waits when time stops', t => {
+  const { session, gunner, step } = gunnerAlone(t)
+  assert.deepEqual(gunner.muzzle, { x: 38, y: 88 })
+  gunner.aimAt({ x: 100, y: 0 })
+  assert.ok(Math.abs(gunner.muzzle.x - 112) < 1e-9)
+  assert.ok(Math.abs(gunner.muzzle.y - 38) < 1e-9)
+  gunner.setState('fire')
+  step(machineGun.pause)
+  const [round] = gunner.bullets.projectiles
+  assert.equal(round.x, gunner.muzzle.x)
+  assert.equal(round.y, gunner.muzzle.y)
+  assert.equal(gunner.fireFrame, 0)
+  session.update(.026)
+  gunner.update(.026)
+  assert.equal(gunner.fireFrame, 1)
+  gunner.update(0)
+  assert.equal(gunner.fireFrame, 1)
+  assert.deepEqual([gunner.width, gunner.height], [63, 27])
 })
