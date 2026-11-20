@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "measuredAt": "2026-11-20T18:14:01.997969+00:00",
-  "baseRevision": "40e9abb587f42f672935940b71f3078b666aa522",
+  "measuredAt": "2026-11-20T18:20:07.534126+00:00",
+  "baseRevision": "b555fc2fb16a62b9bb7a846ca378457c36343805",
   "scope": "Art linked by docs/ART.md, including shared variants; not all unused library art or a runtime/visual acceptance test.",
   "interpretation": "imageFrames counts file-container frames. A PNG atlas normally has one; named sprite clips require metadata and a runtime mapping. hashes detect exact input changes, not art quality.",
   "images": [
@@ -1314,15 +1314,15 @@
     },
     {
       "path": "docs/ART.md",
-      "sha256": "fbbb93ade91f32a45f2e4e5a191084494bb6a347de62e26aebdbed3f6e08e5d0"
+      "sha256": "d6c43440015c9210c33a81469f664b4c489733a490b593b6348bb19f6e48ce50"
     },
     {
       "path": "docs/KONTEKST.md",
-      "sha256": "4140f5246dea56f567a9e2961642d962166e455d7f784a782399183281ad02f1"
+      "sha256": "f4e755166b56bae43dc7775988abc8946c7e1960ea0b212aa6634bd885ffdf2b"
     },
     {
       "path": "docs/STORYBOOK.md",
-      "sha256": "5203610fd66aece91fb1013ee32e3e91649ef94e017c6d4534ee54eeeec64b60"
+      "sha256": "041fcb4fc81858b70f37ddce16d2b2dae38f7747d4e76f429b79f6e902a186a7"
     },
     {
       "path": "scenes/camac/Boat.js",

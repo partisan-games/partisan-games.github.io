@@ -8,20 +8,22 @@ Indeks postojećih glavnih 2D aktera i redosled dopune njihovih animacija.
 |---|---|---|---|---|---|---|
 | 1 | ART-00 | — | Indeks i pregled postojećeg arta | Matrice stanja, putanje resursa, merljivi kadrovi, ograničenja i redosled dopuna | — | ✅ Done |
 | 2 | ART-01 | P1 | Tenkovi igrača: partizanski i nemački; nemački se koristi i u Do Trsta | Petlja gusenica/točkova tokom vožnje; zadržani trup, odvojena cev, sidrište i sudar | High | ✅ Done |
-| 3 | ART-02 | P1 | Ranjeni partizan iz Ranjenika | Pravo puzanje u mestu umesto pomeranja jedne slike | High → Extra High po potrebi | 📋 TODO |
-| 4 | ART-03 | P1 | Nemačka i italijanska patrola iz Ranjenika | Hod grupe i mirna poza za `halt`; sadašnji GIF-ovi su statični, a patrola nema stanje pucanja | High → Extra High po potrebi | 📋 TODO |
-| 5 | ART-04 | P1 · ponovna upotreba pre novog arta | Opel Blitz u Do Trsta | Obezbediti animiranu vožnju: upotrebiti Kluzov atlas ako odgovara pogledu, smeru, stilu i skali; u suprotnom izraditi odgovarajući | Medium za preuzimanje; High za novu izradu | 📋 TODO |
-| 6 | ART-05 | P2 | Somua S35 iz Do Trsta | Petlja gusenica na postojećem trupu, uz zadržanu odvojenu cev | High | 📋 TODO |
-| 7 | ART-06 | P2 | Bombaš i Okupator | Izraditi Bombašev pad i namenski vatreni klip Okupatora bez hodanja tokom pucanja; sačuvati postojeće animacije hoda | High → Extra High po potrebi | 📋 TODO |
-| 8 | ART-07 | P2 · priprema | Atlasi Ustanka | Formalni opisi ćelija, trajanja i sidrišta; po potrebi prepakivanje, bez ponovnog crtanja prihvaćenih likova | Medium | 📋 TODO |
-| 9 | ART-08 | P3 | Uništeni kopneni ciljevi bez odgovarajućeg crteža | Izraditi olupine/oštećene varijante za imenovane tenkove, kamione, voz, artiljeriju i bunkere; postojeći požar ostaje prateći efekat | High | 📋 TODO |
-| 10 | ART-09 | P2 | Mitraljezac iz Bunkera | Izraditi vatreni klip za ležećeg mitraljesca odozgo, sa trzajem i povratkom u nišansku pozu | High | 📋 TODO |
-| 11 | ART-10 | P3 | Propeleri aviona bez pokretnog propelera | Pripremiti odvojene propelere i tela bez zalepljene statične elise, za obe oznake Poteza, Ju 87, Bf 109 iz Do Trsta i neprijateljske modele iz Visa | High za pripremu arta; Medium za povezivanje | 📋 TODO |
-| 12 | ART-11 | P3 · provera pre dopune | Čamci, rovovi i ostali proceduralno prikazani ishodi | Proveriti imenovana stanja u veličini igre; svaki potvrđeni nedostatak pretvoriti u zadatak izrade sa tačnim akterom, stanjem i rezultatom | High | 📋 TODO |
+| 3 | ART-04 | P1 · ponovna upotreba pre novog arta | Opel Blitz u Do Trsta | Obezbediti animiranu vožnju: upotrebiti Kluzov atlas ako odgovara pogledu, smeru, stilu i skali; u suprotnom izraditi odgovarajući | Medium za preuzimanje; High za novu izradu | 📋 TODO |
+| 4 | ART-05 | P2 | Somua S35 iz Do Trsta | Petlja gusenica na postojećem trupu, uz zadržanu odvojenu cev | High | 📋 TODO |
+| 5 | ART-06 | P2 | Bombaš i Okupator | Izraditi Bombašev pad i namenski vatreni klip Okupatora bez hodanja tokom pucanja; sačuvati postojeće animacije hoda | High → Extra High po potrebi | 📋 TODO |
+| 6 | ART-07 | P2 · priprema | Atlasi Ustanka | Formalni opisi ćelija, trajanja i sidrišta; po potrebi prepakivanje, bez ponovnog crtanja prihvaćenih likova | Medium | 📋 TODO |
+| 7 | ART-09 | P2 | Mitraljezac iz Bunkera | Izraditi vatreni klip za ležećeg mitraljesca odozgo, sa trzajem i povratkom u nišansku pozu | High | 📋 TODO |
+| 8 | ART-08 | P3 | Uništeni kopneni ciljevi bez odgovarajućeg crteža | Izraditi olupine/oštećene varijante za imenovane tenkove, kamione, voz, artiljeriju i bunkere; postojeći požar ostaje prateći efekat | High | 📋 TODO |
+| 9 | ART-10 | P3 | Propeleri aviona bez pokretnog propelera | Pripremiti odvojene propelere i tela bez zalepljene statične elise, za obe oznake Poteza, Ju 87, Bf 109 iz Do Trsta i neprijateljske modele iz Visa | High za pripremu arta; Medium za povezivanje | 📋 TODO |
+| 10 | ART-11 | P3 · provera pre dopune | Čamci, rovovi i ostali proceduralno prikazani ishodi | Proveriti imenovana stanja u veličini igre; svaki potvrđeni nedostatak pretvoriti u zadatak izrade sa tačnim akterom, stanjem i rezultatom | High | 📋 TODO |
+| 11 | ART-02 | P3 · na kraju | Ranjeni partizan iz Ranjenika | Pravo puzanje u mestu umesto pomeranja jedne slike | High → Extra High po potrebi | 📋 TODO |
+| 12 | ART-03 | P3 · na kraju | Nemačka i italijanska patrola iz Ranjenika | Hod grupe i mirna poza za `halt`; sadašnji GIF-ovi su statični, a patrola nema stanje pucanja | High → Extra High po potrebi | 📋 TODO |
 
 **Codex:** preporučeni nivo razmišljanja agenta, a ne podešavanje kvaliteta generatora slike. Medium je za metapodatke, prepakivanje i povezivanje gotovih resursa; High za novu izradu, animacije i proveru doslednosti. Extra High koristiti kada usklađivanje mnogih kadrova, poza i ograničenja ostane nerešeno na High, naročito ako se greške ponavljaju; može se primeniti na bilo koji takav zadatak. Viši nivo nije garancija bolje slike; preporuke u tabeli nisu rezultat uporednog merenja.
 
 **Odluka vlasnika:** ono što akteru nedostaje od arta treba izraditi. Prioritet određuje redosled, ne da li će se nedostatak rešavati. Ponovna upotreba odgovarajućeg postojećeg arta ima prednost nad crtanjem duplikata; sama procena nije završen zadatak.
+
+**Redosled rada:** sve dopune za Ranjenik (ranjeni partizan i obe patrole) imaju P3 i rade se posle ostalih navedenih zadataka. Sledeći otvoreni zadatak je ART-04, Opel Blitz u Do Trsta; stabilni ID-jevi ostaju isti i posle pomeranja redova.
 
 ## Obim i čitanje
 
@@ -88,7 +90,7 @@ Indeks postojećih glavnih 2D aktera i redosled dopune njihovih animacija.
 | Bf 110 · Vis | [slika](../assets/images/armies/nemci/avioni/bf-110-odozgo.png), isti Enemy | S tela, P let/paljba/pogibija | ART-10: pripremiti oba propelera sa njihovim osama; ART-11: proveriti pogibiju |
 | He 111 · Vis | [slika](../assets/images/armies/nemci/avioni/he-111-odozgo.png), [Boss](../scenes/vis/Boss.js) | S tela, P let/paljba/pogibija | ART-10: pripremiti oba propelera; ART-11: proveriti pogibiju, bez izmišljanja idle klipa |
 
-## Šta prvo pripremiti, a šta ne precrtavati
+## Pravila pripreme i ponovne upotrebe
 
 1. **ART-01:** prvo jedan tenk kao stilski i tehnički uzor, potom drugi. Referenca je postojeći trup, prikazan približno 120–180 px široko, ne proizvoljan novi model tenka. Najpre odvojena petlja vožnje sa najmanje četiri jasno različita položaja gusenica; horizontalno kretanje daje igra. Idle može ostati postojeći kadar. Cev, oslonac cevi, smer, proporcije, transparentne margine, baseline i sudarne mere ostaju nezavisni od novih ćelija. Tek nakon pregleda nove petlje pripremati ostala glavna stanja koja zaista traže novi crtež.
 2. **ART-02/03:** puzanje i hod su glavna vidljiva radnja igrača/patrole i sada su samo pomeranje slike. Čuvati postojeći pogled odozgo, likove, uniforme i broj ljudi u grupi. Ne preuzimati bočnog vojnika iz Kluza kao zamenu za taj pogled.
