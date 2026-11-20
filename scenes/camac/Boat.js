@@ -1,3 +1,4 @@
+import { icons } from '/core/io/icons.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import TopDownPlayerBoat from '/core/actor/TopDownPlayerBoat.js'
 import canvas2d from '/core/io/canvas2d.js'
@@ -12,7 +13,7 @@ export default class Boat extends TopDownPlayerBoat {
   constructor(viewLeft, session, startX = 0) {
     super()
     if (this.input.keyboard) this.input.keyboard.attackKey = 'Space'
-    this.input.screen.addGameButtons({ attack: '💥' })
+    this.input.screen.addGameButtons({ attack: icons.shoot })
     this.viewLeft = viewLeft
     this.startX = startX
     this.session = session

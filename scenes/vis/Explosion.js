@@ -1,18 +1,19 @@
 import Sprite from '/core/actor/Sprite.js'
 import { ctx } from '/core/io/canvas2d.js'
-import { settings } from './settings.js'
-
-const { duration, scale } = settings.explosion
+/** Seconds a burst lasts, and its size against the 128 px frame. */
+export const explosion = { duration: 1, scale: 1.8 }
 const frameSize = 128 // px, one of the eight frames in the image
 
 /** One burst of fire and smoke that plays once and hides; the player's bomb reuses them. */
 export default class Explosion extends Sprite {
   /** How far from its center the fire of a burst reaches. */
-  static reach = frameSize * scale / 2
+  static get reach() {
+    return frameSize * explosion.scale / 2
+  }
 
   constructor() {
-    super('sprites/efekti/eksplozija-01.png', { names: ['burst'], frameCount: 8, animationTime: duration })
-    this.scaleX = this.scaleY = scale
+    super('sprites/efekti/eksplozija-01.png', { names: ['burst'], frameCount: 8, animationTime: explosion.duration })
+    this.scaleX = this.scaleY = explosion.scale
     this.position.z = -1 // above the planes
     this.hide()
   }
@@ -34,7 +35,7 @@ export default class Explosion extends Sprite {
   update(dt) {
     super.update(dt)
     this.age += dt
-    if (this.age >= duration) this.hide()
+    if (this.age >= explosion.duration) this.hide()
   }
 
   /** Sprite draws every frame at its own size and even when hidden. */

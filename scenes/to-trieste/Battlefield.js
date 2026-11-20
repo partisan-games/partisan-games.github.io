@@ -31,11 +31,13 @@ export default class Battlefield extends GameObject2D {
       new GameObject2D('buildings/crkva-01.png', { width: 78, visible: false }),
     ]
     this.children.push(this.forest, this.cloud, ...this.buildings)
-    this.road = this.createRoad()
+    this.road = null
     this.sprites = new Map()
   }
 
+  /** Paints the sky, the road and the faded scenery once their pictures have loaded. */
   prepare() {
+    this.road = this.createRoad()
     this.sky = ctx.createLinearGradient(0, 0, 0, this.groundY)
     this.sky.addColorStop(0, '#9db8bd')
     this.sky.addColorStop(.8, '#d0d8c9')
@@ -153,6 +155,7 @@ export default class Battlefield extends GameObject2D {
   }
 
   render() {
+    if (!this.road) return
     const distance = this.distance()
     const ground = this.groundY
     ctx.save()

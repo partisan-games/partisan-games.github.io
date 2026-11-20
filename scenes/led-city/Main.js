@@ -1,5 +1,5 @@
 import Scene3D from '/core/Scene3D.js'
-import { baseControls } from '/ui/Controls.js'
+import { avatarControls } from '/ui/Controls.js'
 import { createFloor } from '/core3d/ground.js'
 import Maze from '/core3d/mazes/Maze.js'
 import { recursiveBacktracker } from '/core3d/mazes/algorithms.js'
@@ -12,7 +12,7 @@ const cellSize = 3
 export default class LedCityScene extends Scene3D {
   constructor() {
     super({
-      controlKeys: { ...baseControls, Space: 'jump' },
+      controlKeys: avatarControls,
       toon: true,
     })
   }

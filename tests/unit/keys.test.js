@@ -84,13 +84,15 @@ function controlsText(controlKeys) {
   return text
 }
 
-test('the controls lists show the same keys and actions', () => {
+test('the controls lists describe public actions and keep secret aliases hidden', () => {
   assert.equal(controlsText(controls.baseControls), '← or A - left<br>→ or D - right<br>↑ or W - forward<br>↓ or S - backward<br>Esc - pause<br>')
-  assert.equal(controlsText(controls.avatarControls), '← or A - left<br>→ or D - right<br>↑ or W - forward<br>↓ or S - backward<br>Esc - pause<br>CapsLock - run<br>Space - jump<br>')
+  assert.equal(controlsText(controls.avatarControls), '← or A - left<br>→ or D - right<br>↑ or W - forward<br>↓ or S - backward<br>Esc - pause<br>Q - strafe left<br>E - strafe right<br>CapsLock - run<br>Space - jump<br>')
   assert.equal(controlsText(controls.fpsControls), '← or A - left<br>→ or D - right<br>↑ or W - forward<br>↓ or S - backward<br>Esc - pause<br>Q - strafe left<br>E - strafe right<br>CapsLock - run<br>Mouse - attack<br>Space - jump<br>')
-  assert.equal(controlsText(controls.thirdPersonControls), '← or A - left<br>→ or D - right<br>↑ or W - forward<br>↓ or S - backward<br>Esc - pause<br>CapsLock - run<br>Enter - attack<br>Space - jump<br>')
-  assert.equal(controlsText(controls.tankLeftControls), 'A - left<br>D - right<br>W - up<br>S - down<br>Space - shoot<br>')
-  assert.equal(controlsText(controls.tankRightControls), '← - left<br>→ - right<br>↑ - up<br>↓ - down<br>Enter - shoot<br>')
+  assert.equal(controlsText(controls.thirdPersonControls), '← or A - left<br>→ or D - right<br>↑ or W - forward<br>↓ or S - backward<br>Esc - pause<br>Q - strafe left<br>E - strafe right<br>CapsLock - run<br>Space - jump<br>Enter - attack<br>')
+  assert.equal(controlsText(controls.tankLeftControls), 'A - left<br>D - right<br>W - up<br>S - down<br>Space - hold to charge, release to shoot<br>Esc - pause<br>')
+  assert.equal(controlsText(controls.tankRightControls), '← - left<br>→ - right<br>↑ - up<br>↓ - down<br>Enter - hold to charge, release to shoot<br>Esc - pause<br>')
+  for (const preset of [controls.avatarControls, controls.fpsControls, controls.thirdPersonControls])
+    assert.doesNotMatch(controlsText(preset), /Shift|PgUp|PgDn|PageUp|PageDown/)
 })
 
 /** Holds each key alone for one frame, then releases it, and lists what the vehicle did for it. */
@@ -114,7 +116,10 @@ function actionsOf(vehicle, methods, reset = () => {}) {
 test('the left tank drives, aims and fires with A, D, W, S and Space', async() => {
   const { default: TenkLevo } = await import('/scenes/tenkici/TenkLevo.js')
   const { default: GameClock } = await import('/core/runtime/GameClock.js')
+  const { default: TankKeys } = await import('/core/io/controllers/TankKeys.js')
+  const { leftPlayerKeys } = await import('/core/io/keys.js')
   const tank = new TenkLevo({ x: 100, xLimit: 500, clock: new GameClock() })
+  tank.controller = new TankKeys(tank, leftPlayerKeys)
   assert.deepEqual(actionsOf(tank, ['addForce', 'diziCev', 'spustajCev', 'fire']), {
     KeyA: ['addForce'], KeyD: ['addForce'], KeyW: ['diziCev'], KeyS: ['spustajCev'], Space: ['fire'],
   })
@@ -124,7 +129,10 @@ test('the right tank drives, aims and fires with the arrows and Enter', async() 
   const { default: TenkDesno } = await import('/scenes/tenkici/TenkDesno.js')
   const { default: canvas2d } = await import('/core/io/canvas2d.js')
   const { default: GameClock } = await import('/core/runtime/GameClock.js')
-  const tank = new TenkDesno({ ai: false, clock: new GameClock() })
+  const { default: TankKeys } = await import('/core/io/controllers/TankKeys.js')
+  const { rightPlayerKeys } = await import('/core/io/keys.js')
+  const tank = new TenkDesno({ clock: new GameClock() })
+  tank.controller = new TankKeys(tank, rightPlayerKeys)
   tank.x = canvas2d.width * .75
   assert.deepEqual(actionsOf(tank, ['addForce', 'diziCev', 'spustajCev', 'fire']), {
     ArrowLeft: ['addForce'], ArrowRight: ['addForce'], ArrowUp: ['diziCev'], ArrowDown: ['spustajCev'], Enter: ['fire'],
@@ -133,7 +141,12 @@ test('the right tank drives, aims and fires with the arrows and Enter', async() 
 
 test('the ustanak cannon aims with W and S and fires when Space is released', async() => {
   const { default: Top } = await import('/scenes/ustanak/Top.js')
+  const { default: CannonKeys } = await import('/core/io/controllers/CannonKeys.js')
+  const { leftPlayerKeys } = await import('/core/io/keys.js')
   const cannon = new Top({ x: 230, y: 300 })
+  const player = new CannonKeys(cannon, leftPlayerKeys)
+  // the scene gives the keys to the cannon's player, which the test drives as the cannon's input
+  cannon.handleInput = dt => player.handleInput(dt)
   const angles = {}
   for (const code of ['KeyW', 'KeyS']) {
     cannon.angle = 6

@@ -12,6 +12,9 @@ import BattleFeedback from './BattleFeedback.js'
 import spaceBunkers from './spaceBunkers.js'
 import AirRaids from './AirRaids.js'
 import { tankLeftControls } from '/ui/Controls.js'
+import TankKeys from '/core/io/controllers/TankKeys.js'
+import { leftPlayerKeys } from '/core/io/keys.js'
+import Marksman from '/core/gameplay/controllers/Marksman.js'
 
 const PARALAX_1 = -160
 const LEVEL_LENGTH = Math.abs(PARALAX_1) * 180
@@ -32,6 +35,7 @@ export default class ToTriesteScene extends Scene2D {
     this.battlefield = new Battlefield({ groundY: groundLevel, distance: () => this.distance })
     this.zgrade = this.battlefield.buildings
     this.tenk = new TenkLevo({ y: groundLevel, groundY: groundLevel, scale: .4, xLimit: canvas2d.width * .9, clock: this.session.clock })
+    this.tenk.controller = new TankKeys(this.tenk, leftPlayerKeys)
 
     const bunkerCallback = () => this.score++
     const bunkerOptions = { clock: this.session.clock, target: this.tenk, groundY: groundLevel, callback: bunkerCallback, flammable: true, speed: PARALAX_1 }
@@ -39,6 +43,7 @@ export default class ToTriesteScene extends Scene2D {
       new Bunker({ ...bunkerOptions, src: 'buildings/kuca-bunker.png', scale: .33 }),
       new Bunker({ ...bunkerOptions, src: 'buildings/bunker-02.png', scale: .5 }),
     ]
+    for (const bunker of this.bunkeri) bunker.controller = new Marksman(bunker, this.tenk)
     this.enemies = createGroundEnemies({ clock: this.session.clock, target: this.tenk, groundY: groundLevel, scrollSpeed: PARALAX_1, callback: bunkerCallback })
     this.airRaids = new AirRaids({ clock: this.session.clock, target: this.tenk, groundY: groundLevel,
       scrollSpeed: PARALAX_1,

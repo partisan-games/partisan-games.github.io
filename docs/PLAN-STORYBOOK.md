@@ -8,17 +8,17 @@ Sopstveni Storybook u kome se svaki blok 2D i 3D sveta isprobava sam, kroz svoja
 |---|---|---|---|---|
 | 1 | [SB-01](#sb-01) | 2D pozornica i prvi blok | Strelac živi van igre i gađa metu na mišu | ✅ Done |
 | 2 | [SB-12](#sb-12) | Zajednička mašina stanja za 2D blokove | Mala, čista mašina stanja u zajedničkom kodu; dogovor `states`, `state`, `setState` za sve blokove | ✅ Done<br>Prvi korisnik: strelac Franje Kluza; ceo smoke na kraju T1 |
-| 3 | [SB-02](#sb-02) | Avioni, tenkovi i vojnici: spisak, animacije, stanja i pucanje | Biraš animirane 2D vojnike, vozila i Bf 109 i tenk iz Tenkića, menjaš im stanja i gledaš kako pucaju | 🔄 In progress<br>Ostalo: provera curenja u browseru |
-| 4 | [SB-03](#sb-03) | Kontrole parametara | Panel podešavanja sam nastaje iz izvezenih objekata podešavanja bloka | 📋 TODO |
-| 5 | [SB-04](#sb-04) | Ostali blokovi Franje Kluza i zajednički kod | PVO, efekti, aerodrom i pozadina imaju priče; opšti blokovi su u zajedničkom kodu, sa svojim unit testovima | 📋 TODO |
+| 3 | [SB-02](#sb-02) | Avioni, tenkovi i vojnici: spisak, animacije, stanja i pucanje | Biraš animirane 2D vojnike, vozila i Bf 109 i tenk iz Tenkića, menjaš im stanja i gledaš kako pucaju | ✅ Done<br>Curenje meri [storybook.spec.js](../tests/smoke/storybook.spec.js): dva kruga kroz sve priče |
+| 4 | [SB-03](#sb-03) | Kontrole parametara | Panel podešavanja sam nastaje iz izvezenih objekata podešavanja bloka | ✅ Done<br>Uvećanje, okviri sudara i izbor podloge nisu rađeni: uvode se kad zatrebaju |
+| 5 | [SB-04](#sb-04) | Ostali blokovi Franje Kluza i zajednički kod | PVO, efekti, aerodrom i pozadina imaju priče; opšti blokovi su u zajedničkom kodu, sa svojim unit testovima | ✅ Done<br>Ostao jedan mešani test pogodaka u [franjoKluz.test.js](../tests/unit/franjoKluz.test.js): zavisi od rasporeda neprijatelja u sceni |
 | 6 | [SB-05](#sb-05) | Više blokova na pozornici · uslovno | Blokovi se dodaju jedan uz drugi i deluju jedan na drugog | 📋 TODO |
-| 7 | [SB-06](#sb-06) | Ostali blokovi Ustanka, Visa i Tenkića | Priče, nezavisni blokovi i njihovi unit testovi | 📋 TODO |
-| 8 | [SB-07](#sb-07) | Ostali blokovi ostalih 2D igara | Priče i nezavisni blokovi za Do Trsta, Čamac, Bunker, Ranjenik, Neretvu i Otpisane | 📋 TODO |
-| 9 | [SB-08](#sb-08) | 3D pozornica | Orbitna kamera, svetlo, tlo, kontrole kao u 2D, dugmad stanja i animacija | 📋 TODO |
-| 10 | [SB-13](#sb-13) | 3D likovi na zajedničkoj mašini stanja | 3D FSM koristi mašinu iz SB-12; ponašanje likova je isto | 📋 TODO |
-| 11 | [SB-09](#sb-09) | 3D likovi | Priče za likove iz `core3d/actor/derived` | 📋 TODO |
-| 12 | [SB-10](#sb-10) | 3D letelice i objekti | Priče za `core3d/aircraft` i `core3d/objects` | 📋 TODO |
-| 13 | [SB-11](#sb-11) | Smoke provera, dokumentacija i pregled | Svaka priča se otvara bez greške i curenja; vlasnik pregledao | 📋 TODO |
+| 7 | [SB-06](#sb-06) | Ostali blokovi Ustanka, Visa i Tenkića | Priče, nezavisni blokovi i njihovi unit testovi | ✅ Done<br>Nalazi: [Nalazi](#nalazi) 1–4 |
+| 8 | [SB-07](#sb-07) | Ostali blokovi ostalih 2D igara | Priče i nezavisni blokovi za Do Trsta, Čamac, Bunker, Ranjenik, Neretvu i Otpisane | ✅ Done<br>Nalazi: [Nalazi](#nalazi) 5–7 |
+| 9 | [SB-08](#sb-08) | 3D pozornica | Orbitna kamera, svetlo, tlo, kontrole kao u 2D, dugmad stanja i animacija | 🔄 In progress<br>Pozornica i čarobnica gotove; čeka provera u browseru (traži dozvolu). Bez WebGL-a unit test ne može da napravi 3D scenu, pa 3D priče proverava samo browser |
+| 10 | [SB-13](#sb-13) | 3D likovi na zajedničkoj mašini stanja | 3D FSM koristi mašinu iz SB-12; ponašanje likova je isto | 🔄 In progress<br>Kod i [fsm3d.test.js](../tests/unit/fsm3d.test.js) gotovi; čeka ceo smoke (posle PLAN-UI, uz dozvolu) |
+| 11 | [SB-09](#sb-09) | 3D likovi | Priče za likove iz `core3d/actor/derived` | 🔄 In progress<br>38 priča; čeka provera u browseru. Top čeka pozornicu sa fizikom; testovi stanja po liku traže učitan model ([Nalazi](#nalazi) 8) |
+| 12 | [SB-10](#sb-10) | 3D letelice i objekti | Priče za `core3d/aircraft` i `core3d/objects` | 🔄 In progress<br>21 priča; čeka provera u browseru |
+| 13 | [SB-11](#sb-11) | Smoke provera, dokumentacija i pregled | Svaka priča se otvara bez greške i curenja; vlasnik pregledao | 📋 TODO<br>Čeka kraj PLAN-UI, dozvolu za smoke i vlasnikov pregled |
 
 ## Cilj i obim
 
@@ -27,6 +27,7 @@ Sopstveni Storybook u kome se svaki blok 2D i 3D sveta isprobava sam, kroz svoja
   - nova stranica [storybook.html](../storybook.html) u korenu, kao [ui.html](../ui.html), sa kodom u `storybook/`;
   - priče za sve postojeće objekte 2D i 3D igara i za zajedničke aktere iz `core/actor`, `core3d/actor`, `core3d/aircraft` i `core3d/objects`;
   - refaktorisanje koje bloku treba da radi sam, uključujući prebacivanje opšteg bloka iz igre u zajednički kod.
+- **Samo akteri (odluka vlasnika):** priče imaju samo igrači i neprijatelji; pozadine, okolina, efekti i predmeti ne.
 - **Van obima:** novi art i nove gameplay mogućnosti. Greške koje storybook otkrije, a nisu deo nezavisnosti bloka, beleže se u plan igre ili [TODO](../README.md#todo). Stranica se ne pojavljuje u glavnom meniju i ne troši novčiće.
 - **Zajednički kod:** Claude sam refaktoriše blok i prebacuje ga u `core/` ili `core3d/` kad to traži nezavisnost bloka, i javlja šta je urađeno (odluka vlasnika). Izmena koja menja ponašanje postojeće igre čeka vlasnikovo odobrenje. Izmena u `core/`, `core3d/` ili `ui/` dobija unit test i ulazi u ceo smoke, po [pravilu projekta](../.claude/CLAUDE.md).
 
@@ -53,7 +54,7 @@ Sopstveni Storybook u kome se svaki blok 2D i 3D sveta isprobava sam, kroz svoja
 
 - Stranica je razvojni alat, ne sadržaj igre, pa [pravilo odobravanja UI elemenata](DOCS.md#odobravanje-ui-elemenata) na nju ne važi (odluka vlasnika). Vlasnik je pregleda u SB-11.
 - Bez React-a, build-a i novih biblioteka: obična stranica u čistom JavaScript-u, kao ostatak projekta (odluka vlasnika).
-- Kontrole su automatske i bez besmislenih polja (odluka vlasnika). Storybook ih pravi samo iz izvezenih objekata podešavanja modula bloka, kao `fighter` u [Fighter.js](../scenes/franjo-kluz/Fighter.js) i `rifle` u [Rifleman.js](../scenes/franjo-kluz/Rifleman.js), nikad iz unutrašnjih polja objekta (predlog agenta, prihvaćen u razgovoru).
+- Kontrole su automatske i bez besmislenih polja (odluka vlasnika). Storybook ih pravi samo iz izvezenih objekata podešavanja modula bloka, kao `fighter` u [Fighter.js](../core/actor/aircraft/Fighter.js) i `rifle` u [Rifleman.js](../core/actor/soldiers/Rifleman.js), nikad iz unutrašnjih polja objekta (predlog agenta, prihvaćen u razgovoru).
 - Priče su u `storybook/stories/`, po jedna datoteka za vrstu bloka. Ceo alat se uklanja brisanjem `storybook/` i `storybook.html` (predlog agenta).
 - Blokovi rade uz lažne zavisnosti: kameru `{ cameraX, cameraY }`, `GameSession` i metu koja zamenjuje igrača, kao u unit testovima Franje Kluza, npr. [franjoKluz.test.js:22-37](../tests/unit/franjoKluz.test.js#L22-L37). Potvrđeno je za Kluza; za ostale igre nije provereno.
 
@@ -70,7 +71,7 @@ Provereno prema `d68b74500b18101da8d1171352d87589bba990a5` i radnoj kopiji od 20
 
 ## Pravila rada
 
-1. **Nezavisnost bloka:** blok, stanja, telo i upravljač, pucanje i storybook kao merilo su opisani u [arhitekturi](ARHITEKTURA.md#gradivni-blokovi); svaki korak ih sprovodi. Pojedinačne izvezene konstante, kao `passOffset` u [Fighter.js](../scenes/franjo-kluz/Fighter.js), prelaze u objekat podešavanja kad blok dobija kontrole.
+1. **Nezavisnost bloka:** blok, stanja, telo i upravljač, pucanje i storybook kao merilo su opisani u [arhitekturi](ARHITEKTURA.md#gradivni-blokovi); svaki korak ih sprovodi. Pojedinačne izvezene konstante, kao `passOffset` u [Fighter.js](../core/actor/aircraft/Fighter.js), prelaze u objekat podešavanja kad blok dobija kontrole.
 2. **Unit test bloka:** svaki blok dobija svoj test po [pravilu](ARHITEKTURA.md#gradivni-blokovi), u koraku svoje priče.
    - **Bez gubitka pokrivenosti:** pre brisanja provere iz testa igre, isti slučaj mora postojati u testu bloka i padati kad se ponašanje pokvari.
 3. **Refaktorisanje:** ide u korak priče tog bloka. Igre koje blok koriste ponašaju se isto, a to dokazuju njihovi postojeći unit testovi i novi test bloka koji pada bez izmene. Opšti blok, koji nije vezan za priču jedne igre, prelazi u `core/` ili `core3d/`; izmena se javlja vlasniku.
@@ -159,7 +160,7 @@ Provereno prema `d68b74500b18101da8d1171352d87589bba990a5` i radnoj kopiji od 20
   - **Kontrole:** `storybook/controls.js` pregleda izvoze modula bloka (`block` iz priče) i uzima samo obične objekte čija su polja brojevi, da/ne vrednosti ili takvi ugnežđeni objekti. Funkcije, klase i pojedinačne konstante preskače. Od broja pravi klizač od 0 do četiri puta veće vrednosti od početne (za 0 do 1), od da/ne prekidač, a od ugnežđenog objekta grupu.
   - **Promena vrednosti:** menja polje izvezenog objekta, pa ponovo pravi priču, da promena deluje i na vrednosti koje blok pročita samo pri stvaranju. Dugme „Vrati” vraća početne vrednosti, a one se vraćaju i pri promeni priče, da izmena ne pređe u drugu priču ni u igru.
   - **Pozornica:** dodaju se uvećanje, prikaz okvira sudara i izbor podloge (nebo, šahovnica).
-- **Uzor:** objekti `fighter`, `wreckFall` u [Fighter.js](../scenes/franjo-kluz/Fighter.js) i `rifle` u [Rifleman.js](../scenes/franjo-kluz/Rifleman.js).
+- **Uzor:** objekti `fighter`, `wreckFall` u [Fighter.js](../core/actor/aircraft/Fighter.js) i `rifle` u [Rifleman.js](../core/actor/soldiers/Rifleman.js).
 - **Gotovo kada:** unit test za `controls.js` proverava da od izvoza `Fighter.js` nastaju kontrole za `fighter` i `wreckFall`, a ne za klasu ni `passOffset`. Promena brzine strelca ponovo pravi priču sa novom vrednošću, a promena priče vraća početnu.
 - **Zamke:** izvezena konstanta (`export const x = 5`) ne može se menjati spolja, jer je uvoz samo za čitanje; zato kontrole prave samo od objekata (pravilo rada 1). Okvir sudara se crta posle bloka, na istoj kameri; zastavica `debug` u `Renderer2D` crta oblik umesto slike ([core/Renderer2D.js:64](../core/Renderer2D.js#L64)) i nije prikaz okvira.
 
@@ -168,15 +169,15 @@ Provereno prema `d68b74500b18101da8d1171352d87589bba990a5` i radnoj kopiji od 20
 ### SB-04 · Ostali blokovi Franje Kluza i zajednički kod · 1 / 1.5 / 2.5 p · Claude
 
 - **Šta:**
-  - **PVO bez mete:** PVO još nišani avion sam, sa predviđanjem leta (`aim` u [Flak.js](../scenes/franjo-kluz/Flak.js)). Telo prelazi na `aimAt` i pucanje niz cev, a predviđanje leta u upravljača, kao [Gunner](../core/gameplay/Gunner.js).
+  - **PVO bez mete:** PVO još nišani avion sam, sa predviđanjem leta (`aim` u [Flak.js](../core/actor/artillery/Flak.js)). Telo prelazi na `aimAt` i pucanje niz cev, a predviđanje leta u upravljača, kao [Gunner](../core/gameplay/controllers/Gunner.js).
   - **Priče:** Potez u NDH i partizanskim oznakama, PVO sa cevi koja prati metu i rasprskavanjem, bomba, eksplozija, plamen pucnja, aerodrom, ruševina i slojevi pozadine.
-  - **Nezavisnost:** blokovi Franje Kluza, i oni iz SB-02, postaju nezavisni po pravilima rada 1–3. Opšti blokovi, npr. eksplozija, plamen pucnja, PVO top, lovac, vojnik sa puškom i vozilo-meta, prelaze u zajednički kod po [rasporedu po vrstama](ARHITEKTURA.md#gradivni-blokovi), a [Sentry](../core/gameplay/Sentry.js) i [Gunner](../core/gameplay/Gunner.js) u `core/gameplay/controllers/`. Pravila igre, kao uzbuna i pritajeni let, ostaju u [Main.js](../scenes/franjo-kluz/Main.js) i menjaju samo stanja blokova.
+  - **Nezavisnost:** blokovi Franje Kluza, i oni iz SB-02, postaju nezavisni po pravilima rada 1–3. Opšti blokovi, npr. eksplozija, plamen pucnja, PVO top, lovac, vojnik sa puškom i vozilo-meta, prelaze u zajednički kod po [rasporedu po vrstama](ARHITEKTURA.md#gradivni-blokovi), a [Sentry](../core/gameplay/controllers/Sentry.js) i [Gunner](../core/gameplay/controllers/Gunner.js) u `core/gameplay/controllers/`. Pravila igre, kao uzbuna i pritajeni let, ostaju u [Main.js](../scenes/franjo-kluz/Main.js) i menjaju samo stanja blokova.
 - **Uzor:** `createEnemy` u [Main.js](../scenes/franjo-kluz/Main.js) za opcije koje blokovi danas dobijaju.
 - **Gotovo kada:**
   - unit test proverava da svaki blok iz `scenes/franjo-kluz` i iz zajedničkog koda u koji je prešao ima bar jednu priču;
   - izuzeci su moduli bez objekta: `Main.js`, `missions.js`, `enemies.js`, `spriteArt.js` i `view.js`;
   - svaki blok ima svoj unit test po pravilu rada 2, provere njegovog ponašanja su prebačene iz testova Franje Kluza, a [franjoKluz.test.js](../tests/unit/franjoKluz.test.js) proverava samo misije, uzbunu, sletanje i to kako igra slaže blokove; svi unit testovi prolaze.
-- **Zamke:** `outsideView` iz [view.js](../scenes/franjo-kluz/view.js) radi sa svetskim koordinatama kamere. Pri prelasku blokova u zajednički kod i on prelazi sa njima, umesto da se kopira.
+- **Zamke:** `outsideView` iz [view.js](../core/actor/worldView.js) radi sa svetskim koordinatama kamere. Pri prelasku blokova u zajednički kod i on prelazi sa njima, umesto da se kopira.
 
 <a id="sb-05"></a>
 
@@ -193,7 +194,7 @@ Provereno prema `d68b74500b18101da8d1171352d87589bba990a5` i radnoj kopiji od 20
 
 ### SB-06 · Ostali blokovi Ustanka, Visa i Tenkića · 2 / 3 / 4 p · Claude
 
-- **Upravljači tenka:** tenk iz Tenkića ima stanja od SB-02, ali tastaturu igrača i AI još drži u sebi (`handleInput`, `samohod` u [Tenk.js](../scenes/tenkici/Tenk.js)). Oni prelaze u zasebne upravljače, kao [Sentry](../core/gameplay/Sentry.js), a Tenkići i Do Trsta ih dodeljuju tenkovima; ponašanje igara ostaje isto.
+- **Upravljači tenka:** tenk iz Tenkića ima stanja od SB-02, ali tastaturu igrača i AI još drži u sebi (`handleInput`, `samohod` u [Tenk.js](../scenes/tenkici/Tenk.js)). Oni prelaze u zasebne upravljače, kao [Sentry](../core/gameplay/controllers/Sentry.js), a Tenkići i Do Trsta ih dodeljuju tenkovima; ponašanje igara ostaje isto.
 - **Šta:** priče za blokove iz `scenes/ustanak`, `scenes/vis` i `scenes/tenkici` koje SB-02 nije pokrio: top (`Top`), avioni iz Visa (`Avionce`, `Enemy`, `Boss`), đule, zastava, vetar, pozadine i pojačanja, i za `Flame` iz `core/actor`. Blokovi postaju nezavisni i dobijaju svoje unit testove po pravilima rada 1–3. Blok koji ne može da postane nezavisan bez promene ponašanja igre ide u tabelu „Nalazi” ovog koraka, sa predlogom za vlasnika.
 - **Uzor:** blokovi i priče iz SB-04; unit testovi tih igara u `tests/unit/` za lažne zavisnosti.
 - **Gotovo kada:** važi isti test pokrivenosti kao u SB-04, za ove foldere, svaki blok ima svoj unit test, a provere blokova su prebačene iz testova tih igara, i svaka priča se pravi i gasi bez greške. Unit testovi tih igara prolaze, a tabela nalaza je popunjena ili prazna.
@@ -257,6 +258,23 @@ Provereno prema `d68b74500b18101da8d1171352d87589bba990a5` i radnoj kopiji od 20
   - [ ] Blok prati i gađa mesto pokazivača miša, a pogoci se broje.
   - [ ] Okvir sudara se poklapa sa slikom.
   - [ ] Svaka animacija vojnika i vozila iz Franje Kluza se vidi i završava kako treba.
+
+<a id="nalazi"></a>
+
+## Nalazi
+
+Predlozi za vlasnika; blokovi rade, ali nisu potpuno čisti.
+
+| # | Nalaz | Predlog |
+|---|---|---|
+| 1 | Tenkovi Tenkića nemaju klizače: `TenkLevo` i `TenkDesno` ne izvoze `tank` iz [Tenk.js](../scenes/tenkici/Tenk.js) | Izvesti `tank` i u njima |
+| 2 | `Enemy` i `Boss` iz Visa sami prate putanju i pucaju u svom `update` | Stanja `fly`/`fire`/`fall`, uz upravljače putanje i pucanja |
+| 3 | Vis ima svoju eksploziju pored [zajedničke](../core/actor/effects/Explosion.js) | Prebaciti Vis na zajedničku posle poređenja arta |
+| 4 | Avion igrača iz Visa po učitavanju slike skače na dno platna, ispod tla pozornice | Položaj daje igra, ne blok |
+| 5 | Neprijatelji Do Trsta i Čamca (`Aircraft`, `GroundEnemy`, bunker, `SBoat`, `ShoreMachineGun`) sami biraju metu i trenutak | Telo sa stanjima i `aimAt`, plus upravljač, blok po blok |
+| 6 | [SideVehicle](../core/actor/SideVehicle.js) ne koristi nijedna igra i nema art | Obrisati |
+| 7 | `Mitraljezac`, `Svabo`, `Patrola`, mina i paljba su opšti blokovi u folderima igara | Preseliti u `core/actor/` po vrstama |
+| 8 | 3D lik ne može da se napravi u unit testu bez učitanog modela, a top iz igre Cannon traži Ammo fiziku | Zamenski model u testovima; pozornica sa fizikom za top |
 
 ## Rizici
 

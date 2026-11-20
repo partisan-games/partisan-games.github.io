@@ -1,4 +1,5 @@
 import canvas2d from '/core/io/canvas2d.js'
+import Marksman from '/core/gameplay/controllers/Marksman.js'
 import ShoreMachineGun from './ShoreMachineGun.js'
 
 /** A bounded set of positions: terrain determines the site, never the camera's movement. */
@@ -10,6 +11,7 @@ export default class ShoreDefenses {
     this.spacing = Math.max(1800, canvas2d.width * 1.9)
     this.positions = [-1, 1].map(side => {
       const post = new ShoreMachineGun(options)
+      post.controller = new Marksman(post, options.target)
       post.side = side
       return post
     })

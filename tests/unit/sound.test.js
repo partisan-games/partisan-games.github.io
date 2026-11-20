@@ -44,7 +44,10 @@ test('different occupiers have independent burst points and sound randomness doe
   const first = new Occupier(), second = new Occupier()
   first.x = 100; second.x = 500
   audio.sync([first, second], 'running')
-  first.fire(0); second.fire(0)
+  for (const occupier of [first, second]) {
+    occupier.setState('fire')
+    occupier.update(0)
+  }
   assert.notEqual(first.burstSound.playback.audio, second.burstSound.playback.audio)
   assert.notDeepEqual(first.burstSound.playback.audio.spatialModel.position, second.burstSound.playback.audio.spatialModel.position)
   await settle()
@@ -63,11 +66,11 @@ test('a trench firing transition starts one repeating burst instead of replaying
   const { default: Svabo } = await import('/scenes/neretva/Svabo.js')
   const soldier = new Svabo({ scale: 1, callback() {} })
   audio.sync([soldier], 'running')
-  soldier.ustani(); soldier.shoot(); soldier.shoot()
+  soldier.setState('aim'); soldier.setState('fire'); soldier.setState('fire')
   await settle()
   assert.equal(soldier.burstSound.options.loop, true)
   assert.equal(soldier.burstSound.playback.voices.size, 1)
-  soldier.padni()
+  soldier.setState('fall')
   assert.equal(soldier.burstSound.playing, false)
 })
 

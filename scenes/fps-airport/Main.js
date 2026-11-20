@@ -4,7 +4,6 @@ import { createMoon } from '/core3d/light.js'
 import { sample, getEmptyCoords } from '/core3d/helpers.js'
 import FPSPlayer from '/core3d/actor/FPSPlayer.js'
 import { fpsControls } from '/ui/Controls.js'
-import { keys } from '/core/io/keys.js'
 import { createAirport } from '/core3d/city.js'
 import { loadModel } from '/core3d/loaders.js'
 import DornierBomber, { models as dornierBomberModels } from '/core3d/objects/DornierBomber.js'
@@ -25,7 +24,7 @@ export default class FpsAirportScene extends Scene3D {
     super({
       usePointerLock: true,
       showControls: true,
-      controlKeys: { ...fpsControls, [keys.pause.label]: false },
+      controlKeys: fpsControls,
       intro: 'Destroy all enemy aircraft.',
       reportText: 'The German planes that sow death among our combatants are stationed at the Rajlovac Airport near Sarajevo.\n\nEnter the airport and destroy all enemy aircraft.',
     })

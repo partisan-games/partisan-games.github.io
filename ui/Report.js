@@ -37,14 +37,11 @@ const css = /* css */`
 const style = document.createElement('style')
 style.textContent = css
 
-function createHtml(id) {
+function createHtml(container) {
   const div = document.createElement('div')
   div.className = 'report'
 
-  setTimeout(() => {
-    const container = document.getElementById(id)
-    container.prepend(div)
-  }, 1)
+  container.prepend(div)
 
   const p = document.createElement('p')
   div.appendChild(p)
@@ -52,12 +49,13 @@ function createHtml(id) {
 }
 
 export default class Report {
-  constructor({ text = 'Destroy all enemy aircraft.', containerId } = {}) {
+  constructor({ text = 'Destroy all enemy aircraft.', containerId, container = document.getElementById(containerId) } = {}) {
+    if (!container) throw new Error('Report requires its start-screen container')
     this.i = 0
     this.intervalId
     this.text = text
     this.containerId = containerId
-    this.p = createHtml(containerId)
+    this.p = createHtml(container)
     this.characters = []
 
     for (const segment of text.match(/\s+|\S+/g) || []) {

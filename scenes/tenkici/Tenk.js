@@ -1,5 +1,3 @@
-import { keyboard } from '/core/io/Keyboard.js'
-import canvas2d from '/core/io/canvas2d.js'
 import GameObject2D from '/core/actor/GameObject2D.js'
 import ProjectilePool from '/core/actor/ProjectilePool.js'
 import Shell from '/core/actor/projectiles/Shell.js'
@@ -11,17 +9,19 @@ import Sound from '/core/io/audio/SoundSource.js'
 import { frames } from '/core/constants.js'
 import { shellGravity as gravity, shellSpeed as potisakMetka } from './shellPhysics.js'
 
-const statickoTrenje = 0.3
-const kinetickoTrenje = 0.1
-const reloadTime = 1 // seconds
-const burnBelow = 20 // energy at which a tank catches fire
+/** Friction is the share of speed lost per frame at the tuned rate; `reverse` is the share of thrust driving back. */
+export const tank = {
+  thrust: 25, reverse: .6, reloadTime: 1, staticFriction: .3, kineticFriction: .1,
+  burnBelow: 20, // energy at which a tank catches fire
+}
 /** How many pixels away a target must be for the barrel to rise one radian, and how high the barrel rises at most. */
 const aimReach = gravity * gravity * 0.8
 const highestBarrel = Math.PI * .2
 
 /**
- * The tank stands, or drives ahead, or fires where its barrel points as often as it reloads, or burns destroyed. Each lasts until it is set to another; who does it, and when, is up to the world. A tank that a
- * player drives with the keys, or that drives itself (`ai`), stays standing meanwhile.
+ * The tank stands, or drives ahead, or fires where its barrel points as often as it reloads, or burns destroyed. Each
+ * lasts until it is set to another; who does it, and when, is up to the world. A tank that its `controller` drives
+ * stays standing meanwhile.
  */
 const states = {
   idle: {},
@@ -29,14 +29,17 @@ const states = {
     update: (tank, dt) => tank.vozi(tank.thrust, tank.angle, dt),
   },
   fire: {
-    update: tank => tank.fire(tank.vrhCevi, tank.cev.angle),
+    update: tank => tank.shoot(),
   },
   dead: {
     enter: tank => tank.health.damage(tank.health.current),
   },
 }
 
-/** Abstract class. `clock` is the game clock: reloading and the AI's timing wait in a pause. */
+/**
+ * Abstract class. `clock` is the game clock: reloading waits in a pause. The world may give it a `controller`, the
+ * player's keys or an AI: it takes the tank's input and its step, at the moments the tank's own code once read them.
+ */
 export default class Tenk extends GameObject2D {
   constructor(src, {
     clock,
@@ -44,7 +47,6 @@ export default class Tenk extends GameObject2D {
     cevSlika,
     tenkDesno = false,
     scale = window.innerWidth > 1280 ? 0.5 : 0.4,
-    vremePunjenjaAI = 1.5, // seconds between AI shots
     ...rest
   } = {}) {
     super(src, { flammable: true, scale, z: -1, ...rest })
@@ -56,21 +58,14 @@ export default class Tenk extends GameObject2D {
     this.tenkDesno = tenkDesno
     this.cev = new GameObject2D(cevSlika, { scale })
     this.cev.onload = () => this.azurirajCev()
-    this.thrust = 25
-    this.spremno = false
+    this.thrust = tank.thrust
     this.targets = []
+    this.controller = null
     this.granate = new ProjectilePool({ owner: this, create: () => new Shell({ gravity, clock, groundLevel: groundY }) })
     this.weapon = new Weapon({
-      cooldown: new Cooldown({ seconds: reloadTime, clock }),
+      cooldown: new Cooldown({ seconds: tank.reloadTime, clock }),
       spawnProjectile: (position, angle) => this.granate.fire(position, angle, potisakMetka),
     })
-    // AI: each wait starts with the tank, as on the old wall clock
-    this.ai = false
-    this.smer = this.angle
-    this.aiPush = new Cooldown({ seconds: .07, clock })
-    this.aiTurn = new Cooldown({ seconds: .3, clock })
-    this.aiFire = new Cooldown({ seconds: vremePunjenjaAI, clock })
-    ;[this.aiPush, this.aiTurn, this.aiFire].forEach(wait => wait.start())
     this.children.push(this.cev)
     this.machine = new StateMachine(this, states, 'idle')
   }
@@ -115,19 +110,16 @@ export default class Tenk extends GameObject2D {
   }
 
   get burning() {
-    return this.flammable && this.health.current <= burnBelow
+    return this.flammable && this.health.current <= tank.burnBelow
   }
 
   get ugaoUnazad() {
     return this.angle + Math.PI
   }
 
-  pokusajPucanje(binding) {
-    if (keyboard.isDown(binding)) this.spremno = true
-    if (this.spremno && !keyboard.isDown(binding)) {
-      this.fire(this.vrhCevi, this.cev.angle)
-      this.spremno = false
-    }
+  /** Fires where the barrel points. */
+  shoot() {
+    this.fire(this.vrhCevi, this.cev.angle)
   }
 
   /** The recoil comes only with a shot that the reload allowed. */
@@ -143,6 +135,16 @@ export default class Tenk extends GameObject2D {
   /** A push while a key is held, as one a frame at the frame rate the game was tuned at, on any screen. */
   vozi(snaga, angle, dt) {
     this.addForce(snaga * frames(dt, this.tunedFps), angle)
+  }
+
+  /** Drives right (1) or left (-1): full thrust ahead, less in reverse. */
+  drive(way, dt) {
+    this.vozi(this.thrust * (way === this.forward ? 1 : tank.reverse), way > 0 ? 0 : Math.PI, dt)
+  }
+
+  /** Keeps the tank within its stretch of ground, `minX` to `maxX`. */
+  checkBounds() {
+    this.x = Math.min(Math.max(this.x, this.minX), this.maxX)
   }
 
   trzaj() {
@@ -186,55 +188,17 @@ export default class Tenk extends GameObject2D {
     this.cev.angle = Math.cos(this.angle) < 0 ? Math.PI + lift : 2 * Math.PI - lift
   }
 
-  izaberiSmer() {
-    if (this.aiTurn.ready) {
-      this.smer = Math.random() > 0.4 ? this.angle : this.ugaoUnazad
-      this.aiTurn.start()
-    }
-
-    if (this.x > canvas2d.width * 0.9) this.smer = this.angle
-    if (this.x < canvas2d.width / 2) this.smer = this.ugaoUnazad
-  }
-
-  povremenoDodajSilu() {
-    if (this.aiPush.ready) {
-      this.addForce(Math.random() * this.thrust, this.smer)
-      this.aiPush.start()
-    }
-  }
-
-  mrdajNasumicno() {
-    this.izaberiSmer()
-    this.povremenoDodajSilu()
-  }
-
-  pucajNasumicno() {
-    if (!this.aiFire.ready) return
-    this.fire(this.vrhCevi, this.cev.angle)
-    this.aiFire.start()
-  }
-
-  najbliziCilj() {
-    const zivi = this.targets.filter(cilj => cilj.alive)
-    return zivi.reduce((najblizi, cilj) => this.distanceTo(cilj) < this.distanceTo(najblizi) ? cilj : najblizi, zivi[0])
-  }
-
-  samohod() {
-    if (this.dead) return
-    this.mrdajNasumicno()
-    const cilj = this.najbliziCilj()
-    if (!cilj || cilj.dead) return
-    this.nisani(cilj)
-    this.pucajNasumicno()
+  handleInput(dt) {
+    this.controller?.handleInput?.(dt)
   }
 
   update(dt) {
     this.engineSound.setPlaying(!this.dead)
     super.update(dt)
     if (this.alive) this.machine.update(dt)
-    if (this.ai) this.samohod()
+    this.controller?.update?.(dt)
     this.azurirajCev()
-    this.applyFriction(this.speed > 0.1 ? kinetickoTrenje : statickoTrenje, dt)
+    this.applyFriction(this.speed > 0.1 ? tank.kineticFriction : tank.staticFriction, dt)
     this.granate.checkHits(this.targets)
   }
 }

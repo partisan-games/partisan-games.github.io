@@ -1,21 +1,19 @@
 import { ctx } from '../io/canvas2d.js'
 
-const speed = 120
-const velicina = 20
-const zivotniVek = 1.25
-const cesticaPoSekundi = 200
+/** Px per second a spark flies at most, its size in px, its life in seconds, and how many sparks come each second. */
+export const flame = { speed: 120, size: 20, life: 1.25, perSecond: 200 }
 
 const getFlameColor = vreme => {
   const red = 260 - vreme * 2
   const green = vreme * 2 + 50
   const blue = vreme * 2
-  const opacity = (zivotniVek - vreme) / zivotniVek * 0.4
+  const opacity = (flame.life - vreme) / flame.life * 0.4
   return `rgba(${red}, ${green}, ${blue}, ${opacity})`
 }
 
 const getSmokeColor = vreme => {
   const siva = 50
-  const opacity = (zivotniVek - vreme) / zivotniVek * 0.3
+  const opacity = (flame.life - vreme) / flame.life * 0.3
   return `rgba(${siva}, ${siva}, ${siva}, ${opacity})`
 }
 
@@ -41,7 +39,7 @@ class Spark {
   render(withSmoke) {
     ctx.fillStyle = withSmoke ? getSmokeColor(this.vreme) : getFlameColor(this.vreme)
     ctx.beginPath()
-    const radius = (zivotniVek - this.vreme) / zivotniVek * velicina / 2 + velicina / 2
+    const radius = (flame.life - this.vreme) / flame.life * flame.size / 2 + flame.size / 2
     ctx.arc(this.x, this.y, radius, 0, 2 * Math.PI)
     ctx.fill()
   }
@@ -56,10 +54,10 @@ export default class Flame {
   }
 
   spawn(dt) {
-    const cesticaPoKrugu = Math.round(cesticaPoSekundi * dt)
+    const cesticaPoKrugu = Math.round(flame.perSecond * dt)
     for (let i = 0; i < cesticaPoKrugu; i++) {
-      const dx = (Math.random() * 2 * speed - speed) / 2
-      const dy = 0 - Math.random() * 2 * speed
+      const dx = (Math.random() * 2 * flame.speed - flame.speed) / 2
+      const dy = 0 - Math.random() * 2 * flame.speed
       const particle = this.freeParticles?.pop()
       if (particle) particle.reset(this.x, this.y, dx, dy)
       this.sparks.push(particle || new Spark(this.x, this.y, dx, dy))
@@ -73,14 +71,14 @@ export default class Flame {
       for (let i = 0; i < this.sparks.length; i++) {
         const particle = this.sparks[i]
         particle.update(dt)
-        if (particle.vreme < zivotniVek) this.sparks[active++] = particle
+        if (particle.vreme < flame.life) this.sparks[active++] = particle
         else this.freeParticles.push(particle)
       }
       this.sparks.length = active
       return
     }
     this.sparks.forEach(iskra => iskra.update(dt))
-    this.sparks = this.sparks.filter(iskra => iskra.vreme < zivotniVek)
+    this.sparks = this.sparks.filter(iskra => iskra.vreme < flame.life)
   }
 
   clear() {

@@ -6,6 +6,7 @@ import { getEmptyCoords, putOnSolids } from '/core3d/helpers.js'
 import { createTreesOnTerrain } from '/core3d/geometry/trees.js'
 import Dirigible, { models as dirigibleModels } from '/core3d/aircraft/derived/Dirigible.js'
 import { requestModels } from '/core3d/assets/models.js'
+import { keys } from '/core/io/keys.js'
 import Cloud, { models as cloudModels } from '/core3d/objects/Cloud.js'
 import AerialScrew, { models as aerialScrewModels } from '/core3d/objects/AerialScrew.js'
 import WizardIsle, { models as wizardIsleModels } from '/core3d/objects/WizardIsle.js'
@@ -17,6 +18,7 @@ const controlKeys = {
   '↓ or S': 'down',
   'PgUp': 'speed up',
   'PgDn': 'slow down',
+  [keys.pause.label]: 'pause',
 }
 const mapSize = 800
 

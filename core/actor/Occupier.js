@@ -1,39 +1,76 @@
 import Sprite from '/core/actor/Sprite.js'
-import canvas2d, { ctx } from '/core/io/canvas2d.js'
+import { ctx } from '/core/io/canvas2d.js'
 import mouse from '/core/io/mouse.js'
-import { randomInRange } from '/core/utils.js'
 import Sound from '/core/io/audio/SoundSource.js'
+import StateMachine from '/core/gameplay/StateMachine.js'
 
+/** An occupier's walking pace in pixels per second. */
+export const occupier = { speed: 200 }
+
+/**
+ * The occupier walks the way he faces, or stands and fires his burst at the viewer every frame, or lies fallen. Each
+ * lasts until he is set to another.
+ */
+const states = {
+  walk: {
+    enter: soldier => {
+      soldier.defaultAnimation = soldier.heading > 0 ? 'nadesno' : 'nalevo'
+      soldier.setAnimation(soldier.defaultAnimation)
+      soldier.speed = soldier.heading * occupier.speed
+    },
+  },
+  fire: {
+    enter: soldier => {
+      soldier.setAnimation('nadole', false)
+      soldier.stop()
+      soldier.hasFired = true
+    },
+    update: (soldier, dt) => {
+      soldier.burstSound.play()
+      soldier.callback?.(dt)
+    },
+  },
+  dead: {
+    enter: soldier => {
+      if (soldier.alive) soldier.die()
+      soldier.hasFired = false
+      soldier.setAnimation('umire', false)
+    },
+  },
+}
+
+/** An occupier seen from the front, who walks across and fires at the viewer, who shoots him with the mouse. */
 export default class Occupier extends Sprite {
-  constructor({ callback } = {}) {
-    super ('sprites/vojnici/okupator-sprite.png', {
-      names: ['nagore', 'nadole', 'nalevo', 'nadesno', 'umire'], frameCount: 5, width: 50, height: 180
+  /** `heading` is the way he walks: 1 right, -1 left; `callback(dt)` is called each frame he fires. */
+  constructor({ x, y, heading = 1, callback } = {}) {
+    super('sprites/vojnici/okupator-sprite.png', {
+      names: ['nagore', 'nadole', 'nalevo', 'nadesno', 'umire'], frameCount: 5, width: 50, height: 180, x, y,
     })
-    this.y = canvas2d.height * .75
+    this.heading = heading
     this.callback = callback
     this.shootingImage = new Image()
     this.shootingImage.src = '/assets/images/pucanje.png'
     this.burstSound = new Sound('rafal.mp3', { profile: 'rifle', spatial: { getPosition: () => this.position } })
     this.sounds.push(this.burstSound)
     this.hasFired = false
-    this.walked = 0
-    this.walkTime = randomInRange(700, 3200)
-    this.walk()
+    this.machine = new StateMachine(this, states, 'walk')
   }
 
-  walk() {
-    const izlaziLevo = Math.random() > .5
-    this.x = izlaziLevo ? 0 : canvas2d.width
-    this.defaultAnimation = izlaziLevo ? 'nadesno' : 'nalevo'
-    this.speed = izlaziLevo ? 200 : -200
+  get states() {
+    return this.machine.names
   }
 
-  fire(dt) {
-    this.setAnimation('nadole', false)
-    this.stop()
-    this.burstSound.play()
-    this.hasFired = true
-    if (this.callback) this.callback(dt)
+  get state() {
+    return this.machine.name
+  }
+
+  setState(name) {
+    this.machine.set(name)
+  }
+
+  /** The way he faces: 1 right, -1 left. */
+  get forward() {
+    return this.heading
   }
 
   checkHit(callback) {
@@ -43,9 +80,9 @@ export default class Occupier extends Sprite {
   }
 
   die() {
+    if (this.dead) return
     super.die()
-    this.hasFired = false
-    this.setAnimation('umire', false)
+    this.machine.set('dead')
   }
 
   render() {
@@ -56,10 +93,6 @@ export default class Occupier extends Sprite {
 
   update(dt, t) {
     super.update(dt, t)
-    if (!this.alive) return
-
-    this.walked += dt
-    if (this.walked * 1000 > this.walkTime)
-      this.fire(dt)
+    if (this.alive) this.machine.update(dt)
   }
 }

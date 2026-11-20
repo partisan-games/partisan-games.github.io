@@ -96,10 +96,42 @@ test('start screen reports share one stylesheet', async() => {
   for (let i = 0; i < 3; i++) new Report({ text: 'x', containerId: 'report-test' }).stop()
 
   assert.equal(countStyles(), 1)
-  await new Promise(resolve => {
-    setTimeout(resolve, 10) // each report adds its paper to the container a moment later
-  })
+  assert.equal(container.querySelectorAll('.report').length, 3)
   container.remove()
+})
+
+for (const middle of ['same', 'different']) {
+  test(`the latest repeated message keeps its full duration (${middle})`, t => {
+    t.mock.timers.enable({ apis: ['setTimeout'] })
+    const ui = new UI(fakeScene)
+    t.after(() => ui.end())
+    ui.showMessage('same')
+    t.mock.timers.tick(1000)
+    ui.showMessage(middle)
+    t.mock.timers.tick(1000)
+    ui.showMessage('same')
+    t.mock.timers.tick(2999)
+    assert.match(ui.messageElement.textContent, /same/)
+    t.mock.timers.tick(1)
+    assert.equal(ui.messageElement.textContent, '')
+  })
+}
+
+test('a stopped report cannot insert itself into a replacement start screen', async t => {
+  t.mock.timers.enable({ apis: ['setTimeout'] })
+  const { default: Report } = await import('/ui/Report.js')
+  const original = document.createElement('div')
+  original.id = 'report-replaced'
+  document.body.appendChild(original)
+  const report = new Report({ text: 'Old orders', container: original })
+  report.stop()
+  assert.equal(original.querySelectorAll('.report').length, 1)
+  const replacement = document.createElement('div')
+  replacement.id = original.id
+  original.replaceWith(replacement)
+  t.after(() => replacement.remove())
+  t.mock.timers.tick(10)
+  assert.equal(replacement.children.length, 0)
 })
 
 test('the pause screen opens shared settings whose volume slider changes and remembers the game volume', async() => {

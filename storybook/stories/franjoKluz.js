@@ -1,6 +1,8 @@
-import Rifleman from '/scenes/franjo-kluz/Rifleman.js'
-import Vehicle from '/scenes/franjo-kluz/Vehicle.js'
-import Fighter from '/scenes/franjo-kluz/Fighter.js'
+import Rifleman, * as riflemanModule from '/core/actor/soldiers/Rifleman.js'
+import Vehicle, * as vehicleModule from '/core/actor/vehicles/Vehicle.js'
+import Fighter, * as fighterModule from '/core/actor/aircraft/Fighter.js'
+import Flak, * as flakModule from '/core/actor/artillery/Flak.js'
+import Potez, * as potezModule from '/scenes/franjo-kluz/Potez.js'
 import { kinds } from '/scenes/franjo-kluz/enemies.js'
 
 /** What every block of Franjo Kluz takes from the stage: where it stands. */
@@ -23,21 +25,38 @@ const fighter = fromBehind => stage => {
   return put(stage, block)
 }
 
+/** The plane flies on at its airspeed, so the view follows it from the start; the keys of the game fly it. */
+const plane = src => stage => {
+  const block = new Potez({ groundY: stage.groundY, camera: stage, session: stage.session, x: stage.width / 2,
+    y: stage.groundY - 300, src })
+  stage.follow(block)
+  return put(stage, block)
+}
+
+const flak = stage => put(stage, new Flak({ ...place(stage), targets: [stage.target] }))
+
 const game = 'Franjo Kluz'
 
 export const soldiers = [
-  { id: 'strelac', name: 'Nemački strelac', game, block: '/scenes/franjo-kluz/Rifleman.js', create: soldier('soldier') },
-  { id: 'jurisnik', name: 'Nemački jurišnik', game, block: '/scenes/franjo-kluz/Rifleman.js', create: soldier('assault') },
+  { id: 'strelac', name: 'Nemački strelac', game, block: riflemanModule, create: soldier('soldier') },
+  { id: 'jurisnik', name: 'Nemački jurišnik', game, block: riflemanModule, create: soldier('assault') },
 ]
 
 export const vehicles = [
-  { id: 'hummel', name: 'Hummel', game, block: '/scenes/franjo-kluz/Vehicle.js', create: vehicle('tank') },
-  { id: 'opel-blitz', name: 'Opel Blitz', game, block: '/scenes/franjo-kluz/Vehicle.js', create: vehicle('truck') },
-  { id: 'opel-blitz-legija', name: 'Opel Blitz, legija', game, block: '/scenes/franjo-kluz/Vehicle.js', create: vehicle('legionTruck') },
-  { id: 'bp42', name: 'Oklopni voz BP-42', game, block: '/scenes/franjo-kluz/Vehicle.js', create: vehicle('train') },
+  { id: 'hummel', name: 'Hummel', game, block: vehicleModule, create: vehicle('tank') },
+  { id: 'opel-blitz', name: 'Opel Blitz', game, block: vehicleModule, create: vehicle('truck') },
+  { id: 'opel-blitz-legija', name: 'Opel Blitz, legija', game, block: vehicleModule, create: vehicle('legionTruck') },
+  { id: 'bp42', name: 'Oklopni voz BP-42', game, block: vehicleModule, create: vehicle('train') },
 ]
 
 export const aircraft = [
-  { id: 'bf109-levo', name: 'Bf 109, nalevo', game, block: '/scenes/franjo-kluz/Fighter.js', create: fighter(false) },
-  { id: 'bf109-desno', name: 'Bf 109, nadesno', game, block: '/scenes/franjo-kluz/Fighter.js', create: fighter(true) },
+  { id: 'potez-ndh', name: 'Potez 25, NDH oznake', game, block: potezModule, create: plane(potezModule.markings.ndh) },
+  { id: 'potez-partizanski', name: 'Potez 25, partizanske oznake', game, block: potezModule, create: plane(potezModule.markings.partisan) },
+  { id: 'bf109-levo', name: 'Bf 109, nalevo', game, block: fighterModule, create: fighter(false) },
+  { id: 'bf109-desno', name: 'Bf 109, nadesno', game, block: fighterModule, create: fighter(true) },
 ]
+
+export const artillery = [
+  { id: 'flak38', name: 'PVO top Flak 38', game, block: flakModule, create: flak },
+]
+

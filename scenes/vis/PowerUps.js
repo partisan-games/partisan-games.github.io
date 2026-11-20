@@ -1,16 +1,19 @@
 import GameObject2D from '/core/actor/GameObject2D.js'
 import canvas2d from '/core/io/canvas2d.js'
-import { settings } from './settings.js'
+/** Px per second a power-up falls, slower than the sea, and its size. */
+export const powerUp = { fallSpeed: 100, scale: .5 }
 
-const { order, fallSpeed, images, scale } = settings.powerUps
+/** A formation shot down to the last plane leaves one of these, in this order, round and round. */
+export const order = ['fire', 'bomb', 'fire', 'life']
+const images = { fire: 'items/municija.png', bomb: 'items/bomba.png', life: 'items/zdravlje.png' }
 
 /** A power-up that slowly falls down the screen until the player picks it up or it is past the bottom. */
 export class PowerUp extends GameObject2D {
   constructor(kind, { x, y }) {
-    super(images[kind], { scale, shadow: true })
+    super(images[kind], { scale: powerUp.scale, shadow: true })
     this.kind = kind
     this.setPosition(x, y)
-    this.dy = fallSpeed
+    this.dy = powerUp.fallSpeed
   }
 
   get gone() {

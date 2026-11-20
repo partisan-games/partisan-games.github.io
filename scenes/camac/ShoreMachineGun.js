@@ -3,6 +3,7 @@ import { ctx } from '/core/io/canvas2d.js'
 import ProjectilePool from '/core/actor/ProjectilePool.js'
 import Weapon from '/core/gameplay/Weapon.js'
 import Cooldown from '/core/gameplay/Cooldown.js'
+import StateMachine from '/core/gameplay/StateMachine.js'
 import CombatTarget from './CombatTarget.js'
 import BoatBullet from './BoatBullet.js'
 import ShoreDestruction from './ShoreDestruction.js'
@@ -10,9 +11,34 @@ import GameObject2D from '/core/actor/GameObject2D.js'
 
 const difference = (to, from) => Math.atan2(Math.sin(to - from), Math.cos(to - from))
 
-/** A stationary infantry position, not a named model or a coastal artillery battery. */
+/**
+ * How far the gun swings either way from straight out over the water and how fast it turns, in radians and radians a
+ * second; seconds between rounds; rounds in a burst and seconds between bursts.
+ */
+export const nest = { swing: Math.PI * .4, turn: 1.8, interval: .14, burst: 4, burstWait: 4.5 }
+
+/**
+ * The nest holds fire, or fires bursts where it aims while it is in view, or lies destroyed; who sets it, and when,
+ * is up to the world. Opening fire swings the gun straight to its aim and fires at once.
+ */
+const states = {
+  idle: {
+    update: gun => gun.disengage(),
+  },
+  fire: {
+    update: (gun, dt) => gun.fireBurst(dt),
+  },
+  dead: {
+    enter: gun => gun.die(),
+  },
+}
+
+/**
+ * A stationary infantry position, not a named model or a coastal artillery battery. The world may give it a
+ * `controller`, which chooses its state each frame the nest lives in a running game.
+ */
 export default class ShoreMachineGun extends CombatTarget {
-  constructor({ session, viewLeft, target }) {
+  constructor({ session, viewLeft }) {
     super({ session, viewLeft, maximum: 30, src: 'armies/game-ready/polozaji/mitraljesko-gnezdo-odozgo.svg',
       width: 60, height: 24, visible: false })
     this.session = session
@@ -22,9 +48,8 @@ export default class ShoreMachineGun extends CombatTarget {
     this.sounds.push(this.fireSound)
     this.explosionSound = new Sound('explosion.mp3', { profile: 'explosion', spatial: { getPosition: () => this.position } })
     this.sounds.push(this.explosionSound)
-    this.target = target
     this.engaged = false
-    this.shots = 0
+    this.rounds = 0
     this.destruction = new ShoreDestruction(this, session)
     this.children.push(this.destruction.drawable)
     this.crew = new GameObject2D('armies/nemci-patrola.gif', { z: -.5, width: 24, height: 27 })
@@ -36,9 +61,69 @@ export default class ShoreMachineGun extends CombatTarget {
       return bullet
     } })
     this.bullets.prepare(8)
-    this.weapon = new Weapon({ cooldown: new Cooldown({ clock: session.clock, seconds: .14 }),
+    this.weapon = new Weapon({ cooldown: new Cooldown({ clock: session.clock, seconds: nest.interval }),
       spawnProjectile: (position, angle) => this.bullets.fire(position, angle, 600) })
-    this.burstWait = new Cooldown({ clock: session.clock, seconds: 4.5 })
+    this.burstWait = new Cooldown({ clock: session.clock, seconds: nest.burstWait })
+    this.bearing = null
+    this.controller = null
+    this.machine = new StateMachine(this, states, 'idle')
+  }
+
+  get states() {
+    return this.machine.names
+  }
+
+  get state() {
+    return this.machine.name
+  }
+
+  setState(name) {
+    this.machine.set(name)
+  }
+
+  /** The crew faces along the shore. */
+  get forward() {
+    return Math.sign(Math.cos(this.angle))
+  }
+
+  /** Straight out over the water. */
+  get shots() {
+    return { straight: { x: 0, y: -this.side * 200 } }
+  }
+
+  /** Swings the aim towards `point`, as far as the nest allows; it can fire only at a point out over the water. */
+  aimAt(point) {
+    const { mount } = this
+    const dx = point.x - mount.x, dy = point.y - mount.y
+    const waterDirection = this.side < 0 ? Math.PI / 2 : -Math.PI / 2
+    this.bearing = waterDirection + Math.max(-nest.swing, Math.min(nest.swing, difference(Math.atan2(dy, dx), waterDirection)))
+    return dy * this.side < 0
+  }
+
+  disengage() {
+    this.engaged = false
+    this.rounds = 0
+  }
+
+  fireBurst(dt) {
+    if (!this.shown || this.bearing === null) {
+      this.disengage()
+      return
+    }
+    if (!this.engaged) {
+      this.engaged = true
+      this.gunAngle = this.bearing
+      this.burstWait.start(0)
+      this.weapon.cooldown.start(0)
+    }
+    const change = difference(this.bearing, this.gunAngle)
+    this.gunAngle += Math.sign(change) * Math.min(Math.abs(change), nest.turn * dt)
+    if (!this.burstWait.ready) return
+    if (!this.weapon.tryFire(this.muzzle, this.gunAngle)) return
+    if (++this.rounds === nest.burst) {
+      this.rounds = 0
+      this.burstWait.start()
+    }
   }
 
   deploy(x, y, side) {
@@ -48,7 +133,8 @@ export default class ShoreMachineGun extends CombatTarget {
     this.angle = side < 0 ? 0 : Math.PI
     this.gunAngle = side < 0 ? Math.PI / 2 : -Math.PI / 2
     this.engaged = false
-    this.shots = 0
+    this.rounds = 0
+    this.bearing = null
     this.weapon.cooldown.start(0)
     this.burstWait.start(0)
     this.show()
@@ -57,6 +143,7 @@ export default class ShoreMachineGun extends CombatTarget {
   reset() {
     super.reset()
     this.destruction?.reset()
+    this.machine?.set('idle')
   }
 
   takeHit(damage, lifeId = this.lifeId) {
@@ -65,6 +152,7 @@ export default class ShoreMachineGun extends CombatTarget {
     if (alive && this.dead) {
       this.destruction.start()
       this.explosionSound.play()
+      this.setState('dead')
     }
     return applied
   }
@@ -82,30 +170,8 @@ export default class ShoreMachineGun extends CombatTarget {
     if (this.session.state !== 'running' || !this.visible) return
     this.destruction.update(dt)
     if (this.dead) return
-    const { mount } = this
-    const dx = this.target.x - mount.x, dy = this.target.y - mount.y
-    const waterDirection = this.side < 0 ? Math.PI / 2 : -Math.PI / 2
-    const bearing = waterDirection + Math.max(-Math.PI * .4,
-      Math.min(Math.PI * .4, difference(Math.atan2(dy, dx), waterDirection)))
-    if (!this.shown || !this.target.shown || this.target.dead || dy * this.side >= 0) {
-      this.engaged = false
-      this.shots = 0
-      return
-    }
-    if (!this.engaged) {
-      this.engaged = true
-      this.gunAngle = bearing
-      this.burstWait.start(0)
-      this.weapon.cooldown.start(0)
-    }
-    const change = difference(bearing, this.gunAngle)
-    this.gunAngle += Math.sign(change) * Math.min(Math.abs(change), 1.8 * dt)
-    if (!this.burstWait.ready) return
-    if (!this.weapon.tryFire(this.muzzle, this.gunAngle)) return
-    if (++this.shots === 4) {
-      this.shots = 0
-      this.burstWait.start()
-    }
+    this.controller?.update(dt)
+    this.machine.update(dt)
   }
 
   renderCrew() {

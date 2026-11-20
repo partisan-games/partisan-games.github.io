@@ -1,4 +1,5 @@
 import { isInside } from '/core/collision/rectangles.js'
+import { gameplayInputAllowed } from './inputContext.js'
 
 const mouse = {
   pressed: false,
@@ -24,7 +25,7 @@ const mouse = {
   },
 
   fire(event) {
-    if (event?.target?.closest?.('button')) return
+    if (!gameplayInputAllowed(event?.target)) return
     mouse.shotSound?.play()
   }
 }
@@ -33,11 +34,16 @@ document.onmousemove = e => {
   mouse.x = e.pageX
   mouse.y = e.pageY
 }
-document.onmousedown = () => {
-  mouse.pressed = true
+document.onmousedown = event => {
+  mouse.pressed = gameplayInputAllowed(event.target)
 }
 document.onmouseup = () => {
   mouse.pressed = false
 }
+
+document.addEventListener('game-input-reset', () => { mouse.pressed = false })
+document.addEventListener('pointercancel', () => { mouse.pressed = false })
+document.addEventListener('visibilitychange', () => { mouse.pressed = false })
+window.addEventListener('blur', () => { mouse.pressed = false })
 
 export default mouse

@@ -1,5 +1,6 @@
 import { keys, attackLabels, leftPlayerKeys, rightPlayerKeys } from '/core/io/keys.js'
 import { currentStyleClasses } from './styles.js'
+import { hasBlockingUi } from '/core/io/inputContext.js'
 
 export const baseControls = {
   [keys.left.label]: 'left',
@@ -11,6 +12,8 @@ export const baseControls = {
 
 export const avatarControls = {
   ...baseControls,
+  [keys.strafeLeft.label]: 'strafe left',
+  [keys.strafeRight.label]: 'strafe right',
   [keys.run.label]: 'run',
   [keys.jump.label]: 'jump',
 }
@@ -25,10 +28,15 @@ export const fpsControls = {
 }
 
 export const thirdPersonControls = {
-  ...baseControls,
-  [keys.run.label]: 'run',
+  ...avatarControls,
   [attackLabels.Enter]: 'attack',
-  [keys.jump.label]: 'jump',
+}
+
+export const orbitControls = {
+  'Mouse drag': 'rotate camera',
+  'Mouse wheel': 'zoom',
+  'Right mouse drag': 'pan camera',
+  [keys.pause.label]: 'pause',
 }
 
 const playerControls = playerKeys => ({
@@ -36,7 +44,8 @@ const playerControls = playerKeys => ({
   [playerKeys.right.label]: 'right',
   [playerKeys.up.label]: 'up',
   [playerKeys.down.label]: 'down',
-  [playerKeys.shoot.label]: 'shoot',
+  [playerKeys.shoot.label]: 'hold to charge, release to shoot',
+  [keys.pause.label]: 'pause',
 })
 
 export const tankLeftControls = playerControls(leftPlayerKeys)
@@ -79,8 +88,9 @@ export default class Controls {
     if (this.controlsOpen) open()
     else close()
 
-    button.addEventListener('pointerup', e => {
+    button.addEventListener('click', e => {
       e.stopPropagation()
+      if (hasBlockingUi()) return
       if (content.style.display === 'none') open()
       else close()
     })

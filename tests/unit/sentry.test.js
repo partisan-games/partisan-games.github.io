@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import Sentry, { watch } from '/core/gameplay/Sentry.js'
+import Sentry, { watch } from '/core/gameplay/controllers/Sentry.js'
 
 const body = (state = 'idle') => ({
   state,

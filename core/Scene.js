@@ -158,6 +158,7 @@ export default class Scene {
     // A decorative scene, such as the menu background, has no pause screen the player could leave with Continue.
     if (!this.disableEvents && keyboard.isDown(keys.pause)) this.pause()
 
+    if (this.session.state !== 'running' || this.ui.screen) return
     this.world.handleInput(dt)
   }
 

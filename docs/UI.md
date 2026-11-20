@@ -118,7 +118,7 @@ this.ui.showMessage('Click to morph city')
 
 Danas poruka koristi tri sekunde zidnog vremena. Aktivni prozor skriva već prikazanu poruku, a novu poruku zatraženu tokom prozora UI odbacuje; nema reda čekanja. Skrivenoj poruci tajmer i dalje teče. Ustanak ima zasebne najave poteza na gameplay satu. Intro, ishod i poruke prihvataju HTML koji već koristi, npr. `<br>`; spoljašnji tekst ne treba nekritički ubacivati u te šablone.
 
-**Dogovor za ikonice:** postojeća dosledna upotreba dugmadi i simbola ostaje; ne menja se radi precrtavanja i ne traži ponovo pojedinačno odobrenje. Ista stvar koristi isti simbol i kada je dugme i kada je HUD pokazatelj. Za pucanje ostaje 💥; nenaoružani napad koristi 👊; osnovni simbol magijskog napada je ✨; municija je sličica metka, ne 🔫. Vlasniku predlagati samo stvarne sukobe u značenju, nedoslednosti ili nedostajuće simbole. Zajednički katalog i potvrđene zamene još nisu implementirani; postojeće definicije i lokalne zamene su u Touch-u i igrama, a njihovo objedinjavanje je [UI-02](PLAN-UI.md#ui-02). Ne kopirati ovde ceo katalog ili inventar igara.
+**Dogovor za ikonice:** postojeća dosledna upotreba dugmadi i simbola ostaje; ne menja se radi precrtavanja i ne traži ponovo pojedinačno odobrenje. Ista stvar koristi isti simbol i kada je dugme i kada je HUD pokazatelj. Za pucanje ostaje 💥; nenaoružani napad koristi 👊; osnovni simbol magijskog napada je ✨; municija je sličica metka, ne 🔫. Vlasniku predlagati samo stvarne sukobe u značenju, nedoslednosti ili nedostajuće simbole. [Zajednički katalog](../core/io/icons.js) čuva čiste simbole i putanje: koriste ga centralna dugmad, Touch, lokalni prikazi i HUD. Biraj simbol prema radnji konkretnog lika, ne prema imenu ulaza `attack`; modeli zadaju oznake postojećih touch radnji. Katalog ne uvozi gameplay klase, DOM ili 3D renderer; prikaz određuje veličinu, obris i dostupnost. Ne kopirati ovde ceo katalog ili inventar igara.
 
 ## Komande, tastatura i touch
 
@@ -127,9 +127,11 @@ Dodele i oznake tastera potiču iz [keys](../core/io/keys.js), a prikaz uputstav
 [Input](../core/io/Input.js) spaja tastaturu i [Touch](../core/io/Touch.js). Postojeća konfiguracija razlikuje značenje ulaza od njegovog simbola, kao u [Visu](../scenes/vis/Avionce.js#L20):
 
 ```js
+import { icons } from '/core/io/icons.js'
+
 const inputOptions = {
   attackKey: 'Space',
-  buttonDict: { attack: '💥', attack2: '➰', special: '💣' },
+  buttonDict: { attack: icons.shoot, attack2: icons.loop, special: icons.bomb },
 }
 ```
 
@@ -149,9 +151,9 @@ Opis mora odgovarati stvarnoj radnji, uključujući javne alternativne tastere, 
 
 `#ui` služi HUD-u, `#modal` centralnim ekranima, a svaka UI instanca ima zaseban element poruke. Mapa `drawnBy` dozvoljava brisanje samo poslednjem vlasniku zajedničkog elementa: stari `end()` ne sme obrisati novu scenu. Ona ne predstavlja opštu zaštitu od kasnog novog upisa; svaki odloženi posao proverava svoju instancu i konkretan zahtev. Jednak tekst dve poruke ne čini ih istim zahtevom.
 
-Postojeći UI `end()` uklanja svoje slušaoce, poruku i opise, te zaustavlja report. Zvukove poseduje audio sesija koju scena gasi pre UI-ja. Dodatni lokalni DOM i slušaoci moraju imati svog vlasnika i čišćenje u `end()` ili `session.scope`. Pri odlaganju dodavanja DOM-a nije dovoljno otkazati samo animaciju/kucanje: zakasneli posao ne sme tražiti novi ekran samo po ponovo upotrebljenom id-u. Poznati propusti tajmera poruka i odloženog Report-a još su otvoreni u [UI-06](PLAN-UI.md#ui-06).
+UI ima jedan otkaziv tajmer poruke: svaki novi zahtev dobija pune tri sekunde, čak i kada ponavlja isti tekst. `end()` je ponovljiv i uklanja tajmer, slušaoce, poruku i opise, te zaustavlja report; kasni poziv ugašenog UI-ja ne crta novi sadržaj. Report se sinhrono vezuje za svoj konkretan startni kontejner, bez kasnijeg traženja ponovljenog id-a. Zvukove poseduje audio sesija koju scena gasi pre UI-ja. Dodatni lokalni DOM i slušaoci moraju imati svog vlasnika i čišćenje u `end()` ili `session.scope`.
 
-Pauza petlje ne isključuje direktne DOM događaje. Proveravati i dozvoljenu fazu i metu događaja; `session.active` znači samo da sesija nije ugašena, ne da gameplay traje. Start/Continue danas vraćaju fokus na canvas. Obični HTML u `#modal` nema automatski fokus i blokiranje pozadine kao native Arcade dialog; granice globalne tastature, native aktivacije i toucha još se sređuju kroz [UI-07](PLAN-UI.md#ui-07).
+Pauza petlje ne isključuje direktne DOM događaje. Proveravati i dozvoljenu fazu i metu događaja; `session.active` znači samo da sesija nije ugašena, ne da gameplay traje. Zajednička tastatura i miš odbacuju gameplay ulaze sa UI elemenata i iza blokirajućeg prozora, bez otkazivanja prirodnog rada dugmadi i Volume-a. Oslobađanje ulaza radi i posle promene mete; otvaranje modala, gubitak fokusa i vidljivosti resetuju držanje. Touch razlikuje istovremene pritiske po pointerId i dopušta držanje fokusiranog dugmeta preko Space/Enter. Controls i kamera koriste native click. Centralni prozor dobija fokus i zadržava Tab/Shift+Tab u svojim kontrolama; Start/Continue vraćaju fokus na canvas. Lokalni izbor početka/runde i gameplay klik ostaju različite odgovornosti: opšta zabrana svih klikova dok sesija nije running blokirala bi postojeće izbore. Stvarno native ponašanje i pointer lock ostaju predmet [izvršne provere](TESTING.md#ui-verification-limits).
 
 ## Podešavanja i ulaz u igru
 
@@ -172,6 +174,8 @@ U korisničkim tekstovima i dokumentaciji koristimo naziv **džep** (engleski **
 ### Potvrđena oznaka naplate
 
 Na dugmadima za početak, izbor i Play again naplative partije desno od postojećeg natpisa stoje zlatan novčić i odnos dostupno/potrebno, bez teksta „1 coin” ili zvezde. Stalni pregled pokazuje „0/1” bez novčića i „1/1” sa jednim novčićem. Kada je dugme dostupno, novčić se vrti punom bojom; kada je disabled, miruje i zadržava zlatnu nijansu, ali je prigušen zajedno sa brojem i ostalim sadržajem dugmeta. Natpis i oznaka ostaju u jednom redu, bez odsecanja ili prelivanja. Besplatna partija i radnje koje ne naplaćuju početak nemaju tu oznaku. Ovaj prikaz je usaglašen u pregledu 2026-11-20; povezivanje sa stvarnim tokom naplate ostaje u UI-05.
+
+**Granica odobrenja:** animirani novčić je za pojedinačan novčić u prozoru igre. Naslovnica i njene kartice zadržavaju prethodni CSS novčić; ne preuzimaju animaciju ili druge resurse samo zato što postoje u zajedničkom katalogu. Mnoštvo istovremenih rotacija odvlači pažnju, a odobrenje prikaza u prozoru ne odobrava promenu naslovnice.
 
 Odnos dostupno/potrebno pokazuje razlog nedostupnosti bez nove poruke. Uzor je [Grounded u Xbox smernicama](https://learn.microsoft.com/en-us/xbox/accessibility/xbox-accessibility-guidelines/103#symbols-and-shapes), koji razlikuje raspoložive i potrebne resurse.
 

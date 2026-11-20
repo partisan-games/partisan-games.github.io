@@ -1,5 +1,6 @@
 import Scene3D from '/core/Scene3D.js'
-import { baseControls } from '/ui/Controls.js'
+import { thirdPersonControls } from '/ui/Controls.js'
+import { keys } from '/core/io/keys.js'
 import { createTrees } from '/core3d/geometry/trees.js'
 import { DemonPlayer, models as demonModels } from '/core3d/actor/derived/fantasy/Demon.js'
 import { createGround } from '/core3d/ground.js'
@@ -9,7 +10,7 @@ import { requestModels } from '/core3d/assets/models.js'
 export default class DemonForestScene extends Scene3D {
   constructor() {
     super({
-      controlKeys: { ...baseControls, Space: 'jump' },
+      controlKeys: { ...thirdPersonControls, [keys.special.label]: 'special' },
       toon: true,
     })
   }

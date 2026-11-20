@@ -47,7 +47,7 @@ export default class CapoeiraGirlScene extends Scene3D {
 
   async handleClick(e) {
     const button = e.target.closest('button.special')
-    if (!button || !this.session.active || !this.player) return
+    if (!button || this.session.state !== 'running' || this.ui.screen || !this.player) return
 
     await this.actions.select(button.innerText)
   }

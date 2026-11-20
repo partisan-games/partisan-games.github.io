@@ -1,6 +1,7 @@
 import { loadedModel } from '/core3d/assets/models.js'
 import AI from '/core3d/actor/AI.js'
 import Player from '/core3d/actor/Player.js'
+import { icons } from '/core/io/icons.js'
 
 export const animDict = {
   idle: 'Rifle Idle',
@@ -23,7 +24,7 @@ export const models = [meshModel, twoHandedWeaponModel]
 const sharedProps = () => {
   const mesh = loadedModel(meshModel)
   const twoHandedWeapon = loadedModel(twoHandedWeaponModel)
-  return { mesh, animations: mesh.userData.animations, animDict, twoHandedWeapon, attackDistance: 50, attackSound: 'rifle.mp3' }
+  return { buttonDict: { attack: icons.shoot, jump: '' }, mesh, animations: mesh.userData.animations, animDict, twoHandedWeapon, attackDistance: 50, attackSound: 'rifle.mp3' }
 }
 
 export class PartisanAI extends AI {

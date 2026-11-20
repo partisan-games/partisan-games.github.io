@@ -26,11 +26,13 @@ export default class PozadinaGrada {
     this.efekti.height = height
     this.crtez = this.efekti.getContext('2d')
     this.vreme = 0
+    /** Whether the city is shown, so its fire is heard. */
+    this.active = true
   }
 
-  update(dt, active = true) {
+  update(dt) {
     this.vreme += dt
-    this.fireSound.setPlaying(active)
+    this.fireSound.setPlaying(this.active)
   }
 
   gustiDim(t, profil, windSpeed) {

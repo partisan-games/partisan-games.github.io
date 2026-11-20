@@ -1,3 +1,4 @@
+import { icons } from '/core/io/icons.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import Player2D from '/core/actor/Player2D.js'
 import { frames } from '/core/constants.js'
@@ -5,10 +6,10 @@ import canvas2d from '/core/io/canvas2d.js'
 import ProjectilePool from '/core/actor/ProjectilePool.js'
 import Weapon from '/core/gameplay/Weapon.js'
 import Cooldown from '/core/gameplay/Cooldown.js'
-import { outsideView, turn } from './view.js'
-import Bullet, { inheritVelocity } from './Bullet.js'
-import Explosion from './Explosion.js'
-import Bomb from './Bomb.js'
+import { outsideView, turn } from '/core/actor/worldView.js'
+import Bullet, { inheritVelocity } from '/core/actor/projectiles/Bullet.js'
+import Explosion from '/core/actor/effects/Explosion.js'
+import Bomb from '/core/actor/projectiles/Bomb.js'
 import { attackLabels } from '/core/io/keys.js'
 
 const tiltRate = 0.01
@@ -22,15 +23,14 @@ const tumbleRate = 2.5
  * throttle. Full throttle adds 600 to the takeoff speed, as it did when the scenery scrolled.
  */
 export const airspeed = { start: 312, min: 200, max: 912, throttle: 5 }
-/** How high above the ground the plane can climb, in pixels. */
-export const ceiling = 5555
-/** Bombs per flight, chosen for play, and how close to a bomb's impact a target is destroyed, in pixels. */
-export const bombLoad = 4
+/**
+ * The plane: its health, under half of which the damaged engine smokes; how high above the ground it can climb, in
+ * pixels; rounds of the gun, about 20 seconds of fire; bombs per flight, chosen for play; seconds between two bombs,
+ * so a quick tapping cannot drop the whole load on one spot; how close to a bomb's impact a target is destroyed.
+ */
+export const plane = { health: 100, ceiling: 5555, ammo: 200, bombs: 4, bombInterval: 1, blastRadius: 120 }
 /** The key that drops a bomb; on a phone the 💣 button. */
 export const bombKey = attackLabels.Enter
-/** Seconds between two bombs, so a quick tapping cannot drop the whole load on one spot. */
-export const bombInterval = 1
-export const blastRadius = 120
 /** A bomb's burst is drawn this far above its impact, so the fire stands on the ground. */
 const burstLift = 64
 /** The front machine gun: seconds between shots and bullet speed in pixels per second, as the guns in Vis. */
@@ -43,10 +43,6 @@ export const gun = { reload: .1, speed: 1000 }
 export const rearGun = { range: 600, cone: Math.PI / 3, reload: .2 }
 /** The plane in partisan markings, and in the NDH markings it flew in until it went over to the partisans. */
 export const markings = { partisan: 'armies/partizani/potez-25.png', ndh: 'armies/ndh/avioni/potez-25.png' }
-/** The plane's health; under half of it the damaged engine smokes. */
-export const planeHealth = 100
-/** Rounds of the gun, about 20 seconds of fire. */
-export const ammoLoad = 200
 
 /**
  * Franjo Kluz's Potez 25 in world coordinates. The camera moves on at the plane's airspeed; left and right change
@@ -60,7 +56,7 @@ export default class Potez extends Player2D {
   /** `onAttack()` is called on every shot and bomb, which give away a disguised plane to the enemy who sees it. */
   constructor({ groundY, groundAt = () => groundY, camera, session, x = 200, y = 200, onGround = false, src = markings.partisan,
     onAttack = () => {} }) {
-    super(src, { x, y, scale: .55, flammable: true, attackKey: 'Space', buttonDict: { attack: '💥', special: '💣' } })
+    super(src, { x, y, scale: .55, flammable: true, attackKey: 'Space', buttonDict: { attack: icons.shoot, special: icons.bomb } })
     this.groundY = groundY
     this.groundAt = groundAt
     this.camera = camera
@@ -94,13 +90,13 @@ export default class Potez extends Player2D {
       cooldown: new Cooldown({ seconds: rearGun.reload, clock: session.clock }),
       spawnProjectile: (position, angle) => this.rearBullets.fire(position, angle, gun.speed),
     })
-    this.bombs = bombLoad
-    this.ammo = ammoLoad
-    this.health = planeHealth
+    this.bombs = plane.bombs
+    this.ammo = plane.ammo
+    this.health = plane.health
     /** Holding the bomb key drops one bomb, not the whole load. */
     this.bombKeyHeld = false
-    this.bombCooldown = new Cooldown({ seconds: bombInterval, clock: session.clock })
-    this.bombBay = Array.from({ length: bombLoad }, () => new Bomb({ camera, groundAt, onImpact: bomb => this.blast(bomb) }))
+    this.bombCooldown = new Cooldown({ seconds: plane.bombInterval, clock: session.clock })
+    this.bombBay = Array.from({ length: plane.bombs }, () => new Bomb({ camera, groundAt, onImpact: bomb => this.blast(bomb) }))
     this.bombBursts = this.bombBay.map(() => new Explosion(camera))
     this.children.push(...this.bombBay, ...this.bombBursts)
   }
@@ -120,11 +116,11 @@ export default class Potez extends Player2D {
 
   /** A damaged plane smokes and a shot down one burns. */
   get burning() {
-    return this.flammable && (this.dead || this.health < planeHealth / 2)
+    return this.flammable && (this.dead || this.health < plane.health / 2)
   }
 
   get atCeiling() {
-    return this.y - this.height / 2 <= this.groundY - ceiling
+    return this.y - this.height / 2 <= this.groundY - plane.ceiling
   }
 
   /** KOMANDE ***/
@@ -207,10 +203,10 @@ export default class Potez extends Player2D {
     this.destroyAround({ x, y })
   }
 
-  /** Destroys every living target whose body reaches within `blastRadius` of the point; vehicles burn. */
+  /** Destroys every living target whose body reaches within the blast radius of the point; vehicles burn. */
   destroyAround({ x, y }) {
     for (const target of this.targets) {
-      const reach = blastRadius + Math.max(target.width, target.height) / 2
+      const reach = plane.blastRadius + Math.max(target.width, target.height) / 2
       if (target.alive && Math.hypot(target.x - x, target.y - y) <= reach) target.die()
     }
   }
@@ -258,7 +254,7 @@ export default class Potez extends Player2D {
     this.explode()
   }
 
-  /** The edges of the screen, the ground and the ceiling stop the plane; a shot down plane is wrecked by the ground. */
+  /** The edges of the screen, the ground and the plane.ceiling stop the plane; a shot down plane is wrecked by the ground. */
   checkBounds() {
     const margin = this.width / 4
     const left = this.camera.cameraX + margin
@@ -275,7 +271,7 @@ export default class Potez extends Player2D {
       if (this.dead && !this.wrecked) this.wreck()
     }
     if (this.atCeiling && this.dy < 0) {
-      this.y = this.groundY - ceiling + this.height / 2
+      this.y = this.groundY - plane.ceiling + this.height / 2
       this.dy = 0
     }
   }

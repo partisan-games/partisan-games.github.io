@@ -1,5 +1,3 @@
-import { keyboard } from '/core/io/Keyboard.js'
-import { leftPlayerKeys as keys } from '/core/io/keys.js'
 import canvas2d from '/core/io/canvas2d.js'
 import { randomInRange } from '/core/utils.js'
 import Tenk from './Tenk.js'
@@ -18,8 +16,12 @@ export default class TenkLevo extends Tenk {
     this.xLimit = xLimit
   }
 
-  checkBounds() {
-    this.x = Math.min(Math.max(this.x, 0), this.xLimit)
+  get minX() {
+    return 0
+  }
+
+  get maxX() {
+    return this.xLimit
   }
 
   diziCev(dt) {
@@ -29,19 +31,6 @@ export default class TenkLevo extends Tenk {
 
   spustajCev(dt) {
     if (this.cev.angle >= Math.PI) this.cev.angle += dt * .5
-  }
-
-  handleInput(dt) {
-    if (keyboard.isDown(keys.left) && this.x > 0)
-      this.vozi(this.thrust * 0.6, Math.PI, dt)
-    if (keyboard.isDown(keys.right) && this.x < this.xLimit)
-      this.vozi(this.thrust, 0, dt)
-    if (keyboard.isDown(keys.up))
-      this.diziCev(dt)
-    if (keyboard.isDown(keys.down))
-      this.spustajCev(dt)
-
-    this.pokusajPucanje(keys.shoot)
   }
 
   azurirajCev() {

@@ -5,12 +5,14 @@ import { createGround } from '/core3d/ground.js'
 import { createSideWall } from '/core3d/geometry/index.js'
 import { CannonPlayer, models as cannonModels } from '/core3d/actor/derived/Cannon.js'
 import { requestModels } from '/core3d/assets/models.js'
+import { keys } from '/core/io/keys.js'
 
 const controlKeys = {
   '← or A': 'left',
   '→ or D': 'right',
   'Mouse down': 'add force',
-  'Mouse up': 'shoot'
+  'Mouse up': 'shoot',
+  [keys.pause.label]: 'pause',
 }
 
 export default class CannonScene extends Scene3D {

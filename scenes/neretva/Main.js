@@ -23,9 +23,11 @@ export default class NeretvaScene extends Scene2D {
     this.health = new Health()
     this.preostaloVreme = 120
     this.ubrzano = false
-    this.bliziRovovi = this.praviSvabe(10, BLIZI_Y, { scale: 1, ucestalost: 0.03, callback: this.nanesiStetu.bind(this) })
-    this.daljiRovovi = this.praviSvabe(12, DALJI_Y, { scale: .5, ucestalost: 0.02, callback: this.nanesiStetu.bind(this) })
+    this.bliziRovovi = this.praviSvabe(10, BLIZI_Y, { scale: 1, callback: this.nanesiStetu.bind(this) })
+    this.daljiRovovi = this.praviSvabe(12, DALJI_Y, { scale: .5, callback: this.nanesiStetu.bind(this) })
     this.sveSvabe = [...this.daljiRovovi, ...this.bliziRovovi]
+    /** The chance per second that a hidden soldier of each row rises. */
+    this.ucestalost = new Map([[this.daljiRovovi, .02], [this.bliziRovovi, .03]])
     this.add(...this.sveSvabe)
     this.background = new Background('textures/terrain/suva-trava.jpg')
     this.ucitajRekord()
@@ -43,8 +45,18 @@ export default class NeretvaScene extends Scene2D {
     })
   }
 
-  handleClick() {
-    if (this.ui.outro || this.energija <= 0) return
+  /** Now and then a hidden soldier rises to fire; one who has just fallen waits until he lies in the trench. */
+  podizi(dt) {
+    for (const [rovovi, ucestalost] of this.ucestalost)
+      for (const svabo of rovovi)
+        if (svabo.state === 'hidden' && Math.random() < ucestalost * dt) svabo.setState('aim')
+  }
+
+  handleClick(event) {
+    if (this.session.state !== 'running' || this.ui.screen || this.ui.outro || this.energija <= 0) return
+    if (event.target.closest('button, input, select, a, #ui, #modal, dialog')) return
+    mouse.x = event.pageX
+    mouse.y = event.pageY
 
     const ciljaniRovovi = (mouse.y <= DALJI_Y) ? this.daljiRovovi : this.bliziRovovi
     this.proveriPogotke(ciljaniRovovi)
@@ -61,7 +73,7 @@ export default class NeretvaScene extends Scene2D {
   proveriPogotke(neretva) {
     for (let i = 0; i < neretva.length; i++)
       if (neretva[i].jePogodjen()) {
-        neretva[i].padni()
+        neretva[i].setState('fall')
         this.pogoci++
       }
   }
@@ -94,8 +106,9 @@ export default class NeretvaScene extends Scene2D {
     this.preostaloVreme -= dt
 
     super.update(dt)
+    this.podizi(dt)
     if (!this.ubrzano && this.preostaloVreme < 60) {
-      this.sveSvabe.forEach(svabo => svabo.ubrzaj(2))
+      for (const [rovovi, ucestalost] of this.ucestalost) this.ucestalost.set(rovovi, ucestalost * 2)
       this.ubrzano = true
     }
     if (this.energija <= 0) this.smrt()

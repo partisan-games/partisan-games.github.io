@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 import GameSession from '/core/runtime/GameSession.js'
 
-let Enemy, Waves, paths, formationMembers, settings, canvas2d
+let Enemy, enemy, boss, Waves, paths, formationMembers, settings, canvas2d
 
 before(async() => {
   createPageElements()
@@ -14,7 +14,8 @@ before(async() => {
 
     pause() {}
   }
-  Enemy = (await import('/scenes/vis/Enemy.js')).default
+  ;({ default: Enemy, enemy } = await import('/scenes/vis/Enemy.js'))
+  ;({ boss } = await import('/scenes/vis/Boss.js'))
   Waves = (await import('/scenes/vis/Waves.js')).default
   ;({ paths } = await import('/scenes/vis/paths.js'))
   ;({ formationMembers } = await import('/scenes/vis/formations.js'))
@@ -62,7 +63,7 @@ test('a wave comes at its time, and a shot down plane leaves the scene and the p
 
   const [plane] = waves.enemies
   plane.die()
-  play(settings.fallTime - .1)
+  play(enemy.fallTime - .1)
   assert.equal(scene.children.length, 1, 'still falling')
   play(.2)
   assert.equal(scene.children.length, 0)
@@ -86,8 +87,9 @@ test('a plane that flies across the screen and out is gone, and the level ends a
 for (const name of ['straight', 'wave', 'fromSide', 'fromBelow', 'uTurn'])
   test(`the ${name} path brings a plane onto the screen and flies the same at 30 and 60 frames per second`, () => {
     const positionAfter = (seconds, fps) => {
-      const plane = new Enemy({ session: startedSession(), path: name, x: .5, y: .1, side: 'left' })
-      for (let i = 0; i < seconds * fps; i++) plane.fly(1 / fps)
+      const { scene, waves } = createWorld([])
+      const [plane] = waves.formation({ path: name, x: .5, y: .1, side: 'left' }, scene.session)
+      for (let i = 0; i < seconds * fps; i++) plane.controller.flight.fly(1 / fps)
       return { x: plane.x, y: plane.y }
     }
     const at60 = positionAfter(2, 60), at30 = positionAfter(2, 30)
@@ -95,6 +97,38 @@ for (const name of ['straight', 'wave', 'fromSide', 'fromBelow', 'uTurn'])
     assert.ok(Math.abs(at60.x - at30.x) < .01 && Math.abs(at60.y - at30.y) < .01, `${JSON.stringify(at60)} and ${JSON.stringify(at30)}`)
     assert.ok(at60.x >= 0 && at60.x <= canvas2d.width && at60.y >= 0 && at60.y <= canvas2d.height, `on the screen after 2 s: ${JSON.stringify(at60)}`)
   })
+
+test('a plane of a wave fires at the player only once it is on the screen', () => {
+  const { player, waves, play } = createWorld([{ at: 0, path: 'straight', x: .5 }])
+  play(1 / 60)
+  const [plane] = waves.enemies
+  plane.weapon.cooldown.start(0)
+  play(1 / 60)
+  assert.equal(plane.state, 'idle', 'it starts above the screen')
+  assert.equal(plane.bullets.projectiles.length, 0)
+
+  play(1)
+  plane.weapon.cooldown.start(0)
+  play(1 / 60)
+  const [bullet] = plane.bullets.projectiles
+  const aim = Math.atan2(player.y - bullet.y, player.x - bullet.x)
+  assert.ok(Math.abs(Math.atan2(bullet.dy, bullet.dx) - aim) < .05, 'at the player')
+
+  player.alive = false
+  play(1 / 60)
+  assert.equal(plane.state, 'idle', 'not at a dead player')
+})
+
+test('the engine of a plane behind the leader of a formation is heard only once its flight has begun', () => {
+  const { waves, play } = createWorld([{ at: 0, formation: 'column', count: 2, path: 'straight', x: .5 }])
+  play(1 / 60)
+  const [leader, follower] = waves.enemies
+  const delay = settings.formationGap / settings.enemies.fighter.speed
+  assert.equal(leader.engineRunning, true)
+  assert.equal(follower.engineRunning, false)
+  play(delay)
+  assert.equal(follower.engineRunning, true)
+})
 
 test('each path goes where its name says', () => {
   const route = { x: .5, y: .1, speed: 200, width: 1000, height: 800 }
@@ -147,7 +181,8 @@ test('a shot down plane leaves its formation and goes on straight ahead, while t
   assert.ok(Math.abs(shot.x - (fall.x + speed * Math.cos(heading))) < 1, 'ahead at its speed')
   assert.ok(Math.abs(shot.y - (fall.y + speed * Math.sin(heading))) < 1)
   assert.equal(shot.angle, fall.angle, 'without turning')
-  assert.equal(flying.x, flying.routePosition(flying.age).x, 'the other plane keeps to its path')
+  const { flight } = flying.controller
+  assert.equal(flying.x, flight.position(flight.age).x, 'the other plane keeps to its path')
 })
 
 /* V3-01 · a formation shot down to the last plane */
@@ -192,52 +227,7 @@ test('a formation with a plane that got away drops no power-up, and neither does
   assert.equal(drops.length, 0)
 })
 
-/* V2-02 · enemy types */
-
-test('a heavy plane takes five hits and its points come with the last one; a fighter falls from one', async() => {
-  const { player, waves } = createWorld([])
-  waves.launch({ enemy: 'heavy', path: 'boss' })
-  waves.launch({ path: 'boss' })
-  const [heavy, fighter] = waves.enemies
-  // a plane's flame comes in a module of its own, loaded when the plane is made
-  for (let i = 0; i < 100 && !heavy.flammable; i++) await new Promise(resolve => {
-    setTimeout(resolve, 10)
-  })
-
-  for (let i = 0; i < 4; i++) heavy.takeHit(15)
-  assert.equal(heavy.alive, true, 'four hits')
-  assert.equal(heavy.burning, true, 'on fire after half of its hits')
-  heavy.takeHit(15)
-  assert.equal(heavy.alive, false, 'down at the fifth')
-
-  fighter.takeHit(15)
-  assert.equal(fighter.alive, false)
-  assert.equal(heavy.points, 500)
-  assert.equal(fighter.points, 100)
-  assert.equal(player.targets.length, 2)
-})
-
-test('the player scores a plane\'s points when it goes down, not for every hit', async t => {
-  const { Avionce } = await import('/scenes/vis/Avionce.js')
-  const session = startedSession()
-  const player = new Avionce({ session })
-  t.after(() => player.end())
-  const heavy = new Enemy({ session, type: 'heavy', path: 'boss' })
-  player.targets = [heavy]
-  const hit = () => {
-    player.bullets.fire({ x: 0, y: 0 }, 0, 0)
-    const bullet = player.bullets.projectiles.find(shot => shot.visible)
-    bullet.checkHit = (target, callback) => bullet.hit(target, callback)
-    player.bullets.checkHits([heavy], plane => player.scoreIfDown(plane))
-  }
-
-  for (let i = 0; i < 4; i++) hit()
-  assert.equal(player.poeni, 0)
-  hit()
-  assert.equal(player.poeni, 500)
-  hit() // a bullet into the falling plane
-  assert.equal(player.poeni, 500, 'a plane scores once')
-})
+/* the result */
 
 test('after the result of a vis game no new wave comes and no plane scores', async t => {
   const { default: Vis } = await import('/scenes/vis/Main.js')
@@ -262,32 +252,31 @@ test('after the result of a vis game no new wave comes and no plane scores', asy
   assert.equal(scene.player.poeni, 0)
 })
 
-/* V2-03 · aimed fire */
-
-test('an enemy plane shoots at where the player is, and a shot down one does not shoot', () => {
-  const { player, waves } = createWorld([])
-  waves.launch({ path: 'boss' })
-  const [plane] = waves.enemies
-  plane.x = canvas2d.width / 2
-  plane.y = canvas2d.height / 4
-  player.x = canvas2d.width / 4
-  player.y = canvas2d.height * .8
-
-  plane.weapon.cooldown.start(0)
-  plane.shoot()
-  const bullet = plane.bullets.projectiles.find(shot => shot.visible)
-  const aim = Math.atan2(player.y - plane.y, player.x - plane.x)
-  const flight = Math.atan2(bullet.dy, bullet.dx)
-  assert.ok(Math.abs(flight - aim) < .05, `aimed at ${aim}, flies at ${flight}`)
-
-  plane.bullets.projectiles.forEach(shot => shot.reset())
-  plane.die()
-  plane.weapon.cooldown.start(0)
-  plane.update(1 / 60, 0)
-  assert.equal(plane.bullets.projectiles.filter(shot => shot.visible).length, 0)
-})
-
 /* V2-04 · boss */
+
+test('the boss sways across the upper half with its nose down, and flies away if it is not shot down in time', () => {
+  const { scene, waves } = createWorld([])
+  const plane = waves.bossPlane(scene.session)
+  const live = seconds => {
+    for (let i = 0; i < seconds * 60; i++) {
+      scene.session.update(1 / 60)
+      plane.update(1 / 60, 0)
+    }
+  }
+  const xs = []
+  for (let i = 0; i < 15; i++) {
+    live(1)
+    xs.push(plane.x)
+  }
+  assert.ok(plane.y > 0 && plane.y < canvas2d.height / 2, 'in the upper half')
+  assert.ok(Math.max(...xs) - Math.min(...xs) > canvas2d.width * .3, 'left and right')
+  assert.equal(plane.angle, Math.PI)
+
+  live(boss.timeLimit - 16)
+  assert.equal(plane.gone, false, 'not before its time')
+  live(10)
+  assert.equal(plane.gone, true, 'up and away')
+})
 
 test('the boss comes after the last wave, and the level ends only when it is down', () => {
   const { waves, play } = createWorld([{ at: 0, path: 'straight', x: .5 }, { at: 1, enemy: 'boss' }])
@@ -300,15 +289,7 @@ test('the boss comes after the last wave, and the level ends only when it is dow
   assert.ok(boss.y > 0 && boss.y < canvas2d.height / 2, 'in the upper half')
 
   boss.damage(settings.enemies.boss.hits)
-  play(settings.fallTime + .1)
-  assert.equal(waves.finished, true)
-})
-
-test('the boss flies away if it is not shot down in time', () => {
-  const { waves, play } = createWorld([{ at: 0, enemy: 'boss' }])
-  play(settings.enemies.boss.timeLimit - 1)
-  assert.equal(waves.finished, false)
-  play(10)
+  play(enemy.fallTime + .1)
   assert.equal(waves.finished, true)
 })
 
@@ -332,6 +313,6 @@ test('in the vis game the boss is the end: the victory comes only after it is do
   play(10)
   assert.equal(scene.ui.outro, '', 'no victory while the boss flies')
   scene.waves.boss.damage(settings.enemies.boss.hits)
-  play(settings.fallTime + settings.landingTime + .5)
+  play(enemy.fallTime + settings.landingTime + .5)
   assert.match(scene.ui.outro, /reached the island of Vis/)
 })

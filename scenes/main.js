@@ -6,6 +6,10 @@ const manager = new SceneManager()
 const elementUI = document.getElementById('ui')
 const modalElement = document.getElementById('modal')
 export const arcade = new Arcade()
+
+// the development pages are linked only on the local server
+if (arcade.isLocal) document.querySelector('.dev-links')?.removeAttribute('hidden')
+
 let paidEntry = null
 let navigation = 0
 

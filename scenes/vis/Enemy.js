@@ -4,13 +4,14 @@ import { randomInRange } from '/core/utils.js'
 import ProjectilePool from '/core/actor/ProjectilePool.js'
 import Projectile from '/core/actor/projectiles/Projectile.js'
 import Cooldown from '/core/gameplay/Cooldown.js'
+import StateMachine from '/core/gameplay/StateMachine.js'
 import Weapon from '/core/gameplay/Weapon.js'
 import Sound from '/core/io/audio/SoundSource.js'
-import { paths } from './paths.js'
 import { settings } from './settings.js'
 import { resetFlame } from './flame.js'
 
-const { fallTime, enemyBulletSpeed } = settings
+/** Seconds a shot down plane falls before it is gone, and px per second of its bullets. */
+export const enemy = { fallTime: 2, bulletSpeed: 350 }
 const pick = list => list[Math.floor(Math.random() * list.length)]
 const outside = 150 // px past the edge where a plane that has left the screen is gone
 
@@ -19,11 +20,31 @@ const isOnScreen = ({ x, y }) => x >= 0 && x <= canvas2d.width && y >= 0 && y <=
 const isFarOut = ({ x, y }) => x < -outside || x > canvas2d.width + outside || y < -outside || y > canvas2d.height + outside
 
 /**
- * An enemy plane that flies its path, shoots at the player and falls when shot down.
- * Its shots and its fall wait on the game `session`.
+ * The plane flies where it is put; set to fire, it also fires where it aims as often as its guns reload; shot down,
+ * it falls. Who sets it to fire, and when, is up to the world.
+ */
+const states = {
+  idle: {},
+  fire: {
+    update: plane => plane.shoot(),
+  },
+  dead: {
+    enter: plane => {
+      if (plane.alive) plane.die()
+    },
+    update: (plane, dt) => {
+      plane.scaleX = plane.scaleY = plane.scaleX * Math.pow(0.8, dt)
+    },
+  },
+}
+
+/**
+ * An enemy plane seen from above that fires at a point and falls when shot down. Its shots and its fall wait on the
+ * game `session`. The world may give it a `controller` that flies and fires it: it takes the plane's step where the
+ * plane once flew its own path, and may silence its engine by `engineRunning`.
  */
 export default class Enemy extends GameObject2D {
-  constructor({ session, type = 'fighter', path = 'straight', x = Math.random(), y = .1, side = 'left', across = 0, delay = 0 }) {
+  constructor({ session, type = 'fighter' }) {
     const kind = settings.enemies[type]
     super(pick(kind.images), { scale: kind.scale, flammable: true, shadow: true })
     this.engineSound = new Sound('engine-aircraft.mp3', { loop: true, profile: 'engine', volume: .2, spatial: { getPosition: () => this.position } })
@@ -34,43 +55,45 @@ export default class Enemy extends GameObject2D {
     this.points = kind.points
     this.maxHits = this.hits = kind.hits
     this.session = session
-    this.fire = kind.fire
-    this.path = paths[path]
-    this.route = { x, y, side, speed: kind.speed }
-    this.across = across
-    this.age = -delay // a later member of a formation is still behind the leader on the path
-    this.entered = this.falling = this.gone = false
+    this.flightSpeed = kind.speed
+    this.fireInterval = kind.fire.interval
+    this.entered = this.gone = false
+    this.engineRunning = true
+    this.controller = null
+    this.aim = null
     this.targets = []
     this.bullets = new ProjectilePool({ owner: this, create: () => new Projectile() })
     this.weapon = new Weapon({
       cooldown: new Cooldown({ seconds: kind.fire.interval, clock: session.clock }),
       barrels: kind.fire.spread.map(angle => ({ angle })),
       spawnProjectile: (origin, angle) => {
-        this.bullets.fire(origin, angle, enemyBulletSpeed)
+        this.bullets.fire(origin, angle, enemy.bulletSpeed)
         this.shotSound.play()
       },
     })
     this.weapon.cooldown.start(kind.fire.interval * Math.random()) // planes of a formation do not fire together
-    this.fly(0)
+    this.machine = new StateMachine(this, states, 'idle')
   }
 
-  /** Where the plane is on its path at the given age, shifted across the path for its place in the formation. */
-  routePosition(age = this.age) {
-    const position = this.path.position(age, { ...this.route, width: canvas2d.width, height: canvas2d.height })
-    position[this.path.across] += this.across
-    return position
+  get states() {
+    return this.machine.names
   }
 
-  fly(dt) {
-    this.age += dt
-    const { x, y } = this.routePosition()
-    const ahead = this.routePosition(this.age + .05)
-    if (ahead.x !== x || ahead.y !== y)
-      this.angle = Math.atan2(ahead.y - y, ahead.x - x) + Math.PI / 2 // the image points up
-    this.x = x
-    this.y = y
+  get state() {
+    return this.machine.name
+  }
 
-    // a plane starts outside the screen; once it has flown in and out again, it is gone
+  setState(name) {
+    this.machine.set(name)
+  }
+
+  /** Turns the nose the way it flies; the image points up. */
+  face(direction) {
+    this.angle = direction + Math.PI / 2
+  }
+
+  /** A plane starts outside the screen; once it has flown in and out again, it is gone. */
+  checkGone() {
     if (isOnScreen(this)) this.entered = true
     else if (this.entered && isFarOut(this)) this.gone = true
   }
@@ -97,13 +120,34 @@ export default class Enemy extends GameObject2D {
     if (!this.burning) resetFlame(this)
     super.die()
     this.explosionSound.play()
-    this.falling = true
     const heading = this.angle - Math.PI / 2 // the image points up
-    this.dx = this.route.speed * Math.cos(heading)
-    this.dy = this.route.speed * Math.sin(heading)
-    this.session.gameplay.after(fallTime, () => {
+    this.dx = this.flightSpeed * Math.cos(heading)
+    this.dy = this.flightSpeed * Math.sin(heading)
+    this.session.gameplay.after(enemy.fallTime, () => {
       this.gone = true
     })
+    this.machine.set('dead')
+  }
+
+  /** The guns turn every way, so the plane fires down at the panel's shot. */
+  get shots() {
+    return { straight: { x: 0, y: 300 } }
+  }
+
+  /** Seen from above the plane has no side it faces; 1 as right. */
+  get forward() {
+    return 1
+  }
+
+  /** It fires at any distance, but only from the screen. */
+  get reach() {
+    return Infinity
+  }
+
+  /** The guns turn every way: the plane aims at `point` wherever it moves, and can fire there while it is on the screen. */
+  aimAt(point) {
+    this.aim = point
+    return isOnScreen(this)
   }
 
   /** Where the next shot leaves from. */
@@ -111,23 +155,21 @@ export default class Enemy extends GameObject2D {
     return { x: this.x, y: this.y }
   }
 
+  /** Fires where it aims, if its guns have reloaded; each wait is a little longer or shorter. */
   shoot() {
-    const target = this.targets[0]
-    if (!this.weapon.cooldown.ready || !target?.alive || !isOnScreen(this)) return
+    if (!this.alive || !this.aim || !this.weapon.cooldown.ready) return
 
     const gun = this.nextGun()
-    if (this.weapon.tryFire(gun, Math.atan2(target.y - gun.y, target.x - gun.x)))
-      this.weapon.cooldown.start(this.fire.interval * randomInRange(.8, 1.2))
+    if (this.weapon.tryFire(gun, Math.atan2(this.aim.y - gun.y, this.aim.x - gun.x)))
+      this.weapon.cooldown.start(this.fireInterval * randomInRange(.8, 1.2))
   }
 
   update(dt, t) {
-    this.engineSound.setPlaying(this.alive && !this.gone && this.age >= 0)
-    if (!this.falling) this.fly(dt)
+    this.engineSound.setPlaying(this.alive && !this.gone && this.engineRunning)
+    this.controller?.update?.(dt)
+    if (this.alive) this.checkGone()
     super.update(dt, t)
-    if (this.alive) this.shoot()
+    this.machine.update(dt)
     this.bullets.checkHits(this.targets)
-
-    if (this.falling)
-      this.scaleX = this.scaleY = this.scaleX * Math.pow(0.8, dt)
   }
 }

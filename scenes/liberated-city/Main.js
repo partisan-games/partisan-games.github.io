@@ -1,3 +1,4 @@
+import { keys, attackLabels } from '/core/io/keys.js'
 import Scene3D from '/core/Scene3D.js'
 import { createSun } from '/core3d/light.js'
 import { ResistanceFighterPlayer, models as resistanceFighterModels } from '/core3d/actor/derived/ww2/ResistanceFighter.js'
@@ -61,7 +62,7 @@ const textures = ['ruin-01.jpg', 'ruin-02.jpg', 'ruin-03.jpg', 'ruin-04.jpg', 'r
 
 export default class LiberatedCityScene extends Scene3D {
   constructor() {
-    super({ controlKeys: thirdPersonControls, toon: true })
+    super({ controlKeys: { ...thirdPersonControls, [keys.jump.label]: '', [attackLabels.Enter]: 'shoot' }, toon: true })
   }
 
   async init() {

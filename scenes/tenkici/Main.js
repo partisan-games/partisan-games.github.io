@@ -5,6 +5,9 @@ import { progresBar } from '/ui/components.js'
 import TenkLevo from './TenkLevo.js'
 import TenkDesno from './TenkDesno.js'
 import Controls, { tankLeftControls, tankRightControls } from '/ui/Controls.js'
+import TankKeys from '/core/io/controllers/TankKeys.js'
+import TankAI from '/core/gameplay/controllers/TankAI.js'
+import { leftPlayerKeys, rightPlayerKeys } from '/core/io/keys.js'
 
 const groundLevel = canvas2d.height * 0.8
 
@@ -29,8 +32,10 @@ export default class TenkiciScene extends Scene2D {
     this.background = new PozadinaGrada(this.canvas)
     const { clock } = this.session
     this.tenk = new TenkLevo({ y: groundLevel, clock })
+    this.tenk.controller = new TankKeys(this.tenk, leftPlayerKeys)
     this.audioPlayer = () => this.tenk
-    this.tenk2 = new TenkDesno({ y: groundLevel, ai: true, clock })
+    this.tenk2 = new TenkDesno({ y: groundLevel, clock })
+    this.tenk2.controller = new TankAI(this.tenk2, { clock })
     this.tenk.targets.push(this.tenk2)
     this.tenk2.targets.push(this.tenk)
     this.add(this.tenk, this.tenk2)
@@ -41,7 +46,7 @@ export default class TenkiciScene extends Scene2D {
     if (!button || !['jedan-igrac', 'dva-igraca'].includes(button.id)) return
 
     if (button.id === 'dva-igraca') {
-      this.tenk2.ai = !this.tenk2.ai
+      this.tenk2.controller = new TankKeys(this.tenk2, rightPlayerKeys)
       this.controls2UI = new Controls({ positionClass: 'bottom-right', controlKeys: tankRightControls })
     }
 

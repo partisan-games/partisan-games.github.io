@@ -1,5 +1,6 @@
+import { keys } from '/core/io/keys.js'
 import Scene3D from '/core/Scene3D.js'
-import { baseControls } from '/ui/Controls.js'
+import { thirdPersonControls } from '/ui/Controls.js'
 import Maze from '/core3d/mazes/Maze.js'
 import { recursiveDivision } from '/core3d/mazes/algorithms.js'
 import { hemLight } from '/core3d/light.js'
@@ -12,7 +13,7 @@ export default class RuinsScene extends Scene3D {
     super({
       toon: true,
       uiStyle: 'rpg',
-      controlKeys: baseControls,
+      controlKeys: { ...thirdPersonControls, [keys.jump.label]: '', [keys.attack2.label]: 'secondary attack', [keys.special.label]: 'special' },
     })
   }
 

@@ -1,20 +1,42 @@
 import Sound from '/core/io/audio/SoundSource.js'
+import StateMachine from '/core/gameplay/StateMachine.js'
 import canvas2d from '/core/io/canvas2d.js'
 import CombatTarget from './CombatTarget.js'
 import EnemyFire from './EnemyFire.js'
 import { createAircraftGun, createAirBomb } from './EnemyWeapons.js'
 import { shellGravity } from '../tenkici/shellPhysics.js'
 
-const MAX_DIVE_ANGLE = Math.PI / 10
-const PITCH_RATE = .35
-const WRECK_FRICTION = 120
+/**
+ * The steepest dive and how fast the nose turns, in radians and radians a second; how fast a shot-down plane falls and
+ * how fast its wreck slows to the scenery, in pixels a second squared.
+ */
+export const flight = { maxDive: Math.PI / 10, pitchRate: .35, fall: 180, wreckFriction: 120 }
 
+const crash = {
+  enter: plane => plane.die(),
+  update: (plane, dt) => plane.crashed ? plane.slide(dt) : plane.fall(dt),
+}
+
+/** The fighter flies level, or dives as steep as it aims, holding fire or firing its nose guns, or crashes. */
+const fighterStates = {
+  fly: { update: (plane, dt) => plane.pitchTowards(0, dt) },
+  dive: { update: (plane, dt) => plane.pitchTowards(plane.divePitch, dt) },
+  fire: { update: (plane, dt) => plane.pitchTowards(plane.divePitch, dt) },
+  crash,
+}
+
+/** The dive bomber flies level, or drops its one bomb on the point it aims at, as it passes over it, or crashes. */
+const bomberStates = { fly: {}, fire: {}, crash }
+
+/**
+ * An enemy plane over the road; its shots hit the `target`. Who sets its state, and when, is up to the world: it may
+ * give the plane a `controller`, which chooses the state each frame before the plane moves.
+ */
 export default class Aircraft extends CombatTarget {
   constructor({ kind, art, clock, target, groundY, crashY = () => groundY + 60, scrollSpeed = -160, callback }) {
     super({ ...art, x: canvas2d.width + 250, y: 100, z: -1, flammable: true, callback, visible: false })
     this.kind = kind
     this.airborne = true
-    this.target = target
     this.groundY = groundY
     this.clock = clock
     this.crashY = crashY
@@ -28,6 +50,69 @@ export default class Aircraft extends CombatTarget {
       createWeapon: kind === 'diveBomber' ? createAirBomb : createAircraftGun,
       muzzle: () => this.muzzle,
     })
+    this.projectiles = this.fire.projectiles
+    this.controller = null
+    this.divePitch = 0
+    this.machine = new StateMachine(this, kind === 'diveBomber' ? bomberStates : fighterStates, 'fly')
+  }
+
+  get states() {
+    return this.machine.names
+  }
+
+  get state() {
+    return this.machine.name
+  }
+
+  setState(name) {
+    this.machine.set(name)
+  }
+
+  /** Flies left: the art is drawn so. */
+  get forward() {
+    return -1
+  }
+
+  /** The fighter's guns fire along its nose, level or diving; the bomber's bomb falls ahead of it onto the road. */
+  get shots() {
+    if (this.kind !== 'diveBomber') return { straight: { x: 300, y: 0 }, down: { x: 300, y: 300 * Math.tan(flight.maxDive) } }
+    const drop = 200
+    return { down: { x: this.flightSpeed * Math.sqrt(2 * drop / shellGravity), y: drop } }
+  }
+
+  /**
+   * The fighter takes the dive that points its nose at `point`, as steep as it can; the bomber sights its bomb on it.
+   * Either can fire only at a point ahead.
+   */
+  aimAt(point) {
+    const ahead = this.x - point.x
+    if (this.kind === 'diveBomber') this.fire.aimAt(point)
+    else this.divePitch = Math.min(flight.maxDive, Math.atan2(Math.max(0, point.y - this.y), ahead))
+    return ahead > 0
+  }
+
+  die(source) {
+    super.die(source)
+    this.setState('crash')
+  }
+
+  /** Turns the nose towards `pitch` as fast as it can, at the plane's own speed. */
+  pitchTowards(pitch, dt) {
+    const current = Math.atan2(this.dy, this.flightSpeed)
+    const change = pitch - current
+    const next = current + Math.sign(change) * Math.min(Math.abs(change), flight.pitchRate * dt)
+    this.dy = this.flightSpeed * Math.tan(next)
+    this.angle = Math.atan2(this.dy, this.dx) - Math.PI
+  }
+
+  fall(dt) {
+    this.dy += flight.fall * dt
+    this.angle = -Math.min(.55, Math.atan2(this.dy, Math.abs(this.dx)))
+  }
+
+  slide(dt) {
+    const relativeSpeed = this.dx - this.scrollSpeed
+    this.dx -= Math.sign(relativeSpeed) * Math.min(Math.abs(relativeSpeed), flight.wreckFriction * dt)
   }
 
   get muzzle() {
@@ -51,9 +136,9 @@ export default class Aircraft extends CombatTarget {
     this.active = true
     this.crashed = false
     this.wreckUntil = null
-    this.attackStarted = false
-    this.attackFinished = false
-    this.divePitchTarget = 0
+    this.setState('fly')
+    this.divePitch = 0
+    // the lowest it dives on this pass
     this.pullUpY = this.groundY - Math.min(130, (this.groundY - this.y) * .6)
     this.bombReleased = false
     this.show()
@@ -76,44 +161,25 @@ export default class Aircraft extends CombatTarget {
     }
   }
 
+  /** Whether a bomb let go now falls on the sighted point, while the plane flies on at its speed. */
   bombWindow(dt) {
-    if (this.bombReleased || this.target.y <= this.muzzle.y) return false
-    const fallTime = Math.sqrt(2 * (this.target.y - this.muzzle.y) / shellGravity)
+    const { point } = this.fire
+    if (this.bombReleased || !point || point.y <= this.muzzle.y) return false
+    const fallTime = Math.sqrt(2 * (point.y - this.muzzle.y) / shellGravity)
     const impactX = this.muzzle.x - this.flightSpeed * fallTime
-    return this.x > this.target.x && Math.abs(impactX - this.target.x) <= this.flightSpeed * dt + 12
+    return this.x > point.x && Math.abs(impactX - point.x) <= this.flightSpeed * dt + 12
   }
 
   update(dt) {
     this.engineSound.setPlaying(this.active && !this.dead)
-    let attack = false
+    let firing = false
     if (this.active) {
-      if (this.crashed) {
-        const relativeSpeed = this.dx - this.scrollSpeed
-        this.dx -= Math.sign(relativeSpeed) * Math.min(Math.abs(relativeSpeed), WRECK_FRICTION * dt)
-      } else if (this.dead) {
-        this.dy += 180 * dt
-        this.angle = -Math.min(.55, Math.atan2(this.dy, Math.abs(this.dx)))
-      } else if (!this.dead && this.kind === 'fighter') {
-        const lead = this.x - this.target.x
-        if (!this.attackStarted && lead > 160 && lead < Math.min(900, canvas2d.width * .9)) {
-          this.attackStarted = true
-          this.divePitchTarget = Math.min(MAX_DIVE_ANGLE, Math.atan2(Math.max(0, this.target.y - this.y), lead))
-        }
-        if (this.attackStarted && (this.y >= this.pullUpY || lead <= 180))
-          this.attackFinished = true
-
-        const pitch = Math.atan2(this.dy, this.flightSpeed)
-        const desired = this.attackStarted && !this.attackFinished ? this.divePitchTarget : 0
-        const change = desired - pitch
-        const nextPitch = pitch + Math.sign(change) * Math.min(Math.abs(change), PITCH_RATE * dt)
-        this.dy = this.flightSpeed * Math.tan(nextPitch)
-        this.angle = Math.atan2(this.dy, this.dx) - Math.PI
-        attack = this.attackStarted && !this.attackFinished && lead > 160
-      }
+      this.controller?.update(dt)
+      this.machine.update(dt)
       super.update(dt)
-      if (this.kind === 'diveBomber' && !this.dead) attack = this.bombWindow(dt)
+      firing = this.state === 'fire' && (this.kind !== 'diveBomber' || this.bombWindow(dt))
     }
-    const fired = this.fire.update(this.active && !this.dead && attack)
+    const fired = this.fire.update(this.active && !this.dead && firing)
     if (fired && this.kind === 'diveBomber') this.bombReleased = true
   }
 

@@ -1,9 +1,9 @@
 import { assets } from '/config.js'
 import { ctx } from '/core/io/canvas2d.js'
-import WorldSprite from './WorldSprite.js'
+import WorldSprite from '/core/actor/WorldSprite.js'
 
 /** Length of the asphalt runway after the airfield building, and how much of it shows above the ground, in pixels. */
-export const runwayLength = 2000
+export const runway = { length: 2000 }
 const runwayThickness = 14
 
 /** The partisan airfield: its building, and the asphalt runway behind it where the plane must land. */
@@ -16,7 +16,7 @@ export default class Airfield extends WorldSprite {
   /** The runway is dark asphalt, as on the 3D airport, right after the building, so the pilot sees where to land. */
   createRunway() {
     const image = new Image()
-    const runway = {
+    const strip = {
       position: this.position,
       image,
       imageLoaded: new Promise(resolve => {
@@ -25,17 +25,17 @@ export default class Airfield extends WorldSprite {
       render: () => {
         if (!image.naturalWidth) return
         const { left } = this.runway
-        ctx.fillStyle = runway.pattern ??= ctx.createPattern(image, 'repeat')
-        ctx.fillRect(left, this.surface, runwayLength, runwayThickness)
+        ctx.fillStyle = strip.pattern ??= ctx.createPattern(image, 'repeat')
+        ctx.fillRect(left, this.surface, runway.length, runwayThickness)
       },
     }
     image.src = `${assets.images}textures/terrain/asphalt.jpg`
-    return runway
+    return strip
   }
 
   get runway() {
     const left = this.x + this.width / 2
-    return { left, right: left + runwayLength }
+    return { left, right: left + runway.length }
   }
 
   /** The height of the runway's top, where the wheels roll. */

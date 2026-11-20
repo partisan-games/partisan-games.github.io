@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import Scene3D from '/core/Scene3D.js'
+import { orbitControls } from '/ui/Controls.js'
 import { createSun } from '/core3d/light.js'
 import { createGround } from '/core3d/ground.js'
 import { Smoke } from '/core3d/Particles.js'
@@ -11,7 +12,7 @@ import { createTrees } from '/core3d/geometry/trees.js'
 
 export default class LocomotiveScene extends Scene3D {
   constructor() {
-    super({ toon: true })
+    super({ toon: true, controlKeys: orbitControls })
   }
 
   async init() {

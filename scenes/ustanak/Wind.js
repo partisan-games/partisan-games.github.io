@@ -1,5 +1,11 @@
 import Sound from '/core/io/audio/SoundSource.js'
 
+/**
+ * How strong the wind of a round is at least and at most, either way, in px per second squared on a shell; and by how
+ * much that strength is multiplied for the speed, in px per second, at which it carries smoke and fire.
+ */
+export const wind = { min: 8, max: 16, drift: 1.5 }
+
 export default class Wind {
   constructor({ random = Math.random } = {}) {
     this.random = random
@@ -10,7 +16,7 @@ export default class Wind {
   }
 
   nextRound() {
-    this.strength = (8 + this.random() * 8) * (this.random() < .5 ? -1 : 1)
+    this.strength = (wind.min + this.random() * (wind.max - wind.min)) * (this.random() < .5 ? -1 : 1)
   }
 
   get acceleration() {
@@ -18,11 +24,11 @@ export default class Wind {
   }
 
   update() {
-    this.windSound.volume = Math.abs(this.acceleration) / 16 * .3
+    this.windSound.volume = Math.abs(this.acceleration) / wind.max * .3
     this.windSound.setPlaying(this.enabled)
   }
 
   get drift() {
-    return this.acceleration * 1.5
+    return this.acceleration * wind.drift
   }
 }

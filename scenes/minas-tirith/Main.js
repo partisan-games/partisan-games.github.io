@@ -1,9 +1,10 @@
+import { keys } from '/core/io/keys.js'
 import Scene3D from '/core/Scene3D.js'
 import PolarMaze from '/core3d/mazes/PolarMaze.js'
 import { recursiveBacktracker } from '/core3d/mazes/algorithms.js'
 import { createSun, ambLight } from '/core3d/light.js'
 import { createHill } from '/core3d/ground.js'
-import { baseControls } from '/ui/Controls.js'
+import { thirdPersonControls } from '/ui/Controls.js'
 import { GolemPlayer, models as golemModels } from '/core3d/actor/derived/fantasy/Golem.js'
 import { requestModels } from '/core3d/assets/models.js'
 
@@ -14,7 +15,7 @@ const mazeSize = rows * cellSize
 export default class MinasTirithScene extends Scene3D {
   constructor() {
     super({
-      controlKeys: baseControls,
+      controlKeys: { ...thirdPersonControls, [keys.jump.label]: '', [keys.attack2.label]: 'secondary attack' },
       toon: true,
     })
   }

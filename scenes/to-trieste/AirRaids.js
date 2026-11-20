@@ -1,3 +1,6 @@
+import canvas2d from '/core/io/canvas2d.js'
+import Bombardier from '/core/gameplay/controllers/Bombardier.js'
+import Strafer from '/core/gameplay/controllers/Strafer.js'
 import Aircraft from './Aircraft.js'
 import { enemyAircraftArt } from './enemyArt.js'
 
@@ -6,6 +9,9 @@ export default class AirRaids {
   constructor({ clock, ...options }) {
     this.clock = clock
     this.planes = ['fighter', 'diveBomber'].map(kind => new Aircraft({ ...options, clock, kind, art: enemyAircraftArt[kind] }))
+    const [fighter, bomber] = this.planes
+    fighter.controller = new Strafer(fighter, options.target, { viewWidth: () => canvas2d.width })
+    bomber.controller = new Bombardier(bomber, options.target)
     this.next = 0
     this.nextAt = clock.now + 28
   }

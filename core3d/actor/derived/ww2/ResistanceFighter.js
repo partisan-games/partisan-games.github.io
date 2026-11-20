@@ -1,4 +1,5 @@
 import Player from '/core3d/actor/Player.js'
+import { icons } from '/core/io/icons.js'
 import AI from '/core3d/actor/AI.js'
 import { loadedModel } from '/core3d/assets/models.js'
 
@@ -20,7 +21,7 @@ export const models = [meshModel, twoHandedWeaponModel]
 const sharedProps = () => {
   const mesh = loadedModel(meshModel)
   const twoHandedWeapon = loadedModel(twoHandedWeaponModel)
-  return { mesh, animations: mesh.userData.animations, animDict, twoHandedWeapon, attackSound: 'rifle.mp3', attackDistance: 50 }
+  return { buttonDict: { attack: icons.shoot }, mesh, animations: mesh.userData.animations, animDict, twoHandedWeapon, attackSound: 'rifle.mp3', attackDistance: 50 }
 }
 
 export class ResistanceFighterPlayer extends Player {

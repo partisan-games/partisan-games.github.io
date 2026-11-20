@@ -323,7 +323,43 @@ test('the scene handles input of live 2D objects only; dead ones and 3D objects,
   const calls = []
   const object = (name, fields) => ({ name, ...fields, handleInput: () => calls.push(name), update() {} })
   scene.add(object('live', { alive: true }), object('dead', { alive: false }), object('3d', { dead: false }))
+  scene.session.start()
   scene.handleInput(1 / 30)
   scene.end()
   assert.deepEqual(calls, ['live'])
+})
+
+test('world input is ignored while loading, paused, covered by a modal or finished', t => {
+  const scene = createScene()
+  t.after(() => scene.end())
+  const input = t.mock.method(scene.world, 'handleInput')
+  scene.handleInput(1 / 60)
+  scene.session.ready()
+  scene.handleInput(1 / 60)
+  scene.session.start()
+  scene.ui.showPauseScreen()
+  scene.handleInput(1 / 60)
+  scene.ui.hideScreen()
+  scene.session.pause()
+  scene.handleInput(1 / 60)
+  scene.session.resume()
+  scene.session.finish()
+  scene.handleInput(1 / 60)
+  assert.equal(input.mock.callCount(), 0)
+})
+
+test('a ready scene still receives its custom start choice', t => {
+  installFakeFrames()
+  class ChoiceScene extends Scene {
+    handleClick(event) {
+      if (event.target.id === 'choice') this.start()
+    }
+  }
+  const scene = new ChoiceScene({ canvas: document.createElement('canvas'), customStartScreen: () => '<button id="choice">Choose</button>' })
+  t.after(() => scene.end())
+  scene.session.ready()
+  scene.ui.renderStartScreen()
+  document.getElementById('choice').click()
+  assert.equal(scene.session.state, 'running')
+  assert.equal(scene.ui.screen, null)
 })

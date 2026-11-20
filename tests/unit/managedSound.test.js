@@ -147,7 +147,7 @@ test('cannon emits only successful shots from its muzzle and loading follows ani
   assert.equal(rifle.shotSound.playback.voices.size, 1)
   cannon.resetRound()
   assert.equal(cannon.flightSound, undefined)
-  for (const owner of [cannon, ...cannon.projektili])
+  for (const owner of [cannon, ...cannon.granate.projectiles])
     for (const sound of owner.sounds) assert.equal(sound.playing, false)
 })
 

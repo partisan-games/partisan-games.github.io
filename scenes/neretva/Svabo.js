@@ -2,14 +2,58 @@ import GameObject2D from '/core/actor/GameObject2D.js'
 import mouse from '/core/io/mouse.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import { ctx } from '/core/io/canvas2d.js'
+import StateMachine from '/core/gameplay/StateMachine.js'
 
 const SHOT_INTERVAL = .18
 const FALL_TIME = 1.2
 const frameCache = new Map()
 
-export default class Svabo extends GameObject2D {
+/** A soldier in a trench: the seconds he aims after he rises, and the damage his fire does per second. */
+export const trench = { aimTime: 2.5, damage: 10 }
 
-  constructor({ scale, ucestalost = 0.03, callback, faction = 'nemci', variant = 0 }) {
+/**
+ * The soldier hides in his trench, or rises and aims, then fires at the viewer until he is hit and falls back into
+ * the trench. Hiding and firing last until he is set to another; aiming and falling end by themselves.
+ */
+const states = {
+  hidden: {},
+  aim: {
+    enter: soldier => {
+      soldier.aimElapsed = 0
+    },
+    update: (soldier, dt) => {
+      soldier.aimElapsed += dt
+      if (soldier.aimElapsed < trench.aimTime) return
+      soldier.setState('fire')
+      soldier.strike(dt)
+    },
+  },
+  fire: {
+    enter: soldier => {
+      soldier.burstSound.setPlaying(true)
+      soldier.fireElapsed = 0
+    },
+    update: (soldier, dt) => {
+      soldier.fireElapsed += dt
+      soldier.strike(dt)
+    },
+    exit: soldier => soldier.burstSound.setPlaying(false),
+  },
+  fall: {
+    enter: soldier => {
+      soldier.fallenFor = FALL_TIME
+    },
+    update: (soldier, dt) => {
+      soldier.fallenFor = Math.max(0, soldier.fallenFor - dt)
+      if (!soldier.fallenFor) soldier.setState('hidden')
+    },
+  },
+}
+
+/** A soldier seen from the front in his trench, who rises to fire at the viewer, who shoots him with the mouse. */
+export default class Svabo extends GameObject2D {
+  /** `callback(damage, dt)` is called each frame he fires. */
+  constructor({ scale, callback, faction = 'nemci', variant = 0 }) {
     super ('armies/rov-prazan.gif', { scale })
     this.scale = scale
     this.variant = variant
@@ -32,77 +76,45 @@ export default class Svabo extends GameObject2D {
       this.frames = frameCache.get(faction)
     }
     this.children.push(this.art)
-    this.ucestalost = ucestalost
     this.callback = callback
     this.burstSound = new Sound('rafal.mp3', { loop: true, profile: 'rifle', spatial: { getPosition: () => this.position } })
     this.sounds.push(this.burstSound)
-    this.init()
-  }
-
-  init() {
-    this.stoji = false
     this.aimElapsed = 0
-    this.vremeNisanjenja = 2.5
-    this.firing = false
     this.fallenFor = 0
     this.animationTime = 0
     this.fireElapsed = 0
+    this.machine = new StateMachine(this, states, 'hidden')
   }
 
-  povremenoUstaje(dt) {
-    if (!this.stoji && !this.fallenFor && Math.random() < this.ucestalost * dt)
-      this.ustani()
+  get states() {
+    return this.machine.names
   }
 
-  stav(bul) {
-    this.burstSound.setPlaying(false)
-    this.stoji = bul
-    this.firing = false
-    this.fallenFor = bul ? 0 : FALL_TIME
-    this.fireElapsed = 0
-    if (bul) this.aimElapsed = 0
+  get state() {
+    return this.machine.name
   }
 
-  ustani() {
-    this.stav(true)
+  setState(name) {
+    this.machine.set(name)
   }
 
-  padni() {
-    this.stav(false)
+  /** Whether he stands up out of the trench, where he can be hit. */
+  get stoji() {
+    return this.state === 'aim' || this.state === 'fire'
   }
 
-  shoot() {
-    if (!this.firing) {
-      this.burstSound.setPlaying(true)
-      this.firing = true
-      this.fireElapsed = 0
-    }
+  strike(dt) {
+    this.callback?.(trench.damage, dt)
   }
 
   jePogodjen() {
     return this.stoji && mouse.isOver(this)
   }
 
-  jeSpreman() {
-    if (!this.stoji) return false
-    return this.aimElapsed >= this.vremeNisanjenja
-  }
-
-  ubrzaj(n) {
-    this.ucestalost *= n
-  }
-
   update(dt) {
     super.update(dt)
     this.animationTime += dt
-    if (this.firing) this.fireElapsed += dt
-    this.fallenFor = Math.max(0, this.fallenFor - dt)
-    this.povremenoUstaje(dt)
-    if (this.stoji) this.aimElapsed += dt
-    if (this.jeSpreman()) {
-      this.shoot()
-      this.callback(10, dt)
-    }
+    this.machine.update(dt)
   }
 
   renderFigure(row, { x = 0, y = 0, angle = 0, alpha = 1 } = {}) {
@@ -120,8 +132,8 @@ export default class Svabo extends GameObject2D {
     if (!this.shown || !this.image.naturalWidth) return
     ctx.save()
     ctx.imageSmoothingEnabled = false
-    if ((this.stoji || this.fallenFor) && this.frames)
-      if (!this.stoji) {
+    if (this.state !== 'hidden' && this.frames)
+      if (this.state === 'fall') {
         const elapsed = FALL_TIME - this.fallenFor
         const collapse = Math.min(1, elapsed / .35)
         const settle = Math.min(1, Math.max(0, (elapsed - .35) / .85))
@@ -132,7 +144,7 @@ export default class Svabo extends GameObject2D {
         })
         this.renderFigure(3, { x: direction * collapse * 3, y: collapse * 6 + settle * 16,
           angle: direction * settle * .08, alpha: collapse })
-      } else if (this.firing) {
+      } else if (this.state === 'fire') {
         const phase = this.fireElapsed % SHOT_INTERVAL
         const recoil = Math.max(0, 1 - phase / .09)
         this.renderFigure(phase < .055 ? 2 : 1, { y: recoil * 1.8, angle: recoil * .012 })

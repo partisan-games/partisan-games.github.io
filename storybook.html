@@ -16,7 +16,8 @@
   </script>
   <style>
     body { overflow: hidden; }
-    #platno { position: fixed; inset: 0; }
+    #platno, #platno-3d { position: fixed; inset: 0; }
+    body[data-stage="3d"] #platno, body[data-stage="2d"] #platno-3d { display: none; }
     .storybook-panel, .storybook-list {
       position: fixed; top: 12px; z-index: 10; width: 220px; max-height: calc(100vh - 24px); overflow: auto;
       padding: 12px; background: rgb(0 0 0 / .7); font: 14px/1.4 system-ui, sans-serif; text-shadow: none;
@@ -36,6 +37,9 @@
     }
     .storybook-panel button[aria-pressed="true"] { background: #6a5d2c; }
     .storybook-panel .storybook-shot { display: block; }
+    .storybook-setting { display: block; margin: 4px 0; }
+    .storybook-setting output { float: right; color: #bbb; }
+    .storybook-setting input[type="range"] { display: block; width: 100%; }
     @media (max-width: 600px) {
       .storybook-list { top: auto; bottom: 12px; left: 16px; right: 16px; width: auto; max-height: 35vh; }
       .storybook-panel { left: 16px; right: 16px; width: auto; }
@@ -44,6 +48,7 @@
 </head>
 <body>
   <canvas id="platno"></canvas>
+  <canvas id="platno-3d"></canvas>
   <main id="ui"></main>
   <div id="modal"></div>
   <nav class="storybook-list" id="storybook-list"></nav>

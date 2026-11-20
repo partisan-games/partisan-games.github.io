@@ -1,12 +1,13 @@
 import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
+import { loadAtlas } from './helpers/atlas.js'
 
 let Rifleman, rifle, patrol, kinds, GameSession, GameObject2D
 
 before(async() => {
   createPageElements()
-  ;({ default: Rifleman, rifle, patrol } = await import('/scenes/franjo-kluz/Rifleman.js'))
+  ;({ default: Rifleman, rifle, patrol } = await import('/core/actor/soldiers/Rifleman.js'))
   ;({ kinds } = await import('/scenes/franjo-kluz/enemies.js'))
   GameSession = (await import('/core/runtime/GameSession.js')).default
   GameObject2D = (await import('/core/actor/GameObject2D.js')).default
@@ -145,4 +146,45 @@ test('each shot the soldier lists has its own picture: level at a low plane, the
     live(1 / 30)
     assert.equal(soldier.pose, pose, name)
   }
+})
+
+const place = { camera: { cameraX: 0, cameraY: 0 }, groundY: 500, x: 200 }
+
+function armed(t) {
+  const session = new GameSession()
+  session.start()
+  t.after(() => session.dispose())
+  const plane = new GameObject2D(null, { x: 300, y: 200, width: 80, height: 40 })
+  return { session, plane }
+}
+
+test('a rifle shot plays the shot for the aimed height, then holds aim, and cannot fire after death', t => {
+  const soldier = new Rifleman({ ...kinds.soldier, ...place, ...armed(t) })
+  loadAtlas(soldier, 512, 768)
+  soldier.aimAt({ x: soldier.x + 100, y: soldier.y - 400 })
+  soldier.setState('fire')
+  soldier.cooldown.start(0)
+  soldier.update(1 / 30)
+  assert.equal(soldier.pose, 'fireUp')
+  assert.equal(soldier.bullets.projectiles.length, 1)
+  soldier.update(1)
+  assert.equal(soldier.pose, 'fireUp', 'he holds the rifle at aim')
+  assert.equal(soldier.animationElapsed, soldier.animationTime, 'a long frame still completes the one-shot')
+  soldier.takeHit(20)
+  soldier.cooldown.start(0)
+  soldier.update(10)
+  assert.equal(soldier.dead, true)
+  assert.equal(soldier.visible, true)
+  assert.equal(soldier.pose, 'death')
+  assert.equal(soldier.animationElapsed, soldier.animationTime, 'the last falling frame remains selected')
+  assert.equal(soldier.bullets.projectiles.length, 1)
+})
+
+test('a death before the image loads is not reset to idle by onload', t => {
+  const soldier = new Rifleman({ ...kinds.assault, ...place, ...armed(t) })
+  soldier.die()
+  loadAtlas(soldier, 512, 768)
+  assert.equal(soldier.pose, 'death')
+  assert.equal(soldier.animation.name, 'death')
+  assert.equal(soldier.animation.loop, false)
 })

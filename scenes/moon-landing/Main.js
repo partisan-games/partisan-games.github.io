@@ -7,12 +7,14 @@ import { createSphere } from '/core3d/geometry/index.js'
 import { createJupiter, createSaturn } from '/core3d/geometry/planets.js'
 import { requestModel } from '/core3d/assets/models.js'
 import Lander, { model as landerModel } from './Lander.js'
+import { keys } from '/core/io/keys.js'
 
 const controls = {
   '← or A': 'thrust left',
   '→ or D': 'thrust right',
   '↓ or S': 'thrust down',
   '↑ or W': '',
+  [keys.pause.label]: 'pause',
 }
 
 export default class MoonLandingScene extends Scene3D {

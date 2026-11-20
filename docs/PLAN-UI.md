@@ -7,11 +7,11 @@ Prvo pouzdanost i naplata, zatim dosledan prikaz; dodatne funkcije imaju niži p
 | # | ID | Prioritet | Korak | Rezultat | Status |
 |---|---|---|---|---|---|
 | 1 | [UI-00](#ui-00) | — | Analiza postojećeg stanja i UI.js | [Pregled svih scena](#ui-00-analysis) i [posebna analiza UI.js](#ui-js-analysis); izvršne provere ostaju neobavljene | ✅ Done |
-| 2 | [UI-06](#ui-06) | P0 | Poruke, izveštaj i gašenje UI-ja | Otklonjeni UI-M1/UI-R1; stari UI ne menja novu scenu | 📋 TODO |
-| 3 | [UI-07](#ui-07) | P0 | Događaji, tastatura i fokus | UI ne aktivira gameplay; postojeće kontrole dostupne i ulazi se resetuju | 📋 TODO |
-| 4 | [UI-01](#ui-01) | P0/P1 | Neophodni tekstovi i odluke uz izmene | Automatske ispravke opisa; pitanja samo za dodatni taster iste već opisane radnje | 🔄 In progress |
-| 5 | [UI-05](#ui-05) | P0 | Start, ponovna igra i novčić | Jedan početni prozor za naplative igre; ostale besplatne; pouzdana naplata i povraćaj | 📋 TODO |
-| 6 | [UI-02](#ui-02) | P1 | Zajedničke ikonice komandi i HUD-a | Jedan izvor po značenju; municija koristi sličicu metka | 📋 TODO |
+| 2 | [UI-06](#ui-06) | P0 | Poruke, izveštaj i gašenje UI-ja | Jedan tajmer poruke, sinhroni Report, zaštita ugašenog UI-ja; ciljane regresije prolaze | ✅ Done |
+| 3 | [UI-07](#ui-07) | P0 | Događaji, tastatura i fokus | Izolovani ulazi, fokus prozora, native aktivacija i reset više dodira; unit regresije prolaze, browser ostaje UI-04 | ✅ Done |
+| 4 | [UI-01](#ui-01) | P0/P1 | Neophodni tekstovi i odluke uz izmene | Ispravljeni poznati opisi osnovnog paketa; tajne prečice ostaju skrivene | ✅ Done |
+| 5 | [UI-05](#ui-05) | P0 | Start, ponovna igra i novčić | Preskočeno u samostalnom prolazu: zamena naplate traži ranu odobrenu browser probu; postojeći tok nije zamenjen | 📋 TODO |
+| 6 | [UI-02](#ui-02) | P1 | Zajedničke ikonice komandi i HUD-a | Čisti katalog, simboli prema radnji, HUD municije bez klase projektila; ciljane unit regresije prolaze | ✅ Done |
 | 7 | [UI-03](#ui-03) | P1 | Prozori, opisi i raspored HUD-a | Sproveden i pregledan odobren prikaz, bez izjednačavanja sadržaja igara | 📋 TODO |
 | 8 | [UI-04](#ui-04) | P1 | Provera osnovnog paketa | Proveren osnovni paket; kasnije funkcije imaju svoje provere | 📋 TODO |
 | 9 | [UI-09](#ui-09) | P2 | Izbor teme u Settings | Kasnija dorada: globalni izbor teme, posle doslednog prikaza i provere osnovnog paketa | 📋 TODO |
@@ -20,7 +20,7 @@ Prvo pouzdanost i naplata, zatim dosledan prikaz; dodatne funkcije imaju niži p
 | # | ID | Prioritet | Odluka vlasnika | Predlog / potvrđeni ishod | Status |
 |---|---|---|---|---|---|
 | 1 | PD-1 | — | Više doslednih tema i izbor u Settings | Potvrđeno: koherentne teme i globalan, sačuvan izbor; [UI style lista ispod Volume: Predefined, Simple, RPG, White](UI.md#potvrđeni-birač-teme) | ✅ Done |
-| 2 | PD-2 | P0/P1 · uz izmenu | Konačni simboli i novi/izmenjeni tekstovi | Samo stvarni sukobi/nove ikonice i novi tekstovi; dosledna postojeća upotreba ostaje. Potvrđeni su 💥 za pucanje, 👊 za nenaoružani napad, ✨ za magiju, sličica metka za municiju, [novčić koji se vrti na dostupnom i miruje na disabled dugmetu, bez poruke pri nuli](UI.md#potvrđena-oznaka-naplate) i birač teme; poruke za blokirano čuvanje podataka i neuspešan povraćaj su potvrđene; opisi komandi se ispravljaju automatski; Shift i PageUp/PageDown ostaju namerno skriveni | 🔄 In progress |
+| 2 | PD-2 | P0/P1 · uz izmenu | Konačni simboli i novi/izmenjeni tekstovi | Potrebne odluke osnovnog paketa su potvrđene: 💥 pucanje, 👊 nenaoružani napad, ✨ magija, sličica metka za municiju, [novčić prema dostupnosti, bez poruke pri nuli](UI.md#potvrđena-oznaka-naplate), birač teme i poruke skladišta/povraćaja. Opisi se ispravljaju automatski; Shift i PageUp/PageDown ostaju skriveni. Samo novootkriveni stvarni sukob ili neodobren novi tekst traži novo pitanje | ✅ Done |
 | 3 | PD-3 | P2 | Obim touch podrške i način pristupa pauzi | Koje nedostajuće radnje moraju dobiti postojeću ili novu kontrolu; za nove elemente tačan raspored i oznake pre aktiviranja UI-08 | 📋 TODO |
 | 4 | PD-4 | P2 | Esc u centralnim prozorima | DOCS kaže „kao Esc”, dok kod tokom igre otvara pauzu, a u pauzi nema tog handlera; potvrditi da li se traži i povratak u meni iz prozora | 📋 TODO |
 
@@ -49,7 +49,7 @@ Prvo pouzdanost i naplata, zatim dosledan prikaz; dodatne funkcije imaju niži p
 
 ## Sažetak
 
-Analiza izvora je završena, a izolovani prikaz naplate usaglašen; aktivne scene još čekaju provere. Preostali puni plan je **4.75 / 9.25 / 15.5 p**. Predloženi osnovni paket bez kasnijeg birača teme iznosi **4.25 / 8.25 / 13.5 p**. Najpre popraviti gašenje i ulaz, zatim naplatu, pa doslednost prikaza i proveru. UI-09 ostaje kasnija funkcija; UI-08 ostaje uslovan. [Pokrivenost nalaza](#pokrivenost-nalaza) čuva sve otvorene obaveze.
+Izrada UI-06, UI-07, UI-01 i UI-02 je završena; sintaksa i odobreni ciljani unit testovi prolaze. Puni skup, lint/import check i browser nisu pokrenuti. UI-05 je preskočen prema nalogu da se bez pauziranja nastavi na sledeću samostalnu stavku: rana browser proba gestova i naplate traži zasebnu dozvolu. Preostali puni plan je **2.5 / 5 / 8.5 p**, osnovni paket bez kasnijeg birača **2 / 4 / 6.5 p**. Slede UI-05, UI-03 i završna provera UI-04; izbor teme UI-09 ostaje kasnije, UI-08 uslovno. Done označava završenu izradu prema pravilu projekta; stvarno izvršene provere i njihove granice čuva [TESTING](TESTING.md#ui-verification-limits).
 
 ## Pretpostavke i ograničenja
 
@@ -102,8 +102,8 @@ Jedan izvršilac. Puni redosled je UI-00 → UI-06 → UI-07 → UI-01 → UI-05
 | 5 · Provera osnovnog paketa | UI-04 | 0.5 / 1 / 1.5 | Proveren menjani tok; ne tvrdi se da su kasnije opcije ugrađene |
 | 6 · Kasniji izbor teme | UI-09 | 0.5 / 1 / 2 | Birač u Settings sa proverom čuvanja i aktivnih potrošača |
 | Ukupno, puni plan | Svi osim uslovnog UI-08 | **5.5 / 10.75 / 18 p** | Uključuje raniju procenu UI-00 |
-| Preostalo, puni plan | Bez UI-00 i UI-08 | **4.75 / 9.25 / 15.5 p** | Uključuje kasniji UI-09 |
-| Preostalo, osnovni paket | Bez UI-00, UI-09 i UI-08 | **4.25 / 8.25 / 13.5 p** | Predlog da prvo završimo ovo |
+| Preostalo, puni plan | UI-05, UI-03, UI-04, UI-09 | **2.5 / 5 / 8.5 p** | Uključuje kasniji UI-09 i neizvršene provere ranije izrade |
+| Preostalo, osnovni paket | UI-05, UI-03, UI-04 | **2 / 4 / 6.5 p** | Ranije procene koraka nisu menjane; provere ostaju obavezne |
 | Uslovno, zasebno | UI-08 | **0.5 / 1 / 2 p** | Tek posle odluke PD-3 i preciziranja obima |
 
 [Mašinski raspored](plan-ui.json) sadrži puni redosled; osnovni paket je njegov deo do kraja UI-04. Izbor manjeg paketa odlaže UI-09, bez promene već donetog dogovora o biraču. Veći posao od procene podeliti pre sprovođenja.
@@ -120,6 +120,7 @@ Jedan izvršilac. Puni redosled je UI-00 → UI-06 → UI-07 → UI-01 → UI-05
 <a id="ui-01"></a>
 ### UI-01 · Neophodni tekstovi i odluke uz izmene · 0.25 / 0.5 / 1 p · Agent
 
+- **Rezultat:** poznati netačni opisi osnovnog paketa usklađeni sa kodom: sposobnosti i napadi likova, run/strafe, izostavljen neizvršiv jump, kamera umesto kretanja u orbit scenama, gađanje u Otpisanim, kočnica i držanje/puštanje topa. Dopunjena postojeća pauza u lokalnim opisima. Skriveni Shift i PageUp/PageDown nisu otkriveni, binding-i nisu menjani. Tekstovi/simboli potrebni osnovnom paketu su potvrđeni; nove touch radnje i novo značenje Esc-a ostaju PD-3/PD-4. Izgled dužih opisa čeka UI-03/UI-04.
 - **Šta:** prema [odobrenju za automatske ispravke opisa](UI.md#komande-tastatura-i-touch), dodati nedostajuće stvarne komande i ukloniti nevažeće opise bez pojedinačnog pitanja. Pitati kada dva tastera rade isto, a jedan je već naveden; levi Shift i PageUp/PageDown ostaju skriveni. Poruke o žetonima potrebne za UI-05 već su potvrđene. Opisati konkretan okidač i prikaz. PD-3/PD-4 se ovde samo vode kao kasnije odluke; ne čekati ih pre popravki. Birač, simboli i prikaz naplate već su potvrđeni i ne traže ponovno odobrenje.
 - **Referenca:** [popis](#ui-00-analysis), [UI.js](#ui-js-analysis), [pravilo odobravanja](DOCS.md#odobravanje-ui-elemenata). Za menjani zajednički deo navesti sve potrošače i nužnost izmene umesto lokalne kompozicije.
 - **Gotovo kada:** netačni i nedostajući opisi osnovnog paketa provereni su prema stvarnom kodu i ispravljeni po opštem odobrenju; dodatni tasteri već opisane iste radnje imaju odluku vlasnika. Ostali novi UI tekstovi imaju konkretno odobrenje. PD-3/PD-4 ostaju jasno označeni kao kasnije odluke, bez aktiviranja UI-08 ili promene Esc-a. Odlaganje novih opcija ne proglašava postojeći kvar prihvaćenim.
@@ -132,6 +133,7 @@ Jedan izvršilac. Puni redosled je UI-00 → UI-06 → UI-07 → UI-01 → UI-05
 <a id="ui-06"></a>
 ### UI-06 · Poruke, izveštaj i gašenje UI-ja · 0.5 / 1 / 1.5 p · Agent
 
+- **Rezultat:** izrada završena u UI/Report: jedan otkaziv tajmer, otkazivanje pri end, zaštita kasnih javnih upisa i sinhrono vezivanje Report-a za konkretan kontejner. [UI regresije](../tests/unit/UI.test.js) pokrivaju ponovljeni tekst/A-B-A i zamenu kontejnera; postojeće provere kasnog/duplog end ostaju. Sintaksa i odobrene ciljane unit provere prolaze; [dokaz i preostale granice](TESTING.md#ui-verification-limits).
 - **Šta:** u [UI](../ui/UI.js) zameniti tekstualno prepoznavanje tajmera jednim aktivnim otkazivim tajmerom: nova poruka otkazuje prethodni, end ga gasi, callback ne menja ugašeni prikaz. U [Report](../ui/Report.js) ukloniti odloženi prepend i vezati papir sinhrono za već napravljeni konkretan startni kontejner; očuvati kucanje i audio. Zaštititi nove javne upise i handlere ugašenog UI-ja, uz očuvano čišćenje vlasnikovog DOM-a i drawnBy. Ne uvoditi novi cache/reset API, temu ili hijerarhiju klasa.
 - **Referenca:** [UI-M1 i UI-R1](#ui-js-defects), [clear/draw](../ui/UI.js#L14), [Report](../ui/Report.js#L40), [kasni end test](../tests/unit/Scene.test.js#L258).
 - **Gotovo kada:** ciljane provere pripremljene u postojećim UI/screens/Scene testovima pokrivaju isti tekst u t=0/t=2 i A/B/A, tri sekunde poslednjeg zahteva, end pre isteka, prestanak report-a i promenu scene pre njegovog dodavanja, kasni upis/dupli end i očuvanu novu scenu. Jedan aktivan tajmer, bez dopisivanja starog report-a. Uz dozvolu te provere prolaze; eventualno neizvršenje zabeleženo za UI-04. Prozor, zvuk i pravila skrivanja/odbacivanja poruka ostaju kao T-3.
@@ -141,6 +143,7 @@ Jedan izvršilac. Puni redosled je UI-00 → UI-06 → UI-07 → UI-01 → UI-05
 <a id="ui-07"></a>
 ### UI-07 · Događaji, tastatura i fokus · 0.75 / 1.5 / 2.5 p · Agent
 
+- **Rezultat:** zajednička granica ulaza čuva native UI ključeve i odvaja gameplay; keyup/reset/cancel čiste ranije držanje, Touch prati pointerId. Controls/kamera koriste click, postojeći touch dobija keydown/keyup držanje. Centralni prozori imaju semantiku i fokus sa Tab ciklusom, uz prepuštanje fokusa otvorenom native dialog-u; lokalni shooter/grad/Capoeira handleri proveravaju fazu i metu. Scene3D blokira neposredne pointer/wheel komande OrbitControls-a iza prozora, nezavisno od petlje. Lokalni start izbori i Ustanak runde zadržavaju svoj put. [Regresije ulaza](../tests/unit/inputIsolation.test.js) i [scene](../tests/unit/Scene.test.js) prolaze u odobrenom ciljanom unit skupu; [browser scenariji](../tests/smoke/uiInput.spec.js) su pripremljeni, ali nisu pokrenuti. Stvarni native/pointer-lock dokazi ostaju UI-04; [granice dokaza](TESTING.md#ui-verification-limits).
 - **Šta:** u Keyboard/Input/Touch i lokalnim handlerima sprečiti prikupljanje gameplay komandi sa UI meta ili dok odgovarajući gameplay nije dozvoljen. Ne otkazivati native aktivaciju dugmadi ni strelice Volume-a. Keyup, pointerup/cancel i reset moraju očistiti prethodno držanje i kad se fokus promenio; CapsLock osvežavati iz stvarnih keyboard događaja. Touch prati pritiske po pointerId i resetuje ih na napuštanju taba/fokusa; otpuštanje jednog od dva dodira istog dugmeta ne briše drugi.
 - **Postojeće kontrole:** Controls/kamera koriste click za pojedinačnu akciju; fokusirani touch taster koristi keydown/keyup za istu držanu radnju, bez dupliranja sa globalnom tastaturom. Prozori dobijaju semantiku, ograničenje fokusa na aktivan blokirajući ekran i povratak na canvas pri start/continue; pozadinske komande tada ne rade. Esc zadržava postojeće ponašanje; novo značenje nije deo ove popravke i čeka kasniji PD-4. Poruka nije blokirajući modal. Sačuvati trusted audio/pointer-lock put, Ustanak runde i disableEvents dekoraciju.
 - **Lokalno:** Neretva/Otpisani proveravaju stanje i metu, koordinate gađanja vezuju za događaj koji ga pokreće; Dark city/Capoeira ne tretiraju session.active kao dozvolu tokom pauze. Nove komande/dugmad nisu deo ovog koraka.
@@ -152,9 +155,10 @@ Jedan izvršilac. Puni redosled je UI-00 → UI-06 → UI-07 → UI-01 → UI-05
 <a id="ui-02"></a>
 ### UI-02 · Zajedničke ikonice komandi i HUD-a · 0.75 / 1.25 / 2 p · Agent
 
-- **Odobrena oznaka naplate:** katalog čuva putanje GIF-a i mirnog PNG-a iz [UI vodiča](UI.md#potvrđena-oznaka-naplate). UI bira animaciju za dostupno dugme, a mirni prikaz za disabled stanje ili smanjeno kretanje; oba ostaju u boji, sa pikselizovanim ivicama i tamnim obrisom. Na disabled dugmetu oznaku naplate prigušiti zajedno sa natpisom. Resursi su sačuvani, ali katalog i potrošači još nisu povezani. Ne uvoziti Coin/Three.js u UI ili katalog radi prikaza.
+- **Rezultat:** [čisti katalog](../core/io/icons.js) koriste Touch, centralni UI, kamera, lokalne komande/HUD i stalni pregled; oznake likova prate radnju i postojeći redosled dugmadi. Municija koristi putanju slike bez uvoza projektila u HUD; bombe/lupinzi/životi koriste katalog. Naslovnica zadržava prethodni CSS novčić prema [granici odobrenja](UI.md#potvrđena-oznaka-naplate). Putanje novčića u stvarna Start/izbor/Play again dugmad povezuje UI-05; to ovde nije predstavljeno kao završeno. Ciljane unit provere prikaza/defaulta/redosleda prolaze; lint i vizuelna provera ostaju UI-03/UI-04, uz [granice dokaza](TESTING.md#ui-verification-limits).
+- **Odobrena oznaka naplate:** katalog čuva putanje GIF-a i mirnog PNG-a iz [UI vodiča](UI.md#potvrđena-oznaka-naplate). U prozoru igre UI bira animaciju za dostupno dugme, a mirni prikaz za disabled stanje ili smanjeno kretanje; oba ostaju u boji, sa pikselizovanim ivicama i tamnim obrisom. Na disabled dugmetu oznaku naplate prigušiti zajedno sa natpisom. Katalog je povezan sa stalnim pregledom; novi tok naplativih početaka ostaje UI-05, a naslovnica ne preuzima ove resurse. Ne uvoziti Coin/Three.js u UI ili katalog radi prikaza.
 - **Šta:** sprovesti T-2 i odobreni katalog iz UI-01 u `core/io/icons.js`: tekstualni simbol ili putanja slike po značenju radnje/pokazatelja. UI sloj određuje markup, dimenzije i pristupačne nazive; donji katalog ne uvozi UI/igre. Uskladiti Touch default-e, centralnu dugmad i lokalne izbore u scenes/core/core3d bez menjanja buttonDict ključeva, redosleda ili tastature.
-- **HUD odluka vlasnika (2026-11-20):** isti izvor daje gorivo, bombe, municiju, živote i druge postojeće pokazatelje. Municija je sličica metka, ne 🔫. Kluz trenutno koristi [Bullet.src](../scenes/franjo-kluz/Bullet.js#L14) i lokalni prikaz `items/granata.gif`; prebaciti HUD na katalog, a ne učiniti UI zavisnim od klase projektila. Isti 💣 u Kluzu i Visu potiče iz kataloga; ne dodavati pokazatelj igri koja ga nema.
+- **HUD odluka vlasnika (2026-11-20):** isti izvor daje gorivo, bombe, municiju, živote i druge postojeće pokazatelje. Municija je sličica metka, ne 🔫. Kluz trenutno koristi [Bullet.src](../core/actor/projectiles/Bullet.js#L14) i lokalni prikaz `items/granata.gif`; prebaciti HUD na katalog, a ne učiniti UI zavisnim od klase projektila. Isti 💣 u Kluzu i Visu potiče iz kataloga; ne dodavati pokazatelj igri koja ga nema.
 - **Referenca:** [Touch](../core/io/Touch.js#L65), [Warplane](../core3d/aircraft/Warplane.js#L16), [Vis HUD](../scenes/vis/Main.js#L111), aktuelni [Kluz HUD](../scenes/franjo-kluz/Main.js), [granice uvoza](../eslint.config.mjs#L168).
 - **Gotovo kada:** svi potrošači odobrene iste radnje/pokazatelja koriste isti izvor ili imaju odobren izuzetak. Ponašajne provere proveravaju stvaran render simbola/slike i izbora po značenju, default prazne vrednosti, odsutne/nepoznate ključeve, redosled i zadržanu aktivaciju. Ista putanja metka ne zahteva kopiranje slike. Uz dozvolu ciljane provere/lint prolaze; pregled u browseru ostaje UI-03/UI-04.
 - **Zamke:** attack nije uvek pucanje; Kluz special nije tastaturni V. Ne uvoziti ui/icons u core/io i ne deliti veličine projektila sa HUD dimenzijama.
@@ -192,6 +196,7 @@ Jedan izvršilac. Puni redosled je UI-00 → UI-06 → UI-07 → UI-01 → UI-05
 <a id="ui-05"></a>
 ### UI-05 · Start, ponovna igra i novčić · 0.75 / 1.5 / 2.5 p · Agent
 
+- **Samostalni prolaz:** preskočen dok ne bude odobrena rana browser proba standardnog starta, FPS gestova i asinhronog izbora iz ovog koraka. Nalog za samostalnu izradu nije posebno odobrenje za izvršne provere. Transakcije, novi tok početka, poruke skladišta/povraćaja i besplatan ulaz ostaju neimplementirani; promenjena slika žetona ne dokazuje nijedno od tih ponašanja. Rad se nastavio na UI-02 bez pauziranja.
 - **Potvrđen prikaz naplate:** na svakom naplativom Start/izbor/Play again dugmetu desno od postojećeg naziva koristiti [zlatan novčić i odnos dostupno/potrebno](UI.md#potvrđena-oznaka-naplate), bez dodatka „1 coin” ili zvezde. Dostupno dugme prikazuje rotaciju, disabled mirni PNG; uz smanjeno kretanje PNG ostaje i na dostupnom dugmetu. U oba stanja zadržati boju, pikselizovane ivice i tamni obris; na disabled dugmetu novčić i broj prigušiti zajedno sa ostalim sadržajem. Natpis i ikonica ostaju u jednom redu bez odsecanja/prelivanja; besplatna partija i Continue ne dobijaju oznaku. Ne tražiti ovo odobrenje ponovo. Za nulu novčića potvrđen je native disabled svih naplativih početaka, bez poruke, obaveštenja ili dodatnog prozora; izgled dugmeta i valute mora sam objasniti da novčić nedostaje. Poruke za blokirano čuvanje podataka i neuspešan povraćaj potvrđene su u UI vodiču; nedostupno stanje ne prikazuje se kao nula.
 - **Provera nule:** disabled za Start, svaki naplativi izbor i Play again, bez aktivacije mišem ili tastaturom i bez tekstualne poruke o manjku novčića. Besplatna partija, Continue i Main menu ostaju dostupni. Promena salda ili dnevni reset vraćaju dostupnost u istom prozoru. U UI-03 posebno pregledati da izgled u svakoj temi jasno prenosi nedostatak novčića, a ne samo da dugme ne reaguje.
 - **Usaglašen prikaz naplate:** [stalni pregled](../ui.html) prikazuje [dogovor iz UI vodiča i pouke iz dorada](UI.md#potvrđena-oznaka-naplate), uključujući odnos dostupno/potrebno. Izgled je usaglašen; povezivanje sa stvarnom naplatom ostaje posao ovog koraka. Trajna pravila i razlog izbora čuvaju se u vodiču, bez ponovnog otvaranja ovog izbora dizajna.
@@ -217,7 +222,7 @@ Jedan izvršilac. Puni redosled je UI-00 → UI-06 → UI-07 → UI-01 → UI-05
 
 ## Otvorene odluke i preostale nepoznanice
 
-**Vlasnik:** PD-1 i prikaz naplate su rešeni. PD-2 ima prednost samo za nove tekstove neophodne narednoj izmeni; to ne blokira UI-06/UI-07. PD-3 i promena prozorskog Esc-a iz PD-4 su P2 i mogu da sačekaju, uz postojeće ponašanje i dokumentovana ograničenja. Izbor teme ostaje odobren kao kasniji UI-09. Dozvole za konkretne provere traže se sa poznatim obimom/opterećenjem i nisu dizajnerske dileme.
+**Vlasnik:** PD-1 i potrebni simboli/tekstovi PD-2 su rešeni. Samo novootkriven stvarni sukob ili novi neodobren tekst traži novu odluku. PD-3 i promena prozorskog Esc-a iz PD-4 su P2 i mogu da sačekaju, uz postojeće ponašanje i dokumentovana ograničenja. Izbor teme ostaje odobren kao kasniji UI-09. Dozvole za konkretne provere traže se sa poznatim obimom/opterećenjem i nisu dizajnerske dileme.
 
 **Izvršilac, kroz provere:** stvarna geometrija/čitljivost i ponašanje native fokusa; pointer lock/audio preko pripreme i naplate; dostupnost coin backend-a bez blokiranja besplatnog ulaza. To se utvrđuje izvorom i probom, ne prebacuje se vlasniku kao pitanje o implementaciji. Ako proba pokaže da je potreban nov UI ili promena broja klikova, predstaviti konkretan nalaz.
 
@@ -238,6 +243,8 @@ Jedan izvršilac. Puni redosled je UI-00 → UI-06 → UI-07 → UI-01 → UI-05
 
 <a id="ui-00-analysis"></a>
 ### 1. Analiza UI-00 — 2026-11-20, pregled izvora
+
+**Istorijska osnova pre izrade:** naredni inventar i nalazi opisuju stanje pri UI-00, pre popravki iz vodeće tabele. Aktuelne ispravke su u rezultatima UI-06/UI-07/UI-01/UI-02 i [UI vodiču](UI.md); preostale izvršne obaveze u [TESTING](TESTING.md#ui-verification-limits). Stari otisak i brojevi redova nisu dokaz konačnog koda.
 
 **Dokazi i granice:** svih 39 scena sa `Main.js`, 37 kartica menija i dve dodatne direktne putanje pregledane su u izvoru, zajedno sa zajedničkim UI-jem i stvarnim potrošačima ulaza. Osnova: `d68b74500b18101da8d1171352d87589bba990a5` i zatečene nezavršene izmene Franje Kluza. Nisu pokretani igra, browser, projektni testovi, lint ni check; nema snimaka ni izmerenog rasporeda/kontrasta. Izgled ispod znači definiciju iz HTML/CSS-a, ne vizuelnu potvrdu.
 

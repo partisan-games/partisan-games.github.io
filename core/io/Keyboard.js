@@ -1,4 +1,5 @@
 import { keys, defaultAttackKey } from './keys.js'
+import { gameplayInputAllowed, isUiTarget } from './inputContext.js'
 
 // prevent shake, click on enter, scroll, etc.
 const preventSome = e => {
@@ -12,6 +13,7 @@ class Keyboard {
   constructor({ listen = true, attackKey = defaultAttackKey } = {}) {
     this.pressed = {}
     this.attackKey = attackKey
+    this.listen = listen
 
     if (!listen) return
 
@@ -28,14 +30,24 @@ class Keyboard {
 
     document.addEventListener('pointerdown', this.handlePointerDown)
     document.addEventListener('pointerup', this.handlePointerUp)
+    document.addEventListener('pointercancel', this.handlePointerCancel)
 
     document.addEventListener('visibilitychange', this.reset)
     window.addEventListener('blur', this.reset)
+    document.addEventListener('game-input-reset', this.reset)
+    document.addEventListener('focusin', this.handleFocus)
   }
 
-  preventContextMenu = e => e.preventDefault()
+  preventContextMenu = e => {
+    if (gameplayInputAllowed(e.target)) e.preventDefault()
+  }
+
+  handleFocus = e => {
+    if (isUiTarget(e.target)) this.reset()
+  }
 
   handlePointerDown(e) {
+    if (!gameplayInputAllowed(e.target)) return
     if (e.button === 0) this.pressed.pointer = true
   }
 
@@ -43,22 +55,30 @@ class Keyboard {
     if (e.button === 0) this.pressed.pointer = false
   }
 
+  handlePointerCancel = () => {
+    this.pressed.pointer = false
+  }
+
   handleKeyDown(e) {
+    this.run = e.getModifierState?.(keys.run.lock) ?? false
+    if (!gameplayInputAllowed(e.target)) return
     preventSome(e)
     this.pressed[e.code] = true
   }
 
   handleKeyUp(e) {
     this.pressed[e.code] = false
-    this.run = e.getModifierState(keys.run.lock)
+    this.run = e.getModifierState?.(keys.run.lock) ?? false
   }
 
   reset() {
     for (const key in this.pressed) delete this.pressed[key]
+    this.#capsLock = false
   }
 
   /** Whether any key of a binding from core/io/keys.js is held. */
   isDown({ codes }) {
+    if (this.listen && !gameplayInputAllowed()) return false
     return codes.some(code => this.pressed[code])
   }
 
@@ -94,6 +114,7 @@ class Keyboard {
   }
 
   get run() {
+    if (this.listen && !gameplayInputAllowed()) return false
     return this.#capsLock || this.isDown(keys.run)
   }
 
@@ -106,6 +127,7 @@ class Keyboard {
   }
 
   get attack() {
+    if (this.listen && !gameplayInputAllowed()) return false
     return this.pressed[this.attackKey]
   }
 
@@ -134,15 +156,19 @@ class Keyboard {
   }
 
   end() {
+    this.reset()
     document.removeEventListener('contextmenu', this.preventContextMenu)
     document.removeEventListener('keydown', this.handleKeyDown)
     document.removeEventListener('keyup', this.handleKeyUp)
 
     document.removeEventListener('pointerdown', this.handlePointerDown)
     document.removeEventListener('pointerup', this.handlePointerUp)
+    document.removeEventListener('pointercancel', this.handlePointerCancel)
 
     document.removeEventListener('visibilitychange', this.reset)
     window.removeEventListener('blur', this.reset)
+    document.removeEventListener('game-input-reset', this.reset)
+    document.removeEventListener('focusin', this.handleFocus)
   }
 }
 

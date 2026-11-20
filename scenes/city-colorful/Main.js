@@ -1,4 +1,5 @@
 import Scene3D from '/core/Scene3D.js'
+import { orbitControls } from '/ui/Controls.js'
 import { createFloor } from '/core3d/ground.js'
 import { createCity, createCityLights } from '/core3d/city.js'
 import { hemLight, createMoon } from '/core3d/light.js'
@@ -9,7 +10,7 @@ const numBuildings = 200
 
 export default class CityColorfulScene extends Scene3D {
   constructor() {
-    super({ toon: true })
+    super({ toon: true, controlKeys: orbitControls })
   }
 
   async init() {

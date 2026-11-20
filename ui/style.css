@@ -492,6 +492,24 @@ progress.potisak::-moz-progress-bar {
   text-align: right;
 }
 
+/* the title, and on the local server only the links to the development pages right after it */
+.homepage-title {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.dev-links {
+  margin: 0;
+  font-size: .8em;
+  opacity: .45;
+}
+
+.dev-links a {
+  color: inherit;
+}
+
 .bold {
   font-weight: bold;
 }

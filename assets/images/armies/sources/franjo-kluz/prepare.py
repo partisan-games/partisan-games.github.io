@@ -162,6 +162,6 @@ def single_quote(match):
     value = json.loads(match.group())
     return "'" + value.replace('\\', '\\\\').replace("'", "\\'") + "'"
 runtime_text = re.sub(r'"(?:\\.|[^"\\])*"', single_quote, json.dumps(runtime, indent=2))
-(HERE.parents[4] / 'scenes/franjo-kluz/spriteArt.js').write_text('/** Generated from the FK-13 sprites.json; regenerate with its prepare.py. */\nexport default ' + runtime_text + '\n', encoding='utf-8')
+(HERE.parents[4] / 'core/actor/spriteArt.js').write_text('/** Generated from the FK-13 sprites.json; regenerate with its prepare.py. */\nexport default ' + runtime_text + '\n', encoding='utf-8')
 (HERE / 'preview.html').write_text((HERE / 'preview.template.html').read_text(encoding='utf-8'), encoding='utf-8')
 print(json.dumps({'atlases': len(assets), 'frames': sum(a['frame']['columns'] * a['frame']['rows'] for a in assets), 'animations': sum(len(a['animations']) for a in assets), 'checks': ['nonempty frames', 'transparent corners', 'no clipped alpha bounds', 'different animation frames']}, ensure_ascii=False))

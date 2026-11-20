@@ -1,3 +1,4 @@
+import { icons, iconImages } from '/core/io/icons.js'
 import canvas2d, { drawSky } from '/core/io/canvas2d.js'
 import Scene2D from '/core/Scene2D.js'
 import { baseControls } from '/ui/Controls.js'
@@ -5,17 +6,16 @@ import { progresBar } from '/ui/components.js'
 import { randomInRange } from '/core/utils.js'
 import { assets } from '/config.js'
 import Sound from '/core/io/audio/SoundSource.js'
-import Sentry from '/core/gameplay/Sentry.js'
-import Gunner from '/core/gameplay/Gunner.js'
-import Potez, { bombKey, planeHealth, markings } from './Potez.js'
-import Bullet from './Bullet.js'
-import Vehicle from './Vehicle.js'
-import Rifleman from './Rifleman.js'
-import Flak from './Flak.js'
-import Fighter from './Fighter.js'
+import Sentry from '/core/gameplay/controllers/Sentry.js'
+import Gunner, { lead } from '/core/gameplay/controllers/Gunner.js'
+import Potez, { bombKey, plane, markings } from './Potez.js'
+import Vehicle from '/core/actor/vehicles/Vehicle.js'
+import Rifleman from '/core/actor/soldiers/Rifleman.js'
+import Flak, { flak } from '/core/actor/artillery/Flak.js'
+import Fighter from '/core/actor/aircraft/Fighter.js'
 import { kinds } from './enemies.js'
 import { missions } from './missions.js'
-import WorldSprite from './WorldSprite.js'
+import WorldSprite from '/core/actor/WorldSprite.js'
 import Airfield from './Airfield.js'
 import ParallaxLayer from './ParallaxLayer.js'
 
@@ -86,10 +86,10 @@ export default class FranjoKluzScene extends Scene2D {
       onCrash: point => this.player.destroyAround(point) }))
     /** How many fighters have come so far. */
     this.fightersSent = 0
-    /** Those who know the plane is hostile; soldiers and fighters among them fire at it as gunners. */
+    /** Those who know the plane is hostile; they fire at it as gunners, the flak leading it with its slow shell. */
     this.alerted = new Set()
-    this.gunners = [...this.enemies.filter(enemy => enemy instanceof Rifleman), ...this.fighters]
-      .map(enemy => new Gunner(enemy, this.player))
+    this.gunners = this.armed.map(enemy =>
+      new Gunner(enemy, this.player, enemy instanceof Flak ? lead(flak.shellSpeed) : undefined))
     this.followPlane(0)
 
     this.player.solidBodies.push(this.ruina, ...this.enemies.filter(enemy => enemy.vehicle), ...this.fighters)
@@ -113,7 +113,7 @@ export default class FranjoKluzScene extends Scene2D {
 
   createEnemy(kind, x) {
     const place = { camera: this, groundY: groundLevel, x }
-    if (kind === 'flak') return new Flak({ plane: this.player, session: this.session, ...place })
+    if (kind === 'flak') return new Flak({ targets: [this.player], session: this.session, ...place })
     return kinds[kind].rifle
       ? new Rifleman({ ...kinds[kind], targets: [this.player], session: this.session, ...place })
       : new Vehicle({ ...kinds[kind], ...place })
@@ -124,13 +124,9 @@ export default class FranjoKluzScene extends Scene2D {
     return [...this.enemies, ...this.fighters].filter(enemy => enemy.states?.includes('fire'))
   }
 
-  /** The enemy knows the plane is hostile: the living among `enemies` fire at it, the flak at once. */
+  /** The enemy knows the plane is hostile: the living among `enemies` fire at it. */
   openFire(enemies) {
-    for (const enemy of enemies) {
-      if (!enemy.alive) continue
-      this.alerted.add(enemy)
-      if (enemy instanceof Flak) enemy.setState('fire')
-    }
+    for (const enemy of enemies) if (enemy.alive) this.alerted.add(enemy)
   }
 
   /**
@@ -241,10 +237,10 @@ export default class FranjoKluzScene extends Scene2D {
     const { bombs, ammo, health } = this.player
     return /* html */`
       <div class="top-left">
-        ${progresBar(Math.max(0, health) / planeHealth * 100)}
+        ${progresBar(Math.max(0, health) / plane.health * 100)}
         <div>
-          <img src="${assets.images}${Bullet.src}" alt="Rounds" width="32" height="8"> ${ammo}
-          <br>${'💣'.repeat(bombs)}
+          <img src="${assets.images}${iconImages.ammunition}" alt="Rounds" width="32" height="8"> ${ammo}
+          <br>${icons.bomb.repeat(bombs)}
         </div>
       </div>
     `

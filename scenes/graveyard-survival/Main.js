@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import Scene3D from '/core/Scene3D.js'
 import { thirdPersonControls } from '/ui/Controls.js'
+import { keys } from '/core/io/keys.js'
 import { createGround } from '/core3d/ground.js'
 import { createMoon, orbiting } from '/core3d/light.js'
 import { getEmptyCoords, sample } from '/core3d/helpers.js'
@@ -32,7 +33,7 @@ const customStartScreen = ({ container, button }) => /* html */`
 export default class GraveyardSurvivalScene extends Scene3D {
   constructor() {
     super({
-      controlKeys: thirdPersonControls,
+      controlKeys: { ...thirdPersonControls, [keys.attack2.label]: 'secondary attack' },
       customStartScreen,
       uiStyle: 'rpg',
       toon: true

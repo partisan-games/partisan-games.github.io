@@ -23,7 +23,7 @@ export default class Tank3DScene extends Scene3D {
   constructor() {
     super({
       toon: true,
-      controlKeys: { ...baseControls, Space: 'break' },
+      controlKeys: { ...baseControls, Space: 'brake' },
       reportText: 'The enemy has erected barricades to block our entry into the city. Destroy them to clear the way for our troops.',
       intro: 'Demolish enemy barricades.',
       canvasBackground: skyGradients.modra,

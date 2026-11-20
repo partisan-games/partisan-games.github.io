@@ -1,3 +1,4 @@
+import { keys } from '/core/io/keys.js'
 import Scene3D from '/core/Scene3D.js'
 import { createHillyTerrain } from '/core3d/ground.js'
 import { createTreesOnTerrain } from '/core3d/geometry/trees.js'
@@ -28,7 +29,7 @@ export default class RpgFantasyScene extends Scene3D {
   constructor() {
     super({
       toon: true,
-      controlKeys: thirdPersonControls, // dodati special
+      controlKeys: { ...thirdPersonControls, [keys.attack2.label]: 'secondary attack', [keys.special.label]: 'special' },
       customStartScreen,
       uiStyle: 'rpg',
     })

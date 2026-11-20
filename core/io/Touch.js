@@ -1,3 +1,6 @@
+import { hasBlockingUi } from './inputContext.js'
+import { icons } from './icons.js'
+
 const btnSize = '60px'
 
 const css = /* css */`
@@ -63,10 +66,10 @@ const arrowsData = [
 ]
 
 const buttonsData = {
-  jump: '↑',
-  attack: '🗡️',
-  attack2: '⚔️',
-  special: '💥',
+  jump: icons.jump,
+  attack: icons.attack,
+  attack2: icons.attack2,
+  special: icons.special,
 }
 
 export default class Touch {
@@ -79,6 +82,10 @@ export default class Touch {
     this.attack = false
     this.attack2 = false
     this.special = false
+    this.presses = new Map()
+    window.addEventListener('blur', this.reset)
+    document.addEventListener('visibilitychange', this.reset)
+    document.addEventListener('game-input-reset', this.reset)
 
     this.style = document.createElement('style')
     this.style.textContent = css
@@ -140,19 +147,53 @@ export default class Touch {
   }
 
   addBtnEvents = (element, key) => {
-    const handleEvent = (val, e) => {
+    const held = new Set()
+    this.presses.set(element, { key, held })
+    const update = () => {
+      this[key] = [...this.presses.values()].some(item => item.key === key && item.held.size)
+    }
+    const pointer = (down, e) => {
+      if (down && hasBlockingUi()) return
       e.preventDefault()
       e.stopPropagation()
-      this[key] = val
+      if (down) held.add(e.pointerId ?? 'pointer')
+      else held.delete(e.pointerId ?? 'pointer')
+      update()
     }
 
-    element.addEventListener('pointerdown', e => handleEvent(true, e))
-    element.addEventListener('pointerup', e => handleEvent(false, e))
-    element.addEventListener('pointerleave', e => handleEvent(false, e))
-    element.addEventListener('pointercancel', e => handleEvent(false, e))
+    element.addEventListener('pointerdown', e => pointer(true, e))
+    for (const type of ['pointerup', 'pointerleave', 'pointercancel'])
+      element.addEventListener(type, e => pointer(false, e))
+    element.addEventListener('keydown', e => {
+      if (!['Space', 'Enter'].includes(e.code) || hasBlockingUi()) return
+      e.preventDefault()
+      e.stopPropagation()
+      held.add(e.code)
+      update()
+    })
+    element.addEventListener('keyup', e => {
+      if (!['Space', 'Enter'].includes(e.code)) return
+      e.preventDefault()
+      e.stopPropagation()
+      held.delete(e.code)
+      update()
+    })
+    element.addEventListener('blur', () => { held.clear(); update() })
+    element.addEventListener('click', e => { e.preventDefault(); e.stopPropagation() })
+  }
+
+  reset = () => {
+    for (const { key, held } of this.presses.values()) {
+      held.clear()
+      this[key] = false
+    }
   }
 
   end() {
+    this.reset()
+    window.removeEventListener('blur', this.reset)
+    document.removeEventListener('visibilitychange', this.reset)
+    document.removeEventListener('game-input-reset', this.reset)
     this.joystick?.remove()
     this.buttonContainer?.remove()
     this.style?.remove()

@@ -9,7 +9,8 @@ import { mainMenuButton } from '/ui/UI.js'
 import { keyboard } from '/core/io/Keyboard.js'
 import { keys, leftPlayerKeys } from '/core/io/keys.js'
 import Turns from './Turns.js'
-import CannonAI from './CannonAI.js'
+import CannonAI from '/core/gameplay/controllers/CannonAI.js'
+import CannonKeys from '/core/io/controllers/CannonKeys.js'
 import Bunker from '/core/objects/Bunker.js'
 import Battlefield from './Battlefield.js'
 import Airplane from '/core/objects/Airplane.js'
@@ -34,7 +35,7 @@ const customStartScreen = ({ container }) => /* html */`
 
 export default class UstanakScene extends Scene2D {
   constructor() {
-    super({ controlKeys: { W: 'up', S: 'down', Space: 'shoot ' }, customStartScreen, showControls: true })
+    super({ controlKeys: { W: 'up', S: 'down', Space: 'hold to charge, release to shoot', Esc: 'pause' }, customStartScreen, showControls: true })
   }
 
   init() {
@@ -74,6 +75,8 @@ export default class UstanakScene extends Scene2D {
         this.enemyCrew.fire()
       },
     })
+    /** Both players aim with the same keys, each in their turn. */
+    this.cannonKeys = [this.top, this.opponent].map(cannon => new CannonKeys(cannon, leftPlayerKeys))
     this.opponent.targets.push(this.top)
     this.top.targets.push(this.opponent)
     this.ai = new CannonAI({ cannon: this.opponent, target: this.top, clock: this.session.clock })
@@ -163,11 +166,10 @@ export default class UstanakScene extends Scene2D {
       this.turns.waitForRelease = false
     if (this.turns.phase !== 'aim' || (this.vsComputer && this.turns.active === 1)) return
     if (this.turns.waitForRelease) return
-    const cannon = this.turns.active === 0 ? this.top : this.opponent
     const crew = this.turns.active === 0 ? this.posada : this.enemyCrew
     // the crew loads while the fire key is held, and stands by again when it is let go before the shot
     if (crew.state !== 'fire') crew.setState(keyboard.isDown(leftPlayerKeys.shoot) ? 'load' : 'idle')
-    cannon.handleInput(dt)
+    this.cannonKeys[this.turns.active].handleInput(dt)
   }
 
   clear() {
@@ -213,7 +215,7 @@ export default class UstanakScene extends Scene2D {
     this.ui.messageElement.replaceChildren()
     keyboard.reset()
     for (const cannon of [this.top, this.opponent])
-      cannon.projektili.forEach(projectile => projectile.reset())
+      cannon.granate.projectiles.forEach(projectile => projectile.reset())
     if (this.score[winner] === 2) {
       const text = `${this.sideName(winner)} ${this.vsComputer && winner === 0 ? 'win' : 'wins'} the match! ${this.score.join(' : ')}`
       if (this.vsComputer && winner === 1) this.defeat(text)

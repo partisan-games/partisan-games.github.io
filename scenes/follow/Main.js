@@ -1,3 +1,5 @@
+import { keys } from '/core/io/keys.js'
+import { thirdPersonControls, orbitControls } from '/ui/Controls.js'
 import Scene3D from '/core/Scene3D.js'
 import { createFloor } from '/core3d/ground.js'
 import { ambLight } from '/core3d/light.js'
@@ -14,6 +16,7 @@ export default class FollowScene extends Scene3D {
   constructor() {
     super({
       toon: true,
+      controlKeys: { ...thirdPersonControls, ...orbitControls, [keys.attack2.label]: 'secondary attack' },
       intro: 'Gather your followers',
       uiStyle: 'rpg',
     })

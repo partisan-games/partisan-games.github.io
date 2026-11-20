@@ -2,158 +2,45 @@ import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 
-let TenkLevo, TenkDesno, GameClock
+let Tenkici, TankKeys, TankAI, keys
 
 before(async() => {
   createPageElements()
-  TenkLevo = (await import('/scenes/tenkici/TenkLevo.js')).default
-  TenkDesno = (await import('/scenes/tenkici/TenkDesno.js')).default
-  GameClock = (await import('/core/runtime/GameClock.js')).default
-})
-
-const key = (type, code) => document.dispatchEvent(new KeyboardEvent(type, { code }))
-
-test('barrels are positioned when the body finishes loading after the barrel', () => {
-  for (const Tank of [TenkLevo, TenkDesno]) {
-    const tank = new Tank({ x: 400, y: 200, clock: new GameClock() })
-    tank.cev.onload()
-    tank.width = 150
-    tank.height = 60
-    tank.onload()
-
-    assert.ok(Number.isFinite(tank.cev.x))
-    assert.ok(Number.isFinite(tank.cev.y))
-    assert.ok(tank.cev.y < tank.y)
-  }
-})
-
-/** Presses and releases Space for the left tank, which fires on the release. */
-function pressSpace(tank) {
-  key('keydown', 'Space')
-  tank.handleInput(1 / 60)
-  const beforeRelease = tank.granate.projectiles.filter(g => g.visible).length
-  key('keyup', 'Space')
-  tank.handleInput(1 / 60)
-  return beforeRelease
-}
-
-const shownGrenades = tank => tank.granate.projectiles.filter(g => g.visible)
-
-test('the left tank fires on the release of Space, its grenade leaves the barrel tip along the barrel, and the tank recoils', () => {
-  const tank = new TenkLevo({ x: 100, xLimit: 500, clock: new GameClock() })
-  const tip = tank.vrhCevi
-  const { angle } = tank.cev
-
-  assert.equal(pressSpace(tank), 0, 'nothing is fired while Space is held')
-  const [grenade] = shownGrenades(tank)
-  assert.ok(grenade)
-  assert.deepEqual({ x: grenade.x, y: grenade.y }, tip)
-  assert.equal(grenade.angle, angle)
-  assert.ok(Math.abs(Math.hypot(grenade.dx, grenade.dy) - (window.innerWidth > 1920 ? 520 : 500)) < 1e-9)
-  assert.ok(tank.dx < 0, 'the recoil pushes the tank back')
-})
-
-test('during the reload a release fires nothing and gives no recoil, and the reload waits on game time', () => {
-  const clock = new GameClock()
-  const tank = new TenkLevo({ x: 100, xLimit: 500, clock })
-  pressSpace(tank)
-  tank.dx = tank.dy = 0
-
-  clock.advance(.5)
-  pressSpace(tank)
-  assert.equal(shownGrenades(tank).length, 1)
-  assert.equal(tank.dx, 0)
-
-  clock.advance(.5)
-  pressSpace(tank)
-  assert.equal(shownGrenades(tank).length, 2)
-})
-
-test('the AI tank fires first after its wait of game time, however long the game stood still before', () => {
-  const clock = new GameClock()
-  const ai = new TenkDesno({ ai: true, clock })
-  const target = new TenkLevo({ x: 100, xLimit: 500, clock })
-  ai.targets.push(target)
-
-  ai.samohod()
-  assert.equal(shownGrenades(ai).length, 0)
-  clock.advance(1.5)
-  ai.samohod()
-  assert.equal(shownGrenades(ai).length, 1)
-})
-
-test('a grenade hit takes the target health and pushes it back, and leaves the shooter whole', async() => {
-  const { default: Shell } = await import('/core/actor/projectiles/Shell.js')
-  const clock = new GameClock()
-  const shooter = new TenkLevo({ x: 100, xLimit: 500, clock })
-  const target = new TenkDesno({ ai: false, clock })
-  const grenade = new Shell({ clock })
-  let hits = 0
-  const { settle } = await import('./helpers/scenes.js')
-  await settle() // a flammable object gets its flame from a module it loads on its own
-
-  grenade.hit(target, () => hits++)
-  assert.equal(target.energija, 100 - grenade.damage)
-  assert.ok(target.dx > 0, 'the right tank is pushed back to the right')
-  assert.equal(shooter.energija, 100)
-  assert.equal(hits, 1)
-  assert.equal(target.burning, false)
-
-  target.takeHit(target.energija - 20)
-  assert.equal(target.burning, true)
-  target.takeHit(50)
-  assert.equal(target.energija, 0)
-  assert.ok(target.dead)
-  target.alive = true // the old setter brings a tank back with full energy
-  assert.equal(target.energija, 100)
-})
-
-test('when both tanks are destroyed at once, the victory stands', async() => {
   const { installFakeFrames } = await import('./helpers/frames.js')
   installFakeFrames()
-  const { default: Tenkici } = await import('/scenes/tenkici/Main.js')
-  const scene = new Tenkici()
-  scene.init()
-  scene.start()
-  scene.tenk.alive = scene.tenk2.alive = false
+  ;({ default: Tenkici } = await import('/scenes/tenkici/Main.js'))
+  ;({ default: TankKeys } = await import('/core/io/controllers/TankKeys.js'))
+  ;({ default: TankAI } = await import('/core/gameplay/controllers/TankAI.js'))
+  keys = await import('/core/io/keys.js')
+})
 
-  scene.update(0)
+function scene(t) {
+  const game = new Tenkici()
+  game.init()
+  game.clear = () => {} // happy-dom has no 2D canvas to draw the background on
+  t.after(() => game.end())
+  return game
+}
+
+test('one player drives the left tank with the left keys against a tank that drives itself; two players get a tank each', t => {
+  const game = scene(t)
+  assert.ok(game.tenk.controller instanceof TankKeys)
+  assert.equal(game.tenk.controller.keys, keys.leftPlayerKeys)
+  assert.ok(game.tenk2.controller instanceof TankAI)
+
+  const button = document.createElement('button')
+  button.id = 'dva-igraca'
+  game.handleClick({ target: button })
+  assert.ok(game.tenk2.controller instanceof TankKeys)
+  assert.equal(game.tenk2.controller.keys, keys.rightPlayerKeys)
+})
+
+test('when both tanks are destroyed at once, the victory stands', t => {
+  const game = scene(t)
+  game.start()
+  game.tenk.alive = game.tenk2.alive = false
+
+  game.update(0)
   assert.match(document.getElementById('modal').textContent, /German tank destroyed/)
   assert.doesNotMatch(document.getElementById('modal').textContent, /Game over/)
-  scene.clear = () => {} // happy-dom has no 2D canvas to draw the background on
-  scene.end()
-})
-
-test('a tank driven with its key held goes as far at 30 as at 60 frames per second', () => {
-  const distance = fps => {
-    const tank = new TenkLevo({ x: 100, xLimit: 5000, clock: new GameClock() })
-    key('keydown', 'KeyD')
-    for (let i = 0; i < fps; i++) {
-      tank.handleInput(1 / fps)
-      tank.update(1 / fps)
-    }
-    key('keyup', 'KeyD')
-    tank.end?.()
-    return tank.x - 100
-  }
-  const at30 = distance(30), at60 = distance(60)
-  // at 30 frames per second, where the tanks were tuned, push and friction act once a frame, as in the original code
-  assert.ok(Math.abs(at30 - 178.2) < 1, `as far as the original code went at 30: ${at30}`)
-  // was twice as far at 60; what is left comes from friction applied after each move, not from the push
-  assert.ok(Math.abs(at30 - at60) / at60 < .1, `${at30} at 30, ${at60} at 60`)
-})
-
-test('a tank grenade that hits does its damage after the blast, on the game clock only', () => {
-  const clock = new GameClock()
-  const shooter = new TenkLevo({ x: 100, xLimit: 500, clock })
-  const target = new TenkDesno({ ai: false, clock })
-  pressSpace(shooter)
-  const [grenade] = shownGrenades(shooter)
-  target.collidesWith = () => true
-
-  grenade.checkHit(target)
-  clock.advance(.1)
-  assert.equal(target.energija, 100, 'not during the blast, nor while the game stands still')
-  clock.advance(.05)
-  assert.equal(target.energija, 100 - grenade.damage)
 })

@@ -1,3 +1,4 @@
+import { keys, attackLabels } from '/core/io/keys.js'
 import Scene3D from '/core/Scene3D.js'
 import { createSun } from '/core3d/light.js'
 import { WorkerPlayer, models as workerModels } from '/core3d/actor/derived/ww2/Worker.js'
@@ -76,7 +77,7 @@ const posters = [
 
 export default class GraffitiCityMazeScene extends Scene3D {
   constructor() {
-    super({ controlKeys: thirdPersonControls, toon: true })
+    super({ controlKeys: { ...thirdPersonControls, [keys.jump.label]: '', [attackLabels.Enter]: '' }, toon: true })
   }
 
   async init() {

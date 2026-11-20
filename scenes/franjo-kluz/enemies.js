@@ -1,4 +1,4 @@
-import spriteArt from './spriteArt.js'
+import spriteArt from '/core/actor/spriteArt.js'
 
 /**
  * What stands on the ground along the way to the airfield: soldiers fall to one bullet, trucks to a few, the tank to a

@@ -1,3 +1,4 @@
+import { icons } from '/core/io/icons.js'
 import Player from '/core3d/actor/Player.js'
 import AI from '/core3d/actor/AI.js'
 import { loadedModel } from '/core3d/assets/models.js'
@@ -17,7 +18,7 @@ export const models = [model]
 
 const sharedProps = () => {
   const mesh = loadedModel(model)
-  return { mesh, animations: mesh.userData.animations, animDict }
+  return { buttonDict: { attack: icons.unarmed, attack2: icons.unarmed }, mesh, animations: mesh.userData.animations, animDict }
 }
 
 export class GolemPlayer extends Player {

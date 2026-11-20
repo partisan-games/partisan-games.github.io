@@ -9,7 +9,7 @@ export default class SpecialActions {
   }
 
   async select(name) {
-    if (!this.session.active) return
+    if (this.session.state !== 'running') return
     const request = ++this.request
     if (!(name in this.player.anim.actions)) {
       if (!this.loads.has(name))
@@ -20,6 +20,6 @@ export default class SpecialActions {
       const clip = await this.session.keep(this.loads.get(name))
       if (!(name in this.player.anim.actions)) this.player.addAction(name, clip.clone())
     }
-    if (request === this.request && this.session.active) this.player.setState(name)
+    if (request === this.request && this.session.state === 'running') this.player.setState(name)
   }
 }

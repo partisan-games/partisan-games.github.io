@@ -15,7 +15,7 @@ before(async() => {
 /** A tank alone with a target, on its own clock; the images do not load in tests. */
 function tankAlone(Tank) {
   const clock = new GameClock()
-  const tank = new Tank({ x: 400, y: 500, groundY: 520, clock, xLimit: Infinity, ai: false })
+  const tank = new Tank({ x: 400, y: 500, groundY: 520, clock, xLimit: Infinity })
   tank.width = 150
   tank.height = 60
   tank.cev.width = 60
@@ -89,4 +89,59 @@ test('a tank cannot aim at a point behind it, and fires only in state fire', () 
   tank.aimAt({ x: tank.x + tank.forward * 300, y: tank.y })
   live(2)
   assert.equal(tank.granate.projectiles.length, 0, 'at rest it does not fire')
+})
+
+test('barrels are positioned when the body finishes loading after the barrel', () => {
+  for (const Tank of [TenkLevo, TenkDesno]) {
+    const tank = new Tank({ x: 400, y: 200, clock: new GameClock() })
+    tank.cev.onload()
+    tank.width = 150
+    tank.height = 60
+    tank.onload()
+
+    assert.ok(Number.isFinite(tank.cev.x))
+    assert.ok(Number.isFinite(tank.cev.y))
+    assert.ok(tank.cev.y < tank.y)
+  }
+})
+
+test('a grenade hit takes the target health and pushes it back, and leaves the shooter whole', async() => {
+  const { default: Shell } = await import('/core/actor/projectiles/Shell.js')
+  const clock = new GameClock()
+  const shooter = new TenkLevo({ x: 100, xLimit: 500, clock })
+  const target = new TenkDesno({ clock })
+  const grenade = new Shell({ clock })
+  let hits = 0
+  const { settle } = await import('./helpers/scenes.js')
+  await settle() // a flammable object gets its flame from a module it loads on its own
+
+  grenade.hit(target, () => hits++)
+  assert.equal(target.energija, 100 - grenade.damage)
+  assert.ok(target.dx > 0, 'the right tank is pushed back to the right')
+  assert.equal(shooter.energija, 100)
+  assert.equal(hits, 1)
+  assert.equal(target.burning, false)
+
+  target.takeHit(target.energija - 20)
+  assert.equal(target.burning, true)
+  target.takeHit(50)
+  assert.equal(target.energija, 0)
+  assert.ok(target.dead)
+  target.alive = true // the old setter brings a tank back with full energy
+  assert.equal(target.energija, 100)
+})
+
+test('a tank grenade that hits does its damage after the blast, on the game clock only', () => {
+  const clock = new GameClock()
+  const shooter = new TenkLevo({ x: 100, xLimit: 500, clock })
+  const target = new TenkDesno({ clock })
+  shooter.shoot()
+  const [grenade] = shooter.granate.projectiles.filter(g => g.visible)
+  target.collidesWith = () => true
+
+  grenade.checkHit(target)
+  clock.advance(.1)
+  assert.equal(target.energija, 100, 'not during the blast, nor while the game stands still')
+  clock.advance(.05)
+  assert.equal(target.energija, 100 - grenade.damage)
 })

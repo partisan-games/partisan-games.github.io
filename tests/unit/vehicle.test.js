@@ -6,7 +6,7 @@ let Vehicle, drive, kinds
 
 before(async() => {
   createPageElements()
-  ;({ default: Vehicle, drive } = await import('/scenes/franjo-kluz/Vehicle.js'))
+  ;({ default: Vehicle, drive } = await import('/core/actor/vehicles/Vehicle.js'))
   ;({ kinds } = await import('/scenes/franjo-kluz/enemies.js'))
 })
 

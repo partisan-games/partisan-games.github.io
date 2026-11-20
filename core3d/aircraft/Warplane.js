@@ -1,3 +1,4 @@
+import { icons } from '/core/io/icons.js'
 import Input from '/core/io/Input.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import { audioPoint } from '/core/io/audio/audio3d.js'
@@ -13,7 +14,7 @@ const steeringResponse = 12
 const brakingResponse = 18
 const bankingResponse = 6
 /** A plane has nothing to jump, so it fires on Space. */
-export const inputOptions = { attackKey: 'Space', buttonDict: { attack: '💣' } }
+export const inputOptions = { attackKey: 'Space', buttonDict: { attack: icons.shoot } }
 
 /** The player's plane. `clock` is the game clock: the missile reload waits in a pause. */
 export default class Warplane extends GameObject {

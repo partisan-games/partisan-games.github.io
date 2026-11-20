@@ -1,3 +1,4 @@
+import { keys, attackLabels } from '/core/io/keys.js'
 import Scene3D from '/core/Scene3D.js'
 import { avatarControls } from '/ui/Controls.js'
 import Maze from '/core3d/mazes/Maze.js'
@@ -11,7 +12,7 @@ export default class WallsScene extends Scene3D {
   constructor() {
     super({
       toon: true,
-      controlKeys: avatarControls,
+      controlKeys: { ...avatarControls, [attackLabels.Enter]: 'attack', [keys.attack2.label]: 'secondary attack' },
       intro: 'Find the way out',
       uiStyle: 'rpg',
     })

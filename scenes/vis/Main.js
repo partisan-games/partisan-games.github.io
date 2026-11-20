@@ -1,3 +1,4 @@
+import { icons } from '/core/io/icons.js'
 import Scene2D from '/core/Scene2D.js'
 import { Avionce, inputOptions } from './Avionce.js'
 import PokretnaPozadina from './PokretnaPozadina.js'
@@ -109,9 +110,9 @@ export default class VisScene extends Scene2D {
   }
 
   sceneUI() {
-    const hearts = '❤️'.repeat(Math.max(0, this.player.zivoti))
-    const bombs = '💣'.repeat(this.player.bombs)
-    const loops = '➰'.repeat(this.player.loopsLeft)
+    const hearts = icons.life.repeat(Math.max(0, this.player.zivoti))
+    const bombs = icons.bomb.repeat(this.player.bombs)
+    const loops = icons.loop.repeat(this.player.loopsLeft)
     return /* html */`
       <div class="top-left">
         <div>

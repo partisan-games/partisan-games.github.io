@@ -3,11 +3,12 @@ import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 import spaceBunkers from '/scenes/to-trieste/spaceBunkers.js'
 
-let Bunker, GameClock, TenkLevo, CombatTarget, createCannon, shellAngle, firstHit, shellGravity, shellSpeed, canvas2d
+let Bunker, Marksman, GameClock, TenkLevo, CombatTarget, createCannon, shellAngle, firstHit, shellGravity, shellSpeed, canvas2d
 
 before(async() => {
   createPageElements()
   Bunker = (await import('/scenes/to-trieste/Bunker.js')).default
+  Marksman = (await import('/core/gameplay/controllers/Marksman.js')).default
   GameClock = (await import('/core/runtime/GameClock.js')).default
   TenkLevo = (await import('/scenes/tenkici/TenkLevo.js')).default
   CombatTarget = (await import('/scenes/to-trieste/CombatTarget.js')).default
@@ -21,6 +22,7 @@ function battle(options = {}) {
   const clock = new GameClock()
   const target = new TenkLevo({ clock, src: null, cevSlika: null, width: 50, height: 50, x: 100, y: 200 })
   const bunker = new Bunker({ clock, target, src: null, width: 50, height: 50, x: 400, y: 200, groundY: 300, ...options })
+  bunker.controller = new Marksman(bunker, target)
   return { clock, target, bunker }
 }
 

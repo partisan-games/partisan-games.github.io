@@ -35,8 +35,10 @@ export default class DarkCityScene extends Scene3D {
     this.session.gameplay.after(2, () => this.ui.showMessage('Click to morph city'))
   }
 
-  grow = () => {
-    if (this.session.active) this.morph.grow(mapSize)
+  grow = event => {
+    if (!this.session.active) return
+    if (event && (this.session.state !== 'running' || event.target.closest('button, input, select, a, #ui, #modal, dialog'))) return
+    this.morph.grow(mapSize)
   }
 
   update(dt) {

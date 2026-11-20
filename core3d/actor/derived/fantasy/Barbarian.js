@@ -1,3 +1,4 @@
+import { icons } from '/core/io/icons.js'
 import Player from '/core3d/actor/Player.js'
 import AI from '/core3d/actor/AI.js'
 import { loadedModel } from '/core3d/assets/models.js'
@@ -24,7 +25,7 @@ export const models = [meshModel, rightHandWeaponModel]
 const sharedProps = () => {
   const mesh = loadedModel(meshModel)
   const rightHandWeapon = loadedModel(rightHandWeaponModel)
-  return { rightHandWeapon, mesh, animations: mesh.userData.animations, animDict, jumpStyle: 'FLY_JUMP', maxJumpTime: .3, runCoefficient: 2.5, attackStyle: 'LOOP' }
+  return { buttonDict: { jump: '', attack: icons.attack, attack2: icons.unarmed, special: icons.magic }, rightHandWeapon, mesh, animations: mesh.userData.animations, animDict, jumpStyle: 'FLY_JUMP', maxJumpTime: .3, runCoefficient: 2.5, attackStyle: 'LOOP' }
 }
 
 export class BarbarianPlayer extends Player {

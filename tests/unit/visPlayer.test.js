@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 import GameSession from '/core/runtime/GameSession.js'
 
-let Avionce, inputOptions, Enemy, Input, settings, canvas2d, PowerUps, attackLabels
+let Avionce, inputOptions, playerPlane, Enemy, Input, canvas2d, attackLabels, Flame
 
 before(async() => {
   createPageElements()
@@ -12,12 +12,11 @@ before(async() => {
       return Promise.resolve()
     }
   }
-  ;({ Avionce, inputOptions } = await import('/scenes/vis/Avionce.js'))
+  ;({ Avionce, inputOptions, playerPlane } = await import('/scenes/vis/Avionce.js'))
   Enemy = (await import('/scenes/vis/Enemy.js')).default
   Input = (await import('/core/io/Input.js')).default
-  ;({ settings } = await import('/scenes/vis/settings.js'))
   canvas2d = (await import('/core/io/canvas2d.js')).default
-  PowerUps = (await import('/scenes/vis/PowerUps.js')).default
+  Flame = (await import('/core/actor/Flame.js')).default
   ;({ attackLabels } = await import('/core/io/keys.js'))
 })
 
@@ -72,7 +71,7 @@ function fly(player, seconds, fps = 60) {
 /** Shoots the plane down and waits until it is back. */
 function loseLife(player) {
   player.takeHit()
-  fly(player, settings.player.respawnTime + .05)
+  fly(player, playerPlane.respawnTime + .05)
 }
 
 /** Puts the enemy plane right on the player. */
@@ -102,7 +101,7 @@ test('the vis player plane comes back at the bottom middle of the screen', t => 
 
 test('for 2 s after coming back, neither a bullet nor a crash takes a life of the vis player', t => {
   const { player, enemy } = createPlayer(t)
-  const { lives, shieldTime } = settings.player
+  const { lives, shieldTime } = playerPlane
 
   loseLife(player)
   player.takeHit()
@@ -124,11 +123,11 @@ test('during a loop a bullet does not take a life of the vis player, after it do
   const { player } = createPlayer(t)
 
   pressLoop(player)
-  fly(player, settings.player.loop.duration / 2)
+  fly(player, playerPlane.loop.duration / 2)
   player.takeHit()
   assert.equal(player.alive, true)
 
-  fly(player, settings.player.loop.duration)
+  fly(player, playerPlane.loop.duration)
   player.takeHit()
   assert.equal(player.alive, false)
 })
@@ -137,10 +136,10 @@ test('a loop ends where it began, at the plane\'s own size', t => {
   const { player } = createPlayer(t)
 
   pressLoop(player)
-  fly(player, settings.player.loop.duration / 2)
+  fly(player, playerPlane.loop.duration / 2)
   assert.ok(player.scaleY < 0, 'halfway the plane is on its back')
 
-  fly(player, settings.player.loop.duration)
+  fly(player, playerPlane.loop.duration)
   assert.equal(player.looping, false)
   assert.equal(player.scaleX, 1)
   assert.equal(player.scaleY, 1)
@@ -149,7 +148,7 @@ test('a loop ends where it began, at the plane\'s own size', t => {
 
 test('holding C makes one loop, and the vis player has three per life', t => {
   const { player } = createPlayer(t)
-  const { loops, loop } = settings.player
+  const { loops, loop } = playerPlane
 
   pressLoop(player)
   assert.equal(player.loopsLeft, loops - 1, 'holding the key makes one loop')
@@ -214,42 +213,64 @@ test('the vis player fires again only after the reload, by game time', t => {
   player.shoot()
   assert.equal(player.bullets.projectiles.filter(bullet => bullet.visible).length, 1)
 
-  fly(player, settings.player.reloadTime + .01)
+  fly(player, playerPlane.reloadTime + .01)
   player.shoot()
   assert.equal(player.bullets.projectiles.filter(bullet => bullet.visible).length, 2)
 })
 
-test('power-ups drop in their order, the player picks up the one it touches, and one past the bottom is gone', t => {
+test('set to fire, the vis player fires straight up as often as it reloads, and only at a point above it', t => {
   const { player } = createPlayer(t)
-  const scene = { children: [], add(...items) {
-    this.children.push(...items)
-  }, remove(...items) {
-    this.children = this.children.filter(item => !items.includes(item))
-  } }
-  const powerUps = new PowerUps({ scene, player })
-  const { order } = settings.powerUps
+  const shown = () => player.bullets.projectiles.filter(bullet => bullet.visible)
+  assert.deepEqual(player.states, ['fly', 'fire'])
+  assert.equal(player.aimAt({ x: player.x, y: player.y + 100 }), false, 'not below')
+  assert.equal(player.aimAt({ x: player.x + player.forward * player.shots.up.x, y: player.y + player.shots.up.y }), true)
 
-  order.forEach(() => powerUps.drop({ x: 100, y: 100 }))
-  powerUps.drop({ x: player.x, y: player.y })
-  powerUps.items.forEach(item => {
-    item.width = item.height = 40
-  })
-  assert.deepEqual(powerUps.items.map(item => item.kind), [...order, order[0]], 'round and round')
+  fly(player, .5)
+  assert.equal(shown().length, 0, 'flying, it does not fire')
+  player.setState('fire')
+  fly(player, playerPlane.reloadTime * 3.5)
+  assert.ok(shown().length >= 3, 'again after each reload')
+  assert.ok(shown().every(bullet => Math.abs(bullet.dx) < 1e-9 && bullet.dy < 0), 'straight up')
+})
 
-  const { bombs } = player
-  powerUps.update()
-  assert.equal(powerUps.items.length, order.length, 'the touched one is picked up')
-  assert.equal(player.fireLevel, 1, `the first is ${order[0]}`)
-  assert.equal(scene.children.length, order.length)
+test('the player scores the points of a plane when it goes down, not for every hit', t => {
+  const { player } = createPlayer(t)
+  const heavy = new Enemy({ session: player.session, type: 'heavy' })
+  player.targets = [heavy]
+  const hit = () => {
+    player.bullets.fire({ x: 0, y: 0 }, 0, 0)
+    const bullet = player.bullets.projectiles.find(shot => shot.visible)
+    bullet.checkHit = (target, callback) => bullet.hit(target, callback)
+    player.bullets.checkHits([heavy], plane => player.scoreIfDown(plane))
+  }
 
-  player.powerUp('bomb')
-  player.powerUp('life')
-  assert.equal(player.bombs, bombs + 1)
-  assert.equal(player.zivoti, settings.player.lives + 1)
+  for (let i = 0; i < 4; i++) hit()
+  assert.equal(player.poeni, 0)
+  hit()
+  assert.equal(player.poeni, 500)
+  hit() // a bullet into the falling plane
+  assert.equal(player.poeni, 500, 'a plane scores once')
+})
 
-  powerUps.items.forEach(item => {
-    item.y = canvas2d.height + 200
-  })
-  powerUps.update()
-  assert.deepEqual(scene.children, [])
+test('a new player life cannot show fire particles at the previous crash site', t => {
+  const { player } = createPlayer(t)
+  player.flame = new Flame()
+  player.setPosition(100, 150)
+  player.die()
+  player.updateFlame(1 / 60)
+  assert.ok(player.flame.sparks.length > 0)
+
+  player.height = 100
+  player.reset()
+  assert.equal(player.flame.sparks.length, 0)
+  player.setPosition(600, 450)
+  player.die()
+  assert.deepEqual([player.flame.x, player.flame.y], [600, 450])
+  assert.equal(player.flame.sparks.length, 0, 'nothing from the old fire can render before the next update')
+  player.updateFlame(1 / 60)
+  assert.ok(player.flame.sparks.length > 0)
+  for (const spark of player.flame.sparks) {
+    assert.ok(Math.abs(spark.x - 600) <= 1)
+    assert.ok(Math.abs(spark.y - 450) <= 4)
+  }
 })

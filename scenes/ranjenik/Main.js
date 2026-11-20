@@ -20,7 +20,7 @@ export default class RanjenikScene extends Scene2D {
     this.scena = 0
     this.background = new Background('armies/shumarak-pozadina.png')
     this.player = new WoundedSoldier(this.width / 4, this.height / 2)
-    this.patrola = new Patrola('armies/nemci-patrola.gif', this.player)
+    this.patrola = new Patrola()
     this.patrola.setPosition(this.width * 3 / 4, this.height * 3 / 4)
     this.strelica = new Strelica()
     this.fireElapsed = 0
@@ -31,8 +31,7 @@ export default class RanjenikScene extends Scene2D {
   checkCollisions() {
     if (!this.patrola.collidesWith(this.player)) return
 
-    this.patrola.stop()
-    this.patrola.pustiNadjen()
+    this.patrola.setState('halt')
     this.defeat('You\'re caught. All hope is lost...')
   }
 

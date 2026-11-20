@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import Gunner from '/core/gameplay/Gunner.js'
+import Gunner, { lead } from '/core/gameplay/controllers/Gunner.js'
 
 /** A body that only records the state it is set to and the points it is asked to aim at. */
 function fakeBody({ reach = 100, aimable = true, alive = true } = {}) {
@@ -65,4 +65,12 @@ test('a gunner does not ask a body to aim at a target out of reach', () => {
   const body = fakeBody()
   new Gunner(body, target(500, 0)).update()
   assert.deepEqual(body.aimed, [])
+})
+
+test('a gunner that leads aims where the target will be when the shot reaches it', () => {
+  const body = fakeBody({ reach: 1000 })
+  const plane = { ...target(300, -400), dx: 100, dy: -50 }
+  new Gunner(body, plane, lead(250)).update()
+  assert.deepEqual(body.aimed, [{ x: 500, y: -500 }], 'the shot flies 500 px, two seconds')
+  assert.equal(body.state, 'fire')
 })

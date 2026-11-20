@@ -1,5 +1,7 @@
 import * as THREE from 'three'
 import { currentStyleClasses } from '/ui/styles.js'
+import { hasBlockingUi } from '/core/io/inputContext.js'
+import { iconImages } from '/core/io/icons.js'
 
 const calc = (mesh, pos, rotate) => {
   const cameraPos = new THREE.Vector3(...pos)
@@ -76,10 +78,10 @@ export default class ChaseCamera {
     this.button = document.createElement('button')
     this.button.className = `bottom-right camera-button ${currentStyleClasses().cameraButton}`
     const img = document.createElement('img')
-    img.src = '/assets/images/ui/change-camera.png'
+    img.src = `/assets/images/${iconImages.camera}`
     img.alt = 'change camera'
 
-    this.button.addEventListener('pointerdown', this.toggleCamera)
+    this.button.addEventListener('click', this.toggleCamera)
     this.button.appendChild(img)
     document.body.appendChild(this.button)
   }
@@ -127,6 +129,7 @@ export default class ChaseCamera {
   }
 
   toggleCamera = () => {
+    if (hasBlockingUi()) return
     const i = (Number(localStorage.getItem('cameraIndex')) + 1) % cameraStyles.length
     this.setCamera(i)
     localStorage.setItem('cameraIndex', i)

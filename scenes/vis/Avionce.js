@@ -1,23 +1,53 @@
+import { icons } from '/core/io/icons.js'
 import Player2D from '/core/actor/Player2D.js'
 import ProjectilePool from '/core/actor/ProjectilePool.js'
 import canvas2d from '/core/io/canvas2d.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import Cooldown from '/core/gameplay/Cooldown.js'
 import Weapon from '/core/gameplay/Weapon.js'
+import StateMachine from '/core/gameplay/StateMachine.js'
 import Bullet from './Bullet.js'
 import Explosion from './Explosion.js'
 import PlayerView from './PlayerView.js'
-import { settings } from './settings.js'
 import { getAircraft } from './aircraft.js'
 import { resetFlame } from './flame.js'
 
-const {
-  lives, bombs, bombRadius, bombHits, bombBursts, bombSpread, respawnTime, shieldTime, loops, loop,
-  reloadTime, bulletSpeed, fire,
-} = settings.player
+// the plane's look is tuned with the plane
+export { look } from './PlayerView.js'
+
+/** The numbers of the player plane. */
+export const playerPlane = {
+  lives: 3,
+  bombs: 3,
+  bombRadius: .5, // of the shorter side of the screen, where the bursts go off
+  bombHits: 10, // a fighter or a heavy plane goes down, the boss loses a sixth
+  bombBursts: 12, // explosions spread over the blast, besides one on every plane it hits
+  bombSpread: .4, // seconds over which the bursts go off
+  respawnTime: 2.5, // seconds
+  shieldTime: 2, // seconds the plane cannot be hit after coming back
+  loops: 3, // per life
+  loop: { duration: 1, grow: .5, ahead: 60 }, // seconds; how much bigger and how many px ahead at the top of the loop
+  reloadTime: .1, // seconds between shots
+  bulletSpeed: 1000, // px per second
+}
+
+/** The guns of each fire level, from the start up: px across from the nose, radians off straight ahead. */
+const fire = [
+  [{ x: 0, angle: 0 }],
+  [{ x: -12, angle: 0 }, { x: 12, angle: 0 }],
+  [{ x: 0, angle: -.33 }, { x: 0, angle: 0 }, { x: 0, angle: .33 }],
+]
+
+/** The plane flies as its player steers it; set to fire, it also fires as often as it reloads. */
+const states = {
+  fly: {},
+  fire: {
+    update: plane => plane.shoot(),
+  },
+}
 
 /** The plane fires on Space; on a phone, with its buttons. */
-export const inputOptions = { attackKey: 'Space', buttonDict: { attack: '💥', attack2: '➰', special: '💣' } }
+export const inputOptions = { attackKey: 'Space', buttonDict: { attack: icons.shoot, attack2: icons.loop, special: icons.bomb } }
 
 /** The player plane. Its reload, respawn and bomb bursts wait on the game `session`. */
 export class Avionce extends Player2D {
@@ -32,25 +62,58 @@ export class Avionce extends Player2D {
     this.session = session
     this.speed = 0
     this.poeni = 0
-    this.zivoti = lives
-    this.bombs = bombs
+    this.zivoti = playerPlane.lives
+    this.bombs = playerPlane.bombs
     this.specialHeld = this.attack2Held = false
-    this.loopsLeft = loops
+    this.loopsLeft = playerPlane.loops
     this.loopAge = null // seconds into the loop, while it lasts
     this.shield = 0 // seconds of safety left after coming back
     this.targets = []
     this.bullets = new ProjectilePool({ owner: this, create: () => new Bullet() })
     this.weapon = new Weapon({
-      cooldown: new Cooldown({ seconds: reloadTime, clock: session.clock }),
+      cooldown: new Cooldown({ seconds: playerPlane.reloadTime, clock: session.clock }),
       barrels: fire[0],
-      spawnProjectile: (origin, angle) => this.bullets.fire(origin, angle, bulletSpeed),
+      spawnProjectile: (origin, angle) => this.bullets.fire(origin, angle, playerPlane.bulletSpeed),
     })
     this.view = new PlayerView()
-    this.explosions = Array.from({ length: bombBursts }, () => new Explosion()) // loaded before the first bomb
+    this.explosions = Array.from({ length: playerPlane.bombBursts }, () => new Explosion()) // loaded before the first bomb
     this.children.push(...this.explosions)
+    this.machine = new StateMachine(this, states, 'fly')
   }
 
-  /** Which of settings.player.fire: the guns that fire together. */
+  get states() {
+    return this.machine.names
+  }
+
+  get state() {
+    return this.machine.name
+  }
+
+  setState(name) {
+    this.machine.set(name)
+  }
+
+  /** The guns point straight up the screen, the way the plane flies. */
+  get shots() {
+    return { up: { x: 0, y: -300 } }
+  }
+
+  /** The plane faces up the screen: a point ahead of it is above it, not to a side. */
+  get forward() {
+    return 1
+  }
+
+  /** A bullet flies on until it leaves the top of the screen. */
+  get reach() {
+    return this.y
+  }
+
+  /** The guns are fixed, so the plane can fire only at a point above it. */
+  aimAt(point) {
+    return point.y < this.y
+  }
+
+  /** Which of the fire levels: the guns that fire together. */
   get fireLevel() {
     return this.#fireLevel
   }
@@ -120,6 +183,7 @@ export class Avionce extends Player2D {
   /** The plane grows as it climbs, turns over on its back and comes down where it began, a little ahead and back. */
   flyLoop(dt) {
     const lift = progress => Math.sin(Math.PI * progress)
+    const { loop } = playerPlane
     const before = Math.min(this.loopAge / loop.duration, 1)
     this.loopAge += dt
     const progress = Math.min(this.loopAge / loop.duration, 1)
@@ -136,13 +200,13 @@ export class Avionce extends Player2D {
 
     this.bombs--
     this.bombSound.play()
-    const radius = bombRadius * Math.min(canvas2d.width, canvas2d.height)
+    const radius = playerPlane.bombRadius * Math.min(canvas2d.width, canvas2d.height)
     // whatever the fire touches, also just past the outermost burst
     const inBlast = thing => this.distanceTo(thing) < radius + Explosion.reach
     this.targets
       .filter(plane => plane.alive && inBlast(plane))
       .forEach(plane => {
-        plane.damage(bombHits)
+        plane.damage(playerPlane.bombHits)
         this.scoreIfDown(plane)
         this.explode(plane.x, plane.y)
       })
@@ -155,6 +219,7 @@ export class Avionce extends Player2D {
 
   /** Explosions at random places in the blast, a little apart in time. */
   spreadBursts(radius) {
+    const { bombBursts, bombSpread } = playerPlane
     for (let i = 0; i < bombBursts; i++) {
       const angle = Math.random() * Math.PI * 2
       const distance = radius * Math.sqrt(Math.random()) // evenly over the circle, not crowded in the middle
@@ -201,9 +266,9 @@ export class Avionce extends Player2D {
     this.scaleX = this.scaleY = 1
     this.stop()
     this.toStart()
-    this.shield = shieldTime
+    this.shield = playerPlane.shieldTime
     resetFlame(this)
-    this.loopsLeft = loops
+    this.loopsLeft = playerPlane.loops
   }
 
   /** A lost life also takes away the fire power-ups. */
@@ -214,13 +279,14 @@ export class Avionce extends Player2D {
     this.fireLevel = 0
     this.fall = true
     this.zivoti--
-    this.session.gameplay.after(respawnTime, () => {
+    this.session.gameplay.after(playerPlane.respawnTime, () => {
       this.fall = false
       if (this.zivoti) this.reset()
     })
   }
 
   update(dt, t) {
+    if (this.alive) this.machine.update(dt)
     if (this.looping) this.flyLoop(dt)
     this.shield = Math.max(this.shield - dt, 0)
     this.view.update(dt)

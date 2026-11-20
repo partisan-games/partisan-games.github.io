@@ -1,3 +1,4 @@
+import { icons } from '/core/io/icons.js'
 import Player from '/core3d/actor/Player.js'
 import AI from '/core3d/actor/AI.js'
 import { loadedModel } from '/core3d/assets/models.js'
@@ -18,7 +19,7 @@ export const models = [meshModel]
 
 const sharedProps = () => {
   const mesh = loadedModel(meshModel)
-  return { mesh, animations: mesh.userData.animations, animDict, attackStyle: 'ONCE', attackDistance: 3, useFlame: true }
+  return { buttonDict: { attack: icons.magic, attack2: icons.magic, special: icons.special }, mesh, animations: mesh.userData.animations, animDict, attackStyle: 'ONCE', attackDistance: 3, useFlame: true }
 }
 
 export class WitchPlayer extends Player {

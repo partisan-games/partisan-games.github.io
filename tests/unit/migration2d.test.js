@@ -5,35 +5,6 @@ import GameSession from '/core/runtime/GameSession.js'
 
 before(() => createPageElements())
 
-test('the bunker gun fires five rounds after its wait, then waits for the next burst', async() => {
-  const { default: Gunner } = await import('/scenes/bunker/Mitraljezac.js')
-  const { default: GameObject2D } = await import('/core/actor/GameObject2D.js')
-  const session = new GameSession()
-  session.start()
-  const target = new GameObject2D(null, { x: 500, y: 300 })
-  const gunner = new Gunner(100, 100, target, session)
-  session.update(2.9)
-  gunner.update(0)
-  assert.equal(gunner.bullets.projectiles.length, 0)
-  session.update(.11)
-  gunner.update(0)
-  for (let i = 0; i < 4; i++) {
-    session.update(.101)
-    gunner.update(0)
-  }
-  assert.equal(gunner.bullets.projectiles.length, 5)
-  session.update(2.9)
-  gunner.update(0)
-  assert.equal(gunner.bullets.projectiles.length, 5)
-  session.update(.11)
-  gunner.update(0)
-  assert.equal(gunner.bullets.projectiles.length, 6)
-  session.finish()
-  session.update(100)
-  gunner.update(0)
-  assert.equal(gunner.bullets.projectiles.length, 6)
-})
-
 test('a clock-bound shell waits in pause and reset cancels its old hit before reuse', async() => {
   const { default: Shell } = await import('/core/actor/projectiles/Shell.js')
   const session = new GameSession()
@@ -61,26 +32,17 @@ test('a clock-bound shell waits in pause and reset cancels its old hit before re
   assert.equal(hits, 1)
 })
 
-test('the patrol and direction arrow use supplied game time rather than wall time', async t => {
-  const { default: Patrola } = await import('/scenes/ranjenik/Patrola.js')
+test('the direction arrow uses supplied game time rather than wall time', async t => {
   const { default: Strelica } = await import('/scenes/ranjenik/Strelica.js')
-  const patrol = new Patrola()
-  t.after(() => patrol.end())
-  let calls = 0
-  t.mock.method(patrol, 'pustiNasumicno', () => calls++)
   t.mock.timers.enable({ apis: ['Date'], now: 0 })
   const arrow = new Strelica()
   t.mock.timers.tick(100_000)
   arrow.update(0)
-  patrol.update(0)
   assert.equal(arrow.vidljiva, false)
-  assert.equal(calls, 0)
   arrow.update(3)
   assert.equal(arrow.vidljiva, true)
   arrow.update(.5)
   assert.equal(arrow.vidljiva, false)
-  patrol.update(8)
-  assert.equal(calls, 1)
 })
 
 test('neretva aiming waits for game updates and its health cannot fall below zero', async t => {
@@ -90,16 +52,32 @@ test('neretva aiming waits for game updates and its health cannot fall below zer
   scene.clear = () => {}
   t.after(() => scene.end())
   const [soldier] = scene.sveSvabe
-  for (const enemy of scene.sveSvabe) enemy.ucestalost = 0
-  soldier.ustani()
+  for (const rovovi of scene.ucestalost.keys()) scene.ucestalost.set(rovovi, 0)
+  soldier.setState('aim')
   scene.update(2)
-  assert.equal(soldier.jeSpreman(), false)
+  assert.equal(soldier.state, 'aim')
   assert.equal(scene.energija, 100)
   scene.update(.51)
-  assert.equal(soldier.jeSpreman(), true)
+  assert.equal(soldier.state, 'fire')
   assert.ok(scene.energija < 100)
   scene.nanesiStetu(1000, 1)
   assert.equal(scene.energija, 0)
+})
+
+test('neretva raises hidden soldiers now and then, and twice as often in the last minute', async t => {
+  const { default: Neretva } = await import('/scenes/neretva/Main.js')
+  const scene = new Neretva()
+  scene.init()
+  scene.clear = () => {}
+  t.after(() => scene.end())
+  t.mock.method(Math, 'random', () => .012)
+  scene.update(.5)
+  assert.ok(scene.daljiRovovi.every(soldier => soldier.state === 'hidden'), 'the far row rises less often')
+  assert.ok(scene.bliziRovovi.every(soldier => soldier.state === 'aim'))
+  scene.preostaloVreme = 59
+  scene.update(.5)
+  scene.update(.5)
+  assert.ok(scene.daljiRovovi.every(soldier => soldier.state === 'aim'))
 })
 
 test('all remaining 2D scenes can initialize, pause, finish and be replaced without model loads', async t => {

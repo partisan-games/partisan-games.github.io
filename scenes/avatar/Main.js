@@ -1,7 +1,7 @@
 import Scene3D, { skyGradients } from '/core/Scene3D.js'
 import { createGround, createLava } from '/core3d/ground.js'
 import { hemLight } from '/core3d/light.js'
-import { baseControls } from '/ui/Controls.js'
+import { avatarControls } from '/ui/Controls.js'
 import { createRandomBoxes } from '/core3d/geometry/index.js'
 import Coin from '/core3d/objects/Coin.js'
 import Platform from '/core3d/objects/Platform.js'
@@ -45,7 +45,7 @@ export default class AvatarScene extends Scene3D {
   constructor() {
     super({
       toon: true,
-      controlKeys: { ...baseControls, Space: 'jump' },
+      controlKeys: avatarControls,
       customStartScreen,
       uiStyle: 'rpg',
       canvasBackground: skyGradients.suton,

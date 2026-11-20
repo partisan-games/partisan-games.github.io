@@ -1,7 +1,29 @@
+import canvas2d from '/core/io/canvas2d.js'
+import PathFlight from '/core/gameplay/controllers/PathFlight.js'
+import Gunner from '/core/gameplay/controllers/Gunner.js'
 import Enemy from './Enemy.js'
-import Boss from './Boss.js'
+import Boss, { boss } from './Boss.js'
 import { formationMembers } from './formations.js'
+import { paths } from './paths.js'
 import { settings } from './settings.js'
+
+/** Where a plane of a wave is t seconds into its flight, shifted across its path for its place in the formation. */
+const route = ({ path = 'straight', x = Math.random(), y = .1, side = 'left', across = 0, speed }) => t => {
+  const position = paths[path].position(t, { x, y, side, speed, width: canvas2d.width, height: canvas2d.height })
+  position[paths[path].across] += across
+  return position
+}
+
+/** The boss sways on its path until its time is up, then flies up and away. */
+const bossRoute = speed => {
+  const sway = route({ path: 'boss', speed })
+  return t => {
+    const position = sway(t)
+    const leaving = t - boss.timeLimit
+    if (leaving > 0) position.y -= speed * 3 * leaving
+    return position
+  }
+}
 
 /**
  * Sends the waves of a level into the scene at their times and takes out the planes that are gone.
@@ -42,7 +64,7 @@ export default class Waves {
 
   launch(wave) {
     const { session } = this.scene
-    const planes = wave.enemy === 'boss' ? [new Boss({ session })] : this.formation(wave, session)
+    const planes = wave.enemy === 'boss' ? [this.bossPlane(session)] : this.formation(wave, session)
     planes.forEach(plane => plane.targets.push(this.player))
     if (planes.length > 1) this.formations.push({ planes, lastAlive: planes[0] })
     this.enemies.push(...planes)
@@ -50,10 +72,38 @@ export default class Waves {
     this.scene.add(...planes)
   }
 
+  bossPlane(session) {
+    const position = bossRoute(settings.enemies.boss.speed)
+    return this.pilot(new Boss({ session }), { position })
+  }
+
   formation({ enemy = 'fighter', formation, count, path, x, y, side }, session) {
     const { speed } = settings.enemies[enemy]
     return formationMembers({ formation, count, gap: settings.formationGap, speed })
-      .map(({ across, delay }) => new Enemy({ session, type: enemy, path, x, y, side, across, delay }))
+      .map(({ across, delay }) => {
+        const position = route({ path, x, y, side, across, speed })
+        return this.pilot(new Enemy({ session, type: enemy }), { position, delay })
+      })
+  }
+
+  /**
+   * Flies a plane along its route and fires it at the player while it is on the screen. Its engine is heard once
+   * its flight has begun, after its delay behind the formation's leader.
+   */
+  pilot(plane, course) {
+    const flight = new PathFlight(plane, course)
+    const gunner = new Gunner(plane, this.player)
+    plane.engineRunning = flight.started
+    plane.controller = {
+      flight,
+      gunner,
+      update: dt => {
+        flight.update(dt)
+        plane.engineRunning = flight.started
+        gunner.update()
+      },
+    }
+    return plane
   }
 
   /** A formation is down when none of its planes flies; the one alive in the last frame fell last. */

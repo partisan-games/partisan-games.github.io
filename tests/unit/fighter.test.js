@@ -6,8 +6,8 @@ let Fighter, fighter, GameSession, GameObject2D, turn
 
 before(async() => {
   createPageElements()
-  ;({ default: Fighter, fighter } = await import('/scenes/franjo-kluz/Fighter.js'))
-  ;({ turn } = await import('/scenes/franjo-kluz/view.js'))
+  ;({ default: Fighter, fighter } = await import('/core/actor/aircraft/Fighter.js'))
+  ;({ turn } = await import('/core/actor/worldView.js'))
   GameSession = (await import('/core/runtime/GameSession.js')).default
   GameObject2D = (await import('/core/actor/GameObject2D.js')).default
 })
@@ -15,7 +15,7 @@ before(async() => {
 const planeHealth = 100
 
 /** A fighter alone with a plane that only counts the damage it takes; nothing of a game around them. */
-function fighterAlone(t, { groundY = 5000, onCrash } = {}) {
+function fighterAlone(t, { groundY = 5000, onCrash, camera = { cameraX: 0, cameraY: 0 } } = {}) {
   const session = new GameSession()
   session.start()
   t.after(() => session.dispose())
@@ -24,7 +24,6 @@ function fighterAlone(t, { groundY = 5000, onCrash } = {}) {
   plane.takeHit = damage => {
     plane.health -= damage
   }
-  const camera = { cameraX: 0, cameraY: 0 }
   const enemy = new Fighter({ plane, camera, groundY, session, onCrash })
   return { enemy, plane, session }
 }
@@ -148,4 +147,16 @@ test('a fighter propeller spins at the nose, on whichever side the nose is', t =
   assert.ok(headOn.propeller.x < headOn.x, 'head on the nose is on the left')
   assert.ok(chaser.propeller.x > chaser.x, 'from behind it is on the right')
   assert.equal(chaser.propeller.flipY, -1)
+})
+
+test('the propeller stays visible in a distant world viewport', t => {
+  const view = { cameraX: 5000, cameraY: 1000 }
+  const { enemy } = fighterAlone(t, { camera: view, groundY: 1500 })
+  enemy.enter({ x: 5300, y: 1200, fromBehind: false })
+  enemy.propeller.width = 20
+  enemy.propeller.height = 70
+  enemy.propeller.setPosition(5200, 1200)
+  assert.equal(enemy.propeller.shown, true)
+  view.cameraX = 8000
+  assert.equal(enemy.propeller.shown, false)
 })

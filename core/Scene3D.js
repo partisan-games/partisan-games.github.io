@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import Scene from './Scene.js'
 import { audioListener } from '/core/io/audio/audio3d.js'
+import { hasBlockingUi } from '/core/io/inputContext.js'
 
 export const skyGradients = {
   svetla: 'linear-gradient(to bottom, #94c5f8 1%, #a6e6ff 70%, #b1b5ea 100%)',
@@ -27,6 +28,18 @@ export default class Scene3D extends Scene {
     ...rest
   } = {}) {
     super({ canvas, ...rest })
+    // OrbitControls handles events immediately, even when the scene loop is paused.
+    const guardCanvasInput = event => {
+      if (this.session.state === 'running' && !this.ui.screen && !hasBlockingUi()) return
+      event.preventDefault()
+      event.stopImmediatePropagation()
+    }
+    const guardedEvents = ['pointerdown', 'pointermove', 'wheel']
+    for (const type of guardedEvents)
+      canvas.addEventListener(type, guardCanvasInput, { capture: true, passive: false })
+    this.session.scope.add(() => {
+      for (const type of guardedEvents) canvas.removeEventListener(type, guardCanvasInput, true)
+    })
     this.scene = new THREE.Scene()
     this.scene.userData.audio = this.sceneAudio
     this.audioWorldOffset = { x: 0, y: 0, z: 0 }

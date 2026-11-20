@@ -1,3 +1,4 @@
+import { icons } from '/core/io/icons.js'
 import Player from '/core3d/actor/Player.js'
 import { loadedModel } from '/core3d/assets/models.js'
 
@@ -7,6 +8,6 @@ export const model = { prefix: 'character/huntress/', file: 'capoeira-girl.fbx',
 export default class CapoeiraGirl extends Player {
   constructor(props = {}) {
     const mesh = loadedModel(model)
-    super({ mesh, animations: mesh.userData.animations, animDict, buttonDict: { attack: '💥', jump: '' }, ...props })
+    super({ mesh, animations: mesh.userData.animations, animDict, buttonDict: { attack: icons.unarmed, jump: '' }, ...props })
   }
 }

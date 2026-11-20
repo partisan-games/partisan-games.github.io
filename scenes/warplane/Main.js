@@ -40,7 +40,7 @@ export default class WarplaneScene extends Scene3D {
   constructor() {
     super({
       toon: true,
-      controlKeys: { ...baseControls, [attackLabels[inputOptions.attackKey]]: 'attack' },
+      controlKeys: { ...baseControls, [attackLabels[inputOptions.attackKey]]: 'shoot' },
       customStartScreen
     })
   }

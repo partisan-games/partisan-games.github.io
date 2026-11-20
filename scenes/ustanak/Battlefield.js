@@ -39,7 +39,8 @@ export default class Battlefield {
   update(dt) {
     this.time += dt
     this.villageFire.fireSound.setPlaying(this.round === 2)
-    this.city.update(dt, this.round === 3)
+    this.city.active = this.round === 3
+    this.city.update(dt)
   }
 
   landscape() {
@@ -61,7 +62,7 @@ export default class Battlefield {
     ctx.fillRect(0, groundY - 10, canvas.width, 10)
   }
 
-  render(round) {
+  render(round = this.round) {
     this.ctx.save()
     this.ctx.imageSmoothingEnabled = false
     if (round === 2 && this.village.complete && this.village.naturalWidth) {

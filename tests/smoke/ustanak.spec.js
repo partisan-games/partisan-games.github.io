@@ -61,7 +61,7 @@ for (const mode of [
     await expect.poll(() => onScene(page, scene => scene.turns.phase)).toBe('flight')
     await onScene(page, scene => {
       // Put this shot beyond the edge to exercise the normal miss and turn handover.
-      scene.top.projektili[0].setPosition(-100, scene.top.y)
+      scene.top.granate.projectiles[0].setPosition(-100, scene.top.y)
     })
     await expect(page.getByRole('heading', { name: mode.next, exact: true })).toBeVisible()
     expect(await onScene(page, scene => scene.canShoot(1))).toBe(true)
@@ -80,7 +80,7 @@ test('scene ustanak plays three distinct battlefields, restores rounds after pau
     await onScene(page, scene => scene.battlefield.loaded())
     backgrounds.push(await onScene(page, scene => Array.from(scene.canvas.getContext('2d')
       .getImageData(10, scene.canvas.height * .9, 1, 1).data).join(',')))
-    firingLines.push(await onScene(page, scene => [scene.top.y, scene.opponent.y, scene.top.projektili[0].groundLevel]))
+    firingLines.push(await onScene(page, scene => [scene.top.y, scene.opponent.y, scene.top.granate.projectiles[0].groundLevel]))
     await page.screenshot({ path: testInfo.outputPath(`round-${round}.png`) })
     await onScene(page, (scene, round) => {
       if (round === 1) scene.top.alive = false
@@ -121,7 +121,7 @@ test('scene ustanak computer ranges its opening shot instead of immediately hitt
   await expect.poll(() => onScene(page, scene => scene.canShoot(0)), turnNotice).toBe(true)
   expect(await onScene(page, scene => {
     const fired = scene.top.launch()
-    scene.top.projektili[0].setPosition(-100, scene.top.y)
+    scene.top.granate.projectiles[0].setPosition(-100, scene.top.y)
     return fired
   })).toBe(true)
   await expect.poll(() => onScene(page, scene => scene.opponent.hasActiveShot), { timeout: 10_000 }).toBe(true)
@@ -153,7 +153,7 @@ for (const match of [
         const target = winner === 0 ? scene.opponent : scene.top
         target.health.damage(99)
         if (!cannon.launch()) throw new Error('The staged round-ending shot was refused')
-        cannon.projektili.find(shell => shell.visible).strike(target)
+        cannon.granate.projectiles.find(shell => shell.visible).strike(target)
         scene.pause()
       }, winner)
       await expect(page.getByText('Game paused', { exact: true })).toBeVisible()

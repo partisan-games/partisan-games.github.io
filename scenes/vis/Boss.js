@@ -1,27 +1,17 @@
 import Enemy from './Enemy.js'
-import { settings } from './settings.js'
+/** Seconds before the boss flies away. */
+export const boss = { timeLimit: 35 }
 
-const { timeLimit } = settings.enemies.boss
-
-/** The big bomber at the end of a level: it sways across the upper screen, fires from its nose and wings, and flies away if it is not shot down in time. */
+/** The big bomber at the end of a level: it keeps its nose down wherever it flies and fires from its nose and wings. */
 export default class Boss extends Enemy {
   constructor({ session }) {
-    super({ session, type: 'boss', path: 'boss' })
+    super({ session, type: 'boss' })
+    this.angle = Math.PI
     this.gunIndex = 0
   }
 
   /** It keeps its nose down while it sways. */
-  fly(dt) {
-    super.fly(dt)
-    this.angle = Math.PI
-  }
-
-  routePosition(age = this.age) {
-    const position = super.routePosition(age)
-    const leaving = age - timeLimit
-    if (leaving > 0) position.y -= this.route.speed * 3 * leaving
-    return position
-  }
+  face() {}
 
   get hitsLeft() {
     return Math.max(this.hits, 0) / this.maxHits
