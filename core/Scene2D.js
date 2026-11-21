@@ -30,7 +30,10 @@ export default class Scene2D extends Scene {
     this.renderer.clear({ background: this.background, backgroundColor: this.backgroundColor })
   }
 
+  /** What the scene's camera shows; each scene has its own renderer, so the camera is the scene's alone. */
   render() {
+    this.renderer.cameraX = this.cameraX
+    this.renderer.cameraY = this.cameraY
     this.renderer.drawObjects(this.children)
   }
 }

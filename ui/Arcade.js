@@ -49,6 +49,24 @@ export default class Arcade {
     card.appendChild(slot)
   }
 
+  /** The original cabinet animation; spending the token still belongs to the game's Start button. */
+  async insertCoin(path) {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const card = this.cards.find(item => item.dataset.path === path)
+    const token = card?.querySelector('.arcade-slot .arcade-coin')
+    if (!token?.isConnected || !token.getClientRects().length) return
+    const from = token.getBoundingClientRect(), to = card.querySelector('.arcade-slot-mouth').getBoundingClientRect()
+    const x = to.left + to.width / 2 - from.left - from.width / 2
+    const y = to.top + to.height / 2 - from.top - from.height / 2
+    const animation = token.animate([
+      { transform: 'translateY(0) rotateY(0)', opacity: 1 },
+      { transform: `translate(${x * .7}px, ${y - 6}px) rotateY(65deg)`, opacity: 1, offset: .7 },
+      { transform: `translate(${x}px, ${y}px) rotateY(90deg) scale(.8)`, opacity: 0 },
+    ], { duration: 320, easing: 'ease-in', fill: 'forwards' })
+    await animation.finished.catch(() => {})
+    animation.cancel()
+  }
+
   handleStorage = event => {
     if (event.key === this.coins.storageKey || event.key === null) this.refresh()
   }

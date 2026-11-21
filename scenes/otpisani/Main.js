@@ -2,8 +2,10 @@ import { keys, attackLabels } from '/core/io/keys.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import Scene2D from '/core/Scene2D.js'
 import Background from '/core/objects/Background.js'
-import Occupier from '/core/actor/Occupier.js'
-import mouse from '/core/io/mouse.js'
+import Occupier from '/core/gameplay/bodies/soldiers/Occupier.js'
+import OccupierSprite from '/core/actor/soldiers/OccupierSprite.js'
+import { sideProjection } from '/core/actor/projection.js'
+import { showCrosshair, hideCrosshair } from '/core/io/crosshair.js'
 import { progresBar } from '/ui/components.js'
 import Health from '/core/gameplay/Health.js'
 import { randomInRange } from '/core/utils.js'
@@ -22,14 +24,18 @@ export default class OtpisaniScene extends Scene2D {
     this.player.shotSound = new Sound('pucanj.mp3', { profile: 'rifle', spatial: { getPosition: () => this.player.position } })
     this.player.sounds.push(this.player.shotSound)
     this.health = new Health()
+    // the occupiers, 1.8 m tall, walk on the street at three quarters of the screen's height, their middle 90 px above it
+    this.projection = sideProjection({ pxPerMeter: 100, groundY: this.height * .75 + 90 })
     this.background = new Background('background/rusevine-varsava.jpg')
     this.audio = new Sound('otpisani.mp3', { stream: true, profile: 'music', loop: true })
     this.player.sounds.push(this.audio)
     this.spawnElapsed = 0
+    /** The occupiers, `{ body, view }`. */
+    this.occupiers = []
     /** How long each occupier still walking has walked, and how long he walks before he fires, in seconds. */
     this.walks = new Map()
     this.dodajNeprijatelja()
-    mouse.showCrosshair(this.player.shotSound)
+    showCrosshair()
     this.intervalIzlaska = 3000
     this.poeni = 0
   }
@@ -38,12 +44,12 @@ export default class OtpisaniScene extends Scene2D {
   dodajNeprijatelja() {
     const walkTime = randomInRange(.7, 3.2)
     const fromLeft = Math.random() > .5
-    const occupier = new Occupier({
-      x: fromLeft ? 0 : this.width, y: this.height * .75, heading: fromLeft ? 1 : -1,
-      callback: dt => this.health.damage(dt * 5),
-    })
-    this.walks.set(occupier, { walked: 0, walkTime })
-    this.add(occupier)
+    const body = new Occupier({ ...this.projection.toWorld({ x: fromLeft ? 0 : this.width, y: this.height * .75 }),
+      yaw: fromLeft ? 0 : Math.PI })
+    const view = new OccupierSprite(body, { projection: this.projection })
+    this.occupiers.push({ body, view })
+    this.walks.set(body, { walked: 0, walkTime })
+    this.add(body, view)
   }
 
   /** Sets each occupier who has walked his while to fire; a fallen one walks no more. */
@@ -64,21 +70,30 @@ export default class OtpisaniScene extends Scene2D {
   handleClick(e) {
     if (this.session.state !== 'running' || this.ui.screen || this.ui.ended || this.ui.outro) return
     if (e.target.closest('button, input, select, a, #ui, #modal, dialog')) return
-    mouse.x = e.pageX
-    mouse.y = e.pageY
-    this.children.forEach(svabo => svabo.checkHit(() => this.poeni++))
+    this.player.shotSound.play()
+    for (const { body, view } of this.occupiers)
+      if (body.alive && Math.abs(e.pageX - view.x) < view.width / 2 && Math.abs(e.pageY - view.y) < view.height / 2) {
+        body.setState('dead')
+        this.poeni++
+      }
     this.audio.setPlaying(true)
+  }
+
+  /** Each occupier firing wears the defender down. */
+  takeFire(dt) {
+    for (const { body } of this.occupiers) if (body.state === 'fire') this.health.damage(dt * 5)
   }
 
   end() {
     super.end()
-    mouse.hideCrosshair()
+    hideCrosshair()
     this.audio.stop()
   }
 
   update(dt, t) {
     if (this.ui.outro) return
     super.update(dt, t)
+    this.takeFire(dt)
     this.attack(dt)
 
     this.spawnElapsed += dt

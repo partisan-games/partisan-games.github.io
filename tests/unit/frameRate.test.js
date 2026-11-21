@@ -22,8 +22,9 @@ async function createFranjoKluz(t) {
   const { default: FranjoKluz } = await import('/scenes/franjo-kluz/Main.js')
   const scene = new FranjoKluz()
   scene.init()
-  scene.player.input.end()
-  scene.player.input = new Input({ useKeyboard: true, useJoystick: false })
+  scene.input.end()
+  const keys = scene.controllers.find(controller => controller.input === scene.input)
+  scene.input = keys.input = new Input({ useKeyboard: true, useJoystick: false })
   scene.session.start() // a scene takes the player's keys only while its game runs
   t.after(() => {
     scene.clear = () => {} // happy-dom has no 2D canvas to draw the sky on
@@ -66,26 +67,26 @@ test('in franjo-kluz the plane rolls out on the ground as fast at 30 as at 60 fr
   const results = {}
   for (const fps of [60, 30]) {
     const scene = await createFranjoKluz(t)
-    // landed: images do not load in unit tests, so the plane has no height of its own
-    scene.player.height = 20
+    // on the runway, where the plane may roll: images do not load in unit tests, so the airfield has no width of its own
     scene.aerodrom.width = 400
-    // on the runway, where the plane may roll
-    scene.player.setPosition(scene.aerodrom.runway.left + 100, scene.player.groundY - 10)
-    scene.cameraX = scene.player.x - 200
+    const { player } = scene
+    player.x = (scene.aerodrom.runway.left + 100) / scene.projection.pxPerMeter
+    player.y = scene.groundAt(player.x) + player.size.height / 2
+    scene.cameraX = player.x * scene.projection.pxPerMeter - 200
     play(scene, .25, fps)
     results[fps] = scene.player.airspeed
   }
-  assert.ok(results[60] > 0 && results[60] < 312, `the plane slows down but still rolls: ${results[60]}`)
+  assert.ok(results[60] > 0 && results[60] < 14.2, `the plane slows down but still rolls: ${results[60]}`)
   assertSameAt30And60(fps => results[fps], 'airspeed on the ground')
 })
 
-test('a tenkici tank rolls as far at 30 as at 60 frames per second after a push', async() => {
-  const { default: TenkLevo } = await import('/scenes/tenkici/TenkLevo.js')
+test('a tank rolls as far at 30 as at 60 frames per second after a push', async() => {
+  const { default: Tank } = await import('/core/gameplay/bodies/vehicles/Tank.js')
   const { default: GameClock } = await import('/core/runtime/GameClock.js')
   assertSameAt30And60(fps => {
-    const tank = new TenkLevo({ x: 100, xLimit: 5000, clock: new GameClock() })
-    tank.addForce(100, 0)
+    const tank = new Tank({ x: 10, clock: new GameClock() })
+    tank.vx = 5
     for (let i = 0; i < fps; i++) tank.update(1 / fps)
-    return tank.x - 100
+    return tank.x - 10
   }, 'distance')
 })

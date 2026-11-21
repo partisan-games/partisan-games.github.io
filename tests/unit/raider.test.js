@@ -5,7 +5,7 @@ import Raider, { raid } from '/core/gameplay/controllers/Raider.js'
 /** A boat that records its state and the points it aims at. */
 function fakeBoat() {
   const boat = {
-    x: 900, y: 300, lane: 500, born: 0, bursts: 0, alive: true, course: Math.PI, state: 'idle', aimed: [],
+    x: 90, z: 30, lane: 50, born: 0, bursts: 0, alive: true, course: Math.PI, state: 'idle', aimed: [],
     aimAt(point) {
       boat.aimed.push(point)
       return true
@@ -17,24 +17,24 @@ function fakeBoat() {
   return boat
 }
 
-const view = { width: 1000, height: 600 }
+const viewWidth = () => 100
 
-function raider(target = { x: 100, y: 300, alive: true, shown: true }) {
+function raider(target = { x: 10, z: 30, alive: true, shown: true }) {
   const clock = { now: 0 }
   const boat = fakeBoat()
-  return { clock, boat, target, raider: new Raider(boat, target, { clock, view }) }
+  return { clock, boat, target, raider: new Raider(boat, target, { clock, viewWidth, sees: seen => seen.shown }) }
 }
 
 test('a raider heads along its lane for a point ahead of the target and fires at it', () => {
   const { boat, target, raider: ai } = raider()
   ai.update()
   assert.equal(boat.state, 'fire')
-  assert.equal(boat.course, Math.atan2(boat.lane - boat.y, target.x + view.width * raid.ahead - boat.x))
+  assert.equal(boat.course, Math.atan2(-(boat.lane - boat.z), target.x + viewWidth() * raid.ahead - boat.x))
   assert.deepEqual(boat.aimed, [target])
 })
 
 test('a raider sails without firing at a target out of sight', () => {
-  const { boat, raider: ai } = raider({ x: 100, y: 300, alive: true, shown: false })
+  const { boat, raider: ai } = raider({ x: 10, z: 30, alive: true, shown: false })
   ai.update()
   assert.equal(boat.state, 'sail')
 })

@@ -31,8 +31,10 @@ export default class Body {
     return this.machine.name
   }
 
+  /** Enters `name`; set to `dead`, it dies whatever its health. */
   setState(name) {
     if (name !== this.state) this.stateTime = 0
+    if (name === 'dead' && this.alive) this.health.damage(this.health.current)
     this.machine.set(name)
   }
 

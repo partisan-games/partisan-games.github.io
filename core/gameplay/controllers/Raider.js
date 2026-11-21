@@ -5,27 +5,24 @@
 export const raid = { ahead: .5, bursts: 2, seconds: 10 }
 
 /**
- * A boat's raid: it heads along its lane for a point ahead of the target, firing at the target while it lives and is
- * in sight, and withdraws for good after its bursts or its time. The body has `x`, `y`, `lane` (the height it sails at),
- * `born` (when its pass began on `clock`), `bursts`, `course`, `aimAt(point)` and the states `sail`, `fire` and
- * `withdraw`; `view` has the `width` of the view.
+ * A boat's raid, seen from above: it heads along its lane for a point ahead of the target, firing at the target while
+ * it lives and the boat `sees(target)`, and withdraws for good after its bursts or its time on the game `clock`. The
+ * body has `x`, `z`, `lane` (the z it sails at), `born` (when its pass began), `bursts`, `course`, `aimAt(point)` and
+ * the states `sail`, `fire` and `withdraw`; `viewWidth()` gives the width of the view in metres.
  */
 export default class Raider {
-  constructor(body, target, { clock, view }) {
-    this.body = body
-    this.target = target
-    this.clock = clock
-    this.view = view
+  constructor(body, target, { clock, viewWidth, sees }) {
+    Object.assign(this, { body, target, clock, viewWidth, sees })
   }
 
   update() {
-    const { body, target, view } = this
+    const { body, target } = this
     if (!body.alive) return
     if (body.state === 'withdraw' || this.clock.now - body.born > raid.seconds || body.bursts >= raid.bursts)
       body.setState('withdraw')
     else {
-      body.course = Math.atan2(body.lane - body.y, target.x + view.width * raid.ahead - body.x)
-      body.setState(target.alive && target.shown ? 'fire' : 'sail')
+      body.course = Math.atan2(-(body.lane - body.z), target.x + this.viewWidth() * raid.ahead - body.x)
+      body.setState(target.alive && this.sees(target) ? 'fire' : 'sail')
     }
     body.aimAt(target)
   }

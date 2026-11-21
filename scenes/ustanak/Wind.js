@@ -1,10 +1,10 @@
 import Sound from '/core/io/audio/SoundSource.js'
 
 /**
- * How strong the wind of a round is at least and at most, either way, in px per second squared on a shell; and by how
- * much that strength is multiplied for the speed, in px per second, at which it carries smoke and fire.
+ * How strong the wind of a round is at least and at most, either way, in metres a second squared on a shot; and by
+ * how much that strength is multiplied for the speed, in px per second, at which it carries smoke and fire.
  */
-export const wind = { min: 8, max: 16, drift: 1.5 }
+export const wind = { min: .2, max: .4, drift: 60 }
 
 export default class Wind {
   constructor({ random = Math.random } = {}) {

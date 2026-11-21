@@ -1,11 +1,11 @@
-import TrenchSoldier, * as trenchSoldierModule from '/core/actor/soldiers/TrenchSoldier.js'
-import { put } from './helpers.js'
+import TrenchSoldier, * as trenchSoldierModule from '/core/gameplay/bodies/soldiers/TrenchSoldier.js'
+import TrenchSoldierSprite from '/core/actor/soldiers/TrenchSoldierSprite.js'
 
 /** A soldier in his trench on the ground line, as near as the near row of the game. */
 const trench = faction => stage => {
-  const block = new TrenchSoldier({ scale: 1, faction })
-  block.setPosition(stage.width / 2, stage.groundY)
-  return put(stage, block)
+  const body = new TrenchSoldier({ x: stage.width / 2 / stage.projection.pxPerMeter })
+  stage.add(body, new TrenchSoldierSprite(body, { faction, projection: stage.projection, camera: stage }))
+  return body
 }
 
 const game = 'Neretva'

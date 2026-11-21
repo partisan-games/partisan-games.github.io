@@ -151,18 +151,23 @@ export default class UI {
   }
 
   /**
-   * Shows the token on every button that starts a paid game (`data-paid`), disables those buttons with none left and
-   * shows the pocket; called again when the pocket changes. An unknown pocket leaves them working, as it is not empty.
+   * Shows the token of a paid game on each button that starts it (`data-paid`); several pictures to choose from, which
+   * are not buttons, share one token by the screen's title. Disables them with none left and shows the pocket; called
+   * again when the pocket changes. An unknown pocket leaves them working, as it is not empty.
    */
   markPaid() {
     if (this.ended || drawnBy.get(modalElement) !== this) return
     const left = admission.remaining()
-    const paid = modalElement.querySelectorAll('[data-paid]')
+    const paid = [...modalElement.querySelectorAll('[data-paid]')]
     // the pocket shows how many tokens are left while a screen asks for one
     document.body.classList.toggle('paid-screen', paid.length > 0)
+    modalElement.querySelectorAll('.price').forEach(price => price.remove())
+    const pictures = paid.filter(element => !element.matches('button'))
+    const priced = pictures.length > 1
+      ? [...paid.filter(element => element.matches('button')), modalElement.querySelector('h2, h3') ?? pictures[0]]
+      : paid
+    for (const element of priced) element.insertAdjacentHTML('beforeend', priceTag(left !== 0))
     for (const element of paid) {
-      element.querySelector('.price')?.remove()
-      element.insertAdjacentHTML('beforeend', priceTag(left !== 0))
       element.classList.add('paid')
       const control = element.matches('button, input') ? element : element.querySelector('button, input')
       if (control) control.disabled = left === 0

@@ -37,8 +37,8 @@ export default class PowerUps {
   }
 
   update() {
-    const picked = this.player.alive ? this.items.filter(item => this.player.collidesWith(item)) : []
-    picked.forEach(item => this.player.powerUp(item.kind))
+    const picked = this.player.alive ? this.items.filter(item => this.scene.touches(item)) : []
+    picked.forEach(item => this.scene.powerUp(item.kind))
 
     const done = this.items.filter(item => picked.includes(item) || item.gone)
     if (!done.length) return

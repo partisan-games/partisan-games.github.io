@@ -1,6 +1,9 @@
 import GameObject2D from '/core/actor/GameObject2D.js'
 import { canvas2d, ctx } from '/core/io/canvas2d.js'
 
+/** Where the runway runs up the picture: across it, and its near end and the place a landed plane stands, down it. */
+const runway = { x: .478, start: .76, stop: .6 }
+
 export default class Baza extends GameObject2D {
   constructor({ speed, ...rest }) {
     super('vis.png', { x: 0, y: -canvas2d.height, z: 1, width: canvas2d.width, origin: 'GORE_LEVO', shadow: false, ...rest })
@@ -15,6 +18,17 @@ export default class Baza extends GameObject2D {
 
   leave() {
     this.leaving = true
+  }
+
+  /** Whether it has scrolled in and stands still under the plane. */
+  get arrived() {
+    return !this.leaving && this.y + this.korak >= 0
+  }
+
+  /** The near end of the runway and the place a landed plane stands, on the screen. */
+  get runway() {
+    const point = share => ({ x: this.width * runway.x, y: this.y + this.height * share })
+    return { start: point(runway.start), stop: point(runway.stop) }
   }
 
   get gone() {

@@ -94,7 +94,7 @@ const customStartScreen = ({ container, button }) => `
 `
 ```
 
-Prosledi ga u `super({ customStartScreen })`. U `handleClick(e)` proveri da je cilj odgovarajuće dugme i da su `this.ui.screen === 'start'` i `this.session.state === 'ready'`, zatim primeni izbor i pozovi `this.start()`. Ako izbor učitava resurse, spreči duplu aktivaciju i posle svakog `await` proveri da ista scena/pokušaj još važi. [Vis](../scenes/vis/Main.js#L64) je postojeći primer lokalnog izbora; [Ustanak](../scenes/ustanak/Main.js#L226) primer posebnog prozora runde. Prikaz i dozvola za akciju ostaju odvojeni i kod njih.
+Prosledi ga u `super({ customStartScreen })`. U `handleClick(e)` proveri da je cilj odgovarajuće dugme i da su `this.ui.screen === 'start'` i `this.session.state === 'ready'`, zatim primeni izbor i pozovi `this.start()`. Ako izbor učitava resurse, spreči duplu aktivaciju i posle svakog `await` proveri da ista scena/pokušaj još važi. [Vis](../scenes/vis/Main.js) je postojeći primer lokalnog izbora; [Ustanak](../scenes/ustanak/Main.js#L226) primer posebnog prozora runde. Prikaz i dozvola za akciju ostaju odvojeni i kod njih.
 
 ## HUD, pokazatelji i poruke
 
@@ -126,7 +126,7 @@ Danas poruka koristi tri sekunde zidnog vremena. Aktivni prozor skriva već prik
 
 Dodele i oznake tastera potiču iz [keys](../core/io/keys.js), a prikaz uputstava iz [Controls](../ui/Controls.js). Kroz `controlKeys` biraj samo postojeće sposobnosti svoje igre, po potrebi sastavljene sa `baseControls`. `showControls` upravlja prikazom tog uputstva; ne uključuje/isključuje same kontrole i podrazumevano je isključen na touch uređaju.
 
-[Input](../core/io/Input.js) spaja tastaturu i [Touch](../core/io/Touch.js). Postojeća konfiguracija razlikuje značenje ulaza od njegovog simbola, kao u [Visu](../scenes/vis/Avionce.js#L20):
+[Input](../core/io/Input.js) spaja tastaturu i [Touch](../core/io/Touch.js). Postojeća konfiguracija razlikuje značenje ulaza od njegovog simbola, kao u [Visu](../scenes/vis/Main.js):
 
 ```js
 import { icons } from '/core/io/icons.js'

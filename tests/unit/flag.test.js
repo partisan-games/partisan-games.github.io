@@ -11,7 +11,7 @@ before(() => {
 })
 
 test('flags share a wave, face the battlefield and keep their cloth inside the screen', async t => {
-  const Flag = (await import('/scenes/ustanak/Zastava.js')).default
+  const Flag = (await import('/core/actor/soldiers/Flag.js')).default
   const { ctx } = await import('/core/io/canvas2d.js')
   const clock = { time: .25 }
   const flags = [

@@ -71,39 +71,38 @@ Primeri sa `import` pokreću se kao ES moduli dok lokalni server projekta radi; 
 
 ## Kako to izgleda u našem tenku
 
-Stvarni [Tenk](../scenes/tenkici/Tenk.js) i dalje nasleđuje [GameObject2D](../core/actor/GameObject2D.js), koji mu daje položaj, sliku i osnovno ažuriranje. Unutar konstruktora sastavlja dodatna ponašanja:
+Telo [Tank](../core/gameplay/bodies/vehicles/Tank.js) nasleđuje samo [Body](../core/gameplay/bodies/Body.js), koji mu daje položaj, brzinu, stanja i zdravlje. Unutar konstruktora sastavlja dodatne delove:
 
 ```js
-// Skraćen fragment konstruktora Tenk; clock i granate su već dostupni.
-this.health = new Health({ maximum: 100 })
-this.weapon = new Weapon({
-  cooldown: new Cooldown({ seconds: 1, clock }),
-  spawnProjectile: (position, angle) => this.granate.fire(position, angle, 500),
-})
+// Skraćen fragment konstruktora Tank; clock, groundAt i random su opcije.
+this.reload = new Cooldown({ seconds: reloadTime, clock })
+this.shells = new ProjectilePool(() => new Shell({ gravity: tank.shellGravity, groundAt, random }))
 ```
 
-`Health`, `Weapon` i `Cooldown` se u tom modulu uvoze iz `core/gameplay/`. Tenk povezuje delove; svaki deo ima ograničen posao:
+`Cooldown` i bazen projektila se uvoze iz `core/gameplay/`. Tenk povezuje delove; svaki deo ima ograničen posao:
 
 | Deo | Zna | Ne odlučuje o |
 |---|---|---|
 | [Health](../core/gameplay/Health.js) | Trenutnom i maksimalnom zdravlju | Trzaju, crtanju i pobedi |
 | [Cooldown](../core/gameplay/Cooldown.js) | Roku do sledeće radnje | Izgledu i vrsti projektila |
-| [Weapon](../core/gameplay/Weapon.js) | Prihvatanju hica i cevima | Tome da li puca tenk ili avion |
-| [ProjectilePool](../core/actor/ProjectilePool.js) | Projektilima jednog vlasnika | Uslovu pobede cele igre |
-| [Tenk](../scenes/tenkici/Tenk.js) | Povezivanju svojih delova i trzaju | Pravilima svih drugih igara |
+| [ProjectilePool](../core/gameplay/bodies/projectiles/ProjectilePool.js) | Projektilima jednog vlasnika i njihovim pogocima | Uslovu pobede cele igre |
+| [Tank](../core/gameplay/bodies/vehicles/Tank.js) | Povezivanju svojih delova i trzaju | Tasterima, crtežu i pravilima igre |
 
-Kada tenk pokuša da puca, njegova metoda delegira posao oružju, odnosno poziva ga:
+Kada tenk puca, pita svoje delove, a crtež i zvuk pokreće [prikaz](../core/actor/vehicles/TankSprite.js) kad vidi da je broj hitaca porastao:
 
 ```js
-// Metoda klase Tenk.
-fire(position, angle) {
-  if (this.weapon.tryFire(position, angle)) this.trzaj()
+// Metoda klase Tank.
+shoot() {
+  if (this.dead || !this.canFire() || !this.reload.ready) return false
+  this.reload.start()
+  this.shells.fire(this.muzzle, this.yaw, this.elevation, tank.shellSpeed)
+  this.shotsFired++
+  this.vx -= this.forward * tank.recoil
+  return true
 }
 ```
 
-Ako je oružje spremno, ono poziva prosleđeni `spawnProjectile`, a tenk pravi trzaj. Oružje ne mora da nasleđuje tenk, poznaje `this.granate` ili zna kako se crta granata. Tu vezu određuje callback koji mu je tenk dao.
-
-Za drugačije oružje možeš sastaviti `Weapon` sa drugim trajanjem punjenja, brojem cevi ili callbackom. Ne treba ti nova grana klasa poput `TenkSaDveCevi` samo da bi promenio broj cevi. Ako varijanta ima i druga posebna pravila, zasebna klasa i dalje može imati smisla.
+Za drugačiji top možeš sastaviti drugo trajanje punjenja ili drugi projektil kroz opcije. Ne treba ti nova grana klasa samo da bi promenio broj cevi. Ako varijanta ima i druga posebna pravila, zasebna vrsta i dalje može imati smisla.
 
 ## Ponašanje možeš da proslediš spolja
 
@@ -148,7 +147,7 @@ Granata se sastoji od putanje i borbenog pravila: `firstContact` kaže šta je p
 
 ## Kada zadržati nasleđivanje
 
-Nasleđivanje odgovara kada podklasa može da se koristi na mestu roditelja i deli njegov osnovni ugovor. U ovom projektu `TenkLevo` i `TenkDesno` nasleđuju `Tenk`; oba ostaju tenkovi, sa istim osnovnim operacijama. Konkretna igra nasleđuje `Scene2D` ili `Scene3D` da bi radila kroz postojeći životni ciklus scene.
+Nasleđivanje odgovara kada podklasa može da se koristi na mestu roditelja i deli njegov osnovni ugovor. U ovom projektu svaka vrsta tela, kao `Tank` ili `Fighter`, nasleđuje `Body`, i to je jedini nivo; partizanski i nemački tenk su isto telo sa drugom vrstom (`tankKinds`), ne podklase. Konkretna igra nasleđuje `Scene2D` ili `Scene3D` da bi radila kroz postojeći životni ciklus scene.
 
 Kompozicija odgovara ponašanju koje treba različitim vrstama objekata: zdravlje tenku i zgradi, oružje tenku i avionu. Tada se promena tog ponašanja održava u njegovom malom objektu, a ne u zajedničkom pretku svih tih vrsta.
 

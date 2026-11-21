@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="sr-Latn"><meta charset="utf-8"><title>Hummel — opaljenje i trzaj</title>
+<style>body{margin:24px;background:#20261d;color:#eee;font:16px system-ui}p{max-width:800px}a{color:#ffdc8b}button,select{font:inherit}label,button{display:inline-block;margin:0 18px 14px 0}canvas,img{image-rendering:pixelated}canvas{background:#59634a}.strip{overflow:auto}</style>
+<h1>Hummel: opaljenje i trzaj</h1>
+<p>Izvorni trup, gusenice, tri člana posade i oslonac ostaju isti. Pomiče se izloženi deo cevi; postojeći plamen prelazi u dim i nestaje.</p>
+<button id="play">Opali</button><label><input type="checkbox" id="left"> Ulevo</label>
+<label><input type="checkbox" id="guides"> Oslonac i sidrište</label>
+<label>Veličina <select id="scale"><option value="1">1× — igra</option><option value="2">2×</option></select></label>
+<div><canvas id="view" width="576" height="152"></canvas></div><p id="status"></p>
+<div class="strip"><img src="game-size.png" width="864" height="456" alt="Izvorno mirovanje i šest kadrova opaljenja u veličini igre"></div>
+<p><a href="fire.gif">GIF sa pauzom na kraju</a> · <a href="sprites.json">Metapodaci i poreklo</a></p>
+<p>Pripremljen art za pregled vlasnika. Hummel u igri još nema logiku pucanja; povezivanje se radi posebno.</p>
+<script>
+const asset=__FIRE_METADATA__,clip=asset.animations[0];
+const canvas=document.querySelector('#view'),ctx=canvas.getContext('2d');
+const atlas=new Image(),ready=new Image();atlas.src=asset.image;ready.src='ready-reference.png';
+let frame=5,started=0,animation=0,loaded=false;
+let reference;const frames=[];
+function pose(image,x){
+ ctx.save();ctx.translate(x+144,20+117);ctx.scale(document.querySelector('#left').checked?-1:1,1);
+ ctx.drawImage(image,-144,-117);
+ ctx.restore();
+}
+function draw(){
+ ctx.clearRect(0,0,576,152);ctx.imageSmoothingEnabled=false;pose(reference,0);pose(frames[frame],288);
+ ctx.fillStyle='#ffdf97';ctx.font='11px sans-serif';ctx.fillText('Original',8,13);ctx.fillText('Opaljenje '+frame,296,13);
+ if(document.querySelector('#guides').checked){ctx.strokeStyle='#efcb83';ctx.beginPath();ctx.moveTo(0,137.5);ctx.lineTo(576,137.5);ctx.stroke();ctx.fillStyle='#ff6262';for(const x of [144,432])ctx.fillRect(x-2,135,4,4);}
+ document.querySelector('#status').textContent=`Kadar ${frame}/5 · trzaj ${asset.packing.recoilPixels[frame]} px · ${frame===5?'spreman položaj, bez plamena i dima':'napad'}`;
+}
+function tick(now){const t=now-started;let end=0;frame=5;for(let i=0;i<6;i++){end+=clip.frameDurationsMs[i];if(t<end){frame=i;break;}}draw();if(t<800)animation=requestAnimationFrame(tick);}
+Promise.all([atlas.decode(),ready.decode()]).then(async()=>{
+ // Scale at the same origin once: fractional-scale GPU sampling can differ across the preview panels.
+ const gameSize=image=>{const c=document.createElement('canvas');c.width=288;c.height=132;const p=c.getContext('2d');p.imageSmoothingEnabled=false;p.drawImage(image,0,0,288,132);return c;};
+ reference=gameSize(ready);
+ for(let i=0;i<6;i++){const bitmap=await createImageBitmap(atlas,i*384,0,384,176);frames.push(gameSize(bitmap));bitmap.close();}
+ loaded=true;draw();
+});
+document.querySelector('#play').onclick=()=>{if(!loaded)return;cancelAnimationFrame(animation);started=performance.now();animation=requestAnimationFrame(tick);};
+for(const id of ['left','guides'])document.querySelector('#'+id).onchange=()=>loaded&&draw();
+document.querySelector('#scale').onchange=e=>{const n=Number(e.target.value);canvas.style.width=576*n+'px';canvas.style.height=152*n+'px';};
+</script></html>

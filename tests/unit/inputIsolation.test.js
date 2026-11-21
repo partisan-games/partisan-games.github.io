@@ -154,17 +154,20 @@ test('touch catalog preserves missing, empty and unknown bindings and their orde
 test('shooting handlers reject inactive phases and UI clicks, and aim at the triggering click', async t => {
   const { default: Neretva } = await import('/scenes/neretva/Main.js')
   const { default: Otpisani } = await import('/scenes/otpisani/Main.js')
-  const { default: mouse } = await import('/core/io/mouse.js')
   const canvas = document.getElementById('platno')
   const button = document.createElement('button')
   document.body.append(button)
   t.after(() => button.remove())
   for (const SceneType of [Neretva, Otpisani]) {
-    let hits = 0
+    let shots = 0, hits = 0, aim = null
+    // a soldier standing in each row and an occupier, all drawn where the click lands
+    const target = { body: { alive: true, standing: true, setState: () => hits++ }, view: { x: 123, y: 45, width: 10, height: 10 } }
     const scene = {
-      session: { state: 'ready' }, ui: { screen: null }, energija: 100,
-      proveriPogotke: () => hits++, daljiRovovi: [], bliziRovovi: [],
-      children: [{ checkHit: () => hits++ }], audio: { setPlaying() {} },
+      session: { state: 'ready' }, ui: { screen: null }, energija: 100, player: { shotSound: { play: () => shots++ } },
+      proveriPogotke: (rows, point) => {
+        aim = point; hits++
+      },
+      daljiRovovi: [target], bliziRovovi: [target], occupiers: [target], audio: { setPlaying() {} },
     }
     const click = target => SceneType.prototype.handleClick.call(scene, { target, pageX: 123, pageY: 45 })
     for (const state of ['loading', 'ready', 'paused', 'finished', 'disposed']) {
@@ -175,12 +178,11 @@ test('shooting handlers reject inactive phases and UI clicks, and aim at the tri
     click(button)
     scene.ui.screen = 'pause'
     click(canvas)
-    assert.equal(hits, 0)
+    assert.equal(shots + hits, 0)
     scene.ui.screen = null
-    mouse.x = mouse.y = 999
     click(canvas)
+    assert.equal(shots, 1)
     assert.equal(hits, 1)
-    assert.equal(mouse.x, 123)
-    assert.equal(mouse.y, 45)
+    if (SceneType === Neretva) assert.deepEqual(aim, { x: 123, y: 45 })
   }
 })

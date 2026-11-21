@@ -1,5 +1,5 @@
 import Body from '../Body.js'
-import { segmentBoxEntry } from '../../../collision/sweep.js'
+import { firstHit, along } from './hits.js'
 
 /** Metres a second squared it falls, the seconds its burst lasts before the target is damaged, and the damage. */
 export const shell = { gravity: 9.8, burst: .15, damage: { min: 10, max: 20 } }
@@ -39,7 +39,7 @@ const states = {
  */
 export default class Shell extends Body {
   constructor({ gravity = shell.gravity, burst = shell.burst, groundAt = () => 0, bounds = null, random = Math.random, ...rest } = {}) {
-    super({ size: { length: .3, height: .3, width: .3 }, ...rest, states })
+    super({ size: { length: .26, height: .26, width: .26 }, ...rest, states })
     Object.assign(this, { gravity, burst, groundAt, bounds, random })
     this.target = null
     this.damage = 0
@@ -73,24 +73,12 @@ export default class Shell extends Body {
 
   /** The first living one of `targets` this step crossed, with the share of the step where it entered. */
   firstHit(targets) {
-    const { path } = this
-    if (!path) return null
-    let first = null
-    for (const target of targets) {
-      if (target.dead) continue
-      const local = point => ({ x: point.x - target.x, y: point.y - target.y, z: point.z - (target.z ?? 0) })
-      const start = local(path.start), end = local(path.end)
-      const time = segmentBoxEntry(start, end, target.size.length / 2, target.size.height / 2)
-      if (time === null || Math.abs(start.z + (end.z - start.z) * time) > target.size.width / 2) continue
-      if (!first || time < first.time) first = { target, time }
-    }
-    return first
+    return firstHit(this.path, targets)
   }
 
   /** Bursts where it entered the target; the damage follows when the burst ends. */
   strike({ target, time }) {
-    const { start, end } = this.path
-    for (const axis of ['x', 'y', 'z']) this[axis] = start[axis] + (end[axis] - start[axis]) * time
+    Object.assign(this, along(this.path, time))
     this.target = target
     this.setState('burst')
   }

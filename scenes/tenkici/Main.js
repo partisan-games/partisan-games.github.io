@@ -16,7 +16,7 @@ import { randomInRange } from '/core/utils.js'
 
 const groundLevel = canvas2d.height * 0.8
 /** The battlefield is this many metres wide, whatever the screen, so the tanks keep their size to it. */
-export const fieldLength = 85
+export const fieldLength = 74.8
 /**
  * The battlefields in the order the rounds are fought, going on into the next match and starting over after the last
  * (owner's decision): the Srem front in autumn 1944, Batina, the Srem breakthrough in 1945, then the older pictures.
@@ -25,7 +25,7 @@ export const battlefieldOrder = ['sremFront1944', 'batina', 'sremFront1945', 'ci
 let nextBattlefield = 0
 
 const customStartScreen = ({ container }) => /* html */`
-  <div class="central-screen ${container}">
+  <div class="central-screen flex-column ${container}">
     <h2>Choose mode</h2>
     <button class="bg-olive" id="jedan-igrac" data-paid>
       1 player
@@ -59,7 +59,7 @@ export default class TenkiciScene extends Scene2D {
     const { clock } = this.session
     const half = fieldLength / 2
     this.tenk = new Tank({ kind: tankKinds.partisan, x: randomInRange(0, fieldLength * .3), clock, bounds: { min: 0, max: half } })
-    this.tenk2 = new Tank({ kind: tankKinds.german, x: randomInRange(fieldLength * .7, fieldLength) - 4.5, yaw: Math.PI, clock,
+    this.tenk2 = new Tank({ kind: tankKinds.german, x: randomInRange(fieldLength * .7, fieldLength) - 3.96, yaw: Math.PI, clock,
       bounds: { min: half, max: fieldLength } })
     this.tenk.targets.push(this.tenk2)
     this.tenk2.targets.push(this.tenk)
@@ -113,7 +113,7 @@ export default class TenkiciScene extends Scene2D {
 
   showRoundResult() {
     this.ui.showScreen('round', /* html */`
-      <div class="central-screen simple-container">
+      <div class="central-screen flex-column simple-container">
         <h3>Round ${this.round}: ${this.sideName(this.roundWinner)} wins!</h3>
         <p>${this.score.join(' : ')}</p>
         ${mainMenuButton('bg-olive')}

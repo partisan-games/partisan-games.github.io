@@ -4,7 +4,7 @@
  */
 export const lead = speed => (target, body) => {
   const time = Math.hypot(target.x - body.x, target.y - body.y) / speed
-  return { x: target.x + target.dx * time, y: target.y + target.dy * time }
+  return { x: target.x + target.vx * time, y: target.y + target.vy * time }
 }
 
 /**

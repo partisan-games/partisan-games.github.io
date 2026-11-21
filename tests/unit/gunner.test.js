@@ -69,8 +69,8 @@ test('a gunner does not ask a body to aim at a target out of reach', () => {
 
 test('a gunner that leads aims where the target will be when the shot reaches it', () => {
   const body = fakeBody({ reach: 1000 })
-  const plane = { ...target(300, -400), dx: 100, dy: -50 }
+  const plane = { ...target(300, -400), vx: 100, vy: -50 }
   new Gunner(body, plane, lead(250)).update()
-  assert.deepEqual(body.aimed, [{ x: 500, y: -500 }], 'the shot flies 500 px, two seconds')
+  assert.deepEqual(body.aimed, [{ x: 500, y: -500 }], 'the shot flies 500 m, two seconds')
   assert.equal(body.state, 'fire')
 })

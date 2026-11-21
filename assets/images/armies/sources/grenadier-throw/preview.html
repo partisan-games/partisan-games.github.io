@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="sr-Latn">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bombaš · bacanje bombe</title>
+<style>
+  * { box-sizing: border-box }
+  body { margin: 0; background: #171c18; color: #eceee3; font: 16px/1.5 system-ui, sans-serif }
+  main { max-width: 1060px; margin: auto; padding: 32px 22px 56px }
+  h1 { font-size: 28px; margin: 0 0 8px }
+  p { max-width: 78ch; color: #c1c7b6 }
+  button, select { color: inherit; background: #333e31; border: 1px solid #718164; border-radius: 4px; padding: 8px 14px; font: inherit }
+  button { cursor: pointer }
+  button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid #f2cd72; outline-offset: 3px }
+  .controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 18px 0 }
+  canvas { max-width: 100%; height: auto; display: block; background: #59634a; image-rendering: pixelated; border: 1px solid #859375 }
+  .timeline { display: flex; gap: 16px; flex-wrap: wrap; align-items: center }
+  input[type=range] { flex: 1; min-width: 220px; accent-color: #f2cd72 }
+  output { min-width: 240px; color: #f2cd72; font-variant-numeric: tabular-nums }
+  img { max-width: 100%; height: auto; image-rendering: pixelated }
+  a { color: #e7d294 }
+  small { color: #c1c7b6 }
+</style>
+<main>
+<h1>Bombaš · bacanje bombe</h1>
+<p>Osam kadrova prema postojećem liku: spreman položaj, privlačenje bombe, zamah, otpuštanje, izmah i povratak prazne ruke. Ovo je pregled arta i tajminga; bacanje još nije povezano sa igrom.</p>
+<div class="controls">
+  <button id="play" type="button">Baci</button>
+  <button id="pause" type="button">Pauza</button>
+  <button id="reset" type="button">Reset</button>
+  <label>Veličina <select id="scale"><option value="1">1× · veličina igre</option><option value="3" selected>3× · pikseli</option></select></label>
+  <label><input id="mirror" type="checkbox"> Ogledaj</label>
+  <label><input id="loop" type="checkbox"> Ponavljaj probu</label>
+  <label><input id="marker" type="checkbox"> Tačka otpuštanja</label>
+</div>
+<canvas id="stage" width="900" height="300" aria-label="Originalni bombaš levo, animacija bacanja desno">Pregled zahteva Canvas.</canvas>
+<div class="controls timeline">
+  <label for="time">Vreme</label>
+  <input id="time" type="range" min="0" max="800" value="0" step="10">
+  <output id="status" for="time">Učitavanje…</output>
+</div>
+<p><strong>Otpuštanje: početak petog kadra, 0,40 s.</strong> Od tog trenutka šaka je prazna; poslednji kadar ostaje zadržan. „Reset” započinje novu probu sa novom bombom. Oznaka tačke je pomoćna mera, nije deo spritea.</p>
+<p><small>Ćelija 66×72 px; sidrište (33,36), linija oslonca y=70. Strelica označava smer u ravni slike. Stvarni smer i brzinu bombe određuje buduće telo aktera. Ogledanje koristi isto sidrište i za lik i za šaku.</small></p>
+<h2>Svi kadrovi u veličini igre</h2>
+<img src="game-size.png" width="594" height="92" alt="Original i osam kadrova; peti označava otpuštanje bombe">
+<p><a href="throw.gif">Animirani GIF</a> · <a href="sprites.json">Kadrovi i trenutak otpuštanja</a> · <a href="generation.json">Izvori i tačni promptovi</a></p>
+</main>
+<script id="asset" type="application/json">{"id": "bombas-throw", "title": "Bombas: overarm hand-grenade throw", "image": "../../game-ready/vojnici/bombas-throw-sprites.png", "frame": {"width": 66, "height": 72, "columns": 8, "rows": 1}, "anchor": {"x": 33, "y": 36}, "groundAnchor": {"x": 33, "y": 70}, "source": "throw-generated.png", "sourceSha256": "277c0743864f7ab65d79f09a59e5b7ee8f1eef2f06b1b4f860544ee02acc5e81", "reference": "../infantry-art/bombas-standing-reference.png", "referenceSha256": "813704b0161d2b66e57de2750489f5675e5c4852dd57731e43fa1d14ff95be4d", "sha256": "72e312f818f2518451ed5d2036cd8488498f9e4b7132d36a6bd9ab13b5306ada", "animations": [{"name": "throw", "state": "attack", "row": 0, "frameCount": 8, "duration": 0.8, "frameDurationsMs": [100, 100, 100, 100, 80, 100, 100, 120], "loop": false, "release": {"frameIndex": 4, "atSeconds": 0.4, "hand": {"x": 14, "y": 9}, "direction": {"x": -1, "y": 0}, "heldBeforeRelease": true, "emptyHandFromRelease": true}, "end": "hold empty-hand frame 7; gameplay owns replenishing the next grenade"}], "packing": {"sourceCanvas": [1536, 1024], "sourceGrid": [4, 2], "sourceCell": [384, 512], "fixedCrop": [27, 90, 357, 450], "contentSize": [64, 70], "contentOffset": [1, 0], "alphaThreshold": 128, "reason": "Common fixed scale places every boot on y=70, matching the original visible contact line."}, "frameBounds": [[3, 1, 62, 70], [18, 1, 62, 70], [14, 1, 62, 70], [19, 0, 63, 70], [10, 0, 62, 70], [6, 1, 62, 70], [13, 1, 62, 70], [3, 1, 62, 70]], "integration": "Prepared separate art only. Accepted 3-row atlas, runtime, story and collision bounds unchanged.", "handoff": {"referenceHeading": "throw toward screen-left; release hand is in unmirrored cell pixels", "worldMapping": "Consumer maps pose direction to its projection; do not infer velocity from this art.", "mirror": "Reflect the complete actor about anchor.x; reflect release hand by the same transform.", "releaseRule": "Spawn once when action time crosses 0.4s, including a dt that skips frame 4.", "cancelRule": "Cancel before release: no grenade. After release: projectile remains independent.", "notImplemented": ["gameplay throwing", "grenade physics", "grenade inventory", "game/stories integration", "sound"]}}</script>
+<script type="module">
+const art = JSON.parse(document.getElementById('asset').textContent)
+const clip = art.animations[0]
+const canvas = document.getElementById('stage')
+const ctx = canvas.getContext('2d')
+const time = document.getElementById('time')
+const status = document.getElementById('status')
+const scale = document.getElementById('scale')
+const mirror = document.getElementById('mirror')
+const marker = document.getElementById('marker')
+const loop = document.getElementById('loop')
+const duration = clip.frameDurationsMs.reduce((sum, ms) => sum + ms, 0)
+time.max = duration
+let elapsed = 0, running = false, previous = null, wait = 0
+const load = src => new Promise((resolve, reject) => {
+  const image = new Image()
+  image.onload = () => resolve(image)
+  image.onerror = () => reject(new Error('Slika nije učitana: ' + src))
+  image.src = src
+})
+try {
+  const [sheet, reference] = await Promise.all([load(art.image), load(art.reference)])
+  const frameAt = milliseconds => {
+    let end = 0
+    for (let i = 0; i < clip.frameCount; i++) {
+      end += clip.frameDurationsMs[i]
+      if (milliseconds < end) return i
+    }
+    return clip.frameCount - 1
+  }
+  const drawActor = (image, frame, x, y, zoom, flipped) => {
+    ctx.save()
+    ctx.translate(x, y)
+    ctx.scale(flipped ? -zoom : zoom, zoom)
+    ctx.drawImage(image, frame * art.frame.width, 0, art.frame.width, art.frame.height,
+      -art.anchor.x, -art.anchor.y, art.frame.width, art.frame.height)
+    ctx.restore()
+  }
+  const draw = () => {
+    const zoom = Number(scale.value), frame = frameAt(elapsed), flipped = mirror.checked
+    const left = 225, right = 675, middle = 165
+    ctx.imageSmoothingEnabled = false
+    ctx.fillStyle = '#59634a'
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+    ctx.font = '16px system-ui'
+    ctx.fillStyle = '#f0f1e8'
+    ctx.textAlign = 'center'
+    ctx.fillText('Original · spremna bomba', left, 30)
+    ctx.fillText('Bacanje · kadar ' + (frame + 1), right, 30)
+    ctx.strokeStyle = '#899777'
+    ctx.beginPath()
+    ctx.moveTo(90, middle + (art.groundAnchor.y - art.anchor.y) * zoom)
+    ctx.lineTo(810, middle + (art.groundAnchor.y - art.anchor.y) * zoom)
+    ctx.stroke()
+    drawActor(reference, 0, left, middle, zoom, flipped)
+    drawActor(sheet, frame, right, middle, zoom, flipped)
+    if (marker.checked && frame === clip.release.frameIndex) {
+      const x = right + (clip.release.hand.x - art.anchor.x) * zoom * (flipped ? -1 : 1)
+      const y = middle + (clip.release.hand.y - art.anchor.y) * zoom
+      ctx.strokeStyle = '#ffda6c'
+      ctx.beginPath()
+      ctx.moveTo(x - 6, y); ctx.lineTo(x + 6, y)
+      ctx.moveTo(x, y - 6); ctx.lineTo(x, y + 6)
+      ctx.stroke()
+    }
+    time.value = elapsed
+    status.value = (elapsed / 1000).toFixed(2) + ' s · ' + (frame + 1) + '/8 · ' +
+      (elapsed >= clip.release.atSeconds * 1000 ? 'prazna šaka' : 'bomba u šaci')
+  }
+  document.getElementById('play').onclick = () => { elapsed = 0; wait = 0; previous = null; running = true; draw() }
+  document.getElementById('pause').onclick = () => { running = false; previous = null }
+  document.getElementById('reset').onclick = () => { elapsed = 0; wait = 0; running = false; previous = null; draw() }
+  time.oninput = () => { running = false; previous = null; elapsed = Number(time.value); draw() }
+  for (const input of [scale, mirror, marker]) input.onchange = draw
+  document.addEventListener('visibilitychange', () => { previous = null })
+  const update = stamp => {
+    const dt = previous === null ? 0 : stamp - previous
+    previous = stamp
+    if (running && !document.hidden) {
+      if (elapsed < duration) elapsed = Math.min(duration, elapsed + dt)
+      else if (loop.checked) {
+        wait += dt
+        if (wait >= 900) { elapsed = 0; wait = 0 }
+      } else running = false
+      draw()
+    }
+    requestAnimationFrame(update)
+  }
+  draw()
+  requestAnimationFrame(update)
+} catch (error) {
+  status.textContent = error.message
+}
+</script>
+</html>
+

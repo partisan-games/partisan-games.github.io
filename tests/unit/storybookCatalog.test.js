@@ -17,7 +17,7 @@ const stories2D = () => stories().filter(({ story }) => !story.stage)
 
 /** A story on a stage that lives its frames one by one, drawing nothing: happy-dom has no canvas. */
 function staged(t, story) {
-  const stage = new Stage2D()
+  const stage = new Stage2D({ pxPerMeter: story.pxPerMeter })
   stage.clear = stage.render = () => {}
   t.after(() => stage.end())
   const block = story.create(stage)
@@ -57,7 +57,7 @@ test('every block fires each shot it lists, where it aims', t => {
     for (const name of Object.keys(block.shots ?? {})) {
       const { block: shooter, live } = staged(t, story)
       const shot = shooter.shots[name]
-      shooter.aimAt({ x: shooter.x + shooter.forward * shot.x, y: shooter.y + shot.y })
+      shooter.aimAt({ x: shooter.x + shooter.forward * shot.x, y: shooter.y + shot.y, z: (shooter.z ?? 0) + (shot.z ?? 0) })
       shooter.setState('fire')
       // a first shot waits up to a whole reload, and the barrel turns first
       assert.ok(live(5, () => fired(shooter)), `${story.id} ${name}`)

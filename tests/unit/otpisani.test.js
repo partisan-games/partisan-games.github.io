@@ -14,9 +14,9 @@ test('an occupier walks in from an edge for a while, then fires at the player un
   scene.init()
   scene.clear = () => {}
   t.after(() => scene.end())
-  const [occupier] = scene.children
-  assert.ok([0, scene.width].includes(occupier.x))
-  assert.equal(occupier.forward, occupier.x === 0 ? 1 : -1, 'he walks into the view')
+  const [{ body: occupier, view }] = scene.occupiers
+  assert.ok([0, scene.width].includes(view.x))
+  assert.equal(occupier.forward, view.x === 0 ? 1 : -1, 'he walks into the view')
   const { walkTime } = scene.walks.get(occupier)
   scene.update(walkTime - .05, 0)
   assert.equal(occupier.state, 'walk')
@@ -24,7 +24,8 @@ test('an occupier walks in from an edge for a while, then fires at the player un
   assert.equal(occupier.state, 'fire')
   scene.update(1, 0)
   assert.ok(scene.energija < 100)
-  occupier.die()
+  // the dead fire no more; one who came in meanwhile falls too, before he could fire
+  for (const { body } of scene.occupiers) body.setState('dead')
   const health = scene.energija
   scene.update(1, 0)
   assert.equal(scene.energija, health)

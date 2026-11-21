@@ -7,8 +7,8 @@ let controls, fighterModule, riflemanModule, Stage2D, kinds
 before(async() => {
   createPageElements()
   controls = await import('/storybook/controls.js')
-  fighterModule = await import('/core/actor/aircraft/Fighter.js')
-  riflemanModule = await import('/core/actor/soldiers/Rifleman.js')
+  fighterModule = await import('/core/gameplay/bodies/aircraft/Fighter.js')
+  riflemanModule = await import('/core/gameplay/bodies/soldiers/Rifleman.js')
   ;({ default: Stage2D } = await import('/storybook/Stage2D.js'))
   ;({ default: kinds } = await import('/storybook/stories/index.js'))
 })
@@ -16,9 +16,9 @@ before(async() => {
 afterEach(() => controls.restore())
 
 test('controls come from the settings objects a block exports, not from its class', () => {
-  assert.deepEqual(controls.settingsOf(fighterModule).map(([name]) => name), ['fighter', 'wreckFall'])
+  assert.deepEqual(controls.settingsOf(fighterModule).map(([name]) => name), ['fighter'])
   const html = controls.controlsHtml(fighterModule)
-  assert.match(html, /data-setting="fighter.speed" min="0" max="1800"/, 'a slider to four times the first value')
+  assert.match(html, /data-setting="fighter.health" min="0" max="160"/, 'a slider to four times the first value')
 })
 
 test('a single constant, a list or an object with words gets no controls; a nested object and a yes/no do', () => {
@@ -33,7 +33,7 @@ test('a single constant, a list or an object with words gets no controls; a nest
 })
 
 test('a module without settings objects has no controls', async() => {
-  assert.equal(controls.controlsHtml(await import('/scenes/ustanak/Zastavnik.js')), '')
+  assert.equal(controls.controlsHtml(await import('/scenes/ustanak/Turns.js')), '')
 })
 
 test('a changed setting holds in the block made next, and restoring gives the first value back', t => {
@@ -43,8 +43,8 @@ test('a changed setting holds in the block made next, and restoring gives the fi
   t.after(() => stage.end())
   controls.settingsOf(story.block)
   controls.change(story.block, 'rifle.reload', 5)
-  assert.equal(story.create(stage).cooldown.seconds, 5)
+  assert.equal(story.create(stage).reload.seconds, 5)
   controls.restore()
   assert.equal(riflemanModule.rifle.reload, 2)
-  assert.equal(story.create(stage).cooldown.seconds, 2)
+  assert.equal(story.create(stage).reload.seconds, 2)
 })

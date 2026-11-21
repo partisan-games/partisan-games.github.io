@@ -12,6 +12,7 @@ export const arcade = new Arcade()
 if (arcade.isLocal) document.querySelector('.dev-links')?.removeAttribute('hidden')
 
 let navigation = 0
+let openingCabinet = false
 
 const showError = title => {
   modalElement.innerHTML = /* html */`
@@ -79,12 +80,23 @@ if (location.hash) route()
 else if (window.innerWidth >= 800)
   manager.start('lookat-cursor', false).catch(console.error)
 
-document.addEventListener('click', e => {
+document.addEventListener('click', async e => {
   const button = e.target.closest('button')
   const card = e.target.closest('.menu-item[data-path]')
 
-  // a card opens its game for free; a game with a start screen asks for a token at its start
-  if (card) location.hash = card.dataset.path
+  // Finish the cabinet animation before routing; the game asks for a token at Start.
+  if (card) {
+    if (openingCabinet || location.hash) return
+    openingCabinet = true
+    const currentNavigation = navigation
+    try {
+      await arcade.insertCoin(card.dataset.path)
+      if (currentNavigation === navigation && !location.hash) location.hash = card.dataset.path
+    } finally {
+      openingCabinet = false
+    }
+    return
+  }
 
   if (button?.id === 'menu')
     location.hash = ''

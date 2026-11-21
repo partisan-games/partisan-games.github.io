@@ -1,34 +1,25 @@
-import { test, before } from 'node:test'
+import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { createPageElements } from './helpers/dom.js'
-import Wind from '/scenes/ustanak/Wind.js'
+import Wind, { wind as settings } from '/scenes/ustanak/Wind.js'
+import FieldGun from '/core/gameplay/bodies/artillery/FieldGun.js'
 
-let Top
-
-before(async() => {
-  createPageElements()
-  Top = (await import('/scenes/ustanak/Top.js')).default
-})
-
-test('round wind stays constant, can be disabled and is shared by both cannons', () => {
+test('the wind of a round stays the same, can be switched off and carries the shots of both guns alike', () => {
   const wind = new Wind({ random: () => .75 })
-  const left = new Top({ x: 200, y: 300, wind })
-  const right = new Top({ x: 800, y: 300, wind, direction: -1 })
+  const guns = [new FieldGun({ x: 20, wind }), new FieldGun({ x: 80, yaw: Math.PI, wind })]
   const strength = wind.acceleration
-  assert.ok(strength >= 8 && strength <= 16)
-  for (const cannon of [left, right]) {
-    const shell = cannon.granate.projectiles[0]
-    shell.launch({ x: 500, y: -100 }, 0, 0)
-    shell.update(.1)
-    assert.equal(shell.dx, strength * .1)
-    assert.equal(wind.acceleration, strength)
+  assert.ok(strength >= settings.min && strength <= settings.max)
+  for (const gun of guns) {
+    const ball = gun.shells.fire({ x: 50, y: 30, z: 0 }, 0, 0, 0)
+    ball.update(.1)
+    assert.ok(Math.abs(ball.vx - strength * .1) < 1e-12)
     wind.enabled = false
-    const before = shell.dx
-    shell.update(.1)
-    assert.equal(shell.dx, before)
+    const before = ball.vx
+    ball.update(.1)
+    assert.equal(ball.vx, before)
     wind.enabled = true
   }
+  assert.equal(wind.acceleration, strength)
   wind.random = () => .25
   wind.nextRound()
-  assert.ok(wind.acceleration < 0, 'a new round may change direction')
+  assert.ok(wind.acceleration < 0, 'a new round may change its way')
 })

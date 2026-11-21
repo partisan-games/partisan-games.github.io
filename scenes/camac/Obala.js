@@ -2,13 +2,16 @@ import canvas2d, { ctx } from '/core/io/canvas2d.js'
 
 const lerp = (a, b, t) => a + (b - a) * t
 
+/** How wide each bank is on average, in pixels: wide enough for a machine-gun nest. */
+export const bankWidth = 53
+
 export default class Obala {
   constructor(viewLeft = () => 0) {
     this.viewLeft = viewLeft
     this.position = { z: 1 }
     this.noiseResolution = 75
     this.opsegSuma = 10
-    this.sirinaReke = canvas2d.height - this.noiseResolution * .75
+    this.sirinaReke = canvas2d.height - 2 * bankWidth
     this.seed = Math.floor(Math.random() * 0x100000000)
   }
 

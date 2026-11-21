@@ -42,7 +42,7 @@ test('children are updated with their owner, behind objects come first, and each
   assert.deepEqual(world.objects, [])
 })
 
-test('controllers take input and decide before the objects, and end with the world', () => {
+test('controllers take input and decide before the objects move; an object reading keys does so itself, never twice', () => {
   const world = new World()
   const log = []
   world.controllers.push({ handleInput: () => log.push('keys'), update: () => log.push('decide'), end: () => log.push('end controller') })
@@ -50,5 +50,5 @@ test('controllers take input and decide before the objects, and end with the wor
   world.handleInput(1 / 30)
   world.update(1 / 30)
   world.end()
-  assert.deepEqual(log, ['keys', 'object input', 'decide', 'move', 'end controller', 'end object'])
+  assert.deepEqual(log, ['keys', 'decide', 'move', 'end controller', 'end object'])
 })

@@ -4,11 +4,4 @@ export default class Mina extends GameObject2D {
   constructor(params) {
     super('items/nagazna.png', { scale: .75, flammable: true, ...params })
   }
-
-  proveriSudar(telo) {
-    if (this.collidesWith(telo)) {
-      this.die()
-      telo.die()
-    }
-  }
 }

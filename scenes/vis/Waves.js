@@ -1,13 +1,21 @@
 import canvas2d from '/core/io/canvas2d.js'
 import PathFlight from '/core/gameplay/controllers/PathFlight.js'
 import Gunner from '/core/gameplay/controllers/Gunner.js'
-import Enemy from './Enemy.js'
-import Boss, { boss } from './Boss.js'
+import AttackPlane, { attackPlaneKinds } from '/core/gameplay/bodies/aircraft/AttackPlane.js'
+import AttackPlaneSprite from '/core/actor/aircraft/AttackPlaneSprite.js'
 import { formationMembers } from './formations.js'
 import { paths } from './paths.js'
 import { settings } from './settings.js'
 
-/** Where a plane of a wave is t seconds into its flight, shifted across its path for its place in the formation. */
+/** Seconds before the boss flies away, and seconds a shot down plane falls before it is gone. */
+export const boss = { timeLimit: 35 }
+export const fall = { seconds: 2 }
+/** Pixels past the edge where a plane that has flown off the screen is gone. */
+const outside = 150
+
+const pick = list => list[Math.floor(Math.random() * list.length)]
+
+/** Where a plane of a wave is t seconds into its flight, in pixels, shifted across its path for its place. */
 const route = ({ path = 'straight', x = Math.random(), y = .1, side = 'left', across = 0, speed }) => t => {
   const position = paths[path].position(t, { x, y, side, speed, width: canvas2d.width, height: canvas2d.height })
   position[paths[path].across] += across
@@ -26,15 +34,14 @@ const bossRoute = speed => {
 }
 
 /**
- * Sends the waves of a level into the scene at their times and takes out the planes that are gone.
- * When a formation is shot down to the last plane, it calls onFormationDown with where that plane fell.
+ * Sends the waves of a level into the scene at their times and takes out the planes that are gone. Each plane is
+ * `{ type, body, view, flight, gunner }`. When a formation is shot down to the last plane, it calls
+ * `onFormationDown` with where that plane fell, in pixels. The scene gives the `projection` and the `player` they fire
+ * at, and `canFire(body)`.
  */
 export default class Waves {
-  constructor({ scene, player, schedule, onFormationDown = () => {} }) {
-    this.scene = scene
-    this.player = player
-    this.schedule = schedule
-    this.onFormationDown = onFormationDown
+  constructor({ scene, player, schedule, projection, canFire, onFormationDown = () => {} }) {
+    Object.assign(this, { scene, player, schedule, projection, canFire, onFormationDown })
     this.time = 0
     this.next = 0
     this.enemies = []
@@ -51,7 +58,7 @@ export default class Waves {
   }
 
   get boss() {
-    return this.enemies.find(enemy => enemy instanceof Boss)
+    return this.enemies.find(plane => plane.type === 'boss')
   }
 
   update(dt) {
@@ -63,70 +70,65 @@ export default class Waves {
   }
 
   launch(wave) {
-    const { session } = this.scene
-    const planes = wave.enemy === 'boss' ? [this.bossPlane(session)] : this.formation(wave, session)
-    planes.forEach(plane => plane.targets.push(this.player))
+    const planes = wave.enemy === 'boss' ? [this.plane('boss', bossRoute(settings.enemies.boss.speed))] : this.formation(wave)
     if (planes.length > 1) this.formations.push({ planes, lastAlive: planes[0] })
     this.enemies.push(...planes)
-    this.player.targets.push(...planes)
-    this.scene.add(...planes)
+    for (const plane of planes) {
+      this.scene.targets.push(plane.body)
+      this.scene.controllers.push(plane.flight, plane.gunner)
+      this.scene.add(plane.body, plane.view)
+    }
   }
 
-  bossPlane(session) {
-    const position = bossRoute(settings.enemies.boss.speed)
-    return this.pilot(new Boss({ session }), { position })
-  }
-
-  formation({ enemy = 'fighter', formation, count, path, x, y, side }, session) {
+  formation({ enemy = 'fighter', formation, count, path, x, y, side }) {
     const { speed } = settings.enemies[enemy]
     return formationMembers({ formation, count, gap: settings.formationGap, speed })
-      .map(({ across, delay }) => {
-        const position = route({ path, x, y, side, across, speed })
-        return this.pilot(new Enemy({ session, type: enemy }), { position, delay })
-      })
+      .map(({ across, delay }) => this.plane(enemy, route({ path, x, y, side, across, speed }), delay))
   }
 
-  /**
-   * Flies a plane along its route and fires it at the player while it is on the screen. Its engine is heard once
-   * its flight has begun, after its delay behind the formation's leader.
-   */
-  pilot(plane, course) {
-    const flight = new PathFlight(plane, course)
-    const gunner = new Gunner(plane, this.player)
-    plane.engineRunning = flight.started
-    plane.controller = {
-      flight,
-      gunner,
-      update: dt => {
-        flight.update(dt)
-        plane.engineRunning = flight.started
-        gunner.update()
-      },
-    }
-    return plane
+  /** A plane flown along its route, in pixels, that fires at the player while it may. */
+  plane(type, path, delay = 0) {
+    const body = new AttackPlane({ kind: attackPlaneKinds[type], clock: this.scene.session.clock, targets: [this.player],
+      view: this.scene.screenView })
+    body.canFire = () => this.canFire(body)
+    const view = new AttackPlaneSprite(body, { src: pick(settings.enemies[type].images), projection: this.projection })
+    const position = t => this.projection.toWorld(path(t))
+    const flight = new PathFlight(body, { position, delay })
+    return { type, body, view, flight, gunner: new Gunner(body, this.player), entered: false }
   }
 
   /** A formation is down when none of its planes flies; the one alive in the last frame fell last. */
   checkFormations() {
     this.formations = this.formations.filter(formation => {
-      const alive = formation.planes.filter(plane => plane.alive)
+      const alive = formation.planes.filter(plane => plane.body.alive)
       if (!alive.length) {
-        const { x, y } = formation.lastAlive
-        this.onFormationDown({ x, y })
+        this.onFormationDown(this.projection.point(formation.lastAlive.body))
         return false
       }
       formation.lastAlive = alive[0]
-      return alive.some(plane => !plane.gone) // a plane that has flown away cannot be shot down any more
+      return alive.some(plane => !this.isGone(plane)) // a plane that has flown away cannot be shot down any more
     })
   }
 
-  removeGone() {
-    const gone = this.enemies.filter(enemy => enemy.gone)
-    if (!gone.length) return
+  /** A plane that has flown onto the screen and far out again is gone, and a shot down one once it has fallen. */
+  isGone(plane) {
+    const { body } = plane
+    if (body.dead) return body.stateTime >= fall.seconds
+    const { x, y } = this.projection.point(body)
+    const onScreen = x >= 0 && x <= canvas2d.width && y >= 0 && y <= canvas2d.height
+    if (onScreen) plane.entered = true
+    return plane.entered && (x < -outside || x > canvas2d.width + outside || y < -outside || y > canvas2d.height + outside)
+  }
 
-    const stays = enemy => !gone.includes(enemy)
-    this.scene.remove(...gone)
-    this.enemies = this.enemies.filter(stays)
-    this.player.targets = this.player.targets.filter(stays)
+  removeGone() {
+    const gone = this.enemies.filter(plane => this.isGone(plane))
+    if (!gone.length) return
+    for (const plane of gone) {
+      this.scene.remove(plane.body, plane.view)
+      this.scene.targets.splice(this.scene.targets.indexOf(plane.body), 1)
+      const kept = this.scene.controllers.filter(controller => controller !== plane.flight && controller !== plane.gunner)
+      this.scene.controllers.splice(0, this.scene.controllers.length, ...kept)
+    }
+    this.enemies = this.enemies.filter(plane => !gone.includes(plane))
   }
 }

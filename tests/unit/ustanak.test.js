@@ -2,13 +2,28 @@ import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 import Turns from '/scenes/ustanak/Turns.js'
+import { fieldGun } from '/core/gameplay/bodies/artillery/FieldGun.js'
 
-let keyboard
+let keyboard, Scene
 
 before(async() => {
   createPageElements()
   ;({ keyboard } = await import('/core/io/Keyboard.js'))
+  Scene = (await import('/scenes/ustanak/Main.js')).default
 })
+
+/** A running Ustanak scene, which the test plays step by step. */
+function createScene(t) {
+  const scene = new Scene()
+  scene.init()
+  scene.clear = () => {}
+  t.after(() => {
+    keyboard.reset()
+    scene.end()
+  })
+  scene.session.start()
+  return scene
+}
 
 test('only the active artillery side may fire and the turn changes once after settlement', () => {
   const turns = new Turns()
@@ -23,73 +38,57 @@ test('only the active artillery side may fire and the turn changes once after se
   assert.equal(turns.settle(false), false)
 })
 
-test('the scene routes shared keys only to the active human cannon', async t => {
-  const Scene = (await import('/scenes/ustanak/Main.js')).default
-  const scene = new Scene()
-  scene.init()
-  scene.clear = () => {}
-  t.after(() => {
-    keyboard.reset()
-    scene.end()
-  })
-  scene.session.start()
+test('the scene routes shared keys only to the active human gun', t => {
+  const scene = createScene(t)
   scene.vsComputer = false
   scene.turns.waitForRelease = false
+  const [own, enemy] = scene.guns
   keyboard.pressed.Space = true
   scene.handleInput(.5)
-  assert.equal(scene.top.sila, 450)
-  assert.equal(scene.opponent.sila, 300)
+  assert.equal(own.force, fieldGun.minForce + fieldGun.chargeRate * .5)
+  assert.equal(enemy.force, fieldGun.minForce)
   keyboard.pressed.Space = false
   scene.handleInput(.01)
+  scene.update(0, 0)
   assert.equal(scene.turns.phase, 'flight')
   keyboard.pressed.Space = true
   scene.handleInput(.5)
-  assert.equal(scene.opponent.sila, 300)
-  scene.top.granate.projectiles.forEach(shell => shell.reset())
+  assert.equal(enemy.force, fieldGun.minForce)
+  own.shells.projectiles.forEach(shell => shell.setState('idle'))
   scene.update(.01, .01)
   assert.equal(scene.turns.active, 1)
   assert.equal(scene.ui.message, 'Player 2\'s turn')
   scene.session.update(1.2)
   scene.handleInput(.5)
-  assert.equal(scene.opponent.sila, 300, 'held fire does not transfer to the next player')
+  assert.equal(enemy.force, fieldGun.minForce, 'held fire does not transfer to the next player')
   keyboard.pressed.Space = false
   scene.handleInput(.01)
   keyboard.pressed.Space = true
   scene.handleInput(.5)
-  assert.equal(scene.opponent.sila, 450)
-  assert.equal(scene.top.sila, 300)
+  assert.equal(enemy.force, fieldGun.minForce + fieldGun.chargeRate * .5)
+  assert.equal(own.force, fieldGun.minForce)
 })
 
-test('a player can charge and fire while the opening instructions remain visible', async t => {
-  const Scene = (await import('/scenes/ustanak/Main.js')).default
-  const scene = new Scene()
-  scene.init()
-  scene.clear = () => {}
-  t.after(() => {
-    keyboard.reset()
-    scene.end()
-  })
-  scene.session.start()
+test('a player can charge and fire while the opening instructions remain visible', t => {
+  const scene = createScene(t)
   scene.announceTurn()
   scene.handleInput(0)
   keyboard.pressed.Space = true
   scene.handleInput(.2)
-  assert.ok(scene.top.sila > scene.top.minSila)
+  assert.ok(scene.guns[0].charged)
+  assert.equal(scene.crews[0].state, 'load', 'the crew loads while fire is held')
   keyboard.pressed.Space = false
   scene.handleInput(0)
+  scene.update(0, 0)
   assert.equal(scene.turns.phase, 'flight')
-  assert.equal(scene.top.hasActiveShot, true)
+  assert.equal(scene.guns[0].hasActiveShot, true)
+  assert.equal(scene.crews[0].state, 'fire', 'and fires the shot')
   assert.equal(scene.announcingTurn, true)
   assert.match(scene.ui.messageElement.textContent, /Hold Space/)
 })
 
-test('turn announcements inform without blocking play and wait through a pause', async t => {
-  const Scene = (await import('/scenes/ustanak/Main.js')).default
-  const scene = new Scene()
-  scene.init()
-  scene.clear = () => {}
-  t.after(() => scene.end())
-  scene.session.start()
+test('turn announcements inform without blocking play and wait through a pause', t => {
+  const scene = createScene(t)
   scene.announceTurn()
   assert.equal(scene.ui.messageElement.querySelector('h3').textContent, 'Your turn')
   assert.match(scene.ui.messageElement.textContent, /Hold Space/)
@@ -105,8 +104,7 @@ test('turn announcements inform without blocking play and wait through a pause',
   scene.turns.settle(false)
   scene.announceTurn()
   assert.equal(scene.ui.messageElement.querySelector('h3').textContent, 'Computer\'s turn')
-  assert.equal(scene.canShoot(1), true)
-  scene.session.update(1.2)
+  assert.equal(scene.crews[1].state, 'load', 'the computer\'s crew loads')
   assert.equal(scene.canShoot(1), true)
   scene.vsComputer = false
   scene.turns.active = 0
@@ -114,23 +112,17 @@ test('turn announcements inform without blocking play and wait through a pause',
   assert.equal(scene.ui.messageElement.querySelector('h3').textContent, 'Player 1\'s turn')
 })
 
-test('round transitions preserve scores, alternate opening sides and cancel old impacts and input', async t => {
-  const Scene = (await import('/scenes/ustanak/Main.js')).default
-  const scene = new Scene()
-  scene.init()
-  scene.clear = () => {}
-  scene.session.start()
+test('round transitions preserve scores, alternate opening sides and cancel old impacts and input', t => {
+  const scene = createScene(t)
   scene.vsComputer = false
-  t.after(() => {
-    keyboard.reset()
-    scene.end()
-  })
-  scene.opponent.width = 100
-  scene.opponent.launch()
-  const shell = scene.opponent.granate.projectiles[0]
-  shell.checkHit({ collidesWith: () => true, takeHit: damage => scene.top.takeHit(damage) })
-  scene.top.sila = 700
-  scene.opponent.alive = false
+  const [own, enemy] = scene.guns
+  scene.turns.active = 1
+  enemy.launch()
+  const [shell] = enemy.shells.projectiles
+  shell.update(0)
+  shell.strike({ target: own, time: 0 })
+  own.force = 70
+  enemy.setState('dead')
   scene.update(0, 0)
   assert.deepEqual(scene.score, [1, 0])
   assert.equal(scene.session.state, 'running')
@@ -146,19 +138,18 @@ test('round transitions preserve scores, alternate opening sides and cancel old 
   assert.equal(scene.turns.waitForRelease, true)
   assert.equal(keyboard.isDown({ codes: ['Space'] }), false)
   assert.equal(scene.ai.nextForce, null)
-  assert.equal(scene.opponent.hasActiveShot, false)
-  assert.equal(shell.timerId, null)
-  assert.equal(scene.top.sila, scene.top.minSila)
-  scene.session.update(2)
-  assert.equal(scene.top.energija, 100, 'old impact cannot damage the new round')
-  assert.equal(scene.opponent.energija, 100)
-  scene.top.alive = false
+  assert.equal(scene.children.includes(own), false, 'the guns of the last round are gone')
+  assert.equal(scene.guns[0].charged, false)
+  scene.update(2, 2)
+  assert.equal(scene.guns[0].health.current, 100, 'an old impact cannot damage the new round')
+  assert.equal(scene.guns[1].health.current, 100)
+  scene.guns[0].setState('dead')
   scene.update(0, 0)
   assert.deepEqual(scene.score, [1, 1])
   scene.nextRound()
   assert.equal(scene.round, 3)
   assert.equal(scene.turns.active, 0)
-  scene.opponent.alive = false
+  scene.guns[1].setState('dead')
   scene.update(0, 0)
   assert.equal(scene.session.state, 'finished')
   assert.match(scene.ui.outro, /Player 1 wins the match/)
@@ -169,15 +160,10 @@ test('round transitions preserve scores, alternate opening sides and cancel old 
   assert.deepEqual(scene.score, [2, 1])
 })
 
-test('two computer round wins end the match with a defeat', async t => {
-  const Scene = (await import('/scenes/ustanak/Main.js')).default
-  const scene = new Scene()
-  scene.init()
-  scene.clear = () => {}
-  scene.session.start()
-  t.after(() => scene.end())
+test('two computer round wins end the match with a defeat', t => {
+  const scene = createScene(t)
   for (let i = 0; i < 2; i++) {
-    scene.top.alive = false
+    scene.guns[0].setState('dead')
     scene.update(0, 0)
     if (i === 0) scene.nextRound()
   }
@@ -187,51 +173,40 @@ test('two computer round wins end the match with a defeat', async t => {
   assert.equal(scene.canShoot(1), false)
 })
 
-test('the scene shares one ground between both cannons and their crews, and a new round levels it', async t => {
-  const Scene = (await import('/scenes/ustanak/Main.js')).default
-  const scene = new Scene()
-  scene.init()
-  scene.clear = () => {}
-  t.after(() => scene.end())
-  scene.session.start()
-  for (const cannon of [scene.top, scene.opponent])
-    assert.ok(cannon.granate.projectiles.every(shell => shell.ground === scene.terrain))
+test('both guns and their crews stand on one ground that the shots dig, and a new round levels it', t => {
+  const scene = createScene(t)
   assert.equal(scene.terrain.view, scene.battlefield.ground)
-  const crewY = scene.enemyCrew.y
-  scene.terrain.blast(scene.enemyCrew.x)
-  scene.update(1)
-  assert.equal(scene.enemyCrew.y, crewY + scene.terrain.heightAt(scene.enemyCrew.x) - scene.terrain.floorY)
-  assert.ok(scene.enemyCrew.y > crewY)
+  const crew = scene.crews[1]
+  const feet = () => crew.y - crew.size.height / 2
+  assert.equal(feet(), 0)
+  scene.terrain.blast(scene.projection.point(crew).x)
+  for (let i = 0; i < 30; i++) scene.update(1 / 30, 0)
+  assert.ok(Math.abs(feet() - scene.groundAt(crew.x)) < 1e-9)
+  assert.ok(feet() < 0, 'it fell into the crater')
 
   scene.finishRound(0)
   scene.nextRound()
-  assert.equal(scene.terrain.heightAt(scene.enemyCrew.x), scene.terrain.floorY)
+  assert.equal(scene.groundAt(crew.x), 0)
   assert.deepEqual(scene.battlefield.ground.cuts, [])
-  assert.equal(scene.enemyCrew.y, crewY)
+  assert.equal(scene.crews[1].y - scene.crews[1].size.height / 2, 0)
 })
 
 for (const windEnabled of [false, true])
   for (const terrainEnabled of [false, true])
-    test(`wind=${windEnabled} and terrain=${terrainEnabled} affect a landing independently and survive a new round`, async t => {
-      const Scene = (await import('/scenes/ustanak/Main.js')).default
-      const scene = new Scene()
-      scene.init()
-      scene.clear = () => {}
-      t.after(() => scene.end())
-      scene.session.start()
+    test(`wind=${windEnabled} and terrain=${terrainEnabled} affect a landing independently and survive a new round`, t => {
+      const scene = createScene(t)
       scene.vsComputer = false
       scene.wind.enabled = windEnabled
       scene.terrain.enabled = terrainEnabled
-      scene.wind.strength = 12
+      scene.wind.strength = .3
 
-      const shell = scene.top.granate.projectiles[0]
-      shell.launch({ x: 500, y: scene.terrain.floorY - 10 }, Math.PI / 2, 100)
-      shell.update(.1)
-      shell.resolveFlight([])
-      assert.ok(shell.timerId, 'the shot really reached the ground')
+      const ball = scene.guns[0].shells.fire({ x: 12.5, y: .25, z: 0 }, 0, -Math.PI / 2, 2.5)
+      ball.update(.1)
+      ball.strike(ball.firstHit([]))
+      assert.equal(ball.state, 'burst', 'the shot really reached the ground')
       assert.equal(scene.terrain.heightAt(500) > scene.terrain.floorY, terrainEnabled)
-      // Landing stops the shell; its swept path preserves the horizontal drift before impact.
-      const drift = shell.path.end.x - shell.path.start.x
+      // landing stops the ball; its swept path keeps the drift before it
+      const drift = ball.path.end.x - ball.path.start.x
       if (windEnabled) assert.ok(drift > 0)
       else assert.ok(Math.abs(drift) < 1e-9)
 
@@ -240,7 +215,6 @@ for (const windEnabled of [false, true])
       assert.equal(scene.wind.enabled, windEnabled)
       assert.equal(scene.terrain.enabled, terrainEnabled)
       assert.equal(scene.terrain.heightAt(500), scene.terrain.floorY)
-      assert.equal(shell.timerId, null)
       assert.deepEqual(scene.score, [1, 0])
       assert.equal(scene.round, 2)
     })

@@ -1,23 +1,19 @@
-import Vector from '/core/Vector.js'
-import { ctx } from '/core/io/canvas2d.js'
-import { layers } from './CombatLayers.js'
-
 const MAX_EFFECTS = 40
 
-/** Short visual reactions; gameplay owns every shot, hit, movement and death. */
+/**
+ * Short visual reactions to what the bodies do: a flash and smoke at a shot, a puff where a hit lands, a ring where a
+ * body is destroyed, dust behind what drives on the road, and shadows under it. It only reads the bodies, whose
+ * `units()` it is given each frame, through `projection`, and those that `flies(body)` are in the air; its effects go
+ * by the presentation `clock`. The road's shadows draw on the `layers.ground` layer, the rest in front of everything.
+ */
 export default class BattleFeedback {
-  constructor({ units, clock, scrollSpeed }) {
-    this.units = units
-    this.clock = clock
-    this.scrollSpeed = scrollSpeed
+  constructor({ units, flies, projection, clock, layers }) {
+    Object.assign(this, { units, flies, projection, clock })
     this.effects = []
-    this.states = new Map(units.map(unit => [unit, { alive: unit.alive, health: unit.energija, dustAt: 0 }]))
-    this.ground = { position: new Vector(0, 0, layers.ground), render: () => this.renderGround() }
-    this.front = { position: new Vector(0, 0, layers.effect), render: () => this.renderEffects() }
-    for (const unit of units) {
-      const pool = unit.granate || unit.fire?.projectiles
-      if (pool) pool.onFire = event => this.fire(unit, event)
-    }
+    /** What each body was last seen doing. */
+    this.seen = new Map()
+    this.ground = { position: { z: layers.ground }, render: ctx => this.renderGround(ctx) }
+    this.front = { position: { z: layers.effect }, render: ctx => this.renderEffects(ctx) }
   }
 
   add(effect) {
@@ -25,56 +21,50 @@ export default class BattleFeedback {
     this.effects.push({ ...effect, born: this.clock.now })
   }
 
-  fire(owner, { position, angle, projectile }) {
-    if (projectile.tags?.has('air-bomb')) {
-      this.add({ kind: 'smoke', x: position.x, y: position.y, duration: .25 })
-      return
-    }
-    const shell = Boolean(projectile.gravity)
-    this.add({ kind: 'flash', owner, lifeId: owner.lifeId, angle, shell, duration: shell ? .11 : .07 })
-    if (shell) this.add({ kind: 'smoke', x: position.x, y: position.y, duration: .4 })
+  onRoad(body) {
+    return !this.flies(body)
+  }
+
+  at(point) {
+    return this.projection.point(point)
   }
 
   update() {
     const { now } = this.clock
     this.effects = this.effects.filter(effect => now - effect.born < effect.duration)
-    for (const unit of this.units) {
-      const state = this.states.get(unit)
-      if (state.alive && unit.dead)
-        this.add({ kind: 'destruction', x: unit.x, y: unit.y, duration: .45 })
-      else if (unit.energija < state.health)
-        this.add({ kind: 'impact', x: unit.x, y: unit.y, duration: .18 })
-      state.alive = unit.alive
-      state.health = unit.energija
-      const motion = Math.abs(unit.dx - this.scrollSpeed)
-      if (!unit.airborne && unit.shown && unit.alive && motion > 15 && now >= state.dustAt) {
-        this.add({ kind: 'dust', x: unit.x - Math.sign(unit.dx - this.scrollSpeed) * unit.width * .3,
-          y: unit.y + unit.height * .4, duration: .4 })
-        state.dustAt = now + .15
+    for (const body of this.units()) {
+      const seen = this.seen.get(body) ?? { shots: body.shotsFired, alive: body.alive, hits: body.hitsTaken, dustAt: 0 }
+      if (body.shotsFired > seen.shots && body.muzzle) {
+        const shell = Boolean(body.shells)
+        this.add({ kind: 'flash', ...this.at(body.muzzle), shell, duration: shell ? .11 : .07 })
+        if (shell) this.add({ kind: 'smoke', ...this.at(body.muzzle), duration: .4 })
       }
+      if (seen.alive && body.dead) this.add({ kind: 'destruction', ...this.at(body), duration: .45 })
+      else if (body.hitsTaken > seen.hits) this.add({ kind: 'impact', ...this.at(body), duration: .18 })
+      if (this.onRoad(body) && body.alive && Math.abs(body.vx) > .75 && now >= seen.dustAt) {
+        const back = { x: body.x - Math.sign(body.vx) * body.size.length * .3, y: body.y - body.size.height * .4 }
+        this.add({ kind: 'dust', ...this.at(back), duration: .4 })
+        seen.dustAt = now + .15
+      }
+      Object.assign(seen, { shots: body.shotsFired, alive: body.alive, hits: body.hitsTaken })
+      this.seen.set(body, seen)
     }
   }
 
-  renderGround() {
+  renderGround(ctx) {
     ctx.save()
     ctx.fillStyle = '#313b2938'
-    for (const unit of this.units) {
-      if (!unit.shown || unit.airborne) continue
+    for (const body of this.units()) {
+      if (!this.onRoad(body)) continue
+      const { x, y } = this.at({ x: body.x, y: body.y - body.size.height * .46 })
       ctx.beginPath()
-      ctx.ellipse(unit.x, unit.y + unit.height * .46, unit.width * .43, 3.5, 0, 0, Math.PI * 2)
+      ctx.ellipse(x, y, this.projection.length(body.size.length) * .43, 3.5, 0, 0, Math.PI * 2)
       ctx.fill()
     }
     ctx.restore()
   }
 
-  muzzle(effect) {
-    if (effect.owner.airborne) return { ...effect.owner.muzzle, angle: effect.owner.muzzleAngle }
-    if (effect.owner.cev) return { ...effect.owner.vrhCevi, angle: effect.owner.cev.angle }
-    if (effect.owner.barrel) return { ...effect.owner.barrel.muzzle, angle: effect.owner.barrel.angle }
-    return { ...effect.owner.fire.muzzle(), angle: effect.angle }
-  }
-
-  renderEffects() {
+  renderEffects(ctx) {
     for (const effect of this.effects) {
       const age = this.clock.now - effect.born
       if (age >= effect.duration) continue
@@ -82,49 +72,34 @@ export default class BattleFeedback {
       ctx.save()
       ctx.globalAlpha = (1 - progress) * (effect.kind === 'dust' || effect.kind === 'smoke' ? .35 : 1)
       if (effect.kind === 'flash') {
-        if (!effect.owner.shown || effect.owner.dead || effect.owner.lifeId !== effect.lifeId) {
-          ctx.restore()
-          continue
-        }
-        const muzzle = this.muzzle(effect)
-        ctx.translate(muzzle.x, muzzle.y)
-        ctx.rotate(muzzle.angle)
-        const length = effect.shell ? 20 : 9
-        const height = effect.shell ? 6 : 2.5
+        const radius = effect.shell ? 10 : 4
         ctx.fillStyle = '#eaa64e'
         ctx.beginPath()
-        ctx.moveTo(0, -height * .5)
-        ctx.lineTo(length * .6, -height)
-        ctx.lineTo(length * .45, -height * .25)
-        ctx.lineTo(length, 0)
-        ctx.lineTo(length * .45, height * .25)
-        ctx.lineTo(length * .6, height)
-        ctx.lineTo(0, height * .5)
+        ctx.arc(effect.x, effect.y, radius * (1 - progress * .5), 0, Math.PI * 2)
         ctx.fill()
         ctx.fillStyle = '#fff2c1'
-        ctx.fillRect(0, -height * .3, length * .65, height * .6)
-      } else {
-        const x = effect.x + this.scrollSpeed * age
-        const y = effect.y - progress * (effect.kind === 'smoke' ? 15 : 5)
-        const explosive = effect.kind === 'destruction' || effect.kind === 'impact'
-        if (explosive) {
-          const radius = (effect.kind === 'destruction' ? 26 : 10) * (.35 + progress)
-          ctx.strokeStyle = '#dcc18a'
-          ctx.lineWidth = 2 * (1 - progress)
-          ctx.beginPath()
-          ctx.arc(x, y, radius, 0, Math.PI * 2)
-          ctx.stroke()
-          ctx.fillStyle = '#ead6aa'
-          for (let i = 0; i < 5; i++) {
-            const angle = i * Math.PI * 2 / 5
-            ctx.fillRect(x + Math.cos(angle) * radius, y + Math.sin(angle) * radius, 2, 2)
-          }
-        } else {
-          ctx.fillStyle = effect.kind === 'smoke' ? '#a6a18b' : '#b4a27e'
-          ctx.beginPath()
-          ctx.ellipse(x, y, 3 + progress * 11, 2 + progress * 5, 0, 0, Math.PI * 2)
-          ctx.fill()
+        ctx.beginPath()
+        ctx.arc(effect.x, effect.y, radius * .5, 0, Math.PI * 2)
+        ctx.fill()
+      } else if (effect.kind === 'destruction' || effect.kind === 'impact') {
+        const radius = (effect.kind === 'destruction' ? 26 : 10) * (.35 + progress)
+        const y = effect.y - progress * 5
+        ctx.strokeStyle = '#dcc18a'
+        ctx.lineWidth = 2 * (1 - progress)
+        ctx.beginPath()
+        ctx.arc(effect.x, y, radius, 0, Math.PI * 2)
+        ctx.stroke()
+        ctx.fillStyle = '#ead6aa'
+        for (let i = 0; i < 5; i++) {
+          const angle = i * Math.PI * 2 / 5
+          ctx.fillRect(effect.x + Math.cos(angle) * radius, y + Math.sin(angle) * radius, 2, 2)
         }
+      } else {
+        const y = effect.y - progress * (effect.kind === 'smoke' ? 15 : 5)
+        ctx.fillStyle = effect.kind === 'smoke' ? '#a6a18b' : '#b4a27e'
+        ctx.beginPath()
+        ctx.ellipse(effect.x, y, 3 + progress * 11, 2 + progress * 5, 0, 0, Math.PI * 2)
+        ctx.fill()
       }
       ctx.restore()
     }

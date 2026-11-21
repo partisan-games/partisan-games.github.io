@@ -1,53 +1,34 @@
-import { test, before } from 'node:test'
+import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { createPageElements } from './helpers/dom.js'
+import Vehicle, { vehicleKinds } from '/core/gameplay/bodies/vehicles/Vehicle.js'
 
-let Vehicle, drive, kinds
-
-before(async() => {
-  createPageElements()
-  ;({ default: Vehicle, drive } = await import('/core/actor/vehicles/Vehicle.js'))
-  ;({ kinds } = await import('/scenes/franjo-kluz/enemies.js'))
-})
-
-const vehicle = (kind, options = {}) =>
-  new Vehicle({ ...kinds[kind], camera: { cameraX: 0, cameraY: 0 }, groundY: 700, x: 1000, ...options })
-
-const live = (block, seconds) => {
-  for (let i = 0; i < seconds * 30; i++) block.update(1 / 30)
-}
-
-test('a vehicle has the states idle, drive and dead, and starts standing with its engine running', () => {
-  const truck = vehicle('truck')
-  assert.deepEqual(truck.states, ['idle', 'drive', 'dead'])
-  assert.equal(truck.state, 'idle')
-  assert.equal(truck.pose, 'idle')
-  live(truck, 2)
-  assert.equal(truck.x, 1000, 'it stands')
-})
-
-test('a driving vehicle goes the way its picture faces, and the other way when mirrored', () => {
-  for (const [kind, way] of [['truck', -1], ['tank', 1], ['train', -1]]) {
-    const ahead = vehicle(kind)
-    ahead.setState('drive')
-    assert.equal(ahead.pose, 'drive')
-    live(ahead, 2)
-    assert.ok(Math.abs(ahead.x - (1000 + way * drive.speed * 2)) < 1e-9, `${kind} drives ${way}`)
-
-    const mirrored = vehicle(kind, { mirrored: true })
-    mirrored.setState('drive')
-    live(mirrored, 2)
-    assert.ok(Math.abs(mirrored.x - (1000 - way * drive.speed * 2)) < 1e-9, `a mirrored ${kind} drives back`)
+test('a vehicle stands, drives the way it faces at its speed, and stops where it is destroyed', () => {
+  for (const [yaw, way] of [[0, 1], [Math.PI, -1]]) {
+    const vehicle = new Vehicle({ kind: vehicleKinds.truck, x: 10, yaw })
+    assert.deepEqual(vehicle.states, ['idle', 'drive', 'dead'])
+    vehicle.update(1)
+    assert.equal(vehicle.x, 10)
+    vehicle.setState('drive')
+    for (let i = 0; i < 30; i++) vehicle.update(1 / 30)
+    assert.ok(Math.abs(vehicle.x - (10 + way * vehicleKinds.truck.speed)) < 1e-9)
+    vehicle.setState('dead')
+    const { x } = vehicle
+    vehicle.update(1)
+    assert.equal(vehicle.x, x)
+    assert.equal(vehicle.alive, false)
   }
 })
 
-test('a vehicle set to dead stops where it is', () => {
-  const tank = vehicle('tank')
-  tank.setState('drive')
-  live(tank, 1)
-  tank.setState('dead')
-  const { x } = tank
-  live(tank, 2)
-  assert.equal(tank.dead, true)
-  assert.equal(tank.x, x)
+test('a truck falls to a few bullets, the armoured train only to many', () => {
+  const hitsToDestroy = kind => {
+    const vehicle = new Vehicle({ kind })
+    let hits = 0
+    while (vehicle.alive) {
+      vehicle.takeHit(15)
+      hits++
+    }
+    return hits
+  }
+  assert.ok(hitsToDestroy(vehicleKinds.truck) <= 3)
+  assert.ok(hitsToDestroy(vehicleKinds.train) > 10)
 })

@@ -1,8 +1,5 @@
 import canvas2d from '/core/io/canvas2d.js'
 
-/** How far `to` turns from `from`, between -π and π radians. */
-export const turn = (from, to) => Math.atan2(Math.sin(to - from), Math.cos(to - from))
-
 /**
  * Whether an object that lives in world coordinates lies wholly outside what the camera shows. Such objects
  * are judged by the camera (`cameraX`, `cameraY` of the scene), not by the canvas.
@@ -13,3 +10,16 @@ export const outsideView = (object, camera) => {
   return x < -object.width / 2 || x > canvas2d.width + object.width / 2 ||
     y < -object.height / 2 || y > canvas2d.height + object.height / 2
 }
+
+/**
+ * The part of the world a scene shows, for bodies that leave play once out of sight: `contains(point)` of a point in
+ * metres, where `projection` draws it, within the screen of the `camera` (a scene, with `cameraX` and `cameraY` when
+ * its view moves) and `margin` pixels around it.
+ */
+export const screenView = (projection, camera, margin = 20) => ({
+  contains(point) {
+    const { x, y } = projection.point(point)
+    const left = camera.cameraX ?? 0, top = camera.cameraY ?? 0
+    return x >= left - margin && x <= left + canvas2d.width + margin && y >= top - margin && y <= top + canvas2d.height + margin
+  },
+})

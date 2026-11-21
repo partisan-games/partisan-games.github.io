@@ -1,4 +1,4 @@
-import { box, toLocal } from './shapes.js'
+import { toLocal } from './shapes.js'
 
 /**
  * When a moving point first enters a box: the time in [0, 1] along the segment from start to end,
@@ -57,28 +57,4 @@ export function sweepCircle(start, end, radius, shape) {
     ...[[-1, -1], [1, -1], [-1, 1], [1, 1]].map(([x, y]) =>
       segmentCircleEntry(from, to, { x: x * halfWidth, y: y * halfHeight }, radius)),
   ])
-}
-
-/** When a projectile first touches a target: through its collider, or its unturned rectangle. */
-function contactTime(start, end, radius, target) {
-  if (target.collider) return target.collider.sweep(start, end, radius)
-  if (!target.visible) return null
-  return sweepCircle(start, end, radius, box(target.x, target.y, target.width, target.height))
-}
-
-/**
- * The first of the targets that a round projectile touches on its way from start to end in one step:
- * { target, time, point }, where the point is the projectile's centre at the contact, or null.
- * Of targets touched at the same time the earlier one in the list wins. The query neither damages
- * nor moves anything, and it leaves the choice of targets, such as living ones, to the caller.
- */
-export function firstContact({ start, end, radius = 0 }, targets) {
-  let first = null
-  for (const target of targets) {
-    const time = contactTime(start, end, radius, target)
-    if (time !== null && (!first || time < first.time)) first = { target, time }
-  }
-  if (!first) return null
-  const point = { x: start.x + (end.x - start.x) * first.time, y: start.y + (end.y - start.y) * first.time }
-  return { ...first, point }
 }

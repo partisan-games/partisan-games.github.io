@@ -130,24 +130,25 @@ test('the right tank drives, aims and fires with the arrows and Enter', async() 
   })
 })
 
-test('the ustanak cannon aims with W and S and fires when Space is released', async() => {
-  const { default: Top } = await import('/scenes/ustanak/Top.js')
-  const { default: CannonKeys } = await import('/core/io/controllers/CannonKeys.js')
+test('the ustanak gun aims with W and S and fires when Space is released', async() => {
+  const { default: FieldGun, fieldGun } = await import('/core/gameplay/bodies/artillery/FieldGun.js')
+  const { default: CannonKeys } = await import('/core/gameplay/controllers/CannonKeys.js')
+  const { keyboard } = await import('/core/io/Keyboard.js')
   const { leftPlayerKeys } = await import('/core/io/keys.js')
-  const cannon = new Top({ x: 230, y: 300 })
-  const player = new CannonKeys(cannon, leftPlayerKeys)
-  // the scene gives the keys to the cannon's player, which the test drives as the cannon's input
+  const cannon = new FieldGun({ x: 23 })
+  const player = new CannonKeys(cannon, { keyboard, keys: leftPlayerKeys })
+  // the scene gives the keys to the gun's player, which the test drives as the gun's input
   cannon.handleInput = dt => player.handleInput(dt)
-  const angles = {}
+  const elevations = {}
   for (const code of ['KeyW', 'KeyS']) {
-    cannon.angle = 6
+    cannon.elevation = .3
     press('keydown', code)
     cannon.handleInput(1)
     press('keyup', code)
-    angles[code] = Number(cannon.angle.toFixed(4))
+    elevations[code] = cannon.elevation
   }
-  assert.deepEqual(angles, { KeyW: 5.68, KeyS: 6.2 })
+  assert.deepEqual(elevations, { KeyW: fieldGun.highest, KeyS: fieldGun.lowest })
   assert.deepEqual(actionsOf(cannon, ['launch'], () => {
-    cannon.sila = cannon.minSila // what firing does
+    cannon.force = fieldGun.minForce // what firing does
   }), { Space: ['launch'] })
 })

@@ -1,25 +1,40 @@
-import Patrol, * as patrolModule from '/core/actor/soldiers/Patrol.js'
-import WoundedSoldier, * as woundedSoldierModule from '/core/actor/derived/WoundedSoldier.js'
-import { fromAbove, put } from './helpers.js'
+import Patrol, * as patrolModule from '/core/gameplay/bodies/soldiers/Patrol.js'
+import WoundedSoldier, * as woundedSoldierModule from '/core/gameplay/bodies/soldiers/WoundedSoldier.js'
+import PatrolSprite from '/core/actor/soldiers/PatrolSprite.js'
+import LocomotionSprite from '/core/actor/LocomotionSprite.js'
+import art from '/core/actor/ranjenikArt.js'
+import { topProjection } from '/core/actor/projection.js'
+import { fromAbove } from './helpers.js'
 
-const patrol = src => stage => {
+/** Ranjenik is seen from above at 10 px a metre. */
+const pxPerMeter = 40
+const views = stage => {
   fromAbove(stage)
-  const block = new Patrol(src)
-  block.setPosition(stage.width / 2, stage.height / 2)
-  return put(stage, block)
+  return { projection: topProjection({ pxPerMeter }), camera: stage }
+}
+const middle = stage => ({ x: stage.width / 2 / pxPerMeter, z: stage.height / 2 / pxPerMeter })
+
+const put = (stage, body, view) => {
+  stage.add(body, view)
+  return body
 }
 
-/** The wounded partisan, who crawls by the game's keys. */
+/** A patrol of the `faction` army, halted in the middle until it is set to search. */
+const patrol = faction => stage => {
+  const body = new Patrol(middle(stage))
+  body.setState('halt')
+  return put(stage, body, new PatrolSprite(body, { faction, ...views(stage) }))
+}
+
 const wounded = stage => {
-  fromAbove(stage)
-  return put(stage, new WoundedSoldier(stage.width / 2, stage.height / 2))
+  const body = new WoundedSoldier(middle(stage))
+  return put(stage, body, new LocomotionSprite(body, { art: art.wounded, ...views(stage) }))
 }
 
 const game = 'Ranjenik'
 
 export const soldiers = [
-  { id: 'nemacka-patrola', name: 'Nemačka patrola', game, block: patrolModule, create: patrol('armies/nemci-patrola.gif') },
-  { id: 'italijanska-patrola', name: 'Italijanska patrola', game, block: patrolModule, create: patrol('armies/talijani-patrola.gif') },
-  { id: 'ranjeni-partizan', name: 'Ranjeni partizan', game, block: woundedSoldierModule, create: wounded },
+  { id: 'nemacka-patrola', name: 'Nemačka patrola', game, pxPerMeter, block: patrolModule, create: patrol('german') },
+  { id: 'italijanska-patrola', name: 'Italijanska patrola', game, pxPerMeter, block: patrolModule, create: patrol('italian') },
+  { id: 'ranjeni-partizan', name: 'Ranjeni partizan', game, pxPerMeter, block: woundedSoldierModule, create: wounded },
 ]
-

@@ -7,16 +7,17 @@ import { sideProjection } from '/core/actor/projection.js'
 
 /** The share of the view's height above the ground line, so the ground under the blocks is seen. */
 const skyShare = .8
-/** How large a block in metres is drawn. */
-const pxPerMeter = 22
+/** How large a block in metres is drawn, unless its story draws it as its game does. */
+const defaultScale = 22
 
 /**
  * An empty 2D world where one building block lives on its own: sky, ground, a camera and an unseen stand-in for the
  * player, for a block that flies or drives after one. Nothing drives the block: the stage gives it no keys.
- * A block in metres is drawn through `projection`, and its stand-in is `dummy`, until every block is in metres.
+ * A block in metres is drawn through `projection`, at `pxPerMeter`, and its stand-in is `dummy`, until every block
+ * is in metres.
  */
 export default class Stage2D extends Scene2D {
-  constructor() {
+  constructor({ pxPerMeter = defaultScale } = {}) {
     super({ disableEvents: true, showControls: false })
     this.groundY = Math.round(this.height * skyShare)
     this.projection = sideProjection({ pxPerMeter, groundY: this.groundY })

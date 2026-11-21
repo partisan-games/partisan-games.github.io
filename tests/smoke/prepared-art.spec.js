@@ -1,0 +1,88 @@
+import { expect } from '@playwright/test'
+import { test } from './helpers.js'
+
+test.beforeEach(async({ page }) => {
+  // Observe what the real page draws, without replacing its bodies, clocks or controls.
+  await page.addInitScript(() => {
+    window.artDraws = []
+    const original = CanvasRenderingContext2D.prototype.drawImage
+    CanvasRenderingContext2D.prototype.drawImage = function(image, ...args) {
+      if (this.canvas.id === 'platno' && image.src) {
+        window.artDraws.push({ src: image.src, source: args.slice(0, 4), at: performance.now() })
+        if (window.artDraws.length > 1000) window.artDraws.splice(0, 500)
+      }
+      return original.call(this, image, ...args)
+    }
+  })
+})
+
+const drawn = (page, src, x = null, y = null) => page.waitForFunction(({ src, x, y }) =>
+  window.artDraws.some(draw => draw.at > performance.now() - 150 && draw.src.endsWith(src)
+    && (x === null || draw.source[0] === x) && (y === null || draw.source[1] === y)), { src, x, y })
+
+async function state(page, name) {
+  await page.evaluate(() => { window.artDraws.length = 0 })
+  await page.locator(`[data-state="${name}"]`).click()
+}
+
+for (const side of ['partizanski', 'italijanski']) test(`new field gun and wreck: ${side}`, async({ page }, info) => {
+  const errors = []
+  page.on('pageerror', error => errors.push(error.message))
+  await page.goto(`/storybook.html#artiljerija/ustanak-${side}-top`)
+  await drawn(page, '/field-gun-barrel-pixel.png')
+  await drawn(page, '/field-gun-carriage-pixel.png')
+  await state(page, 'dead')
+  await drawn(page, '/wrecks/field-gun.png', 0, 0)
+  const carriageStillDrawn = await page.evaluate(() => window.artDraws.some(draw =>
+    draw.at > performance.now() - 100 && draw.src.endsWith('/field-gun-carriage-pixel.png')))
+  // Allow the previous animation frame to leave the observation window.
+  if (carriageStillDrawn) await page.waitForTimeout(160)
+  expect(await page.evaluate(() => window.artDraws.some(draw =>
+    draw.at > performance.now() - 100 && draw.src.endsWith('/field-gun-carriage-pixel.png')))).toBe(false)
+  await page.locator('#platno').screenshot({ path: info.outputPath('gun-wreck.png') })
+  expect(errors).toEqual([])
+})
+
+for (const [name, file] of [['partizanska', 'partizanska'], ['italijanska', 'italijanska']])
+  test(`gun crew terminal fall: ${name}`, async({ page }, info) => {
+    await page.goto(`/storybook.html#vojnici/${name}-posada`)
+    await state(page, 'load')
+    await state(page, 'dead')
+    await drawn(page, `/${file}-posada-death-sprites.png`, 800, 0)
+    await page.waitForTimeout(200)
+    await drawn(page, `/${file}-posada-death-sprites.png`, 800, 0)
+    await page.locator('#platno').screenshot({ path: info.outputPath('crew-fallen.png') })
+  })
+
+test('partisan walk and both falls use the prepared atlas through actual state controls', async({ page }, info) => {
+  await page.goto('/storybook.html#vojnici/partizanski-strelac')
+  await state(page, 'walk')
+  await drawn(page, '/partizanski-strelac-movement-sprites.png', null, 160)
+  await state(page, 'dead')
+  await drawn(page, '/partizanski-strelac-movement-sprites.png', 800, 480)
+  await page.locator('#platno').screenshot({ path: info.outputPath('standing-fall.png') })
+  await page.locator('[data-again]').click()
+  await state(page, 'dead')
+  await drawn(page, '/partizanski-strelac-movement-sprites.png', 800, 320)
+})
+
+test('German rifle reload is wired to its model and existing shot cooldown', async({ page }) => {
+  await page.goto('/storybook.html#vojnici/strelac')
+  await state(page, 'reload')
+  await drawn(page, '/nemacki-strelac-reload-sprites.png', 896, 0)
+  await state(page, 'fire')
+  await drawn(page, '/nemacki-strelac-reload-sprites.png')
+  await state(page, 'dead')
+  await drawn(page, '/nemacki-strelac-sprites.png', 384, 256)
+})
+
+test('Hummel actual fire control uses the new attack, a shell, then the existing wreck', async({ page }, info) => {
+  await page.goto('/storybook.html#vozila/hummel')
+  await state(page, 'fire')
+  await drawn(page, '/hummel-fire-sprites.png')
+  await page.locator('#platno').screenshot({ path: info.outputPath('hummel-fire.png') })
+  await drawn(page, '/granata.gif')
+  await drawn(page, '/hummel-sprites.png')
+  await state(page, 'dead')
+  await drawn(page, '/wrecks/hummel.png')
+})

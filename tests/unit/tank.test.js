@@ -88,6 +88,23 @@ test('a tank fires only in state fire or when told, recoils, and waits for its r
   assert.equal(tank.shoot(), true)
 })
 
+test('a tank burns at a fifth of its own health, a whole one with little health too', () => {
+  const clock = new GameClock()
+  const enemy = new Tank({ kind: tankKinds.german, clock, health: 10 })
+  assert.equal(enemy.burning, false, 'whole')
+  enemy.takeHit(8)
+  assert.equal(enemy.burning, true)
+})
+
+test('a shell keeps the speed of the tank that fired it, so a marching tank does not outrun its own shells', () => {
+  const { tank } = tankAlone()
+  tank.elevation = 0
+  tank.vx = 9
+  tank.shoot()
+  const [shell] = tank.shells.projectiles
+  assert.ok(Math.abs(shell.vx - (settings.shellSpeed + 9)) < 1e-9)
+})
+
 test('a shell that hits takes the target health after its burst, and a hit tank burns low and dies', () => {
   const { tank, target, live } = tankAlone({ x: 0, targetX: 12 })
   tank.elevation = 0

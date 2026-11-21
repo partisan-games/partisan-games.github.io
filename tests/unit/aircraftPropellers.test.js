@@ -4,17 +4,18 @@ import { createPageElements } from './helpers/dom.js'
 import { loadAtlas } from './helpers/atlas.js'
 
 const context = { save() {}, restore() {}, translate() {}, rotate() {}, scale() {}, drawImage() {} }
-let AircraftPropellers, DiveBomber, Aircraft, Enemy, Boss, GameSession, enemyAircraftArt, Renderer2D
+let AircraftPropellers, DiveBomber, DiveBomberSprite, sideProjection, topProjection, AttackPlane, attackPlaneKinds,
+  AttackPlaneSprite, GameSession, Renderer2D
 
 before(async() => {
   createPageElements()
   mock.method(HTMLCanvasElement.prototype, 'getContext', () => context)
   AircraftPropellers = (await import('/core/actor/aircraft/AircraftPropellers.js')).default
-  DiveBomber = (await import('/core/actor/aircraft/DiveBomber.js')).default
-  Aircraft = (await import('/scenes/to-trieste/Aircraft.js')).default
-  ;({ enemyAircraftArt } = await import('/scenes/to-trieste/enemyArt.js'))
-  Enemy = (await import('/scenes/vis/Enemy.js')).default
-  Boss = (await import('/scenes/vis/Boss.js')).default
+  DiveBomber = (await import('/core/gameplay/bodies/aircraft/DiveBomber.js')).default
+  DiveBomberSprite = (await import('/core/actor/aircraft/DiveBomberSprite.js')).default
+  ;({ sideProjection, topProjection } = await import('/core/actor/projection.js'))
+  ;({ default: AttackPlane, attackPlaneKinds } = await import('/core/gameplay/bodies/aircraft/AttackPlane.js'))
+  AttackPlaneSprite = (await import('/core/actor/aircraft/AttackPlaneSprite.js')).default
   GameSession = (await import('/core/runtime/GameSession.js')).default
   Renderer2D = (await import('/core/Renderer2D.js')).default
   new Renderer2D({ canvas: document.createElement('canvas') })
@@ -51,34 +52,28 @@ test('both twin-engine hubs draw from the same atlas phase in the unchanged body
   }
 })
 
-test('Kluz, Do Trsta and Vis use the same propeller view on their real actors without enlarging colliders', t => {
+test('the Ju 87 of Kluz and Do Trsta and the planes of Vis turn their propellers without enlarging their size', t => {
   const session = new GameSession()
   session.start()
   t.after(() => session.dispose())
   const camera = { cameraX: 0, cameraY: 0 }
-  const bomber = new DiveBomber({ camera, groundY: 700, session })
+  const body = new DiveBomber({ x: 14, y: 27, yaw: Math.PI })
+  const bomber = new DiveBomberSprite(body, { projection: sideProjection({ pxPerMeter: 30.8, groundY: 700 }), camera })
   loadAtlas(bomber, 200, 74)
-  bomber.enter({ x: 300, y: 100, fromBehind: false })
   bomber.update(.031)
   assert.equal(bomber.propellers.frameIndex, 1)
-  assert.deepEqual([bomber.width, bomber.height], [250, 92.5])
-  for (const kind of ['diveBomber', 'fighter']) {
-    const art = enemyAircraftArt[kind]
-    const plane = new Aircraft({ kind, art, clock: session.clock, target: { x: 0, y: 500 }, groundY: 500 })
-    plane.launch()
-    plane.update(.031)
-    assert.equal(plane.propellers.frameIndex, 1)
-    assert.deepEqual([plane.width, plane.height], [art.width, art.height])
-  }
-  for (const plane of [new Enemy({ session }), new Enemy({ session, type: 'heavy' }), new Boss({ session })]) {
+  assert.deepEqual([bomber.width, bomber.height].map(Math.round), [250, 92])
+  const pictures = { fighter: 'bf-109', heavy: 'bf-110', boss: 'he-111' }
+  for (const [type, picture] of Object.entries(pictures)) {
+    const body = new AttackPlane({ kind: attackPlaneKinds[type], clock: session.clock })
+    const plane = new AttackPlaneSprite(body, { src: `armies/nemci/avioni/${picture}-odozgo.png`, projection: topProjection({ pxPerMeter: 10 }) })
     assert.ok(plane.propellers.art)
-    const [w, h] = plane.propellers.art.bodySize
-    loadAtlas(plane, w, h)
+    const size = [plane.width, plane.height]
     plane.update(.031)
     assert.equal(plane.propellers.frameIndex, 1)
-    assert.deepEqual([plane.width, plane.height], [w / 2, h / 2])
-    plane.engineRunning = false
+    assert.deepEqual([plane.width, plane.height], size)
+    body.setState('dead')
     plane.update(.04)
-    assert.equal(plane.propellers.frameIndex, 1)
+    assert.equal(plane.propellers.frameIndex, 1, 'a dead engine holds its blades')
   }
 })

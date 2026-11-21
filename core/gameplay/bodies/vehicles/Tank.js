@@ -4,15 +4,16 @@ import ProjectilePool from '../projectiles/ProjectilePool.js'
 import Shell from '../projectiles/Shell.js'
 
 /**
- * Measured from the earlier pixel tank at 22 px a metre and 30 frames a second. `thrust` is metres a second squared
+ * Measured from the earlier pixel tank at 25 px a metre and 30 frames a second. `thrust` is metres a second squared
  * at full drive, `reverse` its share driving back, `recoil` the push of a shot or a hit in metres a second; `keep` is
- * the share of speed kept each second, moving and almost standing, below `standingBelow` metres a second. The barrel
+ * the share of speed kept each second, moving and almost standing, below `standingBelow` metres a second; it burns at
+ * `burnBelow` of its health or less, whatever its health is. The barrel
  * turns `barrelSpeed` radians a second up to `highestBarrel`, and is raised one radian for each `aimReach` metres.
  */
 export const tank = {
-  health: 100, thrust: 29.3, reverse: .6, recoil: 1.1, reloadTime: 1, burnBelow: 20,
-  keep: { moving: .9 ** 30, standing: .7 ** 30 }, standingBelow: .005,
-  barrelSpeed: .5, highestBarrel: Math.PI * .2, aimReach: 295, shellSpeed: 23, shellGravity: 4.1,
+  health: 100, thrust: 25.78, reverse: .6, recoil: .97, reloadTime: 1, burnBelow: .2,
+  keep: { moving: .9 ** 30, standing: .7 ** 30 }, standingBelow: .0044,
+  barrelSpeed: .5, highestBarrel: Math.PI * .2, aimReach: 259.6, shellSpeed: 20.24, shellGravity: 3.61,
 }
 
 /**
@@ -20,33 +21,38 @@ export const tank = {
  * turret in the art and half its height, and its length from there.
  */
 export const tankKinds = {
-  partisan: { size: { length: 6.8, height: 2.9, width: 3 }, barrel: { ahead: .8, above: .8, length: 4.1 } },
-  german: { size: { length: 7.4, height: 3.1, width: 3.3 }, barrel: { ahead: 1.25, above: .9, length: 3.74 } },
+  partisan: { size: { length: 5.98, height: 2.55, width: 2.64 }, barrel: { ahead: .7, above: .7, length: 3.61 } },
+  german: { size: { length: 6.51, height: 2.73, width: 2.9 }, barrel: { ahead: 1.1, above: .79, length: 3.29 } },
+  somua: { size: { length: 7.57, height: 3.34, width: 1.85 }, barrel: { ahead: 2.32, above: .72, length: 1 } },
 }
 
-/** The tank stands, drives ahead, fires where its barrel points as often as it reloads, or lies destroyed. */
+/**
+ * The tank stands, drives ahead at its `cruise` share of the throttle, fires where its barrel points as often as it
+ * reloads, or lies destroyed.
+ */
 const states = {
   idle: {},
-  drive: { update: (body, dt) => body.drive(body.forward, dt) },
+  drive: { update: (body, dt) => body.drive(body.forward, dt, body.cruise) },
   fire: { update: body => body.shoot() },
-  dead: { enter: body => body.health.damage(body.health.current) },
+  dead: {},
 }
 
 /**
  * A tank on flat ground: it faces right (yaw 0) or left (yaw π) and keeps between `bounds.min` and `bounds.max`.
- * `clock` is the game clock, so reloading waits in a pause; its shells hit the living ones of `targets`, an array the
- * scene owns, and leave play below `groundAt(x, z)`.
+ * `clock` is the game clock, so reloading, `reloadTime` seconds, waits in a pause; its shells hit the living ones of
+ * `targets`, an array the scene owns, and leave play below `groundAt(x, z)`. It fires only while `canFire()`. With
+ * no key held it rolls at its `march`, in metres a second, as in a column on the move, and stands by default.
  */
 export default class Tank extends Body {
   constructor({ kind = tankKinds.partisan, clock, targets = [], bounds = { min: -Infinity, max: Infinity },
-    groundAt = () => 0, random = Math.random, ...rest } = {}) {
+    groundAt = () => 0, cruise = 1, march = 0, reloadTime = tank.reloadTime, canFire = () => true, random = Math.random,
+    ...rest } = {}) {
     super({ size: kind.size, health: tank.health, ...rest, states })
-    this.kind = kind
-    this.targets = targets
-    this.bounds = bounds
+    Object.assign(this, { kind, targets, bounds, cruise, march, canFire })
+    this.vx = march
     /** The barrel's angle above level, in radians. */
     this.elevation = tank.highestBarrel / 2
-    this.reload = new Cooldown({ seconds: tank.reloadTime, clock })
+    this.reload = new Cooldown({ seconds: reloadTime, clock })
     this.shells = new ProjectilePool(() => new Shell({ gravity: tank.shellGravity, groundAt, random }))
   }
 
@@ -56,7 +62,7 @@ export default class Tank extends Body {
   }
 
   get burning() {
-    return this.health.current <= tank.burnBelow
+    return this.health.current <= this.health.maximum * tank.burnBelow
   }
 
   /** Drives right (1) or left (-1): full thrust ahead, less in reverse; `power` is the share of the throttle. */
@@ -72,6 +78,10 @@ export default class Tank extends Body {
     this.elevation = Math.max(0, this.elevation - tank.barrelSpeed * dt)
   }
 
+  get barrelLength() {
+    return this.kind.barrel.length
+  }
+
   /** Where the barrel turns, and its mouth. */
   get barrelPivot() {
     const { ahead, above } = this.kind.barrel
@@ -85,9 +95,11 @@ export default class Tank extends Body {
 
   /** Fires where the barrel points if it has reloaded, and recoils; returns whether it fired. */
   shoot() {
-    if (this.dead || !this.reload.ready) return false
+    if (this.dead || !this.canFire() || !this.reload.ready) return false
     this.reload.start()
-    this.shells.fire(this.muzzle, this.yaw, this.elevation, tank.shellSpeed)
+    const shell = this.shells.fire(this.muzzle, this.yaw, this.elevation, tank.shellSpeed)
+    shell.vx += this.vx
+    shell.vz += this.vz
     this.shotsFired++
     this.vx -= this.forward * tank.recoil
     return true
@@ -100,7 +112,7 @@ export default class Tank extends Body {
 
   /** The shots of the barrel, as the point ahead and above it for each: level for a near target, high for a far one. */
   get shots() {
-    return { straight: { x: 13.6, y: 0 }, up: { x: this.reach, y: 0 } }
+    return { straight: { x: 11.97, y: 0 }, up: { x: this.reach, y: 0 } }
   }
 
   /** Raises the barrel the more, the farther `point` is, if it is ahead: the turret does not turn round. */
@@ -117,8 +129,10 @@ export default class Tank extends Body {
 
   update(dt) {
     super.update(dt)
-    const keep = Math.abs(this.vx) > tank.standingBelow ? tank.keep.moving : tank.keep.standing
-    this.vx *= keep ** dt
+    // friction slows it to its march, on its own
+    const own = this.vx - this.march
+    const keep = Math.abs(own) > tank.standingBelow ? tank.keep.moving : tank.keep.standing
+    this.vx = this.march + own * keep ** dt
     this.x = Math.min(Math.max(this.x, this.bounds.min), this.bounds.max)
     this.shells.update(dt, this.targets)
   }

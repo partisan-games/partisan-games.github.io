@@ -1,73 +1,35 @@
-import GameObject2D from '/core/actor/GameObject2D.js'
-import VehicleSprite from '/core/actor/VehicleSprite.js'
+import BodySprite from '/core/actor/BodySprite.js'
+import Barrel from '/core/actor/Barrel.js'
 import ShellSprite from '/core/actor/projectiles/ShellSprite.js'
 import Sound from '/core/io/audio/SoundSource.js'
+import { bodyImage, wreckFor } from '/core/actor/wreckView.js'
 
 /**
- * The separate barrel, drawn from its pivot along the barrel's angle on the screen. `facing` is the way the barrel
- * art points, 1 right or -1 left, so its mouth is always away from the pivot. Its middle line runs through the pivot.
+ * How a tank body looks and sounds in 2D, from its atlas `art` (vehicleArt.js), which points the way `facing` says
+ * (1 right, -1 left), and its `barrel` art (`src`, `facing` and `crop`): its atlas fitted to the body's size, its
+ * tracks turning the way it moves, mirrored when it faces left, a separate barrel, the engine, the shot and the
+ * reload, fire when it burns, its wreck, and its shells. It only reads the body.
  */
-class Barrel extends GameObject2D {
-  constructor({ src, facing = 1 }, view) {
-    super(src)
-    this.facing = facing
-    this.view = view
-  }
-
-  render(ctx) {
-    const { body, projection } = this.view
-    if (!this.image.naturalWidth || body.dead) return
-    const pivot = projection.point(body.barrelPivot)
-    const length = projection.length(body.kind.barrel.length)
-    const thickness = length * this.image.naturalHeight / this.image.naturalWidth
-    ctx.save()
-    ctx.translate(pivot.x, pivot.y)
-    ctx.rotate(projection.angle(body.yaw, body.elevation))
-    // art pointing left is mirrored, so its mouth leads; it is never flipped upside down, as the tanks drew it before
-    if (this.facing < 0) ctx.scale(-1, 1)
-    ctx.imageSmoothingEnabled = false
-    ctx.drawImage(this.image, this.facing < 0 ? -length : 0, -thickness / 2, length, thickness)
-    ctx.restore()
-  }
-}
-
-/**
- * How a tank body looks and sounds in 2D, from its atlas `art`, which points the way `facing` says (1 right, -1 left),
- * and its `barrel` art (`src` and `facing`): its atlas, fitted to the body's size, mirrored when it faces left, a
- * separate barrel, the engine, the shot and the reload, fire when it burns, and its shells. It only reads the body.
- */
-export default class TankSprite extends GameObject2D {
-  constructor(body, { art, facing = 1, barrel, projection }) {
-    super(art.src, { flammable: true, z: -1 })
-    this.facing = facing
-    this.body = body
-    this.projection = projection
-    this.atlas = new VehicleSprite(art)
+export default class TankSprite extends BodySprite {
+  constructor(body, { art, facing = 1, barrel, projection, camera, z = -1, shellLayer }) {
+    super(body, art.src, { projection, camera, facing, flammable: true, z })
+    this.art = art
+    wreckFor(art.src)
+    this.shellLayer = shellLayer
     this.barrel = new Barrel(barrel, this)
-    this.shellViews = new Map()
+    this.barrel.position.z = z
+    this.shellViews = this.projectileViews
     this.shotSound = new Sound('cannon-shot.mp3', { volume: .8, profile: 'cannon', spatial: { getPosition: () => this.shotPoint ?? this.position } })
     this.loadSound = new Sound('cannon-load.mp3', { volume: .4, profile: 'cannon', spatial: { getPosition: () => this.position } })
     this.engineSound = new Sound('engine-diesel.mp3', { volume: .2, loop: true, profile: 'engine', spatial: { getPosition: () => this.position } })
     this.sounds.push(this.shotSound, this.loadSound, this.engineSound)
     this.children.push(this.barrel)
     this.shotsSeen = body.shotsFired
+    /** The clip the atlas plays, how far into it, and the way its tracks turn: 1 ahead, -1 back. */
+    this.clip = 'idle'
+    this.clipTime = 0
+    this.tracks = 1
     this.update(0)
-  }
-
-  /** A loaded picture takes its own size; the view keeps the body's, even before the game moves anything. */
-  onload() {
-    this.fit()
-  }
-
-  /** Where the body is and how big, on the screen. */
-  fit() {
-    const { body, projection } = this
-    const { x, y } = projection.point(body)
-    this.setPosition(x, y)
-    this.width = projection.length(body.size.length)
-    this.height = projection.length(body.size.height)
-    // the art is mirrored only when the body faces the other way than it points
-    this.flipY = (projection.mirrored(body) ? -1 : 1) * this.facing
   }
 
   /** Its fire shows once the flame it loads on its own is here. */
@@ -75,22 +37,28 @@ export default class TankSprite extends GameObject2D {
     return this.flammable && this.body.burning
   }
 
+  /** The atlas frame: a drive played backwards when the tank backs up. */
+  get frameIndex() {
+    const { columns, clips } = this.art
+    const frame = Math.floor(this.clipTime / clips[this.clip].seconds * columns)
+    return this.tracks < 0 ? (columns - frame) % columns : frame
+  }
+
   /** A view for each shell the body has, made the first time it is seen. */
   syncShells() {
-    for (const shell of this.body.shells.projectiles) {
-      if (this.shellViews.has(shell)) continue
-      const view = new ShellSprite(shell, this.projection)
-      this.shellViews.set(shell, view)
-      this.children.push(view)
-      this.audioScene?.attach(view)
-    }
+    this.syncViews(this.body.shells.projectiles, shell => {
+      const view = new ShellSprite(shell, this.projection, this.camera)
+      if (this.shellLayer !== undefined) view.position.z = this.shellLayer
+      return view
+    })
+    this.shellViews = this.projectileViews
   }
 
   update(dt) {
+    if (!this.art) return
     const { body, projection } = this
     const previousX = this.x
-    this.fit()
-    this.alive = body.alive
+    super.update(dt)
     this.engineSound.setPlaying(body.alive)
     if (body.shotsFired > this.shotsSeen) {
       this.shotPoint = projection.point(body.muzzle)
@@ -99,13 +67,37 @@ export default class TankSprite extends GameObject2D {
     }
     this.shotsSeen = body.shotsFired
     this.syncShells()
-    this.updateFlame(dt)
     const movement = this.x - previousX
     // the loop's first tick after resuming has dt = 0: keep the drive phase it had
-    if (dt > 0 || body.dead) this.atlas.update(dt, Math.abs(movement) > .001, Math.sign(movement) * body.forward, body.alive)
+    if (dt === 0 && body.alive) return
+    const clip = Math.abs(movement) > .001 && body.alive ? 'drive' : 'idle'
+    if (clip !== this.clip) this.clipTime = 0
+    this.clip = clip
+    this.tracks = Math.sign(movement) * body.forward || 1
+    this.clipTime = body.alive ? (this.clipTime + dt) % this.art.clips[clip].seconds : 0
   }
 
-  render() {
-    this.atlas.render(this)
+  render(ctx) {
+    if (!this.shown) return
+    const { frame, clips, contentBounds } = this.art
+    let x = -this.width / 2, y = -this.height / 2, { width, height } = this
+    if (contentBounds) {
+      const [left, top, right, bottom] = contentBounds
+      const scale = Math.min(this.width / (right - left), this.height / (bottom - top))
+      x = -(left + right) / 2 * scale
+      y = -(top + bottom) / 2 * scale
+      width = frame.width * scale
+      height = frame.height * scale
+    }
+    ctx.save()
+    ctx.translate(this.x, this.y)
+    ctx.rotate(this.angle)
+    ctx.scale(this.flipY, 1)
+    ctx.imageSmoothingEnabled = false
+    const image = bodyImage(this), wrecked = image !== this.image
+    ctx.drawImage(image, wrecked ? 0 : this.frameIndex * frame.width, wrecked ? 0 : clips[this.clip].row * frame.height,
+      frame.width, frame.height, x, y, width, height)
+    ctx.restore()
+    if (this.burning) this.flame.render(this.smoky)
   }
 }

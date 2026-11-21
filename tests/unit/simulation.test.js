@@ -43,7 +43,8 @@ test('a fixed-step scene reads input and draws once per frame, and runs the rule
   const frames = installFakeFrames()
   const scene = new Scene({ canvas: document.createElement('canvas'), fixedStep: true })
   const counts = { input: 0, steps: 0, present: 0, updates: 0 }
-  scene.add({ alive: true, handleInput: () => counts.input++, update: () => counts.updates++ })
+  scene.controllers.push({ handleInput: () => counts.input++ })
+  scene.add({ update: () => counts.updates++ })
   scene.fixedUpdate = () => counts.steps++
   scene.present = () => counts.present++
   scene.start()

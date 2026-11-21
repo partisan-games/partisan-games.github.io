@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "measuredAt": "2026-11-21T12:42:55.708012+00:00",
-  "baseRevision": "530fdd85c18aac311a9dc32a22e33dcdff0c38c4",
+  "measuredAt": "2026-11-21T20:13:53.923223+00:00",
+  "baseRevision": "e638fc2567d132d1abea25d530f27191998b51e1",
   "scope": "Art linked by docs/ART.md, including shared variants; not all unused library art or a runtime/visual acceptance test.",
   "interpretation": "imageFrames counts file-container frames. A PNG atlas normally has one; named sprite clips require metadata and a runtime mapping. hashes detect exact input changes, not art quality.",
   "images": [
@@ -11,6 +11,26 @@
       "kind": "PNG",
       "width": 355,
       "height": 152,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/armies/game-ready/artiljerija/field-gun-barrel-pixel.png",
+      "sha256": "084cd423e85da1b4adef23fa4d08e7d97b2a22f4885501c1ee6b8901fb2dc514",
+      "kind": "PNG",
+      "width": 274,
+      "height": 52,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/armies/game-ready/artiljerija/field-gun-carriage-pixel.png",
+      "sha256": "96c8ea806184978bb3156b649873ef2bc7bd51b94e8399a4e3c8b5d775aee3cc",
+      "kind": "PNG",
+      "width": 400,
+      "height": 99,
       "imageFrames": 1,
       "hasTransparentPixelsInFirstFrame": true,
       "distinctImageFrames": 1
@@ -84,6 +104,40 @@
       "imageFrames": 1,
       "hasTransparentPixelsInFirstFrame": true,
       "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/armies/game-ready/artiljerija/italijanska-posada-death-sprites.png",
+      "sha256": "e4628accdf609f5712f3d78d8296dbfbc52c75da09e87022eecec8ab17494a00",
+      "kind": "PNG",
+      "width": 960,
+      "height": 128,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/cannon-crew-fall/sprites.json",
+        "id": "italian-cannon-crew-death",
+        "frame": {
+          "width": 160,
+          "height": 128,
+          "columns": 6,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 80,
+          "y": 123.52
+        },
+        "clips": [
+          {
+            "name": "death",
+            "row": 0,
+            "frameCount": 6,
+            "duration": 0.84,
+            "loop": false,
+            "measuredDistinctFrames": 6
+          }
+        ]
+      }
     },
     {
       "asset": "assets/images/armies/game-ready/artiljerija/italijanska-posada-sprites.png",
@@ -212,6 +266,40 @@
       "imageFrames": 1,
       "hasTransparentPixelsInFirstFrame": true,
       "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/armies/game-ready/artiljerija/partizanska-posada-death-sprites.png",
+      "sha256": "738d0e09de5b9cab7306fed281f4294daeea65da3114fd94309acaf2c54bc140",
+      "kind": "PNG",
+      "width": 960,
+      "height": 128,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/cannon-crew-fall/sprites.json",
+        "id": "partisan-cannon-crew-death",
+        "frame": {
+          "width": 160,
+          "height": 128,
+          "columns": 6,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 80,
+          "y": 123.52
+        },
+        "clips": [
+          {
+            "name": "death",
+            "row": 0,
+            "frameCount": 6,
+            "duration": 0.84,
+            "loop": false,
+            "measuredDistinctFrames": 6
+          }
+        ]
+      }
     },
     {
       "asset": "assets/images/armies/game-ready/artiljerija/partizanska-posada-sprites.png",
@@ -1039,6 +1127,40 @@
       }
     },
     {
+      "asset": "assets/images/armies/game-ready/tenkovi/hummel-fire-sprites.png",
+      "sha256": "a526a28148bf201e25d4eeed32396938a83390593a27edd8c5a51c3a3a07a900",
+      "kind": "PNG",
+      "width": 2304,
+      "height": 176,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/hummel-fire/sprites.json",
+        "id": "hummel-fire",
+        "frame": {
+          "width": 384,
+          "height": 176,
+          "columns": 6,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 192,
+          "y": 156
+        },
+        "clips": [
+          {
+            "name": "fire",
+            "row": 0,
+            "frameCount": 6,
+            "duration": 0.8,
+            "loop": false,
+            "measuredDistinctFrames": 6
+          }
+        ]
+      }
+    },
+    {
       "asset": "assets/images/armies/game-ready/tenkovi/hummel-sprites.png",
       "sha256": "6fcb4ddd03661dd15bed95aa20c5bd492b3e19878869ffb2a8628330ed9b8656",
       "kind": "PNG",
@@ -1258,7 +1380,7 @@
     },
     {
       "asset": "assets/images/armies/game-ready/vojnici/bombas-sprites.png",
-      "sha256": "aee25d9e5e9c0cd865fce10833b952c1d4bae5f750d4df43b24c38041b862ec9",
+      "sha256": "13c2d761ddb407a4cd995ec6b6e48399ada817c706323038e1ddeaaa836c5929",
       "kind": "PNG",
       "width": 528,
       "height": 216,
@@ -1302,6 +1424,74 @@
             "duration": 0.6,
             "loop": false,
             "measuredDistinctFrames": 6
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/vojnici/bombas-throw-right-sprites.png",
+      "sha256": "0653d73eedd834d8fb79989e732b29ac72c21942eec34f6ec9ba00e34bdd063a",
+      "kind": "PNG",
+      "width": 528,
+      "height": 72,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/grenadier-throw/sprites.json",
+        "id": "bombas-throw-right",
+        "frame": {
+          "width": 66,
+          "height": 72,
+          "columns": 8,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 33,
+          "y": 36
+        },
+        "clips": [
+          {
+            "name": "throw",
+            "row": 0,
+            "frameCount": 8,
+            "duration": 0.8,
+            "loop": false,
+            "measuredDistinctFrames": 8
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/vojnici/bombas-throw-sprites.png",
+      "sha256": "72e312f818f2518451ed5d2036cd8488498f9e4b7132d36a6bd9ab13b5306ada",
+      "kind": "PNG",
+      "width": 528,
+      "height": 72,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/grenadier-throw/sprites.json",
+        "id": "bombas-throw",
+        "frame": {
+          "width": 66,
+          "height": 72,
+          "columns": 8,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 33,
+          "y": 36
+        },
+        "clips": [
+          {
+            "name": "throw",
+            "row": 0,
+            "frameCount": 8,
+            "duration": 0.8,
+            "loop": false,
+            "measuredDistinctFrames": 8
           }
         ]
       }
@@ -1525,6 +1715,40 @@
       }
     },
     {
+      "asset": "assets/images/armies/game-ready/vojnici/nemacki-strelac-reload-sprites.png",
+      "sha256": "d8611ff54a9867c60ce2549e3fc85cbaaec70c4149d4bc5887fd8279404cc14e",
+      "kind": "PNG",
+      "width": 1024,
+      "height": 128,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/rifleman-reload/sprites.json",
+        "id": "rifleman-reload",
+        "frame": {
+          "width": 128,
+          "height": 128,
+          "columns": 8,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 64,
+          "y": 120
+        },
+        "clips": [
+          {
+            "name": "reload",
+            "row": 0,
+            "frameCount": 8,
+            "duration": 1.6,
+            "loop": false,
+            "measuredDistinctFrames": 8
+          }
+        ]
+      }
+    },
+    {
       "asset": "assets/images/armies/game-ready/vojnici/nemacki-strelac-sprites.png",
       "sha256": "476571f832554cf66da24fd870b883835f27ab27b10238755521d9ca188826f6",
       "kind": "PNG",
@@ -1678,6 +1902,64 @@
             "duration": 0.5,
             "loop": true,
             "measuredDistinctFrames": 5
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/vojnici/partizanski-strelac-movement-sprites.png",
+      "sha256": "ae00fe4b144da6b98746979facf6e056727df1a548fb287664d0938eedbfe56f",
+      "kind": "PNG",
+      "width": 1280,
+      "height": 640,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/partisan-rifleman/sprites.json",
+        "id": "partisan-rifleman-movement",
+        "frame": {
+          "width": 160,
+          "height": 160,
+          "columns": 8,
+          "rows": 4
+        },
+        "anchor": {
+          "x": 80,
+          "y": 140.8
+        },
+        "clips": [
+          {
+            "name": "standUp",
+            "row": 0,
+            "frameCount": 4,
+            "duration": 0.6,
+            "loop": false,
+            "measuredDistinctFrames": 4
+          },
+          {
+            "name": "walk",
+            "row": 1,
+            "frameCount": 8,
+            "duration": 0.8,
+            "loop": true,
+            "measuredDistinctFrames": 8
+          },
+          {
+            "name": "death",
+            "row": 2,
+            "frameCount": 6,
+            "duration": 0.76,
+            "loop": false,
+            "measuredDistinctFrames": 6
+          },
+          {
+            "name": "deathStanding",
+            "row": 3,
+            "frameCount": 6,
+            "duration": 0.76,
+            "loop": false,
+            "measuredDistinctFrames": 6
           }
         ]
       }
@@ -1939,6 +2221,40 @@
         "anchor": {
           "x": 123.0,
           "y": 93
+        },
+        "clips": [
+          {
+            "name": "dead",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1,
+            "loop": false,
+            "measuredDistinctFrames": 1
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/wrecks/field-gun.png",
+      "sha256": "177fc210b2a7b8b6696a6aa521b8f3bd5660906d8efd8fccb15363ae51a5454d",
+      "kind": "PNG",
+      "width": 500,
+      "height": 260,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/field-gun/wreck-sprites.json",
+        "id": "field-gun-wreck",
+        "frame": {
+          "width": 500,
+          "height": 260,
+          "columns": 1,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 240,
+          "y": 164.5
         },
         "clips": [
           {
@@ -2443,6 +2759,36 @@
       "distinctImageFrames": 4
     },
     {
+      "asset": "assets/images/armies/sources/cannon-crew-fall/final-with-guns.png",
+      "sha256": "56cbccf88a01efe21fb52f30fd05885791a1104ee8c311daea3ccfc8951d253d",
+      "kind": "PNG",
+      "width": 1000,
+      "height": 200,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/armies/sources/cannon-crew-fall/italian-death.gif",
+      "sha256": "0695290202c2e01c017d4b003b2aa161881f15c3b651c87149dadfb7b7b75259",
+      "kind": "GIF",
+      "width": 75,
+      "height": 60,
+      "imageFrames": 6,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 6
+    },
+    {
+      "asset": "assets/images/armies/sources/cannon-crew-fall/partisan-death.gif",
+      "sha256": "1ce294c9c46f06f21bdc399495c5952f9470e7fd1b5125b74c440be700701015",
+      "kind": "GIF",
+      "width": 75,
+      "height": 60,
+      "imageFrames": 6,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 6
+    },
+    {
       "asset": "assets/images/armies/sources/do-trsta/previews/opel-blitz-drive-137.gif",
       "sha256": "a5e8a83de3ed895bb78cf5d07c85c4ab586a60048e02c2411b1da23c4cd64ee7",
       "kind": "GIF",
@@ -2463,6 +2809,46 @@
       "distinctImageFrames": 1
     },
     {
+      "asset": "assets/images/armies/sources/field-gun/aim.gif",
+      "sha256": "f8a8bf31cae952824f926aaf4f1fc577d9a2436ded5f1eb81dbae4a90042e1c3",
+      "kind": "GIF",
+      "width": 375,
+      "height": 195,
+      "imageFrames": 31,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 16
+    },
+    {
+      "asset": "assets/images/armies/sources/field-gun/angles.png",
+      "sha256": "cf3379650066c49d3a15b9f89cf9786ee9aa95406432511c44fa3befd377e390",
+      "kind": "PNG",
+      "width": 1125,
+      "height": 225,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/armies/sources/field-gun/composition-game-size.png",
+      "sha256": "4d4c2f986d5e2964c94057552408e35f009eb5ee4733114969ab4b411c33262f",
+      "kind": "PNG",
+      "width": 1000,
+      "height": 200,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/armies/sources/field-gun/wreck-game-size.png",
+      "sha256": "52830fc996cec2bafd15dd4342bd6e2c2c3eaf410dde34ce641683102be2c9d8",
+      "kind": "PNG",
+      "width": 750,
+      "height": 430,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
       "asset": "assets/images/armies/sources/franjo-kluz/hummel-native-tracks-generated.png",
       "sha256": "fe773065e17cff9f157f9305c9a41ac73561cecdea0b9b2bcaf4bd6fd642d392",
       "kind": "PNG",
@@ -2473,8 +2859,68 @@
       "distinctImageFrames": 1
     },
     {
+      "asset": "assets/images/armies/sources/grenadier-throw/game-size.png",
+      "sha256": "a953c9334e234ce7b74b21728a6787641dae2e528fa5d28bd6a66f0c685aab1e",
+      "kind": "PNG",
+      "width": 594,
+      "height": 92,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/armies/sources/grenadier-throw/right-game-size.png",
+      "sha256": "492e40105567f9f67c8b1c8e1b9f32fffcc73f58cac70b63320c9d67b3f5f8d3",
+      "kind": "PNG",
+      "width": 594,
+      "height": 92,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/armies/sources/grenadier-throw/throw-right.gif",
+      "sha256": "c563d069562dce6cf8ff8eee3f4c349e711f8b70de14e2d17606cac7183bf7d2",
+      "kind": "GIF",
+      "width": 66,
+      "height": 72,
+      "imageFrames": 8,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 8
+    },
+    {
+      "asset": "assets/images/armies/sources/grenadier-throw/throw.gif",
+      "sha256": "3bf0bdeb6e07507d78e5c28201d871d2f893d14476d041d6fa19a6412a68c4e7",
+      "kind": "GIF",
+      "width": 66,
+      "height": 72,
+      "imageFrames": 8,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 8
+    },
+    {
+      "asset": "assets/images/armies/sources/hummel-fire/fire.gif",
+      "sha256": "aecb2035619fe8eae4e6673aabaabc83043f6a69edac1b963dfa40644f5c9992",
+      "kind": "GIF",
+      "width": 288,
+      "height": 132,
+      "imageFrames": 6,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 6
+    },
+    {
+      "asset": "assets/images/armies/sources/hummel-fire/game-size.png",
+      "sha256": "8ffd1dc4a06e990a1a4f138c134e39b0b5c3bf305c5833a085025c3485f3be6c",
+      "kind": "PNG",
+      "width": 864,
+      "height": 456,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
       "asset": "assets/images/armies/sources/infantry-art/previews/bombas-death-game-size.png",
-      "sha256": "f7b092b4d107338c50dee670d438736aa43ad1396f5ef71dbe804987c65ca521",
+      "sha256": "93bb9b24996664fbdfcec5678eb2f41f162ae02a6ab972d3b97fdce198f53366",
       "kind": "PNG",
       "width": 396,
       "height": 72,
@@ -2483,8 +2929,28 @@
       "distinctImageFrames": 1
     },
     {
+      "asset": "assets/images/armies/sources/infantry-art/previews/bombas-death-with-blood-left.png",
+      "sha256": "3bb1e014ca77833dcdd4b75f107ae80188f402d7b38a1f36bf0a5c004847b30f",
+      "kind": "PNG",
+      "width": 180,
+      "height": 130,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/armies/sources/infantry-art/previews/bombas-death-with-blood.png",
+      "sha256": "ae71af9365eec5ac1a90178c7c128a2e43619a5c83182f11b4fbfc0ce03237bc",
+      "kind": "PNG",
+      "width": 180,
+      "height": 130,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
       "asset": "assets/images/armies/sources/infantry-art/previews/bombas-death.gif",
-      "sha256": "0206ec5086a957b1ddd70a0e559c90a7c38f10d4dda5899c144bb77a2a902ef9",
+      "sha256": "62558a7ea0796d2fe54b29b64cc75f364b6414e9520b28df871c10dc504a85b2",
       "kind": "GIF",
       "width": 66,
       "height": 72,
@@ -2513,6 +2979,46 @@
       "distinctImageFrames": 5
     },
     {
+      "asset": "assets/images/armies/sources/partisan-rifleman/death.gif",
+      "sha256": "04d32903cdaae888c7dc51b83dc336ab95d2f8c51bbcc67689e0fc6e73aa6014",
+      "kind": "GIF",
+      "width": 110,
+      "height": 100,
+      "imageFrames": 6,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 6
+    },
+    {
+      "asset": "assets/images/armies/sources/partisan-rifleman/deathStanding.gif",
+      "sha256": "16deb64275423582c2a6a670de74472fa4b3352ef814e0ab3f358eaaafe51b32",
+      "kind": "GIF",
+      "width": 110,
+      "height": 100,
+      "imageFrames": 6,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 6
+    },
+    {
+      "asset": "assets/images/armies/sources/partisan-rifleman/game-size.png",
+      "sha256": "75e72d61791b38dd4df5851eb5296d6ab85f119a2f7097d10ed39948384e6f0b",
+      "kind": "PNG",
+      "width": 880,
+      "height": 126,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/armies/sources/partisan-rifleman/walk.gif",
+      "sha256": "924ed4d199e63bca00bcda5cfc446590ab479fe10767adb4d88a50e2874f610d",
+      "kind": "GIF",
+      "width": 110,
+      "height": 100,
+      "imageFrames": 8,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 8
+    },
+    {
       "asset": "assets/images/armies/sources/ranjenik/previews/ranjenik-game-size.png",
       "sha256": "fd0dcbe968f8f5dccadbf3a23a729df1e90ed6422bf98d23165e213655789745",
       "kind": "PNG",
@@ -2521,6 +3027,26 @@
       "imageFrames": 1,
       "hasTransparentPixelsInFirstFrame": false,
       "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/armies/sources/rifleman-reload/game-size.png",
+      "sha256": "4e7f1596c70bd7ac8dae8656886a21653f0026d5cfefa2be0bb83eebff94da9b",
+      "kind": "PNG",
+      "width": 720,
+      "height": 104,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/armies/sources/rifleman-reload/reload.gif",
+      "sha256": "081dc8d27e08b3e8b629e6a0885da559649895171078ce3a6874b06b91f6b434",
+      "kind": "GIF",
+      "width": 80,
+      "height": 80,
+      "imageFrames": 8,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 8
     },
     {
       "asset": "assets/images/armies/sources/scenery/fallen-generated.png",
@@ -2969,6 +3495,14 @@
       "sha256": "dc4e1cfb0dc783c347793837b6b91989a260f7aa59932d55012ea646e074dc5c"
     },
     {
+      "path": "assets/images/armies/game-ready/artiljerija/field-gun-barrel-pixel.png",
+      "sha256": "084cd423e85da1b4adef23fa4d08e7d97b2a22f4885501c1ee6b8901fb2dc514"
+    },
+    {
+      "path": "assets/images/armies/game-ready/artiljerija/field-gun-carriage-pixel.png",
+      "sha256": "96c8ea806184978bb3156b649873ef2bc7bd51b94e8399a4e3c8b5d775aee3cc"
+    },
+    {
       "path": "assets/images/armies/game-ready/artiljerija/flak38-cev.png",
       "sha256": "951756eeb3498b126e16edba94e46e2cf3241ab546687d62f54629dd63283461"
     },
@@ -2979,6 +3513,10 @@
     {
       "path": "assets/images/armies/game-ready/artiljerija/flak38-postolje.png",
       "sha256": "91693171cd592250b335bfc06b920dcb4ca2665ba6b5eb55e858901a1050b2db"
+    },
+    {
+      "path": "assets/images/armies/game-ready/artiljerija/italijanska-posada-death-sprites.png",
+      "sha256": "e4628accdf609f5712f3d78d8296dbfbc52c75da09e87022eecec8ab17494a00"
     },
     {
       "path": "assets/images/armies/game-ready/artiljerija/italijanska-posada-sprites.png",
@@ -2995,6 +3533,10 @@
     {
       "path": "assets/images/armies/game-ready/artiljerija/pak38-postolje.png",
       "sha256": "6de63d608deb61cc7e3f0a3bbfab83aa02685ae0d79eaf45d289d582f9be1771"
+    },
+    {
+      "path": "assets/images/armies/game-ready/artiljerija/partizanska-posada-death-sprites.png",
+      "sha256": "738d0e09de5b9cab7306fed281f4294daeea65da3114fd94309acaf2c54bc140"
     },
     {
       "path": "assets/images/armies/game-ready/artiljerija/partizanska-posada-sprites.png",
@@ -3121,6 +3663,10 @@
       "sha256": "98bc57716570ea176c3fe9846259e82675f2eca776896eb4b37bf04b0bc6b33a"
     },
     {
+      "path": "assets/images/armies/game-ready/tenkovi/hummel-fire-sprites.png",
+      "sha256": "a526a28148bf201e25d4eeed32396938a83390593a27edd8c5a51c3a3a07a900"
+    },
+    {
       "path": "assets/images/armies/game-ready/tenkovi/hummel-sprites.png",
       "sha256": "6fcb4ddd03661dd15bed95aa20c5bd492b3e19878869ffb2a8628330ed9b8656"
     },
@@ -3158,7 +3704,15 @@
     },
     {
       "path": "assets/images/armies/game-ready/vojnici/bombas-sprites.png",
-      "sha256": "aee25d9e5e9c0cd865fce10833b952c1d4bae5f750d4df43b24c38041b862ec9"
+      "sha256": "13c2d761ddb407a4cd995ec6b6e48399ada817c706323038e1ddeaaa836c5929"
+    },
+    {
+      "path": "assets/images/armies/game-ready/vojnici/bombas-throw-right-sprites.png",
+      "sha256": "0653d73eedd834d8fb79989e732b29ac72c21942eec34f6ec9ba00e34bdd063a"
+    },
+    {
+      "path": "assets/images/armies/game-ready/vojnici/bombas-throw-sprites.png",
+      "sha256": "72e312f818f2518451ed5d2036cd8488498f9e4b7132d36a6bd9ab13b5306ada"
     },
     {
       "path": "assets/images/armies/game-ready/vojnici/cetnici-spreda.png",
@@ -3181,6 +3735,10 @@
       "sha256": "a64361b69d2259e1c8bcf6c20fb82edb84f24ec716256d74bea8bcb129871cc5"
     },
     {
+      "path": "assets/images/armies/game-ready/vojnici/nemacki-strelac-reload-sprites.png",
+      "sha256": "d8611ff54a9867c60ce2549e3fc85cbaaec70c4149d4bc5887fd8279404cc14e"
+    },
+    {
       "path": "assets/images/armies/game-ready/vojnici/nemacki-strelac-sprites.png",
       "sha256": "476571f832554cf66da24fd870b883835f27ab27b10238755521d9ca188826f6"
     },
@@ -3191,6 +3749,10 @@
     {
       "path": "assets/images/armies/game-ready/vojnici/occupier-sprites.png",
       "sha256": "ebbe52390b3d6945b770c312f929c2f8e1d50277cd0d79141fd26e756bca235c"
+    },
+    {
+      "path": "assets/images/armies/game-ready/vojnici/partizanski-strelac-movement-sprites.png",
+      "sha256": "ae00fe4b144da6b98746979facf6e056727df1a548fb287664d0938eedbfe56f"
     },
     {
       "path": "assets/images/armies/game-ready/vojnici/partizanski-strelac-sprites.png",
@@ -3219,6 +3781,10 @@
     {
       "path": "assets/images/armies/game-ready/wrecks/bunker.png",
       "sha256": "94826e358e1b788a14111e5959cc1dd2557165691a6e5800d656dedb7053da6d"
+    },
+    {
+      "path": "assets/images/armies/game-ready/wrecks/field-gun.png",
+      "sha256": "177fc210b2a7b8b6696a6aa521b8f3bd5660906d8efd8fccb15363ae51a5454d"
     },
     {
       "path": "assets/images/armies/game-ready/wrecks/flak38.png",
@@ -3357,6 +3923,34 @@
       "sha256": "7fe6c28c756ec595b119735bfc5ac1aa670fc26c0db53b11e78c573c107d6218"
     },
     {
+      "path": "assets/images/armies/sources/cannon-crew-fall/final-with-guns.png",
+      "sha256": "56cbccf88a01efe21fb52f30fd05885791a1104ee8c311daea3ccfc8951d253d"
+    },
+    {
+      "path": "assets/images/armies/sources/cannon-crew-fall/generation.json",
+      "sha256": "d32b38ba9def312ea8e749fedbd036d18851cc5f87b2914838d9530beac33d99"
+    },
+    {
+      "path": "assets/images/armies/sources/cannon-crew-fall/italian-death.gif",
+      "sha256": "0695290202c2e01c017d4b003b2aa161881f15c3b651c87149dadfb7b7b75259"
+    },
+    {
+      "path": "assets/images/armies/sources/cannon-crew-fall/partisan-death.gif",
+      "sha256": "1ce294c9c46f06f21bdc399495c5952f9470e7fd1b5125b74c440be700701015"
+    },
+    {
+      "path": "assets/images/armies/sources/cannon-crew-fall/prepare.py",
+      "sha256": "e9ef2001eea903462bd43a21d9948c9677ea7db8a5ade7415fea90317b030202"
+    },
+    {
+      "path": "assets/images/armies/sources/cannon-crew-fall/preview.html",
+      "sha256": "4ae4d0df972d18a3d34c45889c5523754d58cfad6e480381bf80e3d536a38b72"
+    },
+    {
+      "path": "assets/images/armies/sources/cannon-crew-fall/sprites.json",
+      "sha256": "c28d840fb90b87fe43f05639bd8f70145f1d30536a5243f635ce64f5b83e6851"
+    },
+    {
       "path": "assets/images/armies/sources/do-trsta/opel-blitz.json",
       "sha256": "f2ec967976f616ff7505af1504eff1f1eaefebbc86828d71a7c74e5b73e9bf49"
     },
@@ -3375,6 +3969,54 @@
     {
       "path": "assets/images/armies/sources/do-trsta/previews/opel-blitz-drive-137.png",
       "sha256": "28ac028e55ee6b942e13078ada7003675f498a6820d3fdbb87d06930d743a3a5"
+    },
+    {
+      "path": "assets/images/armies/sources/field-gun/aim.gif",
+      "sha256": "f8a8bf31cae952824f926aaf4f1fc577d9a2436ded5f1eb81dbae4a90042e1c3"
+    },
+    {
+      "path": "assets/images/armies/sources/field-gun/angles.png",
+      "sha256": "cf3379650066c49d3a15b9f89cf9786ee9aa95406432511c44fa3befd377e390"
+    },
+    {
+      "path": "assets/images/armies/sources/field-gun/composition-game-size.png",
+      "sha256": "4d4c2f986d5e2964c94057552408e35f009eb5ee4733114969ab4b411c33262f"
+    },
+    {
+      "path": "assets/images/armies/sources/field-gun/generation.json",
+      "sha256": "b37245887c434547e64360abeeda35c4c81147b6e130ab53005d19c73bfc290c"
+    },
+    {
+      "path": "assets/images/armies/sources/field-gun/layout.json",
+      "sha256": "9e390fefb14e50b202bf67fd610aea1a4550c51113f3dace9daa0ca56c03d736"
+    },
+    {
+      "path": "assets/images/armies/sources/field-gun/prepare-wreck.py",
+      "sha256": "df41deb302b171558485163988adfc0531778dd445258d43af8ef5179625b9bd"
+    },
+    {
+      "path": "assets/images/armies/sources/field-gun/prepare.py",
+      "sha256": "7574db9efb4717a9ae74ac02644306abef19cb0aba120935ae5be7de53492121"
+    },
+    {
+      "path": "assets/images/armies/sources/field-gun/preview.html",
+      "sha256": "bb496a89fc6dec2178eddc4c510aab09999061ac207465a54a8618acfdb9b5d7"
+    },
+    {
+      "path": "assets/images/armies/sources/field-gun/wreck-game-size.png",
+      "sha256": "52830fc996cec2bafd15dd4342bd6e2c2c3eaf410dde34ce641683102be2c9d8"
+    },
+    {
+      "path": "assets/images/armies/sources/field-gun/wreck-generation.json",
+      "sha256": "18ed7e74cb638e8d5f1dacf12dee3159d3cb3d78d0701181a5faced4041b5de7"
+    },
+    {
+      "path": "assets/images/armies/sources/field-gun/wreck-preview.html",
+      "sha256": "068029ac884738212fd95c0c6dd9995b1843c27dd7cbcc8afe8077a91aeb2f25"
+    },
+    {
+      "path": "assets/images/armies/sources/field-gun/wreck-sprites.json",
+      "sha256": "a04d066978dd2f28dd912edee9321e15f7405c336448cb090f0eb2f441be2610"
     },
     {
       "path": "assets/images/armies/sources/franjo-kluz/hummel-native-generation.json",
@@ -3403,6 +4045,70 @@
     {
       "path": "assets/images/armies/sources/franjo-kluz/sprites.json",
       "sha256": "dc73f51fbd4cb5e190022bcf5fc6161169fc2e92645861b346c508392502a868"
+    },
+    {
+      "path": "assets/images/armies/sources/grenadier-throw/game-size.png",
+      "sha256": "a953c9334e234ce7b74b21728a6787641dae2e528fa5d28bd6a66f0c685aab1e"
+    },
+    {
+      "path": "assets/images/armies/sources/grenadier-throw/generation.json",
+      "sha256": "8917208bbd65bdb1889cd33ec6f6cd75abc5ff5a63fee49020fe65e7ac815d76"
+    },
+    {
+      "path": "assets/images/armies/sources/grenadier-throw/prepare.py",
+      "sha256": "002170f925b7d689be641d9a317571dfe059c46d84be85734ab50b67d87f455c"
+    },
+    {
+      "path": "assets/images/armies/sources/grenadier-throw/preview.html",
+      "sha256": "eed920489058aa259e0294782f84d06721223ec3a537bed9c80deccd4f2767c2"
+    },
+    {
+      "path": "assets/images/armies/sources/grenadier-throw/right-game-size.png",
+      "sha256": "492e40105567f9f67c8b1c8e1b9f32fffcc73f58cac70b63320c9d67b3f5f8d3"
+    },
+    {
+      "path": "assets/images/armies/sources/grenadier-throw/right-generation.json",
+      "sha256": "1e19ea25bc04cfcba8fd645d445f79207d930cd29d75868a90aca639470e6518"
+    },
+    {
+      "path": "assets/images/armies/sources/grenadier-throw/right-preview.html",
+      "sha256": "56a9cd640403f437b7d66957dac7ed246f94d3c44bb792c1acac96ad5a23f60e"
+    },
+    {
+      "path": "assets/images/armies/sources/grenadier-throw/sprites.json",
+      "sha256": "603530f425fc49f4cbedf9859f2c27c1f85027b7bbbabcb02f059e22d7740bcc"
+    },
+    {
+      "path": "assets/images/armies/sources/grenadier-throw/throw-right.gif",
+      "sha256": "c563d069562dce6cf8ff8eee3f4c349e711f8b70de14e2d17606cac7183bf7d2"
+    },
+    {
+      "path": "assets/images/armies/sources/grenadier-throw/throw.gif",
+      "sha256": "3bf0bdeb6e07507d78e5c28201d871d2f893d14476d041d6fa19a6412a68c4e7"
+    },
+    {
+      "path": "assets/images/armies/sources/hummel-fire/fire.gif",
+      "sha256": "aecb2035619fe8eae4e6673aabaabc83043f6a69edac1b963dfa40644f5c9992"
+    },
+    {
+      "path": "assets/images/armies/sources/hummel-fire/game-size.png",
+      "sha256": "8ffd1dc4a06e990a1a4f138c134e39b0b5c3bf305c5833a085025c3485f3be6c"
+    },
+    {
+      "path": "assets/images/armies/sources/hummel-fire/prepare.py",
+      "sha256": "b571607a2b20060dfb5d2dd16687c609f4157a2cd41ab91a4f894f9f274cc66d"
+    },
+    {
+      "path": "assets/images/armies/sources/hummel-fire/preview.html",
+      "sha256": "59b9c39945fe410ff96bab918549f0fb0143cce4756eed6fa943f19ddea3974d"
+    },
+    {
+      "path": "assets/images/armies/sources/hummel-fire/sprites.json",
+      "sha256": "2d9dc65563fb067c3910ea22feb1555d1b5e68ecf2dfb6ab3d74483aa3a3f7ec"
+    },
+    {
+      "path": "assets/images/armies/sources/infantry-art/bombas-death-collapse-generation.json",
+      "sha256": "4d99e8fb76a5a050738ab160c1902a92031860d214d39c97a343ac03f7ca79bc"
     },
     {
       "path": "assets/images/armies/sources/infantry-art/crew-sprites.json",
@@ -3434,15 +4140,23 @@
     },
     {
       "path": "assets/images/armies/sources/infantry-art/prepare.py",
-      "sha256": "fb26576305fd839c96c155becd0c5f02a736a031af10e423160239ecfb78564f"
+      "sha256": "d280506487d705dddaf37108e3d3830f74bd7b932678588aa0a09fbf2b99d7da"
     },
     {
       "path": "assets/images/armies/sources/infantry-art/previews/bombas-death-game-size.png",
-      "sha256": "f7b092b4d107338c50dee670d438736aa43ad1396f5ef71dbe804987c65ca521"
+      "sha256": "93bb9b24996664fbdfcec5678eb2f41f162ae02a6ab972d3b97fdce198f53366"
+    },
+    {
+      "path": "assets/images/armies/sources/infantry-art/previews/bombas-death-with-blood-left.png",
+      "sha256": "3bb1e014ca77833dcdd4b75f107ae80188f402d7b38a1f36bf0a5c004847b30f"
+    },
+    {
+      "path": "assets/images/armies/sources/infantry-art/previews/bombas-death-with-blood.png",
+      "sha256": "ae71af9365eec5ac1a90178c7c128a2e43619a5c83182f11b4fbfc0ce03237bc"
     },
     {
       "path": "assets/images/armies/sources/infantry-art/previews/bombas-death.gif",
-      "sha256": "0206ec5086a957b1ddd70a0e559c90a7c38f10d4dda5899c144bb77a2a902ef9"
+      "sha256": "62558a7ea0796d2fe54b29b64cc75f364b6414e9520b28df871c10dc504a85b2"
     },
     {
       "path": "assets/images/armies/sources/infantry-art/previews/crews-game-size.png",
@@ -3454,7 +4168,39 @@
     },
     {
       "path": "assets/images/armies/sources/infantry-art/sprites.json",
-      "sha256": "f3ce0869b21338c9456fbf03d5454dffc04b3cc746801505a6f0a229a90aeb90"
+      "sha256": "b4939812c4822aaf4a250daa3c0b376139cdf191e966067d0d2ef6c5dc889aa4"
+    },
+    {
+      "path": "assets/images/armies/sources/partisan-rifleman/death.gif",
+      "sha256": "04d32903cdaae888c7dc51b83dc336ab95d2f8c51bbcc67689e0fc6e73aa6014"
+    },
+    {
+      "path": "assets/images/armies/sources/partisan-rifleman/deathStanding.gif",
+      "sha256": "16deb64275423582c2a6a670de74472fa4b3352ef814e0ab3f358eaaafe51b32"
+    },
+    {
+      "path": "assets/images/armies/sources/partisan-rifleman/game-size.png",
+      "sha256": "75e72d61791b38dd4df5851eb5296d6ab85f119a2f7097d10ed39948384e6f0b"
+    },
+    {
+      "path": "assets/images/armies/sources/partisan-rifleman/generation.json",
+      "sha256": "86dd1ba9aafebf23ac1a68f0c6a67266f24495c60b2414daae5ebfd8a568fd5d"
+    },
+    {
+      "path": "assets/images/armies/sources/partisan-rifleman/prepare.py",
+      "sha256": "0373acea2510b30ba5e9b754717b74b73d7f688a44068ae5485c5e577c276adb"
+    },
+    {
+      "path": "assets/images/armies/sources/partisan-rifleman/preview.html",
+      "sha256": "47927cf39f036d5e43a2a104d9a78523f6aee9995dc04b441b15e3a221589c41"
+    },
+    {
+      "path": "assets/images/armies/sources/partisan-rifleman/sprites.json",
+      "sha256": "5dc0dc93b7978ecf728f5ffb2f9e5709f31462270f040314ace05d9bb145fd1a"
+    },
+    {
+      "path": "assets/images/armies/sources/partisan-rifleman/walk.gif",
+      "sha256": "924ed4d199e63bca00bcda5cfc446590ab479fe10767adb4d88a50e2874f610d"
     },
     {
       "path": "assets/images/armies/sources/ranjenik/prepare.py",
@@ -3471,6 +4217,30 @@
     {
       "path": "assets/images/armies/sources/ranjenik/sprites.json",
       "sha256": "1506d59bd165f1b93ab44a1809329794a93ba0f30ddceca4cfe3d88be5081a36"
+    },
+    {
+      "path": "assets/images/armies/sources/rifleman-reload/game-size.png",
+      "sha256": "4e7f1596c70bd7ac8dae8656886a21653f0026d5cfefa2be0bb83eebff94da9b"
+    },
+    {
+      "path": "assets/images/armies/sources/rifleman-reload/generation.json",
+      "sha256": "a00b3bb5fd9af967bf08531082823825a58f8e0cdea57c32f57aac13920f6ebe"
+    },
+    {
+      "path": "assets/images/armies/sources/rifleman-reload/prepare.py",
+      "sha256": "633f5a5351b12c91a738aaad839062a52ef0eb201b2a79fbfcf39da70969feda"
+    },
+    {
+      "path": "assets/images/armies/sources/rifleman-reload/preview.html",
+      "sha256": "be2a4def2ed8cbd219d81f50ddf0646a07a29bd35ee459935fd10e338430de38"
+    },
+    {
+      "path": "assets/images/armies/sources/rifleman-reload/reload.gif",
+      "sha256": "081dc8d27e08b3e8b629e6a0885da559649895171078ce3a6874b06b91f6b434"
+    },
+    {
+      "path": "assets/images/armies/sources/rifleman-reload/sprites.json",
+      "sha256": "c398202aa8335b1febd7d5497a637824fbf73727125c08a92dc01e6bc2996660"
     },
     {
       "path": "assets/images/armies/sources/scenery/catalog.json",
@@ -3801,52 +4571,92 @@
       "sha256": "1788988e32db73d156a673e7730a5cc93a3b4a8694b50450d51e1136a1bb5080"
     },
     {
-      "path": "core/actor/aircraft/DiveBomber.js",
-      "sha256": "08690b57f6a056a11449419bd161e2cd9f55535a0595ba989a7ba289ec6edcee"
+      "path": "core/actor/aircraft/AttackPlaneSprite.js",
+      "sha256": "2c1e39cabfdc67022499a2a451e71f1600826d11ee502e056e6b3c5d0373dee4"
     },
     {
-      "path": "core/actor/aircraft/Fighter.js",
-      "sha256": "c2818c320337adc16e32643ac5da705bd2075ed682f7051a51369d1d69c2e404"
+      "path": "core/actor/aircraft/DiveBomberSprite.js",
+      "sha256": "26d400afeeef1578b37a5b346ab71a5a7948d653fd97328a55fa615f47612466"
     },
     {
-      "path": "core/actor/artillery/Flak.js",
-      "sha256": "8a991e468cb82d7e808a0fc9c2e3491d269bd89008c1728db5edad1570c0bd59"
+      "path": "core/actor/aircraft/FighterBomberSprite.js",
+      "sha256": "e7a4841cc29faae61ab3c732ac0fa5fb5c5f75e9018f633f6aefcab3f6426279"
     },
     {
-      "path": "core/actor/derived/Grenadier.js",
-      "sha256": "5b9fbf84e9124685d217e5522b0da8c174f625ee3f670dc2515cd2ac17255024"
+      "path": "core/actor/aircraft/FighterSprite.js",
+      "sha256": "eaa10793f7f1f04203750052a491e96df8d9355b9a295aac7123766c8ea58d2d"
     },
     {
-      "path": "core/actor/derived/GrenadierSprite.js",
-      "sha256": "ea32c32f6a9123514c68fff7ca75daaf81f349e632d6e05d7128ce43a923a97b"
+      "path": "core/actor/aircraft/PotezSprite.js",
+      "sha256": "ee37c5dfdb908720858e7c2aed2ed0fed5787466e3c45daa8d9f03da218f7805"
     },
     {
-      "path": "core/actor/derived/WoundedSoldier.js",
-      "sha256": "96772cac73dff7768584e7b393e8aa266a8e5b60163508e39c4543fa56c52503"
+      "path": "core/actor/artillery/BunkerSprite.js",
+      "sha256": "b33e6e6fb3e4ae42e5f92a2af2cf5775c8abcb43223a0b849d779768064bafb5"
     },
     {
-      "path": "core/actor/Occupier.js",
-      "sha256": "bc7cdb5e723de9dddc356fd3098daeadc4f154cd20daf784d9d99409896fe4c9"
+      "path": "core/actor/artillery/FieldGunSprite.js",
+      "sha256": "175ee57415a45f0e3cd8023477c9a4f0cf1e67533a18425ed6560d71982a418c"
     },
     {
-      "path": "core/actor/soldiers/MachineGunner.js",
-      "sha256": "15dd415012be61afedda852a6d1dd3c49e0d6377b64111c062a86a8910823c19"
+      "path": "core/actor/artillery/FlakSprite.js",
+      "sha256": "c0b3e22079ee684e9d372074d2b12d9b10ce768e8977edb9e524912ef1e0805f"
     },
     {
-      "path": "core/actor/soldiers/Patrol.js",
-      "sha256": "2a5c4e557b0e09e7a122e5a11a7bd7daba89e2da0e84e70f77d5addfd5c538ed"
+      "path": "core/actor/artillery/ShoreMachineGunSprite.js",
+      "sha256": "548e320c04976e39971261de128be19b512d0bad93033ebad17f56715b080722"
     },
     {
-      "path": "core/actor/soldiers/Rifleman.js",
-      "sha256": "0b30ea9a9580ff7c4899ddd1410261f6ddbfab5ed516997b59f6db89bc0eb91c"
+      "path": "core/actor/boats/BoatSprite.js",
+      "sha256": "5b40ccbe2c8e14e04492245e6422011475c45e3efe7b8b849cc7f88f905ed82e"
     },
     {
-      "path": "core/actor/soldiers/TrenchSoldier.js",
-      "sha256": "a51b3039752f2f156fc9c727a39d885846b9087e11fc1e87fcbad080c8853e3f"
+      "path": "core/actor/boats/SBoatSprite.js",
+      "sha256": "91537792c7dee26f8e040f2debc2410a25fb1065d9ef3de17032ea882c786001"
     },
     {
-      "path": "core/actor/TopDownPlayerBoat.js",
-      "sha256": "025978c93ab1d88b355918dd170a2506a493ce2a74ea01a5eddecf7ea5d2f1fb"
+      "path": "core/actor/effects/FallingBlood.js",
+      "sha256": "5c5bd640aee97530c1ed419ca5280d050b601fa3b0c829d02b0905127e747a9f"
+    },
+    {
+      "path": "core/actor/LocomotionSprite.js",
+      "sha256": "970320c69340d873b9c522fbaad89dedd245646c6517535fbb90497e0ae51435"
+    },
+    {
+      "path": "core/actor/soldiers/CannonCrewSprite.js",
+      "sha256": "0b68beea40e1d360808c73c1735ad08fae54dd8bcd8ffff9c52d5125927f8ee5"
+    },
+    {
+      "path": "core/actor/soldiers/FlagBearerSprite.js",
+      "sha256": "115f759771aec6b767e8ca1ebfebdcd939048cae229bd30ea53e0e7963bcab67"
+    },
+    {
+      "path": "core/actor/soldiers/GrenadierSprite.js",
+      "sha256": "b1220ea57ccc5fa409510efcb8a1dbe49c41fcc316246dfce41e12e9e682eab4"
+    },
+    {
+      "path": "core/actor/soldiers/MachineGunnerSprite.js",
+      "sha256": "69074340b88f5ae1e8990411e917d97a8587087beea1c6a40574178b523be5da"
+    },
+    {
+      "path": "core/actor/soldiers/OccupierSprite.js",
+      "sha256": "debd6008dfa657c015c8656ffefe8edbdd7b732eb70bb5e00458bdd9da2f5ce8"
+    },
+    {
+      "path": "core/actor/soldiers/PatrolSprite.js",
+      "sha256": "66af6da4e96fe0ab5985548420c8de3df840b902b4af168bec7b10294002efd7"
+    },
+    {
+      "path": "core/actor/soldiers/RiflemanSprite.js",
+      "sha256": "f637c52deba4741061a6c09b2aa6af5a3f3b507302f54d71f1ef2fa271a4abde"
+    },
+    {
+      "path": "core/actor/soldiers/SkirmisherSprite.js",
+      "sha256": "40b5fed16daf56b4109a7e0fecaf78bba2f5dc22bc69eddff335da79245fe7a2"
+    },
+    {
+      "path": "core/actor/soldiers/TrenchSoldierSprite.js",
+      "sha256": "20c45bf46437166ab8bb9b89662a0944375fc36390eca937534acd3c610cb742"
     },
     {
       "path": "core/actor/ustanakArt.js",
@@ -3858,19 +4668,23 @@
     },
     {
       "path": "core/actor/vehicles/TankSprite.js",
-      "sha256": "9690294ea505121de23e9dbac824e2a15c084c0234ab6803f943279c64fb9432"
+      "sha256": "f2714aeb6b5f2d1647c24067a386a0f089cae9699a180ee4b865bff1f038fa6a"
     },
     {
-      "path": "core/actor/vehicles/Vehicle.js",
-      "sha256": "1aed2e4649ef3dda62067a54c5d3810e1a39b3235418e7222a27ef01c352f955"
-    },
-    {
-      "path": "core/actor/VehicleSprite.js",
-      "sha256": "d07ebb7cc3ce304b557495bdeb5b9f85b37af423d265844cdb42b74a27ff00f3"
+      "path": "core/actor/vehicles/VehicleSprite.js",
+      "sha256": "569e79c375babbf367feffcdcfa4fea27659d6b0e9af75bab3aaaa222bd7ee07"
     },
     {
       "path": "core/actor/wreckArt.js",
       "sha256": "15e176a47c1a71a34d17f360770c0a7509cf78fb362ec30c011ccf3b4268c63c"
+    },
+    {
+      "path": "core/gameplay/bodies/projectiles/Grenade.js",
+      "sha256": "ba913caf60e0a4632e925e31139f4e8fa9f3864952be0f79614141d026f35f64"
+    },
+    {
+      "path": "core/gameplay/bodies/soldiers/Grenadier.js",
+      "sha256": "d16a7ef3022552de6b3e90253469941edc83838fd02b968a8c385eb0bf16892b"
     },
     {
       "path": "core/SceneryLayer.js",
@@ -3878,11 +4692,11 @@
     },
     {
       "path": "docs/ARHITEKTURA.md",
-      "sha256": "d3b579ee1499520ed89ab90d6133d93e7870be7de8b37483cf9397b48a89c6e7"
+      "sha256": "cf6e8bf8565413e8e8ec713f92b120847161ee0fb9691c37bcfc2e1d9bb9fdaa"
     },
     {
       "path": "docs/ART.md",
-      "sha256": "9186c39d19089219f6329a064a578e3d3d4c708e7554bdc6dc93f46f21d149bf"
+      "sha256": "8a6369d2f036e4a57b31120cb7284ecc9408a383eed7b56da26e549f876fec6e"
     },
     {
       "path": "docs/ISTORIJA.md",
@@ -3890,11 +4704,11 @@
     },
     {
       "path": "docs/KONTEKST.md",
-      "sha256": "5a7592a26bca13ac298eeb5e48038a970bf93539261f06ca7a8aa106bcb07618"
+      "sha256": "d9e87038cb61f6e3aceb0d50a507ce9c7cbb9ac10b330abaff5c0e959509de87"
     },
     {
       "path": "docs/PLAN-ELEMENTI.md",
-      "sha256": "42e31862c24672d47c26d8ec2a11a39802129a9afb10189f57edbb8121267823"
+      "sha256": "0e68a0883b74e0b9f7ff7f749deb2410e7aec46fbff64c4600f2e2eb2ca1ba6a"
     },
     {
       "path": "docs/PLAN-IDEJE.md",
@@ -3906,91 +4720,23 @@
     },
     {
       "path": "docs/TESTING.md",
-      "sha256": "84ddb584d3c450bd740d7f125d9b8ee9c2d835706d28ef7bcf4719ca3ac52696"
+      "sha256": "0bac49169b6111041db70d5bd2bff394a95b929982f72037940a0d2c07ccade5"
     },
     {
       "path": "props.html",
       "sha256": "7eaa056335c2d1ddf8ed0c176e7439911803af60f2f01f7d8f352db056055070"
     },
     {
-      "path": "scenes/camac/Boat.js",
-      "sha256": "929726ccd479e7d9865c28e0a6333d5258a97fce3164346a3b6851b7d5c939b5"
-    },
-    {
-      "path": "scenes/camac/SBoat.js",
-      "sha256": "9f82bb1328a0870891be9ab15e2ff35ea32ab13c3e3a7388813bac0b1144a71f"
-    },
-    {
-      "path": "scenes/camac/ShoreMachineGun.js",
-      "sha256": "6ff4c3ed0595586e2bd3ca1d3e4b61b76b68d6b6d8b01754c8b22445c94c85fc"
-    },
-    {
-      "path": "scenes/franjo-kluz/Potez.js",
-      "sha256": "01efe55042e006ceade1f68f01e203186fb09a8f362614c06d44bd07deea76d0"
-    },
-    {
       "path": "scenes/tenkici/BattleBackground.js",
-      "sha256": "d744335289b50a2cefaf4b26d2ef80d859de5f74d990e94859c7d056d536c5af"
+      "sha256": "64e2643fe8f15fab6c7a32ef9a8f328f358898d24158d1e4fadf7c817e63cb90"
     },
     {
       "path": "scenes/tenkici/renderLayers.js",
       "sha256": "25ebbdad51d29409aa7e314827777aff32dcafa30114f671f56e594620f874ab"
     },
     {
-      "path": "scenes/tenkici/Tenk.js",
-      "sha256": "7a5bc49f2860d96e518074575ea3325c9caad033166fec7759af8de4b4a28b01"
-    },
-    {
-      "path": "scenes/tenkici/TenkLevo.js",
-      "sha256": "861eef0435ce7f8432f2419fea8f2ab79341d39f115f00819ee6aba892753c7a"
-    },
-    {
-      "path": "scenes/to-trieste/Aircraft.js",
-      "sha256": "b7ae95570cb05d629e47cdc8da1d77c3f23f84423f15497abbca398c1c052c42"
-    },
-    {
-      "path": "scenes/to-trieste/Bunker.js",
-      "sha256": "dae66751e0d9179ece52def7d95a2f0df8142ba322a4e95aba611fecbe70c9ee"
-    },
-    {
-      "path": "scenes/to-trieste/enemyArt.js",
-      "sha256": "b9bce52548167575ac76b5848339317e3774b30e8c61c7a1676b47084e13cc83"
-    },
-    {
-      "path": "scenes/to-trieste/GroundEnemies.js",
-      "sha256": "ecfe551d94f5595b795ad736cd9ed5124dd43743f1b4a2ba01420679b15a20e9"
-    },
-    {
-      "path": "scenes/ustanak/Posada.js",
-      "sha256": "66ead9200c725533e7d380dcaf84766b3ce62ecaace2f4742e193eb579ca71b8"
-    },
-    {
-      "path": "scenes/ustanak/Strelac.js",
-      "sha256": "f258ea20acf43e0b13d02ab6e4e0aaf2b86595a8d190fdc77230fa4c4d824834"
-    },
-    {
-      "path": "scenes/ustanak/Top.js",
-      "sha256": "e67ccb809b79cfcf7caae2472235e3f3a877191a7c54925272d77dbfc2f2ea8a"
-    },
-    {
-      "path": "scenes/ustanak/Zastavnik.js",
-      "sha256": "cb2b61ad497398334fe8a3ead83b6aefaaa14c438776e5d3415f805d0a43caca"
-    },
-    {
-      "path": "scenes/vis/Avionce.js",
-      "sha256": "79c20ec5a8a5c25e7533457742be8040ede1bc9aceaeaed52e9bf37b6bb11c60"
-    },
-    {
-      "path": "scenes/vis/Boss.js",
-      "sha256": "9fd82cf17868d8c909f7368c1651117e0c354a11209982923debb5599411c1ec"
-    },
-    {
-      "path": "scenes/vis/Enemy.js",
-      "sha256": "f56e2cfdecece5ef0fd630f46f5b19b2254f9610b3249acceb499e3f308e0113"
-    },
-    {
-      "path": "scenes/vis/PlayerView.js",
-      "sha256": "9975eae773ef5909e7f96ff3b4b811324c6e2e255fa0eedd43b0817c903836e2"
+      "path": "scenes/to-trieste/Main.js",
+      "sha256": "67aafda502154041939cf85daf3dcacca84e18c875731f2eab7de6d4cfc96358"
     },
     {
       "path": "scripts/index-sprite-art.py",
@@ -4006,7 +4752,7 @@
     },
     {
       "path": "storybook/stories/index.js",
-      "sha256": "87803fd742548dc81cb6d2938f910fc1512ef4e6a725af4ea3ee1464790de180"
+      "sha256": "fb5ef2de6f5705909bb4d3c4985397e61fffa1a960008c4342417087ca143c18"
     },
     {
       "path": "storybook/stories/objects3d.js",
@@ -4015,6 +4761,14 @@
     {
       "path": "storybook.html",
       "sha256": "43f940c7cba4a0ca232a8095ef3424472b304260abf4e465967421e906afa932"
+    },
+    {
+      "path": "tests/smoke/grenadier-blood.spec.js",
+      "sha256": "4fc15f784692c7bbb1e34d4fd9252c0bbc34df042bfd8275fb37bdda4307dec4"
+    },
+    {
+      "path": "tests/unit/grenadierBlood.test.js",
+      "sha256": "28852841575d61c5aee74899847130cbb929785a23e6cfd5cde210d268715275"
     }
   ]
 }

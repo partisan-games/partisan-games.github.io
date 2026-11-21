@@ -10,7 +10,9 @@ const image = () => Object.assign(new EventTarget(), { complete: true, naturalWi
 
 test('only selected props load; repeated placements and moving a prop share one image', async() => {
   const created = []
-  const layer = new SceneryLayer([], { catalog, createImage: src => { created.push(src); return image() } })
+  const layer = new SceneryLayer([], { catalog, createImage: src => {
+    created.push(src); return image()
+  } })
   assert.equal(created.length, 0)
   const one = { id: 'soldier', x: 10, y: 20 }, two = { id: 'soldier', x: 50, y: 70 }
   await layer.setItems([one, two])
@@ -52,7 +54,9 @@ test('readiness waits for every selected image and forwards image failures', asy
     },
   })
   let ready = false
-  const failed = assert.rejects(layer.ready.then(() => { ready = true }), /Image could not be loaded/)
+  const failed = assert.rejects(layer.ready.then(() => {
+    ready = true
+  }), /Image could not be loaded/)
   images[0].complete = true
   images[0].naturalWidth = 100
   images[0].dispatchEvent(new Event('load'))

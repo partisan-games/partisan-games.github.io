@@ -34,6 +34,20 @@ test('switching games does not add a full screen button', () => {
   last.end()
 })
 
+test('several paid pictures to choose from share one token by the title; each paid button shows its own', () => {
+  const ui = new UI(fakeScene)
+  ui.showScreen('start', `<div><h2>Choose</h2>${'<label data-paid><input type="image"></label>'.repeat(4)}</div>`)
+  ui.markPaid()
+  ui.markPaid()
+  assert.equal(document.querySelectorAll('#modal .price').length, 1, 'one token, also when marked again')
+  assert.ok(document.querySelector('#modal h2 .price'))
+  ui.showScreen('start', `<div><h2>Choose mode</h2>${'<button data-paid>Mode</button>'.repeat(2)}</div>`)
+  ui.markPaid()
+  assert.equal(document.querySelectorAll('#modal button .price').length, 2)
+  assert.equal(document.querySelectorAll('#modal h2 .price').length, 0)
+  ui.end()
+})
+
 test('a message requested after the game ended is not shown', () => {
   const ui = new UI(fakeScene)
   ui.end()

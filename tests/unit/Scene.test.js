@@ -131,6 +131,32 @@ const createObject = () => ({ ended: 0, end() {
   this.ended++
 } })
 
+test('first drawing waits for the wreck of an object destroyed from the start', async t => {
+  const { wreckFor } = await import('/core/actor/wreckView.js')
+  // a picture that loads only when the test says so
+  const descriptor = Object.getOwnPropertyDescriptor(globalThis, 'Image')
+  Object.defineProperty(globalThis, 'Image', { value: class extends EventTarget {
+    complete = false
+  }, configurable: true, writable: true })
+  t.after(() => Object.defineProperty(globalThis, 'Image', descriptor))
+  const scene = createScene()
+  const src = '/assets/images/buildings/kuca-bunker.png'
+  scene.add({ image: { complete: true, naturalWidth: 1, src }, dead: true })
+  const wreck = wreckFor(src)
+  let ready = false
+  const loading = scene.imagesLoaded().then(() => {
+    ready = true
+  })
+  await new Promise(resolve => {
+    setTimeout(resolve, 0)
+  })
+  assert.equal(ready, false, 'not before the wreck')
+  wreck.dispatchEvent(new Event('load'))
+  await loading
+  assert.equal(ready, true)
+  scene.end()
+})
+
 test('first drawing waits for a background, a separate player and image decoding', async() => {
   const scene = createScene()
   const background = Object.assign(new EventTarget(), { complete: false })
@@ -322,17 +348,6 @@ test('a hidden page pauses the running game, and an ended game no longer listens
   scene.end()
   document.dispatchEvent(new Event('visibilitychange'))
   assert.equal(pause.mock.callCount(), 0)
-})
-
-test('the scene handles input of live 2D objects only; dead ones and 3D objects, which read input in their update, are skipped', () => {
-  const scene = createScene()
-  const calls = []
-  const object = (name, fields) => ({ name, ...fields, handleInput: () => calls.push(name), update() {} })
-  scene.add(object('live', { alive: true }), object('dead', { alive: false }), object('3d', { dead: false }))
-  scene.session.start()
-  scene.handleInput(1 / 30)
-  scene.end()
-  assert.deepEqual(calls, ['live'])
 })
 
 test('world input is ignored while loading, paused, covered by a modal or finished', t => {

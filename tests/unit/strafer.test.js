@@ -1,66 +1,57 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import Strafer, { strafe } from '/core/gameplay/controllers/Strafer.js'
+import Fighter from '/core/gameplay/bodies/aircraft/Fighter.js'
+import GameClock from '/core/runtime/GameClock.js'
 
-/** A plane that records its state and the points it aims at. */
-function fakePlane({ x = 600, y = 100 } = {}) {
-  const plane = {
-    x, y, alive: true, lifeId: 1, pullUpY: 300, state: 'fly', aimed: [],
-    aimAt(point) {
-      plane.aimed.push(point)
-      return true
-    },
-    setState(name) {
-      plane.state = name
-    },
+/** A fighter flying left 12 m up, `ahead` metres ahead of a target on the ground, which it sees while `shown`. */
+function pass({ ahead = 40, shown = true } = {}) {
+  const target = { x: 0, y: 1.5, alive: true, shown }
+  const body = new Fighter({ x: ahead, y: 12, yaw: Math.PI, clock: new GameClock() })
+  const strafer = new Strafer(body, target, { sees: seen => seen.shown, viewWidth: () => 70 })
+  const fly = seconds => {
+    for (let i = 0; i < seconds * 30; i++) {
+      strafer.update(1 / 30)
+      body.update(1 / 30)
+    }
   }
-  return plane
+  return { body, target, strafer, fly }
 }
 
-const target = { x: 100, y: 350, alive: true, shown: true }
-const viewWidth = () => 1000
-
-test('a strafer flies level until the target is ahead within reach, then dives at it once, firing', () => {
-  const plane = fakePlane({ x: target.x + 950 })
-  const strafer = new Strafer(plane, target, { viewWidth })
-  strafer.update()
-  assert.equal(plane.state, 'fly', 'too far ahead')
-  plane.x = target.x + 400
-  strafer.update()
-  assert.equal(plane.state, 'fire')
-  assert.deepEqual(plane.aimed, [target])
-  plane.x -= 50
-  strafer.update()
-  assert.equal(plane.aimed.length, 1, 'the dive is chosen once')
+test('a strafer flies level until the target is ahead within reach, then dives at it once, firing once its nose is on it', () => {
+  const far = pass({ ahead: 80 })
+  far.fly(1 / 30)
+  assert.equal(far.body.state, 'idle', 'too far ahead')
+  assert.equal(far.body.vy, 0)
+  const { body, target, fly } = pass()
+  fly(1 / 30)
+  assert.equal(body.state, 'idle', 'its level nose is above the target')
+  while (body.state !== 'fire' && body.x > target.x) fly(1 / 30)
+  assert.ok(Math.abs(body.pitch + Math.atan2(body.y - target.y, body.x - target.x)) <= strafe.aim, 'it fires with its nose on the target')
+  assert.ok(body.vy < 0 && body.pitch < 0, 'it dives nose first')
+  assert.ok(body.pitch >= -strafe.maxDive - 1e-9, 'no steeper than it can')
+  assert.equal(body.vx, -strafe.speed * Math.cos(body.pitch))
 })
 
 test('a strafer dives without firing at a target out of sight', () => {
-  const plane = fakePlane()
-  new Strafer(plane, { ...target, shown: false }, { viewWidth }).update()
-  assert.equal(plane.state, 'dive')
+  const { body, fly } = pass({ shown: false })
+  fly(1)
+  assert.equal(body.state, 'idle')
+  assert.ok(body.vy < 0)
 })
 
-test('a strafer pulls up near the target or at its lowest, and dives again only on a new life', () => {
-  const nearTarget = plane => {
-    plane.x = target.x + strafe.pullUp
-  }
-  const lowest = plane => {
-    plane.y = plane.pullUpY
-  }
-  for (const pullUp of [nearTarget, lowest]) {
-    const plane = fakePlane()
-    const strafer = new Strafer(plane, target, { viewWidth })
-    strafer.update()
-    assert.equal(plane.state, 'fire')
-    pullUp(plane)
-    strafer.update()
-    assert.equal(plane.state, 'fly')
-    plane.x = 600
-    plane.y = 100
-    strafer.update()
-    assert.equal(plane.state, 'fly', 'one dive a pass')
-    plane.lifeId++
-    strafer.update()
-    assert.equal(plane.state, 'fire')
-  }
+test('a strafer pulls up near the target or low over it, and does not dive again', () => {
+  const { body, strafer, fly } = pass()
+  fly(1)
+  assert.equal(strafer.phase, 'dive')
+  body.y = strafe.lowest
+  fly(1 / 30)
+  assert.equal(strafer.phase, 'done')
+  assert.equal(body.state, 'idle')
+  fly(3)
+  assert.ok(Math.abs(body.pitch) < 1e-9, 'level again')
+  const near = pass({ ahead: strafe.pullUp + .5 })
+  near.strafer.phase = 'dive'
+  near.fly(.2)
+  assert.equal(near.strafer.phase, 'done')
 })

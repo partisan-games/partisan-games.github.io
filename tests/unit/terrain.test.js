@@ -1,16 +1,6 @@
-import { test, before } from 'node:test'
+import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { createPageElements } from './helpers/dom.js'
 import Terrain, { craterProfile } from '/scenes/ustanak/Terrain.js'
-
-let Top, Posada, Zastavnik
-
-before(async() => {
-  createPageElements()
-  Top = (await import('/scenes/ustanak/Top.js')).default
-  Posada = (await import('/scenes/ustanak/Posada.js')).default
-  Zastavnik = (await import('/scenes/ustanak/Zastavnik.js')).default
-})
 
 const even = () => .5 // the same uneven crater every time, without ragged columns
 
@@ -41,35 +31,4 @@ test('a blast cuts a crater into the ground, a blast in it deepens it to the bot
   terrain.enabled = false
   assert.equal(terrain.blast(100), null)
   assert.equal(terrain.heightAt(100), 500)
-})
-
-test('units fall with gravity to the ground under their foot, never below it, and stand up on new ground', () => {
-  const terrain = new Terrain({ floorY: Top.floorY(468), width: 800, random: even })
-  const top = new Top({ x: 300, y: 468, terrain })
-  const crew = new Posada(180, 508)
-  const bearer = new Zastavnik(60, 501)
-  terrain.support(top, crew, bearer)
-  const carriageY = top.postolje.y
-  const flagY = bearer.flag.y
-
-  terrain.blast(top.footX)
-  terrain.blast(crew.x)
-  terrain.blast(bearer.x)
-  assert.equal(top.y, 468, 'the ground goes first; nothing jumps down')
-  terrain.update(0)
-  assert.equal(top.y, 468, 'no time, no fall: a paused game stands still')
-  terrain.update(1 / 30)
-  const early = top.y - 468
-  assert.ok(early > 0 && early < terrain.heightAt(top.footX) - terrain.floorY)
-  for (let i = 0; i < 60; i++) terrain.update(1 / 30)
-  const depth = unit => terrain.heightAt(unit.footX ?? unit.x) - terrain.floorY
-  assert.equal(top.y, 468 + depth(top))
-  assert.equal(top.postolje.y, carriageY + depth(top), 'the whole cannon falls, carriage too')
-  const wheel = top.collider.shapes().find(shape => shape.type === 'circle')
-  assert.ok(Math.abs(wheel.y + wheel.r - (terrain.floorY + depth(top))) < 12, 'a hit finds the cannon where it now stands')
-  assert.equal(crew.y, 508 + depth(crew))
-  assert.equal(bearer.flag.y, flagY + depth(bearer), 'the flag falls with its bearer')
-
-  terrain.reset()
-  assert.deepEqual([top.y, top.postolje.y, crew.y, bearer.flag.y], [468, carriageY, 508, flagY])
 })

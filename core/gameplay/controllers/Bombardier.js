@@ -1,17 +1,29 @@
 /**
- * A dive bomber's run: while the target lives and is in sight, the body sights its bomb on it and is set to fire,
- * which drops the bomb as it passes over; otherwise it flies on. The body has `alive`, `aimAt(point)` and the states
- * `fly` and `fire`.
+ * Where a bomb let go level from the body's height, falling at `gravity`, meets the target moving on: as far ahead of
+ * it as the target goes while the bomb falls.
+ */
+export const dropLead = gravity => (target, body) => {
+  const time = Math.sqrt(2 * Math.max(0, body.y - target.y) / gravity)
+  return { x: target.x + target.vx * time, y: target.y }
+}
+
+/**
+ * A dive bomber's run: while the target lives and the bomber `sees(target)` and can dive on it, the body is set to fire,
+ * which dives on it and drops its bomb; otherwise it flies on. The body has `alive`, `aimAt(point)` and the states
+ * `idle` and `fire`. It dives on the target itself, or where `aim(target, body)` gives, such as `lead` of `Gunner` or
+ * `dropLead`.
  */
 export default class Bombardier {
-  constructor(body, target) {
+  constructor(body, target, { sees, aim = target => target }) {
     this.body = body
     this.target = target
+    this.sees = sees
+    this.aim = aim
   }
 
   update() {
     const { body, target } = this
     if (!body.alive) return
-    body.setState(target.alive && target.shown && body.aimAt(target) ? 'fire' : 'fly')
+    body.setState(target.alive && this.sees(target) && body.aimAt(this.aim(target, body)) ? 'fire' : 'idle')
   }
 }

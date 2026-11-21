@@ -100,7 +100,7 @@ test('the scene waits for Batina clouds as well as its environment plate, and lo
   loaded(images[1])
   await waiting
   assert.equal(ready, true)
-  assert.equal(images.length, 2, "only clouds move on Batina, by the owner's choice")
+  assert.equal(images.length, 2, 'only clouds move on Batina, by the owner\'s choice')
   assert.equal(background.layers.images.actors, undefined)
   assert.equal(background.scene.width, 1536)
   assert.equal(background.scene.height, 1024)
@@ -138,7 +138,9 @@ test('optional props are awaited and composed afresh without changing the source
   const background = new BattleBackground({ width: 800, height: 600, getContext: () => ({}) }, { ...battlefields.grahovo, props })
   const { default: Scene } = await import('/core/Scene.js')
   let ready = false
-  const waiting = Scene.prototype.imagesLoaded.call({ children: [], background }).then(() => { ready = true })
+  const waiting = Scene.prototype.imagesLoaded.call({ children: [], background }).then(() => {
+    ready = true
+  })
   images[0].complete = true
   images[0].naturalWidth = 1536
   images[0].naturalHeight = 1024

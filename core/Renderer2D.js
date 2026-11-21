@@ -8,9 +8,6 @@ const poravnajNiz = niz => niz.flatMap(predmet =>
 
 export default class Renderer2D {
   constructor({ canvas }) {
-    if (Renderer2D.instance) return Renderer2D.instance
-    Renderer2D.instance = this
-
     this.canvas = canvas
     this.ctx = canvas.getContext('2d')
     this.cameraX = this.cameraY = 0
@@ -64,17 +61,13 @@ export default class Renderer2D {
     this.ctx.scale(predmet.flipY, predmet.flipX)
     this.ctx.scale(predmet.scaleX, predmet.scaleY)
 
-    if (!predmet.debug) predmet.crew?.renderLocal?.(this.ctx, predmet)
     if (!predmet.image || predmet.debug)
       this.drawShape(predmet)
     else
       this.drawFrame(predmet)
 
-    if (!predmet.debug) predmet.propellers?.renderLocal(this.ctx, predmet)
-
     this.ctx.restore()
-    // A separately registered flame drawable controls its own layer and must not be drawn twice.
-    if (predmet.burning && !predmet.flameLayer) predmet.flame.render(predmet.smoky)
+    if (predmet.burning) predmet.flame.render(predmet.smoky)
   }
 
   drawObjects(children) {

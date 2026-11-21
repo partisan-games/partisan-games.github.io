@@ -26,30 +26,16 @@ async function audioFor(t, dimensions = 2) {
   return { ...backend, audio, player }
 }
 
-test('the gun sight uses the actual player-owned source and ignores buttons', async t => {
-  const { audio } = await audioFor(t)
-  const { default: mouse } = await import('/core/io/mouse.js')
-  const point = { x: 123, y: 321 }
-  const sound = new SoundSource('pucanj.mp3', { profile: 'rifle', spatial: { getPosition: () => point } })
-  audio.sync([{ sounds: [sound] }], 'running')
-  mouse.showCrosshair(sound)
-  t.after(() => mouse.hideCrosshair())
-  mouse.x = 900; mouse.y = 1
-  mouse.fire()
-  assert.deepEqual(sound.playback.audio.spatialModel.position, { x: 1.23, y: -3.21, z: 0 })
-  const voices = sound.playback.voices.size
-  mouse.fire({ target: { closest: () => ({}) } })
-  assert.equal(sound.playback.voices.size, voices)
-})
-
 test('different occupiers have independent burst points and sound randomness does not consume gameplay random', async t => {
   const { audio, engine } = await audioFor(t)
-  const { default: Occupier } = await import('/core/actor/Occupier.js')
-  const first = new Occupier(), second = new Occupier()
-  first.x = 100; second.x = 500
+  const { default: Occupier } = await import('/core/gameplay/bodies/soldiers/Occupier.js')
+  const { default: OccupierSprite } = await import('/core/actor/soldiers/OccupierSprite.js')
+  const { sideProjection } = await import('/core/actor/projection.js')
+  const projection = sideProjection({ pxPerMeter: 22, groundY: 600 })
+  const [first, second] = [5, 25].map(x => new OccupierSprite(new Occupier({ x }), { projection }))
   audio.sync([first, second], 'running')
   for (const occupier of [first, second]) {
-    occupier.setState('fire')
+    occupier.body.setState('fire')
     occupier.update(0)
   }
   assert.notEqual(first.burstSound.playback.audio, second.burstSound.playback.audio)
@@ -69,14 +55,19 @@ test('different occupiers have independent burst points and sound randomness doe
 
 test('a trench firing transition starts one repeating burst instead of replaying the entire clip per bullet', async t => {
   const { audio } = await audioFor(t)
-  const { default: TrenchSoldier } = await import('/core/actor/soldiers/TrenchSoldier.js')
-  const soldier = new TrenchSoldier({ scale: 1, callback() {} })
+  const { default: TrenchSoldier } = await import('/core/gameplay/bodies/soldiers/TrenchSoldier.js')
+  const { default: TrenchSoldierSprite } = await import('/core/actor/soldiers/TrenchSoldierSprite.js')
+  const { sideProjection } = await import('/core/actor/projection.js')
+  const body = new TrenchSoldier()
+  const soldier = new TrenchSoldierSprite(body, { projection: sideProjection({ pxPerMeter: 22, groundY: 400 }) })
   audio.sync([soldier], 'running')
-  soldier.setState('aim'); soldier.setState('fire'); soldier.setState('fire')
+  body.setState('aim'); body.setState('fire')
+  soldier.update(0); soldier.update(.1)
   await settle()
   assert.equal(soldier.burstSound.options.loop, true)
   assert.equal(soldier.burstSound.playback.voices.size, 1)
-  soldier.setState('fall')
+  body.setState('fall')
+  soldier.update(0)
   assert.equal(soldier.burstSound.playing, false)
 })
 
@@ -152,19 +143,19 @@ test('weather thunder keeps its one delay and uses explicit nonspatial ambience 
   assert.equal(event.volume, 1)
 })
 
-test('patrol speech selection uses independent voices and cannot start after teardown', async t => {
+test('a searching patrol calls out on game time with one voice at a time, and is silent once ended', async t => {
   const { audio } = await audioFor(t)
-  const { default: Patrol } = await import('/core/actor/soldiers/Patrol.js')
+  const { default: Patrol } = await import('/core/gameplay/bodies/soldiers/Patrol.js')
+  const { default: PatrolSprite } = await import('/core/actor/soldiers/PatrolSprite.js')
+  const { topProjection } = await import('/core/actor/projection.js')
   const patrol = new Patrol()
-  audio.sync([patrol], 'running')
-  patrol.talkElapsed = 8; patrol.pricaj()
-  assert.equal(patrol.zvuk.playback.voices.size, 1)
-  assert.equal(patrol.zvuk.options.profile, 'speech')
-  patrol.end()
-  assert.equal(patrol.zvuk.playing, false)
-  audio.end()
-  patrol.talkElapsed = 8; patrol.pricaj()
-  assert.equal(audio.output.events.size, 0)
+  const view = new PatrolSprite(patrol, { projection: topProjection({ pxPerMeter: 10 }) })
+  audio.sync([view], 'running')
+  view.update(8)
+  assert.equal(view.searchVoice.playback.voices.size, 1)
+  assert.equal(view.searchVoice.options.profile, 'speech')
+  view.end()
+  assert.equal(view.searchVoice.playing, false)
 })
 
 test('a newly attached impact emits once at its own location', async t => {
@@ -177,21 +168,19 @@ test('a newly attached impact emits once at its own location', async t => {
   assert.equal(event.spatialModel.position.x, impact.x / 100)
 })
 
-test('a Vis pooled first bullet is emitted from its launch point and enemy destruction only sounds once', async t => {
+test('a Vis enemy plane sounds its shot down only once', async t => {
   const { audio } = await audioFor(t)
-  const { default: Bullet } = await import('/scenes/vis/Bullet.js')
-  const { default: ProjectilePool } = await import('/core/actor/ProjectilePool.js')
-  const { default: Enemy } = await import('/scenes/vis/Enemy.js')
-  const owner = { sounds: [], children: [] }
-  audio.sync([owner], 'running')
-  const pool = new ProjectilePool({ owner, create: () => new Bullet() })
-  pool.fire({ x: 200, y: 150 }, 0, 100)
-  const shot = pool.projectiles[0].sound.playback.audio
-  assert.deepEqual(shot.spatialModel.position, { x: 2, y: -1.5, z: 0 })
-  const enemy = new Enemy({ session: new GameSession() })
-  audio.attach(enemy)
-  enemy.damage(enemy.hits); enemy.damage(1)
-  assert.equal(enemy.explosionSound.playback.voices.size, 1)
+  const { default: AttackPlane } = await import('/core/gameplay/bodies/aircraft/AttackPlane.js')
+  const { default: AttackPlaneSprite } = await import('/core/actor/aircraft/AttackPlaneSprite.js')
+  const { topProjection } = await import('/core/actor/projection.js')
+  const body = new AttackPlane({ clock: new GameSession().clock })
+  const view = new AttackPlaneSprite(body, { src: 'armies/nemci/avioni/bf-109-odozgo.png', projection: topProjection({ pxPerMeter: 10 }) })
+  audio.sync([view], 'running')
+  body.takeHit(1)
+  view.update(0)
+  body.takeHit(1)
+  view.update(0)
+  assert.equal(view.explosionSound.playback.voices.size, 1)
 })
 
 test('new object types register a new recording through the same contract without class-name handling', async t => {

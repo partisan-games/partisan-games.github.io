@@ -14,12 +14,12 @@ import * as objects3d from './objects3d.js'
 /**
  * The kinds of blocks, each with its stories. A story is one block alone on the stage: `create(stage)` puts it there
  * and gives it back; `block` is the module it comes from; `game` is where the world uses it; `stage` is the stage
- * class it needs, the 2D one by default.
+ * class it needs, the 2D one by default, and `pxPerMeter` how large it draws a block in metres, as its game does.
  */
 export default [
   { id: 'vojnici', title: 'Vojnici', stories: [...franjoKluz.soldiers, ...ustanak.soldiers, ...bunker.soldiers, ...ranjenik.soldiers, ...neretva.soldiers, ...otpisani.soldiers] },
   { id: 'vozila', title: 'Tenkovi i vozila', stories: [...tenkici.vehicles, ...franjoKluz.vehicles, ...doTrsta.vehicles] },
-  { id: 'avioni', title: 'Avioni', stories: [...franjoKluz.aircraft, ...vis.aircraft, ...doTrsta.aircraft] },
+  { id: 'avioni', title: 'Avioni', stories: [...franjoKluz.aircraft, ...vis.aircraft] },
   { id: 'brodovi', title: 'Brodovi', stories: [...camac.boats] },
   { id: 'artiljerija', title: 'Artiljerija', stories: [...franjoKluz.artillery, ...ustanak.artillery, ...doTrsta.artillery, ...camac.artillery] },
   { id: 'fantazija-3d', title: '3D fantazija', stories: characters3d.fantasy },

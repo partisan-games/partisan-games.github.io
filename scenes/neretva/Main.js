@@ -1,12 +1,16 @@
 import Sound from '/core/io/audio/SoundSource.js'
-import mouse from '/core/io/mouse.js'
+import { showCrosshair, hideCrosshair } from '/core/io/crosshair.js'
 import Scene2D from '/core/Scene2D.js'
 import Background from '/core/objects/Background.js'
-import TrenchSoldier from '/core/actor/soldiers/TrenchSoldier.js'
+import TrenchSoldier, { trench } from '/core/gameplay/bodies/soldiers/TrenchSoldier.js'
+import TrenchSoldierSprite from '/core/actor/soldiers/TrenchSoldierSprite.js'
+import { sideProjection } from '/core/actor/projection.js'
 import Health from '/core/gameplay/Health.js'
 
 const DALJI_Y = window.innerHeight * 0.25
 const BLIZI_Y = window.innerHeight * 0.5
+/** How many pixels a metre is drawn in the near row of trenches; the far row is half as near. */
+const pxPerMeter = 22
 /** Seconds to hold the position: the Germans attack first, the Chetniks in the second half (owner's decision). */
 const holdTime = 120
 const chetniksAt = holdTime / 2
@@ -30,23 +34,22 @@ export default class NeretvaScene extends Scene2D {
     this.manTrenches(this.army('nemci'))
     this.background = new Background('textures/terrain/suva-trava.jpg')
     this.ucitajRekord()
-    mouse.showCrosshair(this.player.shotSound)
+    showCrosshair()
   }
 
-  /** One side's soldiers in the near and the far row of trenches. */
+  /** One side's soldiers in the near and the far row of trenches: `{ body, view }` each. */
   army(faction) {
-    const callback = this.nanesiStetu.bind(this)
     return {
-      near: this.praviSvabe(10, BLIZI_Y, { scale: 1, callback, faction }),
-      far: this.praviSvabe(12, DALJI_Y, { scale: .5, callback, faction }),
+      near: this.praviSvabe(10, sideProjection({ pxPerMeter, groundY: BLIZI_Y }), { scale: 1, faction }),
+      far: this.praviSvabe(12, sideProjection({ pxPerMeter: pxPerMeter / 2, groundY: DALJI_Y }), { scale: .5, faction }),
     }
   }
 
   /** Puts an army in the trenches, in place of the one there. */
   manTrenches({ near, far }) {
     if (this.sveSvabe) {
-      for (const soldier of this.sveSvabe) soldier.setState('hidden')
-      this.remove(...this.sveSvabe)
+      for (const { body } of this.sveSvabe) body.setState('hidden')
+      this.remove(...this.sveSvabe.flatMap(({ body, view }) => [body, view]))
     }
     const speedUp = this.ubrzano ? 2 : 1
     this.bliziRovovi = near
@@ -54,7 +57,7 @@ export default class NeretvaScene extends Scene2D {
     this.sveSvabe = [...far, ...near]
     /** The chance per second that a hidden soldier of each row rises. */
     this.ucestalost = new Map([[far, .02 * speedUp], [near, .03 * speedUp]])
-    this.add(...this.sveSvabe)
+    this.add(...this.sveSvabe.flatMap(({ body, view }) => [body, view]))
   }
 
   /** Half way the Germans give way to the Chetniks. */
@@ -65,46 +68,47 @@ export default class NeretvaScene extends Scene2D {
     this.ui.showMessage('Chetniks are next')
   }
 
-  praviSvabe(n, y, { faction, ...params }) {
+  /** `n` soldiers evenly along a row of trenches, which `projection` draws. */
+  praviSvabe(n, projection, { faction, scale }) {
     const razmak = this.width / n
     const polaRazmaka = razmak / 2
     return Array.from({ length: n }, (_, i) => {
-      const x = i * razmak + polaRazmaka
-      const svabo = new TrenchSoldier({ ...params, faction, variant: i % 3 })
-      svabo.setPosition(x, y)
-      return svabo
+      const body = new TrenchSoldier(projection.toWorld({ x: i * razmak + polaRazmaka, y: projection.point({ x: 0, y: 0 }).y }))
+      const view = new TrenchSoldierSprite(body, { faction, variant: i % 3, scale, projection })
+      return { body, view }
     })
   }
 
   /** Now and then a hidden soldier rises to fire; one who has just fallen waits until he lies in the trench. */
   podizi(dt) {
     for (const [rovovi, ucestalost] of this.ucestalost)
-      for (const svabo of rovovi)
-        if (svabo.state === 'hidden' && Math.random() < ucestalost * dt) svabo.setState('aim')
+      for (const { body } of rovovi)
+        if (body.state === 'hidden' && Math.random() < ucestalost * dt) body.setState('aim')
+  }
+
+  /** Each soldier firing wears the defender down. */
+  takeFire(dt) {
+    for (const { body } of this.sveSvabe) if (body.state === 'fire') this.health.damage(trench.damage * dt)
   }
 
   handleClick(event) {
     if (this.session.state !== 'running' || this.ui.screen || this.ui.outro || this.energija <= 0) return
     if (event.target.closest('button, input, select, a, #ui, #modal, dialog')) return
-    mouse.x = event.pageX
-    mouse.y = event.pageY
-
-    const ciljaniRovovi = (mouse.y <= DALJI_Y) ? this.daljiRovovi : this.bliziRovovi
-    this.proveriPogotke(ciljaniRovovi)
-  }
-
-  nanesiStetu(damage, dt) {
-    this.health.damage(damage * dt)
+    this.player.shotSound.play()
+    const aim = { x: event.pageX, y: event.pageY }
+    const ciljaniRovovi = (aim.y <= DALJI_Y) ? this.daljiRovovi : this.bliziRovovi
+    this.proveriPogotke(ciljaniRovovi, aim)
   }
 
   get energija() {
     return this.health.current
   }
 
-  proveriPogotke(neretva) {
-    for (let i = 0; i < neretva.length; i++)
-      if (neretva[i].jePogodjen()) {
-        neretva[i].setState('fall')
+  /** A standing soldier whose picture the shot at `aim` lands on falls back into his trench. */
+  proveriPogotke(rovovi, aim) {
+    for (const { body, view } of rovovi)
+      if (body.standing && Math.abs(aim.x - view.x) < view.width / 2 && Math.abs(aim.y - view.y) < view.height / 2) {
+        body.setState('fall')
         this.pogoci++
       }
   }
@@ -125,7 +129,7 @@ export default class NeretvaScene extends Scene2D {
 
   end() {
     super.end()
-    mouse.hideCrosshair()
+    hideCrosshair()
   }
 
   update(dt) {
@@ -141,6 +145,7 @@ export default class NeretvaScene extends Scene2D {
       for (const [rovovi, ucestalost] of this.ucestalost) this.ucestalost.set(rovovi, ucestalost * 2)
       this.ubrzano = true
     }
+    this.takeFire(dt)
     this.bringChetniks()
     this.podizi(dt)
     if (this.energija <= 0) this.smrt()

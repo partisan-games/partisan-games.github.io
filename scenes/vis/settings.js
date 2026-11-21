@@ -2,7 +2,7 @@
 export const settings = {
   scrollSpeed: 150, // px per second: the sea, the island and the base
   clouds: 3,
-  landingTime: 3, // seconds from the base appearing to the victory
+  restTime: 4, // seconds the plane stands on an airfield on the way before it takes off
   engineVolume: .3, // of the game volume, a hum under the guns
   formationGap: 125, // px between planes in a formation, a little more than a fighter's width
   enemies: {

@@ -1,35 +1,44 @@
-import * as avionceModule from '/scenes/vis/Avionce.js'
-import Enemy, * as enemyModule from '/scenes/vis/Enemy.js'
-import Boss, * as bossModule from '/scenes/vis/Boss.js'
+import FighterBomber, * as fighterBomberModule from '/core/gameplay/bodies/aircraft/FighterBomber.js'
+import AttackPlane, * as attackPlaneModule from '/core/gameplay/bodies/aircraft/AttackPlane.js'
+import FighterBomberSprite from '/core/actor/aircraft/FighterBomberSprite.js'
+import AttackPlaneSprite from '/core/actor/aircraft/AttackPlaneSprite.js'
+import { topProjection } from '/core/actor/projection.js'
+import { getAircraft } from '/scenes/vis/aircraft.js'
+import { settings } from '/scenes/vis/settings.js'
 
-/** Puts `block` on the stage and gives it back. */
-const put = (stage, block) => {
-  stage.add(block)
-  return block
+/** Vis is seen from above at 10 px a metre: the stage draws its blocks so, x across and z down the view. */
+const pxPerMeter = 10
+
+/** The view of the stage seen from above, and the middle of the stage `share` of the way down, in metres. */
+const fromAbove = stage => ({ projection: topProjection({ pxPerMeter }), camera: stage })
+const at = (stage, share) => ({ x: stage.width / 2 / pxPerMeter, z: stage.height * share / pxPerMeter })
+
+const put = (stage, body, view) => {
+  stage.add(body, view)
+  return body
 }
 
-/** The player plane, flown and fired with the keys of the game, in the middle of the stage. */
-const player = aircraftId => stage => put(stage, new avionceModule.Avionce({
-  session: stage.session, aircraftId, x: stage.width / 2, y: stage.groundY - 300,
-}))
+/** The player's plane in the lower middle of the stage. */
+const player = aircraftId => stage => {
+  const { size, image } = getAircraft(aircraftId)
+  const body = new FighterBomber({ size, ...at(stage, .7), clock: stage.session.clock })
+  return put(stage, body, new FighterBomberSprite(body, { src: image, ...fromAbove(stage) }))
+}
 
-/** An enemy plane stands high above the target with its nose down until it is set to fire or shot down; its bullets hit the target. */
-const enemyPlane = create => stage => {
-  const block = create(stage.session)
-  block.setPosition(stage.width / 2, stage.height * .2)
-  block.angle = Math.PI
-  block.targets.push(stage.target)
-  return put(stage, block)
+/** An enemy plane high in the view with its nose down; its rounds fly at the stand-in, below it. */
+const enemyPlane = type => stage => {
+  const body = new AttackPlane({ kind: attackPlaneModule.attackPlaneKinds[type], ...at(stage, .2), clock: stage.session.clock })
+  return put(stage, body, new AttackPlaneSprite(body, { src: settings.enemies[type].images[0], ...fromAbove(stage) }))
 }
 
 const game = 'Vis'
 
 export const aircraft = [
-  { id: 'vis-spitfire', name: 'Spitfire Mk Vb', game, block: avionceModule, create: player('spitfire') },
-  { id: 'vis-hurricane', name: 'Hurricane Mk IV', game, block: avionceModule, create: player('hurricane') },
-  { id: 'vis-breguet', name: 'Breguet 19', game, block: avionceModule, create: player('breguet') },
-  { id: 'vis-yak', name: 'Yak-1b', game, block: avionceModule, create: player('yak') },
-  { id: 'vis-lovac', name: 'Nemački lovac', game, block: enemyModule, create: enemyPlane(session => new Enemy({ session })) },
-  { id: 'vis-bf110', name: 'Bf 110', game, block: enemyModule, create: enemyPlane(session => new Enemy({ session, type: 'heavy' })) },
-  { id: 'vis-he111', name: 'He 111', game, block: bossModule, create: enemyPlane(session => new Boss({ session })) },
+  { id: 'vis-spitfire', name: 'Spitfire Mk Vb', game, pxPerMeter, block: fighterBomberModule, create: player('spitfire') },
+  { id: 'vis-hurricane', name: 'Hurricane Mk IV', game, pxPerMeter, block: fighterBomberModule, create: player('hurricane') },
+  { id: 'vis-breguet', name: 'Breguet 19', game, pxPerMeter, block: fighterBomberModule, create: player('breguet') },
+  { id: 'vis-yak', name: 'Yak-1b', game, pxPerMeter, block: fighterBomberModule, create: player('yak') },
+  { id: 'vis-lovac', name: 'Nemački lovac', game, pxPerMeter, block: attackPlaneModule, create: enemyPlane('fighter') },
+  { id: 'vis-bf110', name: 'Bf 110', game, pxPerMeter, block: attackPlaneModule, create: enemyPlane('heavy') },
+  { id: 'vis-he111', name: 'He 111', game, pxPerMeter, block: attackPlaneModule, create: enemyPlane('boss') },
 ]

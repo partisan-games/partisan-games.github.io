@@ -32,7 +32,7 @@ async function show() {
   drawList(story)
   const Stage = story.stage ?? Stage2D
   document.body.dataset.stage = Stage === Stage2D ? '2d' : '3d'
-  const stage = new Stage()
+  const stage = new Stage({ pxPerMeter: story.pxPerMeter })
   // a 3D block waits for its models
   await stage.init()
   const block = await story.create(stage)
@@ -98,8 +98,8 @@ panel.addEventListener('click', event => {
   const { shot } = button.dataset
   if (!shot) return
   // each shot is the block aimed at its own point ahead, the way it faces, then firing
-  const { x, y } = block.shots[shot]
-  block.aimAt({ x: block.x + block.forward * x, y: block.y + y })
+  const { x, y, z = 0 } = block.shots[shot]
+  block.aimAt({ x: block.x + block.forward * x, y: block.y + y, z: (block.z ?? 0) + z })
   block.setState('fire')
 })
 

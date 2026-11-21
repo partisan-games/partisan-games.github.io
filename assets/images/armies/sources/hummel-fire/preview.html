@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="sr-Latn"><meta charset="utf-8"><title>Hummel — opaljenje i trzaj</title>
+<style>body{margin:24px;background:#20261d;color:#eee;font:16px system-ui}p{max-width:800px}a{color:#ffdc8b}button,select{font:inherit}label,button{display:inline-block;margin:0 18px 14px 0}canvas,img{image-rendering:pixelated}canvas{background:#59634a}.strip{overflow:auto}</style>
+<h1>Hummel: opaljenje i trzaj</h1>
+<p>Izvorni trup, gusenice, tri člana posade i oslonac ostaju isti. Pomiče se izloženi deo cevi; postojeći plamen prelazi u dim i nestaje.</p>
+<button id="play">Opali</button><label><input type="checkbox" id="left"> Ulevo</label>
+<label><input type="checkbox" id="guides"> Oslonac i sidrište</label>
+<label>Veličina <select id="scale"><option value="1">1× — igra</option><option value="2">2×</option></select></label>
+<div><canvas id="view" width="576" height="152"></canvas></div><p id="status"></p>
+<div class="strip"><img src="game-size.png" width="864" height="456" alt="Izvorno mirovanje i šest kadrova opaljenja u veličini igre"></div>
+<p><a href="fire.gif">GIF sa pauzom na kraju</a> · <a href="sprites.json">Metapodaci i poreklo</a></p>
+<p>Pripremljen art za pregled vlasnika. Hummel u igri još nema logiku pucanja; povezivanje se radi posebno.</p>
+<script>
+const asset={"id": "hummel-fire", "title": "Hummel: cannon discharge and recoil", "image": "../../game-ready/tenkovi/hummel-fire-sprites.png", "frame": {"width": 384, "height": 176, "columns": 6, "rows": 1}, "anchor": {"x": 192, "y": 156}, "groundAnchor": {"x": 192, "y": 156}, "facing": "right", "previewScale": 0.75, "reference": "ready-reference.png", "referenceSha256": "c4d863b1f7d9c6e32afafd7cba94b66a6b9786507268d90c7011ceaf6c556f61", "source": "../../hummel.png", "sourceSha256": "9249fdca2ee514d43b1a8a6b1ec2306e97e8f20d398e95241d23887340731e7b", "effectSource": "../../game-ready/efekti/plamen-pucnja-sprites.png", "effectSourceSha256": "b68127b1a7186000190f24aabdbd13937e67259dc67b9eb201594a51e26e52c8", "sha256": "a526a28148bf201e25d4eeed32396938a83390593a27edd8c5a51c3a3a07a900", "inputs": [{"path": "../../hummel.png", "sha256": "9249fdca2ee514d43b1a8a6b1ec2306e97e8f20d398e95241d23887340731e7b"}, {"path": "../../game-ready/tenkovi/hummel-sprites.png", "sha256": "6fcb4ddd03661dd15bed95aa20c5bd492b3e19878869ffb2a8628330ed9b8656"}, {"path": "../../game-ready/efekti/plamen-pucnja-sprites.png", "sha256": "b68127b1a7186000190f24aabdbd13937e67259dc67b9eb201594a51e26e52c8"}, {"path": "../franjo-kluz/manifest.json", "sha256": "e536a492722ea62dc0781095822d8c9a16f5ce360fcf2c9e9fdf1ad2b681b35f"}, {"path": "../franjo-kluz/hummel-native-generation.json", "sha256": "845fc6491c31d48114bc5c2a418b21645191770ab20c341c4a0e85daa4cdce97"}], "animations": [{"name": "fire", "state": "attack", "row": 0, "frameCount": 6, "duration": 0.8, "frameDurationsMs": [40, 60, 100, 140, 180, 280], "loop": false, "shot": {"frameIndex": 0, "atSeconds": 0, "muzzle": {"x": 338, "y": 54}, "direction": {"x": 1, "y": 0}}, "end": "Frame 5 holds the exact ready pose with no flash or smoke."}], "packing": {"readyFrame": {"oldCell": [320, 160], "offset": [32, 8]}, "barrelRect": [303, 49, 341, 61], "recoilPixels": [2, 5, 6, 4, 2, 0], "muzzleByFrame": [{"x": 338, "y": 54}, {"x": 335, "y": 54}, {"x": 334, "y": 54}, {"x": 336, "y": 54}, {"x": 338, "y": 54}, {"x": 340, "y": 54}], "effectFrames": [0, 1, 2, 3, 3, null], "effectSourceCell": [48, 48], "effectSize": [60, 60], "effectAnchor": [15, 30], "effectDrift": [[0, 0], [0, 0], [0, 0], [8, -4], [16, -8], [0, 0]], "alphaThreshold": 128, "filter": "nearest", "fixed": "Original hull, three crew, gun mount, flag and stationary tracks. Only exposed barrel and effects vary."}, "frameBounds": [[43, 18, 354, 156], [43, 18, 371, 156], [43, 18, 354, 156], [43, 18, 364, 156], [43, 18, 372, 156], [43, 18, 341, 156]], "integration": "Prepared art only; Hummel remains Vehicle in the game. No new firing logic or runtime integration.", "handoff": {"placement": "Draw this wider cell at the old Hummel anchor, with the same art scale; padding is +32,+8.", "sizeRule": "At preview scale .75: cell 288x132, anchor (144,117). Do not stretch the whole new cell into old cell dimensions.", "shot": "Discharge/projectile event once at action start, not once per displayed frame. Muzzle is in cell pixels.", "motion": "Stationary fire only. A moving-fire variant would need a separate track layer.", "mirror": "Mirror actor, muzzle and effects together about anchor.x when facing left.", "death": "Stop the attack clip and use the existing Hummel wreck; no flash remains after death.", "preview": "preview.html", "gif": "fire.gif"}},clip=asset.animations[0];
+const canvas=document.querySelector('#view'),ctx=canvas.getContext('2d');
+const atlas=new Image(),ready=new Image();atlas.src=asset.image;ready.src='ready-reference.png';
+let frame=5,started=0,animation=0,loaded=false;
+let reference;const frames=[];
+function pose(image,x){
+ ctx.save();ctx.translate(x+144,20+117);ctx.scale(document.querySelector('#left').checked?-1:1,1);
+ ctx.drawImage(image,-144,-117);
+ ctx.restore();
+}
+function draw(){
+ ctx.clearRect(0,0,576,152);ctx.imageSmoothingEnabled=false;pose(reference,0);pose(frames[frame],288);
+ ctx.fillStyle='#ffdf97';ctx.font='11px sans-serif';ctx.fillText('Original',8,13);ctx.fillText('Opaljenje '+frame,296,13);
+ if(document.querySelector('#guides').checked){ctx.strokeStyle='#efcb83';ctx.beginPath();ctx.moveTo(0,137.5);ctx.lineTo(576,137.5);ctx.stroke();ctx.fillStyle='#ff6262';for(const x of [144,432])ctx.fillRect(x-2,135,4,4);}
+ document.querySelector('#status').textContent=`Kadar ${frame}/5 · trzaj ${asset.packing.recoilPixels[frame]} px · ${frame===5?'spreman položaj, bez plamena i dima':'napad'}`;
+}
+function tick(now){const t=now-started;let end=0;frame=5;for(let i=0;i<6;i++){end+=clip.frameDurationsMs[i];if(t<end){frame=i;break;}}draw();if(t<800)animation=requestAnimationFrame(tick);}
+Promise.all([atlas.decode(),ready.decode()]).then(async()=>{
+ // Scale at the same origin once: fractional-scale GPU sampling can differ across the preview panels.
+ const gameSize=image=>{const c=document.createElement('canvas');c.width=288;c.height=132;const p=c.getContext('2d');p.imageSmoothingEnabled=false;p.drawImage(image,0,0,288,132);return c;};
+ reference=gameSize(ready);
+ for(let i=0;i<6;i++){const bitmap=await createImageBitmap(atlas,i*384,0,384,176);frames.push(gameSize(bitmap));bitmap.close();}
+ loaded=true;draw();
+});
+document.querySelector('#play').onclick=()=>{if(!loaded)return;cancelAnimationFrame(animation);started=performance.now();animation=requestAnimationFrame(tick);};
+for(const id of ['left','guides'])document.querySelector('#'+id).onchange=()=>loaded&&draw();
+document.querySelector('#scale').onchange=e=>{const n=Number(e.target.value);canvas.style.width=576*n+'px';canvas.style.height=152*n+'px';};
+</script></html>

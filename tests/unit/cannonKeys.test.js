@@ -1,50 +1,42 @@
-import { test, before } from 'node:test'
+import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { createPageElements } from './helpers/dom.js'
 import { leftPlayerKeys } from '/core/io/keys.js'
-import CannonKeys from '/core/io/controllers/CannonKeys.js'
+import CannonKeys from '/core/gameplay/controllers/CannonKeys.js'
+import FieldGun, { fieldGun } from '/core/gameplay/bodies/artillery/FieldGun.js'
 
-let Top, keyboard
-
-before(async() => {
-  createPageElements()
-  Top = (await import('/scenes/ustanak/Top.js')).default
-  ;({ keyboard } = await import('/core/io/Keyboard.js'))
-})
-
-/** A cannon and its player's keys, the way the scene pairs them. */
+/** A gun and its player's keys on a keyboard whose held keys the test chooses. */
 const played = options => {
-  const cannon = new Top(options)
-  return { cannon, player: new CannonKeys(cannon, leftPlayerKeys) }
+  const held = new Set()
+  const keyboard = { isDown: key => key.codes.some(code => held.has(code)) }
+  const cannon = new FieldGun(options)
+  return { cannon, held, player: new CannonKeys(cannon, { keyboard, keys: leftPlayerKeys }) }
 }
 
-test('charging depends on elapsed time, has a maximum and uses the same aiming direction on either side', t => {
-  t.after(() => keyboard.reset())
-  keyboard.pressed.Space = true
-  const a = played({ x: 200, y: 300 })
-  const b = played({ x: 800, y: 300, direction: -1 })
+test('holding fire charges by elapsed time up to the most, and up raises either barrel alike', () => {
+  const a = played({ x: 20 }), b = played({ x: 80, yaw: Math.PI })
+  a.held.add('Space')
+  b.held.add('Space')
   for (let i = 0; i < 30; i++) a.player.handleInput(1 / 30)
   for (let i = 0; i < 60; i++) b.player.handleInput(1 / 60)
-  assert.ok(Math.abs(a.cannon.sila - b.cannon.sila) < 1e-9)
+  assert.ok(Math.abs(a.cannon.force - b.cannon.force) < 1e-9)
   a.player.handleInput(100)
-  assert.equal(a.cannon.sila, a.cannon.maxForce)
-  keyboard.pressed.KeyW = true
+  assert.equal(a.cannon.force, fieldGun.maxForce)
+  a.held.add('KeyW')
+  b.held.add('KeyW')
   a.player.handleInput(.1)
   b.player.handleInput(.1)
   assert.ok(Math.abs(a.cannon.elevation - b.cannon.elevation) < 1e-9)
 })
 
-test('letting fire go fires the charged shot once, and a release without charge fires nothing', t => {
-  t.after(() => keyboard.reset())
-  const { cannon, player } = played({ x: 200, y: 300 })
-  cannon.width = 100
+test('letting fire go fires the charged shot once, and a release without charge fires nothing', () => {
+  const { cannon, held, player } = played({ x: 20 })
   player.handleInput(.1)
   assert.equal(cannon.hasActiveShot, false, 'nothing was held')
-  keyboard.pressed.Space = true
+  held.add('Space')
   player.handleInput(.5)
   assert.equal(cannon.hasActiveShot, false, 'not while it is held')
-  keyboard.pressed.Space = false
+  held.delete('Space')
   player.handleInput(.01)
-  assert.equal(cannon.granate.projectiles.filter(shell => shell.visible).length, 1)
-  assert.equal(cannon.sila, cannon.minSila)
+  assert.equal(cannon.shotsFired, 1)
+  assert.equal(cannon.force, fieldGun.minForce)
 })

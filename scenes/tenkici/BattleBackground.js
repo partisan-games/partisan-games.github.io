@@ -103,9 +103,9 @@ export default class BattleBackground {
     this.ctx = canvas.getContext('2d')
     this.image = new Image()
     this.image.src = `${assets.images}${place.src}`
-    if (place.layers) {
+    if (place.layers)
       this.imageLoaded = this.loadLayers(`${assets.images}${place.layers}`)
-    }
+
     if (place.props?.length) {
       this.scenery = new SceneryLayer(place.props)
       this.imageLoaded = Promise.all([this.imageLoaded, this.scenery.ready])

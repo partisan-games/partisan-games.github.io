@@ -1,8 +1,5 @@
 /** The crater shape the owner approved: 120 px wide, up to 24 px deep, uneven, in 2 px columns. */
 export const crater = Object.freeze({ halfWidth: 60, depth: 24, column: 2 })
-/** Pixels per second squared at which a unit falls to lower ground. */
-const gravity = 900
-
 /** Depth of each 2 px column across one crater, from left to right: a shallow bowl with an uneven floor and a ragged lip. */
 export function craterProfile(random = Math.random) {
   const { halfWidth, depth, column } = crater
@@ -19,9 +16,10 @@ export function craterProfile(random = Math.random) {
 }
 
 /**
- * The ground the cannons and their crews stand on, as a height for every pixel column of the screen.
- * A shell cuts a crater into it: later shells fall into the hole, and units standing above it fall with the ground.
- * `view` draws the same craters (see GroundLayer). Without a `width` the ground stays flat, as for a lone cannon.
+ * The ground the guns and their crews stand on, as a height for every pixel column of the screen, y down.
+ * A shot cuts a crater into it: later shots fall into the hole, and what stands above it falls with the ground, which
+ * the scene gives the bodies as their ground. `view` draws the same craters (see GroundLayer). Without a `width` the
+ * ground stays flat.
  */
 export default class Terrain {
   constructor({ floorY, width = 0, bottom = Infinity, random = Math.random }) {
@@ -30,7 +28,6 @@ export default class Terrain {
     this.random = random
     this.enabled = true
     this.heights = new Float32Array(Math.ceil(width)).fill(floorY)
-    this.units = new Map()
     this.view = null
   }
 
@@ -56,38 +53,8 @@ export default class Terrain {
     return cut
   }
 
-  /** A unit stands at `footX` (its x by default) and sinks through `standAt(depth)`. */
-  support(...units) {
-    for (const unit of units) this.units.set(unit, { depth: 0, speed: 0 })
-  }
-
-  depthUnder(unit) {
-    return this.heightAt(unit.footX ?? unit.x) - this.floorY
-  }
-
-  /** Units fall to lower ground with gravity; ground that rises under them lifts them at once. */
-  update(dt) {
-    for (const [unit, fall] of this.units) {
-      const target = this.depthUnder(unit)
-      if (fall.depth === target) continue
-      if (fall.depth > target) {
-        fall.depth = target
-        fall.speed = 0
-      } else {
-        fall.speed += gravity * dt
-        fall.depth = Math.min(target, fall.depth + fall.speed * dt)
-        if (fall.depth === target) fall.speed = 0
-      }
-      unit.standAt(fall.depth)
-    }
-  }
-
   reset() {
     this.heights.fill(this.floorY)
-    for (const [unit, fall] of this.units) {
-      fall.depth = fall.speed = 0
-      unit.standAt(0)
-    }
     this.view?.reset()
   }
 }

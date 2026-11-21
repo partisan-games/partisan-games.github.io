@@ -1,5 +1,15 @@
 import Cooldown from '../Cooldown.js'
+import { fieldGun } from '../bodies/artillery/FieldGun.js'
 
+const { minForce, maxForce } = fieldGun
+
+/**
+ * The computer at a field gun: it opens on the target at a random elevation with a power somewhat short or long,
+ * watches where each shot lands and corrects the next towards the target, halving its correction once it has missed
+ * on both sides. It fires once each wait of the game `clock` is over and the gun may fire. The gun has `forward`,
+ * `elevation`, `force`, `forceFor(point, elevation)`, `launch()`, `hasActiveShot` and `shells`; the target has `x`,
+ * `y` and `health`.
+ */
 export default class CannonAI {
   constructor({ cannon, target, clock, random = Math.random }) {
     this.cannon = cannon
@@ -21,39 +31,39 @@ export default class CannonAI {
     const { cannon, target } = this
     const solutions = [.15, .22, .3, .4, .5].map(elevation => {
       cannon.elevation = elevation
-      return { elevation, force: cannon.forceFor(target, elevation) ?? cannon.minSila }
+      return { elevation, force: cannon.forceFor(target, elevation) ?? minForce }
     })
-    const reachable = solutions.filter(aim => aim.force >= cannon.minSila && aim.force <= cannon.maxForce)
+    const reachable = solutions.filter(aim => aim.force >= minForce && aim.force <= maxForce)
     const choices = reachable.length ? reachable : solutions.slice(0, 1)
     const aim = choices[Math.floor(this.random() * choices.length)]
     this.elevation = aim.elevation
-    this.adjustment = Math.max(30, aim.force * .12)
+    this.adjustment = Math.max(.75, aim.force * .12)
     // Range grows roughly with power squared, so a small power error is enough.
     const error = .22 + this.random() * .02
     const short = aim.force * (1 - error)
     const long = aim.force * (1 + error)
-    this.nextForce = this.random() < .5 && short >= cannon.minSila ? short : long
-    if (this.nextForce > cannon.maxForce) this.nextForce = short
+    this.nextForce = this.random() < .5 && short >= minForce ? short : long
+    if (this.nextForce > maxForce) this.nextForce = short
   }
 
   observeShot() {
     if (!this.lastShot || this.cannon.hasActiveShot) return
     const { projectile, force, health } = this.lastShot
-    if (this.target.energija < health) {
+    if (this.target.health.current < health) {
       this.nextForce = force
       this.previousMiss = 0
     } else {
-      const miss = Math.sign(this.cannon.direction * (this.target.x - projectile.x))
-      if (this.previousMiss && miss !== this.previousMiss) this.adjustment = Math.max(15, this.adjustment * .5)
+      const miss = Math.sign(this.cannon.forward * (this.target.x - projectile.x))
+      if (this.previousMiss && miss !== this.previousMiss) this.adjustment = Math.max(.375, this.adjustment * .5)
       this.previousMiss = miss
       this.nextForce = force + miss * this.adjustment
       // At a power limit, change the trajectory instead of repeating an unreachable shot.
-      if (this.nextForce < this.cannon.minSila || this.nextForce > this.cannon.maxForce) {
+      if (this.nextForce < minForce || this.nextForce > maxForce) {
         this.cannon.elevation = this.elevation + miss * .04
         this.elevation = this.cannon.elevation
       }
     }
-    this.nextForce = Math.max(this.cannon.minSila, Math.min(this.cannon.maxForce, this.nextForce))
+    this.nextForce = Math.max(minForce, Math.min(maxForce, this.nextForce))
     this.lastShot = null
   }
 
@@ -62,11 +72,11 @@ export default class CannonAI {
     const { cannon } = this
     if (this.nextForce === null) this.prepareAim()
     cannon.elevation = this.elevation
-    cannon.sila = Math.max(cannon.minSila, Math.min(cannon.maxForce, this.nextForce * (.98 + this.random() * .04)))
-    const force = cannon.sila
-    const health = this.target.energija
+    cannon.force = Math.max(minForce, Math.min(maxForce, this.nextForce * (.98 + this.random() * .04)))
+    const { force } = cannon
+    const health = this.target.health.current
     if (cannon.launch()) {
-      this.lastShot = { projectile: cannon.granate.projectiles.find(projectile => projectile.visible), force, health }
+      this.lastShot = { projectile: cannon.shells.projectiles.find(projectile => projectile.active), force, health }
       this.wait.start()
     }
   }

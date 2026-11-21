@@ -1,6 +1,5 @@
 import GameObject2D from '/core/actor/GameObject2D.js'
 import canvas2d, { ctx } from '/core/io/canvas2d.js'
-import { layers } from './CombatLayers.js'
 
 const TILE_WIDTH = 512
 const CLOUD_SPACING = 1300
@@ -19,7 +18,7 @@ const VILLAGE_DEPTHS = [
 /** Decorative scenery has no collision targets or simulation of its own. */
 export default class Battlefield extends GameObject2D {
   constructor({ groundY, distance }) {
-    super(null, { z: layers.background })
+    super(null)
     this.groundY = groundY
     this.distance = distance
     this.roadHeight = Math.min(140, Math.max(64, canvas2d.height * .16))
@@ -53,9 +52,9 @@ export default class Battlefield extends GameObject2D {
     }
   }
 
-  alignRoad(centerY) {
-    // Align scenery around the tank's ground contact without moving collision geometry.
-    this.groundY = centerY - this.roadHeight / 2 + 3
+  /** Lays the road under the line the units stand on, in pixels. */
+  alignRoad(groundLine) {
+    this.groundY = groundLine - this.roadHeight / 2 + 3
   }
 
   get roadTop() {

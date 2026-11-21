@@ -2,12 +2,13 @@ import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 
-let Stage2D, Rifleman, kinds
+let Stage2D, Rifleman, riflemanKinds, RiflemanSprite, kinds
 
 before(async() => {
   createPageElements()
   ;({ default: Stage2D } = await import('/storybook/Stage2D.js'))
-  ;({ default: Rifleman } = await import('/core/actor/soldiers/Rifleman.js'))
+  ;({ default: Rifleman, riflemanKinds } = await import('/core/gameplay/bodies/soldiers/Rifleman.js'))
+  RiflemanSprite = (await import('/core/actor/soldiers/RiflemanSprite.js')).default
   ;({ kinds } = await import('/scenes/franjo-kluz/enemies.js'))
 })
 
@@ -43,12 +44,11 @@ function countListeners(t) {
 
 function riflemanStage(t) {
   const stage = new Stage2D()
-  const { target } = stage
+  const { dummy: target } = stage
   stage.clear = stage.render = () => {} // happy-dom draws nothing
   t.after(() => stage.end())
-  const soldier = new Rifleman({ ...kinds.soldier, targets: [target], session: stage.session, camera: stage, groundY: stage.groundY, x: 500 })
-  soldier.y = stage.groundY - soldier.height / 2
-  stage.add(soldier)
+  const soldier = new Rifleman({ kind: riflemanKinds.soldier, x: 20, y: 1.28, clock: stage.session.clock, targets: [target] })
+  stage.add(soldier, new RiflemanSprite(soldier, { art: kinds.soldier.art, projection: stage.projection, camera: stage }))
   // frames are lived one by one here, not by the browser's animation loop
   stage.session.start()
   const live = seconds => {
@@ -66,36 +66,34 @@ test('a stage removes every listener it adds to the page when it ends', t => {
   assert.equal(live(), 0)
 })
 
-test('the target stands in for the player: a block aimed at it fires, and hits never destroy it', t => {
+test('the stand-in takes the place of the player: a block aimed at it fires, and hits never destroy it', t => {
   const { target, soldier, live } = riflemanStage(t)
-  const hit = t.mock.method(target, 'takeHit')
+  target.x = soldier.x + 10
   assert.equal(soldier.aimAt(target), true)
   soldier.setState('fire')
-  for (let i = 0; i < 5 * 30; i++) {
-    live(1 / 30)
-    for (const round of soldier.bullets.projectiles) round.width = round.height = 8 // the images do not load in tests
-  }
-  assert.ok(hit.mock.callCount() > 1, 'the rounds hit it again and again')
+  live(5)
+  assert.ok(target.hitsTaken > 1, 'the rounds hit it again and again')
   assert.equal(target.alive, true)
 })
 
-test('the target stands still where the stage puts it, off the stage children, as the block moves', t => {
+test('the stand-in stands still where the stage puts it, off the stage children, as the block moves', t => {
   const { stage, target, soldier } = riflemanStage(t)
   assert.equal(stage.children.includes(target), false, 'the story shows the block alone')
-  assert.deepEqual([target.x, target.y], [stage.width / 2, stage.groundY - 300])
-  soldier.x += 50
+  const place = [target.x, target.y]
+  soldier.x += 5
   stage.update(1 / 30, 0)
-  assert.deepEqual([target.x, target.y], [stage.width / 2, stage.groundY - 300])
+  assert.deepEqual([target.x, target.y], place)
 })
 
 test('the view follows a block while asked to, and stands where it is once let go', t => {
   const { stage, soldier } = riflemanStage(t)
+  const { pxPerMeter } = stage.projection
   stage.follow(soldier)
-  soldier.x = 3000
+  soldier.x = 100
   stage.update(1 / 30, 0)
-  assert.equal(stage.cameraX, 3000 - stage.width / 2)
+  assert.equal(stage.cameraX, 100 * pxPerMeter - stage.width / 2)
   stage.follow()
-  soldier.x = 5000
+  soldier.x = 200
   stage.update(1 / 30, 0)
-  assert.equal(stage.cameraX, 3000 - stage.width / 2)
+  assert.equal(stage.cameraX, 100 * pxPerMeter - stage.width / 2)
 })

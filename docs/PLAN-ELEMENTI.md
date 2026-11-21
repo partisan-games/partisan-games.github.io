@@ -111,12 +111,12 @@ Provereno 2026-11-21 na `530fdd85c18aac311a9dc32a22e33dcdff0c38c4` **uz zatečen
 
 | Nalaz | Dokaz u kodu | Značenje za plan |
 |---|---|---|
-| Bombaš ima kretanje i smrt, bez bacanja | [Grenadier:6](../core/actor/derived/Grenadier.js#L6), [GrenadierSprite:7](../core/actor/derived/GrenadierSprite.js#L7) | EL-03/04 su funkcionalna dopuna, ne samo novi sprite |
+| Bombaš ima kretanje i smrt, bez bacanja | [Grenadier](../core/gameplay/bodies/soldiers/Grenadier.js), [GrenadierSprite](../core/actor/soldiers/GrenadierSprite.js) | EL-03/04 su funkcionalna dopuna, ne samo novi sprite |
 | Weapon kontroliše razmak između hitaca | [Weapon:5](../core/gameplay/Weapon.js#L5) | EL-02 mora dodati stvarni spremnik/punjenje bez promene svih korisnika |
 | Tenk ima odvojenu elevaciju, ali nišan odbija cilj iza trupa | [Tank:106](../core/gameplay/bodies/vehicles/Tank.js#L106) | EL-12 mora pripremiti logiku i prikaz nezavisnog nišanjenja |
-| Zajednički Vehicle ima idle/drive/dead | [Vehicle:11](../core/actor/vehicles/Vehicle.js#L11) | Hummel/BP-42 nisu dovršeni borbeni profili |
-| Patrole su zajednički objekti grupe | [Patrol:38](../core/actor/soldiers/Patrol.js#L38) | Nezavisni gubici traže stvarne članove i art |
-| Potez već ima shoot, rear gun i dropBomb | [Potez:207](../scenes/franjo-kluz/Potez.js#L207), [Potez:303](../scenes/franjo-kluz/Potez.js#L303) | Sačuvati postojeće sposobnosti i izdvojiti ih, ne počinjati od nule |
+| Zajednički Vehicle ima idle/drive/dead | [Vehicle](../core/gameplay/bodies/vehicles/Vehicle.js) | Hummel/BP-42 nisu dovršeni borbeni profili |
+| Patrole su zajednički objekti grupe | [Patrol](../core/gameplay/bodies/soldiers/Patrol.js) | Nezavisni gubici traže stvarne članove i art |
+| Potez već ima shoot, rear gun i dropBomb | [Potez](../core/gameplay/bodies/aircraft/Potez.js) | Sačuvati postojeće sposobnosti i izdvojiti ih, ne počinjati od nule |
 | Partisan ima komentarisanu bombu; Wizard mapira samo idle/walk | [Partisan:6](../core3d/actor/derived/ww2/Partisan.js#L6), [Wizard:5](../core3d/actor/derived/fantasy/Wizard.js#L5) | Planirati nedostajuću logiku i proveru samog klipa |
 | Animator vezuje imena za pronađene klipove | [Animator:33](../core3d/actor/Animator.js#L33) | Nepostojeći klip mora biti vidljiv nalaz, ne zamena nepovezanim pokretom |
 | Fizički Cannon pravi DOM kontrolu unutar objekta | [Cannon:14](../core3d/physics/Cannon.js#L14) | Pri migraciji izdvojiti UI u scenu bez novih UI zahteva |
@@ -202,8 +202,10 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 
 ### EL-04 · Bombaš koji zaista baca bombu · 2 / 3 / 6 p · Agent
 
+**Pripremljen art bacanja:** [pregled i ugovor predaje](ART.md#bombaš-i-okupator) sadrže osam novih kadrova, tačku šake i trenutak otpuštanja. Ovaj deo je pripremljen odvojeno od Claudeove migracije; EL-04 ostaje otvoren za telo, projektil, zvuk i povezivanje/provere. Art predaja ne potvrđuje rad bacanja u igri niti vlasnikovo prihvatanje izgleda.
+
 - **Šta:** Razviti bombaša sa mirovanjem, hodom/trčanjem, okretanjem, pripremom i bacanjem, oporavkom, reakcijom na pogodak i smrću. Smer i jačina su parametri komande; broj bombi je konfigurabilan. Izraditi bacanje sa jasnim zamahom i otpuštanjem iz šake, bez skoka tela. Bomba nastaje tačno u trenutku otpuštanja i preuzima EL-03; smrt pre otpuštanja prekida bacanje. Nova šira razrada kretanja koristi iste komande koje će proširiti EL-06.
-- **Referenca:** [core/actor/derived/Grenadier.js:6](../core/actor/derived/Grenadier.js#L6) — postojeći ugovor i potrošač koji treba sačuvati.
+- **Referenca:** [Grenadier](../core/gameplay/bodies/soldiers/Grenadier.js) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Ista instanca u priči pokaže kratko i dugo bacanje u oba smera, pogodak mete, prazan inventar, prekid pre/posle otpuštanja i reset. Unit potvrđuje jednu bombu po prihvaćenoj radnji. Bunker dobija novog aktera uz sačuvana stara pravila; aktiviranje nove komande u samom nivou radi se kada je njegov gameplay dogovoren. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Grenadier trenutno ima samo hod/mirovanje/pad; ni deklarisano stanje ni sama animacija nisu funkcionalno bacanje.
 - **Zavisnosti i spoljno:** Veza AR-12; Pre početka ovog koraka mora biti završena AR migracija cele pogođene sudarne grupe; njena procena pripada AR planu. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
@@ -211,6 +213,8 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 <a id="el-05"></a>
 
 ### EL-05 · Strelci: nišanjenje, stavovi i punjenje · 2 / 3 / 6 p · Agent
+
+**Pripremljen art punjenja:** [predaja za postojećeg nemačkog strelca](ART.md#punjenje-oružja-strelca) sadrži osam novih poza i vremenske oznake spremnika/zatvarača. Klip odgovara nacrtanom oružju sa donjim izmenjivim spremnikom; nije zamena za punjenje svih varijanti puške. EL-05 ostaje otvoren za potrebne stavove i ostale varijante, logiku, zvuk i povezivanje/provere.
 
 - **Šta:** Razviti zajednički profil strelca: opušteno/držanje oružja, podizanje u nišan, stojeći i klečeći stav, horizontalno i podignuto gađanje, pojedinačni hitac, punjenje, pogodak i pad. Povezati nemačkog strelca/jurišnika, partizanskog Strelca i Okupatora sa profilima njihovog oružja i stvarnim frakcijskim artom; ne svoditi sve uniforme na jednu sliku. Prvi reprezentativni strelac dokazuje ceo ciklus, zatim se isti ugovor primenjuje na varijante.
 - **Referenca:** [core/actor/soldiers/Rifleman.js:20](../core/actor/soldiers/Rifleman.js#L20) — postojeći ugovor i potrošač koji treba sačuvati.
@@ -221,6 +225,8 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 <a id="el-06"></a>
 
 ### EL-06 · Pešadija: trčanje, puzanje i prelazi · 2 / 3 / 6 p · Agent
+
+**Pripremljen deo arta partizanskog strelca:** [ustajanje, hod i pad iz klečanja/stajanja](ART.md#partizanski-strelac-hod-i-pad) imaju zaseban atlas i pregled. Postojeći klečeći nišan je sačuvan, a nova art predaja obuhvata prelaz do uspravnog hoda i odgovarajući pad za oba stava. EL-06 ostaje otvoren za trčanje, puzanje, ostale varijante, logiku, zvuk i povezivanje/provere.
 
 - **Šta:** Dopuniti vojnika i bombaša hodom napred/nazad, trčanjem, spuštanjem u ležeći stav, puzanjem, ustajanjem i pucanjem iz ležećeg stava gde uloga ima oružje. Smisleno odvojiti kretanje, stav i radnju oružja da stanja ne zahtevaju svaku moguću kombinaciju kao novu klasu. Izraditi nedostajuće kadrove za postojeće poglede; pogled odozgo i bočni prikaz imaju zasebne resurse.
 - **Referenca:** [core/actor/LocomotionSprite.js:1](../core/actor/LocomotionSprite.js#L1) — postojeći ugovor i potrošač koji treba sačuvati.
@@ -243,7 +249,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 ### EL-08 · Vojnici u rovovima · 1 / 2 / 4 p · Agent
 
 - **Šta:** Obe postojeće frakcije dobijaju komande zaklona, osmatranja, podizanja, nišanjenja, pucanja, punjenja, povratka u zaklon, pogotka i pada. Zadržati tri postojeće varijante po listu i postojeće poze; docrtati prelaze i punjenje. Zaklon je zavisnost koja se prosleđuje; član ne zna talase Neretve.
-- **Referenca:** [core/actor/soldiers/TrenchSoldier.js:18](../core/actor/soldiers/TrenchSoldier.js#L18) — postojeći ugovor i potrošač koji treba sačuvati.
+- **Referenca:** [core/gameplay/bodies/soldiers/TrenchSoldier.js:13](../core/gameplay/bodies/soldiers/TrenchSoldier.js#L13) — stanja tela i [TrenchSoldierSprite](../core/actor/soldiers/TrenchSoldierSprite.js) koje treba sačuvati.
 - **Završeno kada:** Nemac i četnik rade ceo ciklus van Neretve, uz ispravno vreme vidljivosti/pogođivosti. Pogodak tokom podizanja ili povratka daje samo jedan ishod. Postojeći izbor protivnika i tok nivoa ostaju u sceni. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Tri kolone su različiti vojnici, ne tri uzastopna kadra. U Neretvi se ne dodaje novo kretanje izvan rova bez naloga.
 - **Zavisnosti i spoljno:** Posle EL-05; veza AR-13. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
@@ -272,8 +278,10 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 
 ### EL-11 · Posade i zastavnici · 2 / 3 / 6 p · Agent
 
+**Pripremljen art pada posada Ustanka:** [obe posade](ART.md#posade-topa-pad) imaju zasebnih šest kadrova iz postojećeg klečećeg položaja i pregled uz precrtani top. Izvorni likovi i radni klipovi su sačuvani; ostaju povezivanje, životni ciklus, zvuk, ostale radnje i zastavnici. Art ne uvodi zasebne živote posada u Ustanku i ne zatvara EL-11.
+
 - **Šta:** Posadi dati prilazak, zauzimanje radnog mesta, čekanje, punjenje, rad pri hicu, napuštanje i pad; broj potrebnih živih članova i uticaj na rad oruđa su profil. Zastavniku dati mirovanje/hod sa zastavom, podizanje/spuštanje i pad sa zasebnom zastavom. Povezati postojeće partizanske i italijanske varijante, kao i posade Flaka/PaK-a, preko ugovora radnog mesta.
-- **Referenca:** [scenes/ustanak/Posada.js:13](../scenes/ustanak/Posada.js#L13) — postojeći ugovor i potrošač koji treba sačuvati.
+- **Referenca:** [CannonCrew](../core/gameplay/bodies/soldiers/CannonCrew.js) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Top bez raspoložive potrebne posade odbija novu radnju kada je taj profil uključen; odvajanje/ponovno zauzimanje i smrt rade u priči. Zastava nema skok oslonca i deli sat scene. Ustanak čuva postojeće dekorativne posade i pravila zdravlja topa kroz svoj profil. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Sposobnost posade da strada ne uvodi automatski zasebne živote u Ustanku. Nacrtana zastava ne sme ostati zamrznuta.
 - **Zavisnosti i spoljno:** Posle EL-06 i EL-10; veza AR-08. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
@@ -322,8 +330,10 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 
 ### EL-16 · Poljski top · 2 / 3 / 6 p · Agent
 
+**Pripremljen konačni crtež umesto izvornog GIF-a:** [precrtana cev i lafet](ART.md#poljski-top-precrtavanje-izvornika) imaju zajednički pregled uz obe posade i izmerene zglobove. Nova rotaciona tačka cevi razlikuje se od stare; telo, muzzle i sudari moraju se uskladiti u integraciji. Ova art predaja ne zatvara EL-16 i ne obuhvata olupinu, pad posada ili novu logiku.
+
 - **Šta:** Razviti top kao telo sa nišanjenjem, izborom snage gde je deo profila, punjenjem, okidanjem, trzajem/povratkom, pogotkom i uništenjem; povezati radno mesto posade. Dodati ručno premeštanje topa sa posadom i ponovno postavljanje, bez simulacije kompletnog vučnog vozila. Vetar i oblik tla dobijaju se kao zavisnosti; smena poteza ostaje u Ustanku.
-- **Referenca:** [scenes/ustanak/Top.js:169](../scenes/ustanak/Top.js#L169) — postojeći ugovor i potrošač koji treba sačuvati.
+- **Referenca:** [FieldGun](../core/gameplay/bodies/artillery/FieldGun.js) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Priča prikazuje ceo ciklus na ravnom i udubljenom tlu, premeštanje sa zaključanom paljbom i oba smera. Telo završava let i štetu jednom; Ustanak čuva krater, spuštanje celog topa, snagu i vreme promene poteza. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Top koristi svoj oslonac točka za tlo; ne vraćati grešku eksplozije u vazduhu. Telo ne poseduje redosled igrača niti HUD snage.
 - **Zavisnosti i spoljno:** Posle EL-11 i EL-14; veza AR-08. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
@@ -373,7 +383,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 ### EL-21 · Avioni odozgo i teški bombarder · 2 / 3 / 6 p · Agent
 
 - **Šta:** Razviti postojeće Spitfire, Hurricane, Breguet, Yak, Bf 109, Fw 190, Bf 110 i He 111 kroz profil leta odozgo: smer/brzina, zaokret, manevar izbegavanja, rafal, bomba po opremi, oštećenje i pad. He 111 ima nezavisne tačke odbrane po stvarnom modelu i može leteti bez uloge bossa. Formacija i nagrada ostaju upravljaču/sceni.
-- **Referenca:** [scenes/vis/Avionce.js:57](../scenes/vis/Avionce.js#L57) — postojeći ugovor i potrošač koji treba sačuvati.
+- **Referenca:** [FighterBomber](../core/gameplay/bodies/aircraft/FighterBomber.js) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Sve varijante dostupne su samostalno u priči, bez sistema talasa; oružja i propeleri odgovaraju modelu. Luping ne vraća zdravlje niti automatski dodeljuje neranjivost van konfiguracije. Vis čuva svoje postojeće bonuse i broj pogodaka. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Sadašnji boss i moć bombe imaju pravila igre: ne preneti čišćenje ekrana i bodove u generičko telo aviona.
 - **Zavisnosti i spoljno:** Posle EL-20; veza AR-10. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.

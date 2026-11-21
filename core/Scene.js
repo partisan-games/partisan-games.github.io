@@ -1,6 +1,7 @@
 import { keyboard } from './io/Keyboard.js'
 import { keys } from './io/keys.js'
 import imageReady from './io/imageReady.js'
+import { wreckFor } from './actor/wreckView.js'
 import GameLoop from './GameLoop.js'
 import UI from '../ui/UI.js'
 import GameSession from './runtime/GameSession.js'
@@ -101,9 +102,11 @@ export default class Scene {
       [object, ...withDescendants(object.children || [])]
     )
     const roots = [...new Set([...this.children, this.player, this.background].filter(Boolean))]
-    const images = withDescendants(roots)
-      .filter(({ image }) => image)
-      .map(({ image, imageLoaded }) => imageReady(image, imageLoaded))
+    const images = withDescendants(roots).filter(({ image }) => image).flatMap(object => {
+      // an object destroyed from the start, such as a ruin in the scenery, is drawn as its wreck at once
+      const wreck = object.dead && wreckFor(object.image.src)
+      return [imageReady(object.image, object.imageLoaded), ...wreck ? [imageReady(wreck)] : []]
+    })
     return Promise.all(images)
   }
 

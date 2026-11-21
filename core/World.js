@@ -22,12 +22,9 @@ export default class World {
     this.objects = this.objects.filter(object => !objects.includes(object))
   }
 
-  /** Only 2D objects take input here; 3D objects read it in their own update. */
+  /** Input is the controllers'; an object that reads keys itself does so in its own update. */
   handleInput(dt) {
     this.controllers.forEach(controller => controller.handleInput?.(dt))
-    this.objects.forEach(object => {
-      if (object.alive && object.handleInput) object.handleInput(dt)
-    })
   }
 
   update(dt, t) {

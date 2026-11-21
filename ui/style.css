@@ -574,13 +574,14 @@ progress.potisak::-moz-progress-bar {
   }
 }
 
-/* a button that starts a paid game, with its token right of the label */
+/* a button that starts a paid game, with its token right of the label, all on one line in the middle */
 .paid {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   max-width: 100%;
+  white-space: nowrap;
 }
 
 .price {
@@ -588,6 +589,12 @@ progress.potisak::-moz-progress-bar {
   align-items: center;
   gap: 5px;
   flex: 0 0 auto;
+}
+
+/* the one token of a screen of several paid choices, after its title */
+:is(h2, h3) > .price {
+  margin-left: 8px;
+  vertical-align: middle;
 }
 
 .price img {

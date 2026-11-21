@@ -1,9 +1,10 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
+import { loadImages } from './helpers/images.js'
 import Health from '/core/gameplay/Health.js'
 
-test('the complete level keeps scrolling through ground combat, aircraft passes, pause and the finish', async t => {
+test('the complete level keeps scrolling through ground combat, aircraft passes, pause and the finish, the tank in front', async t => {
   createPageElements()
   const draws = []
   const ctx = { createLinearGradient: () => ({ addColorStop() {} }), fillRect() {}, clearRect() {},
@@ -12,91 +13,58 @@ test('the complete level keeps scrolling through ground combat, aircraft passes,
     }, save() {}, restore() {}, beginPath() {}, closePath() {},
     moveTo() {}, lineTo() {}, fill() {}, stroke() {}, ellipse() {} }
   t.mock.method(HTMLCanvasElement.prototype, 'getContext', () => ctx)
-  // Asset stand-ins let the real scene finish init without a browser or actual rasterization.
-  class LoadedImage extends EventTarget {
-    naturalWidth = 256
-    naturalHeight = 128
-    set src(value) {
-      this.url = value
-      if (value.endsWith('/items/granata.gif')) {
-        this.naturalWidth = 32; this.naturalHeight = 8
-      }
-      if (value.endsWith('/plamen.gif')) {
-        this.naturalWidth = 75; this.naturalHeight = 98
-      }
-      queueMicrotask(() => {
-        this.complete = true
-        this.onload?.()
-        this.dispatchEvent(new Event('load'))
-      })
-    }
-    get src() {
-      return this.url
-    }
-    decode() {
-      return Promise.resolve()
-    }
-  }
-  const imageDescriptor = Object.getOwnPropertyDescriptor(globalThis, 'Image')
-  Object.defineProperty(globalThis, 'Image', { value: LoadedImage, configurable: true, writable: true })
-  t.after(() => Object.defineProperty(globalThis, 'Image', imageDescriptor))
+  // asset stand-ins let the real scene finish init without a browser or actual rasterization
+  loadImages(t, { '/items/granata.gif': [32, 8], '/plamen.gif': [75, 98] })
   const Scene = (await import('/scenes/to-trieste/Main.js')).default
   const scene = new Scene()
   t.after(() => scene.end())
   await scene.init()
   t.mock.method(scene.ui, 'showMessage', () => {})
-  // Isolate world progression from survival skill; weapon/health behavior has separate checks.
-  scene.tenk.health = new Health({ maximum: 1_000_000 })
+  // isolate the road's progress from survival skill; weapons and health have their own checks
+  scene.player.health = new Health({ maximum: 1_000_000 })
   scene.session.ready()
   scene.session.start()
-  const ids = new Map(scene.airRaids.planes.map(p => [p, p.lifeId]))
-  let passes = 0, shots = 0, paused = false
-  let roadX
+  const planes = new Set()
+  let shots = 0, paused = false, roadX
   const step = 1 / 60
   for (let frame = 0; frame < 12_000 && scene.session.state === 'running'; frame++) {
-    if (!paused && scene.distance > scene.levelLength / 3) {
-      const { distance } = scene, { now } = scene.session.clock
+    if (!paused && scene.cameraX > scene.levelLength / 3) {
+      const { cameraX } = scene, { now } = scene.session.clock
       scene.session.pause()
       scene.session.update(2)
       scene.update(2)
-      assert.equal(scene.distance, distance)
+      assert.equal(scene.cameraX, cameraX)
       assert.equal(scene.session.clock.now, now)
       scene.session.resume()
       paused = true
     }
-    if (frame % 72 === 0) {
-      scene.tenk.fire(scene.tenk.vrhCevi, scene.tenk.cev.angle); shots++
-    }
-    const before = scene.distance
+    if (frame % 72 === 0 && scene.player.shoot()) shots++
+    const before = scene.cameraX
     scene.session.update(step)
     scene.update(step)
-    assert.ok(scene.distance > before, 'air raids and combat must not suspend the world')
-    assert.equal(scene.battlefield.distance(), scene.distance)
+    assert.ok(scene.cameraX > before, 'air raids and combat must not stop the road')
     if (frame % 120 === 0) {
       draws.length = 0
       scene.battlefield.render()
       const currentX = draws.find(draw => draw[0] === scene.battlefield.road)[1]
-      if (roadX !== undefined) assert.notEqual(currentX, roadX, 'the rendered road must move during ground and air combat')
+      if (roadX !== undefined) assert.notEqual(currentX, roadX, 'the drawn road moves during ground and air combat')
       roadX = currentX
     }
-    assert.ok(scene.airRaids.planes.filter(p => p.active).length <= 1)
-    for (const plane of scene.airRaids.planes) if (ids.get(plane) !== plane.lifeId) {
-      passes++
-      ids.set(plane, plane.lifeId)
-    }
+    // the renderer draws a lower layer later, in front
+    assert.ok(scene.hostiles.every(({ view }) => view.position.z > scene.playerView.position.z), 'the tank passes in front of the enemies')
+    const flying = scene.hostiles.filter(hostile => hostile.sort === 'plane')
+    assert.ok(flying.length <= 1, 'one air raid at a time')
+    flying.forEach(hostile => planes.add(hostile))
   }
-  assert.ok(paused && shots > 100 && passes >= 4)
-  assert.equal(scene.distance, scene.levelLength)
+  assert.ok(paused && shots > 100 && planes.size >= 4, `${paused} ${shots} ${planes.size}`)
+  assert.equal(scene.cameraX, scene.levelLength)
   assert.equal(scene.session.state, 'finished')
-  const { distance } = scene
-  scene.session.update(1)
-  scene.update(1)
-  assert.equal(scene.distance, distance)
+  assert.match(scene.ui.outro, /Proboj je uspeo/)
   scene.end()
   const replay = new Scene()
   t.after(() => replay.end())
   await replay.init()
-  assert.equal(replay.distance, 0)
+  assert.equal(replay.cameraX, 0)
   assert.equal(replay.session.clock.now, 0)
-  assert.ok(replay.airRaids.planes.every(plane => !plane.active && !plane.visible))
+  assert.ok(replay.hostiles.every(hostile => hostile.sort !== 'plane'))
 })

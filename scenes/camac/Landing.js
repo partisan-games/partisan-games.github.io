@@ -1,14 +1,20 @@
 import canvas2d, { ctx } from '/core/io/canvas2d.js'
 import GameObject2D from '/core/actor/GameObject2D.js'
 
-/** A fictional landing site within the historical operation, not a mapped wartime pier. */
+/**
+ * A fictional landing site within the historical operation, not a mapped wartime pier. It lies in the pixels of the
+ * river; it steers the boat `player`, a body in metres, through `projection`, and draws its passengers about the boat's
+ * `view`. `startX` is where the boat set out, in pixels.
+ */
 export default class Landing {
-  constructor({ coast, session, player, viewLeft }) {
+  constructor({ coast, session, player, view, projection, viewLeft, startX }) {
     this.coast = coast
     this.session = session
     this.player = player
+    this.view = view
+    this.projection = projection
     this.viewLeft = viewLeft
-    this.x = player.startX + 6500
+    this.x = startX + 6500
     this.position = { z: .5 }
     this.startedAt = null
     this.progress = 0
@@ -55,26 +61,32 @@ export default class Landing {
     return this.startedAt !== null
   }
 
+  /** Once the boat reaches the pier, the landing takes it, brings it alongside and lands its troops. */
   update() {
     if (this.session.state !== 'running' || this.complete) return
     const boat = this.player
     if (boat.dead) return
+    const at = this.projection.point(boat)
+    const height = this.projection.length(boat.size.width)
     if (!this.active) {
-      if (boat.x < this.x - 85) return
+      if (at.x < this.x - 85) return
       this.startedAt = this.session.clock.now
-      this.approach = { x: boat.x, y: boat.y, angle: boat.angle }
-      this.arrivalTime = Math.max(.8, Math.hypot(this.x - boat.x,
-        this.pierY + boat.height / 2 + 8 - boat.y) / 200)
-      boat.controlsLocked = true
-      boat.stop()
+      this.approach = { x: at.x, y: at.y, angle: this.projection.angle(boat.yaw) }
+      this.arrivalTime = Math.max(.8, Math.hypot(this.x - at.x, this.pierY + height / 2 + 8 - at.y) / 200)
+      boat.vx = boat.vz = 0
     }
     const elapsed = this.session.clock.now - this.startedAt
     const arrival = Math.min(1, elapsed / this.arrivalTime)
     const eased = arrival * arrival * (3 - 2 * arrival)
-    boat.x = this.approach.x + (this.x - this.approach.x) * eased
-    boat.y = this.approach.y + (this.pierY + boat.height / 2 + 8 - this.approach.y) * eased
+    const place = this.projection.toWorld({
+      x: this.approach.x + (this.x - this.approach.x) * eased,
+      y: this.approach.y + (this.pierY + height / 2 + 8 - this.approach.y) * eased,
+    })
+    boat.x = place.x
+    boat.z = place.z
+    boat.vx = boat.vz = 0
     const turn = Math.atan2(Math.sin(-this.approach.angle), Math.cos(-this.approach.angle))
-    boat.angle = this.approach.angle + turn * eased
+    boat.yaw = -(this.approach.angle + turn * eased)
     this.progress = Math.min(1, Math.max(0, (elapsed - this.arrivalTime) / 3.6))
     this.complete = this.progress === 1
   }
@@ -100,12 +112,12 @@ export default class Landing {
   }
 
   renderPassengers() {
-    if (!this.uniforms.length || !this.player.visible) return
+    if (!this.uniforms.length || !this.view.visible) return
     ctx.save()
     for (let i = 0; i < 4; i++) {
       const passenger = this.passengers[i]
       const progress = Math.min(1, Math.max(0, this.progress * 1.5 - i / 6))
-      const boat = this.player
+      const boat = this.view
       const seatX = (i % 2 ? .075 : -.075) * boat.width + passenger.offsetX
       const seatY = (i < 2 ? -.17 : .17) * boat.height + passenger.offsetY
       const aboardX = boat.x + Math.cos(boat.angle) * seatX - Math.sin(boat.angle) * seatY

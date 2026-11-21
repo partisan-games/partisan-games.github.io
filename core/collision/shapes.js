@@ -52,7 +52,3 @@ export function toLocal(point, { x, y, angle }) {
   const sin = Math.sin(angle)
   return { x: dx * cos + dy * sin, y: -dx * sin + dy * cos }
 }
-
-/** The shapes an object collides with: its collider's, or the unturned rectangle of its size. */
-export const shapesOf = object =>
-  object.collider ? object.collider.shapes() : [box(object.x, object.y, object.width, object.height)]

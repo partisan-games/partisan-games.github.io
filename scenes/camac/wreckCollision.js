@@ -1,22 +1,27 @@
-const dot = (a, b) => a.x * b.x + a.y * b.y
-const axesOf = actor => {
-  const cos = Math.cos(actor.angle), sin = Math.sin(actor.angle)
-  return [{ x: cos, y: sin }, { x: -sin, y: cos }]
+const dot = (a, b) => a.x * b.x + a.z * b.z
+/** Along a body's heading and across it, seen from above. */
+const axesOf = body => {
+  const cos = Math.cos(body.yaw), sin = Math.sin(body.yaw)
+  return [{ x: cos, z: -sin }, { x: sin, z: cos }]
 }
-const radius = (actor, axes, normal) => Math.abs(dot(axes[0], normal)) * actor.width / 2 +
-  Math.abs(dot(axes[1], normal)) * actor.height / 2
+const radius = (body, axes, normal) => Math.abs(dot(axes[0], normal)) * body.size.length / 2 +
+  Math.abs(dot(axes[1], normal)) * body.size.width / 2
 
-/** Continuous rectangle contact: even a fast frame cannot carry the boat through a surface wreck. */
-export default function collideWithWreck(player, wreck, previousPlayer, previousWreck) {
-  if (player.dead || !wreck.visible || !wreck.wreck.solid) return false
-  const playerAxes = axesOf(player), wreckAxes = axesOf(wreck)
-  const start = { x: previousPlayer.x - previousWreck.x, y: previousPlayer.y - previousWreck.y }
-  const end = { x: player.x - wreck.x, y: player.y - wreck.y }
-  const movement = { x: end.x - start.x, y: end.y - start.y }
+/**
+ * Continuous hull contact, seen from above: even a fast step cannot carry the boat through the hull of a sinking wreck
+ * while it lies `afloat`; the boat stops on it, loses speed and glances off. Positions before the step are
+ * `previousBoat` and `previousWreck`, `{ x, z }` in metres.
+ */
+export default function collideWithWreck(boat, wreck, previousBoat, previousWreck) {
+  if (boat.dead || !wreck?.afloat) return false
+  const boatAxes = axesOf(boat), wreckAxes = axesOf(wreck)
+  const start = { x: previousBoat.x - previousWreck.x, z: previousBoat.z - previousWreck.z }
+  const end = { x: boat.x - wreck.x, z: boat.z - wreck.z }
+  const movement = { x: end.x - start.x, z: end.z - start.z }
   let enter = 0, exit = 1, normal = null
   let inside = true, overlap = true, penetration = Infinity, separation = null
-  for (const axis of [...playerAxes, ...wreckAxes]) {
-    const half = radius(player, playerAxes, axis) + radius(wreck, wreckAxes, axis)
+  for (const axis of [...boatAxes, ...wreckAxes]) {
+    const half = radius(boat, boatAxes, axis) + radius(wreck, wreckAxes, axis)
     const from = dot(start, axis), to = dot(end, axis), speed = dot(movement, axis)
     if (Math.abs(from) >= half) inside = false
     if (Math.abs(to) >= half) overlap = false
@@ -24,7 +29,7 @@ export default function collideWithWreck(player, wreck, previousPlayer, previous
     if (depth < penetration) {
       penetration = depth
       const sign = to < 0 ? -1 : 1
-      separation = { x: axis.x * sign, y: axis.y * sign }
+      separation = { x: axis.x * sign, z: axis.z * sign }
     }
     if (speed === 0) {
       if (Math.abs(from) >= half) return false
@@ -34,27 +39,27 @@ export default function collideWithWreck(player, wreck, previousPlayer, previous
       if (near >= enter) {
         enter = near
         const sign = speed > 0 ? -1 : 1
-        normal = { x: axis.x * sign, y: axis.y * sign }
+        normal = { x: axis.x * sign, z: axis.z * sign }
       }
       exit = Math.min(exit, Math.max(a, b))
     }
   }
   if (inside) {
-    if (!overlap) return false // Let an already overlapping player steer away.
+    if (!overlap) return false // let a boat already against it steer away
     normal = separation
-    player.x += normal.x * (penetration + .5)
-    player.y += normal.y * (penetration + .5)
+    boat.x += normal.x * (penetration + .02)
+    boat.z += normal.z * (penetration + .02)
   } else {
     if (!normal || enter > exit || enter < 0 || enter > 1) return false
-    player.x = wreck.x + start.x + movement.x * enter + normal.x * .5
-    player.y = wreck.y + start.y + movement.y * enter + normal.y * .5
+    boat.x = wreck.x + start.x + movement.x * enter + normal.x * .02
+    boat.z = wreck.z + start.z + movement.z * enter + normal.z * .02
   }
-  const incoming = player.dx * normal.x + player.dy * normal.y
+  const incoming = boat.vx * normal.x + boat.vz * normal.z
   if (incoming < 0) {
-    const tangentX = player.dx - incoming * normal.x
-    const tangentY = player.dy - incoming * normal.y
-    player.dx = tangentX * .65 - incoming * .2 * normal.x
-    player.dy = tangentY * .65 - incoming * .2 * normal.y
+    const tangentX = boat.vx - incoming * normal.x
+    const tangentZ = boat.vz - incoming * normal.z
+    boat.vx = tangentX * .65 - incoming * .2 * normal.x
+    boat.vz = tangentZ * .65 - incoming * .2 * normal.z
   }
   return true
 }
