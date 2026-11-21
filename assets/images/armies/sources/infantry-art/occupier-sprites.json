@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "assets": [
+    {
+      "id": "occupier",
+      "image": "../../game-ready/vojnici/occupier-sprites.png",
+      "frame": {
+        "width": 210,
+        "height": 210,
+        "columns": 5,
+        "rows": 6
+      },
+      "anchor": {
+        "x": 105,
+        "y": 210
+      },
+      "animations": [
+        {
+          "name": "nagore",
+          "row": 0,
+          "frameCount": 5,
+          "duration": 0.5,
+          "loop": true
+        },
+        {
+          "name": "nadole",
+          "row": 1,
+          "frameCount": 5,
+          "duration": 0.5,
+          "loop": true
+        },
+        {
+          "name": "nalevo",
+          "row": 2,
+          "frameCount": 5,
+          "duration": 0.5,
+          "loop": true
+        },
+        {
+          "name": "nadesno",
+          "row": 3,
+          "frameCount": 5,
+          "duration": 0.5,
+          "loop": true
+        },
+        {
+          "name": "umire",
+          "row": 4,
+          "frameCount": 5,
+          "duration": 0.5,
+          "loop": false
+        },
+        {
+          "name": "fire",
+          "row": 5,
+          "frameCount": 5,
+          "duration": 0.5,
+          "loop": true
+        }
+      ],
+      "sha256": "ebbe52390b3d6945b770c312f929c2f8e1d50277cd0d79141fd26e756bca235c"
+    }
+  ]
+}

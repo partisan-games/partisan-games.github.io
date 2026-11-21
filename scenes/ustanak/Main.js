@@ -90,8 +90,7 @@ export default class UstanakScene extends Scene2D {
   }
 
   setRoundScenery() {
-    this.battlefield.round = this.round
-    this.battlefield.update(0)
+    this.battlefield.nextRound()
     this.remove(this.bunker)
     if (this.round === 1) this.add(this.bunker)
     else this.bunker.flame?.clear()
@@ -174,7 +173,7 @@ export default class UstanakScene extends Scene2D {
   }
 
   clear() {
-    this.battlefield?.render(this.round)
+    this.battlefield?.render()
   }
 
   imagesLoaded() {

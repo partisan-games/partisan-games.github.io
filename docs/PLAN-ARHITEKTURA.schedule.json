@@ -1,0 +1,52 @@
+{
+  "waves": [
+    {
+      "name": "Temelj i Tenkići",
+      "sequential": [
+        "AR-01",
+        "AR-02",
+        "AR-03",
+        "AR-04"
+      ]
+    },
+    {
+      "name": "2D igre",
+      "sequential": [
+        "AR-05",
+        "AR-06",
+        "AR-07",
+        "AR-08",
+        "AR-09",
+        "AR-10",
+        "AR-11",
+        "AR-12",
+        "AR-13"
+      ]
+    },
+    {
+      "name": "Čišćenje 2D",
+      "sequential": [
+        "AR-14"
+      ]
+    },
+    {
+      "name": "3D likovi",
+      "sequential": [
+        "AR-15",
+        "AR-16",
+        "AR-17",
+        "AR-18",
+        "AR-19",
+        "AR-20"
+      ]
+    },
+    {
+      "name": "3D letelice, kule i završetak",
+      "sequential": [
+        "AR-21",
+        "AR-22",
+        "AR-23"
+      ]
+    }
+  ]
+}

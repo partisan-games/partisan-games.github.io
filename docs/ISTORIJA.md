@@ -173,3 +173,32 @@ Za Vis nema prikaza odozgo. Galerija nije dokaz ratne partizanske upotrebe: prov
 Članak navodi Potez 25 sa naknadno ugrađenim „šarcem”, Breguet sa jednim zadnjim mitraljezom i improvizovane ručno bacane bombe. Tačni modeli oružja nisu navedeni; ne upisivati MG 42 samo na osnovu nadimka.
 
 **Neslaganje:** Čajavčev let i pogibija ovde su 4. juna, u POT-001 4. jula; proveriti navedenu knjigu pre korišćenja datuma. Slike ne potvrđuju ratnu autentičnost nacrtane šeme oznaka niti tačnu podvarijantu.
+
+
+## Šest ambijenata za ART-12
+
+Pejzaži služe prepoznatljivosti mesta, ne dokumentarnoj rekonstrukciji pojedinačnih borbi; raspored kuća, ljudi, oštećenja i rovova umetnička je odluka.
+
+| Ambijent | Geografski i istorijski oslonac |
+|---|---|
+| Sremski front, 1944 / 1945 | Ravnica Srema; front od kraja oktobra 1944 do 12. aprila 1945 ([Ministarstvo odbrane](https://www.mod.gov.rs/lat/10820/proboj-sremskog-fronta-10820)). Različite sezone daju jesenji i prolećni ambijent. Memorijal iz osamdesetih ne pripada ratnoj slici ([izvor](https://www.mod.gov.rs/lat/1214/ministar-odbrane-polozio-venac-na-spomen-kompleksu-sremski-front-1214)). |
+| Batina | Dunav i lesni obronci Banskog brda. Most je iz 1974, pa ga izostaviti ([Proleksis](https://proleksis.lzmk.hr/11330/)); i spomenik/kompleks su posleratni ([TZ Baranje](https://tzbaranje.hr/wp-content/uploads/2019/10/Fantasticna-Baranja-HR.pdf)). |
+| Grahovo | Grahovsko polje, krečnjački obod i kamena naselja uz brda, prema [geografskoj studiji naselja Nikšića](https://maticacrnogorska.me/wp-content/uploads/2020/10/MATICA-br.-83-jesen-2020.pdf). Savremeni spomen-park nije ratni motiv. |
+| Vilusi | Krška zaravan, uvale, suvozidi i kamena seoska domaćinstva; razlikovati od širokog polja ([ista studija](https://maticacrnogorska.me/wp-content/uploads/2020/10/MATICA-br.-83-jesen-2020.pdf)). |
+| Okolina Nikšića | Široko polje sa planinskim obodom i raštrkanim kamenim selima. Grahovo i Vilusi pripadaju okviru nikšićkog sreza 1941 ([Istorijski zapisi](https://istorijskizapisi.me/wp-content/uploads/2022/04/12-N-Perosevic-129-142.pdf)). To ne potvrđuje artiljerijski dvoboj u svakom prikazanom ambijentu. |
+
+
+## Godišnja doba ratnih ambijenata
+
+Godišnje doba se određuje prema datumu izabrane bitke; vegetacija, sneg po visini i stanje tla umetnička su rekonstrukcija sezone, ne dokaz vremena konkretnog dana.
+
+| Ambijent | Vremenski oslonac | Smer za art |
+|---|---|---|
+| Sutjeska | Bitka maj–jun 1943; reka i dolina između Zelengore i Maglića ([Hrvatska enciklopedija](https://enciklopedija.hr/clanak/sutjeska-rijeka), [Parkovi Dinarida](https://parksdinarides.org/nacionalni-park-sutjeska/)). | Kasno proleće: sveža zelena šuma i vlažne obale. Sutjeska je glavni motiv reke u kanjonu; naglašen visok vodostaj traži vlasnik, ne predstavlja potvrđeno hidrometrijsko merenje iz 1943. |
+| Neretva | Prelaz kod Jablanice početkom marta 1943, u okviru zimsko-prolećnih borbi ([Muzej](https://www.muzej-jablanica.com/ba/bs/?catid=9%3Ainfo&id=167%3Asruseni-most&view=article), [SABH, str. o Neretvi](https://sabh.hr/wp-content/uploads/2021/05/Glas_broj_56.pdf)). | Kraj zime i rano proleće: gole listopadne grane, prigušena trava i vlažno tlo; eventualni ostaci snega na visokim ili senovitim padinama, bez izmišljenog snežnog pokrivača u celoj dolini. |
+| Drvar | Napad 25. maja 1944 ([primarni dokument i napomena iz Zbornika](https://www.znaci.org/00001/4_12_4_70.htm)). | Kasno proleće: razvijeno zeleno lišće, jasna pećina i oštećeno selo. |
+| Kozara | Ofanziva jun–jul 1942 ([NP Kozara](https://npkozara.com/bitka-na-kozari/)). | Početak leta: pune zelene šume; lokalna zgarišta nisu jesenje boje celog pejzaža. |
+| Bihać | Oslobođenje 4. novembra 1942 ([dokumentarna zbirka](https://znaci.org/00003/501.pdf)). | Kasna jesen; dosadašnja varijanta ostaje upotrebljiva u tom okviru. |
+| Užice | Slobodna teritorija krajem septembra i tokom jeseni 1941 ([Narodni muzej Užice](https://nmuzice.org.rs/ужичка-република-1941/)). | Jesen; ne pretpostavljati da je svaka slika baš sa Kadinjače ili iz određenog dana. |
+
+Za Sremski front i Batinu važi ranije potvrđen jesenji/prolećni niz. Grahovo, Vilusi i okolina Nikšića prate postojeći okvir nivoa; gde konkretan sukob/dan nije utvrđen, ne izmišljati precizan datum da bi se opravdala paleta.

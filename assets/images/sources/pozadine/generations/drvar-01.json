@@ -43,5 +43,6 @@
     }
   ],
   "sha256": "4e8ad7bd6a82aa8965738000a2073b20546e504615bc7fa195124057c84b6792",
-  "preservedImage": "assets/images/background/drvar-ww2-pixel.png"
+  "deletedImage": "assets/images/background/drvar-ww2-pixel.png",
+  "imageDisposition": "Superseded version deleted by the owner; generation provenance retained."
 }

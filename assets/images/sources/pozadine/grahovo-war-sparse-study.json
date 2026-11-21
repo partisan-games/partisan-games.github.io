@@ -1,0 +1,35 @@
+{
+  "tool": "built-in image_gen",
+  "intent": "revised sparse comparison study; preserves preceding versions",
+  "image": "assets/images/background/grahovo-1941-war-sparse-study.png",
+  "reference": "assets/images/background/grahovo-1941-sparse-study.png",
+  "exactPrompt": "Edit this exact sparse Grahovo pixel-art background. Preserve its 1536x1024 resolution, crisp pixel-art quality, composition, ruined house and seated civilian on the left, sky, mountain silhouettes, large open spaces and flat unobstructed combat strip below y=852. The owner's correction: the meadow looks too clean and untouched for wartime. Make the OPEN FIELD itself visibly war-scarred while retaining a sparse restrained composition. Add only a FEW deliberate broad environmental scars: one shallow shell crater with irregular dark earth and a low broken rim in the middle-distance right of center (around x1050,y675), a short abandoned partly collapsed trench farther back (around x820,y585), a gently winding band of trampled bare dirt through the center, and two small subdued scorched grass patches with a few broken weathered wooden fence stakes near the trench. Give field surfaces patchy exposed soil and worn dusty grass rather than immaculate continuous lawn. Keep scars mainly above y=800, leaving calm light space behind the game units and the entire bottom combat strip flat and unobstructed. No additional houses, vehicles, crowds, weapons, giant wrecks, repeated clutter, or dense scatter of tiny objects. The open negative space is essential: damage is conveyed by a few larger readable earth shapes, not visual noise. Match the existing palette and detailed but disciplined pixel-art technique; do NOT lower resolution, blur, enlarge pixels or make it photorealistic. NO fabric flags or pennants, no painted fire or smoke, no text or UI. Keep the painted red star on masonry. Output the complete revised image.",
+  "imageSize": [
+    1536,
+    1024
+  ],
+  "groundY": 852,
+  "flags": "none",
+  "ownerAccepted": false,
+  "browserExecuted": false,
+  "previewRecipe": {
+    "module": "assets/images/sources/pozadine/prepare.py",
+    "function": "composition",
+    "scene": "ustanak",
+    "viewports": [
+      [
+        1280,
+        720
+      ],
+      [
+        1024,
+        768
+      ]
+    ],
+    "format": "lossless WebP"
+  },
+  "providerOutputName": "exec-33b51bec-3988-4f9b-8139-35fe43ed365d.png",
+  "imageSha256": "2e9cf1f4a24e4445460ad722730e7ede52afe42be5f1bf62d0d60dd799a86651",
+  "referenceSha256": "62d9c56b2a8f22734153e005104bf987f45dbd69ca4ae7d805d71e3e373b0889",
+  "sourceInspected": true
+}

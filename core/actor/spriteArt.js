@@ -20,31 +20,37 @@ export default {
     'clips': {
       'idle': {
         'row': 0,
+        'frameCount': 4,
         'seconds': 1.4,
         'loop': true
       },
       'fire': {
         'row': 1,
+        'frameCount': 4,
         'seconds': 0.32,
         'loop': false
       },
       'death': {
         'row': 2,
+        'frameCount': 4,
         'seconds': 0.64,
         'loop': false
       },
       'rest': {
         'row': 3,
+        'frameCount': 4,
         'seconds': 1.6,
         'loop': true
       },
       'walk': {
         'row': 4,
+        'frameCount': 4,
         'seconds': 0.8,
         'loop': true
       },
       'fireUp': {
         'row': 5,
+        'frameCount': 4,
         'seconds': 0.32,
         'loop': false,
         'muzzle': {
@@ -74,31 +80,37 @@ export default {
     'clips': {
       'idle': {
         'row': 0,
+        'frameCount': 4,
         'seconds': 1.4,
         'loop': true
       },
       'fire': {
         'row': 1,
+        'frameCount': 4,
         'seconds': 0.32,
         'loop': false
       },
       'death': {
         'row': 2,
+        'frameCount': 4,
         'seconds': 0.64,
         'loop': false
       },
       'rest': {
         'row': 3,
+        'frameCount': 4,
         'seconds': 1.6,
         'loop': true
       },
       'walk': {
         'row': 4,
+        'frameCount': 4,
         'seconds': 0.8,
         'loop': true
       },
       'fireUp': {
         'row': 5,
+        'frameCount': 4,
         'seconds': 0.32,
         'loop': false,
         'muzzle': {
@@ -128,11 +140,13 @@ export default {
     'clips': {
       'idle': {
         'row': 0,
+        'frameCount': 4,
         'seconds': 1.4,
         'loop': true
       },
       'drive': {
         'row': 1,
+        'frameCount': 4,
         'seconds': 0.64,
         'loop': true
       }
@@ -158,11 +172,13 @@ export default {
     'clips': {
       'idle': {
         'row': 0,
+        'frameCount': 4,
         'seconds': 1.4,
         'loop': true
       },
       'drive': {
         'row': 1,
+        'frameCount': 4,
         'seconds': 0.64,
         'loop': true
       }
@@ -180,19 +196,21 @@ export default {
       'y': 148
     },
     'body': [
-      28,
-      30,
-      311,
-      149
+      11,
+      10,
+      309,
+      148
     ],
     'clips': {
       'idle': {
         'row': 0,
-        'seconds': 1.4,
+        'frameCount': 1,
+        'seconds': 0.64,
         'loop': true
       },
       'drive': {
         'row': 1,
+        'frameCount': 4,
         'seconds': 0.64,
         'loop': true
       }
@@ -218,11 +236,13 @@ export default {
     'clips': {
       'idle': {
         'row': 0,
+        'frameCount': 1,
         'seconds': 1.4,
         'loop': true
       },
       'drive': {
         'row': 1,
+        'frameCount': 4,
         'seconds': 0.64,
         'loop': true
       }
@@ -248,6 +268,7 @@ export default {
     'clips': {
       'fire': {
         'row': 0,
+        'frameCount': 4,
         'seconds': 0.24,
         'loop': false
       }

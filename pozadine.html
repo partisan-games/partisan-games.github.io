@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="sr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Pozadine</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; padding: 16px; background: #1d1f1a; color: #ddd; font: 14px/1.4 system-ui, sans-serif; }
+    h1 { margin: 0 0 4px; font-size: 20px; }
+    h2 { margin: 24px 0 8px; font-size: 16px; color: #bbb; }
+    p { margin: 0 0 12px; color: #999; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+    figure { margin: 0; background: #2a2d25; border: 1px solid #3d4135; }
+    figure a { display: block; aspect-ratio: 3 / 2; background: #111; }
+    figure img { width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated; }
+    figcaption { padding: 6px 8px; word-break: break-all; }
+    figcaption span { display: block; color: #999; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <h1>Pozadine</h1>
+  <p>Čita sadržaj foldera pri svakom otvaranju, pa zahteva server sa spiskom foldera (<code>npm start</code>). Klik otvara sliku u punoj veličini.</p>
+  <main id="pozadine"></main>
+  <script type="module">
+    /** Folders whose every picture is a background or a study of one; the server lists them. */
+    const folders = ['/assets/images/background/', '/assets/images/sources/pozadine/seasonal/']
+    const picture = /\.(png|jpe?g|gif|webp)$/i
+    /** Ground textures, such as Ustanak's earth layer, are not backgrounds. */
+    const groundTexture = /\btlo\b/
+    /** Pictures in the folders that are not shown here (owner's choice), e.g. the mountains, scenery for other games. */
+    const hidden = ['planine.png', 'grad.png', 'batina-1944-pixel.png', 'batina-1944-static.png', 'pozadina-dimi.gif', 'rusevine-varsava.jpg']
+
+    /** The pictures in `folder`, read from the server's listing of it. */
+    async function listed(folder) {
+      const page = new DOMParser().parseFromString(await (await fetch(folder)).text(), 'text/html')
+      const files = [...page.querySelectorAll('a[href]')]
+        .map(link => new URL(link.getAttribute('href'), location.origin + folder).pathname)
+        .filter(path => {
+          const name = decodeURIComponent(path.split('/').pop())
+          return picture.test(name) && !groundTexture.test(name) && !hidden.includes(name)
+        })
+      return [...new Set(files)].sort()
+    }
+
+    function section(title, paths) {
+      const container = document.createElement('section')
+      container.innerHTML = `<h2>${title} (${paths.length})</h2><div class="grid"></div>`
+      const grid = container.querySelector('.grid')
+      for (const path of paths) {
+        const figure = document.createElement('figure')
+        const name = decodeURIComponent(path.split('/').pop())
+        figure.innerHTML = `<a href="${path}" target="_blank"><img src="${path}" alt="${name}" loading="lazy"></a>
+          <figcaption>${name}<span>${path}</span></figcaption>`
+        const image = figure.querySelector('img')
+        image.onload = () => figure.querySelector('span').textContent = `${image.naturalWidth}×${image.naturalHeight} · ${path}`
+        grid.append(figure)
+      }
+      document.getElementById('pozadine').append(container)
+    }
+
+    for (const folder of folders) {
+      try {
+        const paths = await listed(folder)
+        if (paths.length) section(folder, paths)
+      } catch {
+        section(`${folder}: spisak foldera nije dostupan`, [])
+      }
+    }
+
+    /**
+     * Animated backgrounds: a folder of layers (base.png, clouds.png, actors.png and layout.json) that the game's
+     * renderLayers composes, and Codex's preview of it, which a click opens.
+     */
+    const animatedBackgrounds = [
+      { layers: '/assets/images/background/batina-1944/', preview: '/assets/images/sources/pozadine/batina-layered/preview.html' },
+    ]
+
+    const load = src => new Promise((resolve, reject) => {
+      const image = new Image()
+      image.onload = () => resolve(image)
+      image.onerror = reject
+      image.src = src
+    })
+
+    async function animated({ layers: folder, preview }) {
+      const [{ default: render }, layout, base, clouds, actors] = await Promise.all([
+        import('/scenes/tenkici/renderLayers.js'), fetch(`${folder}layout.json`).then(response => response.json()),
+        load(`${folder}base.png`), load(`${folder}clouds.png`), load(`${folder}actors.png`),
+      ])
+      const figure = document.createElement('figure')
+      figure.innerHTML = `<a href="${preview}" target="_blank"><canvas width="${layout.width}" height="${layout.height}"
+        style="width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated"></canvas></a>
+        <figcaption>${folder.split('/').at(-2)}<span>${layout.width}×${layout.height} · ${folder}</span></figcaption>`
+      const ctx = figure.querySelector('canvas').getContext('2d')
+      const start = performance.now()
+      const frame = now => {
+        render(ctx, { base, clouds, actors }, layout, (now - start) / 1000)
+        requestAnimationFrame(frame)
+      }
+      requestAnimationFrame(frame)
+      return figure
+    }
+
+    const figures = (await Promise.all(animatedBackgrounds.map(background => animated(background).catch(() => null)))).filter(Boolean)
+    if (figures.length) {
+      const container = document.createElement('section')
+      container.innerHTML = `<h2>Animirane pozadine (${figures.length})</h2><div class="grid"></div>`
+      container.querySelector('.grid').append(...figures)
+      document.getElementById('pozadine').prepend(container)
+    }
+  </script>
+</body>
+</html>

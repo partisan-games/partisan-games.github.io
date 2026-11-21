@@ -31,9 +31,9 @@ const folders = {
   'scenes/otpisani': ['Main.js'],
   'scenes/ustanak': [
     'Main.js', 'Turns.js', 'artFrame.js', 'Battlefield.js', 'Djule.js', 'GroundLayer.js', 'Terrain.js',
-    'VillageFire.js', 'Wind.js', 'WindEffects.js', 'Zastava.js',
+    'Wind.js', 'WindEffects.js', 'Zastava.js',
   ],
-  'scenes/tenkici': ['Main.js', 'Tenk.js', 'shellPhysics.js', 'BattleBackground.js'],
+  'scenes/tenkici': ['Main.js', 'Tenk.js', 'shellPhysics.js', 'BattleBackground.js', 'renderLayers.js'],
   'scenes/vis': [
     'Main.js', 'settings.js', 'levels.js', 'aircraft.js', 'paths.js', 'formations.js', 'flame.js', 'Waves.js',
     'PlayerView.js', 'Baza.js', 'Bullet.js', 'Oblak.js', 'PokretnaPozadina.js', 'Pokretno.js',

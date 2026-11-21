@@ -33,8 +33,8 @@ export default class LocomotionSprite {
     ctx.rotate(body.angle)
     ctx.scale(body.flipY * body.scaleX, body.flipX * body.scaleY)
     ctx.imageSmoothingEnabled = false
-    ctx.drawImage(body.image, this.frameIndex*width, this.moving ? height : 0, width, height,
-      -body.width/2, -body.height/2, body.width, body.height)
+    ctx.drawImage(body.image, this.frameIndex * width, this.moving ? height : 0, width, height,
+      -body.width / 2, -body.height / 2, body.width, body.height)
     ctx.restore()
   }
 }

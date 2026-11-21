@@ -32,7 +32,7 @@ Blok koji ne može da se napravi samo sa opcijama pozornice još nije nezavisan;
 
 ## Provere
 
-Pokrivenost aktera grafikom i prioriteti dopuna vode se u [ART](ART.md). Postojanje stanja ili priče samo po sebi ne dokazuje da telo ima poseban animirani klip.
+Postojeću pokrivenost aktera grafikom vodi [ART](ART.md), a zadatke i prioritete dopuna [PLAN-ART](PLAN-ART.md). Postojanje stanja ili priče samo po sebi ne dokazuje da telo ima poseban animirani klip.
 
 Svaka dopuna arta mora postati dostupna u postojećoj ili novoj priči aktera. Priča i svi nivoi koriste isti objekat i zajedničko mapiranje arta; poseban HTML/GIF pregled nije zamena. Art zadatak se zatvara tek posle [obavezne integracije i provera](ART.md#obavezna-integracija).
 

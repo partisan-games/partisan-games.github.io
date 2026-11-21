@@ -1,5 +1,6 @@
 import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
+import { loadAtlas } from './helpers/atlas.js'
 import { createPageElements } from './helpers/dom.js'
 
 let Occupier, occupier, mouse
@@ -56,4 +57,19 @@ test('a dead occupier gives no more points when clicked', t => {
   soldier.checkHit(() => points++)
   assert.equal(points, 1)
   assert.equal(soldier.state, 'dead')
+})
+
+test('fire uses the appended recoil row while walking and falling retain their original rows', () => {
+  const { soldier } = occupierAlone()
+  loadAtlas(soldier, 1050, 1260)
+  assert.equal(soldier.animation.width, 210)
+  assert.equal(soldier.animation.height, 210)
+  soldier.setState('fire')
+  assert.equal(soldier.animation.name, 'fire')
+  assert.equal(soldier.animation.startFrame, 25)
+  assert.equal(soldier.animation.loop, true)
+  assert.equal(soldier.animation.frameCount, 5)
+  soldier.setState('dead')
+  assert.equal(soldier.animation.startFrame, 20)
+  assert.equal(soldier.animation.loop, false)
 })

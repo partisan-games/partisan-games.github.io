@@ -24,6 +24,8 @@ The separate checks and how the tests work: [docs/TESTING.md](docs/TESTING.md).
 
 To try the game blocks one by one (soldiers, vehicles, aircraft, their states and shots), open `/storybook.html` on the same server; see [docs/STORYBOOK.md](docs/STORYBOOK.md).
 
+To see every background picture in the project, open `/pozadine.html` on the `npm start` server; it reads the folder each time, so new pictures appear without editing the page.
+
 ## TODO
 
 - razrađivati postojeće nivoe redom

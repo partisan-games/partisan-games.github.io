@@ -9,7 +9,8 @@
   "statusValues": [
     "planned",
     "in-progress",
-    "art-ready"
+    "art-ready",
+    "removed-by-owner"
   ],
   "generationRecord": "Each generations entry records tool, exactPrompt (commonPrompt + location prompt + actual edits), rawImage path, reference image paths and their SHA-256 values. visualReview records imageSha256, reviewer, inspected preview paths and notes; art-ready requires a review matching the selected image.",
   "history": "docs/ISTORIJA.md#pejzazi-za-art-12",
@@ -191,7 +192,9 @@
         ],
         "notes": "Tower silhouette, cascades and wartime damage read clearly; uninterrupted flat ground, quiet unit backdrop, no painted smoke or flame. Both scene compositions inspected in both viewports; not a game runtime check."
       },
-      "ownerStyleFeedback": "Owner stopped production: the images look too realistic. Keep every existing image as a usable variant. Future work needs visibly larger pixel clusters, simpler forms, fewer fine details and a more obvious pixel-art look. Do not resume or restyle the preserved images without a new instruction."
+      "ownerStyleFeedback": "Owner stopped production: the images look too realistic. Keep every existing image as a usable variant. Future work needs visibly larger pixel clusters, simpler forms, fewer fine details and a more obvious pixel-art look. Do not resume or restyle the preserved images without a new instruction.",
+      "battlePeriod": "1942-11",
+      "season": "autumn"
     },
     {
       "id": "uzice",
@@ -238,12 +241,14 @@
         ],
         "notes": "Old roofless citadel ruins on the Djetinja crag; damaged period houses, no reconstructed tower or modern flag. Flat unobstructed combat strip and readable units in both scene compositions and both viewports. Not game execution."
       },
-      "ownerStyleFeedback": "Owner stopped production: the images look too realistic. Keep every existing image as a usable variant. Future work needs visibly larger pixel clusters, simpler forms, fewer fine details and a more obvious pixel-art look. Do not resume or restyle the preserved images without a new instruction."
+      "ownerStyleFeedback": "Owner stopped production: the images look too realistic. Keep every existing image as a usable variant. Future work needs visibly larger pixel clusters, simpler forms, fewer fine details and a more obvious pixel-art look. Do not resume or restyle the preserved images without a new instruction.",
+      "battlePeriod": "1941-autumn",
+      "season": "autumn"
     },
     {
       "id": "neretva",
       "name": "Neretva",
-      "status": "in-progress",
+      "status": "removed-by-owner",
       "image": "assets/images/background/neretva-ww2-pixel.png",
       "prompt": "Jablanica: a steep rocky Neretva gorge with green-blue water and the broken EARLY railway bridge of March 1943, its dark iron lattice span collapsed steeply toward the water with a clear gap and surviving masonry abutments. Use a verified 1943 archival view for the broken-span silhouette; do not copy the later replacement bridge, the 1968 film bridge or today's memorial pedestrian walkway. Do not paint a complete passable railway bridge, museum, memorial train display, modern road bridge or reservoir. Period houses and a ruined railway-side wall in the middle distance. River and collapsed bridge are behind a continuous dry foreground terrace.",
       "imageSize": [
@@ -285,12 +290,16 @@
         ],
         "notes": "Broken early iron railway span falls into river from masonry abutment; no complete crossing, memorial or modern bridge. Period roof damage and calm dry foreground. All four unit compositions inspected; effects and runtime not executed."
       },
-      "ownerStyleFeedback": "Owner stopped production: the images look too realistic. Keep every existing image as a usable variant. Future work needs visibly larger pixel clusters, simpler forms, fewer fine details and a more obvious pixel-art look. Do not resume or restyle the preserved images without a new instruction."
+      "ownerStyleFeedback": "Owner stopped production: the images look too realistic. Keep every existing image as a usable variant. Future work needs visibly larger pixel clusters, simpler forms, fewer fine details and a more obvious pixel-art look. Do not resume or restyle the preserved images without a new instruction.",
+      "preferredSeasonalImage": "assets/images/background/neretva-late-winter-1943-pixel.png",
+      "battlePeriod": "1943-02/1943-03",
+      "season": "late winter / early spring",
+      "ownerDecision": "Superseded source deleted; use preferredSeasonalImage. Generation records retain the original provenance."
     },
     {
       "id": "drvar",
       "name": "Drvar",
-      "status": "in-progress",
+      "status": "removed-by-owner",
       "image": "assets/images/background/drvar-ww2-pixel.png",
       "prompt": "A broad Drvar basin with low red-roofed period houses below a wooded limestone escarpment. Make a clearly readable dark cave mouth under a natural rock overhang the focal feature, with a modest rough timber shelter only if supported by the chosen wartime reference. Cave belongs on the cliff above town, not a tunnel in the flat battlefield. Show damaged ordinary roofs, a splintered tree and a broken timber fence in the middle distance. No postwar museum buildings, monumental stairways, visitor railings or souvenir facilities. Quiet level basin foreground.",
       "imageSize": [
@@ -332,12 +341,16 @@
         ],
         "notes": "Visible natural cave above the basin, damaged period houses, snapped tree and broken fence; modern hut and visitor fixtures omitted. Four unit compositions inspected; clear combat strip, no baked smoke/fire. Not game execution."
       },
-      "ownerStyleFeedback": "Owner stopped production: the images look too realistic. Keep every existing image as a usable variant. Future work needs visibly larger pixel clusters, simpler forms, fewer fine details and a more obvious pixel-art look. Do not resume or restyle the preserved images without a new instruction."
+      "ownerStyleFeedback": "Owner stopped production: the images look too realistic. Keep every existing image as a usable variant. Future work needs visibly larger pixel clusters, simpler forms, fewer fine details and a more obvious pixel-art look. Do not resume or restyle the preserved images without a new instruction.",
+      "preferredSeasonalImage": "assets/images/background/drvar-spring-1944-pixel.png",
+      "battlePeriod": "1944-05-25",
+      "season": "late spring",
+      "ownerDecision": "Superseded source deleted; use preferredSeasonalImage. Generation records retain the original provenance."
     },
     {
       "id": "sutjeska",
       "name": "Sutjeska",
-      "status": "in-progress",
+      "status": "removed-by-owner",
       "image": "assets/images/background/sutjeska-ww2-pixel.png",
       "prompt": "Layered forested Zelengora ridges and the deep Sutjeska canyon frame the distant sharper pale rocky summit of Maglic. A compressed but believable mountain-valley panorama, not one generic snowy alpine wall and not a lakeside Durmitor scene. Show a damaged small stone-and-timber mountain house, snapped trees and an abandoned shallow timber-lined position in the middle distance. No Tjentiste wing monument, concrete memorial, postwar hotel or modern park road. The near valley terrace is quiet, light and horizontal; dense woodland stays behind it.",
       "imageSize": [
@@ -373,12 +386,16 @@
         ],
         "notes": "Forested canyon and prominent pale rocky peak distinguish the high mountain setting. Roofless house, snapped trunks and abandoned timber position remain above a clear ground strip. All four compositions inspected; no baked fire/smoke or later memorial. Not runtime execution."
       },
-      "ownerStyleFeedback": "Owner stopped production: the images look too realistic. Keep every existing image as a usable variant. Future work needs visibly larger pixel clusters, simpler forms, fewer fine details and a more obvious pixel-art look. Do not resume or restyle the preserved images without a new instruction."
+      "ownerStyleFeedback": "Owner stopped production: the images look too realistic. Keep every existing image as a usable variant. Future work needs visibly larger pixel clusters, simpler forms, fewer fine details and a more obvious pixel-art look. Do not resume or restyle the preserved images without a new instruction.",
+      "preferredSeasonalImage": "assets/images/background/sutjeska-1943-pixel.png",
+      "battlePeriod": "1943-05/1943-06",
+      "season": "late spring",
+      "ownerDecision": "Superseded source deleted; use preferredSeasonalImage. Generation records retain the original provenance."
     },
     {
       "id": "kozara",
       "name": "Kozara",
-      "status": "in-progress",
+      "status": "removed-by-owner",
       "image": "assets/images/background/kozara-ww2-pixel.png",
       "prompt": "An intimate rolling Kozara woodland landscape: linked rounded forest ridges, descending wooded spurs, patches of deciduous and conifer trees and a small stream valley. Keep its lower rounded silhouette clearly distinct from Sutjeska's high rocky summit and deep mountain canyon. A roofless village outbuilding, snapped trunks and an abandoned earth-and-timber position make the war damage visible. No Mrakovica cylindrical monument, memorial stairs, museum or modern hotel. Open horizontal light dry-earth clearing across the foreground; no foreground trunks hiding units.",
       "imageSize": null,
@@ -388,7 +405,11 @@
         "assets/images/sources/pozadine/generations/kozara-01.json"
       ],
       "visualReview": null,
-      "ownerStyleFeedback": "Owner stopped production: the images look too realistic. Keep every existing image as a usable variant. Future work needs visibly larger pixel clusters, simpler forms, fewer fine details and a more obvious pixel-art look. Do not resume or restyle the preserved images without a new instruction."
+      "ownerStyleFeedback": "Owner stopped production: the images look too realistic. Keep every existing image as a usable variant. Future work needs visibly larger pixel clusters, simpler forms, fewer fine details and a more obvious pixel-art look. Do not resume or restyle the preserved images without a new instruction.",
+      "preferredSeasonalImage": "assets/images/background/kozara-early-summer-1942-pixel.png",
+      "battlePeriod": "1942-06/1942-07",
+      "season": "early summer",
+      "ownerDecision": "Superseded source deleted; use preferredSeasonalImage. Generation records retain the original provenance."
     },
     {
       "id": "sremski-front",
@@ -425,5 +446,6 @@
     "scenePreview": "assets/images/sources/pozadine/styles/scene-preview.html",
     "humanPresence": "Owner requests human wartime vignettes: machine-gun position on tower/church, hill sentry, corner patrol; during battle running, hiding or crawling. B3 is a scene-layout still, not animated production art."
   },
-  "referenceStorage": "Research photos are represented by their original URLs and exact input hashes. Project reference PNGs and selected generated backgrounds are stored once at their canonical paths. Large composition PNGs are optional local outputs."
+  "referenceStorage": "Research photos are represented by their original URLs and exact input hashes. Project reference PNGs and selected generated backgrounds are stored once at their canonical paths. Large composition PNGs are optional local outputs.",
+  "seasonPolicy": "Choose vegetation, snow by elevation, ground and light from the selected battle date, not a universal autumn palette. Actual weather and water level are artistic choices unless sourced. New seasonal reserve selections are recorded in seasonal-backgrounds.json; original images/prompts are preserved."
 }

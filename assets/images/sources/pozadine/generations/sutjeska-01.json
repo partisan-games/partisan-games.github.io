@@ -37,5 +37,6 @@
     }
   ],
   "sha256": "77c8d37da17e0a58172f7dbc6ab3188a1ee67855da6a4c24a9880a8b63bbbdef",
-  "preservedImage": "assets/images/background/sutjeska-ww2-pixel.png"
+  "deletedImage": "assets/images/background/sutjeska-ww2-pixel.png",
+  "imageDisposition": "Superseded version deleted by the owner; generation provenance retained."
 }

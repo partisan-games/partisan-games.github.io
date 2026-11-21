@@ -1,6 +1,6 @@
 {
   "tool": "built-in image_gen",
-  "status": "Unfinished: both benign pose/motion requests were rejected by the generation service; no output image exists and the current game art is unchanged.",
+  "status": "Resolved 2026-11-21: later built-in generation succeeded; earlier rejections retained as historical attempts.",
   "attempts": [
     {
       "prompt": "Generate an animation SOURCE STRIP for this EXACT existing frontal WWII occupier game sprite. Exactly FIVE equal columns in ONE horizontal row, ideally a wide 2100x840 transparent canvas. The five cells show the SAME full-body soldier at the SAME size, x center and boot baseline. Reference identity is mandatory: same face, low dark olive steel helmet, black tunic and black trousers, tall black leather boots, belt and brown side pouch, plain red upper-arm band as supplied, weapon held in both hands in the same frontal aiming pose. Do NOT introduce any new emblem or extra insignia. Match the existing old raster sprite style, palette, proportions and limited highlights; no modern tactical kit or redesigned soldier. Create a dedicated FIRE clip, not walking: both boots and knees remain pixel-for-pixel still in all five frames, same stance and same foot baseline. Only hands, weapon, forearms and a tiny shoulder recoil change: frame1 holds aim directly toward the viewer; frame2 weapon and shoulders recoil backward slightly; frame3 recoil relaxes; frame4 small follow-up recoil; frame5 returns to exactly the frame1 aiming posture for a smooth burst loop. Keep mouth/head largely still. No leg movement, stepping, bouncing, whole-body resizing, sideways translation or changing camera angle. No blood, wounded pose, death, effects, muzzle flash, smoke, text, cell labels, ground line or shadows: the game supplies the separate shot flash. This must remain the exact same character from the reference's existing atlas, with a stable held lower body; transparent background and generous identical margins in all five cells.",
@@ -20,5 +20,6 @@
       "result": "output: abuse",
       "status": "rejected-no-image"
     }
-  ]
+  ],
+  "successfulGeneration": "occupier-fire-generation.json"
 }

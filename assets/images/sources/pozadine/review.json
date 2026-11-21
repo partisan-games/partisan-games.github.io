@@ -144,22 +144,22 @@
     },
     {
       "id": "neretva",
-      "status": "in-progress",
-      "imagePresent": true
+      "status": "removed-by-owner",
+      "imagePresent": false
     },
     {
       "id": "drvar",
-      "status": "in-progress",
-      "imagePresent": true
+      "status": "removed-by-owner",
+      "imagePresent": false
     },
     {
       "id": "sutjeska",
-      "status": "in-progress",
-      "imagePresent": true
+      "status": "removed-by-owner",
+      "imagePresent": false
     },
     {
       "id": "kozara",
-      "status": "in-progress",
+      "status": "removed-by-owner",
       "imagePresent": false
     },
     {

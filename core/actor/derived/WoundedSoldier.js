@@ -17,9 +17,9 @@ export default class WoundedSoldier extends Player2D {
   }
 
   update(dt) {
-    const x = this.x, y = this.y
+    const { x } = this, { y } = this
     super.update(dt)
-    this.bodySprite.update(dt, this.alive && Math.hypot(this.x-x, this.y-y) > .001)
+    this.bodySprite.update(dt, this.alive && Math.hypot(this.x - x, this.y - y) > .001)
   }
 
   render() {

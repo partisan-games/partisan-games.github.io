@@ -21,7 +21,7 @@ const states = {
   },
   fire: {
     enter: soldier => {
-      soldier.setAnimation('nadole', false)
+      soldier.setAnimation('fire', true)
       soldier.stop()
       soldier.hasFired = true
     },
@@ -43,8 +43,8 @@ const states = {
 export default class Occupier extends Sprite {
   /** `heading` is the way he walks: 1 right, -1 left; `callback(dt)` is called each frame he fires. */
   constructor({ x, y, heading = 1, callback } = {}) {
-    super('sprites/vojnici/okupator-sprite.png', {
-      names: ['nagore', 'nadole', 'nalevo', 'nadesno', 'umire'], frameCount: 5, width: 50, height: 180, x, y,
+    super('armies/game-ready/vojnici/occupier-sprites.png', {
+      names: ['nagore', 'nadole', 'nalevo', 'nadesno', 'umire', 'fire'], frameCount: 5, width: 50, height: 180, x, y,
     })
     this.heading = heading
     this.callback = callback

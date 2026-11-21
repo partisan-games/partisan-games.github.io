@@ -31,13 +31,13 @@ The FK-13 sprite integration on 2026-11-20 received an independent source review
 
 FK-13 request 2 added `rest`, `walk` and `fireUp` art to both soldiers without changing gameplay code. Running [prepare.py](../assets/images/armies/sources/franjo-kluz/prepare.py) regenerated the atlases, metadata, runtime data, GIFs and preview HTML. Pixel hashes verified that the first three rows remain identical, and file hashes verified that the other atlases remain unchanged. Checks covered the unchanged frame size, anchor and facing; four distinct frames per new clip; transparent frame edges; the common foot baseline; the specified durations and GIF loop modes; and `muzzle` on the first aiming frame. New poses and the marked muzzle were visually inspected as local images; generated runtime data passed a JavaScript syntax check. This is asset verification, without an in-game or browser run; patrol, alert transitions, aiming holds and projectile origins still require Claude's integration and its checks.
 
-The [art integration tests](../tests/unit/franjoKluzArt.test.js) and [Kluz tests](../tests/unit/franjoKluz.test.js) passed in the full unit suite of 2026-11-20 (see [UI verification limits](#ui-verification-limits)). The art has not been reviewed in the running game.
+The [art integration tests](../tests/unit/groundTarget.test.js) and [Kluz tests](../tests/unit/franjoKluz.test.js) passed in the full unit suite of 2026-11-20 (see [UI verification limits](#ui-verification-limits)). The art has not been reviewed in the running game.
 
 ## Ustanak verification limits
 
 The owner closed the Ustanak work on 2026-11-17. Final source and prepared tests received an independent source review without confirmed actionable findings; unit tests, lint, project checks and browser execution were not run for the final working copy, by the owner's decision. Acceptance does not establish a passing runtime or an auditioned final sound mix.
 
-[Terrain tests](../tests/unit/ustanakTerrain.test.js) include all four independent wind/destruction combinations and round reset. [Managed sound tests](../tests/unit/managedSound.test.js) cover ownership and playback lifecycle. Ustanak browser cases stage the last hit of each round for 1P victory/defeat and 2P victory, pause during delayed damage, replay and old-scene sound shutdown; they do not replace a naturally played full match or listening review. They passed in the full smoke run of 2026-11-20 described under [UI verification limits](#ui-verification-limits).
+[Ustanak tests](../tests/unit/ustanak.test.js) include all four independent wind/destruction combinations and round reset. [Managed sound tests](../tests/unit/managedSound.test.js) cover ownership and playback lifecycle. Ustanak browser cases stage the last hit of each round for 1P victory/defeat and 2P victory, pause during delayed damage, replay and old-scene sound shutdown; they do not replace a naturally played full match or listening review. They passed in the full smoke run of 2026-11-20 described under [UI verification limits](#ui-verification-limits).
 
 ## Recording analysis · ZV-06
 
@@ -67,7 +67,7 @@ After permission, run the targeted audio/scene tests and changed-file lint/impor
 
 ## Ustanak terrain checks · 2026-11-20
 
-Unit tests (563), lint and `npm run check` pass. [Terrain cases](../tests/unit/ustanakTerrain.test.js) cover the crater shape, deepening to the bottom, a shell landing in a crater and on its far wall, units falling with gravity (cannon collider included), a new round, and the drawn layer cutting the same floors as the height map. One headless Chrome took a screenshot of each round with craters cut by `Terrain.blast` in the running game, including one under the enemy cannon. The agent did not play a match; the owner played one and accepted the terrain (2026-11-20).
+Unit tests (563), lint and `npm run check` pass. [Terrain](../tests/unit/terrain.test.js) and [Ustanak cases](../tests/unit/ustanak.test.js) cover the crater shape, deepening to the bottom, a shell landing in a crater and on its far wall, units falling with gravity (cannon collider included), a new round, and the drawn layer cutting the same floors as the height map. One headless Chrome took a screenshot of each round with craters cut by `Terrain.blast` in the running game, including one under the enemy cannon. The agent did not play a match; the owner played one and accepted the terrain (2026-11-20).
 
 ## Franjo Kluz checks · 2026-11-20
 
@@ -120,3 +120,64 @@ Import `test` from `helpers.js`, not from Playwright: it exposes the game's `Sce
 - Headless Escape does not release a locked mouse; first-person games pause on that release, so a Playwright probe calls `document.exitPointerLock()`.
 - `page.waitForFunction` does not await an async predicate; keep predicates synchronous.
 - A touch hold needs CDP `Input.dispatchTouchEvent` (`touchStart`, wait, `touchEnd`); `tap()` is too short to charge the cannon.
+
+
+<a id="art-verification-record"></a>
+
+## Art verification record
+
+Preneto iz ranijeg ART.md pri razdvajanju trajnog znanja i [plana](PLAN-ART.md). Ovo su zapisi ranijih izvršavanja, ne nove provere trenutnog stabla; brojevi pojedinih prolaza se preklapaju i ne sabiraju se. U ovoj reorganizaciji browser, lint, build i unit testovi nisu pokretani.
+
+**Tenkovi i Opel:** Izvršeno je šest odobrenih unit fajlova: [vehicleArt](../tests/unit/vehicleArt.test.js), [tenkici](../tests/unit/tenkici.test.js), [toTriesteGroundEnemy](../tests/unit/toTriesteGroundEnemy.test.js), [tankGroundEnemies](../tests/unit/tankGroundEnemies.test.js), [groundTarget](../tests/unit/groundTarget.test.js) i [storybookCatalog](../tests/unit/storybookCatalog.test.js): 28/28 prolazi. Posle korekcije nultog koraka pri nastavku pauze ponovljeni su vehicleArt, tenkici i storybookCatalog: 10/10 prolazi, uključujući dopunjene regresije oba tenka. Nezavisan pregled završnog koda nije našao otvoren defekt. Browser, vizuelni pregled nivoa i lint nisu pokretani: vlasnik je za ovaj posao izričito odobrio samo unit provere. Linkovi do stvarnih Storybook priča navedeni su u obaveznom koraku integracije; unit dokaz nije vizuelno prihvatanje.
+
+**ART-05 — provere:** Ciljani vehicleArt i toTriesteGroundEnemy unit fajlovi: 10/10 prolazi, uključujući Somuinu vožnju, mirovanje pri skrolovanju, paljbu u pokretu, nulti korak pauze, uništenje i reset. Browser nije pokretan.
+
+**Bombaš:** Bombas i storybookCatalog unit fajlovi: 5/5 prolazi.
+
+**ART-07 — provere:** UstanakSoldiers, cannon i storybookCatalog: 20/20 unit provera prolazi; browser nije pokretan.
+
+**ART-09 — provere:** Rafali i pauze nisu menjani; machineGunner i storybookCatalog: 7/7 unit provera prolazi, uključujući rotaciju vrha cevi i mirovanje faze pri `dt=0`. Browser nije pokretan.
+
+**ART-08 — provere:** WreckArt, vehicleArt, groundTarget, flak, toTriesteGroundEnemy i storybookCatalog: ukupno 26 unit provera prolazi (jedan pogrešan poziv renderera u novom testu ispravljen i ciljano ponovljen). Browser nije pokretan.
+
+**ART-10 — provere:** AircraftPropellers, diveBomber, toTriesteAircraft, visEnemy i storybookCatalog: 27/27 unit provera prolazi; statični/GIF pregledi su izvedeni lokalnim rasterizovanjem i slaganjem, browser nije pokretan.
+
+**ART-11 — provere:** GunCrew, machineGunner, wreckArt, boatCombat i storybookCatalog: 20/20 unit provera prolazi; dodatni pregled pokreta, vatre, vode i stvarnog učitavanja u igri ostaje odložen, bez tvrdnje o vizuelnom odobrenju.
+
+**ART-02/03 — provere:** RanjenikArt, patrol i storybookCatalog: 10/10 unit provera prolazi, uključujući taj stvarni prelaz i naknadno učitavanje slike; browser nije pokretan.
+
+**Završne provere sprite prolaza:** ciljani skup 19 unit fajlova za promenjene aktere, njihove saradnike i postojeći Storybook katalog: **91/91 prolazi**; posle popravke prelaza Ranjenika pogođena tri fajla imaju **10/10**, uz jednu dodatnu regresionu proveru, odnosno **92 jedinstvene ciljane provere**. To ne uključuje punu testnu seriju, lint/build, browser ili vlasnikovo prihvatanje. Generisani indeks se obnavlja iz konačnih linkovanih resursa i metapodataka; pozadine i nepovezane promene drugih saradnika nisu deo ovog izvršenog sprite prolaza.
+
+**Završni nezavisni pregled:** posle ispravke stvarnog prelaza Ranjenika svež pregled zajedničkog koda, potrošača, skripti i ugovora atlasa nije našao dodatnu potvrđenu grešku. Obuhvaćeni su stanja/reset, učitavanje, razmera i sidrišta, odvojene cevi, Storybook fabrike i ograničenja unit zamena; nisu obavljeni browser, lint/build ni puna serija. Tehnička provera zato ostaje ograničena tim dokazima, a ne vizuelno prihvatanje ili potvrda drugih paralelnih izmena nivoa.
+
+
+**ART-13/14/06, 2026-11-21:** pet ciljanih unit fajlova (groundTarget, vehicle, wreckArt, occupier i storybookCatalog), uključujući nove regresije statičnog BP-42 i šestog Okupatorovog reda. Prvi prolaz četiri fajla 15/15; zatim Occupier i katalog 7/7, ukupno 19 različitih provera. Priprema proverava originalnu alfu Hummela i nepromenjene piksele izvan maske gusenica, sve stare Okupatorove redove i nepokretne noge. PNG/GIF pregled nije potvrda pokreta u igri; browser, lint i build nisu pokretani.
+
+Finalni zajednicki prolaz istih pet art unit fajlova: **19/19 prolazi**; ukljucuje regresije za BP-42 i Okupatora.
+
+
+**ART-12, šest ambijenata, 2026-11-21:** priprema prepare-current-levels.py uspešno proverava svih šest PNG-ova (dimenzije 1536×1024, neprozirnost, hashove slike i stilske reference, granice tla i žarišta) i pravi 12 lossless WebP kompozicija sa stvarnim jedinicama. Neposredno su pogledani svi izvornici i svih 12 pregleda u 1280×720 i 1024×768; sačuvani su [zapis](../assets/images/sources/pozadine/current-review.json) i [galerija](../assets/images/sources/pozadine/current-preview.html). Nije pokrenut browser, igra, lint, build ni nova unit serija; nije proverena Claude-ova ugradnja, fizički tok granata, smena nivoa ili živi efekti. Vlasnik nije dao vizuelno prihvatanje ove grupe.
+
+
+**Svedena proba Grahova:** potvrđena ista rezolucija 1536×1024; neposredno pregledani izvor i kompozicija 1280×720. Sačuvano je i poređenje 1024×768. Nema naslikane platnene zastave. Browser i igra nisu pokretani; proba nije zamenila izabrani original niti predstavlja vlasnikovo prihvatanje.
+
+
+**Ratno tlo svedenog Grahova:** potvrđena rezolucija 1536×1024, neposredno pogledani izvor i kompozicija 1280×720; sačuvan je i pregled 1024×768. Pojas za jedinice ostaje prohodan; nisu pokretani browser ili igra.
+
+
+**Živi elementi pozadina:** četiri ciljana unit fajla (waterSurface, cityBackground, tenkici, migration2d) prolaze **23/23**, uključujući stvarni poziv renderera za učitane Bihać/Užice i zadržavanje vode na nepromenjenom vremenu. Vizuelno su pregledane nove osnove i kompozicije u oba formata; priprema proverava dimenzije, alfu, hashove i edit reference. Raniji pregled sa vodom je pripremljen, ali nije pokrenut u browseru. Nisu pokretani lint/build ili puna testna serija. Ugradnja novog niza nivoa ostaje odvojena od ove ispravke.
+
+
+**Uklanjanje odbijenog efekta vode:** po nalogu vlasnika uklonjeni su renderer, pozivi u igri, posebni testovi tog renderera i animacija/kontrola vode u HTML pregledu. Dva pogođena unit fajla (cityBackground i tenkici) prolaze **6/6**. Prethodni zapis 23/23 dokumentuje raniji pokušaj, ne pokrivenost sada uklonjenog koda. Pregled je ponovo generisan bez browsera; voda ostaje mirna dok vlasnik ne zatraži novo rešenje.
+
+
+**Sezonske rezerve Sutjeska/Neretva/Drvar/Kozara:** neposredno su pregledana sva četiri nova izvornika; priprema galerije proverava 1536×1024, punu neprozirnost, linije tla i hashove konačnih slika i referenci. Potvrđeno je da metapodaci postojećih šest nivoa zadržavaju status integrated pri regenerisanju. Nema nove izvršne provere igre, browsera, lint/build ili unit serije; menjani su art, metapodaci i pomoćna priprema pregleda. Sezonske rezerve nisu uvedene kao novi nivoi.
+
+
+**Batina, slojevita proba:** batinaLayers unit fajl prolazi **3/3**: svaki ambijentalni klip menja fazu uz isti oslonac, isti trenutak zadržava celu kompoziciju, oblaci su iza ambijenta i vreće sa peskom ispred posmatrača. Priprema je proverila najmanje tri različita kadra po klipu, providno nebo, otvorene praznine između oblaka i native mere. Pogledane su dve mehaničke kompozicije, a sintaksa HTML modula je proverena bez izvršavanja browsera. Nisu izvršeni browser, lint/build niti integracija u igru; ovo nije vizuelna potvrda animacije u pokretu.
+
+
+**Ispravka Batine:** ciljane batinaLayers provere prolaze **4/4**, uključujući raspored civilnih gestova tokom 72 sekunde: više od 85% vremena neutralna poza, nekoliko kratkih gestova i nejednaki razmaci. Neposredno je pregledan ispravljen izvor/atlas: crvena petokraka, partizanske kape i sitnije civilne poze. Browser nije pokretan.
+
+
+**Konačna animirana Batina, 2026-11-21:** vlasnik je izabrao slojevitu verziju; igra, pregled i metapodaci koriste isti renderer i slojeve. Jedanaest ciljanih unit fajlova (batinaLayers, cityBackground, tenkici, battlefield, groundTarget, vehicle, wreckArt, occupier, storybookCatalog, ranjenikArt i storybookCoverage) prolazi **41/41**; nove regresije proveravaju čekanje svih slojeva i propagaciju greške opisa/atlasa do učitavanja scene. Priprema proverava šest ambijenata i sezonske izvore koji su zadržani; pravi deset statičnih kompozicija i link do animirane Batine. Hashovi korisnikovih obrisanih izvora ostaju samo istorija porekla. Browser, lint/build i puna testna serija nisu pokretani.

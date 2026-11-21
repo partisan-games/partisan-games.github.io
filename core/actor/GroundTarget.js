@@ -14,7 +14,7 @@ export default class GroundTarget extends Sprite {
     super(art?.src || src, {
       x, scale, flammable: vehicle, flipY: mirrored ? -1 : 1,
       width: size && size[0] * scale, height: size && size[1] * scale,
-      names: art ? Object.keys(art.clips) : ['idle'], frameCount: art?.columns || 1,
+      names: art ? Object.keys(art.clips) : ['idle'], frameCount: art ? Object.values(art.clips).map(clip => clip.frameCount || art.columns) : 1,
       defaultAnimation: 'idle', animationTime: art?.clips.idle.seconds || 1.4,
     })
     this.art = art

@@ -1,0 +1,107 @@
+{
+  "width": 1536,
+  "height": 1024,
+  "groundY": 852,
+  "cell": 128,
+  "cloudSpeed": 7,
+  "actors": [
+    {
+      "id": "flag",
+      "row": 0,
+      "body": [
+        56,
+        48
+      ],
+      "anchor": [
+        64,
+        8
+      ],
+      "x": 1178,
+      "y": 443,
+      "duration": 1.6,
+      "frameCount": 4,
+      "loop": true,
+      "measuredDistinctFrames": 4
+    },
+    {
+      "id": "observer",
+      "row": 1,
+      "body": [
+        74,
+        68
+      ],
+      "anchor": [
+        64,
+        120
+      ],
+      "x": 1225,
+      "y": 725,
+      "duration": 2.8,
+      "occlusion": [
+        [
+          1178,
+          700,
+          110,
+          45
+        ]
+      ],
+      "frameCount": 4,
+      "loop": true,
+      "measuredDistinctFrames": 4
+    },
+    {
+      "id": "gunner",
+      "row": 2,
+      "body": [
+        74,
+        40
+      ],
+      "anchor": [
+        64,
+        120
+      ],
+      "x": 1034,
+      "y": 333,
+      "duration": 3.2,
+      "occlusion": [
+        [
+          984,
+          324,
+          125,
+          27
+        ]
+      ],
+      "frameCount": 4,
+      "loop": true,
+      "measuredDistinctFrames": 4
+    },
+    {
+      "id": "civilians",
+      "row": 3,
+      "body": [
+        80,
+        96
+      ],
+      "anchor": [
+        64,
+        120
+      ],
+      "x": 212,
+      "y": 802,
+      "duration": 4,
+      "frameCount": 4,
+      "loop": false,
+      "measuredDistinctFrames": 4,
+      "gestures": {
+        "window": 18,
+        "delay": 6,
+        "jitter": 8,
+        "duration": 1.6,
+        "seed": 23
+      }
+    }
+  ],
+  "prototype": false,
+  "ownerAccepted": true,
+  "gameIntegrated": true
+}

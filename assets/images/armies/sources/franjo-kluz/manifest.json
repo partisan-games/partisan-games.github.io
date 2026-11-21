@@ -199,7 +199,45 @@
           "input": "hummel-transparent-generated.png",
           "prompt": "Precise sprite-atlas padding correction. Preserve this exact eight-frame pixel-art tracked vehicle atlas, same silhouette, colors, gun, track animation and small local exhaust. Keep exactly FOUR equal columns by TWO equal rows. Currently the small exhaust puffs cross the cell boundaries. Make the complete vehicle and exhaust slightly smaller UNIFORMLY in every cell, keeping the exact same shared scale and root, so each full vehicle, full barrel and entire puff has at least SIX percent fully transparent padding on BOTH the left and right of its own cell. A frame must never contain any trace of its neighbors. Do not add people, symbols, text, clouds, terrain or objects. Vehicle and wheel ground baseline must be identical in all cells. All non-vehicle/non-puff pixels, outer corners and gutters must be truly alpha-zero. Keep original crisp outlined pixel-art treatment; do not paint a background or translucent canvas."
         }
-      ]
+      ],
+      "nativeTreads": {
+        "source": "hummel-native-tracks-generated.png",
+        "reference": "../../hummel.png",
+        "offset": [
+          11,
+          10
+        ],
+        "trackMask": [
+          [
+            4,
+            94
+          ],
+          [
+            32,
+            89
+          ],
+          [
+            263,
+            89
+          ],
+          [
+            276,
+            105
+          ],
+          [
+            263,
+            133
+          ],
+          [
+            30,
+            138
+          ],
+          [
+            7,
+            120
+          ]
+        ]
+      }
     },
     {
       "key": "bp42",
@@ -215,11 +253,14 @@
         "width": 576,
         "height": 256
       },
-      "prompt": "Use case: historical-scene. Production transparent pixel-art sprite sheet of the armored railway wagon shown in image 1, in the same crisp small-game vehicle style as image 2. Preserve image 1's exact LEFT-facing broad side silhouette: long armored wagon body, faceted armor plates and hatches, raised gun cupola and left-projecting barrel, small visible lower railway wheels. Retain muted mustard/olive armor, dark steel parts and only the small original plain white cross; add no symbols. This is an ARMORED WAGON, NOT a steam locomotive: do not add a chimney, engine, exhaust plume, engine cab or new weapons. Remove the reference's gravel bed, ground and rails; leave the wagon itself on true transparent alpha. Intended body width about 380 screen pixels, so use clean dark pixel outlines and readable simple detail, not painterly/photo-real textures. Deliver exactly FOUR equal columns by TWO equal rows: eight complete consistent vehicles. Row 1 is a four-frame idle loop, tiny one-pixel body/steel vibration while wheel positions remain static. Row 2 is a four-frame rolling loop, the visible wheel hubs/spokes turn in progressing quarter-step phases, subtle bogie suspension and restrained small wheel-level dust wisps; no whole-wagon horizontal translation. Keep cannon, armor, hatches, body proportions and scale identical; wheel-contact baseline fixed across all cells. Use sufficient equal transparent padding that the entire long barrel and wagon fit inside EVERY cell and no frames touch or overlap. Strict flat side view. Transparent empty background, no rails, ground, grass, floor shadow, scenery, large clouds, text labels, panels, grid or watermark. No firing, damage or flames.",
+      "prompt": "Use case: historical-scene. Production transparent pixel-art sprite sheet of the armored railway wagon shown in image 1, in the same crisp small-game vehicle style as image 2. Preserve image 1's exact LEFT-facing broad side silhouette: long armored wagon body, faceted armor plates and hatches, raised gun cupola and left-projecting barrel, small visible lower railway wheels. Retain muted mustard/olive armor, dark steel parts and only the small original plain white cross; add no symbols. This is an ARMORED WAGON, NOT a steam locomotive: do not add a chimney, engine, exhaust plume, engine cab or new weapons. Remove the reference's gravel bed, ground and rails; leave the wagon itself on true transparent alpha. Intended body width about 380 screen pixels, so use clean dark pixel outlines and readable simple detail, not painterly/photo-real textures. Deliver exactly FOUR equal columns by TWO equal rows: eight complete consistent vehicles. Row 1 holds one identical stationary frame in all four cells, with no vibration and no movement. The active idle clip has one frame. Row 2 is a four-frame rolling loop, the visible wheel hubs/spokes turn in progressing quarter-step phases, subtle bogie suspension and restrained small wheel-level dust wisps; no whole-wagon horizontal translation. Keep cannon, armor, hatches, body proportions and scale identical; wheel-contact baseline fixed across all cells. Use sufficient equal transparent padding that the entire long barrel and wagon fit inside EVERY cell and no frames touch or overlap. Strict flat side view. Transparent empty background, no rails, ground, grass, floor shadow, scenery, large clouds, text labels, panels, grid or watermark. No firing, damage or flames.",
       "references": [
         "assets/images/armies/nemci/vozovi/oklopni-vozovi/bp42.png",
         "assets/images/armies/sources/franjo-kluz/opel-blitz-generated.png"
-      ]
+      ],
+      "idleFrameCount": 1,
+      "idlePreparation": "Use frame 0 only for idle. Parked wagon must remain still; keep all four drive phases.",
+      "originalPrompt": "Use case: historical-scene. Production transparent pixel-art sprite sheet of the armored railway wagon shown in image 1, in the same crisp small-game vehicle style as image 2. Preserve image 1's exact LEFT-facing broad side silhouette: long armored wagon body, faceted armor plates and hatches, raised gun cupola and left-projecting barrel, small visible lower railway wheels. Retain muted mustard/olive armor, dark steel parts and only the small original plain white cross; add no symbols. This is an ARMORED WAGON, NOT a steam locomotive: do not add a chimney, engine, exhaust plume, engine cab or new weapons. Remove the reference's gravel bed, ground and rails; leave the wagon itself on true transparent alpha. Intended body width about 380 screen pixels, so use clean dark pixel outlines and readable simple detail, not painterly/photo-real textures. Deliver exactly FOUR equal columns by TWO equal rows: eight complete consistent vehicles. Row 1 is a four-frame idle loop, tiny one-pixel body/steel vibration while wheel positions remain static. Row 2 is a four-frame rolling loop, the visible wheel hubs/spokes turn in progressing quarter-step phases, subtle bogie suspension and restrained small wheel-level dust wisps; no whole-wagon horizontal translation. Keep cannon, armor, hatches, body proportions and scale identical; wheel-contact baseline fixed across all cells. Use sufficient equal transparent padding that the entire long barrel and wagon fit inside EVERY cell and no frames touch or overlap. Strict flat side view. Transparent empty background, no rails, ground, grass, floor shadow, scenery, large clouds, text labels, panels, grid or watermark. No firing, damage or flames."
     },
     {
       "key": "muzzle-flash",

@@ -12,7 +12,7 @@ U Ustanku zastave po izričitoj odluci vlasnika zadržavaju položaj i smer ka s
 
 ## Ustanak
 
-[VillageFire](../scenes/ustanak/VillageFire.js) crta sva seoska žarišta na posebnom transparentnom platnu. Izvori prate oštećene krovove i udaljene ruševine; razlikuju se po veličini plamena, putanji, širini, trajanju i nijansi dima. [Battlefield](../scenes/ustanak/Battlefield.js) sastavlja očišćenu sliku i žive efekte, istim poravnanjem sa tlom. Browser provera poredi direktno sloj vatre/dima, uključujući pauzu i nastavak posle pobede.
+[Battlefield](../scenes/ustanak/Battlefield.js) smenjuje Grahovo, Viluse i okolinu Nikšića, a zajednički [BattleBackground](../scenes/tenkici/BattleBackground.js) crta osnovu i žarišta na posebnom transparentnom platnu. Slika i efekti koriste isto poravnanje sa fizičkim tlom; Ustanak dodaje svoj prednji zemljani sloj i prosleđuje vetar. Browser provera poredi direktno sloj vatre/dima, uključujući pauzu i nastavak posle pobede.
 
 ## Tenkići
 

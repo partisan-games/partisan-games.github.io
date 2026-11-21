@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "gameExecuted": false,
+  "ownerAccepted": false,
+  "backgrounds": [
+    {
+      "id": "sremski-front-1944",
+      "sha256": "a01900fadfcb9a740ffefdbcf9f85104d51f9479b2b8766131c5217002f8c597",
+      "previews": [
+        "current-previews/sremski-front-1944-1280x720.webp",
+        "current-previews/sremski-front-1944-1024x768.webp"
+      ],
+      "previewSha256": {
+        "current-previews/sremski-front-1944-1280x720.webp": "eb3cde154c3a68a11e83e23682bde14e5a17ae45c81151f4d4a74538905388df",
+        "current-previews/sremski-front-1944-1024x768.webp": "6124918889b74d446fc31e99126230f0962e63d5927e89f87e3d462f2fcf8ac1"
+      },
+      "gameExecuted": false,
+      "ownerAccepted": false
+    },
+    {
+      "id": "batina-1944",
+      "sha256": "ceab022326140666e1d6717534dc1d9c21576350a2584c60da095cff828c3b0f",
+      "previews": [],
+      "previewSha256": {},
+      "gameExecuted": false,
+      "ownerAccepted": true,
+      "animatedPreview": "assets/images/sources/pozadine/batina-layered/preview.html"
+    },
+    {
+      "id": "sremski-front-1945",
+      "sha256": "c58b846f44fdbeeb7375dd0d480b6e52c690bb57919908f49d0417e802e9f9cf",
+      "previews": [
+        "current-previews/sremski-front-1945-1280x720.webp",
+        "current-previews/sremski-front-1945-1024x768.webp"
+      ],
+      "previewSha256": {
+        "current-previews/sremski-front-1945-1280x720.webp": "2ef079c97a74c8d65d5645cc48ec68d8decc0435051e25931eb7281a2dd9234d",
+        "current-previews/sremski-front-1945-1024x768.webp": "7c7c4ef0a38bb2e84042ee2f9f63a7bfc9972f9aae2939350b41c92dc4088213"
+      },
+      "gameExecuted": false,
+      "ownerAccepted": false
+    },
+    {
+      "id": "grahovo-1941",
+      "sha256": "2f1bfa530d78597e62ef241ee88b776f974b65301481a0f4621d9b67a573c259",
+      "previews": [
+        "current-previews/grahovo-1941-1280x720.webp",
+        "current-previews/grahovo-1941-1024x768.webp"
+      ],
+      "previewSha256": {
+        "current-previews/grahovo-1941-1280x720.webp": "0a9ca8449ffddbcc0bb12a70b95b0db25d3faca92884697104f66a8d8325507b",
+        "current-previews/grahovo-1941-1024x768.webp": "55c0cf9c1c30413c0e0cf9043d9c22e2a9a7caf8e6f427cbc916e8f6ac62585e"
+      },
+      "gameExecuted": false,
+      "ownerAccepted": false
+    },
+    {
+      "id": "vilusi-1941",
+      "sha256": "f0cff92d6ce6f194124b23f320e3b70b0fcc9bf21e8d2d3ffd7cf57bf7b8c906",
+      "previews": [
+        "current-previews/vilusi-1941-1280x720.webp",
+        "current-previews/vilusi-1941-1024x768.webp"
+      ],
+      "previewSha256": {
+        "current-previews/vilusi-1941-1280x720.webp": "31e5a8d552c469e215225f48951e89daea3ac0538fff9cc47585fb95f5e7507b",
+        "current-previews/vilusi-1941-1024x768.webp": "6822713ace7eb8e3425da912b059340ad5dc125f4f2d3e67c18daf952b1d09a9"
+      },
+      "gameExecuted": false,
+      "ownerAccepted": false
+    },
+    {
+      "id": "niksic-1941",
+      "sha256": "49cb13fa7fceefd0564cea7c8824afd49c4f0dee2d2c76a9b52fcc06ae299ecb",
+      "previews": [
+        "current-previews/niksic-1941-1280x720.webp",
+        "current-previews/niksic-1941-1024x768.webp"
+      ],
+      "previewSha256": {
+        "current-previews/niksic-1941-1280x720.webp": "66808376b4ea3b7044b9bed6859b4b7803510eacb7d1b32a6d8d2b991f637aa3",
+        "current-previews/niksic-1941-1024x768.webp": "85ff2f82a3cd129d81165b494f98b34e8079e4e62e75c5979805ce1a435c18b0"
+      },
+      "gameExecuted": false,
+      "ownerAccepted": false
+    }
+  ]
+}

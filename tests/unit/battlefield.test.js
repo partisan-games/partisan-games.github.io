@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 import Terrain from '/scenes/ustanak/Terrain.js'
 
-let Battlefield
+let Battlefield, placeOrder
 const drawn = []
 
 /** A 2D context that keeps the images it draws; happy-dom has none. */
@@ -13,7 +13,7 @@ const context = new Proxy({ drawImage: image => drawn.push(image), createLinearG
 before(async() => {
   createPageElements()
   mock.method(HTMLCanvasElement.prototype, 'getContext', () => context)
-  Battlefield = (await import('/scenes/ustanak/Battlefield.js')).default
+  ;({ default: Battlefield, placeOrder } = await import('/scenes/ustanak/Battlefield.js'))
 })
 
 /** A battlefield whose pictures have loaded. */
@@ -22,30 +22,28 @@ function loaded() {
   canvas.width = 800
   canvas.height = 600
   const field = new Battlefield({ canvas, groundY: 450, terrain: new Terrain({ floorY: 480 }) })
-  for (const image of [field.mountains, field.village, field.city.image])
-    Object.defineProperties(image, { complete: { value: true }, naturalWidth: { value: 100 }, naturalHeight: { value: 80 } })
+  for (const { image } of field.places)
+    Object.defineProperties(image, { complete: { value: true }, naturalWidth: { value: 1536 }, naturalHeight: { value: 1024 } })
   return field
 }
 
-test('each round has its own background: mountains, the burning village, the ruined city', () => {
-  const field = loaded()
-  const pictures = { 1: field.mountains, 2: field.village, 3: field.city.image }
-  for (const [round, picture] of Object.entries(pictures)) {
-    field.round = Number(round)
-    drawn.length = 0
-    field.render()
-    assert.ok(drawn.includes(picture), `round ${round}`)
-    for (const other of Object.values(pictures).filter(image => image !== picture))
-      assert.ok(!drawn.includes(other), `round ${round} shows only its own picture`)
-  }
+test('each round is fought on the next place of the uprising, and the next match goes on from there', () => {
+  const shown = []
+  for (const match of [loaded(), loaded()])
+    for (let round = 0; round < 2; round++) {
+      match.nextRound()
+      drawn.length = 0
+      match.render()
+      const pictures = match.places.map(place => place.image)
+      assert.deepEqual(pictures.filter(picture => drawn.includes(picture)), [match.place.image], 'only its own picture')
+      shown.push(placeOrder[match.places.indexOf(match.place)])
+    }
+  const first = placeOrder.indexOf(shown[0])
+  assert.deepEqual(shown, shown.map((_, i) => placeOrder[(first + i) % placeOrder.length]))
 })
 
-test('the fire of the village is heard only in its round, and of the city only in its', () => {
+test('only the place being fought on is heard burning', () => {
   const field = loaded()
-  for (const round of [1, 2, 3]) {
-    field.round = round
-    field.update(0)
-    assert.equal(field.villageFire.fireSound.desired, round === 2, `village, round ${round}`)
-    assert.equal(field.city.fireSound.desired, round === 3, `city, round ${round}`)
-  }
+  field.nextRound()
+  for (const place of field.places) assert.equal(place.fireSound.desired, place === field.place)
 })

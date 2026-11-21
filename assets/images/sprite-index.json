@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "measuredAt": "2026-11-20T23:17:25.587402+00:00",
-  "baseRevision": "0e79a55486f7a7e16265587ce6d8317bd0f8764b",
-  "scope": "Art linked by docs/ART.md, including shared variants; not all unused library art or a runtime/visual acceptance test.",
+  "measuredAt": "2026-11-21T11:25:19.874678+00:00",
+  "baseRevision": "aa1523c4f194ac2442081d3a9347083f1c2d612f",
+  "scope": "Art linked by docs/ART.md and docs/PLAN-ART.md, including shared variants; not all unused library art or a runtime/visual acceptance test.",
   "interpretation": "imageFrames counts file-container frames. A PNG atlas normally has one; named sprite clips require metadata and a runtime mapping. hashes detect exact input changes, not art quality.",
   "images": [
     {
@@ -598,7 +598,7 @@
     },
     {
       "asset": "assets/images/armies/game-ready/tenkovi/hummel-sprites.png",
-      "sha256": "569fd1682dafc61648ad06fecd9dd03d15854a64825fd81d6a9273c22277a5f2",
+      "sha256": "6fcb4ddd03661dd15bed95aa20c5bd492b3e19878869ffb2a8628330ed9b8656",
       "kind": "PNG",
       "width": 1280,
       "height": 320,
@@ -622,10 +622,10 @@
           {
             "name": "idle",
             "row": 0,
-            "frameCount": 4,
-            "duration": 1.4,
+            "frameCount": 1,
+            "duration": 0.64,
             "loop": true,
-            "measuredDistinctFrames": 4
+            "measuredDistinctFrames": 1
           },
           {
             "name": "drive",
@@ -1167,6 +1167,80 @@
       "distinctImageFrames": 1
     },
     {
+      "asset": "assets/images/armies/game-ready/vojnici/occupier-sprites.png",
+      "sha256": "ebbe52390b3d6945b770c312f929c2f8e1d50277cd0d79141fd26e756bca235c",
+      "kind": "PNG",
+      "width": 1050,
+      "height": 1260,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/infantry-art/occupier-sprites.json",
+        "id": "occupier",
+        "frame": {
+          "width": 210,
+          "height": 210,
+          "columns": 5,
+          "rows": 6
+        },
+        "anchor": {
+          "x": 105,
+          "y": 210
+        },
+        "clips": [
+          {
+            "name": "nagore",
+            "row": 0,
+            "frameCount": 5,
+            "duration": 0.5,
+            "loop": true,
+            "measuredDistinctFrames": 5
+          },
+          {
+            "name": "nadole",
+            "row": 1,
+            "frameCount": 5,
+            "duration": 0.5,
+            "loop": true,
+            "measuredDistinctFrames": 5
+          },
+          {
+            "name": "nalevo",
+            "row": 2,
+            "frameCount": 5,
+            "duration": 0.5,
+            "loop": true,
+            "measuredDistinctFrames": 5
+          },
+          {
+            "name": "nadesno",
+            "row": 3,
+            "frameCount": 5,
+            "duration": 0.5,
+            "loop": true,
+            "measuredDistinctFrames": 5
+          },
+          {
+            "name": "umire",
+            "row": 4,
+            "frameCount": 5,
+            "duration": 0.5,
+            "loop": false,
+            "measuredDistinctFrames": 5
+          },
+          {
+            "name": "fire",
+            "row": 5,
+            "frameCount": 5,
+            "duration": 0.5,
+            "loop": true,
+            "measuredDistinctFrames": 5
+          }
+        ]
+      }
+    },
+    {
       "asset": "assets/images/armies/game-ready/vojnici/partizanski-strelac-sprites.png",
       "sha256": "90ed10cef0f0d9c33de96decc19d9f623095e58defa8f123c5a10cad8d76339d",
       "kind": "PNG",
@@ -1352,10 +1426,10 @@
           {
             "name": "idle",
             "row": 0,
-            "frameCount": 4,
+            "frameCount": 1,
             "duration": 1.4,
             "loop": true,
-            "measuredDistinctFrames": 4
+            "measuredDistinctFrames": 1
           },
           {
             "name": "drive",
@@ -1540,7 +1614,7 @@
     },
     {
       "asset": "assets/images/armies/game-ready/wrecks/hummel.png",
-      "sha256": "68b724d302a0f6a0e263fb5d71b3d3f105220920ebe86d5a6d66cf64cd420033",
+      "sha256": "51f5a94d6c6e0885885cd5a17954809840cba62b70d45cfb69f2b0c41f0a0efe",
       "kind": "PNG",
       "width": 320,
       "height": 160,
@@ -1947,6 +2021,16 @@
       "distinctImageFrames": 1
     },
     {
+      "asset": "assets/images/armies/sources/franjo-kluz/hummel-native-tracks-generated.png",
+      "sha256": "fe773065e17cff9f157f9305c9a41ac73561cecdea0b9b2bcaf4bd6fd642d392",
+      "kind": "PNG",
+      "width": 2172,
+      "height": 724,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1
+    },
+    {
       "asset": "assets/images/armies/sources/infantry-art/previews/bombas-death-game-size.png",
       "sha256": "f7b092b4d107338c50dee670d438736aa43ad1396f5ef71dbe804987c65ca521",
       "kind": "PNG",
@@ -1975,6 +2059,16 @@
       "imageFrames": 1,
       "hasTransparentPixelsInFirstFrame": false,
       "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/armies/sources/infantry-art/previews/occupier-fire.gif",
+      "sha256": "58f255fba880ba7fe3e59e9d6c214b1d14e5cded1bfa1a275222fbdf77ad24ba",
+      "kind": "GIF",
+      "width": 210,
+      "height": 210,
+      "imageFrames": 5,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 5
     },
     {
       "asset": "assets/images/armies/sources/ranjenik/previews/ranjenik-game-size.png",
@@ -2057,6 +2151,46 @@
       "distinctImageFrames": 1
     },
     {
+      "asset": "assets/images/background/batina-1944/actors.png",
+      "sha256": "aff959554b823a33cc1837acb5ba4e9a85b03d7a1fa5ff6e8956fe34cd091729",
+      "kind": "PNG",
+      "width": 512,
+      "height": 512,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/background/batina-1944/base.png",
+      "sha256": "ceab022326140666e1d6717534dc1d9c21576350a2584c60da095cff828c3b0f",
+      "kind": "PNG",
+      "width": 1536,
+      "height": 1024,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/background/batina-1944/clouds.png",
+      "sha256": "21f4b3de4f3a069e866fb96f5ab8cfcc630184d3f4e2ca72f7c213e65b593c0c",
+      "kind": "PNG",
+      "width": 1536,
+      "height": 1024,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/background/batina-1944-pixel.png",
+      "sha256": "7d9f5dc65549f210987ab1fb61e7e531c6563a7494bda7f71703ac0c1418ab7d",
+      "kind": "PNG",
+      "width": 1536,
+      "height": 1024,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
       "asset": "assets/images/background/crnogorsko-selo-1941-pixel.png",
       "sha256": "dc01c58753f3ee58dee9efbcb3fe7eb8007591b1adc1ac71d3ac207fb3748316",
       "kind": "PNG",
@@ -2067,11 +2201,111 @@
       "distinctImageFrames": 1
     },
     {
+      "asset": "assets/images/background/drvar-spring-1944-pixel.png",
+      "sha256": "f0b46f53ae7c90930f28c33f67d2be0ab4daf2b914d76473e38c1184d2ddf91f",
+      "kind": "PNG",
+      "width": 1536,
+      "height": 1024,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/background/grahovo-1941-war-sparse-static.png",
+      "sha256": "2f1bfa530d78597e62ef241ee88b776f974b65301481a0f4621d9b67a573c259",
+      "kind": "PNG",
+      "width": 1536,
+      "height": 1024,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/background/grahovo-1941-war-sparse-study.png",
+      "sha256": "2e9cf1f4a24e4445460ad722730e7ede52afe42be5f1bf62d0d60dd799a86651",
+      "kind": "PNG",
+      "width": 1536,
+      "height": 1024,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/background/kozara-early-summer-1942-pixel.png",
+      "sha256": "0f9b5e2650819dbc95d565fadcbca8a2d09b16edebfd990ce695e465196da325",
+      "kind": "PNG",
+      "width": 1536,
+      "height": 1024,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/background/neretva-late-winter-1943-pixel.png",
+      "sha256": "788aa42f887485c24a8d4db135b149a14fe95a98658f6ccf71488bc4bd10c027",
+      "kind": "PNG",
+      "width": 1536,
+      "height": 1024,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/background/niksic-1941-static.png",
+      "sha256": "49cb13fa7fceefd0564cea7c8824afd49c4f0dee2d2c76a9b52fcc06ae299ecb",
+      "kind": "PNG",
+      "width": 1536,
+      "height": 1024,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
       "asset": "assets/images/background/razrusen-grad-ww2-pixel.png",
       "sha256": "ae47f03c0c71777b4931bd450ebdb9a9204686e873dcea2e3d6bff3d7aeec06c",
       "kind": "PNG",
       "width": 1448,
       "height": 1086,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/background/sremski-front-1944-static.png",
+      "sha256": "a01900fadfcb9a740ffefdbcf9f85104d51f9479b2b8766131c5217002f8c597",
+      "kind": "PNG",
+      "width": 1536,
+      "height": 1024,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/background/sremski-front-1945-static.png",
+      "sha256": "c58b846f44fdbeeb7375dd0d480b6e52c690bb57919908f49d0417e802e9f9cf",
+      "kind": "PNG",
+      "width": 1536,
+      "height": 1024,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/background/sutjeska-1943-pixel.png",
+      "sha256": "475707da3a1c59bdcdaebd98dd02525e09ad2cd6b5ef52ec4f660d7c45235123",
+      "kind": "PNG",
+      "width": 1536,
+      "height": 1024,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/background/vilusi-1941-static.png",
+      "sha256": "f0cff92d6ce6f194124b23f320e3b70b0fcc9bf21e8d2d3ffd7cf57bf7b8c906",
+      "kind": "PNG",
+      "width": 1536,
+      "height": 1024,
       "imageFrames": 1,
       "hasTransparentPixelsInFirstFrame": false,
       "distinctImageFrames": 1
@@ -2104,6 +2338,26 @@
       "height": 21,
       "imageFrames": 1,
       "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/sources/pozadine/batina-layered/actors-generated.png",
+      "sha256": "5bcbfb571d0de9d95bf02c8521a0213756bed7c88a7c148b3543fdd68fd9aef8",
+      "kind": "PNG",
+      "width": 1254,
+      "height": 1254,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/sources/pozadine/dynamic-audit.webp",
+      "sha256": "3203c4ddd04154c6cab5a4d33f47f7460a81955a258206a78ec6f6dd00b8bc76",
+      "kind": "WEBP",
+      "width": 1200,
+      "height": 2070,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
       "distinctImageFrames": 1
     },
     {
@@ -2354,7 +2608,7 @@
     },
     {
       "path": "assets/images/armies/game-ready/tenkovi/hummel-sprites.png",
-      "sha256": "569fd1682dafc61648ad06fecd9dd03d15854a64825fd81d6a9273c22277a5f2"
+      "sha256": "6fcb4ddd03661dd15bed95aa20c5bd492b3e19878869ffb2a8628330ed9b8656"
     },
     {
       "path": "assets/images/armies/game-ready/tenkovi/nemacki-tenk-bez-cevi-pixel.png",
@@ -2421,6 +2675,10 @@
       "sha256": "30f9cfae6597a344bd628490a704568c25b285303689c8200b65bf1ece562e91"
     },
     {
+      "path": "assets/images/armies/game-ready/vojnici/occupier-sprites.png",
+      "sha256": "ebbe52390b3d6945b770c312f929c2f8e1d50277cd0d79141fd26e756bca235c"
+    },
+    {
       "path": "assets/images/armies/game-ready/vojnici/partizanski-strelac-sprites.png",
       "sha256": "90ed10cef0f0d9c33de96decc19d9f623095e58defa8f123c5a10cad8d76339d"
     },
@@ -2462,7 +2720,7 @@
     },
     {
       "path": "assets/images/armies/game-ready/wrecks/hummel.png",
-      "sha256": "68b724d302a0f6a0e263fb5d71b3d3f105220920ebe86d5a6d66cf64cd420033"
+      "sha256": "51f5a94d6c6e0885885cd5a17954809840cba62b70d45cfb69f2b0c41f0a0efe"
     },
     {
       "path": "assets/images/armies/game-ready/wrecks/opel-blitz-legion.png",
@@ -2605,8 +2863,16 @@
       "sha256": "28ac028e55ee6b942e13078ada7003675f498a6820d3fdbb87d06930d743a3a5"
     },
     {
+      "path": "assets/images/armies/sources/franjo-kluz/hummel-native-generation.json",
+      "sha256": "845fc6491c31d48114bc5c2a418b21645191770ab20c341c4a0e85daa4cdce97"
+    },
+    {
+      "path": "assets/images/armies/sources/franjo-kluz/hummel-native-tracks-generated.png",
+      "sha256": "fe773065e17cff9f157f9305c9a41ac73561cecdea0b9b2bcaf4bd6fd642d392"
+    },
+    {
       "path": "assets/images/armies/sources/franjo-kluz/manifest.json",
-      "sha256": "7e7912a38ad09a3ab825fbe7c4986930bef2257a5dfcf11bd85325e4f14af0d9"
+      "sha256": "e536a492722ea62dc0781095822d8c9a16f5ce360fcf2c9e9fdf1ad2b681b35f"
     },
     {
       "path": "assets/images/armies/sources/franjo-kluz/potez-crew/crew.json",
@@ -2622,11 +2888,11 @@
     },
     {
       "path": "assets/images/armies/sources/franjo-kluz/prepare.py",
-      "sha256": "2a739c85668e7787df8197b90464ff53cd952b093449070d2d1ceca06f1de280"
+      "sha256": "022ed20d890f5e1b2596ebe0d86c231303cdb144b84787b216b040f9df64362e"
     },
     {
       "path": "assets/images/armies/sources/franjo-kluz/sprites.json",
-      "sha256": "e30a8d73656191032dffbeef4a9bfa161840c70a916afeecd6465ad1363f2d0a"
+      "sha256": "dc73f51fbd4cb5e190022bcf5fc6161169fc2e92645861b346c508392502a868"
     },
     {
       "path": "assets/images/armies/sources/infantry-art/crew-sprites.json",
@@ -2634,11 +2900,27 @@
     },
     {
       "path": "assets/images/armies/sources/infantry-art/occupier-attempts.json",
-      "sha256": "70b4ab8382debfba46799f8712d99534356e528bf4135b16ea9f0f19910779db"
+      "sha256": "c7563766616a75963fb97c1f15484df034b4345108d83f27b56094270614709d"
+    },
+    {
+      "path": "assets/images/armies/sources/infantry-art/occupier-fire-generation.json",
+      "sha256": "e41203d4bffd85d8b6e856f849ee9d50de06623320b9edf0fd67a793dbeb97b5"
+    },
+    {
+      "path": "assets/images/armies/sources/infantry-art/occupier-preview.html",
+      "sha256": "c710736e00bc355f2f72b1423cb696d4ef1ec9108fb8b5f0282b01e2b48f4001"
+    },
+    {
+      "path": "assets/images/armies/sources/infantry-art/occupier-sprites.json",
+      "sha256": "6295f01385fbbe27855174f66421851ae4596f341e4da974e4c356d8da5430d5"
     },
     {
       "path": "assets/images/armies/sources/infantry-art/prepare-crews.py",
       "sha256": "0f2aadf5d882a12450661921470672c642ac1116c1a11a29f3cc3e9748f63bb4"
+    },
+    {
+      "path": "assets/images/armies/sources/infantry-art/prepare-occupier.py",
+      "sha256": "b4f1ddd45896a2e59ec1b166ce93c7cb84d398fb2429cdf67ed69c361268da8d"
     },
     {
       "path": "assets/images/armies/sources/infantry-art/prepare.py",
@@ -2655,6 +2937,10 @@
     {
       "path": "assets/images/armies/sources/infantry-art/previews/crews-game-size.png",
       "sha256": "065ccf101ed3057514a3b52af03b70770f00260d3ca851767bc1ee54a8dde07a"
+    },
+    {
+      "path": "assets/images/armies/sources/infantry-art/previews/occupier-fire.gif",
+      "sha256": "58f255fba880ba7fe3e59e9d6c214b1d14e5cded1bfa1a275222fbdf77ad24ba"
     },
     {
       "path": "assets/images/armies/sources/infantry-art/sprites.json",
@@ -2746,19 +3032,79 @@
     },
     {
       "path": "assets/images/armies/sources/wrecks/sprites.json",
-      "sha256": "d61b161b61ccb8731e6f3873b50c5e66e5ebae24e566510865e7c07c9d92bdbf"
+      "sha256": "3a584206d9928c9f979395b4d20214f840e6ab5dcf353458a80479c09c635195"
     },
     {
       "path": "assets/images/armies/talijani-patrola.gif",
       "sha256": "2c483ec2b7c6207523e716d96587983243b6992895c63f0ec07ab4cda2a7a1b5"
     },
     {
+      "path": "assets/images/background/batina-1944/actors.png",
+      "sha256": "aff959554b823a33cc1837acb5ba4e9a85b03d7a1fa5ff6e8956fe34cd091729"
+    },
+    {
+      "path": "assets/images/background/batina-1944/base.png",
+      "sha256": "ceab022326140666e1d6717534dc1d9c21576350a2584c60da095cff828c3b0f"
+    },
+    {
+      "path": "assets/images/background/batina-1944/clouds.png",
+      "sha256": "21f4b3de4f3a069e866fb96f5ab8cfcc630184d3f4e2ca72f7c213e65b593c0c"
+    },
+    {
+      "path": "assets/images/background/batina-1944/layout.json",
+      "sha256": "8a5fdcf65555c5cc2a7330a92ca57a573ccf496746a53e5c44fc0eca617ac458"
+    },
+    {
+      "path": "assets/images/background/batina-1944-pixel.png",
+      "sha256": "7d9f5dc65549f210987ab1fb61e7e531c6563a7494bda7f71703ac0c1418ab7d"
+    },
+    {
       "path": "assets/images/background/crnogorsko-selo-1941-pixel.png",
       "sha256": "dc01c58753f3ee58dee9efbcb3fe7eb8007591b1adc1ac71d3ac207fb3748316"
     },
     {
+      "path": "assets/images/background/drvar-spring-1944-pixel.png",
+      "sha256": "f0b46f53ae7c90930f28c33f67d2be0ab4daf2b914d76473e38c1184d2ddf91f"
+    },
+    {
+      "path": "assets/images/background/grahovo-1941-war-sparse-static.png",
+      "sha256": "2f1bfa530d78597e62ef241ee88b776f974b65301481a0f4621d9b67a573c259"
+    },
+    {
+      "path": "assets/images/background/grahovo-1941-war-sparse-study.png",
+      "sha256": "2e9cf1f4a24e4445460ad722730e7ede52afe42be5f1bf62d0d60dd799a86651"
+    },
+    {
+      "path": "assets/images/background/kozara-early-summer-1942-pixel.png",
+      "sha256": "0f9b5e2650819dbc95d565fadcbca8a2d09b16edebfd990ce695e465196da325"
+    },
+    {
+      "path": "assets/images/background/neretva-late-winter-1943-pixel.png",
+      "sha256": "788aa42f887485c24a8d4db135b149a14fe95a98658f6ccf71488bc4bd10c027"
+    },
+    {
+      "path": "assets/images/background/niksic-1941-static.png",
+      "sha256": "49cb13fa7fceefd0564cea7c8824afd49c4f0dee2d2c76a9b52fcc06ae299ecb"
+    },
+    {
       "path": "assets/images/background/razrusen-grad-ww2-pixel.png",
       "sha256": "ae47f03c0c71777b4931bd450ebdb9a9204686e873dcea2e3d6bff3d7aeec06c"
+    },
+    {
+      "path": "assets/images/background/sremski-front-1944-static.png",
+      "sha256": "a01900fadfcb9a740ffefdbcf9f85104d51f9479b2b8766131c5217002f8c597"
+    },
+    {
+      "path": "assets/images/background/sremski-front-1945-static.png",
+      "sha256": "c58b846f44fdbeeb7375dd0d480b6e52c690bb57919908f49d0417e802e9f9cf"
+    },
+    {
+      "path": "assets/images/background/sutjeska-1943-pixel.png",
+      "sha256": "475707da3a1c59bdcdaebd98dd02525e09ad2cd6b5ef52ec4f660d7c45235123"
+    },
+    {
+      "path": "assets/images/background/vilusi-1941-static.png",
+      "sha256": "f0cff92d6ce6f194124b23f320e3b70b0fcc9bf21e8d2d3ffd7cf57bf7b8c906"
     },
     {
       "path": "assets/images/buildings/bunker-02.png",
@@ -2774,23 +3120,75 @@
     },
     {
       "path": "assets/images/sources/pozadine/backgrounds.json",
-      "sha256": "833173d8ea9a6648e1eccb347c9ad23d3d80ec2e20cc73367e1f94d893382b37"
+      "sha256": "b9b7cb2e43ac018908d272c7ef51dab94e0e6e592f8c44c8cd0e5c4b819c46f1"
     },
     {
-      "path": "assets/images/sources/pozadine/manifest.json",
-      "sha256": "61fd528452af56116ead544491bf5bd40ebc957071dd4d77e39d70ae26a617b3"
+      "path": "assets/images/sources/pozadine/batina-layered/actors-generated.png",
+      "sha256": "5bcbfb571d0de9d95bf02c8521a0213756bed7c88a7c148b3543fdd68fd9aef8"
     },
     {
-      "path": "assets/images/sources/pozadine/prepare.py",
-      "sha256": "8d437e3b9d098208a3b280d331c4b97091d5f167fdefc12a4122205b28c3e5d3"
+      "path": "assets/images/sources/pozadine/batina-layered/correction.json",
+      "sha256": "b4a6c305196f18b913625d8d592a61b9ece515560c70d7418c77fddae3805e24"
     },
     {
-      "path": "assets/images/sources/pozadine/preview.html",
-      "sha256": "f316fffb18a35f39a6984b1c7e13ec9622774192649d03e65377f06397dffe9f"
+      "path": "assets/images/sources/pozadine/batina-layered/generation.json",
+      "sha256": "1a90c541f4460d218b23455088a66e6af9f81b9d2737e8e140e8d09162e67312"
     },
     {
-      "path": "assets/images/sources/pozadine/review.json",
-      "sha256": "409db70f425d8a7be91e04281866a1a875e94b8e0d7b68259478e1de2357e363"
+      "path": "assets/images/sources/pozadine/batina-layered/prepare.py",
+      "sha256": "d322e662c7229be14428236b501af961d6bf1c418edd5b875ce9dc19e9a119e3"
+    },
+    {
+      "path": "assets/images/sources/pozadine/batina-layered/preview.html",
+      "sha256": "30fbc505acdc16edf365c900874a7b2c4ac69404113ded211acd153d44debae7"
+    },
+    {
+      "path": "assets/images/sources/pozadine/current-backgrounds.json",
+      "sha256": "c51e034b8977d5e3ed0afcd7a11c17711b1fdf73c893a43935a762a1d36f89bc"
+    },
+    {
+      "path": "assets/images/sources/pozadine/current-levels.json",
+      "sha256": "fcd7697850b26f0dc342084894aedc2237608c98bbdb4a543034b37dd2520db1"
+    },
+    {
+      "path": "assets/images/sources/pozadine/current-preview.html",
+      "sha256": "d4c78f443e77c797f1b2c7e862ee1698202dde4b0fed54d8905a9bdf2b7c0b14"
+    },
+    {
+      "path": "assets/images/sources/pozadine/current-review.json",
+      "sha256": "126c838c3b72ed39f4c23c9a4109294e79f915ec00fb992bcbf6ca3b6fc9f6d0"
+    },
+    {
+      "path": "assets/images/sources/pozadine/dynamic-audit.webp",
+      "sha256": "3203c4ddd04154c6cab5a4d33f47f7460a81955a258206a78ec6f6dd00b8bc76"
+    },
+    {
+      "path": "assets/images/sources/pozadine/dynamic-cleanup.json",
+      "sha256": "cc21eb3da61ad42c0a5055336797bdaca2c2e0188425845c3fae1aa618ce1b91"
+    },
+    {
+      "path": "assets/images/sources/pozadine/grahovo-sparse-preview.html",
+      "sha256": "b670ea81032647b129be9a4db55bb8506c02b57cb7cab0badec13d81daf075db"
+    },
+    {
+      "path": "assets/images/sources/pozadine/grahovo-sparse-study.json",
+      "sha256": "40f42282a9b9195b69dab548ceb6ccc750996772697c6270248b01e633b2fe0a"
+    },
+    {
+      "path": "assets/images/sources/pozadine/grahovo-war-sparse-study.json",
+      "sha256": "4798ed7d61ef81273eec474c714d8dbd289b3248a62e22570d5c5e4567f3b34f"
+    },
+    {
+      "path": "assets/images/sources/pozadine/prepare-current-levels.py",
+      "sha256": "64e6a8a9633352a748b4e5aa061385dcce0527905af33f55d994402c8f6ee161"
+    },
+    {
+      "path": "assets/images/sources/pozadine/seasonal/sutjeska-sky-edit.json",
+      "sha256": "044b145e8c3ade5da7c5a332e79f44a2b5e646a5f2b50a138bba0124e5442df5"
+    },
+    {
+      "path": "assets/images/sources/pozadine/seasonal-backgrounds.json",
+      "sha256": "a0a49cf597010280157ff2c35bc7513cda3333c71dded26548ce8d406ce6ee36"
     },
     {
       "path": "assets/images/sources/pozadine/styles/a-8bit-arcade.png",
@@ -2890,19 +3288,19 @@
     },
     {
       "path": "core/actor/derived/WoundedSoldier.js",
-      "sha256": "882dad3aeb0261b63fdc288c31d674754a2e2f248cdbb19c5b716987195b8df7"
+      "sha256": "96772cac73dff7768584e7b393e8aa266a8e5b60163508e39c4543fa56c52503"
     },
     {
       "path": "core/actor/GroundTarget.js",
-      "sha256": "c04659701203482e177a10a574e400ed0caf881d4bfbcd94e3fc7b78fbb6a725"
+      "sha256": "909ff1feb3738e65eef7026924671844a5962cedc01f8836525a4c79d3c8db01"
     },
     {
       "path": "core/actor/Occupier.js",
-      "sha256": "45bc031e1190e39d259315fd694bc36e245c5e95e905aa4407d55c73ff4898f4"
+      "sha256": "bc7cdb5e723de9dddc356fd3098daeadc4f154cd20daf784d9d99409896fe4c9"
     },
     {
       "path": "core/actor/soldiers/MachineGunner.js",
-      "sha256": "73c12c49592e33427f6417caf3a2984d7a1b98dac560d8a05cd13643aed30790"
+      "sha256": "15dd415012be61afedda852a6d1dd3c49e0d6377b64111c062a86a8910823c19"
     },
     {
       "path": "core/actor/soldiers/Patrol.js",
@@ -2942,35 +3340,39 @@
     },
     {
       "path": "core/actor/wreckArt.js",
-      "sha256": "ac134771b175be612bf96337d13a614a104958974d05fff0e64c88d93327008f"
-    },
-    {
-      "path": "docs/ANIMACIJA-POZADINE.md",
-      "sha256": "891cd5ddd8a968ef80e95cd0c6ec735b6fee34fb6a11ef93b4adcd6efe7f33ee"
+      "sha256": "15e176a47c1a71a34d17f360770c0a7509cf78fb362ec30c011ccf3b4268c63c"
     },
     {
       "path": "docs/ART.md",
-      "sha256": "a9b435a1dd0bd1750c7c3293729ca0b6d87e26fefe507f1bef0593ef009f8275"
-    },
-    {
-      "path": "docs/DOCS.md",
-      "sha256": "db27e2a4cb1a8e36eef9bcca205577cee4f3602ce6ea81a91f734ef7ed58a2ca"
+      "sha256": "c5a97e33684ad23b0c0871d0a745a12638fbf6abe21bf6da4b7d845ec0a568b8"
     },
     {
       "path": "docs/ISTORIJA.md",
-      "sha256": "22a27f78d76d3960f525362b06c5928360ef02983e644ccf5e7fe4709a122019"
+      "sha256": "ab3bb5e9e40726d0984435811095fe3e9af4fe32de08df194d03d6b7804f9209"
     },
     {
       "path": "docs/KONTEKST.md",
-      "sha256": "72b399e85434ce474f52e8768e1c7303eb4f2efe959b33e3de436196a411c009"
+      "sha256": "9613a895ef3d972b16311ebf72a7e0a829727c6ea07bae0b9705da3909a5f5d5"
+    },
+    {
+      "path": "docs/PLAN-ART.md",
+      "sha256": "122e99cd58637e056b8eb9b6aaf14a396e3be184795f86a7d7e8ae9192a9348c"
     },
     {
       "path": "docs/PLAN-ZA-IGRE.md",
-      "sha256": "ae112eced184d1e8353089ea584af5e7bf4853e7ec53a10d34f6f58ab91919f6"
+      "sha256": "57f73682458a86c56d582f045cc04efc9b948b6187c360ca4e95ff51f2aa0daf"
     },
     {
       "path": "docs/STORYBOOK.md",
-      "sha256": "202d4676b9c4eda654a68943738db9f0025ae28b72cff4a6a2616311a602a521"
+      "sha256": "6bfeafc2ff8f1560b8b2731f5c7abecdf4f88a6d03d387a64c9fc3b25c4b5e5e"
+    },
+    {
+      "path": "docs/TESTING.md",
+      "sha256": "d3137490b21fa16959f8b989df2c2258747dcfdf7cb7b74598b225c320bc60d8"
+    },
+    {
+      "path": "pozadine.html",
+      "sha256": "269ac469cc96698567bcb4ea8f5b4f5e3571c07503499e3339b6967af00cf298"
     },
     {
       "path": "scenes/camac/Boat.js",
@@ -2990,11 +3392,11 @@
     },
     {
       "path": "scenes/tenkici/BattleBackground.js",
-      "sha256": "48f90ab45f9bbec3275b6423eddc85caa89df7349cf7ec4d631b48c2d063ce98"
+      "sha256": "e3dcf001dbfaecb5b39c51d94647bdd2e70e0febcba29a4f54dfe6b647a56e13"
     },
     {
-      "path": "scenes/tenkici/Main.js",
-      "sha256": "561f0ca01bdc75628b7e32a5b15ae46eb2adc1abe320f0512ec6cf6ce0792144"
+      "path": "scenes/tenkici/renderLayers.js",
+      "sha256": "25ebbdad51d29409aa7e314827777aff32dcafa30114f671f56e594620f874ab"
     },
     {
       "path": "scenes/tenkici/Tenk.js",
@@ -3023,18 +3425,6 @@
     {
       "path": "scenes/to-trieste/GroundEnemies.js",
       "sha256": "ecfe551d94f5595b795ad736cd9ed5124dd43743f1b4a2ba01420679b15a20e9"
-    },
-    {
-      "path": "scenes/ustanak/Battlefield.js",
-      "sha256": "6eaf24d07327f82fe772edd63053b751fcc59159cd2a4562d181536d033bf766"
-    },
-    {
-      "path": "scenes/ustanak/GroundLayer.js",
-      "sha256": "ca1c85319997eef8a2026411cb24b57eb6ba0ad2c22b87d56ec7857ea4a222c0"
-    },
-    {
-      "path": "scenes/ustanak/Main.js",
-      "sha256": "901179d5bd1c942504aaee4bec11d451a8e56d677b16a95e664d558fd0a84059"
     },
     {
       "path": "scenes/ustanak/Posada.js",
@@ -3070,7 +3460,7 @@
     },
     {
       "path": "scripts/index-sprite-art.py",
-      "sha256": "fb35e9a8fc70f48ba60e52594b5f74c1f7f3d37cee6dab3efd2e28b79ea4ecca"
+      "sha256": "a2a3fd931b796d67988e685a6a367e1e7cad268e4a593b79d9203a5cd52777f0"
     },
     {
       "path": "scripts/prepare-vehicle-art.py",
@@ -3091,30 +3481,6 @@
     {
       "path": "storybook.html",
       "sha256": "2f4713885ee134b7848f03b4bf1c0b58a53c03f1da3d8950d16719850c71b5fe"
-    },
-    {
-      "path": "tests/unit/groundTarget.test.js",
-      "sha256": "854dd931ccfdf6e7c59888f80ebc123056f68b4f8c056a8b3a00507e0a318508"
-    },
-    {
-      "path": "tests/unit/storybookCatalog.test.js",
-      "sha256": "346d1fe780d8aa7ce6f3e6f3e07a794cebca06a28819f67f24fc5bf98b0d242e"
-    },
-    {
-      "path": "tests/unit/tankGroundEnemies.test.js",
-      "sha256": "8274854ad58c2eaa224b5b6fa4271ea71038c47df494c5d315669747ca5724c6"
-    },
-    {
-      "path": "tests/unit/tenkici.test.js",
-      "sha256": "a2b5d3f8e8e668bd2d17119dcd3b983fae4b257f791e07213d50ba8a16c61688"
-    },
-    {
-      "path": "tests/unit/toTriesteGroundEnemy.test.js",
-      "sha256": "8de0f6d8244e8a74e0d4d7f439a7db7296ce9803612e7b39463d220939632b6c"
-    },
-    {
-      "path": "tests/unit/vehicleArt.test.js",
-      "sha256": "c58843f8dd4ae78a41faf4b7a0dd0c49635bc78113615eea8367668b8ba0594a"
     }
   ]
 }

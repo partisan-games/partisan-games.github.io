@@ -65,7 +65,10 @@
         }
       ],
       "sha256": "08311c6e4ad88fb80099c7c3d182be611c78fb5d8cfa6b32d5860eda2e700827"
-    },
+    }
+  ],
+  "ownerStyleFeedback": "Owner stopped production: the images look too realistic. Keep every existing image as a usable variant. Future work needs visibly larger pixel clusters, simpler forms, fewer fine details and a more obvious pixel-art look. Do not resume or restyle the preserved images without a new instruction.",
+  "removedBackgrounds": [
     {
       "id": "neretva",
       "name": "Neretva",
@@ -129,5 +132,5 @@
       "sha256": "4e8ad7bd6a82aa8965738000a2073b20546e504615bc7fa195124057c84b6792"
     }
   ],
-  "ownerStyleFeedback": "Owner stopped production: the images look too realistic. Keep every existing image as a usable variant. Future work needs visibly larger pixel clusters, simpler forms, fewer fine details and a more obvious pixel-art look. Do not resume or restyle the preserved images without a new instruction."
+  "removedBackgroundsNote": "Superseded sources deleted by the owner; metadata retained as historical provenance, not loadable art."
 }

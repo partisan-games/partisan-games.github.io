@@ -137,6 +137,10 @@ def main():
             raise ValueError(f"Unknown status: {bg['id']}")
         source = ROOT / bg['image']
         report['backgrounds'].append({'id': bg['id'], 'status': bg['status'], 'imagePresent': source.exists()})
+        if bg['status'] == 'removed-by-owner':
+            replacement = Path(os.path.relpath(ROOT / bg['preferredSeasonalImage'], HERE)).as_posix()
+            sections.append(f'<article><h2>{html.escape(bg["name"])}</h2><p>Ranija verzija je obrisana po odluci vlasnika. <a href="{html.escape(replacement)}">Sezonska verzija</a>.</p></article>')
+            continue
         if not source.exists():
             if bg['status'] == 'art-ready':
                 raise ValueError(f"Missing selected art: {bg['id']}")

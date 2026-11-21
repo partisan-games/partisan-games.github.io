@@ -11,10 +11,10 @@ import { leftPlayerKeys, rightPlayerKeys } from '/core/io/keys.js'
 
 const groundLevel = canvas2d.height * 0.8
 /**
- * The battlefields in the order the matches are fought, starting over after the last (owner's decision); the Srem
- * front and Batina come first once their pictures exist.
+ * The battlefields in the order the matches are fought, starting over after the last (owner's decision): the Srem
+ * front in autumn 1944, Batina, the Srem breakthrough in 1945, then the older pictures.
  */
-export const battlefieldOrder = ['city', 'bihac', 'drvar', 'uzice']
+export const battlefieldOrder = ['sremFront1944', 'batina', 'sremFront1945', 'city', 'bihac', 'drvar', 'uzice']
 let nextBattlefield = 0
 
 const customStartScreen = ({ container }) => /* html */`
@@ -36,7 +36,7 @@ export default class TenkiciScene extends Scene2D {
 
   init() {
     this.battlefield = battlefieldOrder[nextBattlefield++ % battlefieldOrder.length]
-    this.background = new BattleBackground(this.canvas, battlefields[this.battlefield])
+    this.background = new BattleBackground(this.canvas, battlefields[this.battlefield], { groundY: groundLevel })
     const { clock } = this.session
     this.tenk = new TenkLevo({ y: groundLevel, clock })
     this.tenk.controller = new TankKeys(this.tenk, leftPlayerKeys)

@@ -1,86 +1,47 @@
-import { assets } from '/config.js'
-import BattleBackground from '/scenes/tenkici/BattleBackground.js'
-import VillageFire from './VillageFire.js'
+import BattleBackground, { battlefields } from '/scenes/tenkici/BattleBackground.js'
 import imageReady from '/core/io/imageReady.js'
 import GroundLayer from './GroundLayer.js'
 
-const villageGroundRatio = .806
-
-const image = src => {
-  const result = new Image()
-  result.src = assets.images + src
-  return result
-}
+/** The places of the 1941 uprising on Sava Kovačević's path, one for each round (owner's decision). */
+export const placeOrder = ['grahovo', 'vilusi', 'niksic']
+/** The places go on in one sequence: the next round, and the next match, are fought on the next one. */
+let nextPlace = 0
 
 /** The background of each round, with the front layer of earth that shells cut into. */
 export default class Battlefield {
   constructor({ canvas, groundY, wind, terrain }) {
     this.canvas = canvas
     this.ctx = canvas.getContext('2d')
-    this.groundY = groundY
     this.wind = wind
     this.time = 0
-    this.mountains = image('background/planine.png')
-    this.village = image('background/crnogorsko-selo-1941-pixel.png')
-    this.villageFire = new VillageFire({ canvas, groundY })
-    // The city artwork's street begins at 395/543 of its height.
-    this.cityViewport = { width: canvas.width, height: groundY * 543 / 395, getContext: () => this.ctx }
-    this.city = new BattleBackground(this.cityViewport)
-    this.audioChildren = [this.villageFire, this.city]
+    this.places = placeOrder.map(id => new BattleBackground(canvas, battlefields[id], { groundY }))
+    this.audioChildren = this.places
     this.ground = new GroundLayer({ width: canvas.width, height: canvas.height, floorY: terrain.floorY })
     terrain.view = this.ground
-    this.round = 1
+  }
+
+  /** Moves the battle on to the next place; only the shown place burns and is heard. */
+  nextRound() {
+    this.place = this.places[nextPlace++ % this.places.length]
+    for (const place of this.places) place.active = place === this.place
+    this.update(0)
   }
 
   loaded() {
-    return Promise.all([...[this.mountains, this.village, this.city.image].map(img => imageReady(img)), this.ground.loaded()])
+    return Promise.all([...this.places.map(place => imageReady(place.image)), this.ground.loaded()])
   }
 
   update(dt) {
     this.time += dt
-    this.villageFire.fireSound.setPlaying(this.round === 2)
-    this.city.active = this.round === 3
-    this.city.update(dt)
+    for (const place of this.places) place.update(dt)
   }
 
-  landscape() {
-    const { ctx, canvas, groundY } = this
-    const sky = ctx.createLinearGradient(0, 0, 0, groundY)
-    sky.addColorStop(0, '#698d9d')
-    sky.addColorStop(1, '#c4ccbe')
-    ctx.fillStyle = sky
-    ctx.fillRect(0, 0, canvas.width, canvas.height)
-    if (this.mountains.complete && this.mountains.naturalWidth) {
-      ctx.save()
-      ctx.filter = 'saturate(20%) sepia(25%) brightness(1.8)'
-      ctx.drawImage(this.mountains, 0, groundY * .3, canvas.width, groundY * .7)
-      ctx.restore()
-    }
-    ctx.fillStyle = '#9b9c83'
-    ctx.fillRect(0, groundY - 10, canvas.width, canvas.height - groundY + 10)
-    ctx.fillStyle = '#737d5e'
-    ctx.fillRect(0, groundY - 10, canvas.width, 10)
-  }
-
-  render(round = this.round) {
-    this.ctx.save()
-    this.ctx.imageSmoothingEnabled = false
-    if (round === 2 && this.village.complete && this.village.naturalWidth) {
-      const { naturalWidth: width, naturalHeight: height } = this.village
-      const horizon = height * villageGroundRatio
-      // Align the painted street with the physical ground without cropping the sky or leaving a gap below it.
-      this.ctx.drawImage(this.village, 0, 0, width, horizon, 0, 0, this.canvas.width, this.groundY)
-      this.ctx.drawImage(this.village, 0, horizon, width, height - horizon,
-        0, this.groundY, this.canvas.width, this.canvas.height - this.groundY)
-      const effects = this.villageFire.canvas
-      this.villageFire.render(this.time, this.wind ? this.wind.drift * effects.width / this.canvas.width : undefined)
-      this.ctx.drawImage(effects, 0, 0, effects.width, effects.height * villageGroundRatio,
-        0, 0, this.canvas.width, this.groundY)
-    } else if (round === 3 && this.city.image.complete && this.city.image.naturalWidth) {
-      this.cityViewport.width = this.canvas.width
-      this.city.render(undefined, this.wind ? this.wind.drift * this.city.efekti.width / this.canvas.width : undefined)
-    } else this.landscape()
-    this.ground.render(this.ctx)
-    this.ctx.restore()
+  render() {
+    const { place, ctx, canvas, wind } = this
+    ctx.save()
+    ctx.imageSmoothingEnabled = false
+    place.render(this.time, wind ? wind.drift * place.efekti.width / canvas.width : undefined)
+    this.ground.render(ctx)
+    ctx.restore()
   }
 }

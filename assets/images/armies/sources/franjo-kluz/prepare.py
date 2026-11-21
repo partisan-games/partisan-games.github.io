@@ -5,7 +5,7 @@ import re
 from pathlib import Path
 from statistics import median
 
-from PIL import Image
+from PIL import Image, ImageDraw, ImageChops
 
 HERE = Path(__file__).resolve().parent
 RECIPE = json.loads((HERE / 'manifest.json').read_text(encoding='utf-8'))
@@ -60,7 +60,50 @@ def appended_frames(asset, anchor):
     return frames, boxes
 
 
+def build_native_treads(asset):
+    recipe = asset['nativeTreads']
+    original = Image.open(HERE / recipe['reference']).convert('RGBA')
+    raw = Image.open(HERE / recipe['source']).convert('RGBA')
+    mask = Image.new('L', original.size)
+    ImageDraw.Draw(mask).polygon(recipe['trackMask'], fill=255)
+    mask = ImageChops.multiply(mask, original.getchannel('A'))
+    # One shared crop and scale for every generated phase; never fit each pose.
+    cells = [raw.crop((i * raw.width // 4, 0, (i + 1) * raw.width // 4, raw.height)) for i in range(4)]
+    boxes = [bounds(cell) for cell in cells]
+    crop = (min(b[0] for b in boxes), min(b[1] for b in boxes), max(b[2] for b in boxes), max(b[3] for b in boxes))
+    phases = []
+    for cell in cells:
+        phase = cell.crop(crop).resize(original.size, Image.Resampling.NEAREST)
+        phase = Image.composite(phase, original, ImageChops.multiply(mask, phase.getchannel('A')))
+        phase.putalpha(original.getchannel('A'))
+        assert phase.getchannel('A').tobytes() == original.getchannel('A').tobytes()
+        outside = ImageChops.invert(mask).convert('RGB')
+        assert ImageChops.multiply(ImageChops.difference(phase.convert('RGB'), original.convert('RGB')), outside).getbbox() is None
+        phases.append(phase)
+    assert len({hashlib.sha256(frame.tobytes()).digest() for frame in phases}) == 4
+    width, height = asset['frame']['width'], asset['frame']['height']
+    frames = [original] * 4 + phases
+    sheet = Image.new('RGBA', (width * 4, height * 2))
+    packed, boxes = [], []
+    for i, image in enumerate(frames):
+        frame = Image.new('RGBA', (width, height))
+        frame.alpha_composite(image, tuple(recipe['offset']))
+        sheet.paste(frame, (i % 4 * width, i // 4 * height))
+        packed.append(frame)
+        boxes.append(list(bounds(frame, 16)))
+    target = (HERE / asset['output']).resolve()
+    sheet.save(target, optimize=True)
+    clips = []
+    for name, row, count in [('idle', 0, 1), ('drive', 1, 4)]:
+        gif = f"previews/{asset['name']}-{name}.gif"
+        preview_gif(packed[row * 4:row * 4 + count], HERE / gif, [160] * count)
+        clips.append({'name': name, 'row': row, 'frameCount': count, 'duration': .64, 'loop': True, 'preview': gif, 'distinctFrames': count})
+    return {'id': asset['key'], 'title': 'Hummel', 'image': asset['output'], 'frame': {'width': width, 'height': height, 'columns': 4, 'rows': 2}, 'anchor': {'x': 160, 'y': 148}, 'facing': 'right', 'previewScale': .75, 'animations': clips, 'frameBounds': boxes, 'sha256': hashlib.sha256(target.read_bytes()).hexdigest()}
+
+
 def build(asset):
+    if asset.get('nativeTreads'):
+        return build_native_treads(asset)
     raw = Image.open(HERE / asset['source']).convert('RGBA')
     columns, rows = asset['grid']['columns'], asset['grid']['rows']
     width, height = asset['frame']['width'], asset['frame']['height']
@@ -116,6 +159,8 @@ def build(asset):
     names = ['fire'] if effect else ['idle', 'fire', 'death'] if soldier else ['idle', 'drive']
     durations = {'idle': 1.4, 'fire': .24 if effect else .32, 'death': .64, 'drive': .64}
     definitions = [{'name': name, 'row': row, 'frameCount': columns, 'duration': durations[name], 'loop': name in ('idle', 'drive')} for row, name in enumerate(names)]
+    if asset.get('idleFrameCount'):
+        definitions[0]['frameCount'] = asset['idleFrameCount']
     extra = asset.get('append')
     if extra:
         assert hashlib.sha256(sheet.tobytes()).hexdigest() == extra['basePixelsSha256'], f"Original rows changed: {asset['key']}"
@@ -137,13 +182,14 @@ def build(asset):
     clips = []
     for definition in definitions:
         row, name = definition['row'], definition['name']
-        assert definition['frameCount'] == columns
-        clip_frames = packed[row * columns:(row + 1) * columns]
+        count = definition['frameCount']
+        assert 1 <= count <= columns
+        clip_frames = packed[row * columns:row * columns + count]
         unique = len({hashlib.sha256(frame.tobytes()).digest() for frame in clip_frames})
-        assert unique > 1, f"Static animation: {asset['key']}:{name}"
+        assert count == 1 or unique > 1, f"Static animation: {asset['key']}:{name}"
         gif = f"previews/{asset['name']}-{name}.gif"
-        frame_ms = round(definition['duration'] * 1000 / columns)
-        preview_gif(clip_frames, HERE / gif, [frame_ms] * (columns - 1) + [1000 if name == 'death' else frame_ms], repeat=definition.get('previewLoop', True))
+        frame_ms = round(definition['duration'] * 1000 / count)
+        preview_gif(clip_frames, HERE / gif, [frame_ms] * (count - 1) + [1000 if name == 'death' else frame_ms], repeat=definition.get('previewLoop', True))
         clip = {key: definition[key] for key in ('name', 'row', 'frameCount', 'duration', 'loop')}
         if 'muzzle' in definition:
             muzzle = definition['muzzle']
@@ -157,7 +203,7 @@ def build(asset):
 assets = [build(asset) for asset in RECIPE['assets']]
 metadata = {'schemaVersion': 1, 'created': '2026-11-20', 'generatedWith': 'Built-in image_gen; mechanical atlas packing with Pillow', 'integration': 'core/actor/Sprite.js uses four columns and named rows with a fixed ground anchor. Original soldier idle/fire/death rows are preserved. rest/walk loop in place; fireUp plays once and its frame 0 is the held aiming pose between shots. fireUp muzzle coordinates are local pixels in frame 0 and are also exported in spriteArt.js. Death holds its final frame. Rifleman provides patrol and alert clip mapping. This script only packs art; project state and owner decisions live in docs/KONTEKST.md#franjo-kluz, verification evidence in docs/TESTING.md.', 'assets': assets}
 (HERE / 'sprites.json').write_text(json.dumps(metadata, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
-runtime = {a['id']: {'src': (HERE / a['image']).resolve().relative_to(HERE.parents[2]).as_posix(), 'frame': {'width': a['frame']['width'], 'height': a['frame']['height']}, 'columns': a['frame']['columns'], 'anchor': a['anchor'], 'body': a['frameBounds'][0], 'clips': {clip['name']: {'row': clip['row'], 'seconds': clip['duration'], 'loop': clip['loop'], **({'muzzle': clip['muzzle']} if 'muzzle' in clip else {})} for clip in a['animations']}} for a in assets}
+runtime = {a['id']: {'src': (HERE / a['image']).resolve().relative_to(HERE.parents[2]).as_posix(), 'frame': {'width': a['frame']['width'], 'height': a['frame']['height']}, 'columns': a['frame']['columns'], 'anchor': a['anchor'], 'body': a['frameBounds'][0], 'clips': {clip['name']: {'row': clip['row'], 'frameCount': clip['frameCount'], 'seconds': clip['duration'], 'loop': clip['loop'], **({'muzzle': clip['muzzle']} if 'muzzle' in clip else {})} for clip in a['animations']}} for a in assets}
 def single_quote(match):
     value = json.loads(match.group())
     return "'" + value.replace('\\', '\\\\').replace("'", "\\'") + "'"

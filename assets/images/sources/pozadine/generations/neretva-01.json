@@ -49,5 +49,6 @@
     }
   ],
   "sha256": "5083e1f4c1cd096a3a4eb3eea78dc1ec845d55389dac63d907b300a1dae1f57f",
-  "preservedImage": "assets/images/background/neretva-ww2-pixel.png"
+  "deletedImage": "assets/images/background/neretva-ww2-pixel.png",
+  "imageDisposition": "Superseded version deleted by the owner; generation provenance retained."
 }

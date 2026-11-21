@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="sr">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Batina — konačna animirana pozadina</title>
+<style>
+  body{margin:0;background:#252b28;color:#eee;font:16px system-ui}
+  main{max-width:1536px;margin:auto;padding:20px}
+  h1{font-size:24px;margin:0 0 8px}p{margin:8px 0 16px;color:#c7cec9}
+  .controls{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+  button{font:inherit;padding:10px 18px;background:#3e5145;color:#fff;border:1px solid #819288;cursor:pointer}
+  button:focus-visible{outline:3px solid #e1c45f;outline-offset:3px}
+  canvas{display:block;width:100%;height:auto;image-rendering:pixelated;background:#8bb5ec}
+</style>
+<main>
+  <h1>Batina — konačna animirana pozadina</h1>
+  <p>Izabrana pozadina Batine u Tenkićima: pokretni oblaci, crvena petokraka i borci sa partizanskim kapama. Civili duže miruju između sitnih gestova. Original je sačuvan samo radi poređenja i porekla arta.</p>
+  <div class="controls"><button id="pause" disabled>Pauziraj</button><button id="original" disabled>Prikaži original</button></div>
+  <p id="status" role="status">Učitavanje…</p>
+  <canvas width="1536" height="1024" aria-label="Batina sa animiranim slojevima"></canvas>
+</main>
+<script type="module">
+  import renderBatina from '/scenes/tenkici/renderLayers.js'
+  const canvas = document.querySelector('canvas'), ctx = canvas.getContext('2d')
+  const pause = document.querySelector('#pause'), originalButton = document.querySelector('#original')
+  const status = document.querySelector('#status')
+  let elapsed = 0, previous = 0, running = true, original = false
+  function load(src) {
+    return new Promise((resolve, reject) => {
+      const image = new Image()
+      image.onload = () => resolve(image)
+      image.onerror = () => reject(new Error(`Nije učitana slika: ${src}`))
+      image.src = src
+    })
+  }
+  try {
+    const response = await fetch('../../../background/batina-1944/layout.json')
+    if (!response.ok) throw new Error('Nije učitan opis slojeva.')
+    const layout = await response.json()
+    const [base, clouds, actors, source] = await Promise.all([
+      load('../../../background/batina-1944/base.png'), load('../../../background/batina-1944/clouds.png'), load('../../../background/batina-1944/actors.png'), load('../../../background/batina-1944-pixel.png'),
+    ])
+    const images = { base, clouds, actors }
+    function draw() {
+      if (original) ctx.drawImage(source, 0, 0, 1536, 1024)
+      else renderBatina(ctx, images, layout, elapsed)
+    }
+    pause.disabled = originalButton.disabled = false
+    status.textContent = 'Animirani slojevi'
+    pause.onclick = () => { running = !running; pause.textContent = running ? 'Pauziraj' : 'Nastavi' }
+    originalButton.onclick = () => {
+      original = !original
+      originalButton.textContent = original ? 'Prikaži animaciju' : 'Prikaži original'
+      status.textContent = original ? 'Izvorna slika pre ispravke zastave i kapa' : 'Animirani slojevi'
+      draw()
+    }
+    function frame(now) {
+      if (previous && running && !original) elapsed += Math.min((now - previous) / 1000, .1)
+      previous = now
+      if (running && !original) draw()
+      requestAnimationFrame(frame)
+    }
+    draw()
+    requestAnimationFrame(frame)
+  } catch (error) { status.textContent = error.message }
+</script>
+</html>

@@ -1,0 +1,11 @@
+{
+  "tool": "built-in image_gen",
+  "date": "2026-11-21",
+  "prompt": "For this existing historical WWII arcade game sprite, make a dedicated animation of the FRONT-FACING soldier seen in the SECOND ROW of the reference. Exactly FIVE equal cells in a single horizontal strip on a transparent background. Same character, uniform, helmet, weapon, proportions and original old raster-game rendering. He stands still with both boots planted in an unchanged stance, aiming forward. Only his forearms, hands, weapon and shoulders make a small controlled recoil and recovery cycle, returning to the original aiming pose in frame five. No walking, no leg movement, no body translation or scaling, no new symbols, no writing, no blood, no injury, no muzzle flash or smoke. Preserve the existing uniform without adding insignia. Do not reproduce the last row or other directions. All five figures the same size and baseline with generous transparent margins.",
+  "reference": "assets/images/sprites/vojnici/okupator-sprite.png",
+  "output": "occupier-fire-generated.png",
+  "packing": "prepare-occupier.py",
+  "constraint": "Original first five rows unchanged. Original head, boots and stance preserved; generated upper-body recoil only.",
+  "referenceSha256": "33a7ff83e0d279959a6e5d81f1579d8ea655905152c842de1c3f11fe61cff2fe",
+  "sourceSha256": "9a2441a41ed1808b49b46289863f97d20e5f1f8dcf9c662434f34dd2f7c5a058"
+}

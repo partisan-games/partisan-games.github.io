@@ -1,0 +1,220 @@
+{
+  "schemaVersion": 1,
+  "pathBase": "assets/images",
+  "integrationOwner": "Claude",
+  "integrationStatus": "integrated",
+  "artStatus": "five-static-bases-and-selected-animated-batina",
+  "waterAnimation": "disabled-by-owner; leave the water still until a convincing replacement is approved",
+  "integrationConstraints": [
+    "Use selected static bases for five locations and the owner-selected animated layers for Batina.",
+    "People, flags and clouds in Batina are independently animated. Water stays still; do not restore the rejected ripple overlay."
+  ],
+  "ownerAccepted": false,
+  "order": {
+    "tenkici": [
+      "sremski-front-1944",
+      "batina-1944",
+      "sremski-front-1945"
+    ],
+    "ustanak": [
+      "grahovo-1941",
+      "vilusi-1941",
+      "niksic-1941"
+    ]
+  },
+  "backgrounds": [
+    {
+      "id": "sremski-front-1944",
+      "name": "Sremski front · jesen 1944",
+      "scene": "tenkici",
+      "src": "background/sremski-front-1944-static.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "groundY": 828,
+      "hotspots": [
+        {
+          "x": 300,
+          "y": 370,
+          "intensity": 0.25,
+          "kind": "fire"
+        },
+        {
+          "x": 300,
+          "y": 370,
+          "intensity": 0.35,
+          "kind": "smoke"
+        }
+      ],
+      "staticBaseAudit": {
+        "people": false,
+        "fabricFlags": false,
+        "clouds": false,
+        "bakedFireSmoke": false,
+        "sourceInspected": true
+      },
+      "season": "autumn",
+      "battlePeriod": "1944-10"
+    },
+    {
+      "id": "batina-1944",
+      "name": "Batina · novembar 1944",
+      "scene": "tenkici",
+      "src": "background/batina-1944/base.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "groundY": 852,
+      "hotspots": [],
+      "staticBaseAudit": {
+        "people": false,
+        "fabricFlags": false,
+        "clouds": false,
+        "bakedFireSmoke": false,
+        "sourceInspected": true
+      },
+      "season": "autumn",
+      "battlePeriod": "1944-11",
+      "layers": "background/batina-1944/",
+      "ownerAccepted": true
+    },
+    {
+      "id": "sremski-front-1945",
+      "name": "Sremski front · proboj 1945",
+      "scene": "tenkici",
+      "src": "background/sremski-front-1945-static.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "groundY": 852,
+      "hotspots": [
+        {
+          "x": 280,
+          "y": 390,
+          "intensity": 0.25,
+          "kind": "fire"
+        },
+        {
+          "x": 280,
+          "y": 390,
+          "intensity": 0.3,
+          "kind": "smoke"
+        }
+      ],
+      "staticBaseAudit": {
+        "people": false,
+        "fabricFlags": false,
+        "clouds": false,
+        "bakedFireSmoke": false,
+        "sourceInspected": true
+      },
+      "season": "spring",
+      "battlePeriod": "1945-04-12"
+    },
+    {
+      "id": "grahovo-1941",
+      "name": "Grahovo · 1941",
+      "scene": "ustanak",
+      "src": "background/grahovo-1941-war-sparse-static.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "groundY": 852,
+      "hotspots": [
+        {
+          "x": 220,
+          "y": 387,
+          "intensity": 0.25,
+          "kind": "fire"
+        },
+        {
+          "x": 220,
+          "y": 387,
+          "intensity": 0.25,
+          "kind": "smoke"
+        }
+      ],
+      "staticBaseAudit": {
+        "people": false,
+        "fabricFlags": false,
+        "clouds": false,
+        "bakedFireSmoke": false,
+        "sourceInspected": true
+      },
+      "season": "summer",
+      "battlePeriod": "1941-07"
+    },
+    {
+      "id": "vilusi-1941",
+      "name": "Vilusi · 1941",
+      "scene": "ustanak",
+      "src": "background/vilusi-1941-static.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "groundY": 854,
+      "hotspots": [
+        {
+          "x": 1320,
+          "y": 522,
+          "intensity": 0.25,
+          "kind": "fire"
+        },
+        {
+          "x": 1320,
+          "y": 522,
+          "intensity": 0.25,
+          "kind": "smoke"
+        }
+      ],
+      "staticBaseAudit": {
+        "people": false,
+        "fabricFlags": false,
+        "clouds": false,
+        "bakedFireSmoke": false,
+        "sourceInspected": true
+      },
+      "season": "autumn",
+      "battlePeriod": "1941-autumn"
+    },
+    {
+      "id": "niksic-1941",
+      "name": "Okolina Nikšića · 1941",
+      "scene": "ustanak",
+      "src": "background/niksic-1941-static.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "groundY": 798,
+      "hotspots": [
+        {
+          "x": 260,
+          "y": 475,
+          "intensity": 0.25,
+          "kind": "fire"
+        },
+        {
+          "x": 260,
+          "y": 475,
+          "intensity": 0.25,
+          "kind": "smoke"
+        }
+      ],
+      "staticBaseAudit": {
+        "people": false,
+        "fabricFlags": false,
+        "clouds": false,
+        "bakedFireSmoke": false,
+        "sourceInspected": true
+      },
+      "season": "autumn",
+      "battlePeriod": "1941-autumn"
+    }
+  ]
+}

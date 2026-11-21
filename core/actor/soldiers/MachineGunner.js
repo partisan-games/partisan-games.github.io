@@ -27,7 +27,9 @@ const states = {
     },
   },
   dead: {
-    enter: gunner => { if (gunner.alive) gunner.die() },
+    enter: gunner => {
+      if (gunner.alive) gunner.die()
+    },
   },
 }
 

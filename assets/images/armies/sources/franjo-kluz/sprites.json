@@ -630,7 +630,7 @@
     },
     {
       "id": "hummel",
-      "title": "Guseničar",
+      "title": "Hummel",
       "image": "../../game-ready/tenkovi/hummel-sprites.png",
       "frame": {
         "width": 320,
@@ -648,11 +648,11 @@
         {
           "name": "idle",
           "row": 0,
-          "frameCount": 4,
-          "duration": 1.4,
+          "frameCount": 1,
+          "duration": 0.64,
           "loop": true,
           "preview": "previews/hummel-idle.gif",
-          "distinctFrames": 4
+          "distinctFrames": 1
         },
         {
           "name": "drive",
@@ -666,55 +666,55 @@
       ],
       "frameBounds": [
         [
-          28,
-          30,
-          311,
-          149
+          11,
+          10,
+          309,
+          148
         ],
         [
-          13,
-          30,
-          311,
-          149
+          11,
+          10,
+          309,
+          148
         ],
         [
-          8,
-          30,
-          311,
-          149
+          11,
+          10,
+          309,
+          148
         ],
         [
-          15,
-          30,
-          312,
-          149
+          11,
+          10,
+          309,
+          148
         ],
         [
-          29,
-          31,
-          311,
-          149
+          11,
+          10,
+          309,
+          148
         ],
         [
-          13,
-          31,
-          311,
-          149
+          11,
+          10,
+          309,
+          148
         ],
         [
-          8,
-          32,
-          311,
-          149
+          11,
+          10,
+          309,
+          148
         ],
         [
-          15,
-          31,
-          312,
-          149
+          11,
+          10,
+          309,
+          148
         ]
       ],
-      "sha256": "569fd1682dafc61648ad06fecd9dd03d15854a64825fd81d6a9273c22277a5f2"
+      "sha256": "6fcb4ddd03661dd15bed95aa20c5bd492b3e19878869ffb2a8628330ed9b8656"
     },
     {
       "id": "bp42",
@@ -736,11 +736,11 @@
         {
           "name": "idle",
           "row": 0,
-          "frameCount": 4,
+          "frameCount": 1,
           "duration": 1.4,
           "loop": true,
           "preview": "previews/bp42-idle.gif",
-          "distinctFrames": 4
+          "distinctFrames": 1
         },
         {
           "name": "drive",

@@ -2,13 +2,13 @@ import { test, before, mock } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 
-let BattleBackground
+let BattleBackground, battlefields
 
 before(async() => {
   createPageElements()
   // happy-dom has no 2D canvas
   mock.method(HTMLCanvasElement.prototype, 'getContext', () => ({}))
-  BattleBackground = (await import('/scenes/tenkici/BattleBackground.js')).default
+  ;({ default: BattleBackground, battlefields } = await import('/scenes/tenkici/BattleBackground.js'))
 })
 
 test('smoke over the ruined city follows the signed wind', () => {
@@ -45,4 +45,77 @@ test('the city draws nothing until its picture has loaded', () => {
   const city = new BattleBackground({ width: 800, height: 600, getContext: () => ({ drawImage: () => drawn.push(1) }) })
   city.render()
   assert.equal(drawn.length, 0)
+})
+
+test('a picture is drawn with its own ground strip on the scene ground line', () => {
+  const calls = []
+  const canvas = { width: 800, height: 600, getContext: () => ({ drawImage: (...args) => calls.push(args) }) }
+  const background = new BattleBackground(canvas, battlefields.sremFront1945, { groundY: 480 })
+  const { width, height, ground } = battlefields.sremFront1945
+  background.drawOnGround('picture', width, height)
+  assert.deepEqual(calls.map(call => call.slice(1)), [
+    [0, 0, width, height * ground, 0, 0, 800, 480],
+    [0, height * ground, width, height * (1 - ground), 0, 480, 800, 120],
+  ])
+  assert.equal(background.toCanvas(width / 2, height * ground).y, 480, 'effects keep to the same ground')
+})
+
+test('a battlefield where nothing burns is not heard burning', () => {
+  const quiet = new BattleBackground({ width: 800, height: 600, getContext: () => ({}) }, battlefields.drvar)
+  const playing = []
+  quiet.fireSound.setPlaying = value => playing.push(value)
+  quiet.update(.1)
+  assert.deepEqual(playing, [false])
+})
+
+function layerLoading(t, response = { ok: true, json: async() => ({ width: 1536, height: 1024 }) }) {
+  const images = []
+  t.mock.method(globalThis, 'fetch', async() => response)
+  t.mock.method(globalThis, 'Image', () => {
+    const image = Object.assign(new EventTarget(), { complete: false, naturalWidth: 0 })
+    images.push(image)
+    return image
+  })
+  const background = new BattleBackground({ width: 800, height: 600, getContext: () => ({}) }, battlefields.batina)
+  const loaded = image => {
+    image.complete = true
+    image.naturalWidth = 1536
+    image.dispatchEvent(new Event('load'))
+  }
+  return { background, images, loaded }
+}
+
+test('the scene waits for Batina clouds and actors as well as its environment plate', async t => {
+  const { background, images, loaded } = layerLoading(t)
+  const { default: Scene } = await import('/core/Scene.js')
+  let ready = false
+  const waiting = Scene.prototype.imagesLoaded.call({ children: [], background }).then(() => {
+    ready = true
+  })
+  loaded(images[0])
+  loaded(images[1])
+  await Promise.resolve()
+  assert.equal(ready, false, 'the last layer is still loading')
+  loaded(images[2])
+  await waiting
+  assert.equal(ready, true)
+  assert.equal(background.layers.images.actors, images[2])
+  assert.equal(background.scene.width, 1536)
+  assert.equal(background.scene.height, 1024)
+})
+
+test('a failed Batina layout reaches the scene loading error path', async t => {
+  const { background } = layerLoading(t, { ok: false })
+  const { default: Scene } = await import('/core/Scene.js')
+  await assert.rejects(Scene.prototype.imagesLoaded.call({ children: [], background }), /Background layout could not be loaded/)
+})
+
+test('a missing Batina actor atlas reaches the scene loading error path', async t => {
+  const { background, images, loaded } = layerLoading(t)
+  const { default: Scene } = await import('/core/Scene.js')
+  const waiting = assert.rejects(Scene.prototype.imagesLoaded.call({ children: [], background }), /Image could not be loaded/)
+  loaded(images[0])
+  loaded(images[1])
+  images[2].dispatchEvent(new Event('error'))
+  await waiting
 })

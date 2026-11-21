@@ -22,7 +22,7 @@ test('the wounded soldier keeps his collider, crawls only while displaced, and h
   soldier.update(.31)
   assert.equal(soldier.bodySprite.moving, true)
   assert.equal(soldier.bodySprite.frameIndex, 1)
-  const elapsed = soldier.bodySprite.elapsed
+  const { elapsed } = soldier.bodySprite
   soldier.update(0)
   assert.equal(soldier.bodySprite.elapsed, elapsed)
   assert.deepEqual([soldier.width, soldier.height], [69, 27])
@@ -35,7 +35,7 @@ for (const [src, height] of [['armies/nemci-patrola.gif', 80], ['armies/talijani
   test(`${src} walks as the same whole group, holds pause and immediately switches to accepted halt pose`, t => {
     const patrol = new Patrol(src)
     t.after(() => patrol.end())
-    loadAtlas(patrol, 284, height*2)
+    loadAtlas(patrol, 284, height * 2)
     patrol.setPosition(300, 300)
     patrol.update(.21)
     assert.ok(patrol.x > 300)
@@ -45,7 +45,7 @@ for (const [src, height] of [['armies/nemci-patrola.gif', 80], ['armies/talijani
     assert.equal(patrol.bodySprite.elapsed, phase)
     patrol.setState('halt')
     assert.equal(patrol.bodySprite.moving, false)
-    const x = patrol.x, y = patrol.y
+    const { x } = patrol, { y } = patrol
     patrol.update(1)
     assert.deepEqual([patrol.x, patrol.y], [x, y])
     assert.deepEqual([patrol.width, patrol.height], [71, height])

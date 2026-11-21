@@ -11,7 +11,8 @@ Zajednička osnova za razvoj 2D i 3D igara, sa istorijski zasnovanim sadržajem.
 | Istorija | [Istorijski izvori](ISTORIJA.md) | Činjenice sa izvorima: vojske, periodi, područja, jedinice, vozila, avioni i oružje. |
 | Konteksti igara | [KONTEKST](KONTEKST.md) | Okvir, priča, protivnici, prikaz i prihvaćeni art svake igre i njenih etapa. |
 | Ugao 2D arta | [Indeks prikaza](../assets/images/armies/index.csv) | Vizuelne oznake za izbor bočnih, gornjih i drugih prikaza, uz same slike. |
-| Sprite animacije aktera | [ART](ART.md) | Pokrivenost glavnih stanja igrača/neprijatelja, stvarni kadrovi naspram proceduralnog prikaza i prioriteti novog arta. |
+| Art i sprite animacije | [ART](ART.md) | Postojeći resursi, pokrivenost stanja igrača/neprijatelja, priprema i zajednička integracija. |
+| Izrada arta | [PLAN-ART](PLAN-ART.md) | Zadaci, prioriteti, statusi, uslovi završetka i odložene dopune arta. |
 | Arhitektura i obrasci | [ARHITEKTURA](ARHITEKTURA.md) | Odgovornosti zajedničkog engine-a, obrasci i bitna ograničenja. |
 | UI | [UI](UI.md) | Principi, teme, prozori, HUD, komande i praktična upotreba postojećeg UI-ja. |
 | Učenje kompozicije | [Kompozicija umesto nasleđivanja](COMPOSITION.md) | Uporedni primeri i sastavljanje zdravlja i oružja. |
@@ -91,4 +92,3 @@ Pre ukrašavanja okruženja izabrati vizuelne uzore, paletu i odnos dekoracije p
 Vlasnik svaki plan zove i „TODO”: nova stavka ide u plan igre ili oblasti na koju se odnosi, a u [README TODO](../README.md#todo) samo ako takvog plana nema.
 
 Kada agent završi dogovoreni posao neke stavke, odmah je označava `✅ Done`. Posle završenog posla `🔄 In progress` ostaje samo ako je vlasnik izričito postavio svoje odobrenje kao uslov za Done. Vlasnik pregleda Done stavke ako želi i kada želi; nastavak rada prati zaseban dogovor. Izvršene provere beleže se prema stvarnim dokazima, odvojeno od statusa izrade. Testovi i izvršne provere pokreću se samo uz vlasnikovu dozvolu.
-

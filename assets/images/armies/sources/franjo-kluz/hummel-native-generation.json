@@ -1,0 +1,15 @@
+{
+  "date": "2026-11-21",
+  "tool": "built-in image_gen",
+  "reference": "assets/images/armies/hummel.png",
+  "tracks": {
+    "image": "hummel-native-tracks-generated.png",
+    "prompt": "Create a transparent pixel-art sprite sheet of the EXACT side-view Hummel in reference 1. Reference 2 shows the wrong altered version: DO NOT copy its hull, it is only a packing example. Four equal cells horizontally, one row, vehicle faces RIGHT. All 4 cells show the same original vehicle at identical scale and position: preserve its three crew members, long cannon, open superstructure, green camouflage and original black pixel outlines. Only tank caterpillar tread links and wheel spokes change across four successive driving phases, no dust/smoke, no body movement. Match reference 1 closely, crisp native pixel-art look, no realistic painting. Keep clear transparent padding around all silhouettes, full uncut cannon and crew. Output wide horizontal four-frame strip."
+  },
+  "wreck": {
+    "image": "../wrecks/hummel-generated.png",
+    "prompt": "Create ONE destroyed wreck version of this exact right-facing Hummel side-profile pixel-art vehicle. Preserve original long open-topped superstructure, long right-projecting cannon, camouflage colors, track-wheel arrangement and recognizably same chassis and proportions. Remove all three crew members. Bent damaged cannon, torn upper armor, visibly broken exposed caterpillar tracks, dark scorched damaged hull. No people, no smoke, no fire, no gore, no scenery. Flat crisp 2D pixel art with black 1-pixel outlines matching the original reference, not photorealistic, not 3D. One whole vehicle, ample transparent padding, true transparent background."
+  },
+  "referenceSha256": "9249fdca2ee514d43b1a8a6b1ec2306e97e8f20d398e95241d23887340731e7b",
+  "sourceSha256": "fe773065e17cff9f157f9305c9a41ac73561cecdea0b9b2bcaf4bd6fd642d392"
+}

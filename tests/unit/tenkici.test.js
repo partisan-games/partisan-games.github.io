@@ -1,11 +1,14 @@
-import { test, before } from 'node:test'
+import { test, before, mock } from 'node:test'
 import assert from 'node:assert/strict'
+import { readFileSync } from 'node:fs'
 import { createPageElements } from './helpers/dom.js'
 
 let Tenkici, TankKeys, TankAI, keys
 
 before(async() => {
   createPageElements()
+  const layout = JSON.parse(readFileSync(new URL('../../assets/images/background/batina-1944/layout.json', import.meta.url), 'utf8'))
+  mock.method(globalThis, 'fetch', async() => ({ ok: true, json: async() => layout }))
   const { installFakeFrames } = await import('./helpers/frames.js')
   installFakeFrames()
   ;({ default: Tenkici } = await import('/scenes/tenkici/Main.js'))
