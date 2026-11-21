@@ -19,15 +19,15 @@ export const fieldGun = {
 const aimStep = .005
 
 /**
- * The gun in metres, from the middle of its barrel, which is its place: the barrel's half length and the muzzle's
- * depth under its axis; the carriage's middle behind and below it; the wheel, whose bottom stands on the ground.
+ * The gun in metres from its barrel pivot: the muzzle ahead and above that pivot, the carriage's middle behind
+ * and below it, and the wheel, whose bottom stands on the ground.
  * The pictures are drawn at .01875 m a pixel; their transparent edges and the ground under the carriage are no target.
  */
 const pixel = .01875
 const joint = { x: 258.3251748251748, y: 9.437062937062933 }
 export const gunShape = {
   pixel,
-  barrel: { image: { width: 274, height: 52 }, pivot: { x: 100, y: 44 }, muzzleAhead: 173 * pixel, muzzleDrop: -8 * pixel },
+  barrel: { image: { width: 274, height: 52 }, pivot: { x: 100, y: 44 }, muzzleAhead: 173 * pixel, muzzleAbove: 8 * pixel },
   carriage: { image: { width: 400, height: 99 }, behind: (joint.x - 200) * pixel, below: (49.5 - joint.y) * pixel },
   wheel: { behind: (joint.x - 220.5) * pixel, below: (64.5 - joint.y) * pixel, radius: 31.5 * pixel },
 }
@@ -45,7 +45,7 @@ const carriageShapes = fromImage(gunShape.carriage.image, pixel, [
   box(122.5, 80.5, 136, 12, -.096), // trail
   box(29.5, 81.5, 7, 13), // spade
 ])
-/** The middle of the barrel stands this high above the ground under the wheel. */
+/** The barrel pivot stands this high above the ground under the wheel. */
 const standingHeight = gunShape.wheel.below + gunShape.wheel.radius
 
 /**
@@ -136,12 +136,12 @@ export default class FieldGun extends Body {
   }
 
   get muzzle() {
-    const { muzzleAhead, muzzleDrop } = gunShape.barrel
+    const { muzzleAhead, muzzleAbove } = gunShape.barrel
     const along = { x: Math.cos(this.barrelAngle), y: Math.sin(this.barrelAngle) }
     const down = { x: this.forward * Math.sin(this.elevation), y: -Math.cos(this.elevation) }
     return {
-      x: this.x + along.x * muzzleAhead + down.x * muzzleDrop,
-      y: this.y + along.y * muzzleAhead + down.y * muzzleDrop,
+      x: this.x + along.x * muzzleAhead - down.x * muzzleAbove,
+      y: this.y + along.y * muzzleAhead - down.y * muzzleAbove,
       z: this.z,
     }
   }

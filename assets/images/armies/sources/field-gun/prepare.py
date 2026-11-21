@@ -58,7 +58,7 @@ def build():
 def layout(barrel, carriage):
     return {
         'schemaVersion': 1,
-        'scope': 'Prepared redraw only, same shared gun for both crews; not yet used by game or Storybook.',
+        'scope': 'Integrated shared gun for both crews in Ustanak and Storybook, through FieldGun/FieldGunSprite.',
         'pathBase': 'assets/images',
         'parts': {
             'barrel': {
@@ -91,7 +91,7 @@ def layout(barrel, carriage):
             'sourceArtwork': 'The GIFs are source drawings, not the finished target style.',
             'crews': 'Existing partisan/Italian crews remain unchanged; no new crew animation or casualty art in this redraw.',
             'movement': 'Turret elevation and recoil are driven by the body, not painted as duplicate frames.',
-            'notIncluded': ['runtime integration', 'new sounds', 'wreck', 'crew fall animations'],
+            'separateAssets': ['wreck-sprites.json', '../cannon-crew-fall/sprites.json'],
         },
         'inputs': [{'path': str(p.relative_to(HERE)), 'sha256': sha(p)} for p in sorted(HERE.glob('*reference.png'))] +
                   [{'path': name, 'sha256': sha(HERE / name)} for name in

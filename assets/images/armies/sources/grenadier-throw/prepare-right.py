@@ -125,7 +125,7 @@ def metadata(sheet, frames):
                                     'removedGeneratedBounds': {str(k): list(v) for k, v in GENERATED_GRENADE_BOUNDS.items()}},
                     'fixedLayers': 'Original head, rifle, torso and boots; original frame 0 copied exactly.'},
         'frameBounds': [list(f.getbbox()) for f in frames],
-        'integration': 'Separate art only; runtime and stories require a separate integration.',
+        'integration': 'GrenadierSprite uses this atlas in Bunker and Storybook; standing, walking and throwing share the same body-facing mirror.',
         'handoff': {'referenceHeading': 'screen-right throw, same body orientation as standing',
                     'mirror': 'Do not mirror this animation to implement a right throw.',
                     'releaseRule': 'Spawn once when action time crosses 0.4s; hand coordinates are cell pixels.',

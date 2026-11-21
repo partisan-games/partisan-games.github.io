@@ -262,9 +262,10 @@ export default class FranjoKluzScene extends Scene2D {
     player.setState('dead')
   }
 
-  /** The enemies that can fire at the plane: those with a state to fire in. */
+  /** The enemies that can aim at the plane; the Hummel's fixed cannon is not an automatic anti-aircraft gun. */
   get armed() {
-    return [...this.enemies, ...this.raiders].map(({ body }) => body).filter(body => body.states.includes('fire'))
+    return [...this.enemies, ...this.raiders].map(({ body }) => body)
+      .filter(body => body.states.includes('fire') && typeof body.aimAt === 'function')
   }
 
   /** The enemy knows the plane is hostile: the living among `bodies` stop keeping watch and fire at it. */

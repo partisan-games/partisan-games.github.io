@@ -101,6 +101,7 @@ def record(prepared):
             'packing': {'sourceGrid': [3, 2], 'sourceCell': [512, 512],
                         'alphaThreshold': 128, 'fixedScale': profile['scale'], 'registration': registration,
                         'rule': 'One scale/x offset per figure; vertical contact registration only.'},
+            'integration': 'CannonCrew/CannonCrewSprite in Ustanak and both existing Storybook stories; destroyed gun selects crew death.',
             'handoff': {
                 'padding': '16px on each side of a normalized 128x128 reference; 75x60 display keeps existing 60x60 figure scale.',
                 'originalFrame': profile['frame'], 'originalAnchor': profile['originalAnchor'],

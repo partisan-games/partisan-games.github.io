@@ -171,6 +171,7 @@
         ],
         "rule": "One scale/x offset per figure; vertical contact registration only."
       },
+      "integration": "CannonCrew/CannonCrewSprite in Ustanak and both existing Storybook stories; destroyed gun selects crew death.",
       "handoff": {
         "padding": "16px on each side of a normalized 128x128 reference; 75x60 display keeps existing 60x60 figure scale.",
         "originalFrame": [
@@ -357,6 +358,7 @@
         ],
         "rule": "One scale/x offset per figure; vertical contact registration only."
       },
+      "integration": "CannonCrew/CannonCrewSprite in Ustanak and both existing Storybook stories; destroyed gun selects crew death.",
       "handoff": {
         "padding": "16px on each side of a normalized 128x128 reference; 75x60 display keeps existing 60x60 figure scale.",
         "originalFrame": [
@@ -377,7 +379,7 @@
   ],
   "previewGun": {
     "schemaVersion": 1,
-    "scope": "Prepared redraw only, same shared gun for both crews; not yet used by game or Storybook.",
+    "scope": "Integrated shared gun for both crews in Ustanak and Storybook, through FieldGun/FieldGunSprite.",
     "pathBase": "assets/images",
     "parts": {
       "barrel": {
@@ -494,11 +496,9 @@
       "sourceArtwork": "The GIFs are source drawings, not the finished target style.",
       "crews": "Existing partisan/Italian crews remain unchanged; no new crew animation or casualty art in this redraw.",
       "movement": "Turret elevation and recoil are driven by the body, not painted as duplicate frames.",
-      "notIncluded": [
-        "runtime integration",
-        "new sounds",
-        "wreck",
-        "crew fall animations"
+      "separateAssets": [
+        "wreck-sprites.json",
+        "../cannon-crew-fall/sprites.json"
       ]
     },
     "inputs": [
@@ -567,7 +567,7 @@
     },
     {
       "path": "../field-gun/layout.json",
-      "sha256": "9e390fefb14e50b202bf67fd610aea1a4550c51113f3dace9daa0ca56c03d736"
+      "sha256": "9349854a3eb27f00b9d77d56720376e6a708ac8637cb173c8a4bf53bca398b2d"
     }
   ],
   "acceptedAtlasHashes": {

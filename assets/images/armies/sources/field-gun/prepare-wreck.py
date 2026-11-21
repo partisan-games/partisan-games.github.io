@@ -92,7 +92,7 @@ def metadata(wreck):
                 'inputs': [{'path': r['path'], 'sha256': sha(HERE / r['path'])} for r in generation['references']],
                 'packing': {'sourceCanvas': [1536, 1024], 'crop': list(CROP), 'output': list(SIZE),
                             'alphaThreshold': 128, 'filter': 'nearest', 'sourceGuideScale': 3, 'sourceGuideOffset': [18, 122]},
-                'integration': 'Prepared art for owner review only. Game, stories, intact parts and existing wrecks unchanged.',
+                'integration': 'FieldGunSprite uses this wreck in Ustanak and both existing gun stories; owner visual review remains separate.',
                 'handoff': {
                     'coordinates': 'Same 500x260 space as assembled.png; carriage origin (40,115).',
                     'carriageAnchor': {'x': 200, 'y': 49.5},

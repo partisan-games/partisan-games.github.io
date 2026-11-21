@@ -1,5 +1,5 @@
 import { expect } from '@playwright/test'
-import { test } from './helpers.js'
+import { test, waitForScene } from './helpers.js'
 
 test.beforeEach(async({ page }) => {
   // Observe what the real page draws, without replacing its bodies, clocks or controls.
@@ -18,10 +18,12 @@ test.beforeEach(async({ page }) => {
 
 const drawn = (page, src, x = null, y = null) => page.waitForFunction(({ src, x, y }) =>
   window.artDraws.some(draw => draw.at > performance.now() - 150 && draw.src.endsWith(src)
-    && (x === null || draw.source[0] === x) && (y === null || draw.source[1] === y)), { src, x, y })
+    && (x === null || draw.source[0] === x) && (y === null || draw.source[1] === y)), { src, x, y }, { timeout: 5000 })
 
 async function state(page, name) {
-  await page.evaluate(() => { window.artDraws.length = 0 })
+  await page.evaluate(() => {
+    window.artDraws.length = 0
+  })
   await page.locator(`[data-state="${name}"]`).click()
 }
 
@@ -69,7 +71,8 @@ test('partisan walk and both falls use the prepared atlas through actual state c
 test('German rifle reload is wired to its model and existing shot cooldown', async({ page }) => {
   await page.goto('/storybook.html#vojnici/strelac')
   await state(page, 'reload')
-  await drawn(page, '/nemacki-strelac-reload-sprites.png', 896, 0)
+  // Reload returns to idle; unlike death, its last frame is transient and may be skipped by a long render step.
+  await drawn(page, '/nemacki-strelac-reload-sprites.png')
   await state(page, 'fire')
   await drawn(page, '/nemacki-strelac-reload-sprites.png')
   await state(page, 'dead')
@@ -85,4 +88,39 @@ test('Hummel actual fire control uses the new attack, a shell, then the existing
   await drawn(page, '/hummel-sprites.png')
   await state(page, 'dead')
   await drawn(page, '/wrecks/hummel.png')
+})
+
+test('Ustanak level uses the redrawn gun and falls its crew when that gun is destroyed', async({ page }, info) => {
+  await page.goto('/#ustanak')
+  await waitForScene(page)
+  await page.locator('#dva-igraca').click()
+  await page.waitForFunction(() => window.sceneManager.instance.scene.session.state === 'running')
+  await drawn(page, '/field-gun-barrel-pixel.png')
+  await page.evaluate(() => window.sceneManager.instance.scene.guns[1].takeHit(1000))
+  await drawn(page, '/wrecks/field-gun.png')
+  await drawn(page, '/italijanska-posada-death-sprites.png', 800, 0)
+  expect(await page.evaluate(() => window.sceneManager.instance.scene.crews[1].state)).toBe('dead')
+  await page.locator('#platno').screenshot({ path: info.outputPath('ustanak-integrated.png') })
+})
+
+test('Kluz level uses the same Hummel attack without enlisting it as an anti-aircraft gun', async({ page }, info) => {
+  const errors = []
+  page.on('pageerror', error => errors.push(error.message))
+  await page.goto('/#franjo-kluz')
+  await waitForScene(page)
+  await page.locator('#start').click()
+  await page.waitForFunction(() => window.sceneManager.instance.scene.session.state === 'running')
+  const result = await page.evaluate(() => {
+    const { scene } = window.sceneManager.instance
+    const { body } = scene.enemies.find(enemy => enemy.body.constructor.name === 'Hummel')
+    scene.player.x = body.x
+    scene.player.y = Math.max(8, scene.player.y)
+    scene.cameraX = scene.projection.point(body).x - scene.canvas.width / 2
+    scene.followPlane(0)
+    return { automatic: scene.armed.includes(body), fired: body.shoot() }
+  })
+  expect(result).toEqual({ automatic: false, fired: true })
+  await drawn(page, '/hummel-fire-sprites.png')
+  await page.locator('#platno').screenshot({ path: info.outputPath('kluz-hummel-integrated.png') })
+  expect(errors).toEqual([])
 })

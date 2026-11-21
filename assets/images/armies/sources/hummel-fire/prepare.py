@@ -121,7 +121,7 @@ def metadata(sheet, frames):
                             'alphaThreshold': 128, 'filter': 'nearest',
                             'fixed': 'Original hull, three crew, gun mount, flag and stationary tracks. Only exposed barrel and effects vary.'},
                 'frameBounds': [list(f.getbbox()) for f in frames],
-                'integration': 'Prepared art only; Hummel remains Vehicle in the game. No new firing logic or runtime integration.',
+                'integration': 'Hummel (Vehicle subclass) and VehicleSprite use this clip with a real shell and cannon sound, in Kluz and Storybook. No automatic anti-aircraft controller added.',
                 'handoff': {
                     'placement': 'Draw this wider cell at the old Hummel anchor, with the same art scale; padding is +32,+8.',
                     'sizeRule': 'At preview scale .75: cell 288x132, anchor (144,117). Do not stretch the whole new cell into old cell dimensions.',

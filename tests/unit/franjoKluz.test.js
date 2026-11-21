@@ -35,6 +35,17 @@ function createScene(t, { mission = 0, manager = {} } = {}) {
 /** The first enemy of `kind` in the first mission: its body and its view. */
 const enemyOf = (scene, kind) => scene.enemies[layout.findIndex(item => item.kind === kind)]
 
+test('the integrated Hummel can fire on command without joining the mission anti-aircraft controllers', t => {
+  const scene = createScene(t)
+  const { body } = enemyOf(scene, 'tank')
+  assert.ok(body.states.includes('fire'))
+  assert.equal(scene.armed.includes(body), false)
+  scene.openFire(scene.armed)
+  assert.equal(scene.controllers.some(controller => controller.body === body && controller instanceof Gunner), false)
+  assert.equal(body.shoot(), true)
+  assert.equal(body.shotsFired, 1)
+})
+
 const play = (scene, seconds) => {
   for (let i = 0; i < seconds * 30; i++) {
     scene.session.update(1 / 30)

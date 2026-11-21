@@ -36,6 +36,7 @@ async function show() {
   // a 3D block waits for its models
   await stage.init()
   const block = await story.create(stage)
+  if (stage instanceof Stage2D) await stage.imagesLoaded()
   if (turn !== asked) return stage.end()
   stage.start()
   shown = { kind, story, stage, block }

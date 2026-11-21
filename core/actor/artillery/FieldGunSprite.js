@@ -37,7 +37,7 @@ export default class FieldGunSprite extends BodySprite {
     return this.flammable && this.body.burning
   }
 
-  /** The barrel, as long as its body, turns about its middle; the carriage stands behind and below it. */
+  /** The redrawn barrel turns at its measured pivot; the carriage stands behind and below it. */
   fit() {
     const { body, projection } = this
     const { x, y } = projection.point(body)

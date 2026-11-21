@@ -5,6 +5,7 @@ import { tank } from './Tank.js'
 
 /** One stationary discharge and recoil cycle; existing controllers still decide whether to order a shot. */
 export const hummel = { fireTime: .8 }
+export const hummelKind = vehicleKinds.tank
 
 const states = {
   ...vehicleStates,
@@ -23,7 +24,7 @@ const states = {
 /** Hummel keeps its original vehicle health and drive; its fixed cannon can now be commanded to fire. */
 export default class Hummel extends Vehicle {
   constructor({ targets = [], groundAt = () => 0, canFire = () => true, random = Math.random, ...rest } = {}) {
-    super({ kind: vehicleKinds.tank, ...rest, states, initial: 'idle' })
+    super({ kind: hummelKind, ...rest, states, initial: 'idle' })
     Object.assign(this, { targets, canFire })
     this.shells = new ProjectilePool(() => new Shell({ groundAt, random, gravity: tank.shellGravity }))
   }

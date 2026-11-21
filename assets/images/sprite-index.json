@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "measuredAt": "2026-11-21T20:13:53.923223+00:00",
+  "measuredAt": "2026-11-21T20:57:07.303919+00:00",
   "baseRevision": "e638fc2567d132d1abea25d530f27191998b51e1",
   "scope": "Art linked by docs/ART.md, including shared variants; not all unused library art or a runtime/visual acceptance test.",
   "interpretation": "imageFrames counts file-container frames. A PNG atlas normally has one; named sprite clips require metadata and a runtime mapping. hashes detect exact input changes, not art quality.",
@@ -358,16 +358,6 @@
           }
         ]
       }
-    },
-    {
-      "asset": "assets/images/armies/game-ready/artiljerija/top-cev.gif",
-      "sha256": "4d13896e2ce7f71f9d9bc60fe4e6811b00eacd077c70ffeaeec3600c342df198",
-      "kind": "GIF",
-      "width": 274,
-      "height": 52,
-      "imageFrames": 1,
-      "hasTransparentPixelsInFirstFrame": true,
-      "distinctImageFrames": 1
     },
     {
       "asset": "assets/images/armies/game-ready/avioni/bf109-propeler.png",
@@ -3543,10 +3533,6 @@
       "sha256": "ace5fbbc26e973425381a0dead1322ba29a43e85a495a4b68ae4f2fdfddbefe1"
     },
     {
-      "path": "assets/images/armies/game-ready/artiljerija/top-cev.gif",
-      "sha256": "4d13896e2ce7f71f9d9bc60fe4e6811b00eacd077c70ffeaeec3600c342df198"
-    },
-    {
       "path": "assets/images/armies/game-ready/avioni/bf109-propeler.png",
       "sha256": "5269051b5cafc8b4d0ff097c5f01eb1e1a8da388388e5e234b1051ce2fa01b0e"
     },
@@ -3940,15 +3926,15 @@
     },
     {
       "path": "assets/images/armies/sources/cannon-crew-fall/prepare.py",
-      "sha256": "e9ef2001eea903462bd43a21d9948c9677ea7db8a5ade7415fea90317b030202"
+      "sha256": "b6fd49d391d7f9ad738f418fce3595ab15d0d9939e870c7ed7950c4a20875493"
     },
     {
       "path": "assets/images/armies/sources/cannon-crew-fall/preview.html",
-      "sha256": "4ae4d0df972d18a3d34c45889c5523754d58cfad6e480381bf80e3d536a38b72"
+      "sha256": "ed4ecc62abf24805174cd95a7d02f9f315c6e92dfbfe41359ae4d32275c91ce8"
     },
     {
       "path": "assets/images/armies/sources/cannon-crew-fall/sprites.json",
-      "sha256": "c28d840fb90b87fe43f05639bd8f70145f1d30536a5243f635ce64f5b83e6851"
+      "sha256": "da4a5237765b29433d890f9ed641a806f0fda62b7194cf193daf2c40197c92d6"
     },
     {
       "path": "assets/images/armies/sources/do-trsta/opel-blitz.json",
@@ -3988,19 +3974,19 @@
     },
     {
       "path": "assets/images/armies/sources/field-gun/layout.json",
-      "sha256": "9e390fefb14e50b202bf67fd610aea1a4550c51113f3dace9daa0ca56c03d736"
+      "sha256": "9349854a3eb27f00b9d77d56720376e6a708ac8637cb173c8a4bf53bca398b2d"
     },
     {
       "path": "assets/images/armies/sources/field-gun/prepare-wreck.py",
-      "sha256": "df41deb302b171558485163988adfc0531778dd445258d43af8ef5179625b9bd"
+      "sha256": "e8bf4fffe266378c005449f5cc1c31bbf7fed55d92fd02491d9889ab502a47e5"
     },
     {
       "path": "assets/images/armies/sources/field-gun/prepare.py",
-      "sha256": "7574db9efb4717a9ae74ac02644306abef19cb0aba120935ae5be7de53492121"
+      "sha256": "b29b1ba7b1bd038098cb39e55d246b15fb9b910c92558ac119be4a7ee73cb26c"
     },
     {
       "path": "assets/images/armies/sources/field-gun/preview.html",
-      "sha256": "bb496a89fc6dec2178eddc4c510aab09999061ac207465a54a8618acfdb9b5d7"
+      "sha256": "96c07ff5c86e776c357c5c6c822715e8e8c1e8589319cba6ee6eef22fa0fdd3a"
     },
     {
       "path": "assets/images/armies/sources/field-gun/wreck-game-size.png",
@@ -4012,11 +3998,11 @@
     },
     {
       "path": "assets/images/armies/sources/field-gun/wreck-preview.html",
-      "sha256": "068029ac884738212fd95c0c6dd9995b1843c27dd7cbcc8afe8077a91aeb2f25"
+      "sha256": "aa8096967ac86a0f6be17f425f27de3e1967279ec788a7dc7ba1ccbdfc7663ba"
     },
     {
       "path": "assets/images/armies/sources/field-gun/wreck-sprites.json",
-      "sha256": "a04d066978dd2f28dd912edee9321e15f7405c336448cb090f0eb2f441be2610"
+      "sha256": "b9f5e04f0f2f214315bb7f2affb2ddb45578beddb14a4c8a4b45f76d15ade7f2"
     },
     {
       "path": "assets/images/armies/sources/franjo-kluz/hummel-native-generation.json",
@@ -4072,11 +4058,11 @@
     },
     {
       "path": "assets/images/armies/sources/grenadier-throw/right-preview.html",
-      "sha256": "56a9cd640403f437b7d66957dac7ed246f94d3c44bb792c1acac96ad5a23f60e"
+      "sha256": "6c46e04a6cf33a95de0b870b0f97c73c48278398cd6e2b3e9ad5114e123de825"
     },
     {
       "path": "assets/images/armies/sources/grenadier-throw/sprites.json",
-      "sha256": "603530f425fc49f4cbedf9859f2c27c1f85027b7bbbabcb02f059e22d7740bcc"
+      "sha256": "369f29116866b16ff57aa2468d53cab4b90dfc1508bafe95f69a9e15289c4618"
     },
     {
       "path": "assets/images/armies/sources/grenadier-throw/throw-right.gif",
@@ -4096,15 +4082,15 @@
     },
     {
       "path": "assets/images/armies/sources/hummel-fire/prepare.py",
-      "sha256": "b571607a2b20060dfb5d2dd16687c609f4157a2cd41ab91a4f894f9f274cc66d"
+      "sha256": "ff7b997f5ca6208522907e753e3055501c81b1eb529747be6ffd6d5b4f43ca95"
     },
     {
       "path": "assets/images/armies/sources/hummel-fire/preview.html",
-      "sha256": "59b9c39945fe410ff96bab918549f0fb0143cce4756eed6fa943f19ddea3974d"
+      "sha256": "5ff7fe177b0b75650ff77a398ede49ee98b96e0fc84fde57c7662fb893f1d288"
     },
     {
       "path": "assets/images/armies/sources/hummel-fire/sprites.json",
-      "sha256": "2d9dc65563fb067c3910ea22feb1555d1b5e68ecf2dfb6ab3d74483aa3a3f7ec"
+      "sha256": "9da2beb7830fd51dd1980f2de1fd86426b9f010aed26d558c2a35b6c0e405c95"
     },
     {
       "path": "assets/images/armies/sources/infantry-art/bombas-death-collapse-generation.json",
@@ -4188,15 +4174,15 @@
     },
     {
       "path": "assets/images/armies/sources/partisan-rifleman/prepare.py",
-      "sha256": "0373acea2510b30ba5e9b754717b74b73d7f688a44068ae5485c5e577c276adb"
+      "sha256": "e5ee25f4a6964facb4a63f9e4bf3889418ad5e83648971fbcb4a23bf5b8dea09"
     },
     {
       "path": "assets/images/armies/sources/partisan-rifleman/preview.html",
-      "sha256": "47927cf39f036d5e43a2a104d9a78523f6aee9995dc04b441b15e3a221589c41"
+      "sha256": "b0ae54c950bf3f747468a5d48c7c352ed07e41eabaffc4d94de5fe5084ab4412"
     },
     {
       "path": "assets/images/armies/sources/partisan-rifleman/sprites.json",
-      "sha256": "5dc0dc93b7978ecf728f5ffb2f9e5709f31462270f040314ace05d9bb145fd1a"
+      "sha256": "54b39b436846659d59d5ddf74178f804b9f1db48c3d45f0487972d3c888fd93c"
     },
     {
       "path": "assets/images/armies/sources/partisan-rifleman/walk.gif",
@@ -4228,11 +4214,11 @@
     },
     {
       "path": "assets/images/armies/sources/rifleman-reload/prepare.py",
-      "sha256": "633f5a5351b12c91a738aaad839062a52ef0eb201b2a79fbfcf39da70969feda"
+      "sha256": "8e7a4b3cb984dd1016db6475fb6d7e5132a4bbe0da4908e8d62a09d98a46c682"
     },
     {
       "path": "assets/images/armies/sources/rifleman-reload/preview.html",
-      "sha256": "be2a4def2ed8cbd219d81f50ddf0646a07a29bd35ee459935fd10e338430de38"
+      "sha256": "f465cf94f548b6a03fe606ddab7c760eb2a8a228201f6cf63a67a5c88d73bb51"
     },
     {
       "path": "assets/images/armies/sources/rifleman-reload/reload.gif",
@@ -4240,7 +4226,7 @@
     },
     {
       "path": "assets/images/armies/sources/rifleman-reload/sprites.json",
-      "sha256": "c398202aa8335b1febd7d5497a637824fbf73727125c08a92dc01e6bc2996660"
+      "sha256": "0f1c86d56bb41cb5e48eba68d19a0dde97cad471cfd09ef14bc1c24e5578d007"
     },
     {
       "path": "assets/images/armies/sources/scenery/catalog.json",
@@ -4596,7 +4582,7 @@
     },
     {
       "path": "core/actor/artillery/FieldGunSprite.js",
-      "sha256": "175ee57415a45f0e3cd8023477c9a4f0cf1e67533a18425ed6560d71982a418c"
+      "sha256": "181090e68925663a15b67cb2b19c6d99b0f562c02cf12db212ed80111f52766c"
     },
     {
       "path": "core/actor/artillery/FlakSprite.js",
@@ -4604,7 +4590,7 @@
     },
     {
       "path": "core/actor/artillery/ShoreMachineGunSprite.js",
-      "sha256": "548e320c04976e39971261de128be19b512d0bad93033ebad17f56715b080722"
+      "sha256": "6bb086335f5277c8d2064e28fa0b74002e87d17f21d22d51cb23ca454a09e1d2"
     },
     {
       "path": "core/actor/boats/BoatSprite.js",
@@ -4624,7 +4610,7 @@
     },
     {
       "path": "core/actor/soldiers/CannonCrewSprite.js",
-      "sha256": "0b68beea40e1d360808c73c1735ad08fae54dd8bcd8ffff9c52d5125927f8ee5"
+      "sha256": "4ae06fc856b9c7630c6735436f60242adb20342a3ee9c9868404a1438388b1ca"
     },
     {
       "path": "core/actor/soldiers/FlagBearerSprite.js",
@@ -4640,7 +4626,7 @@
     },
     {
       "path": "core/actor/soldiers/OccupierSprite.js",
-      "sha256": "debd6008dfa657c015c8656ffefe8edbdd7b732eb70bb5e00458bdd9da2f5ce8"
+      "sha256": "e559aa8d462ae30842ec4d1d2f5533907472896a1cfaa82316ccde6d6d5097d4"
     },
     {
       "path": "core/actor/soldiers/PatrolSprite.js",
@@ -4648,11 +4634,11 @@
     },
     {
       "path": "core/actor/soldiers/RiflemanSprite.js",
-      "sha256": "f637c52deba4741061a6c09b2aa6af5a3f3b507302f54d71f1ef2fa271a4abde"
+      "sha256": "8e06bcfae1afdbe4130a4a0651f6e250dbbd4dcd5eb713262c07b408852c20b9"
     },
     {
       "path": "core/actor/soldiers/SkirmisherSprite.js",
-      "sha256": "40b5fed16daf56b4109a7e0fecaf78bba2f5dc22bc69eddff335da79245fe7a2"
+      "sha256": "ca30bb3be5dbf53ae1aa2599232ae01df4751f6c76c4918c5f1fb52e2b67c66a"
     },
     {
       "path": "core/actor/soldiers/TrenchSoldierSprite.js",
@@ -4672,19 +4658,39 @@
     },
     {
       "path": "core/actor/vehicles/VehicleSprite.js",
-      "sha256": "569e79c375babbf367feffcdcfa4fea27659d6b0e9af75bab3aaaa222bd7ee07"
+      "sha256": "c9ed5ad846ebdb0d7a875738b3d6566d6ce25191e08e0b062c5a582bfabcfb8c"
     },
     {
       "path": "core/actor/wreckArt.js",
       "sha256": "15e176a47c1a71a34d17f360770c0a7509cf78fb362ec30c011ccf3b4268c63c"
     },
     {
+      "path": "core/gameplay/bodies/artillery/FieldGun.js",
+      "sha256": "b0ef08adfdd81159a29f01ecb0b0ea3df0c38c60374125c68822152aa25ce6d2"
+    },
+    {
       "path": "core/gameplay/bodies/projectiles/Grenade.js",
       "sha256": "ba913caf60e0a4632e925e31139f4e8fa9f3864952be0f79614141d026f35f64"
     },
     {
+      "path": "core/gameplay/bodies/soldiers/CannonCrew.js",
+      "sha256": "61926eba1c3b5a89464a1218c96b7e9d316a1ba4159b4a74251a928ddfa04c43"
+    },
+    {
       "path": "core/gameplay/bodies/soldiers/Grenadier.js",
       "sha256": "d16a7ef3022552de6b3e90253469941edc83838fd02b968a8c385eb0bf16892b"
+    },
+    {
+      "path": "core/gameplay/bodies/soldiers/Rifleman.js",
+      "sha256": "a0037b147eee028e388175761b1c6eb839257f36a2035af8af97af5c44210f12"
+    },
+    {
+      "path": "core/gameplay/bodies/soldiers/Skirmisher.js",
+      "sha256": "bb03dd8185797ff54a52436b47fb847b463c44ffdba68168d2395c4e9058a703"
+    },
+    {
+      "path": "core/gameplay/bodies/vehicles/Hummel.js",
+      "sha256": "3071552c171057fe0f48e6eb86caa917e066dd047ed53bcd54d8c61d929c21f6"
     },
     {
       "path": "core/SceneryLayer.js",
@@ -4696,7 +4702,7 @@
     },
     {
       "path": "docs/ART.md",
-      "sha256": "8a6369d2f036e4a57b31120cb7284ecc9408a383eed7b56da26e549f876fec6e"
+      "sha256": "beca6a37a59126d52b26d551d64e4e5c80c35a0c174bd4a99a3ee1dfc11e3303"
     },
     {
       "path": "docs/ISTORIJA.md",
@@ -4720,7 +4726,7 @@
     },
     {
       "path": "docs/TESTING.md",
-      "sha256": "0bac49169b6111041db70d5bd2bff394a95b929982f72037940a0d2c07ccade5"
+      "sha256": "6f1e0f85f4618245d4382516729b06514d58c0a299512f794fa0eb6e09ff427f"
     },
     {
       "path": "props.html",
