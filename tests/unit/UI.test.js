@@ -179,11 +179,11 @@ test('saved settings survive a reload, and broken or missing values keep the def
   assert.equal(config.volume, original)
 })
 
-test('the start screen only starts, and the top button of every later screen goes back to the main menu while the bottom one carries on', () => {
+test('the start screen only starts, the top button of every later screen goes back to the main menu, and the pause offers Continue above Play again', () => {
   const ui = new UI(fakeScene, { intro: 'Reach the forest', onStart() {}, onContinue() {} })
   const modal = document.getElementById('modal')
   for (const [show, last] of [
-    [() => ui.showPauseScreen(), 'continue'],
+    [() => ui.showPauseScreen(), 'igraj-opet'],
     [() => ui.showScreen('pause', ui.settingsScreen()), 'settings-back'],
     [() => ui.showDefeatScreen('Finished'), 'igraj-opet'],
     [() => ui.showVictoryScreen('Finished'), 'igraj-opet'],
@@ -193,7 +193,31 @@ test('the start screen only starts, and the top button of every later screen goe
     assert.equal(buttons[0].id, 'menu')
     assert.equal(buttons.at(-1).id, last)
   }
+  ui.showPauseScreen()
+  assert.deepEqual([...modal.querySelectorAll('button')].map(button => button.id), ['menu', 'settings', 'continue', 'igraj-opet'])
   ui.renderStartScreen()
   assert.deepEqual([...modal.querySelectorAll('button')].map(button => button.id), ['start'])
+  ui.end()
+})
+
+test('a result window takes the focus itself, so a game key still pressed presses no button; Tab reaches them', () => {
+  const ui = new UI(fakeScene)
+  const modal = document.getElementById('modal')
+  for (const show of [() => ui.showVictoryScreen('Finished'), () => ui.showDefeatScreen('Finished')]) {
+    show()
+    assert.equal(document.activeElement, modal)
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab' }))
+    assert.equal(document.activeElement, modal.querySelector('button'))
+  }
+  ui.renderStartScreen()
+  assert.equal(document.activeElement.tagName, 'BUTTON', 'the start window still offers its first button')
+  ui.end()
+})
+
+test('a closed result window gives the focus back, so game keys reach the game again', () => {
+  const ui = new UI(fakeScene)
+  ui.showVictoryScreen('Finished')
+  ui.hideScreen()
+  assert.notEqual(document.activeElement, document.getElementById('modal'))
   ui.end()
 })

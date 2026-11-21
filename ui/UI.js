@@ -10,10 +10,13 @@ import { resetGameplayInput } from '/core/io/inputContext.js'
 
 const elementUI = document.getElementById('ui')
 const modalElement = document.getElementById('modal')
-// the UI that last drew into each shared element; a game ended late must not wipe the next game's screen
-/** After the start screen, the top button of every screen goes back to the main menu, like Esc; the bottom one confirms or carries on. */
+/** The windows that show a result: the end of a game and the end of a round. */
+const resultScreens = new Set(['end', 'round'])
+
+/** After the start screen, the top button of every screen goes back to the main menu. */
 export const mainMenuButton = buttonClass => /* html */`<button class="${buttonClass}" id="menu"><span class="icon">${icons.menu}</span> Main menu</button>`
 
+// the UI that last drew into each shared element; a game ended late must not wipe the next game's screen
 const drawnBy = new Map([[elementUI, null], [modalElement, null]])
 
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)')
@@ -140,7 +143,9 @@ export default class UI {
     modalElement.tabIndex = -1
     resetGameplayInput()
     this.markPaid()
-    const first = modalElement.querySelector('button:not(:disabled), input:not(:disabled), select:not(:disabled)')
+    // a result arrives while the player is still pressing game keys: the window itself takes focus, so a held or
+    // repeated Space or Enter presses no button; Tab reaches the buttons
+    const first = !resultScreens.has(name) && modalElement.querySelector('button:not(:disabled), input:not(:disabled), select:not(:disabled)')
     ;(first || modalElement).focus({ preventScroll: true })
     this.messageElement.hidden = true
   }
@@ -178,6 +183,8 @@ export default class UI {
     this.screen = null
     if (drawnBy.get(modalElement) === this) document.body.classList.remove('paid-screen')
     if (drawnBy.get(modalElement) === this) {
+      // a closed window that kept the focus would keep game keys away from the game
+      if (document.activeElement === modalElement) modalElement.blur()
       modalElement.removeAttribute('role')
       modalElement.removeAttribute('aria-modal')
       modalElement.removeAttribute('aria-label')
@@ -207,8 +214,8 @@ export default class UI {
         <h3 class="olive">Game paused</h3>
         ${mainMenuButton(button)}
         <button class="${button}" id="settings"><span class="icon">${icons.settings}</span> Settings</button>
-        <button class="${button}" id="igraj-opet" ${this.scene.costsToken ? 'data-paid' : ''}><span class="icon replay-icon">${icons.replay}</span> Play again</button>
         <button class="${button}" id="continue"><span class="icon">${icons.continue}</span> Continue</button>
+        <button class="${button}" id="igraj-opet" ${this.scene.costsToken ? 'data-paid' : ''}><span class="icon replay-icon">${icons.replay}</span> Play again</button>
       </div>
     `
   }

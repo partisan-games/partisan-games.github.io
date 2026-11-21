@@ -35,7 +35,7 @@ const nest = stage => {
 const game = 'Čamac'
 
 export const boats = [
-  { id: 'partizanski-camac', name: 'Partizanski čamac', game, block: boatModule, create: boat, controlKeys: boatModule.controlKeys },
+  { id: 'partizanski-camac', name: 'Partizanski čamac', game, block: boatModule, create: boat },
   { id: 'schnellboot', name: 'Schnellboot S-30', game, block: sBoatModule, create: sBoat },
 ]
 

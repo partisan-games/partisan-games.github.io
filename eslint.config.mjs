@@ -202,7 +202,14 @@ export default [{
       patterns: [{
         regex: '^(/|three)',
         message: 'core/gameplay, core/runtime and core/collision import only each other, by relative path: no games, page, rendering or io.',
+      }, {
+        // a relative path must not climb out of the three pure folders either
+        regex: '^\.\.?/(.*/)?((io|actor|objects|utils|ui|core3d|scenes|libs|config)(/|\.js$)|(Scene|Scene2D|Scene3D|Renderer2D|World|GameLoop|PausePolicy|constants|Vector)\.js$)',
+        message: 'core/gameplay, core/runtime and core/collision import only each other: no io, actors, rendering, scenes or page.',
       }],
     }],
+    'no-restricted-globals': ['error', ...['window', 'document', 'screen', 'Image', 'localStorage'].map(name => ({
+      name, message: 'Pure rules and bodies get everything as options; they never read the page.',
+    }))],
   },
 }]

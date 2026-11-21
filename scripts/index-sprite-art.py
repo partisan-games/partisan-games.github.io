@@ -1,4 +1,4 @@
-"""Measure the actor and background art linked by docs/ART.md and docs/PLAN-ART.md; never modify source images."""
+"""Measure the actor and background art linked by docs/ART.md; never modify source images."""
 import hashlib
 import json
 import re
@@ -11,7 +11,7 @@ from PIL import Image
 
 
 ROOT = Path(__file__).resolve().parent.parent
-DOCUMENTS = (ROOT / 'docs/ART.md', ROOT / 'docs/PLAN-ART.md')
+DOCUMENTS = (ROOT / 'docs/ART.md',)
 OUTPUT = ROOT / 'assets/images/sprite-index.json'
 
 
@@ -45,9 +45,12 @@ def main():
         metadata = json.loads(metadata_path.read_text(encoding='utf-8'))
         for asset in metadata['assets']:
             image_path = (metadata_path.parent / asset['image']).resolve()
+            if not image_path.is_relative_to(ROOT) or not image_path.is_file():
+                raise ValueError(f'Invalid sprite image: {image_path}')
             if image_path in atlases:
                 raise ValueError(f'Duplicate atlas metadata: {image_path}')
             atlases[image_path] = (metadata_path, asset)
+            files.add(image_path)
     images = []
     for path in sorted(files):
         suffix = path.suffix.lower()
@@ -94,7 +97,7 @@ def main():
         'schemaVersion': 1,
         'measuredAt': datetime.now(timezone.utc).isoformat(),
         'baseRevision': revision,
-        'scope': 'Art linked by docs/ART.md and docs/PLAN-ART.md, including shared variants; not all unused library art or a runtime/visual acceptance test.',
+        'scope': 'Art linked by docs/ART.md, including shared variants; not all unused library art or a runtime/visual acceptance test.',
         'interpretation': 'imageFrames counts file-container frames. A PNG atlas normally has one; named sprite clips require metadata and a runtime mapping. hashes detect exact input changes, not art quality.',
         'images': images,
         'reviewInputs': [{'path': relative(path), 'sha256': digest(path)} for path in sorted(sources)],

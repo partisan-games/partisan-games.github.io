@@ -1,7 +1,9 @@
 import { icons } from '/core/io/icons.js'
 import Scene2D from '/core/Scene2D.js'
 import canvas2d from '/core/io/canvas2d.js'
-import { Avionce, controlKeys } from './Avionce.js'
+import { Avionce, inputOptions } from './Avionce.js'
+import { baseControls } from '/ui/Controls.js'
+import { keys, attackLabels } from '/core/io/keys.js'
 import PokretnaPozadina from './PokretnaPozadina.js'
 import Pokretno from './Pokretno.js'
 import Cloud2D from './Oblak.js'
@@ -35,7 +37,7 @@ const customStartScreen = ({ container }) => /* html */`
 export default class VisScene extends Scene2D {
   constructor() {
     super({
-      controlKeys,
+      controlKeys: { ...baseControls, [attackLabels[inputOptions.attackKey]]: 'shoot', [keys.attack2.label]: 'loop', [keys.special.label]: 'bomb' },
       intro: 'Reach the Island of Vis',
       customStartScreen,
     })

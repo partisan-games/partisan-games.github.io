@@ -1,30 +1,25 @@
-import TenkLevo, * as tenkLevoModule from '/scenes/tenkici/TenkLevo.js'
-import TenkDesno, * as tenkDesnoModule from '/scenes/tenkici/TenkDesno.js'
-import TankKeys from '/core/io/controllers/TankKeys.js'
-import { leftPlayerKeys, rightPlayerKeys } from '/core/io/keys.js'
-import { tankLeftControls, tankRightControls } from '/ui/Controls.js'
+import Tank, * as tankModule from '/core/gameplay/bodies/vehicles/Tank.js'
+import TankSprite from '/core/actor/vehicles/TankSprite.js'
+import vehicleArt from '/core/actor/vehicleArt.js'
 
-/** Puts `block` on the stage and gives it back. */
-const put = (stage, block) => {
-  stage.add(block)
+/**
+ * A tank alone in the middle of the stage, facing right (yaw 0) or left, its shells hitting the stand-in; `facing` is
+ * the way its art points.
+ */
+const tank = (kind, art, barrel, yaw = 0, facing = 1) => stage => {
+  const block = new Tank({ kind, yaw, x: stage.width / 2 / stage.projection.pxPerMeter, clock: stage.session.clock,
+    targets: [stage.dummy] })
+  stage.add(block, new TankSprite(block, { art, facing, barrel, projection: stage.projection }))
   return block
 }
 
-/** A tank alone, firing at the target and driven with its player's keys, as in the game. */
-const tank = (Tank, keys) => stage => {
-  const block = new Tank({
-    x: Tank === TenkDesno ? stage.width * .75 : stage.width / 2,
-    y: stage.groundY, groundY: stage.groundY, clock: stage.session.clock, xLimit: Infinity,
-  })
-  block.controller = new TankKeys(block, keys)
-  block.targets.push(stage.target)
-  return put(stage, block)
-}
-
 const game = 'Tenkići'
+const { partisan, german } = tankModule.tankKinds
 
 export const vehicles = [
-  { id: 'partizanski-tenk', name: 'Partizanski tenk', game, block: tenkLevoModule, create: tank(TenkLevo, leftPlayerKeys), controlKeys: tankLeftControls },
-  { id: 'nemacki-tenk', name: 'Nemački tenk', game, block: tenkDesnoModule, create: tank(TenkDesno, rightPlayerKeys), controlKeys: tankRightControls },
+  { id: 'partizanski-tenk', name: 'Partizanski tenk', game, block: tankModule,
+    create: tank(partisan, vehicleArt.partisanTank, { src: 'armies/game-ready/tenkovi/partizanski-tenk-cev-pixel.png' }) },
+  { id: 'nemacki-tenk', name: 'Nemački tenk', game, block: tankModule,
+    create: tank(german, vehicleArt.germanTank, { src: 'armies/game-ready/tenkovi/nemacki-tenk-cev-pixel.png', facing: -1 },
+      Math.PI, -1) },
 ]
-

@@ -13,7 +13,9 @@ const folders = {
   'core/actor/aircraft': ['AircraftPropellers.js', 'propellerArt.js'],
   'core/actor/artillery': ['GunCrew.js', 'crewArt.js'],
   'core/actor/soldiers': ['machineGunnerArt.js'],
-  'core/actor/vehicles': [],
+  // a view is seen in the story of its body
+  'core/actor/vehicles': ['TankSprite.js'],
+  'core/gameplay/bodies/vehicles': [],
   'core/actor/derived': ['GrenadierSprite.js', 'TopDownPlayerVehicle.js'],
   'scenes/to-trieste': [
     'Main.js', 'AirRaids.js', 'enemyArt.js', 'spaceBunkers.js', 'prepareCombatAssets.js', 'lineOfFire.js',
@@ -33,7 +35,8 @@ const folders = {
     'Main.js', 'Turns.js', 'artFrame.js', 'Battlefield.js', 'Djule.js', 'GroundLayer.js', 'Terrain.js',
     'Wind.js', 'WindEffects.js', 'Zastava.js',
   ],
-  'scenes/tenkici': ['Main.js', 'Tenk.js', 'shellPhysics.js', 'BattleBackground.js', 'renderLayers.js'],
+  // the old pixel tank lives on only in Do Trsta, until that game moves to the tank body (PLAN-ARHITEKTURA AR-09)
+  'scenes/tenkici': ['Main.js', 'Tenk.js', 'TenkLevo.js', 'shellPhysics.js', 'BattleBackground.js', 'renderLayers.js'],
   'scenes/vis': [
     'Main.js', 'settings.js', 'levels.js', 'aircraft.js', 'paths.js', 'formations.js', 'flame.js', 'Waves.js',
     'PlayerView.js', 'Baza.js', 'Bullet.js', 'Oblak.js', 'PokretnaPozadina.js', 'Pokretno.js',

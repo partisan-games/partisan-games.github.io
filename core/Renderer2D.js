@@ -1,5 +1,6 @@
 import { origins } from './constants.js'
 import { bodyImage } from './actor/wreckView.js'
+import Body from './gameplay/bodies/Body.js'
 
 const poravnajNiz = niz => niz.flatMap(predmet =>
   [predmet, ...(predmet.children ? poravnajNiz(predmet.children) : [])]
@@ -80,9 +81,12 @@ export default class Renderer2D {
     this.ctx.save()
     this.ctx.translate(-this.cameraX, -this.cameraY)
 
+    // a view draws itself with the context and the camera; a body has nothing to draw
+    const camera = { x: this.cameraX, y: this.cameraY, width: this.canvas.width, height: this.canvas.height }
     poravnajNiz(children)
-      .sort((a, b) => b.position?.z - a.position?.z)
-      .forEach(predmet => predmet.render ? predmet.render() : this.drawObject(predmet))
+      .filter(predmet => !(predmet instanceof Body))
+      .sort((a, b) => (b.layer ?? b.position?.z) - (a.layer ?? a.position?.z))
+      .forEach(predmet => predmet.render ? predmet.render(this.ctx, camera) : this.drawObject(predmet))
 
     this.ctx.restore()
   }

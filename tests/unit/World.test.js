@@ -41,3 +41,14 @@ test('children are updated with their owner, behind objects come first, and each
   assert.deepEqual(log, ['end crater', 'end tank', 'end player'])
   assert.deepEqual(world.objects, [])
 })
+
+test('controllers take input and decide before the objects, and end with the world', () => {
+  const world = new World()
+  const log = []
+  world.controllers.push({ handleInput: () => log.push('keys'), update: () => log.push('decide'), end: () => log.push('end controller') })
+  world.add({ alive: true, handleInput: () => log.push('object input'), update: () => log.push('move'), end: () => log.push('end object') })
+  world.handleInput(1 / 30)
+  world.update(1 / 30)
+  world.end()
+  assert.deepEqual(log, ['keys', 'object input', 'decide', 'move', 'end controller', 'end object'])
+})

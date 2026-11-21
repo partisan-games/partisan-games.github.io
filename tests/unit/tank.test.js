@@ -1,147 +1,105 @@
-import { test, before } from 'node:test'
+import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { createPageElements } from './helpers/dom.js'
+import Tank, { tank as settings, tankKinds } from '/core/gameplay/bodies/vehicles/Tank.js'
+import Body from '/core/gameplay/bodies/Body.js'
+import GameClock from '/core/runtime/GameClock.js'
 
-let TenkLevo, TenkDesno, GameClock, GameObject2D
-
-before(async() => {
-  createPageElements()
-  TenkLevo = (await import('/scenes/tenkici/TenkLevo.js')).default
-  TenkDesno = (await import('/scenes/tenkici/TenkDesno.js')).default
-  GameClock = (await import('/core/runtime/GameClock.js')).default
-  GameObject2D = (await import('/core/actor/GameObject2D.js')).default
-})
-
-/** A tank alone with a target, on its own clock; the images do not load in tests. */
-function tankAlone(Tank) {
+/** A tank body alone with a target on the ground, on its own clock, with no page. */
+function tankAlone({ yaw = 0, x = 40, targetX = 0 } = {}) {
   const clock = new GameClock()
-  const tank = new Tank({ x: 400, y: 500, groundY: 520, clock, xLimit: Infinity })
-  tank.width = 150
-  tank.height = 60
-  tank.cev.width = 60
-  const target = new GameObject2D(null, { x: 0, y: 500, width: 100, height: 40 })
-  tank.targets.push(target)
-  const live = seconds => {
-    for (let i = 0; i < seconds * 30; i++) {
-      clock.advance(1 / 30)
-      tank.update(1 / 30)
+  const target = new Body({ x: targetX, size: { length: 7, height: 3, width: 3 }, states: { idle: {}, dead: {} } })
+  const tank = new Tank({ kind: tankKinds.partisan, x, yaw, clock, targets: [target], random: () => .5 })
+  const live = (seconds, fps = 30) => {
+    for (let i = 0; i < seconds * fps; i++) {
+      clock.advance(1 / fps)
+      tank.update(1 / fps)
     }
   }
-  return { tank, target, live }
+  return { tank, target, clock, live }
 }
 
 test('a tank has the states idle, drive, fire and dead, and starts standing', () => {
-  const { tank, live } = tankAlone(TenkLevo)
+  const { tank, live } = tankAlone()
   assert.deepEqual(tank.states, ['idle', 'drive', 'fire', 'dead'])
   assert.equal(tank.state, 'idle')
   live(2)
-  assert.equal(tank.x, 400)
+  assert.equal(tank.x, 40)
 })
 
-test('a driving tank goes the way it faces', () => {
-  for (const [Tank, way] of [[TenkLevo, 1], [TenkDesno, -1]]) {
-    const { tank, live } = tankAlone(Tank)
-    tank.x = 1000 // away from the right tank's half of the screen
-    tank.setState('drive')
-    live(1)
-    assert.equal(Math.sign(tank.x - 1000), way, Tank.name)
+test('a driving tank goes the way it faces, as far at 30 as at 60 frames a second', () => {
+  for (const [yaw, way] of [[0, 1], [Math.PI, -1]]) {
+    const distances = [30, 60].map(fps => {
+      const { tank, live } = tankAlone({ yaw })
+      tank.setState('drive')
+      live(1, fps)
+      return tank.x - 40
+    })
+    assert.equal(Math.sign(distances[0]), way)
+    assert.ok(Math.abs(distances[0] - distances[1]) < Math.abs(distances[0]) * .05, `${distances}`)
   }
 })
 
-test('a firing tank raises its barrel towards the target, on either side, and fires as it reloads', () => {
-  for (const [Tank, side] of [[TenkLevo, 1], [TenkDesno, -1]]) {
-    const { tank, target, live } = tankAlone(Tank)
-    target.x = tank.x + side * 500
+test('it drives back slower than ahead and keeps within its ground', () => {
+  const ahead = tankAlone(), back = tankAlone()
+  for (let i = 0; i < 30; i++) {
+    ahead.tank.drive(1, 1 / 30)
+    back.tank.drive(-1, 1 / 30)
+    ahead.live(1 / 30)
+    back.live(1 / 30)
+  }
+  assert.ok(ahead.tank.x - 40 > 40 - back.tank.x)
+  const { tank, live } = tankAlone()
+  tank.bounds = { min: 0, max: 42 }
+  tank.setState('drive')
+  live(2)
+  assert.equal(tank.x, 42)
+})
+
+test('a firing tank raises its barrel at a target ahead, on either side, and fires as it reloads', () => {
+  for (const [yaw, side] of [[0, 1], [Math.PI, -1]]) {
+    const { tank, live } = tankAlone({ yaw })
+    assert.equal(tank.aimAt({ x: tank.x + side * 60, y: 0 }), true)
+    assert.ok(tank.elevation > 0)
     tank.setState('fire')
     live(2.5)
-    assert.equal(Math.sign(Math.cos(tank.cev.angle)), side, `${Tank.name} aims at the target`)
-    assert.ok(Math.sin(tank.cev.angle) < 0, 'upwards')
-    assert.equal(tank.granate.projectiles.length >= 2, true, 'it fires again after reloading')
+    assert.ok(tank.shotsFired >= 2, 'it fires again after reloading')
+    assert.equal(Math.sign(tank.muzzle.x - tank.x), side)
   }
 })
 
-test('a tank set to dead is destroyed', () => {
-  const { tank } = tankAlone(TenkLevo)
-  tank.setState('dead')
-  assert.equal(tank.dead, true)
-  assert.equal(tank.energija, 0)
+test('the barrel is level for a near shot and raised high for a far one, and never behind', () => {
+  const { tank } = tankAlone()
+  tank.aimAt({ x: tank.x + tank.shots.straight.x, y: 0 })
+  const near = tank.elevation
+  tank.aimAt({ x: tank.x + tank.shots.up.x, y: 0 })
+  assert.ok(tank.elevation > near + .3)
+  assert.equal(tank.aimAt({ x: tank.x - 30, y: 0 }), false)
+  assert.equal(tank.elevation, settings.highestBarrel, 'the barrel stays')
 })
 
-test('a tank fires each shot it lists where it aims: the barrel level for a near point, raised high for a far one', () => {
-  const elevations = {}
-  for (const name of ['straight', 'up']) {
-    const { tank, live } = tankAlone(TenkLevo)
-    const shot = tank.shots[name]
-    assert.equal(tank.aimAt({ x: tank.x + tank.forward * shot.x, y: tank.y + shot.y }), true, name)
-    tank.setState('fire')
-    live(1)
-    elevations[name] = -Math.sin(tank.cev.angle)
-    assert.ok(tank.granate.projectiles.length > 0, name)
-  }
-  assert.ok(elevations.up > elevations.straight + .3, 'the far shot raises the barrel high')
-})
-
-test('a tank cannot aim at a point behind it, and fires only in state fire', () => {
-  const { tank, live } = tankAlone(TenkLevo)
-  const barrel = tank.cev.angle
-  assert.equal(tank.aimAt({ x: tank.x - tank.forward * 300, y: tank.y }), false)
-  assert.equal(tank.cev.angle, barrel, 'the barrel stays')
-  tank.aimAt({ x: tank.x + tank.forward * 300, y: tank.y })
+test('a tank fires only in state fire or when told, recoils, and waits for its reload on game time', () => {
+  const { tank, clock, live } = tankAlone()
   live(2)
-  assert.equal(tank.granate.projectiles.length, 0, 'at rest it does not fire')
+  assert.equal(tank.shotsFired, 0, 'at rest it does not fire')
+  assert.equal(tank.shoot(), true)
+  assert.ok(tank.vx < 0, 'the shot pushes it back')
+  assert.equal(tank.shoot(), false, 'not during the reload')
+  clock.advance(settings.reloadTime)
+  assert.equal(tank.shoot(), true)
 })
 
-test('barrels are positioned when the body finishes loading after the barrel', () => {
-  for (const Tank of [TenkLevo, TenkDesno]) {
-    const tank = new Tank({ x: 400, y: 200, clock: new GameClock() })
-    tank.cev.onload()
-    tank.width = 150
-    tank.height = 60
-    tank.onload()
-
-    assert.ok(Number.isFinite(tank.cev.x))
-    assert.ok(Number.isFinite(tank.cev.y))
-    assert.ok(tank.cev.y < tank.y)
-  }
-})
-
-test('a grenade hit takes the target health and pushes it back, and leaves the shooter whole', async() => {
-  const { default: Shell } = await import('/core/actor/projectiles/Shell.js')
-  const clock = new GameClock()
-  const shooter = new TenkLevo({ x: 100, xLimit: 500, clock })
-  const target = new TenkDesno({ clock })
-  const grenade = new Shell({ clock })
-  let hits = 0
-  const { settle } = await import('./helpers/scenes.js')
-  await settle() // a flammable object gets its flame from a module it loads on its own
-
-  grenade.hit(target, () => hits++)
-  assert.equal(target.energija, 100 - grenade.damage)
-  assert.ok(target.dx > 0, 'the right tank is pushed back to the right')
-  assert.equal(shooter.energija, 100)
-  assert.equal(hits, 1)
-  assert.equal(target.burning, false)
-
-  target.takeHit(target.energija - 20)
-  assert.equal(target.burning, true)
-  target.takeHit(50)
-  assert.equal(target.energija, 0)
-  assert.ok(target.dead)
-  target.alive = true // the old setter brings a tank back with full energy
-  assert.equal(target.energija, 100)
-})
-
-test('a tank grenade that hits does its damage after the blast, on the game clock only', () => {
-  const clock = new GameClock()
-  const shooter = new TenkLevo({ x: 100, xLimit: 500, clock })
-  const target = new TenkDesno({ clock })
-  shooter.shoot()
-  const [grenade] = shooter.granate.projectiles.filter(g => g.visible)
-  target.collidesWith = () => true
-
-  grenade.checkHit(target)
-  clock.advance(.1)
-  assert.equal(target.energija, 100, 'not during the blast, nor while the game stands still')
-  clock.advance(.05)
-  assert.equal(target.energija, 100 - grenade.damage)
+test('a shell that hits takes the target health after its burst, and a hit tank burns low and dies', () => {
+  const { tank, target, live } = tankAlone({ x: 0, targetX: 12 })
+  tank.elevation = 0
+  tank.shoot()
+  live(1)
+  assert.equal(target.health.current, 100 - 15)
+  const hit = tankAlone()
+  hit.tank.takeHit(85)
+  assert.ok(hit.tank.vx < 0, 'a hit pushes it back')
+  assert.equal(hit.tank.burning, true)
+  hit.tank.takeHit(20)
+  assert.equal(hit.tank.state, 'dead')
+  hit.tank.setState('idle')
+  assert.equal(hit.tank.shoot(), false, 'a dead tank fires no more')
 })

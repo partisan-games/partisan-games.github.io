@@ -12,7 +12,7 @@ before(async() => {
   const { installFakeFrames } = await import('./helpers/frames.js')
   installFakeFrames()
   ;({ default: Tenkici } = await import('/scenes/tenkici/Main.js'))
-  ;({ default: TankKeys } = await import('/core/io/controllers/TankKeys.js'))
+  ;({ default: TankKeys } = await import('/core/gameplay/controllers/TankKeys.js'))
   ;({ default: TankAI } = await import('/core/gameplay/controllers/TankAI.js'))
   keys = await import('/core/io/keys.js')
 })
@@ -27,26 +27,40 @@ function scene(t) {
 
 test('one player drives the left tank with the left keys against a tank that drives itself; two players get a tank each', async t => {
   const game = scene(t)
-  assert.ok(game.tenk.controller instanceof TankKeys)
-  assert.equal(game.tenk.controller.keys, keys.leftPlayerKeys)
-  assert.ok(game.tenk2.controller instanceof TankAI)
+  const driving = body => game.controllers.filter(controller => controller.body === body)
+  assert.equal(driving(game.tenk).length, 1)
+  assert.ok(driving(game.tenk)[0] instanceof TankKeys)
+  assert.equal(driving(game.tenk)[0].keys, keys.leftPlayerKeys)
+  assert.ok(driving(game.tenk2)[0] instanceof TankAI)
 
   await game.prepare('dva-igraca')
-  assert.ok(game.tenk2.controller instanceof TankKeys)
-  assert.equal(game.tenk2.controller.keys, keys.rightPlayerKeys)
+  assert.equal(driving(game.tenk2).length, 1, 'the keys replace the AI')
+  assert.ok(driving(game.tenk2)[0] instanceof TankKeys)
+  assert.equal(driving(game.tenk2)[0].keys, keys.rightPlayerKeys)
 })
 
-test('when both tanks are destroyed at once, the victory stands', t => {
+test('a match goes to two won rounds, each on the next battlefield; both lost at once count for the left tank', t => {
   const game = scene(t)
   game.start()
-  game.tenk.alive = game.tenk2.alive = false
-
+  const first = game.battlefield
+  game.tenk.setState('dead')
+  game.tenk2.setState('dead')
   game.update(0)
-  assert.match(document.getElementById('modal').textContent, /German tank destroyed/)
-  assert.doesNotMatch(document.getElementById('modal').textContent, /Game over/)
+  assert.deepEqual(game.score, [1, 0])
+  assert.equal(game.ui.screen, 'round')
+  assert.match(document.getElementById('modal').textContent, /Round 1: Partisan tank wins/)
+
+  game.nextRound()
+  assert.equal(game.ui.screen, null)
+  assert.notEqual(game.battlefield, first, 'the next round is on the next battlefield')
+  assert.equal(game.tenk.alive && game.tenk2.alive, true, 'two whole tanks')
+  assert.equal(game.controllers.length, 2)
+  game.tenk2.setState('dead')
+  game.update(0)
+  assert.match(document.getElementById('modal').textContent, /German tank destroyed\. 2 : 0/)
 })
 
-test('each new tank match is fought on the next battlefield, starting over after the last', async() => {
+test('each new match goes on to the next battlefield, starting over after the last', async() => {
   const { default: Tenkici, battlefieldOrder } = await import('/scenes/tenkici/Main.js')
   const seen = []
   for (let i = 0; i <= battlefieldOrder.length; i++) {

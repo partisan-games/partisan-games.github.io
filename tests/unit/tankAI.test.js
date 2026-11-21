@@ -1,75 +1,60 @@
-import { test, before, mock } from 'node:test'
+import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { createPageElements } from './helpers/dom.js'
+import Tank, { tankKinds } from '/core/gameplay/bodies/vehicles/Tank.js'
+import TankAI, { tankAI } from '/core/gameplay/controllers/TankAI.js'
+import GameClock from '/core/runtime/GameClock.js'
 
-let TenkLevo, TenkDesno, TankAI, tankAI, GameClock
-
-before(async() => {
-  createPageElements()
-  TenkLevo = (await import('/scenes/tenkici/TenkLevo.js')).default
-  TenkDesno = (await import('/scenes/tenkici/TenkDesno.js')).default
-  ;({ default: TankAI, tankAI } = await import('/core/gameplay/controllers/TankAI.js'))
-  GameClock = (await import('/core/runtime/GameClock.js')).default
-})
-
-const shownGrenades = tank => tank.granate.projectiles.filter(g => g.visible)
-
-function selfDriven() {
+/** A left-facing tank on the right half of an 80 m field, driven by the AI with a chosen random. */
+function selfDriven(random = () => .5) {
   const clock = new GameClock()
-  const tank = new TenkDesno({ clock })
-  const ai = new TankAI(tank, { clock })
-  tank.controller = ai
-  return { clock, tank, ai }
+  const targets = []
+  const tank = new Tank({ kind: tankKinds.german, x: 60, yaw: Math.PI, clock, targets, bounds: { min: 40, max: 80 } })
+  const ai = new TankAI(tank, { clock, targets, random: () => random() })
+  return { clock, tank, ai, targets }
 }
 
+const enemy = x => new Tank({ x, clock: new GameClock() })
+
 test('the AI tank fires first after its wait of game time, however long the game stood still before', () => {
-  const { clock, tank, ai } = selfDriven()
-  tank.targets.push(new TenkLevo({ x: 100, xLimit: 500, clock }))
-
-  ai.update()
-  assert.equal(shownGrenades(tank).length, 0)
+  const { clock, tank, ai, targets } = selfDriven()
+  targets.push(enemy(10))
+  ai.update(1 / 30)
+  assert.equal(tank.shotsFired, 0)
   clock.advance(tankAI.fireWait)
-  ai.update()
-  assert.equal(shownGrenades(tank).length, 1)
+  ai.update(1 / 30)
+  assert.equal(tank.shotsFired, 1)
 })
 
-test('the AI raises the barrel at the nearest living target and holds fire with none', () => {
-  const { clock, tank, ai } = selfDriven()
-  tank.x = 900
-  const near = new TenkLevo({ x: 600, xLimit: 5000, clock })
-  const far = new TenkLevo({ x: 100, xLimit: 5000, clock })
+test('the AI aims at the nearest living target and holds fire with none', () => {
+  const { clock, tank, ai, targets } = selfDriven()
+  const near = enemy(40), far = enemy(5)
   const aimed = []
-  tank.nisani = target => aimed.push(target)
-  tank.targets.push(far, near)
+  tank.aimAt = target => aimed.push(target)
+  targets.push(far, near)
   clock.advance(tankAI.fireWait)
-  ai.update()
+  ai.update(1 / 30)
   assert.deepEqual(aimed, [near])
-
-  near.alive = far.alive = false
+  near.setState('dead')
+  far.setState('dead')
   clock.advance(tankAI.fireWait)
-  ai.update()
+  ai.update(1 / 30)
   assert.equal(aimed.length, 1)
-  assert.equal(shownGrenades(tank).length, 1, 'only the shot at the living target')
+  assert.equal(tank.shotsFired, 1, 'only the shot at the living target')
 })
 
-test('the AI drives ahead from the back of its ground and back from past its front, and a dead tank does nothing', t => {
-  t.after(() => mock.restoreAll())
-  const { clock, tank, ai } = selfDriven()
-  const pushAt = (x, random) => {
-    mock.method(Math, 'random', () => random)
+test('the AI drives ahead from the back of its ground and back from past its front, and a dead tank does nothing', () => {
+  const wayAt = x => {
+    const { clock, tank, ai } = selfDriven(() => .9)
     tank.x = x
-    tank.dx = 0
     clock.advance(tankAI.turn)
-    ai.update()
-    return Math.sign(tank.dx)
+    ai.update(1 / 30)
+    return Math.sign(tank.vx)
   }
-  // the right tank faces left, so ahead is left
-  assert.equal(pushAt(tank.maxX - 1, .01), -1, 'in its back zone it drives ahead, even after a turn back')
-  assert.equal(pushAt(tank.minX - 1, 1), 1, 'past its front edge it drives back, even after a turn ahead')
-  const middle = (tank.minX + tank.maxX) / 2
-  assert.equal(pushAt(middle, 1), -1, 'between them a turn ahead drives ahead')
-  assert.equal(pushAt(middle, .01), 1, 'and a turn back drives back')
-
-  tank.alive = false
-  assert.equal(pushAt(tank.maxX - 1, 1), 0)
+  assert.equal(wayAt(79), -1, 'from the back it drives ahead, to the left')
+  assert.equal(wayAt(38), 1, 'past its front it drives back')
+  const { clock, tank, ai } = selfDriven()
+  tank.setState('dead')
+  clock.advance(tankAI.fireWait)
+  ai.update(1 / 30)
+  assert.equal(tank.vx, 0)
 })

@@ -2,6 +2,7 @@ import { assets } from '/config.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import renderLayers from './renderLayers.js'
 import imageReady from '/core/io/imageReady.js'
+import SceneryLayer from '/core/SceneryLayer.js'
 
 /** A smoke column over a burning spot, with its look; spots without their own column get this one. */
 const defaultColumn = { broj: 26, trajanje: 16, speed: 16, vetar: 3, sirenje: 5, vijuganje: 8, nijansa: 40 }
@@ -11,6 +12,10 @@ const burning = (x, y, intensity, faza, seme) => ({
   pozari: [{ x: x / 2, y: y / 2, velicina: intensity, faza }],
   stuboviDima: [{ x: x / 2, y: y / 2, faza, seme, ...defaultColumn }],
 })
+
+/** Several burning spots of one picture, each `[x, y, intensity, faza, seme]` in its source pixels. */
+const burningSpots = spots => spots.map(spot => burning(...spot))
+  .reduce((all, spot) => ({ pozari: [...all.pozari, ...spot.pozari], stuboviDima: [...all.stuboviDima, ...spot.stuboviDima] }))
 
 /**
  * The places a battle can be fought in front of: a picture and where it burns. Fires and smoke columns are in the
@@ -49,16 +54,18 @@ export const battlefields = {
   // from assets/images/sources/pozadine/current-backgrounds.json
   sremFront1944: {
     src: 'background/sremski-front-1944-static.png', width: 768, height: 512, ground: 828 / 1024,
-    ...burning(300, 370, .25, 0, 1.1),
+    // three, as the owner chose: the broken roof, the trench timber and a farm on the plain
+    ...burningSpots([[300, 370, .6, 0, 1.1], [935, 560, .35, 4.1, 3.4], [1160, 350, .2, 1.4, 5.2]]),
   },
   // Selected animated Batina: sky, drifting clouds, environment and ambient characters.
   batina: {
-    src: 'background/batina-1944/base.png', layers: 'background/batina-1944/',
+    src: 'background/batina-1944/base.png', layers: 'background/batina-1944/', actors: false,
     width: 768, height: 512, ground: 852 / 1024, pozari: [], stuboviDima: [],
   },
   sremFront1945: {
     src: 'background/sremski-front-1945-static.png', width: 768, height: 512, ground: 852 / 1024,
-    ...burning(280, 390, .25, 3.2, 3.9),
+    // the ruined house, the trench and the wrecked gun
+    ...burningSpots([[280, 390, .45, 3.2, 3.9], [1065, 575, .3, .9, 2.1], [1345, 560, .4, 5.3, 4.6]]),
   },
   grahovo: {
     src: 'background/grahovo-1941-war-sparse-static.png', width: 768, height: 512, ground: 852 / 1024,
@@ -98,9 +105,13 @@ export default class BattleBackground {
     this.image.src = `${assets.images}${place.src}`
     if (place.layers) {
       this.imageLoaded = this.loadLayers(`${assets.images}${place.layers}`)
-      // Scene.imagesLoaded owns the rejection; loading may fail before it starts waiting.
-      this.imageLoaded.catch(() => {})
     }
+    if (place.props?.length) {
+      this.scenery = new SceneryLayer(place.props)
+      this.imageLoaded = Promise.all([this.imageLoaded, this.scenery.ready])
+    }
+    // Scene.imagesLoaded owns the rejection; loading may fail before it starts waiting.
+    this.imageLoaded?.catch(() => {})
     this.efekti = document.createElement('canvas')
     this.efekti.width = width
     this.efekti.height = height
@@ -110,28 +121,42 @@ export default class BattleBackground {
     this.active = true
   }
 
-  /** The scene waits for every layer before starting; a failed resource follows its loading error path. */
+  /**
+   * The scene waits for every layer before starting; a failed resource follows its loading error path. A place with
+   * `actors: false` shows no living things, so their clips are not loaded (owner's choice for Batina: only clouds move).
+   */
   async loadLayers(folder) {
     const image = name => Object.assign(new Image(), { src: `${folder}${name}` })
-    const clouds = image('clouds.png'), actors = image('actors.png')
+    const clouds = image('clouds.png'), actors = this.place.actors === false ? null : image('actors.png')
     const [layout] = await Promise.all([
       fetch(`${folder}layout.json`).then(response => {
         if (!response.ok) throw new Error(`Background layout could not be loaded: ${folder}layout.json`)
         return response.json()
       }),
-      imageReady(this.image), imageReady(clouds), imageReady(actors),
+      imageReady(this.image), imageReady(clouds), actors && imageReady(actors),
     ])
     this.scene = Object.assign(document.createElement('canvas'), { width: layout.width, height: layout.height })
-    this.layers = { render: renderLayers, layout, images: { base: this.image, clouds, actors } }
+    this.layers = { render: renderLayers, layout, images: { base: this.image, clouds, ...actors && { actors } } }
   }
 
   /** The picture to draw now: the still one, or the animated layers composed at time `t`. */
   picture(t) {
-    if (!this.place.layers) return this.image
-    const { layers, scene } = this
-    if (!layers || !Object.values(layers.images).every(image => image.complete && image.naturalWidth)) return null
-    layers.render(scene.getContext('2d'), layers.images, layers.layout, t)
-    return scene
+    let picture = this.image
+    if (this.place.layers) {
+      const { layers, scene } = this
+      if (!layers || !Object.values(layers.images).every(image => image.complete && image.naturalWidth)) return null
+      layers.render(scene.getContext('2d'), layers.images, layers.layout, t, { actors: Boolean(layers.images.actors) })
+      picture = scene
+    }
+    if (!this.scenery) return picture
+    this.propCanvas ??= Object.assign(document.createElement('canvas'), {
+      width: picture.naturalWidth ?? picture.width, height: picture.naturalHeight ?? picture.height,
+    })
+    const ctx = this.propCanvas.getContext('2d')
+    ctx.clearRect(0, 0, this.propCanvas.width, this.propCanvas.height)
+    ctx.drawImage(picture, 0, 0)
+    this.scenery.render(ctx)
+    return this.propCanvas
   }
 
   /** Where the scene's ground line is on the canvas. */

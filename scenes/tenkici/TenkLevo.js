@@ -29,12 +29,12 @@ export default class TenkLevo extends Tenk {
     return this.xLimit
   }
 
-  diziCev(dt) {
+  raiseBarrel(dt) {
     if (this.cev.angle <= Math.PI || this.cev.angle >= Math.PI * 1.8)
       this.cev.angle -= dt * .5
   }
 
-  spustajCev(dt) {
+  lowerBarrel(dt) {
     if (this.cev.angle >= Math.PI) this.cev.angle += dt * .5
   }
 

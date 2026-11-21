@@ -72,6 +72,11 @@ export default class Scene {
     this.sceneAudio.sync([this.children, this.player, this.background, this.ui, this.audioChildren], this.session.state)
   }
 
+  /** What drives the bodies, keys or AI; the scene assigns them and swaps them when its rules change control. */
+  get controllers() {
+    return this.world.controllers
+  }
+
   get children() {
     return this.world.objects
   }

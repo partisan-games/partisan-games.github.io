@@ -3,6 +3,8 @@ import Scene2D from '/core/Scene2D.js'
 import { progresBar } from '/ui/components.js'
 import TenkLevo from '../tenkici/TenkLevo.js'
 import Bunker from './Bunker.js'
+import MachineGunner from '/core/actor/soldiers/MachineGunner.js'
+import { bunkerScale } from '/core/objects/Bunker.js'
 import createGroundEnemies from './GroundEnemies.js'
 import prepareCombatAssets from './prepareCombatAssets.js'
 import CombatLayers from './CombatLayers.js'
@@ -12,12 +14,16 @@ import BattleFeedback from './BattleFeedback.js'
 import spaceBunkers from './spaceBunkers.js'
 import AirRaids from './AirRaids.js'
 import { tankLeftControls } from '/ui/Controls.js'
-import TankKeys from '/core/io/controllers/TankKeys.js'
+import TankKeys from '/core/gameplay/controllers/TankKeys.js'
+import { keyboard } from '/core/io/Keyboard.js'
 import { leftPlayerKeys } from '/core/io/keys.js'
 import Marksman from '/core/gameplay/controllers/Marksman.js'
 
 const PARALAX_1 = -160
 const LEVEL_LENGTH = Math.abs(PARALAX_1) * 180
+
+/** The size of the house bunker here. */
+const houseBunkerScale = .33
 
 export default class ToTriesteScene extends Scene2D {
   constructor() {
@@ -35,12 +41,14 @@ export default class ToTriesteScene extends Scene2D {
     this.battlefield = new Battlefield({ groundY: groundLevel, distance: () => this.distance })
     this.zgrade = this.battlefield.buildings
     this.tenk = new TenkLevo({ y: groundLevel, groundY: groundLevel, scale: .4, xLimit: canvas2d.width * .9, clock: this.session.clock })
-    this.tenk.controller = new TankKeys(this.tenk, leftPlayerKeys)
+    this.tenk.controller = new TankKeys(this.tenk, { keyboard, keys: leftPlayerKeys })
 
     const bunkerCallback = () => this.score++
     const bunkerOptions = { clock: this.session.clock, target: this.tenk, groundY: groundLevel, callback: bunkerCallback, flammable: true, speed: PARALAX_1 }
     this.bunkeri = [
-      new Bunker({ ...bunkerOptions, src: 'buildings/kuca-bunker.png', scale: .33 }),
+      // the house bunker of the game Bunker keeps its machine gunner, whose bursts are its fire, at the same size to it
+      new Bunker({ ...bunkerOptions, src: 'buildings/kuca-bunker.png', scale: houseBunkerScale,
+        gunner: new MachineGunner({ x: 0, y: 0, targets: [this.tenk], session: this.session, scale: houseBunkerScale / bunkerScale }) }),
       new Bunker({ ...bunkerOptions, src: 'buildings/bunker-02.png', scale: .5 }),
     ]
     for (const bunker of this.bunkeri) bunker.controller = new Marksman(bunker, this.tenk)

@@ -11,8 +11,8 @@ Zajednička osnova za razvoj 2D i 3D igara, sa istorijski zasnovanim sadržajem.
 | Istorija | [Istorijski izvori](ISTORIJA.md) | Činjenice sa izvorima: vojske, periodi, područja, jedinice, vozila, avioni i oružje. |
 | Konteksti igara | [KONTEKST](KONTEKST.md) | Okvir, priča, protivnici, prikaz i prihvaćeni art svake igre i njenih etapa. |
 | Ugao 2D arta | [Indeks prikaza](../assets/images/armies/index.csv) | Vizuelne oznake za izbor bočnih, gornjih i drugih prikaza, uz same slike. |
-| Art i sprite animacije | [ART](ART.md) | Postojeći resursi, pokrivenost stanja igrača/neprijatelja, priprema i zajednička integracija. |
-| Izrada arta | [PLAN-ART](PLAN-ART.md) | Zadaci, prioriteti, statusi, uslovi završetka i odložene dopune arta. |
+| Art i sprite animacije | [ART](ART.md) | Resursi, stanja aktera, priprema, integracija, pozadine i tragovi rata koje raspoređuje agent uz pregled vlasnika. |
+| Razvoj potpunih aktera | [Plan elemenata](PLAN-ELEMENTI.md) | Ciljne sposobnosti, pokreti, art, zvuk i provere postojećih gradivnih blokova, nezavisno od trenutne upotrebe u nivou. |
 | Arhitektura i obrasci | [ARHITEKTURA](ARHITEKTURA.md) | Odgovornosti zajedničkog engine-a, obrasci i bitna ograničenja. |
 | UI | [UI](UI.md) | Principi, teme, prozori, HUD, komande i praktična upotreba postojećeg UI-ja. |
 | Učenje kompozicije | [Kompozicija umesto nasleđivanja](COMPOSITION.md) | Uporedni primeri i sastavljanje zdravlja i oružja. |

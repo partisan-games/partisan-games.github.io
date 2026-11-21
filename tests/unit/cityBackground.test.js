@@ -71,10 +71,12 @@ test('a battlefield where nothing burns is not heard burning', () => {
 function layerLoading(t, response = { ok: true, json: async() => ({ width: 1536, height: 1024 }) }) {
   const images = []
   t.mock.method(globalThis, 'fetch', async() => response)
-  t.mock.method(globalThis, 'Image', () => {
-    const image = Object.assign(new EventTarget(), { complete: false, naturalWidth: 0 })
-    images.push(image)
-    return image
+  t.mock.method(globalThis, 'Image', class {
+    constructor() {
+      const image = Object.assign(new EventTarget(), { complete: false, naturalWidth: 0 })
+      images.push(image)
+      return image
+    }
   })
   const background = new BattleBackground({ width: 800, height: 600, getContext: () => ({}) }, battlefields.batina)
   const loaded = image => {
@@ -85,7 +87,7 @@ function layerLoading(t, response = { ok: true, json: async() => ({ width: 1536,
   return { background, images, loaded }
 }
 
-test('the scene waits for Batina clouds and actors as well as its environment plate', async t => {
+test('the scene waits for Batina clouds as well as its environment plate, and loads no living things there', async t => {
   const { background, images, loaded } = layerLoading(t)
   const { default: Scene } = await import('/core/Scene.js')
   let ready = false
@@ -93,13 +95,13 @@ test('the scene waits for Batina clouds and actors as well as its environment pl
     ready = true
   })
   loaded(images[0])
-  loaded(images[1])
   await Promise.resolve()
-  assert.equal(ready, false, 'the last layer is still loading')
-  loaded(images[2])
+  assert.equal(ready, false, 'the clouds are still loading')
+  loaded(images[1])
   await waiting
   assert.equal(ready, true)
-  assert.equal(background.layers.images.actors, images[2])
+  assert.equal(images.length, 2, "only clouds move on Batina, by the owner's choice")
+  assert.equal(background.layers.images.actors, undefined)
   assert.equal(background.scene.width, 1536)
   assert.equal(background.scene.height, 1024)
 })
@@ -110,12 +112,49 @@ test('a failed Batina layout reaches the scene loading error path', async t => {
   await assert.rejects(Scene.prototype.imagesLoaded.call({ children: [], background }), /Background layout could not be loaded/)
 })
 
-test('a missing Batina actor atlas reaches the scene loading error path', async t => {
+test('a missing Batina cloud layer reaches the scene loading error path', async t => {
   const { background, images, loaded } = layerLoading(t)
   const { default: Scene } = await import('/core/Scene.js')
   const waiting = assert.rejects(Scene.prototype.imagesLoaded.call({ children: [], background }), /Image could not be loaded/)
   loaded(images[0])
-  loaded(images[1])
-  images[2].dispatchEvent(new Event('error'))
+  images[1].dispatchEvent(new Event('error'))
   await waiting
+})
+
+test('optional props are awaited and composed afresh without changing the source background image', async t => {
+  const images = [], calls = []
+  t.mock.method(globalThis, 'Image', class {
+    constructor() {
+      const image = Object.assign(new EventTarget(), { complete: false, naturalWidth: 0, naturalHeight: 0 })
+      images.push(image)
+      return image
+    }
+  })
+  t.mock.method(HTMLCanvasElement.prototype, 'getContext', () => ({
+    save() {}, restore() {}, translate() {}, scale() {},
+    clearRect: () => calls.push('clear'), drawImage: image => calls.push(image),
+  }))
+  const props = [{ id: 'partisan-fallen-prone', x: 700, y: 780 }]
+  const background = new BattleBackground({ width: 800, height: 600, getContext: () => ({}) }, { ...battlefields.grahovo, props })
+  const { default: Scene } = await import('/core/Scene.js')
+  let ready = false
+  const waiting = Scene.prototype.imagesLoaded.call({ children: [], background }).then(() => { ready = true })
+  images[0].complete = true
+  images[0].naturalWidth = 1536
+  images[0].naturalHeight = 1024
+  images[0].dispatchEvent(new Event('load'))
+  await Promise.resolve()
+  assert.equal(ready, false)
+  images[1].complete = true
+  images[1].naturalWidth = 128
+  images[1].naturalHeight = 64
+  images[1].dispatchEvent(new Event('load'))
+  await waiting
+  const picture = background.picture(0)
+  assert.notEqual(picture, background.image)
+  assert.equal(picture.width, 1536)
+  assert.equal(picture.height, 1024)
+  assert.equal(background.picture(2), picture)
+  assert.deepEqual(calls, ['clear', images[0], images[1], 'clear', images[0], images[1]])
+  assert.equal(background.image, images[0])
 })

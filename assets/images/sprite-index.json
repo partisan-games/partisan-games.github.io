@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "measuredAt": "2026-11-21T11:25:19.874678+00:00",
-  "baseRevision": "aa1523c4f194ac2442081d3a9347083f1c2d612f",
-  "scope": "Art linked by docs/ART.md and docs/PLAN-ART.md, including shared variants; not all unused library art or a runtime/visual acceptance test.",
+  "measuredAt": "2026-11-21T12:42:55.708012+00:00",
+  "baseRevision": "530fdd85c18aac311a9dc32a22e33dcdff0c38c4",
+  "scope": "Art linked by docs/ART.md, including shared variants; not all unused library art or a runtime/visual acceptance test.",
   "interpretation": "imageFrames counts file-container frames. A PNG atlas normally has one; named sprite clips require metadata and a runtime mapping. hashes detect exact input changes, not art quality.",
   "images": [
     {
@@ -495,6 +495,40 @@
       "containsAnimation": false
     },
     {
+      "asset": "assets/images/armies/game-ready/efekti/plamen-pucnja-sprites.png",
+      "sha256": "b68127b1a7186000190f24aabdbd13937e67259dc67b9eb201594a51e26e52c8",
+      "kind": "PNG",
+      "width": 192,
+      "height": 48,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/franjo-kluz/sprites.json",
+        "id": "muzzle-flash",
+        "frame": {
+          "width": 48,
+          "height": 48,
+          "columns": 4,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 12,
+          "y": 24
+        },
+        "clips": [
+          {
+            "name": "fire",
+            "row": 0,
+            "frameCount": 4,
+            "duration": 0.24,
+            "loop": false,
+            "measuredDistinctFrames": 4
+          }
+        ]
+      }
+    },
+    {
       "asset": "assets/images/armies/game-ready/kamioni/opel-blitz-legion-sprites.png",
       "sha256": "482447549d9c9f39ba999a6686098fe39bcdfb5ba74ba4ce81a9f52f58adddf8",
       "kind": "PNG",
@@ -595,6 +629,414 @@
       "height": "24",
       "viewBox": "0 0 60 24",
       "containsAnimation": false
+    },
+    {
+      "asset": "assets/images/armies/game-ready/scenery/blood-patch.png",
+      "sha256": "13165a5d3201cd8e630d4ad6c64d95cfd37df02bcee8e9b8f15c235b249506cd",
+      "kind": "PNG",
+      "width": 96,
+      "height": 48,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/scenery/sprites.json",
+        "id": "blood-patch",
+        "frame": {
+          "width": 96,
+          "height": 48,
+          "columns": 1,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 48.0,
+          "y": 40
+        },
+        "clips": [
+          {
+            "name": "still",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1,
+            "loop": false,
+            "measuredDistinctFrames": 1
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/scenery/blood-pool.png",
+      "sha256": "a2ed381374f51a62d4950e878864d90eb2becdaccaaea21805add1cf1b62f25d",
+      "kind": "PNG",
+      "width": 96,
+      "height": 48,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/scenery/sprites.json",
+        "id": "blood-pool",
+        "frame": {
+          "width": 96,
+          "height": 48,
+          "columns": 1,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 48.0,
+          "y": 40
+        },
+        "clips": [
+          {
+            "name": "still",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1,
+            "loop": false,
+            "measuredDistinctFrames": 1
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/scenery/blood-smear.png",
+      "sha256": "7d8132bc49e347b0f33315587d87ff0277923a31b2a34b96a14cd4e8cbabac2a",
+      "kind": "PNG",
+      "width": 96,
+      "height": 48,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/scenery/sprites.json",
+        "id": "blood-smear",
+        "frame": {
+          "width": 96,
+          "height": 48,
+          "columns": 1,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 48.0,
+          "y": 40
+        },
+        "clips": [
+          {
+            "name": "still",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1,
+            "loop": false,
+            "measuredDistinctFrames": 1
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/scenery/german-fallen-prone.png",
+      "sha256": "d3bcb3066dfad8363c2e510c6315769f5c9f74b41a0cbd7a4dfb1834abb59ebe",
+      "kind": "PNG",
+      "width": 128,
+      "height": 64,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/scenery/sprites.json",
+        "id": "german-fallen-prone",
+        "frame": {
+          "width": 128,
+          "height": 64,
+          "columns": 1,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 64.0,
+          "y": 56
+        },
+        "clips": [
+          {
+            "name": "still",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1,
+            "loop": false,
+            "measuredDistinctFrames": 1
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/scenery/german-fallen-side.png",
+      "sha256": "0255df08fd7e8661b278e0cc12f7693918721a5c7a85b83de5772f12798e69c2",
+      "kind": "PNG",
+      "width": 128,
+      "height": 64,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/scenery/sprites.json",
+        "id": "german-fallen-side",
+        "frame": {
+          "width": 128,
+          "height": 64,
+          "columns": 1,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 64.0,
+          "y": 56
+        },
+        "clips": [
+          {
+            "name": "still",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1,
+            "loop": false,
+            "measuredDistinctFrames": 1
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/scenery/german-fallen-supine.png",
+      "sha256": "c0490758fe58eb8344261bb04629bf4a167f3f71019e553edd93796ad46581f9",
+      "kind": "PNG",
+      "width": 128,
+      "height": 64,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/scenery/sprites.json",
+        "id": "german-fallen-supine",
+        "frame": {
+          "width": 128,
+          "height": 64,
+          "columns": 1,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 64.0,
+          "y": 56
+        },
+        "clips": [
+          {
+            "name": "still",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1,
+            "loop": false,
+            "measuredDistinctFrames": 1
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/scenery/italian-fallen-prone.png",
+      "sha256": "83eac89cf18ec827340bc75fbad6118413db130cf88f1ec3da4a0390a41bf692",
+      "kind": "PNG",
+      "width": 128,
+      "height": 64,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/scenery/sprites.json",
+        "id": "italian-fallen-prone",
+        "frame": {
+          "width": 128,
+          "height": 64,
+          "columns": 1,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 64.0,
+          "y": 56
+        },
+        "clips": [
+          {
+            "name": "still",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1,
+            "loop": false,
+            "measuredDistinctFrames": 1
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/scenery/italian-fallen-side.png",
+      "sha256": "1b8e5c2a45adc676ef0695b80ccbcca789527a6f31c68ce55f7055f096658465",
+      "kind": "PNG",
+      "width": 128,
+      "height": 64,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/scenery/sprites.json",
+        "id": "italian-fallen-side",
+        "frame": {
+          "width": 128,
+          "height": 64,
+          "columns": 1,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 64.0,
+          "y": 56
+        },
+        "clips": [
+          {
+            "name": "still",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1,
+            "loop": false,
+            "measuredDistinctFrames": 1
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/scenery/italian-fallen-supine.png",
+      "sha256": "a1b72ba908b3dcacc53a823e8c2056e496dfb89e9b221ace975a333c166d55b2",
+      "kind": "PNG",
+      "width": 128,
+      "height": 64,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/scenery/sprites.json",
+        "id": "italian-fallen-supine",
+        "frame": {
+          "width": 128,
+          "height": 64,
+          "columns": 1,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 64.0,
+          "y": 56
+        },
+        "clips": [
+          {
+            "name": "still",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1,
+            "loop": false,
+            "measuredDistinctFrames": 1
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/scenery/partisan-fallen-prone.png",
+      "sha256": "13decd3f468ff2a44903bfd382c3e1848f94ab558cb693e0a3aef22979dff401",
+      "kind": "PNG",
+      "width": 128,
+      "height": 64,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/scenery/sprites.json",
+        "id": "partisan-fallen-prone",
+        "frame": {
+          "width": 128,
+          "height": 64,
+          "columns": 1,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 64.0,
+          "y": 56
+        },
+        "clips": [
+          {
+            "name": "still",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1,
+            "loop": false,
+            "measuredDistinctFrames": 1
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/scenery/partisan-fallen-side.png",
+      "sha256": "594687a081337b507a11490e084669335894b85b74331412e51ae5dba1743dc1",
+      "kind": "PNG",
+      "width": 128,
+      "height": 64,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/scenery/sprites.json",
+        "id": "partisan-fallen-side",
+        "frame": {
+          "width": 128,
+          "height": 64,
+          "columns": 1,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 64.0,
+          "y": 56
+        },
+        "clips": [
+          {
+            "name": "still",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1,
+            "loop": false,
+            "measuredDistinctFrames": 1
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/scenery/partisan-fallen-supine.png",
+      "sha256": "98bc57716570ea176c3fe9846259e82675f2eca776896eb4b37bf04b0bc6b33a",
+      "kind": "PNG",
+      "width": 128,
+      "height": 64,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/scenery/sprites.json",
+        "id": "partisan-fallen-supine",
+        "frame": {
+          "width": 128,
+          "height": 64,
+          "columns": 1,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 64.0,
+          "y": 56
+        },
+        "clips": [
+          {
+            "name": "still",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1,
+            "loop": false,
+            "measuredDistinctFrames": 1
+          }
+        ]
+      }
     },
     {
       "asset": "assets/images/armies/game-ready/tenkovi/hummel-sprites.png",
@@ -2081,6 +2523,26 @@
       "distinctImageFrames": 1
     },
     {
+      "asset": "assets/images/armies/sources/scenery/fallen-generated.png",
+      "sha256": "6549af05850455a1462d6d5fe61234335fba1ade0ea222d45c33e37674ac1e95",
+      "kind": "PNG",
+      "width": 1254,
+      "height": 1254,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/armies/sources/scenery/game-size.png",
+      "sha256": "253d6ead8c6b4e4373c55e31c678d4353e7319587186a72d8dcde4d7a04cfece",
+      "kind": "PNG",
+      "width": 480,
+      "height": 360,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
       "asset": "assets/images/armies/sources/tenkovi/previews/nemacki-tenk-drive-game-size.png",
       "sha256": "387d79bc29d24d7d294d3792fec09e636502fb4b339f19692f1cec18e1631afa",
       "kind": "PNG",
@@ -2591,6 +3053,10 @@
       "sha256": "588566bb22ba94a1582a2b6b88d3e5709f66ca6d4888faaf80d76e0ece899c38"
     },
     {
+      "path": "assets/images/armies/game-ready/efekti/plamen-pucnja-sprites.png",
+      "sha256": "b68127b1a7186000190f24aabdbd13937e67259dc67b9eb201594a51e26e52c8"
+    },
+    {
       "path": "assets/images/armies/game-ready/kamioni/opel-blitz-legion-sprites.png",
       "sha256": "482447549d9c9f39ba999a6686098fe39bcdfb5ba74ba4ce81a9f52f58adddf8"
     },
@@ -2605,6 +3071,54 @@
     {
       "path": "assets/images/armies/game-ready/polozaji/mitraljesko-gnezdo-odozgo.svg",
       "sha256": "c67f4a1566ac4a527a440ff8874028bf50894ddc32b30a00859f74af103848b4"
+    },
+    {
+      "path": "assets/images/armies/game-ready/scenery/blood-patch.png",
+      "sha256": "13165a5d3201cd8e630d4ad6c64d95cfd37df02bcee8e9b8f15c235b249506cd"
+    },
+    {
+      "path": "assets/images/armies/game-ready/scenery/blood-pool.png",
+      "sha256": "a2ed381374f51a62d4950e878864d90eb2becdaccaaea21805add1cf1b62f25d"
+    },
+    {
+      "path": "assets/images/armies/game-ready/scenery/blood-smear.png",
+      "sha256": "7d8132bc49e347b0f33315587d87ff0277923a31b2a34b96a14cd4e8cbabac2a"
+    },
+    {
+      "path": "assets/images/armies/game-ready/scenery/german-fallen-prone.png",
+      "sha256": "d3bcb3066dfad8363c2e510c6315769f5c9f74b41a0cbd7a4dfb1834abb59ebe"
+    },
+    {
+      "path": "assets/images/armies/game-ready/scenery/german-fallen-side.png",
+      "sha256": "0255df08fd7e8661b278e0cc12f7693918721a5c7a85b83de5772f12798e69c2"
+    },
+    {
+      "path": "assets/images/armies/game-ready/scenery/german-fallen-supine.png",
+      "sha256": "c0490758fe58eb8344261bb04629bf4a167f3f71019e553edd93796ad46581f9"
+    },
+    {
+      "path": "assets/images/armies/game-ready/scenery/italian-fallen-prone.png",
+      "sha256": "83eac89cf18ec827340bc75fbad6118413db130cf88f1ec3da4a0390a41bf692"
+    },
+    {
+      "path": "assets/images/armies/game-ready/scenery/italian-fallen-side.png",
+      "sha256": "1b8e5c2a45adc676ef0695b80ccbcca789527a6f31c68ce55f7055f096658465"
+    },
+    {
+      "path": "assets/images/armies/game-ready/scenery/italian-fallen-supine.png",
+      "sha256": "a1b72ba908b3dcacc53a823e8c2056e496dfb89e9b221ace975a333c166d55b2"
+    },
+    {
+      "path": "assets/images/armies/game-ready/scenery/partisan-fallen-prone.png",
+      "sha256": "13decd3f468ff2a44903bfd382c3e1848f94ab558cb693e0a3aef22979dff401"
+    },
+    {
+      "path": "assets/images/armies/game-ready/scenery/partisan-fallen-side.png",
+      "sha256": "594687a081337b507a11490e084669335894b85b74331412e51ae5dba1743dc1"
+    },
+    {
+      "path": "assets/images/armies/game-ready/scenery/partisan-fallen-supine.png",
+      "sha256": "98bc57716570ea176c3fe9846259e82675f2eca776896eb4b37bf04b0bc6b33a"
     },
     {
       "path": "assets/images/armies/game-ready/tenkovi/hummel-sprites.png",
@@ -2887,10 +3401,6 @@
       "sha256": "45d67fd4a79596522543bb3643160b5a9d8bca5fa220cf8c7a422584d45562aa"
     },
     {
-      "path": "assets/images/armies/sources/franjo-kluz/prepare.py",
-      "sha256": "022ed20d890f5e1b2596ebe0d86c231303cdb144b84787b216b040f9df64362e"
-    },
-    {
       "path": "assets/images/armies/sources/franjo-kluz/sprites.json",
       "sha256": "dc73f51fbd4cb5e190022bcf5fc6161169fc2e92645861b346c508392502a868"
     },
@@ -2961,6 +3471,30 @@
     {
       "path": "assets/images/armies/sources/ranjenik/sprites.json",
       "sha256": "1506d59bd165f1b93ab44a1809329794a93ba0f30ddceca4cfe3d88be5081a36"
+    },
+    {
+      "path": "assets/images/armies/sources/scenery/catalog.json",
+      "sha256": "f54d66fb7848fc8a894db5b04f56dd34b60e0462901f686c695005660866948e"
+    },
+    {
+      "path": "assets/images/armies/sources/scenery/fallen-generated.png",
+      "sha256": "6549af05850455a1462d6d5fe61234335fba1ade0ea222d45c33e37674ac1e95"
+    },
+    {
+      "path": "assets/images/armies/sources/scenery/game-size.png",
+      "sha256": "253d6ead8c6b4e4373c55e31c678d4353e7319587186a72d8dcde4d7a04cfece"
+    },
+    {
+      "path": "assets/images/armies/sources/scenery/generation.json",
+      "sha256": "79e026a35174f07374a9bf2e38e9b7cb21309143e8fa6669921178b5a84dfddc"
+    },
+    {
+      "path": "assets/images/armies/sources/scenery/prepare.py",
+      "sha256": "a67d397d3d90edab92f12b4acfd25fdaaf948d6b647cc0ac282b183e91aded91"
+    },
+    {
+      "path": "assets/images/armies/sources/scenery/sprites.json",
+      "sha256": "de67449c109efc27a39afcfcea10365073cba4abf929c7f9949cbe8dc81d7d7f"
     },
     {
       "path": "assets/images/armies/sources/tenkovi/manifest.json",
@@ -3291,10 +3825,6 @@
       "sha256": "96772cac73dff7768584e7b393e8aa266a8e5b60163508e39c4543fa56c52503"
     },
     {
-      "path": "core/actor/GroundTarget.js",
-      "sha256": "909ff1feb3738e65eef7026924671844a5962cedc01f8836525a4c79d3c8db01"
-    },
-    {
       "path": "core/actor/Occupier.js",
       "sha256": "bc7cdb5e723de9dddc356fd3098daeadc4f154cd20daf784d9d99409896fe4c9"
     },
@@ -3315,10 +3845,6 @@
       "sha256": "a51b3039752f2f156fc9c727a39d885846b9087e11fc1e87fcbad080c8853e3f"
     },
     {
-      "path": "core/actor/Sprite.js",
-      "sha256": "ac8ed80e30235502d5329ff0ec4fce2cfc4fec883558115d2f366ae7dc782cff"
-    },
-    {
       "path": "core/actor/TopDownPlayerBoat.js",
       "sha256": "025978c93ab1d88b355918dd170a2506a493ce2a74ea01a5eddecf7ea5d2f1fb"
     },
@@ -3329,6 +3855,10 @@
     {
       "path": "core/actor/vehicleArt.js",
       "sha256": "9f5375287d16d1fa4814984299effea268aa5f3d3d7b55dbbf72c4974164e0d8"
+    },
+    {
+      "path": "core/actor/vehicles/TankSprite.js",
+      "sha256": "9690294ea505121de23e9dbac824e2a15c084c0234ab6803f943279c64fb9432"
     },
     {
       "path": "core/actor/vehicles/Vehicle.js",
@@ -3343,8 +3873,16 @@
       "sha256": "15e176a47c1a71a34d17f360770c0a7509cf78fb362ec30c011ccf3b4268c63c"
     },
     {
+      "path": "core/SceneryLayer.js",
+      "sha256": "f573238b98e2ab1b9fc4b9d89f077c254281689b9ae7a4e3500184a4febff8f8"
+    },
+    {
+      "path": "docs/ARHITEKTURA.md",
+      "sha256": "d3b579ee1499520ed89ab90d6133d93e7870be7de8b37483cf9397b48a89c6e7"
+    },
+    {
       "path": "docs/ART.md",
-      "sha256": "c5a97e33684ad23b0c0871d0a745a12638fbf6abe21bf6da4b7d845ec0a568b8"
+      "sha256": "9186c39d19089219f6329a064a578e3d3d4c708e7554bdc6dc93f46f21d149bf"
     },
     {
       "path": "docs/ISTORIJA.md",
@@ -3352,31 +3890,31 @@
     },
     {
       "path": "docs/KONTEKST.md",
-      "sha256": "9613a895ef3d972b16311ebf72a7e0a829727c6ea07bae0b9705da3909a5f5d5"
+      "sha256": "5a7592a26bca13ac298eeb5e48038a970bf93539261f06ca7a8aa106bcb07618"
     },
     {
-      "path": "docs/PLAN-ART.md",
-      "sha256": "122e99cd58637e056b8eb9b6aaf14a396e3be184795f86a7d7e8ae9192a9348c"
+      "path": "docs/PLAN-ELEMENTI.md",
+      "sha256": "42e31862c24672d47c26d8ec2a11a39802129a9afb10189f57edbb8121267823"
     },
     {
-      "path": "docs/PLAN-ZA-IGRE.md",
-      "sha256": "57f73682458a86c56d582f045cc04efc9b948b6187c360ca4e95ff51f2aa0daf"
+      "path": "docs/PLAN-IDEJE.md",
+      "sha256": "dd59355ccfe002113296ed0f3b85437609e569ffb25d5c7c11ce052e3119561d"
     },
     {
       "path": "docs/STORYBOOK.md",
-      "sha256": "6bfeafc2ff8f1560b8b2731f5c7abecdf4f88a6d03d387a64c9fc3b25c4b5e5e"
+      "sha256": "61fd6d88bb24a27abccbf4be590d661ce0020566aa471b9995f1e78b4557d819"
     },
     {
       "path": "docs/TESTING.md",
-      "sha256": "d3137490b21fa16959f8b989df2c2258747dcfdf7cb7b74598b225c320bc60d8"
+      "sha256": "84ddb584d3c450bd740d7f125d9b8ee9c2d835706d28ef7bcf4719ca3ac52696"
     },
     {
-      "path": "pozadine.html",
-      "sha256": "269ac469cc96698567bcb4ea8f5b4f5e3571c07503499e3339b6967af00cf298"
+      "path": "props.html",
+      "sha256": "7eaa056335c2d1ddf8ed0c176e7439911803af60f2f01f7d8f352db056055070"
     },
     {
       "path": "scenes/camac/Boat.js",
-      "sha256": "59e01ff5364fe64f0a3ddf758fdceafc5d397b92bca0ee3fc05be8fa389b3e9c"
+      "sha256": "929726ccd479e7d9865c28e0a6333d5258a97fce3164346a3b6851b7d5c939b5"
     },
     {
       "path": "scenes/camac/SBoat.js",
@@ -3388,11 +3926,11 @@
     },
     {
       "path": "scenes/franjo-kluz/Potez.js",
-      "sha256": "9279c96e193aaa205ebcadd0c93d487259302596534a83d01e3690fd24610642"
+      "sha256": "01efe55042e006ceade1f68f01e203186fb09a8f362614c06d44bd07deea76d0"
     },
     {
       "path": "scenes/tenkici/BattleBackground.js",
-      "sha256": "e3dcf001dbfaecb5b39c51d94647bdd2e70e0febcba29a4f54dfe6b647a56e13"
+      "sha256": "d744335289b50a2cefaf4b26d2ef80d859de5f74d990e94859c7d056d536c5af"
     },
     {
       "path": "scenes/tenkici/renderLayers.js",
@@ -3403,12 +3941,8 @@
       "sha256": "7a5bc49f2860d96e518074575ea3325c9caad033166fec7759af8de4b4a28b01"
     },
     {
-      "path": "scenes/tenkici/TenkDesno.js",
-      "sha256": "57b1b95d3689035fdad09d3f92659be5091546ad27b8ad09ca93b6bdfe9dc923"
-    },
-    {
       "path": "scenes/tenkici/TenkLevo.js",
-      "sha256": "f02323ebe0f2934436932dfa22d1e7168b38dd94a8a0cf7c75d13abb0dd9e179"
+      "sha256": "861eef0435ce7f8432f2419fea8f2ab79341d39f115f00819ee6aba892753c7a"
     },
     {
       "path": "scenes/to-trieste/Aircraft.js",
@@ -3444,7 +3978,7 @@
     },
     {
       "path": "scenes/vis/Avionce.js",
-      "sha256": "6674bf3d5b87d877d95d2edd47caa371758015568996106c38e83c7a958235ca"
+      "sha256": "79c20ec5a8a5c25e7533457742be8040ede1bc9aceaeaed52e9bf37b6bb11c60"
     },
     {
       "path": "scenes/vis/Boss.js",
@@ -3460,7 +3994,7 @@
     },
     {
       "path": "scripts/index-sprite-art.py",
-      "sha256": "a2a3fd931b796d67988e685a6a367e1e7cad268e4a593b79d9203a5cd52777f0"
+      "sha256": "af6fb6f9570e0007d2fa36010583edd92e9d9faef3c638efadac169cca565d03"
     },
     {
       "path": "scripts/prepare-vehicle-art.py",
@@ -3472,7 +4006,7 @@
     },
     {
       "path": "storybook/stories/index.js",
-      "sha256": "46f9a4b99d462964ed217f1cddb16586595909d28c6eef2670be69f6c10a3d68"
+      "sha256": "87803fd742548dc81cb6d2938f910fc1512ef4e6a725af4ea3ee1464790de180"
     },
     {
       "path": "storybook/stories/objects3d.js",
@@ -3480,7 +4014,7 @@
     },
     {
       "path": "storybook.html",
-      "sha256": "2f4713885ee134b7848f03b4bf1c0b58a53c03f1da3d8950d16719850c71b5fe"
+      "sha256": "43f940c7cba4a0ca232a8095ef3424472b304260abf4e465967421e906afa932"
     }
   ]
 }

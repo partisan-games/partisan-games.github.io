@@ -6,10 +6,10 @@ Prelaz na nezavisne aktere: telo bez slike, zasebni 2D i 3D prikaz i upravljač 
 
 | # | ID | Faza | Korak | Ko | Status |
 |---|---|---|---|---|---|
-| 1 | [AR-01](#ar-01) | 1 | Osnova tela i lint čistoće | Claude | 📋 TODO |
-| 2 | [AR-02](#ar-02) | 1 | Projekcija, crtanje prikaza i spisak upravljača u sceni | Claude | 📋 TODO |
-| 3 | [AR-03](#ar-03) | 1 | Telo tenka i 2D prikaz tenka | Claude | 📋 TODO |
-| 4 | [AR-04](#ar-04) | 1 | Upravljači tenka i Tenkići na novom telu | Claude | 📋 TODO |
+| 1 | [AR-01](#ar-01) | 1 | Osnova tela i lint čistoće | Claude | ✅ Done<br>[Body](../core/gameplay/bodies/Body.js), lint čistoće, [test](../tests/unit/body.test.js) |
+| 2 | [AR-02](#ar-02) | 1 | Projekcija, crtanje prikaza i spisak upravljača u sceni | Claude | ✅ Done<br>[projekcija](../core/actor/projection.js), renderer, upravljači u [World](../core/World.js), čist [bazen](../core/gameplay/bodies/projectiles/ProjectilePool.js) i [granata](../core/gameplay/bodies/projectiles/Shell.js) |
+| 3 | [AR-03](#ar-03) | 1 | Telo tenka i 2D prikaz tenka | Claude | ✅ Done<br>[Tank](../core/gameplay/bodies/vehicles/Tank.js), [TankSprite](../core/actor/vehicles/TankSprite.js); vožnja podešena na stari tenk (153 px za 1 s u oba), domet granate u 2 % |
+| 4 | [AR-04](#ar-04) | 1 | Upravljači tenka i Tenkići na novom telu | Claude | ✅ Done<br>Vlasnik proverio Tenkiće sa 1 i 2 igrača i Do Trsta |
 | 5 | [AR-05](#ar-05) | 2 | Franjo Kluz: kopneni akteri | Claude | 📋 TODO |
 | 6 | [AR-06](#ar-06) | 2 | Franjo Kluz: lovci, obrušavači i projektili | Claude | 📋 TODO |
 | 7 | [AR-07](#ar-07) | 2 | Franjo Kluz: Potez i sastavljanje igre | Claude | 📋 TODO |
@@ -74,6 +74,7 @@ Analiza od 2026-11-21 (`aa1523c4` i radna kopija) našla je:
 
 1. Telo nikad ne dira sliku, mesh, `ctx`, platno, stranicu, `config`, miš, tastaturu, `Input`, `session.state`, uloge, zvuk ni upravljač; sve dobija kao opcije: `clock`, `canFire()`, `targets`, `bounds`, `groundAt`, `isBlocked`, `random` i povratne pozive pravila.
 2. Telo ima `x, y, z`, brzine, `yaw`, `pitch`, `size` (sudarni okvir i mera za prikaz), `states`/`state`/`setState`/`stateTime`, `health`/`alive`/`dead`/`takeHit`, brojače `shotsFired` i `hitsTaken` i `update(dt)` sa vrednostima po sekundi. Naoružano telo dodaje `shots`, `reach`, `aimAt(point)` i `muzzle`. Podešavanja su u jednom izvezenom objektu, u SI jedinicama.
+   Ciljni zajednički nazivi su `idle`, `move`, `attack`, `dead` prema [standardu stanja](ARHITEKTURA.md#standardna-stanja-aktera). Ranije završeni koraci nisu time ponovo verifikovani; usklađivanje postojećih imena i svih potrošača radi se kroz [plan elemenata](PLAN-ELEMENTI.md#el-01) uz očuvanu celinu sudarne grupe.
 3. Prikaz samo čita telo; animira se po `state` i `stateTime`, a efekte i zvuk pokreće kad brojač poraste. Nema pretplata ni magistrale događaja.
 4. Upravljač koristi samo komande tela, `setState`, `aimAt` i očitavanja; tasteri dobijaju uređaj od scene. Spisak komandi za dugme CONTROLS ostaje u sceni.
 5. Scena jedina zna uloge, timove, nivo, projekciju, kameru, uređaje, HUD i pravila (uzbuna, bodovi, životi). Podaci nivoa u pikselima pretvaraju se na granici scene.
@@ -150,7 +151,7 @@ Osnova tela, prikaza i upravljača i prva igra na njoj; ugovori ulaze u ARHITEKT
   - Tenkići sastavljaju telo, prikaz i upravljač; granice tenka su njegova polovina polja, a priprema runde menja upravljač u spisku scene.
   - Priče tenkova koriste novo telo, bez `TankKeys`. Storybook gubi svoj sloj upravljanja: pozornica ne daje tastere blokovima (prazan `handleInput` u [Stage2D.js](../storybook/Stage2D.js)), nestaju dugme CONTROLS i polje `controlKeys` u pričama, a spiskovi komandi iz [Potez.js](../scenes/franjo-kluz/Potez.js), [Avionce.js](../scenes/vis/Avionce.js) i [Boat.js](../scenes/camac/Boat.js) vraćaju se u `Main.js` svojih igara.
   - Do Trsta zadržava stari tenk do AR-09; metode cevi starog tenka dobijaju nova imena, pa isti `TankKeys` vozi oba.
-  - Novi neprijateljski tenkovi iz [IG-02](PLAN-ZA-IGRE.md#ig-02) grade se na novom telu.
+  - Novi neprijateljski tenkovi iz [IG-02](PLAN-IDEJE.md#ig-02) grade se na novom telu.
   - Pre prelaska na fazu 2 proveriti 3D sudare malim pilotom prema [napomeni u AR-15](#ar-15), pa potvrditi ili dopuniti ugovor tela.
 - **Završeno kada:** testovi tenka i upravljača koriste lažnu tastaturu; `npm test` i lint; vlasnik igra Tenkiće sa 1 i 2 igrača i Do Trsta; smoke uz odobrenje, jer se menjaju `core/Scene.js` i `Renderer2D`; dokazani ugovori upisani u [ARHITEKTURA](ARHITEKTURA.md) (gradivni blokovi i njihov raspored po folderima, sudari, vlasnik zvuka, put ulaza) i [STORYBOOK](STORYBOOK.md), uz ispravku rečenice da sprite i mesh dele borbenu logiku.
 
@@ -178,7 +179,7 @@ Svaka igra je zaseban korak i posle svake je pauza bezbedna; Franjo Kluz se seli
 ### AR-07 · Franjo Kluz: Potez i sastavljanje igre · 2 / 3 / 4 p · Claude
 
 - **Šta:**
-  - Potez dobija stanja `fly`, `fire`, `bomb`, `dead`; upravljanje tasterima je `PlaneKeys`, zadnji mitraljezac upravljač `RearGunner` ([Potez.js:222-236](../scenes/franjo-kluz/Potez.js#L222-L236)), a pravilo eksplozije bombe prelazi u scenu.
+  - Potez dobija osnovna stanja `idle`, `move`, `attack`, `dead`; let je način `move`, a prednja/zadnja paljba i bomba su posebne radnje `attack` koje mogu teći uz let. Upravljanje tasterima je `PlaneKeys`, zadnji mitraljezac upravljač `RearGunner` ([Potez.js:222-236](../scenes/franjo-kluz/Potez.js#L222-L236)), a pravilo eksplozije bombe prelazi u scenu.
   - Uzbuna menja upravljače u spisku scene.
 - **Završeno kada:** testovi sastavljanja u franjoKluz.test.js; storybookCatalog; vlasnik leti sve tri misije.
 

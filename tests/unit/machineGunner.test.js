@@ -97,3 +97,26 @@ test('the shot starts at the rotated artwork muzzle and the recoil waits when ti
   assert.equal(gunner.fireFrame, 1)
   assert.deepEqual([gunner.width, gunner.height], [63, 27])
 })
+
+test('a gunner set back is alive at his gun, holding fire, with his rounds out of play and a fresh wait', t => {
+  const { gunner, target, step } = gunnerAlone(t)
+  gunner.aimAt(target)
+  gunner.setState('fire')
+  step(3.01)
+  gunner.die()
+  gunner.reset()
+  assert.equal(gunner.alive, true)
+  assert.equal(gunner.state, 'idle')
+  assert.ok(gunner.bullets.projectiles.every(round => !round.visible))
+  gunner.setState('fire')
+  step(.5)
+  assert.ok(gunner.bullets.projectiles.every(round => !round.visible), 'he waits again before his burst')
+})
+
+test('a scaled gunner is drawn smaller and fires from his scaled muzzle', t => {
+  const { session } = gunnerAlone(t)
+  const full = new MachineGunner({ x: 100, y: 100, session })
+  const small = new MachineGunner({ x: 100, y: 100, session, scale: .5 })
+  assert.deepEqual([small.width, small.height], [full.width / 2, full.height / 2])
+  assert.deepEqual([small.muzzle.x - 100, small.muzzle.y - 100], [(full.muzzle.x - 100) / 2, (full.muzzle.y - 100) / 2])
+})

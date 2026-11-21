@@ -25,10 +25,10 @@ const enemyPlane = create => stage => {
 const game = 'Vis'
 
 export const aircraft = [
-  { id: 'vis-spitfire', name: 'Spitfire Mk Vb', game, block: avionceModule, create: player('spitfire'), controlKeys: avionceModule.controlKeys },
-  { id: 'vis-hurricane', name: 'Hurricane Mk IV', game, block: avionceModule, create: player('hurricane'), controlKeys: avionceModule.controlKeys },
-  { id: 'vis-breguet', name: 'Breguet 19', game, block: avionceModule, create: player('breguet'), controlKeys: avionceModule.controlKeys },
-  { id: 'vis-yak', name: 'Yak-1b', game, block: avionceModule, create: player('yak'), controlKeys: avionceModule.controlKeys },
+  { id: 'vis-spitfire', name: 'Spitfire Mk Vb', game, block: avionceModule, create: player('spitfire') },
+  { id: 'vis-hurricane', name: 'Hurricane Mk IV', game, block: avionceModule, create: player('hurricane') },
+  { id: 'vis-breguet', name: 'Breguet 19', game, block: avionceModule, create: player('breguet') },
+  { id: 'vis-yak', name: 'Yak-1b', game, block: avionceModule, create: player('yak') },
   { id: 'vis-lovac', name: 'Nemački lovac', game, block: enemyModule, create: enemyPlane(session => new Enemy({ session })) },
   { id: 'vis-bf110', name: 'Bf 110', game, block: enemyModule, create: enemyPlane(session => new Enemy({ session, type: 'heavy' })) },
   { id: 'vis-he111', name: 'He 111', game, block: bossModule, create: enemyPlane(session => new Boss({ session })) },

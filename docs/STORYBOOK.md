@@ -6,23 +6,25 @@
 
 - Storybook prikazuje samo aktere, igrače i neprijatelje, uključujući bibliotečke klase za te uloge; pozadine, okolina, efekti, projektili i predmeti nemaju zasebne priče (odluka vlasnika). Saradnici poput metka ili eksplozije mogu se videti uz aktera tokom pucanja/pogotka, a svetlo, tlo i meta deo su pozornice. Obim određuje uloga, ne folder klase.
 - Levo je spisak vrsta (vojnici, tenkovi i vozila, avioni, brodovi, artiljerija i 3D vrste) i njihovih priča. Priča je jedan blok u jednom početnom podešavanju; adresa joj je `#vrsta/priča`, pa se otvara linkom i ostaje posle reload-a.
-- Blok kojim se upravlja tasterima (Potez, avioni sa Visa, tenkovi, čamac, ranjenik) ima dole levo, pored spiska priča, isto dugme „CONTROLS” kao u svojoj igri, bez pauze.
+- Priča nema upravljanje ni ulogu: pozornica ne daje tastere blokovima, a blok se pokreće samo dugmadima svojih stanja i pucanja. Blok koji sam čita tastaturu to radi samo u igri, dok ne pređe na čisto telo ([plan](PLAN-ARHITEKTURA.md)).
 - Desno su dugmad stanja bloka, zatim pucanja koja blok podržava („Pucaj gore”, „Pucaj pravo”), podešavanja bloka, „Prati kamerom” i „Reset”.
 - „Reset” vraća početna podešavanja i ponovo pravi priču; potreban je jer stanje ne vraća mrtav blok, a blok koji odleti ili odveze se ostaje van ekrana. Isto radi klik na priču u spisku.
-- Kamera stoji; „Prati kamerom” drži blok u sredini ekrana. Avion igrača, koji leti brzinom leta, prati od početka i vodi se tastaturom igre.
+- Kamera stoji; „Prati kamerom” drži blok u sredini ekrana. Avion igrača, koji leti brzinom leta, prati od početka.
 - Podešavanja menjaju izvezene objekte podešavanja bloka, npr. `rifle` strelca: klizač ide od 0 do četiri puta veće početne vrednosti. Promena ponovo pravi priču, jer blok neke vrednosti čita samo pri stvaranju; „Reset” i prelazak na drugu priču vraćaju početne vrednosti.
 
 ## Pozornica
 
-[Stage2D](../storybook/Stage2D.js) je prazna 2D scena: nebo, tlo, kamera i nevidljivi zamenik igrača (`stage.target`), koga prate blokovi koji lete ili voze za igračem, kao lovac. Zamenik prima pogotke, ali ne strada. Pozornica crta samo blok.
+[Stage2D](../storybook/Stage2D.js) je prazna 2D scena: nebo, tlo, kamera i nevidljivi zamenik igrača (`stage.target`), koga prate blokovi koji lete ili voze za igračem, kao lovac. Zamenik prima pogotke, ali ne strada. Za čisto telo u metrima pozornica daje bočnu projekciju (`stage.projection`, 22 px po metru) i zamenika bez uloge (`stage.dummy`); stari pikselski zamenik ostaje dok svi blokovi ne pređu na tela. Pozornica crta samo blok.
 
 [Stage3D](../storybook/Stage3D.js) je prazna 3D scena: svetlo, pod i kamera koja se mišem okreće oko sredine. Priča koja traži 3D pozornicu to kaže poljem `stage`; njen `create` je asinhron, jer prvo učitava modele. Za 3D lika panel pravi dugmad i od njegovih animacija (`anim.actions`), a lik igrača se vodi tastaturom igre.
 
 ## Dodavanje priče
 
-Priče su u [storybook/stories](../storybook/stories/), po jedna datoteka za igru, a [index.js](../storybook/stories/index.js) ih raspoređuje po vrstama. Priča je `{ id, name, game, block, create(stage) }`: `block` je modul bloka (`import Flak, * as flakModule from ...`), a `create` pravi blok, stavlja ga na pozornicu i vraća ga.
+Priče su u [storybook/stories](../storybook/stories/), po jedna datoteka za igru, a [index.js](../storybook/stories/index.js) ih raspoređuje po vrstama. Priča je `{ id, name, game, block, create(stage) }`: `block` je modul bloka (`import Flak, * as flakModule from ...`), a `create` pravi blok, stavlja ga na pozornicu i vraća ga. Za čisto telo `create` stavlja na pozornicu telo i njegov prikaz, a vraća telo, kao u [pričama tenkova](../storybook/stories/tenkici.js).
 
 Panel čita blok:
+
+Ciljni prikaz svih aktera koristi [standardna stanja](ARHITEKTURA.md#standardna-stanja-aktera) `idle`, `move`, `attack`, `dead`, uz izbor konkretnog pokreta/napada i jasno nedostupne radnje koje ne pripadaju ulozi. Sadašnji panel još čita stara imena iz blokova; usklađuje se zajedno sa njima kroz [plan elemenata](PLAN-ELEMENTI.md#el-01), bez tvrdnje da je standard već sproveden u kodu.
 
 - `states`, `state` i `setState(name)` daju dugmad stanja;
 - `shots` (tačka ispred bloka i iznad njega za svako pucanje), `forward` (1 desno, -1 levo) i `aimAt(point)` daju dugmad pucanja: dugme nanišani blok u tačku tog pucanja i stavi ga u `fire`;
@@ -32,7 +34,7 @@ Blok koji ne može da se napravi samo sa opcijama pozornice još nije nezavisan;
 
 ## Provere
 
-Postojeću pokrivenost aktera grafikom vodi [ART](ART.md), a zadatke i prioritete dopuna [PLAN-ART](PLAN-ART.md). Postojanje stanja ili priče samo po sebi ne dokazuje da telo ima poseban animirani klip.
+Postojeću pokrivenost aktera grafikom, pripremu i povezivanje dopuna vodi [ART](ART.md). Postojanje stanja ili priče samo po sebi ne dokazuje da telo ima poseban animirani klip.
 
 Svaka dopuna arta mora postati dostupna u postojećoj ili novoj priči aktera. Priča i svi nivoi koriste isti objekat i zajedničko mapiranje arta; poseban HTML/GIF pregled nije zamena. Art zadatak se zatvara tek posle [obavezne integracije i provera](ART.md#obavezna-integracija).
 

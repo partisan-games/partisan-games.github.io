@@ -126,7 +126,7 @@ Import `test` from `helpers.js`, not from Playwright: it exposes the game's `Sce
 
 ## Art verification record
 
-Preneto iz ranijeg ART.md pri razdvajanju trajnog znanja i [plana](PLAN-ART.md). Ovo su zapisi ranijih izvršavanja, ne nove provere trenutnog stabla; brojevi pojedinih prolaza se preklapaju i ne sabiraju se. U ovoj reorganizaciji browser, lint, build i unit testovi nisu pokretani.
+Sačuvani zapisi ranijih provera arta. Ovo su zapisi ranijih izvršavanja, ne nove provere trenutnog stabla; brojevi pojedinih prolaza se preklapaju i ne sabiraju se. U ovoj reorganizaciji browser, lint, build i unit testovi nisu pokretani.
 
 **Tenkovi i Opel:** Izvršeno je šest odobrenih unit fajlova: [vehicleArt](../tests/unit/vehicleArt.test.js), [tenkici](../tests/unit/tenkici.test.js), [toTriesteGroundEnemy](../tests/unit/toTriesteGroundEnemy.test.js), [tankGroundEnemies](../tests/unit/tankGroundEnemies.test.js), [groundTarget](../tests/unit/groundTarget.test.js) i [storybookCatalog](../tests/unit/storybookCatalog.test.js): 28/28 prolazi. Posle korekcije nultog koraka pri nastavku pauze ponovljeni su vehicleArt, tenkici i storybookCatalog: 10/10 prolazi, uključujući dopunjene regresije oba tenka. Nezavisan pregled završnog koda nije našao otvoren defekt. Browser, vizuelni pregled nivoa i lint nisu pokretani: vlasnik je za ovaj posao izričito odobrio samo unit provere. Linkovi do stvarnih Storybook priča navedeni su u obaveznom koraku integracije; unit dokaz nije vizuelno prihvatanje.
 
@@ -181,3 +181,6 @@ Finalni zajednicki prolaz istih pet art unit fajlova: **19/19 prolazi**; ukljucu
 
 
 **Konačna animirana Batina, 2026-11-21:** vlasnik je izabrao slojevitu verziju; igra, pregled i metapodaci koriste isti renderer i slojeve. Jedanaest ciljanih unit fajlova (batinaLayers, cityBackground, tenkici, battlefield, groundTarget, vehicle, wreckArt, occupier, storybookCatalog, ranjenikArt i storybookCoverage) prolazi **41/41**; nove regresije proveravaju čekanje svih slojeva i propagaciju greške opisa/atlasa do učitavanja scene. Priprema proverava šest ambijenata i sezonske izvore koji su zadržani; pravi deset statičnih kompozicija i link do animirane Batine. Hashovi korisnikovih obrisanih izvora ostaju samo istorija porekla. Browser, lint/build i puna testna serija nisu pokretani.
+
+
+**ART-15, zasebni rekviziti:** četiri ciljana unit fajla (sceneryLayer, cityBackground, batinaLayers i battlefield) prolaze **19/19**. Provereni su zajedničko učitavanje slika, propagacija grešaka, ponovna upotreba slike, redosled slojeva, sidrišta pri ogledanju i razmeri, sveža kompozicija bez menjanja izvornika i postojeće animacije Batine. Popravljen je testni konstruktor Image, koji mora ostati konstruktor pri formatizaciji. Priprema proverava providnost, ćelije i hashove postojećih olupina; neposredno su pregledani izvor i PNG pregled u veličini igre. Skripta props.html prolazi proveru sintakse. Browser, lint/build i puna serija nisu pokretani; izgled i rad alata u stvarnom browseru ostaju za vlasnikov pregled.

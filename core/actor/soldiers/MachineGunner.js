@@ -35,9 +35,10 @@ const states = {
 
 /** A machine gunner lying behind his gun, seen from above, who turns it anywhere. */
 export default class MachineGunner extends GameObject2D {
-  /** `targets` are what his rounds can hit. */
-  constructor({ x, y, targets = [], session }) {
-    super(art.src, { x, y, z: -1, width: art.width, height: art.height, origin: origins.bottomRight })
+  /** `targets` are what his rounds can hit; `scale` sizes him to the bunker he mans. */
+  constructor({ x, y, targets = [], session, scale = 1 }) {
+    super(art.src, { x, y, z: -1, width: art.width * scale, height: art.height * scale, origin: origins.bottomRight })
+    this.artScale = scale
     this.fireElapsed = art.fireDuration
     this.deathElapsed = 0
     this.session = session
@@ -92,13 +93,24 @@ export default class MachineGunner extends GameObject2D {
 
   /** The tip of the drawn barrel, rotated around the accepted bottom-right origin. */
   get muzzle() {
-    const x = art.muzzle.x - art.width, y = art.muzzle.y - art.height
+    const x = (art.muzzle.x - art.width) * this.artScale, y = (art.muzzle.y - art.height) * this.artScale
     const cos = Math.cos(this.angle), sin = Math.sin(this.angle)
     return { x: this.x + x * cos - y * sin, y: this.y + x * sin + y * cos }
   }
 
   get fireFrame() {
     return Math.min(art.fireFrames - 1, Math.floor(this.fireElapsed / art.fireDuration * art.fireFrames))
+  }
+
+  /** Back alive at his gun, holding fire, his rounds out of play, as when a bunker he mans comes round again. */
+  reset() {
+    this.alive = true
+    this.deathElapsed = 0
+    this.fireElapsed = art.fireDuration
+    this.fired = 0
+    this.burst.start()
+    this.machine.set('idle')
+    this.bullets.projectiles.forEach(round => round.reset())
   }
 
   die() {

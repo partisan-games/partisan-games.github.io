@@ -14,15 +14,24 @@ const states = {
 
 /**
  * A fortified gun on the roadside. Its shots hit the `target` and any `obstacles` in their way. The world may give it a
- * `controller`, which chooses its state once the bunker has moved each frame.
+ * `controller`, which chooses its state once the bunker has moved each frame. A bunker with a `gunner` (a
+ * MachineGunner, as in the game Bunker) is manned: he stands at its door and fires its bursts, his own way, instead of
+ * a hidden gun, and falls with it.
  */
 export default class Bunker extends CombatTarget {
-  constructor({ clock, target, groundY, obstacles = [], createWeapon = createMachineGun, nextSpawnX, ...rest } = {}) {
+  constructor({ clock, target, groundY, obstacles = [], createWeapon = createMachineGun, nextSpawnX, gunner = null, ...rest } = {}) {
     super({ z: -1, ...rest })
     this.target = target
     this.obstacles = obstacles
-    this.fire = new EnemyFire({ owner: this, target, obstacles, createWeapon, clock, groundY })
-    this.projectiles = this.fire.projectiles
+    this.gunner = gunner
+    if (gunner) {
+      this.fire = null
+      this.projectiles = gunner.bullets
+      this.children.push(gunner)
+    } else {
+      this.fire = new EnemyFire({ owner: this, target, obstacles, createWeapon, clock, groundY })
+      this.projectiles = this.fire.projectiles
+    }
     this.nextSpawnX = nextSpawnX
     this.controller = null
     this.machine = new StateMachine(this, states, 'idle')
@@ -42,7 +51,8 @@ export default class Bunker extends CombatTarget {
 
   /** The gun fires from either side of the bunker, so it can aim anywhere. */
   aimAt(point) {
-    this.fire.aimAt(point)
+    if (this.gunner) this.gunner.aimAt(point)
+    else this.fire.aimAt(point)
     return true
   }
 
@@ -62,7 +72,8 @@ export default class Bunker extends CombatTarget {
   reset() {
     super.reset()
     this.setState('idle')
-    this.fire.reset()
+    this.gunner?.reset()
+    this.fire?.reset()
   }
 
   checkBounds() {
@@ -76,11 +87,22 @@ export default class Bunker extends CombatTarget {
   update(dt) {
     super.update(dt)
     this.controller?.update(dt)
+    if (this.gunner) return this.manGun()
     // with nowhere to aim yet it holds fire
     this.fire.update(this.state === 'fire' && this.fire.point !== null)
   }
 
+  /** The gunner lies at the door, in front of the bunker, and fires while the bunker does; he falls with it. */
+  manGun() {
+    const { gunner } = this
+    gunner.x = this.x - this.width * .1
+    gunner.y = this.y + this.height / 2
+    if (this.dead) gunner.die()
+    else gunner.setState(this.state === 'fire' ? 'fire' : 'idle')
+  }
+
+  /** A gunner checks his own rounds as he fires them. */
   checkHits() {
-    this.fire.checkHits()
+    this.fire?.checkHits()
   }
 }

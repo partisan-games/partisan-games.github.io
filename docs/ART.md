@@ -1,16 +1,20 @@
 # ART
 
-Trajna dokumentacija postojećeg arta: pokrivenost stanja, izvori, priprema i zajednička upotreba u igrama i Storybook-u. Zadaci, prioriteti i statusi vode se u [PLAN-ART](PLAN-ART.md), a izvršene provere u [TESTING](TESTING.md#art-verification-record).
+Trajna dokumentacija postojećeg arta: pokrivenost stanja, izvori, priprema i zajednička upotreba u igrama i Storybook-u. Izvršene provere i njihova ograničenja vodi [TESTING](TESTING.md#art-verification-record).
 
-**Princip:** odgovarajući postojeći art ima prednost nad duplikatom. Nedostajući art treba izraditi; prioritet u planu određuje redosled, ne da li će nedostatak biti rešen. Proceduralna radnja ili sposobnost koju akter nema nisu sami po sebi nedostatak spriteova.
+**Princip:** odgovarajući postojeći art ima prednost nad duplikatom. Potrebne sposobnosti određuje uloga potpunog aktera, uključujući mogućnosti koje sadašnji nivo još ne koristi, prema [filozofiji gradivnih blokova](ARHITEKTURA.md#gradivni-blokovi). Za svaku razvijenu sposobnost obezbediti logiku, pravi prikaz pokreta i zvuk; ako nedostaju i logika i grafika, planirati oba kroz [plan elemenata](PLAN-ELEMENTI.md). Proceduralni prikaz može pokriti radnju kada je zaista čitljiv i odgovara modelu.
+
+**Stanje isporuke:** izrađene su i povezane dopune tenkova, Somue, Opela, Bombaša, Okupatora, Ustankovih atlasa, mitraljesca, olupina, propelera, posada, čamca, ranjenika i patrola; Hummel čuva izvorni izgled, a BP-42 miruje bez poskakivanja. Šest ambijenata je ugrađeno u Tenkiće i Ustanak, uz izabranu animiranu Batinu i sezonske rezerve. Spremna su i 24 zasebna rekvizita bojišta. Izrada i povezivanje ne znače završen vlasnikov pregled: odloženi pregledi pokreta, pozadina i rekvizita ostaju za proveru u igri ili odgovarajućem pregledu; istorijski zapisi testova nisu nova provera trenutnog koda.
 
 ## Obim i čitanje
+
+Matrice ispod opisuju sadašnju pokrivenost, a ne konačnu kompletnost aktera. Oznaka da radnja trenutno ne postoji u kodu nije razlog da se potrebna sposobnost izostavi iz razvoja; ciljne profile i nedostajuću logiku/art vodi [plan elemenata](PLAN-ELEMENTI.md).
 
 - Obuhvaćeni su glavni igrači/neprijatelji iz [postojećeg 2D Storybook kataloga](../storybook/stories/index.js), uključujući varijante vozila, aviona i stacionarne odbrane. Ista grafika koju deli više igara ima zajednički opis. Ovo nije katalog svake nekorišćene slike u `assets`.
 - **A4 / A5 / A8:** klip sa toliko kadrova, prema konfiguraciji potrošača ili metapodacima; pripremljen klip koji još nije ugrađen označen je posebno. **S:** statična slika. **P:** proceduralno pomeranje, rotacija, trzaj, treptanje ili prateći efekat; nije poseban sprite klip tela. **Poze:** različite poze/varijante u listu, ne nužno vremenska animacija. **—:** radnja nije sposobnost tog aktera u sadašnjem kodu; nije automatski zahtev za novim artom ili gameplay-em.
 - Mirovanje ne mora uvek imati petlju. Mirno vozilo ili utvrđenje mogu opravdano koristiti S; vožnja gusenica, hod i puzanje imaju prednost nad sitnim idle pomeranjem. Proceduralno nišanjenje odvojene cevi ne treba zamenjivati nizom unapred nacrtanih uglova.
 - „Postoji u igri” znači potvrđen resurs i put u kodu, ne potvrđenu glatkoću animacije u browseru. Gotov art bez potrošača vodi se kao pripremljen. Početni inventar nije pokretao igre niti testove; izvršene ciljane unit provere i granice neposrednog pregleda PNG/GIF kadrova beleži [TESTING](TESTING.md#art-verification-record). Konačni pregled pokreta u igri ostaje odvojen od tih dokaza.
-- Merene dimenzije, broj stvarnih GIF kadrova, hashes izvora i opisani klipovi nalaze se u [generisanom indeksu](../assets/images/sprite-index.json). Obnavlja ga [skripta](../scripts/index-sprite-art.py), koja čita direktno linkovane slike iz ART.md i PLAN-ART.md i opise koji se završavaju sa `sprites.json`, uključujući [Kluz](../assets/images/armies/sources/franjo-kluz/sprites.json) i [tenkove](../assets/images/armies/sources/tenkovi/sprites.json), kao i dopune navedene niže. Skripta ne menja art; PNG atlas nije jedan animacioni kadar samo zato što je jedan kontejnerski kadar.
+- Merene dimenzije, broj stvarnih GIF kadrova, hashes izvora i opisani klipovi nalaze se u [generisanom indeksu](../assets/images/sprite-index.json). Obnavlja ga [skripta](../scripts/index-sprite-art.py), koja čita direktno linkovane slike iz ovog dokumenta i opise koji se završavaju sa `sprites.json`, uključujući [Kluz](../assets/images/armies/sources/franjo-kluz/sprites.json) i [tenkove](../assets/images/armies/sources/tenkovi/sprites.json), kao i dopune navedene niže. Skripta ne menja art; PNG atlas nije jedan animacioni kadar samo zato što je jedan kontejnerski kadar.
 - Ugao i identitet postojećeg vojnog arta proveravaju se u [indeksu prikaza](../assets/images/armies/index.csv), a istorijski okvir i prihvaćen izgled u [kontekstima](KONTEKST.md). Obim Storybook-a ostaje [samo igrači i neprijatelji](STORYBOOK.md); projektili i efekti su njihovi saradnici.
 
 ## Pešadija i posade
@@ -38,7 +42,7 @@ Trajna dokumentacija postojećeg arta: pokrivenost stanja, izvori, priprema i za
 | Akter / igre | Art i izvor upotrebe | Mirovanje | Kretanje | Pucanje | Uništenje | Napomena |
 |---|---|---|---|---|---|---|
 | Partizanski tenk · Tenkići, Do Trsta | [referentni trup](../assets/images/armies/game-ready/tenkovi/partizanski-tenk-bez-cevi-pixel.png), [atlas u upotrebi](../assets/images/armies/game-ready/tenkovi/partizanski-tenk-sprites.png), [cev](../assets/images/armies/game-ready/tenkovi/partizanski-tenk-cev-pixel.png), [TenkLevo](../scenes/tenkici/TenkLevo.js), [Tenk](../scenes/tenkici/Tenk.js) | S; original u idle redu | A4 `drive`, 0,64 s; obrnut redosled pri vožnji unazad | P nišanjenje i trzaj odvojene cevi, projektil | S olupine + postojeći požar | ART-01/08 povezano kroz TenkLevo u oba nivoa i Storybook-u |
-| Nemački tenk · Tenkići, Do Trsta | [referentni trup](../assets/images/armies/game-ready/tenkovi/nemacki-tenk-bez-cevi-pixel.png), [atlas u upotrebi](../assets/images/armies/game-ready/tenkovi/nemacki-tenk-sprites.png), [cev](../assets/images/armies/game-ready/tenkovi/nemacki-tenk-cev-pixel.png), [TenkDesno](../scenes/tenkici/TenkDesno.js), [GroundEnemies](../scenes/to-trieste/GroundEnemies.js) | S; original u idle redu | A4 `drive`, 0,64 s; u Do Trsta i tokom paljbe u pokretu | P odvojena cev i projektili | S olupine + postojeći požar | ART-01/08: isti atlas i olupina u TenkDesno i GroundEnemy, uz zasebna sidrišta cevi |
+| Nemački tenk · Tenkići, Do Trsta | [referentni trup](../assets/images/armies/game-ready/tenkovi/nemacki-tenk-bez-cevi-pixel.png), [atlas u upotrebi](../assets/images/armies/game-ready/tenkovi/nemacki-tenk-sprites.png), [cev](../assets/images/armies/game-ready/tenkovi/nemacki-tenk-cev-pixel.png), [TankSprite](../core/actor/vehicles/TankSprite.js), [GroundEnemies](../scenes/to-trieste/GroundEnemies.js) | S; original u idle redu | A4 `drive`, 0,64 s; u Do Trsta i tokom paljbe u pokretu | P odvojena cev i projektili | S olupine + postojeći požar | ART-01/08: isti atlas i olupina u TenkDesno i GroundEnemy, uz zasebna sidrišta cevi |
 | Hummel · Kluz | [atlas](../assets/images/armies/game-ready/tenkovi/hummel-sprites.png), [izvorni Hummel](../assets/images/armies/hummel.png), [Vehicle](../core/actor/vehicles/Vehicle.js) | S `idle` | A4 `drive` | —; sadašnji Vehicle ne puca | S sopstvene olupine + požar | Izvorni trup, cev i tri člana posade; nove faze gusenica i odgovarajuća olupina |
 | Opel Blitz · Kluz | [atlas](../assets/images/armies/game-ready/kamioni/opel-blitz-sprites.png), isti Vehicle | A4 `idle` | A4 `drive` | — | S sopstvene olupine + požar | ART-08 povezan; ista olupina deli se sa Opelom iz Do Trsta |
 | Opel Blitz, legija · Kluz | [atlas](../assets/images/armies/game-ready/kamioni/opel-blitz-legion-sprites.png), isti Vehicle | A4 `idle` | A4 `drive` | — | S posebne olupine legije + požar | ART-08 povezan, odgovarajuće oznake sačuvane |
@@ -79,7 +83,7 @@ Trajna dokumentacija postojećeg arta: pokrivenost stanja, izvori, priprema i za
 
 ## Uslovi završetka zadataka
 
-Svaki zadatak dopune aktera završava se upotrebljivim resursom, sačuvanim izvorom, opisom kadrova/slojeva, sidrišta i trajanja, povezivanjem sa kodom i pregledom u Storybook-u i svim pogođenim nivoima. Izrada i integracija beleže se odvojeno kao dokazi, ali status cele stavke ostaje `🔄 In progress` dok oba dela i potrebne provere nisu završeni. Obnoviti ovaj indeks i njegova merenja. Postojeći efekti nisu dokaz da nedostajući crtež tela postoji, ali proceduralni prikaz radnje nije sam po sebi mana. Za pozadine važi poseban obim i podela [ART-12](PLAN-ART.md#art-12-priprema-i-izrada).
+Svaki zadatak dopune aktera završava se upotrebljivim resursom, sačuvanim izvorom, opisom kadrova/slojeva, sidrišta i trajanja, povezivanjem sa kodom i pregledom u Storybook-u i svim pogođenim nivoima. Izrada i integracija beleže se odvojeno kao dokazi, ali status cele stavke ostaje `🔄 In progress` dok oba dela i potrebne provere nisu završeni. Obnoviti ovaj indeks i njegova merenja. Postojeći efekti nisu dokaz da nedostajući crtež tela postoji, ali proceduralni prikaz radnje nije sam po sebi mana. Za pozadine važe [pravila pripreme i predaje](#pravila-pripreme-i-predaje-pozadina), a za dekoraciju [zasebni rekviziti bojišta](#zasebni-rekviziti-bojišta).
 
 Ako vlasnik izričito odloži neku proveru, dovršena izrada i integracija mogu imati `✅ Done` uz navedenu neizvršenu proveru i njegovu odluku; to nije tvrdnja da je pregled obavljen. Bez takve odluke važe svi navedeni uslovi završetka.
 
@@ -168,19 +172,19 @@ U [postojećem folderu](../assets/images/sprites/vojnici/) postoje i sledeći li
 
 **Živi elementi u ambijentu:** ljudi, zastave, životinje, pokretna vozila, dim i plamen ne ostaju zamrznuti u osnovnom PNG-u. Ako ih scena sadrži, moraju biti odvojeno animirani i pratiti vreme scene, uključujući pauzu. U protivnom se uklanjaju iz osnove. Naslikana zvezda ili grafit na zidu ostaju statični. Voda je po izričitoj odluci vlasnika zasad mirna; pokušaj sa svetlim tragovima je odbačen. Nova izabrana grupa nema naslikane ljude, zastave, oblake ni dim/plamen; ranije verzije koje ih imaju ostaju samo arhivske reference.
 
-**Postojeći resursi:** Codex je nacrtao Bihać, Drvar, Neretvu, Sutjesku i Užice (svaka 1536×1024, linija tla na 80 % visine, [metapodaci](../assets/images/sources/pozadine/backgrounds.json)). Bihać, Drvar i Užice su ugrađeni u smenu bojišta Tenkića kroz [BattleBackground](../scenes/tenkici/BattleBackground.js), uz žarišta vatre i dima iz metapodataka. Sutjeska nema zapis u metapodacima (linija tla i žarišta), pa nije ugrađena dok ga Codex ne doda. Pozadina Neretve je bočna, kao ostale, i ne odgovara igri Neretva, koja gleda pravo u rovove; zaseban zahtev za taj pogled vodi [IG-01](PLAN-ZA-IGRE.md#ig-01).
+**Postojeći resursi:** Codex je nacrtao Bihać, Drvar, Neretvu, Sutjesku i Užice (svaka 1536×1024, linija tla na 80 % visine, [metapodaci](../assets/images/sources/pozadine/backgrounds.json)). Bihać, Drvar i Užice su ugrađeni u smenu bojišta Tenkića kroz [BattleBackground](../scenes/tenkici/BattleBackground.js), uz žarišta vatre i dima iz metapodataka. Sutjeska nema zapis u metapodacima (linija tla i žarišta), pa nije ugrađena dok ga Codex ne doda. Pozadina Neretve je bočna, kao ostale, i ne odgovara igri Neretva, koja gleda pravo u rovove; zaseban zahtev za taj pogled vodi [IG-01](PLAN-IDEJE.md#ig-01).
 
 **Razrada ratne atmosfere:** [poređenje B2 i B3 sa jedinicama](../assets/images/sources/pozadine/styles/scene-preview.html), [B2 — grafit, zastava i nagoreli zidovi](../assets/images/sources/pozadine/styles/b2-partisan-atmosphere.png), [B3 — ljudi i mali ratni prizori](../assets/images/sources/pozadine/styles/b3-lived-wartime-scene.png). B3 dodaje mitraljesko mesto, dalekog stražara, patrolu, porodicu u zaklonu i borce između zaklona. Izvornici, stvarni promptovi i hash referenci sačuvani su kroz [manifest proba](../assets/images/sources/pozadine/styles/manifest.json). Obe su zasebne sačuvane probe; nisu ugrađene u igru niti konačno prihvaćene.
 
 **Stilske probe:** [uporedni pregled](../assets/images/sources/pozadine/styles/preview.html) prikazuje isti Bihać u tri različita pravca: [A — arkadni sa obrubima](../assets/images/sources/pozadine/styles/a-8bit-arcade.png), [B — 16-bit bez obruba](../assets/images/sources/pozadine/styles/b-16bit-clusters.png) i [C — grubi monohromatski](../assets/images/sources/pozadine/styles/c-four-color-handheld.png), uz postojeće jedinice radi poređenja. [Tačni promptovi i izvori](../assets/images/sources/pozadine/styles/manifest.json), [priprema kompozicija](../assets/images/sources/pozadine/styles/prepare.py) i [dokaz očuvanih izvornika](../assets/images/sources/pozadine/styles/review.json). To su probe, bez izbora konačnog stila ili ugradnje; ostatak grupe se ovim ne nastavlja automatski. Browser i igra nisu pokretani.
 
-Preostala izrada, usmerenje vlasnika i uslovi predaje nalaze se u [ART-12](PLAN-ART.md#art-12-priprema-i-izrada); ove probe ne predstavljaju odobren konačni stil.
+Ove arhivske probe ne predstavljaju odobren konačni stil; sadašnju isporuku opisuje [šest ambijenata](#šest-ambijenata-sadašnjih-nivoa).
 
 ## Održavanje i granice dokaza
 
 **Čuvanje izvora pozadina:** stilske probe sa izvorima i jedinstveni pokušaj Kozare ostaju sačuvani. Pet izabranih generacija i dva projektna uzora čuvaju se jednom, na postojećim kanonskim putanjama; zapisi generacija zadržavaju prvobitne nazive i hashove, uz `preservedImage`/`repositoryImage` za pronalaženje sačuvanih piksela. Preuzete istraživačke fotografije zamenjuju njihovi zabeleženi URL-ovi i hashovi. Podrazumevani `prepare.py` obnavlja lagani HTML pregled iz postojećih slika, bez ponovnog kopiranja uzora i bez menjanja `backgrounds.json` koji koriste igre. Velike lokalne kompozicije sa jedinicama prave se samo opcijom `--compositions`; eksplicitni izvoz predaje je zaseban `--export-handoff`. Pregledi u veličini igre i ranija merenja nisu novo odobrenje pozadina.
 
-Svako dodavanje aktera, zamena arta ili promena mapiranja stanja zahteva ažuriranje odgovarajućeg reda i ponovno generisanje merenja. Hash označava tačnu pregledanu datoteku, ne kvalitet ili odobrenje slike. Novi art se čuva uz ostalu opremu iste vrste, sa izvorom i metapodacima; pre povezivanja proveravaju se stvarni različiti kadrovi, sidrište, providnost i izgled u veličini igre. Izvršene provere i njihova ograničenja beleže se u [TESTING](TESTING.md#art-verification-record), a statusi dopuna u [planu](PLAN-ART.md).
+Svako dodavanje aktera, zamena arta ili promena mapiranja stanja zahteva ažuriranje odgovarajućeg reda i ponovno generisanje merenja. Hash označava tačnu pregledanu datoteku, ne kvalitet ili odobrenje slike. Novi art se čuva uz ostalu opremu iste vrste, sa izvorom i metapodacima; pre povezivanja proveravaju se stvarni različiti kadrovi, sidrište, providnost i izgled u veličini igre. Izvršene provere i njihova ograničenja beleže se u [TESTING](TESTING.md#art-verification-record).
 
 
 ## Dorade Hummela, BP-42 i Okupatora
@@ -191,6 +195,12 @@ BP-42 u istom atlasu 4×2 ima jedan aktivni kadar mirovanja i četiri vožnje; �
 
 Okupatorov [atlas](../assets/images/armies/game-ready/vojnici/occupier-sprites.png) ima 5×6 ćelija 210×210; prvih pet redova je identično izvorniku. Novi red fire koristi pet faza trzaja ruku/oružja u petlji 0,5 s, uz sačuvane originalne noge, glavu i držanje. [Metapodaci](../assets/images/armies/sources/infantry-art/occupier-sprites.json), [tačan prompt](../assets/images/armies/sources/infantry-art/occupier-fire-generation.json), [priprema](../assets/images/armies/sources/infantry-art/prepare-occupier.py), [GIF](../assets/images/armies/sources/infantry-art/previews/occupier-fire.gif) i [pregled](../assets/images/armies/sources/infantry-art/occupier-preview.html). Otpisani i postojeća Storybook priča stvaraju isti Occupier; hod, pad, sudari i pozivi paljbe ostaju isti.
 
+
+## Pravila pripreme i predaje pozadina
+
+Agent priprema čitljiv pixel art sa manje elemenata, više praznog prostora i mirnijim, svetlijim površinama iza jedinica. Rezolucija, izmerena linija tla i istorijski prikladna sezona pripadaju metapodacima; linija tla označava početak pojasa za jedinice, a ne horizont ili stopala konkretnog aktera. Koristiti ratnu arhitekturu i opremu, bez modernih mostova, memorijala i solitera. Olupine, poginule i krv dodavati kroz [zasebne rekvizite](#zasebni-rekviziti-bojišta), uz vlasnikov pregled kompozicije.
+
+Predaja sadrži PNG ili odvojene animirane slojeve, stvarne promptove, poreklo i hashove, dimenzije, liniju tla i žarišta `{x, y, intensity, kind}` u izvornim pikselima, ponovljivu pripremu i kompozicije sa jedinicama 1280×720 i 1024×768. Ugradnja poravnava sliku, fizičko tlo, jedinice i projektile; živi efekti prate vetar, vreme scene, pauzu i nastavak posle ishoda. Izbor konačnih varijanti i vizuelni pregled pripadaju vlasniku; pripremljen PNG ili HTML nije dokaz ugradnje ili prihvatanja u igri. Pozadine i rekviziti nemaju zasebne Storybook priče.
 
 ## Šest ambijenata sadašnjih nivoa
 
@@ -253,7 +263,7 @@ Ove četiri verzije ostaju sezonske rezerve, a nisu dodatni nivoi u postojećem 
 
 ## Batina: izabrana animirana pozadina
 
-Vlasnik je izabrao slojevitu animiranu Batinu kao konačnu verziju; Tenkići je koriste u svom postojećem nizu bojišta. [Pregled sa pauzom i poređenjem originala](../assets/images/sources/pozadine/batina-layered/preview.html), [raspored i trajanja](../assets/images/background/batina-1944/layout.json), [tačni promptovi i hashovi](../assets/images/sources/pozadine/batina-layered/generation.json). Statične alternative služe samo kao izvor ili poređenje; konačni prikaz sastavljaju isti renderer i slojevi u igri i pregledu.
+Vlasnik je izabrao slojevitu animiranu Batinu kao konačnu verziju; Tenkići je koriste u svom postojećem nizu bojišta. U igri se kreću samo oblaci: zastava, vojnici i civili su isključeni, jer se vlasniku nisu dopali (odluka vlasnika, 2026-11-21); njihov atlas ostaje sačuvan. [Pregled sa pauzom i poređenjem originala](../assets/images/sources/pozadine/batina-layered/preview.html), [raspored i trajanja](../assets/images/background/batina-1944/layout.json), [tačni promptovi i hashovi](../assets/images/sources/pozadine/batina-layered/generation.json). Statične alternative služe samo kao izvor ili poređenje; konačni prikaz sastavljaju isti renderer i slojevi u igri i pregledu.
 
 [Osnova](../assets/images/background/batina-1944/base.png) nema ljude ni platnenu zastavu; nebo je providno, a originalni odsjaji i tekstura vode sačuvani bez dodatnog efekta. [Oblaci](../assets/images/background/batina-1944/clouds.png) prolaze iza ambijenta. [Atlas](../assets/images/background/batina-1944/actors.png) ima četiri kolone i četiri reda ćelija 128×128: zastava 1,6 s, osmatrač 2,8 s, mitraljezac 3,2 s; sedeći par ima četiri poze koje se ne ponavljaju u stalnoj petlji. Zastavina gornja ivica i donji oslonci ljudi su nepomični; vreće sa peskom se ponovo iscrtavaju preko donjeg dela posmatrača, radi pravilnog zaklanjanja.
 
@@ -263,3 +273,42 @@ Vlasnik je izabrao slojevitu animiranu Batinu kao konačnu verziju; Tenkići je 
 **Ispravke oznaka i civila u slojevitoj Batini:** zastava je svetla sa crvenom petokrakom; u ovom artu borci nose partizanske kape sa crvenom zvezdom, bez šlemova. To su smernice vlasnika za ovu scenu, ne tvrdnja o svakoj istorijskoj uniformi. [Ispravljen izvor i prompt](../assets/images/sources/pozadine/batina-layered/correction.json). Ne preslikavati pogrešne oznake iz postojeće AI reference bez provere.
 
 Civili ne igraju četiri poze ukrug: neutralna poza preovlađuje, a kratki gest deteta ili majke pojavljuje se posle duže pauze čija se dužina menja. Raspored zavisi od vremena scene i determinističkog semena, pa pauza zadržava isti kadar; ne koristi se zidni sat. Novi izvor ograničava promene na sitne gestove, bez zajedničkog podizanja glava.
+
+
+## Zasebni rekviziti bojišta
+
+Olupine, poginuli vojnici i tragovi krvi su **opciona dekoracija sa providnom pozadinom**, a ne pikseli naslikani u pejzaž. Vlasnik je izabrao ovaj pristup da se isti resurs može postavljati na različita bojišta bez precrtavanja pozadina.
+
+Pravilo animiranja ljudi u ambijentu odnosi se na žive likove; poginuli u ovom sloju namerno ostaju nepomični.
+
+**Ko postavlja:** agent bira odgovarajuće rekvizite, priprema i ugrađuje njihov raspored na pozadinu u okviru rada na bojištu, a vlasnik pregleda rezultat i traži dorade ili potvrđuje izbor. Alat za postavljanje služi agentu za pripremu i vlasniku za pregled; ručno raspoređivanje nije obaveza vlasnika. Količinu i mesta prilagoditi ratnom prizoru, naročito bojištima velikih gubitaka, uz čitljiv prostor za igru. Nema obaveznog istog rasporeda na svim pozadinama.
+
+### Dostupan katalog: 24 rekvizita
+
+| Grupa | Identifikatori u katalogu | Mere i napomene |
+|---|---|---|
+| Poginuli partizani | `partisan-fallen-prone`, `partisan-fallen-supine`, `partisan-fallen-side` | Tri poze: potrbuške, na leđima i na boku; svaka 128×64 px, sidrište (64,56); meke partizanske kape sa petokrakom, bez šlemova |
+| Poginuli Nemci | `german-fallen-prone`, `german-fallen-supine`, `german-fallen-side` | Iste tri poze, mere i sidrište; nemačke uniforme |
+| Poginuli Italijani | `italian-fallen-prone`, `italian-fallen-supine`, `italian-fallen-side` | Iste tri poze, mere i sidrište; italijanske uniforme |
+| Krv | `blood-patch`, `blood-smear`, `blood-pool` | Mrlja, razmaz i lokva; svaka 96×48 px, sidrište (48,40); zasebno od tela |
+| Olupine tenkova i samohodnog oruđa | `partisan-tank`, `german-tank`, `somua-s35`, `hummel` | Postojeći providni crteži, bez ponovnog generisanja |
+| Kamioni i oklopni voz | `opel-blitz`, `opel-blitz-legion`, `bp42` | Odvojeni izgledi oba Opela i vagona BP-42 |
+| Uništena oruđa | `flak38`, `pak38` | Zasebne olupine PVO i protivtenkovskog topa |
+| Ruševine i oštećen čamac | `house-bunker`, `bunker`, `player-boat` | Dve ruševine i oštećen trup čamca; birati primerenu podlogu i pogled |
+
+Devet tela i tri traga krvi su samostalni PNG-ovi; dvanaest olupina ponovo koristi postojeće slike. Tačne mere, sidrišta, putanje, vrste i podrazumevane slojeve svih objekata vodi katalog ispod. Oznaka `faction: null` kod olupina ne znači istorijsku prikladnost za svaku stranu ili period.
+
+[Pregled i postavljanje](../props.html) koristi isti [zajednički sloj](../core/SceneryLayer.js) kao [BattleBackground](../scenes/tenkici/BattleBackground.js), zajednički Tenkićima i Ustanku. Raspored je opcioni spisak props u podacima bojišta: identifikator iz kataloga, položaj sidrišta, razmera i ogledanje. Položaji se mere u pikselima izvorne slike, pre njenog poravnanja sa tlom; sidrište ostaje nepomično pri promeni razmere ili smera. Krv se crta ispod tela i olupina, a bliži predmeti preko udaljenijih. Sloj nema sudare, zdravlje, veštačku inteligenciju, zvuk ili sopstveni sat.
+
+[Katalog, mere i sidrišta](../assets/images/armies/sources/scenery/catalog.json), [opisi novih spriteova](../assets/images/armies/sources/scenery/sprites.json), [izvorni list](../assets/images/armies/sources/scenery/fallen-generated.png), [tačan prompt i poreklo](../assets/images/armies/sources/scenery/generation.json), [priprema](../assets/images/armies/sources/scenery/prepare.py) i [pregled u veličini igre](../assets/images/armies/sources/scenery/game-size.png). Postojeće [olupine](../assets/images/armies/sources/wrecks/sprites.json) se koriste direktno, bez kopiranja njihovih slika ili menjanja prikaza uništenih aktera.
+
+Poginuli partizani nose meke kape sa crvenom petokrakom; nemačke i italijanske varijante imaju svoje uniforme. Krv je odvojena da njen položaj i količina ne zavise od poze tela. Za konkretno bojište birati istorijski prikladne uniforme i vozila; katalog nije potvrda da svaki model pripada svakoj bici. Dim i plamen nisu deo statičnog spritea. Ovi predmeti nisu akteri, pa njihov pregled pripada stranici rekvizita, izvan Storybook-a.
+
+### Postupak dodavanja na pozadinu
+
+1. Agent izabere resurse prema mestu, godini, vojskama i uglu prikaza, koristeći [istorijske izvore](ISTORIJA.md) i [kontekst igre](KONTEKST.md). Poginuli su nepomična dekoracija; ne dodavati pokretne ranjenike u ovaj sloj.
+2. Agent pripremi kompoziciju u [pregledu rekvizita](../props.html), zatim sačuva raspored u `props` odgovarajućeg bojišta. Stavka ima `id`, `x`, `y`, opcioni `scale` (podrazumevano 1), `flip` i `layer`. Koordinate su pikseli izvornog PNG-a, a ne upola manjeg sloja efekata.
+3. Agent poveže raspored sa podacima koje igra zaista koristi; sam izvoz iz alata nije ugradnja. Izvorna slika, njena linija tla i postojeće animacije ostaju sačuvani. Dim i vatru nad olupinama po potrebi postavlja kroz zasebne žive efekte.
+4. Agent pripremi pregled kompozicije u veličini igre, uključujući 1280×720 i 1024×768, i preda vlasniku na vizuelni pregled. Proveravaju se razmera, oslonac na tlu, zaklanjanje, čitljivost igrača i očuvanost animacija Batine; izvršene provere i ono što nije provereno jasno se beleže.
+
+**Trenutna granica isporuke:** katalog, priprema i zajednički prikaz su povezani; na bojišta još nije unapred dodat raspored rekvizita. Raniji ciljani unit prolaz je 19/19, a pregled PNG-a i sintakse alata nije potvrda rada u browseru ili vlasnikovo prihvatanje kompozicije. [Dokazi provera](TESTING.md#art-verification-record).

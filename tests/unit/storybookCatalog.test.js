@@ -47,9 +47,9 @@ test('every story puts its block on the stage, which lives and ends without erro
   }
 })
 
-/** Whether a block has let off a round: from a pool of bullets or shells, its one flak shell or its one bomb. */
-const fired = block => (block.bullets ?? block.granate ?? block.projectiles)?.projectiles.length > 0 || block.shell?.visible ||
-  block.bomb?.visible
+/** Whether a block has let off a round: its count of shots, a pool of bullets or shells, its one flak shell or its one bomb. */
+const fired = block => block.shotsFired > 0 || (block.bullets ?? block.granate ?? block.projectiles)?.projectiles.length > 0 ||
+  block.shell?.visible || block.bomb?.visible
 
 test('every block fires each shot it lists, where it aims', t => {
   for (const { story } of stories2D()) {

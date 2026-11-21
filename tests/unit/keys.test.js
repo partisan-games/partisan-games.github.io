@@ -107,29 +107,26 @@ function actionsOf(vehicle, methods, reset = () => {}) {
   return result
 }
 
+/** A tank body that only records the commands its keys give. */
+async function tankOn(playerKeys) {
+  const { default: TankKeys } = await import('/core/gameplay/controllers/TankKeys.js')
+  const { keyboard } = await import('/core/io/Keyboard.js')
+  const body = {}
+  const controller = new TankKeys(body, { keyboard, keys: playerKeys })
+  return Object.assign(body, { handleInput: dt => controller.handleInput(dt) })
+}
+
 test('the left tank drives, aims and fires with A, D, W, S and Space', async() => {
-  const { default: TenkLevo } = await import('/scenes/tenkici/TenkLevo.js')
-  const { default: GameClock } = await import('/core/runtime/GameClock.js')
-  const { default: TankKeys } = await import('/core/io/controllers/TankKeys.js')
   const { leftPlayerKeys } = await import('/core/io/keys.js')
-  const tank = new TenkLevo({ x: 100, xLimit: 500, clock: new GameClock() })
-  tank.controller = new TankKeys(tank, leftPlayerKeys)
-  assert.deepEqual(actionsOf(tank, ['addForce', 'diziCev', 'spustajCev', 'fire']), {
-    KeyA: ['addForce'], KeyD: ['addForce'], KeyW: ['diziCev'], KeyS: ['spustajCev'], Space: ['fire'],
+  assert.deepEqual(actionsOf(await tankOn(leftPlayerKeys), ['drive', 'raiseBarrel', 'lowerBarrel', 'shoot']), {
+    KeyA: ['drive'], KeyD: ['drive'], KeyW: ['raiseBarrel'], KeyS: ['lowerBarrel'], Space: ['shoot'],
   })
 })
 
 test('the right tank drives, aims and fires with the arrows and Enter', async() => {
-  const { default: TenkDesno } = await import('/scenes/tenkici/TenkDesno.js')
-  const { default: canvas2d } = await import('/core/io/canvas2d.js')
-  const { default: GameClock } = await import('/core/runtime/GameClock.js')
-  const { default: TankKeys } = await import('/core/io/controllers/TankKeys.js')
   const { rightPlayerKeys } = await import('/core/io/keys.js')
-  const tank = new TenkDesno({ clock: new GameClock() })
-  tank.controller = new TankKeys(tank, rightPlayerKeys)
-  tank.x = canvas2d.width * .75
-  assert.deepEqual(actionsOf(tank, ['addForce', 'diziCev', 'spustajCev', 'fire']), {
-    ArrowLeft: ['addForce'], ArrowRight: ['addForce'], ArrowUp: ['diziCev'], ArrowDown: ['spustajCev'], Enter: ['fire'],
+  assert.deepEqual(actionsOf(await tankOn(rightPlayerKeys), ['drive', 'raiseBarrel', 'lowerBarrel', 'shoot']), {
+    ArrowLeft: ['drive'], ArrowRight: ['drive'], ArrowUp: ['raiseBarrel'], ArrowDown: ['lowerBarrel'], Enter: ['shoot'],
   })
 })
 

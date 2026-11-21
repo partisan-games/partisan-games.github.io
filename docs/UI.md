@@ -76,7 +76,7 @@ Postojeće šablone sastavlja [UI](../ui/UI.js#L99). Poziv igre treba da ide kro
 | Ponovna igra | Postojeće `id="igraj-opet"` dugme | Akciju i sadašnju naplatu obrađuje ruter, ne UI šablon |
 | Učitavanje / runtime greška | Zajednički put u ruteru | Ne zahteva novu ili lažnu scenu radi iscrtavanja greške |
 
-Na standardnoj pauzi redosled je Main menu, Settings, Play again, Continue; na ishodu Main menu, Play again. Uvod je poseban slučaj bez menija. Opšte pravilo je meni na vrhu i potvrda/nastavak na dnu tamo gde nastavak postoji; ekran greške ima samo meni.
+Na standardnoj pauzi redosled je Main menu, Settings, Continue, Play again (odluka vlasnika, 2026-11-21: Continue iznad Play again); na ishodu Main menu, Play again. Uvod je poseban slučaj bez menija. Opšte pravilo je meni na vrhu; ekran greške ima samo meni.
 
 Danas Esc tokom igre otvara pauzu. Zajednički Escape handler koji iz svakog centralnog prozora vraća na meni nije implementiran; u pauzi i ostalim centralnim prozorima Esc ne radi ništa. Tako i ostaje: Esc u pauzi i ostalim centralnim prozorima ne radi ništa (odluka vlasnika, 2026-11-20). Ne zaključivati ponašanje iz komentara ili samog redosleda dugmadi.
 
