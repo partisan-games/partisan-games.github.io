@@ -1,4 +1,4 @@
-import { keys, attackLabels } from '/core/io/keys.js'
+import { attackLabels } from '/core/io/keys.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import Scene2D from '/core/Scene2D.js'
 import Background from '/core/objects/Background.js'
@@ -13,7 +13,7 @@ import { randomInRange } from '/core/utils.js'
 export default class OtpisaniScene extends Scene2D {
   constructor() {
     super({
-      controlKeys: { [attackLabels.pointer]: 'shoot', [keys.pause.label]: 'pause' },
+      controlKeys: { [attackLabels.pointer]: 'shoot' },
       intro: 'Kill all the occupiers!<br>Liberation is near.',
     })
   }
@@ -26,7 +26,7 @@ export default class OtpisaniScene extends Scene2D {
     this.health = new Health()
     // the occupiers, 1.8 m tall, walk on the street at three quarters of the screen's height, their middle 90 px above it
     this.projection = sideProjection({ pxPerMeter: 100, groundY: this.height * .75 + 90 })
-    this.background = new Background('background/rusevine-varsava.jpg')
+    this.background = new Background('background/beograd-1944-crno-belo.png')
     this.audio = new Sound('otpisani.mp3', { stream: true, profile: 'music', loop: true })
     this.player.sounds.push(this.audio)
     this.spawnElapsed = 0

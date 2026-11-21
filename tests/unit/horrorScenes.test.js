@@ -4,7 +4,6 @@ import { BoxGeometry, Color, Mesh, Scene } from 'three'
 import { createPageElements } from './helpers/dom.js'
 import GameSession from '/core/runtime/GameSession.js'
 import ZombieWaves from '/scenes/graveyard-survival/ZombieWaves.js'
-import AI from '/core3d/actor/AI.js'
 import World from '/core/World.js'
 
 before(() => createPageElements())
@@ -50,23 +49,6 @@ test('zombies keep the ten-second growth rate, wait through pause and stop after
   session.update(100)
   waves.update()
   assert.equal(count, 3)
-})
-
-test('the ghost death without an animation uses the shared actor death exactly once', async() => {
-  const { GhostAI } = await import('/core3d/actor/derived/horror/Ghost.js')
-  let deaths = 0
-  const actor = new AI({
-    mesh: new Mesh(new BoxGeometry(1, 2, 1).translate(0, 1, 0)),
-    baseState: 'idle', deathCallback: () => deaths++,
-  })
-  actor.pendingDamage = 1000
-  GhostAI.prototype.checkHit.call(actor)
-  assert.equal(actor.dead, true)
-  assert.equal(actor.state, 'death')
-  assert.equal(deaths, 1)
-  actor.pendingDamage = 50
-  GhostAI.prototype.checkHit.call(actor)
-  assert.equal(deaths, 1)
 })
 
 test('graveyard keeps its morning victory and does not spawn behind the result screen', async() => {

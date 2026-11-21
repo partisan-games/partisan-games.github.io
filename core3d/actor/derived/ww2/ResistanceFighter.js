@@ -1,8 +1,3 @@
-import Player from '/core3d/actor/Player.js'
-import { icons } from '/core/io/icons.js'
-import AI from '/core3d/actor/AI.js'
-import { loadedModel } from '/core3d/assets/models.js'
-
 const animDict = {
   idle: 'Rifle Idle',
   walk: 'Rifle Walk',
@@ -18,21 +13,5 @@ const twoHandedWeaponModel = { file: 'weapon/rifle.fbx', scale: 1.25, angle: Mat
 /** What to load; a game awaits requestModels(models) before it creates one of these. */
 export const models = [meshModel, twoHandedWeaponModel]
 
-const sharedProps = () => {
-  const mesh = loadedModel(meshModel)
-  const twoHandedWeapon = loadedModel(twoHandedWeaponModel)
-  return { buttonDict: { attack: icons.shoot }, mesh, animations: mesh.userData.animations, animDict, twoHandedWeapon, attackSound: 'rifle.mp3', attackDistance: 50 }
-}
-
-export class ResistanceFighterPlayer extends Player {
-  constructor(props = {}) {
-    super({ ...sharedProps(), ...props })
-    if (this.chaseCamera) this.chaseCamera.distance = 1.5
-  }
-}
-
-export class ResistanceFighterAI extends AI {
-  constructor(props = {}) {
-    super({ ...sharedProps(), ...props })
-  }
-}
+/** How it looks, sounds and acts, for a character made of a body and its model. */
+export const description = { model: meshModel, animDict, twoHandedWeapon: twoHandedWeaponModel, attackSound: 'rifle.mp3', body: { reach: 50 } }

@@ -4,7 +4,10 @@ import { loadModel } from '/core3d/loaders.js'
 import { terrainFromHeightmap } from '/core3d/terrain/heightmap.js'
 import { createFlag } from '/core3d/geometry/index.js'
 import { wave } from '/core3d/ground.js'
-import { PartisanPlayer, models as partisanModels } from '/core3d/actor/derived/ww2/Partisan.js'
+import { description as partisan, models as partisanModels } from '/core3d/actor/derived/ww2/Partisan.js'
+import leadCharacter from '/core3d/actor/characters/leadCharacter.js'
+import worldQueries from '/core3d/actor/characters/worldQueries.js'
+import { icons } from '/core/io/icons.js'
 import { thirdPersonControls } from '/ui/Controls.js'
 import { requestModels } from '/core3d/assets/models.js'
 
@@ -18,9 +21,6 @@ export default class SpomeniciScene extends Scene3D {
     this.addMesh(createSun({ intensity: 2 * Math.PI }))
 
     const terrain = await terrainFromHeightmap({ file: 'yu-crop.png', heightFactor: 3, snow: false })
-
-    this.player = new PartisanPlayer({ camera: this.camera, solids: terrain, altitude: .7 })
-    this.player.position.z = 2
 
     const [kosmaj, kosovskaMitrovica, podgaric, kadinjaca, ilirskaBistrica] = await Promise.all([
       await loadModel({ file: 'building/monument/kosmaj.fbx', size: 30, texture: 'terrain/beton.gif' }),
@@ -50,11 +50,13 @@ export default class SpomeniciScene extends Scene3D {
     yuFlag.position.set(1.5, 11, 0)
     this.yuCanvas = yuFlag.getObjectByName('canvas')
 
-    const solids = [terrain, redFlag, yuFlag, kadinjaca, kosmaj, kosovskaMitrovica, podgaric, kosovskaMitrovica, ilirskaBistrica]
-    this.player.addSolids(solids)
-
-    this.addMesh(terrain, ...solids)
-    this.add(this.player)
+    const solids = [terrain, redFlag, yuFlag, kadinjaca, kosmaj, kosovskaMitrovica, podgaric, ilirskaBistrica]
+    const world = worldQueries(solids)
+    // the partisan walks .7 m above the heightmap, as he always has
+    const groundAt = (x, z) => world.groundAt(x, z) + .7
+    this.addMesh(...solids)
+    leadCharacter(this, partisan, { z: 2, ...world, groundAt,
+      input: { buttonDict: { attack: icons.shoot, jump: '' } }, view: { height: 1.6 } })
   }
 
   update(delta, time) {

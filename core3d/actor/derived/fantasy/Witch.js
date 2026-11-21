@@ -1,8 +1,3 @@
-import { icons } from '/core/io/icons.js'
-import Player from '/core3d/actor/Player.js'
-import AI from '/core3d/actor/AI.js'
-import { loadedModel } from '/core3d/assets/models.js'
-
 const animDict = {
   idle: 'Crouch Idle',
   walk: 'Crouched Walking',
@@ -17,28 +12,5 @@ const meshModel = { file: 'model.fbx', angle: Math.PI, animDict, prefix: 'charac
 /** What to load; a game awaits requestModels(models) before it creates one of these. */
 export const models = [meshModel]
 
-const sharedProps = () => {
-  const mesh = loadedModel(meshModel)
-  return { buttonDict: { attack: icons.magic, attack2: icons.magic, special: icons.special }, mesh, animations: mesh.userData.animations, animDict, attackStyle: 'ONCE', attackDistance: 3, useFlame: true }
-}
-
-export class WitchPlayer extends Player {
-  constructor(props = {}) {
-    super({ ...sharedProps(), ...props })
-  }
-
-  enterAttack() {
-    super.enterAttack()
-    this.startFlame()
-  }
-
-  exitAttack() {
-    this.endFlame()
-  }
-}
-
-export class WitchAI extends AI {
-  constructor(props = {}) {
-    super({ ...sharedProps(), ...props })
-  }
-}
+/** How it looks, sounds and acts, for a character made of a body and its model: flame pours from her spell as it lands. */
+export const description = { model: meshModel, animDict, flame: { fromBlow: true }, body: { reach: 3 } }

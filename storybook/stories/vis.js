@@ -18,27 +18,27 @@ const put = (stage, body, view) => {
   return body
 }
 
-/** The player's plane in the lower middle of the stage. */
+/** The player's plane in the middle of the stage. */
 const player = aircraftId => stage => {
   const { size, image } = getAircraft(aircraftId)
-  const body = new FighterBomber({ size, ...at(stage, .7), clock: stage.session.clock })
+  const body = new FighterBomber({ size, ...at(stage, .5), clock: stage.session.clock })
   return put(stage, body, new FighterBomberSprite(body, { src: image, ...fromAbove(stage) }))
 }
 
-/** An enemy plane high in the view with its nose down; its rounds fly at the stand-in, below it. */
+/** An enemy plane in the middle with its nose down; its rounds fly at the stand-in. */
 const enemyPlane = type => stage => {
-  const body = new AttackPlane({ kind: attackPlaneModule.attackPlaneKinds[type], ...at(stage, .2), clock: stage.session.clock })
+  const body = new AttackPlane({ kind: attackPlaneModule.attackPlaneKinds[type], ...at(stage, .5), clock: stage.session.clock })
   return put(stage, body, new AttackPlaneSprite(body, { src: settings.enemies[type].images[0], ...fromAbove(stage) }))
 }
 
 const game = 'Vis'
 
 export const aircraft = [
-  { id: 'vis-spitfire', name: 'Spitfire Mk Vb', game, pxPerMeter, block: fighterBomberModule, create: player('spitfire') },
-  { id: 'vis-hurricane', name: 'Hurricane Mk IV', game, pxPerMeter, block: fighterBomberModule, create: player('hurricane') },
-  { id: 'vis-breguet', name: 'Breguet 19', game, pxPerMeter, block: fighterBomberModule, create: player('breguet') },
-  { id: 'vis-yak', name: 'Yak-1b', game, pxPerMeter, block: fighterBomberModule, create: player('yak') },
-  { id: 'vis-lovac', name: 'Nemački lovac', game, pxPerMeter, block: attackPlaneModule, create: enemyPlane('fighter') },
-  { id: 'vis-bf110', name: 'Bf 110', game, pxPerMeter, block: attackPlaneModule, create: enemyPlane('heavy') },
-  { id: 'vis-he111', name: 'He 111', game, pxPerMeter, block: attackPlaneModule, create: enemyPlane('boss') },
+  { id: 'vis-spitfire', name: 'Spitfire Mk Vb', game, pxPerMeter, settings: ['fighterBomber.thrust', 'fighterBomber.reload', 'fighterBomber.bulletSpeed', 'fighterBomber.bombs'], block: fighterBomberModule, create: player('spitfire') },
+  { id: 'vis-hurricane', name: 'Hurricane Mk IV', game, pxPerMeter, settings: ['fighterBomber.thrust', 'fighterBomber.reload', 'fighterBomber.bulletSpeed', 'fighterBomber.bombs'], block: fighterBomberModule, create: player('hurricane') },
+  { id: 'vis-breguet', name: 'Breguet 19', game, pxPerMeter, settings: ['fighterBomber.thrust', 'fighterBomber.reload', 'fighterBomber.bulletSpeed', 'fighterBomber.bombs'], block: fighterBomberModule, create: player('breguet') },
+  { id: 'vis-yak', name: 'Yak-1b', game, pxPerMeter, settings: ['fighterBomber.thrust', 'fighterBomber.reload', 'fighterBomber.bulletSpeed', 'fighterBomber.bombs'], block: fighterBomberModule, create: player('yak') },
+  { id: 'vis-lovac', name: 'Nemački lovac', game, pxPerMeter, settings: ['attackPlane.bulletSpeed'], block: attackPlaneModule, create: enemyPlane('fighter') },
+  { id: 'vis-bf110', name: 'Bf 110', game, pxPerMeter, settings: ['attackPlane.bulletSpeed'], block: attackPlaneModule, create: enemyPlane('heavy') },
+  { id: 'vis-he111', name: 'He 111', game, pxPerMeter, settings: ['attackPlane.bulletSpeed'], block: attackPlaneModule, create: enemyPlane('boss') },
 ]

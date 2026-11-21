@@ -20,15 +20,16 @@ Prelaz na nezavisne aktere: telo bez slike, zasebni 2D i 3D prikaz i upravljač 
 | 12 | [AR-12](#ar-12) | 2 | Bunker i Ranjenik | Claude | ✅ Done<br>Odozgo u metrima: tela [MachineGunner](../core/gameplay/bodies/soldiers/MachineGunner.js), [Grenadier](../core/gameplay/bodies/soldiers/Grenadier.js), [Patrol](../core/gameplay/bodies/soldiers/Patrol.js) sa upravljačem [Wander](../core/gameplay/controllers/Wander.js) i [WoundedSoldier](../core/gameplay/bodies/soldiers/WoundedSoldier.js); testovi i pregledač prolaze; vlasnik igrao Bunker i Ranjenika (2026-11-21) |
 | 13 | [AR-13](#ar-13) | 2 | Neretva i Otpisani | Claude | ✅ Done<br>Tela [TrenchSoldier](../core/gameplay/bodies/soldiers/TrenchSoldier.js) i [Occupier](../core/gameplay/bodies/soldiers/Occupier.js); scena pogađa pogled na mestu klika, nišan je [crosshair.js](../core/io/crosshair.js); testovi i pregledač prolaze; vlasnik igrao Neretvu i Otpisane (2026-11-21); nov crtež pucanja okupatora čeka Codex ([ART](ART.md#dorade-hummela-bp-42-i-okupatora)) |
 | 14 | [AR-14](#ar-14) | 3 | Uklanjanje starih 2D osnova aktera | Claude | ✅ Done<br>Obrisani `Player2D`, stari bazen i meci, unos preko objekata u `World` i `Renderer2D.instance`; posada i propeleri crtaju se u [BodySprite](../core/actor/BodySprite.js); `npm run verify`, pregledač i smoke prolaze (2026-11-21) |
-| 15 | [AR-15](#ar-15) | 4 | 3D lik kao telo i 3D prikaz lika | Claude | 📋 TODO |
-| 16 | [AR-16](#ar-16) | 4 | 3D upravljači: tasteri i odluke AI | Claude | 📋 TODO |
-| 17 | [AR-17](#ar-17) | 4 | 3D likovi Drugog svetskog rata | Claude | 📋 TODO |
-| 18 | [AR-18](#ar-18) | 4 | 3D horor likovi | Claude | 📋 TODO |
-| 19 | [AR-19](#ar-19) | 4 | 3D fantazija | Claude | 📋 TODO |
-| 20 | [AR-20](#ar-20) | 4 | 3D životinje i mašine | Claude | 📋 TODO |
+| 15 | [AR-15](#ar-15) | 4 | 3D lik kao telo i 3D prikaz lika | Claude | ✅ Done<br>Pogodak zrakom kroz okvir tela ([ray](../core/collision/ray.js)) uz upit scene za prepreke; telo [Character](../core/gameplay/bodies/characters/Character.js) (`idle`, `move`, `attack`, `dead`, trajanja iz klipova), prikaz [CharacterModel](../core3d/actor/characters/CharacterModel.js) i [makeCharacter](../core3d/actor/characters/makeCharacter.js); 28 priča na telu, testovi i pregledač prolaze |
+| 16 | [AR-16](#ar-16) | 4 | 3D upravljači: tasteri i odluke AI | Claude | ✅ Done<br>[CharacterKeys](../core/gameplay/controllers/CharacterKeys.js) i [CharacterAI](../core/gameplay/controllers/CharacterAI.js) (mirovanje, lutanje, patrola, odbrana, bekstvo, praćenje, potera i napad) sa [testovima](../tests/unit/characterControllers.test.js); stari FSM i stanja nestaju sa poslednjim starim likom (AR-22) |
+| 17 | [AR-17](#ar-17) | 4 | 3D likovi Drugog svetskog rata | Claude | ✅ Done<br>Na telima: Graffiti City, Graffiti City Maze, Spomenici, Liberated City, 3D Tank i FPS Base (FPS igrač je isto telo sa [FirstPersonView](../core3d/actor/characters/FirstPersonView.js) i [MouseLook](../core3d/actor/characters/MouseLook.js)); testovi i pregledač prolaze; vlasnik igrao scene porodice (2026-11-21); FPS Airport ide sa kulama i bombarderima u AR-22 |
+| 18 | [AR-18](#ar-18) | 4 | 3D horor likovi | Claude | ✅ Done<br>Graveyard Survival na telima: zombiji, duhovi (prolaze kroz druge, 50 zdravlja, mrtvi odleću) i Čarobnica sa čarolijom po krugu (`area`); stare horor klase obrisane; testovi i pregledač prolaze; vlasnik igrao Graveyard Survival (2026-11-21) |
+| 19 | [AR-19](#ar-19) | 4 | 3D fantazija | Claude | ✅ Done<br>Na telima: Minas Tirith, Walls, Follow, Ruins, Demon Forest i RPG Fantasy; čarolije su vrste napada po krugu (`area`), plamen se bira u opisu, Varvarin je nepovrediv dok napada; stare klase fantazije obrisane; testovi i pregledač prolaze; vlasnik igrao scene porodice (2026-11-22) |
+| 20 | [AR-20](#ar-20) | 4 | 3D životinje i mašine | Claude | ✅ Done<br>Na telima: top u igri Cannon (hitac ostaje Ammo, u sceni; puni se mišem ili Space), Capoeira (potezi kao vrste napada), flamingosi i cepelin u RPG Fantasy, slon u priči; 3D tenk ide sa FPS Airport u AR-22; vlasnik igrao scene (2026-11-22) |
 | 21 | [AR-21](#ar-21) | 5 | 3D avioni i vazdušni brod | Claude | 📋 TODO |
 | 22 | [AR-22](#ar-22) | 5 | 3D kule, rakete i mete | Claude | 📋 TODO |
-| 23 | [AR-23](#ar-23) | 5 | Pravila u dokumentaciju i brisanje plana | Claude | 📋 TODO |
+| 23 | [AR-23](#ar-23) | 5 | Gravitacija pripada svetu | Claude | 📋 TODO |
+| 24 | [AR-24](#ar-24) | 5 | Pravila u dokumentaciju i brisanje plana | Claude | 📋 TODO |
 
 ## Obim
 
@@ -50,8 +51,8 @@ Prelaz na nezavisne aktere: telo bez slike, zasebni 2D i 3D prikaz i upravljač 
 ## Sažetak
 
 - **Izvršioci:** Claude kod; vlasnik proverava igre.
-- **Ukupno:** 53 p verovatno (36,5 min, 74,5 max).
-- **Kalendar:** oko 53 radna dana (36,5 do 74,5), bez čekanja na vlasnikove partije.
+- **Ukupno:** 54,5 p verovatno (37,5 min, 77 max).
+- **Kalendar:** oko 54,5 radna dana (37,5 do 77), bez čekanja na vlasnikove partije.
 - **Rizik:** promene u svih 41 sceni; zato ide igra po igra, a stari i novi akteri koji se međusobno pogađaju nikad nisu u istoj sceni.
 - **Pilot na tenku** dokazuje ugovore pre nego što uđu u [ARHITEKTURU](ARHITEKTURA.md); posle njega pauza je bezbedna, a igre se sele jedna po jedna.
 
@@ -72,7 +73,7 @@ Analiza od 2026-11-21 (`aa1523c4` i radna kopija) našla je:
 
 ## Pravila rada
 
-1. Telo nikad ne dira sliku, mesh, `ctx`, platno, stranicu, `config`, miš, tastaturu, `Input`, `session.state`, uloge, zvuk ni upravljač; sve dobija kao opcije: `clock`, `canFire()`, `targets`, `bounds`, `groundAt`, `isBlocked`, `random` i povratne pozive pravila.
+1. Telo nikad ne dira sliku, mesh, `ctx`, platno, stranicu, `config`, miš, tastaturu, `Input`, `session.state`, uloge, zvuk ni upravljač; sve dobija kao opcije: `clock`, `canFire()`, `targets`, `bounds`, `groundAt`, gravitaciju (od AR-23), `isBlocked`, `random` i povratne pozive pravila.
 2. Telo ima `x, y, z`, brzine, `yaw`, `pitch`, `size` (sudarni okvir i mera za prikaz), `states`/`state`/`setState`/`stateTime`, `health`/`alive`/`dead`/`takeHit`, brojače `shotsFired` i `hitsTaken` i `update(dt)` sa vrednostima po sekundi. Naoružano telo dodaje `shots`, `reach`, `aimAt(point)` i `muzzle`. Podešavanja su u jednom izvezenom objektu, u SI jedinicama.
    Ciljni zajednički nazivi su `idle`, `move`, `attack`, `dead` prema [standardu stanja](ARHITEKTURA.md#standardna-stanja-aktera). Ranije završeni koraci nisu time ponovo verifikovani; usklađivanje postojećih imena i svih potrošača radi se kroz [plan elemenata](PLAN-ELEMENTI.md#el-01) uz očuvanu celinu sudarne grupe.
 3. Prikaz samo čita telo; animira se po `state` i `stateTime`, a efekte i zvuk pokreće kad brojač poraste. Nema pretplata ni magistrale događaja.
@@ -91,11 +92,11 @@ Analiza od 2026-11-21 (`aa1523c4` i radna kopija) našla je:
 | 2 · 2D igre | 9 | 16,5 | 24,5 | 34 |
 | 3 · Čišćenje 2D | 1 | 1 | 1,5 | 2,5 |
 | 4 · 3D likovi | 6 | 9 | 13 | 18 |
-| 5 · 3D letelice, kule i završetak | 3 | 3 | 4,5 | 6,5 |
+| 5 · 3D letelice, kule, gravitacija i završetak | 4 | 4 | 6 | 9 |
 
 | Izvršilac | Koraci | Min | Verovatno | Max |
 |---|---|---|---|---|
-| Claude | 23 | 36,5 | 53 | 74,5 |
+| Claude | 24 | 37,5 | 54,5 | 77 |
 
 Raspored talasa je u [PLAN-ARHITEKTURA.schedule.json](PLAN-ARHITEKTURA.schedule.json).
 
@@ -105,7 +106,7 @@ Raspored talasa je u [PLAN-ARHITEKTURA.schedule.json](PLAN-ARHITEKTURA.schedule.
 2. **2D igre:** svaka preseljena igra prolazi testove i vlasnikovu partiju.
 3. **Čišćenje 2D:** stare 2D osnove aktera uklonjene; `npm run verify` prolazi.
 4. **3D likovi:** sve porodice likova su tela sa prikazom i upravljačem.
-5. **3D letelice, kule i završetak:** preostali 3D akteri su tela; plan obrisan.
+5. **3D letelice, kule, gravitacija i završetak:** preostali 3D akteri su tela; gravitaciju daje scena; plan obrisan.
 
 ## Faza 1 · Temelj i Tenkići
 
@@ -245,7 +246,7 @@ Prvo zajednička osnova lika i upravljači (AR-15–16), pa jedna po jedna porod
 ### AR-15 · 3D lik kao telo i 3D prikaz lika · 2 / 3 / 4 p · Claude
 
 - **Napomena za rani pilot (AR-03–04):** postojeći `core/collision` računa 2D sudare; njegova upotreba za 3D pogotke još nije dokazana. Pre masovne migracije igara proveriti mali 3D primer sa unit testovima: mete na istoj projekciji, ali različitoj dubini, izbor najbližeg pogotka i prepreka ispred mete. Na osnovu toga razjasniti da li treba čista 3D geometrija ili upit scene, dopuniti ugovor tela i obim AR-15; telo ne sme zavisiti od mesha ili prikaza.
-- **Šta:** telo `Character` sa stanjima bez uloge (`idle`, `walk`, `run`, `jump`, `fall`, `attack`, `attack2`, `special`, `pain`, `death`), trajanjima izmerenim iz današnjih klipova, kretanjem po matematici iz [KinematicMovement.js](../core3d/actor/behaviors/KinematicMovement.js) i `takeHit` umesto `pendingDamage`; priče 3D likova ([characters3d.js:45-57](../storybook/stories/characters3d.js#L45-L57)) prikazuju telo bez tastature i trake zdravlja; prikaz `CharacterModel` sa Animator-om, kostima oružja, česticama i zvukom; 3D pogodak odlučuje telo preko ugovora proverenog ranim pilotom iz napomene iznad.
+- **Šta:** telo `Character` sa standardnim stanjima `idle`, `move`, `attack`, `dead` (hod, trčanje i skok su načini kretanja, `attack2` i `special` vrste napada, bol posebna radnja), trajanjima izmerenim iz današnjih klipova, kretanjem po matematici iz [KinematicMovement.js](../core3d/actor/behaviors/KinematicMovement.js) i `takeHit` umesto `pendingDamage`; priče 3D likova ([characters3d.js:45-57](../storybook/stories/characters3d.js#L45-L57)) prikazuju telo bez tastature i trake zdravlja; prikaz `CharacterModel` sa Animator-om, kostima oružja, česticama i zvukom; 3D pogodak odlučuje telo preko ugovora proverenog ranim pilotom iz napomene iznad.
 - **Završeno kada:** unit testovi tela bez modela; catalog pokreće telo bez stranice.
 - **Zamke:** događaji miksera više ne završavaju stanje ([Actor.js:214](../core3d/actor/Actor.js#L214)).
 
@@ -254,26 +255,26 @@ Prvo zajednička osnova lika i upravljači (AR-15–16), pa jedna po jedna porod
 ### AR-16 · 3D upravljači: tasteri i odluke AI · 2 / 3 / 4 p · Claude
 
 - **Šta:** `PlayerController` postaje upravljač tastera na `Input`-u koji pravi scena; odluke iz 9 AI stanja ([states/ai](../core3d/actor/states/ai/)) postaju AI upravljači; nestaje izbor stanja po imenu mesha ([FSM.js:26-30](../core3d/actor/FSM.js#L26-L30)).
-- **Završeno kada:** testovi upravljača sa lažnim ulazom; testovi fsm3d, movement3d, playerController i actor prepisani na tela.
+- **Završeno kada:** testovi upravljača sa lažnim ulazom; stari `Actor`, `Player`, `AI`, `FSM`, stanja, `PlayerController` i `AIController` i njihovi testovi (fsm3d, movement3d, playerController, actor) brišu se u AR-22, kad FPS Airport, poslednja scena sa starim likovima, pređe na tela.
 
 <a id="ar-17"></a>
 
 ### AR-17 · 3D likovi Drugog svetskog rata · 1.5 / 2 / 3 p · Claude
 
-- **Šta:** parovi Player/AI ove porodice postaju po jedna klasa tela sa prikazom; `Input`, `PlayerView` i `ChaseCamera` prelaze u scene, čime se otvara i priča `partizan-3d`, koja sada puca na [Partisan.js:39](../core3d/actor/derived/ww2/Partisan.js#L39) jer postavlja visinu kamere koje nema.
+- **Šta:** parovi Player/AI ove porodice postaju po jedna klasa tela sa prikazom; `Input`, `PlayerView` i `ChaseCamera` prelaze u scene, a bacač plamena dobija plamen, a strelci dalekog dometa tragove metaka na zidovima na `CharacterModel`.
 - **Završeno kada:** catalog; vlasnik igra scene ove porodice; smoke uz odobrenje.
 
 <a id="ar-18"></a>
 
 ### AR-18 · 3D horor likovi · 1 / 1.5 / 2 p · Claude
 
-- **Šta i završeno kada:** kao AR-17, za horor porodicu.
+- **Šta i završeno kada:** kao AR-17, za horor porodicu; Duh dobija prolaz kroz zidove i svoj pad pre opisa i priče na telu.
 
 <a id="ar-19"></a>
 
 ### AR-19 · 3D fantazija · 1.5 / 2 / 3 p · Claude
 
-- **Šta i završeno kada:** kao AR-17, za fantaziju.
+- **Šta i završeno kada:** kao AR-17, za fantaziju; Varvarin, Demon, Čarobnica i Veštica dobijaju svoje čarolije i plamen na `CharacterModel`, pa tek tada opis i priču na telu.
 
 <a id="ar-20"></a>
 
@@ -281,9 +282,9 @@ Prvo zajednička osnova lika i upravljači (AR-15–16), pa jedna po jedna porod
 
 - **Šta i završeno kada:** kao AR-17, za životinje i mašine; Ammo vozila ostaju van.
 
-## Faza 5 · 3D letelice, kule i završetak
+## Faza 5 · 3D letelice, kule, gravitacija i završetak
 
-Preostali 3D akteri, pa pouke u dokumentaciju i brisanje plana.
+Preostali 3D akteri, gravitacija kao osobina sveta, pa pouke u dokumentaciju i brisanje plana.
 
 <a id="ar-21"></a>
 
@@ -296,12 +297,24 @@ Preostali 3D akteri, pa pouke u dokumentaciju i brisanje plana.
 
 ### AR-22 · 3D kule, rakete i mete · 1 / 1.5 / 2 p · Claude
 
-- **Šta:** `Tower` postaje telo topa sa ubačenim ciljevima umesto traženja mesha `player`; `Missile` dobija ubačene ciljeve; statični bombarderi postaju mete sa spiska scene umesto mesha `enemy`.
+- **Šta:** `Tower` postaje telo topa sa ubačenim ciljevima umesto traženja mesha `player`; `Missile` dobija ubačene ciljeve; statični bombarderi postaju mete sa spiska scene umesto mesha `enemy`; FPS Airport prelazi ceo, sa FPS igračem na telu `Character`, vojnicima i 3D tenkom, pa se brišu `FPSPlayer`, poslednje stare klase likova i stari 3D akter sa stanjima i njihovim testovima.
 - **Završeno kada:** testovi blokova; priče kula pucaju; vlasnik igra scene koje ih koriste.
 
 <a id="ar-23"></a>
 
-### AR-23 · Pravila u dokumentaciju i brisanje plana · 0.5 / 1 / 1.5 p · Claude
+### AR-23 · Gravitacija pripada svetu · 1 / 1.5 / 2.5 p · Claude
+
+- **Odluka vlasnika (2026-11-22):** gravitacija je osobina sveta, kao u Unityju, Unrealu i Godotu, ne konstanta tela.
+- **Šta:**
+  - Scena daje gravitaciju kao opciju tela, jednu vrednost u m/s² za sva svoja tela, kao danas tlo i mete; igra koja namerno odstupa od stvarne, kao blaža gravitacija đuleta u Ustanku, zadaje je na jednom mestu.
+  - Tela koja je danas nose sama prestaju da je nose: bombe, granate, đulad, olupine, 3D likovi i tela koja računaju putanju (danas `gravity` u `core/gameplay/bodies/`: Potez, wreck, AntiTankGun, FieldGun, ballistics, Character, ground, Bomb, Cannonball, Shell, Hummel, Tank).
+  - Avion u ravnom letu je ne oseća, jer uzgon drži težinu; oseća je tek kao olupina.
+  - Tonjenje Poteza („avion polako tone ako ga ne držiš“) postaje pravilo Kluza, koje scena zadaje Potezu; pozornica storybooka ga ne zadaje, pa Potez u priči leti ravno.
+- **Završeno kada:** svaka scena daje iste vrednosti koje tela danas nose, a testovi tela i scena to proveravaju; `npm test` i lint prolaze; vlasnik igra igre čiji se pad ili putanja menjaju po prenosu.
+
+<a id="ar-24"></a>
+
+### AR-24 · Pravila u dokumentaciju i brisanje plana · 0.5 / 1 / 1.5 p · Claude
 
 - **Šta:** pouke prelaze u [ARHITEKTURA](ARHITEKTURA.md) i [STORYBOOK](STORYBOOK.md); plan i njegov raspored se brišu.
 - **Završeno kada:** nijedan dokument ne vodi na plan; lint i `npm test` prolaze.

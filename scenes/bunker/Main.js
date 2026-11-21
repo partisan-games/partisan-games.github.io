@@ -6,7 +6,7 @@ import { attackLabels } from '/core/io/keys.js'
 import { icons } from '/core/io/icons.js'
 import { baseControls } from '/ui/Controls.js'
 import Background from '/core/objects/Background.js'
-import Bunker from '/core/objects/Bunker.js'
+import Bunker, { gunnerWindow } from '/core/objects/Bunker.js'
 import { topProjection } from '/core/actor/projection.js'
 import { screenView } from '/core/actor/worldView.js'
 import Grenadier from '/core/gameplay/bodies/soldiers/Grenadier.js'
@@ -46,8 +46,8 @@ export default class BunkerScene extends Scene2D {
     this.bunker = new Bunker(najdaljeTacke[1])
     // he sets out facing the bunker, to throw that way
     this.player.facing = Math.sign(najdaljeTacke[1].x - najdaljeTacke[0].x) || -1
-    // the gunner lies by the bunker, his rounds flying at the grenadier
-    this.mitraljezac = new MachineGunner({ ...this.projection.toWorld({ x: this.bunker.x + 60, y: this.bunker.y + 20 }),
+    // the gunner lies at the bunker's window, his rounds flying at the grenadier
+    this.mitraljezac = new MachineGunner({ ...this.projection.toWorld({ x: this.bunker.x + gunnerWindow.x, y: this.bunker.y + gunnerWindow.y }),
       clock: this.session.clock, targets: [this.player], canFire: () => this.session.state === 'running', view: this.screenView })
     this.gunnerView = new MachineGunnerSprite(this.mitraljezac, { projection: this.projection })
     this.controllers.push(new Gunner(this.mitraljezac, this.player))

@@ -3,6 +3,8 @@ import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 import Turns from '/scenes/ustanak/Turns.js'
 import { fieldGun } from '/core/gameplay/bodies/artillery/FieldGun.js'
+import { crater } from '/scenes/ustanak/Terrain.js'
+import { loadAtlas } from './helpers/atlas.js'
 
 let keyboard, Scene
 
@@ -37,6 +39,56 @@ test('only the active artillery side may fire and the turn changes once after se
   assert.equal(turns.waitForRelease, true)
   assert.equal(turns.settle(false), false)
 })
+
+test('the house starts intact without smoke and shells pass through it without a collision', async t => {
+  const scene = createScene(t)
+  loadAtlas(scene.bunker, 428, 286)
+  await import('/core/actor/Flame.js')
+  await null
+  assert.equal(scene.bunker.alive, true)
+  assert.equal(scene.bunker.burning, false)
+  assert.equal(scene.bunker.flame.sparks.length, 0)
+  for (const gun of scene.guns) assert.equal(gun.targets.includes(scene.bunker), false)
+  const point = scene.projection.toWorld({ x: scene.bunker.x - scene.bunker.width / 2 - 10, y: scene.bunker.y })
+  const ball = scene.guns[0].shells.fire({ ...point, z: 0 }, 0, 0, 20)
+  ball.update(.025)
+  assert.equal(ball.firstHit(scene.guns[0].targets), null, 'entering the house does not end flight')
+  assert.equal(ball.state, 'flight')
+  assert.equal(scene.bunker.alive, true)
+})
+
+for (const side of [0, 1]) for (const terrainEnabled of [false, true])
+  test(`a nearby shell burst ruins the house once and starts smoke, side ${side}, terrain ${terrainEnabled}`, async t => {
+    const scene = createScene(t)
+    scene.terrain.enabled = terrainEnabled
+    loadAtlas(scene.bunker, 428, 286)
+    await import('/core/actor/Flame.js')
+    await null
+    const die = t.mock.method(scene.bunker, 'die')
+    const land = screenX => {
+      const { x } = scene.projection.toWorld({ x: screenX, y: 0 })
+      const ball = scene.guns[side].shells.fire({ x, y: scene.groundAt(x) + .2, z: 0 }, 0, -Math.PI / 2, 2.5)
+      ball.update(.1)
+      const impact = ball.firstHit([])
+      assert.equal(impact.ground, true)
+      ball.strike(impact)
+    }
+    land(scene.bunker.x + scene.bunker.width / 2 + crater.halfWidth + 20)
+    assert.equal(scene.bunker.alive, true, 'a distant burst leaves the house intact')
+    const near = scene.bunker.x - scene.bunker.width / 2 - crater.halfWidth + 1
+    land(near)
+    assert.equal(scene.bunker.dead, true)
+    assert.equal(scene.bunker.burning, true)
+    assert.equal(scene.bunker.smoky, true)
+    scene.bunker.update(.1)
+    assert.ok(scene.bunker.flame.sparks.length > 0, 'smoke starts only after destruction')
+    land(near)
+    assert.equal(die.mock.callCount(), 1)
+    scene.finishRound(0)
+    scene.nextRound()
+    assert.equal(scene.children.includes(scene.bunker), false)
+    assert.equal(scene.bunker.flame.sparks.length, 0, 'removed first-round scenery leaves no smoke')
+  })
 
 test('the scene routes shared keys only to the active human gun', t => {
   const scene = createScene(t)

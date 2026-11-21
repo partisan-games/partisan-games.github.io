@@ -55,10 +55,147 @@
           "row": 5,
           "frameCount": 5,
           "duration": 0.5,
-          "loop": true
+          "loop": true,
+          "frameDurationsMs": [
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "muzzle": [
+            {
+              "x": 106,
+              "y": 77
+            },
+            {
+              "x": 106,
+              "y": 80
+            },
+            {
+              "x": 106,
+              "y": 78
+            },
+            {
+              "x": 107,
+              "y": 79
+            },
+            {
+              "x": 106,
+              "y": 77
+            }
+          ],
+          "end": "Frame 4 returns pixel-for-pixel to frame 0."
         }
       ],
-      "sha256": "ebbe52390b3d6945b770c312f929c2f8e1d50277cd0d79141fd26e756bca235c"
+      "source": "../../../sprites/vojnici/okupator-sprite.png",
+      "sourceSha256": "33a7ff83e0d279959a6e5d81f1579d8ea655905152c842de1c3f11fe61cff2fe",
+      "sha256": "fc79c578cc5f4e89476017e041988960d259e0aa8c5f34f4f8ff6b01627ce471",
+      "preparation": {
+        "script": "prepare-occupier.py",
+        "reference": {
+          "row": 1,
+          "column": 4
+        },
+        "method": "Nearest-pixel local deformation of original hands, forearms and MP40; no generated torso patch.",
+        "motionContour": [
+          [
+            91,
+            79
+          ],
+          [
+            100,
+            79
+          ],
+          [
+            102,
+            73
+          ],
+          [
+            111,
+            73
+          ],
+          [
+            116,
+            77
+          ],
+          [
+            122,
+            79
+          ],
+          [
+            123,
+            85
+          ],
+          [
+            117,
+            89
+          ],
+          [
+            105,
+            93
+          ],
+          [
+            100,
+            99
+          ],
+          [
+            97,
+            111
+          ],
+          [
+            95,
+            122
+          ],
+          [
+            90,
+            122
+          ],
+          [
+            92,
+            100
+          ],
+          [
+            86,
+            97
+          ],
+          [
+            83,
+            92
+          ],
+          [
+            84,
+            85
+          ]
+        ],
+        "offsetsPixels": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "maximumDisplacementPixels": 3,
+        "locked": "First five rows, head, torso outline, legs, boots, alpha silhouette, anchor and floor.",
+        "effects": "No embedded flash/smoke; muzzle coordinates are cell pixels.",
+        "generationAttempt": "occupier-fire-replacement-attempt.json"
+      },
+      "integration": "OccupierSprite uses this fire loop and per-frame muzzle coordinates in Otpisani and Storybook; owner visual review remains open."
     }
   ]
 }

@@ -987,13 +987,15 @@
       "processing": {
         "preview": "08-doskoci-udarci-01.mp3",
         "master": "08-doskoci-udarci-01.wav",
-        "source_start_s": 0.094785,
+        "source_start_s": 0.456785,
         "source_end_s": 1.832188,
-        "duration_s": 1.737403
+        "duration_s": 1.375397,
+        "lead_trim_s": 0.362,
+        "lead_trim": "Quiet lead-in cut with a 5 ms fade-in, so the thud sounds as the body lands (owner, 2026-11-21)"
       },
       "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
-      "prepared_sha256": "b75bae7a4747a4ac3cda23d68239fbdb983e4793af248414f824ee47acaa2584",
-      "bytes": 43301,
+      "prepared_sha256": "8afbe59c0b6572f070edc5c60887564656911af7deba348097f23468f250e68e",
+      "bytes": 34524,
       "before_calibration_sha256": "49e274a7d3f7aa410566e902dccd0077d0d85af755de702aceb3e326b7968251",
       "calibration": {
         "gain_db": -2.8,
@@ -1005,22 +1007,6 @@
         "maximum_boost_db": 12,
         "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
       }
-    },
-    {
-      "file": "body-impact-02.mp3",
-      "candidate": "08",
-      "source": "https://freesound.org/people/Vrymaa/sounds/734629/",
-      "license": "CC0-1.0",
-      "processing": {
-        "preview": "08-doskoci-udarci-02.mp3",
-        "master": "08-doskoci-udarci-02.wav",
-        "source_start_s": 2.598957,
-        "source_end_s": 3.5875619999999997,
-        "duration_s": 0.988605
-      },
-      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
-      "prepared_sha256": "33c4424ac2b02e5c324e1ba1ca3aa4d492a12a64c7473098acacf080959a9465",
-      "bytes": 25120
     },
     {
       "file": "body-impact-03.mp3",
@@ -1057,13 +1043,15 @@
       "processing": {
         "preview": "08-doskoci-udarci-04.mp3",
         "master": "08-doskoci-udarci-04.wav",
-        "source_start_s": 7.538753000000001,
+        "source_start_s": 7.694753,
         "source_end_s": 8.953118,
-        "duration_s": 1.414365
+        "duration_s": 1.258367,
+        "lead_trim_s": 0.156,
+        "lead_trim": "Quiet lead-in cut with a 5 ms fade-in, so the thud sounds as the body lands (owner, 2026-11-21)"
       },
       "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
-      "prepared_sha256": "ee8c3323acea6e122b18530725ba1d4e444f3cbb49db58fa0d402f70a5386b2f",
-      "bytes": 35778,
+      "prepared_sha256": "d688ff03e162c69a1c40abfb653a4e63107f99571c3956da229a348704c04b1a",
+      "bytes": 32016,
       "before_calibration_sha256": "3fa0e7a81ea548d36e636e16beda69edcbc6a8ab3a65c32b89e981ac4c1dca0b",
       "calibration": {
         "gain_db": 0.8,

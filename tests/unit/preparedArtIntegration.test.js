@@ -183,6 +183,22 @@ for (const yaw of [0, Math.PI]) test(`Hummel fires a real shell at the drawn muz
   assert.equal(body.shoot(), false)
 })
 
+for (const yaw of [0, Math.PI]) test(`gun carriage keeps the same scale from image load through first update, yaw ${yaw}`, () => {
+  for (const order of [['barrel', 'carriage'], ['carriage', 'barrel']]) {
+    const body = new Gun({ x: 8, yaw })
+    const view = new GunView(body, viewOptions())
+    const dimensions = () => [view.carriage.width, view.carriage.height]
+    assert.deepEqual(dimensions(), [300, 74.25])
+    for (const part of order) {
+      if (part === 'barrel') loadAtlas(view, 274, 52)
+      else loadAtlas(view.carriage, 400, 99)
+      assert.deepEqual(dimensions(), [300, 74.25], `${part} load must not replace projected dimensions with native pixels`)
+    }
+    view.update(1 / 60)
+    assert.deepEqual(dimensions(), [300, 74.25], 'Start must not change the loaded carriage size')
+  }
+})
+
 for (const yaw of [0, Math.PI]) test(`redrawn gun aligns its projectile and wreck with the art, yaw ${yaw}`, () => {
   const body = new Gun({ x: 8, yaw })
   const options = viewOptions()

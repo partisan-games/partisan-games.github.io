@@ -139,11 +139,13 @@ const inputOptions = {
 
 `attackKey` određuje tastaturni napad; `buttonDict` bira akcijska dugmad i oznake. Izostavljen ključ ne pravi dugme, prazna vrednost bira podrazumevani simbol, a nepoznat ključ Touch ignoriše. Prisustvo akcijskih dugmadi nije uslovljeno joystickom, pa sama provera uređaja ne dokazuje šta je na ekranu. Kod 3D igrača deo dugmadi nastaje iz `animDict`; to nije potpun popis sposobnosti, npr. skok može postojati i bez istoimene animacije.
 
-Opis mora odgovarati stvarnoj radnji, uključujući javne alternativne tastere, držanje i otpuštanje. Izričito skrivene prečice ne dopisuju se u korisničko uputstvo. `event.code` označava fizički taster, ne nužno znak sa lokalizovane tastature. Ne premeštati binding da bi odgovarao pogrešnom opisu i ne smatrati vidljivu karticu igre dokazom potpune touch podrške.
+Opis mora odgovarati stvarnoj radnji, uključujući javne alternativne tastere. Izričito skrivene prečice ne dopisuju se u korisničko uputstvo. `event.code` označava fizički taster, ne nužno znak sa lokalizovane tastature. Ne premeštati binding da bi odgovarao pogrešnom opisu i ne smatrati vidljivu karticu igre dokazom potpune touch podrške.
 
 **Poznata ograničenja touch-a:** touch nije ekvivalent tastature. Nema trčanja, bočnog kretanja, kočnice vozila ni brzine Zeppelina; Sorceress ima leteći skok bez touch dugmeta; Tenkići, Ustanak i Do Trsta nemaju touch, a FPS isključuje joystick. Na mobilnom nema dugmeta za pauzu (odluka vlasnika, 2026-11-20): igre nisu pravljene za mobilni, kako piše i na naslovnoj, a ovako su dovoljno upotrebljive; igra se sama pauzira kad korisnik izađe iz nje, a browserovo „nazad” vraća u meni. Radnja bez koje igra na telefonu nije upotrebljiva dobija touch dugme kad ga ta igra zatraži (odluka vlasnika, 2026-11-20); dugme ima isto značenje i pravilo držanja kao tastatura, a mesto i oznaku odobrava vlasnik.
 
 **Raspored na uskom ekranu:** pored strelica akcijska dugmad koja ne staju u jedan red prelaze u red iznad, a na najužim telefonima se malo smanje; dugme kamere uvek ide iznad njih, koliko god redova bilo ([Touch](../core/io/Touch.js)). Centralni prozor nikad nije širi od ekrana, a viši od ekrana se pomera.
+
+**Kratak opis — odluka vlasnika, 2026-11-22:** jedna radnja je jedan red, sa svim javnim tasterima te radnje u njemu, i kratkim imenom radnje, npr. „Mouse or Space - shoot”. Način rukovanja (držanje, punjenje, otpuštanje) se ne opisuje; igra ga pokazuje sama, npr. trakom sile. Esc za pauzu se ne navodi, jer pauzira svaku igru.
 
 **Automatske ispravke opisa — odluka vlasnika:** nedostajuću stvarnu komandu dopisati, a nevažeći ili netačan opis ispraviti bez pojedinačnog pitanja. Pitati kada dva tastera rade istu stvar, a jedan je već naveden, da vlasnik odluči da li treba otkriti i drugi. To važi za uputstva postojećih komandi; ne menja binding-e, ne odobrava nove gameplay radnje i ne otkriva već dogovorene tajne prečice.
 

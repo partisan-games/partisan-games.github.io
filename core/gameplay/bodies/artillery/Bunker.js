@@ -12,11 +12,12 @@ export const bunker = { reload: .13, burst: 5, pause: 4, firstShot: 1.5, speed: 
 
 /**
  * Each kind of bunker: its hit box in metres and where its gun fires from, ahead of its middle and above it: a
- * concrete pillbox through its loophole, the fortified house through its machine gunner at the door.
+ * concrete pillbox through its loophole, the fortified house through the gun of its machine gunner, who lies in the
+ * window it faces with.
  */
 export const bunkerKinds = {
   pillbox: { size: { length: 6.16, height: 2.32, width: 3.52 }, muzzle: { ahead: 1.72, above: -.23 } },
-  house: { size: { length: 7.04, height: 4.72, width: 5.28 }, muzzle: { ahead: 2.82, above: -1.94 } },
+  house: { size: { length: 7.04, height: 4.72, width: 5.28 }, muzzle: { ahead: 3.59, above: -.38 } },
 }
 
 /** The bunker holds fire, or fires bursts where it aims, or stands destroyed. */

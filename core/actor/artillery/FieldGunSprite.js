@@ -18,7 +18,9 @@ const wreck = {
 export default class FieldGunSprite extends BodySprite {
   constructor(body, { projection, camera }) {
     super(body, 'armies/game-ready/artiljerija/field-gun-barrel-pixel.png', { projection, camera, flammable: true })
-    this.carriage = new GameObject2D('armies/game-ready/artiljerija/field-gun-carriage-pixel.png')
+    this.carriage = new GameObject2D('armies/game-ready/artiljerija/field-gun-carriage-pixel.png', {
+      scale: projection.length(gunShape.pixel),
+    })
     this.carriage.layer = 1
     this.wreckArt = new ArtClip(wreck)
     this.children.push(this.carriage, this.wreckArt)

@@ -5,7 +5,10 @@ import Maze from '/core3d/mazes/Maze.js'
 import { recursiveBacktracker } from '/core3d/mazes/algorithms.js'
 import { createGround } from '/core3d/ground.js'
 import { createSun } from '/core3d/light.js'
-import { SorceressPlayer, models as sorceressModels } from '/core3d/actor/derived/fantasy/Sorceress.js'
+import { description as sorceress, models as sorceressModels } from '/core3d/actor/derived/fantasy/Sorceress.js'
+import leadCharacter from '/core3d/actor/characters/leadCharacter.js'
+import worldQueries from '/core3d/actor/characters/worldQueries.js'
+import { icons } from '/core/io/icons.js'
 import { requestModels } from '/core3d/assets/models.js'
 
 export default class WallsScene extends Scene3D {
@@ -27,15 +30,16 @@ export default class WallsScene extends Scene3D {
     const walls = this.maze.toTiledMesh({ texture: 'walls/stonetiles.jpg', maxHeight: 6 })
     this.addMesh(walls)
 
-    this.player = new SorceressPlayer({ camera: this.camera, solids: walls })
-    this.player.chaseCamera.distance = 1.5
-    this.player.putInMaze(this.maze)
-    this.add(this.player)
+    // she starts in the first corridor, facing the middle of the maze
+    this.player = leadCharacter(this, sorceress, { ...this.maze.tilePosition(1, 1), ...worldQueries(walls),
+      input: { buttonDict: { attack: icons.magic, attack2: icons.magic } }, view: { distance: 1.5 } }).body
+    this.player.face({ x: 0, z: 0 })
   }
 
   update(dt, t) {
     super.update(dt, t)
-    if (this.player.position.distanceTo(this.maze.exitPosition) < this.maze.cellSize)
+    const { x, z } = this.maze.exitPosition
+    if (Math.hypot(this.player.x - x, this.player.z - z) < this.maze.cellSize)
       this.victory(`You found the way out in ${Math.round(t)} seconds.`)
   }
 

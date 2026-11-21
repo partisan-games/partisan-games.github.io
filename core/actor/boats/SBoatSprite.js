@@ -47,6 +47,8 @@ export default class SBoatSprite extends HullSprite {
       ctx.save()
       ctx.translate(mount * this.width, 0)
       ctx.rotate(this.projection.angle(this.body.gunYaw) - this.angle)
+      const gunScale = this.width / 300
+      ctx.scale(gunScale, gunScale)
       ctx.fillStyle = '#33483e'
       ctx.fillRect(-4, -2.5, 10, 5)
       ctx.fillStyle = '#aab8a1'

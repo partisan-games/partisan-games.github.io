@@ -1,9 +1,3 @@
-import { icons } from '/core/io/icons.js'
-import Player from '/core3d/actor/Player.js'
-import AI from '/core3d/actor/AI.js'
-import { loadedModel } from '/core3d/assets/models.js'
-import { jumpStyles } from '/core3d/constants.js'
-import { FlameUp } from '/core3d/Particles.js'
 
 const animDict = {
   idle: 'Standing Idle',
@@ -17,28 +11,9 @@ const animDict = {
 export const model = { file: 'model.fbx', angle: Math.PI, animDict, prefix: 'character/sorceress/', size: 1.72 }
 export const models = [model]
 
-const sharedProps = () => {
-  const mesh = loadedModel(model)
-  return { buttonDict: { attack: icons.magic, attack2: icons.magic }, mesh, animations: mesh.userData.animations, animDict, jumpStyle: jumpStyles.FLY_JUMP }
-}
-
-export class SorceressPlayer extends Player {
-  constructor(props = {}) {
-    super({ ...sharedProps(), attackDistance: 3, ...props })
-    this.flame = new FlameUp()
-  }
-
-  enterAttack() {
-    this.startFlame(1, () => this.areaDamage([55, 110]))
-  }
-
-  exitAttack() {
-    this.endFlame()
-  }
-}
-
-export class SorceressAI extends AI {
-  constructor(props = {}) {
-    super({ ...sharedProps(), ...props })
-  }
-}
+/**
+ * How it looks, sounds and acts, for a character made of a body and its model: her spell burns every one around her
+ * within 3 m, where flames rise as it lands.
+ */
+export const description = { model, animDict, flame: { particles: 'FlameUp', fromBlow: true },
+  body: { area: { kinds: ['attack', 'attack2'], damage: [55, 110] }, jumping: 'fly' } }

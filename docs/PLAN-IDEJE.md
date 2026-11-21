@@ -14,6 +14,7 @@ Dogovoreno u [kontekstu igara](KONTEKST.md), a još neurađeno. Igra koja preras
 | 6 | [IG-06](#ig-06) | Tenkići, Ustanak | Igrač vidi mesto i godinu istorijskog bojišta | Claude | 📋 TODO<br>Čeka vlasnikovo odobrenje UI-ja |
 | 7 | [IG-07](#ig-07) | Tenkići | Više vatre i dima na Sremu 1944 | Claude | ✅ Done<br>Tri žarišta na Sremu 1944 i tri na Sremu 1945; vlasnik pregledao |
 | 8 | [IG-08](#ig-08) | Tenkići | Manji razoreni top na pozadini Srema 1945 | Codex, Claude | 📋 TODO |
+| 9 | [IG-09](#ig-09) | Cannon | Top diže i spušta cev, bar malo | Claude | 📋 TODO |
 
 Pravila rada: [DOCS](DOCS.md) i [CLAUDE.md](../.claude/CLAUDE.md). Nov art radi Codex po pravilima iz [ART](ART.md); placeholder nije art. Novi UI elementi i tekstovi traže vlasnikovo odobrenje. Agent ne pravi commit bez naloga.
 
@@ -54,6 +55,7 @@ Pravila rada: [DOCS](DOCS.md) i [CLAUDE.md](../.claude/CLAUDE.md). Nov art radi 
 <a id="ig-05"></a>
 ## IG-05 · Čamac: dalje etape
 
+- **Dorada postojećeg nivoa (zahtev vlasnika):** nivo treba da traje duže i da ima više neprijatelja.
 - **Dogovor ([kontekst](KONTEKST.md#čamac)):** desant na Šoltu; prva etapa se završava iskrcavanjem. Plovilo, radnja i ciljevi daljih etapa su za razradu.
 - **Etape (odluka vlasnika):** tri, redom: noćno isplovljavanje iz luke na Visu; postojeći desant na Šoltu sa iskrcavanjem; povratak na Vis pod napadom S-čamaca, kojima je [izvor](ISTORIJA.md#šolta-911-maj-1944--sastav-za-igru-čamca) potvrdio prisustvo na povratnom pravcu. Sledeća etapa ne troši novi žeton, a nova igra počinje prvom.
 - **Opcione kasnije etape:** drugi desanti sa Visa 1944, Brač (jun, partizani sa britanskim komandosima; prvi kandidat), Mljet (maj) i Korčula; pre razrade proveriti izvore u [ISTORIJA](ISTORIJA.md).
@@ -84,3 +86,10 @@ Pravila rada: [DOCS](DOCS.md) i [CLAUDE.md](../.claude/CLAUDE.md). Nov art radi 
 - **Zatim (Claude):** pomeriti žarište dima sa topa na novo mesto u [BattleBackground](../scenes/tenkici/BattleBackground.js).
 - **Gotovo kada:** top je u razmeri sa tenkovima, dim izlazi iz njega, a vlasnik je to video u igri.
 
+<a id="ig-09"></a>
+## IG-09 · Cannon: dizanje i spuštanje cevi
+
+- **Zahtev vlasnika:** 3D top u igri Cannon treba da može da diže i spušta cev, bar malo.
+- **Sada:** top se samo okreće levo-desno; hitac uvek ide pod istim nagibom (smer cevi plus 0,25 naviše, u [sceni](../scenes/cannon/Main.js)).
+- **Šta:** gore i dole menjaju ugao cevi u ograničenom opsegu, a hitac kreće pod tim uglom; ugao je stanje tela topa, a prikaz okreće cev na modelu ako je ona zaseban deo modela, inače ceo top.
+- **Gotovo kada:** unit test da se ugao drži u opsegu i da hitac kreće pod njim; vlasnik je to video u igri.

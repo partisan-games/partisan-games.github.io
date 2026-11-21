@@ -111,3 +111,25 @@ test('a wounded soldier crawls the way he heads, slower back, and turns', () => 
   body.turn(1, 1)
   assert.ok(body.yaw < 0, 'right turns him down the view')
 })
+
+test('a machine gunner\'s rounds leave from the muzzle of his drawn gun, whichever way he turns', async() => {
+  const { createPageElements } = await import('./helpers/dom.js')
+  createPageElements()
+  const { default: MachineGunnerSprite } = await import('/core/actor/soldiers/MachineGunnerSprite.js')
+  const { default: art } = await import('/core/actor/soldiers/machineGunnerArt.js')
+  const { topProjection } = await import('/core/actor/projection.js')
+  const projection = topProjection({ pxPerMeter: 40 })
+  for (const yaw of [0, Math.PI / 2, 2.5]) {
+    const gunner = new MachineGunner({ x: 5, z: 5, yaw, clock: new GameClock() })
+    const view = new MachineGunnerSprite(gunner, { projection, camera: { x: 0, y: 0 } })
+    view.update(0)
+    // the picture is drawn with its bottom right corner on his place, then turned
+    const local = { x: -view.width + art.muzzle.x / art.width * view.width, y: -view.height + art.muzzle.y / art.height * view.height }
+    const drawn = {
+      x: view.x + local.x * Math.cos(view.angle) - local.y * Math.sin(view.angle),
+      y: view.y + local.x * Math.sin(view.angle) + local.y * Math.cos(view.angle),
+    }
+    const muzzle = projection.point(gunner.muzzle)
+    assert.ok(Math.hypot(drawn.x - muzzle.x, drawn.y - muzzle.y) < 1, `yaw ${yaw}: drawn ${JSON.stringify(drawn)}, fired ${JSON.stringify(muzzle)}`)
+  }
+})

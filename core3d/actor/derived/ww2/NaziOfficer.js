@@ -1,4 +1,3 @@
-import Player from '/core3d/actor/Player.js'
 import AI from '/core3d/actor/AI.js'
 import { loadedModel } from '/core3d/assets/models.js'
 
@@ -18,16 +17,13 @@ const rightHandWeaponModel = { file: 'weapon/luger/model.fbx', scale: .18 }
 /** What to load; a game awaits requestModels(models) before it creates one of these. */
 export const models = [meshModel, rightHandWeaponModel]
 
+/** How it looks, sounds and acts, for a character made of a body and its model. */
+export const description = { model: meshModel, animDict, rightHandWeapon: rightHandWeaponModel, attackSound: 'rifle.mp3', body: { speed: 1.9, reach: 10 } }
+
 const sharedProps = () => {
   const mesh = loadedModel(meshModel)
   const rightHandWeapon = loadedModel(rightHandWeaponModel)
   return { mesh, animations: mesh.userData.animations, animDict, rightHandWeapon, speed: 1.9, attackSound: 'rifle.mp3' }
-}
-
-export class NaziOfficerPlayer extends Player {
-  constructor(props = {}) {
-    super({ ...sharedProps(), ...props })
-  }
 }
 
 export class NaziOfficerAI extends AI {

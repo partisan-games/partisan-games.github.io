@@ -15,25 +15,24 @@ before(async() => {
 
 afterEach(() => controls.restore())
 
-test('controls come from the settings objects a block exports, not from its class', () => {
+test('a story shows only the settings it names, from the objects its block exports', () => {
   assert.deepEqual(controls.settingsOf(fighterModule).map(([name]) => name), ['fighter'])
-  const html = controls.controlsHtml(fighterModule)
+  const html = controls.controlsHtml(fighterModule, ['fighter.health', 'fighter.gun.reload'])
   assert.match(html, /data-setting="fighter.health" min="0" max="160"/, 'a slider to four times the first value')
+  assert.match(html, /gun reload/)
+  assert.doesNotMatch(html, /fighter.speed/)
+  assert.equal(controls.controlsHtml(fighterModule), '', 'a story that names none shows none')
 })
 
 test('a single constant, a list or an object with words gets no controls; a nested object and a yes/no do', () => {
   const module = { speed: 5, names: [1, 2], art: { image: 'a.png' }, gun: { aim: { lead: true, turn: 0 } } }
   assert.deepEqual(controls.settingsOf(module).map(([name]) => name), ['gun'])
-  const html = controls.controlsHtml(module)
+  const html = controls.controlsHtml(module, ['gun.aim.lead', 'gun.aim.turn'])
   assert.match(html, /type="checkbox" data-setting="gun.aim.lead" checked/)
   assert.match(html, /data-setting="gun.aim.turn" min="0" max="1"/, 'a first 0 runs to 1')
   controls.change(module, 'gun.aim.turn', .5)
   controls.restore()
   assert.equal(module.gun.aim.turn, 0)
-})
-
-test('a module without settings objects has no controls', async() => {
-  assert.equal(controls.controlsHtml(await import('/scenes/ustanak/Turns.js')), '')
 })
 
 test('a changed setting holds in the block made next, and restoring gives the first value back', t => {

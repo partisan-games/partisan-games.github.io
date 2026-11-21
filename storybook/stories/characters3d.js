@@ -1,5 +1,6 @@
 import Stage3D from '../Stage3D.js'
 import { requestModels } from '/core3d/assets/models.js'
+import makeCharacter from '/core3d/actor/characters/makeCharacter.js'
 import * as barbarianModule from '/core3d/actor/derived/fantasy/Barbarian.js'
 import * as bigfootModule from '/core3d/actor/derived/fantasy/Bigfoot.js'
 import * as demonModule from '/core3d/actor/derived/fantasy/Demon.js'
@@ -43,13 +44,19 @@ import * as zeppelinModule from '/core3d/actor/derived/Zeppelin.js'
 const library = 'Zajednička biblioteka'
 
 /**
- * A story of a 3D character, the one the player leads, with its model and weapon as its games have them. A 3D block
- * needs its models loaded before it is made. It has no controller, so a state it is set to lasts until another is set.
+ * A story of a 3D character, with its model and weapon as its games have them. A 3D block needs its models loaded
+ * before it is made. A character with a description is its body and model, with no controller, so a state it is set
+ * to lasts until another is set; one without is still the earlier actor that the player leads.
  */
 const character = (id, name, game, block, Character) => ({
   id, name, game, block, stage: Stage3D,
   create: async stage => {
     await requestModels(block.models)
+    if (block.description) {
+      const { body, model } = makeCharacter(block.description)
+      stage.add(body, model)
+      return body
+    }
     const actor = new Character({ controller: null })
     stage.add(actor)
     return actor
@@ -57,51 +64,51 @@ const character = (id, name, game, block, Character) => ({
 })
 
 export const fantasy = [
-  character('varvarin-3d', 'Varvarin', 'RPG Fantasy', barbarianModule, barbarianModule.BarbarianPlayer),
-  character('snezni-covek-3d', 'Snežni čovek', library, bigfootModule, bigfootModule.BigfootPlayer),
-  character('demon-3d', 'Demon', 'Demon Forest', demonModule, demonModule.DemonPlayer),
-  character('goblin-3d', 'Goblin', library, goblinModule, goblinModule.GoblinPlayer),
-  character('golem-3d', 'Golem', 'Follow, Minas Tirith', golemModule, golemModule.GolemPlayer),
-  character('gvozdeni-div-3d', 'Gvozdeni div', library, ironGiantModule, ironGiantModule.IronGiantPlayer),
-  character('ork-3d', 'Ork', library, orcModule, orcModule.OrcPlayer),
-  character('ork-div-3d', 'Ork div', library, orcOgreModule, orcOgreModule.OrcOgrePlayer),
-  character('kostur-3d', 'Kostur', library, skeletonModule, skeletonModule.SkeletonPlayer),
-  character('carobnica-3d', 'Čarobnica', 'Follow, Graveyard Survival, Walls', sorceressModule, sorceressModule.SorceressPlayer),
-  character('trol-3d', 'Trol', library, trollModule, trollModule.TrollPlayer),
-  character('vestica-3d', 'Veštica', 'Ruins', witchModule, witchModule.WitchPlayer),
-  character('carobnjak-3d', 'Čarobnjak', library, wizardModule, wizardModule.WizardPlayer),
+  character('varvarin-3d', 'Varvarin', 'RPG Fantasy', barbarianModule),
+  character('snezni-covek-3d', 'Snežni čovek', library, bigfootModule),
+  character('demon-3d', 'Demon', 'Demon Forest', demonModule),
+  character('goblin-3d', 'Goblin', library, goblinModule),
+  character('golem-3d', 'Golem', 'Follow, Minas Tirith', golemModule),
+  character('gvozdeni-div-3d', 'Gvozdeni div', library, ironGiantModule),
+  character('ork-3d', 'Ork', library, orcModule),
+  character('ork-div-3d', 'Ork div', library, orcOgreModule),
+  character('kostur-3d', 'Kostur', library, skeletonModule),
+  character('carobnica-3d', 'Čarobnica', 'Follow, Graveyard Survival, Walls', sorceressModule),
+  character('trol-3d', 'Trol', library, trollModule),
+  character('vestica-3d', 'Veštica', 'Ruins', witchModule),
+  character('carobnjak-3d', 'Čarobnjak', library, wizardModule),
 ]
 
 export const horror = [
-  character('duh-3d', 'Duh', 'Graveyard Survival', ghostModule, ghostModule.GhostPlayer),
-  character('gotska-devojka-3d', 'Gotska devojka', 'Graveyard Survival', gothGirlModule, gothGirlModule.GothGirlPlayer),
-  character('zrtva-3d', 'Žrtva', library, nudeVictimModule, nudeVictimModule.NudeVictimPlayer),
-  character('bosi-zombi-3d', 'Bosi zombi', 'Graveyard Survival', zombieBarefootModule, zombieBarefootModule.ZombieBarefootPlayer),
-  character('zombi-policajac-3d', 'Zombi policajac', 'Graveyard Survival', zombieCopModule, zombieCopModule.ZombieCopPlayer),
-  character('zombi-doktor-3d', 'Zombi doktor', 'Graveyard Survival', zombieDoctorModule, zombieDoctorModule.ZombieDoctorPlayer),
-  character('zombi-doktor-koji-puzi-3d', 'Zombi doktor koji puzi', library, zombieDoctorCrawlModule, zombieDoctorCrawlModule.ZombieDoctorCrawlPlayer),
-  character('zombi-strazar-3d', 'Zombi stražar', 'Graveyard Survival', zombieGuardModule, zombieGuardModule.ZombieGuardPlayer),
+  character('duh-3d', 'Duh', 'Graveyard Survival', ghostModule),
+  character('gotska-devojka-3d', 'Gotska devojka', 'Graveyard Survival', gothGirlModule),
+  character('zrtva-3d', 'Žrtva', library, nudeVictimModule),
+  character('bosi-zombi-3d', 'Bosi zombi', 'Graveyard Survival', zombieBarefootModule),
+  character('zombi-policajac-3d', 'Zombi policajac', 'Graveyard Survival', zombieCopModule),
+  character('zombi-doktor-3d', 'Zombi doktor', 'Graveyard Survival', zombieDoctorModule),
+  character('zombi-doktor-koji-puzi-3d', 'Zombi doktor koji puzi', library, zombieDoctorCrawlModule),
+  character('zombi-strazar-3d', 'Zombi stražar', 'Graveyard Survival', zombieGuardModule),
 ]
 
 export const ww2 = [
-  character('nemacki-bacac-plamena-3d', 'Nemački bacač plamena', 'FPS Base', germanFlameThrowerModule, germanFlameThrowerModule.GermanFlameThrowerPlayer),
-  character('nemacki-mitraljezac-3d', 'Nemački mitraljezac', '3D Tank, FPS Airport, FPS Base', germanMachineGunnerModule, germanMachineGunnerModule.GermanMachineGunnerPlayer),
-  character('nemacki-vojnik-3d', 'Nemački vojnik', library, germanSoldierModule, germanSoldierModule.GermanSoldierPlayer),
-  character('nacisticki-agent-3d', 'Nacistički agent', library, naziAgentModule, naziAgentModule.NaziAgentPlayer),
-  character('nacisticki-oficir-3d', 'Nacistički oficir', '3D Tank, FPS Airport, FPS Base', naziOfficerModule, naziOfficerModule.NaziOfficerPlayer),
-  character('partizan-3d', 'Partizan', 'Liberated City, Spomenici', partisanModule, partisanModule.PartisanPlayer),
-  character('partizan-koji-nisani-3d', 'Partizan koji nišani', 'Liberated City', partisanAimModule, partisanAimModule.PartisanAimPlayer),
-  character('partizan-jednostavan-model-3d', 'Partizan, jednostavan model', 'Liberated City', partisanLowpolyModule, partisanLowpolyModule.PartisanLowpolyPlayer),
-  character('borac-pokreta-otpora-3d', 'Borac pokreta otpora', 'Liberated City', resistanceFighterModule, resistanceFighterModule.ResistanceFighterPlayer),
-  character('ss-vojnik-3d', 'SS vojnik', '3D Tank, FPS Airport, FPS Base', sSSoldierModule, sSSoldierModule.SSSoldierPlayer),
-  character('vojnik-3d', 'Vojnik', library, soldierModule, soldierModule.SoldierPlayer),
-  character('sovjetski-partizan-3d', 'Sovjetski partizan', 'Liberated City', sovietPartisanModule, sovietPartisanModule.SovietPartisanPlayer),
-  character('radnik-3d', 'Radnik', 'Graffiti City, Graffiti City Maze', workerModule, workerModule.WorkerPlayer),
+  character('nemacki-bacac-plamena-3d', 'Nemački bacač plamena', 'FPS Base', germanFlameThrowerModule),
+  character('nemacki-mitraljezac-3d', 'Nemački mitraljezac', '3D Tank, FPS Airport, FPS Base', germanMachineGunnerModule),
+  character('nemacki-vojnik-3d', 'Nemački vojnik', library, germanSoldierModule),
+  character('nacisticki-agent-3d', 'Nacistički agent', library, naziAgentModule),
+  character('nacisticki-oficir-3d', 'Nacistički oficir', '3D Tank, FPS Airport, FPS Base', naziOfficerModule),
+  character('partizan-3d', 'Partizan', 'Liberated City, Spomenici', partisanModule),
+  character('partizan-koji-nisani-3d', 'Partizan koji nišani', 'Liberated City', partisanAimModule),
+  character('partizan-jednostavan-model-3d', 'Partizan, jednostavan model', 'Liberated City', partisanLowpolyModule),
+  character('borac-pokreta-otpora-3d', 'Borac pokreta otpora', 'Liberated City', resistanceFighterModule),
+  character('ss-vojnik-3d', 'SS vojnik', '3D Tank, FPS Airport, FPS Base', sSSoldierModule),
+  character('vojnik-3d', 'Vojnik', library, soldierModule),
+  character('sovjetski-partizan-3d', 'Sovjetski partizan', 'Liberated City', sovietPartisanModule),
+  character('radnik-3d', 'Radnik', 'Graffiti City, Graffiti City Maze', workerModule),
 ]
 
 export const beasts = [
-  character('slon-3d', 'Slon', library, elephantModule, elephantModule.ElephantPlayer),
-  character('flamingo-3d', 'Flamingo', 'RPG Fantasy', flamingoModule, flamingoModule.FlamingoPlayer),
+  character('slon-3d', 'Slon', library, elephantModule),
+  character('flamingo-3d', 'Flamingo', 'RPG Fantasy', flamingoModule),
   character('tenk-3d', 'Tenk', 'FPS Airport', tankModule, tankModule.TankPlayer),
-  character('cepelin-3d', 'Cepelin', 'RPG Fantasy', zeppelinModule, zeppelinModule.ZeppelinPlayer),
+  character('cepelin-3d', 'Cepelin', 'RPG Fantasy', zeppelinModule),
 ]

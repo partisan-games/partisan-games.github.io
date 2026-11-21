@@ -47,8 +47,8 @@ test('the boat fires from its bow along its heading as it reloads, and hits alon
   assert.deepEqual([round.x, round.z], [body.muzzle.x, body.muzzle.z])
   live(clock, [body], 1)
   assert.equal(enemy.health.current, sBoat.health - boat.damage)
-  enemy.yaw = Math.PI / 2 // across the river: a hull 11 m long but only 2 m wide
-  enemy.z = 37
+  enemy.yaw = Math.PI / 2
+  enemy.z = body.z + enemy.size.length / 2 + 1
   body.reload.start(0)
   body.shoot()
   live(clock, [body], 1)
@@ -71,7 +71,7 @@ test('an S-boat lies still until it is set to sail, then sails on its course and
 
 test('the S-boat guns follow their aim in any state but fire only in fire, within reach, in bursts', () => {
   const clock = new GameClock()
-  const target = new Boat({ x: 84, z: 30, clock })
+  const target = new Boat({ x: 100, z: 51, clock })
   const body = new SBoat({ x: 100, z: 30, clock, targets: [target] })
   body.aimAt(target)
   live(clock, [body], 3)
@@ -81,7 +81,7 @@ test('the S-boat guns follow their aim in any state but fire only in fire, withi
   live(clock, [body], 2)
   assert.equal(body.shotsFired, sBoat.burst, 'one burst')
   assert.equal(body.bursts, 1)
-  body.aimAt({ x: body.x - sBoat.reach * 2, z: 30 })
+  body.aimAt({ x: body.x, z: body.z + sBoat.reach * 2 })
   live(clock, [body], sBoat.burstWait + 1)
   assert.equal(body.shotsFired, sBoat.burst, 'not beyond its reach')
 })

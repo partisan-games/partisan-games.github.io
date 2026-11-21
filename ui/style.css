@@ -574,8 +574,9 @@ progress.potisak::-moz-progress-bar {
   }
 }
 
-/* a button that starts a paid game, with its token right of the label, all on one line in the middle */
-.paid {
+/* a button that starts a paid game, with its token right of the label, all on one line in the middle; a picture to
+   choose from keeps its own layout */
+button.paid {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -621,11 +622,11 @@ progress.potisak::-moz-progress-bar {
 }
 
 @media (max-width: 440px) {
-  .paid { gap: 4px; }
+  button.paid { gap: 4px; }
 }
 
 @media (max-width: 360px) {
-  .paid { gap: 3px; font-size: 12px; }
+  button.paid { gap: 3px; font-size: 12px; }
   .price { gap: 3px; }
   .price img { width: 20px; height: 20px; }
 }

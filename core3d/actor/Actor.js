@@ -85,7 +85,7 @@ export default class Actor extends GameObject {
       this.sounds.push(this.audio)
     }
     this.stepSound = new Sound('footstep-gravel-01.mp3', { variants: Array.from({ length: 11 }, (_, i) => `footstep-gravel-${String(i + 2).padStart(2, '0')}.mp3`), profile: 'footstep', spatial: audioPoint(this) })
-    this.impactSound = new Sound('body-impact-01.mp3', { variants: ['body-impact-02.mp3', 'body-impact-03.mp3', 'body-impact-04.mp3'], profile: 'impact', spatial: audioPoint(this) })
+    this.impactSound = new Sound('body-impact-01.mp3', { variants: ['body-impact-03.mp3', 'body-impact-04.mp3'], profile: 'impact', spatial: audioPoint(this) })
     this.sounds.push(this.stepSound, this.impactSound)
     this.audioPreviousPosition = audioPosition(this.mesh).clone()
     this.audioStepDistance = 0

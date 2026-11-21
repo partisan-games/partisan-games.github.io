@@ -6,6 +6,8 @@ import CannonCrew from '/core/gameplay/bodies/soldiers/CannonCrew.js'
 import Skirmisher from '/core/gameplay/bodies/soldiers/Skirmisher.js'
 import FlagBearer, { bearerKinds } from '/core/gameplay/bodies/soldiers/FlagBearer.js'
 import FieldGunSprite from '/core/actor/artillery/FieldGunSprite.js'
+import { wreckFor } from '/core/actor/wreckView.js'
+import imageReady from '/core/io/imageReady.js'
 import CannonCrewSprite from '/core/actor/soldiers/CannonCrewSprite.js'
 import SkirmisherSprite from '/core/actor/soldiers/SkirmisherSprite.js'
 import FlagBearerSprite from '/core/actor/soldiers/FlagBearerSprite.js'
@@ -21,7 +23,7 @@ import Battlefield from './Battlefield.js'
 import Airplane from '/core/objects/Airplane.js'
 import Wind from './Wind.js'
 import WindEffects from './WindEffects.js'
-import Terrain from './Terrain.js'
+import Terrain, { crater } from './Terrain.js'
 
 const groundLevel = canvas2d.height * .75
 /** The line the wheels and the feet stand on, in pixels: a little under the far edge of the field. */
@@ -48,7 +50,7 @@ const customStartScreen = ({ container }) => /* html */`
 
 export default class UstanakScene extends Scene2D {
   constructor() {
-    super({ controlKeys: { W: 'up', S: 'down', Space: 'hold to charge, release to shoot', Esc: 'pause' }, customStartScreen, showControls: true })
+    super({ controlKeys: { W: 'up', S: 'down', Space: 'shoot' }, customStartScreen, showControls: true })
   }
 
   init() {
@@ -67,7 +69,7 @@ export default class UstanakScene extends Scene2D {
     this.projection = sideProjection({ pxPerMeter, groundY: floorY })
     this.battlefield = new Battlefield({ canvas: this.canvas, groundY: groundLevel, wind: this.wind, terrain: this.terrain })
     this.audioChildren = [this.wind, this.battlefield]
-    this.bunker = new Bunker({ x: canvas2d.width * .75, alive: false, smoky: true, z: 1 })
+    this.bunker = new Bunker({ x: canvas2d.width * .75, smoky: true, z: 1 })
     this.bunker.onload = () => this.bunker.placeOnGround(groundLevel + 20)
     const avion = new Airplane({ src: 'armies/talijani/avioni/fiat-cr42.png', y: canvas2d.height * .4, scale: .85, speed: -240 })
     const avion2 = new Airplane({ src: 'armies/talijani/avioni/imam-ro57.png', y: canvas2d.height * .2, scale: 0.66, speed: -320 })
@@ -95,7 +97,7 @@ export default class UstanakScene extends Scene2D {
     const views = { projection: this.projection, camera: this }
     const flagTime = () => this.battlefield.time
     this.guns = [0, 1].map(side => new FieldGun({ x: this.placeOf(side, places.gun), yaw: side * Math.PI, groundAt,
-      wind: this.wind, bounds: { min: 0, max: canvas2d.width / pxPerMeter }, onBlast: x => this.terrain.blast(x * pxPerMeter),
+      wind: this.wind, bounds: { min: 0, max: canvas2d.width / pxPerMeter }, onBlast: x => this.blast(x),
       canFire: () => this.canShoot(side) }))
     this.guns[0].targets.push(this.guns[1])
     this.guns[1].targets.push(this.guns[0])
@@ -115,6 +117,15 @@ export default class UstanakScene extends Scene2D {
     /** Both players aim with the same keys, each in their turn. */
     this.cannonKeys = this.guns.map(gun => new CannonKeys(gun, { keyboard, keys: leftPlayerKeys }))
     this.ai = new CannonAI({ cannon: this.guns[1], target: this.guns[0], clock: this.session.clock })
+  }
+
+  /** The house is scenery, never a shell target; only a nearby explosion ruins it. */
+  blast(x) {
+    const screenX = x * pxPerMeter
+    this.terrain.blast(screenX)
+    if (this.round === 1 && this.bunker.alive
+      && Math.abs(screenX - this.bunker.x) <= this.bunker.width / 2 + crater.halfWidth)
+      this.bunker.die()
   }
 
   setRoundScenery() {
@@ -216,7 +227,7 @@ export default class UstanakScene extends Scene2D {
   }
 
   imagesLoaded() {
-    return Promise.all([super.imagesLoaded(), this.battlefield.loaded()])
+    return Promise.all([super.imagesLoaded(), this.battlefield.loaded(), imageReady(wreckFor(this.bunker.image.src))])
   }
 
   update(dt, t) {

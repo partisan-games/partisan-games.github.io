@@ -1,5 +1,7 @@
 import Scene3D from '/core/Scene3D.js'
-import CapoeiraGirl, { model } from './Character.js'
+import { description as capoeiraGirl, model } from './Character.js'
+import leadCharacter from '/core3d/actor/characters/leadCharacter.js'
+import { icons } from '/core/io/icons.js'
 import { createGround } from '/core3d/ground.js'
 import { createSun } from '/core3d/light.js'
 import { html } from './html.js'
@@ -20,15 +22,17 @@ export default class CapoeiraGirlScene extends Scene3D {
     const sun = createSun()
     this.addMesh(sun)
 
-    this.player = new CapoeiraGirl({ camera: this.camera, showHealthBar: false })
-    this.add(this.player)
+    const { body, model: view } = leadCharacter(this, capoeiraGirl, { input: { buttonDict: { attack: icons.unarmed, jump: '' } },
+      view: { showHealthBar: false } })
+    this.player = body
 
     this.addUI()
     this.actions = new SpecialActions({
-      player: this.player, session: this.session,
+      body, model: view, session: this.session,
       loadClip: name => requestModel({ file: `${name}.fbx`, prefix: 'character/huntress/', name })
         .then(mesh => mesh.userData.animations[0]),
     })
+    this.controllers.push(this.actions)
   }
 
   addUI() {

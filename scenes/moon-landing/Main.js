@@ -7,14 +7,12 @@ import { createSphere } from '/core3d/geometry/index.js'
 import { createJupiter, createSaturn } from '/core3d/geometry/planets.js'
 import { requestModel } from '/core3d/assets/models.js'
 import Lander, { model as landerModel } from './Lander.js'
-import { keys } from '/core/io/keys.js'
 
 const controls = {
   '← or A': 'thrust left',
   '→ or D': 'thrust right',
   '↓ or S': 'thrust down',
   '↑ or W': '',
-  [keys.pause.label]: 'pause',
 }
 
 export default class MoonLandingScene extends Scene3D {
@@ -32,7 +30,8 @@ export default class MoonLandingScene extends Scene3D {
 
   async init() {
     this.backgroundColor = 0x000000
-    this.camera.position.z = 18
+    // low enough that the platform 10 m below stays whole on the screen, near its bottom
+    this.camera.position.set(0, 2, 18)
 
     ambLight({ scene: this.scene })
     const moonLight = createMoon({ pos: [30, 30, 30], intensity: Math.PI * .2 })

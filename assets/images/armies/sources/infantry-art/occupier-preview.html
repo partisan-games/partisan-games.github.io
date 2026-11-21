@@ -1,1 +1,36 @@
-<!doctype html><meta charset="utf-8"><title>Occupier fire</title><style>body{background:#687261;color:white}img{image-rendering:pixelated}</style><h1>Occupier: fire</h1><img src="previews/occupier-fire.gif"><p>Five generated recoil phases; original head, boots and first five rows preserved. Same class in Otpisani and Storybook.</p>
+<!doctype html>
+<html lang="sr-Latn"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Okupator — novi red pucanja</title>
+<style>
+body{margin:24px;background:#253128;color:#eee9d8;font:16px/1.5 system-ui,sans-serif}h1{font-size:24px}main{max-width:1000px}figure{margin:0}canvas,img{image-rendering:pixelated}canvas{background:#687261;display:block;max-width:100%;height:auto}button,input{font:inherit}button{padding:5px 12px}label{margin-right:16px}.controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:16px 0}a{color:#e4cb81}figcaption{display:flex;width:420px;max-width:100%}figcaption span{width:50%;text-align:center}.strip{max-width:100%;overflow:auto}output{font-variant-numeric:tabular-nums}
+</style>
+<main><h1>Okupator: zamena odbijenog reda pucanja</h1>
+<p>Levo je poslednji kadar drugog reda „nadole“, desno novi klip u stvarnoj veličini: po 210 × 210 px. Glava, obris trupa, noge, čizme i sidrište su isti u svih pet kadrova; pokret od najviše 3 px ograničen je na šake, oružje i podlaktice. Peti kadar je identičan prvom.</p>
+<figure><canvas id="preview" width="420" height="210"></canvas><figcaption><span>Izvorni stav · red 1, kadar 4</span><span>Novi fire · red 5</span></figcaption></figure>
+<div class="controls"><button id="play">Pauziraj</button><button id="next">Sledeći kadar</button><label><input type="checkbox" id="muzzle">Tačka cevi</label><label><input type="checkbox" id="flash">Zaseban plamen igre</label><output id="status"></output></div>
+<p>Klip: 5 × 100 ms, petlja 0,5 s; sidrište (105, 210). U atlasu nema plamena ni dima. Oznaka cevi i plamen su opcioni slojevi pregleda, prema tačkama iz metapodataka.</p>
+<p><a href="previews/occupier-fire.gif">GIF 210 px</a> · <a href="previews/occupier-fire-comparison.gif">Uporedni GIF</a> · <a href="occupier-sprites.json">Metapodaci</a> · <a href="previews/occupier-fire-motion-mask.png">Dozvoljeno područje promene</a></p>
+<div class="strip"><img src="previews/occupier-fire-game-size.png" width="1260" height="210" alt="Izvorni stav i pet novih kadrova"></div>
+<p>Otpisani i Storybook koriste ovaj red i iste tačke cevi. <a href="../../../../../index.html#otpisani">Probaj u igri</a> · <a href="../../../../../storybook.html#vojnici/okupator">Probaj u Storybook-u</a>. Vlasnikov pregled ostaje otvoren.</p></main>
+<script>
+const art={"id": "occupier", "image": "../../game-ready/vojnici/occupier-sprites.png", "frame": {"width": 210, "height": 210, "columns": 5, "rows": 6}, "anchor": {"x": 105, "y": 210}, "animations": [{"name": "nagore", "row": 0, "frameCount": 5, "duration": 0.5, "loop": true}, {"name": "nadole", "row": 1, "frameCount": 5, "duration": 0.5, "loop": true}, {"name": "nalevo", "row": 2, "frameCount": 5, "duration": 0.5, "loop": true}, {"name": "nadesno", "row": 3, "frameCount": 5, "duration": 0.5, "loop": true}, {"name": "umire", "row": 4, "frameCount": 5, "duration": 0.5, "loop": false}, {"name": "fire", "row": 5, "frameCount": 5, "duration": 0.5, "loop": true, "frameDurationsMs": [100, 100, 100, 100, 100], "muzzle": [{"x": 106, "y": 77}, {"x": 106, "y": 80}, {"x": 106, "y": 78}, {"x": 107, "y": 79}, {"x": 106, "y": 77}], "end": "Frame 4 returns pixel-for-pixel to frame 0."}], "source": "../../../sprites/vojnici/okupator-sprite.png", "sourceSha256": "33a7ff83e0d279959a6e5d81f1579d8ea655905152c842de1c3f11fe61cff2fe", "sha256": "fc79c578cc5f4e89476017e041988960d259e0aa8c5f34f4f8ff6b01627ce471", "preparation": {"script": "prepare-occupier.py", "reference": {"row": 1, "column": 4}, "method": "Nearest-pixel local deformation of original hands, forearms and MP40; no generated torso patch.", "motionContour": [[91, 79], [100, 79], [102, 73], [111, 73], [116, 77], [122, 79], [123, 85], [117, 89], [105, 93], [100, 99], [97, 111], [95, 122], [90, 122], [92, 100], [86, 97], [83, 92], [84, 85]], "offsetsPixels": [[0, 0], [0, 3], [0, 1], [1, 2], [0, 0]], "maximumDisplacementPixels": 3, "locked": "First five rows, head, torso outline, legs, boots, alpha silhouette, anchor and floor.", "effects": "No embedded flash/smoke; muzzle coordinates are cell pixels.", "generationAttempt": "occupier-fire-replacement-attempt.json"}, "integration": "OccupierSprite uses this fire loop and per-frame muzzle coordinates in Otpisani and Storybook; owner visual review remains open."};
+const canvas=document.querySelector('#preview'),ctx=canvas.getContext('2d'),status=document.querySelector('#status');
+const image=new Image(),flash=new Image();
+image.src=art.image;flash.src='../../../pucanje.png';
+let frame=0,running=true,last=0,elapsed=0;
+function draw(){
+ ctx.clearRect(0,0,420,210);ctx.imageSmoothingEnabled=false;
+ if(!image.naturalWidth)return;
+ ctx.drawImage(image,840,210,210,210,0,0,210,210);
+ ctx.drawImage(image,frame*210,1050,210,210,210,0,210,210);
+ const p=art.animations[5].muzzle[frame],x=210+p.x,y=p.y;
+ if(document.querySelector('#flash').checked&&flash.naturalWidth)ctx.drawImage(flash,x-flash.naturalWidth/2,y-flash.naturalHeight/2);
+ if(document.querySelector('#muzzle').checked){ctx.strokeStyle='#ffcc57';ctx.lineWidth=1;ctx.strokeRect(x-3.5,y-3.5,7,7);}
+ status.textContent=`Kadar ${frame} · cev (${p.x}, ${p.y})`;
+}
+function tick(time){if(running){elapsed+=last?time-last:0;while(elapsed>=100){frame=(frame+1)%5;elapsed-=100;}}last=time;draw();requestAnimationFrame(tick);}
+document.querySelector('#play').onclick=()=>{running=!running;document.querySelector('#play').textContent=running?'Pauziraj':'Pusti';};
+document.querySelector('#next').onclick=()=>{running=false;document.querySelector('#play').textContent='Pusti';frame=(frame+1)%5;elapsed=0;draw();};
+document.querySelectorAll('input').forEach(input=>input.onchange=draw);
+requestAnimationFrame(tick);
+</script></html>

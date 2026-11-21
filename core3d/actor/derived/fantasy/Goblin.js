@@ -1,7 +1,3 @@
-import Player from '/core3d/actor/Player.js'
-import AI from '/core3d/actor/AI.js'
-import { loadedModel } from '/core3d/assets/models.js'
-
 const animDict = {
   idle: 'Great Sword Idle',
   walk: 'Great Sword Walk',
@@ -14,19 +10,5 @@ const meshModel = { file: 'model.fbx', angle: Math.PI, animDict, prefix: 'charac
 /** What to load; a game awaits requestModels(models) before it creates one of these. */
 export const models = [meshModel]
 
-const sharedProps = () => {
-  const mesh = loadedModel(meshModel)
-  return { mesh, animations: mesh.userData.animations, animDict }
-}
-
-export class GoblinPlayer extends Player {
-  constructor(props = {}) {
-    super({ ...sharedProps(), ...props })
-  }
-}
-
-export class GoblinAI extends AI {
-  constructor(props = {}) {
-    super({ ...sharedProps(), ...props })
-  }
-}
+/** How it looks, sounds and acts, for a character made of a body and its model. */
+export const description = { model: meshModel, animDict, body: {} }

@@ -84,9 +84,10 @@ export default class Scene3D extends Scene {
     this.renderer = new OutlineEffect(this.renderer, { defaultThickness })
   }
 
+  /** A body has no mesh: only its model is put in the 3D scene. */
   add(...children) {
     super.add(...children)
-    this.scene.add(...children.map(predmet => predmet.mesh))
+    this.scene.add(...children.filter(child => child.mesh).map(child => child.mesh))
   }
 
   addMesh(...meshes) {
@@ -95,7 +96,7 @@ export default class Scene3D extends Scene {
 
   remove(...children) {
     super.remove(...children)
-    this.scene.remove(...children.map(predmet => predmet.mesh))
+    this.scene.remove(...children.filter(child => child.mesh).map(child => child.mesh))
   }
 
   removeMesh(...meshes) {

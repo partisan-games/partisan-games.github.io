@@ -54,6 +54,22 @@ test('an S-boat comes after its quiet start, and its sunk wreck leaves play', t 
   assert.equal(scene.targets.includes(boat.body), false)
 })
 
+test('the S-boat is over four player-boat lengths, with its large hull and gun muzzles at the drawn scale', t => {
+  const { scene } = createScene(t)
+  scene.encounter.launch()
+  const { body, view } = scene.encounter.boat
+  const ratio = view.width / scene.playerView.width
+  assert.ok(ratio > 4.5 && ratio < 4.7, 'the 33m S-boat must not look like the 7m launch')
+  assert.equal(view.width, body.size.length * scene.projection.pxPerMeter)
+  assert.equal(view.height, body.size.width * scene.projection.pxPerMeter)
+  const bow = body.x - scene.player.size.length * 1.8
+  assert.notEqual(body.hitTime({ x: bow, z: body.z - 10 }, { x: bow, z: body.z + 10 }), null,
+    'the visible long bow is part of the target, beyond the old 11m hit box')
+  const mount = body.mount(body.gunIndex), { muzzle } = body
+  const barrelPixels = Math.hypot(muzzle.x - mount.x, muzzle.z - mount.z) * scene.projection.pxPerMeter
+  assert.ok(Math.abs(barrelPixels - view.width * 12 / 300) < 1e-8, 'rounds leave the enlarged drawn gun')
+})
+
 test('reaching the pier takes the boat out of the player hands and the troops land', t => {
   const { scene, play } = createScene(t)
   scene.player.x = scene.landing.x / scene.projection.pxPerMeter

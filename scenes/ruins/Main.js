@@ -5,7 +5,10 @@ import Maze from '/core3d/mazes/Maze.js'
 import { recursiveDivision } from '/core3d/mazes/algorithms.js'
 import { hemLight } from '/core3d/light.js'
 import { createDunes } from '/core3d/ground.js'
-import { WitchPlayer, models as witchModels } from '/core3d/actor/derived/fantasy/Witch.js'
+import { description as witch, models as witchModels } from '/core3d/actor/derived/fantasy/Witch.js'
+import leadCharacter from '/core3d/actor/characters/leadCharacter.js'
+import worldQueries from '/core3d/actor/characters/worldQueries.js'
+import { icons } from '/core/io/icons.js'
 import { requestModels } from '/core3d/assets/models.js'
 
 export default class RuinsScene extends Scene3D {
@@ -27,9 +30,8 @@ export default class RuinsScene extends Scene3D {
     const dunes = await createDunes()
     this.addMesh(dunes)
 
-    const player = new WitchPlayer({ camera: this.camera, solids: [dunes, ruins] })
-    player.chaseCamera.zoomIn()
-    this.audioPlayer = () => player
-    this.add(player)
+    const { chase } = leadCharacter(this, witch, { ...worldQueries([dunes, ruins]),
+      input: { buttonDict: { attack: icons.magic, attack2: icons.magic, special: icons.special } } })
+    chase.view.chaseCamera.zoomIn()
   }
 }

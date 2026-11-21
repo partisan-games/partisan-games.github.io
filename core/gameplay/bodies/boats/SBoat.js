@@ -6,7 +6,7 @@ import { hullEntry } from '../projectiles/hits.js'
 import { turn } from '../../angles.js'
 
 /**
- * A German S-boat seen from above, measured from the earlier pixel boat at 25 px a metre: cruising and full speed in
+ * A German S-boat seen from above: cruising and full speed in
  * metres a second; how fast the hull and the guns turn, in radians a second; seconds between rounds; rounds in a burst
  * and seconds between bursts and before the first; the nearest and farthest its guns fire, in metres, once they are on
  * aim within `onAim` radians; its bullets' speed and damage; its health; and the seconds its sinking hull stays a
@@ -59,7 +59,7 @@ const states = {
  */
 export default class SBoat extends Body {
   constructor({ lane = 0, clock, targets = [], canFire = () => true, random = Math.random, view = null, ...rest } = {}) {
-    super({ size: { length: 11, height: 1.2, width: 1.98 }, health: sBoat.health, yaw: Math.PI, ...rest, states })
+    super({ size: { length: 32.76, height: 1.2, width: 5.06 }, health: sBoat.health, yaw: Math.PI, ...rest, states })
     Object.assign(this, { lane, targets, canFire, clock })
     this.course = this.yaw
     this.gunYaw = this.yaw
@@ -102,7 +102,8 @@ export default class SBoat extends Body {
 
   get muzzle() {
     const mount = this.mount(this.gunIndex)
-    return { x: mount.x + Math.cos(this.gunYaw) * .48, y: mount.y, z: mount.z - Math.sin(this.gunYaw) * .48 }
+    const ahead = this.size.length * 12 / 300
+    return { x: mount.x + Math.cos(this.gunYaw) * ahead, y: mount.y, z: mount.z - Math.sin(this.gunYaw) * ahead }
   }
 
   /** Trains the guns on `point`; they can fire at it if it is within their reach. */

@@ -2,17 +2,20 @@ import Scene3D from '/core/Scene3D.js'
 import { createSun } from '/core3d/light.js'
 import PhysicsWorld from '/core3d/physics/PhysicsWorld.js'
 import { createGround } from '/core3d/ground.js'
-import { createSideWall } from '/core3d/geometry/index.js'
-import { CannonPlayer, models as cannonModels } from '/core3d/actor/derived/Cannon.js'
+import { createSideWall, createSphere } from '/core3d/geometry/index.js'
+import * as THREE from 'three'
+import { description as cannon, models as cannonModels } from '/core3d/actor/derived/Cannon.js'
+import leadCharacter from '/core3d/actor/characters/leadCharacter.js'
+import Sound from '/core/io/audio/SoundSource.js'
+import { Ammo } from '/core3d/physics/index.js'
+import PowerMeter from '/ui/PowerMeter.js'
 import { requestModels } from '/core3d/assets/models.js'
 import { keys } from '/core/io/keys.js'
 
 const controlKeys = {
   '← or A': 'left',
   '→ or D': 'right',
-  'Mouse down': 'add force',
-  'Mouse up': 'shoot',
-  [keys.pause.label]: 'pause',
+  [`Mouse or ${keys.jump.label}`]: 'shoot',
 }
 
 export default class CannonScene extends Scene3D {
@@ -27,12 +30,16 @@ export default class CannonScene extends Scene3D {
 
   async init() {
     await requestModels([...cannonModels])
-    this.player = new CannonPlayer({ camera: this.camera })
-    this.player.chaseCamera.distance = 2
-    this.player.chaseCamera.height = 2
-    this.player.chaseCamera.lookAt = [0, 2, 0]
-    this.player.chaseCamera.alignCamera()
-    this.add(this.player)
+    // the keyboard also tracks a held pointer, which charges the shot on touch screens too
+    // it faces the wall, down -z
+    const { body, model, keys } = leadCharacter(this, cannon, { yaw: Math.PI / 2, input: { useKeyboard: true },
+      view: { showHealthBar: false, distance: 2, height: 2, lookAt: [0, 2, 0] } })
+    Object.assign(this, { player: body, cannon: model, input: keys.input })
+    this.shotSound = new Sound('cannon-shot.mp3', { profile: 'cannon', spatial: { getPosition: () => this.shotPoint } })
+    model.sounds.push(this.shotSound)
+    this.power = new PowerMeter({ min: 10, max: 25, chargePerSecond: 12 })
+    this.session.scope.add(() => this.power.end())
+    this.shots = 20
 
     const sun = createSun({ pos: [-5, 10, 5] })
     this.addMesh(sun)
@@ -47,10 +54,36 @@ export default class CannonScene extends Scene3D {
   }
 
   handleClick(e) {
-    if (e.target.closest('button, input, progress') || !this.gameLoop.isRunning || this.ui.outro) return
+    if (e.target.closest('button, input, progress')) return
+    this.fire()
+  }
 
-    this.player.shoot(this.physics)
-    if (this.player.shots === 0) this.checkDefeat()
+  /** A click or a released Space fires the charged shot while the game runs. */
+  fire() {
+    if (!this.gameLoop.isRunning || this.ui.outro) return
+    this.shoot()
+    if (this.shots === 0) this.checkDefeat()
+  }
+
+  /** A ball flies from the muzzle, a little upwards, as hard as the power charged. */
+  shoot() {
+    if (!this.shots) return
+    const { physics, player } = this
+    this.cannon.audioScene?.output.preload('metal-impact.mp3')
+    const ball = createSphere({ r: .2, color: 0x202020 })
+    const way = new THREE.Vector3(player.heading.x, 0, player.heading.z)
+    ball.position.set(player.x, player.feet + player.size.height * .66, player.z).addScaledVector(way, 1.5)
+    physics.add(ball, 4)
+    this.shotPoint = ball.position.clone()
+    this.shotSound.play()
+    physics.contacts.once(ball.userData.body, point => this.cannon.audioScene?.emit('metal-impact.mp3', { profile: 'impact', spatial: { position: point } }))
+    way.y += .25
+    way.normalize().multiplyScalar(this.power.value)
+    const velocity = new Ammo.btVector3(way.x, way.y, way.z)
+    ball.userData.body.setLinearVelocity(velocity) // the body copies it
+    Ammo.destroy(velocity)
+    this.power.reset()
+    this.shots--
   }
 
   checkDefeat() {
@@ -62,6 +95,11 @@ export default class CannonScene extends Scene3D {
 
   update(dt, t) {
     super.update(dt, t)
+    // the mouse button or Space, held, charges the shot; Space, released, fires it
+    const spaceHeld = this.input.jump
+    if (this.input.pressed.pointer || spaceHeld) this.power.charge(dt)
+    if (this.spaceHeld && !spaceHeld) this.fire()
+    this.spaceHeld = spaceHeld
 
     this.physics.update(dt)
     this.countableCrates = this.boxes.filter(mesh => mesh.position.y > .5)
@@ -71,6 +109,6 @@ export default class CannonScene extends Scene3D {
   }
 
   sceneUI() {
-    return this.ui.scoreUI('Blocks left', this.countableCrates.length, 'Shots left', this.player.shots)
+    return this.ui.scoreUI('Blocks left', this.countableCrates.length, 'Shots left', this.shots)
   }
 }

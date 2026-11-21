@@ -1,0 +1,136 @@
+{
+  "schemaVersion": 1,
+  "scene": "otpisani",
+  "selectedBackground": "monochrome",
+  "backgrounds": [
+    {
+      "id": "pixel",
+      "title": "Beograd 1944 · pixel art",
+      "image": "../../../background/beograd-1944-pixel.png",
+      "source": "pixel-generated.png",
+      "sourceSha256": "ed3d701a479baeff3be7cfce49addfc2eee3362da9577a5e7ac33ae81c5df94b",
+      "sha256": "2fcf474ab56d8db736860f9bfc0e61fea76f021d847a9ce19cc18de26df98ab8",
+      "sourceSize": [
+        1536,
+        1024
+      ],
+      "imageSize": [
+        1536,
+        1024
+      ],
+      "opaque": true,
+      "preparation": {
+        "resize": "none",
+        "color": "RGB"
+      },
+      "period": "Belgrade, October 1944",
+      "interpretation": "Generated historical-game illustration; not an archival photograph or exact reconstruction.",
+      "streetTopY": 784,
+      "actorPlacement": {
+        "bodyCenterYRatio": 0.75,
+        "cellSize": [
+          210,
+          210
+        ],
+        "cellAnchor": [
+          105,
+          210
+        ],
+        "visibleBootY": ".75 * canvas.height + 105; same as the existing OccupierSprite"
+      },
+      "hotspots": [],
+      "compositions": [
+        {
+          "image": "compositions/pixel-1280x720.webp",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "image": "compositions/pixel-1024x768.webp",
+          "width": 1024,
+          "height": 768
+        }
+      ],
+      "status": "prepared-for-owner-review",
+      "runtimeIntegrated": false
+    },
+    {
+      "id": "monochrome",
+      "title": "Beograd 1944 · crno-bela",
+      "image": "../../../background/beograd-1944-crno-belo.png",
+      "source": "monochrome-generated.png",
+      "sourceSha256": "4adb54832c15d4c7b7b58ee75717ac5dac510f702a3dc04a30c105cedf8eaae8",
+      "sha256": "ad9735686e0f6dc2c5b4e39d724169baede9639c38c06dd177c1ff4b4facb0c3",
+      "sourceSize": [
+        1536,
+        1024
+      ],
+      "imageSize": [
+        1536,
+        1024
+      ],
+      "opaque": true,
+      "preparation": {
+        "resize": "none",
+        "color": "neutral grayscale (equal RGB channels)"
+      },
+      "period": "Belgrade, October 1944",
+      "interpretation": "Generated historical-game illustration; not an archival photograph or exact reconstruction.",
+      "streetTopY": 848,
+      "actorPlacement": {
+        "bodyCenterYRatio": 0.75,
+        "cellSize": [
+          210,
+          210
+        ],
+        "cellAnchor": [
+          105,
+          210
+        ],
+        "visibleBootY": ".75 * canvas.height + 105; same as the existing OccupierSprite"
+      },
+      "hotspots": [],
+      "compositions": [
+        {
+          "image": "compositions/monochrome-1280x720.webp",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "image": "compositions/monochrome-1024x768.webp",
+          "width": 1024,
+          "height": 768
+        }
+      ],
+      "status": "selected-and-integrated",
+      "runtimeIntegrated": true
+    }
+  ],
+  "sourceRecord": "generation.json",
+  "historicalSources": [
+    {
+      "title": "Muzej Jugoslavije: Beograd u danima neposredno posle oslobodjenja 1944, VIS_049_26",
+      "url": "https://vaju.muzej-jugoslavije.org/fotografija/68dc40256c0fd4c1ce038984",
+      "use": "Historical setting and aftermath context only; no archive image was downloaded or copied into the artwork."
+    },
+    {
+      "title": "Istorijski arhiv Beograda: Oslobodjenje Beograda - 70 godina posle",
+      "url": "https://arhiv-beograda.org/sr/70-godina-od-oslobodjenja",
+      "use": "Historical setting and urban damage context. These are invented game scenes, not exact reconstructions."
+    },
+    {
+      "title": "Grad Beograd: Znamenitosti - Terazije and Palata Albanija",
+      "url": "https://www.beograd.rs/lat/upoznajte-beograd/a88112/Znamenitosti.html",
+      "use": "Prewar Belgrade landmark context; no claim of exact street geometry."
+    }
+  ],
+  "reference": {
+    "image": "../../../background/rusevine-varsava.jpg",
+    "note": "Existing Warsaw photograph used only as a style comparison."
+  },
+  "actors": {
+    "image": "../../../armies/game-ready/vojnici/occupier-sprites.png",
+    "sha256": "fc79c578cc5f4e89476017e041988960d259e0aa8c5f34f4f8ff6b01627ce471"
+  },
+  "placement": "Background.render stretches the whole image to the canvas; this review uses that same image placement."
+}

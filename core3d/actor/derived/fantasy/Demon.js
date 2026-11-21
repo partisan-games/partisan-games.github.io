@@ -1,8 +1,3 @@
-import Player from '/core3d/actor/Player.js'
-import { icons } from '/core/io/icons.js'
-import AI from '/core3d/actor/AI.js'
-import { loadedModel } from '/core3d/assets/models.js'
-
 const animDict = {
   idle: 'Mutant Breathing Idle',
   walk: 'Mutant Walking',
@@ -16,27 +11,9 @@ const meshModel = { file: 'model.fbx', prefix: 'character/demon/', animDict, ang
 /** What to load; a game awaits requestModels(models) before it creates one of these. */
 export const models = [meshModel]
 
-const sharedProps = () => {
-  const mesh = loadedModel(meshModel)
-  return { buttonDict: { jump: '', attack: icons.unarmed, special: icons.magic }, mesh, animations: mesh.userData.animations, animDict, useFlame: true }
-}
-
-export class DemonPlayer extends Player {
-  constructor(props = {}) {
-    super({ ...sharedProps(), ...props })
-  }
-
-  enterSpecial() {
-    this.startFlame(1, () => this.areaDamage())
-  }
-
-  exitSpecial() {
-    this.endFlame()
-  }
-}
-
-export class DemonAI extends AI {
-  constructor(props = {}) {
-    super({ ...sharedProps(), ...props })
-  }
-}
+/**
+ * How it looks, sounds and acts, for a character made of a body and its model: its scream burns every one around it
+ * within 3 m, in a flame that pours from it as the scream lands.
+ */
+export const description = { model: meshModel, animDict, flame: { kinds: ['special'], fromBlow: true },
+  body: { area: { kinds: ['special'] } } }

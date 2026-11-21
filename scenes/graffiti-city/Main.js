@@ -1,7 +1,9 @@
 import { keys, attackLabels } from '/core/io/keys.js'
 import Scene3D from '/core/Scene3D.js'
 import { createSun } from '/core3d/light.js'
-import { WorkerPlayer, models as workerModels } from '/core3d/actor/derived/ww2/Worker.js'
+import { description as worker, models as workerModels } from '/core3d/actor/derived/ww2/Worker.js'
+import leadCharacter from '/core3d/actor/characters/leadCharacter.js'
+import worldQueries from '/core3d/actor/characters/worldQueries.js'
 import { requestModels } from '/core3d/assets/models.js'
 import { thirdPersonControls } from '/ui/Controls.js'
 import { getEmptyCoords, sample } from '/core3d/helpers.js'
@@ -112,9 +114,9 @@ export default class GraffitiCityScene extends Scene3D {
       solids.push(trees, building)
     }
 
-    this.player = new WorkerPlayer({ camera: this.camera, solids, pos: coords.pop(), showHealthBar: false })
-    this.player.lookAt(this.scene.position)
-
-    this.add(this.player)
+    const { groundAt, isBlocked } = worldQueries(solids)
+    const { body } = leadCharacter(this, worker, { ...coords.pop(), groundAt, isBlocked,
+      input: { buttonDict: { jump: '', attack: '' } }, view: { showHealthBar: false, distance: 1.5 } })
+    body.face({ x: 0, z: 0 })
   }
 }

@@ -41,11 +41,12 @@
       ]
     },
     {
-      "name": "3D letelice, kule i završetak",
+      "name": "3D letelice, kule, gravitacija i završetak",
       "sequential": [
         "AR-21",
         "AR-22",
-        "AR-23"
+        "AR-23",
+        "AR-24"
       ]
     }
   ]

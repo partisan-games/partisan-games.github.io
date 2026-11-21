@@ -9,10 +9,10 @@ import gunnerArt from '/core/actor/soldiers/machineGunnerArt.js'
 export const bunkerPictures = { pillbox: 'buildings/bunker-02.png', house: 'buildings/kuca-bunker.png' }
 
 /**
- * The machine gunner who lies at the door of a manned bunker, behind his gun: he turns it where the bunker aims, works
+ * The machine gunner who lies in the window of a manned bunker, behind his gun: he turns it where the bunker aims, works
  * it on each shot and falls with the bunker. `scale` sizes him to the bunker's picture.
  */
-class DoorGunner {
+class WindowGunner {
   constructor(scale) {
     this.scale = scale
     this.image = new Image()
@@ -26,7 +26,13 @@ class DoorGunner {
     this.sinceDeath = dead ? this.sinceDeath + dt : 0
   }
 
-  /** Lies at the door, in front of the bunker; his gun points along `angle` on the screen. */
+  /** Where he lies, his bottom right, for his level gun to end at `muzzle`, the bunker facing `way` on the screen. */
+  pivot(muzzle, way) {
+    const { width, height, muzzle: tip } = gunnerArt
+    return { x: muzzle.x - way * (width - tip.x) * this.scale, y: muzzle.y + (height - tip.y) * this.scale }
+  }
+
+  /** Lies at `pivot`; his gun points along `angle` on the screen. */
   render(ctx, { x, y }, angle, dead) {
     if (!this.image.naturalWidth) return
     const { width, height, fireDuration, fireFrames, deathDuration } = gunnerArt
@@ -46,7 +52,8 @@ class DoorGunner {
 
 /**
  * How a bunker body looks and sounds in 2D, drawn facing left: its picture, the bursts of its gun and their rounds, its
- * burning wreck, and on the fortified house the machine gunner at its door. It only reads the body.
+ * burning wreck, and on the fortified house the machine gunner in its window, his gun's muzzle where the body fires
+ * from. It only reads the body.
  */
 export default class BunkerSprite extends BodySprite {
   /** `kind` is the name of the body's kind; `gunnerScale` sizes the house's gunner. */
@@ -54,15 +61,10 @@ export default class BunkerSprite extends BodySprite {
     super(body, bunkerPictures[kind], { projection, camera, facing: -1, flammable: true, z })
     wreckFor(bunkerPictures[kind])
     this.roundLayer = roundLayer
-    this.gunner = kind === 'house' ? new DoorGunner(gunnerScale) : null
+    this.gunner = kind === 'house' ? new WindowGunner(gunnerScale) : null
     this.gunSound = new Sound('rifle.mp3', { profile: 'rifle', spatial: { getPosition: () => this.position } })
     this.sounds.push(this.gunSound)
     this.shotsSeen = body.shotsFired
-  }
-
-  /** The gunner's place: his bottom right, at the door. */
-  get door() {
-    return { x: this.x - this.width * .1, y: this.y + this.height / 2 }
   }
 
   update(dt) {
@@ -88,7 +90,8 @@ export default class BunkerSprite extends BodySprite {
     ctx.imageSmoothingEnabled = false
     if (image.naturalWidth) ctx.drawImage(image, -this.width / 2, -this.height / 2, this.width, this.height)
     ctx.restore()
-    this.gunner?.render(ctx, this.door, this.projection.angle(0, this.body.aimAngle), this.body.dead)
+    const muzzle = this.projection.point(this.body.muzzle)
+    this.gunner?.render(ctx, this.gunner.pivot(muzzle, this.body.forward), this.projection.angle(0, this.body.aimAngle), this.body.dead)
     if (this.burning) this.flame.render(this.smoky)
   }
 }

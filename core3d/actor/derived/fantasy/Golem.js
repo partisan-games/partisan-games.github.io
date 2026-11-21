@@ -1,8 +1,3 @@
-import { icons } from '/core/io/icons.js'
-import Player from '/core3d/actor/Player.js'
-import AI from '/core3d/actor/AI.js'
-import { loadedModel } from '/core3d/assets/models.js'
-
 const animDict = {
   idle: 'Unarmed Idle',
   walk: 'Mutant Walking',
@@ -16,19 +11,5 @@ const animDict = {
 export const model = { file: 'model.fbx', angle: Math.PI, animDict, prefix: 'character/golem/', size: 2.5 }
 export const models = [model]
 
-const sharedProps = () => {
-  const mesh = loadedModel(model)
-  return { buttonDict: { attack: icons.unarmed, attack2: icons.unarmed }, mesh, animations: mesh.userData.animations, animDict }
-}
-
-export class GolemPlayer extends Player {
-  constructor(props = {}) {
-    super({ ...sharedProps(), ...props })
-  }
-}
-
-export class GolemAI extends AI {
-  constructor(props = {}) {
-    super({ ...sharedProps(), ...props })
-  }
-}
+/** How it looks, sounds and acts, for a character made of a body and its model. */
+export const description = { model, animDict, body: {} }

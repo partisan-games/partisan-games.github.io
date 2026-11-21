@@ -4,9 +4,9 @@ import PatrolSprite from '/core/actor/soldiers/PatrolSprite.js'
 import LocomotionSprite from '/core/actor/LocomotionSprite.js'
 import art from '/core/actor/ranjenikArt.js'
 import { topProjection } from '/core/actor/projection.js'
-import { fromAbove } from './helpers.js'
+import { fromAbove, yawOf } from './helpers.js'
 
-/** Ranjenik is seen from above at 10 px a metre. */
+/** Ranjenik is seen from above at 40 px a metre. */
 const pxPerMeter = 40
 const views = stage => {
   fromAbove(stage)
@@ -19,9 +19,9 @@ const put = (stage, body, view) => {
   return body
 }
 
-/** A patrol of the `faction` army, halted in the middle until it is set to search. */
-const patrol = faction => stage => {
-  const body = new Patrol(middle(stage))
+/** A patrol of the `faction` army, halted in the middle until it is set to search, heading `way`. */
+const patrol = faction => (stage, way) => {
+  const body = new Patrol({ ...middle(stage), yaw: yawOf(way) })
   body.setState('halt')
   return put(stage, body, new PatrolSprite(body, { faction, ...views(stage) }))
 }
@@ -34,7 +34,7 @@ const wounded = stage => {
 const game = 'Ranjenik'
 
 export const soldiers = [
-  { id: 'nemacka-patrola', name: 'Nemačka patrola', game, pxPerMeter, block: patrolModule, create: patrol('german') },
-  { id: 'italijanska-patrola', name: 'Italijanska patrola', game, pxPerMeter, block: patrolModule, create: patrol('italian') },
-  { id: 'ranjeni-partizan', name: 'Ranjeni partizan', game, pxPerMeter, block: woundedSoldierModule, create: wounded },
+  { id: 'nemacka-patrola', name: 'Nemačka patrola', game, pxPerMeter, way: 1, settings: ['patrol.speed'], block: patrolModule, create: patrol('german') },
+  { id: 'italijanska-patrola', name: 'Italijanska patrola', game, pxPerMeter, way: 1, settings: ['patrol.speed'], block: patrolModule, create: patrol('italian') },
+  { id: 'ranjeni-partizan', name: 'Ranjeni partizan', game, pxPerMeter, settings: ['crawl.thrust', 'crawl.turn'], block: woundedSoldierModule, create: wounded },
 ]

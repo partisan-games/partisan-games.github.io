@@ -1,8 +1,3 @@
-import { icons } from '/core/io/icons.js'
-import Player from '/core3d/actor/Player.js'
-import AI from '/core3d/actor/AI.js'
-import { loadedModel } from '/core3d/assets/models.js'
-import { RedFlame } from '/core3d/Particles.js'
 
 const animDict = {
   idle: 'Idle',
@@ -22,49 +17,10 @@ const rightHandWeaponModel = { file: 'weapon/axe-lowpoly/model.fbx', scale: .18 
 /** What to load; a game awaits requestModels(models) before it creates one of these. */
 export const models = [meshModel, rightHandWeaponModel]
 
-const sharedProps = () => {
-  const mesh = loadedModel(meshModel)
-  const rightHandWeapon = loadedModel(rightHandWeaponModel)
-  return { buttonDict: { jump: '', attack: icons.attack, attack2: icons.unarmed, special: icons.magic }, rightHandWeapon, mesh, animations: mesh.userData.animations, animDict, jumpStyle: 'FLY_JUMP', maxJumpTime: .3, runCoefficient: 2.5, attackStyle: 'LOOP' }
-}
-
-export class BarbarianPlayer extends Player {
-  constructor(props = {}) {
-    super({ ...sharedProps(), ...props })
-    this.flame = new RedFlame()
-  }
-
-  enterAttack() {
-    super.enterAttack('enemy', this.height * .5)
-  }
-
-  checkHit() {
-    if (this.state.includes('attack')) {
-      this.hitAmount = 0 // untouchable during attack
-      return
-    }
-    super.checkHit()
-  }
-
-  resetFlame() {
-    const { flame } = this
-    flame.reset({ pos: this.mesh.position })
-    flame.mesh.rotation.copy(this.mesh.rotation)
-    flame.mesh.rotateX(Math.PI)
-    this.shouldLoop = true
-  }
-
-  enterSpecial() {
-    this.startFlame(1, () => this.areaDamage())
-  }
-
-  exitSpecial() {
-    this.endFlame()
-  }
-}
-
-export class BarbarianAI extends AI {
-  constructor(props = {}) {
-    super({ ...sharedProps(), ...props })
-  }
-}
+/**
+ * How it looks, sounds and acts, for a character made of a body and its model: it strikes low, cannot be hurt while it
+ * attacks, and its spell burns every one around it within 3 m in a red flame where it stands.
+ */
+export const description = { model: meshModel, animDict, rightHandWeapon: rightHandWeaponModel,
+  flame: { particles: 'RedFlame', kinds: ['special'], fromBlow: true, around: true },
+  body: { run: 2.5, jumping: 'fly', maxLift: .3, strikeHeight: .5, guarded: true, area: { kinds: ['special'] } } }

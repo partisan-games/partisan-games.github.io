@@ -1,17 +1,22 @@
 import { keys, attackLabels } from '/core/io/keys.js'
 import Scene3D from '/core/Scene3D.js'
 import { createSun } from '/core3d/light.js'
-import { ResistanceFighterPlayer, models as resistanceFighterModels } from '/core3d/actor/derived/ww2/ResistanceFighter.js'
+import { description as resistanceFighter, models as resistanceFighterModels } from '/core3d/actor/derived/ww2/ResistanceFighter.js'
 import { thirdPersonControls } from '/ui/Controls.js'
 import Maze from '/core3d/mazes/Maze.js'
 import { truePrims } from '/core3d/mazes/algorithms.js'
 import { createFloor } from '/core3d/ground.js'
-import { PartisanAI, models as partisanModels } from '/core3d/actor/derived/ww2/Partisan.js'
-import { PartisanAimAI, models as partisanAimModels } from '/core3d/actor/derived/ww2/PartisanAim.js'
-import { PartisanLowpolyAI, models as partisanLowpolyModels } from '/core3d/actor/derived/ww2/PartisanLowpoly.js'
-import { SovietPartisanAI, models as sovietPartisanModels } from '/core3d/actor/derived/ww2/SovietPartisan.js'
+import { description as partisan, models as partisanModels } from '/core3d/actor/derived/ww2/Partisan.js'
+import { description as partisanAim, models as partisanAimModels } from '/core3d/actor/derived/ww2/PartisanAim.js'
+import { description as partisanLowpoly, models as partisanLowpolyModels } from '/core3d/actor/derived/ww2/PartisanLowpoly.js'
+import { description as sovietPartisan, models as sovietPartisanModels } from '/core3d/actor/derived/ww2/SovietPartisan.js'
 import { sample } from '/core3d/helpers.js'
 import { requestModels } from '/core3d/assets/models.js'
+import makeCharacter from '/core3d/actor/characters/makeCharacter.js'
+import leadCharacter from '/core3d/actor/characters/leadCharacter.js'
+import worldQueries from '/core3d/actor/characters/worldQueries.js'
+import CharacterAI from '/core/gameplay/controllers/CharacterAI.js'
+import { icons } from '/core/io/icons.js'
 
 const cellSize = 10
 const rows = 6
@@ -77,16 +82,18 @@ export default class LiberatedCityScene extends Scene3D {
 
     const coords = maze.getEmptyCoords(true, cellSize - 1)
 
-    this.player = new ResistanceFighterPlayer({ camera: this.camera, solids: city, pos: coords.pop(), showHealthBar: false })
-    this.player.putInMaze(maze)
-    this.add(this.player)
+    const world = worldQueries(city)
+    // the fighter starts in the first corridor, facing the middle of the city
+    const { body } = leadCharacter(this, resistanceFighter, { ...maze.tilePosition(1, 1), ...world,
+      input: { buttonDict: { attack: icons.shoot } }, view: { showHealthBar: false, distance: 1.5 } })
+    body.face({ x: 0, z: 0 })
 
-    this.comrades = []
+    // comrades wander the streets
     for (let i = 0; i < 10; i++) {
-      const AIClass = sample([PartisanAI, PartisanAimAI, PartisanLowpolyAI, SovietPartisanAI])
-      const comrade = new AIClass({ pos: coords.pop(), solids: city })
-      this.comrades.push(comrade)
-      this.add(comrade)
+      const { x, z } = coords.pop()
+      const comrade = makeCharacter(sample([partisan, partisanAim, partisanLowpoly, sovietPartisan]), { x, z, ...world })
+      this.controllers.push(new CharacterAI(comrade.body, { way: 'wander' }))
+      this.add(comrade.body, comrade.model)
     }
   }
 }

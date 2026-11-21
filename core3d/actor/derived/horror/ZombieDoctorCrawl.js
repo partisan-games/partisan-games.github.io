@@ -1,7 +1,3 @@
-import Player from '/core3d/actor/Player.js'
-import AI from '/core3d/actor/AI.js'
-import { loadedModel } from '/core3d/assets/models.js'
-
 const animDict = {
   idle: 'Sleeping Idle',
   walk: 'Zombie Crawl',
@@ -15,19 +11,5 @@ const animDict = {
 export const model = { file: 'zombie-doctor.fbx', size: 1.78, prefix: 'character/zombie/', angle: Math.PI, animDict }
 export const models = [model]
 
-const sharedProps = () => {
-  const mesh = loadedModel(model)
-  return { mesh, animations: mesh.userData.animations, animDict, speed: .5, runCoefficient: 8, sightDistance: 15 }
-}
-
-export class ZombieDoctorCrawlPlayer extends Player {
-  constructor(props = {}) {
-    super({ ...sharedProps(), ...props })
-  }
-}
-
-export class ZombieDoctorCrawlAI extends AI {
-  constructor(props = {}) {
-    super({ ...sharedProps(), ...props })
-  }
-}
+/** How it looks, sounds and acts, for a character made of a body and its model; a zombie sees only 15 m. */
+export const description = { model, animDict, body: { speed: .5, run: 8 }, ai: { sight: 15 } }

@@ -1,7 +1,3 @@
-import Player from '/core3d/actor/Player.js'
-import AI from '/core3d/actor/AI.js'
-import { loadedModel } from '/core3d/assets/models.js'
-
 const animDict = {
   idle: 'Machine Gun Idle',
   walk: 'Machine Gun Walk',
@@ -18,43 +14,6 @@ const twoHandedWeaponModel = { file: 'weapon/flame-gun/model.fbx', scale: .75 }
 /** What to load; a game awaits requestModels(models) before it creates one of these. */
 export const models = [meshModel, twoHandedWeaponModel]
 
-const sharedProps = () => {
-  const mesh = loadedModel(meshModel)
-  const twoHandedWeapon = loadedModel(twoHandedWeaponModel)
-  return { mesh, animations: mesh.userData.animations, animDict, twoHandedWeapon, speed: 1.8, attackStyle: 'LOOP', attackDistance: 7, attackSound: 'fire-swoosh.mp3', useFlame: true }
-}
-
-export class GermanFlameThrowerPlayer extends Player {
-  constructor(props = {}) {
-    super({ ...sharedProps(), ...props })
-  }
-
-  enterAttack() {
-    super.enterAttack()
-    this.startFlame(0, null, false)
-  }
-
-  exitAttack() {
-    this.endFlame()
-  }
-}
-
-export class GermanFlameThrowerAI extends AI {
-  constructor(props = {}) {
-    super({ ...sharedProps(), ...props })
-  }
-
-  enterAttack() {
-    super.enterAttack()
-    this.startFlame(0, null, false)
-  }
-
-  exitAttack() {
-    this.endFlame()
-  }
-
-  update(delta) {
-    super.update(delta)
-    if (this.state !== 'attack') this.endFlame()
-  }
-}
+/** How it looks, sounds and acts, for a character made of a body and its model; it does not turn while it burns. */
+export const description = { model: meshModel, animDict, twoHandedWeapon: twoHandedWeaponModel, attackSound: 'fire-swoosh.mp3', flame: {},
+  body: { speed: 1.8, reach: 7, turnWhileAttack: false } }

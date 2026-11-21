@@ -91,6 +91,37 @@ test('Controls use click activation and cannot toggle behind a modal', t => {
   assert.equal(content.style.display, 'none')
 })
 
+test('a game\'s Controls open on its start screen, so the player can learn them before playing, but not on a pause', t => {
+  const ui = new UI({ sceneUI: () => '', controlKeys: { Space: 'jump' } })
+  t.after(() => ui.end())
+  const [button, content] = ui.controlsUI.div.children
+  ui.showScreen('start', '<div><button id="start">Start</button></div>')
+  button.click()
+  assert.equal(content.style.display, 'block')
+  button.click()
+  assert.equal(content.style.display, 'none')
+  ui.showPauseScreen()
+  button.click()
+  assert.equal(content.style.display, 'none')
+})
+
+test('Controls opened with the mouse give the game its keys back; opened from the keyboard, they keep the focus', t => {
+  const keyboard = new Keyboard()
+  const controls = new Controls()
+  t.after(() => {
+    controls.end(); keyboard.end()
+  })
+  const [button] = controls.div.children
+  button.focus()
+  button.dispatchEvent(new MouseEvent('click', { detail: 1, bubbles: true }))
+  key(document.activeElement, 'keydown', 'Enter')
+  assert.equal(keyboard.pressed.Enter, true, 'Enter fires again after a mouse click on Controls')
+  key(document.activeElement, 'keyup', 'Enter')
+  button.focus()
+  button.dispatchEvent(new MouseEvent('click', { detail: 0, bubbles: true }))
+  assert.equal(document.activeElement, button)
+})
+
 test('a native dialog above a game screen keeps its own Tab navigation', t => {
   const ui = new UI({ sceneUI: () => '' })
   ui.showPauseScreen()

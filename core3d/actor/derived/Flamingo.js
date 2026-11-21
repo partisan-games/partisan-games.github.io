@@ -1,7 +1,3 @@
-import Player from '/core3d/actor/Player.js'
-import AI from '/core3d/actor/AI.js'
-import { loadedModel } from '/core3d/assets/models.js'
-
 const animDict = { walk: 'flamingo_flyA_' }
 
 const meshModel = { file: 'animal/flamingo.glb', size: 20, angle: Math.PI }
@@ -9,21 +5,5 @@ const meshModel = { file: 'animal/flamingo.glb', size: 20, angle: Math.PI }
 /** What to load; a game awaits requestModels(models) before it creates one of these. */
 export const models = [meshModel]
 
-const sharedProps = () => {
-  const mesh = loadedModel(meshModel)
-  return { mesh, animations: mesh.userData.animations, animDict, speed: 8, shouldRaycastGround: true, altitude: 60 }
-}
-
-export class FlamingoPlayer extends Player {
-  constructor(props = {}) {
-    super({ ...sharedProps(), ...props })
-    this.mesh.position.y = 45
-  }
-}
-
-export class FlamingoAI extends AI {
-  constructor(props = {}) {
-    super({ ...sharedProps(), ...props })
-    this.mesh.position.y = 45
-  }
-}
+/** How it looks and acts, for a character made of a body and its model: it flies 60 m above the ground. */
+export const description = { model: meshModel, animDict, body: { speed: 8, altitude: 60 } }

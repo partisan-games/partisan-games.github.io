@@ -1,64 +1,7 @@
-import Sound from '/core/io/audio/SoundSource.js'
-import { audioPosition } from '/core/io/audio/audio3d.js'
-import * as THREE from 'three'
-import Player from '/core3d/actor/Player.js'
-import { loadedModel } from '/core3d/assets/models.js'
-import { createSphere } from '/core3d/geometry/index.js'
-import { Ammo } from '/core3d/physics/index.js'
-import PowerMeter from '/ui/PowerMeter.js'
-
 const model = { file: 'weapon/cannon/civil-war-cannon.fbx', size: 1.5 }
 
 /** What to load; a game awaits requestModels(models) before it creates one. */
 export const models = [model]
 
-export class CannonPlayer extends Player {
-  constructor(props = {}) {
-    // the keyboard also tracks a held pointer, which charges the shot on touch screens too
-    super({ mesh: loadedModel(model), showHealthBar: false, canMove: false, speed: .5, useKeyboard: true, ...props })
-    // 0.2 per frame at 60 frames per second, as when the power was a slider
-    this.shotSound = new Sound('cannon-shot.mp3', { profile: 'cannon', spatial: { getPosition: () => this.audioShotPoint ?? audioPosition(this.mesh) } })
-    this.sounds.push(this.shotSound)
-    this.power = new PowerMeter({ min: 10, max: 25, chargePerSecond: 12 })
-    this.shots = 20
-  }
-
-  shoot = world => {
-    if (!this.shots) return
-    this.audioScene?.output.preload('metal-impact.mp3')
-
-    const ball = createSphere({ r: 0.2, color: 0x202020 })
-
-    const dir = new THREE.Vector3()
-    this.mesh.getWorldDirection(dir).negate() // smer topa
-
-    ball.position.copy(this.mesh.position)
-      .add({ x: 0, y: this.height * 0.66, z: 0 }) // gore
-      .addScaledVector(dir, 1.5)  // ispred
-
-    world.add(ball, 4)
-    this.audioShotPoint = { x: ball.position.x, y: ball.position.y, z: ball.position.z }
-    this.shotSound.play()
-    world.contacts.once(ball.userData.body, point => this.audioScene?.emit('metal-impact.mp3', { profile: 'impact', spatial: { position: point } }))
-
-    dir.y += 0.25 // podizanje ugla pucanja
-    dir.normalize().multiplyScalar(this.power.value)
-
-    const velocity = new Ammo.btVector3(dir.x, dir.y, dir.z)
-    ball.userData.body.setLinearVelocity(velocity) // the body copies it
-    Ammo.destroy(velocity)
-
-    this.power.reset()
-    this.shots --
-  }
-
-  update(dt) {
-    super.update(dt)
-    if (this.input.pressed.pointer) this.power.charge(dt)
-  }
-
-  end() {
-    super.end()
-    this.power.end()
-  }
-}
+/** How it looks and acts, for a character made of a body and its model: a gun on its carriage turns, slowly, but does not walk. */
+export const description = { model, animDict: {}, body: { speed: .5, walks: false } }

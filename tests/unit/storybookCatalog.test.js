@@ -16,11 +16,11 @@ const stories = () => kinds.flatMap(kind => kind.stories.map(story => ({ kind, s
 const stories2D = () => stories().filter(({ story }) => !story.stage)
 
 /** A story on a stage that lives its frames one by one, drawing nothing: happy-dom has no canvas. */
-function staged(t, story) {
+function staged(t, story, look = story.looks?.[0]) {
   const stage = new Stage2D({ pxPerMeter: story.pxPerMeter })
   stage.clear = stage.render = () => {}
   t.after(() => stage.end())
-  const block = story.create(stage)
+  const block = story.create(stage, story.way, look?.value)
   stage.session.start()
   /** Lives `seconds`, or less once `until()` holds, and gives whether it did. */
   const live = (seconds, until = () => false) => {
@@ -36,13 +36,27 @@ test('every story has its own address and names its game', () => {
   for (const { story } of stories()) assert.ok(story.name && story.game, story.id)
 })
 
-test('every story puts its block on the stage, which lives and ends without error', t => {
-  for (const { story } of stories2D()) {
-    const { stage, block, live } = staged(t, story)
+test('every story puts its block on the stage in each of its looks, which lives and ends without error', t => {
+  for (const { story } of stories2D()) for (const look of story.looks ?? [undefined]) {
+    const { stage, block, live } = staged(t, story, look)
     assert.ok(stage.children.includes(block), story.id)
     for (const state of block.states ?? []) {
       block.setState(state)
       live(.5)
+    }
+  }
+})
+
+test('every 3D character story with a description has a body that lives each of its states without a page', async() => {
+  const { default: Character } = await import('/core/gameplay/bodies/characters/Character.js')
+  const described = stories().filter(({ story }) => story.block.description)
+  assert.ok(described.length > 0)
+  for (const { story } of described) {
+    const body = new Character({ ...story.block.description.body, actions: { attack: .5 } })
+    for (const state of body.states) {
+      body.setState(state)
+      for (let i = 0; i < 15; i++) body.update(1 / 30)
+      assert.ok(Number.isFinite(body.x + body.y + body.z), story.id)
     }
   }
 })
@@ -63,4 +77,13 @@ test('every block fires each shot it lists, where it aims', t => {
       assert.ok(live(5, () => fired(shooter)), `${story.id} ${name}`)
     }
   }
+})
+
+test('every setting a story names is a number or yes/no its block exports', async() => {
+  for (const { story } of stories().filter(({ story }) => story.settings))
+    for (const path of story.settings) {
+      const value = path.split('.').reduce((object, key) => object?.[key], story.block)
+      assert.ok(['number', 'boolean'].includes(typeof value), `${story.id}: ${path}`)
+    }
+
 })

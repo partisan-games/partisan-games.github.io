@@ -1,7 +1,3 @@
-import Player from '/core3d/actor/Player.js'
-import AI from '/core3d/actor/AI.js'
-import { loadedModel } from '/core3d/assets/models.js'
-
 const animDict = {
   idle: 'Unarmed Idle',
   walk: 'Drunk Run Forward',
@@ -16,19 +12,5 @@ const animDict = {
 export const model = { file: 'model.fbx', size: 1.75, prefix: 'character/nude-victim/', animDict, angle: Math.PI }
 export const models = [model]
 
-const sharedProps = () => {
-  const mesh = loadedModel(model)
-  return { mesh, animations: mesh.userData.animations, animDict, runCoefficient: 1 }
-}
-
-export class NudeVictimPlayer extends Player {
-  constructor(props = {}) {
-    super({ ...sharedProps(), ...props })
-  }
-}
-
-export class NudeVictimAI extends AI {
-  constructor(props = {}) {
-    super({ ...sharedProps(), ...props })
-  }
-}
+/** How it looks, sounds and acts, for a character made of a body and its model. */
+export const description = { model, animDict, body: { run: 1 } }

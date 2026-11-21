@@ -6,12 +6,13 @@ import FieldGunSprite from '/core/actor/artillery/FieldGunSprite.js'
 import CannonCrewSprite from '/core/actor/soldiers/CannonCrewSprite.js'
 import SkirmisherSprite from '/core/actor/soldiers/SkirmisherSprite.js'
 import FlagBearerSprite from '/core/actor/soldiers/FlagBearerSprite.js'
+import { yawOf } from './helpers.js'
 
 /** Ustanak draws its battle at 40 px a metre, where a man is 1.8 m tall. */
 const pxPerMeter = 40
 
-/** The middle of the stage in metres, facing right (side 0) or left (side 1), and what the views draw with. */
-const placed = (stage, side = 0) => ({ x: stage.width / 2 / stage.projection.pxPerMeter, yaw: side * Math.PI })
+/** The middle of the stage in metres, facing `way`, and what the views draw with. */
+const placed = (stage, way) => ({ x: stage.width / 2 / stage.projection.pxPerMeter, yaw: yawOf(way) })
 const views = stage => ({ projection: stage.projection, camera: stage })
 
 /** Puts `body` and its view on the stage and gives the body back. */
@@ -20,38 +21,41 @@ const put = (stage, body, view) => {
   return body
 }
 
-const skirmisher = stage => {
-  const body = new Skirmisher(placed(stage))
+const skirmisher = (stage, way) => {
+  const body = new Skirmisher(placed(stage, way))
   return put(stage, body, new SkirmisherSprite(body, views(stage)))
 }
 
-const bearer = italian => stage => {
-  const body = new FlagBearer({ kind: bearerModule.bearerKinds[italian ? 'italian' : 'partisan'], ...placed(stage, Number(italian)) })
+const bearer = (stage, way, italian) => {
+  const body = new FlagBearer({ kind: bearerModule.bearerKinds[italian ? 'italian' : 'partisan'], ...placed(stage, way) })
   return put(stage, body, new FlagBearerSprite(body, { italian, flagTime: () => stage.session.clock.now, ...views(stage) }))
 }
 
-const crew = italian => stage => {
-  const body = new CannonCrew(placed(stage, Number(italian)))
+const crew = (stage, way, italian) => {
+  const body = new CannonCrew(placed(stage, way))
   return put(stage, body, new CannonCrewSprite(body, { italian, ...views(stage) }))
 }
 
-/** A gun in the middle, facing right or left, whose shots hit the stand-in. */
-const gun = side => stage => {
-  const body = new FieldGun({ ...placed(stage, side), targets: [stage.dummy] })
+/** A gun in the middle, whose shots hit the stand-in; both armies' guns are drawn alike. */
+const gun = (stage, way) => {
+  const body = new FieldGun({ ...placed(stage, way), targets: [stage.dummy] })
   return put(stage, body, new FieldGunSprite(body, views(stage)))
 }
+
+/** The partisan and the Italian look of a block, named as its story says them. */
+const armies = (partisan, italian) => [
+  { id: partisan, name: partisan[0].toUpperCase() + partisan.slice(1), value: false },
+  { id: italian, name: italian[0].toUpperCase() + italian.slice(1), value: true },
+]
 
 const game = 'Ustanak'
 
 export const soldiers = [
-  { id: 'partizanski-strelac', name: 'Partizanski strelac', game, pxPerMeter, block: skirmisherModule, create: skirmisher },
-  { id: 'partizanski-zastavnik', name: 'Partizanski zastavnik', game, pxPerMeter, block: bearerModule, create: bearer(false) },
-  { id: 'italijanski-zastavnik', name: 'Italijanski zastavnik', game, pxPerMeter, block: bearerModule, create: bearer(true) },
-  { id: 'partizanska-posada', name: 'Partizanska posada topa', game, pxPerMeter, block: crewModule, create: crew(false) },
-  { id: 'italijanska-posada', name: 'Italijanska posada topa', game, pxPerMeter, block: crewModule, create: crew(true) },
+  { id: 'partizanski-strelac', name: 'Partizanski strelac', game, pxPerMeter, way: 1, settings: ['gait.speed', 'volley.interval'], block: skirmisherModule, create: skirmisher },
+  { id: 'zastavnik', name: 'Zastavnik', game, pxPerMeter, way: 1, looks: armies('partizanski', 'italijanski'), block: bearerModule, create: bearer },
+  { id: 'posada-topa', name: 'Posada topa', game, pxPerMeter, way: 1, looks: armies('partizanska', 'italijanska'), block: crewModule, create: crew },
 ]
 
 export const artillery = [
-  { id: 'ustanak-partizanski-top', name: 'Partizanski top', game, pxPerMeter, block: fieldGunModule, create: gun(0) },
-  { id: 'ustanak-italijanski-top', name: 'Italijanski top', game, pxPerMeter, block: fieldGunModule, create: gun(1) },
+  { id: 'ustanak-top', name: 'Schneider 155 L', game, pxPerMeter, way: 1, settings: ['fieldGun.maxForce', 'fieldGun.chargeRate', 'fieldGun.aimRate'], block: fieldGunModule, create: gun },
 ]

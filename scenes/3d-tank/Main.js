@@ -12,10 +12,14 @@ import Tank, { models as tankModels } from '/core3d/physics/Tank.js'
 import { baseControls } from '/ui/Controls.js'
 import { BigSmoke, Fire } from '/core3d/Particles.js'
 import { loadModel } from '/core3d/loaders.js'
-import { GermanMachineGunnerAI, models as germanMachineGunnerModels } from '/core3d/actor/derived/ww2/GermanMachineGunner.js'
-import { SSSoldierAI, models as ssSoldierModels } from '/core3d/actor/derived/ww2/SSSoldier.js'
-import { NaziOfficerAI, models as naziOfficerModels } from '/core3d/actor/derived/ww2/NaziOfficer.js'
+import { description as germanMachineGunner, models as germanMachineGunnerModels } from '/core3d/actor/derived/ww2/GermanMachineGunner.js'
+import { description as ssSoldier, models as ssSoldierModels } from '/core3d/actor/derived/ww2/SSSoldier.js'
+import { description as naziOfficer, models as naziOfficerModels } from '/core3d/actor/derived/ww2/NaziOfficer.js'
 import { requestModels } from '/core3d/assets/models.js'
+import makeCharacter from '/core3d/actor/characters/makeCharacter.js'
+import meshTarget from '/core3d/actor/characters/meshTarget.js'
+import CharacterAI from '/core/gameplay/controllers/CharacterAI.js'
+import { computerDamage } from '/core/gameplay/damage.js'
 
 const { randFloat } = THREE.MathUtils
 
@@ -80,11 +84,13 @@ export default class Tank3DScene extends Scene3D {
     this.fire.mesh.position.set(0, 10, 50)
     this.addMesh(this.fire.mesh)
 
-    this.enemies = []
-    ;[GermanMachineGunnerAI, SSSoldierAI, SSSoldierAI, NaziOfficerAI].forEach(AIClass => {
-      const soldier = new AIClass({ pos: [0, 0, 20], target: this.player.mesh })
-      this.enemies.push(soldier)
-      this.add(soldier)
+    // the soldiers' bullets do not harm the tank
+    const tank = meshTarget(this.player.mesh)
+    this.enemies = [germanMachineGunner, ssSoldier, ssSoldier, naziOfficer].map(description => {
+      const { body, model } = makeCharacter(description, { z: 20, targets: [tank], damage: computerDamage })
+      this.controllers.push(new CharacterAI(body, { target: tank, way: 'wander' }))
+      this.add(body, model)
+      return body
     })
   }
 
@@ -103,8 +109,10 @@ export default class Tank3DScene extends Scene3D {
         this.countableCrates.splice(this.countableCrates.findIndex(c => c === mesh), 1)
     })
 
+    // a soldier the tank drives over dies
+    const { x, z } = this.player.mesh.position
     this.enemies.forEach(enemy => {
-      enemy.pendingDamage = enemy.distanceTo(this.player.mesh) < 1.5 ? 100 : 0
+      if (Math.hypot(enemy.x - x, enemy.z - z) < 1.5) enemy.takeHit(100)
     })
 
     if (!this.countableCrates.length)

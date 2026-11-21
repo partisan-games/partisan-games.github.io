@@ -6,7 +6,7 @@ import Report from './Report.js'
 import { currentStyleClasses, setUiStyle, styleChoices, uiStyleChoice, chooseUiStyle, onStyleChange } from './styles.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import { setVolume } from './settings.js'
-import { resetGameplayInput } from '/core/io/inputContext.js'
+import { resetGameplayInput, hasBlockingUi } from '/core/io/inputContext.js'
 
 const elementUI = document.getElementById('ui')
 const modalElement = document.getElementById('modal')
@@ -66,8 +66,9 @@ export default class UI {
     this.messageElement.className = 'message'
     modalElement.after(this.messageElement)
 
+    // the player may read the controls on the start screen, before the game begins, but not behind a pause or a result
     if (showControls)
-      this.controlsUI = new Controls({ controlKeys })
+      this.controlsUI = new Controls({ controlKeys, canToggle: () => !hasBlockingUi() || this.screen === 'start' })
 
     this.onStart = onStart
     this.onContinue = onContinue

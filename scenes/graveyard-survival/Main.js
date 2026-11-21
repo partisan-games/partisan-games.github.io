@@ -6,14 +6,20 @@ import { createGround } from '/core3d/ground.js'
 import { createMoon, orbiting } from '/core3d/light.js'
 import { getEmptyCoords, sample } from '/core3d/helpers.js'
 import { createTombstone } from '/core3d/geometry/shapes.js'
-import { GothGirlAI, models as gothModels } from '/core3d/actor/derived/horror/GothGirl.js'
-import { ZombieBarefootAI, models as barefootModels } from '/core3d/actor/derived/horror/ZombieBarefoot.js'
-import { ZombieCopAI, models as copModels } from '/core3d/actor/derived/horror/ZombieCop.js'
-import { ZombieDoctorAI, models as doctorModels } from '/core3d/actor/derived/horror/ZombieDoctor.js'
-import { ZombieGuardAI, models as guardModels } from '/core3d/actor/derived/horror/ZombieGuard.js'
-import { GhostAI, models as ghostModels } from '/core3d/actor/derived/horror/Ghost.js'
+import { description as gothGirl, models as gothModels } from '/core3d/actor/derived/horror/GothGirl.js'
+import { description as zombieBarefoot, models as barefootModels } from '/core3d/actor/derived/horror/ZombieBarefoot.js'
+import { description as zombieCop, models as copModels } from '/core3d/actor/derived/horror/ZombieCop.js'
+import { description as zombieDoctor, models as doctorModels } from '/core3d/actor/derived/horror/ZombieDoctor.js'
+import { description as zombieGuard, models as guardModels } from '/core3d/actor/derived/horror/ZombieGuard.js'
+import { description as ghost, models as ghostModels } from '/core3d/actor/derived/horror/Ghost.js'
 import DeadTree, { models as treeModels } from '/core3d/objects/DeadTree.js'
-import { SorceressPlayer, models as sorceressModels } from '/core3d/actor/derived/fantasy/Sorceress.js'
+import { description as sorceress, models as sorceressModels } from '/core3d/actor/derived/fantasy/Sorceress.js'
+import makeCharacter from '/core3d/actor/characters/makeCharacter.js'
+import leadCharacter from '/core3d/actor/characters/leadCharacter.js'
+import worldQueries from '/core3d/actor/characters/worldQueries.js'
+import CharacterAI from '/core/gameplay/controllers/CharacterAI.js'
+import { computerDamage } from '/core/gameplay/damage.js'
+import { icons } from '/core/io/icons.js'
 import { Smoke } from '/core3d/Particles.js'
 import { requestModels } from '/core3d/assets/models.js'
 import ZombieWaves from './ZombieWaves.js'
@@ -21,6 +27,8 @@ import ZombieWaves from './ZombieWaves.js'
 const moonSpeed = .005
 const totalTime = 300
 const mapSize = 100
+/** Where everyone on the graveyard stays. */
+const bounds = { min: { x: -mapSize / 2, z: -mapSize / 2 }, max: { x: mapSize / 2, z: mapSize / 2 } }
 
 const customStartScreen = ({ container, button }) => /* html */`
   <div class="central-screen ${container}">
@@ -67,14 +75,18 @@ export default class GraveyardSurvivalScene extends Scene3D {
       this.addMesh(tree.mesh)
     }
 
+    this.world3d = worldQueries(this.solids)
+    // ghosts drift through the tombstones
     for (let i = 0; i < 30; i++) {
-      const ghost = new GhostAI({ pos: this.coords.pop(), mapSize, name: 'enemy' })
-      this.npcs.push(ghost)
-      this.add(ghost)
+      const { x, z } = this.coords.pop()
+      const spirit = makeCharacter(ghost, { x, z, bounds })
+      this.controllers.push(new CharacterAI(spirit.body, { way: 'wander' }))
+      this.npcs.push(spirit.body)
+      this.add(spirit.body, spirit.model)
     }
 
-    this.player = new SorceressPlayer({ camera: this.camera, solids: this.solids, attackKey: 'Enter' })
-    this.add(this.player)
+    this.player = leadCharacter(this, sorceress, { ...this.world3d, bounds, targets: this.npcs,
+      input: { attackKey: 'Enter', buttonDict: { attack: icons.magic, attack2: icons.magic } } }).body
 
     this.particles = new Smoke({ size: 1, num: 100, minRadius: 0, maxRadius: .5, minVelocity: .2, maxVelocity: .5, min: -1, max: 0, loop: false })
     this.add(this.particles)
@@ -86,18 +98,19 @@ export default class GraveyardSurvivalScene extends Scene3D {
   }
 
   addZombie() {
-    const ZombieClass = sample([GothGirlAI, ZombieBarefootAI, ZombieCopAI, ZombieDoctorAI, ZombieGuardAI])
     const pos = sample(this.coords)
-    const zombie = new ZombieClass({ mapSize, target: this.player.mesh, solids: this.solids, pos })
+    const zombie = sample([gothGirl, zombieBarefoot, zombieCop, zombieDoctor, zombieGuard])
+    const { body, model } = makeCharacter(zombie,
+      { x: pos.x, z: pos.z, ...this.world3d, bounds, targets: [this.player], damage: computerDamage })
+    this.controllers.push(new CharacterAI(body, { ...zombie.ai, target: this.player, way: 'wander', sees: this.world3d.sees }))
     this.particles.reset({ pos })
-    this.player.addSolids(zombie.mesh)
-    this.add(zombie)
-    this.npcs.push(zombie)
-    this.zombies.push(zombie)
+    this.add(body, model)
+    this.npcs.push(body)
+    this.zombies.push(body)
   }
 
   sceneUI() {
-    const kills = this.zombies.filter(zombie => zombie.energy <= 0)
+    const kills = this.zombies.filter(zombie => zombie.dead)
     return this.ui.scoreUI('Zombies killed', kills.length, 'Time left', Math.max(this.timeLeft, 0), 'blink')
   }
 
@@ -117,9 +130,6 @@ export default class GraveyardSurvivalScene extends Scene3D {
       this.moon.material.color = new THREE.Color(0xFCE570)
       this.moon.scale.set(2, 2, 2)
       this.scene.background.lerp(new THREE.Color(0x7ec0ee), delta * .2)
-      this.npcs.forEach(npc => {
-        npc.hitAmount = 100
-      })
       if (!this.player.dead) this.victory('Victory!<br>You met the morning at the cursed graveyard.')
     }
   }

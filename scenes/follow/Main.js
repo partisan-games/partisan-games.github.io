@@ -3,8 +3,12 @@ import { thirdPersonControls, orbitControls } from '/ui/Controls.js'
 import Scene3D from '/core/Scene3D.js'
 import { createFloor } from '/core3d/ground.js'
 import { ambLight } from '/core3d/light.js'
-import { SorceressPlayer, models as sorceressModels } from '/core3d/actor/derived/fantasy/Sorceress.js'
-import { GolemAI, models as golemModels } from '/core3d/actor/derived/fantasy/Golem.js'
+import { description as sorceress, models as sorceressModels } from '/core3d/actor/derived/fantasy/Sorceress.js'
+import { description as golem, models as golemModels } from '/core3d/actor/derived/fantasy/Golem.js'
+import makeCharacter from '/core3d/actor/characters/makeCharacter.js'
+import leadCharacter from '/core3d/actor/characters/leadCharacter.js'
+import CharacterAI, { characterAI } from '/core/gameplay/controllers/CharacterAI.js'
+import { icons } from '/core/io/icons.js'
 import { requestModels } from '/core3d/assets/models.js'
 import { getEmptyCoords, createOrbitControls } from '/core3d/helpers.js'
 
@@ -34,12 +38,16 @@ export default class FollowScene extends Scene3D {
 
     this.addMesh(createFloor({ size: mapSize * 2 }))
 
-    this.player = new SorceressPlayer()
-    this.add(this.player)
+    const bounds = { min: { x: -mapSize / 2, z: -mapSize / 2 }, max: { x: mapSize / 2, z: mapSize / 2 } }
+    // the orbiting camera stays the scene's own
+    this.player = leadCharacter(this, sorceress, { bounds, input: { buttonDict: { attack: icons.magic, attack2: icons.magic } },
+      view: { camera: null } }).body
     for (let i = 0; i < golemsNum; i++) {
-      const ai = new GolemAI({ mapSize, pos: coords.pop(), baseState: 'follow', target: this.player.mesh })
-      this.add(ai)
-      this.golems.push(ai)
+      const { x, z } = coords.pop()
+      const { body, model } = makeCharacter(golem, { x, z, bounds, targets: [this.player] })
+      this.controllers.push(new CharacterAI(body, { target: this.player, way: 'follow' }))
+      this.add(body, model)
+      this.golems.push(body)
     }
   }
 
@@ -52,7 +60,8 @@ export default class FollowScene extends Scene3D {
     super.update(dt, t)
     if (t > ZADATO_VREME) this.defeat('Your time is up.')
 
-    this.followers = this.golems.filter(golem => golem.distanceTo(this.player.mesh) < golem.followDistance * 2)
+    const { x, z } = this.player
+    this.followers = this.golems.filter(golem => Math.hypot(golem.x - x, golem.z - z) < characterAI.followDistance * 2)
     if (this.followers.length === golemsNum) this.victory(`You have gathered your army of followers in ${Math.floor(t)} seconds.`)
   }
 }

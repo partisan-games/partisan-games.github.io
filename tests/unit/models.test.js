@@ -3,12 +3,11 @@ import assert from 'node:assert/strict'
 import { requestModel, loadedModel } from '/core3d/assets/models.js'
 
 test('importing a character module loads no model; using it before its load says what to await', async() => {
-  const { model, SorceressPlayer } = await import('/core3d/actor/derived/fantasy/Sorceress.js')
-  const golem = await import('/core3d/actor/derived/fantasy/Golem.js')
+  const { model, description } = await import('/core3d/actor/derived/fantasy/Sorceress.js')
+  const { default: makeCharacter } = await import('/core3d/actor/characters/makeCharacter.js')
 
   assert.throws(() => loadedModel(model), /await requestModel\(\) in init\(\)/)
-  assert.throws(() => new SorceressPlayer(), /before it has loaded/)
-  assert.throws(() => new golem.GolemAI(), /before it has loaded/)
+  assert.throws(() => makeCharacter(description), /before it has loaded/)
 })
 
 test('requests for the same model while it loads share one load', async() => {

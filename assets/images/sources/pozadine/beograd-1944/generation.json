@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "tool": "built-in image_gen",
+  "date": "2026-11-21",
+  "request": "Otpisani: two backgrounds of war-damaged Belgrade in 1944; one in the other game backgrounds' style, one in the existing black-and-white background's style.",
+  "historicalSources": [
+    {
+      "title": "Muzej Jugoslavije: Beograd u danima neposredno posle oslobodjenja 1944, VIS_049_26",
+      "url": "https://vaju.muzej-jugoslavije.org/fotografija/68dc40256c0fd4c1ce038984",
+      "use": "Historical setting and aftermath context only; no archive image was downloaded or copied into the artwork."
+    },
+    {
+      "title": "Istorijski arhiv Beograda: Oslobodjenje Beograda - 70 godina posle",
+      "url": "https://arhiv-beograda.org/sr/70-godina-od-oslobodjenja",
+      "use": "Historical setting and urban damage context. These are invented game scenes, not exact reconstructions."
+    },
+    {
+      "title": "Grad Beograd: Znamenitosti - Terazije and Palata Albanija",
+      "url": "https://www.beograd.rs/lat/upoznajte-beograd/a88112/Znamenitosti.html",
+      "use": "Prewar Belgrade landmark context; no claim of exact street geometry."
+    }
+  ],
+  "variants": [
+    {
+      "id": "pixel",
+      "title": "Beograd 1944 · pixel art",
+      "source": "pixel-generated.png",
+      "toolOutput": "C:/Users/d_pavlica/.codex/generated_images/01a1fe01-29cb-7c92-a1e7-738f25bceb47/exec-f6ed7bfe-e828-42bb-9cdf-7fdb3e740867.png",
+      "prompt": "Use case: style-transfer. Create a NEW BELGRADE VARIANT of the supplied game background references, preserving their established raster/pixel-art visual language. Input 1 is the detailed ruined-city pixel-art style reference; input 2 is the project's brighter chunky hand-painted pixel style. Use them for rendering and palette language only; replace their location, buildings and scenery with the specified Belgrade scene. Scene: war-damaged central Belgrade, Serbia, October 1944, around Terazije. Clearly Belgrade rather than Warsaw: the recognizable prewar early-modernist stepped Palata Albanija tower in the middle distance, with 19th/early-20th-century Belgrade masonry shopfronts and apartment blocks, damaged cornices, pale plaster and exposed red brick, a few period tram wires. Considerable war damage: several broken rooflines, roofless shells and exposed floors, shattered windows, masonry rubble along building bases. Buildings remain recognizable architectural masses, not a wall of random rubble. Not a geometrically exact reconstruction of any particular photograph. Wide eye-level street/plaza view, slight perspective depth but a continuous broad traversable strip across the entire bottom of the screen. Buildings and large rubble stay behind the lower 40 percent; foreground is a dusty cobbled street with restrained low-contrast fine debris, particularly clear across the lower central and right areas. This is a fixed-camera shooting-game background: full-body 210px enemy sprites will appear in front with boots at roughly 89 percent image height. Their dark silhouettes must remain easy to read. No people, soldiers, bodies, animals, flags, banners, propaganda, weapons, tanks or other vehicles. No flames, smoke plumes, explosions or baked moving effects. No modern cars, antennas, glass high-rises, postwar skyscrapers, modern bridges, St Sava cathedral, NATO-era ruins, road markings or modern signage. No Cyrillic/Latin text, captions, dates, logos, watermarks, UI, panel divisions or border. One complete opaque landscape image, exactly 1536x1024 pixels, 3:2. Style: intentionally drawn game pixel art, crisp clustered small pixels, economical architectural details, warm cream and faded ochre plaster, terracotta exposed brick, muted autumn colors, light warm-gray road, pale blue-gray quiet sky. Restrained brighter planes behind dark sprites; no gloomy black foreground, no photorealistic textures, no excessive tiny rubble noise. Preserve a coherent 1944 urban European atmosphere. Flat quiet sky without detailed clouds, suitable for separate animated layers later. Do not copy people, flags, mountains, water or village towers from the references.",
+      "referenceImages": [
+        "assets/images/background/razrusen-grad-ww2-pixel.png",
+        "assets/images/sources/pozadine/styles/b3-lived-wartime-scene.png"
+      ],
+      "streetTopY": 784,
+      "sourceSha256": "ed3d701a479baeff3be7cfce49addfc2eee3362da9577a5e7ac33ae81c5df94b",
+      "sourceSize": [
+        1536,
+        1024
+      ]
+    },
+    {
+      "id": "monochrome",
+      "title": "Beograd 1944 · crno-bela",
+      "source": "monochrome-generated.png",
+      "toolOutput": "C:/Users/d_pavlica/.codex/generated_images/01a1fe01-29cb-7c92-a1e7-738f25bceb47/exec-56a43603-f14a-4411-a91b-2f1b6bb62961.png",
+      "prompt": "Use case: style-transfer. Create a NEW BELGRADE VARIANT of the supplied black-and-white ruined-city background, using only its historical monochrome photographic treatment as reference. Replace the Warsaw architecture and composition with the specified Belgrade setting. Scene: war-damaged central Belgrade, Serbia, October 1944, around Terazije. Clearly Belgrade rather than Warsaw: the recognizable prewar early-modernist stepped Palata Albanija tower in the middle distance, with 19th/early-20th-century Belgrade masonry shopfronts and apartment blocks, damaged cornices, pale plaster and exposed red brick, a few period tram wires. Considerable war damage: several broken rooflines, roofless shells and exposed floors, shattered windows, masonry rubble along building bases. Buildings remain recognizable architectural masses, not a wall of random rubble. Not a geometrically exact reconstruction of any particular photograph. Wide eye-level street/plaza view, slight perspective depth but a continuous broad traversable strip across the entire bottom of the screen. Buildings and large rubble stay behind the lower 40 percent; foreground is a dusty cobbled street with restrained low-contrast fine debris, particularly clear across the lower central and right areas. This is a fixed-camera shooting-game background: full-body 210px enemy sprites will appear in front with boots at roughly 89 percent image height. Their dark silhouettes must remain easy to read. No people, soldiers, bodies, animals, flags, banners, propaganda, weapons, tanks or other vehicles. No flames, smoke plumes, explosions or baked moving effects. No modern cars, antennas, glass high-rises, postwar skyscrapers, modern bridges, St Sava cathedral, NATO-era ruins, road markings or modern signage. No Cyrillic/Latin text, captions, dates, logos, watermarks, UI, panel divisions or border. One complete opaque landscape image, exactly 1536x1024 pixels, 3:2. Style: convincing 1940s black-and-white silver-gelatin documentary photograph translated into a game background, authentic fine film grain, soft highlight rolloff with slightly pale sky, deep charcoal but legible ruined masonry, natural optical detail and gentle atmospheric distance. Strict neutral grayscale with equal red, green and blue, no sepia, tint or color accents. This should feel like the existing archival-looking photo rather than a pixel-art filter, cartoon, ink drawing or color image desaturated afterward. New invented historical-game reconstruction, not a claim to be a real archival photo. Period street-level composition with rubble pushed to the sides, the open central street sufficiently light and calm for dark game sprites.",
+      "referenceImages": [
+        "assets/images/background/rusevine-varsava.jpg"
+      ],
+      "streetTopY": 848,
+      "sourceSha256": "4adb54832c15d4c7b7b58ee75717ac5dac510f702a3dc04a30c105cedf8eaae8",
+      "sourceSize": [
+        1536,
+        1024
+      ]
+    }
+  ],
+  "protectedInputs": {
+    "assets/images/background/razrusen-grad-ww2-pixel.png": "ae47f03c0c71777b4931bd450ebdb9a9204686e873dcea2e3d6bff3d7aeec06c",
+    "assets/images/sources/pozadine/styles/b3-lived-wartime-scene.png": "fc34511f02d96e8e39c76ab9d77fb34fee65248fcaaa7fbd274aeb3c5e71bf25",
+    "assets/images/background/rusevine-varsava.jpg": "47b3a433ef00f7ff186818dbecff4ac7a1f3145865338df73986ba1c06cbdb69",
+    "assets/images/armies/game-ready/vojnici/occupier-sprites.png": "fc79c578cc5f4e89476017e041988960d259e0aa8c5f34f4f8ff6b01627ce471"
+  }
+}

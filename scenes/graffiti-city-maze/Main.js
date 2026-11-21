@@ -1,7 +1,9 @@
 import { keys, attackLabels } from '/core/io/keys.js'
 import Scene3D from '/core/Scene3D.js'
 import { createSun } from '/core3d/light.js'
-import { WorkerPlayer, models as workerModels } from '/core3d/actor/derived/ww2/Worker.js'
+import { description as worker, models as workerModels } from '/core3d/actor/derived/ww2/Worker.js'
+import leadCharacter from '/core3d/actor/characters/leadCharacter.js'
+import worldQueries from '/core3d/actor/characters/worldQueries.js'
 import { requestModels } from '/core3d/assets/models.js'
 import { thirdPersonControls } from '/ui/Controls.js'
 import Maze from '/core3d/mazes/Maze.js'
@@ -90,10 +92,10 @@ export default class GraffitiCityMazeScene extends Scene3D {
     const city = maze.toGraffitiCity({ maxHeight: cellSize * 2.5, posters, slogans, postersPath: 'posters/banksy/', bigMural: true })
     this.addMesh(city)
 
-    const coords = maze.getEmptyCoords(true, cellSize - 1)
-
-    this.player = new WorkerPlayer({ camera: this.camera, solids: city, pos: coords.pop(), showHealthBar: false })
-    this.player.putInMaze(maze)
-    this.add(this.player)
+    // the worker starts in the first corridor, facing the middle of the city
+    const { x, z } = maze.tilePosition(1, 1)
+    const { body } = leadCharacter(this, worker, { x, z, ...worldQueries(city),
+      input: { buttonDict: { jump: '', attack: '' } }, view: { showHealthBar: false, distance: 1.5 } })
+    body.face({ x: 0, z: 0 })
   }
 }

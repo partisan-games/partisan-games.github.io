@@ -7,7 +7,6 @@ export const baseControls = {
   [keys.right.label]: 'right',
   [keys.up.label]: 'forward',
   [keys.down.label]: 'backward',
-  [keys.pause.label]: 'pause',
 }
 
 export const avatarControls = {
@@ -36,7 +35,6 @@ export const orbitControls = {
   'Mouse drag': 'rotate camera',
   'Mouse wheel': 'zoom',
   'Right mouse drag': 'pan camera',
-  [keys.pause.label]: 'pause',
 }
 
 const playerControls = playerKeys => ({
@@ -44,8 +42,7 @@ const playerControls = playerKeys => ({
   [playerKeys.right.label]: 'right',
   [playerKeys.up.label]: 'up',
   [playerKeys.down.label]: 'down',
-  [playerKeys.shoot.label]: 'hold to charge, release to shoot',
-  [keys.pause.label]: 'pause',
+  [playerKeys.shoot.label]: 'shoot',
 })
 
 export const tankLeftControls = playerControls(leftPlayerKeys)
@@ -55,8 +52,10 @@ export default class Controls {
   constructor({
     controlKeys = baseControls,
     positionClass = 'bottom-left',
+    canToggle = () => !hasBlockingUi(),
   } = {}) {
     this.controlsOpen = false
+    this.canToggle = canToggle
     this.init({ controlKeys, positionClass })
   }
 
@@ -93,9 +92,11 @@ export default class Controls {
 
     button.addEventListener('click', e => {
       e.stopPropagation()
-      if (hasBlockingUi()) return
+      if (!this.canToggle()) return
       if (content.style.display === 'none') open()
       else close()
+      // a mouse click gives the game its keys back; from the keyboard the focus stays, to go on with the keyboard
+      if (e.detail) button.blur()
     })
 
     this.div.appendChild(button)

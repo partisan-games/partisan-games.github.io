@@ -5,7 +5,10 @@ import { recursiveBacktracker } from '/core3d/mazes/algorithms.js'
 import { createSun, ambLight } from '/core3d/light.js'
 import { createHill } from '/core3d/ground.js'
 import { thirdPersonControls } from '/ui/Controls.js'
-import { GolemPlayer, models as golemModels } from '/core3d/actor/derived/fantasy/Golem.js'
+import { description as golem, models as golemModels } from '/core3d/actor/derived/fantasy/Golem.js'
+import leadCharacter from '/core3d/actor/characters/leadCharacter.js'
+import worldQueries from '/core3d/actor/characters/worldQueries.js'
+import { icons } from '/core/io/icons.js'
 import { requestModels } from '/core3d/assets/models.js'
 
 const rows = 20
@@ -33,10 +36,10 @@ export default class MinasTirithScene extends Scene3D {
     const city = maze.toCity({ texture: 'terrain/snow.jpg' })
     this.addMesh(city)
 
-    const player = new GolemPlayer({ camera: this.camera, solids: [city, hill] })
-    player.chaseCamera.zoomIn()
-    this.audioPlayer = () => player
-    this.add(player)
-    player.putInPolarMaze(maze)
+    // the golem starts outside the outer ring, facing the city
+    const { body, chase } = leadCharacter(this, golem, { x: cellSize * .5, z: -mazeSize - cellSize,
+      ...worldQueries([city, hill]), input: { buttonDict: { attack: icons.unarmed, attack2: icons.unarmed } } })
+    body.face({ x: 0, z: 0 })
+    chase.view.chaseCamera.zoomIn()
   }
 }

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="sr-Latn"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BP-42 — opaljenje i trzaj</title>
+<style>body{margin:24px;background:#20261d;color:#eee9dc;font:16px/1.5 system-ui}h1{font-size:25px}p{max-width:1000px}a{color:#ffdc8b}button,select,input{font:inherit}label,button{display:inline-block;margin:0 16px 12px 0}button{padding:5px 14px}canvas,img{image-rendering:pixelated}canvas{background:#59634a;display:block}section{overflow:auto;max-width:100%}output{font-variant-numeric:tabular-nums}</style>
+<h1>BP-42: opaljenje i trzaj topa</h1>
+<p>Levo je izvorni nepomičan vagon, desno napad u istom merilu. Povlači se samo izložena cev; kupola, nosač, trup i točkovi ostaju na mestu. Plamen i dim su zaseban sloj postojećeg efekta, bez precrtavanja vagona.</p>
+<button id="play" disabled>Opali</button><button id="next" disabled>Sledeći kadar</button>
+<label><input type="checkbox" id="right"> Udesno</label><label><input type="checkbox" id="effects" checked> Plamen i dim</label>
+<label><input type="checkbox" id="guides"> Cev, oslonac i sidrište</label>
+<label>Veličina <select id="scale"><option value="1">1× — igra</option><option value="2">2×</option></select></label>
+<section><canvas id="view" width="1024" height="220"></canvas></section><p><output id="status">Učitavanje…</output></p>
+<p>Šest kadrova, 0,8 s bez ponavljanja. Prvi i završni kadar su isti kao mirovanje; efekat nestaje posle 0,34 s. Merilo je 0,7 iz postojećeg pregleda voza. Širi prozor ostavlja prostor ispred cevi, uz isto sidrište vagona.</p>
+<p><a href="fire.gif">GIF u veličini igre</a> · <a href="sprites.json">Metapodaci i tačke cevi</a> · <a href="barrel-mask.png">Dozvoljeno područje pomeranja</a></p>
+<section><img src="game-size.png" width="1536" height="636" alt="Izvorni vagon i šest faza opaljenja u istoj veličini"></section>
+<p>Ovo je zaseban art za vlasnikov pregled. Postojeći atlasi, igra i Storybook nisu menjani; povezivanje napada radi se odvojeno.</p>
+<script>
+const asset={"id": "bp42-fire", "title": "BP-42: stationary cannon recoil", "image": "../../game-ready/vozovi/bp42-fire-sprites.png", "frame": {"width": 704, "height": 256, "columns": 6, "rows": 1}, "anchor": {"x": 352, "y": 232}, "groundAnchor": {"x": 352, "y": 232}, "facing": "left", "previewScale": 0.7, "source": "../../game-ready/vozovi/bp42-sprites.png", "sourceSha256": "e43f6aef7402da1c7929d9769f1c323aad4a64b1c37c5a8d3b021389ee4a00bc", "reference": "ready-reference.png", "referenceSha256": "27b401042c0bdcf4ba56a816af61db46a4eb758a61ac22102bba6da8485de5d3", "preparation": "preparation.json", "preparationSha256": "609285c207b583b2964202058288254f49cc2904fc3254935f50ae9e5aca05c9", "sha256": "04818e042b20c2223863b6f7d29d7c64c78662133f684503967d0b21b10775e6", "animations": [{"name": "fire", "state": "attack", "row": 0, "frameCount": 6, "distinctFrames": 5, "duration": 0.8, "frameDurationsMs": [60, 80, 100, 140, 180, 240], "loop": false, "muzzle": [{"x": 75, "y": 57}, {"x": 81, "y": 57}, {"x": 80, "y": 57}, {"x": 78, "y": 57}, {"x": 76, "y": 57}, {"x": 75, "y": 57}], "shot": {"frameIndex": 0, "atSeconds": 0, "muzzle": {"x": 75, "y": 57}, "direction": {"x": -1, "y": 0}}, "end": "Hold frame 5, pixel-identical to ready. No embedded flash or smoke."}], "packing": {"oldCell": [576, 256], "offset": [64, 0], "oldAnchor": [288, 232], "sourceBodyBounds": [10, 21, 568, 233], "bodyBounds": [74, 21, 632, 233], "recoilPixelsTowardMount": [0, 6, 5, 3, 1, 0], "motionMask": "barrel-mask.png", "fixed": "Hull, turret, fixed recoil cylinders/collar, hatches, markings and wheels.", "alpha": "Existing accepted source alpha preserved exactly outside the barrel mask; no whole-body thresholding.", "filter": "nearest"}, "separateEffect": {"image": "../../game-ready/efekti/plamen-pucnja-sprites.png", "sha256": "b68127b1a7186000190f24aabdbd13937e67259dc67b9eb201594a51e26e52c8", "sourceCell": [48, 48], "frameDurationsMs": [40, 60, 100, 140], "size": [60, 60], "anchor": [45, 30], "mirrorSource": true, "alphaThreshold": 128, "previewSmokeDriftPerPhase": [-5, -4], "rule": "One discharge at action start. Flash follows muzzle during first 100ms; smoke drifts from shot origin and disappears at 340ms."}, "frameBounds": [[74, 21, 632, 233], [80, 21, 632, 233], [79, 21, 632, 233], [77, 21, 632, 233], [75, 21, 632, 233], [74, 21, 632, 233]], "handoff": {"scope": "Prepared art for owner review; no runtime, mission AI or Storybook changes.", "placement": "Keep original art scale and source body bounds. Old (288,232) anchor becomes (352,232) after +64px left padding. Existing anchor screen x is body center x minus one source pixel times artScale; y is body feet. Never refit scale to each recoiling frame or squeeze the wider cell into the old width.", "mirror": "Mirror body, muzzle and separate effects together about anchor.x. Native facing is left.", "shot": "Spawn one projectile on crossing t=0, not once per frame. Muzzle coordinates are cell pixels.", "movement": "Stationary attack only; drive frames are unchanged.", "death": "Cancel recoil/flash, use the existing BP-42 wreck and existing effects.", "preview": "preview.html", "gif": "fire.gif"}},clip=asset.animations[0],effect=asset.separateEffect;
+const canvas=document.querySelector('#view'),ctx=canvas.getContext('2d');
+const atlas=new Image(),ready=new Image(),fx=new Image();atlas.src=asset.image;ready.src='ready-reference.png';fx.src=effect.image;
+const scale=asset.previewScale,panel=512,anchor=asset.anchor;
+let frame=5,seconds=.8,started=0,animation=0,loaded=false,reference;
+const nativeFrames=[],scaledFrames=[],effectFrames=[];
+const work=document.createElement('canvas');work.width=704;work.height=256;const workCtx=work.getContext('2d');
+function gameSize(image){const c=document.createElement('canvas');c.width=493;c.height=180;const p=c.getContext('2d');p.imageSmoothingEnabled=false;p.drawImage(image,0,0,704*scale,256*scale);return c;}
+function pose(image,index){ctx.save();ctx.translate(index*panel+panel/2,20+anchor.y*scale);ctx.scale(document.querySelector('#right').checked?-1:1,1);ctx.drawImage(image,-anchor.x*scale,-anchor.y*scale);ctx.restore();}
+function sample(ms,t){let end=0;for(let i=0;i<ms.length;i++){end+=ms[i]/1000;if(t<end)return i;}return null;}
+function effectIndex(){return sample(effect.frameDurationsMs,seconds);}
+function attackImage(){
+ const phase=effectIndex();
+ if(!document.querySelector('#effects').checked||phase===null)return scaledFrames[frame];
+ workCtx.clearRect(0,0,704,256);workCtx.drawImage(nativeFrames[frame],0,0);
+ const origin=clip.shot.muzzle,muzzle=clip.muzzle[frame];
+ const x=phase<2?muzzle.x:origin.x-(phase-1)*5,y=phase<2?muzzle.y:origin.y-(phase-1)*4;
+ workCtx.drawImage(effectFrames[phase],x-45,y-30);
+ return gameSize(work);
+}
+function draw(){
+ if(!loaded)return;
+ ctx.clearRect(0,0,1024,220);ctx.imageSmoothingEnabled=false;pose(reference,0);pose(attackImage(),1);
+ ctx.fillStyle='#ffdf97';ctx.font='12px sans-serif';ctx.fillText('Izvorno mirovanje',10,13);ctx.fillText('Napad · kadar '+frame,522,13);
+ if(document.querySelector('#guides').checked){
+  const baseline=20+anchor.y*scale;ctx.strokeStyle='#eac881';ctx.beginPath();ctx.moveTo(0,baseline+.5);ctx.lineTo(1024,baseline+.5);ctx.stroke();
+  for(let i=0;i<2;i++){ctx.fillStyle='#ff6666';ctx.fillRect(i*512+254,baseline-2,4,4);}
+  const p=clip.muzzle[frame],flip=document.querySelector('#right').checked?-1:1;
+  const x=768+flip*(p.x-anchor.x)*scale,y=20+p.y*scale;ctx.strokeStyle='#ffe69c';ctx.strokeRect(x-3.5,y-3.5,7,7);
+ }
+ const p=clip.muzzle[frame];document.querySelector('#status').textContent=`Kadar ${frame}/5 · trzaj ${asset.packing.recoilPixelsTowardMount[frame]} px · cev (${p.x}, ${p.y}) · ${seconds.toFixed(2)} s`;
+}
+function tick(now){seconds=Math.min(.8,(now-started)/1000);frame=sample(clip.frameDurationsMs,seconds)??5;draw();if(seconds<.8)animation=requestAnimationFrame(tick);}
+Promise.all([atlas.decode(),ready.decode(),fx.decode()]).then(async()=>{
+ reference=gameSize(ready);
+ for(let i=0;i<6;i++){const bitmap=await createImageBitmap(atlas,i*704,0,704,256);nativeFrames.push(bitmap);scaledFrames.push(gameSize(bitmap));}
+ for(let i=0;i<4;i++){
+  const c=document.createElement('canvas');c.width=60;c.height=60;const p=c.getContext('2d');p.imageSmoothingEnabled=false;p.translate(60,0);p.scale(-1,1);p.drawImage(fx,i*48,0,48,48,0,0,60,60);
+  const pixels=p.getImageData(0,0,60,60);for(let j=3;j<pixels.data.length;j+=4)pixels.data[j]=pixels.data[j]>=128?255:0;p.putImageData(pixels,0,0);effectFrames.push(c);
+ }
+ loaded=true;document.querySelectorAll('button').forEach(b=>b.disabled=false);draw();
+}).catch(error=>document.querySelector('#status').textContent='Greška učitavanja: '+error.message);
+document.querySelector('#play').onclick=()=>{cancelAnimationFrame(animation);frame=0;seconds=0;started=performance.now();draw();animation=requestAnimationFrame(tick);};
+document.querySelector('#next').onclick=()=>{cancelAnimationFrame(animation);frame=(frame+1)%6;seconds=clip.frameDurationsMs.slice(0,frame).reduce((a,b)=>a+b,0)/1000;draw();};
+for(const id of ['right','effects','guides'])document.querySelector('#'+id).onchange=draw;
+document.querySelector('#scale').onchange=e=>{const n=Number(e.target.value);canvas.style.width=1024*n+'px';canvas.style.height=220*n+'px';};
+</script></html>

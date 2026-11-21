@@ -14,7 +14,7 @@ Owner-selected sources below are labelled CC0 1.0 on their source pages (Ustanak
 | engine-boat.mp3 | [AugustSandberg — Marine diesel engine](https://freesound.org/people/AugustSandberg/sounds/264864/) | 6 s loop from 10–16.25 s, 250 ms cyclic crossfade; mono, −1.5 dB; modern Volvo Penta recording |
 | engine-diesel.mp3 | [AugustSandberg — Diesel Engine](https://freesound.org/people/AugustSandberg/sounds/237292/) | 6 s loop from 10–16.25 s, 250 ms linear cyclic crossfade; mono, −2.9 dB; exact vehicle type is not confirmed |
 | footstep-gravel-01.mp3 through footstep-gravel-12.mp3 | [IENBA — Footsteps On Gravel](https://freesound.org/people/IENBA/sounds/818562/) | Separate mono event excerpts with short edge fades; automatic boundaries remain unauditioned |
-| body-impact-01.mp3 through body-impact-04.mp3 | [Vrymaa — body-impact Foley](https://freesound.org/people/Vrymaa/sounds/734629/) | Separate mono event excerpts with short edge fades; exact cut ranges in processing record |
+| body-impact-01.mp3, body-impact-03.mp3, body-impact-04.mp3 | [Vrymaa — body-impact Foley](https://freesound.org/people/Vrymaa/sounds/734629/) | Separate mono event excerpts with short edge fades; exact cut ranges in processing record |
 | water-wake.mp3 | [myLoop — Sailboat Bow](https://freesound.org/people/myLoop/sounds/852108/) | 6 s stereo loop from 10–16.25 s with 250 ms cyclic crossfade; contains wind |
 | water-impact.mp3 | [qubodup — Big Water Splash](https://freesound.org/people/qubodup/sounds/442773/) | Mono, −3 dB; a large splash, not a separately recorded underwater detonation |
 | metal-impact.mp3 | [RyanKingArt — Metal Impact](https://freesound.org/people/RyanKingArt/sounds/620077/) | Mono, −3 dB |
@@ -29,4 +29,4 @@ When preparing assets on Windows, normalize relative manifest paths to `/` after
 
 [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/).
 
-Owner-rejected candidates must not be reintroduced: Freesound 210428 (small splash), 803852 (space launch), 718967 (human effort) and 849412 (magic impact). Effort grunts are not needed and require no replacement; this does not reject separate body-impact/injury sounds. New recordings require owner selection before installation; preparation parameters do not require a separate decision for every value.
+Owner-rejected excerpts must not be reintroduced: body-impact-02 (a quiet hit, then a louder one; 2026-11-21). Owner-rejected candidates must not be reintroduced: Freesound 210428 (small splash), 803852 (space launch), 718967 (human effort) and 849412 (magic impact). Effort grunts are not needed and require no replacement; this does not reject separate body-impact/injury sounds. New recordings require owner selection before installation; preparation parameters do not require a separate decision for every value.

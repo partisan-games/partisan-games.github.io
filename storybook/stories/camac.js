@@ -27,25 +27,25 @@ const boat = stage => {
   return put(stage, body, new BoatSprite(body, views(stage)))
 }
 
-/** The German S-boat lies still on the right, bow to the left. */
+/** The German S-boat lies still in the middle, bow to the left. */
 const sBoat = stage => {
-  const body = new SBoat({ ...at(stage, .7, .5), clock: stage.session.clock })
+  const body = new SBoat({ ...at(stage, .5, .5), clock: stage.session.clock })
   return put(stage, body, new SBoatSprite(body, views(stage)))
 }
 
-/** A machine-gun nest on the far bank, at the top, facing the water. */
+/** A machine-gun nest in the middle, as on the far bank, facing the water below. */
 const nest = stage => {
-  const body = new ShoreMachineGun({ ...at(stage, .5, .2), side: -1, clock: stage.session.clock })
+  const body = new ShoreMachineGun({ ...at(stage, .5, .5), side: -1, clock: stage.session.clock })
   return put(stage, body, new ShoreMachineGunSprite(body, views(stage)))
 }
 
 const game = 'Čamac'
 
 export const boats = [
-  { id: 'partizanski-camac', name: 'Partizanski čamac', game, pxPerMeter, block: boatModule, create: boat },
-  { id: 'schnellboot', name: 'Schnellboot S-30', game, pxPerMeter, block: sBoatModule, create: sBoat },
+  { id: 'partizanski-camac', name: 'Partizanski čamac', game, pxPerMeter, settings: ['boat.thrust', 'boat.turn', 'boat.reload', 'boat.damage', 'boat.health'], block: boatModule, create: boat },
+  { id: 'schnellboot', name: 'Schnellboot S-30', game, pxPerMeter, settings: ['sBoat.cruise', 'sBoat.burst', 'sBoat.burstWait', 'sBoat.damage', 'sBoat.health'], block: sBoatModule, create: sBoat },
 ]
 
 export const artillery = [
-  { id: 'mitraljesko-gnezdo', name: 'Mitraljesko gnezdo', game, pxPerMeter, block: shoreMachineGunModule, create: nest },
+  { id: 'mitraljesko-gnezdo', name: 'Mitraljesko gnezdo', game, pxPerMeter, settings: ['nest.turn', 'nest.burst', 'nest.burstWait', 'nest.damage', 'nest.health'], block: shoreMachineGunModule, create: nest },
 ]

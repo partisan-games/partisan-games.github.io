@@ -1,7 +1,8 @@
 /**
  * Controls for a block's settings: the plain objects its module exports whose fields are numbers, yes/no values or
- * such objects, like `rifle` in Rifleman.js. A changed field changes the exported object itself, so the block made
- * next reads it; every object keeps its first values to go back to.
+ * such objects, like `rifle` in Rifleman.js. A story shows only the few fields whose effect one sees, which it names
+ * by path, as `rifle.reload`. A changed field changes the exported object itself, so the block made next reads it;
+ * every object keeps its first values to go back to.
  */
 
 const isLeaf = value => typeof value === 'number' || typeof value === 'boolean'
@@ -42,31 +43,30 @@ const sliderMax = first => first > 0 ? first * 4 : 1
 /** A number as a control shows it. */
 export const formatValue = value => String(Number(value.toPrecision(3)))
 
-function fieldsHtml(object, first, path) {
-  return Object.entries(object).map(([key, value]) => {
-    const at = `${path}.${key}`
-    if (typeof value === 'boolean')
-      return `<label class="storybook-setting"><input type="checkbox" data-setting="${at}" ${value ? 'checked' : ''}> ${key}</label>`
-    if (typeof value === 'number') {
-      const max = sliderMax(first[key])
-      return /* html */`
-        <label class="storybook-setting">${key} <output>${formatValue(value)}</output>
-          <input type="range" data-setting="${at}" min="0" max="${max}" step="${max / 100}" value="${value}">
-        </label>`
-    }
-    return `<fieldset><legend>${key}</legend>${fieldsHtml(value, first[key], at)}</fieldset>`
-  }).join('')
+/** The value at `path` in `object`, its first segment left out, as `initial` holds a settings object. */
+const at = (object, fields) => fields.reduce((value, key) => value[key], object)
+
+/** One field's control, named by its path without the settings object, as `soldier health`. */
+function fieldHtml(module, path) {
+  const [name, ...fields] = path.split('.')
+  const value = at(module[name], fields), label = fields.join(' ')
+  if (typeof value === 'boolean')
+    return `<label class="storybook-setting"><input type="checkbox" data-setting="${path}" ${value ? 'checked' : ''}> ${label}</label>`
+  const max = sliderMax(at(initial.get(module[name]), fields))
+  return /* html */`
+    <label class="storybook-setting">${label} <output>${formatValue(value)}</output>
+      <input type="range" data-setting="${path}" min="0" max="${max}" step="${max / 100}" value="${value}">
+    </label>`
 }
 
-/** The controls for `module`'s settings, one group for each object, or nothing when it has none. */
-export function controlsHtml(module) {
-  const found = settingsOf(module)
-  if (!found.length) return ''
+/** The controls for the fields of `module`'s settings at `paths`, or nothing when there are none. */
+export function controlsHtml(module, paths = []) {
+  settingsOf(module)
+  if (!paths.length) return ''
   return /* html */`
     <fieldset>
       <legend>Podešavanja</legend>
-      ${found.map(([name, settings]) => /* html */`
-        <fieldset><legend>${name}</legend>${fieldsHtml(settings, initial.get(settings), name)}</fieldset>`).join('')}
+      ${paths.map(path => fieldHtml(module, path)).join('')}
     </fieldset>`
 }
 

@@ -5,10 +5,11 @@ import Bullet from '../projectiles/Bullet.js'
 
 /**
  * The machine gun seen from above: seconds between rounds, rounds in a burst, seconds of rest after a burst and before
- * the first, the round speed in metres a second, and how far ahead of the gunner's place the muzzle is. Measured from
- * the earlier pixel gunner at 40 px a metre, where a man is 1.8 m tall.
+ * the first, the round speed in metres a second, and where the muzzle is from the gunner's place: `ahead` of it and to
+ * his right, `side`, as his gun is drawn. Measured from the earlier pixel gunner at 40 px a metre, where a man is
+ * 1.8 m tall.
  */
-export const machineGun = { reload: .1, burst: 5, pause: 3, speed: 15, muzzle: 1.55 }
+export const machineGun = { reload: .1, burst: 5, pause: 3, speed: 15, muzzle: { ahead: 1.55, side: .3 } }
 
 /** The gunner holds fire, or fires bursts where he aims as often as his gun allows, or lies dead. */
 const states = {
@@ -48,7 +49,8 @@ export default class MachineGunner extends Body {
   }
 
   get muzzle() {
-    return { x: this.x + Math.cos(this.yaw) * machineGun.muzzle, y: this.y, z: this.z - Math.sin(this.yaw) * machineGun.muzzle }
+    const { ahead, side } = machineGun.muzzle, cos = Math.cos(this.yaw), sin = Math.sin(this.yaw)
+    return { x: this.x + cos * ahead + sin * side, y: this.y, z: this.z - sin * ahead + cos * side }
   }
 
   /** Turns the gun to `point`, which is always within his turn. */

@@ -34,7 +34,7 @@ export default class Stage3D extends Scene3D {
     super.update(dt, t)
     if (!this.followed || !this.controls) return
     // the camera moves with the block, so the view onto it stays as the mouse left it
-    const { x, z } = this.followed.mesh.position
+    const { x, z } = this.followed.mesh?.position ?? this.followed
     const { target } = this.controls
     this.camera.position.x += x - target.x
     this.camera.position.z += z - target.z

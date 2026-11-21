@@ -103,6 +103,7 @@ export default class AvatarScene extends Scene3D {
   checkCollision(coin) {
     if (this.player.distanceTo(coin.mesh) > 1.4) return
 
+    coin.playSound()
     this.coins.splice(this.coins.findIndex(c => c === coin), 1)
     this.removeMesh(coin.mesh)
     this.score ++

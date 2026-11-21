@@ -27,10 +27,11 @@ async function state(page, name) {
   await page.locator(`[data-state="${name}"]`).click()
 }
 
-for (const side of ['partizanski', 'italijanski']) test(`new field gun and wreck: ${side}`, async({ page }, info) => {
+for (const way of ['1', '-1']) test(`new field gun and wreck: facing ${way}`, async({ page }, info) => {
   const errors = []
   page.on('pageerror', error => errors.push(error.message))
-  await page.goto(`/storybook.html#artiljerija/ustanak-${side}-top`)
+  await page.goto('/storybook.html#artiljerija/ustanak-top')
+  await page.locator(`[data-way="${way}"]`).click()
   await drawn(page, '/field-gun-barrel-pixel.png')
   await drawn(page, '/field-gun-carriage-pixel.png')
   await state(page, 'dead')
@@ -47,7 +48,7 @@ for (const side of ['partizanski', 'italijanski']) test(`new field gun and wreck
 
 for (const [name, file] of [['partizanska', 'partizanska'], ['italijanska', 'italijanska']])
   test(`gun crew terminal fall: ${name}`, async({ page }, info) => {
-    await page.goto(`/storybook.html#vojnici/${name}-posada`)
+    await page.goto(`/storybook.html#vojnici/posada-topa/${name}`)
     await state(page, 'load')
     await state(page, 'dead')
     await drawn(page, `/${file}-posada-death-sprites.png`, 800, 0)

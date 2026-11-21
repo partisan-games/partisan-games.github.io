@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "measuredAt": "2026-11-21T20:57:07.303919+00:00",
-  "baseRevision": "e638fc2567d132d1abea25d530f27191998b51e1",
+  "measuredAt": "2026-11-21T23:11:45.618118+00:00",
+  "baseRevision": "a82a56f99c7c23184e05619383486d51e0f3f2ec",
   "scope": "Art linked by docs/ART.md, including shared variants; not all unused library art or a runtime/visual acceptance test.",
   "interpretation": "imageFrames counts file-container frames. A PNG atlas normally has one; named sprite clips require metadata and a runtime mapping. hashes detect exact input changes, not art quality.",
   "images": [
@@ -1824,7 +1824,7 @@
     },
     {
       "asset": "assets/images/armies/game-ready/vojnici/occupier-sprites.png",
-      "sha256": "ebbe52390b3d6945b770c312f929c2f8e1d50277cd0d79141fd26e756bca235c",
+      "sha256": "fc79c578cc5f4e89476017e041988960d259e0aa8c5f34f4f8ff6b01627ce471",
       "kind": "PNG",
       "width": 1050,
       "height": 1260,
@@ -1891,7 +1891,7 @@
             "frameCount": 5,
             "duration": 0.5,
             "loop": true,
-            "measuredDistinctFrames": 5
+            "measuredDistinctFrames": 4
           }
         ]
       }
@@ -2110,6 +2110,40 @@
             "duration": 1.6,
             "loop": true,
             "measuredDistinctFrames": 4
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/vozovi/bp42-fire-sprites.png",
+      "sha256": "04818e042b20c2223863b6f7d29d7c64c78662133f684503967d0b21b10775e6",
+      "kind": "PNG",
+      "width": 4224,
+      "height": 256,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/bp42-fire/sprites.json",
+        "id": "bp42-fire",
+        "frame": {
+          "width": 704,
+          "height": 256,
+          "columns": 6,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 352,
+          "y": 232
+        },
+        "clips": [
+          {
+            "name": "fire",
+            "row": 0,
+            "frameCount": 6,
+            "duration": 0.8,
+            "loop": false,
+            "measuredDistinctFrames": 5
           }
         ]
       }
@@ -2719,6 +2753,36 @@
       "distinctImageFrames": 1
     },
     {
+      "asset": "assets/images/armies/sources/bp42-fire/barrel-phases.png",
+      "sha256": "fd2e35b420d3263d4d69b6a5d30c579ffa97690d79ee313a53e0b604aa8f7463",
+      "kind": "PNG",
+      "width": 1380,
+      "height": 122,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/armies/sources/bp42-fire/fire.gif",
+      "sha256": "01f5840454e0754fdbfcef42706a2439a9549f0f630d0b74cabdc809d75b3300",
+      "kind": "GIF",
+      "width": 493,
+      "height": 179,
+      "imageFrames": 6,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 6
+    },
+    {
+      "asset": "assets/images/armies/sources/bp42-fire/game-size.png",
+      "sha256": "7f7ead9e0f17acc8178fce19a57a1e748c7b8cba276f4488a63bee57d3d2c8e7",
+      "kind": "PNG",
+      "width": 1536,
+      "height": 636,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
       "asset": "assets/images/armies/sources/bunker-gunner/death-game-size.png",
       "sha256": "cd032b3ed72f90153dd60e679d9baa88a055e6fbf3c6eda8c06fa48c27cfd2b5",
       "kind": "PNG",
@@ -2959,14 +3023,34 @@
       "distinctImageFrames": 1
     },
     {
+      "asset": "assets/images/armies/sources/infantry-art/previews/occupier-fire-comparison.gif",
+      "sha256": "78c4fc6ab014d885f1ff27615bd3f01edf8ba1e13ed5d0c481492385da20ce9f",
+      "kind": "GIF",
+      "width": 420,
+      "height": 210,
+      "imageFrames": 5,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 4
+    },
+    {
+      "asset": "assets/images/armies/sources/infantry-art/previews/occupier-fire-motion-mask.png",
+      "sha256": "e3b43bd37742826dedbec420bd7ae8de361b694271ff4e60bb17593198e2cc47",
+      "kind": "PNG",
+      "width": 210,
+      "height": 210,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
       "asset": "assets/images/armies/sources/infantry-art/previews/occupier-fire.gif",
-      "sha256": "58f255fba880ba7fe3e59e9d6c214b1d14e5cded1bfa1a275222fbdf77ad24ba",
+      "sha256": "8d1cbd0401c419a8df3efd13fe271120b0cb726524530defda7e375b8e62fbaf",
       "kind": "GIF",
       "width": 210,
       "height": 210,
       "imageFrames": 5,
-      "hasTransparentPixelsInFirstFrame": true,
-      "distinctImageFrames": 5
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 4
     },
     {
       "asset": "assets/images/armies/sources/partisan-rifleman/death.gif",
@@ -3169,6 +3253,26 @@
       "distinctImageFrames": 1
     },
     {
+      "asset": "assets/images/background/beograd-1944-crno-belo.png",
+      "sha256": "ad9735686e0f6dc2c5b4e39d724169baede9639c38c06dd177c1ff4b4facb0c3",
+      "kind": "PNG",
+      "width": 1536,
+      "height": 1024,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/background/beograd-1944-pixel.png",
+      "sha256": "2fcf474ab56d8db736860f9bfc0e61fea76f021d847a9ce19cc18de26df98ab8",
+      "kind": "PNG",
+      "width": 1536,
+      "height": 1024,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
       "asset": "assets/images/background/crnogorsko-selo-1941-pixel.png",
       "sha256": "dc01c58753f3ee58dee9efbcb3fe7eb8007591b1adc1ac71d3ac207fb3748316",
       "kind": "PNG",
@@ -3326,6 +3430,26 @@
       "height": 1254,
       "imageFrames": 1,
       "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/sources/pozadine/beograd-1944/monochrome-generated.png",
+      "sha256": "4adb54832c15d4c7b7b58ee75717ac5dac510f702a3dc04a30c105cedf8eaae8",
+      "kind": "PNG",
+      "width": 1536,
+      "height": 1024,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/sources/pozadine/beograd-1944/pixel-generated.png",
+      "sha256": "ed3d701a479baeff3be7cfce49addfc2eee3362da9577a5e7ac33ae81c5df94b",
+      "kind": "PNG",
+      "width": 1536,
+      "height": 1024,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
       "distinctImageFrames": 1
     },
     {
@@ -3734,7 +3858,7 @@
     },
     {
       "path": "assets/images/armies/game-ready/vojnici/occupier-sprites.png",
-      "sha256": "ebbe52390b3d6945b770c312f929c2f8e1d50277cd0d79141fd26e756bca235c"
+      "sha256": "fc79c578cc5f4e89476017e041988960d259e0aa8c5f34f4f8ff6b01627ce471"
     },
     {
       "path": "assets/images/armies/game-ready/vojnici/partizanski-strelac-movement-sprites.png",
@@ -3755,6 +3879,10 @@
     {
       "path": "assets/images/armies/game-ready/vojnici/zastavnici-sprites.png",
       "sha256": "80a588e3d051fd66458a874b507aa418aae13678f108096a72baac4783a977f0"
+    },
+    {
+      "path": "assets/images/armies/game-ready/vozovi/bp42-fire-sprites.png",
+      "sha256": "04818e042b20c2223863b6f7d29d7c64c78662133f684503967d0b21b10775e6"
     },
     {
       "path": "assets/images/armies/game-ready/vozovi/bp42-sprites.png",
@@ -3883,6 +4011,34 @@
     {
       "path": "assets/images/armies/sources/aircraft-propellers/sprites.json",
       "sha256": "af485442ee4f77d7d18f287246758f79dde0cca86991333a64400d4bc4e00c88"
+    },
+    {
+      "path": "assets/images/armies/sources/bp42-fire/barrel-phases.png",
+      "sha256": "fd2e35b420d3263d4d69b6a5d30c579ffa97690d79ee313a53e0b604aa8f7463"
+    },
+    {
+      "path": "assets/images/armies/sources/bp42-fire/fire.gif",
+      "sha256": "01f5840454e0754fdbfcef42706a2439a9549f0f630d0b74cabdc809d75b3300"
+    },
+    {
+      "path": "assets/images/armies/sources/bp42-fire/game-size.png",
+      "sha256": "7f7ead9e0f17acc8178fce19a57a1e748c7b8cba276f4488a63bee57d3d2c8e7"
+    },
+    {
+      "path": "assets/images/armies/sources/bp42-fire/preparation.json",
+      "sha256": "609285c207b583b2964202058288254f49cc2904fc3254935f50ae9e5aca05c9"
+    },
+    {
+      "path": "assets/images/armies/sources/bp42-fire/prepare.py",
+      "sha256": "e226a8350ddec9dc8c2b13f76d874a970e0ace6ab3fd3fb370a29bed544a2b07"
+    },
+    {
+      "path": "assets/images/armies/sources/bp42-fire/preview.html",
+      "sha256": "d5d2387ef2b98ee704c6a9f0d7fbf8e7b643a31b1f5bdca36a38831b488dc613"
+    },
+    {
+      "path": "assets/images/armies/sources/bp42-fire/sprites.json",
+      "sha256": "addb6a6f62d0c87c16314cca18086262cf6e469baf4680f5ac6127b1b555ca88"
     },
     {
       "path": "assets/images/armies/sources/bunker-gunner/death-game-size.png",
@@ -4105,16 +4261,16 @@
       "sha256": "c7563766616a75963fb97c1f15484df034b4345108d83f27b56094270614709d"
     },
     {
-      "path": "assets/images/armies/sources/infantry-art/occupier-fire-generation.json",
-      "sha256": "e41203d4bffd85d8b6e856f849ee9d50de06623320b9edf0fd67a793dbeb97b5"
+      "path": "assets/images/armies/sources/infantry-art/occupier-fire-replacement-attempt.json",
+      "sha256": "0da56cd4c27b6e33f45aed0bce3ed911fbb677f425b4e623b6a694b4b9018689"
     },
     {
       "path": "assets/images/armies/sources/infantry-art/occupier-preview.html",
-      "sha256": "c710736e00bc355f2f72b1423cb696d4ef1ec9108fb8b5f0282b01e2b48f4001"
+      "sha256": "3caf2a4e4f7656c29ba380fcc3863a6ba4e569818a9e2f1aaf3bb5e410022504"
     },
     {
       "path": "assets/images/armies/sources/infantry-art/occupier-sprites.json",
-      "sha256": "6295f01385fbbe27855174f66421851ae4596f341e4da974e4c356d8da5430d5"
+      "sha256": "9551d0892f08cfd5dd833d7d5d441b78d21ed340b57b1c85a335ad8e77fdbe3c"
     },
     {
       "path": "assets/images/armies/sources/infantry-art/prepare-crews.py",
@@ -4122,7 +4278,7 @@
     },
     {
       "path": "assets/images/armies/sources/infantry-art/prepare-occupier.py",
-      "sha256": "b4f1ddd45896a2e59ec1b166ce93c7cb84d398fb2429cdf67ed69c361268da8d"
+      "sha256": "2051adebcf550ac9def5f7af753353c2039ff4b7f75282bf08e73f38f29e8fad"
     },
     {
       "path": "assets/images/armies/sources/infantry-art/prepare.py",
@@ -4149,8 +4305,16 @@
       "sha256": "065ccf101ed3057514a3b52af03b70770f00260d3ca851767bc1ee54a8dde07a"
     },
     {
+      "path": "assets/images/armies/sources/infantry-art/previews/occupier-fire-comparison.gif",
+      "sha256": "78c4fc6ab014d885f1ff27615bd3f01edf8ba1e13ed5d0c481492385da20ce9f"
+    },
+    {
+      "path": "assets/images/armies/sources/infantry-art/previews/occupier-fire-motion-mask.png",
+      "sha256": "e3b43bd37742826dedbec420bd7ae8de361b694271ff4e60bb17593198e2cc47"
+    },
+    {
       "path": "assets/images/armies/sources/infantry-art/previews/occupier-fire.gif",
-      "sha256": "58f255fba880ba7fe3e59e9d6c214b1d14e5cded1bfa1a275222fbdf77ad24ba"
+      "sha256": "8d1cbd0401c419a8df3efd13fe271120b0cb726524530defda7e375b8e62fbaf"
     },
     {
       "path": "assets/images/armies/sources/infantry-art/sprites.json",
@@ -4349,6 +4513,14 @@
       "sha256": "7d9f5dc65549f210987ab1fb61e7e531c6563a7494bda7f71703ac0c1418ab7d"
     },
     {
+      "path": "assets/images/background/beograd-1944-crno-belo.png",
+      "sha256": "ad9735686e0f6dc2c5b4e39d724169baede9639c38c06dd177c1ff4b4facb0c3"
+    },
+    {
+      "path": "assets/images/background/beograd-1944-pixel.png",
+      "sha256": "2fcf474ab56d8db736860f9bfc0e61fea76f021d847a9ce19cc18de26df98ab8"
+    },
+    {
       "path": "assets/images/background/crnogorsko-selo-1941-pixel.png",
       "sha256": "dc01c58753f3ee58dee9efbcb3fe7eb8007591b1adc1ac71d3ac207fb3748316"
     },
@@ -4431,6 +4603,30 @@
     {
       "path": "assets/images/sources/pozadine/batina-layered/preview.html",
       "sha256": "30fbc505acdc16edf365c900874a7b2c4ac69404113ded211acd153d44debae7"
+    },
+    {
+      "path": "assets/images/sources/pozadine/beograd-1944/backgrounds.json",
+      "sha256": "8b27ead6098fac106ab6e6fb9a8003b3e9a82039c75f1e7ce806ef3a50803207"
+    },
+    {
+      "path": "assets/images/sources/pozadine/beograd-1944/generation.json",
+      "sha256": "1b53a0a9b6561439da831defcb5d780dbb9962a69ed8a15d6dfd7ba9f0ef2ee6"
+    },
+    {
+      "path": "assets/images/sources/pozadine/beograd-1944/monochrome-generated.png",
+      "sha256": "4adb54832c15d4c7b7b58ee75717ac5dac510f702a3dc04a30c105cedf8eaae8"
+    },
+    {
+      "path": "assets/images/sources/pozadine/beograd-1944/pixel-generated.png",
+      "sha256": "ed3d701a479baeff3be7cfce49addfc2eee3362da9577a5e7ac33ae81c5df94b"
+    },
+    {
+      "path": "assets/images/sources/pozadine/beograd-1944/prepare.py",
+      "sha256": "466aa252241faf5f4b24a0bb1cf7beb21dd216e6fc5b6640e1c5a68f6db78ab8"
+    },
+    {
+      "path": "assets/images/sources/pozadine/beograd-1944/preview.html",
+      "sha256": "2b5afafc9e74df1014e00de12314fc0ba9b8500abc1dc6089a59384db1ded080"
     },
     {
       "path": "assets/images/sources/pozadine/current-backgrounds.json",
@@ -4582,7 +4778,7 @@
     },
     {
       "path": "core/actor/artillery/FieldGunSprite.js",
-      "sha256": "181090e68925663a15b67cb2b19c6d99b0f562c02cf12db212ed80111f52766c"
+      "sha256": "974d57bd6413284a77a4524693fc5f0b10adc043e9f780f4f2ad7154aab58871"
     },
     {
       "path": "core/actor/artillery/FlakSprite.js",
@@ -4598,7 +4794,7 @@
     },
     {
       "path": "core/actor/boats/SBoatSprite.js",
-      "sha256": "91537792c7dee26f8e040f2debc2410a25fb1065d9ef3de17032ea882c786001"
+      "sha256": "8094631607d5f1922d7ec8a35ea6ba7db0b2ad95f7a04c3f58369698d8ed9051"
     },
     {
       "path": "core/actor/effects/FallingBlood.js",
@@ -4607,6 +4803,10 @@
     {
       "path": "core/actor/LocomotionSprite.js",
       "sha256": "970320c69340d873b9c522fbaad89dedd245646c6517535fbb90497e0ae51435"
+    },
+    {
+      "path": "core/actor/occupierArt.js",
+      "sha256": "838eeb42e69267ccae64838763ffed7d3c14e8f13c0602377a5e004b788ca259"
     },
     {
       "path": "core/actor/soldiers/CannonCrewSprite.js",
@@ -4626,7 +4826,7 @@
     },
     {
       "path": "core/actor/soldiers/OccupierSprite.js",
-      "sha256": "e559aa8d462ae30842ec4d1d2f5533907472896a1cfaa82316ccde6d6d5097d4"
+      "sha256": "24ea4e20db3bac4eab49b1f7e16c9cc6526b110a8a0af9015fdc15c24fd4a69d"
     },
     {
       "path": "core/actor/soldiers/PatrolSprite.js",
@@ -4669,6 +4869,10 @@
       "sha256": "b0ef08adfdd81159a29f01ecb0b0ea3df0c38c60374125c68822152aa25ce6d2"
     },
     {
+      "path": "core/gameplay/bodies/boats/SBoat.js",
+      "sha256": "f379363f42725bc46e7f44cdcbcab7c2c573efc2fa0b0199d79a480fdbdfb106"
+    },
+    {
       "path": "core/gameplay/bodies/projectiles/Grenade.js",
       "sha256": "ba913caf60e0a4632e925e31139f4e8fa9f3864952be0f79614141d026f35f64"
     },
@@ -4698,11 +4902,11 @@
     },
     {
       "path": "docs/ARHITEKTURA.md",
-      "sha256": "cf6e8bf8565413e8e8ec713f92b120847161ee0fb9691c37bcfc2e1d9bb9fdaa"
+      "sha256": "a48f5ee040a65b4dd839147f484d116fd10bf39e9aae2411f03208ec38422615"
     },
     {
       "path": "docs/ART.md",
-      "sha256": "beca6a37a59126d52b26d551d64e4e5c80c35a0c174bd4a99a3ee1dfc11e3303"
+      "sha256": "2edc39132d9cecb58e1e18c6184947fc067c56cde8c0a5a2e3e23803702c805d"
     },
     {
       "path": "docs/ISTORIJA.md",
@@ -4718,7 +4922,7 @@
     },
     {
       "path": "docs/PLAN-IDEJE.md",
-      "sha256": "dd59355ccfe002113296ed0f3b85437609e569ffb25d5c7c11ce052e3119561d"
+      "sha256": "8f18c6ae47bf6a46ba529df2497531517de7e2a67c670199e913518f83db75fb"
     },
     {
       "path": "docs/STORYBOOK.md",
@@ -4726,11 +4930,15 @@
     },
     {
       "path": "docs/TESTING.md",
-      "sha256": "6f1e0f85f4618245d4382516729b06514d58c0a299512f794fa0eb6e09ff427f"
+      "sha256": "f08f1f20b5e626e5646daf53515c490fb197c44fa0eda3f7446c0a62730d5ea3"
     },
     {
       "path": "props.html",
       "sha256": "7eaa056335c2d1ddf8ed0c176e7439911803af60f2f01f7d8f352db056055070"
+    },
+    {
+      "path": "scenes/otpisani/Main.js",
+      "sha256": "8e48444fcf383549fdebc5721e8b9215e6e72416fe47ba2ab26481138e7f57f7"
     },
     {
       "path": "scenes/tenkici/BattleBackground.js",
@@ -4745,6 +4953,10 @@
       "sha256": "67aafda502154041939cf85daf3dcacca84e18c875731f2eab7de6d4cfc96358"
     },
     {
+      "path": "scenes/ustanak/Main.js",
+      "sha256": "5db425cdaeeecc5e2775e2f795dade0ce67d8e82c4d283ccfbcbb9b195ba6e8d"
+    },
+    {
       "path": "scripts/index-sprite-art.py",
       "sha256": "af6fb6f9570e0007d2fa36010583edd92e9d9faef3c638efadac169cca565d03"
     },
@@ -4754,7 +4966,7 @@
     },
     {
       "path": "storybook/stories/characters3d.js",
-      "sha256": "f0ec6f74329f42745c52ec38d19fff2de2179aa9fda71f560ed97f3aa3a8e8cd"
+      "sha256": "437d2043b38eb20945dba1829f1aca58508de495a6c84af2ec37dba9b2db46df"
     },
     {
       "path": "storybook/stories/index.js",
