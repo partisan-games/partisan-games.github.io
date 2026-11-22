@@ -1,9 +1,13 @@
-/** The crew offers surrender once, when its last machine gun is knocked out. */
+/** Surviving defenders offer surrender once a majority can no longer fight. */
 export default class Garrison {
   surrendered = false
 
-  update(gunsLeft) {
-    if (this.surrendered || gunsLeft !== 0) return false
+  constructor(strength) {
+    this.strength = strength
+  }
+
+  update(living) {
+    if (this.surrendered || living * 2 >= this.strength) return false
     this.surrendered = true
     return true
   }

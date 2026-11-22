@@ -11,7 +11,6 @@ export default class Shell {
   constructor(ball, radius) {
     this.ball = ball
     this.mesh = new THREE.Mesh(geometry, material)
-    this.previous = ball.position.clone()
     this.mesh.position.copy(ball.position)
     const widthScale = radius / .078
     this.mesh.scale.set(widthScale, 1.2, widthScale)
@@ -21,8 +20,7 @@ export default class Shell {
   }
 
   update() {
-    const { ball, mesh, previous, way } = this
-    previous.copy(mesh.position)
+    const { ball, mesh, way } = this
     mesh.position.copy(ball.position)
     const velocity = ball.userData.body.getLinearVelocity()
     way.set(velocity.x(), velocity.y(), velocity.z())

@@ -203,4 +203,4 @@ Neki moduli ostaju i kada ih nijedna igra ne koristi, da budu pri ruci za isprob
 
 - [šejderi](../core3d/shaders/), koje [test šejdera](../tests/unit/shaders.test.js) proverava fajl po fajl;
 - [kule i spiralne stepenice](../core3d/geometry/towers.js) od kocki;
-- [minobacač kao Ammo vozilo](../core3d/physics/Cannon.js), sa klizačem za jačinu hica; igra cannon koristi [drugi top](../core3d/actor/derived/Cannon.js).
+- [minobacač kao Ammo vozilo](../core3d/physics/Cannon.js), sa klizačem za jačinu hica; igra Battle for Jablanica (tehnički ID `cannon`) koristi [drugi top](../core3d/actor/derived/Cannon.js).

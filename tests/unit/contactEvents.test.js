@@ -13,7 +13,10 @@ const dispatcher = distance => ({
 
 test('opted-in real contact emits a copied point once and repeated native manifolds do not repeat it', () => {
   const contacts = new ContactEvents(body => body.id), seen = []
-  contacts.once({ id: 10 }, value => seen.push(value))
+  contacts.once({ id: 10 }, (value, other) => {
+    assert.equal(other, 20)
+    seen.push(value)
+  })
   contacts.update(dispatcher(.1))
   assert.deepEqual(seen, [])
   contacts.update(dispatcher(-.01))

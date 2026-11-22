@@ -27,7 +27,7 @@ export default class ContactEvents {
           if (!callback) continue
           this.listeners.delete(id)
           const point = readPoint()
-          callback({ x: point.x(), y: point.y(), z: point.z() })
+          callback({ x: point.x(), y: point.y(), z: point.z() }, id === first ? second : first)
         }
         break
       }

@@ -2,6 +2,7 @@ import Stage3D from '../Stage3D.js'
 import TwoHandedGrip from '/core3d/actor/characters/TwoHandedGrip.js'
 import dressFighter from '/core3d/actor/characters/dressFighter.js'
 import { variants } from '/core3d/actor/derived/ww2/partisanLooks.js'
+import * as italianLooksModule from '/core3d/actor/derived/ww2/italianLooks.js'
 import { requestModels } from '/core3d/assets/models.js'
 import makeCharacter from '/core3d/actor/characters/makeCharacter.js'
 import * as barbarianModule from '/core3d/actor/derived/fantasy/Barbarian.js'
@@ -44,6 +45,7 @@ import * as zeppelinModule from '/core3d/actor/derived/Zeppelin.js'
 
 /** A character no game uses yet stays in the shared library, ready for one. */
 const library = 'Zajednička biblioteka'
+const { italianLooks } = italianLooksModule
 
 /**
  * A story of a 3D character, with its model and weapon as its games have them. A 3D block needs its models loaded
@@ -108,18 +110,18 @@ function partisanStory(id, name, game, block) {
   return {
     ...base, lookLabel: 'Varijanta',
     looks: [{ id: 'original', name: 'Original' }, ...looks],
-    create: async (stage, way, look) => {
+    create: async(stage, way, look) => {
       await requestModels([...block.models, ...looks.map(({ value }) => value.weapon.model)])
       const { body, model } = makeCharacter(block.description)
       stage.add(body, model)
-      enablePartisanLooks(stage, model)
+      enableInfantryLooks(stage, model)
       stage.setLook(look)
       return body
     },
   }
 }
 
-function enablePartisanLooks(stage, { mesh, anim }) {
+function enableInfantryLooks(stage, { mesh, anim }) {
   const originalWeapon = anim.twoHandedWeapon
   originalWeapon.removeFromParent()
   const parts = []
@@ -128,10 +130,11 @@ function enablePartisanLooks(stage, { mesh, anim }) {
   })
   const textures = new Map()
   const originals = new Set(parts.flatMap(({ material }) => material))
-  let grip
+  let grip, equipment
   stage.setLook = look => {
     originalWeapon.removeFromParent()
     grip?.rifle.removeFromParent()
+    equipment?.removeFromParent()
     grip = null
     for (const { part, material, geometry } of parts) {
       for (const current of [].concat(part.material))
@@ -142,6 +145,7 @@ function enablePartisanLooks(stage, { mesh, anim }) {
     }
     if (look) {
       dressFighter(mesh, look.outfit, textures, look.hatColor)
+      equipment = look.equip?.(mesh)
       anim.twoHandedWeapon = null
       grip = new TwoHandedGrip(mesh, look.weapon.model)
     } else anim.addTwoHandedWeapon(originalWeapon)
@@ -150,17 +154,36 @@ function enablePartisanLooks(stage, { mesh, anim }) {
   stage.session.scope.add(() => textures.forEach(texture => texture.dispose()))
 }
 
+function italianStory() {
+  const looks = Object.entries(italianLooks).map(([id, value]) => ({ id, name: value.name, value,
+    aliases: ['vojnik-3d/italian-' + id, 'partizan-jednostavan-model-3d/italian-' + id] }))
+  const models = [...new Set(Object.values(italianLooks).flatMap(({ model, weapon }) => [model, weapon.model]))]
+  return {
+    id: 'italijanski-branilac-3d', name: 'Italijanski branilac', game: 'Battle for Jablanica',
+    block: italianLooksModule, stage: Stage3D, lookLabel: 'Varijanta', looks,
+    create: async(stage, way, look) => {
+      await requestModels(models)
+      const { body, model } = makeCharacter(soldierModule.description)
+      stage.add(body, model)
+      enableInfantryLooks(stage, model)
+      stage.setLook(look)
+      return body
+    },
+  }
+}
+
 export const ww2 = [
   character('nemacki-bacac-plamena-3d', 'Nemački bacač plamena', 'FPS Base', germanFlameThrowerModule),
   character('nemacki-mitraljezac-3d', 'Nemački mitraljezac', '3D Tank, FPS Airport, FPS Base', germanMachineGunnerModule),
   character('nemacki-vojnik-3d', 'Nemački vojnik', library, germanSoldierModule),
   character('nacisticki-agent-3d', 'Nacistički agent', library, naziAgentModule),
   character('nacisticki-oficir-3d', 'Nacistički oficir', '3D Tank, FPS Airport, FPS Base', naziOfficerModule),
+  italianStory(),
   partisanStory('partizan-3d', 'Partizan', 'Liberated City, Spomenici', partisanModule),
   partisanStory('partizan-jednostavan-model-3d', 'Partizan, jednostavan model', 'Liberated City', partisanLowpolyModule),
   partisanStory('borac-pokreta-otpora-3d', 'Borac pokreta otpora', 'Liberated City', resistanceFighterModule),
   character('ss-vojnik-3d', 'SS vojnik', '3D Tank, FPS Airport, FPS Base', sSSoldierModule),
-  character('vojnik-3d', 'Vojnik', library, soldierModule),
+  partisanStory('vojnik-3d', 'Vojnik', library, soldierModule),
   partisanStory('sovjetski-partizan-3d', 'Sovjetski partizan', 'Liberated City', sovietPartisanModule),
   character('radnik-3d', 'Radnik', 'Graffiti City, Graffiti City Maze', workerModule),
 ]

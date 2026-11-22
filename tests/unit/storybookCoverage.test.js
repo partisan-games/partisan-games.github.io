@@ -44,7 +44,9 @@ const folders = {
   ],
   'core3d/actor/derived/fantasy': [],
   'core3d/actor/derived/horror': [],
-  'core3d/actor/derived/ww2': [],
+  // PartisanAim is the existing Partisan's aiming configuration; look libraries and mesh dressers are shown
+  // through their owning character stories rather than as duplicate actors.
+  'core3d/actor/derived/ww2': ['PartisanAim.js', 'partisanLooks.js', 'shapeM33.js', 'soldierFace.js'],
   // the cannon fires through the Ammo physics world, which its stage does not have yet
   'core3d/actor/derived': ['Cannon.js'],
   // bases of the planes, a plane's look, and its missile, seen in the planes' stories

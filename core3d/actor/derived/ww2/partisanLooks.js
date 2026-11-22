@@ -9,13 +9,15 @@ const size = { fitVisible: true, size: 1.74 }
 export const regular = { ...basePartisan.model, ...size, animDict: { death: 'Crouch Death' } }
 export const resistanceFighterModel = { ...resistance.model, ...size, animDict: {} }
 export const riflemanModel = { ...soviet.model, ...size, animDict: { fire: 'Fire Rifle Crouch', burst: 'Crouch Rapid Fire' } }
-const lowpoly = { ...simple.model, ...size, animDict: {} }
+export const lowpoly = { ...simple.model, ...size, animDict: {} }
 export const rifleModel = basePartisan.twoHandedWeapon
 
 const rifle = { model: rifleModel, rounds: 1 }
 const berthier = { model: partisan.twoHandedWeapon, rounds: 1 }
 const mg = { model: machineGunner.twoHandedWeapon, rounds: 3 }
 const mp40 = { model: { file: 'weapon/machine-gun/model.fbx', scale: .01 }, rounds: 3 }
+export const infantryWeapons = { rifle, berthier, mg, mp40 }
+export const infantryBody = { animDict: basePartisan.animDict, body: basePartisan.body }
 // Material slots in the original soldier FBXs keep fabric, equipment and faces separate.
 const shirt = 'mat_15-27374EA0.jpg', trousers = 'mat_9-27375500.jpg', face = 'mat_12-27374460.jpg'
 const cap = 'mat_11-27373E00.jpg'

@@ -15,7 +15,8 @@ export default class Tracers {
 
   /** A burst from `from` towards `to`, its rounds one after another. */
   burst(from, to, rounds = tracer.rounds) {
-    const way = to.clone().sub(from)
+    const origin = from.clone()
+    const way = to.clone().sub(origin)
     const distance = way.length()
     way.normalize()
     for (let i = 0; i < rounds; i++) {
@@ -23,7 +24,7 @@ export default class Tracers {
       mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), way)
       mesh.visible = false
       this.scene.add(mesh)
-      this.rounds.push({ mesh, from, way, distance, flown: -i * tracer.gap * tracer.speed })
+      this.rounds.push({ mesh, from: origin, way, distance, flown: -i * tracer.gap * tracer.speed })
     }
   }
 

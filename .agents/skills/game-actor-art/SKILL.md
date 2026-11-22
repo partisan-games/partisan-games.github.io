@@ -11,6 +11,7 @@ Ova veština važi samo za projekat Partisan Games. Spoji crtež, radnju i prika
 
 - Pregledaj stvarnu izvornu sliku i najmanji relevantan lanac potrošača. Prikaz, logiku radnje, mapiranje, pregled i nivoe čitaj u meri u kojoj ih zahtev dotiče; art-only zadatak ne traži pregled celog gameplay-a. Naziv fajla ili klase ne dokazuje pogled, celo telo ni pokrivenost radnji. Razlikuj nedostajući crtež, pogrešno mapiranje i problem simulacije.
 - Pre generisanja ili povezivanja proveri šta već postoji u radnoj verziji. Postojeća, nekomitovana dopuna nije nedostajući resurs; ne ponavljaj je samo zato što je nema u `HEAD`-u.
+- Za istorijsku uniformu, oznaku jedinice, šlem ili opremu prvo pročitaj odgovarajući zapis u [ISTORIJA](../../../docs/ISTORIJA.md) i proveri stvarni istorijski izvor. Postojeći pixel art može biti stilska ili identitetska referenca, ali nije dokaz istorijskog izgleda; iz njega ne izmišljaj boje i oznake jedinice.
 - Sačuvaj identitet prihvaćenog aktera. Potrebne sposobnosti proceni prema njegovoj ulozi, a ne samo trenutnom nivou; utvrđenu nepotpunost zabeleži bez samovoljnog širenja zadatka. Ako je dogovoren samo art, završi pripremu i jasno označi da povezivanje nije urađeno.
 
 ## Ugovor crteža

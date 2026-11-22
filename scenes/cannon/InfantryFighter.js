@@ -3,8 +3,7 @@ import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js'
 import { makeCharacterBody } from '/core3d/actor/characters/makeCharacter.js'
 import dressFighter from '/core3d/actor/characters/dressFighter.js'
 import { loadedModel } from '/core3d/assets/models.js'
-import { description as basePartisan } from '/core3d/actor/derived/ww2/Partisan.js'
-import { regular, riflemanModel } from '/core3d/actor/derived/ww2/partisanLooks.js'
+import { infantryBody, regular, riflemanModel } from '/core3d/actor/derived/ww2/partisanLooks.js'
 import Rifleman from './Rifleman.js'
 
 function compatibleClip(clip, figure) {
@@ -12,20 +11,15 @@ function compatibleClip(clip, figure) {
   return new THREE.AnimationClip(clip.name, clip.duration, tracks)
 }
 
-export default function makeCannonPartisan(look, posts, textures) {
-  const mesh = loadedModel(look.model)
-  const body = makeCharacterBody(mesh, basePartisan.animDict, basePartisan.body)
-  return new CannonPartisan(body, mesh, look, posts, textures)
-}
-
-class CannonPartisan {
-  constructor(body, source, { weapon, outfit, hatColor, stature = 1 }, posts, textures) {
+class InfantryFighter {
+  constructor(body, source, { weapon, outfit, hatColor, equip, stature = 1 }, posts, textures) {
     this.body = body
     this.mesh = new THREE.Group()
     this.figure = clone(source)
     dressFighter(this.figure, outfit, textures, hatColor)
     this.figure.scale.multiplyScalar(stature)
     this.mesh.add(this.figure)
+    equip?.(this.figure)
     const clips = loadedModel(riflemanModel).userData.animations
     const action = weapon.rounds > 1 ? 'burst' : 'fire'
     const clip = compatibleClip(clips.find(item => item.name === riflemanModel.animDict[action]), this.figure)
@@ -38,7 +32,9 @@ class CannonPartisan {
     this.chest = this.figure.getObjectByName('mixamorigSpine2')
   }
 
-  get alive() { return this.body.alive }
+  get alive() {
+    return this.body.alive
+  }
 
   place(position, groundHeight, index = 0) {
     this.mesh.position.copy(position)
@@ -77,4 +73,10 @@ class CannonPartisan {
       this.falling = null
     }
   }
+}
+
+export default function makeInfantryFighter(look, posts, textures) {
+  const mesh = loadedModel(look.model)
+  const body = makeCharacterBody(mesh, infantryBody.animDict, infantryBody.body)
+  return new InfantryFighter(body, mesh, look, posts, textures)
 }

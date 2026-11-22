@@ -1,4 +1,4 @@
-import { Box3, Vector3 } from 'three'
+import { Box3, Spherical, Vector3 } from 'three'
 import Scene3D from '/core/Scene3D.js'
 import { createFloor } from '/core3d/ground.js'
 import { ambLight, dirLight } from '/core3d/light.js'
@@ -32,6 +32,33 @@ export default class Stage3D extends Scene3D {
     this.camera.position.set(0, 3, 6)
     this.controls = await createOrbitControls(this.camera, this.renderer.domElement)
     this.controls.target.set(0, 1, 0)
+    this.enableTouchpadRotation()
+  }
+
+  /** A two-finger touchpad scroll orbits the preview; a pinch and a mouse wheel keep zooming. */
+  enableTouchpadRotation() {
+    const canvas = this.renderer.domElement
+    const offset = new Vector3(), spherical = new Spherical()
+    const rotate = event => {
+      // Browsers report a touchpad pinch as ctrl+wheel; leave it to OrbitControls for zoom.
+      // Discrete, one-axis wheel steps also stay with OrbitControls; fine pixel deltas are touchpad motion.
+      const mouseWheel = event.deltaMode !== 0 || (!event.deltaX && Math.abs(event.deltaY) >= 50 && Number.isInteger(event.deltaY))
+      if (event.ctrlKey || mouseWheel) return
+      event.preventDefault()
+      event.stopImmediatePropagation()
+      offset.copy(this.camera.position).sub(this.controls.target)
+      spherical.setFromVector3(offset)
+      spherical.theta += event.deltaX * .004
+      spherical.phi += event.deltaY * .004
+      spherical.phi = Math.max(this.controls.minPolarAngle,
+        Math.min(this.controls.maxPolarAngle, spherical.phi))
+      spherical.makeSafe()
+      this.camera.position.copy(this.controls.target).add(offset.setFromSpherical(spherical))
+      this.camera.lookAt(this.controls.target)
+      this.controls.update()
+    }
+    canvas.addEventListener('wheel', rotate, { capture: true, passive: false })
+    this.session.scope.add(() => canvas.removeEventListener('wheel', rotate, true))
   }
 
   /** Frame the actor itself, including the initial altitude of birds and airships. */

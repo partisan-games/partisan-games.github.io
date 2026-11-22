@@ -9,7 +9,7 @@ const standsWithin = .5
 
 /** Intact Jablanica barracks, facing +z. Its walls and roof can break apart during play. */
 export function buildFort({ front = -13, base = 0 } = {}) {
-  const width = 18, barracksStart = 6, raisedWing = 12, slits = [12, 16], slitRow = 4
+  const width = 18, barracksStart = 6, raisedWing = 12, slits = [8, 16], slitRow = 4
   const courses = column => column < raisedWing ? 6 : 8
   const map = createTexture({ file: 'terrain/concrete.jpg' })
   map.magFilter = THREE.LinearFilter
@@ -17,7 +17,7 @@ export function buildFort({ front = -13, base = 0 } = {}) {
   const walls = new THREE.MeshLambertMaterial({ map, color: 0xb4bec7 })
   const roof = walls.clone()
   roof.color.setHex(0x9ea9b1)
-  const inside = 4 * stone.length
+  const inside = 8 * stone.length
   const boxes = new Map()
   const parts = []
   const lay = (geometry, material, x, y, z, yaw = 0) => {
@@ -71,8 +71,6 @@ export function buildFort({ front = -13, base = 0 } = {}) {
     for (let i = start + (row % 2 ? .5 : 1); i < width; i++) joints.add(i)
     const gaps = []
     if (row === slitRow) for (const i of slits) gaps.push([i, i + 1])
-    if (row >= 2 && row <= 5) gaps.push([14, 16])
-    if (row === 6) gaps.push([13.5, 16.5]) // One lintel spans the window and bears on both jambs.
     for (const [a, b] of gaps) {
       joints.add(a)
       joints.add(b)
@@ -85,8 +83,6 @@ export function buildFort({ front = -13, base = 0 } = {}) {
       lay(box((b - a) * stone.length, stone.height, stone.depth), walls, (x1 + x2) / 2, rowY(row), frontZ)
     }
   }
-  const lintel = lay(box(3 * stone.length, stone.height, stone.depth), walls, left + 15 * stone.length, rowY(6), frontZ)
-  breakBoxInto(lintel, 3, 1, 1)
   const frontStones = [...parts]
   // Use larger masonry sections away from the player to keep the body count down.
   const blockHeight = 2 * stone.height
@@ -98,9 +94,11 @@ export function buildFort({ front = -13, base = 0 } = {}) {
   for (const edge of [barracksStart, raisedWing, width]) {
     const x = left + edge * stone.length + (edge === width ? -1 : 1) * stone.depth / 2
     for (let row = 0; row < courses(edge); row += 2)
-      for (let j = 0; j < 2; j++)
-        lay(box(stone.depth, blockHeight, inside / 2), walls, x, (row + 1) * stone.height,
+      for (let j = 0; j < 2; j++) {
+        const panel = lay(box(stone.depth, blockHeight, inside / 2), walls, x, (row + 1) * stone.height,
           front - stone.depth - (j + .5) * inside / 2)
+        breakBoxInto(panel, 1, 1, 4)
+      }
   }
   // Each roof strip rests on the front and rear masonry and can fall with it.
   const eave = .12, thickness = .16, back = rearZ - stone.depth / 2 - eave
@@ -108,7 +106,7 @@ export function buildFort({ front = -13, base = 0 } = {}) {
     const x = left + (i + .5) * stone.length
     const nose = front + eave
     const strip = lay(box(stone.length, thickness, nose - back), roof, x, courses(i) * stone.height + thickness / 2, (nose + back) / 2)
-    breakBoxInto(strip, 1, 1, 4)
+    breakBoxInto(strip, 1, 1, 8)
   }
   const posts = slits.map(i => {
     const x = left + stone.length * (i + .5)
@@ -117,7 +115,7 @@ export function buildFort({ front = -13, base = 0 } = {}) {
   })
   function assignSections(pieces, positions) {
     for (const part of pieces) {
-      const x = part.position.x
+      const { x } = part.position
       const closest = positions.reduce((a, b) => Math.abs(a.position.x - x) <= Math.abs(b.position.x - x) ? a : b)
       closest.section.push(part)
       const sectionLists = part.userData.sectionLists ??= []

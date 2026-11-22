@@ -476,13 +476,6 @@ progress[data-cannon-meter="power"] {
   top: calc(var(--spacing) + 32px);
 }
 
-.cannon-score {
-  box-sizing: border-box;
-  max-width: calc(60vw - 3 * var(--spacing));
-  min-width: 0;
-  padding-inline: var(--spacing);
-}
-
 .rpgui-progress {
   --progress-fill-image: url("/assets/images/rpgui/progress-red.png");
   background-color: #4E4A4E;
