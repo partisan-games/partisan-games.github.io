@@ -38,7 +38,7 @@ export default class DiveBomber extends Body {
     super({ size: { length: 8.11, height: 3, width: 9.86 }, health: diveBomber.health, ...rest, states })
     Object.assign(this, { canFire, groundAt, onCrash })
     this.crashed = false
-    this.bomb = new Bomb({ groundAt, onImpact })
+    this.bomb = new Bomb({ gravity: this.gravity, groundAt, onImpact })
     this.enter()
   }
 

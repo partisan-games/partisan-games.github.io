@@ -195,6 +195,17 @@ export default [{
     }],
   },
 }, {
+  // a story shows a library block alone: what it needs, as its art and settings, lives with the block, not in a game
+  files: ['storybook/**/*.js'],
+  rules: {
+    'no-restricted-imports': ['error', {
+      patterns: [{
+        regex: '(^|/)scenes/',
+        message: 'A story shows a block of the library: it does not import games; move what it needs next to the block.',
+      }],
+    }],
+  },
+}, {
   // the rules, the runtime and collision geometry are plain logic that every game shares: they must not reach into games, the page or rendering
   files: ['core/gameplay/**/*.js', 'core/runtime/**/*.js', 'core/collision/**/*.js'],
   rules: {

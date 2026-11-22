@@ -1,43 +1,44 @@
-import { test, before } from 'node:test'
+import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { BoxGeometry, Mesh } from 'three'
-import { createPageElements } from './helpers/dom.js'
+import Airship, { airship } from '/core/gameplay/bodies/aircraft/Airship.js'
+import AirshipKeys from '/core/gameplay/controllers/AirshipKeys.js'
 
-let Airship, Input
-
-before(async() => {
-  createPageElements()
-  Airship = (await import('/core3d/aircraft/Airship.js')).default
-  Input = (await import('/core/io/Input.js')).default
-})
-
-const key = (type, code) => document.dispatchEvent(new KeyboardEvent(type, { code }))
-
-/** Flies a box airship for a second with the keys held, and returns what `measure` reads from it. */
-function flyFor(t, fps, codes, measure) {
-  const airship = new Airship({ mesh: new Mesh(new BoxGeometry(2, 1, 4)) })
-  airship.mesh.position.y = 50 // in the air: lifting off the ground resets the speed
-  airship.input.end()
-  airship.input = new Input({ useKeyboard: true, useJoystick: false })
-  t.after(() => airship.end())
-  codes.forEach(code => key('keydown', code))
-  for (let i = 0; i < fps; i++) airship.update(1 / fps)
-  codes.forEach(code => key('keyup', code))
-  return measure(airship)
+/** Flies an airship high in the air for a second, steered `steering`, at `fps`, and gives what `measure` reads from it. */
+function flyFor(fps, steering, measure) {
+  const body = new Airship({ y: 50 })
+  body.steer(steering)
+  for (let i = 0; i < fps; i++) body.update(1 / fps)
+  return measure(body)
 }
 
-const assertSameAt30And60 = (t, codes, measure, what) => {
-  const at30 = flyFor(t, 30, codes, measure), at60 = flyFor(t, 60, codes, measure)
-  // turning in fewer, larger steps while slightly pitched differs only in the fifth decimal
-  assert.ok(Math.abs(at30 - at60) < 1e-4, `${what}: ${at30} at 30, ${at60} at 60`)
+const sameAt30And60 = (steering, measure, what) => {
+  const at30 = flyFor(30, steering, measure), at60 = flyFor(60, steering, measure)
+  assert.ok(Math.abs(at30 - at60) < 1e-6, `${what}: ${at30} at 30, ${at60} at 60`)
   return at60
 }
 
-test('the airship turns as far at 30 as at 60 frames per second, as it did at 30', t => {
-  const turn = assertSameAt30And60(t, ['ArrowLeft'], ship => ship.mesh.rotation.y, 'turn')
-  assert.ok(Math.abs(turn - .3) < 2e-3, `about .01 a frame for 30 frames, ${turn}`)
+test('an airship turns, speeds up and noses up as much at 30 as at 60 frames a second', () => {
+  assert.ok(Math.abs(sameAt30And60({ turn: 1 }, body => body.yaw, 'turn') - airship.turn) < 1e-9)
+  assert.ok(Math.abs(sameAt30And60({ throttle: 1 }, body => body.speed, 'speed') - (1 + airship.throttle)) < 1e-9)
+  assert.ok(sameAt30And60({ climb: 1 }, body => body.pitch, 'pitch') > 0)
 })
 
-test('the airship speeds up as much at 30 as at 60 frames per second', t => {
-  assertSameAt30And60(t, ['PageUp'], ship => ship.speed, 'speed')
+test('an airship flies the way it heads, keeps above the ground and levels out when let go', () => {
+  const body = new Airship({ y: 1, groundAt: () => 0 })
+  for (let i = 0; i < 90; i++) body.update(1 / 30)
+  assert.ok(body.x > 2, 'on ahead along +x')
+  assert.ok(body.clearance >= airship.clearance * 2 - .1, `it rose clear of the ground: ${body.clearance}`)
+  body.steer({ climb: 1 })
+  body.update(1)
+  const pitched = body.pitch
+  body.steer()
+  for (let i = 0; i < 300; i++) body.update(1 / 30)
+  assert.ok(body.pitch < pitched * .1, `it levels out over seconds: ${body.pitch}`)
+})
+
+test('keys steer an airship: arrows turn and climb, PageUp and PageDown change its speed', () => {
+  const body = new Airship({ y: 50 })
+  const input = { left: true, up: true, pressed: { PageUp: true } }
+  new AirshipKeys(body, input).update()
+  assert.deepEqual(body.steering, { turn: 1, climb: 1, throttle: 1 })
 })

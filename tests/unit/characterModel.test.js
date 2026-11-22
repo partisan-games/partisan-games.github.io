@@ -92,6 +92,45 @@ test('a backward jump starts at its last pose and plays in reverse; a later forw
   assert.ok(Math.abs(action.time - .2) < 1e-9)
 })
 
+test('a flying character under a floating box lands on the ground below, not on top of the box', async() => {
+  const { default: Character } = await import('/core/gameplay/bodies/characters/Character.js')
+  const floor = new THREE.Mesh(new THREE.BoxGeometry(40, 1, 40))
+  floor.position.set(0, -.5, 0)
+  const box = new THREE.Mesh(new THREE.BoxGeometry(5, 5, 5))
+  box.position.set(0, 5.5, 0)
+  const { groundAt } = worldQueries([floor, box])
+  const body = new Character({ x: 6, jumping: 'fly', groundAt })
+  body.jump(.28)
+  body.x = 0
+  for (let i = 0; i < 60; i++) {
+    body.update(1 / 30)
+    assert.ok(body.feet < 3, `its feet stay under the box, at ${body.feet}`)
+  }
+  assert.ok(Math.abs(body.feet) < 1e-9, 'it lands on the floor')
+})
+
+test('the camera hurries after a falling character, even one with no clips', async() => {
+  createPageElements()
+  const { default: Character } = await import('/core/gameplay/bodies/characters/Character.js')
+  const { default: CharacterChase } = await import('/core3d/actor/characters/CharacterChase.js')
+  const climb = body => {
+    const mesh = new THREE.Object3D(), camera = new THREE.PerspectiveCamera()
+    const chase = new CharacterChase(body, { mesh, clip: null }, { camera, showHealthBar: false })
+    // the first frame puts the camera in its place
+    chase.update(0)
+    const start = camera.position.y
+    mesh.position.y = 10
+    chase.update(1 / 30)
+    chase.end()
+    return camera.position.y - start
+  }
+  const standing = climb(new Character())
+  const falling = new Character({ jumping: 'fly', y: 20 })
+  falling.y = 20
+  falling.vy = -5
+  assert.ok(climb(falling) > standing * 3, 'it follows a fall four times as fast')
+})
+
 test('a ranged wall hit leaves a decal, while a target hit or a miss does not', async t => {
   createPageElements()
   t.mock.method(THREE.TextureLoader.prototype, 'load', () => new THREE.Texture())

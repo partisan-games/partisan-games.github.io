@@ -22,16 +22,16 @@ for (const file of shaderFiles)
 
 test('the lava ground and a lava avatar each keep their own time', async() => {
   const { createLava } = await import('/core3d/ground.js')
-  const { default: Avatar } = await import('/core3d/actor/Avatar.js')
+  const { default: makeAvatar } = await import('/core3d/actor/characters/Avatar.js')
   const { getMesh } = await import('/core3d/helpers.js')
   const ground = await createLava(), nextGround = await createLava()
-  const avatar = new Avatar({ skin: 'LAVA' })
+  const { model: avatar } = makeAvatar({ skin: 'LAVA' })
   const groundTime = ground.material.uniforms.time.value
 
-  avatar.update(1)
+  avatar.update(1, 1)
   ground.material.uniforms.time.value += 5
 
   assert.equal(nextGround.material.uniforms.time.value, groundTime, 'a new lava ground starts from the beginning')
   assert.notEqual(getMesh(avatar.mesh).material, ground.material)
-  avatar.end?.()
+  avatar.end()
 })

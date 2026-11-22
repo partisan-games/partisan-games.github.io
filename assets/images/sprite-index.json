@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "measuredAt": "2026-11-21T23:11:45.618118+00:00",
-  "baseRevision": "a82a56f99c7c23184e05619383486d51e0f3f2ec",
+  "measuredAt": "2026-11-22T01:00:09.860571+00:00",
+  "baseRevision": "c6b0137be1223576bf5ffd8ab1695ff1d20bd2b9",
   "scope": "Art linked by docs/ART.md, including shared variants; not all unused library art or a runtime/visual acceptance test.",
   "interpretation": "imageFrames counts file-container frames. A PNG atlas normally has one; named sprite clips require metadata and a runtime mapping. hashes detect exact input changes, not art quality.",
   "images": [
@@ -2599,6 +2599,74 @@
       }
     },
     {
+      "asset": "assets/images/armies/game-ready/wrecks/potez-25-ndh.png",
+      "sha256": "2b81e304baebe23905b3d4a167bd2b01ae6d458a3f6ab83d35ea5e64683363cd",
+      "kind": "PNG",
+      "width": 400,
+      "height": 173,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/wrecks/sprites.json",
+        "id": "potez-25-ndh",
+        "frame": {
+          "width": 400,
+          "height": 173,
+          "columns": 1,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 200.0,
+          "y": 173
+        },
+        "clips": [
+          {
+            "name": "dead",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1,
+            "loop": false,
+            "measuredDistinctFrames": 1
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/armies/game-ready/wrecks/potez-25-partisan.png",
+      "sha256": "805e5f256858bdf1806806416a50cc1b5614f48f5856cbbd8aa06bce1983fac1",
+      "kind": "PNG",
+      "width": 400,
+      "height": 173,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/armies/sources/wrecks/sprites.json",
+        "id": "potez-25-partisan",
+        "frame": {
+          "width": 400,
+          "height": 173,
+          "columns": 1,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 200.0,
+          "y": 173
+        },
+        "clips": [
+          {
+            "name": "dead",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1,
+            "loop": false,
+            "measuredDistinctFrames": 1
+          }
+        ]
+      }
+    },
+    {
       "asset": "assets/images/armies/game-ready/wrecks/somua-s35.png",
       "sha256": "73b496834c292ef7b6796146c5e5aa9fa25c52a88ad7cb84b4b51d8229ec4b25",
       "kind": "PNG",
@@ -3937,6 +4005,14 @@
       "sha256": "9ff66fe9a66398abf9baf97d543a2e0f4c42b7a2cc2a16aa093edaa6cd133b33"
     },
     {
+      "path": "assets/images/armies/game-ready/wrecks/potez-25-ndh.png",
+      "sha256": "2b81e304baebe23905b3d4a167bd2b01ae6d458a3f6ab83d35ea5e64683363cd"
+    },
+    {
+      "path": "assets/images/armies/game-ready/wrecks/potez-25-partisan.png",
+      "sha256": "805e5f256858bdf1806806416a50cc1b5614f48f5856cbbd8aa06bce1983fac1"
+    },
+    {
       "path": "assets/images/armies/game-ready/wrecks/somua-s35.png",
       "sha256": "73b496834c292ef7b6796146c5e5aa9fa25c52a88ad7cb84b4b51d8229ec4b25"
     },
@@ -4478,15 +4554,15 @@
     },
     {
       "path": "assets/images/armies/sources/wrecks/prepare.py",
-      "sha256": "8fa3d5fa86896e44db7124136546aeb34eddf09c90dafc29fa14bef27b3f736a"
+      "sha256": "7d3a7efa049ce1731689f6e34d99bdd7205420fb47508ff5f4ab12dd6f854710"
     },
     {
       "path": "assets/images/armies/sources/wrecks/preview.html",
-      "sha256": "7b640f2cb46472261bd5ecb7b6a670076c6138fc1c3743e66b5a4fb1c569390c"
+      "sha256": "f0f430762886151761a0d6e918d356661e853996f46b9e4e872638b52a167f6e"
     },
     {
       "path": "assets/images/armies/sources/wrecks/sprites.json",
-      "sha256": "3a584206d9928c9f979395b4d20214f840e6ab5dcf353458a80479c09c635195"
+      "sha256": "94477fb4367110202136601fe1d73ec7ae7384c5fdab6ad597febbb196cc9a70"
     },
     {
       "path": "assets/images/armies/talijani-patrola.gif",
@@ -4754,7 +4830,7 @@
     },
     {
       "path": "core/actor/aircraft/AttackPlaneSprite.js",
-      "sha256": "2c1e39cabfdc67022499a2a451e71f1600826d11ee502e056e6b3c5d0373dee4"
+      "sha256": "b794f152f036fea8fa1d24b0255696ff24a2be1756a66d5e1fa3b0da0d6936a8"
     },
     {
       "path": "core/actor/aircraft/DiveBomberSprite.js",
@@ -4770,11 +4846,11 @@
     },
     {
       "path": "core/actor/aircraft/PotezSprite.js",
-      "sha256": "ee37c5dfdb908720858e7c2aed2ed0fed5787466e3c45daa8d9f03da218f7805"
+      "sha256": "1b49649ccc1802c943b9ef77182dc621397c77770bb4d800d5924dceca789c75"
     },
     {
       "path": "core/actor/artillery/BunkerSprite.js",
-      "sha256": "b33e6e6fb3e4ae42e5f92a2af2cf5775c8abcb43223a0b849d779768064bafb5"
+      "sha256": "00b82a26b7ae8d65aa253b2a47e1e896204427af263d9774798b884d7b5c183c"
     },
     {
       "path": "core/actor/artillery/FieldGunSprite.js",
@@ -4842,7 +4918,7 @@
     },
     {
       "path": "core/actor/soldiers/TrenchSoldierSprite.js",
-      "sha256": "20c45bf46437166ab8bb9b89662a0944375fc36390eca937534acd3c610cb742"
+      "sha256": "ac9a07c6877807c4362fbb0e889f2cbd8b8dfe7ca6cd7168744e071dc0729500"
     },
     {
       "path": "core/actor/ustanakArt.js",
@@ -4862,11 +4938,11 @@
     },
     {
       "path": "core/actor/wreckArt.js",
-      "sha256": "15e176a47c1a71a34d17f360770c0a7509cf78fb362ec30c011ccf3b4268c63c"
+      "sha256": "86a12a3ff839c5a5259192fee82d23bdb7345b67cf0b7540df9c3bf0647eb4f9"
     },
     {
       "path": "core/gameplay/bodies/artillery/FieldGun.js",
-      "sha256": "b0ef08adfdd81159a29f01ecb0b0ea3df0c38c60374125c68822152aa25ce6d2"
+      "sha256": "b39801cae57cf32291de74f523bca08f30a44c337baf8cccf5484a5705ac35e4"
     },
     {
       "path": "core/gameplay/bodies/boats/SBoat.js",
@@ -4894,7 +4970,11 @@
     },
     {
       "path": "core/gameplay/bodies/vehicles/Hummel.js",
-      "sha256": "3071552c171057fe0f48e6eb86caa917e066dd047ed53bcd54d8c61d929c21f6"
+      "sha256": "ee7af4a80db7c15e33ef7a1597ccbb13708ba3a54d82d2f45ccd5e4fc011f7f0"
+    },
+    {
+      "path": "core/objects/Trench.js",
+      "sha256": "93f6623581938988139ec99e8337df07161425a9214dc795cd0f68ab6cfb3214"
     },
     {
       "path": "core/SceneryLayer.js",
@@ -4902,11 +4982,11 @@
     },
     {
       "path": "docs/ARHITEKTURA.md",
-      "sha256": "a48f5ee040a65b4dd839147f484d116fd10bf39e9aae2411f03208ec38422615"
+      "sha256": "ee9273704c8a41600d1a8e7597cd918b99b28f6e06813602359d1c0c5d94fe62"
     },
     {
       "path": "docs/ART.md",
-      "sha256": "2edc39132d9cecb58e1e18c6184947fc067c56cde8c0a5a2e3e23803702c805d"
+      "sha256": "2a896a415c482b88f91bec54b07c0daf12aacc73ea8eb6e7978f36cd2b6aa03e"
     },
     {
       "path": "docs/ISTORIJA.md",
@@ -4918,19 +4998,19 @@
     },
     {
       "path": "docs/PLAN-ELEMENTI.md",
-      "sha256": "0e68a0883b74e0b9f7ff7f749deb2410e7aec46fbff64c4600f2e2eb2ca1ba6a"
+      "sha256": "03a4b8c6c704f5809a33960b513246a7a4ef8fea8e61360687d821d63f97a81a"
     },
     {
       "path": "docs/PLAN-IDEJE.md",
-      "sha256": "8f18c6ae47bf6a46ba529df2497531517de7e2a67c670199e913518f83db75fb"
+      "sha256": "21022324a21a9aabd735f99bb098d46d8dc53caf6940fda8aa7ea0673502ba63"
     },
     {
       "path": "docs/STORYBOOK.md",
-      "sha256": "61fd6d88bb24a27abccbf4be590d661ce0020566aa471b9995f1e78b4557d819"
+      "sha256": "66ac1984c37277591700230c80a5d62b4dc39ad0bb1b4211df02d9ffb6c9833c"
     },
     {
       "path": "docs/TESTING.md",
-      "sha256": "f08f1f20b5e626e5646daf53515c490fb197c44fa0eda3f7446c0a62730d5ea3"
+      "sha256": "0f69c10ae896419e9e6e4ea5c5ad04e1fe84ccae0edb661bcc7073936f3a4065"
     },
     {
       "path": "props.html",
@@ -4950,11 +5030,11 @@
     },
     {
       "path": "scenes/to-trieste/Main.js",
-      "sha256": "67aafda502154041939cf85daf3dcacca84e18c875731f2eab7de6d4cfc96358"
+      "sha256": "83fbdd07387bf9d085c3a3cd16c3609343cda4bdff648688ccdac08bf13f2d4f"
     },
     {
       "path": "scenes/ustanak/Main.js",
-      "sha256": "5db425cdaeeecc5e2775e2f795dade0ce67d8e82c4d283ccfbcbb9b195ba6e8d"
+      "sha256": "2d9a217b672c8dc25801a3379e6fb34394d9cef53cbdedbc6116a12a648f1cc1"
     },
     {
       "path": "scripts/index-sprite-art.py",
@@ -4966,19 +5046,19 @@
     },
     {
       "path": "storybook/stories/characters3d.js",
-      "sha256": "437d2043b38eb20945dba1829f1aca58508de495a6c84af2ec37dba9b2db46df"
+      "sha256": "37a1bd622a2e87211e83e5f8a14ea5642160705001caee2f57722ddd42b78271"
     },
     {
       "path": "storybook/stories/index.js",
-      "sha256": "fb5ef2de6f5705909bb4d3c4985397e61fffa1a960008c4342417087ca143c18"
+      "sha256": "ecc5f9319962b8d447d11b7bc80cba428526427b0bb5f224f4660bbf28c455f5"
     },
     {
       "path": "storybook/stories/objects3d.js",
-      "sha256": "f8c7f3e9b5d15efefe67b041e3382d74e8a34b8d6cfd41dd7ded29bc68aa9424"
+      "sha256": "93e1a0da91b1e521c1496eed50d028295f0a877415459d93f9c3de9bd4dc8d7b"
     },
     {
       "path": "storybook.html",
-      "sha256": "43f940c7cba4a0ca232a8095ef3424472b304260abf4e465967421e906afa932"
+      "sha256": "fa4e66a84210a57938865e0bdf1e27118eab939e8621a99400d16fd0154224e4"
     },
     {
       "path": "tests/smoke/grenadier-blood.spec.js",

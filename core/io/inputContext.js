@@ -1,6 +1,6 @@
 /** DOM boundaries shared by gameplay inputs; native UI activation stays with the browser. */
 export const isUiTarget = target => Boolean(target?.closest?.(
-  'button, input, select, textarea, a, [contenteditable], [role="button"], #ui, #modal, dialog, .joystick, .button-container'
+  'button, input, select, textarea, a, summary, [contenteditable], [role="button"], #ui, #modal, dialog, .joystick, .button-container'
 ))
 
 export const hasBlockingUi = () => Boolean(

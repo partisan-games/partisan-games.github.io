@@ -1,10 +1,9 @@
 import FighterBomber, * as fighterBomberModule from '/core/gameplay/bodies/aircraft/FighterBomber.js'
 import AttackPlane, * as attackPlaneModule from '/core/gameplay/bodies/aircraft/AttackPlane.js'
 import FighterBomberSprite from '/core/actor/aircraft/FighterBomberSprite.js'
-import AttackPlaneSprite from '/core/actor/aircraft/AttackPlaneSprite.js'
+import AttackPlaneSprite, { attackPlaneImages } from '/core/actor/aircraft/AttackPlaneSprite.js'
 import { topProjection } from '/core/actor/projection.js'
-import { getAircraft } from '/scenes/vis/aircraft.js'
-import { settings } from '/scenes/vis/settings.js'
+import { fighterBomberPlane } from '/core/actor/aircraft/fighterBomberPlanes.js'
 
 /** Vis is seen from above at 10 px a metre: the stage draws its blocks so, x across and z down the view. */
 const pxPerMeter = 10
@@ -20,7 +19,7 @@ const put = (stage, body, view) => {
 
 /** The player's plane in the middle of the stage. */
 const player = aircraftId => stage => {
-  const { size, image } = getAircraft(aircraftId)
+  const { size, image } = fighterBomberPlane(aircraftId)
   const body = new FighterBomber({ size, ...at(stage, .5), clock: stage.session.clock })
   return put(stage, body, new FighterBomberSprite(body, { src: image, ...fromAbove(stage) }))
 }
@@ -28,7 +27,7 @@ const player = aircraftId => stage => {
 /** An enemy plane in the middle with its nose down; its rounds fly at the stand-in. */
 const enemyPlane = type => stage => {
   const body = new AttackPlane({ kind: attackPlaneModule.attackPlaneKinds[type], ...at(stage, .5), clock: stage.session.clock })
-  return put(stage, body, new AttackPlaneSprite(body, { src: settings.enemies[type].images[0], ...fromAbove(stage) }))
+  return put(stage, body, new AttackPlaneSprite(body, { src: attackPlaneImages[type][0], ...fromAbove(stage) }))
 }
 
 const game = 'Vis'

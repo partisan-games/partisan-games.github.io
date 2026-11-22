@@ -5,7 +5,9 @@ import { createTerrain, shake } from '/core3d/ground.js'
 import { Stars } from '/core3d/Particles.js'
 import { createMoon } from '/core3d/light.js'
 import { getEmptyCoords } from '/core3d/helpers.js'
-import Avatar from '/core3d/actor/Avatar.js'
+import makeAvatar from '/core3d/actor/characters/Avatar.js'
+import { lead } from '/core3d/actor/characters/leadCharacter.js'
+import worldQueries from '/core3d/actor/characters/worldQueries.js'
 import Platform from '/core3d/objects/Platform.js'
 
 export default class AvatarPlanetsScene extends Scene3D {
@@ -37,8 +39,9 @@ export default class AvatarPlanetsScene extends Scene3D {
     this.stars = new Stars({ num: 10000, minVelocity: 5, maxVelocity: 30 })
 
     const solids = [...this.planets.map(o => o.mesh), this.terrain, moon]
-    this.player = new Avatar({ solids, camera: this.camera, skin: 'DISCO', showHealthBar: false, jumpStyle: 'FLY' })
-    this.add(this.player, this.stars)
+    this.player = lead(this, makeAvatar({ skin: 'DISCO', ...worldQueries(solids) }),
+      { input: { buttonDict: { jump: '' } }, view: { showHealthBar: false, distance: 4, speed: 4 } }).body
+    this.add(this.stars)
   }
 
   update(delta, time) {

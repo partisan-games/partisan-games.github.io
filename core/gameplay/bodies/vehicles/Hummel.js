@@ -26,7 +26,7 @@ export default class Hummel extends Vehicle {
   constructor({ targets = [], groundAt = () => 0, canFire = () => true, random = Math.random, ...rest } = {}) {
     super({ kind: hummelKind, ...rest, states, initial: 'idle' })
     Object.assign(this, { targets, canFire })
-    this.shells = new ProjectilePool(() => new Shell({ groundAt, random, gravity: tank.shellGravity }))
+    this.shells = new ProjectilePool(() => new Shell({ groundAt, random, gravity: this.gravity, fall: tank.shellFall }))
   }
 
   get muzzle() {

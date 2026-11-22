@@ -408,6 +408,80 @@
         }
       ],
       "integration": "Shared wreck image replaces the live frame only while the same actor is dead; collider, baseline, view transform and reset remain owned by that actor."
+    },
+    {
+      "id": "potez-25-partisan",
+      "image": "../../game-ready/wrecks/potez-25-partisan.png",
+      "frame": {
+        "width": 400,
+        "height": 173,
+        "columns": 1,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 200.0,
+        "y": 173
+      },
+      "baseline": 173,
+      "source": "potez-25-partisan-generated.png",
+      "reference": "potez-25-partisan-reference.png",
+      "sourceBounds": [
+        17,
+        110,
+        1876,
+        721
+      ],
+      "sha256": "805e5f256858bdf1806806416a50cc1b5614f48f5856cbbd8aa06bce1983fac1",
+      "animations": [
+        {
+          "name": "dead",
+          "row": 0,
+          "frameCount": 1,
+          "duration": 1,
+          "loop": false
+        }
+      ],
+      "integration": "The falling plane keeps its airframe until ground impact; then this wreck settles flat and ends in dead. Health is already zero during falling; collider size and art scale remain unchanged.",
+      "prompt": "potez-25-partisan-prompt.json",
+      "sourceSha256": "030e8c612463f9b1c94a8200cce720b6b27940be34498e578216fab0ae3ab195",
+      "referenceSha256": "425b3e2af67f174156956b8ce7c59142ae3983029ded25714c0d24f3b68cc6d4"
+    },
+    {
+      "id": "potez-25-ndh",
+      "image": "../../game-ready/wrecks/potez-25-ndh.png",
+      "frame": {
+        "width": 400,
+        "height": 173,
+        "columns": 1,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 200.0,
+        "y": 173
+      },
+      "baseline": 173,
+      "source": "potez-25-ndh-generated.png",
+      "reference": "potez-25-ndh-reference.png",
+      "sourceBounds": [
+        16,
+        107,
+        1889,
+        725
+      ],
+      "sha256": "2b81e304baebe23905b3d4a167bd2b01ae6d458a3f6ab83d35ea5e64683363cd",
+      "animations": [
+        {
+          "name": "dead",
+          "row": 0,
+          "frameCount": 1,
+          "duration": 1,
+          "loop": false
+        }
+      ],
+      "integration": "The falling plane keeps its airframe until ground impact; then this wreck settles flat and ends in dead. Health is already zero during falling; collider size and art scale remain unchanged.",
+      "prompt": "potez-25-ndh-prompt.json",
+      "sourceSha256": "6b9121e75e05c6731df8f8cafe845711635ad25d99c6c589f93881aeb0331f9f",
+      "referenceSha256": "6b14af50b2fcd1caf42700cb08886fc21458ad3ea5c651a8e465fc0a6e7c1e73"
     }
   ]
 }

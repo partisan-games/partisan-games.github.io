@@ -4,6 +4,7 @@ import Skirmisher, { volley } from '/core/gameplay/bodies/soldiers/Skirmisher.js
 import CannonCrew, { drill } from '/core/gameplay/bodies/soldiers/CannonCrew.js'
 import FlagBearer from '/core/gameplay/bodies/soldiers/FlagBearer.js'
 import { ground } from '/core/gameplay/bodies/ground.js'
+import { earthGravity } from '/core/gameplay/gravity.js'
 
 const live = (body, seconds) => {
   for (let i = 0; i < seconds * 30; i++) body.update(1 / 30)
@@ -44,7 +45,7 @@ test('they stand on the ground under their feet, fall with gravity into a crater
     body.update(0)
     assert.equal(feet(body), 0, 'no time, no fall: a paused game stands still')
     body.update(1 / 30)
-    assert.ok(Math.abs(feet(body) + ground.gravity / 900) < 1e-9, 'it starts falling')
+    assert.ok(Math.abs(feet(body) + earthGravity * ground.fall / 900) < 1e-9, 'it starts falling')
     live(body, 1)
     assert.equal(feet(body), -2.4)
   }

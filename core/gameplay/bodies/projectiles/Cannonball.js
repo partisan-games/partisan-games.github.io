@@ -1,4 +1,5 @@
 import Body from '../Body.js'
+import { earthGravity } from '../../gravity.js'
 import { firstHit, along } from './hits.js'
 
 /**
@@ -6,7 +7,7 @@ import { firstHit, along } from './hits.js'
  * damaged, and the damage. Its fall is the game's own, a quarter of the Earth's, so that shots fly as in the earlier
  * pixel game (owner's choice, 2026-11-21).
  */
-export const cannonball = { radius: .1, gravity: 2.45, burst: .15, damage: { min: 20, max: 30 } }
+export const cannonball = { radius: .1, fall: 2.45 / earthGravity, burst: .15, damage: { min: 20, max: 30 } }
 
 /** When a value moving evenly from `from` to `to` during a step first reaches `limit`, or null. */
 function whenReaches(from, to, limit) {
@@ -26,7 +27,7 @@ const states = {
   flight: {
     update: (ball, dt) => {
       ball.vx += (ball.wind?.acceleration ?? 0) * dt
-      ball.vy -= cannonball.gravity * dt
+      ball.vy -= ball.gravity * cannonball.fall * dt
       ball.pitch = Math.atan2(ball.vy, Math.abs(ball.vx))
     },
   },

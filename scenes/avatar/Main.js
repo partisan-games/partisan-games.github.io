@@ -11,7 +11,7 @@ const numCoins = numBoxes / 4
 
 const withinCircle = position => Math.pow(position.x, 2) + Math.pow(position.z, 2) < Math.pow(lavaSize, 2)
 
-const inLava = player => player.position.y <= .1 && withinCircle(player.position)
+const inLava = player => player.feet <= .1 && withinCircle(player)
 
 const messageDict = {
   1: 'Well, that\'s a good start!',
@@ -74,7 +74,7 @@ export default class AvatarScene extends Scene3D {
       if (Math.random() > .8) {
         const platform = new Platform({ pos, file: null })
         this.add(platform)
-        this.player.addSolids(platform.mesh)
+        this.solids.push(platform.mesh)
       }
 
       const coin = new Coin({ pos })
@@ -88,20 +88,26 @@ export default class AvatarScene extends Scene3D {
   }
 
   async prepare(skin) {
-    const Avatar = await this.session.keep(import('/core3d/actor/Avatar.js'))
+    const [{ default: makeAvatar, avatarAbilities }, { lead }, { default: worldQueries }] = await this.session.keep(Promise.all([
+      import('/core3d/actor/characters/Avatar.js'), import('/core3d/actor/characters/leadCharacter.js'),
+      import('/core3d/actor/characters/worldQueries.js'),
+    ]))
     if (this.ui.ended) return
-    this.player = new Avatar.default({ camera: this.camera, solids: [this.ground, ...this.boxes], skin, showHealthBar: true, maxJumpTime: .99 })
-    this.player.chaseCamera.distance = 6
-    this.addMesh(this.player.mesh)
-
+    // the platforms made with the coins are solid too
+    this.solids = [this.ground, ...this.boxes]
+    // jumps here push up longer than elsewhere, and the disco ball still flies as long as jump is held
+    const maxLift = Math.max(.99, avatarAbilities[skin].maxLift)
+    const made = makeAvatar({ skin, z: lavaSize, maxLift, ...worldQueries(this.solids) })
+    this.immuneToLava = avatarAbilities[skin].immuneToLava
+    this.player = made.body
+    this.avatarModel = made.model
+    lead(this, made, { input: { buttonDict: { jump: '' } }, view: { distance: 6, speed: 4 } })
+    this.player.face({ x: 0, z: 0 })
     this.createCoins()
-    this.player.position = [0, 0, lavaSize]
-    this.player.energy = 100
-    this.player.lookAt(this.scene.position)
   }
 
   checkCollision(coin) {
-    if (this.player.distanceTo(coin.mesh) > 1.4) return
+    if (this.avatarModel.mesh.position.distanceTo(coin.mesh.position) > 1.4) return
 
     coin.playSound()
     this.coins.splice(this.coins.findIndex(c => c === coin), 1)
@@ -124,17 +130,14 @@ export default class AvatarScene extends Scene3D {
     if (!this.player || this.ui.outro) return
 
     this.lava.material.uniforms.time.value = t * .5
-    if (inLava(this.player) && !this.player.immuneToLava) {
+    if (inLava(this.player) && !this.immuneToLava) {
       this.ui.showMessage('Get out of the lava, you\'re burning!')
-      this.player.energy -= 6 * dt // 6 per second, the old .1 per frame at 60 fps
+      this.player.health.damage(6 * dt) // 6 per second, the old .1 per frame at 60 fps
     }
 
     this.coins.forEach(coin => this.checkCollision(coin))
 
-    if (this.player.dead)
-      this.defeat()
-    else
-      this.player.update(dt)
+    if (this.player.dead) this.defeat()
 
     if (this.coins.length === 0) this.victory()
   }

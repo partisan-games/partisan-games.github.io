@@ -61,6 +61,11 @@ export default class BodySprite extends GameObject2D {
 
   drawOver() {}
 
+  /** The current picture; a specialised view may choose it by the phase of an action. */
+  get picture() {
+    return bodyImage(this)
+  }
+
   /** The picture, or its wreck once the body is destroyed, where `fit` put it, then its fire. */
   render(ctx) {
     if (!this.shown) return
@@ -69,7 +74,7 @@ export default class BodySprite extends GameObject2D {
     ctx.rotate(this.angle)
     ctx.scale(this.flipY * this.scaleX, this.flipX * this.scaleY)
     this.drawUnder(ctx)
-    ctx.drawImage(bodyImage(this), -this.width / 2, -this.height / 2, this.width, this.height)
+    ctx.drawImage(this.picture, -this.width / 2, -this.height / 2, this.width, this.height)
     this.drawOver(ctx)
     ctx.restore()
     if (this.burning) this.flame.render(this.smoky)

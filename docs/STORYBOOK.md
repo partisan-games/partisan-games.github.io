@@ -5,8 +5,8 @@
 ## Upotreba
 
 - Storybook prikazuje samo aktere, igrače i neprijatelje, uključujući bibliotečke klase za te uloge; pozadine, okolina, efekti, projektili i predmeti nemaju zasebne priče (odluka vlasnika). Saradnici poput metka ili eksplozije mogu se videti uz aktera tokom pucanja/pogotka, a svetlo, tlo i meta deo su pozornice. Obim određuje uloga, ne folder klase.
-- Levo je spisak vrsta (vojnici, tenkovi i vozila, avioni, brodovi, artiljerija i 3D vrste) i njihovih priča. Priča je jedan blok u jednom početnom podešavanju; adresa joj je `#vrsta/priča`, pa se otvara linkom i ostaje posle reload-a.
-- Priča nema upravljanje ni ulogu: pozornica ne daje tastere blokovima, a blok se pokreće samo dugmadima svojih stanja i pucanja. Blok koji sam čita tastaturu to radi samo u igri, dok ne pređe na čisto telo ([plan](PLAN-ARHITEKTURA.md)).
+- Levo su dve nezavisno sklopive sekcije, **2D** i **3D**, sa postojećim vrstama i njihovim pričama; otvaraju se klikom ili tastaturom. Priča je jedan blok u jednom početnom podešavanju; adresa joj je `#vrsta/priča`, pa se otvara linkom i ostaje posle reload-a. Direktan izbor priče otvara njenu sekciju; promena priče, izgleda ili Reset čuvaju sklopljenost ostalih sekcija.
+- Priča nema upravljanje ni ulogu: pozornica ne daje tastere blokovima, a blok se pokreće samo dugmadima svojih stanja i pucanja.
 - Desno su izbor strane („Nalevo”, „Nadesno”), dugmad stanja bloka sa „Reset” kao poslednjim u tom redu, zatim pucanja koja blok podržava („Pucaj gore”, „Pucaj pravo”), „Prati kamerom”, pa podešavanja bloka.
 - Svaka priča stavlja svoj blok na sredinu pozornice, bez obzira na to odakle on ulazi u igri (odluka vlasnika, 2026-11-22).
 - Isti predmet okrenut na drugu stranu nije posebna priča (odluka vlasnika, 2026-11-22): bočna priča navodi `way`, stranu na koju je predmet okrenut u svojoj igri (1 desno, -1 levo), a njen `create(stage, way)` pravi telo okrenuto na izabranu stranu; prikaz sliku sam ogleda po pravcu tela. Izbor strane ostaje dok se priča pravi ponovo, a „Reset” i druga priča vraćaju njen `way`. Isti blok drugačije nacrtan, kao oznake Poteza ili partizanski i italijanski zastavnik, takođe nije posebna priča: priča navodi `looks` (`id`, ime i vrednost koju `create(stage, way, look)` dobija), a panel ima dugmad „Izgled”. Svaki izgled ima svoju adresu, `#vrsta/priča/izgled`, pa se može otvoriti i iz testa.
@@ -44,8 +44,11 @@ Svaka dopuna arta mora postati dostupna u postojećoj ili novoj priči aktera. P
 
 [storybookCatalog.test.js](../tests/unit/storybookCatalog.test.js) pravi svaku priču, prolazi kroz sva njena stanja i proverava da svako navedeno pucanje ispali metak. [storybookCoverage.test.js](../tests/unit/storybookCoverage.test.js) traži priču za svakog aktera u navedenim folderima. [storybookControls.test.js](../tests/unit/storybookControls.test.js) proverava podešavanja, a [storybookStage2D.test.js](../tests/unit/storybookStage2D.test.js) pozornicu, praćenje kamerom i da gašenje ne ostavlja rukovaoce na stranici. Izgled se proverava samo okom.
 
+Sklopive sekcije koriste izvorne `details`/`summary` kontrole; `summary` mora biti UI cilj u [inputContext](../core/io/inputContext.js), inače tastatura igre presretne Space/Enter. [Input izolacija](../tests/unit/inputIsolation.test.js) proverava propuštanje tih tastera i čišćenje zadržanog ulaza; Chromium provera je potvrdila stvarno otvaranje/zatvaranje, očuvanje svih 79 adresa bez duplikata, Reset, direktan 3D link i sklopljen prikaz na 390 px širine (2026-11-22).
+
 ## Granice i odluke
 
 - 3D lik se ne može napraviti u unit testu bez učitanog modela, pa 3D priče proverava browser. Top iz igre Cannon nema priču: puca kroz Ammo fiziku, koju 3D pozornica nema. Oba čekaju sređivanje nivoa koji ih koriste (odluka vlasnika).
 - Pozornica prikazuje jednog aktera. Više aktera koji deluju jedan na drugog uvodi se tek ako vlasnik to zatraži.
+- Nemac i Četnik spreda prikazuju se bez rova; postojeće adrese `nemac-u-rovu` i `cetnik-u-rovu` ostaju važeće. Rov je zasebna [scenografija](../core/objects/Trench.js) koju sklapa Neretva. Postojeći crteži tih vojnika završavaju u struku; razdvajanje ne znači da je nacrtano celo telo.
 - Namerno nije preuzeto: biblioteka Storybook i React (traže build), kontrole iz unutrašnjih polja objekta (daju besmislena polja) i upravljanje vremenom igre, poput pauze ili usporavanja (vlasniku ne treba).

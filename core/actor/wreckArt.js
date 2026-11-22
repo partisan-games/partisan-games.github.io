@@ -74,5 +74,15 @@ export default {
     'src': 'armies/game-ready/wrecks/player-boat.png',
     'width': 355,
     'height': 152
+  },
+  'armies/game-ready/avioni/potez-25-partisan-bez-mitraljeza.png': {
+    'src': 'armies/game-ready/wrecks/potez-25-partisan.png',
+    'width': 400,
+    'height': 173
+  },
+  'armies/game-ready/avioni/potez-25-ndh-bez-mitraljeza.png': {
+    'src': 'armies/game-ready/wrecks/potez-25-ndh.png',
+    'width': 400,
+    'height': 173
   }
 }

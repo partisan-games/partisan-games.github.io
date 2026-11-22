@@ -28,10 +28,8 @@ To see every background picture in the project, open `/pozadine.html` on the `np
 
 ## TODO
 
-- razrađivati postojeće nivoe redom
+- razrađivati postojeće nivoe redom (npr. pucanje iz prvog lica, poput otpisani i neretva, može da postane čuveni arkadni žanr gde se ekran zapravo pomera a neprijatelji iskaču)
 - dodati biranje težine za neke igre, jer trenutno mnogo zavisi od uređaja. npr. otpisani na tač skrinu je mnogo lakše nego mišem.
-- storybook potez 25 nema art za mrtvo stanje
-- storybook posada topa (partizanska i italijanska): nema potrebe za dva stanja load i fire, već samo fire. to je jedan pokret za pucanje topa.
 
 Ideje za nivoe:
 - odbrani polozaj (kamera odozgo, nadiru sa svih strana)

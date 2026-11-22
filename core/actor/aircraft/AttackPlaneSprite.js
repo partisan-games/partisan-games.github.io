@@ -2,6 +2,13 @@ import TopViewSprite from './TopViewSprite.js'
 import AircraftPropellers from './AircraftPropellers.js'
 import Sound from '/core/io/audio/SoundSource.js'
 
+/** The pictures each kind of attack plane is drawn as, one picked for each plane. */
+export const attackPlaneImages = {
+  fighter: ['armies/nemci/avioni/bf-109-odozgo.png', 'armies/nemci/avioni/fw-190-odozgo.png'],
+  heavy: ['armies/nemci/avioni/bf-110-odozgo.png'],
+  boss: ['armies/nemci/avioni/he-111-odozgo.png'],
+}
+
 /**
  * How an enemy plane looks and sounds from above, in the picture `src`: its turning propellers and engine, the shots of
  * its guns and their rounds, its fire once badly hit, and the bang and fall when it is shot down. It only reads the

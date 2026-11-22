@@ -3,6 +3,7 @@ import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 import { loadImages } from './helpers/images.js'
 import { bomb } from '/core/gameplay/bodies/projectiles/Bomb.js'
+import { earthGravity } from '/core/gameplay/gravity.js'
 
 /**
  * Each game's shots as the player sees them, in the real scene: a shot flying in the view is drawn all the way, and a
@@ -157,7 +158,7 @@ test('Franjo Kluz: far along the valley, a bomb falls in view onto the enemy und
   const { player } = scene
   const { body: target } = scene.enemies.find(({ body }) => body.alive && body.constructor.name === 'Vehicle')
   // where the bomb, falling with the plane's speed, comes down
-  target.x = player.x + player.vx * Math.sqrt(2 * player.y / bomb.gravity)
+  target.x = player.x + player.vx * Math.sqrt(2 * player.y / (earthGravity * bomb.fall))
   assert.equal(player.dropBomb(), true)
   const bombs = scene.playerView.children.filter(view => view.constructor.name === 'BombSprite')
   const hit = await watch(scene, { seconds: 4, shots: () => bombs, done: () => target.dead })

@@ -98,20 +98,6 @@ test('model forward axes and an attached FPS view define orientation while camer
   assert.throws(() => audioListener({ camera }), /actual player/)
 })
 
-test('actor attacks have independent world origins and collected coins remain nonspatial feedback', async t => {
-  const { audio } = await audioFor(t, 3)
-  const { default: Actor } = await import('/core3d/actor/Actor.js')
-  const { default: Coin } = await import('/core3d/objects/Coin.js')
-  const actor = new Actor({ mesh: new Mesh(new BoxGeometry(1, 2, 1)), attackSound: 'rifle.mp3' })
-  const coin = new Coin()
-  actor.mesh.position.set(2, 0, 3)
-  audio.sync([actor, coin], 'running')
-  actor.playAttackSound(); coin.playSound()
-  assert.deepEqual(actor.audio.playback.audio.spatialModel.position, { x: 2, y: 0, z: 3 })
-  assert.equal(coin.audio.playback.audio.spatialModel, null)
-  assert.equal(coin.audio.playback.audio.profile.group, 'ui')
-})
-
 test('rain has one scene-owned ambient loop and stops with the session', async t => {
   const { audio } = await audioFor(t, 3)
   const { Rain } = await import('/core3d/Particles.js')

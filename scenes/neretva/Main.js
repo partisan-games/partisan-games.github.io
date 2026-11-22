@@ -4,6 +4,7 @@ import Scene2D from '/core/Scene2D.js'
 import Background from '/core/objects/Background.js'
 import TrenchSoldier, { trench } from '/core/gameplay/bodies/soldiers/TrenchSoldier.js'
 import TrenchSoldierSprite from '/core/actor/soldiers/TrenchSoldierSprite.js'
+import Trench from '/core/objects/Trench.js'
 import { sideProjection } from '/core/actor/projection.js'
 import Health from '/core/gameplay/Health.js'
 
@@ -37,7 +38,7 @@ export default class NeretvaScene extends Scene2D {
     showCrosshair()
   }
 
-  /** One side's soldiers in the near and the far row of trenches: `{ body, view }` each. */
+  /** Each soldier has a body, its view and a separate scenery cover placed in front. */
   army(faction) {
     return {
       near: this.praviSvabe(10, sideProjection({ pxPerMeter, groundY: BLIZI_Y }), { scale: 1, faction }),
@@ -49,7 +50,7 @@ export default class NeretvaScene extends Scene2D {
   manTrenches({ near, far }) {
     if (this.sveSvabe) {
       for (const { body } of this.sveSvabe) body.setState('hidden')
-      this.remove(...this.sveSvabe.flatMap(({ body, view }) => [body, view]))
+      this.remove(...this.sveSvabe.flatMap(({ body, view, cover }) => [body, view, cover]))
     }
     const speedUp = this.ubrzano ? 2 : 1
     this.bliziRovovi = near
@@ -57,7 +58,7 @@ export default class NeretvaScene extends Scene2D {
     this.sveSvabe = [...far, ...near]
     /** The chance per second that a hidden soldier of each row rises. */
     this.ucestalost = new Map([[far, .02 * speedUp], [near, .03 * speedUp]])
-    this.add(...this.sveSvabe.flatMap(({ body, view }) => [body, view]))
+    this.add(...this.sveSvabe.flatMap(({ body, view, cover }) => [body, view, cover]))
   }
 
   /** Half way the Germans give way to the Chetniks. */
@@ -75,7 +76,9 @@ export default class NeretvaScene extends Scene2D {
     return Array.from({ length: n }, (_, i) => {
       const body = new TrenchSoldier(projection.toWorld({ x: i * razmak + polaRazmaka, y: projection.point({ x: 0, y: 0 }).y }))
       const view = new TrenchSoldierSprite(body, { faction, variant: i % 3, scale, projection })
-      return { body, view }
+      const { x, y } = projection.point(body)
+      const cover = new Trench({ x, y, scale })
+      return { body, view, cover }
     })
   }
 
@@ -104,10 +107,10 @@ export default class NeretvaScene extends Scene2D {
     return this.health.current
   }
 
-  /** A standing soldier whose picture the shot at `aim` lands on falls back into his trench. */
+  /** Preserve this game's shot window at the trench opening, independently of the figure's art bounds. */
   proveriPogotke(rovovi, aim) {
-    for (const { body, view } of rovovi)
-      if (body.standing && Math.abs(aim.x - view.x) < view.width / 2 && Math.abs(aim.y - view.y) < view.height / 2) {
+    for (const { body, cover } of rovovi)
+      if (body.standing && Math.abs(aim.x - cover.x) < cover.width / 2 && Math.abs(aim.y - cover.y) < cover.height / 2) {
         body.setState('fall')
         this.pogoci++
       }

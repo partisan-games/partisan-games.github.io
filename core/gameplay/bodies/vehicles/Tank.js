@@ -1,4 +1,5 @@
 import Body from '../Body.js'
+import { earthGravity } from '../../gravity.js'
 import Cooldown from '../../Cooldown.js'
 import ProjectilePool from '../projectiles/ProjectilePool.js'
 import Shell from '../projectiles/Shell.js'
@@ -13,7 +14,7 @@ import Shell from '../projectiles/Shell.js'
 export const tank = {
   health: 100, thrust: 25.78, reverse: .6, recoil: .97, reloadTime: 1, burnBelow: .2,
   keep: { moving: .9 ** 30, standing: .7 ** 30 }, standingBelow: .0044,
-  barrelSpeed: .5, highestBarrel: Math.PI * .2, aimReach: 259.6, shellSpeed: 20.24, shellGravity: 3.61,
+  barrelSpeed: .5, highestBarrel: Math.PI * .2, aimReach: 259.6, shellSpeed: 20.24, shellFall: 3.61 / earthGravity,
 }
 
 /**
@@ -53,7 +54,7 @@ export default class Tank extends Body {
     /** The barrel's angle above level, in radians. */
     this.elevation = tank.highestBarrel / 2
     this.reload = new Cooldown({ seconds: reloadTime, clock })
-    this.shells = new ProjectilePool(() => new Shell({ gravity: tank.shellGravity, groundAt, random }))
+    this.shells = new ProjectilePool(() => new Shell({ gravity: this.gravity, fall: tank.shellFall, groundAt, random }))
   }
 
   /** The way it faces: 1 right, -1 left. */

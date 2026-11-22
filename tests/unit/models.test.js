@@ -36,11 +36,15 @@ test('one file prepared at two sizes is two models', async() => {
 })
 
 test('every aircraft module loads nothing when imported and names the models it needs', async() => {
-  for (const name of ['Biplane', 'Bomber', 'F18', 'Messerschmitt', 'Triplane', 'Dirigible']) {
-    const { models, default: Aircraft } = await import(`/core3d/aircraft/derived/${name}.js`)
+  const { default: makeWarplane } = await import('/core3d/actor/aircraft/makeWarplane.js')
+  for (const name of ['Biplane', 'Bomber', 'F18', 'Messerschmitt', 'Triplane']) {
+    const { models, description } = await import(`/core3d/aircraft/derived/${name}.js`)
     assert.ok(models.length >= 1, name)
-    assert.throws(() => new Aircraft({}), /before it has loaded/, name)
+    assert.throws(() => makeWarplane(description), /before it has loaded/, name)
   }
+  const { models, default: makeDirigible } = await import('/core3d/aircraft/derived/Dirigible.js')
+  assert.ok(models.length >= 1)
+  assert.throws(() => makeDirigible(), /before it has loaded/, 'Dirigible')
 })
 
 test('every game that imports a model module also waits for its models before using them', async() => {

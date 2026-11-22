@@ -109,6 +109,6 @@ export const ww2 = [
 export const beasts = [
   character('slon-3d', 'Slon', library, elephantModule),
   character('flamingo-3d', 'Flamingo', 'RPG Fantasy', flamingoModule),
-  character('tenk-3d', 'Tenk', 'FPS Airport', tankModule, tankModule.TankPlayer),
+  character('tenk-3d', 'Tenk', 'FPS Airport', tankModule),
   character('cepelin-3d', 'Cepelin', 'RPG Fantasy', zeppelinModule),
 ]

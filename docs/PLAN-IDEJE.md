@@ -15,6 +15,7 @@ Dogovoreno u [kontekstu igara](KONTEKST.md), a još neurađeno. Igra koja preras
 | 7 | [IG-07](#ig-07) | Tenkići | Više vatre i dima na Sremu 1944 | Claude | ✅ Done<br>Tri žarišta na Sremu 1944 i tri na Sremu 1945; vlasnik pregledao |
 | 8 | [IG-08](#ig-08) | Tenkići | Manji razoreni top na pozadini Srema 1945 | Codex, Claude | 📋 TODO |
 | 9 | [IG-09](#ig-09) | Cannon | Top diže i spušta cev, bar malo | Claude | 📋 TODO |
+| 10 | [IG-10](#ig-10) | Avatar | Kocke i novčići se nikada ne preklapaju, a svaki novčić može da se skupi | Claude | 📋 TODO |
 
 Pravila rada: [DOCS](DOCS.md) i [CLAUDE.md](../.claude/CLAUDE.md). Nov art radi Codex po pravilima iz [ART](ART.md); placeholder nije art. Novi UI elementi i tekstovi traže vlasnikovo odobrenje. Agent ne pravi commit bez naloga.
 
@@ -93,3 +94,11 @@ Pravila rada: [DOCS](DOCS.md) i [CLAUDE.md](../.claude/CLAUDE.md). Nov art radi 
 - **Sada:** top se samo okreće levo-desno; hitac uvek ide pod istim nagibom (smer cevi plus 0,25 naviše, u [sceni](../scenes/cannon/Main.js)).
 - **Šta:** gore i dole menjaju ugao cevi u ograničenom opsegu, a hitac kreće pod tim uglom; ugao je stanje tela topa, a prikaz okreće cev na modelu ako je ona zaseban deo modela, inače ceo top.
 - **Gotovo kada:** unit test da se ugao drži u opsegu i da hitac kreće pod njim; vlasnik je to video u igri.
+
+<a id="ig-10"></a>
+## IG-10 · Avatar: kocke i novčići se ne preklapaju i svi se mogu skupiti
+
+- **Zahtev vlasnika:** naći algoritam po kome se kocke i novčići u igri Avatar nikada ne preklapaju, i da je svaki novčić sigurno moguće skupiti.
+- **Sada:** [createRandomBoxes](../core3d/geometry/index.js) baca 400 kocki od 5 m nasumično po mapi od 200 m i na visini od -5 do 50 m, bez provere preklapanja. [Scena](../scenes/avatar/Main.js) stavlja novčić (i ponekad platformu) 6,15 m iznad svake od prvih 100 kocki, pa novčić može da upadne u drugu kocku; niko ne proverava da li se do njega može doći.
+- **Šta:** kocka se postavlja samo ako ne seče već postavljene, uz razmak (odbacivanje i novo izvlačenje, ili Poisson-disk raspored); novčić i platforma samo na mesto koje nije u kocki niti zaklonjeno njome: oko novčića i iznad svakog oslonca ima mesta za ceo lik avatara, a nijedna kocka ne preseca put skoka. Svaki novčić mora biti dostižan Kamenku i Laveniju, koji samo skaču: od tla, preko kocki i platformi, svaki sledeći oslonac je na dohvat jednog skoka (visina i daljina skoka se mere iz tela lika), a novčić je na dohvat skoka sa nekog dostižnog oslonca; raspored koji to ne ispuni se odbacuje ili dopunjuje. Broj pokušaja je ograničen, da raspored uvek završi.
+- **Gotovo kada:** unit test da se nijedne dve kocke, nijedan novčić ni platforma i nijedna kocka ne seku i da je svaki novčić dostižan lancem skokova od tla, sa mestom za lik oko novčića i na putu skoka, za više nasumičnih semena; vlasnik je to video u igri.

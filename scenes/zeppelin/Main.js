@@ -4,7 +4,11 @@ import { loadModel } from '/core3d/loaders.js'
 import { createHillyTerrain, createWater } from '/core3d/ground.js'
 import { getEmptyCoords, putOnSolids } from '/core3d/helpers.js'
 import { createTreesOnTerrain } from '/core3d/geometry/trees.js'
-import Dirigible, { models as dirigibleModels } from '/core3d/aircraft/derived/Dirigible.js'
+import makeDirigible, { models as dirigibleModels } from '/core3d/aircraft/derived/Dirigible.js'
+import AirshipKeys from '/core/gameplay/controllers/AirshipKeys.js'
+import worldQueries from '/core3d/actor/characters/worldQueries.js'
+import ChaseCamera from '/core3d/actor/ChaseCamera.js'
+import Input from '/core/io/Input.js'
 import { requestModels } from '/core3d/assets/models.js'
 import Cloud, { models as cloudModels } from '/core3d/objects/Cloud.js'
 import AerialScrew, { models as aerialScrewModels } from '/core3d/objects/AerialScrew.js'
@@ -48,11 +52,17 @@ export default class ZeppelinScene extends Scene3D {
     putOnSolids(castle, terrain)
     this.addMesh(castle)
 
-    const player = new Dirigible({ camera: this.camera, solids: terrain, showCameraButton: true })
-    player.position.z = 200
-    player.solids.push(castle)
-    this.audioPlayer = () => player
-    this.add(player)
+    // the dirigible starts 20 m above the ground, south of the castle
+    const { groundAt } = worldQueries([terrain, castle])
+    const { body, model } = makeDirigible({ z: 200, groundAt })
+    body.y = groundAt(body.x, body.z) + 20 + body.size.height / 2
+    this.controllers.push(new AirshipKeys(body, new Input()))
+    this.audioPlayer = () => model
+    const chase = new ChaseCamera({ camera: this.camera, showCameraButton: true, mesh: model.mesh, height: 2, speed: .5 })
+    chase.distance = 6
+    model.update(0)
+    chase.alignCamera()
+    this.add(body, model, { update: dt => chase.update(dt), end: () => chase.end() })
 
     const treesCoords = getEmptyCoords({ mapSize: mapSize * .5, fieldSize: 4, emptyCenter: 50 })
     const trees = createTreesOnTerrain({ terrain, n: 100, size: 6, coords: treesCoords })

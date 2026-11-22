@@ -64,37 +64,16 @@ Potpuni gradivni blokovi: sposobnosti, pokreti, art, zvuk i sastavljanje postoje
 
 - **Sadašnji nalog:** napraviti i proveriti plan; implementacija još nije počela. Jedan korak po narednom nalogu; samostalni prelazak na sledeći traži izričito odobren nastavak.
 - **Agentov Done:** izvršive sposobnosti celog profila, stvaran art/model i zvuk, samostalni pregled, potrebni upravljači i povezivanje svih postojećih potrošača, uz izvršene dogovorene provere. Sam atlas ili ime stanja nije završena sposobnost. Neizvršene potrebne agentove provere ostaju otvorene; samo provere izričito dodeljene vlasniku ili odložene njegovom odlukom vode se odvojeno od gotovosti koda.
-- **Vlasnikov pregled:** agent priprema konkretan pregled pokreta i igre; vizuelni utisak i odluke o izgledu ostaju vlasniku. Nije postavljen novi opšti uslov da vlasnik mora odobriti svaki Done. Već dogovoreni uslov partije za AR-04 ostaje u [planu arhitekture](PLAN-ARHITEKTURA.md).
+- **Vlasnikov pregled:** agent priprema konkretan pregled pokreta i igre; vizuelni utisak i odluke o izgledu ostaju vlasniku. Nije postavljen novi opšti uslov da vlasnik mora odobriti svaki Done.
 - **Dozvole:** plan nije dozvola za izvršavanje testova, otvaranje browsera, instalacije ili skupe operacije. Pre koraka dogovoriti potreban obim provere; koristiti [TESTING](TESTING.md) i [DOCS](DOCS.md). `npm run lint` menja fajlove preko `--fix`; ne koristiti ga kao bezazlenu proveru. Agent nikad ne pravi commit.
-- **Procena:** min / verovatno / max, 1 p = jedan idealan radni dan jednog agenta koji radi redom, uključujući novu logiku sposobnosti, art, zvuk i proveru; prethodna AR migracija vodi se i procenjuje u AR planu. To je prva procena, ne rok. EL-01 proverava dostupnost klipova i deli korak ako njegova verovatna procena prelazi tri dana; svi brojevi i raspored tada se ponovo računaju.
+- **Procena:** min / verovatno / max, 1 p = jedan idealan radni dan jednog agenta koji radi redom, uključujući novu logiku sposobnosti, art, zvuk i proveru. To je prva procena, ne rok. EL-01 proverava dostupnost klipova i deli korak ako njegova verovatna procena prelazi tri dana; svi brojevi i raspored tada se ponovo računaju.
 - **Prikazi:** telo je nezavisno od dimenzije; obavezni su postojeći pogledi koje koriste varijante. Novi pogled potreban za planiranu sposobnost, npr. prenos mitraljeza, jeste deo tog koraka. 3D telo ne koristi kopiju 2D logike, a Ammo zadržava fizički autoritet.
 - **Resursi i spoljne zavisnosti:** agent prvo proverava postojeće resurse, zatim izrađuje nedostajuće. Kupovina, prijava na servis ili potreban nedostupan alat predstavljaju konkretnu zavisnost koja se prijavi vlasniku; do tada može završiti čistu logiku i ugovor prikaza, ali stavka sa nedostajućim obaveznim artom ostaje otvorena. Placeholder nije konačni art.
-- **Povezanost sa arhitekturom:** [AR plan](PLAN-ARHITEKTURA.md) određuje razdvajanje tela, prikaza i upravljača; ovaj plan određuje šta kompletan akter ume. Pre proširenja aktera mora biti završena migracija cele njegove sudarne grupe iz AR plana. EL-01–03 mogu se pripremiti odmah; od EL-04 čeka se konkretan preduslov iz tabele ispod. AR migracija je odvojen prethodni posao, izvan procena ovog plana. Isti posao se radi i procenjuje jednom, a statusi se usklađuju samo po stvarnim dokazima.
-
-### Preduslovi migracije
-
-Proširenje počinje na već usklađenim telima, prikazima i upravljačima. U istu živu scenu ne uvoditi novi bombaš uz stari mitraljezac ili novog strelca uz stare avione. Ako preduslov nije završen, mogu se pripremiti nezavisni resursi i testovi, a razvojni korak ostaje otvoren do celog povezivanja; AR migracija ne zavisi od novih sposobnosti iz ovog plana i zato nema povratnog ciklusa.
-
-| Grupa / prvi korisnik u ovom planu | Potreban završen AR posao pre proširenja |
-|---|---|
-| Bombaš i Bunker / EL-04 | AR-12 za celu grupu Bunkera; bombaš, mitraljezac, projektili i sudari rade zajedno |
-| Strelci i kopnena vozila Kluza / EL-05 | AR-05–07 i završeno prebacivanje celog Kluza iz AR-07 |
-| Topovi, posade i zastavnici Ustanka / EL-05, EL-11 | AR-08 za celu grupu Ustanka |
-| Okupator i rovovi / EL-05, EL-08 | AR-13 za odgovarajuću celu igru |
-| Patrole i ranjenik / EL-09 | AR-12 za celu grupu Ranjenika |
-| Tenkići i Do Trsta / EL-12 | AR-04 i AR-09, uključujući već dogovoreni pregled AR-04 |
-| Vis / EL-21 | AR-10 za celu grupu Visa |
-| Čamac / EL-18, EL-22 | AR-11 za celu grupu Čamca |
-| Skeletni 3D i 3D pogoci / EL-24 | AR-15 geometrija sa dubinom/preprekom, AR-16 i odgovarajući AR-17/18/19/20 pre konkretne porodice |
-| Ammo, 3D vozila, avioni i kule / EL-26–30 | Odgovarajući AR-20/21/22; fizički adapter zadržava autoritet Ammo sveta |
-| FPS / EL-41 | Potvrđen AR-15 ugovor i usklađen adapter cele FPS sudarne grupe; eksplicitno obuhvatiti FPS potrošače u AR inventaru |
-| Avatar, Capoeira i akteri van AR obuhvata / EL-37, EL-42/43 | Njihovi adapteri se razrađuju u navedenim koracima; za nove borbene 3D pogotke AR-15 ostaje preduslov |
-
-Ova tabela je kontrolna lista zavisnosti, ne tvrdnja da su AR koraci već završeni. Aktivne procene ovog plana i njegov sekvencijalni JSON nemaju trajanje tih spoljnih čekanja; kalendarski rok može se odrediti tek kada AR preduslovi i resursi budu potvrđeni.
+- **Povezanost sa arhitekturom:** svi akteri su već tela sa prikazom i upravljačem ([ARHITEKTURA](ARHITEKTURA.md#gradivni-blokovi)); ovaj plan određuje šta kompletan akter ume. U istu živu scenu ne uvoditi novi blok uz stari koji ga pogađa ili ga on pogađa: cela sudarna grupa prelazi zajedno.
 
 ## Sažetak
 
-Jedan izvršilac radi 43 koraka: **118 p verovatno (74–246 p)**. Sekvencijalni raspored ima iste brojeve aktivnih idealnih radnih dana; ne predstavlja kalendarski rok. Prethodna AR migracija, čekanje na dozvole, vlasnikov pregled i nabavku resursa nisu uključeni. Procena pokriva i postojeće neratne aktere, ne samo početnog bombaša.
+Jedan izvršilac radi 43 koraka: **118 p verovatno (74–246 p)**. Sekvencijalni raspored ima iste brojeve aktivnih idealnih radnih dana; ne predstavlja kalendarski rok. Čekanje na dozvole, vlasnikov pregled i nabavku resursa nisu uključeni. Procena pokriva i postojeće neratne aktere, ne samo početnog bombaša.
 
 Prvi dokaz filozofije je bombaš koji može sam da baci stvarnu bombu u metu, iako Bunker još ne koristi tu komandu. Najveća neizvesnost su novi 2D pokreti i 3D klipovi/rigovi, pa inventar resursa i referentni ceo ciklus dolaze pre masovnog proširenja varijanti.
 
@@ -176,7 +155,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [storybook/stories/index.js:17](../storybook/stories/index.js#L17) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Nijedan aktivni igrač ili neprijatelj nema neobjašnjenu rupu u obuhvatu; svaki nedostatak ima imenovan naredni korak. Postojeće sposobnosti su polazno stanje, a ciljni profil određuje završenost. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Izvoz kataloga ne obuhvata sve scene: posebno proveriti fizička vozila, samostalni top, lunarni modul i lokomotivu.
-- **Zavisnosti i spoljno:** AR-01–04 su polazište; ne ponavljati urađeni temelj. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Telo, prikaz i upravljač su polazište; ne ponavljati urađeni temelj. Važe zajednička pravila resursa i provera.
 
 <a id="el-02"></a>
 
@@ -186,7 +165,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [core/gameplay/Weapon.js:5](../core/gameplay/Weapon.js#L5) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Unit scenariji: poslednji metak, prazan spremnik, puna rezerva/spremnik, prekid punjenja, pauza i reset; nema dvostrukog stvaranja projektila. Postojeći korisnik bez novog podešavanja ima isti ritam i potrošnju kao ranije. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Cooldown između hitaca nije animirano punjenje spremnika. Ne uvoditi jedan veliki režimski Weapon koji preuzima odluke scene.
-- **Zavisnosti i spoljno:** Nadograđuje čisti gameplay; postojeći Weapon ostaje kompatibilan dok se korisnici sele. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Nadograđuje čisti gameplay; postojeći Weapon ostaje kompatibilan dok se korisnici sele. Važe zajednička pravila resursa i provera.
 
 <a id="el-03"></a>
 
@@ -196,7 +175,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [core/actor/projectiles/Bomb.js:1](../core/actor/projectiles/Bomb.js#L1) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Proveriti let bez mete, prvi dodir sa preprekom, detonaciju u vazduhu i na tlu, samo jednu štetu po meti i kraj života projektila. Let i osigurač miruju u pauzi; pregled koristi stvarni projektil i stvarnu metu. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Avionska bomba i ručna bomba imaju različito poreklo brzine i osigurač. Šteta se računa u logici, ne na kraju animacije.
-- **Zavisnosti i spoljno:** Prvo EL-02; saradnik bombaša, nije nova samostalna priča aktera. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Prvo EL-02; saradnik bombaša, nije nova samostalna priča aktera. Važe zajednička pravila resursa i provera.
 
 <a id="el-04"></a>
 
@@ -208,7 +187,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [Grenadier](../core/gameplay/bodies/soldiers/Grenadier.js) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Ista instanca u priči pokaže kratko i dugo bacanje u oba smera, pogodak mete, prazan inventar, prekid pre/posle otpuštanja i reset. Unit potvrđuje jednu bombu po prihvaćenoj radnji. Bunker dobija novog aktera uz sačuvana stara pravila; aktiviranje nove komande u samom nivou radi se kada je njegov gameplay dogovoren. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Grenadier trenutno ima samo hod/mirovanje/pad; ni deklarisano stanje ni sama animacija nisu funkcionalno bacanje.
-- **Zavisnosti i spoljno:** Veza AR-12; Pre početka ovog koraka mora biti završena AR migracija cele pogođene sudarne grupe; njena procena pripada AR planu. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Važe zajednička pravila resursa i provera.
 
 <a id="el-05"></a>
 
@@ -220,7 +199,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [core/actor/soldiers/Rifleman.js:20](../core/actor/soldiers/Rifleman.js#L20) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Svaka navedena varijanta ima izvršive komande i odgovarajuće poze u priči. Pravac projektila i muzzle odgovaraju cevi u oba stava i pri ogledanju; promena stava ne pomera stopala. Postojeće scene čuvaju ritam paljbe i svoje uslove štete. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Strelac Ustanka je danas dekoracija: ne uključivati mu štetu ili AI u Ustanku samo zato što bibliotečki strelac sada to ume.
-- **Zavisnosti i spoljno:** Veza AR-05, AR-08, AR-13; EL-02 je preduslov. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** EL-02 je preduslov. Važe zajednička pravila resursa i provera.
 
 <a id="el-06"></a>
 
@@ -232,7 +211,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [core/actor/LocomotionSprite.js:1](../core/actor/LocomotionSprite.js#L1) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Priča prolazi stoj→kleči→lezi→puzi→ustani i hod→trči→stani uz isto sidrište; brzina animacije prati pređeni put. Pogodak/smrt prekidaju radnju, a već ispaljen metak/bomba nastavljaju. Testirati nepodržanu kombinaciju i odbijanje komande. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Ne proglašavati veštački spoj svih stanja obaveznim; bočna slika ne glumi pogled odozgo. Za svaki profil upisati tačne podržane kombinacije.
-- **Zavisnosti i spoljno:** Posle EL-04 i EL-05; prenosi kompletne pokrete na njihove stvarne varijante. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-04 i EL-05; prenosi kompletne pokrete na njihove stvarne varijante. Važe zajednička pravila resursa i provera.
 
 <a id="el-07"></a>
 
@@ -242,7 +221,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [core/actor/soldiers/MachineGunner.js:20](../core/actor/soldiers/MachineGunner.js#L20) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Pokaže se ceo niz: prenos→postavljanje→nišan→rafal→prazno→punjenje→nastavak→sklapanje. Paljba odbijena dok oružje nije postavljeno; hitac, trzaj i zvuk sinhronizovani. Bunker ostaje na svom izabranom stacionarnom profilu. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Trenutna pauza između pet metaka nije punjenje. Ne pomerati izdvojeni krupan kadar preko tla kao da postoje nacrtane noge.
-- **Zavisnosti i spoljno:** Posle EL-02 i EL-06; veza AR-12. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-02 i EL-06. Važe zajednička pravila resursa i provera.
 
 <a id="el-08"></a>
 
@@ -252,7 +231,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [core/gameplay/bodies/soldiers/TrenchSoldier.js:13](../core/gameplay/bodies/soldiers/TrenchSoldier.js#L13) — stanja tela i [TrenchSoldierSprite](../core/actor/soldiers/TrenchSoldierSprite.js) koje treba sačuvati.
 - **Završeno kada:** Nemac i četnik rade ceo ciklus van Neretve, uz ispravno vreme vidljivosti/pogođivosti. Pogodak tokom podizanja ili povratka daje samo jedan ishod. Postojeći izbor protivnika i tok nivoa ostaju u sceni. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Tri kolone su različiti vojnici, ne tri uzastopna kadra. U Neretvi se ne dodaje novo kretanje izvan rova bez naloga.
-- **Zavisnosti i spoljno:** Posle EL-05; veza AR-13. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-05. Važe zajednička pravila resursa i provera.
 
 <a id="el-09"></a>
 
@@ -262,7 +241,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [core/actor/soldiers/Patrol.js:18](../core/actor/soldiers/Patrol.js#L18) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** U priči se biraju zajednički marš i rasturanje, svaka smrt utiče samo na svog člana, a ostali mogu nastaviti. Ranjenik i dalje koristi dogovorene glasove, potragu i uslov otkrivanja. Grupa radi bez scene Ranjenika. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Postojeći atlas je jedna slika trojice i nema nezavisne članove; ne uvoditi tri nevidljiva tela pod nepromenljiv zajednički crtež.
-- **Zavisnosti i spoljno:** Posle EL-06 i EL-08; veza AR-12. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-06 i EL-08. Važe zajednička pravila resursa i provera.
 
 <a id="el-10"></a>
 
@@ -272,7 +251,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [core/actor/derived/WoundedSoldier.js:5](../core/actor/derived/WoundedSoldier.js#L5) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Priča sa dva aktera pokaže prilazak, prihvaćenu pomoć, prekid udaljavanjem/smrću, vučenje i bezbedno spuštanje; zdravlje se menja jednom prema konfiguraciji. Ranjenik zadržava sadašnju misiju i način puzanja. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Pomoć nije trenutni teleport i ne sme vezati tela kružnim vlasništvom ili ostaviti neuklonjivu vezu pri resetu.
-- **Zavisnosti i spoljno:** Posle EL-06; veza AR-12. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-06. Važe zajednička pravila resursa i provera.
 
 <a id="el-11"></a>
 
@@ -284,7 +263,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [CannonCrew](../core/gameplay/bodies/soldiers/CannonCrew.js) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Top bez raspoložive potrebne posade odbija novu radnju kada je taj profil uključen; odvajanje/ponovno zauzimanje i smrt rade u priči. Zastava nema skok oslonca i deli sat scene. Ustanak čuva postojeće dekorativne posade i pravila zdravlja topa kroz svoj profil. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Sposobnost posade da strada ne uvodi automatski zasebne živote u Ustanku. Nacrtana zastava ne sme ostati zamrznuta.
-- **Zavisnosti i spoljno:** Posle EL-06 i EL-10; veza AR-08. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-06 i EL-10. Važe zajednička pravila resursa i provera.
 
 <a id="el-12"></a>
 
@@ -294,7 +273,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [core/gameplay/bodies/vehicles/Tank.js:28](../core/gameplay/bodies/vehicles/Tank.js#L28) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** U priči se nezavisno vozi i nišani, demonstriraju blokada pogona, oružja i prazan spremnik; pogodak u uništeno telo ne pokreće drugu smrt. Testirati muzzle, granice kupole i odbijanje neprikazivog ugla. Tenkići i Do Trsta zadržavaju stare profile balansa i dometa. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Sadašnji aimAt odbija metu iza trupa i kupola se ne okreće; to je potvrđena rupa, ne dovršena sposobnost. Nikad ne ogledati celu sliku kao zamenu za nezavisnu kupolu.
-- **Zavisnosti i spoljno:** Posle EL-02 i EL-11; veza AR-04 i AR-09; čekanje vlasnikove već tražene partije ostaje vidljivo u starom planu. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-02 i EL-11. Važe zajednička pravila resursa i provera.
 
 <a id="el-13"></a>
 
@@ -304,7 +283,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [core/actor/vehicles/Vehicle.js:11](../core/actor/vehicles/Vehicle.js#L11) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Katalog pokaže ukrcavanje do kapaciteta, odbijanje viška, vožnju, zaustavljanje i iskrcavanje na slobodno mesto. Uništenje rešava putnike po prosleđenom pravilu. Kluz i Do Trsta nastavljaju svoje sadašnje prazne kolone ako transport ne uključe. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Pomicanje sveta kamerom nije vožnja; točkovi ne rade dok vozilo samo skroluje. Oznake legije ostaju poseban izgled.
-- **Zavisnosti i spoljno:** Posle EL-06 i EL-12; veza AR-05/AR-09. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-06 i EL-12. Važe zajednička pravila resursa i provera.
 
 <a id="el-14"></a>
 
@@ -314,7 +293,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [core/actor/vehicles/Vehicle.js:29](../core/actor/vehicles/Vehicle.js#L29) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Samostalna priča demonstrira vožnju→postavljanje→nišan→punjenje→hitac→premeštanje; projektil polazi sa stvarnog vrha cevi, a posada reaguje samo na prihvaćen hitac. Kluz zadržava izbor da Hummel samo prolazi. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Vehicle trenutno nema pucanje; nije dovoljno upisati novo ime stanja uz postojeći drive. Ne dodavati punu rotaciju kupole vozilu sa profilom ograničenog sektora.
-- **Zavisnosti i spoljno:** Posle EL-11 i EL-12; veza AR-05. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-11 i EL-12. Važe zajednička pravila resursa i provera.
 
 <a id="el-15"></a>
 
@@ -324,7 +303,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [core/actor/vehicles/Vehicle.js:11](../core/actor/vehicles/Vehicle.js#L11) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Voz prati putanju i staje bez cupkanja; uništen vagon ne briše nepripadajuće vagone, a vatru vode samo živa oruđa. Priča pokazuje najmanje vučno vozilo i jedan vagon, promenu smera i vatru nezavisnu od kretanja. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Sadašnji BP-42 je jedno vozilo sa atlasom, bez nezavisnih vagona/oruđa; razdvajanje zahteva stvarni art, ne samo više hitboxova ispod jedne slike.
-- **Zavisnosti i spoljno:** Posle EL-12 i EL-14; veza AR-05. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-12 i EL-14. Važe zajednička pravila resursa i provera.
 
 <a id="el-16"></a>
 
@@ -336,7 +315,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [FieldGun](../core/gameplay/bodies/artillery/FieldGun.js) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Priča prikazuje ceo ciklus na ravnom i udubljenom tlu, premeštanje sa zaključanom paljbom i oba smera. Telo završava let i štetu jednom; Ustanak čuva krater, spuštanje celog topa, snagu i vreme promene poteza. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Top koristi svoj oslonac točka za tlo; ne vraćati grešku eksplozije u vazduhu. Telo ne poseduje redosled igrača niti HUD snage.
-- **Zavisnosti i spoljno:** Posle EL-11 i EL-14; veza AR-08. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-11 i EL-14. Važe zajednička pravila resursa i provera.
 
 <a id="el-17"></a>
 
@@ -346,7 +325,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [core/actor/artillery/Flak.js:34](../core/actor/artillery/Flak.js#L34) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Promena mete poštuje brzinu i ograničenja cevi; hitac van sektora se odbija; Flak detonira jednom i nanosi štetu samo u radijusu. Postojeći Kluz i Do Trsta imaju iste ranije profile učestalosti i štete. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Rad posade nije automatska paljba; odvojiti odluku o pucanju od praćenja mete. Ne svoditi protutenkovski i PVO projektil na isti završetak leta.
-- **Zavisnosti i spoljno:** Posle EL-16; veza AR-05 i AR-09. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-16. Važe zajednička pravila resursa i provera.
 
 <a id="el-18"></a>
 
@@ -356,7 +335,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [scenes/camac/ShoreMachineGun.js:24](../scenes/camac/ShoreMachineGun.js#L24) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Prazan položaj ne puca, novi član ga može zauzeti, ugao zaklona ograničava vatru, a rušenje zatvara položaj. U priči se proverava i zamena strane kroz upravljač; postojeće scene čuvaju svoj izbor meta i blokiranja putanje. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Objekat, posada i oružje nisu jedno zdravlje po nužnosti; postojeća igra ipak može koristiti pojednostavljen profil. Dekorativni rekvizit nije zauzimljiv bunker.
-- **Zavisnosti i spoljno:** Posle EL-07 i EL-17; veza AR-09 i AR-11. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-07 i EL-17. Važe zajednička pravila resursa i provera.
 
 <a id="el-19"></a>
 
@@ -366,7 +345,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [core/actor/aircraft/Fighter.js:43](../core/actor/aircraft/Fighter.js#L43) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Potez, Bf 109 i Ju 87 samostalno prolaze ceo ciklus poletanje→let→prilaz→sletanje i uništenje. Za nedostajući pogled napraviti art pre proglašenja sposobnosti spremnom. Kluz zadržava let samo napred i iste uslove piste. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Fighter trenutno prima direktnu vezu ka avionu igrača; pri izdvajanju telo dobija komande i zavisnosti, a odluka o naletu ostaje upravljaču.
-- **Zavisnosti i spoljno:** Veza AR-06 i AR-07; AR migracija cele pogođene grupe je prethodni posao van ovih procena. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Važe zajednička pravila resursa i provera.
 
 <a id="el-20"></a>
 
@@ -376,7 +355,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [scenes/franjo-kluz/Potez.js:207](../scenes/franjo-kluz/Potez.js#L207) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Potez demonstrira prednje i zadnje gađanje i bombu; Ju 87 ulaz u obrušavanje, otpuštanje i izvlačenje; Bf 109 rafal i prekid. Metak/bomba opstaju posle obaranja nosača. Priča pokazuje prazan inventar i mete van sektora. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Misija ne sme da bira art umesto profila modela. Nova mogućnost punjenja ne uvodi usputno dopunjavanje u Kluzu, gde je izričito isključeno.
-- **Zavisnosti i spoljno:** Posle EL-19 i EL-03; veza AR-06/07/09. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-19 i EL-03. Važe zajednička pravila resursa i provera.
 
 <a id="el-21"></a>
 
@@ -386,7 +365,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [FighterBomber](../core/gameplay/bodies/aircraft/FighterBomber.js) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Sve varijante dostupne su samostalno u priči, bez sistema talasa; oružja i propeleri odgovaraju modelu. Luping ne vraća zdravlje niti automatski dodeljuje neranjivost van konfiguracije. Vis čuva svoje postojeće bonuse i broj pogodaka. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Sadašnji boss i moć bombe imaju pravila igre: ne preneti čišćenje ekrana i bodove u generičko telo aviona.
-- **Zavisnosti i spoljno:** Posle EL-20; veza AR-10. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-20. Važe zajednička pravila resursa i provera.
 
 <a id="el-22"></a>
 
@@ -396,7 +375,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [scenes/camac/SBoat.js:33](../scenes/camac/SBoat.js#L33) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Oba čamca rade van scene Čamac; priča pokazuje manevrisanje, dve nezavisne radnje, gubitak oružja i potonuće. Za desant se koristi vojnik iz EL-09 i pristanište kao prosleđena geometrija; nakon resetovanja nema starih putnika, projektila ili zvuka motora. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** S-30 već ima proceduralno potonuće: sačuvati ga, ne praviti dupli atlas. Naoružanje koje stvarni model nema ne dodavati samo zbog naziva broda.
-- **Zavisnosti i spoljno:** Posle EL-13 i EL-18; veza AR-11. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-13 i EL-18. Važe zajednička pravila resursa i provera.
 
 <a id="el-23"></a>
 
@@ -406,7 +385,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [core/gameplay/controllers/Gunner.js:1](../core/gameplay/controllers/Gunner.js#L1) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Na istoj instanci može se promeniti upravljač ili ukloniti upravljanje bez gubitka zdravlja/municije; bibliotečki akter bez upravljača radi zadatu radnju. AI ne puca kroz sopstveni zaklon niti zaobilazi municiju i vreme punjenja. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Patrola nije stanje koje samo bira sva pravila igre. Ne uvoditi obaveznu globalnu listu neprijatelja ili sveobuhvatan behavior-tree sistem.
-- **Zavisnosti i spoljno:** Posle EL-22; upravljači potrebni ranijim koracima rade se uz njih, ovde se proverava zajedničko sastavljanje. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-22; upravljači potrebni ranijim koracima rade se uz njih, ovde se proverava zajedničko sastavljanje. Važe zajednička pravila resursa i provera.
 
 <a id="el-24"></a>
 
@@ -414,9 +393,9 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 
 - **Šta:** Primeniti profil strelca iz EL-05/06 na GermanSoldier, NaziAgent, NaziOfficer, Partisan, PartisanAim, PartisanLowpoly, ResistanceFighter, SSSoldier, Soldier i SovietPartisan. Odvojiti razlike puške/pištolja i klipove različitih rigova. Dopuniti nišan, klečanje, ležanje, punjenje i bacanje bombe samo preko opreme; za svaku varijantu izraditi/preneti nedostajuće klipove i proveriti ih na njenom modelu.
 - **Referenca:** [core3d/actor/derived/ww2/Partisan.js:6](../core3d/actor/derived/ww2/Partisan.js#L6) — postojeći ugovor i potrošač koji treba sačuvati.
-- **Završeno kada:** Za svaki navedeni model u priči postoji proverena lista sposobnosti i ceo ciklus njegovog oružja, pogodak i smrt; nema T-poze ni zamenskog klipa hoda za napad. Vojnik sa opremom bombe koristi stvarni projektil EL-03. Poslednji kadar i prekid radnje provereni na stvarnom rigu. Preduslov su zabeleženi prolazi AR-15 za isti ekran/različitu dubinu, najbližu metu na putu i prepreku; 3D bomba ne sme naslediti 2D provere. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
+- **Završeno kada:** Za svaki navedeni model u priči postoji proverena lista sposobnosti i ceo ciklus njegovog oružja, pogodak i smrt; nema T-poze ni zamenskog klipa hoda za napad. Vojnik sa opremom bombe koristi stvarni projektil EL-03. Poslednji kadar i prekid radnje provereni na stvarnom rigu. 3D bomba pogađa po 3D pravilima (isti ekran a različita dubina, najbliža meta na putu, prepreka), ne nasleđuje 2D provere. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Partisan trenutno ima komentarisano Toss Grenade; naziv klipa nije dokaz dostupnog klipa niti izvedenog bacanja. Ne pretpostaviti kompatibilnost svih FBX skeleta.
-- **Zavisnosti i spoljno:** Posle EL-23; veza AR-15–17, prethodno moraju biti završeni AR-15 (3D geometrija pogodaka i dubina), AR-16 i relevantne cele sudarne grupe iz AR-17; njihov rad pripada AR planu. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-23. Važe zajednička pravila resursa i provera.
 
 <a id="el-25"></a>
 
@@ -426,7 +405,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [core3d/actor/derived/ww2/GermanMachineGunner.js:5](../core3d/actor/derived/ww2/GermanMachineGunner.js#L5) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Puna/prazna traka i rezervoar demonstriraju se na modelima; mlaz iza zida ne pogađa, pauza ne troši gorivo, a smrt zaustavlja plamen i petlju zvuka. Promena naoružanja ne menja identitet tela. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Postojeći LOOP klip nije dokaz realnog rafala ili punjenja. Čestice ne odlučuju pojedinačne pogotke.
-- **Zavisnosti i spoljno:** Posle EL-24; veza AR-17. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-24. Važe zajednička pravila resursa i provera.
 
 <a id="el-26"></a>
 
@@ -436,7 +415,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [core3d/physics/Cannon.js:27](../core3d/physics/Cannon.js#L27) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Unit proverava komande preko adaptera; stvarna Ammo provera, kada bude odobrena, proverava stabilnost vozila, kontakt, paljbu, reset i oslobađanje native objekata. Bez te provere ne tvrditi da je fizički rad potvrđen. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Cannon trenutno sam pravi DOM slider i geometrijsku kuglu; zameniti projektil pravim artom/modelom i sačuvati važeću kontrolu u sceni. Ne prepisivati Ammo transformaciju običnim Body.update.
-- **Zavisnosti i spoljno:** Veza AR-20 i izuzetak fizičkih vozila iz opšte kinematičke migracije; ne čekati/nametati novu fiziku. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Fizička vozila ostaju u Ammo svetu; ne nametati novu fiziku. Važe zajednička pravila resursa i provera.
 
 <a id="el-27"></a>
 
@@ -446,7 +425,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [core3d/actor/derived/Tank.js:16](../core3d/actor/derived/Tank.js#L16) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Priče prikazuju nezavisno kretanje/nišanjenje i završni uništeni prikaz; oba objekta rade bez čovekovog skeleta, skoka i ljudskog napada. Sačuvati dosadašnje potrošače. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** TankPlayer trenutno nasleđuje ljudski Player; izvođenje iste klase nije dokaz da radi kao tenk. Ne mešati ovu instancu sa Ammo Tank-om. Cannon nije čisto kinematički put: fizički projektil i njegov native životni ciklus moraju ostati eksplicitni i provereni.
-- **Zavisnosti i spoljno:** Posle EL-26; veza AR-20. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-26. Važe zajednička pravila resursa i provera.
 
 <a id="el-28"></a>
 
@@ -456,7 +435,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [core3d/aircraft/Warplane.js:20](../core3d/aircraft/Warplane.js#L20) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Svaki model izvede let i napad primeren opremi, reset i pad; metak/bomba/raketa imaju ispravan izlaz. Demonstracija sletanja čita prosleđenu pistu. Nema automatskog dodeljivanja savremenih raketa svim avionima. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Warplane danas deli mehaniku raketa; postojeći zajednički napad nije ciljni profil istorijskog aviona. Savremeni F18 ostaje zasebna varijanta biblioteke.
-- **Zavisnosti i spoljno:** Posle EL-27 i EL-20; veza AR-21. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-27 i EL-20. Važe zajednička pravila resursa i provera.
 
 <a id="el-29"></a>
 
@@ -466,7 +445,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [core3d/aircraft/Airship.js:18](../core3d/aircraft/Airship.js#L18) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Oba postojeća modela imaju ispravan prikaz pogona i sve komande kretanja; oštećenje daje kontrolisani gubitak uzgona i završen pad. Jedan izabrani ugovor tela, bez dva odvojena algoritma za istu sposobnost. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Različit izgled i položaj propelera zahtevaju adapter prikaza. Model bez oružja ne pretvarati u generičkog strelca.
-- **Zavisnosti i spoljno:** Posle EL-28; veza AR-20 i AR-21. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-28. Važe zajednička pravila resursa i provera.
 
 <a id="el-30"></a>
 
@@ -476,7 +455,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [core3d/objects/Tower.js:16](../core3d/objects/Tower.js#L16) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Priča bez upravljača miruje i može ručno da nišani/puca; sa upravljačem gađa samo dozvoljenu metu i odbija vatru dok puni. Airport varijanta koristi isti ugovor uz svoj model/profil. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Sadašnji targetInRange nije javna komanda za celu sposobnost. Ne uvoditi odabir igrača po globalnom imenu objekta.
-- **Zavisnosti i spoljno:** Posle EL-28; veza AR-22. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-28. Važe zajednička pravila resursa i provera.
 
 <a id="el-31"></a>
 
@@ -486,7 +465,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [storybook/stories/characters3d.js:59](../storybook/stories/characters3d.js#L59) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Svaki od četiri modela demonstrira napad i odbranu protiv mete, jedno nanošenje štete po zamahu, prekid smrću i povratak iz reakcije. Razlike mase/dosega su podešavanja, a ne kopije borbene logike. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** animDict i dužina klipa ne dokazuju da oružje dodiruje metu; testirati vremenski prozor i geometriju. Nisu svi rigovi potvrđeno kompatibilni.
-- **Zavisnosti i spoljno:** Posle EL-24; veza AR-19; ratni blokovi imaju prednost u redosledu. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-24; ratni blokovi imaju prednost u redosledu. Važe zajednička pravila resursa i provera.
 
 <a id="el-32"></a>
 
@@ -496,7 +475,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [storybook/stories/characters3d.js:59](../storybook/stories/characters3d.js#L59) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Svaki navedeni model pokaže oba napada sa različitim čitljivim najavama, ispravnim intervalima štete i završenom smrću. Veliki akter ne pogađa iza prepreke zbog širokog jednog pravougaonika. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Specifični napad mora biti konkretan po modelu u EL-01; ne podrazumevati da svaki model ume skok, let ili magiju zbog imena.
-- **Zavisnosti i spoljno:** Posle EL-31; veza AR-19. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-31. Važe zajednička pravila resursa i provera.
 
 <a id="el-33"></a>
 
@@ -506,7 +485,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [core3d/actor/derived/fantasy/Wizard.js:5](../core3d/actor/derived/fantasy/Wizard.js#L5) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Za sva tri modela postoji stvarni prikaz napada koji stvara projektil, ograničenje upotrebe, pogodak mete i reset; Wizard više ne ostaje samo idle/walk. Efekat ne nanosi štetu kroz celo vreme čestica. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Wizardov trenutni rečnik ima samo idle i walk; ne označiti čaroliju gotovom samo mapiranjem nedostajućeg imena.
-- **Zavisnosti i spoljno:** Posle EL-32; veza AR-19. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-32. Važe zajednička pravila resursa i provera.
 
 <a id="el-34"></a>
 
@@ -516,7 +495,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [core3d/actor/derived/horror/ZombieDoctorCrawl.js:5](../core3d/actor/derived/horror/ZombieDoctorCrawl.js#L5) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Svaki model, uključujući GothGirl sa postojećim napadom i krikom, ima izvršive radnje i zaseban pregled; puzajući lik ne koristi stojeći collider i ne skače u T-pozu pri smrti. Napad bez mete ne nanosi štetu, završena smrt ostaje nepomična. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Postojeći Zombie Crawl i Running Crawl su osnova, ali dostupnost ostalih prelaza mora se proveriti na rigu; ne svoditi zombije na skin običnog vojnika.
-- **Zavisnosti i spoljno:** Posle EL-33; veza AR-18. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-33. Važe zajednička pravila resursa i provera.
 
 <a id="el-35"></a>
 
@@ -526,7 +505,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [storybook/stories/characters3d.js:75](../storybook/stories/characters3d.js#L75) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Svaki civil radi sam i sa upravljačem bega; radnikova radnja ima vidljiv alat i završen ciklus. Duh ima dokumentovanu pogođivost po stanju i stvarni napad; nestajanje uklanja sudar i efekte u tačno određenom trenutku. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Nazivi Player/AI nisu borbene uloge. Duh bez skeletnog death klipa može imati namenski proceduralni završetak uz doslednu logiku. GothGirl je postojeći zombi sa napadom i krikom i pripada EL-34, bez uklanjanja njenih sposobnosti.
-- **Zavisnosti i spoljno:** Posle EL-34; veza AR-17/18. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-34. Važe zajednička pravila resursa i provera.
 
 <a id="el-36"></a>
 
@@ -536,7 +515,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [core3d/actor/derived/Elephant.js:5](../core3d/actor/derived/Elephant.js#L5) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Oba modela prođu ceo svoj životni ciklus sa odgovarajućim sudarom na tlu/u letu. Priča slona ima pravi idle i završetak, a flamingo ne klizi po tlu sa klipom leta. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Elephant trenutno mapira samo Take 001, a Flamingo walk koristi naziv klipa leta; to su rupe koje zahtevaju stvarne klipove, ne preimenovanje.
-- **Zavisnosti i spoljno:** Posle EL-35; veza AR-20. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-35. Važe zajednička pravila resursa i provera.
 
 <a id="el-37"></a>
 
@@ -546,7 +525,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [scenes/moon-landing/Lander.js:19](../scenes/moon-landing/Lander.js#L19) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Oba objekta dostupna su u katalogu i bez izvorne scene, sa istim prihvaćenim modelima. Testovi pokrivaju graničnu brzinu sletanja i kraj goriva, odnosno mirovanje i promenu smera voza; izvorne scene koriste isti blok. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** LocomotiveScene trenutno direktno vodi mesh/mixer/putanju; to nije nezavisna lokomotiva. Ne pretvarati dekorativni rudnik/fabriku u borbene aktere.
-- **Zavisnosti i spoljno:** Posle EL-36; dopuna obuhvata AR plana mora biti zabeležena uz stvarnu migraciju. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-36. Važe zajednička pravila resursa i provera.
 
 <a id="el-41"></a>
 
@@ -556,7 +535,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [core3d/actor/FPSPlayer.js:1](../core3d/actor/FPSPlayer.js#L1) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Pregled može da zameni upravljač i kameru bez gubitka stanja; pogodak po dubini i zaklanjanje koriste potvrđen 3D ugovor. Telo ne prolazi kroz zid pri promeni stava, a smrt prekida unos i paljbu. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Prvo lice ne zahteva izmišljanje pune 3D figure koju prikaz nema, ali zahteva stvarni prikaz ruku/oružja za svoje nove radnje. FPS nije obična priča trećeg lica.
-- **Zavisnosti i spoljno:** Posle EL-37 i pre EL-42; AR-15 geometrija pogodaka i migracija cele FPS sudarne grupe su preduslov. FPS ima svoj adapter, ne mora postati obični kinematički Character. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-37 i pre EL-42. Važe zajednička pravila resursa i provera.
 
 <a id="el-42"></a>
 
@@ -565,8 +544,8 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Šta:** Postojeći proceduralni Avatar razraditi kroz hod/trčanje, okret, skok/doskok, klečanje, interakciju sa prosleđenim objektom, pogodak i smrt. Sačuvati njegovu proceduralnu građu i izmenu izgleda; ne zahtevati FBX rig niti vojnički art. Avatar, Avatar Planets i Led City sastavljaju isti blok.
 - **Referenca:** [core3d/actor/Avatar.js:1](../core3d/actor/Avatar.js#L1) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Pregled pokazuje sve pokrete na bar dve postojeće postavke izgleda; promena izgleda ne resetuje zdravlje i položaj. Različito tlo/gravitacija dolaze od scene, doskok ne pokreće dva udara, a reset uklanja prethodne saradnike. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
-- **Zamke:** Proceduralni model je pravi postojeći prikaz projekta, nije placeholder; njegovo isključenje iz opšte AR migracije ne znači isključenje iz razvoja sposobnosti.
-- **Zavisnosti i spoljno:** Posle EL-41; koristi sopstveni adapter i testove; ne menja izuzetak Avatar-a u AR planu. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zamke:** Proceduralni model je pravi postojeći prikaz projekta, nije placeholder; i on dobija razvoj sposobnosti.
+- **Zavisnosti i spoljno:** Posle EL-41; koristi sopstveni adapter i testove. Važe zajednička pravila resursa i provera.
 
 <a id="el-43"></a>
 
@@ -576,7 +555,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [scenes/capoeira-girl/Character.js:1](../scenes/capoeira-girl/Character.js#L1) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Isti akter radi sam i sa metom, koristi postojeće posebne pokrete, a prihvaćen zamah pogađa jednom. Prekid pokreta, smrt i reset ne ostavljaju aktivni hitbox ili slučajni povratak u prethodni klip. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Naziv plesnog/akrobatskog klipa nije dokaz napada; svaki borbeni pokret dobija eksplicitni prozor kontakta i test.
-- **Zavisnosti i spoljno:** Posle EL-42 i pre EL-38; potrebno izdvajanje iz scene uračunato, nezavisni 3D sudari koriste već završen AR-15 ugovor. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-42 i pre EL-38; potrebno izdvajanje iz scene uračunato, nezavisni 3D sudari koriste 3D pogotke iz [ARHITEKTURE](ARHITEKTURA.md#gradivni-blokovi). Važe zajednička pravila resursa i provera.
 
 <a id="el-38"></a>
 
@@ -586,7 +565,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [storybook/Stage2D.js:1](../storybook/Stage2D.js#L1) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Svaki par može da se napravi, resetuje i ukloni više puta bez starih metaka, tajmera, putnika ili zvukova; oba tela koriste javne komande i sopstvene životne cikluse. Odbijanje radnje propagira se upravljaču. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Scenariji kombinacije ne smeju da zakrpe nedovršen blok niti postanu druga implementacija igre. Potrebne mete u ranijim pričama rade se tada, ne čekaju ovaj korak.
-- **Zavisnosti i spoljno:** Posle EL-37; proverava novu mogućnost građenja igara, ne samo spisak animacija. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-37; proverava novu mogućnost građenja igara, ne samo spisak animacija. Važe zajednička pravila resursa i provera.
 
 <a id="el-39"></a>
 
@@ -596,7 +575,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [docs/TESTING.md:1](../docs/TESTING.md#L1) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Uz svaki pogođeni ugovor stoji stvarni dokaz izvršavanja i jasno neizvršena ručna/Ammo/browser provera. Novi minimum svakog profila ima telo, pravi prikaz, zvuk i javnu komandu; poznati nedostaci ostaju otvoreni u svojim koracima. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Zeleni unit testovi ne dokazuju nove poze ni 3D retargeting. Ne prihvatiti prividnu kompletnost tako što se problematična komanda ukloni iz spiska.
-- **Zavisnosti i spoljno:** Posle EL-38; ciljane regresije već prate svaki korak, ovo je provera pokrivenosti i sastavljanja. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-38; ciljane regresije već prate svaki korak, ovo je provera pokrivenosti i sastavljanja. Važe zajednička pravila resursa i provera.
 
 <a id="el-40"></a>
 
@@ -606,7 +585,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 - **Referenca:** [docs/ART.md:1](../docs/ART.md#L1) — postojeći ugovor i potrošač koji treba sačuvati.
 - **Završeno kada:** Lokalne veze, indeks i plan_check prolaze; nema izgubljenih neizvršenih provera ili lažnog vlasnikovog prihvatanja. Brisanje plana radi se tek po nalogu vlasnika, bez commita. Uz to važe zajedničke provere životnog ciklusa, art/zvuk i svi potrošači iz pravila rada.
 - **Zamke:** Planovi nisu dokaz implementacije; sposobnost iz predloga ne sme biti u dokumentaciji navedena kao da već radi.
-- **Zavisnosti i spoljno:** Posle EL-39; završava ovaj obim, bez novih nivoa ili tema. Važe preduslovi cele sudarne grupe i zajednička pravila resursa/provera.
+- **Zavisnosti i spoljno:** Posle EL-39; završava ovaj obim, bez novih nivoa ili tema. Važe zajednička pravila resursa i provera.
 
 ## Otvorene odluke
 
@@ -622,7 +601,7 @@ Mašinski raspored: [PLAN-ELEMENTI.schedule.json](PLAN-ELEMENTI.schedule.json). 
 | Trenutni nivo diktira biblioteku | Bacanje i druge potrebne sposobnosti ponovo izostaju | Ciljni profil po ulozi; svaka sposobnost dostupna u priči bez uključivanja u nivo |
 | Izmena zajedničkih podrazumevanih opcija | Stare igre promene ritam ili ishod | Izričiti stari profili i regresije svih pronađenih potrošača |
 | Novi rig ili složen pogled traži mnogo nove grafike | Procena se uvećava | EL-01 meri nedostatak pre rada, reprezentativni model pre varijanti; nove procene i deljenje koraka |
-| Preklapanje sa AR planom | Dva paralelna tela ili duplo uračunat posao | Jedan ugovor, jedan izvršilac, vezani AR koraci se ažuriraju tek po dokazima |
+| Drugi ugovor tela uz postojeći | Dva paralelna tela istog aktera | Proširuje se postojeće telo iz [ARHITEKTURE](ARHITEKTURA.md#gradivni-blokovi) |
 | Ammo/native objekti | Nestabilnost ili curenje koje unit ne vidi | Zadržati fizički adapter i stvarni pregled uz dozvolu; evidentirati granicu dokaza |
 | Kombinatorna eksplozija stavova i opreme | Prevelika mašina stanja i neodrživ broj klipova | Sastavljive sposobnosti, imenovan skup smislenih kombinacija po ulozi |
 

@@ -21,7 +21,7 @@ import { levels } from './levels.js'
 import { currentStyleClasses } from '/ui/styles.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import { settings } from './settings.js'
-import { aircraft, getAircraft } from './aircraft.js'
+import { fighterBomberPlanes, fighterBomberPlane } from '/core/actor/aircraft/fighterBomberPlanes.js'
 import { assets } from '/config.js'
 
 const { scrollSpeed: speed, clouds, restTime, engineVolume } = settings
@@ -43,7 +43,7 @@ const customStartScreen = ({ container }) => /* html */`
     <p>Reach the Island of Vis</p>
     <h2>Choose your aircraft</h2>
     <div class="game-screen-select vis-aircraft-select">
-      ${aircraft.map(plane => /* html */`
+      ${fighterBomberPlanes.map(plane => /* html */`
         <label data-paid>
           <input type="image" data-aircraft="${plane.id}" src="${assets.images}${plane.image}" alt="Fly ${plane.name}">
           <span>${plane.name}</span>
@@ -97,7 +97,7 @@ export default class VisScene extends Scene2D {
 
   /** The player plane of `aircraftId` at the bottom middle of the screen, kept within it. */
   createPlayer(aircraftId) {
-    const { size, image } = getAircraft(aircraftId)
+    const { size, image } = fighterBomberPlane(aircraftId)
     const body = new FighterBomber({ size: { ...size }, clock: this.session.clock, targets: this.targets, solids: this.targets,
       canFire: () => this.session.state === 'running', view: this.screenView,
       bounds: { minX: 0, maxX: canvas2d.width / pxPerMeter, minZ: 0, maxZ: canvas2d.height / pxPerMeter } })
@@ -125,12 +125,12 @@ export default class VisScene extends Scene2D {
 
   handleClick(e) {
     const id = e.target.dataset?.aircraft
-    if (aircraft.some(plane => plane.id === id) && this.ui.screen === 'start') this.play(id)
+    if (fighterBomberPlanes.some(plane => plane.id === id) && this.ui.screen === 'start') this.play(id)
   }
 
   /** The chosen aircraft: its picture and its size. */
   prepare(id) {
-    const plane = getAircraft(id)
+    const plane = fighterBomberPlane(id)
     Object.assign(this.player.size, plane.size)
     this.placeAtStart(this.player)
     this.playerView.setImage(plane.image)

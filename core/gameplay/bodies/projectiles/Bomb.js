@@ -1,10 +1,11 @@
 import Body from '../Body.js'
+import { earthGravity } from '../../gravity.js'
 
 /**
  * Fall acceleration in metres a second squared, chosen for play: dropped 10 m above the ground at takeoff speed, a
  * bomb falls about a second and lands some 11 m ahead of where it left the plane.
  */
-export const bomb = { gravity: 16.21 }
+export const bomb = { fall: 16.21 / earthGravity }
 
 const states = {
   idle: {
@@ -14,7 +15,7 @@ const states = {
   },
   flight: {
     update: (bomb, dt) => {
-      bomb.vy -= bomb.gravity * dt
+      bomb.vy -= bomb.pull * dt
       bomb.pitch = Math.atan2(bomb.vy, Math.abs(bomb.vx))
       const ground = bomb.groundAt(bomb.x)
       if (bomb.y + bomb.vy * dt > ground) return
@@ -32,10 +33,15 @@ const states = {
  * its bursts for the view; it stays where it burst.
  */
 export default class Bomb extends Body {
-  constructor({ gravity = bomb.gravity, groundAt = () => 0, onImpact = () => {}, ...rest } = {}) {
+  constructor({ groundAt = () => 0, onImpact = () => {}, ...rest } = {}) {
     super({ size: { length: .29, height: .64, width: .29 }, ...rest, states })
-    Object.assign(this, { gravity, groundAt, onImpact })
+    Object.assign(this, { groundAt, onImpact })
     this.bursts = 0
+  }
+
+  /** How hard it is pulled down: its world's gravity, as much stronger as its games drop bombs. */
+  get pull() {
+    return this.gravity * bomb.fall
   }
 
   get active() {

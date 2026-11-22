@@ -80,7 +80,7 @@ export default class FieldGun extends Body {
     this.elevation = .2
     this.force = fieldGun.minForce
     this.aimedForce = null
-    this.shells = new ProjectilePool(() => new Cannonball({ wind, groundAt, bounds, onBlast, random }))
+    this.shells = new ProjectilePool(() => new Cannonball({ gravity: this.gravity, wind, groundAt, bounds, onBlast, random }))
     this.y = groundAt(this.wheelX) + standingHeight
     /** The parts the hit shapes turn and flip with, in the frame the pictures were measured in (y down). */
     const gun = this
@@ -191,8 +191,13 @@ export default class FieldGun extends Body {
   }
 
   /** As far as the strongest shot carries over level ground, with the barrel highest and no wind. */
+  /** How hard its balls are pulled down. */
+  get ballPull() {
+    return this.gravity * cannonball.fall
+  }
+
   get reach() {
-    return fieldGun.maxForce ** 2 * Math.sin(2 * fieldGun.highest) / cannonball.gravity
+    return fieldGun.maxForce ** 2 * Math.sin(2 * fieldGun.highest) / this.ballPull
   }
 
   /** Points on the ground ahead: a near one takes a low barrel, a far one a raised barrel. */
@@ -209,7 +214,7 @@ export default class FieldGun extends Body {
     const distance = Math.abs(point.x - x)
     const drop = y - point.y
     const acceleration = this.forward * (this.wind?.acceleration || 0)
-    const timeSquared = 2 * (distance * Math.tan(elevation) + drop) / (cannonball.gravity + acceleration * Math.tan(elevation))
+    const timeSquared = 2 * (distance * Math.tan(elevation) + drop) / (this.ballPull + acceleration * Math.tan(elevation))
     return timeSquared > 0
       ? (distance - acceleration * timeSquared / 2) / (Math.cos(elevation) * Math.sqrt(timeSquared))
       : null

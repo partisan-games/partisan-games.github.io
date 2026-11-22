@@ -103,5 +103,21 @@
     "original": "armies/camac.png",
     "frame": [355, 152],
     "reference": "player-boat-reference.png"
+  },
+  {
+    "id": "potez-25-partisan",
+    "original": "armies/game-ready/avioni/potez-25-partisan-bez-mitraljeza.png",
+    "frame": [400, 173],
+    "reference": "potez-25-partisan-reference.png",
+    "prompt": "potez-25-partisan-prompt.json",
+    "integration": "The falling plane keeps its airframe until ground impact; then this wreck settles flat and ends in dead. Health is already zero during falling; collider size and art scale remain unchanged."
+  },
+  {
+    "id": "potez-25-ndh",
+    "original": "armies/game-ready/avioni/potez-25-ndh-bez-mitraljeza.png",
+    "frame": [400, 173],
+    "reference": "potez-25-ndh-reference.png",
+    "prompt": "potez-25-ndh-prompt.json",
+    "integration": "The falling plane keeps its airframe until ground impact; then this wreck settles flat and ends in dead. Health is already zero during falling; collider size and art scale remain unchanged."
   }
 ]

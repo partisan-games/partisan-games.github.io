@@ -189,7 +189,7 @@ export default class ToTriesteScene extends Scene2D {
       body.x = toMeters(this.cameraX + canvas2d.width) + body.size.length / 2 + 1
       body.enter()
       const view = new DiveBomberSprite(body, this.views)
-      return { sort: 'plane', kind, body, view, controllers: [new Bombardier(body, this.player, { sees: this.sees, aim: dropLead(body.bomb.gravity) })] }
+      return { sort: 'plane', kind, body, view, controllers: [new Bombardier(body, this.player, { sees: this.sees, aim: dropLead(body.bomb.pull) })] }
     }
     const body = new Fighter({ ...options, targets: [this.player], gun: fighterGun, view: this.screenView })
     body.x = toMeters(this.cameraX + canvas2d.width) + body.size.length / 2 + 1

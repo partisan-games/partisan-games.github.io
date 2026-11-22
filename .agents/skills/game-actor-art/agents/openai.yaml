@@ -1,0 +1,4 @@
+interface:
+  display_name: "Art aktera"
+  short_description: "Sprite art, prelazi i povezivanje aktera u igri"
+  default_prompt: "Koristi $game-actor-art da dopuniš sprite art ovog aktera i povežeš ga sa njegovim radnjama u dogovorenom obimu."

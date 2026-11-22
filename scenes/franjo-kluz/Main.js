@@ -31,10 +31,13 @@ import RiflemanSprite from '/core/actor/soldiers/RiflemanSprite.js'
 import VehicleSprite from '/core/actor/vehicles/VehicleSprite.js'
 import FlakSprite from '/core/actor/artillery/FlakSprite.js'
 import WorldSprite from '/core/actor/WorldSprite.js'
-import { kinds } from './enemies.js'
+import { groundUnitLooks } from '/core/actor/groundUnitLooks.js'
 import { missions } from './missions.js'
 import Airfield from './Airfield.js'
 import ParallaxLayer from './ParallaxLayer.js'
+
+/** The Potez sinks unless it is flown, metres a second squared: the player has to keep it up (a rule of this game). */
+const potezSink = 2.92
 
 const groundLevel = canvas2d.height
 /** How many pixels a metre of the world is drawn: the bodies are in metres, the levels and scenery in pixels. */
@@ -131,7 +134,7 @@ export default class FranjoKluzScene extends Scene2D {
       x: toMeters(start.x), y: toMeters(groundLevel - start.y), onGround: Boolean(departure),
       clock: this.session.clock, groundAt: x => this.groundAt(x), bounds: this.bounds, canFire: () => this.running,
       targets: this.targets, fighters: this.fighters, solids: this.solids, onBombImpact: point => this.destroyAround(point),
-      view: this.screenView,
+      view: this.screenView, sink: potezSink,
     })
     this.playerView = new PotezSprite(this.player, { src: this.mission.disguised ? markings.ndh : markings.partisan,
       ...this.views })
@@ -199,7 +202,7 @@ export default class FranjoKluzScene extends Scene2D {
       body.y = body.size.height / 2
       return { body, view: new FlakSprite(body, this.views) }
     }
-    const { art, attack, facing = 1 } = kinds[kind]
+    const { art, attack, facing = 1 } = groundUnitLooks[kind]
     if (riflemanKinds[kind]) {
       const body = new Rifleman({ ...place, kind: riflemanKinds[kind], y: riflemanKinds[kind].size.height / 2, yaw: Math.PI,
         view: this.screenView })

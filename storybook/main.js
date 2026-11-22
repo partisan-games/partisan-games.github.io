@@ -8,6 +8,8 @@ const panel = document.getElementById('storybook-panel')
 /** What each shot a block can take is called on its button, in the order the buttons stand, the higher above. */
 const shotNames = { up: 'Pucaj gore', straight: 'Pucaj pravo' }
 
+const dimensionOf = story => !story.stage || story.stage === Stage2D ? '2d' : '3d'
+
 /** The story at `kind/story` in the address, or the first one, and its look at `kind/story/look`, or its first. */
 const find = address => {
   const [kindId, storyId, lookId] = address.split('/')
@@ -36,9 +38,9 @@ async function show() {
     restore()
     way = story.way ?? 1
   }
-  drawList(story)
+  drawList(kind, story)
   const Stage = story.stage ?? Stage2D
-  document.body.dataset.stage = Stage === Stage2D ? '2d' : '3d'
+  document.body.dataset.stage = dimensionOf(story)
   const stage = new Stage({ pxPerMeter: story.pxPerMeter })
   // a 3D block waits for its models
   await stage.init()
@@ -50,11 +52,28 @@ async function show() {
   drawPanel()
 }
 
-function drawList(current) {
-  list.innerHTML = kinds.map(kind => /* html */`
-    <h2>${kind.title}</h2>
-    ${kind.stories.map(story => `<a href="#${kind.id}/${story.id}" aria-current="${story === current}">${story.name}</a>`).join('')}
-  `).join('')
+function drawList(kind, current) {
+  // Keep the disclosure elements when a story changes, so their open state and focus survive.
+  if (!list.children.length) list.innerHTML = ['2d', '3d'].map(dimension => {
+    const categories = kinds.map(group => {
+      const stories = group.stories.filter(story => dimensionOf(story) === dimension)
+      return stories.length ? /* html */`
+          <h2>${group.title}</h2>
+          ${stories.map(story => `<a href="#${group.id}/${story.id}" aria-current="false">${story.name}</a>`).join('')}
+        ` : ''
+    }).join('')
+    return /* html */`
+        <details data-dimension="${dimension}">
+          <summary>${dimension.toUpperCase()}</summary>
+          <div class="storybook-categories">${categories}</div>
+        </details>`
+  }).join('')
+  const address = `#${kind.id}/${current.id}`
+  for (const link of list.querySelectorAll('a')) {
+    const selected = link.getAttribute('href') === address
+    if (selected && link.getAttribute('aria-current') !== 'true') link.closest('details').open = true
+    link.setAttribute('aria-current', String(selected))
+  }
 }
 
 /** One button for each of `names`, which set the block to that state, and any `more` buttons after them. */

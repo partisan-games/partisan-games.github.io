@@ -32,7 +32,7 @@ export default class AntiTankGun extends Body {
     this.laid = false
     this.reload = new Cooldown({ seconds: antiTankGun.reload, clock })
     this.reload.start(antiTankGun.firstShot)
-    this.shells = new ProjectilePool(() => new Shell({ gravity: tank.shellGravity, groundAt, random }))
+    this.shells = new ProjectilePool(() => new Shell({ gravity: this.gravity, fall: tank.shellFall, groundAt, random }))
   }
 
   get forward() {
@@ -54,8 +54,13 @@ export default class AntiTankGun extends Body {
   }
 
   /** As far as its shell carries at the best angle. */
+  /** How hard its shells are pulled down. */
+  get shellPull() {
+    return this.gravity * tank.shellFall
+  }
+
   get reach() {
-    return tank.shellSpeed ** 2 / tank.shellGravity
+    return tank.shellSpeed ** 2 / this.shellPull
   }
 
   /** A target near and level, and one far off. */
@@ -67,10 +72,10 @@ export default class AntiTankGun extends Body {
   aimAt(point) {
     this.laid = false
     if (Math.sign(point.x - this.x) !== this.forward) return false
-    let elevation = lowArc(this.barrelPivot, point, tank.shellSpeed, tank.shellGravity)
+    let elevation = lowArc(this.barrelPivot, point, tank.shellSpeed, this.shellPull)
     for (let i = 0; i < 12 && elevation !== null; i++) {
       this.elevation = elevation
-      elevation = lowArc(this.muzzle, point, tank.shellSpeed, tank.shellGravity)
+      elevation = lowArc(this.muzzle, point, tank.shellSpeed, this.shellPull)
     }
     if (elevation === null) return false
     this.elevation = elevation

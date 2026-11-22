@@ -2,7 +2,7 @@ import canvas2d from '/core/io/canvas2d.js'
 import PathFlight from '/core/gameplay/controllers/PathFlight.js'
 import Gunner from '/core/gameplay/controllers/Gunner.js'
 import AttackPlane, { attackPlaneKinds } from '/core/gameplay/bodies/aircraft/AttackPlane.js'
-import AttackPlaneSprite from '/core/actor/aircraft/AttackPlaneSprite.js'
+import AttackPlaneSprite, { attackPlaneImages } from '/core/actor/aircraft/AttackPlaneSprite.js'
 import { formationMembers } from './formations.js'
 import { paths } from './paths.js'
 import { settings } from './settings.js'
@@ -91,7 +91,7 @@ export default class Waves {
     const body = new AttackPlane({ kind: attackPlaneKinds[type], clock: this.scene.session.clock, targets: [this.player],
       view: this.scene.screenView })
     body.canFire = () => this.canFire(body)
-    const view = new AttackPlaneSprite(body, { src: pick(settings.enemies[type].images), projection: this.projection })
+    const view = new AttackPlaneSprite(body, { src: pick(attackPlaneImages[type]), projection: this.projection })
     const position = t => this.projection.toWorld(path(t))
     const flight = new PathFlight(body, { position, delay })
     return { type, body, view, flight, gunner: new Gunner(body, this.player), entered: false }

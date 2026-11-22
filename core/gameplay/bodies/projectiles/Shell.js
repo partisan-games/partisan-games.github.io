@@ -2,7 +2,7 @@ import Body from '../Body.js'
 import { firstHit, along } from './hits.js'
 
 /** Metres a second squared it falls, the seconds its burst lasts before the target is damaged, and the damage. */
-export const shell = { gravity: 9.8, burst: .15, damage: { min: 10, max: 20 } }
+export const shell = { fall: 1, burst: .15, damage: { min: 10, max: 20 } }
 
 const states = {
   idle: {
@@ -13,7 +13,7 @@ const states = {
   },
   flight: {
     update: (shell, dt) => {
-      shell.vy -= shell.gravity * dt
+      shell.vy -= shell.gravity * shell.fall * dt
       shell.pitch = Math.atan2(shell.vy, Math.hypot(shell.vx, shell.vz))
       const { bounds } = shell
       const outside = bounds && (shell.x < bounds.min.x || shell.x > bounds.max.x || shell.y > bounds.max.y)
@@ -38,9 +38,9 @@ const states = {
  * without a burst. `random` gives each flight its damage.
  */
 export default class Shell extends Body {
-  constructor({ gravity = shell.gravity, burst = shell.burst, groundAt = () => 0, bounds = null, random = Math.random, ...rest } = {}) {
+  constructor({ fall = shell.fall, burst = shell.burst, groundAt = () => 0, bounds = null, random = Math.random, ...rest } = {}) {
     super({ size: { length: .26, height: .26, width: .26 }, ...rest, states })
-    Object.assign(this, { gravity, burst, groundAt, bounds, random })
+    Object.assign(this, { fall, burst, groundAt, bounds, random })
     this.target = null
     this.damage = 0
   }

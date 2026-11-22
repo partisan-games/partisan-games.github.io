@@ -7,17 +7,14 @@ export const settings = {
   formationGap: 125, // px between planes in a formation, a little more than a fighter's width
   enemies: {
     fighter: {
-      images: ['armies/nemci/avioni/bf-109-odozgo.png', 'armies/nemci/avioni/fw-190-odozgo.png'],
       scale: .5, hits: 1, points: 100, speed: 190,
       fire: { interval: 2.5, spread: [0] }, // seconds between shots, angles of one shot
     },
     heavy: {
-      images: ['armies/nemci/avioni/bf-110-odozgo.png'],
       scale: .5, hits: 5, points: 500, speed: 110,
       fire: { interval: 2, spread: [-.25, 0, .25] },
     },
     boss: {
-      images: ['armies/nemci/avioni/he-111-odozgo.png'],
       scale: .5, hits: 60, points: 5000, speed: 60,
       fire: { interval: 1.2, spread: [-.5, -.25, 0, .25, .5] },
     },

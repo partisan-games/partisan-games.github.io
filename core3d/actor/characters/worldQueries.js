@@ -6,7 +6,7 @@ const above = 200
 
 /**
  * The answers a character's body asks of a 3D world, found by rays through `solids`, the meshes that block: the
- * ground's height under a point, whether a step is blocked, how far a blow goes before a wall stops it, and whether
+ * ground's height under a point, looked for down from height `y`, or from high above, whether a step is blocked, how far a blow goes before a wall stops it, and whether
  * one body sees another. `impactAt` gives the view the surface a bullet marks; it is not a body query.
  * The scene may add to `solids` later.
  */
@@ -21,7 +21,7 @@ export default function worldQueries(solids) {
   }
   return {
     impactAt: first,
-    groundAt: (x, z) => first({ x, y: above, z }, { x: 0, y: -1, z: 0 }, Infinity)?.point.y ?? 0,
+    groundAt: (x, z, y = above) => first({ x, y, z }, { x: 0, y: -1, z: 0 }, Infinity)?.point.y ?? 0,
     isBlocked: (from, direction, distance) => Boolean(first(from, direction, distance)),
     obstacleAt: (from, direction, reach) => first(from, direction, reach)?.distance ?? Infinity,
     sees: (from, to) => {

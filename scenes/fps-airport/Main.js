@@ -2,19 +2,29 @@ import Scene3D from '/core/Scene3D.js'
 import { createGround, createFloor } from '/core3d/ground.js'
 import { createMoon } from '/core3d/light.js'
 import { sample, getEmptyCoords } from '/core3d/helpers.js'
-import FPSPlayer from '/core3d/actor/FPSPlayer.js'
 import { fpsControls } from '/ui/Controls.js'
 import { createAirport } from '/core3d/city.js'
 import { loadModel } from '/core3d/loaders.js'
-import DornierBomber, { models as dornierBomberModels } from '/core3d/objects/DornierBomber.js'
-import JunkersStuka, { models as junkersStukaModels } from '/core3d/objects/JunkersStuka.js'
-import HeinkelBomber, { models as heinkelBomberModels } from '/core3d/objects/HeinkelBomber.js'
-import { AirportTower, models as towerModels } from '/core3d/objects/Tower.js'
-import { TankAI, models as tankModels } from '/core3d/actor/derived/Tank.js'
-import { GermanMachineGunnerAI, models as germanMachineGunnerModels } from '/core3d/actor/derived/ww2/GermanMachineGunner.js'
-import { SSSoldierAI, models as ssSoldierModels } from '/core3d/actor/derived/ww2/SSSoldier.js'
-import { NaziOfficerAI, models as naziOfficerModels } from '/core3d/actor/derived/ww2/NaziOfficer.js'
-import { requestModels } from '/core3d/assets/models.js'
+import { description as tank, models as tankModels } from '/core3d/actor/derived/Tank.js'
+import { description as germanMachineGunner, models as germanMachineGunnerModels } from '/core3d/actor/derived/ww2/GermanMachineGunner.js'
+import { description as ssSoldier, models as ssSoldierModels } from '/core3d/actor/derived/ww2/SSSoldier.js'
+import { description as naziOfficer, models as naziOfficerModels } from '/core3d/actor/derived/ww2/NaziOfficer.js'
+import { requestModels, loadedModel } from '/core3d/assets/models.js'
+import { createPlayerBox } from '/core3d/geometry/index.js'
+import Character from '/core/gameplay/bodies/characters/Character.js'
+import Building from '/core/gameplay/bodies/buildings/Building.js'
+import Tower, { airfieldTower } from '/core/gameplay/bodies/buildings/Tower.js'
+import CharacterKeys from '/core/gameplay/controllers/CharacterKeys.js'
+import CharacterAI from '/core/gameplay/controllers/CharacterAI.js'
+import { computerDamage } from '/core/gameplay/damage.js'
+import Input from '/core/io/Input.js'
+import CharacterModel, { modelSize } from '/core3d/actor/characters/CharacterModel.js'
+import makeCharacter from '/core3d/actor/characters/makeCharacter.js'
+import worldQueries from '/core3d/actor/characters/worldQueries.js'
+import MouseLook from '/core3d/actor/characters/MouseLook.js'
+import FirstPersonView from '/core3d/actor/characters/FirstPersonView.js'
+import BuildingModel from '/core3d/actor/buildings/BuildingModel.js'
+import { towerModel, parkedBombers } from '/core3d/actor/buildings/buildingModels.js'
 
 const mapSize = 200
 const dornierNum = 8, stukaNum = 8, heinkelNum = 7
@@ -31,24 +41,45 @@ export default class FpsAirportScene extends Scene3D {
   }
 
   async init() {
-    await requestModels([...dornierBomberModels, ...junkersStukaModels, ...heinkelBomberModels, ...towerModels, ...tankModels, ...germanMachineGunnerModels, ...ssSoldierModels, ...naziOfficerModels])
+    const bomberModels = Object.values(parkedBombers).map(({ model }) => model)
+    await requestModels([...bomberModels, towerModel, ...tankModels, ...germanMachineGunnerModels, ...ssSoldierModels, ...naziOfficerModels])
     const ground = createGround({ file: 'terrain/ground.jpg' })
     ground.position.y -= .1
     const floor = createFloor({ size: mapSize, file: 'terrain/asphalt.jpg' })
     this.solids = []
 
     const coords = getEmptyCoords({ mapSize: mapSize * .5 })
-    this.player = new FPSPlayer({ camera: this.camera, pos: [100, 0, 0] })
-    this.player.lookAt(this.scene.position)
+    // the player's targets: the parked planes, the towers and the soldiers
+    this.enemies = []
+    const playerSolids = []
+    this.player = new Character({ x: 100, size: { length: .4, height: 1.78, width: .4 }, reach: 100, jumping: 'fly',
+      strikeHeight: .82, targets: this.enemies, ...worldQueries(playerSolids) })
+    this.player.face({ x: 0, z: 0 })
+    this.controllers.push(new CharacterKeys(this.player, new Input({ useJoystick: false, useKeyboard: true, attackKey: 'pointer' })),
+      new MouseLook(this.player))
+    const playerModel = new CharacterModel(this.player, { mesh: createPlayerBox({ visible: false }), attackSound: 'rifle.mp3' })
+    this.audioPlayer = () => playerModel
+    this.add(this.player, playerModel, new FirstPersonView(this.player, { camera: this.camera }))
 
+    const park = (kind, x, z) => {
+      const { model, origin } = parkedBombers[kind]
+      const mesh = loadedModel(model), size = modelSize(mesh)
+      const body = new Building({ kind: 'aircraft', size, x, z, y: size.height / 2 })
+      this.add(body, new BuildingModel(body, { mesh, origin, smokyChance: .5 }))
+      this.enemies.push(body)
+      return body
+    }
     this.aircraft = [
-      ...Array.from({ length: dornierNum }, (_, i) => new DornierBomber({ pos: [-50 + i * 15, 0, -75] })),
-      ...Array.from({ length: stukaNum }, (_, i) => new JunkersStuka({ pos: [-55, 0, -55 + i * 12] })),
-      ...Array.from({ length: heinkelNum }, (_, i) => new HeinkelBomber({ pos: [-50 + i * 18, 0, 50] })),
+      ...Array.from({ length: dornierNum }, (_, i) => park('dornier', -50 + i * 15, -75)),
+      ...Array.from({ length: stukaNum }, (_, i) => park('stuka', -55, -55 + i * 12)),
+      ...Array.from({ length: heinkelNum }, (_, i) => park('heinkel', -50 + i * 18, 50)),
     ]
 
     ;[[-75, -75], [-75, 75], [75, -75], [75, 75]].forEach(([x, z]) => {
-      this.add(new AirportTower(x, z))
+      const mesh = loadedModel(towerModel), size = modelSize(mesh)
+      const body = new Tower({ clock: this.session.clock, targets: [this.player], gun: airfieldTower, size, x, z, y: size.height / 2 })
+      this.add(body, new BuildingModel(body, { mesh }))
+      this.enemies.push(body)
     })
 
     const airport = createAirport()
@@ -62,26 +93,30 @@ export default class FpsAirportScene extends Scene3D {
     bunker.position.set(75, 0, 25)
 
     this.solids.push(airport, airport2, bunker)
-    this.player.addSolids(this.solids)
+    playerSolids.push(...this.solids)
+    const world = worldQueries(this.solids)
+    const half = mapSize / 2
+    const bounds = { min: { x: -half, z: -half }, max: { x: half, z: half } }
 
-    const soldiers = [GermanMachineGunnerAI, SSSoldierAI, NaziOfficerAI]
     for (let i = 0; i < 10; i++) {
-      const RandomClass = sample(soldiers)
-      const soldier = new RandomClass({ pos: coords.pop(), target: this.player.mesh, mapSize })
-      soldier.addSolids(this.solids)
-      this.add(soldier)
+      const { x, z } = coords.pop()
+      const { body, model } = makeCharacter(sample([germanMachineGunner, ssSoldier, naziOfficer]),
+        { x, z, bounds, targets: [this.player], damage: computerDamage, ...world })
+      this.controllers.push(new CharacterAI(body, { target: this.player, way: 'wander', sees: world.sees }))
+      this.add(body, model)
+      this.enemies.push(body)
     }
 
-    const tank = new TankAI({ mapSize })
-    tank.addSolids(this.solids)
-    this.add(tank)
+    // a tank patrols the airfield, turning back every 30 m
+    const patrol = makeCharacter(tank, { bounds, ...world })
+    this.controllers.push(new CharacterAI(patrol.body, { way: 'patrol', patrolDistance: 30 }))
+    this.add(patrol.body, patrol.model)
 
     this.addMesh(ground, floor, createMoon(), airport, airport2, bunker)
-    this.add(...this.aircraft, this.player)
   }
 
   sceneUI() {
-    const destroyed = this.aircraft.filter(plane => plane.energy <= 0)
+    const destroyed = this.aircraft.filter(plane => plane.dead)
     const left = this.aircraft.length - destroyed.length
     return this.ui.scoreUI('Score', destroyed.length, 'Enemy left', left)
   }
@@ -90,7 +125,7 @@ export default class FpsAirportScene extends Scene3D {
     super.update(dt)
     if (!document.pointerLockElement) return
 
-    const destroyed = this.aircraft.filter(plane => plane.energy <= 0)
+    const destroyed = this.aircraft.filter(plane => plane.dead)
 
     if (this.player.dead)
       this.defeat('You are dead.')

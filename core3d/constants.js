@@ -22,33 +22,3 @@ export const dir = {
   down: new Vector3(0, -1, 0),
 }
 
-export const jumpStyles = {
-  ANIM_JUMP: 'ANIM_JUMP',
-  FLY_JUMP: 'FLY_JUMP',
-  FLY: 'FLY',
-}
-
-export const attackStyles = {
-  ONCE: 'ONCE',
-  LOOP: 'LOOP',
-}
-
-export const reactions = {
-  BOUNCE: 'BOUNCE',
-  TURN_SMOOTH: 'TURN_SMOOTH',
-  STEP_OFF: 'STEP_OFF',
-  STOP: 'STOP',
-}
-
-/**
- * pursue target: idle, patrol, wander
- * doesn't pursue: flee i follow
- */
-export const baseStates = {
-  idle: 'idle',
-  patrol: 'patrol',
-  wander: 'wander',
-  flee: 'flee',
-  follow: 'follow',
-  defend: 'defend',
-}

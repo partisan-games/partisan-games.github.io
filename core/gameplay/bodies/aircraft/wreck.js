@@ -1,8 +1,10 @@
+import { earthGravity } from '../../gravity.js'
+
 /**
- * A shot down plane keeps its speed and gravity bends its path down: the pull in metres a second squared, and the
+ * A shot down plane keeps its speed and gravity bends its path down: how much harder than its world pulls, and the
  * share of its forward speed the dead engine loses each second, so the dive steepens as it falls.
  */
-export const wreckFall = { gravity: 19.5, drag: .5 }
+export const wreckFall = { fall: 19.5 / earthGravity, drag: .5 }
 
 /**
  * One step of a shot down plane's fall, nose along its path. Once it reaches `groundAt(x)` it stops there, `crashed`,
@@ -11,7 +13,7 @@ export const wreckFall = { gravity: 19.5, drag: .5 }
 export function fall(plane, dt) {
   if (plane.crashed) return
   plane.vx *= Math.exp(-wreckFall.drag * dt)
-  plane.vy -= wreckFall.gravity * dt
+  plane.vy -= plane.gravity * wreckFall.fall * dt
   plane.pitch = Math.atan2(plane.vy, plane.forward * plane.vx)
   const ground = plane.groundAt(plane.x)
   if (plane.y + plane.vy * dt > ground) return

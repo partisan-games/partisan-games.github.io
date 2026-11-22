@@ -53,7 +53,7 @@ export default class SpomeniciScene extends Scene3D {
     const solids = [terrain, redFlag, yuFlag, kadinjaca, kosmaj, kosovskaMitrovica, podgaric, ilirskaBistrica]
     const world = worldQueries(solids)
     // the partisan walks .7 m above the heightmap, as he always has
-    const groundAt = (x, z) => world.groundAt(x, z) + .7
+    const groundAt = (x, z, y) => world.groundAt(x, z, y) + .7
     this.addMesh(...solids)
     leadCharacter(this, partisan, { z: 2, ...world, groundAt,
       input: { buttonDict: { attack: icons.shoot, jump: '' } }, view: { height: 1.6 } })

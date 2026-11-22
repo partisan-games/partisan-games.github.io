@@ -1,10 +1,9 @@
 import * as THREE from 'three'
 import Building from './Building.js'
 import { loadedModel } from '/core3d/assets/models.js'
+import { factoryModel as model } from '/core3d/actor/buildings/buildingModels.js'
 
 const { randFloat } = THREE.MathUtils
-
-const model = { file: 'building/factory/model.fbx', size: 25 }
 
 /** What to load; a game awaits requestModels(models) before it creates one. */
 export const models = [model]

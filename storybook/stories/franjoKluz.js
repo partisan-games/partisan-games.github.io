@@ -11,7 +11,7 @@ import FighterSprite from '/core/actor/aircraft/FighterSprite.js'
 import DiveBomberSprite from '/core/actor/aircraft/DiveBomberSprite.js'
 import FlakSprite from '/core/actor/artillery/FlakSprite.js'
 import PotezSprite, { markings } from '/core/actor/aircraft/PotezSprite.js'
-import { kinds } from '/scenes/franjo-kluz/enemies.js'
+import { groundUnitLooks as kinds } from '/core/actor/groundUnitLooks.js'
 import { yawOf } from './helpers.js'
 
 /** Where a block stands or flies on the stage, in metres: the middle of the view, `height` above the ground. */

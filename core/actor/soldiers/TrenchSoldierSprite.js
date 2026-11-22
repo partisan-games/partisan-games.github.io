@@ -7,46 +7,41 @@ const shotInterval = .18
 const frameCache = new Map()
 
 /**
- * How a soldier of the `faction` army ('nemci' or 'cetnici') looks and sounds in his trench, seen from the front, at
+ * How a soldier of the `faction` army ('nemci' or 'cetnici') looks and sounds, seen from the front, at
  * `scale` of his picture, the farther row smaller: rising and breathing as he aims, firing with recoil and the sound of
- * his burst, and collapsing back into the trench. `variant` picks one of three men. His place is the middle of his
- * trench on the screen. It only reads the body.
+ * his burst, and collapsing out of sight. `variant` picks one of three men. The art ends at the waist; the scene
+ * supplies any cover in front of it. The body's point is 24 scaled pixels below the figure's centre. It only reads the body.
  */
 export default class TrenchSoldierSprite extends BodySprite {
   constructor(body, { faction = 'nemci', variant = 0, scale = 1, projection, camera }) {
-    super(body, 'armies/rov-prazan.gif', { projection, camera, scale })
+    super(body, `armies/game-ready/vojnici/${faction}-spreda.png`, { projection, camera, scale,
+      width: 68 * scale, height: 76 * scale })
     Object.assign(this, { faction, variant, scale })
     this.idlePhase = Math.random() * Math.PI * 2
     this.animationTime = 0
     this.frames = frameCache.get(faction) ?? null
-    if (!this.frames) {
-      const art = new Image()
-      art.onload = () => {
-        frameCache.set(faction, Array.from({ length: 4 }, (_, row) => Array.from({ length: 3 }, (_, column) => {
-          const frame = document.createElement('canvas')
-          frame.width = 68
-          frame.height = 76
-          frame.getContext('2d').drawImage(art, column * 64, row * 72, 64, 72, 2, 2, 64, 72)
-          return frame
-        })))
-        this.frames = frameCache.get(faction)
-      }
-      art.src = `/assets/images/armies/game-ready/vojnici/${faction}-spreda.png`
-    }
     this.burstSound = new Sound('rafal.mp3', { loop: true, profile: 'rifle', spatial: { getPosition: () => this.position } })
     this.sounds.push(this.burstSound)
   }
 
-  /** The trench keeps its picture's size at its scale. */
+  /** The soldier owns only his atlas; loading it also prepares the padded poses before the scene starts. */
   onload() {
-    this.width = this.image.naturalWidth * this.scale
-    this.height = this.image.naturalHeight * this.scale
+    if (!this.frames) {
+      this.frames = frameCache.get(this.faction) ?? Array.from({ length: 4 }, (_, row) => Array.from({ length: 3 }, (_, column) => {
+        const frame = document.createElement('canvas')
+        frame.width = 68
+        frame.height = 76
+        frame.getContext('2d').drawImage(this.image, column * 64, row * 72, 64, 72, 2, 2, 64, 72)
+        return frame
+      }))
+      frameCache.set(this.faction, this.frames)
+    }
     this.fit()
   }
 
   fit() {
     const { x, y } = this.projection.point(this.body)
-    this.setPosition(x, y)
+    this.setPosition(x, y - 24 * this.width / 68)
     this.alive = this.body.alive
   }
 
@@ -63,12 +58,12 @@ export default class TrenchSoldierSprite extends BodySprite {
     ctx.translate(this.x + x * scale, this.y + y * scale)
     ctx.rotate(angle)
     // an isolated, padded frame cannot sample neighbouring poses when turned or scaled
-    ctx.drawImage(this.frames[row][this.variant], -34 * scale, -62 * scale, 68 * scale, 76 * scale)
+    ctx.drawImage(this.frames[row][this.variant], -34 * scale, -38 * scale, 68 * scale, 76 * scale)
     ctx.restore()
   }
 
   render(ctx) {
-    if (!this.shown || !this.image.naturalWidth) return
+    if (!this.shown || !this.frames) return
     const { state, stateTime } = this.body
     ctx.save()
     ctx.imageSmoothingEnabled = false
@@ -93,7 +88,6 @@ export default class TrenchSoldierSprite extends BodySprite {
         this.renderFigure(ctx, 1, { x: Math.sin(this.animationTime * 1.3 + this.idlePhase) * .45,
           y: (1 - rise) * 10 + breath * .65, angle: breath * .006, alpha: rise })
       }
-    ctx.drawImage(this.image, this.x - this.width / 2, this.y - this.height / 2, this.width, this.height)
     ctx.restore()
   }
 }

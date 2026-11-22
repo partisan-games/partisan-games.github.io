@@ -38,6 +38,27 @@ test('native UI keys remain available and releasing over UI clears gameplay inpu
   assert.equal(keyboard.jump, false)
 })
 
+test('a disclosure summary keeps its native keys and clears held gameplay input on focus', t => {
+  const keyboard = new Keyboard()
+  const details = document.createElement('details')
+  details.innerHTML = '<summary><span>2D</span></summary><a href="#actor">Actor</a>'
+  document.body.append(details)
+  t.after(() => {
+    keyboard.end(); details.remove()
+  })
+  document.body.focus()
+  key(document.body, 'keydown', 'ArrowRight')
+  assert.equal(keyboard.right, true)
+  const summary = details.querySelector('summary')
+  summary.focus()
+  assert.equal(keyboard.right, false)
+  for (const code of ['Space', 'Enter', 'ArrowDown'])
+    assert.equal(key(summary.querySelector('span'), 'keydown', code).defaultPrevented, false)
+  assert.equal(keyboard.jump, false)
+  assert.equal(keyboard.attack, false)
+  assert.equal(keyboard.down, false)
+})
+
 test('canceling a pointer without a left-button release cannot leave fire held', t => {
   const keyboard = new Keyboard({ attackKey: 'pointer' })
   t.after(() => keyboard.end())

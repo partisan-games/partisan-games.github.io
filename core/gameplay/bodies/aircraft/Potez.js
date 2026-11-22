@@ -4,6 +4,7 @@ import ProjectilePool from '../projectiles/ProjectilePool.js'
 import Bullet from '../projectiles/Bullet.js'
 import Bomb from '../projectiles/Bomb.js'
 import { turn } from '../../angles.js'
+import { earthGravity } from '../../gravity.js'
 
 /**
  * Airspeed in metres a second: at takeoff, the slowest and fastest flight, and the change a second of full throttle.
@@ -13,13 +14,13 @@ import { turn } from '../../angles.js'
 export const airspeed = { start: 10.14, min: 6.5, max: 29.64, throttle: 4.87 }
 /**
  * How the plane handles: the push of a key across the view and up or down, in metres a second squared, and the share
- * of that speed kept each second; the pull of gravity, and of a shot down plane's dive; how fast the nose tilts as it
+ * of that speed kept each second; how much harder than its world a shot down plane dives; how fast the nose tilts as it
  * climbs or dives, and how far, in radians; how fast a shot down plane tumbles nose over tail; and the share of its
- * airspeed it keeps each second rolling on the ground.
+ * airspeed it keeps each second rolling on the ground, and how fast it settles flat after impact, in radians a second.
  */
 export const flight = {
-  thrust: 30.21, keep: .9 ** 30, gravity: 2.92, wreckGravity: 87.64, tiltRate: .3, maxTilt: .066, tumbleRate: 2.5,
-  rollOut: .9 ** 30,
+  thrust: 30.21, keep: .9 ** 30, wreckFall: 87.64 / earthGravity, tiltRate: .3, maxTilt: .066, tumbleRate: 2.5,
+  rollOut: .9 ** 30, settleRate: 4,
 }
 /**
  * The plane: its health, under half of which the damaged engine smokes; how high above the ground it can climb, in
@@ -40,7 +41,8 @@ export const rearGun = { reach: 19.5, cone: Math.PI / 3, reload: .2, swing: 4, m
 
 /**
  * The plane stands on the ground (`idle`) until it takes off, flies (`move`), flies firing both guns as they reload
- * (`attack`), or falls shot down and lies wrecked (`dead`). Firing and bombing are also commands that go with flight.
+ * (`attack`), falls shot down and settles after impact (`falling`), then lies wrecked (`dead`). Firing and bombing
+ * are also commands that go with flight. A falling plane has no health and cannot be controlled.
  */
 const states = {
   idle: {},
@@ -52,9 +54,17 @@ const states = {
     },
   },
   // it keeps its airspeed as it starts to fall
+  falling: {
+    enter: plane => {
+      if (plane.alive) plane.health.damage(plane.health.current)
+      plane.vy = 0
+    },
+  },
   dead: {
     enter: plane => {
-      plane.vy = 0
+      plane.pitch = 0
+      plane.y = plane.groundAt(plane.x) + plane.size.height / 2
+      plane.vx = plane.vy = plane.airspeed = plane.across = 0
     },
   },
 }
@@ -65,13 +75,15 @@ const states = {
  * It stands on `groundAt(x)` and flies up to its ceiling. Its guns hit the living ones of `targets`, the rear gun those
  * of `fighters`; flying into a living one of `solids` destroys both, into a wreck damages it once. Its bombs burst on
  * the ground, where `onBombImpact(point)` deals the damage. `clock` is the game clock, and it fires only while
- * `canFire()`.
+ * `canFire()`. In level flight its wings hold it up; a game that wants it to sink unless it is flown gives `sink`, in
+ * metres a second squared.
  */
 export default class Potez extends Body {
   constructor({ clock, groundAt = () => 0, bounds = { min: -Infinity, max: Infinity }, targets = [], fighters = [],
-    solids = [], canFire = () => true, onBombImpact = () => {}, onGround = false, random = Math.random, view = null, ...rest } = {}) {
+    solids = [], canFire = () => true, onBombImpact = () => {}, onGround = false, sink = 0, random = Math.random, view = null,
+    ...rest } = {}) {
     super({ size: { length: 7.14, height: 3.09, width: 8.86 }, health: plane.health, ...rest, states, initial: onGround ? 'idle' : 'move' })
-    Object.assign(this, { groundAt, bounds, targets, fighters, solids, canFire })
+    Object.assign(this, { groundAt, bounds, targets, fighters, solids, canFire, sink })
     this.airspeed = onGround ? 0 : airspeed.start
     /** Speed across the view, on top of the airspeed the view keeps. */
     this.across = 0
@@ -94,7 +106,7 @@ export default class Potez extends Body {
     this.reload = new Cooldown({ seconds: gun.reload, clock })
     this.rearReload = new Cooldown({ seconds: rearGun.reload, clock })
     this.bombInterval = new Cooldown({ seconds: plane.bombInterval, clock })
-    this.bombBay = Array.from({ length: plane.bombs }, () => new Bomb({ groundAt, onImpact: onBombImpact }))
+    this.bombBay = Array.from({ length: plane.bombs }, () => new Bomb({ gravity: this.gravity, groundAt, onImpact: onBombImpact }))
     /** The fighter the observer aims at, and where his gun points, in radians from +x; at rest straight back. */
     this.rearTarget = null
     this.rearAim = Math.PI
@@ -104,8 +116,19 @@ export default class Potez extends Body {
     return 1
   }
 
+  /** Destruction starts the fall; `dead` is reached only after ground contact and settling. */
+  setState(name) {
+    super.setState(name === 'dead' && !this.wrecked ? 'falling' : name)
+  }
+
+  /** A falling airframe touches the ground with its rotated outline, rather than its level wheels. */
+  get groundClearance() {
+    if (this.alive) return this.size.height / 2
+    return (Math.abs(Math.sin(this.pitch)) * this.size.length + Math.abs(Math.cos(this.pitch)) * this.size.height) / 2
+  }
+
   get isGrounded() {
-    return this.y - this.size.height / 2 <= this.groundAt(this.x) + 1e-9
+    return this.y - this.groundClearance <= this.groundAt(this.x) + 1e-9
   }
 
   get atCeiling() {
@@ -237,7 +260,7 @@ export default class Potez extends Body {
     if (!this.isGrounded) this.touchdown = null
     else {
       this.touchdown ??= { airspeed: this.airspeed, sink: -this.vy }
-      this.y = this.groundAt(this.x) + this.size.height / 2
+      this.y = this.groundAt(this.x) + this.groundClearance
       if (this.vy < 0) this.vy = 0
       if (this.dead && !this.wrecked) this.wreck()
     }
@@ -247,10 +270,19 @@ export default class Potez extends Body {
     }
   }
 
-  /** The falling wreck hits the ground nose first and stops. */
+  /** The airframe hits the ground and stops travelling, but still has to settle flat. */
   wreck() {
     this.wrecked = true
-    this.airspeed = this.across = 0
+    this.airspeed = this.across = this.vx = this.vy = 0
+    this.pitch = turn(0, this.pitch)
+  }
+
+  /** Keeps the lowest corner on the ground as the tail lowers, ending at the wreck's level baseline. */
+  settle(dt) {
+    const step = flight.settleRate * dt
+    this.pitch = Math.abs(this.pitch) <= step ? 0 : this.pitch - Math.sign(this.pitch) * step
+    this.y = this.groundAt(this.x) + this.groundClearance
+    if (this.pitch === 0) this.setState('dead')
   }
 
   /** A live one of `solids` destroys the plane and itself; a wreck damages it once. */
@@ -282,6 +314,8 @@ export default class Potez extends Body {
   }
 
   update(dt) {
+    const wasWrecked = this.wrecked
+    if (this.dead && !this.wrecked) this.pitch -= flight.tumbleRate * dt
     // on the ground the plane rolls out
     if (this.isGrounded) this.airspeed *= flight.rollOut ** dt
     this.vx = this.airspeed + this.across
@@ -294,10 +328,10 @@ export default class Potez extends Body {
     this.bullets.update(dt, this.targets)
     this.rearBullets.update(dt, this.fighters)
     for (const bomb of this.bombBay) bomb.update(dt)
-    if (!this.isGrounded) this.vy -= (this.dead ? flight.wreckGravity : flight.gravity) * dt
+    if (!this.isGrounded) this.vy -= (this.dead ? this.gravity * flight.wreckFall : this.sink) * dt
     this.levelOut(dt)
     this.tilted = false
-    if (this.dead && !this.wrecked) this.pitch -= flight.tumbleRate * dt
+    if (wasWrecked && this.state === 'falling') this.settle(dt)
     this.swingRearGun(dt)
   }
 }

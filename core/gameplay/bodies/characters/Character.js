@@ -1,19 +1,20 @@
 import Body from '../Body.js'
 import { damageAt } from '../../damage.js'
+import { earthGravity } from '../../gravity.js'
 import { rayBoxEntry } from '../../../collision/ray.js'
 
 /**
  * Measured from the earlier 3D actors. `speed` is metres a second at a walk, `run` its multiple at a run and `back`
  * the share of that run going backwards; `keep` is the share of speed kept each second once it stops pushing. It
  * turns `turn` radians a second running and a quarter of that for each metre a second of its walk otherwise.
- * `gravity` and `lift`, the push of a flying jump, are metres a second squared, `fallSpeed` the fastest it falls or
+ * It falls `fall` times its world's gravity; `lift`, the push of a flying jump, is metres a second squared, `fallSpeed` the fastest it falls or
  * rises, and `climb` how fast it follows the ground up or down, in metres a second. It is airborne once its feet
  * are `airborne` of its height above the ground. A blow reaches `reach` metres the way it aims from `strikeHeight`
  * of its height and deals `damage`; a swing with no measured length lasts `swing` seconds and lands halfway through.
  */
 export const character = {
   speed: 2, run: 2, back: .75, keep: .5 ** 30, turn: Math.PI / 2,
-  gravity: 42, lift: 42 * 1.66, fallSpeed: 14, climb: 2, airborne: .25,
+  fall: 42 / earthGravity, lift: 42 * 1.66, fallSpeed: 14, climb: 2, airborne: .25,
   reach: 1.5, strikeHeight: .66, damage: [35, 55], swing: .3,
 }
 
@@ -42,7 +43,7 @@ const states = {
 /**
  * A person, beast or monster on foot. `x, y, z` is the middle of its hit box, so its feet are half its height lower.
  * It walks, runs, turns and side-steps as it is steered, and looks up and down within `pitchRange`; it jumps, either
- * in one leap of `actions.jump` seconds or, flying, pushing itself up for at most `maxLift` seconds. It swings
+ * in one leap of `actions.jump` seconds or, flying, pushing itself up by `lift` for at most `maxLift` seconds. It swings
  * `attack`, `attack2` or `special` for their seconds in `actions` and, halfway through a blow, hits the nearest of the
  * living `targets` straight ahead within its reach, unless something nearer stands in the way. A blow of one of the
  * `area.kinds`, as a spell, hits every one of them within `area.reach` around it instead, with `area.damage`. It does
@@ -50,7 +51,8 @@ const states = {
  * `actions.pain` seconds; a `guarded` one cannot be hurt while it attacks. One that `walks` not, as a gun on its
  * carriage, only turns; a bird or an airship keeps `altitude` metres above the ground.
  *
- * The scene answers its questions about the world: `groundAt(x, z)` is the ground's height, `isBlocked(from,
+ * The scene answers its questions about the world: `groundAt(x, z, y)` is the height of the ground under height `y`,
+ * so what floats over its head is not its ground, `isBlocked(from,
  * direction, distance)` whether it can step that way and `obstacleAt(from, direction, reach)` how far a blow goes
  * before something other than a target stops it. `bounds` keep its feet in `{ min: { x, z }, max: { x, z } }`.
  */
@@ -58,16 +60,16 @@ export default class Character extends Body {
   constructor({
     speed = character.speed, run = character.run, reach = character.reach, damage = character.damage,
     jumping = 'leap', maxLift = .28, turnWhileAttack = true, strikeHeight = character.strikeHeight, area = {}, solid = true,
-    guarded = false, walks = true, altitude = 0,
+    guarded = false, walks = true, altitude = 0, lift = character.lift,
     pitchRange = { min: -Math.PI / 10, max: Math.PI / 8 }, actions = {}, targets = [],
     groundAt: ground = () => 0, isBlocked = () => false, obstacleAt = () => Infinity, bounds = null, random = Math.random,
     size = { length: .5, height: 1.8, width: .5 }, ...rest
   } = {}) {
     super({ size, ...rest, states })
-    Object.assign(this, { speed, run, reach, damage, jumping, maxLift, turnWhileAttack, strikeHeight, solid, guarded, walks, pitchRange,
+    Object.assign(this, { speed, run, reach, damage, jumping, maxLift, turnWhileAttack, strikeHeight, solid, guarded, walks, lift, pitchRange,
       actions, targets,
       isBlocked, obstacleAt, bounds, random })
-    this.groundAt = altitude ? (x, z) => ground(x, z) + altitude : ground
+    this.groundAt = altitude ? (x, z, y) => ground(x, z, y) + altitude : ground
     this.area = { kinds: [], reach: 3, damage: [89, 135], ...area }
     this.steering = { ahead: 0, side: 0, turn: 0, running: false }
     /** The attack under way: its kind, seconds into it and whether its blow has landed. */
@@ -92,7 +94,7 @@ export default class Character extends Body {
 
   /** Its feet are well above the ground, or it is leaping, rising or falling. */
   get airborne() {
-    return this.leap > 0 || this.vy !== 0 || this.feet - this.groundAt(this.x, this.z) > this.size.height * character.airborne
+    return this.leap > 0 || this.vy !== 0 || this.feet - this.groundAt(this.x, this.z, this.y) > this.size.height * character.airborne
   }
 
   get running() {
@@ -148,7 +150,7 @@ export default class Character extends Body {
     if (!this.airborne) this.lifted = 0
     if (this.lifted >= this.maxLift) return
     this.lifted += dt
-    this.vy = Math.min(character.fallSpeed, this.vy + character.lift * dt)
+    this.vy = Math.min(character.fallSpeed, this.vy + this.lift * dt)
   }
 
   /** Swings `kind` unless it is already swinging, reeling or dead. */
@@ -274,7 +276,7 @@ export default class Character extends Body {
     this.vz = target.z + (this.vz - target.z) * kept
     this.keepClear(dt)
     const flying = this.airborne
-    if (flying) this.vy = Math.max(-character.fallSpeed, this.vy - character.gravity * dt)
+    if (flying) this.vy = Math.max(-character.fallSpeed, this.vy - this.gravity * character.fall * dt)
     if (this.alive && this.pendingBlow) {
       const blow = this.pendingBlow
       blow.time += dt
@@ -314,7 +316,7 @@ export default class Character extends Body {
 
   /** Flying, it lands once it comes down to the ground; walking, it follows the ground at its climbing speed. */
   followGround(dt, flying) {
-    const ground = this.groundAt(this.x, this.z)
+    const ground = this.groundAt(this.x, this.z, this.y)
     if (flying) {
       if (this.feet > ground || this.vy > 0) return
       this.y = ground + this.size.height / 2

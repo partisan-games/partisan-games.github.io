@@ -18,7 +18,7 @@ before(async() => {
   AntiTankGunSprite = (await import('/core/actor/artillery/AntiTankGunSprite.js')).default
   ;({ default: Bunker, bunkerKinds } = await import('/core/gameplay/bodies/artillery/Bunker.js'))
   BunkerSprite = (await import('/core/actor/artillery/BunkerSprite.js')).default
-  ;({ kinds } = await import('/scenes/franjo-kluz/enemies.js'))
+  ;({ groundUnitLooks: kinds } = await import('/core/actor/groundUnitLooks.js'))
   ;({ default: Vehicle, vehicleKinds } = await import('/core/gameplay/bodies/vehicles/Vehicle.js'))
   VehicleSprite = (await import('/core/actor/vehicles/VehicleSprite.js')).default
   Flak = (await import('/core/gameplay/bodies/artillery/Flak.js')).default
@@ -33,6 +33,51 @@ function readyWreck(body, width) {
   Object.defineProperties(image, { complete: { value: true, configurable: true }, naturalWidth: { value: width, configurable: true } })
   return image
 }
+
+test('both Potez markings keep their airframe while falling and show a level wreck only after impact', async t => {
+  const { default: Potez } = await import('/core/gameplay/bodies/aircraft/Potez.js')
+  const { default: PotezSprite, markings } = await import('/core/actor/aircraft/PotezSprite.js')
+  const session = new GameSession()
+  t.after(() => session.dispose())
+  const draws = []
+  t.mock.method(context, 'drawImage', (...args) => draws.push(args))
+  for (const src of Object.values(markings)) {
+    const body = new Potez({ clock: session.clock, x: 10, y: 60 })
+    const view = new PotezSprite(body, { src, projection })
+    loadAtlas(view, 400, 173)
+    Object.defineProperties(view.crew.image, { naturalWidth: { value: 1600 }, naturalHeight: { value: 173 } })
+    view.update(0)
+    const geometry = [view.width, view.height]
+    const wreck = readyWreck(view, 400)
+    assert.equal(view.picture, view.image, 'a living plane keeps its intact airframe')
+    body.setState('dead')
+    view.update(0)
+    view.flammable = false
+    assert.equal(body.state, 'falling')
+    assert.equal(view.picture, view.image, 'the airframe does not become a ground wreck in mid-air')
+    assert.equal(view.propeller.visible, true)
+    assert.equal(view.rearGunPart.visible, true)
+    for (let i = 0; i < 600 && !body.wrecked; i++) {
+      body.update(1 / 60)
+      view.update(1 / 60)
+    }
+    assert.equal(body.wrecked, true)
+    assert.equal(view.picture, wreck, 'impact selects the correct marked wreck')
+    for (let i = 0; i < 60; i++) {
+      body.update(1 / 60)
+      view.update(1 / 60)
+    }
+    const before = draws.length
+    view.render(context)
+    assert.ok(draws.slice(before).some(args => args[0] === wreck), src)
+    assert.ok(!draws.slice(before).some(args => args[0] === view.crew.image), 'dead crew never breathes over the wreck')
+    assert.equal(view.propeller.visible, false)
+    assert.equal(view.rearGunPart.visible, false)
+    assert.deepEqual([view.width, view.height], geometry)
+    assert.equal(view.angle, 0)
+    assert.ok(Math.abs(view.y + view.height / 2 - 500) < 1e-9, 'the level wreck rests on the visible ground')
+  }
+})
 
 test('a tank wreck uses one complete frame, keeps the body size and hides its barrel', t => {
   const session = new GameSession()

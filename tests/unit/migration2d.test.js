@@ -1,6 +1,7 @@
 import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
+import { loadAtlas } from './helpers/atlas.js'
 
 before(() => createPageElements())
 
@@ -50,6 +51,40 @@ test('neretva raises hidden soldiers now and then, and twice as often in the las
   scene.update(.5)
   scene.update(.5)
   assert.ok(scene.daljiRovovi.every(({ body }) => body.state === 'aim'))
+})
+
+test('neretva owns separate trench covers, keeps its shot window and replaces the whole formation together', async t => {
+  const { default: Neretva } = await import('/scenes/neretva/Main.js')
+  const scene = new Neretva()
+  scene.init()
+  scene.clear = () => {}
+  t.after(() => scene.end())
+  const original = [...scene.sveSvabe]
+  const draws = []
+  const ctx = { save() {}, restore() {}, translate() {}, rotate() {}, scale() {},
+    drawImage(...args) {
+      draws.push({ args, smooth: this.imageSmoothingEnabled })
+    } }
+  for (const { body, view, cover } of original) {
+    loadAtlas(cover, 100, 150)
+    assert.ok(cover.image.src.endsWith('/armies/rov-prazan.gif'))
+    assert.ok(scene.children.indexOf(cover) > scene.children.indexOf(view), 'cover is drawn in front of the figure')
+    const { scale } = view
+    assert.equal(view.y, cover.y - 24 * scale)
+    assert.deepEqual([cover.width, cover.height], [100 * scale, 150 * scale])
+    cover.render(ctx)
+    assert.equal(draws.at(-1).smooth, false, 'far and near trenches keep the original pixel sampling')
+    assert.equal(draws.at(-1).args[0], cover.image)
+    body.setState('aim')
+    scene.proveriPogotke([{ body, view, cover }], { x: cover.x + 45 * scale, y: cover.y })
+    assert.equal(body.state, 'fall', 'the existing trench shot window is preserved')
+  }
+  scene.preostaloVreme = 59
+  scene.bringChetniks()
+  for (const { body, view, cover } of original)
+    assert.ok(!scene.children.includes(body) && !scene.children.includes(view) && !scene.children.includes(cover))
+  for (const { body, view, cover } of scene.sveSvabe)
+    assert.ok(scene.children.includes(body) && scene.children.includes(view) && scene.children.includes(cover))
 })
 
 test('neretva: the Germans hold the trenches first, the Chetniks take over half way, and only the end wins', async t => {

@@ -6,6 +6,7 @@ import BombSprite from '/core/actor/projectiles/BombSprite.js'
 import Explosion from '/core/actor/effects/Explosion.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import { assets } from '/config.js'
+import { wreckFor } from '/core/actor/wreckView.js'
 
 /** The plane in partisan markings, and in the NDH markings it flew in until it went over to the partisans. */
 export const markings = {
@@ -24,11 +25,8 @@ const art = {
   gun: { src: 'armies/game-ready/avioni/potez-25-zadnji-mitraljez.png', width: 48, height: 20, mount: { x: 210, y: 52 },
     pivot: { x: 39, y: 12 } },
 }
-/**
- * The crew's breathing loop and the propeller's turn at full power, in seconds; how fast a dead engine's propeller
- * runs down, per second, and the turn rate under which it stands still.
- */
-const motion = { crewLoop: 1.6, propellerLoop: .12, stall: 2, standstill: .5 }
+/** The living crew's breathing loop and the propeller's turn at full power, in seconds. */
+const motion = { crewLoop: 1.6, propellerLoop: .12 }
 
 /** The crew in the cockpit, drawn right before the airframe, so its sides hide them. */
 class Crew {
@@ -54,6 +52,7 @@ class Crew {
 export default class PotezSprite extends BodySprite {
   constructor(body, { src = markings.partisan, projection, camera }) {
     super(body, src, { projection, camera, flammable: true })
+    wreckFor(src)
     const scale = this.width / art.airframe.width
     this.crew = new Crew()
     this.propeller = new AtlasPart(art.propeller.src, { camera, scale, frames: art.propeller.frames })
@@ -68,14 +67,17 @@ export default class PotezSprite extends BodySprite {
     /** Game seconds into the crew's breathing loop, and the propeller's turn as a share of its loop. */
     this.crewTime = 0
     this.propellerTurn = 0
-    /** Propeller turns per second. */
-    this.propellerRate = 1 / motion.propellerLoop
     this.seen = { shots: body.shotsFired, alive: body.alive, wrecked: body.wrecked }
   }
 
   /** A damaged plane smokes and a shot down one burns, once its flame has loaded. */
   get burning() {
     return this.flammable && this.body.burning
+  }
+
+  /** The shot-down airframe stays whole in the air; its wreck appears at ground impact. */
+  get picture() {
+    return this.body.wrecked ? super.picture : this.image
   }
 
   /** A point of the airframe picture, in its pixels, on the screen as the plane is now placed and turned. */
@@ -89,11 +91,9 @@ export default class PotezSprite extends BodySprite {
 
   /** The crew breathes and the propeller turns by game time, so both stand still in a pause. */
   animateParts(dt) {
+    if (this.body.dead) return
     this.crewTime = (this.crewTime + dt) % motion.crewLoop
-    if (this.body.alive) this.propellerRate = 1 / motion.propellerLoop
-    else this.propellerRate *= Math.exp(-motion.stall * dt)
-    if (this.propellerRate < motion.standstill) this.propellerRate = this.propellerTurn = 0
-    this.propellerTurn = (this.propellerTurn + this.propellerRate * dt) % 1
+    this.propellerTurn = (this.propellerTurn + dt / motion.propellerLoop) % 1
   }
 
   /** Puts the crew, propeller and gun on the airframe, with their current frames. */
@@ -112,7 +112,7 @@ export default class PotezSprite extends BodySprite {
     const cos = Math.cos(gunAngle), sin = Math.sin(gunAngle)
     this.rearGunPart.setPosition(mount.x + localX * cos - localY * sin, mount.y + localX * sin + localY * cos)
     this.rearGunPart.angle = gunAngle
-    for (const part of [this.propeller, this.rearGunPart]) part.visible = this.visible
+    for (const part of [this.propeller, this.rearGunPart]) part.visible = this.visible && !this.body.wrecked
   }
 
   explode() {
@@ -141,6 +141,6 @@ export default class PotezSprite extends BodySprite {
 
   /** The crew sits in the cockpit, under the airframe's sides. */
   drawUnder(ctx) {
-    this.crew.renderLocal(ctx, this)
+    if (!this.body.wrecked) this.crew.renderLocal(ctx, this)
   }
 }

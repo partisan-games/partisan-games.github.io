@@ -9,7 +9,7 @@ before(async() => {
   ;({ default: Stage2D } = await import('/storybook/Stage2D.js'))
   ;({ default: Rifleman, riflemanKinds } = await import('/core/gameplay/bodies/soldiers/Rifleman.js'))
   RiflemanSprite = (await import('/core/actor/soldiers/RiflemanSprite.js')).default
-  ;({ kinds } = await import('/scenes/franjo-kluz/enemies.js'))
+  ;({ groundUnitLooks: kinds } = await import('/core/actor/groundUnitLooks.js'))
 })
 
 /** The prototype that holds `addEventListener` for `target`: page objects need not share one. */

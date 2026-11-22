@@ -9,10 +9,10 @@ import { createPageElements } from './helpers/dom.js'
  * effects and items, which the storybook leaves out (owner's decision).
  */
 const folders = {
-  'scenes/franjo-kluz': ['Main.js', 'missions.js', 'enemies.js', 'Airfield.js', 'ParallaxLayer.js'],
+  'scenes/franjo-kluz': ['Main.js', 'missions.js', 'Airfield.js', 'ParallaxLayer.js'],
   // a view is seen in the story of its body
   'core/actor/aircraft': ['AircraftPropellers.js', 'propellerArt.js', 'FighterSprite.js', 'DiveBomberSprite.js', 'PotezSprite.js',
-    'TopViewSprite.js', 'FighterBomberSprite.js', 'AttackPlaneSprite.js'],
+    'TopViewSprite.js', 'FighterBomberSprite.js', 'AttackPlaneSprite.js', 'fighterBomberPlanes.js'],
   'core/actor/artillery': ['GunCrew.js', 'crewArt.js', 'FlakSprite.js', 'FieldGunSprite.js', 'AntiTankGunSprite.js', 'BunkerSprite.js',
     'ShoreMachineGunSprite.js', 'ShoreDestruction.js'],
   'core/actor/soldiers': ['machineGunnerArt.js', 'RiflemanSprite.js', 'CannonCrewSprite.js', 'SkirmisherSprite.js',
@@ -39,7 +39,7 @@ const folders = {
   ],
   'scenes/tenkici': ['Main.js', 'BattleBackground.js', 'renderLayers.js'],
   'scenes/vis': [
-    'Main.js', 'settings.js', 'levels.js', 'aircraft.js', 'paths.js', 'formations.js', 'Waves.js', 'Baza.js',
+    'Main.js', 'settings.js', 'levels.js', 'paths.js', 'formations.js', 'Waves.js', 'Baza.js',
     'Oblak.js', 'PokretnaPozadina.js', 'Pokretno.js', 'PowerUps.js',
   ],
   'core3d/actor/derived/fantasy': [],
@@ -48,12 +48,12 @@ const folders = {
   // the cannon fires through the Ammo physics world, which its stage does not have yet
   'core3d/actor/derived': ['Cannon.js'],
   // bases of the planes, a plane's look, and its missile, seen in the planes' stories
-  'core3d/aircraft': ['Airship.js', 'Warplane.js', 'WarplaneView.js', 'Missile.js'],
-  'core3d/aircraft/derived': [],
+  // the planes are looks of the Warplane and Airship bodies, seen in those bodies' stories
+  'core3d/aircraft/derived': ['Dirigible.js', 'Biplane.js', 'Bomber.js', 'F18.js', 'Messerschmitt.js', 'Triplane.js'],
 }
 
 /** 3D objects that are actors: the towers that fire. */
-const modules = ['core3d/objects/Tower.js']
+const modules = []
 
 let kinds
 

@@ -1,19 +1,21 @@
 import StateMachine from '../StateMachine.js'
 import Health from '../Health.js'
+import { earthGravity } from '../gravity.js'
 
 /**
  * The model of an actor, with no picture: where it is and how it moves, in metres, seconds and radians with +y up;
  * `yaw` turns about +y with 0 facing +x, and `pitch` is above level. `size` is its hit box and the size every view
- * fits its art to. It knows what it can do, not when: controllers and the scene decide that.
+ * fits its art to; `gravity` is the pull of its world, which its scene gives. It knows what it can do, not when:
+ * controllers and the scene decide that.
  *
  * Views read it every frame and never write to it; they start effects when `shotsFired` or `hitsTaken` grows.
  */
 export default class Body {
   constructor({
-    x = 0, y = 0, z = 0, yaw = 0, pitch = 0, size = { length: 1, height: 1, width: 1 }, health = 100,
+    x = 0, y = 0, z = 0, yaw = 0, pitch = 0, size = { length: 1, height: 1, width: 1 }, health = 100, gravity = earthGravity,
     states = { idle: {} }, initial = Object.keys(states)[0],
   } = {}) {
-    Object.assign(this, { x, y, z, yaw, pitch, size })
+    Object.assign(this, { x, y, z, yaw, pitch, size, gravity })
     this.vx = this.vy = this.vz = 0
     this.health = new Health({ maximum: health })
     this.shotsFired = 0
