@@ -18,7 +18,7 @@ Zajednička osnova za razvoj 2D i 3D igara, sa istorijski zasnovanim sadržajem.
 | Provere | [TESTING](TESTING.md) | Komande, pokrivenost i ograničenja provera. |
 | Isprobavanje blokova | [Storybook](STORYBOOK.md) | Upotreba storybook-a i dodavanje priča za blokove. |
 | Posebna tehnika prikaza | [Animacija pozadine](ANIMACIJA-POZADINE.md) | Konkretno rešenje, neuspešni pristupi i preventivne provere. |
-| Razvoj igre | Planovi igara (`docs/PLAN-*.md`) | Koraci izrade i statusi; nije trajna baza znanja. Planovi su u gitu, nikad u `.git/info/exclude`. |
+| Otvoreni poslovi i ideje | [PLAN](PLAN.md) | Jedini trajni plan, sa sekcijama za art, arhitekturu, Storybook i igre; čuva se u gitu i ne briše se. |
 
 Pokretanje projekta opisuje [README](../README.md). Istorijske slike i poreklo čuvaju se u [references/ww2-yu](references/ww2-yu/), a merni artefakti se povezuju iz tehničkog opisa.
 
@@ -56,17 +56,19 @@ Osoba koja vodi projekat i daje naloge agentu u dokumentaciji se naziva vlasnik 
 
 Glavni principi: **bez dupliranja informacija** i **bez podataka koji brzo zastarevaju promenom koda i zahtevaju često ručno ažuriranje**.
 
+Ne čuvati dnevnik vizuelnih dorada ni tekstualno prepričavanje već ugrađenih scena. Zadržati pravila, razloge važnih izbora i veze do pregleda ili izvornih podataka; otvoreni posao pripada planu.
+
 Kanonsko javno ime igre čita se iz njene kartice u [glavnom indeksu](../index.html). Tehnički ID, folder i naziv klase mogu ostati stariji i kraći radi stabilnih adresa; ne koristiti ih kao ime igre u kontekstu, istoriji, planu, Storybook-u ili naslovima provera. Pre preimenovanja razlikovati javni naziv od tehničkih pojmova koji zaista označavaju predmet ili klasu, kao `Cannon.js` za model topa.
 
 Jedna činjenica ili odluka ima jedno autoritativno mesto; ostali dokumenti vode link do njega. Dokumentujemo trajne odluke, razloge, ograničenja i istorijske izvore. Ne prepričavamo implementaciju: spiskovi klasa i metoda, potpisi API-ja, brojevi igara i testova i slični promenljivi podaci ostaju u kodu i alatima koji ih već prikazuju. Pišemo po temi, bez dnevnika završenih koraka i kopiranja celih planova.
 
-Zapis čuvamo samo ako daje trajno znanje koje nije već dostupno na drugom mestu. Uz odluku navesti razlog i bitno ograničenje; uz istorijsku tvrdnju izvor i kontekst. Ako je merenje neophodno za razumevanje ograničenja, povezati dokaz sa datumom/revizijom, bez održavanja prepisa rezultata. Predloge i otvoren posao voditi u postojećem TODO-u ili povezanom planu, a ne kao važeću arhitekturu.
+Zapis čuvamo samo ako daje trajno znanje koje nije već dostupno na drugom mestu. Uz odluku navesti razlog i bitno ograničenje; uz istorijsku tvrdnju izvor i kontekst. Ako je merenje neophodno za razumevanje ograničenja, povezati dokaz sa datumom/revizijom, bez održavanja prepisa rezultata. Predloge i otvoren posao voditi isključivo u [PLAN](PLAN.md), a ne kao važeću arhitekturu ili TODO u matičnom dokumentu.
 
 Istorijski zapis dodatno prati period, područje, korisnika opreme i varijantu; tehnički zapis prati vlasnika stanja, zavisnosti i životni ciklus. Detaljni obrasci su u odgovarajućim dokumentima. Postojeći art u `assets` ostaje istorijski prihvaćen prema [vlasnikovoj odluci](KONTEKST.md#prihvaćen-art-projekta).
 
 Pre rada pročitati relevantnu istorijsku temu, arhitektonska pravila i ugovor sistema koji se menja. Posle rada ažurirati postojeći zapis; novu datoteku otvarati samo za samostalnu temu koja bi opteretila postojeću. Plan nije dokaz implementacije, a razvojni cilj nije tvrdnja da danas nema tehničkog duga.
 
-Pre brisanja bilo kog plana obavezno pregledati njegov sadržaj i sačuvati korisne odluke, potvrđene nalaze, uzroke grešaka i ograničenja u postojećem autoritativnom dokumentu, bez dupliranja. Proveriti da su zapisi dostupni i ukloniti linkove do obrisanog plana; tek tada obrisati plan. Ovo se radi uvek, bez vlasnikovog podsećanja. Nepokrenute provere ne predstavljati kao izvršene.
+Pri zatvaranju stavke iz [PLAN-a](PLAN.md) sačuvati samo korisne potvrđene odluke, nalaze i ograničenja u postojećem autoritativnom dokumentu, bez dupliranja. Potom ukloniti završenu stavku i njene nepotrebne beleške i uskladiti reference. Sam PLAN i njegove stalne sekcije nikada se ne brišu. Nepokrenute provere ne predstavljati kao izvršene.
 
 ## Čistoća repozitorijuma
 
@@ -106,24 +108,14 @@ Načelno je Space skok kad lik skače, inače pucanje. Izuzeci su dozvoljeni, np
 
 ## Pravilo za umetnost
 
-Art i zvukovi su obavezni delovi svake igre. Uključiti ih u početni plan, bez čekanja da ih vlasnik zatraži: grafiku i animacije, zvukove radnji i ambijenta, usklađivanje sa događajima i kontrolu jačine/utišavanja. Pre završetka proveriti oba; funkcionalan gameplay sam po sebi nije završena igra.
+Art i zvukovi su obavezan deo igre i planiraju se zajedno sa radnjom. Placeholder nije konačan art; pre izrade proveriti odgovarajuće postojeće resurse. Istorijski prihvaćen izvor nije automatski gotov crtež za igru.
 
-Placeholder nije art, ni za pregled: igre su realistične ratne, pa nacrtani oblici (elipse, pravougaonici) deluju crtano. Pre crtanja u kodu potražiti postojeći art iste stvari u `assets/images/` i drugim igrama i iskoristiti ga; krateri u Ustanku su spljoštena slika kratera iz Ranjenika. Ako arta nema, reći to i planirati pravi art.
+Pripremu, kvalitet, poreklo, organizaciju resursa i povezivanje sa svim potrošačima održava [ART](ART.md). Pokretne slojeve i pauzu uređuje [animacija pozadine](ANIMACIJA-POZADINE.md); stilske i istorijske izbore pojedinačne igre njen [kontekst](KONTEKST.md). Ne kopirati te ugovore u svaki dokument.
 
-Pozadina nikada ne sme biti statična: svaki ambijent ima vidljivo kretanje. Dim, vatra i slični pokretni elementi crtaju se kao stvarna animacija, odvojeno od osnovne slike; statično naslikani efekti nisu zamena. Animacija miruje u pauzi i nastavlja se posle ishoda. Postupak i provere su u [Animaciji pozadine](ANIMACIJA-POZADINE.md).
+## Jedan trajni plan
 
-Konačni vojni art u `assets/images/armies/game-ready` organizovati po vrsti opreme, ne po nivou ili igri. Isti resurs koriste svi nivoi kojima je potreban, bez kopiranja u zasebne foldere nivoa.
+Otvoreni poslovi, nerešeni nalazi, ideje i preostali pregledi vode se isključivo u [PLAN](PLAN.md), po sekcijama. Ne praviti zasebne planove po oblasti ili igri i ne gomilati TODO stavke u matičnim dokumentima ili README-u. Nova oblast dobija sekciju u istom PLAN-u.
 
-Svaka dopuna arta aktera obuhvata i povezivanje sa zajedničkim kodom objekta, pregled u Storybook-u i primenu u svim nivoima koji ga koriste (odluka vlasnika). Nivoi i Storybook koriste isto mapiranje resursa i stanja, tako da izmena zajedničkog objekta automatski stiže svim potrošačima. Gotov fajl ili izdvojeni HTML/GIF pregled nisu završen zadatak; obavezni postupak i uslovi završetka su u [ART — integracija](ART.md#obavezna-integracija).
+PLAN se čuva u gitu, nikada u lokalnom exclude-u, i ostaje i kada je prazan. Završene stavke i nepotrebne beleške uklanjaju se; važne potvrđene odluke prelaze u matičnu dokumentaciju. ID-jevi se ne koriste ponovo, a stalne sekcije ostaju dostupne za veze iz dokumentacije. Ne čuvati istoriju završenih poslova.
 
-Sav art koji koristimo, iz `assets` ili drugih izvora, služi kao osnova za konačnu grafiku igre. Crtati ga za stvarnu veličinu prikaza u igri i ujednačen stil: jasna silueta, čitljivi oblici i samo detalji koji se na toj veličini vide. Izvorna slika može biti veća ako je nacrtana za manji prikaz; ne oslanjati se na smanjivanje detaljnih velikih ilustracija da samo proizvede čitljiv mali sprite. Pravilo važi za likove, vozila, oružje, objekte, pozadine i ostalu vizuelnu umetnost, ne samo vojni art.
-
-Sačuvati prepoznatljive i istorijski bitne detalje reference, odabrati perspektivu prema nivou i koristiti providnu pozadinu gde je potrebna. Izvornike čuvati odvojeno od konačnih verzija. Istorijsko prihvatanje reference ne znači da je ona konačan grafički materijal. Već završeni art koji zadovoljava ovo pravilo ne precrtavati ponovo; rad obuhvata materijal potreban za konkretnu igru, ne automatsku preradu cele zbirke.
-
-Pre ukrašavanja okruženja izabrati vizuelne uzore, paletu i odnos dekoracije prema borbi. Detalje grupisati uz prazne delove između grupa, uskladiti osvetljenje i gustinu piksela; ne prikrivati loše uklapanje nasumičnim rotacijama ili odsecanjem silueta. Čitljivost borbe planirati lokalno: iza silueta jedinica ostaviti mirne površine odgovarajućeg kontrasta, a van tih zona sačuvati oštrinu i korisne detalje. Globalno zamućenje ili prigušivanje cele pozadine ne rešava lošu kompoziciju. Kada je uzor gotov game art, poput grada iz Tenkića, ponovljeni spriteovi na ravnim geometrijskim oblicima nisu odgovarajuća zamena: napraviti celovit ambijent i pregledati ga iza jedinica u igri. Polazište: [Environment Art — The Level Design Book](https://book.leveldesignbook.com/process/env-art).
-
-## Statusi u planovima postupne izrade igara
-
-Vlasnik svaki plan zove i „TODO”: nova stavka ide u plan igre ili oblasti na koju se odnosi, a u [README TODO](../README.md#todo) samo ako takvog plana nema.
-
-Kada agent završi dogovoreni posao neke stavke, odmah je označava `✅ Done`. Posle završenog posla `🔄 In progress` ostaje samo ako je vlasnik izričito postavio svoje odobrenje kao uslov za Done. Vlasnik pregleda Done stavke ako želi i kada želi; nastavak rada prati zaseban dogovor. Izvršene provere beleže se prema stvarnim dokazima, odvojeno od statusa izrade. Testovi i izvršne provere pokreću se samo uz vlasnikovu dozvolu.
+Statusi otvorenih stavki su `📋 TODO`, `🔄 In progress` i `⛔ Blocked`. Stavku ukloniti kada je dogovorena celina završena i potrebne provere izvršene ili izričito odložene; vlasnikov naknadni pregled nije uslov osim kada ga je tako postavio. Dokazi provera ostaju u TESTING; izvršne provere pokreću se u dozvoljenom obimu.

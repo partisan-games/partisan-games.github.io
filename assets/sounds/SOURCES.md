@@ -1,6 +1,6 @@
 # Sources of shared sound effects
 
-Owner-selected sources below are labelled CC0 1.0 on their source pages (Ustanak selection checked 2026-11-17; additional candidates checked 2026-11-19). Inputs are public HQ MP3 previews, not original WAV/FLAC downloads. Processing, original/prepared hashes and legacy provenance limits are recorded in [PROCESSING.json](PROCESSING.json); the pre-processing measurements are linked from [TESTING](../../docs/TESTING.md#recording-analysis--zv-06).
+Owner-selected sources below are labelled CC0 1.0 on their source pages (Ustanak selection checked 2026-11-17; additional candidates checked 2026-11-19). Inputs are public HQ MP3 previews, not original WAV/FLAC downloads. Processing, original/prepared hashes and legacy provenance limits are recorded in [PROCESSING.json](PROCESSING.json); the pre-processing measurements are linked from [TESTING](../../docs/TESTING.md#sačuvani-dokazni-izvori).
 
 | Shared file | Author and source | Basic preparation before final calibration |
 |---|---|---|

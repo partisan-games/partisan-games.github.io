@@ -28,12 +28,7 @@ To see every background picture in the project, open `/pozadine.html` on the `np
 
 ## TODO
 
-- razrađivati postojeće nivoe redom
-- neki nivo iz prvog lica, poput otpisani i neretva, može da postane čuveni arkadni žanr gde se ekran zapravo pomera a neprijatelji iskaču
-- smisliti nazive nivoa, na naslovnoj prikazivati žanr i godinu.
-
-Ideje za nivoe:
-- odbrani polozaj (kamera odozgo, nadiru sa svih strana)
+Open work and ideas live in the permanent [PLAN](docs/PLAN.md).
 
 ## Credits
 

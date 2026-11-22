@@ -14,7 +14,7 @@ Za svaki izgled dostupan je [pregled proverenih radnji](../pregled-animacija.htm
 - **Isto pravilo važi za 3D.** Jedan model čoveka može poslužiti različitim vojnicima u zasebnim stavkama; unutar pojedinačnog aktera dostupni su njegovi skinovi i varijacije. Drugi model vozila ili drugog aktera dobija zasebnu stavku.
 - **Sekcije služe snalaženju.** Akteri koji dele kod mogu biti u istoj sekciji, ali to nije obavezno. Imena i raspored treba da pomognu vlasniku da pronađe aktera, nezavisno od organizacije klasa i datoteka.
 
-Ovo je pravilo željene organizacije. Postojeće priče koje spajaju različita plovila, modele tenkova ili vojnike kao izglede još nisu usklađene samim upisivanjem ovog dogovora.
+Ovo je pravilo organizacije; preostalo usklađivanje kataloga i navigacije vodi [PLAN](PLAN.md#storybook).
 
 ## Upotreba
 
@@ -30,7 +30,7 @@ Ovo je pravilo željene organizacije. Postojeće priče koje spajaju različita 
 
 ## Pozornica
 
-[Stage2D](../storybook/Stage2D.js) je prazna 2D scena: nebo, tlo, kamera i nevidljivi zamenik igrača (`stage.target`), koga prate blokovi koji lete ili voze za igračem, kao lovac. Zamenik prima pogotke, ali ne strada. Za čisto telo u metrima pozornica daje bočnu projekciju (`stage.projection`, 22 px po metru) i zamenika bez uloge (`stage.dummy`); stari pikselski zamenik ostaje dok svi blokovi ne pređu na tela. Pozornica crta samo blok.
+[Stage2D](../storybook/Stage2D.js) je prazna 2D scena: nebo, tlo, kamera i nevidljivi zamenik igrača (`stage.target`), koga prate blokovi koji lete ili voze za igračem, kao lovac. Zamenik prima pogotke, ali ne strada; razmera dolazi iz priče. Uklanjanje preostalog starog načina prikaza prati migraciju aktera iz [PLAN-a](PLAN.md#arhitektura). Pozornica crta samo blok.
 
 [Stage3D](../storybook/Stage3D.js) je prazna 3D scena: svetlo, pod i kamera koja se okreće oko sredine. Mišem se okreće prevlačenjem; na touchpadu pomeranje dva prsta u bilo kom smeru rotira pogled, a širenje ili sklapanje dva prsta zumira. Oba pokreta rade nad istim OrbitControls ciljem, pa promena izgleda i animacije ne resetuje ugao. Priča koja traži 3D pozornicu to kaže poljem `stage`; njen `create` je asinhron, jer prvo učitava modele. Za 3D lika panel pravi dugmad i od njegovih animacija (`anim.actions`), a lik igrača se vodi tastaturom igre.
 
@@ -58,11 +58,11 @@ Svaka dopuna arta mora postati dostupna u postojećoj ili novoj priči aktera. P
 
 Sadašnja provera pokrivenosti prati module klasa, ne svaki tip/model/ulogu kataloga; ne dodaje priče automatski i ne otkriva sve različite aktere sakrivene pod `looks`. Zato njen prolazak nije dokaz da je katalog potpun prema [dogovorenom pravilu](#stavke-kataloga-i-varijante).
 
-Sklopive sekcije koriste izvorne `details`/`summary` kontrole; `summary` mora biti UI cilj u [inputContext](../core/io/inputContext.js), inače tastatura igre presretne Space/Enter. [Input izolacija](../tests/unit/inputIsolation.test.js) proverava propuštanje tih tastera i čišćenje zadržanog ulaza; Chromium provera je potvrdila stvarno otvaranje/zatvaranje, očuvanje svih 79 adresa bez duplikata, Reset, direktan 3D link i sklopljen prikaz na 390 px širine (2026-11-22).
+Sklopive sekcije koriste native `details`/`summary`; `summary` mora biti UI cilj u [inputContext](../core/io/inputContext.js), da tastatura igre ne presretne Space/Enter. Izvršene dokaze čuva [TESTING](TESTING.md), bez održavanja broja adresa u ovom vodiču.
 
 ## Granice i odluke
 
-- 3D lik se ne može napraviti u unit testu bez učitanog modela, pa 3D priče proverava browser. Top iz igre Battle for Jablanica nema priču: puca kroz Ammo fiziku, koju 3D pozornica nema. Oba čekaju sređivanje nivoa koji ih koriste (odluka vlasnika).
+- 3D lik se ne može napraviti u unit testu bez učitanog modela, pa 3D priče proverava browser. Top iz igre Battle for Jablanica nema priču: puca kroz Ammo fiziku, koju 3D pozornica nema. Preostali posao vezan za Ammo pozornicu vodi [PLAN](PLAN.md#storybook).
 - Pozornica prikazuje jednog aktera. Više aktera koji deluju jedan na drugog uvodi se tek ako vlasnik to zatraži.
 - [Nemac](../storybook.html#vojnici/nemac-u-rovu) i [Četnik](../storybook.html#vojnici/cetnik-u-rovu) imaju celu figuru koja hoda, nišani, puca i ostaje na zemlji posle pada. Neretva koristi isti model ponašanja sa posebnim crtežom za položaj u [rovu](../core/objects/Trench.js).
 - Namerno nije preuzeto: biblioteka Storybook i React (traže build), kontrole iz unutrašnjih polja objekta (daju besmislena polja) i upravljanje vremenom igre, poput pauze ili usporavanja (vlasniku ne treba).

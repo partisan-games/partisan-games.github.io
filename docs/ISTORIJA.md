@@ -65,9 +65,7 @@ Ovo su pregledni, sekundarni izvori i polazište za detaljnije istraživanje. Za
 
 ### Pregled kategorije bitaka NOVJ
 
-Rekurzivnim čitanjem članstva preko Wikipedia API-ja 15. 11. 2026. obuhvaćeni su koren i svih 16 dostupnih potkategorija, sa 455 jedinstvenih stranica glavnog prostora; to nisu 455 različitih bitaka, jer grana uključuje i ličnosti, jedinice i preglede. Lokalni snimak članstva i veza (`test-results/history/novj-categories.json`, nije deo repozitorijuma) beleži obuhvat tog pregleda, ne katalog koji treba ručno održavati. Pregled članstva nije potpuna provera istorijskih tvrdnji svih članaka.
-
-Obuhvaćene su grane Neretve i Sutjeske (uključujući poginule), borbi za Srbiju, borbi sa Italijanima, Nemcima i snagama NDH (uključujući napade na garnizone), Drvara, kapitulacije Italije, operacija NOVJ, Sremskog fronta i zajedničkih operacija sa Saveznicima. Proverene su i dalje grane nemačke zimske ofanzive 1943–1944, proboja Armijske grupe E iz Grčke i njenog proboja kroz istočnu Bosnu. Isti članak ne tumačiti kao drugi događaj zato što se javlja u više grana.
+Kategorija je polazište, ne potvrda činjenica svih članaka; isti članak u više grana nije više različitih događaja. Istraživanje neizabranih operacija nije automatski nalog za pravljenje nivoa.
 
 Za pomorsku igru izdvojeni su sledeći ulazi u istraživanje; ovo su kandidati, ne odabrane etape ni potvrda konkretnog naoružanja našeg čamca:
 
@@ -75,7 +73,7 @@ Za pomorsku igru izdvojeni su sledeći ulazi u istraživanje; ovo su kandidati, 
 |---|---|---|
 | [Desant na Korčulu](https://sh.wikipedia.org/wiki/Desant_na_Kor%C4%8Dulu) | 22–24. april 1944. | Transport iz pravca Visa i obezbeđenje konvoja; članak upućuje na monografiju Prve dalmatinske brigade, str. 282–285, za sastav transporta. |
 | [Desant na Šoltu](https://sh.wikipedia.org/wiki/Desant_na_%C5%A0oltu) | maj 1944. | Dolazak sa Visa, iskrcavanje i povratak; razlikovati savezničke desantne čamce od plovila Mornarice NOVJ. Članak povezuje i nemačke operativne dokumente za 10–11. maj. |
-| [Desant na Brač](https://sh.wikipedia.org/wiki/Desant_na_Bra%C4%8D_(juni_1944.)) | jun 1944. | Zajednička desantna akcija i podrška sa mora; zaseban događaj od septembarskog oslobođenja ostrva. Naslov je pronađen u kategoriji; detaljna provera članka i literature još nije urađena. |
+| [Desant na Brač](https://sh.wikipedia.org/wiki/Desant_na_Bra%C4%8D_(juni_1944.)) | jun 1944. | Zajednička desantna akcija i podrška sa mora; zaseban događaj od septembarskog oslobođenja ostrva. Detalji članka nisu potvrđeni primarnim izvorom. |
 | [Bitka za Brač](https://sh.wikipedia.org/wiki/Bitka_za_Bra%C4%8D_(1944.)) | 12–17. septembar 1944. | Sumartin, Supetar i sprečavanje evakuacije; članak vodi ka monografijama brigada i ratnom dnevniku Komande Jugoistok. |
 | [Borbe za Hvar](https://sh.wikipedia.org/wiki/Borbe_za_Hvar_(1944.)) | septembar 1944. | Razlikovati partizansko zauzimanje ostrva i nemački pokušaj ponovnog zauzimanja; tek zatim birati zadatak plovila. |
 
@@ -175,7 +173,7 @@ Istorijski okvir igre Battle for Jablanica je bitka za Jablanicu u februaru 1943
 - Fotografija iz kruga uništenog italijanskog uporišta kod Jablanice, datirana 23. februara 1943, daje merilo za dvorište i fasadu. Vide se svetao malter, širok pravougaoni ulaz sa kamenim okvirom, manji prozor, zaprežna kola sa žbicama i naslagani drveni sanduci. [Fotografija dvorišta](https://commons.wikimedia.org/wiki/File:Captured_Italian_stronghold_near_Jablanica.jpg).
 - Na fotografiji zarobljenog italijanskog oklopnog voza vide se zakivane oklopne ploče, nepravilne svetle i tamne maskirne mrlje, rešetke na čelu i otvorena bočna vrata. Muzejski opis navodi 1943. godinu; tačan položaj voza u odnosu na kasarnu ostaje nepoznat. [Muzej istorije Jugoslavije, inv. br. 16294](https://commons.wikimedia.org/wiki/File:Zarobljen_italijanski_oklopni_voz.jpg).
 
-Polazište za [Cannon](KONTEKST.md#cannon). Izvori su članci sa sh.wikipedia: [Bitka za Prozor (1943)](https://sh.wikipedia.org/wiki/Bitka_za_Prozor_(1943.)) i [Napad na Jablanicu (1943)](https://sh.wikipedia.org/wiki/Napad_na_Jablanicu_(1943.)) pročitani su celi, a za [Bitku na Neretvi](https://sh.wikipedia.org/wiki/Bitka_na_Neretvi) postoji samo sažetak februarskih odeljaka. Pre konačnog teksta u igri treba proveriti primarni izvor.
+Polazište za [Battle for Jablanica](KONTEKST.md#battle-for-jablanica). Izvori su članci sa sh.wikipedia: [Bitka za Prozor (1943)](https://sh.wikipedia.org/wiki/Bitka_za_Prozor_(1943.)) i [Napad na Jablanicu (1943)](https://sh.wikipedia.org/wiki/Napad_na_Jablanicu_(1943.)) pročitani su celi, a za [Bitku na Neretvi](https://sh.wikipedia.org/wiki/Bitka_na_Neretvi) postoji samo sažetak februarskih odeljaka. Ovaj pregled nije nezavisna potvrda primarnim izvorom; preostalo istraživanje vodi [PLAN](PLAN.md#igre).
 
 - **Okvir:** od 9. do 22. februara partizani su oko Drežnice, Prozora, Ivan-sedla, Konjica i Jablanice zauzeli sva uporišta osim Konjica. Branila ih je italijanska divizija Murđe.
 - **Prozor, 15–17. februar:** posadu od oko 800 ljudi, iz 3. bataljona 259. puka, sa lakim tenkovima i artiljerijom, štitio je prsten bunkera i redovi bodljikave žice preko raščišćenog polja. Treća divizija je napala dva puta. U drugom napadu imala je i 7 haubica, a Titova poruka glasila je „Prozor noćas mora pasti”. Zaplenjeno je 5 lakih tenkova, 4 haubice i 2 protivtenkovska topa.
@@ -196,7 +194,7 @@ Za zajedničke italijanske likove koriste se stvarne oznake jedinica: 259. i 260
 
 **Šta igra uzima iz izvora:** italijansku posadu divizije „Murge” pod zastavom Kraljevine Italije, utvrđenu staru austrijsku kasarnu, puškarnice iz kojih branioci uzvraćaju vatru, predaju posade, zaplenjeni top u partizanskim rukama i klisuru kod Jablanice kao pozadinu. Top i utvrđenje su na istoj obali reke, a kasarna u igri počinje čitava i tek tokom napada dobija izgled ruševine sa fotografije. Izmišljeno je radi igre: sažimanje kompleksa u jedno pregledno utvrđenje, bela zastava kao vidljiv izbor predaje i ponuda predaje kada manje od polovine branilaca ostane živo. Istorijski opis umesto toga izdvaja pogodak skladišta municije; napad na Prozor bio je noćni i izvelo ga je više brigada.
 
-**Okvir moguće kampanje:** Prozor, Rama i Jablanica čine tri različite etape propasti iste divizije, dok je Drežnica kandidat za zasedu na kolonu. Prozor donosi noćni napad na prsten bunkera, bodljikavu žicu, topove i tenkove; Rama povlačenje i gonjenje ka Ostrošcu; Jablanica artiljerijsko razaranje kasarne i predaju; Drežnica napad na bataljon i kolonu koja pokušava da pomogne Prozoru. Skladište municije koje jednim preciznim pogotkom slama otpor pripada Jablanici, a proboj tenkova i motorizovane kolone Prozoru i Rami.
+**Istorijske razlike mesta:** Prozor, Rama i Jablanica čine tri različite etape propasti iste divizije, dok je Drežnica kandidat za zasedu na kolonu. Prozor donosi noćni napad na prsten bunkera, bodljikavu žicu, topove i tenkove; Rama povlačenje i gonjenje ka Ostrošcu; Jablanica artiljerijsko razaranje kasarne i predaju; Drežnica napad na bataljon i kolonu koja pokušava da pomogne Prozoru. Skladište municije koje jednim preciznim pogotkom slama otpor pripada Jablanici, a proboj tenkova i motorizovane kolone Prozoru i Rami.
 
 ## Rečne misije — kandidati
 

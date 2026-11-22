@@ -147,7 +147,7 @@ Granata se sastoji od putanje i borbenog pravila: `firstContact` kaže šta je p
 
 ## Kada zadržati nasleđivanje
 
-Nasleđivanje odgovara kada podklasa može da se koristi na mestu roditelja i deli njegov osnovni ugovor. U ovom projektu svaka vrsta tela, kao `Tank` ili `Fighter`, nasleđuje `Body`, i to je jedini nivo; partizanski i nemački tenk su isto telo sa drugom vrstom (`tankKinds`), ne podklase. Konkretna igra nasleđuje `Scene2D` ili `Scene3D` da bi radila kroz postojeći životni ciklus scene.
+Nasleđivanje odgovara kada podklasa može da se koristi na mestu roditelja i deli njegov osnovni ugovor. Tela poput `Tank` i `Fighter` dele ugovor `Body`; partizanski i nemački tenk su isto telo sa drugom vrstom (`tankKinds`), ne podklase. Ne produbljivati hijerarhiju samo radi drugačijih podataka. Konkretna igra nasleđuje `Scene2D` ili `Scene3D` da bi radila kroz postojeći životni ciklus scene.
 
 Kompozicija odgovara ponašanju koje treba različitim vrstama objekata: zdravlje tenku i zgradi, oružje tenku i avionu. Tada se promena tog ponašanja održava u njegovom malom objektu, a ne u zajedničkom pretku svih tih vrsta.
 
