@@ -13,6 +13,10 @@ Vodič kroz postojeći UI i dogovorena pravila njegovog razvoja. Primeri koriste
 
 Arhitektonske granice slojeva su u [ARHITEKTURA](ARHITEKTURA.md#odgovornosti), a pravilo naplate u [DOCS](DOCS.md#ulaz-u-igre-i-novčići).
 
+## Razvojne igre na naslovnoj
+
+Klasa `dev-only` označava karticu koja se prikazuje samo kada je uključen `isDev` u [konfiguraciji](../config.js). Taj prekidač određuje vidljivost razvojnih kartica; lokalni žetoni i linkovi za razvojne stranice zadržavaju sopstveni uslov lokalnog servera.
+
 ## Stilovi
 
 Izvor tema je [styles](../ui/styles.js), a izgled i raspored određuje [CSS](../ui/style.css). Scena bira `uiStyle`; ako ga ne navede, koristi se `simple`.
@@ -183,7 +187,7 @@ U korisničkim tekstovima i dokumentaciji koristimo naziv **džep** (engleski **
 
 Na dugmadima za početak, izbor i Play again naplative partije desno od postojećeg natpisa stoji samo zlatan žeton sa zvezdom, kao cena, bez broja i bez dodatka „1 coin” (odluka vlasnika 2026-11-20: broj na svakom dugmetu je suvišan). Koliko žetona ostaje prikazuje džep u uglu, isti kao na naslovnoj, dok je otvoren prozor sa naplativim dugmetom (`paid-screen`). Na malom ekranu (do 600 px širine ili 500 px visine) džep nad igrom se skuplja na žeton i broj, uz bezbedne ivice ekrana, da što manje pokriva igru i HUD; natpisi ostaju za čitače ekrana. Dostupno dugme ima animirani žeton, disabled mirni; uz smanjeno kretanje mirni i na dostupnom.
 
-**Granica odobrenja:** animirani novčić je za pojedinačan novčić u prozoru igre. Naslovnica i njene kartice zadržavaju prethodni CSS novčić; ne preuzimaju animaciju ili druge resurse samo zato što postoje u zajedničkom katalogu. Mnoštvo istovremenih rotacija odvlači pažnju, a odobrenje prikaza u prozoru ne odobrava promenu naslovnice.
+**Granica odobrenja:** animirani novčić je za pojedinačan novčić u prozoru igre. Naplative kartice na naslovnoj zadržavaju prethodni CSS novčić; ne preuzimaju animaciju ili druge resurse samo zato što postoje u zajedničkom katalogu. Kartice scena i animacija imaju VIEW i prate [pravilo ulaska bez žetona](DOCS.md#ulaz-u-igre-i-novčići). Mnoštvo istovremenih rotacija odvlači pažnju, a odobrenje prikaza u prozoru ne odobrava promenu naslovnice.
 
 Razlog nedostupnosti, prazan džep, pokazuje džep u uglu, bez nove poruke.
 

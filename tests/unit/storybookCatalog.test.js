@@ -1,5 +1,6 @@
 import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
+import { attackState } from '/core/gameplay/bodies/stateNames.js'
 import { createPageElements } from './helpers/dom.js'
 
 let Stage2D, kinds
@@ -72,18 +73,10 @@ test('every block fires each shot it lists, where it aims', t => {
       const { block: shooter, live } = staged(t, story)
       const shot = shooter.shots[name]
       shooter.aimAt({ x: shooter.x + shooter.forward * shot.x, y: shooter.y + shot.y, z: (shooter.z ?? 0) + (shot.z ?? 0) })
-      shooter.setState('fire')
+      if (!shot.automatic) shooter.setState(attackState(shooter))
       // a first shot waits up to a whole reload, and the barrel turns first
       assert.ok(live(5, () => fired(shooter)), `${story.id} ${name}`)
     }
   }
 })
 
-test('every setting a story names is a number or yes/no its block exports', async() => {
-  for (const { story } of stories().filter(({ story }) => story.settings))
-    for (const path of story.settings) {
-      const value = path.split('.').reduce((object, key) => object?.[key], story.block)
-      assert.ok(['number', 'boolean'].includes(typeof value), `${story.id}: ${path}`)
-    }
-
-})

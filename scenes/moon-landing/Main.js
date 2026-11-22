@@ -1,4 +1,5 @@
 import Scene3D, { skyGradients } from '/core/Scene3D.js'
+import { AdditiveBlending, BoxGeometry, CanvasTexture, Mesh, MeshBasicMaterial, RingGeometry, Sprite, SpriteMaterial } from 'three'
 import { ambLight, createMoon, orbitAround } from '/core3d/light.js'
 import { Stars } from '/core3d/Particles.js'
 import Platform from '/core3d/objects/Platform.js'
@@ -13,6 +14,42 @@ const controls = {
   '→ or D': 'thrust right',
   '↓ or S': 'thrust down',
   '↑ or W': '',
+}
+
+function markLandingPad(platform) {
+  const paint = new MeshBasicMaterial({ color: 0xe5eeec })
+  const ring = new Mesh(new RingGeometry(.68, .93, 48), paint)
+  ring.rotation.x = -Math.PI / 2
+  ring.position.y = platform.height + .01
+  platform.mesh.add(ring)
+
+  const canvas = document.createElement('canvas')
+  canvas.width = canvas.height = 64
+  const ctx = canvas.getContext('2d')
+  const glow = ctx.createRadialGradient(32, 32, 0, 32, 32, 32)
+  glow.addColorStop(0, 'rgba(255,255,255,.95)')
+  glow.addColorStop(.35, 'rgba(255,255,255,.65)')
+  glow.addColorStop(1, 'rgba(255,255,255,0)')
+  ctx.fillStyle = glow
+  ctx.fillRect(0, 0, 64, 64)
+  // Match the lit panes and their muted green-blue edges on the station behind the pad.
+  const halo = new SpriteMaterial({ map: new CanvasTexture(canvas), color: 0x639083,
+    blending: AdditiveBlending, depthWrite: false })
+  const lamp = new BoxGeometry(.48, .07, .13)
+  const light = new MeshBasicMaterial({ color: 0xd7d8d4 })
+  light.userData.outlineParameters = { visible: false }
+  for (const side of [-1, 1]) {
+    for (const end of [-1, 1]) {
+      const beacon = new Mesh(lamp, light)
+      beacon.position.set(side * (platform.width / 2 - .3), platform.height + .035,
+        end * (platform.depth / 2 - .2))
+      const aura = new Sprite(halo)
+      aura.scale.set(1.05, .5, 1)
+      aura.position.y = .045
+      beacon.add(aura)
+      platform.mesh.add(beacon)
+    }
+  }
 }
 
 export default class MoonLandingScene extends Scene3D {
@@ -36,6 +73,7 @@ export default class MoonLandingScene extends Scene3D {
     ambLight({ scene: this.scene })
     const moonLight = createMoon({ pos: [30, 30, 30], intensity: Math.PI * .2 })
     const platform = new Platform({ pos: [0, -10, 0], axis: 'x', range: 29, randomDirChange: true })
+    markLandingPad(platform)
     const stars = new Stars({ minRadius: 150, minVelocity: 0.25, maxVelocity: 1.5 })
 
     this.jupiter = createJupiter({ r: 5 })

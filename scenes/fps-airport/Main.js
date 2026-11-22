@@ -1,7 +1,8 @@
 import Scene3D from '/core/Scene3D.js'
-import { createGround, createFloor } from '/core3d/ground.js'
+import { Fog, MathUtils } from 'three'
+import { createHillyTerrain, createFloor } from '/core3d/ground.js'
 import { createMoon } from '/core3d/light.js'
-import { sample, getEmptyCoords } from '/core3d/helpers.js'
+import { createTexture, sample, getEmptyCoords } from '/core3d/helpers.js'
 import { fpsControls } from '/ui/Controls.js'
 import { createAirport } from '/core3d/city.js'
 import { loadModel } from '/core3d/loaders.js'
@@ -25,26 +26,42 @@ import MouseLook from '/core3d/actor/characters/MouseLook.js'
 import FirstPersonView from '/core3d/actor/characters/FirstPersonView.js'
 import BuildingModel from '/core3d/actor/buildings/BuildingModel.js'
 import { towerModel, parkedBombers } from '/core3d/actor/buildings/buildingModels.js'
+import airfieldMarkings from './airfieldMarkings.js'
 
 const mapSize = 200
 const dornierNum = 8, stukaNum = 8, heinkelNum = 7
+
+async function airfieldValley() {
+  const ground = await createHillyTerrain({ size: 1300, segments: 96,
+    factorX: 1.7, factorZ: 2.3, factorY: 43, aboveSea: 1,
+    terrainColors: [0xa7ab86, 0x999f7c, 0x7b8d77, 0x79877a] })
+  const { position } = ground.geometry.attributes
+  for (let i = 0; i < position.count; i++) {
+    const distance = Math.hypot(position.getX(i), position.getZ(i))
+    position.setY(i, position.getY(i) * MathUtils.smoothstep(distance, 165, 380) - .1)
+  }
+  ground.geometry.computeVertexNormals()
+  ground.material.map = createTexture({ file: 'terrain/suva-trava.jpg', repeat: 140 })
+  return ground
+}
 
 export default class FpsAirportScene extends Scene3D {
   constructor() {
     super({
       usePointerLock: true,
       showControls: true,
+      canvasBackground: 'linear-gradient(#779db6, #ced9d6 58%, #d3d7c9)',
       controlKeys: fpsControls,
       intro: 'Destroy all enemy aircraft.',
-      reportText: 'The German planes that sow death among our combatants are stationed at the Rajlovac Airport near Sarajevo.\n\nEnter the airport and destroy all enemy aircraft.',
+      reportText: 'The German planes that sow death among our combatants are stationed at Rajlovac Airfield near Sarajevo.\n\nEnter the airfield and destroy all enemy aircraft.',
     })
   }
 
   async init() {
     const bomberModels = Object.values(parkedBombers).map(({ model }) => model)
     await requestModels([...bomberModels, towerModel, ...tankModels, ...germanMachineGunnerModels, ...ssSoldierModels, ...naziOfficerModels])
-    const ground = createGround({ file: 'terrain/ground.jpg' })
-    ground.position.y -= .1
+    this.scene.fog = new Fog(0xc5d1d0, 145, 540)
+    const ground = await airfieldValley()
     const floor = createFloor({ size: mapSize, file: 'terrain/asphalt.jpg' })
     this.solids = []
 
@@ -54,7 +71,7 @@ export default class FpsAirportScene extends Scene3D {
     const playerSolids = []
     this.player = new Character({ x: 100, size: { length: .4, height: 1.78, width: .4 }, reach: 100, jumping: 'fly',
       strikeHeight: .82, targets: this.enemies, ...worldQueries(playerSolids) })
-    this.player.face({ x: 0, z: 0 })
+    this.player.face({ x: 78, z: 48 })
     this.controllers.push(new CharacterKeys(this.player, new Input({ useJoystick: false, useKeyboard: true, attackKey: 'pointer' })),
       new MouseLook(this.player))
     const playerModel = new CharacterModel(this.player, { mesh: createPlayerBox({ visible: false }), attackSound: 'rifle.mp3' })
@@ -112,7 +129,7 @@ export default class FpsAirportScene extends Scene3D {
     this.controllers.push(new CharacterAI(patrol.body, { way: 'patrol', patrolDistance: 30 }))
     this.add(patrol.body, patrol.model)
 
-    this.addMesh(ground, floor, createMoon(), airport, airport2, bunker)
+    this.addMesh(ground, floor, airfieldMarkings(mapSize, this.aircraft), createMoon(), airport, airport2, bunker)
   }
 
   sceneUI() {

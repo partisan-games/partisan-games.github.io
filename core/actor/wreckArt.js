@@ -10,6 +10,11 @@ export default {
     'width': 300,
     'height': 129
   },
+  'armies/game-ready/tenkovi/partizanski-tenk-layers.png': {
+    'src': 'armies/game-ready/wrecks/partisan-tank.png',
+    'width': 300,
+    'height': 129
+  },
   'armies/game-ready/tenkovi/nemacki-tenk-bez-cevi-pixel.png': {
     'src': 'armies/game-ready/wrecks/german-tank.png',
     'width': 327,
@@ -20,12 +25,22 @@ export default {
     'width': 327,
     'height': 137
   },
+  'armies/game-ready/tenkovi/nemacki-tenk-layers.png': {
+    'src': 'armies/game-ready/wrecks/german-tank.png',
+    'width': 327,
+    'height': 137
+  },
   'armies/game-ready/tenkovi/somua-s35-body-readable.png': {
     'src': 'armies/game-ready/wrecks/somua-s35.png',
     'width': 379,
     'height': 166
   },
   'armies/game-ready/tenkovi/somua-s35-sprites.png': {
+    'src': 'armies/game-ready/wrecks/somua-s35.png',
+    'width': 379,
+    'height': 166
+  },
+  'armies/game-ready/tenkovi/somua-s35-layers.png': {
     'src': 'armies/game-ready/wrecks/somua-s35.png',
     'width': 379,
     'height': 166

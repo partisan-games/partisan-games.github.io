@@ -29,6 +29,16 @@ function live(world, seconds, fps) {
   for (let i = 0; i < Math.round(seconds * fps); i++) world.update(1 / fps, 0)
 }
 
+test('the throw sounds once when the grenade actually leaves the hand', t => {
+  const { body, view, world } = scene()
+  const cue = t.mock.method(view.throwSound, 'play', () => {})
+  body.shoot()
+  live(world, .3, 30)
+  assert.equal(cue.mock.callCount(), 0)
+  live(world, .6, 30)
+  assert.equal(cue.mock.callCount(), 1)
+})
+
 test('grenadier blood descends during the fall and leaves only a stain on the ground', t => {
   const { body, view, world } = scene()
   const hit = t.mock.method(view.hitSound, 'play', () => {})

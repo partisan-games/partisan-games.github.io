@@ -21,7 +21,7 @@ export default class Barrel extends GameObject2D {
     const thickness = length * sh / sw
     ctx.save()
     ctx.translate(pivot.x, pivot.y)
-    ctx.rotate(projection.angle(body.yaw, body.elevation))
+    ctx.rotate(projection.angle(body.barrelYaw ?? body.yaw, body.elevation))
     // art pointing left is mirrored, so its mouth leads; it is never flipped upside down
     if (this.facing < 0) ctx.scale(-1, 1)
     ctx.imageSmoothingEnabled = false

@@ -42,10 +42,10 @@ const nest = stage => {
 const game = 'Čamac'
 
 export const boats = [
-  { id: 'partizanski-camac', name: 'Partizanski čamac', game, pxPerMeter, settings: ['boat.thrust', 'boat.turn', 'boat.reload', 'boat.damage', 'boat.health'], block: boatModule, create: boat },
-  { id: 'schnellboot', name: 'Schnellboot S-30', game, pxPerMeter, settings: ['sBoat.cruise', 'sBoat.burst', 'sBoat.burstWait', 'sBoat.damage', 'sBoat.health'], block: sBoatModule, create: sBoat },
+  { id: 'partizanski-camac', name: 'Partizanski čamac', game, pxPerMeter, block: boatModule, create: boat },
+  { id: 'schnellboot', name: 'Schnellboot S-30', game, pxPerMeter, block: sBoatModule, create: sBoat },
 ]
 
 export const artillery = [
-  { id: 'mitraljesko-gnezdo', name: 'Mitraljesko gnezdo', game, pxPerMeter, settings: ['nest.turn', 'nest.burst', 'nest.burstWait', 'nest.damage', 'nest.health'], block: shoreMachineGunModule, create: nest },
+  { id: 'mitraljesko-gnezdo', name: 'Mitraljesko gnezdo', game, pxPerMeter, block: shoreMachineGunModule, create: nest },
 ]

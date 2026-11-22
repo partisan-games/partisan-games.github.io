@@ -2,6 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import MachineGunner, { machineGun } from '/core/gameplay/bodies/soldiers/MachineGunner.js'
 import Grenadier, { grenadier } from '/core/gameplay/bodies/soldiers/Grenadier.js'
+import Grenade, { grenade } from '/core/gameplay/bodies/projectiles/Grenade.js'
 import Patrol, { patrol } from '/core/gameplay/bodies/soldiers/Patrol.js'
 import WoundedSoldier from '/core/gameplay/bodies/soldiers/WoundedSoldier.js'
 import Wander, { wander } from '/core/gameplay/controllers/Wander.js'
@@ -73,6 +74,85 @@ test('a grenadier throws his grenade the way he last walked, 5 m from him, where
   assert.equal(bursts[0].y, 0, 'on the ground')
   assert.ok(Math.abs(bursts[0].z - (50 + grenadier.throw.feet)) < 1e-9, 'level with his boots, not below them')
   assert.equal(body.state, 'idle')
+})
+
+test('a grenadier throws short or long, only the grenades he has, and not at all once he falls before letting go', () => {
+  const clock = new GameClock()
+  const bursts = []
+  const body = new Grenadier({ x: 0, z: 0, grenades: 2, onBurst: point => bursts.push(point) })
+  body.facing = 1
+  assert.deepEqual(body.states, ['idle', 'move', 'attack', 'dead'])
+  body.act('throw short')
+  assert.equal(body.state, 'attack')
+  live(clock, [body], 2)
+  body.act('throw long')
+  live(clock, [body], 2)
+  assert.deepEqual(bursts.map(point => Math.round(point.x * 1e6) / 1e6), [grenadier.throw.short, grenadier.throw.ahead])
+  assert.equal(body.grenades, 0)
+  assert.equal(body.shotsFired, 2, 'one release cue for each grenade')
+  assert.equal(body.shoot(), false, 'out of grenades')
+  body.setState('attack')
+  live(clock, [body], 2)
+  assert.equal(bursts.length, 2, 'a story button cannot make him throw one he has not got')
+
+  const fallen = new Grenadier({ onBurst: point => bursts.push(point) })
+  fallen.shoot()
+  live(clock, [fallen], grenadier.throw.release / 2)
+  fallen.setState('dead')
+  live(clock, [fallen], 2)
+  assert.equal(fallen.grenade.active, false)
+  assert.equal(fallen.shotsFired, 0, 'an interrupted throw makes no release sound')
+  assert.equal(bursts.length, 2)
+})
+
+test('a grenadier walks while steered and stops when the keys let go; set walking with no keys, he walks on', () => {
+  const clock = new GameClock()
+  const body = new Grenadier()
+  body.steer(1, 0, 1 / 30)
+  live(clock, [body], 1 / 30)
+  assert.equal(body.state, 'move')
+  live(clock, [body], 1 / 30)
+  assert.equal(body.state, 'idle')
+  const walker = new Grenadier()
+  walker.setState('move')
+  live(clock, [walker], 1)
+  assert.equal(walker.state, 'move')
+  assert.ok(walker.x < -1, 'on the way he faces')
+})
+
+test('a grenade falls as its world pulls, bounces back off a wall and along the ground, and bursts once, when its fuse burns down', t => {
+  const clock = new GameClock()
+  const bursts = []
+  const throwAt = (options, velocity) => {
+    const body = new Grenade({ onBurst: point => bursts.push(point), ...options })
+    body.launch({ x: 0, y: 1, z: 0 }, velocity)
+    return body
+  }
+  const wall = throwAt({ isBlocked: (from, way, distance) => from.x + way.x * distance > 1 }, { x: 5, y: 0, z: 0 })
+  live(clock, [wall], 2)
+  assert.equal(bursts.length, 1)
+  assert.ok(bursts[0].x < 1, 'it came back off the wall')
+
+  const moon = throwAt({ gravity: 1.62 }, { x: 0, y: 0, z: 0 })
+  live(clock, [moon], 2)
+  assert.ok(Math.abs(bursts[1].y - (1 - 1.62 * grenade.fuse ** 2 / 2)) < 1e-9, 'its fuse burns down while it still falls')
+
+  t.mock.property(grenade, 'fuse', 3)
+  const rolling = throwAt({}, { x: 4, y: 3, z: 0 })
+  const heights = []
+  // a little past its fuse, as frames do not add up to it exactly
+  for (let i = 0; i < 92; i++) {
+    live(clock, [rolling], 1 / 30)
+    heights.push(rolling.y)
+  }
+  assert.equal(bursts.length, 3, 'one burst each')
+  assert.ok(Math.min(...heights) >= 0, 'never under the ground')
+  // it fell and then rose again
+  const bounced = heights.findIndex((height, i) => i > 1 && heights[i - 1] < heights[i - 2] && height > heights[i - 1])
+  assert.ok(bounced > 0, 'it bounced')
+  assert.equal(bursts[2].y, 0, 'it settled on the ground before it burst')
+  const firstLanding = 4 * (3 + Math.sqrt(9 + 2 * rolling.gravity)) / rolling.gravity
+  assert.ok(bursts[2].x > firstLanding + .3, 'it went on past where it first landed')
 })
 
 test('a patrol searches on the way it heads at its pace, halts, and a wander turns it now and then within its spread', () => {

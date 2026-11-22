@@ -13,7 +13,7 @@ class SceneManager {
     SceneManager.instance = this
   }
 
-  /** Shows the start screen, or starts a game that has none; `replay` starts the last choice again, paying for it. */
+  /** Shows the start screen, or starts a game that has none; replay repeats the choice and the scene's price. */
   async handleIntro(replay = false) {
     const { scene } = this
     if (!scene.hasStartScreen) return scene.start()

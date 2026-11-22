@@ -8,7 +8,7 @@ Dogovoreno u [kontekstu igara](KONTEKST.md), a još neurađeno. Igra koja preras
 |---|---|---|---|---|---|
 | 1 | [IG-01](#ig-01) | Neretva | Dva ekrana: prvo Nemci, pa četnici, svaki sa svojom pozadinom | Claude, Codex | 🔄 In progress<br>Kod gotov: Nemci prvih 60 s, pa četnici uz poruku; test u [migration2d](../tests/unit/migration2d.test.js). Čeka pozadine (Codex) i vlasnikovu partiju |
 | 2 | [IG-02](#ig-02) | Tenkići | Više nivoa u različitim bitkama; redom početak Sremskog fronta, Batina, proboj Sremskog fronta | Claude, Codex | 🔄 In progress<br>Meč do dve pobede, najviše tri runde, kao u Ustanku; svaka runda na sledećem bojištu ([BattleBackground](../scenes/tenkici/BattleBackground.js)): Sremski front 1944, Batina, proboj 1945, pa grad, Bihać, Drvar, Užice. Čeka neprijateljske tenkove (Codex) i vlasnikovu partiju |
-| 3 | [IG-03](#ig-03) | Vis | Tri etape: posle prve dve sletanje na aerodrom, posle treće na Vis | Claude | 🔄 In progress<br>Kod gotov: tri etape talasa, sirena i poruka posle prve dve; testovi u [vis.test.js](../tests/unit/vis.test.js). Čeka vlasnikovu partiju |
+| 3 | [IG-03](#ig-03) | Vis | Tri etape: posle prve dve sletanje na aerodrom, posle treće na Vis | Claude | ✅ Done<br>Tri etape talasa, sirena i poruka posle prve dve; testovi u [vis.test.js](../tests/unit/vis.test.js). Vlasnik zatvorio posle partije; duže etape su [IG-11](#ig-11) |
 | 4 | [IG-04](#ig-04) | Do Trsta | Četiri etape: Lika, Senj, Rijeka, Trst | Claude, Codex | 🔄 In progress<br>Istorija etapa upisana; čeka pozadine etapa (Codex). Etape nemaju svoje tekstove (odluka vlasnika: tekst samo kad je potreban) |
 | 5 | [IG-05](#ig-05) | Čamac | Tri etape: isplovljavanje sa Visa, desant na Šoltu, povratak pod napadom S-čamaca | Claude, Codex | 📋 TODO |
 | 6 | [IG-06](#ig-06) | Tenkići, Ustanak | Igrač vidi mesto i godinu istorijskog bojišta | Claude | 📋 TODO<br>Čeka vlasnikovo odobrenje UI-ja |
@@ -16,6 +16,7 @@ Dogovoreno u [kontekstu igara](KONTEKST.md), a još neurađeno. Igra koja preras
 | 8 | [IG-08](#ig-08) | Tenkići | Manji razoreni top na pozadini Srema 1945 | Codex, Claude | 📋 TODO |
 | 9 | [IG-09](#ig-09) | Cannon | Top diže i spušta cev, bar malo | Claude | 📋 TODO |
 | 10 | [IG-10](#ig-10) | Avatar | Kocke i novčići se nikada ne preklapaju, a svaki novčić može da se skupi | Claude | 📋 TODO |
+| 11 | [IG-11](#ig-11) | Vis | Etape pre sletanja traju duže | Claude | 📋 TODO |
 
 Pravila rada: [DOCS](DOCS.md) i [CLAUDE.md](../.claude/CLAUDE.md). Nov art radi Codex po pravilima iz [ART](ART.md); placeholder nije art. Novi UI elementi i tekstovi traže vlasnikovo odobrenje. Agent ne pravi commit bez naloga.
 
@@ -43,7 +44,7 @@ Pravila rada: [DOCS](DOCS.md) i [CLAUDE.md](../.claude/CLAUDE.md). Nov art radi 
 - **Dogovor ([kontekst](KONTEKST.md#vis)):** tri etape; posle prve dve sletanje na aerodrom, posle treće na Vis. Sada postoji jedna etapa sa talasima iz [levels.js](../scenes/vis/levels.js) i sletanjem na Vis na kraju.
 - **Šta:** još dve etape talasa ispred postojeće, svaka završena sletanjem na aerodrom, kao Kluzove misije redom; sledeća etapa ne troši novi žeton, a nova igra počinje prvom.
 - **Posle sletanja (odobrio vlasnik):** oglasi se sirena (`air-raid-siren.mp3`, kao kod Kluza) i poruka „Sirens! The enemy is attacking the base!”, pa sledeća etapa počinje poletanjem pod napadom.
-- **Ugrađeno:** etape su u [levels.js](../scenes/vis/levels.js); prva lakša, druga sa teškim lovcima, treća postojeća sa bosom. Rezultat, životi i bombe prelaze u sledeću etapu. Aerodrom na putu za sada koristi postojeću sliku baze sa Visa; poseban crtež aerodroma je kandidat za art.
+- **Ugrađeno:** etape su u [levels.js](../scenes/vis/levels.js); prva lakša, druga sa teškim lovcima, treća postojeća sa bosom. Rezultat, energija aviončeta i bombe prelaze u sledeću etapu. Aerodrom na putu za sada koristi postojeću sliku baze sa Visa; poseban crtež aerodroma je kandidat za art.
 - **Gotovo kada:** unit test redosleda etapa i pobede tek na Visu; vlasnik je odigrao sve tri.
 
 <a id="ig-04"></a>
@@ -102,3 +103,11 @@ Pravila rada: [DOCS](DOCS.md) i [CLAUDE.md](../.claude/CLAUDE.md). Nov art radi 
 - **Sada:** [createRandomBoxes](../core3d/geometry/index.js) baca 400 kocki od 5 m nasumično po mapi od 200 m i na visini od -5 do 50 m, bez provere preklapanja. [Scena](../scenes/avatar/Main.js) stavlja novčić (i ponekad platformu) 6,15 m iznad svake od prvih 100 kocki, pa novčić može da upadne u drugu kocku; niko ne proverava da li se do njega može doći.
 - **Šta:** kocka se postavlja samo ako ne seče već postavljene, uz razmak (odbacivanje i novo izvlačenje, ili Poisson-disk raspored); novčić i platforma samo na mesto koje nije u kocki niti zaklonjeno njome: oko novčića i iznad svakog oslonca ima mesta za ceo lik avatara, a nijedna kocka ne preseca put skoka. Svaki novčić mora biti dostižan Kamenku i Laveniju, koji samo skaču: od tla, preko kocki i platformi, svaki sledeći oslonac je na dohvat jednog skoka (visina i daljina skoka se mere iz tela lika), a novčić je na dohvat skoka sa nekog dostižnog oslonca; raspored koji to ne ispuni se odbacuje ili dopunjuje. Broj pokušaja je ograničen, da raspored uvek završi.
 - **Gotovo kada:** unit test da se nijedne dve kocke, nijedan novčić ni platforma i nijedna kocka ne seku i da je svaki novčić dostižan lancem skokova od tla, sa mestom za lik oko novčića i na putu skoka, za više nasumičnih semena; vlasnik je to video u igri.
+
+<a id="ig-11"></a>
+## IG-11 · Vis: duže etape pre sletanja
+
+- **Želja vlasnika (2026-11-22):** etapa pre sletanja treba duže da traje.
+- **Sada:** po [levels.js](../scenes/vis/levels.js) prva etapa ima poslednji talas u 33. sekundi, a druga u 54.
+- **Šta:** produžiti prve dve etape novim talasima.
+- **Gotovo kada:** vlasnik je odigrao duže etape.

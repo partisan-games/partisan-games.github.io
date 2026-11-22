@@ -12,6 +12,11 @@ import { icons } from '/core/io/icons.js'
 import { requestModels } from '/core3d/assets/models.js'
 
 export default class WallsScene extends Scene3D {
+  // This tour stays free even though it has an introductory screen.
+  get free() {
+    return true
+  }
+
   constructor() {
     super({
       toon: true,

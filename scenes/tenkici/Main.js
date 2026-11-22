@@ -58,9 +58,11 @@ export default class TenkiciScene extends Scene2D {
     this.background = new BattleBackground(this.canvas, battlefields[this.battlefield], { groundY: groundLevel })
     const { clock } = this.session
     const half = fieldLength / 2
-    this.tenk = new Tank({ kind: tankKinds.partisan, x: randomInRange(0, fieldLength * .3), clock, bounds: { min: 0, max: half } })
+    // its tanks do not break down: the fight is decided by health alone
+    const breakdown = { drive: 0, gun: 0 }
+    this.tenk = new Tank({ kind: tankKinds.partisan, x: randomInRange(0, fieldLength * .3), clock, bounds: { min: 0, max: half }, breakdown })
     this.tenk2 = new Tank({ kind: tankKinds.german, x: randomInRange(fieldLength * .7, fieldLength) - 3.96, yaw: Math.PI, clock,
-      bounds: { min: half, max: fieldLength } })
+      bounds: { min: half, max: fieldLength }, breakdown })
     this.tenk.targets.push(this.tenk2)
     this.tenk2.targets.push(this.tenk)
     const view = (body, art, barrel, facing) => new TankSprite(body, { art, facing, barrel, projection: this.projection })

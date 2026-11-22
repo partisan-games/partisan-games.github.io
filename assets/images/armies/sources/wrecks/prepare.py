@@ -41,7 +41,8 @@ def main():
         result.save(target)
         width, height = result.size
         descriptor = {'src': 'armies/game-ready/wrecks/' + key + '.png', 'width': width, 'height': height}
-        for path in [profile['original'], *ALIASES.get(key, [])]:
+        aliases = ALIASES.get(key, [])
+        for path in [profile['original'], *aliases, *(p.replace('-sprites.png', '-layers.png') for p in aliases)]:
             runtime[path] = descriptor
         assets.append({'id': key, 'image': '../../game-ready/wrecks/' + key + '.png',
             'frame': {'width': width, 'height': height, 'columns': 1, 'rows': 1},

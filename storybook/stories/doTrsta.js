@@ -43,10 +43,10 @@ const bunker = kind => (stage, way) => {
 const game = 'Do Trsta'
 
 export const vehicles = [
-  { id: 'somua-s35', name: 'Somua S35', game, pxPerMeter, way: -1, settings: ['tank.thrust', 'tank.reloadTime', 'tank.shellSpeed', 'tank.health'], block: tankModule, create: somua },
+  { id: 'somua-s35', name: 'Somua S35', game, pxPerMeter, way: -1, block: tankModule, create: somua },
 ]
 
 export const artillery = [
-  { id: 'pak38', name: 'PaK 38', game, pxPerMeter, way: -1, settings: ['antiTankGun.reload', 'antiTankGun.health'], block: antiTankGunModule, create: gun },
-  { id: 'bunker-do-trsta', name: 'Bunker', game, pxPerMeter, way: -1, settings: ['bunker.reload', 'bunker.burst', 'bunker.pause', 'bunker.damage', 'bunker.health'], block: bunkerModule, create: bunker('pillbox') },
+  { id: 'pak38', name: 'PaK 38', game, pxPerMeter, way: -1, block: antiTankGunModule, create: gun },
+  { id: 'bunker-do-trsta', name: 'Bunker', game, pxPerMeter, way: -1, block: bunkerModule, create: bunker('pillbox') },
 ]

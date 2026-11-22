@@ -34,7 +34,7 @@ const wounded = stage => {
 const game = 'Ranjenik'
 
 export const soldiers = [
-  { id: 'nemacka-patrola', name: 'Nemačka patrola', game, pxPerMeter, way: 1, settings: ['patrol.speed'], block: patrolModule, create: patrol('german') },
-  { id: 'italijanska-patrola', name: 'Italijanska patrola', game, pxPerMeter, way: 1, settings: ['patrol.speed'], block: patrolModule, create: patrol('italian') },
-  { id: 'ranjeni-partizan', name: 'Ranjeni partizan', game, pxPerMeter, settings: ['crawl.thrust', 'crawl.turn'], block: woundedSoldierModule, create: wounded },
+  { id: 'nemacka-patrola', name: 'Nemačka patrola', game, pxPerMeter, way: 1, block: patrolModule, create: patrol('german') },
+  { id: 'italijanska-patrola', name: 'Italijanska patrola', game, pxPerMeter, way: 1, block: patrolModule, create: patrol('italian') },
+  { id: 'ranjeni-partizan', name: 'Ranjeni partizan', game, pxPerMeter, block: woundedSoldierModule, create: wounded },
 ]

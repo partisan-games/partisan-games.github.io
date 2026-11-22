@@ -3,7 +3,7 @@ import spriteArt from './spriteArt.js'
 
 export default {
   'partisanTank': {
-    'src': 'armies/game-ready/tenkovi/partizanski-tenk-sprites.png',
+    'src': 'armies/game-ready/tenkovi/partizanski-tenk-layers.png',
     'frame': {
       'width': 300,
       'height': 129
@@ -23,7 +23,7 @@ export default {
     }
   },
   'germanTank': {
-    'src': 'armies/game-ready/tenkovi/nemacki-tenk-sprites.png',
+    'src': 'armies/game-ready/tenkovi/nemacki-tenk-layers.png',
     'frame': {
       'width': 327,
       'height': 137
@@ -43,7 +43,7 @@ export default {
     }
   },
   'somuaS35': {
-    'src': 'armies/game-ready/tenkovi/somua-s35-sprites.png',
+    'src': 'armies/game-ready/tenkovi/somua-s35-layers.png',
     'frame': {
       'width': 379,
       'height': 166

@@ -12,6 +12,6 @@ const trench = faction => stage => {
 const game = 'Neretva'
 
 export const soldiers = [
-  { id: 'nemac-u-rovu', name: 'Nemac spreda', game, settings: ['trench.aimTime', 'trench.damage'], block: trenchSoldierModule, create: trench('nemci') },
-  { id: 'cetnik-u-rovu', name: 'Četnik spreda', game, settings: ['trench.aimTime', 'trench.damage'], block: trenchSoldierModule, create: trench('cetnici') },
+  { id: 'nemac-u-rovu', name: 'Nemac spreda', game, block: trenchSoldierModule, create: trench('nemci') },
+  { id: 'cetnik-u-rovu', name: 'Četnik spreda', game, block: trenchSoldierModule, create: trench('cetnici') },
 ]

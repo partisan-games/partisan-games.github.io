@@ -8,6 +8,7 @@ import { sideProjection } from '/core/actor/projection.js'
 import { screenView } from '/core/actor/worldView.js'
 import { randomInRange } from '/core/utils.js'
 import Tank, { tank, tankKinds } from '/core/gameplay/bodies/vehicles/Tank.js'
+import { attackState, movingState } from '/core/gameplay/bodies/stateNames.js'
 import Vehicle, { vehicleKinds } from '/core/gameplay/bodies/vehicles/Vehicle.js'
 import AntiTankGun from '/core/gameplay/bodies/artillery/AntiTankGun.js'
 import Bunker, { bunker, bunkerKinds } from '/core/gameplay/bodies/artillery/Bunker.js'
@@ -42,6 +43,8 @@ const levelLength = scroll * 180
 export const layers = Object.freeze({ ground: -.5, unit: -1, player: -1.5, projectile: -2, effect: -3 })
 /** Seconds before the first air raid and between the start of one and the next. */
 const raids = { first: 28, every: 36 }
+/** Its tanks do not break down: the column's fights are decided by health alone. */
+const noBreakdown = { drive: 0, gun: 0 }
 /**
  * The enemies on the ground, in the order they first come: how hard a vehicle drives on, as its share of full
  * throttle, and the enemy tanks' reload, slower than the player's. Any shell destroys any of them.
@@ -73,7 +76,7 @@ export default class ToTriesteScene extends Scene2D {
     // the tank rolls on with the column, as fast as the view moves along the road
     this.player = new Tank({ kind: tankKinds.partisan, x: toMeters(randomInRange(0, canvas2d.width * .3)), yaw: 0,
       march: toMeters(scroll), clock: this.session.clock, targets: this.targets, bounds: this.bounds,
-      canFire: () => this.running })
+      canFire: () => this.running, breakdown: noBreakdown })
     this.player.y = this.player.size.height / 2
     this.playerView = new TankSprite(this.player, { art: vehicleArt.partisanTank, ...this.views, z: layers.player,
       barrel: { src: 'armies/game-ready/tenkovi/partizanski-tenk-cev-pixel.png' }, shellLayer: layers.projectile })
@@ -165,7 +168,8 @@ export default class ToTriesteScene extends Scene2D {
       view = new AntiTankGunSprite(body, { ...this.views, z: layers.unit, shellLayer: layers.projectile })
     } else {
       const tankKind = kind === 'germanTank' ? 'german' : 'somua'
-      body = new Tank({ ...armed, kind: tankKinds[tankKind], cruise: enemy.cruise[tankKind], reloadTime: enemy.tankReload })
+      body = new Tank({ ...armed, kind: tankKinds[tankKind], cruise: enemy.cruise[tankKind], reloadTime: enemy.tankReload,
+        breakdown: noBreakdown, rearAim: false })
       view = new TankSprite(body, { ...this.views, z: layers.unit, shellLayer: layers.projectile, facing: -1,
         ...tankKind === 'german'
           ? { art: vehicleArt.germanTank, barrel: { src: 'armies/game-ready/tenkovi/nemacki-tenk-cev-pixel.png', facing: -1 } }
@@ -174,9 +178,9 @@ export default class ToTriesteScene extends Scene2D {
     body.canFire = this.mayFire(body)
     body.y = body.size.height / 2
     view.position.z = layers.unit
-    const rest = body.states.includes('drive') ? 'drive' : 'idle'
+    const rest = movingState(body) ?? 'idle'
     body.setState(rest)
-    const controllers = body.states.includes('fire') ? [this.marksman(body, tank.shellSpeed, rest)] : []
+    const controllers = attackState(body) ? [this.marksman(body, tank.shellSpeed, rest)] : []
     return { sort: 'ground', kind, body, view, controllers }
   }
 

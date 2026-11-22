@@ -5,7 +5,7 @@ import Marksman from '/core/gameplay/controllers/Marksman.js'
 /** A body that records the state it is set to and the points it aims at; it can aim only at points left of it. */
 function fakeBody({ alive = true } = {}) {
   const body = {
-    x: 100, alive, state: 'idle', aimed: [],
+    x: 100, alive, state: 'idle', states: ['idle', 'fire', 'drive', 'dead'], aimed: [],
     aimAt(point) {
       body.aimed.push(point)
       return point.x < body.x

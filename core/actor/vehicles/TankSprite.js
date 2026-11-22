@@ -95,6 +95,10 @@ export default class TankSprite extends BodySprite {
     ctx.scale(this.flipY, 1)
     ctx.imageSmoothingEnabled = false
     const image = bodyImage(this), wrecked = image !== this.image
+    if (!wrecked) {
+      const turretRow = clips[this.clip].row + (this.body.turretBack ? 4 : 2)
+      ctx.drawImage(image, this.frameIndex * frame.width, turretRow * frame.height, frame.width, frame.height, x, y, width, height)
+    }
     ctx.drawImage(image, wrecked ? 0 : this.frameIndex * frame.width, wrecked ? 0 : clips[this.clip].row * frame.height,
       frame.width, frame.height, x, y, width, height)
     ctx.restore()

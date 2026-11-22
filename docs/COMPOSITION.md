@@ -151,7 +151,7 @@ Nasleđivanje odgovara kada podklasa može da se koristi na mestu roditelja i de
 
 Kompozicija odgovara ponašanju koje treba različitim vrstama objekata: zdravlje tenku i zgradi, oružje tenku i avionu. Tada se promena tog ponašanja održava u njegovom malom objektu, a ne u zajedničkom pretku svih tih vrsta.
 
-Ne izdvajaj svaku malu metodu u novu klasu. Izdvoji smislen posao sa jasnim podacima i pozivima; klase `Health` i `Weapon` su primer takvih granica.
+Ne izdvajaj svaku malu metodu u novu klasu. Izdvoji smislen posao sa jasnim podacima i pozivima; klase `Health` i `Cooldown` su primer takvih granica.
 
 ## Kako prevesti postojeći objekat
 

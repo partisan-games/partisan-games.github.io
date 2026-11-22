@@ -138,6 +138,8 @@ export default class UI {
     if (this.ended) return
     this.screen = name
     draw(modalElement, this, html)
+    if (this.scene.free)
+      modalElement.querySelectorAll('[data-paid]').forEach(element => element.removeAttribute('data-paid'))
     modalElement.setAttribute('role', 'dialog')
     modalElement.setAttribute('aria-modal', 'true')
     modalElement.setAttribute('aria-label', modalElement.querySelector('h2, h3')?.textContent || this.startButtonText)
@@ -158,8 +160,8 @@ export default class UI {
    */
   markPaid() {
     if (this.ended || drawnBy.get(modalElement) !== this) return
-    const left = admission.remaining()
     const paid = [...modalElement.querySelectorAll('[data-paid]')]
+    const left = paid.length ? admission.remaining() : null
     // the pocket shows how many tokens are left while a screen asks for one
     document.body.classList.toggle('paid-screen', paid.length > 0)
     modalElement.querySelectorAll('.price').forEach(price => price.remove())

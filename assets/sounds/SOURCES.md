@@ -27,6 +27,8 @@ Other existing recordings have incomplete source/license provenance; retaining o
 
 When preparing assets on Windows, normalize relative manifest paths to `/` after changing extensions. Persist each replacement's processing recipe and previous/final hashes together: a resumed preparation must identify already-processed files before applying gain again.
 
+The grenadier's [release cue](grenade-throw.mp3) uses the first 0.36 s of audible sound from the existing [swoosh](fire-swoosh.mp3), SHA-256 `9d88c55a84753027f658f435b6a96f7ed076dda1aad3aec6085310b5ba56dc7b`. FFmpeg filter: `silenceremove=start_periods=1:start_duration=0.005:start_threshold=-48dB,atrim=duration=0.36,highpass=f=220,lowpass=f=6800,afade=t=in:d=0.025,afade=t=out:st=0.18:d=0.18`. Mono, 44.1 kHz, libmp3lame quality 3. Output SHA-256 `e2b2da878af5f451f645569f102f2ea7e68c260e60c8b2731b6fb8ac4f965732`. The original recording's provenance is undocumented.
+
 [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/).
 
 Owner-rejected excerpts must not be reintroduced: body-impact-02 (a quiet hit, then a louder one; 2026-11-21). Owner-rejected candidates must not be reintroduced: Freesound 210428 (small splash), 803852 (space launch), 718967 (human effort) and 849412 (magic impact). Effort grunts are not needed and require no replacement; this does not reject separate body-impact/injury sounds. New recordings require owner selection before installation; preparation parameters do not require a separate decision for every value.

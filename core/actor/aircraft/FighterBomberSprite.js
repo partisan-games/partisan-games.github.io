@@ -13,7 +13,8 @@ const loopGrowth = .5
 
 /**
  * How a fighter-bomber looks and sounds from above, in the picture `src`: its turning propeller, its guns and rounds,
- * the bang of a bomb, its blinking while it is safe, a loop that grows it and turns it over on its back, and its fall.
+ * the bang of a bomb, its blinking while it is safe, a loop that grows it and turns it over on its back, the smoke of
+ * a damaged plane, and its fall and fire.
  * It only reads the body.
  */
 export default class FighterBomberSprite extends TopViewSprite {
@@ -26,9 +27,15 @@ export default class FighterBomberSprite extends TopViewSprite {
     this.seen = { shots: body.shotsFired, bombs: body.bombsDropped }
   }
 
+  /** A damaged plane smokes and a shot down one burns. */
+  get burning() {
+    return this.flammable && (this.body.dead || this.body.damaged)
+  }
+
   update(dt) {
     super.update(dt)
     const { body, seen } = this
+    this.smoky = body.alive
     this.propellerTime += dt
     if (body.shotsFired > seen.shots) this.gunSound.play()
     if (body.bombsDropped > seen.bombs) this.bombSound.play()

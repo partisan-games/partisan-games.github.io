@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import Potez, { airspeed, flight, plane, gun } from '/core/gameplay/bodies/aircraft/Potez.js'
+import Potez, { airspeed, flight, plane, gun, rearGun } from '/core/gameplay/bodies/aircraft/Potez.js'
 import PlaneKeys from '/core/gameplay/controllers/PlaneKeys.js'
 import RearGunner from '/core/gameplay/controllers/RearGunner.js'
 import Body from '/core/gameplay/bodies/Body.js'
@@ -48,6 +48,26 @@ test('throttle changes airspeed within its limits, and the plane cannot slow dow
   grounded.input.left = true
   grounded.live(1 / 30)
   assert.ok(Math.abs(grounded.body.airspeed - 10 * flight.rollOut ** (1 / 30)) < 1e-9, 'only rolling out')
+})
+
+test('a damaged engine smokes and pulls less: the plane slows to a lower top speed and climbs no higher than its lower ceiling', () => {
+  const { body, input, live } = planeAlone()
+  input.right = true
+  live(10)
+  assert.equal(body.airspeed, airspeed.max)
+  body.takeHit(plane.health * .6)
+  assert.equal(body.burning, true)
+  live(10)
+  assert.ok(Math.abs(body.airspeed - airspeed.max * plane.damaged.speed) < 1e-9)
+  input.right = false
+  input.up = true
+  live(60)
+  assert.ok(body.y + body.size.height / 2 <= plane.ceiling * plane.damaged.ceiling + 1e-9)
+  const high = planeAlone({ y: plane.ceiling * plane.damaged.ceiling + 20 })
+  high.body.takeHit(plane.health * .6)
+  const { y } = high.body
+  high.live(1 / 30)
+  assert.ok(high.body.y > y - 1, 'hit above its lower ceiling, it does not drop to it at once')
 })
 
 test('holding fire fires the gun from the nose with the plane speed, as often at 30 as at 60 frames a second', () => {
@@ -185,10 +205,10 @@ test('a live enemy it flies into destroys it and itself; a wreck only damages it
   assert.equal(live.state, 'dead')
 })
 
-test('the observer aims at the nearest fighter behind in reach, fires from his barrel while fire is held, and swings back with none', () => {
+test('the observer aims at the nearest fighter behind in reach, fires at it on his own, and swings back with none', () => {
   const near = target(0, 60), far = target(-5, 60), ahead = target(25, 60)
   const fighters = [far, ahead, near]
-  const { body, input, live } = planeAlone({ fighters })
+  const { body, live } = planeAlone({ fighters })
   const observer = new RearGunner(body, { fighters })
   const step = () => {
     observer.update()
@@ -196,14 +216,14 @@ test('the observer aims at the nearest fighter behind in reach, fires from his b
   }
   step()
   assert.equal(body.rearTarget, near)
-  assert.equal(body.shotsFired, 0, 'only while fire is held')
-  input.attack = true
-  body.ammo = 0
-  step()
-  assert.equal(body.shotsFired, 1, 'the observer fires on when the front gun is empty')
+  assert.equal(body.rearBullets.projectiles.length, 1, 'with no key held')
+  assert.equal(body.bullets.projectiles.length, 0, 'the front gun keeps quiet')
   const [round] = body.rearBullets.projectiles
   assert.ok(round.vx < body.vx, 'back towards the fighter')
-  input.attack = false
+  // out of his reach, the fighter he still aims at is safe
+  near.x = body.x - 2 * rearGun.reach
+  for (let i = 0; i < 30; i++) live(1 / 30)
+  assert.equal(body.rearBullets.projectiles.filter(({ active }) => active).length, 0)
   fighters.length = 0
   step()
   assert.equal(body.rearTarget, null)

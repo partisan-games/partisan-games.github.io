@@ -26,9 +26,12 @@ export const flight = {
  * The plane: its health, under half of which the damaged engine smokes; how high above the ground it can climb, in
  * metres; rounds of the gun, about 20 seconds of fire; bombs per flight, chosen for play; seconds between two bombs,
  * so a quick tapping cannot drop the whole load on one spot; the health a glancing blow from a falling wreck takes,
- * for play, where a live enemy destroys the plane.
+ * for play, where a live enemy destroys the plane; and the shares of its fastest airspeed and of its ceiling left to
+ * its damaged engine.
  */
-export const plane = { health: 100, ceiling: 180.36, ammo: 200, bombs: 4, bombInterval: 1, wreckDamage: 50 }
+export const plane = {
+  health: 100, ceiling: 180.36, ammo: 200, bombs: 4, bombInterval: 1, wreckDamage: 50, damaged: { speed: .75, ceiling: .6 },
+}
 /** The front machine gun: seconds between shots and bullet speed in metres a second, as the guns in Vis. */
 export const gun = { reload: .1, speed: 32.5 }
 /**
@@ -40,19 +43,14 @@ export const gun = { reload: .1, speed: 32.5 }
 export const rearGun = { reach: 19.5, cone: Math.PI / 3, reload: .2, swing: 4, mount: { ahead: .18, above: .61 }, length: .68 }
 
 /**
- * The plane stands on the ground (`idle`) until it takes off, flies (`move`), flies firing both guns as they reload
+ * The plane stands on the ground (`idle`) until it takes off, flies (`move`), flies firing its front gun as it reloads
  * (`attack`), falls shot down and settles after impact (`falling`), then lies wrecked (`dead`). Firing and bombing
  * are also commands that go with flight. A falling plane has no health and cannot be controlled.
  */
 const states = {
   idle: {},
   move: {},
-  attack: {
-    update: plane => {
-      plane.shoot()
-      plane.fireBack()
-    },
-  },
+  attack: { update: plane => plane.shoot() },
   // it keeps its airspeed as it starts to fall
   falling: {
     enter: plane => {
@@ -72,8 +70,8 @@ const states = {
 /**
  * Franjo Kluz's Potez 25, flying right. Its speed is its airspeed, at which the scene's view moves on, plus its speed
  * across the view, which `bounds` (the view's left and right, in metres, an object the scene moves) keeps it within.
- * It stands on `groundAt(x)` and flies up to its ceiling. Its guns hit the living ones of `targets`, the rear gun those
- * of `fighters`; flying into a living one of `solids` destroys both, into a wreck damages it once. Its bombs burst on
+ * It stands on `groundAt(x)` and flies up to its ceiling. Its front gun hits the living ones of `targets`; the observer
+ * fires his gun on his own at the one of `fighters` he aims at, while it is within his reach and cone; flying into a living one of `solids` destroys both, into a wreck damages it once. Its bombs burst on
  * the ground, where `onBombImpact(point)` deals the damage. `clock` is the game clock, and it fires only while
  * `canFire()`. In level flight its wings hold it up; a game that wants it to sink unless it is flown gives `sink`, in
  * metres a second squared.
@@ -131,18 +129,33 @@ export default class Potez extends Body {
     return this.y - this.groundClearance <= this.groundAt(this.x) + 1e-9
   }
 
+  /** How high it can climb: lower with a damaged engine. */
+  get ceiling() {
+    return plane.ceiling * (this.damaged ? plane.damaged.ceiling : 1)
+  }
+
+  /** Its fastest airspeed: slower with a damaged engine. */
+  get topSpeed() {
+    return airspeed.max * (this.damaged ? plane.damaged.speed : 1)
+  }
+
   get atCeiling() {
-    return this.y + this.size.height / 2 >= plane.ceiling
+    return this.y + this.size.height / 2 >= this.ceiling
+  }
+
+  /** Its engine is damaged under half its health: it smokes, and pulls less. */
+  get damaged() {
+    return this.alive && this.health.current < plane.health / 2
   }
 
   /** A damaged plane smokes and a shot down one burns. */
   get burning() {
-    return this.dead || this.health.current < plane.health / 2
+    return this.dead || this.damaged
   }
 
   /** Throttle up: faster through the air, and forward across the view. */
   speedUp(dt) {
-    this.airspeed = Math.min(airspeed.max, this.airspeed + airspeed.throttle * dt)
+    this.airspeed = Math.min(this.topSpeed, this.airspeed + airspeed.throttle * dt)
     this.across += flight.thrust * dt
   }
 
@@ -185,9 +198,25 @@ export default class Potez extends Body {
     this.rearTarget = fighter
   }
 
-  /** The observer fires at the fighter he aims at, if his gun has reloaded; returns whether he fired. */
+  /**
+   * The shot a story can ask of the observer, as the point behind the plane and below it, inside his cone; aimed, he
+   * fires on his own.
+   */
+  get shots() {
+    return { behind: { x: -12, y: -4, automatic: true } }
+  }
+
+  /** Aims the observer's gun at `point`, if he can fire back at it; returns whether he can. */
+  aimAt(point) {
+    if (!this.canFireBackAt(point)) return false
+    this.aimBack(point)
+    return true
+  }
+
+  /** The observer fires at the fighter he aims at, while it is within his reach and cone, as his gun reloads; returns whether he fired. */
   fireBack() {
-    if (this.dead || !this.canFire() || !this.rearTarget || !this.rearReload.ready) return false
+    if (this.dead || !this.canFire() || !this.rearTarget || !this.rearReload.ready || !this.canFireBackAt(this.rearTarget))
+      return false
     this.rearAim = this.angleTo(this.rearTarget)
     this.launch(this.rearBullets, this.rearMuzzle, Math.cos(this.rearAim) < 0 ? Math.PI : 0,
       Math.atan2(Math.sin(this.rearAim), Math.abs(Math.cos(this.rearAim))))
@@ -250,7 +279,7 @@ export default class Potez extends Body {
   }
 
   /** The edges of the view, the ground and the ceiling stop the plane; a shot down plane is wrecked by the ground. */
-  checkBounds() {
+  checkBounds(before) {
     const margin = this.size.length / 4
     const left = this.bounds.min + margin, right = this.bounds.max - margin
     if (this.x < left || this.x > right) {
@@ -265,8 +294,9 @@ export default class Potez extends Body {
       if (this.dead && !this.wrecked) this.wreck()
     }
     if (this.atCeiling && this.vy > 0) {
-      this.y = plane.ceiling - this.size.height / 2
       this.vy = 0
+      // it rises no higher than its ceiling, or than it was if a damaged engine left it above its lower one
+      this.y = Math.max(this.ceiling - this.size.height / 2, Math.min(this.y, before))
     }
   }
 
@@ -318,9 +348,12 @@ export default class Potez extends Body {
     if (this.dead && !this.wrecked) this.pitch -= flight.tumbleRate * dt
     // on the ground the plane rolls out
     if (this.isGrounded) this.airspeed *= flight.rollOut ** dt
+    // a damaged engine cannot hold its former speed: the plane slows to what it still pulls
+    else if (this.airspeed > this.topSpeed) this.airspeed = Math.max(this.topSpeed, this.airspeed - airspeed.throttle * dt)
     this.vx = this.airspeed + this.across
+    const before = this.y
     super.update(dt)
-    this.checkBounds()
+    this.checkBounds(before)
     const keep = flight.keep ** dt
     this.vy *= keep
     this.across *= keep
@@ -333,5 +366,6 @@ export default class Potez extends Body {
     this.tilted = false
     if (wasWrecked && this.state === 'falling') this.settle(dt)
     this.swingRearGun(dt)
+    this.fireBack()
   }
 }

@@ -12,7 +12,6 @@ Zajednička osnova za razvoj 2D i 3D igara, sa istorijski zasnovanim sadržajem.
 | Konteksti igara | [KONTEKST](KONTEKST.md) | Okvir, priča, protivnici, prikaz i prihvaćeni art svake igre i njenih etapa. |
 | Ugao 2D arta | [Indeks prikaza](../assets/images/armies/index.csv) | Vizuelne oznake za izbor bočnih, gornjih i drugih prikaza, uz same slike. |
 | Art i sprite animacije | [ART](ART.md) | Resursi, stanja aktera, priprema, integracija, pozadine i tragovi rata koje raspoređuje agent uz pregled vlasnika. |
-| Razvoj potpunih aktera | [Plan elemenata](PLAN-ELEMENTI.md) | Ciljne sposobnosti, pokreti, art, zvuk i provere postojećih gradivnih blokova, nezavisno od trenutne upotrebe u nivou. |
 | Arhitektura i obrasci | [ARHITEKTURA](ARHITEKTURA.md) | Odgovornosti zajedničkog engine-a, obrasci i bitna ograničenja. |
 | UI | [UI](UI.md) | Principi, teme, prozori, HUD, komande i praktična upotreba postojećeg UI-ja. |
 | Učenje kompozicije | [Kompozicija umesto nasleđivanja](COMPOSITION.md) | Uporedni primeri i sastavljanje zdravlja i oružja. |
@@ -22,6 +21,32 @@ Zajednička osnova za razvoj 2D i 3D igara, sa istorijski zasnovanim sadržajem.
 | Razvoj igre | Planovi igara (`docs/PLAN-*.md`) | Koraci izrade i statusi; nije trajna baza znanja. Planovi su u gitu, nikad u `.git/info/exclude`. |
 
 Pokretanje projekta opisuje [README](../README.md). Istorijske slike i poreklo čuvaju se u [references/ww2-yu](references/ww2-yu/), a merni artefakti se povezuju iz tehničkog opisa.
+
+## Pojmovnik
+
+Vlasnikovi nazivi i ono što znače u kodu. Ovde idu samo pojmovi koji se stvarno koriste u razgovoru, a nisu očigledni iz koda.
+
+| Naziv | U kodu | Gde |
+|---|---|---|
+| Atom, gradivni blok | Samostalan deo od kog sastavljamo igre i svetove; nije naziv posebne klase | [Gradivni blokovi](ARHITEKTURA.md#gradivni-blokovi) |
+| Akter, lik | Vojnik, vozilo, avion ili drugi učesnik: telo sa prikazom i dodeljenim upravljačem | [Gradivni blokovi](ARHITEKTURA.md#gradivni-blokovi) |
+| Telo, prikaz, upravljač | [Body](../core/gameplay/bodies/Body.js) drži stanje i pravila; sprite/model ga prikazuje; kontroler iz `core/gameplay/controllers/` zadaje radnje | [ARHITEKTURA](ARHITEKTURA.md#gradivni-blokovi) |
+| Osnovna stanja | Mirovanje `idle`, kretanje `move`, napad `attack`, smrt/uništenje `dead`; zajednički rečnik koji se postepeno uvodi | [Standard stanja](ARHITEKTURA.md#standardna-stanja-aktera) |
+| Pad, olupina | Kod [Poteza](../core/gameplay/bodies/aircraft/Potez.js) `falling` obuhvata pad i poleganje; završno `dead` ostavlja olupinu na tlu. Nije isto što i uklanjanje objekta | [Život objekta](ARHITEKTURA.md#stanje-vreme-i-život-objekta) |
+| Atlas, sprite tabla; kadar | Slika sa mrežom poza/animacije; kadar je jedno polje, ne cela PNG slika | [Art i sprite animacije](ART.md) |
+| Sidrište; linija oslonca | Tačka u kadru vezana za položaj objekta; linija po kojoj čizme, točkovi ili trup naležu na tlo | [Priprema arta](ART.md) |
+| Tragovi rata, rekviziti bojišta | Olupine, poginuli i drugi zasebni elementi ambijenta; nisu nužno aktivni akteri niti ostaci nastali tokom partije | [Zasebni rekviziti bojišta](ART.md#zasebni-rekviziti-bojišta) |
+| Priča, pozornica | Unos u `storybook/stories/`, `Stage2D`/`Stage3D` | [Storybook](STORYBOOK.md) |
+| Avionče | [FighterBomber](../core/gameplay/bodies/aircraft/FighterBomber.js): Spitfire, Hurricane, Breguet 19 i Yak-1b | Vis |
+| Kraljica | Bilo koji boss, glavni i najjači protivnik nivoa; u Visu He 111, [AttackPlane](../core/gameplay/bodies/aircraft/AttackPlane.js) vrste `boss` | Vis, Graffiti City |
+| Bombaš (Žikica) | [Grenadier](../core/gameplay/bodies/soldiers/Grenadier.js) | Bunker |
+| Kuća-bunker | [Bunker](../core/gameplay/bodies/artillery/Bunker.js) sa [mitraljescem](../core/gameplay/bodies/soldiers/MachineGunner.js) u prozoru | Bunker, Do Trsta |
+| Okupator | [Occupier](../core/gameplay/bodies/soldiers/Occupier.js), nemački vojnik koji hoda i puca ka gledaocu | Otpisani |
+| Nemac/Četnik spreda, ranije „u rovu” | [TrenchSoldier](../core/gameplay/bodies/soldiers/TrenchSoldier.js) sa odgovarajućim prikazom; [rov](../core/objects/Trench.js) je zasebna scenografija | Neretva; stare Storybook adrese ostaju važeće ([granice](STORYBOOK.md#granice-i-odluke)) |
+| Partizanski/italijanski top | Isto telo [FieldGun](../core/gameplay/bodies/artillery/FieldGun.js) sa [prikazom topa](../core/actor/artillery/FieldGunSprite.js); [posada](../core/gameplay/bodies/soldiers/CannonCrew.js) je zaseban akter | Ustanak |
+| Potez | [Potez](../core/gameplay/bodies/aircraft/Potez.js) | Franjo Kluz |
+| Tenkić | [Tank](../core/gameplay/bodies/vehicles/Tank.js) kojim upravlja igrač; isto telo voze i neprijatelji | Tenkići, Do Trsta |
+| Kamenko, Balonko, Laveni | Kože `STONE`, `DISCO` i `LAVA` u [Avatar.js](../core3d/actor/characters/Avatar.js) | Avatar |
 
 ## Kako zapisujemo znanje
 
@@ -61,9 +86,11 @@ Autoritativni opis tema i potvrđenog korisničkog izbora je u [UI vodiču](UI.m
 
 ## Ulaz u igre i novčići
 
+Odluka vlasnika od 2026-11-22: besplatni su sadržaji u grupama **3D Scenes** i **Animations**, uključujući direktan link i ponovno otvaranje. Scene i animacije gledamo, ne igramo: njihove kartice prikazuju **VIEW**, bez žetona i animacije njegovog ubacivanja; te grupe su označene sa `data-free`. Ako takva scena ima startni prozor, izričito koristi `free`, kao [Walls](../scenes/walls/Main.js). Dimenzija prikaza ne određuje naplatu: **3D Games** zadržavaju žetone prema istom pravilu kao 2D igre.
+
 Odluka vlasnika od 2026-11-20: igre koje nemaju startni prozor ostaju besplatne i kreću odmah po učitavanju, bez dodavanja prozora za novčić ili starta. To važi i za direktan link, reload i ponovnu igru; dostupnost novčića i njihovog skladišta ne sme uslovljavati besplatnu igru.
 
-Za igre sa startnim prozorom ostaje jedan prozor pre početka: Start ili izbor režima naplaćuje jedan novčić, a kartica u glavnom meniju ne naplaćuje. Kartica ipak zadržava izgled automata sa „INSERT COIN” (odluka vlasnika 2026-11-20); klik na nju samo otvara igru. Play again naplaćuje novu partiju i pokreće je sa istim prethodnim izborom, bez ponavljanja startnog prozora. Preskakanje tog prozora pri replay-u ne menja cenu igre. Cilj je manje klikova, uz jasno prikazanu cenu; konkretni novi natpisi i poruke i dalje traže prethodno odobrenje po pravilu iznad. Ovo je pravilo željenog ponašanja, ne potvrda da ga trenutni kod sprovodi.
+Za naplative 2D i 3D igre sa startnim prozorom ostaje jedan prozor pre početka: Start ili izbor režima naplaćuje jedan novčić, a kartica u glavnom meniju ne naplaćuje. Kartica ipak zadržava izgled automata sa „INSERT COIN” (odluka vlasnika 2026-11-20); klik na nju samo otvara igru. Play again naplaćuje novu partiju i pokreće je sa istim prethodnim izborom, bez ponavljanja startnog prozora. Preskakanje tog prozora pri replay-u ne menja cenu igre. Cilj je manje klikova, uz jasno prikazanu cenu; konkretni novi natpisi i poruke i dalje traže prethodno odobrenje po pravilu iznad. Ovo je pravilo željenog ponašanja, ne potvrda da ga trenutni kod sprovodi.
 
 ## Tasteri
 

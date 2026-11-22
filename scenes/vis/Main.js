@@ -30,12 +30,12 @@ const pxPerMeter = 10
 /** The plane fires on Space; on a phone, with its buttons. */
 export const inputOptions = { attackKey: 'Space', buttonDict: { attack: icons.shoot, attack2: icons.loop, special: icons.bomb } }
 /**
- * The game's rules for the player: lives; seconds before a lost plane comes back and is safe after it; a bomb's
- * blast, as a share of the shorter side of the screen, and the hits it takes off each plane in it; how many bursts it
+ * The game's rules for the player: the seconds the plane is safe as it takes off into a new stage; the share of its
+ * energy a power-up or a health pack gives back; a bomb's blast, as a share of the shorter side of the screen, and the hits it takes off each plane in it; how many bursts it
  * spreads over how many seconds, and their size against their 128 px frame.
  */
 export const rules = {
-  lives: 3, respawnTime: 2.5, shieldTime: 2, bombRadius: .5, bombHits: 10, bombBursts: 12, bombSpread: .4, burstScale: 1.8,
+  shieldTime: 2, repair: .5, bombRadius: .5, bombHits: 10, bombBursts: 12, bombSpread: .4, burstScale: 1.8,
 }
 
 const customStartScreen = ({ container }) => /* html */`
@@ -72,7 +72,6 @@ export default class VisScene extends Scene2D {
     this.ostrvo = new Pokretno('nature/ostrvo.gif', { thrust: speed, scale: 2 })
     this.zdravlje = new Pokretno('items/zdravlje.png', { thrust: speed, scale: .66, faktorY: 10, shadow: true })
     this.score = 0
-    this.lives = rules.lives
     /** The enemy planes in play, which the player's guns hit and the player can crash into. */
     this.targets = []
     this.player = this.createPlayer('spitfire')
@@ -92,7 +91,7 @@ export default class VisScene extends Scene2D {
     this.add(okean, this.zdravlje, this.ostrvo, this.player, this.playerView, ...this.oblaci)
     this.engineSound = new Sound('avion-mali.mp3', { volume: engineVolume, loop: true, profile: 'engine', spatial: { getPosition: () => this.playerView.position } })
     this.playerView.sounds.push(this.engineSound)
-    this.seen = { bombs: 0, alive: true }
+    this.seen = { bombs: 0 }
   }
 
   /** The player plane of `aircraftId` at the bottom middle of the screen, kept within it. */
@@ -154,7 +153,7 @@ export default class VisScene extends Scene2D {
   powerUp(kind) {
     if (kind === 'fire') this.player.fireLevel = Math.min(this.player.fireLevel + 1, 2)
     if (kind === 'bomb') this.player.bombs++
-    if (kind === 'life') this.lives++
+    if (kind === 'life') this.player.repair(rules.repair)
   }
 
   collectHealth() {
@@ -219,21 +218,11 @@ export default class VisScene extends Scene2D {
     }
   }
 
-  /** A lost plane takes a life and its extra guns; it comes back at the start after a while, safe for a moment. */
+  /** A bomb the plane drops bursts. */
   watchPlayer() {
     const { player, seen } = this
     if (player.bombsDropped > seen.bombs) this.burstBomb()
-    if (seen.alive && player.dead) {
-      this.lives--
-      player.fireLevel = 0
-      this.session.gameplay.after(rules.respawnTime, () => {
-        if (this.lives <= 0) return
-        player.revive()
-        this.placeAtStart(player)
-        player.shield = rules.shieldTime
-      })
-    }
-    Object.assign(seen, { bombs: player.bombsDropped, alive: player.alive })
+    seen.bombs = player.bombsDropped
   }
 
   /** After each stage the base scrolls in, where the plane lands: on Vis after the last, at an airfield on the way after the others. */
@@ -253,7 +242,7 @@ export default class VisScene extends Scene2D {
     const last = this.stage === levels.length - 1
     const { start, stop } = this.baza.runway
     this.controllers.splice(this.controllers.indexOf(this.keys), 1)
-    this.player.setState('fly')
+    this.player.setState('move')
     this.runwayLanding = new RunwayLanding(this.player, {
       runway: { start: this.projection.toWorld(start), stop: this.projection.toWorld(stop) },
       rest: last ? Infinity : restTime,
@@ -264,10 +253,10 @@ export default class VisScene extends Scene2D {
     this.controllers.push(this.runwayLanding)
   }
 
-  /** On an airfield the plane's bombs and the pilot's lives are filled up to a full load; more than that they keep. */
+  /** On an airfield the plane is repaired and its bombs are filled up to a full load; more than that it keeps. */
   service() {
     this.player.rearm()
-    this.lives = Math.max(this.lives, rules.lives)
+    this.player.repair(1)
   }
 
   /** The sirens wail as the enemy attacks the airfield, and the plane takes off. */
@@ -301,7 +290,7 @@ export default class VisScene extends Scene2D {
     this.powerUps.update()
     this.collectHealth()
 
-    if (this.lives <= 0) this.defeat()
+    if (this.player.dead) this.defeat()
 
     if (this.baza?.gone) {
       this.remove(this.baza)
@@ -313,14 +302,14 @@ export default class VisScene extends Scene2D {
   }
 
   sceneUI() {
-    const hearts = icons.life.repeat(Math.max(0, this.lives))
+    const { health } = this.player
     const bombs = icons.bomb.repeat(this.player.bombs)
     const loops = icons.loop.repeat(this.player.loopsLeft)
     return /* html */`
       <div class="top-left">
         <div>
           Score: ${this.score}
-          <br>${hearts}
+          <br>${this.healthBar(health.current / health.maximum)}
           <br>${bombs}
           <br>${loops}
         </div>
@@ -332,8 +321,12 @@ export default class VisScene extends Scene2D {
   bossBar() {
     const boss = this.waves.boss?.body
     if (!boss?.alive) return ''
-    const left = boss.health.current / boss.kind.hits
-    return `<progress class="progress top-right ${currentStyleClasses().healthBar}" value="${left * 100}" max="100"></progress>`
+    return this.healthBar(boss.health.current / boss.kind.hits, 'top-right')
+  }
+
+  /** A bar of the `left` share of a health: top right for the boss, under the score for the plane. */
+  healthBar(left, place = '') {
+    return `<progress class="progress ${place} ${currentStyleClasses().healthBar}" value="${left * 100}" max="100"></progress>`
   }
 
   end() {

@@ -30,7 +30,8 @@ const gunner = stage => {
 }
 
 const grenadier = stage => {
-  const body = new Grenadier(middle(stage))
+  // a few grenades, to show him out of them
+  const body = new Grenadier({ ...middle(stage), grenades: 3 })
   return put(stage, body, new GrenadierSprite(body, views(stage)))
 }
 
@@ -38,9 +39,9 @@ const game = 'Bunker'
 
 /** The fortified house with its machine gunner in the window, the one bunker block of the library. */
 export const artillery = [
-  { id: 'kuca-bunker', name: 'Kuća-bunker', game: 'Bunker, Do Trsta', pxPerMeter, settings: ['machineGun.reload', 'machineGun.burst', 'machineGun.pause', 'machineGun.speed'], block: machineGunnerModule, create: gunner },
+  { id: 'kuca-bunker', name: 'Kuća-bunker', game: 'Bunker, Do Trsta', pxPerMeter, block: machineGunnerModule, create: gunner },
 ]
 
 export const soldiers = [
-  { id: 'bombas', name: 'Bombaš', game, pxPerMeter, settings: ['grenadier.thrust', 'grenadier.throw.ahead'], block: grenadierModule, create: grenadier },
+  { id: 'bombas', name: 'Bombaš', game, pxPerMeter, block: grenadierModule, create: grenadier },
 ]

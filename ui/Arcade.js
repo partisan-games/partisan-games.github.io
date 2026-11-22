@@ -44,8 +44,11 @@ export default class Arcade {
     const slot = document.createElement('button')
     slot.type = 'button'
     slot.className = 'arcade-slot'
-    slot.setAttribute('aria-label', `Play ${this.games.get(card.dataset.path)}`)
-    slot.innerHTML = `${coin}<span class="arcade-slot-label">INSERT COIN<small>1 COIN · 1 PLAY</small></span><span class="arcade-slot-mouth" aria-hidden="true"></span>`
+    const viewing = Boolean(card.closest('[data-free]'))
+    slot.setAttribute('aria-label', `${viewing ? 'View' : 'Play'} ${this.games.get(card.dataset.path)}`)
+    slot.innerHTML = viewing
+      ? '<span class="arcade-slot-label">VIEW</span>'
+      : `${coin}<span class="arcade-slot-label">INSERT COIN<small>1 COIN · 1 PLAY</small></span><span class="arcade-slot-mouth" aria-hidden="true"></span>`
     card.appendChild(slot)
   }
 

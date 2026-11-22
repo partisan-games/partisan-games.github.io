@@ -39,9 +39,8 @@ const planes = [
 ].map(([id, name, value]) => ({ id, name, value }))
 
 export const aircraft = [
-  { id: 'ratni-avion-3d', name: 'Ratni avion', game: 'Warplane', block: warplaneModule, stage: Stage3D, looks: planes,
-    settings: ['warplane.speed', 'warplane.reload', 'warplane.missileSpeed'], create: warplane },
-  { id: 'dirizabl-3d', name: 'Dirižabl', game: 'Zeppelin', block: airshipModule, stage: Stage3D, settings: ['airship.turn', 'airship.throttle', 'airship.max'],
+  { id: 'ratni-avion-3d', name: 'Ratni avion', game: 'Warplane', block: warplaneModule, stage: Stage3D, looks: planes, create: warplane },
+  { id: 'dirizabl-3d', name: 'Dirižabl', game: 'Zeppelin', block: airshipModule, stage: Stage3D,
     // the airship flies on alone, rising to its clearance above the floor
     create: async stage => {
       await requestModels(dirigibleModule.models)
@@ -52,6 +51,5 @@ export const aircraft = [
 ]
 
 export const towers = [
-  { id: 'kula-3d', name: 'Kula sa topom', game: 'Warplane, FPS Airport', block: towerModule, stage: Stage3D,
-    settings: ['tower.range', 'tower.interval', 'tower.damage'], create: gunTower },
+  { id: 'kula-3d', name: 'Kula sa topom', game: 'Warplane, FPS Airport', block: towerModule, stage: Stage3D, create: gunTower },
 ]

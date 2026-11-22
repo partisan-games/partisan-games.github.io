@@ -19,12 +19,13 @@ before(async() => {
 for (const [name, kindName, artName, width, height, yaw] of [
   ['partisan', 'partisan', 'partisanTank', 300, 129, 0],
   ['German', 'german', 'germanTank', 327, 137, Math.PI],
+  ['Somua', 'somua', 'somuaS35', 379, 166, Math.PI],
 ]) test(`${name} tank view fits the atlas to the body and rolls both ways`, t => {
   const kind = tankKinds[kindName]
   const projection = sideProjection({ pxPerMeter: 22, groundY: 300 })
   const tank = new Tank({ kind, yaw, x: 20, clock: new GameClock() })
   const view = new TankSprite(tank, { art: vehicleArt[artName], barrel: { src: 'barrel.png' }, projection })
-  loadAtlas(view, width * 4, height * 2)
+  loadAtlas(view, width * 4, height * 6)
   assert.deepEqual([view.width, view.height, view.y], [kind.size.length * 22, kind.size.height * 22, 300],
     'a loaded atlas keeps the body size before the game moves anything')
   const draws = []
@@ -36,6 +37,11 @@ for (const [name, kindName, artName, width, height, yaw] of [
     view.render(context)
   }
   roll(tank.forward, .16)
+  assert.deepEqual(draws.at(-1).slice(1, 5), [width, height, width, height])
+  assert.equal(draws.at(-2)[2], height * 3, 'forward turret over the rolling hull')
+  tank.aimAt({ x: tank.x - tank.forward * 12, y: tank.y })
+  view.render(context)
+  assert.equal(draws.at(-2)[2], height * 5, 'only the turret switches to its opposite side')
   assert.deepEqual(draws.at(-1).slice(1, 5), [width, height, width, height])
   const { clipTime } = view
   view.update(0)

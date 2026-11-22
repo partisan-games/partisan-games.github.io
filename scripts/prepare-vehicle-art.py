@@ -2,6 +2,7 @@
 import json
 import re
 from pathlib import Path
+from PIL import Image, ImageOps
 
 ROOT = Path(__file__).resolve().parent.parent
 SOURCE = ROOT / 'assets/images/armies/sources'
@@ -10,10 +11,28 @@ metadata = json.loads(metadata_path.read_text(encoding='utf-8'))
 usage = json.loads((SOURCE / 'do-trsta/opel-blitz.json').read_text(encoding='utf-8'))
 names = {'partizanski-tenk': 'partisanTank', 'nemacki-tenk': 'germanTank', 'somua-s35': 'somuaS35'}
 assets = {}
+# Turret ring edges in the accepted side view (left, right, deck height).
+turrets = {'partizanski-tenk': (92, 208, 47), 'nemacki-tenk': (99, 261, 44), 'somua-s35': (69, 201, 61)}
 for asset in metadata['assets']:
     image = (metadata_path.parent / asset['image']).resolve()
+    original = Image.open(image).convert('RGBA')
+    width, height = asset['frame']['width'], asset['frame']['height']
+    left, right, deck = turrets[asset['id']]
+    layers = Image.new('RGBA', (original.width, original.height * 3))
+    for y in range(0, original.height, height):
+        for x in range(0, original.width, width):
+            cell = original.crop((x, y, x + width, y + height))
+            box = (left, 0, right, deck)
+            turret = cell.crop(box)
+            hull = cell.copy()
+            hull.paste((0, 0, 0, 0), box)
+            layers.paste(hull, (x, y))
+            layers.paste(turret, (x + left, y + original.height))
+            layers.paste(ImageOps.mirror(turret), (x + left, y + 2 * original.height))
+    packed = image.with_name(asset['id'] + '-layers.png')
+    layers.save(packed)
     assets[names[asset['id']]] = {
-        'src': image.relative_to(ROOT / 'assets/images').as_posix(),
+        'src': packed.relative_to(ROOT / 'assets/images').as_posix(),
         'frame': {key: asset['frame'][key] for key in ('width', 'height')},
         'columns': asset['frame']['columns'],
         'clips': {clip['name']: {'row': clip['row'], 'seconds': clip['duration'], 'loop': clip['loop']}

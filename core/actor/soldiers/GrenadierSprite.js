@@ -34,7 +34,9 @@ export default class GrenadierSprite extends BodySprite {
     this.stepSound = new Sound('footstep-gravel-01.mp3', { variants: ['footstep-gravel-02.mp3', 'footstep-gravel-03.mp3', 'footstep-gravel-04.mp3'],
       profile: 'footstep', spatial: { getPosition: () => this.position } })
     this.hitSound = new Sound('body-impact-01.mp3', { profile: 'impact', spatial: { getPosition: () => this.position } })
-    this.sounds.push(this.stepSound, this.hitSound)
+    this.throwSound = new Sound('grenade-throw.mp3', { volume: .65, profile: 'footstep', spatial: { getPosition: () => this.position } })
+    this.sounds.push(this.stepSound, this.hitSound, this.throwSound)
+    this.throwsSeen = body.shotsFired
     this.blood = new FallingBlood({ fallTime: clips.death.seconds })
     this.throwImage = new Image()
     this.throwImage.src = assets.images + throwArt.src
@@ -58,6 +60,8 @@ export default class GrenadierSprite extends BodySprite {
     const before = { x: this.x, y: this.y }
     super.update(dt)
     const { body } = this
+    if (body.shotsFired > this.throwsSeen) this.throwSound.play()
+    this.throwsSeen = body.shotsFired
     if (this.seenAlive && body.dead) {
       this.hitSound.play()
       this.blood.start({ x: this.x + 5, y: this.y - 10, groundY: this.y + this.height / 2,

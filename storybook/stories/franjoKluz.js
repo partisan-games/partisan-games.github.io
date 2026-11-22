@@ -76,25 +76,25 @@ const game = 'Franjo Kluz'
 const pxPerMeter = 30.8
 
 export const soldiers = [
-  { id: 'strelac', name: 'Nemački strelac', game, pxPerMeter, way: -1, settings: ['rifle.reload', 'rifle.speed', 'rifle.damage', 'riflemanKinds.soldier.health'], block: riflemanModule, create: soldier('soldier') },
-  { id: 'jurisnik', name: 'Nemački jurišnik', game, pxPerMeter, way: -1, settings: ['rifle.reload', 'rifle.speed', 'rifle.damage', 'riflemanKinds.assault.health'], block: riflemanModule, create: soldier('assault') },
+  { id: 'strelac', name: 'Nemački strelac', game, pxPerMeter, way: -1, block: riflemanModule, create: soldier('soldier') },
+  { id: 'jurisnik', name: 'Nemački jurišnik', game, pxPerMeter, way: -1, block: riflemanModule, create: soldier('assault') },
 ]
 
 export const vehicles = [
-  { id: 'hummel', name: 'Hummel', game, pxPerMeter, way: kinds.tank.facing, settings: ['hummelKind.speed', 'hummelKind.health', 'hummel.fireTime'], block: hummelModule, create: vehicle('tank') },
-  { id: 'opel-blitz', name: 'Opel Blitz', game, pxPerMeter, way: kinds.truck.facing, settings: ['vehicleKinds.truck.speed', 'vehicleKinds.truck.health'], block: vehicleModule, create: vehicle('truck') },
-  { id: 'opel-blitz-legija', name: 'Opel Blitz, legija', game, pxPerMeter, way: kinds.legionTruck.facing, settings: ['vehicleKinds.legionTruck.speed', 'vehicleKinds.legionTruck.health'], block: vehicleModule, create: vehicle('legionTruck') },
-  { id: 'bp42', name: 'Oklopni voz BP-42', game, pxPerMeter, way: kinds.train.facing, settings: ['vehicleKinds.train.speed', 'vehicleKinds.train.health'], block: vehicleModule, create: vehicle('train') },
+  { id: 'hummel', name: 'Hummel', game, pxPerMeter, way: kinds.tank.facing, block: hummelModule, create: vehicle('tank') },
+  { id: 'opel-blitz', name: 'Opel Blitz', game, pxPerMeter, way: kinds.truck.facing, block: vehicleModule, create: vehicle('truck') },
+  { id: 'opel-blitz-legija', name: 'Opel Blitz, legija', game, pxPerMeter, way: kinds.legionTruck.facing, block: vehicleModule, create: vehicle('legionTruck') },
+  { id: 'bp42', name: 'Oklopni voz BP-42', game, pxPerMeter, way: kinds.train.facing, block: vehicleModule, create: vehicle('train') },
 ]
 
 export const aircraft = [
-  { id: 'potez', name: 'Potez 25', game, pxPerMeter, settings: ['flight.thrust', 'gun.reload', 'plane.bombs', 'plane.health'],
+  { id: 'potez', name: 'Potez 25', game, pxPerMeter,
     looks: [{ id: 'ndh', name: 'NDH', value: markings.ndh }, { id: 'partizanski', name: 'Partizanski', value: markings.partisan }],
     block: potezModule, create: plane },
-  { id: 'bf109', name: 'Bf 109', game, pxPerMeter, way: -1, settings: ['fighter.speed', 'fighter.gun.reload', 'fighter.gun.damage', 'fighter.health'], block: fighterModule, create: fighter },
-  { id: 'ju87-obrusavac', name: 'Ju 87', game, pxPerMeter, way: -1, settings: ['diveBomber.speed', 'diveBomber.diveSpeed', 'diveBomber.health'], block: diveBomberModule, create: diveBomber },
+  { id: 'bf109', name: 'Bf 109', game, pxPerMeter, way: -1, block: fighterModule, create: fighter },
+  { id: 'ju87-obrusavac', name: 'Ju 87', game, pxPerMeter, way: -1, block: diveBomberModule, create: diveBomber },
 ]
 
 export const artillery = [
-  { id: 'flak38', name: 'Flak 38', game, pxPerMeter, settings: ['flak.reload', 'flak.shellSpeed', 'flak.damage', 'flak.health'], block: flakModule, create: flak },
+  { id: 'flak38', name: 'Flak 38', game, pxPerMeter, block: flakModule, create: flak },
 ]

@@ -3,11 +3,11 @@ import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 import { loadImages } from './helpers/images.js'
 
-let Vis, fall, boss, paths, formationMembers, settings, levels, canvas2d
+let Vis, rules, fall, boss, paths, formationMembers, settings, levels, canvas2d
 
 before(async() => {
   createPageElements()
-  ;({ default: Vis } = await import('/scenes/vis/Main.js'))
+  ;({ default: Vis, rules } = await import('/scenes/vis/Main.js'))
   ;({ fall, boss } = await import('/scenes/vis/Waves.js'))
   ;({ paths } = await import('/scenes/vis/paths.js'))
   ;({ formationMembers } = await import('/scenes/vis/formations.js'))
@@ -155,6 +155,8 @@ test('a formation shot down to the last plane drops one power-up where that plan
   const away = createScene(t, [{ at: 0, formation: 'pair', path: 'straight', x: .5 }])
   const none = []
   away.waves.onFormationDown = position => none.push(position)
+  // the plane keeps out of its way, so it does not fly into the one that gets away
+  away.scene.player.shield = Infinity
   away.play(1.5)
   away.waves.enemies[0].body.setState('dead')
   away.play(20)
@@ -173,23 +175,18 @@ test('each plane shot down scores its points once, and none after the result', t
   assert.equal(scene.score, settings.enemies.fighter.points)
 })
 
-test('a lost plane takes a life and its extra guns, and comes back at the start, safe for a while', t => {
+test('hits take the energy of the plane, a power-up gives some back, and the game is lost when none is left', t => {
   const { scene, play } = createScene(t, [])
   const { player } = scene
-  player.fireLevel = 2
-  player.takeHit(1)
+  const full = player.health.maximum
+  player.takeHit(full * .8)
+  scene.powerUp('life')
+  assert.ok(Math.abs(player.health.current - full * (.2 + rules.repair)) < 1e-9)
   play(1 / 60)
-  assert.equal(scene.lives, 2)
-  assert.equal(player.fireLevel, 0)
-  play(3)
-  assert.equal(player.alive, true)
-  assert.ok(player.shield > 0)
-  assert.equal(player.takeHit(1), false, 'safe just after coming back')
-  play(2.5)
-  player.takeHit(1)
-  player.takeHit(1)
+  assert.equal(scene.ui.outro, '')
+  player.takeHit(full)
   play(1 / 60)
-  assert.equal(scene.lives, 1)
+  assert.notEqual(scene.ui.outro, '', 'lost')
 })
 
 test('a bomb shoots down the planes around the player, takes out their rounds, and only so many bombs', t => {
@@ -246,11 +243,10 @@ test('the first two stages end at an airfield, where the plane lands, is service
   const { scene, play } = createScene(t, [])
   t.mock.method(scene.ui, 'showMessage')
   scene.player.bombs = 0
-  const { lives } = scene
-  scene.lives = 1
+  scene.player.takeHit(scene.player.health.maximum / 2)
   await land(scene, play)
   assert.ok(scene.player.bombs > 0, 'its bombs are filled')
-  assert.equal(scene.lives, lives, 'and the lives of the pilot, up to a full load')
+  assert.equal(scene.player.health.current, scene.player.health.maximum, 'and it is repaired')
   const { x, z } = scene.player
   play(settings.restTime - .2)
   assert.deepEqual([scene.player.x, scene.player.z, scene.stage], [x, z, 0], 'it stands on the runway while the player rests')
@@ -270,10 +266,9 @@ test('the plane flies above the clouds: the renderer draws it after them', t => 
   assert.ok(scene.oblaci.every(cloud => scene.playerView.position.z < cloud.position.z))
 })
 
-test('an airfield never takes away lives or bombs above a full load', t => {
+test('an airfield never takes away bombs above a full load', t => {
   const { scene } = createScene(t, [])
-  scene.lives = 5
   scene.player.bombs = 6
   scene.service()
-  assert.deepEqual([scene.lives, scene.player.bombs], [5, 6])
+  assert.equal(scene.player.bombs, 6)
 })

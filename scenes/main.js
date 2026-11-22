@@ -2,6 +2,9 @@ import SceneManager from './SceneManager.js'
 import Arcade from '/ui/Arcade.js'
 import { mainMenuButton } from '/ui/UI.js'
 import { admission } from '/core/io/admission.js'
+import { isDev } from '/config.js'
+
+document.body.classList.toggle('dev-mode', isDev)
 
 const manager = new SceneManager()
 const elementUI = document.getElementById('ui')
@@ -45,7 +48,7 @@ addEventListener('unhandledrejection', handleRuntimeError)
 
 /** ROUTER */
 
-// a game with a start screen costs a token from the pocket of this page, paid at its start
+// a paid game spends a token from the pocket of this page at its start
 admission.charge = () => arcade.coins.spend().finally(arcade.refresh)
 admission.refund = receipt => arcade.coins.refund(receipt).finally(arcade.refresh)
 admission.remaining = () => arcade.storageAvailable ? arcade.coins.read().remaining : null

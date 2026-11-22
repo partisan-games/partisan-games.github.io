@@ -9,12 +9,15 @@ import Shell from '../projectiles/Shell.js'
  * at full drive, `reverse` its share driving back, `recoil` the push of a shot or a hit in metres a second; `keep` is
  * the share of speed kept each second, moving and almost standing, below `standingBelow` metres a second; it burns at
  * `burnBelow` of its health or less, whatever its health is. The barrel
- * turns `barrelSpeed` radians a second up to `highestBarrel`, and is raised one radian for each `aimReach` metres.
+ * turns `barrelSpeed` radians a second up to `highestBarrel`, and is raised one radian for each `aimReach` metres. A hit
+ * that does not destroy it breaks its drive with the `breakdown.drive` chance, after which it drives with the `slower`
+ * share of its thrust, and its gun with the `breakdown.gun` chance, after which it reloads `longerReload` times as long.
  */
 export const tank = {
   health: 100, thrust: 25.78, reverse: .6, recoil: .97, reloadTime: 1, burnBelow: .2,
   keep: { moving: .9 ** 30, standing: .7 ** 30 }, standingBelow: .0044,
   barrelSpeed: .5, highestBarrel: Math.PI * .2, aimReach: 259.6, shellSpeed: 20.24, shellFall: 3.61 / earthGravity,
+  breakdown: { drive: .2, gun: .2, slower: .5, longerReload: 2 },
 }
 
 /**
@@ -22,19 +25,19 @@ export const tank = {
  * turret in the art and half its height, and its length from there.
  */
 export const tankKinds = {
-  partisan: { size: { length: 5.98, height: 2.55, width: 2.64 }, barrel: { ahead: .7, above: .7, length: 3.61 } },
-  german: { size: { length: 6.51, height: 2.73, width: 2.9 }, barrel: { ahead: 1.1, above: .79, length: 3.29 } },
-  somua: { size: { length: 7.57, height: 3.34, width: 1.85 }, barrel: { ahead: 2.32, above: .72, length: 1 } },
+  partisan: { size: { length: 5.98, height: 2.55, width: 2.64 }, turretAxis: 0, barrel: { ahead: .7, above: .7, length: 3.61 } },
+  german: { size: { length: 6.51, height: 2.73, width: 2.9 }, turretAxis: -.33, barrel: { ahead: 1.1, above: .79, length: 3.29 } },
+  somua: { size: { length: 7.57, height: 3.34, width: 1.85 }, turretAxis: 1.09, barrel: { ahead: 2.32, above: .72, length: 1 } },
 }
 
 /**
- * The tank stands, drives ahead at its `cruise` share of the throttle, fires where its barrel points as often as it
- * reloads, or lies destroyed.
+ * The tank stands, moves ahead at its `cruise` share of the throttle, attacks by firing where its barrel points as
+ * often as it reloads, or lies destroyed.
  */
 const states = {
   idle: {},
-  drive: { update: (body, dt) => body.drive(body.forward, dt, body.cruise) },
-  fire: { update: body => body.shoot() },
+  move: { update: (body, dt) => body.drive(body.forward, dt, body.cruise) },
+  attack: { update: body => body.shoot() },
   dead: {},
 }
 
@@ -42,14 +45,20 @@ const states = {
  * A tank on flat ground: it faces right (yaw 0) or left (yaw π) and keeps between `bounds.min` and `bounds.max`.
  * `clock` is the game clock, so reloading, `reloadTime` seconds, waits in a pause; its shells hit the living ones of
  * `targets`, an array the scene owns, and leave play below `groundAt(x, z)`. It fires only while `canFire()`. With
- * no key held it rolls at its `march`, in metres a second, as in a column on the move, and stands by default.
+ * no key held it rolls at its `march`, in metres a second, as in a column on the move, and stands by default. A game
+ * whose tanks do not break down passes `breakdown` with no chances; `random` decides each breakdown and shell spread.
  */
 export default class Tank extends Body {
   constructor({ kind = tankKinds.partisan, clock, targets = [], bounds = { min: -Infinity, max: Infinity },
     groundAt = () => 0, cruise = 1, march = 0, reloadTime = tank.reloadTime, canFire = () => true, random = Math.random,
-    ...rest } = {}) {
+    breakdown = tank.breakdown, rearAim = true, ...rest } = {}) {
     super({ size: kind.size, health: tank.health, ...rest, states })
-    Object.assign(this, { kind, targets, bounds, cruise, march, canFire })
+    Object.assign(this, { kind, targets, bounds, cruise, march, canFire, random })
+    this.breakdown = { ...tank.breakdown, ...breakdown }
+    this.rearAim = rearAim
+    this.turretBack = false
+    /** Whether a hit has broken its drive or its gun. */
+    this.broken = { drive: false, gun: false }
     this.vx = march
     /** The barrel's angle above level, in radians. */
     this.elevation = tank.highestBarrel / 2
@@ -68,7 +77,8 @@ export default class Tank extends Body {
 
   /** Drives right (1) or left (-1): full thrust ahead, less in reverse; `power` is the share of the throttle. */
   drive(way, dt, power = 1) {
-    this.vx += way * tank.thrust * (way === this.forward ? 1 : tank.reverse) * power * dt
+    const thrust = tank.thrust * (this.broken.drive ? this.breakdown.slower : 1)
+    this.vx += way * thrust * (way === this.forward ? 1 : tank.reverse) * power * dt
   }
 
   raiseBarrel(dt) {
@@ -83,26 +93,35 @@ export default class Tank extends Body {
     return this.kind.barrel.length
   }
 
+  get barrelYaw() {
+    return this.turretBack ? this.yaw + Math.PI : this.yaw
+  }
+
+  get gunDirection() {
+    return this.turretBack ? -this.forward : this.forward
+  }
+
   /** Where the barrel turns, and its mouth. */
   get barrelPivot() {
     const { ahead, above } = this.kind.barrel
-    return { x: this.x + this.forward * ahead, y: this.y + above, z: this.z }
+    const offset = this.turretBack ? 2 * this.kind.turretAxis - ahead : ahead
+    return { x: this.x + this.forward * offset, y: this.y + above, z: this.z }
   }
 
   get muzzle() {
     const pivot = this.barrelPivot, { length } = this.kind.barrel
-    return { x: pivot.x + this.forward * Math.cos(this.elevation) * length, y: pivot.y + Math.sin(this.elevation) * length, z: pivot.z }
+    return { x: pivot.x + this.gunDirection * Math.cos(this.elevation) * length, y: pivot.y + Math.sin(this.elevation) * length, z: pivot.z }
   }
 
   /** Fires where the barrel points if it has reloaded, and recoils; returns whether it fired. */
   shoot() {
     if (this.dead || !this.canFire() || !this.reload.ready) return false
-    this.reload.start()
-    const shell = this.shells.fire(this.muzzle, this.yaw, this.elevation, tank.shellSpeed)
+    this.reload.start(this.reload.seconds * (this.broken.gun ? this.breakdown.longerReload : 1))
+    const shell = this.shells.fire(this.muzzle, this.barrelYaw, this.elevation, tank.shellSpeed)
     shell.vx += this.vx
     shell.vz += this.vz
     this.shotsFired++
-    this.vx -= this.forward * tank.recoil
+    this.vx -= this.gunDirection * tank.recoil
     return true
   }
 
@@ -113,19 +132,23 @@ export default class Tank extends Body {
 
   /** The shots of the barrel, as the point ahead and above it for each: level for a near target, high for a far one. */
   get shots() {
-    return { straight: { x: 11.97, y: 0 }, up: { x: this.reach, y: 0 } }
+    return { straight: { x: 11.97, y: 0 }, up: { x: this.reach, y: 0 }, ...(this.rearAim && { behind: { x: -11.97, y: 0 } }) }
   }
 
-  /** Raises the barrel the more, the farther `point` is, if it is ahead: the turret does not turn round. */
+  /** Turns the turret toward the target, keeping the chassis pointed along its course. */
   aimAt(point) {
-    if (Math.sign(point.x - this.x) !== this.forward) return false
+    const direction = Math.sign(point.x - this.x)
+    if (!direction || (direction !== this.forward && !this.rearAim)) return false
+    this.turretBack = direction !== this.forward
     this.elevation = Math.min(tank.highestBarrel, Math.hypot(point.x - this.x, point.y - this.y) / tank.aimReach)
     return true
   }
 
   takeHit(damage) {
     if (this.alive) this.vx -= this.forward * tank.recoil
-    return super.takeHit(damage)
+    const killed = super.takeHit(damage)
+    if (this.alive) for (const part of ['drive', 'gun']) if (this.random() < this.breakdown[part]) this.broken[part] = true
+    return killed
   }
 
   update(dt) {

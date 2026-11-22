@@ -137,8 +137,6 @@ test('Franjo Kluz: far along the valley, the observer fires back in view at a fi
   const raider = scene.raiders.find(({ body }) => body.constructor.name === 'Fighter')
   scene.enterRaider(raider, { fromBehind: true })
   Object.assign(raider.body, { x: player.x - 20, y: player.y })
-  // the attack key held, as the page without a mouse has no keyboard input
-  scene.controllers.find(controller => controller.input).input = { attack: true }
   const gun = scene.playerView.rearGunPart, fighter = raider.view
   const hit = await watch(scene, { seconds: 4, shots: () => scene.playerView.projectileViews?.values() ?? [],
     done: () => {

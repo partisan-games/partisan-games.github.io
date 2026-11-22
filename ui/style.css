@@ -26,6 +26,10 @@
 
 /* DEFAULTS */
 
+body:not(.dev-mode) .dev-only {
+  display: none !important;
+}
+
 * {
   user-select: none;
   box-sizing: border-box;

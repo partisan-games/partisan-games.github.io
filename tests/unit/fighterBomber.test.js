@@ -53,20 +53,30 @@ test('it fires straight up the view as often as it reloads, with more guns at ea
   assert.equal(body.aimAt({ x: 50, z: 60 }), false, 'not behind it')
 })
 
-test('any hit shoots it down, but not while it is shielded or looping', () => {
+test('hits take its energy, under half of which it is damaged, and it falls when none is left; not while shielded or looping', () => {
   const { body, live } = planeAlone()
+  assert.deepEqual(body.states, ['move', 'attack', 'dead'])
   body.shield = 1
-  assert.equal(body.takeHit(1), false)
+  body.takeHit(1)
   live(1.1)
   body.loop()
-  assert.equal(body.takeHit(1), false, 'in a loop')
+  body.takeHit(1)
+  assert.equal(body.health.current, fighterBomber.health, 'safe while shielded and in a loop')
   live(fighterBomber.loop.duration + .1)
   assert.equal(body.looping, false)
-  assert.equal(body.takeHit(1), true)
+  body.takeHit(fighterBomber.health / 2)
+  assert.equal(body.damaged, false)
+  body.takeHit(1)
+  assert.equal(body.damaged, true)
+  body.repair(1)
+  assert.equal(body.health.current, fighterBomber.health, 'repaired up to its full energy, no more')
+  assert.equal(body.takeHit(fighterBomber.health), true)
   assert.equal(body.state, 'dead')
+  body.repair(1)
+  assert.equal(body.dead, true, 'a shot down plane is not repaired')
 })
 
-test('a loop ends a little ahead of where it began, and it has three a life', () => {
+test('a loop ends a little ahead of where it began, and it has three', () => {
   const { body, live } = planeAlone()
   const { z } = body
   body.loop()
@@ -79,11 +89,9 @@ test('a loop ends a little ahead of where it began, and it has three a life', ()
   body.loop()
   live(2)
   assert.equal(body.loop(), false, 'no fourth loop')
-  body.revive()
-  assert.equal(body.loopsLeft, fighterBomber.loops)
 })
 
-test('flying into an enemy plane takes a hit off it and shoots both down; while shielded it does not', () => {
+test('flying into an enemy plane takes a hit off it and energy off the plane, which is then safe a moment; while shielded it does not', () => {
   const clock = new GameClock()
   const enemy = new AttackPlane({ x: 50, z: 50, clock })
   const { body, live } = planeAlone({ solids: [enemy] })
@@ -92,7 +100,8 @@ test('flying into an enemy plane takes a hit off it and shoots both down; while 
   assert.equal(enemy.alive, true)
   live(1)
   assert.equal(enemy.alive, false)
-  assert.equal(body.alive, false)
+  assert.equal(body.health.current, fighterBomber.health - fighterBomber.crash.damage)
+  assert.ok(body.shield > 0)
 })
 
 test('it drops only the bombs it has', () => {

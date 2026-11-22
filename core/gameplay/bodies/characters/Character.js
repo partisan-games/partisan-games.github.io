@@ -62,13 +62,13 @@ export default class Character extends Body {
     jumping = 'leap', maxLift = .28, turnWhileAttack = true, strikeHeight = character.strikeHeight, area = {}, solid = true,
     guarded = false, walks = true, altitude = 0, lift = character.lift,
     pitchRange = { min: -Math.PI / 10, max: Math.PI / 8 }, actions = {}, targets = [],
-    groundAt: ground = () => 0, isBlocked = () => false, obstacleAt = () => Infinity, bounds = null, random = Math.random,
+    groundAt: ground = () => 0, isBlocked = () => false, resolveWallStep = null, obstacleAt = () => Infinity, bounds = null, random = Math.random,
     size = { length: .5, height: 1.8, width: .5 }, ...rest
   } = {}) {
     super({ size, ...rest, states })
     Object.assign(this, { speed, run, reach, damage, jumping, maxLift, turnWhileAttack, strikeHeight, solid, guarded, walks, lift, pitchRange,
       actions, targets,
-      isBlocked, obstacleAt, bounds, random })
+      isBlocked, resolveWallStep, obstacleAt, bounds, random })
     this.groundAt = altitude ? (x, z, y) => ground(x, z, y) + altitude : ground
     this.area = { kinds: [], reach: 3, damage: [89, 135], ...area }
     this.steering = { ahead: 0, side: 0, turn: 0, running: false }
@@ -285,7 +285,14 @@ export default class Character extends Body {
         this.land(blow)
       }
     }
+    const previousX = this.x, previousZ = this.z
     super.update(dt)
+    if (this.resolveWallStep) {
+      const position = this.resolveWallStep(this, previousX, previousZ)
+      this.blocked ||= Math.hypot(position.x - this.x, position.z - this.z) > 1e-6
+      this.x = position.x
+      this.z = position.z
+    }
     this.keepInBounds()
     this.followGround(dt, flying)
   }
@@ -301,7 +308,7 @@ export default class Character extends Body {
     const ahead = body => (body.x - this.x) * direction.x + (body.z - this.z) * direction.z > 0
     const inTheWay = body => body !== this && body.alive && body.solid !== false && ahead(body) &&
       (rayBoxEntry(from, direction, body) ?? Infinity) < this.size.length
-    if (!this.isBlocked(from, direction, this.size.length) && !this.targets.some(inTheWay)) return
+    if (!this.isBlocked(from, direction, Math.max(this.size.length, speed * dt)) && !this.targets.some(inTheWay)) return
     this.blocked = true
     this.vx = this.vz = 0
   }

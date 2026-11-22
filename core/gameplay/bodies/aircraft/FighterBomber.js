@@ -6,10 +6,12 @@ import Bullet from '../projectiles/Bullet.js'
 /**
  * A fighter-bomber seen from above, measured from the earlier pixel plane at 10 px a metre and 60 frames a second:
  * the push of a key in metres a second squared and the share of that speed kept each second; seconds between shots
- * and the bullet speed; bombs and loops it starts with; a loop's seconds and how far ahead it comes down.
+ * and the bullet speed; bombs and loops it starts with; a loop's seconds and how far ahead it comes down; its energy,
+ * in the hits of a bullet it takes, the energy flying into a plane takes and the seconds it is safe after that.
  */
 export const fighterBomber = {
   thrust: 186, keep: .9 ** 60, reload: .1, bulletSpeed: 100, bombs: 3, loops: 3, loop: { duration: 1, ahead: 6 },
+  health: 10, crash: { damage: 3, shield: 1 },
 }
 /** The guns of each fire level, from the start up: metres across from the nose, radians off straight ahead. */
 export const fireLevels = [
@@ -18,10 +20,10 @@ export const fireLevels = [
   [{ across: 0, angle: -.33 }, { across: 0, angle: 0 }, { across: 0, angle: .33 }],
 ]
 
-/** The plane flies as it is steered; set to fire, it also fires as often as it reloads; or it is shot down. */
+/** The plane flies as it is steered; set to attack, it also fires as often as it reloads; or it is shot down. */
 const states = {
-  fly: {},
-  fire: { update: plane => plane.shoot() },
+  move: {},
+  attack: { update: plane => plane.shoot() },
   dead: {
     enter: plane => {
       plane.loopAge = null
@@ -31,15 +33,16 @@ const states = {
 
 /**
  * A fighter-bomber seen from above, flying up the view (yaw π/2) within `bounds` ({ minX, maxX, minZ, maxZ }, metres
- * the scene moves), at its height (`lift` 1) or lower down to the ground (`lift` 0). Any hit shoots it down, unless it
- * is safe: for `shield` seconds, which the scene gives it, through a loop, and below its height, out of the fight. Its guns hit the living ones of `targets`; flying into a living one of `solids` takes one hit off
- * that one and shoots it down. Its bombs are the scene's to burst. `clock` is the game clock, and it fires only while
+ * the scene moves), at its height (`lift` 1) or lower down to the ground (`lift` 0). Hits take its energy, and it is shot
+ * down when none is left, unless it is safe: for `shield` seconds, which the scene gives it, through a loop, and below
+ * its height, out of the fight. Its guns hit the living ones of `targets`; flying into a living one of `solids` takes
+ * one hit off that one and `crash.damage` off itself. Its bombs are the scene's to burst. `clock` is the game clock, and it fires only while
  * `canFire()`.
  */
 export default class FighterBomber extends Body {
   constructor({ size = { length: 15, height: 2, width: 12.75 }, clock, targets = [], solids = [], bounds = null,
     canFire = () => true, random = Math.random, view = null, ...rest } = {}) {
-    super({ size, health: 1, yaw: Math.PI / 2, ...rest, states, initial: 'fly' })
+    super({ size, health: fighterBomber.health, yaw: Math.PI / 2, ...rest, states, initial: 'move' })
     Object.assign(this, { targets, solids, bounds, canFire })
     this.fireLevel = 0
     this.bombs = fighterBomber.bombs
@@ -65,6 +68,11 @@ export default class FighterBomber extends Body {
   /** How far through its loop it is, 0 to 1, or 0 with none. */
   get loopProgress() {
     return this.looping ? Math.min(this.loopAge / fighterBomber.loop.duration, 1) : 0
+  }
+
+  /** Under half its energy it smokes. */
+  get damaged() {
+    return this.alive && this.health.current < this.health.maximum / 2
   }
 
   get invulnerable() {
@@ -119,7 +127,7 @@ export default class FighterBomber extends Body {
     return true
   }
 
-  /** Any hit shoots it down, unless it is safe. */
+  /** A hit takes its energy, unless it is safe. */
   takeHit(damage) {
     if (this.invulnerable) return false
     return super.takeHit(damage)
@@ -130,13 +138,9 @@ export default class FighterBomber extends Body {
     this.bombs = Math.max(this.bombs, fighterBomber.bombs)
   }
 
-  /** Back in the air, whole, with its loops and its first fire level. */
-  revive() {
-    this.health.reset()
-    this.setState('fly')
-    this.vx = this.vz = 0
-    this.loopsLeft = fighterBomber.loops
-    this.fireLevel = 0
+  /** Gets back `share` of its full energy, as from a power-up or on an airfield. */
+  repair(share) {
+    if (this.alive) this.health.heal(this.health.maximum * share)
   }
 
   /** It comes down from a loop a little ahead of where it began. */
@@ -149,13 +153,14 @@ export default class FighterBomber extends Body {
     if (progress === 1) this.loopAge = null
   }
 
-  /** A living one of `solids` it flies into takes a hit and shoots it down, unless it is safe. */
+  /** A living one of `solids` it flies into takes a hit, and it loses energy and is safe a moment, unless it already is. */
   checkCrashes() {
     if (this.dead || this.invulnerable) return
     const crashed = this.solids.find(body => body.alive && this.overlaps(body))
     if (!crashed) return
     crashed.takeHit(1)
-    this.setState('dead')
+    this.takeHit(fighterBomber.crash.damage)
+    if (this.alive) this.shield = fighterBomber.crash.shield
   }
 
   overlaps(body) {

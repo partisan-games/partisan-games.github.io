@@ -10,5 +10,5 @@ const occupier = (stage, way) => {
 }
 
 export const soldiers = [
-  { id: 'okupator', name: 'Okupator', game: 'Otpisani', way: 1, settings: ['occupier.speed'], block: occupierModule, create: occupier, pxPerMeter: 100 },
+  { id: 'okupator', name: 'Okupator', game: 'Otpisani', way: 1, block: occupierModule, create: occupier, pxPerMeter: 100 },
 ]

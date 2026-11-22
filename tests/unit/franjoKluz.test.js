@@ -306,7 +306,7 @@ test('a fighter crash destroys the enemies on the ground around it', t => {
   assert.equal(train.alive, true, 'far away')
 })
 
-test('the observer fires back at a fighter behind the plane, not at one ahead, only while the fire key is held', t => {
+test('the observer fires back on his own at a fighter behind the plane, not at one ahead, and the fire key fires only the front gun', t => {
   const scene = createScene(t)
   const { player } = scene
   const [behind, ahead] = scene.raiders
@@ -316,13 +316,14 @@ test('the observer fires back at a fighter behind the plane, not at one ahead, o
   Object.assign(behind.body, { x: player.x - 8.57, y: player.y + 1.43 })
   scene.update(1 / 30, 0)
   assert.equal(player.rearTarget, behind.body)
-  assert.equal(player.rearBullets.projectiles.length, 0, 'not on his own')
-  player.ammo = 0
+  assert.equal(player.rearBullets.projectiles.length, 1, 'on his own')
+  assert.ok(player.rearBullets.projectiles[0].vx < player.vx, 'the round flies back')
+  assert.equal(player.shotsFired, 1, 'the front gun keeps quiet')
   key('keydown', 'Space')
   scene.handleInput(1 / 30)
   key('keyup', 'Space')
-  assert.equal(player.rearBullets.projectiles.length, 1, 'only while the fire key is held, also with the front gun empty')
-  assert.ok(player.rearBullets.projectiles[0].vx < player.vx, 'the round flies back')
+  assert.equal(player.bullets.projectiles.length, 1, 'the fire key fires the front gun')
+  assert.equal(player.rearBullets.projectiles.length, 1, 'and not the observer, who waits for his reload')
 })
 
 test('the second mission starts standing on a runway, takes off with up, and has no fighters', t => {
@@ -557,6 +558,8 @@ test('in the air raid landing wins only once no raider is left', t => {
   scene.cameraX = player.x * P - 200
   player.airspeed = 11.4
   player.vy = -2.3
+  // the observer holds his fire, so the raider stays
+  player.canFireBackAt = () => false
   play(scene, 3)
   assert.equal(player.alive, true)
   assert.ok(player.airspeed < 1, 'it has stopped on the runway')

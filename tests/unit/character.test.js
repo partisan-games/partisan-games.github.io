@@ -190,6 +190,15 @@ test('it does not walk into what blocks its way', () => {
   assert.ok(body.blocked)
 })
 
+test('a fast step checks its whole travel instead of just the body depth', () => {
+  const body = new Character({ speed: 40,
+    isBlocked: (from, direction, distance) => direction.x > 0 && from.x + distance >= 3 })
+  body.steer({ ahead: 1 })
+  body.update(.2)
+  near(body.x, 0, 1e-9)
+  assert.ok(body.blocked)
+})
+
 test('an area blow hits every living target around it within reach, and it does not walk into a target', () => {
   const near = new Character({ x: -1 }), far = new Character({ x: 4 }), side = new Character({ z: 2 })
   const body = new Character({ area: { kinds: ['attack'] }, actions: { attack: .5 }, targets: [near, far, side] })

@@ -94,6 +94,10 @@ export default class Scene {
     return Boolean(this.ui.intro || this.ui.customStartScreen)
   }
 
+  get free() {
+    return false
+  }
+
   /** A click anywhere on the page, for games that react to it; the start and pause screens handle their own buttons. */
   handleClick() {}
 
@@ -123,7 +127,7 @@ export default class Scene {
   }
 
   /**
-   * Starts what the player chose: a game with a start screen costs one token, paid after its choice is ready, so a
+   * Starts what the player chose: a paid game with a start screen costs one token after its choice is ready, so a
    * failed load costs nothing; a scene `prepaid` by the game it continues costs none. A second click while starting
    * does nothing; a scene ended meanwhile gives the token back.
    */
@@ -132,7 +136,7 @@ export default class Scene {
     if (this.starting || !['loading', 'ready'].includes(this.session.state) || this.ui.ended) return
     this.starting = true
     // the next mission of a game already paid for starts without a token
-    const paid = this.hasStartScreen && !this.prepaid
+    const paid = this.hasStartScreen && !this.free && !this.prepaid
     try {
       await this.prepare(choice)
       if (this.ui.ended) return
@@ -147,8 +151,8 @@ export default class Scene {
         if (this.ui.ended) return await this.giveBack(receipt)
       }
       lastChoices.set(this.constructor, choice)
-      // Play again costs a token in a game with a start screen
-      this.costsToken = this.hasStartScreen
+      // Replay retains the price even after start() clears the intro.
+      this.costsToken = this.hasStartScreen && !this.free
       this.start()
     } finally {
       this.starting = false

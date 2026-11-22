@@ -7,14 +7,12 @@
 - Storybook prikazuje samo aktere, igrače i neprijatelje, uključujući bibliotečke klase za te uloge; pozadine, okolina, efekti, projektili i predmeti nemaju zasebne priče (odluka vlasnika). Saradnici poput metka ili eksplozije mogu se videti uz aktera tokom pucanja/pogotka, a svetlo, tlo i meta deo su pozornice. Obim određuje uloga, ne folder klase.
 - Levo su dve nezavisno sklopive sekcije, **2D** i **3D**, sa postojećim vrstama i njihovim pričama; otvaraju se klikom ili tastaturom. Priča je jedan blok u jednom početnom podešavanju; adresa joj je `#vrsta/priča`, pa se otvara linkom i ostaje posle reload-a. Direktan izbor priče otvara njenu sekciju; promena priče, izgleda ili Reset čuvaju sklopljenost ostalih sekcija.
 - Priča nema upravljanje ni ulogu: pozornica ne daje tastere blokovima, a blok se pokreće samo dugmadima svojih stanja i pucanja.
-- Desno su izbor strane („Nalevo”, „Nadesno”), dugmad stanja bloka sa „Reset” kao poslednjim u tom redu, zatim pucanja koja blok podržava („Pucaj gore”, „Pucaj pravo”), „Prati kamerom”, pa podešavanja bloka.
+- Desno su izbor strane („Nalevo”, „Nadesno”), dugmad stanja bloka sa „Pogođen” ispred `dead` i „Reset” kao poslednjim u tom redu, zatim pucanja koja blok podržava („Pucaj gore”, „Pucaj pravo”), „Prati kamerom”, a na dnu traka trenutnog zdravlja bloka koji može biti pogođen. Panel nema podešavanja (odluka vlasnika, 2026-11-22).
 - Svaka priča stavlja svoj blok na sredinu pozornice, bez obzira na to odakle on ulazi u igri (odluka vlasnika, 2026-11-22).
 - Isti predmet okrenut na drugu stranu nije posebna priča (odluka vlasnika, 2026-11-22): bočna priča navodi `way`, stranu na koju je predmet okrenut u svojoj igri (1 desno, -1 levo), a njen `create(stage, way)` pravi telo okrenuto na izabranu stranu; prikaz sliku sam ogleda po pravcu tela. Izbor strane ostaje dok se priča pravi ponovo, a „Reset” i druga priča vraćaju njen `way`. Isti blok drugačije nacrtan, kao oznake Poteza ili partizanski i italijanski zastavnik, takođe nije posebna priča: priča navodi `looks` (`id`, ime i vrednost koju `create(stage, way, look)` dobija), a panel ima dugmad „Izgled”. Svaki izgled ima svoju adresu, `#vrsta/priča/izgled`, pa se može otvoriti i iz testa.
-- „Reset” vraća početna podešavanja i ponovo pravi priču; potreban je jer stanje ne vraća mrtav blok, a blok koji odleti ili odveze se ostaje van ekrana. Isto radi klik na priču u spisku.
+- „Reset” ponovo pravi priču; potreban je jer stanje ne vraća mrtav blok, a blok koji odleti ili odveze se ostaje van ekrana. Isto radi klik na priču u spisku.
 - Kamera stoji; „Prati kamerom” drži blok u sredini ekrana. Avion igrača, koji leti brzinom leta, prati od početka.
-- Priča prikazuje samo podešavanja koja navodi u `settings`, po putanji (npr. `rifle.reload`): nekoliko vrednosti čiji se efekat vidi, kao brzina, punjenje, šteta i zdravlje, a ne mere i unutrašnje pragove (odluka vlasnika, 2026-11-22). Priča bez `settings` nema podešavanja.
 - Dugme stanja `fire` bloka koji ima pucanja prvo ga nanišani u tačku za „Pucaj pravo”, kao njeno dugme, jer top bez cilja ne puca.
-- Podešavanja menjaju izvezene objekte podešavanja bloka, npr. `rifle` strelca: klizač ide od 0 do četiri puta veće početne vrednosti. Promena ponovo pravi priču, jer blok neke vrednosti čita samo pri stvaranju; „Reset” i prelazak na drugu priču vraćaju početne vrednosti.
 
 ## Pozornica
 
@@ -28,11 +26,11 @@ Priče su u [storybook/stories](../storybook/stories/), po jedna datoteka za igr
 
 Panel čita blok:
 
-Ciljni prikaz svih aktera koristi [standardna stanja](ARHITEKTURA.md#standardna-stanja-aktera) `idle`, `move`, `attack`, `dead`, uz izbor konkretnog pokreta/napada i jasno nedostupne radnje koje ne pripadaju ulozi. Sadašnji panel još čita stara imena iz blokova; usklađuje se zajedno sa njima kroz [plan elemenata](PLAN-ELEMENTI.md#el-01), bez tvrdnje da je standard već sproveden u kodu.
+Ciljni prikaz svih aktera koristi [standardna stanja](ARHITEKTURA.md#standardna-stanja-aktera) `idle`, `move`, `attack`, `dead`, uz izbor konkretnog pokreta/napada i jasno nedostupne radnje koje ne pripadaju ulozi. Sadašnji panel još čita stara imena iz blokova; usklađuje se zajedno sa njima, kad se telo menja ([preslikavanje](ARHITEKTURA.md#prelaz-na-standardna-imena)), bez tvrdnje da je standard već sproveden u kodu.
 
 - `states`, `state` i `setState(name)` daju dugmad stanja;
-- `shots` (tačka ispred bloka i iznad njega za svako pucanje), `forward` (1 desno, -1 levo) i `aimAt(point)` daju dugmad pucanja: dugme nanišani blok u tačku tog pucanja i stavi ga u `fire`;
-- [controls.js](../storybook/controls.js) od izvoza modula pravi podešavanja: samo od običnih objekata sa brojevima, da/ne vrednostima i takvim ugnežđenim objektima. Pojedinačna izvezena konstanta se ne može menjati spolja, pa podešavanje koje vredi menjati ide u objekat.
+- `health` (`current`, `maximum`) i `takeHit(damage)` daju dugme „Pogođen”, koje bloku skida desetinu zdravlja, pa se posle nekoliko klikova vidi oštećenje (dim, sporiji avion, pokvaren tenk), i traku zdravlja na dnu;
+- `shots` (tačka ispred bloka i iznad njega za svako pucanje), `forward` (1 desno, -1 levo) i `aimAt(point)` daju dugmad pucanja: dugme nanišani blok u tačku tog pucanja i stavi ga u `attack`; pucanje sa `automatic`, kao zadnji strelac Poteza, samo nanišani, jer to oružje puca samo, pa ostala oružja bloka ćute.
 
 Blok koji ne može da se napravi samo sa opcijama pozornice još nije nezavisan; prvo se refaktoriše po [pravilima](ARHITEKTURA.md#gradivni-blokovi).
 
@@ -42,7 +40,7 @@ Postojeću pokrivenost aktera grafikom, pripremu i povezivanje dopuna vodi [ART]
 
 Svaka dopuna arta mora postati dostupna u postojećoj ili novoj priči aktera. Priča i svi nivoi koriste isti objekat i zajedničko mapiranje arta; poseban HTML/GIF pregled nije zamena. Art zadatak se zatvara tek posle [obavezne integracije i provera](ART.md#obavezna-integracija).
 
-[storybookCatalog.test.js](../tests/unit/storybookCatalog.test.js) pravi svaku priču, prolazi kroz sva njena stanja i proverava da svako navedeno pucanje ispali metak. [storybookCoverage.test.js](../tests/unit/storybookCoverage.test.js) traži priču za svakog aktera u navedenim folderima. [storybookControls.test.js](../tests/unit/storybookControls.test.js) proverava podešavanja, a [storybookStage2D.test.js](../tests/unit/storybookStage2D.test.js) pozornicu, praćenje kamerom i da gašenje ne ostavlja rukovaoce na stranici. Izgled se proverava samo okom.
+[storybookCatalog.test.js](../tests/unit/storybookCatalog.test.js) pravi svaku priču, prolazi kroz sva njena stanja i proverava da svako navedeno pucanje ispali metak. [storybookCoverage.test.js](../tests/unit/storybookCoverage.test.js) traži priču za svakog aktera u navedenim folderima. [storybookStage2D.test.js](../tests/unit/storybookStage2D.test.js) proverava pozornicu, praćenje kamerom i da gašenje ne ostavlja rukovaoce na stranici. Izgled se proverava samo okom.
 
 Sklopive sekcije koriste izvorne `details`/`summary` kontrole; `summary` mora biti UI cilj u [inputContext](../core/io/inputContext.js), inače tastatura igre presretne Space/Enter. [Input izolacija](../tests/unit/inputIsolation.test.js) proverava propuštanje tih tastera i čišćenje zadržanog ulaza; Chromium provera je potvrdila stvarno otvaranje/zatvaranje, očuvanje svih 79 adresa bez duplikata, Reset, direktan 3D link i sklopljen prikaz na 390 px širine (2026-11-22).
 

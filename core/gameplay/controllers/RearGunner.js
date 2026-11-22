@@ -1,6 +1,6 @@
 /**
  * The observer of a two-seat plane: he aims his gun at the nearest living one of `fighters` that he can fire back at,
- * or at none. Firing is the pilot's: the observer fires while the fire key is held. The body has `alive`, `x`, `y`,
+ * or at none, and the body fires at it on its own. The body has `alive`, `x`, `y`,
  * `canFireBackAt(fighter)` and `aimBack(fighter)`; `fighters` is an array the scene keeps.
  */
 export default class RearGunner {

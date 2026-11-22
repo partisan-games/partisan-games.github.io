@@ -51,11 +51,11 @@ const armies = (partisan, italian) => [
 const game = 'Ustanak'
 
 export const soldiers = [
-  { id: 'partizanski-strelac', name: 'Partizanski strelac', game, pxPerMeter, way: 1, settings: ['gait.speed', 'volley.interval'], block: skirmisherModule, create: skirmisher },
+  { id: 'partizanski-strelac', name: 'Partizanski strelac', game, pxPerMeter, way: 1, block: skirmisherModule, create: skirmisher },
   { id: 'zastavnik', name: 'Zastavnik', game, pxPerMeter, way: 1, looks: armies('partizanski', 'italijanski'), block: bearerModule, create: bearer },
   { id: 'posada-topa', name: 'Posada topa', game, pxPerMeter, way: 1, looks: armies('partizanska', 'italijanska'), block: crewModule, create: crew },
 ]
 
 export const artillery = [
-  { id: 'ustanak-top', name: 'Schneider 155 L', game, pxPerMeter, way: 1, settings: ['fieldGun.maxForce', 'fieldGun.chargeRate', 'fieldGun.aimRate'], block: fieldGunModule, create: gun },
+  { id: 'ustanak-top', name: 'Schneider 155 L', game, pxPerMeter, way: 1, block: fieldGunModule, create: gun },
 ]
