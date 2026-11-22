@@ -2,18 +2,12 @@ import * as THREE from 'three'
 import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js'
 import Health from '/core/gameplay/Health.js'
 import { loadedModel } from '/core3d/assets/models.js'
+import { regular, resistanceFighterModel, riflemanModel } from '/core3d/actor/derived/ww2/partisanLooks.js'
 import { fitCrewPose } from './crewPose.js'
 import Rifleman from './Rifleman.js'
 
-const uniformScale = { prefix: 'character/soldier/', fitVisible: true, size: 1.74, angle: Math.PI }
-// Both figures use the same Mixamo fall clip; load it once with the gunner.
-const gunnerModel = { ...uniformScale, file: 'partisan.fbx', animDict: { death: 'Crouch Death' } }
-export const resistanceFighterModel = { ...uniformScale, file: 'resistance-fighter.fbx' }
-export const riflemanModel = { ...uniformScale, file: 'soviet-partisan.fbx',
-  animDict: { fire: 'Fire Rifle Crouch', burst: 'Crouch Rapid Fire' } }
-
 export const stations = [
-  { x: .87, z: .48, yaw: 1.02, loader: false, model: gunnerModel },
+  { x: .87, z: .48, yaw: 1.02, loader: false, model: regular },
   { x: -.45, z: .98, yaw: -.68, loader: true, model: resistanceFighterModel },
   { x: -2.25, z: -.35, yaw: 0, model: riflemanModel },
 ]
@@ -67,7 +61,7 @@ function loadRound(member, elevation, dt) {
 export default class Crew {
   constructor(carriage, scene) {
     this.elevation = carriage.getObjectByName('Elevation')
-    this.deathClip = loadedModel(gunnerModel).userData.animations.find(clip => clip.name === gunnerModel.animDict.death)
+    this.deathClip = loadedModel(regular).userData.animations.find(clip => clip.name === regular.animDict.death)
     this.members = stations.map(({ x, z, yaw, loader, model }) => {
       const source = loadedModel(model)
       const mesh = new THREE.Group(), figure = clone(source)

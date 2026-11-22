@@ -1,7 +1,8 @@
 import * as THREE from 'three'
 import { createTexture } from '/core3d/helpers.js'
 import { bankHeight } from './Canyon.js'
-import CannonPartisan, { variants } from './CannonPartisan.js'
+import { variants } from '/core3d/actor/derived/ww2/partisanLooks.js'
+import makeCannonPartisan from './CannonPartisan.js'
 
 const gunfireProfile = {
   nearDistance: 4, fadeStart: 25, maxDistance: 40, farCutoff: 1100,
@@ -86,7 +87,7 @@ export default class Infantry {
         }
       }
       for (const [j, look] of fighters.entries()) {
-        const fighter = new CannonPartisan(look, posts, textures)
+        const fighter = makeCannonPartisan(look, posts, textures)
         scene.add(fighter.mesh)
         const across = fighters.length === 2 ? (j ? .64 : -.64) : (j - 1) * .78
         fighter.place(location(across, j % 2 ? -.12 : 0), bankHeight, this.fighters.length)

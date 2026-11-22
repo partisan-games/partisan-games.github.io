@@ -21,9 +21,8 @@ import Shell from './Shell.js'
 import SmokeTrail from './SmokeTrail.js'
 import Gunner, { gunner } from './Gunner.js'
 import Crew, { memberHealth, stations } from './Crew.js'
-import { rifleModel } from './Rifleman.js'
 import Infantry from './Infantry.js'
-import { infantryModels } from './CannonPartisan.js'
+import { infantryModels } from '/core3d/actor/derived/ww2/partisanLooks.js'
 import Tracers from './Tracers.js'
 import SurrenderChoice from './SurrenderChoice.js'
 import ScorchMarks from './ScorchMarks.js'
@@ -64,7 +63,7 @@ export default class CannonScene extends Scene3D {
   }
 
   async init() {
-    await requestModels([...cannonModels, ...stations.map(station => station.model), rifleModel, ...infantryModels])
+    await requestModels([...new Set([...cannonModels, ...stations.map(station => station.model), ...infantryModels])])
     // the keyboard also tracks a held pointer, which charges the shot on touch screens too
     // it faces the fort, down -z
     const { body, model, keys, chase } = leadCharacter(this, cannon, { yaw: Math.PI / 2, health: stations.length * memberHealth, input: { useKeyboard: true },

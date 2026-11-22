@@ -125,6 +125,12 @@ Drvar, Užice i Bihać nisu deo Tenkića; izvori ostaju za eventualnu drugu prim
 
 **Oznake aviona NDH 1941–1944:** crveno-bela šahovnica na krilima, trupu i repu; 1944/45. zamenjuje je crno-beli trolisni krst ([Air Force of the Independent State of Croatia](https://en.wikipedia.org/wiki/Air_Force_of_the_Independent_State_of_Croatia)).
 
+## Bihać, kraj 1942 — polazište za igru Liberated City
+
+- **Oslobođenje:** jedinice NOVJ oslobodile su Bihać 4. novembra 1942; izveštaji operacije beleže i zaplenjene protivtenkovske topove ([dokumentarna zbirka](https://znaci.org/00003/501.pdf)).
+- **AVNOJ:** 26. i 27. novembra 1942. u Bihaću je održano Prvo zasedanje AVNOJ-a, a grad je bio središte Bihaćke republike, slobodne teritorije do početka 1943 ([AVNOJ](https://sh.wikipedia.org/wiki/AVNOJ)).
+- **Ambijent:** kasna jesen; Kapetanova kula i Una opisani su u [pejzažima](#pejzaži-za-art-12).
+
 ## Krupanj, 1941 — polazište za igru Bunker
 
 - **Žikica Jovanović Španac:** učitelj i novinar, borac iz Španskog građanskog rata, u Rađevskoj četi Valjevskog partizanskog odreda. Njegov pucanj u Beloj Crkvi kod Krupnja 7. jula 1941. smatra se početkom ustanka u Srbiji. Poginuo je 13. marta 1942. u Radanovcima, a narodnim herojem je proglašen 1945 ([Wikipedia](https://en.wikipedia.org/wiki/%C5%BDikica_Jovanovi%C4%87_%C5%A0panac), [Bela Crkva incident](https://en.wikipedia.org/wiki/Bela_Crkva_incident)).

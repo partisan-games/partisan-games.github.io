@@ -1,5 +1,8 @@
 export const animDict = {
   idle: 'Rifle Idle',
+  aimIdle: 'Rifle Aiming Idle',
+  aimWalk: 'Walking',
+  aimRun: 'Rifle Run Aim',
   walk: 'Rifle Walk',
   run: 'Rifle Run',
   attack: 'Firing Rifle',
@@ -10,11 +13,15 @@ export const animDict = {
   death: 'Dying',
 }
 
-const meshModel = { file: 'partisan.fbx', angle: Math.PI, animDict, prefix: 'character/soldier/', size: 1.8 }
+export const partisanModel = { file: 'partisan.fbx', angle: Math.PI, prefix: 'character/soldier/', size: 1.8 }
+export const partisanTraits = { attackSound: 'rifle.mp3', body: { reach: 50 } }
+export const partisanOutfits = { wool: { '_1___Default': 'partisan-wool-uniform.png' } }
+const meshModel = { ...partisanModel, animDict }
 const twoHandedWeaponModel = { file: 'weapon/rifle.fbx', scale: 1.25, angle: Math.PI }
 
 /** What to load; a game awaits requestModels(models) before it creates one of these. */
 export const models = [meshModel, twoHandedWeaponModel]
 
 /** How it looks, sounds and acts, for a character made of a body and its model. */
-export const description = { model: meshModel, animDict, twoHandedWeapon: twoHandedWeaponModel, attackSound: 'rifle.mp3', body: { reach: 50 } }
+export const description = { ...partisanTraits, model: meshModel, animDict, twoHandedWeapon: twoHandedWeaponModel,
+  body: { ...partisanTraits.body, aimable: true } }
