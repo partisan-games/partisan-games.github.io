@@ -171,7 +171,7 @@ def pack(job):
         factor = min(82/(idle_box[3]-idle_box[1]), 152/(union[2]-union[0]), 136/(union[3]-union[1]))
     else:
         lengths = {'he111': 16.5, 'storch': 7.2, 'motorcycle': 3.56, 'sdkfz251': 5.8, 'sdkfz222': 4.8}
-        pixels = 30.8 if kind == 'aircraft' else 20
+        pixels = job.get('pixelsPerMetre', 30.8 if kind == 'aircraft' else 20)
         length = round(lengths[job['id']]*pixels)
         body_boxes = [b for b in boxes[:cols*3] if b]
         body = bounds_union(body_boxes)
@@ -186,6 +186,13 @@ def pack(job):
         cell = cell.resize((max(1, round(cell.width*factor)), max(1, round(cell.height*factor))), Image.Resampling.NEAREST)
         packed = Image.new('RGBA', tuple(frame))
         packed.paste(cell, tuple(offset))
+        if job.get('gunLayer') and index // cols == 5:
+            attachment = job['gunLayer']
+            scale = attachment['scale']
+            anchor = attachment['anchor']
+            reduced = packed.resize((round(frame[0]*scale), round(frame[1]*scale)), Image.Resampling.NEAREST)
+            packed = Image.new('RGBA', tuple(frame))
+            packed.paste(reduced, (round(anchor[0]*(1-scale)), round(anchor[1]*(1-scale))))
         outcells.append(packed)
         atlas.paste(packed, ((index % cols)*frame[0], (index//cols)*frame[1]))
         b = packed.getbbox()
@@ -241,6 +248,12 @@ def pack(job):
                       else 'rear-three-quarter' if job['id']=='partisan-rear' else 'front' if job['id']=='occupier-hit' else 'side')
     result['facing'] = -1 if job['id'] in ['he111','storch','sdkfz251','sdkfz222'] else 1
     result['generation'] = 'generation.json'
+    if job.get('gunLayer'):
+        attachment = job['gunLayer']
+        result['layers'] = [dict(name='turret', image=result['image'], row=5, frames=4, seconds=.4,
+                                 anchor=attachment['anchor'], mount=attachment['mount'], hideOn=['dead'])]
+        result['muzzlePoint'] = attachment['muzzlePoint']
+        result['gunPreparation'] = attachment
     if result['view'] == 'top-down':
         result['anchor']['y'] = frame[1]/2
     if kind in ['vessel','mine']:
@@ -275,6 +288,7 @@ def pack(job):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--check', action='store_true')
+    parser.add_argument('--only', help='Repack one actor, preserving all other prepared assets')
     args = parser.parse_args()
     if args.check:
         manifest = read(HERE/'sprites.json')
@@ -298,6 +312,15 @@ def main():
     jobs = read(HERE/'jobs.json')['jobs']
     jobs.insert(0, dict(id='rboot', title='R-boot minolovac', kind='vessel', metres=35))
     jobs.append(dict(id='deck-crew',title='Posada plovila odozgo',kind='crew'))
+    if args.only:
+        job = next(j for j in jobs if j['id'] == args.only)
+        asset = pack(job)
+        assert asset, args.only
+        manifest = read(HERE/'sprites.json')
+        manifest['assets'] = [asset if item['id'] == args.only else item for item in manifest['assets']]
+        (HERE/'sprites.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
+        print(f"Prepared {args.only}; {len(asset['warnings'])} review warnings.")
+        return
     assets = [asset for j in jobs if (asset := pack(j))]
     manifest = dict(tool='built-in image_gen', integrated=True, assets=assets,
                     missing=[j['id'] for j in jobs if not (HERE/(j['id']+'-generated.png')).exists()])

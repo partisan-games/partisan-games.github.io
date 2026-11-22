@@ -12,6 +12,7 @@ art, hits, damage, vessels, profiles, geometry = {}, {}, {}, {}, {}, {}
 tips = {'rboot':[789,101], 'mfp':[242,34], 'vorpostenboot':[609,81],
         'motorcycle':[74,24], 'sdkfz251':[50,20], 'sdkfz222':[14,19]}
 for item in manifest['assets']:
+    if item.get('muzzlePoint'): tips[item['id']] = item['muzzlePoint']
     f = item['frame']
     image = Image.open(ROOT/item['repositoryImage']).convert('RGBA')
     rest = image.crop((0,0,f['width'],f['height'])).getbbox()
@@ -33,8 +34,8 @@ for item in manifest['assets']:
         sx,sy=length/(rest[2]-rest[0]),height/(rest[3]-rest[1])
         cx,cy=(rest[0]+rest[2])/2,(rest[1]+rest[3])/2
         x,y=tips[item['id']]
-        if item['id']=='sdkfz222':
-            layer=item['layers'][0]
+        layer = next((layer for layer in item.get('layers', []) if layer['name'] == 'turret'), None)
+        if layer:
             mx,my=layer['mount']; ax,ay=layer['anchor']
             geometry[item['id']]=dict(pivot=dict(ahead=(mx-cx)*sx*item['facing'],above=(cy-my)*sy),
                                      barrel=dict(ahead=(x-ax)*sx*item['facing'],above=(ay-y)*sy))

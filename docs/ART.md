@@ -52,6 +52,7 @@ Kadar, trajanje, sidrište, tačke događaja i putanje završnih slika čitaju s
 | Glavni tenkovi i Somua | [sprites](../assets/images/armies/sources/tenkovi/sprites.json), [priprema slojeva](../scripts/prepare-vehicle-art.py) |
 | M15/42, StuG III i Hočkis | [sprites](../assets/images/armies/sources/battlefield-tanks/sprites.json) |
 | Hummelov napad | [sprites](../assets/images/armies/sources/hummel-fire/sprites.json) |
+| Motociklista sa prikolicom | [atlas i odvojeni mitraljez](../assets/images/armies/sources/plan-ideas-art/sprites.json), [izvor i prompt](../assets/images/armies/sources/plan-ideas-art/generation.json), [ponovljiva priprema](../assets/images/armies/sources/plan-ideas-art/prepare.py) |
 | BP-42 napad | [sprites](../assets/images/armies/sources/bp42-fire/sprites.json) |
 | Poljski top Ustanka | [sklop](../assets/images/armies/sources/field-gun/layout.json), [priprema](../assets/images/armies/sources/field-gun/prepare.py), [olupina](../assets/images/armies/sources/field-gun/wreck-sprites.json) |
 | Olupine | [sprites](../assets/images/armies/sources/wrecks/sprites.json) |

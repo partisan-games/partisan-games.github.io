@@ -27,8 +27,10 @@ To try the game blocks one by one (soldiers, vehicles, aircraft, their states an
 To see every background picture in the project, open `/pozadine.html` on the `npm start` server; it reads the folder each time, so new pictures appear without editing the page.
 
 ## TODO
+See [PLAN](docs/PLAN.md).
 
-Open work and ideas live in the permanent [PLAN](docs/PLAN.md).
+- dodaj uvodni prozor na camac
+- analiziraj prednosti i mane zasebnih html stranica za igre umesto trenutnog rešenja
 
 ## Credits
 

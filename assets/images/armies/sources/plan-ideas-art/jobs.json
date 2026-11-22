@@ -41,6 +41,8 @@
     },
     {
       "id": "motorcycle",
+      "pixelsPerMetre": 40,
+      "gunLayer": { "anchor": [57, 62], "mount": [71, 58], "scale": 0.55, "muzzlePoint": [106, 55] },
       "title": "Motociklista sa mitraljezom",
       "kind": "vehicle",
       "reference": "nemci/motori/mg34.png",

@@ -1,5 +1,6 @@
 import { createCatalog, dimensionOf, findStory } from './catalog.js'
 import Stage2D from './Stage2D.js'
+import { attackControls } from './attackControls.js'
 import kinds from './stories/index.js'
 import { attackState } from '/core/gameplay/bodies/stateNames.js'
 
@@ -105,13 +106,14 @@ const sideButtons = () => /* html */`
   </fieldset>`
 
 /** The block's shots, the higher one above. */
-const shotButtons = block => Object.keys(shotNames)
-  .filter(name => name in block.shots)
+const shotButtons = shots => Object.keys(shotNames)
+  .filter(name => shots.includes(name))
   .map(name => `<button class="storybook-shot" data-shot="${name}">${shotNames[name]}</button>`)
   .join('')
 
 function drawPanel() {
   const { kind, story, look, block, stage } = shown
+  const controls = attackControls(block)
   // a hit stands before death, or before Reset in a block that cannot die
   const hit = hitButton(block), dies = block.states?.includes('dead')
   panel.innerHTML = /* html */`
@@ -119,15 +121,15 @@ function drawPanel() {
     <p>${story.game}</p>
     ${story.looks ? lookButtons(kind, story, look) : ''}
     ${'way' in story ? sideButtons() : ''}
-    ${block.states ? stateButtons('Stanja', block.states, (dies ? '' : hit) + resetButton, { dead: hit }) : hit + resetButton}
-    ${block.anim ? stateButtons('Animacije', Object.keys(block.anim.actions)) : ''}
-    ${block.acts?.length ? actButtons(block.acts) : ''}
+    ${block.states ? stateButtons('Stanja', controls.states, (dies ? '' : hit) + resetButton, { dead: hit }) : hit + resetButton}
+    ${controls.animations.length ? stateButtons('Animacije', controls.animations) : ''}
+    ${controls.acts.length ? actButtons(controls.acts) : ''}
     ${story.commands ? `<fieldset><legend>Proba</legend>${story.commands.map(({ label }, index) =>
     `<button data-command="${index}">${label}</button>`).join('')}</fieldset>` : ''}
-    ${block.shots ? /* html */`
+    ${controls.shots.length ? /* html */`
       <fieldset>
         <legend>Pucanje</legend>
-        ${shotButtons(block)}
+        ${shotButtons(controls.shots)}
       </fieldset>` : ''}
     <button data-follow aria-pressed="${Boolean(stage.followed)}">Prati kamerom</button>
     ${canBeHit(block) ? healthBar(block) : ''}
@@ -169,7 +171,7 @@ panel.addEventListener('click', event => {
   // a block set to fire with no aim, as a gun, first aims at its straight shot, as its button would
   if (event.isTrusted && stage instanceof Stage2D) stage.sceneAudio.unlock().catch(() => {})
   if (state && state === attackState(block)) {
-    const primary = ['straight', 'down', 'drop'].find(name => block.shots?.[name]) ?? null
+    const { primary } = attackControls(block)
     if (primary) aim(block, primary)
   }
   if (state) block.setState(state)

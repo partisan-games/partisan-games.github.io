@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "measuredAt": "2026-11-22T23:18:52.951850+00:00",
-  "baseRevision": "1199d27514a5c13e3a3bb26bf5d8139604d10883",
+  "measuredAt": "2026-11-22T23:48:31.856948+00:00",
+  "baseRevision": "baea7333fec98c675b4c669eaff239364b6fdae8",
   "scope": "Art linked by docs/ART.md, including shared variants; not all unused library art or a runtime/visual acceptance test.",
   "interpretation": "imageFrames counts file-container frames. A PNG atlas normally has one; named sprite clips require metadata and a runtime mapping. hashes detect exact input changes, not art quality.",
   "images": [
@@ -4092,10 +4092,10 @@
     },
     {
       "asset": "assets/images/armies/game-ready/vozila/motorcycle-sprites.png",
-      "sha256": "304d832bb40bf37649a18bd3231430865554ab6af813913623924f42e4929c5a",
+      "sha256": "60a1cb4a3b1053e0844bc9867adade715146cdc88312c1e9308abd42a6f0e5f7",
       "kind": "PNG",
-      "width": 332,
-      "height": 366,
+      "width": 624,
+      "height": 648,
       "imageFrames": 1,
       "hasTransparentPixelsInFirstFrame": true,
       "distinctImageFrames": 1,
@@ -4103,14 +4103,14 @@
         "metadata": "assets/images/armies/sources/plan-ideas-art/sprites.json",
         "id": "motorcycle",
         "frame": {
-          "width": 83,
-          "height": 61,
+          "width": 156,
+          "height": 108,
           "columns": 4,
           "rows": 6
         },
         "anchor": {
-          "x": 41.5,
-          "y": 57
+          "x": 78.0,
+          "y": 104
         },
         "clips": [
           {
@@ -5508,7 +5508,7 @@
     },
     {
       "path": "assets/images/armies/game-ready/vozila/motorcycle-sprites.png",
-      "sha256": "304d832bb40bf37649a18bd3231430865554ab6af813913623924f42e4929c5a"
+      "sha256": "60a1cb4a3b1053e0844bc9867adade715146cdc88312c1e9308abd42a6f0e5f7"
     },
     {
       "path": "assets/images/armies/game-ready/vozila/sdkfz222-sprites.png",
@@ -5716,19 +5716,19 @@
     },
     {
       "path": "assets/images/armies/sources/plan-ideas-art/export-runtime.py",
-      "sha256": "895c157f6c5ee2b681cd24da80b78f6cb012f755b5dc40ab86490360c38ed6c1"
+      "sha256": "6ae4587dc7699ddb00c59db8d0b40561111409ad215d5df764383542a9c54a8b"
     },
     {
       "path": "assets/images/armies/sources/plan-ideas-art/generation.json",
-      "sha256": "522f35caf98595f070bc2bdfec238d1502a47fb59b1fa7adb4dfc34ef5282df3"
+      "sha256": "2e7e1d35409174a83745d98b6c4f317c64edbed871dd6f270dab0a860c637627"
     },
     {
       "path": "assets/images/armies/sources/plan-ideas-art/prepare.py",
-      "sha256": "1a953fc5fb04d3f872faff7be1e6e88b241950fc554837b4de46478400ee7d8a"
+      "sha256": "61bb1e7d1408af5ce0cc57cba66e914b7dbb9e13f1696e931c91c31de6be5dce"
     },
     {
       "path": "assets/images/armies/sources/plan-ideas-art/sprites.json",
-      "sha256": "802826cd6ebd9f4e0ed25a9d04a6a7df93ab70c8b84e60744945d42927bf49fe"
+      "sha256": "dd00e7d5a9ce13b1e2b5587eeb8b84864c87af40f1f166f8e1487c5139753ff4"
     },
     {
       "path": "assets/images/armies/sources/ranjenik/sprites.json",
@@ -5832,7 +5832,7 @@
     },
     {
       "path": "docs/ART.md",
-      "sha256": "832157a8a628c383e56a2f9292c25ab9d9502d9a4341e2b2eba7a0695c84ce1b"
+      "sha256": "81f76e076e3dc0d11f96178f3b81b3847e8ead615cc342afc57e34929c7c3239"
     },
     {
       "path": "docs/ISTORIJA.md",
@@ -5844,15 +5844,15 @@
     },
     {
       "path": "docs/PLAN.md",
-      "sha256": "00c6be3adad7c5a6d3f2d2225fb799f41e86e7eaa8ae214f9ebe2bd5cfde36ec"
+      "sha256": "928acb8eb398be5f62b96c6574bb2e904ab1e7efa869b27930bb0f74789b8a97"
     },
     {
       "path": "docs/STORYBOOK.md",
-      "sha256": "99e4a3eab268f17893f7e7f7fb8354d480695d16a23a5708674bc26d8e8ec871"
+      "sha256": "f1f159ba3006d550faaeb4e3ae0f05ad55ce410f7199ae629e0dba11a5ddf5bc"
     },
     {
       "path": "docs/TESTING.md",
-      "sha256": "8c19bb118727303b23c0001800f0451c3b47b93088b0d0a6d7f046bc4f970bcf"
+      "sha256": "db29f996a6b787b80e9ea0b9e218c793ea0fcdf7736d6d91388cf71781fe3250"
     },
     {
       "path": "pregled-animacija.html",
@@ -5872,7 +5872,7 @@
     },
     {
       "path": "storybook.html",
-      "sha256": "2abb7016e81bc3dd96ed9df81b1ddeeef8571657ede174656ab4ee5bcc066643"
+      "sha256": "333dedaaf3214c8439648dbe9f9b0cbb24fc2cf1f826701600a025af73dde5d9"
     }
   ]
 }

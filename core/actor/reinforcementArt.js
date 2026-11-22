@@ -541,17 +541,17 @@ export const actorArt = {
   },
   'motorcycle': {
     'src': 'armies/game-ready/vozila/motorcycle-sprites.png',
-    'width': 83,
-    'height': 61,
+    'width': 156,
+    'height': 108,
     'anchor': {
-      'x': 41.5,
-      'y': 57
+      'x': 78.0,
+      'y': 104
     },
     'bounds': [
-      6,
-      10,
-      77,
-      57
+      7,
+      9,
+      149,
+      104
     ],
     'facing': 1,
     'clips': {
@@ -616,9 +616,29 @@ export const actorArt = {
         'loop': false
       }
     },
+    'layers': [
+      {
+        'name': 'turret',
+        'image': 'assets/images/armies/game-ready/vozila/motorcycle-sprites.png',
+        'row': 5,
+        'frames': 4,
+        'seconds': 0.4,
+        'anchor': [
+          57,
+          62
+        ],
+        'mount': [
+          71,
+          58
+        ],
+        'hideOn': [
+          'dead'
+        ]
+      }
+    ],
     'muzzlePoint': [
-      74,
-      24
+      106,
+      55
     ]
   },
   'sdkfz251': {

@@ -45,6 +45,8 @@ Priče su u [storybook/stories](../storybook/stories/), po jedna datoteka za igr
 
 Panel čita blok:
 
+**Jedna radnja ima jedno dugme.** Kada `attack` (ili postojeći `fire`) pokreće jedini napad aktera, panel prikazuje njega, bez dodatnog „Pucaj pravo” za istu radnju. Kod više različitih napada posebna dugmad zamenjuju opštu komandu napada. Duplirani napad iz animacija i radnji takođe se skriva; samostalno nišanjenje automatskog oružja ostaje dostupno.
+
 Ciljni prikaz svih aktera koristi [standardna stanja](ARHITEKTURA.md#standardna-stanja-aktera) `idle`, `move`, `attack`, `dead`, uz izbor konkretnog pokreta/napada i jasno nedostupne radnje koje ne pripadaju ulozi. Sadašnji panel još čita stara imena iz blokova; usklađuje se zajedno sa njima, kad se telo menja ([preslikavanje](ARHITEKTURA.md#prelaz-na-standardna-imena)), bez tvrdnje da je standard već sproveden u kodu.
 
 - `states`, `state` i `setState(name)` daju dugmad stanja;

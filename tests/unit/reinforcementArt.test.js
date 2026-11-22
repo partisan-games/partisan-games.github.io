@@ -36,7 +36,7 @@ before(async() => {
 test('propellers and the turret are separate live layers and disappear on the held wreck pose', t => {
   const draws = []
   t.mock.method(ctx, 'drawImage', (...args) => draws.push(args))
-  for (const id of ['he111', 'storch', 'sdkfz222']) {
+  for (const id of ['he111', 'storch', 'sdkfz222', 'motorcycle']) {
     const art = actorArt[id]
     const sheet = new ActorAtlas(art)
     loaded(sheet, art.width * 4, art.height * 6)
@@ -53,28 +53,29 @@ test('propellers and the turret are separate live layers and disappear on the he
   }
 })
 
-test('the rotating armoured-car barrel, muzzle and projectile direction agree in both directions', () => {
-  const kind = gunCarrierKinds.armoredCar
-  const art = actorArt.sdkfz222
-  const layer = art.layers[0]
-  const [left, top, right, bottom] = art.bounds
-  const sx = kind.size.length / (right - left), sy = kind.size.height / (bottom - top)
-  const vx = (art.muzzlePoint[0] - layer.anchor[0]) * sx
-  const vy = (art.muzzlePoint[1] - layer.anchor[1]) * sy
-  for (const yaw of [0, Math.PI]) {
-    const body = new GunCarrier({ kind, x: 20, y: 3, yaw, clock: new GameClock() })
-    body.aimAt({ x: body.x + body.forward * 20, y: 8 })
-    const angle = -body.gunPitch * art.facing
-    const screenX = (layer.mount[0] - (left + right) / 2) * sx + vx * Math.cos(angle) - vy * Math.sin(angle)
-    const screenY = (layer.mount[1] - (top + bottom) / 2) * sy + vx * Math.sin(angle) + vy * Math.cos(angle)
-    assert.ok(Math.abs(body.muzzle.x - body.x - screenX * body.forward * art.facing) < 1e-9)
-    assert.ok(Math.abs(body.muzzle.y - body.y + screenY) < 1e-9)
-    const origin = body.muzzle, target = body.aimPoint
-    const pitch = Math.atan2(target.y - origin.y, Math.abs(target.x - origin.x))
-    const baseline = Math.atan2(kind.gun.barrel.above, kind.gun.barrel.ahead)
-    assert.ok(Math.abs(pitch - body.gunPitch - baseline) < 1e-9)
-  }
-})
+for (const [kindId, artId] of [['armoredCar', 'sdkfz222'], ['motorcycle', 'motorcycle']])
+  test(`the rotating ${kindId} barrel, muzzle and projectile direction agree in both directions`, () => {
+    const kind = gunCarrierKinds[kindId]
+    const art = actorArt[artId]
+    const layer = art.layers[0]
+    const [left, top, right, bottom] = art.bounds
+    const sx = kind.size.length / (right - left), sy = kind.size.height / (bottom - top)
+    const vx = (art.muzzlePoint[0] - layer.anchor[0]) * sx
+    const vy = (art.muzzlePoint[1] - layer.anchor[1]) * sy
+    for (const yaw of [0, Math.PI]) {
+      const body = new GunCarrier({ kind, x: 20, y: 3, yaw, clock: new GameClock() })
+      body.aimAt({ x: body.x + body.forward * 20, y: 8 })
+      const angle = -body.gunPitch * art.facing
+      const screenX = (layer.mount[0] - (left + right) / 2) * sx + vx * Math.cos(angle) - vy * Math.sin(angle)
+      const screenY = (layer.mount[1] - (top + bottom) / 2) * sy + vx * Math.sin(angle) + vy * Math.cos(angle)
+      assert.ok(Math.abs(body.muzzle.x - body.x - screenX * body.forward * art.facing) < 1e-9)
+      assert.ok(Math.abs(body.muzzle.y - body.y + screenY) < 1e-9)
+      const origin = body.muzzle, target = body.aimPoint
+      const pitch = Math.atan2(target.y - origin.y, Math.abs(target.x - origin.x))
+      const baseline = Math.atan2(kind.gun.barrel.above, kind.gun.barrel.ahead)
+      assert.ok(Math.abs(pitch - body.gunPitch - baseline) < 1e-9)
+    }
+  })
 
 test('a hit is a finite view reaction, freezes at zero time, and never overrides death or changes the collider', t => {
   const body = new Rifleman({ x: 10, clock: new GameClock() })
