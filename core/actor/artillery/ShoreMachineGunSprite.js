@@ -4,6 +4,7 @@ import Sound from '/core/io/audio/SoundSource.js'
 import { assets } from '/config.js'
 import ShoreDestruction from './ShoreDestruction.js'
 import { nest } from '/core/gameplay/bodies/artillery/ShoreMachineGun.js'
+import { bodyImage } from '../wreckView.js'
 
 /** How far the gun is drawn from its mount to its muzzle, in pixels, before it is scaled to its length. */
 const gunDrawn = 14
@@ -93,7 +94,7 @@ export default class ShoreMachineGunSprite extends BodySprite {
     ctx.save()
     ctx.translate(this.x, this.y)
     ctx.rotate(this.angle)
-    ctx.drawImage(this.image, -this.width / 2, -this.height / 2, this.width, this.height)
+    ctx.drawImage(bodyImage(this), -this.width / 2, -this.height / 2, this.width, this.height)
     ctx.restore()
     this.renderCrew(ctx)
     const { mount } = this

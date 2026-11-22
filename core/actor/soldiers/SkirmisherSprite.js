@@ -37,6 +37,7 @@ export default class SkirmisherSprite extends StandingSprite {
 
   render(ctx) {
     if (!this.shown) return
+    if (this.renderHit(ctx)) return
     const { body } = this
     let name, time = body.stateTime, reverse = false
     if (body.dead) name = body.fellStanding ? 'deathStanding' : 'death'

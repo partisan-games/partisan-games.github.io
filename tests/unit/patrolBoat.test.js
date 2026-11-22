@@ -7,7 +7,8 @@ import Body from '/core/gameplay/bodies/Body.js'
 for (const [id, kind] of Object.entries(patrolBoatKinds))
   test(`${id} turns its fixed gun onto a target, damages it, then sinks without reviving`, () => {
     const clock = new GameClock()
-    const target = new Body({ x: 15, health: 1000, size: { length: 3, height: 3, width: 3 } })
+    // The target stays outside the new long hulls; gun range starts at the barrel.
+    const target = new Body({ x: Math.max(15, kind.size.length / 2 + 5), health: 1000, size: { length: 3, height: 3, width: 3 } })
     const boat = new PatrolBoat({ kind, clock, targets: [target] })
     boat.aimAt(target)
     boat.setState('attack')

@@ -4,6 +4,8 @@ import Sound from '/core/io/audio/SoundSource.js'
 import { bodyImage, wreckFor } from '/core/actor/wreckView.js'
 import { assets } from '/config.js'
 import gunnerArt from '/core/actor/soldiers/machineGunnerArt.js'
+import HitReaction from '../HitReaction.js'
+import { actorArt } from '../reinforcementArt.js'
 
 /** The picture of each kind of bunker. */
 export const bunkerPictures = { pillbox: 'buildings/bunker-02.png', house: 'buildings/kuca-bunker.png' }
@@ -13,12 +15,13 @@ export const bunkerPictures = { pillbox: 'buildings/bunker-02.png', house: 'buil
  * it on each shot and falls with the bunker. `scale` sizes him to the bunker's picture.
  */
 class WindowGunner {
-  constructor(scale) {
+  constructor(scale, owner) {
     this.scale = scale
     this.image = new Image()
     this.image.src = assets.images + gunnerArt.src
     this.sinceShot = Infinity
     this.sinceDeath = 0
+    this.hitReaction = new HitReaction(owner, actorArt['machine-gunner-hit'])
   }
 
   update(dt, { fired, dead }) {
@@ -44,8 +47,10 @@ class WindowGunner {
     // the picture points the gun left, about its bottom right
     ctx.rotate(angle + Math.PI)
     ctx.imageSmoothingEnabled = false
-    ctx.drawImage(this.image, frame * width, dead ? height * 2 : firing ? height : 0, width, height,
-      -width * this.scale, -height * this.scale, width * this.scale, height * this.scale)
+    if (!this.hitReaction.draw(ctx, { width: width * this.scale, height: height * this.scale,
+      left: -width * this.scale, top: -height * this.scale }))
+      ctx.drawImage(this.image, frame * width, dead ? height * 2 : firing ? height : 0, width, height,
+        -width * this.scale, -height * this.scale, width * this.scale, height * this.scale)
     ctx.restore()
   }
 }
@@ -61,7 +66,8 @@ export default class BunkerSprite extends BodySprite {
     super(body, bunkerPictures[kind], { projection, camera, facing: -1, flammable: true, z })
     wreckFor(bunkerPictures[kind])
     this.roundLayer = roundLayer
-    this.gunner = kind === 'house' ? new WindowGunner(gunnerScale) : null
+    this.gunner = kind === 'house' ? new WindowGunner(gunnerScale, this) : null
+    if (this.gunner) this.children.push(this.gunner.hitReaction)
     this.gunSound = new Sound('rifle.mp3', { profile: 'rifle', spatial: { getPosition: () => this.position } })
     this.sounds.push(this.gunSound)
     this.shotsSeen = body.shotsFired

@@ -19,6 +19,7 @@ import Landing from './Landing.js'
 import Passengers from './Passengers.js'
 import AirRaids from './AirRaids.js'
 import WaterEffects from './WaterEffects.js'
+import Minefield from './Minefield.js'
 
 /** How many pixels a metre of the sea is drawn. */
 const pxPerMeter = 25
@@ -35,9 +36,9 @@ const stagePause = 2
  * Šolta, and back across the channel.
  */
 export const stages = [
-  { name: 'Out of Vis harbour', coast: 'vis-luka', length: 20000, sides: [0, 1, 0, -1, 0], sBoats: { first: 6, quiet: 14 }, fleet: ['german-skiff', 'german-launch', 'german-skiff', 'german-patrol-vessel', 'sboat'] },
-  { name: 'Landing on Šolta', coast: 'solta', length: 9000, sBoats: { first: 10, quiet: 20 }, fleet: ['german-launch', 'german-skiff', 'german-patrol-vessel', 'sboat'], landing: true },
-  { name: 'Back to Vis', coast: 'vis-kanal', length: 8000, sBoats: { first: 4, quiet: 12 }, fleet: ['german-patrol-vessel', 'german-skiff', 'sboat', 'german-launch'] },
+  { name: 'Out of Vis harbour', coast: 'vis-luka', length: 20000, sides: [0, 1, 0, -1, 0], sBoats: { first: 6, quiet: 14 }, fleet: ['german-skiff', 'german-launch', 'vorpostenboot', 'rboot', 'german-patrol-vessel', 'sboat'] },
+  { name: 'Landing on Šolta', coast: 'solta', length: 9000, sBoats: { first: 10, quiet: 20 }, fleet: ['german-launch', 'german-skiff', 'mfp', 'german-patrol-vessel', 'sboat'], landing: true },
+  { name: 'Back to Vis', coast: 'vis-kanal', length: 8000, sBoats: { first: 4, quiet: 12 }, fleet: ['sboat', 'rboot', 'german-patrol-vessel', 'german-skiff', 'german-launch'] },
 ]
 
 export default class CamacScene extends Scene2D {
@@ -90,6 +91,7 @@ export default class CamacScene extends Scene2D {
     /** Where the stage ends, in pixels: at its pier, or ahead on the open sea. */
     this.finishX = this.startX + stage.length
     this.encounter = new SBoatEncounter({ scene: this, target: this.player, pace: stage.sBoats, fleet: stage.fleet })
+    this.minefield = new Minefield({ scene: this, stage })
     this.shoreDefenses = new ShoreDefenses({ coast: this.obala, scene: this, target: this.player })
     this.airRaids = new AirRaids({ scene: this, target: this.player })
     // the same partisans sail out, land and, after the fight, all sail home
@@ -104,6 +106,7 @@ export default class CamacScene extends Scene2D {
 
   /** After the last stage the game is won; after another, the game rests a moment, saying so, and the next begins. */
   finishStage() {
+    this.minefield.clear()
     if (this.stage === stages.length - 1) return this.victory('Your troops have landed on Šolta.')
     if (this.betweenStages) return
     this.betweenStages = true
@@ -196,6 +199,7 @@ export default class CamacScene extends Scene2D {
     if (this.betweenStages) return
     if (this.landing?.active) return this.land(dt)
     this.shoreDefenses.update()
+    this.minefield.update()
     const underShoreFire = this.shoreDefenses.positions.some(({ body }) =>
       body.alive && this.onScreen(body) && (this.player.z - body.z) * body.side < 0)
     const toFinish = this.finishX - this.projection.point(this.player).x

@@ -112,6 +112,7 @@ export default class GrenadierSprite extends BodySprite {
 
   render(ctx) {
     if (!this.shown || !this.image.naturalWidth) return
+    if (this.renderHit(ctx, { flip: this.body.facing })) return
     const { image, x, y, width, height } = this.frame
     if (!image.naturalWidth) return
     ctx.save()

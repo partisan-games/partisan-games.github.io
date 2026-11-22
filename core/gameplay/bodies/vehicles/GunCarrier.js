@@ -2,6 +2,7 @@ import Body from '../Body.js'
 import Cooldown from '../../Cooldown.js'
 import ProjectilePool from '../projectiles/ProjectilePool.js'
 import Bullet from '../projectiles/Bullet.js'
+import geometry from '../../reinforcementGeometry.js'
 
 /**
  * Each kind of machine-gun carrier: its hit box with its crew, in metres, sized from its picture; its health in bullet
@@ -13,15 +14,15 @@ import Bullet from '../projectiles/Bullet.js'
 export const gunCarrierKinds = {
   motorcycle: {
     size: { length: 3.56, height: 2.1, width: 1.7 }, health: 30, speed: 5.5, reach: 25,
-    gun: { reload: .12, burst: 6, pause: 2.5, firstShot: 1, speed: 35, damage: 2, muzzle: { ahead: 1.2, above: .1 } },
+    gun: { reload: .12, burst: 6, pause: 2.5, firstShot: 1, speed: 35, damage: 2, ...geometry.motorcycle },
   },
   halftrack: {
     size: { length: 5.8, height: 2.2, width: 2.1 }, health: 90, speed: 3.6, reach: 28,
-    gun: { reload: .1, burst: 10, pause: 2.8, firstShot: 1.2, speed: 36, damage: 2, muzzle: { ahead: .4, above: .9 } },
+    gun: { reload: .1, burst: 10, pause: 2.8, firstShot: 1.2, speed: 36, damage: 2, ...geometry.sdkfz251 },
   },
   armoredCar: {
     size: { length: 4.8, height: 2, width: 1.95 }, health: 60, speed: 4.8, reach: 30,
-    gun: { reload: .25, burst: 4, pause: 2.2, firstShot: 1.4, speed: 40, damage: 4, muzzle: { ahead: 1.6, above: .7 } },
+    gun: { reload: .25, burst: 4, pause: 2.2, firstShot: 1.4, speed: 40, damage: 4, ...geometry.sdkfz222 },
   },
 }
 
@@ -75,8 +76,21 @@ export default class GunCarrier extends Body {
   }
 
   get muzzle() {
-    const { ahead, above } = this.kind.gun.muzzle
+    const { gun } = this.kind
+    let { ahead, above } = gun.muzzle ?? gun.pivot
+    if (gun.barrel) {
+      const angle = this.gunPitch
+      ahead += gun.barrel.ahead * Math.cos(angle) - gun.barrel.above * Math.sin(angle)
+      above += gun.barrel.ahead * Math.sin(angle) + gun.barrel.above * Math.cos(angle)
+    }
     return { x: this.x + this.forward * ahead, y: this.y + above, z: this.z }
+  }
+
+  get gunPitch() {
+    const { pivot, barrel } = this.kind.gun
+    if (!pivot || !this.aimPoint) return 0
+    return Math.atan2(this.aimPoint.y - this.y - pivot.above,
+      this.forward * (this.aimPoint.x - this.x) - pivot.ahead) - Math.atan2(barrel.above, barrel.ahead)
   }
 
   get reach() {

@@ -10,6 +10,7 @@ import * as neretva from './neretva.js'
 import * as otpisani from './otpisani.js'
 import * as characters3d from './characters3d.js'
 import * as objects3d from './objects3d.js'
+import * as partisans from './partisans.js'
 
 /**
  * The kinds of blocks, each with its stories. A story is one block alone on the stage: `create(stage)` puts it there
@@ -17,7 +18,7 @@ import * as objects3d from './objects3d.js'
  * class it needs, the 2D one by default, and `pxPerMeter` how large it draws a block in metres, as its game does.
  */
 export default [
-  { id: 'vojnici', title: 'Vojnici', stories: [...franjoKluz.soldiers, ...ustanak.soldiers, ...bunker.soldiers, ...ranjenik.soldiers, ...neretva.soldiers, ...otpisani.soldiers] },
+  { id: 'vojnici', title: 'Vojnici', stories: [...franjoKluz.soldiers, ...ustanak.soldiers, ...bunker.soldiers, ...ranjenik.soldiers, ...neretva.soldiers, ...otpisani.soldiers, ...partisans.soldiers] },
   { id: 'vozila', title: 'Tenkovi i vozila', stories: [...tenkici.vehicles, ...franjoKluz.vehicles, ...doTrsta.vehicles] },
   { id: 'avioni', title: 'Avioni', stories: [...franjoKluz.aircraft, ...vis.aircraft] },
   { id: 'brodovi', title: 'Brodovi', stories: [...camac.boats] },

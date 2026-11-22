@@ -58,6 +58,7 @@ export default class VehicleSprite extends AtlasSprite {
 
   render(ctx) {
     if (!this.shown) return
+    if (this.body.alive && this.body.health.current < this.body.health.maximum / 2) return super.render(ctx)
     const firing = this.body.state === 'attack' && this.fireArt && this.sinceShot < this.fireTime
     const [left, , right] = this.art.body
     const anchorX = this.x + (this.art.anchor.x - (left + right) / 2) * this.artScale * this.flipY

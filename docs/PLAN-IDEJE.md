@@ -1,31 +1,16 @@
 # Plan ideja
 
-Dogovoreno u [kontekstu igara](KONTEKST.md), a još neurađeno. Igra koja preraste u višednevni posao dobija svoj plan.
+Dogovoreni poslovi iz [konteksta igara](KONTEKST.md).
 
 **Status:** 📋 TODO · 🔄 In progress · ✅ Done · ⛔ Blocked · — Not assessed.
 
 | # | ID | Igra | Posao | Ko | Status |
 |---|---|---|---|---|---|
-| 1 | [IG-05](#ig-05) | Partisan Navy | Raznovrsniji neprijatelji i plovila, moguće dalje etape | Claude, Codex, Vlasnik | 🔄 In progress<br>Bacač raketa, zdravlje čamca i napadi lovaca su u igri; Codex crta nova plovila, mine i oštećen S-čamac |
-| 2 | [IG-12](#ig-12) | Cannon | Partizanski top u kanjonu Neretve ruši utvrđenje dok posada ne istakne belu zastavu | Claude, Codex, Vlasnik | 🔄 In progress<br>Nivo se igra, a mitraljezi iz bunkera uzvraćaju vatru; ugrađeni su 3D kanjon i žica, otporniji bunker i blisko nišanjenje; čekaju se model brdskog topa i vlasnikovo odobrenje tekstova |
-| 3 | [IG-13](#ig-13) | Svi | Stanje „pogođen” za aktere koji ga nemaju | Codex, Claude | 📋 TODO |
-| 4 | [IG-14](#ig-14) | Svi | Novi akteri od postojećeg arta i širi registar likova i vozila u igrama | Claude, Codex, Vlasnik | 📋 TODO |
-| 5 | [IG-15](#ig-15) | Više igara | Više partizanskih vojnika u nivoima | Claude, Codex | 🔄 In progress<br>Strelci su uz put u Do Trsta i na aerodromima Kluza; čeka se Codexov atlas partizana u pokretu |
+| 1 | [IG-12](#ig-12) | Cannon | Partizanski top u kanjonu Neretve ruši utvrđenje dok posada ne istakne belu zastavu | Claude, Codex, Vlasnik | 🔄 In progress<br>Needs game check: predaja i rušenje [1](#note-1) |
+| 2 | [IG-13](#ig-13) | Svi | Stanje „pogođen” za aktere koji ga nemaju | Codex, Claude | 🔄 In progress<br>Waiting: tri preostala resursa [2](#note-2) |
+| 3 | [IG-14](#ig-14) | Svi | Proširenje registra ostalim kandidatima od postojećeg arta | Claude, Codex, Vlasnik | 📋 TODO<br>Waiting: vlasnikov izbor kandidata [3](#note-3) |
 
 Pravila rada: [DOCS](DOCS.md) i [CLAUDE.md](../.claude/CLAUDE.md). Nov art radi Codex po pravilima iz [ART](ART.md); placeholder nije art. Novi UI elementi i tekstovi traže vlasnikovo odobrenje. Agent ne pravi commit bez naloga. Urađenu stavku agent proverava tako što sam odigra nivo (probe, upravljač ili testovi koji igraju scenu) i tada je zatvara i uklanja iz plana; vlasnikova partija i osećaj igre nisu uslov (odluka vlasnika, 2026-11-22).
-
-<a id="ig-05"></a>
-## IG-05 · Partisan Navy: moguće dalje etape
-
-- **Sada:** tri etape su u [igri](../scenes/camac/Main.js) (noćno isplovljavanje iz luke na Visu, desant na Šoltu, povratak kroz kanal pod napadom S-čamaca), a pobeda dolazi posle povratka. Prva etapa je duga 20.000 px, četiri puta više nego ranije, a ostrva u njoj su češće sa obe strane i neprijatelji dolaze češće (zahtev vlasnika, 2026-11-22). Svaka etapa počinje otvorenim morem, prolazi pored ostrva od stena sa jedne ili obe strane, a pred kraj gornja obala sa kućicama najavljuje naselje (zahtev vlasnika, 2026-11-22; [Obala](../scenes/camac/Obala.js)).
-- **Neprijatelji (zahtev vlasnika, 2026-11-22):** više neprijatelja, većih i manjih. S-čamac je „kraljica”: izdrži oko trideset metaka (`sBoat.health`). Gnezda mitraljeza stoje na stenovitim obalama svih etapa, gušće nego ranije, a nikad u naselju.
-- **Plovila (Codex, povezano):** nemački čamac, manji čamac i veći patrolni brod koriste zajedničko telo sa standardnim stanjima, fiksnim pramčanim mitraljezom, zvukom i tonjenjem. [Igra](../scenes/camac/Main.js) raspoređuje ih po etapama, a [Storybook](../storybook.html#brodovi/nemacko-patrolno-plovilo) ima jednu priču sa tri izgleda. S-čamac ostaje najjači protivnik. [Art i ugovor](ART.md#čamac--vis-i-šolta-maj-1944) čuvaju izvore i putanje; provere bez browsera opisane su u [TESTING](TESTING.md#camac-enemy-vessels).
-- **Obale Šolte (Codex, povezano):** gole stene i naselje sa kućicama koriste [novu sliku](../assets/images/background/camac-solta-coasts.png), trake od 768×80 px i [izmerene linije obale](../assets/images/sources/pozadine/camac-etape/prepare.py). Igra i [postojeći pregled](../assets/images/sources/pozadine/camac-etape/preview.html) čitaju isti izbor iz [Obala](../scenes/camac/Obala.js). Prolazi sedam ciljanih testova Čamca, uključujući kopnene položaje i tok etapa; browser nije pokretan po nalogu vlasnika. [Izvori, promptovi i predaja](ART.md#čamac--vis-i-šolta-maj-1944).
-- **Bacač i zdravlje (zahtev vlasnika, 2026-11-22):** naš čamac ima protivoklopni bacač sa tri rakete (taster C), čiji pogodak skida trećinu zdravlja S-čamca ([Boat](../core/gameplay/bodies/boats/Boat.js)). Gore levo su traka zdravlja čamca i preostale rakete.
-- **Raznovrsniji neprijatelji (zahtev vlasnika, 2026-11-22):** jednom po etapi, pred njen kraj, nemački lovac Bf 109 ili Fw 190, u pravoj razmeri, uleti spreda i preleti iznad čamca pucajući ([AirRaids](../scenes/camac/AirRaids.js)). Za tri hica našeg mitraljeza lovac pada. Neprijateljski brodovi se više ne povlače: napadaju dok ne potonu ili dok ih čamac ne ostavi iza sebe (vlasnik). Strelci na ostrvima nisu uvedeni: stenoviti rubovi ostrva u kadru široki su samo oko 50 px, pa bi se od patrole video samo vrh. Za njih su potrebna šira ostrva.
-- **Nova plovila (Codex):** u pogledu odozgo, na 25 px po metru i sa vojnicima iste razmere kao na [nemačkom čamcu](../assets/images/armies/game-ready/brodovi/german-launch.png), sa olupinama: minolovac R-boot, naoružana teglenica MFP i naoružani ribarski brod (Vorpostenboot). Uz njih treba nacrtati i plutajuću morsku minu. Claude ih zatim povezuje u etape.
-- **S-čamac, oštećen (Codex, vlasnik 2026-11-22):** [S-čamac](../assets/images/armies/game-ready/brodovi/schnellboot-s30.svg) nema izgled pogođenog broda, iako izdrži oko trideset metaka. Potreban je izgled oštećenog trupa, sa rupama, dimom i požarom, u istoj razmeri, da igrač vidi da ga pogađa pre nego što potone.
-- **Opcione kasnije etape:** drugi desanti sa Visa 1944, Brač (jun, partizani sa britanskim komandosima; prvi kandidat), Mljet (maj) i Korčula; pre razrade proveriti izvore u [ISTORIJA](ISTORIJA.md).
 
 <a id="ig-12"></a>
 ## IG-12 · Cannon: partizanski top ruši utvrđenje na Neretvi
@@ -44,8 +29,8 @@ Pravila rada: [DOCS](DOCS.md) i [CLAUDE.md](../.claude/CLAUDE.md). Nov art radi 
 ## IG-13 · Stanje „pogođen” za aktere
 
 - **Zahtev vlasnika (2026-11-22):** Storybook nedavno ima dugme „Pogođen”, a mnogi akteri nemaju izgled pogođenog: posle pogotka izgledaju isto kao pre njega, sve do smrti ili olupine.
-- **Izmereno u Storybook-u (2026-11-22):** posle šest pogodaka, kad ostane 40% zdravlja, izgled se ne menja kod sledećih aktera. Od pešadije to su strelac, jurišnik, partizanski strelac, zastavnik, posada topa, bombaš, nemačka i italijanska patrola, ranjeni partizan i okupator. Od vozila su to Hummel, Opel Blitz (obe verzije) i BP-42, a od aviona Bf 109 i Ju 87. Od brodova su to partizanski čamac, S-čamac i nemačko patrolno plovilo, a od artiljerije Flak 38, top iz Ustanka, kuća-bunker, Pak 38, bunker iz Do Trsta i mitraljesko gnezdo. Neki od njih počnu da gore tek ispod praga zdravlja, ali ni tada nemaju izgled pogođenog dok su još čitavi. Tenkovi, Somua, Potez i avioni iz Visa već vidljivo reaguju. Ni novi akteri iz [IG-14](#ig-14) (He 111, Storch, motociklista, Sd.Kfz. 251 i 222) nemaju izgled pogođenog; to stanje je u Codexovoj tabeli tamo.
-- **Šta:** pešadija dobija kratak klip trzaja pri pogotku, a vozila, avioni, brodovi i artiljerija izgled oštećenja, sa rupama i dimom, kad padnu ispod polovine zdravlja. Art crta Codex po [pravilima arta](ART.md), u razmeri postojećih atlasa, a Claude povezuje stanje u prikaze i Storybook. Stanje se upisuje i u kolonu „Pogodak / kraj” u [ART](ART.md#obim-i-čitanje). Oštećen S-čamac je već u [IG-05](#ig-05).
+- **Izmereno u Storybook-u (2026-11-22):** pre ove dopune, posle šest pogodaka na 40% zdravlja izgled se nije menjao kod sledećih aktera. Od pešadije to su strelac, jurišnik, partizanski strelac, zastavnik, posada topa, bombaš, nemačka i italijanska patrola, ranjeni partizan i okupator. Od vozila su to Hummel, Opel Blitz (obe verzije) i BP-42, a od aviona Bf 109 i Ju 87. Od brodova su to partizanski čamac, S-čamac i nemačko patrolno plovilo, a od artiljerije Flak 38, top iz Ustanka, kuća-bunker, Pak 38, bunker iz Do Trsta i mitraljesko gnezdo. Neki od njih počnu da gore tek ispod praga zdravlja, ali ni tada nemaju izgled pogođenog dok su još čitavi. Tenkovi, Somua, Potez i avioni iz Visa već vidljivo reaguju. Tada ni novi akteri iz [IG-14](#ig-14) (He 111, Storch, motociklista, Sd.Kfz. 251 i 222) nisu imali izgled pogođenog; sada koriste povezane atlase iz [ART](ART.md#dopune-iz-plana-ideja--predaja-arta).
+- **Šta:** pešadija dobija kratak klip trzaja pri pogotku, a vozila, avioni, brodovi i artiljerija izgled oštećenja, sa rupama i dimom, kad padnu ispod polovine zdravlja. Art crta Codex po [pravilima arta](ART.md), u razmeri postojećih atlasa, a zajednički prikazi koriste isto stanje u igrama i Storybook-u. Stanje se upisuje i u kolonu „Pogodak / kraj” u [ART](ART.md#obim-i-čitanje). Oštećen S-čamac je povezan; [ugovor i provere](ART.md#dopune-iz-plana-ideja--predaja-arta).
 - **Gotovo kada:** svaki akter iz spiska u Storybook-u vidljivo menja izgled posle pogotka, a agent je to proverio istim merenjem.
 
 <a id="ig-14"></a>
@@ -56,9 +41,9 @@ Pravila rada: [DOCS](DOCS.md) i [CLAUDE.md](../.claude/CLAUDE.md). Nov art radi 
 - **Šta:** Claude pravi popis slika bez aktera i predlaže kandidate po igri. Za izabrane pravi telo sa standardnim stanjima, prikaz i priču, po [arhitekturi aktera](ARHITEKTURA.md), i raspoređuje ih u igre kojima pripadaju. Codex dopunjuje stanja koja nedostaju, po [ART](ART.md). Vlasnik bira koje kandidate uvodimo i u koje igre.
 - **Popis (2026-11-22):** od 2.213 slika u [indeksu](../assets/images/armies/index.csv), 2.120 nijedna igra ne koristi. To su većinom pojedinačne poze, pa akteru koji hoda, puca i pada Codex mora dopuniti atlas. Avionima i vozilima često je dovoljna jedna slika. Kandidati po igri:
   - **Vis (odozgo), urađeno 2026-11-22:** neprijateljski lovci sada se biraju između šest nemačkih slika: Bf 109, Fw 190 i četiri lovca iz [avion-odozgo](../assets/images/armies/nemci/avioni/). Svi su u priči „Nemački lovac”. Italijanski Re.2005 nije uveden, jer je Italija kapitulirala 1943, a Vis se igra 1944 (vlasnik). Dvojica bez nacrtane elise dobila su okretni propeler. Partizanski [Hurricane, Spitfire i Il-2](../assets/images/armies/partizani/avioni/) ostaju kandidati.
-  - **Do Trsta, urađeno 2026-11-22:** nova vrsta neprijatelja je [naoružano vozilo](../core/gameplay/bodies/vehicles/GunCarrier.js), u tri verzije: motociklista sa mitraljezom na prikolici, jači i sporiji oklopni transporter Sd.Kfz. 251 i oklopni automobil Sd.Kfz. 222 sa topom 20 mm. Sva tri voze ka tenku i pucaju rafale. Motociklisti i transporteri su i u kolonama druge misije Kluza, a imaju i priče u Storybook-u. Do Codexovog arta privremeno koriste izvorne crteže ([GunCarrierSprite](../core/actor/vehicles/GunCarrierSprite.js)).
+  - **Do Trsta, urađeno 2026-11-22:** nova vrsta neprijatelja je [naoružano vozilo](../core/gameplay/bodies/vehicles/GunCarrier.js), u tri verzije: motociklista sa mitraljezom na prikolici, jači i sporiji oklopni transporter Sd.Kfz. 251 i oklopni automobil Sd.Kfz. 222 sa topom 20 mm. Sva tri voze ka tenku i pucaju rafale. Motociklisti i transporteri su i u kolonama druge misije Kluza, a imaju i priče u Storybook-u. Sada koriste završne piksel atlase kroz [GunCarrierSprite](../core/actor/vehicles/GunCarrierSprite.js).
   - **Do Trsta i Tenkići (bočno):** italijanski tenkovi ([talijani/tenkovi](../assets/images/armies/talijani/tenkovi/), 18), oklopni automobil AB41 ([talijani/vozila](../assets/images/armies/talijani/vozila/)), nemački motociklisti BMW R11 ([nemci/motori](../assets/images/armies/nemci/motori/), 66) i nemačka vozila ([nemci/vozila](../assets/images/armies/nemci/vozila/), 81).
-  - **Franjo Kluz (bočno), urađeno 2026-11-22:** nova su tela [He 111](../core/gameplay/bodies/aircraft/LevelBomber.js), bombarder koji u trećoj misiji iz horizontalnog leta baca niz od četiri bombe na aerodrom, i [Fieseler Storch](../core/gameplay/bodies/aircraft/Scout.js), spori nenaoružani izviđač u prvoj misiji. Oba imaju priču u Storybook-u. Do Codexovog arta privremeno koriste izvorne crteže ([PictureAircraftSprite](../core/actor/aircraft/PictureAircraftSprite.js)), po vlasnikovom odobrenju.
+  - **Franjo Kluz (bočno), urađeno 2026-11-22:** nova su tela [He 111](../core/gameplay/bodies/aircraft/LevelBomber.js), bombarder koji u trećoj misiji iz horizontalnog leta baca niz od četiri bombe na aerodrom, i [Fieseler Storch](../core/gameplay/bodies/aircraft/Scout.js), spori nenaoružani izviđač u prvoj misiji. Oba imaju priču u Storybook-u. Sada koriste završne piksel atlase kroz [PictureAircraftSprite](../core/actor/aircraft/PictureAircraftSprite.js).
 
   - **Ustanak (bočno):** italijanski protivtenkovski top 47 mm sa posadom i minobacači ([talijani/artiljerija](../assets/images/armies/talijani/artiljerija/), 32).
   - **Pešadija za više igara (bočno i koso):** italijanski, britanski, ruski i četnički vojnici i SS jedinice; svaki traži Codexov atlas pokreta.
@@ -69,27 +54,14 @@ Pravila rada: [DOCS](DOCS.md) i [CLAUDE.md](../.claude/CLAUDE.md). Nov art radi 
   - **fps-airport, fps-base i 3d-tank:** među protivnicima je i nemački strelac sa puškom ([GermanSoldier](../core3d/actor/derived/ww2/GermanSoldier.js)).
   - **Drvar:** dodati su nemački padobranci na zemlji, više padobrana u vazduhu i Ju 52 sa padobrancima.
   - **Bez novih aktera:** u Bunker po vlasnikovoj odluci; u Ustanak i Tenkiće, jer su to fino podešeni dvoboji; u Ranjenika, jer nema smislenog postojećeg arta odozgo; u Otpisane, jer bi pikselni crteži odudarali od realističnog crno-belog stila. Za Otpisane Codex može da nacrta nemačkog motociklistu sa mitraljezom u tom stilu.
-- **Art za nove aktere (Codex):** akteri ispod su u igri i u Storybook-u sa privremenim izvornim crtežima. Codex svaki precrtava u stil i razmeru igre i pravi navedena stanja sprajta, po [pravilima arta](ART.md). Posle toga Claude u prikazu menja samo slike.
-
-| Akter | Igra | Izvor koji se precrtava | Stil i razmera | Stanja sprajta |
-|---|---|---|---|---|
-| He 111 ([LevelBomber](../core/gameplay/bodies/aircraft/LevelBomber.js)) | Franjo Kluz, Do Trsta | [heinkel-he-111-h2.png](../assets/images/armies/nemci/avioni/heinkel-he-111-h2.png) | piksel stil [Bf 109](../assets/images/armies/game-ready/avioni/bf109-telo.png) i [Ju 87](../assets/images/armies/game-ready/avioni/ju87.svg), 30,8 px po metru, nos levo | let sa propelerima kao zasebnim slojem, otvoren bombni prostor pri bacanju, pogođen sa dimom, olupina koja pada |
-| Fieseler Storch ([Scout](../core/gameplay/bodies/aircraft/Scout.js)) | Franjo Kluz | [fieseler-fi-156-storch-01.png](../assets/images/armies/nemci/avioni/fieseler-fi-156-storch-01.png) | isto kao He 111 | let sa propelerom kao zasebnim slojem, pogođen sa dimom, olupina koja pada |
-| Motociklista sa mitraljezom ([GunCarrier](../core/gameplay/bodies/vehicles/GunCarrier.js)) | Do Trsta, Franjo Kluz | [mg34.png](../assets/images/armies/nemci/motori/mg34.png) | piksel stil tenkova Do Trsta, 20 px po metru | mirovanje sa motorom u radu, vožnja sa točkovima koji se okreću, rafal sa plamenom na cevi, pogođen, olupina koja gori |
-| Sd.Kfz. 251 ([GunCarrier](../core/gameplay/bodies/vehicles/GunCarrier.js)) | Do Trsta, Franjo Kluz | [sdkfz-251-05.png](../assets/images/armies/nemci/vozila/sdkfz-251-05.png) | isto kao motociklista | mirovanje, vožnja sa gusenicama i točkovima u pokretu, rafal sa plamenom na cevi, pogođen, olupina koja gori |
-| Sd.Kfz. 222 ([GunCarrier](../core/gameplay/bodies/vehicles/GunCarrier.js)) | Do Trsta, Franjo Kluz | [sdkfz-221-02.png](../assets/images/armies/nemci/vozila/sdkfz-221-02.png) | isto kao motociklista | mirovanje, vožnja sa točkovima u pokretu, kupola koja prati cilj kao zaseban sloj, rafal topa 20 mm sa plamenom na cevi, pogođen, olupina koja gori |
+- **Art izabranih aktera je povezan:** pet novih aktera koristi [zajedničke atlase i slojeve](ART.md#dopune-iz-plana-ideja--predaja-arta). Puna vožnja Do Trsta i ciljane misije Kluza proverene su bez browsera; nove kandidate vlasnik tek bira.
 
 - **Gotovo kada:** izabrani akteri imaju priču u Storybook-u, pojavljuju se u svojim igrama, a agent ih je odigrao.
 
-<a id="ig-15"></a>
-## IG-15 · Više partizana u nivoima
+## Notes
 
-- **Zahtev vlasnika (2026-11-22):** više partizana, posebno vojnika koje možemo dodati u nivoe.
-- **Urađeno od postojećeg arta:** partizanski strelac iz Ustanka ([Skirmisher](../core/gameplay/bodies/soldiers/Skirmisher.js)) sada stoji na položajima uz put u Do Trsta ([Escort](../scenes/to-trieste/Escort.js)) i čuva partizanske aerodrome u Kluzu ([AirfieldGuard](../scenes/franjo-kluz/AirfieldGuard.js)). Kleči i puca dok je neprijatelj na ekranu, ali njegova vatra ne utiče na ishod igre.
-- **Ograničenje:** strelac hoda 1 m/s, a pogled u Do Trsta ide 8 m/s, pa ne može da prati tenk. Zato stoji na položajima koje kolona prolazi.
-- **Art (Codex):** [izvornih crteža partizana](../assets/images/armies/partizani/vojnici/) ima 214, sa strane, koso, spreda i otpozadi, ali su pojedinačne poze. Za nove uloge potrebni su atlasi u piksel stilu [partizanskog strelca](../assets/images/armies/game-ready/vojnici/partizanski-strelac-sprites.png), sa stanjima mirovanje, trk, pucanje i pad:
-  - **strelac koji trči uz tenk**, sa strane, da prati kolonu u Do Trsta;
-  - **mitraljezac sa puškomitraljezom**, sa strane, za Do Trsta i Kluz;
-  - **partizani viđeni otpozadi u prvom rovu**, za Neretvu, kao saborci igrača ispred ekrana;
-  - **posada sa strane koja pretovaruje sanduke**, za aerodrome Kluza.
-- **Gotovo kada:** atlasi su povezani u te nivoe, a agent ih je odigrao.
+Waiting: čeka navedeni zavisni posao; Needs game check: potrebno je odigrati nivo.
+
+1. <a id="note-1"></a>**IG-12, provera igre:** preostaje odigrati nivo do predaje i nastavka razaranja prema uslovu završetka; povezivanje 2D arta ne proverava Cannon.
+2. <a id="note-2"></a>**IG-13, preostali art:** svi pripremljeni paketi povezani su kroz zajedničke prikaze; [provere](TESTING.md#predaja-arta-iz-plana-ideja) prolaze bez browsera. Imagegen je odbio Okupatorov pogodak i oštećenja Bf 109 i Ju 87; samo ta tri resursa ostaju otvorena. [Povezivanje i ograničenja](ART.md#dopune-iz-plana-ideja--predaja-arta).
+3. <a id="note-3"></a>**IG-14, izbor:** pet izabranih novih aktera koristi završni art u igrama i Storybook-u, a provere Kluza i puna vožnja Do Trsta prolaze. Preostali kandidati ispod nisu nalog za dalje generisanje ili uvođenje; čeka se vlasnikov izbor.

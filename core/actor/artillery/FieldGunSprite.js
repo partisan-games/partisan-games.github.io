@@ -4,6 +4,8 @@ import CannonballSprite from '/core/actor/projectiles/CannonballSprite.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import { gunShape } from '/core/gameplay/bodies/artillery/FieldGun.js'
 import ArtClip from '/core/actor/ArtClip.js'
+import { actorArt } from '../reinforcementArt.js'
+import DamageSmoke from '../effects/DamageSmoke.js'
 
 const wreck = {
   src: 'armies/game-ready/wrecks/field-gun.png', width: 500, height: 260, anchor: { x: 240, y: 164.5 },
@@ -22,8 +24,12 @@ export default class FieldGunSprite extends BodySprite {
       scale: projection.length(gunShape.pixel),
     })
     this.carriage.layer = 1
+    this.carriage.damageBody = body
+    this.carriage.damageArt = new ArtClip(actorArt['field-gun-damaged'])
+    this.carriage.children.push(this.carriage.damageArt)
     this.wreckArt = new ArtClip(wreck)
     this.children.push(this.carriage, this.wreckArt)
+    this.children.push(new DamageSmoke(this))
     this.shotSound = new Sound('cannon-shot.mp3', { profile: 'cannon', spatial: { getPosition: () => this.muzzle } })
     this.sounds.push(this.shotSound)
     this.shotsSeen = body.shotsFired

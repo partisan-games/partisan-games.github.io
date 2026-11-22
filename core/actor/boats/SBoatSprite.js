@@ -1,6 +1,7 @@
 import HullSprite from './HullSprite.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import { renderSinking, sinking } from './SinkingWreck.js'
+import { bodyImage } from '../wreckView.js'
 
 /**
  * How the German S-boat looks and sounds from above: its hull with its two deck guns turned to their aim, its engine
@@ -42,7 +43,7 @@ export default class SBoatSprite extends HullSprite {
     ctx.translate(this.x, this.y)
     ctx.rotate(this.angle)
     ctx.scale(1 - sunk * .08, 1 - sunk * .45)
-    ctx.drawImage(this.image, -this.width / 2, -this.height / 2, this.width, this.height)
+    ctx.drawImage(bodyImage(this), -this.width / 2, -this.height / 2, this.width, this.height)
     for (const mount of SBoatSprite.mounts) {
       ctx.save()
       ctx.translate(mount * this.width, 0)

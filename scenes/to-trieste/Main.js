@@ -302,7 +302,7 @@ export default class ToTriesteScene extends Scene2D {
     this.bounds.min = toMeters(this.cameraX)
     this.bounds.max = toMeters(this.cameraX + canvas2d.width * .9)
     this.airRaid()
-    this.escort.update()
+    this.escort.update(dt)
     super.update(dt, t)
     this.countKills()
     this.returnPassed()

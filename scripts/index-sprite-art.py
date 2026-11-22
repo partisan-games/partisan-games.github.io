@@ -1,6 +1,7 @@
 """Measure the actor and background art linked by docs/ART.md; never modify source images."""
 import hashlib
 import json
+import os
 import re
 import subprocess
 import xml.etree.ElementTree as ET
@@ -23,6 +24,27 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def atlas_assets(metadata, metadata_path):
+    if 'assets' in metadata:
+        return metadata['assets']
+    # The boat pack stores separate intact/wreck images, not rows of one atlas.
+    if 'entries' in metadata:
+        assets = []
+        for entry in metadata['entries']:
+            for state in ('intact', 'wreck'):
+                image = ROOT / entry[state]['src']
+                assets.append({
+                    'id': f"{entry['id']}-{state}",
+                    'image': Path(os.path.relpath(image, metadata_path.parent)).as_posix(),
+                    'frame': {'width': entry['size'][0], 'height': entry['size'][1], 'columns': 1, 'rows': 1},
+                    'anchor': dict(zip(('x', 'y'), entry['anchor'])),
+                    'animations': [{'name': 'idle' if state == 'intact' else 'dead', 'row': 0,
+                                    'frameCount': 1, 'duration': 1.6, 'loop': state == 'intact'}],
+                })
+        return assets
+    raise ValueError(f'Unknown sprite metadata format: {relative(metadata_path)}')
+
+
 def main():
     files = set()
     for document_path in DOCUMENTS:
@@ -43,7 +65,7 @@ def main():
     atlases = {}
     for metadata_path in sorted(path for path in files if path.name.endswith('sprites.json')):
         metadata = json.loads(metadata_path.read_text(encoding='utf-8'))
-        for asset in metadata['assets']:
+        for asset in atlas_assets(metadata, metadata_path):
             image_path = (metadata_path.parent / asset['image']).resolve()
             if not image_path.is_relative_to(ROOT) or not image_path.is_file():
                 raise ValueError(f'Invalid sprite image: {image_path}')

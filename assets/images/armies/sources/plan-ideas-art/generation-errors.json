@@ -1,0 +1,20 @@
+[
+  {
+    "id": "occupier-hit",
+    "status": "imagegen_rejected",
+    "attempts": 2,
+    "reason": "image_gen moderation_blocked; no image returned, including the retry with historical antagonist context."
+  },
+  {
+    "id": "bf109-damaged",
+    "status": "imagegen_rejected",
+    "attempts": 2,
+    "reason": "image_gen moderation_blocked; no image returned, including the retry with historical antagonist context."
+  },
+  {
+    "id": "ju87-damaged",
+    "status": "imagegen_rejected",
+    "attempts": 2,
+    "reason": "image_gen moderation_blocked; no image returned, including the retry with historical antagonist context."
+  }
+]

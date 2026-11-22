@@ -39,6 +39,7 @@ export default class LocomotionSprite extends BodySprite {
 
   render(ctx) {
     if (!this.shown || !this.image.naturalWidth) return
+    if (this.renderHit(ctx)) return
     const { width, height } = this.art.frame
     ctx.save()
     ctx.translate(this.x, this.y)

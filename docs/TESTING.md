@@ -1,5 +1,20 @@
 # Testing
 
+<a id="predaja-arta-iz-plana-ideja"></a>
+## Predaja arta iz plana ideja
+
+Za art-only predaju IG-05/13/14/15 od 2026-11-22 [priprema](../assets/images/armies/sources/plan-ideas-art/prepare.py) proverava SHA-256 generisanih izvora i završnih atlasa, njihove RGBA dimenzije, providnost i granice kadrova, pomoćni izvor strelčevog pada i postojanje prompta izabranog pokušaja. Statične kontaktne table čitaju završne PNG-ove; razlike kadrova nisu dokaz prirodnog pokreta. Odvojeni palubni ljudi, kupola i postojeći bočni propeler navedeni su u metapodacima, bez novih pretplata ili izmena engine-a.
+
+Pregled izvora otkrio je pogrešan ugao i preširoke brodove, elise koje se okreću u ravni slike i preklopljene ćelije padova. Izabrani novi izvori, postojeći ispravan atlas elise, izmerene granice ćelija i zaseban pad strelca otklanjaju te nalaze u predaji; neizabrani pokušaji su uklonjeni pri čišćenju, a izabrani izvornici i njihovo poreklo ostaju sačuvani. Vlasnik je zatim ukazao na preteranu karikaturalnost aerodromske posade. Agent je pogrešno protumačio primedbu kao prelazak na potpuno realističan stil; ta verzija je uklonjena po vlasnikovom pojašnjenju. Nova dorada zadržava projektni piksel stil i lokalno ublažava lice, brkove i proporcije, bez tvrdnje o vlasnikovom prihvatanju.
+
+[Manifest](../assets/images/armies/sources/plan-ideas-art/sprites.json) beleži povezano i nedostajuće; [odbijanja imagegen-a](../assets/images/armies/sources/plan-ideas-art/generation-errors.json) nisu napravljeni resursi. Prvobitna predaja bila je bez promena igara; povezivanje je zatim urađeno po zasebnom nalogu vlasnika.
+
+**Povezivanje, 2026-11-22:** vlasnik je odobrio ciljane unit provere i lint, uz izričito „bez browsera”. Prolaze provere novih reakcija, promene oštećenja i teškog oštećenja, mirovanja pri nultom vremenu, prednosti smrti, nepromenjenih sudarnih mera, stvarne putanje metka i rotirajuće kupole, skrivanja propelera/kupole na olupini i jednokratnog udara mine. [Dokaz ugovora](../tests/unit/reinforcementArt.test.js) koristi stvarna tela i prikaze sa testnim canvas-om; ne rasterizuje završnu sliku.
+
+[Puna plovidba](../tests/unit/camac.test.js) susreće sve vrste brodova, iskrcava vojnike i vraća ih na Vis; [prelazak Do Trsta](../tests/unit/tankLevelFlow.test.js) potvrđuje da novi strelci prate tenk i pucaju do kraja puta. [Misije Kluza](../tests/unit/franjoKluz.test.js) čuvaju poletanje, napade, pad i sletanje; novi test potvrđuje rad posade u miru i prekid rada pri napadu uz paljbu puškomitraljesca. Neretvini novi saborci provereni su stvarnim ažuriranjem scene. Postojeće ciljane provere artiljerije, olupina, Bombaša, vozila, aviona, slojeva i Storybook kataloga takođe prolaze.
+
+Provera otkrivenih problema: prerano upisane mine nove etape rešene su odloženim raspoređivanjem, a predugačak niz novih susreta potiskivao je S-čamac iza kraja povratka, pa povratak sada počinje njime. Duži novi trupovi zahtevaju da testna meta bude izvan trupa i da se domet meri od cevi; tačke pucnja prate izmerene položaje, uključujući krmeni top MFP-a. ESLint izmenjenih JS fajlova i statička provera putanja projekta prolaze. Browser, slušna provera i puna testna serija nisu pokretani; glatkoća pokreta i konačni izgled u browseru nisu potvrđeni.
+
 ## Cannon: nivo i nišanjenje
 
 [Provera stvarne scene](../tests/unit/cannonScene.test.js) pokreće Cannon inicijalizaciju sa GLB modelom poljskog topa i stvarnim Ammo. Proverava blisku kameru uz oslonac cevi, podizanje pogleda stvarnim ulazom tastature, nepromenjen sačuvani izbor kamere za ostale igre, miran bunker tokom prva tri pogotka dok mitraljezi nanose štetu, lokalni proboj, unutrašnja lica 3D litica i jednokratno oslobađanje memorije instanci kamenja pri izlasku iz sesije. Teksture se u testu zamenjuju praznim teksturama; nema GPU renderera. Proporcije prizora pregledane su statičkim SVG rendererom, koji ne potvrđuje WebGL teksture, maglu, senke i konačnu rasvetu. Regresioni testovi padaju kada se privremeno isključe bliska kamera i otpornost zida, pa je popravljen kod vraćen iz kopija. Browser i konačni osećaj nišanjenja ostaju za vlasnikovu probu.

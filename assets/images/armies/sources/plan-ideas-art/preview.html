@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="sr"><meta charset="utf-8"><meta name="viewport" content="width=device-width">
+<title>Nedostajući art · Plan ideja</title>
+<style>
+body{margin:24px;background:#202723;color:#e8e6d8;font:16px system-ui}a{color:#ddca8d}button,select{font:inherit;margin:4px;padding:6px}article{border:1px solid #65705d;padding:16px;margin:16px 0;overflow:auto}canvas{display:block;image-rendering:pixelated;background:repeating-conic-gradient(#3b514e 0% 25%,#455b58 0% 50%) 0/20px 20px}h2{font-size:18px}small{display:block;margin:8px 0;color:#b8bbaa}.clips{display:flex;flex-wrap:wrap}
+</style>
+<h1>Art za plan ideja</h1>
+<p>Crteži i animacije povezani su sa igrama i zajedničkim objektima u <a href="/storybook.html">Storybook-u</a>; ovde je izdvojeni pregled resursa.</p>
+<label>Prikaz <select id="zoom"><option value="1">Veličina resursa</option><option value="2">2×</option></select></label><button id="pause">Pauza</button><button id="flip">Ogledaj</button>
+<p id="status">Učitavanje…</p><main></main>
+<script type="module">
+const manifest=await fetch('./sprites.json').then(r=>{if(!r.ok)throw Error(r.status);return r.json()});
+const states=[];let paused=false,flip=false,time=0,last=0;
+const labels={idle:'Mirovanje',run:'Trk',drive:'Vožnja',attack:'Napad',hit:'Pogodak',dead:'Završetak',damaged:'Oštećen',heavy:'Teško oštećen',wreck:'Olupina',intact:'Čitav',propeller:'Propeler',gun:'Oružje',float:'Plutanje',work:'Rad'};
+document.querySelector('#status').textContent=manifest.assets.length+' pripremljenih paketa'+(manifest.missing.length?'; u izradi: '+manifest.missing.length:'');
+for(const a of manifest.assets){
+const article=document.createElement('article');article.id=a.id;
+const h=document.createElement('h2');h.textContent=a.title;article.append(h);
+const links=document.createElement('p');
+for(const [label,url] of [['Atlas','/'+a.repositoryImage],['Izvor','./'+a.source],['Podaci','./sprites.json'],['Prompt','./'+a.generation],...(a.reference?[['Referenca','./'+a.reference]]:[])]){const x=document.createElement('a');x.textContent=label;x.href=url;x.target='_blank';links.append(x,' · ')}article.append(links);
+const clips=document.createElement('div');clips.className='clips';article.append(clips);
+const canvas=document.createElement('canvas');canvas.width=a.frame.width;canvas.height=a.frame.height;article.append(canvas);
+const info=document.createElement('small');info.textContent=a.frame.width+' × '+a.frame.height+' px · '+(a.integrated?'Povezano':'Predaja arta; nije povezano');article.append(info);
+if(a.warnings.length){const warn=document.createElement('small');warn.textContent='Provera kadrova: '+a.warnings.join('; ');article.append(warn)}
+const img=new Image();img.src='/'+a.repositoryImage;await img.decode();
+const layers=[];
+for(const layer of [...(a.layers??[]),...(a.crew?[{...a.crew,name:'crew'}]:[])]){const image=new Image();image.src='/'+layer.image;await image.decode();layers.push({...layer,img:image})}
+const state={a,img,canvas,layers,clip:a.animations[0],start:time};states.push(state);
+for(const c of a.animations){const b=document.createElement('button');b.textContent=labels[c.name]??c.name;b.onclick=()=>{state.clip=c;state.start=time};clips.append(b)}
+document.querySelector('main').append(article);
+}
+document.querySelector('#pause').onclick=e=>{paused=!paused;e.target.textContent=paused?'Nastavi':'Pauza'};
+document.querySelector('#flip').onclick=()=>{flip=!flip};
+function draw(t){const dt=last?(t-last)/1000:0;last=t;if(!paused)time+=dt;
+const zoom=Number(document.querySelector('#zoom').value);
+for(const s of states){const {a,clip:c,canvas:cv,img}=s;const f=a.frame;const elapsed=Math.max(0,time-s.start);const index=c.loop?Math.floor(elapsed/c.duration*c.frameCount)%c.frameCount:Math.min(c.frameCount-1,Math.floor(elapsed/c.duration*c.frameCount));const ctx=cv.getContext('2d');ctx.imageSmoothingEnabled=false;cv.style.width=f.width*zoom+'px';cv.style.height=f.height*zoom+'px';ctx.clearRect(0,0,cv.width,cv.height);ctx.save();if(flip){ctx.translate(cv.width,0);ctx.scale(-1,1)}ctx.drawImage(img,(c.frameColumns?.[index]??index)*f.width,c.row*f.height,f.width,f.height,0,0,f.width,f.height);for(const layer of s.layers??[]){if(layer.hideOn?.includes(c.name)||c.name==='gun')continue;const number=Math.floor(time/layer.seconds*layer.frames)%layer.frames;const [w,h]=layer.frame??[f.width,f.height];const sy=(layer.row??0)*h;if(layer.name==='crew'){for(const [x,y] of layer.positions)ctx.drawImage(layer.img,number*w,sy,w,h,x-w/2,y-h/2,w,h)}else{const [x,y]=layer.mount;const [ax,ay]=layer.anchor;ctx.drawImage(layer.img,number*w,sy,w,h,x-ax,y-ay,w,h)}}ctx.restore()}
+requestAnimationFrame(draw)}requestAnimationFrame(draw);
+</script></html>

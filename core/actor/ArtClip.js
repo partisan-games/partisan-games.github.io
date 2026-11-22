@@ -20,7 +20,8 @@ export default class ArtClip extends GameObject2D {
         break
       }
     }
-    return { row: clip.row || 0, frame: reverse ? clip.ms.length - 1 - frame : frame }
+    const index = reverse ? clip.ms.length - 1 - frame : frame
+    return { row: clip.row || 0, frame: clip.frameColumns?.[index] ?? index }
   }
 
   seconds(name) {

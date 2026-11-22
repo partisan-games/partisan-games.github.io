@@ -31,18 +31,30 @@ export default class AtlasSprite extends BodySprite {
 
   render(ctx) {
     if (!this.shown || !this.image.naturalWidth) return
+    if (this.renderHit(ctx)) return
     const { art, artScale: scale } = this
     const { width, height } = art.frame
     const [left, , right] = art.body
     const image = bodyImage(this), wrecked = image !== this.image
+    const damaged = image === this.damageArt?.image
+    const sourceWidth = damaged ? this.damageArt.art.width : width
+    const sourceHeight = damaged ? this.damageArt.art.height : height
+    const [dx, dy] = damaged ? this.damageArt.art.offset ?? [0, 0] : [0, 0]
     ctx.save()
     ctx.translate(this.x, this.y)
     ctx.rotate(this.angle)
     ctx.scale(this.flipY, 1)
     ctx.imageSmoothingEnabled = false
-    ctx.drawImage(image, wrecked ? 0 : this.frame * width, wrecked ? 0 : art.clips[this.clip].row * height, width, height,
-      -(left + right) / 2 * scale, this.height / 2 - art.anchor.y * scale, width * scale, height * scale)
+    ctx.drawImage(image, wrecked ? 0 : this.frame * width, wrecked ? 0 : art.clips[this.clip].row * height, sourceWidth, sourceHeight,
+      (dx - (left + right) / 2) * scale, this.height / 2 + (dy - art.anchor.y) * scale, sourceWidth * scale, sourceHeight * scale)
     ctx.restore()
     if (this.burning) this.flame.render(this.smoky)
+  }
+
+  renderHit(ctx) {
+    const { art, artScale: scale } = this
+    const [left, , right] = art.body
+    return super.renderHit(ctx, { width: art.frame.width * scale, height: art.frame.height * scale,
+      left: -(left + right) / 2 * scale, top: this.height / 2 - art.anchor.y * scale })
   }
 }

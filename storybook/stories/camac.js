@@ -8,6 +8,8 @@ import PatrolBoatSprite from '/core/actor/boats/PatrolBoatSprite.js'
 import ShoreMachineGunSprite from '/core/actor/artillery/ShoreMachineGunSprite.js'
 import { topProjection } from '/core/actor/projection.js'
 import { fromAbove } from './helpers.js'
+import SeaMine, * as seaMineModule from '/core/gameplay/bodies/boats/SeaMine.js'
+import SeaMineSprite from '/core/actor/boats/SeaMineSprite.js'
 
 /** Čamac is seen from above at 10 px a metre: the stage draws its blocks so, x across and z down the view. */
 const pxPerMeter = 25
@@ -47,13 +49,19 @@ export const boats = [
   { id: 'partizanski-camac', name: 'Partizanski čamac', game, pxPerMeter, block: boatModule, create: boat },
   { id: 'schnellboot', name: 'Schnellboot S-30', game, pxPerMeter, block: sBoatModule, create: sBoat },
   { id: 'nemacko-patrolno-plovilo', name: 'Nemačko patrolno plovilo', game, pxPerMeter, block: patrolBoatModule,
-    looks: [['german-launch', 'Patrolni čamac'], ['german-skiff', 'Mali čamac'], ['german-patrol-vessel', 'Patrolni brod']]
+    looks: [['german-launch', 'Patrolni čamac'], ['german-skiff', 'Mali čamac'], ['german-patrol-vessel', 'Patrolni brod'],
+      ['rboot', 'Minolovac R-boot'], ['mfp', 'Desantna teglenica MFP'], ['vorpostenboot', 'Naoružani ribarski brod']]
       .map(([id, name]) => ({ id, name, value: id })),
     create(stage, way, id = 'german-launch') {
       const body = new PatrolBoat({ ...at(stage, .5, .5), kind: patrolBoatModule.patrolBoatKinds[id], clock: stage.session.clock })
       return put(stage, body, new PatrolBoatSprite(body, { id, ...views(stage) }))
     },
   },
+  { id: 'morska-mina', name: 'Morska mina', game, pxPerMeter, block: seaMineModule,
+    create(stage) {
+      const body = new SeaMine(at(stage, .5, .5))
+      return put(stage, body, new SeaMineSprite(body, views(stage)))
+    } },
 ]
 
 export const artillery = [

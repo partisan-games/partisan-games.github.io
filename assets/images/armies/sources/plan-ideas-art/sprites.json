@@ -1,0 +1,4666 @@
+{
+  "tool": "built-in image_gen",
+  "integrated": true,
+  "assets": [
+    {
+      "id": "rboot",
+      "title": "R-boot minolovac",
+      "kind": "vessel",
+      "integrated": true,
+      "image": "../../game-ready/brodovi/rboot-sprites.png",
+      "sha256": "7e5bb367eeef30c969952fb6f8df737d0e7640a507736fea2e4bfb931d502d5c",
+      "frame": {
+        "width": 883,
+        "height": 175,
+        "columns": 2,
+        "rows": 2
+      },
+      "anchor": {
+        "x": 441.5,
+        "y": 87.5
+      },
+      "source": "rboot-generated.png",
+      "sourceSha256": "cd2982284d976a3a62b61752ea5b178fb9ba55eeee1d9a6a2451b1d9d4e427fa",
+      "sourceSize": [
+        1774,
+        887
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          887,
+          444
+        ],
+        [
+          887,
+          0,
+          1774,
+          444
+        ],
+        [
+          0,
+          444,
+          887,
+          887
+        ],
+        [
+          887,
+          444,
+          1774,
+          887
+        ]
+      ],
+      "transform": {
+        "scale": 1.1824324324324325,
+        "offset": [
+          -84,
+          -197
+        ]
+      },
+      "animations": [
+        {
+          "name": "intact",
+          "row": 0,
+          "frameColumns": [
+            0
+          ],
+          "frameCount": 1,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 1
+        },
+        {
+          "name": "damaged",
+          "row": 0,
+          "frameColumns": [
+            1
+          ],
+          "frameCount": 1,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 1
+        },
+        {
+          "name": "heavy",
+          "row": 1,
+          "frameColumns": [
+            0
+          ],
+          "frameCount": 1,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 1
+        },
+        {
+          "name": "wreck",
+          "row": 1,
+          "frameColumns": [
+            1
+          ],
+          "frameCount": 1,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 1
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": null,
+      "view": "top-down",
+      "facing": 1,
+      "generation": "generation.json",
+      "pixelsPerMetre": 25,
+      "designLengthMetres": 35,
+      "historicalClassIdentificationConfirmed": false,
+      "crew": {
+        "image": "assets/images/armies/game-ready/vojnici/deck-crew-sprites.png",
+        "frame": [
+          24,
+          24
+        ],
+        "frames": 4,
+        "seconds": 1.6,
+        "hideOn": [
+          "wreck"
+        ],
+        "positions": [
+          [
+            238,
+            79
+          ],
+          [
+            380,
+            105
+          ],
+          [
+            574,
+            70
+          ]
+        ]
+      },
+      "repositoryImage": "assets/images/armies/game-ready/brodovi/rboot-sprites.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "mfp",
+      "title": "MFP naoružana desantna teglenica",
+      "kind": "vessel",
+      "integrated": true,
+      "image": "../../game-ready/brodovi/mfp-sprites.png",
+      "sha256": "0638ffdd3f13a58461d1a4b60ae2a6c58bdcbad834854871335bd42bca00ce05",
+      "frame": {
+        "width": 1183,
+        "height": 218,
+        "columns": 2,
+        "rows": 2
+      },
+      "anchor": {
+        "x": 591.5,
+        "y": 109.0
+      },
+      "source": "mfp-generated.png",
+      "sourceSha256": "dc0ddadf7daf90393b942b30ff5c9387de5608b91b3212fa79cd77734bec561d",
+      "sourceSize": [
+        1922,
+        818
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          961,
+          409
+        ],
+        [
+          961,
+          0,
+          1922,
+          409
+        ],
+        [
+          0,
+          409,
+          961,
+          818
+        ],
+        [
+          961,
+          409,
+          1922,
+          818
+        ]
+      ],
+      "transform": {
+        "scale": 1.3337116912599318,
+        "offset": [
+          -51,
+          -243
+        ]
+      },
+      "animations": [
+        {
+          "name": "intact",
+          "row": 0,
+          "frameColumns": [
+            0
+          ],
+          "frameCount": 1,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 1
+        },
+        {
+          "name": "damaged",
+          "row": 0,
+          "frameColumns": [
+            1
+          ],
+          "frameCount": 1,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 1
+        },
+        {
+          "name": "heavy",
+          "row": 1,
+          "frameColumns": [
+            0
+          ],
+          "frameCount": 1,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 1
+        },
+        {
+          "name": "wreck",
+          "row": 1,
+          "frameColumns": [
+            1
+          ],
+          "frameCount": 1,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 1
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": null,
+      "view": "top-down",
+      "facing": 1,
+      "generation": "generation.json",
+      "pixelsPerMetre": 25,
+      "designLengthMetres": 47,
+      "historicalClassIdentificationConfirmed": false,
+      "crew": {
+        "image": "assets/images/armies/game-ready/vojnici/deck-crew-sprites.png",
+        "frame": [
+          24,
+          24
+        ],
+        "frames": 4,
+        "seconds": 1.6,
+        "hideOn": [
+          "wreck"
+        ],
+        "positions": [
+          [
+            319,
+            98
+          ],
+          [
+            509,
+            131
+          ],
+          [
+            769,
+            87
+          ]
+        ]
+      },
+      "repositoryImage": "assets/images/armies/game-ready/brodovi/mfp-sprites.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "vorpostenboot",
+      "title": "Naoružani ribarski brod",
+      "kind": "vessel",
+      "integrated": true,
+      "image": "../../game-ready/brodovi/vorpostenboot-sprites.png",
+      "sha256": "7d8d4daedf8998f279529adc2bcf964b5a975a4ed38cc1c7405004a6a9899894",
+      "frame": {
+        "width": 708,
+        "height": 161,
+        "columns": 2,
+        "rows": 2
+      },
+      "anchor": {
+        "x": 354.0,
+        "y": 80.5
+      },
+      "source": "vorpostenboot-generated.png",
+      "sourceSha256": "ddf90c943fb9e9d5f62629fc3d4bfd22027a8934ebe8acd2c8cf0025b4148b28",
+      "sourceSize": [
+        1774,
+        887
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          887,
+          444
+        ],
+        [
+          887,
+          0,
+          1774,
+          444
+        ],
+        [
+          0,
+          444,
+          887,
+          887
+        ],
+        [
+          887,
+          444,
+          1774,
+          887
+        ]
+      ],
+      "transform": {
+        "scale": 0.9247027741083224,
+        "offset": [
+          -57,
+          -149
+        ]
+      },
+      "animations": [
+        {
+          "name": "intact",
+          "row": 0,
+          "frameColumns": [
+            0
+          ],
+          "frameCount": 1,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 1
+        },
+        {
+          "name": "damaged",
+          "row": 0,
+          "frameColumns": [
+            1
+          ],
+          "frameCount": 1,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 1
+        },
+        {
+          "name": "heavy",
+          "row": 1,
+          "frameColumns": [
+            0
+          ],
+          "frameCount": 1,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 1
+        },
+        {
+          "name": "wreck",
+          "row": 1,
+          "frameColumns": [
+            1
+          ],
+          "frameCount": 1,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 1
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": null,
+      "view": "top-down",
+      "facing": 1,
+      "generation": "generation.json",
+      "pixelsPerMetre": 25,
+      "designLengthMetres": 28,
+      "historicalClassIdentificationConfirmed": false,
+      "crew": {
+        "image": "assets/images/armies/game-ready/vojnici/deck-crew-sprites.png",
+        "frame": [
+          24,
+          24
+        ],
+        "frames": 4,
+        "seconds": 1.6,
+        "hideOn": [
+          "wreck"
+        ],
+        "positions": [
+          [
+            191,
+            72
+          ],
+          [
+            304,
+            97
+          ],
+          [
+            460,
+            64
+          ]
+        ]
+      },
+      "repositoryImage": "assets/images/armies/game-ready/brodovi/vorpostenboot-sprites.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "sea-mine",
+      "title": "Plutajuća morska mina",
+      "kind": "mine",
+      "integrated": true,
+      "image": "../../game-ready/brodovi/sea-mine-sprites.png",
+      "sha256": "939677d667bae9ce208929c46aa5433e6e9c3a0f63f8f74e3049e3a62e396669",
+      "frame": {
+        "width": 38,
+        "height": 38,
+        "columns": 4,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 19.0,
+        "y": 19.0
+      },
+      "source": "sea-mine-generated.png",
+      "sourceSha256": "a48e6a6c6c43770aafb9f2d9860cbb9fe66264cc6e444f1f2607ebbde8339a79",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          543,
+          724
+        ],
+        [
+          543,
+          0,
+          1086,
+          724
+        ],
+        [
+          1086,
+          0,
+          1629,
+          724
+        ],
+        [
+          1629,
+          0,
+          2172,
+          724
+        ]
+      ],
+      "transform": {
+        "scale": 0.06880733944954129,
+        "offset": [
+          0,
+          -6
+        ]
+      },
+      "animations": [
+        {
+          "name": "float",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 2.4,
+          "loop": true,
+          "distinctFrames": 4
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": null,
+      "view": "top-down",
+      "facing": 1,
+      "generation": "generation.json",
+      "pixelsPerMetre": 25,
+      "designLengthMetres": 1.2,
+      "historicalClassIdentificationConfirmed": false,
+      "repositoryImage": "assets/images/armies/game-ready/brodovi/sea-mine-sprites.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "he111",
+      "title": "Heinkel He 111",
+      "kind": "aircraft",
+      "integrated": true,
+      "image": "../../game-ready/avioni/he111-sprites.png",
+      "sha256": "7a33eac4d9eae72c09952c262ac8fabc722eafd27734c6ebac81e154044e503f",
+      "frame": {
+        "width": 520,
+        "height": 183,
+        "columns": 4,
+        "rows": 4
+      },
+      "anchor": {
+        "x": 260.0,
+        "y": 91.5
+      },
+      "source": "he111-generated.png",
+      "sourceSha256": "42d523dba857f85c01c0a38bab2989fde4d54bdcff06216cf5f2f639ee8716ec",
+      "sourceSize": [
+        1374,
+        1145
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          344,
+          229
+        ],
+        [
+          344,
+          0,
+          687,
+          229
+        ],
+        [
+          687,
+          0,
+          1030,
+          229
+        ],
+        [
+          1030,
+          0,
+          1374,
+          229
+        ],
+        [
+          0,
+          229,
+          344,
+          458
+        ],
+        [
+          344,
+          229,
+          687,
+          458
+        ],
+        [
+          687,
+          229,
+          1030,
+          458
+        ],
+        [
+          1030,
+          229,
+          1374,
+          458
+        ],
+        [
+          0,
+          458,
+          344,
+          687
+        ],
+        [
+          344,
+          458,
+          687,
+          687
+        ],
+        [
+          687,
+          458,
+          1030,
+          687
+        ],
+        [
+          1030,
+          458,
+          1374,
+          687
+        ],
+        [
+          0,
+          687,
+          344,
+          916
+        ],
+        [
+          344,
+          687,
+          687,
+          916
+        ],
+        [
+          687,
+          687,
+          1030,
+          916
+        ],
+        [
+          1030,
+          687,
+          1374,
+          916
+        ],
+        [
+          0,
+          916,
+          344,
+          1145
+        ],
+        [
+          344,
+          916,
+          687,
+          1145
+        ],
+        [
+          687,
+          916,
+          1030,
+          1145
+        ],
+        [
+          1030,
+          916,
+          1374,
+          1145
+        ]
+      ],
+      "transform": {
+        "scale": 1.563076923076923,
+        "offset": [
+          -8,
+          -120
+        ]
+      },
+      "animations": [
+        {
+          "name": "idle",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 4
+        },
+        {
+          "name": "attack",
+          "row": 1,
+          "frameCount": 4,
+          "duration": 0.8,
+          "loop": false,
+          "distinctFrames": 4
+        },
+        {
+          "name": "damaged",
+          "row": 2,
+          "frameCount": 4,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 2
+        },
+        {
+          "name": "dead",
+          "row": 3,
+          "frameCount": 1,
+          "duration": 0.8,
+          "loop": false,
+          "distinctFrames": 1
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [
+        {
+          "row": 0,
+          "y": 0
+        },
+        {
+          "row": 1,
+          "y": 27
+        },
+        {
+          "row": 2,
+          "y": 54
+        },
+        {
+          "row": 3,
+          "y": 80
+        }
+      ],
+      "supplements": [],
+      "reference": "he111-reference.png",
+      "view": "side",
+      "facing": -1,
+      "generation": "generation.json",
+      "layers": [
+        {
+          "name": "propeller",
+          "image": "assets/images/armies/game-ready/avioni/propeller-side-sprites.png",
+          "frame": [
+            12,
+            48
+          ],
+          "frames": 4,
+          "seconds": 0.12,
+          "mount": [
+            31,
+            119
+          ],
+          "anchor": [
+            6,
+            24
+          ],
+          "hideOn": [
+            "dead"
+          ],
+          "reused": true
+        }
+      ],
+      "repositoryImage": "assets/images/armies/game-ready/avioni/he111-sprites.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "storch",
+      "title": "Fieseler Fi 156 Storch",
+      "kind": "aircraft",
+      "integrated": true,
+      "image": "../../game-ready/avioni/storch-sprites.png",
+      "sha256": "5766290a14abe460646d0aaa040af075583ee2daae8c5f4719eaf033c538290b",
+      "frame": {
+        "width": 236,
+        "height": 152,
+        "columns": 4,
+        "rows": 4
+      },
+      "anchor": {
+        "x": 118.0,
+        "y": 76.0
+      },
+      "source": "storch-generated.png",
+      "sourceSha256": "2a66b311d5745496ea46bf2e3458d22bd68caf935ea77f87bcf0ee374dfe2949",
+      "sourceSize": [
+        1375,
+        1144
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          344,
+          229
+        ],
+        [
+          344,
+          0,
+          688,
+          229
+        ],
+        [
+          688,
+          0,
+          1031,
+          229
+        ],
+        [
+          1031,
+          0,
+          1375,
+          229
+        ],
+        [
+          0,
+          229,
+          344,
+          458
+        ],
+        [
+          344,
+          229,
+          688,
+          458
+        ],
+        [
+          688,
+          229,
+          1031,
+          458
+        ],
+        [
+          1031,
+          229,
+          1375,
+          458
+        ],
+        [
+          0,
+          458,
+          344,
+          686
+        ],
+        [
+          344,
+          458,
+          688,
+          686
+        ],
+        [
+          688,
+          458,
+          1031,
+          686
+        ],
+        [
+          1031,
+          458,
+          1375,
+          686
+        ],
+        [
+          0,
+          686,
+          344,
+          915
+        ],
+        [
+          344,
+          686,
+          688,
+          915
+        ],
+        [
+          688,
+          686,
+          1031,
+          915
+        ],
+        [
+          1031,
+          686,
+          1375,
+          915
+        ],
+        [
+          0,
+          915,
+          344,
+          1144
+        ],
+        [
+          344,
+          915,
+          688,
+          1144
+        ],
+        [
+          688,
+          915,
+          1031,
+          1144
+        ],
+        [
+          1031,
+          915,
+          1375,
+          1144
+        ]
+      ],
+      "transform": {
+        "scale": 0.6788990825688074,
+        "offset": [
+          1,
+          -7
+        ]
+      },
+      "animations": [
+        {
+          "name": "idle",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 4
+        },
+        {
+          "name": "damaged",
+          "row": 2,
+          "frameCount": 4,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 4
+        },
+        {
+          "name": "dead",
+          "row": 3,
+          "frameCount": 1,
+          "duration": 0.8,
+          "loop": false,
+          "distinctFrames": 1
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [
+        {
+          "row": 0,
+          "y": 0
+        },
+        {
+          "row": 1,
+          "y": 0
+        },
+        {
+          "row": 2,
+          "y": 0
+        },
+        {
+          "row": 3,
+          "y": 12
+        }
+      ],
+      "supplements": [],
+      "reference": "storch-reference.png",
+      "view": "side",
+      "facing": -1,
+      "generation": "generation.json",
+      "layers": [
+        {
+          "name": "propeller",
+          "image": "assets/images/armies/game-ready/avioni/propeller-side-sprites.png",
+          "frame": [
+            12,
+            48
+          ],
+          "frames": 4,
+          "seconds": 0.12,
+          "mount": [
+            12,
+            72
+          ],
+          "anchor": [
+            6,
+            24
+          ],
+          "hideOn": [
+            "dead"
+          ],
+          "reused": true
+        }
+      ],
+      "repositoryImage": "assets/images/armies/game-ready/avioni/storch-sprites.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "motorcycle",
+      "title": "Motociklista sa mitraljezom",
+      "kind": "vehicle",
+      "integrated": true,
+      "image": "../../game-ready/vozila/motorcycle-sprites.png",
+      "sha256": "304d832bb40bf37649a18bd3231430865554ab6af813913623924f42e4929c5a",
+      "frame": {
+        "width": 83,
+        "height": 61,
+        "columns": 4,
+        "rows": 6
+      },
+      "anchor": {
+        "x": 41.5,
+        "y": 57
+      },
+      "source": "motorcycle-generated.png",
+      "sourceSha256": "a9be81b7661bfbfbb41ca1e6e68bc77d011b6192e9c883ec173c2f22e1e17f7a",
+      "sourceSize": [
+        1024,
+        1536
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          256,
+          256
+        ],
+        [
+          256,
+          0,
+          512,
+          256
+        ],
+        [
+          512,
+          0,
+          768,
+          256
+        ],
+        [
+          768,
+          0,
+          1024,
+          256
+        ],
+        [
+          0,
+          256,
+          256,
+          512
+        ],
+        [
+          256,
+          256,
+          512,
+          512
+        ],
+        [
+          512,
+          256,
+          768,
+          512
+        ],
+        [
+          768,
+          256,
+          1024,
+          512
+        ],
+        [
+          0,
+          512,
+          256,
+          768
+        ],
+        [
+          256,
+          512,
+          512,
+          768
+        ],
+        [
+          512,
+          512,
+          768,
+          768
+        ],
+        [
+          768,
+          512,
+          1024,
+          768
+        ],
+        [
+          0,
+          768,
+          256,
+          1024
+        ],
+        [
+          256,
+          768,
+          512,
+          1024
+        ],
+        [
+          512,
+          768,
+          768,
+          1024
+        ],
+        [
+          768,
+          768,
+          1024,
+          1024
+        ],
+        [
+          0,
+          1024,
+          256,
+          1280
+        ],
+        [
+          256,
+          1024,
+          512,
+          1280
+        ],
+        [
+          512,
+          1024,
+          768,
+          1280
+        ],
+        [
+          768,
+          1024,
+          1024,
+          1280
+        ],
+        [
+          0,
+          1280,
+          256,
+          1536
+        ],
+        [
+          256,
+          1280,
+          512,
+          1536
+        ],
+        [
+          512,
+          1280,
+          768,
+          1536
+        ],
+        [
+          768,
+          1280,
+          1024,
+          1536
+        ]
+      ],
+      "transform": {
+        "scale": 0.31004366812227074,
+        "offset": [
+          2,
+          -14
+        ]
+      },
+      "animations": [
+        {
+          "name": "idle",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 4
+        },
+        {
+          "name": "drive",
+          "row": 1,
+          "frameCount": 4,
+          "duration": 0.64,
+          "loop": true,
+          "distinctFrames": 4
+        },
+        {
+          "name": "attack",
+          "row": 2,
+          "frameCount": 4,
+          "duration": 0.4,
+          "loop": false,
+          "distinctFrames": 4
+        },
+        {
+          "name": "damaged",
+          "row": 3,
+          "frameCount": 4,
+          "duration": 0.64,
+          "loop": true,
+          "distinctFrames": 4
+        },
+        {
+          "name": "dead",
+          "row": 4,
+          "frameCount": 4,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 4
+        },
+        {
+          "name": "gun",
+          "row": 5,
+          "frameCount": 4,
+          "duration": 0.4,
+          "loop": false,
+          "distinctFrames": 4
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [
+        {
+          "row": 0,
+          "y": 0
+        },
+        {
+          "row": 1,
+          "y": 0
+        },
+        {
+          "row": 2,
+          "y": 0
+        },
+        {
+          "row": 3,
+          "y": 0
+        },
+        {
+          "row": 4,
+          "y": 16
+        }
+      ],
+      "supplements": [],
+      "reference": "motorcycle-reference.png",
+      "view": "side",
+      "facing": 1,
+      "generation": "generation.json",
+      "repositoryImage": "assets/images/armies/game-ready/vozila/motorcycle-sprites.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "sdkfz251",
+      "title": "Sd.Kfz. 251",
+      "kind": "vehicle",
+      "integrated": true,
+      "image": "../../game-ready/vozila/sdkfz251-sprites.png",
+      "sha256": "71b07f5176cf7293aca9dd3807f19bcf10714f1aae36e8471963fae8e0d7dc58",
+      "frame": {
+        "width": 128,
+        "height": 65,
+        "columns": 4,
+        "rows": 6
+      },
+      "anchor": {
+        "x": 64.0,
+        "y": 61
+      },
+      "source": "sdkfz251-generated.png",
+      "sourceSha256": "7e71a37af95ba4a4bacfe4f818ff2f7649f4cdcec6d22c31907a5489ba1fc14d",
+      "sourceSize": [
+        1448,
+        1086
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          362,
+          181
+        ],
+        [
+          362,
+          0,
+          724,
+          181
+        ],
+        [
+          724,
+          0,
+          1086,
+          181
+        ],
+        [
+          1086,
+          0,
+          1448,
+          181
+        ],
+        [
+          0,
+          181,
+          362,
+          362
+        ],
+        [
+          362,
+          181,
+          724,
+          362
+        ],
+        [
+          724,
+          181,
+          1086,
+          362
+        ],
+        [
+          1086,
+          181,
+          1448,
+          362
+        ],
+        [
+          0,
+          362,
+          362,
+          543
+        ],
+        [
+          362,
+          362,
+          724,
+          543
+        ],
+        [
+          724,
+          362,
+          1086,
+          543
+        ],
+        [
+          1086,
+          362,
+          1448,
+          543
+        ],
+        [
+          0,
+          543,
+          362,
+          724
+        ],
+        [
+          362,
+          543,
+          724,
+          724
+        ],
+        [
+          724,
+          543,
+          1086,
+          724
+        ],
+        [
+          1086,
+          543,
+          1448,
+          724
+        ],
+        [
+          0,
+          724,
+          362,
+          905
+        ],
+        [
+          362,
+          724,
+          724,
+          905
+        ],
+        [
+          724,
+          724,
+          1086,
+          905
+        ],
+        [
+          1086,
+          724,
+          1448,
+          905
+        ],
+        [
+          0,
+          905,
+          362,
+          1086
+        ],
+        [
+          362,
+          905,
+          724,
+          1086
+        ],
+        [
+          724,
+          905,
+          1086,
+          1086
+        ],
+        [
+          1086,
+          905,
+          1448,
+          1086
+        ]
+      ],
+      "transform": {
+        "scale": 0.3411764705882353,
+        "offset": [
+          2,
+          4
+        ]
+      },
+      "animations": [
+        {
+          "name": "idle",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 4
+        },
+        {
+          "name": "drive",
+          "row": 1,
+          "frameCount": 4,
+          "duration": 0.64,
+          "loop": true,
+          "distinctFrames": 4
+        },
+        {
+          "name": "attack",
+          "row": 2,
+          "frameCount": 4,
+          "duration": 0.4,
+          "loop": false,
+          "distinctFrames": 4
+        },
+        {
+          "name": "damaged",
+          "row": 3,
+          "frameCount": 4,
+          "duration": 0.64,
+          "loop": true,
+          "distinctFrames": 4
+        },
+        {
+          "name": "dead",
+          "row": 4,
+          "frameCount": 4,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 4
+        },
+        {
+          "name": "gun",
+          "row": 5,
+          "frameCount": 4,
+          "duration": 0.4,
+          "loop": false,
+          "distinctFrames": 4
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [
+        {
+          "row": 0,
+          "y": 0
+        },
+        {
+          "row": 1,
+          "y": 0
+        },
+        {
+          "row": 2,
+          "y": 0
+        },
+        {
+          "row": 3,
+          "y": 0
+        },
+        {
+          "row": 4,
+          "y": 0
+        }
+      ],
+      "supplements": [],
+      "reference": "sdkfz251-reference.png",
+      "view": "side",
+      "facing": -1,
+      "generation": "generation.json",
+      "repositoryImage": "assets/images/armies/game-ready/vozila/sdkfz251-sprites.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "sdkfz222",
+      "title": "Sd.Kfz. 222",
+      "kind": "vehicle",
+      "integrated": true,
+      "image": "../../game-ready/vozila/sdkfz222-sprites.png",
+      "sha256": "257d54c898338c48ec959efd650428d13b0b3fdbd63600cd211545f73ef5e624",
+      "frame": {
+        "width": 108,
+        "height": 52,
+        "columns": 4,
+        "rows": 6
+      },
+      "anchor": {
+        "x": 54.0,
+        "y": 48
+      },
+      "source": "sdkfz222-generated.png",
+      "sourceSha256": "89076aa8a75289274a37b4d3af6a793f01479a21f1fe5196cb2bd87bd2dd5c8e",
+      "sourceSize": [
+        1464,
+        1074
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          366,
+          180
+        ],
+        [
+          366,
+          0,
+          732,
+          180
+        ],
+        [
+          732,
+          0,
+          1098,
+          180
+        ],
+        [
+          1098,
+          0,
+          1464,
+          180
+        ],
+        [
+          0,
+          180,
+          366,
+          360
+        ],
+        [
+          366,
+          180,
+          732,
+          360
+        ],
+        [
+          732,
+          180,
+          1098,
+          360
+        ],
+        [
+          1098,
+          180,
+          1464,
+          360
+        ],
+        [
+          0,
+          360,
+          366,
+          540
+        ],
+        [
+          366,
+          360,
+          732,
+          540
+        ],
+        [
+          732,
+          360,
+          1098,
+          540
+        ],
+        [
+          1098,
+          360,
+          1464,
+          540
+        ],
+        [
+          0,
+          540,
+          366,
+          730
+        ],
+        [
+          366,
+          540,
+          732,
+          730
+        ],
+        [
+          732,
+          540,
+          1098,
+          730
+        ],
+        [
+          1098,
+          540,
+          1464,
+          730
+        ],
+        [
+          0,
+          730,
+          366,
+          920
+        ],
+        [
+          366,
+          730,
+          732,
+          920
+        ],
+        [
+          732,
+          730,
+          1098,
+          920
+        ],
+        [
+          1098,
+          730,
+          1464,
+          920
+        ],
+        [
+          0,
+          920,
+          366,
+          1074
+        ],
+        [
+          366,
+          920,
+          732,
+          1074
+        ],
+        [
+          732,
+          920,
+          1098,
+          1074
+        ],
+        [
+          1098,
+          920,
+          1464,
+          1074
+        ]
+      ],
+      "transform": {
+        "scale": 0.27586206896551724,
+        "offset": [
+          2,
+          1
+        ]
+      },
+      "animations": [
+        {
+          "name": "idle",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 4
+        },
+        {
+          "name": "drive",
+          "row": 1,
+          "frameCount": 4,
+          "duration": 0.64,
+          "loop": true,
+          "distinctFrames": 4
+        },
+        {
+          "name": "attack",
+          "row": 2,
+          "frameCount": 4,
+          "duration": 0.4,
+          "loop": false,
+          "distinctFrames": 4
+        },
+        {
+          "name": "damaged",
+          "row": 3,
+          "frameCount": 4,
+          "duration": 0.64,
+          "loop": true,
+          "distinctFrames": 4
+        },
+        {
+          "name": "dead",
+          "row": 4,
+          "frameCount": 4,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 4
+        },
+        {
+          "name": "gun",
+          "row": 5,
+          "frameCount": 4,
+          "duration": 0.4,
+          "loop": false,
+          "distinctFrames": 4
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [
+        {
+          "row": 0,
+          "y": 0
+        },
+        {
+          "row": 1,
+          "y": -4
+        },
+        {
+          "row": 2,
+          "y": -6
+        },
+        {
+          "row": 3,
+          "y": -7
+        },
+        {
+          "row": 4,
+          "y": 1
+        }
+      ],
+      "supplements": [],
+      "reference": "sdkfz222-reference.png",
+      "view": "side",
+      "facing": -1,
+      "generation": "generation.json",
+      "layers": [
+        {
+          "name": "turret",
+          "image": "assets/images/armies/game-ready/vozila/sdkfz222-sprites.png",
+          "row": 5,
+          "frames": 4,
+          "seconds": 0.4,
+          "anchor": [
+            63,
+            26
+          ],
+          "mount": [
+            59,
+            11
+          ],
+          "hideOn": [
+            "dead"
+          ]
+        }
+      ],
+      "repositoryImage": "assets/images/armies/game-ready/vozila/sdkfz222-sprites.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "partisan-runner",
+      "title": "Partizanski strelac u trku",
+      "kind": "infantry",
+      "integrated": true,
+      "image": "../../game-ready/vojnici/partisan-runner-sprites.png",
+      "sha256": "5f992ff14ef36284b670785f0d812083915221685be5b09541bf9af7dc48d7a4",
+      "frame": {
+        "width": 160,
+        "height": 144,
+        "columns": 4,
+        "rows": 5
+      },
+      "anchor": {
+        "x": 80.0,
+        "y": 140
+      },
+      "source": "partisan-runner-generated.png",
+      "sourceSha256": "d94166f2c9c44f31c5f55d2843b41718395c334c70e2196e32eb950a73f54c27",
+      "sourceSize": [
+        1024,
+        1536
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          256,
+          256
+        ],
+        [
+          256,
+          0,
+          512,
+          256
+        ],
+        [
+          512,
+          0,
+          768,
+          256
+        ],
+        [
+          768,
+          0,
+          1024,
+          256
+        ],
+        [
+          0,
+          256,
+          256,
+          512
+        ],
+        [
+          256,
+          256,
+          512,
+          512
+        ],
+        [
+          512,
+          256,
+          768,
+          512
+        ],
+        [
+          768,
+          256,
+          1024,
+          512
+        ],
+        [
+          0,
+          512,
+          256,
+          768
+        ],
+        [
+          256,
+          512,
+          512,
+          768
+        ],
+        [
+          512,
+          512,
+          768,
+          768
+        ],
+        [
+          768,
+          512,
+          1024,
+          768
+        ],
+        [
+          0,
+          768,
+          256,
+          1024
+        ],
+        [
+          256,
+          768,
+          512,
+          1024
+        ],
+        [
+          512,
+          768,
+          768,
+          1024
+        ],
+        [
+          768,
+          768,
+          1024,
+          1024
+        ],
+        [
+          0,
+          1024,
+          256,
+          1280
+        ],
+        [
+          256,
+          1024,
+          512,
+          1280
+        ],
+        [
+          512,
+          1024,
+          768,
+          1280
+        ],
+        [
+          768,
+          1024,
+          1024,
+          1280
+        ],
+        [
+          0,
+          1280,
+          256,
+          1536
+        ],
+        [
+          256,
+          1280,
+          512,
+          1536
+        ],
+        [
+          512,
+          1280,
+          768,
+          1536
+        ],
+        [
+          768,
+          1280,
+          1024,
+          1536
+        ]
+      ],
+      "transform": {
+        "scale": 0.3904761904761905,
+        "offset": [
+          27,
+          45
+        ]
+      },
+      "animations": [
+        {
+          "name": "idle",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 4
+        },
+        {
+          "name": "run",
+          "row": 1,
+          "frameCount": 4,
+          "duration": 0.56,
+          "loop": true,
+          "distinctFrames": 4
+        },
+        {
+          "name": "attack",
+          "row": 2,
+          "frameCount": 4,
+          "duration": 0.4,
+          "loop": false,
+          "distinctFrames": 4
+        },
+        {
+          "name": "hit",
+          "row": 3,
+          "frameCount": 4,
+          "duration": 0.32,
+          "loop": false,
+          "distinctFrames": 4
+        },
+        {
+          "name": "dead",
+          "row": 4,
+          "frameCount": 4,
+          "duration": 0.8,
+          "loop": false,
+          "distinctFrames": 4
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [
+        {
+          "row": 0,
+          "y": 0
+        },
+        {
+          "row": 1,
+          "y": 2
+        },
+        {
+          "row": 2,
+          "y": 1
+        },
+        {
+          "row": 3,
+          "y": 0
+        },
+        {
+          "row": 4,
+          "y": 0
+        }
+      ],
+      "supplements": [
+        {
+          "source": "partisan-runner-death-generated.png",
+          "sha256": "685b8ca56af4415870f401b68b3b390cf8af88c7653a7689368d0c2aa5f4dda6",
+          "row": 4,
+          "scale": 0.1872146118721461,
+          "offset": [
+            26,
+            27
+          ]
+        }
+      ],
+      "reference": "partisan-runner-reference.png",
+      "view": "side",
+      "facing": 1,
+      "generation": "generation.json",
+      "muzzle": {
+        "animation": "attack",
+        "frame": 0,
+        "point": [
+          119,
+          78
+        ],
+        "eventTime": 0
+      },
+      "repositoryImage": "assets/images/armies/game-ready/vojnici/partisan-runner-sprites.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "partisan-lmg",
+      "title": "Partizanski puškomitraljezac",
+      "kind": "infantry",
+      "integrated": true,
+      "image": "../../game-ready/vojnici/partisan-lmg-sprites.png",
+      "sha256": "b53a2e27ded0286780e5936b0247e23e2fa29ce43a3836608036372bd648372d",
+      "frame": {
+        "width": 160,
+        "height": 144,
+        "columns": 4,
+        "rows": 5
+      },
+      "anchor": {
+        "x": 80.0,
+        "y": 140
+      },
+      "source": "partisan-lmg-generated.png",
+      "sourceSha256": "275016ce54207f8333e8d9a271d9db4d559bd3da76db3a7a600dadc3e405dbb8",
+      "sourceSize": [
+        1024,
+        1536
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          256,
+          256
+        ],
+        [
+          256,
+          0,
+          512,
+          256
+        ],
+        [
+          512,
+          0,
+          768,
+          256
+        ],
+        [
+          768,
+          0,
+          1024,
+          256
+        ],
+        [
+          0,
+          256,
+          256,
+          512
+        ],
+        [
+          256,
+          256,
+          512,
+          512
+        ],
+        [
+          512,
+          256,
+          768,
+          512
+        ],
+        [
+          768,
+          256,
+          1024,
+          512
+        ],
+        [
+          0,
+          512,
+          256,
+          768
+        ],
+        [
+          256,
+          512,
+          512,
+          768
+        ],
+        [
+          512,
+          512,
+          768,
+          768
+        ],
+        [
+          768,
+          512,
+          1024,
+          768
+        ],
+        [
+          0,
+          768,
+          256,
+          1024
+        ],
+        [
+          256,
+          768,
+          512,
+          1024
+        ],
+        [
+          512,
+          768,
+          768,
+          1024
+        ],
+        [
+          768,
+          768,
+          1024,
+          1024
+        ],
+        [
+          0,
+          1024,
+          256,
+          1280
+        ],
+        [
+          256,
+          1024,
+          512,
+          1280
+        ],
+        [
+          512,
+          1024,
+          768,
+          1280
+        ],
+        [
+          768,
+          1024,
+          1024,
+          1280
+        ],
+        [
+          0,
+          1280,
+          256,
+          1536
+        ],
+        [
+          256,
+          1280,
+          512,
+          1536
+        ],
+        [
+          512,
+          1280,
+          768,
+          1536
+        ],
+        [
+          768,
+          1280,
+          1024,
+          1536
+        ]
+      ],
+      "transform": {
+        "scale": 0.3923444976076555,
+        "offset": [
+          31,
+          43
+        ]
+      },
+      "animations": [
+        {
+          "name": "idle",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 4
+        },
+        {
+          "name": "run",
+          "row": 1,
+          "frameCount": 4,
+          "duration": 0.56,
+          "loop": true,
+          "distinctFrames": 4
+        },
+        {
+          "name": "attack",
+          "row": 2,
+          "frameCount": 4,
+          "duration": 0.4,
+          "loop": false,
+          "distinctFrames": 4
+        },
+        {
+          "name": "hit",
+          "row": 3,
+          "frameCount": 4,
+          "duration": 0.32,
+          "loop": false,
+          "distinctFrames": 4
+        },
+        {
+          "name": "dead",
+          "row": 4,
+          "frameCount": 4,
+          "duration": 0.8,
+          "loop": false,
+          "distinctFrames": 4
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [
+        {
+          "row": 0,
+          "y": 0
+        },
+        {
+          "row": 1,
+          "y": 6
+        },
+        {
+          "row": 2,
+          "y": 18
+        },
+        {
+          "row": 3,
+          "y": 6
+        },
+        {
+          "row": 4,
+          "y": 12
+        }
+      ],
+      "supplements": [],
+      "reference": "partisan-lmg-reference.png",
+      "view": "side",
+      "facing": 1,
+      "generation": "generation.json",
+      "muzzle": {
+        "animation": "attack",
+        "frame": 0,
+        "point": [
+          117,
+          93
+        ],
+        "eventTime": 0
+      },
+      "repositoryImage": "assets/images/armies/game-ready/vojnici/partisan-lmg-sprites.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "partisan-rear",
+      "title": "Partizanski saborac otpozadi",
+      "kind": "infantry",
+      "integrated": true,
+      "image": "../../game-ready/vojnici/partisan-rear-sprites.png",
+      "sha256": "65d25fc24d451bbfb857613404b103a3db46685a4b5f5416d2fb722bd5e33457",
+      "frame": {
+        "width": 160,
+        "height": 144,
+        "columns": 4,
+        "rows": 5
+      },
+      "anchor": {
+        "x": 80.0,
+        "y": 140
+      },
+      "source": "partisan-rear-generated.png",
+      "sourceSha256": "57262f3109801301b4878cf66eb546b427872a34080ac15392da729182322298",
+      "sourceSize": [
+        1024,
+        1536
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          256,
+          256
+        ],
+        [
+          256,
+          0,
+          512,
+          256
+        ],
+        [
+          512,
+          0,
+          768,
+          256
+        ],
+        [
+          768,
+          0,
+          1024,
+          256
+        ],
+        [
+          0,
+          256,
+          256,
+          512
+        ],
+        [
+          256,
+          256,
+          512,
+          512
+        ],
+        [
+          512,
+          256,
+          768,
+          512
+        ],
+        [
+          768,
+          256,
+          1024,
+          512
+        ],
+        [
+          0,
+          512,
+          256,
+          768
+        ],
+        [
+          256,
+          512,
+          512,
+          768
+        ],
+        [
+          512,
+          512,
+          768,
+          768
+        ],
+        [
+          768,
+          512,
+          1024,
+          768
+        ],
+        [
+          0,
+          768,
+          256,
+          1024
+        ],
+        [
+          256,
+          768,
+          512,
+          1024
+        ],
+        [
+          512,
+          768,
+          768,
+          1024
+        ],
+        [
+          768,
+          768,
+          1024,
+          1024
+        ],
+        [
+          0,
+          1024,
+          256,
+          1280
+        ],
+        [
+          256,
+          1024,
+          512,
+          1280
+        ],
+        [
+          512,
+          1024,
+          768,
+          1280
+        ],
+        [
+          768,
+          1024,
+          1024,
+          1280
+        ],
+        [
+          0,
+          1280,
+          256,
+          1536
+        ],
+        [
+          256,
+          1280,
+          512,
+          1536
+        ],
+        [
+          512,
+          1280,
+          768,
+          1536
+        ],
+        [
+          768,
+          1280,
+          1024,
+          1536
+        ]
+      ],
+      "transform": {
+        "scale": 0.36936936936936937,
+        "offset": [
+          32,
+          49
+        ]
+      },
+      "animations": [
+        {
+          "name": "idle",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 4
+        },
+        {
+          "name": "run",
+          "row": 1,
+          "frameCount": 4,
+          "duration": 0.56,
+          "loop": true,
+          "distinctFrames": 4
+        },
+        {
+          "name": "attack",
+          "row": 2,
+          "frameCount": 4,
+          "duration": 0.4,
+          "loop": false,
+          "distinctFrames": 4
+        },
+        {
+          "name": "hit",
+          "row": 3,
+          "frameCount": 4,
+          "duration": 0.32,
+          "loop": false,
+          "distinctFrames": 4
+        },
+        {
+          "name": "dead",
+          "row": 4,
+          "frameCount": 4,
+          "duration": 0.8,
+          "loop": false,
+          "distinctFrames": 4
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [
+        {
+          "row": 0,
+          "y": 0
+        },
+        {
+          "row": 1,
+          "y": 2
+        },
+        {
+          "row": 2,
+          "y": 0
+        },
+        {
+          "row": 3,
+          "y": -1
+        },
+        {
+          "row": 4,
+          "y": 0
+        }
+      ],
+      "supplements": [],
+      "reference": "partisan-rear-reference.png",
+      "view": "rear-three-quarter",
+      "facing": 1,
+      "generation": "generation.json",
+      "muzzle": {
+        "animation": "attack",
+        "frame": 0,
+        "point": [
+          115,
+          78
+        ],
+        "eventTime": 0
+      },
+      "repositoryImage": "assets/images/armies/game-ready/vojnici/partisan-rear-sprites.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "partisan-loader",
+      "title": "Partizanska aerodromska posada",
+      "kind": "infantry",
+      "integrated": true,
+      "image": "../../game-ready/vojnici/partisan-loader-sprites.png",
+      "sha256": "e11ca9dc4045a02b2e7827ff59727cf6b89aed474d3159cf6c7b0a4af8780652",
+      "frame": {
+        "width": 160,
+        "height": 144,
+        "columns": 4,
+        "rows": 6
+      },
+      "anchor": {
+        "x": 80.0,
+        "y": 140
+      },
+      "source": "partisan-loader-generated.png",
+      "sourceSha256": "8e2d8e48c942f0390e82bab9f659ec85750d5fc72ff9a550943a089274986678",
+      "sourceSize": [
+        1024,
+        1536
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          256,
+          256
+        ],
+        [
+          256,
+          0,
+          512,
+          256
+        ],
+        [
+          512,
+          0,
+          768,
+          256
+        ],
+        [
+          768,
+          0,
+          1024,
+          256
+        ],
+        [
+          0,
+          256,
+          256,
+          512
+        ],
+        [
+          256,
+          256,
+          512,
+          512
+        ],
+        [
+          512,
+          256,
+          768,
+          512
+        ],
+        [
+          768,
+          256,
+          1024,
+          512
+        ],
+        [
+          0,
+          512,
+          256,
+          768
+        ],
+        [
+          256,
+          512,
+          512,
+          768
+        ],
+        [
+          512,
+          512,
+          768,
+          768
+        ],
+        [
+          768,
+          512,
+          1024,
+          768
+        ],
+        [
+          0,
+          768,
+          256,
+          1024
+        ],
+        [
+          256,
+          768,
+          512,
+          1024
+        ],
+        [
+          512,
+          768,
+          768,
+          1024
+        ],
+        [
+          768,
+          768,
+          1024,
+          1024
+        ],
+        [
+          0,
+          1024,
+          256,
+          1280
+        ],
+        [
+          256,
+          1024,
+          512,
+          1280
+        ],
+        [
+          512,
+          1024,
+          736,
+          1280
+        ],
+        [
+          736,
+          1024,
+          1024,
+          1280
+        ],
+        [
+          0,
+          1280,
+          256,
+          1536
+        ],
+        [
+          256,
+          1280,
+          512,
+          1536
+        ],
+        [
+          512,
+          1280,
+          768,
+          1536
+        ],
+        [
+          768,
+          1280,
+          1024,
+          1536
+        ]
+      ],
+      "transform": {
+        "scale": 0.4120603015075377,
+        "offset": [
+          23,
+          39
+        ]
+      },
+      "animations": [
+        {
+          "name": "idle",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 4
+        },
+        {
+          "name": "run",
+          "row": 1,
+          "frameCount": 4,
+          "duration": 0.56,
+          "loop": true,
+          "distinctFrames": 4
+        },
+        {
+          "name": "hit",
+          "row": 3,
+          "frameCount": 4,
+          "duration": 0.32,
+          "loop": false,
+          "distinctFrames": 4
+        },
+        {
+          "name": "dead",
+          "row": 4,
+          "frameCount": 4,
+          "duration": 0.8,
+          "loop": false,
+          "distinctFrames": 4
+        },
+        {
+          "name": "work",
+          "row": 5,
+          "frameCount": 4,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 4
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [
+        {
+          "row": 0,
+          "y": 0
+        },
+        {
+          "row": 1,
+          "y": 0
+        },
+        {
+          "row": 2,
+          "y": 0
+        },
+        {
+          "row": 3,
+          "y": -3
+        },
+        {
+          "row": 4,
+          "y": 6
+        },
+        {
+          "row": 5,
+          "y": 8
+        }
+      ],
+      "supplements": [],
+      "reference": "partisan-loader-reference.png",
+      "view": "side",
+      "facing": 1,
+      "generation": "generation.json",
+      "repositoryImage": "assets/images/armies/game-ready/vojnici/partisan-loader-sprites.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "rifleman-hit",
+      "title": "Nemački strelac — pogodak",
+      "kind": "hit",
+      "integrated": true,
+      "image": "../../game-ready/vojnici/rifleman-hit-sprites.png",
+      "sha256": "a55da4a38d7d97b43f462e592088a7be335e39c752da9c333764d858cc0a689f",
+      "frame": {
+        "width": 136,
+        "height": 136,
+        "columns": 4,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 68.0,
+        "y": 132
+      },
+      "source": "rifleman-hit-generated.png",
+      "sourceSha256": "43b4b8656dac4165a4d31c846fab6972db373d21ff2f02c9fde471ca8f372134",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          543,
+          724
+        ],
+        [
+          543,
+          0,
+          1086,
+          724
+        ],
+        [
+          1086,
+          0,
+          1629,
+          724
+        ],
+        [
+          1629,
+          0,
+          2172,
+          724
+        ]
+      ],
+      "transform": {
+        "scale": 0.20464135021097046,
+        "offset": [
+          4,
+          10
+        ]
+      },
+      "animations": [
+        {
+          "name": "hit",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 0.32,
+          "loop": false,
+          "distinctFrames": 4
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": "rifleman-hit-reference.png",
+      "view": "side",
+      "facing": 1,
+      "generation": "generation.json",
+      "repositoryImage": "assets/images/armies/game-ready/vojnici/rifleman-hit-sprites.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "assault-hit",
+      "title": "Nemački jurišnik — pogodak",
+      "kind": "hit",
+      "integrated": true,
+      "image": "../../game-ready/vojnici/assault-hit-sprites.png",
+      "sha256": "f3cd3b57885d7f40f3a5744bcc6bcf6021ad2d31e072651969396b246e13bfba",
+      "frame": {
+        "width": 136,
+        "height": 136,
+        "columns": 4,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 68.0,
+        "y": 132
+      },
+      "source": "assault-hit-generated.png",
+      "sourceSha256": "93d7f3b64b4b3c6d428f0babfd9d208b185e69d6945882b2df6f8bcf9d62984d",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          543,
+          724
+        ],
+        [
+          543,
+          0,
+          1086,
+          724
+        ],
+        [
+          1086,
+          0,
+          1629,
+          724
+        ],
+        [
+          1629,
+          0,
+          2172,
+          724
+        ]
+      ],
+      "transform": {
+        "scale": 0.22077922077922077,
+        "offset": [
+          6,
+          4
+        ]
+      },
+      "animations": [
+        {
+          "name": "hit",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 0.32,
+          "loop": false,
+          "distinctFrames": 4
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": "assault-hit-reference.png",
+      "view": "side",
+      "facing": 1,
+      "generation": "generation.json",
+      "repositoryImage": "assets/images/armies/game-ready/vojnici/assault-hit-sprites.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "skirmisher-hit",
+      "title": "Partizanski strelac — pogodak",
+      "kind": "hit",
+      "integrated": true,
+      "image": "../../game-ready/vojnici/skirmisher-hit-sprites.png",
+      "sha256": "02265b2e0f58d02cb96a8495214501dc56d11ba00bc9e77108c490ee4dce2b7a",
+      "frame": {
+        "width": 452,
+        "height": 452,
+        "columns": 4,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 226.0,
+        "y": 448
+      },
+      "source": "skirmisher-hit-generated.png",
+      "sourceSha256": "2b01e32ed573f685b00a0db20e910f342e8c0837e76fb2dda3aa99defad391dc",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          543,
+          724
+        ],
+        [
+          543,
+          0,
+          1086,
+          724
+        ],
+        [
+          1086,
+          0,
+          1629,
+          724
+        ],
+        [
+          1629,
+          0,
+          2172,
+          724
+        ]
+      ],
+      "transform": {
+        "scale": 0.6925207756232687,
+        "offset": [
+          24,
+          66
+        ]
+      },
+      "animations": [
+        {
+          "name": "hit",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 0.32,
+          "loop": false,
+          "distinctFrames": 4
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": "skirmisher-hit-reference.png",
+      "view": "side",
+      "facing": 1,
+      "generation": "generation.json",
+      "repositoryImage": "assets/images/armies/game-ready/vojnici/skirmisher-hit-sprites.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "partisan-bearer-hit",
+      "title": "Partizanski zastavnik — pogodak",
+      "kind": "hit",
+      "integrated": true,
+      "image": "../../game-ready/vojnici/partisan-bearer-hit-sprites.png",
+      "sha256": "fc072e7654e83a5612d63d4ac7bccabd438a0a691e6edea4d22c5e1a2174dd16",
+      "frame": {
+        "width": 551,
+        "height": 732,
+        "columns": 4,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 275.5,
+        "y": 728
+      },
+      "source": "partisan-bearer-hit-generated.png",
+      "sourceSha256": "1291fb2fce8835eac69ee52d54de11c11c0967824a8d0d71771283f8f51c2588",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          543,
+          724
+        ],
+        [
+          543,
+          0,
+          1086,
+          724
+        ],
+        [
+          1086,
+          0,
+          1629,
+          724
+        ],
+        [
+          1629,
+          0,
+          2172,
+          724
+        ]
+      ],
+      "transform": {
+        "scale": 1.0418679549114331,
+        "offset": [
+          -26,
+          32
+        ]
+      },
+      "animations": [
+        {
+          "name": "hit",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 0.32,
+          "loop": false,
+          "distinctFrames": 4
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": "partisan-bearer-hit-reference.png",
+      "view": "side",
+      "facing": 1,
+      "generation": "generation.json",
+      "repositoryImage": "assets/images/armies/game-ready/vojnici/partisan-bearer-hit-sprites.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "italian-bearer-hit",
+      "title": "Italijanski zastavnik — pogodak",
+      "kind": "hit",
+      "integrated": true,
+      "image": "../../game-ready/vojnici/italian-bearer-hit-sprites.png",
+      "sha256": "0ccad5cdc9821d868e3a0762b2c11be0b4a9dec380dd811baabe259ba140e304",
+      "frame": {
+        "width": 452,
+        "height": 451,
+        "columns": 4,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 226.0,
+        "y": 447
+      },
+      "source": "italian-bearer-hit-generated.png",
+      "sourceSha256": "8b742714af3550c7bf0f8a80ca3278a87a413d62a9b1f9317a2dde79cfca7656",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          543,
+          724
+        ],
+        [
+          543,
+          0,
+          1086,
+          724
+        ],
+        [
+          1086,
+          0,
+          1629,
+          724
+        ],
+        [
+          1629,
+          0,
+          2172,
+          724
+        ]
+      ],
+      "transform": {
+        "scale": 0.6293375394321766,
+        "offset": [
+          48,
+          23
+        ]
+      },
+      "animations": [
+        {
+          "name": "hit",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 0.32,
+          "loop": false,
+          "distinctFrames": 4
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": "italian-bearer-hit-reference.png",
+      "view": "side",
+      "facing": 1,
+      "generation": "generation.json",
+      "repositoryImage": "assets/images/armies/game-ready/vojnici/italian-bearer-hit-sprites.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "partisan-crew-hit",
+      "title": "Partizanska posada topa — pogodak",
+      "kind": "hit",
+      "integrated": true,
+      "image": "../../game-ready/artiljerija/partisan-crew-hit-sprites.png",
+      "sha256": "b15a2ccfcb630aea1d71a41ab41a45c81042a4eb9c20dd5dcc5387dea2ed4695",
+      "frame": {
+        "width": 324,
+        "height": 320,
+        "columns": 4,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 162.0,
+        "y": 316
+      },
+      "source": "partisan-crew-hit-generated.png",
+      "sourceSha256": "85693dd0494ad8192634793c684140be2881c6d5237da446ea8a6d48eca641ee",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          543,
+          724
+        ],
+        [
+          543,
+          0,
+          1086,
+          724
+        ],
+        [
+          1086,
+          0,
+          1629,
+          724
+        ],
+        [
+          1629,
+          0,
+          2172,
+          724
+        ]
+      ],
+      "transform": {
+        "scale": 0.541747572815534,
+        "offset": [
+          19,
+          -7
+        ]
+      },
+      "animations": [
+        {
+          "name": "hit",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 0.32,
+          "loop": false,
+          "distinctFrames": 4
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": "partisan-crew-hit-reference.png",
+      "view": "side",
+      "facing": 1,
+      "generation": "generation.json",
+      "repositoryImage": "assets/images/armies/game-ready/artiljerija/partisan-crew-hit-sprites.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "italian-crew-hit",
+      "title": "Italijanska posada topa — pogodak",
+      "kind": "hit",
+      "integrated": true,
+      "image": "../../game-ready/artiljerija/italian-crew-hit-sprites.png",
+      "sha256": "c14d2df754abd3ff828a278235a3648e4efbccd5d786d24dd034de0383080405",
+      "frame": {
+        "width": 322,
+        "height": 322,
+        "columns": 4,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 161.0,
+        "y": 318
+      },
+      "source": "italian-crew-hit-generated.png",
+      "sourceSha256": "f4743abaf931854cf221a7b3abd197c62b62e28ae413c720b91bf36bf9721b0f",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          543,
+          724
+        ],
+        [
+          543,
+          0,
+          1086,
+          724
+        ],
+        [
+          1086,
+          0,
+          1629,
+          724
+        ],
+        [
+          1629,
+          0,
+          2172,
+          724
+        ]
+      ],
+      "transform": {
+        "scale": 0.49225473321858865,
+        "offset": [
+          27,
+          -2
+        ]
+      },
+      "animations": [
+        {
+          "name": "hit",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 0.32,
+          "loop": false,
+          "distinctFrames": 4
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": "italian-crew-hit-reference.png",
+      "view": "side",
+      "facing": 1,
+      "generation": "generation.json",
+      "repositoryImage": "assets/images/armies/game-ready/artiljerija/italian-crew-hit-sprites.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "grenadier-hit",
+      "title": "Bombaš — pogodak",
+      "kind": "hit",
+      "integrated": true,
+      "image": "../../game-ready/vojnici/grenadier-hit-sprites.png",
+      "sha256": "192b22dee7d0c546aca0beb3c8ff1d85d3c7569b08838225f93be0bea70d1cc7",
+      "frame": {
+        "width": 74,
+        "height": 80,
+        "columns": 4,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 37.0,
+        "y": 76
+      },
+      "source": "grenadier-hit-generated.png",
+      "sourceSha256": "b3207cca1102cf81ff33701014754f54d859a23dcb0e4f693731c5624d3b34fc",
+      "sourceSize": [
+        2204,
+        713
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          551,
+          713
+        ],
+        [
+          551,
+          0,
+          1102,
+          713
+        ],
+        [
+          1102,
+          0,
+          1653,
+          713
+        ],
+        [
+          1653,
+          0,
+          2204,
+          713
+        ]
+      ],
+      "transform": {
+        "scale": 0.13108614232209737,
+        "offset": [
+          1,
+          -5
+        ]
+      },
+      "animations": [
+        {
+          "name": "hit",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 0.32,
+          "loop": false,
+          "distinctFrames": 4
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": "grenadier-hit-reference.png",
+      "view": "side",
+      "facing": 1,
+      "generation": "generation.json",
+      "repositoryImage": "assets/images/armies/game-ready/vojnici/grenadier-hit-sprites.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "german-patrol-hit",
+      "title": "Nemačka patrola — pogodak",
+      "kind": "hit",
+      "integrated": true,
+      "image": "../../game-ready/vojnici/german-patrol-hit-sprites.png",
+      "sha256": "c56dc4b8e8b26428af659e72d05711e6527072ddeefa6bd51c4db1a6a09faf5e",
+      "frame": {
+        "width": 81,
+        "height": 88,
+        "columns": 4,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 40.5,
+        "y": 44.0
+      },
+      "source": "german-patrol-hit-generated.png",
+      "sourceSha256": "7ad911e95fce55c601c24962962751840aa28d1b0e7e5c8f3dcf47eaa3f63a11",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          543,
+          724
+        ],
+        [
+          543,
+          0,
+          1086,
+          724
+        ],
+        [
+          1086,
+          0,
+          1629,
+          724
+        ],
+        [
+          1629,
+          0,
+          2172,
+          724
+        ]
+      ],
+      "transform": {
+        "scale": 0.19950124688279303,
+        "offset": [
+          -13,
+          -25
+        ]
+      },
+      "animations": [
+        {
+          "name": "hit",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 0.32,
+          "loop": false,
+          "distinctFrames": 4
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": "german-patrol-hit-reference.png",
+      "view": "top-down",
+      "facing": 1,
+      "generation": "generation.json",
+      "repositoryImage": "assets/images/armies/game-ready/vojnici/german-patrol-hit-sprites.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "italian-patrol-hit",
+      "title": "Italijanska patrola — pogodak",
+      "kind": "hit",
+      "integrated": true,
+      "image": "../../game-ready/vojnici/italian-patrol-hit-sprites.png",
+      "sha256": "ae21fe23036f3c9b0c9cf44afb921dc69914e5738626c88a12c7c35a30c7cad1",
+      "frame": {
+        "width": 79,
+        "height": 87,
+        "columns": 4,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 39.5,
+        "y": 43.5
+      },
+      "source": "italian-patrol-hit-generated.png",
+      "sourceSha256": "0d7f451bef7d0371f668f719ee87ead29676f3a6251a55c169e13de38f65826a",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          543,
+          724
+        ],
+        [
+          543,
+          0,
+          1086,
+          724
+        ],
+        [
+          1086,
+          0,
+          1629,
+          724
+        ],
+        [
+          1629,
+          0,
+          2172,
+          724
+        ]
+      ],
+      "transform": {
+        "scale": 0.16956521739130434,
+        "offset": [
+          -6,
+          -16
+        ]
+      },
+      "animations": [
+        {
+          "name": "hit",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 0.32,
+          "loop": false,
+          "distinctFrames": 4
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": "italian-patrol-hit-reference.png",
+      "view": "top-down",
+      "facing": 1,
+      "generation": "generation.json",
+      "repositoryImage": "assets/images/armies/game-ready/vojnici/italian-patrol-hit-sprites.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "wounded-hit",
+      "title": "Ranjeni partizan — pogodak",
+      "kind": "hit",
+      "integrated": true,
+      "image": "../../game-ready/vojnici/wounded-hit-sprites.png",
+      "sha256": "16748cd6b6c9e83b2a3de34eac50cfb3c66154f0b8be9f5eea895fb4d8828e7f",
+      "frame": {
+        "width": 82,
+        "height": 39,
+        "columns": 4,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 41.0,
+        "y": 19.5
+      },
+      "source": "wounded-hit-generated.png",
+      "sourceSha256": "d575ee1cdd12fe9e453e943e706fb1725cdcfd62dceb991eacbedc174a479743",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          543,
+          724
+        ],
+        [
+          543,
+          0,
+          1086,
+          724
+        ],
+        [
+          1086,
+          0,
+          1629,
+          724
+        ],
+        [
+          1629,
+          0,
+          2172,
+          724
+        ]
+      ],
+      "transform": {
+        "scale": 0.16265060240963855,
+        "offset": [
+          -3,
+          -37
+        ]
+      },
+      "animations": [
+        {
+          "name": "hit",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 0.32,
+          "loop": false,
+          "distinctFrames": 4
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": "wounded-hit-reference.png",
+      "view": "top-down",
+      "facing": 1,
+      "generation": "generation.json",
+      "repositoryImage": "assets/images/armies/game-ready/vojnici/wounded-hit-sprites.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "machine-gunner-hit",
+      "title": "Mitraljezac — pogodak",
+      "kind": "hit",
+      "integrated": true,
+      "image": "../../game-ready/vojnici/machine-gunner-hit-sprites.png",
+      "sha256": "159c7eb2f1108c4bc155bc7b7193b1a6f19c53fd3a7aab1e20c57c1e453d6455",
+      "frame": {
+        "width": 71,
+        "height": 37,
+        "columns": 4,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 35.5,
+        "y": 33
+      },
+      "source": "machine-gunner-hit-generated.png",
+      "sourceSha256": "27058cb241fb8e8b9376d142148a873ddaddacc862f346121274644b6bac2caf",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          543,
+          724
+        ],
+        [
+          543,
+          0,
+          1086,
+          724
+        ],
+        [
+          1086,
+          0,
+          1629,
+          724
+        ],
+        [
+          1629,
+          0,
+          2172,
+          724
+        ]
+      ],
+      "transform": {
+        "scale": 0.11842105263157894,
+        "offset": [
+          4,
+          -26
+        ]
+      },
+      "animations": [
+        {
+          "name": "hit",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 0.32,
+          "loop": false,
+          "distinctFrames": 4
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": "machine-gunner-hit-reference.png",
+      "view": "side",
+      "facing": 1,
+      "generation": "generation.json",
+      "repositoryImage": "assets/images/armies/game-ready/vojnici/machine-gunner-hit-sprites.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "hummel-damaged",
+      "title": "Hummel — oštećen",
+      "kind": "damage",
+      "integrated": true,
+      "image": "../../game-ready/tenkovi/hummel-damaged.png",
+      "sha256": "f3b566715bfd9ac734e343f2aaa39f3b9b1b295e9b91309e7b9eeec85a19444c",
+      "frame": {
+        "width": 298,
+        "height": 138,
+        "columns": 1,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 149.0,
+        "y": 69.0
+      },
+      "source": "hummel-damaged-generated.png",
+      "sourceSha256": "02e5fac34bc4fb1976fb5e4f3c1bef3a99f4f9ae870fec8e0d54002f3b9202df",
+      "sourceSize": [
+        1843,
+        853
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          1843,
+          853
+        ]
+      ],
+      "transform": {
+        "scale": 0.15531660692951016,
+        "offset": [
+          7,
+          4
+        ]
+      },
+      "animations": [
+        {
+          "name": "damaged",
+          "row": 0,
+          "frameCount": 1,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 1
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": "hummel-damaged-reference.png",
+      "view": "side",
+      "facing": 1,
+      "generation": "generation.json",
+      "repositoryImage": "assets/images/armies/game-ready/tenkovi/hummel-damaged.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "opel-damaged",
+      "title": "Opel Blitz — oštećen",
+      "kind": "damage",
+      "integrated": true,
+      "image": "../../game-ready/kamioni/opel-damaged.png",
+      "sha256": "f080fcdcb1ceaf3a3d1e1af3c2857c2969fb6df41211659bf05cbc06ee8a4e63",
+      "frame": {
+        "width": 320,
+        "height": 160,
+        "columns": 1,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 160.0,
+        "y": 80.0
+      },
+      "source": "opel-damaged-generated.png",
+      "sourceSha256": "0192ccdf118f834c959dac20a4373c2218eaecb0828229b7438f4f77342c39c8",
+      "sourceSize": [
+        1774,
+        887
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          1774,
+          887
+        ]
+      ],
+      "transform": {
+        "scale": 0.19451371571072318,
+        "offset": [
+          -13,
+          -5
+        ]
+      },
+      "animations": [
+        {
+          "name": "damaged",
+          "row": 0,
+          "frameCount": 1,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 1
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": "opel-damaged-reference.png",
+      "view": "side",
+      "facing": 1,
+      "generation": "generation.json",
+      "repositoryImage": "assets/images/armies/game-ready/kamioni/opel-damaged.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "opel-legion-damaged",
+      "title": "Opel Blitz legija — oštećen",
+      "kind": "damage",
+      "integrated": true,
+      "image": "../../game-ready/kamioni/opel-legion-damaged.png",
+      "sha256": "3b995b79e9d6e751a30b4be8dd7943ccf8fb2ad1aae0cf83501a75034e4ad3aa",
+      "frame": {
+        "width": 320,
+        "height": 160,
+        "columns": 1,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 160.0,
+        "y": 80.0
+      },
+      "source": "opel-legion-damaged-generated.png",
+      "sourceSha256": "7273e7ebf03a19e4f93a74e61a3382743c2fe3fdb925ef0bfaee3568537c3a4b",
+      "sourceSize": [
+        1774,
+        887
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          1774,
+          887
+        ]
+      ],
+      "transform": {
+        "scale": 0.19047619047619047,
+        "offset": [
+          -11,
+          -3
+        ]
+      },
+      "animations": [
+        {
+          "name": "damaged",
+          "row": 0,
+          "frameCount": 1,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 1
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": "opel-legion-damaged-reference.png",
+      "view": "side",
+      "facing": 1,
+      "generation": "generation.json",
+      "repositoryImage": "assets/images/armies/game-ready/kamioni/opel-legion-damaged.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "bp42-damaged",
+      "title": "BP-42 — oštećen",
+      "kind": "damage",
+      "integrated": true,
+      "image": "../../game-ready/vozovi/bp42-damaged.png",
+      "sha256": "bc6084de0bce1427655fe4dbdb740e0262acbbe6fadc347db2a7414c73718aaf",
+      "frame": {
+        "width": 576,
+        "height": 256,
+        "columns": 1,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 288.0,
+        "y": 128.0
+      },
+      "source": "bp42-damaged-generated.png",
+      "sourceSha256": "a415188ca41118a752214f4c97c198d21fd32d7baf8e9f61b9bc436321d73cfc",
+      "sourceSize": [
+        1882,
+        836
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          1882,
+          836
+        ]
+      ],
+      "transform": {
+        "scale": 0.3103825136612022,
+        "offset": [
+          -7,
+          15
+        ]
+      },
+      "animations": [
+        {
+          "name": "damaged",
+          "row": 0,
+          "frameCount": 1,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 1
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": "bp42-damaged-reference.png",
+      "view": "side",
+      "facing": 1,
+      "generation": "generation.json",
+      "repositoryImage": "assets/images/armies/game-ready/vozovi/bp42-damaged.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "player-boat-damaged",
+      "title": "Partizanski čamac — oštećen",
+      "kind": "damage",
+      "integrated": true,
+      "image": "../../game-ready/brodovi/player-boat-damaged.png",
+      "sha256": "b3ed29275c1605bcc36e1da447466ba85e746d63d57460b8c23293f4f20ac751",
+      "frame": {
+        "width": 355,
+        "height": 152,
+        "columns": 1,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 177.5,
+        "y": 76.0
+      },
+      "source": "player-boat-damaged-generated.png",
+      "sourceSha256": "1e6e9af7aa25135b01d41edf8d93daf10db98efd3ccfb6db89e6e24bc1415826",
+      "sourceSize": [
+        1916,
+        821
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          1916,
+          821
+        ]
+      ],
+      "transform": {
+        "scale": 0.18274111675126903,
+        "offset": [
+          4,
+          2
+        ]
+      },
+      "animations": [
+        {
+          "name": "damaged",
+          "row": 0,
+          "frameCount": 1,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 1
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": "player-boat-damaged-reference.png",
+      "view": "top-down",
+      "facing": 1,
+      "generation": "generation.json",
+      "repositoryImage": "assets/images/armies/game-ready/brodovi/player-boat-damaged.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "s30-damaged",
+      "title": "S-čamac S-30 — oštećen",
+      "kind": "damage",
+      "integrated": true,
+      "image": "../../game-ready/brodovi/s30-damaged.png",
+      "sha256": "c3392fe0a2163c7172fd69c6ef4caf9518164002f8a08cf826137f17b3cdd99c",
+      "frame": {
+        "width": 300,
+        "height": 54,
+        "columns": 1,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 150.0,
+        "y": 27.0
+      },
+      "source": "s30-damaged-generated.png",
+      "sourceSha256": "4eb9e3d7a43bdcc084d0fa83804aefc74357e2a321b4e3e0749b605f6059ec9f",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          2172,
+          724
+        ]
+      ],
+      "transform": {
+        "scale": 0.13218390804597702,
+        "offset": [
+          6,
+          -21
+        ]
+      },
+      "animations": [
+        {
+          "name": "damaged",
+          "row": 0,
+          "frameCount": 1,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 1
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": "s30-damaged-reference.png",
+      "view": "top-down",
+      "facing": 1,
+      "generation": "generation.json",
+      "repositoryImage": "assets/images/armies/game-ready/brodovi/s30-damaged.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "german-launch-damaged",
+      "title": "Nemački čamac — oštećen",
+      "kind": "damage",
+      "integrated": true,
+      "image": "../../game-ready/brodovi/german-launch-damaged.png",
+      "sha256": "75645ff4eb2b6368aeeec19a46589b60a2c8cdd2948f7c855de176b6a4a14371",
+      "frame": {
+        "width": 182,
+        "height": 80,
+        "columns": 1,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 91.0,
+        "y": 40.0
+      },
+      "source": "german-launch-damaged-generated.png",
+      "sourceSha256": "f2a1f5ca9825567c98de5c4d7991a9ea8f81e37aee4ea097e15a3b233d639e67",
+      "sourceSize": [
+        1891,
+        831
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          1891,
+          831
+        ]
+      ],
+      "transform": {
+        "scale": 0.09561752988047809,
+        "offset": [
+          0,
+          1
+        ]
+      },
+      "animations": [
+        {
+          "name": "damaged",
+          "row": 0,
+          "frameCount": 1,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 1
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": "german-launch-damaged-reference.png",
+      "view": "top-down",
+      "facing": 1,
+      "generation": "generation.json",
+      "repositoryImage": "assets/images/armies/game-ready/brodovi/german-launch-damaged.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "german-skiff-damaged",
+      "title": "Mali nemački čamac — oštećen",
+      "kind": "damage",
+      "integrated": true,
+      "image": "../../game-ready/brodovi/german-skiff-damaged.png",
+      "sha256": "4c74f3ea41f541a0cf0b31052a4640f0d0c54f206b705b78cbec65d8c1b942cd",
+      "frame": {
+        "width": 174,
+        "height": 57,
+        "columns": 1,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 87.0,
+        "y": 28.5
+      },
+      "source": "german-skiff-damaged-generated.png",
+      "sourceSha256": "a0b0525cda6568fcc76607ccb71b8cd4348fe0820cd03313228d8060ffe894ee",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          2172,
+          724
+        ]
+      ],
+      "transform": {
+        "scale": 0.07538461538461538,
+        "offset": [
+          6,
+          2
+        ]
+      },
+      "animations": [
+        {
+          "name": "damaged",
+          "row": 0,
+          "frameCount": 1,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 1
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": "german-skiff-damaged-reference.png",
+      "view": "top-down",
+      "facing": 1,
+      "generation": "generation.json",
+      "repositoryImage": "assets/images/armies/game-ready/brodovi/german-skiff-damaged.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "patrol-vessel-damaged",
+      "title": "Nemački patrolni brod — oštećen",
+      "kind": "damage",
+      "integrated": true,
+      "image": "../../game-ready/brodovi/patrol-vessel-damaged.png",
+      "sha256": "4bfeebb9e1fad7bc55c50c2c1c737078dc966b10b00a0beaa62ce997e0460704",
+      "frame": {
+        "width": 304,
+        "height": 73,
+        "columns": 1,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 152.0,
+        "y": 36.5
+      },
+      "source": "patrol-vessel-damaged-generated.png",
+      "sourceSha256": "74ab88a58c6a3a9e2921b765d2e2ad0024a0133687b0f0d13b8a55af2874f5c8",
+      "sourceSize": [
+        2170,
+        725
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          2170,
+          725
+        ]
+      ],
+      "transform": {
+        "scale": 0.1279527559055118,
+        "offset": [
+          12,
+          -10
+        ]
+      },
+      "animations": [
+        {
+          "name": "damaged",
+          "row": 0,
+          "frameCount": 1,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 1
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": "patrol-vessel-damaged-reference.png",
+      "view": "top-down",
+      "facing": 1,
+      "generation": "generation.json",
+      "repositoryImage": "assets/images/armies/game-ready/brodovi/patrol-vessel-damaged.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "flak38-damaged",
+      "title": "Flak 38 — oštećen",
+      "kind": "damage",
+      "integrated": true,
+      "image": "../../game-ready/artiljerija/flak38-damaged.png",
+      "sha256": "2b943379c2b56274b26d1e96f9d3ef82cd782cc7bbb6a7070d8a31ef42b14ed9",
+      "frame": {
+        "width": 204,
+        "height": 122,
+        "columns": 1,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 102.0,
+        "y": 61.0
+      },
+      "source": "flak38-damaged-generated.png",
+      "sourceSha256": "8422a484b03af3c330967c918c75518171a21dfbf5ce8b6a2826a70667cab4ca",
+      "sourceSize": [
+        1622,
+        970
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          1622,
+          970
+        ]
+      ],
+      "transform": {
+        "scale": 0.16052416052416052,
+        "offset": [
+          -29,
+          -35
+        ]
+      },
+      "animations": [
+        {
+          "name": "damaged",
+          "row": 0,
+          "frameCount": 1,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 1
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": "flak38-damaged-reference.png",
+      "view": "side",
+      "facing": 1,
+      "generation": "generation.json",
+      "repositoryImage": "assets/images/armies/game-ready/artiljerija/flak38-damaged.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "field-gun-damaged",
+      "title": "Top iz Ustanka — oštećen",
+      "kind": "damage",
+      "integrated": true,
+      "image": "../../game-ready/artiljerija/field-gun-damaged.png",
+      "sha256": "725f01955a887eaf33f292adb480f7f4890ac1c917e19eb414a20fe17db33102",
+      "frame": {
+        "width": 400,
+        "height": 99,
+        "columns": 1,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 200.0,
+        "y": 49.5
+      },
+      "source": "field-gun-damaged-generated.png",
+      "sourceSha256": "de3b5b1eb0642019e3c435832ff83db9ce097af1960078945aa5abd8341eba7b",
+      "sourceSize": [
+        2170,
+        725
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          2170,
+          725
+        ]
+      ],
+      "transform": {
+        "scale": 0.17984189723320157,
+        "offset": [
+          52,
+          -16
+        ]
+      },
+      "animations": [
+        {
+          "name": "damaged",
+          "row": 0,
+          "frameCount": 1,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 1
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": "field-gun-damaged-reference.png",
+      "view": "side",
+      "facing": 1,
+      "generation": "generation.json",
+      "repositoryImage": "assets/images/armies/game-ready/artiljerija/field-gun-damaged.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "house-bunker-damaged",
+      "title": "Kuća-bunker — oštećen",
+      "kind": "damage",
+      "integrated": true,
+      "image": "../../game-ready/artiljerija/house-bunker-damaged.png",
+      "sha256": "ec980c2a1aa4091d8268dd41ba0a407eb01e7e45311be615e8ab32977bf57426",
+      "frame": {
+        "width": 428,
+        "height": 286,
+        "columns": 1,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 214.0,
+        "y": 143.0
+      },
+      "source": "house-bunker-damaged-generated.png",
+      "sourceSha256": "dd4319edb4e70c37c9912ac7166ab946c10332010ea055b3a7cdbdfb2a211f4b",
+      "sourceSize": [
+        1534,
+        1025
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          1534,
+          1025
+        ]
+      ],
+      "transform": {
+        "scale": 0.2755905511811024,
+        "offset": [
+          3,
+          9
+        ]
+      },
+      "animations": [
+        {
+          "name": "damaged",
+          "row": 0,
+          "frameCount": 1,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 1
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": "house-bunker-damaged-reference.png",
+      "view": "side",
+      "facing": 1,
+      "generation": "generation.json",
+      "repositoryImage": "assets/images/armies/game-ready/artiljerija/house-bunker-damaged.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "pak38-damaged",
+      "title": "PaK 38 — oštećen",
+      "kind": "damage",
+      "integrated": true,
+      "image": "../../game-ready/artiljerija/pak38-damaged.png",
+      "sha256": "0b798c17464ba55f096c94c7e43c656115532976653a8ffbea921689a6315531",
+      "frame": {
+        "width": 233,
+        "height": 51,
+        "columns": 1,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 116.5,
+        "y": 25.5
+      },
+      "source": "pak38-damaged-generated.png",
+      "sourceSha256": "5ed772ff38ba2d45071e91395194de3cdfa9d485314c53b85801aa9d4e27e923",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          2172,
+          724
+        ]
+      ],
+      "transform": {
+        "scale": 0.0872210953346856,
+        "offset": [
+          2,
+          -8
+        ]
+      },
+      "animations": [
+        {
+          "name": "damaged",
+          "row": 0,
+          "frameCount": 1,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 1
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": "pak38-damaged-reference.png",
+      "view": "side",
+      "facing": 1,
+      "generation": "generation.json",
+      "repositoryImage": "assets/images/armies/game-ready/artiljerija/pak38-damaged.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "bunker-damaged",
+      "title": "Bunker Do Trsta — oštećen",
+      "kind": "damage",
+      "integrated": true,
+      "image": "../../game-ready/artiljerija/bunker-damaged.png",
+      "sha256": "1c01080783eb7edf8460a6ceb59feeed066b907f04af4632b1870e07a487e425",
+      "frame": {
+        "width": 246,
+        "height": 93,
+        "columns": 1,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 123.0,
+        "y": 46.5
+      },
+      "source": "bunker-damaged-generated.png",
+      "sourceSha256": "a37b42e396279d16b03288649a2dc0f50c1843d570829577edcf50b41baa9588",
+      "sourceSize": [
+        2039,
+        771
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          2039,
+          771
+        ]
+      ],
+      "transform": {
+        "scale": 0.16966067864271456,
+        "offset": [
+          -50,
+          -35
+        ]
+      },
+      "animations": [
+        {
+          "name": "damaged",
+          "row": 0,
+          "frameCount": 1,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 1
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": "bunker-damaged-reference.png",
+      "view": "side",
+      "facing": 1,
+      "generation": "generation.json",
+      "repositoryImage": "assets/images/armies/game-ready/artiljerija/bunker-damaged.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "shore-mg-damaged",
+      "title": "Mitraljesko gnezdo — oštećen",
+      "kind": "damage",
+      "integrated": true,
+      "image": "../../game-ready/artiljerija/shore-mg-damaged.png",
+      "sha256": "491996fdd5cd24abb9d8a4a774af0a8c78aca796b8283c8982c722b0d5d893a6",
+      "frame": {
+        "width": 60,
+        "height": 24,
+        "columns": 1,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 30.0,
+        "y": 12.0
+      },
+      "source": "shore-mg-damaged-generated.png",
+      "sourceSha256": "e927292e157147f241e63a425766cde7a9b8801f33d50b2bcda10e95f583ea6d",
+      "sourceSize": [
+        1983,
+        793
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          1983,
+          793
+        ]
+      ],
+      "transform": {
+        "scale": 0.036036036036036036,
+        "offset": [
+          -6,
+          -3
+        ]
+      },
+      "animations": [
+        {
+          "name": "damaged",
+          "row": 0,
+          "frameCount": 1,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 1
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": "shore-mg-damaged-reference.png",
+      "view": "top-down",
+      "facing": 1,
+      "generation": "generation.json",
+      "repositoryImage": "assets/images/armies/game-ready/artiljerija/shore-mg-damaged.png",
+      "style": "reference-pixel-art"
+    },
+    {
+      "id": "deck-crew",
+      "title": "Posada plovila odozgo",
+      "kind": "crew",
+      "integrated": true,
+      "image": "../../game-ready/vojnici/deck-crew-sprites.png",
+      "sha256": "fe8d10831b7153c30e83ac91c47f410418565d9eea276ca06d696e14edbd2b63",
+      "frame": {
+        "width": 24,
+        "height": 24,
+        "columns": 4,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 12.0,
+        "y": 12.0
+      },
+      "source": "deck-crew-generated.png",
+      "sourceSha256": "365cf9ec3afc6b056e8d9e66b8e87e805ff0f57f917c68624b96590e88b27340",
+      "sourceSize": [
+        2172,
+        724
+      ],
+      "sourceCells": [
+        [
+          0,
+          0,
+          543,
+          724
+        ],
+        [
+          543,
+          0,
+          1086,
+          724
+        ],
+        [
+          1086,
+          0,
+          1629,
+          724
+        ],
+        [
+          1629,
+          0,
+          2172,
+          724
+        ]
+      ],
+      "transform": {
+        "scale": 0.06324110671936758,
+        "offset": [
+          -6,
+          -9
+        ]
+      },
+      "animations": [
+        {
+          "name": "idle",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 4
+        }
+      ],
+      "warnings": [],
+      "rowRegistration": [],
+      "supplements": [],
+      "reference": null,
+      "view": "top-down",
+      "facing": 1,
+      "generation": "generation.json",
+      "repositoryImage": "assets/images/armies/game-ready/vojnici/deck-crew-sprites.png",
+      "style": "reference-pixel-art"
+    }
+  ],
+  "missing": [
+    "occupier-hit",
+    "bf109-damaged",
+    "ju87-damaged"
+  ]
+}

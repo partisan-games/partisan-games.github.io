@@ -1,6 +1,10 @@
 import GameObject2D from './GameObject2D.js'
 import { outsideView } from './worldView.js'
 import { bodyImage } from './wreckView.js'
+import ArtClip from './ArtClip.js'
+import HitReaction from './HitReaction.js'
+import { actorArt, hitBySource, damageBySource } from './reinforcementArt.js'
+import DamageSmoke from './effects/DamageSmoke.js'
 
 /**
  * The 2D view of a body: its picture placed, sized and turned as the body is, through the scene's `projection`.
@@ -13,6 +17,19 @@ export default class BodySprite extends GameObject2D {
   constructor(body, src, { projection, facing = 1, camera = null, ...options } = {}) {
     super(src, options)
     Object.assign(this, { body, projection, facing, camera })
+    if (hitBySource[src]) {
+      this.hitReaction = new HitReaction(this, actorArt[hitBySource[src]])
+      this.children.push(this.hitReaction)
+    }
+    if (damageBySource[src]) {
+      this.damageArt = new ArtClip(actorArt[damageBySource[src]])
+      this.children.push(this.damageArt)
+      if (this.damageArt.art.heavy) {
+        this.heavyArt = new ArtClip(actorArt[this.damageArt.art.heavy])
+        this.children.push(this.heavyArt)
+      }
+      this.children.push(new DamageSmoke(this))
+    }
     this.fit()
   }
 
@@ -61,6 +78,11 @@ export default class BodySprite extends GameObject2D {
 
   drawOver() {}
 
+  renderHit(ctx, options = {}) {
+    return this.hitReaction?.draw(ctx, { x: this.x, y: this.y, width: this.width, height: this.height,
+      angle: this.angle, flip: this.flipY, ...options }) ?? false
+  }
+
   /** The current picture; a specialised view may choose it by the phase of an action. */
   get picture() {
     return bodyImage(this)
@@ -69,6 +91,7 @@ export default class BodySprite extends GameObject2D {
   /** The picture, or its wreck once the body is destroyed, where `fit` put it, then its fire. */
   render(ctx) {
     if (!this.shown) return
+    if (this.renderHit(ctx)) return
     ctx.save()
     ctx.translate(this.x, this.y)
     ctx.rotate(this.angle)

@@ -19,5 +19,10 @@ export function wreckFor(src) {
 /** Until the replacement finishes loading keep the previous body, rather than drawing an empty object. */
 export function bodyImage(body) {
   const wreck = body.dead && wreckFor(body.image?.src)
-  return wreck?.complete && wreck.naturalWidth > 0 ? wreck : body.image
+  if (wreck?.complete && wreck.naturalWidth > 0) return wreck
+  const target = body.body ?? body.damageBody
+  const heavy = target?.alive && target.health.current < target.health.maximum / 4 && body.heavyArt?.image
+  if (heavy?.complete && heavy.naturalWidth > 0) return heavy
+  const damaged = target?.alive && target.health.current < target.health.maximum / 2 && body.damageArt?.image
+  return damaged?.complete && damaged.naturalWidth > 0 ? damaged : body.image
 }

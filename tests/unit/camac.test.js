@@ -165,7 +165,7 @@ test('each stage deploys its fleet in order, and transitions remove its vessel, 
       assert.equal(scene.hitsSeen.has(enemy.body), false)
     }
   }
-  assert.deepEqual([...all].sort(), ['german-launch', 'german-patrol-vessel', 'german-skiff', 'sboat'])
+  assert.deepEqual([...all].sort(), ['german-launch', 'german-patrol-vessel', 'german-skiff', 'mfp', 'rboot', 'sboat', 'vorpostenboot'])
 })
 
 test('a continuous full-throttle crossing meets every vessel type and returns home', t => {
@@ -184,7 +184,7 @@ test('a continuous full-throttle crossing meets every vessel type and returns ho
       bossOnReturn ||= scene.stage === 2 && scene.encounter.boat.id === 'sboat'
     }
   }
-  assert.deepEqual([...met].sort(), ['german-launch', 'german-patrol-vessel', 'german-skiff', 'sboat'])
+  assert.deepEqual([...met].sort(), ['german-launch', 'german-patrol-vessel', 'german-skiff', 'mfp', 'rboot', 'sboat', 'vorpostenboot'])
   assert.ok(bossOnReturn, 'the strongest enemy is visible on the return crossing')
   assert.equal(scene.stage, 2)
   assert.match(scene.ui.outro, /landed on Šolta/)

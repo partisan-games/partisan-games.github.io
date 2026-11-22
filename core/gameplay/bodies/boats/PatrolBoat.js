@@ -5,8 +5,10 @@ import Bullet from '../projectiles/Bullet.js'
 import { hullEntry } from '../projectiles/hits.js'
 import { turn } from '../../angles.js'
 import profiles from '../../patrolBoatProfiles.js'
+import reinforcementVessels from '../../reinforcementVessels.js'
 
 export const patrolBoatKinds = {
+  ...reinforcementVessels,
   'german-skiff': { ...profiles['german-skiff'], speed: 5.6, health: 30 },
   'german-launch': { ...profiles['german-launch'], speed: 4.8, health: 60 },
   'german-patrol-vessel': { ...profiles['german-patrol-vessel'], speed: 3.8, health: 120 },
@@ -25,7 +27,7 @@ const states = {
   dead: { enter: stop },
 }
 
-/** A light enemy vessel with a fixed bow gun: the hull turns towards its target before firing. */
+/** An enemy vessel with a fixed gun: the hull turns to bring its barrel onto the target. */
 export default class PatrolBoat extends Body {
   constructor({ kind = patrolBoatKinds['german-launch'], clock, targets = [], random = Math.random,
     canFire = () => true, lane = 0, view = null, ...options } = {}) {
@@ -57,7 +59,12 @@ export default class PatrolBoat extends Body {
     return this.dead && this.stateTime >= patrolBoat.sink
   }
   get bearing() {
-    return Math.atan2(this.z - this.aim.z, this.aim.x - this.x)
+    const origin = this.muzzle
+    return Math.atan2(origin.z - this.aim.z, this.aim.x - origin.x) - (this.kind.gunOffset ?? 0)
+  }
+
+  get gunYaw() {
+    return this.yaw + (this.kind.gunOffset ?? 0)
   }
 
   get muzzle() {
@@ -68,7 +75,7 @@ export default class PatrolBoat extends Body {
 
   aimAt(point) {
     this.aim = { x: point.x, z: point.z }
-    return Math.hypot(point.x - this.x, point.z - this.z) <= this.reach
+    return Math.hypot(point.x - this.muzzle.x, point.z - this.muzzle.z) <= this.reach
   }
 
   sail(dt) {
@@ -81,8 +88,8 @@ export default class PatrolBoat extends Body {
 
   shoot() {
     if (this.dead || !this.aim || !this.canFire() || !this.reload.ready || !this.wait.ready) return false
-    if (Math.hypot(this.aim.x - this.x, this.aim.z - this.z) > this.reach || Math.abs(turn(this.yaw, this.bearing)) > .1) return false
-    this.bullets.fire(this.muzzle, this.yaw, 0, 24)
+    if (Math.hypot(this.aim.x - this.muzzle.x, this.aim.z - this.muzzle.z) > this.reach || Math.abs(turn(this.yaw, this.bearing)) > .1) return false
+    this.bullets.fire(this.muzzle, this.gunYaw, 0, 24)
     this.shotsFired++
     this.reload.start()
     if (++this.rounds >= patrolBoat.burst) {

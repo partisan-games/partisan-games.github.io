@@ -49,6 +49,7 @@ export default class RiflemanSprite extends AtlasSprite {
 
   render(ctx) {
     if (!this.shown) return
+    if (this.renderHit(ctx)) return
     const { body, art, artScale: scale } = this
     const sinceFire = this.sinceShot - art.clips.fire.seconds
     const automatic = body.state === 'fire' && !body.raised && sinceFire >= 0 && sinceFire < body.kind.reloadTime

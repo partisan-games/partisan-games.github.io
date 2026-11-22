@@ -37,6 +37,7 @@ export default class MachineGunnerSprite extends BodySprite {
 
   render(ctx) {
     if (!this.shown || !this.image.naturalWidth) return
+    if (this.renderHit(ctx, { flip: 1, left: -this.width, top: -this.height })) return
     const { body } = this
     const firing = body.alive && this.sinceShot < art.fireDuration
     const frame = body.dead ? Math.min(3, Math.floor(body.stateTime / art.deathDuration * 4))

@@ -36,6 +36,7 @@ export default class CannonCrewSprite extends StandingSprite {
 
   render(ctx) {
     if (!this.shown) return
+    if (this.renderHit(ctx)) return
     if (this.body.dead && this.deathArt.draw(ctx, {
       name: 'death', time: this.body.stateTime, x: this.x, y: this.y + this.height / 2,
       scaleX: this.width / 128, scaleY: this.height / 128, flip: this.flipY,

@@ -1,5 +1,7 @@
 import Skirmisher from '/core/gameplay/bodies/soldiers/Skirmisher.js'
 import SkirmisherSprite from '/core/actor/soldiers/SkirmisherSprite.js'
+import Partisan from '/core/gameplay/bodies/soldiers/Partisan.js'
+import PartisanSprite from '/core/actor/soldiers/PartisanSprite.js'
 
 /**
  * Where the guards of a partisan airfield stand, in pixels from the middle of its building: beside the runway ahead
@@ -19,6 +21,12 @@ export default class AirfieldGuard {
       const body = new Skirmisher({ x: (airfield.x + offset) / pxPerMeter, groundAt, yaw: 0 })
       return { body, view: new SkirmisherSprite(body, views) }
     }))
+    for (const airfield of airfields)
+      for (const [role, offset] of [['loader', 220], ['loader', 350], ['lmg', 940]]) {
+        const body = new Partisan({ role, x: (airfield.x + offset) / pxPerMeter, groundAt })
+        this.guards.push({ body, view: new PartisanSprite(body, views) })
+      }
+
   }
 
   get drawables() {
@@ -27,7 +35,13 @@ export default class AirfieldGuard {
 
   update() {
     const wanted = this.underAttack() ? 'fire' : 'idle'
-    for (const { body } of this.guards)
+    for (const { body } of this.guards) {
+      if (body instanceof Partisan) {
+        body.aimAt(body.ahead(15))
+        body.setState(body.role === 'loader' ? (this.underAttack() ? 'idle' : 'work') : this.underAttack() ? 'attack' : 'idle')
+        continue
+      }
       if (body.alive && body.state !== wanted && body.state !== 'kneel') body.setState(wanted)
+    }
   }
 }

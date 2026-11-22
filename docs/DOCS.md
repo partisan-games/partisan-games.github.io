@@ -66,6 +66,12 @@ Pre rada pročitati relevantnu istorijsku temu, arhitektonska pravila i ugovor s
 
 Pre brisanja bilo kog plana obavezno pregledati njegov sadržaj i sačuvati korisne odluke, potvrđene nalaze, uzroke grešaka i ograničenja u postojećem autoritativnom dokumentu, bez dupliranja. Proveriti da su zapisi dostupni i ukloniti linkove do obrisanog plana; tek tada obrisati plan. Ovo se radi uvek, bez vlasnikovog podsećanja. Nepokrenute provere ne predstavljati kao izvršene.
 
+## Čistoća repozitorijuma
+
+Odluka vlasnika, 2026-11-22: čuvamo ono što služi igri i daljem razvoju; repozitorijum nije arhiva istorije rada. Odbačene pokušaje, stare promptove, sirove odgovore alata, privremene zapisnike i duplikate ne zadržavati samo zato što su nastali tokom rada. Izvornici, skripte pripreme i metapodaci ostaju kada služe postojećem potrošaču ili konkretnoj razvojnoj potrebi; koristan podatak o poreklu ne zahteva zaseban fajl za svaki pokušaj.
+
+Pre uklanjanja proveriti zavisnosti, a posle uskladiti skripte, metapodatke i veze u dokumentaciji. Korisne odluke, uzroke grešaka i ograničenja sažeti u postojećem autoritativnom dokumentu, bez čuvanja celog toka pokušaja. Istorijski izvori koji potkrepljuju sadržaj igre imaju svoju svrhu i nisu isto što i istorija rada agenta.
+
 ## Odobravanje UI elemenata
 
 Svaki novi UI element zahteva prethodno izričito odobrenje vlasnika, uključujući brojače, tekstove, indikatore, dugmad i obaveštenja. Nalog za izmenu gameplay-a ili završetak plana sam po sebi ne odobrava dodavanje UI elemenata.

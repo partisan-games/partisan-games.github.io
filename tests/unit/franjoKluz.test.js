@@ -53,6 +53,20 @@ const play = (scene, seconds) => {
   }
 }
 
+test('airfield loaders work in peace and take cover during a raid while the new machine gunner fires', t => {
+  const scene = createScene(t)
+  const loaders = scene.guard.guards.filter(({ body }) => body.role === 'loader')
+  const gunners = scene.guard.guards.filter(({ body }) => body.role === 'lmg')
+  assert.ok(loaders.length > 0 && gunners.length > 0)
+  t.mock.method(scene.guard, 'underAttack', () => false)
+  play(scene, .1)
+  assert.ok(loaders.every(({ body }) => body.state === 'work' && body.shotsFired === 0))
+  t.mock.method(scene.guard, 'underAttack', () => true)
+  play(scene, .1)
+  assert.ok(loaders.every(({ body }) => body.state === 'idle' && body.shotsFired === 0))
+  assert.ok(gunners.every(({ body, view }) => body.shotsFired > 0 && view.sheet.art.src.includes('partisan-lmg')))
+})
+
 /** Where the plane is on the screen. */
 const screenOf = scene => {
   const { x, y } = scene.projection.point(scene.player)

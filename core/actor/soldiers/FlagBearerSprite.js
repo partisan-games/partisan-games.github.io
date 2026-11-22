@@ -53,6 +53,7 @@ export default class FlagBearerSprite extends StandingSprite {
     ctx.lineTo(this.poleX + Math.sin(this.poleAngle) * pole.top * this.flipY, feet - Math.cos(this.poleAngle) * pole.top)
     ctx.stroke()
     ctx.restore()
+    if (this.renderHit(ctx)) return
     if (this.body.state === 'idle' || !this.actions.draw(ctx, {
       name: this.body.dead ? 'dead' : 'walk', time: this.body.stateTime, x: this.x, y: feet,
       scaleX: this.height / 80, flip: this.flipY,

@@ -62,6 +62,11 @@ test('the complete level keeps scrolling through its stages, ground combat, airc
   }
   assert.ok(paused && shots > 100 && planes.size >= 4, `${paused} ${shots} ${planes.size}`)
   assert.equal(scene.cameraX, scene.levelLength)
+  for (const { body, view } of scene.escort.soldiers) {
+    assert.ok(body.shotsFired > 0, body.role + ': supporting fire during the crossing')
+    assert.ok(view.sheet.art.src.includes('partisan-'), 'the level uses the shared prepared partisan art')
+    if (body.role === 'runner') assert.ok(Math.abs(body.x - scene.player.x) < 10, 'the runners keep up with the tank')
+  }
   assert.deepEqual(stagesSeen, ['lika', 'senj', 'rijeka', 'trst'], 'the road runs through its stages in order, to Trieste')
   assert.equal(scene.session.state, 'finished')
   assert.match(scene.ui.outro, /Proboj je uspeo/)

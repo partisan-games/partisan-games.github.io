@@ -24,6 +24,7 @@ export default class StandingSprite extends BodySprite {
 
   render(ctx) {
     if (!this.shown || !this.image.naturalWidth) return
+    if (this.renderHit(ctx)) return
     const { art } = this
     const width = this.image.naturalWidth / art.columns
     const height = this.image.naturalHeight / art.names.length
@@ -35,5 +36,9 @@ export default class StandingSprite extends BodySprite {
     ctx.drawImage(this.image, this.frame * width, art.names.indexOf(this.clip) * height, width, height,
       -this.width / 2, -this.height * art.baseline, this.width, this.height)
     ctx.restore()
+  }
+
+  renderHit(ctx) {
+    return super.renderHit(ctx, { y: this.y + this.height / 2, top: -this.height * this.art.baseline, angle: 0 })
   }
 }
