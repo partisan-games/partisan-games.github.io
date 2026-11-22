@@ -99,13 +99,17 @@ export default class CharacterModel {
       if (body.leap > 0 || body.vy > 0) return has('jump') ? 'jump' : this.clip
       return has('fall') ? 'fall' : this.clip
     }
+    if (body.aiming && has('aimIdle')) {
+      if (body.state === 'move') return body.running && has('aimRun') ? 'aimRun' : has('aimWalk') ? 'aimWalk' : 'aimIdle'
+      return 'aimIdle'
+    }
     if (body.state === 'move') return body.running && has('run') ? 'run' : has('walk') ? 'walk' : 'idle'
     return 'idle'
   }
 
   /** Blends into `name`; going backwards, a walk, run or jump plays back to front. */
   play(name) {
-    const backwards = ['walk', 'run', 'jump'].includes(name) && this.body.steering.ahead < 0
+    const backwards = ['walk', 'run', 'aimWalk', 'aimRun', 'jump'].includes(name) && this.body.steering.ahead < 0
     if (name === this.clip && backwards === this.backwards) return
     const previous = this.actions[this.clip]
     this.clip = name

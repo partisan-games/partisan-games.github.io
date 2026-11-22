@@ -12,10 +12,15 @@ const dimensionOf = story => !story.stage || story.stage === Stage2D ? '2d' : '3
 
 /** The story at `kind/story` in the address, or the first one, and its look at `kind/story/look`, or its first. */
 const find = address => {
-  const [kindId, storyId, lookId] = address.split('/')
+  const [kindId, storyId, selection] = address.split('/')
   const kind = kinds.find(({ id }) => id === kindId) ?? kinds[0]
+  const path = [storyId, selection].filter(Boolean).join('/')
+  for (const story of kind.stories) {
+    const look = story.looks?.find(look => look.aliases?.includes(path))
+    if (look) return { kind, story, look }
+  }
   const story = kind.stories.find(({ id }) => id === storyId) ?? kind.stories[0]
-  const look = story.looks?.find(({ id }) => id === lookId) ?? story.looks?.[0]
+  const look = story.looks?.find(({ id }) => id === selection) ?? story.looks?.[0]
   return { kind, story, look }
 }
 
@@ -31,9 +36,15 @@ let asked = 0
 async function show() {
   const turn = ++asked
   const previous = shown
+  const { kind, story, look } = find(location.hash.slice(1))
+  if (previous?.story === story && previous.look !== look && previous.stage.setLook) {
+    previous.stage.setLook(look?.value)
+    previous.look = look
+    drawPanel()
+    return
+  }
   shown = null
   previous?.stage.end()
-  const { kind, story, look } = find(location.hash.slice(1))
   if (story !== previous?.story) way = story.way ?? 1
   drawList(kind, story)
   panel.replaceChildren()
@@ -121,7 +132,7 @@ const actButtons = names => /* html */`
 /** The looks of a block drawn in several ways, as the markings of a plane, the one shown pressed; each has an address. */
 const lookButtons = (kind, story, current) => /* html */`
   <fieldset>
-    <legend>Izgled</legend>
+    <legend>${story.lookLabel ?? 'Izgled'}</legend>
     ${story.looks.map(look => `<button data-look="${kind.id}/${story.id}/${look.id}" aria-pressed="${look === current}">${look.name}</button>`).join('')}
   </fieldset>`
 

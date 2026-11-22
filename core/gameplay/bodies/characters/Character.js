@@ -61,7 +61,7 @@ export default class Character extends Body {
   constructor({
     speed = character.speed, run = character.run, reach = character.reach, damage = character.damage,
     jumping = 'leap', maxLift = .28, turnWhileAttack = true, strikeHeight = character.strikeHeight, strikeAhead = 0, area = {}, solid = true,
-    guarded = false, walks = true, altitude = 0, levelFlight = false, lift = character.lift,
+    guarded = false, walks = true, altitude = 0, levelFlight = false, lift = character.lift, aimable = false,
     pitchRange = { min: -Math.PI / 10, max: Math.PI / 8 }, actions = { attack: character.swing }, targets = [],
     groundAt: ground = () => 0, isBlocked = () => false, resolveWallStep = null, obstacleAt = () => Infinity, bounds = null, random = Math.random,
     size = { length: .5, height: 1.8, width: .5 }, ...rest
@@ -75,6 +75,8 @@ export default class Character extends Body {
     this.levelFlight = levelFlight
     this.area = { kinds: [], reach: 3, damage: [89, 135], ...area }
     this.steering = { ahead: 0, side: 0, turn: 0, running: false }
+    this.aimable = aimable
+    this.aiming = false
     /** The attack under way: its kind, seconds into it and whether its blow has landed. */
     this.swing = null
     /** An interrupted swing whose blow still waits for its original midpoint. */
@@ -173,7 +175,7 @@ export default class Character extends Body {
 
   /** Swings `kind` unless it is already swinging, reeling or dead. */
   attack(kind = 'attack') {
-    if (this.dead || this.hurt > 0 || this.swing || !this.acts.includes(kind) || kind === 'jump') return
+    if (this.dead || this.hurt > 0 || this.swing || !this.acts.includes(kind) || kind === 'jump' || kind === 'aim') return
     this.swing = this.newSwing(kind)
     super.setState('attack')
   }
@@ -186,13 +188,15 @@ export default class Character extends Body {
   /** What it can be asked to do once: its kinds of attack and its jump, the ones it has a length for. */
   get acts() {
     const names = Object.keys(this.actions).filter(name => name !== 'pain')
+    if (this.aimable) names.unshift('aim')
     if (this.jumping === 'fly' && !names.includes('jump')) names.push('jump')
     return names
   }
 
   /** One of its `acts` by name, as a story's button asks for it. */
   act(name) {
-    if (name === 'jump') this.jump(this.maxLift)
+    if (name === 'aim' && this.aimable && this.alive) this.aiming = !this.aiming
+    else if (name === 'jump') this.jump(this.maxLift)
     else this.attack(name)
   }
 

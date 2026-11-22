@@ -1,6 +1,7 @@
 import Stage3D from '../Stage3D.js'
-import { Vector3 } from 'three'
-import * as cannonPartisan from '/scenes/cannon/CannonPartisan.js'
+import TwoHandedGrip from '/core3d/actor/characters/TwoHandedGrip.js'
+import dressFighter from '/core3d/actor/characters/dressFighter.js'
+import { variants } from '/core3d/actor/derived/ww2/partisanLooks.js'
 import { requestModels } from '/core3d/assets/models.js'
 import makeCharacter from '/core3d/actor/characters/makeCharacter.js'
 import * as barbarianModule from '/core3d/actor/derived/fantasy/Barbarian.js'
@@ -30,7 +31,6 @@ import * as germanSoldierModule from '/core3d/actor/derived/ww2/GermanSoldier.js
 import * as naziAgentModule from '/core3d/actor/derived/ww2/NaziAgent.js'
 import * as naziOfficerModule from '/core3d/actor/derived/ww2/NaziOfficer.js'
 import * as partisanModule from '/core3d/actor/derived/ww2/Partisan.js'
-import * as partisanAimModule from '/core3d/actor/derived/ww2/PartisanAim.js'
 import * as partisanLowpolyModule from '/core3d/actor/derived/ww2/PartisanLowpoly.js'
 import * as resistanceFighterModule from '/core3d/actor/derived/ww2/ResistanceFighter.js'
 import * as sSSoldierModule from '/core3d/actor/derived/ww2/SSSoldier.js'
@@ -93,34 +93,75 @@ export const horror = [
   character('zombi-strazar-3d', 'Zombi stražar', 'Graveyard Survival', zombieGuardModule),
 ]
 
-const jablanicaFighters = {
-  game: 'Battle for Jablanica', block: cannonPartisan, stage: Stage3D,
-  async create(stage, way, look) {
-    await requestModels(cannonPartisan.modelsFor(look))
-    const fighter = new cannonPartisan.default(look, [{ position: new Vector3(2, 1.2, 8) }])
-    stage.add(fighter)
-    fighter.place(new Vector3(), () => 0)
-    return fighter
-  },
-  commands: [{ label: 'Hit', run: fighter => fighter.fall() }],
+function partisanStory(id, name, game, block) {
+  const base = character(id, name, game + ', Battle for Jablanica', block)
+  const source = block.description.model
+  const looks = Object.entries(variants)
+    .filter(([, { model }]) => model.file === source.file && model.prefix === source.prefix)
+    .map(([id, value]) => {
+      const oldStory = 'jablanica-' + ({ oker: 'vuna', brkovi: 'indigo' }[id] ?? id)
+      const aliases = ['partizan-3d/' + id, 'saborci-jablanica/' + id, oldStory + '/' + id]
+      if (oldStory === 'jablanica-' + id) aliases.push(oldStory)
+      if (id === 'strelac') aliases.push('saborci-jablanica')
+      return { id, name: value.name, value, aliases }
+    })
+  return {
+    ...base, lookLabel: 'Varijanta',
+    looks: [{ id: 'original', name: 'Original' }, ...looks],
+    create: async (stage, way, look) => {
+      await requestModels([...block.models, ...looks.map(({ value }) => value.weapon.model)])
+      const { body, model } = makeCharacter(block.description)
+      stage.add(body, model)
+      enablePartisanLooks(stage, model)
+      stage.setLook(look)
+      return body
+    },
+  }
 }
-const jablanicaLooks = Object.entries(cannonPartisan.variants)
+
+function enablePartisanLooks(stage, { mesh, anim }) {
+  const originalWeapon = anim.twoHandedWeapon
+  originalWeapon.removeFromParent()
+  const parts = []
+  mesh.traverse(part => {
+    if (part.isMesh) parts.push({ part, material: part.material, geometry: part.geometry })
+  })
+  const textures = new Map()
+  const originals = new Set(parts.flatMap(({ material }) => material))
+  let grip
+  stage.setLook = look => {
+    originalWeapon.removeFromParent()
+    grip?.rifle.removeFromParent()
+    grip = null
+    for (const { part, material, geometry } of parts) {
+      for (const current of [].concat(part.material))
+        if (!originals.has(current)) current.dispose()
+      if (part.geometry !== geometry) part.geometry.dispose()
+      part.material = material
+      part.geometry = geometry
+    }
+    if (look) {
+      dressFighter(mesh, look.outfit, textures, look.hatColor)
+      anim.twoHandedWeapon = null
+      grip = new TwoHandedGrip(mesh, look.weapon.model)
+    } else anim.addTwoHandedWeapon(originalWeapon)
+  }
+  stage.add({ update: () => grip?.fitHands() })
+  stage.session.scope.add(() => textures.forEach(texture => texture.dispose()))
+}
 
 export const ww2 = [
-  { ...jablanicaFighters, id: 'saborci-jablanica', name: 'Jablanica partisans',
-    looks: jablanicaLooks.map(([id, value]) => ({ id, name: value.name, value })) },
   character('nemacki-bacac-plamena-3d', 'Nemački bacač plamena', 'FPS Base', germanFlameThrowerModule),
   character('nemacki-mitraljezac-3d', 'Nemački mitraljezac', '3D Tank, FPS Airport, FPS Base', germanMachineGunnerModule),
   character('nemacki-vojnik-3d', 'Nemački vojnik', library, germanSoldierModule),
   character('nacisticki-agent-3d', 'Nacistički agent', library, naziAgentModule),
   character('nacisticki-oficir-3d', 'Nacistički oficir', '3D Tank, FPS Airport, FPS Base', naziOfficerModule),
-  character('partizan-3d', 'Partizan', 'Liberated City, Spomenici', partisanModule),
-  character('partizan-koji-nisani-3d', 'Partizan koji nišani', 'Liberated City', partisanAimModule),
-  character('partizan-jednostavan-model-3d', 'Partizan, jednostavan model', 'Liberated City', partisanLowpolyModule),
-  character('borac-pokreta-otpora-3d', 'Borac pokreta otpora', 'Liberated City', resistanceFighterModule),
+  partisanStory('partizan-3d', 'Partizan', 'Liberated City, Spomenici', partisanModule),
+  partisanStory('partizan-jednostavan-model-3d', 'Partizan, jednostavan model', 'Liberated City', partisanLowpolyModule),
+  partisanStory('borac-pokreta-otpora-3d', 'Borac pokreta otpora', 'Liberated City', resistanceFighterModule),
   character('ss-vojnik-3d', 'SS vojnik', '3D Tank, FPS Airport, FPS Base', sSSoldierModule),
   character('vojnik-3d', 'Vojnik', library, soldierModule),
-  character('sovjetski-partizan-3d', 'Sovjetski partizan', 'Liberated City', sovietPartisanModule),
+  partisanStory('sovjetski-partizan-3d', 'Sovjetski partizan', 'Liberated City', sovietPartisanModule),
   character('radnik-3d', 'Radnik', 'Graffiti City, Graffiti City Maze', workerModule),
 ]
 

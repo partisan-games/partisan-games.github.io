@@ -115,6 +115,12 @@ Vertikalna arkadna pucačina o partizanskom letu do Visa, sa sopstvenim izgledom
 
 **Šta to znači za igru:** protivnik su nemačke jedinice koje brane Beograd; borba ulicu po ulicu odgovara poslednjim danima operacije. Uloga ilegalaca kao u seriji je umetnički okvir igre i ne treba je predstavljati kao istorijsku tvrdnju; za stvarnu ulogu beogradske ilegale u oktobru 1944. naći poseban izvor. Muzika iz serije ostaje neprostorni sloj kao i do sada. Činjenice i izvori: [Beograd, oktobar 1944](ISTORIJA.md#beograd-oktobar-1944--polazište-za-igru-otpisani).
 
+## Liberated City
+
+**Okvir (vlasnik, 2026-11-22):** Igra je obilazak Bihaća krajem 1942, posle oslobođenja grada, u vreme Prvog zasedanja AVNOJ-a.
+
+**Šta to znači za igru:** parole i plakati po gradu treba da odgovaraju slobodnoj teritoriji u kasnu jesen 1942. Natpisi o dolasku Crvene armije, poput „CRVENA ARMIJA DOLAZI” i plakata RED_ARMY_IS_HERE, pripadaju 1944. i u tom okviru su anahroni; o njihovoj sudbini odlučuje vlasnik. Činjenice i izvori: [Bihać, kraj 1942](ISTORIJA.md#bihać-kraj-1942--polazište-za-igru-liberated-city).
+
 ## Bunker
 
 **Okvir (vlasnik):** Igra je bitka za Krupanj 1941, a Žikica Jovanović Španac je bombaš koji napada bunker.
