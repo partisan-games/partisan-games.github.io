@@ -3,6 +3,7 @@ import TwoHandedGrip from '/core3d/actor/characters/TwoHandedGrip.js'
 import dressFighter from '/core3d/actor/characters/dressFighter.js'
 import { variants } from '/core3d/actor/derived/ww2/partisanLooks.js'
 import * as italianLooksModule from '/core3d/actor/derived/ww2/italianLooks.js'
+import { poseSurrender, surrenderArms } from '/scenes/cannon/surrenderPose.js'
 import { requestModels } from '/core3d/assets/models.js'
 import makeCharacter from '/core3d/actor/characters/makeCharacter.js'
 import * as barbarianModule from '/core3d/actor/derived/fantasy/Barbarian.js'
@@ -95,12 +96,18 @@ export const horror = [
   character('zombi-strazar-3d', 'Zombi stražar', 'Graveyard Survival', zombieGuardModule),
 ]
 
-function partisanStory(id, name, game, block) {
+function infantryStory(id, name, game, block) {
   const base = character(id, name, game + ', Battle for Jablanica', block)
   const source = block.description.model
-  const looks = Object.entries(variants)
-    .filter(([, { model }]) => model.file === source.file && model.prefix === source.prefix)
-    .map(([id, value]) => {
+  const choices = [
+    ...Object.entries(variants).map(([id, value]) => ({ id, value, army: 'partisan' })),
+    ...Object.entries(italianLooks).map(([id, value]) => ({ id, value, army: 'italian' })),
+  ]
+  const looks = choices
+    .filter(({ value }) => value.model.file === source.file && value.model.prefix === source.prefix)
+    .map(({ id, value, army }) => {
+      if (army === 'italian') return { id: 'italian-' + id, name: value.name, value,
+        aliases: ['italijanski-branilac-3d/' + id, ...(id === 'rifle' ? ['italijanski-branilac-3d'] : [])] }
       const oldStory = 'jablanica-' + ({ oker: 'vuna', brkovi: 'indigo' }[id] ?? id)
       const aliases = ['partizan-3d/' + id, 'saborci-jablanica/' + id, oldStory + '/' + id]
       if (oldStory === 'jablanica-' + id) aliases.push(oldStory)
@@ -114,7 +121,22 @@ function partisanStory(id, name, game, block) {
       await requestModels([...block.models, ...looks.map(({ value }) => value.weapon.model)])
       const { body, model } = makeCharacter(block.description)
       stage.add(body, model)
-      enableInfantryLooks(stage, model)
+      const infantry = enableInfantryLooks(stage, model)
+      const arms = surrenderArms(model.mesh)
+      let surrendered = false
+      const act = body.act.bind(body)
+      Object.defineProperty(body, 'acts', { value: [...body.acts, 'surrender'] })
+      body.act = action => {
+        if (action !== 'surrender') return surrendered ? undefined : act(action)
+        surrendered = true
+        infantry.unarm()
+      }
+      const setLook = stage.setLook
+      stage.setLook = next => {
+        setLook(next)
+        if (surrendered) infantry.unarm()
+      }
+      stage.add({ update: () => surrendered && poseSurrender(model.mesh, model.mesh, arms) })
       stage.setLook(look)
       return body
     },
@@ -150,24 +172,15 @@ function enableInfantryLooks(stage, { mesh, anim }) {
       grip = new TwoHandedGrip(mesh, look.weapon.model)
     } else anim.addTwoHandedWeapon(originalWeapon)
   }
-  stage.add({ update: () => grip?.fitHands() })
+  stage.add({ update: () => {
+    if (grip?.rifle.parent) grip.fitHands()
+  } })
   stage.session.scope.add(() => textures.forEach(texture => texture.dispose()))
-}
-
-function italianStory() {
-  const looks = Object.entries(italianLooks).map(([id, value]) => ({ id, name: value.name, value,
-    aliases: ['vojnik-3d/italian-' + id, 'partizan-jednostavan-model-3d/italian-' + id] }))
-  const models = [...new Set(Object.values(italianLooks).flatMap(({ model, weapon }) => [model, weapon.model]))]
   return {
-    id: 'italijanski-branilac-3d', name: 'Italijanski branilac', game: 'Battle for Jablanica',
-    block: italianLooksModule, stage: Stage3D, lookLabel: 'Varijanta', looks,
-    create: async(stage, way, look) => {
-      await requestModels(models)
-      const { body, model } = makeCharacter(soldierModule.description)
-      stage.add(body, model)
-      enableInfantryLooks(stage, model)
-      stage.setLook(look)
-      return body
+    unarm() {
+      anim.twoHandedWeapon?.removeFromParent()
+      grip?.rifle.removeFromParent()
+      anim.twoHandedWeapon = null
     },
   }
 }
@@ -178,13 +191,12 @@ export const ww2 = [
   character('nemacki-vojnik-3d', 'Nemački vojnik', library, germanSoldierModule),
   character('nacisticki-agent-3d', 'Nacistički agent', library, naziAgentModule),
   character('nacisticki-oficir-3d', 'Nacistički oficir', '3D Tank, FPS Airport, FPS Base', naziOfficerModule),
-  italianStory(),
-  partisanStory('partizan-3d', 'Partizan', 'Liberated City, Spomenici', partisanModule),
-  partisanStory('partizan-jednostavan-model-3d', 'Partizan, jednostavan model', 'Liberated City', partisanLowpolyModule),
-  partisanStory('borac-pokreta-otpora-3d', 'Borac pokreta otpora', 'Liberated City', resistanceFighterModule),
+  infantryStory('partizan-3d', 'Partizan', 'Liberated City, Spomenici', partisanModule),
+  infantryStory('partizan-jednostavan-model-3d', 'Partizan, jednostavan model', 'Liberated City', partisanLowpolyModule),
+  infantryStory('borac-pokreta-otpora-3d', 'Borac pokreta otpora', 'Liberated City', resistanceFighterModule),
   character('ss-vojnik-3d', 'SS vojnik', '3D Tank, FPS Airport, FPS Base', sSSoldierModule),
-  partisanStory('vojnik-3d', 'Vojnik', library, soldierModule),
-  partisanStory('sovjetski-partizan-3d', 'Sovjetski partizan', 'Liberated City', sovietPartisanModule),
+  infantryStory('vojnik-3d', 'Vojnik', library, soldierModule),
+  infantryStory('sovjetski-partizan-3d', 'Sovjetski partizan', 'Liberated City', sovietPartisanModule),
   character('radnik-3d', 'Radnik', 'Graffiti City, Graffiti City Maze', workerModule),
 ]
 

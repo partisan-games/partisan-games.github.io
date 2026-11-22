@@ -12,6 +12,8 @@ const infantry = [
 ]
 export const defenderModels = [...new Set(Object.values(italianLooks).flatMap(look => [look.model, look.weapon.model]))]
 const up = new THREE.Vector3(0, 1, 0)
+const surrenderSpeed = 1.45
+const prisonerStep = new THREE.Vector3()
 
 // Boxes follow the firing pose. Ammo tests them as one body instead of one broad-phase entry per limb.
 function hitBody(physics, origin, segments) {
@@ -95,6 +97,10 @@ export default class Defenders {
     return this.posts.length
   }
 
+  get prisonersReady() {
+    return this.surrendering && this.posts.every(member => !member.route.length)
+  }
+
   hit(id) {
     const member = this.contacts.get(id)
     if (member) this.kill(member)
@@ -124,6 +130,55 @@ export default class Defenders {
     this.contacts.delete(Ammo.getPointer(member.collider.userData.body))
     this.physics.remove(member.collider)
     this.posts.splice(this.posts.indexOf(member), 1)
+  }
+
+  surrender(front) {
+    if (this.surrendering) return
+    this.surrendering = true
+    const survivors = this.posts.filter(member => member.fighter.alive)
+    survivors.forEach((member, index) => {
+      this.contacts.delete(Ammo.getPointer(member.collider.userData.body))
+      this.physics.remove(member.collider)
+      member.destination = null
+      member.fighter.surrender()
+      member.surrenderDelay = index * .3
+      const from = member.fighter.mesh.position
+      const side = from.x < -2.4 ? -1 : 1
+      const flank = side * 6.2
+      member.groundOffset = from.y - bankHeight(from.x, from.z)
+      const place = (x, z) => new THREE.Vector3(x, bankHeight(x, z) + member.groundOffset, z)
+      member.route = [
+        place(flank, front - 5.7),
+        place(flank, front + 2.4),
+        place((index - (survivors.length - 1) / 2) * .8, front + 4.2),
+      ]
+    })
+  }
+
+  advancePrisoner(member, dt) {
+    if (member.surrenderDelay > 0) {
+      member.surrenderDelay -= dt
+      member.fighter.updateSurrender(dt, false)
+      return
+    }
+    const destination = member.route[0]
+    if (!destination) return member.fighter.updateSurrender(dt, false)
+    const step = prisonerStep.subVectors(destination, member.fighter.mesh.position)
+    const distance = step.length()
+    step.clampLength(0, surrenderSpeed * dt)
+    member.fighter.mesh.rotation.y = Math.atan2(-step.x, -step.z)
+    member.fighter.mesh.position.add(step)
+    member.fighter.body.x = member.fighter.mesh.position.x
+    member.fighter.body.y = member.fighter.mesh.position.y + member.fighter.body.size.height / 2
+    member.fighter.body.z = member.fighter.mesh.position.z
+    member.fighter.body.yaw = member.fighter.mesh.rotation.y + Math.PI / 2
+    member.position.add(step)
+    for (const { line } of member.bodySegments) {
+      line.start.add(step)
+      line.end.add(step)
+    }
+    if (distance <= surrenderSpeed * dt) member.route.shift()
+    member.fighter.updateSurrender(dt, true)
   }
 
   assignRelief() {
@@ -177,6 +232,10 @@ export default class Defenders {
   }
 
   update(dt) {
+    if (this.surrendering) {
+      for (const member of this.posts) this.advancePrisoner(member, dt)
+      return
+    }
     this.nextRelief -= dt
     if (this.nextRelief <= 0) {
       this.assignRelief()

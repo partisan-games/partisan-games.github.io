@@ -5,6 +5,7 @@ import dressFighter from '/core3d/actor/characters/dressFighter.js'
 import { loadedModel } from '/core3d/assets/models.js'
 import { infantryBody, regular, riflemanModel } from '/core3d/actor/derived/ww2/partisanLooks.js'
 import Rifleman from './Rifleman.js'
+import { poseSurrender, surrenderArms } from './surrenderPose.js'
 
 function compatibleClip(clip, figure) {
   const tracks = clip.tracks.filter(track => figure.getObjectByName(track.name.split('.')[0]))
@@ -27,9 +28,12 @@ class InfantryFighter {
     const death = clips.find(item => item.name === 'Crouch Death')
       ?? loadedModel(regular).userData.animations.find(item => item.name === regular.animDict.death)
     this.deathClip = compatibleClip(death, this.figure)
+    const walk = loadedModel(regular).userData.animations.find(item => item.name === 'Rifle Walk')
+    this.walkClip = compatibleClip(walk, this.figure)
     this.rounds = weapon.rounds
     this.posts = posts
     this.chest = this.figure.getObjectByName('mixamorigSpine2')
+    this.arms = surrenderArms(this.figure)
   }
 
   get alive() {
@@ -61,6 +65,18 @@ class InfantryFighter {
     this.falling.setLoop(THREE.LoopOnce, 1)
     this.falling.clampWhenFinished = true
     this.falling.play()
+  }
+
+  surrender() {
+    this.gun.mixer.stopAllAction()
+    this.gun.grip.rifle.removeFromParent()
+    this.surrenderWalk = this.gun.mixer.clipAction(this.walkClip).reset().play()
+  }
+
+  updateSurrender(dt, moving) {
+    this.surrenderWalk.paused = !moving
+    this.gun.mixer.update(dt)
+    poseSurrender(this.figure, this.mesh, this.arms)
   }
 
   update(dt) {

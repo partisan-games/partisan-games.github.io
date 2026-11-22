@@ -27,7 +27,7 @@ function cartridge() {
 }
 
 const up = new THREE.Vector3(0, 1, 0)
-const reload = { align: .22, insert: .42, total: .65 }
+const reload = { align: .25, insert: .48, total: .75 }
 const roundBase = -.18, roundTip = .193
 function loadRound(member, elevation, dt) {
   const { mesh, pose, round } = member

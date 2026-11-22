@@ -119,6 +119,7 @@ export default class CannonScene extends Scene3D {
 
     const fort = buildFort({ front: fortFront, base: bankHeight(0, fortFront) })
     this.stones = fort.parts
+    this.fortFront = fortFront
     this.defenders = new Defenders(this.scene, this.physics, fort.slits, fortFront, this.stones)
     this.posts = this.defenders.posts
     this.infantry = new Infantry(this.scene, this.session.scope, this.posts, this.scenery)
@@ -192,7 +193,7 @@ export default class CannonScene extends Scene3D {
   /** The shell bursts where it strikes and throws the stones and barrels near the burst away from it. */
   explode(point) {
     const heart = new THREE.Vector3(point.x, point.y, point.z)
-    this.defenders.blast(heart, blast.radius, [...this.fortPhysics.fixed])
+    if (!this.surrender.accepted) this.defenders.blast(heart, blast.radius, [...this.fortPhysics.fixed])
     this.blasts.add(heart, 3)
     this.scorches.add(heart, this.stones)
     this.cannon.audioScene?.emit('explosion.mp3', { profile: 'explosion', spatial: { position: heart } })
@@ -278,12 +279,14 @@ export default class CannonScene extends Scene3D {
     this.impacts.splice(0).forEach(({ ball, point, other }) => {
       const shell = this.shells.find(flying => flying.ball === ball)
       if (!shell) return
-      this.defenders.hit(other)
+      if (!this.surrender.accepted) this.defenders.hit(other)
       this.detonate(shell, point)
     })
     this.smoke.update(dt)
     this.blasts.update()
     this.defenders.update(dt)
+    if (this.surrender.accepted && this.defenders.prisonersReady)
+      return this.victory('The garrison has surrendered.', 'Bravo!')
     if (!this.defenders.living) return this.victory('The garrison has been defeated.', 'Bravo!')
     this.flag.update(dt)
     this.surrender.update()

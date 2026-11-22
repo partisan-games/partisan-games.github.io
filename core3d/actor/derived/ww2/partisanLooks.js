@@ -6,7 +6,7 @@ import { description as soviet } from './SovietPartisan.js'
 import { description as simple } from './PartisanLowpoly.js'
 
 const size = { fitVisible: true, size: 1.74 }
-export const regular = { ...basePartisan.model, ...size, animDict: { death: 'Crouch Death' } }
+export const regular = { ...basePartisan.model, ...size, animDict: { walk: 'Rifle Walk', death: 'Crouch Death' } }
 export const resistanceFighterModel = { ...resistance.model, ...size, animDict: {} }
 export const riflemanModel = { ...soviet.model, ...size, animDict: { fire: 'Fire Rifle Crouch', burst: 'Crouch Rapid Fire' } }
 export const lowpoly = { ...simple.model, ...size, animDict: {} }

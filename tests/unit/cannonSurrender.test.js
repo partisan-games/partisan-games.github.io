@@ -23,7 +23,7 @@ function battle(t, { living = 4, whiteRaised = true } = {}) {
     gameLoop: new GameLoop(() => {}),
     canvas: document.getElementById('platno'),
     player: { dead: false },
-    defenders: { living },
+    defenders: { living, surrendered: false, surrender() { this.surrendered = true } },
     spaceHeld: true,
     power: { value: 25, reset() {
       this.value = 10
@@ -136,19 +136,20 @@ test('the surrender dialog follows the saved UI choice and subsequent style chan
   }
 })
 
-test('accepting surrender ends the game with victory once', t => {
+test('accepting surrender resumes the scene so unarmed survivors can march out', t => {
   const scene = battle(t)
-  const victory = t.mock.method(scene, 'victory')
   scene.surrender.update()
   assert.equal(scene.surrender.pending, true)
   assert.equal(scene.ui.outro, '')
   scene.surrender.resolve(true)
-  assert.equal(scene.session.state, 'finished')
-  assert.equal(scene.gameLoop.isPaused, true, 'accepted surrender leaves combat frozen behind the victory screen')
-  assert.match(scene.ui.outro, /The garrison has surrendered\./)
+  assert.equal(scene.surrender.accepted, true)
+  assert.equal(scene.defenders.surrendered, true)
+  assert.equal(scene.session.state, 'running')
+  assert.equal(scene.gameLoop.isPaused, false)
+  assert.equal(scene.ui.outro, '')
   scene.surrender.resolve(false)
   scene.surrender.resolve(true)
-  assert.equal(victory.mock.callCount(), 1)
+  assert.equal(scene.defenders.surrendered, true)
 })
 
 test('continuing resumes combat without another surrender or an automatic victory', t => {

@@ -15,6 +15,10 @@ export default class SurrenderChoice {
     return this.answer === 'destroy'
   }
 
+  get accepted() {
+    return this.answer === 'accepted'
+  }
+
   get ceasefire() {
     return this.scene.garrison.surrendered && !this.rejected
   }
@@ -59,7 +63,7 @@ export default class SurrenderChoice {
     this.answer = accept ? 'accepted' : 'destroy'
     scene.spaceHeld = false
     scene.power.reset()
-    if (accept) scene.victory('The garrison has surrendered.', 'Bravo!')
-    else scene.unpause()
+    if (accept) scene.defenders.surrender(scene.fortFront)
+    scene.unpause()
   }
 }
