@@ -61,12 +61,26 @@ test('a match goes to two won rounds, each on the next battlefield; both lost at
 })
 
 test('each new match goes on to the next battlefield, starting over after the last', async() => {
-  const { default: Tenkici, battlefieldOrder } = await import('/scenes/tenkici/Main.js')
+  const { default: Tenkici, battlefieldOrder, fieldLength } = await import('/scenes/tenkici/Main.js')
+  const { germanTank, m15, stug, somuaTank, hotchkiss } = await import('/core/actor/tankLooks.js')
+  const looks = { sremFront1944: m15, batina: stug, sremFront1945: m15, city: germanTank,
+    bihac: germanTank, drvar: somuaTank, uzice: hotchkiss }
   const seen = []
   for (let i = 0; i <= battlefieldOrder.length; i++) {
     const scene = new Tenkici()
     scene.init()
     seen.push(scene.battlefield)
+    const enemy = looks[scene.battlefield]
+    assert.equal(scene.tenk2.kind, enemy.kind)
+    assert.equal(scene.tenk2View.art, enemy.art)
+    assert.equal(scene.tenk2.rearAim, enemy !== stug, 'only a turret can turn behind the hull')
+    assert.match(scene.tenkView.art.src, /partizanski-tenk-layers\.png$/)
+    for (const [tank, left, right] of [[scene.tenk, 0, fieldLength / 2], [scene.tenk2, fieldLength / 2, fieldLength]]) {
+      const radius = tank.size.length / 2
+      assert.ok(tank.x >= tank.bounds.min && tank.x <= tank.bounds.max)
+      assert.equal(tank.bounds.min, left + radius)
+      assert.equal(tank.bounds.max, right - radius)
+    }
     scene.end()
   }
   const first = battlefieldOrder.indexOf(seen[0])

@@ -1,6 +1,8 @@
 import LocomotionSprite from '/core/actor/LocomotionSprite.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import art from '/core/actor/ranjenikArt.js'
+import BulletSprite from '/core/actor/projectiles/BulletSprite.js'
+import MuzzleFlash from '/core/actor/effects/MuzzleFlash.js'
 
 const searchCalls = ['eatdirtpig.mp3', 'killthepig.mp3', 'QuicklyQuickly.mp3', 'schnell.mp3', 'UpThere.mp3', 'whereishe.mp3']
 const foundCalls = ['Stop.mp3', 'StopStayWhereYouAre.mp3', 'thereheis.mp3']
@@ -18,7 +20,11 @@ export default class PatrolSprite extends LocomotionSprite {
       profile: 'speech', follow: true, spatial: { getPosition: () => this.position } })
     this.searchVoice = speech(searchCalls)
     this.foundVoice = speech(foundCalls)
-    this.sounds.push(this.searchVoice, this.foundVoice)
+    this.shotSound = new Sound('rifle.mp3', { profile: 'rifle', spatial: { getPosition: () => this.position } })
+    this.sounds.push(this.searchVoice, this.foundVoice, this.shotSound)
+    this.flash = new MuzzleFlash(camera ?? { cameraX: 0, cameraY: 0 })
+    this.children.push(this.flash)
+    this.shotsSeen = body.shotsFired
     this.sinceCall = 0
     this.seenState = body.state
   }
@@ -32,11 +38,24 @@ export default class PatrolSprite extends LocomotionSprite {
     super.update(dt)
     const { body } = this
     this.sinceCall += dt
-    if (body.state === 'search' && this.sinceCall >= calls.every) {
+    if (body.state === 'move' && this.sinceCall >= calls.every) {
       this.call(this.searchVoice)
       this.sinceCall = 0
     }
-    if (body.state === 'halt' && this.seenState !== 'halt') this.call(this.foundVoice)
+    if (body.state === 'idle' && this.seenState === 'move') this.call(this.foundVoice)
+    if (this.shotsSeen < body.shotsFired) {
+      this.shotsSeen = body.shotsFired
+      this.shotSound.play()
+      this.flash.start(this.projection.point(body.lastMuzzle), this.projection.angle(body.shotYaw))
+    }
+    if (body.dead) {
+      this.flash.hide()
+      if (this.seenState !== 'dead') {
+        this.searchVoice.stop()
+        this.foundVoice.stop()
+      }
+    }
+    this.syncViews(body.bullets.projectiles, round => new BulletSprite(round, this.projection, { scale: .4 }))
     this.seenState = body.state
   }
 

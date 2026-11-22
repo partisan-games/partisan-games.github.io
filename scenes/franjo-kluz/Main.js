@@ -17,10 +17,10 @@ import Fighter from '/core/gameplay/bodies/aircraft/Fighter.js'
 import DiveBomber from '/core/gameplay/bodies/aircraft/DiveBomber.js'
 import Rifleman, { riflemanKinds } from '/core/gameplay/bodies/soldiers/Rifleman.js'
 import Vehicle, { vehicleKinds } from '/core/gameplay/bodies/vehicles/Vehicle.js'
-import Hummel from '/core/gameplay/bodies/vehicles/Hummel.js'
 import Flak, { flak } from '/core/gameplay/bodies/artillery/Flak.js'
 import Sentry from '/core/gameplay/controllers/Sentry.js'
 import Gunner, { lead } from '/core/gameplay/controllers/Gunner.js'
+import { attackState } from '/core/gameplay/bodies/stateNames.js'
 import Interceptor from '/core/gameplay/controllers/Interceptor.js'
 import PlaneKeys from '/core/gameplay/controllers/PlaneKeys.js'
 import RearGunner from '/core/gameplay/controllers/RearGunner.js'
@@ -208,7 +208,7 @@ export default class FranjoKluzScene extends Scene2D {
         view: this.screenView })
       return { body, view: new RiflemanSprite(body, { art, ...this.views }) }
     }
-    const VehicleBody = kind === 'tank' ? Hummel : Vehicle
+    const { Body: VehicleBody } = groundUnitLooks[kind]
     const body = new VehicleBody({ kind: vehicleKinds[kind], x: place.x, y: vehicleKinds[kind].size.height / 2,
       yaw: facing < 0 ? Math.PI : 0, targets: [this.player], canFire: () => this.running })
     return { body, view: new VehicleSprite(body, { art, attack, facing, ...this.views }) }
@@ -268,7 +268,7 @@ export default class FranjoKluzScene extends Scene2D {
   /** The enemies that can aim at the plane; the Hummel's fixed cannon is not an automatic anti-aircraft gun. */
   get armed() {
     return [...this.enemies, ...this.raiders].map(({ body }) => body)
-      .filter(body => body.states.includes('fire') && typeof body.aimAt === 'function')
+      .filter(body => typeof body.aimAt === 'function' && attackState(body))
   }
 
   /** The enemy knows the plane is hostile: the living among `bodies` stop keeping watch and fire at it. */

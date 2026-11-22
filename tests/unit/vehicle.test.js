@@ -5,10 +5,10 @@ import Vehicle, { vehicleKinds } from '/core/gameplay/bodies/vehicles/Vehicle.js
 test('a vehicle stands, drives the way it faces at its speed, and stops where it is destroyed', () => {
   for (const [yaw, way] of [[0, 1], [Math.PI, -1]]) {
     const vehicle = new Vehicle({ kind: vehicleKinds.truck, x: 10, yaw })
-    assert.deepEqual(vehicle.states, ['idle', 'drive', 'dead'])
+    assert.deepEqual(vehicle.states, ['idle', 'move', 'dead'])
     vehicle.update(1)
     assert.equal(vehicle.x, 10)
-    vehicle.setState('drive')
+    vehicle.setState('move')
     for (let i = 0; i < 30; i++) vehicle.update(1 / 30)
     assert.ok(Math.abs(vehicle.x - (10 + way * vehicleKinds.truck.speed)) < 1e-9)
     vehicle.setState('dead')

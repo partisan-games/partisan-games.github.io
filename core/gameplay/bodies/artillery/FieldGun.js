@@ -54,8 +54,8 @@ const standingHeight = gunShape.wheel.below + gunShape.wheel.radius
  */
 const states = {
   idle: {},
-  load: {},
-  fire: {
+  load: { update: (gun, dt) => gun.charge(dt) },
+  attack: {
     update: gun => {
       if (gun.hasActiveShot || gun.aimedForce === null) return
       gun.force = gun.aimedForce
@@ -109,6 +109,11 @@ export default class FieldGun extends Body {
   /** The way it faces: 1 right, -1 left. */
   get forward() {
     return Math.cos(this.yaw) < 0 ? -1 : 1
+  }
+
+  setState(name) {
+    if ((this.dead && name !== 'dead') || !this.states.includes(name)) return
+    super.setState(name)
   }
 
   get elevation() {

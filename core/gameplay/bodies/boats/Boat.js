@@ -18,7 +18,7 @@ export const boat = {
 /** The boat sails as it is steered; set to fire, it also fires as often as it reloads; or it is lost. */
 const states = {
   idle: {},
-  fire: { update: body => body.shoot() },
+  attack: { update: body => body.shoot() },
   dead: {},
 }
 

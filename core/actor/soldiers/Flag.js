@@ -9,6 +9,8 @@ export default class Flag extends Sprite {
     })
     this.italian = italian
     this.getTime = getTime
+    this.way = italian ? -1 : 1
+    this.settle = 0
   }
 
   drawFrame() {
@@ -21,11 +23,11 @@ export default class Flag extends Sprite {
     const sourceHeight = this.italian ? 78 : this.image.naturalHeight
     const phase = (this.getTime?.() ?? this.animationElapsed) * 6
     ctx.save()
-    ctx.scale(this.italian ? -1 : 1, 1)
+    ctx.scale(this.way, 1 - .9 * this.settle)
     const strips = 32
     for (let i = 0; i < strips; i++) {
       const u = i / strips
-      const wave = Math.sin(phase - u * Math.PI * 2) * 5 * u
+      const wave = Math.sin(phase - u * Math.PI * 2) * 5 * u * (1 - this.settle)
       ctx.drawImage(this.image, sourceX + sourceWidth * u, sourceY, sourceWidth / strips, sourceHeight,
         this.width * u, wave, this.width / strips + .2, this.height)
     }

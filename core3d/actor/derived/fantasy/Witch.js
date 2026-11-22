@@ -5,9 +5,11 @@ const animDict = {
   attack: 'Standing 2H Magic Attack 01',
   attack2: 'Spell Casting',
   special: 'Zombie Scream',
+  death: 'Crouch Death',
 }
 
-const meshModel = { file: 'model.fbx', angle: Math.PI, animDict, prefix: 'character/witch/', size: 1.7 }
+const meshModel = { file: 'model.fbx', angle: Math.PI, animDict, prefix: 'character/witch/', size: 1.7,
+  sharedClips: { 'Crouch Death': 'character/soldier/Crouch Death.fbx' } }
 
 /** What to load; a game awaits requestModels(models) before it creates one of these. */
 export const models = [meshModel]

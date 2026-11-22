@@ -4,4 +4,5 @@ const meshModel = { file: 'aircraft/airship/zeppelin.fbx', size: 20 }
 export const models = [meshModel]
 
 /** How it looks and acts, for a character made of a body and its model: it flies 40 m above the ground, its propeller turning. */
-export const description = { model: meshModel, animDict: {}, spinning: { part: 'propeler', speed: -1 }, body: { speed: 4, altitude: 40 } }
+export const description = { model: meshModel, animDict: {}, deathPose: 'airship',
+  spinning: { part: 'propeler', speed: -1 }, body: { speed: 4, altitude: 40 } }

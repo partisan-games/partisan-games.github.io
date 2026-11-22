@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="sr-Latn">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Čamac · Etape</title>
+<style>
+  :root{color-scheme:dark;font:16px/1.5 system-ui;background:#101a22;color:#e6edee}
+  body{max-width:1280px;margin:auto;padding:1rem}
+  h1{margin:0 0 .5rem} h2{font-size:1.1rem;margin:1.3rem 0 .35rem}
+  a{color:#a0d8e3} canvas{display:block;width:100%;height:auto;image-rendering:pixelated}
+  .controls{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;margin:1rem 0}
+  input,select{vertical-align:middle} section{margin:0 0 1.5rem}
+</style>
+<h1>Čamac · Vis i Šolta, maj 1944.</h1>
+<p>U igri se sada plovi kroz uvalu na Šolti. Luka na Visu i otvoreni kanal pripremljeni su za isplovljavanje i povratak. <a href="/#camac">Otvori igru</a></p>
+<div class="controls">
+  <label>Format <select id="size"><option value="1280,720">1280 × 720</option><option value="1024,768">1024 × 768</option></select></label>
+  <label>Pomeri kameru <input id="scroll" type="range" min="0" max="1536" value="0"></label>
+  <label><input id="edges" type="checkbox"> Pokaži liniju obale</label>
+</div>
+<section><h2>Isplovljavanje iz luke Vis</h2><canvas data-stage="vis-luka"></canvas></section>
+<section><h2>Desant na Šoltu</h2><canvas data-stage="solta"></canvas></section>
+<section><h2>Povratak kroz Viški kanal</h2><canvas data-stage="vis-kanal"></canvas></section>
+<p><a href="assets.json">Mere i SHA-256</a> · <a href="prompts.json">Izvori i promptovi</a></p>
+<script type="module">
+  import Obala from '/scenes/camac/Obala.js'
+  const boat = new Image()
+  boat.src = '/assets/images/armies/camac.png'
+  const canvases = [...document.querySelectorAll('canvas')]
+  const coasts = canvases.map(canvas => new Obala(canvas, canvas.dataset.stage))
+  await Promise.all([boat.decode(), ...coasts.map(coast => coast.image.decode())])
+  function draw() {
+    const [width, height] = document.querySelector('#size').value.split(',').map(Number)
+    const left = Number(document.querySelector('#scroll').value)
+    for (const [index, canvas] of canvases.entries()) {
+      canvas.width = width
+      canvas.height = height
+      const ctx = canvas.getContext('2d')
+      const coast = coasts[index]
+      ctx.save()
+      ctx.translate(-left, 0)
+      coast.render(ctx, { x: left, width, height })
+      if (coast.profile && document.querySelector('#edges').checked) {
+        ctx.strokeStyle = '#fbae45'
+        ctx.lineWidth = 2
+        for (const side of [-1, 1]) {
+          ctx.beginPath()
+          for (let x = left; x <= left + width; x++)
+            if (x === left) ctx.moveTo(x, coast.edgeAt(x, side))
+            else ctx.lineTo(x, coast.edgeAt(x, side))
+          ctx.stroke()
+        }
+      }
+      ctx.restore()
+      // Same hull dimensions and physical scale as the playable boat.
+      ctx.drawImage(boat, width * .28 - 88.75, height / 2 - 38, 177.5, 76)
+    }
+  }
+  document.querySelector('.controls').addEventListener('input', draw)
+  draw()
+</script>
+</html>

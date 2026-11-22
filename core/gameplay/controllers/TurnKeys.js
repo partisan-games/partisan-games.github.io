@@ -14,6 +14,7 @@ export default class TurnKeys {
     const { body, input } = this
     if (input.up) body.throttle(dt)
     if (input.down) body.back?.(dt)
+    if (!input.up && !input.down) body.releaseThrottle?.()
     if (input.left) body.turn(-1, dt)
     if (input.right) body.turn(1, dt)
     if (input.attack) body.shoot?.()

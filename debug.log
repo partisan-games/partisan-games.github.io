@@ -58,3 +58,5 @@
 [1116/123042.575:ERROR:gpu\command_buffer\service\gl_utils.cc:431] [.WebGL-0x693c0097ac00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)
 [1116/123043.133:ERROR:media\gpu\gpu_video_encode_accelerator_factory.cc:122] Failed to enum adapter by LUID
 [1116/123043.133:ERROR:media\gpu\gpu_video_encode_accelerator_factory.cc:142] Failed to get an adapter by LUID
+[1122/125337.635:ERROR:third_party\crashpad\crashpad\util\win\registration_protocol_win.cc:108] CreateFile: The system cannot find the file specified. (0x2)
+[1122/125337.637:ERROR:third_party\crashpad\crashpad\util\win\registration_protocol_win.cc:108] CreateFile: The system cannot find the file specified. (0x2)

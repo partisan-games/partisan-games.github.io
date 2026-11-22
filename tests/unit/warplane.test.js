@@ -80,6 +80,18 @@ test('a landed warplane slows down the same at 30 and at 60 frames a second', ()
   assert.ok(speeds[0] < warplane.speed)
 })
 
+test('a destroyed warplane settles on elevated ground and cannot resume flight', () => {
+  const clock = new GameClock(), plane = new Warplane({ clock, groundAt: () => 6 })
+  plane.setState('dead')
+  fly(plane, clock, 18)
+  plane.setState('move')
+  assert.equal(plane.state, 'dead')
+  assert.equal(plane.speed, 0)
+  assert.equal(plane.airborne, false)
+  near(plane.y, 6 + plane.size.height * 2 / 3)
+  assert.equal(plane.fire(), false)
+})
+
 test('a tower fires at a target in range every interval of game time, and its rounds hit', () => {
   const clock = new GameClock()
   const plane = new Warplane({ clock, y: 29, z: -100 })

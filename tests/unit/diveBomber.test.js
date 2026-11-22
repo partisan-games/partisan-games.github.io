@@ -28,7 +28,7 @@ test('a Ju 87 can aim only at a point ahead and below it, at least as steep as i
 test('set to fire, a Ju 87 dives on the aimed point, lets one bomb go that bursts there, pulls up and climbs back', () => {
   const { body, impacts, live } = bomberAlone()
   body.aimAt({ x: 85.71, y: 0 })
-  body.setState('fire')
+  body.setState('attack')
   let lowest = body.y
   for (let i = 0; i < 30 * 8; i++) {
     live(1 / 30)
@@ -46,7 +46,7 @@ test('flying level, shot down or after the result a Ju 87 drops no bomb', () => 
   const { body, impacts, live } = bomberAlone({ canFire: () => running })
   body.aimAt({ x: 85.71, y: 0 })
   live(3)
-  body.setState('fire')
+  body.setState('attack')
   live(5)
   assert.equal(impacts.length, 0, 'not after the result')
   running = true
@@ -65,7 +65,7 @@ test('a gunner dives the Ju 87 on a ground target ahead within its reach, and on
   assert.equal(body.state, 'idle', 'behind and far')
   target.x = body.x - 10.71
   live(1 / 30, gunner)
-  assert.equal(body.state, 'fire')
+  assert.equal(body.state, 'attack')
 })
 
 test('a shot down Ju 87 dives ever steeper and crashes where it reaches the ground', () => {
@@ -78,4 +78,20 @@ test('a shot down Ju 87 dives ever steeper and crashes where it reaches the grou
   live(5)
   assert.equal(body.crashed, true)
   assert.deepEqual(crashes, [{ x: body.x, y: 0 }])
+})
+
+test('the offered dive targets the ground after cruising in either direction', () => {
+  for (const way of [-1, 1]) {
+    const { body, impacts, live } = bomberAlone()
+    body.face(way)
+    live(4)
+    const target = body.shots.down
+    assert.ok(body.aimAt({ x: body.x + way * target.x, y: body.y + target.y }))
+    body.setState('attack')
+    live(.25)
+    assert.ok(body.y < body.cruiseY && body.loaded, 'the dive starts before bomb release')
+    live(8)
+    assert.deepEqual([impacts.length, body.shotsFired, body.state], [1, 1, 'move'])
+    assert.ok(Math.abs(body.y - body.cruiseY) < .1)
+  }
 })

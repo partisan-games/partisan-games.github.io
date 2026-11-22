@@ -4,9 +4,11 @@ const animDict = {
   jump: 'Mutant Jumping',
   attack: 'Zombie Attack',
   special: 'Zombie Scream',
+  death: 'Mutant Dying',
 }
 
-const meshModel = { file: 'model.fbx', prefix: 'character/demon/', animDict, angle: Math.PI, size: 3 }
+const meshModel = { file: 'model.fbx', prefix: 'character/demon/', animDict, angle: Math.PI, size: 3,
+  sharedClips: { 'Mutant Dying': 'character/troll/Mutant Dying.fbx' } }
 
 /** What to load; a game awaits requestModels(models) before it creates one of these. */
 export const models = [meshModel]
@@ -15,5 +17,5 @@ export const models = [meshModel]
  * How it looks, sounds and acts, for a character made of a body and its model: its scream burns every one around it
  * within 3 m, in a flame that pours from it as the scream lands.
  */
-export const description = { model: meshModel, animDict, flame: { kinds: ['special'], fromBlow: true },
+export const description = { model: meshModel, animDict, deathPose: 'winged', flame: { kinds: ['special'], fromBlow: true },
   body: { area: { kinds: ['special'] } } }

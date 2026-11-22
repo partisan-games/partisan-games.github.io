@@ -94,13 +94,16 @@ export default class TankSprite extends BodySprite {
     ctx.rotate(this.angle)
     ctx.scale(this.flipY, 1)
     ctx.imageSmoothingEnabled = false
-    const image = bodyImage(this), wrecked = image !== this.image
-    if (!wrecked) {
+    const image = bodyImage(this)
+    const wreckRow = this.body.dead && this.art.wreckRow !== undefined ? this.art.wreckRow : undefined
+    if (image !== this.image || wreckRow !== undefined)
+      ctx.drawImage(image, 0, (wreckRow ?? 0) * frame.height, frame.width, frame.height, x, y, width, height)
+    else {
+      const frameX = this.frameIndex * frame.width
       const turretRow = clips[this.clip].row + (this.body.turretBack ? 4 : 2)
-      ctx.drawImage(image, this.frameIndex * frame.width, turretRow * frame.height, frame.width, frame.height, x, y, width, height)
+      ctx.drawImage(image, frameX, turretRow * frame.height, frame.width, frame.height, x, y, width, height)
+      ctx.drawImage(image, frameX, clips[this.clip].row * frame.height, frame.width, frame.height, x, y, width, height)
     }
-    ctx.drawImage(image, wrecked ? 0 : this.frameIndex * frame.width, wrecked ? 0 : clips[this.clip].row * frame.height,
-      frame.width, frame.height, x, y, width, height)
     ctx.restore()
     if (this.burning) this.flame.render(this.smoky)
   }

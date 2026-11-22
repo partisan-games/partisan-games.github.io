@@ -42,3 +42,13 @@ test('keys steer an airship: arrows turn and climb, PageUp and PageDown change i
   new AirshipKeys(body, input).update()
   assert.deepEqual(body.steering, { turn: 1, climb: 1, throttle: 1 })
 })
+
+test('a destroyed airship stops at the height of the ground supplied by the scene', () => {
+  const body = new Airship({ y: 8, groundAt: () => 3, gravity: 5 })
+  body.setState('dead')
+  body.setState('move')
+  body.update(.2)
+  assert.ok(body.y < 8 && body.clearance > 0)
+  for (let i = 0; i < 120; i++) body.update(1 / 30)
+  assert.deepEqual([body.state, body.feet, body.speed, body.vy], ['dead', 3, 0, 0])
+})

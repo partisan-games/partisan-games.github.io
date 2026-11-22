@@ -27,13 +27,13 @@ import FighterSprite from '/core/actor/aircraft/FighterSprite.js'
 import DiveBomberSprite from '/core/actor/aircraft/DiveBomberSprite.js'
 import vehicleArt from '/core/actor/vehicleArt.js'
 import spriteArt from '/core/actor/spriteArt.js'
-import Battlefield from './Battlefield.js'
+import Route from './Route.js'
 import BattleFeedback from './BattleFeedback.js'
 
 /** How many pixels a metre of the road is drawn: the bodies are in metres, the view and its scenery in pixels. */
 const pxPerMeter = 20
 const toMeters = pixels => pixels / pxPerMeter
-/** How fast the view moves along the road, in pixels a second, and the length of the road. */
+/** How fast the view moves along the road, in pixels a second, and the length of the road, all its stages together. */
 const scroll = 160
 const levelLength = scroll * 180
 /**
@@ -68,7 +68,7 @@ export default class ToTriesteScene extends Scene2D {
     this.screenView = screenView(this.projection, this)
     this.score = 0
     this.levelLength = levelLength
-    this.battlefield = new Battlefield({ groundY: this.groundLine, distance: () => this.cameraX })
+    this.route = new Route({ groundY: this.groundLine, distance: () => this.cameraX, length: levelLength })
     /** The view's left and its right for the tank, in metres, which keep the tank in it. */
     this.bounds = { min: 0, max: toMeters(canvas2d.width * .9) }
     /** What the tank's shells can hit: every enemy in play. */
@@ -101,14 +101,10 @@ export default class ToTriesteScene extends Scene2D {
       projection: this.projection, clock: this.session.presentationClock, layers })
     this.add(this.feedback.ground, this.feedback.front)
     await this.imagesLoaded()
-    if (!this.session.active) return
-    this.battlefield.alignRoad(this.groundLine)
-    this.battlefield.prepare()
   }
 
   imagesLoaded() {
-    const scenery = [this.battlefield, ...this.battlefield.children].map(object => object.imageLoaded).filter(Boolean)
-    return Promise.all([super.imagesLoaded(), ...scenery])
+    return Promise.all([super.imagesLoaded(), this.route.loaded()])
   }
 
   get running() {
@@ -296,7 +292,7 @@ export default class ToTriesteScene extends Scene2D {
 
   clear() {
     ctx.clearRect(0, 0, canvas2d.width, canvas2d.height)
-    this.battlefield?.render()
+    this.route?.render()
   }
 
   sceneUI() {

@@ -1,0 +1,306 @@
+{
+  "prompts": "prompts.json",
+  "sources": {
+    "vehicles.png": "b18be520a3750c329e8be4e69c49ce66169ebbc945e91e9461dcc2e88f4643b7",
+    "wrecks.png": "6a32842754f4d36cf8df6caa2cd3dc95fb3063349cc881c79c45a454d867aba4"
+  },
+  "assets": [
+    {
+      "id": "m15-42",
+      "image": "../../game-ready/tenkovi/m15-42-layers.png",
+      "frame": {
+        "width": 181,
+        "height": 91,
+        "columns": 4,
+        "rows": 7
+      },
+      "anchor": {
+        "x": 90.5,
+        "y": 45.5
+      },
+      "baseline": 91,
+      "direction": -1,
+      "columns": 4,
+      "rows": [
+        "idle",
+        "drive",
+        "turretIdle",
+        "turretDrive",
+        "rearIdle",
+        "rearDrive",
+        "dead"
+      ],
+      "animations": [
+        {
+          "name": "idle",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 1.4,
+          "loop": true
+        },
+        {
+          "name": "drive",
+          "row": 1,
+          "frameCount": 4,
+          "duration": 0.64,
+          "loop": true
+        },
+        {
+          "name": "turretIdle",
+          "row": 2,
+          "frameCount": 4,
+          "duration": 1.4,
+          "loop": true
+        },
+        {
+          "name": "turretDrive",
+          "row": 3,
+          "frameCount": 4,
+          "duration": 0.64,
+          "loop": true
+        },
+        {
+          "name": "rearIdle",
+          "row": 4,
+          "frameCount": 4,
+          "duration": 1.4,
+          "loop": true
+        },
+        {
+          "name": "rearDrive",
+          "row": 5,
+          "frameCount": 4,
+          "duration": 0.64,
+          "loop": true
+        },
+        {
+          "name": "dead",
+          "row": 6,
+          "frameCount": 1,
+          "duration": null,
+          "loop": false
+        }
+      ],
+      "durationsMs": {
+        "idle": 1400,
+        "drive": 640
+      },
+      "wreckFrame": 0,
+      "kind": {
+        "size": {
+          "length": 5.04,
+          "height": 2.529,
+          "width": 2.23
+        },
+        "turretAxis": 0.141,
+        "barrel": {
+          "ahead": 1.052,
+          "above": 0.719,
+          "length": 1.259
+        }
+      },
+      "sha256": {
+        "m15-42-layers.png": "147f3291975c6d1360a8345ce5d4db0ed98e41b0cfbf78be6d5c1395d7918697",
+        "m15-42-barrel.png": "905def5eb30529ea97ef0ec7cf2faff505e28660ecdd5d3c22dc2ba6a68cbf66"
+      }
+    },
+    {
+      "id": "stug-iii",
+      "image": "../../game-ready/tenkovi/stug-iii-layers.png",
+      "frame": {
+        "width": 194,
+        "height": 79,
+        "columns": 4,
+        "rows": 7
+      },
+      "anchor": {
+        "x": 97.0,
+        "y": 39.5
+      },
+      "baseline": 79,
+      "direction": -1,
+      "columns": 4,
+      "rows": [
+        "idle",
+        "drive",
+        "turretIdle",
+        "turretDrive",
+        "rearIdle",
+        "rearDrive",
+        "dead"
+      ],
+      "animations": [
+        {
+          "name": "idle",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 1.4,
+          "loop": true
+        },
+        {
+          "name": "drive",
+          "row": 1,
+          "frameCount": 4,
+          "duration": 0.64,
+          "loop": true
+        },
+        {
+          "name": "turretIdle",
+          "row": 2,
+          "frameCount": 4,
+          "duration": 1.4,
+          "loop": true
+        },
+        {
+          "name": "turretDrive",
+          "row": 3,
+          "frameCount": 4,
+          "duration": 0.64,
+          "loop": true
+        },
+        {
+          "name": "rearIdle",
+          "row": 4,
+          "frameCount": 4,
+          "duration": 1.4,
+          "loop": true
+        },
+        {
+          "name": "rearDrive",
+          "row": 5,
+          "frameCount": 4,
+          "duration": 0.64,
+          "loop": true
+        },
+        {
+          "name": "dead",
+          "row": 6,
+          "frameCount": 1,
+          "duration": null,
+          "loop": false
+        }
+      ],
+      "durationsMs": {
+        "idle": 1400,
+        "drive": 640
+      },
+      "wreckFrame": 0,
+      "kind": {
+        "size": {
+          "length": 5.4,
+          "height": 2.201,
+          "width": 2.95
+        },
+        "turretAxis": 1.366,
+        "barrel": {
+          "ahead": 1.366,
+          "above": 0.471,
+          "length": 1.97
+        }
+      },
+      "sha256": {
+        "stug-iii-layers.png": "157fbb68e162faa6a0445fd5a9f8dd16a432377b010c08e6818b3a95eb420f14",
+        "stug-iii-barrel.png": "f5d7a593ffc78ffc6bd3340395960b9ebd41c52a5e27b19344778f59212a5e1c"
+      }
+    },
+    {
+      "id": "hotchkiss",
+      "image": "../../game-ready/tenkovi/hotchkiss-layers.png",
+      "frame": {
+        "width": 152,
+        "height": 78,
+        "columns": 4,
+        "rows": 7
+      },
+      "anchor": {
+        "x": 76.0,
+        "y": 39.0
+      },
+      "baseline": 78,
+      "direction": -1,
+      "columns": 4,
+      "rows": [
+        "idle",
+        "drive",
+        "turretIdle",
+        "turretDrive",
+        "rearIdle",
+        "rearDrive",
+        "dead"
+      ],
+      "animations": [
+        {
+          "name": "idle",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 1.4,
+          "loop": true
+        },
+        {
+          "name": "drive",
+          "row": 1,
+          "frameCount": 4,
+          "duration": 0.64,
+          "loop": true
+        },
+        {
+          "name": "turretIdle",
+          "row": 2,
+          "frameCount": 4,
+          "duration": 1.4,
+          "loop": true
+        },
+        {
+          "name": "turretDrive",
+          "row": 3,
+          "frameCount": 4,
+          "duration": 0.64,
+          "loop": true
+        },
+        {
+          "name": "rearIdle",
+          "row": 4,
+          "frameCount": 4,
+          "duration": 1.4,
+          "loop": true
+        },
+        {
+          "name": "rearDrive",
+          "row": 5,
+          "frameCount": 4,
+          "duration": 0.64,
+          "loop": true
+        },
+        {
+          "name": "dead",
+          "row": 6,
+          "frameCount": 1,
+          "duration": null,
+          "loop": false
+        }
+      ],
+      "durationsMs": {
+        "idle": 1400,
+        "drive": 640
+      },
+      "wreckFrame": 0,
+      "kind": {
+        "size": {
+          "length": 4.22,
+          "height": 2.178,
+          "width": 1.95
+        },
+        "turretAxis": 0.154,
+        "barrel": {
+          "ahead": 0.834,
+          "above": 0.555,
+          "length": 0.514
+        }
+      },
+      "sha256": {
+        "hotchkiss-layers.png": "acdcea3c409123d206db4db9f943a19398dc5202faf88455057d3384d06274c4",
+        "hotchkiss-barrel.png": "f8ce66b2db3cbdb28ea45b53d05788a7b625b4bc3f7295eacc81135e42bfe467"
+      }
+    }
+  ]
+}

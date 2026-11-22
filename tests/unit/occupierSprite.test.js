@@ -16,7 +16,7 @@ test('an occupier loops the new fire row and keeps his flash on each measured mu
     const body = new Occupier({ x: 5, y: .9, yaw })
     const view = new OccupierSprite(body, { projection: sideProjection({ pxPerMeter: 100, groundY: 600 }) })
     await null
-    body.setState('fire')
+    body.setState('attack')
     for (const seconds of [.001, .101, .201, .301, .401, .501, .601, 1.201, 1000.301]) {
       body.stateTime = seconds
       view.update(0)
@@ -44,14 +44,14 @@ test('the occupier still walks in either direction and holds the final death fra
     const body = new Occupier({ x: 5, y: .9, yaw })
     const view = new OccupierSprite(body, { projection: sideProjection({ pxPerMeter: 100, groundY: 600 }) })
     await null
-    for (const state of ['walk', 'dead']) {
+    for (const state of ['idle', 'move', 'dead']) {
       body.setState(state)
       body.stateTime = 20.401
       view.update(0)
       const draws = []
       view.render({ drawImage: (image, ...rest) => draws.push({ image, source: rest.slice(0, 4) }) })
       assert.equal(draws.length, 1, 'walking and death never draw a flash')
-      assert.deepEqual(draws[0].source, [840, state === 'dead' ? 840 : yaw === 0 ? 630 : 420, 210, 210])
+      assert.deepEqual(draws[0].source, [840, state === 'idle' ? 210 : state === 'dead' ? 840 : yaw === 0 ? 630 : 420, 210, 210])
     }
   }
 })

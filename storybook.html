@@ -18,6 +18,7 @@
     body { overflow: hidden; }
     #platno, #platno-3d { position: fixed; inset: 0; }
     body[data-stage="3d"] #platno, body[data-stage="2d"] #platno-3d { display: none; }
+    body[data-stage="unavailable"] canvas { display: none; }
     .storybook-panel, .storybook-list {
       position: fixed; top: 12px; z-index: 10; width: 220px; max-height: calc(100vh - 24px); overflow: auto;
       padding: 12px; background: rgb(0 0 0 / .7); font: 14px/1.4 system-  ui, sans-serif; text-shadow: none;

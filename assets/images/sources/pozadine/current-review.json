@@ -28,14 +28,14 @@
     },
     {
       "id": "sremski-front-1945",
-      "sha256": "c58b846f44fdbeeb7375dd0d480b6e52c690bb57919908f49d0417e802e9f9cf",
+      "sha256": "c8eab0c4d10db245e338c6f064ea9f54365ae9a8968dc362f89415061f939836",
       "previews": [
         "current-previews/sremski-front-1945-1280x720.webp",
         "current-previews/sremski-front-1945-1024x768.webp"
       ],
       "previewSha256": {
-        "current-previews/sremski-front-1945-1280x720.webp": "2ef079c97a74c8d65d5645cc48ec68d8decc0435051e25931eb7281a2dd9234d",
-        "current-previews/sremski-front-1945-1024x768.webp": "7c7c4ef0a38bb2e84042ee2f9f63a7bfc9972f9aae2939350b41c92dc4088213"
+        "current-previews/sremski-front-1945-1280x720.webp": "e8f804229da71acc9b0374b4448d7110dd7269fc5d39650b127dbec5565db456",
+        "current-previews/sremski-front-1945-1024x768.webp": "afe19b5101df2c92675f4a6a1e34cd72e413937a94bd51754edb149068185fc0"
       },
       "gameExecuted": false,
       "ownerAccepted": false

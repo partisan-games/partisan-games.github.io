@@ -28,9 +28,9 @@ To see every background picture in the project, open `/pozadine.html` on the `np
 
 ## TODO
 
-- analiziraj storybook i vidi postoji li animirani art za sva stanja svakog aktera tamo.
-- razrađivati postojeće nivoe redom (npr. pucanje iz prvog lica, poput otpisani i neretva, može da postane čuveni arkadni žanr gde se ekran zapravo pomera a neprijatelji iskaču)
-- dodati biranje težine za neke igre, jer trenutno mnogo zavisi od uređaja. npr. otpisani na tač skrinu je mnogo lakše nego mišem.
+- razrađivati postojeće nivoe redom
+- neki nivo iz prvog lica, poput otpisani i neretva, može da postane čuveni arkadni žanr gde se ekran zapravo pomera a neprijatelji iskaču
+- smisliti nazive nivoa, na naslovnoj prikazivati žanr i godinu.
 
 Ideje za nivoe:
 - odbrani polozaj (kamera odozgo, nadiru sa svih strana)

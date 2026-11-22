@@ -14,6 +14,21 @@ Architecture and ownership: [ARHITEKTURA](ARHITEKTURA.md). Check execution requi
 
 First time only: `npx playwright install chromium`.
 
+### Provera animacija u browseru · 22. novembar 2026.
+
+Provereno je 78 direktnih priča sa 88 izgleda. U 2D katalogu izvršeno je 250 komandi za 43 izgleda. U 3D katalogu izvršeno je 279 komandi za svih 45 izgleda. Kod vraćenih originala proveren je i zadržan kraj nakon pada. Kosturov ugriz zadaje jedan udarac, a Žrtvin strah prolazi bez napada. Sačuvani su [rezultat po izgledu i komandi](../pregled-animacija.html) i [izmereni podaci](references/storybook-animacije.json).
+
+Za ponavljanje uz pokrenut lokalni server na portu 8080:
+
+```sh
+node scripts/probe-storybook-art.mjs 2d test-results/sb-2d.json
+node scripts/probe-storybook-art.mjs 3d test-results/sb-3d.json
+node scripts/probe-character-actions.mjs
+node scripts/probe-storybook-art.mjs --report
+```
+
+Posebno je isproban Ju 87 u oba smera. Sa visine 12,86 m spustio se na približno 5,89 m i vratio na 12,85 m, sa jednom ispuštenom bombom po pokušaju. U Neretvi su provereni zaseban rov, pad i smena vojnika. U Warplane, Zeppelin i FPS Airport pokrenuti su stvarni nivoi. U stvarnim 3D nivoima isprobani su i Demon, Veštica, Tenk i Bacač plamena. Prošlo je svih 744 jediničnih testa i 11 Chromium provera za art, među njima i zadržavanje krvi bombaša u oba smera. Prošao je i `npm run check`.
+
 ## UI verification limits
 
 The [key-description tests](../tests/unit/keys.test.js) preserve the current text, not its completeness. DOM tests do not establish native keyboard activation, focus, pointer lock, physical touch or rendered geometry.
@@ -129,6 +144,10 @@ Import `test` from `helpers.js`, not from Playwright: it exposes the game's `Sce
 <a id="art-verification-record"></a>
 
 ## Art verification record
+
+**Tragovi rata u Tenkićima i Ustanku, 2026-11-22.** Chromium je iscrtao sedam tenkovskih i tri artiljerijska bojišta u 1280×720 i 1024×768. Za svaki od 24 postavljena rekvizita upoređen je isti kadar igre sa predmetom i bez njega. Svaki je vidljiv u oba formata. U Vilusima i kod Nikšića dva tela su pomerena jer ih je u prvom rasporedu zaklanjao bunker. [Pregled rasporeda](../props.html#sremFront1944) učitava iste podatke kao igra. Provereni su svih deset izbora, odvojene probne izmene pri promeni mesta i povratak na ugrađeni raspored posle osvežavanja stranice. Vlasnikov pregled novih kompozicija ostaje otvoren.
+
+**Ranjenik, patrole, zastavnici i oklopni voz, 2026-11-22.** Chromium je otvorio 37 dvodimenzionalnih priča sa 43 izgleda i izvršio 250 komandi. Posebno su provereni završni kadar i reset ranjenika, obe patrole i oba zastavnika, šest faza trzaja i odvojeni plamen BP-42 u oba smera, kao i otpuštanje bombe posle 0,40 s u oba smera. U nivou Ranjenik proveren je ishod smrtonosnog pogotka, u Ustanku punjenje držanjem razmaknice i paljba pri otpuštanju, a u Kluzu po jedan projektil iz komande stvarnom vagonu. Tokom te provere nije bilo neuspelih zahteva ili grešaka stranice. [Ranjenik](../storybook.html#vojnici/ranjeni-partizan), [patrola](../storybook.html#vojnici/nemacka-patrola), [zastavnik](../storybook.html#vojnici/zastavnik/partizanski), [BP-42](../storybook.html#vozila/bp42).
 
 **Vojnik i rov, 2026-11-22:** `TrenchSoldierSprite` učitava svoj atlas i priprema sve poze pre završetka `imageLoaded`; više ne učitava niti crta rov. Neretva sklapa telo, prikaz figure i zaseban `Trench`, čuvajući prvobitni položaj figura, piksele obe razmere, prozor za gađanje i uklanjanje cele postave pri smeni strana. FrontSoldiers, migration2d, storybookCatalog i sound: **32/32**, lint izmenjenih JS fajlova i provera projekta prolaze. Chromium je proverio obe samostalne Storybook figure, hidden/Reset i odsustvo čak i zahteva za sliku rova, zatim 22 zasebna rova u Neretvi i pogodak klikom; bez grešaka stranice/učitavanja. Art ostaje do struka, bez novih nacrtanih poza ili nogu. Puna serija i smoke nisu pokretani.
 

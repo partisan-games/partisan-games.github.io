@@ -38,7 +38,7 @@ const enemyOf = (scene, kind) => scene.enemies[layout.findIndex(item => item.kin
 test('the integrated Hummel can fire on command without joining the mission anti-aircraft controllers', t => {
   const scene = createScene(t)
   const { body } = enemyOf(scene, 'tank')
-  assert.ok(body.states.includes('fire'))
+  assert.ok(body.states.includes('attack'))
   assert.equal(scene.armed.includes(body), false)
   scene.openFire(scene.armed)
   assert.equal(scene.controllers.some(controller => controller.body === body && controller instanceof Gunner), false)

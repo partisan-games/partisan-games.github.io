@@ -1,6 +1,7 @@
 import Rifleman, * as riflemanModule from '/core/gameplay/bodies/soldiers/Rifleman.js'
-import Vehicle, * as vehicleModule from '/core/gameplay/bodies/vehicles/Vehicle.js'
-import Hummel, * as hummelModule from '/core/gameplay/bodies/vehicles/Hummel.js'
+import * as vehicleModule from '/core/gameplay/bodies/vehicles/Vehicle.js'
+import * as hummelModule from '/core/gameplay/bodies/vehicles/Hummel.js'
+import * as trainModule from '/core/gameplay/bodies/vehicles/BP42.js'
 import Fighter, * as fighterModule from '/core/gameplay/bodies/aircraft/Fighter.js'
 import DiveBomber, * as diveBomberModule from '/core/gameplay/bodies/aircraft/DiveBomber.js'
 import Flak, * as flakModule from '/core/gameplay/bodies/artillery/Flak.js'
@@ -36,8 +37,7 @@ const soldier = kind => (stage, way) => {
 /** A vehicle; its picture points the way `facing` says, and is mirrored for the other side. */
 const vehicle = kind => (stage, way) => {
   const settings = vehicleModule.vehicleKinds[kind]
-  const { art, attack, facing } = kinds[kind]
-  const VehicleBody = kind === 'tank' ? Hummel : Vehicle
+  const { art, attack, facing, Body: VehicleBody } = kinds[kind]
   const body = new VehicleBody({ kind: settings, ...middle(stage, settings.size.height / 2), yaw: yawOf(way),
     targets: [stage.dummy] })
   return put(stage, body, new VehicleSprite(body, { art, attack, facing, ...views(stage) }))
@@ -54,7 +54,7 @@ const fighter = (stage, way) => {
 /** The Ju 87 flies at its height, high enough to dive on the ground below it. */
 const diveBomber = (stage, way) => {
   const body = new DiveBomber({ ...middle(stage, 12.86), yaw: yawOf(way) })
-  body.enter()
+  stage.follow(body)
   return put(stage, body, new DiveBomberSprite(body, views(stage)))
 }
 
@@ -84,7 +84,7 @@ export const vehicles = [
   { id: 'hummel', name: 'Hummel', game, pxPerMeter, way: kinds.tank.facing, block: hummelModule, create: vehicle('tank') },
   { id: 'opel-blitz', name: 'Opel Blitz', game, pxPerMeter, way: kinds.truck.facing, block: vehicleModule, create: vehicle('truck') },
   { id: 'opel-blitz-legija', name: 'Opel Blitz, legija', game, pxPerMeter, way: kinds.legionTruck.facing, block: vehicleModule, create: vehicle('legionTruck') },
-  { id: 'bp42', name: 'Oklopni voz BP-42', game, pxPerMeter, way: kinds.train.facing, block: vehicleModule, create: vehicle('train') },
+  { id: 'bp42', name: 'Oklopni voz BP-42', game, pxPerMeter, way: kinds.train.facing, block: trainModule, create: vehicle('train') },
 ]
 
 export const aircraft = [

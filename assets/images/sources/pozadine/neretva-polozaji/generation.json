@@ -1,0 +1,35 @@
+{
+  "tool": "Built-in image_gen",
+  "date": "2026-11-22",
+  "scene": "neretva",
+  "season": "Early spring, 1943",
+  "projection": "Frontal, terrain fills the screen. First open ground measured across the entire source width. The scene positions its own trench covers at 25% and 50% of viewport height.",
+  "backgrounds": [
+    {
+      "faction": "nemci",
+      "image": "../../../background/neretva-1943-nemci.png",
+      "providerFile": "exec-bd6901f0-9bb8-4efd-9a6a-148d9f61a906.png",
+      "sha256": "377a1472f14de524f6a547bee6868c98a7f06eab6dacd01cfc8f32ac592af438",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "groundY": 166,
+      "hotspots": [],
+      "prompt": "Landscape 3:2 production-ready full-bleed environmental background for a 2D hand-crafted WW2 arcade pixel-art game. Bosnia, Neretva gorge near Jablanica, early March 1943. Front-facing shooter looking down from elevated opposing position toward two horizontal rows of SMALL individual pop-up trench sprites which the engine ADDS at exactly 25% and 52% of screen height. DO NOT draw those trenches, troops, vehicles, arms, people, UI, props, fire, smoke or text. Compose nearly the ENTIRE image as playable open gently sloping light earth and sparse dry grassy ground as seen looking downward, quiet textures and broad muted tonal blocks, organically varied on the lower three quarters. Keep all dramatic scenery in very shallow strip in top 17% ONLY. This is essential: horizon at y=6%, never the middle. Engine will stretch to 16:9 and 4:3. Crisp late 90s pixel art with deliberate clustered pixels, earthy desaturated olive, ochre, slate, restrained cyan river, no heavy black outlines, no border. This is game scenery, not a poster. First position on the open downland facing the deep Neretva canyon. At the very top left a pale limestone cliff disappearing into blue haze, far away upper right a slim ribbon of cold turquoise river turning beside the far bank under barren slopes, thin overcast morning light. Mainly grassy and clay bench of land."
+    },
+    {
+      "faction": "cetnici",
+      "image": "../../../background/neretva-1943-cetnici.png",
+      "providerFile": "exec-4168521e-4a51-41ca-904c-27477b61e125.png",
+      "sha256": "0df5e1c9d360b835fd14d4951cb9bbb733a8073445390ddad398b29e8fbab6eb",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "groundY": 199,
+      "hotspots": [],
+      "prompt": "Landscape 3:2 production-ready full-bleed environmental background for a 2D hand-crafted WW2 arcade pixel-art game. Bosnia, Neretva gorge near Jablanica, early March 1943. Front-facing shooter looking down from elevated opposing position toward two horizontal rows of SMALL individual pop-up trench sprites which the engine ADDS at exactly 25% and 52% of screen height. DO NOT draw those trenches, troops, vehicles, arms, people, UI, props, fire, smoke or text. Compose nearly the ENTIRE image as playable open gently sloping light earth and sparse dry grassy ground as seen looking downward, quiet textures and broad muted tonal blocks, organically varied on the lower three quarters. Keep all dramatic scenery in very shallow strip in top 17% ONLY. This is essential: horizon at y=6%, never the middle. Engine will stretch to 16:9 and 4:3. Crisp late 90s pixel art with deliberate clustered pixels, earthy desaturated olive, ochre, slate, restrained cyan river, no heavy black outlines, no border. This is game scenery, not a poster. Second, physically distinct position on an angular buff limestone gravel terrace above the Neretva. At very top left a small World War II riveted steel lattice railway bridge partly collapsed at a sharp angle into the narrow turquoise river near Jablanica, far right layered dark ridges. No memorial or modern arch bridge. Early spring late-afternoon side light. Quiet bare olive-gold meadow foreground with scattered low stones, barely any vegetation."
+    }
+  ]
+}

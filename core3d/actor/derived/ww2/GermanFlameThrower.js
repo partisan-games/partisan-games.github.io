@@ -15,5 +15,6 @@ const twoHandedWeaponModel = { file: 'weapon/flame-gun/model.fbx', scale: .75 }
 export const models = [meshModel, twoHandedWeaponModel]
 
 /** How it looks, sounds and acts, for a character made of a body and its model; it does not turn while it burns. */
-export const description = { model: meshModel, animDict, twoHandedWeapon: twoHandedWeaponModel, attackSound: 'fire-swoosh.mp3', flame: {},
+export const description = { model: meshModel, animDict, twoHandedWeapon: twoHandedWeaponModel, attackSound: 'fire-swoosh.mp3',
+  flame: { weaponMuzzle: [5.1, 3.96, 141.79] },
   body: { speed: 1.8, reach: 7, turnWhileAttack: false } }

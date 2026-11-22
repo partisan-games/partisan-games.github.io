@@ -1,9 +1,10 @@
-import { LoopOnce, LoopRepeat, Vector3 } from 'three'
+import { Box3, LoopOnce, LoopRepeat, Vector3 } from 'three'
 import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js'
 import Animator from '/core3d/actor/Animator.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import { audioPoint } from '/core/io/audio/audio3d.js'
 import { getSize } from '/core3d/helpers.js'
+import wingContact from './wingContact.js'
 
 /** The clips played once and held at their end; every other clip loops. */
 const once = ['attack', 'attack2', 'special', 'jump', 'pain', 'death']
@@ -24,7 +25,7 @@ export function clipLengths(animations, animDict) {
 
 /** The hit box of a model as a character's body takes it: its depth is its length. */
 export function modelSize(mesh) {
-  const { x, y, z } = getSize(mesh)
+  const { x, y, z } = mesh.userData.visibleSize ?? getSize(mesh)
   return { length: z, height: y, width: x }
 }
 
@@ -37,10 +38,11 @@ export function modelSize(mesh) {
  */
 export default class CharacterModel {
   constructor(body, { mesh, animations = mesh.userData.animations ?? [], animDict = {}, twoHandedWeapon,
-    rightHandWeapon, attackSound, attackProfile = 'rifle', flame = null, raise = 0, ascend = false, spinning = null,
+    rightHandWeapon, attackSound, attackProfile = 'rifle', flame = null, raise = 0, ascend = false, spinning = null, deathPose = null,
     impactAt = () => null }) {
     this.body = body
-    Object.assign(this, { raise, ascend, flameKind: flame, impactAt })
+    Object.assign(this, { raise, ascend, flameKind: flame, impactAt, deathPose })
+    this.bounds = new Box3()
     this.mesh = animations.length ? clone(mesh) : mesh.clone()
     this.anim = animations.length
       ? new Animator({ mesh: this.mesh, animations, animDict, twoHandedWeapon, rightHandWeapon }) : null
@@ -54,13 +56,17 @@ export default class CharacterModel {
       this.sounds.push(this.attackSound)
     }
     if (flame) {
-      this.fireSound = new Sound('fire.mp3', { loop: true, volume: .2, profile: 'fire', spatial: audioPoint(this) })
-      this.sounds.push(this.fireSound)
+      if (!flame.duration) {
+        this.fireSound = new Sound('fire.mp3', { loop: true, volume: .2, profile: 'fire', spatial: audioPoint(this) })
+        this.sounds.push(this.fireSound)
+      }
       import('/core3d/Particles.js').then(particles => {
         if (this.ended) return
         this.flame = flame.particles ? new particles[flame.particles]()
-          : new particles.Flame({ num: 25, minRadius: 0, maxRadius: .5, minVelocity: 2.5, maxVelocity: 5 })
+          : new particles.Flame({ num: 25, size: flame.duration ? .3 : flame.weaponMuzzle ? .65 : 5,
+            minRadius: 0, maxRadius: .5, minVelocity: 2.5, maxVelocity: 5 })
         this.flame.mesh.material.opacity = 0
+        this.flame.mesh.visible = false
       })
     }
     this.clip = null
@@ -79,7 +85,7 @@ export default class CharacterModel {
     const { body, mesh } = this
     mesh.position.set(body.x, body.feet + this.raise, body.z)
     // the model faces -z, the body +x at yaw 0
-    mesh.rotation.y = body.yaw - Math.PI / 2
+    mesh.rotation.set(0, body.yaw - Math.PI / 2, 0, 'YXZ')
   }
 
   /** The clip of what the body does now, or the one playing when it has none for that. */
@@ -88,12 +94,12 @@ export default class CharacterModel {
     const has = name => name in actions
     if (body.dead) return 'death'
     if (body.hurt > 0 && has('pain')) return 'pain'
-    if (body.state === 'attack' && body.swing) return has(body.swing.kind) ? body.swing.kind : this.clip
+    if (body.state === 'attack' && body.swing) return body.swing.kind
     if (body.airborne) {
       if (body.leap > 0 || body.vy > 0) return has('jump') ? 'jump' : this.clip
       return has('fall') ? 'fall' : this.clip
     }
-    if (body.state === 'move') return body.running && has('run') ? 'run' : 'walk'
+    if (body.state === 'move') return body.running && has('run') ? 'run' : has('walk') ? 'walk' : 'idle'
     return 'idle'
   }
 
@@ -105,7 +111,14 @@ export default class CharacterModel {
     this.clip = name
     this.backwards = backwards
     const action = this.actions[name]
-    if (!action) return
+    if (!action) {
+      if (name === 'idle' && this.actions.walk) {
+        this.anim.mixer.stopAllAction()
+        this.actions.walk.reset().play()
+        this.actions.walk.paused = true
+      } else if (previous) previous.paused = true
+      return
+    }
     action.reset()
     // an attack of its own, as a dance move, is played once too
     action.setLoop(once.includes(name) || name === this.body.swing?.kind ? LoopOnce : LoopRepeat, Infinity)
@@ -117,39 +130,78 @@ export default class CharacterModel {
     action.play()
   }
 
-  /** A body with no death clip falls over where it stands. */
-  fallDead() {
-    this.anim?.mixer.stopAllAction()
-    this.mesh.rotateX(Math.PI / 2)
+  /** An unrigged vehicle settles on its side; a falling flier pitches down until impact, then settles. */
+  showDeath(dt) {
+    const { body, mesh, deathPose } = this
+    if (this.ascend) {
+      mesh.rotateY(body.stateTime * 4.5)
+      mesh.position.y += body.stateTime * .9
+      mesh.visible = body.stateTime < 4
+      return
+    }
+    if (deathPose === 'winged' && this.actions.death) {
+      const clip = this.actions.death.getClip()
+      this.wings ??= wingContact(mesh, clip, body.size.height)
+      const fold = Math.max(0, Math.min(1, (this.actions.death.time / clip.duration - .35) / .55))
+      for (const part of this.wings) part.morphTargetInfluences[0] = fold * fold * (3 - 2 * fold)
+    } else if (!this.actions.death) {
+      const t = Math.min(body.stateTime / .9, 1)
+      const ease = t * t * (3 - 2 * t)
+      const airborne = body.altitude && body.feet > body.supportHeight + .01
+      this.settled = airborne ? 0 : Math.min((this.settled ?? 0) + dt / .55, 1)
+      if (deathPose === 'airship' || deathPose === 'bird') {
+        mesh.rotation.x = -.65 * ease * (1 - this.settled)
+        mesh.rotation.z = (deathPose === 'airship' ? .55 : 1.35) * ease
+      } else mesh.rotation.z = (deathPose === 'armor' ? .24 : 1.45) * ease
+      if (deathPose === 'armor' || deathPose === 'airship') this.charWreck()
+    }
+    // Ground the actual deformed skin, including wings or a long gun, and cache its held final pose.
+    if (this.finalOffset === undefined) {
+      mesh.updateMatrixWorld(true)
+      this.bounds.setFromObject(mesh, true)
+      const aboveGround = body.altitude && body.feet > body.supportHeight + .01
+      const offset = this.bounds.isEmpty() ? 0 : aboveGround
+        ? Math.max(0, body.supportHeight - this.bounds.min.y) : body.feet - this.bounds.min.y
+      mesh.position.y += offset
+      if (this.actions.death?.paused || (!this.actions.death && body.stateTime >= .9 && this.settled === 1))
+        this.finalOffset = offset
+    } else mesh.position.y += this.finalOffset
+  }
+
+  charWreck() {
+    if (this.wreckMaterials) return
+    this.wreckMaterials = []
+    const char = original => {
+      const material = original.clone()
+      material.color?.multiplyScalar(.28)
+      this.wreckMaterials.push(material)
+      return material
+    }
+    this.mesh.traverse(part => {
+      if (part.isMesh) part.material = Array.isArray(part.material) ? part.material.map(char) : char(part.material)
+    })
   }
 
   update(dt, t) {
     const { body, seen } = this
     const before = this.mesh.position.clone()
     this.place()
-    const clip = this.chooseClip()
-    if (clip === 'death' && !this.actions.death && seen.alive) this.fallDead()
-    else this.play(clip)
-    // a ghost with no death clip spins and floats away
-    if (this.ascend && body.dead) {
-      this.risen = (this.risen ?? 0) + dt
-      this.mesh.rotateY(this.risen * 4.5)
-      this.mesh.translateY(this.risen * .9)
-    }
+    this.play(this.chooseClip())
     this.anim?.update(dt)
+    if (body.dead) this.showDeath(dt)
     if (body.shotsFired > seen.shots) this.strike()
     if (body.hitsTaken > seen.hits || (seen.airborne && !body.airborne && body.alive)) this.impactSound.play()
     this.step(before)
     this.ricochet?.expand({ velocity: 1.2, maxRounds: 5, gravity: .02 })
     this.burn(dt, t)
-    this.spinning?.part?.rotateY(this.spinning.speed * dt)
+    if (body.alive && this.spinning?.part) this.spinning.part.rotateY(this.spinning.speed * dt)
     Object.assign(seen, { shots: body.shotsFired, hits: body.hitsTaken, airborne: body.airborne, alive: body.alive })
   }
 
   /** A step sounds each stride it walks on the ground. */
   step(before) {
     const { body } = this
-    if (body.dead || body.airborne || body.state !== 'move') {
+    if (body.dead || body.altitude || body.airborne || this.ascend || this.deathPose === 'armor' || body.state !== 'move') {
       this.walked = 0
       return
     }
@@ -168,25 +220,33 @@ export default class CharacterModel {
   burn(dt, t) {
     const { flame, body } = this
     if (!flame) return
-    const { kinds = ['attack', 'attack2'], fromBlow = false, around = false } = this.flameKind
+    const { kinds = ['attack', 'attack2'], fromBlow = false, around = false, duration, muzzle, weaponMuzzle } = this.flameKind
     const { swing } = body
     const burning = body.state === 'attack' && body.alive && kinds.includes(swing?.kind) && (!fromBlow || swing.landed)
+      && (!duration || swing.time <= swing.length / 2 + duration)
     if (burning && !this.burning) {
       this.mesh.parent?.add(flame.mesh)
-      flame.reset({ pos: this.mesh.position, randomize: false })
+      flame.reset({ pos: this.mesh.position, unitAngle: muzzle || weaponMuzzle ? .12 : .5 })
     }
     if (burning) {
       flame.mesh.position.copy(this.mesh.position)
       flame.mesh.rotation.copy(this.mesh.rotation)
       flame.mesh.rotateX(Math.PI)
-      if (!around) {
+      if (weaponMuzzle) {
+        const gun = this.anim.twoHandedWeapon
+        gun.localToWorld(flame.mesh.position.fromArray(weaponMuzzle))
+        gun.getWorldQuaternion(flame.mesh.quaternion)
+      } else if (muzzle)
+        this.mesh.localToWorld(flame.mesh.position.fromArray(muzzle))
+      else if (!around) {
         flame.mesh.translateY(-1.2)
         flame.mesh.translateZ(1.75)
       }
     }
     this.burning = burning
-    flame.update(dt, t, { max: body.reach, loop: burning })
-    this.fireSound.setPlaying(burning)
+    flame.mesh.visible = burning
+    if (burning) flame.update(dt, t, { max: body.reach, loop: true })
+    this.fireSound?.setPlaying(burning)
   }
 
   async strike() {
@@ -217,6 +277,8 @@ export default class CharacterModel {
   end() {
     if (this.ended) return
     this.ended = true
+    this.wreckMaterials?.forEach(material => material.dispose())
+    this.wings?.forEach(part => part.geometry.dispose())
     for (const effect of [this.ricochet, this.flame]) {
       if (!effect) continue
       const { mesh } = effect

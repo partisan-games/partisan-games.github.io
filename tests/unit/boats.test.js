@@ -61,15 +61,15 @@ test('an S-boat lies still until it is set to sail, then sails on its course and
   live(clock, [body], 1)
   assert.equal(body.x, 100)
   body.course = Math.PI
-  body.setState('sail')
+  body.setState('move')
   live(clock, [body], 1)
   assert.ok(Math.abs(body.x - (100 - sBoat.cruise)) < .1)
-  body.setState('withdraw')
+  body.withdraw()
   live(clock, [body], 10)
   assert.ok(Math.abs(Math.hypot(body.vx, body.vz) - sBoat.full) < 1e-9 && body.vx > 0, 'back down the river')
 })
 
-test('the S-boat guns follow their aim in any state but fire only in fire, within reach, in bursts', () => {
+test('the S-boat guns follow their aim in any state but fire only in attack, within reach, in bursts', () => {
   const clock = new GameClock()
   const target = new Boat({ x: 100, z: 51, clock })
   const body = new SBoat({ x: 100, z: 30, clock, targets: [target] })
@@ -77,7 +77,7 @@ test('the S-boat guns follow their aim in any state but fire only in fire, withi
   live(clock, [body], 3)
   assert.equal(body.shotsFired, 0)
   body.course = Math.PI
-  body.setState('fire')
+  body.setState('attack')
   live(clock, [body], 2)
   assert.equal(body.shotsFired, sBoat.burst, 'one burst')
   assert.equal(body.bursts, 1)
@@ -103,11 +103,11 @@ test('a raider heads for a point ahead of the target in its lane and withdraws a
   const body = new SBoat({ x: 100, z: 50, lane: 50, clock })
   const raider = new Raider(body, target, { clock, viewWidth: () => 100, sees: () => true })
   raider.update()
-  assert.equal(body.state, 'fire')
+  assert.equal(body.state, 'attack')
   assert.ok(Math.abs(Math.abs(body.course) - Math.PI) < 1e-9, 'up the river in its lane')
   body.bursts = 2
   raider.update()
-  assert.equal(body.state, 'withdraw')
+  assert.equal(body.withdrawing, true)
 })
 
 test('a nest aims only out over the water, swings at once to its aim when it opens fire, and fires in bursts', () => {
@@ -115,7 +115,7 @@ test('a nest aims only out over the water, swings at once to its aim when it ope
   const body = new ShoreMachineGun({ x: 50, z: 5, side: -1, clock })
   assert.equal(body.aimAt({ x: 50, z: 0 }), false, 'not inland')
   assert.equal(body.aimAt({ x: 80, z: 40 }), true)
-  body.setState('fire')
+  body.setState('attack')
   live(clock, [body], 1 / 30)
   assert.ok(Math.abs(body.gunYaw - body.bearing) < 1e-9)
   live(clock, [body], 1)

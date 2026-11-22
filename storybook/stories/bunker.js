@@ -29,9 +29,10 @@ const gunner = stage => {
   return put(stage, body, new MachineGunnerSprite(body, { projection, camera }))
 }
 
-const grenadier = stage => {
+const grenadier = (stage, way = -1) => {
   // a few grenades, to show him out of them
   const body = new Grenadier({ ...middle(stage), grenades: 3 })
+  body.facing = way
   return put(stage, body, new GrenadierSprite(body, views(stage)))
 }
 
@@ -43,5 +44,5 @@ export const artillery = [
 ]
 
 export const soldiers = [
-  { id: 'bombas', name: 'Bombaš', game, pxPerMeter, block: grenadierModule, create: grenadier },
+  { id: 'bombas', name: 'Bombaš', game, pxPerMeter, way: -1, block: grenadierModule, create: grenadier },
 ]

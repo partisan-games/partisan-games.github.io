@@ -1,3 +1,5 @@
+import { attackState } from '../bodies/stateNames.js'
+
 /**
  * Where a shot at `speed` meets a target that flies on straight: the target's place after the shot's flight from the
  * body, for a gun whose shell is slow next to the target.
@@ -17,12 +19,13 @@ export default class Gunner {
     this.body = body
     this.target = target
     this.aim = aim
+    this.attack = attackState(body)
   }
 
   update() {
     const { body, target } = this
     if (!body.alive) return
     const inReach = target.alive && Math.hypot(target.x - body.x, target.y - body.y) <= body.reach
-    body.setState(inReach && body.aimAt(this.aim(target, body)) ? 'fire' : 'idle')
+    body.setState(inReach && this.attack && body.aimAt(this.aim(target, body)) ? this.attack : 'idle')
   }
 }

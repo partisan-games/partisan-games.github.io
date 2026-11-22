@@ -4,17 +4,17 @@ import { createPageElements } from './helpers/dom.js'
 import { loadImages } from './helpers/images.js'
 import Health from '/core/gameplay/Health.js'
 
-test('the complete level keeps scrolling through ground combat, aircraft passes, pause and the finish, the tank in front', async t => {
+test('the complete level keeps scrolling through its stages, ground combat, aircraft passes, pause and the finish, the tank in front', async t => {
   createPageElements()
   const draws = []
   const ctx = { createLinearGradient: () => ({ addColorStop() {} }), fillRect() {}, clearRect() {},
     drawImage(...args) {
       draws.push(args)
-    }, save() {}, restore() {}, beginPath() {}, closePath() {},
+    }, save() {}, restore() {}, translate() {}, scale() {}, beginPath() {}, closePath() {},
     moveTo() {}, lineTo() {}, fill() {}, stroke() {}, ellipse() {} }
   t.mock.method(HTMLCanvasElement.prototype, 'getContext', () => ctx)
   // asset stand-ins let the real scene finish init without a browser or actual rasterization
-  loadImages(t, { '/items/granata.gif': [32, 8], '/plamen.gif': [75, 98] })
+  loadImages(t, { '/items/granata.gif': [32, 8], '/plamen.gif': [75, 98], '-1945.png': [1536, 1024] })
   const Scene = (await import('/scenes/to-trieste/Main.js')).default
   const scene = new Scene()
   t.after(() => scene.end())
@@ -25,7 +25,8 @@ test('the complete level keeps scrolling through ground combat, aircraft passes,
   scene.session.ready()
   scene.session.start()
   const planes = new Set()
-  let shots = 0, paused = false, roadX
+  let shots = 0, paused = false, road
+  const stagesSeen = []
   const step = 1 / 60
   for (let frame = 0; frame < 12_000 && scene.session.state === 'running'; frame++) {
     if (!paused && scene.cameraX > scene.levelLength / 3) {
@@ -45,11 +46,14 @@ test('the complete level keeps scrolling through ground combat, aircraft passes,
     assert.ok(scene.cameraX > before, 'air raids and combat must not stop the road')
     if (frame % 120 === 0) {
       draws.length = 0
-      scene.battlefield.render()
-      const currentX = draws.find(draw => draw[0] === scene.battlefield.road)[1]
-      if (roadX !== undefined) assert.notEqual(currentX, roadX, 'the drawn road moves during ground and air combat')
-      roadX = currentX
+      scene.route.render()
+      // the road is the part of a stage's picture below its top rows
+      const current = draws.filter(draw => draw[2] > 0).map(draw => draw[5]).join()
+      if (road !== undefined) assert.notEqual(current, road, 'the drawn road moves during ground and air combat')
+      road = current
     }
+    const { id } = scene.route.stageAt(scene.cameraX)
+    if (stagesSeen.at(-1) !== id) stagesSeen.push(id)
     // the renderer draws a lower layer later, in front
     assert.ok(scene.hostiles.every(({ view }) => view.position.z > scene.playerView.position.z), 'the tank passes in front of the enemies')
     const flying = scene.hostiles.filter(hostile => hostile.sort === 'plane')
@@ -58,6 +62,7 @@ test('the complete level keeps scrolling through ground combat, aircraft passes,
   }
   assert.ok(paused && shots > 100 && planes.size >= 4, `${paused} ${shots} ${planes.size}`)
   assert.equal(scene.cameraX, scene.levelLength)
+  assert.deepEqual(stagesSeen, ['lika', 'senj', 'rijeka', 'trst'], 'the road runs through its stages in order, to Trieste')
   assert.equal(scene.session.state, 'finished')
   assert.match(scene.ui.outro, /Proboj je uspeo/)
   scene.end()

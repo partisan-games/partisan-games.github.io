@@ -6,7 +6,7 @@ const list = document.getElementById('storybook-list')
 const panel = document.getElementById('storybook-panel')
 
 /** What each shot a block can take is called on its button, in the order the buttons stand, the higher above. */
-const shotNames = { up: 'Pucaj gore', straight: 'Pucaj pravo', behind: 'Pucaj unazad' }
+const shotNames = { up: 'Pucaj gore', straight: 'Pucaj pravo', down: 'Obruši se', behind: 'Pucaj unazad' }
 
 const dimensionOf = story => !story.stage || story.stage === Stage2D ? '2d' : '3d'
 
@@ -36,14 +36,24 @@ async function show() {
   const { kind, story, look } = find(location.hash.slice(1))
   if (story !== previous?.story) way = story.way ?? 1
   drawList(kind, story)
+  panel.replaceChildren()
   const Stage = story.stage ?? Stage2D
-  document.body.dataset.stage = dimensionOf(story)
+  document.body.dataset.stage = story.unavailable ? 'unavailable' : dimensionOf(story)
+  if (story.unavailable) {
+    const title = document.createElement('h2'), message = document.createElement('p')
+    title.textContent = story.name
+    message.textContent = story.unavailable
+    message.dataset.unavailable = ''
+    panel.append(title, message)
+    return
+  }
   const stage = new Stage({ pxPerMeter: story.pxPerMeter })
   // a 3D block waits for its models
   await stage.init()
   const block = await story.create(stage, way, look?.value)
   if (stage instanceof Stage2D) await stage.imagesLoaded()
   if (turn !== asked) return stage.end()
+  stage.frame?.(block)
   stage.start()
   shown = { kind, story, look, stage, block }
   drawPanel()
@@ -135,6 +145,8 @@ function drawPanel() {
     ${block.states ? stateButtons('Stanja', block.states, (dies ? '' : hit) + resetButton, { dead: hit }) : hit + resetButton}
     ${block.anim ? stateButtons('Animacije', Object.keys(block.anim.actions)) : ''}
     ${block.acts?.length ? actButtons(block.acts) : ''}
+    ${story.commands ? `<fieldset><legend>Proba</legend>${story.commands.map(({ label }, index) =>
+    `<button data-command="${index}">${label}</button>`).join('')}</fieldset>` : ''}
     ${block.shots ? /* html */`
       <fieldset>
         <legend>Pucanje</legend>
@@ -159,6 +171,7 @@ panel.addEventListener('click', event => {
     return show()
   }
   const { block, stage } = shown
+  if ('command' in button.dataset) return shown.story.commands[Number(button.dataset.command)].run(block, stage)
   if ('hit' in button.dataset) return block.takeHit(block.health.maximum * hitShare)
   // another look is the story at its own address
   if ('look' in button.dataset) {
@@ -178,7 +191,10 @@ panel.addEventListener('click', event => {
   const { state, act } = button.dataset
   // a block set to fire with no aim, as a gun, first aims at its straight shot, as its button would
   if (event.isTrusted && stage instanceof Stage2D) stage.sceneAudio.unlock().catch(() => {})
-  if (state === attackState(block) && block.shots?.straight) aim(block, 'straight')
+  if (state && state === attackState(block)) {
+    const primary = block.shots?.straight ? 'straight' : block.shots?.down ? 'down' : null
+    if (primary) aim(block, primary)
+  }
   if (state) block.setState(state)
   if (act) block.act(act)
   const { shot } = button.dataset

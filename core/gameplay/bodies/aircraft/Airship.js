@@ -10,7 +10,7 @@ export const airship = { turn: .3, pitch: .06, maxPitch: .1, throttle: .3, min: 
   clearance: 2 }
 
 /** It is always under way; its engines never stop in the air. */
-const states = { move: {} }
+const states = { move: {}, dead: {} }
 
 /**
  * An airship, seen whole from any side. `x, y, z` is the middle of its hull; it heads along `yaw` and noses up by
@@ -26,6 +26,10 @@ export default class Airship extends Body {
 
   get feet() {
     return this.y - this.size.height / 2
+  }
+
+  setState(name) {
+    if (this.alive || name === 'dead') super.setState(name)
   }
 
   get clearance() {
@@ -57,6 +61,16 @@ export default class Airship extends Body {
   }
 
   update(dt) {
+    if (this.dead) {
+      this.speed = this.vx = this.vz = 0
+      this.vy -= this.gravity * dt
+      super.update(dt)
+      if (this.clearance <= 0) {
+        this.y = this.groundAt(this.x, this.z) + this.size.height / 2
+        this.vy = this.pitch = 0
+      } else this.pitch = Math.max(-.2, this.pitch - dt * .18)
+      return
+    }
     const { turn, climb, throttle } = this.steering
     this.yaw += turn * airship.turn * dt
     if (climb) this.climb(climb, dt)

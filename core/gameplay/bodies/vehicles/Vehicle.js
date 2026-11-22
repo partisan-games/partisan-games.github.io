@@ -20,7 +20,7 @@ const stand = vehicle => {
 /** A vehicle stands with its engine running, drives the way it faces, or lies destroyed where it stopped. */
 export const vehicleStates = {
   idle: { enter: stand },
-  drive: {
+  move: {
     update: vehicle => {
       vehicle.vx = vehicle.forward * vehicle.kind.speed
     },
@@ -38,5 +38,10 @@ export default class Vehicle extends Body {
   /** The way it faces and drives: 1 right, -1 left. */
   get forward() {
     return Math.cos(this.yaw) < 0 ? -1 : 1
+  }
+
+  setState(name) {
+    if ((this.dead && name !== 'dead') || !this.states.includes(name)) return
+    super.setState(name)
   }
 }

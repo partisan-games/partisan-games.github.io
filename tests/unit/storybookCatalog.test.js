@@ -53,7 +53,9 @@ test('every 3D character story with a description has a body that lives each of 
   const described = stories().filter(({ story }) => story.block.description)
   assert.ok(described.length > 0)
   for (const { story } of described) {
-    const body = new Character({ ...story.block.description.body, actions: { attack: .5 } })
+    const { animDict = {}, body: settings } = story.block.description
+    const actions = Object.fromEntries(['attack', 'attack2', 'special', 'jump', 'pain'].filter(name => animDict[name]).map(name => [name, .5]))
+    const body = new Character({ actions, ...settings })
     for (const state of body.states) {
       body.setState(state)
       for (let i = 0; i < 15; i++) body.update(1 / 30)

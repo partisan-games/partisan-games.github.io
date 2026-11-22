@@ -3,6 +3,25 @@ import assert from 'node:assert/strict'
 import * as THREE from 'three'
 import { createPageElements } from './helpers/dom.js'
 import worldQueries from '/core3d/actor/characters/worldQueries.js'
+import fitClip from '/core3d/actor/characters/fitClip.js'
+
+test('a shared clip follows the receiving rig names and hip height without changing the donor', () => {
+  const rig = (prefix, height) => {
+    const group = new THREE.Group(), hip = new THREE.Bone()
+    hip.name = prefix + 'Hips'
+    hip.position.y = height
+    group.add(hip)
+    return group
+  }
+  const donor = rig('mixamorig', 10), receiver = rig('mixamorigIron_Giant', 20)
+  const hip = new THREE.VectorKeyframeTrack('mixamorigHips.position', [0, 1], [0, 10, 0, 0, 4, 0])
+  const absent = new THREE.QuaternionKeyframeTrack('mixamorigEye.quaternion', [0], [0, 0, 0, 1])
+  donor.animations = [new THREE.AnimationClip('fall', 1, [hip, absent])]
+  const fitted = fitClip(donor, receiver, 'fall')
+  assert.deepEqual(fitted.tracks.map(track => track.name), ['mixamorigIron_GiantHips.position'])
+  assert.deepEqual([...fitted.tracks[0].values], [0, 20, 0, 0, 8, 0])
+  assert.deepEqual([...hip.values], [0, 10, 0, 0, 4, 0])
+})
 
 /** A model 1.8 m tall with a clip for standing, walking, one attack and dying. */
 function figure() {

@@ -157,8 +157,8 @@ test('a grenade falls as its world pulls, bounces back off a wall and along the 
 
 test('a patrol searches on the way it heads at its pace, halts, and a wander turns it now and then within its spread', () => {
   const clock = new GameClock()
-  const body = new Patrol({ x: 0, z: 0 })
-  assert.deepEqual(body.states, ['search', 'halt'])
+  const body = new Patrol({ x: 0, z: 0, initial: 'move' })
+  assert.deepEqual(body.states, ['idle', 'move', 'attack', 'dead'])
   live(clock, [body], 1)
   assert.ok(Math.abs(body.x - patrol.speed) < 1e-9)
   const ways = [.9, .1]
@@ -167,10 +167,17 @@ test('a patrol searches on the way it heads at its pace, halts, and a wander tur
   assert.ok(Math.abs(body.yaw - .8 * wander.spread) < 1e-9)
   walk.update(wander.turnTime / 2)
   assert.ok(Math.abs(body.yaw - .8 * wander.spread) < 1e-9, 'not before its time')
-  body.setState('halt')
+  body.setState('idle')
   const { x } = body
   live(clock, [body], 1)
   assert.equal(body.x, x)
+  body.setState('attack')
+  live(clock, [body], .7)
+  assert.equal(body.shotsFired, 3)
+  assert.equal(body.state, 'idle')
+  body.takeHit(body.health.maximum)
+  body.setState('move')
+  assert.equal(body.state, 'dead')
 })
 
 test('a wounded soldier crawls the way he heads, slower back, and turns', () => {
@@ -190,6 +197,16 @@ test('a wounded soldier crawls the way he heads, slower back, and turns', () => 
   assert.ok(body.vx < 0 && -body.vx < ahead)
   body.turn(1, 1)
   assert.ok(body.yaw < 0, 'right turns him down the view')
+  body.setState('idle')
+  body.setState('move')
+  live(clock, [body], .25)
+  assert.ok(body.vx > 0)
+  body.takeHit(body.health.maximum)
+  const { x } = body
+  body.setState('move')
+  live(clock, [body], 1)
+  assert.equal(body.x, x)
+  assert.equal(body.state, 'dead')
 })
 
 test('a machine gunner\'s rounds leave from the muzzle of his drawn gun, whichever way he turns', async() => {

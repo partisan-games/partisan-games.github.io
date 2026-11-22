@@ -94,12 +94,36 @@
         {
           "x": 280,
           "y": 390,
-          "intensity": 0.25,
+          "intensity": 0.45,
           "kind": "fire"
         },
         {
           "x": 280,
           "y": 390,
+          "intensity": 0.45,
+          "kind": "smoke"
+        },
+        {
+          "x": 1065,
+          "y": 575,
+          "intensity": 0.3,
+          "kind": "fire"
+        },
+        {
+          "x": 1065,
+          "y": 575,
+          "intensity": 0.3,
+          "kind": "smoke"
+        },
+        {
+          "x": 1340,
+          "y": 578,
+          "intensity": 0.3,
+          "kind": "fire"
+        },
+        {
+          "x": 1340,
+          "y": 578,
           "intensity": 0.3,
           "kind": "smoke"
         }

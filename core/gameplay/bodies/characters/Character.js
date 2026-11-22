@@ -24,13 +24,14 @@ const blows = ['attack', 'attack2']
 const states = {
   idle: {},
   move: {},
-  // set to attack with no swing chosen, as a story's button does, it swings its first kind
   attack: {
     enter: body => {
-      body.swing ??= body.newSwing('attack')
       body.pendingBlow = null
     },
     update: (body, dt) => body.swingOn(dt),
+    exit: body => {
+      body.swing = null
+    },
   },
   dead: {
     enter: body => {
@@ -49,7 +50,7 @@ const states = {
  * `area.kinds`, as a spell, hits every one of them within `area.reach` around it instead, with `area.damage`. It does
  * not walk into its targets, unless one is not `solid`, as a ghost. A hit that does not kill hurts it for
  * `actions.pain` seconds; a `guarded` one cannot be hurt while it attacks. One that `walks` not, as a gun on its
- * carriage, only turns; a bird or an airship keeps `altitude` metres above the ground.
+ * carriage, only turns; a bird or an airship keeps `altitude` metres above the ground or, in level flight, sea level.
  *
  * The scene answers its questions about the world: `groundAt(x, z, y)` is the height of the ground under height `y`,
  * so what floats over its head is not its ground, `isBlocked(from,
@@ -59,17 +60,19 @@ const states = {
 export default class Character extends Body {
   constructor({
     speed = character.speed, run = character.run, reach = character.reach, damage = character.damage,
-    jumping = 'leap', maxLift = .28, turnWhileAttack = true, strikeHeight = character.strikeHeight, area = {}, solid = true,
-    guarded = false, walks = true, altitude = 0, lift = character.lift,
-    pitchRange = { min: -Math.PI / 10, max: Math.PI / 8 }, actions = {}, targets = [],
+    jumping = 'leap', maxLift = .28, turnWhileAttack = true, strikeHeight = character.strikeHeight, strikeAhead = 0, area = {}, solid = true,
+    guarded = false, walks = true, altitude = 0, levelFlight = false, lift = character.lift,
+    pitchRange = { min: -Math.PI / 10, max: Math.PI / 8 }, actions = { attack: character.swing }, targets = [],
     groundAt: ground = () => 0, isBlocked = () => false, resolveWallStep = null, obstacleAt = () => Infinity, bounds = null, random = Math.random,
     size = { length: .5, height: 1.8, width: .5 }, ...rest
   } = {}) {
     super({ size, ...rest, states })
-    Object.assign(this, { speed, run, reach, damage, jumping, maxLift, turnWhileAttack, strikeHeight, solid, guarded, walks, lift, pitchRange,
+    Object.assign(this, { speed, run, reach, damage, jumping, maxLift, turnWhileAttack, strikeHeight, strikeAhead, solid, guarded, walks, lift, pitchRange,
       actions, targets,
       isBlocked, resolveWallStep, obstacleAt, bounds, random })
-    this.groundAt = altitude ? (x, z, y) => ground(x, z, y) + altitude : ground
+    this.groundAt = ground
+    this.altitude = altitude
+    this.levelFlight = levelFlight
     this.area = { kinds: [], reach: 3, damage: [89, 135], ...area }
     this.steering = { ahead: 0, side: 0, turn: 0, running: false }
     /** The attack under way: its kind, seconds into it and whether its blow has landed. */
@@ -85,16 +88,31 @@ export default class Character extends Body {
     this.blocked = false
     /** The last blow: where it started and ended, and the body it hit, if any. */
     this.strike = null
-    this.y = this.groundAt(this.x, this.z) + size.height / 2
+    this.y = this.supportHeight + size.height / 2
   }
 
   get feet() {
     return this.y - this.size.height / 2
   }
 
+  get supportHeight() {
+    if (this.alive && this.levelFlight) return this.altitude
+    return this.groundAt(this.x, this.z, this.y) + (this.alive ? this.altitude : 0)
+  }
+
+  get states() {
+    return this.actions.attack ? super.states : super.states.filter(name => name !== 'attack')
+  }
+
+  setState(name) {
+    if (this.dead && name !== 'dead') return
+    if (name === 'attack') return this.attack()
+    super.setState(name)
+  }
+
   /** Its feet are well above the ground, or it is leaping, rising or falling. */
   get airborne() {
-    return this.leap > 0 || this.vy !== 0 || this.feet - this.groundAt(this.x, this.z, this.y) > this.size.height * character.airborne
+    return this.leap > 0 || this.vy !== 0 || this.feet - this.supportHeight > this.size.height * character.airborne
   }
 
   get running() {
@@ -131,7 +149,7 @@ export default class Character extends Body {
 
   /** Where its blows start: at its strike height, which for one that aims with its eyes is their height. */
   get eye() {
-    return { x: this.x, y: this.feet + this.size.height * this.strikeHeight, z: this.z }
+    return this.ahead(this.strikeAhead, this.size.height * (this.strikeHeight - .5))
   }
 
   /** The way it aims: where it faces, raised by its pitch. */
@@ -155,9 +173,9 @@ export default class Character extends Body {
 
   /** Swings `kind` unless it is already swinging, reeling or dead. */
   attack(kind = 'attack') {
-    if (this.dead || this.hurt > 0 || this.swing) return
+    if (this.dead || this.hurt > 0 || this.swing || !this.acts.includes(kind) || kind === 'jump') return
     this.swing = this.newSwing(kind)
-    this.setState('attack')
+    super.setState('attack')
   }
 
   newSwing(kind) {
@@ -167,7 +185,9 @@ export default class Character extends Body {
 
   /** What it can be asked to do once: its kinds of attack and its jump, the ones it has a length for. */
   get acts() {
-    return Object.keys(this.actions).filter(name => name !== 'pain')
+    const names = Object.keys(this.actions).filter(name => name !== 'pain')
+    if (this.jumping === 'fly' && !names.includes('jump')) names.push('jump')
+    return names
   }
 
   /** One of its `acts` by name, as a story's button asks for it. */
@@ -323,7 +343,7 @@ export default class Character extends Body {
 
   /** Flying, it lands once it comes down to the ground; walking, it follows the ground at its climbing speed. */
   followGround(dt, flying) {
-    const ground = this.groundAt(this.x, this.z, this.y)
+    const ground = this.supportHeight
     if (flying) {
       if (this.feet > ground || this.vy > 0) return
       this.y = ground + this.size.height / 2

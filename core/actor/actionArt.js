@@ -28,3 +28,15 @@ export const hummelFire = {
   width: 384, height: 176, anchor: { x: 192, y: 156 },
   clips: { fire: { ms: [40, 60, 100, 140, 180, 280] } },
 }
+
+export const bp42Fire = {
+  src: 'armies/game-ready/vozovi/bp42-fire-sprites.png',
+  width: 704, height: 256, anchor: { x: 352, y: 232 },
+  clips: { fire: { ms: [60, 80, 100, 140, 180, 240] } },
+  effect: {
+    src: 'armies/game-ready/efekti/plamen-pucnja-sprites.png',
+    width: 48, height: 48, anchor: { x: 12, y: 24 }, scale: 1.25,
+    clips: { fire: { ms: [40, 60, 100, 140] } },
+    muzzleX: [75, 81, 80, 78, 76, 75], smokeStep: { x: -5, y: -4 },
+  },
+}

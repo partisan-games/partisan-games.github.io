@@ -179,7 +179,8 @@ test('Franjo Kluz: once the alarm is raised, the flak hits the plane flying at i
 async function camac(t) {
   loadImages(t)
   const { default: Scene } = await import('/scenes/camac/Main.js')
-  const scene = new Scene()
+  // the landing on Šolta, whose banks are guarded
+  const scene = new Scene({ stage: 1 })
   t.after(() => scene.end())
   scene.init()
   scene.session.start()

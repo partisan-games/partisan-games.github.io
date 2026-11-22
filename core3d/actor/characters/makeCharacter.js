@@ -7,12 +7,12 @@ import CharacterModel, { clipLengths, modelSize } from './CharacterModel.js'
  * as long as its clips, and the model that shows it. `options` are the body's, as where it stands and what it hits;
  * `impactAt` is the view's query for a bullet's mark on the world.
  */
-export default function makeCharacter({ model, animDict, twoHandedWeapon, rightHandWeapon, attackSound, flame, raise, ascend, spinning, body: settings },
+export default function makeCharacter({ model, animDict, twoHandedWeapon, rightHandWeapon, attackSound, attackProfile, flame, raise, ascend, spinning, deathPose, body: settings },
   { impactAt, ...options } = {}) {
   const mesh = loadedModel(model)
   const animations = mesh.userData.animations ?? []
   const body = new Character({ size: modelSize(mesh), actions: clipLengths(animations, animDict), ...settings, ...options })
-  const view = new CharacterModel(body, { mesh, animations, animDict, attackSound, flame, raise, ascend, spinning, impactAt,
+  const view = new CharacterModel(body, { mesh, animations, animDict, attackSound, attackProfile, flame, raise, ascend, spinning, deathPose, impactAt,
     twoHandedWeapon: twoHandedWeapon && loadedModel(twoHandedWeapon),
     rightHandWeapon: rightHandWeapon && loadedModel(rightHandWeapon) })
   return { body, model: view }

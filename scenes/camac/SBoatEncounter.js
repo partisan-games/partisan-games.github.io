@@ -3,7 +3,7 @@ import Raider from '/core/gameplay/controllers/Raider.js'
 import SBoat from '/core/gameplay/bodies/boats/SBoat.js'
 import SBoatSprite from '/core/actor/boats/SBoatSprite.js'
 
-/** Seconds before the first pass, between the end of a pass and the next, and the longest a pass lasts. */
+/** Seconds before the first pass, between the end of a pass and the next, and the longest a pass lasts; a stage sets its own `pace`. */
 const timing = { first: 10, quiet: 28, longest: 18 }
 /** The height of each lane, as a share of the view's, above and below the middle of the river. */
 const lanes = { above: .3, below: .7 }
@@ -14,11 +14,12 @@ const lanes = { above: .3, below: .7 }
  * the boat it makes; `boat` is the one in play, `{ body, view, raider }`, or null.
  */
 export default class SBoatEncounter {
-  constructor({ scene, target }) {
+  constructor({ scene, target, pace = {} }) {
     this.scene = scene
     this.target = target
+    this.pace = { ...timing, ...pace }
     this.boat = null
-    this.nextAt = scene.session.clock.now + timing.first
+    this.nextAt = scene.session.clock.now + this.pace.first
     this.side = 1
   }
 
@@ -51,11 +52,11 @@ export default class SBoatEncounter {
       const left = scene.projection.toWorld({ x: scene.cameraX, y: 0 }).x
       const right = left + canvas2d.width / scene.projection.pxPerMeter
       const half = body.size.length / 2
-      const outside = body.x + half < left || (body.state === 'withdraw' && body.x - half > right)
-      if (body.sunk || (body.alive && (outside || now - body.born >= timing.longest))) {
+      const outside = body.x + half < left || (body.withdrawing && body.x - half > right)
+      if (body.sunk || (body.alive && (outside || now - body.born >= this.pace.longest))) {
         scene.discharge(boat)
         this.boat = null
-        this.nextAt = now + timing.quiet
+        this.nextAt = now + this.pace.quiet
       }
     } else if (allowSpawn && now >= this.nextAt) this.launch()
   }

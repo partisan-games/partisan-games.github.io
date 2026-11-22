@@ -1,4 +1,6 @@
 import Stage3D from '../Stage3D.js'
+import { Mesh, MeshBasicMaterial, SphereGeometry } from 'three'
+import Body from '/core/gameplay/bodies/Body.js'
 import * as biplaneModule from '/core3d/aircraft/derived/Biplane.js'
 import * as bomberModule from '/core3d/aircraft/derived/Bomber.js'
 import * as f18Module from '/core3d/aircraft/derived/F18.js'
@@ -32,6 +34,25 @@ const gunTower = async stage => {
   return body
 }
 
+/** Put a visible practice target beside the tower for one burst from its normal gun. */
+const offerTarget = (tower, stage) => {
+  if (tower.dead || tower.target) return
+  const radius = tower.size.height * .055
+  const target = new Body({ x: tower.x + tower.size.height * .60, y: tower.muzzle.y * .85, z: tower.z,
+    health: tower.gun.damage, size: { length: radius * 2, height: radius * 2, width: radius * 2 } })
+  const mesh = new Mesh(new SphereGeometry(radius), new MeshBasicMaterial({ color: 0xd7a030, wireframe: true }))
+  mesh.position.set(target.x, target.y, target.z)
+  tower.targets.splice(0, tower.targets.length, target)
+  const marker = { mesh, update() {
+    if (target.dead) {
+      stage.remove(marker)
+      mesh.geometry.dispose()
+      mesh.material.dispose()
+    }
+  } }
+  stage.add(marker)
+}
+
 /** The looks of a warplane: each plane of the game Warplane. */
 const planes = [
   ['dvokrilac', 'Dvokrilac', biplaneModule], ['trokrilac', 'Trokrilac', triplaneModule],
@@ -39,17 +60,22 @@ const planes = [
 ].map(([id, name, value]) => ({ id, name, value }))
 
 export const aircraft = [
-  { id: 'ratni-avion-3d', name: 'Ratni avion', game: 'Warplane', block: warplaneModule, stage: Stage3D, looks: planes, create: warplane },
+  { id: 'ratni-avion-3d', name: 'Ratni avion', game: 'Warplane', block: warplaneModule, stage: Stage3D, looks: planes, create: warplane,
+    commands: [{ label: 'Pomeri udesno', run: plane => plane.steer({ across: 1 }) },
+      { label: 'Ispali raketu', run: plane => plane.fire() }, { label: 'Sleti', run: plane => plane.land() }] },
   { id: 'dirizabl-3d', name: 'Dirižabl', game: 'Zeppelin', block: airshipModule, stage: Stage3D,
     // the airship flies on alone, rising to its clearance above the floor
     create: async stage => {
       await requestModels(dirigibleModule.models)
       const { body, model } = dirigibleModule.default()
+      body.y = body.size.height / 2 + 3
+      model.place()
       stage.add(body, model)
       return body
     } },
 ]
 
 export const towers = [
-  { id: 'kula-3d', name: 'Kula sa topom', game: 'Warplane, FPS Airport', block: towerModule, stage: Stage3D, create: gunTower },
+  { id: 'kula-3d', name: 'Kula sa topom', game: 'Warplane, FPS Airport', block: towerModule, stage: Stage3D, create: gunTower,
+    commands: [{ label: 'Postavi metu', run: offerTarget }] },
 ]

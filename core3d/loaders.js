@@ -18,8 +18,19 @@ const createGroup = model => {
   return group
 }
 
-const prepareMesh = async({ model, size = 2, texture, angle, axis = [0, 1, 0], animations, shouldCenter, shouldAdjustHeight, castShadow = true, receiveShadow = false, scale = getScale(model, size) }) => {
-  model.scale.set(scale, scale, scale)
+const prepareMesh = async({ model: imported, size = 2, texture, angle, axis = [0, 1, 0], animations, shouldCenter, shouldAdjustHeight, fitVisible, castShadow = true, receiveShadow = false, scale = getScale(imported, size) }) => {
+  let model = imported
+  if (fitVisible) {
+    // Keep the imported rig's scale and bind matrices intact. Its visible skin can be offset from its skeleton.
+    model.updateMatrixWorld(true)
+    const box = new THREE.Box3().setFromObject(model, true)
+    const factor = size / (box.max.y - box.min.y)
+    model = createGroup(model)
+    model.scale.setScalar(factor)
+    const center = box.getCenter(new THREE.Vector3())
+    model.position.set(-center.x, -box.min.y, -center.z).multiplyScalar(factor)
+    model = createGroup(model)
+  } else model.scale.set(scale, scale, scale)
   // https://stackoverflow.com/questions/28848863/
   if (shouldCenter) centerMesh(model)
   if (shouldAdjustHeight) adjustHeight(model)
@@ -41,6 +52,10 @@ const prepareMesh = async({ model, size = 2, texture, angle, axis = [0, 1, 0], a
   if (angle) model.rotateOnWorldAxis(new THREE.Vector3(...axis), angle)
 
   const mesh = createGroup(model)
+  if (fitVisible) {
+    mesh.updateMatrixWorld(true)
+    mesh.userData.visibleSize = new THREE.Box3().setFromObject(mesh, true).getSize(new THREE.Vector3())
+  }
   if (animations) mesh.userData.animations = animations
   return mesh
 }
@@ -94,7 +109,9 @@ export async function loadMd2(params) {
 export async function loadFbx(params) {
   const { FBXLoader } = await import('three/examples/jsm/loaders/FBXLoader.js')
 
-  const loader = new FBXLoader()
+  const manager = params.texture ? new THREE.LoadingManager() : undefined
+  manager?.setURLModifier(url => /\.(jpe?g|png|tga)$/i.test(url) ? assets.textures + params.texture : url)
+  const loader = new FBXLoader(manager)
   const { file = 'model.fbx', doubleSide } = params
   const model = await loader.loadAsync(`${assets.models}${file}`)
 
@@ -107,6 +124,14 @@ export async function loadFbx(params) {
     model.animations[0].name = params.name
 
   const animations = params.animations ? params.animations : model.animations
+  if (params.sharedClips) {
+    const { default: fitClip } = await import('./actor/characters/fitClip.js')
+    const motions = await Promise.all(Object.entries(params.sharedClips).map(async([name, path]) => {
+      const motion = await loader.loadAsync(assets.models + path)
+      return fitClip(motion, model, name)
+    }))
+    animations.push(...motions)
+  }
 
   return await prepareMesh({ model, animations, ...params })
 }
@@ -146,7 +171,10 @@ export const loadModel = async param => {
       const { prefix, file, animDict } = params
       if (prefix) {
         params.file = prefix + file
-        if (animDict) params.animations = await loadFbxAnimations(animDict, prefix)
+        if (animDict) {
+          const local = Object.values(animDict).filter(name => !Object.hasOwn(params.sharedClips ?? {}, name))
+          params.animations = await loadFbxAnimations(local, prefix)
+        }
       }
       return loadFbx(params)
     default:

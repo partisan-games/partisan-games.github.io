@@ -1,5 +1,8 @@
 import spriteArt from '/core/actor/spriteArt.js'
-import { hummelFire } from '/core/actor/actionArt.js'
+import { hummelFire, bp42Fire } from '/core/actor/actionArt.js'
+import Vehicle from '/core/gameplay/bodies/vehicles/Vehicle.js'
+import BP42 from '/core/gameplay/bodies/vehicles/BP42.js'
+import Hummel from '/core/gameplay/bodies/vehicles/Hummel.js'
 
 /**
  * How each unit on the ground looks: its atlas, its attack's art, and for a vehicle the way its picture faces: -1 left.
@@ -8,8 +11,8 @@ import { hummelFire } from '/core/actor/actionArt.js'
 export const groundUnitLooks = {
   soldier: { art: spriteArt.rifleman },
   assault: { art: spriteArt.assault },
-  truck: { art: spriteArt['opel-blitz'], facing: -1 },
-  legionTruck: { art: spriteArt['opel-blitz-legion'], facing: -1 },
-  tank: { art: spriteArt.hummel, attack: hummelFire, facing: 1 },
-  train: { art: spriteArt.bp42, facing: -1 },
+  truck: { Body: Vehicle, art: spriteArt['opel-blitz'], facing: -1 },
+  legionTruck: { Body: Vehicle, art: spriteArt['opel-blitz-legion'], facing: -1 },
+  tank: { Body: Hummel, art: spriteArt.hummel, attack: hummelFire, facing: 1 },
+  train: { Body: BP42, art: spriteArt.bp42, attack: bp42Fire, facing: -1 },
 }

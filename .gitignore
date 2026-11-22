@@ -1,5 +1,6 @@
 .DS_Store
 node_modules
 npm-debug.log
+__pycache__/
 /test-results
 /playwright-report

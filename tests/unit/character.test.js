@@ -11,6 +11,54 @@ const play = (body, seconds) => {
   for (let i = 0; i < Math.round(seconds * 30); i++) body.update(1 / 30)
 }
 
+test('a civilian can perform an expression but rejects a blow from every public control', () => {
+  const target = new Character({ x: 1 })
+  const civilian = new Character({ actions: { special: .3 }, targets: [target] })
+  assert.ok(!civilian.states.includes('attack'))
+  assert.deepEqual(civilian.acts, ['special'])
+  civilian.setState('attack')
+  civilian.act('attack2')
+  civilian.attack()
+  assert.equal(civilian.state, 'idle')
+  assert.equal(civilian.swing, null)
+  civilian.act('special')
+  assert.equal(civilian.swing.kind, 'special')
+  play(civilian, 1)
+  assert.deepEqual([civilian.state, civilian.shotsFired, target.hitsTaken], ['idle', 0, 0])
+})
+
+test('changing out of a primary attack stops it and permits a later attack', () => {
+  const fighter = new Character({ actions: { attack: .4 } })
+  fighter.setState('attack')
+  fighter.update(.1)
+  fighter.setState('idle')
+  play(fighter, .5)
+  assert.equal(fighter.shotsFired, 0)
+  fighter.setState('attack')
+  play(fighter, .5)
+  assert.equal(fighter.shotsFired, 1)
+  fighter.takeHit(1000)
+  fighter.setState('idle')
+  assert.equal(fighter.state, 'dead')
+})
+
+test('an airship holds its altitude while alive and lands on actual terrain after its loss', () => {
+  const airship = new Character({ altitude: 40, groundAt: () => 6, actions: {} })
+  play(airship, 1)
+  near(airship.feet, 46)
+  airship.setState('dead')
+  play(airship, .3)
+  assert.ok(airship.feet < 46 && airship.feet > 6)
+  play(airship, 5)
+  near(airship.feet, 6)
+  near(airship.vy, 0)
+  const bird = new Character({ altitude: 60, levelFlight: true, groundAt: () => 12 })
+  near(bird.feet, 60)
+  bird.takeHit(1000)
+  play(bird, 5)
+  near(bird.feet, 12)
+})
+
 test('a ray enters a turned box where its side is, and misses one beside it or behind it', () => {
   const box = { x: 5, y: 1, z: 0, yaw: Math.PI / 2, size: { length: 2, height: 2, width: 1 } }
   // turned a quarter, the box is 1 m wide along x

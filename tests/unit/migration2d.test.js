@@ -31,7 +31,7 @@ test('neretva aiming waits for game updates and its health cannot fall below zer
   assert.equal(soldier.state, 'aim')
   assert.equal(scene.energija, 100)
   scene.update(.51)
-  assert.equal(soldier.state, 'fire')
+  assert.equal(soldier.state, 'attack')
   assert.ok(scene.energija < 100)
   scene.health.damage(1000)
   assert.equal(scene.energija, 0)
@@ -45,12 +45,35 @@ test('neretva raises hidden soldiers now and then, and twice as often in the las
   t.after(() => scene.end())
   t.mock.method(Math, 'random', () => .012)
   scene.update(.5)
-  assert.ok(scene.daljiRovovi.every(({ body }) => body.state === 'hidden'), 'the far row rises less often')
+  assert.ok(scene.daljiRovovi.every(({ body }) => body.state === 'idle'), 'the far row rises less often')
   assert.ok(scene.bliziRovovi.every(({ body }) => body.state === 'aim'))
   scene.preostaloVreme = 59
   scene.update(.5)
   scene.update(.5)
   assert.ok(scene.daljiRovovi.every(({ body }) => body.state === 'aim'))
+})
+
+test('neretva replaces a fallen defender only after his collapse and reuses his cover and view', async t => {
+  const { default: Neretva } = await import('/scenes/neretva/Main.js')
+  const { trench } = await import('/core/gameplay/bodies/soldiers/TrenchSoldier.js')
+  const scene = new Neretva()
+  scene.init()
+  scene.clear = () => {}
+  t.after(() => scene.end())
+  for (const row of scene.ucestalost.keys()) scene.ucestalost.set(row, 0)
+  const [post] = scene.sveSvabe
+  const { body, cover, view } = post
+  body.setState('dead')
+  body.update(trench.fallTime / 2)
+  scene.podizi(0)
+  assert.equal(post.body, body)
+  body.update(trench.fallTime / 2)
+  scene.podizi(0)
+  assert.ok(body.dead && !scene.children.includes(body))
+  assert.equal(post.body.state, 'idle')
+  assert.equal(post.view.body, post.body)
+  assert.deepEqual([post.body.x, post.body.y], [body.x, body.y])
+  assert.ok(scene.children.indexOf(cover) > scene.children.indexOf(view))
 })
 
 test('neretva owns separate trench covers, keeps its shot window and replaces the whole formation together', async t => {
@@ -77,7 +100,7 @@ test('neretva owns separate trench covers, keeps its shot window and replaces th
     assert.equal(draws.at(-1).args[0], cover.image)
     body.setState('aim')
     scene.proveriPogotke([{ body, view, cover }], { x: cover.x + 45 * scale, y: cover.y })
-    assert.equal(body.state, 'fall', 'the existing trench shot window is preserved')
+    assert.equal(body.state, 'dead', 'the existing trench shot window is preserved')
   }
   scene.preostaloVreme = 59
   scene.bringChetniks()
@@ -96,13 +119,19 @@ test('neretva: the Germans hold the trenches first, the Chetniks take over half 
   const factions = () => new Set(scene.sveSvabe.map(({ view }) => view.faction))
   t.mock.method(scene.ui, 'showMessage')
   assert.deepEqual([...factions()], ['nemci'])
+  assert.ok(scene.background.image.src.endsWith('/neretva-1943-nemci.png'))
   scene.preostaloVreme = 60.5
   scene.update(1)
   assert.deepEqual([...factions()], ['cetnici'])
+  assert.ok(scene.background.image.src.endsWith('/neretva-1943-cetnici.png'))
   assert.equal(scene.ui.showMessage.mock.calls[0].arguments[0], 'Chetniks are next')
   assert.ok(!scene.ui.outro, 'not won yet')
   scene.update(1)
   assert.equal(scene.ui.showMessage.mock.callCount(), 1, 'the Chetniks come once')
+  t.mock.method(scene, 'victory')
+  scene.preostaloVreme = 0
+  scene.update(.01)
+  assert.equal(scene.victory.mock.callCount(), 1)
 })
 
 test('all remaining 2D scenes can initialize, pause, finish and be replaced without model loads', async t => {

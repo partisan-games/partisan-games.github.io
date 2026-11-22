@@ -1,25 +1,33 @@
 import Body from '../Body.js'
 
 /** An occupier's walking pace in metres a second, measured from the earlier pixel soldier at 100 px a metre, 1.8 m tall. */
-export const occupier = { speed: 1.98 }
+export const occupier = { speed: 1.98, burstTime: .5 }
+
+const stop = soldier => {
+  soldier.vx = 0
+}
 
 /** The occupier walks the way he faces, or stands and fires his burst at the viewer, or lies fallen. */
 const states = {
-  walk: {
+  idle: { enter: stop },
+  move: {
     update: soldier => {
       soldier.vx = soldier.forward * occupier.speed
     },
   },
-  fire: {
+  attack: {
     enter: soldier => {
-      soldier.vx = 0
+      stop(soldier)
+      soldier.burstIndex = 0
+      soldier.shotsFired++
+    },
+    update: soldier => {
+      const index = Math.floor((soldier.stateTime + 1e-9) / occupier.burstTime)
+      soldier.shotsFired += index - soldier.burstIndex
+      soldier.burstIndex = index
     },
   },
-  dead: {
-    enter: soldier => {
-      soldier.vx = 0
-    },
-  },
+  dead: { enter: stop },
 }
 
 /**
@@ -33,5 +41,10 @@ export default class Occupier extends Body {
 
   get forward() {
     return Math.cos(this.yaw) < 0 ? -1 : 1
+  }
+
+  setState(name) {
+    if ((this.dead && name !== 'dead') || !this.states.includes(name)) return
+    super.setState(name)
   }
 }

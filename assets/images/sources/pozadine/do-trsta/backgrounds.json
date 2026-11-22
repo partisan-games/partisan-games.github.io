@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "scene": "to-trieste",
+  "pathBase": "assets/images",
+  "artStatus": "ready-for-owner-review",
+  "runtimeIntegrated": true,
+  "order": [
+    "lika",
+    "senj",
+    "rijeka",
+    "trst"
+  ],
+  "season": "spring",
+  "historicalContext": "../../../../../docs/ISTORIJA.md#istorijsko-polazište-za-pohod-na-trst",
+  "composition": "Stylized period landscapes. The terrain and town motifs are illustrative, without depicting an exact historical view.",
+  "generator": "OpenAI built-in image generation",
+  "styleReference": {
+    "src": "sources/pozadine/styles/b3-lived-wartime-scene.png",
+    "sha256": "fc34511f02d96e8e39c76ab9d77fb34fee65248fcaaa7fbd274aeb3c5e71bf25"
+  },
+  "finalEditPrompt": "Remove ALL painted clouds and cloud marks from only the sky of this pixel-art game background. From skyline to top the sky should be entirely EMPTY cloudless pale blue softly getting warmer near the horizon, with absolutely zero wisps and zero white pixels resembling clouds. Preserve the landscape silhouette, horizon, architecture, waterfront, road height, composition, pixel art and the overall grade. No new objects. Opaque landscape 1536×1024. Deliver the corrected complete image only.",
+  "backgrounds": [
+    {
+      "id": "lika",
+      "name": "Lika · Gospić",
+      "src": "background/do-trsta-lika-1945.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "groundY": 840,
+      "hotspots": [],
+      "battlePeriod": "1945-04",
+      "prompt": "Landscape 1536 by 1024. A single finished richly colored but uncluttered historical 16-bit pixel art background plate for a WWII Yugoslav 2D horizontal tank side-scroller. The project style is big clean stepped pixel clusters, restrained colored shadows, strong silhouettes and broad atmospheric depth, expressly like the supplied B3 style reference without copying its buildings or people. Horizontal side elevation, a broad EMPTY fairly light matte horizontal dirt road along the bottom 20 percent, perfectly level road edge across the picture at y around 820/1024, no diagonal perspective road, shading and few pebbles only. All scenery behind road; mostly open behind tank and aircraft. Cool distance, warm restrained light. Absolutely no soldiers, people, vehicles, boats, words, logos, UI, flags, poles in foreground, weapons, fires or smoke. A game panorama, no frame, no text. Lika near Gospić, early April 1945. Inland rural valley below the serrated Velebit ridge, spring thaw, pale green meadows, a few bare and budding trees, one small pale plaster farm roof and a low split-rail field boundary off to one side. Distant mountains mauve blue, a little high summit snow. Soft clear morning sky. Rural and spacious, no sea.",
+      "draft": {
+        "filename": "exec-5c7230e3-eae2-47bc-bafc-d24fe9a8db5e.png",
+        "sha256": "5547497cba22efe92db3b37ae3fae5804ba5d6173381d962798898da7fffa6e0"
+      },
+      "sourceFilename": "exec-ef22e989-05e8-4d48-8a9a-f756d8923b89.png",
+      "sha256": "7c8d78619dff98b704581d8cea7815d74f18c89f01d8077d372aa4cf2b436e8e",
+      "reviews": [
+        "compositions/lika-1280x720.webp",
+        "compositions/lika-1024x768.webp"
+      ]
+    },
+    {
+      "id": "senj",
+      "name": "Senj i primorje",
+      "src": "background/do-trsta-senj-1945.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "groundY": 825,
+      "hotspots": [],
+      "battlePeriod": "1945-04",
+      "geographySource": "https://www.senj.hr/kulturna-bastina/",
+      "prompt": "Landscape 1536 by 1024. A single finished richly colored but uncluttered historical 16-bit pixel art background plate for a WWII Yugoslav 2D horizontal tank side-scroller. The project style is big clean stepped pixel clusters, restrained colored shadows, strong silhouettes and broad atmospheric depth, expressly like the supplied B3 style reference without copying its buildings or people. Horizontal side elevation, a broad EMPTY fairly light matte horizontal dirt road along the bottom 20 percent, perfectly level road edge across the picture at y around 820/1024, no diagonal perspective road, shading and few pebbles only. All scenery behind road; mostly open behind tank and aircraft. Cool distance, warm restrained light. Absolutely no soldiers, people, vehicles, boats, words, logos, UI, flags, poles in foreground, weapons, fires or smoke. A game panorama, no frame, no text. Senj, Croatian Adriatic coast, April 1945. Side-on coastal road above the Kvarner channel. Blue-grey Adriatic fills the middle distance with the thin silhouette of Krk, wind-pruned scrub and pale limestone, one small pale coastal town cluster and the tiny recognizable square Nehaj fortress on its low rocky hill to one side. Sparse early spring, clear bora air, light clouds, worn sandy pale coastal road.",
+      "draft": {
+        "filename": "exec-61413932-82bb-4d32-88b7-472fe856fe67.png",
+        "sha256": "66602d92b46b4ed9bce63079b5c4a0693b75864cd2302fd27ad06bd1254c2697"
+      },
+      "sourceFilename": "exec-47fbcd78-ab86-493e-9879-e6c2ccb7bf4e.png",
+      "sha256": "612242b084d69864bcbf54c64cdfb039cbd62e935b7a1fd6bc5a95d1bf4e16a4",
+      "reviews": [
+        "compositions/senj-1280x720.webp",
+        "compositions/senj-1024x768.webp"
+      ]
+    },
+    {
+      "id": "rijeka",
+      "name": "Rijeka",
+      "src": "background/do-trsta-rijeka-1945.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "groundY": 836,
+      "hotspots": [],
+      "battlePeriod": "1945-04",
+      "geographySource": "https://www.muzej-rijeka.hr/en/portfolio/the-port-of-rijeka/",
+      "prompt": "Landscape 1536 by 1024. A single finished richly colored but uncluttered historical 16-bit pixel art background plate for a WWII Yugoslav 2D horizontal tank side-scroller. The project style is big clean stepped pixel clusters, restrained colored shadows, strong silhouettes and broad atmospheric depth, expressly like the supplied B3 style reference without copying its buildings or people. Horizontal side elevation, a broad EMPTY fairly light matte horizontal dirt road along the bottom 20 percent, perfectly level road edge across the picture at y around 820/1024, no diagonal perspective road, shading and few pebbles only. All scenery behind road; mostly open behind tank and aircraft. Cool distance, warm restrained light. Absolutely no soldiers, people, vehicles, boats, words, logos, UI, flags, poles in foreground, weapons, fires or smoke. A game panorama, no frame, no text. Port of Rijeka, April 1945. Broadside horizon with Kvarner water and weathered northern Adriatic industrial waterfront. War-era small cargo sheds, a few brick warehouse silhouettes, two small skinny period jib cranes with simple booms, hills behind tightly grouped Austro-Hungarian roofs. A little broken masonry behind road, iron grey sea, hazy soft morning light. No container gantries, no modern towers, no giant landmark in foreground. Industrial character is clearly distinct from pastoral Senj.",
+      "draft": {
+        "filename": "exec-67aa9359-0d84-483b-9108-3e0f9779e2d4.png",
+        "sha256": "eb64a7e84aa044f416025925423451d42f9ea00cf94fe880d2fe8d24bfc7c9aa"
+      },
+      "sourceFilename": "exec-a1e4ac6a-44e0-480c-97cc-966acc4b3592.png",
+      "sha256": "eb92f5f89895e11ca00ca013806df9d575b7cd235999059a8333ae3a21b78596",
+      "reviews": [
+        "compositions/rijeka-1280x720.webp",
+        "compositions/rijeka-1024x768.webp"
+      ]
+    },
+    {
+      "id": "trst",
+      "name": "Trst",
+      "src": "background/do-trsta-trst-1945.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "groundY": 854,
+      "hotspots": [],
+      "battlePeriod": "1945-05",
+      "geographySource": "https://castellodisangiustotrieste.it/castello-di-san-giusto-2/",
+      "prompt": "Landscape 1536 by 1024. A single finished richly colored but uncluttered historical 16-bit pixel art background plate for a WWII Yugoslav 2D horizontal tank side-scroller. The project style is big clean stepped pixel clusters, restrained colored shadows, strong silhouettes and broad atmospheric depth, expressly like the supplied B3 style reference without copying its buildings or people. Horizontal side elevation, a broad EMPTY fairly light matte horizontal dirt road along the bottom 20 percent, perfectly level road edge across the picture at y around 820/1024, no diagonal perspective road, shading and few pebbles only. All scenery behind road; mostly open behind tank and aircraft. Cool distance, warm restrained light. Absolutely no soldiers, people, vehicles, boats, words, logos, UI, flags, poles in foreground, weapons, fires or smoke. A game panorama, no frame, no text. Trieste at the beginning of May 1945. Distinct elegant northern Adriatic city view on approach along waterfront. Soft light on a short line of late Habsburg-era pale stone neoclassical facades, tiled roofs on a long cool hill crowned by the squat San Giusto castle and romanesque cathedral silhouette. Small patch of quiet bay to the far left. Broad unobstructed pale dusty stone quay running horizontally along foreground. A few wartime shuttered windows and minor damage. A measured final arrival, restrained patina, no ceremonial crowds.",
+      "draft": {
+        "filename": "exec-41dfc09a-2529-4011-b816-ae5801170eee.png",
+        "sha256": "425d18bc192c4a471b51d09a15f634cf3eab57f9a61551867e5a7e83feb49d90"
+      },
+      "sourceFilename": "exec-bee9423e-56b3-46c3-b6d9-2e67545284b3.png",
+      "sha256": "3c321e92a45fd11847dc998fe326dc133effb6d84758523f47e1a401c6665b03",
+      "reviews": [
+        "compositions/trst-1280x720.webp",
+        "compositions/trst-1024x768.webp"
+      ]
+    }
+  ]
+}

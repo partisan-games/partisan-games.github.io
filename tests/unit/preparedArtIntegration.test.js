@@ -34,6 +34,7 @@ test('runtime clip dimensions, anchors and frame times match the prepared asset 
     ['cannon-crew-fall/sprites.json', [['partisan-cannon-crew-death', art.partisanCrewDeath], ['italian-cannon-crew-death', art.italianCrewDeath]]],
     ['rifleman-reload/sprites.json', [['rifleman-reload', art.riflemanReload]]],
     ['hummel-fire/sprites.json', [['hummel-fire', art.hummelFire]]],
+    ['bp42-fire/sprites.json', [['bp42-fire', art.bp42Fire]]],
   ]) {
     const path = new URL('../../assets/images/armies/sources/' + file, import.meta.url)
     const { assets } = JSON.parse(await readFile(path, 'utf8'))
@@ -181,6 +182,46 @@ for (const yaw of [0, Math.PI]) test(`Hummel fires a real shell at the drawn muz
   assert.equal(ctx.draws.at(-1)[0], view.image)
   body.takeHit(1000)
   assert.equal(body.shoot(), false)
+})
+
+for (const yaw of [0, Math.PI]) test(`BP-42 fires once from the prepared barrel, yaw ${yaw}`, async t => {
+  const { default: Train } = await import('/core/gameplay/bodies/vehicles/BP42.js')
+  const body = new Train({ x: 10, yaw })
+  body.y = body.size.height / 2
+  const options = viewOptions()
+  const view = new VehicleView(body, { art: spriteArt.bp42, attack: art.bp42Fire, facing: -1, ...options })
+  loadAtlas(view, 2304, 512)
+  loadAtlas(view.fireArt, 4224, 256)
+  t.mock.method(view.shotSound, 'play', () => {})
+  body.setState('move')
+  body.update(.25)
+  body.setState('attack')
+  body.setState('attack')
+  view.update(0)
+  const { x, y } = body.muzzle
+  assert.equal(body.shells.projectiles.length, 1)
+  assert.equal(body.shells.projectiles[0].x, x)
+  assert.equal(body.shells.projectiles[0].y, y)
+  assert.equal(body.vx, 0)
+  assert.equal(body.shotsFired, 1)
+  assert.ok(Math.abs(view.muzzleFlash.x - (view.x + body.forward * 278 * view.artScale)) < 1e-8)
+  assert.ok(Math.abs(view.muzzleFlash.y - (view.y + view.height / 2 - 175 * view.artScale)) < 1e-8)
+  const flashX = view.muzzleFlash.x
+  const flashY = view.muzzleFlash.y
+  view.update(.08)
+  assert.equal(view.muzzleFlash.x, flashX + 6 * view.artScale * view.flipY)
+  view.update(.04)
+  assert.equal(view.muzzleFlash.x, flashX - 5 * view.artScale * view.flipY)
+  assert.equal(view.muzzleFlash.y, flashY - 4 * view.artScale)
+  view.update(.23)
+  assert.equal(view.muzzleFlash.visible, false)
+  body.update(.8)
+  assert.equal(body.state, 'idle')
+  body.setState('dead')
+  body.setState('move')
+  view.update(0)
+  assert.equal(body.state, 'dead')
+  assert.equal(view.muzzleFlash.visible, false)
 })
 
 for (const yaw of [0, Math.PI]) test(`gun carriage keeps the same scale from image load through first update, yaw ${yaw}`, () => {

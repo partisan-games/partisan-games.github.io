@@ -8,7 +8,15 @@ import Body from '../Body.js'
 export const crawl = { thrust: 2.25, turn: .3, keep: .9 ** 30 }
 
 /** He crawls as he is steered, or lies dead. */
-const states = { idle: {}, dead: {} }
+const stop = body => {
+  body.vx = body.vz = 0
+  body.power = 1
+}
+const states = {
+  idle: { enter: stop },
+  move: { update: (body, dt) => body.push(crawl.thrust * body.power * dt) },
+  dead: { enter: stop },
+}
 
 /** A wounded soldier who crawls the way he heads, `yaw`, seen from above. */
 export default class WoundedSoldier extends Body {
@@ -21,13 +29,26 @@ export default class WoundedSoldier extends Body {
   }
 
   /** Crawls ahead. */
-  throttle(dt) {
-    this.push(crawl.thrust * dt)
+  throttle() {
+    if (this.dead) return
+    this.power = 1
+    this.setState('move')
   }
 
   /** Crawls back, slower. */
-  back(dt) {
-    this.push(-crawl.thrust / 2 * dt)
+  back() {
+    if (this.dead) return
+    this.power = -.5
+    this.setState('move')
+  }
+
+  releaseThrottle() {
+    if (this.state === 'move') this.setState('idle')
+  }
+
+  setState(name) {
+    if ((this.dead && name !== 'dead') || !this.states.includes(name)) return
+    super.setState(name)
   }
 
   push(amount) {

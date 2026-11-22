@@ -45,7 +45,7 @@ export default class OtpisaniScene extends Scene2D {
     const walkTime = randomInRange(.7, 3.2)
     const fromLeft = Math.random() > .5
     const body = new Occupier({ ...this.projection.toWorld({ x: fromLeft ? 0 : this.width, y: this.height * .75 }),
-      yaw: fromLeft ? 0 : Math.PI })
+      yaw: fromLeft ? 0 : Math.PI, initial: 'move' })
     const view = new OccupierSprite(body, { projection: this.projection })
     this.occupiers.push({ body, view })
     this.walks.set(body, { walked: 0, walkTime })
@@ -57,7 +57,7 @@ export default class OtpisaniScene extends Scene2D {
     for (const [occupier, walk] of this.walks)
       if (occupier.dead) this.walks.delete(occupier)
       else if ((walk.walked += dt) > walk.walkTime) {
-        occupier.setState('fire')
+        occupier.setState('attack')
         this.walks.delete(occupier)
       }
 
@@ -81,7 +81,7 @@ export default class OtpisaniScene extends Scene2D {
 
   /** Each occupier firing wears the defender down. */
   takeFire(dt) {
-    for (const { body } of this.occupiers) if (body.state === 'fire') this.health.damage(dt * 5)
+    for (const { body } of this.occupiers) if (body.state === 'attack') this.health.damage(dt * 5)
   }
 
   end() {

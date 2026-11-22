@@ -21,7 +21,7 @@ export const nest = {
  */
 const states = {
   idle: { enter: gun => gun.disengage() },
-  fire: { update: (gun, dt) => gun.fireBurst(dt) },
+  attack: { update: (gun, dt) => gun.fireBurst(dt) },
   dead: {},
 }
 

@@ -98,9 +98,10 @@ test('the scene waits for Batina clouds as well as its environment plate, and lo
   await Promise.resolve()
   assert.equal(ready, false, 'the clouds are still loading')
   loaded(images[1])
+  for (const image of background.scenery.images.values()) loaded(image)
   await waiting
   assert.equal(ready, true)
-  assert.equal(images.length, 2, 'only clouds move on Batina, by the owner\'s choice')
+  assert.equal(images.length, 2 + background.scenery.images.size, 'base, clouds and the chosen still props')
   assert.equal(background.layers.images.actors, undefined)
   assert.equal(background.scene.width, 1536)
   assert.equal(background.scene.height, 1024)

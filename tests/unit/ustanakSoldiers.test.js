@@ -10,6 +10,22 @@ const live = (body, seconds) => {
   for (let i = 0; i < seconds * 30; i++) body.update(1 / 30)
 }
 
+test('a flag bearer marches in his facing direction, rests, and stays where he falls', () => {
+  const bearer = new FlagBearer({ x: 20, yaw: Math.PI })
+  bearer.setState('move')
+  live(bearer, 1)
+  assert.ok(bearer.x < 20)
+  const { x } = bearer
+  bearer.setState('idle')
+  live(bearer, .5)
+  assert.equal(bearer.x, x)
+  bearer.setState('dead')
+  bearer.setState('move')
+  live(bearer, .8)
+  assert.equal(bearer.state, 'dead')
+  assert.equal(bearer.x, x)
+})
+
 test('a skirmisher stands until set to fire, then fires again and again at his interval', () => {
   const soldier = new Skirmisher({ x: 30 })
   assert.deepEqual(soldier.states, ['idle', 'fire', 'standUp', 'walk', 'kneel', 'dead'])

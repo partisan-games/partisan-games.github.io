@@ -23,7 +23,7 @@ test('a bombardier dives on a living target it sees and can dive on', () => {
   const bomber = fakeBomber()
   const target = { x: 0, y: 0, alive: true, shown: true }
   new Bombardier(bomber, target, { sees }).update()
-  assert.equal(bomber.state, 'fire')
+  assert.equal(bomber.state, 'attack')
   assert.deepEqual(bomber.aimed, [target])
 })
 
@@ -40,7 +40,7 @@ test('a bombardier flies on past a target behind, dead or out of sight', () => {
     ['dead', fakeBomber(), { alive: false, shown: true }],
     ['out of sight', fakeBomber(), { alive: true, shown: false }],
   ]) {
-    bomber.state = 'fire'
+    bomber.state = 'attack'
     new Bombardier(bomber, target, { sees }).update()
     assert.equal(bomber.state, 'idle', name)
   }

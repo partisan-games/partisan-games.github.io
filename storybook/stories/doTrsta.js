@@ -4,7 +4,7 @@ import Tank, * as tankModule from '/core/gameplay/bodies/vehicles/Tank.js'
 import AntiTankGunSprite from '/core/actor/artillery/AntiTankGunSprite.js'
 import BunkerSprite from '/core/actor/artillery/BunkerSprite.js'
 import TankSprite from '/core/actor/vehicles/TankSprite.js'
-import vehicleArt from '/core/actor/vehicleArt.js'
+import { somuaTank } from '/core/actor/tankLooks.js'
 
 import { yawOf } from './helpers.js'
 
@@ -25,8 +25,7 @@ const put = (stage, body, view) => {
 const somua = (stage, way) => {
   const { somua: kind } = tankModule.tankKinds
   const body = new Tank({ ...placed(stage, kind.size, way), kind })
-  return put(stage, body, new TankSprite(body, { art: vehicleArt.somuaS35, facing: -1, ...views(stage),
-    barrel: { src: 'armies/game-ready/tenkovi/somua-s35-barrel.png', facing: -1, crop: [126, 203, 1923, 309] } }))
+  return put(stage, body, new TankSprite(body, { ...somuaTank, ...views(stage) }))
 }
 
 const gun = (stage, way) => {

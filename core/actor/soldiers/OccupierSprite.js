@@ -21,6 +21,7 @@ export default class OccupierSprite extends BodySprite {
     this.flash.src = `${assets.images}pucanje.png`
     this.burstSound = new Sound('rafal.mp3', { profile: 'rifle', spatial: { getPosition: () => this.position } })
     this.sounds.push(this.burstSound)
+    this.shotsSeen = body.shotsFired
   }
 
   /** He is drawn as he stands, never mirrored: his atlas has a row for each way. */
@@ -32,13 +33,15 @@ export default class OccupierSprite extends BodySprite {
   get row() {
     const { state, forward } = this.body
     if (state === 'dead') return 'death'
-    if (state === 'fire') return 'fire'
+    if (state === 'attack') return 'fire'
+    if (state === 'idle') return 'down'
     return forward > 0 ? 'right' : 'left'
   }
 
   update(dt) {
     super.update(dt)
-    if (this.body.state === 'fire') this.burstSound.play()
+    if (this.body.alive && this.shotsSeen < this.body.shotsFired) this.burstSound.play()
+    this.shotsSeen = this.body.shotsFired
   }
 
   render(ctx) {
@@ -46,12 +49,13 @@ export default class OccupierSprite extends BodySprite {
     const width = this.image.naturalWidth / columns, height = this.image.naturalHeight / rowCount
     const { state, stateTime } = this.body
     const elapsed = Math.max(0, stateTime) * columns / loop
-    const frame = state === 'dead' ? Math.min(columns - 1, Math.floor(elapsed)) : Math.floor(elapsed) % columns
-    const row = state === 'fire' ? art.fire.row : rows.indexOf(this.row)
+    const frame = state === 'idle' ? columns - 1 :
+      state === 'dead' ? Math.min(columns - 1, Math.floor(elapsed)) : Math.floor(elapsed) % columns
+    const row = state === 'attack' ? art.fire.row : rows.indexOf(this.row)
     // the figure fills only the middle of its square frame, which is drawn at its own size around the body
     ctx.drawImage(this.image, frame * width, row * height, width, height,
       this.x - width / 2, this.y - height / 2, width, height)
-    if (state !== 'fire' || !this.flash.naturalWidth) return
+    if (state !== 'attack' || !this.flash.naturalWidth) return
     const { naturalWidth: flashWidth, naturalHeight: flashHeight } = this.flash
     const muzzle = art.fire.muzzle[frame]
     ctx.drawImage(this.flash, this.x - width / 2 + muzzle.x - flashWidth / 2,

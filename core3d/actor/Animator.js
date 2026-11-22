@@ -163,7 +163,7 @@ export default class Animator {
   }
 
   update(delta) {
-    if (this.twoHandedWeapon) this.updateRifle()
     this.mixer?.update(delta)
+    if (this.twoHandedWeapon) this.updateRifle()
   }
 }

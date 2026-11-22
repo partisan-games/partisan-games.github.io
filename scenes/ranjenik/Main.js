@@ -33,7 +33,8 @@ export default class RanjenikScene extends Scene2D {
     this.audioPlayer = () => this.playerView
     this.input = new Input()
     this.controllers.push(new TurnKeys(this.player, { input: this.input }))
-    this.patrola = new Patrol(this.projection.toWorld({ x: this.width * 3 / 4, y: this.height * 3 / 4 }))
+    this.patrola = new Patrol({ ...this.projection.toWorld({ x: this.width * 3 / 4, y: this.height * 3 / 4 }),
+      targets: [this.player], initial: 'move' })
     this.patrolView = new PatrolSprite(this.patrola, { projection: this.projection })
     this.controllers.push(new Wander(this.patrola))
     this.strelica = new Strelica()
@@ -47,8 +48,8 @@ export default class RanjenikScene extends Scene2D {
   }
 
   checkCollisions() {
-    if (!this.touch(this.patrolView, this.playerView)) return
-    this.patrola.setState('halt')
+    if (this.patrola.dead || !this.touch(this.patrolView, this.playerView)) return
+    this.patrola.setState('idle')
     this.defeat('You\'re caught. All hope is lost...')
   }
 
@@ -88,7 +89,7 @@ export default class RanjenikScene extends Scene2D {
   }
 
   pobedi() {
-    this.patrola.setState('halt')
+    this.patrola.setState('idle')
     this.remove(this.patrolView)
     this.background.image.src = '/assets/images/armies/shumarak-pozadina.png'
     this.remove(...this.children.filter(p => p instanceof Paljba))
@@ -113,12 +114,18 @@ export default class RanjenikScene extends Scene2D {
     this.addBehind(krater)
     this.fireElapsed = 0
 
-    if (this.touch(krater, this.playerView))
-      this.defeat('You fell bravely while trying to escape.')
+    if (this.touch(krater, this.playerView)) this.player.takeHit(this.player.health.maximum)
   }
 
   update(dt, t) {
     if (this.ui.outro) return
+    if (this.player.dead) {
+      this.player.update(dt)
+      this.playerView.update(dt)
+      if (this.player.stateTime >= this.playerView.death.seconds('dead'))
+        this.defeat('You fell bravely while trying to escape.')
+      return
+    }
     super.update(dt, t)
     this.keepPlayerOnScreen()
     this.wrapPatrol()

@@ -30,7 +30,7 @@ export default class Warplane extends Body {
   constructor({ clock, limit = 50, height = warplane.height, groundAt = () => 0, targets = [],
     size = { length: 6, height: 2, width: 6 }, ...rest } = {}) {
     super({ size, health: warplane.health, y: height, yaw: Math.PI / 2, ...rest, states })
-    Object.assign(this, { limit, targets, speed: warplane.speed })
+    Object.assign(this, { limit, targets, groundAt, speed: warplane.speed })
     this.heights = { min: height / 2, max: height * 2 }
     this.velocity = { x: 0, y: 0 }
     this.roll = 0
@@ -41,7 +41,11 @@ export default class Warplane extends Body {
   }
 
   get airborne() {
-    return this.y > this.size.height * 2 / 3
+    return this.y > this.groundAt(this.x, this.z) + this.size.height * 2 / 3
+  }
+
+  setState(name) {
+    if (this.alive || name === 'dead') super.setState(name)
   }
 
   /** Moves across (1 to its right) and up (1) until steered again. */
@@ -78,7 +82,7 @@ export default class Warplane extends Body {
     if (this.dead || this.landing) {
       this.velocity.x = this.velocity.y = 0
       if (this.airborne) {
-        this.y -= this.speed * warplane.sink * dt
+        this.y = Math.max(this.groundAt(this.x, this.z) + this.size.height * 2 / 3, this.y - this.speed * warplane.sink * dt)
         if (this.dead) this.roll -= warplane.crashRoll * dt
       } else this.speed = Math.max(0, this.speed - warplane.brake * dt)
     } else {

@@ -82,7 +82,7 @@ test('German rifle reload is wired to its model and existing shot cooldown', asy
 
 test('Hummel actual fire control uses the new attack, a shell, then the existing wreck', async({ page }, info) => {
   await page.goto('/storybook.html#vozila/hummel')
-  await state(page, 'fire')
+  await state(page, 'attack')
   await drawn(page, '/hummel-fire-sprites.png')
   await page.locator('#platno').screenshot({ path: info.outputPath('hummel-fire.png') })
   await drawn(page, '/granata.gif')

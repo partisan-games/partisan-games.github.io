@@ -86,6 +86,17 @@ Rečne teme u istoj grani uključuju Batinu, Virovitički mostobran i forsiranje
 - **Front i proboj:** posle teške zimske kampanje Jugoslovenska armija, uz sovjetsku podršku i bugarske i italijanske jedinice, probija front 12. aprila 1945; napad počinje u noći 11/12. aprila, pre nemačkog povlačenja ([Syrmian Front](https://en.wikipedia.org/wiki/Syrmian_Front)).
 - **Tenkovi:** u sremskoj operativnoj grupi su 1. proleterska, 21, 22, 42. i 48. divizija, 2. tenkovska brigada i inženjerijska brigada; proboj utvrđene zone počinje 12. aprila u 5 časova ([znaci.org](https://www.znaci.org/00001/224_17.pdf)). Nemački 34. armijski korpus ima oko 120.000 vojnika, oko 700 oruđa i nekoliko desetina tenkova; 21. srpska divizija nije mogla da se odbrani od SS jedinica i tenkova.
 
+### Protivnički oklop po bojištima u Tenkićima
+
+| Bojište | Dokaz i izbor za igru |
+|---|---|
+| Srem, jesen 1944. | M15/42 u nemačkoj službi. Fotografija MRPNR NS 3772/3022 prikazuje dva uništena M15 kod Belegiša 8. oktobra. Monografija beleži dolazak 202. bataljona u Srem tokom oktobra. [Dimitrijević i Savić, *Oklopne jedinice na jugoslovenskom ratištu 1941–1945*](https://www.scribd.com/document/424490401/266555562-651-pdf-pdf) |
+| Batina, novembar 1944. | Dokumentovan je divizion jurišnih topova 7. SS divizije 17. novembra. U igri ga predstavlja StuG III sa čvrstom nadgradnjom. Tačna verzija pojedinačnog vozila u Batini ostaje nepoznata. [Zapis o divizionu kod Batine](https://znaci.org/00001/200_17.pdf) |
+| Srem, proleće 1945. | M15/42 predstavlja dokumentovanu nemačku tehniku tog fronta. Poznati su snimci kod Rume i Šarengrada iz januara i februara (VM 13840 i 2970). Fotografija olupine kod Tovarnika potvrđuje nemački tenk na mestu proboja, bez tipa u potpisu. [Monografija](https://www.scribd.com/document/424490401/266555562-651-pdf-pdf) · [Ratna fotografija iz Tovarnika](https://znaci.org/fotogalerija/fotogalerija11.html) |
+| Drvar, maj 1944. | Delovi 202. nemačkog oklopnog bataljona učestvuju u operaciji. Somua S35 predstavlja francuske tenkove tog bataljona na osnovu njegovog inventara. Identitet konkretnog vozila u Drvaru ostaje otvoren. [Studija o operaciji](https://www.bmlv.gv.at/pdf_pool/omz/oemz2007_01.pdf) · [Sastav bataljona kod Dimitrijevića i Savića](https://www.scribd.com/document/424490401/266555562-651-pdf-pdf) |
+| Užice, jesen 1941. | Hočkis predstavlja nemački oklop korišćen protiv ustanika u zapadnoj Srbiji. Muzejski primerak zaplenjen je od Nemaca kod Gornjeg Milanovca, a u Užice stigao u ustaničkim rukama. Duel u igri sažima kampanju. [Svedočenje kustosa Narodnog muzeja Užice](https://zoomue.rs/tenk-ponovo-cuva-grad-video/) |
+| Bihać, novembar 1942. | Izveštaj o oslobođenju beleži zaplenjene protivtenkovske topove. Model tenka u sastavu branilaca ostaje nepotvrđen. Igra ovde zadržava generičkog protivnika, kao i na neimenovanom gradskom bojištu. [Dokumenti operacije](https://znaci.org/00003/501.pdf) |
+
 ## Beograd, oktobar 1944 — polazište za igru Otpisani
 
 - **Tok:** borbe za Beograd traju od 12. do 20. oktobra 1944, posle tri godine i sedam meseci okupacije; jedinice NOVJ i Crvene armije napreduju sa Avale ka centru, pod Pekom Dapčevićem i maršalom Tolbuhinom ([Kosovo online](https://www.kosovo-online.com/vesti/drustvo/na-danasnji-dan-u-drugom-svetskom-ratu-oslobodjen-beograd-20-10-2023)). Istoričari dele operaciju na tri faze, sa slabom saradnjom saveznika u prvoj ([Vreme](https://vreme.com/vreme/nasi-tragicni-slavni-i-veliki-dani)).

@@ -1,4 +1,5 @@
 import BodySprite from './BodySprite.js'
+import ArtClip from './ArtClip.js'
 
 /**
  * The view of a body seen from above that walks or crawls, from an atlas `art` of a still row and a moving row of
@@ -11,6 +12,10 @@ export default class LocomotionSprite extends BodySprite {
     Object.assign(this, { art, still })
     this.moving = false
     this.elapsed = 0
+    if (art.death) {
+      this.death = new ArtClip(art.death)
+      this.children.push(this.death)
+    }
   }
 
   fit() {
@@ -39,8 +44,10 @@ export default class LocomotionSprite extends BodySprite {
     ctx.translate(this.x, this.y)
     ctx.rotate(this.angle)
     ctx.imageSmoothingEnabled = false
-    ctx.drawImage(this.image, this.frameIndex * width, this.moving ? height : 0, width, height,
-      -this.width / 2, -this.height / 2, this.width, this.height)
+    if (!(this.body.dead && this.death?.draw(ctx, { name: 'dead', time: this.body.stateTime, x: 0, y: 0,
+      scaleX: this.width / width, scaleY: this.height / height })))
+      ctx.drawImage(this.image, this.frameIndex * width, this.moving ? height : 0, width, height,
+        -this.width / 2, -this.height / 2, this.width, this.height)
     ctx.restore()
   }
 }

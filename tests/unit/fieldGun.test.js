@@ -113,11 +113,15 @@ test('opposing guns fire from mirrored muzzles at mirrored velocities, and one g
   assert.equal(left.launch(), false)
 })
 
-test('a gun has the states idle, load, fire and dead, and at rest or dead does not fire', () => {
+test('a gun charges only while loading and fires only on attack', () => {
   const body = gun()
-  assert.deepEqual(body.states, ['idle', 'load', 'fire', 'dead'])
+  assert.deepEqual(body.states, ['idle', 'load', 'attack', 'dead'])
   body.aimAt({ x: 20, y: 0 })
   live([body], 2)
+  assert.equal(body.charged, false)
+  body.setState('load')
+  live([body], .2)
+  assert.ok(body.charged)
   assert.equal(body.shotsFired, 0)
   body.setState('dead')
   live([body], 2)
@@ -130,7 +134,7 @@ for (const way of [1, -1])
     const body = gun({ way })
     const point = { x: body.x + way * 15, y: 0 }
     assert.equal(body.aimAt(point), true)
-    body.setState('fire')
+    body.setState('attack')
     const landings = []
     for (let i = 0; i < 600 && landings.length < 2; i++) {
       const before = body.shells.projectiles.map(ball => ball.bursts)

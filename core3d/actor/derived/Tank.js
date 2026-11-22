@@ -3,5 +3,7 @@ const meshModel = { file: 'tank/renault-ft.fbx', texture: 'metal/metal01.jpg', s
 /** What to load; a game awaits requestModels(models) before it creates one of these. */
 export const models = [meshModel]
 
-/** How it looks and acts, for a character made of a body and its model: a slow, heavy machine with no weapon of its own. */
-export const description = { model: meshModel, animDict: {}, body: { speed: 2, health: 1000 } }
+/** The barrel is part of the Renault mesh. Its report and flash coincide with the body's shot. */
+export const description = { model: meshModel, animDict: {}, deathPose: 'armor', attackSound: 'cannon-shot.mp3', attackProfile: 'cannon',
+  flame: { kinds: ['attack'], fromBlow: true, muzzle: [0, 1.95, -1.486], duration: .12 },
+  body: { speed: 2, health: 1000, reach: 40, strikeHeight: .78, strikeAhead: 1.486, actions: { attack: .8 } } }

@@ -8,7 +8,26 @@ export default {
     },
     'columns': 4,
     'movement': 'crawl',
-    'seconds': 1.2
+    'seconds': 1.2,
+    'death': {
+      'src': 'armies/game-ready/vojnici/wounded-death-sprites.png',
+      'width': 83,
+      'height': 49,
+      'anchor': {
+        'x': 41.5,
+        'y': 24.5
+      },
+      'clips': {
+        'dead': {
+          'ms': [
+            120,
+            150,
+            190,
+            340
+          ]
+        }
+      }
+    }
   },
   'german-patrol': {
     'src': 'armies/game-ready/vojnici/german-patrol-sprites.png',
@@ -18,7 +37,26 @@ export default {
     },
     'columns': 4,
     'movement': 'walk',
-    'seconds': 0.8
+    'seconds': 0.8,
+    'death': {
+      'src': 'armies/game-ready/vojnici/german-patrol-death-sprites.png',
+      'width': 103,
+      'height': 112,
+      'anchor': {
+        'x': 51.5,
+        'y': 56.0
+      },
+      'clips': {
+        'dead': {
+          'ms': [
+            120,
+            150,
+            190,
+            340
+          ]
+        }
+      }
+    }
   },
   'italian-patrol': {
     'src': 'armies/game-ready/vojnici/italian-patrol-sprites.png',
@@ -28,6 +66,25 @@ export default {
     },
     'columns': 4,
     'movement': 'walk',
-    'seconds': 0.8
+    'seconds': 0.8,
+    'death': {
+      'src': 'armies/game-ready/vojnici/italian-patrol-death-sprites.png',
+      'width': 103,
+      'height': 110,
+      'anchor': {
+        'x': 51.5,
+        'y': 55.0
+      },
+      'clips': {
+        'dead': {
+          'ms': [
+            120,
+            150,
+            190,
+            340
+          ]
+        }
+      }
+    }
   }
 }

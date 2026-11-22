@@ -1,0 +1,59 @@
+[
+  {
+    "id": "vis-luka",
+    "source": "vis-luka-source.png",
+    "sourceSize": [
+      1536,
+      1024
+    ],
+    "sourceSha256": "c5421a106f95e2800b696600be33a0a96355c8ff034dfcf37e0a1bb71c40e699",
+    "output": "assets/images/background/camac-vis-luka.png",
+    "outputSize": [
+      768,
+      416
+    ],
+    "sha256": "594405949a8ea3c6b64b6d923bb76076bbe1a2edfa8feebc4fe4c1523136c971",
+    "sourceBands": [
+      268,
+      166
+    ],
+    "hotspots": []
+  },
+  {
+    "id": "solta",
+    "source": "solta-source.png",
+    "sourceSize": [
+      1536,
+      1024
+    ],
+    "sourceSha256": "841a38cdab7a2996d516420e2454c244281c04f0c22d2daca703b700017b1973",
+    "output": "assets/images/background/camac-solta.png",
+    "outputSize": [
+      768,
+      416
+    ],
+    "sha256": "26605911e40150e104384058f52fcd01a3cfb250bafc1fd5528e04b5e432cb4c",
+    "sourceBands": [
+      268,
+      273
+    ],
+    "hotspots": []
+  },
+  {
+    "id": "vis-kanal",
+    "source": "vis-kanal-source.png",
+    "sourceSize": [
+      1536,
+      1024
+    ],
+    "sourceSha256": "1a572f2c3d4deefb35ce61b5ea93928a132b91fb8428d80705ded1ceba64359f",
+    "output": "assets/images/background/camac-vis-kanal.png",
+    "outputSize": [
+      768,
+      416
+    ],
+    "sha256": "ae5a3d828a1731513ff4adbdc6600178cedaf3dfd314d85bb01d0f6a3ab34275",
+    "sourceBands": null,
+    "hotspots": []
+  }
+]

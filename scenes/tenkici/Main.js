@@ -10,6 +10,7 @@ import TankKeys from '/core/gameplay/controllers/TankKeys.js'
 import TankAI from '/core/gameplay/controllers/TankAI.js'
 import { sideProjection } from '/core/actor/projection.js'
 import vehicleArt from '/core/actor/vehicleArt.js'
+import { germanTank, m15, stug, somuaTank, hotchkiss } from '/core/actor/tankLooks.js'
 import { keyboard } from '/core/io/Keyboard.js'
 import { leftPlayerKeys, rightPlayerKeys } from '/core/io/keys.js'
 import { randomInRange } from '/core/utils.js'
@@ -22,6 +23,8 @@ export const fieldLength = 74.8
  * (owner's decision): the Srem front in autumn 1944, Batina, the Srem breakthrough in 1945, then the older pictures.
  */
 export const battlefieldOrder = ['sremFront1944', 'batina', 'sremFront1945', 'city', 'bihac', 'drvar', 'uzice']
+// The generic city and the unconfirmed model at Bihać retain the standard opponent.
+const opponents = { sremFront1944: m15, batina: stug, sremFront1945: m15, drvar: somuaTank, uzice: hotchkiss }
 let nextBattlefield = 0
 
 const customStartScreen = ({ container }) => /* html */`
@@ -60,14 +63,17 @@ export default class TenkiciScene extends Scene2D {
     const half = fieldLength / 2
     // its tanks do not break down: the fight is decided by health alone
     const breakdown = { drive: 0, gun: 0 }
-    this.tenk = new Tank({ kind: tankKinds.partisan, x: randomInRange(0, fieldLength * .3), clock, bounds: { min: 0, max: half }, breakdown })
-    this.tenk2 = new Tank({ kind: tankKinds.german, x: randomInRange(fieldLength * .7, fieldLength) - 3.96, yaw: Math.PI, clock,
-      bounds: { min: half, max: fieldLength }, breakdown })
+    const enemy = opponents[this.battlefield] ?? germanTank
+    const leftRadius = tankKinds.partisan.size.length / 2, rightRadius = enemy.kind.size.length / 2
+    this.tenk = new Tank({ kind: tankKinds.partisan, x: randomInRange(leftRadius, fieldLength * .3), clock,
+      bounds: { min: leftRadius, max: half - leftRadius }, breakdown })
+    this.tenk2 = new Tank({ kind: enemy.kind, rearAim: enemy.rearAim, x: randomInRange(fieldLength * .7, fieldLength - rightRadius),
+      yaw: Math.PI, clock, bounds: { min: half + rightRadius, max: fieldLength - rightRadius }, breakdown })
     this.tenk.targets.push(this.tenk2)
     this.tenk2.targets.push(this.tenk)
     const view = (body, art, barrel, facing) => new TankSprite(body, { art, facing, barrel, projection: this.projection })
     this.tenkView = view(this.tenk, vehicleArt.partisanTank, { src: 'armies/game-ready/tenkovi/partizanski-tenk-cev-pixel.png' })
-    this.tenk2View = view(this.tenk2, vehicleArt.germanTank, { src: 'armies/game-ready/tenkovi/nemacki-tenk-cev-pixel.png', facing: -1 }, -1)
+    this.tenk2View = view(this.tenk2, enemy.art, enemy.barrel, enemy.facing)
     this.add(this.tenk, this.tenkView, this.tenk2, this.tenk2View)
     this.controllers.splice(0, this.controllers.length,
       new TankKeys(this.tenk, { keyboard, keys: leftPlayerKeys }),

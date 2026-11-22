@@ -5,7 +5,7 @@ import Gunner, { lead } from '/core/gameplay/controllers/Gunner.js'
 /** A body that only records the state it is set to and the points it is asked to aim at. */
 function fakeBody({ reach = 100, aimable = true, alive = true } = {}) {
   const body = {
-    x: 0, y: 0, reach, alive, aimable, state: 'idle', aimed: [],
+    x: 0, y: 0, reach, alive, aimable, state: 'idle', states: ['idle', 'fire'], aimed: [],
     aimAt(point) {
       body.aimed.push(point)
       return body.aimable

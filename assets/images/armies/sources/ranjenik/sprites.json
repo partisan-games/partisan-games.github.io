@@ -26,6 +26,30 @@
       ],
       "acceptedIdlePixelsUnchanged": true,
       "sha256": "42fe3da455b928065a89505c0b479b72a3dab83627838ccb316af90592acad49",
+      "death": {
+        "image": "../../game-ready/vojnici/wounded-death-sprites.png",
+        "source": "wounded-death-generated.png",
+        "sourceSha256": "5e8942fc766d4822f406c21ddf5d4bd5dd7cbb4ded07981ef607b55f527804e9",
+        "sha256": "f3934395cddf64e84f7137d63c5c759511f8a92087074cb006b5cf31bda053e1",
+        "generator": "death-generation.json",
+        "anchor": {
+          "x": 41.5,
+          "y": 24.5
+        },
+        "cell": [
+          83,
+          49
+        ],
+        "row": 0,
+        "frameDurationsMs": [
+          120,
+          150,
+          190,
+          340
+        ],
+        "loop": false,
+        "end": "hold last frame"
+      },
       "generatedMotionRegions": [],
       "acceptedPixelsOutsideMotionRegionsUnchanged": false,
       "animations": [
@@ -70,6 +94,30 @@
       ],
       "acceptedIdlePixelsUnchanged": true,
       "sha256": "1ed9a0ea0079cf6dbfa7fa8597dc7ffe95c8f0d4d7ae086a3e92211baf14b7b2",
+      "death": {
+        "image": "../../game-ready/vojnici/german-patrol-death-sprites.png",
+        "source": "patrol-death-generated.png",
+        "sourceSha256": "6e18a1c44b2864670b670ca379012d51e5ca58340bd17676e3c2944ee25bf67b",
+        "sha256": "cb36d3f21a0a734a35c787dfddbeaf08964573fc286a32764cd96025de7cc910",
+        "generator": "death-generation.json",
+        "anchor": {
+          "x": 51.5,
+          "y": 56.0
+        },
+        "cell": [
+          103,
+          112
+        ],
+        "row": 0,
+        "frameDurationsMs": [
+          120,
+          150,
+          190,
+          340
+        ],
+        "loop": false,
+        "end": "hold last frame"
+      },
       "generatedMotionRegions": [
         {
           "source": [
@@ -160,6 +208,30 @@
       ],
       "acceptedIdlePixelsUnchanged": true,
       "sha256": "13cb98e6a00b83e5545a890f0b54f595cba126b8db02edf4f588f35c2397304c",
+      "death": {
+        "image": "../../game-ready/vojnici/italian-patrol-death-sprites.png",
+        "source": "patrol-death-generated.png",
+        "sourceSha256": "6e18a1c44b2864670b670ca379012d51e5ca58340bd17676e3c2944ee25bf67b",
+        "sha256": "63190e3f6d2bdb3ad84389c0381beb9fcba4e597077883f5f46454ecedcc06ec",
+        "generator": "death-generation.json",
+        "anchor": {
+          "x": 51.5,
+          "y": 55.0
+        },
+        "cell": [
+          103,
+          110
+        ],
+        "row": 0,
+        "frameDurationsMs": [
+          120,
+          150,
+          190,
+          340
+        ],
+        "loop": false,
+        "end": "hold last frame"
+      },
       "generatedMotionRegions": [
         {
           "source": [

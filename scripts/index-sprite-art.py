@@ -82,7 +82,8 @@ def main():
                     clips = []
                     for clip in atlas['animations']:
                         frames = set()
-                        for column in range(clip['frameCount']):
+                        columns = clip.get('frameColumns', range(clip['frameCount']))
+                        for column in columns:
                             x, y = column * grid['width'], clip['row'] * grid['height']
                             cell = pixels.crop((x, y, x + grid['width'], y + grid['height']))
                             frames.add(hashlib.sha256(cell.tobytes()).hexdigest())

@@ -4,16 +4,16 @@ import ShoreMachineGun, { nest } from '/core/gameplay/bodies/artillery/ShoreMach
 import ShoreMachineGunSprite from '/core/actor/artillery/ShoreMachineGunSprite.js'
 
 /**
- * A machine-gun nest on each bank, placed where the terrain lets it stand, never where the camera happens to be: as
- * one falls far behind the view, a new one is dug in ahead of the farthest. The scene adds and removes the nests it
- * makes; `positions` are those in play, `{ body, view, marksman }`.
+ * A machine-gun nest on each bank, placed on bare rock where the terrain lets it stand, never in a town nor where the
+ * camera happens to be: as one falls far behind the view, a new one is dug in ahead of the farthest. The scene adds and
+ * removes the nests it makes; `positions` are those in play, `{ body, view, marksman }`.
  */
 export default class ShoreDefenses {
   constructor({ coast, scene, target }) {
     this.coast = coast
     this.scene = scene
     this.target = target
-    this.spacing = Math.max(1800, canvas2d.width * 1.9)
+    this.spacing = Math.max(1000, canvas2d.width * 1.1)
     this.positions = []
     let nextX = canvas2d.width * 1.5
     for (const side of [-1, 1]) {
@@ -31,13 +31,13 @@ export default class ShoreDefenses {
   /** A nest on `side` at the first place from `fromX` pixels where its whole footprint stands on the bank. */
   place(side, fromX) {
     const { coast, scene, footprint } = this
-    for (let i = 0; i < 64; i++) {
-      const x = fromX + i * coast.noiseResolution
+    // far enough to reach past the open sea between two islands
+    for (let i = 0; i < 400; i++) {
+      const x = fromX + i * coast.sampleSpacing
       const left = x - footprint.width / 2, right = x + footprint.width / 2
-      const edges = [coast.edgeAt(left, side), coast.edgeAt(right, side)]
-      for (let sample = Math.ceil(left / coast.noiseResolution) * coast.noiseResolution;
-        sample < right; sample += coast.noiseResolution) edges.push(coast.edgeAt(sample, side))
-      const boundary = side < 0 ? Math.min(...edges) : Math.max(...edges)
+      if (coast.landAt(x, side)?.kind !== 'rocks') continue
+      const edges = coast.edgeRange(left, right, side)
+      const boundary = side < 0 ? edges.min : edges.max
       const y = boundary + side * (footprint.height / 2 + 2)
       if (y - footprint.height / 2 < 1 || y + footprint.height / 2 > canvas2d.height - 1) continue
       return this.deploy(side, scene.projection.toWorld({ x, y }))

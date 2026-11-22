@@ -19,9 +19,9 @@ test('an occupier walks in from an edge for a while, then fires at the player un
   assert.equal(occupier.forward, view.x === 0 ? 1 : -1, 'he walks into the view')
   const { walkTime } = scene.walks.get(occupier)
   scene.update(walkTime - .05, 0)
-  assert.equal(occupier.state, 'walk')
+  assert.equal(occupier.state, 'move')
   scene.update(.1, 0)
-  assert.equal(occupier.state, 'fire')
+  assert.equal(occupier.state, 'attack')
   scene.update(1, 0)
   assert.ok(scene.energija < 100)
   // the dead fire no more; one who came in meanwhile falls too, before he could fire

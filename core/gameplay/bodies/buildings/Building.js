@@ -18,4 +18,8 @@ export default class Building extends Body {
     super({ health, ...rest, states })
     this.kind = kind
   }
+
+  setState(name) {
+    if (this.alive || name === 'dead') super.setState(name)
+  }
 }

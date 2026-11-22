@@ -21,8 +21,7 @@ const put = (stage, body, view) => {
 
 /** A patrol of the `faction` army, halted in the middle until it is set to search, heading `way`. */
 const patrol = faction => (stage, way) => {
-  const body = new Patrol({ ...middle(stage), yaw: yawOf(way) })
-  body.setState('halt')
+  const body = new Patrol({ ...middle(stage), yaw: yawOf(way), targets: [stage.dummy] })
   return put(stage, body, new PatrolSprite(body, { faction, ...views(stage) }))
 }
 

@@ -4,9 +4,11 @@ const animDict = {
   walk: 'Walking',
   idle: 'Zombie Idle',
   attack: 'Zombie Neck Bite',
+  death: 'Zombie Death',
 }
 
-const meshModel = { file: 'model.fbx', prefix: 'character/skeleton/', angle: Math.PI, animDict }
+const meshModel = { file: 'model.fbx', prefix: 'character/skeleton/', angle: Math.PI, animDict,
+  sharedClips: { 'Zombie Death': 'character/zombie/Zombie Death.fbx' } }
 
 /** What to load; a game awaits requestModels(models) before it creates one of these. */
 export const models = [meshModel]

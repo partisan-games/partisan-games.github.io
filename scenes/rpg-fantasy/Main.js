@@ -93,10 +93,11 @@ export default class RpgFantasyScene extends Scene3D {
 
     const flamingo = await import('/core3d/actor/derived/Flamingo.js')
     await requestModels(flamingo.models)
+    const { groundAt } = worldQueries(terrain)
     // flamingos wander 60 m above the sea level, not following the hills
     for (let i = 0; i < 10; i++) {
       const { x, z } = coords.pop()
-      const bird = makeCharacter(flamingo.description, { x, z, bounds })
+      const bird = makeCharacter(flamingo.description, { x, z, bounds, groundAt, levelFlight: true })
       this.controllers.push(new CharacterAI(bird.body, { way: 'wander' }))
       this.add(bird.body, bird.model)
     }
@@ -111,7 +112,7 @@ export default class RpgFantasyScene extends Scene3D {
     const zeppelin = await import('/core3d/actor/derived/Zeppelin.js')
     await requestModels(zeppelin.models)
     // the airship crosses the map straight, turning back at its edge
-    const airship = makeCharacter(zeppelin.description, { bounds, groundAt: worldQueries(terrain).groundAt })
+    const airship = makeCharacter(zeppelin.description, { bounds, groundAt })
     this.controllers.push(new CharacterAI(airship.body, { way: 'patrol', patrolDistance: Infinity }))
     this.add(airship.body, airship.model)
   }

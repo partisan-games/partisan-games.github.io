@@ -1,10 +1,9 @@
 import TrenchSoldier, * as trenchSoldierModule from '/core/gameplay/bodies/soldiers/TrenchSoldier.js'
 import TrenchSoldierSprite from '/core/actor/soldiers/TrenchSoldierSprite.js'
 
-/** The isolated upper-body figure; its cut-off waist rests on the ground line, without scenery. */
+/** The free-standing figure uses the same body as a soldier behind a trench. */
 const trench = faction => stage => {
-  const body = new TrenchSoldier({ x: stage.width / 2 / stage.projection.pxPerMeter, y: 14 / stage.projection.pxPerMeter })
-  body.setState('aim')
+  const body = new TrenchSoldier({ x: stage.width / 2 / stage.projection.pxPerMeter })
   stage.add(body, new TrenchSoldierSprite(body, { faction, projection: stage.projection, camera: stage }))
   return body
 }

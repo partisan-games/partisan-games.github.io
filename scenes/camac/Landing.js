@@ -4,17 +4,17 @@ import GameObject2D from '/core/actor/GameObject2D.js'
 /**
  * A fictional landing site within the historical operation, not a mapped wartime pier. It lies in the pixels of the
  * river; it steers the boat `player`, a body in metres, through `projection`, and draws its passengers about the boat's
- * `view`. `startX` is where the boat set out, in pixels.
+ * `view`. `startX` is where the boat set out and `distance` how far from there the pier lies, in pixels.
  */
 export default class Landing {
-  constructor({ coast, session, player, view, projection, viewLeft, startX }) {
+  constructor({ coast, session, player, view, projection, viewLeft, startX, distance }) {
     this.coast = coast
     this.session = session
     this.player = player
     this.view = view
     this.projection = projection
     this.viewLeft = viewLeft
-    this.x = startX + 6500
+    this.x = startX + distance
     this.position = { z: .5 }
     this.startedAt = null
     this.progress = 0
@@ -63,7 +63,7 @@ export default class Landing {
 
   /** Once the boat reaches the pier, the landing takes it, brings it alongside and lands its troops. */
   update() {
-    if (this.session.state !== 'running' || this.complete) return
+    if (this.session.state !== 'running' || this.complete || this.shoreY === null) return
     const boat = this.player
     if (boat.dead) return
     const at = this.projection.point(boat)
@@ -92,7 +92,7 @@ export default class Landing {
   }
 
   render() {
-    if (this.x + 110 < this.viewLeft() || this.x - 110 > this.viewLeft() + canvas2d.width) return
+    if (this.x + 110 < this.viewLeft() || this.x - 110 > this.viewLeft() + canvas2d.width || this.shoreY === null) return
     const shore = this.shoreY, end = this.pierY
     ctx.save()
     ctx.fillStyle = '#66513b'

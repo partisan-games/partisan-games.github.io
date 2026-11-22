@@ -25,6 +25,10 @@ const burningSpots = spots => spots.map(spot => burning(...spot))
 export const battlefields = {
   city: {
     src: 'background/razrusen-grad-ww2-pixel.png', width: 724, height: 543, ground: 395 / 543,
+    props: [
+      { id: 'opel-blitz', x: 535, y: 766, scale: .43 },
+      { id: 'partisan-fallen-side', x: 997, y: 786, scale: .46, flip: true },
+    ],
     pozari: [
       { x: 176, y: 365, velicina: 1, faza: 0 },
       { x: 520, y: 241, velicina: .65, faza: 2.7 },
@@ -38,22 +42,39 @@ export const battlefields = {
   // from assets/images/sources/pozadine/backgrounds.json, its source pixels halved
   bihac: {
     src: 'background/bihac-ww2-pixel.png', width: 768, height: 512, ground: 818 / 1024,
+    props: [
+      { id: 'blood-smear', x: 358, y: 806, scale: .32 },
+      { id: 'partisan-fallen-prone', x: 367, y: 801, scale: .43 },
+    ],
     pozari: [{ x: 85, y: 272, velicina: .55, faza: 0 }, { x: 705, y: 284, velicina: .6, faza: 2.7 }],
     stuboviDima: [{ x: 388, y: 249, faza: 1.2, seme: 1.3, ...defaultColumn }],
   },
   // from assets/images/sources/pozadine/seasonal-backgrounds.json: the raid of May 1944, with nothing burning
   drvar: {
     src: 'background/drvar-spring-1944-pixel.png', width: 768, height: 512, ground: 814 / 1024,
+    props: [
+      { id: 'german-fallen-side', x: 1120, y: 775, scale: .42 },
+      { id: 'partisan-fallen-prone', x: 461, y: 802, scale: .51, flip: true },
+    ],
     pozari: [], stuboviDima: [],
   },
   uzice: {
     src: 'background/uzice-ww2-pixel.png', width: 768, height: 512, ground: 813 / 1024,
+    props: [
+      { id: 'partisan-fallen-side', x: 1338, y: 789, scale: .44 },
+    ],
     pozari: [{ x: 670, y: 295, velicina: .6, faza: 0 }, { x: 500, y: 270, velicina: .3, faza: 4.2 }],
     stuboviDima: [{ x: 610, y: 254, faza: 2.4, seme: 3.6, ...defaultColumn }],
   },
   // from assets/images/sources/pozadine/current-backgrounds.json
   sremFront1944: {
     src: 'background/sremski-front-1944-static.png', width: 768, height: 512, ground: 828 / 1024,
+    props: [
+      { id: 'pak38', x: 941, y: 727, scale: .49 },
+      { id: 'german-fallen-prone', x: 1001, y: 740, scale: .42 },
+      { id: 'blood-patch', x: 485, y: 807, scale: .42 },
+      { id: 'partisan-fallen-side', x: 501, y: 803, scale: .55, flip: true },
+    ],
     // three, as the owner chose: the broken roof, the trench timber and a farm on the plain
     ...burningSpots([[300, 370, .6, 0, 1.1], [935, 560, .35, 4.1, 3.4], [1160, 350, .2, 1.4, 5.2]]),
   },
@@ -61,22 +82,43 @@ export const battlefields = {
   batina: {
     src: 'background/batina-1944/base.png', layers: 'background/batina-1944/', actors: false,
     width: 768, height: 512, ground: 852 / 1024, pozari: [], stuboviDima: [],
+    props: [
+      { id: 'partisan-fallen-prone', x: 461, y: 812, scale: .47, flip: true },
+      { id: 'blood-smear', x: 1037, y: 834, scale: .39 },
+      { id: 'german-fallen-side', x: 1047, y: 830, scale: .52 },
+    ],
   },
   sremFront1945: {
     src: 'background/sremski-front-1945-static.png', width: 768, height: 512, ground: 852 / 1024,
+    props: [
+      { id: 'opel-blitz', x: 1233, y: 699, scale: .39, flip: true },
+      { id: 'german-fallen-supine', x: 1093, y: 766, scale: .44 },
+      { id: 'blood-pool', x: 449, y: 826, scale: .38 },
+      { id: 'partisan-fallen-prone', x: 462, y: 821, scale: .56 },
+    ],
     // the ruined house, the trench and the wrecked gun
-    ...burningSpots([[280, 390, .45, 3.2, 3.9], [1065, 575, .3, .9, 2.1], [1345, 560, .4, 5.3, 4.6]]),
+    ...burningSpots([[280, 390, .45, 3.2, 3.9], [1065, 575, .3, .9, 2.1], [1340, 578, .3, 5.3, 4.6]]),
   },
   grahovo: {
     src: 'background/grahovo-1941-war-sparse-static.png', width: 768, height: 512, ground: 852 / 1024,
+    props: [{ id: 'italian-fallen-prone', x: 557, y: 753, scale: .41, flip: true }],
     ...burning(220, 387, .25, .6, 1.6),
   },
   vilusi: {
     src: 'background/vilusi-1941-static.png', width: 768, height: 512, ground: 854 / 1024,
+    props: [
+      { id: 'italian-fallen-side', x: 881, y: 772, scale: .42 },
+      { id: 'blood-patch', x: 600, y: 828, scale: .35 },
+      { id: 'partisan-fallen-supine', x: 611, y: 824, scale: .5 },
+    ],
     ...burning(1320, 522, .25, 2.2, 2.9),
   },
   niksic: {
     src: 'background/niksic-1941-static.png', width: 768, height: 512, ground: 798 / 1024,
+    props: [
+      { id: 'partisan-fallen-side', x: 472, y: 754, scale: .46 },
+      { id: 'italian-fallen-supine', x: 876, y: 767, scale: .43, flip: true },
+    ],
     ...burning(260, 475, .25, 4.1, 4.4),
   },
 }

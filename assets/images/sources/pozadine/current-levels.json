@@ -97,10 +97,10 @@
         "base.png": "ceab022326140666e1d6717534dc1d9c21576350a2584c60da095cff828c3b0f",
         "clouds.png": "21f4b3de4f3a069e866fb96f5ab8cfcc630184d3f4e2ca72f7c213e65b593c0c",
         "actors.png": "aff959554b823a33cc1837acb5ba4e9a85b03d7a1fa5ff6e8956fe34cd091729",
-        "layout.json": "8a5fdcf65555c5cc2a7330a92ca57a573ccf496746a53e5c44fc0eca617ac458",
-        "render.js": "7e0566430687041cf5b5b1dac1b46d25e6ae907ddd42e1f1479e78b0315cce02"
+        "layout.json": "8a5fdcf65555c5cc2a7330a92ca57a573ccf496746a53e5c44fc0eca617ac458"
       },
       "generation": "assets/images/sources/pozadine/batina-layered/generation.json",
+      "animatedPreview": "assets/images/sources/pozadine/batina-layered/preview.html",
       "ownerAccepted": true,
       "gameIntegrated": true,
       "ownerDecision": "Selected by the owner as the final Batina background; integrated in Tenkići.",
@@ -140,12 +140,36 @@
         {
           "x": 280,
           "y": 390,
-          "intensity": 0.25,
+          "intensity": 0.45,
           "kind": "fire"
         },
         {
           "x": 280,
           "y": 390,
+          "intensity": 0.45,
+          "kind": "smoke"
+        },
+        {
+          "x": 1065,
+          "y": 575,
+          "intensity": 0.3,
+          "kind": "fire"
+        },
+        {
+          "x": 1065,
+          "y": 575,
+          "intensity": 0.3,
+          "kind": "smoke"
+        },
+        {
+          "x": 1340,
+          "y": 578,
+          "intensity": 0.3,
+          "kind": "fire"
+        },
+        {
+          "x": 1340,
+          "y": 578,
           "intensity": 0.3,
           "kind": "smoke"
         }
@@ -153,7 +177,7 @@
       "references": [
         "assets/images/sources/pozadine/styles/b3-lived-wartime-scene.png"
       ],
-      "imageSha256": "c58b846f44fdbeeb7375dd0d480b6e52c690bb57919908f49d0417e802e9f9cf",
+      "imageSha256": "c8eab0c4d10db245e338c6f064ea9f54365ae9a8968dc362f89415061f939836",
       "referenceSha256": {
         "assets/images/sources/pozadine/styles/b3-lived-wartime-scene.png": "fc34511f02d96e8e39c76ab9d77fb34fee65248fcaaa7fbd274aeb3c5e71bf25"
       },
@@ -169,9 +193,24 @@
       "tool": "built-in image_gen",
       "generatedAt": "2026-11-21",
       "providerOutputName": "exec-3d5a30f0-3779-406e-bc8c-e3742d98a2ee.png",
-      "sourceStorage": "Original generated PNG is preserved once at image; provider original also retained outside repository.",
+      "sourceStorage": "The original static plate is Git blob 1a4b9fc851ca5fea5865f264ddda01740dc96161. Reapply the generated region with srem-top/prepare.ps1.",
       "previousImage": "assets/images/background/sremski-front-1945-pixel.png",
-      "edits": [],
+      "edits": [
+        {
+          "reference": "assets/images/sources/pozadine/srem-top/retouch.png",
+          "referenceSha256": "a7876805b784c1ac811460ad54552e9d086db4e400a022c77ed2099a33a8ebf6",
+          "inputSha256": "c58b846f44fdbeeb7375dd0d480b6e52c690bb57919908f49d0417e802e9f9cf",
+          "providerOutputName": "exec-c348c79f-94c4-44f2-82ae-66a0340efff7.png",
+          "generatedAt": "2026-11-22",
+          "exactPrompt": "Edit this exact game background, preserve canvas composition, all terrain and colors. Only retouch the gun at the right centered around x=1360 y=551 on a 1536x1024 canvas. Repaint a substantially smaller broken WW2 field gun, half the original width and height, partly sunken beside the trench. Restore former silhouette with matching grasses and timbers. Keep main wreck at x=1360 y=575. Wheels and short bent barrel, small wrecked silhouette readable in profile. No smoke, fire, posters or people. Everything outside the gun's immediate patch must remain pixel-perfect identical. Same camera, 3:2, flat playing strip starting y=852.",
+          "crop": [
+            1241,
+            481,
+            272,
+            139
+          ]
+        }
+      ],
       "staticBaseAudit": {
         "people": false,
         "fabricFlags": false,

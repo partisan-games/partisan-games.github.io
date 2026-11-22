@@ -11,35 +11,36 @@ const live = (body, seconds) => {
 
 test('a trench soldier hides until set to rise, aims for his while, then fires until he is hit', () => {
   const soldier = new TrenchSoldier()
-  assert.deepEqual(soldier.states, ['hidden', 'aim', 'fire', 'fall'])
+  assert.deepEqual(soldier.states, ['idle', 'move', 'aim', 'attack', 'dead'])
   live(soldier, 5)
-  assert.equal(soldier.state, 'hidden')
+  assert.equal(soldier.state, 'idle')
   assert.equal(soldier.standing, false, 'hidden, he cannot be hit')
   soldier.setState('aim')
   assert.equal(soldier.standing, true)
   live(soldier, trench.aimTime - .1)
   assert.equal(soldier.state, 'aim')
   live(soldier, .2)
-  assert.equal(soldier.state, 'fire')
+  assert.equal(soldier.state, 'attack')
   live(soldier, 5)
-  assert.equal(soldier.state, 'fire', 'he keeps firing')
+  assert.equal(soldier.state, 'attack', 'he keeps firing')
 })
 
-test('a hit trench soldier falls back into his trench and hides again, out of reach while falling', () => {
+test('a dead soldier stays down until a new soldier takes the post', () => {
   const soldier = new TrenchSoldier()
-  soldier.setState('fall')
+  soldier.setState('dead')
   assert.equal(soldier.standing, false)
   live(soldier, trench.fallTime + .1)
-  assert.equal(soldier.state, 'hidden')
+  soldier.setState('move')
+  assert.equal(soldier.state, 'dead')
 })
 
 test('an occupier walks the way he faces, stands to fire, and stays where he falls', () => {
-  const right = new Occupier({ x: 0 }), left = new Occupier({ x: 50, yaw: Math.PI })
-  assert.deepEqual(right.states, ['walk', 'fire', 'dead'])
+  const right = new Occupier({ x: 0, initial: 'move' }), left = new Occupier({ x: 50, yaw: Math.PI, initial: 'move' })
+  assert.deepEqual(right.states, ['idle', 'move', 'attack', 'dead'])
   live(right, 1); live(left, 1)
   assert.ok(Math.abs(right.x - occupier.speed) < 1e-9)
   assert.ok(Math.abs(left.x - (50 - occupier.speed)) < 1e-9)
-  right.setState('fire')
+  right.setState('attack')
   live(right, 1)
   assert.ok(Math.abs(right.x - occupier.speed) < 1e-9, 'he stands while firing')
   right.setState('dead')
@@ -58,7 +59,7 @@ test('front-facing soldier views load their own poses and draw without owning a 
   const { sideProjection } = await import('/core/actor/projection.js')
   for (const faction of ['nemci', 'cetnici']) for (const scale of [1, .5]) {
     const body = new TrenchSoldier({ x: 10 })
-    const view = new TrenchSoldierSprite(body, { faction, scale, projection: sideProjection({ pxPerMeter: 22, groundY: 500 }) })
+    const view = new TrenchSoldierSprite(body, { faction, scale, inTrench: true, projection: sideProjection({ pxPerMeter: 22, groundY: 500 }) })
     assert.ok(view.image.src.endsWith(`${faction}-spreda.png`))
     loadAtlas(view, 192, 288)
     await view.imageLoaded
@@ -69,7 +70,7 @@ test('front-facing soldier views load their own poses and draw without owning a 
     draws.length = 0
     view.render(context)
     assert.equal(draws.length, 0, 'hidden shows neither a soldier nor a trench')
-    for (const state of ['aim', 'fire', 'fall']) {
+    for (const state of ['aim', 'attack', 'dead']) {
       body.setState(state)
       body.update(.2)
       view.update(.2)

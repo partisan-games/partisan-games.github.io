@@ -10,7 +10,7 @@ export const dropLead = gravity => (target, body) => {
 /**
  * A dive bomber's run: while the target lives and the bomber `sees(target)` and can dive on it, the body is set to fire,
  * which dives on it and drops its bomb; otherwise it flies on. The body has `alive`, `aimAt(point)` and the states
- * `idle` and `fire`. It dives on the target itself, or where `aim(target, body)` gives, such as `lead` of `Gunner` or
+ * `idle` and `attack`. It dives on the target itself, or where `aim(target, body)` gives, such as `lead` of `Gunner` or
  * `dropLead`.
  */
 export default class Bombardier {
@@ -24,6 +24,6 @@ export default class Bombardier {
   update() {
     const { body, target } = this
     if (!body.alive) return
-    body.setState(target.alive && this.sees(target) && body.aimAt(this.aim(target, body)) ? 'fire' : 'idle')
+    body.setState(target.alive && this.sees(target) && body.aimAt(this.aim(target, body)) ? 'attack' : 'idle')
   }
 }

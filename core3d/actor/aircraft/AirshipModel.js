@@ -40,8 +40,8 @@ export default class AirshipModel {
   update(dt) {
     const { body } = this
     this.place()
-    const flying = !body.touchingGround
-    this.engineSound.setPlaying(flying && body.alive)
+    const flying = body.alive && !body.touchingGround
+    this.engineSound.setPlaying(flying)
     if (flying) this.propellers.forEach(propeller => propeller.rotateZ(-body.speed * dt))
     if (this.action) {
       if (flying) this.action.play()

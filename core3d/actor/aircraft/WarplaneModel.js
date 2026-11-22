@@ -91,7 +91,7 @@ export default class WarplaneModel {
       this.seen.crashed = true
       this.crashSound.play()
     }
-    if (body.hitsTaken > 0 && !this.smoke && this.Smoke) {
+    if ((body.hitsTaken > 0 || body.dead) && !this.smoke && this.Smoke) {
       this.smoke = new this.Smoke()
       this.mesh.add(this.smoke.mesh)
       this.smoke.mesh.position.y += body.size.height * .4

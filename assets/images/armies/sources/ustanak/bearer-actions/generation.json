@@ -1,0 +1,15 @@
+{
+  "generator": "OpenAI built-in ImageGen",
+  "poses": [
+    {
+      "reference": "partisan-reference.png",
+      "source": "partisan-generated.png",
+      "prompt": "Edit this reference into a transparent animation sprite sheet of exactly 4 columns by 2 rows, eight evenly spaced isolated poses, the very same partisan flag bearer in side view facing RIGHT. No text, no borders, no ground shadows, no scenery. Keep his original uniform, head/hat, simple flat cartoon pixel contours, silhouette at game scale. Absolutely no flag or flagpole drawn: it is a separate layer drawn by the game. Top row: four sequential poses of an in-place walk cycle, forward hand remains in the SAME grip position at upper chest in front of the body holding the invisible vertical pole; legs visibly stride in alternating phases and same baseline. Bottom row: he is hit and collapses, no gore: start same standing pose as reference, then knees buckle, settles to his side, finally fully on the ground horizontally with limp arms and boots at the left, head at the right. Keep anatomical proportions and pixel scale across all eight drawings. The rifle shown in the partisan reference stays with the partisan. Each pose has plenty of room, especially for the horizontal figure; no overlap between cells. Isolated silhouettes, true transparent background, no effects or lettering."
+    },
+    {
+      "reference": "italian-reference.png",
+      "source": "italian-generated.png",
+      "prompt": "Edit this reference into a transparent animation sprite sheet of exactly 4 columns by 2 rows, eight evenly spaced isolated poses, the very same italian flag bearer in side view facing RIGHT. No text, no borders, no ground shadows, no scenery. Keep his original uniform, head/hat, simple flat cartoon pixel contours, silhouette at game scale. Absolutely no flag or flagpole drawn: it is a separate layer drawn by the game. Top row: four sequential poses of an in-place walk cycle, forward hand remains in the SAME grip position at upper chest in front of the body holding the invisible vertical pole; legs visibly stride in alternating phases and same baseline. Bottom row: he is hit and collapses, no gore: start same standing pose as reference, then knees buckle, settles to his side, finally fully on the ground horizontally with limp arms and boots at the left, head at the right. Keep anatomical proportions and pixel scale across all eight drawings. The rifle shown in the partisan reference stays with the partisan. Each pose has plenty of room, especially for the horizontal figure; no overlap between cells. Isolated silhouettes, true transparent background, no effects or lettering."
+    }
+  ]
+}

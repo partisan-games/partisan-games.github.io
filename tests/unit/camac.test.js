@@ -2,20 +2,21 @@ import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 
-let Camac, collideWithWreck, Boat, SBoat, GameClock, canvas2d
+let Camac, collideWithWreck, Boat, SBoat, sBoat, GameClock, canvas2d
 
 before(async() => {
   createPageElements()
   ;({ default: Camac } = await import('/scenes/camac/Main.js'))
   ;({ default: collideWithWreck } = await import('/scenes/camac/wreckCollision.js'))
   ;({ default: Boat } = await import('/core/gameplay/bodies/boats/Boat.js'))
-  ;({ default: SBoat } = await import('/core/gameplay/bodies/boats/SBoat.js'))
+  ;({ default: SBoat, sBoat } = await import('/core/gameplay/bodies/boats/SBoat.js'))
   ;({ default: GameClock } = await import('/core/runtime/GameClock.js'))
   canvas2d = (await import('/core/io/canvas2d.js')).default
 })
 
-function createScene(t) {
-  const scene = new Camac()
+/** The scene from its `stage`, by default the landing on Šolta, whose banks are guarded. */
+function createScene(t, stage = 1) {
+  const scene = new Camac({ stage })
   scene.init()
   scene.clear = () => {}
   scene.session.start()
@@ -48,7 +49,7 @@ test('an S-boat comes after its quiet start, and its sunk wreck leaves play', t 
   const { boat } = scene.encounter
   assert.ok(boat, 'it has come')
   assert.ok(scene.targets.includes(boat.body))
-  boat.body.takeHit(100)
+  boat.body.takeHit(sBoat.health)
   play(6)
   assert.equal(scene.encounter.boat, null)
   assert.equal(scene.targets.includes(boat.body), false)
@@ -70,24 +71,50 @@ test('the S-boat is over four player-boat lengths, with its large hull and gun m
   assert.ok(Math.abs(barrelPixels - view.width * 12 / 300) < 1e-8, 'rounds leave the enlarged drawn gun')
 })
 
-test('reaching the pier takes the boat out of the player hands and the troops land', t => {
+test('reaching the pier takes the boat out of the player hands, the troops land, and the boat sets out for home', t => {
   const { scene, play } = createScene(t)
-  scene.player.x = scene.landing.x / scene.projection.pxPerMeter
+  const { landing } = scene
+  scene.player.x = landing.x / scene.projection.pxPerMeter
   play(1 / 30)
-  assert.equal(scene.landing.active, true)
+  assert.equal(landing.active, true)
   assert.equal(scene.controllers.includes(scene.keys), false, 'the keys no longer steer it')
-  play(8)
+  for (let i = 0; i < 30 * 8 && !landing.complete; i++) {
+    play(1 / 30)
+    if (landing.complete) break
+    const { x, y } = scene.projection.point(scene.player)
+    if (landing.progress > 0) {
+      assert.ok(Math.abs(x - landing.x) < 1, 'the boat lies at the pier')
+      assert.deepEqual([scene.playerView.x, scene.playerView.y], [x, y], 'and is drawn there')
+    }
+  }
+  assert.equal(landing.complete, true)
+  assert.equal(scene.stage, 2, 'back across the channel')
+  assert.equal(scene.controllers.includes(scene.keys), true, 'in the player hands again')
+  assert.equal(scene.ui.outro, '')
+})
+
+test('the stages follow each other without a new coin, out of the harbour, to Šolta and home, where the game is won', t => {
+  const { scene, play } = createScene(t, 0)
+  const sail = () => {
+    scene.player.x = (scene.finishX + 10) / scene.projection.pxPerMeter
+    play(1 / 30)
+  }
+  assert.deepEqual([scene.stage, scene.landing], [0, null], 'no pier on the way out of the home harbour')
+  sail()
+  assert.equal(scene.stage, 1)
+  assert.ok(scene.landing, 'the pier of Šolta is ahead')
+  scene.stage = 2
+  scene.startStage()
+  assert.equal(scene.enlisted.length, 0, 'the enemies of the last stage are gone')
+  sail()
   assert.match(scene.ui.outro, /landed on Šolta/)
-  const { x, y } = scene.projection.point(scene.player)
-  assert.ok(Math.abs(x - scene.landing.x) < 1, 'the boat lies at the pier')
-  assert.deepEqual([scene.playerView.x, scene.playerView.y], [x, y], 'and is drawn there')
 })
 
 test('a fast boat cannot cross a sinking wreck, loses speed and glances off it', () => {
   const clock = new GameClock()
   const boat = new Boat({ x: 10, z: 30, clock })
   const wreck = new SBoat({ x: 30, z: 30, yaw: Math.PI / 2, clock })
-  wreck.takeHit(100)
+  wreck.takeHit(sBoat.health)
   const before = { x: boat.x, z: boat.z }
   boat.x = 50
   boat.vx = 100

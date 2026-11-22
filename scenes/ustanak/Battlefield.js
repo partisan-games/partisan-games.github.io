@@ -28,7 +28,7 @@ export default class Battlefield {
   }
 
   loaded() {
-    return Promise.all([...this.places.map(place => imageReady(place.image)), this.ground.loaded()])
+    return Promise.all([...this.places.map(place => imageReady(place.image, place.imageLoaded)), this.ground.loaded()])
   }
 
   update(dt) {

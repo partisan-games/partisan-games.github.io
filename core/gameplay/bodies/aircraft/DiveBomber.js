@@ -19,7 +19,8 @@ export const diveBomber = {
  */
 const states = {
   idle: { update: (plane, dt) => plane.cruise(dt) },
-  fire: {
+  move: { update: (plane, dt) => plane.cruise(dt) },
+  attack: {
     update: (plane, dt) => {
       if (plane.loaded && plane.aim) plane.dive(dt)
       else plane.cruise(dt)
@@ -51,6 +52,11 @@ export default class DiveBomber extends Body {
     this.yaw = way < 0 ? Math.PI : 0
   }
 
+  setState(name) {
+    if (this.dead && name !== 'dead') return
+    super.setState(name)
+  }
+
   /** Starts a pass where it is: it holds this height, level, with a new bomb. */
   enter() {
     this.cruiseY = this.y
@@ -62,7 +68,7 @@ export default class DiveBomber extends Body {
 
   /** It dives only down ahead of its nose, at least as steep as its shallowest dive. */
   get shots() {
-    return { down: { x: 9.71, y: -9.71 } }
+    return { down: { x: 9.71, y: this.groundAt(this.x + this.forward * 9.71) - this.y } }
   }
 
   get reach() {
@@ -108,6 +114,7 @@ export default class DiveBomber extends Body {
   /** The bomb leaves with its own velocity; that of a pass before, still falling, is not taken back. */
   release() {
     this.loaded = false
+    this.setState('move')
     if (!this.canFire() || this.bomb.active) return
     this.bomb.release({ x: this.x, y: this.y, z: this.z }, this)
     this.shotsFired++

@@ -1,6 +1,7 @@
 const animDict = {
   idle: 'Warrior Idle',
   walk: 'Walk',
+  death: 'Dying',
 }
 
 /* MODEL DESCRIPTION: the scene awaits requestModels(models) before construction. */

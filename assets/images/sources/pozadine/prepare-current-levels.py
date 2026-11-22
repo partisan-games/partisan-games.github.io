@@ -68,7 +68,7 @@ def main():
             layout = json.loads((folder / 'layout.json').read_text(encoding='utf-8'))
             assert [layout['width'], layout['height']] == entry['imageSize']
             assert layout['groundY'] == entry['groundY']
-            for name in ('base.png', 'clouds.png', 'actors.png', 'layout.json', 'render.js'):
+            for name in ('base.png', 'clouds.png', 'actors.png', 'layout.json'):
                 assert digest(folder / name) == entry['layerSha256'][name]
         for ref in entry['references']:
             assert digest(ROOT / ref) == entry['referenceSha256'][ref]
@@ -79,7 +79,8 @@ def main():
             assert 0 <= spot['x'] < entry['imageSize'][0] and 0 <= spot['y'] < entry['groundY']
         record = {'id': entry['id'], 'sha256': entry['imageSha256'], 'previews': previews, 'previewSha256': {p: digest(HERE / p) for p in previews}, 'gameExecuted': False, 'ownerAccepted': entry.get('ownerAccepted', False)}
         if entry.get('layers'):
-            record['animatedPreview'] = entry['layers'] + 'preview.html'
+            record['animatedPreview'] = entry['animatedPreview']
+            assert (ROOT / record['animatedPreview']).is_file()
         records.append(record)
         content = '<a href="../../../../' + entry['image'] + '">PNG</a>' + ''.join('<figure><img src="' + p + '"><figcaption>' + p + '</figcaption></figure>' for p in previews)
         if entry.get('layers'):
