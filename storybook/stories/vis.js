@@ -24,11 +24,16 @@ const player = aircraftId => stage => {
   return put(stage, body, new FighterBomberSprite(body, { src: image, ...fromAbove(stage) }))
 }
 
-/** An enemy plane in the middle with its nose down; its rounds fly at the stand-in. */
-const enemyPlane = type => stage => {
+/** An enemy plane in the middle with its nose down, drawn as picture `src`; its rounds fly at the stand-in. */
+const enemyPlane = type => (stage, way, src = attackPlaneImages[type][0]) => {
   const body = new AttackPlane({ kind: attackPlaneModule.attackPlaneKinds[type], ...at(stage, .5), clock: stage.session.clock })
-  return put(stage, body, new AttackPlaneSprite(body, { src: attackPlaneImages[type][0], ...fromAbove(stage) }))
+  return put(stage, body, new AttackPlaneSprite(body, { src, ...fromAbove(stage) }))
 }
+
+/** The pictures the enemy fighters are drawn as, one picked for each plane in the game. */
+const fighterLooks = [['bf109', 'Bf 109'], ['fw190', 'Fw 190'], ['sivi', 'Sivi lovac'], ['pustinjski', 'Pustinjski lovac'],
+  ['zeleni', 'Zeleni lovac'], ['zuti-nos', 'Lovac žutog nosa']]
+  .map(([id, name], i) => ({ id, name, value: attackPlaneImages.fighter[i] }))
 
 const game = 'Vis'
 
@@ -37,7 +42,7 @@ export const aircraft = [
   { id: 'vis-hurricane', name: 'Hurricane Mk IV', game, pxPerMeter, block: fighterBomberModule, create: player('hurricane') },
   { id: 'vis-breguet', name: 'Breguet 19', game, pxPerMeter, block: fighterBomberModule, create: player('breguet') },
   { id: 'vis-yak', name: 'Yak-1b', game, pxPerMeter, block: fighterBomberModule, create: player('yak') },
-  { id: 'vis-lovac', name: 'Nemački lovac', game, pxPerMeter, block: attackPlaneModule, create: enemyPlane('fighter') },
+  { id: 'vis-lovac', name: 'Nemački lovac', game, pxPerMeter, block: attackPlaneModule, looks: fighterLooks, create: enemyPlane('fighter') },
   { id: 'vis-bf110', name: 'Bf 110', game, pxPerMeter, block: attackPlaneModule, create: enemyPlane('heavy') },
   { id: 'vis-he111', name: 'He 111', game, pxPerMeter, block: attackPlaneModule, create: enemyPlane('boss') },
 ]

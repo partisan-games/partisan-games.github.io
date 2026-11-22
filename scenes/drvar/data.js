@@ -85,6 +85,7 @@ export const elements = [
       'armies/nemci/avioni/junkers-ju87b-stuka.png',
       'armies/nemci/avioni/junkers-ju87d-stuka-03.png',
       'armies/nemci/avioni/junkers-ju-52.png',
+      'armies/nemci/avioni/junkers-ju-52-padobranci.png',
       'armies/nemci/avioni/Mesersmit-Bf-109e.png',
     ],
   },
@@ -95,7 +96,25 @@ export const elements = [
     type: 'padobranci',
     urls: [
       'armies/nemci/padobranci/padobranac-01.png',
+      'armies/nemci/padobranci/padobranac-02.png',
       'armies/nemci/padobranci/padobranac-03.png',
+      'armies/nemci/padobranci/padobranac-04.png',
+      'armies/nemci/padobranci/padobranac-05.png',
+    ],
+  },
+  {
+    number: 30,
+    urls: [
+      'armies/nemci/padobranci/vojnik-01.png',
+      'armies/nemci/padobranci/vojnik-02.png',
+      'armies/nemci/padobranci/vojnik-03.png',
+      'armies/nemci/padobranci/vojnik-04.png',
+      'armies/nemci/padobranci/vojnik-05.png',
+      'armies/nemci/padobranci/vojnik-06.png',
+      'armies/nemci/padobranci/vojnik-07.png',
+      'armies/nemci/padobranci/vojnik-08.png',
+      'armies/nemci/padobranci/bombas-01.png',
+      'armies/nemci/padobranci/mitraljezac-01.png',
     ],
   },
 ]

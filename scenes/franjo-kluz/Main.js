@@ -15,6 +15,9 @@ import Body from '/core/gameplay/bodies/Body.js'
 import Potez, { plane } from '/core/gameplay/bodies/aircraft/Potez.js'
 import Fighter from '/core/gameplay/bodies/aircraft/Fighter.js'
 import DiveBomber from '/core/gameplay/bodies/aircraft/DiveBomber.js'
+import LevelBomber from '/core/gameplay/bodies/aircraft/LevelBomber.js'
+import Scout from '/core/gameplay/bodies/aircraft/Scout.js'
+import PictureAircraftSprite, { aircraftPictures } from '/core/actor/aircraft/PictureAircraftSprite.js'
 import Rifleman, { riflemanKinds } from '/core/gameplay/bodies/soldiers/Rifleman.js'
 import Vehicle, { vehicleKinds } from '/core/gameplay/bodies/vehicles/Vehicle.js'
 import Flak, { flak } from '/core/gameplay/bodies/artillery/Flak.js'
@@ -32,6 +35,9 @@ import VehicleSprite from '/core/actor/vehicles/VehicleSprite.js'
 import FlakSprite from '/core/actor/artillery/FlakSprite.js'
 import WorldSprite from '/core/actor/WorldSprite.js'
 import { groundUnitLooks } from '/core/actor/groundUnitLooks.js'
+import GunCarrier, { gunCarrierKinds } from '/core/gameplay/bodies/vehicles/GunCarrier.js'
+import AirfieldGuard from './AirfieldGuard.js'
+import GunCarrierSprite, { gunCarrierPictures } from '/core/actor/vehicles/GunCarrierSprite.js'
 import { missions } from './missions.js'
 import Airfield from './Airfield.js'
 import ParallaxLayer from './ParallaxLayer.js'
@@ -93,6 +99,9 @@ const raiderMargin = 200
 const raiderGone = 600
 /** A Ju 87 flies this high above the ground, in metres: high enough to dive, low enough to be fought. */
 const diveBomberAltitude = 14.61
+/** A He 111 flies higher, out of the Potez's way, and a Storch low, in metres above the ground. */
+const bomberAltitude = 21
+const scoutAltitude = 13
 /** Seconds between the wreck hitting the ground and the defeat screen, so the crash is seen. */
 const crashScreenDelay = 1.5
 
@@ -170,8 +179,11 @@ export default class FranjoKluzScene extends Scene2D {
         place: height => randomInRange(groundLevel - height / 2, canvas2d.height) }),
     ]
 
+    // partisan riflemen guard the airfields and fire at the raiders over them
+    this.guard = new AirfieldGuard({ airfields: this.airfields, groundAt: x => this.groundAt(x), pxPerMeter, views: this.views,
+      underAttack: () => this.raiders.some(({ body }) => body.alive && this.inPlay.has(body) && this.inView(body)) })
     // The plane is drawn in front of the buildings and the enemies, so a crash into them is seen burning and falling.
-    this.add(...this.airfields, this.ruina, ...this.enemies.flatMap(({ body, view }) => [body, view]), this.player,
+    this.add(...this.airfields, ...this.guard.drawables, this.ruina, ...this.enemies.flatMap(({ body, view }) => [body, view]), this.player,
       this.playerView, ...this.scenery)
     if (this.alarm.raised) this.openFire(this.armed)
   }
@@ -202,6 +214,11 @@ export default class FranjoKluzScene extends Scene2D {
       body.y = body.size.height / 2
       return { body, view: new FlakSprite(body, this.views) }
     }
+    if (kind in gunCarrierKinds) {
+      const body = new GunCarrier({ ...place, kind: gunCarrierKinds[kind], y: gunCarrierKinds[kind].size.height / 2, yaw: Math.PI,
+        view: this.screenView })
+      return { body, view: new GunCarrierSprite(body, { picture: gunCarrierPictures[kind], ...this.views }) }
+    }
     const { art, attack, facing = 1 } = groundUnitLooks[kind]
     if (riflemanKinds[kind]) {
       const body = new Rifleman({ ...place, kind: riflemanKinds[kind], y: riflemanKinds[kind].size.height / 2, yaw: Math.PI,
@@ -221,6 +238,14 @@ export default class FranjoKluzScene extends Scene2D {
     if (kind === 'diveBomber') {
       const body = new DiveBomber({ ...options, onImpact: point => this.bombGround(point) })
       return { body, view: new DiveBomberSprite(body, this.views) }
+    }
+    if (kind === 'bomber') {
+      const body = new LevelBomber({ ...options, onImpact: point => this.bombGround(point) })
+      return { body, view: new PictureAircraftSprite(body, { picture: aircraftPictures.he111, ...this.views }) }
+    }
+    if (kind === 'scout') {
+      const body = new Scout(options)
+      return { body, view: new PictureAircraftSprite(body, { picture: aircraftPictures.storch, ...this.views }) }
     }
     const body = new Fighter({ ...options, targets: [this.player], view: this.screenView })
     return { body, view: new FighterSprite(body, this.views) }
@@ -244,7 +269,7 @@ export default class FranjoKluzScene extends Scene2D {
 
   /** A gunner for an armed enemy: the flak leads the plane with its slow shell; the Ju 87s dive on it on the ground. */
   gunnerFor(body) {
-    if (body instanceof DiveBomber) return new Gunner(body, this.groundedPlane())
+    if (body instanceof DiveBomber || body instanceof LevelBomber) return new Gunner(body, this.groundedPlane())
     return new Gunner(body, this.player, body instanceof Flak ? lead(flak.shellSpeed) : undefined)
   }
 
@@ -343,10 +368,11 @@ export default class FranjoKluzScene extends Scene2D {
     raider.fromBehind = fromBehind
     body.x = toMeters(fromBehind ? this.cameraX - distance : this.cameraX + canvas2d.width + distance)
     body.face(fromBehind ? 1 : -1)
-    if (body instanceof DiveBomber) {
-      body.y = this.groundAt(body.x) + diveBomberAltitude
+    if (body instanceof DiveBomber || body instanceof LevelBomber) {
+      body.y = this.groundAt(body.x) + (body instanceof LevelBomber ? bomberAltitude : diveBomberAltitude)
       body.enter()
-    } else {
+    } else if (body instanceof Scout) body.y = this.groundAt(body.x) + scoutAltitude
+    else {
       body.y = this.player.y
       this.controllers.push(new Interceptor(body, { plane: this.player, groundAt: x => this.groundAt(x) }))
     }
@@ -519,6 +545,7 @@ export default class FranjoKluzScene extends Scene2D {
     this.raiseAlarm()
     this.watchAttacks()
     this.alertInView()
+    this.guard.update()
     this.checkOutcome()
   }
 

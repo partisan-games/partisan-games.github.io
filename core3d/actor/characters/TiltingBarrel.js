@@ -1,17 +1,19 @@
 import { Box3, Group, Quaternion, Vector3 } from 'three'
 
 /**
- * Tilts the `parts` of a gun's model `mesh`, its barrel, about their middle and across the way the model faces (-z), so
- * the barrel stands as high as its `body` aims; the model draws the barrel raised `drawnAt` radians. It only reads the body.
+ * Tilts the `parts` of a gun's model `mesh`, its barrel, across the way the model faces (-z), so the barrel stands as
+ * high as its `body` aims: about the middle of the part named `pivot`, as its cradle, or else of all of them. The model
+ * draws the barrel raised `drawnAt` radians. It only reads the body.
  */
 export default class TiltingBarrel {
-  constructor(body, mesh, { parts, drawnAt = 0 }) {
+  constructor(body, mesh, { parts, pivot, drawnAt = 0 }) {
     Object.assign(this, { body, drawnAt })
     const barrel = parts.map(name => mesh.getObjectByName(name))
     const [{ parent }] = barrel
     mesh.updateMatrixWorld(true)
     const middle = new Box3()
-    barrel.forEach(part => middle.expandByObject(part))
+    if (pivot) middle.expandByObject(mesh.getObjectByName(pivot))
+    else barrel.forEach(part => middle.expandByObject(part))
     this.pivot = new Group()
     this.pivot.position.copy(parent.worldToLocal(middle.getCenter(new Vector3())))
     parent.add(this.pivot)

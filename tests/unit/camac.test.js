@@ -1,6 +1,7 @@
 import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
+import Health from '/core/gameplay/Health.js'
 
 let Camac, collideWithWreck, Boat, SBoat, sBoat, GameClock, canvas2d
 
@@ -88,6 +89,7 @@ test('reaching the pier takes the boat out of the player hands, the troops land,
     }
   }
   assert.equal(landing.complete, true)
+  play(2.1)
   assert.equal(scene.stage, 2, 'back across the channel')
   assert.equal(scene.controllers.includes(scene.keys), true, 'in the player hands again')
   assert.equal(scene.ui.outro, '')
@@ -101,6 +103,8 @@ test('the stages follow each other without a new coin, out of the harbour, to Š
   }
   assert.deepEqual([scene.stage, scene.landing], [0, null], 'no pier on the way out of the home harbour')
   sail()
+  assert.equal(scene.stage, 0, 'the game rests a moment between stages')
+  play(2.1)
   assert.equal(scene.stage, 1)
   assert.ok(scene.landing, 'the pier of Šolta is ahead')
   scene.stage = 2
@@ -132,4 +136,56 @@ test('enemy rounds sink the boat and the game is lost', t => {
   play(1 / 30)
   assert.match(scene.ui.outro, /Game over/)
   assert.ok(canvas2d.width > 0)
+})
+
+test('each stage deploys its fleet in order, and transitions remove its vessel, controller and hit record', t => {
+  const { scene, play } = createScene(t, 0)
+  // the passes are hurried along the clock, and the raids that come meanwhile must not sink the boat
+  scene.player.health = new Health({ maximum: 10000 })
+  const all = new Set()
+  for (let stage = 0; stage < 3; stage++) {
+    scene.stage = stage
+    scene.startStage()
+    const { encounter } = scene
+    for (let pass = 0; pass < encounter.fleet.length; pass++) {
+      scene.session.clock.advance(60)
+      encounter.update()
+      const enemy = encounter.boat
+      assert.equal(enemy.id, encounter.fleet[pass])
+      all.add(enemy.id)
+      assert.ok(scene.targets.includes(enemy.body))
+      assert.ok(scene.controllers.includes(enemy.raider))
+      enemy.body.takeHit(enemy.body.health.maximum)
+      scene.splashHits()
+      play(5.2)
+      encounter.update({ allowSpawn: false })
+      assert.equal(encounter.boat, null)
+      assert.equal(scene.targets.includes(enemy.body), false)
+      assert.equal(scene.controllers.includes(enemy.raider), false)
+      assert.equal(scene.hitsSeen.has(enemy.body), false)
+    }
+  }
+  assert.deepEqual([...all].sort(), ['german-launch', 'german-patrol-vessel', 'german-skiff', 'sboat'])
+})
+
+test('a continuous full-throttle crossing meets every vessel type and returns home', t => {
+  const { scene, play } = createScene(t, 0)
+  // Isolate route and encounter timing from survival; real shots and enemies still run.
+  scene.player.health = new Health({ maximum: 10000 })
+  t.mock.getter(scene.input, 'up', () => true)
+  t.mock.getter(scene.input, 'attack', () => true)
+  const met = new Set()
+  let bossOnReturn = false
+  for (let i = 0; i < 30 * 160 && scene.running; i++) {
+    scene.handleInput(1 / 30)
+    play(1 / 30)
+    if (scene.encounter.boat && scene.onScreen(scene.encounter.boat.body)) {
+      met.add(scene.encounter.boat.id)
+      bossOnReturn ||= scene.stage === 2 && scene.encounter.boat.id === 'sboat'
+    }
+  }
+  assert.deepEqual([...met].sort(), ['german-launch', 'german-patrol-vessel', 'german-skiff', 'sboat'])
+  assert.ok(bossOnReturn, 'the strongest enemy is visible on the return crossing')
+  assert.equal(scene.stage, 2)
+  assert.match(scene.ui.outro, /landed on Šolta/)
 })

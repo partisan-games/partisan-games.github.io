@@ -5,10 +5,10 @@ import Body from '/core/gameplay/bodies/Body.js'
 import GameClock from '/core/runtime/GameClock.js'
 
 /** An enemy plane seen from above at x 50, z 20, with a target below it, on its own clock. */
-function planeAlone(kind = attackPlaneKinds.fighter, { canFire = () => true } = {}) {
+function planeAlone(kind = attackPlaneKinds.fighter, { canFire = () => true, damage } = {}) {
   const clock = new GameClock()
   const target = new Body({ x: 50, z: 60, size: { length: 15, height: 2, width: 12 }, states: { idle: {}, dead: {} } })
-  const body = new AttackPlane({ kind, x: 50, z: 20, clock, targets: [target], canFire, random: () => 0 })
+  const body = new AttackPlane({ kind, x: 50, z: 20, clock, targets: [target], canFire, damage, random: () => 0 })
   const live = seconds => {
     for (let i = 0; i < seconds * 60; i++) {
       clock.advance(1 / 60)
@@ -33,6 +33,16 @@ test('it flies where it is put and holds fire until it is set to fire, then fire
   assert.equal(body.shotsFired, 1, 'not again before its reload')
   live(2)
   assert.equal(target.hitsTaken, 1)
+})
+
+test('a game sets how much each of its bullets takes, one by default', () => {
+  for (const damage of [undefined, 4]) {
+    const { body, target, live } = planeAlone(attackPlaneKinds.fighter, { damage })
+    body.aimAt(target)
+    body.setState('fire')
+    live(1)
+    assert.equal(target.health.current, target.health.maximum - (damage ?? 1))
+  }
 })
 
 test('it fires only while it may, and a shot down plane not at all', () => {

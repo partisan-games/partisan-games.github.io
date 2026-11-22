@@ -62,9 +62,9 @@ test('a match goes to two won rounds, each on the next battlefield; both lost at
 
 test('each new match goes on to the next battlefield, starting over after the last', async() => {
   const { default: Tenkici, battlefieldOrder, fieldLength } = await import('/scenes/tenkici/Main.js')
-  const { germanTank, m15, stug, somuaTank, hotchkiss } = await import('/core/actor/tankLooks.js')
-  const looks = { sremFront1944: m15, batina: stug, sremFront1945: m15, city: germanTank,
-    bihac: germanTank, drvar: somuaTank, uzice: hotchkiss }
+  const { m15, stug } = await import('/core/actor/tankLooks.js')
+  assert.deepEqual(battlefieldOrder, ['sremFront1944', 'batina', 'sremFront1945'])
+  const looks = { sremFront1944: m15, batina: stug, sremFront1945: m15 }
   const seen = []
   for (let i = 0; i <= battlefieldOrder.length; i++) {
     const scene = new Tenkici()
@@ -86,4 +86,31 @@ test('each new match goes on to the next battlefield, starting over after the la
   const first = battlefieldOrder.indexOf(seen[0])
   assert.deepEqual(seen, seen.map((_, i) => battlefieldOrder[(first + i) % battlefieldOrder.length]))
   assert.equal(seen.at(-1), seen[0], 'after the last it starts over')
+})
+
+test('each round announces its verified place and period after Start, preserving the notice through pause', t => {
+  const labels = {
+    sremFront1944: 'Syrmian Front, October 1944', batina: 'Batina, November 1944', sremFront1945: 'Syrmian Front, April 1945',
+  }
+  const game = scene(t)
+  assert.equal(game.ui.messageElement.textContent, '', 'no notice before Start')
+  game.start()
+  const seen = new Set()
+  for (let round = 0; round < 3; round++) {
+    seen.add(game.battlefield)
+    assert.equal(game.ui.messageElement.textContent, labels[game.battlefield])
+    game.session.pause()
+    game.session.update(100)
+    assert.equal(game.ui.messageElement.textContent, labels[game.battlefield])
+    game.session.resume()
+    game.session.update(2)
+    assert.equal(game.ui.messageElement.textContent, labels[game.battlefield])
+    game.session.update(1)
+    assert.equal(game.ui.messageElement.textContent, '')
+    if (round < 2) {
+      game.finishRound(round)
+      game.nextRound()
+    }
+  }
+  assert.deepEqual([...seen].sort(), Object.keys(labels).sort())
 })

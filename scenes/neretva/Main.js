@@ -8,6 +8,7 @@ import TrenchSoldierSprite from '/core/actor/soldiers/TrenchSoldierSprite.js'
 import Trench from '/core/objects/Trench.js'
 import { sideProjection } from '/core/actor/projection.js'
 import Health from '/core/gameplay/Health.js'
+import AirAttack, { airAttack } from './AirAttack.js'
 
 const DALJI_Y = window.innerHeight * 0.25
 const BLIZI_Y = window.innerHeight * 0.5
@@ -34,6 +35,9 @@ export default class NeretvaScene extends Scene2D {
     this.ubrzano = false
     this.chetniks = this.army('cetnici')
     this.manTrenches(this.army('nemci'))
+    // Ju 87s attack the crossing while the Germans hold the trenches
+    this.airAttack = new AirAttack({ scene: this, projection: sideProjection({ pxPerMeter, groundY: BLIZI_Y }),
+      onBomb: () => this.health.damage(airAttack.damage) })
     this.ucitajRekord()
     showCrosshair()
   }
@@ -112,6 +116,10 @@ export default class NeretvaScene extends Scene2D {
     if (event.target.closest('button, input, select, a, #ui, #modal, dialog')) return
     this.player.shotSound.play()
     const aim = { x: event.pageX, y: event.pageY }
+    if (this.airAttack.shoot(aim)) {
+      this.pogoci++
+      return
+    }
     const ciljaniRovovi = (aim.y <= DALJI_Y) ? this.daljiRovovi : this.bliziRovovi
     this.proveriPogotke(ciljaniRovovi, aim)
   }
@@ -162,6 +170,7 @@ export default class NeretvaScene extends Scene2D {
       this.ubrzano = true
     }
     this.takeFire(dt)
+    this.airAttack.update(dt, Boolean(this.chetniks))
     this.bringChetniks()
     this.podizi(dt)
     if (this.energija <= 0) this.smrt()

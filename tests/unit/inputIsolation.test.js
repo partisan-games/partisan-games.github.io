@@ -219,7 +219,7 @@ test('shooting handlers reject inactive phases and UI clicks, and aim at the tri
       proveriPogotke: (rows, point) => {
         aim = point; hits++
       },
-      daljiRovovi: [target], bliziRovovi: [target], occupiers: [target], audio: { setPlaying() {} },
+      daljiRovovi: [target], bliziRovovi: [target], occupiers: [target], audio: { setPlaying() {} }, airAttack: { shoot: () => false },
     }
     const click = target => SceneType.prototype.handleClick.call(scene, { target, pageX: 123, pageY: 45 })
     for (const state of ['loading', 'ready', 'paused', 'finished', 'disposed']) {

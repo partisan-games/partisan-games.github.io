@@ -8,6 +8,7 @@ export const icons = Object.freeze({
   unarmed: '👊',
   magic: '✨',
   bomb: '💣',
+  rocket: '🚀',
   life: '❤️',
   loop: '➰',
   fuel: '⛽',

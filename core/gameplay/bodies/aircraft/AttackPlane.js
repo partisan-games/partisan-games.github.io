@@ -35,11 +35,12 @@ const states = {
 }
 
 /**
- * An enemy plane seen from above whose guns turn every way. Its bullets hit the living ones of `targets`; `clock` is
- * the game clock, and it fires only while `canFire()`. Its health is its hits.
+ * An enemy plane seen from above whose guns turn every way. Its bullets hit the living ones of `targets` for `damage`
+ * each; `clock` is the game clock, and it fires only while `canFire()`. Its health is its hits.
  */
 export default class AttackPlane extends Body {
-  constructor({ kind = attackPlaneKinds.fighter, clock, targets = [], canFire = () => true, random = Math.random, view = null, ...rest } = {}) {
+  constructor({ kind = attackPlaneKinds.fighter, clock, targets = [], canFire = () => true, damage = 1, random = Math.random, view = null,
+    ...rest } = {}) {
     super({ size: kind.size, health: kind.hits, yaw: -Math.PI / 2, ...rest, states })
     Object.assign(this, { kind, targets, canFire, random })
     this.aim = null
@@ -47,7 +48,7 @@ export default class AttackPlane extends Body {
     this.reload = new Cooldown({ seconds: kind.fire.interval, clock })
     // the planes of a formation do not fire together
     this.reload.start(kind.fire.interval * random())
-    this.bullets = new ProjectilePool(() => new Bullet({ view, damage: { min: 1, max: 1 }, random }))
+    this.bullets = new ProjectilePool(() => new Bullet({ view, damage: { min: damage, max: damage }, random }))
   }
 
   get forward() {

@@ -4,7 +4,8 @@ import Sound from '/core/io/audio/SoundSource.js'
 
 /** The pictures each kind of attack plane is drawn as, one picked for each plane. */
 export const attackPlaneImages = {
-  fighter: ['armies/nemci/avioni/bf-109-odozgo.png', 'armies/nemci/avioni/fw-190-odozgo.png'],
+  fighter: ['armies/nemci/avioni/bf-109-odozgo.png', 'armies/nemci/avioni/fw-190-odozgo.png', 'armies/nemci/avioni/avion-odozgo-01.png',
+    'armies/nemci/avioni/avion-odozgo-02.png', 'armies/nemci/avioni/avion-odozgo-03.png', 'armies/nemci/avioni/avion-odozgo-05.png'],
   heavy: ['armies/nemci/avioni/bf-110-odozgo.png'],
   boss: ['armies/nemci/avioni/he-111-odozgo.png'],
 }

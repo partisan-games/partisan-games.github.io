@@ -4,28 +4,31 @@ import { coastlines, sampleSpacing, shoreBand, tileWidth } from './coastlines.js
 /**
  * The art of each stage's sea: the picture its open water comes from, and the coasts its islands and its town are cut
  * from, each the band of a picture along its `top` or `bottom` edge. The return to Vis, by night, passes the rocks and
- * the houses of the harbour of Vis. Šolta keeps its own banks until it has a coast of bare rock and one of houses.
+ * the houses of the harbour of Vis. Šolta uses its bare limestone strip and its separate village strip.
  */
 const seas = {
   'vis-luka': { water: 'vis-luka', rocks: { picture: 'vis-luka', band: 'bottom' }, houses: { picture: 'vis-luka', band: 'top' } },
-  'solta': { water: 'solta', rocks: { picture: 'solta', band: 'bottom' }, houses: { picture: 'solta', band: 'top' } },
+  'solta': { water: 'solta', rocks: { picture: 'solta-coasts', band: 'top' }, houses: { picture: 'solta-coasts', band: 'bottom' } },
   'vis-kanal': { water: 'vis-kanal', rocks: { picture: 'vis-luka', band: 'bottom' }, houses: { picture: 'vis-luka', band: 'top' } },
 }
 
 /**
  * A stage's islands, in pixels: the open sea before the first, their lengths and the gaps after them in turn, the
- * side each lies on (-1 above, 1 below, 0 both), how long their ends taper, and how far before the stage's end the
- * town on the upper coast begins, where a settlement is near.
+ * side each lies on (-1 above, 1 below, 0 both) unless the stage has its own, how long their ends taper, and how far
+ * before the stage's end the town on the upper coast begins, where a settlement is near.
  */
 const islands = { open: 1200, lengths: [1000, 800, 1200, 900], gaps: [600, 900, 700, 1000], sides: [1, -1, 0, -1, 1, 0], taper: 250, town: 1800 }
 
-/** The stretches of coast of a stage from `start` to `start + length`: rocky islands on one side or both, then the town. */
-export function coastStretches(start, length) {
+/**
+ * The stretches of coast of a stage from `start` to `start + length`: rocky islands on one side or both, taking their
+ * `sides` in turn, then the town.
+ */
+export function coastStretches(start, length, sides = islands.sides) {
   const stretches = []
   const lastIsland = length - islands.town - islands.gaps[0]
   for (let i = 0, x = islands.open; x + islands.lengths[i % islands.lengths.length] <= lastIsland; i++) {
     const to = x + islands.lengths[i % islands.lengths.length]
-    const side = islands.sides[i % islands.sides.length]
+    const side = sides[i % sides.length]
     for (const each of side ? [side] : [-1, 1]) stretches.push({ side: each, kind: 'rocks', from: start + x, to: start + to })
     x = to + islands.gaps[i % islands.gaps.length]
   }
@@ -44,10 +47,10 @@ const openWater = { from: .35, to: .65 }
  * ends. Only the land of a band is drawn, so a coast lies on any water.
  */
 export default class Obala {
-  constructor(canvas, stage, { start = 0, length = Infinity } = {}) {
+  constructor(canvas, stage, { start = 0, length = Infinity, sides } = {}) {
     this.canvas = canvas
     this.sea = seas[stage]
-    this.stretches = coastStretches(start, length)
+    this.stretches = coastStretches(start, length, sides)
     this.position = { z: 1 }
     this.sampleSpacing = sampleSpacing
     this.images = {}

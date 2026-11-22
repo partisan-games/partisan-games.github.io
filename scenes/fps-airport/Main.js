@@ -10,6 +10,7 @@ import { description as tank, models as tankModels } from '/core3d/actor/derived
 import { description as germanMachineGunner, models as germanMachineGunnerModels } from '/core3d/actor/derived/ww2/GermanMachineGunner.js'
 import { description as ssSoldier, models as ssSoldierModels } from '/core3d/actor/derived/ww2/SSSoldier.js'
 import { description as naziOfficer, models as naziOfficerModels } from '/core3d/actor/derived/ww2/NaziOfficer.js'
+import { description as germanSoldier, models as germanSoldierModels } from '/core3d/actor/derived/ww2/GermanSoldier.js'
 import { requestModels, loadedModel } from '/core3d/assets/models.js'
 import { createPlayerBox } from '/core3d/geometry/index.js'
 import Character from '/core/gameplay/bodies/characters/Character.js'
@@ -59,7 +60,7 @@ export default class FpsAirportScene extends Scene3D {
 
   async init() {
     const bomberModels = Object.values(parkedBombers).map(({ model }) => model)
-    await requestModels([...bomberModels, towerModel, ...tankModels, ...germanMachineGunnerModels, ...ssSoldierModels, ...naziOfficerModels])
+    await requestModels([...bomberModels, towerModel, ...tankModels, ...germanMachineGunnerModels, ...ssSoldierModels, ...naziOfficerModels, ...germanSoldierModels])
     this.scene.fog = new Fog(0xc5d1d0, 145, 540)
     const ground = await airfieldValley()
     const floor = createFloor({ size: mapSize, file: 'terrain/asphalt.jpg' })
@@ -117,7 +118,7 @@ export default class FpsAirportScene extends Scene3D {
 
     for (let i = 0; i < 10; i++) {
       const { x, z } = coords.pop()
-      const { body, model } = makeCharacter(sample([germanMachineGunner, ssSoldier, naziOfficer]),
+      const { body, model } = makeCharacter(sample([germanMachineGunner, ssSoldier, naziOfficer, germanSoldier]),
         { x, z, bounds, targets: [this.player], damage: computerDamage, ...world })
       this.controllers.push(new CharacterAI(body, { target: this.player, way: 'wander', sees: world.sees }))
       this.add(body, model)

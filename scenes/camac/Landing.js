@@ -1,17 +1,15 @@
 import canvas2d, { ctx } from '/core/io/canvas2d.js'
-import GameObject2D from '/core/actor/GameObject2D.js'
 
 /**
  * A fictional landing site within the historical operation, not a mapped wartime pier. It lies in the pixels of the
- * river; it steers the boat `player`, a body in metres, through `projection`, and draws its passengers about the boat's
- * `view`. `startX` is where the boat set out and `distance` how far from there the pier lies, in pixels.
+ * river; it steers the boat `player`, a body in metres, through `projection`, and walks its `passengers` ashore.
+ * `startX` is where the boat set out and `distance` how far from there the pier lies, in pixels.
  */
 export default class Landing {
-  constructor({ coast, session, player, view, projection, viewLeft, startX, distance }) {
+  constructor({ coast, session, player, passengers, projection, viewLeft, startX, distance, random = Math.random }) {
     this.coast = coast
     this.session = session
     this.player = player
-    this.view = view
     this.projection = projection
     this.viewLeft = viewLeft
     this.x = startX + distance
@@ -19,36 +17,8 @@ export default class Landing {
     this.startedAt = null
     this.progress = 0
     this.complete = false
-    this.passengerLayer = new GameObject2D('armies/game-ready/vojnici/partizan-odozgo.png', { z: -3, width: 24, height: 27 })
-    this.passengerLayer.render = () => this.renderPassengers()
-    this.uniforms = []
-    this.passengerLayer.onload = () => {
-      // Prepare uniform colors once; the cap and other sprite details stay intact.
-      this.uniforms = [[101, 115, 73], [123, 128, 119], [119, 99, 75], [94, 110, 108]].map(color => {
-        const canvas = document.createElement('canvas')
-        canvas.width = 32
-        canvas.height = 36
-        const context = canvas.getContext('2d')
-        context.drawImage(this.passengerLayer.image, 0, 0, 32, 36, 0, 0, 32, 36)
-        const pixels = context.getImageData(0, 0, 32, 36)
-        for (let offset = 0; offset < pixels.data.length; offset += 4) {
-          if (pixels.data[offset] !== 101 || pixels.data[offset + 1] !== 115 || pixels.data[offset + 2] !== 73) continue
-          pixels.data[offset] = color[0]
-          pixels.data[offset + 1] = color[1]
-          pixels.data[offset + 2] = color[2]
-        }
-        context.putImageData(pixels, 0, 0)
-        return canvas
-      })
-    }
-    this.passengers = Array.from({ length: 4 }, (_, index) => ({
-      scale: .9 + Math.random() * .2,
-      angle: (Math.random() - .5) * .35,
-      seatedAngle: [-.8, .65, -1.65, 1.5][index] + (Math.random() - .5) * .4,
-      offsetX: (Math.random() - .5) * 3,
-      offsetY: (Math.random() - .5) * 3,
-      stride: Math.random() * Math.PI * 2,
-    }))
+    passengers.placeOf = (i, seat) => this.ashore(i, seat)
+    this.strides = Array.from({ length: 4 }, () => random() * Math.PI * 2)
   }
 
   get shoreY() {
@@ -111,31 +81,16 @@ export default class Landing {
     ctx.restore()
   }
 
-  renderPassengers() {
-    if (!this.uniforms.length || !this.view.visible) return
-    ctx.save()
-    for (let i = 0; i < 4; i++) {
-      const passenger = this.passengers[i]
-      const progress = Math.min(1, Math.max(0, this.progress * 1.5 - i / 6))
-      const boat = this.view
-      const seatX = (i % 2 ? .075 : -.075) * boat.width + passenger.offsetX
-      const seatY = (i < 2 ? -.17 : .17) * boat.height + passenger.offsetY
-      const aboardX = boat.x + Math.cos(boat.angle) * seatX - Math.sin(boat.angle) * seatY
-      const aboardY = boat.y + Math.sin(boat.angle) * seatX + Math.cos(boat.angle) * seatY
-      const spread = Math.max(0, (progress - .85) / .15)
-      const x = aboardX + (this.x - aboardX) * Math.min(1, progress * 3) + (i - 1.5) * 16 * spread
-      const y = aboardY + (this.shoreY - 13 - aboardY) * progress
-      const stride = Math.sin(progress * Math.PI * 18 + passenger.stride) * (progress > 0 && progress < 1 ? .6 : 0)
-      ctx.save()
-      ctx.translate(x + stride, y)
-      // The source faces northwest; passengers face the bow aboard, then the shore.
-      const aboardAngle = boat.angle + Math.PI * .75 + passenger.seatedAngle
-      const turn = Math.atan2(Math.sin(Math.PI / 4 - aboardAngle), Math.cos(Math.PI / 4 - aboardAngle))
-      ctx.rotate(aboardAngle + turn * Math.min(1, progress * 5) + passenger.angle)
-      ctx.scale(passenger.scale, passenger.scale)
-      ctx.drawImage(this.uniforms[i], -12, -13.5, 24, 27)
-      ctx.restore()
+  /** Where passenger `i`, who sat at `seat`, stands as the landing goes on: walking off along the pier, facing the shore. */
+  ashore(i, seat) {
+    const progress = Math.min(1, Math.max(0, this.progress * 1.5 - i / 6))
+    const spread = Math.max(0, (progress - .85) / .15)
+    const stride = Math.sin(progress * Math.PI * 18 + this.strides[i]) * (progress > 0 && progress < 1 ? .6 : 0)
+    const turn = Math.atan2(Math.sin(Math.PI / 4 - seat.angle), Math.cos(Math.PI / 4 - seat.angle))
+    return {
+      x: seat.x + (this.x - seat.x) * Math.min(1, progress * 3) + (i - 1.5) * 16 * spread + stride,
+      y: seat.y + (this.shoreY - 13 - seat.y) * progress,
+      angle: seat.angle + turn * Math.min(1, progress * 5),
     }
-    ctx.restore()
   }
 }

@@ -3,6 +3,8 @@ import SBoat, * as sBoatModule from '/core/gameplay/bodies/boats/SBoat.js'
 import ShoreMachineGun, * as shoreMachineGunModule from '/core/gameplay/bodies/artillery/ShoreMachineGun.js'
 import BoatSprite from '/core/actor/boats/BoatSprite.js'
 import SBoatSprite from '/core/actor/boats/SBoatSprite.js'
+import PatrolBoat, * as patrolBoatModule from '/core/gameplay/bodies/boats/PatrolBoat.js'
+import PatrolBoatSprite from '/core/actor/boats/PatrolBoatSprite.js'
 import ShoreMachineGunSprite from '/core/actor/artillery/ShoreMachineGunSprite.js'
 import { topProjection } from '/core/actor/projection.js'
 import { fromAbove } from './helpers.js'
@@ -39,11 +41,19 @@ const nest = stage => {
   return put(stage, body, new ShoreMachineGunSprite(body, views(stage)))
 }
 
-const game = 'Čamac'
+const game = 'Partisan Navy'
 
 export const boats = [
   { id: 'partizanski-camac', name: 'Partizanski čamac', game, pxPerMeter, block: boatModule, create: boat },
   { id: 'schnellboot', name: 'Schnellboot S-30', game, pxPerMeter, block: sBoatModule, create: sBoat },
+  { id: 'nemacko-patrolno-plovilo', name: 'Nemačko patrolno plovilo', game, pxPerMeter, block: patrolBoatModule,
+    looks: [['german-launch', 'Patrolni čamac'], ['german-skiff', 'Mali čamac'], ['german-patrol-vessel', 'Patrolni brod']]
+      .map(([id, name]) => ({ id, name, value: id })),
+    create(stage, way, id = 'german-launch') {
+      const body = new PatrolBoat({ ...at(stage, .5, .5), kind: patrolBoatModule.patrolBoatKinds[id], clock: stage.session.clock })
+      return put(stage, body, new PatrolBoatSprite(body, { id, ...views(stage) }))
+    },
+  },
 ]
 
 export const artillery = [

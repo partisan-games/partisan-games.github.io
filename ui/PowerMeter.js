@@ -14,7 +14,7 @@ export default class PowerMeter {
   }
 
   restyle = () => {
-    this.element.className = `progress top-right ${currentStyleClasses().healthBar}`
+    this.element.className = `progress top-right potisak ${currentStyleClasses().healthBar}`.trim()
   }
 
   charge(dt) {

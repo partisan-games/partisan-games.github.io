@@ -10,7 +10,7 @@ import TankKeys from '/core/gameplay/controllers/TankKeys.js'
 import TankAI from '/core/gameplay/controllers/TankAI.js'
 import { sideProjection } from '/core/actor/projection.js'
 import vehicleArt from '/core/actor/vehicleArt.js'
-import { germanTank, m15, stug, somuaTank, hotchkiss } from '/core/actor/tankLooks.js'
+import { m15, stug } from '/core/actor/tankLooks.js'
 import { keyboard } from '/core/io/Keyboard.js'
 import { leftPlayerKeys, rightPlayerKeys } from '/core/io/keys.js'
 import { randomInRange } from '/core/utils.js'
@@ -20,11 +20,10 @@ const groundLevel = canvas2d.height * 0.8
 export const fieldLength = 74.8
 /**
  * The battlefields in the order the rounds are fought, going on into the next match and starting over after the last
- * (owner's decision): the Srem front in autumn 1944, Batina, the Srem breakthrough in 1945, then the older pictures.
+ * (owner's decision): the Srem front in autumn 1944, Batina, then the Srem breakthrough in 1945.
  */
-export const battlefieldOrder = ['sremFront1944', 'batina', 'sremFront1945', 'city', 'bihac', 'drvar', 'uzice']
-// The generic city and the unconfirmed model at Bihać retain the standard opponent.
-const opponents = { sremFront1944: m15, batina: stug, sremFront1945: m15, drvar: somuaTank, uzice: hotchkiss }
+export const battlefieldOrder = ['sremFront1944', 'batina', 'sremFront1945']
+const opponents = { sremFront1944: m15, batina: stug, sremFront1945: m15 }
 let nextBattlefield = 0
 
 const customStartScreen = ({ container }) => /* html */`
@@ -63,7 +62,7 @@ export default class TenkiciScene extends Scene2D {
     const half = fieldLength / 2
     // its tanks do not break down: the fight is decided by health alone
     const breakdown = { drive: 0, gun: 0 }
-    const enemy = opponents[this.battlefield] ?? germanTank
+    const enemy = opponents[this.battlefield]
     const leftRadius = tankKinds.partisan.size.length / 2, rightRadius = enemy.kind.size.length / 2
     this.tenk = new Tank({ kind: tankKinds.partisan, x: randomInRange(leftRadius, fieldLength * .3), clock,
       bounds: { min: leftRadius, max: half - leftRadius }, breakdown })
@@ -89,6 +88,28 @@ export default class TenkiciScene extends Scene2D {
     if (button && ['jedan-igrac', 'dva-igraca'].includes(button.id)) this.play(button.id)
   }
 
+  start() {
+    super.start()
+    this.announceBattlefield()
+  }
+
+  /** The round's place and verified period stay on screen for three seconds of play. */
+  announceBattlefield() {
+    this.roundNotice?.dispose()
+    this.roundNotice = this.session.gameplay.child()
+    const { label } = this.background.place
+    const screen = document.createElement('div'), title = document.createElement('h3')
+    screen.className = 'central-screen'
+    title.textContent = label
+    screen.append(title)
+    this.ui.message = label
+    this.ui.messageElement.replaceChildren(screen)
+    this.roundNotice.after(3, () => {
+      this.ui.message = ''
+      this.ui.messageElement.replaceChildren()
+    })
+  }
+
   /** With two players the right tank is driven by the right player's keys. */
   prepare(mode) {
     this.mode = mode
@@ -105,6 +126,9 @@ export default class TenkiciScene extends Scene2D {
   /** The round goes to the tank left standing; a match is won with two rounds. Both lost at once count for the left. */
   finishRound(winner) {
     if (this.roundWinner !== null || this.ui.outro) return
+    this.roundNotice?.dispose()
+    this.ui.message = ''
+    this.ui.messageElement.replaceChildren()
     this.roundWinner = winner
     this.score[winner]++
     keyboard.reset()
@@ -140,6 +164,7 @@ export default class TenkiciScene extends Scene2D {
     this.setUpRound()
     this.ui.hideScreen()
     this.focusCanvas()
+    this.announceBattlefield()
   }
 
   unpause() {

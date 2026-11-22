@@ -2,9 +2,11 @@ import Scene3D, { skyGradients } from '/core/Scene3D.js'
 import { createGround, createLava } from '/core3d/ground.js'
 import { hemLight } from '/core3d/light.js'
 import { avatarControls } from '/ui/Controls.js'
-import { createRandomBoxes } from '/core3d/geometry/index.js'
+import createRandomBoxes from './createRandomBoxes.js'
 import Coin from '/core3d/objects/Coin.js'
-import Platform from '/core3d/objects/Platform.js'
+import LiftPlatform from './LiftPlatform.js'
+import { Box3 } from 'three'
+import coinPosition from './coinPosition.js'
 
 const numBoxes = 400, mapSize = 200, lavaSize = 100
 const numCoins = numBoxes / 4
@@ -67,17 +69,28 @@ export default class AvatarScene extends Scene3D {
 
   createCoins() {
     this.coins = []
-    for (let i = 0; i < numCoins; i++) {
-      const pos = this.boxes[i].position.clone()
+    const boxes = this.boxes.map(box => new Box3().setFromObject(box))
+    const pending = this.boxes.slice(0, numCoins).map(box => {
+      const pos = box.position.clone()
       pos.y += 6.15
+      return pos
+    })
+    for (let i = 0; i < numCoins; i++) {
+      const pos = pending[i]
 
       if (Math.random() > .8) {
-        const platform = new Platform({ pos, file: null })
+        const platform = new LiftPlatform({ pos, file: null, getPlayer: () => this.player })
         this.add(platform)
         this.solids.push(platform.mesh)
       }
 
       const coin = new Coin({ pos })
+      coin.mesh.geometry.computeBoundingSphere()
+      const { radius } = coin.mesh.geometry.boundingSphere
+      // Keep other coins' original clear spots reserved when moving a blocked coin upwards.
+      const occupied = [...pending.slice(i + 1), ...this.coins.map(other => other.mesh.position)]
+        .map(point => new Box3(point.clone().addScalar(-radius), point.clone().addScalar(radius)))
+      coin.mesh.position.copy(coinPosition(pos, boxes[i], [...boxes, ...occupied], radius))
       this.coins.push(coin)
       this.add(coin)
     }
@@ -101,9 +114,9 @@ export default class AvatarScene extends Scene3D {
     this.immuneToLava = avatarAbilities[skin].immuneToLava
     this.player = made.body
     this.avatarModel = made.model
+    this.createCoins()
     lead(this, made, { input: { buttonDict: { jump: '' } }, view: { distance: 6, speed: 4 } })
     this.player.face({ x: 0, z: 0 })
-    this.createCoins()
   }
 
   checkCollision(coin) {

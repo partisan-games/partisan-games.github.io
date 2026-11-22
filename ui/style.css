@@ -465,21 +465,44 @@ progress.potisak::-moz-progress-bar {
   background-color: var(--olive);
 }
 
+progress[data-cannon-meter] {
+  left: var(--spacing);
+  right: auto;
+  width: min(220px, 40vw);
+  min-width: 0;
+}
+
+progress[data-cannon-meter="power"] {
+  top: calc(var(--spacing) + 32px);
+}
+
+.cannon-score {
+  box-sizing: border-box;
+  max-width: calc(60vw - 3 * var(--spacing));
+  min-width: 0;
+  padding-inline: var(--spacing);
+}
+
 .rpgui-progress {
+  --progress-fill-image: url("/assets/images/rpgui/progress-red.png");
   background-color: #4E4A4E;
   border-radius: 7px;
   border: 2px solid black;
 }
 
+.rpgui-progress.potisak {
+  --progress-fill-image: url("/assets/images/rpgui/progress-green.png");
+}
+
 .rpgui-progress::-webkit-progress-value {
-  background-image: url("/assets/images/rpgui/progress-red.png");
+  background-image: var(--progress-fill-image);
   background-repeat: repeat-x;
   background-size: 36px 100%;
   border-radius: 7px;
 }
 
 .rpgui-progress::-moz-progress-bar {
-  background-image: url("/assets/images/rpgui/progress-red.png");
+  background-image: var(--progress-fill-image);
   background-repeat: repeat-x;
   background-size: 36px 100%;
   border-radius: 7px;

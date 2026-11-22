@@ -159,5 +159,55 @@ export default {
       }
     ],
     'bodyUnchanged': true
+  },
+  'armies/nemci/avioni/avion-odozgo-01.png': {
+    'id': 'bf109-grey-top',
+    'bodySize': [
+      256,
+      225
+    ],
+    'layer': {
+      'src': 'armies/game-ready/avioni/propeller-top-sprites.png',
+      'frame': {
+        'width': 64,
+        'height': 12
+      },
+      'columns': 4,
+      'seconds': 0.12
+    },
+    'projection': 'top',
+    'hubs': [
+      {
+        'x': 126,
+        'y': 5,
+        'span': 64
+      }
+    ],
+    'bodyUnchanged': true
+  },
+  'armies/nemci/avioni/avion-odozgo-02.png': {
+    'id': 'bf109-desert-top',
+    'bodySize': [
+      256,
+      230
+    ],
+    'layer': {
+      'src': 'armies/game-ready/avioni/propeller-top-sprites.png',
+      'frame': {
+        'width': 64,
+        'height': 12
+      },
+      'columns': 4,
+      'seconds': 0.12
+    },
+    'projection': 'top',
+    'hubs': [
+      {
+        'x': 126,
+        'y': 5,
+        'span': 64
+      }
+    ],
+    'bodyUnchanged': true
   }
 }

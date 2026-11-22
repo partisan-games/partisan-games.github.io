@@ -1,9 +1,10 @@
 /**
- * The first mission's raids: where the view is when each raider comes, in world x, its kind, 'fighter' or
- * 'diveBomber', and whether it comes from behind.
+ * The first mission's raids: where the view is when each raider comes, in world x, its kind, 'fighter',
+ * 'diveBomber', 'bomber' (a He 111) or 'scout' (a Storch), and whether it comes from behind.
  */
 const firstRaids = [
   { x: 4000, kind: 'fighter', fromBehind: false },
+  { x: 6000, kind: 'scout', fromBehind: false },
   { x: 8000, kind: 'fighter', fromBehind: true },
   { x: 11_500, kind: 'fighter', fromBehind: false },
   { x: 14_000, kind: 'fighter', fromBehind: false },
@@ -11,10 +12,10 @@ const firstRaids = [
   { x: 19_500, kind: 'fighter', fromBehind: false },
 ]
 
-/** World x of every enemy on the ground, in the order the plane meets them; `flak` is an anti-aircraft gun. */
+/** World x of every enemy on the ground, in the order the plane meets them; `flak` is an anti-aircraft gun, and a `motorcycle`, `halftrack` or `armoredCar` carries a machine gun or cannon. */
 const firstEnemies = [
   { kind: 'soldier', x: 2200 }, { kind: 'assault', x: 2320 }, { kind: 'soldier', x: 2460 },
-  { kind: 'truck', x: 3600 }, { kind: 'legionTruck', x: 3900 }, { kind: 'truck', x: 4200 },
+  { kind: 'motorcycle', x: 3350 }, { kind: 'truck', x: 3600 }, { kind: 'legionTruck', x: 3900 }, { kind: 'truck', x: 4200 },
   { kind: 'flak', x: 5200 },
   { kind: 'soldier', x: 6400 }, { kind: 'assault', x: 6500 },
   { kind: 'flak', x: 7600 },
@@ -22,7 +23,8 @@ const firstEnemies = [
   { kind: 'train', x: 9000 },
   { kind: 'soldier', x: 10_300 }, { kind: 'soldier', x: 10_420 }, { kind: 'assault', x: 10_560 },
   { kind: 'flak', x: 11_800 },
-  { kind: 'truck', x: 13_000 }, { kind: 'truck', x: 13_300 }, { kind: 'legionTruck', x: 13_600 }, { kind: 'truck', x: 13_900 },
+  { kind: 'halftrack', x: 12_700 }, { kind: 'truck', x: 13_000 }, { kind: 'truck', x: 13_300 }, { kind: 'legionTruck', x: 13_600 },
+  { kind: 'truck', x: 13_900 }, { kind: 'motorcycle', x: 14_200 },
   { kind: 'flak', x: 15_200 }, { kind: 'flak', x: 15_700 },
   { kind: 'assault', x: 17_000 }, { kind: 'soldier', x: 17_120 },
   { kind: 'train', x: 18_600 },
@@ -36,15 +38,15 @@ const firstEnemies = [
  * fire from the ground, no fighters.
  */
 const secondEnemies = [
-  { kind: 'truck', x: 2400 }, { kind: 'truck', x: 2700 }, { kind: 'legionTruck', x: 3000 },
+  { kind: 'motorcycle', x: 2150 }, { kind: 'truck', x: 2400 }, { kind: 'truck', x: 2700 }, { kind: 'legionTruck', x: 3000 },
   { kind: 'flak', x: 3500 },
   { kind: 'soldier', x: 5200 }, { kind: 'assault', x: 5320 },
-  { kind: 'tank', x: 6200 },
+  { kind: 'halftrack', x: 5900 }, { kind: 'tank', x: 6200 },
   { kind: 'flak', x: 7000 },
   { kind: 'train', x: 8800 },
   { kind: 'flak', x: 10_500 },
   { kind: 'soldier', x: 12_000 }, { kind: 'soldier', x: 12_120 }, { kind: 'assault', x: 12_260 },
-  { kind: 'legionTruck', x: 13_000 }, { kind: 'truck', x: 13_300 },
+  { kind: 'motorcycle', x: 12_750 }, { kind: 'legionTruck', x: 13_000 }, { kind: 'truck', x: 13_300 }, { kind: 'halftrack', x: 13_650 },
   { kind: 'flak', x: 14_000 },
 ]
 
@@ -57,6 +59,7 @@ const thirdRaids = [
   { x: 0, kind: 'diveBomber', fromBehind: false, distance: 2000 },
   { x: 3000, kind: 'fighter', fromBehind: true },
   { x: 5000, kind: 'diveBomber', fromBehind: false },
+  { x: 6000, kind: 'bomber', fromBehind: false },
   { x: 7000, kind: 'fighter', fromBehind: false },
   { x: 9000, kind: 'diveBomber', fromBehind: false },
   { x: 9000, kind: 'diveBomber', fromBehind: false, distance: 500 },
@@ -64,8 +67,8 @@ const thirdRaids = [
 
 /** Few enemies on the ground, far from the airfield: the fight is in the air. */
 const thirdEnemies = [
-  { kind: 'truck', x: 6000 }, { kind: 'truck', x: 6300 },
-  { kind: 'flak', x: 8000 },
+  { kind: 'motorcycle', x: 5700 }, { kind: 'truck', x: 6000 }, { kind: 'truck', x: 6300 },
+  { kind: 'armoredCar', x: 7400 }, { kind: 'flak', x: 8000 },
 ]
 
 /**

@@ -4,12 +4,15 @@ import * as hummelModule from '/core/gameplay/bodies/vehicles/Hummel.js'
 import * as trainModule from '/core/gameplay/bodies/vehicles/BP42.js'
 import Fighter, * as fighterModule from '/core/gameplay/bodies/aircraft/Fighter.js'
 import DiveBomber, * as diveBomberModule from '/core/gameplay/bodies/aircraft/DiveBomber.js'
+import LevelBomber, * as levelBomberModule from '/core/gameplay/bodies/aircraft/LevelBomber.js'
+import Scout, * as scoutModule from '/core/gameplay/bodies/aircraft/Scout.js'
 import Flak, * as flakModule from '/core/gameplay/bodies/artillery/Flak.js'
 import Potez, * as potezModule from '/core/gameplay/bodies/aircraft/Potez.js'
 import RiflemanSprite from '/core/actor/soldiers/RiflemanSprite.js'
 import VehicleSprite from '/core/actor/vehicles/VehicleSprite.js'
 import FighterSprite from '/core/actor/aircraft/FighterSprite.js'
 import DiveBomberSprite from '/core/actor/aircraft/DiveBomberSprite.js'
+import PictureAircraftSprite, { aircraftPictures } from '/core/actor/aircraft/PictureAircraftSprite.js'
 import FlakSprite from '/core/actor/artillery/FlakSprite.js'
 import PotezSprite, { markings } from '/core/actor/aircraft/PotezSprite.js'
 import { groundUnitLooks as kinds } from '/core/actor/groundUnitLooks.js'
@@ -58,6 +61,20 @@ const diveBomber = (stage, way) => {
   return put(stage, body, new DiveBomberSprite(body, views(stage)))
 }
 
+/** The He 111 flies level high above the ground, where its bombs fall on the stand-in when it is set to fire. */
+const levelBomber = (stage, way) => {
+  const body = new LevelBomber({ ...middle(stage, 20), yaw: yawOf(way) })
+  stage.follow(body)
+  return put(stage, body, new PictureAircraftSprite(body, { picture: aircraftPictures.he111, ...views(stage) }))
+}
+
+/** The Storch flies low and slow. */
+const scout = (stage, way) => {
+  const body = new Scout({ ...middle(stage, 9), yaw: yawOf(way) })
+  stage.follow(body)
+  return put(stage, body, new PictureAircraftSprite(body, { picture: aircraftPictures.storch, ...views(stage) }))
+}
+
 /** The plane flies on at its airspeed, so the view follows it from the start. */
 const plane = (stage, way, src) => {
   const body = new Potez({ ...middle(stage, stage.dummy.y), clock: stage.session.clock })
@@ -93,6 +110,8 @@ export const aircraft = [
     block: potezModule, create: plane },
   { id: 'bf109', name: 'Bf 109', game, pxPerMeter, way: -1, block: fighterModule, create: fighter },
   { id: 'ju87-obrusavac', name: 'Ju 87', game, pxPerMeter, way: -1, block: diveBomberModule, create: diveBomber },
+  { id: 'he111-bombarder', name: 'He 111', game, pxPerMeter, way: -1, block: levelBomberModule, create: levelBomber },
+  { id: 'storch-izvidjac', name: 'Fieseler Storch', game, pxPerMeter, way: -1, block: scoutModule, create: scout },
 ]
 
 export const artillery = [

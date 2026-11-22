@@ -68,6 +68,7 @@ export const battlefields = {
   },
   // from assets/images/sources/pozadine/current-backgrounds.json
   sremFront1944: {
+    label: 'Syrmian Front, October 1944',
     src: 'background/sremski-front-1944-static.png', width: 768, height: 512, ground: 828 / 1024,
     props: [
       { id: 'pak38', x: 941, y: 727, scale: .49 },
@@ -80,6 +81,7 @@ export const battlefields = {
   },
   // Selected animated Batina: sky, drifting clouds, environment and ambient characters.
   batina: {
+    label: 'Batina, November 1944',
     src: 'background/batina-1944/base.png', layers: 'background/batina-1944/', actors: false,
     width: 768, height: 512, ground: 852 / 1024, pozari: [], stuboviDima: [],
     props: [
@@ -89,6 +91,7 @@ export const battlefields = {
     ],
   },
   sremFront1945: {
+    label: 'Syrmian Front, April 1945',
     src: 'background/sremski-front-1945-static.png', width: 768, height: 512, ground: 852 / 1024,
     props: [
       { id: 'opel-blitz', x: 1233, y: 699, scale: .39, flip: true },
@@ -100,11 +103,13 @@ export const battlefields = {
     ...burningSpots([[280, 390, .45, 3.2, 3.9], [1065, 575, .3, .9, 2.1], [1340, 578, .3, 5.3, 4.6]]),
   },
   grahovo: {
+    label: 'Grahovo, 1941',
     src: 'background/grahovo-1941-war-sparse-static.png', width: 768, height: 512, ground: 852 / 1024,
     props: [{ id: 'italian-fallen-prone', x: 557, y: 753, scale: .41, flip: true }],
     ...burning(220, 387, .25, .6, 1.6),
   },
   vilusi: {
+    label: 'Vilusi, 1941',
     src: 'background/vilusi-1941-static.png', width: 768, height: 512, ground: 854 / 1024,
     props: [
       { id: 'italian-fallen-side', x: 881, y: 772, scale: .42 },
@@ -114,6 +119,7 @@ export const battlefields = {
     ...burning(1320, 522, .25, 2.2, 2.9),
   },
   niksic: {
+    label: 'Nikšić area, 1941',
     src: 'background/niksic-1941-static.png', width: 768, height: 512, ground: 798 / 1024,
     props: [
       { id: 'partisan-fallen-side', x: 472, y: 754, scale: .46 },

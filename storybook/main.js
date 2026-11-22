@@ -6,7 +6,7 @@ const list = document.getElementById('storybook-list')
 const panel = document.getElementById('storybook-panel')
 
 /** What each shot a block can take is called on its button, in the order the buttons stand, the higher above. */
-const shotNames = { up: 'Pucaj gore', straight: 'Pucaj pravo', down: 'Obruši se', behind: 'Pucaj unazad' }
+const shotNames = { up: 'Pucaj gore', straight: 'Pucaj pravo', down: 'Obruši se', drop: 'Baci bombe', behind: 'Pucaj unazad' }
 
 const dimensionOf = story => !story.stage || story.stage === Stage2D ? '2d' : '3d'
 
@@ -76,10 +76,16 @@ function drawList(kind, current) {
         </details>`
   }).join('')
   const address = `#${kind.id}/${current.id}`
+  let opened = null
   for (const link of list.querySelectorAll('a')) {
     const selected = link.getAttribute('href') === address
-    if (selected && link.getAttribute('aria-current') !== 'true') link.closest('details').open = true
+    if (selected && link.getAttribute('aria-current') !== 'true') opened = link
     link.setAttribute('aria-current', String(selected))
+  }
+  // a newly opened story's link comes to the middle of the list, its section unfolded
+  if (opened) {
+    opened.closest('details').open = true
+    opened.scrollIntoView({ block: 'center' })
   }
 }
 
@@ -192,7 +198,7 @@ panel.addEventListener('click', event => {
   // a block set to fire with no aim, as a gun, first aims at its straight shot, as its button would
   if (event.isTrusted && stage instanceof Stage2D) stage.sceneAudio.unlock().catch(() => {})
   if (state && state === attackState(block)) {
-    const primary = block.shots?.straight ? 'straight' : block.shots?.down ? 'down' : null
+    const primary = ['straight', 'down', 'drop'].find(name => block.shots?.[name]) ?? null
     if (primary) aim(block, primary)
   }
   if (state) block.setState(state)

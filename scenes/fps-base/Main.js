@@ -8,6 +8,7 @@ import { description as germanMachineGunner, models as germanMachineGunnerModels
 import { description as ssSoldier, models as ssSoldierModels } from '/core3d/actor/derived/ww2/SSSoldier.js'
 import { description as naziOfficer, models as naziOfficerModels } from '/core3d/actor/derived/ww2/NaziOfficer.js'
 import { description as germanFlameThrower, models as germanFlameThrowerModels } from '/core3d/actor/derived/ww2/GermanFlameThrower.js'
+import { description as germanSoldier, models as germanSoldierModels } from '/core3d/actor/derived/ww2/GermanSoldier.js'
 import FirstAid, { models as firstAidModels } from '/core3d/objects/FirstAid.js'
 import { fpsControls } from '/ui/Controls.js'
 import { Snow, Smoke, FlameUp, Fire } from '/core3d/Particles.js'
@@ -38,7 +39,7 @@ export default class FpsBaseScene extends Scene3D {
   }
 
   async init() {
-    await requestModels([...germanMachineGunnerModels, ...ssSoldierModels, ...naziOfficerModels, ...germanFlameThrowerModels, ...firstAidModels])
+    await requestModels([...germanMachineGunnerModels, ...ssSoldierModels, ...naziOfficerModels, ...germanFlameThrowerModels, ...germanSoldierModels, ...firstAidModels])
     this.backgroundColor = 0x301934
     this.light = hemLight({ intensity: Math.PI * 1.5, scene: this.scene })
     this.addMesh(createGround({ file: 'terrain/snow.jpg' }))
@@ -61,7 +62,7 @@ export default class FpsBaseScene extends Scene3D {
     this.audioPlayer = () => playerModel
     this.add(this.player, playerModel, new FirstPersonView(this.player, { camera: this.camera }))
 
-    const soldiers = [germanMachineGunner, ssSoldier, naziOfficer, germanFlameThrower]
+    const soldiers = [germanMachineGunner, ssSoldier, naziOfficer, germanFlameThrower, germanSoldier]
     this.enemies = Array.from({ length: 10 }, () => {
       const { x, z } = coords.pop()
       const { body, model } = makeCharacter(sample(soldiers), { x, z, targets: [this.player], damage: computerDamage, ...enemyWorld })

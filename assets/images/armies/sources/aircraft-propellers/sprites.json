@@ -210,7 +210,57 @@
         }
       ],
       "bodyUnchanged": true
+    },
+    "armies/nemci/avioni/avion-odozgo-01.png": {
+      "id": "bf109-grey-top",
+      "bodySize": [
+        256,
+        225
+      ],
+      "layer": {
+        "src": "armies/game-ready/avioni/propeller-top-sprites.png",
+        "frame": {
+          "width": 64,
+          "height": 12
+        },
+        "columns": 4,
+        "seconds": 0.12
+      },
+      "projection": "top",
+      "hubs": [
+        {
+          "x": 126,
+          "y": 5,
+          "span": 64
+        }
+      ],
+      "bodyUnchanged": true
+    },
+    "armies/nemci/avioni/avion-odozgo-02.png": {
+      "id": "bf109-desert-top",
+      "bodySize": [
+        256,
+        230
+      ],
+      "layer": {
+        "src": "armies/game-ready/avioni/propeller-top-sprites.png",
+        "frame": {
+          "width": 64,
+          "height": 12
+        },
+        "columns": 4,
+        "seconds": 0.12
+      },
+      "projection": "top",
+      "hubs": [
+        {
+          "x": 126,
+          "y": 5,
+          "span": 64
+        }
+      ],
+      "bodyUnchanged": true
     }
   },
-  "notes": "The six accepted bodies have hubs/spinners but no painted blade crossing the propeller disc. No body pixels or SVG paths removed. Native vector layers match the existing SVG assets; four distinct edge-on projections, not a flat helicopter rotor. All hub coordinates are body-image pixels; existing actor transforms apply to both layers. Pauses dt=0 and dead engines hold the phase."
+  "notes": "The accepted bodies have hubs/spinners but no painted blade crossing the propeller disc. No body pixels or SVG paths removed. Native vector layers match the existing SVG assets; four distinct edge-on projections, not a flat helicopter rotor. All hub coordinates are body-image pixels; existing actor transforms apply to both layers. Pauses dt=0 and dead engines hold the phase."
 }

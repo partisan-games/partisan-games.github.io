@@ -9,30 +9,30 @@ import { createPageElements } from './helpers/dom.js'
  * effects and items, which the storybook leaves out (owner's decision).
  */
 const folders = {
-  'scenes/franjo-kluz': ['Main.js', 'missions.js', 'Airfield.js', 'ParallaxLayer.js'],
+  'scenes/franjo-kluz': ['Main.js', 'missions.js', 'Airfield.js', 'ParallaxLayer.js', 'AirfieldGuard.js'],
   // a view is seen in the story of its body
   'core/actor/aircraft': ['AircraftPropellers.js', 'propellerArt.js', 'FighterSprite.js', 'DiveBomberSprite.js', 'PotezSprite.js',
-    'TopViewSprite.js', 'FighterBomberSprite.js', 'AttackPlaneSprite.js', 'fighterBomberPlanes.js'],
+    'TopViewSprite.js', 'FighterBomberSprite.js', 'AttackPlaneSprite.js', 'fighterBomberPlanes.js', 'PictureAircraftSprite.js'],
   'core/actor/artillery': ['GunCrew.js', 'crewArt.js', 'FlakSprite.js', 'FieldGunSprite.js', 'AntiTankGunSprite.js', 'BunkerSprite.js',
     'ShoreMachineGunSprite.js', 'ShoreDestruction.js'],
   'core/actor/soldiers': ['machineGunnerArt.js', 'RiflemanSprite.js', 'CannonCrewSprite.js', 'SkirmisherSprite.js',
     'FlagBearerSprite.js', 'Flag.js', 'MachineGunnerSprite.js', 'GrenadierSprite.js', 'PatrolSprite.js',
     'TrenchSoldierSprite.js', 'OccupierSprite.js'],
-  'core/actor/vehicles': ['TankSprite.js', 'VehicleSprite.js'],
+  'core/actor/vehicles': ['TankSprite.js', 'VehicleSprite.js', 'GunCarrierSprite.js'],
   'core/gameplay/bodies/aircraft': ['wreck.js'],
   'core/gameplay/bodies/artillery': [],
   'core/gameplay/bodies/soldiers': [],
   'core/gameplay/bodies/vehicles': ['CannonVehicle.js'],
-  'scenes/to-trieste': ['Main.js', 'BattleFeedback.js', 'Route.js'],
+  'scenes/to-trieste': ['Main.js', 'BattleFeedback.js', 'Route.js', 'Escort.js'],
   'scenes/camac': [
-    'Main.js', 'Landing.js', 'ShoreDefenses.js', 'SBoatEncounter.js', 'BoatCamera.js', 'wreckCollision.js',
+    'Main.js', 'Landing.js', 'Passengers.js', 'ShoreDefenses.js', 'SBoatEncounter.js', 'AirRaids.js', 'BoatCamera.js', 'wreckCollision.js',
     'WaterEffects.js', 'Obala.js', 'coastlines.js',
   ],
-  'core/actor/boats': ['HullSprite.js', 'BoatSprite.js', 'SBoatSprite.js', 'SinkingWreck.js'],
+  'core/actor/boats': ['HullSprite.js', 'BoatSprite.js', 'SBoatSprite.js', 'PatrolBoatSprite.js', 'SinkingWreck.js'],
   'core/gameplay/bodies/boats': [],
   'scenes/bunker': ['Main.js', 'Mina.js'],
   'scenes/ranjenik': ['Main.js', 'Strelica.js', 'Paljba.js'],
-  'scenes/neretva': ['Main.js'],
+  'scenes/neretva': ['Main.js', 'AirAttack.js'],
   'scenes/otpisani': ['Main.js'],
   'scenes/ustanak': [
     'Main.js', 'Turns.js', 'Battlefield.js', 'GroundLayer.js', 'Terrain.js', 'Wind.js', 'WindEffects.js',

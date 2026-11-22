@@ -1,4 +1,6 @@
 import Stage3D from '../Stage3D.js'
+import { Vector3 } from 'three'
+import * as cannonPartisan from '/scenes/cannon/CannonPartisan.js'
 import { requestModels } from '/core3d/assets/models.js'
 import makeCharacter from '/core3d/actor/characters/makeCharacter.js'
 import * as barbarianModule from '/core3d/actor/derived/fantasy/Barbarian.js'
@@ -91,7 +93,22 @@ export const horror = [
   character('zombi-strazar-3d', 'Zombi stražar', 'Graveyard Survival', zombieGuardModule),
 ]
 
+const jablanicaFighters = {
+  game: 'Battle for Jablanica', block: cannonPartisan, stage: Stage3D,
+  async create(stage, way, look) {
+    await requestModels(cannonPartisan.modelsFor(look))
+    const fighter = new cannonPartisan.default(look, [{ position: new Vector3(2, 1.2, 8) }])
+    stage.add(fighter)
+    fighter.place(new Vector3(), () => 0)
+    return fighter
+  },
+  commands: [{ label: 'Hit', run: fighter => fighter.fall() }],
+}
+const jablanicaLooks = Object.entries(cannonPartisan.variants)
+
 export const ww2 = [
+  { ...jablanicaFighters, id: 'saborci-jablanica', name: 'Jablanica partisans',
+    looks: jablanicaLooks.map(([id, value]) => ({ id, name: value.name, value })) },
   character('nemacki-bacac-plamena-3d', 'Nemački bacač plamena', 'FPS Base', germanFlameThrowerModule),
   character('nemacki-mitraljezac-3d', 'Nemački mitraljezac', '3D Tank, FPS Airport, FPS Base', germanMachineGunnerModule),
   character('nemacki-vojnik-3d', 'Nemački vojnik', library, germanSoldierModule),

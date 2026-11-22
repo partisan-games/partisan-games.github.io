@@ -14,19 +14,18 @@ import { turn } from '../../angles.js'
  * surface the boats run into, and the seconds it takes to sink out of sight.
  */
 export const sBoat = {
-  cruise: 4.4, full: 6.8, turn: .65, gunTurn: 1.2, interval: .22, burst: 3, burstWait: 4, firstBurst: 1.8, nearest: 6.4,
+  cruise: 4.4, turn: .65, gunTurn: 1.2, interval: .22, burst: 3, burstWait: 4, firstBurst: 1.8, nearest: 6.4,
   reach: 26, onAim: .08, bulletSpeed: 20, damage: 5, health: 300, surfaceTime: 2.6, sinkTime: 5,
 }
 /** Its two deck guns, as shares of its length ahead of its middle. */
 const mounts = [-84 / 300, 101 / 300]
 
-/** It sails at cruising speed towards its `course`, or, once it withdraws, back down the river at full speed. */
+/** It sails at cruising speed towards its `course`. */
 const sail = (boat, dt) => {
-  const [course, speed] = boat.withdrawing ? [0, sBoat.full] : [boat.course, sBoat.cruise]
   const step = sBoat.turn * dt
-  boat.yaw += Math.max(-step, Math.min(step, turn(boat.yaw, course)))
-  boat.vx = Math.cos(boat.yaw) * speed
-  boat.vz = -Math.sin(boat.yaw) * speed
+  boat.yaw += Math.max(-step, Math.min(step, turn(boat.yaw, boat.course)))
+  boat.vx = Math.cos(boat.yaw) * sBoat.cruise
+  boat.vz = -Math.sin(boat.yaw) * sBoat.cruise
 }
 
 /**
@@ -54,10 +53,10 @@ const states = {
 }
 
 /**
- * A single approach and withdrawal with independently trained deck guns, heading along `yaw` (π up the river, to the
- * left). Its rounds hit the living ones of `targets`; `clock` is the game clock, and it fires only while `canFire()`.
- * Who sets its `course` and its state, and when it withdraws, is up to the world; `born` is when its pass began,
- * `bursts` how many it has fired, and `lane` the height of the river it keeps to.
+ * A fast attack boat with independently trained deck guns, heading along `yaw` (π up the river, to the left). Its
+ * rounds hit the living ones of `targets`; `clock` is the game clock, and it fires only while `canFire()`. Who sets its
+ * `course` and its state is up to the world; `bursts` is how many it has fired, and `lane` the height of the river it
+ * keeps to.
  */
 export default class SBoat extends Body {
   constructor({ lane = 0, clock, targets = [], canFire = () => true, random = Math.random, view = null, ...rest } = {}) {
@@ -68,8 +67,6 @@ export default class SBoat extends Body {
     this.gunIndex = 0
     this.rounds = this.bursts = 0
     this.aim = null
-    this.withdrawing = false
-    this.born = clock?.now ?? 0
     this.reload = new Cooldown({ seconds: sBoat.interval, clock })
     this.burstWait = new Cooldown({ seconds: sBoat.burstWait, clock })
     this.burstWait.start(sBoat.firstBurst)
@@ -78,21 +75,6 @@ export default class SBoat extends Body {
 
   get forward() {
     return Math.cos(this.yaw) < 0 ? -1 : 1
-  }
-
-  /** It turns back for good and sails away at full speed, holding fire. */
-  withdraw() {
-    this.withdrawing = true
-    if (this.alive) this.setState('move')
-  }
-
-  /** What a story can ask of it once. */
-  get acts() {
-    return ['withdraw']
-  }
-
-  act(name) {
-    if (name === 'withdraw') this.withdraw()
   }
 
   /** The deck guns turn all round; this one is straight ahead. */

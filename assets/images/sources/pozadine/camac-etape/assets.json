@@ -55,5 +55,25 @@
     "sha256": "ae5a3d828a1731513ff4adbdc6600178cedaf3dfd314d85bb01d0f6a3ab34275",
     "sourceBands": null,
     "hotspots": []
+  },
+  {
+    "id": "solta-coasts",
+    "source": "solta-coasts-source.png",
+    "sourceSize": [
+      1536,
+      1024
+    ],
+    "sourceSha256": "86ebd65ffc54058d6b80c64c4656a739fdfc4c625225d25e35f406ed369a4508",
+    "output": "assets/images/background/camac-solta-coasts.png",
+    "outputSize": [
+      768,
+      416
+    ],
+    "sha256": "cc3ecfe77c2f249c8ade37527f62ae130a305c9daae615fe61efab2a3d190769",
+    "sourceBands": [
+      180,
+      250
+    ],
+    "hotspots": []
   }
 ]

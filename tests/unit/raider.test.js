@@ -5,17 +5,13 @@ import Raider, { raid } from '/core/gameplay/controllers/Raider.js'
 /** A boat that records its state and the points it aims at. */
 function fakeBoat() {
   const boat = {
-    x: 90, z: 30, lane: 50, born: 0, bursts: 0, alive: true, course: Math.PI, state: 'idle', aimed: [], withdrawing: false,
+    x: 90, z: 30, lane: 50, alive: true, course: Math.PI, state: 'idle', aimed: [],
     aimAt(point) {
       boat.aimed.push(point)
       return true
     },
     setState(name) {
       boat.state = name
-    },
-    withdraw() {
-      boat.withdrawing = true
-      boat.state = 'move'
     },
   }
   return boat
@@ -24,9 +20,8 @@ function fakeBoat() {
 const viewWidth = () => 100
 
 function raider(target = { x: 10, z: 30, alive: true, shown: true }) {
-  const clock = { now: 0 }
   const boat = fakeBoat()
-  return { clock, boat, target, raider: new Raider(boat, target, { clock, viewWidth, sees: seen => seen.shown }) }
+  return { boat, target, raider: new Raider(boat, target, { viewWidth, sees: seen => seen.shown }) }
 }
 
 test('a raider heads along its lane for a point ahead of the target and fires at it', () => {
@@ -43,19 +38,9 @@ test('a raider sails without firing at a target out of sight', () => {
   assert.equal(boat.state, 'move')
 })
 
-test('a raider withdraws for good after its bursts or its time, still training the guns', () => {
-  const byBursts = raider()
-  byBursts.boat.bursts = raid.bursts
-  byBursts.raider.update()
-  assert.equal(byBursts.boat.withdrawing, true)
-  byBursts.boat.bursts = 0
-  byBursts.raider.update()
-  assert.equal(byBursts.boat.withdrawing, true, 'a withdrawal is not taken back')
-  assert.equal(byBursts.boat.aimed.length, 2)
-  const byTime = raider()
-  byTime.raider.update()
-  assert.equal(byTime.boat.state, 'attack')
-  byTime.clock.now = raid.seconds + .1
-  byTime.raider.update()
-  assert.equal(byTime.boat.withdrawing, true)
+test('a raider the target has run past keeps heading up the river in its lane, never back after it', () => {
+  const { boat, raider: ai } = raider({ x: 200, z: 30, alive: true, shown: true })
+  ai.update()
+  assert.ok(Math.cos(boat.course) < 0, 'up the river')
+  assert.equal(boat.course, Math.atan2(-(boat.lane - boat.z), -raid.onward))
 })

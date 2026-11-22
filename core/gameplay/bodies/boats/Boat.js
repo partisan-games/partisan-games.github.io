@@ -8,11 +8,12 @@ import { hullEntry } from '../projectiles/hits.js'
  * A small motor boat seen from above, measured from the earlier pixel boat at 25 px a metre and 30 frames a second:
  * the push of its engine in metres a second squared, the share of its speed kept each second, how fast it turns, in
  * radians a second, and the push of the river's current; seconds between shots, the bullet speed, how far it aims,
- * in metres, and the damage of a round.
+ * in metres, and the damage of a round. Its anti-tank launcher has a few rockets, fired a second apart, each a third
+ * of an S-boat's health.
  */
 export const boat = {
   thrust: 60, keep: .85 ** 30, turn: 1.41, current: 7.2, reload: .18, bulletSpeed: 28, reach: 42, damage: 10,
-  health: 100,
+  health: 100, rockets: 3, rocketReload: 1, rocketSpeed: 36, rocketDamage: 100,
 }
 
 /** The boat sails as it is steered; set to fire, it also fires as often as it reloads; or it is lost. */
@@ -23,7 +24,7 @@ const states = {
 }
 
 /**
- * A motor boat with a machine gun in its bow, seen from above, heading along `yaw` (0 down the river, to the right).
+ * A motor boat with a machine gun in its bow and an anti-tank launcher, seen from above, heading along `yaw` (0 down the river, to the right).
  * The river's current pushes it back, but never past `startX`; the banks, `bounds.minZ` and `bounds.maxZ`, turn it back
  * into the stream. Its rounds hit the living ones of `targets`. `clock` is the game clock, and it fires only while
  * `canFire()`.
@@ -35,6 +36,9 @@ export default class Boat extends Body {
     Object.assign(this, { startX, bounds, targets, canFire })
     this.reload = new Cooldown({ seconds: boat.reload, clock })
     this.bullets = new ProjectilePool(() => new Bullet({ view, damage: { min: boat.damage, max: boat.damage }, random }))
+    this.rockets = boat.rockets
+    this.launcher = new Cooldown({ seconds: boat.rocketReload, clock })
+    this.rocketRounds = new ProjectilePool(() => new Bullet({ view, damage: { min: boat.rocketDamage, max: boat.rocketDamage }, random }))
   }
 
   get forward() {
@@ -86,6 +90,15 @@ export default class Boat extends Body {
     return true
   }
 
+  /** Fires a rocket from the bow along its heading if it has one left and its launcher is ready; returns whether it did. */
+  fireRocket() {
+    if (this.dead || !this.canFire() || !this.rockets || !this.launcher.ready) return false
+    this.rocketRounds.fire(this.muzzle, this.yaw, 0, boat.rocketSpeed)
+    this.rockets--
+    this.launcher.start()
+    return true
+  }
+
   hitTime(start, end) {
     return hullEntry({ start, end }, this)
   }
@@ -115,5 +128,6 @@ export default class Boat extends Body {
       this.keepInRiver(dt)
     } else this.vx = this.vz = 0
     this.bullets.update(dt, this.targets)
+    this.rocketRounds.update(dt, this.targets)
   }
 }

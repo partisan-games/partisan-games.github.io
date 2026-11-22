@@ -10,6 +10,11 @@ import { randomInRange } from '/core/utils.js'
 import Tank, { tank, tankKinds } from '/core/gameplay/bodies/vehicles/Tank.js'
 import { attackState, movingState } from '/core/gameplay/bodies/stateNames.js'
 import Vehicle, { vehicleKinds } from '/core/gameplay/bodies/vehicles/Vehicle.js'
+import GunCarrier, { gunCarrierKinds } from '/core/gameplay/bodies/vehicles/GunCarrier.js'
+import LevelBomber from '/core/gameplay/bodies/aircraft/LevelBomber.js'
+import Escort from './Escort.js'
+import PictureAircraftSprite, { aircraftPictures } from '/core/actor/aircraft/PictureAircraftSprite.js'
+import GunCarrierSprite, { gunCarrierPictures } from '/core/actor/vehicles/GunCarrierSprite.js'
 import AntiTankGun from '/core/gameplay/bodies/artillery/AntiTankGun.js'
 import Bunker, { bunker, bunkerKinds } from '/core/gameplay/bodies/artillery/Bunker.js'
 import Fighter from '/core/gameplay/bodies/aircraft/Fighter.js'
@@ -82,6 +87,9 @@ export default class ToTriesteScene extends Scene2D {
       barrel: { src: 'armies/game-ready/tenkovi/partizanski-tenk-cev-pixel.png' }, shellLayer: layers.projectile })
     this.audioPlayer = () => this.playerView
     this.controllers.push(new TankKeys(this.player, { keyboard, keys: leftPlayerKeys }))
+    // partisan riflemen of the Fourth Army hold positions by the road and fire while the enemy is in sight
+    this.escort = new Escort({ scene: this, projection: this.projection, z: layers.unit,
+      enemyInSight: () => this.hostiles.some(({ body, sort }) => sort !== 'plane' && body.alive && this.inView(body)) })
     this.add(this.player, this.playerView)
     /** Every enemy in play: { sort, kind, body, view, controllers }, and the air raid now over the road. */
     this.hostiles = []
@@ -94,7 +102,7 @@ export default class ToTriesteScene extends Scene2D {
       left += half * 2 + bunkerGap
     }
     const groundGap = Math.max(720, canvas2d.width * 1.25)
-    ;['germanTank', 'truck', 'antiTankGun', 'tank'].forEach((kind, index) =>
+    ;['germanTank', 'motorcycle', 'truck', 'halftrack', 'antiTankGun', 'armoredCar', 'tank'].forEach((kind, index) =>
       this.spawn(this.groundEnemy(kind, toMeters(canvas2d.width + groundGap * .5 + index * groundGap))))
     this.feedback = new BattleFeedback({ units: () => [this.player, ...this.hostiles.map(({ body }) => body)],
       flies: body => this.hostiles.some(hostile => hostile.body === body && hostile.sort === 'plane'),
@@ -159,6 +167,9 @@ export default class ToTriesteScene extends Scene2D {
     if (kind === 'truck') {
       body = new Vehicle({ ...place, kind: vehicleKinds.truck })
       view = new VehicleSprite(body, { art: spriteArt['opel-blitz'], facing: -1, ...this.views })
+    } else if (kind in gunCarrierKinds) {
+      body = new GunCarrier({ ...armed, kind: gunCarrierKinds[kind] })
+      view = new GunCarrierSprite(body, { picture: gunCarrierPictures[kind], ...this.views })
     } else if (kind === 'antiTankGun') {
       body = new AntiTankGun(armed)
       view = new AntiTankGunSprite(body, { ...this.views, z: layers.unit, shellLayer: layers.projectile })
@@ -176,7 +187,8 @@ export default class ToTriesteScene extends Scene2D {
     view.position.z = layers.unit
     const rest = movingState(body) ?? 'idle'
     body.setState(rest)
-    const controllers = attackState(body) ? [this.marksman(body, tank.shellSpeed, rest)] : []
+    const shotSpeed = body instanceof GunCarrier ? body.kind.gun.speed : tank.shellSpeed
+    const controllers = attackState(body) ? [this.marksman(body, shotSpeed, rest)] : []
     return { sort: 'ground', kind, body, view, controllers }
   }
 
@@ -190,6 +202,13 @@ export default class ToTriesteScene extends Scene2D {
       body.enter()
       const view = new DiveBomberSprite(body, this.views)
       return { sort: 'plane', kind, body, view, controllers: [new Bombardier(body, this.player, { sees: this.sees, aim: dropLead(body.bomb.pull) })] }
+    }
+    if (kind === 'bomber') {
+      const body = new LevelBomber({ ...options, y: altitude * 1.4, onImpact: point => this.bombBlast(point) })
+      body.x = toMeters(this.cameraX + canvas2d.width) + body.size.length / 2 + 1
+      body.enter()
+      const view = new PictureAircraftSprite(body, { picture: aircraftPictures.he111, ...this.views })
+      return { sort: 'plane', kind, body, view, controllers: [new Bombardier(body, this.player, { sees: this.sees, aim: dropLead(body.bombs[0].pull) })] }
     }
     const body = new Fighter({ ...options, targets: [this.player], gun: fighterGun, view: this.screenView })
     body.x = toMeters(this.cameraX + canvas2d.width) + body.size.length / 2 + 1
@@ -254,7 +273,7 @@ export default class ToTriesteScene extends Scene2D {
     }
   }
 
-  /** One plane at a time comes over the road, a fighter and a dive bomber in turn; a crashed one is gone. */
+  /** One plane at a time comes over the road, a fighter, a dive bomber and a level bomber in turn; a crashed one is gone. */
   airRaid() {
     const { raid } = this
     // a crashed plane is gone once its burst is over
@@ -262,8 +281,9 @@ export default class ToTriesteScene extends Scene2D {
     if (raid.plane && this.hostiles.includes(raid.plane)) return
     raid.plane = null
     if (this.session.clock.now < raid.at) return
-    raid.plane = this.spawn(this.plane(['fighter', 'diveBomber'][raid.next]))
-    raid.next = (raid.next + 1) % 2
+    const kinds = ['fighter', 'diveBomber', 'bomber']
+    raid.plane = this.spawn(this.plane(kinds[raid.next]))
+    raid.next = (raid.next + 1) % kinds.length
     raid.at = this.session.clock.now + raids.every
   }
 
@@ -282,6 +302,7 @@ export default class ToTriesteScene extends Scene2D {
     this.bounds.min = toMeters(this.cameraX)
     this.bounds.max = toMeters(this.cameraX + canvas2d.width * .9)
     this.airRaid()
+    this.escort.update()
     super.update(dt, t)
     this.countKills()
     this.returnPassed()

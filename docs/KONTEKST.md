@@ -38,6 +38,7 @@ Za naredne dorade Poteza stilski uzor je [novi sastavljeni avion](../assets/imag
 
 - **Žanr i cilj:** stacionarna arkadna pucačina sa nišanjenjem mišem i odbranom ranjenika; ekran se ne pomera. Bez ograničenja municije i punjenja.
 - **Dogovoreni redosled:** prvi ekran protiv Nemaca, drugi protiv četnika; njihove pozadine vezati za izabrani položaj i vreme.
+- **Napad iz vazduha (vlasnikov nalog da se nivoi obogate novim akterima, 2026-11-22):** dok Nemci drže rovove, povremeno dolazi Ju 87 ([AirAttack](../scenes/neretva/AirAttack.js)), obrušava se na branioce ispred rovova i baca bombu koja im smanjuje snagu. Igrač ga može oboriti klikom, što se računa kao pogodak. Luftwaffe je napadala prelaz preko Neretve; konkretan napad nije rekonstruisan.
 - **Likovni ton:** protivnici su odrasli, prekaljeni vojnici sa ozbiljnim, pretećim izrazima i uverljivim proporcijama u piksel stilu; bez dečjih, simpatičnih lica ili karikaturalno velikih očiju.
 - **Likovni zahtev:** četnički likovi imaju guste, jasno vidljive brade i brkove, čitljive i u daljem planu. Brada mora polaziti sa obraza i brade lica, ne izgledati kao marama na vratu. To je izbor prikaza ove igre, ne tvrdnja da je svaki istorijski četnik bio bradat.
 - **Protivnici:** vlasnik želi četnike kao protivnike; italijanske i ustaške etape su kandidati za razradu. Odvojiti frakciju od borbene uloge: strelac ili mitraljezac nisu osobine cele frakcije. Broj etapa, redosled, njihove pozadine i tačne jedinice još nisu izabrani; postojeći nemački rov nije dokaz istorijskog sastava svih budućih etapa.
@@ -85,10 +86,12 @@ Vertikalna arkadna pucačina o partizanskom letu do Visa, sa sopstvenim izgledom
 
 ## Čamac
 
+- **Naziv igre:** Partisan Navy (odobreno od vlasnika, 2026-11-22); tehnička adresa ostaje `camac`.
+
 - **Žanr:** arkadna plovidba sa pogledom odozgo i horizontalnim praćenjem plovila.
 - **Cilj prve etape:** dolazak do kraja trase pokreće automatsku završnu animaciju bez obzira na visinu čamca u kadru, kao sletanje u igri Vis: upravljanje i borba prestaju, čamac se poravnava, miruje tokom iskrcavanja partizana i sledi pobeda. Pristanište je zamišljeno mesto za potrebe igre, bez tvrdnje da predstavlja potvrđenu istorijsku lokaciju.
 - **Borbeno ponašanje:** obalski mitraljez počinje rafal čim uđe u kadar, uz predah između rafala. Uništena posada ostaje oborena, sa spuštenim oružjem i plamenom iznad nje. Uništeni neprijateljski čamac postepeno tone; dok je na površini, olupina sprečava prolazak kroz nju bez dodatne štete igraču.
-- **Posada:** partizani su vidljivi u čamcu tokom plovidbe i iskrcavaju se iz svojih mesta; koriste mali piksel art, različite uniforme i uglove okrenutosti, prema [pravilu prikaza partizana](#prihvaćen-art-projekta).
+- **Posada:** partizani su vidljivi u čamcu tokom plovidbe u sve tri etape i iskrcavaju se iz svojih mesta na Šolti; posle bitke svi se vraćaju na Vis, niko ne ostaje na Šolti (odluka vlasnika, 2026-11-22); koriste mali piksel art, različite uniforme i uglove okrenutosti, prema [pravilu prikaza partizana](#prihvaćen-art-projekta).
 - **Istorijski okvir:** desant na Šoltu u maju 1944; [istorijski izvori](ISTORIJA.md#pregled-kategorije-bitaka-novj). Izbor operacije je dogovoren; konkretno plovilo i sastav protivnika tek treba proveriti.
 - **Osnovno kretanje:** početni položaj čamca u kadru ujedno je njegova krajnja desna pozicija. Prvi potisak ne pomera ga udesno u kadru; po puštanju tokom plovidbe može polako otići ulevo, a novi potisak vraća ga samo do početnog položaja. Kamera prati svet i ovo pomeranje u kadru, bez promene fizičke brzine čamca.
 - **Početak i povratak:** početni čamac i kadar miruju bez potiska. Povratak ulevo dozvoljen je samo do početne pozicije; kamera ne prikazuje prostor pre početka trase.
@@ -104,7 +107,7 @@ Vertikalna arkadna pucačina o partizanskom letu do Visa, sa sopstvenim izgledom
 
 **Šta to znači za igru:** okvir daje stvaran tenkovski sukob, ali ne potvrđuje sadašnje crteže. Partizanski tenk nalik zarobljenom Pantheru i nemački Tiger I nisu vezani za ovaj front; naoružanje 2. tenkovske brigade (sovjetski T-34/85 se pretpostavlja) i tipovi nemačkih tenkova moraju se potvrditi pre novog crteža, najverovatnije u studiji „Sremski front 1944–1945“ (Pajović, Uzelac, Džlebdžić, 1979). Ravničarsko bojište sa rovovima zamenilo bi razrušen grad. Činjenice i izvori: [Sremski front, 1945](ISTORIJA.md#sremski-front-početak-1945--polazište-za-igru-tenkići).
 
-**Više nivoa (odluka vlasnika):** meč ide do dve pobede, najviše tri runde, kao u Ustanku, a svaka runda se bije na sledećem bojištu, svaka u drugoj bici sa svojim tenkovima i bojištem; Redom, hronološki: početak Sremskog fronta, Batina, proboj Sremskog fronta; Beograd je opcion i išao bi prvi, ako se ista pozadina ne koristi u drugoj igri (odluka vlasnika). Kandidati za ostale, još neprovereni: Mostar, Knin ili Lika 1944–45 (1. tenkovska brigada NOVJ, M3 Stuart), Beograd oktobar 1944 (sovjetski T-34 uz partizane, u gradu, uz preklapanje sa Otpisanima), zaplenjeni nemački tenkovi u NOVJ (sadašnji partizanski crtež, ako se nađe izvor) i Trst/Rijeka maj 1945 (preklapanje sa Pohodom na Trst).
+**Više nivoa (odluka vlasnika, 2026-11-22):** meč ide do dve pobede, najviše tri runde, kao u Ustanku. Bojišta se smenjuju redom: Sremski front, jesen 1944 → Batina, novembar 1944 → proboj Sremskog fronta, april 1945, pa ispočetka, i kroz naredne mečeve. Grad, Bihać, Drvar i Užice nisu deo ove igre. Igrač zadržava isti partizanski tenk; protivnika na Sremskom frontu predstavlja M15/42, a kod Batine StuG III, uz [granice istorijske potvrde](ISTORIJA.md#protivnički-oklop-po-bojištima-u-tenkićima).
 
 ## Otpisani
 
@@ -127,4 +130,17 @@ Vertikalna arkadna pucačina o partizanskom letu do Visa, sa sopstvenim izgledom
 
 ## Potvrđena grupa pozadina za Ustanak i Tenkiće
 
+Na početku svake runde prikazuju se mesto i provereni period na engleskom (odluka vlasnika, 2026-11-22), kratko u postojećem prostoru za poruke; Ustanak ih spaja sa najavom prvog poteza. [Istorijska provera perioda](ISTORIJA.md#periodi-za-natpise-bojišta) prethodi izmeni natpisa, a zajednički opis bojišta u [BattleBackground](../scenes/tenkici/BattleBackground.js) čuva engleski tekst koji koriste obe igre. Trajanje najave prati vreme igre i miruje u pauzi.
+
 Vlasnik je potvrdio šest ambijenata za sadašnje nivoe: Tenkići — Sremski front, jesen 1944 → Batina, novembar 1944 → proboj Sremskog fronta, april 1945; Ustanak — Grahovo → Vilusi → okolina Nikšića, 1941. Za Batinu je vlasnik izabrao [animiranu verziju](ART.md#batina-izabrana-animirana-pozadina), ugrađenu u Tenkiće; obrisane alternative ne vraćati. [Resursi](ART.md#šest-ambijenata-sadašnjih-nivoa) su ugrađeni u obe igre; pregled ostalih ambijenata u igri čeka ([pravila pozadina](ART.md#pravila-pripreme-i-predaje-pozadina)). Izbor pejzaža ne potvrđuje da se na svakom mestu vodio prikazani artiljerijski dvoboj.
+
+
+## Avatar
+
+Zadržati postojeći rasuti, nasumični raspored kocki po širini i visini. Vlasnik je 2026-11-22 odbacio pravilnu mrežu sa povezanom putanjom; sprečavanje preklapanja i nedostižnih novčića ne sme menjati taj izgled.
+
+[Lokalna dopuna nasumičnog generatora](../scenes/avatar/createRandomBoxes.js) prvo napravi isti izvorni raspored i boje, a zatim ponovo izvlači samo položaje kocki koje se seku sa već postavljenim. Broj, veličina, raspon visina i širina mape ostaju isti; pokušaji su ograničeni.
+
+[Položaj novčića](../scenes/avatar/coinPosition.js) menja se samo ako njegova cela zapremina tokom okretanja upada u kocku: prvo se traži slobodan položaj na istoj visini iznad izvorne kocke, zatim se po potrebi podiže. Ostali novčići zadržavaju svoja mesta, a pomereni ne zauzimaju njihove položaje. Kocke, platforme i skok se ovim ne menjaju; sudari s pokretnim platformama i dostižnost svih novčića ostaju zaseban posao.
+
+[LiftPlatform](../scenes/avatar/LiftPlatform.js) prenosi stvarno pomeranje lifta na telo avatara koji stoji na njegovoj gornjoj površini, uz proveru obe vodoravne ose; skok i silazak prekidaju prevoz. Liftovi se ažuriraju pre tela i prikaza, a njihove matrice se osvežavaju pre upita za oslonac. Stari zajednički Platform tražio je prikaz nazvan `player` i pomerao samo taj prikaz, pa nije mogao da prevozi novog avatara čiji položaj određuje telo; lokalna popravka čuva postojeće smerove, hod i brzinu platformi i ne menja druge igre.

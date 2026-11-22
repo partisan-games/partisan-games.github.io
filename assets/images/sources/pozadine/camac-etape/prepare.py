@@ -3,7 +3,7 @@ import hashlib
 import json
 from pathlib import Path
 
-from PIL import Image, ImageFilter
+from PIL import Image, ImageFilter, ImageOps
 
 ROOT = Path(__file__).resolve().parent
 PROJECT = ROOT.parents[4]
@@ -12,7 +12,7 @@ TILE_WIDTH, TILE_HEIGHT = 768, 416
 BAND = 80
 WORLD_STEP = 8
 # Source spans that map to the fixed shore bands. The seawater between them stretches with the viewport.
-BANDS = {'vis-luka': (268, 166), 'solta': (268, 273), 'vis-kanal': None}
+BANDS = {'vis-luka': (268, 166), 'solta': (268, 273), 'vis-kanal': None, 'solta-coasts': (180, 250)}
 
 
 def sha(path):
@@ -25,13 +25,14 @@ def boundaries(image, stage):
     top, bottom = [], []
     for world_x in range(0, TILE_WIDTH + 1, WORLD_STEP):
         x = min(image.width - 1, world_x * 2)
-        if stage == 'solta':
+        if stage in ('solta', 'solta-coasts'):
             # The exposed warm limestone contrasts with the blue-green water.
             def rock(y):
                 r, _, b = pixels[x, y]
                 return r > b - 4 and r > 65
-            upper = max(y for y in range(155, 235) if rock(y))
-            lower = min(y for y in range(780, 877) if rock(y))
+            upper_rows, lower_rows = ((0, top_span), (image.height - bottom_span, image.height)) if stage == 'solta-coasts' else ((155, 235), (780, 877))
+            upper = max(y for y in range(*upper_rows) if rock(y))
+            lower = min(y for y in range(*lower_rows) if rock(y))
         else:
             # The straight stone quay meets the water at y=196 in the source.
             upper = 196
@@ -52,6 +53,23 @@ def resized(image, spans):
         crop = image.crop((0, y1, image.width, y2))
         tile.paste(crop.resize((TILE_WIDTH, dst2 - dst1), Image.Resampling.LANCZOS), (0, dst1))
     return tile
+
+
+def compositions():
+    """Static scale comparisons; not a browser or gameplay capture."""
+    coast = Image.open(OUTPUT / 'camac-solta-coasts.png').convert('RGB')
+    boat = Image.open(PROJECT / 'assets/images/armies/camac.png').convert('RGBA')
+    boat = boat.resize((178, 76), Image.Resampling.LANCZOS)
+    for width, height in [(1280, 720), (1024, 768)]:
+        result = Image.new('RGB', (width, height))
+        water = coast.crop((0, BAND, TILE_WIDTH, TILE_HEIGHT - BAND))
+        result.paste(water.resize((width, height), Image.Resampling.LANCZOS))
+        for x in range(0, width, TILE_WIDTH):
+            tile = ImageOps.mirror(coast) if x // TILE_WIDTH % 2 else coast
+            result.paste(tile.crop((0, 0, TILE_WIDTH, BAND)), (x, 0))
+            result.paste(tile.crop((0, TILE_HEIGHT - BAND, TILE_WIDTH, TILE_HEIGHT)), (x, height - BAND))
+        result.paste(boat, (width // 3 - boat.width // 2, height // 2 - boat.height // 2), boat)
+        result.save(ROOT / f'solta-coasts-{width}x{height}.webp', lossless=True)
 
 
 def main():
@@ -80,6 +98,7 @@ def main():
         else:
             contents += f"  '{stage}': null,\n"
     target.write_text(contents + '}\n', encoding='utf-8')
+    compositions()
 
 
 if __name__ == '__main__':

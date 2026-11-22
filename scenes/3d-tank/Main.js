@@ -15,6 +15,7 @@ import { loadModel } from '/core3d/loaders.js'
 import { description as germanMachineGunner, models as germanMachineGunnerModels } from '/core3d/actor/derived/ww2/GermanMachineGunner.js'
 import { description as ssSoldier, models as ssSoldierModels } from '/core3d/actor/derived/ww2/SSSoldier.js'
 import { description as naziOfficer, models as naziOfficerModels } from '/core3d/actor/derived/ww2/NaziOfficer.js'
+import { description as germanSoldier, models as germanSoldierModels } from '/core3d/actor/derived/ww2/GermanSoldier.js'
 import { requestModels } from '/core3d/assets/models.js'
 import makeCharacter from '/core3d/actor/characters/makeCharacter.js'
 import meshTarget from '/core3d/actor/characters/meshTarget.js'
@@ -35,7 +36,7 @@ export default class Tank3DScene extends Scene3D {
   }
 
   async init() {
-    await requestModels([...tankModels, ...germanMachineGunnerModels, ...ssSoldierModels, ...naziOfficerModels])
+    await requestModels([...tankModels, ...germanMachineGunnerModels, ...ssSoldierModels, ...naziOfficerModels, ...germanSoldierModels])
     hemLight({ intensity: Math.PI * 1.25, scene: this.scene })
 
     this.physics = new PhysicsWorld({ scene: this.scene })
@@ -86,7 +87,7 @@ export default class Tank3DScene extends Scene3D {
 
     // the soldiers' bullets do not harm the tank
     const tank = meshTarget(this.player.mesh)
-    this.enemies = [germanMachineGunner, ssSoldier, ssSoldier, naziOfficer].map(description => {
+    this.enemies = [germanMachineGunner, ssSoldier, germanSoldier, naziOfficer].map(description => {
       const { body, model } = makeCharacter(description, { z: 20, targets: [tank], damage: computerDamage })
       this.controllers.push(new CharacterAI(body, { target: tank, way: 'wander' }))
       this.add(body, model)

@@ -34,7 +34,7 @@ test('the cannon power rises from 10 to 25 while held and drops back to 10 after
 test('the power meter looks like the health bar of the scene style and leaves with the game', () => {
   setUiStyle('rpg')
   const meter = new PowerMeter({ min: 10, max: 25, chargePerSecond: 12 })
-  assert.equal(meter.element.className, 'progress top-right rpgui-progress')
+  assert.equal(meter.element.className, 'progress top-right potisak rpgui-progress')
 
   meter.end()
   assert.equal(document.querySelector('progress'), null)

@@ -1,0 +1,141 @@
+{
+  "source": "vessels-generated.png",
+  "sourceSize": [
+    1774,
+    887
+  ],
+  "sourceSha256": "7aa7a26f38c1654069718c83d44eedb2c809178c6fc3ea15acd6c9b284a29f68",
+  "pixelsPerMetre": 25,
+  "integrated": true,
+  "entries": [
+    {
+      "id": "german-launch",
+      "size": [
+        182,
+        80
+      ],
+      "anchor": [
+        91.0,
+        40.0
+      ],
+      "hullMetres": {
+        "length": 7.1,
+        "width": 3.04
+      },
+      "facing": 1,
+      "view": "top-down",
+      "sourceBounds": [
+        [
+          208,
+          98,
+          731,
+          322
+        ],
+        [
+          983,
+          98,
+          1503,
+          322
+        ]
+      ],
+      "muzzle": [
+        178.2,
+        40.0
+      ],
+      "intact": {
+        "src": "assets/images/armies/game-ready/brodovi/german-launch.png",
+        "sha256": "9628f7b13607e6e85fc1255680e2a9fc5e7d7d8110bbf556f3aa66be013f9d14"
+      },
+      "wreck": {
+        "src": "assets/images/armies/game-ready/brodovi/german-launch-wreck.png",
+        "sha256": "4f51ffac77eb473db55ba7b538be4932199c1176c51446afe1fc9c160b8027b2"
+      }
+    },
+    {
+      "id": "german-skiff",
+      "size": [
+        174,
+        57
+      ],
+      "anchor": [
+        87.0,
+        28.5
+      ],
+      "hullMetres": {
+        "length": 6.75,
+        "width": 2.12
+      },
+      "facing": 1,
+      "view": "top-down",
+      "sourceBounds": [
+        [
+          269,
+          423,
+          621,
+          533
+        ],
+        [
+          1045,
+          425,
+          1400,
+          532
+        ]
+      ],
+      "muzzle": [
+        160.1,
+        28.5
+      ],
+      "intact": {
+        "src": "assets/images/armies/game-ready/brodovi/german-skiff.png",
+        "sha256": "a205eb9e35a58b16c6d785b7308d01242aba9b77fe8d5e7017fef8bffbb56da5"
+      },
+      "wreck": {
+        "src": "assets/images/armies/game-ready/brodovi/german-skiff-wreck.png",
+        "sha256": "3b94a26a8c62e33a5bab01a67391a58064773fa9597bd9f9c3af0531bf2da504"
+      }
+    },
+    {
+      "id": "german-patrol-vessel",
+      "size": [
+        304,
+        73
+      ],
+      "anchor": [
+        152.0,
+        36.5
+      ],
+      "hullMetres": {
+        "length": 12,
+        "width": 2.76
+      },
+      "facing": 1,
+      "view": "top-down",
+      "sourceBounds": [
+        [
+          29,
+          624,
+          871,
+          817
+        ],
+        [
+          906,
+          624,
+          1749,
+          817
+        ]
+      ],
+      "muzzle": [
+        272.0,
+        36.5
+      ],
+      "intact": {
+        "src": "assets/images/armies/game-ready/brodovi/german-patrol-vessel.png",
+        "sha256": "0d35c6589f768a72f48541a138066db4edc3b090241127c54632b2607027c943"
+      },
+      "wreck": {
+        "src": "assets/images/armies/game-ready/brodovi/german-patrol-vessel-wreck.png",
+        "sha256": "5f80632dd995dcb40ab3425df8e492a9da18f5d572aca80b653ba64c5f1e51a4"
+      }
+    }
+  ]
+}

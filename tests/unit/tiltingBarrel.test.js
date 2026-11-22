@@ -43,3 +43,18 @@ test('the barrel turns about its middle to the body\'s aim, under a turned model
   assert.ok(inModel(middle).distanceTo(new THREE.Vector3(0, 1, 0)) < 1e-6, 'the middle stays')
   assert.equal(carriage.parent, part)
 })
+
+test('a barrel with a named pivot turns about that part\'s middle, as a cradle at its breech', () => {
+  const mesh = new THREE.Group()
+  const tube = new THREE.Mesh(new THREE.BoxGeometry(.2, .2, 2).translate(0, 1, -1)), cradle = new THREE.Mesh(new THREE.BoxGeometry(.4, .4, .4).translate(0, 1, 0))
+  tube.name = 'tube'
+  cradle.name = 'cradle'
+  mesh.add(tube, cradle)
+  const body = { pitch: 0 }
+  const barrel = new TiltingBarrel(body, mesh, { parts: ['tube', 'cradle'], pivot: 'cradle' })
+  body.pitch = Math.PI / 2
+  barrel.update()
+  mesh.updateMatrixWorld(true)
+  const muzzle = mesh.worldToLocal(tube.localToWorld(new THREE.Vector3(0, 1, -2)))
+  assert.ok(muzzle.distanceTo(new THREE.Vector3(0, 3, 0)) < 1e-6, 'the muzzle stands straight up over the cradle')
+})

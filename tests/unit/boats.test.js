@@ -55,7 +55,23 @@ test('the boat fires from its bow along its heading as it reloads, and hits alon
   assert.equal(enemy.health.current, sBoat.health - boat.damage, 'it passes the end of the turned hull')
 })
 
-test('an S-boat lies still until it is set to sail, then sails on its course and withdraws at full speed', () => {
+test('the boat fires its few rockets a launcher reload apart, and three of them sink an S-boat', () => {
+  const clock = new GameClock()
+  const enemy = new SBoat({ x: 40, z: 30, clock })
+  const body = new Boat({ x: 10, z: 30, clock, targets: [enemy] })
+  assert.equal(body.fireRocket(), true)
+  assert.equal(body.fireRocket(), false, 'not before the launcher is ready')
+  live(clock, [body], boat.rocketReload + .1)
+  assert.equal(enemy.health.current, sBoat.health - boat.rocketDamage)
+  for (let i = 1; i < boat.rockets; i++) {
+    assert.equal(body.fireRocket(), true)
+    live(clock, [body], boat.rocketReload + .1)
+  }
+  assert.equal(enemy.alive, false)
+  assert.equal(body.fireRocket(), false, 'none left')
+})
+
+test('an S-boat lies still until it is set to sail, then sails on its course at cruising speed', () => {
   const clock = new GameClock()
   const body = new SBoat({ x: 100, z: 30, clock })
   live(clock, [body], 1)
@@ -64,9 +80,6 @@ test('an S-boat lies still until it is set to sail, then sails on its course and
   body.setState('move')
   live(clock, [body], 1)
   assert.ok(Math.abs(body.x - (100 - sBoat.cruise)) < .1)
-  body.withdraw()
-  live(clock, [body], 10)
-  assert.ok(Math.abs(Math.hypot(body.vx, body.vz) - sBoat.full) < 1e-9 && body.vx > 0, 'back down the river')
 })
 
 test('the S-boat guns follow their aim in any state but fire only in attack, within reach, in bursts', () => {
@@ -97,17 +110,17 @@ test('a sinking S-boat holds fire, stays a surface for a while and then is gone'
   assert.equal(body.sunk, true)
 })
 
-test('a raider heads for a point ahead of the target in its lane and withdraws after its bursts', () => {
+test('a raider heads for a point ahead of the target in its lane and keeps attacking after its bursts', () => {
   const clock = new GameClock()
   const target = { x: 20, z: 30, alive: true }
   const body = new SBoat({ x: 100, z: 50, lane: 50, clock })
-  const raider = new Raider(body, target, { clock, viewWidth: () => 100, sees: () => true })
+  const raider = new Raider(body, target, { viewWidth: () => 100, sees: () => true })
   raider.update()
   assert.equal(body.state, 'attack')
   assert.ok(Math.abs(Math.abs(body.course) - Math.PI) < 1e-9, 'up the river in its lane')
-  body.bursts = 2
+  body.bursts = 20
   raider.update()
-  assert.equal(body.withdrawing, true)
+  assert.equal(body.state, 'attack', 'it never turns away')
 })
 
 test('a nest aims only out over the water, swings at once to its aim when it opens fire, and fires in bursts', () => {

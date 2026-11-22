@@ -1,9 +1,11 @@
 import AntiTankGun, * as antiTankGunModule from '/core/gameplay/bodies/artillery/AntiTankGun.js'
 import Bunker, * as bunkerModule from '/core/gameplay/bodies/artillery/Bunker.js'
 import Tank, * as tankModule from '/core/gameplay/bodies/vehicles/Tank.js'
+import GunCarrier, * as gunCarrierModule from '/core/gameplay/bodies/vehicles/GunCarrier.js'
 import AntiTankGunSprite from '/core/actor/artillery/AntiTankGunSprite.js'
 import BunkerSprite from '/core/actor/artillery/BunkerSprite.js'
 import TankSprite from '/core/actor/vehicles/TankSprite.js'
+import GunCarrierSprite, { gunCarrierPictures } from '/core/actor/vehicles/GunCarrierSprite.js'
 import { somuaTank } from '/core/actor/tankLooks.js'
 
 import { yawOf } from './helpers.js'
@@ -28,6 +30,13 @@ const somua = (stage, way) => {
   return put(stage, body, new TankSprite(body, { ...somuaTank, ...views(stage) }))
 }
 
+/** A machine-gun carrier of `kind`, driving at the stand-in when it is set to fire. */
+const gunCarrier = id => (stage, way) => {
+  const kind = gunCarrierModule.gunCarrierKinds[id]
+  const body = new GunCarrier({ ...placed(stage, kind.size, way), kind })
+  return put(stage, body, new GunCarrierSprite(body, { picture: gunCarrierPictures[id], ...views(stage) }))
+}
+
 const gun = (stage, way) => {
   const body = new AntiTankGun(placed(stage, { height: 1.28 }, way))
   return put(stage, body, new AntiTankGunSprite(body, views(stage)))
@@ -43,6 +52,9 @@ const game = 'Do Trsta'
 
 export const vehicles = [
   { id: 'somua-s35', name: 'Somua S35', game, pxPerMeter, way: -1, block: tankModule, create: somua },
+  { id: 'motociklista', name: 'Motociklista sa mitraljezom', game, pxPerMeter, way: -1, block: gunCarrierModule, create: gunCarrier('motorcycle') },
+  { id: 'sdkfz-251', name: 'Sd.Kfz. 251', game, pxPerMeter, way: -1, block: gunCarrierModule, create: gunCarrier('halftrack') },
+  { id: 'sdkfz-222', name: 'Sd.Kfz. 222', game, pxPerMeter, way: -1, block: gunCarrierModule, create: gunCarrier('armoredCar') },
 ]
 
 export const artillery = [

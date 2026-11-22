@@ -93,9 +93,22 @@ Rečne teme u istoj grani uključuju Batinu, Virovitički mostobran i forsiranje
 | Srem, jesen 1944. | M15/42 u nemačkoj službi. Fotografija MRPNR NS 3772/3022 prikazuje dva uništena M15 kod Belegiša 8. oktobra. Monografija beleži dolazak 202. bataljona u Srem tokom oktobra. [Dimitrijević i Savić, *Oklopne jedinice na jugoslovenskom ratištu 1941–1945*](https://www.scribd.com/document/424490401/266555562-651-pdf-pdf) |
 | Batina, novembar 1944. | Dokumentovan je divizion jurišnih topova 7. SS divizije 17. novembra. U igri ga predstavlja StuG III sa čvrstom nadgradnjom. Tačna verzija pojedinačnog vozila u Batini ostaje nepoznata. [Zapis o divizionu kod Batine](https://znaci.org/00001/200_17.pdf) |
 | Srem, proleće 1945. | M15/42 predstavlja dokumentovanu nemačku tehniku tog fronta. Poznati su snimci kod Rume i Šarengrada iz januara i februara (VM 13840 i 2970). Fotografija olupine kod Tovarnika potvrđuje nemački tenk na mestu proboja, bez tipa u potpisu. [Monografija](https://www.scribd.com/document/424490401/266555562-651-pdf-pdf) · [Ratna fotografija iz Tovarnika](https://znaci.org/fotogalerija/fotogalerija11.html) |
+
+### Periodi za natpise bojišta
+
+Provereno 2026-11-22, pre ugradnje engleskih najava rundi. [Ministarstvo odbrane](https://www.mod.gov.rs/lat/10820/proboj-sremskog-fronta-10820) potvrđuje Sremski front od 21. oktobra 1944. i proboj 12. aprila 1945, pa najave navode oktobar 1944. odnosno april 1945. [SABA RH](https://sabh.hr/spomen-na-batinsku-bitku/) datira Batinsku operaciju u 11–29. novembar 1944; najava navodi mesec, bez tvrdnje da scena prikazuje određeni dan.
+
+Za Grahovo, Viluse i okolinu Nikšića najave navode samo 1941. [Nenad Perošević, *Nikšićki srez u ustanku 13. jula i antifašističkoj borbi (jul–decembar 1941)*, str. 133–134 i 137–138](https://istorijskizapisi.me/wp-content/uploads/2022/04/12-N-Perosevic-129-142.pdf#page=5), potvrđuje julske borbe i jesenji nastavak borbi u srezu. Godina povezuje ambijent sa potvrđenim periodom; slika i artiljerijski dvoboj ne dokazuju rekonstrukciju određenog dana ili pojedinačne borbe.
+
+### Ranije razmatrani protivnički oklop
+
+Drvar, Užice i Bihać nisu deo Tenkića; izvori ostaju za eventualnu drugu primenu.
+
+| Bojište | Potvrđeno i ograničenja |
+|---|---|
 | Drvar, maj 1944. | Delovi 202. nemačkog oklopnog bataljona učestvuju u operaciji. Somua S35 predstavlja francuske tenkove tog bataljona na osnovu njegovog inventara. Identitet konkretnog vozila u Drvaru ostaje otvoren. [Studija o operaciji](https://www.bmlv.gv.at/pdf_pool/omz/oemz2007_01.pdf) · [Sastav bataljona kod Dimitrijevića i Savića](https://www.scribd.com/document/424490401/266555562-651-pdf-pdf) |
-| Užice, jesen 1941. | Hočkis predstavlja nemački oklop korišćen protiv ustanika u zapadnoj Srbiji. Muzejski primerak zaplenjen je od Nemaca kod Gornjeg Milanovca, a u Užice stigao u ustaničkim rukama. Duel u igri sažima kampanju. [Svedočenje kustosa Narodnog muzeja Užice](https://zoomue.rs/tenk-ponovo-cuva-grad-video/) |
-| Bihać, novembar 1942. | Izveštaj o oslobođenju beleži zaplenjene protivtenkovske topove. Model tenka u sastavu branilaca ostaje nepotvrđen. Igra ovde zadržava generičkog protivnika, kao i na neimenovanom gradskom bojištu. [Dokumenti operacije](https://znaci.org/00003/501.pdf) |
+| Užice, jesen 1941. | Hočkis predstavlja nemački oklop korišćen protiv ustanika u zapadnoj Srbiji. Muzejski primerak zaplenjen je od Nemaca kod Gornjeg Milanovca, a u Užice stigao u ustaničkim rukama. [Svedočenje kustosa Narodnog muzeja Užice](https://zoomue.rs/tenk-ponovo-cuva-grad-video/) |
+| Bihać, novembar 1942. | Izveštaj o oslobođenju beleži zaplenjene protivtenkovske topove. Model tenka u sastavu branilaca ostaje nepotvrđen. [Dokumenti operacije](https://znaci.org/00003/501.pdf) |
 
 ## Beograd, oktobar 1944 — polazište za igru Otpisani
 
@@ -147,6 +160,27 @@ Izabrana operacija nije konačno oslobođenje Šolte u septembru: majski napad z
 | Moguća podrška izvlačenju | Ukrcavanje u Senjskoj i Šešuli i povratak prema Visu daju istorijsku osnovu za zadatak; to je okvir za razradu radnje, ne dokaz konkretne akcije našeg čamca. Marin II je potopljen: ne predstavljati njegov uspešan povratak kao istorijsku činjenicu. |
 
 **Palubno oružje za prikaz tipa:** Ingo Bauernfeind, *Schnell- und Torpedoboote: Deutsche und alliierte Einheiten 1939–1945*, Motorbuch Verlag, 2024, [str. 13](https://api.pageplace.de/preview/DT0400.9783613313187_A50355208/preview-9783613313187_A50355208.pdf#page=13), navodi dva topa 20 mm i dve torpedne cevi 533 mm za serije S 30–37 i S 54–61, uz napomenu o naknadnom dodavanju prednjeg topa nekim plovilima.
+
+## Neretva, februar 1943 — napadi na italijanske garnizone (igra Cannon)
+
+Istorijski okvir nivoa Cannon je bitka za Jablanicu u februaru 1943. Vlasnik je kao vizuelnu referencu izabrao zbirku [Battle for Jablanica (1943) na Wikimedia Commonsu](https://commons.wikimedia.org/wiki/Category:Battle_for_Jablanica_(1943)).
+
+- Na snimku razrušene stare austrijske kasarne vidi se širok pojas kamenog šuta. Levo je opstao zaobljen deo zida sa dva tamna otvora, a desno viši zid sa otvorom kroz koji se vidi nebo i gredama iznad ruševine. Snimak prikazuje stanje posle borbe. [Fotografija kasarne iz Dedijerovog Dnevnika, knjiga II, str. 113](https://commons.wikimedia.org/wiki/File:Razru%C5%A1ena_stara_austrijska_kasarna_u_Jablanici_1943.jpg).
+- Fotografija iz kruga uništenog italijanskog uporišta kod Jablanice, datirana 23. februara 1943, daje merilo za dvorište i fasadu. Vide se svetao malter, širok pravougaoni ulaz sa kamenim okvirom, manji prozor, zaprežna kola sa žbicama i naslagani drveni sanduci. [Fotografija dvorišta](https://commons.wikimedia.org/wiki/File:Captured_Italian_stronghold_near_Jablanica.jpg).
+- Na fotografiji zarobljenog italijanskog oklopnog voza vide se zakivane oklopne ploče, nepravilne svetle i tamne maskirne mrlje, rešetke na čelu i otvorena bočna vrata. Muzejski opis navodi 1943. godinu; tačan položaj voza u odnosu na kasarnu ostaje nepoznat. [Muzej istorije Jugoslavije, inv. br. 16294](https://commons.wikimedia.org/wiki/File:Zarobljen_italijanski_oklopni_voz.jpg).
+
+Polazište za [IG-12](PLAN-IDEJE.md#ig-12). Izvori su članci sa sh.wikipedia: [Bitka za Prozor (1943)](https://sh.wikipedia.org/wiki/Bitka_za_Prozor_(1943.)) i [Napad na Jablanicu (1943)](https://sh.wikipedia.org/wiki/Napad_na_Jablanicu_(1943.)) pročitani su celi, a za [Bitku na Neretvi](https://sh.wikipedia.org/wiki/Bitka_na_Neretvi) postoji samo sažetak februarskih odeljaka. Pre konačnog teksta u igri treba proveriti primarni izvor.
+
+- **Okvir:** od 9. do 22. februara partizani su oko Drežnice, Prozora, Ivan-sedla, Konjica i Jablanice zauzeli sva uporišta osim Konjica. Branila ih je italijanska divizija Murđe.
+- **Prozor, 15–17. februar:** posadu od oko 800 ljudi, iz 3. bataljona 259. puka, sa lakim tenkovima i artiljerijom, štitio je prsten bunkera i redovi bodljikave žice preko raščišćenog polja. Treća divizija je napala dva puta. U drugom napadu imala je i 7 haubica, a Titova poruka glasila je „Prozor noćas mora pasti”. Zaplenjeno je 5 lakih tenkova, 4 haubice i 2 protivtenkovska topa.
+- **Jablanica, 20–22. februar:** delovi 1. bataljona 259. puka zabarikadirali su se u staroj austrijskoj kasarni. Prema natpisu uz fotografiju, predali su se tek kad je teški minobacač pogodio njihovo skladište municije. Zarobljena su 164 vojnika, a postoji i fotografija Save Kovačevića pored zaplenjenog italijanskog topa.
+- **Drežnica, 16. februar:** Druga proleterska divizija razbila je bataljon 260. puka i zarobila 286 vojnika. Druga proleterska i 4. crnogorska brigada uništile su i italijansku kolonu koja je išla u pomoć Prozoru.
+- **Rama, 20. februar** (samo sažetak): delovi 10. hercegovačke brigade zauzeli su je od oko 180 Italijana i domobrana sa 6 tenkova. Zaplenjena su 4 tenka.
+- **Oružje garnizona:** u Prozoru je, pored topova i tenkova, zaplenjeno 12 mitraljeza i 25 puškomitraljeza, a u Jablanici 9 puškomitraljeza, 1 mitraljez i minobacač.
+
+**Šta igra uzima iz izvora:** italijansku posadu divizije Murđe pod zastavom Kraljevine Italije, bunker sa puškarnicama iz kojih mitraljezi uzvraćaju vatru, predaju posade, zaplenjeni top u partizanskim rukama i klisuru kod Jablanice kao pozadinu. Izmišljeno je radi igre: jedan bunker na obali preko reke od topa, bela zastava kao znak predaje i trenutak predaje vezan za razrušen deo bunkera. Napad na Prozor bio je noćni, sa više brigada.
+
+**Ideje za kasnije:** skladište municije koje jednim pogotkom slama posadu, kao u Jablanici; bodljikava žica ispred bunkera, kao u Prozoru; italijanska kolona koja dolazi u pomoć bunkeru, kao kod Drežnice; i proboj italijanskih tenkova u zoru, kao iz Prozora.
 
 ## Rečne misije — kandidati
 

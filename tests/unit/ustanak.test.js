@@ -164,6 +164,36 @@ test('turn announcements inform without blocking play and wait through a pause',
   assert.equal(scene.ui.messageElement.querySelector('h3').textContent, 'Player 1\'s turn')
 })
 
+test('each new round names its 1941 location alongside the turn, while later turns omit the location', t => {
+  const scene = createScene(t)
+  t.mock.method(scene.gameLoop, 'start', () => {})
+  const labels = new Set(['Grahovo, 1941', 'Vilusi, 1941', 'Nikšić area, 1941'])
+  const seen = new Set()
+  scene.start()
+  for (let round = 0; round < 3; round++) {
+    const location = scene.ui.messageElement.querySelector('p').textContent
+    assert.ok(labels.has(location))
+    seen.add(location)
+    assert.equal(location, scene.battlefield.place.place.label, 'the label belongs to the shown scenery')
+    assert.match(scene.ui.messageElement.querySelector('h3').textContent, /turn/)
+    assert.equal(scene.canShoot(scene.turns.active), true, 'the announcement does not block the turn')
+    if (round === 0) assert.match(scene.ui.messageElement.textContent, /Hold Space/)
+    scene.session.pause()
+    scene.session.update(100)
+    assert.ok(scene.ui.messageElement.textContent.includes(location))
+    scene.session.resume()
+    scene.session.update(5)
+    assert.equal(scene.ui.messageElement.textContent, '')
+    scene.announceTurn()
+    assert.equal(scene.ui.messageElement.querySelector('p'), null, 'ordinary turns do not repeat the location')
+    if (round < 2) {
+      scene.finishRound(round)
+      scene.nextRound()
+    }
+  }
+  assert.deepEqual(seen, labels)
+})
+
 test('round transitions preserve scores, alternate opening sides and cancel old impacts and input', t => {
   const scene = createScene(t)
   scene.vsComputer = false

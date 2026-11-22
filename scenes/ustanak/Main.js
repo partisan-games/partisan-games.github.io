@@ -154,10 +154,10 @@ export default class UstanakScene extends Scene2D {
   start() {
     super.start()
     this.turns.waitForRelease = keyboard.isDown(leftPlayerKeys.shoot)
-    this.announceTurn()
+    this.announceTurn('', true)
   }
 
-  announceTurn(result = '') {
+  announceTurn(result = '', newRound = false) {
     if (this.ui.outro || this.roundWinner !== null || this.session.state !== 'running') return
     this.turnNotice?.dispose()
     this.turnNotice = this.session.gameplay.child()
@@ -170,6 +170,11 @@ export default class UstanakScene extends Scene2D {
     const title = document.createElement('h3')
     title.textContent = text
     screen.append(title)
+    if (newRound) {
+      const location = document.createElement('p')
+      location.textContent = this.battlefield.place.place.label
+      screen.prepend(location)
+    }
     if (result) {
       const status = document.createElement('p')
       status.textContent = result
@@ -187,7 +192,7 @@ export default class UstanakScene extends Scene2D {
     this.ui.messageElement.replaceChildren(screen)
     this.ai.beginTurn()
     if (this.vsComputer && this.turns.active === 1) this.crews[1].setState('load')
-    this.turnNotice.after(showInstructions ? 5 : result ? 2 : 1.2, () => {
+    this.turnNotice.after(showInstructions ? 5 : newRound ? 3 : result ? 2 : 1.2, () => {
       this.ui.message = ''
       this.ui.messageElement.replaceChildren()
       this.announcingTurn = false
@@ -305,7 +310,7 @@ export default class UstanakScene extends Scene2D {
     this.turns.active = (this.round - 1) % 2
     this.ui.hideScreen()
     this.focusCanvas()
-    this.announceTurn()
+    this.announceTurn('', true)
   }
 
   unpause() {

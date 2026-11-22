@@ -1,5 +1,28 @@
 # Testing
 
+## Cannon: nivo i nišanjenje
+
+[Provera stvarne scene](../tests/unit/cannonScene.test.js) pokreće Cannon inicijalizaciju sa GLB modelom poljskog topa i stvarnim Ammo. Proverava blisku kameru uz oslonac cevi, podizanje pogleda stvarnim ulazom tastature, nepromenjen sačuvani izbor kamere za ostale igre, miran bunker tokom prva tri pogotka dok mitraljezi nanose štetu, lokalni proboj, unutrašnja lica 3D litica i jednokratno oslobađanje memorije instanci kamenja pri izlasku iz sesije. Teksture se u testu zamenjuju praznim teksturama; nema GPU renderera. Proporcije prizora pregledane su statičkim SVG rendererom, koji ne potvrđuje WebGL teksture, maglu, senke i konačnu rasvetu. Regresioni testovi padaju kada se privremeno isključe bliska kamera i otpornost zida, pa je popravljen kod vraćen iz kopija. Browser i konačni osećaj nišanjenja ostaju za vlasnikovu probu.
+
+## Cannon: stabilnost bunkera
+
+[Fizičke provere](../tests/unit/cannonFort.test.js) pokreću stvarni lokalni Ammo bez browsera i renderera. Netaknuti bunker mora ostati tačno na početnim položajima tokom dva simulirana minuta; daleka eksplozija i prva tri bliska pogotka ne pomeraju zid. Ponovljeni pogoci razbijaju spoj u pogođenom odeljku, dok se delovi iznad oslobađaju kada izgube bar polovinu oslonaca. Provereni su stvarni kontakt granate kroz Cannon ažuriranje, odložena obrada eksplozije posle native kontakata, ponovna upotreba tela i potpuno oslobađanje native resursa. Test potpunog rušenja bira mesta eksplozija u preostalim grupama kamenja; ne dokazuje da ih igrač može sva pogoditi istom putanjom granate. Regresija mirovanja proverena je privremenim vraćanjem dinamičke inicijalizacije: test tada pada, pa je ispravljen fajl vraćen.
+
+[Test učitavač](../tests/unit/setup/ammo-node.js) samo dodaje Node promenljive koje očekuje postojeći UMD Ammo; fizički kod i zajednički svet nisu menjani. Trenje kamenja i impuls eksplozije prilagođeni su za razaranje zida čiji nepogođeni delovi sada miruju. Ciljane provere uključuju i predaju, mitraljez, nagib cevi, kontakte i vlasništvo native objekata; lint i provera projekta prolaze. Browser, izgled i osećaj igre nisu proveravani po nalogu vlasnika.
+
+## Cannon: izbor pri predaji
+
+Ciljana provera od 2026-11-22 prolazi: cannonSurrender, garrison, gunner i ui (28 testova), lint izmenjenih fajlova bez opomena i provera importa/resursa. [Test izbora](../tests/unit/cannonSurrender.test.js) koristi stvarni UI, sesiju, petlju i osnovni životni ciklus scene: proverava pauzu, fokus i Tab, prihvatanje i odbijanje predaje. Pokriven je i prelaz pauza → predaja u istom kadru → Continue: pitanje se tada otvara po nastavku igre, a zastava se diže samo jednom. Provereni su sačuvani izbor izgleda menija i promene između White, RPG i Simple. Ne stvara WebGL renderer ni Ammo svet; fizičko rušenje i povezivanje ulaza Cannon scene provereni su čitanjem koda. Browser i vizuelna provera nisu pokretani po nalogu vlasnika.
+
+## Avatar: prevoženje liftom
+
+Ciljana provera od 2026-11-22 prolazi: avatarLift, avatars i avatarCoinPosition (23 testa), lint izmenjenih fajlova i provera projekta. Simulacija stvarnog tela i modela proverava prevoz po x/y/z u oba smera, doskok na pokretnu platformu, trenutno odvajanje pri skoku i odbijanje prevoza za lika van površine ili mrtvog lika. Priprema stvarne Avatar scene proverava da liftovi prethode telu i modelu u ažuriranju i da se prikaz pomeri u istom kadru. Browser i vizuelna provera nisu pokretani po nalogu vlasnika.
+
+<a id="camac-enemy-vessels"></a>
+## Čamac: neprijateljska plovila
+
+Tri generička neprijateljska plovila dele isto telo i prikaz u igri i u Storybook-u. Ciljana provera od 2026-11-22 pokriva stvarne pogotke fiksnog mitraljeza za svaki tip, povlačenje bez nove paljbe, nepovratnu smrt, trajanje plovne olupine i završetak tonjenja. Test scene prolazi kroz sastav flote sve tri etape i proverava uklanjanje tela, upravljača i zapisa pogodaka. Dodatna simulacija drži gas i paljbu kroz ceo put, bez preskakanja vremena: svi tipovi ulaze u kadar, S-čamac se vidi na povratku, a povratak završava pobedom. Samo zdravlje igrača je povećano radi provere toka; test ne ocenjuje težinu preživljavanja. Prolaze 28 testova iz patrolBoat, camac, boats, raider, storybookCatalog i storybookCoverage, ciljani lint i provera importa/resursa. Browser i slušna provera nisu pokretani po nalogu vlasnika; simulacija scene ne potvrđuje vizuelni izgled ili čujnost u stvarnoj igri.
+
 Architecture and ownership: [ARHITEKTURA](ARHITEKTURA.md). Check execution requires the project owner's permission; a prepared test or an earlier passing run does not establish that the current working copy passes.
 
 `npm run verify` runs lint, unit tests and the project check; run it before committing. The browser leak check is separate (`npm run smoke`, first `npx playwright install chromium`); CI (`.github/workflows/ci.yml`) runs both.

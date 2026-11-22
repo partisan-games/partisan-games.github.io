@@ -290,9 +290,9 @@ export default class UI {
     this.showScreen('end', this.endScreen())
   }
 
-  scoreUI(text = 'Score', points = 0, subtext, subpoints, smallClass = '') {
+  scoreUI(text = 'Score', points = 0, subtext, subpoints, smallClass = '', placement = 'top-left') {
     return /* html */`
-      <div class="top-left ${currentStyleClasses().score}">
+      <div class="${placement} ${currentStyleClasses().score}">
         <div>
           ${text}: ${points}
           ${subtext ? `<br><small class="${smallClass}">${subtext}: ${subpoints}</small>` : ''}
