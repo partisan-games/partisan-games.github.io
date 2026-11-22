@@ -191,7 +191,7 @@ Standard se odnosi na samostalne aktere. Njihovi projektili, kratki efekti, stat
 
 **Pucanje.** `aimAt(point)` nišani telo i kaže da li tamo može da puca; izbor mete pripada upravljaču. Zatečeni kod za paljbu koristi `fire`, koje pri usklađivanju postaje vrsta radnje u osnovnom stanju `attack`, prema standardu iznad. Telo puca gde nišani, koliko mu punjenje dozvoljava. Poze pucanja zadaje art: telo navodi pucanja koja crteži podržavaju (`shots`, npr. pravo i gore), i metak ide iz nacrtane cevi; pravac koji nijedan crtež ne prikazuje telo odbija. Za novu potrebnu pozu izrađuje se odgovarajući art u istom razvojnom zadatku.
 
-**Storybook.** [Storybook](STORYBOOK.md) prikazuje svaki blok sam na pozornici, sa dugmadima njegovih stanja i pucanja. To je i merilo: blok koji ne može sam na pozornicu još nije gotov.
+**Storybook.** [Storybook](STORYBOOK.md) je vlasnikov katalog aktera; [pravila stavki i varijanti](STORYBOOK.md#stavke-kataloga-i-varijante) određuju tip, model i uloga u igri, nezavisno od deljenja koda i 3D modela. Prikazuje aktera samog na pozornici, sa dugmadima njegovih stanja i pucanja. To je i merilo: blok koji ne može sam na pozornicu još nije gotov.
 
 **Testovi.** Svaki blok ima svoj unit test sa lažnim zavisnostima umesto scene; test igre proverava samo kako igra slaže blokove i svoja pravila. Kad blok dobije test, provere njegovog ponašanja prelaze iz testa igre u njegov, bez gubitka pokrivenosti.
 

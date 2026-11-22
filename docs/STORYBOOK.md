@@ -1,17 +1,29 @@
 # Storybook
 
-[storybook.html](../storybook.html) prikazuje igrače i neprijatelje samostalno na praznoj pozornici, da se isproba kako rade. Otvara se na istom serveru kao igre, npr. `/storybook.html`. Nije deo igre, pa ne troši novčiće i nije u meniju; njegove kontrole bira agent, a vlasnik ih pregleda ([pravilo](DOCS.md#odobravanje-ui-elemenata)). Pravila samih blokova su u [arhitekturi](ARHITEKTURA.md#gradivni-blokovi).
+[storybook.html](../storybook.html) je vlasnikov katalog aktera igre: igrača i neprijatelja koje može pojedinačno da pregleda i isproba na praznoj pozornici. Otvara se na istom serveru kao igre, npr. `/storybook.html`. Nije deo igre, pa ne troši novčiće i nije u meniju; njegove kontrole bira agent, a vlasnik ih pregleda ([pravilo](DOCS.md#odobravanje-ui-elemenata)). Pravila samih blokova su u [arhitekturi](ARHITEKTURA.md#gradivni-blokovi).
 
 Za svaki izgled dostupan je [pregled proverenih radnji](../pregled-animacija.html) sa direktnim ulazom u priču.
+
+## Stavke kataloga i varijante
+
+**Dogovor vlasnika, 2026-11-22:** katalog razdvaja aktere prema tipu, modelu i ulozi u igri. Deljenje koda, nasleđivanje, zajednička klasa ponašanja ili zajednički 3D model ne određuju broj stavki kataloga.
+
+- **Jedan tip i model vozila je jedna stavka.** Mali čamac, patrolni brod, desantna teglenica i različiti modeli tenkova imaju zasebne stavke, čak i kada koriste istu klasu. Različiti modeli vozila ne skrivaju se pod „Izgled”.
+- **Skinovi ostaju unutar iste stavke.** Boje, oznake i druge vizuelne varijacije istog aktera biraju se kroz „Izgled”; okretanje na drugu stranu takođe ne pravi novu stavku.
+- **Za vojnike su važni identitet i borbena uloga.** Italijanski strelac, nemački strelac i britanski strelac imaju zasebne stavke; strelac i mitraljezac takođe su odvojeni. Letnja i zimska uniforma istog vojnika mogu biti skinovi u njegovoj stavci.
+- **Isto pravilo važi za 3D.** Jedan model čoveka može poslužiti različitim vojnicima u zasebnim stavkama; unutar pojedinačnog aktera dostupni su njegovi skinovi i varijacije. Drugi model vozila ili drugog aktera dobija zasebnu stavku.
+- **Sekcije služe snalaženju.** Akteri koji dele kod mogu biti u istoj sekciji, ali to nije obavezno. Imena i raspored treba da pomognu vlasniku da pronađe aktera, nezavisno od organizacije klasa i datoteka.
+
+Ovo je pravilo željene organizacije. Postojeće priče koje spajaju različita plovila, modele tenkova ili vojnike kao izglede još nisu usklađene samim upisivanjem ovog dogovora.
 
 ## Upotreba
 
 - Storybook prikazuje samo aktere, igrače i neprijatelje, uključujući bibliotečke klase za te uloge; pozadine, okolina, efekti, projektili i predmeti nemaju zasebne priče (odluka vlasnika). Saradnici poput metka ili eksplozije mogu se videti uz aktera tokom pucanja/pogotka, a svetlo, tlo i meta deo su pozornice. Obim određuje uloga, ne folder klase.
-- Levo su dve nezavisno sklopive sekcije, **2D** i **3D**, sa postojećim vrstama i njihovim pričama; otvaraju se klikom ili tastaturom. Priča je jedan blok u jednom početnom podešavanju; adresa joj je `#vrsta/priča`, pa se otvara linkom i ostaje posle reload-a. Direktan izbor priče otvara njenu sekciju; promena priče, izgleda ili Reset čuvaju sklopljenost ostalih sekcija.
+- Levo su dve nezavisno sklopive sekcije, **2D** i **3D**, sa postojećim vrstama i njihovim pričama; otvaraju se klikom ili tastaturom. Priča je stavka kataloga jednog aktera prema [pravilima iznad](#stavke-kataloga-i-varijante); adresa joj je `#vrsta/priča`, pa se otvara linkom i ostaje posle reload-a. Direktan izbor priče otvara njenu sekciju; promena priče, izgleda ili Reset čuvaju sklopljenost ostalih sekcija.
 - Priča nema upravljanje ni ulogu: pozornica ne daje tastere blokovima, a blok se pokreće samo dugmadima svojih stanja i pucanja.
 - Desno su izbor strane („Nalevo”, „Nadesno”), dugmad stanja bloka sa „Pogođen” ispred `dead` i „Reset” kao poslednjim u tom redu, zatim pucanja koja blok podržava („Pucaj gore”, „Pucaj pravo”), „Prati kamerom”, a na dnu traka trenutnog zdravlja bloka koji može biti pogođen. Panel nema podešavanja (odluka vlasnika, 2026-11-22).
 - Svaka priča stavlja svoj blok na sredinu pozornice, bez obzira na to odakle on ulazi u igri (odluka vlasnika, 2026-11-22).
-- Isti predmet okrenut na drugu stranu nije posebna priča (odluka vlasnika, 2026-11-22): bočna priča navodi `way`, stranu na koju je predmet okrenut u svojoj igri (1 desno, -1 levo), a njen `create(stage, way)` pravi telo okrenuto na izabranu stranu; prikaz sliku sam ogleda po pravcu tela. Izbor strane ostaje dok se priča pravi ponovo, a „Reset” i druga priča vraćaju njen `way`. Isti blok drugačije nacrtan, kao oznake Poteza ili partizanski i italijanski zastavnik, takođe nije posebna priča: priča navodi `looks` (`id`, ime i vrednost koju `create(stage, way, look)` dobija), a panel ima dugmad „Izgled”. Svaki izgled ima svoju adresu, `#vrsta/priča/izgled`, pa se može otvoriti i iz testa.
+- Isti akter okrenut na drugu stranu nije posebna priča (odluka vlasnika, 2026-11-22): bočna priča navodi `way`, stranu na koju je akter okrenut u svojoj igri (1 desno, -1 levo), a njen `create(stage, way)` pravi telo okrenuto na izabranu stranu; prikaz sliku sam ogleda po pravcu tela. Izbor strane ostaje dok se priča pravi ponovo, a „Reset” i druga priča vraćaju njen `way`. Za skinove istog aktera, kao oznake Poteza, priča navodi `looks` (`id`, ime i vrednost koju `create(stage, way, look)` dobija), a panel ima dugmad „Izgled”. Svaki izgled ima svoju adresu, `#vrsta/priča/izgled`, pa se može otvoriti i iz testa. Zajednički kod nije osnov da se različiti akteri spoje kroz `looks`.
 - „Reset” ponovo pravi priču; potreban je jer stanje ne vraća mrtav blok, a blok koji odleti ili odveze se ostaje van ekrana. Isto radi klik na priču u spisku.
 - Kamera stoji; „Prati kamerom” drži blok u sredini ekrana. Avion igrača, koji leti brzinom leta, prati od početka.
 - Dugme napada prvo nanišani top pravo, a Ju 87 prema tlu ispred aviona. Komanda „Obruši se” pokreće isti nalet iz trenutnog položaja. Za 3D ratni avion dostupni su pomeranje udesno, raketa i sletanje. Kuli se može postaviti meta koju njen top može da pogodi.
@@ -43,6 +55,8 @@ Postojeću pokrivenost aktera grafikom, pripremu i povezivanje dopuna vodi [ART]
 Svaka dopuna arta mora postati dostupna u postojećoj ili novoj priči aktera. Priča i svi nivoi koriste isti objekat i zajedničko mapiranje arta; poseban HTML/GIF pregled nije zamena. Art zadatak se zatvara tek posle [obavezne integracije i provera](ART.md#obavezna-integracija).
 
 [storybookCatalog.test.js](../tests/unit/storybookCatalog.test.js) pravi svaku priču, prolazi kroz sva njena stanja i proverava da svako navedeno pucanje ispali metak. [storybookCoverage.test.js](../tests/unit/storybookCoverage.test.js) traži priču za svakog aktera u navedenim folderima. [storybookStage2D.test.js](../tests/unit/storybookStage2D.test.js) proverava pozornicu, praćenje kamerom i da gašenje ne ostavlja rukovaoce na stranici. Izgled se proverava samo okom.
+
+Sadašnja provera pokrivenosti prati module klasa, ne svaki tip/model/ulogu kataloga; ne dodaje priče automatski i ne otkriva sve različite aktere sakrivene pod `looks`. Zato njen prolazak nije dokaz da je katalog potpun prema [dogovorenom pravilu](#stavke-kataloga-i-varijante).
 
 Sklopive sekcije koriste izvorne `details`/`summary` kontrole; `summary` mora biti UI cilj u [inputContext](../core/io/inputContext.js), inače tastatura igre presretne Space/Enter. [Input izolacija](../tests/unit/inputIsolation.test.js) proverava propuštanje tih tastera i čišćenje zadržanog ulaza; Chromium provera je potvrdila stvarno otvaranje/zatvaranje, očuvanje svih 79 adresa bez duplikata, Reset, direktan 3D link i sklopljen prikaz na 390 px širine (2026-11-22).
 

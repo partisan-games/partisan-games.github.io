@@ -150,3 +150,15 @@ Zadržati postojeći rasuti, nasumični raspored kocki po širini i visini. Vlas
 [Položaj novčića](../scenes/avatar/coinPosition.js) menja se samo ako njegova cela zapremina tokom okretanja upada u kocku: prvo se traži slobodan položaj na istoj visini iznad izvorne kocke, zatim se po potrebi podiže. Ostali novčići zadržavaju svoja mesta, a pomereni ne zauzimaju njihove položaje. Kocke, platforme i skok se ovim ne menjaju; sudari s pokretnim platformama i dostižnost svih novčića ostaju zaseban posao.
 
 [LiftPlatform](../scenes/avatar/LiftPlatform.js) prenosi stvarno pomeranje lifta na telo avatara koji stoji na njegovoj gornjoj površini, uz proveru obe vodoravne ose; skok i silazak prekidaju prevoz. Liftovi se ažuriraju pre tela i prikaza, a njihove matrice se osvežavaju pre upita za oslonac. Stari zajednički Platform tražio je prikaz nazvan `player` i pomerao samo taj prikaz, pa nije mogao da prevozi novog avatara čiji položaj određuje telo; lokalna popravka čuva postojeće smerove, hod i brzinu platformi i ne menja druge igre.
+
+## Cannon
+
+**Dogovor vlasnika, 2026-11-22:** partizani zaplenjenim topom iz Drugog svetskog rata ruše italijansko uporište kod Jablanice u februaru 1943. Model topa ne zahteva novu istorijsku proveru: prihvaćen je kao zaplenjena oprema. [Istorijski okvir i granice rekonstrukcije](ISTORIJA.md#neretva-februar-1943--napadi-na-italijanske-garnizone-igra-cannon), [prihvaćen likovni pravac](ART.md#cannon-kanjon-neretve).
+
+**Tok borbe:** razaranje deo po deo po uzoru na Angry Birds, uz neograničene granate i kameru uz cev. Mitraljezi uzvraćaju vatru na posadu topa, a njen strelac suzbija njihove rafale. Gubitak posade je poraz. Posle uništenja sva četiri mitraljeza garnizon ističe belu zastavu; borba miruje dok igrač bira „Accept surrender” (pobeda) ili „Continue attack” (potpuno rušenje). Vlasnik je odobrio tekstove i potvrdio završetak nivoa 2026-11-22; ta potvrda nije dokaz novog agentovog testiranja.
+
+**Ideja za kasnije, bez naloga za izradu:** italijanska kolona kamiona pokušava proboj putem uz reku, a igrač je zaustavlja topom. [Istorijsko polazište](ISTORIJA.md#neretva-februar-1943--napadi-na-italijanske-garnizone-igra-cannon).
+
+## Proširenje sastava igara
+
+**Ograničenja vlasnika, 2026-11-22:** Bunker ne dobija nove aktere; Ustanak i Tenkići ostaju fino podešeni dvoboji. Za Ranjenika nema smislenog postojećeg arta odozgo. Otpisani zadržavaju realističan crno-beli stil, bez pikselnih aktera. Vis se igra 1944, pa italijanski Re.2005 nije izabran (vlasnik). Novi kandidati čekaju izričit izbor vlasnika u [planu ideja](PLAN-IDEJE.md#ig-14).
