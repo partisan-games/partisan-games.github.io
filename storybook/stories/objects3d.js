@@ -1,3 +1,4 @@
+import { separateModels } from './catalogEntries.js'
 import Stage3D from '../Stage3D.js'
 import { Mesh, MeshBasicMaterial, SphereGeometry } from 'three'
 import Body from '/core/gameplay/bodies/Body.js'
@@ -61,6 +62,7 @@ const planes = [
 
 export const aircraft = [
   { id: 'ratni-avion-3d', name: 'Ratni avion', game: 'Warplane', block: warplaneModule, stage: Stage3D, looks: planes, create: warplane,
+    modelIds: { dvokrilac: 'dvokrilac-3d', trokrilac: 'trokrilac-3d', mesersmit: 'mesersmit-3d', bombarder: 'bombarder-3d', f18: 'f18-3d' },
     commands: [{ label: 'Pomeri udesno', run: plane => plane.steer({ across: 1 }) },
       { label: 'Ispali raketu', run: plane => plane.fire() }, { label: 'Sleti', run: plane => plane.land() }] },
   { id: 'dirizabl-3d', name: 'Dirižabl', game: 'Zeppelin', block: airshipModule, stage: Stage3D,
@@ -73,7 +75,7 @@ export const aircraft = [
       stage.add(body, model)
       return body
     } },
-]
+].flatMap(story => story.looks ? separateModels(story) : [story])
 
 export const towers = [
   { id: 'kula-3d', name: 'Kula sa topom', game: 'Warplane, FPS Airport', block: towerModule, stage: Stage3D, create: gunTower,

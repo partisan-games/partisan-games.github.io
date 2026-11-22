@@ -19,7 +19,8 @@ Ovo je pravilo organizacije; preostalo usklađivanje kataloga i navigacije vodi 
 ## Upotreba
 
 - Storybook prikazuje samo aktere, igrače i neprijatelje, uključujući bibliotečke klase za te uloge; pozadine, okolina, efekti, projektili i predmeti nemaju zasebne priče (odluka vlasnika). Saradnici poput metka ili eksplozije mogu se videti uz aktera tokom pucanja/pogotka, a svetlo, tlo i meta deo su pozornice. Obim određuje uloga, ne folder klase.
-- Levo su dve nezavisno sklopive sekcije, **2D** i **3D**, sa postojećim vrstama i njihovim pričama; otvaraju se klikom ili tastaturom. Priča je stavka kataloga jednog aktera prema [pravilima iznad](#stavke-kataloga-i-varijante); adresa joj je `#vrsta/priča`, pa se otvara linkom i ostaje posle reload-a. Direktan izbor priče otvara njenu sekciju; promena priče, izgleda ili Reset čuvaju sklopljenost ostalih sekcija.
+- Levo je sklopivo stablo **2D / 3D → vrsta → podvrsta**, npr. **3D → Vojnici → Italijanski**. Nadgrupe rade mišem i tastaturom i pamte stanje u lokalnom skladištu pregledača. Pretraga po nazivu, igri ili skinu otvara put do rezultata; brisanje pretrage vraća zapamćene grupe. Direktan link otvara sve grupe izabranog aktera, a Reset ih ne gradi ponovo.
+- Priča ima adresu `#vrsta/priča`, skin `#vrsta/priča/izgled`. Različiti čamci, tenkovi, avioni i nacionalnosti/uloge pešadije imaju zasebne stavke. Stari linkovi ostaju aliasi; pregledač ih zamenjuje novom adresom bez ponovnog učitavanja. Primer: [mali nemački čamac](../storybook.html#brodovi/nemacki-mali-camac).
 - Priča nema upravljanje ni ulogu: pozornica ne daje tastere blokovima, a blok se pokreće samo dugmadima svojih stanja i pucanja.
 - Desno su izbor strane („Nalevo”, „Nadesno”), dugmad stanja bloka sa „Pogođen” ispred `dead` i „Reset” kao poslednjim u tom redu, zatim pucanja koja blok podržava („Pucaj gore”, „Pucaj pravo”), „Prati kamerom”, a na dnu traka trenutnog zdravlja bloka koji može biti pogođen. Panel nema podešavanja (odluka vlasnika, 2026-11-22).
 - Svaka priča stavlja svoj blok na sredinu pozornice, bez obzira na to odakle on ulazi u igri (odluka vlasnika, 2026-11-22).
@@ -36,7 +37,11 @@ Ovo je pravilo organizacije; preostalo usklađivanje kataloga i navigacije vodi 
 
 ## Dodavanje priče
 
+Sklapaju se prva dva nivoa od korena: **2D/3D** i **vrsta aktera**, bez obzira na sadržaj grupe. Treći i dublji nivoi, npr. nacionalnosti vojnika, imaju stalno vidljiv naslov i spisak unutar otvorene nadgrupe. Pretraga skriva prazne grupe i otvara put do rezultata.
+
 Priče su u [storybook/stories](../storybook/stories/), po jedna datoteka za igru, a [index.js](../storybook/stories/index.js) ih raspoređuje po vrstama. Priča je `{ id, name, game, block, create(stage) }`: `block` je modul bloka (`import Flak, * as flakModule from ...`), a `create` pravi blok, stavlja ga na pozornicu i vraća ga. Za čisto telo `create` stavlja na pozornicu telo i njegov prikaz, a vraća telo, kao u [pričama tenkova](../storybook/stories/tenkici.js).
+
+`catalogGroup` je niz naziva grupa unutar dimenzije; njime se izričito određuje mesto aktera u stablu. `aliases` na priči ili skinu čuva stare putanje `priča[/izgled]` unutar vrste. [catalogEntries](../storybook/stories/catalogEntries.js) izdvaja modele sa zajedničkom fabrikom; `modelIds` daje njihove javne adrese. Dodavanje nove klase ne dodaje automatski stavku: autor dodaje svaki njen tip/model/ulogu i proverava katalog.
 
 Panel čita blok:
 
@@ -56,11 +61,13 @@ Svaka dopuna arta mora postati dostupna u postojećoj ili novoj priči aktera. P
 
 [storybookCatalog.test.js](../tests/unit/storybookCatalog.test.js) pravi svaku priču, prolazi kroz sva njena stanja i proverava da svako navedeno pucanje ispali metak. [storybookCoverage.test.js](../tests/unit/storybookCoverage.test.js) traži priču za svakog aktera u navedenim folderima. [storybookStage2D.test.js](../tests/unit/storybookStage2D.test.js) proverava pozornicu, praćenje kamerom i da gašenje ne ostavlja rukovaoce na stranici. Izgled se proverava samo okom.
 
-Sadašnja provera pokrivenosti prati module klasa, ne svaki tip/model/ulogu kataloga; ne dodaje priče automatski i ne otkriva sve različite aktere sakrivene pod `looks`. Zato njen prolazak nije dokaz da je katalog potpun prema [dogovorenom pravilu](#stavke-kataloga-i-varijante).
+Provera pokrivenosti prati module klasa; [storybookNavigation.test.js](../tests/unit/storybookNavigation.test.js) dodatno proverava razdvojene modele, sve postojeće pešadijske varijante, stare adrese, pretragu i pamćenje grupa. Novi tipovi i uloge moraju dobiti stavku i odgovarajuću proveru: sam prolazak provere klasa ne dokazuje potpunost kataloga.
 
 Sklopive sekcije koriste native `details`/`summary`; `summary` mora biti UI cilj u [inputContext](../core/io/inputContext.js), da tastatura igre ne presretne Space/Enter. Izvršene dokaze čuva [TESTING](TESTING.md), bez održavanja broja adresa u ovom vodiču.
 
 ## Granice i odluke
+
+- Morska mina je predmet/prepreka, pa nema zasebnu stavku u katalogu aktera.
 
 - 3D lik se ne može napraviti u unit testu bez učitanog modela, pa 3D priče proverava browser. Top iz igre Battle for Jablanica nema priču: puca kroz Ammo fiziku, koju 3D pozornica nema. Preostali posao vezan za Ammo pozornicu vodi [PLAN](PLAN.md#storybook).
 - Pozornica prikazuje jednog aktera. Više aktera koji deluju jedan na drugog uvodi se tek ako vlasnik to zatraži.

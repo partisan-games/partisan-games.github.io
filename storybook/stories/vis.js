@@ -1,3 +1,4 @@
+import { separateModels } from './catalogEntries.js'
 import FighterBomber, * as fighterBomberModule from '/core/gameplay/bodies/aircraft/FighterBomber.js'
 import AttackPlane, * as attackPlaneModule from '/core/gameplay/bodies/aircraft/AttackPlane.js'
 import FighterBomberSprite from '/core/actor/aircraft/FighterBomberSprite.js'
@@ -45,4 +46,4 @@ export const aircraft = [
   { id: 'vis-lovac', name: 'Nemački lovac', game, pxPerMeter, block: attackPlaneModule, looks: fighterLooks, create: enemyPlane('fighter') },
   { id: 'vis-bf110', name: 'Bf 110', game, pxPerMeter, block: attackPlaneModule, create: enemyPlane('heavy') },
   { id: 'vis-he111', name: 'He 111', game, pxPerMeter, block: attackPlaneModule, create: enemyPlane('boss') },
-]
+].flatMap(story => story.looks ? separateModels(story) : [story])

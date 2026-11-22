@@ -29,7 +29,7 @@ const folders = {
     'WaterEffects.js', 'Obala.js', 'coastlines.js', 'Minefield.js',
   ],
   'core/actor/boats': ['HullSprite.js', 'BoatSprite.js', 'SBoatSprite.js', 'PatrolBoatSprite.js', 'SinkingWreck.js', 'SeaMineSprite.js'],
-  'core/gameplay/bodies/boats': [],
+  'core/gameplay/bodies/boats': ['SeaMine.js'],
   'scenes/bunker': ['Main.js', 'Mina.js'],
   'scenes/ranjenik': ['Main.js', 'Strelica.js', 'Paljba.js'],
   'scenes/neretva': ['Main.js', 'AirAttack.js'],
@@ -46,7 +46,7 @@ const folders = {
   'core3d/actor/derived/horror': [],
   // PartisanAim is the existing Partisan's aiming configuration; look libraries and mesh dressers are shown
   // through their owning character stories rather than as duplicate actors.
-  'core3d/actor/derived/ww2': ['PartisanAim.js', 'partisanLooks.js', 'shapeM33.js', 'soldierFace.js'],
+  'core3d/actor/derived/ww2': ['PartisanAim.js', 'partisanLooks.js', 'italianLooks.js', 'shapeM33.js', 'soldierFace.js'],
   // the cannon fires through the Ammo physics world, which its stage does not have yet
   'core3d/actor/derived': ['Cannon.js'],
   // bases of the planes, a plane's look, and its missile, seen in the planes' stories

@@ -4,6 +4,15 @@ import PatrolBoat, { patrolBoatKinds, patrolBoat } from '/core/gameplay/bodies/b
 import GameClock from '/core/runtime/GameClock.js'
 import Body from '/core/gameplay/bodies/Body.js'
 
+test('every vessel offers a practice shot in front of its actual gun', () => {
+  for (const kind of Object.values(patrolBoatKinds)) for (const yaw of [0, Math.PI, .8]) {
+    const boat = new PatrolBoat({ kind, yaw, clock: new GameClock() })
+    const shot = boat.shots.straight
+    assert.equal(boat.aimAt({ x: boat.x + boat.forward * shot.x, z: boat.z + shot.z }), true)
+    assert.ok(Math.abs(boat.bearing - yaw) < 1e-6 || Math.abs(Math.abs(boat.bearing - yaw) - Math.PI * 2) < 1e-6)
+  }
+})
+
 for (const [id, kind] of Object.entries(patrolBoatKinds))
   test(`${id} turns its fixed gun onto a target, damages it, then sinks without reviving`, () => {
     const clock = new GameClock()

@@ -1,3 +1,4 @@
+import { createCatalog, dimensionOf, findStory } from './catalog.js'
 import Stage2D from './Stage2D.js'
 import kinds from './stories/index.js'
 import { attackState } from '/core/gameplay/bodies/stateNames.js'
@@ -8,21 +9,8 @@ const panel = document.getElementById('storybook-panel')
 /** What each shot a block can take is called on its button, in the order the buttons stand, the higher above. */
 const shotNames = { up: 'Pucaj gore', straight: 'Pucaj pravo', down: 'Obruši se', drop: 'Baci bombe', behind: 'Pucaj unazad' }
 
-const dimensionOf = story => !story.stage || story.stage === Stage2D ? '2d' : '3d'
-
-/** The story at `kind/story` in the address, or the first one, and its look at `kind/story/look`, or its first. */
-const find = address => {
-  const [kindId, storyId, selection] = address.split('/')
-  const kind = kinds.find(({ id }) => id === kindId) ?? kinds[0]
-  const path = [storyId, selection].filter(Boolean).join('/')
-  for (const story of kind.stories) {
-    const look = story.looks?.find(look => look.aliases?.includes(path))
-    if (look) return { kind, story, look }
-  }
-  const story = kind.stories.find(({ id }) => id === storyId) ?? kind.stories[0]
-  const look = story.looks?.find(({ id }) => id === selection) ?? story.looks?.[0]
-  return { kind, story, look }
-}
+const catalog = createCatalog(list, kinds)
+const find = address => findStory(kinds, address)
 
 /** The story on the stage, once its block is made. */
 let shown
@@ -37,6 +25,8 @@ async function show() {
   const turn = ++asked
   const previous = shown
   const { kind, story, look } = find(location.hash.slice(1))
+  const address = `${kind.id}/${story.id}${look ? '/' + look.id : ''}`
+  if (location.hash.slice(1) !== address) history.replaceState(null, '', '#' + address)
   if (previous?.story === story && previous.look !== look && previous.stage.setLook) {
     previous.stage.setLook(look?.value)
     previous.look = look
@@ -46,7 +36,7 @@ async function show() {
   shown = null
   previous?.stage.end()
   if (story !== previous?.story) way = story.way ?? 1
-  drawList(kind, story)
+  catalog.select(kind, story)
   panel.replaceChildren()
   const Stage = story.stage ?? Stage2D
   document.body.dataset.stage = story.unavailable ? 'unavailable' : dimensionOf(story)
@@ -68,36 +58,6 @@ async function show() {
   stage.start()
   shown = { kind, story, look, stage, block }
   drawPanel()
-}
-
-function drawList(kind, current) {
-  // Keep the disclosure elements when a story changes, so their open state and focus survive.
-  if (!list.children.length) list.innerHTML = ['2d', '3d'].map(dimension => {
-    const categories = kinds.map(group => {
-      const stories = group.stories.filter(story => dimensionOf(story) === dimension)
-      return stories.length ? /* html */`
-          <h2>${group.title}</h2>
-          ${stories.map(story => `<a href="#${group.id}/${story.id}" aria-current="false">${story.name}</a>`).join('')}
-        ` : ''
-    }).join('')
-    return /* html */`
-        <details data-dimension="${dimension}">
-          <summary>${dimension.toUpperCase()}</summary>
-          <div class="storybook-categories">${categories}</div>
-        </details>`
-  }).join('')
-  const address = `#${kind.id}/${current.id}`
-  let opened = null
-  for (const link of list.querySelectorAll('a')) {
-    const selected = link.getAttribute('href') === address
-    if (selected && link.getAttribute('aria-current') !== 'true') opened = link
-    link.setAttribute('aria-current', String(selected))
-  }
-  // a newly opened story's link comes to the middle of the list, its section unfolded
-  if (opened) {
-    opened.closest('details').open = true
-    opened.scrollIntoView({ block: 'center' })
-  }
 }
 
 /**

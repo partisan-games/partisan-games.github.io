@@ -1,7 +1,7 @@
 import Stage3D from '../Stage3D.js'
 import TwoHandedGrip from '/core3d/actor/characters/TwoHandedGrip.js'
 import dressFighter from '/core3d/actor/characters/dressFighter.js'
-import { variants } from '/core3d/actor/derived/ww2/partisanLooks.js'
+import { variants, infantryWeapons } from '/core3d/actor/derived/ww2/partisanLooks.js'
 import * as italianLooksModule from '/core3d/actor/derived/ww2/italianLooks.js'
 import { poseSurrender, surrenderArms } from '/scenes/cannon/surrenderPose.js'
 import { requestModels } from '/core3d/assets/models.js'
@@ -114,7 +114,7 @@ function infantryStory(id, name, game, block) {
       if (id === 'strelac') aliases.push('saborci-jablanica')
       return { id, name: value.name, value, aliases }
     })
-  return {
+  const story = {
     ...base, lookLabel: 'Varijanta',
     looks: [{ id: 'original', name: 'Original' }, ...looks],
     create: async(stage, way, look) => {
@@ -131,7 +131,7 @@ function infantryStory(id, name, game, block) {
         surrendered = true
         infantry.unarm()
       }
-      const setLook = stage.setLook
+      const { setLook } = stage
       stage.setLook = next => {
         setLook(next)
         if (surrendered) infantry.unarm()
@@ -141,6 +141,25 @@ function infantryStory(id, name, game, block) {
       return body
     },
   }
+  const roles = new Map()
+  const original = { ...story, looks: [story.looks[0]],
+    catalogGroup: ['Vojnici', id === 'vojnik-3d' ? 'Ostali' : id === 'sovjetski-partizan-3d' ? 'Sovjetski' : 'Partizanski'] }
+  for (const look of looks) {
+    const army = look.id.startsWith('italian-') ? 'Italijanski' : 'Partizanski'
+    const role = look.value.weapon === infantryWeapons.mg ? 'Mitraljezac'
+      : look.value.weapon === infantryWeapons.mp40 ? 'Automatičar' : 'Strelac'
+    const key = army + '/' + role
+    if (!roles.has(key)) roles.set(key, { ...story, id: `${id}-${look.id}`, name: `${army} ${role.toLowerCase()} · ${name}`,
+      catalogGroup: ['Vojnici', army], looks: [] })
+    roles.get(key).looks.push({ ...look, aliases: [...look.aliases, `${id}/${look.id}`] })
+  }
+  // The original appearance belongs to the same rifleman when identity and role agree.
+  const rifleman = id === 'vojnik-3d' || id === 'sovjetski-partizan-3d' ? null : roles.get('Partizanski/Strelac')
+  if (rifleman) {
+    original.looks.push(...rifleman.looks)
+    roles.delete('Partizanski/Strelac')
+  }
+  return [original, ...roles.values()]
 }
 
 function enableInfantryLooks(stage, { mesh, anim }) {
@@ -198,7 +217,7 @@ export const ww2 = [
   infantryStory('vojnik-3d', 'Vojnik', library, soldierModule),
   infantryStory('sovjetski-partizan-3d', 'Sovjetski partizan', 'Liberated City', sovietPartisanModule),
   character('radnik-3d', 'Radnik', 'Graffiti City, Graffiti City Maze', workerModule),
-]
+].flat()
 
 export const beasts = [
   character('slon-3d', 'Slon', library, elephantModule),

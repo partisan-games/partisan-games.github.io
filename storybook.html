@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Storybook blokova</title>
+  <title>Katalog aktera</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="/ui/style.css">
   <script type="importmap">
@@ -21,11 +21,17 @@
     body[data-stage="unavailable"] canvas { display: none; }
     .storybook-panel, .storybook-list {
       position: fixed; top: 12px; z-index: 10; width: 220px; max-height: calc(100vh - 24px); overflow: auto;
-      padding: 12px; background: rgb(0 0 0 / .7); font: 14px/1.4 system-  ui, sans-serif; text-shadow: none;
+      padding: 12px; background: rgb(0 0 0 / .7); font: 14px/1.4 system-ui, sans-serif; text-shadow: none;
     }
     .storybook-panel { right: 12px; }
     .storybook-list { left: 12px; }
-    .storybook-list details + details { margin-top: 12px; padding-top: 8px; border-top: 1px solid #666; }
+    .storybook-list > div > details + details { margin-top: 12px; padding-top: 8px; border-top: 1px solid #666; }
+    .storybook-list details details { margin-left: 8px; }
+    .storybook-list section { margin-left: 8px; }
+    .storybook-list h3 { margin: 8px 0 4px; font: 700 14px/1.3 system-ui, sans-serif; }
+    .storybook-list details details summary { font-size: 14px; }
+    .storybook-list input { box-sizing: border-box; width: 100%; min-width: 0; margin-bottom: 8px; padding: 7px; font: inherit; }
+    .storybook-list [hidden] { display: none; }
     .storybook-list summary { padding: 4px 0; font: 700 16px/1.3 system-ui, sans-serif; cursor: pointer; }
     .storybook-list summary:focus-visible { outline: 2px solid #e4c86c; outline-offset: 3px; }
     .storybook-categories { padding-top: 8px; }
@@ -55,7 +61,7 @@
   <canvas id="platno-3d"></canvas>
   <main id="ui"></main>
   <div id="modal"></div>
-  <nav class="storybook-list" id="storybook-list"></nav>
+  <nav class="storybook-list" id="storybook-list" aria-label="Katalog aktera"></nav>
   <aside class="storybook-panel" id="storybook-panel"></aside>
   <script type="module" src="/storybook/main.js"></script>
 </body>

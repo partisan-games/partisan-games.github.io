@@ -1,3 +1,4 @@
+import { separateModels } from './catalogEntries.js'
 import Boat, * as boatModule from '/core/gameplay/bodies/boats/Boat.js'
 import SBoat, * as sBoatModule from '/core/gameplay/bodies/boats/SBoat.js'
 import ShoreMachineGun, * as shoreMachineGunModule from '/core/gameplay/bodies/artillery/ShoreMachineGun.js'
@@ -8,8 +9,6 @@ import PatrolBoatSprite from '/core/actor/boats/PatrolBoatSprite.js'
 import ShoreMachineGunSprite from '/core/actor/artillery/ShoreMachineGunSprite.js'
 import { topProjection } from '/core/actor/projection.js'
 import { fromAbove } from './helpers.js'
-import SeaMine, * as seaMineModule from '/core/gameplay/bodies/boats/SeaMine.js'
-import SeaMineSprite from '/core/actor/boats/SeaMineSprite.js'
 
 /** Čamac is seen from above at 10 px a metre: the stage draws its blocks so, x across and z down the view. */
 const pxPerMeter = 25
@@ -49,6 +48,8 @@ export const boats = [
   { id: 'partizanski-camac', name: 'Partizanski čamac', game, pxPerMeter, block: boatModule, create: boat },
   { id: 'schnellboot', name: 'Schnellboot S-30', game, pxPerMeter, block: sBoatModule, create: sBoat },
   { id: 'nemacko-patrolno-plovilo', name: 'Nemačko patrolno plovilo', game, pxPerMeter, block: patrolBoatModule,
+    modelIds: { 'german-launch': 'nemacki-patrolni-camac', 'german-skiff': 'nemacki-mali-camac',
+      'german-patrol-vessel': 'nemacki-patrolni-brod', rboot: 'rboot', mfp: 'mfp', vorpostenboot: 'vorpostenboot' },
     looks: [['german-launch', 'Patrolni čamac'], ['german-skiff', 'Mali čamac'], ['german-patrol-vessel', 'Patrolni brod'],
       ['rboot', 'Minolovac R-boot'], ['mfp', 'Desantna teglenica MFP'], ['vorpostenboot', 'Naoružani ribarski brod']]
       .map(([id, name]) => ({ id, name, value: id })),
@@ -57,12 +58,7 @@ export const boats = [
       return put(stage, body, new PatrolBoatSprite(body, { id, ...views(stage) }))
     },
   },
-  { id: 'morska-mina', name: 'Morska mina', game, pxPerMeter, block: seaMineModule,
-    create(stage) {
-      const body = new SeaMine(at(stage, .5, .5))
-      return put(stage, body, new SeaMineSprite(body, views(stage)))
-    } },
-]
+].flatMap(story => story.looks ? separateModels(story) : [story])
 
 export const artillery = [
   { id: 'mitraljesko-gnezdo', name: 'Mitraljesko gnezdo', game, pxPerMeter, block: shoreMachineGunModule, create: nest },

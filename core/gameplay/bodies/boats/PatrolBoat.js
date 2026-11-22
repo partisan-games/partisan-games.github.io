@@ -50,7 +50,9 @@ export default class PatrolBoat extends Body {
     return patrolBoat.reach
   }
   get shots() {
-    return { straight: { x: 12, y: 0 } }
+    const ahead = this.reach * .5
+    return { straight: { x: (this.muzzle.x + Math.cos(this.gunYaw) * ahead - this.x) / this.forward,
+      y: 0, z: this.muzzle.z - Math.sin(this.gunYaw) * ahead - this.z } }
   }
   get afloat() {
     return this.dead && this.stateTime < patrolBoat.surface

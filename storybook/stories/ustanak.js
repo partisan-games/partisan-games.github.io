@@ -1,3 +1,4 @@
+import { separateModels } from './catalogEntries.js'
 import FieldGun, * as fieldGunModule from '/core/gameplay/bodies/artillery/FieldGun.js'
 import CannonCrew, * as crewModule from '/core/gameplay/bodies/soldiers/CannonCrew.js'
 import Skirmisher, * as skirmisherModule from '/core/gameplay/bodies/soldiers/Skirmisher.js'
@@ -52,9 +53,11 @@ const game = 'Ustanak'
 
 export const soldiers = [
   { id: 'partizanski-strelac', name: 'Partizanski strelac', game, pxPerMeter, way: 1, block: skirmisherModule, create: skirmisher },
-  { id: 'zastavnik', name: 'Zastavnik', game, pxPerMeter, way: 1, looks: armies('partizanski', 'italijanski'), block: bearerModule, create: bearer },
-  { id: 'posada-topa', name: 'Posada topa', game, pxPerMeter, way: 1, looks: armies('partizanska', 'italijanska'), block: crewModule, create: crew },
-]
+  { id: 'zastavnik', name: 'Zastavnik', game, pxPerMeter, way: 1, looks: armies('partizanski', 'italijanski'), block: bearerModule, create: bearer,
+    modelNames: { partizanski: 'Partizanski zastavnik', italijanski: 'Italijanski zastavnik' } },
+  { id: 'posada-topa', name: 'Posada topa', game, pxPerMeter, way: 1, looks: armies('partizanska', 'italijanska'), block: crewModule, create: crew,
+    modelNames: { partizanska: 'Partizanska posada topa', italijanska: 'Italijanska posada topa' } },
+].flatMap(story => story.looks ? separateModels(story) : [story])
 
 export const artillery = [
   { id: 'ustanak-top', name: 'Schneider 155 L', game, pxPerMeter, way: 1, block: fieldGunModule, create: gun },

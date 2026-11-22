@@ -1,3 +1,4 @@
+import { separateModels } from './catalogEntries.js'
 import Tank, * as tankModule from '/core/gameplay/bodies/vehicles/Tank.js'
 import TankSprite from '/core/actor/vehicles/TankSprite.js'
 import vehicleArt from '/core/actor/vehicleArt.js'
@@ -25,6 +26,8 @@ export const vehicles = [
   { id: 'partizanski-tenk', name: 'Partizanski tenk', game, pxPerMeter, way: 1, block: tankModule,
     create: (stage, way) => tank(stage, way, partisan) },
   { id: 'nemacki-tenk', name: 'Nemački tenk', game, pxPerMeter, way: -1, block: tankModule,
+    modelNames: { standard: 'Nemački tenk' },
+    modelIds: { standard: 'nemacki-tenk', 'm15-42': 'm15-42', 'stug-iii': 'stug-iii', hotchkiss: 'hotchkiss' },
     looks: [germanTank, m15, stug, hotchkiss].map(value => ({ id: value.id, name: value.name, value })),
     create: (stage, way, look = germanTank) => tank(stage, way, look) },
-]
+].flatMap(story => story.looks ? separateModels(story) : [story])

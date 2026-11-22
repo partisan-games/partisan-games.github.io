@@ -18,22 +18,21 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 | 8 | [ARH-02](#arh-02) | Rešiti zadržavanje Ammo heightfield memorije pri ponovnom učitavanju terena | Agent | 📋 TODO |
 | 9 | [ARH-03](#arh-03) | Dovršiti potvrdu prostornog zvuka, miksa i rada na sporom uređaju | Agent | 📋 TODO |
 | | **[Storybook](#storybook)** | | | |
-| 10 | [SB-01](#sb-01) | Uvesti sklopivo stablo grupa, pamćenje otvorenih grupa i pretragu | Codex | 📋 TODO |
-| 11 | [SB-02](#sb-02) | Razdvojiti različite tipove, modele i uloge aktera u zasebne stavke kataloga | Codex | 📋 TODO |
-| 12 | [SB-03](#sb-03) | Pripremiti pregled topa kroz Ammo pozornicu pri radu na njegovom nivou | Agent | 📋 TODO |
+| 10 | [SB-03](#sb-03) | Pripremiti pregled topa kroz Ammo pozornicu pri radu na njegovom nivou | Agent | 📋 TODO |
+| 11 | [SB-04](#sb-04) | Otkloniti postojeća upozorenja 3D pešadije i njen zavisan uvoz iz scene | Agent | 📋 TODO |
 | | **[UI](#ui)** | | | |
-| 13 | [UI-01](#ui-01) | Proveriti preostale izbore početka, greške naplate/povraćaja i fizički touch | Agent | 📋 TODO |
+| 12 | [UI-01](#ui-01) | Proveriti preostale izbore početka, greške naplate/povraćaja i fizički touch | Agent | 📋 TODO |
 | | **[Igre i ideje](#igre)** | | | |
-| 14 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [2](#note-2) |
-| 15 | [IG-17](#ig-17) | Razrađivati postojeće nivoe redom | Vlasnik, Agent | 📋 TODO |
-| 16 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
-| 17 | [IG-19](#ig-19) | Dogovoriti nazive nivoa i prikaz žanra i godine na naslovnoj | Vlasnik | 📋 TODO |
-| 18 | [IG-20](#ig-20) | Razmotriti nivo odbrane položaja odozgo, sa napadima sa svih strana | Vlasnik | 📋 TODO |
-| 19 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
-| 20 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
-| 21 | [IG-23](#ig-23) | Proveriti dostižnost novčića i pokretne platforme u Avataru | Agent | 📋 TODO |
-| 22 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
-| 23 | [HIS-01](#his-01) | Razjasniti nepotvrđene istorijske tvrdnje izabranih nivoa | Agent, Vlasnik | 📋 TODO |
+| 13 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [2](#note-2) |
+| 14 | [IG-17](#ig-17) | Razrađivati postojeće nivoe redom | Vlasnik, Agent | 📋 TODO |
+| 15 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
+| 16 | [IG-19](#ig-19) | Dogovoriti nazive nivoa i prikaz žanra i godine na naslovnoj | Vlasnik | 📋 TODO |
+| 17 | [IG-20](#ig-20) | Razmotriti nivo odbrane položaja odozgo, sa napadima sa svih strana | Vlasnik | 📋 TODO |
+| 18 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
+| 19 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
+| 20 | [IG-23](#ig-23) | Proveriti dostižnost novčića i pokretne platforme u Avataru | Agent | 📋 TODO |
+| 21 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
+| 22 | [HIS-01](#his-01) | Razjasniti nepotvrđene istorijske tvrdnje izabranih nivoa | Agent, Vlasnik | 📋 TODO |
 
 ## Održavanje plana
 
@@ -139,20 +138,15 @@ Provere se pokreću u dozvoljenom obimu prema [DOCS](DOCS.md); ovaj plan ne daje
 
 ## Storybook
 
-<a id="sb-01"></a>
-### SB-01 · Sklopivo stablo i pretraga
-
-Dogovoreno je stablo **2D / 3D → vrsta aktera → podvrsta**, na primer 3D → Vojnici → Italijanski. Sve grupe su sklopive i pamte stanje; pretraga po nazivu pronalazi aktera i otvara put do njega. Sačuvati direktne adrese, izbor strane/izgleda, Reset, rad tastaturom i pregled na uskom ekranu. Implementacija još nije počela.
-
-<a id="sb-02"></a>
-### SB-02 · Stavke kataloga
-
-Uskladiti postojeće priče sa [pravilima kataloga](STORYBOOK.md#stavke-kataloga-i-varijante): različiti tipovi i modeli plovila, tenkova i 3D aviona dobijaju zasebne stavke, kao i različit identitet/borbena uloga vojnika. Skinovi ostaju u okviru istog aktera. Zajednički kod i model mogu se i dalje deliti. Proveriti sve postojeće `looks`, sačuvati korisne stare direktne adrese kao preusmerenja i obuhvatiti varijante proverom kataloga, jer provera samo klasa ne dokazuje potpunost.
-
 <a id="sb-03"></a>
 ### SB-03 · Ammo akteri
 
 Pri sređivanju nivoa pripremiti samostalan pregled njegovog topa i potrebnog fizičkog sveta. Sadašnja 3D pozornica nema Ammo; ne prikazivati nepostojeću sposobnost lažnom animacijom niti tvrditi da je postojeći katalog time potpun.
+
+<a id="sb-04"></a>
+### SB-04 · 3D pešadija
+
+Stari i novi ulaz za italijanskog mitraljesca prikazuju figuru, ali prijavljuju nedostajuću `weapon/machine-gun/default-grey.jpg` i dva dodavanja `undefined` u Three.js. Provereno na istom ulazu pre i posle razdvajanja kataloga. Postojeći uvoz `surrenderPose` iz scene u priču krši ESLint granicu biblioteke; ukloniti zavisnost pri sređivanju predaje pešadije, uz proveru oba potrošača.
 
 ## UI
 
