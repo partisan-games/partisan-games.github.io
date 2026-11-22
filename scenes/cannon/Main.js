@@ -11,7 +11,8 @@ import PowerMeter from '/ui/PowerMeter.js'
 import { requestModels } from '/core3d/assets/models.js'
 import { keys } from '/core/io/keys.js'
 import { bankHeight, buildCanyon } from './Canyon.js'
-import { buildFort, standing } from './Fort.js'
+import { buildFort } from './Fort.js'
+import { clearFortPath } from './fortPath.js'
 import FortPhysics from './FortPhysics.js'
 import SceneryPhysics from './SceneryPhysics.js'
 import Garrison from './Garrison.js'
@@ -19,7 +20,8 @@ import FortFlag from './FortFlag.js'
 import Blasts from './Blasts.js'
 import Shell from './Shell.js'
 import SmokeTrail from './SmokeTrail.js'
-import Gunner, { gunner } from './Gunner.js'
+import Defenders, { defenderModels } from './Defenders.js'
+import { gunner } from './Gunner.js'
 import Crew, { memberHealth, stations } from './Crew.js'
 import Infantry from './Infantry.js'
 import { infantryModels } from '/core3d/actor/derived/ww2/partisanLooks.js'
@@ -32,8 +34,6 @@ const fortFront = -13
 const barrels = [[-5.5, fortFront + 1.2], [-4.8, fortFront + 1.6], [4.6, fortFront + 1.4]]
 /** How far a shell's blast reaches, in metres, and how hard it throws what stands at its heart, in newton-seconds. */
 const blast = { radius: 1.3, strength: 8 }
-/** A shell passing this close to a gun mount is a direct hit. */
-const gunHitRadius = .28
 /** Machine-gun fire remains forceful across the short battlefield. */
 const enemyBurstProfile = {
   nearDistance: 8, fadeStart: 35, maxDistance: 50, farCutoff: 900,
@@ -63,7 +63,7 @@ export default class CannonScene extends Scene3D {
   }
 
   async init() {
-    await requestModels([...new Set([...cannonModels, ...stations.map(station => station.model), ...infantryModels])])
+    await requestModels([...new Set([...cannonModels, ...stations.map(station => station.model), ...infantryModels, ...defenderModels])])
     // the keyboard also tracks a held pointer, which charges the shot on touch screens too
     // it faces the fort, down -z
     const { body, model, keys, chase } = leadCharacter(this, cannon, { yaw: Math.PI / 2, health: stations.length * memberHealth, input: { useKeyboard: true },
@@ -83,7 +83,7 @@ export default class CannonScene extends Scene3D {
     const sight = model.mesh.worldToLocal(this.barrel.getWorldPosition(new THREE.Vector3()))
     this.aimCamera.offset[0] = this.aimCamera.lookAt[0] = sight.x
     this.aimCamera.height = sight.y + .95
-    this.aimCamera.distance = sight.z + 2.5
+    this.aimCamera.distance = sight.z + 4.2
     chase.update(0)
     this.crew = new Crew(model.mesh, this.scene)
     this.crewMeter = chase.view.healthBar
@@ -119,11 +119,12 @@ export default class CannonScene extends Scene3D {
 
     const fort = buildFort({ front: fortFront, base: bankHeight(0, fortFront) })
     this.stones = fort.parts
-    this.posts = fort.slits.map(slit => ({ ...slit, gunner: new Gunner() }))
+    this.fortFront = fortFront
+    this.defenders = new Defenders(this.scene, this.physics, fort.slits, fortFront, this.stones)
+    this.posts = this.defenders.posts
     this.infantry = new Infantry(this.scene, this.session.scope, this.posts, this.scenery)
     this.fortPhysics = new FortPhysics({ parts: this.stones, physics: this.physics })
-    this.standing = this.stones.length
-    this.garrison = new Garrison()
+    this.garrison = new Garrison(this.defenders.living)
     this.barrels = barrels.map(([x, z]) => createMetalBarrel({ r: .3, height: .9, translateHeight: false,
       pos: { x, y: bankHeight(x, z) + .45, z } }))
     this.barrels.forEach(mesh => this.scenery.add(mesh, 12))
@@ -140,6 +141,7 @@ export default class CannonScene extends Scene3D {
     this.session.scope.add(() => this.tracers.end())
     this.impacts = []
     this.shells = []
+    this.queuedShot = false
   }
 
   handleClick(e) {
@@ -153,12 +155,17 @@ export default class CannonScene extends Scene3D {
   /** A click or a released Space fires the charged shot while the game runs. */
   fire() {
     if (!this.gameLoop.isRunning || this.session.state !== 'running' || this.ui.screen || this.ui.outro || this.player.dead) return
+    if (!this.crew.ready) {
+      this.queuedShot = true
+      return
+    }
+    this.queuedShot = false
     this.shoot()
   }
 
   /** A shell flies from the muzzle the way the barrel points, as hard as the power charged. */
   shoot() {
-    if (this.surrender.pending || this.player.dead) return
+    if (this.surrender.ceasefire || this.player.dead || !this.crew.ready) return
     const { physics } = this
     this.cannon.audioScene?.output.preload('explosion.mp3')
     const ball = createSphere({ r: .12 })
@@ -172,7 +179,7 @@ export default class CannonScene extends Scene3D {
     this.shotPoint = ball.position.clone()
     this.shotSound.play()
     this.crew.fired()
-    physics.contacts.once(ball.userData.body, point => this.impacts.push({ ball, point }))
+    physics.contacts.once(ball.userData.body, (point, other) => this.impacts.push({ ball, point, other }))
     way.multiplyScalar(this.power.value)
     const velocity = new Ammo.btVector3(way.x, way.y, way.z)
     ball.userData.body.setLinearVelocity(velocity) // the body copies it
@@ -186,6 +193,7 @@ export default class CannonScene extends Scene3D {
   /** The shell bursts where it strikes and throws the stones and barrels near the burst away from it. */
   explode(point) {
     const heart = new THREE.Vector3(point.x, point.y, point.z)
+    if (!this.surrender.accepted) this.defenders.blast(heart, blast.radius, [...this.fortPhysics.fixed])
     this.blasts.add(heart, 3)
     this.scorches.add(heart, this.stones)
     this.cannon.audioScene?.emit('explosion.mp3', { profile: 'explosion', spatial: { position: heart } })
@@ -210,25 +218,11 @@ export default class CannonScene extends Scene3D {
     this.shells.splice(this.shells.indexOf(shell), 1)
   }
 
-  /** A round through a firing slit can strike the gun itself before reaching the rear wall. */
-  directGunHits() {
-    const path = new THREE.Line3()
-    const closest = new THREE.Vector3()
-    for (const shell of [...this.shells]) {
-      path.set(shell.previous, shell.mesh.position)
-      const post = this.posts.find(candidate => path.closestPointToPoint(candidate.position, true, closest)
-        .distanceTo(candidate.position) <= gunHitRadius)
-      if (!post) continue
-      this.posts.splice(this.posts.indexOf(post), 1)
-      this.impacts = this.impacts.filter(impact => impact.ball !== shell.ball)
-      this.detonate(shell, post.position)
-    }
-  }
-
   /** Each surviving machine gun fires from its post. */
   fireBack(dt) {
     const { player } = this
     for (const post of this.posts) {
+      if (post.destination) continue
       const burst = post.gunner.update(dt, player.alive)
       if (!burst) continue
       const member = burst.hit ? this.crew.pickTarget() : null
@@ -238,9 +232,11 @@ export default class CannonScene extends Scene3D {
       const target = chest
         ? chest.getWorldPosition(new THREE.Vector3())
         : new THREE.Vector3(player.x + THREE.MathUtils.randFloatSpread(2 * missBy), 0, player.z + THREE.MathUtils.randFloatSpread(2 * missBy))
-      this.tracers.burst(post.position, target)
+      const grip = post.fighter.gun.grip.rifle.getWorldPosition(new THREE.Vector3())
+      if (!clearFortPath(grip, post.position, this.stones) || !clearFortPath(post.position, target, this.stones)) continue
+      this.tracers.burst(post.position, target, post.rounds === 1 ? 1 : undefined)
       ally?.fall()
-      this.cannon.audioScene?.emit('rafal.mp3', { profile: enemyBurstProfile, spatial: { position: post.position } })
+      this.cannon.audioScene?.emit(post.rounds === 1 ? 'rifle.mp3' : 'rafal.mp3', { profile: enemyBurstProfile, spatial: { position: post.position } })
       if (member) {
         const damage = Math.min(member.health.current, gunner.damage)
         this.crew.hit(member, damage, this.scene)
@@ -262,6 +258,7 @@ export default class CannonScene extends Scene3D {
 
   update(dt, t) {
     if (this.surrender.pending) return
+    if (this.surrender.ceasefire) this.queuedShot = false
     this.player.look(0, aimRate * dt * ((this.input.up ? 1 : 0) - (this.input.down ? 1 : 0)))
     if (this.aimCamera) this.aimCamera.lookAt[1] = cameraAimHeight(this.player)
     super.update(dt, t)
@@ -271,47 +268,43 @@ export default class CannonScene extends Scene3D {
     if (this.input.pressed.pointer || spaceHeld) this.power.charge(dt)
     if (this.spaceHeld && !spaceHeld) this.fire()
     this.spaceHeld = spaceHeld
-    this.crew.update(dt, (this.power.value - this.power.min) / (this.power.max - this.power.min))
+    this.crew.update(dt, (this.power.value - this.power.min) / (this.power.max - this.power.min),
+      this.input.pressed.pointer || spaceHeld || this.queuedShot)
+    if (this.queuedShot && this.crew.ready) this.fire()
 
     this.physics.update(dt)
     this.scenery.sync()
     this.shells.forEach(shell => shell.update())
-    this.directGunHits()
     // Body reinsertion must wait until native contact dispatch has finished.
-    this.impacts.splice(0).forEach(({ ball, point }) => {
+    this.impacts.splice(0).forEach(({ ball, point, other }) => {
       const shell = this.shells.find(flying => flying.ball === ball)
-      if (shell) this.detonate(shell, point)
+      if (!shell) return
+      if (!this.surrender.accepted) this.defenders.hit(other)
+      this.detonate(shell, point)
     })
     this.smoke.update(dt)
     this.blasts.update()
-    this.standing = standing(this.stones)
-    // Knock out a gun once its slit is breached and at least 60% of its section is down.
-    for (let i = this.posts.length - 1; i >= 0; i--) {
-      const { frame, section } = this.posts[i]
-      if (standing(frame) < frame.length / 2 && standing(section) <= section.length * .4)
-        this.posts.splice(i, 1)
-    }
+    this.defenders.update(dt)
+    if (this.surrender.accepted && this.defenders.prisonersReady)
+      return this.victory('The garrison has surrendered.', 'Bravo!')
+    if (!this.defenders.living) return this.victory('The garrison has been defeated.', 'Bravo!')
+    this.flag.update(dt)
     this.surrender.update()
-    if (this.posts.length) {
-      const shooter = this.crew.shooter
+    if (this.surrender.pending) return
+    if (!this.surrender.ceasefire && this.posts.length) {
+      const { shooter } = this.crew
       const shot = shooter.health.alive && shooter.rifleman.update(dt, shooter.mesh, this.posts)
       if (shot) {
         this.cannon.audioScene?.emit('rifle.mp3', { profile: 'rifle', spatial: { position: shot.from } })
         shot.post.gunner.wait = Math.max(shot.post.gunner.wait, .7)
       }
     }
-    this.infantry.update(dt, this.cannon.audioScene)
-    this.fireBack(dt)
+    if (!this.surrender.ceasefire) {
+      this.infantry.update(dt, this.cannon.audioScene)
+      this.fireBack(dt)
+    }
     this.tracers.update(dt)
 
     if (this.player.dead) this.defeat('Your gun crew has been killed.')
-    else if (!this.standing)
-      this.victory('The fort lies in ruins.', 'Bravo!')
-  }
-
-  sceneUI() {
-    const rejected = this.surrender.rejected
-    return this.ui.scoreUI(rejected ? 'Fort pieces left' : 'Machine guns left',
-      rejected ? this.standing : this.posts.length, '', 0, '', 'top-right cannon-score')
   }
 }

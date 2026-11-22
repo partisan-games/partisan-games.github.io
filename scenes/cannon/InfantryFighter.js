@@ -3,29 +3,24 @@ import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js'
 import { makeCharacterBody } from '/core3d/actor/characters/makeCharacter.js'
 import dressFighter from '/core3d/actor/characters/dressFighter.js'
 import { loadedModel } from '/core3d/assets/models.js'
-import { description as basePartisan } from '/core3d/actor/derived/ww2/Partisan.js'
-import { regular, riflemanModel } from '/core3d/actor/derived/ww2/partisanLooks.js'
+import { infantryBody, regular, riflemanModel } from '/core3d/actor/derived/ww2/partisanLooks.js'
 import Rifleman from './Rifleman.js'
+import { poseSurrender, surrenderArms } from './surrenderPose.js'
 
 function compatibleClip(clip, figure) {
   const tracks = clip.tracks.filter(track => figure.getObjectByName(track.name.split('.')[0]))
   return new THREE.AnimationClip(clip.name, clip.duration, tracks)
 }
 
-export default function makeCannonPartisan(look, posts, textures) {
-  const mesh = loadedModel(look.model)
-  const body = makeCharacterBody(mesh, basePartisan.animDict, basePartisan.body)
-  return new CannonPartisan(body, mesh, look, posts, textures)
-}
-
-class CannonPartisan {
-  constructor(body, source, { weapon, outfit, hatColor, stature = 1 }, posts, textures) {
+class InfantryFighter {
+  constructor(body, source, { weapon, outfit, hatColor, equip, stature = 1 }, posts, textures) {
     this.body = body
     this.mesh = new THREE.Group()
     this.figure = clone(source)
     dressFighter(this.figure, outfit, textures, hatColor)
     this.figure.scale.multiplyScalar(stature)
     this.mesh.add(this.figure)
+    equip?.(this.figure)
     const clips = loadedModel(riflemanModel).userData.animations
     const action = weapon.rounds > 1 ? 'burst' : 'fire'
     const clip = compatibleClip(clips.find(item => item.name === riflemanModel.animDict[action]), this.figure)
@@ -33,12 +28,17 @@ class CannonPartisan {
     const death = clips.find(item => item.name === 'Crouch Death')
       ?? loadedModel(regular).userData.animations.find(item => item.name === regular.animDict.death)
     this.deathClip = compatibleClip(death, this.figure)
+    const walk = loadedModel(regular).userData.animations.find(item => item.name === 'Rifle Walk')
+    this.walkClip = compatibleClip(walk, this.figure)
     this.rounds = weapon.rounds
     this.posts = posts
     this.chest = this.figure.getObjectByName('mixamorigSpine2')
+    this.arms = surrenderArms(this.figure)
   }
 
-  get alive() { return this.body.alive }
+  get alive() {
+    return this.body.alive
+  }
 
   place(position, groundHeight, index = 0) {
     this.mesh.position.copy(position)
@@ -67,6 +67,18 @@ class CannonPartisan {
     this.falling.play()
   }
 
+  surrender() {
+    this.gun.mixer.stopAllAction()
+    this.gun.grip.rifle.removeFromParent()
+    this.surrenderWalk = this.gun.mixer.clipAction(this.walkClip).reset().play()
+  }
+
+  updateSurrender(dt, moving) {
+    this.surrenderWalk.paused = !moving
+    this.gun.mixer.update(dt)
+    poseSurrender(this.figure, this.mesh, this.arms)
+  }
+
   update(dt) {
     if (this.alive) return this.gun.update(dt, this.mesh, this.posts)
     if (!this.falling) return
@@ -77,4 +89,10 @@ class CannonPartisan {
       this.falling = null
     }
   }
+}
+
+export default function makeInfantryFighter(look, posts, textures) {
+  const mesh = loadedModel(look.model)
+  const body = makeCharacterBody(mesh, infantryBody.animDict, infantryBody.body)
+  return new InfantryFighter(body, mesh, look, posts, textures)
 }

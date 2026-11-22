@@ -27,14 +27,14 @@ function cartridge() {
 }
 
 const up = new THREE.Vector3(0, 1, 0)
-const reloadTime = 1.25
+const reload = { align: .25, insert: .48, total: .75 }
 const roundBase = -.18, roundTip = .193
 function loadRound(member, elevation, dt) {
   const { mesh, pose, round } = member
-  member.reload = Math.min(reloadTime, member.reload + dt)
-  const align = THREE.MathUtils.smoothstep(member.reload, 0, .65)
-  const insert = THREE.MathUtils.smoothstep(member.reload, .65, .97)
-  const withdraw = THREE.MathUtils.smoothstep(member.reload, .97, reloadTime)
+  member.reload = Math.min(reload.total, member.reload + dt)
+  const align = THREE.MathUtils.smoothstep(member.reload, 0, reload.align)
+  const insert = THREE.MathUtils.smoothstep(member.reload, reload.align, reload.insert)
+  const withdraw = THREE.MathUtils.smoothstep(member.reload, reload.insert, reload.total)
   pose.blend(align * (1 - withdraw), 0)
   round.visible = insert < 1
   if (withdraw === 1) return
@@ -94,6 +94,10 @@ export default class Crew {
     this.lastCharge = this.lastRecoil = 0
   }
 
+  get ready() {
+    return this.loader.health.alive && this.loader.reload === reload.total && !this.loader.needsRound
+  }
+
   fired() {
     this.recoil = 1
     this.loader.needsRound = true
@@ -132,18 +136,18 @@ export default class Crew {
     member.fallMixer = null
   }
 
-  update(dt, charge) {
+  update(dt, charge, loading = false) {
     this.recoil = Math.max(0, this.recoil - dt * 4)
     for (const member of this.members) {
       if (member.fallMixer) {
         member.fallMixer.update(dt)
         if (member.fallMixer.time >= this.deathClip.duration) this.finishFall(member)
       } else if (member.health.alive && member.round) {
-        if (member.reload === reloadTime && member.needsRound) {
+        if (loading && member.reload === reload.total && member.needsRound) {
           member.reload = 0
           member.needsRound = false
         }
-        if (member.reload < reloadTime) loadRound(member, this.elevation, dt)
+        if (loading && member.reload < reload.total) loadRound(member, this.elevation, dt)
       } else if (member.health.alive && !member.rifleman && (this.recoil !== this.lastRecoil || charge !== this.lastCharge)) {
         member.pose.blend(charge, this.recoil)
       }

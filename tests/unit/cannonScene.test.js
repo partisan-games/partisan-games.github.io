@@ -30,6 +30,7 @@ async function level(t) {
   })
   const game = Object.assign(Object.create(CannonScene.prototype), {
     scene: new THREE.Scene(), camera: new THREE.PerspectiveCamera(75, 16 / 9, .1, 1000),
+    canvas: document.getElementById('platno'),
     session: new GameSession(), gameLoop: new GameLoop(() => {}), world: new World(), syncSounds() {},
   })
   game.ui = new UI(game, { showControls: false })
@@ -55,7 +56,26 @@ function play(game, seconds) {
   }
 }
 
-test('Cannon initializes its actual model and puts the camera close to the barrel regardless of a saved orbital view', async t => {
+test('after a refused surrender only the death of the last defender ends combat', async t => {
+  const game = await level(t)
+  const { defenders } = game
+  assert.equal(defenders.posts.filter(post => post.slit).length, 4)
+  const soldiers = [...defenders.posts]
+  for (const soldier of soldiers.slice(1, 7)) defenders.kill(soldier)
+  game.update(0, 0)
+  play(game, 3.5)
+  assert.equal(game.surrender.pending, true)
+  game.surrender.resolve(false)
+  for (const soldier of soldiers.slice(7)) defenders.kill(soldier)
+  game.update(0, 0)
+  assert.equal(game.session.state, 'running')
+  defenders.kill(soldiers[0])
+  t.mock.method(game.ui.victorySound, 'play', () => {})
+  game.update(0, 0)
+  assert.equal(game.session.state, 'finished')
+})
+
+test('Battle for Jablanica initializes its actual model and puts the camera close to the barrel regardless of a saved orbital view', async t => {
   const saved = localStorage.getItem('cameraIndex')
   localStorage.setItem('cameraIndex', '2')
   t.after(() => saved === null ? localStorage.removeItem('cameraIndex') : localStorage.setItem('cameraIndex', saved))
@@ -67,11 +87,14 @@ test('Cannon initializes its actual model and puts the camera close to the barre
   assert.ok(game.camera.getWorldDirection(new THREE.Vector3()).distanceTo(introDirection) < 1e-5)
   const breech = game.barrel.getWorldPosition(new THREE.Vector3())
   const cameraDistance = game.camera.position.distanceTo(breech)
-  assert.ok(cameraDistance > 2 && cameraDistance < 3)
+  assert.ok(cameraDistance > 3.7 && cameraDistance < 4.7)
   assert.ok(game.camera.fov >= 60 && game.camera.fov < 70)
   assert.equal(localStorage.getItem('cameraIndex'), '2', 'other games retain the saved camera choice')
   const initial = game.camera.getWorldDirection(new THREE.Vector3())
   assert.ok(initial.z < -.98 && Math.abs(initial.x) < .01)
+  game.shoot()
+  assert.equal(game.shells.length, 0, 'the gun cannot fire before the loader finishes')
+  game.input.keyboard.pressed.Space = true
   const initialMuzzle = game.muzzle.getWorldPosition(new THREE.Vector3())
   game.input.keyboard.up = true
   play(game, .6)
@@ -80,6 +103,8 @@ test('Cannon initializes its actual model and puts the camera close to the barre
   assert.ok(game.camera.getWorldDirection(new THREE.Vector3()).y > initial.y)
   assert.ok(game.muzzle.getWorldPosition(new THREE.Vector3()).y > initialMuzzle.y)
   assert.ok(game.muzzle.getWorldDirection(new THREE.Vector3()).y > .3, 'the barrel can rise above the terrace roofline')
+  play(game, .4)
+  game.input.keyboard.pressed.Space = false
 
   // Read the front ring from the visible tube independently of the Muzzle marker.
   const tube = game.barrel.getObjectByName('Barrel')
@@ -97,15 +122,29 @@ test('Cannon initializes its actual model and puts the camera close to the barre
   assert.ok(shell.mesh.position.distanceTo(opening) < 1e-5)
   assert.ok(shell.way.dot(bore) > .99999)
   assert.ok(Math.abs(shell.mesh.scale.x * .078 - innerRadius) < 1e-5)
-  const round = game.crew.loader.round
-  game.crew.update(.65, 0)
+  const { round } = game.crew.loader
+  game.crew.update(.22, 0, true)
   assert.ok(round.visible)
   const loadingTip = round.localToWorld(new THREE.Vector3(0, .193, 0))
   assert.ok(loadingTip.distanceTo(game.barrel.localToWorld(new THREE.Vector3(0, 0, .47))) < 1e-5)
   game.input.keyboard.pressed.ArrowDown = true
+  game.crew.update(.25, 0, true)
   play(game, .7)
   assert.equal(round.visible, false, 'the loaded round has disappeared inside the gun')
   assert.ok(game.muzzle.getWorldPosition(new THREE.Vector3()).y < initialMuzzle.y)
+})
+
+test('releasing fire early lets the loader finish and fires the queued shot', async t => {
+  const game = await level(t)
+  game.input.keyboard.pressed.Space = true
+  play(game, .2)
+  game.input.keyboard.pressed.Space = false
+  play(game, .05)
+  assert.equal(game.queuedShot, true)
+  assert.equal(game.shells.length, 0)
+  play(game, .5)
+  assert.equal(game.queuedShot, false)
+  assert.equal(game.shells.length, 1)
 })
 
 test('three hits leave the real fort motionless while all surviving machine guns keep firing', async t => {
@@ -118,7 +157,7 @@ test('three hits leave the real fort motionless while all surviving machine guns
   for (let shot = 0; shot < 3; shot++) {
     game.explode(point)
     play(game, 2)
-    assert.equal(game.standing, game.stones.length)
+    assert.ok(game.stones.every(stone => stone.position.distanceTo(stone.userData.home) < .5))
     assert.equal(game.fortPhysics.fixed.size, game.stones.length)
   }
   assert.ok(crewHealth() < health, 'the garrison keeps hitting the crew during the opening shots')
@@ -131,8 +170,9 @@ test('three hits leave the real fort motionless while all surviving machine guns
 
 test('the surviving crew member can fire and losing the last one ends the battle', async t => {
   const game = await level(t)
+  game.crew.update(.65, 0, true)
   t.mock.method(game.ui.defeatSound, 'play', () => {})
-  game.posts.length = 1
+  for (const post of game.posts.slice(1)) post.gunner.wait = Infinity
   t.mock.method(game.posts[0].gunner, 'update', () => ({ hit: true }))
   const [first, second, rifleman] = game.crew.members
   t.mock.method(game.crew, 'pickTarget', () => game.crew.members.find(member => member.health.alive))

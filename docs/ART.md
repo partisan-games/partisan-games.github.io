@@ -461,7 +461,7 @@ Svaki link otvara raspored koji koristi igra. Alat učitava postavke tog bojišt
 
 Svih deset rasporeda čeka vlasnikov vizuelni pregled. [Zapis provere u igri](TESTING.md#art-verification-record).
 
-## Cannon: kanjon Neretve
+## Battle for Jablanica: kanjon Neretve
 
 Top i kasarna su na istoj obali. Od topa vodi blag uspon do ravnog dvorišta, iza kojeg se teren spušta prema Neretvi. Visina zaravni je procena za scenu. U opisu borbe posebno se pominju kasarna i tvrđava iznad grada. [Artiljerija u NOR-u](https://www.vojnodelo.mod.gov.rs/multimedia/file/vojna_biblioteka/vbnp-29-1962.pdf)
 
@@ -469,4 +469,4 @@ Na početku borbe levo pored ogoljenog drveta stoji zaseban nizak, okrugao bunke
 
 [Kanjon](../scenes/cannon/Canyon.js) sada čine stvarne 3D krečnjačke litice, udaljeni greben, kamenite obale, hladna reka, retko zimsko šiblje i niska bodljikava žica ispred utvrđenja. Pravac su postojeći Minas Tirith i Ruins: usklađena paleta kamena, bočno sunce, meka ispuna i dubina kroz maglu. Stara slikana pozadina nije više isečena na zidove. U središtu ostaje otvoren pogled sa cevi ka puškarnicama. Kamenje i trupci dele geometriju za iscrtavanje, a svaki ima svoje pokretno fizičko telo.
 
-Zidovi kasarne i [bunkera](../scenes/cannon/Fort.js) u igri su od sivih betonskih blokova sa blago različitim tonovima i tamnijim krovnim pločama. Kamera prati oslonac cevi novog [poljskog topa](../assets/models/weapon/cannon/field-gun-75.glb). [Obim provera](TESTING.md#cannon-nivo-i-nišanjenje) razdvaja statički pregled geometrije od izgleda u stvarnoj igri.
+Zidovi kasarne i [bunkera](../scenes/cannon/Fort.js) u igri su od sivih betonskih blokova sa blago različitim tonovima i tamnijim krovnim pločama. Kamera prati oslonac cevi novog [poljskog topa](../assets/models/weapon/cannon/field-gun-75.glb). [Obim provera](TESTING.md#battle-for-jablanica-nivo-i-nišanjenje) razdvaja statički pregled geometrije od izgleda u stvarnoj igri.

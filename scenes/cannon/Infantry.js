@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { createTexture } from '/core3d/helpers.js'
 import { bankHeight } from './Canyon.js'
 import { variants } from '/core3d/actor/derived/ww2/partisanLooks.js'
-import makeCannonPartisan from './CannonPartisan.js'
+import makeInfantryFighter from './InfantryFighter.js'
 
 const gunfireProfile = {
   nearDistance: 4, fadeStart: 25, maxDistance: 40, farCutoff: 1100,
@@ -65,7 +65,7 @@ export default class Infantry {
         return new THREE.Vector3(px, bankHeight(px, pz), pz)
       }
       const piece = new THREE.Object3D()
-      if (cover === 'logs') {
+      if (cover === 'logs')
         for (let row = 0; row < 3; row++) {
           piece.position.copy(location(.06 * (row - 1), .56 + .07 * row))
           piece.position.y += .15 + row * .29
@@ -74,8 +74,8 @@ export default class Infantry {
           piece.updateMatrix()
           logs.push(piece.matrix.clone())
         }
-      } else {
-        for (let row = 0; row < 2; row++) {
+      else
+        for (let row = 0; row < 2; row++)
           for (let j = 0; j < 5 - row; j++) {
             piece.position.copy(location((j - 2 + row / 2) * .53, .68 + .07 * Math.sin(j)))
             piece.position.y += .21 + row * .34
@@ -84,10 +84,9 @@ export default class Infantry {
             piece.updateMatrix()
             stones.push(piece.matrix.clone())
           }
-        }
-      }
+
       for (const [j, look] of fighters.entries()) {
-        const fighter = makeCannonPartisan(look, posts, textures)
+        const fighter = makeInfantryFighter(look, posts, textures)
         scene.add(fighter.mesh)
         const across = fighters.length === 2 ? (j ? .64 : -.64) : (j - 1) * .78
         fighter.place(location(across, j % 2 ? -.12 : 0), bankHeight, this.fighters.length)

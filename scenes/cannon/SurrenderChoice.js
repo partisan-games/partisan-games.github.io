@@ -15,16 +15,25 @@ export default class SurrenderChoice {
     return this.answer === 'destroy'
   }
 
+  get accepted() {
+    return this.answer === 'accepted'
+  }
+
+  get ceasefire() {
+    return this.scene.garrison.surrendered && !this.rejected
+  }
+
   update() {
     const { scene } = this
-    if (scene.garrison.update(scene.posts.length)) scene.flag.surrender()
+    if (!scene.defenders.living) return
+    if (scene.garrison.update(scene.defenders.living)) scene.flag.surrender()
     // A regular pause can coincide with the surrender; offer it after play resumes.
-    if (scene.garrison.surrendered) this.offer()
+    if (scene.garrison.surrendered && scene.flag.whiteRaised) this.offer()
   }
 
   offer() {
     const { scene } = this
-    if (this.answer || scene.ui.outro || scene.session.state !== 'running' || scene.player.dead || !scene.standing) return
+    if (this.answer || scene.ui.outro || scene.session.state !== 'running' || scene.player.dead || !scene.defenders.living) return
     this.answer = 'pending'
     scene.spaceHeld = false
     scene.power.reset()
@@ -54,7 +63,7 @@ export default class SurrenderChoice {
     this.answer = accept ? 'accepted' : 'destroy'
     scene.spaceHeld = false
     scene.power.reset()
+    if (accept) scene.defenders.surrender(scene.fortFront)
     scene.unpause()
-    if (accept) scene.victory('The garrison has surrendered.', 'Bravo!')
   }
 }

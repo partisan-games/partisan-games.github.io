@@ -56,6 +56,8 @@ Osoba koja vodi projekat i daje naloge agentu u dokumentaciji se naziva vlasnik 
 
 Glavni principi: **bez dupliranja informacija** i **bez podataka koji brzo zastarevaju promenom koda i zahtevaju često ručno ažuriranje**.
 
+Kanonsko javno ime igre čita se iz njene kartice u [glavnom indeksu](../index.html). Tehnički ID, folder i naziv klase mogu ostati stariji i kraći radi stabilnih adresa; ne koristiti ih kao ime igre u kontekstu, istoriji, planu, Storybook-u ili naslovima provera. Pre preimenovanja razlikovati javni naziv od tehničkih pojmova koji zaista označavaju predmet ili klasu, kao `Cannon.js` za model topa.
+
 Jedna činjenica ili odluka ima jedno autoritativno mesto; ostali dokumenti vode link do njega. Dokumentujemo trajne odluke, razloge, ograničenja i istorijske izvore. Ne prepričavamo implementaciju: spiskovi klasa i metoda, potpisi API-ja, brojevi igara i testova i slični promenljivi podaci ostaju u kodu i alatima koji ih već prikazuju. Pišemo po temi, bez dnevnika završenih koraka i kopiranja celih planova.
 
 Zapis čuvamo samo ako daje trajno znanje koje nije već dostupno na drugom mestu. Uz odluku navesti razlog i bitno ograničenje; uz istorijsku tvrdnju izvor i kontekst. Ako je merenje neophodno za razumevanje ograničenja, povezati dokaz sa datumom/revizijom, bez održavanja prepisa rezultata. Predloge i otvoren posao voditi u postojećem TODO-u ili povezanom planu, a ne kao važeću arhitekturu.

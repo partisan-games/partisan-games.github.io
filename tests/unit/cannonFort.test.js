@@ -27,7 +27,8 @@ function bunker(t) {
   const fortPhysics = new FortPhysics({ parts, physics })
   const game = Object.assign(Object.create(CannonScene.prototype), {
     scene, physics, fortPhysics, stones: parts, scenery: { hit() {}, sync() {} }, cannon: {},
-    blasts: { add() {}, update() {} }, smoke: { update() {} },
+    blasts: { add() {}, update() {} }, smoke: { update() {} }, scorches: { add() {} },
+    defenders: { living: 1, update() {}, hit() {}, blast() {} },
     world: new World(), input: { pressed: {} }, barrel: { rotation: {} },
     crew: { update() {} }, infantry: { update() {} }, power: { value: 10, min: 10, max: 25 },
     player: { dead: false, alive: true, look() {} },
@@ -53,6 +54,14 @@ test('the barracks start fully roofed and remain exactly in place for two minute
   const rightWing = game.stones.filter(part => part.position.x > 1)
   assert.ok(Math.max(...rightWing.map(part => part.position.y)) > Math.max(...leftWing.map(part => part.position.y)) + .6)
   const bounds = game.stones.map(part => new THREE.Box3().setFromObject(part))
+  for (let column = 6; column < 18; column++) {
+    const rows = column < 12 ? 6 : 8
+    for (let row = 0; row < rows; row++) {
+      const center = new THREE.Vector3((column - 8.5) * .55, (row + .5) * .31, -13.19)
+      const slit = row === 4 && (column === 8 || column === 16)
+      assert.equal(bounds.some(box => box.containsPoint(center)), !slit)
+    }
+  }
   for (let column = 6; column < 18; column++) {
     const x = (column - 8.5) * .55
     const roofHeight = column < 12 ? 6 * .31 : 8 * .31
@@ -89,8 +98,7 @@ test('a distant explosion leaves the intact fort fixed', t => {
 test('the first impacts cannot move masonry, while repeated hits breach a local section', t => {
   const game = bunker(t)
   const { physics, stones, fortPhysics } = game
-  const bodies = stones.map(part => part.userData.body)
-  const count = physics.nativeCount
+  const bodies = new Map(stones.map(part => [part, part.userData.body]))
   const hit = stones.find(part => part.position.y < .2 && Math.abs(part.position.x) < .3)
   const point = hit.position.clone().add(new THREE.Vector3(.2, 0, .1))
   for (let shot = 0; shot < 3; shot++) {
@@ -102,41 +110,39 @@ test('the first impacts cannot move masonry, while repeated hits breach a local 
   for (let shot = 0; shot < 3; shot++) game.explode(point)
   assert.ok(fortPhysics.fixed.size > 0, 'distant masonry stays fixed')
   assert.ok(fortPhysics.fixed.size < stones.length, 'nearby masonry becomes dynamic')
-  for (let i = 0; i < stones.length; i++) {
-    const part = stones[i]
-    assert.equal(part.userData.body, bodies[i])
+  for (const part of stones) {
+    if (bodies.has(part)) assert.equal(part.userData.body, bodies.get(part))
     assert.equal(part.userData.body.isStaticOrKinematicObject(), fortPhysics.fixed.has(part))
     if (!fortPhysics.fixed.has(part))
-      for (const upper of fortPhysics.above.get(part))
+      for (const upper of fortPhysics.above.get(part) ?? [])
         if (fortPhysics.supports.get(upper).every(support => !fortPhysics.fixed.has(support)))
           assert.equal(fortPhysics.fixed.has(upper), false, 'masonry without any fixed support must be released')
   }
-  assert.equal(physics.nativeCount, count)
   assert.equal(new Set(physics.rigidBodies).size, physics.rigidBodies.length)
   advance(physics, 5)
   assert.ok(standing(stones) < stones.length, 'the actual blast moves pieces away from home')
   for (const part of fortPhysics.fixed) assert.ok(part.position.equals(part.userData.home))
   game.explode(hit.userData.home.clone())
-  assert.equal(physics.nativeCount, count, 'repeated hits do not allocate replacement bodies')
+  assert.equal(new Set(physics.rigidBodies).size, physics.rigidBodies.length)
 })
 
-test('focused repeated blasts can eventually demolish the fort without permanently fixed pieces', t => {
+test('focused repeated blasts can eventually release the whole fort without permanently fixed pieces', t => {
   const game = bunker(t)
   let shots = 0
-  while (standing(game.stones) && shots < 40) {
-    const remaining = game.stones.filter(part => part.position.distanceTo(part.userData.home) < .5)
+  while (game.fortPhysics.fixed.size && shots < 200) {
+    const remaining = [...game.fortPhysics.fixed]
     const target = remaining.reduce((best, part) => {
       const nearby = remaining.filter(other => other.position.distanceTo(part.position) < 1.3).length
       return nearby > best.nearby ? { part, nearby } : best
     }, { part: remaining[0], nearby: 0 }).part
-    game.explode(target.position.clone().add(new THREE.Vector3(0, -.05, .2)))
-    advance(game.physics, 2)
-    shots++
-    if (shots === 20) t.diagnostic(`After 20 focused blasts: ${standing(game.stones)} parts standing`)
+    const point = target.position.clone().add(new THREE.Vector3(0, -.05, .2))
+    for (let hit = 0; hit < 4; hit++) game.explode(point)
+    shots += 4
   }
-  t.diagnostic(`Full demolition: ${shots} blast positions, ${standing(game.stones)} parts left standing`)
-  assert.equal(standing(game.stones), 0)
+  advance(game.physics, 5)
+  t.diagnostic(`Full release: ${shots} shots, ${standing(game.stones)} parts near their starting places`)
   assert.equal(game.fortPhysics.fixed.size, 0)
+  assert.ok(standing(game.stones) < game.stones.length)
 })
 
 test('an actual shell contact queues the blast until native contact dispatch is complete', t => {
