@@ -4,7 +4,7 @@ Postupci, dokazni izvori i granice provera. Preostali posao je u [PLAN-u](PLAN.m
 
 ## Komande
 
-Storybook katalog (2026-11-23): prošlo 19 ciljanih testova navigacije, kataloga, pokrivenosti, 2D pozornice i patrolnih plovila. Regresioni test nišanske tačke pada sa starim kodom plovila. Chromium potvrđuje pretragu malog čamca, novu adresu i prikaz na 390×844; 3D italijanski mitraljezac ima iste ranije greške pre i posle promene, opisane u [PLAN-u](PLAN.md#sb-04). Puni smoke nije pokrenut.
+Storybook katalog (2026-11-23): prošlo 19 ciljanih testova navigacije, kataloga, pokrivenosti, 2D pozornice i patrolnih plovila. Regresioni test nišanske tačke pada sa starim kodom plovila. Chromium potvrđuje pretragu malog čamca, novu adresu i prikaz na 390×844; 3D italijanski mitraljezac ima iste ranije greške pre i posle promene; kasnije su otklonjene (nedostajuća `default-grey.jpg` modela MP40). Puni smoke nije pokrenut.
 
 | Komanda | Obuhvat |
 |---|---|

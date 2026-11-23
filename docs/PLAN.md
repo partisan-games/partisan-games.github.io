@@ -19,20 +19,18 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 | 9 | [ARH-03](#arh-03) | Dovršiti potvrdu prostornog zvuka, miksa i rada na sporom uređaju | Agent | 📋 TODO |
 | | **[Storybook](#storybook)** | | | |
 | 10 | [SB-03](#sb-03) | Pripremiti pregled topa kroz Ammo pozornicu pri radu na njegovom nivou | Agent | 📋 TODO |
-| 11 | [SB-04](#sb-04) | Otkloniti postojeća upozorenja 3D pešadije i njen zavisan uvoz iz scene | Agent | 📋 TODO |
 | | **[UI](#ui)** | | | |
-| 12 | [UI-01](#ui-01) | Proveriti preostale izbore početka, greške naplate/povraćaja i fizički touch | Agent | 📋 TODO |
+| 11 | [UI-01](#ui-01) | Proveriti preostale izbore početka, greške naplate/povraćaja i fizički touch | Agent | 📋 TODO |
 | | **[Igre i ideje](#igre)** | | | |
-| 13 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [2](#note-2) |
-| 14 | [IG-17](#ig-17) | Razrađivati postojeće nivoe redom | Vlasnik, Agent | 📋 TODO |
-| 15 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
-| 16 | [IG-19](#ig-19) | Dogovoriti nazive nivoa i prikaz žanra i godine na naslovnoj | Vlasnik | 📋 TODO |
-| 17 | [IG-20](#ig-20) | Razmotriti nivo odbrane položaja odozgo, sa napadima sa svih strana | Vlasnik | 📋 TODO |
-| 18 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
-| 19 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
-| 20 | [IG-23](#ig-23) | Proveriti dostižnost novčića i pokretne platforme u Avataru | Agent | 📋 TODO |
-| 21 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
-| 22 | [HIS-01](#his-01) | Razjasniti nepotvrđene istorijske tvrdnje izabranih nivoa | Agent, Vlasnik | 📋 TODO |
+| 12 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [2](#note-2) |
+| 13 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
+| 14 | [IG-19](#ig-19) | Dogovoriti nazive nivoa i prikaz žanra i godine na naslovnoj | Vlasnik | 📋 TODO |
+| 15 | [IG-20](#ig-20) | Razmotriti nivo odbrane položaja odozgo, sa napadima sa svih strana | Vlasnik | 📋 TODO |
+| 16 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
+| 17 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
+| 18 | [IG-23](#ig-23) | Proveriti dostižnost novčića i pokretne platforme u Avataru | Agent | 📋 TODO |
+| 19 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
+| 20 | [HIS-01](#his-01) | Razjasniti nepotvrđene istorijske tvrdnje izabranih nivoa | Agent, Vlasnik | 📋 TODO |
 
 ## Održavanje plana
 
@@ -142,11 +140,6 @@ Provere se pokreću u dozvoljenom obimu prema [DOCS](DOCS.md); ovaj plan ne daje
 
 Pri sređivanju nivoa pripremiti samostalan pregled njegovog topa i potrebnog fizičkog sveta. Sadašnja 3D pozornica nema Ammo; ne prikazivati nepostojeću sposobnost lažnom animacijom niti tvrditi da je postojeći katalog time potpun.
 
-<a id="sb-04"></a>
-### SB-04 · 3D pešadija
-
-Stari i novi ulaz za italijanskog mitraljesca prikazuju figuru, ali prijavljuju nedostajuću `weapon/machine-gun/default-grey.jpg` i dva dodavanja `undefined` u Three.js. Provereno na istom ulazu pre i posle razdvajanja kataloga.
-
 ## UI
 
 <a id="ui-01"></a>
@@ -167,11 +160,6 @@ Kandidati nisu nalog za izradu. Posle izbora dopuniti art, telo, zajednički pri
 - **Ustanak:** [italijanski top 47 mm sa posadom i minobacači](../assets/images/armies/talijani/artiljerija/); zahteva novu odluku o proširenju dvoboja.
 - **Pešadija:** italijanski, britanski, ruski, četnički i SS vojnici; potrebni su atlasi pokreta.
 - **Otpisani:** nemački motociklista sa mitraljezom u postojećem realističnom crno-belom stilu.
-
-<a id="ig-17"></a>
-### IG-17 · Postojeći nivoi
-
-Razrađivati postojeće nivoe redom prema vlasnikovom izboru sledećeg nivoa i obima; to nije nalog za istovremenu preradu svih igara. Za put ka Trstu pre nastavka uporediti četiri dogovorene etape sa stvarnim nivoom i izdvojiti samo preostale lokacije, događaje, ciljeve i sastav protivnika. Za Vis isto razlikovati dogovoreni tok sletanja od sadašnje implementacije.
 
 <a id="ig-18"></a>
 ### IG-18 · Arkadni prizor iz prvog lica

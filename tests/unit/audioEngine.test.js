@@ -473,7 +473,7 @@ test('late one-shot loading expires during updates and aborts its sole request',
   const waiting = deferred(), began = deferred()
   let signal
   const { engine, context } = fixture({ fetchFile: (url, options) => {
-    signal = options.signal
+    ;({ signal } = options)
     began.resolve()
     return waiting.promise
   } })

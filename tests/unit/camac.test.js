@@ -111,7 +111,7 @@ test('the stages follow each other without a new coin, out of the harbour, to Š
   scene.startStage()
   assert.equal(scene.enlisted.length, 0, 'the enemies of the last stage are gone')
   sail()
-  assert.match(scene.ui.outro, /landed on Šolta/)
+  assert.match(scene.ui.outro, /returned safely to Vis/)
 })
 
 test('a fast boat cannot cross a sinking wreck, loses speed and glances off it', () => {
@@ -187,5 +187,5 @@ test('a continuous full-throttle crossing meets every vessel type and returns ho
   assert.deepEqual([...met].sort(), ['german-launch', 'german-patrol-vessel', 'german-skiff', 'mfp', 'rboot', 'sboat', 'vorpostenboot'])
   assert.ok(bossOnReturn, 'the strongest enemy is visible on the return crossing')
   assert.equal(scene.stage, 2)
-  assert.match(scene.ui.outro, /landed on Šolta/)
+  assert.match(scene.ui.outro, /returned safely to Vis/)
 })

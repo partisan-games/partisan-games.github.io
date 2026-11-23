@@ -37,7 +37,7 @@ const stagePause = 2
  */
 export const stages = [
   { name: 'Out of Vis harbour', coast: 'vis-luka', length: 20000, sides: [0, 1, 0, -1, 0], sBoats: { first: 6, quiet: 14 }, fleet: ['german-skiff', 'german-launch', 'vorpostenboot', 'rboot', 'german-patrol-vessel', 'sboat'] },
-  { name: 'Landing on Šolta', coast: 'solta', length: 9000, sBoats: { first: 10, quiet: 20 }, fleet: ['german-launch', 'german-skiff', 'mfp', 'german-patrol-vessel', 'sboat'], landing: true },
+  { name: 'Assault on Šolta', coast: 'solta', length: 9000, sBoats: { first: 10, quiet: 20 }, fleet: ['german-launch', 'german-skiff', 'mfp', 'german-patrol-vessel', 'sboat'], landing: true },
   { name: 'Back to Vis', coast: 'vis-kanal', length: 8000, sBoats: { first: 4, quiet: 12 }, fleet: ['sboat', 'rboot', 'german-patrol-vessel', 'german-skiff', 'german-launch'] },
 ]
 
@@ -108,7 +108,7 @@ export default class CamacScene extends Scene2D {
   /** After the last stage the game is won; after another, the game rests a moment, saying so, and the next begins. */
   finishStage() {
     this.minefield.clear()
-    if (this.stage === stages.length - 1) return this.victory('Your troops have landed on Šolta.')
+    if (this.stage === stages.length - 1) return this.victory('Mission accomplished. The assault on Šolta succeeded and your troops have returned safely to Vis.')
     if (this.betweenStages) return
     this.betweenStages = true
     this.releaseKeys()

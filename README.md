@@ -29,6 +29,7 @@ To see every background picture in the project, open `/pozadine.html` on the `np
 ## TODO
 See [PLAN](docs/PLAN.md).
 
+- razrađivati postojeće nivoe redom
 
 ## Credits
 
