@@ -7,6 +7,7 @@ import Coin from '/core3d/objects/Coin.js'
 import LiftPlatform from './LiftPlatform.js'
 import { Box3 } from 'three'
 import coinPosition from './coinPosition.js'
+import { jumpArc, reachableBoxes } from './reachableBoxes.js'
 
 const numBoxes = 400, mapSize = 200, lavaSize = 100
 const numCoins = numBoxes / 4
@@ -67,15 +68,16 @@ export default class AvatarScene extends Scene3D {
     this.score = 0
   }
 
-  createCoins() {
+  /** A coin above each of the `supports` cubes, and some of them on lifts. */
+  createCoins(supports) {
     this.coins = []
     const boxes = this.boxes.map(box => new Box3().setFromObject(box))
-    const pending = this.boxes.slice(0, numCoins).map(box => {
+    const pending = supports.map(box => {
       const pos = box.position.clone()
       pos.y += 6.15
       return pos
     })
-    for (let i = 0; i < numCoins; i++) {
+    for (let i = 0; i < supports.length; i++) {
       const pos = pending[i]
 
       if (Math.random() > .8) {
@@ -90,7 +92,7 @@ export default class AvatarScene extends Scene3D {
       // Keep other coins' original clear spots reserved when moving a blocked coin upwards.
       const occupied = [...pending.slice(i + 1), ...this.coins.map(other => other.mesh.position)]
         .map(point => new Box3(point.clone().addScalar(-radius), point.clone().addScalar(radius)))
-      coin.mesh.position.copy(coinPosition(pos, boxes[i], [...boxes, ...occupied], radius))
+      coin.mesh.position.copy(coinPosition(pos, boxes[this.boxes.indexOf(supports[i])], [...boxes, ...occupied], radius))
       this.coins.push(coin)
       this.add(coin)
     }
@@ -114,7 +116,10 @@ export default class AvatarScene extends Scene3D {
     this.immuneToLava = avatarAbilities[skin].immuneToLava
     this.player = made.body
     this.avatarModel = made.model
-    this.createCoins()
+    // coins lie only on cubes this avatar's jump can reach, from the ground or from cube to cube
+    const bounds = this.boxes.map(box => new Box3().setFromObject(box))
+    const reachable = new Set(reachableBoxes(bounds, jumpArc(groundAt => makeAvatar({ skin, maxLift, groundAt }).body)))
+    this.createCoins(this.boxes.filter((_, i) => reachable.has(bounds[i])).slice(0, numCoins))
     lead(this, made, { input: { buttonDict: { jump: '' } }, view: { distance: 6, speed: 4 } })
     this.player.face({ x: 0, z: 0 })
   }

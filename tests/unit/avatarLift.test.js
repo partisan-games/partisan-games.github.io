@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { BoxGeometry, Mesh, PerspectiveCamera, Scene, Texture, TextureLoader } from 'three'
+import { Box3, BoxGeometry, Mesh, PerspectiveCamera, Scene, Texture, TextureLoader } from 'three'
 import World from '/core/World.js'
 import CharacterKeys from '/core/gameplay/controllers/CharacterKeys.js'
 import makeAvatar from '/core3d/actor/characters/Avatar.js'
@@ -109,4 +109,28 @@ test('the actual scene updates its lifts before the player and visual model', as
   assert.equal(scene.avatarModel.mesh.position.x, scene.player.x)
   assert.equal(scene.avatarModel.mesh.position.z, scene.player.z)
   assert.equal(scene.avatarModel.mesh.position.y, scene.player.feet)
+})
+
+test('a lift moving into a standing avatar pushes it ahead, and one rising under it lifts it onto the deck', t => {
+  createPageElements()
+  t.mock.method(TextureLoader.prototype, 'load', () => new Texture())
+  for (const [axis, speed, pos] of [['x', -2, { x: 0, y: .5, z: 0 }], ['y', 2, { x: -4, y: -.9, z: 0 }]]) {
+    let body
+    const platform = new LiftPlatform({ pos, axis, speed, file: null, getPlayer: () => body })
+    ;({ body } = makeAvatar({ ...worldQueries([platform.mesh]) }))
+    body.x = -4
+    const world = new World()
+    world.add(platform, body)
+    t.after(() => world.end())
+    for (let frame = 0; frame < 90; frame++) {
+      world.update(1 / 60)
+      const { min, max } = new Box3().setFromObject(platform.mesh)
+      const half = body.size.length / 2
+      const overlaps = body.x + half > min.x + 1e-6 && body.x - half < max.x - 1e-6
+        && body.feet < max.y - 1e-6 && body.feet + body.size.height > min.y
+      assert.equal(overlaps, false, `frame ${frame} on ${axis}`)
+    }
+    if (axis === 'x') assert.ok(body.x < -5, 'the avatar was pushed')
+    else assert.ok(Math.abs(body.feet - (platform.position.y + 1)) < 1e-6, 'the avatar rides the rising deck')
+  }
 })

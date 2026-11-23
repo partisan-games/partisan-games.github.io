@@ -47,7 +47,7 @@ test('the scene relocates only its obstructed coin and leaves the cubes and clea
   boxes[1].position.set(0, 5, 0)
   const positions = boxes.map(mesh => mesh.position.clone())
   const scene = { boxes, solids: [], add() {} }
-  AvatarScene.prototype.createCoins.call(scene)
+  AvatarScene.prototype.createCoins.call(scene, boxes)
   const bounds = boxes.map(mesh => new Box3().setFromObject(mesh))
   assert.equal(scene.coins.length, 100)
   for (let i = 0; i < 100; i++) {

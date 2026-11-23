@@ -28,9 +28,8 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 | 15 | [IG-20](#ig-20) | Razmotriti nivo odbrane položaja odozgo, sa napadima sa svih strana | Vlasnik | 📋 TODO |
 | 16 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
 | 17 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
-| 18 | [IG-23](#ig-23) | Proveriti dostižnost novčića i pokretne platforme u Avataru | Agent | 📋 TODO |
-| 19 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
-| 20 | [HIS-01](#his-01) | Razjasniti nepotvrđene istorijske tvrdnje izabranih nivoa | Agent, Vlasnik | 📋 TODO |
+| 18 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
+| 19 | [HIS-01](#his-01) | Razjasniti nepotvrđene istorijske tvrdnje izabranih nivoa | Agent, Vlasnik | 📋 TODO |
 
 ## Održavanje plana
 
@@ -185,11 +184,6 @@ Moguće etape su Prozor, Rama i Jablanica, sa zasedom kod Drežnice kao kandidat
 ### IG-22 · Dodatne etape Neretve
 
 Italijanske i ustaške etape ostaju kandidati uz postojeće Nemce i četnike. Izabrati mesta, datume, jedinice i borbene uloge, trajanje i prelaze, pa tek onda art i tok igre. Postojeći rov nije istorijski dokaz budućeg sastava.
-
-<a id="ig-23"></a>
-### IG-23 · Avatar
-
-Proveriti da su novčići dostižni i izvan kocki i da sudari sa pokretnim platformama rade. Očuvati prihvaćen rasuti nasumični izgled: rešenje nije pravilna mreža ili unapred povezana putanja. Raniji test lifta ne potvrđuje dostižnost svih mesta.
 
 <a id="ig-24"></a>
 ### IG-24 · Parole Bihaća
