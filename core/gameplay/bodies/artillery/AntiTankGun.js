@@ -14,7 +14,7 @@ export const antiTankGun = { reload: 4.5, firstShot: 1.5, health: 10, barrel: { 
 /** The gun holds fire, or fires its laid shot as often as it reloads, or lies destroyed. */
 const states = {
   idle: {},
-  fire: { update: gun => gun.shoot() },
+  attack: { update: gun => gun.shoot() },
   dead: {},
 }
 

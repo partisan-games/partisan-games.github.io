@@ -28,8 +28,8 @@ export default class CannonCrewSprite extends StandingSprite {
     if (state !== 'load') this.loadSound.stop()
     else if (this.seenState !== 'load') this.loadSound.play()
     this.seenState = state
-    const fired = state === 'fire' && stateTime >= art.durations.fire
-    this.clip = state === 'fire' ? fired ? 'recoil' : 'fire' : state
+    const fired = state === 'attack' && stateTime >= art.durations.fire
+    this.clip = state === 'attack' ? fired ? 'recoil' : 'fire' : state
     this.clipTime = fired ? stateTime - art.durations.fire : stateTime
     this.loop = state === 'idle'
   }

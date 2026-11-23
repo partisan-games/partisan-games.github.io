@@ -22,7 +22,7 @@ export default class SkirmisherSprite extends StandingSprite {
   update(dt) {
     super.update(dt)
     const { body } = this
-    if (body.state === 'walk') this.walked += Math.abs(body.vx) * dt
+    if (body.state === 'move') this.walked += Math.abs(body.vx) * dt
     this.sinceShot += dt
     if (body.shotsFired > this.shotsSeen) {
       this.sinceShot = 0
@@ -45,7 +45,7 @@ export default class SkirmisherSprite extends StandingSprite {
     else if (body.state === 'kneel') {
       name = 'standUp'
       reverse = true
-    } else if (body.state === 'walk') {
+    } else if (body.state === 'move') {
       name = 'walk'
       time = this.walked
     }

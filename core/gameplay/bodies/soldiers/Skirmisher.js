@@ -13,7 +13,7 @@ const stop = soldier => {
 /** He stands with his rifle, or fires it into the distance again and again. */
 const states = {
   idle: { enter: stop },
-  fire: {
+  attack: {
     update: soldier => {
       if (soldier.stateTime < volley.interval * (soldier.shotsInState + 1)) return
       soldier.shotsInState++
@@ -27,10 +27,10 @@ const states = {
   standUp: {
     enter: stop,
     update: soldier => {
-      if (soldier.stateTime >= gait.rise) soldier.setState('walk')
+      if (soldier.stateTime >= gait.rise) soldier.setState('move')
     },
   },
-  walk: {
+  move: {
     enter: (soldier, from) => {
       if (from !== 'standUp') soldier.setState('standUp')
     },
@@ -67,12 +67,12 @@ export default class Skirmisher extends Body {
   setState(name) {
     if (this.dead && name !== 'dead') return
     if (name === 'dead') this.fellStanding = this.standing || this.state === 'standUp'
-    if (['idle', 'fire'].includes(name) && this.standing) {
+    if (['idle', 'attack'].includes(name) && this.standing) {
       this.afterKneel = name
       return super.setState('kneel')
     }
-    if (name === 'walk' && this.state === 'standUp') this.standing = true
-    if (['idle', 'fire'].includes(name)) this.standing = false
+    if (name === 'move' && this.state === 'standUp') this.standing = true
+    if (['idle', 'attack'].includes(name)) this.standing = false
     super.setState(name)
   }
 

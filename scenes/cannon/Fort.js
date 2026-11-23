@@ -7,13 +7,27 @@ const density = 10
 /** How far a part may be pushed from where it was laid and still stand. */
 const standsWithin = .5
 
+let concrete
+
+/**
+ * One concrete texture for every fort. The renderer's shadow pass keeps the last texture it drew and uploads it again
+ * in a later game; a texture of an earlier fort would then stay on the graphics card, while this one is freed again
+ * when the next fort ends.
+ */
+function concreteTexture() {
+  if (!concrete) {
+    concrete = createTexture({ file: 'terrain/concrete.jpg' })
+    concrete.magFilter = THREE.LinearFilter
+    concrete.colorSpace = THREE.SRGBColorSpace
+  }
+  return concrete
+}
+
 /** Intact Jablanica barracks, facing +z. Its walls and roof can break apart during play. */
 export function buildFort({ front = -13, base = 0 } = {}) {
   const width = 18, barracksStart = 6, raisedWing = 12, slits = [8, 16], slitRow = 4
   const courses = column => column < raisedWing ? 6 : 8
-  const map = createTexture({ file: 'terrain/concrete.jpg' })
-  map.magFilter = THREE.LinearFilter
-  map.colorSpace = THREE.SRGBColorSpace
+  const map = concreteTexture()
   const walls = new THREE.MeshLambertMaterial({ map, color: 0xb4bec7 })
   const roof = walls.clone()
   roof.color.setHex(0x9ea9b1)

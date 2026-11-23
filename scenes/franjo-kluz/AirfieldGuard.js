@@ -34,7 +34,7 @@ export default class AirfieldGuard {
   }
 
   update() {
-    const wanted = this.underAttack() ? 'fire' : 'idle'
+    const wanted = this.underAttack() ? 'attack' : 'idle'
     for (const { body } of this.guards) {
       if (body instanceof Partisan) {
         body.aimAt(body.ahead(15))

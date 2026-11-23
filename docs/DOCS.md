@@ -32,7 +32,7 @@ Vlasnikovi nazivi i ono što znače u kodu. Ovde idu samo pojmovi koji se stvarn
 | Atom, gradivni blok | Samostalan deo od kog sastavljamo igre i svetove; nije naziv posebne klase | [Gradivni blokovi](ARHITEKTURA.md#gradivni-blokovi) |
 | Akter, lik | Vojnik, vozilo, avion ili drugi učesnik: telo sa prikazom i dodeljenim upravljačem | [Gradivni blokovi](ARHITEKTURA.md#gradivni-blokovi) |
 | Telo, prikaz, upravljač | [Body](../core/gameplay/bodies/Body.js) drži stanje i pravila; sprite/model ga prikazuje; kontroler iz `core/gameplay/controllers/` zadaje radnje | [ARHITEKTURA](ARHITEKTURA.md#gradivni-blokovi) |
-| Osnovna stanja | Mirovanje `idle`, kretanje `move`, napad `attack`, smrt/uništenje `dead`; zajednički rečnik koji se postepeno uvodi | [Standard stanja](ARHITEKTURA.md#standardna-stanja-aktera) |
+| Osnovna stanja | Mirovanje `idle`, kretanje `move`, napad `attack`, smrt/uništenje `dead`; zajednički rečnik svih tela | [Standard stanja](ARHITEKTURA.md#standardna-stanja-aktera) |
 | Pad, olupina | Kod [Poteza](../core/gameplay/bodies/aircraft/Potez.js) `falling` obuhvata pad i poleganje; završno `dead` ostavlja olupinu na tlu. Nije isto što i uklanjanje objekta | [Život objekta](ARHITEKTURA.md#stanje-vreme-i-život-objekta) |
 | Atlas, sprite tabla; kadar | Slika sa mrežom poza/animacije; kadar je jedno polje, ne cela PNG slika | [Art i sprite animacije](ART.md) |
 | Sidrište; linija oslonca | Tačka u kadru vezana za položaj objekta; linija po kojoj čizme, točkovi ili trup naležu na tlo | [Priprema arta](ART.md) |

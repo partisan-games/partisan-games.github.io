@@ -23,7 +23,7 @@ export const bunkerKinds = {
 /** The bunker holds fire, or fires bursts where it aims, or stands destroyed. */
 const states = {
   idle: {},
-  fire: { update: body => body.shoot() },
+  attack: { update: body => body.shoot() },
   dead: {},
 }
 

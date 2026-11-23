@@ -14,22 +14,20 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 | 5 | [AR-P03](#ar-p03) | Pregledati dopune aktera koje nemaju zabeleženo vizuelno prihvatanje | Vlasnik | 📋 TODO |
 | 6 | [AR-P04](#ar-p04) | Pregledati rasporede rekvizita i preostale ugrađene ambijente | Vlasnik | 📋 TODO |
 | | **[Arhitektura](#arhitektura)** | | | |
-| 7 | [ARH-01](#arh-01) | Prevesti preostala osnovna stanja na zajednička imena uz rad na telu ili nivou | Agent | 📋 TODO |
-| 8 | [ARH-02](#arh-02) | Rešiti zadržavanje Ammo heightfield memorije pri ponovnom učitavanju terena | Agent | 📋 TODO |
-| 9 | [ARH-03](#arh-03) | Dovršiti potvrdu prostornog zvuka, miksa i rada na sporom uređaju | Agent | 📋 TODO |
+| 7 | [ARH-02](#arh-02) | Rešiti zadržavanje Ammo heightfield memorije pri ponovnom učitavanju terena | Agent | 📋 TODO |
+| 8 | [ARH-03](#arh-03) | Dovršiti potvrdu prostornog zvuka, miksa i rada na sporom uređaju | Agent | 📋 TODO |
 | | **[Storybook](#storybook)** | | | |
-| 10 | [SB-03](#sb-03) | Pripremiti pregled topa kroz Ammo pozornicu pri radu na njegovom nivou | Agent | 📋 TODO |
+| 9 | [SB-03](#sb-03) | Pripremiti pregled topa kroz Ammo pozornicu pri radu na njegovom nivou | Agent | 📋 TODO |
 | | **[UI](#ui)** | | | |
-| 11 | [UI-01](#ui-01) | Proveriti preostale izbore početka, greške naplate/povraćaja i fizički touch | Agent | 📋 TODO |
+| 10 | [UI-01](#ui-01) | Proveriti preostale izbore početka, greške naplate/povraćaja i fizički touch | Agent | 📋 TODO |
 | | **[Igre i ideje](#igre)** | | | |
-| 12 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [2](#note-2) |
-| 13 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
-| 14 | [IG-19](#ig-19) | Dogovoriti nazive nivoa i prikaz žanra i godine na naslovnoj | Vlasnik | 📋 TODO |
-| 15 | [IG-20](#ig-20) | Razmotriti nivo odbrane položaja odozgo, sa napadima sa svih strana | Vlasnik | 📋 TODO |
-| 16 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
-| 17 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
-| 18 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
-| 19 | [HIS-01](#his-01) | Razjasniti nepotvrđene istorijske tvrdnje izabranih nivoa | Agent, Vlasnik | 📋 TODO |
+| 11 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [2](#note-2) |
+| 12 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
+| 13 | [IG-19](#ig-19) | Dogovoriti nazive nivoa i prikaz žanra i godine na naslovnoj | Vlasnik | 📋 TODO |
+| 14 | [IG-20](#ig-20) | Razmotriti nivo odbrane položaja odozgo, sa napadima sa svih strana | Vlasnik | 📋 TODO |
+| 15 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
+| 16 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
+| 17 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
 
 ## Održavanje plana
 
@@ -107,15 +105,6 @@ Olupina poljskog topa može postati zaseban rekvizit bojišta; još nije raspore
 
 ## Arhitektura
 
-<a id="arh-01"></a>
-### ARH-01 · Zajednička imena stanja
-
-Sačuvati [standard](ARHITEKTURA.md#standardna-stanja-aktera) `idle`, `move`, `attack`, `dead`. Prelazak raditi uz stvarnu izmenu tela ili nivoa, ne kao odvojenu masovnu kampanju; nivo na kome se radi prelazi sa svojim povezanim telima i Storybook pričama.
-
-Preostala osnovna stanja napada `fire` proverena su u AttackPlane, Fighter, AntiTankGun, Bunker, Flak, CannonCrew, MachineGunner, Rifleman i Skirmisher. Skirmisher još koristi `walk`, a Rifleman `patrol` kao osnovno kretanje. Ove nazive razlikovati od klipova, profila oružja i dodatnih radnji koje mogu zadržati isti naziv.
-
-Svako telo prevesti zajedno sa prikazima, upravljačima, scenama, pričama i testovima, bez aliasa. Posle poslednjeg potrošača ukloniti privremeni [stateNames](../core/gameplay/bodies/stateNames.js) i koristiti direktno standardna imena. Proveriti stringove i dinamičke pristupe, ponašanje pri napadu u kretanju, prekid smrću, pauzu, reset i stvarne Storybook komande.
-
 <a id="arh-02"></a>
 ### ARH-02 · Ammo memorija terena
 
@@ -189,11 +178,6 @@ Italijanske i ustaške etape ostaju kandidati uz postojeće Nemce i četnike. Iz
 ### IG-24 · Parole Bihaća
 
 Liberated City je Bihać krajem 1942. Natpisi o dolasku Crvene armije i plakat RED_ARMY_IS_HERE pripadaju drugom okviru; vlasnik bira zamenu ili uklanjanje pre izmene sadržaja.
-
-<a id="his-01"></a>
-### HIS-01 · Istorijska ograničenja
-
-Pre novih tvrdnji proveriti: sastav i Žikičinu ulogu u krupanjskom napadu; konkretno oružje i artiljerijski sukob Ustanka; Luftwaffe nad Visom; model plovila i sastav protivnika na Šolti; patrolu i mesto radnje Ranjenika; beogradsku ilegalu u oktobru 1944; primarne izvore za Jablanicu. Koristiti [postojeće izvore](ISTORIJA.md), uključujući zbornik ustanka/istoriju Valjevskog odreda i monografiju Sutjeske. Nepotvrđena pojedinost ne otvara ponovo već prihvaćen postojeći art, niti izmišlja potvrdu njegovog istorijskog učešća. Nove pomorske kandidate istraživati tek posle izbora događaja.
 
 ## Notes
 

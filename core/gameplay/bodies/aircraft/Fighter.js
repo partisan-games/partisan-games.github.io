@@ -22,7 +22,7 @@ export const fighter = {
  */
 const states = {
   idle: {},
-  fire: { update: plane => plane.shoot() },
+  attack: { update: plane => plane.shoot() },
   dead: {},
 }
 

@@ -2,7 +2,6 @@ import { createCatalog, dimensionOf, findStory } from './catalog.js'
 import Stage2D from './Stage2D.js'
 import { attackControls } from './attackControls.js'
 import kinds from './stories/index.js'
-import { attackState } from '/core/gameplay/bodies/stateNames.js'
 
 const list = document.getElementById('storybook-list')
 const panel = document.getElementById('storybook-panel')
@@ -170,7 +169,7 @@ panel.addEventListener('click', event => {
   const { state, act } = button.dataset
   // a block set to fire with no aim, as a gun, first aims at its straight shot, as its button would
   if (event.isTrusted && stage instanceof Stage2D) stage.sceneAudio.unlock().catch(() => {})
-  if (state && state === attackState(block)) {
+  if (state === 'attack') {
     const { primary } = attackControls(block)
     if (primary) aim(block, primary)
   }
@@ -180,7 +179,7 @@ panel.addEventListener('click', event => {
   if (!shot) return
   aim(block, shot)
   // a gun that fires on its own once aimed, as an observer's, is only aimed, so the block's other guns keep quiet
-  if (!block.shots[shot].automatic) block.setState(attackState(block))
+  if (!block.shots[shot].automatic) block.setState('attack')
 })
 
 // the current state and health are the block's own news, read each frame without redrawing the buttons under the pointer

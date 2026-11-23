@@ -23,7 +23,6 @@ import Vehicle, { vehicleKinds } from '/core/gameplay/bodies/vehicles/Vehicle.js
 import Flak, { flak } from '/core/gameplay/bodies/artillery/Flak.js'
 import Sentry from '/core/gameplay/controllers/Sentry.js'
 import Gunner, { lead } from '/core/gameplay/controllers/Gunner.js'
-import { attackState } from '/core/gameplay/bodies/stateNames.js'
 import Interceptor from '/core/gameplay/controllers/Interceptor.js'
 import PlaneKeys from '/core/gameplay/controllers/PlaneKeys.js'
 import RearGunner from '/core/gameplay/controllers/RearGunner.js'
@@ -293,7 +292,7 @@ export default class FranjoKluzScene extends Scene2D {
   /** The enemies that can aim at the plane; the Hummel's fixed cannon is not an automatic anti-aircraft gun. */
   get armed() {
     return [...this.enemies, ...this.raiders].map(({ body }) => body)
-      .filter(body => typeof body.aimAt === 'function' && attackState(body))
+      .filter(body => typeof body.aimAt === 'function' && body.states.includes('attack'))
   }
 
   /** The enemy knows the plane is hostile: the living among `bodies` stop keeping watch and fire at it. */

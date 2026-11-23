@@ -31,7 +31,7 @@ const stand = soldier => {
  */
 const states = {
   idle: { enter: stand },
-  patrol: {
+  move: {
     enter: soldier => {
       // back towards the post, or either way when standing on it
       const way = Math.sign(soldier.post - soldier.x) || (soldier.random() < .5 ? -1 : 1)
@@ -43,7 +43,7 @@ const states = {
       soldier.vx = soldier.forward * patrol.speed
     },
   },
-  fire: {
+  attack: {
     enter: stand,
     update: soldier => soldier.shoot(),
   },

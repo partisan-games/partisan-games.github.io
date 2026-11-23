@@ -26,7 +26,7 @@ test('a strafer flies level until the target is ahead within reach, then dives a
   const { body, target, fly } = pass()
   fly(1 / 30)
   assert.equal(body.state, 'idle', 'its level nose is above the target')
-  while (body.state !== 'fire' && body.x > target.x) fly(1 / 30)
+  while (body.state !== 'attack' && body.x > target.x) fly(1 / 30)
   assert.ok(Math.abs(body.pitch + Math.atan2(body.y - target.y, body.x - target.x)) <= strafe.aim, 'it fires with its nose on the target')
   assert.ok(body.vy < 0 && body.pitch < 0, 'it dives nose first')
   assert.ok(body.pitch >= -strafe.maxDive - 1e-9, 'no steeper than it can')

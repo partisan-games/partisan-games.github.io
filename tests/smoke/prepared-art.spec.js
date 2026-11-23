@@ -20,12 +20,15 @@ const drawn = (page, src, x = null, y = null) => page.waitForFunction(({ src, x,
   window.artDraws.some(draw => draw.at > performance.now() - 150 && draw.src.endsWith(src)
     && (x === null || draw.source[0] === x) && (y === null || draw.source[1] === y)), { src, x, y }, { timeout: 5000 })
 
-async function state(page, name) {
+/** Presses the panel button `selector` with the record of drawn art cleared. */
+async function press(page, selector) {
   await page.evaluate(() => {
     window.artDraws.length = 0
   })
-  await page.locator(`[data-state="${name}"]`).click()
+  await page.locator(selector).click()
 }
+
+const state = (page, name) => press(page, `[data-state="${name}"]`)
 
 for (const way of ['1', '-1']) test(`new field gun and wreck: facing ${way}`, async({ page }, info) => {
   const errors = []
@@ -59,7 +62,7 @@ for (const [name, file] of [['partizanska', 'partizanska'], ['italijanska', 'ita
 
 test('partisan walk and both falls use the prepared atlas through actual state controls', async({ page }, info) => {
   await page.goto('/storybook.html#vojnici/partizanski-strelac')
-  await state(page, 'walk')
+  await state(page, 'move')
   await drawn(page, '/partizanski-strelac-movement-sprites.png', null, 160)
   await state(page, 'dead')
   await drawn(page, '/partizanski-strelac-movement-sprites.png', 800, 480)
@@ -74,7 +77,8 @@ test('German rifle reload is wired to its model and existing shot cooldown', asy
   await state(page, 'reload')
   // Reload returns to idle; unlike death, its last frame is transient and may be skipped by a long render step.
   await drawn(page, '/nemacki-strelac-reload-sprites.png')
-  await state(page, 'fire')
+  // the rifle aims up or straight, so its attack starts from a shot button, not a state button
+  await press(page, '[data-shot="straight"]')
   await drawn(page, '/nemacki-strelac-reload-sprites.png')
   await state(page, 'dead')
   await drawn(page, '/nemacki-strelac-sprites.png', 384, 256)

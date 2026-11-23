@@ -134,7 +134,7 @@ test('a player can charge and fire while the opening instructions remain visible
   scene.update(0, 0)
   assert.equal(scene.turns.phase, 'flight')
   assert.equal(scene.guns[0].hasActiveShot, true)
-  assert.equal(scene.crews[0].state, 'fire', 'and fires the shot')
+  assert.equal(scene.crews[0].state, 'attack', 'and fires the shot')
   assert.equal(scene.announcingTurn, true)
   assert.match(scene.ui.messageElement.textContent, /Hold Space/)
 })

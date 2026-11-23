@@ -46,9 +46,7 @@ Smrt ima prvenstvo: jednom prekida nove napade, upravljanje i punjenje. Pad, pot
 
 Svaki akter izričito navodi podržana stanja. Nepodržana radnja odbija se bez lažne promene i animacije kada ne pripada ulozi, na primer napad nenaoružanog civila. Nedostajući kod ili art potrebne sposobnosti nije opravdanje za lažno proglašenu podršku. Podrška obuhvata stvarno ponašanje, odgovarajući prikaz i zvuk, gde ga radnja proizvodi.
 
-#### Prelaz na standardna imena
-
-Ovo je ciljni ugovor; postojeća tela još nisu sva usklađena. Standard uvoditi kada se telo ili njegov nivo ionako menja, zajedno sa svim potrošačima, bez zasebnog masovnog preimenovanja. Konkretan preostali posao i uklanjanje privremenog adaptera vodi [plan](PLAN.md#arhitektura).
+Sva tela koriste ova imena direktno, bez prevodioca starih imena; novo telo ih preuzima od početka.
 
 ### Mere, projekcija i pogodak
 
@@ -72,7 +70,7 @@ Efekat vezan za pokretni izvor razlikuje pomeraj izvora od sopstvene brzine čes
 
 - Scena je spremna tek kada su resursi učitani, inicijalizovani i prvi stalni prikaz nacrtan. Greška prekida učitavanje umesto beskrajnog čekanja; zakasneli rezultat ugašene scene ne menja novu scenu.
 - [Keš modela](../core3d/assets/models.js) deli učitavanje i dopušta ponovni pokušaj posle greške. Otkazivanje jednog korisnika ne poništava resurs drugog. Dekodirana slika nije dokaz da je prvo crtanje jeftino; radni raster bira se prema veličini prikaza.
-- Svaki slušalac, tajmer, zvuk, GPU i native resurs ima vlasnika i završnu operaciju. Uklanjanje iz prikaza nije oslobađanje resursa. Klon koji menja deljeni materijal ili geometriju prvo ih izoluje, a zajednički podatak ne oslobađa dok ga drugi koriste.
+- Svaki slušalac, tajmer, zvuk, GPU i native resurs ima vlasnika i završnu operaciju. Uklanjanje iz prikaza nije oslobađanje resursa. Klon koji menja deljeni materijal ili geometriju prvo ih izoluje, a zajednički podatak ne oslobađa dok ga drugi koriste. Three.js r160 u senkama pamti teksturu poslednjeg objekta koji baca senku i šalje je ponovo u sledećoj 3D igri; zato je tekstura takvog objekta zajednička za sve ulaske u igru (kao beton tvrđave u Jablanici), a tekstura koju shader dobija kroz `onBeforeCompile` stoji i u `material.uniforms`, da je završetak igre oslobodi.
 - Runtime objekte i njihove vlasnike ne stavljati u podatke prototipa koji se kopiraju JSON serijalizacijom. Grafičko roditeljstvo ne dokazuje ni vlasništvo nad memorijom ni redosled ažuriranja.
 - [NativeAllocations](../core3d/physics/NativeAllocations.js) poseduje samo nove Ammo objekte sa podržanim destruktorom; reference iz gettera su pozajmljene. Pre oslobađanja odvojiti telo od sveta. Lokalni build ne oslobađa zaseban heightfield heap buffer i nema podržan destruktor za `btVehicleTuning`; ograničenje i posao oko memorije su u [planu](PLAN.md#arhitektura).
 

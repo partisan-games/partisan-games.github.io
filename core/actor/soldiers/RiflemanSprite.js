@@ -5,7 +5,7 @@ import ArtClip from '/core/actor/ArtClip.js'
 import { riflemanReload } from '/core/actor/actionArt.js'
 
 /** The clip of each state; firing has its own clips, level and raised. */
-const clips = { idle: 'rest', patrol: 'walk', dead: 'death' }
+const clips = { idle: 'rest', move: 'walk', dead: 'death' }
 
 /**
  * How a soldier body looks and sounds in 2D, from its atlas `art`, drawn facing right: at ease, walking, firing level
@@ -34,7 +34,7 @@ export default class RiflemanSprite extends AtlasSprite {
       this.shotSound.play()
     }
     this.shotsSeen = body.shotsFired
-    if (body.state === 'fire') {
+    if (body.state === 'attack') {
       this.clip = body.raised ? 'fireUp' : 'fire'
       this.clipTime = this.sinceShot
     } else if (body.state === 'reload') {
@@ -52,7 +52,7 @@ export default class RiflemanSprite extends AtlasSprite {
     if (this.renderHit(ctx)) return
     const { body, art, artScale: scale } = this
     const sinceFire = this.sinceShot - art.clips.fire.seconds
-    const automatic = body.state === 'fire' && !body.raised && sinceFire >= 0 && sinceFire < body.kind.reloadTime
+    const automatic = body.state === 'attack' && !body.raised && sinceFire >= 0 && sinceFire < body.kind.reloadTime
     if (!body.dead && this.reloadArt && (body.state === 'reload' || automatic)) {
       const [left, , right] = art.body
       if (this.reloadArt.draw(ctx, {

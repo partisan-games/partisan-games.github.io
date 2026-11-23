@@ -23,7 +23,7 @@ test('it flies where it is put and holds fire until it is set to fire, then fire
   body.aimAt(target)
   live(1)
   assert.equal(body.shotsFired, 0)
-  body.setState('fire')
+  body.setState('attack')
   live(1 / 60)
   assert.equal(body.shotsFired, 1)
   const [round] = body.bullets.projectiles
@@ -39,7 +39,7 @@ test('a game sets how much each of its bullets takes, one by default', () => {
   for (const damage of [undefined, 4]) {
     const { body, target, live } = planeAlone(attackPlaneKinds.fighter, { damage })
     body.aimAt(target)
-    body.setState('fire')
+    body.setState('attack')
     live(1)
     assert.equal(target.health.current, target.health.maximum - (damage ?? 1))
   }
@@ -49,7 +49,7 @@ test('it fires only while it may, and a shot down plane not at all', () => {
   let may = false
   const { body, target, live } = planeAlone(attackPlaneKinds.fighter, { canFire: () => may })
   assert.equal(body.aimAt(target), false)
-  body.setState('fire')
+  body.setState('attack')
   live(1)
   assert.equal(body.shotsFired, 0)
   may = true

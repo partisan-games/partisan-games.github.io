@@ -39,7 +39,7 @@ test('set to fire, a fighter fires straight ahead with its own velocity as its g
   body.steer(-fighter.speed, 0)
   live(1)
   assert.equal(body.shotsFired, 0, 'not while it only flies')
-  body.setState('fire')
+  body.setState('attack')
   live(1 / 30)
   const [round] = body.bullets.projectiles
   assert.ok(Math.abs(round.vx - (-fighter.gun.speed - fighter.speed)) < 1e-9 && round.vy === 0)
@@ -52,7 +52,7 @@ test('set to fire, a fighter fires straight ahead with its own velocity as its g
 
 test('its bullets take only a little of the plane, and shot down it fires no more', () => {
   const { body, plane, live } = fighterAlone()
-  body.setState('fire')
+  body.setState('attack')
   live(1)
   assert.ok(plane.health.current < 100 && plane.health.current >= 100 - fighter.gun.damage * 7)
   body.takeHit(fighter.health)

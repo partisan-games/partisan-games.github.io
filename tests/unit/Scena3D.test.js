@@ -46,3 +46,25 @@ test('a 3D game frees its geometries, materials, textures, bones and shadow maps
   for (const [name, disposed] of Object.entries(watched)) assert.ok(disposed(), name)
   assert.ok(bonesFreed, 'bones')
 })
+
+test('a game that ends frees the shared portrait atlas its Italian soldiers draw their faces from', async t => {
+  t.mock.method(THREE.TextureLoader.prototype, 'load', () => new THREE.Texture())
+  const { default: soldierFace } = await import('/core3d/actor/derived/ww2/soldierFace.js')
+  const materials = Array.from({ length: 6 }, () => new THREE.MeshStandardMaterial())
+  materials[0].name = 'mat_10-Face.jpg'
+  const figure = new THREE.SkinnedMesh(new THREE.BoxGeometry(), materials)
+  const bone = new THREE.Bone()
+  figure.add(bone)
+  figure.bind(new THREE.Skeleton([bone]))
+  const scene = new THREE.Scene()
+  scene.add(figure)
+  soldierFace(figure, { portrait: 0, jaw: 0, nose: 0, chin: 0 })
+  const shader = { uniforms: {}, vertexShader: '#include <begin_vertex>', fragmentShader: '#include <map_fragment>' }
+  materials[0].onBeforeCompile(shader)
+  const atlas = shader.uniforms.faceAtlas.value
+  const freed = watchDispose(atlas)
+
+  Scene3D.prototype.disposeScene.call({ scene })
+
+  assert.ok(freed())
+})

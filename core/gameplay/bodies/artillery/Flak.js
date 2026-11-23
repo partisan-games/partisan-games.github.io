@@ -23,7 +23,7 @@ export const barrel = { breech: { x: .05, y: .41 }, length: 1.39, rest: 2.29, ra
  */
 const states = {
   idle: {},
-  fire: {
+  attack: {
     update: (gun, dt) => {
       gun.trainBarrel(dt)
       gun.fire()

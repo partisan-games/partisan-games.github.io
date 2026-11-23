@@ -122,13 +122,13 @@ Vertikalna arkadna pucačina o partizanskom letu do Visa, sa sopstvenim izgledom
 
 **Okvir (vlasnik):** Igra je bitka za Krupanj 1941, a Žikica Jovanović Španac je bombaš koji napada bunker.
 
-**Kontekst i granice:** Rađevina i Krupanj su Žikicin kraj i prostor njegovog odreda, pa okvir odgovara. Izvori koje sam proverio ne opisuju sam napad na krupanjski garnizon: Žikičina uloga bombaša, bunker i sastav posade (Nemci ili žandarmi) još nisu potvrđeni. Uvodna tvrdnja o nemačkom bunkeru nije istorijski potvrđena; istraživanje vodi [PLAN](PLAN.md#igre). Činjenice i izvori: [Krupanj, 1941](ISTORIJA.md#krupanj-1941--polazište-za-igru-bunker).
+**Kontekst i granice:** Rađevina i Krupanj su Žikicin kraj i prostor njegovog odreda, pa okvir odgovara. Žikica je predvodio bombaše protiv nemačkog garnizona utvrđenog u zgradi bolnice; bunker umesto zgrade je umetnički izbor igre. Činjenice i izvori: [Krupanj, 1941](ISTORIJA.md#krupanj-1941--polazište-za-igru-bunker).
 
 ## Ranjenik
 
 **Okvir (vlasnik):** Junak je ranjeni borac koji je preživeo bitku na Sutjesci 1943.
 
-**Kontekst i granice:** ranjenik koji puzi iz obruča i krije se od patrole odgovara sudbini ranjenika iz pivskih pećina i probojnih dana sredinom juna 1943. Sastav patrole i oprema nisu potvrđeni za tačno mesto i dan; nemački govor patrole je zato pretpostavka igre. Tačno mesto zahteva potvrdu iz monografije; preostalo istraživanje vodi [PLAN](PLAN.md#igre). Činjenice i izvori: [Sutjeska 1943](ISTORIJA.md#sutjeska-1943--polazište-za-igru-ranjenik).
+**Kontekst i granice:** ranjenik koji puzi iz obruča i krije se od patrole odgovara sudbini ranjenika iz pivskih pećina i probojnih dana sredinom juna 1943. Sastav patrole i oprema nisu potvrđeni za tačno mesto i dan; nemački govor patrole je zato pretpostavka igre. Činjenice i izvori: [Sutjeska 1943](ISTORIJA.md#sutjeska-1943--polazište-za-igru-ranjenik).
 
 ## Potvrđena grupa pozadina za Ustanak i Tenkiće
 
@@ -140,7 +140,7 @@ Vlasnik je potvrdio šest ambijenata za sadašnje nivoe: Tenkići — Sremski fr
 
 Zadržati postojeći rasuti, nasumični raspored kocki po širini i visini. Vlasnik je 2026-11-22 odbacio pravilnu mrežu sa povezanom putanjom; sprečavanje preklapanja i nedostižnih novčića ne sme menjati taj izgled.
 
-Raspored ne sme sadržati preklopljene kocke ni novčiće zarobljene u njima. Dostižnost svih novčića i ponašanje na pokretnim platformama proveravaju se kroz [PLAN](PLAN.md#igre); popravka ne menja rasuti izgled nivoa.
+Raspored ne sme sadržati preklopljene kocke ni novčiće zarobljene u njima. Novčići stoje samo na kockama do kojih avatar može da doskoči, a pokretna platforma gura avatara koji joj je na putu; to ne menja rasuti izgled nivoa.
 
 ## Proširenje sastava igara
 

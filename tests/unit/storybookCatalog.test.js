@@ -1,6 +1,5 @@
 import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
-import { attackState } from '/core/gameplay/bodies/stateNames.js'
 import { createPageElements } from './helpers/dom.js'
 
 let Stage2D, kinds
@@ -75,7 +74,7 @@ test('every block fires each shot it lists, where it aims', t => {
       const { block: shooter, live } = staged(t, story)
       const shot = shooter.shots[name]
       shooter.aimAt({ x: shooter.x + shooter.forward * shot.x, y: shooter.y + shot.y, z: (shooter.z ?? 0) + (shot.z ?? 0) })
-      if (!shot.automatic) shooter.setState(attackState(shooter))
+      if (!shot.automatic) shooter.setState('attack')
       // a first shot waits up to a whole reload, and the barrel turns first
       assert.ok(live(5, () => fired(shooter)), `${story.id} ${name}`)
     }

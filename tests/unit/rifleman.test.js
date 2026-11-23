@@ -18,9 +18,9 @@ function soldierAlone({ canFire = () => true, kind = riflemanKinds.soldier } = {
   return { soldier, target, live }
 }
 
-test('a soldier has the states idle, patrol, fire and dead, and starts at ease', () => {
+test('a soldier has the states idle, move, attack and dead, and starts at ease', () => {
   const { soldier } = soldierAlone()
-  assert.deepEqual(soldier.states, ['idle', 'patrol', 'fire', 'dead', 'reload'])
+  assert.deepEqual(soldier.states, ['idle', 'move', 'attack', 'dead', 'reload'])
   assert.equal(soldier.state, 'idle')
 })
 
@@ -28,7 +28,7 @@ test('a soldier keeps his state: at ease he stands, on patrol he walks to and fr
   const { soldier, live } = soldierAlone()
   live(2)
   assert.equal(soldier.x, 50)
-  soldier.setState('patrol')
+  soldier.setState('move')
   let seen = { min: 50, max: 50 }
   for (let i = 0; i < 30 * 20; i++) {
     live(1 / 30)
@@ -56,7 +56,7 @@ test('a soldier set to fire hits where he aims as often as he reloads; at ease, 
   soldier.aimAt(target)
   live(1)
   assert.equal(soldier.shotsFired, 0, 'at ease')
-  soldier.setState('fire')
+  soldier.setState('attack')
   live(rifle.reload * 2 + 1)
   assert.equal(soldier.shotsFired, 3)
   assert.equal(target.health.current, 100 - 3 * rifle.damage, 'each bullet takes a little of the plane')

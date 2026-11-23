@@ -8,7 +8,6 @@ import { sideProjection } from '/core/actor/projection.js'
 import { screenView } from '/core/actor/worldView.js'
 import { randomInRange } from '/core/utils.js'
 import Tank, { tank, tankKinds } from '/core/gameplay/bodies/vehicles/Tank.js'
-import { attackState, movingState } from '/core/gameplay/bodies/stateNames.js'
 import Vehicle, { vehicleKinds } from '/core/gameplay/bodies/vehicles/Vehicle.js'
 import GunCarrier, { gunCarrierKinds } from '/core/gameplay/bodies/vehicles/GunCarrier.js'
 import LevelBomber from '/core/gameplay/bodies/aircraft/LevelBomber.js'
@@ -185,10 +184,10 @@ export default class ToTriesteScene extends Scene2D {
     body.canFire = this.mayFire(body)
     body.y = body.size.height / 2
     view.position.z = layers.unit
-    const rest = movingState(body) ?? 'idle'
+    const rest = body.states.includes('move') ? 'move' : 'idle'
     body.setState(rest)
     const shotSpeed = body instanceof GunCarrier ? body.kind.gun.speed : tank.shellSpeed
-    const controllers = attackState(body) ? [this.marksman(body, shotSpeed, rest)] : []
+    const controllers = body.states.includes('attack') ? [this.marksman(body, shotSpeed, rest)] : []
     return { sort: 'ground', kind, body, view, controllers }
   }
 

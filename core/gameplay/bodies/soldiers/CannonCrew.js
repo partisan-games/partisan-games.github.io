@@ -8,7 +8,7 @@ export const drill = { fire: .87 }
 const states = {
   idle: {},
   load: {},
-  fire: {
+  attack: {
     update: crew => {
       if (crew.stateTime >= drill.fire) crew.setState('idle')
     },

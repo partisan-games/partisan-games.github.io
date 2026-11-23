@@ -30,11 +30,11 @@ test('a sentry stands at ease and walks its patrol in turn, each for a while wit
 })
 
 test('a sentry leaves alone a body that is firing or dead, and starts afresh when set back to patrol', () => {
-  const sentry = new Sentry(body('fire'))
-  assert.ok(watched(sentry, 30).every(state => state === 'fire'))
+  const sentry = new Sentry(body('attack'))
+  assert.ok(watched(sentry, 30).every(state => state === 'attack'))
 
-  sentry.body.state = 'patrol'
-  assert.equal(watched(sentry, watch.patrol.min - .2).at(-1), 'patrol', 'a fresh while, not the one left over')
+  sentry.body.state = 'move'
+  assert.equal(watched(sentry, watch.move.min - .2).at(-1), 'move', 'a fresh while, not the one left over')
 
   sentry.body.alive = false
   sentry.body.state = 'idle'

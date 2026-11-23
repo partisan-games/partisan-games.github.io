@@ -70,7 +70,7 @@ test('the stand-in takes the place of the player: a block aimed at it fires, and
   const { target, soldier, live } = riflemanStage(t)
   target.x = soldier.x + 10
   assert.equal(soldier.aimAt(target), true)
-  soldier.setState('fire')
+  soldier.setState('attack')
   live(5)
   assert.ok(target.hitsTaken > 1, 'the rounds hit it again and again')
   assert.equal(target.alive, true)

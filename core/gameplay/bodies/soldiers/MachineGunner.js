@@ -14,7 +14,7 @@ export const machineGun = { reload: .1, burst: 5, pause: 3, speed: 15, muzzle: {
 /** The gunner holds fire, or fires bursts where he aims as often as his gun allows, or lies dead. */
 const states = {
   idle: {},
-  fire: { update: gunner => gunner.shoot() },
+  attack: { update: gunner => gunner.shoot() },
   dead: {},
 }
 

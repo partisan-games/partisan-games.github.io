@@ -15,9 +15,11 @@ function applyPortrait(material) {
     atlas = new TextureLoader().load(assets.models + 'character/soldier/italian-portraits.jpg')
     atlas.colorSpace = SRGBColorSpace
   }
+  // kept among the material's uniforms, so a 3D game that ends frees the atlas with its other textures
+  material.uniforms = { faceAtlas: { value: atlas } }
   // Blend into the original skin at the temples and neckline; keep its UVs for ears and neck.
   material.onBeforeCompile = shader => {
-    shader.uniforms.faceAtlas = { value: atlas }
+    shader.uniforms.faceAtlas = material.uniforms.faceAtlas
     shader.vertexShader = 'attribute vec3 portraitUV; varying vec3 vPortrait;\n' +
       shader.vertexShader.replace('#include <begin_vertex>', '#include <begin_vertex>\nvPortrait = portraitUV;')
     shader.fragmentShader = 'uniform sampler2D faceAtlas; varying vec3 vPortrait;\n' +

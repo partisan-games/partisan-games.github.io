@@ -42,6 +42,6 @@ export default class Strafer {
     this.pitch += Math.max(-step, Math.min(step, wanted - this.pitch))
     body.steer(body.forward * strafe.speed * Math.cos(this.pitch), strafe.speed * Math.sin(this.pitch))
     const onTarget = Math.abs(this.pitch - sight) <= strafe.aim
-    body.setState(this.phase === 'dive' && target.alive && this.sees(target) && onTarget ? 'fire' : 'idle')
+    body.setState(this.phase === 'dive' && target.alive && this.sees(target) && onTarget ? 'attack' : 'idle')
   }
 }

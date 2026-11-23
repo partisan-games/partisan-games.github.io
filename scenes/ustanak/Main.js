@@ -105,7 +105,7 @@ export default class UstanakScene extends Scene2D {
     const bearers = ['partisan', 'italian'].map((kind, side) => new FlagBearer({ kind: bearerKinds[kind],
       x: this.placeOf(side, places.bearer[kind]), yaw: side * Math.PI, groundAt }))
     this.skirmisher = new Skirmisher({ x: places.skirmisher, groundAt })
-    this.skirmisher.setState('fire')
+    this.skirmisher.setState('attack')
     this.gunViews = this.guns.map(gun => new FieldGunSprite(gun, views))
     this.roundObjects = [
       this.guns[1], this.gunViews[1], this.guns[0], this.gunViews[0], this.skirmisher, new SkirmisherSprite(this.skirmisher, views),
@@ -212,7 +212,7 @@ export default class UstanakScene extends Scene2D {
     if (this.turns.waitForRelease) return
     const crew = this.crews[this.turns.active]
     // the crew loads while the fire key is held, and stands by again when it is let go before the shot
-    if (crew.state !== 'fire') crew.setState(keyboard.isDown(leftPlayerKeys.shoot) ? 'load' : 'idle')
+    if (crew.state !== 'attack') crew.setState(keyboard.isDown(leftPlayerKeys.shoot) ? 'load' : 'idle')
     this.cannonKeys[this.turns.active].handleInput(dt)
   }
 
@@ -223,7 +223,7 @@ export default class UstanakScene extends Scene2D {
       this.shotsSeen[side] = gun.shotsFired
       this.turns.fire(side)
       this.shotTargetHealth = this.guns[1 - side].health.current
-      this.crews[side].setState('fire')
+      this.crews[side].setState('attack')
     })
   }
 

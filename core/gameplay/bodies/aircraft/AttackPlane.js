@@ -25,7 +25,7 @@ export const attackPlaneKinds = {
  */
 const states = {
   idle: {},
-  fire: { update: plane => plane.shoot() },
+  attack: { update: plane => plane.shoot() },
   dead: {
     enter: plane => {
       plane.vx = Math.cos(plane.yaw) * plane.kind.speed
