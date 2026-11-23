@@ -259,3 +259,23 @@ test('a led character\'s camera button comes after its touch buttons, so the pag
   assert.ok(buttons && camera)
   assert.ok(buttons.compareDocumentPosition(camera) & Node.DOCUMENT_POSITION_FOLLOWING)
 })
+
+test('a dead model with no death clip falls on its side, unless it is intact, as a gun whose crew has fallen', async() => {
+  createPageElements()
+  const { default: Character } = await import('/core/gameplay/bodies/characters/Character.js')
+  const { default: CharacterModel, modelSize } = await import('/core3d/actor/characters/CharacterModel.js')
+  const tilt = deathPose => {
+    const mesh = new THREE.Group()
+    mesh.add(new THREE.Mesh(new THREE.BoxGeometry(2, 1, 1)))
+    const body = new Character({ size: modelSize(mesh) })
+    const model = new CharacterModel(body, { mesh, deathPose })
+    body.takeHit(1000)
+    for (let frame = 0; frame < 60; frame++) {
+      body.update(1 / 30)
+      model.update(1 / 30)
+    }
+    return model.mesh.rotation.z
+  }
+  assert.ok(tilt(null) > 1)
+  assert.equal(tilt('intact'), 0)
+})

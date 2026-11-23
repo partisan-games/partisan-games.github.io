@@ -22,7 +22,7 @@ import Shell from './Shell.js'
 import SmokeTrail from './SmokeTrail.js'
 import Defenders, { defenderModels } from './Defenders.js'
 import { gunner } from './Gunner.js'
-import Crew, { memberHealth, stations } from './Crew.js'
+import Crew, { memberHealth, models as crewModels, stations } from '/core3d/actor/artillery/Crew.js'
 import Infantry from './Infantry.js'
 import { infantryModels } from '/core3d/actor/derived/ww2/partisanLooks.js'
 import Tracers from './Tracers.js'
@@ -63,7 +63,7 @@ export default class CannonScene extends Scene3D {
   }
 
   async init() {
-    await requestModels([...new Set([...cannonModels, ...stations.map(station => station.model), ...infantryModels, ...defenderModels])])
+    await requestModels([...new Set([...cannonModels, ...crewModels, ...infantryModels, ...defenderModels])])
     // the keyboard also tracks a held pointer, which charges the shot on touch screens too
     // it faces the fort, down -z
     const { body, model, keys, chase } = leadCharacter(this, cannon, { yaw: Math.PI / 2, health: stations.length * memberHealth, input: { useKeyboard: true },
@@ -85,7 +85,7 @@ export default class CannonScene extends Scene3D {
     this.aimCamera.height = sight.y + .95
     this.aimCamera.distance = sight.z + 4.2
     chase.update(0)
-    this.crew = new Crew(model.mesh, this.scene)
+    this.crew = new Crew(model.mesh)
     this.crewMeter = chase.view.healthBar
     this.crewMeter.dataset.cannonMeter = 'health'
     this.crewMeter.title = 'Crew health'
@@ -291,20 +291,13 @@ export default class CannonScene extends Scene3D {
     this.flag.update(dt)
     this.surrender.update()
     if (this.surrender.pending) return
-    if (!this.surrender.ceasefire && this.posts.length) {
-      const { shooter } = this.crew
-      const shot = shooter.health.alive && shooter.rifleman.update(dt, shooter.mesh, this.posts)
-      if (shot) {
-        this.cannon.audioScene?.emit('rifle.mp3', { profile: 'rifle', spatial: { position: shot.from } })
-        shot.post.gunner.wait = Math.max(shot.post.gunner.wait, .7)
-      }
-    }
     if (!this.surrender.ceasefire) {
       this.infantry.update(dt, this.cannon.audioScene)
       this.fireBack(dt)
     }
     this.tracers.update(dt)
 
-    if (this.player.dead) this.defeat('Your gun crew has been killed.')
+    // the battle is lost once the last of the crew lies on the ground, so his fall plays out
+    if (this.player.dead && this.crew.members.every(member => !member.fallMixer)) this.defeat('Your gun crew has been killed.')
   }
 }

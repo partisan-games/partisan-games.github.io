@@ -16,6 +16,42 @@ import makeWarplane from '/core3d/actor/aircraft/makeWarplane.js'
 import BuildingModel from '/core3d/actor/buildings/BuildingModel.js'
 import { towerModel } from '/core3d/actor/buildings/buildingModels.js'
 import { modelSize } from '/core3d/actor/characters/CharacterModel.js'
+import makeCharacter from '/core3d/actor/characters/makeCharacter.js'
+import * as cannonModule from '/core3d/actor/derived/Cannon.js'
+import Crew, { models as crewModels } from '/core3d/actor/artillery/Crew.js'
+
+/** The crew of each field gun on the stage, and whether its loader is loading a round. */
+const drills = new WeakMap()
+
+/**
+ * The field gun of Battle for Jablanica with its crew, facing the camera's right; it does not fire a shell here. Dead,
+ * its crew has fallen beside it, as in the game.
+ */
+const fieldGun = async stage => {
+  await requestModels([...cannonModule.models, ...crewModels])
+  const { body, model } = makeCharacter(cannonModule.description, { yaw: Math.PI / 2 })
+  const drill = { crew: new Crew(model.mesh), loading: false, update(dt) {
+    if (body.dead) for (const member of this.crew.members)
+      if (member.health.alive) this.crew.hit(member, member.health.current, stage.scene)
+    this.crew.update(dt, 0, this.loading)
+    if (this.crew.ready) this.loading = false
+  } }
+  // added with the gun, as a stage given only objects without a mesh hands three.js nothing to add
+  stage.add(body, model, drill)
+  drills.set(body, drill)
+  return body
+}
+
+/** The loader brings a round to the breech and pushes it in. */
+const loadGun = gun => {
+  drills.get(gun).loading = true
+}
+
+/** A loaded gun recoils, its crew flinches, and the loader needs a new round. */
+const recoil = gun => {
+  const { crew } = drills.get(gun)
+  if (crew.ready) crew.fired()
+}
 
 /** The warplane low over the stage, flying on in place, far enough ahead for the stage's camera to see it whole. */
 const warplane = async(stage, way, look) => {
@@ -76,6 +112,11 @@ export const aircraft = [
       return body
     } },
 ].flatMap(story => story.looks ? separateModels(story) : [story])
+
+export const artillery = [
+  { id: 'poljski-top-3d', name: 'Poljski top sa posadom', game: 'Battle for Jablanica', block: cannonModule, stage: Stage3D,
+    create: fieldGun, commands: [{ label: 'Napuni', run: loadGun }, { label: 'Trzaj', run: recoil }] },
+]
 
 export const towers = [
   { id: 'kula-3d', name: 'Kula sa topom', game: 'Warplane, FPS Airport', block: towerModule, stage: Stage3D, create: gunTower,

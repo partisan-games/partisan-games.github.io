@@ -13,18 +13,17 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 | 4 | [AR-P02](#ar-p02) | Dovršiti odložene provere postojećih dopuna u Storybook-u i igrama | Agent | 📋 TODO |
 | 5 | [AR-P03](#ar-p03) | Pregledati dopune aktera koje nemaju zabeleženo vizuelno prihvatanje | Vlasnik | 📋 TODO |
 | 6 | [AR-P04](#ar-p04) | Pregledati rasporede rekvizita i preostale ugrađene ambijente | Vlasnik | 📋 TODO |
-| | **[Storybook](#storybook)** | | | |
-| 7 | [SB-03](#sb-03) | Pripremiti pregled topa kroz Ammo pozornicu pri radu na njegovom nivou | Agent | 📋 TODO |
 | | **[UI](#ui)** | | | |
-| 8 | [UI-01](#ui-01) | Proveriti preostale izbore početka, greške naplate/povraćaja i fizički touch | Agent | 📋 TODO |
+| 7 | [UI-01](#ui-01) | Proveriti preostale izbore početka, greške naplate/povraćaja i fizički touch | Agent | 📋 TODO |
 | | **[Igre i ideje](#igre)** | | | |
-| 9 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [2](#note-2) |
-| 10 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
-| 11 | [IG-19](#ig-19) | Dogovoriti nazive nivoa i prikaz žanra i godine na naslovnoj | Vlasnik | 📋 TODO |
-| 12 | [IG-20](#ig-20) | Razmotriti nivo odbrane položaja odozgo, sa napadima sa svih strana | Vlasnik | 📋 TODO |
-| 13 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
-| 14 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
-| 15 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
+| 8 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [2](#note-2) |
+| 9 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
+| 10 | [IG-19](#ig-19) | Dogovoriti nazive nivoa i prikaz žanra i godine na naslovnoj | Vlasnik | 📋 TODO |
+| 11 | [IG-20](#ig-20) | Razmotriti nivo odbrane položaja odozgo, sa napadima sa svih strana | Vlasnik | 📋 TODO |
+| 12 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
+| 13 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
+| 14 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
+| 15 | [IG-25](#ig-25) | Razmotriti italijansku minobacačku paljbu u Jablanici, koja može da prevrne top | Vlasnik | 📋 TODO |
 
 ## Održavanje plana
 
@@ -100,13 +99,6 @@ Pregledati [deset rasporeda rekvizita](ART.md#rasporedi-u-igri), uključujući n
 
 Olupina poljskog topa može postati zaseban rekvizit bojišta; još nije raspoređena kao takav rekvizit. Novi efekat vode traži posebno odgovarajuće rešenje, jer je prethodno proceduralno rešenje odbačeno. Dodatni desanti na Brač, Mljet i Korčulu ostaju ideje za igru uz istorijsku proveru, a ne zadaci izrade arta. Rezervni vojnički listovi i sezonske pozadine nisu obaveza za povezivanje: koriste se tek kada ih izabrani akter ili nivo zatraži.
 
-## Storybook
-
-<a id="sb-03"></a>
-### SB-03 · Ammo akteri
-
-Pri sređivanju nivoa pripremiti samostalan pregled njegovog topa i potrebnog fizičkog sveta. Sadašnja 3D pozornica nema Ammo; ne prikazivati nepostojeću sposobnost lažnom animacijom niti tvrditi da je postojeći katalog time potpun.
-
 ## UI
 
 <a id="ui-01"></a>
@@ -157,6 +149,11 @@ Italijanske i ustaške etape ostaju kandidati uz postojeće Nemce i četnike. Iz
 ### IG-24 · Parole Bihaća
 
 Liberated City je Bihać krajem 1942. Natpisi o dolasku Crvene armije i plakat RED_ARMY_IS_HERE pripadaju drugom okviru; vlasnik bira zamenu ili uklanjanje pre izmene sadržaja.
+
+<a id="ig-25"></a>
+### IG-25 · Minobacači u Jablanici
+
+Italijani bi uz mitraljeze gađali top minobacačem. Granata koja pogodi sam top uništava ga: top se prevrne, a posada pored njega strada. Danas top ne može da bude uništen; kad pogine posada, ostaje da stoji ([deathPose `intact`](../core3d/actor/derived/Cannon.js)). Ideja, ne nalog za izradu.
 
 ## Notes
 

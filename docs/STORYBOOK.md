@@ -14,7 +14,7 @@ Za svaki izgled dostupan je [pregled proverenih radnji](../pregled-animacija.htm
 - **Isto pravilo važi za 3D.** Jedan model čoveka može poslužiti različitim vojnicima u zasebnim stavkama; unutar pojedinačnog aktera dostupni su njegovi skinovi i varijacije. Drugi model vozila ili drugog aktera dobija zasebnu stavku.
 - **Sekcije služe snalaženju.** Akteri koji dele kod mogu biti u istoj sekciji, ali to nije obavezno. Imena i raspored treba da pomognu vlasniku da pronađe aktera, nezavisno od organizacije klasa i datoteka.
 
-Ovo je pravilo organizacije; preostalo usklađivanje kataloga i navigacije vodi [PLAN](PLAN.md#storybook).
+Ovo je pravilo organizacije.
 
 ## Upotreba
 
@@ -71,7 +71,7 @@ Sklopive sekcije koriste native `details`/`summary`; `summary` mora biti UI cilj
 
 - Morska mina je predmet/prepreka, pa nema zasebnu stavku u katalogu aktera.
 
-- 3D lik se ne može napraviti u unit testu bez učitanog modela, pa 3D priče proverava browser. Top iz igre Battle for Jablanica nema priču: puca kroz Ammo fiziku, koju 3D pozornica nema. Preostali posao vezan za Ammo pozornicu vodi [PLAN](PLAN.md#storybook).
+- 3D lik se ne može napraviti u unit testu bez učitanog modela, pa 3D priče proverava browser. Top iz igre Battle for Jablanica ima priču bez fizike: posada puni top i trgne se pri opaljenju, a let granate i rušenje tvrđave ostaju u igri (odluka vlasnika, 2026-11-23).
 - Pozornica prikazuje jednog aktera. Više aktera koji deluju jedan na drugog uvodi se tek ako vlasnik to zatraži.
 - [Nemac](../storybook.html#vojnici/nemac-u-rovu) i [Četnik](../storybook.html#vojnici/cetnik-u-rovu) imaju celu figuru koja hoda, nišani, puca i ostaje na zemlji posle pada. Neretva koristi isti model ponašanja sa posebnim crtežom za položaj u [rovu](../core/objects/Trench.js).
 - Namerno nije preuzeto: biblioteka Storybook i React (traže build), kontrole iz unutrašnjih polja objekta (daju besmislena polja) i upravljanje vremenom igre, poput pauze ili usporavanja (vlasniku ne treba).

@@ -16,7 +16,7 @@ before(async() => {
   createPageElements()
   CannonScene = (await import('/scenes/cannon/Main.js')).default
   UI = (await import('/ui/UI.js')).default
-  ;({ reload } = await import('/scenes/cannon/Crew.js'))
+  ;({ reload } = await import('/core3d/actor/artillery/Crew.js'))
 })
 
 async function level(t) {
@@ -176,25 +176,25 @@ test('the surviving crew member can fire and losing the last one ends the battle
   t.mock.method(game.ui.defeatSound, 'play', () => {})
   for (const post of game.posts.slice(1)) post.gunner.wait = Infinity
   t.mock.method(game.posts[0].gunner, 'update', () => ({ hit: true }))
-  const [first, second, rifleman] = game.crew.members
+  const [first, second] = game.crew.members
   t.mock.method(game.crew, 'pickTarget', () => game.crew.members.find(member => member.health.alive))
   const fullHealth = game.crewMeter.max
   game.update(1 / 60, 0)
   const damage = fullHealth - game.crewMeter.value
   assert.ok(damage > 0 && first.health.alive)
-  assert.equal(game.crewMeter.value, first.health.current + second.health.current + rifleman.health.current)
+  assert.equal(game.crewMeter.value, first.health.current + second.health.current)
   for (let left = first.health.current; left > 0; left -= damage) game.fireBack(0)
   const fallen = game.crew.members.find(member => !member.health.alive)
   assert.equal(fallen.mesh.parent, game.scene)
-  assert.equal(game.crewMeter.value, second.health.current + rifleman.health.current)
+  assert.equal(game.crewMeter.value, second.health.current)
   assert.equal(game.session.state, 'running')
   game.shoot()
   assert.equal(game.shells.length, 1)
-  for (let left = second.health.current; left > 0; left -= damage) game.fireBack(0)
-  assert.equal(game.session.state, 'running')
-  for (let left = rifleman.health.current; left > damage; left -= damage) game.fireBack(0)
+  for (let left = second.health.current; left > damage; left -= damage) game.fireBack(0)
   game.update(1 / 60, 1 / 60)
   assert.equal(game.crewMeter.value, 0)
+  assert.equal(game.session.state, 'running', 'the last of the crew is still falling')
+  play(game, game.crew.deathClip.duration + .2)
   assert.equal(game.session.state, 'finished')
   assert.match(game.ui.outro, /gun crew has been killed/)
   const shells = game.shells.length
@@ -204,13 +204,10 @@ test('the surviving crew member can fire and losing the last one ends the battle
 
 test('only enemy bursts draw tracers and a fallen flank fighter costs the crew no health', async t => {
   const game = await level(t)
-  const { shooter } = game.crew
   const fighter = game.infantry.fighters[0]
   fighter.gun.wait = 0
-  shooter.rifleman.wait = 0
   const bursts = t.mock.method(game.tracers, 'burst')
   game.update(.08, 0)
-  assert.equal(shooter.rifleman.shots, 1)
   assert.equal(fighter.gun.shots, 1)
   assert.equal(bursts.mock.callCount(), 0)
   assert.equal(game.shells.length, 0)
@@ -272,4 +269,20 @@ test('the canyon frames the barracks on a raised terrace on the gun bank', async
   assert.equal(disposals, 1, 'the session must release the instance buffer as well as its geometry and material')
   game.session.dispose()
   assert.equal(disposals, 1)
+})
+
+test('a crew hit at once falls slowly and comes to lie on the ground, not under it', async t => {
+  const game = await level(t)
+  const { crew } = game
+  for (const member of crew.members) crew.hit(member, member.health.current, game.scene)
+  crew.update(1 / 30, 0)
+  assert.ok(crew.members.every(member => member.fallMixer), 'they are still falling')
+  for (let time = 0; time < crew.deathClip.duration + .1; time += 1 / 30) crew.update(1 / 30, 0)
+  for (const member of crew.members) {
+    assert.equal(member.fallMixer, null)
+    member.mesh.updateMatrixWorld(true)
+    member.figure.traverse(part => part.skeleton?.update())
+    const lowest = new THREE.Box3().setFromObject(member.figure, true).min.y
+    assert.ok(Math.abs(lowest) < .02, `lowest point ${lowest}`)
+  }
 })

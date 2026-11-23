@@ -2,16 +2,17 @@ import * as THREE from 'three'
 import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js'
 import Health from '/core/gameplay/Health.js'
 import { loadedModel } from '/core3d/assets/models.js'
-import { regular, resistanceFighterModel, riflemanModel } from '/core3d/actor/derived/ww2/partisanLooks.js'
+import { regular, resistanceFighterModel } from '/core3d/actor/derived/ww2/partisanLooks.js'
 import { fitCrewPose } from './crewPose.js'
-import Rifleman from './Rifleman.js'
 
+/** The two who serve the gun: the gunner at the trail and the loader at the breech. */
 export const stations = [
   { x: .87, z: .48, yaw: 1.02, loader: false, model: regular },
   { x: -.45, z: .98, yaw: -.68, loader: true, model: resistanceFighterModel },
-  { x: -2.25, z: -.35, yaw: 0, model: riflemanModel },
 ]
 export const memberHealth = 48
+/** What to load; a game awaits requestModels(models) before it makes a crew. */
+export const models = stations.map(station => station.model)
 
 function cartridge() {
   const profile = [[0, -.18], [.04, -.18], [.04, -.17], [.036, -.167], [.036, .045],
@@ -59,24 +60,17 @@ function loadRound(member, elevation, dt) {
 }
 
 export default class Crew {
-  constructor(carriage, scene) {
+  constructor(carriage) {
     this.elevation = carriage.getObjectByName('Elevation')
     this.deathClip = loadedModel(regular).userData.animations.find(clip => clip.name === regular.animDict.death)
     this.members = stations.map(({ x, z, yaw, loader, model }) => {
-      const source = loadedModel(model)
-      const mesh = new THREE.Group(), figure = clone(source)
-      const rifleman = model === riflemanModel
-      const pose = rifleman ? { chest: figure.getObjectByName('mixamorigSpine2') } : fitCrewPose(figure, loader)
+      const mesh = new THREE.Group(), figure = clone(loadedModel(model))
+      const pose = fitCrewPose(figure, loader)
       mesh.add(figure)
       mesh.position.set(x, 0, z)
       mesh.rotation.y = yaw
-      const parent = rifleman ? scene : carriage
-      parent.add(mesh)
+      carriage.add(mesh)
       const member = { mesh, figure, pose, health: new Health({ maximum: memberHealth }) }
-      if (rifleman) {
-        member.rifleman = new Rifleman(figure, source.userData.animations.find(clip => clip.name === model.animDict.fire))
-        this.shooter = member
-      }
       if (loader) {
         member.round = cartridge()
         mesh.add(member.round)
@@ -112,7 +106,6 @@ export default class Crew {
     if (!member.health.damage(damage)) return false
     scene.attach(member.mesh)
     if (member.round) member.round.visible = false
-    if (member.rifleman) member.rifleman.mixer.stopAllAction()
     member.figure.position.set(0, 0, 0)
     const mixer = new THREE.AnimationMixer(member.figure)
     const fall = mixer.clipAction(this.deathClip)
@@ -121,17 +114,13 @@ export default class Crew {
     fall.play()
     member.fallMixer = mixer
     mixer.update(0)
-    // A final burst can catch the other crew member mid-fall as simulation stops.
-    if (this.members.every(other => !other.health.alive))
-      for (const other of this.members)
-        if (other.fallMixer) {
-          other.fallMixer.update(this.deathClip.duration)
-          this.finishFall(other)
-        }
     return true
   }
 
+  /** Lays the fallen member on the ground, measured in his final pose. */
   finishFall(member) {
+    member.mesh.updateMatrixWorld(true)
+    member.figure.traverse(part => part.skeleton?.update())
     member.mesh.position.y -= new THREE.Box3().setFromObject(member.figure, true).min.y
     member.fallMixer = null
   }
@@ -148,7 +137,7 @@ export default class Crew {
           member.needsRound = false
         }
         if (loading && member.reload < reload.total) loadRound(member, this.elevation, dt)
-      } else if (member.health.alive && !member.rifleman && (this.recoil !== this.lastRecoil || charge !== this.lastCharge))
+      } else if (member.health.alive && (this.recoil !== this.lastRecoil || charge !== this.lastCharge))
         member.pose.blend(charge, this.recoil)
 
     this.lastCharge = charge

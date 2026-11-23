@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { createTexture } from '/core3d/helpers.js'
 import { bankHeight } from './Canyon.js'
-import { variants } from '/core3d/actor/derived/ww2/partisanLooks.js'
+import { infantryWeapons, riflemanModel, variants } from '/core3d/actor/derived/ww2/partisanLooks.js'
 import makeInfantryFighter from './InfantryFighter.js'
 
 const gunfireProfile = {
@@ -31,6 +31,8 @@ const positions = [
     variants.sivi,
     variants.oker,
   ] },
+  // a rifleman beside the gun, in the open
+  { x: -2.25, z: -.35, fighters: [{ model: riflemanModel, weapon: infantryWeapons.rifle }] },
 ]
 
 function buildCover(scene, scope, scenery, logs, stones) {
@@ -74,7 +76,7 @@ export default class Infantry {
           piece.updateMatrix()
           logs.push(piece.matrix.clone())
         }
-      else
+      else if (cover === 'stone')
         for (let row = 0; row < 2; row++)
           for (let j = 0; j < 5 - row; j++) {
             piece.position.copy(location((j - 2 + row / 2) * .53, .68 + .07 * Math.sin(j)))
@@ -88,7 +90,7 @@ export default class Infantry {
       for (const [j, look] of fighters.entries()) {
         const fighter = makeInfantryFighter(look, posts, textures)
         scene.add(fighter.mesh)
-        const across = fighters.length === 2 ? (j ? .64 : -.64) : (j - 1) * .78
+        const across = fighters.length === 2 ? (j ? .64 : -.64) : (j - (fighters.length - 1) / 2) * .78
         fighter.place(location(across, j % 2 ? -.12 : 0), bankHeight, this.fighters.length)
         this.fighters.push(fighter)
       }

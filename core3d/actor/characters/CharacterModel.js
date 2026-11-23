@@ -33,7 +33,8 @@ export function modelSize(mesh) {
  * How a character on foot looks and sounds in 3D: its model, standing on the body's feet and facing its way, playing
  * the clip of what it does, with its weapon in its hands; its steps, its blows, the thud of a hit or a landing,
  * sparks where a shot ends and the `flame` of its attack. A model whose feet sink below its soles is
- * drawn `raise` metres higher; dead, an `ascend`ing one rises spinning instead of lying. Its `spinning` part, as a
+ * drawn `raise` metres higher; dead, an `ascend`ing one rises spinning instead of lying, and an `intact` one, as a
+ * gun whose crew has fallen, stays as it stands. Its `spinning` part, as a
  * propeller, turns `speed` radians a second. It only reads the body.
  */
 export default class CharacterModel {
@@ -137,6 +138,7 @@ export default class CharacterModel {
   /** An unrigged vehicle settles on its side; a falling flier pitches down until impact, then settles. */
   showDeath(dt) {
     const { body, mesh, deathPose } = this
+    if (deathPose === 'intact') return
     if (this.ascend) {
       mesh.rotateY(body.stateTime * 4.5)
       mesh.position.y += body.stateTime * .9
