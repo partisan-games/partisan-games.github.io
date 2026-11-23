@@ -64,7 +64,7 @@ export default class CannonScene extends Scene3D {
   }
 
   async init() {
-    await requestModels([...new Set([...cannonModels, ...crewModels, ...infantryModels, ...defenderModels])])
+    await requestModels([...new Set([...cannonModels, ...crewModels, ...infantryModels, ...defenderModels])], { parallelAnimations: true })
     // the keyboard also tracks a held pointer, which charges the shot on touch screens too
     // it faces the fort, down -z
     const { body, model, keys, chase } = leadCharacter(this, cannon, { yaw: Math.PI / 2, health: stations.length * memberHealth, input: { useKeyboard: true },
@@ -144,6 +144,12 @@ export default class CannonScene extends Scene3D {
     this.impacts = []
     this.shells = []
     this.queuedShot = false
+    // Terrain and intact masonry do not need their matrices rebuilt every frame.
+    for (const mesh of this.physics.rigidBodies) {
+      if (!mesh.isMesh || !mesh.userData.body.isStaticOrKinematicObject()) continue
+      mesh.updateWorldMatrix(true, true)
+      mesh.matrixAutoUpdate = mesh.matrixWorldAutoUpdate = false
+    }
   }
 
   handleClick(e) {

@@ -12,12 +12,12 @@ const occupier = (stage, way) => {
 }
 
 export const soldiers = [
-  { id: 'okupator', name: 'Okupator', game: 'Otpisani', way: 1, block: occupierModule, create: occupier, pxPerMeter: 100,
+  { id: 'okupator', name: 'Okupator', game: 'Zajednička biblioteka', way: 1, block: occupierModule, create: occupier, pxPerMeter: 100,
     catalogGroup: ['Vojnici', 'Nemački'] },
   ...[
     ['rifleman', 'otpisani-strelac', 'Strelac sa puškom'],
     ['sentry', 'otpisani-strazar', 'Stražar u šinjelu'],
-  ].map(([kind, id, name]) => ({ id, name, game: 'Kandidat za nivo', way: 1, block: occupierModule, pxPerMeter: 100,
+  ].map(([kind, id, name]) => ({ id, name, game: 'Otpisani', way: 1, block: occupierModule, pxPerMeter: 100,
     catalogGroup: ['Vojnici', 'Nemački'],
     allowedSeasons: enemyKinds[kind].allowedSeasons,
     create(stage, way) {

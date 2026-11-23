@@ -13,13 +13,13 @@ class SceneManager {
     SceneManager.instance = this
   }
 
-  /** Shows the start screen, or starts a game that has none; replay repeats the choice and the scene's price. */
-  async handleIntro(replay = false) {
+  /** Shows the start screen, or starts a game that has none. */
+  async handleIntro() {
     const { scene } = this
     if (!scene.hasStartScreen) return scene.start()
-    // Play again repeats the last choice, and the next mission of a paid game goes on, without the start screen
-    if ((replay && scene.remembersChoice) || scene.prepaid) {
-      await scene.play(scene.lastChoice)
+    // the next mission of a paid game goes on without the start screen
+    if (scene.prepaid) {
+      await scene.play()
       if (scene.session.state !== 'ready' || this.scene !== scene) return
     }
     scene.clear()
@@ -40,10 +40,10 @@ class SceneManager {
   }
 
   /**
-   * Only the latest call wins; older pending starts are abandoned. `replay` starts the last choice again; `prepaid`
-   * starts a scene that continues a game already paid for, such as its next mission.
+   * Only the latest call wins; older pending starts are abandoned. `prepaid` starts a scene that continues a game already paid
+   * for, such as its next mission.
    */
-  async start(path, showSpinner = true, { replay = false, prepaid = false } = {}) {
+  async start(path, showSpinner = true, { prepaid = false } = {}) {
     const startId = ++this.startId
     const isCurrent = () => startId === this.startId
 
@@ -69,7 +69,7 @@ class SceneManager {
       scene.session.ready()
       scene.syncSounds?.()
 
-      await this.handleIntro(replay)
+      await this.handleIntro()
     } catch (error) {
       if (!isCurrent()) return
       this.endScene()

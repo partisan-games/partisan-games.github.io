@@ -7,6 +7,7 @@ import Explosion from '/core/actor/effects/Explosion.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import { assets } from '/config.js'
 import { wreckFor } from '/core/actor/wreckView.js'
+import { runtimeImageSource } from '../imageSources.js'
 
 /** The plane in partisan markings, and in the NDH markings it flew in until it went over to the partisans. */
 export const markings = {
@@ -32,7 +33,7 @@ const motion = { crewLoop: 1.6, propellerLoop: .12 }
 class Crew {
   constructor() {
     this.image = new Image()
-    this.image.src = assets.images + art.crew.src
+    this.image.src = assets.images + runtimeImageSource(art.crew.src)
     this.frame = 0
   }
 

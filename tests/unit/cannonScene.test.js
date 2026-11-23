@@ -168,6 +168,17 @@ test('three hits leave the real fort motionless while all surviving machine guns
   play(game, 1)
   assert.ok(game.fortPhysics.fixed.size < game.stones.length)
   assert.ok(game.fortPhysics.fixed.size > game.stones.length / 2, 'one breach must leave most of the fort firm')
+  game.scene.updateMatrixWorld(true)
+  for (const stone of game.stones) {
+    if (stone.userData.body.isStaticOrKinematicObject()) {
+      assert.equal(stone.matrixAutoUpdate, false)
+      continue
+    }
+    assert.equal(stone.matrixAutoUpdate, true, 'released masonry resumes automatic transforms')
+    assert.equal(stone.matrixWorldAutoUpdate, true)
+    assert.ok(new THREE.Vector3().setFromMatrixPosition(stone.matrixWorld).distanceTo(stone.position) < 1e-6,
+      'visible rubble follows the physics position after the fixed wall breaks')
+  }
 })
 
 test('the surviving crew member can fire and losing the last one ends the battle', async t => {

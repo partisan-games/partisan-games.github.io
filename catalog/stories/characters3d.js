@@ -5,6 +5,7 @@ import { variants, infantryWeapons } from '/core3d/actor/derived/ww2/partisanLoo
 import * as italianLooksModule from '/core3d/actor/derived/ww2/italianLooks.js'
 import { poseSurrender, surrenderArms } from '/core3d/actor/characters/surrenderPose.js'
 import { requestModels } from '/core3d/assets/models.js'
+import optimizeGeometry from '/core3d/assets/optimizeGeometry.js'
 import makeCharacter from '/core3d/actor/characters/makeCharacter.js'
 import * as barbarianModule from '/core3d/actor/derived/fantasy/Barbarian.js'
 import * as bigfootModule from '/core3d/actor/derived/fantasy/Bigfoot.js'
@@ -56,7 +57,7 @@ const { italianLooks } = italianLooksModule
 const character = (id, name, game, block, Character) => ({
   id, name, game, block, stage: Stage3D,
   create: async stage => {
-    await requestModels(block.models)
+    await requestModels(block.models, { parallelAnimations: true })
     if (block.description) {
       const { body, model } = makeCharacter(block.description)
       stage.add(body, model)
@@ -118,7 +119,7 @@ function infantryStory(id, name, game, block) {
     ...base, lookLabel: 'Varijanta',
     looks: [{ id: 'original', name: 'Original' }, ...looks],
     create: async(stage, way, look) => {
-      await requestModels([...block.models, ...looks.map(({ value }) => value.weapon.model)])
+      await requestModels([...block.models, ...looks.map(({ value }) => value.weapon.model)], { parallelAnimations: true })
       const { body, model } = makeCharacter(block.description)
       stage.add(body, model)
       const infantry = enableInfantryLooks(stage, model)
@@ -190,6 +191,7 @@ function enableInfantryLooks(stage, { mesh, anim }) {
       anim.twoHandedWeapon = null
       grip = new TwoHandedGrip(mesh, look.weapon.model)
     } else anim.addTwoHandedWeapon(originalWeapon)
+    optimizeGeometry(mesh)
   }
   stage.add({ update: () => {
     if (grip?.rifle.parent) grip.fitHands()

@@ -269,18 +269,6 @@ button {
   }
 }
 
-.menu-item {
-  cursor: url("/assets/images/rpgui/cursor/point.png") 10 0, auto;
-  text-align: center;
-  border-radius: 8px;
-  transition: 0.4s;
-}
-
-.menu-item:hover {
-  /* background-color: rgba(0, 0, 0, 1); */
-  transform: rotateY(-20deg);
-}
-
 /* GAME SCREEN */
 
 .central-screen {

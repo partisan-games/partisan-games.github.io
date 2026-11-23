@@ -32,7 +32,7 @@ const drills = new WeakMap()
  * whom only a hit on the crew brings down, kneels on beside the wreck.
  */
 const fieldGun = async stage => {
-  await requestModels([...cannonModule.models, ...crewModels])
+  await requestModels([...cannonModule.models, ...crewModels], { parallelAnimations: true })
   const { body, model } = makeCharacter(cannonModule.description, { yaw: Math.PI / 2 })
   const hit = new GunHit(body, model.mesh, { detailed: true })
   const damage = new FieldGunDamage(body, model.mesh)
@@ -72,7 +72,7 @@ const hitCrew = (gun, stage) => {
 
 /** The warplane low over the stage, flying on in place, far enough ahead for the stage's camera to see it whole. */
 const warplane = async(stage, way, look) => {
-  await requestModels(look.models)
+  await requestModels(look.models, { parallelAnimations: true })
   const { body, model } = makeWarplane(look.description, { clock: stage.session.clock, height: 3, limit: 10, z: -12 })
   stage.add(body, model)
   return body
@@ -80,7 +80,7 @@ const warplane = async(stage, way, look) => {
 
 /** The tower in the middle with its gun on top; with no target in reach, it holds fire. */
 const gunTower = async stage => {
-  await requestModels([towerModel])
+  await requestModels([towerModel], { parallelAnimations: true })
   const mesh = loadedModel(towerModel)
   const size = modelSize(mesh)
   const body = new towerModule.default({ clock: stage.session.clock, size, y: size.height / 2 })
@@ -121,7 +121,7 @@ export const aircraft = [
   { id: 'dirizabl-3d', name: 'Dirižabl', game: 'Zeppelin', block: airshipModule, stage: Stage3D,
     // the airship flies on alone, rising to its clearance above the floor
     create: async stage => {
-      await requestModels(dirigibleModule.models)
+      await requestModels(dirigibleModule.models, { parallelAnimations: true })
       const { body, model } = dirigibleModule.default()
       body.y = body.size.height / 2 + 3
       model.place()
@@ -136,7 +136,7 @@ export const artillery = [
       { label: 'Pogođena posada', run: hitCrew }] },
   { id: 'minobacac-81-3d', name: 'Italijanski minobacač sa posadom', game: 'Battle for Jablanica (proba posade)',
     block: mortarModule, stage: Stage3D, create: async stage => {
-      await requestModels(mortarModule.models)
+      await requestModels(mortarModule.models, { parallelAnimations: true })
       const block = new mortarModule.default()
       block.mesh.rotation.y = .95
       stage.add(block)

@@ -154,7 +154,7 @@ export async function loadFbxAnimations(names, prefix = '') {
   * param.size sometimes not working, so you must use 'scale'
 * returns a promise that resolves with the { mesh, animations }
 */
-export const loadModel = async param => {
+export const loadModel = async(param, { parallelAnimations = false } = {}) => {
   const params = typeof param === 'object' ? param : { file: param }
   const ext = params.file.split('.').pop()
   switch (ext) {
@@ -173,6 +173,15 @@ export const loadModel = async param => {
         params.file = prefix + file
         if (animDict) {
           const local = Object.values(animDict).filter(name => !Object.hasOwn(params.sharedClips ?? {}, name))
+          if (parallelAnimations) {
+            // Start the body now rather than waiting for every external motion to finish downloading and parsing.
+            const [mesh, animations] = await Promise.all([
+              loadFbx({ ...params, animations: [] }),
+              loadFbxAnimations(local, prefix),
+            ])
+            mesh.userData.animations = [...animations, ...mesh.userData.animations]
+            return mesh
+          }
           params.animations = await loadFbxAnimations(local, prefix)
         }
       }

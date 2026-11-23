@@ -44,8 +44,8 @@ Vlasnikovi nazivi i ono što znače u kodu. Ovde idu samo pojmovi koji se stvarn
 | Kraljica | Bilo koji boss, glavni i najjači protivnik nivoa; u Visu He 111, [AttackPlane](../core/gameplay/bodies/aircraft/AttackPlane.js) vrste `boss` | Vis, Graffiti City |
 | Bombaš (Žikica) | [Grenadier](../core/gameplay/bodies/soldiers/Grenadier.js) | Bunker |
 | Kuća-bunker | [Bunker](../core/gameplay/bodies/artillery/Bunker.js) sa [mitraljescem](../core/gameplay/bodies/soldiers/MachineGunner.js) u prozoru | Bunker, Do Trsta |
-| Okupator | [Occupier](../core/gameplay/bodies/soldiers/Occupier.js), nemački vojnik koji hoda i puca ka gledaocu | Otpisani |
-| Nemac/Četnik spreda, ranije „u rovu” | [TrenchSoldier](../core/gameplay/bodies/soldiers/TrenchSoldier.js) sa odgovarajućim prikazom; [rov](../core/objects/Trench.js) je zasebna scenografija | Neretva; stare adrese u katalogu ostaju važeće ([granice](KATALOG.md#granice-i-odluke)) |
+| Okupator | [Occupier](../core/gameplay/bodies/soldiers/Occupier.js), nemački vojnik koji hoda i puca ka gledaocu; isto telo nose i strelac i stražar spreda ([FrontEnemySprite](../core/actor/soldiers/FrontEnemySprite.js)) | Okupator samo u katalogu; strelac i stražar u Otpisanima |
+| Nemac/Četnik spreda, ranije „u rovu” | [TrenchSoldier](../core/gameplay/bodies/soldiers/TrenchSoldier.js) sa odgovarajućim prikazom; [rov](../core/objects/Trench.js) je zasebna scenografija | Neretva; Nemac i u Otpisanima, hodajući; stare adrese u katalogu ostaju važeće ([granice](KATALOG.md#granice-i-odluke)) |
 | Partizanski/italijanski top | Isto telo [FieldGun](../core/gameplay/bodies/artillery/FieldGun.js) sa [prikazom topa](../core/actor/artillery/FieldGunSprite.js); [posada](../core/gameplay/bodies/soldiers/CannonCrew.js) je zaseban akter | Ustanak |
 | Potez | [Potez](../core/gameplay/bodies/aircraft/Potez.js) | Franjo Kluz |
 | Tenkić | [Tank](../core/gameplay/bodies/vehicles/Tank.js) kojim upravlja igrač; isto telo voze i neprijatelji | Tenkići, Do Trsta |
@@ -103,7 +103,7 @@ Odluka vlasnika od 2026-11-22: besplatni su sadržaji u grupama **3D Scenes** i 
 
 Odluka vlasnika od 2026-11-20: igre koje nemaju startni prozor ostaju besplatne i kreću odmah po učitavanju, bez dodavanja prozora za novčić ili starta. To važi i za direktan link, reload i ponovnu igru; dostupnost novčića i njihovog skladišta ne sme uslovljavati besplatnu igru.
 
-Za naplative 2D i 3D igre sa startnim prozorom ostaje jedan prozor pre početka: Start ili izbor režima naplaćuje jedan novčić, a kartica u glavnom meniju ne naplaćuje. Kartica ipak zadržava izgled automata sa „INSERT COIN” (odluka vlasnika 2026-11-20); klik na nju samo otvara igru. Play again naplaćuje novu partiju i pokreće je sa istim prethodnim izborom, bez ponavljanja startnog prozora. Preskakanje tog prozora pri replay-u ne menja cenu igre. Cilj je manje klikova, uz jasno prikazanu cenu; konkretni novi natpisi i poruke i dalje traže prethodno odobrenje po pravilu iznad. Ovo je pravilo željenog ponašanja, ne potvrda da ga trenutni kod sprovodi.
+Za naplative 2D i 3D igre sa startnim prozorom ostaje jedan prozor pre početka: Start ili izbor režima naplaćuje jedan novčić, a kartica u glavnom meniju ne naplaćuje. Kartica ipak zadržava izgled automata sa „INSERT COIN” (odluka vlasnika 2026-11-20); klik na nju samo otvara igru. Play again ponovo otvara startni prozor igre, sa izborom, i nova partija se naplaćuje kao prva. Cilj je manje klikova, uz jasno prikazanu cenu; konkretni novi natpisi i poruke i dalje traže prethodno odobrenje po pravilu iznad. Ovo je pravilo željenog ponašanja, ne potvrda da ga trenutni kod sprovodi.
 
 ## Tasteri
 

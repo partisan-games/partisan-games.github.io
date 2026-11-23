@@ -41,19 +41,16 @@
   text-shadow: 0 1px #ffe4a2;
   font: bold 23px/1 Georgia, serif;
 }
-.arcade-cabinet.menu-item {
+.arcade-cabinet {
   overflow: hidden;
-  padding: 0;
+  text-align: center;
   border: 2px solid #5d5e54;
-  border-image: none;
   border-radius: 8px 8px 12px 12px;
   background: linear-gradient(140deg, #3c4140, #202525 65%);
   box-shadow: inset 0 1px #b5b6a540, 0 7px 0 #111514, 0 10px 20px #0005;
-  cursor: default;
   transition: border-color .2s, box-shadow .2s;
 }
-.arcade-cabinet.menu-item:hover {
-  transform: none;
+.arcade-cabinet:hover {
   border-color: #b8a271;
   box-shadow: inset 0 1px #b5b6a540, 0 7px 0 #111514, 0 10px 26px #0007;
 }

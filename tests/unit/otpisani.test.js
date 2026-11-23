@@ -31,15 +31,19 @@ test('an occupier walks in from an edge for a while, then fires at the player un
   assert.equal(scene.energija, health)
 })
 
-test('unselected catalogue candidates never enter the level through the spawn path', async t => {
-  const { default: OccupierSprite } = await import('/core/actor/soldiers/OccupierSprite.js')
+test('each German in the lineup falls when shot in the chest', t => {
   const scene = new Otpisani()
   scene.init()
   scene.clear = () => {}
   t.after(() => scene.end())
+  scene.session.start()
   scene.dodajNeprijatelja()
   scene.dodajNeprijatelja()
-  scene.dodajNeprijatelja()
-  for (const { view } of scene.occupiers) assert.ok(view instanceof OccupierSprite)
-  assert.equal(scene.walks.size, 4)
+  scene.update(0, 0)
+  const target = document.createElement('div')
+  for (const { body, view } of scene.occupiers) {
+    const top = view.inTrench === false ? view.y - view.height : view.y - view.height / 2
+    scene.handleClick({ target, pageX: view.x, pageY: top + view.height / 4 })
+    assert.equal(body.dead, true, `${view.constructor.name} falls when shot in the chest`)
+  }
 })

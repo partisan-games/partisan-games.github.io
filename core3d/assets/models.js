@@ -15,11 +15,11 @@ const loaded = new Map()
 // the whole description: one file prepared at two sizes (a propeller on different planes) is two models
 const keyOf = model => JSON.stringify(Object.keys(model).sort().map(key => [key, model[key]]))
 
-/** Loads the described model once; resolves with its prepared mesh. */
-export function requestModel(model) {
+/** Loads once; parallelAnimations overlaps FBX body/motion requests without changing the prepared-model identity. */
+export function requestModel(model, options) {
   const key = keyOf(model)
   if (!loads.has(key)) {
-    const load = loadModel({ ...model }) // loadModel rewrites the file of the object it gets
+    const load = loadModel({ ...model }, options) // loadModel rewrites the file of the object it gets
       .then(mesh => {
         loaded.set(key, mesh)
         return mesh
@@ -32,7 +32,7 @@ export function requestModel(model) {
   return loads.get(key)
 }
 
-export const requestModels = models => Promise.all(models.map(requestModel))
+export const requestModels = (models, options) => Promise.all(models.map(model => requestModel(model, options)))
 
 /** The prepared mesh of a model that has finished loading; a class constructor clones it. */
 export function loadedModel(model) {

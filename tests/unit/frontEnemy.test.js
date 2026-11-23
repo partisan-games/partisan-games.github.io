@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 import { loadAtlas } from './helpers/atlas.js'
 import World from '/core/World.js'
-import Occupier from '/core/gameplay/bodies/soldiers/Occupier.js'
+import Occupier, { occupier } from '/core/gameplay/bodies/soldiers/Occupier.js'
 import kinds from '/core/gameplay/frontEnemyKinds.js'
 
 let FrontEnemySprite, sideProjection
@@ -107,4 +107,14 @@ test('both retained frontal actors preserve physical figure and muzzle-flash siz
   assert.equal(rifleman.view.height, sentry.view.height)
   assert.deepEqual(flashes[0], flashes[1], 'source pixel density must not shrink the firing effect')
   assert.deepEqual(rifleman.body.size, sentry.body.size)
+})
+
+test('frontal walkers step as far as they go, so their feet do not slide', t => {
+  for (const kind of Object.keys(kinds)) {
+    const { body, view, world, render } = fixture(kind)
+    t.after(() => world.end())
+    body.setState('move')
+    world.update(kinds[kind].stride / occupier.speed / 4 + .005)
+    assert.equal(render()[0][1], view.clip.art.width, 'a quarter of the drawn stride walked shows the second walk frame')
+  }
 })

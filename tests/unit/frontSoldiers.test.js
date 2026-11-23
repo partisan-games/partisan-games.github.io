@@ -1,5 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
+import { canonicalImageSource } from '/core/actor/imageSources.js'
 import TrenchSoldier, { trench } from '/core/gameplay/bodies/soldiers/TrenchSoldier.js'
 import Occupier, { occupier } from '/core/gameplay/bodies/soldiers/Occupier.js'
 import { createPageElements } from './helpers/dom.js'
@@ -60,7 +61,7 @@ test('front-facing soldier views load their own poses and draw without owning a 
   for (const faction of ['nemci', 'cetnici']) for (const scale of [1, .5]) {
     const body = new TrenchSoldier({ x: 10 })
     const view = new TrenchSoldierSprite(body, { faction, scale, inTrench: true, projection: sideProjection({ pxPerMeter: 22, groundY: 500 }) })
-    assert.ok(view.image.src.endsWith(`${faction}-spreda.png`))
+    assert.ok(canonicalImageSource(view.image.src).endsWith(`${faction}-spreda.png`))
     loadAtlas(view, 192, 288)
     await view.imageLoaded
     assert.equal(view.frames.length, 4, 'all poses are ready when the image loader finishes')
@@ -79,4 +80,25 @@ test('front-facing soldier views load their own poses and draw without owning a 
     assert.ok(draws.length > 0)
     assert.ok(draws.every(([image]) => image instanceof HTMLCanvasElement), 'only isolated soldier poses are drawn')
   }
+})
+
+test('the full front figure steps only as it covers ground', async() => {
+  createPageElements()
+  const { default: TrenchSoldierSprite } = await import('/core/actor/soldiers/TrenchSoldierSprite.js')
+  const { sideProjection } = await import('/core/actor/projection.js')
+  const projection = sideProjection({ pxPerMeter: 100, groundY: 500 })
+  const frameOf = body => {
+    const view = new TrenchSoldierSprite(body, { projection })
+    loadAtlas(view, 144 * 7, 124)
+    body.setState('move')
+    body.update(.2)
+    view.update(.2)
+    let frame
+    view.render({ save() {}, restore() {}, translate() {}, rotate() {}, scale() {}, drawImage: (_, x) => {
+      frame = x / 144
+    } })
+    return frame
+  }
+  assert.equal(frameOf(new TrenchSoldier()), 3, 'rising in place, his feet stay in their first walking pose')
+  assert.notEqual(frameOf(new Occupier()), 3, 'walking, he steps')
 })

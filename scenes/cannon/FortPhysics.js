@@ -48,6 +48,7 @@ export default class FortPhysics {
       body.setCollisionFlags(body.getCollisionFlags() & ~1)
       body.updateInertiaTensor()
       body.setActivationState(4)
+      part.matrixAutoUpdate = part.matrixWorldAutoUpdate = true
       this.physics.add(part)
     }
   }

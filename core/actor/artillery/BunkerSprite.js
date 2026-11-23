@@ -6,6 +6,7 @@ import { assets } from '/config.js'
 import gunnerArt from '/core/actor/soldiers/machineGunnerArt.js'
 import HitReaction from '../HitReaction.js'
 import { actorArt } from '../reinforcementArt.js'
+import { runtimeImageSource } from '../imageSources.js'
 
 /** The picture of each kind of bunker. */
 export const bunkerPictures = { pillbox: 'buildings/bunker-02.png', house: 'buildings/kuca-bunker.png' }
@@ -18,7 +19,7 @@ class WindowGunner {
   constructor(scale, owner) {
     this.scale = scale
     this.image = new Image()
-    this.image.src = assets.images + gunnerArt.src
+    this.image.src = assets.images + runtimeImageSource(gunnerArt.src)
     this.sinceShot = Infinity
     this.sinceDeath = 0
     this.hitReaction = new HitReaction(owner, actorArt['machine-gunner-hit'])

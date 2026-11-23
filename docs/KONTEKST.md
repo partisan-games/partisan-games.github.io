@@ -112,7 +112,7 @@ Vertikalna arkadna pucačina o partizanskom letu do Visa, sa sopstvenim izgledom
 
 **Kontekst i granice:** protivnik su nemačke jedinice koje brane Beograd; borba ulicu po ulicu odgovara poslednjim danima operacije. Uloga ilegalaca kao u seriji je umetnički okvir igre i ne treba je predstavljati kao istorijsku tvrdnju; stvarna uloga beogradske ilegale u oktobru 1944. zahteva zaseban istorijski dokaz. Muzika iz serije ostaje neprostorni sloj kao i do sada. Činjenice i izvori: [Beograd, oktobar 1944](ISTORIJA.md#beograd-oktobar-1944--polazište-za-igru-otpisani).
 
-Nove frontalne likove vlasnik prvo bira u katalogu; do izbora nisu deo sastava nivoa. Šinjel je isključivo zimska uniforma i ne koristi se u jesenjem okviru Otpisanih, niti u prolećnim ili letnjim nivoima.
+Nove frontalne likove vlasnik prvo bira u katalogu; do izbora nisu deo sastava nivoa. Šinjel je isključivo zimska uniforma i ne koristi se u prolećnim ili letnjim nivoima; stražar u šinjelu je u jesenjim Otpisanima samo privremeno, po odluci vlasnika (2026-11-23), dok se ne nađe bolji frontalni lik.
 
 ## Liberated City
 
@@ -140,4 +140,4 @@ Raspored ne sme sadržati preklopljene kocke ni novčiće zarobljene u njima. No
 
 ## Proširenje sastava igara
 
-**Ograničenja vlasnika, 2026-11-22:** Bunker ne dobija nove aktere; Ustanak i Tenkići ostaju fino podešeni dvoboji. Otpisani zadržavaju realističan crno-beli stil, bez pikselnih aktera. Vis se igra 1944, pa italijanski Re.2005 nije izabran (vlasnik). Novi kandidati čekaju izričit izbor vlasnika u [planu ideja](PLAN.md#igre).
+**Ograničenja vlasnika, 2026-11-22:** Bunker ne dobija nove aktere; Ustanak i Tenkići ostaju fino podešeni dvoboji. Vis se igra 1944, pa italijanski Re.2005 nije izabran (vlasnik). Novi kandidati čekaju izričit izbor vlasnika u [planu ideja](PLAN.md#igre).

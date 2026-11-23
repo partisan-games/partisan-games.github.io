@@ -8,7 +8,7 @@ export default class Arcade {
   constructor() {
     this.isLocal = isLocalCoinHost(location.hostname)
     this.coins = this.isLocal ? new DevelopmentCoins() : new DailyCoins()
-    this.cards = [...document.querySelectorAll('.menu-item[data-path]')]
+    this.cards = [...document.querySelectorAll('.arcade-cabinet[data-path]')]
     this.games = new Map(this.cards.map(card => [card.dataset.path, card.querySelector('h3').textContent]))
     // direct links to scenes left off the homepage still open
     for (const [path, title] of Object.entries({
@@ -16,7 +16,6 @@ export default class Arcade {
     })) this.games.set(path, title)
 
     this.wallet = this.createWallet()
-    this.cards.forEach(card => this.addCabinet(card))
 
     window.addEventListener('storage', this.handleStorage)
     window.addEventListener('focus', this.refresh)
@@ -32,24 +31,6 @@ export default class Arcade {
     wallet.innerHTML = `${coin}<div><small>${this.isLocal ? 'LOCAL DEVELOPMENT' : `${this.coins.allowance} coins every day`}</small><strong class="arcade-balance" aria-live="polite"></strong><span class="arcade-eyebrow">coins left</span></div>`
     document.body.appendChild(wallet)
     return wallet
-  }
-
-  /** A card is an arcade cabinet with the game on its screen and a coin slot below; clicking it opens the game. */
-  addCabinet(card) {
-    card.classList.add('arcade-cabinet')
-    const screen = document.createElement('div')
-    screen.className = 'arcade-screen'
-    card.querySelector('img').before(screen)
-    screen.appendChild(card.querySelector('img'))
-    const slot = document.createElement('button')
-    slot.type = 'button'
-    slot.className = 'arcade-slot'
-    const viewing = Boolean(card.closest('[data-free]'))
-    slot.setAttribute('aria-label', `${viewing ? 'View' : 'Play'} ${this.games.get(card.dataset.path)}`)
-    slot.innerHTML = viewing
-      ? '<span class="arcade-slot-label">VIEW</span>'
-      : `${coin}<span class="arcade-slot-label">INSERT COIN<small>1 COIN · 1 PLAY</small></span><span class="arcade-slot-mouth" aria-hidden="true"></span>`
-    card.appendChild(slot)
   }
 
   /** The original cabinet animation; spending the token still belongs to the game's Start button. */

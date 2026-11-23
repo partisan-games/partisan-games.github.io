@@ -8,7 +8,7 @@ const trench = faction => stage => {
   return body
 }
 
-const game = 'Neretva'
+const game = 'Neretva, Otpisani'
 
 export const soldiers = [
   { id: 'nemac-u-rovu', name: 'Nemac spreda', game, block: trenchSoldierModule, create: trench('nemci') },

@@ -5,6 +5,8 @@ import { trench } from '/core/gameplay/bodies/soldiers/TrenchSoldier.js'
 /** Seconds between two shots of the burst, as drawn. */
 const { shotInterval } = trench
 const frameCache = new Map()
+/** Metres the full figure covers in one cycle of its four walking frames, about two steps of a 1.8 m man. */
+const stride = 1.3
 
 /**
  * How a soldier of the `faction` army ('nemci' or 'cetnici') looks and sounds, seen from the front, at
@@ -20,6 +22,8 @@ export default class TrenchSoldierSprite extends BodySprite {
     this.fit()
     this.idlePhase = Math.random() * Math.PI * 2
     this.animationTime = 0
+    /** Metres walked, so the steps keep pace with the body instead of a clock. */
+    this.walked = 0
     this.frames = inTrench ? frameCache.get(faction) : null
     this.burstSound = new Sound('rafal.mp3', { loop: true, profile: 'rifle', spatial: { getPosition: () => this.position } })
     this.sounds.push(this.burstSound)
@@ -49,6 +53,7 @@ export default class TrenchSoldierSprite extends BodySprite {
   update(dt) {
     super.update(dt)
     this.animationTime += dt
+    if (this.body.state === 'move') this.walked += Math.abs(this.body.vx) * dt
     this.burstSound.setPlaying(this.body.state === 'attack')
   }
 
@@ -98,7 +103,7 @@ export default class TrenchSoldierSprite extends BodySprite {
     if (!this.shown || !this.image.naturalWidth) return
     const { state, stateTime } = this.body
     let frame = 0, angle = 0, squeeze = 0
-    if (state === 'move') frame = [3, 4, 5, 4][Math.floor(stateTime / .16) % 4]
+    if (state === 'move') frame = [3, 4, 5, 4][Math.floor(this.walked / stride * 4) % 4]
     else if (state === 'dead') {
       frame = stateTime < .12 ? 0 : stateTime < .75 ? 1 : 2
       if (frame === 1) angle = -.45 * Math.min(1, (stateTime - .12) / .63)

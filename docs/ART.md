@@ -16,7 +16,9 @@ Pravila izrade i veze do izvora. Otvoreni poslovi su u [PLAN-u](PLAN.md#art), pr
 - Konačni vojni art čuvati po vrsti opreme u [game-ready](../assets/images/armies/game-ready/). Izvor, stvarni prompt, poreklo, hashovi i ponovljiva priprema ostaju uz resurs; tok pokušaja i duplirani opisi rada ne pripadaju ovoj dokumentaciji.
 
 <a id="stil-aerodromske-posade"></a>
-**Stil pešadije:** zadržati projektni piksel stil, ozbiljna odrasla lica i uverljive proporcije. Korekcija karikaturalnosti nije nalog za fotorealizam. Za Otpisane važi njihov [realistični crno-beli stil](KONTEKST.md#otpisani).
+**Stil:** ceo projekat koristi jedan stil, realističan piksel art; nivo ne dobija zaseban stil (vlasnik, 2026-11-23). Za pešadiju to znači ozbiljna odrasla lica i uverljive proporcije. Korekcija karikaturalnosti nije nalog za fotorealizam.
+
+**Razmera (vlasnik, 2026-11-23):** igre su u tri grupe, bočne, spreda i odozgo, i grupe se ne porede. Unutar grupe svi predmeti imaju istu izvornu razmeru, isti broj piksela po metru prema stvarnoj veličini, a telo u metrima je stvarne veličine. Katalog prikazuje predmete u toj prirodnoj razmeri; samo igra sme da ih uveća ili umanji. To je jedini dopušten tok.
 
 ### Uklapanje cele scene — pouke pokušaja Bunkera
 
@@ -48,13 +50,15 @@ Kadar, trajanje, sidrište, tačke događaja i putanje završnih slika čitaju s
 | Ustanak: strelac, zastavnici i posade | [sprites](../assets/images/armies/sources/ustanak/sprites.json), [hod i pad strelca](../assets/images/armies/sources/partisan-rifleman/sprites.json), [pad posada](../assets/images/armies/sources/cannon-crew-fall/sprites.json) |
 | Bombaš | [mirovanje, hod i pad](../assets/images/armies/sources/infantry-art/sprites.json), [bacanje](../assets/images/armies/sources/grenadier-throw/sprites.json); priprema: [osnovni atlas](../assets/images/armies/sources/infantry-art/prepare.py) i [bacanje udesno](../assets/images/armies/sources/grenadier-throw/prepare-right.py) |
 | Okupator | [sprites](../assets/images/armies/sources/infantry-art/occupier-sprites.json) |
-| Frontalni kandidati sa animacijama | [animacije](../assets/images/armies/sources/enemy-front-variants/animation-sprites.json), [priprema](../assets/images/armies/sources/enemy-front-variants/prepare-animations.py), izvori [strelca](../assets/images/armies/sources/enemy-front-variants/rifleman-redraw-generation.json) i [stražara](../assets/images/armies/sources/enemy-front-variants/winter-sentry-animation-generation.json); zasebne priče [strelca](../catalog.html#vojnici/otpisani-strelac) i [stražara](../catalog.html#vojnici/otpisani-strazar). Sastav nivoa bira vlasnik. |
+| Frontalni kandidati sa animacijama | [animacije](../assets/images/armies/sources/enemy-front-variants/animation-sprites.json), [priprema](../assets/images/armies/sources/enemy-front-variants/prepare-animations.py), izvori [strelca](../assets/images/armies/sources/enemy-front-variants/rifleman-redraw-generation.json) i [stražara](../assets/images/armies/sources/enemy-front-variants/winter-sentry-animation-generation.json); zasebne priče [strelca](../catalog.html#vojnici/otpisani-strelac) i [stražara](../catalog.html#vojnici/otpisani-strazar). Privremeno u Otpisanima: crtani su kao strip i odskaču od realističnog piksel arta, pa ih zameniti kad stigne bolji crtež. |
 | Nemac i Četnik spreda | [cele figure](../assets/images/armies/sources/infantry-art/front-standing/sprites.json) |
 | Mitraljezac iz Bunkera | [sprites](../assets/images/armies/sources/bunker-gunner/sprites.json) |
 | Posade Flaka i PaK-a | [sprites](../assets/images/armies/sources/infantry-art/crew-sprites.json) |
 | Punjenje nemačkog strelca | [sprites](../assets/images/armies/sources/rifleman-reload/sprites.json); klip prati spremnik nacrtanog oružja i nije zamena za punjenje drugih pušaka |
 
 Šinjel je isključivo zimska uniforma; [metapodaci kandidata](../core/gameplay/frontEnemyKinds.js) ograničavaju stražara na zimu.
+
+Neretva i Otpisani imaju istu perspektivu spreda i dele pešadiju spreda (odluka vlasnika, 2026-11-23): frontalni kandidati, Okupator i Nemac i Četnik spreda crtaju se i biraju za obe igre, a godišnje doba i dalje ograničava izbor po nivou. Hod spreda prati pređeni put, pa dužina koraka nacrtanog lika ide uz njegove metapodatke.
 
 ### Vozila i oruđa
 
@@ -114,6 +118,14 @@ Minobacač za Jablanicu je originalna vizuelna interpretacija italijanskog tipa 
 <a id="cannon-kanjon-neretve"></a>
 <a id="battle-for-jablanica-kanjon-neretve"></a>
 Za Battle for Jablanica važe [kontekst i izbor scene](KONTEKST.md#battle-for-jablanica); [model topa](../assets/models/weapon/cannon/field-gun-75.glb) i podaci scene određuju postojeći prikaz.
+
+Jablanica koristi [WebP uniforme bez gubitka](../assets/models/character/soldier/partisan-wool-uniform.webp), izveden iz [prihvaćenog PNG-a](../assets/models/character/soldier/partisan-wool-uniform.png) pomoću [pripreme](../scripts/prepare-jablanica-texture.py). Skripta proverava jednakost dekodiranih RGBA piksela; dimenzije ostaju 1254×1254. [Lokalna optimizacija figura](../scenes/cannon/optimizeFigure.js) grupiše neprozirne trouglove po materijalu, bez promene položaja, normala, UV koordinata, boja, kostiju i težina; providni materijali zadržavaju redosled. Izvorni modeli se ne menjaju, a instance u nivou dele pripremljenu geometriju.
+
+## Manje slike aktera bez promene arta
+
+[Priprema runtime slika](../scripts/prepare-catalog-images.py) pravi lossless WebP kopije iz `assets/images/armies/game-ready`. Prihvaćeni PNG atlasi, njihove dimenzije, metapodaci i hashovi ostaju izvor istine; kopije imaju potpuno iste RGBA piksele, uključujući providne. Preuzima se manja kopija preko [zajedničkog mapiranja](../core/actor/imageSources.js), u katalogu i igrama, uključujući posadu, elise i olupine. Nepokrivene slike zadržavaju izvornu putanju; promenu formata ne koristiti za zaključivanje identiteta aktera.
+
+Posle izmene arta ponovo pokrenuti pripremu; `python -B scripts/prepare-catalog-images.py --check` proverava svaki piksel, dimenzije, hashove i usklađenost mape sa [manifestom](../assets/images/optimized/manifest.json). Kopije se dodaju samo uz najmanje 10% i 512 bajtova uštede. Provera je obavezna posle promene izvora da igra ne učitava zastarelu kopiju. Ova kompresija smanjuje prenos; dekodirana memorija i broj frejmova ostaju isti.
 
 ## Pravila pripreme i predaje pozadina
 

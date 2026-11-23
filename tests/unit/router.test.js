@@ -9,7 +9,7 @@ const modal = () => document.getElementById('modal')
 const games = ['first', 'second', 'third', 'fourth', 'fifth']
 let arcade
 
-const menuCard = path => `<div class="menu-item" data-path="${path}"><h3>${path}</h3><img></div>`
+const menuCard = path => `<div class="arcade-cabinet" data-path="${path}"><h3>${path}</h3><img></div>`
 
 /** Opens a game the way a player does: its address opens it, with no token asked for. */
 async function play(path) {

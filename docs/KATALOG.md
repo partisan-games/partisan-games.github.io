@@ -61,6 +61,8 @@ Blok koji ne može da se napravi samo sa opcijama pozornice još nije nezavisan;
 
 ## Provere
 
+3D priče učitavaju FBX telo i lokalne klipove paralelno, uz čekanje svih animacija. [Pozornica](../catalog/Stage3D.js) posle pripreme izgleda grupiše neprozirne trouglove po materijalu preko [zajedničke optimizacije](../core3d/assets/optimizeGeometry.js). Pri promeni pešadijske varijante prvo se vraća sačuvana izvorna geometrija, zatim primenjuje oprema i tek onda optimizuje; sačuvati taj redosled. Detalji modela, kosti i providni redosled ostaju isti. 2D akteri koriste [manje kopije istih slika](ART.md#manje-slike-aktera-bez-promene-arta).
+
 Postojeću pokrivenost aktera grafikom, pripremu i povezivanje dopuna vodi [ART](ART.md). Postojanje stanja ili priče samo po sebi ne dokazuje da telo ima poseban animirani klip.
 
 Svaka dopuna arta mora postati dostupna u postojećoj ili novoj priči aktera. Priča i svi nivoi koriste isti objekat i zajedničko mapiranje arta; poseban HTML/GIF pregled nije zamena. Art zadatak se zatvara tek posle [obavezne integracije i provera](ART.md#obavezna-integracija).

@@ -13,8 +13,6 @@ import { admission } from './io/admission.js'
 
 // the scene that last showed each shared canvas; a scene ended late must not hide or wipe the next scene's drawing
 const canvasOwners = new WeakMap()
-// what the player last chose on each game's start screen, so Play again starts the same game without asking
-const lastChoices = new WeakMap()
 
 export default class Scene {
   constructor({
@@ -117,15 +115,6 @@ export default class Scene {
   /** Gets ready what the player chose on the start screen, such as a plane to load; a game with choices overrides it. */
   async prepare() {}
 
-  /** The choice the player last started this game with, if any. */
-  get lastChoice() {
-    return lastChoices.get(this.constructor)
-  }
-
-  get remembersChoice() {
-    return lastChoices.has(this.constructor)
-  }
-
   /**
    * Starts what the player chose: a paid game with a start screen costs one token after its choice is ready, so a
    * failed load costs nothing; a scene `prepaid` by the game it continues costs none. A second click while starting
@@ -150,7 +139,6 @@ export default class Scene {
         if (!receipt) return
         if (this.ui.ended) return await this.giveBack(receipt)
       }
-      lastChoices.set(this.constructor, choice)
       // Replay retains the price even after start() clears the intro.
       this.costsToken = this.hasStartScreen && !this.free
       this.start()

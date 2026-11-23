@@ -7,7 +7,7 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 | # | ID | Posao | Ko | Status |
 |---|---|---|---|---|
 | | **[Art](#art)** | | | |
-| 1 | [IG-13](#ig-13) | Dopuniti pogodak Okupatora, povezati i proveriti | Codex, Claude | 🔄 In progress<br>Waiting: jedan resurs [1](#note-1) |
+| 1 | [IG-13](#ig-13) | Precrtati Okupatora u realističan piksel art ili ga pretvoriti u SVG | Codex, Claude | 📋 TODO [1](#note-1) |
 | 2 | [AR-P02](#ar-p02) | Dovršiti odložene provere postojećih dopuna u katalogu i igrama | Agent | 📋 TODO |
 | 3 | [AR-P03](#ar-p03) | Pregledati dopune aktera koje nemaju zabeleženo vizuelno prihvatanje | Vlasnik | 📋 TODO |
 | 4 | [AR-P04](#ar-p04) | Pregledati rasporede rekvizita i preostale ugrađene ambijente | Vlasnik | 📋 TODO |
@@ -31,9 +31,9 @@ Važe [DOCS](DOCS.md), [ugovor arta](ART.md#obavezna-integracija) i [arhitektura
 ## Art
 
 <a id="ig-13"></a>
-### IG-13 · Preostala stanja „pogođen”
+### IG-13 · Novi crtež Okupatora
 
-Napraviti preostali pogodak Okupatora, povezati ga sa zajedničkim prikazom igre i kataloga i proveriti vidljivu reakciju na pogodak. Ugovor: [ART](ART.md#dopune-iz-plana-ideja--predaja-arta); dokazi: [TESTING](TESTING.md#predaja-arta-iz-plana-ideja).
+Okupator je sada samo u katalogu, a Otpisani privremeno koriste strelca, stražara i Nemca spreda. Precrtati Okupatora u realističan piksel art projekta, sa svim stanjima uključujući pogodak, ili ga pretvoriti u SVG; zatim ga povezati sa zajedničkim prikazom igre i kataloga i proveriti hod, paljbu, pogodak i pad. Ugovor: [ART](ART.md#dopune-iz-plana-ideja--predaja-arta); dokazi: [TESTING](TESTING.md#predaja-arta-iz-plana-ideja).
 
 <a id="ar-p02"></a>
 ### AR-P02 · Odložene provere
@@ -70,7 +70,7 @@ Kandidati nisu nalog za izradu. Posle izbora dopuniti art, telo, zajednički pri
 - **Do Trsta (izbor vlasnika, 2026-11-23, samo nemačka vozila):** [motor Zündapp K600 sa dvojicom](../assets/images/armies/nemci/motori/zundapp-k600.png), [trokolica BMW R12 sa dvojicom](../assets/images/armies/nemci/motori/bmw-r12-03.png), [oklopni automobil Sd.Kfz. 231](../assets/images/armies/nemci/vozila/sdkfz-231-02.png), [oklopni automobil Pz.Kpfw. 612 (37 mm)](../assets/images/armies/nemci/vozila/pzkpf612-37mm.png), [oficirski automobil Mercedes 830 BL](../assets/images/armies/nemci/vozila/830bl-02.png), [lovac tenkova Marder II (76 mm)](../assets/images/armies/nemci/tenkovi/panzer2d-76mm.png), [lovac tenkova Elefant](../assets/images/armies/nemci/tenkovi/elefant-01.png). Biraju se po raznovrsnosti, ne po istorijskoj vernosti.
 - **Ustanak:** [italijanski top 47 mm sa posadom i minobacači](../assets/images/armies/talijani/artiljerija/); zahteva novu odluku o proširenju dvoboja.
 - **Pešadija:** italijanski, britanski, ruski, četnički i SS vojnici; potrebni su atlasi pokreta.
-- **Otpisani:** nemački motociklista sa mitraljezom u postojećem realističnom crno-belom stilu.
+- **Otpisani:** nemački motociklista sa mitraljezom.
 
 <a id="ig-18"></a>
 ### IG-18 · Arkadni prizor iz prvog lica
@@ -106,5 +106,5 @@ Liberated City je Bihać krajem 1942. Natpisi o dolasku Crvene armije i plakat R
 
 Waiting: čeka navedeni zavisni posao.
 
-1. <a id="note-1"></a>**IG-13:** preostaje pogodak Okupatora. Ugovor: [ART](ART.md#dopune-iz-plana-ideja--predaja-arta); izvršene provere: [TESTING](TESTING.md#predaja-arta-iz-plana-ideja).
+1. <a id="note-1"></a>**IG-13:** uz novi crtež izmeriti dužinu koraka, jer hod spreda prati pređeni put. Ugovor: [ART](ART.md#dopune-iz-plana-ideja--predaja-arta); izvršene provere: [TESTING](TESTING.md#predaja-arta-iz-plana-ideja).
 2. <a id="note-2"></a>**IG-14:** pet prethodno izabranih aktera je povezano; [art](ART.md#dopune-iz-plana-ideja--predaja-arta) i [provere](TESTING.md#predaja-arta-iz-plana-ideja). Čeka se izbor novih kandidata.

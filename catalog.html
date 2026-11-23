@@ -39,6 +39,7 @@
     .catalog-list h2:not(:first-child) { margin-top: 16px; }
     .catalog-panel p { margin: 0 0 12px; color: #bbb; }
     .catalog-list a { display: block; padding: 3px 6px; color: #ddd; text-decoration: none; }
+    .catalog-list .catalog-home { margin-bottom: 8px; padding: 0; color: #e4c86c; }
     .catalog-list a[aria-current="true"] { background: #6a5d2c; color: white; }
     .catalog-health { display: block; margin-top: 8px; }
     .catalog-health progress { display: block; box-sizing: border-box; width: 100%; min-width: 0; }
@@ -65,7 +66,7 @@
   <canvas id="platno-3d"></canvas>
   <main id="ui"></main>
   <div id="modal"></div>
-  <nav class="catalog-list" id="catalog-list" aria-label="Katalog aktera"></nav>
+  <nav class="catalog-list" id="catalog-list" aria-label="Katalog aktera"><a class="catalog-home" href="/">← Početna</a></nav>
   <aside class="catalog-panel" id="catalog-panel"></aside>
   <script type="module" src="/catalog/main.js"></script>
 </body>

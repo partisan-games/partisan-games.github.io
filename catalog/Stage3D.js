@@ -3,6 +3,7 @@ import Scene3D from '/core/Scene3D.js'
 import { createFloor } from '/core3d/ground.js'
 import { ambLight, dirLight } from '/core3d/light.js'
 import { createOrbitControls } from '/core3d/helpers.js'
+import optimizeGeometry from '/core3d/assets/optimizeGeometry.js'
 
 /** How far the floor reaches each way from the middle, in metres. */
 const floorSize = 50
@@ -87,6 +88,7 @@ export default class Stage3D extends Scene3D {
   frame(block) {
     const mesh = block.mesh ?? this.children.find(child => child.body === block)?.mesh
     if (!mesh) return
+    optimizeGeometry(mesh)
     // The first rendered frame normally updates these, including each skinned mesh's inverse bind matrix.
     mesh.updateMatrixWorld(true)
     const box = new Box3().setFromObject(mesh, true)

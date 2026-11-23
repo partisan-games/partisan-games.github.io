@@ -6,6 +6,7 @@ import { loadedModel } from '/core3d/assets/models.js'
 import { infantryBody, regular, riflemanModel } from '/core3d/actor/derived/ww2/partisanLooks.js'
 import Rifleman from '/core3d/actor/artillery/Rifleman.js'
 import { poseSurrender, surrenderArms } from '/core3d/actor/characters/surrenderPose.js'
+import optimizeFigure from './optimizeFigure.js'
 
 function compatibleClip(clip, figure) {
   const tracks = clip.tracks.filter(track => figure.getObjectByName(track.name.split('.')[0]))
@@ -21,6 +22,7 @@ class InfantryFighter {
     this.figure.scale.multiplyScalar(stature)
     this.mesh.add(this.figure)
     equip?.(this.figure)
+    optimizeFigure(this.figure)
     const clips = loadedModel(riflemanModel).userData.animations
     const action = weapon.rounds > 1 ? 'burst' : 'fire'
     const clip = compatibleClip(clips.find(item => item.name === riflemanModel.animDict[action]), this.figure)

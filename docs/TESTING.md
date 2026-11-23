@@ -79,7 +79,19 @@ Motociklista (2026-11-23): nov atlas 156×108 po ćeliji, 4×6, sa odvojenim mit
 
 Datirani pregled animacija iz tabele iznad zamenjuje starije opšte beleške „browser nije pokretan” za obuhvaćene priče. Ne prenosi automatski pokrivenost na izmenjeni art, sve nivoe ili nove varijante. Preostale provere vode se u [planu arta](PLAN.md#art).
 
+## Optimizacija resursa kataloga
+
+Pregledano je 45 različitih baznih putanja modela; 43 FBX/GLB modela su parsirana, a dva spoljašnja glTF-a popisana bez analize geometrije. Pored partizana, još pet modela dobija manje grupa: Iron Giant 286→51, MG-42 68→11, čarobnica 32→10, kostur 23→2, puška 5→2. To su grupe materijala sa jednim implicitnim prolazom za mesh bez grupa, ne izmereni WebGL pozivi; izvorni fajlovi nisu smanjivani. [Test stvarnih modela](../tests/unit/catalogResources.test.js) potvrđuje iste trouglove, njihove materijale i redosled temena, sve atribute i iste skelete. Stvarni Bigfoot model daje iste četiri lokalne/prilagođene animacije pri serijskom i paralelnom učitavanju.
+
+Od 170 pregledanih PNG slika aktera, 140 ima manje lossless kopije: 28.034.177→18.839.666 bajtova (32,8%, ušteda 9.194.511 bajtova pri preuzimanju celog skupa; resursi se učitavaju po potrebi). `python -B scripts/prepare-catalog-images.py --check` prolazi za sve slike: svaki RGBA piksel, dimenzije, hashovi i mapa su isti kao u manifestu. Testovi potvrđuju prepoznavanje kanonskog atlasa i deljenje odgovarajuće olupine i preko WebP adresa. Izvorni PNG fajlovi ostaju u repozitorijumu.
+
+Završna provera 2026-11-23: svih 856 unit testova prolazi, ciljani ESLint nema nalaza, a `npm run check` potvrđuje 489 datoteka i 36 scena. Poznate dijagnostike FBX skinning težina i zamenskih slika putnika u čamcu ostaju; nisu neuspešni testovi. Pregledač nije pokretan; izgled na GPU-u, FPS i vreme mrežnog učitavanja nisu izmereni.
+
 ## Battle for Jablanica: nivo i nišanjenje
+
+Optimizacija nivoa (2026-11-23): učitavanje tela i klipova preklopljeno je samo za Jablanicu; [testovi učitavanja](../tests/unit/parallelModels.test.js) potvrđuju čekanje oba zahteva, identitet keša, ponovni pokušaj posle greške i očuvano podrazumevano ponašanje. [Test stvarnog vojnika](../tests/unit/cannonModelOptimization.test.js) potvrđuje prelaz sa 1.423 na 10 grupa uz iste trouglove, materijale, podatke temena i animiranu pozu. Ista početna scena, učitana u Node-u sa pravim FBX/GLB modelima i zamenskim teksturama, ima 4.899 → 660 grupa materijala i 4.847 → 608 grupa koje bacaju senku, uz nepromenjenih 200.135 trouglova; to su zbirne grupe pre odbacivanja van kadra, ne izmeren broj WebGL poziva ili FPS. Merenje pre/posle isključuje optimizaciju samo u memoriji.
+
+U istoj sceni 196 nepomičnih objekata ima zamrznute matrice; [test scene](../tests/unit/cannonScene.test.js) potvrđuje da oslobođeni delovi tvrđave ponovo prate fiziku. Uniforma je smanjena sa 2.629.254 na 1.713.114 bajtova (34,8%), uz proverene jednake piksele; ovo smanjuje prenos, ne memoriju dekodirane teksture. Svih 850 unit testova prolazi. Pregledač nije pokretan za ovu optimizaciju, pa stvarno vreme mrežnog učitavanja i FPS nisu izmereni; serija i dalje ispisuje ranije prisutne dijagnostike zamenskih slika putnika u čamcu.
 
 [Test scene](../tests/unit/cannonScene.test.js) inicijalizuje stvarni GLB i Ammo, uz zamenske teksture i bez GPU renderera. Potvrđuje ugovor simulacije i ulaza, ne svetlo, maglu, teksture i konačan osećaj nišanjenja.
 

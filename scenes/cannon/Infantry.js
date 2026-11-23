@@ -20,7 +20,7 @@ export const exposure = { logs: .3, stone: .3, open: .7 }
 
 const positions = [
   { x: -7.5, z: .4, cover: 'logs', fighters: [
-    variants.strelac,
+    { ...variants.strelac, outfit: { ...variants.strelac.outfit, '_1___Default': 'partisan-wool-uniform.webp' } },
     variants.smedji,
   ] },
   { x: 7.1, z: .15, cover: 'stone', fighters: [

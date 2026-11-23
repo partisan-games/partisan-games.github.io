@@ -47,7 +47,7 @@ export function createCatalog(root, kinds, storage) {
   empty.textContent = 'Nema pronađenih aktera.'
   empty.hidden = true
   const tree = document.createElement('div')
-  root.replaceChildren(search, tree, empty)
+  root.append(search, tree, empty)
   const groups = new Map(), entries = []
   const persist = () => {
     try {

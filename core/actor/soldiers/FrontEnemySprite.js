@@ -21,11 +21,14 @@ export default class FrontEnemySprite extends BodySprite {
     this.shotsSeen = body.shotsFired
     this.hitsSeen = body.hitsTaken
     this.shotTime = this.hitTime = Infinity
+    /** Metres walked, so the feet step as far as the body goes instead of sliding at another pace. */
+    this.walked = 0
   }
 
   update(dt) {
     super.update(dt)
     const { body } = this
+    if (body.state === 'move') this.walked += Math.abs(body.vx) * dt
     const shot = body.alive && body.shotsFired > this.shotsSeen
     if (shot) this.shotSound.play()
     this.shotTime = shot ? 0 : this.shotTime + dt
@@ -37,7 +40,10 @@ export default class FrontEnemySprite extends BodySprite {
   get animation() {
     if (this.body.dead) return { name: 'dead', time: this.body.stateTime }
     if (this.hitTime < this.clip.seconds('hit')) return { name: 'hit', time: this.hitTime }
-    if (this.body.state === 'move') return { name: this.body.forward < 0 ? 'walk-left' : 'walk-right', time: this.body.stateTime }
+    if (this.body.state === 'move') {
+      const name = this.body.forward < 0 ? 'walk-left' : 'walk-right'
+      return { name, time: this.walked / kinds[this.kind].stride * this.clip.seconds(name) }
+    }
     return { name: this.body.state === 'attack' ? 'attack' : 'idle', time: this.body.stateTime }
   }
 

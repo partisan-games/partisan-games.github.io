@@ -55,8 +55,8 @@ admission.remaining = () => arcade.storageAvailable ? arcade.coins.read().remain
 // the paid buttons of the open game follow the pocket
 arcade.onChange = () => manager.scene?.ui.markPaid()
 
-/** Opens the game in the address; `replay` starts it again with the player's last choice, without its start screen. */
-const route = async({ replay = false } = {}) => {
+/** Opens the game in the address. */
+const route = async() => {
   const currentNavigation = ++navigation
   const path = location.hash.slice(1).replace(/^jablanica$/, 'cannon')
   if (!path) return location.reload()
@@ -72,7 +72,7 @@ const route = async({ replay = false } = {}) => {
 
   elementUI.innerHTML = modalElement.innerHTML = ''
   try {
-    await manager.start(path, true, { replay })
+    await manager.start(path)
     if (currentNavigation === navigation) document.body.dataset.loadedGame = path
   } catch (error) {
     showLoadError(error)
@@ -83,7 +83,7 @@ if (location.hash) route()
 
 document.addEventListener('click', async e => {
   const button = e.target.closest('button')
-  const card = e.target.closest('.menu-item[data-path]')
+  const card = e.target.closest('.arcade-cabinet[data-path]')
 
   // Finish the cabinet animation before routing; the game asks for a token at Start.
   if (card) {
@@ -104,7 +104,7 @@ document.addEventListener('click', async e => {
 
   // a new scene of the same game, without reloading the page
   if (button?.id === 'igraj-opet' && !button.disabled)
-    route({ replay: true })
+    route()
 })
 
 addEventListener('hashchange', route)
