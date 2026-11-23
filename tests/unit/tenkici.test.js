@@ -62,9 +62,9 @@ test('a match goes to two won rounds, each on the next battlefield; both lost at
 
 test('each new match goes on to the next battlefield, starting over after the last', async() => {
   const { default: Tenkici, battlefieldOrder, fieldLength } = await import('/scenes/tenkici/Main.js')
-  const { m15, stug } = await import('/core/actor/tankLooks.js')
+  const { germanTank, m15, stug } = await import('/core/actor/tankLooks.js')
   assert.deepEqual(battlefieldOrder, ['sremFront1944', 'batina', 'sremFront1945'])
-  const looks = { sremFront1944: m15, batina: stug, sremFront1945: m15 }
+  const looks = { sremFront1944: m15, batina: stug, sremFront1945: germanTank }
   const seen = []
   for (let i = 0; i <= battlefieldOrder.length; i++) {
     const scene = new Tenkici()

@@ -2,7 +2,7 @@ import Body from '../Body.js'
 import { earthGravity } from '../../gravity.js'
 import Cooldown from '../../Cooldown.js'
 import ProjectilePool from '../projectiles/ProjectilePool.js'
-import Shell from '../projectiles/Shell.js'
+import Shell, { shell } from '../projectiles/Shell.js'
 
 /**
  * Measured from the earlier pixel tank at 25 px a metre and 30 frames a second. `thrust` is metres a second squared
@@ -19,6 +19,9 @@ export const tank = {
   barrelSpeed: .5, highestBarrel: Math.PI * .2, aimReach: 259.6, shellSpeed: 20.24, shellFall: 3.61 / earthGravity,
   breakdown: { drive: .2, gun: .2, slower: .5, longerReload: 2 },
 }
+
+/** How a model of tank drives and fights against the plain one: its speed and the damage of its shells as shares, and its health. */
+const plainPerformance = { speed: 1, firepower: 1, health: tank.health }
 
 /**
  * The hit box and the barrel of each tank in metres: its pivot ahead of the centre and above it, at the front of the
@@ -47,12 +50,15 @@ const states = {
  * `targets`, an array the scene owns, and leave play below `groundAt(x, z)`. It fires only while `canFire()`. With
  * no key held it rolls at its `march`, in metres a second, as in a column on the move, and stands by default. A game
  * whose tanks do not break down passes `breakdown` with no chances; `random` decides each breakdown and shell spread.
+ * `performance` is its model's, from the shared list of model performance.
  */
 export default class Tank extends Body {
   constructor({ kind = tankKinds.partisan, clock, targets = [], bounds = { min: -Infinity, max: Infinity },
     groundAt = () => 0, cruise = 1, march = 0, reloadTime = tank.reloadTime, canFire = () => true, random = Math.random,
-    breakdown = tank.breakdown, rearAim = true, ...rest } = {}) {
-    super({ size: kind.size, health: tank.health, ...rest, states })
+    breakdown = tank.breakdown, rearAim = true, performance = plainPerformance, ...rest } = {}) {
+    const model = { ...plainPerformance, ...performance }
+    super({ size: kind.size, health: model.health, ...rest, states })
+    this.performance = model
     Object.assign(this, { kind, targets, bounds, cruise, march, canFire, random })
     this.breakdown = { ...tank.breakdown, ...breakdown }
     this.rearAim = rearAim
@@ -63,7 +69,8 @@ export default class Tank extends Body {
     /** The barrel's angle above level, in radians. */
     this.elevation = tank.highestBarrel / 2
     this.reload = new Cooldown({ seconds: reloadTime, clock })
-    this.shells = new ProjectilePool(() => new Shell({ gravity: this.gravity, fall: tank.shellFall, groundAt, random }))
+    const damage = { min: shell.damage.min * model.firepower, max: shell.damage.max * model.firepower }
+    this.shells = new ProjectilePool(() => new Shell({ gravity: this.gravity, fall: tank.shellFall, groundAt, damage, random }))
   }
 
   /** The way it faces: 1 right, -1 left. */
@@ -77,7 +84,7 @@ export default class Tank extends Body {
 
   /** Drives right (1) or left (-1): full thrust ahead, less in reverse; `power` is the share of the throttle. */
   drive(way, dt, power = 1) {
-    const thrust = tank.thrust * (this.broken.drive ? this.breakdown.slower : 1)
+    const thrust = tank.thrust * this.performance.speed * (this.broken.drive ? this.breakdown.slower : 1)
     this.vx += way * thrust * (way === this.forward ? 1 : tank.reverse) * power * dt
   }
 

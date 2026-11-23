@@ -12,7 +12,7 @@ before(async() => {
 test('old model links resolve to separate actors instead of skins', () => {
   for (const [kind, story, selections] of [
     ['brodovi', 'nemacko-patrolno-plovilo', ['german-launch', 'german-skiff', 'german-patrol-vessel', 'rboot', 'mfp', 'vorpostenboot']],
-    ['vozila', 'nemacki-tenk', ['standard', 'm15-42', 'stug-iii', 'hotchkiss']],
+    ['vozila', 'nemacki-tenk', ['tiger-i', 'm15-42', 'stug-iii', 'hotchkiss']],
     ['avioni', 'vis-lovac', ['bf109', 'fw190', 'sivi', 'pustinjski', 'zeleni', 'zuti-nos']],
     ['letelice-3d', 'ratni-avion-3d', ['dvokrilac', 'trokrilac', 'mesersmit', 'bombarder', 'f18']],
     ['vojnici', 'zastavnik', ['partizanski', 'italijanski']],

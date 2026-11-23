@@ -3,6 +3,7 @@ import assert from 'node:assert/strict'
 import Tank, { tank as settings, tankKinds } from '/core/gameplay/bodies/vehicles/Tank.js'
 import Body from '/core/gameplay/bodies/Body.js'
 import GameClock from '/core/runtime/GameClock.js'
+import { modelPerformance } from '/core/gameplay/modelPerformance.js'
 
 /** A tank body alone with a target on the ground, on its own clock, with no page. */
 function tankAlone({ yaw = 0, x = 40, targetX = 0 } = {}) {
@@ -152,4 +153,25 @@ test('a shell that hits takes the target health after its burst, and a hit tank 
   assert.equal(hit.tank.state, 'dead')
   hit.tank.setState('idle')
   assert.equal(hit.tank.shoot(), false, 'a dead tank fires no more')
+})
+
+test('a tank model drives, takes damage and hits as its agreed performance says', () => {
+  const run = performance => {
+    const clock = new GameClock()
+    const target = new Body({ x: 3, y: 1, size: { length: 7, height: 3, width: 3 }, health: 1000, states: { idle: {}, dead: {} } })
+    const tank = new Tank({ kind: tankKinds.partisan, clock, targets: [target], random: () => .5, performance })
+    tank.elevation = 0
+    tank.shoot()
+    tank.setState('move')
+    for (let i = 0; i < 30; i++) {
+      clock.advance(1 / 30)
+      tank.update(1 / 30)
+    }
+    return { tank, dealt: 1000 - target.health.current }
+  }
+  const plain = run(), m15 = run(modelPerformance['m15-42'])
+  assert.equal(m15.tank.health.maximum, modelPerformance['m15-42'].health)
+  assert.ok(plain.dealt > 0)
+  assert.ok(Math.abs(m15.dealt - plain.dealt * modelPerformance['m15-42'].firepower) < 1e-9, `${m15.dealt} ${plain.dealt}`)
+  assert.ok(m15.tank.x < plain.tank.x, `${m15.tank.x} ${plain.tank.x}`)
 })

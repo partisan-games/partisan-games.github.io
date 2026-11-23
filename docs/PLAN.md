@@ -21,8 +21,7 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 | 11 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
 | 12 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
 | 13 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
-| 14 | [IG-25](#ig-25) | Razmotriti italijansku minobacačku paljbu u Jablanici, koja može da prevrne top | Vlasnik | 📋 TODO |
-| 15 | [IG-26](#ig-26) | Izabrati nemački tenk za svako bojište Tenkića | Vlasnik, Agent | 📋 TODO |
+| 14 | [IG-25](#ig-25) | Dodati italijansku minobacačku paljbu u Jablanici, koja može da prevrne top | Agent | 📋 TODO |
 
 ## Održavanje plana
 
@@ -125,7 +124,7 @@ Osmisliti nazive nivoa i dogovoriti prikaz žanra i godine na naslovnoj. Pre izm
 <a id="ig-20"></a>
 ### IG-20 · Odbrana položaja
 
-Ideja iz README-a: pogled odozgo i napadi sa svih strana. Kontekst, akteri i cilj nivoa još nisu razrađeni.
+Ideja iz README-a: pogled odozgo i napadi sa svih strana, nalik igrama tipa tower defense. Kontekst, akteri i cilj nivoa još nisu razrađeni.
 
 <a id="ig-21"></a>
 ### IG-21 · Kampanja Jablanice
@@ -145,12 +144,7 @@ Liberated City je Bihać krajem 1942. Natpisi o dolasku Crvene armije i plakat R
 <a id="ig-25"></a>
 ### IG-25 · Minobacači u Jablanici
 
-Italijani bi uz mitraljeze gađali top minobacačem. Granata koja pogodi sam top uništava ga: top se prevrne, a posada pored njega strada. Danas top ne može da bude uništen; kad pogine posada, ostaje da stoji ([deathPose `intact`](../core3d/actor/derived/Cannon.js)). Ideja, ne nalog za izradu.
-
-<a id="ig-26"></a>
-### IG-26 · Protivnici Tenkića po bojištima
-
-Protivnik se menja po [bojištima](KONTEKST.md#tenkići) (odluka vlasnika, 2026-11-23): svako dobija svoj nemački tenk, a postojeći Tigar I ostaje za poslednje i najteže, proboj Sremskog fronta. Tenkove za prva dva bojišta izabrati iz postojećeg arta, kao vozila za Do Trsta, pa ih pripremiti i povezati.
+Italijani bi uz mitraljeze gađali top minobacačem. Granata koja pogodi sam top uništava ga: top se prevrne, a posada pored njega strada. Danas top ne može da bude uništen; kad pogine posada, ostaje da stoji ([deathPose `intact`](../core3d/actor/derived/Cannon.js)).
 
 ## Notes
 

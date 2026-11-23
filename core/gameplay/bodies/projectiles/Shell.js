@@ -35,12 +35,14 @@ const states = {
 /**
  * A shell: out of play (`idle`), flying under gravity (`flight`), or bursting on a target (`burst`), which takes the
  * damage when the burst ends, unless it died meanwhile. It leaves play below `groundAt(x, z)` or outside `bounds`,
- * without a burst. `random` gives each flight its damage.
+ * without a burst. `damage` is the range a flight's damage is drawn from by `random`.
  */
 export default class Shell extends Body {
-  constructor({ fall = shell.fall, burst = shell.burst, groundAt = () => 0, bounds = null, random = Math.random, ...rest } = {}) {
+  constructor({ fall = shell.fall, burst = shell.burst, groundAt = () => 0, bounds = null, damage = shell.damage, random = Math.random,
+    ...rest } = {}) {
     super({ size: { length: .26, height: .26, width: .26 }, ...rest, states })
     Object.assign(this, { fall, burst, groundAt, bounds, random })
+    this.damageRange = damage
     this.target = null
     this.damage = 0
   }
@@ -56,7 +58,8 @@ export default class Shell extends Body {
     this.vx = Math.cos(yaw) * level
     this.vy = Math.sin(pitch) * speed
     this.vz = -Math.sin(yaw) * level
-    this.damage = shell.damage.min + this.random() * (shell.damage.max - shell.damage.min)
+    const { min, max } = this.damageRange
+    this.damage = min + this.random() * (max - min)
     this.setState('idle')
     this.setState('flight')
   }

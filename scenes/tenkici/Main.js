@@ -10,7 +10,8 @@ import TankKeys from '/core/gameplay/controllers/TankKeys.js'
 import TankAI from '/core/gameplay/controllers/TankAI.js'
 import { sideProjection } from '/core/actor/projection.js'
 import vehicleArt from '/core/actor/vehicleArt.js'
-import { m15, stug } from '/core/actor/tankLooks.js'
+import { germanTank, m15, stug } from '/core/actor/tankLooks.js'
+import { modelPerformance } from '/core/gameplay/modelPerformance.js'
 import { keyboard } from '/core/io/Keyboard.js'
 import { leftPlayerKeys, rightPlayerKeys } from '/core/io/keys.js'
 import { randomInRange } from '/core/utils.js'
@@ -23,7 +24,8 @@ export const fieldLength = 74.8
  * (owner's decision): the Srem front in autumn 1944, Batina, then the Srem breakthrough in 1945.
  */
 export const battlefieldOrder = ['sremFront1944', 'batina', 'sremFront1945']
-const opponents = { sremFront1944: m15, batina: stug, sremFront1945: m15 }
+/** The enemy grows stronger from one battlefield to the next, up to the Tiger I (owner's decision). */
+const opponents = { sremFront1944: m15, batina: stug, sremFront1945: germanTank }
 let nextBattlefield = 0
 
 const customStartScreen = ({ container }) => /* html */`
@@ -64,9 +66,9 @@ export default class TenkiciScene extends Scene2D {
     const breakdown = { drive: 0, gun: 0 }
     const enemy = opponents[this.battlefield]
     const leftRadius = tankKinds.partisan.size.length / 2, rightRadius = enemy.kind.size.length / 2
-    this.tenk = new Tank({ kind: tankKinds.partisan, x: randomInRange(leftRadius, fieldLength * .3), clock,
+    this.tenk = new Tank({ kind: tankKinds.partisan, performance: modelPerformance.partisanTank, x: randomInRange(leftRadius, fieldLength * .3), clock,
       bounds: { min: leftRadius, max: half - leftRadius }, breakdown })
-    this.tenk2 = new Tank({ kind: enemy.kind, rearAim: enemy.rearAim, x: randomInRange(fieldLength * .7, fieldLength - rightRadius),
+    this.tenk2 = new Tank({ kind: enemy.kind, rearAim: enemy.rearAim, performance: modelPerformance[enemy.id], x: randomInRange(fieldLength * .7, fieldLength - rightRadius),
       yaw: Math.PI, clock, bounds: { min: half + rightRadius, max: fieldLength - rightRadius }, breakdown })
     this.tenk.targets.push(this.tenk2)
     this.tenk2.targets.push(this.tenk)
@@ -183,12 +185,12 @@ export default class TenkiciScene extends Scene2D {
     return /* html*/`
       <div class='top-left'>
         Partisan tank
-        ${progresBar(this.tenk.health.current)}
+        ${progresBar(this.tenk.health.current / this.tenk.health.maximum * 100)}
       </div>
 
       <div class='top-right'>
         German tank
-        ${progresBar(this.tenk2.health.current)}
+        ${progresBar(this.tenk2.health.current / this.tenk2.health.maximum * 100)}
       </div>
 
       <div aria-label="Round score" style="position: absolute; top: var(--spacing); left: 50%; transform: translateX(-50%)">

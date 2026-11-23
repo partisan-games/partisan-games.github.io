@@ -11,7 +11,9 @@ Oklop je najdeblji prednji i bočni u milimetrima. Kad se izvori razlikuju, prva
 | Model (Wikipedia) | Igra | Brzina km/h | Masa t | Motor KS | KS po toni | Oklop napred / bok | Glavno oružje | Posada |
 |---|---|---|---|---|---|---|---|---|
 | Partizanski tenk, nalik Pantheru ([Panther tank](https://en.wikipedia.org/wiki/Panther_tank)) | Tenkići, Do Trsta | — | 44.8 | 700 / 600 | 13.4 | 110 / 50 | 75 mm KwK 42 | 5 |
-| Tigar I ([Tiger I](https://en.wikipedia.org/wiki/Tiger_I)) | Tenkići | 45 put, 20 teren | 54–57 / 57.3 | 700 / 650 | 11.3 | 100 / 82 | 88 mm KwK 36 | 5 |
+| Tigar I ([Tiger I](https://en.wikipedia.org/wiki/Tiger_I)) | Tenkići, Do Trsta | 45 put, 20 teren | 54–57 / 57.3 | 700 / 650 | 11.3 | 100 / 82 | 88 mm KwK 36 | 5 |
+| M15/42 u nemačkoj službi ([M15/42 tank](https://en.wikipedia.org/wiki/M15/42_tank)) | Tenkići | 38 | 15.5 / 15 | 192 / 185 | 12.3 | 50 / 25 | 47 mm L/40 | 4 |
+| StuG III G ([Sturmgeschütz III](https://en.wikipedia.org/wiki/Sturmgesch%C3%BCtz_III)) | Tenkići | 40 | 23.9 / 24.4 | 300 | 12.3 | 80 / 30 | 75 mm StuK 40 L/48 | 4 |
 | Somua S35 ([SOMUA S35](https://en.wikipedia.org/wiki/SOMUA_S35)) | Do Trsta | 40 put, 32 teren | 19.5 | 190 | 9.7 | 47 / 40; 56 / 45 | 47 mm SA35 | 3 |
 | Hummel ([Hummel](https://en.wikipedia.org/wiki/Hummel_(vehicle))) | Franjo Kluz | 42 | 24 / 21 | 300 | 14.3 | 30 / 20 | 150 mm sFH 18 | 6 |
 | Marder II, 76 mm ([Marder II](https://en.wikipedia.org/wiki/Marder_II)), plan | Do Trsta | 40 | 10.8 | 138 | 12.8 | 35 / 14.5 | 76.2 mm Pak 36(r) | 4 |

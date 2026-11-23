@@ -6,8 +6,8 @@ import Body from '../Body.js'
  * earlier pixel vehicles at 30.8 px a metre.
  */
 export const vehicleKinds = {
-  truck: { size: { length: 6.65, height: 2.87, width: 1.71 }, health: 45, speed: 3.21 },
-  legionTruck: { size: { length: 6.99, height: 2.87, width: 1.71 }, health: 45, speed: 3.21 },
+  truck: { size: { length: 6.65, height: 2.87, width: 1.71 }, health: 45, speed: 4.5 },
+  legionTruck: { size: { length: 6.99, height: 2.87, width: 1.71 }, health: 45, speed: 4.5 },
   /** About a second of steady hits, as the owner set it for the tank. */
   tank: { size: { length: 7.26, height: 3.36, width: 2.14 }, health: 150, speed: 1.29 },
   train: { size: { length: 12.29, height: 4.82, width: 2.21 }, health: 300, speed: 1.29 },

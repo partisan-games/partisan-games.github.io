@@ -5,7 +5,7 @@ import vehicleArt from './vehicleArt.js'
 const folder = 'armies/game-ready/tenkovi/'
 
 export const germanTank = {
-  id: 'standard', name: 'Standardni', kind: tankKinds.german, art: vehicleArt.germanTank, facing: -1,
+  id: 'tiger-i', name: 'Tigar I', kind: tankKinds.german, art: vehicleArt.germanTank, facing: -1,
   barrel: { src: folder + 'nemacki-tenk-cev-pixel.png', facing: -1 },
 }
 
