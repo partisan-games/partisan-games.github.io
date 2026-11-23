@@ -5,7 +5,7 @@ import dressFighter from '/core3d/actor/characters/dressFighter.js'
 import { loadedModel } from '/core3d/assets/models.js'
 import { infantryBody, regular, riflemanModel } from '/core3d/actor/derived/ww2/partisanLooks.js'
 import Rifleman from './Rifleman.js'
-import { poseSurrender, surrenderArms } from './surrenderPose.js'
+import { poseSurrender, surrenderArms } from '/core3d/actor/characters/surrenderPose.js'
 
 function compatibleClip(clip, figure) {
   const tracks = clip.tracks.filter(track => figure.getObjectByName(track.name.split('.')[0]))

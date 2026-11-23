@@ -89,7 +89,7 @@ Pravilo važi za sadržaj igara. Razvojne stranice za pregled, kao [ui.html](../
 
 Ni planirana mogućnost uključivanja/isključivanja opcije ne odobrava checkbox, indikator ili drugo UI rešenje. Pre izmene prikazati konkretan predlog i sačekati izričito odobrenje; do tada pripremiti samo logiku.
 
-Uvodni tekst je kratak, jedna rečenica zadatka (npr. „Destroy the enemy and land on the airfield!”). Uvodni ekran svakog nivoa ima samo dugme za početak (ili izbor načina igre), bez glavnog menija; tako je vlasnik odlučio. Redosled dugmadi na ostalim centralnim ekranima (pauza, podešavanja, runda, kraj, greška) je isti: gornje dugme vraća na glavni meni, a donje potvrđuje ili nastavlja igru. Dugme za glavni meni pravi zajednički `mainMenuButton` iz [UI](../ui/UI.js).
+Uvodni tekst je kratak i ima formu jasnog vojnog naređenja: mesto i godina, pa zadatak vojnim izrazima, sa ciljem napada i objašnjenjem mesta koje igrač u svetu ne zna (uzor koji je vlasnik odobrio 2026-11-23: „Island of Vis, 1944. Your mission is to carry out a night amphibious assault on German positions on the island of Šolta and return safely to base.”). Uvodni ekran svakog nivoa ima samo dugme za početak (ili izbor načina igre), bez glavnog menija; tako je vlasnik odlučio. Redosled dugmadi na ostalim centralnim ekranima (pauza, podešavanja, runda, kraj, greška) je isti: gornje dugme vraća na glavni meni, a donje potvrđuje ili nastavlja igru. Dugme za glavni meni pravi zajednički `mainMenuButton` iz [UI](../ui/UI.js).
 
 ## UI stilovi
 

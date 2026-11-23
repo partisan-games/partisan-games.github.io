@@ -145,7 +145,7 @@ Pri sređivanju nivoa pripremiti samostalan pregled njegovog topa i potrebnog fi
 <a id="sb-04"></a>
 ### SB-04 · 3D pešadija
 
-Stari i novi ulaz za italijanskog mitraljesca prikazuju figuru, ali prijavljuju nedostajuću `weapon/machine-gun/default-grey.jpg` i dva dodavanja `undefined` u Three.js. Provereno na istom ulazu pre i posle razdvajanja kataloga. Postojeći uvoz `surrenderPose` iz scene u priču krši ESLint granicu biblioteke; ukloniti zavisnost pri sređivanju predaje pešadije, uz proveru oba potrošača.
+Stari i novi ulaz za italijanskog mitraljesca prikazuju figuru, ali prijavljuju nedostajuću `weapon/machine-gun/default-grey.jpg` i dva dodavanja `undefined` u Three.js. Provereno na istom ulazu pre i posle razdvajanja kataloga.
 
 ## UI
 

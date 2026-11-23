@@ -40,7 +40,7 @@ function colorHat(figure, color) {
     if (!part.isSkinnedMesh || !Array.isArray(part.material)) return
     const head = part.skeleton.bones.findIndex(bone => bone.name.replace(':', '') === 'mixamorigHead')
     const original = part.material.findIndex(material => material.name === 'army.green')
-    const geometry = part.geometry
+    const { geometry } = part
     const joints = geometry.getAttribute('skinIndex'), weights = geometry.getAttribute('skinWeight')
     if (head < 0 || original < 0 || !joints || !weights || !geometry.index) return
     const onHead = vertex => {
@@ -54,7 +54,7 @@ function colorHat(figure, color) {
     part.material[hat].color.setHex(color)
     part.geometry.clearGroups()
     for (const group of geometry.groups) {
-      let start = group.start, current = -1
+      let { start } = group, current = -1
       for (let i = group.start; i < group.start + group.count; i += 3) {
         const material = group.materialIndex === original && [0, 1, 2].every(n => onHead(geometry.index.getX(i + n))) ? hat : group.materialIndex
         if (material !== current) {

@@ -23,7 +23,9 @@ function battle(t, { living = 4, whiteRaised = true } = {}) {
     gameLoop: new GameLoop(() => {}),
     canvas: document.getElementById('platno'),
     player: { dead: false },
-    defenders: { living, surrendered: false, surrender() { this.surrendered = true } },
+    defenders: { living, surrendered: false, surrender() {
+      this.surrendered = true
+    } },
     spaceHeld: true,
     power: { value: 25, reset() {
       this.value = 10

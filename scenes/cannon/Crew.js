@@ -27,7 +27,7 @@ function cartridge() {
 }
 
 const up = new THREE.Vector3(0, 1, 0)
-const reload = { align: .25, insert: .48, total: .75 }
+export const reload = { align: .25, insert: .48, total: .75 }
 const roundBase = -.18, roundTip = .193
 function loadRound(member, elevation, dt) {
   const { mesh, pose, round } = member
@@ -138,7 +138,7 @@ export default class Crew {
 
   update(dt, charge, loading = false) {
     this.recoil = Math.max(0, this.recoil - dt * 4)
-    for (const member of this.members) {
+    for (const member of this.members)
       if (member.fallMixer) {
         member.fallMixer.update(dt)
         if (member.fallMixer.time >= this.deathClip.duration) this.finishFall(member)
@@ -148,10 +148,9 @@ export default class Crew {
           member.needsRound = false
         }
         if (loading && member.reload < reload.total) loadRound(member, this.elevation, dt)
-      } else if (member.health.alive && !member.rifleman && (this.recoil !== this.lastRecoil || charge !== this.lastCharge)) {
+      } else if (member.health.alive && !member.rifleman && (this.recoil !== this.lastRecoil || charge !== this.lastCharge))
         member.pose.blend(charge, this.recoil)
-      }
-    }
+
     this.lastCharge = charge
     this.lastRecoil = this.recoil
   }

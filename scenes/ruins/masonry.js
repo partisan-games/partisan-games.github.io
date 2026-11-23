@@ -15,7 +15,7 @@ function stoneUV(geometry) {
 
 function ringStone(start, end, inner, outer, depth) {
   const stone = new BoxGeometry(1, 1, depth)
-  const position = stone.attributes.position
+  const { position } = stone.attributes
   for (let i = 0; i < position.count; i++) {
     const angle = position.getX(i) < 0 ? end : start
     const radius = position.getY(i) < 0 ? inner : outer
@@ -40,12 +40,12 @@ export function buildRuins(maze, groundAt) {
     const height = 3 + Math.random() * 3
     const longX = a.z === b.z
     const wall = createWall(a, b, 1.8, height + 2)
-    const position = wall.attributes.position
+    const { position } = wall.attributes
     const drop = Math.random() * 1.6
-    for (let i = 0; i < position.count; i++) {
+    for (let i = 0; i < position.count; i++)
       if (position.getY(i) > 0 && (longX ? position.getX(i) > a.x + cell / 2 : position.getZ(i) > a.z + cell / 2))
         position.setY(i, position.getY(i) - drop)
-    }
+
     wall.computeVertexNormals()
     return stoneUV(wall.translate(0, -2.5, 0))
   } })
@@ -117,7 +117,7 @@ export function buildRuins(maze, groundAt) {
     rubble(gateX + dx * .72, gateZ + dz + 2.2, .65, dz)
   }
   // Straddle linked cells so broken arcades carry on down real streets.
-  for (let row = 2; row < maze.rows; row += 3) {
+  for (let row = 2; row < maze.rows; row += 3)
     for (let col = 1; col < maze.columns - 1; col += 3) {
       const site = maze.cell(row, col)
       const east = site.linked(site.east)
@@ -127,7 +127,7 @@ export function buildRuins(maze, groundAt) {
       arch(x, z, 2.4, 5.3, 4, 2, east ? Math.PI / 2 : 0)
       rubble(x + (east ? 0 : 3.4), z + (east ? 3.4 : 0), .9, row)
     }
-  }
+
   const masonry = new Mesh(mergeGeometries(stones), new MeshLambertMaterial({
     vertexColors: true, emissive: 0x4c5058,
   }))

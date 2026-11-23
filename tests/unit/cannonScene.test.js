@@ -11,11 +11,12 @@ import GameLoop from '/core/GameLoop.js'
 import World from '/core/World.js'
 
 register('./setup/ammo-node.js', import.meta.url)
-let CannonScene, UI
+let CannonScene, UI, reload
 before(async() => {
   createPageElements()
   CannonScene = (await import('/scenes/cannon/Main.js')).default
   UI = (await import('/ui/UI.js')).default
+  ;({ reload } = await import('/scenes/cannon/Crew.js'))
 })
 
 async function level(t) {
@@ -40,6 +41,7 @@ async function level(t) {
     post.gunner.random = () => 0
   })
   game.session.start()
+  game.gameLoop.start()
   t.after(() => {
     game.gameLoop.stop()
     game.world.end(game.player)
@@ -123,12 +125,12 @@ test('Battle for Jablanica initializes its actual model and puts the camera clos
   assert.ok(shell.way.dot(bore) > .99999)
   assert.ok(Math.abs(shell.mesh.scale.x * .078 - innerRadius) < 1e-5)
   const { round } = game.crew.loader
-  game.crew.update(.22, 0, true)
+  game.crew.update(reload.align, 0, true)
   assert.ok(round.visible)
   const loadingTip = round.localToWorld(new THREE.Vector3(0, .193, 0))
   assert.ok(loadingTip.distanceTo(game.barrel.localToWorld(new THREE.Vector3(0, 0, .47))) < 1e-5)
   game.input.keyboard.pressed.ArrowDown = true
-  game.crew.update(.25, 0, true)
+  game.crew.update(reload.total - reload.align, 0, true)
   play(game, .7)
   assert.equal(round.visible, false, 'the loaded round has disappeared inside the gun')
   assert.ok(game.muzzle.getWorldPosition(new THREE.Vector3()).y < initialMuzzle.y)
@@ -142,7 +144,7 @@ test('releasing fire early lets the loader finish and fires the queued shot', as
   play(game, .05)
   assert.equal(game.queuedShot, true)
   assert.equal(game.shells.length, 0)
-  play(game, .5)
+  play(game, reload.total)
   assert.equal(game.queuedShot, false)
   assert.equal(game.shells.length, 1)
 })
@@ -170,7 +172,7 @@ test('three hits leave the real fort motionless while all surviving machine guns
 
 test('the surviving crew member can fire and losing the last one ends the battle', async t => {
   const game = await level(t)
-  game.crew.update(.65, 0, true)
+  game.crew.update(reload.total, 0, true)
   t.mock.method(game.ui.defeatSound, 'play', () => {})
   for (const post of game.posts.slice(1)) post.gunner.wait = Infinity
   t.mock.method(game.posts[0].gunner, 'update', () => ({ hit: true }))

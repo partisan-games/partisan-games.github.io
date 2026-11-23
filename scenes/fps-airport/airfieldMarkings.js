@@ -10,10 +10,9 @@ function drawRunway(ctx) {
   for (const [start, end] of [[-85, -55], [-45, 39], [49, 85]])
     ctx.fillRect(-7.2, start, .24, end - start)
   for (let z = -66; z <= 66; z += 12) ctx.fillRect(-.25, z - 3, .5, 6)
-  for (const end of [-1, 1]) {
+  for (const end of [-1, 1])
     for (const x of [-5.5, -3.6, -1.7, 1.7, 3.6, 5.5])
       ctx.fillRect(x - .36, end * 80 - 2.8, .72, 5.6)
-  }
 
   ctx.lineWidth = .22
   ctx.strokeStyle = 'rgba(214, 198, 150, .64)'
@@ -28,10 +27,10 @@ function drawRunway(ctx) {
   // Expose flecks and streaks of the original asphalt through the paint.
   ctx.globalCompositeOperation = 'destination-out'
   ctx.fillStyle = 'rgba(0, 0, 0, .55)'
-  for (let i = 0; i < 5000; i++) {
+  for (let i = 0; i < 5000; i++)
     ctx.fillRect(-7.5 + Math.random() * 15, -85 + Math.random() * 170,
       .08 + Math.random() * .32, .12 + Math.random() * .5)
-  }
+
 }
 
 function drawWheelTracks(ctx, aircraft) {

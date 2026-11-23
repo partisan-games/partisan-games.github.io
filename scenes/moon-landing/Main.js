@@ -38,7 +38,7 @@ function markLandingPad(platform) {
   const lamp = new BoxGeometry(.48, .07, .13)
   const light = new MeshBasicMaterial({ color: 0xd7d8d4 })
   light.userData.outlineParameters = { visible: false }
-  for (const side of [-1, 1]) {
+  for (const side of [-1, 1])
     for (const end of [-1, 1]) {
       const beacon = new Mesh(lamp, light)
       beacon.position.set(side * (platform.width / 2 - .3), platform.height + .035,
@@ -49,7 +49,7 @@ function markLandingPad(platform) {
       beacon.add(aura)
       platform.mesh.add(beacon)
     }
-  }
+
 }
 
 export default class MoonLandingScene extends Scene3D {

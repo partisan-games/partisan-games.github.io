@@ -88,7 +88,7 @@ export default class SceneryPhysics {
       direction.normalize().multiplyScalar(Math.min(mass * 5, strength * 3) * (1 - distance / radius))
       this.point.setValue(direction.x, direction.y, direction.z)
       this.arm.setValue(contact.x, contact.y, contact.z)
-      const body = mesh.userData.body
+      const { body } = mesh.userData
       body.activate(true)
       body.applyImpulse(this.point, this.arm)
     }

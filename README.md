@@ -29,8 +29,6 @@ To see every background picture in the project, open `/pozadine.html` on the `np
 ## TODO
 See [PLAN](docs/PLAN.md).
 
-- dodaj uvodni prozor na camac
-- analiziraj prednosti i mane zasebnih html stranica za igre umesto trenutnog rešenja
 
 ## Credits
 

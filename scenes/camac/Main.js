@@ -46,6 +46,7 @@ export default class CamacScene extends Scene2D {
   constructor({ stage = 0, ...options } = {}) {
     super({
       controlKeys: { ...baseControls, [keys.down.label]: '', [attackLabels.Space]: 'shoot', [keys.attack2.label]: 'rocket' },
+      intro: 'Island of Vis, 1944. Your mission is to carry out a night amphibious assault on German positions on the island of Šolta and return safely to base.',
       ...options,
     })
     this.stage = stage

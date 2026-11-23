@@ -30,7 +30,9 @@ export default class FortFlag {
     this.state = 'italian'
   }
 
-  get whiteRaised() { return this.state === 'white' }
+  get whiteRaised() {
+    return this.state === 'white'
+  }
 
   /** Lower the Italian flag; update replaces it at the foot of the pole and raises the white flag. */
   surrender() {
