@@ -4,3 +4,5 @@ npm-debug.log
 __pycache__/
 /test-results
 /playwright-report
+
+/debug.log

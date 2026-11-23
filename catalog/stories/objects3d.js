@@ -21,23 +21,26 @@ import * as cannonModule from '/core3d/actor/derived/Cannon.js'
 import * as mortarModule from '/core3d/actor/artillery/MortarCrew.js'
 import Crew, { models as crewModels } from '/core3d/actor/artillery/Crew.js'
 import GunHit from '/core3d/actor/artillery/GunHit.js'
+import FieldGunDamage from '/core3d/actor/artillery/FieldGunDamage.js'
 
 /** The crew of each field gun on the stage, and whether its loader is loading a round. */
 const drills = new WeakMap()
 
 /**
  * The field gun of Battle for Jablanica with its crew, facing the camera's right; it does not fire a shell here. Here
- * its health is the gun's own, not its crew's as in the game: destroyed, it lies tilted and charred, and its crew,
+ * its health is the gun's own, not its crew's as in the game: destroyed, it lies broken and charred, and its crew,
  * whom only a hit on the crew brings down, kneels on beside the wreck.
  */
 const fieldGun = async stage => {
   await requestModels([...cannonModule.models, ...crewModels])
-  const { body, model } = makeCharacter({ ...cannonModule.description, deathPose: 'armor' }, { yaw: Math.PI / 2 })
+  const { body, model } = makeCharacter(cannonModule.description, { yaw: Math.PI / 2 })
   const hit = new GunHit(body, model.mesh)
+  const damage = new FieldGunDamage(body, model.mesh)
   const drill = { crew: new Crew(model.mesh), loading: false, update(dt) {
-    // the crew steps off the gun before it tilts and chars, which would take them along
+    // The crew remains independent when the carriage collapses.
     if (body.dead && !this.wrecked) {
       this.wrecked = true
+      this.loading = false
       for (const { mesh } of this.crew.members) stage.scene.attach(mesh)
     }
     this.crew.update(dt, 0, this.loading)
@@ -45,7 +48,7 @@ const fieldGun = async stage => {
   } }
   // added with the gun, as a stage given only objects without a mesh hands three.js nothing to add; the drill goes
   // before the gun's model, so the crew is off a destroyed gun before the model draws it as a wreck
-  stage.add(body, drill, model, hit)
+  stage.add(body, drill, model, hit, { update: dt => damage.update(dt), end: () => damage.end() })
   drills.set(body, drill)
   return body
 }

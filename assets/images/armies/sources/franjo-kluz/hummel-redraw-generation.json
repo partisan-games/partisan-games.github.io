@@ -1,0 +1,11 @@
+{
+  "tool": "built-in image_gen",
+  "date": "2026-11-23",
+  "source": "hummel-redraw-generated.png",
+  "prompt": "Production transparent game sprite atlas: a COMPLETE NEW REDRAW of the reference German Hummel self-propelled artillery vehicle and crew, with visibly superior clean hand-shaded pixel-game illustration. Reference fixes the RIGHT-facing side view, long 150mm cannon, tracked chassis and crew arrangement ONLY; discard old muddy pixels. 4 equal columns and TWO equal rows, EIGHT complete individually separated matching vehicles, generous transparent margins, same orthographic profile, exact scale, wheel centers and ground baseline. Front and long cannon point RIGHT, open fighting compartment toward rear LEFT, many small road wheels and continuous linked tracks, clearly constructed sloped armor and gun supports. Two or three mature adult helmeted crew with readable natural heads and hands inside compartment, not floating outside or larger than machinery. Restrained gray olive with subtle green camouflage and restrained dark outlines, coherent highlights, crisp edges, no grainy photographic textures, no cartoon. Main cannon has long barrel extending far RIGHT above chassis, narrow exposed final section clearly separated from hull so runtime can recoil it. Cannon barrel at about 30 percent of total vehicle silhouette height down from its top, almost horizontal. No historical unit numbers, flags or political symbols.\nROW1 four quiet idle poses, still tracks, crew at rest. ROW2 four smoothly progressing driving phases with different clearly readable tread links and road-wheel phases, slight suspension movement, registered hull and barrel. DO NOT include firing or wreck in this sheet. No smoke, dust, flashes, blood, scenery, floor, terrain, shadows, text, borders or gridlines. True transparent alpha. Polished serious WW2 art compatible with the newly redrawn motorcycle and armored vehicles, clear at 200 pixels across.",
+  "historicalSources": [
+    "https://www.ausarmour.com/exhibits/"
+  ],
+  "historicalUnitIdentificationConfirmed": false,
+  "reference": "hummel-redraw-reference.png"
+}

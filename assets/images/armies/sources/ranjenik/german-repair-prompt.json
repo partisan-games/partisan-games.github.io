@@ -1,7 +1,0 @@
-{
-  "prompt": "Repair ONLY the disconnected rifle barrels in the FIRST reference's four-frame overhead German patrol sprite strip. Its layout and FOUR movement frames, THREE green soldiers per frame, helmet sizes, colors, body positions, boots and steps must stay the same. The SECOND reference shows the original accepted group with its COMPLETE rifles: an unbroken SOLID BLACK diagonal rifle extends from each soldier's pale supporting hand up and LEFT to a solid dark muzzle. In every one of all twelve figures reconnect the currently floating muzzle to the hand with an opaque black pixel-art barrel, same relative length and diagonal angle as the accepted second reference. It must be a complete connected rifle, not an isolated dot or a gap. No extra arms, people or weapons. Keep pixelated edges, same source crop, no text, labels, shadows or blur. Output transparent alpha background, black rifle lines and all dark outlines fully opaque. The green matte in reference two is a viewing aid only; do not include it.",
-  "refs": [
-    "C:/Users/d_pavlica/OneDrive - Wargaming.net/Documents/GitHub/partisan-games.github.io/assets/images/armies/sources/ranjenik/german-patrol-generated.png",
-    "C:/Users/d_pavlica/OneDrive - Wargaming.net/Documents/GitHub/partisan-games.github.io/assets/images/armies/sources/ranjenik/german-patrol-matte-reference.png"
-  ]
-}

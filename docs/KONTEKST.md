@@ -95,7 +95,7 @@ Vertikalna arkadna pucačina o partizanskom letu do Visa, sa sopstvenim izgledom
 - **Početak i povratak:** početni čamac i kadar miruju bez potiska. Povratak ulevo dozvoljen je samo do početne pozicije; kamera ne prikazuje prostor pre početka trase.
 - **Osnova izbora kamere:** [Itay Keren — Scroll Back](https://www.gamedeveloper.com/design/scroll-back-the-theory-and-practice-of-cameras-in-side-scrollers), praćenje igrača i prostor ispred njega.
 - **Izbor protivnika:** prvi kopneni protivnik je nemački mitraljeski položaj; prvi pomorski protivnik je S-čamac na povratnom pravcu prema Visu, sa S 30 kao konkretnom referencom. Minobacač 81 mm je potvrđen dodatni kandidat, ne nalog za uvođenje još jedne vrste protivnika. Tačan zadatak i ponašanje protivnika ostaju dizajn igre, odvojen od činjenica iz izvora. Za igru je izabrana interpretacija tipa sa dva topa; to nije potvrda tačnog rasporeda i modernizacije pojedinačnog S 30 u noći 10/11. maja. Torpeda nisu deo trenutne paljbe u igri. [Sastav iz izvora](ISTORIJA.md#šolta-911-maj-1944--sastav-za-igru-čamca).
-- **Art:** [indeks prikaza](../assets/images/armies/index.csv) sadrži postojeći čamac i nemačku pešadiju odozgo, dok su britanski desantni čamci bočni. Postojeći `camac.png` ostaje prihvaćena grafička osnova, bez identifikacije kao istorijski potvrđenog modela iz operacije. [S-čamac](../assets/images/armies/game-ready/brodovi/schnellboot-s30.svg) je zaseban lokalni crtež tipa S 30 odozgo, sa uskim trupom, zatvorenim niskim kormilarskim prostorom, parom prednjih torpednih cevi i palubnim postoljima; cevi topova crta i okreće igra. Bez oznaka koje bi tvrdile da je rekonstruisan konkretan brod. [Mitraljesko gnezdo](../assets/images/armies/game-ready/polozaji/mitraljesko-gnezdo-odozgo.svg) je lokalni prikaz odozgo sa vrećama, posadom i odvojenom pokretnom cevi u igri; ne tvrdi konkretan MG model ili tačnu lokaciju položaja na Šolti. Bočne desantne slike ne koristiti za gornji pogled.
+- **Art:** [indeks prikaza](../assets/images/armies/index.csv) sadrži postojeći čamac i nemačku pešadiju odozgo, dok su britanski desantni čamci bočni. Postojeći `camac.png` ostaje prihvaćena grafička osnova, bez identifikacije kao istorijski potvrđenog modela iz operacije. [S-čamac](../assets/images/armies/game-ready/brodovi/schnellboot-s30.png) je zaseban lokalni crtež tipa S 30 odozgo, sa uskim trupom, zatvorenim niskim kormilarskim prostorom, parom prednjih torpednih cevi i palubnim postoljima; cevi topova crta i okreće igra. Bez oznaka koje bi tvrdile da je rekonstruisan konkretan brod. [Mitraljesko gnezdo](../assets/images/armies/game-ready/polozaji/mitraljesko-gnezdo-odozgo.png) je lokalni prikaz odozgo sa vrećama, posadom i odvojenom pokretnom cevi u igri; ne tvrdi konkretan MG model ili tačnu lokaciju položaja na Šolti. Bočne desantne slike ne koristiti za gornji pogled.
 - **Etape (odluka vlasnika):** noćno isplovljavanje sa Visa, desant na Šoltu, povratak na Vis pod napadom S-čamaca.
 
 ## Tenkići
@@ -112,6 +112,8 @@ Vertikalna arkadna pucačina o partizanskom letu do Visa, sa sopstvenim izgledom
 
 **Kontekst i granice:** protivnik su nemačke jedinice koje brane Beograd; borba ulicu po ulicu odgovara poslednjim danima operacije. Uloga ilegalaca kao u seriji je umetnički okvir igre i ne treba je predstavljati kao istorijsku tvrdnju; stvarna uloga beogradske ilegale u oktobru 1944. zahteva zaseban istorijski dokaz. Muzika iz serije ostaje neprostorni sloj kao i do sada. Činjenice i izvori: [Beograd, oktobar 1944](ISTORIJA.md#beograd-oktobar-1944--polazište-za-igru-otpisani).
 
+Nove frontalne likove vlasnik prvo bira u katalogu; do izbora nisu deo sastava nivoa. Šinjel je isključivo zimska uniforma i ne koristi se u jesenjem okviru Otpisanih, niti u prolećnim ili letnjim nivoima.
+
 ## Liberated City
 
 **Okvir (vlasnik, 2026-11-22):** Igra je obilazak Bihaća krajem 1942, posle oslobođenja grada, u vreme Prvog zasedanja AVNOJ-a.
@@ -123,12 +125,6 @@ Vertikalna arkadna pucačina o partizanskom letu do Visa, sa sopstvenim izgledom
 **Okvir (vlasnik):** Igra je bitka za Krupanj 1941, a Žikica Jovanović Španac je bombaš koji napada bunker.
 
 **Kontekst i granice:** Žikica je predvodio bombaše protiv nemačkog garnizona u bolnici; postojeći bunker je umetnička zamena za tu zgradu. Pokušaj novog ambijenta povučen je; sačuvana studija bolnice nije povezana sa igrom. Za sledeći pokušaj koristiti [istraživanje Krupnja](ISTORIJA.md#krupanj-1941--polazište-za-igru-bunker) i [pouke uklapanja scene](ART.md#uklapanje-cele-scene--pouke-pokušaja-bunkera); postojeće mine su arkadna prepreka bez istorijske potvrde minskog polja na ovom mestu.
-
-## Ranjenik
-
-**Okvir (vlasnik):** Junak je ranjeni borac koji je preživeo bitku na Sutjesci 1943.
-
-**Kontekst i granice:** ranjenik koji puzi iz obruča i krije se od patrole odgovara sudbini ranjenika iz pivskih pećina i probojnih dana sredinom juna 1943. Sastav patrole i oprema nisu potvrđeni za tačno mesto i dan; nemački govor patrole je zato pretpostavka igre. Činjenice i izvori: [Sutjeska 1943](ISTORIJA.md#sutjeska-1943--polazište-za-igru-ranjenik).
 
 ## Potvrđena grupa pozadina za Ustanak i Tenkiće
 
@@ -144,4 +140,4 @@ Raspored ne sme sadržati preklopljene kocke ni novčiće zarobljene u njima. No
 
 ## Proširenje sastava igara
 
-**Ograničenja vlasnika, 2026-11-22:** Bunker ne dobija nove aktere; Ustanak i Tenkići ostaju fino podešeni dvoboji. Za Ranjenika nema smislenog postojećeg arta odozgo. Otpisani zadržavaju realističan crno-beli stil, bez pikselnih aktera. Vis se igra 1944, pa italijanski Re.2005 nije izabran (vlasnik). Novi kandidati čekaju izričit izbor vlasnika u [planu ideja](PLAN.md#igre).
+**Ograničenja vlasnika, 2026-11-22:** Bunker ne dobija nove aktere; Ustanak i Tenkići ostaju fino podešeni dvoboji. Otpisani zadržavaju realističan crno-beli stil, bez pikselnih aktera. Vis se igra 1944, pa italijanski Re.2005 nije izabran (vlasnik). Novi kandidati čekaju izričit izbor vlasnika u [planu ideja](PLAN.md#igre).

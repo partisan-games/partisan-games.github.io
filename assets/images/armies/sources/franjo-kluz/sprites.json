@@ -630,7 +630,7 @@
     },
     {
       "id": "hummel",
-      "title": "Hummel",
+      "title": "Guseničar",
       "image": "../../game-ready/tenkovi/hummel-sprites.png",
       "frame": {
         "width": 320,
@@ -648,11 +648,11 @@
         {
           "name": "idle",
           "row": 0,
-          "frameCount": 1,
-          "duration": 0.64,
+          "frameCount": 4,
+          "duration": 1.4,
           "loop": true,
           "preview": "previews/hummel-idle.gif",
-          "distinctFrames": 1
+          "distinctFrames": 4
         },
         {
           "name": "drive",
@@ -666,55 +666,55 @@
       ],
       "frameBounds": [
         [
-          11,
+          16,
           10,
-          309,
+          306,
           148
         ],
         [
-          11,
+          16,
           10,
-          309,
+          306,
           148
         ],
         [
-          11,
+          16,
           10,
-          309,
+          305,
           148
         ],
         [
-          11,
+          16,
           10,
-          309,
+          306,
           148
         ],
         [
-          11,
-          10,
-          309,
+          16,
+          12,
+          306,
           148
         ],
         [
-          11,
-          10,
-          309,
+          16,
+          12,
+          306,
           148
         ],
         [
-          11,
-          10,
-          309,
+          16,
+          12,
+          305,
           148
         ],
         [
-          11,
-          10,
-          309,
+          16,
+          12,
+          306,
           148
         ]
       ],
-      "sha256": "6fcb4ddd03661dd15bed95aa20c5bd492b3e19878869ffb2a8628330ed9b8656"
+      "sha256": "18b5eb26dba8f24eb815cdda4ef0fe5628e2f3c0248d9433678259885b3866ff"
     },
     {
       "id": "bp42",

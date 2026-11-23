@@ -2,6 +2,7 @@ import { test, before, mock } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 import { loadAtlas } from './helpers/atlas.js'
+import { readFile } from 'node:fs/promises'
 
 const context = { save() {}, restore() {}, translate() {}, rotate() {}, scale() {}, drawImage() {} }
 let AircraftPropellers, DiveBomber, DiveBomberSprite, sideProjection, topProjection, AttackPlane, attackPlaneKinds,
@@ -22,7 +23,7 @@ before(async() => {
 })
 
 test('blade phases advance with game time and hold for stopped engines and zero time', () => {
-  const propellers = new AircraftPropellers('armies/game-ready/avioni/ju87.svg')
+  const propellers = new AircraftPropellers('armies/game-ready/avioni/ju87.png')
   propellers.update(.031)
   assert.equal(propellers.frameIndex, 1)
   propellers.update(0)
@@ -31,6 +32,31 @@ test('blade phases advance with game time and hold for stopped engines and zero 
   assert.equal(propellers.frameIndex, 1)
   propellers.update(.03)
   assert.equal(propellers.frameIndex, 2)
+})
+
+test('redrawn Bf 109 keeps its propeller on the registered hub and switches to aligned damage', async t => {
+  const { default: Fighter } = await import('/core/gameplay/bodies/aircraft/Fighter.js')
+  const { default: FighterSprite } = await import('/core/actor/aircraft/FighterSprite.js')
+  const record = JSON.parse(await readFile(new URL('../../assets/images/armies/sources/plan-ideas-art/bf109-redraw.json', import.meta.url), 'utf8'))
+  const session = new GameSession()
+  t.after(() => session.dispose())
+  for (const yaw of [0, Math.PI]) {
+    const body = new Fighter({ x: 10, y: 12, yaw, clock: session.clock })
+    const view = new FighterSprite(body, { projection: sideProjection({ pxPerMeter: 30.8, groundY: 700 }) })
+    loadAtlas(view, ...record.frame)
+    loadAtlas(view.damageArt, ...record.frame)
+    const size = [view.width, view.height]
+    view.update(.01)
+    const scale = view.width / record.frame[0]
+    const dx = (record.propellerHub[0] - record.frame[0] / 2) * scale * view.flipY
+    const dy = (record.propellerHub[1] - record.frame[1] / 2) * scale
+    assert.ok(Math.abs(view.propeller.x - view.x - dx * Math.cos(view.angle) + dy * Math.sin(view.angle)) < 1e-8)
+    assert.ok(Math.abs(view.propeller.y - view.y - dx * Math.sin(view.angle) - dy * Math.cos(view.angle)) < 1e-8)
+    body.takeHit(body.health.maximum * .6)
+    view.update(0)
+    assert.equal(view.picture, view.damageArt.image)
+    assert.deepEqual([view.width, view.height], size)
+  }
 })
 
 test('both twin-engine hubs draw from the same atlas phase in the unchanged body coordinates', () => {

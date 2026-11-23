@@ -4,6 +4,7 @@ import ProjectilePool from '../projectiles/ProjectilePool.js'
 import Bullet from '../projectiles/Bullet.js'
 import { hullEntry } from '../projectiles/hits.js'
 import { turn } from '../../angles.js'
+import geometry from '../../sBoatGeometry.js'
 
 /**
  * A German S-boat seen from above: cruising and full speed in
@@ -18,7 +19,7 @@ export const sBoat = {
   reach: 26, onAim: .08, bulletSpeed: 20, damage: 5, health: 300, surfaceTime: 2.6, sinkTime: 5,
 }
 /** Its two deck guns, as shares of its length ahead of its middle. */
-const mounts = [-84 / 300, 101 / 300]
+const { mounts } = geometry
 
 /** It sails at cruising speed towards its `course`. */
 const sail = (boat, dt) => {
@@ -102,7 +103,7 @@ export default class SBoat extends Body {
 
   get muzzle() {
     const mount = this.mount(this.gunIndex)
-    const ahead = this.size.length * 12 / 300
+    const ahead = this.size.length * geometry.gunReach
     return { x: mount.x + Math.cos(this.gunYaw) * ahead, y: mount.y, z: mount.z - Math.sin(this.gunYaw) * ahead }
   }
 

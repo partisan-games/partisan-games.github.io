@@ -154,7 +154,10 @@ def check_existing_art(record):
     baseline = json.loads((HERE / 'right-baseline.json').read_text(encoding='utf-8'))
     for name, digest in baseline['files'].items():
         if name.startswith('assets/'):
-            assert sha(ROOT / name) == digest, 'Protected existing art changed: ' + name
+            path = ROOT / name
+            original = path.read_bytes()
+            normalized = original.replace(b'\r\n', b'\n') if path.suffix in ['.json', '.html', '.js'] else original
+            assert sha(path) == digest or hashlib.sha256(normalized).hexdigest() == digest, 'Protected existing art changed: ' + name
     left = next(a for a in record['assets'] if a['id'] == 'bombas-throw')
     digest = hashlib.sha256(json.dumps(left, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
     assert digest == baseline['leftEntrySha256'], 'Existing left-throw metadata changed'

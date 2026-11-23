@@ -147,11 +147,6 @@ Drvar, Užice i Bihać nisu deo Tenkića; izvori ostaju za eventualnu drugu prim
 - **Početak i protivnik:** ustanak protiv italijanske okupacije počinje 13. jula 1941, dan posle skupštine na Cetinju koja je 12. jula pod italijanskim pokroviteljstvom proglasila „nezavisnu“ Crnu Goru ([Uprising in Montenegro (1941)](https://en.wikipedia.org/wiki/Uprising_in_Montenegro_(1941))). Brzo se diže oko 32.000 naoružanih ljudi.
 - **Tok:** ustanici oslobađaju veća mesta, među njima Berane, gde su zajedno sa komunistima učestvovale i snage Pavla Đurišića; zarobljeni italijanski vojnici drže se u logorima u Danilovgradu, Beranama, okolini Nikšića i na Brezi kod Kolašina ([Istorijski zapisi](https://istorijskizapisi.me/wp-content/uploads/2022/04/19-B-Miljic-231-253.pdf)).
 
-## Sutjeska 1943 — polazište za igru Ranjenik
-
-- **Operacija:** nemački „Schwarz“, kod partizana Peta neprijateljska ofanziva, od 15. maja do 16. juna 1943 ([Case Black](https://en.wikipedia.org/wiki/Case_Black)); [Danas](https://www.danas.rs/kultura/srce-te-zaboli-goranka-matic-povodom-svojih-radova-u-okviru-izlozbe-sutjeska-80-godina-najveca-gerilska-bitka-drugog-svetskog-rata/) navodi 15. jun kao kraj.
-- **Ranjenici:** Centralna bolnica je išla sa Glavnom operativnom grupom, a prethodnica je trebalo da probije obruč i za nju; vojska je 11. juna izbila na desnu obalu Sutjeske ([sećanje, znaci.org](https://www.znaci.org/00001/257_17.pdf)). Deo teških ranjenika je skrivan po pivskim pećinama ([Vreme](https://vreme.com/vreme/nas-moral-nikad-se-ne-predati/)). Da li je postojalo naređenje da se ranjenici ostave, izvori se spore.
-
 ## Vis 1944 — polazište za igru Vis
 
 - **Vrhovni štab:** posle desanta na Drvar Vis postaje vojno i političko središte; štab je u selu Žena Glava ispod Huma, a Tito radi u pećini na Humu ([Vis 1944, Hrvatski povijesni muzej, 1964](https://ftp.hismus.hr/media/documents/izdavastvo/ID-2-1964_Vis_1944.pdf)). Boravak od 7. juna do 19. septembra 1944. navodi samo [blog](https://mwalkeristra.blogspot.com/search/label/Vis); datume potvrditi istorijskim izvorom.

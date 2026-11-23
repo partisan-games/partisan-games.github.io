@@ -725,17 +725,17 @@ export const actorArt = {
   },
   'sdkfz222': {
     'src': 'armies/game-ready/vozila/sdkfz222-sprites.png',
-    'width': 108,
-    'height': 52,
+    'width': 204,
+    'height': 91,
     'anchor': {
-      'x': 54.0,
-      'y': 48
+      'x': 102.0,
+      'y': 87
     },
     'bounds': [
       6,
-      10,
-      102,
-      47
+      -30,
+      197,
+      87
     ],
     'facing': -1,
     'clips': {
@@ -782,12 +782,9 @@ export const actorArt = {
       'dead': {
         'row': 4,
         'ms': [
-          400.0,
-          400.0,
-          400.0,
-          400.0
+          1600.0
         ],
-        'loop': true
+        'loop': false
       },
       'gun': {
         'row': 5,
@@ -808,12 +805,12 @@ export const actorArt = {
         'frames': 4,
         'seconds': 0.4,
         'anchor': [
-          63,
-          26
+          124,
+          59
         ],
         'mount': [
-          59,
-          11
+          119,
+          10
         ],
         'hideOn': [
           'dead'
@@ -821,8 +818,8 @@ export const actorArt = {
       }
     ],
     'muzzlePoint': [
-      14,
-      19
+      20,
+      44
     ]
   },
   'partisan-runner': {
@@ -1428,120 +1425,6 @@ export const actorArt = {
       70
     ]
   },
-  'german-patrol-hit': {
-    'src': 'armies/game-ready/vojnici/german-patrol-hit-sprites.png',
-    'width': 81,
-    'height': 88,
-    'anchor': {
-      'x': 40.5,
-      'y': 44.0
-    },
-    'bounds': [
-      6,
-      4,
-      76,
-      83
-    ],
-    'facing': 1,
-    'clips': {
-      'hit': {
-        'row': 0,
-        'ms': [
-          80.0,
-          80.0,
-          80.0,
-          80.0
-        ],
-        'loop': false
-      }
-    },
-    'referenceSize': [
-      71,
-      80
-    ],
-    'referenceBounds': [
-      0,
-      0,
-      71,
-      80
-    ]
-  },
-  'italian-patrol-hit': {
-    'src': 'armies/game-ready/vojnici/italian-patrol-hit-sprites.png',
-    'width': 79,
-    'height': 87,
-    'anchor': {
-      'x': 39.5,
-      'y': 43.5
-    },
-    'bounds': [
-      10,
-      5,
-      70,
-      83
-    ],
-    'facing': 1,
-    'clips': {
-      'hit': {
-        'row': 0,
-        'ms': [
-          80.0,
-          80.0,
-          80.0,
-          80.0
-        ],
-        'loop': false
-      }
-    },
-    'referenceSize': [
-      71,
-      78
-    ],
-    'referenceBounds': [
-      0,
-      0,
-      71,
-      78
-    ]
-  },
-  'wounded-hit': {
-    'src': 'armies/game-ready/vojnici/wounded-hit-sprites.png',
-    'width': 82,
-    'height': 39,
-    'anchor': {
-      'x': 41.0,
-      'y': 19.5
-    },
-    'bounds': [
-      4,
-      8,
-      77,
-      35
-    ],
-    'facing': 1,
-    'clips': {
-      'hit': {
-        'row': 0,
-        'ms': [
-          80.0,
-          80.0,
-          80.0,
-          80.0
-        ],
-        'loop': false
-      }
-    },
-    'referenceSize': [
-      69,
-      27
-    ],
-    'referenceBounds': [
-      0,
-      0,
-      69,
-      27
-    ]
-  },
   'machine-gunner-hit': {
     'src': 'armies/game-ready/vojnici/machine-gunner-hit-sprites.png',
     'width': 71,
@@ -1582,17 +1465,17 @@ export const actorArt = {
   },
   'hummel-damaged': {
     'src': 'armies/game-ready/tenkovi/hummel-damaged.png',
-    'width': 298,
-    'height': 138,
+    'width': 320,
+    'height': 160,
     'anchor': {
-      'x': 149.0,
-      'y': 69.0
+      'x': 160.0,
+      'y': 80.0
     },
     'bounds': [
-      9,
-      4,
-      288,
-      134
+      18,
+      10,
+      304,
+      148
     ],
     'facing': 1,
     'clips': {
@@ -1605,18 +1488,18 @@ export const actorArt = {
       }
     },
     'referenceSize': [
-      298,
-      138
+      320,
+      160
     ],
     'referenceBounds': [
-      0,
-      0,
-      298,
-      138
+      16,
+      10,
+      306,
+      148
     ],
     'offset': [
-      11,
-      10
+      0,
+      0
     ]
   },
   'opel-damaged': {
@@ -1761,17 +1644,17 @@ export const actorArt = {
   },
   's30-damaged': {
     'src': 'armies/game-ready/brodovi/s30-damaged.png',
-    'width': 300,
-    'height': 54,
+    'width': 1024,
+    'height': 184,
     'anchor': {
-      'x': 150.0,
-      'y': 27.0
+      'x': 512.0,
+      'y': 92.0
     },
     'bounds': [
-      14,
-      4,
-      286,
-      50
+      9,
+      5,
+      1015,
+      179
     ],
     'facing': 1,
     'clips': {
@@ -1784,14 +1667,14 @@ export const actorArt = {
       }
     },
     'referenceSize': [
-      300,
-      54
+      1024,
+      184
     ],
     'referenceBounds': [
-      7,
-      3,
-      297,
-      51
+      8,
+      4,
+      1016,
+      180
     ]
   },
   'german-launch-damaged': {
@@ -2076,17 +1959,17 @@ export const actorArt = {
   },
   'shore-mg-damaged': {
     'src': 'armies/game-ready/artiljerija/shore-mg-damaged.png',
-    'width': 60,
-    'height': 24,
+    'width': 240,
+    'height': 96,
     'anchor': {
-      'x': 30.0,
-      'y': 12.0
+      'x': 120.0,
+      'y': 48.0
     },
     'bounds': [
-      9,
       4,
-      50,
-      20
+      4,
+      236,
+      84
     ],
     'facing': 1,
     'clips': {
@@ -2099,14 +1982,14 @@ export const actorArt = {
       }
     },
     'referenceSize': [
-      60,
-      24
+      240,
+      96
     ],
     'referenceBounds': [
-      3,
-      0,
-      57,
-      23
+      9,
+      4,
+      232,
+      92
     ]
   },
   'deck-crew': {
@@ -2136,6 +2019,76 @@ export const actorArt = {
         'loop': true
       }
     }
+  },
+  'bf109-damaged': {
+    'src': 'armies/game-ready/avioni/bf109-damaged.png',
+    'width': 404,
+    'height': 132,
+    'anchor': {
+      'x': 202.0,
+      'y': 66.0
+    },
+    'bounds': [
+      14,
+      13,
+      390,
+      90
+    ],
+    'facing': 1,
+    'clips': {
+      'damaged': {
+        'row': 0,
+        'ms': [
+          1600.0
+        ],
+        'loop': true
+      }
+    },
+    'referenceSize': [
+      404,
+      132
+    ],
+    'referenceBounds': [
+      14,
+      13,
+      391,
+      90
+    ]
+  },
+  'ju87-damaged': {
+    'src': 'armies/game-ready/avioni/ju87-damaged.png',
+    'width': 400,
+    'height': 148,
+    'anchor': {
+      'x': 200.0,
+      'y': 74.0
+    },
+    'bounds': [
+      6,
+      4,
+      394,
+      134
+    ],
+    'facing': 1,
+    'clips': {
+      'damaged': {
+        'row': 0,
+        'ms': [
+          1600.0
+        ],
+        'loop': true
+      }
+    },
+    'referenceSize': [
+      400,
+      148
+    ],
+    'referenceBounds': [
+      6,
+      5,
+      394,
+      135
+    ]
   }
 }
 export const hitBySource = {
@@ -2147,9 +2100,6 @@ export const hitBySource = {
   'armies/game-ready/artiljerija/partizanska-posada-sprites.png': 'partisan-crew-hit',
   'armies/game-ready/artiljerija/italijanska-posada-sprites.png': 'italian-crew-hit',
   'armies/game-ready/vojnici/bombas-sprites.png': 'grenadier-hit',
-  'armies/game-ready/vojnici/german-patrol-sprites.png': 'german-patrol-hit',
-  'armies/game-ready/vojnici/italian-patrol-sprites.png': 'italian-patrol-hit',
-  'armies/game-ready/vojnici/wounded-sprites.png': 'wounded-hit',
   'armies/game-ready/vojnici/mitraljezac-sprites.png': 'machine-gunner-hit'
 }
 export const damageBySource = {
@@ -2161,7 +2111,7 @@ export const damageBySource = {
   'armies/game-ready/kamioni/opel-blitz-legion-sprites.png': 'opel-legion-damaged',
   'armies/game-ready/vozovi/bp42-sprites.png': 'bp42-damaged',
   'armies/camac.png': 'player-boat-damaged',
-  'armies/game-ready/brodovi/schnellboot-s30.svg': 's30-damaged',
+  'armies/game-ready/brodovi/schnellboot-s30.png': 's30-damaged',
   'armies/game-ready/brodovi/german-launch.png': 'german-launch-damaged',
   'armies/game-ready/brodovi/german-skiff.png': 'german-skiff-damaged',
   'armies/game-ready/brodovi/german-patrol-vessel.png': 'patrol-vessel-damaged',
@@ -2170,7 +2120,9 @@ export const damageBySource = {
   'buildings/kuca-bunker.png': 'house-bunker-damaged',
   'armies/game-ready/artiljerija/pak38-postolje.png': 'pak38-damaged',
   'buildings/bunker-02.png': 'bunker-damaged',
-  'armies/game-ready/polozaji/mitraljesko-gnezdo-odozgo.svg': 'shore-mg-damaged'
+  'armies/game-ready/polozaji/mitraljesko-gnezdo-odozgo.png': 'shore-mg-damaged',
+  'armies/game-ready/avioni/bf109-telo.png': 'bf109-damaged',
+  'armies/game-ready/avioni/ju87.png': 'ju87-damaged'
 }
 export const vesselLooks = {
   'rboot': {

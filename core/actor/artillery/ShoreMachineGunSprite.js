@@ -1,13 +1,14 @@
 import BodySprite from '/core/actor/BodySprite.js'
 import BulletSprite from '/core/actor/projectiles/BulletSprite.js'
 import Sound from '/core/io/audio/SoundSource.js'
-import { assets } from '/config.js'
+import ArtClip from '../ArtClip.js'
+import art from './shoreNestArt.js'
 import ShoreDestruction from './ShoreDestruction.js'
 import { nest } from '/core/gameplay/bodies/artillery/ShoreMachineGun.js'
 import { bodyImage } from '../wreckView.js'
 
 /** How far the gun is drawn from its mount to its muzzle, in pixels, before it is scaled to its length. */
-const gunDrawn = 14
+const gunDrawn = art.gun.muzzle[0] - art.gun.anchor.x
 /** How far from the nest's middle each gunner lies, as a share of its length. */
 const crewApart = .23
 
@@ -17,9 +18,10 @@ const crewApart = .23
  */
 export default class ShoreMachineGunSprite extends BodySprite {
   constructor(body, { projection, camera }) {
-    super(body, 'armies/game-ready/polozaji/mitraljesko-gnezdo-odozgo.svg', { projection, camera })
-    this.crew = new Image()
-    this.crew.src = `${assets.images}armies/nemci-patrola.gif`
+    super(body, art.src, { projection, camera })
+    this.crew = new ArtClip(art.crew)
+    this.gun = new ArtClip(art.gun)
+    this.children.push(this.crew, this.gun)
     this.destruction = new ShoreDestruction()
     this.front = { position: { z: -2 }, render: ctx => this.renderDestruction(ctx) }
     this.children.push(this.front)
@@ -62,9 +64,8 @@ export default class ShoreMachineGunSprite extends BodySprite {
     if (this.body.dead && this.shown) this.destruction.render(ctx, this, this.body.stateTime)
   }
 
-  /** Two gunners lie by the gun; destroyed, they fall apart from their dropped rifles. */
+  /** Two dedicated crew figures turn with the gun and settle into their fallen poses. */
   renderCrew(ctx) {
-    if (!this.crew.naturalWidth) return
     const { body } = this
     const fallen = body.dead ? Math.min(1, body.stateTime / .35) : 0
     for (const side of [-1, 1]) {
@@ -72,19 +73,9 @@ export default class ShoreMachineGunSprite extends BodySprite {
       ctx.save()
       ctx.translate(this.x + Math.cos(this.angle) * (offset + side * fallen * 5),
         this.y + Math.sin(this.angle) * offset + body.side * fallen * 3)
-      ctx.rotate(this.gunAngle + Math.PI * .75 + (side < 0 ? 0 : .15) + side * fallen * 1.2)
-      if (body.dead) {
-        ctx.filter = 'brightness(.65) saturate(.4)'
-        ctx.scale(1 + fallen * .15, 1 - fallen * .2)
-        ctx.drawImage(this.crew, 8, 14, 24, 22, -9, -8, 18, 16.5)
-        ctx.filter = 'none'
-        ctx.translate(side * 11, 4)
-        ctx.rotate(side * .8)
-        ctx.fillStyle = '#51432e'
-        ctx.fillRect(-1, -4, 2, 8)
-        ctx.fillStyle = '#242b29'
-        ctx.fillRect(-.5, -11, 1, 9)
-      } else ctx.drawImage(this.crew, 0, 0, 32, 36, -12, -13.5, 24, 27)
+      ctx.rotate(this.gunAngle + (side < 0 ? 0 : .15) + side * fallen * 1.2)
+      this.crew.draw(ctx, { name: body.dead ? 'dead' : 'idle', time: body.stateTime,
+        x: 0, y: 0, scaleX: this.width / 128 * .36 })
       ctx.restore()
     }
   }
@@ -94,7 +85,9 @@ export default class ShoreMachineGunSprite extends BodySprite {
     ctx.save()
     ctx.translate(this.x, this.y)
     ctx.rotate(this.angle)
-    ctx.drawImage(bodyImage(this), -this.width / 2, -this.height / 2, this.width, this.height)
+    const damaged = this.body.dead && this.damageArt?.image
+    const bags = damaged?.complete && damaged.naturalWidth ? damaged : bodyImage(this)
+    ctx.drawImage(bags, -this.width / 2, -this.height / 2, this.width, this.height)
     ctx.restore()
     this.renderCrew(ctx)
     const { mount } = this
@@ -102,19 +95,7 @@ export default class ShoreMachineGunSprite extends BodySprite {
     ctx.translate(mount.x, mount.y)
     ctx.rotate(this.gunAngle + (this.body.dead ? .9 : 0))
     const scale = this.projection.length(nest.gun) / gunDrawn
-    ctx.scale(scale, scale)
-    ctx.fillStyle = '#374538'
-    ctx.fillRect(-4, -2, 9, 4)
-    ctx.fillStyle = '#1e2c25'
-    ctx.fillRect(3, -.8, 11, 1.6)
-    ctx.strokeStyle = '#687563'
-    ctx.lineWidth = 1
-    ctx.beginPath()
-    ctx.moveTo(10, 0)
-    ctx.lineTo(12, -3)
-    ctx.moveTo(10, 0)
-    ctx.lineTo(12, 3)
-    ctx.stroke()
+    this.gun.draw(ctx, { name: 'idle', time: 0, x: 0, y: 0, scaleX: scale })
     ctx.restore()
   }
 }

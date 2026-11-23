@@ -6,6 +6,8 @@ Pravila izrade i veze do izvora. Otvoreni poslovi su u [PLAN-u](PLAN.md#art), pr
 
 - Koristiti postojeći odgovarajući resurs pre izrade duplikata. Istorijsko prihvatanje izvora ne znači da je crtež konačan: `game-ready`, novi atlas, povezivanje i prolaz testova nisu ocena kvaliteta.
 - Crtati za stvarnu veličinu u igri: čitljiva silueta, uverljive proporcije, usklađena paleta i senčenje. Uvećana ilustracija koja se ne čita kao mali sprite nije upotrebljiva predaja. Proceduralni pokret je dovoljan kada jasno prikazuje radnju.
+- Posadu proveriti na sastavljenom vozilu: odnos glave prema telu, čoveka prema vozilu i položaj iza oklopa moraju biti prirodni u svim kadrovima. Vlasnik je na [Sd.Kfz. 251](../assets/images/armies/game-ready/vozila/sdkfz251-sprites.png) ukazao na nesrazmernu glavu i vojnika; čitljivost nije opravdanje za karikaturalno uvećanje.
+- Poboljšanje crteža ne podrazumeva promenu prihvaćenog stila. Odvojeni deo uporediti sa starim crtežom i u sklopu celog aktera; ne razvlačiti ga nezavisno po širini i visini samo da popuni zadati pravougaonik. Somuina cev pokazala je gubitak metalnog izgleda i promenu proporcija pri takvoj zameni.
 - Pre izmene utvrditi identitet, pogled, smer, razmeru, sidrište, oslonac i dozvoljene promene. Prazne margine atlasa ne menjaju mere tela i sudara. Isti tip vozila u različitom pogledu nije automatski zamenljiv resurs.
 - Sačuvati prihvaćene delove. Za ograničene pokrete proveriti piksele izvan dozvoljene maske; različit hash ne dokazuje dobru animaciju. Nova poza ne sme promeniti razmeru prethodnih kadrova. Razlomljene ćelije postojećeg atlasa nisu same po sebi greška.
 - Pregledati alfu, providne rubove i prelivanje u susednu ćeliju na neprozirnoj podlozi. Slab generisani veo može pokvariti granice figure. Poze jednog klipa dele razmeru i registraciju, bez pojedinačnog sabijanja tela.
@@ -44,13 +46,15 @@ Kadar, trajanje, sidrište, tačke događaja i putanje završnih slika čitaju s
 |---|---|
 | Kluz: pešadija i vozila | [sprites](../assets/images/armies/sources/franjo-kluz/sprites.json) |
 | Ustanak: strelac, zastavnici i posade | [sprites](../assets/images/armies/sources/ustanak/sprites.json), [hod i pad strelca](../assets/images/armies/sources/partisan-rifleman/sprites.json), [pad posada](../assets/images/armies/sources/cannon-crew-fall/sprites.json) |
-| Bombaš | [mirovanje, hod i pad](../assets/images/armies/sources/infantry-art/sprites.json), [bacanje](../assets/images/armies/sources/grenadier-throw/sprites.json) |
+| Bombaš | [mirovanje, hod i pad](../assets/images/armies/sources/infantry-art/sprites.json), [bacanje](../assets/images/armies/sources/grenadier-throw/sprites.json); priprema: [osnovni atlas](../assets/images/armies/sources/infantry-art/prepare.py) i [bacanje udesno](../assets/images/armies/sources/grenadier-throw/prepare-right.py) |
 | Okupator | [sprites](../assets/images/armies/sources/infantry-art/occupier-sprites.json) |
+| Frontalni kandidati sa animacijama | [animacije](../assets/images/armies/sources/enemy-front-variants/animation-sprites.json), [priprema](../assets/images/armies/sources/enemy-front-variants/prepare-animations.py), izvori [strelca](../assets/images/armies/sources/enemy-front-variants/rifleman-redraw-generation.json) i [stražara](../assets/images/armies/sources/enemy-front-variants/winter-sentry-animation-generation.json); zasebne priče [strelca](../catalog.html#vojnici/otpisani-strelac) i [stražara](../catalog.html#vojnici/otpisani-strazar). Sastav nivoa bira vlasnik. |
 | Nemac i Četnik spreda | [cele figure](../assets/images/armies/sources/infantry-art/front-standing/sprites.json) |
-| Ranjenik i patrole | [sprites](../assets/images/armies/sources/ranjenik/sprites.json) |
 | Mitraljezac iz Bunkera | [sprites](../assets/images/armies/sources/bunker-gunner/sprites.json) |
 | Posade Flaka i PaK-a | [sprites](../assets/images/armies/sources/infantry-art/crew-sprites.json) |
 | Punjenje nemačkog strelca | [sprites](../assets/images/armies/sources/rifleman-reload/sprites.json); klip prati spremnik nacrtanog oružja i nije zamena za punjenje drugih pušaka |
+
+Šinjel je isključivo zimska uniforma; [metapodaci kandidata](../core/gameplay/frontEnemyKinds.js) ograničavaju stražara na zimu.
 
 ### Vozila i oruđa
 
@@ -58,26 +62,32 @@ Kadar, trajanje, sidrište, tačke događaja i putanje završnih slika čitaju s
 |---|---|
 | Glavni tenkovi i Somua | [sprites](../assets/images/armies/sources/tenkovi/sprites.json), [priprema slojeva](../scripts/prepare-vehicle-art.py) |
 | M15/42, StuG III i Hočkis | [sprites](../assets/images/armies/sources/battlefield-tanks/sprites.json) |
-| Hummelov napad | [sprites](../assets/images/armies/sources/hummel-fire/sprites.json) |
+| Hummel: novi trup, posada i napad | [mirovanje i vožnja](../assets/images/armies/sources/franjo-kluz/sprites.json), [izvor i prompt](../assets/images/armies/sources/franjo-kluz/hummel-redraw-generation.json), [napad](../assets/images/armies/sources/hummel-fire/sprites.json); postojeća priprema čuva oslonac i vezu cevi sa projektilom |
 | Motociklista sa prikolicom | [atlas i odvojeni mitraljez](../assets/images/armies/sources/plan-ideas-art/sprites.json), [izvor i prompt](../assets/images/armies/sources/plan-ideas-art/generation.json), [ponovljiva priprema](../assets/images/armies/sources/plan-ideas-art/prepare.py) |
+| Sd.Kfz. 251 i Sd.Kfz. 222 | [atlasi, posada, kupola i olupine](../assets/images/armies/sources/plan-ideas-art/sprites.json), [poreklo i promptovi](../assets/images/armies/sources/plan-ideas-art/generation.json); priprema čuva registrovane delove i sidrišta, a olupina drži jedan kadar |
 | BP-42 napad | [sprites](../assets/images/armies/sources/bp42-fire/sprites.json) |
 | Poljski top Ustanka | [sklop](../assets/images/armies/sources/field-gun/layout.json), [priprema](../assets/images/armies/sources/field-gun/prepare.py), [olupina](../assets/images/armies/sources/field-gun/wreck-sprites.json) |
 | Olupine | [sprites](../assets/images/armies/sources/wrecks/sprites.json) |
 | Odvojene cevi glavnih tenkova | [partizanska](../assets/images/armies/game-ready/tenkovi/partizanski-tenk-cev-pixel.png), [nemačka](../assets/images/armies/game-ready/tenkovi/nemacki-tenk-cev-pixel.png), [Somua](../assets/images/armies/game-ready/tenkovi/somua-s35-barrel.png) |
 | Delovi oruđa | [poljski top: cev](../assets/images/armies/game-ready/artiljerija/field-gun-barrel-pixel.png) i [lafet](../assets/images/armies/game-ready/artiljerija/field-gun-carriage-pixel.png); [Flak: postolje](../assets/images/armies/game-ready/artiljerija/flak38-postolje.png) i [cev](../assets/images/armies/game-ready/artiljerija/flak38-cev.png); [PaK: postolje](../assets/images/armies/game-ready/artiljerija/pak38-postolje.png) i [cev](../assets/images/armies/game-ready/artiljerija/pak38-cev.png) |
-| Utvrđeni položaji | [kuća-bunker](../assets/images/buildings/kuca-bunker.png), [bunker](../assets/images/buildings/bunker-02.png), [obalni položaj](../assets/images/armies/game-ready/polozaji/mitraljesko-gnezdo-odozgo.svg) |
+| Utvrđeni položaji | [kuća-bunker](../assets/images/buildings/kuca-bunker.png), [bunker](../assets/images/buildings/bunker-02.png), [obalni položaj](../assets/images/armies/game-ready/polozaji/mitraljesko-gnezdo-odozgo.png), [mitraljez](../assets/images/armies/game-ready/polozaji/shore-mg-gun.png), [posada](../assets/images/armies/game-ready/polozaji/shore-mg-crew.png) |
 | Bunker: sačuvana studija bolnice, nije povezana sa igrom | [slika](../assets/images/buildings/bunker-house.png), [sprites](../assets/images/sources/bunker/sprites.json), [poreklo i prompt](../assets/images/sources/bunker/generation.json), [priprema](../assets/images/sources/bunker/prepare.py) |
-| Osnovni brodovi | [partizanski čamac](../assets/images/armies/camac.png), [S-30](../assets/images/armies/game-ready/brodovi/schnellboot-s30.svg) |
+| Osnovni brodovi | [partizanski čamac](../assets/images/armies/camac.png), [S-30: trup](../assets/images/armies/game-ready/brodovi/schnellboot-s30.png), [palubno oruđe](../assets/images/armies/game-ready/brodovi/s30-deck-gun.png), [priprema](../assets/images/armies/sources/plan-ideas-art/prepare-s30.py) |
 
 Poljski top Ustanka je zajednički prihvaćen crtež za obe posade. Sličnost sa [Schneiderom 155 L iz 1918.](https://en.wikipedia.org/wiki/Canon_de_155_L_mod%C3%A8le_1918_Schneider) je procena vlasnika i agenta, bez potvrde tipa ili istorijske upotrebe u tom nivou; pri novom artu ne predstavljati ga kao potvrđen laki top od 75 mm.
 
+Registraciju betonskog bunkera vodi [priprema utvrđenja](../assets/images/armies/sources/plan-ideas-art/prepare-fortifications.py), a Somuine cevi [odvojena priprema](../assets/images/armies/sources/plan-ideas-art/prepare-somua-barrel.py), koja proverava da trupovi ostanu netaknuti.
+
+[Priprema obalskog gnezda](../assets/images/armies/sources/plan-ideas-art/prepare-shore.py) čuva zajedničku registraciju zdravog i oštećenog zaklona, a mitraljez i sopstvenu posadu izvozi odvojeno.
+
 ### Avioni
+
 
 | Resurs | Metapodaci / izvor |
 |---|---|
 | Potez: trupovi, posada i delovi | [sprites](../assets/images/armies/sources/franjo-kluz/potez-crew/sprites.json), [sklop](../assets/images/armies/sources/franjo-kluz/potez-crew/crew.json) |
 | Propeleri | [sprites i osovine](../assets/images/armies/sources/aircraft-propellers/sprites.json) |
-| Bočni avioni | [Bf 109: trup](../assets/images/armies/game-ready/avioni/bf109-telo.png) i [propeler](../assets/images/armies/game-ready/avioni/bf109-propeler.png), [Ju 87](../assets/images/armies/game-ready/avioni/ju87.svg) |
+| Bočni avioni | [Bf 109: trup](../assets/images/armies/game-ready/avioni/bf109-telo.png), [oštećenje](../assets/images/armies/game-ready/avioni/bf109-damaged.png), [priprema](../assets/images/armies/sources/plan-ideas-art/prepare-bf109.py) i [propeler](../assets/images/armies/game-ready/avioni/bf109-propeler.png); [Ju 87: trup](../assets/images/armies/game-ready/avioni/ju87.png), [oštećenje](../assets/images/armies/game-ready/avioni/ju87-damaged.png) i [priprema](../assets/images/armies/sources/plan-ideas-art/prepare-ju87.py) |
 | Avioni igrača odozgo | [Spitfire](../assets/images/armies/partizani/avioni/spitfire-mkvb-realistic.png), [Hurricane](../assets/images/armies/partizani/avioni/hurricane-mkiv-realistic.png), [Breguet 19](../assets/images/armies/partizani/avioni/breguet-19-realistic.png), [Yak-1b](../assets/images/armies/partizani/avioni/yak-1b-realistic.png); [Il-2](../assets/images/armies/partizani/avioni/il-2-realistic.png) samo u katalogu, za neki drugi nivo |
 | Nemački avioni odozgo | [Bf 109](../assets/images/armies/nemci/avioni/bf-109-odozgo.png), [Fw 190](../assets/images/armies/nemci/avioni/fw-190-odozgo.png), [Bf 110](../assets/images/armies/nemci/avioni/bf-110-odozgo.png), [He 111](../assets/images/armies/nemci/avioni/he-111-odozgo.png), [lovac 01](../assets/images/armies/nemci/avioni/avion-odozgo-01.png), [02](../assets/images/armies/nemci/avioni/avion-odozgo-02.png), [03](../assets/images/armies/nemci/avioni/avion-odozgo-03.png), [05](../assets/images/armies/nemci/avioni/avion-odozgo-05.png) |
 

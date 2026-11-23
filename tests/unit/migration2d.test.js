@@ -5,19 +5,6 @@ import { loadAtlas } from './helpers/atlas.js'
 
 before(() => createPageElements())
 
-test('the direction arrow uses supplied game time rather than wall time', async t => {
-  const { default: Strelica } = await import('/scenes/ranjenik/Strelica.js')
-  t.mock.timers.enable({ apis: ['Date'], now: 0 })
-  const arrow = new Strelica()
-  t.mock.timers.tick(100_000)
-  arrow.update(0)
-  assert.equal(arrow.vidljiva, false)
-  arrow.update(3)
-  assert.equal(arrow.vidljiva, true)
-  arrow.update(.5)
-  assert.equal(arrow.vidljiva, false)
-})
-
 test('neretva aiming waits for game updates and its health cannot fall below zero', async t => {
   const { default: Neretva } = await import('/scenes/neretva/Main.js')
   const scene = new Neretva()
@@ -136,7 +123,7 @@ test('neretva: the Germans hold the trenches first, the Chetniks take over half 
 
 test('all remaining 2D scenes can initialize, pause, finish and be replaced without model loads', async t => {
   // The tank's async asset preparation and full replay flow are covered by tankLevelFlow.test.js.
-  const names = ['bunker', 'camac', 'franjo-kluz', 'neretva', 'otpisani', 'ranjenik', 'ustanak']
+  const names = ['bunker', 'camac', 'franjo-kluz', 'neretva', 'otpisani', 'ustanak']
   for (const name of names)
     await t.test(name, async() => {
       const { default: Scene } = await import(`/scenes/${name}/Main.js`)

@@ -7,20 +7,18 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 | # | ID | Posao | Ko | Status |
 |---|---|---|---|---|
 | | **[Art](#art)** | | | |
-| 1 | [IG-13](#ig-13) | Dopuniti pogodak Okupatora i oštećenja Bf 109 i Ju 87, povezati i proveriti | Codex, Claude | 🔄 In progress<br>Waiting: tri resursa [1](#note-1) |
-| 2 | [IG-16](#ig-16) | Precrtati slabe prikaze prema popisu od 18 kandidata; započet motociklista | Codex | 🔄 In progress |
-| 3 | [AR-P01](#ar-p01) | Uporediti BP-42, M15/42, StuG III i Hočkis sa dorađenim tenkovima | Codex | 📋 TODO |
-| 4 | [AR-P02](#ar-p02) | Dovršiti odložene provere postojećih dopuna u katalogu i igrama | Agent | 📋 TODO |
-| 5 | [AR-P03](#ar-p03) | Pregledati dopune aktera koje nemaju zabeleženo vizuelno prihvatanje | Vlasnik | 📋 TODO |
-| 6 | [AR-P04](#ar-p04) | Pregledati rasporede rekvizita i preostale ugrađene ambijente | Vlasnik | 📋 TODO |
+| 1 | [IG-13](#ig-13) | Dopuniti pogodak Okupatora, povezati i proveriti | Codex, Claude | 🔄 In progress<br>Waiting: jedan resurs [1](#note-1) |
+| 2 | [AR-P02](#ar-p02) | Dovršiti odložene provere postojećih dopuna u katalogu i igrama | Agent | 📋 TODO |
+| 3 | [AR-P03](#ar-p03) | Pregledati dopune aktera koje nemaju zabeleženo vizuelno prihvatanje | Vlasnik | 📋 TODO |
+| 4 | [AR-P04](#ar-p04) | Pregledati rasporede rekvizita i preostale ugrađene ambijente | Vlasnik | 📋 TODO |
 | | **[Igre i ideje](#igre)** | | | |
-| 7 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [2](#note-2) |
-| 8 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
-| 9 | [IG-19](#ig-19) | Dogovoriti nazive nivoa i prikaz žanra i godine na naslovnoj | Vlasnik | 📋 TODO |
-| 10 | [IG-20](#ig-20) | Razmotriti nivo odbrane položaja odozgo, sa napadima sa svih strana | Vlasnik | 📋 TODO |
-| 11 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
-| 12 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
-| 13 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
+| 5 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [2](#note-2) |
+| 6 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
+| 7 | [IG-19](#ig-19) | Dogovoriti nazive nivoa i prikaz žanra i godine na naslovnoj | Vlasnik | 📋 TODO |
+| 8 | [IG-20](#ig-20) | Razmotriti nivo odbrane položaja odozgo, sa napadima sa svih strana | Vlasnik | 📋 TODO |
+| 9 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
+| 10 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
+| 11 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
 
 ## Održavanje plana
 
@@ -35,52 +33,14 @@ Važe [DOCS](DOCS.md), [ugovor arta](ART.md#obavezna-integracija) i [arhitektura
 <a id="ig-13"></a>
 ### IG-13 · Preostala stanja „pogođen”
 
-Napraviti tri preostala resursa, povezati ih sa zajedničkim prikazima igara i kataloga i proveriti vidljivu reakciju na pogodak; oštećenje aviona prikazuje se ispod polovine zdravlja. Ugovor i već završene dopune: [ART](ART.md#dopune-iz-plana-ideja--predaja-arta); dokazi: [TESTING](TESTING.md#predaja-arta-iz-plana-ideja).
-
-<a id="ig-16"></a>
-### IG-16 · Popis za precrtavanje
-
-Popis je zasnovan na pregledu crteža i njihovih potrošača; ne potvrđuje sve animacije niti odigrane nivoe.
-
-Tabela je procena agenta prema sadašnjim slikama i vlasnikovoj primedbi na motociklistu, ne vlasnikovo odbijanje svakog navedenog aktera. Merilo su čitljive siluete, uverljive proporcije i usklađeno senčenje u veličini igre, kao kod dorađenog Poteza, glavnih tenkova i novije pešadije. Sam piksel stil nije nedostatak. Precrtavanje je započeto po nalogu vlasnika: prvi je motociklista sa prikolicom, posadom i svim radnjama; ostali čekaju.
-
-| # | Akter / deo | Gde se koristi | Šta treba zameniti i zašto |
-|---|---|---|---|
-| 15 | [Sd.Kfz. 251](../catalog.html#vozila/sdkfz-251) | Do Trsta, Kluz | Ceo [atlas](../assets/images/armies/game-ready/vozila/sdkfz251-sprites.png): zrnasti obrubi, nerazgovetne gusenice i lice mitraljesca; ćelija 128×65. |
-| 16 | [Sd.Kfz. 222](../catalog.html#vozila/sdkfz-222) | Do Trsta, Kluz | [Trup i kupola](../assets/images/armies/game-ready/vozila/sdkfz222-sprites.png): grub mali raster, slabo odvojene ploče i točkovi; ćelija 108×52. Kupolu zadržati kao zaseban deo. |
-| 17 | [Hummel](../catalog.html#vozila/hummel) | Kluz | [Trup i posada](../assets/images/armies/game-ready/tenkovi/hummel-sprites.png): ostali su izvorni pikseli, šumasta kamuflaža i skicirana lica. Dopune gusenica i trzaja nisu precrtavanje vozila. |
-| 18 | [Bf 109, bočno](../catalog.html#avioni/bf109) | Kluz, Do Trsta | [Trup](../assets/images/armies/game-ready/avioni/bf109-telo.png): stari šematski crtež, tanke crne linije preko ravnih sivih površina. Uskladiti sa Potezom i novim bočnim avionima. |
-| 19 | [Ju 87, bočno](../catalog.html#avioni/ju87-obrusavac) | Kluz, Do Trsta, Neretva | [Trup](../assets/images/armies/game-ready/avioni/ju87.svg): pojednostavljena geometrijska zamena; propeler i putanja leta ne nadoknađuju detalje aviona. |
-| 20 | [Flak 38](../catalog.html#artiljerija/flak38) | Kluz | [Postolje](../assets/images/armies/game-ready/artiljerija/flak38-postolje.png) i [cev](../assets/images/armies/game-ready/artiljerija/flak38-cev.png): stari tanki crni obrubi, slabo senčenje i zelena traka tla u slici. Nova posada nije razlog da se ponovo crta. |
-| 21 | [PaK 38](../catalog.html#artiljerija/pak38) | Do Trsta | [Postolje](../assets/images/armies/game-ready/artiljerija/pak38-postolje.png) i [cev](../assets/images/armies/game-ready/artiljerija/pak38-cev.png): skiciran točak i lafet, zelena traka tla i neusklađena obrada delova. Sačuvati odvojenu posadu. |
-| 22 | [Schnellboot S-30](../catalog.html#brodovi/schnellboot) | Čamac | [Trup](../assets/images/armies/game-ready/brodovi/schnellboot-s30.svg) i palubna oruđa: gladak šematski prikaz odstupa od teksturisanih čamaca; nedostatak je naročito vidljiv na sadašnjoj dužini oko 819 px. |
-| 23 | [Mitraljesko gnezdo odozgo](../catalog.html#artiljerija/mitraljesko-gnezdo) | Čamac | [Vreće i zaklon](../assets/images/armies/game-ready/polozaji/mitraljesko-gnezdo-odozgo.svg), oružje crtano pravougaonicima i stara posada preuzeta iz patrole; sadašnji delovi pripadaju različitim stilovima. |
-| 24 | [Kuća-bunker](../catalog.html#artiljerija/kuca-bunker) | Bunker, Do Trsta; dekoracija Ustanka i Drvara | [Čitava kuća](../assets/images/buildings/kuca-bunker.png): šumaste teksture i ravne površine ne uklapaju se uz noviju nacrtanu ruševinu i ambijente. Jedan resurs dele borbeni i dekorativni potrošači. |
-| 25 | [Bunker](../catalog.html#artiljerija/bunker-do-trsta) | Do Trsta | [Čitav bunker](../assets/images/buildings/bunker-02.png): gruba ponovljena tekstura i urezane linije puškarnice; uskladiti sa kvalitetom nacrtane ruševine. |
-| 26 | [Bombaš](../catalog.html#vojnici/bombas) | Bunker | [Osnovni lik](../assets/images/armies/game-ready/vojnici/bombas-sprites.png): stari raster stajanja i hoda je sačuvan, dok su kasnije dodati bacanje i pad. Za usklađen kvalitet potreban je isti novi lik kroz sve radnje, ne još jedno prepakivanje. |
-| 27 | Mitraljezac u kući | Bunker, Do Trsta | [Figura i mitraljez](../assets/images/armies/game-ready/vojnici/mitraljezac-sprites.png): sačuvan je krupan kadar 63×27 sa blokovskom glavom i rukama; novi trzaj i pad nisu nova osnovna figura. Ne pretpostaviti da izvor sadrži celo telo. |
-| 28 | [Ranjeni partizan](../catalog.html#vojnici/ranjeni-partizan) | Ranjenik | [Osnovni lik](../assets/images/armies/game-ready/vojnici/wounded-sprites.png) i povezane radnje: izvornih 69×27 px, ravne obojene plohe i slabo razdvojene ruke/oprema. Sačuvati pogled odozgo. |
-| 29 | [Nemačka patrola](../catalog.html#vojnici/nemacka-patrola) | Ranjenik; delovi figure i u obalskom gnezdu | [Sva tri čoveka](../assets/images/armies/game-ready/vojnici/german-patrol-sprites.png): prvobitna mala tela i glave zadržani su pri dodavanju koraka. Potrebno precrtavanje grupe u istom pogledu. |
-| 30 | [Italijanska patrola](../catalog.html#vojnici/italijanska-patrola) | Ranjenik | [Sva tri čoveka](../assets/images/armies/game-ready/vojnici/italian-patrol-sprites.png): isti problem sa sačuvanim starim osnovnim crtežom; uskladiti mirovanje, hod, pogodak i pad. |
-| 31 | Somua S35 · samo cev | Do Trsta | [Cev](../assets/images/armies/game-ready/tenkovi/somua-s35-barrel.png) je teksturisana izvorna slika, stilski različita od [čitljivog nacrtanog trupa](../assets/images/armies/game-ready/tenkovi/somua-s35-sprites.png). Nema osnova za ponovno crtanje celog tenka. |
-
-Dodatna četiri kandidata za poređenje vodi [AR-P01](#ar-p01).
-
-**Nije pronađen razlog za potpuno precrtavanje:** novi nemački strelac i jurišnik, partizanski strelac, zastavnici i posade Ustanka, četiri nove partizanske uloge, Nemac i Četnik spreda, glavni tenkovi, Somuin trup, oba Opela, Potez sa obe oznake, bočni He 111 i Storch, postojeći avioni odozgo i šest teksturisanih neprijateljskih plovila. Okupator ostaje u posebnom realističnom stilu Otpisanih; nedostajući pogodak vodi IG-13. To nije novo vlasnikovo odobrenje ni potvrda svih pokreta.
-
-Za svaki izabrani novi crtež uskladiti i njegovo oštećenje, pad/olupinu i odvojene delove, uz očuvanje sudarnih mera, orijentacije, oslonca i tačke pucnja. Već upotrebljive odvojene posade i efekte zadržati. Pozadine, UI, neupotrebljena zbirka izvora i 3D modeli nisu deo ovog popisa 2D aktera.
-
-<a id="ar-p01"></a>
-### AR-P01 · Poređenje kvaliteta
-
-BP-42, M15/42, StuG III i Hočkis su izdvojeni pri pregledu IG-16: imaju novije pripremljene crteže, ali ravnije ili zrnastije senčenje. Uporediti ih u veličini igre sa glavnim tenkovima i tek tada odlučiti da li traže doradu ili precrtavanje. Nema naloga za automatsku izradu četiri nova atlasa.
+Napraviti preostali pogodak Okupatora, povezati ga sa zajedničkim prikazom igre i kataloga i proveriti vidljivu reakciju na pogodak. Ugovor: [ART](ART.md#dopune-iz-plana-ideja--predaja-arta); dokazi: [TESTING](TESTING.md#predaja-arta-iz-plana-ideja).
 
 <a id="ar-p02"></a>
 ### AR-P02 · Odložene provere
 
 Pre pokretanja proveriti sadašnji dokaz u [TESTING](TESTING.md#art-verification-record), da se već izvršene provere ne ponavljaju. Za preostale dopune proveriti učitavanje, mirovanje, kretanje, radnju, pogodak, završnu pozu, oba smera, pauzu i reset u stvarnim potrošačima. Raniji unit ili statični pregled ne dokazuje prirodan pokret.
 
-Obuhvat prenet iz beleški o dopunama: tenkovi i Somua, oba Opela, Hummel i BP-42, pešadija i posade, Ranjenik i patrole, propeleri i olupine aviona, S-30 i obalsko gnezdo, nova plovila i podrška iz paketa plana ideja. Posebno su bili odloženi pokret, vatra, voda i stvarno učitavanje iz ART-11; za obuhvaćene priče koristiti noviji [izmereni pregled](TESTING.md#sačuvani-dokazni-izvori), umesto stare opšte tvrdnje da browser nije pokretan. Uključiti fizičko poravnanje tla i živih efekata za dopunjene pozadine gde to još nije provereno. Obim izabrati prema promeni i važećoj dozvoli; puna testna serija nije automatski deo ovog posla.
+Obuhvat prenet iz beleški o dopunama: tenkovi i Somua, oba Opela, Hummel i BP-42, pešadija i posade, propeleri i olupine aviona, S-30 i obalsko gnezdo, nova plovila i podrška iz paketa plana ideja. Posebno su bili odloženi pokret, vatra, voda i stvarno učitavanje iz ART-11; za obuhvaćene priče koristiti noviji [izmereni pregled](TESTING.md#sačuvani-dokazni-izvori), umesto stare opšte tvrdnje da browser nije pokretan. Uključiti fizičko poravnanje tla i živih efekata za dopunjene pozadine gde to još nije provereno. Obim izabrati prema promeni i važećoj dozvoli; puna testna serija nije automatski deo ovog posla.
 
 <a id="ar-p03"></a>
 ### AR-P03 · Pregledi aktera
@@ -103,6 +63,8 @@ Olupina poljskog topa može postati zaseban rekvizit bojišta; još nije raspore
 ### IG-14 · Kandidati za vlasnikov izbor
 
 Kandidati nisu nalog za izradu. Posle izbora dopuniti art, telo, zajednički prikaz i priču u katalogu, povezati aktera sa igrom i odigrati nivo.
+
+- **Frontalni neprijatelji:** [strelac](../catalog.html#vojnici/otpisani-strelac) i [stražar](../catalog.html#vojnici/otpisani-strazar) čekaju vlasnikov izbor za nivo. Stražar u šinjelu dozvoljen je samo zimi.
 
 - **Vis:** partizanski [Hurricane, Spitfire i Il-2](../assets/images/armies/partizani/avioni/) odozgo.
 - **Do Trsta (izbor vlasnika, 2026-11-23, samo nemačka vozila):** [motor Zündapp K600 sa dvojicom](../assets/images/armies/nemci/motori/zundapp-k600.png), [trokolica BMW R12 sa dvojicom](../assets/images/armies/nemci/motori/bmw-r12-03.png), [oklopni automobil Sd.Kfz. 231](../assets/images/armies/nemci/vozila/sdkfz-231-02.png), [oklopni automobil Pz.Kpfw. 612 (37 mm)](../assets/images/armies/nemci/vozila/pzkpf612-37mm.png), [oficirski automobil Mercedes 830 BL](../assets/images/armies/nemci/vozila/830bl-02.png), [lovac tenkova Marder II (76 mm)](../assets/images/armies/nemci/tenkovi/panzer2d-76mm.png), [lovac tenkova Elefant](../assets/images/armies/nemci/tenkovi/elefant-01.png). Biraju se po raznovrsnosti, ne po istorijskoj vernosti.
@@ -144,5 +106,5 @@ Liberated City je Bihać krajem 1942. Natpisi o dolasku Crvene armije i plakat R
 
 Waiting: čeka navedeni zavisni posao.
 
-1. <a id="note-1"></a>**IG-13:** imagegen je odbio tri preostala resursa; [ograničenja i zapis odbijanja](ART.md#dopune-iz-plana-ideja--predaja-arta). Ostali pripremljeni paketi su povezani; obuhvat izvršenih [provera](TESTING.md#predaja-arta-iz-plana-ideja) i datirani browser dokaz čitaju se odvojeno.
+1. <a id="note-1"></a>**IG-13:** preostaje pogodak Okupatora. Ugovor: [ART](ART.md#dopune-iz-plana-ideja--predaja-arta); izvršene provere: [TESTING](TESTING.md#predaja-arta-iz-plana-ideja).
 2. <a id="note-2"></a>**IG-14:** pet prethodno izabranih aktera je povezano; [art](ART.md#dopune-iz-plana-ideja--predaja-arta) i [provere](TESTING.md#predaja-arta-iz-plana-ideja). Čeka se izbor novih kandidata.

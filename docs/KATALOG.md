@@ -16,6 +16,10 @@ Za svaki izgled dostupan je [pregled proverenih radnji](../pregled-animacija.htm
 
 Ovo je pravilo organizacije.
 
+Pripremljeni kandidati mogu biti u katalogu pre izbora za nivo. Panel ih označava kao kandidate i nudi samo postojeće crteže i radnje; uvrštavanje u katalog nije dozvola da se automatski dodaju u nivo.
+
+Sezonska namena mora biti vidljiva u panelu. Stražar u šinjelu ima `allowedSeasons: ['winter']`: šinjel je isključivo zimska uniforma i ne koristi se u prolećnim, letnjim ili jesenjim nivoima. Ograničenje se poštuje i pri kasnijem izboru sastava nivoa.
+
 ## Upotreba
 
 - Katalog prikazuje samo aktere, igrače i neprijatelje, uključujući bibliotečke klase za te uloge; pozadine, okolina, efekti, projektili i predmeti nemaju zasebne priče (odluka vlasnika). Saradnici poput metka ili eksplozije mogu se videti uz aktera tokom pucanja/pogotka, a svetlo, tlo i meta deo su pozornice. Obim određuje uloga, ne folder klase.

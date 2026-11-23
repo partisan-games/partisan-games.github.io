@@ -39,6 +39,33 @@ test('the throw sounds once when the grenade actually leaves the hand', t => {
   assert.equal(cue.mock.callCount(), 1)
 })
 
+test('the original release hand and flying grenade coincide in both directions', t => {
+  for (const facing of [-1, 1]) {
+    const { body, view, world } = scene()
+    body.facing = facing
+    Object.defineProperties(view.throwImage, { naturalWidth: { value: 528 }, naturalHeight: { value: 72 } })
+    let released
+    const launch = body.grenade.launch.bind(body.grenade)
+    t.mock.method(body.grenade, 'launch', (point, velocity) => {
+      released = { ...point }
+      launch(point, velocity)
+    })
+    body.shoot()
+    world.update(.399, 0)
+    assert.equal(released, undefined)
+    assert.equal(view.frame.x, 66 * 3, 'the last held-grenade frame precedes release')
+    world.update(.001, 0)
+    assert.ok(released)
+    assert.equal(view.frame.x, 66 * 4, 'release selects the empty-hand frame')
+    const drawn = { x: view.x + facing * (48 / 66 - .5) * view.width,
+      y: view.y + (3 / 72 - .5) * view.height }
+    const ground = view.projection.point(released)
+    assert.ok(Math.hypot(drawn.x - ground.x, drawn.y - (ground.y - view.projection.length(released.y))) < 1e-8)
+    const flight = view.children.find(child => child.grenade === body.grenade)
+    assert.ok(flight.image.src.endsWith('/bombas-throw-right-sprites.png'), 'flight uses the original drawn grenade')
+  }
+})
+
 test('grenadier blood descends during the fall and leaves only a stain on the ground', t => {
   const { body, view, world } = scene()
   const hit = t.mock.method(view.hitSound, 'play', () => {})
