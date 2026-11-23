@@ -5,8 +5,8 @@ import { createPageElements } from './helpers/dom.js'
 let kinds, createCatalog, findStory
 before(async() => {
   createPageElements()
-  ;({ default: kinds } = await import('/storybook/stories/index.js'))
-  ;({ createCatalog, findStory } = await import('/storybook/catalog.js'))
+  ;({ default: kinds } = await import('/catalog/stories/index.js'))
+  ;({ createCatalog, findStory } = await import('/catalog/catalog.js'))
 })
 
 test('old model links resolve to separate actors instead of skins', () => {

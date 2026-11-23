@@ -6,7 +6,7 @@ import { createPageElements } from './helpers/dom.js'
 
 test('the stage frames the scaled, posed skin before its first render', async() => {
   createPageElements()
-  const { default: Stage3D } = await import('/storybook/Stage3D.js')
+  const { default: Stage3D } = await import('/catalog/Stage3D.js')
   const geometry = new BufferGeometry()
   geometry.setAttribute('position', new Float32BufferAttribute([-50, 0, 0, 50, 0, 0, 0, 200, 0], 3))
   geometry.setAttribute('skinIndex', new Uint16BufferAttribute(new Uint16Array(12), 4))

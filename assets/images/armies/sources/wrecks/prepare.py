@@ -75,7 +75,7 @@ def main():
             '<a href="' + key + '-generated.png">izvor</a> · '
             '<a href="../../game-ready/wrecks/' + key + '.png">PNG za igru</a></p>') if 'prompt' in profile else ''
         cards.append('<figure id="' + key + '"><img src="../../game-ready/wrecks/' + key + '.png"><figcaption>' + key + details + '</figcaption></figure>')
-    (HERE / 'preview.html').write_text('<!doctype html><html lang="sr"><meta charset="utf-8"><title>Olupine</title><style>body{background:#58614a;color:white;font:16px sans-serif}main{display:flex;flex-wrap:wrap}figure{margin:16px}img{image-rendering:pixelated;max-width:576px}figcaption{padding:8px}</style><h1>Olupine — koordinatni sistemi živih aktera</h1><p>Statični završni kadrovi; požar i prelaz daje igra. Isti akteri u postojećem Storybook-u.</p><main>' + ''.join(cards) + '</main></html>', encoding='utf-8')
+    (HERE / 'preview.html').write_text('<!doctype html><html lang="sr"><meta charset="utf-8"><title>Olupine</title><style>body{background:#58614a;color:white;font:16px sans-serif}main{display:flex;flex-wrap:wrap}figure{margin:16px}img{image-rendering:pixelated;max-width:576px}figcaption{padding:8px}</style><h1>Olupine — koordinatni sistemi živih aktera</h1><p>Statični završni kadrovi; požar i prelaz daje igra. Isti akteri u postojećem katalogu.</p><main>' + ''.join(cards) + '</main></html>', encoding='utf-8')
     print(f'Packed {len(assets)}/{len(profiles)} wrecks, preserving live frame size and ground baseline.')
 
 if __name__ == '__main__':

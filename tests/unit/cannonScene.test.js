@@ -204,6 +204,7 @@ test('the surviving crew member can fire and losing the last one ends the battle
 
 test('only enemy bursts draw tracers and a fallen flank fighter costs the crew no health', async t => {
   const game = await level(t)
+  t.mock.method(game, 'alliedFire', () => {})
   const fighter = game.infantry.fighters[0]
   fighter.gun.wait = 0
   const bursts = t.mock.method(game.tracers, 'burst')
@@ -224,6 +225,31 @@ test('only enemy bursts draw tracers and a fallen flank fighter costs the crew n
   fighter.gun.wait = 0
   fighter.update(1)
   assert.equal(fighter.gun.shots, 1)
+})
+
+test('the flank reaches only gunners at their slits until the masonry in front of the others is gone', async t => {
+  const game = await level(t)
+  t.mock.method(Math, 'random', () => 0)
+  const from = game.infantry.fighters[0].gun.muzzle.getWorldPosition(new THREE.Vector3())
+  const fire = () => game.alliedFire(game.defenders.members.filter(member => member.fighter.alive).map(post => ({ from, post })))
+  fire()
+  const fallen = game.defenders.members.filter(member => !member.fighter.alive)
+  assert.ok(fallen.length > 0)
+  assert.ok(fallen.every(member => member.slit), 'whole walls hide the defenders behind them')
+  game.stones = []
+  fire()
+  assert.ok(game.defenders.members.every(member => !member.fighter.alive))
+})
+
+test('the gunner always falls first, so the loader keeps the gun firing until the last of the crew', async t => {
+  const game = await level(t)
+  const { crew } = game
+  const [gunner, loader] = crew.members
+  assert.equal(crew.pickTarget(), gunner)
+  crew.hit(gunner, gunner.health.current, game.scene)
+  assert.equal(crew.pickTarget(), loader)
+  crew.update(reload.total, 0, true)
+  assert.equal(crew.ready, true)
 })
 
 test('the canyon frames the barracks on a raised terrace on the gun bank', async t => {

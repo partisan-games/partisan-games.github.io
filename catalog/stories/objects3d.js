@@ -18,39 +18,53 @@ import { towerModel } from '/core3d/actor/buildings/buildingModels.js'
 import { modelSize } from '/core3d/actor/characters/CharacterModel.js'
 import makeCharacter from '/core3d/actor/characters/makeCharacter.js'
 import * as cannonModule from '/core3d/actor/derived/Cannon.js'
+import * as mortarModule from '/core3d/actor/artillery/MortarCrew.js'
 import Crew, { models as crewModels } from '/core3d/actor/artillery/Crew.js'
+import GunHit from '/core3d/actor/artillery/GunHit.js'
 
 /** The crew of each field gun on the stage, and whether its loader is loading a round. */
 const drills = new WeakMap()
 
 /**
- * The field gun of Battle for Jablanica with its crew, facing the camera's right; it does not fire a shell here. Dead,
- * its crew has fallen beside it, as in the game.
+ * The field gun of Battle for Jablanica with its crew, facing the camera's right; it does not fire a shell here. Here
+ * its health is the gun's own, not its crew's as in the game: destroyed, it lies tilted and charred, and its crew,
+ * whom only a hit on the crew brings down, kneels on beside the wreck.
  */
 const fieldGun = async stage => {
   await requestModels([...cannonModule.models, ...crewModels])
-  const { body, model } = makeCharacter(cannonModule.description, { yaw: Math.PI / 2 })
+  const { body, model } = makeCharacter({ ...cannonModule.description, deathPose: 'armor' }, { yaw: Math.PI / 2 })
+  const hit = new GunHit(body, model.mesh)
   const drill = { crew: new Crew(model.mesh), loading: false, update(dt) {
-    if (body.dead) for (const member of this.crew.members)
-      if (member.health.alive) this.crew.hit(member, member.health.current, stage.scene)
+    // the crew steps off the gun before it tilts and chars, which would take them along
+    if (body.dead && !this.wrecked) {
+      this.wrecked = true
+      for (const { mesh } of this.crew.members) stage.scene.attach(mesh)
+    }
     this.crew.update(dt, 0, this.loading)
     if (this.crew.ready) this.loading = false
   } }
-  // added with the gun, as a stage given only objects without a mesh hands three.js nothing to add
-  stage.add(body, model, drill)
+  // added with the gun, as a stage given only objects without a mesh hands three.js nothing to add; the drill goes
+  // before the gun's model, so the crew is off a destroyed gun before the model draws it as a wreck
+  stage.add(body, drill, model, hit)
   drills.set(body, drill)
   return body
 }
 
 /** The loader brings a round to the breech and pushes it in. */
 const loadGun = gun => {
-  drills.get(gun).loading = true
+  if (gun.alive) drills.get(gun).loading = true
 }
 
 /** A loaded gun recoils, its crew flinches, and the loader needs a new round. */
 const recoil = gun => {
   const { crew } = drills.get(gun)
-  if (crew.ready) crew.fired()
+  if (gun.alive && crew.ready) crew.fired()
+}
+
+/** A hit brings down the crew member it takes: the first one the gunner, the next the loader. */
+const hitCrew = (gun, stage) => {
+  const { crew } = drills.get(gun), member = crew.pickTarget()
+  if (member) crew.hit(member, member.health.current, stage.scene)
 }
 
 /** The warplane low over the stage, flying on in place, far enough ahead for the stage's camera to see it whole. */
@@ -115,7 +129,16 @@ export const aircraft = [
 
 export const artillery = [
   { id: 'poljski-top-3d', name: 'Poljski top sa posadom', game: 'Battle for Jablanica', block: cannonModule, stage: Stage3D,
-    create: fieldGun, commands: [{ label: 'Napuni', run: loadGun }, { label: 'Trzaj', run: recoil }] },
+    create: fieldGun, commands: [{ label: 'Napuni', run: loadGun }, { label: 'Trzaj', run: recoil },
+      { label: 'Pogođena posada', run: hitCrew }] },
+  { id: 'minobacac-81-3d', name: 'Italijanski minobacač sa posadom', game: 'Battle for Jablanica (proba posade)',
+    block: mortarModule, stage: Stage3D, create: async stage => {
+      await requestModels(mortarModule.models)
+      const block = new mortarModule.default()
+      block.mesh.rotation.y = .95
+      stage.add(block)
+      return block
+    } },
 ]
 
 export const towers = [

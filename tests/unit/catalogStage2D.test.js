@@ -6,7 +6,7 @@ let Stage2D, Rifleman, riflemanKinds, RiflemanSprite, kinds
 
 before(async() => {
   createPageElements()
-  ;({ default: Stage2D } = await import('/storybook/Stage2D.js'))
+  ;({ default: Stage2D } = await import('/catalog/Stage2D.js'))
   ;({ default: Rifleman, riflemanKinds } = await import('/core/gameplay/bodies/soldiers/Rifleman.js'))
   RiflemanSprite = (await import('/core/actor/soldiers/RiflemanSprite.js')).default
   ;({ groundUnitLooks: kinds } = await import('/core/actor/groundUnitLooks.js'))

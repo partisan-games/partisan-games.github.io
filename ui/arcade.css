@@ -1,6 +1,5 @@
 /* Painted steel cabinets and a mechanical coin door. */
-.arcade-home .homepage { padding-top: 16px; }
-.arcade-home .homepage > h1 { color: #e6c978; }
+.homepage { padding-top: 16px; }
 .arcade-wallet {
   display: none;
   position: fixed;
@@ -120,10 +119,10 @@
 .arcade-empty .arcade-slot-mouth { box-shadow: 0 0 0 5px #1c211d, 0 -9px 7px -3px #e16e52; }
 .arcade-empty .arcade-balance { color: #ef8c74; }
 @media (max-width: 1100px) {
-  .arcade-home .homepage { padding-top: 112px; }
+  .homepage { padding-top: 112px; }
 }
 @media (max-width: 500px) {
-  .arcade-home .homepage { padding-top: 96px; }
+  .homepage { padding-top: 96px; }
   .arcade-wallet { right: 12px; top: 12px; gap: 10px; padding: 10px 12px; }
   .arcade-wallet .arcade-coin { width: 30px; height: 30px; font-size: 18px; }
   .arcade-eyebrow { font-size: 7px; letter-spacing: 1px; }

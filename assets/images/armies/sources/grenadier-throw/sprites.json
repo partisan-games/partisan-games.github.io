@@ -544,7 +544,7 @@
           70
         ]
       ],
-      "integration": "GrenadierSprite uses this atlas in Bunker and Storybook; standing, walking and throwing share the same body-facing mirror.",
+      "integration": "GrenadierSprite uses this atlas in Bunker and the catalogue; standing, walking and throwing share the same body-facing mirror.",
       "handoff": {
         "referenceHeading": "screen-right throw, same body orientation as standing",
         "mirror": "Do not mirror this animation to implement a right throw.",

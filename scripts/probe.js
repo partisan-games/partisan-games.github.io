@@ -1,6 +1,6 @@
-// Opens a game or a storybook story in Chromium, plays a few steps and reports what it saw, on its own server that it
+// Opens a game or a catalogue story in Chromium, plays a few steps and reports what it saw, on its own server that it
 // stops when done. Usage: npm run probe -- <address> [steps...] [--size=1200x800] [--no-start]
-//   address  a game, as `cannon`, or a story, as `storybook/vozila/partizanski-tenk` (a look may follow: `/italijanska`)
+//   address  a game, as `cannon`, or a story, as `catalog/vozila/partizanski-tenk` (a look may follow: `/italijanska`)
 //   Key:ms   holds a key (Playwright's name: ArrowUp, Space, Enter, KeyA...) for that many milliseconds
 //   mouse:ms holds the left mouse button in the middle of the page
 //   click:selector, wait:ms, eval:expression (prints its result), shot or shot:name (saves test-results/probe/name.png)
@@ -14,7 +14,7 @@ const args = process.argv.slice(2)
 const options = Object.fromEntries(args.filter(arg => arg.startsWith('--')).map(arg => arg.slice(2).split('=')))
 const [address, ...steps] = args.filter(arg => !arg.startsWith('--'))
 if (!address) {
-  console.log('Usage: npm run probe -- <game | storybook/kind/story> [Key:ms | mouse:ms | click:css | wait:ms | eval:js | shot[:name]]...')
+  console.log('Usage: npm run probe -- <game | catalog/kind/story> [Key:ms | mouse:ms | click:css | wait:ms | eval:js | shot[:name]]...')
   process.exit(1)
 }
 const [width, height] = (options.size ?? '1200x800').split('x').map(Number)
@@ -46,10 +46,10 @@ try {
     if (response.status() >= 400 && !missingModelTextures.includes(decodeURIComponent(pathname)))
       problems.push(`http ${response.status()}: ${pathname}`)
   })
-  const story = address.startsWith('storybook/')
+  const story = address.startsWith('catalog/')
   if (story) {
-    await page.goto(`http://localhost:${port}/storybook.html#${address.slice('storybook/'.length)}`)
-    await page.waitForSelector('#storybook-panel h2', { timeout: 60_000 })
+    await page.goto(`http://localhost:${port}/catalog.html#${address.slice('catalog/'.length)}`)
+    await page.waitForSelector('#catalog-panel h2', { timeout: 60_000 })
     await page.waitForTimeout(800)
   } else {
     await page.addInitScript(() => import('/scenes/SceneManager.js').then(module => {

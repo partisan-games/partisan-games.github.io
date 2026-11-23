@@ -111,7 +111,7 @@ def main():
     metadata = {
         'schemaVersion': 1, 'generatedWith': 'Built-in image_gen; Pillow atlas packing',
         'integration': 'Integrated through core/actor/vehicleArt.js and VehicleSprite.js into TenkLevo, TenkDesno '
-                       'and the German and Somua GroundEnemy in Do Trsta, including their existing Storybook stories. '
+                       'and the German and Somua GroundEnemy in Do Trsta, including their existing catalogue stories. '
                        'Existing static hulls and barrel resources are unchanged. '
                        'Anchor is the existing center origin; groundAnchor is a separate baseline. '
                        'Keep per-frame dimensions for collision and barrel positioning, never atlas dimensions. '

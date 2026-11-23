@@ -33,7 +33,7 @@ const state = (page, name) => press(page, `[data-state="${name}"]`)
 for (const way of ['1', '-1']) test(`new field gun and wreck: facing ${way}`, async({ page }, info) => {
   const errors = []
   page.on('pageerror', error => errors.push(error.message))
-  await page.goto('/storybook.html#artiljerija/ustanak-top')
+  await page.goto('/catalog.html#artiljerija/ustanak-top')
   await page.locator(`[data-way="${way}"]`).click()
   await drawn(page, '/field-gun-barrel-pixel.png')
   await drawn(page, '/field-gun-carriage-pixel.png')
@@ -51,7 +51,7 @@ for (const way of ['1', '-1']) test(`new field gun and wreck: facing ${way}`, as
 
 for (const [name, file] of [['partizanska', 'partizanska'], ['italijanska', 'italijanska']])
   test(`gun crew terminal fall: ${name}`, async({ page }, info) => {
-    await page.goto(`/storybook.html#vojnici/posada-topa/${name}`)
+    await page.goto(`/catalog.html#vojnici/posada-topa/${name}`)
     await state(page, 'load')
     await state(page, 'dead')
     await drawn(page, `/${file}-posada-death-sprites.png`, 800, 0)
@@ -61,7 +61,7 @@ for (const [name, file] of [['partizanska', 'partizanska'], ['italijanska', 'ita
   })
 
 test('partisan walk and both falls use the prepared atlas through actual state controls', async({ page }, info) => {
-  await page.goto('/storybook.html#vojnici/partizanski-strelac')
+  await page.goto('/catalog.html#vojnici/partizanski-strelac')
   await state(page, 'move')
   await drawn(page, '/partizanski-strelac-movement-sprites.png', null, 160)
   await state(page, 'dead')
@@ -73,7 +73,7 @@ test('partisan walk and both falls use the prepared atlas through actual state c
 })
 
 test('German rifle reload is wired to its model and existing shot cooldown', async({ page }) => {
-  await page.goto('/storybook.html#vojnici/strelac')
+  await page.goto('/catalog.html#vojnici/strelac')
   await state(page, 'reload')
   // Reload returns to idle; unlike death, its last frame is transient and may be skipped by a long render step.
   await drawn(page, '/nemacki-strelac-reload-sprites.png')
@@ -85,7 +85,7 @@ test('German rifle reload is wired to its model and existing shot cooldown', asy
 })
 
 test('Hummel actual fire control uses the new attack, a shell, then the existing wreck', async({ page }, info) => {
-  await page.goto('/storybook.html#vozila/hummel')
+  await page.goto('/catalog.html#vozila/hummel')
   await state(page, 'attack')
   await drawn(page, '/hummel-fire-sprites.png')
   await page.locator('#platno').screenshot({ path: info.outputPath('hummel-fire.png') })

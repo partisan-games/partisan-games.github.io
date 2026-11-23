@@ -97,9 +97,9 @@ export default class Crew {
     this.loader.needsRound = true
   }
 
+  /** The living member a hit takes: the gunner first, then the loader, so the gun fires until the last falls (owner). */
   pickTarget() {
-    const living = this.members.filter(member => member.health.alive)
-    return living[Math.floor(Math.random() * living.length)]
+    return this.members.find(member => member.health.alive)
   }
 
   hit(member, damage, scene) {

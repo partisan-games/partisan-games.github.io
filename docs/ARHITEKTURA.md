@@ -27,7 +27,7 @@ Akter čine telo, prikaz i upravljač koje sastavlja scena:
 - **Upravljač** bira komande igrača ili AI-ja preko javnog ugovora tela. Odluke o timu, metama, uzbuni, misiji i ishodu pripadaju sceni.
 - **Scena** poseduje svet, projekciju, kameru, uređaje ulaza i UI. Daje akterima satove, mete i upite o okolini. Ne pravi paralelnu kopiju njihove logike.
 
-Tela i prikazi organizuju se po vrsti aktera, upravljači zasebno; katalog aktera ne mora pratiti podelu klasa. Isti nezavisni akter može dobiti 2D i 3D prikaz. Blok se razvija kroz konkretan nivo, art, samostalan pregled i proveru, pa se dovršava zajednički ugovor. Smislena sposobnost dobija telo, prikaz i zvuk kada je zatraži igra ili odabrana ideja; ne dodavati neupotrebljene sposobnosti samo radi popunjavanja matrice.
+Tela i prikazi organizuju se po vrsti aktera, upravljači zasebno; katalog aktera ne mora pratiti podelu klasa. Isti nezavisni akter može dobiti 2D i 3D prikaz. Novi akter ili oružje sme se u razvoju prvo probati u nivou, kao deo kreativnog procesa; zatim se pravi čista nezavisna komponenta i isproba u [katalogu](KATALOG.md), pa tek onda zvanično ulazi u nivo za objavljivanje (odluka vlasnika, 2026-11-23). Smislena sposobnost dobija telo, prikaz i zvuk kada je zatraži igra ili odabrana ideja; ne dodavati neupotrebljene sposobnosti samo radi popunjavanja matrice.
 
 Svaki model aktera, kao tenk, avion ili vozilo, ima svoje osobine: brzinu, oklop, vatrenu moć i zdravlje, birane tako da se razlika oseti u igri; domet je za sve ceo ekran (odluka vlasnika, 2026-11-23). Novi model ne preuzima osobine drugog samo zato što deli telo. Izvor vrednosti su [statistike modela](STATISTIKE.md), a dogovorene vrednosti drži jedan zajednički [spisak](../core/gameplay/modelPerformance.js), isti za 2D i 3D prikaz modela.
 
@@ -106,6 +106,6 @@ Informativna poruka ne zaustavlja komande ni tok poteza. Dekorativna scena ne pr
 
 ## Katalog za isprobavanje
 
-[Storybook](STORYBOOK.md) je vlasnikov katalog aktera: tip, model i uloga određuju stavku nezavisno od zajedničkog koda. Blok mora moći sam na pozornicu sa svojim zavisnostima i relevantnim radnjama. Zajednička biblioteka može čuvati upotrebljive aktere i module koje nijedna trenutna igra ne koristi.
+[Katalog](KATALOG.md) je vlasnikov katalog aktera: tip, model i uloga određuju stavku nezavisno od zajedničkog koda. Blok mora moći sam na pozornicu sa svojim zavisnostima i relevantnim radnjama. Zajednička biblioteka može čuvati upotrebljive aktere i module koje nijedna trenutna igra ne koristi.
 
 Blok ima ciljane provere sa lažnim zavisnostima, a scena proverava sastavljanje i svoja pravila. Dokaz birati prema ugovoru: unit test ne potvrđuje vizuelni osećaj, native memoriju ni konačne performanse. Obim i izvršene rezultate održava [TESTING](TESTING.md).

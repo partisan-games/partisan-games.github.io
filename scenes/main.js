@@ -36,7 +36,7 @@ const harmlessRejections = ['NotAllowedError', 'AbortError']
 
 // the browser has already logged the error itself
 const handleRuntimeError = event => {
-  if (!location.hash) return // the menu background scene fails silently
+  if (!location.hash) return // the menu has no game to stop
   if (harmlessRejections.includes(event.reason?.name)) return
 
   manager.endScene()
@@ -80,8 +80,6 @@ const route = async({ replay = false } = {}) => {
 }
 
 if (location.hash) route()
-else if (window.innerWidth >= 800)
-  manager.start('lookat-cursor', false).catch(console.error)
 
 document.addEventListener('click', async e => {
   const button = e.target.closest('button')

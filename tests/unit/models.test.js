@@ -47,22 +47,28 @@ test('every aircraft module loads nothing when imported and names the models it 
   assert.throws(() => makeDirigible(), /before it has loaded/, 'Dirigible')
 })
 
-test('every game that imports a model module also waits for its models before using them', async() => {
+test('every game entry point waits for its model modules, including scene parts that re-export their models', async() => {
   const { readdirSync, readFileSync, statSync } = await import('node:fs')
-  const { join, relative } = await import('node:path')
+  const { basename, dirname, join, relative, resolve } = await import('node:path')
   const root = process.cwd()
   const walk = dir => readdirSync(dir).flatMap(name => {
     const path = join(dir, name)
     return statSync(path).isDirectory() ? walk(path) : path.endsWith('.js') ? [path] : []
   })
-  const describes = new Set(walk(join(root, 'core3d'))
-    .filter(path => /^export const models\b/m.test(readFileSync(path, 'utf8')))
+  const sceneFiles = walk(join(root, 'scenes'))
+  const describes = new Set([...walk(join(root, 'core3d')), ...sceneFiles]
+    .filter(path => /^export (?:const models\b|\{\s*models\s*\})/m.test(readFileSync(path, 'utf8')))
     .map(path => '/' + relative(root, path).replaceAll('\\', '/')))
 
   const problems = []
-  for (const file of walk(join(root, 'scenes'))) {
+  // Parts use prepared models synchronously; the game's entry point owns the awaited preload.
+  // The actual scene tests construct those parts after init, so a missing model still fails at runtime.
+  for (const file of sceneFiles.filter(path => basename(path) === 'Main.js')) {
     const text = readFileSync(file, 'utf8')
-    for (const [, clause, path] of text.matchAll(/^import (.+?) from '(\/core3d\/[^']+)'/gm)) {
+    for (const [, clause, imported] of text.matchAll(/^import (.+?) from '([^']+)'/gm)) {
+      if (!imported.startsWith('/') && !imported.startsWith('.')) continue
+      const path = imported.startsWith('/') ? imported
+        : '/' + relative(root, resolve(dirname(file), imported)).replaceAll('\\', '/')
       if (!describes.has(path)) continue
       const alias = clause.match(/models as (\w+)/)?.[1]
       const awaited = alias && new RegExp(`requestModels\\([^)]*\\b${alias}\\b`).test(text)

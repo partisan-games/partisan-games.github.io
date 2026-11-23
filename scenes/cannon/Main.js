@@ -23,7 +23,8 @@ import SmokeTrail from './SmokeTrail.js'
 import Defenders, { defenderModels } from './Defenders.js'
 import { gunner } from './Gunner.js'
 import Crew, { memberHealth, models as crewModels, stations } from '/core3d/actor/artillery/Crew.js'
-import Infantry from './Infantry.js'
+import GunHit from '/core3d/actor/artillery/GunHit.js'
+import Infantry, { allyFire, exposure } from './Infantry.js'
 import { infantryModels } from '/core3d/actor/derived/ww2/partisanLooks.js'
 import Tracers from './Tracers.js'
 import SurrenderChoice from './SurrenderChoice.js'
@@ -85,6 +86,7 @@ export default class CannonScene extends Scene3D {
     this.aimCamera.height = sight.y + .95
     this.aimCamera.distance = sight.z + 4.2
     chase.update(0)
+    this.add(new GunHit(body, model.mesh))
     this.crew = new Crew(model.mesh)
     this.crewMeter = chase.view.healthBar
     this.crewMeter.dataset.cannonMeter = 'health'
@@ -228,6 +230,7 @@ export default class CannonScene extends Scene3D {
       const member = burst.hit ? this.crew.pickTarget() : null
       // Some bursts that miss the crew sweep the flanks instead.
       const ally = !burst.hit && post.gunner.random() < .4 ? this.infantry.pickTarget() : null
+      const allyHit = ally && post.gunner.random() < exposure[ally.cover]
       const chest = member?.pose.chest ?? ally?.chest
       const target = chest
         ? chest.getWorldPosition(new THREE.Vector3())
@@ -235,7 +238,7 @@ export default class CannonScene extends Scene3D {
       const grip = post.fighter.gun.grip.rifle.getWorldPosition(new THREE.Vector3())
       if (!clearFortPath(grip, post.position, this.stones) || !clearFortPath(post.position, target, this.stones)) continue
       this.tracers.burst(post.position, target, post.rounds === 1 ? 1 : undefined)
-      ally?.fall()
+      if (allyHit) ally.fall()
       this.cannon.audioScene?.emit(post.rounds === 1 ? 'rifle.mp3' : 'rafal.mp3', { profile: enemyBurstProfile, spatial: { position: post.position } })
       if (member) {
         const damage = Math.min(member.health.current, gunner.damage)
@@ -243,6 +246,15 @@ export default class CannonScene extends Scene3D {
         player.takeHit(damage)
         this.crewMeter.value = player.health.current
       }
+    }
+  }
+
+  /** A shot of the flank that reaches its defender brings him down now and then, more often once his wall is breached. */
+  alliedFire(shots) {
+    for (const { from, post } of shots) {
+      if (!post.fighter.alive || !clearFortPath(from, post.position, this.stones)) continue
+      const atSlit = post.slit && !post.destination
+      if (Math.random() < (atSlit ? allyFire.slit : allyFire.open)) this.defenders.kill(post)
     }
   }
 
@@ -285,14 +297,14 @@ export default class CannonScene extends Scene3D {
     this.smoke.update(dt)
     this.blasts.update()
     this.defenders.update(dt)
-    if (this.surrender.accepted && this.defenders.prisonersReady)
+    if (!this.player.dead && this.surrender.accepted && this.defenders.prisonersReady)
       return this.victory('The garrison has surrendered.', 'Bravo!')
-    if (!this.defenders.living) return this.victory('The garrison has been defeated.', 'Bravo!')
+    if (!this.player.dead && !this.defenders.living) return this.victory('The garrison has been defeated.', 'Bravo!')
     this.flag.update(dt)
     this.surrender.update()
     if (this.surrender.pending) return
     if (!this.surrender.ceasefire) {
-      this.infantry.update(dt, this.cannon.audioScene)
+      this.alliedFire(this.infantry.update(dt, this.cannon.audioScene))
       this.fireBack(dt)
     }
     this.tracers.update(dt)

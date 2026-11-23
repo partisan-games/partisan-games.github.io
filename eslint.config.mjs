@@ -196,7 +196,7 @@ export default [{
   },
 }, {
   // a story shows a library block alone: what it needs, as its art and settings, lives with the block, not in a game
-  files: ['storybook/**/*.js'],
+  files: ['catalog/**/*.js'],
   rules: {
     'no-restricted-imports': ['error', {
       patterns: [{

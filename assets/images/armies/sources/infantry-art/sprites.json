@@ -127,7 +127,7 @@
           "loop": false
         }
       ],
-      "integration": "GrenadierSprite shared by Grenadier in Bunker and its existing Storybook story; preserve parent collision dimensions 66x72 and hold death frame 5."
+      "integration": "GrenadierSprite shared by Grenadier in Bunker and its existing catalogue story; preserve parent collision dimensions 66x72 and hold death frame 5."
     }
   ]
 }

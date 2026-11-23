@@ -31,7 +31,7 @@ export function groupOf(kind, story) {
 
 /** Navigation owns its disclosure state; stage resets never rebuild this tree. */
 export function createCatalog(root, kinds, storage) {
-  const storageKey = 'storybook.groups'
+  const storageKey = 'catalog.groups'
   let preferences = storage
   let saved = {}
   try {

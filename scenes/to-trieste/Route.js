@@ -8,10 +8,10 @@ import imageReady from '/core/io/imageReady.js'
  * (assets/images/sources/pozadine/do-trsta/backgrounds.json).
  */
 export const stages = [
-  { id: 'lika', src: 'background/do-trsta-lika-1945.png', ground: 840 / 1024 },
-  { id: 'senj', src: 'background/do-trsta-senj-1945.png', ground: 825 / 1024 },
-  { id: 'rijeka', src: 'background/do-trsta-rijeka-1945.png', ground: 836 / 1024 },
-  { id: 'trst', src: 'background/do-trsta-trst-1945.png', ground: 854 / 1024 },
+  { id: 'lika', src: 'background/do-trsta-lika-1945.webp', ground: 840 / 1024 },
+  { id: 'senj', src: 'background/do-trsta-senj-1945.webp', ground: 825 / 1024 },
+  { id: 'rijeka', src: 'background/do-trsta-rijeka-1945.webp', ground: 836 / 1024 },
+  { id: 'trst', src: 'background/do-trsta-trst-1945.webp', ground: 854 / 1024 },
 ]
 
 /** How fast the landscape behind the road moves, as a share of the road's speed. */

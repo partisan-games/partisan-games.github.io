@@ -14,7 +14,7 @@ test('the complete level keeps scrolling through its stages, ground combat, airc
     moveTo() {}, lineTo() {}, fill() {}, stroke() {}, ellipse() {} }
   t.mock.method(HTMLCanvasElement.prototype, 'getContext', () => ctx)
   // asset stand-ins let the real scene finish init without a browser or actual rasterization
-  loadImages(t, { '/items/granata.gif': [32, 8], '/plamen.gif': [75, 98], '-1945.png': [1536, 1024] })
+  loadImages(t, { '/items/granata.gif': [32, 8], '/plamen.gif': [75, 98], '-1945.webp': [1536, 1024] })
   const Scene = (await import('/scenes/to-trieste/Main.js')).default
   const scene = new Scene()
   t.after(() => scene.end())

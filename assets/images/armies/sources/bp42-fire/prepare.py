@@ -133,7 +133,7 @@ def metadata(sheet, frames):
                            'alphaThreshold': 128, 'previewSmokeDriftPerPhase': [-5, -4],
                            'rule': 'One discharge at action start. Flash follows muzzle during first 100ms; smoke drifts from shot origin and disappears at 340ms.'},
         'frameBounds': [list(frame.getbbox()) for frame in frames],
-        'handoff': {'scope': 'Prepared art for owner review; no runtime, mission AI or Storybook changes.',
+        'handoff': {'scope': 'Prepared art for owner review; no runtime, mission AI or catalogue changes.',
                     'placement': 'Keep original art scale and source body bounds. Old (288,232) anchor becomes (352,232) after +64px left padding. Existing anchor screen x is body center x minus one source pixel times artScale; y is body feet. Never refit scale to each recoiling frame or squeeze the wider cell into the old width.',
                     'mirror': 'Mirror body, muzzle and separate effects together about anchor.x. Native facing is left.',
                     'shot': 'Spawn one projectile on crossing t=0, not once per frame. Muzzle coordinates are cell pixels.',

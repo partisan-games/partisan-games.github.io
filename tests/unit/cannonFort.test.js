@@ -30,7 +30,7 @@ function bunker(t) {
     blasts: { add() {}, update() {} }, smoke: { update() {} }, scorches: { add() {} },
     defenders: { living: 1, update() {}, hit() {}, blast() {} },
     world: new World(), input: { pressed: {} }, barrel: { rotation: {} },
-    crew: { update() {} }, infantry: { update() {} }, power: { value: 10, min: 10, max: 25 },
+    crew: { update() {} }, infantry: { update: () => [] }, power: { value: 10, min: 10, max: 25 },
     player: { dead: false, alive: true, look() {} },
     surrender: { pending: false, update() {} }, flag: { update() {} },
     posts: [], tracers: { update() {} }, shells: [], impacts: [],

@@ -10,6 +10,20 @@ const viewDirection = new Vector3(1, .24, .72).normalize()
 const viewRight = new Vector3().crossVectors(new Vector3(0, 1, 0), viewDirection).normalize()
 const viewUp = new Vector3().crossVectors(viewDirection, viewRight)
 
+/** Pixels in a line and in a page of a wheel event, for browsers that report a touchpad in lines, as Firefox does. */
+const wheelPixels = [1, 16, 800]
+
+/**
+ * How far a two-finger touchpad scroll moves, in pixels across and up, or null for a wheel event that zooms: a pinch,
+ * which browsers report as ctrl+wheel, or a mouse wheel, which steps one axis by whole, large notches.
+ */
+export function touchpadMove(event) {
+  const scale = wheelPixels[event.deltaMode] ?? 1
+  const across = event.deltaX * scale, up = event.deltaY * scale
+  const mouseWheel = !event.deltaX && Number.isInteger(event.deltaY) && Math.abs(up) >= 48
+  return event.ctrlKey || mouseWheel ? null : { across, up }
+}
+
 /** Project a box's half-size onto one of the camera's axes. */
 function extent(size, axis) {
   return (size.x * Math.abs(axis.x) + size.y * Math.abs(axis.y) + size.z * Math.abs(axis.z)) / 2
@@ -40,16 +54,15 @@ export default class Stage3D extends Scene3D {
     const canvas = this.renderer.domElement
     const offset = new Vector3(), spherical = new Spherical()
     const rotate = event => {
-      // Browsers report a touchpad pinch as ctrl+wheel; leave it to OrbitControls for zoom.
-      // Discrete, one-axis wheel steps also stay with OrbitControls; fine pixel deltas are touchpad motion.
-      const mouseWheel = event.deltaMode !== 0 || (!event.deltaX && Math.abs(event.deltaY) >= 50 && Number.isInteger(event.deltaY))
-      if (event.ctrlKey || mouseWheel) return
+      // a zoom stays with OrbitControls
+      const move = touchpadMove(event)
+      if (!move) return
       event.preventDefault()
       event.stopImmediatePropagation()
       offset.copy(this.camera.position).sub(this.controls.target)
       spherical.setFromVector3(offset)
-      spherical.theta += event.deltaX * .004
-      spherical.phi += event.deltaY * .004
+      spherical.theta += move.across * .004
+      spherical.phi += move.up * .004
       spherical.phi = Math.max(this.controls.minPolarAngle,
         Math.min(this.controls.maxPolarAngle, spherical.phi))
       spherical.makeSafe()

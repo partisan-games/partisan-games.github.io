@@ -104,7 +104,7 @@ def metadata(sheet, muzzles):
                         'locked': 'First five rows, head, torso outline, legs, boots, alpha silhouette, anchor and floor.',
                         'effects': 'No embedded flash/smoke; muzzle coordinates are cell pixels.',
                         'generationAttempt': 'occupier-fire-replacement-attempt.json'},
-        'integration': 'OccupierSprite uses this fire loop and per-frame muzzle coordinates in Otpisani and Storybook; owner visual review remains open.',
+        'integration': 'OccupierSprite uses this fire loop and per-frame muzzle coordinates in Otpisani and the catalogue; owner visual review remains open.',
     }]}
 
 

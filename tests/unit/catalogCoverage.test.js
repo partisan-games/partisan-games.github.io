@@ -4,9 +4,9 @@ import { readdirSync } from 'node:fs'
 import { createPageElements } from './helpers/dom.js'
 
 /**
- * The folders whose every actor, a player or an enemy, has a story in the storybook, and the modules in each that
+ * The folders whose every actor, a player or an enemy, has a story in the catalog, and the modules in each that
  * are not actors: a game's own rules and lists, base classes, data and helpers, and the backgrounds, scenery,
- * effects and items, which the storybook leaves out (owner's decision).
+ * effects and items, which the catalog leaves out (owner's decision).
  */
 const folders = {
   'scenes/franjo-kluz': ['Main.js', 'missions.js', 'Airfield.js', 'ParallaxLayer.js', 'AirfieldGuard.js'],
@@ -61,7 +61,7 @@ let kinds
 
 before(async() => {
   createPageElements()
-  ;({ default: kinds } = await import('/storybook/stories/index.js'))
+  ;({ default: kinds } = await import('/catalog/stories/index.js'))
 })
 
 test('every actor in the covered folders has a story', async() => {

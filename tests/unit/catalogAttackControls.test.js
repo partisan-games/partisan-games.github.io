@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { attackControls } from '/storybook/attackControls.js'
+import { attackControls } from '/catalog/attackControls.js'
 
 test('one attack keeps its state and aiming target without a duplicate shot or action', () => {
   const controls = attackControls({ states: ['idle', 'attack', 'dead'], acts: ['attack', 'surrender'],

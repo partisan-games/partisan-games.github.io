@@ -20,7 +20,7 @@
 <body>
   <h1>Pregled animacija aktera</h1>
   <p id="totals" aria-live="polite">Učitavanje rezultata…</p>
-  <nav><a href="#2d">2D akteri</a><a href="#3d">3D akteri</a><a href="storybook.html">Storybook</a></nav>
+  <nav><a href="#2d">2D akteri</a><a href="#3d">3D akteri</a><a href="catalog.html">Katalog</a></nav>
   <main id="results"></main>
   <script type="module">
     const node = (tag, text) => {
@@ -91,7 +91,7 @@
       table(target, ['Radnja modela', 'Klip ili način prikaza'], rows)
     }
     async function render() {
-      const response = await fetch('docs/references/storybook-animacije.json')
+      const response = await fetch('docs/references/katalog-animacije.json')
       if (!response.ok) throw Error('Izveštaj nije dostupan (' + response.status + ')')
       const report = await response.json()
       const main = document.querySelector('main')
@@ -108,7 +108,7 @@
           const [, id, look] = row.path.split('/')
           const details = node('details'), inner = node('div')
           details.append(node('summary', row.name + (look ? ' · ' + look : '') + (row.unavailable ? ' · čeka model' : '')), inner)
-          inner.append(link('Otvori priču', 'storybook.html#' + row.path), node('p', row.game))
+          inner.append(link('Otvori priču', 'catalog.html#' + row.path), node('p', row.game))
           if (row.unavailable) inner.append(node('p', row.unavailable))
           else {
             if (notes[id]) inner.append(node('p', notes[id]))

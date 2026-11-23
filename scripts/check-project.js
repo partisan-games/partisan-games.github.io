@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const sourceDirs = ['core', 'core3d', 'scenes', 'ui']
-const scenesOutsideMenu = ['lookat-cursor', 'graffiti-city-maze']
+const scenesOutsideMenu = ['graffiti-city-maze']
 const assetExtensions = 'png|jpe?g|gif|webp|svg|fbx|glb|gltf|obj|mtl|dae|md2|mp3|ogg|wav|m4a|bvh|ttf|otf|woff2?'
 
 const problems = []

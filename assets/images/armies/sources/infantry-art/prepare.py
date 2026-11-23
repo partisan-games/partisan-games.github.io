@@ -79,7 +79,7 @@ def main():
             {'name': 'kretanje', 'row': 1, 'frameCount': 8, 'duration': .8, 'loop': True},
             {'name': 'death', 'row': 2, 'frameCount': 6, 'duration': .6, 'loop': False},
         ],
-        'integration': 'GrenadierSprite shared by Grenadier in Bunker and its existing Storybook story; preserve parent collision dimensions 66x72 and hold death frame 5.',
+        'integration': 'GrenadierSprite shared by Grenadier in Bunker and its existing catalogue story; preserve parent collision dimensions 66x72 and hold death frame 5.',
     }]}
     (HERE / 'sprites.json').write_text(json.dumps(metadata, indent=2) + '\n', encoding='utf-8')
     print('Packed Bombas: idle/walk and first four death frames preserved; final two poses collapsed. Collider unchanged.')

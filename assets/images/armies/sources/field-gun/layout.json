@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "scope": "Integrated shared gun for both crews in Ustanak and Storybook, through FieldGun/FieldGunSprite.",
+  "scope": "Integrated shared gun for both crews in Ustanak and the catalogue, through FieldGun/FieldGunSprite.",
   "pathBase": "assets/images",
   "parts": {
     "barrel": {

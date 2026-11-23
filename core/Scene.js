@@ -223,7 +223,7 @@ export default class Scene {
   handleInput(dt) {
     if (this.ui.outro) return
 
-    // A decorative scene, such as the menu background, has no pause screen the player could leave with Continue.
+    // A decorative scene has no pause screen the player could leave with Continue.
     if (!this.disableEvents && keyboard.isDown(keys.pause)) this.pause()
 
     if (this.session.state !== 'running' || this.ui.screen) return

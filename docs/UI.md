@@ -14,6 +14,10 @@ Važeća pravila prikaza i veze do implementacije. Otvoreni poslovi su u [PLAN-u
 
 `dev-only` kartice prate `isDev` u [konfiguraciji](../config.js). Vidljivost razvojne kartice i lokalni uslov za razvojne žetone ili alate nisu ista odluka.
 
+## Brzina naslovne
+
+Sve što se dodaje na naslovnu mora biti optimizovano (odluka vlasnika, 2026-11-23): slika kartice je webp širine do 600 px sa upisanim `width` i `height` i `loading="lazy"`, a sadržaj ne sme da pomeri raspored kad stigne font ili kad se pokrene skripta. Link na igru (`#igra`) sakriva naslovnu pre nego što se njene slike preuzmu. Naslovna nema 3D scenu ni dekoraciju koja usporava učitavanje.
+
 ## Stilovi
 
 Izvori su [styles](../ui/styles.js) i [CSS](../ui/style.css): `simple` je podrazumevani taman UI, `rpg` ukrašen, a `white` koristi bele okvire. Igra zadaje podrazumevanu temu; korisnikov izbor ima prednost. Postojeći lokalni stilovi nisu razlog za različito ponašanje iste komponente.

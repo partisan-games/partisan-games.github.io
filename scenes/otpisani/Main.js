@@ -26,7 +26,7 @@ export default class OtpisaniScene extends Scene2D {
     this.health = new Health()
     // the occupiers, 1.8 m tall, walk on the street at three quarters of the screen's height, their middle 90 px above it
     this.projection = sideProjection({ pxPerMeter: 100, groundY: this.height * .75 + 90 })
-    this.background = new Background('background/beograd-1944-crno-belo.png')
+    this.background = new Background('background/beograd-1944-crno-belo.webp')
     this.audio = new Sound('otpisani.mp3', { stream: true, profile: 'music', loop: true })
     this.player.sounds.push(this.audio)
     this.spawnElapsed = 0

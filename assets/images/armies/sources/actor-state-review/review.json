@@ -19,7 +19,7 @@
     {
       "actor": "player boat",
       "finding": "Intact still hull on defeat",
-      "action": "Created player-boat wreck and integrated shared Renderer2D selection, reset and Storybook dead state."
+      "action": "Created player-boat wreck and integrated shared Renderer2D selection, reset and the catalogue dead state."
     },
     {
       "actor": "S-30",

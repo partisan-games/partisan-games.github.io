@@ -114,7 +114,7 @@ def record(sheet, clips, registration):
                 'firstKeyframe': 'Normalized accepted kneeling reference, not the generated muzzle touching the source cell boundary.',
             },
             'handoff': {
-                'scope': 'Integrated through Skirmisher/SkirmisherSprite in Ustanak and Storybook. Existing battle-line behaviour is unchanged.',
+                'scope': 'Integrated through Skirmisher/SkirmisherSprite in Ustanak and the catalogue. Existing battle-line behaviour is unchanged.',
                 'extraHeadroom': '32px above and 16px on each side of normalized 128x128 accepted frame; 160x160 renders at 110x100, preserving original horizontal/vertical scale.',
                 'originalAnchor': {'x': 221.75, 'y': 376.975, 'frame': [443.5, 443.5]},
                 'anchorRule': 'Keep source 0.85 baseline via 128*0.85+32=140.8; x=64+16=80. Visible floor y=137 preserves existing clearance.',

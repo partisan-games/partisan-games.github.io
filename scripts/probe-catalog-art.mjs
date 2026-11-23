@@ -4,14 +4,14 @@ import assert from 'node:assert/strict'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { chromium } from '@playwright/test'
 
-const base = process.env.STORYBOOK_URL || 'http://localhost:8080'
+const base = process.env.CATALOG_URL || 'http://localhost:8080'
 const filter = process.argv[2] ?? ''
-const output = process.argv[3] || 'test-results/storybook-animacije.json'
+const output = process.argv[3] || 'test-results/katalog-animacije.json'
 
 async function readCatalog(page) {
-  await page.goto(base + '/storybook.html')
+  await page.goto(base + '/catalog.html')
   return page.evaluate(async() => {
-    const { default: kinds } = await import('/storybook/stories/index.js')
+    const { default: kinds } = await import('/catalog/stories/index.js')
     return kinds.flatMap(kind => kind.stories.flatMap(story => (story.looks ?? [null]).map(look => ({
       path: [kind.id, story.id, look?.id].filter(Boolean).join('/'), name: story.name, game: story.game,
       dimension: story.stage ? '3d' : '2d', sided: 'way' in story,
@@ -38,7 +38,7 @@ if (filter === '--report') {
     story.character = character
   }
   for (const row of looks) assert.ok(row.unavailable || (row.controls.length && !row.errors.length), row.path)
-  await writeFile('docs/references/storybook-animacije.json', JSON.stringify(looks) + '\n')
+  await writeFile('docs/references/katalog-animacije.json', JSON.stringify(looks) + '\n')
   console.log(looks.length + ' izgleda u izveštaju.')
   process.exit(0)
 }
@@ -48,7 +48,7 @@ const reports = []
 try {
   const context = await browser.newContext({ viewport: { width: 1000, height: 700 } })
   await context.routeWebSocket('**', () => {})
-  await context.route('**/storybook/main.js', async route => {
+  await context.route('**/catalog/main.js', async route => {
     const res = await route.fetch()
     await route.fulfill({ response: res, body: await res.text() + '\nwindow.inspectStory = () => shown\n' })
   })
@@ -67,7 +67,7 @@ try {
       if (r.status() >= 400) errors.add(r.status() + ' ' + new URL(r.url()).pathname)
     })
     try {
-      await page.goto(base + '/storybook.html#' + entry.path)
+      await page.goto(base + '/catalog.html#' + entry.path)
       await page.waitForFunction(() => window.inspectStory?.() || document.querySelector('[data-unavailable]'), null, { timeout: 30000 })
       const unavailable = page.locator('[data-unavailable]')
       if (await unavailable.count()) {
@@ -75,7 +75,7 @@ try {
         continue
       }
       report.controls = await page.evaluate(async() => {
-        const panel = document.querySelector('#storybook-panel')
+        const panel = document.querySelector('#catalog-panel')
         const buttons = [...panel.querySelectorAll('[data-state],[data-shot],[data-act],[data-hit],[data-command]')]
           .map(el => ({ key: Object.keys(el.dataset)[0], value: Object.values(el.dataset)[0], label: el.textContent }))
         const original = window.inspectStory()

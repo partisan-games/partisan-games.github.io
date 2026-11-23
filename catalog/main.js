@@ -3,8 +3,8 @@ import Stage2D from './Stage2D.js'
 import { attackControls } from './attackControls.js'
 import kinds from './stories/index.js'
 
-const list = document.getElementById('storybook-list')
-const panel = document.getElementById('storybook-panel')
+const list = document.getElementById('catalog-list')
+const panel = document.getElementById('catalog-panel')
 
 /** What each shot a block can take is called on its button, in the order the buttons stand, the higher above. */
 const shotNames = { up: 'Pucaj gore', straight: 'Pucaj pravo', down: 'Obruši se', drop: 'Baci bombe', behind: 'Pucaj unazad' }
@@ -80,7 +80,7 @@ const canBeHit = block => Boolean(block.health?.maximum && block.takeHit)
 const hitButton = block => canBeHit(block) ? '<button data-hit>Pogođen</button>' : ''
 /** A bar of the health a block has left. */
 const healthBar = ({ health }) => /* html */`
-  <label class="storybook-health">Zdravlje <progress data-health max="${health.maximum}" value="${health.current}"></progress></label>`
+  <label class="catalog-health">Zdravlje <progress data-health max="${health.maximum}" value="${health.current}"></progress></label>`
 
 /** One button for each of a character's actions, which it does once. */
 const actButtons = names => /* html */`
@@ -107,7 +107,7 @@ const sideButtons = () => /* html */`
 /** The block's shots, the higher one above. */
 const shotButtons = shots => Object.keys(shotNames)
   .filter(name => shots.includes(name))
-  .map(name => `<button class="storybook-shot" data-shot="${name}">${shotNames[name]}</button>`)
+  .map(name => `<button class="catalog-shot" data-shot="${name}">${shotNames[name]}</button>`)
   .join('')
 
 function drawPanel() {

@@ -24,7 +24,7 @@ const burningSpots = spots => spots.map(spot => burning(...spot))
  */
 export const battlefields = {
   city: {
-    src: 'background/razrusen-grad-ww2-pixel.png', width: 724, height: 543, ground: 395 / 543,
+    src: 'background/razrusen-grad-ww2-pixel.webp', width: 724, height: 543, ground: 395 / 543,
     props: [
       { id: 'opel-blitz', x: 535, y: 766, scale: .43 },
       { id: 'partisan-fallen-side', x: 997, y: 786, scale: .46, flip: true },
@@ -41,7 +41,7 @@ export const battlefields = {
   },
   // from assets/images/sources/pozadine/backgrounds.json, its source pixels halved
   bihac: {
-    src: 'background/bihac-ww2-pixel.png', width: 768, height: 512, ground: 818 / 1024,
+    src: 'background/bihac-ww2-pixel.webp', width: 768, height: 512, ground: 818 / 1024,
     props: [
       { id: 'blood-smear', x: 358, y: 806, scale: .32 },
       { id: 'partisan-fallen-prone', x: 367, y: 801, scale: .43 },
@@ -51,7 +51,7 @@ export const battlefields = {
   },
   // from assets/images/sources/pozadine/seasonal-backgrounds.json: the raid of May 1944, with nothing burning
   drvar: {
-    src: 'background/drvar-spring-1944-pixel.png', width: 768, height: 512, ground: 814 / 1024,
+    src: 'background/drvar-spring-1944-pixel.webp', width: 768, height: 512, ground: 814 / 1024,
     props: [
       { id: 'german-fallen-side', x: 1120, y: 775, scale: .42 },
       { id: 'partisan-fallen-prone', x: 461, y: 802, scale: .51, flip: true },
@@ -59,7 +59,7 @@ export const battlefields = {
     pozari: [], stuboviDima: [],
   },
   uzice: {
-    src: 'background/uzice-ww2-pixel.png', width: 768, height: 512, ground: 813 / 1024,
+    src: 'background/uzice-ww2-pixel.webp', width: 768, height: 512, ground: 813 / 1024,
     props: [
       { id: 'partisan-fallen-side', x: 1338, y: 789, scale: .44 },
     ],
@@ -69,7 +69,7 @@ export const battlefields = {
   // from assets/images/sources/pozadine/current-backgrounds.json
   sremFront1944: {
     label: 'Syrmian Front, October 1944',
-    src: 'background/sremski-front-1944-static.png', width: 768, height: 512, ground: 828 / 1024,
+    src: 'background/sremski-front-1944-static.webp', width: 768, height: 512, ground: 828 / 1024,
     props: [
       { id: 'pak38', x: 941, y: 727, scale: .49 },
       { id: 'german-fallen-prone', x: 1001, y: 740, scale: .42 },
@@ -82,7 +82,7 @@ export const battlefields = {
   // Selected animated Batina: sky, drifting clouds, environment and ambient characters.
   batina: {
     label: 'Batina, November 1944',
-    src: 'background/batina-1944/base.png', layers: 'background/batina-1944/', actors: false,
+    src: 'background/batina-1944/base.webp', layers: 'background/batina-1944/', actors: false,
     width: 768, height: 512, ground: 852 / 1024, pozari: [], stuboviDima: [],
     props: [
       { id: 'partisan-fallen-prone', x: 461, y: 812, scale: .47, flip: true },
@@ -92,7 +92,7 @@ export const battlefields = {
   },
   sremFront1945: {
     label: 'Syrmian Front, April 1945',
-    src: 'background/sremski-front-1945-static.png', width: 768, height: 512, ground: 852 / 1024,
+    src: 'background/sremski-front-1945-static.webp', width: 768, height: 512, ground: 852 / 1024,
     props: [
       { id: 'opel-blitz', x: 1233, y: 699, scale: .39, flip: true },
       { id: 'german-fallen-supine', x: 1093, y: 766, scale: .44 },
@@ -104,13 +104,13 @@ export const battlefields = {
   },
   grahovo: {
     label: 'Grahovo, 1941',
-    src: 'background/grahovo-1941-war-sparse-static.png', width: 768, height: 512, ground: 852 / 1024,
+    src: 'background/grahovo-1941-war-sparse-static.webp', width: 768, height: 512, ground: 852 / 1024,
     props: [{ id: 'italian-fallen-prone', x: 557, y: 753, scale: .41, flip: true }],
     ...burning(220, 387, .25, .6, 1.6),
   },
   vilusi: {
     label: 'Vilusi, 1941',
-    src: 'background/vilusi-1941-static.png', width: 768, height: 512, ground: 854 / 1024,
+    src: 'background/vilusi-1941-static.webp', width: 768, height: 512, ground: 854 / 1024,
     props: [
       { id: 'italian-fallen-side', x: 881, y: 772, scale: .42 },
       { id: 'blood-patch', x: 600, y: 828, scale: .35 },
@@ -120,7 +120,7 @@ export const battlefields = {
   },
   niksic: {
     label: 'Nikšić area, 1941',
-    src: 'background/niksic-1941-static.png', width: 768, height: 512, ground: 798 / 1024,
+    src: 'background/niksic-1941-static.webp', width: 768, height: 512, ground: 798 / 1024,
     props: [
       { id: 'partisan-fallen-side', x: 472, y: 754, scale: .46 },
       { id: 'italian-fallen-supine', x: 876, y: 767, scale: .43, flip: true },
@@ -132,7 +132,7 @@ export const battlefields = {
 /**
  * A battlefield picture with its fires and smoke drawn live over it; the fire is heard from where it burns, if anywhere. The
  * picture's ground strip lands on `groundY`, the scene's ground line, which is where its own ground is by default.
- * A place with `layers` is a folder of animated layers (base.png, clouds.png, actors.png and layout.json), which
+ * A place with `layers` is a folder of animated layers (base.webp, clouds.webp, actors.png and layout.json), which
  * renderLayers composes by the scene's time, instead of one still picture.
  */
 export default class BattleBackground {
@@ -175,7 +175,7 @@ export default class BattleBackground {
    */
   async loadLayers(folder) {
     const image = name => Object.assign(new Image(), { src: `${folder}${name}` })
-    const clouds = image('clouds.png'), actors = this.place.actors === false ? null : image('actors.png')
+    const clouds = image('clouds.webp'), actors = this.place.actors === false ? null : image('actors.png')
     const [layout] = await Promise.all([
       fetch(`${folder}layout.json`).then(response => {
         if (!response.ok) throw new Error(`Background layout could not be loaded: ${folder}layout.json`)

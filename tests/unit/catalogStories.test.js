@@ -6,8 +6,8 @@ let Stage2D, kinds
 
 before(async() => {
   createPageElements()
-  ;({ default: Stage2D } = await import('/storybook/Stage2D.js'))
-  ;({ default: kinds } = await import('/storybook/stories/index.js'))
+  ;({ default: Stage2D } = await import('/catalog/Stage2D.js'))
+  ;({ default: kinds } = await import('/catalog/stories/index.js'))
 })
 
 const stories = () => kinds.flatMap(kind => kind.stories.map(story => ({ kind, story })))

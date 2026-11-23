@@ -12,7 +12,7 @@ export default class Arcade {
     this.games = new Map(this.cards.map(card => [card.dataset.path, card.querySelector('h3').textContent]))
     // direct links to scenes left off the homepage still open
     for (const [path, title] of Object.entries({
-      'to-trieste': 'To Trieste!', 'graffiti-city-maze': 'Graffiti City Maze', 'lookat-cursor': 'Look at Cursor',
+      'to-trieste': 'To Trieste!', 'graffiti-city-maze': 'Graffiti City Maze',
     })) this.games.set(path, title)
 
     this.wallet = this.createWallet()

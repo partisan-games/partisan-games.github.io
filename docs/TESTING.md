@@ -4,7 +4,7 @@ Postupci, dokazni izvori i granice provera. Preostali posao je u [PLAN-u](PLAN.m
 
 ## Komande
 
-Storybook katalog (2026-11-23): prošlo 19 ciljanih testova navigacije, kataloga, pokrivenosti, 2D pozornice i patrolnih plovila. Regresioni test nišanske tačke pada sa starim kodom plovila. Chromium potvrđuje pretragu malog čamca, novu adresu i prikaz na 390×844; 3D italijanski mitraljezac ima iste ranije greške pre i posle promene; kasnije su otklonjene (nedostajuća `default-grey.jpg` modela MP40). Puni smoke nije pokrenut.
+Katalog (2026-11-23): prošlo 19 ciljanih testova navigacije, kataloga, pokrivenosti, 2D pozornice i patrolnih plovila. Regresioni test nišanske tačke pada sa starim kodom plovila. Chromium potvrđuje pretragu malog čamca, novu adresu i prikaz na 390×844; 3D italijanski mitraljezac ima iste ranije greške pre i posle promene; kasnije su otklonjene (nedostajuća `default-grey.jpg` modela MP40). Puni smoke nije pokrenut.
 
 | Komanda | Obuhvat |
 |---|---|
@@ -41,7 +41,7 @@ Ovo su datirani dokazi svog obuhvata, ne tvrdnja da je sve danas provereno. Dnev
 
 | Oblast | Dokaz / obuhvat |
 |---|---|
-| Storybook animacije | [Pregled](../pregled-animacija.html) i [podaci](references/storybook-animacije.json) iz pregleda 22. novembra 2026; čitati rezultat po konkretnom izgledu i komandi. |
+| Animacije u katalogu | [Pregled](../pregled-animacija.html) i [podaci](references/katalog-animacije.json) iz pregleda 22. novembra 2026; čitati rezultat po konkretnom izgledu i komandi. |
 | Analiza izvornih i pripremljenih snimaka | [Izvornici](references/audio/zv06-2026-11-19.json), [pripremljeni snimci](references/audio/zv06-prepared-2026-11-19.json) i [obrada](../assets/sounds/PROCESSING.json); merenja snimaka nisu dokaz miksa ili performansi igre. |
 | Ammo merenja | [Fixture i rezultati](../tests/unit/fixtures/ammo-measurement.json); obuhvat čitati iz artefakta, bez zaključka o GPU prikazu. |
 
@@ -49,9 +49,11 @@ Ovo su datirani dokazi svog obuhvata, ne tvrdnja da je sve danas provereno. Dnev
 <a id="art-verification-record"></a>
 ## Provere arta
 
+Minobacač 81 mm (2026-11-23): oba originalna GLB fajla prolaze stvarno učitavanje, proveru oslonca na y=0, normala, boja i odsustva spoljašnjih tekstura; provereni su imenovani delovi i smer tačke `Muzzle`. [Test stvarne posade](../tests/unit/mortarCrew.test.js) proverava poravnanje mine, dodir šaka, jedan pucanj po komandi, prekid ciklusa pri gubitku člana, završni oslonac oba tela i zabranu oživljavanja bez Reset-a. Četiri testa navigacije i pokrivenosti kataloga prolaze. Chromium: mirovanje, punjenje, paljba, obe pogibije i Reset bez browser/HTTP grešaka; prethodno i poređenje modela sa postojećim topom u zajedničkoj sceni. Minobacač je po odluci vlasnika ostao samo u katalogu; borbena integracija je povučena.
+
 Panel napada (2026-11-23): tri ciljana testa potvrđuju uklanjanje duplikata i očuvanje posebnih napada i automatskog oružja. Chromium potvrđuje da motociklista ima samo `attack` i da ga dugme pokreće; Flak zadržava „Pucaj gore” i „Pucaj pravo”, bez duplirane opšte komande. Lint izmenjenog panela prolazi.
 
-Motociklista (2026-11-23): nov atlas 156×108 po ćeliji, 4×6, sa odvojenim mitraljezom; 41 paket prolazi proveru pripreme bez upozorenja. Prošlo 17 ciljanih testova tela, prikaza i kataloga, uključujući slaganje cevi, nišanske tačke i projektila u oba smera. Chromium: Storybook mirovanje, vožnja, pucanje, oštećenje, smrt, oba smera i Reset; prikaz novog atlasa i pauza/nastavak u Do Trsta i Kluzu, uz privremeno pomeranje postojećeg motocikliste u kadar za pregled. Bez prijavljenih grešaka; ovo nije odigravanje celih nivoa ni vlasnikovo vizuelno prihvatanje.
+Motociklista (2026-11-23): nov atlas 156×108 po ćeliji, 4×6, sa odvojenim mitraljezom; 41 paket prolazi proveru pripreme bez upozorenja. Prošlo 17 ciljanih testova tela, prikaza i kataloga, uključujući slaganje cevi, nišanske tačke i projektila u oba smera. Chromium: u katalogu mirovanje, vožnja, pucanje, oštećenje, smrt, oba smera i Reset; prikaz novog atlasa i pauza/nastavak u Do Trsta i Kluzu, uz privremeno pomeranje postojećeg motocikliste u kadar za pregled. Bez prijavljenih grešaka; ovo nije odigravanje celih nivoa ni vlasnikovo vizuelno prihvatanje.
 
 [Metapodaci i priprema](ART.md#resursi-i-zajednički-potrošači) proveravaju dimenzije, alfu, rubove, sidrišta i poreklo. [Reinforcement test](../tests/unit/reinforcementArt.test.js) proverava stvarna tela i prikaze sa testnim canvas-om, ali ne rasterizuje završnu sliku. Različiti hashes kadrova nisu dokaz prirodne animacije; izdvojeni PNG/GIF nije dokaz igre.
 

@@ -195,7 +195,7 @@ def main():
     metadata = {
         'schemaVersion': 2, 'task': 'FK-14', 'artRevision': 'Full pixel-art redraw with separate animated layers',
         'generatedWith': 'Built-in image_gen; mechanical layer/atlas packing with Pillow',
-        'status': 'Integrated into Potez and both Storybook variants; see docs/KONTEKST.md#franjo-kluz.',
+        'status': 'Integrated into Potez and both catalogue variants; see docs/KONTEKST.md#franjo-kluz.',
         'frame': RECIPE['frame'], 'facing': 'right', 'crew': crew_descriptor,
         'rearGun': gun_descriptor, 'propeller': propeller_descriptor, 'variants': body_descriptors,
         'renderOrder': RECIPE['renderOrder'], 'nationalMarkingRegions': RECIPE['airframes']['ndhMarkingRegions'],

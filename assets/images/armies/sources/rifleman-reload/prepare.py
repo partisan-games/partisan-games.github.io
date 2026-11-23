@@ -77,7 +77,7 @@ def record(sheet, frames):
                 'reason': 'One shared transform fits the reference body scale and keeps boots at y=120.',
             },
             'handoff': {
-                'scope': 'Integrated through Rifleman/RiflemanSprite: explicit reload and level-fire cooldown, in Kluz and Storybook. No ammunition inventory added.',
+                'scope': 'Integrated through Rifleman/RiflemanSprite: explicit reload and level-fire cooldown, in Kluz and the catalogue. No ammunition inventory added.',
                 'mirror': 'Mirror the complete cell about anchor.x=64, including any future event attachment.',
                 'events': 'Observe crossed action-time thresholds once, in order, even when dt skips a frame.',
                 'inventory': 'Animation markers do not grant ammunition; the body owns commit/cancel policy and prevents duplicate magazine credit.',

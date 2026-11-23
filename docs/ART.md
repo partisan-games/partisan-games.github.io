@@ -26,17 +26,17 @@ Pravila izrade i veze do izvora. Otvoreni poslovi su u [PLAN-u](PLAN.md#art), pr
 ## Uslovi završetka zadataka
 
 <a id="obavezna-integracija"></a>
-### Obavezan korak svake dopune: kod, Storybook i svi nivoi
+### Obavezan korak svake dopune: kod, katalog i svi nivoi
 
 1. Pretragom resursa, klase i konfiguracija pronaći sve potrošače.
-2. Povezati novi art u zajedničkom prikazu ili mapiranju aktera, uz očuvanje mera, oslonaca i tačaka pucnja. Nivoi i Storybook koriste isti resurs.
-3. Omogućiti relevantne radnje u [katalogu aktera](STORYBOOK.md#stavke-kataloga-i-varijante); poseban HTML/GIF nije zamena za priču i upotrebu u igri.
-4. Proveriti učitavanje, prelaze, pokret, završetak, oba smera, pauzu i reset u Storybook-u i pogođenim nivoima. Skrolovanje ne pokreće animaciju vožnje mirnog vozila. Izvršne provere prate važeću dozvolu.
+2. Povezati novi art u zajedničkom prikazu ili mapiranju aktera, uz očuvanje mera, oslonaca i tačaka pucnja. Nivoi i katalog koriste isti resurs.
+3. Omogućiti relevantne radnje u [katalogu aktera](KATALOG.md#stavke-kataloga-i-varijante); poseban HTML/GIF nije zamena za priču i upotrebu u igri.
+4. Proveriti učitavanje, prelaze, pokret, završetak, oba smera, pauzu i reset u katalogu i pogođenim nivoima. Skrolovanje ne pokreće animaciju vožnje mirnog vozila. Izvršne provere prate važeću dozvolu.
 5. Sačuvati izvor i metapodatke, obnoviti indeks i zabeležiti stvarne dokaze u TESTING. Stavku zatvoriti kada je dogovorena celina gotova; vlasnikov pregled i izričito odložene provere navode se odvojeno.
 
 ## Resursi i zajednički potrošači
 
-Kadar, trajanje, sidrište, tačke događaja i putanje završnih slika čitaju se iz metapodataka ispod. Trenutna stanja i upotreba pripadaju kodu i [Storybook-u](../storybook.html); ovde se ne prepisuju opisi gotovih animacija.
+Kadar, trajanje, sidrište, tačke događaja i putanje završnih slika čitaju se iz metapodataka ispod. Trenutna stanja i upotreba pripadaju kodu i [katalogu](../catalog.html); ovde se ne prepisuju opisi gotovih animacija.
 
 ### Pešadija i posade
 
@@ -90,7 +90,12 @@ Poljski top Ustanka je zajednički prihvaćen crtež za obe posade. Sličnost sa
 
 ### 3D
 
-Modele, skinove i klipove pregledati u [Storybook-u](../storybook.html) i [pregledu animacija](../pregled-animacija.html). Poreklo i licence ostaju uz modele; organizacija kataloga prati [pravila Storybook-a](STORYBOOK.md#stavke-kataloga-i-varijante).
+Modele, skinove i klipove pregledati u [katalogu](../catalog.html) i [pregledu animacija](../pregled-animacija.html). Poreklo i licence ostaju uz modele; organizacija kataloga prati [pravila kataloga](KATALOG.md#stavke-kataloga-i-varijante).
+
+<a id="minobacac-81-3d"></a>
+Minobacač za Jablanicu je originalna vizuelna interpretacija italijanskog tipa 81/14 Mod. 35: [GLB](../assets/models/weapon/mortar-81-mod35/model.glb), [odvojena mina](../assets/models/weapon/mortar-81-mod35/round.glb), [izvori, razmera i ograničenja](../assets/models/weapon/mortar-81-mod35/source.json), [ponovljiva priprema](../assets/models/weapon/mortar-81-mod35/build.mjs) i [MIT licenca](../assets/models/weapon/mortar-81-mod35/LICENSE.txt). Cev ima tačku `Muzzle`; ovo nije precizna muzejska rekonstrukcija.
+
+[Proba u katalogu](../catalog.html#artiljerija-3d/minobacac-81-3d) koristi [posadu i radnju](../core3d/actor/artillery/MortarCrew.js): dva postojeća italijanska lika bez pušaka, `idle`, `load` (držanje mine iznad otvora), `attack` (ubacivanje, blesak/dim i povratak), `dead`, pojedinačni pogoci i Reset. Šake prate minu i komande minobacača; gubitak jednog člana zaustavlja rad. Po poslednjoj odluci vlasnika minobacač ostaje samo u katalogu; uklonjen je iz Jablanice zajedno sa zaklonom i borbenom logikom.
 
 <a id="cannon-kanjon-neretve"></a>
 <a id="battle-for-jablanica-kanjon-neretve"></a>
@@ -102,7 +107,8 @@ Za Battle for Jablanica važe [kontekst i izbor scene](KONTEKST.md#battle-for-ja
 - Paletu, osvetljenje i gustinu piksela uskladiti sa prihvaćenim uzorom igre. Loše uklapanje ne prikrivati nasumičnim rotacijama, sečenjem silueta ili globalnim zamućenjem; ponavljanje izdvojenih slika nije zamena za celovit ambijent.
 - Osnovna slika nema zamrznute žive ljude, zastave, životinje, vozila, oblake, dim ili plamen. Potrebni živi elementi su odvojeni i prate vreme scene i pauzu prema [pravilima animacije](ANIMACIJA-POZADINE.md). Naslikan znak na zidu može ostati statičan. Voda zasad ostaje mirna po odluci vlasnika; odbačeni efekat svetlih tragova ne vraćati.
 - Metapodaci čuvaju dimenzije, liniju tla i žarišta u izvornim pikselima. Linija tla nije horizont ni sidrište čizama. Pri promeni razmere slike jednako prevesti tlo, efekte i projektile.
-- Predaja sadrži izvor, stvarni prompt, poreklo, hashove, ponovljivu pripremu i pregled sa jedinicama u 1280×720 i 1024×768. Pozadine i rekviziti imaju svoje preglede, ne zasebne Storybook priče.
+- Predaja sadrži izvor, stvarni prompt, poreklo, hashove, ponovljivu pripremu i pregled sa jedinicama u 1280×720 i 1024×768. Pozadine i rekviziti imaju svoje preglede, ne zasebne priče u katalogu.
+- Prihvaćena pozadina ostaje PNG, a igre učitavaju WebP iste slike, oko sedam puta manji, koji pravi [skripta](../scripts/webp-backgrounds.py) za svaku pozadinu koju kod igre navodi. Posle izmene PNG-a pokrenuti je ponovo.
 
 <a id="šest-ambijenata-sadašnjih-nivoa"></a>
 <a id="batina-izabrana-animirana-pozadina"></a>

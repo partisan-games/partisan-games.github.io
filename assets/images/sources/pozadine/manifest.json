@@ -144,7 +144,7 @@
     "Record the exact prompt, reference snapshots and raw output of each generation in generations; do not overwrite rejected attempts.",
     "Use prepare.py to make two unit compositions per viewport and a local preview.html. Inspect PNGs directly; browser execution is not authorized.",
     "Do not mark art ready until both scene compositions are visually reviewed; preview is an art composition study, not execution or acceptance of the game.",
-    "Claude integrates shared background mapping, hotspots, wind, scene time, pause and outcomes; no Storybook entry for these backgrounds. Overall ART-12 stays open until its in-game acceptance condition is met."
+    "Claude integrates shared background mapping, hotspots, wind, scene time, pause and outcomes; no catalogue entry for these backgrounds. Overall ART-12 stays open until its in-game acceptance condition is met."
   ],
   "backgrounds": [
     {

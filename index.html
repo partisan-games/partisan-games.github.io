@@ -5,9 +5,10 @@
   <meta charset="UTF-8">
   <title>Partisan Games ★</title>
   <link rel="preload" href="/assets/fonts/PressStart2P.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="preload" href="/assets/fonts/1942.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="ui/style.css">
   <link rel="stylesheet" href="ui/arcade.css">
+  <!-- a shared game link opens the game: the home page is hidden at once, so its pictures are not fetched -->
+  <script>if (location.hash) document.documentElement.classList.add('game-link')</script>
   <meta name="description" content="Old-school arcade web games, built from scratch by a passionate game developer.">
   <meta name="keywords" content="Browser games, web games, HTML5 games, arcade games, 3D browser games, Three.js games, WebGL games">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,12 +16,11 @@
 </head>
 
 <body>
-  <canvas id="malo-platno"></canvas>
   <main id="ui">
     <div class="homepage">
       <div class="homepage-title">
         <h1>Partisan Games ★</h1>
-        <p class="dev-links" hidden><a href="/ui.html">UI</a> · <a href="/storybook.html">Storybook</a></p>
+        <p class="dev-links" hidden><a href="/ui.html">UI</a> · <a href="/catalog.html">Katalog</a></p>
       </div>
 
       <div class="uvod">
@@ -34,52 +34,52 @@
 
         <div data-path="tenkici" class="menu-item simple-container js-start hide-on-mobile">
           <h3>Tank Duel (2P)</h3>
-          <img fetchpriority="high" alt="Tank Duel gameplay" src="/assets/images/scenes/tenkici.webp?v=20261122">
+          <img loading="lazy" width="600" height="375" fetchpriority="high" alt="Tank Duel gameplay" src="/assets/images/scenes/tenkici.webp?v=20261122">
         </div>
 
         <div data-path="ustanak" class="menu-item simple-container js-start hide-on-mobile">
           <h3>Artillery Duel (2P)</h3>
-          <img fetchpriority="high" alt="Artillery Duel gameplay" src="/assets/images/scenes/uprising.webp?v=20261122">
+          <img loading="lazy" width="600" height="338" fetchpriority="high" alt="Artillery Duel gameplay" src="/assets/images/scenes/uprising.webp?v=20261122">
         </div>
 
         <div data-path="bunker" class="menu-item simple-container js-start">
           <h3>Destroy the Bunker!</h3>
-          <img fetchpriority="high" alt="Destroy the Bunker gameplay" src="/assets/images/scenes/bunker.webp?v=20261122">
+          <img loading="lazy" width="600" height="375" fetchpriority="high" alt="Destroy the Bunker gameplay" src="/assets/images/scenes/bunker.webp?v=20261122">
         </div>
 
         <div data-path="neretva" class="menu-item simple-container js-start">
           <h3>Defend the Wounded!</h3>
-          <img fetchpriority="high" alt="game screen" src="/assets/images/scenes/neretva.webp?v=20261122">
+          <img loading="lazy" width="600" height="338" fetchpriority="high" alt="game screen" src="/assets/images/scenes/neretva.webp?v=20261122">
         </div>
 
         <div data-path="vis" class="menu-item simple-container js-start">
           <h3>Reach the Island of Vis</h3>
-          <img fetchpriority="high" alt="game screen" src="/assets/images/scenes/1944.webp?v=20261122">
+          <img loading="lazy" width="600" height="338" fetchpriority="high" alt="game screen" src="/assets/images/scenes/1944.webp?v=20261122">
         </div>
 
         <div data-path="franjo-kluz" class="menu-item simple-container js-start">
           <h3>Franjo Kluz</h3>
-          <img fetchpriority="high" alt="game screen" src="/assets/images/scenes/franjo-kluz.webp">
+          <img loading="lazy" width="600" height="334" fetchpriority="high" alt="game screen" src="/assets/images/scenes/franjo-kluz.webp">
         </div>
 
         <div data-path="ranjenik" class="menu-item simple-container js-start dev-only">
           <h3>Wounded Escape</h3>
-          <img alt="game screen" src="/assets/images/scenes/ranjenik.webp?v=20261122">
+          <img loading="lazy" width="600" height="372" alt="game screen" src="/assets/images/scenes/ranjenik.webp?v=20261122">
         </div>
 
         <div data-path="otpisani" class="menu-item simple-container js-start">
           <h3>Kill the Occupier!</h3>
-          <img alt="game screen" src="/assets/images/scenes/otpisani.webp?v=20261122">
+          <img loading="lazy" width="600" height="358" alt="game screen" src="/assets/images/scenes/otpisani.webp?v=20261122">
         </div>
 
         <div data-path="to-trieste" class="menu-item simple-container js-start hide-on-mobile">
           <h3>To Trieste!</h3>
-          <img alt="To Trieste! gameplay" src="/assets/images/scenes/to-trieste.webp?v=20261115">
+          <img loading="lazy" width="960" height="600" alt="To Trieste! gameplay" src="/assets/images/scenes/to-trieste.webp?v=20261115">
         </div>
 
         <div data-path="camac" class="menu-item simple-container js-start">
           <h3>Partisan Navy</h3>
-          <img alt="Partisan Navy gameplay" src="/assets/images/scenes/camac.webp?v=20261120">
+          <img loading="lazy" width="600" height="338" alt="Partisan Navy gameplay" src="/assets/images/scenes/camac.webp?v=20261120">
         </div>
       </div>
 
@@ -87,62 +87,62 @@
       <div class="main-menu">
         <div data-path="fps-airport" class="menu-item simple-container js-start hide-on-mobile">
           <h3>Attack on Rajlovac Airfield</h3>
-          <img loading="lazy" alt="game screen" src="/assets/images/scenes/fps-airport.webp">
+          <img loading="lazy" width="600" height="277" alt="game screen" src="/assets/images/scenes/fps-airport.webp">
         </div>
 
         <div data-path="fps-base" class="menu-item simple-container js-start hide-on-mobile">
           <h3>Escape Enemy Base</h3>
-          <img loading="lazy" alt="game screen" src="/assets/images/scenes/fps-maze.webp">
+          <img loading="lazy" width="600" height="278" alt="game screen" src="/assets/images/scenes/fps-maze.webp">
         </div>
 
         <div data-path="avatar" class="menu-item simple-container js-start">
           <h3>Avatar</h3>
-          <img loading="lazy" alt="game screen" src="/assets/images/scenes/random-boxes.webp">
+          <img loading="lazy" width="600" height="279" alt="game screen" src="/assets/images/scenes/random-boxes.webp">
         </div>
 
         <div data-path="3d-tank" class="menu-item simple-container js-start">
           <h3>Demolish Barricades</h3>
-          <img loading="lazy" alt="game screen" src="/assets/images/scenes/tank-physics.webp">
+          <img loading="lazy" width="600" height="373" alt="game screen" src="/assets/images/scenes/tank-physics.webp">
         </div>
 
         <div data-path="moon-landing" class="menu-item simple-container js-start">
           <h3>Space landing</h3>
-          <img loading="lazy" alt="game screen" src="/assets/images/scenes/moon-landing.webp">
+          <img loading="lazy" width="600" height="279" alt="game screen" src="/assets/images/scenes/moon-landing.webp">
         </div>
 
         <div data-path="warplane" class="menu-item simple-container js-start">
           <h3>Warplane</h3>
-          <img loading="lazy" alt="game screen" src="/assets/images/scenes/warplane.webp">
+          <img loading="lazy" width="600" height="277" alt="game screen" src="/assets/images/scenes/warplane.webp">
         </div>
 
         <div data-path="graveyard-survival" class="menu-item simple-container js-start">
           <h3>Graveyard survival</h3>
-          <img loading="lazy" alt="game screen" src="/assets/images/scenes/graveyard-survival.webp">
+          <img loading="lazy" width="600" height="347" alt="game screen" src="/assets/images/scenes/graveyard-survival.webp">
         </div>
 
         <div data-path="rpg-fantasy" class="menu-item simple-container js-start">
           <h3>Kill all the Orcs</h3>
-          <img loading="lazy" alt="game screen" src="/assets/images/scenes/rpg-fantasy.webp">
+          <img loading="lazy" width="600" height="277" alt="game screen" src="/assets/images/scenes/rpg-fantasy.webp">
         </div>
 
         <div data-path="follow" class="menu-item simple-container js-start dev-only">
           <h3>Gather followers</h3>
-          <img loading="lazy" alt="game screen" src="/assets/images/scenes/follow.webp">
+          <img loading="lazy" width="600" height="359" alt="game screen" src="/assets/images/scenes/follow.webp">
         </div>
 
         <div data-path="physics-vehicle" class="menu-item simple-container js-start">
           <h3>Physics Vehicle</h3>
-          <img loading="lazy" alt="game screen" src="/assets/images/scenes/physics-vehicle.webp">
+          <img loading="lazy" width="600" height="391" alt="game screen" src="/assets/images/scenes/physics-vehicle.webp">
         </div>
 
         <div data-path="capoeira-girl" class="menu-item simple-container js-start dev-only">
           <h3>Capoeira Girl</h3>
-          <img loading="lazy" alt="game screen" src="/assets/images/scenes/capoeira-girl.webp">
+          <img loading="lazy" width="600" height="424" alt="game screen" src="/assets/images/scenes/capoeira-girl.webp">
         </div>
 
         <div data-path="cannon" class="menu-item simple-container js-start">
           <h3>Battle for Jablanica</h3>
-          <img loading="lazy" alt="Battle for Jablanica gameplay" src="/assets/images/scenes/jablanica.webp?v=20261123">
+          <img loading="lazy" width="600" height="400" alt="Battle for Jablanica gameplay" src="/assets/images/scenes/jablanica.webp?v=20261123">
         </div>
       </div>
 
@@ -150,47 +150,47 @@
       <div class="main-menu" data-free>
         <div data-path="spomenici" class="menu-item simple-container js-start">
           <h3>Yugoslav Spomeniks Tour</h3>
-          <img loading="lazy" alt="game screen" src="/assets/images/scenes/spomenici.webp">
+          <img loading="lazy" width="600" height="390" alt="game screen" src="/assets/images/scenes/spomenici.webp">
         </div>
 
         <div data-path="liberated-city" class="menu-item simple-container js-start">
           <h3>Liberated City Tour</h3>
-          <img loading="lazy" alt="game screen" src="/assets/images/scenes/liberated-city.webp">
+          <img loading="lazy" width="600" height="437" alt="game screen" src="/assets/images/scenes/liberated-city.webp">
         </div>
 
         <div data-path="graffiti-city" class="menu-item simple-container js-start dev-only">
           <h3>Graffiti City Tour</h3>
-          <img loading="lazy" alt="game screen" src="/assets/images/scenes/graffiti-city.webp">
+          <img loading="lazy" width="600" height="389" alt="game screen" src="/assets/images/scenes/graffiti-city.webp">
         </div>
 
         <div data-path="avatar-planets" class="menu-item simple-container js-start">
           <h3>Avatar in Space</h3>
-          <img loading="lazy" alt="game screen" src="/assets/images/scenes/avatar-planets.webp">
+          <img loading="lazy" width="600" height="305" alt="game screen" src="/assets/images/scenes/avatar-planets.webp">
         </div>
 
         <div data-path="led-city" class="menu-item simple-container js-start">
           <h3>Avatar LED City</h3>
-          <img loading="lazy" alt="game screen" src="/assets/images/scenes/led-city.webp">
+          <img loading="lazy" width="600" height="329" alt="game screen" src="/assets/images/scenes/led-city.webp">
         </div>
 
         <div data-path="minas-tirith" class="menu-item simple-container js-start">
           <h3>Minas Tirith</h3>
-          <img loading="lazy" alt="Winged demon facing the white walls of Minas Tirith" src="/assets/images/scenes/minas-tirith.webp?v=white-citadel">
+          <img loading="lazy" width="600" height="385" alt="Winged demon facing the white walls of Minas Tirith" src="/assets/images/scenes/minas-tirith.webp?v=white-citadel">
         </div>
 
         <div data-path="walls" class="menu-item simple-container js-start">
           <h3>Walls</h3>
-          <img loading="lazy" alt="game screen" src="/assets/images/scenes/walls.webp">
+          <img loading="lazy" width="600" height="362" alt="game screen" src="/assets/images/scenes/walls.webp">
         </div>
 
         <div data-path="ruins" class="menu-item simple-container js-start">
           <h3>Ruins</h3>
-          <img loading="lazy" alt="Witch approaching a pale stone archway in the desert" src="/assets/images/scenes/ruins.webp?v=pale-arch">
+          <img loading="lazy" width="600" height="363" alt="Witch approaching a pale stone archway in the desert" src="/assets/images/scenes/ruins.webp?v=pale-arch">
         </div>
 
         <div data-path="zeppelin" class="menu-item simple-container js-start">
           <h3>Zeppelin Flight</h3>
-          <img loading="lazy" alt="game screen" src="/assets/images/scenes/zeppelin.webp">
+          <img loading="lazy" width="600" height="390" alt="game screen" src="/assets/images/scenes/zeppelin.webp">
         </div>
       </div>
 
@@ -198,27 +198,27 @@
       <div class="main-menu" data-free>
         <div data-path="drvar" class="menu-item simple-container js-start">
           <h3>Raid on Drvar</h3>
-          <img loading="lazy" alt="game screen" src="/assets/images/scenes/drvar.webp">
+          <img loading="lazy" width="600" height="370" alt="game screen" src="/assets/images/scenes/drvar.webp">
         </div>
 
         <div data-path="locomotive" class="menu-item simple-container js-start">
           <h3>Locomotive</h3>
-          <img loading="lazy" alt="game screen" src="/assets/images/scenes/locomotive.webp">
+          <img loading="lazy" width="600" height="318" alt="game screen" src="/assets/images/scenes/locomotive.webp">
         </div>
 
         <div data-path="flying-through-space" class="menu-item simple-container js-start">
           <h3>Flying Through Space</h3>
-          <img loading="lazy" alt="game screen" src="/assets/images/scenes/stars.webp">
+          <img loading="lazy" width="600" height="367" alt="game screen" src="/assets/images/scenes/stars.webp">
         </div>
 
         <div data-path="city-colorful" class="menu-item simple-container js-start">
           <h3>Colorful City</h3>
-          <img loading="lazy" alt="game screen" src="/assets/images/scenes/city-colorful.webp">
+          <img loading="lazy" width="600" height="369" alt="game screen" src="/assets/images/scenes/city-colorful.webp">
         </div>
 
         <div data-path="dark-city" class="menu-item simple-container js-start">
           <h3>Dark City Morphing</h3>
-          <img loading="lazy" alt="game screen" src="/assets/images/scenes/dark-city.webp">
+          <img loading="lazy" width="600" height="358" alt="game screen" src="/assets/images/scenes/dark-city.webp">
         </div>
       </div>
     </div>

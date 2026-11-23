@@ -51,12 +51,6 @@ export function normalizeMouse(e) {
   return { x, y }
 }
 
-export const getCursorPosition = e => {
-  const clientX = e.targetTouches ? e.targetTouches[0].pageX : e.clientX
-  const clientY = e.targetTouches ? e.targetTouches[0].pageY : e.clientY
-  return { x: clientX, y: clientY }
-}
-
 export const getMesh = obj => {
   if (obj.type === 'Mesh') return obj
   let mesh = obj

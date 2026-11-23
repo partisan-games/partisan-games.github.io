@@ -1,19 +1,19 @@
-// Run against the same local project server as probe-storybook-art.mjs.
+// Run against the same local project server as probe-catalog-art.mjs.
 import { mkdir, writeFile } from 'node:fs/promises'
 import { chromium } from '@playwright/test'
 
-const base = process.env.STORYBOOK_URL || 'http://localhost:8080'
+const base = process.env.CATALOG_URL || 'http://localhost:8080'
 const browser = await chromium.launch()
 try {
   const page = await browser.newPage()
   await page.routeWebSocket('**', () => {})
-  await page.goto(base + '/storybook.html#vozila/nemacki-tenk')
-  await page.waitForSelector('#storybook-panel h2')
+  await page.goto(base + '/catalog.html#vozila/nemacki-tenk')
+  await page.waitForSelector('#catalog-panel h2')
   const rows = await page.evaluate(async() => {
     const { requestModels } = await import('/core3d/assets/models.js')
     const { Box3, Vector3, Scene } = await import('three')
     const { default: makeCharacter } = await import('/core3d/actor/characters/makeCharacter.js')
-    const { fantasy, ww2, horror, beasts } = await import('/storybook/stories/characters3d.js')
+    const { fantasy, ww2, horror, beasts } = await import('/catalog/stories/characters3d.js')
     const round = value => Math.round(value * 1000) / 1000
     function bounds(mesh) {
       mesh.updateMatrixWorld(true)

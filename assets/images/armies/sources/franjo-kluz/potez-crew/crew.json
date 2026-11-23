@@ -3,7 +3,7 @@
   "task": "FK-14",
   "artRevision": "Full pixel-art redraw with separate animated layers",
   "generatedWith": "Built-in image_gen; mechanical layer/atlas packing with Pillow",
-  "status": "Integrated into Potez and both Storybook variants; see docs/KONTEKST.md#franjo-kluz.",
+  "status": "Integrated into Potez and both catalogue variants; see docs/KONTEKST.md#franjo-kluz.",
   "frame": {
     "width": 400,
     "height": 173

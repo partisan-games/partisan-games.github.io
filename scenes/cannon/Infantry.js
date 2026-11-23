@@ -10,6 +10,14 @@ const gunfireProfile = {
   budgetKey: 'ally-gunfire', maxVoices: 10,
 }
 
+/**
+ * How likely a rifle shot brings down a defender it can reach: a gunner at his narrow slit, or one the gun has bared
+ * by breaching the wall in front of him. Behind whole masonry no shot reaches him.
+ */
+export const allyFire = { slit: .006, open: .03 }
+/** How likely a burst that sweeps the flank brings down the fighter it is aimed at, by his cover. */
+export const exposure = { logs: .3, stone: .3, open: .7 }
+
 const positions = [
   { x: -7.5, z: .4, cover: 'logs', fighters: [
     variants.strelac,
@@ -89,6 +97,7 @@ export default class Infantry {
 
       for (const [j, look] of fighters.entries()) {
         const fighter = makeInfantryFighter(look, posts, textures)
+        fighter.cover = cover ?? 'open'
         scene.add(fighter.mesh)
         const across = fighters.length === 2 ? (j ? .64 : -.64) : (j - (fighters.length - 1) / 2) * .78
         fighter.place(location(across, j % 2 ? -.12 : 0), bankHeight, this.fighters.length)
@@ -103,17 +112,21 @@ export default class Infantry {
     return living[Math.floor(Math.random() * living.length)]
   }
 
+  /** The shots its fighters fire now, `{ from, post }` each, with their sound. */
   update(dt, audio) {
     this.elapsed += dt
-    if (this.elapsed < 1 / 15) return
+    if (this.elapsed < 1 / 15) return []
+    const shots = []
     for (const fighter of this.fighters) {
       const shot = fighter.update(this.elapsed)
       if (!shot) continue
+      shots.push(shot)
       const burst = fighter.rounds > 1
       audio?.emit(burst ? 'rifle-burst.mp3' : 'rifle.mp3', {
         profile: gunfireProfile, spatial: { position: shot.from },
       })
     }
     this.elapsed = 0
+    return shots
   }
 }

@@ -45,7 +45,7 @@
           "loop": false
         }
       ],
-      "notes": "Accepted 63x27 close-up, not a whole prone body. Idle pixels unchanged. Local origin bottomRight; rotate muzzle offset with the body. Existing Bunker actor and Storybook share this asset."
+      "notes": "Accepted 63x27 close-up, not a whole prone body. Idle pixels unchanged. Local origin bottomRight; rotate muzzle offset with the body. Existing Bunker actor and the catalogue share this asset."
     }
   ]
 }

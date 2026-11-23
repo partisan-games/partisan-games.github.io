@@ -89,7 +89,7 @@ test('all six presentation scene modules import without starting model fetches',
     requests++
     return Promise.reject(new Error('Scene import must not start a model request'))
   })
-  for (const name of ['city-colorful', 'dark-city', 'drvar', 'flying-through-space', 'locomotive', 'lookat-cursor'])
+  for (const name of ['city-colorful', 'dark-city', 'drvar', 'flying-through-space', 'locomotive'])
     await import(`/scenes/${name}/Main.js`)
   assert.equal(requests, 0)
 })

@@ -71,7 +71,7 @@ try{
   if(moving&&!document.hidden){if(start===null)start=stamp;angle.value=20+15*Math.sin((stamp-start)/1300);draw()}
   requestAnimationFrame(tick)
  }
- status.textContent='Novi delovi su povezani sa Ustankom i Storybook-om; ovo je izdvojen pregled arta i sidrišta.'
+ status.textContent='Novi delovi su povezani sa Ustankom i katalogom; ovo je izdvojen pregled arta i sidrišta.'
  draw();requestAnimationFrame(tick)
 }catch(error){status.textContent=error.message}
 </script>

@@ -54,7 +54,7 @@ test('starting and continuing focus the game, while a decorative scene leaves fo
   assert.equal(decoration.canvas.hasAttribute('tabindex'), false)
 })
 
-test('Esc on the menu background does not open a pause menu that the decorative scene could never leave', t => {
+test('Esc on a decorative scene does not open a pause menu that the decorative scene could never leave', t => {
   const frames = installFakeFrames()
   const decoration = new Scene({ canvas: document.createElement('canvas'), disableEvents: true })
   t.after(() => {

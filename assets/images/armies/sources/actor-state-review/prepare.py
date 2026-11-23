@@ -46,7 +46,7 @@ def main():
         'scenes/to-trieste/Aircraft.js', 'scenes/vis/Enemy.js', 'scenes/vis/Avionce.js', 'scenes/vis/PlayerView.js']
     metadata = {'scope': 'Source geometry, static source composition and unit checks only. Not a game screenshot or browser/motion acceptance.',
         'sources': sources, 'findings': [
-            {'actor': 'player boat', 'finding': 'Intact still hull on defeat', 'action': 'Created player-boat wreck and integrated shared Renderer2D selection, reset and Storybook dead state.'},
+            {'actor': 'player boat', 'finding': 'Intact still hull on defeat', 'action': 'Created player-boat wreck and integrated shared Renderer2D selection, reset and the catalogue dead state.'},
             {'actor': 'S-30', 'finding': 'Four-second hull scale/fade, smoke/bubbles/ripple, separate rotating deck guns and water wake already present', 'action': 'Retain existing procedural sinking and firing; game check deferred.'},
             {'actor': 'trench soldiers, both factions', 'finding': 'Three variants, four readable source poses; .28s rise blend, .18s shot/recoil, 1.2s collapse and sink; near scale1/far .5', 'action': 'Retain accepted poses; no missing-state redraw supported by this source review.'},
             {'actor': 'Bunker machine gunner', 'finding': 'No defeated body art', 'action': 'Created four-frame .6s collapse, same crop and origin, final pose held in shared actor.'},

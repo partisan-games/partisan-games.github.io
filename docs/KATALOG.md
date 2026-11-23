@@ -1,6 +1,6 @@
-# Storybook
+# Katalog
 
-[storybook.html](../storybook.html) je vlasnikov katalog aktera igre: igrača i neprijatelja koje može pojedinačno da pregleda i isproba na praznoj pozornici. Otvara se na istom serveru kao igre, npr. `/storybook.html`. Nije deo igre, pa ne troši novčiće i nije u meniju; njegove kontrole bira agent, a vlasnik ih pregleda ([pravilo](DOCS.md#odobravanje-ui-elemenata)). Pravila samih blokova su u [arhitekturi](ARHITEKTURA.md#gradivni-blokovi).
+[catalog.html](../catalog.html) je vlasnikov katalog aktera igre: igrača i neprijatelja koje može pojedinačno da pregleda i isproba na praznoj pozornici. Otvara se na istom serveru kao igre, npr. `/catalog.html`. Nije deo igre, pa ne troši novčiće i nije u meniju; njegove kontrole bira agent, a vlasnik ih pregleda ([pravilo](DOCS.md#odobravanje-ui-elemenata)). Pravila samih blokova su u [arhitekturi](ARHITEKTURA.md#gradivni-blokovi).
 
 Za svaki izgled dostupan je [pregled proverenih radnji](../pregled-animacija.html) sa direktnim ulazom u priču.
 
@@ -18,9 +18,9 @@ Ovo je pravilo organizacije.
 
 ## Upotreba
 
-- Storybook prikazuje samo aktere, igrače i neprijatelje, uključujući bibliotečke klase za te uloge; pozadine, okolina, efekti, projektili i predmeti nemaju zasebne priče (odluka vlasnika). Saradnici poput metka ili eksplozije mogu se videti uz aktera tokom pucanja/pogotka, a svetlo, tlo i meta deo su pozornice. Obim određuje uloga, ne folder klase.
+- Katalog prikazuje samo aktere, igrače i neprijatelje, uključujući bibliotečke klase za te uloge; pozadine, okolina, efekti, projektili i predmeti nemaju zasebne priče (odluka vlasnika). Saradnici poput metka ili eksplozije mogu se videti uz aktera tokom pucanja/pogotka, a svetlo, tlo i meta deo su pozornice. Obim određuje uloga, ne folder klase.
 - Levo je sklopivo stablo **2D / 3D → vrsta → podvrsta**, npr. **3D → Vojnici → Italijanski**. Nadgrupe rade mišem i tastaturom i pamte stanje u lokalnom skladištu pregledača. Pretraga po nazivu, igri ili skinu otvara put do rezultata; brisanje pretrage vraća zapamćene grupe. Direktan link otvara sve grupe izabranog aktera, a Reset ih ne gradi ponovo.
-- Priča ima adresu `#vrsta/priča`, skin `#vrsta/priča/izgled`. Različiti čamci, tenkovi, avioni i nacionalnosti/uloge pešadije imaju zasebne stavke. Stari linkovi ostaju aliasi; pregledač ih zamenjuje novom adresom bez ponovnog učitavanja. Primer: [mali nemački čamac](../storybook.html#brodovi/nemacki-mali-camac).
+- Priča ima adresu `#vrsta/priča`, skin `#vrsta/priča/izgled`. Različiti čamci, tenkovi, avioni i nacionalnosti/uloge pešadije imaju zasebne stavke. Stari linkovi ostaju aliasi; pregledač ih zamenjuje novom adresom bez ponovnog učitavanja. Primer: [mali nemački čamac](../catalog.html#brodovi/nemacki-mali-camac).
 - Priča nema upravljanje ni ulogu: pozornica ne daje tastere blokovima, a blok se pokreće samo dugmadima svojih stanja i pucanja.
 - Desno su izbor strane („Nalevo”, „Nadesno”), dugmad stanja bloka sa „Pogođen” ispred `dead` i „Reset” kao poslednjim u tom redu, zatim pucanja koja blok podržava („Pucaj gore”, „Pucaj pravo”), „Prati kamerom”, a na dnu traka trenutnog zdravlja bloka koji može biti pogođen. Panel nema podešavanja (odluka vlasnika, 2026-11-22).
 - Svaka priča stavlja svoj blok na sredinu pozornice, bez obzira na to odakle on ulazi u igri (odluka vlasnika, 2026-11-22).
@@ -31,17 +31,17 @@ Ovo je pravilo organizacije.
 
 ## Pozornica
 
-[Stage2D](../storybook/Stage2D.js) je prazna 2D scena: nebo, tlo, kamera i nevidljivi zamenik igrača (`stage.target`), koga prate blokovi koji lete ili voze za igračem, kao lovac. Zamenik prima pogotke, ali ne strada; razmera dolazi iz priče. Pozornica crta samo blok.
+[Stage2D](../catalog/Stage2D.js) je prazna 2D scena: nebo, tlo, kamera i nevidljivi zamenik igrača (`stage.target`), koga prate blokovi koji lete ili voze za igračem, kao lovac. Zamenik prima pogotke, ali ne strada; razmera dolazi iz priče. Pozornica crta samo blok.
 
-[Stage3D](../storybook/Stage3D.js) je prazna 3D scena: svetlo, pod i kamera koja se okreće oko sredine. Mišem se okreće prevlačenjem; na touchpadu pomeranje dva prsta u bilo kom smeru rotira pogled, a širenje ili sklapanje dva prsta zumira. Oba pokreta rade nad istim OrbitControls ciljem, pa promena izgleda i animacije ne resetuje ugao. Priča koja traži 3D pozornicu to kaže poljem `stage`; njen `create` je asinhron, jer prvo učitava modele. Za 3D lika panel pravi dugmad i od njegovih animacija (`anim.actions`), a lik igrača se vodi tastaturom igre.
+[Stage3D](../catalog/Stage3D.js) je prazna 3D scena: svetlo, pod i kamera koja se okreće oko sredine. Mišem se okreće prevlačenjem; na touchpadu pomeranje dva prsta u bilo kom smeru rotira pogled, a širenje ili sklapanje dva prsta zumira. Oba pokreta rade nad istim OrbitControls ciljem, pa promena izgleda i animacije ne resetuje ugao. Priča koja traži 3D pozornicu to kaže poljem `stage`; njen `create` je asinhron, jer prvo učitava modele. Za 3D lika panel pravi dugmad i od njegovih animacija (`anim.actions`), a lik igrača se vodi tastaturom igre.
 
 ## Dodavanje priče
 
 Sklapaju se prva dva nivoa od korena: **2D/3D** i **vrsta aktera**, bez obzira na sadržaj grupe. Treći i dublji nivoi, npr. nacionalnosti vojnika, imaju stalno vidljiv naslov i spisak unutar otvorene nadgrupe. Pretraga skriva prazne grupe i otvara put do rezultata.
 
-Priče su u [storybook/stories](../storybook/stories/), po jedna datoteka za igru, a [index.js](../storybook/stories/index.js) ih raspoređuje po vrstama. Priča je `{ id, name, game, block, create(stage) }`: `block` je modul bloka (`import Flak, * as flakModule from ...`), a `create` pravi blok, stavlja ga na pozornicu i vraća ga. Za čisto telo `create` stavlja na pozornicu telo i njegov prikaz, a vraća telo, kao u [pričama tenkova](../storybook/stories/tenkici.js).
+Priče su u [catalog/stories](../catalog/stories/), po jedna datoteka za igru, a [index.js](../catalog/stories/index.js) ih raspoređuje po vrstama. Priča je `{ id, name, game, block, create(stage) }`: `block` je modul bloka (`import Flak, * as flakModule from ...`), a `create` pravi blok, stavlja ga na pozornicu i vraća ga. Za čisto telo `create` stavlja na pozornicu telo i njegov prikaz, a vraća telo, kao u [pričama tenkova](../catalog/stories/tenkici.js).
 
-`catalogGroup` je niz naziva grupa unutar dimenzije; njime se izričito određuje mesto aktera u stablu. `aliases` na priči ili skinu čuva stare putanje `priča[/izgled]` unutar vrste. [catalogEntries](../storybook/stories/catalogEntries.js) izdvaja modele sa zajedničkom fabrikom; `modelIds` daje njihove javne adrese. Dodavanje nove klase ne dodaje automatski stavku: autor dodaje svaki njen tip/model/ulogu i proverava katalog.
+`catalogGroup` je niz naziva grupa unutar dimenzije; njime se izričito određuje mesto aktera u stablu. `aliases` na priči ili skinu čuva stare putanje `priča[/izgled]` unutar vrste. [catalogEntries](../catalog/stories/catalogEntries.js) izdvaja modele sa zajedničkom fabrikom; `modelIds` daje njihove javne adrese. Dodavanje nove klase ne dodaje automatski stavku: autor dodaje svaki njen tip/model/ulogu i proverava katalog.
 
 Panel čita blok:
 
@@ -61,9 +61,9 @@ Postojeću pokrivenost aktera grafikom, pripremu i povezivanje dopuna vodi [ART]
 
 Svaka dopuna arta mora postati dostupna u postojećoj ili novoj priči aktera. Priča i svi nivoi koriste isti objekat i zajedničko mapiranje arta; poseban HTML/GIF pregled nije zamena. Art zadatak se zatvara tek posle [obavezne integracije i provera](ART.md#obavezna-integracija).
 
-[storybookCatalog.test.js](../tests/unit/storybookCatalog.test.js) pravi svaku priču, prolazi kroz sva njena stanja i proverava da svako navedeno pucanje ispali metak. [storybookCoverage.test.js](../tests/unit/storybookCoverage.test.js) traži priču za svakog aktera u navedenim folderima. [storybookStage2D.test.js](../tests/unit/storybookStage2D.test.js) proverava pozornicu, praćenje kamerom i da gašenje ne ostavlja rukovaoce na stranici. Izgled se proverava samo okom.
+[catalogStories.test.js](../tests/unit/catalogStories.test.js) pravi svaku priču, prolazi kroz sva njena stanja i proverava da svako navedeno pucanje ispali metak. [catalogCoverage.test.js](../tests/unit/catalogCoverage.test.js) traži priču za svakog aktera u navedenim folderima. [catalogStage2D.test.js](../tests/unit/catalogStage2D.test.js) proverava pozornicu, praćenje kamerom i da gašenje ne ostavlja rukovaoce na stranici. Izgled se proverava samo okom.
 
-Provera pokrivenosti prati module klasa; [storybookNavigation.test.js](../tests/unit/storybookNavigation.test.js) dodatno proverava razdvojene modele, sve postojeće pešadijske varijante, stare adrese, pretragu i pamćenje grupa. Novi tipovi i uloge moraju dobiti stavku i odgovarajuću proveru: sam prolazak provere klasa ne dokazuje potpunost kataloga.
+Provera pokrivenosti prati module klasa; [catalogNavigation.test.js](../tests/unit/catalogNavigation.test.js) dodatno proverava razdvojene modele, sve postojeće pešadijske varijante, stare adrese, pretragu i pamćenje grupa. Novi tipovi i uloge moraju dobiti stavku i odgovarajuću proveru: sam prolazak provere klasa ne dokazuje potpunost kataloga.
 
 Sklopive sekcije koriste native `details`/`summary`; `summary` mora biti UI cilj u [inputContext](../core/io/inputContext.js), da tastatura igre ne presretne Space/Enter. Izvršene dokaze čuva [TESTING](TESTING.md), bez održavanja broja adresa u ovom vodiču.
 
@@ -73,5 +73,5 @@ Sklopive sekcije koriste native `details`/`summary`; `summary` mora biti UI cilj
 
 - 3D lik se ne može napraviti u unit testu bez učitanog modela, pa 3D priče proverava browser. Top iz igre Battle for Jablanica ima priču bez fizike: posada puni top i trgne se pri opaljenju, a let granate i rušenje tvrđave ostaju u igri (odluka vlasnika, 2026-11-23).
 - Pozornica prikazuje jednog aktera. Više aktera koji deluju jedan na drugog uvodi se tek ako vlasnik to zatraži.
-- [Nemac](../storybook.html#vojnici/nemac-u-rovu) i [Četnik](../storybook.html#vojnici/cetnik-u-rovu) imaju celu figuru koja hoda, nišani, puca i ostaje na zemlji posle pada. Neretva koristi isti model ponašanja sa posebnim crtežom za položaj u [rovu](../core/objects/Trench.js).
+- [Nemac](../catalog.html#vojnici/nemac-u-rovu) i [Četnik](../catalog.html#vojnici/cetnik-u-rovu) imaju celu figuru koja hoda, nišani, puca i ostaje na zemlji posle pada. Neretva koristi isti model ponašanja sa posebnim crtežom za položaj u [rovu](../core/objects/Trench.js).
 - Namerno nije preuzeto: biblioteka Storybook i React (traže build), kontrole iz unutrašnjih polja objekta (daju besmislena polja) i upravljanje vremenom igre, poput pauze ili usporavanja (vlasniku ne treba).

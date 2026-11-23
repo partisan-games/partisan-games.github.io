@@ -17,9 +17,9 @@ Zajednička osnova za razvoj 2D i 3D igara, sa istorijski zasnovanim sadržajem.
 | UI | [UI](UI.md) | Principi, teme, prozori, HUD, komande i praktična upotreba postojećeg UI-ja. |
 | Učenje kompozicije | [Kompozicija umesto nasleđivanja](COMPOSITION.md) | Uporedni primeri i sastavljanje zdravlja i oružja. |
 | Provere | [TESTING](TESTING.md) | Komande, pokrivenost i ograničenja provera. |
-| Isprobavanje blokova | [Storybook](STORYBOOK.md) | Upotreba storybook-a i dodavanje priča za blokove. |
+| Isprobavanje blokova | [Katalog](KATALOG.md) | Upotreba kataloga i dodavanje priča za blokove. |
 | Posebna tehnika prikaza | [Animacija pozadine](ANIMACIJA-POZADINE.md) | Konkretno rešenje, neuspešni pristupi i preventivne provere. |
-| Otvoreni poslovi i ideje | [PLAN](PLAN.md) | Jedini trajni plan, sa sekcijama za art, arhitekturu, Storybook i igre; čuva se u gitu i ne briše se. |
+| Otvoreni poslovi i ideje | [PLAN](PLAN.md) | Jedini trajni plan, sa sekcijama za art, arhitekturu, katalog i igre; čuva se u gitu i ne briše se. |
 
 Pokretanje projekta opisuje [README](../README.md). Istorijske slike i poreklo čuvaju se u [references/ww2-yu](references/ww2-yu/), a merni artefakti se povezuju iz tehničkog opisa.
 
@@ -38,13 +38,14 @@ Vlasnikovi nazivi i ono što znače u kodu. Ovde idu samo pojmovi koji se stvarn
 | Atlas, sprite tabla; kadar | Slika sa mrežom poza/animacije; kadar je jedno polje, ne cela PNG slika | [Art i sprite animacije](ART.md) |
 | Sidrište; linija oslonca | Tačka u kadru vezana za položaj objekta; linija po kojoj čizme, točkovi ili trup naležu na tlo | [Priprema arta](ART.md) |
 | Tragovi rata, rekviziti bojišta | Olupine, poginuli i drugi zasebni elementi ambijenta; nisu nužno aktivni akteri niti ostaci nastali tokom partije | [Zasebni rekviziti bojišta](ART.md#zasebni-rekviziti-bojišta) |
-| Priča, pozornica | Unos u `storybook/stories/`, `Stage2D`/`Stage3D` | [Storybook](STORYBOOK.md) |
+| Katalog | [catalog.html](../catalog.html) i `catalog/`, ranije Storybook: priča za svakog aktera i model iz arta, i za one koje još nijedna igra ne koristi | [Katalog](KATALOG.md) |
+| Priča, pozornica | Unos u `catalog/stories/`, `Stage2D`/`Stage3D` | [Katalog](KATALOG.md) |
 | Avionče | [FighterBomber](../core/gameplay/bodies/aircraft/FighterBomber.js): Spitfire, Hurricane, Breguet 19 i Yak-1b | Vis |
 | Kraljica | Bilo koji boss, glavni i najjači protivnik nivoa; u Visu He 111, [AttackPlane](../core/gameplay/bodies/aircraft/AttackPlane.js) vrste `boss` | Vis, Graffiti City |
 | Bombaš (Žikica) | [Grenadier](../core/gameplay/bodies/soldiers/Grenadier.js) | Bunker |
 | Kuća-bunker | [Bunker](../core/gameplay/bodies/artillery/Bunker.js) sa [mitraljescem](../core/gameplay/bodies/soldiers/MachineGunner.js) u prozoru | Bunker, Do Trsta |
 | Okupator | [Occupier](../core/gameplay/bodies/soldiers/Occupier.js), nemački vojnik koji hoda i puca ka gledaocu | Otpisani |
-| Nemac/Četnik spreda, ranije „u rovu” | [TrenchSoldier](../core/gameplay/bodies/soldiers/TrenchSoldier.js) sa odgovarajućim prikazom; [rov](../core/objects/Trench.js) je zasebna scenografija | Neretva; stare Storybook adrese ostaju važeće ([granice](STORYBOOK.md#granice-i-odluke)) |
+| Nemac/Četnik spreda, ranije „u rovu” | [TrenchSoldier](../core/gameplay/bodies/soldiers/TrenchSoldier.js) sa odgovarajućim prikazom; [rov](../core/objects/Trench.js) je zasebna scenografija | Neretva; stare adrese u katalogu ostaju važeće ([granice](KATALOG.md#granice-i-odluke)) |
 | Partizanski/italijanski top | Isto telo [FieldGun](../core/gameplay/bodies/artillery/FieldGun.js) sa [prikazom topa](../core/actor/artillery/FieldGunSprite.js); [posada](../core/gameplay/bodies/soldiers/CannonCrew.js) je zaseban akter | Ustanak |
 | Potez | [Potez](../core/gameplay/bodies/aircraft/Potez.js) | Franjo Kluz |
 | Tenkić | [Tank](../core/gameplay/bodies/vehicles/Tank.js) kojim upravlja igrač; isto telo voze i neprijatelji | Tenkići, Do Trsta |
@@ -60,7 +61,7 @@ Glavni principi: **bez dupliranja informacija** i **bez podataka koji brzo zasta
 
 Ne čuvati dnevnik vizuelnih dorada ni tekstualno prepričavanje već ugrađenih scena. Zadržati pravila, razloge važnih izbora i veze do pregleda ili izvornih podataka; otvoreni posao pripada planu.
 
-Kanonsko javno ime igre čita se iz njene kartice u [glavnom indeksu](../index.html). Tehnički ID, folder i naziv klase mogu ostati stariji i kraći radi stabilnih adresa; ne koristiti ih kao ime igre u kontekstu, istoriji, planu, Storybook-u ili naslovima provera. Pre preimenovanja razlikovati javni naziv od tehničkih pojmova koji zaista označavaju predmet ili klasu, kao `Cannon.js` za model topa.
+Kanonsko javno ime igre čita se iz njene kartice u [glavnom indeksu](../index.html). Tehnički ID, folder i naziv klase mogu ostati stariji i kraći radi stabilnih adresa; ne koristiti ih kao ime igre u kontekstu, istoriji, planu, katalogu ili naslovima provera. Pre preimenovanja razlikovati javni naziv od tehničkih pojmova koji zaista označavaju predmet ili klasu, kao `Cannon.js` za model topa.
 
 Jedna činjenica ili odluka ima jedno autoritativno mesto; ostali dokumenti vode link do njega. Dokumentujemo trajne odluke, razloge, ograničenja i istorijske izvore. Ne prepričavamo implementaciju: spiskovi klasa i metoda, potpisi API-ja, brojevi igara i testova i slični promenljivi podaci ostaju u kodu i alatima koji ih već prikazuju. Pišemo po temi, bez dnevnika završenih koraka i kopiranja celih planova.
 
@@ -86,7 +87,7 @@ Isto važi za izmenu postojećih UI tekstova: uvoda, poruka, ishoda, natpisa dug
 
 Za uputstva postojećih komandi važi dodatna odluka vlasnika: nedostajuće i netačne opise ispravljati automatski prema stvarnom kodu. Pitanje je potrebno kada dva tastera rade isto, a jedan je već naveden; skrivene prečice i granice ovog odobrenja opisuje [UI vodič](UI.md#komande-tastatura-i-touch).
 
-Pravilo važi za sadržaj igara. Razvojne stranice za pregled, kao [ui.html](../ui.html) i `storybook.html`, nisu igra: agent sam bira njihove kontrole i tekstove, a vlasnik ih pregleda kad su gotove (odluka vlasnika, 2026-11-20).
+Pravilo važi za sadržaj igara. Razvojne stranice za pregled, kao [ui.html](../ui.html) i [katalog](../catalog.html), nisu igra: agent sam bira njihove kontrole i tekstove, a vlasnik ih pregleda kad su gotove (odluka vlasnika, 2026-11-20).
 
 Ni planirana mogućnost uključivanja/isključivanja opcije ne odobrava checkbox, indikator ili drugo UI rešenje. Pre izmene prikazati konkretan predlog i sačekati izričito odobrenje; do tada pripremiti samo logiku.
 

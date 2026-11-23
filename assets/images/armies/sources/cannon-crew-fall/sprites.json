@@ -171,7 +171,7 @@
         ],
         "rule": "One scale/x offset per figure; vertical contact registration only."
       },
-      "integration": "CannonCrew/CannonCrewSprite in Ustanak and both existing Storybook stories; destroyed gun selects crew death.",
+      "integration": "CannonCrew/CannonCrewSprite in Ustanak and both existing catalogue stories; destroyed gun selects crew death.",
       "handoff": {
         "padding": "16px on each side of a normalized 128x128 reference; 75x60 display keeps existing 60x60 figure scale.",
         "originalFrame": [
@@ -358,7 +358,7 @@
         ],
         "rule": "One scale/x offset per figure; vertical contact registration only."
       },
-      "integration": "CannonCrew/CannonCrewSprite in Ustanak and both existing Storybook stories; destroyed gun selects crew death.",
+      "integration": "CannonCrew/CannonCrewSprite in Ustanak and both existing catalogue stories; destroyed gun selects crew death.",
       "handoff": {
         "padding": "16px on each side of a normalized 128x128 reference; 75x60 display keeps existing 60x60 figure scale.",
         "originalFrame": [
@@ -379,7 +379,7 @@
   ],
   "previewGun": {
     "schemaVersion": 1,
-    "scope": "Integrated shared gun for both crews in Ustanak and Storybook, through FieldGun/FieldGunSprite.",
+    "scope": "Integrated shared gun for both crews in Ustanak and the catalogue, through FieldGun/FieldGunSprite.",
     "pathBase": "assets/images",
     "parts": {
       "barrel": {
