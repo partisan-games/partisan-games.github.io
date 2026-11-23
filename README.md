@@ -30,6 +30,7 @@ To see every background picture in the project, open `/pozadine.html` on the `np
 See [PLAN](docs/PLAN.md).
 
 - razrađivati postojeće nivoe redom
+- na internetu delim igre po njihovom haš linku, npr. partisan-games.github.io/#jablanica kako optimizovati učitavanje? mozda da ne učitava sve slike sa index bespotrebno
 
 ## Credits
 

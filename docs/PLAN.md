@@ -13,15 +13,17 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 | 4 | [AR-P02](#ar-p02) | Dovršiti odložene provere postojećih dopuna u Storybook-u i igrama | Agent | 📋 TODO |
 | 5 | [AR-P03](#ar-p03) | Pregledati dopune aktera koje nemaju zabeleženo vizuelno prihvatanje | Vlasnik | 📋 TODO |
 | 6 | [AR-P04](#ar-p04) | Pregledati rasporede rekvizita i preostale ugrađene ambijente | Vlasnik | 📋 TODO |
+| 7 | [AR-P05](#ar-p05) | Napraviti 3D model italijanskog minobacača od 81 mm za Jablanicu | Codex | 📋 TODO |
 | | **[Igre i ideje](#igre)** | | | |
-| 7 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [2](#note-2) |
-| 8 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
-| 9 | [IG-19](#ig-19) | Dogovoriti nazive nivoa i prikaz žanra i godine na naslovnoj | Vlasnik | 📋 TODO |
-| 10 | [IG-20](#ig-20) | Razmotriti nivo odbrane položaja odozgo, sa napadima sa svih strana | Vlasnik | 📋 TODO |
-| 11 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
-| 12 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
-| 13 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
-| 14 | [IG-25](#ig-25) | Dodati italijansku minobacačku paljbu u Jablanici, koja može da prevrne top | Agent | 📋 TODO |
+| 8 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [2](#note-2) |
+| 9 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
+| 10 | [IG-19](#ig-19) | Dogovoriti nazive nivoa i prikaz žanra i godine na naslovnoj | Vlasnik | 📋 TODO |
+| 11 | [IG-20](#ig-20) | Razmotriti nivo odbrane položaja odozgo, sa napadima sa svih strana | Vlasnik | 📋 TODO |
+| 12 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
+| 13 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
+| 14 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
+| 15 | [IG-25](#ig-25) | Dodati italijansku minobacačku paljbu u Jablanici, koja može da prevrne top | Agent | ⛔ Blocked<br>Waiting: model [AR-P05](#ar-p05) |
+| 16 | [IG-28](#ig-28) | Saborci u Jablanici zaista gađaju neprijatelje, ali bez topa ne mogu da pobede | Agent | 📋 TODO |
 
 ## Održavanje plana
 
@@ -93,6 +95,11 @@ U ranijim beleškama ostali su otvoreni: punjenje nemačkog strelca; hod i oba p
 
 Pregledati [deset rasporeda rekvizita](ART.md#rasporedi-u-igri), uključujući novi raspored Batine, i preostale ambijente iz [šest ugrađenih pozadina](ART.md#šest-ambijenata-sadašnjih-nivoa). Izbor slojevite Batine već je potvrđen; time nije potvrđen novi raspored poginulih. Otpisani koriste izabranu crno-belu pozadinu, ali pregled njene kompozicije u igri nije zabeležen kao završen. Očuvati postojeće potvrđene izbore; nedostatak pregleda nije nalog za novu generaciju.
 
+<a id="ar-p05"></a>
+### AR-P05 · Minobacač za Jablanicu
+
+Za [IG-25](#ig-25) treba 3D model italijanskog pešadijskog minobacača od 81 mm (Mortaio da 81/14 Mod. 35): cev, dvonožac i podložna ploča, u razmeri ostalih modela Jablanice. Postojeći [model „mortar”](../assets/models/weapon/cannon/mortar/) je stari drveni top na točkovima i ne odgovara. Zaklon od džakova sme da bude deo scene.
+
 ### Mogućnosti bez naloga za izradu
 
 Olupina poljskog topa može postati zaseban rekvizit bojišta; još nije raspoređena kao takav rekvizit. Novi efekat vode traži posebno odgovarajuće rešenje, jer je prethodno proceduralno rešenje odbačeno. Dodatni desanti na Brač, Mljet i Korčulu ostaju ideje za igru uz istorijsku proveru, a ne zadaci izrade arta. Rezervni vojnički listovi i sezonske pozadine nisu obaveza za povezivanje: koriste se tek kada ih izabrani akter ili nivo zatraži.
@@ -145,6 +152,13 @@ Liberated City je Bihać krajem 1942. Natpisi o dolasku Crvene armije i plakat R
 ### IG-25 · Minobacači u Jablanici
 
 Italijani bi uz mitraljeze gađali top minobacačem. Granata koja pogodi sam top uništava ga: top se prevrne, a posada pored njega strada. Danas top ne može da bude uništen; kad pogine posada, ostaje da stoji ([deathPose `intact`](../core3d/actor/derived/Cannon.js)).
+
+Dogovoreno (vlasnik, 2026-11-23): minobacač stoji sa strane tvrđave, u svom upadljivom zaklonu, da bi ga igrač gađao prvog. Pogođen, ćuti do kraja borbe. Mine uglavnom padaju oko topa; direktan pogodak prevrne top i ubija posadu, a poraz glasi „Your gun has been destroyed.” Čeka model iz [AR-P05](#ar-p05).
+
+<a id="ig-28"></a>
+### IG-28 · Saborci koji se bore
+
+Partizani u zaklonima oko topa sada samo pucaju u prazno. Treba da zaista gađaju i obaraju branioce tvrđave, kao što i oni gađaju njih, ali dovoljno sporo da pobedu i dalje donosi topovska paljba igrača (ideja vlasnika, 2026-11-23).
 
 ## Notes
 
