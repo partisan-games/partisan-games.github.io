@@ -18,7 +18,7 @@ export default class Escort {
     const first = (scene.cameraX + canvas2d.width * .6) / projection.pxPerMeter
     this.soldiers = Array.from({ length: escort.count }, (_, i) => {
       const body = new Partisan({ role: i === 3 ? 'lmg' : 'runner',
-        x: i === 3 ? first : scene.player.x - 3 - i * 2, y: .9, yaw: 0 })
+        x: i === 3 ? first : scene.player.x - 3 - i * 2, y: .9, yaw: 0, targets: scene.targets, bulletLife: 2 })
       const view = new PartisanSprite(body, { projection, camera: scene })
       view.position.z = z
       return { body, view }

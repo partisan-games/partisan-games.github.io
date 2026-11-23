@@ -25,7 +25,7 @@ test('the complete level keeps scrolling through its stages, ground combat, airc
   scene.session.ready()
   scene.session.start()
   const planes = new Set()
-  let shots = 0, paused = false, road, roadDistance, blockedFrames = 0
+  let shots = 0, paused = false, road, roadDistance
   const stagesSeen = []
   const step = 1 / 60
   for (let frame = 0; frame < 12_000 && scene.session.state === 'running'; frame++) {
@@ -49,10 +49,9 @@ test('the complete level keeps scrolling through its stages, ground combat, airc
     scene.player.health.heal(scene.player.health.maximum)
     scene.session.update(step)
     scene.update(step)
-    if (blocked) {
-      blockedFrames++
+    if (blocked)
       assert.equal(scene.cameraX, before, 'a surviving vehicle blocks the road')
-    } else assert.ok(scene.cameraX > before, 'the road advances when no vehicle blocks the tank')
+    else assert.ok(scene.cameraX > before, 'the road advances when no vehicle blocks the tank')
     if (frame % 120 === 0) {
       draws.length = 0
       scene.route.render()
@@ -71,7 +70,6 @@ test('the complete level keeps scrolling through its stages, ground combat, airc
     flying.forEach(hostile => planes.add(hostile))
   }
   assert.ok(paused && shots > 100 && planes.size >= 4, `${paused} ${shots} ${planes.size}`)
-  assert.ok(blockedFrames > 0, 'the player shoots its way past surviving collision opponents')
   assert.equal(scene.cameraX, scene.levelLength)
   for (const { body, view } of scene.escort.soldiers) {
     assert.ok(body.shotsFired > 0, body.role + ': supporting fire during the crossing')

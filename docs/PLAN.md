@@ -7,18 +7,17 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 | # | ID | Posao | Ko | Status |
 |---|---|---|---|---|
 | | **[Art](#art)** | | | |
-| 1 | [AR-P02](#ar-p02) | Dovršiti odložene provere postojećih dopuna u katalogu i igrama | Agent | 📋 TODO |
-| 2 | [AR-P03](#ar-p03) | Pregledati dopune aktera koje nemaju zabeleženo vizuelno prihvatanje | Vlasnik | 📋 TODO |
-| 3 | [AR-P04](#ar-p04) | Pregledati rasporede rekvizita i preostale ugrađene ambijente | Vlasnik | 📋 TODO |
-| 4 | [AR-P06](#ar-p06) | Precrtati krupnije slike manje od prikaza i vratiti stvarne veličine avionima u Visu | Codex, Claude | 📋 TODO |
+| 1 | [AR-P03](#ar-p03) | Pregledati dopune aktera koje nemaju zabeleženo vizuelno prihvatanje | Vlasnik | 📋 TODO |
+| 2 | [AR-P04](#ar-p04) | Pregledati rasporede rekvizita i preostale ugrađene ambijente | Vlasnik | 📋 TODO |
+| 3 | [AR-P06](#ar-p06) | Precrtati krupnije slike manje od prikaza i vratiti stvarne veličine avionima u Visu | Codex, Claude | 📋 TODO |
 | | **[Igre i ideje](#igre)** | | | |
-| 5 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [1](#note-1) |
-| 6 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
-| 7 | [IG-19](#ig-19) | Dogovoriti nazive nivoa i prikaz žanra i godine na naslovnoj | Vlasnik | 📋 TODO |
-| 8 | [IG-20](#ig-20) | Razmotriti nivo odbrane položaja odozgo, sa napadima sa svih strana | Vlasnik | 📋 TODO |
-| 9 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
-| 10 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
-| 11 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
+| 4 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [1](#note-1) |
+| 5 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
+| 6 | [IG-19](#ig-19) | Dogovoriti nazive nivoa i prikaz žanra i godine na naslovnoj | Vlasnik | 📋 TODO |
+| 7 | [IG-20](#ig-20) | Razmotriti nivo odbrane položaja odozgo, sa napadima sa svih strana | Vlasnik | 📋 TODO |
+| 8 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
+| 9 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
+| 10 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
 
 ## Održavanje plana
 
@@ -29,13 +28,6 @@ Po završetku ukloniti stavku i njene nepotrebne beleške. Korisne potvrđene od
 Važe [DOCS](DOCS.md), [ugovor arta](ART.md#obavezna-integracija) i [arhitektura](ARHITEKTURA.md). Izvršene dokaze i ograničenja čuva [TESTING](TESTING.md). Vlasnikovi pregledi su odvojeni od završenog povezivanja; ne uvode novu blokadu bez njegovog izričitog uslova. Ranije završene provere ne ponavljati zbog reorganizacije plana.
 
 ## Art
-
-<a id="ar-p02"></a>
-### AR-P02 · Odložene provere
-
-Pre pokretanja proveriti sadašnji dokaz u [TESTING](TESTING.md#art-verification-record), da se već izvršene provere ne ponavljaju. Za preostale dopune proveriti učitavanje, mirovanje, kretanje, radnju, pogodak, završnu pozu, oba smera, pauzu i reset u stvarnim potrošačima. Raniji unit ili statični pregled ne dokazuje prirodan pokret.
-
-Obuhvat prenet iz beleški o dopunama: tenkovi i Somua, oba Opela, Hummel i BP-42, pešadija i posade, propeleri i olupine aviona, S-30 i obalsko gnezdo, nova plovila i podrška iz paketa plana ideja. Posebno su bili odloženi pokret, vatra, voda i stvarno učitavanje iz ART-11; za obuhvaćene priče koristiti noviji [izmereni pregled](TESTING.md#sačuvani-dokazni-izvori), umesto stare opšte tvrdnje da browser nije pokretan. Uključiti fizičko poravnanje tla i živih efekata za dopunjene pozadine gde to još nije provereno. Obim izabrati prema promeni i važećoj dozvoli; puna testna serija nije automatski deo ovog posla.
 
 <a id="ar-p03"></a>
 ### AR-P03 · Pregledi aktera

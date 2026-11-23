@@ -24,7 +24,7 @@ const states = {
 }
 
 export default class Partisan extends Body {
-  constructor({ role = 'runner', targets = [], groundAt = null, view = null, random = Math.random, ...options } = {}) {
+  constructor({ role = 'runner', targets = [], groundAt = null, view = null, bulletLife, random = Math.random, ...options } = {}) {
     const kind = partisanKinds[role]
     const available = Object.fromEntries(Object.entries(states).filter(([name]) =>
       name !== (kind.armed ? 'work' : 'attack')))
@@ -32,7 +32,7 @@ export default class Partisan extends Body {
     Object.assign(this, { role, kind, groundAt, targets })
     this.moveSpeed = kind.speed
     if (groundAt) this.y = groundAt(this.x) + this.size.height / 2
-    this.bullets = new ProjectilePool(() => new Bullet({ view, random, damage: { min: 3, max: 3 } }))
+    this.bullets = new ProjectilePool(() => new Bullet({ view, life: bulletLife, random, damage: { min: 3, max: 3 } }))
     this.sinceShot = Infinity
     this.aimPoint = this.ahead(10)
   }
