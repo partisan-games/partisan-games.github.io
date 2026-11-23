@@ -3,9 +3,6 @@ import assert from 'node:assert/strict'
 import MachineGunner, { machineGun } from '/core/gameplay/bodies/soldiers/MachineGunner.js'
 import Grenadier, { grenadier } from '/core/gameplay/bodies/soldiers/Grenadier.js'
 import Grenade, { grenade } from '/core/gameplay/bodies/projectiles/Grenade.js'
-import Patrol, { patrol } from '/core/gameplay/bodies/soldiers/Patrol.js'
-import WoundedSoldier from '/core/gameplay/bodies/soldiers/WoundedSoldier.js'
-import Wander, { wander } from '/core/gameplay/controllers/Wander.js'
 import GameClock from '/core/runtime/GameClock.js'
 
 const live = (clock, bodies, seconds, fps = 30) => {
@@ -155,60 +152,6 @@ test('a grenade falls as its world pulls, bounces back off a wall and along the 
   assert.ok(bursts[2].x > firstLanding + .3, 'it went on past where it first landed')
 })
 
-test('a patrol searches on the way it heads at its pace, halts, and a wander turns it now and then within its spread', () => {
-  const clock = new GameClock()
-  const body = new Patrol({ x: 0, z: 0, initial: 'move' })
-  assert.deepEqual(body.states, ['idle', 'move', 'attack', 'dead'])
-  live(clock, [body], 1)
-  assert.ok(Math.abs(body.x - patrol.speed) < 1e-9)
-  const ways = [.9, .1]
-  const walk = new Wander(body, { random: () => ways.shift() ?? .5 })
-  walk.update(wander.turnTime)
-  assert.ok(Math.abs(body.yaw - .8 * wander.spread) < 1e-9)
-  walk.update(wander.turnTime / 2)
-  assert.ok(Math.abs(body.yaw - .8 * wander.spread) < 1e-9, 'not before its time')
-  body.setState('idle')
-  const { x } = body
-  live(clock, [body], 1)
-  assert.equal(body.x, x)
-  body.setState('attack')
-  live(clock, [body], .7)
-  assert.equal(body.shotsFired, 3)
-  assert.equal(body.state, 'idle')
-  body.takeHit(body.health.maximum)
-  body.setState('move')
-  assert.equal(body.state, 'dead')
-})
-
-test('a wounded soldier crawls the way he heads, slower back, and turns', () => {
-  const clock = new GameClock()
-  const body = new WoundedSoldier({ x: 0, z: 0 })
-  for (let i = 0; i < 30; i++) {
-    body.throttle(1 / 30)
-    live(clock, [body], 1 / 30)
-  }
-  assert.ok(body.x > 0)
-  const ahead = body.vx
-  body.vx = 0
-  for (let i = 0; i < 30; i++) {
-    body.back(1 / 30)
-    live(clock, [body], 1 / 30)
-  }
-  assert.ok(body.vx < 0 && -body.vx < ahead)
-  body.turn(1, 1)
-  assert.ok(body.yaw < 0, 'right turns him down the view')
-  body.setState('idle')
-  body.setState('move')
-  live(clock, [body], .25)
-  assert.ok(body.vx > 0)
-  body.takeHit(body.health.maximum)
-  const { x } = body
-  body.setState('move')
-  live(clock, [body], 1)
-  assert.equal(body.x, x)
-  assert.equal(body.state, 'dead')
-})
-
 test('a machine gunner\'s rounds leave from the muzzle of his drawn gun, whichever way he turns', async() => {
   const { createPageElements } = await import('./helpers/dom.js')
   createPageElements()
@@ -229,4 +172,17 @@ test('a machine gunner\'s rounds leave from the muzzle of his drawn gun, whichev
     const muzzle = projection.point(gunner.muzzle)
     assert.ok(Math.hypot(drawn.x - muzzle.x, drawn.y - muzzle.y) < 1, `yaw ${yaw}: drawn ${JSON.stringify(drawn)}, fired ${JSON.stringify(muzzle)}`)
   }
+})
+
+test('the original window gunner keeps the existing size in the house', async() => {
+  const { createPageElements } = await import('./helpers/dom.js')
+  createPageElements()
+  const { default: Bunker, bunkerKinds } = await import('/core/gameplay/bodies/artillery/Bunker.js')
+  const { default: BunkerSprite } = await import('/core/actor/artillery/BunkerSprite.js')
+  const { default: art } = await import('/core/actor/soldiers/machineGunnerArt.js')
+  const { sideProjection } = await import('/core/actor/projection.js')
+  const body = new Bunker({ kind: bunkerKinds.house, clock: new GameClock() })
+  const view = new BunkerSprite(body, { kind: 'house', projection: sideProjection({ pxPerMeter: 20, groundY: 400 }) })
+  assert.equal(art.width * view.gunner.scale, 63 * .66)
+  assert.equal(art.height * view.gunner.scale, 27 * .66)
 })

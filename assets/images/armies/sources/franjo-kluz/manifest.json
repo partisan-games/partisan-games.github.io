@@ -175,7 +175,7 @@
       "key": "hummel",
       "name": "hummel",
       "category": "tenkovi",
-      "source": "hummel-padded-generated.png",
+      "source": "hummel-redraw-generated.png",
       "output": "../../game-ready/tenkovi/hummel-sprites.png",
       "grid": {
         "columns": 4,
@@ -185,59 +185,24 @@
         "width": 320,
         "height": 160
       },
-      "prompt": "A production pixel-art sprite sheet of the tracked vehicle in reference image 1 for a small 2D retro arcade game. Image 2 supplies the matching outlined vehicle-art style. Preserve image 1's RIGHT-facing strict side silhouette: long horizontal barrel, slanted open upper hull and long low continuous tracks with many road wheels. Show the empty vehicle only, without people, flags or political emblems. Restrained olive camouflage, clear dark pixel outlines, simple readable light/shadow planes, not a realistic painting or 3D isometric view. Intended vehicle body width about 225 screen pixels. A regular atlas with exactly FOUR equal columns and TWO equal rows, eight complete matching vehicles with consistent scale and fixed ground baseline. First row: 4 idle frames with still tracks, very subtle engine vibration and a small rear gray exhaust puff on the LEFT that appears and dissipates. Second row: 4 rolling frames with real progression of the tread links around the closed track, rotating road-wheel hub details, slight suspension motion, small exhaust variation. The body itself never travels horizontally across a cell; preserve the same hull outline and fixed barrel in every frame. Do not merely duplicate the first frame. Keep the entire vehicle, full barrel and modest exhaust inside each cell, with transparent margins. True transparent alpha background, no ground strip, floor, grass, ground shadow, distant smoke, scenery, text, captions, grids or watermark. Calm isolated game asset, no battle scene, no firing, no damage.",
+      "prompt": "Production transparent game sprite atlas: a COMPLETE NEW REDRAW of the reference German Hummel self-propelled artillery vehicle and crew, with visibly superior clean hand-shaded pixel-game illustration. Reference fixes the RIGHT-facing side view, long 150mm cannon, tracked chassis and crew arrangement ONLY; discard old muddy pixels. 4 equal columns and TWO equal rows, EIGHT complete individually separated matching vehicles, generous transparent margins, same orthographic profile, exact scale, wheel centers and ground baseline. Front and long cannon point RIGHT, open fighting compartment toward rear LEFT, many small road wheels and continuous linked tracks, clearly constructed sloped armor and gun supports. Two or three mature adult helmeted crew with readable natural heads and hands inside compartment, not floating outside or larger than machinery. Restrained gray olive with subtle green camouflage and restrained dark outlines, coherent highlights, crisp edges, no grainy photographic textures, no cartoon. Main cannon has long barrel extending far RIGHT above chassis, narrow exposed final section clearly separated from hull so runtime can recoil it. Cannon barrel at about 30 percent of total vehicle silhouette height down from its top, almost horizontal. No historical unit numbers, flags or political symbols.\nROW1 four quiet idle poses, still tracks, crew at rest. ROW2 four smoothly progressing driving phases with different clearly readable tread links and road-wheel phases, slight suspension movement, registered hull and barrel. DO NOT include firing or wreck in this sheet. No smoke, dust, flashes, blood, scenery, floor, terrain, shadows, text, borders or gridlines. True transparent alpha. Polished serious WW2 art compatible with the newly redrawn motorcycle and armored vehicles, clear at 200 pixels across.",
       "references": [
         "assets/images/armies/hummel.png",
         "assets/images/armies/sources/franjo-kluz/opel-blitz-generated.png"
       ],
-      "edits": [
-        {
-          "input": "hummel-generated.png",
-          "prompt": "Use case: background-extraction. Edit this exact eight-frame tracked-vehicle sprite atlas. Remove ONLY the unwanted pale white/gray checker-like canvas background and any backdrop haze. Make all background and gutters truly alpha=0, including all four corners. Preserve the eight vehicles, their colors, sharp pixel outlines, all track details, small exhaust puffs, positions, dimensions, exact FOUR columns by TWO rows, and the existing 1774x887 image canvas. Do not repaint, resize, rotate, rearrange, recrop or redesign any vehicle. Retain transparent holes between track wheels and around the long barrels. Keep only the actual vehicle pixels and the small local exhaust wisps; the entire rest of the image must be transparent, not a drawn checkerboard or translucent white sheet. Output a genuine transparent PNG, no new elements or text."
-        },
-        {
-          "input": "hummel-transparent-generated.png",
-          "prompt": "Precise sprite-atlas padding correction. Preserve this exact eight-frame pixel-art tracked vehicle atlas, same silhouette, colors, gun, track animation and small local exhaust. Keep exactly FOUR equal columns by TWO equal rows. Currently the small exhaust puffs cross the cell boundaries. Make the complete vehicle and exhaust slightly smaller UNIFORMLY in every cell, keeping the exact same shared scale and root, so each full vehicle, full barrel and entire puff has at least SIX percent fully transparent padding on BOTH the left and right of its own cell. A frame must never contain any trace of its neighbors. Do not add people, symbols, text, clouds, terrain or objects. Vehicle and wheel ground baseline must be identical in all cells. All non-vehicle/non-puff pixels, outer corners and gutters must be truly alpha-zero. Keep original crisp outlined pixel-art treatment; do not paint a background or translucent canvas."
-        }
+      "generation": "hummel-redraw-generation.json",
+      "binaryAlpha": true,
+      "contentSize": [
+        298,
+        138
       ],
-      "nativeTreads": {
-        "source": "hummel-native-tracks-generated.png",
-        "reference": "../../hummel.png",
-        "offset": [
-          11,
-          10
-        ],
-        "trackMask": [
-          [
-            4,
-            94
-          ],
-          [
-            32,
-            89
-          ],
-          [
-            263,
-            89
-          ],
-          [
-            276,
-            105
-          ],
-          [
-            263,
-            133
-          ],
-          [
-            30,
-            138
-          ],
-          [
-            7,
-            120
-          ]
-        ]
-      }
+      "bodyBounds": [
+        11,
+        10,
+        309,
+        148
+      ],
+      "registerGround": true
     },
     {
       "key": "bp42",

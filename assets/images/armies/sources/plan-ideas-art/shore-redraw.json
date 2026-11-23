@@ -1,0 +1,61 @@
+{
+  "source": {
+    "path": "shore-redraw-generated.png",
+    "sha256": "461b337026acab14b5a9bca5c6cd31a7e1deccf8a8c37f0eeb7a21cd1bae85fd"
+  },
+  "outputs": [
+    {
+      "path": "../../game-ready/polozaji/mitraljesko-gnezdo-odozgo.png",
+      "sha256": "b4369bd9994ee45482bfbfb889fb54de84e0dee198c0361ed3ee499d3866e3c2"
+    },
+    {
+      "path": "../../game-ready/polozaji/shore-mg-gun.png",
+      "sha256": "8672dc133df1f56da1d2cb7704bcc79261740baa100f7c491d2c367eb6c2407c"
+    },
+    {
+      "path": "../../game-ready/polozaji/shore-mg-crew.png",
+      "sha256": "a32e6c42ae9adbc3352c285636c3b4e6cfff80612a4c4bb703f20ffe0d9ade70"
+    },
+    {
+      "path": "shore-mg-damaged-reference.png",
+      "sha256": "b4369bd9994ee45482bfbfb889fb54de84e0dee198c0361ed3ee499d3866e3c2"
+    },
+    {
+      "path": "shore-mg-damaged-generated.png",
+      "sha256": "45909bf355058e2c4f40101dd748909813581b0b3a99110730302179b4d4f913"
+    }
+  ],
+  "sourceRows": [
+    0,
+    300,
+    590,
+    790,
+    1024
+  ],
+  "hullScale": [
+    0.4020797227036395,
+    0.3188405797101449
+  ],
+  "hullOffset": [
+    -32.991334488734836,
+    0.1739130434782612
+  ],
+  "gunSourcePivot": [
+    335,
+    88
+  ],
+  "gunSourceMuzzle": [
+    666,
+    87
+  ],
+  "gunAnchor": [
+    80,
+    48
+  ],
+  "gunMuzzle": [
+    184,
+    48
+  ],
+  "crewScale": 0.2,
+  "generator": "generation.json"
+}

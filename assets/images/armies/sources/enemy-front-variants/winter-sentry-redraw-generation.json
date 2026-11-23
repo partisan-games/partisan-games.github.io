@@ -1,0 +1,12 @@
+{
+  "tool": "built-in image_gen",
+  "date": "2026-11-23",
+  "prompt": "Redraw ONLY the winter sentry in reference1, using the exact clean outlined game-art style of reference2. Reference1 supplies his identity and equipment: lean adult man, steel helmet, scarf, long grey-brown military greatcoat down to his knees, belt, dark gloves and tall worn boots, wooden-stock rifle held vertically beside his shoulder. Keep his full frontal standing pose and serious face, no new symbols or emblems. Reference2 supplies mandatory style: strong crisp dark contours, simple flat shapes with TWO or THREE clearly separated cel-shaded tones, readable face and cloth folds, restrained grey/olive/brown palette. No photographic textures, fuzzy grain, realistic skin rendering, soft gradients or painterly shading. One SINGLE whole character, front-facing from helmet and complete rifle muzzle through boot soles, at least 900 pixels tall with generous transparent padding. Adult proportions, no oversized head or caricature, coherent with the lean rifleman reference. True transparent RGBA background, alpha zero outside the figure. No scenery, floor, cast shadow, text, grid, effects, extra objects or other characters. Do not add animation poses: this is one high-resolution idle sprite.",
+  "references": [
+    "04-winter-sentry.png",
+    "rifleman-redraw-idle.png"
+  ],
+  "source": "winter-sentry-redraw-generated.png",
+  "preparation": "prepare-sentry-redraw.py",
+  "scope": "One redrawn idle sentry in the outlined infantry style, preserving greatcoat, scarf, helmet and upright rifle; not integrated or animated."
+}

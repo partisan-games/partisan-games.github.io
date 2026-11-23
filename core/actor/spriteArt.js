@@ -204,8 +204,8 @@ export default {
     'clips': {
       'idle': {
         'row': 0,
-        'frameCount': 1,
-        'seconds': 0.64,
+        'frameCount': 4,
+        'seconds': 1.4,
         'loop': true
       },
       'drive': {

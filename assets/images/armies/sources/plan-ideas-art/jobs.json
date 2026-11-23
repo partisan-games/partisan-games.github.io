@@ -42,7 +42,21 @@
     {
       "id": "motorcycle",
       "pixelsPerMetre": 40,
-      "gunLayer": { "anchor": [57, 62], "mount": [71, 58], "scale": 0.55, "muzzlePoint": [106, 55] },
+      "gunLayer": {
+        "anchor": [
+          57,
+          62
+        ],
+        "mount": [
+          71,
+          58
+        ],
+        "scale": 0.55,
+        "muzzlePoint": [
+          106,
+          55
+        ]
+      },
       "title": "Motociklista sa mitraljezom",
       "kind": "vehicle",
       "reference": "nemci/motori/mg34.png",
@@ -59,6 +73,24 @@
     },
     {
       "id": "sdkfz222",
+      "gunLayer": {
+        "anchor": [
+          124,
+          59
+        ],
+        "mount": [
+          119,
+          10
+        ],
+        "scale": 1,
+        "muzzlePoint": [
+          20,
+          44
+        ]
+      },
+      "fitAttachments": true,
+      "pixelsPerMetre": 40,
+      "holdWreck": true,
       "title": "Sd.Kfz. 222",
       "kind": "vehicle",
       "reference": "nemci/vozila/sdkfz-221-02.png",
@@ -190,42 +222,6 @@
       "subject": "The EXACT human actor(s) from the reference, same camera angle, uniform, face, weapon, pose and person count. A subtle but clearly readable brief recoil from being hit, tense shoulders, torso flinch, knees react, recovery to original pose. No death or extra people. Patrol references depict THREE men; keep all three at their existing positions. Preserve cropped-body framing if source is a close-up."
     },
     {
-      "id": "german-patrol-hit",
-      "title": "Nemačka patrola — pogodak",
-      "reference": "game-ready/vojnici/german-patrol-sprites.png",
-      "kind": "hit",
-      "referenceGrid": [
-        4,
-        2,
-        0
-      ],
-      "subject": "The EXACT human actor(s) from the reference, same camera angle, uniform, face, weapon, pose and person count. A subtle but clearly readable brief recoil from being hit, tense shoulders, torso flinch, knees react, recovery to original pose. No death or extra people. Patrol references depict THREE men; keep all three at their existing positions. Preserve cropped-body framing if source is a close-up."
-    },
-    {
-      "id": "italian-patrol-hit",
-      "title": "Italijanska patrola — pogodak",
-      "reference": "game-ready/vojnici/italian-patrol-sprites.png",
-      "kind": "hit",
-      "referenceGrid": [
-        4,
-        2,
-        0
-      ],
-      "subject": "The EXACT human actor(s) from the reference, same camera angle, uniform, face, weapon, pose and person count. A subtle but clearly readable brief recoil from being hit, tense shoulders, torso flinch, knees react, recovery to original pose. No death or extra people. Patrol references depict THREE men; keep all three at their existing positions. Preserve cropped-body framing if source is a close-up."
-    },
-    {
-      "id": "wounded-hit",
-      "title": "Ranjeni partizan — pogodak",
-      "reference": "game-ready/vojnici/wounded-sprites.png",
-      "kind": "hit",
-      "referenceGrid": [
-        4,
-        2,
-        0
-      ],
-      "subject": "The EXACT human actor(s) from the reference, same camera angle, uniform, face, weapon, pose and person count. A subtle but clearly readable brief recoil from being hit, tense shoulders, torso flinch, knees react, recovery to original pose. No death or extra people. Patrol references depict THREE men; keep all three at their existing positions. Preserve cropped-body framing if source is a close-up."
-    },
-    {
       "id": "occupier-hit",
       "title": "Okupator — pogodak",
       "reference": "game-ready/vojnici/occupier-sprites.png",
@@ -251,6 +247,16 @@
     },
     {
       "id": "hummel-damaged",
+      "damageBodyBox": [
+        16,
+        10,
+        306,
+        148
+      ],
+      "renderOffset": [
+        0,
+        0
+      ],
       "title": "Hummel — oštećen",
       "reference": "hummel.png",
       "referenceGrid": [
@@ -299,6 +305,7 @@
     },
     {
       "id": "bf109-damaged",
+      "registeredDamage": true,
       "title": "Bf 109 — oštećen",
       "reference": "game-ready/avioni/bf109-telo.png",
       "referenceGrid": [
@@ -311,8 +318,9 @@
     },
     {
       "id": "ju87-damaged",
+      "registeredDamage": true,
       "title": "Ju 87 — oštećen",
-      "reference": "game-ready/avioni/ju87.svg",
+      "reference": "game-ready/avioni/ju87.png",
       "referenceGrid": [
         1,
         1,
@@ -335,8 +343,9 @@
     },
     {
       "id": "s30-damaged",
+      "registeredDamage": true,
       "title": "S-čamac S-30 — oštećen",
-      "reference": "game-ready/brodovi/schnellboot-s30.svg",
+      "reference": "game-ready/brodovi/schnellboot-s30.png",
       "referenceGrid": [
         1,
         1,
@@ -444,14 +453,15 @@
     {
       "id": "shore-mg-damaged",
       "title": "Mitraljesko gnezdo — oštećen",
-      "reference": "game-ready/polozaji/mitraljesko-gnezdo-odozgo.svg",
+      "reference": "game-ready/polozaji/mitraljesko-gnezdo-odozgo.png",
       "referenceGrid": [
         1,
         1,
         0
       ],
       "kind": "damage",
-      "subject": "The EXACT existing Mitraljesko gnezdo from the reference in its same view, direction, dimensions, silhouette, markings and palette. Change ONLY damage: scattered dark bullet holes with a few exposed pale metal/wood edges, scorched panels, locally torn surface, visibly battered but still operational. No new weapon, crew or changed hull. Do not paint smoke or fire: separate animated game effects supply those."
+      "subject": "The EXACT existing Mitraljesko gnezdo from the reference in its same view, direction, dimensions, silhouette, markings and palette. Change ONLY damage: scattered dark bullet holes with a few exposed pale metal/wood edges, scorched panels, locally torn surface, visibly battered but still operational. No new weapon, crew or changed hull. Do not paint smoke or fire: separate animated game effects supply those.",
+      "registeredDamage": true
     }
   ]
 }

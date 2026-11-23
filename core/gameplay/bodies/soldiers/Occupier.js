@@ -22,7 +22,7 @@ const states = {
       soldier.shotsFired++
     },
     update: soldier => {
-      const index = Math.floor((soldier.stateTime + 1e-9) / occupier.burstTime)
+      const index = Math.floor((soldier.stateTime + 1e-9) / soldier.shotInterval)
       soldier.shotsFired += index - soldier.burstIndex
       soldier.burstIndex = index
     },
@@ -35,8 +35,9 @@ const states = {
  * one hit fells him. Who sets him to fire, and when, is up to the world.
  */
 export default class Occupier extends Body {
-  constructor(options = {}) {
+  constructor({ shotInterval = occupier.burstTime, ...options } = {}) {
     super({ size: { length: .5, height: 1.8, width: .25 }, health: 1, ...options, states })
+    this.shotInterval = shotInterval
   }
 
   get forward() {

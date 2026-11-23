@@ -11,7 +11,7 @@ import Sound from '/core/io/audio/SoundSource.js'
  * on at `windmill`.
  */
 const picture = { width: 404 }
-const propeller = { hub: { x: -182, y: -1 }, spin: 5, stall: 1.5, windmill: .7 }
+const propeller = { hub: { x: -164, y: -1 }, spin: 5, stall: 1.5, windmill: .7 }
 /** A crash burst is drawn this far above the ground, in pixels, so the fire stands on it. */
 const burstLift = 64
 

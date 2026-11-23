@@ -167,8 +167,9 @@ for (const yaw of [0, Math.PI]) test(`Hummel fires a real shell at the drawn muz
   assert.equal(body.shotsFired, 1)
   assert.equal(body.shells.projectiles.length, 1)
   const point = options.projection.point(body.muzzle)
-  assert.ok(Math.abs(point.x - (view.x + body.forward * 146 * view.artScale)) < 1e-8)
-  assert.ok(Math.abs(point.y - (view.y + view.height / 2 - 102 * view.artScale)) < 1e-8)
+  const { muzzle, anchor } = art.hummelFire
+  assert.ok(Math.abs(point.x - (view.x + body.forward * (muzzle.x - anchor.x) * view.artScale)) < 1e-8)
+  assert.ok(Math.abs(point.y - (view.y + view.height / 2 - (anchor.y - muzzle.y) * view.artScale)) < 1e-8)
   view.update(.01)
   const ctx = context()
   view.render(ctx)

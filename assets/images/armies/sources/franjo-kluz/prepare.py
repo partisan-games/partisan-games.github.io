@@ -2,6 +2,7 @@
 import hashlib
 import json
 import re
+import sys
 from pathlib import Path
 from statistics import median
 
@@ -118,6 +119,8 @@ def build(asset):
                 cell.alpha_composite(inner, (12, 12))
             # These source sheets contain alpha 1–63 noise in empty gutters; keep real sprite/stronger smoke alpha.
             cell.putalpha(cell.getchannel('A').point(lambda a: 0 if a < 64 else a))
+            if asset.get('binaryAlpha'):
+                cell.putalpha(cell.getchannel('A').point(lambda a: 255 if a >= 128 else 0))
             cells.append(cell)
     boxes = [bounds(cell) for cell in cells]
     assert all(boxes), f"Empty source frame: {asset['key']}"
@@ -138,7 +141,8 @@ def build(asset):
     else:
         above = max(base - box[1] for base, box in zip(baselines, boxes))
         below = max(box[3] - base for base, box in zip(baselines, boxes))
-        scale = min((width - 16) / (right - left), (anchor['y'] - 8) / above)
+        content = asset.get('contentSize', [width - 16, anchor['y'] - 8])
+        scale = min(content[0] / (right - left), content[1] / above)
         if below > 0:
             scale = min(scale, (height - anchor['y'] - 4) / below)
     sheet = Image.new('RGBA', (columns * width, rows * height))
@@ -150,6 +154,11 @@ def build(asset):
         y = round(anchor['y'] - (354 if effect else baselines[index]) * scale)
         frame = Image.new('RGBA', (width, height))
         frame.alpha_composite(resized, (x, y))
+        if asset.get('registerGround'):
+            shift = anchor['y'] - bounds(frame, 16)[3]
+            registered = Image.new('RGBA', frame.size)
+            registered.alpha_composite(frame, (0, shift))
+            frame = registered
         box = bounds(frame, 16)
         assert box and box[0] > 0 and box[1] > 0 and box[2] < width and box[3] < height, f"Clipped frame: {asset['key']}:{index} {box}"
         assert all(frame.getpixel(point)[3] == 0 for point in [(0, 0), (width - 1, 0), (0, height - 1), (width - 1, height - 1)])
@@ -200,10 +209,19 @@ def build(asset):
 
 
 (HERE / 'previews').mkdir(exist_ok=True)
-assets = [build(asset) for asset in RECIPE['assets']]
+only = sys.argv[sys.argv.index('--only') + 1] if '--only' in sys.argv else None
+if only:
+    previous = json.loads((HERE / 'sprites.json').read_text(encoding='utf-8'))['assets']
+    selected = build(next(asset for asset in RECIPE['assets'] if asset['key'] == only))
+    assets = [selected if asset['id'] == only else asset for asset in previous]
+else:
+    assets = [build(asset) for asset in RECIPE['assets']]
 metadata = {'schemaVersion': 1, 'created': '2026-11-20', 'generatedWith': 'Built-in image_gen; mechanical atlas packing with Pillow', 'integration': 'core/actor/Sprite.js uses four columns and named rows with a fixed ground anchor. Original soldier idle/fire/death rows are preserved. rest/walk loop in place; fireUp plays once and its frame 0 is the held aiming pose between shots. fireUp muzzle coordinates are local pixels in frame 0 and are also exported in spriteArt.js. Death holds its final frame. Rifleman provides patrol and alert clip mapping. This script only packs art; project state and owner decisions live in docs/KONTEKST.md#franjo-kluz, verification evidence in docs/TESTING.md.', 'assets': assets}
 (HERE / 'sprites.json').write_text(json.dumps(metadata, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
 runtime = {a['id']: {'src': (HERE / a['image']).resolve().relative_to(HERE.parents[2]).as_posix(), 'frame': {'width': a['frame']['width'], 'height': a['frame']['height']}, 'columns': a['frame']['columns'], 'anchor': a['anchor'], 'body': a['frameBounds'][0], 'clips': {clip['name']: {'row': clip['row'], 'frameCount': clip['frameCount'], 'seconds': clip['duration'], 'loop': clip['loop'], **({'muzzle': clip['muzzle']} if 'muzzle' in clip else {})} for clip in a['animations']}} for a in assets}
+for specification in RECIPE['assets']:
+    if specification.get('bodyBounds'):
+        runtime[specification['key']]['body'] = specification['bodyBounds']
 def single_quote(match):
     value = json.loads(match.group())
     return "'" + value.replace('\\', '\\\\').replace("'", "\\'") + "'"

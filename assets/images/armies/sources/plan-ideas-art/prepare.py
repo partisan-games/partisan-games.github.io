@@ -80,7 +80,7 @@ def pack(job):
     source_boxes = []
     for row in range(rows):
         for col in range(cols):
-            edges = [0, 180, 360, 540, 730, 920, 1074] if job['id'] == 'sdkfz222' else None
+            edges = job.get('sourceRowEdges')
             box = [round(col*im.width/cols), edges[row] if edges else round(row*im.height/rows),
                    round((col+1)*im.width/cols), edges[row+1] if edges else round((row+1)*im.height/rows)]
             if job['id'] == 'partisan-loader' and row == 4:
@@ -108,6 +108,10 @@ def pack(job):
                 c['frameCount'] = 1
         if job['id'] == 'he111':
             cells[10:12] = [cells[8].copy(), cells[9].copy()]
+    if job.get('holdWreck'):
+        for animation in clips:
+            if animation['name'] == 'dead':
+                animation.update(frameCount=1, loop=False)
     maxw = max(c.width for c in cells)
     maxh = max(c.height for c in cells)
     common = []
@@ -146,7 +150,10 @@ def pack(job):
     reference = HERE / (job['id'] + '-reference.png')
     if kind == 'damage':
         frame = list(Image.open(reference).size)
-        factor = min((frame[0]-8)/(union[2]-union[0]), (frame[1]-8)/(union[3]-union[1]))
+        factor = 1 if job.get('registeredDamage') else min((frame[0]-8)/(union[2]-union[0]), (frame[1]-8)/(union[3]-union[1]))
+        if job.get('damageBodyBox'):
+            left, top, right, bottom = job['damageBodyBox']
+            factor = min((right-left)/(union[2]-union[0]), (bottom-top)/(union[3]-union[1]))
     elif kind == 'hit':
         ref = clean(Image.open(reference))
         rw, rh = ref.size
@@ -179,6 +186,11 @@ def pack(job):
         frame = [math.ceil((union[2]-union[0])*factor)+12, math.ceil((union[3]-union[1])*factor)+12]
     offset = [round((frame[0]-(union[2]-union[0])*factor)/2 - union[0]*factor),
               round(frame[1]-4-union[3]*factor)]
+    if job.get('registeredDamage'):
+        offset = [0, 0]
+    if job.get('damageBodyBox'):
+        left, top, right, bottom = job['damageBodyBox']
+        offset = [round((left+right)/2 - (union[0]+union[2])/2*factor), round(bottom-union[3]*factor)]
     outcells = []
     atlas = Image.new('RGBA', (frame[0]*cols, frame[1]*rows))
     warnings = []
@@ -244,10 +256,14 @@ def pack(job):
                 sourceCells=source_boxes, transform=dict(scale=factor, offset=offset),
                 animations=clips, warnings=warnings, rowRegistration=registrations, supplements=supplements,
                 reference=reference.name if reference.exists() else None)
-    result['view'] = ('top-down' if kind in ['vessel','mine','crew'] or any(x in job['id'] for x in ['patrol-hit','wounded-hit','boat','s30','launch','skiff','patrol-vessel','shore-mg'])
+    result['view'] = ('top-down' if kind in ['vessel','mine','crew'] or any(x in job['id'] for x in ['boat','s30','launch','skiff','patrol-vessel','shore-mg'])
                       else 'rear-three-quarter' if job['id']=='partisan-rear' else 'front' if job['id']=='occupier-hit' else 'side')
     result['facing'] = -1 if job['id'] in ['he111','storch','sdkfz251','sdkfz222'] else 1
     result['generation'] = 'generation.json'
+    if 'renderOffset' in job:
+        result['renderOffset'] = job['renderOffset']
+    if job.get('muzzlePoint'):
+        result['muzzlePoint'] = job['muzzlePoint']
     if job.get('gunLayer'):
         attachment = job['gunLayer']
         result['layers'] = [dict(name='turret', image=result['image'], row=5, frames=4, seconds=.4,
@@ -270,7 +286,7 @@ def pack(job):
                                  frame=[12,48],frames=4,seconds=.12,
                                  mount=[round(offset[0]+hub[0]*factor),round(offset[1]+hub[1]*factor)],
                                  anchor=[6,24],hideOn=['dead'],reused=True)]
-    if job['id']=='sdkfz222':
+    if job['id']=='sdkfz222' and not job.get('gunLayer'):
         result['layers'] = [dict(name='turret',image=result['image'],row=5,frames=4,seconds=.4,
                                  anchor=[round(offset[0]+220*factor),round(offset[1]+90*factor)],
                                  mount=[round(offset[0]+205*factor),round(offset[1]+35*factor)],hideOn=['dead'])]
@@ -280,6 +296,12 @@ def pack(job):
         ys = [y for y in range(b[1],b[3]) if outcells[8].getpixel((x,y))[3]]
         result['muzzle'] = dict(animation='attack',frame=0,point=[x,round(statistics.median(ys))],eventTime=0)
     result['repositoryImage'] = result['image']
+    if job.get('fitAttachments'):
+        layer = result['layers'][0]
+        hull = outcells[0].getbbox()
+        gun = outcells[layer['row']*cols].getbbox()
+        dx, dy = [layer['mount'][i]-layer['anchor'][i] for i in range(2)]
+        result['renderBounds'] = list(bounds_union([hull, (gun[0]+dx, gun[1]+dy, gun[2]+dx, gun[3]+dy)]))
     result['image'] = '../../game-ready/'+category+'/'+path.name
     result['style'] = job.get('style','reference-pixel-art')
     return result
@@ -318,6 +340,9 @@ def main():
         assert asset, args.only
         manifest = read(HERE/'sprites.json')
         manifest['assets'] = [asset if item['id'] == args.only else item for item in manifest['assets']]
+        if not any(item['id'] == args.only for item in manifest['assets']):
+            manifest['assets'].append(asset)
+        manifest['missing'] = [name for name in manifest['missing'] if name != args.only]
         (HERE/'sprites.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
         print(f"Prepared {args.only}; {len(asset['warnings'])} review warnings.")
         return

@@ -15,7 +15,7 @@ for item in manifest['assets']:
     if item.get('muzzlePoint'): tips[item['id']] = item['muzzlePoint']
     f = item['frame']
     image = Image.open(ROOT/item['repositoryImage']).convert('RGBA')
-    rest = image.crop((0,0,f['width'],f['height'])).getbbox()
+    rest = item.get('renderBounds') or image.crop((0,0,f['width'],f['height'])).getbbox()
     desc = dict(src=item['repositoryImage'].removeprefix('assets/images/'),width=f['width'],height=f['height'],
                 anchor=item['anchor'],bounds=list(rest),facing=item['facing'],
                 clips={c['name']:dict(row=c['row'],ms=[c['duration']*1000/c['frameCount']]*c['frameCount'],
@@ -50,6 +50,8 @@ for item in manifest['assets']:
         if item['id']=='hummel-damaged':
             source='armies/game-ready/tenkovi/hummel-sprites.png'
             desc['offset']=[11,10]
+        if 'renderOffset' in item:
+            desc['offset']=item['renderOffset']
         (hits if item['kind']=='hit' else damage)[source] = item['id']
     if item['kind']=='vessel':
         name = item['id']

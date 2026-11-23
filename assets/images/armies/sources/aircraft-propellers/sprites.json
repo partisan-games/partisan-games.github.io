@@ -51,11 +51,11 @@
     }
   ],
   "bodies": {
-    "armies/game-ready/avioni/ju87.svg": {
+    "armies/game-ready/avioni/ju87.png": {
       "id": "ju87",
       "bodySize": [
-        200,
-        74
+        400,
+        148
       ],
       "layer": {
         "src": "armies/game-ready/avioni/propeller-side-sprites.png",
@@ -69,9 +69,9 @@
       "projection": "side",
       "hubs": [
         {
-          "x": 3,
-          "y": 36,
-          "span": 42
+          "x": 24,
+          "y": 64,
+          "span": 84
         }
       ],
       "bodyUnchanged": true

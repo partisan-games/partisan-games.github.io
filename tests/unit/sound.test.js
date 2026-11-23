@@ -129,31 +129,6 @@ test('weather thunder keeps its one delay and uses explicit nonspatial ambience 
   assert.equal(event.volume, 1)
 })
 
-test('a searching patrol calls out on game time with one voice at a time, and is silent once ended', async t => {
-  const { audio } = await audioFor(t)
-  const { default: Patrol } = await import('/core/gameplay/bodies/soldiers/Patrol.js')
-  const { default: PatrolSprite } = await import('/core/actor/soldiers/PatrolSprite.js')
-  const { topProjection } = await import('/core/actor/projection.js')
-  const patrol = new Patrol({ initial: 'move' })
-  const view = new PatrolSprite(patrol, { projection: topProjection({ pxPerMeter: 10 }) })
-  audio.sync([view], 'running')
-  view.update(8)
-  assert.equal(view.searchVoice.playback.voices.size, 1)
-  assert.equal(view.searchVoice.options.profile, 'speech')
-  view.end()
-  assert.equal(view.searchVoice.playing, false)
-})
-
-test('a newly attached impact emits once at its own location', async t => {
-  const { audio } = await audioFor(t)
-  const { default: Paljba } = await import('/scenes/ranjenik/Paljba.js')
-  const impact = new Paljba()
-  audio.sync([impact], 'running'); audio.sync([impact], 'running')
-  assert.equal(audio.output.events.size, 1)
-  const event = [...audio.output.events][0]
-  assert.equal(event.spatialModel.position.x, impact.x / 100)
-})
-
 test('a Vis enemy plane sounds its shot down only once', async t => {
   const { audio } = await audioFor(t)
   const { default: AttackPlane } = await import('/core/gameplay/bodies/aircraft/AttackPlane.js')

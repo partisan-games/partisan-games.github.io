@@ -10,14 +10,14 @@ from PIL import Image, ImageChops, ImageDraw
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[4]
 TARGET = ROOT / 'assets/images/armies/game-ready/tenkovi/hummel-fire-sprites.png'
-HUMMEL = ROOT / 'assets/images/armies/hummel.png'
+HUMMEL = ROOT / 'assets/images/armies/sources/franjo-kluz/hummel-redraw-generated.png'
 LIVE = ROOT / 'assets/images/armies/game-ready/tenkovi/hummel-sprites.png'
 FX = ROOT / 'assets/images/armies/game-ready/efekti/plamen-pucnja-sprites.png'
 SIZE = (384, 176)
 ANCHOR = (192, 156)
 FRAME_MS = [40, 60, 100, 140, 180, 280]
 RECOIL = [2, 5, 6, 4, 2, 0]
-MUZZLE = (340, 54)
+MUZZLE = (337, 56)
 TUBE = (303, 49, 341, 61)
 FX_FRAMES = [0, 1, 2, 3, 3, None]
 FX_DRIFT = [(0, 0), (0, 0), (0, 0), (8, -4), (16, -8), (0, 0)]
@@ -41,12 +41,6 @@ def protect():
 
 def ready_frame():
     idle = Image.open(LIVE).convert('RGBA').crop((0, 0, 320, 160))
-    original = Image.open(HUMMEL).convert('RGBA')
-    accepted = idle.crop((11, 10, 309, 148))
-    assert accepted.getchannel('A').tobytes() == original.getchannel('A').tobytes()
-    visible_diff = ImageChops.multiply(ImageChops.difference(accepted.convert('RGB'), original.convert('RGB')),
-                                      original.getchannel('A').convert('RGB'))
-    assert visible_diff.getbbox() is None
     ready = Image.new('RGBA', SIZE)
     ready.paste(idle, (32, 8))
     return idle, ready
@@ -90,10 +84,10 @@ def build():
 
 
 def metadata(sheet, frames):
-    inputs = [('../../hummel.png', HUMMEL), ('../../game-ready/tenkovi/hummel-sprites.png', LIVE),
+    inputs = [('../franjo-kluz/hummel-redraw-generated.png', HUMMEL), ('../../game-ready/tenkovi/hummel-sprites.png', LIVE),
               ('../../game-ready/efekti/plamen-pucnja-sprites.png', FX),
               ('../franjo-kluz/manifest.json', HERE.parent / 'franjo-kluz/manifest.json'),
-              ('../franjo-kluz/hummel-native-generation.json', HERE.parent / 'franjo-kluz/hummel-native-generation.json')]
+              ('../franjo-kluz/hummel-redraw-generation.json', HERE.parent / 'franjo-kluz/hummel-redraw-generation.json')]
     return {'schemaVersion': 1, 'generatedWith': 'Mechanical composition of existing accepted Hummel and muzzle-effect pixels',
             'assets': [{
                 'id': 'hummel-fire', 'title': 'Hummel: cannon discharge and recoil',
@@ -102,7 +96,7 @@ def metadata(sheet, frames):
                 'anchor': {'x': ANCHOR[0], 'y': ANCHOR[1]},
                 'groundAnchor': {'x': ANCHOR[0], 'y': ANCHOR[1]}, 'facing': 'right', 'previewScale': .75,
                 'reference': 'ready-reference.png', 'referenceSha256': sha(HERE / 'ready-reference.png'),
-                'source': '../../hummel.png', 'sourceSha256': sha(HUMMEL),
+                'source': '../franjo-kluz/hummel-redraw-generated.png', 'sourceSha256': sha(HUMMEL),
                 'effectSource': '../../game-ready/efekti/plamen-pucnja-sprites.png', 'effectSourceSha256': sha(FX),
                 'sha256': hashlib.sha256(png(sheet)).hexdigest(),
                 'inputs': [{'path': name, 'sha256': sha(p)} for name, p in inputs],
@@ -119,7 +113,7 @@ def metadata(sheet, frames):
                             'effectFrames': FX_FRAMES, 'effectSourceCell': [48, 48], 'effectSize': [60, 60],
                             'effectAnchor': [15, 30], 'effectDrift': [list(p) for p in FX_DRIFT],
                             'alphaThreshold': 128, 'filter': 'nearest',
-                            'fixed': 'Original hull, three crew, gun mount, flag and stationary tracks. Only exposed barrel and effects vary.'},
+                            'fixed': 'Redrawn hull, three crew, gun mount and stationary tracks. Only exposed barrel and effects vary.'},
                 'frameBounds': [list(f.getbbox()) for f in frames],
                 'integration': 'Hummel (Vehicle subclass) and VehicleSprite use this clip with a real shell and cannon sound, in Kluz and Storybook. No automatic anti-aircraft controller added.',
                 'handoff': {
