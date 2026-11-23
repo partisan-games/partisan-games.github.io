@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "measuredAt": "2026-11-22T23:48:31.856948+00:00",
-  "baseRevision": "baea7333fec98c675b4c669eaff239364b6fdae8",
+  "measuredAt": "2026-11-23T14:38:39.711746+00:00",
+  "baseRevision": "e116ef6a50d132bbc36324b6062893f8f2ecd8a1",
   "scope": "Art linked by docs/ART.md, including shared variants; not all unused library art or a runtime/visual acceptance test.",
   "interpretation": "imageFrames counts file-container frames. A PNG atlas normally has one; named sprite clips require metadata and a runtime mapping. hashes detect exact input changes, not art quality.",
   "images": [
@@ -5033,6 +5033,16 @@
       "distinctImageFrames": 1
     },
     {
+      "asset": "assets/images/armies/partizani/avioni/il-2-realistic.png",
+      "sha256": "da71655e33a6fd783ef935751cc22584e2f8e2e0aede7d8aab98802265c0d00e",
+      "kind": "PNG",
+      "width": 300,
+      "height": 255,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1
+    },
+    {
       "asset": "assets/images/armies/partizani/avioni/spitfire-mkvb-realistic.png",
       "sha256": "3271fe24cf424342c716155ea5b509109cba3dfba8c15d4ed0f00358105ef4ad",
       "kind": "PNG",
@@ -5631,6 +5641,10 @@
       "sha256": "60e04be43060ce94da73a59abba13d32c02e755cc5bbdfd31fdd28daec98d196"
     },
     {
+      "path": "assets/images/armies/partizani/avioni/il-2-realistic.png",
+      "sha256": "da71655e33a6fd783ef935751cc22584e2f8e2e0aede7d8aab98802265c0d00e"
+    },
+    {
       "path": "assets/images/armies/partizani/avioni/spitfire-mkvb-realistic.png",
       "sha256": "3271fe24cf424342c716155ea5b509109cba3dfba8c15d4ed0f00358105ef4ad"
     },
@@ -5668,7 +5682,7 @@
     },
     {
       "path": "assets/images/armies/sources/field-gun/prepare.py",
-      "sha256": "40f8a55acd6c6a1b13617a281d4b70dbe8efa5afa2f00f2dce566254fb090bf0"
+      "sha256": "b29b1ba7b1bd038098cb39e55d246b15fb9b910c92558ac119be4a7ee73cb26c"
     },
     {
       "path": "assets/images/armies/sources/field-gun/wreck-sprites.json",
@@ -5704,7 +5718,7 @@
     },
     {
       "path": "assets/images/armies/sources/infantry-art/occupier-sprites.json",
-      "sha256": "b9bdeb101b42ffcc8d39886b3466679c69ff79a4e0a4612d829c4016e3809b26"
+      "sha256": "9551d0892f08cfd5dd833d7d5d441b78d21ed340b57b1c85a335ad8e77fdbe3c"
     },
     {
       "path": "assets/images/armies/sources/infantry-art/sprites.json",
@@ -5716,7 +5730,7 @@
     },
     {
       "path": "assets/images/armies/sources/plan-ideas-art/export-runtime.py",
-      "sha256": "6ae4587dc7699ddb00c59db8d0b40561111409ad215d5df764383542a9c54a8b"
+      "sha256": "ac9db4bf6444a7aa6acf98a487a9bc22efff913d4c490d413437a2ffb460f6d7"
     },
     {
       "path": "assets/images/armies/sources/plan-ideas-art/generation.json",
@@ -5724,7 +5738,7 @@
     },
     {
       "path": "assets/images/armies/sources/plan-ideas-art/prepare.py",
-      "sha256": "61bb1e7d1408af5ce0cc57cba66e914b7dbb9e13f1696e931c91c31de6be5dce"
+      "sha256": "ab26b76f6ea8d8616ee612ac4e8f51e76c9d5d0a84909871d96e6c2bad53b9dd"
     },
     {
       "path": "assets/images/armies/sources/plan-ideas-art/sprites.json",
@@ -5740,11 +5754,11 @@
     },
     {
       "path": "assets/images/armies/sources/scenery/catalog.json",
-      "sha256": "72632d708daf2909f73eddcccd328a9489fe3ce95b3513fe5410d532b5e6d031"
+      "sha256": "f54d66fb7848fc8a894db5b04f56dd34b60e0462901f686c695005660866948e"
     },
     {
       "path": "assets/images/armies/sources/scenery/sprites.json",
-      "sha256": "251c549e124bcc51a490c72257c3144dfc8bd9c9e9935acee5340604c4623197"
+      "sha256": "de67449c109efc27a39afcfcea10365073cba4abf929c7f9949cbe8dc81d7d7f"
     },
     {
       "path": "assets/images/armies/sources/tenkovi/sprites.json",
@@ -5760,7 +5774,7 @@
     },
     {
       "path": "assets/images/background/batina-1944/layout.json",
-      "sha256": "8062ffe211a7c9ce4261ef39802620b74874edffe888d3e36163fa0023782a3a"
+      "sha256": "8a5fdcf65555c5cc2a7330a92ca57a573ccf496746a53e5c44fc0eca617ac458"
     },
     {
       "path": "assets/images/buildings/bunker-02.png",
@@ -5772,15 +5786,15 @@
     },
     {
       "path": "assets/images/sources/pozadine/batina-layered/preview.html",
-      "sha256": "3e2ca83cf89bdd771b92f88fb8a9b923d1c051de09d5c5aaf21a5eeef8f3c1ae"
+      "sha256": "30fbc505acdc16edf365c900874a7b2c4ac69404113ded211acd153d44debae7"
     },
     {
       "path": "assets/images/sources/pozadine/beograd-1944/backgrounds.json",
-      "sha256": "726d532455d8b17b39e6a54160b46d74164084f326261e0d3f2d764bd566628c"
+      "sha256": "8b27ead6098fac106ab6e6fb9a8003b3e9a82039c75f1e7ce806ef3a50803207"
     },
     {
       "path": "assets/images/sources/pozadine/beograd-1944/preview.html",
-      "sha256": "e4fa5087708be6ce88830488f79b0bfd8ccf50d8d17ce3c989d03d48af9eb598"
+      "sha256": "2b5afafc9e74df1014e00de12314fc0ba9b8500abc1dc6089a59384db1ded080"
     },
     {
       "path": "assets/images/sources/pozadine/camac-etape/assets.json",
@@ -5788,7 +5802,7 @@
     },
     {
       "path": "assets/images/sources/pozadine/camac-etape/preview.html",
-      "sha256": "a26985ff34e1c546eb0077f22d16490774202d0459aa93d3ce3e1eb8a6123521"
+      "sha256": "b5b3d4571a72015453c9a0b7b5a81bfff2575c749654e6785aa091587b1440c3"
     },
     {
       "path": "assets/images/sources/pozadine/current-backgrounds.json",
@@ -5796,7 +5810,7 @@
     },
     {
       "path": "assets/images/sources/pozadine/current-levels.json",
-      "sha256": "afbd37283d8b99c6f4d96bbdb5650e01cbc1fc3c5753ae80eaeb4e5ac8ce392c"
+      "sha256": "a9dbec862eea21bafaf60210b9421e9967068c978f8ed8b472a0408901ae8bd2"
     },
     {
       "path": "assets/images/sources/pozadine/current-preview.html",
@@ -5808,19 +5822,19 @@
     },
     {
       "path": "assets/images/sources/pozadine/do-trsta/preview.html",
-      "sha256": "ec01644494bf1e3e695d57fe17860fc675566c76fdcd86797d8af52ba563eeb3"
+      "sha256": "ab84b9100f290f22accd2cc659b327354fa05bc2dccbd1e9d19e91b2c9ad9d13"
     },
     {
       "path": "assets/images/sources/pozadine/neretva-polozaji/generation.json",
-      "sha256": "a09238037957b3220c625bc14ad40e49f5f4e2fc8a3d504ba2c0536a7bae6a64"
+      "sha256": "78331581ceadd4ff0e682eaa422bcfedcbf00a7cdce9bb5f6f54444f071ec2ea"
     },
     {
       "path": "assets/images/sources/pozadine/neretva-polozaji/preview.html",
-      "sha256": "d26524d8a8ee9ed4897a8c3665b9ff9e5ff45cb21dd64ee7259ae48a856efc33"
+      "sha256": "ab7c1548f7214f17eb991b1426274288800e9fe983bcca6678c236fa6ab5ac00"
     },
     {
       "path": "assets/images/sources/pozadine/seasonal-backgrounds.json",
-      "sha256": "fd8aa40a57dfd7d104329c5cb2a5889079dbf71668a7a38349f473695c6f2cb9"
+      "sha256": "a0a49cf597010280157ff2c35bc7513cda3333c71dded26548ce8d406ce6ee36"
     },
     {
       "path": "assets/models/weapon/cannon/field-gun-75.glb",
@@ -5828,39 +5842,39 @@
     },
     {
       "path": "docs/ANIMACIJA-POZADINE.md",
-      "sha256": "86aed651100ada6b3ffb946f5b039b991ff279975c4876c40ed3b9037a1a4cfc"
+      "sha256": "f235587a3db93a1ff46a1fe08b76346a5bc367806ef126d79965eae31de1cb5d"
     },
     {
       "path": "docs/ART.md",
-      "sha256": "81f76e076e3dc0d11f96178f3b81b3847e8ead615cc342afc57e34929c7c3239"
+      "sha256": "b37798e4d9ca896f4961f5ee3d7eaf3791d5b07e6b8ad45803730f886f4c8ba9"
     },
     {
       "path": "docs/ISTORIJA.md",
-      "sha256": "82cf6c41696b437281c8371822df9d09b80c643ec97d1d00048bf32ccca18fe9"
+      "sha256": "2896f58bbb3e428e5498d2d8e7da759b8be1d288ada619ec9c68fffcf46cdd82"
     },
     {
       "path": "docs/KONTEKST.md",
-      "sha256": "6dd7513c4c350abe1a3b30cbb48db597d0544ad800ad620bf0dc95c397dd46ef"
+      "sha256": "c112ed37f91fc318d00717d93db52079b4f8615e5b0f40094c8f45a26f5ecb39"
     },
     {
       "path": "docs/PLAN.md",
-      "sha256": "928acb8eb398be5f62b96c6574bb2e904ab1e7efa869b27930bb0f74789b8a97"
+      "sha256": "bb8be6286bc120c5a17369555342850509403eed7fe01c862d817013247cbdbc"
     },
     {
       "path": "docs/STORYBOOK.md",
-      "sha256": "f1f159ba3006d550faaeb4e3ae0f05ad55ce410f7199ae629e0dba11a5ddf5bc"
+      "sha256": "636fb2963aa6fc0ad12c7f22ddd545b64ae4a0e21923c6f8cb939bc08baa7844"
     },
     {
       "path": "docs/TESTING.md",
-      "sha256": "db29f996a6b787b80e9ea0b9e218c793ea0fcdf7736d6d91388cf71781fe3250"
+      "sha256": "1d814c2ebd58ad2a88427dbf9c8e3a4664f700d2e2a6f16c1ebfb1e1d18b863e"
     },
     {
       "path": "pregled-animacija.html",
-      "sha256": "5539e9dfee9707dfcfd8203c19072589b8299be5868931308c1b1eb643e20384"
+      "sha256": "7706c1d16df01cdbb7a495cc624c5342ad093d094e5a3a3f8f43cfb8fd0aea7d"
     },
     {
       "path": "props.html",
-      "sha256": "49c06d095fb7498cca2b89bef0809c553269556a54a94c949074a4a53bc5f499"
+      "sha256": "0f9de37bd48bdac0bc8c84f0b5a08c57fd398fbeb6fae1f1952e27ee96119a5f"
     },
     {
       "path": "scripts/index-sprite-art.py",
@@ -5868,7 +5882,7 @@
     },
     {
       "path": "scripts/prepare-vehicle-art.py",
-      "sha256": "a8b50fb5f885cb8bb197d2f4198ad4f137c427a418888518aef8dcf692915742"
+      "sha256": "c985b848eb8f907608b1de5a939f5be9d45f2c5de3fe4ab4e18ba3f867a182d2"
     },
     {
       "path": "storybook.html",

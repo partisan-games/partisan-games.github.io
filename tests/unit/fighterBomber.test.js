@@ -120,3 +120,20 @@ test('rearmed on an airfield, it has a full load of bombs, and keeps more it had
   body.rearm()
   assert.equal(body.bombs, fighterBomber.bombs + 1)
 })
+
+test('each plane model flies, fires and holds out as its performance says', async() => {
+  const { modelPerformance } = await import('/core/gameplay/modelPerformance.js')
+  const fly = id => {
+    const { body, clock, live } = planeAlone({ performance: modelPerformance[id] })
+    body.steer(1, 0, 1 / 60)
+    live(1 / 60)
+    clock.advance(fighterBomber.reload)
+    body.shoot()
+    return { speed: body.vx, damage: body.bullets.projectiles[0].damage, health: body.health.maximum, bombs: body.bombs }
+  }
+  const yak = fly('yak'), breguet = fly('breguet')
+  assert.ok(yak.speed > breguet.speed)
+  assert.ok(yak.damage > breguet.damage)
+  assert.ok(breguet.health > yak.health)
+  assert.ok(breguet.bombs > yak.bombs)
+})

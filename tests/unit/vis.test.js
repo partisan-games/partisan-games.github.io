@@ -272,3 +272,11 @@ test('an airfield never takes away bombs above a full load', t => {
   scene.service()
   assert.equal(scene.player.bombs, 6)
 })
+
+test('the chosen plane takes its own energy and bombs', t => {
+  const { scene } = createScene(t, [])
+  // its picture loads later; the plane is equipped at once
+  scene.prepare('breguet')
+  assert.equal(scene.player.health.maximum, 12)
+  assert.equal(scene.player.bombs, 5)
+})

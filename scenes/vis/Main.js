@@ -21,7 +21,8 @@ import { levels } from './levels.js'
 import { currentStyleClasses } from '/ui/styles.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import { settings } from './settings.js'
-import { fighterBomberPlanes, fighterBomberPlane } from '/core/actor/aircraft/fighterBomberPlanes.js'
+import { fighterBomberPlane } from '/core/actor/aircraft/fighterBomberPlanes.js'
+import { modelPerformance } from '/core/gameplay/modelPerformance.js'
 import { assets } from '/config.js'
 
 const { scrollSpeed: speed, clouds, restTime, engineVolume } = settings
@@ -38,12 +39,15 @@ export const rules = {
   shieldTime: 2, repair: .5, bombRadius: .5, bombHits: 10, bombBursts: 12, bombSpread: .4, burstScale: 1.8,
 }
 
+/** The aircraft the player may fly to Vis. */
+const planes = ['spitfire', 'hurricane', 'breguet', 'yak'].map(fighterBomberPlane)
+
 const customStartScreen = ({ container }) => /* html */`
   <div class="central-screen flex-column ${container}" id="start-screen">
     <p>Reach the Island of Vis</p>
     <h2>Choose your aircraft</h2>
     <div class="game-screen-select vis-aircraft-select">
-      ${fighterBomberPlanes.map(plane => /* html */`
+      ${planes.map(plane => /* html */`
         <label data-paid>
           <input type="image" data-aircraft="${plane.id}" src="${assets.images}${plane.image}" alt="Fly ${plane.name}">
           <span>${plane.name}</span>
@@ -124,13 +128,14 @@ export default class VisScene extends Scene2D {
 
   handleClick(e) {
     const id = e.target.dataset?.aircraft
-    if (fighterBomberPlanes.some(plane => plane.id === id) && this.ui.screen === 'start') this.play(id)
+    if (planes.some(plane => plane.id === id) && this.ui.screen === 'start') this.play(id)
   }
 
-  /** The chosen aircraft: its picture and its size. */
+  /** The chosen aircraft: its picture, its size and how it flies and fights. */
   prepare(id) {
     const plane = fighterBomberPlane(id)
     Object.assign(this.player.size, plane.size)
+    this.player.equip(modelPerformance[id])
     this.placeAtStart(this.player)
     this.playerView.setImage(plane.image)
     return this.playerView.imageLoaded

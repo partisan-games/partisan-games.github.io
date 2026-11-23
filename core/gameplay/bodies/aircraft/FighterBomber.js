@@ -1,4 +1,5 @@
 import Body from '../Body.js'
+import Health from '../../Health.js'
 import Cooldown from '../../Cooldown.js'
 import ProjectilePool from '../projectiles/ProjectilePool.js'
 import Bullet from '../projectiles/Bullet.js'
@@ -13,6 +14,11 @@ export const fighterBomber = {
   thrust: 186, keep: .9 ** 60, reload: .1, bulletSpeed: 100, bombs: 3, loops: 3, loop: { duration: 1, ahead: 6 },
   health: 10, crash: { damage: 3, shield: 1 },
 }
+/**
+ * How a model of fighter-bomber flies and fights against the plain one: its speed and the damage of each bullet as
+ * shares, the hits it takes and the bombs it carries.
+ */
+export const plainPerformance = { speed: 1, firepower: 1, health: fighterBomber.health, bombs: fighterBomber.bombs }
 /** The guns of each fire level, from the start up: metres across from the nose, radians off straight ahead. */
 export const fireLevels = [
   [{ across: 0, angle: 0 }],
@@ -41,11 +47,13 @@ const states = {
  */
 export default class FighterBomber extends Body {
   constructor({ size = { length: 15, height: 2, width: 12.75 }, clock, targets = [], solids = [], bounds = null,
-    canFire = () => true, random = Math.random, view = null, ...rest } = {}) {
-    super({ size, health: fighterBomber.health, yaw: Math.PI / 2, ...rest, states, initial: 'move' })
+    canFire = () => true, random = Math.random, view = null, performance = plainPerformance, ...rest } = {}) {
+    super({ size, yaw: Math.PI / 2, ...rest, states, initial: 'move' })
     Object.assign(this, { targets, solids, bounds, canFire })
     this.fireLevel = 0
-    this.bombs = fighterBomber.bombs
+    /** The damage every one of its bullets takes, which its model sets. */
+    this.bulletDamage = { min: 1, max: 1 }
+    this.equip(performance)
     this.bombsDropped = 0
     this.loopsLeft = fighterBomber.loops
     /** Seconds into the loop, while it lasts, and the seconds it is safe after coming back. */
@@ -53,7 +61,15 @@ export default class FighterBomber extends Body {
     this.shield = 0
     this.lift = 1
     this.reload = new Cooldown({ seconds: fighterBomber.reload, clock })
-    this.bullets = new ProjectilePool(() => new Bullet({ view, damage: { min: 1, max: 1 }, random }))
+    this.bullets = new ProjectilePool(() => new Bullet({ view, damage: this.bulletDamage, random }))
+  }
+
+  /** Becomes a model with `performance`: full energy of its own, its bombs and its bullets' damage. */
+  equip(performance) {
+    this.performance = { ...plainPerformance, ...performance }
+    this.health = new Health({ maximum: this.performance.health })
+    this.bombs = this.performance.bombs
+    this.bulletDamage.min = this.bulletDamage.max = this.performance.firepower
   }
 
   /** It faces up the view. */
@@ -96,8 +112,9 @@ export default class FighterBomber extends Body {
   /** Pushes it across the view, `x` and `z` -1, 0 or 1 each. */
   steer(x, z, dt) {
     if (this.dead) return
-    this.vx += x * fighterBomber.thrust * dt
-    this.vz += z * fighterBomber.thrust * dt
+    const thrust = fighterBomber.thrust * this.performance.speed
+    this.vx += x * thrust * dt
+    this.vz += z * thrust * dt
   }
 
   /** One bullet from every gun of its fire level, if it has reloaded; returns whether it fired. */
@@ -135,7 +152,7 @@ export default class FighterBomber extends Body {
 
   /** Its bombs filled again, as on an airfield; more than a full load, from power-ups, it keeps. */
   rearm() {
-    this.bombs = Math.max(this.bombs, fighterBomber.bombs)
+    this.bombs = Math.max(this.bombs, this.performance.bombs)
   }
 
   /** Gets back `share` of its full energy, as from a power-up or on an airfield. */

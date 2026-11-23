@@ -29,6 +29,8 @@ Akter čine telo, prikaz i upravljač koje sastavlja scena:
 
 Tela i prikazi organizuju se po vrsti aktera, upravljači zasebno; katalog aktera ne mora pratiti podelu klasa. Isti nezavisni akter može dobiti 2D i 3D prikaz. Blok se razvija kroz konkretan nivo, art, samostalan pregled i proveru, pa se dovršava zajednički ugovor. Smislena sposobnost dobija telo, prikaz i zvuk kada je zatraži igra ili odabrana ideja; ne dodavati neupotrebljene sposobnosti samo radi popunjavanja matrice.
 
+Svaki model aktera, kao tenk, avion ili vozilo, ima svoje osobine: brzinu, oklop, vatrenu moć i zdravlje, birane tako da se razlika oseti u igri; domet je za sve ceo ekran (odluka vlasnika, 2026-11-23). Novi model ne preuzima osobine drugog samo zato što deli telo. Izvor vrednosti su [statistike modela](STATISTIKE.md), a dogovorene vrednosti drži jedan zajednički [spisak](../core/gameplay/modelPerformance.js), isti za 2D i 3D prikaz modela.
+
 Scenografija poput rova nije deo figure koju zaklanja. Oružje i stvarni delovi aktera jesu njegovi saradnici. Odvajanje koda ne dopunjava nedostajući crtež; ugovor pripreme je u [ART](ART.md).
 
 ### Standardna stanja aktera

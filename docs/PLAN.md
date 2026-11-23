@@ -22,6 +22,7 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 | 12 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
 | 13 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
 | 14 | [IG-25](#ig-25) | Razmotriti italijansku minobacačku paljbu u Jablanici, koja može da prevrne top | Vlasnik | 📋 TODO |
+| 15 | [IG-26](#ig-26) | Izabrati nemački tenk za svako bojište Tenkića | Vlasnik, Agent | 📋 TODO |
 
 ## Održavanje plana
 
@@ -106,7 +107,7 @@ Olupina poljskog topa može postati zaseban rekvizit bojišta; još nije raspore
 Kandidati nisu nalog za izradu. Posle izbora dopuniti art, telo, zajednički prikaz i Storybook priču, povezati aktera sa igrom i odigrati nivo.
 
 - **Vis:** partizanski [Hurricane, Spitfire i Il-2](../assets/images/armies/partizani/avioni/) odozgo.
-- **Do Trsta i Tenkići:** [italijanski tenkovi](../assets/images/armies/talijani/tenkovi/), [AB41](../assets/images/armies/talijani/vozila/), [BMW R11](../assets/images/armies/nemci/motori/) i ostala [nemačka vozila](../assets/images/armies/nemci/vozila/). Tenkići zahtevaju novu odluku o proširenju dvoboja.
+- **Do Trsta (izbor vlasnika, 2026-11-23, samo nemačka vozila):** [motor Zündapp K600 sa dvojicom](../assets/images/armies/nemci/motori/zundapp-k600.png), [trokolica BMW R12 sa dvojicom](../assets/images/armies/nemci/motori/bmw-r12-03.png), [oklopni automobil Sd.Kfz. 231](../assets/images/armies/nemci/vozila/sdkfz-231-02.png), [oklopni automobil Pz.Kpfw. 612 (37 mm)](../assets/images/armies/nemci/vozila/pzkpf612-37mm.png), [oficirski automobil Mercedes 830 BL](../assets/images/armies/nemci/vozila/830bl-02.png), [lovac tenkova Marder II (76 mm)](../assets/images/armies/nemci/tenkovi/panzer2d-76mm.png), [lovac tenkova Elefant](../assets/images/armies/nemci/tenkovi/elefant-01.png). Biraju se po raznovrsnosti, ne po istorijskoj vernosti.
 - **Ustanak:** [italijanski top 47 mm sa posadom i minobacači](../assets/images/armies/talijani/artiljerija/); zahteva novu odluku o proširenju dvoboja.
 - **Pešadija:** italijanski, britanski, ruski, četnički i SS vojnici; potrebni su atlasi pokreta.
 - **Otpisani:** nemački motociklista sa mitraljezom u postojećem realističnom crno-belom stilu.
@@ -145,6 +146,11 @@ Liberated City je Bihać krajem 1942. Natpisi o dolasku Crvene armije i plakat R
 ### IG-25 · Minobacači u Jablanici
 
 Italijani bi uz mitraljeze gađali top minobacačem. Granata koja pogodi sam top uništava ga: top se prevrne, a posada pored njega strada. Danas top ne može da bude uništen; kad pogine posada, ostaje da stoji ([deathPose `intact`](../core3d/actor/derived/Cannon.js)). Ideja, ne nalog za izradu.
+
+<a id="ig-26"></a>
+### IG-26 · Protivnici Tenkića po bojištima
+
+Protivnik se menja po [bojištima](KONTEKST.md#tenkići) (odluka vlasnika, 2026-11-23): svako dobija svoj nemački tenk, a postojeći Tigar I ostaje za poslednje i najteže, proboj Sremskog fronta. Tenkove za prva dva bojišta izabrati iz postojećeg arta, kao vozila za Do Trsta, pa ih pripremiti i povezati.
 
 ## Notes
 

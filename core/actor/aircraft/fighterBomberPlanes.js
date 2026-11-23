@@ -5,6 +5,7 @@ export const fighterBomberPlanes = [
   { id: 'hurricane', name: 'Hurricane Mk IV', image: 'armies/partizani/avioni/hurricane-mkiv-realistic.png', size: fighter },
   { id: 'breguet', name: 'Breguet 19', image: 'armies/partizani/avioni/breguet-19-realistic.png', size: { length: 15, height: 2, width: 10 } },
   { id: 'yak', name: 'Yak-1b', image: 'armies/partizani/avioni/yak-1b-realistic.png', size: fighter },
+  { id: 'il2', name: 'Il-2', image: 'armies/partizani/avioni/il-2-realistic.png', size: fighter },
 ]
 
 export function fighterBomberPlane(id) {
