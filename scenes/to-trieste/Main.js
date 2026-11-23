@@ -9,6 +9,7 @@ import { screenView } from '/core/actor/worldView.js'
 import { randomInRange } from '/core/utils.js'
 import Tank, { tank, tankKinds } from '/core/gameplay/bodies/vehicles/Tank.js'
 import { modelPerformance } from '/core/gameplay/modelPerformance.js'
+import VehicleCollisions from '/core/gameplay/VehicleCollisions.js'
 import Vehicle, { vehicleKinds } from '/core/gameplay/bodies/vehicles/Vehicle.js'
 import GunCarrier, { gunCarrierKinds } from '/core/gameplay/bodies/vehicles/GunCarrier.js'
 import LevelBomber from '/core/gameplay/bodies/aircraft/LevelBomber.js'
@@ -86,6 +87,7 @@ export default class ToTriesteScene extends Scene2D {
       march: toMeters(scroll), clock: this.session.clock, targets: this.targets, bounds: this.bounds,
       canFire: () => this.running, breakdown: noBreakdown, performance: modelPerformance.partisanTank })
     this.player.y = this.player.size.height / 2
+    this.vehicleCollisions = new VehicleCollisions(this.player)
     this.playerView = new TankSprite(this.player, { art: vehicleArt.partisanTank, ...this.views, z: layers.player,
       barrel: { src: 'armies/game-ready/tenkovi/partizanski-tenk-cev-pixel.png' }, shellLayer: layers.projectile })
     this.audioPlayer = () => this.playerView
@@ -302,12 +304,17 @@ export default class ToTriesteScene extends Scene2D {
 
   update(dt, t) {
     if (!this.running) return
-    this.cameraX = Math.min(this.levelLength, this.cameraX + scroll * dt)
+    const { blocked } = this.vehicleCollisions
+    this.player.march = blocked ? 0 : toMeters(scroll)
+    this.cameraX = Math.min(this.levelLength, this.cameraX + (blocked ? 0 : scroll * dt))
     this.bounds.min = toMeters(this.cameraX)
     this.bounds.max = toMeters(this.cameraX + canvas2d.width * .9)
     this.airRaid()
     this.escort.update(dt)
+    const vehicles = this.hostiles.filter(({ sort }) => sort === 'ground').map(({ body }) => body)
+    this.vehicleCollisions.capture(vehicles)
     super.update(dt, t)
+    this.vehicleCollisions.resolve(vehicles, dt)
     this.countKills()
     this.returnPassed()
     this.feedback.update()

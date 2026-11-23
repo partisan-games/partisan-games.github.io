@@ -145,7 +145,7 @@ Posle izmene arta ponovo pokrenuti pripremu; `python -B scripts/prepare-catalog-
 |---|---|
 | Tenkići i Ustanak | [manifest](../assets/images/sources/pozadine/current-levels.json), [podaci za ugradnju](../assets/images/sources/pozadine/current-backgrounds.json), [pregled](../assets/images/sources/pozadine/current-preview.html) |
 | Batina | [slojevi](../assets/images/background/batina-1944/layout.json), [pregled](../assets/images/sources/pozadine/batina-layered/preview.html) |
-| Do Trsta | [manifest](../assets/images/sources/pozadine/do-trsta/backgrounds.json), [pregled](../assets/images/sources/pozadine/do-trsta/preview.html) |
+| Do Trsta | [Slojeviti pejzaž](../scenes/to-trieste/Route.js), prema [izboru vlasnika](KONTEKST.md#to-trieste); slikane panorame iz [ranijeg manifesta](../assets/images/sources/pozadine/do-trsta/backgrounds.json) nisu uključene u igru. |
 | Čamac | [metapodaci](../assets/images/sources/pozadine/camac-etape/assets.json), [pregled](../assets/images/sources/pozadine/camac-etape/preview.html) |
 | Otpisani | [manifest](../assets/images/sources/pozadine/beograd-1944/backgrounds.json), [pregled](../assets/images/sources/pozadine/beograd-1944/preview.html) |
 | Neretva | [izvori](../assets/images/sources/pozadine/neretva-polozaji/generation.json), [pregled](../assets/images/sources/pozadine/neretva-polozaji/preview.html) |

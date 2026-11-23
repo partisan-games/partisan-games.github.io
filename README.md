@@ -30,6 +30,8 @@ To see every background picture in the project, open `/pozadine.html` on the `np
 See [PLAN](docs/PLAN.md).
 
 - razrađivati postojeće nivoe redom
+- u dugmetu Play again se nekada ne prikazuje novčić
+- u katalogu prikazivati masu, brzinu, zdravlje i druge statistike
 
 ## Credits
 

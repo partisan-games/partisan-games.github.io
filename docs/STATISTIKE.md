@@ -36,6 +36,14 @@ War Thunder za Sd.Kfz. 251 ima samo inačicu 251/9 sa topom od 75 mm, pa su njeg
 | Zündapp K600 sa dvojicom, plan | Do Trsta | — | — | nema članka |
 | BMW R12 sa dvojicom, plan ([BMW R12 and R17](https://en.wikipedia.org/wiki/BMW_R12_and_R17)) | Do Trsta | — | 18 | |
 
+## Zajedničke mase i sudari
+
+[Fizički podaci modela](../core/gameplay/modelStatistics.js) čuvaju masu u kilogramima, vrstu konstrukcije i osnov izbora varijante/tereta, odvojeno od [parametara balansa](../core/gameplay/modelPerformance.js). Tela tenkova, nosača mitraljeza, Opela i PaK-a čitaju iste zapise u svim igrama; varijanta iz parametara tenka ima prednost nad zajedničkim crtežom. Neprepoznatim modelima ne dodeljivati izmišljenu masu. Partizanski tenk koristi Pantherovih 44.800 kg kao projektnu zamenu, ne kao potvrdu identiteta nacrtanog tenka; ostale mase oklopnih modela potiču iz gornje tabele.
+
+Dopunski izvori: [Tank Museum — Tiger I](https://tankmuseum.org/tank-nuts/tank-collection/tiger-i) navodi 57 t, a [Somua S35](https://tankmuseum.org/tank-nuts/tank-collection/somua-s35) 19,5 t. [Zbirka DISG — Opel Blitz](https://www.disg-ev.de/fahrzeugsammlung/opel-blitz) za 3.6-36 S navodi 2.500 kg praznog i 5.500 kg najveće ukupne mase. [BMW-ov tehnički priručnik R75](https://vintagebmw.org/library_data/Workshop_R75_German.pdf) navodi 420 kg sa prikolicom i 840 kg dozvoljene ukupne mase. Za Opel i BMW u sudaru se koristi objavljena najveća ukupna masa; to je izabrana referenca opterećenja, ne izmereni teret aktera. Ostale mase zavise od varijante, posebno Sd.Kfz. 222/251; ne mešati američke/imperijalne tone sa metričkim.
+
+[Zajedničko pravilo sudara](../core/gameplay/VehicleCollisions.js) iz konstrukcije i mase izvodi rang: neoklopljena vozila i vučena oruđa 1, ostala vozila ispod 10 t 2, od 10 do ispod 30 t 3, od 30 t 4. Rang i šteta su balans igre, ne istorijske činjenice. Šteta raste sa kvadratom relativne brzine i udelom mase protivnika; laka prepreka prenosi manje štete. Vozilo ranga 3/4 pri udaru od najmanje 1 m/s gazi protivnika ranga 1/2 ako je najmanje tri puta teže. Preživeli kontakti zaustavljaju vozila, uz jedan obračun štete do razdvajanja. Mrtve olupine nisu nove prepreke. Do Trsta koristi ovo pravilo na putu i zaustavlja kameru pred preživelim vozilom; ostale igre imaju zajedničke podatke, ali im pravilo kontakta nije automatski uključeno.
+
 ## Avioni
 
 Brzina i prazna masa: prva vrednost je sa Wikipedije, druga iz War Thundera.

@@ -4,6 +4,7 @@ import ProjectilePool from '../projectiles/ProjectilePool.js'
 import Shell from '../projectiles/Shell.js'
 import { tank } from '../vehicles/Tank.js'
 import { lowArc } from '../ballistics.js'
+import { modelStatistics } from '../../modelStatistics.js'
 
 /**
  * A towed anti-tank gun: seconds between shots and before its first, and its health, which any shell takes. Its shells
@@ -27,6 +28,7 @@ export default class AntiTankGun extends Body {
   constructor({ clock, targets = [], groundAt = () => 0, canFire = () => true, random = Math.random, ...rest } = {}) {
     super({ size: { length: 5.85, height: 1.28, width: 1.58 }, health: antiTankGun.health, ...rest, states })
     Object.assign(this, { targets, canFire })
+    this.physical = modelStatistics['pak-38']
     /** The barrel's angle above level, and whether it is laid on a point it can reach. */
     this.elevation = 0
     this.laid = false

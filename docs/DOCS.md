@@ -1,5 +1,7 @@
 # Dokumentacija
 
+Pregledač pokreće isključivo vlasnik projekta; agent ne pokreće browser, Playwright ni headless browser provere (nalog vlasnika, 2026-11-23).
+
 Zahtevne operacije, naročito velike testne serije, buildovi i paralelni browseri, zahtevaju posebno izričito odobrenje pre pokretanja. Priprema za komit i ranija dozvola za ciljane testove ne daju tu dozvolu; unapred navesti obim i očekivano opterećenje.
 
 Zajednička osnova za razvoj 2D i 3D igara, sa istorijski zasnovanim sadržajem.

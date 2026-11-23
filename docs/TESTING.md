@@ -45,9 +45,15 @@ Ovo su datirani dokazi svog obuhvata, ne tvrdnja da je sve danas provereno. Dnev
 | Analiza izvornih i pripremljenih snimaka | [Izvornici](references/audio/zv06-2026-11-19.json), [pripremljeni snimci](references/audio/zv06-prepared-2026-11-19.json) i [obrada](../assets/sounds/PROCESSING.json); merenja snimaka nisu dokaz miksa ili performansi igre. |
 | Ammo merenja | [Fixture i rezultati](../tests/unit/fixtures/ammo-measurement.json); obuhvat čitati iz artefakta, bez zaključka o GPU prikazu. |
 
+## Sudari vozila
+
+[Provere sudara](../tests/unit/vehicleCollisions.test.js) koriste stvarna tela i zajedničke fizičke podatke: rangove, gaženje lakih vozila, obostranu štetu prema masi i brzini, jedan udar po kontaktu, zaustavljanje, razdvajanje, velike korake, različite frekvencije, mrtve i nepoznate modele. [Prolazak nivoa](../tests/unit/tankLevelFlow.test.js) proverava Do Trsta sa kontaktima, zaustavljanje kamere, nastavak posle uništenja prepreke, pauzu, završetak i novu igru bez starih kontakata. Radi izolovanja preživljavanja test obnavlja zdravlje igrača i nišani u prepreku; ne dokazuje težinu nivoa za igrača. Ciljane provere tela i upravljanja takođe prolaze. Pregledač nije pokretan; vizuelni osećaj sudara proverava vlasnik.
+
 <a id="predaja-arta-iz-plana-ideja"></a>
 <a id="art-verification-record"></a>
 ## Provere arta
+
+Do Trsta — vraćen slojeviti pejzaž sa kućama, crkvom, drvećem, oblacima i putem (2026-11-23). Ciljani test `tankLevelFlow.test.js` prolazi: pomeranje puta, postojeće etape, borba, avioni, pauza, završetak i ponovna igra. Pre vlasnikovog naloga da samo on pokreće pregledač izvršena je jedna Chromium provera: svih pet slika se učitalo, prikaz odgovara starom slojevitom pejzažu, bez JS/HTTP grešaka. Dalje browser provere radi vlasnik prema DOCS; izgled nije upisan kao njegovo prihvatanje.
 
 Oštećenja i olupina 3D topa (2026-11-23): [test stvarnog modela i priče kataloga](../tests/unit/fieldGunDamage.test.js) potvrđuje četiri faze prema zdravlju, razdvojene sklopove, oslonac svakog dela na podignutom i okrenutom modelu pri 30 i 60 koraka u sekundi, očuvanje svih 4.768 trouglova i izvornog modela, miran završetak i oslobađanje novih resursa. Posada ostaje odvojena od zdravlja topa i odvaja se pre raspadanja; Reset vraća zdrav top. [Testovi pogotka](../tests/unit/gunHit.test.js) potvrđuju kraće varnice, prašinu i opiljke, dim tek od pola zdravlja, krupnije komade od četvrtine, mirovanje pri pauzi, oslonac delova, ograničen broj objekata i oslobađanje zajedničke teksture i instance. Direktan izbor `dead` daje jedan završni oblačić; efekti se ne ponavljaju na mirujućoj olupini. Prošlo je 19 ciljanih testova, lint i provera projekta. Pregledač nije pokretan, po zahtevu vlasnika; izgled i prelaze vlasnik proverava u katalogu.
 

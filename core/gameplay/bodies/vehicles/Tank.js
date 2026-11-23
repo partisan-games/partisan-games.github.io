@@ -3,6 +3,7 @@ import { earthGravity } from '../../gravity.js'
 import Cooldown from '../../Cooldown.js'
 import ProjectilePool from '../projectiles/ProjectilePool.js'
 import Shell, { shell } from '../projectiles/Shell.js'
+import { modelStatistics } from '../../modelStatistics.js'
 
 /**
  * Measured from the earlier pixel tank at 25 px a metre and 30 frames a second. `thrust` is metres a second squared
@@ -28,9 +29,9 @@ const plainPerformance = { speed: 1, firepower: 1, health: tank.health }
  * turret in the art and half its height, and its length from there.
  */
 export const tankKinds = {
-  partisan: { size: { length: 5.98, height: 2.55, width: 2.64 }, turretAxis: 0, barrel: { ahead: .7, above: .7, length: 3.61 } },
-  german: { size: { length: 6.51, height: 2.73, width: 2.9 }, turretAxis: -.33, barrel: { ahead: 1.1, above: .79, length: 3.29 } },
-  somua: { size: { length: 7.57, height: 3.34, width: 1.85 }, turretAxis: 1.09, barrel: { ahead: 2.32, above: .72, length: 1 } },
+  partisan: { physical: modelStatistics.partisanTank, size: { length: 5.98, height: 2.55, width: 2.64 }, turretAxis: 0, barrel: { ahead: .7, above: .7, length: 3.61 } },
+  german: { physical: modelStatistics['tiger-i'], size: { length: 6.51, height: 2.73, width: 2.9 }, turretAxis: -.33, barrel: { ahead: 1.1, above: .79, length: 3.29 } },
+  somua: { physical: modelStatistics['somua-s35'], size: { length: 7.57, height: 3.34, width: 1.85 }, turretAxis: 1.09, barrel: { ahead: 2.32, above: .72, length: 1 } },
 }
 
 /**
@@ -59,6 +60,7 @@ export default class Tank extends Body {
     const model = { ...plainPerformance, ...performance }
     super({ size: kind.size, health: model.health, ...rest, states })
     this.performance = model
+    this.physical = model.physical ?? kind.physical
     Object.assign(this, { kind, targets, bounds, cruise, march, canFire, random })
     this.breakdown = { ...tank.breakdown, ...breakdown }
     this.rearAim = rearAim

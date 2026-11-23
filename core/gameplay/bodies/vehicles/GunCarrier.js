@@ -3,6 +3,7 @@ import Cooldown from '../../Cooldown.js'
 import ProjectilePool from '../projectiles/ProjectilePool.js'
 import Bullet from '../projectiles/Bullet.js'
 import geometry from '../../reinforcementGeometry.js'
+import { modelStatistics } from '../../modelStatistics.js'
 
 /**
  * Each kind of machine-gun carrier: its hit box with its crew, in metres, sized from its picture; its health in bullet
@@ -13,14 +14,17 @@ import geometry from '../../reinforcementGeometry.js'
  */
 export const gunCarrierKinds = {
   motorcycle: {
+    physical: modelStatistics['bmw-r75'],
     size: { length: 3.56, height: 2.1, width: 1.7 }, health: 30, speed: 5.5, reach: 25,
     gun: { reload: .12, burst: 6, pause: 2.5, firstShot: 1, speed: 35, damage: 2, ...geometry.motorcycle },
   },
   halftrack: {
+    physical: modelStatistics['sdkfz-251'],
     size: { length: 5.8, height: 2.2, width: 2.1 }, health: 90, speed: 3.6, reach: 28,
     gun: { reload: .1, burst: 10, pause: 2.8, firstShot: 1.2, speed: 36, damage: 2, ...geometry.sdkfz251 },
   },
   armoredCar: {
+    physical: modelStatistics['sdkfz-222'],
     size: { length: 4.8, height: 2, width: 1.95 }, health: 60, speed: 4.8, reach: 30,
     gun: { reload: .25, burst: 4, pause: 2.2, firstShot: 1.4, speed: 40, damage: 4, ...geometry.sdkfz222 },
   },
@@ -56,6 +60,7 @@ export default class GunCarrier extends Body {
     ...rest } = {}) {
     super({ size: kind.size, health: kind.health, ...rest, states })
     Object.assign(this, { kind, targets, canFire })
+    this.physical = kind.physical
     const { gun } = kind
     this.aimPoint = null
     this.reload = new Cooldown({ seconds: gun.reload, clock })

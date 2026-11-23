@@ -15,6 +15,8 @@ Za pripremu konačne grafike važi [projektno pravilo za umetnost](DOCS.md#pravi
 ## To Trieste!
 
 - **Tema:** partizanski tenk napreduje prema Trstu.
+- **Sudari:** tenk gazi lakša vozila, dok sudar sa drugim tenkom nanosi veliku obostranu štetu i zaustavlja preživele; nivo koristi [zajedničke fizičke podatke i pravila](STATISTIKE.md#zajedničke-mase-i-sudari), ne zaseban rang vozila.
+- **Pozadina:** vlasnik je izabrao vraćanje starog slojevitog pejzaža sa naslovne, sa kućama, crkvom, drvećem, oblacima i putem; igra i akteri ostaju postojeći (2026-11-23).
 - **Istorijski okvir:** završne operacije 1945; [polazište za istraživanje](ISTORIJA.md#istorijsko-polazište-za-pohod-na-trst).
 - **Zamišljeni tok:** četiri etape redom trase: Lika, Senj i primorje, Rijeka (obavezna), Trst (odluka vlasnika).
 

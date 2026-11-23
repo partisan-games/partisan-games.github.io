@@ -3,7 +3,7 @@
   "scene": "to-trieste",
   "pathBase": "assets/images",
   "artStatus": "ready-for-owner-review",
-  "runtimeIntegrated": true,
+  "runtimeIntegrated": false,
   "order": [
     "lika",
     "senj",
