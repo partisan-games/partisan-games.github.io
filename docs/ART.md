@@ -10,7 +10,7 @@ Pravila izrade i veze do izvora. Otvoreni poslovi su u [PLAN-u](PLAN.md#art), pr
 - Poboljšanje crteža ne podrazumeva promenu prihvaćenog stila. Odvojeni deo uporediti sa starim crtežom i u sklopu celog aktera; ne razvlačiti ga nezavisno po širini i visini samo da popuni zadati pravougaonik. Somuina cev pokazala je gubitak metalnog izgleda i promenu proporcija pri takvoj zameni.
 - Pre izmene utvrditi identitet, pogled, smer, razmeru, sidrište, oslonac i dozvoljene promene. Prazne margine atlasa ne menjaju mere tela i sudara. Isti tip vozila u različitom pogledu nije automatski zamenljiv resurs.
 - Sačuvati prihvaćene delove. Za ograničene pokrete proveriti piksele izvan dozvoljene maske; različit hash ne dokazuje dobru animaciju. Nova poza ne sme promeniti razmeru prethodnih kadrova. Razlomljene ćelije postojećeg atlasa nisu same po sebi greška.
-- Pregledati alfu, providne rubove i prelivanje u susednu ćeliju na neprozirnoj podlozi. Slab generisani veo može pokvariti granice figure. Poze jednog klipa dele razmeru i registraciju, bez pojedinačnog sabijanja tela.
+- Pregledati alfu, providne rubove i prelivanje u susednu ćeliju na neprozirnoj podlozi. Slab generisani veo može pokvariti granice figure; ukloniti ga na izvoru, obnoviti reference i porediti vidljivu visinu i oslonac pre i tokom pogotka, umesto ispravljanja razmere u rendereru. [Čišćenje strelca](../assets/images/armies/sources/ustanak/prepare.py) beleži tačan prag i očuvane piksele u [poreklu obrade](../assets/images/armies/sources/ustanak/sprites.json). Poze jednog klipa dele razmeru i registraciju, bez pojedinačnog sabijanja tela.
 - Razdvojiti telo, pokretne delove i efekte. Metak/plamen izlazi iz stvarne cevi; bomba ostaje u šaci do otpuštanja. Ogledanje prati ceo sklop i njegove tačke događaja. Rov i teren nisu deo figure; krupan kadar nije celo telo.
 - Stvarni propeler menja projekciju oko osovine, ne okreće se kao ploča u ravni slike. Generisano preokrenuta olupina ne sme ponovo dobiti istu rotaciju u igri. Završni kadar pada ostaje prema ugovoru aktera.
 - Konačni vojni art čuvati po vrsti opreme u [game-ready](../assets/images/armies/game-ready/). Izvor, stvarni prompt, poreklo, hashovi i ponovljiva priprema ostaju uz resurs; tok pokušaja i duplirani opisi rada ne pripadaju ovoj dokumentaciji.
@@ -58,6 +58,8 @@ Kadar, trajanje, sidrište, tačke događaja i putanje završnih slika čitaju s
 | Punjenje nemačkog strelca | [sprites](../assets/images/armies/sources/rifleman-reload/sprites.json); klip prati spremnik nacrtanog oružja i nije zamena za punjenje drugih pušaka |
 
 Šinjel je isključivo zimska uniforma; [metapodaci kandidata](../core/gameplay/frontEnemyKinds.js) ograničavaju stražara na zimu.
+
+Partizan otpozadi ima pogled iz zadnje tri četvrtine i bočnu izvornu razmeru 40 px/m u [katalogu](../catalog/stories/partisans.js); nije frontalni neprijatelj od 100 px/m. Neretva ga prikazuje pri 38 px/m. Njegovo telo ostaje visoko 1,8 m; pogrešnu grupu prikaza ne ispravljati smanjivanjem tela ili samo pojedinačne slike.
 
 Neretva i Otpisani imaju istu perspektivu spreda i dele pešadiju spreda (odluka vlasnika, 2026-11-23): frontalni kandidati, Okupator i Nemac i Četnik spreda crtaju se i biraju za obe igre, a godišnje doba i dalje ograničava izbor po nivou. Hod spreda prati pređeni put, pa dužina koraka nacrtanog lika ide uz njegove metapodatke.
 

@@ -14,10 +14,10 @@ import DamageSmoke from './effects/DamageSmoke.js'
  * reads the body.
  */
 export default class BodySprite extends GameObject2D {
-  constructor(body, src, { projection, facing = 1, camera = null, ...options } = {}) {
+  constructor(body, src, { projection, facing = 1, camera = null, hitReaction = true, ...options } = {}) {
     super(src, options)
     Object.assign(this, { body, projection, facing, camera })
-    if (hitBySource[src]) {
+    if (hitReaction && hitBySource[src]) {
       this.hitReaction = new HitReaction(this, actorArt[hitBySource[src]])
       this.children.push(this.hitReaction)
     }

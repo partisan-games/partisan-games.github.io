@@ -30,6 +30,30 @@ function live(world, seconds, fps) {
   for (let i = 0; i < Math.round(seconds * fps); i++) world.update(1 / fps, 0)
 }
 
+test('a nonlethal hit keeps the actual grenade pose before and after release, both directions', t => {
+  for (const facing of [-1, 1]) for (const time of [null, .2, .5]) {
+    const { body, view, world } = scene()
+    t.after(() => world.end())
+    body.facing = facing
+    Object.defineProperties(view.throwImage, { naturalWidth: { value: 528 }, naturalHeight: { value: 72 } })
+    if (time !== null) {
+      body.shoot()
+      world.update(time)
+    }
+    const expected = view.frame
+    const flying = body.grenade.active
+    body.takeHit(.1)
+    world.update(0)
+    view.update(.08)
+    const draws = []
+    view.render({ save() {}, restore() {}, translate() {}, scale() {}, drawImage: (...args) => draws.push(args) })
+    assert.equal(draws[0][0], expected.image, 'the hit draws the real idle/throw image, including its equipment')
+    assert.deepEqual(draws[0].slice(1, 5), [expected.x, expected.y, expected.width, expected.height])
+    assert.equal(body.grenade.active, flying)
+    assert.equal(view.hitReaction, undefined, 'the replacement atlas with the missing grenade is not loaded')
+  }
+})
+
 test('the throw sounds once when the grenade actually leaves the hand', t => {
   const { body, view, world } = scene()
   const cue = t.mock.method(view.throwSound, 'play', () => {})

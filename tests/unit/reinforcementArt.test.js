@@ -109,6 +109,78 @@ test('a hit is a finite view reaction, freezes at zero time, and never overrides
   assert.deepEqual(body.size, collider)
 })
 
+test('the skirmisher hit preserves the visible kneeling height and foot line in both directions', async t => {
+  const Skirmisher = (await import('/core/gameplay/bodies/soldiers/Skirmisher.js')).default
+  const SkirmisherSprite = (await import('/core/actor/soldiers/SkirmisherSprite.js')).default
+  const draws = []
+  t.mock.method(ctx, 'drawImage', (...args) => draws.push(args))
+  // Measured visible source bounds after removing only alpha < 8/255.
+  const source = { width: 1774, height: 887, top: 111, bottom: 366 }
+  for (const yaw of [0, Math.PI]) {
+    const body = new Skirmisher({ yaw })
+    const view = new SkirmisherSprite(body, { projection: sideProjection({ pxPerMeter: 40, groundY: 300 }) })
+    const world = new World()
+    world.add(body, view)
+    t.after(() => world.end())
+    loaded(view, source.width, source.height)
+    const hit = view.hitReaction.art
+    loaded(view.hitReaction, hit.width * 4, hit.height)
+    view.render(ctx)
+    const idleDraw = draws.at(-1)
+    const idleHeight = (source.bottom - source.top) * idleDraw[8] / (source.height / 2)
+    const idleFoot = idleDraw[6] + source.bottom * idleDraw[8] / (source.height / 2)
+    body.takeHit(1)
+    world.update(0)
+    view.render(ctx)
+    const hitDraw = draws.at(-1)
+    assert.equal(hitDraw[0], view.hitReaction.image)
+    const hitHeight = (hit.bounds[3] - hit.bounds[1]) * hitDraw[8] / hit.height
+    const hitFoot = hitDraw[6] + hit.bounds[3] * hitDraw[8] / hit.height
+    // The original grid has half-pixel edges; its extracted reference rounds to 444 px.
+    assert.ok(Math.abs(hitHeight - idleHeight) < .1, 'a hit must not enlarge the visible figure')
+    assert.ok(Math.abs(hitFoot - idleFoot) < .1, 'a hit keeps the same foot line')
+    assert.deepEqual(body.size, { length: 2.2, height: 2, width: .25 })
+  }
+})
+
+test('bearers and gun crews retain visible scale and ground contact during a hit, both armies and directions', async t => {
+  const { default: Bearer, bearerKinds } = await import('/core/gameplay/bodies/soldiers/FlagBearer.js')
+  const BearerView = (await import('/core/actor/soldiers/FlagBearerSprite.js')).default
+  const Crew = (await import('/core/gameplay/bodies/soldiers/CannonCrew.js')).default
+  const CrewView = (await import('/core/actor/soldiers/CannonCrewSprite.js')).default
+  const cases = [
+    { italian: false, bearer: true, size: [2172, 724], rows: 1, top: 32, bottom: 682 },
+    { italian: true, bearer: true, size: [1774, 887], rows: 2, top: 22, bottom: 423 },
+    { italian: false, size: [1263, 1246], rows: 4, top: 15, bottom: 295 },
+    { italian: true, size: [1254, 1254], rows: 4, top: 16, bottom: 303 },
+  ]
+  const draws = []
+  const paint = { save() {}, restore() {}, translate() {}, rotate() {}, scale() {}, beginPath() {},
+    moveTo() {}, lineTo() {}, stroke() {}, drawImage: (...args) => draws.push(args) }
+  for (const item of cases) for (const yaw of [0, Math.PI]) {
+    const body = item.bearer ? new Bearer({ yaw, kind: bearerKinds[item.italian ? 'italian' : 'partisan'] }) : new Crew({ yaw })
+    const View = item.bearer ? BearerView : CrewView
+    const view = new View(body, { italian: item.italian, projection: sideProjection({ pxPerMeter: 40, groundY: 300 }), flagTime: () => 0 })
+    const world = new World()
+    world.add(body, view)
+    t.after(() => world.end())
+    loaded(view, ...item.size)
+    const hit = view.hitReaction.art
+    loaded(view.hitReaction, hit.width * 4, hit.height)
+    view.render(paint)
+    const idle = draws.at(-1), sourceHeight = item.size[1] / item.rows
+    const height = (item.bottom - item.top) * idle[8] / sourceHeight
+    const feet = idle[6] + item.bottom * idle[8] / sourceHeight
+    body.takeHit(1)
+    world.update(0)
+    view.render(paint)
+    const struck = draws.at(-1)
+    assert.equal(struck[0], view.hitReaction.image)
+    assert.ok(Math.abs((hit.bounds[3] - hit.bounds[1]) * struck[8] / hit.height - height) < .2)
+    assert.ok(Math.abs(struck[6] + hit.bounds[3] * struck[8] / hit.height - feet) < .2)
+  }
+})
+
 test('every registered damage picture preloads, appears only below half health, and yields to destruction', () => {
   for (const [src, id] of Object.entries(damageBySource)) {
     const body = new Body({ states: { idle: {}, dead: {} } })

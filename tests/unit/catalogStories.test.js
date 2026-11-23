@@ -30,6 +30,14 @@ function staged(t, story, look = story.looks?.[0]) {
   return { stage, block, live }
 }
 
+test('the rear three-quarter partisan uses the side-view source scale', async() => {
+  const { soldiers } = await import('/catalog/stories/partisans.js')
+  const { default: scales } = await import('/catalog/scales.js')
+  const story = soldiers.find(item => item.id === 'partizan-otpozadi')
+  assert.equal(story.pxPerMeter, scales.side)
+  assert.equal(story.pxPerMeter * 1.8, 72, 'the 82-pixel standing source is never enlarged')
+})
+
 test('every story has its own address and names its game', () => {
   const addresses = stories().map(({ kind, story }) => `${kind.id}/${story.id}`)
   assert.equal(new Set(addresses).size, addresses.length)

@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "generatedWith": "Measurements of accepted art; no images altered",
+  "generatedWith": "Measurements of accepted art; source alpha cleanup recorded per atlas",
   "assets": [
     {
       "id": "partizanska-posada",
       "title": "partizanska-posada",
       "image": "../../game-ready/artiljerija/partizanska-posada-sprites.png",
-      "sha256": "ace5fbbc26e973425381a0dead1322ba29a43e85a495a4b68ae4f2fdfddbefe1",
+      "sha256": "be9df92b36d3016d1d07b5e8701093a917002b764e98390f6d78c4abc332b5ce",
       "frame": {
         "width": 315.75,
         "height": 311.5,
@@ -139,14 +139,19 @@
           "opaqueSilhouetteTouchesCellEdge": false
         }
       ],
-      "acceptedPixelsUnchanged": true,
-      "note": "Fractional source rectangles are intentional and unchanged; one uniform grid is read by Sprite/artFrame. No new art or independent cell fitting."
+      "acceptedPixelsUnchanged": false,
+      "note": "Fractional source rectangles are intentional and unchanged; one uniform grid is read by Sprite/artFrame. No new art or independent cell fitting.",
+      "alphaCleanup": {
+        "script": "prepare.py",
+        "alphaCutoff": 8,
+        "preserved": "All RGB values and alpha >= 8; dimensions, grid and anchors unchanged."
+      }
     },
     {
       "id": "italijanska-posada",
       "title": "italijanska-posada",
       "image": "../../game-ready/artiljerija/italijanska-posada-sprites.png",
-      "sha256": "6c32c28e2e9801e6ecf9b048e5833db65023b1be7d04515608c147c6da9fc8af",
+      "sha256": "c2808bb1d7dcf58ddd9c4ddfffa0becdd266785e0095734a2a5294759a8329ad",
       "frame": {
         "width": 313.5,
         "height": 313.5,
@@ -279,14 +284,19 @@
           "opaqueSilhouetteTouchesCellEdge": false
         }
       ],
-      "acceptedPixelsUnchanged": true,
-      "note": "Fractional source rectangles are intentional and unchanged; one uniform grid is read by Sprite/artFrame. No new art or independent cell fitting."
+      "acceptedPixelsUnchanged": false,
+      "note": "Fractional source rectangles are intentional and unchanged; one uniform grid is read by Sprite/artFrame. No new art or independent cell fitting.",
+      "alphaCleanup": {
+        "script": "prepare.py",
+        "alphaCutoff": 8,
+        "preserved": "All RGB values and alpha >= 8; dimensions, grid and anchors unchanged."
+      }
     },
     {
       "id": "partizanski-strelac",
       "title": "partizanski-strelac",
       "image": "../../game-ready/vojnici/partizanski-strelac-sprites.png",
-      "sha256": "90ed10cef0f0d9c33de96decc19d9f623095e58defa8f123c5a10cad8d76339d",
+      "sha256": "8225f9aa369758271959621d1a2ad90d9b85064270f13f4a750089d4daf13ce6",
       "frame": {
         "width": 443.5,
         "height": 443.5,
@@ -363,14 +373,19 @@
           "opaqueSilhouetteTouchesCellEdge": false
         }
       ],
-      "acceptedPixelsUnchanged": true,
-      "note": "Fractional source rectangles are intentional and unchanged; one uniform grid is read by Sprite/artFrame. No new art or independent cell fitting."
+      "acceptedPixelsUnchanged": false,
+      "note": "Fractional source rectangles are intentional and unchanged; one uniform grid is read by Sprite/artFrame. No new art or independent cell fitting.",
+      "alphaCleanup": {
+        "script": "prepare.py",
+        "alphaCutoff": 8,
+        "preserved": "All RGB values and alpha >= 8; dimensions, grid and anchors unchanged."
+      }
     },
     {
       "id": "partizanski-zastavnik",
       "title": "partizanski-zastavnik",
       "image": "../../game-ready/vojnici/partizanski-zastavnik-sprites.png",
-      "sha256": "ff4d1958d367fc18b729365987dc930cd17c260f893b6f55ec97b47338920387",
+      "sha256": "f7d055fca103393a022c4e54aed966823df099aef47c4e97fb98c6058313e59c",
       "frame": {
         "width": 543.0,
         "height": 724.0,
@@ -419,14 +434,19 @@
           "opaqueSilhouetteTouchesCellEdge": false
         }
       ],
-      "acceptedPixelsUnchanged": true,
-      "note": "Fractional source rectangles are intentional and unchanged; one uniform grid is read by Sprite/artFrame. No new art or independent cell fitting."
+      "acceptedPixelsUnchanged": false,
+      "note": "Fractional source rectangles are intentional and unchanged; one uniform grid is read by Sprite/artFrame. No new art or independent cell fitting.",
+      "alphaCleanup": {
+        "script": "prepare.py",
+        "alphaCutoff": 8,
+        "preserved": "All RGB values and alpha >= 8; dimensions, grid and anchors unchanged."
+      }
     },
     {
       "id": "zastavnici",
       "title": "zastavnici",
       "image": "../../game-ready/vojnici/zastavnici-sprites.png",
-      "sha256": "80a588e3d051fd66458a874b507aa418aae13678f108096a72baac4783a977f0",
+      "sha256": "d40d9dad58c2c83c14af90df778bf104b16d5aa5b033de7c3700211789088ec8",
       "frame": {
         "width": 443.5,
         "height": 443.5,
@@ -503,8 +523,13 @@
           "opaqueSilhouetteTouchesCellEdge": false
         }
       ],
-      "acceptedPixelsUnchanged": true,
-      "note": "Fractional source rectangles are intentional and unchanged; one uniform grid is read by Sprite/artFrame. No new art or independent cell fitting."
+      "acceptedPixelsUnchanged": false,
+      "note": "Fractional source rectangles are intentional and unchanged; one uniform grid is read by Sprite/artFrame. No new art or independent cell fitting.",
+      "alphaCleanup": {
+        "script": "prepare.py",
+        "alphaCutoff": 8,
+        "preserved": "All RGB values and alpha >= 8; dimensions, grid and anchors unchanged."
+      }
     }
   ]
 }

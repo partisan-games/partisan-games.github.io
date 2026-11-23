@@ -30,7 +30,7 @@ const step = { every: 35, pace: 4 }
  */
 export default class GrenadierSprite extends BodySprite {
   constructor(body, { projection, camera }) {
-    super(body, 'armies/game-ready/vojnici/bombas-sprites.png', { projection, camera, z: -1 })
+    super(body, 'armies/game-ready/vojnici/bombas-sprites.png', { projection, camera, z: -1, hitReaction: false })
     this.stepSound = new Sound('footstep-gravel-01.mp3', { variants: ['footstep-gravel-02.mp3', 'footstep-gravel-03.mp3', 'footstep-gravel-04.mp3'],
       profile: 'footstep', spatial: { getPosition: () => this.position } })
     this.hitSound = new Sound('body-impact-01.mp3', { profile: 'impact', spatial: { getPosition: () => this.position } })
@@ -46,6 +46,8 @@ export default class GrenadierSprite extends BodySprite {
     this.stops = 0
     this.walked = 0
     this.seenAlive = body.alive
+    this.hitsSeen = body.hitsTaken
+    this.sinceHit = Infinity
   }
 
   /** It stands upright on the screen, as seen from above, whatever way it heads. */
@@ -60,6 +62,10 @@ export default class GrenadierSprite extends BodySprite {
     const before = { x: this.x, y: this.y }
     super.update(dt)
     const { body } = this
+    const hit = body.hitsTaken > this.hitsSeen
+    this.sinceHit = hit ? 0 : this.sinceHit + dt
+    this.hitsSeen = body.hitsTaken
+    if (hit && body.alive) this.hitSound.play()
     if (body.shotsFired > this.throwsSeen) this.throwSound.play()
     this.throwsSeen = body.shotsFired
     if (this.seenAlive && body.dead) {
@@ -112,11 +118,11 @@ export default class GrenadierSprite extends BodySprite {
 
   render(ctx) {
     if (!this.shown || !this.image.naturalWidth) return
-    if (this.renderHit(ctx, { flip: this.body.facing })) return
     const { image, x, y, width, height } = this.frame
     if (!image.naturalWidth) return
     ctx.save()
-    ctx.translate(this.x, this.y)
+    const recoil = this.body.alive && this.sinceHit < .32 ? Math.sin(Math.PI * this.sinceHit / .32) * 2 : 0
+    ctx.translate(this.x - this.body.facing * recoil, this.y)
     // drawn facing right, he is mirrored whole to face left, the way he walks and throws
     ctx.scale(this.body.facing, 1)
     ctx.drawImage(image, x, y, width, height, -this.width / 2, -this.height / 2, this.width, this.height)

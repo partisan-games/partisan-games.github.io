@@ -112,10 +112,10 @@
     {
       "source": "armies/game-ready/artiljerija/italijanska-posada-sprites.png",
       "runtime": "optimized/armies/game-ready/artiljerija/italijanska-posada-sprites.webp",
-      "sourceSha256": "6c32c28e2e9801e6ecf9b048e5833db65023b1be7d04515608c147c6da9fc8af",
-      "sha256": "cd93cb35d1563d1d01fff352f8a2c3576990d87df7df02555c419354b77130e8",
-      "originalBytes": 1106910,
-      "bytes": 791260,
+      "sourceSha256": "c2808bb1d7dcf58ddd9c4ddfffa0becdd266785e0095734a2a5294759a8329ad",
+      "sha256": "f2464ed80203ebd51586a8c30fc9d8d514b8b77e911e0bcf93d43e7fee1898df",
+      "originalBytes": 969298,
+      "bytes": 738100,
       "size": [
         1254,
         1254
@@ -172,10 +172,10 @@
     {
       "source": "armies/game-ready/artiljerija/partizanska-posada-sprites.png",
       "runtime": "optimized/armies/game-ready/artiljerija/partizanska-posada-sprites.webp",
-      "sourceSha256": "ace5fbbc26e973425381a0dead1322ba29a43e85a495a4b68ae4f2fdfddbefe1",
-      "sha256": "15b1b0901e3eda296ec28cad13cb8e9991c64107efdcd2018ad2ea899eb6f7a4",
-      "originalBytes": 1018716,
-      "bytes": 724540,
+      "sourceSha256": "be9df92b36d3016d1d07b5e8701093a917002b764e98390f6d78c4abc332b5ce",
+      "sha256": "f2c84ad7cbf6a13c2435bffac1441b01b9403a13debc99da9f26fff9e20c52d5",
+      "originalBytes": 844252,
+      "bytes": 655148,
       "size": [
         1263,
         1246
@@ -1372,10 +1372,10 @@
     {
       "source": "armies/game-ready/vojnici/partizanski-strelac-sprites.png",
       "runtime": "optimized/armies/game-ready/vojnici/partizanski-strelac-sprites.webp",
-      "sourceSha256": "90ed10cef0f0d9c33de96decc19d9f623095e58defa8f123c5a10cad8d76339d",
-      "sha256": "41ddb216e22b420a368776a5200cc74bbb66f758632e5323a522c165d4a6f1d2",
-      "originalBytes": 730385,
-      "bytes": 517648,
+      "sourceSha256": "8225f9aa369758271959621d1a2ad90d9b85064270f13f4a750089d4daf13ce6",
+      "sha256": "6f7893aa46a8bdaa5cabeb17ab37da0c45a6884bd2af9aea9c21cb96c4f70417",
+      "originalBytes": 577698,
+      "bytes": 462088,
       "size": [
         1774,
         887
@@ -1384,10 +1384,10 @@
     {
       "source": "armies/game-ready/vojnici/partizanski-zastavnik-sprites.png",
       "runtime": "optimized/armies/game-ready/vojnici/partizanski-zastavnik-sprites.webp",
-      "sourceSha256": "ff4d1958d367fc18b729365987dc930cd17c260f893b6f55ec97b47338920387",
-      "sha256": "4d5cf297b7f6c16aadd577d502763505d9b0b139ccc9fe4b5a27b1fe8ab91942",
-      "originalBytes": 812751,
-      "bytes": 560240,
+      "sourceSha256": "f7d055fca103393a022c4e54aed966823df099aef47c4e97fb98c6058313e59c",
+      "sha256": "1b7d868ce2dd46d2570a0fac951ff9f03aa2739ca33c1f4ae965523ab649d598",
+      "originalBytes": 698231,
+      "bytes": 533928,
       "size": [
         2172,
         724
@@ -1420,10 +1420,10 @@
     {
       "source": "armies/game-ready/vojnici/zastavnici-sprites.png",
       "runtime": "optimized/armies/game-ready/vojnici/zastavnici-sprites.webp",
-      "sourceSha256": "80a588e3d051fd66458a874b507aa418aae13678f108096a72baac4783a977f0",
-      "sha256": "d8d2f197ab901c7cf1f30261a77a207408376a17ca4cbdbaec71e9e2f3288607",
-      "originalBytes": 674559,
-      "bytes": 477916,
+      "sourceSha256": "d40d9dad58c2c83c14af90df778bf104b16d5aa5b033de7c3700211789088ec8",
+      "sha256": "61860af27237adc29b77ac98a0ad9ea35cf914d4901e9bebdb2f8ab36521b6db",
+      "originalBytes": 614968,
+      "bytes": 454476,
       "size": [
         1774,
         887

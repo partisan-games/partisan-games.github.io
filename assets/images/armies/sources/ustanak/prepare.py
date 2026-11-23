@@ -20,12 +20,35 @@ PROFILES = [
 ]
 
 
+def clean_source_alpha():
+    jobs = json.loads((HERE.parent / 'plan-ideas-art/jobs.json').read_text(encoding='utf-8'))['jobs']
+    for ident, _, category, *_ in PROFILES:
+        source = f'game-ready/{category}/{ident}-sprites.png'
+        path = IMAGE_ROOT / 'armies' / source
+        image = Image.open(path).convert('RGBA')
+        alpha = image.getchannel('A')
+        cleaned = alpha.point(lambda value: 0 if value < 8 else value)
+        if alpha.tobytes() != cleaned.tobytes():
+            image.putalpha(cleaned)
+            image.save(path, optimize=True)
+        for job in jobs:
+            if job.get('reference') != source or job['kind'] != 'hit':
+                continue
+            cols, rows, row = job['referenceGrid']
+            reference = image.crop((0, round(row * image.height / rows),
+                                    round(image.width / cols), round((row + 1) * image.height / rows)))
+            reference.save(HERE.parent / f"plan-ideas-art/{job['id']}-reference.png", optimize=True)
+            if ident == 'partizanski-strelac':
+                reference.save(HERE.parent / 'partisan-rifleman/kneel-reference.png', optimize=True)
+
+
 def main():
+    clean_source_alpha()
     previews = HERE / 'previews'
     previews.mkdir(exist_ok=True)
     helper = runpy.run_path(str(HERE.parent / 'tenkovi/prepare.py'))['save_gif']
     assets, runtime = [], {}
-    page = ['<!doctype html><meta charset="utf-8"><title>Ustanak · prihvaćeni atlasi</title><style>body{background:#30372c;color:#eee;font:16px system-ui;padding:24px}img{image-rendering:pixelated;max-width:100%;display:block;margin:12px 0}a{color:#dedc9b}section{margin:32px 0}</style><h1>Ustanak · postojeći atlas i klipovi</h1><p>Izvorne slike nisu menjane. GIF petlje služe pregledu kadrova, ne izvršavanju igre.</p>']
+    page = ['<!doctype html><meta charset="utf-8"><title>Ustanak · prihvaćeni atlasi</title><style>body{background:#30372c;color:#eee;font:16px system-ui;padding:24px}img{image-rendering:pixelated;max-width:100%;display:block;margin:12px 0}a{color:#dedc9b}section{margin:32px 0}</style><h1>Ustanak · postojeći atlas i klipovi</h1><p>Sačuvani crteži i mreže kadrova; gotovo providan višak strelca očišćen je na izvoru. GIF petlje služe pregledu kadrova, ne izvršavanju igre.</p>']
     for ident, key, category, rows, names, durations, width, height, baseline, foot, default in PROFILES:
         src = f'armies/game-ready/{category}/{ident}-sprites.png'
         path = IMAGE_ROOT / src
@@ -61,14 +84,17 @@ def main():
                        'note': 'Fractional source rectangles are intentional and unchanged; one uniform grid is read by Sprite/artFrame. No new art or independent cell fitting.'})
         runtime[key] = {'src': src, 'names': names, 'columns': 4, 'durations': dict(zip(names, durations)),
                         'width': width, 'height': height, 'baseline': baseline, 'footOffset': foot, 'defaultAnimation': default}
+        assets[-1]['acceptedPixelsUnchanged'] = False
+        assets[-1]['alphaCleanup'] = {'script': 'prepare.py', 'alphaCutoff': 8,
+                                     'preserved': 'All RGB values and alpha >= 8; dimensions, grid and anchors unchanged.'}
         assert hashlib.sha256(path.read_bytes()).hexdigest() == digest
         page.append('</section>')
     (HERE / 'preview.html').write_text('\n'.join(page), encoding='utf-8')
-    (HERE / 'sprites.json').write_text(json.dumps({'schemaVersion': 1, 'generatedWith': 'Measurements of accepted art; no images altered', 'assets': assets}, indent=2) + '\n', encoding='utf-8')
+    (HERE / 'sprites.json').write_text(json.dumps({'schemaVersion': 1, 'generatedWith': 'Measurements of accepted art; source alpha cleanup recorded per atlas', 'assets': assets}, indent=2) + '\n', encoding='utf-8')
     body = json.dumps(runtime, indent=2)
     body = re.sub(r'"(?:\\.|[^"\\])*"', lambda match: "'" + json.loads(match.group()).replace("'", "\\'") + "'", body)
     (ROOT / 'core/actor/ustanakArt.js').write_text('/** Generated from accepted atlas measurements by assets/images/armies/sources/ustanak/prepare.py. */\nexport default ' + body + '\n', encoding='utf-8')
-    print('Measured five accepted atlases; source pixels unchanged; exported shared Ustanak descriptors and GIFs.')
+    print('Measured five atlases; source alpha normalized; retained pixels and grids unchanged; exported shared descriptors and GIFs.')
 
 
 if __name__ == '__main__':

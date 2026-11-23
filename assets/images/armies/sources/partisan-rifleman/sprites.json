@@ -26,7 +26,7 @@
         "height": 100
       },
       "reference": "kneel-reference.png",
-      "referenceSha256": "3ff44b3ba26ed609f0d20f972a050eb7ea4834dc2436b9ec1921f14c94ae1eb0",
+      "referenceSha256": "2cc2372e0d2a01ddd762bfbe26cd337e7b29e2841ca0ce63af3458ebba809dce",
       "sha256": "ae00fe4b144da6b98746979facf6e056727df1a548fb287664d0938eedbfe56f",
       "animations": [
         {
@@ -594,7 +594,7 @@
   "inputs": [
     {
       "path": "kneel-reference.png",
-      "sha256": "3ff44b3ba26ed609f0d20f972a050eb7ea4834dc2436b9ec1921f14c94ae1eb0"
+      "sha256": "2cc2372e0d2a01ddd762bfbe26cd337e7b29e2841ca0ce63af3458ebba809dce"
     },
     {
       "path": "standing-reference.png",
@@ -621,6 +621,6 @@
       "sha256": "86dd1ba9aafebf23ac1a68f0c6a67266f24495c60b2414daae5ebfd8a568fd5d"
     }
   ],
-  "acceptedAtlasSha256": "90ed10cef0f0d9c33de96decc19d9f623095e58defa8f123c5a10cad8d76339d",
+  "acceptedAtlasSha256": "8225f9aa369758271959621d1a2ad90d9b85064270f13f4a750089d4daf13ce6",
   "previewScope": "Source/PNG composition, metadata and preparation checks only; not runtime or owner acceptance."
 }

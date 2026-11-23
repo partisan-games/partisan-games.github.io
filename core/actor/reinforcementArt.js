@@ -1229,10 +1229,10 @@ export const actorArt = {
       444
     ],
     'referenceBounds': [
-      0,
-      7,
-      444,
-      444
+      46,
+      111,
+      407,
+      366
     ]
   },
   'partisan-bearer-hit': {
@@ -1267,10 +1267,10 @@ export const actorArt = {
       724
     ],
     'referenceBounds': [
-      0,
-      3,
-      543,
-      706
+      33,
+      32,
+      480,
+      682
     ]
   },
   'italian-bearer-hit': {
@@ -1305,10 +1305,10 @@ export const actorArt = {
       443
     ],
     'referenceBounds': [
-      33,
-      2,
-      444,
-      429
+      140,
+      22,
+      335,
+      423
     ]
   },
   'partisan-crew-hit': {
@@ -1343,10 +1343,10 @@ export const actorArt = {
       312
     ],
     'referenceBounds': [
-      0,
-      13,
-      316,
-      312
+      45,
+      15,
+      268,
+      295
     ]
   },
   'italian-crew-hit': {
@@ -1381,10 +1381,10 @@ export const actorArt = {
       314
     ],
     'referenceBounds': [
-      0,
-      13,
-      314,
-      314
+      47,
+      16,
+      253,
+      303
     ]
   },
   'grenadier-hit': {
