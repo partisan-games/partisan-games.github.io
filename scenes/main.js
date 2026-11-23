@@ -58,7 +58,7 @@ arcade.onChange = () => manager.scene?.ui.markPaid()
 /** Opens the game in the address; `replay` starts it again with the player's last choice, without its start screen. */
 const route = async({ replay = false } = {}) => {
   const currentNavigation = ++navigation
-  const path = location.hash.slice(1)
+  const path = location.hash.slice(1).replace(/^jablanica$/, 'cannon')
   if (!path) return location.reload()
 
   delete document.body.dataset.loadedGame
@@ -94,7 +94,7 @@ document.addEventListener('click', async e => {
     const currentNavigation = navigation
     try {
       await arcade.insertCoin(card.dataset.path)
-      if (currentNavigation === navigation && !location.hash) location.hash = card.dataset.path
+      if (currentNavigation === navigation && !location.hash) location.hash = card.dataset.path === 'cannon' ? 'jablanica' : card.dataset.path
     } finally {
       openingCabinet = false
     }
