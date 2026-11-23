@@ -80,7 +80,7 @@ Datirani pregled animacija iz tabele iznad zamenjuje starije opšte beleške „
 
 ## UI verification limits
 
-DOM provere ne potvrđuju native tastaturu, fokus, fizički touch, pointer lock ili vidljivu geometriju. Za vidljivost proveriti stvarnu kontrolu, ne nužno omotač bez dimenzija. Pri izmeni naplate proveriti najduži natpis, sve teme, enabled/disabled/povratak i smanjeno kretanje na stvarnoj veličini dugmeta. Preostali izbori početka, povraćaj i realni touch vode se u [planu UI-ja](PLAN.md#ui).
+DOM provere ne potvrđuju native tastaturu, fokus, fizički touch, pointer lock ili vidljivu geometriju. Za vidljivost proveriti stvarnu kontrolu, ne nužno omotač bez dimenzija. Pri izmeni naplate proveriti najduži natpis, sve teme, enabled/disabled/povratak i smanjeno kretanje na stvarnoj veličini dugmeta.
 
 Vlasnik je izabrao pregled izgleda kroz igranje, bez obavezne serije screenshot-ova svake teme i veličine ekrana. Ciljana slika može potkrepiti konkretnu promenu, ali ne zamenjuje stvarnu radnju.
 

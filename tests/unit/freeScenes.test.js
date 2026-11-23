@@ -90,3 +90,64 @@ test('scene and animation cards say VIEW without a coin; game cards keep their c
   assert.equal(paid.querySelector('.arcade-slot').getAttribute('aria-label'), 'Play Paid')
   await arcade.insertCoin('free')
 })
+
+/** A paid game on its start screen, whose choice takes `prepare` to get ready. */
+function paidGame(prepare = async() => {}) {
+  class PaidScene extends Scene {
+    prepare(choice) {
+      return prepare(choice)
+    }
+  }
+  const scene = new PaidScene({ canvas: document.createElement('canvas'), intro: 'Start', disableEvents: true })
+  scene.session.ready()
+  scene.ui.renderStartScreen()
+  return scene
+}
+
+test('a choice that fails to load costs no token, and a second click while starting costs no second one', async t => {
+  installFakeFrames()
+  const charge = t.mock.method(admission, 'charge', async() => ({ day: 'today' }))
+  t.mock.method(admission, 'remaining', () => 5)
+  const broken = paidGame(async() => {
+    throw new Error('model missing')
+  })
+  await assert.rejects(broken.play('choice'), /model missing/)
+  assert.equal(charge.mock.callCount(), 0)
+  assert.equal(broken.session.state, 'ready')
+  broken.end()
+
+  const game = paidGame()
+  await Promise.all([game.play('choice'), game.play('choice')])
+  assert.equal(charge.mock.callCount(), 1)
+  assert.equal(game.session.state, 'running')
+  game.end()
+})
+
+test('a game left while its token is being taken gives the token back and does not start', async t => {
+  installFakeFrames()
+  const receipt = { day: 'today' }
+  let game
+  t.mock.method(admission, 'charge', async() => {
+    game.end()
+    return receipt
+  })
+  const refund = t.mock.method(admission, 'refund', async() => {})
+  t.mock.method(admission, 'remaining', () => 5)
+  game = paidGame()
+  await game.play('choice')
+  assert.deepEqual(refund.mock.calls.map(call => call.arguments[0]), [receipt])
+  assert.notEqual(game.session.state, 'running')
+})
+
+test('when the browser refuses to keep tokens, the start screen says so and the game waits', async t => {
+  installFakeFrames()
+  t.mock.method(admission, 'charge', async() => {
+    throw new Error('storage denied')
+  })
+  t.mock.method(admission, 'remaining', () => 5)
+  const game = paidGame()
+  await game.play('choice')
+  assert.equal(game.session.state, 'ready')
+  assert.match(document.querySelector('.start-notice').textContent, /save data/)
+  game.end()
+})

@@ -1,6 +1,6 @@
 # UI: principi i upotreba
 
-Važeća pravila prikaza i veze do implementacije. Otvoreni poslovi su u [PLAN-u](PLAN.md#ui), a postupci i granice provera u [TESTING](TESTING.md#ui-verification-limits).
+Važeća pravila prikaza i veze do implementacije. Otvoreni poslovi su u [PLAN-u](PLAN.md), a postupci i granice provera u [TESTING](TESTING.md#ui-verification-limits).
 
 ## Principi
 
@@ -58,7 +58,7 @@ Jedna radnja je jedan red sa kratkim imenom i javnim tasterima; rukovanje držan
 <a id="skrivene-precice-za-bocno-kretanje"></a>
 **Bočno kretanje:** javno se navode Q/E; PageUp/PageDown ostaju skrivene alternative. Skrivene tastere ne otkrivati kroz Controls ili nagoveštaje; njihovo izostavljanje nije propust.
 
-Touch nije potpuna zamena tastature. Radnja neophodna za upotrebljivost određene igre dobija odgovarajuće dugme kada je ta igra zatraži, uz odobren raspored i simbol. Ne dodavati mobilno dugme pauze: gubitak vidljivosti pauzira, a browserovo vraćanje vodi u meni. Dugme kamere ostaje iznad akcijskih redova; kontrole i centralni prozori ne smeju izlaziti van uskog ekrana.
+Igre su namenjene desktop računaru; provera na telefonu trenutno nije potrebna (odluka vlasnika, 2026-11-23). Touch nije potpuna zamena tastature. Radnja neophodna za upotrebljivost određene igre dobija odgovarajuće dugme kada je ta igra zatraži, uz odobren raspored i simbol. Ne dodavati mobilno dugme pauze: gubitak vidljivosti pauzira, a browserovo vraćanje vodi u meni. Dugme kamere ostaje iznad akcijskih redova; kontrole i centralni prozori ne smeju izlaziti van uskog ekrana.
 
 ## Životni ciklus, fokus i odloženi poslovi
 
