@@ -1,6 +1,6 @@
 # Arhitektura
 
-Odgovornosti, ugovori i bitna ograničenja zajedničkog 2D/3D engine-a. Otvorene migracije su u [planu arhitekture](PLAN.md#arhitektura), provere u [TESTING](TESTING.md), a pravila arta i UI-ja u njihovim vodičima.
+Odgovornosti, ugovori i bitna ograničenja zajedničkog 2D/3D engine-a. Otvoreni poslovi su u [planu](PLAN.md), provere u [TESTING](TESTING.md), a pravila arta i UI-ja u njihovim vodičima.
 
 ## Odgovornosti
 
@@ -72,7 +72,7 @@ Efekat vezan za pokretni izvor razlikuje pomeraj izvora od sopstvene brzine čes
 - [Keš modela](../core3d/assets/models.js) deli učitavanje i dopušta ponovni pokušaj posle greške. Otkazivanje jednog korisnika ne poništava resurs drugog. Dekodirana slika nije dokaz da je prvo crtanje jeftino; radni raster bira se prema veličini prikaza.
 - Svaki slušalac, tajmer, zvuk, GPU i native resurs ima vlasnika i završnu operaciju. Uklanjanje iz prikaza nije oslobađanje resursa. Klon koji menja deljeni materijal ili geometriju prvo ih izoluje, a zajednički podatak ne oslobađa dok ga drugi koriste. Three.js r160 u senkama pamti teksturu poslednjeg objekta koji baca senku i šalje je ponovo u sledećoj 3D igri; zato je tekstura takvog objekta zajednička za sve ulaske u igru (kao beton tvrđave u Jablanici), a tekstura koju shader dobija kroz `onBeforeCompile` stoji i u `material.uniforms`, da je završetak igre oslobodi.
 - Runtime objekte i njihove vlasnike ne stavljati u podatke prototipa koji se kopiraju JSON serijalizacijom. Grafičko roditeljstvo ne dokazuje ni vlasništvo nad memorijom ni redosled ažuriranja.
-- [NativeAllocations](../core3d/physics/NativeAllocations.js) poseduje samo nove Ammo objekte sa podržanim destruktorom; reference iz gettera su pozajmljene. Pre oslobađanja odvojiti telo od sveta. Lokalni build ne oslobađa zaseban heightfield heap buffer i nema podržan destruktor za `btVehicleTuning`; ograničenje i posao oko memorije su u [planu](PLAN.md#arhitektura).
+- [NativeAllocations](../core3d/physics/NativeAllocations.js) poseduje samo nove Ammo objekte sa podržanim destruktorom; reference iz gettera su pozajmljene. Pre oslobađanja odvojiti telo od sveta. Lokalni build nema `_free` ni podržan destruktor za `btVehicleTuning`. Visine terena zato ostaju u Ammo heapu do kraja stranice, a teren sa istim visinama, kao pri ponovnom ulasku u igru, koristi postojeću kopiju umesto nove.
 
 ## Zvuk
 
@@ -85,7 +85,7 @@ Efekat vezan za pokretni izvor razlikuje pomeraj izvora od sopstvene brzine čes
 - Čujnost i [Dopler](../core/io/audio/Doppler.js) koriste stvarnu geometriju, ne zaglađen položaj. Oblast se čuje od najbliže tačke, uključujući nultu udaljenost unutar nje; izlazak izvora iz kadra sam po sebi ne gasi zvuk. Zaglađuje se izlaz; pauza čuva vreme prelaza, a teleport i promena identiteta resetuju istoriju. Jedna prostorna obrada ne sme dva puta oslabiti udaljenost. Govor, muzika i UI čuvaju osnovni ton.
 - Više vlasnika iste fizičke ambijentalne oblasti može deliti jednu petlju; uklanjanje jednog ne prekida ostale. Ne spajati odvojene oblasti preko praznine. Optimizacija izlaza ne preskače tačan položaj ili važne promene.
 
-Numeričke domete, pragove, miks i limite održavaju [profili](../core/io/audio/audioProfiles.js) i kod, a poreklo snimaka [SOURCES](../assets/sounds/SOURCES.md). Rad na sporim uređajima je obavezan zahtev; stvarna slušna provera i potvrda performansi prate [plan](PLAN.md#arhitektura). Prolaz unit testa ne dokazuje konačni miks. Zaklanjanje zvuka zidovima, odjeci i opšte kašnjenje zasebne su opcione mogućnosti, ne zahtevi izvedeni iz slike pozadine.
+Numeričke domete, pragove, miks i limite održavaju [profili](../core/io/audio/audioProfiles.js) i kod, a poreklo snimaka [SOURCES](../assets/sounds/SOURCES.md). Rad na sporim uređajima je obavezan zahtev. Dodatno preslušavanje i merenje vlasnik je 2026-11-23 zatvorio; popravke zvuka rade se na njegov zahtev. Prolaz unit testa ne dokazuje konačni miks. Zaklanjanje zvuka zidovima, odjeci i opšte kašnjenje zasebne su opcione mogućnosti, ne zahtevi izvedeni iz slike pozadine.
 
 ## UI i ulaz
 

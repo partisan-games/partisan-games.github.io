@@ -31,7 +31,7 @@ Ovo je pravilo organizacije; preostalo usklađivanje kataloga i navigacije vodi 
 
 ## Pozornica
 
-[Stage2D](../storybook/Stage2D.js) je prazna 2D scena: nebo, tlo, kamera i nevidljivi zamenik igrača (`stage.target`), koga prate blokovi koji lete ili voze za igračem, kao lovac. Zamenik prima pogotke, ali ne strada; razmera dolazi iz priče. Uklanjanje preostalog starog načina prikaza prati migraciju aktera iz [PLAN-a](PLAN.md#arhitektura). Pozornica crta samo blok.
+[Stage2D](../storybook/Stage2D.js) je prazna 2D scena: nebo, tlo, kamera i nevidljivi zamenik igrača (`stage.target`), koga prate blokovi koji lete ili voze za igračem, kao lovac. Zamenik prima pogotke, ali ne strada; razmera dolazi iz priče. Pozornica crta samo blok.
 
 [Stage3D](../storybook/Stage3D.js) je prazna 3D scena: svetlo, pod i kamera koja se okreće oko sredine. Mišem se okreće prevlačenjem; na touchpadu pomeranje dva prsta u bilo kom smeru rotira pogled, a širenje ili sklapanje dva prsta zumira. Oba pokreta rade nad istim OrbitControls ciljem, pa promena izgleda i animacije ne resetuje ugao. Priča koja traži 3D pozornicu to kaže poljem `stage`; njen `create` je asinhron, jer prvo učitava modele. Za 3D lika panel pravi dugmad i od njegovih animacija (`anim.actions`), a lik igrača se vodi tastaturom igre.
 

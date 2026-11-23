@@ -96,6 +96,6 @@ Provere strukture i izvora ne potvrđuju osećaj leta, zvuk i svaku misiju. Kori
 
 Sačuvano je da su unit provere, lint i provera projekta prošli za audio migraciju i da je vlasnik preslušao poboljšan zvuk 20. novembra 2026. To nije dokaz sadašnje radne verzije, svakog spoja petlje, native dekodiranja, kontakata, mixed peak-a, DSP troška, p95 vremena ili audio RAM-a.
 
-[Kontrolisano opterećenje](../tests/fixtures/audioWorkload.js) poredi isti prizor sa zvukom i bez njega. Zabeležiti uređaj, browser, hladan/topao keš i ograničenja; JS vreme ne meri native DSP, a broj zadržanih snimaka nije memorija u bajtovima. CPU emulacija nije identifikovan spor uređaj. Tačan preostali scenario i kriterijumi su u [planu arhitekture](PLAN.md#arhitektura).
+[Kontrolisano opterećenje](../tests/fixtures/audioWorkload.js) poredi isti prizor sa zvukom i bez njega. Zabeležiti uređaj, browser, hladan/topao keš i ograničenja; JS vreme ne meri native DSP, a broj zadržanih snimaka nije memorija u bajtovima. CPU emulacija nije identifikovan spor uređaj.
 
 Uspešno dekodiranje i povezani izvori ne dokazuju čujnost: prvo potvrditi da se nameravani izvor stvarno čuje u igri, pa ocenjivati udaljenost, smer, petlju i performanse. Ne pretvarati nekadašnju grešku ili pripremljen slučaj u tvrdnju da problem danas postoji ili da je danas rešen.

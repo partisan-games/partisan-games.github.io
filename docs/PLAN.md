@@ -13,25 +13,22 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 | 4 | [AR-P02](#ar-p02) | Dovršiti odložene provere postojećih dopuna u Storybook-u i igrama | Agent | 📋 TODO |
 | 5 | [AR-P03](#ar-p03) | Pregledati dopune aktera koje nemaju zabeleženo vizuelno prihvatanje | Vlasnik | 📋 TODO |
 | 6 | [AR-P04](#ar-p04) | Pregledati rasporede rekvizita i preostale ugrađene ambijente | Vlasnik | 📋 TODO |
-| | **[Arhitektura](#arhitektura)** | | | |
-| 7 | [ARH-02](#arh-02) | Rešiti zadržavanje Ammo heightfield memorije pri ponovnom učitavanju terena | Agent | 📋 TODO |
-| 8 | [ARH-03](#arh-03) | Dovršiti potvrdu prostornog zvuka, miksa i rada na sporom uređaju | Agent | 📋 TODO |
 | | **[Storybook](#storybook)** | | | |
-| 9 | [SB-03](#sb-03) | Pripremiti pregled topa kroz Ammo pozornicu pri radu na njegovom nivou | Agent | 📋 TODO |
+| 7 | [SB-03](#sb-03) | Pripremiti pregled topa kroz Ammo pozornicu pri radu na njegovom nivou | Agent | 📋 TODO |
 | | **[UI](#ui)** | | | |
-| 10 | [UI-01](#ui-01) | Proveriti preostale izbore početka, greške naplate/povraćaja i fizički touch | Agent | 📋 TODO |
+| 8 | [UI-01](#ui-01) | Proveriti preostale izbore početka, greške naplate/povraćaja i fizički touch | Agent | 📋 TODO |
 | | **[Igre i ideje](#igre)** | | | |
-| 11 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [2](#note-2) |
-| 12 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
-| 13 | [IG-19](#ig-19) | Dogovoriti nazive nivoa i prikaz žanra i godine na naslovnoj | Vlasnik | 📋 TODO |
-| 14 | [IG-20](#ig-20) | Razmotriti nivo odbrane položaja odozgo, sa napadima sa svih strana | Vlasnik | 📋 TODO |
-| 15 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
-| 16 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
-| 17 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
+| 9 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [2](#note-2) |
+| 10 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
+| 11 | [IG-19](#ig-19) | Dogovoriti nazive nivoa i prikaz žanra i godine na naslovnoj | Vlasnik | 📋 TODO |
+| 12 | [IG-20](#ig-20) | Razmotriti nivo odbrane položaja odozgo, sa napadima sa svih strana | Vlasnik | 📋 TODO |
+| 13 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
+| 14 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
+| 15 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
 
 ## Održavanje plana
 
-Ovo je jedino mesto za otvorene poslove, nalaze, ideje i preostale preglede. Nove oblasti dobijaju sekciju ovde, ne novi fajl plana ili TODO u matičnoj dokumentaciji. PLAN se čuva u gitu i ostaje i kada nema otvorenih stavki; stalne sekcije se ne brišu. Dokumentacija vodi ka sekcijama, da završetak stavke ne pokvari njene veze.
+Ovo je jedino mesto za otvorene poslove, nalaze, ideje i preostale preglede. Nove oblasti dobijaju sekciju ovde, ne novi fajl plana ili TODO u matičnoj dokumentaciji. PLAN se čuva u gitu i ostaje i kada nema otvorenih stavki. Dokumentacija vodi ka sekcijama, da završetak stavke ne pokvari njene veze; sekcija koja ostane bez stavki briše se sa poslednjom, a veze ka njoj se preusmeravaju.
 
 Po završetku ukloniti stavku i njene nepotrebne beleške. Korisne potvrđene odluke i ograničenja sačuvati u postojećem matičnom dokumentu, bez dnevnika rada; zatim popraviti preostale reference. ID-jeve stavki ne koristiti ponovo. Premeštanje stavke nije nova provera ni prihvatanje, a izbor ideje nije automatski nalog za izradu.
 
@@ -102,24 +99,6 @@ Pregledati [deset rasporeda rekvizita](ART.md#rasporedi-u-igri), uključujući n
 ### Mogućnosti bez naloga za izradu
 
 Olupina poljskog topa može postati zaseban rekvizit bojišta; još nije raspoređena kao takav rekvizit. Novi efekat vode traži posebno odgovarajuće rešenje, jer je prethodno proceduralno rešenje odbačeno. Dodatni desanti na Brač, Mljet i Korčulu ostaju ideje za igru uz istorijsku proveru, a ne zadaci izrade arta. Rezervni vojnički listovi i sezonske pozadine nisu obaveza za povezivanje: koriste se tek kada ih izabrani akter ili nivo zatraži.
-
-## Arhitektura
-
-<a id="arh-02"></a>
-### ARH-02 · Ammo memorija terena
-
-[Izrada terena](../core3d/physics/index.js) alocira heightfield podatke preko `Ammo._malloc`. Lokalni build ne izlaže `_free`, pa oslobađanje shape-a ne oslobađa zaseban bafer. [NativeAllocations](../core3d/physics/NativeAllocations.js) zato ne može dokazati da je sav heap vraćen.
-
-Utvrditi podržan način upravljanja ovim baferom i povezati ga sa životom terena; ne menjati vendored `libs` usput. Pre izmene pregledati sve potrošače i posledice eventualne promene Ammo build-a. Provera ponovljenog ulaska/izlaska mora meriti native alokacije, ne samo JavaScript reference. Ne pokušavati oslobađanje `btVehicleTuning` kroz nepodržan destruktor.
-
-<a id="arh-03"></a>
-### ARH-03 · Provere audio sistema
-
-Tačan preostali obim i dokazi su u [TESTING](TESTING.md#global-audio-migration-verification-limits). Ne ponavljati završene ciljane provere samo zbog reorganizacije dokumentacije.
-
-Potvrditi browser ponašanje i preslušati 2D/3D položaje, slabljenje, promenu slušaoca, Dopler, pauzu i gašenje; posebno proveriti stvarni odziv filtera i odsustvo klipovanja. Na identifikovanom sporom uređaju uporediti isti prizor sa zvukom i bez njega i izmeriti native/DSP trošak. Cilj je očuvati 30 FPS prizora koji bez zvuka održava tu brzinu, bez čujnih prekida; početni p95 cilj za sinhroni JS audio update je najviše 1 ms. To još nije dokazano. CPU emulacija mora biti tako označena. Pripremljeni testovi, ograničenja broja glasova i kratko JS vreme nisu dokaz tih rezultata.
-
-Provere se pokreću u dozvoljenom obimu prema [DOCS](DOCS.md); ovaj plan ne daje dozvolu za punu seriju ili zahtevna merenja.
 
 ## Storybook
 

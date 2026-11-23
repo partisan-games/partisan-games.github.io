@@ -69,7 +69,7 @@ Istorijski zapis dodatno prati period, područje, korisnika opreme i varijantu; 
 
 Pre rada pročitati relevantnu istorijsku temu, arhitektonska pravila i ugovor sistema koji se menja. Posle rada ažurirati postojeći zapis; novu datoteku otvarati samo za samostalnu temu koja bi opteretila postojeću. Plan nije dokaz implementacije, a razvojni cilj nije tvrdnja da danas nema tehničkog duga.
 
-Pri zatvaranju stavke iz [PLAN-a](PLAN.md) sačuvati samo korisne potvrđene odluke, nalaze i ograničenja u postojećem autoritativnom dokumentu, bez dupliranja. Potom ukloniti završenu stavku i njene nepotrebne beleške i uskladiti reference. Sam PLAN i njegove stalne sekcije nikada se ne brišu. Nepokrenute provere ne predstavljati kao izvršene.
+Pri zatvaranju stavke iz [PLAN-a](PLAN.md) sačuvati samo korisne potvrđene odluke, nalaze i ograničenja u postojećem autoritativnom dokumentu, bez dupliranja. Potom ukloniti završenu stavku i njene nepotrebne beleške i uskladiti reference. Sam PLAN se nikada ne briše; sekcija koja ostane bez stavki briše se sa poslednjom, a veze ka njoj se preusmeravaju. Nepokrenute provere ne predstavljati kao izvršene.
 
 ## Čistoća repozitorijuma
 
@@ -117,6 +117,6 @@ Pripremu, kvalitet, poreklo, organizaciju resursa i povezivanje sa svim potroša
 
 Otvoreni poslovi, nerešeni nalazi, ideje i preostali pregledi vode se isključivo u [PLAN](PLAN.md), po sekcijama. Ne praviti zasebne planove po oblasti ili igri i ne gomilati TODO stavke u matičnim dokumentima ili README-u. Nova oblast dobija sekciju u istom PLAN-u.
 
-PLAN se čuva u gitu, nikada u lokalnom exclude-u, i ostaje i kada je prazan. Završene stavke i nepotrebne beleške uklanjaju se; važne potvrđene odluke prelaze u matičnu dokumentaciju. ID-jevi se ne koriste ponovo, a stalne sekcije ostaju dostupne za veze iz dokumentacije. Ne čuvati istoriju završenih poslova.
+PLAN se čuva u gitu, nikada u lokalnom exclude-u, i ostaje i kada je prazan. Završene stavke i nepotrebne beleške uklanjaju se; važne potvrđene odluke prelaze u matičnu dokumentaciju. ID-jevi se ne koriste ponovo. Ne čuvati istoriju završenih poslova.
 
 Statusi otvorenih stavki su `📋 TODO`, `🔄 In progress` i `⛔ Blocked`. Stavku ukloniti kada je dogovorena celina završena i potrebne provere izvršene ili izričito odložene; vlasnikov naknadni pregled nije uslov osim kada ga je tako postavio. Dokazi provera ostaju u TESTING; izvršne provere pokreću se u dozvoljenom obimu.

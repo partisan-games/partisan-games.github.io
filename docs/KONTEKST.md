@@ -54,7 +54,7 @@ Po jedan nepokretan top sa posadom i zastavom na obe strane; levi sastav i raspo
 
 Vetar i razaranje terena prihvaćeni su bez dodatnog UI-ja. Ponovljeni udari produbljuju rupe, borci i topovi prate novo tlo, a hitac iz ukopane cevi eksplodira na njenom otvoru; to je namerno ponašanje po uzoru na Worms. Zastave ostaju okrenute ka sredini prema [pravilu animacije](ANIMACIJA-POZADINE.md).
 
-Za punjenje je prihvaćen samo zvuk mehanizma bez dodatnog metalnog udara, a za požar snimak velikog požara zgrade. Poreklo je uz [zvukove](../assets/sounds/SOURCES.md), zajednički ugovor u [arhitekturi](ARHITEKTURA.md#zvuk), a preostale provere u [PLAN-u](PLAN.md#arhitektura).
+Za punjenje je prihvaćen samo zvuk mehanizma bez dodatnog metalnog udara, a za požar snimak velikog požara zgrade. Poreklo je uz [zvukove](../assets/sounds/SOURCES.md), a zajednički ugovor u [arhitekturi](ARHITEKTURA.md#zvuk).
 
 U 1P slušalac ostaje levi igrač/top i tokom računarevog poteza; prati njegov tačan položaj, uključujući spuštanje sa terenom. U 2P slušalac prelazi na sledećeg igrača tek pri stvarnoj smeni poteza, posle razrešenja granate i odložene štete. Zaglađuju se jačina i panorama, ne položaj između igrača; leva/desna strana ostaju strane sveta. Nova runda postavlja početnog igrača pre prvog zvuka, pauza zamrzava prelaz, a kraj meča zadržava poslednjeg slušaoca. Ovo je ugovor ponašanja, ne potvrda da je trenutni miks čujan.
 

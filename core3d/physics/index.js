@@ -97,24 +97,30 @@ export function createRigidBody({ own = unowned, mesh, mass = guessMassFromMesh(
   return body
 }
 
-/** Its height data stays in the Ammo heap for the page's life: this build cannot free `_malloc` memory. */
+/**
+ * Heights copied into the Ammo heap. This build cannot free `_malloc` memory, so each copy stays for the page's life
+ * and the same heights, as a game entered again, reuse it instead of taking more.
+ */
+const heightBuffers = []
+
+/** The Ammo heap address of the first `count` of `data` as 32-bit floats, copied there once. */
+function heightBuffer(data, count) {
+  const heights = Float32Array.from({ length: count }, (_, i) => data[i])
+  let buffer = heightBuffers.find(({ values }) => values.length === count && values.every((value, i) => value === heights[i]))
+  if (!buffer) {
+    buffer = { address: Ammo._malloc(4 * count), values: heights }
+    Ammo.HEAPF32.set(heights, buffer.address >> 2)
+    heightBuffers.push(buffer)
+  }
+  return buffer.address
+}
+
 function createTerrainShape({ data, width, depth, mapWidth, mapDepth, minHeight, maxHeight, own = unowned }) {
   const heightScale = 1
   const upAxis = 1 // 0: X, 1: Y, 2: Z. normally Y is used.
   const hdt = 'PHY_FLOAT' // height data type
   const flipQuadEdges = false // inverts the triangles
-  const ammoHeightData = Ammo._malloc(4 * width * depth) // Creates height data buffer in Ammo heap
-  // Copy the javascript height data array to the Ammo one
-  let p = 0
-  let p2 = 0
-  for (let j = 0; j < depth; j++)
-    for (let i = 0; i < width; i++) {
-      // write 32-bit float data to memory
-      Ammo.HEAPF32[ammoHeightData + p2 >> 2] = data[p]
-      p++
-      // 4 bytes/float
-      p2 += 4
-    }
+  const ammoHeightData = heightBuffer(data, width * depth)
 
   const shape = own(new Ammo.btHeightfieldTerrainShape(
     width, depth, ammoHeightData, heightScale, minHeight, maxHeight, upAxis, hdt, flipQuadEdges
