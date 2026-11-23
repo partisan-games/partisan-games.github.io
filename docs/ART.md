@@ -16,6 +16,13 @@ Pravila izrade i veze do izvora. Otvoreni poslovi su u [PLAN-u](PLAN.md#art), pr
 <a id="stil-aerodromske-posade"></a>
 **Stil pešadije:** zadržati projektni piksel stil, ozbiljna odrasla lica i uverljive proporcije. Korekcija karikaturalnosti nije nalog za fotorealizam. Za Otpisane važi njihov [realistični crno-beli stil](KONTEKST.md#otpisani).
 
+### Uklapanje cele scene — pouke pokušaja Bunkera
+
+- Pre nove grafike istražiti datum, teren, rastinje i objekte; potvrđeno odvojiti od procene. Za Bunker koristiti [istraživanje Krupnja](ISTORIJA.md#krupanj-1941--polazište-za-igru-bunker).
+- Prvo složiti jedan zajednički kadar u stvarnoj veličini igre: lik, mina, zgrada i teren. Utvrditi jedinstven ugao gledanja, razmeru prema čoveku, ravan tla, stil detalja i osvetljenje; tek potom dorađivati zasebne resurse. Dobra pojedinačna slika ne dokazuje dobru scenu.
+- Bočni lik, mina odozgo, frontalna zgrada i kosa pozadina ne postaju usklađeni samom paletom i senkama. Proveriti veličinu mine prema stopalu, vrata i spratova prema čoveku, dodir sa tlom i zaklanjanje; pozadina ne sme nadjačati aktere.
+- Promena arta nije razlog za usputno menjanje sudara, broja prepreka ili rasporeda igre. Sačuvana bolnica je studija za buduće uklapanje, nije prihvaćena kao konačan art i nije povezana sa igrom; odbačeni teren i mine ne čuvaju se kao alternative.
+
 ## Uslovi završetka zadataka
 
 <a id="obavezna-integracija"></a>
@@ -59,7 +66,7 @@ Kadar, trajanje, sidrište, tačke događaja i putanje završnih slika čitaju s
 | Odvojene cevi glavnih tenkova | [partizanska](../assets/images/armies/game-ready/tenkovi/partizanski-tenk-cev-pixel.png), [nemačka](../assets/images/armies/game-ready/tenkovi/nemacki-tenk-cev-pixel.png), [Somua](../assets/images/armies/game-ready/tenkovi/somua-s35-barrel.png) |
 | Delovi oruđa | [poljski top: cev](../assets/images/armies/game-ready/artiljerija/field-gun-barrel-pixel.png) i [lafet](../assets/images/armies/game-ready/artiljerija/field-gun-carriage-pixel.png); [Flak: postolje](../assets/images/armies/game-ready/artiljerija/flak38-postolje.png) i [cev](../assets/images/armies/game-ready/artiljerija/flak38-cev.png); [PaK: postolje](../assets/images/armies/game-ready/artiljerija/pak38-postolje.png) i [cev](../assets/images/armies/game-ready/artiljerija/pak38-cev.png) |
 | Utvrđeni položaji | [kuća-bunker](../assets/images/buildings/kuca-bunker.png), [bunker](../assets/images/buildings/bunker-02.png), [obalni položaj](../assets/images/armies/game-ready/polozaji/mitraljesko-gnezdo-odozgo.svg) |
-| Bunker: bolnica, teren i mine | [teren](../assets/images/background/bunker-courtyard.webp), [sprites](../assets/images/sources/bunker/sprites.json), [poreklo i promptovi](../assets/images/sources/bunker/generation.json), [priprema](../assets/images/sources/bunker/prepare.py) |
+| Bunker: sačuvana studija bolnice, nije povezana sa igrom | [slika](../assets/images/buildings/bunker-house.png), [sprites](../assets/images/sources/bunker/sprites.json), [poreklo i prompt](../assets/images/sources/bunker/generation.json), [priprema](../assets/images/sources/bunker/prepare.py) |
 | Osnovni brodovi | [partizanski čamac](../assets/images/armies/camac.png), [S-30](../assets/images/armies/game-ready/brodovi/schnellboot-s30.svg) |
 
 Poljski top Ustanka je zajednički prihvaćen crtež za obe posade. Sličnost sa [Schneiderom 155 L iz 1918.](https://en.wikipedia.org/wiki/Canon_de_155_L_mod%C3%A8le_1918_Schneider) je procena vlasnika i agenta, bez potvrde tipa ili istorijske upotrebe u tom nivou; pri novom artu ne predstavljati ga kao potvrđen laki top od 75 mm.

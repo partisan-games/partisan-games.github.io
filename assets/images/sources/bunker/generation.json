@@ -1,0 +1,38 @@
+{
+  "generator": "image_gen",
+  "historicalResearch": "../../../../docs/ISTORIJA.md#krupanj-1941--polazište-za-igru-bunker",
+  "historicalBasis": [
+    {
+      "url": "https://znaci.org/00001/9_5.htm",
+      "role": "Participant memoir: clearing, Likodra approach via mortuary chapel about 80 m away, rainy nights and illumination flares; chronology differs from summary article."
+    },
+    {
+      "url": "https://www.zaduzbinanspasica.rs/o-nama/",
+      "role": "Foundation: hospital constructed 1934–1938."
+    },
+    {
+      "url": "https://distrikt.rs/prva-krupanjska-bolnica-zaduzbina-srpskog-nobela/",
+      "role": "Documentary photographs, July 2023: surviving architectural massing; not proof of original facade colors, fixtures or landscaping."
+    },
+    {
+      "url": "https://www.krupanj.ls.gov.rs/sr/o-krupnju/geografski-polozaj/",
+      "role": "Regional valley and surrounding low mountains, not a 1941 site plan."
+    },
+    {
+      "url": "https://upravazasume.gov.rs/wp-content/uploads/2019/12/G.J.-Op%C5%A1tinske-%C5%A1ume-Krupanj.pdf#page=11",
+      "role": "Regional deciduous vegetation; individual trees in the 1941 hospital grounds unverified."
+    }
+  ],
+  "assets": [
+    {
+      "id": "krupanjHospital",
+      "source": "house.png",
+      "prompt": "Create ONE isolated production building sprite for a 2D historical arcade game. The supplied images are DOCUMENTARY ARCHITECTURE REFERENCES of the surviving Nikola Spasic hospital in Krupanj photographed in 2023, not edit targets, not a reference for modern landscaping or fixtures. Recreate the recognizable building MASSING in a restrained late-1990s hand-painted tactical-strategy PIXEL ART style, as a relatively NEW hospital in early September 1941, during an overcast rainy NIGHT. Broad rectangular public hospital, TWO ABOVE-GROUND FLOORS over a raised rough gray-stone BASEMENT, long orderly rows of tall narrow timber-framed windows, pale neutral plaster, prominent continuous balcony/terrace across the long front between the upper floors, low hipped tiled roof with chimneys. Use the reference photographs to retain its simple interwar institutional geometry and actual proportions, not a rustic cottage, castle, barracks or sandbag bunker. Show the long front facade and a narrow right side, slightly elevated orthographic oblique game view. Aspect ratio of building about 1.7 to 2 wide to 1 tall. Entire silhouette centered, intact roof fully visible, no cropping. Walls mostly sound plaster, with only tiny fresh battle chips; the building was completed in 1938, not an old ruin. Cool desaturated ivory-blue plaster, deep slate-gray windows, stone plinth, muted charcoal reddish-brown wet tiled roof; soft silvery diffuse illumination catches the facade and damp cornice. Detailed but readable at 340 pixels wide. Keep the BASEMENT WINDOWS low near ground, some open dark. A separate small gunner sprite is placed by the game at approximately 79 percent of width and 83 percent of height: leave a clearly visible dark rectangular basement opening there with no occupant. Do not draw people or guns. No modern PVC windows, wheelchair ramps, cars, air conditioners, modern fences or chain link, modern signs, satellite dishes. No red-cross symbols, flags, words or facade lettering, because exact 1941 signage and colors are unverified. No surrounding lawn, ground plane, trees, sky, rain streaks, fog, smoke or fire. True transparent alpha background. One building only, not a scene, not a grid.",
+      "referencePhotos": [
+        "https://objects.distrikt.rs/wp-content/uploads/2023/07/IMG_20230720_165406-1024x610.jpg",
+        "https://objects.distrikt.rs/wp-content/uploads/2023/07/IMG_20230720_165010-1024x576.jpg"
+      ]
+    }
+  ],
+  "artDirection": "Retained hospital study only; not integrated or accepted as fitting the game scene. Camera projection, scale and style must be resolved in a whole-scene composition before reuse."
+}

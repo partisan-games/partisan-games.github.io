@@ -122,7 +122,7 @@ Vertikalna arkadna pucačina o partizanskom letu do Visa, sa sopstvenim izgledom
 
 **Okvir (vlasnik):** Igra je bitka za Krupanj 1941, a Žikica Jovanović Španac je bombaš koji napada bunker.
 
-**Kontekst i granice:** Žikicin noćni prilaz bolnici početkom septembra 1941, po kiši, preko otvorenog prostora uz Likodru. Vizuelni cilj je prepoznatljiva bolnica Nikole Spasića, a ne izmišljena ruševna kasarna; naziv igre ostaje Bunker. Kadar izdvaja završni prilaz, dok su kapela i okolna brda van njega; nije geodetska rekonstrukcija celog kompleksa. Postojeće mine ostaju arkadna prepreka bez potvrde minskog polja na ovom mestu. Činjenice, savremene fotografske reference i granice pretpostavki: [Krupanj, 1941](ISTORIJA.md#krupanj-1941--polazište-za-igru-bunker).
+**Kontekst i granice:** Žikica je predvodio bombaše protiv nemačkog garnizona u bolnici; postojeći bunker je umetnička zamena za tu zgradu. Pokušaj novog ambijenta povučen je; sačuvana studija bolnice nije povezana sa igrom. Za sledeći pokušaj koristiti [istraživanje Krupnja](ISTORIJA.md#krupanj-1941--polazište-za-igru-bunker) i [pouke uklapanja scene](ART.md#uklapanje-cele-scene--pouke-pokušaja-bunkera); postojeće mine su arkadna prepreka bez istorijske potvrde minskog polja na ovom mestu.
 
 ## Ranjenik
 

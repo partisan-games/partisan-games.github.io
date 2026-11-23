@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "assets": [
+    {
+      "id": "bunker-house",
+      "image": "../../buildings/bunker-house.png",
+      "source": "house.png",
+      "sourceBounds": [
+        52,
+        40,
+        1580,
+        915
+      ],
+      "sourceSha256": "de85cfcf7da7f8c94d11066b9402e371e4bd746db594a9414d315cb56da7ed09",
+      "sha256": "843cfe12b880b643400ef5ad0a79d4f5c6959aa60d0272612f0d4cede5a93b17",
+      "frame": {
+        "width": 720,
+        "height": 440,
+        "columns": 1,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 360.0,
+        "y": 220.0
+      },
+      "renderSize": [
+        360,
+        220
+      ],
+      "animations": [
+        {
+          "name": "idle",
+          "row": 0,
+          "frameCount": 1,
+          "duration": 1,
+          "loop": false
+        }
+      ]
+    }
+  ]
+}
