@@ -97,3 +97,19 @@ test('the view follows a block while asked to, and stands where it is once let g
   stage.update(1 / 30, 0)
   assert.equal(stage.cameraX, 100 * pxPerMeter - stage.width / 2)
 })
+
+test('the zoom buttons draw the blocks larger or smaller around the middle of the ground line, within bounds', t => {
+  const stage = new Stage2D()
+  stage.clear = () => {} // happy-dom draws nothing
+  t.after(() => stage.end())
+  const scales = []
+  // the page of the tests has no drawing context
+  stage.renderer.ctx = { save() {}, restore() {}, translate() {}, scale: (x, y) => scales.push([x, y]) }
+  stage.zoomBy(1.25)
+  stage.render()
+  assert.deepEqual(scales.at(-1), [1.25, 1.25])
+  for (let i = 0; i < 40; i++) stage.zoomBy(.8)
+  assert.equal(stage.zoom, .25)
+  for (let i = 0; i < 40; i++) stage.zoomBy(1.25)
+  assert.equal(stage.zoom, 8)
+})

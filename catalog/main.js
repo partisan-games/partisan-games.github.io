@@ -117,7 +117,10 @@ function drawPanel() {
   // a hit stands before death, or before Reset in a block that cannot die
   const hit = hitButton(block), dies = block.states?.includes('dead')
   panel.innerHTML = /* html */`
-    <h2>${story.name}</h2>
+    <div class="catalog-heading">
+      <h2>${story.name}</h2>
+      <button data-zoom="1.25" aria-label="Približi">+</button><button data-zoom="0.8" aria-label="Udalji">−</button>
+    </div>
     <p>${story.game}</p>
     ${story.looks ? lookButtons(kind, story, look) : ''}
     ${'way' in story ? sideButtons() : ''}
@@ -135,7 +138,7 @@ function drawPanel() {
     ${canBeHit(block) ? healthBar(block) : ''}
   `
   const details = createStoryDetails(story)
-  if (details.childElementCount) panel.querySelector('h2').after(details)
+  if (details.childElementCount) panel.querySelector('.catalog-heading').after(details)
 }
 
 /** Aims `block` at the point of its `shot`, ahead of it the way it faces. */
@@ -164,6 +167,7 @@ panel.addEventListener('click', event => {
     way = Number(button.dataset.way)
     return show()
   }
+  if ('zoom' in button.dataset) return stage.zoomBy(Number(button.dataset.zoom))
   if ('follow' in button.dataset) {
     stage.follow(stage.followed ? null : block)
     button.setAttribute('aria-pressed', String(Boolean(stage.followed)))

@@ -34,7 +34,7 @@ const drills = new WeakMap()
 const fieldGun = async stage => {
   await requestModels([...cannonModule.models, ...crewModels])
   const { body, model } = makeCharacter(cannonModule.description, { yaw: Math.PI / 2 })
-  const hit = new GunHit(body, model.mesh)
+  const hit = new GunHit(body, model.mesh, { detailed: true })
   const damage = new FieldGunDamage(body, model.mesh)
   const drill = { crew: new Crew(model.mesh), loading: false, update(dt) {
     // The crew remains independent when the carriage collapses.

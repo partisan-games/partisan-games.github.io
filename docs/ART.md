@@ -102,6 +102,10 @@ Registraciju betonskog bunkera vodi [priprema utvrđenja](../assets/images/armie
 
 Modele, skinove i klipove pregledati u [katalogu](../catalog.html) i [pregledu animacija](../pregled-animacija.html). Poreklo i licence ostaju uz modele; organizacija kataloga prati [pravila kataloga](KATALOG.md#stavke-kataloga-i-varijante).
 
+Poljski top u [katalogu](../catalog.html#artiljerija-3d/poljski-top-3d) ima [poseban prikaz oštećenja](../core3d/actor/artillery/FieldGunDamage.js): na 75% zdravlja boja je potamnela i nagorela, na 50% se razlabavljuje točak, na 25% spušta lafet, a `dead` ostavlja razdvojene točkove, spuštenu cev i rasklopljene krakove lafeta. Delovi su izvedeni iz trouglova izvornog GLB-a, uz očuvanje njegovih normala i boja; izvorni model i materijali se ne menjaju. Svaki otkinuti sklop zasebno naleže na tlo. U katalogu zdravlje pripada topu; „Pogođena posada” obara zasebnog člana, a Reset vraća zdrav top i živu posadu. Ovaj prikaz nije uključen u Jablanicu, gde smrt posade ostavlja top uspravno.
+
+Pogoci topa u katalogu koriste [slojeviti efekat](../core3d/actor/artillery/GunImpactCloud.js): varnice traju oko desetinke sekunde, uz kratak oblačić prašine i sitne metalne opiljke. Ispod polovine zdravlja dodaje se malo dima, a na četvrtini i niže nekoliko krupnijih komada. Efekti završavaju sami, delovi padaju do tla, a ponovljeni pogoci koriste isti ograničeni skup objekata. Katalog izričito uključuje ovu dopunu; postojeći efekat u Jablanici ostaje zaseban.
+
 <a id="minobacac-81-3d"></a>
 Minobacač za Jablanicu je originalna vizuelna interpretacija italijanskog tipa 81/14 Mod. 35: [GLB](../assets/models/weapon/mortar-81-mod35/model.glb), [odvojena mina](../assets/models/weapon/mortar-81-mod35/round.glb), [izvori, razmera i ograničenja](../assets/models/weapon/mortar-81-mod35/source.json), [ponovljiva priprema](../assets/models/weapon/mortar-81-mod35/build.mjs) i [MIT licenca](../assets/models/weapon/mortar-81-mod35/LICENSE.txt). Cev ima tačku `Muzzle`; ovo nije precizna muzejska rekonstrukcija.
 

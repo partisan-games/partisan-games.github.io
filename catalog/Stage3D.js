@@ -74,6 +74,15 @@ export default class Stage3D extends Scene3D {
     this.session.scope.add(() => canvas.removeEventListener('wheel', rotate, true))
   }
 
+  /** Moves the camera nearer the middle it orbits, or farther with a `factor` below 1. */
+  zoomBy(factor) {
+    const { camera, controls } = this
+    const offset = camera.position.clone().sub(controls.target).divideScalar(factor)
+    const distance = Math.min(controls.maxDistance, Math.max(Math.max(controls.minDistance, camera.near * 2), offset.length()))
+    camera.position.copy(controls.target).add(offset.setLength(distance))
+    controls.update()
+  }
+
   /** Frame the actor itself, including the initial altitude of birds and airships. */
   frame(block) {
     const mesh = block.mesh ?? this.children.find(child => child.body === block)?.mesh

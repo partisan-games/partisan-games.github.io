@@ -9,6 +9,8 @@ import { sideProjection } from '/core/actor/projection.js'
 const skyShare = .8
 /** How large a block in metres is drawn, unless its story draws it as its game does. */
 const defaultScale = 22
+/** How far the view can be zoomed in and out. */
+const zoomRange = { min: .25, max: 8 }
 
 /**
  * An empty 2D world where one building block lives on its own: sky, ground, a camera and an unseen stand-in for the
@@ -26,6 +28,13 @@ export default class Stage2D extends Scene2D {
     this.target = new Target({ x: this.width / 2, y: this.groundY - 300 })
     // the target hears what the block does, as the player does in a game
     this.audioPlayer = () => this.target
+    /** How many times larger than its game the view draws the blocks, around the middle of the ground line. */
+    this.zoom = 1
+  }
+
+  /** Zooms the view in, or out with a `factor` below 1. */
+  zoomBy(factor) {
+    this.zoom = Math.min(zoomRange.max, Math.max(zoomRange.min, this.zoom * factor))
   }
 
   /** Keeps `block` in the middle of the view, or with none lets the view stand. */
@@ -53,7 +62,13 @@ export default class Stage2D extends Scene2D {
   render() {
     this.renderer.cameraX = this.cameraX
     this.renderer.cameraY = this.cameraY
+    const { ctx } = this.renderer, x = this.width / 2, y = this.groundY - this.cameraY
+    ctx.save()
+    ctx.translate(x, y)
+    ctx.scale(this.zoom, this.zoom)
+    ctx.translate(-x, -y)
     super.render()
+    ctx.restore()
   }
 
 }

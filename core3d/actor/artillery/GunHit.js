@@ -1,5 +1,6 @@
-import { Box3, Vector3 } from 'three'
+import { Box3, Group, Vector3 } from 'three'
 import Particles from '/core3d/Particles.js'
+import GunImpactCloud from './GunImpactCloud.js'
 
 /**
  * Sparks fly off the front of the steel, and the gun is jolted back `jolt` metres, settling in `settle` seconds. The
@@ -10,12 +11,20 @@ export const gunHit = { jolt: .06, settle: .2, rounds: 6, step: 1 / 30 }
 /**
  * How a hit on a field gun shows: sparks at a random point on the front of its `mesh`, which faces -z, and a short
  * jolt back. It only reads the body; added after the gun's model, it moves the mesh the model has just placed.
+ * The catalog opts into shorter sparks with dust, metal chips and debris scaled to the gun's remaining health.
  */
 export default class GunHit {
-  constructor(body, mesh) {
+  constructor(body, mesh, { detailed = false } = {}) {
     Object.assign(this, { body, gun: mesh, seen: body.hitsTaken, joltLeft: 0, rounds: 0, elapsed: 0 })
-    this.sparks = new Particles({ num: 60, size: .04, unitAngle: .25, color: 0xffc860 })
+    this.sparkRounds = detailed ? 3 : gunHit.rounds
+    this.wasDead = body.dead
+    this.sparks = new Particles({ num: detailed ? 24 : 60, size: detailed ? .025 : .04, unitAngle: .25, color: 0xffc860 })
     this.mesh = this.sparks.mesh
+    if (detailed) {
+      this.cloud = new GunImpactCloud()
+      this.mesh = new Group()
+      this.mesh.add(this.sparks.mesh, this.cloud.mesh)
+    }
     this.mesh.visible = false
     // measured before the crew kneels beside it
     mesh.updateMatrixWorld(true)
@@ -32,26 +41,33 @@ export default class GunHit {
   }
 
   update(dt) {
-    if (this.body.hitsTaken > this.seen) {
-      this.sparks.reset({ pos: this.impact(), unitAngle: .25 })
+    if (this.body.hitsTaken > this.seen || (this.cloud && this.body.dead && !this.wasDead)) {
+      const point = this.impact()
+      this.sparks.reset({ pos: point, unitAngle: this.cloud ? .07 : .25 })
+      this.mesh.visible = true
+      this.cloud?.start(point, this.body.health.current / this.body.health.maximum)
       this.joltLeft = gunHit.settle
-      this.rounds = gunHit.rounds
+      this.rounds = this.sparkRounds
       this.elapsed = 0
     }
     this.seen = this.body.hitsTaken
+    this.wasDead = this.body.dead
     if (this.joltLeft > 0) {
       this.joltLeft = Math.max(0, this.joltLeft - dt)
       this.gun.translateZ(gunHit.jolt * this.joltLeft / gunHit.settle)
     }
     for (this.elapsed += dt; this.rounds && this.elapsed >= gunHit.step; this.elapsed -= gunHit.step, this.rounds--)
-      this.sparks.expand({ velocity: 1.25, maxRounds: gunHit.rounds, gravity: .01 })
-    if (!this.rounds) this.mesh.visible = false
+      this.sparks.expand({ velocity: 1.25, maxRounds: this.sparkRounds, gravity: .01 })
+    if (!this.rounds) this.sparks.mesh.visible = false
+    this.cloud?.update(dt)
+    if (this.cloud) this.mesh.visible = this.sparks.mesh.visible || this.cloud.mesh.visible
   }
 
   end() {
-    this.mesh.geometry.dispose()
-    this.mesh.material.map?.dispose()
-    this.mesh.material.dispose()
+    this.sparks.mesh.geometry.dispose()
+    this.sparks.mesh.material.map?.dispose()
+    this.sparks.mesh.material.dispose()
+    this.cloud?.end()
     this.mesh.removeFromParent()
   }
 }

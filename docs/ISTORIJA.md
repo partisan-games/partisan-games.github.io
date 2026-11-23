@@ -10,7 +10,7 @@ Kontekst nivoa izvodi se iz istraženog događaja: **istorijski događaj → mes
 
 Za nivo sa tenkovskom borbom prvo pronaći gde i kada su jugoslovenski partizani stvarno učestvovali u odgovarajućoj borbi, zatim proveriti jedinice, ulogu i modele oklopnih vozila na obe strane. Samo pominjanje tenka u operaciji ne dokazuje tenkovski okršaj; ako igra prikazuje duel tenkova, proveriti i takav susret. Prihvaćen art ili opšti katalog opreme nisu zamena za dokaz njenog prisustva u konkretnoj bici.
 
-Nepotvrđene pojedinosti postojećih nivoa (artiljerija Ustanka, nemački avioni nad Visom, patrola Ranjenika, beogradska ilegala u Otpisanima, primarni izvori za Jablanicu, plovila i protivnik na Šolti) vlasnik je 2026-11-23 proglasio nebitnim za igru; ne istraživati ih bez novog razloga.
+Nepotvrđene pojedinosti postojećih nivoa (artiljerija Ustanka, nemački avioni nad Visom, beogradska ilegala u Otpisanima, primarni izvori za Jablanicu, plovila i protivnik na Šolti) vlasnik je 2026-11-23 proglasio nebitnim za igru; ne istraživati ih bez novog razloga.
 
 Odvojiti istorijsku upotrebu, vizuelnu interpretaciju i vlasnikovo prihvatanje arta. Prihvaćen postojeći asset ne traži ponovnu proveru, ali sam po sebi ne dokazuje da je svaka njegova upotreba primerena svakom periodu, području i strani. Novo pitanje o kontekstu ne otvara ponovo odobrenje izgleda postojećeg arta.
 
