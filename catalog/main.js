@@ -119,7 +119,7 @@ function drawPanel() {
   panel.innerHTML = /* html */`
     <div class="catalog-heading">
       <h2>${story.name}</h2>
-      <button data-zoom="1.25" aria-label="Približi">+</button><button data-zoom="0.8" aria-label="Udalji">−</button>
+      <button data-zoom="1.25" aria-label="Približi">+</button><button data-zoom="0.8" aria-label="Udalji">−</button><button data-reset-view aria-label="Vrati početni pogled">1:1</button>
     </div>
     <p>${story.game}</p>
     ${story.looks ? lookButtons(kind, story, look) : ''}
@@ -168,6 +168,7 @@ panel.addEventListener('click', event => {
     return show()
   }
   if ('zoom' in button.dataset) return stage.zoomBy(Number(button.dataset.zoom))
+  if ('resetView' in button.dataset) return stage.resetView(block)
   if ('follow' in button.dataset) {
     stage.follow(stage.followed ? null : block)
     button.setAttribute('aria-pressed', String(Boolean(stage.followed)))

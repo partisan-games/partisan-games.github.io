@@ -18,7 +18,8 @@ Pravila izrade i veze do izvora. Otvoreni poslovi su u [PLAN-u](PLAN.md#art), pr
 <a id="stil-aerodromske-posade"></a>
 **Stil:** ceo projekat koristi jedan stil, realističan piksel art; nivo ne dobija zaseban stil (vlasnik, 2026-11-23). Za pešadiju to znači ozbiljna odrasla lica i uverljive proporcije. Korekcija karikaturalnosti nije nalog za fotorealizam.
 
-**Razmera (vlasnik, 2026-11-23):** igre su u tri grupe, bočne, spreda i odozgo, i grupe se ne porede. Unutar grupe svi predmeti imaju istu izvornu razmeru, isti broj piksela po metru prema stvarnoj veličini, a telo u metrima je stvarne veličine. Katalog prikazuje predmete u toj prirodnoj razmeri; samo igra sme da ih uveća ili umanji. To je jedini dopušten tok.
+<a id="razmera"></a>
+**Razmera (vlasnik, 2026-11-23):** telo u metrima je stvarne veličine, a crtež ima izvornu razmeru svoje grupe igara: 40 px po metru za bočne igre i igre odozgo, 100 px po metru za igre spreda (Otpisani, Neretva). Osnova grupe je najveći prikaz u bilo kojoj njenoj igri, pa slika nikad nije manja od veličine u kojoj je igra crta; slika se ne umanjuje ispod toga, a sitnija slika se precrtava, ne uvećava. Katalog prikazuje predmete u toj prirodnoj razmeri ([scales.js](../catalog/scales.js)); samo igra sme da ih umanji. To je jedini dopušten tok.
 
 ### Uklapanje cele scene — pouke pokušaja Bunkera
 

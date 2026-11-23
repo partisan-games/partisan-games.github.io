@@ -84,6 +84,13 @@ export default class Stage3D extends Scene3D {
     controls.update()
   }
 
+  /** Frames `block` again as it was first shown, keeping whether the camera follows it. */
+  resetView(block) {
+    const { followed } = this
+    this.frame(block)
+    this.follow(followed)
+  }
+
   /** Frame the actor itself, including the initial altitude of birds and airships. */
   frame(block) {
     const mesh = block.mesh ?? this.children.find(child => child.body === block)?.mesh

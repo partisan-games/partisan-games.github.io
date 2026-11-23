@@ -1,5 +1,6 @@
 import TrenchSoldier, * as trenchSoldierModule from '/core/gameplay/bodies/soldiers/TrenchSoldier.js'
 import TrenchSoldierSprite from '/core/actor/soldiers/TrenchSoldierSprite.js'
+import scales from '../scales.js'
 
 /** The free-standing figure uses the same body as a soldier behind a trench. */
 const trench = faction => stage => {
@@ -11,6 +12,6 @@ const trench = faction => stage => {
 const game = 'Neretva, Otpisani'
 
 export const soldiers = [
-  { id: 'nemac-u-rovu', name: 'Nemac spreda', game, block: trenchSoldierModule, create: trench('nemci') },
-  { id: 'cetnik-u-rovu', name: 'Četnik spreda', game, block: trenchSoldierModule, create: trench('cetnici') },
+  { id: 'nemac-u-rovu', name: 'Nemac spreda', game, pxPerMeter: scales.front, block: trenchSoldierModule, create: trench('nemci') },
+  { id: 'cetnik-u-rovu', name: 'Četnik spreda', game, pxPerMeter: scales.front, block: trenchSoldierModule, create: trench('cetnici') },
 ]

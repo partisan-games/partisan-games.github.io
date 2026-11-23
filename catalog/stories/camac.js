@@ -9,9 +9,10 @@ import PatrolBoatSprite from '/core/actor/boats/PatrolBoatSprite.js'
 import ShoreMachineGunSprite from '/core/actor/artillery/ShoreMachineGunSprite.js'
 import { topProjection } from '/core/actor/projection.js'
 import { fromAbove } from './helpers.js'
+import scales from '../scales.js'
 
 /** Čamac is seen from above at 10 px a metre: the stage draws its blocks so, x across and z down the view. */
-const pxPerMeter = 25
+const pxPerMeter = scales.top
 const views = stage => {
   fromAbove(stage)
   return { projection: topProjection({ pxPerMeter }), camera: stage }

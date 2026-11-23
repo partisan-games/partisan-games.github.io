@@ -112,4 +112,6 @@ test('the zoom buttons draw the blocks larger or smaller around the middle of th
   assert.equal(stage.zoom, .25)
   for (let i = 0; i < 40; i++) stage.zoomBy(1.25)
   assert.equal(stage.zoom, 8)
+  stage.resetView()
+  assert.equal(stage.zoom, 1, 'the reset shows the natural size again')
 })

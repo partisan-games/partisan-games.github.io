@@ -4,6 +4,7 @@ import TankSprite from '/core/actor/vehicles/TankSprite.js'
 import vehicleArt from '/core/actor/vehicleArt.js'
 import { germanTank, m15, stug, hotchkiss } from '/core/actor/tankLooks.js'
 import { yawOf } from './helpers.js'
+import scales from '../scales.js'
 
 /**
  * A tank alone in the middle of the stage, facing `way`, its shells hitting the stand-in; `facing` is the way its art
@@ -18,7 +19,7 @@ const tank = (stage, way, { kind, art, barrel, facing = 1, rearAim = true }) => 
 
 const game = 'Tenkići'
 /** The tanks as large as Do Trsta's earlier pixel tank, at 25 px a metre. */
-const pxPerMeter = 25
+const pxPerMeter = scales.side
 const partisan = { kind: tankModule.tankKinds.partisan, art: vehicleArt.partisanTank,
   barrel: { src: 'armies/game-ready/tenkovi/partizanski-tenk-cev-pixel.png' } }
 

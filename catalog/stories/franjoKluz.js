@@ -17,6 +17,7 @@ import FlakSprite from '/core/actor/artillery/FlakSprite.js'
 import PotezSprite, { markings } from '/core/actor/aircraft/PotezSprite.js'
 import { groundUnitLooks as kinds } from '/core/actor/groundUnitLooks.js'
 import { yawOf } from './helpers.js'
+import scales from '../scales.js'
 
 /** Where a block stands or flies on the stage, in metres: the middle of the view, `height` above the ground. */
 const middle = (stage, height = 0) => ({ x: stage.width / 2 / stage.projection.pxPerMeter, y: height })
@@ -90,7 +91,7 @@ const flak = stage => {
 
 const game = 'Franjo Kluz'
 /** Franjo Kluz draws its world at 30.8 px a metre. */
-const pxPerMeter = 30.8
+const pxPerMeter = scales.side
 
 export const soldiers = [
   { id: 'strelac', name: 'Nemački strelac', game, pxPerMeter, way: -1, block: riflemanModule, create: soldier('soldier') },

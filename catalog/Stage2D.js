@@ -4,11 +4,10 @@ import Target from './Target.js'
 import Dummy from './Dummy.js'
 import Body from '/core/gameplay/bodies/Body.js'
 import { sideProjection } from '/core/actor/projection.js'
+import scales from './scales.js'
 
 /** The share of the view's height above the ground line, so the ground under the blocks is seen. */
 const skyShare = .8
-/** How large a block in metres is drawn, unless its story draws it as its game does. */
-const defaultScale = 22
 /** How far the view can be zoomed in and out. */
 const zoomRange = { min: .25, max: 8 }
 
@@ -19,7 +18,7 @@ const zoomRange = { min: .25, max: 8 }
  * is in metres.
  */
 export default class Stage2D extends Scene2D {
-  constructor({ pxPerMeter = defaultScale } = {}) {
+  constructor({ pxPerMeter = scales.side } = {}) {
     super({ disableEvents: true, showControls: false })
     this.groundY = Math.round(this.height * skyShare)
     this.projection = sideProjection({ pxPerMeter, groundY: this.groundY })
@@ -35,6 +34,11 @@ export default class Stage2D extends Scene2D {
   /** Zooms the view in, or out with a `factor` below 1. */
   zoomBy(factor) {
     this.zoom = Math.min(zoomRange.max, Math.max(zoomRange.min, this.zoom * factor))
+  }
+
+  /** Draws the blocks at their natural size again. */
+  resetView() {
+    this.zoom = 1
   }
 
   /** Keeps `block` in the middle of the view, or with none lets the view stand. */

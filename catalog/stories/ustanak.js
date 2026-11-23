@@ -8,9 +8,10 @@ import CannonCrewSprite from '/core/actor/soldiers/CannonCrewSprite.js'
 import SkirmisherSprite from '/core/actor/soldiers/SkirmisherSprite.js'
 import FlagBearerSprite from '/core/actor/soldiers/FlagBearerSprite.js'
 import { yawOf } from './helpers.js'
+import scales from '../scales.js'
 
 /** Ustanak draws its battle at 40 px a metre, where a man is 1.8 m tall. */
-const pxPerMeter = 40
+const pxPerMeter = scales.side
 
 /** The middle of the stage in metres, facing `way`, and what the views draw with. */
 const placed = (stage, way) => ({ x: stage.width / 2 / stage.projection.pxPerMeter, yaw: yawOf(way) })

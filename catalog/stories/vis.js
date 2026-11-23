@@ -6,9 +6,10 @@ import AttackPlaneSprite, { attackPlaneImages } from '/core/actor/aircraft/Attac
 import { topProjection } from '/core/actor/projection.js'
 import { fighterBomberPlane } from '/core/actor/aircraft/fighterBomberPlanes.js'
 import { modelPerformance } from '/core/gameplay/modelPerformance.js'
+import scales from '../scales.js'
 
 /** Vis is seen from above at 10 px a metre: the stage draws its blocks so, x across and z down the view. */
-const pxPerMeter = 10
+const pxPerMeter = scales.top
 
 /** The view of the stage seen from above, and the middle of the stage `share` of the way down, in metres. */
 const fromAbove = stage => ({ projection: topProjection({ pxPerMeter }), camera: stage })

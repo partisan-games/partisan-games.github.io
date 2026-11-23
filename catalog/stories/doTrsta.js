@@ -9,9 +9,10 @@ import GunCarrierSprite, { gunCarrierPictures } from '/core/actor/vehicles/GunCa
 import { somuaTank } from '/core/actor/tankLooks.js'
 
 import { yawOf } from './helpers.js'
+import scales from '../scales.js'
 
 /** Do Trsta draws its road at 20 px a metre. */
-const pxPerMeter = 20
+const pxPerMeter = scales.side
 
 /** A block facing `way` in the middle of the stage, on the ground, its shots hitting the stand-in. */
 const placed = (stage, size, way) => ({ x: stage.width / 2 / stage.projection.pxPerMeter, y: size.height / 2, yaw: yawOf(way),

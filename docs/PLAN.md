@@ -11,14 +11,15 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 | 2 | [AR-P02](#ar-p02) | Dovršiti odložene provere postojećih dopuna u katalogu i igrama | Agent | 📋 TODO |
 | 3 | [AR-P03](#ar-p03) | Pregledati dopune aktera koje nemaju zabeleženo vizuelno prihvatanje | Vlasnik | 📋 TODO |
 | 4 | [AR-P04](#ar-p04) | Pregledati rasporede rekvizita i preostale ugrađene ambijente | Vlasnik | 📋 TODO |
+| 5 | [AR-P06](#ar-p06) | Precrtati krupnije slike manje od prikaza i vratiti stvarne veličine avionima u Visu | Codex, Claude | 📋 TODO |
 | | **[Igre i ideje](#igre)** | | | |
-| 5 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [2](#note-2) |
-| 6 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
-| 7 | [IG-19](#ig-19) | Dogovoriti nazive nivoa i prikaz žanra i godine na naslovnoj | Vlasnik | 📋 TODO |
-| 8 | [IG-20](#ig-20) | Razmotriti nivo odbrane položaja odozgo, sa napadima sa svih strana | Vlasnik | 📋 TODO |
-| 9 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
-| 10 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
-| 11 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
+| 6 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [2](#note-2) |
+| 7 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
+| 8 | [IG-19](#ig-19) | Dogovoriti nazive nivoa i prikaz žanra i godine na naslovnoj | Vlasnik | 📋 TODO |
+| 9 | [IG-20](#ig-20) | Razmotriti nivo odbrane položaja odozgo, sa napadima sa svih strana | Vlasnik | 📋 TODO |
+| 10 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
+| 11 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
+| 12 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
 
 ## Održavanje plana
 
@@ -51,6 +52,11 @@ U ranijim beleškama ostali su otvoreni: punjenje nemačkog strelca; hod i oba p
 ### AR-P04 · Ambijenti i rekviziti
 
 Pregledati [deset rasporeda rekvizita](ART.md#rasporedi-u-igri), uključujući novi raspored Batine, i preostale ambijente iz [šest ugrađenih pozadina](ART.md#šest-ambijenata-sadašnjih-nivoa). Izbor slojevite Batine već je potvrđen; time nije potvrđen novi raspored poginulih. Otpisani koriste izabranu crno-belu pozadinu, ali pregled njene kompozicije u igri nije zabeležen kao završen. Očuvati postojeće potvrđene izbore; nedostatak pregleda nije nalog za novu generaciju.
+
+<a id="ar-p06"></a>
+### AR-P06 · Slike manje od prikaza
+
+Po [pravilu razmere](ART.md#razmera) slika nikad nije manja od prikaza u igri; sitnija se precrtava, ne uvećava. Prema merenju u katalogu manje od svoje osnove su: Sd.Kfz. 251 (1,8 puta), brodovi u Čamcu (oko 1,6 puta), Nemac i Četnik spreda (1,45 puta, u Otpisanima), He 111 i Storch iz Kluza (oko 1,2 puta) i M15/42, StuG III i Hotchkiss (oko 1,1 puta). Avionima u Visu vratiti stvarne veličine tela (sada su 1,3 do 2,5 puta veći) i podesiti razmeru igre tako da se igranje ne promeni. Krupnije slike se ne umanjuju; privremeni strelac i stražar Otpisanih zamenjuju se novim crtežom ([IG-13](#ig-13)).
 
 ### Mogućnosti bez naloga za izradu
 

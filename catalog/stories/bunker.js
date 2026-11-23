@@ -5,9 +5,10 @@ import GrenadierSprite from '/core/actor/soldiers/GrenadierSprite.js'
 import { topProjection } from '/core/actor/projection.js'
 import { fromAbove } from './helpers.js'
 import Bunker, { gunnerWindow } from '/core/objects/Bunker.js'
+import scales from '../scales.js'
 
 /** Bunker is seen from above at 40 px a metre. */
-const pxPerMeter = 40
+const pxPerMeter = scales.top
 const views = stage => {
   fromAbove(stage)
   return { projection: topProjection({ pxPerMeter }), camera: stage }
@@ -44,5 +45,6 @@ export const artillery = [
 ]
 
 export const soldiers = [
-  { id: 'bombas', name: 'Bombaš', game, pxPerMeter, way: -1, block: grenadierModule, create: grenadier },
+  { id: 'bombas', name: 'Bombaš', game, pxPerMeter, way: -1, block: grenadierModule, create: grenadier,
+    catalogGroup: ['Vojnici', 'Partizanski'] },
 ]
