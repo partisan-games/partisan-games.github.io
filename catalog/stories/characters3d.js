@@ -143,7 +143,7 @@ function infantryStory(id, name, game, block, portraitNames = {}) {
       return { id, name: value.name, value, aliases }
     })
   const story = {
-    ...base, lookLabel: 'Oprema i uniforma',
+    ...base, lookLabel: 'Varijacije',
     create: async(stage, way, look) => {
       await requestModels([...block.models, ...looks.map(({ value }) => value.weapon.model)], { parallelAnimations: true })
       const { body, model } = makeCharacter(block.description)
@@ -168,7 +168,7 @@ function infantryStory(id, name, game, block, portraitNames = {}) {
       return body
     },
   }
-  const original = { ...story, looks: [{ id: 'original', name: 'Osnovna oprema' }],
+  const original = { ...story, looks: [{ id: 'original', name: 'Maskirna' }],
     catalogGroup: ['Vojnici', id === 'vojnik-3d' ? 'Ostali' : id === 'sovjetski-partizan-3d' ? 'Sovjeti' : 'Partizani'] }
   const identities = new Map()
   // Old links use the first equipment variant of each combat role as the story ID.
@@ -197,6 +197,7 @@ function infantryStory(id, name, game, block, portraitNames = {}) {
     })
     identities.get(identity).looks.push(look)
   }
+  original.looks.sort((a, b) => Number(b.id === 'strelac') - Number(a.id === 'strelac'))
   return [original, ...identities.values()]
 }
 
@@ -257,12 +258,12 @@ const germanHeavyInfantry = {
 }
 
 const [resistanceFighter, ...resistanceIdentities] = infantryStory(
-  'borac-pokreta-otpora-3d', 'Crni · Radnik i borac pokreta otpora', 'Liberated City', resistanceFighterModule,
-  { moustache: 'Tihi · Borac pokreta otpora s brkovima' },
+  'borac-pokreta-otpora-3d', 'Crni', 'Liberated City', resistanceFighterModule,
+  { moustache: 'Tihi' },
 )
 const workerFighter = {
   ...worker, name: resistanceFighter.name, game: `${worker.game}, ${resistanceFighter.game}`,
-  catalogGroup: resistanceFighter.catalogGroup, lookLabel: 'Oprema i uniforma',
+  catalogGroup: resistanceFighter.catalogGroup, lookLabel: 'Varijacije',
   looks: [
     ...worker.looks,
     { id: 'puska', name: 'Puška', block: resistanceFighter.block, aliases: [resistanceFighter.id, `${resistanceFighter.id}/original`] },
@@ -282,13 +283,13 @@ export const ww2 = [
   character('nemacki-vojnik-3d', 'Nemački vojnik', library, germanSoldierModule),
   character('nacisticki-agent-3d', 'Nacistički agent', library, naziAgentModule),
   character('nacisticki-oficir-3d', 'Nacistički oficir', '3D Tank, FPS Airport, FPS Base', naziOfficerModule),
-  infantryStory('partizan-3d', 'Marko · Partizan', 'Liberated City, Spomenici', partisanModule),
-  infantryStory('partizan-jednostavan-model-3d', 'Vuk · Partizan', 'Liberated City', partisanLowpolyModule),
+  infantryStory('partizan-3d', 'Drug Marko', 'Liberated City, Spomenici', partisanModule),
+  infantryStory('partizan-jednostavan-model-3d', 'Brka', 'Liberated City', partisanLowpolyModule),
   workerFighter,
   ...resistanceIdentities,
   character('ss-vojnik-3d', 'SS vojnik', '3D Tank, FPS Airport, FPS Base', sSSoldierModule),
   infantryStory('vojnik-3d', 'Vojnik', library, soldierModule),
-  infantryStory('sovjetski-partizan-3d', 'Vasja · Sovjetski partizan', 'Liberated City', sovietPartisanModule),
+  infantryStory('sovjetski-partizan-3d', 'Vasja', 'Liberated City', sovietPartisanModule),
 ].flat()
 
 export const beasts = [

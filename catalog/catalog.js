@@ -1,6 +1,7 @@
 import Stage2D from './Stage2D.js'
 
-export const dimensionOf = story => !story.stage || story.stage === Stage2D ? '2d' : '3d'
+// Flat art can need a 3D stage (billboards); its renderer does not define its art dimension.
+export const dimensionOf = story => story.dimension ?? (!story.stage || story.stage === Stage2D ? '2d' : '3d')
 
 export function findStory(kinds, address) {
   const [kindId, storyId, selection] = address.split('/')

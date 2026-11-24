@@ -30,6 +30,7 @@ To see every background picture in the project, open `/pozadine.html` on the `np
 See [PLAN](docs/PLAN.md).
 
 - razrađivati postojeće nivoe redom
+- napraviti fantasy-backup pa onda obrisati fantasy scene i resurse
 - smisli kako da 3d igre po stilu vise lice na 2d igre. ja u nekim igrama koristim Toon renderer koji daje crne ivice kao crtez. sta bi jos mogli? 
 - Kako jos kreativno mozemo mesati 2d i 3d? Imamo drvar i german advance kao primere
 - treba dodati kratak istorijski info za svaki nivo negde. osmisliti gde da ne guši igru.
@@ -44,6 +45,9 @@ UVODNE ANIMACIJE NA NIVOE:
   assets/images/armies/cetnici/juris-01.png
   assets/images/armies/cetnici/mitraljezac-07.png
 - ima li smisla napraviti prost 3d renderer za neke nivoe? Prednosti i mane?
+- objasni šta je ovde: assets\images\armies\sources . deluje da to ne treba da stoji u armies
+- https://upload.wikimedia.org/wikipedia/commons/b/be/Druga_proleterska_divizija_na_Sutjesci.jpg ova slika je uzor za catalog.html#drugi-svetski-rat-3d/partizan-3d/original. hoću da naš model više liči na izvornog lika u centru fotografije.
+
 
 ## Credits
 

@@ -24,7 +24,7 @@ const cap = 'mat_11-27373E00.jpg'
 const indigo = 'indigo-work-shirt.jpg', wool = 'brown-wool-shirt.jpg', moustache = 'partisan-moustache.jpg'
 
 export const variants = {
-  strelac: { name: 'Rifleman', model: regular, weapon: rifle, outfit: partisanOutfits.wool },
+  strelac: { name: 'Osnovna', model: regular, weapon: rifle, outfit: partisanOutfits.wool },
   smedji: { name: 'Brown uniform · Berthier', model: lowpoly, weapon: berthier, outfit: { 'army.green': 0x665541, avocado: 0x40372f } },
   mitraljezac: { name: 'Machine gunner', model: riflemanModel, weapon: mg },
   vuna: { name: 'Wool shirt · rifle', model: resistanceFighterModel, weapon: rifle, outfit: { [shirt]: wool, [trousers]: 0xc7ac82 } },

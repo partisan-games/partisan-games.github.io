@@ -19,17 +19,17 @@ import * as drvar from './drvar.js'
  * class it needs, the 2D one by default, and `pxPerMeter` how large it draws a block in metres: the natural scale of its view, from `scales.js`.
  */
 export default [
-  { id: 'vojnici', title: 'Vojnici', stories: [...franjoKluz.soldiers, ...ustanak.soldiers, ...bunker.soldiers, ...neretva.soldiers, ...otpisani.soldiers, ...partisans.soldiers] },
+  { id: 'vojnici', title: 'Vojnici', stories: [...franjoKluz.soldiers, ...ustanak.soldiers, ...bunker.soldiers, ...neretva.soldiers, ...otpisani.soldiers, ...partisans.soldiers, ...drvar.soldiers] },
   { id: 'vozila', title: 'Tenkovi i vozila', stories: [...tenkici.vehicles, ...franjoKluz.vehicles, ...doTrsta.vehicles] },
-  { id: 'avioni', title: 'Avioni', stories: [...franjoKluz.aircraft, ...vis.aircraft] },
+  { id: 'avioni', title: 'Avioni', stories: [...franjoKluz.aircraft, ...vis.aircraft, ...drvar.aircraft] },
   { id: 'brodovi', title: 'Brodovi', stories: [...camac.boats] },
   { id: 'artiljerija', title: 'Artiljerija', stories: [...franjoKluz.artillery, ...ustanak.artillery, ...bunker.artillery, ...doTrsta.artillery, ...camac.artillery] },
   { id: 'fantazija-3d', title: '3D fantazija', stories: characters3d.fantasy },
   { id: 'horor-3d', title: '3D horor', stories: characters3d.horror },
-  { id: 'drugi-svetski-rat-3d', title: '3D Drugi svetski rat', stories: [...characters3d.ww2, ...drvar.soldiers] },
+  { id: 'drugi-svetski-rat-3d', title: '3D Drugi svetski rat', stories: characters3d.ww2 },
   { id: 'zivotinje-i-masine-3d', title: '3D životinje i mašine', stories: characters3d.beasts },
-  { id: 'letelice-3d', title: '3D letelice', stories: [...objects3d.aircraft, ...drvar.aircraft] },
+  { id: 'letelice-3d', title: '3D letelice', stories: [...objects3d.aircraft, ...drvar.aircraft3d] },
   { id: 'artiljerija-3d', title: '3D artiljerija', stories: objects3d.artillery },
   { id: 'kule-3d', title: '3D kule sa topom', stories: objects3d.towers },
-  { id: 'ambijent-3d', title: '3D ambijent', stories: crveniKrst.props },
+  { id: 'ambijent-3d', title: '3D ambijent', stories: [...crveniKrst.props, ...drvar.props] },
 ]

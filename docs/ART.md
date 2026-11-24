@@ -28,6 +28,12 @@ Pravila izrade i veze do izvora. Otvoreni poslovi su u [PLAN-u](PLAN.md#art), pr
 - Bočni lik, mina odozgo, frontalna zgrada i kosa pozadina ne postaju usklađeni samom paletom i senkama. Proveriti veličinu mine prema stopalu, vrata i spratova prema čoveku, dodir sa tlom i zaklanjanje; pozadina ne sme nadjačati aktere.
 - Promena arta nije razlog za usputno menjanje sudara, broja prepreka ili rasporeda igre. Sačuvana bolnica je studija za buduće uklapanje, nije prihvaćena kao konačan art i nije povezana sa igrom; odbačeni teren i mine ne čuvaju se kao alternative.
 
+## Drvar — crkva
+
+[3D Ju 52](../assets/models/aircraft/ju52/README.md) koristi isti prikaz u Drvaru i katalogu: mirovanje, let i obaranje, sa tri rotirajuća propelera i dimom pri oštećenju. Optimizacija spaja jednake materijale i neprozirne nepokretne delove: 66 → 5 materijala i 66 → 12 primitiva, uz očuvanih 9.061 trougao, ugrađene teksture i odvojene propelere. Poreklo i nepotvrđena prava ponovne upotrebe čuvaju se uz izvorni model.
+
+[Crkva](../assets/models/building/drvar-church/README.md) je oblikovana prema fotografiji koju je vlasnik zadao: kamena fasada, dvovodni krov, četvrtast zvonik sa piramidalnim četvorovodnim krovom, lučni prozori i ulaz. Visina od 11 m je procena, ne istorijska mera. Isti model je u sredini dvorišta Drvara i u katalogu pod Ambijent / Drvar; izvor, ponovljiva izrada i offline prikaz čuvaju se uz model.
+
 <a id="crveni-krst-priprema-3d-ambijenta"></a>
 ## Crveni krst — priprema 3D ambijenta
 

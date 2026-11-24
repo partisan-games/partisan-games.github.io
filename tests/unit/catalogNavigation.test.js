@@ -9,6 +9,24 @@ before(async() => {
   ;({ createCatalog, findStory, groupOf } = await import('/catalog/catalog.js'))
 })
 
+test('Drvar sprites stay under 2D despite needing a 3D stage, while real models stay under 3D', () => {
+  const root = document.createElement('nav')
+  createCatalog(root, kinds)
+  for (const [kind, id, dimension] of [
+    ['vojnici', 'nemacki-padobranac', '2D'],
+    ['vojnici', 'nemacki-vojnik-spreda', '2D'],
+    ['avioni', 'junkers-ju-52', '2D'],
+    ['letelice-3d', 'junkers-ju-52-model', '3D'],
+    ['ambijent-3d', 'drvar-crkva', '3D'],
+  ]) {
+    const link = root.querySelector(`a[href="#${kind}/${id}"]`)
+    assert.ok(link, id)
+    let group = link.closest('details')
+    while (group.parentElement.closest('details')) group = group.parentElement.closest('details')
+    assert.equal(group.querySelector(':scope > summary').textContent, dimension, id)
+  }
+})
+
 test('chetniks have their own army group, not the miscellaneous one', () => {
   const soldiers = kinds.find(({ id }) => id === 'vojnici')
   const chetnik = soldiers.stories.find(({ id }) => id === 'cetnik-u-rovu')

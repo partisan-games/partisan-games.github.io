@@ -122,7 +122,6 @@ function drawPanel() {
       <h2>${story.name}</h2>
       <button data-zoom="1.25" aria-label="Približi">+</button><button data-zoom="0.8" aria-label="Udalji">−</button><button data-reset-view aria-label="Vrati početni pogled">1:1</button>
     </div>
-    <p>${story.game}</p>
     ${story.looks ? lookButtons(kind, story, look) : ''}
     ${'way' in story ? sideButtons() : ''}
     ${block.states ? stateButtons('Stanja', controls.states, (dies ? '' : hit) + resetButton, { dead: hit }) : hit + resetButton}

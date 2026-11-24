@@ -24,12 +24,13 @@ import MouseLook from '/core3d/actor/characters/MouseLook.js'
 import FirstPersonView from '/core3d/actor/characters/FirstPersonView.js'
 import ParachutistSprite, { parachutistArt } from '/core3d/actor/soldiers/ParachutistSprite.js'
 import CoverSoldierSprite, { coverSoldierArt } from '/core3d/actor/soldiers/CoverSoldierSprite.js'
-import TransportSprite, { transportArt } from '/core3d/actor/aircraft/TransportSprite.js'
+import Ju52, { models as ju52Models } from '/core3d/actor/aircraft/Ju52.js'
 import dressFighter from '/core3d/actor/characters/dressFighter.js'
 import { description as sovietPartisan, models as sovietPartisanModels } from '/core3d/actor/derived/ww2/SovietPartisan.js'
 import { description as resistanceFighter, models as resistanceFighterModels } from '/core3d/actor/derived/ww2/ResistanceFighter.js'
 import { description as partisanLowpoly, models as partisanLowpolyModels } from '/core3d/actor/derived/ww2/PartisanLowpoly.js'
 import { variants } from '/core3d/actor/derived/ww2/partisanLooks.js'
+import Church, { models as churchModels } from '/core3d/actor/buildings/Church.js'
 
 const messages = {
   intro: '<ul><li>Hold the position</li><li>Shoot the paratroopers before they reach cover</li></ul>',
@@ -99,10 +100,10 @@ export default class DrvarScene extends Scene3D {
   }
 
   async init() {
-    const pictures = [...parachutistArt.pictures, coverSoldierArt.whole, coverSoldierArt.upper, transportArt.picture]
+    const pictures = [...parachutistArt.pictures, coverSoldierArt.whole, coverSoldierArt.upper]
     const [textures] = await Promise.all([
       Promise.all(pictures.map(loadPixelArt)).then(loaded => new Map(pictures.map((src, i) => [src, loaded[i]]))),
-      requestModels([...sovietPartisanModels, ...resistanceFighterModels, ...partisanLowpolyModels]),
+      requestModels([...sovietPartisanModels, ...resistanceFighterModels, ...partisanLowpolyModels, ...churchModels, ...ju52Models]),
     ])
     // a newer start ended this scene while its pictures loaded: they are its alone, so it frees them
     if (!this.session.active) return textures.forEach(texture => texture.dispose())
@@ -125,6 +126,9 @@ export default class DrvarScene extends Scene3D {
     this.targets = []
     this.coverSpots = this.placeCovers()
     this.buildYardWall()
+    const church = new Church()
+    church.mesh.rotation.y = Math.PI / 2
+    this.addMesh(church.mesh)
     this.placePlayer()
     this.outfits = new Map()
     this.comrades = posts.comrades.map((post, i) => this.placeComrade(post, comrades[i]))
@@ -215,7 +219,7 @@ export default class DrvarScene extends Scene3D {
         drop: { from: start - flight.zone / 2, to: start + flight.zone / 2 } })
       body.sent = 0
       this.planes.push(body)
-      this.add(body, new TransportSprite(body, { texture: this.textures.get(transportArt.picture), camera: this.camera }))
+      this.add(body, new Ju52(body))
     }
   }
 
@@ -271,7 +275,7 @@ export default class DrvarScene extends Scene3D {
   }
 
   get waveBeaten() {
-    return this.waveTime > this.waveEnd && this.planes.every(plane => plane.jumped === plane.jumpers)
+    return this.waveTime > this.waveEnd && this.planes.every(plane => plane.dead || plane.jumped === plane.jumpers)
       && this.enemies.every(enemy => enemy.dead || (enemy instanceof Parachutist && enemy.handedOver))
   }
 

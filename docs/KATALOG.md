@@ -55,6 +55,8 @@ Priče su u [catalog/stories](../catalog/stories/), po jedna datoteka za igru, a
 
 `catalogGroup` je niz naziva grupa unutar dimenzije; njime se izričito određuje mesto aktera u stablu. `aliases` na priči ili skinu čuva stare putanje `priča[/izgled]` unutar vrste. [catalogEntries](../catalog/stories/catalogEntries.js) izdvaja modele sa zajedničkom fabrikom; `modelIds` daje njihove javne adrese. Dodavanje nove klase ne dodaje automatski stavku: autor dodaje svaki njen tip/model/ulogu i proverava katalog.
 
+**Vrsta arta nije vrsta pozornice.** Ravna slika koja se prikazuje na `Stage3D` navodi `dimension: '2d'`; 3D pozornica joj omogućava prikaz u prostoru, ali je ne pretvara u 3D model. Bez izričite dimenzije zadržava se dosadašnji izbor prema pozornici. Drvarski spriteovi su prvobitno završili pod 3D zbog tog podrazumevanja; premeštanje između nizova u indeksu samo po sebi ne menja koren navigacije. [Provera navigacije](../tests/unit/catalogNavigation.test.js) zato proverava stvarne 2D/3D grupe za sve stavke Drvara.
+
 Panel čita blok:
 
 **Jedna radnja ima jedno dugme.** Kada `attack` (ili 3D animacija `fire`) pokreće jedini napad aktera, panel prikazuje njega, bez dodatnog „Pucaj pravo” za istu radnju. Kod više različitih napada posebna dugmad zamenjuju opštu komandu napada. Duplirani napad iz animacija i radnji takođe se skriva; samostalno nišanjenje automatskog oružja ostaje dostupno.
