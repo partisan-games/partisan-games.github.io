@@ -16,13 +16,14 @@ const calm = { idle: true, wander: true, patrol: true, defend: false, flee: fals
  * The decisions of a character with no player: it keeps its calm `way` (stands, wanders, patrols, defends its place,
  * flees from its target or follows it) until it sees its `target`, a body; then it chases it, swings at it in reach
  * and goes back to its way once it loses it. `sees(from, to)` is the scene's answer whether nothing stands between.
+ * `onFirstSpot(body)` runs when this character first spots a target and starts pursuit.
  */
 export default class CharacterAI {
   constructor(body, { target = null, way = 'wander', sight = characterAI.sight,
     followDistance = characterAI.followDistance, patrolDistance = characterAI.patrolDistance,
-    sees = () => true, random = Math.random } = {}) {
+    sees = () => true, random = Math.random, onFirstSpot } = {}) {
     if (!Object.hasOwn(calm, way)) throw new RangeError(`Unknown way: ${way}`)
-    Object.assign(this, { body, target, way, sight, followDistance, patrolDistance, sees, random })
+    Object.assign(this, { body, target, way, sight, followDistance, patrolDistance, sees, random, onFirstSpot })
     this.doing = way
     this.since = 0
     this.wait = this.lasting(characterAI.look)
@@ -119,7 +120,11 @@ export default class CharacterAI {
   }
 
   chaseIfSpotted() {
-    if (calm[this.way] && this.spotted) this.set('pursue')
+    if (!calm[this.way] || !this.spotted) return
+    this.set('pursue')
+    const notify = this.onFirstSpot
+    this.onFirstSpot = null
+    notify?.(this.body)
   }
 
   idle() {

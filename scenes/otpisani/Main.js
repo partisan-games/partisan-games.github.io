@@ -21,7 +21,8 @@ export default class OtpisaniScene extends Scene2D {
   constructor() {
     super({
       controlKeys: { [attackLabels.pointer]: 'shoot' },
-      intro: 'Kill all the occupiers!<br>Liberation is near.',
+      intro: 'Kill all the occupiers!',
+      reportText: 'Belgrade, October 1944\n\nPartisans and the Red Army fight their way into the city. Your task is to strike the Germans from behind their lines.',
     })
   }
 

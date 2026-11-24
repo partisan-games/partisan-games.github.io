@@ -30,19 +30,7 @@ To see every background picture in the project, open `/pozadine.html` on the `np
 See [PLAN](docs/PLAN.md).
 
 - razrađivati postojeće nivoe redom
-- treba dodati kratak istorijski info za svaki nivo negde. gde možemo da ne guši igru?
-- German advance animacija sa zivim likovima da bude promo animacija sajta, dodati na kraju tekst Partisan games
-- Prosiriti katalog zgradama i predmetima?
-- Mozda obrisati ostale igre? Dora voli balonka....
-UVODNE ANIMACIJE NA NIVOE:
-- gola zrtva izlazi iz kuce u plamenu i bezi od nemackog vojnika
-- animacija Nemci streljaju civile (taoce)
-- Napraviti par cetnika 2d i 3d.
-  assets/images/armies/cetnici/cetnik-03.png
-  assets/images/armies/cetnici/juris-01.png
-  assets/images/armies/cetnici/mitraljezac-07.png
-- ima li smisla napraviti prost 3d renderer za neke nivoe? Prednosti i mane?
-- https://upload.wikimedia.org/wikipedia/commons/b/be/Druga_proleterska_divizija_na_Sutjesci.jpg ova slika je uzor za catalog.html#drugi-svetski-rat-3d/partizan-3d/original. hoću da naš model više liči na izvornog lika u centru fotografije.
+- German advance animacija da bude promo animacija sajta, dodati na kraju logo Partisan games
 
 ## Credits
 

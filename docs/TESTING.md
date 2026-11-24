@@ -20,6 +20,8 @@ Za browser je potreban instaliran Chromium. Velike serije, buildovi i paralelni 
 
 ## Unit tests (`tests/unit/`)
 
+The Germans Advance (2026-11-25). [Provere atlasa](../tests/unit/advanceArt.test.js) obuhvataju mere i hashove, podizanje puške bez prekida ciklusa hoda, pucanje iz klečećeg stava i promenu kadrova gusenica i posade u oba smera. Na kontaktnoj tabli proveren je položaj puške pri hodu. Provera alfa kanala potvrđuje oslonac u svakom kadru i iste piksele nogu pri hodu i podizanju puške. Pregledač nije pokretan.
+
 Art katalog (2026-11-24): `python -B scripts/build-art-catalog.py --check` proverava podudaranje stranica sa folderom `armies` i sve lokalne veze. [Ciljani DOM test](../tests/unit/artCatalog.test.js) potvrđuje originalne slike, izabrani folder, pretragu, prazne rezultate i vraćanje navigacije; izdvojeni `game-ready` nije u stablu. Posle premeštanja pripremljenog arta u `assets/images/game-ready` prolazi 17 ciljanih testova kataloga, razmera i vozila, provera projekta, lossless kopija i 40 paketa pripremljenog arta. Pri premeštanju potvrđeno je očuvanje bajtova slika. Pregledač nije pokretan.
 
 Gašenje posle greške (2026-11-24): [regresione provere](../tests/unit/cleanup.test.js), sesija i postojeće 3D provere prolaze, ukupno 20 testova. Pokriveni su neispravan upravljač i akter, objedinjavanje grešaka, pražnjenje vlasničkih spiskova, nastavak gašenja sesije/UI-ja/ulaza i oslobađanje preostalih GPU resursa posle greške geometrije. Provera importa i putanja takođe prolazi; pregledač nije pokretan.

@@ -30,19 +30,15 @@ function renderedClasses(uiStyle) {
   return classes
 }
 
-test('a scene without a style uses the simple style', () => {
-  const scene = new Scene({ canvas: document.createElement('canvas'), intro: 'x' })
-  scene.ui.renderStartScreen()
-  assert.equal(classesOf(document.querySelector('#start')), 'default-button')
-  scene.end()
+test('a scene without a style uses WW2 with the White button and an ammo belt frame', () => {
+  const { container, button } = renderedClasses()
+  assert.equal(container, 'white-container ww2-container')
+  assert.equal(button, 'white-button')
 })
 
 test('the next scene does not inherit the style of the previous one', () => {
-  assert.deepEqual(renderedClasses('white').button, 'white-button')
-  const scene = new Scene({ canvas: document.createElement('canvas'), intro: 'x' })
-  scene.ui.renderStartScreen()
-  assert.equal(classesOf(document.querySelector('#start')), 'default-button')
-  scene.end()
+  assert.equal(renderedClasses('white').container, 'white-container')
+  assert.equal(renderedClasses().container, 'white-container ww2-container')
 })
 
 test('the style picked in Settings wins over the style of every game, is kept, and Predefined gives each game its own', async() => {
@@ -67,6 +63,10 @@ test('a style picked while a screen is open restyles it at once, and an ended sc
   const scene = new Scene({ canvas: document.createElement('canvas'), intro: 'x', uiStyle: 'white' })
   try {
     scene.ui.renderStartScreen()
+    chooseUiStyle('ww2')
+    assert.ok(document.querySelector('#start-screen.white-container.ww2-container'))
+    chooseUiStyle('white')
+    assert.equal(document.querySelector('#start-screen.ww2-container'), null)
     chooseUiStyle('simple')
     assert.equal(classesOf(document.querySelector('#start')), 'default-button')
     assert.equal(classesOf(document.querySelector('#start-screen')).replace('central-screen flex-column ', ''), 'simple-container')

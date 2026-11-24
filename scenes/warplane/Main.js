@@ -4,11 +4,15 @@ import { createSun } from '/core3d/light.js'
 import { createTerrain, meadowColor } from '/core3d/ground.js'
 import { createFirTree } from '/core3d/geometry/trees.js'
 import { baseControls } from '/ui/Controls.js'
-import { attackLabels } from '/core/io/keys.js'
+import { attackLabels, keys } from '/core/io/keys.js'
 import { icons } from '/core/io/icons.js'
 import Input from '/core/io/Input.js'
 import WarplaneKeys from '/core/gameplay/controllers/WarplaneKeys.js'
+import GunTurrets from '/core/gameplay/bodies/aircraft/GunTurrets.js'
 import makeWarplane from '/core3d/actor/aircraft/makeWarplane.js'
+import makeInterceptor from '/core3d/actor/aircraft/makeInterceptor.js'
+import ProjectilesModel from '/core3d/actor/ProjectilesModel.js'
+import { description as fighterPlane, models as fighterModels } from '/core3d/aircraft/derived/Messerschmitt.js'
 import worldQueries from '/core3d/actor/characters/worldQueries.js'
 import ChaseCamera from '/core3d/actor/ChaseCamera.js'
 import Cooldown from '/core/gameplay/Cooldown.js'
@@ -25,8 +29,10 @@ const buildingDistance = mapSize * .4
 const groundDistance = mapSize * .99
 const endDelay = 2.5 // seconds between the end of the flight and the end screen
 const planes = ['Bomber']
-/** A plane has nothing to jump, so it fires on Space. */
-const inputOptions = { attackKey: 'Space', buttonDict: { attack: icons.shoot } }
+/** Seconds of game time before the first enemy fighter, and between one shot down and the next. */
+const fighterWaits = { first: 12, next: 18 }
+/** A plane has nothing to jump, so it fires its rockets on Space; its machine guns fire on the second attack. */
+const inputOptions = { attackKey: 'Space', buttonDict: { attack: icons.rocket, attack2: icons.shoot } }
 
 const customStartScreen = ({ container }) => {
   const options = planes
@@ -34,7 +40,7 @@ const customStartScreen = ({ container }) => {
     .join('')
 
   return /* html */`
-    <div class="central-screen ${container}">
+    <div class="central-screen ${container}" id="start-screen">
         <h2>Choose your aircraft</h2>
         <div class="game-screen-select">
             ${options}
@@ -47,8 +53,9 @@ export default class WarplaneScene extends Scene3D {
   constructor() {
     super({
       toon: true,
-      controlKeys: { ...baseControls, [attackLabels[inputOptions.attackKey]]: 'shoot' },
-      customStartScreen
+      controlKeys: { ...baseControls, [attackLabels[inputOptions.attackKey]]: 'rockets', [keys.attack2.label]: 'machine guns' },
+      customStartScreen,
+      reportText: 'Yugoslavia, September 1944\n\nGerman troops from Greece rush north to stop the liberation of Belgrade. Your task is to bomb the railways and bridges in their way.',
     })
   }
 
@@ -71,6 +78,10 @@ export default class WarplaneScene extends Scene3D {
 
     this.score = 0
     this.sinceEnd = 0
+    /** The enemy fighters, the bodies the bomber's guns aim at, and each with its views. */
+    this.fighters = []
+    this.fighterParts = []
+    this.fighterWait = new Cooldown({ seconds: fighterWaits.next, clock: this.session.clock })
   }
 
   handleClick(e) {
@@ -79,13 +90,17 @@ export default class WarplaneScene extends Scene3D {
 
   async prepare(plane) {
     const { models, description } = await import(`/core3d/aircraft/derived/${plane}.js`)
-    await requestModels(models)
+    await requestModels([...models, ...fighterModels])
     if (this.ui.ended) return
     const { groundAt } = worldQueries([this.ground, this.ground2])
+    this.groundAt = groundAt
     const { body, model } = makeWarplane(description,
       { clock: this.session.clock, limit: mapSize * .25, groundAt, targets: this.buildings.map(({ body }) => body) })
     this.player = body
-    this.controllers.push(new WarplaneKeys(body, new Input(inputOptions)))
+    this.guns = new GunTurrets({ plane: body, targets: this.fighters, clock: this.session.clock })
+    this.add(this.guns, new ProjectilesModel(this.guns, { shotSound: 'aircraft-gun.mp3' }))
+    this.fighterWait.start(fighterWaits.first)
+    this.controllers.push(new WarplaneKeys(body, new Input(inputOptions), this.guns))
     this.audioPlayer = () => model
     // the camera flies behind the plane, never turning with it
     const { length, height } = body.size
@@ -137,7 +152,36 @@ export default class WarplaneScene extends Scene3D {
       this.addBuilding(time)
       this.buildingWait.start()
     }
+    if (this.fighterWait.ready && !this.fighters.some(fighter => fighter.alive)) this.addFighter()
   }
+
+  /** A Bf 109 comes at the bomber from ahead, out of the haze, and makes pass after pass at it. */
+  addFighter() {
+    const { body, model, guns } = makeInterceptor(fighterPlane, {
+      target: this.player, clock: this.session.clock, groundAt: this.groundAt,
+      x: randFloatSpread(mapSize * .2), y: this.player.y + 15, z: -buildingDistance * .8,
+    })
+    this.fighters.push(body)
+    this.fighterParts.push({ body, model, guns, counted: false })
+    this.add(body, model, guns)
+  }
+
+  /** A fighter shot down lies on the ground that comes at the plane, and is gone once behind it; each one scores. */
+  moveFighters = deltaSpeed => [...this.fighterParts].forEach(fighter => {
+    const { body, model, guns } = fighter
+    if (body.alive) return
+    if (!fighter.counted) {
+      fighter.counted = true
+      this.score++
+      this.fighterWait.start(fighterWaits.next)
+    }
+    if (!body.airborne) body.z += deltaSpeed
+    if (body.z <= this.camera.position.z + 200) return
+    this.fighterParts.splice(this.fighterParts.indexOf(fighter), 1)
+    this.fighters.splice(this.fighters.indexOf(body), 1)
+    this.remove(body, model, guns)
+    model.end()
+  })
 
   moveGround = deltaSpeed => [this.ground, this.ground2].forEach(g => {
     g.translateZ(deltaSpeed)
@@ -196,6 +240,7 @@ export default class WarplaneScene extends Scene3D {
     this.moveGround(deltaSpeed)
     this.moveObjects(deltaSpeed)
     this.moveBuildings(deltaSpeed)
+    this.moveFighters(deltaSpeed)
     this.countDestroyed()
 
     if (this.player.dead)

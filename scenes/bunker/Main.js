@@ -27,6 +27,7 @@ const pxPerMeter = 40
 export default class BunkerScene extends Scene2D {
   constructor() {
     super({ intro: 'Bring Žikica Jovanović Španac to the German bunker!',
+      reportText: 'Krupanj, September 1941\n\nInsurgents besiege the German garrison in Krupanj. Young bombers led by Žikica Jovanović Španac attack it at night.',
       controlKeys: { ...baseControls, [attackLabels.Space]: 'throw grenade' } })
   }
 

@@ -133,10 +133,12 @@ test('FPS camp initializes with real model files, ten enemies and two first aids
   const { default: FPSRenderer } = await import('/core3d/actor/FPSRenderer.js')
   t.mock.method(FPSRenderer.prototype, 'render', () => {})
   const games = []
+  const preloaded = [], shouted = []
   const fresh = () => {
     const game = Object.assign(Object.create(FpsBaseScene.prototype), {
       scene: new THREE.Scene(), camera: new THREE.PerspectiveCamera(), world: new World(),
       session: new GameSession(), canvas: document.getElementById('platno'), syncSounds() {},
+      sceneAudio: { output: { preload: file => preloaded.push(file) }, emit: (...args) => shouted.push(args) },
     })
     games.push(game)
     return game
@@ -153,6 +155,28 @@ test('FPS camp initializes with real model files, ten enemies and two first aids
   assert.equal(game.firstAids.length, 2)
   assert.equal(game.camp.walkSolids.length, 11)
   assert.ok(game.enemies.every(enemy => Math.hypot(enemy.x - game.player.x, enemy.z - game.player.z) > 12))
+  assert.deepEqual(preloaded, ['halt.mp3'])
+  const sentry = game.enemies[0]
+  sentry.x = game.player.x + 5
+  sentry.z = game.player.z
+  sentry.face(game.player)
+  const guardAI = game.controllers.find(controller => controller.body === sentry)
+  let visible = false
+  guardAI.sees = () => visible
+  guardAI.update(0)
+  assert.equal(shouted.length, 0)
+  visible = true
+  guardAI.update(0)
+  assert.equal(guardAI.doing, 'pursue')
+  assert.equal(shouted[0][0], 'halt.mp3')
+  assert.deepEqual(shouted[0][1].spatial.position, sentry.eye)
+  visible = false
+  guardAI.update(0)
+  assert.equal(guardAI.doing, 'wander')
+  visible = true
+  guardAI.update(0)
+  assert.equal(guardAI.doing, 'pursue')
+  assert.equal(shouted.length, 1, 'seeing the prisoner again does not repeat the first shout')
   const wins = []
   game.victory = text => wins.push(text)
   game.defeat = () => assert.fail('the player is alive')

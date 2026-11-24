@@ -7,8 +7,12 @@ import * as bomberModule from '/core3d/aircraft/derived/Bomber.js'
 import * as messerschmittModule from '/core3d/aircraft/derived/Messerschmitt.js'
 import * as towerModule from '/core/gameplay/bodies/buildings/Tower.js'
 import * as warplaneModule from '/core/gameplay/bodies/aircraft/Warplane.js'
+import * as interceptorModule from '/core/gameplay/bodies/aircraft/Interceptor.js'
+import GunTurrets from '/core/gameplay/bodies/aircraft/GunTurrets.js'
 import { requestModels, loadedModel } from '/core3d/assets/models.js'
 import makeWarplane from '/core3d/actor/aircraft/makeWarplane.js'
+import makeInterceptor from '/core3d/actor/aircraft/makeInterceptor.js'
+import ProjectilesModel from '/core3d/actor/ProjectilesModel.js'
 import BuildingModel from '/core3d/actor/buildings/BuildingModel.js'
 import { towerModel } from '/core3d/actor/buildings/buildingModels.js'
 import { modelSize } from '/core3d/actor/characters/CharacterModel.js'
@@ -74,6 +78,25 @@ const warplane = async(stage, way, look) => {
   return body
 }
 
+/** The bomber's guns, by fighter, which the story's command holds. */
+const bomberGuns = new WeakMap()
+
+/**
+ * A Bf 109 making passes at a bomber that flies on in place in the middle, as in Warplane; the bomber's guns fire at
+ * it while the command holds them. Its passes take it far out, where the camera follows it on request.
+ */
+const fighter = async stage => {
+  await requestModels([...bomberModule.models, ...messerschmittModule.models], { parallelAnimations: true })
+  const { clock } = stage.session
+  const bomber = makeWarplane(bomberModule.description, { clock, height: 3, limit: 10 })
+  const { body, model, guns: tracers } = makeInterceptor(messerschmittModule.description,
+    { target: bomber.body, clock, x: 30, y: 15, z: -150 })
+  const guns = new GunTurrets({ plane: bomber.body, targets: [body], clock })
+  stage.add(bomber.body, bomber.model, guns, new ProjectilesModel(guns, { shotSound: 'aircraft-gun.mp3' }), body, model, tracers)
+  bomberGuns.set(body, guns)
+  return body
+}
+
 /** The tower in the middle with its gun on top; with no target in reach, it holds fire. */
 const gunTower = async stage => {
   await requestModels([towerModel], { parallelAnimations: true })
@@ -114,6 +137,11 @@ export const aircraft = [
     modelIds: { dvokrilac: 'dvokrilac-3d', mesersmit: 'mesersmit-3d', bombarder: 'bombarder-3d' },
     commands: [{ label: 'Pomeri udesno', run: plane => plane.steer({ across: 1 }) },
       { label: 'Ispali raketu', run: plane => plane.fire() }, { label: 'Sleti', run: plane => plane.land() }] },
+  { id: 'lovac-bf-109-3d', name: 'Nemački lovac Bf 109', game: 'Warplane', block: interceptorModule, stage: Stage3D, create: fighter,
+    commands: [{ label: 'Mitraljezi bombardera', run: plane => {
+      const guns = bomberGuns.get(plane)
+      guns.firing = !guns.firing
+    } }, { label: 'Obori', run: plane => plane.takeHit(plane.health.current) }] },
 ].flatMap(story => story.looks ? separateModels(story) : [story])
 
 export const artillery = [

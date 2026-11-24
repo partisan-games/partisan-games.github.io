@@ -88,15 +88,18 @@ test('each new match goes on to the next battlefield, starting over after the la
   assert.equal(seen.at(-1), seen[0], 'after the last it starts over')
 })
 
-test('each round announces its verified place and period after Start, preserving the notice through pause', t => {
+test('each later round announces its verified place and period, preserving the notice through pause; the report opens the match', t => {
   const labels = {
     sremFront1944: 'Syrmian Front, October 1944', batina: 'Batina, November 1944', sremFront1945: 'Syrmian Front, April 1945',
   }
   const game = scene(t)
   assert.equal(game.ui.messageElement.textContent, '', 'no notice before Start')
   game.start()
+  assert.equal(game.ui.messageElement.textContent, '', 'the report, not a notice, tells where the match begins')
+  game.finishRound(0)
+  game.nextRound()
   const seen = new Set()
-  for (let round = 0; round < 3; round++) {
+  for (let round = 1; round < 3; round++) {
     seen.add(game.battlefield)
     assert.equal(game.ui.messageElement.textContent, labels[game.battlefield])
     game.session.pause()
@@ -112,5 +115,6 @@ test('each round announces its verified place and period after Start, preserving
       game.nextRound()
     }
   }
-  assert.deepEqual([...seen].sort(), Object.keys(labels).sort())
+  assert.equal(seen.size, 2, 'the two later rounds are fought at two other places')
+  for (const place of seen) assert.ok(place in labels)
 })

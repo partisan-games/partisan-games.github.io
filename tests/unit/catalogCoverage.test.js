@@ -19,7 +19,8 @@ const folders = {
     'FlagBearerSprite.js', 'Flag.js', 'MachineGunnerSprite.js', 'GrenadierSprite.js',
     'TrenchSoldierSprite.js', 'OccupierSprite.js', 'PartisanSprite.js', 'FrontEnemySprite.js', 'frontEnemyArt.js', 'frontStandingArt.js'],
   'core/actor/vehicles': ['TankSprite.js', 'VehicleSprite.js', 'GunCarrierSprite.js', 'RoadVehicleSprite.js', 'roadVehicleArt.js'],
-  'core/gameplay/bodies/aircraft': ['wreck.js'],
+  // a bomber's guns are seen in the story of the fighter they fire at
+  'core/gameplay/bodies/aircraft': ['wreck.js', 'GunTurrets.js'],
   'core/gameplay/bodies/artillery': [],
   'core/gameplay/bodies/soldiers': [],
   'core/gameplay/bodies/vehicles': ['CannonVehicle.js'],

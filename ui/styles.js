@@ -1,5 +1,14 @@
 import { readSetting, saveSetting } from './settings.js'
 
+const whiteStyle = {
+  container: 'white-container',
+  button: 'white-button',
+  score: '',
+  controlButton: 'white-button',
+  healthBar: '',
+  cameraButton: '',
+}
+
 /** The classes that each UI style gives to the shared elements. */
 export const styleClasses = {
   simple: {
@@ -10,21 +19,16 @@ export const styleClasses = {
     healthBar: '',
     cameraButton: '',
   },
-  white: {
-    container: 'white-container',
-    button: 'white-button',
-    score: '',
-    controlButton: 'white-button',
-    healthBar: '',
-    cameraButton: '',
-  },
+  white: whiteStyle,
+  ww2: { ...whiteStyle, container: `${whiteStyle.container} ww2-container` },
 }
 
 /** What the player can pick in Settings: the style each game has, or one style for every game. */
-export const styleChoices = { predefined: 'Predefined', simple: 'Simple', white: 'White' }
+export const styleChoices = { predefined: 'Predefined', simple: 'Simple', white: 'White', ww2: 'WW2' }
 
 // only one scene lives at a time, and it sets its style before it creates any element
-let gameStyle = 'simple'
+const defaultStyle = 'ww2'
+let gameStyle = defaultStyle
 const savedChoice = readSetting('uiStyle')
 let playerChoice = savedChoice in styleChoices ? savedChoice : 'predefined'
 const listeners = new Set()
@@ -32,8 +36,8 @@ const listeners = new Set()
 const currentStyle = () => playerChoice === 'predefined' ? gameStyle : playerChoice
 
 /** The style the game gives its UI; the player's choice in Settings, if any, wins over it. */
-export function setUiStyle(style = 'simple') {
-  gameStyle = style in styleClasses ? style : 'simple'
+export function setUiStyle(style = defaultStyle) {
+  gameStyle = Object.hasOwn(styleClasses, style) ? style : defaultStyle
 }
 
 export const currentStyleClasses = () => styleClasses[currentStyle()]

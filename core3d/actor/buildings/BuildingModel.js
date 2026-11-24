@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import ProjectilesModel from '../ProjectilesModel.js'
 
 const roundMesh = new THREE.Mesh(new THREE.SphereGeometry(.3), new THREE.MeshBasicMaterial({ color: 0x333333 }))
 
@@ -11,7 +12,7 @@ export default class BuildingModel {
   constructor(body, { mesh, chimney = null, origin = 0, smokyChance = 0, random = Math.random }) {
     this.body = body
     this.mesh = mesh.clone()
-    this.rounds = []
+    this.rounds = body.rounds ? new ProjectilesModel(body, { round: roundMesh }) : null
     this.seenAlive = body.alive
     import('/core3d/Particles.js').then(particles => {
       this.particles = particles
@@ -31,18 +32,11 @@ export default class BuildingModel {
     mesh.position.set(body.x, body.y - body.size.height * (.5 - this.origin), body.z)
   }
 
-  /** A sphere for each round of the tower's gun, made the first time the gun has it. */
+  /** The rounds of the tower's gun fly in the world, beside the building. */
   syncRounds() {
-    const rounds = this.body.rounds?.projectiles ?? []
-    for (const round of rounds.slice(this.rounds.length)) {
-      const mesh = roundMesh.clone()
-      this.mesh.parent?.add(mesh)
-      this.rounds.push({ round, mesh })
-    }
-    for (const { round, mesh } of this.rounds) {
-      mesh.visible = round.state === 'flight'
-      mesh.position.set(round.x, round.y, round.z)
-    }
+    if (!this.rounds) return
+    if (!this.rounds.mesh.parent) this.mesh.parent?.add(this.rounds.mesh)
+    this.rounds.update()
   }
 
   update(dt, t) {
@@ -59,6 +53,6 @@ export default class BuildingModel {
   }
 
   end() {
-    this.rounds.forEach(({ mesh }) => mesh.removeFromParent())
+    this.rounds?.mesh.removeFromParent()
   }
 }

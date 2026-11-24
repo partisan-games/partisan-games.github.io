@@ -54,7 +54,7 @@ export default class FpsAirportScene extends Scene3D {
       canvasBackground: 'linear-gradient(#779db6, #ced9d6 58%, #d3d7c9)',
       controlKeys: fpsControls,
       intro: 'Destroy all enemy aircraft.',
-      reportText: 'The German planes that sow death among our combatants are stationed at Rajlovac Airfield near Sarajevo.\n\nEnter the airfield and destroy all enemy aircraft.',
+      reportText: 'Rajlovac Airfield, Sarajevo, 1943\n\nGerman planes from this airfield sow death among our comrades. Your task is to sneak in and destroy them.',
     })
   }
 

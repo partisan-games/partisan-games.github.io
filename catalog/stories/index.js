@@ -12,6 +12,7 @@ import * as objects3d from './objects3d.js'
 import * as partisans from './partisans.js'
 import * as props3d from './props3d.js'
 import * as drvar from './drvar.js'
+import * as advance from './advance.js'
 
 /**
  * The kinds of blocks, each with its stories. A story is one block alone on the stage: `create(stage)` puts it there
@@ -19,8 +20,8 @@ import * as drvar from './drvar.js'
  * class it needs, the 2D one by default, and `pxPerMeter` how large it draws a block in metres: the natural scale of its view, from `scales.js`.
  */
 export default [
-  { id: 'vojnici', title: 'Vojnici', stories: [...franjoKluz.soldiers, ...ustanak.soldiers, ...bunker.soldiers, ...neretva.soldiers, ...otpisani.soldiers, ...partisans.soldiers, ...drvar.soldiers] },
-  { id: 'vozila', title: 'Tenkovi i vozila', stories: [...tenkici.vehicles, ...franjoKluz.vehicles, ...doTrsta.vehicles, ...characters3d.vehicles] },
+  { id: 'vojnici', title: 'Vojnici', stories: [...franjoKluz.soldiers, ...ustanak.soldiers, ...bunker.soldiers, ...neretva.soldiers, ...otpisani.soldiers, ...partisans.soldiers, ...drvar.soldiers, ...advance.soldiers] },
+  { id: 'vozila', title: 'Tenkovi i vozila', stories: [...tenkici.vehicles, ...franjoKluz.vehicles, ...doTrsta.vehicles, ...characters3d.vehicles, ...advance.vehicles] },
   { id: 'avioni', title: 'Avioni', stories: [...franjoKluz.aircraft, ...vis.aircraft, ...drvar.aircraft] },
   { id: 'brodovi', title: 'Brodovi', stories: [...camac.boats] },
   { id: 'artiljerija', title: 'Artiljerija', stories: [...franjoKluz.artillery, ...ustanak.artillery, ...bunker.artillery, ...doTrsta.artillery, ...camac.artillery] },

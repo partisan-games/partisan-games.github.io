@@ -24,13 +24,13 @@ Animacija se otvara sa kartice u **Scenes and Animations**. Raniji automatski pr
 
 ## Stilovi
 
-`simple` je podrazumevana tamna tema, a `white` koristi bele okvire. Igra zadaje podrazumevanu temu, a korisnikov izbor ima prednost. [Stilovi](../ui/styles.js) i [CSS](../ui/style.css).
+`ww2` je podrazumevana tema, sa White dugmadima i okvirom od redenika na glavnim prozorima. Avatar zadaje `white`, a korisnikov izbor ima prednost. [Stilovi](../ui/styles.js) i [CSS](../ui/style.css).
 
 ### Potvrđeni birač teme
 
-Settings sadrži Volume i **UI style**, redom **Predefined, Simple, White**. Predefined prati temu igre, a ostali izbori važe za sve igre. Izbor se pamti i osvežava već napravljene prozore, HUD, Controls, zdravlje i kameru. Pretplate se uklanjaju pri gašenju vlasnika.
+Settings sadrži Volume i **UI style**, redom **Predefined, Simple, White, WW2**. Predefined prati temu igre, a ostali izbori važe za sve igre. Izbor se pamti i osvežava već napravljene prozore, HUD, Controls, zdravlje i kameru. Pretplate se uklanjaju pri gašenju vlasnika.
 
-Fokus je vidljiv u stilu igre; dugme dobija fokus kao hover svoje teme. Ne uvoditi različite browserove plavo-bele okvire ili posebnu stilizaciju svake kontrole.
+Početni prozor prima fokus, a Tab vodi do prvog dostupnog dugmeta. White i WW2 koriste beli okvir za fokus i dodatno osvetle pozadinu dugmeta kad je miš iznad njega.
 
 ## UI u sceni
 

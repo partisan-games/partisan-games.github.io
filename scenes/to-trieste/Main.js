@@ -68,7 +68,9 @@ const bomb = { radius: 1.76, damage: 12 }
 
 export default class ToTriesteScene extends Scene2D {
   constructor() {
-    super({ controlKeys: tankLeftControls, intro: 'Probij se kroz neprijateljske položaje, obori avione i stigni do kraja puta.' })
+    super({ controlKeys: tankLeftControls,
+      intro: 'Break through the enemy positions, shoot down the planes and reach the end of the road.',
+      reportText: 'Istria, April 1945\n\nThe Yugoslav Fourth Army races the Allies to Trieste. Your task is to lead the tanks into the city first.' })
   }
 
   async init() {

@@ -8,18 +8,19 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 |---|---|---|---|---|
 | | **[Art](#art)** | | | |
 | 1 | [AR-P07](#ar-p07) | Napraviti pravu teksturu za 3D Renault FT | Codex, Claude | 📋 TODO |
-| 2 | [AR-P08](#ar-p08) | Napraviti animirane spriteove za sve aktere u animaciji The Germans Advance | — | 📋 TODO |
-| 3 | [AR-P09](#ar-p09) | Zadržati samo WebP kao jedini original arta za igre | Claude, Codex | 📋 TODO |
+| 2 | [AR-P09](#ar-p09) | Zadržati samo WebP kao jedini original arta za igre | Claude, Codex | 📋 TODO |
+| 3 | [AR-P10](#ar-p10) | Napraviti spriteove četnika i dodati ih u katalog | Codex | 📋 TODO |
+| 4 | [AR-P11](#ar-p11) | Približiti 3D model partizana liku sa fotografije sa Sutjeske | Codex | 📋 TODO |
 | | **[Igre i ideje](#igre)** | | | |
-| 4 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [1](#note-1) |
-| 5 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
-| 6 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
-| 7 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
-| 8 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
-| 9 | [IG-29](#ig-29) | Dovršiti logor Crveni krst u Escape Enemy Base | Codex, Claude | 🔄 In progress |
-| 10 | [IG-30](#ig-30) | Dodati partizane i četnike kao saborce u opsadi Kraljeva | Codex, Claude | 📋 TODO |
-| 11 | [IG-31](#ig-31) | Dodati Messerschmitt kao neprijateljskog lovca i saveznički lovac u Warplane | Codex, Claude | 📋 TODO |
-| 12 | [IG-32](#ig-32) | Dovršiti Raid on Drvar: modeli, izgled grada i težina | Claude, Codex | 🔄 In progress |
+| 5 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [1](#note-1) |
+| 6 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
+| 7 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
+| 8 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
+| 9 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
+| 10 | [IG-29](#ig-29) | Dovršiti logor Crveni krst u Escape Enemy Base | Codex, Claude | 🔄 In progress |
+| 11 | [IG-30](#ig-30) | Dodati partizane i četnike kao saborce u opsadi Kraljeva | Codex, Claude | 📋 TODO |
+| 12 | [IG-31](#ig-31) | Dodati pruge, mostove i saveznički lovac-bombarder u Warplane | Codex, Claude | 🔄 In progress |
+| 13 | [IG-32](#ig-32) | Dovršiti Raid on Drvar: modeli, izgled grada i težina | Claude, Codex | 🔄 In progress |
 
 ## Održavanje plana
 
@@ -40,15 +41,20 @@ Olupina poljskog topa može postati zaseban rekvizit bojišta; još nije raspore
 
 3D Renault FT ([model](../assets/models/tank/renault-ft.fbx)) nema svoju teksturu, nego opštu metalnu sliku, pa izgleda kao beton i nije za produkciju. Codex pravi teksturu u boji jugoslovenske vojske 1941, kako su ga partizani zaplenili kod Kraljeva ([okvir](KONTEKST.md#demolish-barricades)); ista važi za igračev tenk i neprijateljski Renault u ostalim igrama ([telo](../core3d/actor/derived/Tank.js)).
 
-<a id="ar-p08"></a>
-### AR-P08 · Animirani spriteovi za The Germans Advance
-
-Napraviti animirane spriteove za svakog aktera u animaciji [The Germans Advance](../index.html#bitka). Pokriti pokrete strelaca i mitraljezaca pri kretanju, pucanju i čučanju gde se koristi, kao i kretanje tenka i pokrete vojnika na kupoli. Klipove povezati sa postojećim radnjama aktera u sceni.
-
 <a id="ar-p09"></a>
 ### AR-P09 · WebP kao jedini original
 
 Svaka slika u [game-ready](../assets/images/game-ready) postoji dvaput: PNG original i njegova lossless WebP kopija u [optimized](../assets/images/optimized/game-ready), koju igra preuzima preko [mape zamene](../core/actor/optimizedImages.js). Pošto lossless WebP čuva svaki piksel, zadržati samo WebP: obrisati 190 PNG originala (49 MB), prepraviti putanje u kodu, alatima i podacima (oko 118 fajlova), ukinuti mapu zamene i [skriptu za kopije](../scripts/prepare-catalog-images.py), a Python alate za pripremu arta prilagoditi da čitaju i pišu WebP. Codex od tada isporučuje art kao lossless WebP.
+
+<a id="ar-p10"></a>
+### AR-P10 · Spriteovi četnika
+
+Codex pravi animirane spriteove četnika na osnovu tri postojeće slike: [strelac](../assets/images/armies/cetnici/cetnik-03.png), [juriš](../assets/images/armies/cetnici/juris-01.png) i [mitraljezac](../assets/images/armies/cetnici/mitraljezac-07.png). Sačuvati lice, kapu, odeću i proporcije originala, u razmeri ljudi od 1,8 m, prema [pripremi arta](ART.md). Svaki lik dobija animacije za [standardna stanja](ARHITEKTURA.md#standardna-stanja-aktera) `idle`, `move`, `attack` i `dead` i svoju priču sa tim stanjima u [katalogu](KATALOG.md), u grupi **Vojnici → Četnici**, pored postojećeg [četnika u rovu](../catalog.html#vojnici/cetnik-u-rovu).
+
+<a id="ar-p11"></a>
+### AR-P11 · Partizan sa Sutjeske
+
+Uzor je [fotografija Druge proleterske divizije na Sutjesci](https://upload.wikimedia.org/wikipedia/commons/b/be/Druga_proleterska_divizija_na_Sutjesci.jpg) (vlasnik, 2026-11-25). Codex dorađuje [3D model partizana](../assets/models/character/soldier/partisan.fbx), u [katalogu](../catalog.html#drugi-svetski-rat-3d/partizan-3d/original) varijacija „Maskirna”, da više liči na borca u centru fotografije: lice, kapa, odeća, oprema i proporcije. Skelet, animacije i [opis lika](../core3d/actor/derived/ww2/Partisan.js) ostaju isti, da model i dalje radi u Liberated City, Spomenicima i Jablanici.
 
 <a id="igre"></a>
 ## Igre i ideje
@@ -92,13 +98,12 @@ Radnja (vlasnik, 2026-11-24): proboj iz nemačkog logora Crveni krst u Nišu, 12
 
 Proboj je dogovoren i logoraši su spremni (vlasnik, 2026-11-24). Istorijski opis govori o golorukim logorašima. U igri [3D logoraš](../scenes/fps-base/PrisonerAvatar.js) kreće s običnom metalnom cevi u ruci i može tasterom F da preuzme [oružje savladanog stražara](../scenes/fps-base/CampWeapons.js). Izlazak iz lavirinta dovoljan je za pobedu. [Test nivoa](../tests/unit/fpsCamp.test.js) pokriva preuzimanje oružja i pobedu dok su svi stražari živi.
 
-Zamah u prvom licu koristi snimljeni klip iz [kataloga](../catalog.html#drugi-svetski-rat-3d/radnik-3d/cev), prilagođen tako da se cev vidi pri pogledu pravo i da se logoraš na kraju vrati u početni stav. Povratak u stav pokriva i [test nivoa](../tests/unit/fpsCamp.test.js).
+Zamah u prvom licu koristi snimljeni klip iz [kataloga](../catalog.html#drugi-svetski-rat-3d/radnik-3d/cev), prilagođen tako da se cev vidi pri pogledu pravo i da se logoraš na kraju vrati u početni stav. Stražar prvi put uzvikne „Halt!“ kad primeti logoraša. Povratak u stav i trenutak uzvika pokriva [test nivoa](../tests/unit/fpsCamp.test.js).
 
 Preostaje:
 
 1. Dodati šunjanje kao ravnopravan način bekstva. Dogovor obuhvata sporije i tiše kretanje, pune zaklone i opažanje stražara prema vidljivosti i buci. Razraditi ulogu reflektora i proveriti da se do izlaza može stići šunjanjem, bez borbe i preuzimanja oružja.
 2. Doterati gažene pravce i oslonce objekata na tlu prema [ART-u](ART.md#crveni-krst-priprema-3d-ambijenta) i uklopiti osvetljenje u kadar igre. Vlasnik u pregledaču proverava čitljivost prolaza, slepe puteve, pogled kroz žicu i zaklone.
-3. Kad stražar primeti logoraša, uzvikne „Halt!“: zvuk [halt.mp3](../assets/sounds/halt.mp3) već postoji i čeka ovaj nivo.
 
 Prerada menja betonski ambijent u logor; sneg, noć i straže ostaju. Početni predlog baraka i kula u uglovima korigovati prema [istraženom stanju](ISTORIJA.md#crveni-krst-12-februar-1942), a ne predstaviti kao potvrđen tlocrt. Teksture i modele izrađuje Codex, bez privremenog crteža u nivou.
 
@@ -116,7 +121,15 @@ Kraljevo su 1941. opsedali partizani i četnici zajedno ([okvir](KONTEKST.md#dem
 <a id="ig-31"></a>
 ### IG-31 · Avioni za Ratweek
 
-Warplane je operacija Ratweek 1944 ([okvir](KONTEKST.md#warplane)). Dvokrilac je izbačen i ostao samo u katalogu; igrač sada leti samo bombarderom ([izbor](../scenes/warplane/Main.js)). Messerschmitt postaje neprijateljski lovac (vlasnik, 2026-11-24): Bf 109 napada bombarder, a mitraljesci bombardera sami gađaju lovca, kao zadnji strelac Poteza u Franji Kluzu, dok igrač i dalje bombarduje fabrike, glavni cilj za uništenje nemačke ratne industrije. Kao dodatne ciljeve dodati pruge i mostove, koje je Ratweek najviše gađao; modele crta Codex. Inspiracija za art tla iz vazduha: [gusti grad sa starog plana](../assets/images/background/grad.png), ulice i blokovi kuća viđeni odozgo. Kontekst i inspiracija iz rata: [saveznička bombardovanja Kraljeva i Beograda 1944](references/ww2-yu/bombardovanje-1944/README.md). Codex pravi saveznički lovac-bombarder, P-51 Mustang ili P-38, koji su leteli u Ratweeku, kao drugi izbor igrača. Bombarder sa četiri motora i duplim repom odgovara, jer su američki teški bombarderi B-17 i B-24 dejstvovali na Balkanu 1944, i u Ratweeku; po obliku može da prođe kao B-24.
+Warplane je operacija Ratweek 1944 ([okvir](KONTEKST.md#warplane)). Igrač leti samo bombarderom ([izbor](../scenes/warplane/Main.js)); dvokrilac je ostao samo u katalogu. Bombarder sa četiri motora i duplim repom odgovara, jer su američki teški bombarderi B-17 i B-24 dejstvovali na Balkanu 1944, i u Ratweeku; po obliku može da prođe kao B-24.
+
+Urađeno (2026-11-25): Bf 109 ([lovac](../core/gameplay/bodies/aircraft/Interceptor.js)) dolazi iz izmaglice i pravi prelet za preletom na bombarder, pucajući kad ga ima na nišanu. [Mitraljezi bombardera](../core/gameplay/bodies/aircraft/GunTurrets.js) sami prate lovca nišanom, sa predujmom, a pucaju dok igrač drži drugi taster za napad (C); Space ispaljuje rakete na zemlju. Oboren lovac donosi poen, a sledeći dolazi posle predaha. Priča je u [katalogu](../catalog.html#letelice-3d/lovac-bf-109-3d).
+
+Preostaje:
+
+1. Igrač bombarduje sve nemačko; sada su u igri samo fabrike. Dodati pruge i mostove, koje je Ratweek najviše gađao i koje navodi izveštaj nivoa; modele crta Codex. Inspiracija za art tla iz vazduha: [gusti grad sa starog plana](../assets/images/background/grad.png), ulice i blokovi kuća viđeni odozgo. Kontekst iz rata: [saveznička bombardovanja Kraljeva i Beograda 1944](references/ww2-yu/bombardovanje-1944/README.md).
+2. Codex pravi saveznički lovac-bombarder, P-51 Mustang ili P-38, koji su leteli u Ratweeku, kao drugi izbor igrača.
+3. [ ] Vlasnik u pregledaču testira lovca: da li se preleti vide i prate, da li mitraljezi na C obaraju lovca i da li je težina dobra (lovac počinje posle 12 s, sledeći dolazi 18 s posle obaranja).
 
 <a id="ig-32"></a>
 ### IG-32 · Igra Raid on Drvar
@@ -131,11 +144,10 @@ Pravila: igrač drži mesto uz istočni zid i menja samo pravac pogleda i nišan
 
 Preostaje:
 
-1. 📋 Modeli koje traži vlasnik: crkva po uzoru na drvarsku crkvu Svetog Save (1932–1939), drveće u dvorištu i džakovi sa peskom kao improvizovani bunker kod ulaza.
-2. 📋 Ju 52: ravna slika loše izgleda čim se kamera okrene. Vlasniku se sviđa izgled ravnih slika u 3D sceni, kao oživeli strip, pa se prvo razmatraju rešenja za 2D avione; 3D model (u projektu su samo He 111, Ju 87, Do 217 i Bf 109) je druga mogućnost.
-3. 📋 Izgled grada: tlo je jednolično, a kuća nema.
-4. 📋 Igranje nivoa i podešavanje broja padobranaca i težine: bez otpora igrač pada za oko 40 sekundi. Otvoreno je i da li se igra nastavlja kad igrač padne, a saborci su živi.
-5. 📋 Snimak kartice na naslovnoj je još iz stare animacije.
+1. 📋 Modeli koje traži vlasnik: drveće u dvorištu i džakovi sa peskom kao improvizovani bunker kod ulaza. Crkva ([model](../assets/models/building/drvar-church/README.md)) i 3D Ju 52 ([prikaz](../core3d/actor/aircraft/Ju52.js)) su u igri.
+2. 📋 Izgled grada: tlo je jednolično, a kuća nema.
+3. 📋 Igranje nivoa i podešavanje broja padobranaca i težine: bez otpora igrač pada za oko 40 sekundi. Otvoreno je i da li se igra nastavlja kad igrač padne, a saborci su živi.
+4. 📋 Snimak kartice na naslovnoj je još iz stare animacije.
 
 Ideja (vlasnik, 2026-11-24): zanimljiva kombinacija 2D i 3D na sceni, npr. padobranci posle sletanja postaju 3D modeli vojnika; još nije odlučeno.
 

@@ -79,6 +79,7 @@ Kadar, trajanje, sidrište, tačke događaja i putanje završnih slika čitaju s
 | Mitraljezac iz Bunkera | [sprites](../assets/images/sources/bunker-gunner/sprites.json) |
 | Posade Flaka i PaK-a | [sprites](../assets/images/sources/infantry-art/crew-sprites.json) |
 | Punjenje nemačkog strelca | [sprites](../assets/images/sources/rifleman-reload/sprites.json); klip prati spremnik nacrtanog oružja i nije zamena za punjenje drugih pušaka |
+| The Germans Advance | [Atlasi i izvori](../assets/images/sources/germans-advance/sprites.json), [priprema](../assets/images/sources/germans-advance/prepare.py) i [zajednički prikaz](../core/actor/AdvanceSprite.js) za dva pešadinca, Panzer III i vojnika na kupoli. Položaj cevi je izmeren u kadrovima pucanja. |
 
 Šinjel je isključivo zimska uniforma; [metapodaci kandidata](../core/gameplay/frontEnemyKinds.js) ograničavaju stražara na zimu.
 

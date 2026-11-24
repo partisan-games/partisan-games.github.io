@@ -24,15 +24,16 @@ class MissileModel {
 }
 
 /**
- * How a warplane looks and sounds in 3D: its model where the body flies, banked as it rolls, its propeller, if it has
- * one at `propellerPlace`, turning as fast as it flies, smoke trailing from the first hit on, its engine while it flies
- * and the crash when it comes down shot; its missiles, and the blast and bang where each one bursts. It only reads the
- * body.
+ * How a warplane looks and sounds in 3D: its model where the body flies, nosed up as it pitches and banked as it rolls,
+ * its propeller, if it has one at `propellerPlace`, turning as fast as it flies, smoke trailing from the first hit on,
+ * its engine while it flies and the crash when it comes down shot; its missiles, if it fires them, and the blast and
+ * bang where each one bursts. It only reads the body.
  */
 export default class WarplaneModel {
   constructor(body, { mesh, propeller, propellerPlace = [0, .63, -.5] }) {
     this.body = body
     this.mesh = mesh.clone()
+    this.mesh.rotation.order = 'YXZ'
     if (propeller) {
       this.propeller = propeller.clone()
       this.propeller.position.set(propellerPlace[0], propellerPlace[1], propellerPlace[2] * body.size.length)
@@ -55,12 +56,12 @@ export default class WarplaneModel {
   place() {
     const { body, mesh } = this
     mesh.position.set(body.x, body.y, body.z)
-    mesh.rotation.set(0, body.yaw - Math.PI / 2, body.roll)
+    mesh.rotation.set(body.pitch, body.yaw - Math.PI / 2, body.roll)
   }
 
-  /** A model for each missile of the pool, made the first time the pool has it. */
+  /** A model for each missile of the pool, if it fires missiles, made the first time the pool has it. */
   syncMissiles() {
-    for (const missile of this.body.missiles.projectiles.slice(this.missiles.length)) {
+    for (const missile of (this.body.missiles?.projectiles ?? []).slice(this.missiles.length)) {
       const model = new MissileModel(missile)
       this.missiles.push(model)
       this.mesh.parent?.add(model.mesh)

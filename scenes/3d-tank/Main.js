@@ -30,7 +30,7 @@ export default class Tank3DScene extends Scene3D {
     super({
       toon: true,
       controlKeys: { ...baseControls, Space: 'brake' },
-      reportText: 'The enemy has erected barricades to block our entry into the city. Destroy them to clear the way for our troops.',
+      reportText: 'Kraljevo, October 1941\n\nPartisans and Chetniks besiege the German garrison in Kraljevo. Two captured tanks join the final assault.',
       intro: 'Demolish enemy barricades.',
       canvasBackground: skyGradients.modra,
     })

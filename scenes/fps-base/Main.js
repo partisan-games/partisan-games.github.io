@@ -28,6 +28,8 @@ import CampWeapons, { takeWeapon } from './CampWeapons.js'
 import PrisonerAvatar, { prisonerModel } from './PrisonerAvatar.js'
 
 const soldiers = [germanMachineGunner, ssSoldier, naziOfficer, germanFlameThrower, germanSoldier]
+const halt = 'halt.mp3'
+const shout = { group: 'speech', nearDistance: 4, fadeStart: 20, maxDistance: 32, farCutoff: 2500, maxVoices: 2 }
 
 export default class FpsBaseScene extends Scene3D {
   constructor() {
@@ -36,12 +38,13 @@ export default class FpsBaseScene extends Scene3D {
       usePointerLock: true,
       controlKeys: { ...fpsControls, [takeWeapon.label]: 'take weapon' },
       intro: 'The breakout is planned. The prisoners are ready. Find a way out.',
-      reportText: 'Crveni Krst camp, Niš, February 1942. Your mission is to break out of the German camp and reach the partisans on Suva Planina.',
+      reportText: 'Crveni Krst camp, Niš, 12 February 1942\n\nThe Germans hold partisans and hostages behind the wire. Tonight the prisoners break out.',
     })
     this.viewRenderer = this.renderer
   }
 
   async init() {
+    this.sceneAudio.output.preload(halt)
     await requestModels([...germanMachineGunnerModels, ...ssSoldierModels, ...naziOfficerModels, ...germanFlameThrowerModels,
       ...germanSoldierModels, ...firstAidModels, ...campModels, prisonerModel], { parallelAnimations: true })
     this.backgroundColor = 0x202835
@@ -80,13 +83,14 @@ export default class FpsBaseScene extends Scene3D {
       canTake: () => this.session.state === 'running', guardSounds: soldiers.map(soldier => soldier.attackSound) })
     this.add(this.player, playerModel, new FirstPersonView(this.player, { camera: this.camera, weaponSrc: null, behind: 0 }), avatar, weapons)
 
+    const onFirstSpot = guard => this.sceneAudio.emit(halt, { profile: shout, spatial: { position: guard.eye } })
     this.enemies = Array.from({ length: 10 }, () => {
       const index = coords.findIndex(point => Math.hypot(point.x - this.player.x, point.z - this.player.z) > 12)
       const { x, z } = coords.splice(index, 1)[0]
       const soldier = sample(soldiers)
       const { body, model } = makeCharacter(soldier, { x, z, targets: [this.player], damage: computerDamage, ...enemyWorld })
       weapons.register(body, model, soldier)
-      this.controllers.push(new CharacterAI(body, { target: this.player, way: 'wander', sees: enemyWorld.sees }))
+      this.controllers.push(new CharacterAI(body, { target: this.player, way: 'wander', sees: enemyWorld.sees, onFirstSpot }))
       this.add(body, model)
       return body
     })

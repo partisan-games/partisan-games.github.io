@@ -109,6 +109,7 @@ export default class FranjoKluzScene extends Scene2D {
     super({
       controlKeys: { ...baseControls, Space: 'Machine gun', [bombKey]: 'Drop bomb' },
       intro: 'Break through the enemy to the partisan airfield.',
+      reportText: 'Prijedor, 23 May 1942\n\nThe partisans are fighting on Kozara. Your task is to seize an NDH plane and join them.',
     })
     this.manager = manager
   }

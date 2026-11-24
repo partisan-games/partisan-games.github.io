@@ -36,8 +36,11 @@ const pxPerMeter = 40
  */
 const places = { gun: 5.75, crew: 2.75, bearer: { partisan: 1, italian: 2 }, skirmisher: 7.5 }
 
+/** The history before the match; the messages in play keep to the turns and how to play. */
+const report = 'Montenegro, 13 July 1941\n\nThe people of Montenegro rise against the Italian occupiers. You are ordered to destroy the Italian garrison at Grahovo.'
+
 const customStartScreen = ({ container }) => /* html */`
-  <div class="central-screen flex-column ${container}">
+  <div class="central-screen flex-column ${container}" id="start-screen">
     <h2>Choose mode</h2>
     <button class="bg-olive" id="jedan-igrac" data-paid>
       Player vs computer
@@ -50,7 +53,7 @@ const customStartScreen = ({ container }) => /* html */`
 
 export default class UstanakScene extends Scene2D {
   constructor() {
-    super({ controlKeys: { W: 'up', S: 'down', Space: 'shoot' }, customStartScreen, showControls: true })
+    super({ controlKeys: { W: 'up', S: 'down', Space: 'shoot' }, customStartScreen, reportText: report, showControls: true })
   }
 
   init() {
@@ -154,7 +157,8 @@ export default class UstanakScene extends Scene2D {
   start() {
     super.start()
     this.turns.waitForRelease = keyboard.isDown(leftPlayerKeys.shoot)
-    this.announceTurn('', true)
+    // the report has told where the match begins, so the opening message is only the turn and how to play
+    this.announceTurn()
   }
 
   announceTurn(result = '', newRound = false) {

@@ -1,0 +1,327 @@
+{
+  "assets": [
+    {
+      "id": "advance-rifleman",
+      "image": "../../game-ready/vojnici/advance-rifleman.png",
+      "sources": [
+        "armies/nemci/vojnici/vojnik-27.png",
+        "armies/nemci/vojnici/vojnik-19.png"
+      ],
+      "sha256": "d61d2566421d3e6811aae3b559a3d6cac6d387e2f7966072e6b4bf2b78e529d4",
+      "frame": {
+        "width": 96,
+        "height": 84,
+        "columns": 12,
+        "rows": 7
+      },
+      "anchor": {
+        "x": 31,
+        "y": 76
+      },
+      "standingPixels": 69,
+      "animations": [
+        {
+          "name": "idle",
+          "frameCount": 1,
+          "duration": 1.0,
+          "row": 0,
+          "ms": [
+            1000
+          ],
+          "loop": true
+        },
+        {
+          "name": "walk",
+          "frameCount": 12,
+          "duration": 0.864,
+          "row": 1,
+          "ms": [
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72
+          ],
+          "loop": true
+        },
+        {
+          "name": "fire",
+          "frameCount": 4,
+          "duration": 0.13,
+          "row": 2,
+          "ms": [
+            34,
+            32,
+            34,
+            30
+          ],
+          "loop": false,
+          "muzzles": [
+            [
+              48,
+              -56
+            ],
+            [
+              46,
+              -56
+            ],
+            [
+              48,
+              -56
+            ],
+            [
+              49,
+              -56
+            ]
+          ]
+        },
+        {
+          "name": "walk-aim",
+          "frameCount": 12,
+          "duration": 0.864,
+          "row": 3,
+          "ms": [
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72
+          ],
+          "loop": true
+        },
+        {
+          "name": "kneel",
+          "frameCount": 3,
+          "duration": 0.175,
+          "row": 4,
+          "ms": [
+            60,
+            60,
+            55
+          ],
+          "loop": false
+        },
+        {
+          "name": "crouch",
+          "frameCount": 1,
+          "duration": 1.0,
+          "row": 5,
+          "ms": [
+            1000
+          ],
+          "loop": true
+        },
+        {
+          "name": "crouch-fire",
+          "frameCount": 4,
+          "duration": 0.13,
+          "row": 6,
+          "ms": [
+            34,
+            32,
+            34,
+            30
+          ],
+          "loop": false,
+          "muzzles": [
+            [
+              49,
+              -42
+            ],
+            [
+              47,
+              -42
+            ],
+            [
+              49,
+              -42
+            ],
+            [
+              50,
+              -42
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "advance-gunner",
+      "image": "../../game-ready/vojnici/advance-gunner.png",
+      "sources": [
+        "armies/nemci/vojnici/vojnik-26.png"
+      ],
+      "sha256": "27922cdb8d2ce86ec9d34290eefbeaf950eb06759eec01a6a6b2683e651176cb",
+      "frame": {
+        "width": 96,
+        "height": 84,
+        "columns": 12,
+        "rows": 3
+      },
+      "anchor": {
+        "x": 31,
+        "y": 76
+      },
+      "standingPixels": 65,
+      "animations": [
+        {
+          "name": "idle",
+          "frameCount": 1,
+          "duration": 1.0,
+          "row": 0,
+          "ms": [
+            1000
+          ],
+          "loop": true
+        },
+        {
+          "name": "walk",
+          "frameCount": 12,
+          "duration": 0.864,
+          "row": 1,
+          "ms": [
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72
+          ],
+          "loop": true
+        },
+        {
+          "name": "fire",
+          "frameCount": 4,
+          "duration": 0.13,
+          "row": 2,
+          "ms": [
+            34,
+            32,
+            34,
+            30
+          ],
+          "loop": false,
+          "muzzles": [
+            [
+              42,
+              -55
+            ],
+            [
+              40,
+              -55
+            ],
+            [
+              42,
+              -55
+            ],
+            [
+              43,
+              -55
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "advance-tank",
+      "image": "../../game-ready/tenkovi/advance-tank.png",
+      "sources": [
+        "armies/panzer3.png"
+      ],
+      "sha256": "a6725a59847d5ad43203b41220ecd3d35db6e19261a0e2c951a138c3bda1545b",
+      "frame": {
+        "width": 271,
+        "height": 141,
+        "columns": 6,
+        "rows": 2
+      },
+      "anchor": {
+        "x": 100,
+        "y": 141
+      },
+      "standingPixels": 141,
+      "animations": [
+        {
+          "name": "idle",
+          "frameCount": 1,
+          "duration": 1.0,
+          "row": 0,
+          "ms": [
+            1000
+          ],
+          "loop": true
+        },
+        {
+          "name": "drive",
+          "frameCount": 6,
+          "duration": 0.57,
+          "row": 1,
+          "ms": [
+            95,
+            95,
+            95,
+            95,
+            95,
+            95
+          ],
+          "loop": true
+        }
+      ]
+    },
+    {
+      "id": "advance-commander",
+      "image": "../../game-ready/vojnici/advance-commander.png",
+      "sources": [
+        "armies/nemci/vojnici/vojnik-27.png"
+      ],
+      "sha256": "b59ff89af022993618249bca3bfb72bdfa82430d79d0b004e17fdbbacbeb5bba",
+      "frame": {
+        "width": 93,
+        "height": 51,
+        "columns": 6,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 33,
+        "y": 48
+      },
+      "standingPixels": 40,
+      "animations": [
+        {
+          "name": "idle",
+          "frameCount": 6,
+          "duration": 1.085,
+          "row": 0,
+          "ms": [
+            300,
+            135,
+            135,
+            245,
+            135,
+            135
+          ],
+          "loop": true
+        }
+      ]
+    }
+  ]
+}

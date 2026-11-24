@@ -150,8 +150,7 @@ button {
 }
 
 /*
- * Focus never shows the browser's ring: every control the keyboard reaches shows it in the colors of the games, and
- * the buttons of each style show it as they show hovering.
+ * Keyboard focus uses the colors of the games.
  */
 :where(button, input, select, a, [tabindex]:not([tabindex="-1"])):focus-visible {
   outline: 2px solid var(--sand);
@@ -170,8 +169,8 @@ button {
   background-color: unset;
 }
 
-.white-button:hover {
-  background-color: unset;
+.white-button:not(:disabled):hover {
+  background-color: rgb(255 255 255 / 14%);
   outline: 1px solid white;
 }
 
@@ -241,6 +240,12 @@ button {
   border-color: var(--black);
   outline: 1px solid var(--white);
   outline-offset: -1px;
+}
+
+.central-screen.ww2-container {
+  --frame-outset: 16px;
+  border-image: url('/assets/images/ui/ww2-ammo-frame.png') 18 / calc(2px + var(--frame-outset)) / var(--frame-outset) round;
+  outline: none;
 }
 
 .flex-column {
@@ -518,7 +523,6 @@ button.paid {
 
 .paid.bg-olive:disabled { background-color: #555d43; }
 .default-button:disabled:hover { background-color: transparent; }
-.white-button:disabled:hover { outline: none; }
 
 /* the replay glyph's visible center sits below the font's line-box center */
 .replay-icon {

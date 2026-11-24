@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "measuredAt": "2026-11-24T18:31:33.222686+00:00",
-  "baseRevision": "ccf7b82ea061eb316a6da1fe268b966eb730bb1a",
+  "measuredAt": "2026-11-24T23:12:07.541802+00:00",
+  "baseRevision": "08cacf0ef556f873753e1dac1894b56f6c138be9",
   "scope": "Art linked by docs/ART.md, including shared variants; not all unused library art or a runtime/visual acceptance test.",
   "interpretation": "imageFrames counts file-container frames. A PNG atlas normally has one; named sprite clips require metadata and a runtime mapping. hashes detect exact input changes, not art quality.",
   "images": [
@@ -2696,6 +2696,48 @@
       }
     },
     {
+      "asset": "assets/images/game-ready/tenkovi/advance-tank.png",
+      "sha256": "a6725a59847d5ad43203b41220ecd3d35db6e19261a0e2c951a138c3bda1545b",
+      "kind": "PNG",
+      "width": 1626,
+      "height": 282,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/sources/germans-advance/sprites.json",
+        "id": "advance-tank",
+        "frame": {
+          "width": 271,
+          "height": 141,
+          "columns": 6,
+          "rows": 2
+        },
+        "anchor": {
+          "x": 100,
+          "y": 141
+        },
+        "clips": [
+          {
+            "name": "idle",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1.0,
+            "loop": true,
+            "measuredDistinctFrames": 1
+          },
+          {
+            "name": "drive",
+            "row": 1,
+            "frameCount": 6,
+            "duration": 0.57,
+            "loop": true,
+            "measuredDistinctFrames": 6
+          }
+        ]
+      }
+    },
+    {
       "asset": "assets/images/game-ready/tenkovi/hotchkiss-layers.png",
       "sha256": "15452d26904f0dc06547feee741c423231b35405a0186f7ecba78c06ec132da5",
       "kind": "PNG",
@@ -3203,6 +3245,172 @@
             "duration": null,
             "loop": false,
             "measuredDistinctFrames": 1
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/game-ready/vojnici/advance-commander.png",
+      "sha256": "b59ff89af022993618249bca3bfb72bdfa82430d79d0b004e17fdbbacbeb5bba",
+      "kind": "PNG",
+      "width": 558,
+      "height": 51,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/sources/germans-advance/sprites.json",
+        "id": "advance-commander",
+        "frame": {
+          "width": 93,
+          "height": 51,
+          "columns": 6,
+          "rows": 1
+        },
+        "anchor": {
+          "x": 33,
+          "y": 48
+        },
+        "clips": [
+          {
+            "name": "idle",
+            "row": 0,
+            "frameCount": 6,
+            "duration": 1.085,
+            "loop": true,
+            "measuredDistinctFrames": 4
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/game-ready/vojnici/advance-gunner.png",
+      "sha256": "27922cdb8d2ce86ec9d34290eefbeaf950eb06759eec01a6a6b2683e651176cb",
+      "kind": "PNG",
+      "width": 1152,
+      "height": 252,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/sources/germans-advance/sprites.json",
+        "id": "advance-gunner",
+        "frame": {
+          "width": 96,
+          "height": 84,
+          "columns": 12,
+          "rows": 3
+        },
+        "anchor": {
+          "x": 31,
+          "y": 76
+        },
+        "clips": [
+          {
+            "name": "idle",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1.0,
+            "loop": true,
+            "measuredDistinctFrames": 1
+          },
+          {
+            "name": "walk",
+            "row": 1,
+            "frameCount": 12,
+            "duration": 0.864,
+            "loop": true,
+            "measuredDistinctFrames": 12
+          },
+          {
+            "name": "fire",
+            "row": 2,
+            "frameCount": 4,
+            "duration": 0.13,
+            "loop": false,
+            "measuredDistinctFrames": 3
+          }
+        ]
+      }
+    },
+    {
+      "asset": "assets/images/game-ready/vojnici/advance-rifleman.png",
+      "sha256": "d61d2566421d3e6811aae3b559a3d6cac6d387e2f7966072e6b4bf2b78e529d4",
+      "kind": "PNG",
+      "width": 1152,
+      "height": 588,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1,
+      "atlas": {
+        "metadata": "assets/images/sources/germans-advance/sprites.json",
+        "id": "advance-rifleman",
+        "frame": {
+          "width": 96,
+          "height": 84,
+          "columns": 12,
+          "rows": 7
+        },
+        "anchor": {
+          "x": 31,
+          "y": 76
+        },
+        "clips": [
+          {
+            "name": "idle",
+            "row": 0,
+            "frameCount": 1,
+            "duration": 1.0,
+            "loop": true,
+            "measuredDistinctFrames": 1
+          },
+          {
+            "name": "walk",
+            "row": 1,
+            "frameCount": 12,
+            "duration": 0.864,
+            "loop": true,
+            "measuredDistinctFrames": 12
+          },
+          {
+            "name": "fire",
+            "row": 2,
+            "frameCount": 4,
+            "duration": 0.13,
+            "loop": false,
+            "measuredDistinctFrames": 3
+          },
+          {
+            "name": "walk-aim",
+            "row": 3,
+            "frameCount": 12,
+            "duration": 0.864,
+            "loop": true,
+            "measuredDistinctFrames": 12
+          },
+          {
+            "name": "kneel",
+            "row": 4,
+            "frameCount": 3,
+            "duration": 0.175,
+            "loop": false,
+            "measuredDistinctFrames": 3
+          },
+          {
+            "name": "crouch",
+            "row": 5,
+            "frameCount": 1,
+            "duration": 1.0,
+            "loop": true,
+            "measuredDistinctFrames": 1
+          },
+          {
+            "name": "crouch-fire",
+            "row": 6,
+            "frameCount": 4,
+            "duration": 0.13,
+            "loop": false,
+            "measuredDistinctFrames": 3
           }
         ]
       }
@@ -5938,204 +6146,8 @@
       "sha256": "dc4e1cfb0dc783c347793837b6b91989a260f7aa59932d55012ea646e074dc5c"
     },
     {
-      "path": "assets/images/sources/aircraft-propellers/sprites.json",
-      "sha256": "e230d5c360e310ef7ca7e596faa885622d05bc5d2266899920c938a9a1f5dee1"
-    },
-    {
-      "path": "assets/images/sources/aircraft-scale/generation.json",
-      "sha256": "7c96f492c100db8146e3789dd7e9bc1d320294bf1abe3d8c51885555a9c81347"
-    },
-    {
-      "path": "assets/images/sources/aircraft-scale/prepare.py",
-      "sha256": "04c3b4a50e20394d4fb4609f663b920abdbbda3207754d6669b31c45c9dd8e0e"
-    },
-    {
-      "path": "assets/images/sources/aircraft-scale/sprites.json",
-      "sha256": "a973e4e3ff4d31c3cdbe849ef112b56c412a04e86e767f53a83806ffe95c47cd"
-    },
-    {
-      "path": "assets/images/sources/battlefield-tanks/sprites.json",
-      "sha256": "dec080fc221d20113e4332540152731078f1a4c285507e6355496bcb8b09ad41"
-    },
-    {
-      "path": "assets/images/sources/bp42-fire/sprites.json",
-      "sha256": "118a9a73d5435b906f95f1e65450c80b82b398105562d38ef23f96d43a10567a"
-    },
-    {
-      "path": "assets/images/sources/bunker-gunner/sprites.json",
-      "sha256": "4293af6fd00caa7da126eda5f25b17c6e8edb3a9dd0bb69040aad2dc8ea8317c"
-    },
-    {
-      "path": "assets/images/sources/camac-enemies/sprites.json",
-      "sha256": "dcc374091e47cadf775b69877bcf182c220bc3dcf8abc4e2dc1f0fefcea3e19f"
-    },
-    {
-      "path": "assets/images/sources/cannon-crew-fall/sprites.json",
-      "sha256": "3b21b367bc93808cb0946c6a6c7b3339a625338dff80da3d71f6402dede9a7ea"
-    },
-    {
-      "path": "assets/images/sources/enemy-front-variants/animation-sprites.json",
-      "sha256": "8b3c5565a332f44f6e777f364fe0cb0d759761f43532519f9306e9f5cce2ea34"
-    },
-    {
-      "path": "assets/images/sources/enemy-front-variants/prepare-animations.py",
-      "sha256": "d82f7de68acf8117bad34ec2f80230aa5bfaae98b1687d0427702e07078624cc"
-    },
-    {
-      "path": "assets/images/sources/enemy-front-variants/rifleman-redraw-generation.json",
-      "sha256": "cca458fbc10b15c90785d5c121eb58a59076968859764b76b4db5ae8a3e3b1f7"
-    },
-    {
-      "path": "assets/images/sources/enemy-front-variants/winter-sentry-animation-generation.json",
-      "sha256": "ce0cc21304744625aaf7b9f917e3787fee5be83c4fa6c90f08cab1a8f07e9f92"
-    },
-    {
-      "path": "assets/images/sources/field-gun/layout.json",
-      "sha256": "8f35447c32907d37e469766812f75cf566865fde8d39a02e129f55482ceeadd5"
-    },
-    {
-      "path": "assets/images/sources/field-gun/prepare.py",
-      "sha256": "bc28fe7296edf195d10512bddcb896e8220d87b3d991bccb79236b5335388a36"
-    },
-    {
-      "path": "assets/images/sources/field-gun/wreck-sprites.json",
-      "sha256": "c4a1d10bcbeee059fe8fe3df6e1719472768a86246e755320a37321709709e8c"
-    },
-    {
-      "path": "assets/images/sources/franjo-kluz/hummel-redraw-generation.json",
-      "sha256": "4c63d7b5b044885ab7fe46012f5542448e6242ad44eba82b64ab8936a50a611d"
-    },
-    {
-      "path": "assets/images/sources/franjo-kluz/potez-crew/crew.json",
-      "sha256": "8778c62af4f35d78359559bf775d30191198481e2462f27f2ba80e3542d47c5f"
-    },
-    {
-      "path": "assets/images/sources/franjo-kluz/potez-crew/sprites.json",
-      "sha256": "61a0d8fc88f086dc61791d224e0d6cba17406fbf2d84968525906f9fddc2ed73"
-    },
-    {
-      "path": "assets/images/sources/franjo-kluz/sprites.json",
-      "sha256": "a793b1c84acc6f25a4cbfdf6871cc7377ffa921526f5f13245a193df8029a8fb"
-    },
-    {
-      "path": "assets/images/sources/grenadier-throw/prepare-right.py",
-      "sha256": "eeee9f194ee029e05863ac97001e43bff6320268ebf54b7bd5f8a59f95606e6e"
-    },
-    {
-      "path": "assets/images/sources/grenadier-throw/sprites.json",
-      "sha256": "c12235840d89db4ab1bce5d2bce4624eb794d03551de7e6adf98a043d1aa7e19"
-    },
-    {
-      "path": "assets/images/sources/hummel-fire/sprites.json",
-      "sha256": "6a095769fe564cf5a656f2f1049e6e1959a3082d7ef59912a4b3cc263c2b13f9"
-    },
-    {
-      "path": "assets/images/sources/infantry-art/crew-sprites.json",
-      "sha256": "99ed03a58b220b6793fc02ce214e8fe85052d32fedde31abfa8c8a30ea641fe9"
-    },
-    {
-      "path": "assets/images/sources/infantry-art/front-standing/sprites.json",
-      "sha256": "1817d045f679177f3f76e28b699b90f48438d59bba4bc112ece6fcb2288bd40b"
-    },
-    {
-      "path": "assets/images/sources/infantry-art/occupier-sprites.json",
-      "sha256": "bf6bc1eff12b229a77c48e8e3d814ad7b7f691e86a558c2247372c375cf75d0e"
-    },
-    {
-      "path": "assets/images/sources/infantry-art/prepare.py",
-      "sha256": "c4cae65d3f690d366517b402e87c3feb9c71a49738d16b7a081c5253b58e0bc6"
-    },
-    {
-      "path": "assets/images/sources/infantry-art/sprites.json",
-      "sha256": "735fa412e9de9874ee83ccf1338b9b363eff0fdba71b485051fad678ac831eab"
-    },
-    {
-      "path": "assets/images/sources/partisan-rifleman/sprites.json",
-      "sha256": "e7b643c8b48063b1f2906d4d87f3edb3427a882aad9216a65b919cd8405c1aa8"
-    },
-    {
-      "path": "assets/images/sources/plan-ideas-art/export-runtime.py",
-      "sha256": "367ec6c07a8bdeb29f9b377e11427cb78b1746fae36605c30916fb04eecf0fb4"
-    },
-    {
-      "path": "assets/images/sources/plan-ideas-art/generation.json",
-      "sha256": "65973d3dfc2d14b115eb67058ff5fc24ae9343a92d63e0a5f6433965b2af0aeb"
-    },
-    {
-      "path": "assets/images/sources/plan-ideas-art/prepare-bf109.py",
-      "sha256": "acd54dd0f926a378fc89fc5674fcde1fd49fb52923e5c4740d6da4e0f57db2a1"
-    },
-    {
-      "path": "assets/images/sources/plan-ideas-art/prepare-fortifications.py",
-      "sha256": "f23d69a4da1f131ad13054507dacd419a5700a0e17b0f3a1017ab287d9c792de"
-    },
-    {
-      "path": "assets/images/sources/plan-ideas-art/prepare-ju87.py",
-      "sha256": "7ab274bcfa38f138cc79154909b7914e3aa4badf4a53af0b8094eb6aaace1783"
-    },
-    {
-      "path": "assets/images/sources/plan-ideas-art/prepare-s30.py",
-      "sha256": "ae55f61940cfd8e50a3e700546248ce9e947305097e99fe0afd075be8206eb18"
-    },
-    {
-      "path": "assets/images/sources/plan-ideas-art/prepare-shore.py",
-      "sha256": "4611f0951c63bf8163fd1e45271e191020faa45a2769fea858d460ae936dd55a"
-    },
-    {
-      "path": "assets/images/sources/plan-ideas-art/prepare-somua-barrel.py",
-      "sha256": "e642534499663f786bd9cd9157f14756fe618be00c45421dcb8215144eb3052d"
-    },
-    {
-      "path": "assets/images/sources/plan-ideas-art/prepare.py",
-      "sha256": "d29a80d61bd3c5c71d4f55327ca94ccbc1cb7abab43dd78817acb238e4f3c1c9"
-    },
-    {
-      "path": "assets/images/sources/plan-ideas-art/sprites.json",
-      "sha256": "9548d835fb963e2513dcf413d7add058b66a0350c224fb090b37317da400b324"
-    },
-    {
-      "path": "assets/images/sources/rifleman-reload/sprites.json",
-      "sha256": "584130e146ea5ed1443c65ceaecc5591b4cd1c338e97b8e5ebedbbf74e273db3"
-    },
-    {
-      "path": "assets/images/sources/road-vehicles/generation.json",
-      "sha256": "0efd387f5a9510745e83451980e1d60102f517fee1383b6f8aca815e20ace71c"
-    },
-    {
-      "path": "assets/images/sources/road-vehicles/prepare.py",
-      "sha256": "bff46f9a61e45491a45c56a18d7b691a3262eaad8615ff39eab3fcfa6770f98d"
-    },
-    {
-      "path": "assets/images/sources/road-vehicles/sprites.json",
-      "sha256": "0a8ba1f81332843024afd4458244cec8a1564677fa8e8bfc09dce8144b09991b"
-    },
-    {
-      "path": "assets/images/sources/scenery/catalog.json",
-      "sha256": "5a976a1737ce7df84ba79bc138310d7d81b62579694444dc950acfed7a4eabf3"
-    },
-    {
-      "path": "assets/images/sources/scenery/sprites.json",
-      "sha256": "ad49ed61749cacc24352bc6030724cff46f4f47481653dc69af174f2489fbcbb"
-    },
-    {
-      "path": "assets/images/sources/tenkovi/sprites.json",
-      "sha256": "cc16c5f8dddb813ab1b10a605c9635e7957f5f989fc355a7bc81824d8fe4f995"
-    },
-    {
-      "path": "assets/images/sources/ustanak/prepare.py",
-      "sha256": "892fad19e27f7a6f0a9a7513b52b3d110e38c2b6963baf28160d4eb7abe0f0d9"
-    },
-    {
-      "path": "assets/images/sources/ustanak/sprites.json",
-      "sha256": "9e2677081fbbd82676440a23d25193f7d1339ed093f40e28e67b8c812af996ba"
-    },
-    {
-      "path": "assets/images/sources/wrecks/sprites.json",
-      "sha256": "fe46aa88791bfff76ded16dfb9afc32a81e1e871b3e61be89f397eea67e5426e"
-    },
-    {
       "path": "assets/images/background/batina-1944/layout.json",
-      "sha256": "8062ffe211a7c9ce4261ef39802620b74874edffe888d3e36163fa0023782a3a"
+      "sha256": "8a5fdcf65555c5cc2a7330a92ca57a573ccf496746a53e5c44fc0eca617ac458"
     },
     {
       "path": "assets/images/buildings/bunker-02.png",
@@ -6474,6 +6486,10 @@
       "sha256": "98bc57716570ea176c3fe9846259e82675f2eca776896eb4b37bf04b0bc6b33a"
     },
     {
+      "path": "assets/images/game-ready/tenkovi/advance-tank.png",
+      "sha256": "a6725a59847d5ad43203b41220ecd3d35db6e19261a0e2c951a138c3bda1545b"
+    },
+    {
       "path": "assets/images/game-ready/tenkovi/hotchkiss-layers.png",
       "sha256": "15452d26904f0dc06547feee741c423231b35405a0186f7ecba78c06ec132da5"
     },
@@ -6520,6 +6536,18 @@
     {
       "path": "assets/images/game-ready/tenkovi/stug-iii-layers.png",
       "sha256": "cecb8f210bff55b04a8d692c32460a6d8b01d64b50e3421ba22a10ed9394b757"
+    },
+    {
+      "path": "assets/images/game-ready/vojnici/advance-commander.png",
+      "sha256": "b59ff89af022993618249bca3bfb72bdfa82430d79d0b004e17fdbbacbeb5bba"
+    },
+    {
+      "path": "assets/images/game-ready/vojnici/advance-gunner.png",
+      "sha256": "27922cdb8d2ce86ec9d34290eefbeaf950eb06759eec01a6a6b2683e651176cb"
+    },
+    {
+      "path": "assets/images/game-ready/vojnici/advance-rifleman.png",
+      "sha256": "d61d2566421d3e6811aae3b559a3d6cac6d387e2f7966072e6b4bf2b78e529d4"
     },
     {
       "path": "assets/images/game-ready/vojnici/assault-hit-sprites.png",
@@ -6747,7 +6775,31 @@
     },
     {
       "path": "assets/images/optimized/manifest.json",
-      "sha256": "f569a5983a95f77bb937298ffce569778e92605924ceab47b52226363dd789e5"
+      "sha256": "86b4c68094b48926109a471d2108df8e7fb503f0b5b5e3776866c0d50c21df9a"
+    },
+    {
+      "path": "assets/images/sources/aircraft-propellers/sprites.json",
+      "sha256": "d684e312182bffc7b6cb150a373aaeb0f7a107181277d27b4b52e5efe5f675eb"
+    },
+    {
+      "path": "assets/images/sources/aircraft-scale/generation.json",
+      "sha256": "7c96f492c100db8146e3789dd7e9bc1d320294bf1abe3d8c51885555a9c81347"
+    },
+    {
+      "path": "assets/images/sources/aircraft-scale/prepare.py",
+      "sha256": "e96acc8fc76170d68e17b8f23e7ef386cb254230a9371f1b62f7c0f11e6f3787"
+    },
+    {
+      "path": "assets/images/sources/aircraft-scale/sprites.json",
+      "sha256": "7757f2a3f9c18bff3e24d9f58a10f77678d28b214c1e5585ee73861bcc6e2cb0"
+    },
+    {
+      "path": "assets/images/sources/battlefield-tanks/sprites.json",
+      "sha256": "95352c6cbec82ca7bac1c72842b5216127e0cbdd8dd9587b297c472a44c108a4"
+    },
+    {
+      "path": "assets/images/sources/bp42-fire/sprites.json",
+      "sha256": "7d365c307dd1c41210e4d30ff038ba049fb32e01bcc0e3f5768873769f4dc8f5"
     },
     {
       "path": "assets/images/sources/bunker/generation.json",
@@ -6755,15 +6807,155 @@
     },
     {
       "path": "assets/images/sources/bunker/prepare.py",
-      "sha256": "f4210d4275e3017eef1afea2ed402357b867e6768703be5299d0d7f2c8557815"
+      "sha256": "170c623b12e897ae906ec317bd755b1c760734b6c360ba0c47b8021342a920bc"
     },
     {
       "path": "assets/images/sources/bunker/sprites.json",
       "sha256": "fab9f3ecbcad04bba603f9a617f703f0cd8c34188032e6bb6d9b512d19473666"
     },
     {
+      "path": "assets/images/sources/bunker-gunner/sprites.json",
+      "sha256": "477203a04a29cbd3806a22f25527774eadd39056b12a56a038e0c6ea9ab342a7"
+    },
+    {
+      "path": "assets/images/sources/camac-enemies/sprites.json",
+      "sha256": "dcc374091e47cadf775b69877bcf182c220bc3dcf8abc4e2dc1f0fefcea3e19f"
+    },
+    {
+      "path": "assets/images/sources/cannon-crew-fall/sprites.json",
+      "sha256": "ee01c0957db22ec3225f9ebecd9b0ecbdcb1b57e91faf928e688aa8790bc112b"
+    },
+    {
+      "path": "assets/images/sources/enemy-front-variants/animation-sprites.json",
+      "sha256": "113e6720c48da054bd70e7d81e9bbcbb5d5c4cf64b033df506c6fcefd08a0e30"
+    },
+    {
+      "path": "assets/images/sources/enemy-front-variants/prepare-animations.py",
+      "sha256": "d757d97c47e5aa0b02f08b54c6ee06fb9ee7fceb7a97643e7e31f9349e68179d"
+    },
+    {
+      "path": "assets/images/sources/enemy-front-variants/rifleman-redraw-generation.json",
+      "sha256": "860c985c0277774f647e6526d1d7cf172a0586e4e3704388c41942c47d1c8ede"
+    },
+    {
+      "path": "assets/images/sources/enemy-front-variants/winter-sentry-animation-generation.json",
+      "sha256": "52452b05a3731805b20ccb0167d70d53be82947b5e9fac5757349322245bd1a7"
+    },
+    {
+      "path": "assets/images/sources/field-gun/layout.json",
+      "sha256": "8f35447c32907d37e469766812f75cf566865fde8d39a02e129f55482ceeadd5"
+    },
+    {
+      "path": "assets/images/sources/field-gun/prepare.py",
+      "sha256": "d25419a83bd2235a135c8698f72cb8516c3fc2c7fc0447a339c489a6ea38895d"
+    },
+    {
+      "path": "assets/images/sources/field-gun/wreck-sprites.json",
+      "sha256": "b9f5e04f0f2f214315bb7f2affb2ddb45578beddb14a4c8a4b45f76d15ade7f2"
+    },
+    {
+      "path": "assets/images/sources/franjo-kluz/hummel-redraw-generation.json",
+      "sha256": "4c63d7b5b044885ab7fe46012f5542448e6242ad44eba82b64ab8936a50a611d"
+    },
+    {
+      "path": "assets/images/sources/franjo-kluz/potez-crew/crew.json",
+      "sha256": "8d485ef4b29fd9c29c113d7abe4e1f64077a200b110a982ec81f57de6bc8c553"
+    },
+    {
+      "path": "assets/images/sources/franjo-kluz/potez-crew/sprites.json",
+      "sha256": "45d67fd4a79596522543bb3643160b5a9d8bca5fa220cf8c7a422584d45562aa"
+    },
+    {
+      "path": "assets/images/sources/franjo-kluz/sprites.json",
+      "sha256": "b56cc0f414ffe28572b498520e2e86db2a647f64618cfdae68dc7bf87e9eca6e"
+    },
+    {
+      "path": "assets/images/sources/germans-advance/prepare.py",
+      "sha256": "3cd26205abf2c7643f7b291969c38c2903f8d61510f7275a7a7835a014f4c4da"
+    },
+    {
+      "path": "assets/images/sources/germans-advance/sprites.json",
+      "sha256": "637ae6af7aa7586f67864fc8b29f50fb3ac40dc2bfd0b795241c2e46f6466aec"
+    },
+    {
+      "path": "assets/images/sources/grenadier-throw/prepare-right.py",
+      "sha256": "c3403321b541b049f910964003af251a3b892e2e5025f249e245ab5d49943e20"
+    },
+    {
+      "path": "assets/images/sources/grenadier-throw/sprites.json",
+      "sha256": "6956b03b96d24d0de8a5df762961d52080f51b892b460a0b327d11316893d025"
+    },
+    {
+      "path": "assets/images/sources/hummel-fire/sprites.json",
+      "sha256": "a1df7bb9dfab98a3e5e6df8c20d11b212204584a9d1dfbc85d04151d9d735718"
+    },
+    {
+      "path": "assets/images/sources/infantry-art/crew-sprites.json",
+      "sha256": "25bd0b52c3c2cc64aeee557631646123870f976e7aed4d1690d1e81af61902a1"
+    },
+    {
+      "path": "assets/images/sources/infantry-art/front-standing/sprites.json",
+      "sha256": "aeddc2df253655c49ac039a8a2abb6f748669bf0ffd517f7d6d0070b763bac2d"
+    },
+    {
+      "path": "assets/images/sources/infantry-art/occupier-sprites.json",
+      "sha256": "df3416767c871724a1a25c0f31c4410cf0f4a6503412dbdf486d1eab026bf5ba"
+    },
+    {
+      "path": "assets/images/sources/infantry-art/prepare.py",
+      "sha256": "451fcb7ef3facf1201bfe016336d02fb580da9b39e2b1393b8a8e7befd80d66c"
+    },
+    {
+      "path": "assets/images/sources/infantry-art/sprites.json",
+      "sha256": "f6792205771fba62028bcc6af79fdc883c382a0e038cd6481e48f44b3d5ccd46"
+    },
+    {
+      "path": "assets/images/sources/partisan-rifleman/sprites.json",
+      "sha256": "0852f28d8f6bcab8ecdaf32de0c13d9b2c3ab479ef8d66b489f5baf195b66403"
+    },
+    {
+      "path": "assets/images/sources/plan-ideas-art/export-runtime.py",
+      "sha256": "d499493c4c05a81ae1e1f6a357e948d48ada99016ac23762165e2cbf53959c0e"
+    },
+    {
+      "path": "assets/images/sources/plan-ideas-art/generation.json",
+      "sha256": "d5bc6899293fb8d9fbdf5dae2d10a1fc142bf421d4a84d9133fe59473c97b606"
+    },
+    {
+      "path": "assets/images/sources/plan-ideas-art/prepare-bf109.py",
+      "sha256": "e0aa3db99ed794e74e6cb7fe8049ebc765aa3442fe4de31e3b77498d5bfce01a"
+    },
+    {
+      "path": "assets/images/sources/plan-ideas-art/prepare-fortifications.py",
+      "sha256": "471750448e1d2d924a1d536b707dc7ac40d1a92860c2e74fa0a0e9ce22ac84c5"
+    },
+    {
+      "path": "assets/images/sources/plan-ideas-art/prepare-ju87.py",
+      "sha256": "413bf4a6cba5bf56c0f7a6eadb0e70de03b8fbe510cfe559d2bac9deb9a90c50"
+    },
+    {
+      "path": "assets/images/sources/plan-ideas-art/prepare-s30.py",
+      "sha256": "1934a7c6227a48a0322fa5aef0dedc6a0c0f19c0c4bc51e0ea947624b1d38c23"
+    },
+    {
+      "path": "assets/images/sources/plan-ideas-art/prepare-shore.py",
+      "sha256": "2f8865454493b410cfb7e106958272fc2d9c192ea060349613bf8b5f65e7eaf7"
+    },
+    {
+      "path": "assets/images/sources/plan-ideas-art/prepare-somua-barrel.py",
+      "sha256": "cc4ba50ce5358a56d166509053d94123c972eb69070b4bd55717d0f32d8a6ee3"
+    },
+    {
+      "path": "assets/images/sources/plan-ideas-art/prepare.py",
+      "sha256": "6c72fb7b9bc5de45db817b0f727d4a8c7abc540b2ea8e914e41eb46e7d71d815"
+    },
+    {
+      "path": "assets/images/sources/plan-ideas-art/sprites.json",
+      "sha256": "6e68c9830c3bae68d6c1cd0eaa058b46a0da11333b8b47bfd9ee2b639f60beff"
+    },
+    {
       "path": "assets/images/sources/pozadine/batina-layered/preview.html",
-      "sha256": "3e2ca83cf89bdd771b92f88fb8a9b923d1c051de09d5c5aaf21a5eeef8f3c1ae"
+      "sha256": "30fbc505acdc16edf365c900874a7b2c4ac69404113ded211acd153d44debae7"
     },
     {
       "path": "assets/images/sources/pozadine/beograd-1944/backgrounds.json",
@@ -6779,7 +6971,7 @@
     },
     {
       "path": "assets/images/sources/pozadine/camac-etape/preview.html",
-      "sha256": "a26985ff34e1c546eb0077f22d16490774202d0459aa93d3ce3e1eb8a6123521"
+      "sha256": "b5b3d4571a72015453c9a0b7b5a81bfff2575c749654e6785aa091587b1440c3"
     },
     {
       "path": "assets/images/sources/pozadine/current-backgrounds.json",
@@ -6787,7 +6979,7 @@
     },
     {
       "path": "assets/images/sources/pozadine/current-levels.json",
-      "sha256": "afbd37283d8b99c6f4d96bbdb5650e01cbc1fc3c5753ae80eaeb4e5ac8ce392c"
+      "sha256": "a9dbec862eea21bafaf60210b9421e9967068c978f8ed8b472a0408901ae8bd2"
     },
     {
       "path": "assets/images/sources/pozadine/current-preview.html",
@@ -6799,23 +6991,71 @@
     },
     {
       "path": "assets/images/sources/pozadine/neretva-polozaji/generation.json",
-      "sha256": "a09238037957b3220c625bc14ad40e49f5f4e2fc8a3d504ba2c0536a7bae6a64"
+      "sha256": "78331581ceadd4ff0e682eaa422bcfedcbf00a7cdce9bb5f6f54444f071ec2ea"
     },
     {
       "path": "assets/images/sources/pozadine/neretva-polozaji/preview.html",
-      "sha256": "d26524d8a8ee9ed4897a8c3665b9ff9e5ff45cb21dd64ee7259ae48a856efc33"
+      "sha256": "ab7c1548f7214f17eb991b1426274288800e9fe983bcca6678c236fa6ab5ac00"
     },
     {
       "path": "assets/images/sources/pozadine/seasonal-backgrounds.json",
-      "sha256": "fd8aa40a57dfd7d104329c5cb2a5889079dbf71668a7a38349f473695c6f2cb9"
+      "sha256": "a0a49cf597010280157ff2c35bc7513cda3333c71dded26548ce8d406ce6ee36"
+    },
+    {
+      "path": "assets/images/sources/rifleman-reload/sprites.json",
+      "sha256": "369d2fd71cb028cecfc9ef7a8abcd372f86a3af1fa843ac08924cb85c23d1fdd"
+    },
+    {
+      "path": "assets/images/sources/road-vehicles/generation.json",
+      "sha256": "0efd387f5a9510745e83451980e1d60102f517fee1383b6f8aca815e20ace71c"
+    },
+    {
+      "path": "assets/images/sources/road-vehicles/prepare.py",
+      "sha256": "90fb73ccc129d4c928e184c28f2f63422a3299eb4f1f54aba1956786db643a53"
+    },
+    {
+      "path": "assets/images/sources/road-vehicles/sprites.json",
+      "sha256": "9154ab3ed65a213b35a874c116ad75f8f2b95e27fb3d28e07337bdc10c8ae3e0"
+    },
+    {
+      "path": "assets/images/sources/scenery/catalog.json",
+      "sha256": "5a976a1737ce7df84ba79bc138310d7d81b62579694444dc950acfed7a4eabf3"
+    },
+    {
+      "path": "assets/images/sources/scenery/sprites.json",
+      "sha256": "251c549e124bcc51a490c72257c3144dfc8bd9c9e9935acee5340604c4623197"
+    },
+    {
+      "path": "assets/images/sources/tenkovi/sprites.json",
+      "sha256": "9da49ac05a02d38f17d0b072acf4b12539b16794482a237f447345e9c46e9284"
+    },
+    {
+      "path": "assets/images/sources/ustanak/prepare.py",
+      "sha256": "588deaa253da92e5c434cfac67fea07d6314fa2eb92807ef5a0da8aa2e12af31"
+    },
+    {
+      "path": "assets/images/sources/ustanak/sprites.json",
+      "sha256": "2698f713ce0715c68d9b9149f45790e9ca7e35b5aca22f871a1af70745146eb4"
+    },
+    {
+      "path": "assets/images/sources/wrecks/sprites.json",
+      "sha256": "94477fb4367110202136601fe1d73ec7ae7384c5fdab6ad597febbb196cc9a70"
+    },
+    {
+      "path": "assets/models/aircraft/ju52/README.md",
+      "sha256": "97517c3837b5bf418a5f68900cbe6b0b0fd741a92dc16188213ea0678173b7f8"
     },
     {
       "path": "assets/models/building/crveni-krst/generation.json",
-      "sha256": "3745b1140a91d4eef3cb5ae4497fdd5a586159f9c2db79c4f21e646014aa189b"
+      "sha256": "a165218d5fe544d080ac016dac264b051f991aad080e078dab0c9486a39e4bc6"
     },
     {
       "path": "assets/models/building/crveni-krst/README.md",
-      "sha256": "b214b504b78b8a2128bd3ce4aef441da1f42372126c4a8ff7fcce4beca1e86d7"
+      "sha256": "0bf3881987a1f435240ffe6b6de2a7c38cd19164433bbaba834f0ef69deac789"
+    },
+    {
+      "path": "assets/models/building/drvar-church/README.md",
+      "sha256": "8a59f90a0289735d15bc232aede8f26b3e527dc89f23e19b980f7dc23981195f"
     },
     {
       "path": "assets/models/building/tower/ww2/License.txt",
@@ -6835,11 +7075,11 @@
     },
     {
       "path": "assets/models/weapon/mortar-81-mod35/build.mjs",
-      "sha256": "f381f1a561a66b40af1983cd964cc704f597f255f72cc4127dfd297e767437cf"
+      "sha256": "cebc581c0628d40ccfc4ef82fc6d740da47e639595b40d83924c95c619f9248a"
     },
     {
       "path": "assets/models/weapon/mortar-81-mod35/LICENSE.txt",
-      "sha256": "7ef1f0445633a8c4907e99d3079891ae8cedf18ab8ab04274c43723c3c33283a"
+      "sha256": "a853ff79453ac6126b596c251bbf4575247fd42c07c922b453099f33ba38d9a0"
     },
     {
       "path": "assets/models/weapon/mortar-81-mod35/model.glb",
@@ -6851,11 +7091,11 @@
     },
     {
       "path": "assets/models/weapon/mortar-81-mod35/source.json",
-      "sha256": "0959b4020e92357bf202b737206720419f0e9af0b0eb970ac7bf271450f1d758"
+      "sha256": "7e2b56462af941342aed4db29ba553851895e8ce2fc3ed17e6708a4c683082fc"
     },
     {
       "path": "catalog/scales.js",
-      "sha256": "b0f41f271cfebc74d70f520925563fcfcaea4ab344da7579980b651e5a3a52f2"
+      "sha256": "f1c38c816f37c957d2581ed87876f70a7c859e757eb05824590450d6ad0831e2"
     },
     {
       "path": "catalog/stories/partisans.js",
@@ -6863,7 +7103,11 @@
     },
     {
       "path": "catalog.html",
-      "sha256": "5caa78628a79820959881a51fd6bf2f4681aab8f13642ece828d770d6766bff5"
+      "sha256": "e1d28c7eb3f467b0b3453f22358ebaf21886122965248be49c5cb4edfabb40e9"
+    },
+    {
+      "path": "core/actor/AdvanceSprite.js",
+      "sha256": "57271052cc55f90452a306c92cb77d73d04937e207ecfec2330b50b41178623d"
     },
     {
       "path": "core/actor/aircraft/fighterBomberPlanes.js",
@@ -6871,11 +7115,11 @@
     },
     {
       "path": "core/actor/imageSources.js",
-      "sha256": "2fe8d1073bf1ffabc8fb5920ca608a78e8e94a54bd6ec0ee5fff8832f4b1ccaa"
+      "sha256": "20d273190f8cdfa91bc95ccf1a68515ad9c64161eab70a92d5fa80781fe447b5"
     },
     {
       "path": "core/gameplay/frontEnemyKinds.js",
-      "sha256": "b59e8b71fb5fb53ab225148a8dc1ff21e54e355573cf2473d40f0265a7f03f88"
+      "sha256": "b13c98305fba99439ea5759db6713dd1486e37fd234947dfef56bbc30296a89b"
     },
     {
       "path": "core3d/actor/artillery/FieldGunDamage.js",
@@ -6887,7 +7131,7 @@
     },
     {
       "path": "core3d/actor/artillery/MortarCrew.js",
-      "sha256": "2267fc68fe4dff6b4d4310ae88dfa828e80e155699ccd9cea499baefd146399a"
+      "sha256": "82231abab2363cee9fedb58891adca2a610ec2f5434823c482170da68a9df917"
     },
     {
       "path": "core3d/actor/buildings/buildingModels.js",
@@ -6895,11 +7139,11 @@
     },
     {
       "path": "docs/ANIMACIJA-POZADINE.md",
-      "sha256": "86aed651100ada6b3ffb946f5b039b991ff279975c4876c40ed3b9037a1a4cfc"
+      "sha256": "f235587a3db93a1ff46a1fe08b76346a5bc367806ef126d79965eae31de1cb5d"
     },
     {
       "path": "docs/ART.md",
-      "sha256": "be24620f728040a7cea3f0fbe5784c5a1e38b28b37f7bc180908eeab22f25f56"
+      "sha256": "6bd576a5ed8f18bdc9afa6cc8a70f920dd4784563a97b2f54efa401722e0b40b"
     },
     {
       "path": "docs/ISTORIJA.md",
@@ -6907,39 +7151,39 @@
     },
     {
       "path": "docs/KATALOG.md",
-      "sha256": "7b5e34735c5b64da08a2e15870e2966ca4510b52989e47970baea110223d88c5"
+      "sha256": "2ffa9e3c758ced0dc6f589bd42fab237e476062d4cb6afe0d68ed346beb2cd45"
     },
     {
       "path": "docs/KONTEKST.md",
-      "sha256": "c6258f15ca82481da894b4724f9d19a46188211385f78a28a681818bb81f2bca"
+      "sha256": "4eb642c037254b85632e414efc39a593ff27e715a922bf986a4a32f4313193d5"
     },
     {
       "path": "docs/PLAN.md",
-      "sha256": "70c5068910d9b93aa8a49ef9752ce5ed7e0fde7bec6f01d80362260f535d98ea"
+      "sha256": "b24e4e6a22f5752a2dff94fdbf5a5ff7ab1aa796722d767c0906160be962e544"
     },
     {
       "path": "docs/references/ww2-yu/crveni-krst/README.md",
-      "sha256": "01a7b3bd60944528fc0fd113a43550abbe819d0f83695d90a15191b0e25e417b"
+      "sha256": "708c7ba040c52924f3160d3db027d507666ffd6baf5d5ecea75755cc2f0f9bd8"
     },
     {
       "path": "docs/TESTING.md",
-      "sha256": "f155afe5c7421d7e7bb3da85c184bbd11d7fccb8a0072bba3ecdf50e681222fb"
+      "sha256": "7829580dcf5eb8228c7b73a5d577a0253f2f8f525ed42f5c6073c841ecbb1ef0"
     },
     {
       "path": "index.html",
-      "sha256": "812baa1e16a0093b51d5ca31e68c9aa44c4e044531ede3a4401a42f0ed14df38"
+      "sha256": "0b8348523d600dbb82493674bb6ec38cfd30c93f69ca20221533cae322acbed7"
     },
     {
       "path": "pregled-animacija.html",
-      "sha256": "33d2a5371be9f73948ae01b5302ea8e49f06cf547bf8b70e66d13cef19dbe002"
+      "sha256": "0bd49cbe3c884c002088268aeb8ca7540f22ffd657b6ede552400059a12ae40d"
     },
     {
       "path": "props.html",
-      "sha256": "49c06d095fb7498cca2b89bef0809c553269556a54a94c949074a4a53bc5f499"
+      "sha256": "42937b568984ea9ea71fb583fbf66c1e611a66c97993980974543a13832de4fa"
     },
     {
       "path": "scenes/cannon/optimizeFigure.js",
-      "sha256": "b127f28c97aa2c8229b71467f709cefa3b51fd9bc9b1facff2b485ca08943221"
+      "sha256": "6df8bba75df37b9d99c7af80c9101530c112f53fc94b8a1957c5beedd63ac667"
     },
     {
       "path": "scenes/to-trieste/Route.js",
@@ -6955,15 +7199,15 @@
     },
     {
       "path": "scripts/prepare-jablanica-texture.py",
-      "sha256": "e395eea7f406ef15dbd4bc5f8a6649710d3996332c6ad05873966d9395539672"
+      "sha256": "ef94ab1a940c88a58a47bfdc85f11705d14989cf535040fe960b734c0a6bd64e"
     },
     {
       "path": "scripts/prepare-vehicle-art.py",
-      "sha256": "a8b50fb5f885cb8bb197d2f4198ad4f137c427a418888518aef8dcf692915742"
+      "sha256": "f5c74ad7d4df7d63fa3471cdeb3d40c113421eb6f7bc3ad181a84a1ff1edd8ab"
     },
     {
       "path": "scripts/webp-backgrounds.py",
-      "sha256": "7fd20248c610333dd8fb967aac6c6e80f7a0bf868658334066ac1b4f9f0ffc05"
+      "sha256": "8886128b0966e936f9f942a68047c612ee23b4bf6513e444f80aab13bd4aa3de"
     }
   ]
 }

@@ -146,9 +146,9 @@ export default class UI {
     modalElement.tabIndex = -1
     resetGameplayInput()
     this.markPaid()
-    // a result arrives while the player is still pressing game keys: the window itself takes focus, so a held or
-    // repeated Space or Enter presses no button; Tab reaches the buttons
-    const first = !resultScreens.has(name) && modalElement.querySelector('button:not(:disabled), input:not(:disabled), select:not(:disabled)')
+    // Start and result windows take focus themselves. Tab can then reach the first enabled control.
+    const first = name !== 'start' && !resultScreens.has(name)
+      && modalElement.querySelector('button:not(:disabled), input:not(:disabled), select:not(:disabled)')
     ;(first || modalElement).focus({ preventScroll: true })
     this.messageElement.hidden = true
   }

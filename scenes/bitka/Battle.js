@@ -9,7 +9,10 @@ export const soldiers = [
   { x: -10.7, z: 21.2, speed: .92, kind: 'rifleman', phase: .57, interval: 1.22, crouchAt: 6.25 },
 ]
 
-export const tank = { x: -9.35, z: 21.65, speed: .65, height: 2.27 }
+export const tank = { x: -9.35, z: 21.65, speed: .65 }
+
+// The marching cels move the planted boot back roughly three source pixels every 72 ms.
+const marchSpeed = 1.05
 
 // Time, sideways position, height above the field, forward position.
 const cameraPath = [
@@ -49,14 +52,19 @@ export function soldierAt(soldier, time) {
   const age = time - soldier.phase
   const cycle = Math.max(0, age) % soldier.interval
   const firing = age >= 0 && cycle < .13
-  const crouched = time >= (soldier.crouchAt ?? Infinity)
+  const crouchAt = soldier.crouchAt ?? Infinity
+  const crouched = time >= crouchAt
+  const kneeling = crouched && time - crouchAt < .175
+  const shot = time - cycle >= crouchAt ? 'crouch-fire' : 'fire'
+  const untilNextShot = age < 0 ? -age : soldier.interval - cycle
+  const raising = untilNextShot <= .10 || (age >= 0 && cycle >= .13 && cycle < .24)
+  const walk = soldier.kind === 'rifleman' && raising ? 'walk-aim' : 'walk'
+  const pose = kneeling ? 'kneel' : firing ? shot : crouched ? 'crouch' : walk
   const x = soldier.x + time * soldier.speed - (firing ? .035 * (1 - cycle / .13) : 0)
   return {
-    x, z: soldier.z,
-    kind: crouched ? 'riflemanLow' : soldier.kind,
-    height: crouched ? 1.12 : 1.72,
-    lift: firing || crouched ? 0 : Math.abs(Math.sin((time + soldier.phase) * 9)) * .023,
+    x, z: soldier.z, kind: soldier.kind, pose, shot,
+    poseTime: kneeling ? time - crouchAt : firing ? cycle : (time + soldier.phase) * soldier.speed / marchSpeed,
     shotAge: age >= 0 ? cycle : Infinity,
-    shotX: soldier.x + (time - cycle) * soldier.speed,
+    shotX: soldier.x + (time - cycle) * soldier.speed - .035,
   }
 }

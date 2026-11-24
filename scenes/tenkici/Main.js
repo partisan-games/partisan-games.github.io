@@ -3,6 +3,7 @@ import Scene2D from '/core/Scene2D.js'
 import BattleBackground, { battlefields } from './BattleBackground.js'
 import { progresBar } from '/ui/components.js'
 import { mainMenuButton } from '/ui/UI.js'
+import { currentStyleClasses } from '/ui/styles.js'
 import Controls, { tankLeftControls, tankRightControls } from '/ui/Controls.js'
 import Tank, { tankKinds } from '/core/gameplay/bodies/vehicles/Tank.js'
 import TankSprite from '/core/actor/vehicles/TankSprite.js'
@@ -28,8 +29,11 @@ export const battlefieldOrder = ['sremFront1944', 'batina', 'sremFront1945']
 const opponents = { sremFront1944: m15, batina: stug, sremFront1945: germanTank }
 let nextBattlefield = 0
 
+/** The history before the match; the report names where it begins, so only later rounds announce their place. */
+const report = 'Syrmian Front, October 1944\n\nThe Germans dig in on the plain west of Belgrade. Your task is to destroy the enemy.'
+
 const customStartScreen = ({ container }) => /* html */`
-  <div class="central-screen flex-column ${container}">
+  <div class="central-screen flex-column ${container}" id="start-screen">
     <h2>Choose mode</h2>
     <button class="bg-olive" id="jedan-igrac" data-paid>
       1 player
@@ -42,7 +46,7 @@ const customStartScreen = ({ container }) => /* html */`
 
 export default class TenkiciScene extends Scene2D {
   constructor() {
-    super({ controlKeys: tankLeftControls, customStartScreen, showControls: true })
+    super({ controlKeys: tankLeftControls, customStartScreen, reportText: report, showControls: true })
   }
 
   /** A match goes to two won rounds, at most three, as in Ustanak; each round is fought on the next battlefield. */
@@ -90,12 +94,7 @@ export default class TenkiciScene extends Scene2D {
     if (button && ['jedan-igrac', 'dva-igraca'].includes(button.id)) this.play(button.id)
   }
 
-  start() {
-    super.start()
-    this.announceBattlefield()
-  }
-
-  /** The round's place and verified period stay on screen for three seconds of play. */
+  /** A later round's place and verified period stay on screen for three seconds of play. */
   announceBattlefield() {
     this.roundNotice?.dispose()
     this.roundNotice = this.session.gameplay.child()
@@ -147,7 +146,7 @@ export default class TenkiciScene extends Scene2D {
 
   showRoundResult() {
     this.ui.showScreen('round', /* html */`
-      <div class="central-screen flex-column simple-container">
+      <div class="central-screen flex-column ${currentStyleClasses().container}">
         <h3>Round ${this.round}: ${this.sideName(this.roundWinner)} wins!</h3>
         <p>${this.score.join(' : ')}</p>
         ${mainMenuButton('bg-olive')}

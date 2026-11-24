@@ -22,7 +22,8 @@ const chetniksAt = holdTime / 2
 
 export default class NeretvaScene extends Scene2D {
   constructor() {
-    super({ intro: 'Hold the enemy at all costs until the wounded are safe.', showControls: false })
+    super({ intro: 'Hold the enemy at all costs until the wounded are safe.', showControls: false,
+      reportText: 'Neretva, March 1943\n\nThe partisan main force is trapped on the Neretva with four thousand wounded. Your task is to cover their evacuation.' })
   }
 
   init() {

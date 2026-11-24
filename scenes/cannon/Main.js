@@ -57,7 +57,8 @@ const controlKeys = {
 export default class CannonScene extends Scene3D {
   constructor() {
     super({
-      intro: 'Neretva valley, February 1943. Shell the Italian fort until its garrison surrenders.',
+      intro: 'Shell the Italian fort until its garrison surrenders.',
+      reportText: 'Jablanica, February 1943\n\nItalian troops hold the old Austrian barracks above the Neretva. The partisan guns are ready to open fire.',
       canvasBackground: 'linear-gradient(#8499a5, #c7d1d6 70%, #d8dede)',
       controlKeys,
     })

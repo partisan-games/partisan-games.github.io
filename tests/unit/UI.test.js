@@ -214,17 +214,15 @@ test('the start screen only starts, the top button of every later screen goes ba
   ui.end()
 })
 
-test('a result window takes the focus itself, so a game key still pressed presses no button; Tab reaches them', () => {
+test('start and result windows take focus themselves, then Tab moves to the first button', () => {
   const ui = new UI(fakeScene)
   const modal = document.getElementById('modal')
-  for (const show of [() => ui.showVictoryScreen('Finished'), () => ui.showDefeatScreen('Finished')]) {
+  for (const show of [() => ui.renderStartScreen(), () => ui.showVictoryScreen('Finished'), () => ui.showDefeatScreen('Finished')]) {
     show()
     assert.equal(document.activeElement, modal)
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab' }))
     assert.equal(document.activeElement, modal.querySelector('button'))
   }
-  ui.renderStartScreen()
-  assert.equal(document.activeElement.tagName, 'BUTTON', 'the start window still offers its first button')
   ui.end()
 })
 

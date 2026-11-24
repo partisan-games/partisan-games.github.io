@@ -63,6 +63,7 @@ export default class VisScene extends Scene2D {
     super({
       controlKeys: { ...baseControls, [attackLabels[inputOptions.attackKey]]: 'shoot', [keys.attack2.label]: 'loop', [keys.special.label]: 'bomb' },
       intro: 'Reach the Island of Vis',
+      reportText: 'Adriatic Sea, autumn 1944\n\nThe partisan squadron moves to Vis. Your task is to deliver a new Allied fighter from Italy.',
       customStartScreen,
     })
   }
