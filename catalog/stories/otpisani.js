@@ -14,12 +14,12 @@ const occupier = (stage, way) => {
 
 export const soldiers = [
   { id: 'okupator', name: 'Okupator', game: 'Zajednička biblioteka', way: 1, block: occupierModule, create: occupier, pxPerMeter: scales.front,
-    catalogGroup: ['Vojnici', 'Nemački'] },
+    catalogGroup: ['Vojnici', 'Nemci'] },
   ...[
     ['rifleman', 'otpisani-strelac', 'Strelac sa puškom'],
     ['sentry', 'otpisani-strazar', 'Stražar u šinjelu'],
   ].map(([kind, id, name]) => ({ id, name, game: 'Otpisani', way: 1, block: occupierModule, pxPerMeter: scales.front,
-    catalogGroup: ['Vojnici', 'Nemački'],
+    catalogGroup: ['Vojnici', 'Nemci'],
     allowedSeasons: enemyKinds[kind].allowedSeasons,
     create(stage, way) {
       const body = new Occupier({ x: stage.width / 2 / stage.projection.pxPerMeter, y: .9,

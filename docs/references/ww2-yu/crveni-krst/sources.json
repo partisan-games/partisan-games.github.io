@@ -1,0 +1,50 @@
+{
+  "purpose": "Research references, not game assets",
+  "images": [
+    {
+      "file": "camp-archive.jpg",
+      "url": "https://holocaust.rs/wp-content/uploads/2020/07/Nis_foto_3.jpg",
+      "page": "https://holocaust.rs/en/crveni-krst-archive/",
+      "credit": "M. Milovanovic, Logor na Crvenom krstu u Nisu, ISI-Narodna knjiga, Beograd 1983; reproduced by CPI",
+      "rights": "CPI page: All rights reserved. Research reference only; no runtime use or texture extraction.",
+      "description": "Former appearance; date of photograph not established",
+      "retrieved": "2026-11-24",
+      "sha256": "484f83db100331b83cb8569169607ba9aa8bdf8b1517cd92909d7c04f878b47b",
+      "bytes": 389098,
+      "size": [
+        1280,
+        884
+      ]
+    },
+    {
+      "file": "building-sketch.png",
+      "url": "https://holocaust.rs/wp-content/uploads/2020/07/Nis2.png",
+      "page": "https://holocaust.rs/en/crveni-krst-archive/",
+      "credit": "M. Milovanovic, Logor na Crvenom krstu u Nisu, ISI-Narodna knjiga, Beograd 1983; reproduced by CPI",
+      "rights": "CPI page: All rights reserved. Research reference only; no runtime use or texture extraction.",
+      "description": "Sketch of inmates room and camp building; not a measured site plan",
+      "retrieved": "2026-11-24",
+      "sha256": "51be7fa0251a91177bd0428fc557c382687e12bf59a680d06c2a6aee9c527815",
+      "bytes": 587945,
+      "size": [
+        837,
+        630
+      ]
+    },
+    {
+      "file": "wire-archive.png",
+      "url": "https://holocaust.rs/wp-content/uploads/2020/07/Nis3.png",
+      "page": "https://holocaust.rs/en/crveni-krst-archive/",
+      "credit": "M. Milovanovic, Logor na Crvenom krstu u Nisu, ISI-Narodna knjiga, Beograd 1983; reproduced by CPI",
+      "rights": "CPI page: All rights reserved. Research reference only; no runtime use or texture extraction.",
+      "description": "Barbed wire; date of photograph not established",
+      "retrieved": "2026-11-24",
+      "sha256": "78e335cfd979be4b7d0994c8a5c39029e1998740958b240ff13fd7e5883dae75",
+      "bytes": 260216,
+      "size": [
+        415,
+        603
+      ]
+    }
+  ]
+}

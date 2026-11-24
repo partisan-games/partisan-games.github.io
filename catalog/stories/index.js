@@ -10,6 +10,7 @@ import * as otpisani from './otpisani.js'
 import * as characters3d from './characters3d.js'
 import * as objects3d from './objects3d.js'
 import * as partisans from './partisans.js'
+import * as crveniKrst from './crveniKrst.js'
 
 /**
  * The kinds of blocks, each with its stories. A story is one block alone on the stage: `create(stage)` puts it there
@@ -29,4 +30,5 @@ export default [
   { id: 'letelice-3d', title: '3D letelice', stories: objects3d.aircraft },
   { id: 'artiljerija-3d', title: '3D artiljerija', stories: objects3d.artillery },
   { id: 'kule-3d', title: '3D kule sa topom', stories: objects3d.towers },
+  { id: 'ambijent-3d', title: '3D ambijent', stories: crveniKrst.props },
 ]

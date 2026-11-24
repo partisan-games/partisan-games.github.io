@@ -1,0 +1,141 @@
+import { test } from 'node:test'
+import assert from 'node:assert/strict'
+import { readFile } from 'node:fs/promises'
+import { createHash } from 'node:crypto'
+import * as THREE from 'three'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { createCampProp, createCampStudy, campModels } from '/core3d/actor/buildings/CampProp.js'
+import { createPageElements } from './helpers/dom.js'
+
+const directory = 'assets/models/building/crveni-krst/'
+const bufferOf = bytes => bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength)
+
+function textures(t) {
+  t.mock.method(THREE.ImageBitmapLoader.prototype, 'load', (url, onLoad) => {
+    assert.ok(url.endsWith('/materials.png'), 'every bitmap uses the same real atlas')
+    queueMicrotask(() => onLoad({ width: 1254, height: 1254 }))
+    return {}
+  })
+  t.mock.method(THREE.TextureLoader.prototype, 'load', (url, onLoad) => {
+    assert.ok(url.endsWith('/materials.png'), 'every asset uses the same real atlas')
+    const texture = new THREE.Texture()
+    texture.image = { width: 1254, height: 1254 }
+    queueMicrotask(() => onLoad(texture))
+    return texture
+  })
+}
+
+function modelLoading(t) {
+  textures(t)
+  t.mock.method(GLTFLoader.prototype, 'loadAsync', async url => {
+    const bytes = await readFile(url.slice(1))
+    return new GLTFLoader().parseAsync(bufferOf(bytes), '/assets/models/building/crveni-krst/')
+  })
+}
+
+test('all seven exported camp models have real triangles, bounded geometry, valid shared textures and recorded hashes', async t => {
+  textures(t)
+  const source = JSON.parse(await readFile(directory + 'source.json', 'utf8'))
+  const atlas = await readFile(directory + source.texture.file)
+  assert.equal(createHash('sha256').update(atlas).digest('hex'), source.texture.sha256)
+  assert.equal(source.assets.length, 7)
+  for (const asset of source.assets) {
+    const bytes = await readFile(directory + asset.file)
+    assert.equal(bytes.length, asset.bytes)
+    assert.equal(createHash('sha256').update(bytes).digest('hex'), asset.sha256)
+    const document = JSON.parse(bytes.subarray(20, 20 + bytes.readUInt32LE(12)))
+    assert.equal(bytes.readUInt32LE(8), bytes.length)
+    for (const image of document.images ?? []) assert.equal(image.uri, 'materials.png')
+    assert.equal(document.animations, undefined)
+    assert.equal(document.skins, undefined)
+    const { scene } = await new GLTFLoader().parseAsync(bufferOf(bytes), '/assets/models/building/crveni-krst/')
+    scene.updateMatrixWorld(true)
+    let triangles = 0, meshes = 0
+    scene.traverse(part => {
+      if (!part.isMesh) return
+      meshes++
+      if (['plaster', 'roof', 'wood', 'steel'].includes(part.material.name))
+        assert.ok(part.material.map, asset.file + ': texture was assigned')
+      triangles += (part.geometry.index?.count ?? part.geometry.attributes.position.count) / 3
+      for (const name of ['position', 'normal', 'uv']) {
+        assert.ok(part.geometry.attributes[name], asset.file + ': ' + name)
+        assert.ok(part.geometry.attributes[name].array.every(Number.isFinite))
+      }
+    })
+    assert.equal(triangles, asset.triangles, asset.file)
+    assert.equal(meshes, asset.meshes, asset.file)
+    const box = new THREE.Box3().setFromObject(scene)
+    assert.ok(box.min.y > -.03 && box.min.y < .03, asset.file + ': grounded')
+    assert.ok(box.max.y < 10 && box.max.y > 2, asset.file + ': estimated human scale')
+    assert.ok(triangles < 6500 && meshes <= 8, asset.file + ': web geometry budget')
+  }
+})
+
+test('porous wire really has ray gaps, while a full timber screen hides the same line of sight', async t => {
+  modelLoading(t)
+  const wire = await createCampProp('fence-straight')
+  const cover = await createCampProp('timber-screen')
+  wire.mesh.updateMatrixWorld(true)
+  cover.mesh.updateMatrixWorld(true)
+  const ray = new THREE.Raycaster(new THREE.Vector3(1.25, 1, 2), new THREE.Vector3(0, 0, -1), 0, 4)
+  assert.equal(ray.intersectObject(wire.mesh, true).length, 0)
+  assert.ok(ray.intersectObject(cover.mesh, true).length > 0)
+  assert.equal(campModels['fence-straight'].scale, 1, 'module spacing is never fitted to model height')
+  assert.equal(campModels['fence-straight'].castShadow, false)
+})
+
+test('gates pivot horizontally and reflector copies keep an independent target and light appearance', async t => {
+  modelLoading(t)
+  const gate = await createCampProp('gate')
+  const secondGate = await createCampProp('gate')
+  gate.toggleGate()
+  gate.update(1)
+  assert.ok(gate.mesh.getObjectByName('GateLeft').rotation.y > 1.5)
+  assert.ok(gate.mesh.getObjectByName('GateRight').rotation.y < -1.5)
+  assert.equal(secondGate.mesh.getObjectByName('GateLeft').rotation.y, 0)
+  const box = new THREE.Box3().setFromObject(gate.mesh)
+  assert.ok(box.max.y < 2.81 && box.min.y > -.03)
+  gate.toggleGate()
+  gate.update(1)
+  assert.equal(gate.gateFraction, 0)
+  const tower = await createCampProp('watchtower')
+  const second = await createCampProp('watchtower')
+  assert.equal(tower.lights.length, 1)
+  assert.equal(tower.lights[0].target.parent, tower.lights[0])
+  assert.notEqual(tower.lights[0].target, second.lights[0].target)
+  tower.mesh.updateMatrixWorld(true)
+  const targetBefore = tower.lights[0].target.getWorldPosition(new THREE.Vector3()).clone()
+  tower.toggleSweep()
+  tower.update(1)
+  tower.mesh.updateMatrixWorld(true)
+  assert.ok(tower.lights[0].target.getWorldPosition(new THREE.Vector3()).distanceTo(targetBefore) > .1)
+  tower.toggleLight()
+  assert.equal(tower.lights[0].visible, false)
+  assert.equal(second.lights[0].visible, true)
+  assert.equal(tower.lenses[0].emissiveIntensity, 0)
+  assert.equal(second.lenses[0].emissiveIntensity, 1)
+  assert.equal(tower.lights[0].castShadow, false)
+  const study = await createCampStudy()
+  assert.equal(study.mesh.children.length, 8)
+  assert.equal(study.gates.length, 2)
+  assert.equal(study.lights.length, 1)
+})
+
+test('each camp catalog entry creates its real prop and every offered command runs', async t => {
+  createPageElements()
+  modelLoading(t)
+  const { props } = await import('/catalog/stories/crveniKrst.js')
+  assert.equal(props.length, 8)
+  assert.equal(new Set(props.map(story => story.id)).size, 8)
+  for (const story of props) {
+    const stage = { children: [], add(block) {
+      this.children.push(block)
+    } }
+    const block = await story.create(stage)
+    assert.ok(stage.children.includes(block), story.id)
+    assert.ok(new THREE.Box3().setFromObject(block.mesh).max.y > 2)
+    for (const command of story.commands ?? []) command.run(block, stage)
+    block.update(.1)
+    assert.ok(block.mesh.children.length, story.id)
+  }
+})

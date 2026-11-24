@@ -84,7 +84,7 @@ Odobrene poruke su „Allow this site to save data to use arcade tokens.” za b
 
 Naplativo dugme desno od natpisa pokazuje samo zlatan žeton sa zvezdom, bez broja cene. Raspoložive žetone pokazuje džep. Aktivna oznaka se kreće, disabled miruje; smanjeno kretanje daje mirnu sliku i na aktivnom dugmetu. Nedostatak žetona daje native disabled stanje, bez dodatne poruke ili prozora, a dostupnost se obnavlja po promeni džepa.
 
-Odobrenje animacije u prozoru ne menja kartice naslovne: naplative kartice zadržavaju prethodni CSS žeton, dok scene i animacije imaju VIEW. Resurse i izbor mirne/pokretne varijante održavaju [icons](../core/io/icons.js) i UI; pregled je na [ui.html](../ui.html).
+Odobrenje animacije u prozoru ne menja kartice naslovne: naplative kartice zadržavaju prethodni CSS žeton, dok scene i animacije imaju TRY. Resurse i izbor mirne/pokretne varijante održavaju [icons](../core/io/icons.js) i UI; pregled je na [ui.html](../ui.html).
 
 ### Pouke za usklađivanje prikaza
 

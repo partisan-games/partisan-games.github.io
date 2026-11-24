@@ -2,11 +2,17 @@ import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 
-let kinds, createCatalog, findStory
+let kinds, createCatalog, findStory, groupOf
 before(async() => {
   createPageElements()
   ;({ default: kinds } = await import('/catalog/stories/index.js'))
-  ;({ createCatalog, findStory } = await import('/catalog/catalog.js'))
+  ;({ createCatalog, findStory, groupOf } = await import('/catalog/catalog.js'))
+})
+
+test('chetniks have their own army group, not the miscellaneous one', () => {
+  const soldiers = kinds.find(({ id }) => id === 'vojnici')
+  const chetnik = soldiers.stories.find(({ id }) => id === 'cetnik-u-rovu')
+  assert.deepEqual(groupOf(soldiers, chetnik), ['Vojnici', 'Četnici'])
 })
 
 test('old model links resolve to separate actors instead of skins', () => {
@@ -86,7 +92,9 @@ test('search opens matching paths, restores disclosures and selection opens ever
       if (parent.tagName === 'DETAILS') disclosures++
     assert.equal(disclosures, 2, link.textContent)
   }
-  const italian = [...root.querySelectorAll('h3')].find(heading => heading.textContent === 'Italijanski')
+  const ostali = [...root.querySelectorAll('h3')].find(heading => heading.textContent === 'Ostali').parentElement
+  assert.equal(ostali, ostali.parentElement.lastElementChild)
+  const italian = [...root.querySelectorAll('h3')].find(heading => heading.textContent === 'Italijani')
   assert.equal(italian.parentElement.tagName, 'SECTION')
   search.value = 'nema-takvog-aktera'
   search.dispatchEvent(new Event('input'))

@@ -250,6 +250,17 @@ Pejzaži služe prepoznatljivosti mesta, ne dokumentarnoj rekonstrukciji pojedin
 | Okolina Nikšića | Široko polje sa planinskim obodom i raštrkanim kamenim selima. Grahovo i Vilusi pripadaju okviru nikšićkog sreza 1941 ([Istorijski zapisi](https://istorijskizapisi.me/wp-content/uploads/2022/04/12-N-Perosevic-129-142.pdf)). To ne potvrđuje artiljerijski dvoboj u svakom prikazanom ambijentu. |
 
 
+<a id="crveni-krst-12-februar-1942"></a>
+## Crveni krst, 12. februar 1942.
+
+Istraženo 24. 11. 2026. za [Escape Enemy Base](KONTEKST.md#escape-enemy-base). [Narodni muzej Niš](https://narodnimuzejnis.rs/RS/o-muzeju/objekti/memorijalni-kompleks-12-februar/) potvrđuje datum proboja i navodi 147 učesnika, od kojih je 105 pobeglo; broj učesnika nije jednako naveden u svim izvorima.
+
+[Ivana Gruden, muzejska publikacija](https://narodnimuzejnis.rs/wp-content/uploads/2017/04/stradanje-slovenaca.pdf#page=29), štampana str. 29: glavni objekat je nekadašnji vojni magacin sa prizemljem, spratom i potkrovljem; dvorište ima apel plac i manji istočni prostor. Ograda je dvostruka, sa približno dva metra razmaka i koturima žice između; unutrašnja je niža. Opisane su dve kule sa mitraljezima i reflektorima, bez potvrđenog rasporeda u četiri ugla. Današnji pomoćni objekti građeni su posle proboja. Str. 34 pominje mraz i sneg u tom periodu; intenzitet sneženja tog dana nije utvrđen. Str. 39 navodi izlazak oko 19.30 i bekstvo preko žice iza zgrade prema Viniku; pominje i jednog poginulog nemačkog stražara. Noć ima oslonac u ovom izvoru; Suva planina ostaje cilj igre, ne potvrđeni neposredni smer bekstva.
+
+[CPI fotografska arhiva](https://holocaust.rs/en/crveni-krst-archive/) prenosi prikaze iz Milovanovićeve knjige iz 1983: dugu zgradu sa pravilnim prozorima, kosim krovom i dimnjacima, drvenu konstrukciju kule i žičanu ogradu. To su vizuelni oslonci, bez potvrde datuma pojedinačnih snimaka; prikaz celog kompleksa deluje kao maketa. [Sačuvane reference i poreklo](references/ww2-yu/crveni-krst/README.md).
+
+**Granice rekonstrukcije:** pregledani izvori ne daju izmeren tlocrt za 12. februar, tačne visine kula i ograde, boje fasade iz 1942, vrste drveća ni reljef u razmeri. Za art predložiti mirno dvorišno tlo, prigušene zimske boje i malo gole vegetacije; to je likovna procena. Današnji asfalt, memorijalne ploče, savremenu okolinu i razvijene krošnje ne prenositi automatski u 1942. Drvene barake kao osnovni smeštaj nisu potvrđene ovim nalazima.
+
 ## Godišnja doba ratnih ambijenata
 
 Godišnje doba se određuje prema datumu izabrane bitke; vegetacija, sneg po visini i stanje tla umetnička su rekonstrukcija sezone, ne dokaz vremena konkretnog dana.

@@ -1,6 +1,7 @@
 import { mapRange } from '/core3d/helpers.js'
 import { loadedModel } from '/core3d/assets/models.js'
 import Vehicle from '/core3d/physics/Vehicle.js'
+import { models as renaultModels } from '/core3d/actor/derived/Tank.js'
 import { Smoke } from '/core3d/Particles.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import { audioPoint } from '/core/io/audio/audio3d.js'
@@ -8,7 +9,8 @@ import { audioPoint } from '/core/io/audio/audio3d.js'
 const wheelFront = { x: .75, y: .1, z: 1.25 }
 const wheelBack = { x: .75, y: .1, z: -1.25 }
 
-const model = { file: 'tank/panther-a/model.fbx', angle: Math.PI, shouldCenter: true, size: 3 }
+/** The Renault FT of the actor tank, at its size, centred on the wheels of the body and turned to drive forward. */
+const model = { ...renaultModels[0], angle: Math.PI, shouldCenter: true }
 
 /** What to load; a game awaits requestModels(models) before it creates one. */
 export const models = [model]

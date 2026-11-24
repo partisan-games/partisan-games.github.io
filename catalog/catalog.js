@@ -21,12 +21,12 @@ export function groupOf(kind, story) {
   if (story.catalogGroup) return story.catalogGroup
   if (kind.id === 'drugi-svetski-rat-3d' || kind.id === 'vojnici') {
     const name = normalize(story.name)
-    const army = /italij|italian/.test(name) ? 'Italijanski' : /nemac|nemack|nacist|ss vojnik/.test(name) ? 'Nemački'
-      : /sovjets/.test(name) ? 'Sovjetski' : /partizan|pokreta otpora/.test(name) ? 'Partizanski' : 'Ostali'
+    const army = /italij|italian/.test(name) ? 'Italijani' : /nemac|nemack|nacist|ss vojnik/.test(name) ? 'Nemci'
+      : /sovjets/.test(name) ? 'Sovjeti' : /partizan|pokreta otpora/.test(name) ? 'Partizani' : /cetni/.test(name) ? 'Četnici' : 'Ostali'
     return ['Vojnici', army]
   }
   if (kind.id === 'zivotinje-i-masine-3d') return [story.id === 'tenk-3d' ? 'Vozila' : story.id === 'cepelin-3d' ? 'Letelice' : 'Životinje']
-  return [{ 'letelice-3d': 'Letelice', 'kule-3d': 'Kule sa topom', 'fantazija-3d': 'Fantazija', 'horor-3d': 'Horor' }[kind.id] ?? kind.title]
+  return [{ 'letelice-3d': 'Letelice', 'artiljerija-3d': 'Artiljerija', 'kule-3d': 'Kule sa topom', 'fantazija-3d': 'Fantazija', 'horor-3d': 'Horor' }[kind.id] ?? kind.title]
 }
 
 /** Navigation owns its disclosure state; stage resets never rebuild this tree. */
@@ -85,6 +85,7 @@ export function createCatalog(root, kinds, storage) {
     parent.append(link)
     entries.push({ link, ancestors, text: normalize([...path, story.name, story.game, ...(story.looks ?? []).map(look => look.name)].join(' ')) })
   }
+  for (const [key, group] of groups) if (key.endsWith('/Ostali')) group.parentElement.append(group)
   // Only the first two group levels fold, regardless of their contents.
   for (const [key, group] of groups) {
     if (key.split('/').length <= 2) continue

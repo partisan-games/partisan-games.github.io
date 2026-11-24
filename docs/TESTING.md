@@ -93,6 +93,20 @@ Motociklista (2026-11-23): nov atlas 156×108 po ćeliji, 4×6, sa odvojenim mit
 
 Datirani pregled animacija iz tabele iznad zamenjuje starije opšte beleške „browser nije pokretan” za obuhvaćene priče. Ne prenosi automatski pokrivenost na izmenjeni art, sve nivoe ili nove varijante. Preostale provere vode se u [planu arta](PLAN.md#art).
 
+## Crveni krst — priprema i art
+
+Priprema za [IG-29](PLAN.md#ig-29), 24. 11. 2026: kratka Node provera nad stvarnim `Maze` i `truePrims`, bez modela i browsera, prošla je kroz 32 generisanja. Svaki put dobijeno je 17×17 pločica, 161 puna i 128 prohodnih; svih 128 je povezano sa početkom, uključujući izlaz. Potvrđene su koordinate početka (−35, −35) i izlaza (35, 40). Ovo je polazna prohodnost, ne provera buduće geometrije, zaklona, osvetljenja ili konačnog izgleda.
+
+Tri [likovne reference](references/ww2-yu/crveni-krst/README.md) su preuzete i vizuelno pregledane; poreklo, ograničenja i hashovi su u manifestu. Nivo i akteri nisu menjani u ovoj pripremi; postojeće lokalne izmene scene pripadaju ranijem radu. Velika testna serija i browser nisu pokretani.
+
+Prvi [paket modela](../assets/models/building/crveni-krst/README.md), 24. 11. 2026: prošlo 14 ciljanih testova u `crveniKrstArt`, `catalogStories`, `catalogCoverage` i `catalogNavigation`; ciljani ESLint prolazi. [Test arta](../tests/unit/crveniKrstArt.test.js) parsira svih sedam stvarnih GLB fajlova, proverava hashove, geometriju, normale, UV, dodeljen atlas, oslonac i skalu, raycast između niti žice i kroz puni zaklon, otvaranje kapije, nezavisnost kloniranih reflektora i svih osam stavki kataloga. GLTFLoader u Node okruženju koristi zamenske teksture, pa ovo ne potvrđuje GPU rasterizaciju; odsustvo teksture ne sme proći samo kao upozorenje, zato test izričito zahteva dodeljenu mapu. Kloniranom spotu vezati `.target` za dete iste instance; zasebno klonirani cilj ne prati automatski rotaciju svetiljke.
+
+Dva mala offline EEVEE rendera (960×640, po 24 uzorka) su napravljena lokalnim Blenderom 4.5.3 i vizuelno pregledana: ceo paket i pogled sa visine 1,78 m. Generisana studija ostaje likovni cilj; renderi prikazuju originalne modele uz podlogu i svetlo za pregled, bez tvrdnje da su screenshot igre. Paket koriste katalog i nivo; browser i puna testna serija nisu pokretani.
+
+Povezivanje nivoa, 24. 11. 2026: prošlo je 36 ciljanih testova (`fpsCamp`, `crveniKrstArt`, `logic`, `characterModel`), uz čist ciljani ESLint. [Test nivoa](../tests/unit/fpsCamp.test.js) proverava 32 povezana rasporeda oko izdvojenog objekta, sve veze/pregrade jednog stvarnog sklopa, pogled i metke kroz žicu, pune zaklone, blokadu nogu pri skoku i naknadno dodate rekvizite. Učitavanje prave scene sa stvarnim FBX/GLB/OBJ fajlovima i zamenskim teksturama potvrđuje deset živih neprijatelja, dve prve pomoći, pobedu samo po starom pragu udaljenosti i čist novi ulazak. Tri vidljiva instancirana sklopa za žicu/stubove i jedan nevidljivi kolizioni oslobađaju instance bafere jednom; materijale i svetla oslobađa scena. Za instancirane tanke delove lokalno je isključena kontura, bez promene kataloških materijala. Puni zakloni koriste obične mesh-eve kako postojeći tragovi pogodaka ne bi završavali na koordinatama pogrešne instance.
+
+Nema potvrde stvarnog FPS-a, WebGL izgleda, čitljivosti pri kretanju ili osvetljenja u browseru; njega pokreće vlasnik.
+
 ## Optimizacija resursa kataloga
 
 Pregledano je 45 različitih baznih putanja modela; 43 FBX/GLB modela su parsirana, a dva spoljašnja glTF-a popisana bez analize geometrije. Pored partizana, još pet modela dobija manje grupa: Iron Giant 286→51, MG-42 68→11, čarobnica 32→10, kostur 23→2, puška 5→2. To su grupe materijala sa jednim implicitnim prolazom za mesh bez grupa, ne izmereni WebGL pozivi; izvorni fajlovi nisu smanjivani. [Test stvarnih modela](../tests/unit/catalogResources.test.js) potvrđuje iste trouglove, njihove materijale i redosled temena, sve atribute i iste skelete. Stvarni Bigfoot model daje iste četiri lokalne/prilagođene animacije pri serijskom i paralelnom učitavanju.

@@ -122,6 +122,34 @@ Nove frontalne likove vlasnik prvo bira u katalogu; do izbora nisu deo sastava n
 
 **Kontekst i granice:** parole i plakati po gradu treba da odgovaraju slobodnoj teritoriji u kasnu jesen 1942. Natpisi o dolasku Crvene armije, poput „CRVENA ARMIJA DOLAZI” i plakata RED_ARMY_IS_HERE, pripadaju 1944. i u tom okviru su anahroni; o njihovoj sudbini odlučuje vlasnik. Činjenice i izvori: [Bihać, kraj 1942](ISTORIJA.md#bihać-kraj-1942--polazište-za-igru-liberated-city).
 
+## Locomotive
+
+**Okvir (vlasnik, 2026-11-24):** Scena je [partizanska železnica](https://sh.wikipedia.org/wiki/Partizanska_%C5%BEeljeznica) (ŽNOV), uskotračne šumske pruge Bosanske krajine oko Drvara, Oštrelja, Srnetice, Potoka i Klekovače; na naslovnoj je „1942: Partisan Railway”.
+
+**Kontekst i granice:** pruga je radila u više perioda: jul–septembar 1941, od maja 1942. do nemačke ofanzive početkom 1943, od jeseni 1943. do januara 1944. na pravcima Jajce–Bugojno i Jajce–Šipovo, i septembar–novembar 1944. Godina 1942 na kartici je period kada je Vrhovni štab boravio u vagonima kod Oštrelja, a pruga od jula do oktobra prevezla oko 600 vagona žita. Prevozila je borce, ratni materijal i ranjenike. Poznate lokomotive su Krauss-Maffei iz 1904, Titov voz kod Oštrelja, i „Mala partizanka” (Krauss, Linc) u Jajcu.
+
+## Warplane
+
+**Okvir (vlasnik, 2026-11-24):** Igra je operacija Ratweek, septembar 1944, kada su savezničko vazduhoplovstvo i partizani zajedno napadali nemačke saobraćajnice; na naslovnoj je „1944: Operation Ratweek”. Avioni koji ne pripadaju tom okviru izlaze iz igre ([PLAN](PLAN.md#ig-31)). Fotografije savezničkih bombardovanja Kraljeva i Beograda 1944: [reference](references/ww2-yu/bombardovanje-1944/README.md).
+
+**Kontekst i granice:** Ratweek je počeo 1. septembra 1944. i trajao do druge polovine meseca; cilj je bio da se prekinu pruge i putevi kojima su se nemačke grupe armija E i F povlačile iz Grčke i sa Balkana, pre svega pruga Beograd–Solun kroz dolinu Vardara. Učestvovali su 15. američka vazduhoplovna armija iz Fođe, RAF i Balkansko vazduhoplovstvo; pominju se B-17, P-51 Mustang i P-38 kao lovci-bombarderi. Gađani su mostovi, vijadukti, tuneli, železnički čvorovi i dunavski mostovi kod Beograda; Mustangi su srušili most kod Litije. Fabrike su gađane u drugim napadima 1944, npr. fabrike avionskih motora u Mariboru. Kraljevo je 1944. bombardovano šest puta, a Beograd, Niš, Leskovac, Novi Sad, Kragujevac i Kruševac takođe. Izvori: [Allied bombing of Yugoslavia](https://en.wikipedia.org/wiki/Allied_bombing_of_Yugoslavia_in_World_War_II), [Operation Ratweek](https://en.wikipedia.org/wiki/Operation_Ratweek_(1944)); izvori ne navode tipove nemačkih lovaca, pa je Bf 109 izbor igre.
+
+## Demolish Barricades
+
+**Okvir (vlasnik, 2026-11-24):** Igra je opsada Kraljeva u oktobru 1941; na naslovnoj je „1941: Siege of Kraljevo”. Igrač vozi jedan od dva tenka koje su partizani tada zaplenili od Nemaca i ruši nemačke barikade na ulazu u grad.
+
+**Kontekst i granice:** opsada je trajala od 9. do 31. oktobra 1941, uz zajedničke snage partizana i četnika; Nemci su od 15. do 20. oktobra u odmazdi streljali oko 2.000 stanovnika ([Siege of Kraljevo](https://en.wikipedia.org/wiki/Siege_of_Kraljevo)). U završnom napadu 31. oktobra dejstvovao je vod od dva zaplenjena tenka, što se slavi kao Dan oklopnih jedinica ([Novosti](https://www.novosti.rs/c/drustvo/vesti/931236/cestitka-stefanovica-dan-roda-oklopnih-jedinica-secanje-prvo-dejstvovanje-tenkova-borbama-oslobodjenje-kraljeva)). To su bili tenkovi bivše jugoslovenske vojske koje su Nemci zaplenili u aprilu 1941, po [Kuriru](https://www.kurir.rs/vesti/srbija/3987871/srbi-ga-zaplenili-od-nemaca-a-sada-decenijama-cuva-uzice-ovaj-hockis-je-jedan-od-1200-koliko-ih-je-ukupno-proizvedeno-u-svetu) jedan Hotchkiss i jedan Renault; tačan model Renaulta izvori ne razrešavaju. Igrač vozi Renault FT (vlasnik, 2026-11-24).
+
+## Escape Enemy Base
+
+**Okvir (vlasnik, 2026-11-24):** Igra je proboj iz nemačkog logora Crveni krst u Nišu, 12. februara 1942; na naslovnoj je „1942: Breakout from Crveni Krst”. Igrač je logoraš koji se probija kroz logor do partizana; neprijatelji su Nemci.
+
+**Raspored (vlasnik, 2026-11-24):** sačuvati lavirint, grananje, slepe prolaze i traženje izlaza. Uzor je način na koji Witcher 1 oblikuje naselja: putanje deluju kao smisleni prolazi između objekata i dvorišta. U logoru ih oblikuju žičane pregrade, neprohodni delovi velike zidane zgrade i poneki drveni zaklon. Jedno otvoreno dvorište i pogled na kule služe orijentaciji; nivo ostaje lavirint, bez pretvaranja u pretežno otvorenu igru izbegavanja patrola. Žica blokira prolaz, propušta pogled i metke; zgrada i puni drveni zakloni zaklanjaju i zaustavljaju metke. Unutrašnje pregrade i raspored prolaza su arkadna interpretacija, ne istorijski tlocrt. Witcher 1 je referenca za organizaciju prostora, ne za arhitekturu ili likovni stil.
+
+**Pobeda (vlasnik, 2026-11-24):** ostaje izlazak iz lavirinta; nije potrebno ubiti stražare, otključati kapiju ili ispuniti novi zadatak. U kodu ostaje postojeća provera udaljenosti manje od 5 m od izlaza; izlazna kapija je već otvorena.
+
+**Kontekst i granice:** prema [Narodnom muzeju Niš](https://narodnimuzejnis.rs/en/o-muzeju/objekti/memorijalni-kompleks-12-februar/), 147 golorukih logoraša napalo je stražu; 105 je pobeglo, a 42 su poginula na žicama. Drugi izvori navode drugačiji broj učesnika ([Novosti](https://www.novosti.rs/drustvo/vesti/1085326/slobode-domoglo-105-logorasa-pre-80-godina-nisu-dogodio-prvi-proboj-nacistickog-logora-evropi-foto), [Jewish Virtual Library](https://www.jewishvirtuallibrary.org/crveni-krst-concentration-camp)); novije [istraživanje prostora i proboja](ISTORIJA.md#crveni-krst-12-februar-1942) razdvaja potvrđeno, navode pojedinačnih publikacija i likovne procene. Lavirint, puška, prva pomoć i borba sa stražom su arkadna sloboda, a ne prikaz samog proboja. Cilj misije, partizani na Suvoj planini, deo je okvira igre. Prerada lavirinta u logor je u [PLAN-u](PLAN.md#ig-29).
+
 ## Bunker
 
 **Okvir (vlasnik):** Igra je bitka za Krupanj 1941, a Žikica Jovanović Španac je bombaš koji napada bunker.

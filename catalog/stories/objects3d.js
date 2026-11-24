@@ -107,11 +107,11 @@ const offerTarget = (tower, stage) => {
   stage.add(marker)
 }
 
-/** The looks of a warplane: each plane of the game Warplane. */
+/** The looks of a warplane; the biplane, triplane and F-18 left Warplane, which is set in 1944. */
 const planes = [
-  ['dvokrilac', 'Dvokrilac', biplaneModule], ['trokrilac', 'Trokrilac', triplaneModule],
-  ['mesersmit', 'Mesersmit', messerschmittModule], ['bombarder', 'Bombarder', bomberModule], ['f18', 'F-18', f18Module],
-].map(([id, name, value]) => ({ id, name, value }))
+  ['dvokrilac', 'Dvokrilac', biplaneModule, 'Zajednička biblioteka'], ['trokrilac', 'Trokrilac', triplaneModule, 'Zajednička biblioteka'],
+  ['mesersmit', 'Mesersmit', messerschmittModule], ['bombarder', 'Bombarder', bomberModule], ['f18', 'F-18', f18Module, 'Zajednička biblioteka'],
+].map(([id, name, value, game]) => ({ id, name, value, game }))
 
 export const aircraft = [
   { id: 'ratni-avion-3d', name: 'Ratni avion', game: 'Warplane', block: warplaneModule, stage: Stage3D, looks: planes, create: warplane,
@@ -131,7 +131,7 @@ export const aircraft = [
 ].flatMap(story => story.looks ? separateModels(story) : [story])
 
 export const artillery = [
-  { id: 'poljski-top-3d', name: 'Poljski top sa posadom', game: 'Battle for Jablanica', block: cannonModule, stage: Stage3D,
+  { id: 'poljski-top-3d', name: 'Poljski top 75 mm sa posadom', game: 'Battle for Jablanica', block: cannonModule, stage: Stage3D,
     create: fieldGun, commands: [{ label: 'Napuni', run: loadGun }, { label: 'Trzaj', run: recoil },
       { label: 'Pogođena posada', run: hitCrew }] },
   { id: 'minobacac-81-3d', name: 'Italijanski minobacač sa posadom', game: 'Battle for Jablanica (proba posade)',

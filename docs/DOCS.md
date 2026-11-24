@@ -65,6 +65,8 @@ Ne čuvati dnevnik vizuelnih dorada ni tekstualno prepričavanje već ugrađenih
 
 Kanonsko javno ime igre čita se iz njene kartice u [glavnom indeksu](../index.html). Tehnički ID, folder i naziv klase mogu ostati stariji i kraći radi stabilnih adresa; ne koristiti ih kao ime igre u kontekstu, istoriji, planu, katalogu ili naslovima provera. Pre preimenovanja razlikovati javni naziv od tehničkih pojmova koji zaista označavaju predmet ili klasu, kao `Cannon.js` za model topa.
 
+Naslov kartice ima oblik „Godina: Naslov” (vlasnik, 2026-11-24): godina u `.arcade-year`, a naslov je bitka, operacija ili mesto radnje, ne naređenje, npr. „1941: Battle for Krupanj”. Starije ime igre po potrebi ostaje kao podnaslov u `.arcade-subtitle`, npr. „Destroy the Bunker!”. Igre bez istorijske radnje nemaju godinu. Žanr se ne prikazuje. Naslov važi samo za naslovnu; tekst u igri se zbog njega ne menja.
+
 Jedna činjenica ili odluka ima jedno autoritativno mesto; ostali dokumenti vode link do njega. Dokumentujemo trajne odluke, razloge, ograničenja i istorijske izvore. Ne prepričavamo implementaciju: spiskovi klasa i metoda, potpisi API-ja, brojevi igara i testova i slični promenljivi podaci ostaju u kodu i alatima koji ih već prikazuju. Pišemo po temi, bez dnevnika završenih koraka i kopiranja celih planova.
 
 Zapis čuvamo samo ako daje trajno znanje koje nije već dostupno na drugom mestu. Uz odluku navesti razlog i bitno ograničenje; uz istorijsku tvrdnju izvor i kontekst. Ako je merenje neophodno za razumevanje ograničenja, povezati dokaz sa datumom/revizijom, bez održavanja prepisa rezultata. Predloge i otvoren posao voditi isključivo u [PLAN](PLAN.md), a ne kao važeću arhitekturu ili TODO u matičnom dokumentu.
@@ -101,7 +103,7 @@ Autoritativni opis tema i potvrđenog korisničkog izbora je u [UI vodiču](UI.m
 
 ## Ulaz u igre i novčići
 
-Odluka vlasnika od 2026-11-22: besplatni su sadržaji u grupama **3D Scenes** i **Animations**, uključujući direktan link i ponovno otvaranje. Scene i animacije gledamo, ne igramo: njihove kartice prikazuju **VIEW**, bez žetona i animacije njegovog ubacivanja; te grupe su označene sa `data-free`. Ako takva scena ima startni prozor, izričito koristi `free`, kao [Walls](../scenes/walls/Main.js). Dimenzija prikaza ne određuje naplatu: **3D Games** zadržavaju žetone prema istom pravilu kao 2D igre.
+Odluka vlasnika od 2026-11-22: besplatni su sadržaji u grupi **3D Scenes and Animations**, uključujući direktan link i ponovno otvaranje. Scene i animacije gledamo, ne igramo: njihove kartice prikazuju **TRY**, bez žetona i animacije njegovog ubacivanja; ta grupa je označena sa `data-free`. Naslovna ima tri grupe (vlasnik, 2026-11-24): **Partisan Games** sa ratnim igrama, 2D i 3D zajedno, poređanim po vremenu radnje, **Other Games** i besplatne **3D Scenes and Animations**. Ako takva scena ima startni prozor, izričito koristi `free`, kao [Walls](../scenes/walls/Main.js). Dimenzija prikaza ne određuje naplatu: 3D igre zadržavaju žetone prema istom pravilu kao 2D igre.
 
 Odluka vlasnika od 2026-11-20: igre koje nemaju startni prozor ostaju besplatne i kreću odmah po učitavanju, bez dodavanja prozora za novčić ili starta. To važi i za direktan link, reload i ponovnu igru; dostupnost novčića i njihovog skladišta ne sme uslovljavati besplatnu igru.
 

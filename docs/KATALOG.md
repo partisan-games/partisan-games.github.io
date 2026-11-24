@@ -61,6 +61,8 @@ Blok koji ne može da se napravi samo sa opcijama pozornice još nije nezavisan;
 
 ## Provere
 
+[Crveni krst](../catalog.html#ambijent-3d/sklop), grupa **3D → Ambijent → Crveni krst**, prikazuje sedam originalnih delova ambijenta i jedan zajednički sklop, sa probama kapije i reflektora. Isti paket koristi Escape Enemy Base; kataloški sklop nije njegov raspored niti istorijski tlocrt. [Mere, poreklo i povezivanje](../assets/models/building/crveni-krst/README.md).
+
 3D priče učitavaju FBX telo i lokalne klipove paralelno, uz čekanje svih animacija. [Pozornica](../catalog/Stage3D.js) posle pripreme izgleda grupiše neprozirne trouglove po materijalu preko [zajedničke optimizacije](../core3d/assets/optimizeGeometry.js). Pri promeni pešadijske varijante prvo se vraća sačuvana izvorna geometrija, zatim primenjuje oprema i tek onda optimizuje; sačuvati taj redosled. Detalji modela, kosti i providni redosled ostaju isti. 2D akteri koriste [manje kopije istih slika](ART.md#manje-slike-aktera-bez-promene-arta).
 
 Postojeću pokrivenost aktera grafikom, pripremu i povezivanje dopuna vodi [ART](ART.md). Postojanje stanja ili priče samo po sebi ne dokazuje da telo ima poseban animirani klip.

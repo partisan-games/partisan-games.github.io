@@ -144,9 +144,9 @@ function infantryStory(id, name, game, block) {
   }
   const roles = new Map()
   const original = { ...story, looks: [story.looks[0]],
-    catalogGroup: ['Vojnici', id === 'vojnik-3d' ? 'Ostali' : id === 'sovjetski-partizan-3d' ? 'Sovjetski' : 'Partizanski'] }
+    catalogGroup: ['Vojnici', id === 'vojnik-3d' ? 'Ostali' : id === 'sovjetski-partizan-3d' ? 'Sovjeti' : 'Partizani'] }
   for (const look of looks) {
-    const army = look.id.startsWith('italian-') ? 'Italijanski' : 'Partizanski'
+    const army = look.id.startsWith('italian-') ? 'Italijani' : 'Partizani'
     const role = look.value.weapon === infantryWeapons.mg ? 'Mitraljezac'
       : look.value.weapon === infantryWeapons.mp40 ? 'Automatičar' : 'Strelac'
     const key = army + '/' + role
@@ -224,6 +224,6 @@ export const ww2 = [
 export const beasts = [
   character('slon-3d', 'Slon', library, elephantModule),
   character('flamingo-3d', 'Flamingo', 'RPG Fantasy', flamingoModule),
-  character('tenk-3d', 'Tenk', 'FPS Airport', tankModule),
+  character('tenk-3d', 'Renault FT', '3D Tank, FPS Airport', tankModule),
   character('cepelin-3d', 'Cepelin', 'RPG Fantasy', zeppelinModule),
 ]

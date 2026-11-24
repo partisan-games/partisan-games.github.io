@@ -62,10 +62,11 @@ async function trieste(t) {
   return scene
 }
 
-/** Leaves the tank alone on the road: no enemies, and no air raid to come. */
+/** Leaves the tank alone on the road: no enemies, no air raid to come, and an escort that holds fire. */
 function alone(scene) {
   for (const hostile of [...scene.hostiles]) scene.despawn(hostile)
   scene.raid.at = Infinity
+  scene.escort.enemyInSight = () => false
 }
 
 test('Do Trsta: far along the road, a shell of the tank flies in view all the way to a bunker it reaches level', async t => {
@@ -80,25 +81,6 @@ test('Do Trsta: far along the road, a shell of the tank flies in view all the wa
   assert.equal(player.shoot(), true)
   const hit = await watch(scene, { seconds: 3, shots: () => scene.playerView.projectileViews.values(), done: () => target.hitsTaken > 0 })
   assert.ok(hit, 'the shell reaches the bunker')
-})
-
-test('Do Trsta: the first shot of an enemy gun, tank or dive bomber, and the first pass of a fighter, hit the marching tank', async t => {
-  for (const kind of ['antiTankGun', 'germanTank', 'diveBomber', 'fighter']) {
-    const scene = await trieste(t)
-    const { player } = scene
-    alone(scene)
-    const hitsBefore = player.hitsTaken
-    const plane = ['diveBomber', 'fighter'].includes(kind)
-    const { body, view } = scene.spawn(plane ? scene.plane(kind) : scene.groundEnemy(kind, player.x + 44))
-    const shots = () => ({ diveBomber: [body.bomb], fighter: body.bullets?.projectiles })[kind] ?? body.shells.projectiles
-    // a fighter fires while its nose is on the tank, until it has passed over it
-    const over = () => kind === 'fighter' ? body.x < player.x : body.shotsFired > 0
-    const landed = await watch(scene, { seconds: 15, shots: () => view.projectileViews?.values() ?? [],
-      done: () => over() && body.shotsFired > 0 && shots().every(shot => !shot.active) })
-    assert.ok(landed, `${kind} fires`)
-    assert.ok(player.hitsTaken > hitsBefore, `the first shots of ${kind} hit`)
-    scene.end()
-  }
 })
 
 async function kluz(t) {

@@ -8,14 +8,18 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 |---|---|---|---|---|
 | | **[Art](#art)** | | | |
 | 1 | [AR-P06](#ar-p06) | Precrtati krupnije slike manje od prikaza i vratiti stvarne veličine avionima u Visu | Codex, Claude | 📋 TODO |
+| 2 | [AR-P07](#ar-p07) | Napraviti pravu teksturu za 3D Renault FT | Codex, Claude | 📋 TODO |
 | | **[Igre i ideje](#igre)** | | | |
-| 2 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [1](#note-1) |
-| 3 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
-| 4 | [IG-19](#ig-19) | Dogovoriti nazive nivoa i prikaz žanra i godine na naslovnoj | Vlasnik | 📋 TODO |
+| 3 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [1](#note-1) |
+| 4 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
 | 5 | [IG-20](#ig-20) | Razmotriti nivo odbrane položaja odozgo, sa napadima sa svih strana | Vlasnik | 📋 TODO |
 | 6 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
 | 7 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
 | 8 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
+| 9 | [IG-29](#ig-29) | Prerediti lavirint Escape Enemy Base u logor Crveni krst | Codex, Claude | 🔄 In progress |
+| 10 | [IG-30](#ig-30) | Dodati partizane i četnike kao saborce u opsadi Kraljeva | Codex, Claude | 📋 TODO |
+| 11 | [IG-31](#ig-31) | Dodati Messerschmitt kao neprijateljskog lovca i saveznički lovac u Warplane | Codex, Claude | 📋 TODO |
+| 12 | [IG-32](#ig-32) | Pretvoriti Raid on Drvar u igru pucanja u nemačke padobrance | Claude, Codex | 📋 TODO |
 
 ## Održavanje plana
 
@@ -35,6 +39,11 @@ Po [pravilu razmere](ART.md#razmera) slika nikad nije manja od prikaza u igri; s
 ### Mogućnosti bez naloga za izradu
 
 Olupina poljskog topa može postati zaseban rekvizit bojišta; još nije raspoređena kao takav rekvizit. Novi efekat vode traži posebno odgovarajuće rešenje, jer je prethodno proceduralno rešenje odbačeno. Dodatni desanti na Brač, Mljet i Korčulu ostaju ideje za igru uz istorijsku proveru, a ne zadaci izrade arta. Rezervni vojnički listovi i sezonske pozadine nisu obaveza za povezivanje: koriste se tek kada ih izabrani akter ili nivo zatraži.
+
+<a id="ar-p07"></a>
+### AR-P07 · Tekstura Renaulta FT
+
+3D Renault FT ([model](../assets/models/tank/renault-ft.fbx)) nema svoju teksturu, nego opštu metalnu sliku, pa izgleda kao beton i nije za produkciju. Codex pravi teksturu u boji jugoslovenske vojske 1941, kako su ga partizani zaplenili kod Kraljeva ([okvir](KONTEKST.md#demolish-barricades)); ista važi za igračev tenk i neprijateljski Renault u ostalim igrama ([telo](../core3d/actor/derived/Tank.js)).
 
 <a id="igre"></a>
 ## Igre i ideje
@@ -57,11 +66,6 @@ Kandidati nisu nalog za izradu. Posle izbora dopuniti art, telo, zajednički pri
 
 Ideja iz README-a: Otpisani ili Neretva mogu dobiti pomeranje prizora i protivnike koji iskaču. Konkretna igra, tok i obim još nisu izabrani.
 
-<a id="ig-19"></a>
-### IG-19 · Nazivi i oznake nivoa
-
-Osmisliti nazive nivoa i dogovoriti prikaz žanra i godine na naslovnoj. Pre izmene UI-ja odobriti konkretne tekstove i elemente prema [DOCS](DOCS.md#odobravanje-ui-elemenata).
-
 <a id="ig-20"></a>
 ### IG-20 · Odbrana položaja
 
@@ -81,6 +85,40 @@ Italijanske i ustaške etape ostaju kandidati uz postojeće Nemce i četnike. Iz
 ### IG-24 · Parole Bihaća
 
 Liberated City je Bihać krajem 1942. Natpisi o dolasku Crvene armije i plakat RED_ARMY_IS_HERE pripadaju drugom okviru; vlasnik bira zamenu ili uklanjanje pre izmene sadržaja.
+
+<a id="ig-29"></a>
+### IG-29 · Logor Crveni krst u Escape Enemy Base
+
+Radnja (vlasnik, 2026-11-24): proboj iz nemačkog logora Crveni krst u Nišu, 12. februara 1942; tekst misije i naslov kartice su upisani. Okvir je u [KONTEKST](KONTEKST.md#escape-enemy-base).
+
+Ideja (vlasnik, 2026-11-24): igrač kreće bez puške, kao goloruki logoraši u proboju, a oružje može dobiti usput, npr. od savladanog stražara. Omogućiti uzimanje oružja svakom stražaru, ne samo prvom; to je opšte pravilo, ne poseban događaj na početku nivoa. Uzimanje puške i savladavanje stražara nisu obavezni za bekstvo; konkretan način otimanja tek treba razraditi.
+
+Šunjanje (vlasnik, 2026-11-24): omogućiti bekstvo bez borbe i bez oružja, kao ravnopravan izbor uz silu. Planirati tiše, sporije kretanje, korišćenje punih zaklona i prolazak dok stražari gledaju drugde; razraditi opažanje prema vidljivosti i buci, uključujući ulogu reflektora. Lavirint i traženje izlaza ostaju osnova igre, a šunjanje dodatna mogućnost. Pobeda ne traži ubistva, otimanje oružja niti novi obavezni cilj. Ovo je planirana dopuna, još nije implementirana.
+
+Prerada menja betonski ambijent u logor; sneg, noć i straže ostaju. Početni predlog baraka i kula u uglovima korigovati prema [istraženom stanju](ISTORIJA.md#crveni-krst-12-februar-1942), a ne predstaviti kao potvrđen tlocrt. Teksture i modele izrađuje Codex, bez privremenog crteža u nivou.
+
+Priprema je urađena: [reference sa poreklom](references/ww2-yu/crveni-krst/README.md) i [smernice za modele i teksture](ART.md#crveni-krst-priprema-3d-ambijenta). Preradu voditi prema [dogovorenom rasporedu i pravilima prepreka](KONTEKST.md#escape-enemy-base): lavirint ostaje, a prolazi dobijaju prostornu namenu.
+
+Prvi [paket arta](../assets/models/building/crveni-krst/README.md) povezan je u [katalogu](../catalog.html#ambijent-3d/sklop) i [igri](../index.html#fps-base). [Lokalni raspored](../scenes/fps-base/campLayout.js) čuva grananje i slepe prolaze oko ograđene zidane zgrade, sa jednim otvorenim dvorištem. [Sklop](../scenes/fps-base/CampEnvironment.js) povezuje žicu, pune zaklone, dvostruki obod, otvorenu izlaznu kapiju i dve kule sa reflektorima. Uslov pobede ostaje izlazak iz lavirinta, bez dodatnih obaveznih ciljeva.
+
+Preostaje završna dorada tla prema ART-u (gaženi pravci i oslonci objekata) i uklapanje osvetljenja prema stvarnom kadru igre. Vlasnik isprobava čitljivost prolaza, slepe puteve, pogled kroz žicu i zaklone; browser pokreće sam. Ovo je prva verzija za igranje, bez tvrdnje o istorijski tačnom punom tlocrtu.
+
+Tehničke granice: zajednički `Maze` nije menjan. Mreža ima 8×8 polja razmaka 10 m, od kojih je osam rezervisano za objekat sa dvorištem; 56 prohodnih polja ostaje povezano. Početak (−35, −35), izlaz (35, 40) i prag pobede manji od 5 m su očuvani, kao i deset protivnika, dve prve pomoći i deset rekvizita. Žica blokira hod, a propušta pogled i metke za obe strane; zgrada, puni zakloni i rekviziti blokiraju i pogled i pogotke. Nitima i stubovima se dele instancirani sklopovi, dok puni zakloni ostaju obični mesh-evi zbog tragova pogodaka. [Ciljane provere](TESTING.md#crveni-krst--priprema-i-art) obuhvataju prohodnost, sudare, ponovni ulazak, pobedu bez ubijanja i oslobađanje novih resursa.
+
+<a id="ig-30"></a>
+### IG-30 · Saborci u opsadi Kraljeva
+
+Kraljevo su 1941. opsedali partizani i četnici zajedno ([okvir](KONTEKST.md#demolish-barricades)), pa uz igračev tenk idu i pucaju na Nemce. Partizani postoje u 3D; četnika u 3D naručiti od Codexa, bez sklapanja od drugih likova.
+
+<a id="ig-31"></a>
+### IG-31 · Avioni za Ratweek
+
+Warplane je operacija Ratweek 1944 ([okvir](KONTEKST.md#warplane)). Dvokrilac, trokrilac i F-18 su izbačeni i ostali samo u katalogu; igrač sada leti samo bombarderom ([izbor](../scenes/warplane/Main.js)). Messerschmitt postaje neprijateljski lovac (vlasnik, 2026-11-24): Bf 109 napada bombarder, a mitraljesci bombardera sami gađaju lovca, kao zadnji strelac Poteza u Franji Kluzu, dok igrač i dalje bombarduje fabrike, glavni cilj za uništenje nemačke ratne industrije. Kao dodatne ciljeve dodati pruge i mostove, koje je Ratweek najviše gađao; modele crta Codex. Inspiracija za art tla iz vazduha: [gusti grad sa starog plana](../assets/images/background/grad.png), ulice i blokovi kuća viđeni odozgo. Kontekst i inspiracija iz rata: [saveznička bombardovanja Kraljeva i Beograda 1944](references/ww2-yu/bombardovanje-1944/README.md). Codex pravi saveznički lovac-bombarder, P-51 Mustang ili P-38, koji su leteli u Ratweeku, kao drugi izbor igrača. Bombarder sa četiri motora i duplim repom odgovara, jer su američki teški bombarderi B-17 i B-24 dejstvovali na Balkanu 1944, i u Ratweeku; po obliku može da prođe kao B-24.
+
+<a id="ig-32"></a>
+### IG-32 · Igra Raid on Drvar
+
+Raid on Drvar (1944) postaje igra (vlasnik, 2026-11-24): igrač puca u nemačke padobrance koji se spuštaju na Drvar. Sada je to besplatna animacija ([scena](../scenes/drvar/Main.js)); kad postane igra, kartica prelazi u Partisan Games, na svoje mesto po vremenu radnje (maj 1944). Istorijski okvir desanta je u [ISTORIJA](ISTORIJA.md).
 
 ## Notes
 

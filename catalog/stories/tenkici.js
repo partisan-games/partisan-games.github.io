@@ -27,7 +27,6 @@ export const vehicles = [
   { id: 'partizanski-tenk', name: 'Partizanski tenk', game, pxPerMeter, way: 1, block: tankModule,
     create: (stage, way) => tank(stage, way, partisan) },
   { id: 'nemacki-tenk', name: 'Nemački tenk', game, pxPerMeter, way: -1, block: tankModule,
-    modelNames: { 'tiger-i': 'Nemački tenk' },
     modelIds: { 'tiger-i': 'nemacki-tenk', 'm15-42': 'm15-42', 'stug-iii': 'stug-iii', hotchkiss: 'hotchkiss' },
     looks: [germanTank, m15, stug, hotchkiss].map(value => ({ id: value.id, name: value.name, value })),
     create: (stage, way, look = germanTank) => tank(stage, way, look) },
