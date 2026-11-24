@@ -43,12 +43,12 @@ test('top view and projectile contact use wingspan across and fuselage length al
 })
 
 test('all thirteen top-view images come from larger native drawings and cover the 40 px/m group', () => {
-  const manifest = JSON.parse(readFileSync(new URL('../../assets/images/armies/sources/aircraft-scale/sprites.json', import.meta.url)))
+  const manifest = JSON.parse(readFileSync(new URL('../../assets/images/sources/aircraft-scale/sprites.json', import.meta.url)))
   assert.equal(manifest.assets.length, 13)
   for (const record of manifest.assets) {
     assert.ok(record.scale <= 1, record.id)
     assert.equal(record.pixelsPerMetre, 40)
-    const buffer = readFileSync(new URL('../../assets/images/armies/sources/aircraft-scale/' + record.image, import.meta.url))
+    const buffer = readFileSync(new URL('../../assets/images/sources/aircraft-scale/' + record.image, import.meta.url))
     assert.equal(buffer.readUInt32BE(16), record.frame.width)
     assert.equal(buffer.readUInt32BE(20), record.frame.height)
     for (const hub of record.propellers.hubs)

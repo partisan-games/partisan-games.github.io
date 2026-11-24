@@ -3,8 +3,6 @@ import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import * as THREE from 'three'
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js'
-import { loadModel } from '/core3d/loaders.js'
-import { models as bigfootModels } from '/core3d/actor/derived/fantasy/Bigfoot.js'
 import optimizeGeometry from '/core3d/assets/optimizeGeometry.js'
 import optimized from '/core/actor/optimizedImages.js'
 import { canonicalImageSource, runtimeImageSource } from '/core/actor/imageSources.js'
@@ -25,22 +23,6 @@ test('optimized downloads preserve canonical atlas identity, URL prefixes and qu
     assert.equal(runtimeImageSource(source), source)
 })
 
-test('parallel catalog loading retains fitted Bigfoot death motion alongside its local animations', async t => {
-  t.mock.method(THREE.TextureLoader.prototype, 'load', () => new THREE.Texture())
-  t.mock.method(FBXLoader.prototype, 'loadAsync', async url => {
-    const bytes = await readFile(url.slice(1))
-    return new FBXLoader().parse(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), '')
-  })
-  const serial = await loadModel(structuredClone(bigfootModels[0]))
-  const parallel = await loadModel(structuredClone(bigfootModels[0]), { parallelAnimations: true })
-  const motions = mesh => mesh.userData.animations.map(clip => ({ name: clip.name, duration: clip.duration,
-    tracks: clip.tracks.map(track => ({ name: track.name, values: track.values, times: track.times })) }))
-  assert.deepEqual(motions(parallel), motions(serial))
-  assert.equal(parallel.userData.animations.length, 4)
-  const death = parallel.userData.animations.find(clip => clip.name === 'Falling Back Death')
-  assert.ok(death.tracks.length > 10)
-})
-
 test('live optimized images still select and share their original wreck', t => {
   loadImages(t)
   let checked = 0
@@ -58,9 +40,6 @@ test('live optimized images still select and share their original wreck', t => {
 test('other catalog FBX models keep every triangle, material, vertex attribute and skeleton after regrouping', async t => {
   t.mock.method(THREE.TextureLoader.prototype, 'load', () => new THREE.Texture())
   const candidates = [
-    ['character/iron-giant/model.fbx', 286, 51],
-    ['character/sorceress/model.fbx', 32, 10],
-    ['character/skeleton/model.fbx', 23, 2],
     ['weapon/mg-42/model.fbx', 68, 11],
     ['weapon/rifle.fbx', 5, 2],
   ]

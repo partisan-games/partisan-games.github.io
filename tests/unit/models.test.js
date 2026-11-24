@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { requestModel, loadedModel } from '/core3d/assets/models.js'
 
 test('importing a character module loads no model; using it before its load says what to await', async() => {
-  const { model, description } = await import('/core3d/actor/derived/fantasy/Sorceress.js')
+  const { model, description } = await import('/core3d/actor/derived/ww2/Worker.js')
   const { default: makeCharacter } = await import('/core3d/actor/characters/makeCharacter.js')
 
   assert.throws(() => loadedModel(model), /await requestModel\(\) in init\(\)/)
@@ -37,14 +37,11 @@ test('one file prepared at two sizes is two models', async() => {
 
 test('every aircraft module loads nothing when imported and names the models it needs', async() => {
   const { default: makeWarplane } = await import('/core3d/actor/aircraft/makeWarplane.js')
-  for (const name of ['Biplane', 'Bomber', 'F18', 'Messerschmitt', 'Triplane']) {
+  for (const name of ['Biplane', 'Bomber', 'Messerschmitt']) {
     const { models, description } = await import(`/core3d/aircraft/derived/${name}.js`)
     assert.ok(models.length >= 1, name)
     assert.throws(() => makeWarplane(description), /before it has loaded/, name)
   }
-  const { models, default: makeDirigible } = await import('/core3d/aircraft/derived/Dirigible.js')
-  assert.ok(models.length >= 1)
-  assert.throws(() => makeDirigible(), /before it has loaded/, 'Dirigible')
 })
 
 test('every game entry point waits for its model modules, including scene parts that re-export their models', async() => {

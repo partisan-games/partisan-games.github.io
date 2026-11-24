@@ -9,27 +9,6 @@ import optimizeGeometry from '/core3d/assets/optimizeGeometry.js'
 import makeCharacter, { makeCharacterBody } from '/core3d/actor/characters/makeCharacter.js'
 import CharacterModel from '/core3d/actor/characters/CharacterModel.js'
 import * as workerPipeModule from '/core3d/actor/derived/ww2/WorkerPipe.js'
-import * as barbarianModule from '/core3d/actor/derived/fantasy/Barbarian.js'
-import * as bigfootModule from '/core3d/actor/derived/fantasy/Bigfoot.js'
-import * as demonModule from '/core3d/actor/derived/fantasy/Demon.js'
-import * as goblinModule from '/core3d/actor/derived/fantasy/Goblin.js'
-import * as golemModule from '/core3d/actor/derived/fantasy/Golem.js'
-import * as ironGiantModule from '/core3d/actor/derived/fantasy/IronGiant.js'
-import * as orcModule from '/core3d/actor/derived/fantasy/Orc.js'
-import * as orcOgreModule from '/core3d/actor/derived/fantasy/OrcOgre.js'
-import * as skeletonModule from '/core3d/actor/derived/fantasy/Skeleton.js'
-import * as sorceressModule from '/core3d/actor/derived/fantasy/Sorceress.js'
-import * as trollModule from '/core3d/actor/derived/fantasy/Troll.js'
-import * as witchModule from '/core3d/actor/derived/fantasy/Witch.js'
-import * as wizardModule from '/core3d/actor/derived/fantasy/Wizard.js'
-import * as ghostModule from '/core3d/actor/derived/horror/Ghost.js'
-import * as gothGirlModule from '/core3d/actor/derived/horror/GothGirl.js'
-import * as nudeVictimModule from '/core3d/actor/derived/horror/NudeVictim.js'
-import * as zombieBarefootModule from '/core3d/actor/derived/horror/ZombieBarefoot.js'
-import * as zombieCopModule from '/core3d/actor/derived/horror/ZombieCop.js'
-import * as zombieDoctorModule from '/core3d/actor/derived/horror/ZombieDoctor.js'
-import * as zombieDoctorCrawlModule from '/core3d/actor/derived/horror/ZombieDoctorCrawl.js'
-import * as zombieGuardModule from '/core3d/actor/derived/horror/ZombieGuard.js'
 import * as germanFlameThrowerModule from '/core3d/actor/derived/ww2/GermanFlameThrower.js'
 import * as germanMachineGunnerModule from '/core3d/actor/derived/ww2/GermanMachineGunner.js'
 import * as germanSoldierModule from '/core3d/actor/derived/ww2/GermanSoldier.js'
@@ -42,10 +21,7 @@ import * as sSSoldierModule from '/core3d/actor/derived/ww2/SSSoldier.js'
 import * as soldierModule from '/core3d/actor/derived/ww2/Soldier.js'
 import * as sovietPartisanModule from '/core3d/actor/derived/ww2/SovietPartisan.js'
 import * as workerModule from '/core3d/actor/derived/ww2/Worker.js'
-import * as elephantModule from '/core3d/actor/derived/Elephant.js'
-import * as flamingoModule from '/core3d/actor/derived/Flamingo.js'
 import * as tankModule from '/core3d/actor/derived/Tank.js'
-import * as zeppelinModule from '/core3d/actor/derived/Zeppelin.js'
 
 /** A character no game uses yet stays in the shared library, ready for one. */
 const library = 'Zajednička biblioteka'
@@ -72,7 +48,7 @@ const character = (id, name, game, block, Character) => ({
   },
 })
 
-const plainWorker = character('radnik-3d', 'Radnik', 'Graffiti City, Graffiti City Maze', workerModule)
+const plainWorker = character('radnik-3d', 'Radnik', library, workerModule)
 const worker = {
   ...plainWorker,
   lookLabel: 'Oprema',
@@ -95,34 +71,6 @@ const worker = {
     return body
   },
 }
-
-export const fantasy = [
-  character('varvarin-3d', 'Varvarka', 'RPG Fantasy', barbarianModule),
-  character('snezni-covek-3d', 'Snežni čovek', library, bigfootModule),
-  character('demon-3d', 'Demon', 'Minas Tirith', demonModule),
-  character('goblin-3d', 'Goblin', library, goblinModule),
-  character('golem-3d', 'Golem', 'Follow', golemModule),
-  character('gvozdeni-div-3d', 'Gvozdeni div', library, ironGiantModule),
-  character('ork-3d', 'Ork', library, orcModule),
-  character('ork-div-3d', 'Ork div', library, orcOgreModule),
-  { ...character('kostur-3d', 'Kostur', library, skeletonModule),
-    commands: [{ label: 'Hod / lebdenje', run: body => body.steer({ ahead: 1, running: !body.running }) }] },
-  character('carobnica-3d', 'Čarobnica', 'Follow, Graveyard Survival, Walls', sorceressModule),
-  character('trol-3d', 'Trol', library, trollModule),
-  character('vestica-3d', 'Veštica', 'Ruins', witchModule),
-  character('carobnjak-3d', 'Čarobnjak', library, wizardModule),
-]
-
-export const horror = [
-  character('duh-3d', 'Duh', 'Graveyard Survival', ghostModule),
-  character('gotska-devojka-3d', 'Gotska devojka', 'Graveyard Survival', gothGirlModule),
-  character('zrtva-3d', 'Žrtva', library, nudeVictimModule),
-  character('bosi-zombi-3d', 'Bosi zombi', 'Graveyard Survival', zombieBarefootModule),
-  character('zombi-policajac-3d', 'Zombi policajac', 'Graveyard Survival', zombieCopModule),
-  character('zombi-doktor-3d', 'Zombi doktor', 'Graveyard Survival', zombieDoctorModule),
-  character('zombi-doktor-koji-puzi-3d', 'Zombi doktor koji puzi', library, zombieDoctorCrawlModule),
-  character('zombi-strazar-3d', 'Zombi stražar', 'Graveyard Survival', zombieGuardModule),
-]
 
 function infantryStory(id, name, game, block, portraitNames = {}) {
   const base = character(id, name, game + ', Battle for Jablanica', block)
@@ -262,7 +210,7 @@ const [resistanceFighter, ...resistanceIdentities] = infantryStory(
   { moustache: 'Tihi' },
 )
 const workerFighter = {
-  ...worker, name: resistanceFighter.name, game: `${worker.game}, ${resistanceFighter.game}`,
+  ...worker, name: resistanceFighter.name, game: resistanceFighter.game,
   catalogGroup: resistanceFighter.catalogGroup, lookLabel: 'Varijacije',
   looks: [
     ...worker.looks,
@@ -292,9 +240,6 @@ export const ww2 = [
   infantryStory('sovjetski-partizan-3d', 'Vasja', 'Liberated City', sovietPartisanModule),
 ].flat()
 
-export const beasts = [
-  character('slon-3d', 'Slon', library, elephantModule),
-  character('flamingo-3d', 'Flamingo', 'RPG Fantasy', flamingoModule),
-  character('tenk-3d', 'Renault FT', '3D Tank, FPS Airport', tankModule),
-  character('cepelin-3d', 'Cepelin', 'RPG Fantasy', zeppelinModule),
+export const vehicles = [
+  { ...character('tenk-3d', 'Renault FT', '3D Tank, FPS Airport', tankModule), catalogGroup: ['Vozila'] },
 ]

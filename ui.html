@@ -8,16 +8,16 @@
   <link rel="stylesheet" href="/ui/style.css">
   <style>
     body { padding: 24px; }
-    .preview-header { max-width: 1350px; margin: 0 auto 24px; font: 16px/1.5 system-ui,sans-serif; text-shadow: none; }
+    .preview-header { max-width: 924px; margin: 0 auto 24px; font: 16px/1.5 system-ui,sans-serif; text-shadow: none; }
     .preview-header h1 { margin: 0 0 8px; color: white; text-align: left; font: 600 24px/1.3 system-ui,sans-serif; }
     .preview-header p { margin: 0 0 12px; color: #ccc; }
-    .preview-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 24px; max-width: 1350px; margin: auto; }
+    .preview-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px; max-width: 924px; margin: auto; }
     .preview-theme > h2 { margin: 0 0 16px; font: 600 18px/1.4 system-ui,sans-serif; text-shadow: none; }
     .preview-kind { margin: 0 0 8px; color: #bbb; font: 14px/1.4 system-ui,sans-serif; text-shadow: none; }
     .preview-stage { min-height: 244px; margin-bottom: 20px; display: grid; place-items: center; }
     .preview-stage .central-screen { position: static; top: auto; left: auto; transform: none; min-width: 0; width: 100%; }
     .preview-mode-options { display: grid; gap: 12px; width: 100%; max-width: 320px; }
-    @media (max-width: 1050px) { .preview-grid { grid-template-columns: 1fr; max-width: 540px; } }
+    @media (max-width: 740px) { .preview-grid { grid-template-columns: 1fr; max-width: 540px; } }
     @media (max-width: 440px) { body { padding: 16px; } }
     @media (max-width: 360px) { body { padding: 8px; } }
   </style>
@@ -30,7 +30,7 @@
   </header>
   <main class="preview-grid" id="preview"></main>
   <script type="module">
-    import { styleClasses } from '/ui/styles.js'
+    import { styleChoices, styleClasses } from '/ui/styles.js'
     import { iconImages } from '/core/io/icons.js'
     const still = `/assets/images/${iconImages.coinStill}`
     const animated = `/assets/images/${iconImages.coin}`
@@ -38,7 +38,7 @@
     const coin = `<span class="price" role="img" aria-label="costs 1 token"><img src="${still}" alt="" width="24" height="24"></span>`
     document.getElementById('preview').innerHTML = Object.entries(styleClasses).map(([key,{ container,button }]) => `
       <section class="preview-theme">
-        <h2>${{ simple:'Simple',rpg:'RPG',white:'White' }[key]}</h2>
+        <h2>${styleChoices[key]}</h2>
         <p class="preview-kind">Početak</p>
         <div class="preview-stage"><div class="central-screen flex-column ${container}">
           <p>Hold the enemy at all costs until the wounded are safe.</p>

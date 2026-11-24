@@ -1,0 +1,178 @@
+{
+  "schemaVersion": 1,
+  "generatedWith": "Built-in image_gen; mechanical Pillow packing",
+  "assets": [
+    {
+      "id": "rifleman-reload",
+      "title": "German rifleman: detachable-magazine reload",
+      "image": "../../game-ready/vojnici/nemacki-strelac-reload-sprites.png",
+      "frame": {
+        "width": 128,
+        "height": 128,
+        "columns": 8,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 64,
+        "y": 120
+      },
+      "groundAnchor": {
+        "x": 64,
+        "y": 120
+      },
+      "facing": "right",
+      "previewScale": 0.625,
+      "reference": "aim-reference.png",
+      "referenceSha256": "3a397a970e25cfe0b83a602e16909f6b004417d8f3c3257f675c753352dfd9cc",
+      "source": "reload-generated.png",
+      "sourceSha256": "bcb7d69189fac2d608a3493fcf79a516366490601509d03fbcd09bc045c6dfb3",
+      "sha256": "d8611ff54a9867c60ce2549e3fc85cbaaec70c4149d4bc5887fd8279404cc14e",
+      "animations": [
+        {
+          "name": "reload",
+          "row": 0,
+          "frameCount": 8,
+          "duration": 1.6,
+          "frameDurationsMs": [
+            160,
+            160,
+            180,
+            220,
+            220,
+            220,
+            220,
+            220
+          ],
+          "loop": false,
+          "events": [
+            {
+              "name": "magazineRemoved",
+              "frameIndex": 3,
+              "atSeconds": 0.5
+            },
+            {
+              "name": "magazineSeated",
+              "frameIndex": 5,
+              "atSeconds": 0.94
+            },
+            {
+              "name": "boltPulled",
+              "frameIndex": 6,
+              "atSeconds": 1.16
+            },
+            {
+              "name": "boltClosed",
+              "frameIndex": 7,
+              "atSeconds": 1.38
+            }
+          ],
+          "finishedAtSeconds": 1.6,
+          "end": "Hold frame 7 in aim; the body owns readiness and inventory."
+        }
+      ],
+      "frameBounds": [
+        [
+          42,
+          24,
+          104,
+          120
+        ],
+        [
+          41,
+          24,
+          103,
+          120
+        ],
+        [
+          41,
+          24,
+          103,
+          120
+        ],
+        [
+          39,
+          24,
+          103,
+          120
+        ],
+        [
+          40,
+          24,
+          103,
+          120
+        ],
+        [
+          41,
+          24,
+          104,
+          120
+        ],
+        [
+          39,
+          24,
+          104,
+          120
+        ],
+        [
+          42,
+          24,
+          105,
+          120
+        ]
+      ],
+      "packing": {
+        "sourceSize": [
+          1536,
+          1024
+        ],
+        "sourceGrid": [
+          4,
+          2
+        ],
+        "sourceCell": [
+          384,
+          512
+        ],
+        "fixedScale": [
+          102,
+          136
+        ],
+        "fixedOffset": [
+          14,
+          -1
+        ],
+        "alphaThreshold": 128,
+        "reason": "One shared transform fits the reference body scale and keeps boots at y=120."
+      },
+      "handoff": {
+        "scope": "Integrated through Rifleman/RiflemanSprite: explicit reload and level-fire cooldown, in Kluz and the catalogue. No ammunition inventory added.",
+        "mirror": "Mirror the complete cell about anchor.x=64, including any future event attachment.",
+        "events": "Observe crossed action-time thresholds once, in order, even when dt skips a frame.",
+        "inventory": "Animation markers do not grant ammunition; the body owns commit/cancel policy and prevents duplicate magazine credit.",
+        "interruption": "Death cancels remaining markers. Pause freezes action time. Reset starts a new action identity.",
+        "fire": "Block shooting during reload; completion is at 1.6s, not at magazineSeated.",
+        "audio": "Markers identify future magazine and bolt sounds; this package contains no new sound or playback."
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "path": "aim-reference.png",
+      "sha256": "3a397a970e25cfe0b83a602e16909f6b004417d8f3c3257f675c753352dfd9cc"
+    },
+    {
+      "path": "aim-reference-4x.png",
+      "sha256": "5f77a61ce1f411e2ba9ef04c24c8b62f994101ed3dfb79345c1436c770bdb938"
+    },
+    {
+      "path": "reload-generated.png",
+      "sha256": "bcb7d69189fac2d608a3493fcf79a516366490601509d03fbcd09bc045c6dfb3"
+    },
+    {
+      "path": "generation.json",
+      "sha256": "a00b3bb5fd9af967bf08531082823825a58f8e0cdea57c32f57aac13920f6ebe"
+    }
+  ],
+  "acceptedAtlasSha256": "476571f832554cf66da24fd870b883835f27ab27b10238755521d9ca188826f6",
+  "reviewScope": "PNG source/composition and preparation assertions; no game/browser run or owner acceptance asserted."
+}

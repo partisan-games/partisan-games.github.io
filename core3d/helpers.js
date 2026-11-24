@@ -45,12 +45,6 @@ export const maxItems = (mapSize, fieldSize) => Math.pow(mapSize / fieldSize, 2)
 /* MOUSE / CURSOR */
 
 /* returns 2D normalized device coordinates of the mouse, between -1 and 1. */
-export function normalizeMouse(e) {
-  const x = (e.clientX / window.innerWidth) * 2 - 1
-  const y = -(e.clientY / window.innerHeight) * 2 + 1
-  return { x, y }
-}
-
 export const getMesh = obj => {
   if (obj.type === 'Mesh') return obj
   let mesh = obj
@@ -147,19 +141,6 @@ export const intersect = (mesh, solids, dir, height = getHeight(mesh) * .5) => {
   return getIntersects(raycaster, solids)
 }
 
-const defaultLength = (currDir, mesh) =>
-  currDir === dir.forward ? getSize(mesh, 'z') : getSize(mesh, 'y')
-
-export const directionBlocked = (mesh, solids, currDir, rayLength = defaultLength(currDir, mesh)) => {
-  const intersects = intersect(mesh, solids, currDir)
-  return intersects.length && intersects[0].distance < rayLength
-}
-
-export function getCameraIntersects(camera, target) {
-  raycaster.set(camera.getWorldPosition(new THREE.Vector3()), camera.getWorldDirection(new THREE.Vector3()))
-  return getIntersects(raycaster, target)
-}
-
 export const createTexture = ({ file, repeat = 1 } = {}) => {
   const texture = new THREE.TextureLoader().load(`${assets.textures}${file}`)
   texture.wrapS = texture.wrapT = THREE.RepeatWrapping
@@ -169,14 +150,3 @@ export const createTexture = ({ file, repeat = 1 } = {}) => {
 }
 
 export const sample = arr => arr[Math.floor(Math.random() * arr.length)]
-
-export function arrowHelper(actor, height) {
-  const start = actor.mesh.position.clone()
-  start.y += height
-  const attackDir = dir.forward.clone().applyQuaternion(actor.mesh.quaternion).normalize()
-  const arrow = new THREE.ArrowHelper(attackDir, start, actor.attackDistance, 0xff0000)
-  actor.scene.add(arrow)
-  actor.clock.after(3, () => {
-    actor.scene.remove(arrow)
-  })
-}

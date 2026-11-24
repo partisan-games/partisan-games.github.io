@@ -35,14 +35,6 @@ export function pointLight({ scene, color = 0xffffff, intensity = Math.PI, mapSi
   return light
 }
 
-export function spotLight({ scene, color = 0xffffff, intensity = Math.PI, mapSize = 512 } = {}) {
-  const light = new THREE.SpotLight(color, intensity)
-  light.castShadow = true
-  light.shadow.mapSize.width = light.shadow.mapSize.height = mapSize
-  if (scene) scene.add(light)
-  return light
-}
-
 export function hemLight({ scene, skyColor = 0xfffff0, groundColor = 0x101020, intensity = Math.PI } = {}) {
   const light = new THREE.HemisphereLight(skyColor, groundColor, intensity)
   if (scene) scene.add(light)
@@ -105,19 +97,6 @@ export function lightningStrike(light, scene, scope) {
   })
 }
 
-export function sunFollow(sun, pos) {
-  sun.position.copy(pos)
-  sun.position.add(new THREE.Vector3(-10, 500, -10))
-  sun.target.position.copy(pos)
-  sun.updateMatrixWorld()
-  sun.target.updateMatrixWorld()
-}
-
-export function lightFollow(light, target, distance = [12, 8, 1]) {
-  const newPos = new THREE.Vector3(...distance).add(target.position)
-  light.position.copy(newPos)
-}
-
 export function orbiting(planet, time, radiusX = 8, axis = 0, radiusZ = radiusX) {
   const x = Math.cos(time) * radiusX
   const z = Math.sin(time) * radiusZ
@@ -138,11 +117,4 @@ export function orbiting(planet, time, radiusX = 8, axis = 0, radiusZ = radiusX)
       planet.position.z = z
       break
   }
-}
-
-export function orbitAround({ moon, planet, time, radiusX = 8, axis = 0, radiusZ = radiusX }) {
-  orbiting(moon, time, radiusX, axis, radiusZ)
-  moon.position.x += planet.position.x
-  moon.position.y = planet.position.y
-  moon.position.z += planet.position.z
 }

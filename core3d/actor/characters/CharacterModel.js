@@ -4,7 +4,6 @@ import Animator from '/core3d/actor/Animator.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import { audioPoint } from '/core/io/audio/audio3d.js'
 import { getSize } from '/core3d/helpers.js'
-import wingContact from './wingContact.js'
 
 /** The clips played once and held at their end; every other clip loops. */
 const once = ['attack', 'attack2', 'special', 'jump', 'pain', 'death']
@@ -33,21 +32,19 @@ export function modelSize(mesh) {
  * How a character on foot looks and sounds in 3D: its model, standing on the body's feet and facing its way, playing
  * the clip of what it does, with its weapon in its hands; its steps, its blows, the thud of a hit or a landing,
  * sparks where a shot ends and the `flame` of its attack. A model whose feet sink below its soles is
- * drawn `raise` metres higher; dead, an `ascend`ing one rises spinning instead of lying, and an `intact` one, as a
- * gun whose crew has fallen, stays as it stands. Its `spinning` part, as a
- * propeller, turns `speed` radians a second. It only reads the body.
+ * drawn `raise` metres higher; dead, an `intact` one, as a gun whose crew has fallen, stays as it stands. It only reads
+ * the body.
  */
 export default class CharacterModel {
   constructor(body, { mesh, animations = mesh.userData.animations ?? [], animDict = {}, twoHandedWeapon,
-    rightHandWeapon, attackSound, attackProfile = 'rifle', flame = null, raise = 0, ascend = false, spinning = null, deathPose = null,
+    rightHandWeapon, attackSound, attackProfile = 'rifle', flame = null, raise = 0, deathPose = null,
     impactAt = () => null }) {
     this.body = body
-    Object.assign(this, { raise, ascend, flameKind: flame, impactAt, deathPose })
+    Object.assign(this, { raise, flameKind: flame, impactAt, deathPose })
     this.bounds = new Box3()
     this.mesh = animations.length ? clone(mesh) : mesh.clone()
     this.anim = animations.length
       ? new Animator({ mesh: this.mesh, animations, animDict, twoHandedWeapon, rightHandWeapon }) : null
-    if (spinning) this.spinning = { part: this.mesh.getObjectByName(spinning.part), speed: spinning.speed }
     this.sounds = []
     this.stepSound = new Sound('footstep-gravel-01.mp3', { variants: Array.from({ length: 11 }, (_, i) => `footstep-gravel-${String(i + 2).padStart(2, '0')}.mp3`), profile: 'footstep', spatial: audioPoint(this) })
     this.impactSound = new Sound('body-impact-01.mp3', { variants: ['body-impact-03.mp3', 'body-impact-04.mp3'], profile: 'impact', spatial: audioPoint(this) })
@@ -135,33 +132,19 @@ export default class CharacterModel {
     action.play()
   }
 
-  /** An unrigged vehicle settles on its side; a falling flier pitches down until impact, then settles. */
+  /** An unrigged vehicle settles on its side, a tank tilting less and burning. */
   showDeath(dt) {
     const { body, mesh, deathPose } = this
     if (deathPose === 'intact') return
-    if (this.ascend) {
-      mesh.rotateY(body.stateTime * 4.5)
-      mesh.position.y += body.stateTime * .9
-      mesh.visible = body.stateTime < 4
-      return
-    }
-    if (deathPose === 'winged' && this.actions.death) {
-      const clip = this.actions.death.getClip()
-      this.wings ??= wingContact(mesh, clip, body.size.height)
-      const fold = Math.max(0, Math.min(1, (this.actions.death.time / clip.duration - .35) / .55))
-      for (const part of this.wings) part.morphTargetInfluences[0] = fold * fold * (3 - 2 * fold)
-    } else if (!this.actions.death) {
+    if (!this.actions.death) {
       const t = Math.min(body.stateTime / .9, 1)
       const ease = t * t * (3 - 2 * t)
       const airborne = body.altitude && body.feet > body.supportHeight + .01
       this.settled = airborne ? 0 : Math.min((this.settled ?? 0) + dt / .55, 1)
-      if (deathPose === 'airship' || deathPose === 'bird') {
-        mesh.rotation.x = -.65 * ease * (1 - this.settled)
-        mesh.rotation.z = (deathPose === 'airship' ? .55 : 1.35) * ease
-      } else mesh.rotation.z = (deathPose === 'armor' ? .24 : 1.45) * ease
-      if (deathPose === 'armor' || deathPose === 'airship') this.charWreck()
+      mesh.rotation.z = (deathPose === 'armor' ? .24 : 1.45) * ease
+      if (deathPose === 'armor') this.charWreck()
     }
-    // Ground the actual deformed skin, including wings or a long gun, and cache its held final pose.
+    // Ground the actual deformed skin, including a long gun, and cache its held final pose.
     if (this.finalOffset === undefined) {
       mesh.updateMatrixWorld(true)
       this.bounds.setFromObject(mesh, true)
@@ -200,14 +183,13 @@ export default class CharacterModel {
     this.step(before)
     this.ricochet?.expand({ velocity: 1.2, maxRounds: 5, gravity: .02 })
     this.burn(dt, t)
-    if (body.alive && this.spinning?.part) this.spinning.part.rotateY(this.spinning.speed * dt)
     Object.assign(seen, { shots: body.shotsFired, hits: body.hitsTaken, airborne: body.airborne, alive: body.alive })
   }
 
   /** A step sounds each stride it walks on the ground. */
   step(before) {
     const { body } = this
-    if (body.dead || body.altitude || body.airborne || this.ascend || this.deathPose === 'armor' || body.state !== 'move') {
+    if (body.dead || body.altitude || body.airborne || this.deathPose === 'armor' || body.state !== 'move') {
       this.walked = 0
       return
     }
@@ -284,7 +266,6 @@ export default class CharacterModel {
     if (this.ended) return
     this.ended = true
     this.wreckMaterials?.forEach(material => material.dispose())
-    this.wings?.forEach(part => part.geometry.dispose())
     for (const effect of [this.ricochet, this.flame]) {
       if (!effect) continue
       const { mesh } = effect

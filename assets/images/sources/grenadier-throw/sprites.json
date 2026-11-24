@@ -1,0 +1,569 @@
+{
+  "schemaVersion": 1,
+  "generatedWith": "Built-in image_gen; deterministic crop, alpha threshold and nearest-neighbour packing",
+  "assets": [
+    {
+      "id": "bombas-throw",
+      "title": "Bombas: overarm hand-grenade throw",
+      "image": "../../game-ready/vojnici/bombas-throw-sprites.png",
+      "frame": {
+        "width": 66,
+        "height": 72,
+        "columns": 8,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 33,
+        "y": 36
+      },
+      "groundAnchor": {
+        "x": 33,
+        "y": 70
+      },
+      "source": "throw-generated.png",
+      "sourceSha256": "277c0743864f7ab65d79f09a59e5b7ee8f1eef2f06b1b4f860544ee02acc5e81",
+      "reference": "../infantry-art/bombas-standing-reference.png",
+      "referenceSha256": "813704b0161d2b66e57de2750489f5675e5c4852dd57731e43fa1d14ff95be4d",
+      "sha256": "72e312f818f2518451ed5d2036cd8488498f9e4b7132d36a6bd9ab13b5306ada",
+      "animations": [
+        {
+          "name": "throw",
+          "state": "attack",
+          "row": 0,
+          "frameCount": 8,
+          "duration": 0.8,
+          "frameDurationsMs": [
+            100,
+            100,
+            100,
+            100,
+            80,
+            100,
+            100,
+            120
+          ],
+          "loop": false,
+          "release": {
+            "frameIndex": 4,
+            "atSeconds": 0.4,
+            "hand": {
+              "x": 14,
+              "y": 9
+            },
+            "direction": {
+              "x": -1,
+              "y": 0
+            },
+            "heldBeforeRelease": true,
+            "emptyHandFromRelease": true
+          },
+          "end": "hold empty-hand frame 7; gameplay owns replenishing the next grenade"
+        }
+      ],
+      "packing": {
+        "sourceCanvas": [
+          1536,
+          1024
+        ],
+        "sourceGrid": [
+          4,
+          2
+        ],
+        "sourceCell": [
+          384,
+          512
+        ],
+        "fixedCrop": [
+          27,
+          90,
+          357,
+          450
+        ],
+        "contentSize": [
+          64,
+          70
+        ],
+        "contentOffset": [
+          1,
+          0
+        ],
+        "alphaThreshold": 128,
+        "reason": "Common fixed scale places every boot on y=70, matching the original visible contact line."
+      },
+      "frameBounds": [
+        [
+          3,
+          1,
+          62,
+          70
+        ],
+        [
+          18,
+          1,
+          62,
+          70
+        ],
+        [
+          14,
+          1,
+          62,
+          70
+        ],
+        [
+          19,
+          0,
+          63,
+          70
+        ],
+        [
+          10,
+          0,
+          62,
+          70
+        ],
+        [
+          6,
+          1,
+          62,
+          70
+        ],
+        [
+          13,
+          1,
+          62,
+          70
+        ],
+        [
+          3,
+          1,
+          62,
+          70
+        ]
+      ],
+      "integration": "Prepared separate art only. Accepted 3-row atlas, runtime, story and collision bounds unchanged.",
+      "handoff": {
+        "referenceHeading": "throw toward screen-left; release hand is in unmirrored cell pixels",
+        "worldMapping": "Consumer maps pose direction to its projection; do not infer velocity from this art.",
+        "mirror": "Reflect the complete actor about anchor.x; reflect release hand by the same transform.",
+        "releaseRule": "Spawn once when action time crosses 0.4s, including a dt that skips frame 4.",
+        "cancelRule": "Cancel before release: no grenade. After release: projectile remains independent.",
+        "notImplemented": [
+          "gameplay throwing",
+          "grenade physics",
+          "grenade inventory",
+          "game/stories integration",
+          "sound"
+        ]
+      }
+    },
+    {
+      "id": "bombas-throw-right",
+      "title": "Bombas: screen-right overarm throw without turning",
+      "image": "../../game-ready/vojnici/bombas-throw-right-sprites.png",
+      "frame": {
+        "width": 66,
+        "height": 72,
+        "columns": 8,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 33,
+        "y": 36
+      },
+      "groundAnchor": {
+        "x": 33,
+        "y": 70
+      },
+      "source": "throw-right-generated.png",
+      "sourceSha256": "6a400ef91ec3e75bdea7faf832553285fac248271b6ab6e01c02e09ed665e494",
+      "reference": "right-idle-reference.png",
+      "referenceSha256": "813704b0161d2b66e57de2750489f5675e5c4852dd57731e43fa1d14ff95be4d",
+      "referenceAtlas": "../../game-ready/vojnici/bombas-sprites.png",
+      "referenceAtlasSha256": "13c2d761ddb407a4cd995ec6b6e48399ada817c706323038e1ddeaaa836c5929",
+      "generationReference": "right-layout-reference.png",
+      "generationReferenceSha256": "0868ebaffa1458fac264465fd4353ab94d28922ce5a2cfbb225ee3d55c09de5c",
+      "sha256": "0653d73eedd834d8fb79989e732b29ac72c21942eec34f6ec9ba00e34bdd063a",
+      "generation": "right-generation.json",
+      "generationSha256": "1e19ea25bc04cfcba8fd645d445f79207d930cd29d75868a90aca639470e6518",
+      "inputs": [
+        {
+          "path": "throw-right-attempt-01.png",
+          "sha256": "831aebf2789aa9733834d7c4ad93d092118562fd913919f81ef050216d1a4316"
+        },
+        {
+          "path": "throw-right-attempt-02.png",
+          "sha256": "897851df765c0b58e05d836a8ce3d9be093d3b2497b28514f0edaca068089156"
+        },
+        {
+          "path": "throw-right-generated.png",
+          "sha256": "6a400ef91ec3e75bdea7faf832553285fac248271b6ab6e01c02e09ed665e494"
+        }
+      ],
+      "animations": [
+        {
+          "name": "throw",
+          "state": "attack",
+          "row": 0,
+          "frameCount": 8,
+          "duration": 0.8,
+          "frameDurationsMs": [
+            100,
+            100,
+            100,
+            100,
+            80,
+            100,
+            100,
+            120
+          ],
+          "loop": false,
+          "release": {
+            "frameIndex": 4,
+            "atSeconds": 0.4,
+            "hand": {
+              "x": 48,
+              "y": 3
+            },
+            "direction": {
+              "x": 1,
+              "y": 0
+            },
+            "heldBeforeRelease": true,
+            "emptyHandFromRelease": true
+          },
+          "end": "hold empty-hand frame 7; gameplay owns replenishing the next grenade"
+        }
+      ],
+      "packing": {
+        "sourceCanvas": [
+          1536,
+          1024
+        ],
+        "sourceGrid": [
+          4,
+          2
+        ],
+        "sourceCell": [
+          384,
+          512
+        ],
+        "fixedCrop": [
+          27,
+          90,
+          357,
+          450
+        ],
+        "contentSize": [
+          66,
+          72
+        ],
+        "alphaThreshold": 240,
+        "sourceCellXOffsets": [
+          0,
+          0,
+          -35,
+          -35,
+          0,
+          0,
+          -35,
+          -35
+        ],
+        "armSelectionPolygons": [
+          null,
+          [
+            [
+              0,
+              0
+            ],
+            [
+              27,
+              0
+            ],
+            [
+              27,
+              13
+            ],
+            [
+              30,
+              14
+            ],
+            [
+              30,
+              26
+            ],
+            [
+              0,
+              29
+            ]
+          ],
+          [
+            [
+              0,
+              0
+            ],
+            [
+              27,
+              0
+            ],
+            [
+              27,
+              13
+            ],
+            [
+              30,
+              14
+            ],
+            [
+              30,
+              25
+            ],
+            [
+              0,
+              28
+            ]
+          ],
+          [
+            [
+              0,
+              0
+            ],
+            [
+              27,
+              0
+            ],
+            [
+              27,
+              13
+            ],
+            [
+              30,
+              14
+            ],
+            [
+              30,
+              25
+            ],
+            [
+              0,
+              28
+            ]
+          ],
+          [
+            [
+              0,
+              0
+            ],
+            [
+              56,
+              0
+            ],
+            [
+              56,
+              7
+            ],
+            [
+              32,
+              9
+            ],
+            [
+              30,
+              27
+            ],
+            [
+              0,
+              27
+            ]
+          ],
+          [
+            [
+              0,
+              12
+            ],
+            [
+              65,
+              12
+            ],
+            [
+              65,
+              21
+            ],
+            [
+              31,
+              21
+            ],
+            [
+              30,
+              27
+            ],
+            [
+              0,
+              27
+            ]
+          ],
+          [
+            [
+              0,
+              12
+            ],
+            [
+              30,
+              12
+            ],
+            [
+              30,
+              24
+            ],
+            [
+              17,
+              36
+            ],
+            [
+              0,
+              36
+            ]
+          ],
+          [
+            [
+              0,
+              12
+            ],
+            [
+              30,
+              12
+            ],
+            [
+              30,
+              26
+            ],
+            [
+              0,
+              29
+            ]
+          ]
+        ],
+        "palette": "accepted standing sprite",
+        "followThroughArmTransform": {
+          "frameIndex": 5,
+          "clockwiseDegrees": 20,
+          "pivot": [
+            29,
+            17
+          ]
+        },
+        "heldGrenade": {
+          "referenceCrop": [
+            0,
+            9,
+            9,
+            20
+          ],
+          "frameOffsets": {
+            "1": [
+              8,
+              5
+            ],
+            "2": [
+              14,
+              0
+            ],
+            "3": [
+              15,
+              0
+            ]
+          },
+          "removedGeneratedBounds": {
+            "1": [
+              13,
+              8,
+              19,
+              14
+            ],
+            "2": [
+              20,
+              3,
+              26,
+              9
+            ],
+            "3": [
+              20,
+              3,
+              26,
+              9
+            ]
+          }
+        },
+        "fixedLayers": "Original head, rifle, torso and boots; original frame 0 copied exactly."
+      },
+      "frameBounds": [
+        [
+          0,
+          0,
+          66,
+          70
+        ],
+        [
+          8,
+          0,
+          66,
+          70
+        ],
+        [
+          14,
+          0,
+          66,
+          70
+        ],
+        [
+          15,
+          0,
+          66,
+          70
+        ],
+        [
+          21,
+          0,
+          66,
+          70
+        ],
+        [
+          26,
+          0,
+          66,
+          70
+        ],
+        [
+          15,
+          0,
+          66,
+          70
+        ],
+        [
+          5,
+          0,
+          66,
+          70
+        ]
+      ],
+      "integration": "GrenadierSprite uses this atlas in Bunker and the catalogue; standing, walking and throwing share the same body-facing mirror.",
+      "handoff": {
+        "referenceHeading": "screen-right throw, same body orientation as standing",
+        "mirror": "Do not mirror this animation to implement a right throw.",
+        "releaseRule": "Spawn once when action time crosses 0.4s; hand coordinates are cell pixels.",
+        "preview": "right-preview.html",
+        "gif": "throw-right.gif"
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "path": "throw-attempt-01.png",
+      "sha256": "477c393a31b9a7cd54ef6124043c37aec192500d2d9213afb46be8d2e3f4ba0b"
+    },
+    {
+      "path": "throw-generated.png",
+      "sha256": "277c0743864f7ab65d79f09a59e5b7ee8f1eef2f06b1b4f860544ee02acc5e81"
+    }
+  ],
+  "acceptedAtlasSha256": "13c2d761ddb407a4cd995ec6b6e48399ada817c706323038e1ddeaaa836c5929",
+  "previewScope": "Art/timing only. No game physics, damage or owner visual acceptance asserted."
+}

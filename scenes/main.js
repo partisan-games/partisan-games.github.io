@@ -2,6 +2,7 @@ import SceneManager from './SceneManager.js'
 import Arcade from '/ui/Arcade.js'
 import { mainMenuButton } from '/ui/UI.js'
 import { admission } from '/core/io/admission.js'
+import audioEngine from '/core/io/audio/AudioEngine.js'
 import { isDev } from '/config.js'
 
 document.body.classList.toggle('dev-mode', isDev)
@@ -88,6 +89,8 @@ document.addEventListener('click', async e => {
   // Finish the cabinet animation before routing; the game asks for a token at Start.
   if (card) {
     if (openingCabinet || location.hash) return
+    // The first report is shown after the cabinet animation and scene loading.
+    if (e.isTrusted) audioEngine.unlock().then(() => manager.scene?.syncSounds()).catch(() => {})
     openingCabinet = true
     const currentNavigation = navigation
     try {

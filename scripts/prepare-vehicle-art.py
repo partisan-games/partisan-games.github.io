@@ -5,7 +5,7 @@ from pathlib import Path
 from PIL import Image, ImageOps
 
 ROOT = Path(__file__).resolve().parent.parent
-SOURCE = ROOT / 'assets/images/armies/sources'
+SOURCE = ROOT / 'assets/images/sources'
 metadata_path = SOURCE / 'tenkovi/sprites.json'
 metadata = json.loads(metadata_path.read_text(encoding='utf-8'))
 usage = json.loads((SOURCE / 'do-trsta/opel-blitz.json').read_text(encoding='utf-8'))

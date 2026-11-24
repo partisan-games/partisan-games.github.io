@@ -27,26 +27,4 @@ export function drawSky(groundLevel, skyColor = skyColors.deep, horizonColor = s
   ctx.fillRect(0, 0, canvas2d.width, groundLevel)
 }
 
-function drawGround(groundLevel, bojaZemlje = '#00b011') {
-  const ctx = canvas2d.getContext('2d')
-  ctx.fillStyle = bojaZemlje
-  ctx.fillRect(0, groundLevel, canvas2d.width, canvas2d.height)
-}
-
-function crtaLiniju(groundLevel) {
-  const ctx = canvas2d.getContext('2d')
-  ctx.beginPath()
-  ctx.moveTo(0, groundLevel)
-  ctx.lineTo(canvas2d.width, groundLevel)
-  ctx.stroke()
-}
-
-export function drawSkyAndGround(groundLevel,
-  { skyColor = skyColors.clear, bojaZemlje = '#32cd32', horizonColor = skyColors.horizon, linija = false } = {}
-) {
-  drawSky(groundLevel, skyColor, horizonColor)
-  if (linija) crtaLiniju(groundLevel)
-  drawGround(groundLevel, bojaZemlje)
-}
-
 export default canvas2d

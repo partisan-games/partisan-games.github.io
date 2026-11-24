@@ -63,12 +63,8 @@
       'kuca-bunker': 'Stacionaran zaklon. Paljba i požar prate telo, uništena kuća ima sopstvenu sliku.',
       'bunker-do-trsta': 'Stacionaran bunker. Uništenje prikazuje ruševinu i požar.',
       'mitraljesko-gnezdo': 'Stacionarni položaj koristi usmerenu paljbu.',
-      'duh-3d': 'Duh se okreće i izdiže. Završetak je njegov nestanak.',
-      'cepelin-3d': 'Ovaj vazdušni brod nema oružje. Propeler radi dok je živ, a po obaranju let se završava na tlu.',
-      'flamingo-3d': 'Ptica koristi krila i u mestu i pri promeni položaja. Obaranje završava na tlu.',
       'radnik-3d': 'Civilni radnik može da hoda, primi pogodak i padne.',
       'ratni-avion-3d': 'Avion u krstarenju leti prema horizontu. Bočno upravljanje ga pomera u kadru. Raketa, sletanje i obaranje rade na telu iz igre.',
-      'dirizabl-3d': 'Neoružani dirižabl leti uz rad propelera. Posle obaranja pada na tlo i propeleri staju.',
       'kula-3d': 'Kula stoji na mestu. Postavljena meta izaziva stvarno opaljenje. Po uništenju prestaje paljba, a konstrukcija gori na postojećem modelu.',
     }
     function evidence(c) {
@@ -79,7 +75,7 @@
       return facts.join(' · ') || '—'
     }
     const translation = { health: 'samo zdravlje', pose: 'mirna poza', translation: 'pomeranje tela', effect: 'efekat',
-      beast: 'pad životinje', bird: 'pad ptice', armor: 'uništenje tenka', airship: 'obaranje cepelina', ascend: 'izdizanje i nestanak' }
+      armor: 'uništenje tenka' }
     const describe = value => translation[value] ?? value
     function showCharacter(target, actor) {
       const rows = [['Mirovanje', describe(actor.idle[1])], ['Kretanje', describe(actor.move[1])]]

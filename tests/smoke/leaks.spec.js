@@ -2,7 +2,7 @@ import { expect } from '@playwright/test'
 import { test, watchProblems, waitForScene } from './helpers.js'
 
 // 2D and 3D games with listeners, DOM controls, orbit controls and start screens of their own
-const games = ['bunker', 'fps-base', 'avatar', 'cannon', 'moon-landing', 'vis', 'drvar', 'capoeira-girl']
+const games = ['bunker', 'fps-base', 'avatar', 'cannon', 'vis', 'drvar']
 const switches = 20
 
 /** Counts what a game can leave behind: document and window listeners, WebGL contexts and the objects in them, and page elements. */

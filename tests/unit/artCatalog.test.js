@@ -5,7 +5,7 @@ import { createPageElements } from './helpers/dom.js'
 
 test('a leaf gallery shows its originals, filters folders and copies project-relative paths without opening the image', async t => {
   createPageElements()
-  const html = readFileSync(new URL('../../art/ameri/diverzanti/index.html', import.meta.url), 'utf8')
+  const html = readFileSync(new URL('../../art/2d/ameri/diverzanti/index.html', import.meta.url), 'utf8')
   document.body.innerHTML = html.split('<body>')[1].split('</body>')[0]
   const pictures = [...document.querySelectorAll('.gallery img')]
   assert.equal(pictures.length, 5)
@@ -15,7 +15,7 @@ test('a leaf gallery shows its originals, filters folders and copies project-rel
     assert.ok(Number(picture.getAttribute('width')) > 0)
   }
   const selected = document.querySelector('.tree [aria-current="page"]')
-  assert.equal(document.querySelector('[data-path="game-ready"]'), null)
+  assert.equal(document.querySelector('[data-path="2d/game-ready"]'), null)
   assert.equal(selected.textContent, 'diverzanti')
   await import('/art/navigation.js')
   const search = document.getElementById('folder-search')
@@ -24,14 +24,14 @@ test('a leaf gallery shows its originals, filters folders and copies project-rel
     search.dispatchEvent(new Event('input'))
   }
   filter('ameri diverzanti')
-  assert.equal(document.querySelector('[data-path="ameri"]').hidden, false)
-  assert.equal(document.querySelector('[data-path="ameri/diverzanti"]').hidden, false)
-  assert.equal(document.querySelector('[data-path="nemci"]').hidden, true)
+  assert.equal(document.querySelector('[data-path="2d/ameri"]').hidden, false)
+  assert.equal(document.querySelector('[data-path="2d/ameri/diverzanti"]').hidden, false)
+  assert.equal(document.querySelector('[data-path="2d/nemci"]').hidden, true)
   filter('nepostojeci-folder-xyz')
   assert.equal(document.getElementById('no-folders').hidden, false)
   filter('')
-  assert.equal(document.querySelector('[data-path="nemci"]').hidden, false)
-  assert.equal(document.querySelector('[data-path="ameri"] details').open, true)
+  assert.equal(document.querySelector('[data-path="2d/nemci"]').hidden, false)
+  assert.equal(document.querySelector('[data-path="2d/ameri"] details').open, true)
   assert.equal(document.getElementById('no-folders').hidden, true)
   const names = []
   t.mock.method(navigator.clipboard, 'writeText', async name => { names.push(name) })

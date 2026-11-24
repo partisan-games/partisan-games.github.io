@@ -3,13 +3,7 @@ import Scene from './Scene.js'
 import { audioListener } from '/core/io/audio/audio3d.js'
 import { hasBlockingUi } from '/core/io/inputContext.js'
 import runCleanups from './runtime/runCleanups.js'
-
-export const skyGradients = {
-  svetla: 'linear-gradient(to bottom, #94c5f8 1%, #a6e6ff 70%, #b1b5ea 100%)',
-  modra: 'linear-gradient(180deg, #0B3D91 0%, #000000 100%)',
-  suton: 'linear-gradient(to bottom, #ff8a00 0%, yellow 100%)',
-  mrkla: 'linear-gradient(to bottom, #020111 70%, #191621 100%)',
-}
+import { skyGradients } from '/core/constants.js'
 
 // One renderer per canvas for the whole site: games draw on the same canvas, and a new renderer
 // would leave the previous one's state and shaders on the graphics card.

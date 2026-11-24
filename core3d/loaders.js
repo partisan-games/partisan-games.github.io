@@ -124,14 +124,6 @@ export async function loadFbx(params) {
     model.animations[0].name = params.name
 
   const animations = params.animations ? params.animations : model.animations
-  if (params.sharedClips) {
-    const { default: fitClip } = await import('./actor/characters/fitClip.js')
-    const motions = await Promise.all(Object.entries(params.sharedClips).map(async([name, path]) => {
-      const motion = await loader.loadAsync(assets.models + path)
-      return fitClip(motion, model, name)
-    }))
-    animations.push(...motions)
-  }
 
   return await prepareMesh({ model, animations, ...params })
 }
@@ -172,7 +164,7 @@ export const loadModel = async(param, { parallelAnimations = false } = {}) => {
       if (prefix) {
         params.file = prefix + file
         if (animDict) {
-          const local = Object.values(animDict).filter(name => !Object.hasOwn(params.sharedClips ?? {}, name))
+          const local = Object.values(animDict)
           if (parallelAnimations) {
             // Start the body now rather than waiting for every external motion to finish downloading and parsing.
             const [mesh, animations] = await Promise.all([

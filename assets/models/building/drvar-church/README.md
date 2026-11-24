@@ -5,5 +5,3 @@ Aktivni model [church.glb](church.glb) koristi novu geometriju prema [fotografij
 [build.py](build.py) ponovljivo pravi geometriju u Blenderu 4.5, a opcija `--render` pravi [offline pregled](preview.png). Model ima ugrađenu postojeću [teksturu kamena](../../../images/textures/walls/stone-wall.jpg); krov, stolarija i metal koriste materijale bez dodatnog preuzimanja. Nova geometrija i skripta prate MIT licencu projektnog koda; postojeća tekstura zadržava svoje poreklo.
 
 [Prikaz](../../../../core3d/actor/buildings/Church.js) postavlja osnovu na tlo i visinu na procenjenih 11 m. Položaj u nivou i akteri ostaju isti; ovo je spoljašnji izgled, bez enterijera i promena pravila borbe.
-
-Izvorni dostavljeni [church.fbx](church.fbx), izvorno `NNVECW2DG3YH2WY4MODYP0IFZ.fbx` (RigModels), i njegov [atlas](../../../images/textures/buildings/drvar-church.jpg) ostaju sačuvani, ali se više ne učitavaju. Njihova [priložena licenca](License.txt) dozvoljava samo ličnu upotrebu (studenti); komercijalna upotreba zahteva Premium članstvo na RigModels. Nisu obuhvaćeni MIT licencom novog modela ili projektnog koda.

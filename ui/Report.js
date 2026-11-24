@@ -22,7 +22,7 @@ const css = /* css */`
       font-weight: bold;
       line-height: 1.2;
       margin: 0;
-      padding: 150px 15% 8px;
+      padding: 140px 12% 8px;
       text-shadow: none;
     }
 

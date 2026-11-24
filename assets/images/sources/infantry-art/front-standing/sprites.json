@@ -1,0 +1,167 @@
+{
+  "cell": [
+    208,
+    188
+  ],
+  "anchor": [
+    104,
+    186
+  ],
+  "frames": [
+    "ready",
+    "knees",
+    "dead",
+    "step-wide",
+    "step-cross",
+    "step-close",
+    "fire"
+  ],
+  "walkCycleMs": 640,
+  "collapseMs": 750,
+  "walkPrompt": "Make a clean transparent pixel-art game sheet 3 horizontal isolated full-body stepping poses of ONLY THE FIRST STANDING SOLDIER from the reference. Keep exactly his face, cap, clothes, palette, gun pointed toward viewer, slight breathing shoulders, arms together in AIM, full boots. He is alive in ALL three frames. He side-steps toward screen right facing the viewer, feet push off alternately and cross in front then spread apart. Show three clearly different leg silhouettes at the same scale on common ground line: contact stride feet apart, passing step boots near crossing, rear foot catching up knees flexed. No scenery, no ground or shadows, no borders, no labels, no flashes; transparent background, no kneeling or death poses in this sheet. Three non-touching figures spaced in a single horizontal strip. Match the figure height and the slightly chunky ink pixel art.",
+  "factions": {
+    "nemci": {
+      "nemci-generated.png": "5cbcc40698ca80033a673e968badacb9cfb1c499bdf989c7448cce518e57ad82",
+      "nemci-walk.png": "30200001eb7c149b933245e79887b0f4ec30a4c8bb5ac8f276525126e6803022",
+      "nemci-spreda-celo.png": "8b0581b37ab59c0ba679ee95278ba30521439a2a00b3f9fde050fc350a330acf",
+      "nemci-reference.png": "ecf87a0a10c6989d7f462e246937a624228892ff1da4a9d9deff90ea5848d030"
+    },
+    "cetnici": {
+      "cetnici-generated.png": "7d61234ab01a721f91416f050526f9bcf6146cbacfa5fa2ec7a8a81b2157dde8",
+      "cetnici-walk.png": "3df8b96e5de49ed4011bb578e1ac611508ed6caa89dcf1ee7cc77efc26431f46",
+      "cetnici-spreda-celo.png": "4e32e6a3749cd5ca5dc7f02696773bc9fb179f272f332e67021311ea1a4d5dc4",
+      "cetnici-reference.png": "2db21b3e8a82d6c9203d05a448c5354c9bcaea3e893936f76b96351121f1a115"
+    }
+  },
+  "schemaVersion": 1,
+  "assets": [
+    {
+      "id": "nemci-spreda-celo",
+      "image": "../../../game-ready/vojnici/nemci-spreda-celo.png",
+      "frame": {
+        "width": 208,
+        "height": 188,
+        "columns": 7,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 104,
+        "y": 186
+      },
+      "animations": [
+        {
+          "name": "idle",
+          "row": 0,
+          "frameCount": 1,
+          "frameColumns": [
+            0
+          ],
+          "duration": 1,
+          "loop": true
+        },
+        {
+          "name": "move",
+          "row": 0,
+          "frameCount": 4,
+          "frameColumns": [
+            3,
+            4,
+            5,
+            4
+          ],
+          "duration": 0.64,
+          "loop": true
+        },
+        {
+          "name": "attack",
+          "row": 0,
+          "frameCount": 2,
+          "frameColumns": [
+            6,
+            0
+          ],
+          "duration": 0.18,
+          "loop": true
+        },
+        {
+          "name": "dead",
+          "row": 0,
+          "frameCount": 3,
+          "frameColumns": [
+            0,
+            1,
+            2
+          ],
+          "duration": 0.75,
+          "loop": false
+        }
+      ]
+    },
+    {
+      "id": "cetnici-spreda-celo",
+      "image": "../../../game-ready/vojnici/cetnici-spreda-celo.png",
+      "frame": {
+        "width": 208,
+        "height": 188,
+        "columns": 7,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 104,
+        "y": 186
+      },
+      "animations": [
+        {
+          "name": "idle",
+          "row": 0,
+          "frameCount": 1,
+          "frameColumns": [
+            0
+          ],
+          "duration": 1,
+          "loop": true
+        },
+        {
+          "name": "move",
+          "row": 0,
+          "frameCount": 4,
+          "frameColumns": [
+            3,
+            4,
+            5,
+            4
+          ],
+          "duration": 0.64,
+          "loop": true
+        },
+        {
+          "name": "attack",
+          "row": 0,
+          "frameCount": 2,
+          "frameColumns": [
+            6,
+            0
+          ],
+          "duration": 0.18,
+          "loop": true
+        },
+        {
+          "name": "dead",
+          "row": 0,
+          "frameCount": 3,
+          "frameColumns": [
+            0,
+            1,
+            2
+          ],
+          "duration": 0.75,
+          "loop": false
+        }
+      ]
+    }
+  ],
+  "flash": {
+    "source": "../../../pucanje.png",
+    "sha256": "9ecc1dd0dac612cfdb70527f9fe955dd6ab609c1f2f303d1260c43695d24eb50"
+  }
+}

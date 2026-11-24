@@ -24,11 +24,11 @@ Animacija se otvara sa kartice u **Scenes and Animations**. Raniji automatski pr
 
 ## Stilovi
 
-Izvori su [styles](../ui/styles.js) i [CSS](../ui/style.css): `simple` je podrazumevani taman UI, `rpg` ukrašen, a `white` koristi bele okvire. Igra zadaje podrazumevanu temu; korisnikov izbor ima prednost. Postojeći lokalni stilovi nisu razlog za različito ponašanje iste komponente.
+`simple` je podrazumevana tamna tema, a `white` koristi bele okvire. Igra zadaje podrazumevanu temu, a korisnikov izbor ima prednost. [Stilovi](../ui/styles.js) i [CSS](../ui/style.css).
 
 ### Potvrđeni birač teme
 
-Settings sadrži Volume i **UI style**, redom **Predefined, Simple, RPG, White**. Predefined prati temu igre; ostali izbori važe za sve igre. Izbor se pamti i osvežava već napravljene prozore, HUD, Controls, zdravlje i kameru. Pretplate se uklanjaju pri gašenju vlasnika.
+Settings sadrži Volume i **UI style**, redom **Predefined, Simple, White**. Predefined prati temu igre, a ostali izbori važe za sve igre. Izbor se pamti i osvežava već napravljene prozore, HUD, Controls, zdravlje i kameru. Pretplate se uklanjaju pri gašenju vlasnika.
 
 Fokus je vidljiv u stilu igre; dugme dobija fokus kao hover svoje teme. Ne uvoditi različite browserove plavo-bele okvire ili posebnu stilizaciju svake kontrole.
 

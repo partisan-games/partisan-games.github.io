@@ -10,14 +10,6 @@ export const styleClasses = {
     healthBar: '',
     cameraButton: '',
   },
-  rpg: {
-    container: 'rpgui-container framed',
-    button: 'rpgui-button',
-    score: 'rpgui-button golden',
-    controlButton: 'rpgui-button',
-    healthBar: 'rpgui-progress',
-    cameraButton: 'rpgui-button',
-  },
   white: {
     container: 'white-container',
     button: 'white-button',
@@ -29,7 +21,7 @@ export const styleClasses = {
 }
 
 /** What the player can pick in Settings: the style each game has, or one style for every game. */
-export const styleChoices = { predefined: 'Predefined', simple: 'Simple', rpg: 'RPG', white: 'White' }
+export const styleChoices = { predefined: 'Predefined', simple: 'Simple', white: 'White' }
 
 // only one scene lives at a time, and it sets its style before it creates any element
 let gameStyle = 'simple'

@@ -1,22 +1,9 @@
 import * as THREE from 'three'
-import { createSphere } from '/core3d/geometry/index.js'
 import { sample, similarColor } from '/core3d/helpers.js'
 import { assets } from '/config.js'
 
 const textureLoader = new THREE.TextureLoader()
 textureLoader.setPath(`${assets.textures}planets/`)
-
-export function createEarth({ r = 15, segments = 64 } = {}) {
-  const map = textureLoader.load('earthmap4k.jpg') // max width is 4096
-  const bumpMap = textureLoader.load('earthbump4k.jpg')
-  const specularMap = textureLoader.load('earthspec4k.jpg')
-  const material = new THREE.MeshPhongMaterial({ map, specularMap, bumpMap, displacementMap: bumpMap, displacementScale: 1.75 })
-
-  const geometry = new THREE.SphereGeometry(r, segments, segments)
-  const mesh = new THREE.Mesh(geometry, material)
-  mesh.castShadow = mesh.receiveShadow = true
-  return mesh
-}
 
 function createRing(radius, tube, color) {
   const geometry = new THREE.TorusGeometry(radius, tube, 2, 35)
@@ -35,11 +22,3 @@ export function addRings(planet) {
   planet.add(createRing(r * 2.4, r * .24, similarColor(color, .33)))
   return planet
 }
-
-export function createSaturn({ r = 1 } = {}) {
-  const planet = createSphere({ r, file: 'planets/saturn.jpg' }) // color: 0xDDBC77
-  return addRings(planet)
-}
-
-export const createJupiter = ({ r = 10, segments = 32 } = {}) =>
-  createSphere({ r, segments, file: 'planets/jupiter.jpg' })

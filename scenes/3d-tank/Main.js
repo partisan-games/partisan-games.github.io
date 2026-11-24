@@ -1,5 +1,6 @@
 import * as THREE from 'three'
-import Scene3D, { skyGradients } from '/core/Scene3D.js'
+import Scene3D from '/core/Scene3D.js'
+import { skyGradients } from '/core/constants.js'
 import PhysicsWorld from '/core3d/physics/PhysicsWorld.js'
 import { createGround, grassColor } from '/core3d/ground.js'
 import { createMoonSphere, createBoxes, createCrate, createRustyBarrel, createMetalBarrel } from '/core3d/geometry/index.js'

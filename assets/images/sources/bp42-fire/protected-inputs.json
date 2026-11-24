@@ -1,0 +1,10 @@
+{
+  "assets/images/game-ready/vozovi/bp42-sprites.png": "e43f6aef7402da1c7929d9769f1c323aad4a64b1c37c5a8d3b021389ee4a00bc",
+  "assets/images/game-ready/wrecks/bp42.png": "78090d5503c8af45f78ae4fa9a303cd474165dfb94c8d3cd49b8c81ead2767b4",
+  "assets/images/sources/franjo-kluz/manifest.json": "e536a492722ea62dc0781095822d8c9a16f5ce360fcf2c9e9fdf1ad2b681b35f",
+  "assets/images/sources/franjo-kluz/sprites.json": "dc73f51fbd4cb5e190022bcf5fc6161169fc2e92645861b346c508392502a868",
+  "assets/images/sources/franjo-kluz/bp42-generated.png": "8b3708e0d1e0073187b3d18ccfde60774c8fac733e22e7a0332f575ea6e87eee",
+  "assets/images/armies/nemci/vozovi/oklopni-vozovi/bp42.png": "0956871dcd1f67920ea54cf974c50bd39408a272abcac9769eddebc523bd222b",
+  "assets/images/game-ready/efekti/plamen-pucnja-sprites.png": "b68127b1a7186000190f24aabdbd13937e67259dc67b9eb201594a51e26e52c8",
+  "core/actor/spriteArt.js": "47459851aa52de4f8055751de89d1fda879a23b74634b0a4efcbd489a4970173"
+}

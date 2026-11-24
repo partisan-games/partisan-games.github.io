@@ -9,16 +9,7 @@ export const grassColor = 0x509f53
 export const meadowColor = 0x91A566
 
 export const groundColors = [0xA62A2A, 0x7a8a46, 0x228b22, 0xf0e68c]
-export const sandColors = [0xc2b280, 0xF2D16B, 0xf0e68c, 0xfffacd]
-export const cratersColors = [0x5C4033, 0xA62A2A, 0xc2b280]
 export const desertPlanetColors = [0xB0E0E6, 0xCD853F, 0xEEE8AA, 0xA62A2A, 0x666666] // 0xbf8040
-
-export function createHill(r, height = r * .4) {
-  const geometry = new THREE.ConeGeometry(r, height, 32)
-  const material = new THREE.MeshPhongMaterial({ color: grassColor })
-  const cone = new THREE.Mesh(geometry, material)
-  return cone
-}
 
 export function createGroundMaterial({ color = grassColor, file, repeat } = {}) {
   const params = { side: THREE.FrontSide }
@@ -58,46 +49,6 @@ export async function createLava({ size = 100 } = {}) {
   const mesh = new THREE.Mesh(geometry, createMaterial())
   mesh.translateY(.1)
   return mesh
-}
-
-export async function createMarble({ size = 100 } = {}) {
-  const geometry = new THREE.PlaneGeometry(size, size)
-  const { createMaterial } = await import('/core3d/shaders/marble.js')
-  const mesh = new THREE.Mesh(geometry, createMaterial())
-  mesh.rotateX(-Math.PI * 0.5)
-  return mesh
-}
-
-async function cratersNoise(geometry) {
-  const xZoom = 20
-  const yZoom = 20
-  const noiseStrength = 5
-
-  const { position } = geometry.attributes
-  const vertex = new THREE.Vector3()
-  const { SimplexNoise } = await import('three/examples/jsm/math/SimplexNoise.js')
-  const simplex = new SimplexNoise()
-
-  for (let i = 0, l = position.count; i < l; i++) {
-    vertex.fromBufferAttribute(position, i)
-    let noise = simplex.noise(vertex.x / xZoom, vertex.z / yZoom) * noiseStrength
-    noise = Math.round(noise)
-    if (noise > 2.5) continue // cut mountain's peaks
-    position.setY(i, noise)
-  }
-}
-
-async function dunesNoise(geometry) {
-  const { position } = geometry.attributes
-  const vertex = new THREE.Vector3()
-  const { SimplexNoise } = await import('three/examples/jsm/math/SimplexNoise.js')
-  const simplex = new SimplexNoise()
-
-  for (let i = 0, l = position.count; i < l; i++) {
-    vertex.fromBufferAttribute(position, i)
-    const noise = simplex.noise(vertex.x * .05, vertex.z * .05)
-    position.setY(i, noise * 1.5)
-  }
 }
 
 async function hillyNoise(geometry, segments, factorX, factorY, factorZ, aboveSea) {
@@ -170,48 +121,12 @@ export function createTerrain({ size = 400, width, height, segments = 50, colorP
   return mesh
 }
 
-export const createTerrain2 = ({ size = 2000 } = {}) => createTerrain({ size, segments: 100, max: 12, min: 3, color: meadowColor, colorRange: .05 })
-
-export async function createCraters({ size = 100, segments = 100 } = {}) {
-  const mesh = createTerrainMesh({ size, segments })
-  await cratersNoise(mesh.geometry)
-  await heightColors({ geometry: mesh.geometry, minY: -2, maxY: 2, terrainColors: cratersColors })
-  return mesh
-}
-
-export async function createDunes({ size = 400, segments = 100 } = {}) {
-  const mesh = createTerrainMesh({ size, segments })
-  await dunesNoise(mesh.geometry)
-  await heightColors({ geometry: mesh.geometry, maxY: 2, minY: -1.75, terrainColors: sandColors })
-
-  return mesh
-}
-
 export const createHillyTerrain = async(
   { size = 400, segments = size / 20, factorX = size / 20, factorZ = size / 40, factorY = size / 10, aboveSea = .5, terrainColors = groundColors } = {}
 ) => {
   const mesh = createTerrainMesh({ size, segments })
   await hillyNoise(mesh.geometry, segments, factorX, factorY, factorZ, aboveSea)
   await heightColors({ geometry: mesh.geometry, maxY: factorY * 1.25, minY: -factorY * .25, terrainColors })
-  return mesh
-}
-
-export const createWater = ({ size = 1200, segments = 20, opacity = .6, file = 'water512.jpg' } = {}) => {
-  const material = new THREE.MeshLambertMaterial({
-    color: 0x6699ff,
-    opacity,
-    transparent: true,
-    vertexColors: true,
-    map: file ? createTexture({ file, repeat: 5 }) : null
-  })
-  const geometry = new THREE.PlaneGeometry(size, size, segments, segments)
-  geometry.rotateX(-Math.PI / 2)
-
-  randomShades(geometry, 0x40E0D0, 0.15)
-
-  const mesh = new THREE.Mesh(geometry, material)
-  mesh.receiveShadow = true
-  mesh.name = 'water'
   return mesh
 }
 
@@ -263,20 +178,4 @@ export function shake({ geometry, time }) {
     position.setY(i, y)
   }
   position.needsUpdate = true
-}
-
-export function createTerrainFromData({ data, width, height, widthSegments, heightSegments }) {
-  const geometry = new THREE.PlaneGeometry(width, height, widthSegments, heightSegments)
-  geometry.rotateX(- Math.PI / 2)
-
-  const vertices = geometry.attributes.position.array
-  for (let i = 0, j = 0, l = vertices.length; i < l; i++, j += 3)
-    vertices[j + 1] = data[i] // j + 1: y component
-
-  geometry.computeVertexNormals()
-
-  const groundMaterial = new THREE.MeshPhongMaterial({ color: 0xC7C7C7 })
-  const terrain = new THREE.Mesh(geometry, groundMaterial)
-  terrain.receiveShadow = terrain.castShadow = true
-  return terrain
 }

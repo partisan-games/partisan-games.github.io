@@ -34,7 +34,7 @@ import Church, { models as churchModels } from '/core3d/actor/buildings/Church.j
 
 const messages = {
   intro: '<ul><li>Hold the position</li><li>Shoot the paratroopers before they reach cover</li></ul>',
-  report: 'Drvar, 25 May 1944. German paratroopers are dropping on the Supreme Headquarters. Hold the position until the staff gets away.',
+  report: 'Drvar, 25 May 1944\n\nGerman paratroopers descend on Drvar to capture the Partisan Supreme Headquarters. Hold your position while the headquarters staff escapes.',
   machineGun: 'Take his machine gun',
   victory: 'The staff got away. You held the position.',
   defeat: 'The position has fallen.',
@@ -315,13 +315,14 @@ function createTownGround(size = 1200) {
   return new THREE.Mesh(geometry, material)
 }
 
-/** The mountains around Drvar, a picture on the inside of a cylinder around the whole scene. */
+/** Keep the mountain silhouette near the horizon and show the scene's sky above it. */
 function createPanorama(radius = 600) {
   const texture = new THREE.TextureLoader().load('/assets/images/background/planine.png')
   texture.colorSpace = THREE.SRGBColorSpace
   texture.wrapS = THREE.RepeatWrapping
   texture.repeat.x = -1
-  const geometry = new THREE.CylinderGeometry(radius, radius, 600, 32, 1, true)
-  const material = new THREE.MeshBasicMaterial({ map: texture, side: THREE.BackSide, alphaTest: .5, color: 0x777777, fog: false })
+  const geometry = new THREE.CylinderGeometry(radius, radius, 144, 64, 1, true)
+  geometry.translate(0, -6, 0)
+  const material = new THREE.MeshBasicMaterial({ map: texture, side: THREE.BackSide, alphaTest: .5, fog: false })
   return new THREE.Mesh(geometry, material)
 }

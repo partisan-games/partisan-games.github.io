@@ -124,7 +124,8 @@ test('gates pivot horizontally and reflector copies keep an independent target a
 test('each camp catalog entry creates its real prop and every offered command runs', async t => {
   createPageElements()
   modelLoading(t)
-  const { props } = await import('/catalog/stories/crveniKrst.js')
+  const campModule = await import('/core3d/actor/buildings/CampProp.js')
+  const props = (await import('/catalog/stories/props3d.js')).props.filter(story => story.block === campModule)
   assert.equal(props.length, 8)
   assert.equal(new Set(props.map(story => story.id)).size, 8)
   for (const story of props) {

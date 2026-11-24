@@ -5,6 +5,7 @@ import Dummy from './Dummy.js'
 import Body from '/core/gameplay/bodies/Body.js'
 import { sideProjection } from '/core/actor/projection.js'
 import scales from './scales.js'
+import stageColors from './stageColors.js'
 
 /** The share of the view's height above the ground line, so the ground under the blocks is seen. */
 const skyShare = .8
@@ -58,8 +59,8 @@ export default class Stage2D extends Scene2D {
   clear() {
     const { ctx } = this.renderer
     const ground = this.groundY - this.cameraY
-    drawSky(ground, 'blue', 'lightblue', -this.cameraY)
-    ctx.fillStyle = '#5c6b3a'
+    drawSky(ground, stageColors.sky, stageColors.horizon, -this.cameraY)
+    ctx.fillStyle = stageColors.ground
     ctx.fillRect(0, ground, this.width, this.height - ground)
   }
 

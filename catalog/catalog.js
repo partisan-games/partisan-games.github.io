@@ -26,8 +26,7 @@ export function groupOf(kind, story) {
       : /sovjets/.test(name) ? 'Sovjeti' : /partizan|pokreta otpora/.test(name) ? 'Partizani' : /cetni/.test(name) ? 'Četnici' : 'Ostali'
     return ['Vojnici', army]
   }
-  if (kind.id === 'zivotinje-i-masine-3d') return [story.id === 'tenk-3d' ? 'Vozila' : story.id === 'cepelin-3d' ? 'Letelice' : 'Životinje']
-  return [{ 'letelice-3d': 'Letelice', 'artiljerija-3d': 'Artiljerija', 'kule-3d': 'Kule sa topom', 'fantazija-3d': 'Fantazija', 'horor-3d': 'Horor' }[kind.id] ?? kind.title]
+  return [{ 'letelice-3d': 'Letelice', 'artiljerija-3d': 'Artiljerija' }[kind.id] ?? kind.title]
 }
 
 /** Navigation owns its disclosure state; stage resets never rebuild this tree. */

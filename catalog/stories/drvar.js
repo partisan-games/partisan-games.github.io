@@ -8,22 +8,10 @@ import CoverSoldierSprite, { coverSoldierArt } from '/core3d/actor/soldiers/Cove
 import TransportSprite, { transportArt } from '/core3d/actor/aircraft/TransportSprite.js'
 import { loadPixelArt } from '/core3d/assets/pixelArt.js'
 import { requestModels } from '/core3d/assets/models.js'
-import Church, * as churchModule from '/core3d/actor/buildings/Church.js'
 import Ju52, * as ju52Module from '/core3d/actor/aircraft/Ju52.js'
 
 const game = 'Raid on Drvar (u izradi)'
 
-export const props = [{
-  id: 'drvar-crkva', name: 'Crkva', game, block: churchModule, stage: Stage3D,
-  catalogGroup: ['Ambijent', 'Drvar'],
-  description: 'Kamena crkva prema fotografiji iz Drvara: dvovodni krov i četvrtast zvonik. Visina je procenjenih 11 metara.',
-  create: async stage => {
-    await requestModels(churchModule.models)
-    const church = new Church()
-    stage.add(church)
-    return church
-  },
-}]
 /** Metres above the floor a paratrooper starts from, high enough to watch him sink for a few seconds. */
 const dropHeight = 25
 /** The height of the cover the soldier is sent to, in metres; the catalog draws no cover. */

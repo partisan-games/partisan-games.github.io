@@ -43,7 +43,7 @@ Vlasnikovi nazivi i ono što znače u kodu. Ovde idu samo pojmovi koji se stvarn
 | Katalog | [catalog.html](../catalog.html) i `catalog/`, ranije Storybook: priča za svakog aktera i model iz arta, i za one koje još nijedna igra ne koristi | [Katalog](KATALOG.md) |
 | Priča, pozornica | Unos u `catalog/stories/`, `Stage2D`/`Stage3D` | [Katalog](KATALOG.md) |
 | Avionče | [FighterBomber](../core/gameplay/bodies/aircraft/FighterBomber.js): Spitfire, Hurricane, Breguet 19 i Yak-1b | Vis |
-| Kraljica | Bilo koji boss, glavni i najjači protivnik nivoa; u Visu He 111, [AttackPlane](../core/gameplay/bodies/aircraft/AttackPlane.js) vrste `boss` | Vis, Graffiti City |
+| Kraljica | Bilo koji boss, glavni i najjači protivnik nivoa; u Visu He 111, [AttackPlane](../core/gameplay/bodies/aircraft/AttackPlane.js) vrste `boss` | Vis |
 | Bombaš (Žikica) | [Grenadier](../core/gameplay/bodies/soldiers/Grenadier.js) | Bunker |
 | Kuća-bunker | [Bunker](../core/gameplay/bodies/artillery/Bunker.js) sa [mitraljescem](../core/gameplay/bodies/soldiers/MachineGunner.js) u prozoru | Bunker, Do Trsta |
 | Okupator | [Occupier](../core/gameplay/bodies/soldiers/Occupier.js), nemački vojnik koji hoda i puca ka gledaocu; isto telo nose i strelac i stražar spreda ([FrontEnemySprite](../core/actor/soldiers/FrontEnemySprite.js)) | Okupator samo u katalogu; strelac i stražar u Otpisanima |
@@ -103,7 +103,7 @@ Autoritativni opis tema i potvrđenog korisničkog izbora je u [UI vodiču](UI.m
 
 ## Ulaz u igre i novčići
 
-Odluka vlasnika od 2026-11-22: besplatni su sadržaji u grupi **3D Scenes and Animations**, uključujući direktan link i ponovno otvaranje. Scene i animacije gledamo, ne igramo: njihove kartice prikazuju **TRY**, bez žetona i animacije njegovog ubacivanja; ta grupa je označena sa `data-free`. Naslovna ima tri grupe (vlasnik, 2026-11-24): **Partisan Games** sa ratnim igrama, 2D i 3D zajedno, poređanim po vremenu radnje, **Other Games** i besplatne **3D Scenes and Animations**. Ako takva scena ima startni prozor, izričito koristi `free`, kao [Walls](../scenes/walls/Main.js). Dimenzija prikaza ne određuje naplatu: 3D igre zadržavaju žetone prema istom pravilu kao 2D igre.
+Odluka vlasnika od 2026-11-22: besplatne su scene i animacije, uključujući direktan link i ponovno otvaranje. Njih gledamo, ne igramo: njihove kartice prikazuju **TRY** ili **WATCH**, bez žetona i animacije njegovog ubacivanja. Naslovna ima dve grupe (vlasnik, 2026-11-24): **War Games** sa ratnim igrama, 2D i 3D zajedno, poređanim po vremenu radnje, i **Others** sa svim ostalim, igrama i besplatnim scenama zajedno. Ako takva scena ima startni prozor, izričito vraća `true` iz getera `free` [scene](../core/Scene.js). Dimenzija prikaza ne određuje naplatu: 3D igre zadržavaju žetone prema istom pravilu kao 2D igre.
 
 Odluka vlasnika od 2026-11-20: igre koje nemaju startni prozor ostaju besplatne i kreću odmah po učitavanju, bez dodavanja prozora za novčić ili starta. To važi i za direktan link, reload i ponovnu igru; dostupnost novčića i njihovog skladišta ne sme uslovljavati besplatnu igru.
 

@@ -120,6 +120,36 @@ test('only explicitly allowed UI streams play before start and only result sourc
   assert.equal(shot.play(), null)
 })
 
+test('the first report plays after cabinet activation even if the report joins before the audio is ready', async t => {
+  const { default: Report } = await import('/ui/Report.js')
+  const { engine, context, stats } = fixture()
+  let resume
+  t.mock.method(context, 'resume', () => new Promise(resolve => {
+    resume = () => {
+      context.state = 'running'
+      resolve()
+    }
+  }))
+  const activation = engine.unlock()
+  const audio = new SceneAudio({ engine })
+  const report = new Report({ container: document.createElement('div') })
+  t.after(async() => {
+    report.stop()
+    audio.end()
+    await engine.dispose()
+  })
+  audio.sync([report], 'ready')
+  assert.equal(stats.media.length, 0)
+  resume()
+  await activation
+  audio.sync([report], 'ready')
+  await settle()
+  assert.equal(stats.media.length, 1)
+  assert.equal(stats.media[0].paused, false)
+  report.stop()
+  assert.equal(stats.media[0].paused, true)
+})
+
 test('a shell whistles in flight, bursts with one bang, and goes quiet out of play', async t => {
   const { audio } = await audioFor(t)
   const shell = new ShellBody({ gravity: 0 })

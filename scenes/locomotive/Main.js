@@ -10,6 +10,9 @@ import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js'
 import { createOrbitControls } from '/core3d/helpers.js'
 import { createTrees } from '/core3d/geometry/trees.js'
 
+/** The share of its loop the train runs in a second, and how high above the ground its wheels stand on the rails. */
+const ride = { speed: .025, y: .25 }
+
 export default class LocomotiveScene extends Scene3D {
   constructor() {
     super({ toon: true, controlKeys: orbitControls })
@@ -34,7 +37,7 @@ export default class LocomotiveScene extends Scene3D {
     this.addMesh(outerLine, innerLine)
 
     const train = await this.session.keep(requestModel({
-      file: 'vehicle/train/toy-locomotive/scene.glb', angle: Math.PI, axis: [0, 1, 0], size: 4
+      file: 'vehicle/train/locomotive/locomotive.glb', size: 4
     }))
     this.locomotive = clone(train)
     this.addMesh(this.locomotive)
@@ -43,13 +46,15 @@ export default class LocomotiveScene extends Scene3D {
     rudnik.position.x = -8
     this.addMesh(rudnik)
 
-    this.mixer = new THREE.AnimationMixer(this.locomotive)
-    const action = this.mixer.clipAction(train.userData.animations[0])
-    action.play()
-    this.session.scope.add(() => {
-      this.mixer.stopAllAction()
-      this.mixer.uncacheRoot(this.locomotive)
+    // each wheel turns about its axle as far as the train rolls; a small wheel turns faster
+    this.wheels = []
+    this.locomotive.updateMatrixWorld(true)
+    this.locomotive.traverse(part => {
+      if (!/^wheel-\d+$/.test(part.name)) return
+      const size = new THREE.Box3().setFromObject(part).getSize(new THREE.Vector3())
+      this.wheels.push({ part, radius: size.y / 2 })
     })
+    this.metresPerSecond = this.path.getLength() * ride.speed
 
     const { default: Factory, models: factoryModels } = await this.session.keep(import('/core3d/objects/Factory.js'))
     await this.session.keep(requestModels(factoryModels))
@@ -58,7 +63,7 @@ export default class LocomotiveScene extends Scene3D {
     this.add(tvornica)
 
     this.particles = new Smoke({ num: 10, maxRadius: .1, })
-    this.particles.mesh.position.set(0, 1.5, 1.25)
+    this.particles.mesh.position.set(0, 3.9, 1.95)
     this.particles.mesh.rotateX(-.2)
     this.locomotive.add(this.particles.mesh)
 
@@ -69,8 +74,8 @@ export default class LocomotiveScene extends Scene3D {
   update(delta, elapsedTime) {
     super.update(delta, elapsedTime)
 
-    followPath({ path: this.path, mesh: this.locomotive, elapsedTime, speed: .025, y: 2 })
+    followPath({ path: this.path, mesh: this.locomotive, elapsedTime, ...ride })
     this.particles.update(delta, elapsedTime)
-    this.mixer.update(delta * 15)
+    for (const { part, radius } of this.wheels) part.rotation.x += this.metresPerSecond * delta / radius
   }
 }

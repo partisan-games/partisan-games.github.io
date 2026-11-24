@@ -1,1 +1,0 @@
-https://sketchfab.com/3d-models/06-xyz-hw-detalization-titan-4bc468fd551940d486b00074103fdd98

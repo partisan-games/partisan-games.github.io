@@ -5,12 +5,6 @@ const { Vector3 } = THREE
 /** The two ends of the gradient skies: blue overhead, white at the horizon. */
 export const skyColors = { top: 0x0077ff, horizon: 0xffffff }
 
-export const CIRCLE = 2 * Math.PI
-
-export const DEGREE = Math.PI / 180
-
-export const RIGHT_ANGLE = Math.PI * .5
-
 export const dir = {
   upForward: new Vector3(0, 1, -1),
   forward: new Vector3(0, 0, -1),
@@ -21,4 +15,3 @@ export const dir = {
   up: new Vector3(0, 1, 0),
   down: new Vector3(0, -1, 0),
 }
-

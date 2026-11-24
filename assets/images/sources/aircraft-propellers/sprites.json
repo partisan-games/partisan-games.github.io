@@ -1,0 +1,266 @@
+{
+  "schemaVersion": 1,
+  "assets": [
+    {
+      "id": "propeller-side",
+      "image": "../../game-ready/avioni/propeller-side-sprites.png",
+      "vectorSource": "../../game-ready/avioni/propeller-side-sprites.svg",
+      "frame": {
+        "width": 12,
+        "height": 48,
+        "columns": 4,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 6.0,
+        "y": 24.0
+      },
+      "animations": [
+        {
+          "name": "spin",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 0.12,
+          "loop": true
+        }
+      ]
+    },
+    {
+      "id": "propeller-top",
+      "image": "../../game-ready/avioni/propeller-top-sprites.png",
+      "vectorSource": "../../game-ready/avioni/propeller-top-sprites.svg",
+      "frame": {
+        "width": 64,
+        "height": 12,
+        "columns": 4,
+        "rows": 1
+      },
+      "anchor": {
+        "x": 32.0,
+        "y": 6.0
+      },
+      "animations": [
+        {
+          "name": "spin",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 0.12,
+          "loop": true
+        }
+      ]
+    }
+  ],
+  "bodies": {
+    "game-ready/avioni/ju87.png": {
+      "id": "ju87",
+      "bodySize": [
+        400,
+        148
+      ],
+      "layer": {
+        "src": "game-ready/avioni/propeller-side-sprites.png",
+        "frame": {
+          "width": 12,
+          "height": 48
+        },
+        "columns": 4,
+        "seconds": 0.12
+      },
+      "projection": "side",
+      "hubs": [
+        {
+          "x": 24,
+          "y": 64,
+          "span": 84
+        }
+      ],
+      "bodyUnchanged": true
+    },
+    "game-ready/avioni/bf109.svg": {
+      "id": "bf109-side",
+      "bodySize": [
+        182,
+        48
+      ],
+      "layer": {
+        "src": "game-ready/avioni/propeller-side-sprites.png",
+        "frame": {
+          "width": 12,
+          "height": 48
+        },
+        "columns": 4,
+        "seconds": 0.12
+      },
+      "projection": "side",
+      "hubs": [
+        {
+          "x": 4,
+          "y": 30,
+          "span": 34
+        }
+      ],
+      "bodyUnchanged": true
+    },
+    "armies/nemci/avioni/bf-109-odozgo.png": {
+      "id": "bf109-top",
+      "bodySize": [
+        230,
+        196
+      ],
+      "layer": {
+        "src": "game-ready/avioni/propeller-top-sprites.png",
+        "frame": {
+          "width": 64,
+          "height": 12
+        },
+        "columns": 4,
+        "seconds": 0.12
+      },
+      "projection": "top",
+      "hubs": [
+        {
+          "x": 114.5,
+          "y": 5,
+          "span": 58
+        }
+      ],
+      "bodyUnchanged": true
+    },
+    "armies/nemci/avioni/fw-190-odozgo.png": {
+      "id": "fw190-top",
+      "bodySize": [
+        230,
+        194
+      ],
+      "layer": {
+        "src": "game-ready/avioni/propeller-top-sprites.png",
+        "frame": {
+          "width": 64,
+          "height": 12
+        },
+        "columns": 4,
+        "seconds": 0.12
+      },
+      "projection": "top",
+      "hubs": [
+        {
+          "x": 114.5,
+          "y": 5,
+          "span": 64
+        }
+      ],
+      "bodyUnchanged": true
+    },
+    "armies/nemci/avioni/bf-110-odozgo.png": {
+      "id": "bf110-top",
+      "bodySize": [
+        354,
+        265
+      ],
+      "layer": {
+        "src": "game-ready/avioni/propeller-top-sprites.png",
+        "frame": {
+          "width": 64,
+          "height": 12
+        },
+        "columns": 4,
+        "seconds": 0.12
+      },
+      "projection": "top",
+      "hubs": [
+        {
+          "x": 126.5,
+          "y": 29,
+          "span": 64
+        },
+        {
+          "x": 226.5,
+          "y": 29,
+          "span": 64
+        }
+      ],
+      "bodyUnchanged": true
+    },
+    "armies/nemci/avioni/he-111-odozgo.png": {
+      "id": "he111-top",
+      "bodySize": [
+        820,
+        591
+      ],
+      "layer": {
+        "src": "game-ready/avioni/propeller-top-sprites.png",
+        "frame": {
+          "width": 64,
+          "height": 12
+        },
+        "columns": 4,
+        "seconds": 0.12
+      },
+      "projection": "top",
+      "hubs": [
+        {
+          "x": 310,
+          "y": 28,
+          "span": 126
+        },
+        {
+          "x": 497,
+          "y": 28,
+          "span": 126
+        }
+      ],
+      "bodyUnchanged": true
+    },
+    "armies/nemci/avioni/avion-odozgo-01.png": {
+      "id": "bf109-grey-top",
+      "bodySize": [
+        256,
+        225
+      ],
+      "layer": {
+        "src": "game-ready/avioni/propeller-top-sprites.png",
+        "frame": {
+          "width": 64,
+          "height": 12
+        },
+        "columns": 4,
+        "seconds": 0.12
+      },
+      "projection": "top",
+      "hubs": [
+        {
+          "x": 126,
+          "y": 5,
+          "span": 64
+        }
+      ],
+      "bodyUnchanged": true
+    },
+    "armies/nemci/avioni/avion-odozgo-02.png": {
+      "id": "bf109-desert-top",
+      "bodySize": [
+        256,
+        230
+      ],
+      "layer": {
+        "src": "game-ready/avioni/propeller-top-sprites.png",
+        "frame": {
+          "width": 64,
+          "height": 12
+        },
+        "columns": 4,
+        "seconds": 0.12
+      },
+      "projection": "top",
+      "hubs": [
+        {
+          "x": 126,
+          "y": 5,
+          "span": 64
+        }
+      ],
+      "bodyUnchanged": true
+    }
+  },
+  "notes": "The accepted bodies have hubs/spinners but no painted blade crossing the propeller disc. No body pixels or SVG paths removed. Native vector layers match the existing SVG assets; four distinct edge-on projections, not a flat helicopter rotor. All hub coordinates are body-image pixels; existing actor transforms apply to both layers. Pauses dt=0 and dead engines hold the phase."
+}

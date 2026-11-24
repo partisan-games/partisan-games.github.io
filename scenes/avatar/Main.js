@@ -1,4 +1,5 @@
-import Scene3D, { skyGradients } from '/core/Scene3D.js'
+import Scene3D from '/core/Scene3D.js'
+import { skyGradients } from '/core/constants.js'
 import { createGround, createLava } from '/core3d/ground.js'
 import { hemLight } from '/core3d/light.js'
 import { avatarControls } from '/ui/Controls.js'
@@ -50,7 +51,7 @@ export default class AvatarScene extends Scene3D {
       toon: true,
       controlKeys: avatarControls,
       customStartScreen,
-      uiStyle: 'rpg',
+      uiStyle: 'white',
       canvasBackground: skyGradients.suton,
     })
   }

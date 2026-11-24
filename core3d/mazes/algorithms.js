@@ -1,31 +1,4 @@
 import { sample } from '/core3d/helpers.js'
-import { shuffle } from '/core/utils.js'
-
-export function binaryTree(maze) {
-  for (const cell of maze.each_cell()) {
-    const neighbors = []
-    if (cell.north) neighbors.push(cell.north)
-    if (cell.east) neighbors.push(cell.east)
-    const neighbor = sample(neighbors)
-    if (neighbor) cell.link(neighbor)
-  }
-}
-
-export function sideWinder(maze) {
-  for (const row of maze.each_row()) {
-    let run = []
-    for (const cell of row) {
-      run.push(cell)
-      const should_close_out = !cell.east || (cell.north && Math.random() < 0.5)
-      if (should_close_out) {
-        const member = sample(run)
-        if (member.north) member.link(member.north)
-        run = []
-      } else
-        cell.link(cell.east)
-    }
-  }
-}
 
 export function aldousBroder(maze) {
   let cell = maze.random_cell
@@ -69,33 +42,6 @@ export function wilsons(maze) {
   }
 }
 
-export function huntAndKill(maze) {
-  let current = maze.random_cell
-
-  while (current) {
-    const unvisited_neighbors = current.neighbors.filter(cell => cell.unvisited)
-    let neighbor
-    let visited_neighbors
-
-    if (unvisited_neighbors.length) {
-      neighbor = sample(unvisited_neighbors)
-      current.link(neighbor)
-      current = neighbor
-    } else {
-      current = null
-      for (const cell of maze.each_cell()) {
-        visited_neighbors = cell.neighbors.filter(cell => cell.links_length)
-        if (cell.unvisited && visited_neighbors.length) {
-          current = cell
-          neighbor = sample(visited_neighbors)
-          current.link(neighbor)
-          break
-        }
-      }
-    }
-  }
-}
-
 /* RECURSIVE BACKTRACKER (depth-first search) */
 
 export function recursiveBacktracker(maze, start_at = maze.random_cell) {
@@ -115,23 +61,6 @@ export function recursiveBacktracker(maze, start_at = maze.random_cell) {
 }
 
 /* PRIM'S */
-
-export function simplifiedPrims(maze, start_at = maze.random_cell) {
-  let active = []
-  active.push(start_at)
-
-  while (active.length) {
-    const cell = sample(active)
-    const available_neighbors = cell.neighbors.filter(c => c.unvisited)
-
-    if (available_neighbors.length) {
-      const neighbor = sample(available_neighbors)
-      cell.link(neighbor)
-      active.push(neighbor)
-    } else
-      active = active.filter(c => c.id !== cell.id)
-  }
-}
 
 export function truePrims(maze, start_at = maze.random_cell) {
   let active = []
@@ -156,80 +85,6 @@ export function truePrims(maze, start_at = maze.random_cell) {
 }
 
 /* ELER'S */
-
-class RowState {
-  constructor(starting_set = 0) {
-    this.cells_in_set = {}
-    this.set_for_cell = []
-    this.next_set = starting_set
-  }
-
-  record(set, cell) {
-    this.set_for_cell[cell.column] = set
-
-    if (!this.cells_in_set.hasOwnProperty(set)) this.cells_in_set[set] = []
-    this.cells_in_set[set].push(cell)
-  }
-
-  set_for(cell) {
-    if (!this.set_for_cell[cell.column]) {
-      this.record(this.next_set, cell)
-      this.next_set += 1
-    }
-
-    return this.set_for_cell[cell.column]
-  }
-
-  merge(winner, loser) {
-    for (let i = 0; i < this.cells_in_set[loser].length; i += 1) {
-      const cell = this.cells_in_set[loser][i]
-      this.set_for_cell[cell.column] = winner
-      this.cells_in_set[winner].push(cell)
-    }
-    delete this.cells_in_set[loser]
-  }
-
-  next() {
-    return new RowState(this.next_set)
-  }
-
-  * each_set() {
-    for (const [set, cells] of Object.entries(this.cells_in_set))
-      yield [set, cells]
-  }
-}
-
-export function ellers(maze) {
-  let row_state = new RowState()
-
-  for (const row of maze.each_row()) {
-    for (const cell of row) {
-      if (!cell.west) continue
-      const set = row_state.set_for(cell)
-      const prior_set = row_state.set_for(cell.west)
-
-      const should_link = set !== prior_set && (cell.south == null || Math.random() < 0.5)
-      if (should_link) {
-        cell.link(cell.west)
-        row_state.merge(prior_set, set)
-      }
-    }
-
-    if (row[0].south) {
-      const next_row = row_state.next()
-      for (const [, cells] of row_state.each_set()) {
-        shuffle(cells)
-        cells.forEach((cell, i) => {
-          if (i === 0 || Math.random() < 0.33) {
-            cell.link(cell.south)
-            next_row.record(row_state.set_for(cell), cell.south)
-          }
-        })
-      }
-      row_state = next_row
-    }
-  }
-}
 
 function divide(maze, row, column, height, width) {
   if (height <= 1 || width <= 1 || height < 5 && width < 5 && Math.random() < 0.25) return

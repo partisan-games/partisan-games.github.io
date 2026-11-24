@@ -65,9 +65,6 @@ export function createSphere({
   return mesh
 }
 
-export const createBullet = ({ color = 0x333333, r = .1, widthSegments = 6 } = {}) =>
-  createSphere({ r, color, widthSegments, castShadow: true, receiveShadow: false })
-
 export const createMoonSphere = () => createSphere({ r: .5, file: 'planets/moon.jpg' })
 
 export function createRustyBarrel({ r = .5, height = 1.5, segments = 32, file = 'metal/rust.jpg', topFile = 'barrel/rust-top.jpg', translateHeight = true, pos } = {}) {
@@ -95,43 +92,6 @@ export function createRustyBarrel({ r = .5, height = 1.5, segments = 32, file = 
 }
 
 export const createMetalBarrel = param => createRustyBarrel({ file: 'barrel/metal-barrel-side.jpg', topFile: 'metal/metal01.jpg', ...param })
-
-export function createWoodBarrel({ r = .4, R = .5, h = 1 } = {}) {
-  const geometry = new THREE.CylinderGeometry(1, 1, 2, 24, 32)
-  const v3 = new THREE.Vector3()
-  const v2 = new THREE.Vector2()
-  const pos = geometry.attributes.position
-  const rDiff = R - r
-  for (let i = 0; i < pos.count; i++) {
-    v3.fromBufferAttribute(pos, i)
-    const y = Math.abs(v3.y)
-    const rShift = Math.pow(Math.sqrt(1 - (y * y)), 2) * rDiff + r
-    v2.set(v3.x, v3.z).setLength(rShift)
-    v3.set(v2.x, v3.y, v2.y)
-    pos.setXYZ(i, v3.x, v3.y, v3.z)
-  }
-  geometry.scale(1, h * 0.5, 1)
-
-  const sideMaterial = new THREE.MeshPhongMaterial({
-    map: textureLoader.load('/assets/images/textures/barrel/WoodBarrel-side.jpg'),
-    specularMap: textureLoader.load('/assets/images/textures/barrel/WoodBarrel-side-s.jpg'),
-  })
-  const topMaterial = new THREE.MeshPhongMaterial({
-    map: textureLoader.load('/assets/images/textures/barrel/WoodBarrel-top.jpg'),
-    specularMap: textureLoader.load('/assets/images/textures/barrel/WoodBarrel-top-s.jpg'),
-  })
-
-  const materials = [
-    sideMaterial,
-    topMaterial,
-    topMaterial, // bottom
-  ]
-
-  const mesh = new THREE.Mesh(geometry, materials)
-  mesh.castShadow = mesh.receiveShadow = true
-  translateY(mesh, h / 2)
-  return mesh
-}
 
 export function createRandomBoxes({ n = 100, size = 5, mapSize = 100 } = {}) {
   const arr = []
@@ -164,8 +124,6 @@ export function createBoxes({ width = 8, height = 6, depth = 2, size = 1, x = 0,
   return boxes
 }
 
-export const createCrates = params => createBoxes({ ...params, file: 'crate.gif' })
-
 export function createWall({ brickWidth = 0.6, brickDepth = 1, rows = 8, columns = 6, brickMass = 2, friction, x = 0 } = {}) {
   const bricks = []
   const brickHeight = brickDepth * 0.5
@@ -195,46 +153,6 @@ export function createWall({ brickWidth = 0.6, brickDepth = 1, rows = 8, columns
     pos.y += brickHeight
   }
   return bricks
-}
-
-export function createSideWall({ brickWidth = 0.6, brickDepth = 1, rows = 8, columns = 6, brickMass = 2, friction, z = 0 } = {}) {
-  const bricks = []
-  const brickHeight = brickDepth * 0.5
-  const x = -columns * brickDepth * 0.5
-  const pos = new THREE.Vector3()
-  pos.set(x, brickHeight * 0.5, z)
-
-  for (let j = 0; j < rows; j++) {
-    const oddRow = (j % 2) === 1
-    const nRow = oddRow ? columns + 1 : columns
-
-    pos.x = oddRow ? x - brickDepth * .25 : x
-
-    for (let i = 0; i < nRow; i++) {
-      const firstOrLast = oddRow && (i === 0 || i === nRow - 1)
-      const depth = firstOrLast ? brickDepth * .5 : brickDepth
-      const mass = firstOrLast ? brickMass * .5 : brickMass
-      const brick = createBox({ width: depth, height: brickHeight, depth: brickWidth, mass, pos, friction, translateHeight: false })
-
-      bricks.push(brick)
-
-      pos.x = oddRow && (i === 0 || i === nRow - 2)
-        ? pos.x + brickDepth * .75
-        : pos.x + brickDepth
-    }
-
-    pos.y += brickHeight
-  }
-  return bricks
-}
-
-export function create4Walls({ rows = 10, columns = 6, brickMass = 5, friction = 5 } = {}) {
-  const frontWall = createWall({ rows, columns, brickMass, friction, x: -3.2 })
-  const backWall = createWall({ rows, columns, brickMass, friction, x: 2.2 })
-  const leftWall = createSideWall({ rows, columns, brickMass, friction, z: -3.8 })
-  const rightWall = createSideWall({ rows, columns, brickMass, friction, z: 2.8 })
-
-  return [...frontWall, ...backWall, ...leftWall, ...rightWall]
 }
 
 export function createFlag({ file = 'prva-proleterska.jpg', scale = 1 } = {}) {

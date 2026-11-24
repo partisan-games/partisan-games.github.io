@@ -37,7 +37,7 @@ test('blade phases advance with game time and hold for stopped engines and zero 
 test('redrawn Bf 109 keeps its propeller on the registered hub and switches to aligned damage', async t => {
   const { default: Fighter } = await import('/core/gameplay/bodies/aircraft/Fighter.js')
   const { default: FighterSprite } = await import('/core/actor/aircraft/FighterSprite.js')
-  const record = JSON.parse(await readFile(new URL('../../assets/images/armies/sources/plan-ideas-art/bf109-redraw.json', import.meta.url), 'utf8'))
+  const record = JSON.parse(await readFile(new URL('../../assets/images/sources/plan-ideas-art/bf109-redraw.json', import.meta.url), 'utf8'))
   const session = new GameSession()
   t.after(() => session.dispose())
   for (const yaw of [0, Math.PI]) {

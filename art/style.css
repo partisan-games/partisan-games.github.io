@@ -43,3 +43,10 @@ figcaption { padding: 12px; overflow-wrap: anywhere; }
   .preview { height: 180px; padding: 8px; }
   figcaption { font-size: .85rem; }
 }
+.model-view { position: sticky; top: 12px; z-index: 1; margin-bottom: 20px; border: 1px solid #454b40; border-radius: 5px; overflow: hidden; background: #242823; }
+.model-view canvas { display: block; width: 100%; height: min(55vh, 480px); }
+.model-status { margin: 0; padding: 8px 12px; overflow-wrap: anywhere; }
+.show-model { display: block; width: 100%; padding: 0; border: 0; color: #1b1d1b; font: inherit; cursor: pointer; }
+.show-model .preview { height: 120px; font-weight: 600; }
+.show-model:hover .preview { background: #c4e6f6; }
+.show-model:focus-visible { outline: 3px solid #e6b663; outline-offset: -3px; }

@@ -10,7 +10,7 @@ Pravila izrade i veze do izvora. Otvoreni poslovi su u [PLAN-u](PLAN.md#art), pr
 - Poboljšanje crteža ne podrazumeva promenu prihvaćenog stila. Odvojeni deo uporediti sa starim crtežom i u sklopu celog aktera; ne razvlačiti ga nezavisno po širini i visini samo da popuni zadati pravougaonik. Somuina cev pokazala je gubitak metalnog izgleda i promenu proporcija pri takvoj zameni.
 - Pre izmene utvrditi identitet, pogled, smer, razmeru, sidrište, oslonac i dozvoljene promene. Prazne margine atlasa ne menjaju mere tela i sudara. Isti tip vozila u različitom pogledu nije automatski zamenljiv resurs.
 - Sačuvati prihvaćene delove. Za ograničene pokrete proveriti piksele izvan dozvoljene maske; različit hash ne dokazuje dobru animaciju. Nova poza ne sme promeniti razmeru prethodnih kadrova. Razlomljene ćelije postojećeg atlasa nisu same po sebi greška.
-- Pregledati alfu, providne rubove i prelivanje u susednu ćeliju na neprozirnoj podlozi. Slab generisani veo može pokvariti granice figure; ukloniti ga na izvoru, obnoviti reference i porediti vidljivu visinu i oslonac pre i tokom pogotka, umesto ispravljanja razmere u rendereru. [Čišćenje strelca](../assets/images/armies/sources/ustanak/prepare.py) beleži tačan prag i očuvane piksele u [poreklu obrade](../assets/images/armies/sources/ustanak/sprites.json). Poze jednog klipa dele razmeru i registraciju, bez pojedinačnog sabijanja tela.
+- Pregledati alfu, providne rubove i prelivanje u susednu ćeliju na neprozirnoj podlozi. Slab generisani veo može pokvariti granice figure; ukloniti ga na izvoru, obnoviti reference i porediti vidljivu visinu i oslonac pre i tokom pogotka, umesto ispravljanja razmere u rendereru. [Čišćenje strelca](../assets/images/sources/ustanak/prepare.py) beleži tačan prag i očuvane piksele u [poreklu obrade](../assets/images/sources/ustanak/sprites.json). Poze jednog klipa dele razmeru i registraciju, bez pojedinačnog sabijanja tela.
 - Razdvojiti telo, pokretne delove i efekte. Metak/plamen izlazi iz stvarne cevi; bomba ostaje u šaci do otpuštanja. Ogledanje prati ceo sklop i njegove tačke događaja. Rov i teren nisu deo figure; krupan kadar nije celo telo.
 - Stvarni propeler menja projekciju oko osovine, ne okreće se kao ploča u ravni slike. Generisano preokrenuta olupina ne sme ponovo dobiti istu rotaciju u igri. Završni kadar pada ostaje prema ugovoru aktera.
 - Konačni vojni art čuvati po vrsti opreme u [game-ready](../assets/images/game-ready/). Izvor, stvarni prompt, poreklo, hashovi i ponovljiva priprema ostaju uz resurs; tok pokušaja i duplirani opisi rada ne pripadaju ovoj dokumentaciji.
@@ -37,7 +37,7 @@ Pravila izrade i veze do izvora. Otvoreni poslovi su u [PLAN-u](PLAN.md#art), pr
 <a id="crveni-krst-priprema-3d-ambijenta"></a>
 ## Crveni krst — priprema 3D ambijenta
 
-Osnova su [istorijsko istraživanje](ISTORIJA.md#crveni-krst-12-februar-1942), [tri pregledane reference](references/ww2-yu/crveni-krst/README.md) i [dogovor da lavirint ostane kroz smislene prolaze i dvorišta](KONTEKST.md#escape-enemy-base). Prvi [originalni paket](../assets/models/building/crveni-krst/README.md) ima sedam GLB modela i deljeni atlas, dostupne [u katalogu](../catalog.html#ambijent-3d/sklop) i povezane [u nivou](../index.html#fps-base). Sačuvani su generisana studija i dva mala offline prikaza stvarne geometrije, uključujući visinu očiju; prikazi nisu screenshot nivoa niti potvrđen tlocrt. Žica i puni zaklon jasno se razlikuju, jer imaju različita pravila za pogled i metke; arhitektura i paleta ostaju zasnovane na ovom logoru.
+Osnova su [istorijsko istraživanje](ISTORIJA.md#crveni-krst-12-februar-1942), [tri pregledane reference](references/ww2-yu/crveni-krst/README.md) i [dogovor da lavirint ostane kroz smislene prolaze i dvorišta](KONTEKST.md#escape-enemy-base). Prvi [originalni paket](../assets/models/building/crveni-krst/README.md) ima sedam GLB modela i deljeni atlas, dostupne [u katalogu](../catalog.html#scenografija-3d/sklop) i povezane [u nivou](../index.html#fps-base). Sačuvani su generisana studija i dva mala offline prikaza stvarne geometrije, uključujući visinu očiju; prikazi nisu screenshot nivoa niti potvrđen tlocrt. Žica i puni zaklon jasno se razlikuju, jer imaju različita pravila za pogled i metke; arhitektura i paleta ostaju zasnovane na ovom logoru.
 
 | Predmet pripreme | Specifikacija za narednu izradu |
 |---|---|
@@ -70,15 +70,15 @@ Kadar, trajanje, sidrište, tačke događaja i putanje završnih slika čitaju s
 
 | Resurs | Metapodaci / izvor |
 |---|---|
-| Kluz: pešadija i vozila | [sprites](../assets/images/armies/sources/franjo-kluz/sprites.json) |
-| Ustanak: strelac, zastavnici i posade | [sprites](../assets/images/armies/sources/ustanak/sprites.json), [hod i pad strelca](../assets/images/armies/sources/partisan-rifleman/sprites.json), [pad posada](../assets/images/armies/sources/cannon-crew-fall/sprites.json) |
-| Bombaš | [mirovanje, hod i pad](../assets/images/armies/sources/infantry-art/sprites.json), [bacanje](../assets/images/armies/sources/grenadier-throw/sprites.json); priprema: [osnovni atlas](../assets/images/armies/sources/infantry-art/prepare.py) i [bacanje udesno](../assets/images/armies/sources/grenadier-throw/prepare-right.py) |
-| Okupator | [sprites](../assets/images/armies/sources/infantry-art/occupier-sprites.json) |
-| Frontalni kandidati sa animacijama | [animacije](../assets/images/armies/sources/enemy-front-variants/animation-sprites.json), [priprema](../assets/images/armies/sources/enemy-front-variants/prepare-animations.py), izvori [strelca](../assets/images/armies/sources/enemy-front-variants/rifleman-redraw-generation.json) i [stražara](../assets/images/armies/sources/enemy-front-variants/winter-sentry-animation-generation.json); zasebne priče [strelca](../catalog.html#vojnici/otpisani-strelac) i [stražara](../catalog.html#vojnici/otpisani-strazar). Privremeno u Otpisanima: crtani su kao strip i odskaču od realističnog piksel arta, pa ih zameniti kad stigne bolji crtež. |
-| Nemac i Četnik spreda | [cele figure](../assets/images/armies/sources/infantry-art/front-standing/sprites.json) |
-| Mitraljezac iz Bunkera | [sprites](../assets/images/armies/sources/bunker-gunner/sprites.json) |
-| Posade Flaka i PaK-a | [sprites](../assets/images/armies/sources/infantry-art/crew-sprites.json) |
-| Punjenje nemačkog strelca | [sprites](../assets/images/armies/sources/rifleman-reload/sprites.json); klip prati spremnik nacrtanog oružja i nije zamena za punjenje drugih pušaka |
+| Kluz: pešadija i vozila | [sprites](../assets/images/sources/franjo-kluz/sprites.json) |
+| Ustanak: strelac, zastavnici i posade | [sprites](../assets/images/sources/ustanak/sprites.json), [hod i pad strelca](../assets/images/sources/partisan-rifleman/sprites.json), [pad posada](../assets/images/sources/cannon-crew-fall/sprites.json) |
+| Bombaš | [mirovanje, hod i pad](../assets/images/sources/infantry-art/sprites.json), [bacanje](../assets/images/sources/grenadier-throw/sprites.json); priprema: [osnovni atlas](../assets/images/sources/infantry-art/prepare.py) i [bacanje udesno](../assets/images/sources/grenadier-throw/prepare-right.py) |
+| Okupator | [sprites](../assets/images/sources/infantry-art/occupier-sprites.json) |
+| Frontalni kandidati sa animacijama | [animacije](../assets/images/sources/enemy-front-variants/animation-sprites.json), [priprema](../assets/images/sources/enemy-front-variants/prepare-animations.py), izvori [strelca](../assets/images/sources/enemy-front-variants/rifleman-redraw-generation.json) i [stražara](../assets/images/sources/enemy-front-variants/winter-sentry-animation-generation.json); zasebne priče [strelca](../catalog.html#vojnici/otpisani-strelac) i [stražara](../catalog.html#vojnici/otpisani-strazar). Privremeno u Otpisanima: crtani su kao strip i odskaču od realističnog piksel arta, pa ih zameniti kad stigne bolji crtež. |
+| Nemac i Četnik spreda | [cele figure](../assets/images/sources/infantry-art/front-standing/sprites.json) |
+| Mitraljezac iz Bunkera | [sprites](../assets/images/sources/bunker-gunner/sprites.json) |
+| Posade Flaka i PaK-a | [sprites](../assets/images/sources/infantry-art/crew-sprites.json) |
+| Punjenje nemačkog strelca | [sprites](../assets/images/sources/rifleman-reload/sprites.json); klip prati spremnik nacrtanog oružja i nije zamena za punjenje drugih pušaka |
 
 Šinjel je isključivo zimska uniforma; [metapodaci kandidata](../core/gameplay/frontEnemyKinds.js) ograničavaju stražara na zimu.
 
@@ -90,45 +90,45 @@ Neretva i Otpisani imaju istu perspektivu spreda i dele pešadiju spreda (odluka
 
 | Resurs | Metapodaci / izvor |
 |---|---|
-| Glavni tenkovi i Somua | [sprites](../assets/images/armies/sources/tenkovi/sprites.json), [priprema slojeva](../scripts/prepare-vehicle-art.py) |
-| M15/42, StuG III i Hočkis | [sprites](../assets/images/armies/sources/battlefield-tanks/sprites.json) |
-| Hummel: novi trup, posada i napad | [mirovanje i vožnja](../assets/images/armies/sources/franjo-kluz/sprites.json), [izvor i prompt](../assets/images/armies/sources/franjo-kluz/hummel-redraw-generation.json), [napad](../assets/images/armies/sources/hummel-fire/sprites.json); postojeća priprema čuva oslonac i vezu cevi sa projektilom |
-| Motociklista sa prikolicom | [atlas i odvojeni mitraljez](../assets/images/armies/sources/plan-ideas-art/sprites.json), [izvor i prompt](../assets/images/armies/sources/plan-ideas-art/generation.json), [ponovljiva priprema](../assets/images/armies/sources/plan-ideas-art/prepare.py) |
-| Sd.Kfz. 251 i Sd.Kfz. 222 | [atlasi, posada, kupola i olupine](../assets/images/armies/sources/plan-ideas-art/sprites.json), [poreklo i promptovi](../assets/images/armies/sources/plan-ideas-art/generation.json); priprema čuva registrovane delove i sidrišta, a olupina drži jedan kadar |
-| Sedam vozila za Do Trsta | [atlasi i mere](../assets/images/armies/sources/road-vehicles/sprites.json), [izvori i promptovi](../assets/images/armies/sources/road-vehicles/generation.json), [priprema](../assets/images/armies/sources/road-vehicles/prepare.py); Zündapp K600, BMW R12, Sd.Kfz. 231, Pz.Kpfw. 612, Horch 830 BL, Marder II i Elefant dele telo i prikaz u katalogu i nivou. Motori i automobil nemaju montirano oružje. |
-| BP-42 napad | [sprites](../assets/images/armies/sources/bp42-fire/sprites.json) |
-| Poljski top Ustanka | [sklop](../assets/images/armies/sources/field-gun/layout.json), [priprema](../assets/images/armies/sources/field-gun/prepare.py), [olupina](../assets/images/armies/sources/field-gun/wreck-sprites.json) |
-| Olupine | [sprites](../assets/images/armies/sources/wrecks/sprites.json) |
+| Glavni tenkovi i Somua | [sprites](../assets/images/sources/tenkovi/sprites.json), [priprema slojeva](../scripts/prepare-vehicle-art.py) |
+| M15/42, StuG III i Hočkis | [sprites](../assets/images/sources/battlefield-tanks/sprites.json) |
+| Hummel: novi trup, posada i napad | [mirovanje i vožnja](../assets/images/sources/franjo-kluz/sprites.json), [izvor i prompt](../assets/images/sources/franjo-kluz/hummel-redraw-generation.json), [napad](../assets/images/sources/hummel-fire/sprites.json); postojeća priprema čuva oslonac i vezu cevi sa projektilom |
+| Motociklista sa prikolicom | [atlas i odvojeni mitraljez](../assets/images/sources/plan-ideas-art/sprites.json), [izvor i prompt](../assets/images/sources/plan-ideas-art/generation.json), [ponovljiva priprema](../assets/images/sources/plan-ideas-art/prepare.py) |
+| Sd.Kfz. 251 i Sd.Kfz. 222 | [atlasi, posada, kupola i olupine](../assets/images/sources/plan-ideas-art/sprites.json), [poreklo i promptovi](../assets/images/sources/plan-ideas-art/generation.json); priprema čuva registrovane delove i sidrišta, a olupina drži jedan kadar |
+| Sedam vozila za Do Trsta | [atlasi i mere](../assets/images/sources/road-vehicles/sprites.json), [izvori i promptovi](../assets/images/sources/road-vehicles/generation.json), [priprema](../assets/images/sources/road-vehicles/prepare.py); Zündapp K600, BMW R12, Sd.Kfz. 231, Pz.Kpfw. 612, Horch 830 BL, Marder II i Elefant dele telo i prikaz u katalogu i nivou. Motori i automobil nemaju montirano oružje. |
+| BP-42 napad | [sprites](../assets/images/sources/bp42-fire/sprites.json) |
+| Poljski top Ustanka | [sklop](../assets/images/sources/field-gun/layout.json), [priprema](../assets/images/sources/field-gun/prepare.py), [olupina](../assets/images/sources/field-gun/wreck-sprites.json) |
+| Olupine | [sprites](../assets/images/sources/wrecks/sprites.json) |
 | Odvojene cevi glavnih tenkova | [partizanska](../assets/images/game-ready/tenkovi/partizanski-tenk-cev-pixel.png), [nemačka](../assets/images/game-ready/tenkovi/nemacki-tenk-cev-pixel.png), [Somua](../assets/images/game-ready/tenkovi/somua-s35-barrel.png) |
 | Delovi oruđa | [poljski top: cev](../assets/images/game-ready/artiljerija/field-gun-barrel-pixel.png) i [lafet](../assets/images/game-ready/artiljerija/field-gun-carriage-pixel.png); [Flak: postolje](../assets/images/game-ready/artiljerija/flak38-postolje.png) i [cev](../assets/images/game-ready/artiljerija/flak38-cev.png); [PaK: postolje](../assets/images/game-ready/artiljerija/pak38-postolje.png) i [cev](../assets/images/game-ready/artiljerija/pak38-cev.png) |
 | Utvrđeni položaji | [kuća-bunker](../assets/images/buildings/kuca-bunker.png), [bunker](../assets/images/buildings/bunker-02.png), [obalni položaj](../assets/images/game-ready/polozaji/mitraljesko-gnezdo-odozgo.png), [mitraljez](../assets/images/game-ready/polozaji/shore-mg-gun.png), [posada](../assets/images/game-ready/polozaji/shore-mg-crew.png) |
 | Bunker: sačuvana studija bolnice, nije povezana sa igrom | [slika](../assets/images/buildings/bunker-house.png), [sprites](../assets/images/sources/bunker/sprites.json), [poreklo i prompt](../assets/images/sources/bunker/generation.json), [priprema](../assets/images/sources/bunker/prepare.py) |
-| Osnovni brodovi | [partizanski čamac](../assets/images/armies/camac.png), [S-30: trup](../assets/images/game-ready/brodovi/schnellboot-s30.png), [palubno oruđe](../assets/images/game-ready/brodovi/s30-deck-gun.png), [priprema](../assets/images/armies/sources/plan-ideas-art/prepare-s30.py) |
+| Osnovni brodovi | [partizanski čamac](../assets/images/armies/camac.png), [S-30: trup](../assets/images/game-ready/brodovi/schnellboot-s30.png), [palubno oruđe](../assets/images/game-ready/brodovi/s30-deck-gun.png), [priprema](../assets/images/sources/plan-ideas-art/prepare-s30.py) |
 
 Poljski top Ustanka je zajednički prihvaćen crtež za obe posade. Sličnost sa [Schneiderom 155 L iz 1918.](https://en.wikipedia.org/wiki/Canon_de_155_L_mod%C3%A8le_1918_Schneider) je procena vlasnika i agenta, bez potvrde tipa ili istorijske upotrebe u tom nivou; pri novom artu ne predstavljati ga kao potvrđen laki top od 75 mm.
 
-Registraciju betonskog bunkera vodi [priprema utvrđenja](../assets/images/armies/sources/plan-ideas-art/prepare-fortifications.py), a Somuine cevi [odvojena priprema](../assets/images/armies/sources/plan-ideas-art/prepare-somua-barrel.py), koja proverava da trupovi ostanu netaknuti.
+Registraciju betonskog bunkera vodi [priprema utvrđenja](../assets/images/sources/plan-ideas-art/prepare-fortifications.py), a Somuine cevi [odvojena priprema](../assets/images/sources/plan-ideas-art/prepare-somua-barrel.py), koja proverava da trupovi ostanu netaknuti.
 
-[Priprema obalskog gnezda](../assets/images/armies/sources/plan-ideas-art/prepare-shore.py) čuva zajedničku registraciju zdravog i oštećenog zaklona, a mitraljez i sopstvenu posadu izvozi odvojeno.
+[Priprema obalskog gnezda](../assets/images/sources/plan-ideas-art/prepare-shore.py) čuva zajedničku registraciju zdravog i oštećenog zaklona, a mitraljez i sopstvenu posadu izvozi odvojeno.
 
 ### Avioni
 
 
 | Resurs | Metapodaci / izvor |
 |---|---|
-| Potez: trupovi, posada i delovi | [sprites](../assets/images/armies/sources/franjo-kluz/potez-crew/sprites.json), [sklop](../assets/images/armies/sources/franjo-kluz/potez-crew/crew.json) |
-| Propeleri | [sprites i osovine](../assets/images/armies/sources/aircraft-propellers/sprites.json) |
-| Bočni avioni | [Bf 109: trup](../assets/images/game-ready/avioni/bf109-telo.png), [oštećenje](../assets/images/game-ready/avioni/bf109-damaged.png), [priprema](../assets/images/armies/sources/plan-ideas-art/prepare-bf109.py) i [propeler](../assets/images/game-ready/avioni/bf109-propeler.png); [Ju 87: trup](../assets/images/game-ready/avioni/ju87.png), [oštećenje](../assets/images/game-ready/avioni/ju87-damaged.png) i [priprema](../assets/images/armies/sources/plan-ideas-art/prepare-ju87.py) |
-| Avioni Visa i Il-2 iz kataloga | [13 slika i osovine propelera](../assets/images/armies/sources/aircraft-scale/sprites.json), [izvori i poreklo](../assets/images/armies/sources/aircraft-scale/generation.json), [priprema](../assets/images/armies/sources/aircraft-scale/prepare.py), [mere modela](../core/actor/aircraft/fighterBomberPlanes.js); varijanta žutog nosa koristi veliki Bf 109 sa lokalnom promenom palete. Il-2 ostaje samo u katalogu. |
+| Potez: trupovi, posada i delovi | [sprites](../assets/images/sources/franjo-kluz/potez-crew/sprites.json), [sklop](../assets/images/sources/franjo-kluz/potez-crew/crew.json) |
+| Propeleri | [sprites i osovine](../assets/images/sources/aircraft-propellers/sprites.json) |
+| Bočni avioni | [Bf 109: trup](../assets/images/game-ready/avioni/bf109-telo.png), [oštećenje](../assets/images/game-ready/avioni/bf109-damaged.png), [priprema](../assets/images/sources/plan-ideas-art/prepare-bf109.py) i [propeler](../assets/images/game-ready/avioni/bf109-propeler.png); [Ju 87: trup](../assets/images/game-ready/avioni/ju87.png), [oštećenje](../assets/images/game-ready/avioni/ju87-damaged.png) i [priprema](../assets/images/sources/plan-ideas-art/prepare-ju87.py) |
+| Avioni Visa i Il-2 iz kataloga | [13 slika i osovine propelera](../assets/images/sources/aircraft-scale/sprites.json), [izvori i poreklo](../assets/images/sources/aircraft-scale/generation.json), [priprema](../assets/images/sources/aircraft-scale/prepare.py), [mere modela](../core/actor/aircraft/fighterBomberPlanes.js); varijanta žutog nosa koristi veliki Bf 109 sa lokalnom promenom palete. Il-2 ostaje samo u katalogu. |
 
 Pripremljeni Sd.Kfz. 251, He 111, Storch, M15/42, StuG III, Hotchkiss i plovila imaju osnovu od 40 px/m; cele figure Nemca i Četnika spreda imaju vidljivu visinu 180 px pri 100 px/m. Veći dostupni izvori ponovo se pripremaju bez uvećavanja sitnog rastera. Prikaz patrolnog plovila čita `pixelsPerMetre` iz njegovih metapodataka; fiksnih 25 px/m posle promene izvora pogrešno bi uvećalo brod. Pri promeni atlasa obnoviti i geometriju priključaka, izlazne slike i manje kopije za učitavanje.
 
 <a id="dopune-iz-plana-ideja--predaja-arta"></a>
 ### Zajedničke dopune aktera
 
-[Manifest](../assets/images/armies/sources/plan-ideas-art/sprites.json) povezuje nove aktere, reakcije na pogodak i oštećenja. [Priprema](../assets/images/armies/sources/plan-ideas-art/prepare.py), [izvoz u kod](../assets/images/armies/sources/plan-ideas-art/export-runtime.py) i [poreklo](../assets/images/armies/sources/plan-ideas-art/generation.json) su uz resurse. Odbijanje generisanja nije ocena postojećeg arta; nedostajuće resurse i ograničenja vodi [plan](PLAN.md#art).
+[Manifest](../assets/images/sources/plan-ideas-art/sprites.json) povezuje nove aktere, reakcije na pogodak i oštećenja. [Priprema](../assets/images/sources/plan-ideas-art/prepare.py), [izvoz u kod](../assets/images/sources/plan-ideas-art/export-runtime.py) i [poreklo](../assets/images/sources/plan-ideas-art/generation.json) su uz resurse. Odbijanje generisanja nije ocena postojećeg arta; nedostajuće resurse i ograničenja vodi [plan](PLAN.md#art).
 
-[Dodatna plovila](../assets/images/armies/sources/camac-enemies/sprites.json) imaju zasebne opise. Generički nacrtan brod ili projektna mera nisu potvrda istorijske klase i njenog prisustva u konkretnoj bici.
+[Dodatna plovila](../assets/images/sources/camac-enemies/sprites.json) imaju zasebne opise. Generički nacrtan brod ili projektna mera nisu potvrda istorijske klase i njenog prisustva u konkretnoj bici.
 
 ### 3D
 
@@ -184,7 +184,7 @@ Za Batinu je izabrana slojevita osnova sa pokretnim oblacima; ljudi, civili i pl
 
 Olupine, poginuli i krv su opcioni odvojeni resursi, bez sudara i borbene logike. Poginuli namerno ostaju nepomični; krv se crta ispod tela, a zaklanjanje prati položaj u prizoru. Uniforma, pogled i oprema moraju odgovarati bojištu.
 
-[Katalog](../assets/images/armies/sources/scenery/catalog.json) čuva putanje, sidrišta i mere, [sprites](../assets/images/armies/sources/scenery/sprites.json) podatke novih resursa. Agent bira i ugrađuje raspored prema sceni, uz očuvanje čitljivosti borbe; alat za postavljanje nije obaveza vlasnika.
+[Katalog](../assets/images/sources/scenery/catalog.json) čuva putanje, sidrišta i mere, [sprites](../assets/images/sources/scenery/sprites.json) podatke novih resursa. Agent bira i ugrađuje raspored prema sceni, uz očuvanje čitljivosti borbe; alat za postavljanje nije obaveza vlasnika.
 
 ### Rasporedi u igri
 

@@ -4,6 +4,7 @@ import { createFloor } from '/core3d/ground.js'
 import { ambLight, dirLight } from '/core3d/light.js'
 import { createOrbitControls } from '/core3d/helpers.js'
 import optimizeGeometry from '/core3d/assets/optimizeGeometry.js'
+import stageColors from './stageColors.js'
 
 /** How far the floor reaches each way from the middle, in metres. */
 const floorSize = 50
@@ -43,7 +44,7 @@ export default class Stage3D extends Scene3D {
     // the sun gives the shape and the shadow, the even light the side away from it
     ambLight({ scene: this.scene, intensity: Math.PI * .6 })
     dirLight({ scene: this.scene })
-    this.addMesh(createFloor({ size: floorSize * 2 }))
+    this.addMesh(createFloor({ size: floorSize * 2, color: stageColors.ground }))
     this.camera.position.set(0, 3, 6)
     this.controls = await createOrbitControls(this.camera, this.renderer.domElement)
     this.controls.target.set(0, 1, 0)

@@ -201,12 +201,6 @@ export class Flame extends Particles {
   }
 }
 
-export class RedFlame extends Flame {
-  constructor(params = {}) {
-    super(({ file: 'fire.png', size: 10, num: 150, minRadius: 0, maxRadius: .5, blending: THREE.NormalBlending, ...params }))
-  }
-}
-
 export class FlameUp extends Flame {
   constructor({ minVelocity = 1, maxVelocity = 3, min = -1.5, max = 0, ...params } = {}) {
     super({ minVelocity, maxVelocity, min, max, ...params })

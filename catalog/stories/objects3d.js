@@ -4,11 +4,7 @@ import { Mesh, MeshBasicMaterial, SphereGeometry } from 'three'
 import Body from '/core/gameplay/bodies/Body.js'
 import * as biplaneModule from '/core3d/aircraft/derived/Biplane.js'
 import * as bomberModule from '/core3d/aircraft/derived/Bomber.js'
-import * as f18Module from '/core3d/aircraft/derived/F18.js'
 import * as messerschmittModule from '/core3d/aircraft/derived/Messerschmitt.js'
-import * as triplaneModule from '/core3d/aircraft/derived/Triplane.js'
-import * as dirigibleModule from '/core3d/aircraft/derived/Dirigible.js'
-import * as airshipModule from '/core/gameplay/bodies/aircraft/Airship.js'
 import * as towerModule from '/core/gameplay/bodies/buildings/Tower.js'
 import * as warplaneModule from '/core/gameplay/bodies/aircraft/Warplane.js'
 import { requestModels, loadedModel } from '/core3d/assets/models.js'
@@ -107,27 +103,17 @@ const offerTarget = (tower, stage) => {
   stage.add(marker)
 }
 
-/** The looks of a warplane; the biplane, triplane and F-18 left Warplane, which is set in 1944. */
+/** The looks of a warplane; the biplane left Warplane, which is set in 1944. */
 const planes = [
-  ['dvokrilac', 'Dvokrilac', biplaneModule, 'Zajednička biblioteka'], ['trokrilac', 'Trokrilac', triplaneModule, 'Zajednička biblioteka'],
-  ['mesersmit', 'Mesersmit', messerschmittModule], ['bombarder', 'Bombarder', bomberModule], ['f18', 'F-18', f18Module, 'Zajednička biblioteka'],
+  ['dvokrilac', 'Dvokrilac', biplaneModule, 'Zajednička biblioteka'],
+  ['mesersmit', 'Mesersmit', messerschmittModule], ['bombarder', 'Bombarder', bomberModule],
 ].map(([id, name, value, game]) => ({ id, name, value, game }))
 
 export const aircraft = [
   { id: 'ratni-avion-3d', name: 'Ratni avion', game: 'Warplane', block: warplaneModule, stage: Stage3D, looks: planes, create: warplane,
-    modelIds: { dvokrilac: 'dvokrilac-3d', trokrilac: 'trokrilac-3d', mesersmit: 'mesersmit-3d', bombarder: 'bombarder-3d', f18: 'f18-3d' },
+    modelIds: { dvokrilac: 'dvokrilac-3d', mesersmit: 'mesersmit-3d', bombarder: 'bombarder-3d' },
     commands: [{ label: 'Pomeri udesno', run: plane => plane.steer({ across: 1 }) },
       { label: 'Ispali raketu', run: plane => plane.fire() }, { label: 'Sleti', run: plane => plane.land() }] },
-  { id: 'dirizabl-3d', name: 'Dirižabl', game: 'Zeppelin', block: airshipModule, stage: Stage3D,
-    // the airship flies on alone, rising to its clearance above the floor
-    create: async stage => {
-      await requestModels(dirigibleModule.models, { parallelAnimations: true })
-      const { body, model } = dirigibleModule.default()
-      body.y = body.size.height / 2 + 3
-      model.place()
-      stage.add(body, model)
-      return body
-    } },
 ].flatMap(story => story.looks ? separateModels(story) : [story])
 
 export const artillery = [
@@ -146,5 +132,6 @@ export const artillery = [
 
 export const towers = [
   { id: 'kula-3d', name: 'Kula sa topom', game: 'Warplane, FPS Airport', block: towerModule, stage: Stage3D, create: gunTower,
+    catalogGroup: ['Scenografija', 'Zgrade'],
     commands: [{ label: 'Postavi metu', run: offerTarget }] },
 ]

@@ -1,0 +1,2600 @@
+{
+  "tool": "built-in image_gen",
+  "assets": [
+    {
+      "id": "zundapp-k600",
+      "title": "Zündapp K600",
+      "source": "zundapp-k600-generated.png",
+      "sourceSha256": "09f6d99c8cdcaf7be593f7e63b05576920979e6a0dca365960aa84e5d732ccdc",
+      "generation": "generation.json",
+      "image": "../../game-ready/vozila/zundapp-k600-sprites.png",
+      "sha256": "46378bc2526d9fe017a7e75f3a86920ec61a7a8a7c53296cca500f9a8f7d5734",
+      "frame": {
+        "width": 136,
+        "height": 82,
+        "columns": 4,
+        "rows": 5
+      },
+      "anchor": {
+        "x": 68.0,
+        "y": 78
+      },
+      "animations": [
+        {
+          "name": "idle",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 1.6,
+          "loop": true
+        },
+        {
+          "name": "drive",
+          "row": 1,
+          "frameCount": 4,
+          "duration": 0.64,
+          "loop": true
+        },
+        {
+          "name": "attack",
+          "row": 2,
+          "frameCount": 4,
+          "duration": 0.4,
+          "loop": false
+        },
+        {
+          "name": "damaged",
+          "row": 3,
+          "frameCount": 4,
+          "duration": 0.64,
+          "loop": true
+        },
+        {
+          "name": "dead",
+          "row": 4,
+          "frameCount": 4,
+          "duration": 0.8,
+          "loop": false
+        }
+      ],
+      "pixelsPerMetre": 40,
+      "scale": 0.3805309734513274,
+      "cells": [
+        {
+          "sourceBounds": [
+            80,
+            11,
+            306,
+            196
+          ],
+          "offset": [
+            25,
+            8
+          ]
+        },
+        {
+          "sourceBounds": [
+            81,
+            11,
+            306,
+            196
+          ],
+          "offset": [
+            25,
+            8
+          ]
+        },
+        {
+          "sourceBounds": [
+            81,
+            11,
+            306,
+            196
+          ],
+          "offset": [
+            25,
+            8
+          ]
+        },
+        {
+          "sourceBounds": [
+            81,
+            11,
+            306,
+            196
+          ],
+          "offset": [
+            25,
+            8
+          ]
+        },
+        {
+          "sourceBounds": [
+            81,
+            11,
+            307,
+            193
+          ],
+          "offset": [
+            25,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            82,
+            15,
+            307,
+            193
+          ],
+          "offset": [
+            25,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            82,
+            10,
+            308,
+            191
+          ],
+          "offset": [
+            25,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            83,
+            14,
+            308,
+            193
+          ],
+          "offset": [
+            25,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            81,
+            11,
+            306,
+            190
+          ],
+          "offset": [
+            25,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            83,
+            11,
+            307,
+            192
+          ],
+          "offset": [
+            25,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            81,
+            10,
+            306,
+            189
+          ],
+          "offset": [
+            25,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            81,
+            11,
+            306,
+            190
+          ],
+          "offset": [
+            25,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            81,
+            12,
+            306,
+            193
+          ],
+          "offset": [
+            25,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            82,
+            12,
+            306,
+            193
+          ],
+          "offset": [
+            25,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            82,
+            13,
+            306,
+            193
+          ],
+          "offset": [
+            25,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            82,
+            12,
+            306,
+            193
+          ],
+          "offset": [
+            25,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            83,
+            23,
+            307,
+            193
+          ],
+          "offset": [
+            25,
+            13
+          ]
+        },
+        {
+          "sourceBounds": [
+            23,
+            78,
+            349,
+            193
+          ],
+          "offset": [
+            6,
+            34
+          ]
+        },
+        {
+          "sourceBounds": [
+            80,
+            78,
+            309,
+            180
+          ],
+          "offset": [
+            24,
+            39
+          ]
+        },
+        {
+          "sourceBounds": [
+            80,
+            78,
+            310,
+            180
+          ],
+          "offset": [
+            24,
+            39
+          ]
+        }
+      ],
+      "art": {
+        "src": "game-ready/vozila/zundapp-k600-sprites.png",
+        "width": 136,
+        "height": 82,
+        "bounds": [
+          25,
+          8,
+          111,
+          78
+        ],
+        "anchor": {
+          "x": 68.0,
+          "y": 78
+        },
+        "facing": 1,
+        "clips": {
+          "idle": {
+            "row": 0,
+            "ms": [
+              400,
+              400,
+              400,
+              400
+            ],
+            "loop": true
+          },
+          "drive": {
+            "row": 1,
+            "ms": [
+              160,
+              160,
+              160,
+              160
+            ],
+            "loop": true
+          },
+          "attack": {
+            "row": 2,
+            "ms": [
+              100,
+              100,
+              100,
+              100
+            ],
+            "loop": false
+          },
+          "damaged": {
+            "row": 3,
+            "ms": [
+              160,
+              160,
+              160,
+              160
+            ],
+            "loop": true
+          },
+          "dead": {
+            "row": 4,
+            "ms": [
+              200,
+              200,
+              200,
+              200
+            ],
+            "loop": false
+          }
+        },
+        "muzzlePoint": null
+      }
+    },
+    {
+      "id": "bmw-r12",
+      "title": "BMW R12 sa prikolicom",
+      "source": "bmw-r12-generated.png",
+      "sourceSha256": "95bec1dd59dc190facf98a36f1ac74d65e416f77bda409d37a04473dc71fe3d7",
+      "generation": "generation.json",
+      "image": "../../game-ready/vozila/bmw-r12-sprites.png",
+      "sha256": "6550391f4939dca4021dbdf34bef4ef52acf193f7c95c48494d0783545b49616",
+      "frame": {
+        "width": 97,
+        "height": 79,
+        "columns": 4,
+        "rows": 5
+      },
+      "anchor": {
+        "x": 48.5,
+        "y": 75
+      },
+      "animations": [
+        {
+          "name": "idle",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 1.6,
+          "loop": true
+        },
+        {
+          "name": "drive",
+          "row": 1,
+          "frameCount": 4,
+          "duration": 0.64,
+          "loop": true
+        },
+        {
+          "name": "attack",
+          "row": 2,
+          "frameCount": 4,
+          "duration": 0.4,
+          "loop": false
+        },
+        {
+          "name": "damaged",
+          "row": 3,
+          "frameCount": 4,
+          "duration": 0.64,
+          "loop": true
+        },
+        {
+          "name": "dead",
+          "row": 4,
+          "frameCount": 4,
+          "duration": 0.8,
+          "loop": false
+        }
+      ],
+      "pixelsPerMetre": 40,
+      "scale": 0.3620689655172414,
+      "cells": [
+        {
+          "sourceBounds": [
+            75,
+            13,
+            307,
+            194
+          ],
+          "offset": [
+            6,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            75,
+            13,
+            307,
+            194
+          ],
+          "offset": [
+            6,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            75,
+            13,
+            307,
+            194
+          ],
+          "offset": [
+            6,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            75,
+            13,
+            307,
+            194
+          ],
+          "offset": [
+            6,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            74,
+            10,
+            309,
+            192
+          ],
+          "offset": [
+            6,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            75,
+            11,
+            308,
+            194
+          ],
+          "offset": [
+            6,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            75,
+            12,
+            308,
+            197
+          ],
+          "offset": [
+            6,
+            8
+          ]
+        },
+        {
+          "sourceBounds": [
+            74,
+            11,
+            309,
+            192
+          ],
+          "offset": [
+            6,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            75,
+            9,
+            309,
+            189
+          ],
+          "offset": [
+            6,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            75,
+            11,
+            309,
+            191
+          ],
+          "offset": [
+            6,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            75,
+            10,
+            309,
+            189
+          ],
+          "offset": [
+            6,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            75,
+            10,
+            309,
+            189
+          ],
+          "offset": [
+            6,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            74,
+            7,
+            307,
+            190
+          ],
+          "offset": [
+            6,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            75,
+            7,
+            307,
+            189
+          ],
+          "offset": [
+            6,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            74,
+            7,
+            307,
+            189
+          ],
+          "offset": [
+            6,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            74,
+            7,
+            307,
+            189
+          ],
+          "offset": [
+            6,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            74,
+            13,
+            307,
+            188
+          ],
+          "offset": [
+            6,
+            12
+          ]
+        },
+        {
+          "sourceBounds": [
+            75,
+            57,
+            308,
+            188
+          ],
+          "offset": [
+            6,
+            28
+          ]
+        },
+        {
+          "sourceBounds": [
+            74,
+            57,
+            308,
+            188
+          ],
+          "offset": [
+            6,
+            28
+          ]
+        },
+        {
+          "sourceBounds": [
+            74,
+            57,
+            308,
+            188
+          ],
+          "offset": [
+            6,
+            28
+          ]
+        }
+      ],
+      "art": {
+        "src": "game-ready/vozila/bmw-r12-sprites.png",
+        "width": 97,
+        "height": 79,
+        "bounds": [
+          6,
+          9,
+          90,
+          75
+        ],
+        "anchor": {
+          "x": 48.5,
+          "y": 75
+        },
+        "facing": 1,
+        "clips": {
+          "idle": {
+            "row": 0,
+            "ms": [
+              400,
+              400,
+              400,
+              400
+            ],
+            "loop": true
+          },
+          "drive": {
+            "row": 1,
+            "ms": [
+              160,
+              160,
+              160,
+              160
+            ],
+            "loop": true
+          },
+          "attack": {
+            "row": 2,
+            "ms": [
+              100,
+              100,
+              100,
+              100
+            ],
+            "loop": false
+          },
+          "damaged": {
+            "row": 3,
+            "ms": [
+              160,
+              160,
+              160,
+              160
+            ],
+            "loop": true
+          },
+          "dead": {
+            "row": 4,
+            "ms": [
+              200,
+              200,
+              200,
+              200
+            ],
+            "loop": false
+          }
+        },
+        "muzzlePoint": null
+      }
+    },
+    {
+      "id": "sdkfz-231",
+      "title": "Sd.Kfz. 231",
+      "source": "sdkfz-231-generated.png",
+      "sourceSha256": "2c525fb6a3111bb26d573ef935cecb24ed787cc2be9205251bfd8a6e949ed760",
+      "generation": "generation.json",
+      "image": "../../game-ready/vozila/sdkfz-231-sprites.png",
+      "sha256": "c55fa30c68e082a2e0778641a72f7566bb6fdcc545c9a323f5fd496bb856d40d",
+      "frame": {
+        "width": 247,
+        "height": 123,
+        "columns": 4,
+        "rows": 5
+      },
+      "anchor": {
+        "x": 123.5,
+        "y": 119
+      },
+      "animations": [
+        {
+          "name": "idle",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 1.6,
+          "loop": true
+        },
+        {
+          "name": "drive",
+          "row": 1,
+          "frameCount": 4,
+          "duration": 0.64,
+          "loop": true
+        },
+        {
+          "name": "attack",
+          "row": 2,
+          "frameCount": 4,
+          "duration": 0.4,
+          "loop": false
+        },
+        {
+          "name": "damaged",
+          "row": 3,
+          "frameCount": 4,
+          "duration": 0.64,
+          "loop": true
+        },
+        {
+          "name": "dead",
+          "row": 4,
+          "frameCount": 4,
+          "duration": 0.8,
+          "loop": false
+        }
+      ],
+      "pixelsPerMetre": 40,
+      "scale": 0.6782608695652174,
+      "cells": [
+        {
+          "sourceBounds": [
+            19,
+            23,
+            364,
+            186
+          ],
+          "offset": [
+            6,
+            8
+          ]
+        },
+        {
+          "sourceBounds": [
+            20,
+            23,
+            364,
+            186
+          ],
+          "offset": [
+            7,
+            8
+          ]
+        },
+        {
+          "sourceBounds": [
+            20,
+            23,
+            364,
+            186
+          ],
+          "offset": [
+            7,
+            8
+          ]
+        },
+        {
+          "sourceBounds": [
+            20,
+            23,
+            364,
+            186
+          ],
+          "offset": [
+            7,
+            8
+          ]
+        },
+        {
+          "sourceBounds": [
+            20,
+            17,
+            365,
+            179
+          ],
+          "offset": [
+            6,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            21,
+            23,
+            365,
+            179
+          ],
+          "offset": [
+            7,
+            13
+          ]
+        },
+        {
+          "sourceBounds": [
+            20,
+            29,
+            366,
+            179
+          ],
+          "offset": [
+            6,
+            17
+          ]
+        },
+        {
+          "sourceBounds": [
+            20,
+            20,
+            365,
+            178
+          ],
+          "offset": [
+            6,
+            12
+          ]
+        },
+        {
+          "sourceBounds": [
+            20,
+            22,
+            364,
+            183
+          ],
+          "offset": [
+            7,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            21,
+            22,
+            364,
+            183
+          ],
+          "offset": [
+            7,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            20,
+            22,
+            364,
+            183
+          ],
+          "offset": [
+            7,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            21,
+            22,
+            364,
+            183
+          ],
+          "offset": [
+            7,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            20,
+            21,
+            364,
+            181
+          ],
+          "offset": [
+            7,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            20,
+            21,
+            364,
+            180
+          ],
+          "offset": [
+            7,
+            11
+          ]
+        },
+        {
+          "sourceBounds": [
+            20,
+            21,
+            364,
+            180
+          ],
+          "offset": [
+            7,
+            11
+          ]
+        },
+        {
+          "sourceBounds": [
+            20,
+            21,
+            364,
+            180
+          ],
+          "offset": [
+            7,
+            11
+          ]
+        },
+        {
+          "sourceBounds": [
+            20,
+            22,
+            366,
+            183
+          ],
+          "offset": [
+            6,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            21,
+            25,
+            367,
+            183
+          ],
+          "offset": [
+            6,
+            12
+          ]
+        },
+        {
+          "sourceBounds": [
+            21,
+            40,
+            367,
+            182
+          ],
+          "offset": [
+            6,
+            23
+          ]
+        },
+        {
+          "sourceBounds": [
+            22,
+            40,
+            367,
+            182
+          ],
+          "offset": [
+            6,
+            23
+          ]
+        }
+      ],
+      "art": {
+        "src": "game-ready/vozila/sdkfz-231-sprites.png",
+        "width": 247,
+        "height": 123,
+        "bounds": [
+          6,
+          8,
+          240,
+          119
+        ],
+        "anchor": {
+          "x": 123.5,
+          "y": 119
+        },
+        "facing": -1,
+        "clips": {
+          "idle": {
+            "row": 0,
+            "ms": [
+              400,
+              400,
+              400,
+              400
+            ],
+            "loop": true
+          },
+          "drive": {
+            "row": 1,
+            "ms": [
+              160,
+              160,
+              160,
+              160
+            ],
+            "loop": true
+          },
+          "attack": {
+            "row": 2,
+            "ms": [
+              100,
+              100,
+              100,
+              100
+            ],
+            "loop": false
+          },
+          "damaged": {
+            "row": 3,
+            "ms": [
+              160,
+              160,
+              160,
+              160
+            ],
+            "loop": true
+          },
+          "dead": {
+            "row": 4,
+            "ms": [
+              200,
+              200,
+              200,
+              200
+            ],
+            "loop": false
+          }
+        },
+        "muzzlePoint": [
+          36.52173913043478,
+          26.31304347826087
+        ]
+      }
+    },
+    {
+      "id": "pzkpf-612",
+      "title": "Pz.Kpfw. 612 (37 mm)",
+      "source": "pzkpf-612-generated.png",
+      "sourceSha256": "db676208c525647a6572c111c46b6db4bc938e37b6cffd25067a8aa588819f1c",
+      "generation": "generation.json",
+      "image": "../../game-ready/vozila/pzkpf-612-sprites.png",
+      "sha256": "3a0a63e2ffbc00b4933307c9b7b1b27c174e12894d2308327426aa7404d0e43b",
+      "frame": {
+        "width": 246,
+        "height": 121,
+        "columns": 4,
+        "rows": 5
+      },
+      "anchor": {
+        "x": 123.0,
+        "y": 117
+      },
+      "animations": [
+        {
+          "name": "idle",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 1.6,
+          "loop": true
+        },
+        {
+          "name": "drive",
+          "row": 1,
+          "frameCount": 4,
+          "duration": 0.64,
+          "loop": true
+        },
+        {
+          "name": "attack",
+          "row": 2,
+          "frameCount": 4,
+          "duration": 0.4,
+          "loop": false
+        },
+        {
+          "name": "damaged",
+          "row": 3,
+          "frameCount": 4,
+          "duration": 0.64,
+          "loop": true
+        },
+        {
+          "name": "dead",
+          "row": 4,
+          "frameCount": 4,
+          "duration": 0.8,
+          "loop": false
+        }
+      ],
+      "pixelsPerMetre": 40,
+      "scale": 0.6882352941176471,
+      "cells": [
+        {
+          "sourceBounds": [
+            28,
+            30,
+            368,
+            188
+          ],
+          "offset": [
+            6,
+            8
+          ]
+        },
+        {
+          "sourceBounds": [
+            29,
+            30,
+            368,
+            188
+          ],
+          "offset": [
+            6,
+            8
+          ]
+        },
+        {
+          "sourceBounds": [
+            29,
+            30,
+            368,
+            188
+          ],
+          "offset": [
+            6,
+            8
+          ]
+        },
+        {
+          "sourceBounds": [
+            29,
+            30,
+            368,
+            188
+          ],
+          "offset": [
+            6,
+            8
+          ]
+        },
+        {
+          "sourceBounds": [
+            28,
+            22,
+            367,
+            180
+          ],
+          "offset": [
+            6,
+            8
+          ]
+        },
+        {
+          "sourceBounds": [
+            29,
+            25,
+            367,
+            180
+          ],
+          "offset": [
+            6,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            29,
+            25,
+            368,
+            180
+          ],
+          "offset": [
+            6,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            29,
+            23,
+            368,
+            180
+          ],
+          "offset": [
+            6,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            28,
+            20,
+            367,
+            176
+          ],
+          "offset": [
+            6,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            29,
+            20,
+            367,
+            176
+          ],
+          "offset": [
+            6,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            29,
+            20,
+            367,
+            176
+          ],
+          "offset": [
+            6,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            29,
+            20,
+            368,
+            176
+          ],
+          "offset": [
+            6,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            29,
+            21,
+            368,
+            179
+          ],
+          "offset": [
+            6,
+            8
+          ]
+        },
+        {
+          "sourceBounds": [
+            29,
+            21,
+            367,
+            178
+          ],
+          "offset": [
+            6,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            29,
+            21,
+            367,
+            178
+          ],
+          "offset": [
+            6,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            29,
+            21,
+            368,
+            178
+          ],
+          "offset": [
+            6,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            28,
+            17,
+            367,
+            176
+          ],
+          "offset": [
+            6,
+            8
+          ]
+        },
+        {
+          "sourceBounds": [
+            29,
+            22,
+            367,
+            176
+          ],
+          "offset": [
+            6,
+            11
+          ]
+        },
+        {
+          "sourceBounds": [
+            29,
+            39,
+            367,
+            177
+          ],
+          "offset": [
+            6,
+            22
+          ]
+        },
+        {
+          "sourceBounds": [
+            29,
+            39,
+            368,
+            177
+          ],
+          "offset": [
+            6,
+            22
+          ]
+        }
+      ],
+      "art": {
+        "src": "game-ready/vozila/pzkpf-612-sprites.png",
+        "width": 246,
+        "height": 121,
+        "bounds": [
+          6,
+          8,
+          240,
+          117
+        ],
+        "anchor": {
+          "x": 123.0,
+          "y": 117
+        },
+        "facing": -1,
+        "clips": {
+          "idle": {
+            "row": 0,
+            "ms": [
+              400,
+              400,
+              400,
+              400
+            ],
+            "loop": true
+          },
+          "drive": {
+            "row": 1,
+            "ms": [
+              160,
+              160,
+              160,
+              160
+            ],
+            "loop": true
+          },
+          "attack": {
+            "row": 2,
+            "ms": [
+              100,
+              100,
+              100,
+              100
+            ],
+            "loop": false
+          },
+          "damaged": {
+            "row": 3,
+            "ms": [
+              160,
+              160,
+              160,
+              160
+            ],
+            "loop": true
+          },
+          "dead": {
+            "row": 4,
+            "ms": [
+              200,
+              200,
+              200,
+              200
+            ],
+            "loop": false
+          }
+        },
+        "muzzlePoint": [
+          127.81764705882352,
+          21.076470588235296
+        ]
+      }
+    },
+    {
+      "id": "mercedes-830bl",
+      "title": "Horch 830 BL",
+      "source": "mercedes-830bl-generated.png",
+      "sourceSha256": "ca33f22e17196372986f55d29b84ac2fe4e52f794d4f2052d2b1e93d8be9caa2",
+      "generation": "generation.json",
+      "image": "../../game-ready/vozila/mercedes-830bl-sprites.png",
+      "sha256": "1d6410bf99377dadb23ca9a9a21a2526788ec3c28ec80ed925723561d826c16b",
+      "frame": {
+        "width": 215,
+        "height": 96,
+        "columns": 4,
+        "rows": 5
+      },
+      "anchor": {
+        "x": 107.5,
+        "y": 92
+      },
+      "animations": [
+        {
+          "name": "idle",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 1.6,
+          "loop": true
+        },
+        {
+          "name": "drive",
+          "row": 1,
+          "frameCount": 4,
+          "duration": 0.64,
+          "loop": true
+        },
+        {
+          "name": "attack",
+          "row": 2,
+          "frameCount": 4,
+          "duration": 0.4,
+          "loop": false
+        },
+        {
+          "name": "damaged",
+          "row": 3,
+          "frameCount": 4,
+          "duration": 0.64,
+          "loop": true
+        },
+        {
+          "name": "dead",
+          "row": 4,
+          "frameCount": 4,
+          "duration": 0.8,
+          "loop": false
+        }
+      ],
+      "pixelsPerMetre": 40,
+      "scale": 0.6196319018404908,
+      "cells": [
+        {
+          "sourceBounds": [
+            30,
+            50,
+            356,
+            183
+          ],
+          "offset": [
+            6,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            30,
+            50,
+            356,
+            183
+          ],
+          "offset": [
+            6,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            29,
+            50,
+            356,
+            183
+          ],
+          "offset": [
+            6,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            30,
+            50,
+            356,
+            183
+          ],
+          "offset": [
+            6,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            30,
+            39,
+            356,
+            170
+          ],
+          "offset": [
+            6,
+            11
+          ]
+        },
+        {
+          "sourceBounds": [
+            30,
+            39,
+            356,
+            170
+          ],
+          "offset": [
+            6,
+            11
+          ]
+        },
+        {
+          "sourceBounds": [
+            30,
+            38,
+            356,
+            170
+          ],
+          "offset": [
+            6,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            30,
+            40,
+            355,
+            170
+          ],
+          "offset": [
+            7,
+            11
+          ]
+        },
+        {
+          "sourceBounds": [
+            30,
+            30,
+            356,
+            161
+          ],
+          "offset": [
+            6,
+            11
+          ]
+        },
+        {
+          "sourceBounds": [
+            30,
+            30,
+            356,
+            161
+          ],
+          "offset": [
+            6,
+            11
+          ]
+        },
+        {
+          "sourceBounds": [
+            30,
+            30,
+            356,
+            161
+          ],
+          "offset": [
+            6,
+            11
+          ]
+        },
+        {
+          "sourceBounds": [
+            29,
+            30,
+            356,
+            161
+          ],
+          "offset": [
+            6,
+            11
+          ]
+        },
+        {
+          "sourceBounds": [
+            30,
+            22,
+            356,
+            156
+          ],
+          "offset": [
+            6,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            30,
+            22,
+            356,
+            156
+          ],
+          "offset": [
+            6,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            30,
+            22,
+            355,
+            156
+          ],
+          "offset": [
+            7,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            30,
+            22,
+            355,
+            156
+          ],
+          "offset": [
+            7,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            30,
+            22,
+            356,
+            158
+          ],
+          "offset": [
+            6,
+            8
+          ]
+        },
+        {
+          "sourceBounds": [
+            29,
+            29,
+            356,
+            155
+          ],
+          "offset": [
+            6,
+            14
+          ]
+        },
+        {
+          "sourceBounds": [
+            29,
+            29,
+            356,
+            155
+          ],
+          "offset": [
+            6,
+            14
+          ]
+        },
+        {
+          "sourceBounds": [
+            29,
+            29,
+            356,
+            155
+          ],
+          "offset": [
+            6,
+            14
+          ]
+        }
+      ],
+      "art": {
+        "src": "game-ready/vozila/mercedes-830bl-sprites.png",
+        "width": 215,
+        "height": 96,
+        "bounds": [
+          6,
+          10,
+          208,
+          92
+        ],
+        "anchor": {
+          "x": 107.5,
+          "y": 92
+        },
+        "facing": -1,
+        "clips": {
+          "idle": {
+            "row": 0,
+            "ms": [
+              400,
+              400,
+              400,
+              400
+            ],
+            "loop": true
+          },
+          "drive": {
+            "row": 1,
+            "ms": [
+              160,
+              160,
+              160,
+              160
+            ],
+            "loop": true
+          },
+          "attack": {
+            "row": 2,
+            "ms": [
+              100,
+              100,
+              100,
+              100
+            ],
+            "loop": false
+          },
+          "damaged": {
+            "row": 3,
+            "ms": [
+              160,
+              160,
+              160,
+              160
+            ],
+            "loop": true
+          },
+          "dead": {
+            "row": 4,
+            "ms": [
+              200,
+              200,
+              200,
+              200
+            ],
+            "loop": false
+          }
+        },
+        "muzzlePoint": null
+      }
+    },
+    {
+      "id": "marder-ii",
+      "title": "Marder II (76 mm)",
+      "source": "marder-ii-generated.png",
+      "sourceSha256": "6a7f12d17c5b610e12a6c8eabd6e90415d5aeaa90c38f36c86eadfbf17dec709",
+      "generation": "generation.json",
+      "image": "../../game-ready/vozila/marder-ii-sprites.png",
+      "sha256": "9041468f4581f1c1f0398c7c579637e332f073280b5f6865eb2124c0f337cf69",
+      "frame": {
+        "width": 267,
+        "height": 128,
+        "columns": 4,
+        "rows": 5
+      },
+      "anchor": {
+        "x": 133.5,
+        "y": 124
+      },
+      "animations": [
+        {
+          "name": "idle",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 1.6,
+          "loop": true
+        },
+        {
+          "name": "drive",
+          "row": 1,
+          "frameCount": 4,
+          "duration": 0.64,
+          "loop": true
+        },
+        {
+          "name": "attack",
+          "row": 2,
+          "frameCount": 4,
+          "duration": 0.4,
+          "loop": false
+        },
+        {
+          "name": "damaged",
+          "row": 3,
+          "frameCount": 4,
+          "duration": 0.64,
+          "loop": true
+        },
+        {
+          "name": "dead",
+          "row": 4,
+          "frameCount": 4,
+          "duration": 0.8,
+          "loop": false
+        }
+      ],
+      "pixelsPerMetre": 40,
+      "scale": 0.7391304347826086,
+      "cells": [
+        {
+          "sourceBounds": [
+            22,
+            35,
+            367,
+            191
+          ],
+          "offset": [
+            6,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            22,
+            35,
+            367,
+            191
+          ],
+          "offset": [
+            6,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            23,
+            35,
+            367,
+            191
+          ],
+          "offset": [
+            6,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            22,
+            35,
+            367,
+            191
+          ],
+          "offset": [
+            6,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            22,
+            36,
+            367,
+            191
+          ],
+          "offset": [
+            6,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            22,
+            37,
+            367,
+            191
+          ],
+          "offset": [
+            6,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            22,
+            37,
+            367,
+            191
+          ],
+          "offset": [
+            6,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            23,
+            37,
+            367,
+            191
+          ],
+          "offset": [
+            6,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            22,
+            38,
+            367,
+            193
+          ],
+          "offset": [
+            6,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            30,
+            38,
+            367,
+            193
+          ],
+          "offset": [
+            9,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            30,
+            38,
+            367,
+            193
+          ],
+          "offset": [
+            9,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            22,
+            38,
+            367,
+            193
+          ],
+          "offset": [
+            6,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            22,
+            43,
+            367,
+            197
+          ],
+          "offset": [
+            6,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            22,
+            43,
+            367,
+            197
+          ],
+          "offset": [
+            6,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            22,
+            43,
+            367,
+            197
+          ],
+          "offset": [
+            6,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            23,
+            43,
+            367,
+            197
+          ],
+          "offset": [
+            6,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            22,
+            37,
+            367,
+            194
+          ],
+          "offset": [
+            6,
+            8
+          ]
+        },
+        {
+          "sourceBounds": [
+            22,
+            55,
+            367,
+            194
+          ],
+          "offset": [
+            6,
+            21
+          ]
+        },
+        {
+          "sourceBounds": [
+            22,
+            77,
+            367,
+            194
+          ],
+          "offset": [
+            6,
+            38
+          ]
+        },
+        {
+          "sourceBounds": [
+            22,
+            77,
+            367,
+            194
+          ],
+          "offset": [
+            6,
+            38
+          ]
+        }
+      ],
+      "art": {
+        "src": "game-ready/vozila/marder-ii-sprites.png",
+        "width": 267,
+        "height": 128,
+        "bounds": [
+          6,
+          9,
+          261,
+          124
+        ],
+        "anchor": {
+          "x": 133.5,
+          "y": 124
+        },
+        "facing": -1,
+        "clips": {
+          "idle": {
+            "row": 0,
+            "ms": [
+              400,
+              400,
+              400,
+              400
+            ],
+            "loop": true
+          },
+          "drive": {
+            "row": 1,
+            "ms": [
+              160,
+              160,
+              160,
+              160
+            ],
+            "loop": true
+          },
+          "attack": {
+            "row": 2,
+            "ms": [
+              100,
+              100,
+              100,
+              100
+            ],
+            "loop": false
+          },
+          "damaged": {
+            "row": 3,
+            "ms": [
+              160,
+              160,
+              160,
+              160
+            ],
+            "loop": true
+          },
+          "dead": {
+            "row": 4,
+            "ms": [
+              200,
+              200,
+              200,
+              200
+            ],
+            "loop": false
+          }
+        },
+        "muzzlePoint": [
+          6.739130434782608,
+          29.695652173913043
+        ]
+      }
+    },
+    {
+      "id": "elefant",
+      "title": "Elefant",
+      "source": "elefant-generated.png",
+      "sourceSha256": "ea3e81b739a641fe4d9910266d9af8f9acff6ffe733e2e4a8f5fc081c6d065cb",
+      "generation": "generation.json",
+      "image": "../../game-ready/vozila/elefant-sprites.png",
+      "sha256": "7079f733203d530158a71427282aba2de7003f6bbf036560c94c919deed1bb0a",
+      "frame": {
+        "width": 338,
+        "height": 134,
+        "columns": 4,
+        "rows": 5
+      },
+      "anchor": {
+        "x": 169.0,
+        "y": 130
+      },
+      "animations": [
+        {
+          "name": "idle",
+          "row": 0,
+          "frameCount": 4,
+          "duration": 1.6,
+          "loop": true
+        },
+        {
+          "name": "drive",
+          "row": 1,
+          "frameCount": 4,
+          "duration": 0.64,
+          "loop": true
+        },
+        {
+          "name": "attack",
+          "row": 2,
+          "frameCount": 4,
+          "duration": 0.4,
+          "loop": false
+        },
+        {
+          "name": "damaged",
+          "row": 3,
+          "frameCount": 4,
+          "duration": 0.64,
+          "loop": true
+        },
+        {
+          "name": "dead",
+          "row": 4,
+          "frameCount": 4,
+          "duration": 0.8,
+          "loop": false
+        }
+      ],
+      "pixelsPerMetre": 40,
+      "scale": 0.9476744186046512,
+      "cells": [
+        {
+          "sourceBounds": [
+            22,
+            39,
+            366,
+            167
+          ],
+          "offset": [
+            6,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            22,
+            39,
+            366,
+            167
+          ],
+          "offset": [
+            6,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            22,
+            39,
+            366,
+            167
+          ],
+          "offset": [
+            6,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            23,
+            39,
+            366,
+            167
+          ],
+          "offset": [
+            6,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            22,
+            34,
+            366,
+            161
+          ],
+          "offset": [
+            6,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            22,
+            35,
+            366,
+            163
+          ],
+          "offset": [
+            6,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            22,
+            35,
+            366,
+            162
+          ],
+          "offset": [
+            6,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            22,
+            34,
+            366,
+            161
+          ],
+          "offset": [
+            6,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            22,
+            33,
+            366,
+            159
+          ],
+          "offset": [
+            6,
+            11
+          ]
+        },
+        {
+          "sourceBounds": [
+            34,
+            33,
+            366,
+            160
+          ],
+          "offset": [
+            11,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            27,
+            33,
+            366,
+            159
+          ],
+          "offset": [
+            8,
+            11
+          ]
+        },
+        {
+          "sourceBounds": [
+            23,
+            33,
+            366,
+            159
+          ],
+          "offset": [
+            6,
+            11
+          ]
+        },
+        {
+          "sourceBounds": [
+            22,
+            33,
+            366,
+            160
+          ],
+          "offset": [
+            6,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            23,
+            33,
+            366,
+            160
+          ],
+          "offset": [
+            6,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            22,
+            33,
+            366,
+            160
+          ],
+          "offset": [
+            6,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            23,
+            33,
+            366,
+            160
+          ],
+          "offset": [
+            6,
+            10
+          ]
+        },
+        {
+          "sourceBounds": [
+            22,
+            31,
+            366,
+            160
+          ],
+          "offset": [
+            6,
+            8
+          ]
+        },
+        {
+          "sourceBounds": [
+            23,
+            32,
+            366,
+            160
+          ],
+          "offset": [
+            6,
+            9
+          ]
+        },
+        {
+          "sourceBounds": [
+            22,
+            47,
+            366,
+            160
+          ],
+          "offset": [
+            6,
+            23
+          ]
+        },
+        {
+          "sourceBounds": [
+            23,
+            47,
+            366,
+            160
+          ],
+          "offset": [
+            6,
+            23
+          ]
+        }
+      ],
+      "art": {
+        "src": "game-ready/vozila/elefant-sprites.png",
+        "width": 338,
+        "height": 134,
+        "bounds": [
+          6,
+          9,
+          332,
+          130
+        ],
+        "anchor": {
+          "x": 169.0,
+          "y": 130
+        },
+        "facing": -1,
+        "clips": {
+          "idle": {
+            "row": 0,
+            "ms": [
+              400,
+              400,
+              400,
+              400
+            ],
+            "loop": true
+          },
+          "drive": {
+            "row": 1,
+            "ms": [
+              160,
+              160,
+              160,
+              160
+            ],
+            "loop": true
+          },
+          "attack": {
+            "row": 2,
+            "ms": [
+              100,
+              100,
+              100,
+              100
+            ],
+            "loop": false
+          },
+          "damaged": {
+            "row": 3,
+            "ms": [
+              160,
+              160,
+              160,
+              160
+            ],
+            "loop": true
+          },
+          "dead": {
+            "row": 4,
+            "ms": [
+              200,
+              200,
+              200,
+              200
+            ],
+            "loop": false
+          }
+        },
+        "muzzlePoint": [
+          6.9476744186046515,
+          41.22093023255814
+        ]
+      }
+    }
+  ]
+}

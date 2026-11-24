@@ -1,4 +1,4 @@
-/** Generated from accepted atlas measurements by assets/images/armies/sources/ustanak/prepare.py. */
+/** Generated from accepted atlas measurements by assets/images/sources/ustanak/prepare.py. */
 export default {
   'partisanCrew': {
     'src': 'game-ready/artiljerija/partizanska-posada-sprites.png',

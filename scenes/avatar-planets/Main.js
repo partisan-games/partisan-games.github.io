@@ -1,4 +1,5 @@
-import Scene3D, { skyGradients } from '/core/Scene3D.js'
+import Scene3D from '/core/Scene3D.js'
+import { skyGradients } from '/core/constants.js'
 import { avatarControls } from '/ui/Controls.js'
 import Planet from '/core3d/geometry/Planet.js'
 import { createTerrain, shake } from '/core3d/ground.js'

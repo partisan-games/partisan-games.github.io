@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "generatedWith": "Built-in image_gen; mechanical Pillow packing",
+  "assets": [
+    {
+      "id": "bombas",
+      "title": "Bombas",
+      "image": "../../game-ready/vojnici/bombas-sprites.png",
+      "frame": {
+        "width": 66,
+        "height": 72,
+        "columns": 8,
+        "rows": 3
+      },
+      "anchor": {
+        "x": 33,
+        "y": 36
+      },
+      "groundAnchor": {
+        "x": 33,
+        "y": 72
+      },
+      "reference": "references/bombas-idle.png",
+      "referenceSha256": "6ae33ea1a19799f2123f2832f0763ed77bc3dbf37ad440922ac1bd49d063e121",
+      "source": "bombas-death-generated.png",
+      "sourceSha256": "25fdcd0ab91622a9c314e8e1f8036beada0a6ff27dcfc6922eb56d8fd88c687a",
+      "collapseSource": "bombas-death-collapse-generated.png",
+      "collapseSourceSha256": "dc9e1d975bbf19785609fa2fdc4291d80b016155bc1508e84b4b18e7369f882e",
+      "collapseGeneration": "bombas-death-collapse-generation.json",
+      "collapseGenerationSha256": "4d99e8fb76a5a050738ab160c1902a92031860d214d39c97a343ac03f7ca79bc",
+      "deathPacking": {
+        "originalFrames": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "collapsedFrames": [
+          4,
+          5
+        ],
+        "sourceGrid": [
+          3,
+          2
+        ],
+        "sourceCell": [
+          512,
+          512
+        ],
+        "originalCrop": [
+          77,
+          91,
+          437,
+          483
+        ],
+        "collapsedCrop": [
+          16,
+          91,
+          496,
+          483
+        ],
+        "originalAlphaThreshold": 128,
+        "collapsedAlphaThreshold": 240,
+        "filter": "nearest",
+        "finalPose": "Limp torso and cheek on ground, closed eye, dropped horizontal rifle."
+      },
+      "frameBounds": [
+        [
+          3,
+          0,
+          58,
+          72
+        ],
+        [
+          2,
+          6,
+          55,
+          72
+        ],
+        [
+          7,
+          15,
+          57,
+          72
+        ],
+        [
+          8,
+          21,
+          57,
+          71
+        ],
+        [
+          5,
+          45,
+          60,
+          71
+        ],
+        [
+          2,
+          53,
+          62,
+          72
+        ]
+      ],
+      "sha256": "13c2d761ddb407a4cd995ec6b6e48399ada817c706323038e1ddeaaa836c5929",
+      "acceptedRowsUnchanged": true,
+      "animations": [
+        {
+          "name": "idle",
+          "row": 0,
+          "frameCount": 2,
+          "duration": 0.6,
+          "loop": true
+        },
+        {
+          "name": "kretanje",
+          "row": 1,
+          "frameCount": 8,
+          "duration": 0.8,
+          "loop": true
+        },
+        {
+          "name": "death",
+          "row": 2,
+          "frameCount": 6,
+          "duration": 0.6,
+          "loop": false
+        }
+      ],
+      "integration": "GrenadierSprite shared by Grenadier in Bunker and its existing catalogue story; preserve parent collision dimensions 66x72 and hold death frame 5."
+    }
+  ]
+}

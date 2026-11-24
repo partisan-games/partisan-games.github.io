@@ -4,12 +4,11 @@ import { createPageElements } from './helpers/dom.js'
 import { installFakeFrames } from './helpers/frames.js'
 import { admission } from '/core/io/admission.js'
 
-let Scene, Scene3D, WallsScene
+let Scene, Scene3D
 before(async() => {
   createPageElements()
   Scene = (await import('/core/Scene.js')).default
   Scene3D = (await import('/core/Scene3D.js')).default
-  WallsScene = (await import('/scenes/walls/Main.js')).default
 })
 
 test('a tour with an intro starts and replays without consulting an empty or unavailable wallet', async t => {
@@ -22,7 +21,7 @@ test('a tour with an intro starts and replays without consulting an empty or una
   })
   class FreeScene extends Scene {
     get free() {
-      return WallsScene.prototype.free
+      return true
     }
   }
   for (let i = 0; i < 2; i++) {

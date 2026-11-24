@@ -17,7 +17,7 @@ test('Drvar sprites stay under 2D despite needing a 3D stage, while real models 
     ['vojnici', 'nemacki-vojnik-spreda', '2D'],
     ['avioni', 'junkers-ju-52', '2D'],
     ['letelice-3d', 'junkers-ju-52-model', '3D'],
-    ['ambijent-3d', 'drvar-crkva', '3D'],
+    ['scenografija-3d', 'drvar-crkva', '3D'],
   ]) {
     const link = root.querySelector(`a[href="#${kind}/${id}"]`)
     assert.ok(link, id)
@@ -38,7 +38,7 @@ test('old model links resolve to separate actors instead of skins', () => {
     ['brodovi', 'nemacko-patrolno-plovilo', ['german-launch', 'german-skiff', 'german-patrol-vessel', 'rboot', 'mfp', 'vorpostenboot']],
     ['vozila', 'nemacki-tenk', ['tiger-i', 'm15-42', 'stug-iii', 'hotchkiss']],
     ['avioni', 'vis-lovac', ['bf109', 'fw190', 'sivi', 'pustinjski', 'zeleni', 'zuti-nos']],
-    ['letelice-3d', 'ratni-avion-3d', ['dvokrilac', 'trokrilac', 'mesersmit', 'bombarder', 'f18']],
+    ['letelice-3d', 'ratni-avion-3d', ['dvokrilac', 'mesersmit', 'bombarder']],
     ['vojnici', 'zastavnik', ['partizanski', 'italijanski']],
     ['vojnici', 'posada-topa', ['partizanska', 'italijanska']],
   ]) {

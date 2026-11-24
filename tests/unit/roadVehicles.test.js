@@ -54,7 +54,7 @@ test('native sources cover natural size and wrecks hold their last frame without
   createPageElements()
   const { default: RoadVehicleSprite, roadVehicleArt } = await import('/core/actor/vehicles/RoadVehicleSprite.js')
   const { sideProjection } = await import('/core/actor/projection.js')
-  const manifest = JSON.parse(readFileSync(new URL('../../assets/images/armies/sources/road-vehicles/sprites.json', import.meta.url)))
+  const manifest = JSON.parse(readFileSync(new URL('../../assets/images/sources/road-vehicles/sprites.json', import.meta.url)))
   assert.equal(manifest.assets.length, 7)
   for (const [id, kind] of Object.entries(roadVehicleKinds)) {
     const record = manifest.assets.find(item => item.id === id)

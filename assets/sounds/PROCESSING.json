@@ -200,26 +200,6 @@
       "bytes": 13292
     },
     {
-      "file": "pucanj2.mp3",
-      "original": "assets/sounds/pucanj2.mp3",
-      "original_sha256": "4db8777e3f5170d86b57be2ed852ad66e3f2d6471ccce3c22d45466c9e14ebe6",
-      "processed": true,
-      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
-      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
-      "prepared_sha256": "3ca34aafbfb7d46f51311a5f2a88fc2005d40b36259b92e35698721b4f665b72",
-      "bytes": 30153
-    },
-    {
-      "file": "pucnji.mp3",
-      "original": "assets/sounds/pucnji.mp3",
-      "original_sha256": "ccb17169e482f15b96c3261b6ea231c62bb61f59c0d23106f50e060c08b23dde",
-      "processed": true,
-      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
-      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
-      "prepared_sha256": "41061dbc0ba31cd0fe0b6dcf9db7eff4ce5369df8b761e8473007a245613bc78",
-      "bytes": 54603
-    },
-    {
       "file": "rafal.mp3",
       "original": "assets/sounds/rafal.mp3",
       "original_sha256": "c8f52ed2fc9755121d432f841dc32662ee6b393edace73629876d25bc6f3cdf4",
@@ -322,27 +302,6 @@
         "target": -30,
         "input_value": -38.0,
         "input_true_peak_dbtp": -19.9,
-        "peak_ceiling_dbtp": -3,
-        "maximum_boost_db": 12,
-        "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."
-      }
-    },
-    {
-      "file": "zvuk-tenka.mp3",
-      "original": "assets/sounds/zvuk-tenka.mp3",
-      "original_sha256": "8e3bc8a7cbfeeec74b2e0a11b1d1931a981d68623e77c5c8db7e057af5851203",
-      "processed": true,
-      "license": "See assets/sounds/SOURCES.md for documented recordings; other legacy provenance remains unconfirmed",
-      "review": "Measured after processing; not auditioned, checked in a browser, or verified in a full game mix",
-      "prepared_sha256": "2b160f1788b9848ede98105213ee74c43a2f18010b196e612aa692d91e6ec556",
-      "bytes": 27018,
-      "before_calibration_sha256": "e9d906d1a8850886df29f7e257351fd3de35962301fb16e80b0cc27dedfd9759",
-      "calibration": {
-        "gain_db": -7.9,
-        "method": "integrated_lufs",
-        "target": -24,
-        "input_value": -16.1,
-        "input_true_peak_dbtp": -3.2,
         "peak_ceiling_dbtp": -3,
         "maximum_boost_db": 12,
         "note": "Linear gain only; no compression or retiming. Gated LUFS is not used for short footstep excerpts."

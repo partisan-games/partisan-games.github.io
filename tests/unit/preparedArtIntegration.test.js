@@ -36,7 +36,7 @@ test('runtime clip dimensions, anchors and frame times match the prepared asset 
     ['hummel-fire/sprites.json', [['hummel-fire', art.hummelFire]]],
     ['bp42-fire/sprites.json', [['bp42-fire', art.bp42Fire]]],
   ]) {
-    const path = new URL('../../assets/images/armies/sources/' + file, import.meta.url)
+    const path = new URL('../../assets/images/sources/' + file, import.meta.url)
     const { assets } = JSON.parse(await readFile(path, 'utf8'))
     for (const [id, runtime] of pairs) {
       const source = assets.find(asset => asset.id === id)

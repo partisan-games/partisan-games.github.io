@@ -5,7 +5,7 @@ import { createBuildingTexture, createBuildingGeometry, createGraffitiBuilding }
 import chroma from '/libs/chroma.js'
 import { assets } from '/config.js'
 
-const { Vector2, Vector3 } = THREE
+const { Vector3 } = THREE
 const { randInt, randFloat } = THREE.MathUtils
 
 const textureLoader = new THREE.TextureLoader()
@@ -124,29 +124,7 @@ const turnTo = (geometry, p1, p2) => {
   geometry.applyMatrix4(mesh.matrix)
 }
 
-export function createPipe(p1, p2, radius = 2) {
-  const distance = p1.distanceTo(p2)
-  const geometry = new THREE.CylinderGeometry(radius, radius, distance, 12)
-  geometry.translate(0, -distance / 2, 0)
-  geometry.rotateX(-Math.PI / 2)
-
-  turnTo(geometry, p1, p2)
-  return geometry
-}
-
 export function createWall(p1, p2, width = randFloat(2, 4), height = randFloat(2, 8)) {
-  const depth = p1.distanceTo(p2)
-  const geometry = new THREE.BoxGeometry(width, height, depth)
-  geometry.translate(0, height / 2, depth / 2)
-
-  turnTo(geometry, p1, p2)
-  return geometry
-}
-
-export function createCityWall(p1, p2) {
-  const distanceToCenter = new Vector2(0, 0).distanceTo(new Vector2(p1.x, p1.z))
-  const width = randFloat(2, 4)
-  const height = (21 - distanceToCenter / 10) * 5
   const depth = p1.distanceTo(p2)
   const geometry = new THREE.BoxGeometry(width, height, depth)
   geometry.translate(0, height / 2, depth / 2)
@@ -169,26 +147,6 @@ function squareCellWalls(cell, cellSize) {
   return walls
 }
 
-/** The wall ends around one cell of a polar maze; the outer ring keeps one entrance. */
-function polarCellWalls(cell, row, maze, cellSize) {
-  const theta = 2 * Math.PI / maze.grid[cell.row].length
-  const innerRadius = cell.row * cellSize
-  const outerRadius = (cell.row + 1) * cellSize
-  const ccw = cell.column * theta
-  const cw = (cell.column + 1) * theta
-  const point = (radius, angle) => [Math.round(radius * Math.cos(angle)), Math.round(radius * Math.sin(angle))]
-  const [ax, ay] = point(innerRadius, ccw)
-  const [bx, by] = point(outerRadius, ccw)
-  const [cx, cy] = point(innerRadius, cw)
-  const [dx, dy] = point(outerRadius, cw)
-
-  const walls = []
-  if (!cell.linked(cell.inward)) walls.push([ax, ay, cx, cy])
-  if (!cell.linked(cell.cw)) walls.push([cx, cy, dx, dy])
-  if (cell.row === maze.size - 1 && cell.column !== row.length * 0.75) walls.push([bx, by, dx, dy])
-  return walls
-}
-
 function mazeMesh(walls, { connect, color, texture }) {
   const geometries = walls.map(([x1, z1, x2, z2]) => connect(new Vector3(x1, 0, z1), new Vector3(x2, 0, z2)))
   const geometry = BufferGeometryUtils.mergeGeometries(geometries)
@@ -205,11 +163,4 @@ export function meshFromMaze({ maze, cellSize = 10, connect = createWall, color 
   const mesh = mazeMesh(walls, { connect, color, texture })
   centerGeometry(mesh.geometry)
   return mesh
-}
-
-export function meshFromPolarMaze({ maze, cellSize = 10, connect = createPipe, color = 'gray', texture } = {}) {
-  const walls = maze.grid.flatMap(row => row
-    .filter(cell => cell.row !== 0) // the center cell is empty
-    .flatMap(cell => polarCellWalls(cell, row, maze, cellSize)))
-  return mazeMesh(walls, { connect, color, texture })
 }
