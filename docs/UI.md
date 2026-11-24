@@ -18,6 +18,10 @@ Važeća pravila prikaza i veze do implementacije. Otvoreni poslovi su u [PLAN-u
 
 Sve što se dodaje na naslovnu mora biti optimizovano (odluka vlasnika, 2026-11-23): slika kartice je webp širine do 600 px sa upisanim `width` i `height` i `loading="lazy"`, a sadržaj ne sme da pomeri raspored kad stigne font ili kad se pokrene skripta. Link na igru (`#igra`) sakriva naslovnu pre nego što se njene slike preuzmu. Naslovna nema 3D scenu ni dekoraciju koja usporava učitavanje.
 
+### Vraćanje animacije The Germans Advance na naslovnu
+
+Animacija se otvara sa kartice u **Scenes and Animations**. Raniji automatski prikaz ispod naslova sačuvan je u Git zapisu `0e228114ff3958f9aeee018b1ed584fac4fb9afd`. Za vraćanje izdvojiti `.battle-preview` iz `index.html` i `ui/arcade.css`, učitavanje pregleda sa naslovne iz `scenes/main.js` i modul `scenes/bitka/Preview.js` iz tog zapisa. Pregled koristi isti [BattleView](../scenes/bitka/BattleView.js) kao zasebna scena. Pokreće se tek kad uđe u vidljivo polje, pauzira kad izađe iz kadra ili se kartica pregledača sakrije, gasi se pri ulasku u scenu i prikazuje mirnu sliku pri smanjenom kretanju.
+
 ## Stilovi
 
 Izvori su [styles](../ui/styles.js) i [CSS](../ui/style.css): `simple` je podrazumevani taman UI, `rpg` ukrašen, a `white` koristi bele okvire. Igra zadaje podrazumevanu temu; korisnikov izbor ima prednost. Postojeći lokalni stilovi nisu razlog za različito ponašanje iste komponente.
@@ -84,7 +88,7 @@ Odobrene poruke su „Allow this site to save data to use arcade tokens.” za b
 
 Naplativo dugme desno od natpisa pokazuje samo zlatan žeton sa zvezdom, bez broja cene. Raspoložive žetone pokazuje džep. Aktivna oznaka se kreće, disabled miruje; smanjeno kretanje daje mirnu sliku i na aktivnom dugmetu. Nedostatak žetona daje native disabled stanje, bez dodatne poruke ili prozora, a dostupnost se obnavlja po promeni džepa.
 
-Odobrenje animacije u prozoru ne menja kartice naslovne: naplative kartice zadržavaju prethodni CSS žeton, dok scene i animacije imaju VIEW. Resurse i izbor mirne/pokretne varijante održavaju [icons](../core/io/icons.js) i UI; pregled je na [ui.html](../ui.html).
+Odobrenje animacije u prozoru ne menja kartice naslovne: naplative kartice zadržavaju prethodni CSS žeton, dok scene i animacije imaju TRY. Resurse i izbor mirne/pokretne varijante održavaju [icons](../core/io/icons.js) i UI; pregled je na [ui.html](../ui.html).
 
 ### Pouke za usklađivanje prikaza
 

@@ -136,7 +136,7 @@ export const battlefields = {
  * renderLayers composes by the scene's time, instead of one still picture.
  */
 export default class BattleBackground {
-  constructor(canvas, place = battlefields.city, { groundY } = {}) {
+  constructor(canvas, place = battlefields.city, { groundY, pictureFilter = 'sepia(20%)' } = {}) {
     const { width, height, pozari } = place
     const points = () => pozari.map(fire => this.toCanvas(fire.x, fire.y))
     const area = () => ({
@@ -148,6 +148,7 @@ export default class BattleBackground {
     this.place = place
     this.canvas = canvas
     this.sceneGroundY = groundY
+    this.pictureFilter = pictureFilter
     this.ctx = canvas.getContext('2d')
     this.image = new Image()
     this.image.src = `${assets.images}${place.src}`
@@ -323,7 +324,7 @@ export default class BattleBackground {
     const picture = this.picture(t)
     if (!picture) return
     ctx.save()
-    ctx.filter = 'sepia(20%)'
+    ctx.filter = this.pictureFilter
     this.drawOnGround(picture, picture.naturalWidth ?? picture.width, picture.naturalHeight ?? picture.height)
     ctx.restore()
     this.crtez.clearRect(0, 0, this.efekti.width, this.efekti.height)

@@ -150,7 +150,7 @@ function look(name, weapon, jacket, trousers, helmet, equip, face, wear, machine
     'mat_0-Hands.jpg': skinTones[face.portrait],
     'mat_10-Face.jpg': 0xffffff, 'mat_12-Eyes.jpg': 0xffffff,
   }
-  return { name, model, weapon, outfit, equip(figure) {
+  return { name, model, weapon, outfit, portrait: face.portrait, equip(figure) {
     shapeM33(figure)
     soldierFace(figure, face)
     if (wear) soilUniform(figure, wear)

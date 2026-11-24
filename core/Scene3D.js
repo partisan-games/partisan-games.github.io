@@ -124,12 +124,12 @@ export default class Scene3D extends Scene {
    * Frees what this game holds on the graphics card, which the shared renderer keeps otherwise.
    * A model shared with a later game is uploaded again when that game draws it.
    */
-  disposeScene() {
+  disposeScene(scene = this.scene) {
     const disposeTextures = values => Object.values(values).forEach(value => {
       if (value?.isTexture) value.dispose()
       else if (value?.value?.isTexture) value.value.dispose() // a shader uniform
     })
-    this.scene.traverse(object => {
+    scene.traverse(object => {
       if (object.isLight) object.dispose() // its shadow map
       if (object.isSkinnedMesh) object.skeleton.dispose() // the texture with its bones
       object.geometry?.dispose()
@@ -139,6 +139,6 @@ export default class Scene3D extends Scene {
         material.dispose()
       }
     })
-    if (this.scene.background?.isTexture) this.scene.background.dispose()
+    if (scene.background?.isTexture) scene.background.dispose()
   }
 }

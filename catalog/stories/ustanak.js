@@ -53,9 +53,9 @@ const armies = (partisan, italian) => [
 const game = 'Ustanak'
 
 export const soldiers = [
-  { id: 'partizanski-strelac', name: 'Partizanski strelac', game, pxPerMeter, way: 1, block: skirmisherModule, create: skirmisher },
+  { id: 'partizanski-strelac', name: 'Milan · Partizanski strelac', game, pxPerMeter, way: 1, block: skirmisherModule, create: skirmisher },
   { id: 'zastavnik', name: 'Zastavnik', game, pxPerMeter, way: 1, looks: armies('partizanski', 'italijanski'), block: bearerModule, create: bearer,
-    modelNames: { partizanski: 'Partizanski zastavnik', italijanski: 'Italijanski zastavnik' } },
+    modelNames: { partizanski: 'Savo · Partizanski zastavnik', italijanski: 'Italijanski zastavnik' } },
   { id: 'posada-topa', name: 'Posada topa', game, pxPerMeter, way: 1, looks: armies('partizanska', 'italijanska'), block: crewModule, create: crew,
     modelNames: { partizanska: 'Partizanska posada topa', italijanska: 'Italijanska posada topa' } },
 ].flatMap(story => story.looks ? separateModels(story) : [story])

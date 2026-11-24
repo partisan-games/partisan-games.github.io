@@ -24,7 +24,7 @@ const buildingInterval = 2 // seconds of game time
 const buildingDistance = mapSize * .4
 const groundDistance = mapSize * .99
 const endDelay = 2.5 // seconds between the end of the flight and the end screen
-const planes = ['Biplane', 'Triplane', 'Messerschmitt', 'Bomber', 'F18']
+const planes = ['Bomber']
 /** A plane has nothing to jump, so it fires on Space. */
 const inputOptions = { attackKey: 'Space', buttonDict: { attack: icons.shoot } }
 

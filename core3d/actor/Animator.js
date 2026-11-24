@@ -76,6 +76,7 @@ export default class Animator {
   addRightHandWeapon(mesh) {
     if (!this.rightHand) this.findHands()
     this.rightHand.add(mesh)
+    this.rightHandWeapon = mesh
   }
 
   playAction(oldAction, name, onFinish) {

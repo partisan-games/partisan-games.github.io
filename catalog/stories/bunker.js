@@ -45,6 +45,6 @@ export const artillery = [
 ]
 
 export const soldiers = [
-  { id: 'bombas', name: 'Bombaš', game, pxPerMeter, way: -1, block: grenadierModule, create: grenadier,
-    catalogGroup: ['Vojnici', 'Partizanski'] },
+  { id: 'bombas', name: 'Žarko · Bombaš', game, pxPerMeter, way: -1, block: grenadierModule, create: grenadier,
+    catalogGroup: ['Vojnici', 'Partizani'] },
 ]

@@ -28,6 +28,23 @@ Pravila izrade i veze do izvora. Otvoreni poslovi su u [PLAN-u](PLAN.md#art), pr
 - Bočni lik, mina odozgo, frontalna zgrada i kosa pozadina ne postaju usklađeni samom paletom i senkama. Proveriti veličinu mine prema stopalu, vrata i spratova prema čoveku, dodir sa tlom i zaklanjanje; pozadina ne sme nadjačati aktere.
 - Promena arta nije razlog za usputno menjanje sudara, broja prepreka ili rasporeda igre. Sačuvana bolnica je studija za buduće uklapanje, nije prihvaćena kao konačan art i nije povezana sa igrom; odbačeni teren i mine ne čuvaju se kao alternative.
 
+<a id="crveni-krst-priprema-3d-ambijenta"></a>
+## Crveni krst — priprema 3D ambijenta
+
+Osnova su [istorijsko istraživanje](ISTORIJA.md#crveni-krst-12-februar-1942), [tri pregledane reference](references/ww2-yu/crveni-krst/README.md) i [dogovor da lavirint ostane kroz smislene prolaze i dvorišta](KONTEKST.md#escape-enemy-base). Prvi [originalni paket](../assets/models/building/crveni-krst/README.md) ima sedam GLB modela i deljeni atlas, dostupne [u katalogu](../catalog.html#ambijent-3d/sklop) i povezane [u nivou](../index.html#fps-base). Sačuvani su generisana studija i dva mala offline prikaza stvarne geometrije, uključujući visinu očiju; prikazi nisu screenshot nivoa niti potvrđen tlocrt. Žica i puni zaklon jasno se razlikuju, jer imaju različita pravila za pogled i metke; arhitektura i paleta ostaju zasnovane na ovom logoru.
+
+| Predmet pripreme | Specifikacija za narednu izradu |
+|---|---|
+| Glavni objekat | Originalan jednostavan model dugog zidanog magacina, prema referentnoj silueti; fasada sa ponovljivim prozorima i vratima, krov, dimnjaci. Meriti prema postojećem čoveku od 1,78 m; predložene metre beležiti kao procenu, ne istorijsku meru. Ne praviti niz generičkih drvenih baraka. |
+| Ograda i kapija | Pravi i ugaoni modularni segment, završni stub i dvokrilna kapija. Prvi paket koristi jeftinu geometriju niti i bodlji umesto planiranih alpha ravni: praznine ostaju stvarne i za raycast. Proveriti čitljivost i treperenje sa nekoliko metara u stvarnom rendereru; tačke spajanja su dokumentovane uz modele. |
+| Kula i reflektor | Originalan model prema drvenoj silueti reference; svetiljka odvojena radi usmeravanja. Broj i istorijske granice pratiti iz istraživanja; obilazak svetlosnim snopom je predlog efekta, ne potvrđena radnja straže. |
+| Materijali | Zajednička paleta prigušenog maltera, starog drveta, metala i krova. [Atlas i stvarni promptovi](../assets/models/building/crveni-krst/generation.json) nastali su ugrađenim `image_gen`; izvorna slika 1254² zadržana je bez vizuelnih izmena, umesto početnog predloga 1024². Žica ne traži zasebnu teksturu. Tlo za budući nivo još koristi postojeći resurs. |
+| Teren i svetlo | Postojeći sneg je kandidat za ponovnu upotrebu, uz gažene pravce i tamnije podnožje objekata. Bez pejzaža planinskog logora, bujne šume i nasumičnih požara kao glavnog motiva. Neutralno hladna noć i lokalno svetlo; otvoren prostor i izlaz moraju se čitati bez stalnog bleskanja. |
+
+Pre izvoza proveriti perspektivu, visinu vrata prema čoveku, zajedničku gustinu detalja, dodir sa tlom i čitljivost žice na snegu. Modeli u metrima, oslonac na Y=0, položaji priključaka dokumentovani; geometrija i materijali se dele među segmentima. Za statične sklopove koristiti GLB bez nepotrebnih kostiju i skrivenih delova. Nove teksture i modele praviti originalno, sa promptom/postupkom, licencom, dimenzijama i hashovima; arhivske slike nisu runtime teksture.
+
+Postojeća [kula](../core3d/actor/buildings/buildingModels.js) nije izabrana za ovaj nivo: izgled još nije upoređen, a [priložena licenca](../assets/models/building/tower/ww2/License.txt) navodi samo ličnu/studentsku upotrebu bez plaćenog članstva. Postojeće kućice nisu dokaz istorijske sličnosti. Priprema ne menja prihvaćene aktere ili zajednički generator lavirinta.
+
 ## Uslovi završetka zadataka
 
 <a id="obavezna-integracija"></a>

@@ -4,9 +4,11 @@ import dressFighter from '/core3d/actor/characters/dressFighter.js'
 import { variants, infantryWeapons } from '/core3d/actor/derived/ww2/partisanLooks.js'
 import * as italianLooksModule from '/core3d/actor/derived/ww2/italianLooks.js'
 import { poseSurrender, surrenderArms } from '/core3d/actor/characters/surrenderPose.js'
-import { requestModels } from '/core3d/assets/models.js'
+import { loadedModel, requestModels } from '/core3d/assets/models.js'
 import optimizeGeometry from '/core3d/assets/optimizeGeometry.js'
-import makeCharacter from '/core3d/actor/characters/makeCharacter.js'
+import makeCharacter, { makeCharacterBody } from '/core3d/actor/characters/makeCharacter.js'
+import CharacterModel from '/core3d/actor/characters/CharacterModel.js'
+import * as workerPipeModule from '/core3d/actor/derived/ww2/WorkerPipe.js'
 import * as barbarianModule from '/core3d/actor/derived/fantasy/Barbarian.js'
 import * as bigfootModule from '/core3d/actor/derived/fantasy/Bigfoot.js'
 import * as demonModule from '/core3d/actor/derived/fantasy/Demon.js'
@@ -48,6 +50,7 @@ import * as zeppelinModule from '/core3d/actor/derived/Zeppelin.js'
 /** A character no game uses yet stays in the shared library, ready for one. */
 const library = 'Zajednička biblioteka'
 const { italianLooks } = italianLooksModule
+const { mountMetalPipe, pipeSwingModel, smoothPipeSwing } = workerPipeModule
 
 /**
  * A story of a 3D character, with its model and weapon as its games have them. A 3D block needs its models loaded
@@ -69,8 +72,32 @@ const character = (id, name, game, block, Character) => ({
   },
 })
 
+const plainWorker = character('radnik-3d', 'Radnik', 'Graffiti City, Graffiti City Maze', workerModule)
+const worker = {
+  ...plainWorker,
+  lookLabel: 'Oprema',
+  looks: [
+    { id: 'original', name: 'Bez opreme', value: 'unarmed' },
+    { id: 'cev', name: 'Cev', value: 'pipe', block: workerPipeModule, aliases: ['radnik-cev-3d'] },
+  ],
+  async create(stage, way, equipment) {
+    if (equipment === 'unarmed') return plainWorker.create(stage, way)
+
+    await requestModels([pipeSwingModel], { parallelAnimations: true })
+    const mesh = loadedModel(pipeSwingModel)
+    const { animDict } = pipeSwingModel
+    const swing = smoothPipeSwing(mesh.userData.animations)
+    const animations = mesh.userData.animations.map(clip => clip.name === swing.name ? swing : clip)
+    const body = makeCharacterBody(mesh, animDict, {}, { actions: { attack: swing.duration } })
+    const view = new CharacterModel(body, { mesh, animations, animDict })
+    mountMetalPipe(view.mesh, { tipLength: .32 })
+    stage.add(body, view)
+    return body
+  },
+}
+
 export const fantasy = [
-  character('varvarin-3d', 'Varvarin', 'RPG Fantasy', barbarianModule),
+  character('varvarin-3d', 'Varvarka', 'RPG Fantasy', barbarianModule),
   character('snezni-covek-3d', 'Snežni čovek', library, bigfootModule),
   character('demon-3d', 'Demon', 'Minas Tirith', demonModule),
   character('goblin-3d', 'Goblin', library, goblinModule),
@@ -97,7 +124,7 @@ export const horror = [
   character('zombi-strazar-3d', 'Zombi stražar', 'Graveyard Survival', zombieGuardModule),
 ]
 
-function infantryStory(id, name, game, block) {
+function infantryStory(id, name, game, block, portraitNames = {}) {
   const base = character(id, name, game + ', Battle for Jablanica', block)
   const source = block.description.model
   const choices = [
@@ -116,8 +143,7 @@ function infantryStory(id, name, game, block) {
       return { id, name: value.name, value, aliases }
     })
   const story = {
-    ...base, lookLabel: 'Varijanta',
-    looks: [{ id: 'original', name: 'Original' }, ...looks],
+    ...base, lookLabel: 'Oprema i uniforma',
     create: async(stage, way, look) => {
       await requestModels([...block.models, ...looks.map(({ value }) => value.weapon.model)], { parallelAnimations: true })
       const { body, model } = makeCharacter(block.description)
@@ -142,25 +168,36 @@ function infantryStory(id, name, game, block) {
       return body
     },
   }
-  const roles = new Map()
-  const original = { ...story, looks: [story.looks[0]],
-    catalogGroup: ['Vojnici', id === 'vojnik-3d' ? 'Ostali' : id === 'sovjetski-partizan-3d' ? 'Sovjetski' : 'Partizanski'] }
+  const original = { ...story, looks: [{ id: 'original', name: 'Osnovna oprema' }],
+    catalogGroup: ['Vojnici', id === 'vojnik-3d' ? 'Ostali' : id === 'sovjetski-partizan-3d' ? 'Sovjeti' : 'Partizani'] }
+  const identities = new Map()
+  // Old links use the first equipment variant of each combat role as the story ID.
+  const oldRoleIds = new Map()
   for (const look of looks) {
-    const army = look.id.startsWith('italian-') ? 'Italijanski' : 'Partizanski'
-    const role = look.value.weapon === infantryWeapons.mg ? 'Mitraljezac'
-      : look.value.weapon === infantryWeapons.mp40 ? 'Automatičar' : 'Strelac'
-    const key = army + '/' + role
-    if (!roles.has(key)) roles.set(key, { ...story, id: `${id}-${look.id}`, name: `${army} ${role.toLowerCase()} · ${name}`,
-      catalogGroup: ['Vojnici', army], looks: [] })
-    roles.get(key).looks.push({ ...look, aliases: [...look.aliases, `${id}/${look.id}`] })
+    const italian = look.id.startsWith('italian-')
+    const { portrait, weapon } = look.value
+    const army = italian ? 'Italijani' : 'Partizani'
+    const oldRole = `${army}/${weapon === infantryWeapons.mg ? 'mg' : weapon === infantryWeapons.mp40 ? 'mp40' : 'rifle'}`
+    if (!oldRoleIds.has(oldRole)) {
+      const oldId = `${id}-${look.id}`
+      oldRoleIds.set(oldRole, oldId)
+      look.aliases.push(oldId)
+    }
+    look.aliases.push(`${id}/${look.id}`, `${oldRoleIds.get(oldRole)}/${look.id}`)
+
+    if (portrait === undefined) {
+      original.looks.push(look)
+      continue
+    }
+    const identity = `${army}/${portrait}`
+    if (!identities.has(identity)) identities.set(identity, {
+      ...story, id: `${id}-${italian ? `italian-vojnik-${portrait + 1}` : 's-brkovima'}`,
+      name: italian ? `Italijanski vojnik ${portrait + 1}` : portraitNames[portrait],
+      catalogGroup: ['Vojnici', army], looks: [],
+    })
+    identities.get(identity).looks.push(look)
   }
-  // The original appearance belongs to the same rifleman when identity and role agree.
-  const rifleman = id === 'vojnik-3d' || id === 'sovjetski-partizan-3d' ? null : roles.get('Partizanski/Strelac')
-  if (rifleman) {
-    original.looks.push(...rifleman.looks)
-    roles.delete('Partizanski/Strelac')
-  }
-  return [original, ...roles.values()]
+  return [original, ...identities.values()]
 }
 
 function enableInfantryLooks(stage, { mesh, anim }) {
@@ -206,24 +243,57 @@ function enableInfantryLooks(stage, { mesh, anim }) {
   }
 }
 
+const machineGunner = character('nemacki-mitraljezac-3d', 'Nemački vojnik s teškom opremom', '3D Tank, FPS Airport, FPS Base', germanMachineGunnerModule)
+const flameThrower = character('nemacki-bacac-plamena-3d', 'Bacač plamena', 'FPS Base', germanFlameThrowerModule)
+const germanHeavyInfantry = {
+  ...machineGunner, lookLabel: 'Oprema', catalogGroup: ['Vojnici', 'Nemci'],
+  looks: [
+    { id: 'mitraljez', name: 'Mitraljez', value: machineGunner },
+    { id: 'bacac-plamena', name: flameThrower.name, value: flameThrower, block: flameThrower.block, aliases: [flameThrower.id] },
+  ],
+  create(stage, way, equipment) {
+    return equipment.create(stage, way)
+  },
+}
+
+const [resistanceFighter, ...resistanceIdentities] = infantryStory(
+  'borac-pokreta-otpora-3d', 'Crni · Radnik i borac pokreta otpora', 'Liberated City', resistanceFighterModule,
+  { moustache: 'Tihi · Borac pokreta otpora s brkovima' },
+)
+const workerFighter = {
+  ...worker, name: resistanceFighter.name, game: `${worker.game}, ${resistanceFighter.game}`,
+  catalogGroup: resistanceFighter.catalogGroup, lookLabel: 'Oprema i uniforma',
+  looks: [
+    ...worker.looks,
+    { id: 'puska', name: 'Puška', block: resistanceFighter.block, aliases: [resistanceFighter.id, `${resistanceFighter.id}/original`] },
+    ...resistanceFighter.looks.slice(1),
+  ],
+  async create(stage, way, equipment) {
+    if (equipment === 'unarmed' || equipment === 'pipe') return worker.create(stage, way, equipment)
+    const body = await resistanceFighter.create(stage, way, equipment)
+    // Unarmed, pipe and rifle use different animation sets, so switching rebuilds the preview.
+    delete stage.setLook
+    return body
+  },
+}
+
 export const ww2 = [
-  character('nemacki-bacac-plamena-3d', 'Nemački bacač plamena', 'FPS Base', germanFlameThrowerModule),
-  character('nemacki-mitraljezac-3d', 'Nemački mitraljezac', '3D Tank, FPS Airport, FPS Base', germanMachineGunnerModule),
+  germanHeavyInfantry,
   character('nemacki-vojnik-3d', 'Nemački vojnik', library, germanSoldierModule),
   character('nacisticki-agent-3d', 'Nacistički agent', library, naziAgentModule),
   character('nacisticki-oficir-3d', 'Nacistički oficir', '3D Tank, FPS Airport, FPS Base', naziOfficerModule),
-  infantryStory('partizan-3d', 'Partizan', 'Liberated City, Spomenici', partisanModule),
-  infantryStory('partizan-jednostavan-model-3d', 'Partizan, jednostavan model', 'Liberated City', partisanLowpolyModule),
-  infantryStory('borac-pokreta-otpora-3d', 'Borac pokreta otpora', 'Liberated City', resistanceFighterModule),
+  infantryStory('partizan-3d', 'Marko · Partizan', 'Liberated City, Spomenici', partisanModule),
+  infantryStory('partizan-jednostavan-model-3d', 'Vuk · Partizan', 'Liberated City', partisanLowpolyModule),
+  workerFighter,
+  ...resistanceIdentities,
   character('ss-vojnik-3d', 'SS vojnik', '3D Tank, FPS Airport, FPS Base', sSSoldierModule),
   infantryStory('vojnik-3d', 'Vojnik', library, soldierModule),
-  infantryStory('sovjetski-partizan-3d', 'Sovjetski partizan', 'Liberated City', sovietPartisanModule),
-  character('radnik-3d', 'Radnik', 'Graffiti City, Graffiti City Maze', workerModule),
+  infantryStory('sovjetski-partizan-3d', 'Vasja · Sovjetski partizan', 'Liberated City', sovietPartisanModule),
 ].flat()
 
 export const beasts = [
   character('slon-3d', 'Slon', library, elephantModule),
   character('flamingo-3d', 'Flamingo', 'RPG Fantasy', flamingoModule),
-  character('tenk-3d', 'Tenk', 'FPS Airport', tankModule),
+  character('tenk-3d', 'Renault FT', '3D Tank, FPS Airport', tankModule),
   character('cepelin-3d', 'Cepelin', 'RPG Fantasy', zeppelinModule),
 ]

@@ -2,11 +2,17 @@ import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 
-let kinds, createCatalog, findStory
+let kinds, createCatalog, findStory, groupOf
 before(async() => {
   createPageElements()
   ;({ default: kinds } = await import('/catalog/stories/index.js'))
-  ;({ createCatalog, findStory } = await import('/catalog/catalog.js'))
+  ;({ createCatalog, findStory, groupOf } = await import('/catalog/catalog.js'))
+})
+
+test('chetniks have their own army group, not the miscellaneous one', () => {
+  const soldiers = kinds.find(({ id }) => id === 'vojnici')
+  const chetnik = soldiers.stories.find(({ id }) => id === 'cetnik-u-rovu')
+  assert.deepEqual(groupOf(soldiers, chetnik), ['Vojnici', 'Četnici'])
 })
 
 test('old model links resolve to separate actors instead of skins', () => {
@@ -25,27 +31,53 @@ test('old model links resolve to separate actors instead of skins', () => {
   }
 })
 
-test('every old infantry variant remains reachable with its identity and combat role', async() => {
+test('the worker and his equipment share one entry, including the old pipe link', () => {
+  const section = 'drugi-svetski-rat-3d'
+  const worker = findStory(kinds, section + '/radnik-3d')
+  const pipe = findStory(kinds, section + '/radnik-3d/cev')
+  const old = findStory(kinds, section + '/radnik-cev-3d')
+  assert.equal(worker.look.id, 'original')
+  assert.equal(pipe.look.id, 'cev')
+  assert.equal(pipe.story, worker.story)
+  assert.equal(old.story, worker.story)
+  assert.equal(old.look, pipe.look)
+  const resistance = findStory(kinds, section + '/borac-pokreta-otpora-3d')
+  assert.equal(resistance.story, worker.story)
+  assert.equal(resistance.look.id, 'puska')
+  assert.ok(!worker.kind.stories.some(story => story.id === 'radnik-cev-3d'))
+})
+
+test('old infantry links open the equipment of the right individual', async() => {
   const { italianLooks } = await import('/core3d/actor/derived/ww2/italianLooks.js')
   const { variants } = await import('/core3d/actor/derived/ww2/partisanLooks.js')
-  for (const [prefix, choices] of [['italijanski-branilac-3d', italianLooks], ['saborci-jablanica', variants]]) {
-    const roles = new Map()
+  const open = path => findStory(kinds, `drugi-svetski-rat-3d/${path}`)
+  for (const [prefix, choices] of [['italijanski-branilac-3d', italianLooks], ['saborci-jablanica', variants]])
     for (const [id, value] of Object.entries(choices)) {
-      const resolved = findStory(kinds, `drugi-svetski-rat-3d/${prefix}/${id}`)
+      const resolved = open(`${prefix}/${id}`)
       assert.equal(resolved.look?.value, value, id)
-      for (const look of resolved.story.looks.filter(look => look.value)) {
-        assert.equal(Boolean(look.id.startsWith('italian-')), prefix.startsWith('italijanski'))
-        assert.equal(look.value.weapon.rounds, value.weapon.rounds)
-      }
-      roles.set(id, resolved.story)
+      assert.equal(open(`${resolved.story.id}/${resolved.look.id}`).look, resolved.look)
     }
-    if (prefix.startsWith('italijanski')) {
-      assert.equal(roles.get('rifle'), roles.get('rifleCoat'))
-      assert.equal(roles.get('mg'), roles.get('mgCoat'))
-      assert.notEqual(roles.get('rifle'), roles.get('mg'))
-      assert.notEqual(roles.get('mp40'), roles.get('mg'))
-    }
+  const italianSoldiers = Object.keys(italianLooks).map(id => open(`italijanski-branilac-3d/${id}`).story)
+  assert.equal(new Set(italianSoldiers).size, italianSoldiers.length)
+  assert.equal(open('vojnik-3d-italian-rifle/italian-rifleCoat').look.value, italianLooks.rifleCoat)
+
+  const lowpoly = open('partizan-jednostavan-model-3d').story
+  for (const id of ['smedji', 'zimski', 'maslinasti']) {
+    const oldRole = open(`partizan-jednostavan-model-3d-${id}`)
+    assert.equal(oldRole.story, lowpoly)
+    assert.equal(oldRole.look.value, variants[id])
   }
+  const partisan = id => open(`saborci-jablanica/${id}`).story
+  assert.equal(partisan('indigo'), partisan('brkovi'))
+  assert.equal(partisan('vuna'), partisan('sivi'))
+  assert.notEqual(partisan('indigo'), partisan('vuna'))
+
+  const german = open('nemacki-mitraljezac-3d')
+  const flame = open('nemacki-bacac-plamena-3d')
+  assert.equal(flame.story, german.story)
+  assert.equal(german.look.id, 'mitraljez')
+  assert.equal(flame.look.id, 'bacac-plamena')
+  assert.notEqual(german.story, open('nemacki-vojnik-3d').story)
 })
 
 test('search opens matching paths, restores disclosures and selection opens every ancestor', async() => {
@@ -86,7 +118,9 @@ test('search opens matching paths, restores disclosures and selection opens ever
       if (parent.tagName === 'DETAILS') disclosures++
     assert.equal(disclosures, 2, link.textContent)
   }
-  const italian = [...root.querySelectorAll('h3')].find(heading => heading.textContent === 'Italijanski')
+  const ostali = [...root.querySelectorAll('h3')].find(heading => heading.textContent === 'Ostali').parentElement
+  assert.equal(ostali, ostali.parentElement.lastElementChild)
+  const italian = [...root.querySelectorAll('h3')].find(heading => heading.textContent === 'Italijani')
   assert.equal(italian.parentElement.tagName, 'SECTION')
   search.value = 'nema-takvog-aktera'
   search.dispatchEvent(new Event('input'))

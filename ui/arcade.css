@@ -58,13 +58,25 @@
   margin: 0;
   padding: 18px 12px;
   min-height: 66px;
-  display: grid;
-  place-items: center;
+  /* the year sits on the title's line, a subtitle takes a line of its own */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  align-items: baseline;
+  column-gap: 8px;
   font-size: 12px;
   line-height: 1.6;
   color: #f4e3b6;
   background: repeating-linear-gradient(0deg, #0000 0 2px, #0002 2px 4px), #292e2c;
   border-bottom: 2px solid #141918;
+}
+.arcade-subtitle {
+  flex-basis: 100%;
+  margin-top: 4px;
+  /* the pixel font stays sharp only at multiples of 8 px */
+  font-size: 8px;
+  color: #b8a271;
 }
 .arcade-screen {
   position: relative;

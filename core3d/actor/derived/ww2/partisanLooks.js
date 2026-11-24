@@ -28,10 +28,10 @@ export const variants = {
   smedji: { name: 'Brown uniform · Berthier', model: lowpoly, weapon: berthier, outfit: { 'army.green': 0x665541, avocado: 0x40372f } },
   mitraljezac: { name: 'Machine gunner', model: riflemanModel, weapon: mg },
   vuna: { name: 'Wool shirt · rifle', model: resistanceFighterModel, weapon: rifle, outfit: { [shirt]: wool, [trousers]: 0xc7ac82 } },
-  indigo: { name: 'Blue shirt · moustache', model: resistanceFighterModel, weapon: berthier, outfit: { [shirt]: indigo, [face]: moustache } },
+  indigo: { name: 'Blue shirt · moustache', model: resistanceFighterModel, weapon: berthier, portrait: 'moustache', outfit: { [shirt]: indigo, [face]: moustache } },
   zimski: { name: 'Dark olive uniform · machine gun', model: lowpoly, weapon: mg, hatColor: 0x343a27, outfit: { 'army.green': 0x3d422d, avocado: 0x303626 } },
   maslinasti: { name: 'Olive uniform · MP40', model: lowpoly, weapon: mp40, outfit: { 'army.green': 0x4d5037, avocado: 0x777253 } },
-  brkovi: { name: 'Grey cap · moustache', model: resistanceFighterModel, weapon: berthier, outfit: { [cap]: 0x8b9096, [trousers]: 0x858a93, [face]: moustache } },
+  brkovi: { name: 'Grey cap · moustache', model: resistanceFighterModel, weapon: berthier, portrait: 'moustache', outfit: { [cap]: 0x8b9096, [trousers]: 0x858a93, [face]: moustache } },
   sivi: { name: 'Grey shirt · MP40', model: resistanceFighterModel, weapon: mp40, outfit: { [shirt]: 0x89929a, [trousers]: 0x90999c } },
   oker: { name: 'Ochre shirt · rifle', model: resistanceFighterModel, weapon: rifle, outfit: { [shirt]: 0xb29a69, [cap]: 0xa18b65, [trousers]: 0xc1af90 } },
 }

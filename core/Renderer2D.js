@@ -35,6 +35,7 @@ export default class Renderer2D {
 
   drawFrame(predmet) {
     const image = bodyImage(predmet)
+    if (predmet.imageFilter) this.ctx.filter = predmet.imageFilter
     if (predmet.origin === origins.center)
       this.ctx.drawImage(image, -predmet.width / 2, -predmet.height / 2, predmet.width, predmet.height)
     else if (predmet.origin === origins.topLeft)

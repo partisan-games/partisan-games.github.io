@@ -11,11 +11,12 @@ const recoil = 5
  * moment after a hit and for good once it is dead.
  */
 export default class FirstPersonView {
-  constructor(body, { camera }) {
+  constructor(body, { camera, weaponSrc, behind = body.size.height / 4 }) {
     this.body = body
     this.camera = camera
+    this.behind = behind
     camera.rotation.order = 'YXZ'
-    this.renderer = new FPSRenderer()
+    this.renderer = new FPSRenderer({ weaponSrc })
     this.sway = 0
     this.pain = 0
     this.seen = { shots: body.shotsFired, hits: body.hitsTaken }
@@ -24,7 +25,7 @@ export default class FirstPersonView {
 
   place() {
     const { body, camera } = this
-    const behind = body.size.height / 4
+    const { behind } = this
     camera.position.set(body.x - Math.cos(body.yaw) * behind, body.feet + body.size.height * body.strikeHeight,
       body.z + Math.sin(body.yaw) * behind)
     camera.rotation.set(body.pitch, body.yaw - Math.PI / 2, 0)
@@ -33,7 +34,7 @@ export default class FirstPersonView {
   update(dt) {
     const { body, seen, renderer } = this
     this.place()
-    if (body.shotsFired > seen.shots) this.sway += recoil
+    if (this.renderer.weaponSrc && body.shotsFired > seen.shots) this.sway += recoil
     if (body.hitsTaken > seen.hits) this.pain = painTime
     Object.assign(seen, { shots: body.shotsFired, hits: body.hitsTaken })
     this.pain = Math.max(0, this.pain - dt)
