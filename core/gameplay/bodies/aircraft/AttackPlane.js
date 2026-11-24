@@ -2,20 +2,21 @@ import Body from '../Body.js'
 import Cooldown from '../../Cooldown.js'
 import ProjectilePool from '../projectiles/ProjectilePool.js'
 import Bullet from '../projectiles/Bullet.js'
+import { hullEntry } from '../projectiles/hits.js'
 
 /** Its bullets' speed in metres a second. */
 export const attackPlane = { bulletSpeed: 35 }
 
 /**
- * Each kind seen from above, measured from the earlier pixel planes at 10 px a metre: its size, how many hits bring it
+ * Each kind seen from above: real reference dimensions, how many hits bring it
  * down, its speed in metres a second, and its guns: seconds between shots, the angles of one shot, and where across
  * its span they fire from in turn. The boss keeps its nose down wherever it flies.
  */
 export const attackPlaneKinds = {
-  fighter: { size: { length: 11.5, height: 2, width: 9.8 }, hits: 1, speed: 19, fire: { interval: 2.5, spread: [0] }, guns: [0] },
-  heavy: { size: { length: 17.7, height: 2.5, width: 13.25 }, hits: 5, speed: 11, fire: { interval: 2, spread: [-.25, 0, .25] },
+  fighter: { size: { length: 8.94, height: 2.6, width: 9.92 }, hits: 1, speed: 19, fire: { interval: 2.5, spread: [0] }, guns: [0] },
+  heavy: { size: { length: 12.65, height: 3.5, width: 16.25 }, hits: 5, speed: 11, fire: { interval: 2, spread: [-.25, 0, .25] },
     guns: [0] },
-  boss: { size: { length: 41, height: 3, width: 29.55 }, hits: 60, speed: 6, steady: true,
+  boss: { size: { length: 16.4, height: 4, width: 22.6 }, hits: 60, speed: 6, steady: true,
     fire: { interval: 1.2, spread: [-.5, -.25, 0, .25, .5] }, guns: [0, -.35, .35] },
 }
 
@@ -40,9 +41,9 @@ const states = {
  */
 export default class AttackPlane extends Body {
   constructor({ kind = attackPlaneKinds.fighter, clock, targets = [], canFire = () => true, damage = 1, random = Math.random, view = null,
-    ...rest } = {}) {
+    distanceScale = 1, ...rest } = {}) {
     super({ size: kind.size, health: kind.hits, yaw: -Math.PI / 2, ...rest, states })
-    Object.assign(this, { kind, targets, canFire, random })
+    Object.assign(this, { kind, targets, canFire, random, distanceScale })
     this.aim = null
     this.gunIndex = 0
     this.reload = new Cooldown({ seconds: kind.fire.interval, clock })
@@ -73,6 +74,10 @@ export default class AttackPlane extends Body {
     return Infinity
   }
 
+  hitTime(start, end) {
+    return hullEntry({ start, end }, this)
+  }
+
   /** Its guns turn every way: it aims at `point` wherever it flies, and can fire there while it may. */
   aimAt(point) {
     this.aim = point
@@ -82,7 +87,7 @@ export default class AttackPlane extends Body {
   /** Where the next shot leaves from: its guns in turn across its span. */
   nextGun() {
     const { guns } = this.kind
-    const across = guns[this.gunIndex++ % guns.length] * this.size.length
+    const across = guns[this.gunIndex++ % guns.length] * this.size.width
     return { x: this.x + across, y: this.y, z: this.z }
   }
 
@@ -91,7 +96,7 @@ export default class AttackPlane extends Body {
     if (this.dead || !this.aim || !this.canFire() || !this.reload.ready) return false
     const gun = this.nextGun()
     const yaw = Math.atan2(-(this.aim.z - gun.z), this.aim.x - gun.x)
-    for (const angle of this.kind.fire.spread) this.bullets.fire(gun, yaw - angle, 0, attackPlane.bulletSpeed)
+    for (const angle of this.kind.fire.spread) this.bullets.fire(gun, yaw - angle, 0, attackPlane.bulletSpeed * this.distanceScale)
     this.shotsFired++
     this.reload.start(this.kind.fire.interval * (.8 + this.random() * .4))
     return true

@@ -32,8 +32,8 @@ test('a key pushes it across the view as far at 30 as at 60 frames a second, and
     body.steer(-1, -1, 1 / 60)
     live(1 / 60)
   }
-  assert.equal(body.x, body.size.length / 4)
-  assert.equal(body.z, body.size.width / 2)
+  assert.equal(body.x, body.size.width / 4)
+  assert.equal(body.z, body.size.length / 2)
 })
 
 test('it fires straight up the view as often as it reloads, with more guns at each fire level', () => {

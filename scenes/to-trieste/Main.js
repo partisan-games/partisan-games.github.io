@@ -12,6 +12,8 @@ import { modelPerformance } from '/core/gameplay/modelPerformance.js'
 import VehicleCollisions from '/core/gameplay/VehicleCollisions.js'
 import Vehicle, { vehicleKinds } from '/core/gameplay/bodies/vehicles/Vehicle.js'
 import GunCarrier, { gunCarrierKinds } from '/core/gameplay/bodies/vehicles/GunCarrier.js'
+import RoadVehicle, { roadVehicleKinds } from '/core/gameplay/bodies/vehicles/RoadVehicle.js'
+import RoadVehicleSprite from '/core/actor/vehicles/RoadVehicleSprite.js'
 import LevelBomber from '/core/gameplay/bodies/aircraft/LevelBomber.js'
 import Escort from './Escort.js'
 import PictureAircraftSprite, { aircraftPictures } from '/core/actor/aircraft/PictureAircraftSprite.js'
@@ -107,7 +109,8 @@ export default class ToTriesteScene extends Scene2D {
       left += half * 2 + bunkerGap
     }
     const groundGap = Math.max(720, canvas2d.width * 1.25)
-    ;['germanTank', 'motorcycle', 'truck', 'halftrack', 'antiTankGun', 'armoredCar', 'tank'].forEach((kind, index) =>
+    ;['germanTank', 'zundapp-k600', 'motorcycle', 'bmw-r12', 'truck', 'mercedes-830bl', 'halftrack', 'sdkfz-231',
+      'antiTankGun', 'pzkpf-612', 'armoredCar', 'marder-ii', 'tank', 'elefant'].forEach((kind, index) =>
       this.spawn(this.groundEnemy(kind, toMeters(canvas2d.width + groundGap * .5 + index * groundGap))))
     this.feedback = new BattleFeedback({ units: () => [this.player, ...this.hostiles.map(({ body }) => body)],
       flies: body => this.hostiles.some(hostile => hostile.body === body && hostile.sort === 'plane'),
@@ -169,7 +172,10 @@ export default class ToTriesteScene extends Scene2D {
     const place = { x, yaw: Math.PI, health: enemy.health }
     const armed = { ...place, clock: this.session.clock, targets: [this.player] }
     let body, view
-    if (kind === 'truck') {
+    if (kind in roadVehicleKinds) {
+      body = new RoadVehicle({ ...armed, kind: roadVehicleKinds[kind] })
+      view = new RoadVehicleSprite(body, { id: kind, ...this.views })
+    } else if (kind === 'truck') {
       body = new Vehicle({ ...place, kind: vehicleKinds.truck })
       view = new VehicleSprite(body, { art: spriteArt['opel-blitz'], facing: -1, ...this.views })
     } else if (kind in gunCarrierKinds) {
@@ -193,7 +199,7 @@ export default class ToTriesteScene extends Scene2D {
     view.position.z = layers.unit
     const rest = body.states.includes('move') ? 'move' : 'idle'
     body.setState(rest)
-    const shotSpeed = body instanceof GunCarrier ? body.kind.gun.speed : tank.shellSpeed
+    const shotSpeed = body instanceof GunCarrier || body instanceof RoadVehicle ? body.kind.gun.speed : tank.shellSpeed
     const controllers = body.states.includes('attack') ? [this.marksman(body, shotSpeed, rest)] : []
     return { sort: 'ground', kind, body, view, controllers }
   }

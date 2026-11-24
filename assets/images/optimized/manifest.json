@@ -218,15 +218,147 @@
       ]
     },
     {
+      "source": "armies/game-ready/avioni/bf109-top.png",
+      "runtime": "optimized/armies/game-ready/avioni/bf109-top.webp",
+      "sourceSha256": "98a621d19b262ca11253038ae6b90d22f628736a7e0fca56203fa59d9574143e",
+      "sha256": "1d31fae51b360710c2ce5e7ea49f9ab4b4a206df2fb3633c242348d111a11e76",
+      "originalBytes": 159006,
+      "bytes": 105760,
+      "size": [
+        397,
+        358
+      ]
+    },
+    {
+      "source": "armies/game-ready/avioni/bf110-top.png",
+      "runtime": "optimized/armies/game-ready/avioni/bf110-top.webp",
+      "sourceSha256": "d1303e2c9ca4c6a8381c79ce4a5b9b983f33607bc62f2a2d531115be9da3c239",
+      "sha256": "41b1981424777794faa8900bb26195530ad9eb95b653dfc0a87fc9f6c7c8da80",
+      "originalBytes": 376297,
+      "bytes": 252874,
+      "size": [
+        650,
+        506
+      ]
+    },
+    {
+      "source": "armies/game-ready/avioni/breguet-top.png",
+      "runtime": "optimized/armies/game-ready/avioni/breguet-top.webp",
+      "sourceSha256": "1686822790254496153a3c07722c8773669948d352c6d4f9db0caa90450c27dd",
+      "sha256": "7c407f931748ebe6f7992fa7b3f302109750dd80d2ee07a38bc077b857bcdd1e",
+      "originalBytes": 309346,
+      "bytes": 218472,
+      "size": [
+        594,
+        381
+      ]
+    },
+    {
+      "source": "armies/game-ready/avioni/fighter-01-top.png",
+      "runtime": "optimized/armies/game-ready/avioni/fighter-01-top.webp",
+      "sourceSha256": "da7922958526ba0b300bd8318ff0e27db320c941102904287f07ad45586c9b8e",
+      "sha256": "0d0a28bd9027e5297d8b972bdd327274777b61d5fe088498e28f0730cb12aba8",
+      "originalBytes": 166546,
+      "bytes": 111216,
+      "size": [
+        397,
+        358
+      ]
+    },
+    {
+      "source": "armies/game-ready/avioni/fighter-02-top.png",
+      "runtime": "optimized/armies/game-ready/avioni/fighter-02-top.webp",
+      "sourceSha256": "a7a07a38974316b2cf9727c245763929ba712d5de928644a4da08d6eb1d4b3f9",
+      "sha256": "35ff862729bf98b34027f24a94978be9fa5b70ce0a9677f145ef6852c72621ed",
+      "originalBytes": 181971,
+      "bytes": 126814,
+      "size": [
+        397,
+        358
+      ]
+    },
+    {
+      "source": "armies/game-ready/avioni/fighter-03-top.png",
+      "runtime": "optimized/armies/game-ready/avioni/fighter-03-top.webp",
+      "sourceSha256": "c68d9ed66490e30f41ee1d7fa1f3731331134719927fdc99a7ca864aff25e99c",
+      "sha256": "990979fcbfebbb111c858668f4a27e3b7a2b09d52cf071d23da2dbee73146fc2",
+      "originalBytes": 157442,
+      "bytes": 104936,
+      "size": [
+        397,
+        358
+      ]
+    },
+    {
+      "source": "armies/game-ready/avioni/fighter-05-top.png",
+      "runtime": "optimized/armies/game-ready/avioni/fighter-05-top.webp",
+      "sourceSha256": "aae22beed966b42c309f36b618987ed17ed8fadc40feea220c49bf3a475a1f78",
+      "sha256": "5ffd115c1d463e6c7549485e4088c5623468cee8bcdba8e2d5fbba217d723ece",
+      "originalBytes": 158874,
+      "bytes": 105588,
+      "size": [
+        397,
+        358
+      ]
+    },
+    {
+      "source": "armies/game-ready/avioni/fw190-top.png",
+      "runtime": "optimized/armies/game-ready/avioni/fw190-top.webp",
+      "sourceSha256": "0347ef635de05a49d01f72be3a6980e220efe2a334bb45b9355c908cfb731809",
+      "sha256": "b95150c84389c3636fa6eac8c7800d801dd2149d48a6c0a45ad12dc6541fbf06",
+      "originalBytes": 190289,
+      "bytes": 126698,
+      "size": [
+        420,
+        358
+      ]
+    },
+    {
       "source": "armies/game-ready/avioni/he111-sprites.png",
       "runtime": "optimized/armies/game-ready/avioni/he111-sprites.webp",
-      "sourceSha256": "7a33eac4d9eae72c09952c262ac8fabc722eafd27734c6ebac81e154044e503f",
-      "sha256": "1ed3994aa61115c9ef48291e298bbd2c122660beb1c9244d693802958534f352",
-      "originalBytes": 610650,
-      "bytes": 440494,
+      "sourceSha256": "8807c82281934e24e3df9de724d65dc52bce5ace2c35b8aa3bed54afff57ac9f",
+      "sha256": "408400628fb0ce5ba5461bb3a63492eeb65f05d9875be22eb55be58c98ceb4f3",
+      "originalBytes": 1643738,
+      "bytes": 1217708,
       "size": [
-        2080,
-        732
+        1412,
+        952
+      ]
+    },
+    {
+      "source": "armies/game-ready/avioni/he111-top.png",
+      "runtime": "optimized/armies/game-ready/avioni/he111-top.webp",
+      "sourceSha256": "13d1fe7bcd10c87ff9a01736bd37d866ba3896c27e42f9baa5cb9ff5353f772a",
+      "sha256": "36297a514efd70ad26193fe44b399824490d77ca13dc27be7a5e340721304dad",
+      "originalBytes": 674753,
+      "bytes": 458120,
+      "size": [
+        904,
+        656
+      ]
+    },
+    {
+      "source": "armies/game-ready/avioni/hurricane-top.png",
+      "runtime": "optimized/armies/game-ready/avioni/hurricane-top.webp",
+      "sourceSha256": "14a3949fb0bc220baf2e98670cadd4426d873104353b9f02a567778bb8c2be24",
+      "sha256": "3e6cc096b66c6faa48f471982c6ef2c256a1e54e0c731627dc2203afe1d3664a",
+      "originalBytes": 281374,
+      "bytes": 191186,
+      "size": [
+        488,
+        394
+      ]
+    },
+    {
+      "source": "armies/game-ready/avioni/il2-top.png",
+      "runtime": "optimized/armies/game-ready/avioni/il2-top.webp",
+      "sourceSha256": "e6251866b2185604586aad9a206905617f35f2138d053f93587b169e7dea1781",
+      "sha256": "a18245e8abc1838ff9a13b95ec43a68552b0051100620c5e0007d4f46a96f660",
+      "originalBytes": 386864,
+      "bytes": 267562,
+      "size": [
+        584,
+        464
       ]
     },
     {
@@ -302,15 +434,39 @@
       ]
     },
     {
+      "source": "armies/game-ready/avioni/spitfire-top.png",
+      "runtime": "optimized/armies/game-ready/avioni/spitfire-top.webp",
+      "sourceSha256": "fec6b443987e229eb96e23e57559788f01a27e57c3ef8d8d1c1142cc8850537d",
+      "sha256": "e5b4ba74f103241c26be8ac418f4c7cf6221bff5efddd724ed8c1c0b766b5a4f",
+      "originalBytes": 215170,
+      "bytes": 147284,
+      "size": [
+        450,
+        365
+      ]
+    },
+    {
       "source": "armies/game-ready/avioni/storch-sprites.png",
       "runtime": "optimized/armies/game-ready/avioni/storch-sprites.webp",
-      "sourceSha256": "5766290a14abe460646d0aaa040af075583ee2daae8c5f4719eaf033c538290b",
-      "sha256": "a05d4adc4c285a018687f5028769a43964d2a3b853161f47699ef19cd7683849",
-      "originalBytes": 213722,
-      "bytes": 169238,
+      "sourceSha256": "09151a2cfa822c73b01640eeac2a9540267dbe3836c79edc0e43ed491aa4eca6",
+      "sha256": "48bfb2fd9db3bc91c4a149a289b5cb838fc0b0d59a3b6f59370452b5324449a0",
+      "originalBytes": 345230,
+      "bytes": 271186,
       "size": [
-        944,
-        608
+        1220,
+        780
+      ]
+    },
+    {
+      "source": "armies/game-ready/avioni/yak-top.png",
+      "runtime": "optimized/armies/game-ready/avioni/yak-top.webp",
+      "sourceSha256": "0c58dda1301e4740af33f6ce2a90d29591c3cf45fd8c93d6555a53df2015d804",
+      "sha256": "54e3a05443cbbd2b30341003094d02d1a6367e887a81efe163756404b82548d7",
+      "originalBytes": 169899,
+      "bytes": 113572,
+      "size": [
+        400,
+        340
       ]
     },
     {
@@ -328,49 +484,49 @@
     {
       "source": "armies/game-ready/brodovi/german-launch-wreck.png",
       "runtime": "optimized/armies/game-ready/brodovi/german-launch-wreck.webp",
-      "sourceSha256": "4f51ffac77eb473db55ba7b538be4932199c1176c51446afe1fc9c160b8027b2",
-      "sha256": "11fb0ea392b70157230852366eb1fa1abde73daecd9da3958309971eb6c5363b",
-      "originalBytes": 26775,
-      "bytes": 16964,
+      "sourceSha256": "5babf64cb33578029ccf32708836bff60838297489d59503fdfc86877c2d16d0",
+      "sha256": "813700028308dbd5937dfb22d76929002af844c10c27e6e3d95d0a050da84698",
+      "originalBytes": 66437,
+      "bytes": 43570,
       "size": [
-        182,
-        80
+        288,
+        126
       ]
     },
     {
       "source": "armies/game-ready/brodovi/german-launch.png",
       "runtime": "optimized/armies/game-ready/brodovi/german-launch.webp",
-      "sourceSha256": "9628f7b13607e6e85fc1255680e2a9fc5e7d7d8110bbf556f3aa66be013f9d14",
-      "sha256": "216adc67898b54d9a4be11695ce3178ae978f4c28945ba577032e132a202e741",
-      "originalBytes": 23977,
-      "bytes": 16458,
+      "sourceSha256": "ea787ef1e24b34fb6edfc52c1ab9bb2781c30693ec168a79f5ee83fe9643e00d",
+      "sha256": "6b4f61737c649cc8d120708b74cc048c229d6ac7cf8b10778d49c37cb893a165",
+      "originalBytes": 59840,
+      "bytes": 41318,
       "size": [
-        182,
-        80
+        288,
+        126
       ]
     },
     {
       "source": "armies/game-ready/brodovi/german-patrol-vessel-wreck.png",
       "runtime": "optimized/armies/game-ready/brodovi/german-patrol-vessel-wreck.webp",
-      "sourceSha256": "5f80632dd995dcb40ab3425df8e492a9da18f5d572aca80b653ba64c5f1e51a4",
-      "sha256": "39eaa8513af5bd8e1c2d64822a443b55d033e1a01e2fcac34bd08a12483c0844",
-      "originalBytes": 39588,
-      "bytes": 25428,
+      "sourceSha256": "5d3892aa0faed7017c219c165b69b538b02d6f8477fb86383b8b5736df7ea919",
+      "sha256": "bccab36b1cbff95005ab40ea637eae3c62cd18d7475ae3d3b7a5bbbccff5db64",
+      "originalBytes": 97641,
+      "bytes": 60912,
       "size": [
-        304,
-        73
+        484,
+        114
       ]
     },
     {
       "source": "armies/game-ready/brodovi/german-patrol-vessel.png",
       "runtime": "optimized/armies/game-ready/brodovi/german-patrol-vessel.webp",
-      "sourceSha256": "0d35c6589f768a72f48541a138066db4edc3b090241127c54632b2607027c943",
-      "sha256": "bfc7756f02695563e4f879ee1ab15d45b3b41b0c24ae2adc1052678df2fa25c7",
-      "originalBytes": 35365,
-      "bytes": 23896,
+      "sourceSha256": "cee1be11f0046d34a068b4c84fcc5e7af9cee28adc48d43653dca216d7b5124d",
+      "sha256": "82d7986d01502434d9d81e3bf00a93c7dd00368cd436fff8511dd60e27819957",
+      "originalBytes": 88261,
+      "bytes": 56310,
       "size": [
-        304,
-        73
+        484,
+        114
       ]
     },
     {
@@ -388,85 +544,85 @@
     {
       "source": "armies/game-ready/brodovi/german-skiff-wreck.png",
       "runtime": "optimized/armies/game-ready/brodovi/german-skiff-wreck.webp",
-      "sourceSha256": "3b94a26a8c62e33a5bab01a67391a58064773fa9597bd9f9c3af0531bf2da504",
-      "sha256": "9452a0de5f47901cb68a49090f7530c530054ed8a1982450cfe0d94f28edea34",
-      "originalBytes": 16910,
-      "bytes": 11338,
+      "sourceSha256": "5e82d57e307af54b2b03bd90ca12e81241dd4ba2ec79d39866766ff070ec7659",
+      "sha256": "d38ff9d579e87ab718906ab3bf19db2d050a19bd350c8b27edab11c1082a5d34",
+      "originalBytes": 39836,
+      "bytes": 26348,
       "size": [
-        174,
-        57
+        274,
+        88
       ]
     },
     {
       "source": "armies/game-ready/brodovi/german-skiff.png",
       "runtime": "optimized/armies/game-ready/brodovi/german-skiff.webp",
-      "sourceSha256": "a205eb9e35a58b16c6d785b7308d01242aba9b77fe8d5e7017fef8bffbb56da5",
-      "sha256": "ea379f90279084bbf629d6259ee9b73ee00e264f7eefbb46dcc619dc60c2064c",
-      "originalBytes": 16326,
-      "bytes": 11274,
+      "sourceSha256": "c36511c77aacf8632e6f5f34a7d90aace4541282aac1f119cb94132b0e0af5d4",
+      "sha256": "0a7e2ac747ff76f7d723e00b6f872eb912983bc4515958fe796760781d6e871a",
+      "originalBytes": 38626,
+      "bytes": 26788,
       "size": [
-        174,
-        57
+        274,
+        88
       ]
     },
     {
       "source": "armies/game-ready/brodovi/mfp-damaged.png",
       "runtime": "optimized/armies/game-ready/brodovi/mfp-damaged.webp",
-      "sourceSha256": "ac3a6b0a629ca24d2a14da63f4803a77df7202312190740aa2ab662621241317",
-      "sha256": "8ba6433a7fdc82ccebab29cdcf7643c9bf059fc13aae70b194120a5e7794f939",
-      "originalBytes": 222415,
-      "bytes": 153380,
+      "sourceSha256": "d47e2355741f912e25710cdb9a65c9c85d7d82d6d6c232acb3f8185781dd3153",
+      "sha256": "3685ed35eaba913995c1c7bfc4cbfd4e3191469e686232aa11b4e9902f51f8a9",
+      "originalBytes": 924134,
+      "bytes": 661680,
       "size": [
-        1183,
-        218
+        1888,
+        332
       ]
     },
     {
       "source": "armies/game-ready/brodovi/mfp-heavy.png",
       "runtime": "optimized/armies/game-ready/brodovi/mfp-heavy.webp",
-      "sourceSha256": "7db4e286e54a514c20996e9ec44fdf5b38713284cb0fd7809c8046ff4f2a3c3c",
-      "sha256": "31cc471b04b5bbf621c1c172afffa9c3ca6850753cdbac8ba241fc91b44601bb",
-      "originalBytes": 229712,
-      "bytes": 160840,
+      "sourceSha256": "86af21b3a0dfc4ae7c71c7e9475516685200b1ab24f951b9cf950b1cda607a24",
+      "sha256": "54e32fbd227b1e2f8c9df487c8d1018597d84c21b49f9f35a5a2343f54e27f5d",
+      "originalBytes": 1065774,
+      "bytes": 744596,
       "size": [
-        1183,
-        218
+        1888,
+        332
       ]
     },
     {
       "source": "armies/game-ready/brodovi/mfp-sprites.png",
       "runtime": "optimized/armies/game-ready/brodovi/mfp-sprites.webp",
-      "sourceSha256": "0638ffdd3f13a58461d1a4b60ae2a6c58bdcbad834854871335bd42bca00ce05",
-      "sha256": "ff4934b5c0377d4a1e153875a127df2fdd6758efde0bd483ac81f3058354d73a",
-      "originalBytes": 908837,
-      "bytes": 630510,
+      "sourceSha256": "bd9db0c4a5e9eeaf3d50195c022496a61c0da7a878aa3879399e0dc3054d5f17",
+      "sha256": "e77f911ccd53fac517fde51e34346a036e6e20e46dafd950908dedbcc9000b4a",
+      "originalBytes": 4013265,
+      "bytes": 2763016,
       "size": [
-        2366,
-        436
+        1888,
+        1328
       ]
     },
     {
       "source": "armies/game-ready/brodovi/mfp-wreck.png",
       "runtime": "optimized/armies/game-ready/brodovi/mfp-wreck.webp",
-      "sourceSha256": "d917b3b6ebcae8a74bc8312a9e3c3261ca965e405813177b060f812c585d77ff",
-      "sha256": "0e1b41017a81865ca13b8ec8f530d6c683362d63f2c0961fd3da7ca3154ff4e4",
-      "originalBytes": 243620,
-      "bytes": 169474,
+      "sourceSha256": "25c3caa71f0387bde2e0b5d37b96121dbd977bfa1b8e0838d51f93f58aee28dd",
+      "sha256": "22e129ff840c920fec553ece9e95d597fd79a60220738197af84050abecd0237",
+      "originalBytes": 1124946,
+      "bytes": 761012,
       "size": [
-        1183,
-        218
+        1888,
+        332
       ]
     },
     {
       "source": "armies/game-ready/brodovi/mfp.png",
       "runtime": "optimized/armies/game-ready/brodovi/mfp.webp",
-      "sourceSha256": "2ccbce5382981b87f6bee298b7488adc706bb56fc59a9ad5b7215d87fb06ba35",
-      "sha256": "11a77b18383b6fadea837f26f794ddb2f6b6b4e89ef6454f9473c6de1c3e5ef6",
-      "originalBytes": 217358,
-      "bytes": 150564,
+      "sourceSha256": "4924e0f0f8ed31f09b3c0c64bff366ef12b3fa9f0aea88cd2096e8f922e299a7",
+      "sha256": "90e466b0459783506dbe599e0773ce4cb5e6d01aa3a901a64046c129078704e5",
+      "originalBytes": 898920,
+      "bytes": 627084,
       "size": [
-        1183,
-        218
+        1888,
+        332
       ]
     },
     {
@@ -496,85 +652,97 @@
     {
       "source": "armies/game-ready/brodovi/rboot-damaged.png",
       "runtime": "optimized/armies/game-ready/brodovi/rboot-damaged.webp",
-      "sourceSha256": "35cef5b4067c92cc1a04fa23580f8b03252b6cfb1bb4260227b5c7fd79745b54",
-      "sha256": "23b7ef910554b6c768d168e0455c63df2eb6db3f5569b19d0a614f2a21470e9b",
-      "originalBytes": 150121,
-      "bytes": 107690,
+      "sourceSha256": "987ab9c264ea49ce762a0cd4e666a14369be352012efd625a80c153c57376b0e",
+      "sha256": "565c25f44e4c7dc9481115e7da397f7ab5bea06af405e8eeae2b72cd64aa6032",
+      "originalBytes": 530595,
+      "bytes": 362998,
       "size": [
-        883,
-        175
+        1408,
+        245
       ]
     },
     {
       "source": "armies/game-ready/brodovi/rboot-heavy.png",
       "runtime": "optimized/armies/game-ready/brodovi/rboot-heavy.webp",
-      "sourceSha256": "6f505c613fec25cec55eaae59824d913caac46cc433183d5189b4ba55f759f4b",
-      "sha256": "cdb7157cd2800c25c8e7b8f083f3d8f6a811c8d54a52a4fac9574f8681c182d0",
-      "originalBytes": 158237,
-      "bytes": 111326,
+      "sourceSha256": "f639474a269b0f4b1fc1e5549460bcbe9b9a80b5dc1d73a6d0b6f4dac2382f76",
+      "sha256": "93b5c205fe23e88c885af5b205db8e19137a2c1442b2f43279e2b0d96d91a2dc",
+      "originalBytes": 517732,
+      "bytes": 359480,
       "size": [
-        883,
-        175
+        1408,
+        245
       ]
     },
     {
       "source": "armies/game-ready/brodovi/rboot-sprites.png",
       "runtime": "optimized/armies/game-ready/brodovi/rboot-sprites.webp",
-      "sourceSha256": "7e5bb367eeef30c969952fb6f8df737d0e7640a507736fea2e4bfb931d502d5c",
-      "sha256": "10677b743773e5ab8e9c4b1ffb2031e9be01dc4b78befd39c581fc5efc343f8e",
-      "originalBytes": 588906,
-      "bytes": 409932,
+      "sourceSha256": "d755acfb4539f1e9a835dbd3e3d4f061920b0bc872e3a64558585ac0d2ec5f89",
+      "sha256": "15b5c32dec3ed8da3eab719d9e65ca689ebde01f77132264dca058824045f8b9",
+      "originalBytes": 1960233,
+      "bytes": 1373896,
       "size": [
-        1766,
-        350
+        1408,
+        980
       ]
     },
     {
       "source": "armies/game-ready/brodovi/rboot-wreck.png",
       "runtime": "optimized/armies/game-ready/brodovi/rboot-wreck.webp",
-      "sourceSha256": "d7253d2b34415ab37b3c51f83307afacc3d691e4805e5d4133ed9f01508e181f",
-      "sha256": "1f40af1bb88d5fc2664f0c1da67c41bb4e7640507c9bfbbc2d325ccd8c3da09b",
-      "originalBytes": 135743,
-      "bytes": 95552,
+      "sourceSha256": "2d1e21bb4bf3678acf29faaa7f4a2d5699d37b6c4d7da13d9bff0d8b8e5dd907",
+      "sha256": "ad0f1fe74037908b50efdbd0636f1aa85829783e3138f8ba3021deb500ad53e2",
+      "originalBytes": 395569,
+      "bytes": 282238,
       "size": [
-        883,
-        175
+        1408,
+        245
       ]
     },
     {
       "source": "armies/game-ready/brodovi/rboot.png",
       "runtime": "optimized/armies/game-ready/brodovi/rboot.webp",
-      "sourceSha256": "6a9fb577696b4e2e16e53f8236ab33abb745637f618cedf9e9072da1d10faaaf",
-      "sha256": "699b1c156e4c65b3912b35b8857f3def312da30cd7c8cf2c787656b0917b41bc",
-      "originalBytes": 146634,
-      "bytes": 103986,
+      "sourceSha256": "9a374bca9af3da7e9cd5488cdc81acde0ccda1fb8d28723e3f13d2d0a3f46a6d",
+      "sha256": "d9890c743e165b2736bddfa2adff7c05de205610fb5a14adad2791cc7d637f70",
+      "originalBytes": 516544,
+      "bytes": 355772,
       "size": [
-        883,
-        175
+        1408,
+        245
       ]
     },
     {
       "source": "armies/game-ready/brodovi/s30-damaged.png",
       "runtime": "optimized/armies/game-ready/brodovi/s30-damaged.webp",
-      "sourceSha256": "efc865f56a690006c14497d2441a425e66a56a7ff7c11262cafc5080caf0e6aa",
-      "sha256": "241a3f8dfbab78d7a10150e387a0ca3258e53fb7765b9f1df2b85968d597fab2",
-      "originalBytes": 342225,
-      "bytes": 216394,
+      "sourceSha256": "3ce0ac2077e16f12cf05c79163638425ddb7faaea89ec0879af1710a04e57b88",
+      "sha256": "c3ccc1847f26b289e53b3085818fcbc77c85b9ba0893d33d3eaf472d3772e0dc",
+      "originalBytes": 487292,
+      "bytes": 325762,
       "size": [
-        1024,
-        184
+        1327,
+        211
+      ]
+    },
+    {
+      "source": "armies/game-ready/brodovi/s30-deck-gun.png",
+      "runtime": "optimized/armies/game-ready/brodovi/s30-deck-gun.webp",
+      "sourceSha256": "33074fc48dd1d1775f1ae436967164a8dcc97698b00a1cea3419002c25b63548",
+      "sha256": "8de9d5e5c9bb675401b48873672f6a3fee4b86e8408029d3f89104345cedfc83",
+      "originalBytes": 4117,
+      "bytes": 2438,
+      "size": [
+        96,
+        96
       ]
     },
     {
       "source": "armies/game-ready/brodovi/schnellboot-s30.png",
       "runtime": "optimized/armies/game-ready/brodovi/schnellboot-s30.webp",
-      "sourceSha256": "325a67f810ff09e671dbf6e85baf34ab57c2b21456d5a1b261e48ab854b0a2f7",
-      "sha256": "f10d02bddd81c70053e78dc5030d5a30014519d6fd502cea8a595340af0886a8",
-      "originalBytes": 327645,
-      "bytes": 209270,
+      "sourceSha256": "d32cfa0c3628187918147d90b77155edbfa42353746866204b1e879225f47f81",
+      "sha256": "083d5f6ae6d2731fdd1b732507c8069229b08a5762970b91b490e232d6e4aaed",
+      "originalBytes": 466753,
+      "bytes": 313952,
       "size": [
-        1024,
-        184
+        1327,
+        211
       ]
     },
     {
@@ -592,61 +760,61 @@
     {
       "source": "armies/game-ready/brodovi/vorpostenboot-damaged.png",
       "runtime": "optimized/armies/game-ready/brodovi/vorpostenboot-damaged.webp",
-      "sourceSha256": "9cd2aff623bdb925b350b927127d22542f2ac9b2e33f827495818386c7eb5047",
-      "sha256": "74b2fc451a44899a85d1ed62dfb77b8d7a6f615f7be0fb0897fd6e810b14a7df",
-      "originalBytes": 188356,
-      "bytes": 131820,
+      "sourceSha256": "8ab0907ffa7f2925c7ac5b1f50fa1fa1e9bf19e51a7e9a0f9deae728aa8bc763",
+      "sha256": "c8e2291f81063287a2fd7f51fe48507b18019f83031869391a81844c4e271482",
+      "originalBytes": 398289,
+      "bytes": 282708,
       "size": [
-        708,
-        161
+        1128,
+        225
       ]
     },
     {
       "source": "armies/game-ready/brodovi/vorpostenboot-heavy.png",
       "runtime": "optimized/armies/game-ready/brodovi/vorpostenboot-heavy.webp",
-      "sourceSha256": "74e7dbb873f834c1a819d3dd057cbfe5f600672bdb7bb58708e91fa4eaf9e072",
-      "sha256": "b86ea2549dbdf6eff79d2cdac5769516ede60105abee5c6675a593eb3fc0f467",
-      "originalBytes": 199487,
-      "bytes": 131206,
+      "sourceSha256": "08a4e7042b66e89dac0c04efcf0362620ab9a556accd205bb239b4934e48ba35",
+      "sha256": "6bba0a2448e3d8cd61dc13aee7c1807d33bd402f680ff1cf210963a61ce244d4",
+      "originalBytes": 485279,
+      "bytes": 326684,
       "size": [
-        708,
-        161
+        1128,
+        225
       ]
     },
     {
       "source": "armies/game-ready/brodovi/vorpostenboot-sprites.png",
       "runtime": "optimized/armies/game-ready/brodovi/vorpostenboot-sprites.webp",
-      "sourceSha256": "7d8d4daedf8998f279529adc2bcf964b5a975a4ed38cc1c7405004a6a9899894",
-      "sha256": "52a02a82a31b9ea45fe4499583925b6ba4b1b4d3b8e094898fb4821d1722ed10",
-      "originalBytes": 750871,
-      "bytes": 529882,
+      "sourceSha256": "48e83ca878806df3610f469259b32a792bd09066ed91474d50db985c0a9a0b16",
+      "sha256": "75a1aa839e45e962a3b01a7d029390cbb4f8c93a80113587038c7b334a404c08",
+      "originalBytes": 1693212,
+      "bytes": 1151574,
       "size": [
-        1416,
-        322
+        1128,
+        900
       ]
     },
     {
       "source": "armies/game-ready/brodovi/vorpostenboot-wreck.png",
       "runtime": "optimized/armies/game-ready/brodovi/vorpostenboot-wreck.webp",
-      "sourceSha256": "d88dc1f42d4d7e0308ae3006d128e0baf8306bc59ac6dc0cd679e8bce07b5cb7",
-      "sha256": "4be08d319928d2a271dcacf25b0f29c7f1e0cc57777d625fdaeeef6251789eb2",
-      "originalBytes": 177568,
-      "bytes": 119446,
+      "sourceSha256": "ab540b7afe710142812ff1abf0c6e87682a4620392f52d94b2ad565001339c49",
+      "sha256": "d6004af84a4ff9dfaffdf07607ab54fa24aff2acb8bddbd704c50dffa9d76704",
+      "originalBytes": 413424,
+      "bytes": 284218,
       "size": [
-        708,
-        161
+        1128,
+        225
       ]
     },
     {
       "source": "armies/game-ready/brodovi/vorpostenboot.png",
       "runtime": "optimized/armies/game-ready/brodovi/vorpostenboot.webp",
-      "sourceSha256": "376404262e681b454699fe5e8cca0cdf6f7c380bbdb8a16f0d738acd20009220",
-      "sha256": "264c5960186bfd3215514aba798bce643b169dae616aa61e3e4ae2e0b9e30105",
-      "originalBytes": 187438,
-      "bytes": 130740,
+      "sourceSha256": "1c1b82b3ac32a3b3bc964cbdd2de74cff767f6508fbe32e1d9c377a2a4f1ca33",
+      "sha256": "2c3ab9595877fab7d57cd906de827a9163b2c94c767446849e2c58e966fa2454",
+      "originalBytes": 396321,
+      "bytes": 275426,
       "size": [
-        708,
-        161
+        1128,
+        225
       ]
     },
     {
@@ -851,18 +1019,6 @@
       "size": [
         242,
         99
-      ]
-    },
-    {
-      "source": "armies/game-ready/tenkovi/hotchkiss-layers.png",
-      "runtime": "optimized/armies/game-ready/tenkovi/hotchkiss-layers.webp",
-      "sourceSha256": "acdcea3c409123d206db4db9f943a19398dc5202faf88455057d3384d06274c4",
-      "sha256": "18079cb13275182ca89fa80da8a9f257041341e1512647a47a81067cf6dd09fa",
-      "originalBytes": 104333,
-      "bytes": 80004,
-      "size": [
-        608,
-        546
       ]
     },
     {
@@ -1108,13 +1264,13 @@
     {
       "source": "armies/game-ready/vojnici/cetnici-spreda-celo.png",
       "runtime": "optimized/armies/game-ready/vojnici/cetnici-spreda-celo.webp",
-      "sourceSha256": "9914aff8862e662cbe70d008abf6966f81db0eaa23faea399c9fc2433d30aecc",
-      "sha256": "74e228ab820c8ba8058a19445f2a8410aa044efaa8a5be15c33f5e9fa5e758fc",
-      "originalBytes": 61531,
-      "bytes": 38858,
+      "sourceSha256": "4e32e6a3749cd5ca5dc7f02696773bc9fb179f272f332e67021311ea1a4d5dc4",
+      "sha256": "4e349bbcd4ad3f228f03f4098fa8325d2a19be55fc2913fda4176d682dd63a0d",
+      "originalBytes": 129032,
+      "bytes": 82972,
       "size": [
-        1008,
-        124
+        1456,
+        188
       ]
     },
     {
@@ -1127,6 +1283,18 @@
       "size": [
         192,
         288
+      ]
+    },
+    {
+      "source": "armies/game-ready/vojnici/deck-crew-sprites.png",
+      "runtime": "optimized/armies/game-ready/vojnici/deck-crew-sprites.webp",
+      "sourceSha256": "e4b3e4741ef2b734a090b35f854d959a3f157979d4ab66a21fd0618761b5ba36",
+      "sha256": "0259c354d489ab9cc88f38152af704a3e8c1d68a0506ed620876d244a0ee7e4c",
+      "originalBytes": 5306,
+      "bytes": 3466,
+      "size": [
+        136,
+        34
       ]
     },
     {
@@ -1228,13 +1396,13 @@
     {
       "source": "armies/game-ready/vojnici/nemci-spreda-celo.png",
       "runtime": "optimized/armies/game-ready/vojnici/nemci-spreda-celo.webp",
-      "sourceSha256": "2fe68a836281932278d5dced873157eaeebd35557dcc5f68b901252739952a49",
-      "sha256": "41307fa9339afcd2946abf73aa5a58401945ba94a3eace7b4f6253832980b18e",
-      "originalBytes": 56655,
-      "bytes": 34044,
+      "sourceSha256": "8b0581b37ab59c0ba679ee95278ba30521439a2a00b3f9fde050fc350a330acf",
+      "sha256": "f38306d40535da540bb080cd4cc191e7badd737573c48350acb019a9697a9310",
+      "originalBytes": 119513,
+      "bytes": 74554,
       "size": [
-        1008,
-        124
+        1456,
+        188
       ]
     },
     {
@@ -1430,6 +1598,54 @@
       ]
     },
     {
+      "source": "armies/game-ready/vozila/bmw-r12-sprites.png",
+      "runtime": "optimized/armies/game-ready/vozila/bmw-r12-sprites.webp",
+      "sourceSha256": "6550391f4939dca4021dbdf34bef4ef52acf193f7c95c48494d0783545b49616",
+      "sha256": "800f6fe97f3dd63bb8398ff6e085915ee9df456c0999aab464ab63b61165918f",
+      "originalBytes": 249198,
+      "bytes": 161086,
+      "size": [
+        388,
+        395
+      ]
+    },
+    {
+      "source": "armies/game-ready/vozila/elefant-sprites.png",
+      "runtime": "optimized/armies/game-ready/vozila/elefant-sprites.webp",
+      "sourceSha256": "7079f733203d530158a71427282aba2de7003f6bbf036560c94c919deed1bb0a",
+      "sha256": "caf2d635cac65ac124b009c27857f69e9ef7081bb51a5e0c3c7fb42c8d7ed566",
+      "originalBytes": 1403697,
+      "bytes": 938798,
+      "size": [
+        1352,
+        670
+      ]
+    },
+    {
+      "source": "armies/game-ready/vozila/marder-ii-sprites.png",
+      "runtime": "optimized/armies/game-ready/vozila/marder-ii-sprites.webp",
+      "sourceSha256": "9041468f4581f1c1f0398c7c579637e332f073280b5f6865eb2124c0f337cf69",
+      "sha256": "f476c5902311e26de6a9cfe9401aca2d3cdba5b6be49be27189bf45e7b478ae6",
+      "originalBytes": 996053,
+      "bytes": 685002,
+      "size": [
+        1068,
+        640
+      ]
+    },
+    {
+      "source": "armies/game-ready/vozila/mercedes-830bl-sprites.png",
+      "runtime": "optimized/armies/game-ready/vozila/mercedes-830bl-sprites.webp",
+      "sourceSha256": "1d6410bf99377dadb23ca9a9a21a2526788ec3c28ec80ed925723561d826c16b",
+      "sha256": "82a9173cdd7a2e9ff5513566a9eeb13e9cbc9baff2fe90251607035709ea0fac",
+      "originalBytes": 583083,
+      "bytes": 379448,
+      "size": [
+        860,
+        480
+      ]
+    },
+    {
       "source": "armies/game-ready/vozila/motorcycle-sprites.png",
       "runtime": "optimized/armies/game-ready/vozila/motorcycle-sprites.webp",
       "sourceSha256": "60a1cb4a3b1053e0844bc9867adade715146cdc88312c1e9308abd42a6f0e5f7",
@@ -1439,6 +1655,30 @@
       "size": [
         624,
         648
+      ]
+    },
+    {
+      "source": "armies/game-ready/vozila/pzkpf-612-sprites.png",
+      "runtime": "optimized/armies/game-ready/vozila/pzkpf-612-sprites.webp",
+      "sourceSha256": "3a0a63e2ffbc00b4933307c9b7b1b27c174e12894d2308327426aa7404d0e43b",
+      "sha256": "5d02d28c5ede202f01945e205b3a6a6a7d6bf4fa532031dd3ebfd988e0c46f41",
+      "originalBytes": 854749,
+      "bytes": 572342,
+      "size": [
+        984,
+        605
+      ]
+    },
+    {
+      "source": "armies/game-ready/vozila/sdkfz-231-sprites.png",
+      "runtime": "optimized/armies/game-ready/vozila/sdkfz-231-sprites.webp",
+      "sourceSha256": "c55fa30c68e082a2e0778641a72f7566bb6fdcc545c9a323f5fd496bb856d40d",
+      "sha256": "46d544841c443987daeebe2629da2534aea87a9fdbd9377b63de5e9dc12a9c05",
+      "originalBytes": 907683,
+      "bytes": 603418,
+      "size": [
+        988,
+        615
       ]
     },
     {
@@ -1456,13 +1696,25 @@
     {
       "source": "armies/game-ready/vozila/sdkfz251-sprites.png",
       "runtime": "optimized/armies/game-ready/vozila/sdkfz251-sprites.webp",
-      "sourceSha256": "71b07f5176cf7293aca9dd3807f19bcf10714f1aae36e8471963fae8e0d7dc58",
-      "sha256": "2fe85ebe1e43aa5a86892d48238a09b9b9e62615c5e9ab408a1dca8ea4bdb9a5",
-      "originalBytes": 231327,
-      "bytes": 155006,
+      "sourceSha256": "87f9a2b34a058efac555fef88a763eb7dac4c9e4cb44af91860273b1528048b3",
+      "sha256": "510a0bad7b737afc2f7ee15c7ca6e4736349ee7aa89bd17de4adde0b3abf7911",
+      "originalBytes": 817314,
+      "bytes": 550886,
       "size": [
-        512,
-        390
+        984,
+        708
+      ]
+    },
+    {
+      "source": "armies/game-ready/vozila/zundapp-k600-sprites.png",
+      "runtime": "optimized/armies/game-ready/vozila/zundapp-k600-sprites.webp",
+      "sourceSha256": "46378bc2526d9fe017a7e75f3a86920ec61a7a8a7c53296cca500f9a8f7d5734",
+      "sha256": "98d99994a4dbc3f1a6c122ec223d3c213864c66ecfb41490365dc257fc46e035",
+      "originalBytes": 259024,
+      "bytes": 167506,
+      "size": [
+        544,
+        410
       ]
     },
     {

@@ -12,8 +12,8 @@ export default {
   },
   'sdkfz251': {
     'muzzle': {
-      'ahead': 0.7,
-      'above': 0.6346153846153847
+      'ahead': 0.684549356223176,
+      'above': 0.6390476190476191
     }
   },
   'sdkfz222': {

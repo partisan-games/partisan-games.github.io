@@ -3,6 +3,7 @@ import Health from '../../Health.js'
 import Cooldown from '../../Cooldown.js'
 import ProjectilePool from '../projectiles/ProjectilePool.js'
 import Bullet from '../projectiles/Bullet.js'
+import { hullEntry } from '../projectiles/hits.js'
 
 /**
  * A fighter-bomber seen from above, measured from the earlier pixel plane at 10 px a metre and 60 frames a second:
@@ -46,10 +47,10 @@ const states = {
  * `canFire()`.
  */
 export default class FighterBomber extends Body {
-  constructor({ size = { length: 15, height: 2, width: 12.75 }, clock, targets = [], solids = [], bounds = null,
-    canFire = () => true, random = Math.random, view = null, performance = plainPerformance, ...rest } = {}) {
+  constructor({ size = { length: 9.12, height: 3.86, width: 11.23 }, clock, targets = [], solids = [], bounds = null,
+    canFire = () => true, random = Math.random, view = null, performance = plainPerformance, distanceScale = 1, ...rest } = {}) {
     super({ size, yaw: Math.PI / 2, ...rest, states, initial: 'move' })
-    Object.assign(this, { targets, solids, bounds, canFire })
+    Object.assign(this, { targets, solids, bounds, canFire, distanceScale })
     this.fireLevel = 0
     /** The damage every one of its bullets takes, which its model sets. */
     this.bulletDamage = { min: 1, max: 1 }
@@ -104,6 +105,10 @@ export default class FighterBomber extends Body {
     return Infinity
   }
 
+  hitTime(start, end) {
+    return hullEntry({ start, end }, this)
+  }
+
   /** The guns are fixed, so it can fire only at a point ahead of it. */
   aimAt(point) {
     return point.z < this.z
@@ -112,7 +117,7 @@ export default class FighterBomber extends Body {
   /** Pushes it across the view, `x` and `z` -1, 0 or 1 each. */
   steer(x, z, dt) {
     if (this.dead) return
-    const thrust = fighterBomber.thrust * this.performance.speed
+    const thrust = fighterBomber.thrust * this.performance.speed * this.distanceScale
     this.vx += x * thrust * dt
     this.vz += z * thrust * dt
   }
@@ -121,8 +126,8 @@ export default class FighterBomber extends Body {
   shoot() {
     if (this.dead || !this.canFire() || !this.reload.ready) return false
     for (const { across, angle } of fireLevels[this.fireLevel])
-      this.bullets.fire({ x: this.x + across, y: this.y, z: this.z - this.size.width / 4 }, Math.PI / 2 - angle, 0,
-        fighterBomber.bulletSpeed)
+      this.bullets.fire({ x: this.x + across * this.distanceScale, y: this.y, z: this.z - this.size.length / 4 }, Math.PI / 2 - angle, 0,
+        fighterBomber.bulletSpeed * this.distanceScale)
     this.shotsFired++
     this.reload.start()
     return true
@@ -166,7 +171,7 @@ export default class FighterBomber extends Body {
     const before = this.loopProgress
     this.loopAge += dt
     const progress = this.loopProgress
-    this.z -= fighterBomber.loop.ahead * (lift(progress) - lift(before))
+    this.z -= fighterBomber.loop.ahead * this.distanceScale * (lift(progress) - lift(before))
     if (progress === 1) this.loopAge = null
   }
 
@@ -181,15 +186,15 @@ export default class FighterBomber extends Body {
   }
 
   overlaps(body) {
-    return Math.abs(body.x - this.x) < (body.size.length + this.size.length) / 2 &&
-      Math.abs(body.z - this.z) < (body.size.width + this.size.width) / 2
+    return Math.abs(body.x - this.x) < (body.size.width + this.size.width) / 2 &&
+      Math.abs(body.z - this.z) < (body.size.length + this.size.length) / 2
   }
 
   /** The edges of the view stop it: a quarter of its span may leave at the sides, none of it at the top or bottom. */
   keepInBounds() {
     if (!this.bounds) return
     const { minX, maxX, minZ, maxZ } = this.bounds
-    const side = this.size.length / 4, end = this.size.width / 2
+    const side = this.size.width / 4, end = this.size.length / 2
     this.x = Math.min(maxX - side, Math.max(minX + side, this.x))
     this.z = Math.min(maxZ - end, Math.max(minZ + end, this.z))
   }

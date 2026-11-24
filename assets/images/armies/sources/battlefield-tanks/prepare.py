@@ -1,6 +1,7 @@
 """Cut the three original left-facing profiles and their wrecks for the shared TankSprite."""
 import hashlib
 import json
+import math
 from pathlib import Path
 
 from PIL import Image, ImageChops, ImageDraw, ImageOps
@@ -46,7 +47,7 @@ def digest(path):
 
 def pack(r, original, wrecks):
     left, top, right, bottom = r['body']
-    frame = (round(r['length'] * 36), round((bottom-top) * r['length'] * 36 / (right-left)))
+    frame = (math.ceil(r['length'] * 40), math.ceil((bottom-top) * r['length'] * 40 / (right-left)))
     w, h = frame
     hull = original.copy()
     barrel = hull.crop(r['gun'])
@@ -74,7 +75,7 @@ def pack(r, original, wrecks):
     barrel_path = OUT / (r['id'] + '-barrel.png')
     atlas.save(sheet_path)
     barrel_scale = w / (right-left)
-    barrel.resize((max(1, round(barrel.width*barrel_scale)), max(1, round(barrel.height*barrel_scale))), NEAREST).save(barrel_path)
+    barrel.resize((max(1, math.ceil(barrel.width*barrel_scale)), max(1, math.ceil(barrel.height*barrel_scale))), NEAREST).save(barrel_path)
     scale = r['length'] / (right-left)
     meter = lambda value: round(value * scale, 3)
     center = (left+right)/2

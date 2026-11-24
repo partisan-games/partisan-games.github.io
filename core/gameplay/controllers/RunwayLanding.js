@@ -12,8 +12,8 @@ export const landing = { approach: 15, touchdown: 10, climb: 5, liftRate: .7 }
  * it flies at its height again. The body has `x`, `z`, `vx`, `vz` and `lift`, from 1 at its height to 0 on the ground.
  */
 export default class RunwayLanding {
-  constructor(body, { runway, rest, onLanded = () => {}, onRested = () => {}, onAirborne = () => {} }) {
-    Object.assign(this, { body, runway, rest, onLanded, onRested, onAirborne })
+  constructor(body, { runway, rest, onLanded = () => {}, onRested = () => {}, onAirborne = () => {}, distanceScale = 1 }) {
+    Object.assign(this, { body, runway, rest, onLanded, onRested, onAirborne, distanceScale })
     this.phase = 'approach'
     this.rested = 0
     this.speed = 0
@@ -22,7 +22,7 @@ export default class RunwayLanding {
   /** Moves the body towards `point` at `speed`; returns whether it is there. */
   flyTo(point, speed, dt) {
     const { body } = this
-    const dx = point.x - body.x, dz = point.z - body.z, distance = Math.hypot(dx, dz), step = speed * dt
+    const dx = point.x - body.x, dz = point.z - body.z, distance = Math.hypot(dx, dz), step = speed * dt * this.distanceScale
     if (distance <= step) Object.assign(body, { x: point.x, z: point.z })
     else Object.assign(body, { x: body.x + dx / distance * step, z: body.z + dz / distance * step })
     return distance <= step
@@ -49,7 +49,7 @@ export default class RunwayLanding {
       this.onRested()
     } else if (this.phase === 'takeoff') {
       this.speed += landing.climb * dt
-      body.z -= this.speed * dt
+      body.z -= this.speed * dt * this.distanceScale
       body.lift = Math.min(1, body.lift + landing.liftRate * dt)
       if (body.lift < 1) return
       this.phase = 'done'

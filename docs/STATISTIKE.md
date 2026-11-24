@@ -16,12 +16,12 @@ Oklop je najdeblji prednji i bočni u milimetrima. Kad se izvori razlikuju, prva
 | StuG III G ([Sturmgeschütz III](https://en.wikipedia.org/wiki/Sturmgesch%C3%BCtz_III)) | Tenkići | 40 | 23.9 / 24.4 | 300 | 12.3 | 80 / 30 | 75 mm StuK 40 L/48 | 4 |
 | Somua S35 ([SOMUA S35](https://en.wikipedia.org/wiki/SOMUA_S35)) | Do Trsta | 40 put, 32 teren | 19.5 | 190 | 9.7 | 47 / 40; 56 / 45 | 47 mm SA35 | 3 |
 | Hummel ([Hummel](https://en.wikipedia.org/wiki/Hummel_(vehicle))) | Franjo Kluz | 42 | 24 / 21 | 300 | 14.3 | 30 / 20 | 150 mm sFH 18 | 6 |
-| Marder II, 76 mm ([Marder II](https://en.wikipedia.org/wiki/Marder_II)), plan | Do Trsta | 40 | 10.8 | 138 | 12.8 | 35 / 14.5 | 76.2 mm Pak 36(r) | 4 |
-| Elefant ([Elefant](https://en.wikipedia.org/wiki/Elefant)), plan | Do Trsta | 30 | 65 | 600 / 625 | 9.6 | 200 / 80 | 88 mm Pak 43 | 6 |
+| Marder II, 76 mm ([Marder II](https://en.wikipedia.org/wiki/Marder_II)) | Do Trsta | 40 | 10.8 | 138 | 12.8 | 35 / 14.5 | 76.2 mm Pak 36(r) | 4 |
+| Elefant ([Elefant](https://en.wikipedia.org/wiki/Elefant)) | Do Trsta | 30 | 65 | 600 / 625 | 9.6 | 200 / 80 | 88 mm Pak 43 | 6 |
 | Sd.Kfz. 222 ([Leichter Panzerspähwagen](https://en.wikipedia.org/wiki/Leichter_Panzersp%C3%A4hwagen)) | Do Trsta | — | 4 / 5 | 90 | 18 | 30 / 8 | 20 mm KwK 38 | 3 |
 | Sd.Kfz. 251 ([Sd.Kfz. 251](https://en.wikipedia.org/wiki/Sd.Kfz._251)) | Do Trsta | 52.5 | 7.8 | 100 | 12.5 | 14.5 / 8 | MG 34/42 | 2 + 10 |
-| Sd.Kfz. 231, osmotočkaš ([Schwerer Panzerspähwagen](https://en.wikipedia.org/wiki/Schwerer_Panzersp%C3%A4hwagen)), plan | Do Trsta | 85 put, 31 teren | 8.3 | 155 | 18.7 | — | 20 mm KwK 30 | 4 |
-| Pz.Kpfw. 612, 37 mm, plan | Do Trsta | — | — | — | — | — | 37 mm | — |
+| Sd.Kfz. 231, osmotočkaš ([Schwerer Panzerspähwagen](https://en.wikipedia.org/wiki/Schwerer_Panzersp%C3%A4hwagen)) | Do Trsta | 85 put, 31 teren | 8.3 | 155 | 18.7 | — | 20 mm KwK 30 | 4 |
+| Pz.Kpfw. 612, 37 mm | Do Trsta | — | — | — | — | — | 37 mm | — |
 | Oklopni voz BP-42 | Franjo Kluz | — | — | — | — | — | — | — |
 
 War Thunder za Sd.Kfz. 251 ima samo inačicu 251/9 sa topom od 75 mm, pa su njegova masa, snaga i oklop uzeti od nje. Model Pz.Kpfw. 612 nije pouzdano prepoznat ni u jednom izvoru, a BP-42 nema članak.
@@ -31,10 +31,10 @@ War Thunder za Sd.Kfz. 251 ima samo inačicu 251/9 sa topom od 75 mm, pa su njeg
 | Model (Wikipedia) | Igra | Brzina km/h | Motor KS | Napomena |
 |---|---|---|---|---|
 | Opel Blitz ([Opel Blitz](https://en.wikipedia.org/wiki/Opel_Blitz)) | Franjo Kluz | — | — | infobox bez brojeva |
-| Mercedes 830 BL, oficirski, plan | Do Trsta | — | — | nema članka; War Thunder ima samo Horch bez brojeva |
+| Horch 830 BL, oficirski | Do Trsta | 115 | 75 | stari naziv resursa je `mercedes-830bl`; podaci zbirke WHZ navode Horch |
 | Motociklista, BMW R75 sa prikolicom ([BMW R75](https://en.wikipedia.org/wiki/BMW_R75)) | Do Trsta | — | 26 | |
-| Zündapp K600 sa dvojicom, plan | Do Trsta | — | — | nema članka |
-| BMW R12 sa dvojicom, plan ([BMW R12 and R17](https://en.wikipedia.org/wiki/BMW_R12_and_R17)) | Do Trsta | — | 18 | |
+| Zündapp K600 sa dvojicom | Do Trsta | — | — | masa sa posadom je procena, ne objavljen podatak o teretu |
+| BMW R12 sa dvojicom ([BMW R12 and R17](https://en.wikipedia.org/wiki/BMW_R12_and_R17)) | Do Trsta | — | 18 | prikolica koristi izričito označenu zamensku masu R75 |
 
 ## Zajedničke mase i sudari
 
@@ -43,6 +43,8 @@ War Thunder za Sd.Kfz. 251 ima samo inačicu 251/9 sa topom od 75 mm, pa su njeg
 Dopunski izvori: [Tank Museum — Tiger I](https://tankmuseum.org/tank-nuts/tank-collection/tiger-i) navodi 57 t, a [Somua S35](https://tankmuseum.org/tank-nuts/tank-collection/somua-s35) 19,5 t. [Zbirka DISG — Opel Blitz](https://www.disg-ev.de/fahrzeugsammlung/opel-blitz) za 3.6-36 S navodi 2.500 kg praznog i 5.500 kg najveće ukupne mase. [BMW-ov tehnički priručnik R75](https://vintagebmw.org/library_data/Workshop_R75_German.pdf) navodi 420 kg sa prikolicom i 840 kg dozvoljene ukupne mase. Za Opel i BMW u sudaru se koristi objavljena najveća ukupna masa; to je izabrana referenca opterećenja, ne izmereni teret aktera. Ostale mase zavise od varijante, posebno Sd.Kfz. 222/251; ne mešati američke/imperijalne tone sa metričkim.
 
 [Zajedničko pravilo sudara](../core/gameplay/VehicleCollisions.js) iz konstrukcije i mase izvodi rang: neoklopljena vozila i vučena oruđa 1, ostala vozila ispod 10 t 2, od 10 do ispod 30 t 3, od 30 t 4. Rang i šteta su balans igre, ne istorijske činjenice. Šteta raste sa kvadratom relativne brzine i udelom mase protivnika; laka prepreka prenosi manje štete. Vozilo ranga 3/4 pri udaru od najmanje 1 m/s gazi protivnika ranga 1/2 ako je najmanje tri puta teže. Preživeli kontakti zaustavljaju vozila, uz jedan obračun štete do razdvajanja. Mrtve olupine nisu nove prepreke. Do Trsta koristi ovo pravilo na putu i zaustavlja kameru pred preživelim vozilom; ostale igre imaju zajedničke podatke, ali im pravilo kontakta nije automatski uključeno.
+
+Nova vozila čitaju iste globalne zapise. [Zbirka WHZ — Horch 830 BL](https://www.whz.de/fileadmin/service/historische_sammlung/kraftfahrzeug/docs/horch_830_bl.pdf) navodi 1.950 kg praznog i 550 kg nosivosti; sudari koriste zbir 2.500 kg. [Izvorni BMW priručnik R12](https://vintagebmw.org/library_data/R12_owners_english_1935.pdf) navodi 188 kg solo motora; masa sa prikolicom i posadom nije potvrđena, pa se za sudar koristi jasno označen R75 primer od 840 kg. Zündapp koristi projektnu procenu 343 kg: referentnih 193 kg motora i dva pretpostavljena vojnika po 75 kg; to nije izmerena masa aktera. Neprepoznati Pz.Kpfw. 612 koristi jasno označene mere i 8.300 kg Sd.Kfz. 231 kao zamenu za sudare, bez tvrdnje o identitetu modela.
 
 ## Avioni
 
@@ -64,6 +66,24 @@ Brzina i prazna masa: prva vrednost je sa Wikipedije, druga iz War Thundera.
 | Fw 190 A-5 ([Focke-Wulf Fw 190](https://en.wikipedia.org/wiki/Focke-Wulf_Fw_190)) | Vis | 652 / 670 | 3200 / 3353 | — | 2 × 13 mm MG 131, 2 × 20 mm MG 151/20 | 1 | 2102 |
 
 Inačica u zagradi je ona iz War Thundera. Wikipedija za Hurricane opisuje celu porodicu, pa su njeno oružje i motor za Mk IV približni.
+
+### Mere tela u Visu
+
+Modeli dele [iste mere](../core/actor/aircraft/fighterBomberPlanes.js) u nivou i katalogu: `length` je dužina trupa, `width` raspon krila. Prikaz odozgo i pogoci prate te ose, umesto ranijih mera preuzetih iz PNG-a. Vis koristi 14 px/m; upravljanje, brzine metaka, razmak pušaka, petlja i sletanje množe svoja rastojanja sa 10/14, a putanje i talasi ostaju u istim pikselima i sekundama. Stvarne razlike u veličinama modela menjaju njihov vidljivi obris i sudarnu površinu; nisu prikrivene zasebnim kutijama sudara.
+
+| Model | Dužina m | Raspon m | Osnov |
+|---|---|---|---|
+| Spitfire Mk Vb | 9.12 | 11.23 | [Italijansko ratno vazduhoplovstvo](https://www.aeronautica.difesa.it/en/2023/05/26/spitfire-v-ix/) |
+| Hurricane Mk IV | 9.84 | 12.19 | [BAE — porodica Hurricane](https://www.baesystems.com/heritage/page/hawker-hurricane) |
+| Breguet 19 | 9.51 | 14.83 | [Vazduhoplovne tradicije Srbije](https://vazduhoplovnetradicijesrbije.rs/index.php/istorija/brege-19) |
+| Yak-1b | 8.48 | 10 | [Tehničke tabele Yak-1](https://airpages.ru/ru/yak1.shtml) |
+| Il-2 | 11.6 | 14.6 | [NASM — Il-2](https://airandspace.si.edu/collection-objects/ilyushin-il-2-shturmovik/nasm_A19950142000) |
+| Bf 109 | 8.94 | 9.92 | [Australian War Memorial](https://www.awm.gov.au/visit/exhibitions/striking/planes/german/bf109) |
+| Fw 190 | 8.95 | 10.5 | [Luftfahrtmuseum Hannover](https://luftfahrtmuseum-hannover.de/index.php/en/infotext/schild-focke-wulf-190gb) |
+| Bf 110 | 12.65 | 16.25 | [Australian War Memorial — G-4 referenca](https://www.awm.gov.au/visit/exhibitions/striking/planes/german/bf110) |
+| He 111 | 16.4 | 22.6 | [Deutsches Museum — CASA izvedenica He 111](https://www.deutsches-museum.de/en/flugwerft-schleissheim/exhibition/military-aviation/casa-2111) |
+
+Neidentifikovani obojeni lovci koriste mere Bf 109 kao projektnu zamenu; crtež nije potvrda konkretne istorijske varijante. Bočni avioni drugih nivoa zadržavaju svoje postojeće mere.
 
 ## Brodovi
 

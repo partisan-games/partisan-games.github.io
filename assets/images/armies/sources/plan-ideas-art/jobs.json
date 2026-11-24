@@ -1,12 +1,54 @@
 {
   "jobs": [
     {
+      "id": "rboot",
+      "title": "R-boot minolovac",
+      "kind": "vessel",
+      "metres": 35,
+      "pixelsPerMetre": 40,
+      "sourceColumns": 1,
+      "sourceRows": 4,
+      "sourceParts": [
+        "rboot-generated.png",
+        "rboot-damage-generated.png"
+      ],
+      "sourceMuzzlePoint": [
+        1790,
+        175
+      ],
+      "sourceRowEdges": [
+        0,
+        362,
+        724,
+        1112,
+        1448
+      ]
+    },
+    {
       "id": "mfp",
       "title": "MFP naoružana desantna teglenica",
       "kind": "vessel",
       "metres": 47,
       "widthMetres": 6.5,
-      "subject": "German WWII Marinefährprahm armed landing barge, broad flat rectangular hull, forward loading ramp on RIGHT bow, aft wheelhouse, small gun platforms, gray olive metal"
+      "subject": "German WWII Marinefährprahm armed landing barge, broad flat rectangular hull, forward loading ramp on RIGHT bow, aft wheelhouse, small gun platforms, gray olive metal",
+      "pixelsPerMetre": 40,
+      "sourceColumns": 1,
+      "sourceRows": 4,
+      "sourceParts": [
+        "mfp-generated.png",
+        "mfp-damage-generated.png"
+      ],
+      "sourceMuzzlePoint": [
+        430,
+        69
+      ],
+      "sourceRowEdges": [
+        0,
+        363,
+        724,
+        1094,
+        1448
+      ]
     },
     {
       "id": "vorpostenboot",
@@ -14,7 +56,25 @@
       "kind": "vessel",
       "metres": 28,
       "widthMetres": 6,
-      "subject": "German WWII armed fishing trawler Vorpostenboot, rounded pointed RIGHT bow, stern working deck, central small wheelhouse and funnel, bow deck gun, fishing-boat hull"
+      "subject": "German WWII armed fishing trawler Vorpostenboot, rounded pointed RIGHT bow, stern working deck, central small wheelhouse and funnel, bow deck gun, fishing-boat hull",
+      "pixelsPerMetre": 40,
+      "sourceColumns": 1,
+      "sourceRows": 4,
+      "sourceParts": [
+        "vorpostenboot-generated.png",
+        "vorpostenboot-damage-generated.png"
+      ],
+      "sourceMuzzlePoint": [
+        1680,
+        175
+      ],
+      "sourceRowEdges": [
+        0,
+        360,
+        724,
+        1091,
+        1448
+      ]
     },
     {
       "id": "sea-mine",
@@ -29,7 +89,18 @@
       "kind": "aircraft",
       "reference": "nemci/avioni/heinkel-he-111-h2.png",
       "length": 16.4,
-      "subject": "Heinkel He 111 H-2 twin-engine German bomber, LEFT-facing pure side profile, glazed asymmetric nose, two engine nacelles; separate propeller row; opening bomb bay doors during attack"
+      "subject": "Heinkel He 111 H-2 twin-engine German bomber, LEFT-facing pure side profile, glazed asymmetric nose, two engine nacelles; separate propeller row; opening bomb bay doors during attack",
+      "pixelsPerMetre": 40,
+      "sourceColumns": 2,
+      "sourceRows": 4,
+      "sourceHub": [
+        137,
+        194
+      ],
+      "nativeMinimumSize": [
+        660,
+        182
+      ]
     },
     {
       "id": "storch",
@@ -37,7 +108,12 @@
       "kind": "aircraft",
       "reference": "nemci/avioni/fieseler-fi-156-storch-01.png",
       "length": 9.9,
-      "subject": "Fieseler Fi 156 Storch German unarmed reconnaissance plane, LEFT-facing pure side profile, high braced wing and long fixed undercarriage, separate propeller row; attack row is unavailable and remains transparent"
+      "subject": "Fieseler Fi 156 Storch German unarmed reconnaissance plane, LEFT-facing pure side profile, high braced wing and long fixed undercarriage, separate propeller row; attack row is unavailable and remains transparent",
+      "pixelsPerMetre": 40,
+      "nativeMinimumSize": [
+        288,
+        112
+      ]
     },
     {
       "id": "motorcycle",
@@ -69,7 +145,16 @@
       "kind": "vehicle",
       "reference": "nemci/vozila/sdkfz-251-05.png",
       "length": 5.8,
-      "subject": "German Sd.Kfz.251 open-topped halftrack, LEFT-facing side profile, front road wheel and rear track, angled armored hull, helmeted MG gunner; moving tracks and front wheel during drive"
+      "subject": "German Sd.Kfz.251 open-topped halftrack, LEFT-facing side profile, front road wheel and rear track, angled armored hull, helmeted MG gunner; moving tracks and front wheel during drive",
+      "pixelsPerMetre": 40,
+      "sourceMuzzlePoint": [
+        141,
+        47
+      ],
+      "nativeMinimumSize": [
+        232,
+        88
+      ]
     },
     {
       "id": "sdkfz222",

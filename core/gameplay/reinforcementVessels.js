@@ -7,8 +7,8 @@ export default {
       'height': 0.8
     },
     'muzzle': {
-      'ahead': 13.9,
-      'across': 0.54
+      'ahead': 12.05,
+      'across': -0.3375
     },
     'gunOffset': 0,
     'speed': 3.2,
@@ -21,8 +21,8 @@ export default {
       'height': 0.8
     },
     'muzzle': {
-      'ahead': -13.98,
-      'across': -3.0
+      'ahead': -15.275,
+      'across': -2.7
     },
     'gunOffset': 3.141592653589793,
     'speed': 2.2,
@@ -35,8 +35,8 @@ export default {
       'height': 0.8
     },
     'muzzle': {
-      'ahead': 10.2,
-      'across': 0.02
+      'ahead': 9.2,
+      'across': -0.1375
     },
     'gunOffset': 0,
     'speed': 3.5,

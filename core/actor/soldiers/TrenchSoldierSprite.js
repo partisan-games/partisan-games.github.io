@@ -1,6 +1,7 @@
 import BodySprite from '/core/actor/BodySprite.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import { trench } from '/core/gameplay/bodies/soldiers/TrenchSoldier.js'
+import standingArt from './frontStandingArt.js'
 
 /** Seconds between two shots of the burst, as drawn. */
 const { shotInterval } = trench
@@ -17,7 +18,7 @@ const stride = 1.3
 export default class TrenchSoldierSprite extends BodySprite {
   constructor(body, { faction = 'nemci', variant = 0, scale = 1, projection, camera, inTrench = false }) {
     super(body, `armies/game-ready/vojnici/${faction}-spreda${inTrench ? '' : '-celo'}.png`, { projection, camera, scale,
-      width: (inTrench ? 68 : 144) * scale, height: (inTrench ? 76 : 124) * scale })
+      width: (inTrench ? 68 : standingArt.width) * scale, height: (inTrench ? 76 : standingArt.height) * scale })
     Object.assign(this, { faction, variant, scale, inTrench })
     this.fit()
     this.idlePhase = Math.random() * Math.PI * 2
@@ -116,7 +117,8 @@ export default class TrenchSoldierSprite extends BodySprite {
     ctx.translate(this.x, this.y)
     ctx.rotate(angle)
     ctx.scale(this.scale, this.scale * (1 - squeeze))
-    ctx.drawImage(this.image, frame * 144, 0, 144, 124, -72, -122, 144, 124)
+    const { width, height, anchor } = standingArt
+    ctx.drawImage(this.image, frame * width, 0, width, height, -anchor.x, -anchor.y, width, height)
     ctx.restore()
   }
 }

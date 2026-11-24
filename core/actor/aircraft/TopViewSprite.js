@@ -21,7 +21,8 @@ export default class TopViewSprite extends BodySprite {
   /** Its span across the view and its length down it; the picture points up the view, a quarter turn from yaw 0. */
   fit() {
     super.fit()
-    this.height = this.projection.length(this.body.size.width)
+    this.width = this.projection.length(this.body.size.width)
+    this.height = this.projection.length(this.body.size.length)
     this.angle = this.projection.angle(this.body.yaw) + Math.PI / 2
   }
 

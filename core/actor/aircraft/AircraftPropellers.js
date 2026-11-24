@@ -1,4 +1,5 @@
 import art from './propellerArt.js'
+import topArt from './topAircraftArt.js'
 import { assets } from '/config.js'
 import { canonicalImageSource, runtimeImageSource } from '../imageSources.js'
 
@@ -6,7 +7,7 @@ import { canonicalImageSource, runtimeImageSource } from '../imageSources.js'
 export default class AircraftPropellers {
   constructor(src) {
     const key = canonicalImageSource(src.replace(/^.*\/assets\/images\//, ''))
-    this.art = art[key]
+    this.art = topArt[key] ?? art[key]
     this.elapsed = 0
     if (!this.art) return
     this.image = new Image()

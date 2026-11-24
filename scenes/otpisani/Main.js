@@ -15,7 +15,7 @@ import { randomInRange } from '/core/utils.js'
 /** The Germans come in turn: the rifleman, the sentry and the full figure shared with Neretva. */
 const lineup = ['rifleman', 'sentry', 'nemac']
 /** The full figure stands 122 px of its picture; a man is 180 px here. */
-const nemacScale = 180 / 122
+const nemacScale = 1
 
 export default class OtpisaniScene extends Scene2D {
   constructor() {

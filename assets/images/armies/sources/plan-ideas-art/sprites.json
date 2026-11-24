@@ -8,54 +8,54 @@
       "kind": "vessel",
       "integrated": true,
       "image": "../../game-ready/brodovi/rboot-sprites.png",
-      "sha256": "7e5bb367eeef30c969952fb6f8df737d0e7640a507736fea2e4bfb931d502d5c",
+      "sha256": "d755acfb4539f1e9a835dbd3e3d4f061920b0bc872e3a64558585ac0d2ec5f89",
       "frame": {
-        "width": 883,
-        "height": 175,
-        "columns": 2,
-        "rows": 2
+        "width": 1408,
+        "height": 245,
+        "columns": 1,
+        "rows": 4
       },
       "anchor": {
-        "x": 441.5,
-        "y": 87.5
+        "x": 704.0,
+        "y": 122.5
       },
       "source": "rboot-generated.png",
-      "sourceSha256": "cd2982284d976a3a62b61752ea5b178fb9ba55eeee1d9a6a2451b1d9d4e427fa",
+      "sourceSha256": "f31d7b7cf19f503ee55e3f26935623505213e2c711c9e4b111078fd879ca79a9",
       "sourceSize": [
-        1774,
-        887
+        2172,
+        1448
       ],
       "sourceCells": [
         [
           0,
           0,
-          887,
-          444
-        ],
-        [
-          887,
-          0,
-          1774,
-          444
+          2172,
+          362
         ],
         [
           0,
-          444,
-          887,
-          887
+          362,
+          2172,
+          724
         ],
         [
-          887,
-          444,
-          1774,
-          887
+          0,
+          724,
+          2172,
+          1112
+        ],
+        [
+          0,
+          1112,
+          2172,
+          1448
         ]
       ],
       "transform": {
-        "scale": 1.1824324324324325,
+        "scale": 0.6819288845591817,
         "offset": [
-          -84,
-          -197
+          -35,
+          -10
         ]
       },
       "animations": [
@@ -72,17 +72,6 @@
         },
         {
           "name": "damaged",
-          "row": 0,
-          "frameColumns": [
-            1
-          ],
-          "frameCount": 1,
-          "duration": 1.6,
-          "loop": true,
-          "distinctFrames": 1
-        },
-        {
-          "name": "heavy",
           "row": 1,
           "frameColumns": [
             0
@@ -93,10 +82,21 @@
           "distinctFrames": 1
         },
         {
-          "name": "wreck",
-          "row": 1,
+          "name": "heavy",
+          "row": 2,
           "frameColumns": [
-            1
+            0
+          ],
+          "frameCount": 1,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 1
+        },
+        {
+          "name": "wreck",
+          "row": 3,
+          "frameColumns": [
+            0
           ],
           "frameCount": 1,
           "duration": 1.6,
@@ -106,19 +106,28 @@
       ],
       "warnings": [],
       "rowRegistration": [],
-      "supplements": [],
+      "supplements": [
+        {
+          "source": "rboot-damage-generated.png",
+          "sha256": "649f111c27a0d75f3f9e9a4513b611c2e167d743b18f109ba5d87fe23b0e115a"
+        }
+      ],
       "reference": null,
       "view": "top-down",
       "facing": 1,
       "generation": "generation.json",
-      "pixelsPerMetre": 25,
+      "muzzlePoint": [
+        1186,
+        109
+      ],
+      "pixelsPerMetre": 40,
       "designLengthMetres": 35,
       "historicalClassIdentificationConfirmed": false,
       "crew": {
         "image": "assets/images/armies/game-ready/vojnici/deck-crew-sprites.png",
         "frame": [
-          24,
-          24
+          34,
+          34
         ],
         "frames": 4,
         "seconds": 1.6,
@@ -127,16 +136,16 @@
         ],
         "positions": [
           [
-            238,
-            79
-          ],
-          [
             380,
-            105
+            110
           ],
           [
-            574,
-            70
+            605,
+            147
+          ],
+          [
+            915,
+            98
           ]
         ]
       },
@@ -149,54 +158,54 @@
       "kind": "vessel",
       "integrated": true,
       "image": "../../game-ready/brodovi/mfp-sprites.png",
-      "sha256": "0638ffdd3f13a58461d1a4b60ae2a6c58bdcbad834854871335bd42bca00ce05",
+      "sha256": "bd9db0c4a5e9eeaf3d50195c022496a61c0da7a878aa3879399e0dc3054d5f17",
       "frame": {
-        "width": 1183,
-        "height": 218,
-        "columns": 2,
-        "rows": 2
+        "width": 1888,
+        "height": 332,
+        "columns": 1,
+        "rows": 4
       },
       "anchor": {
-        "x": 591.5,
-        "y": 109.0
+        "x": 944.0,
+        "y": 166.0
       },
       "source": "mfp-generated.png",
-      "sourceSha256": "dc0ddadf7daf90393b942b30ff5c9387de5608b91b3212fa79cd77734bec561d",
+      "sourceSha256": "dff3c3ff57aba7f05f1911009d6417cd380bb0f07f7e141a00d7e1e16e877a17",
       "sourceSize": [
-        1922,
-        818
+        2172,
+        1448
       ],
       "sourceCells": [
         [
           0,
           0,
-          961,
-          409
-        ],
-        [
-          961,
-          0,
-          1922,
-          409
+          2172,
+          363
         ],
         [
           0,
-          409,
-          961,
-          818
+          363,
+          2172,
+          724
         ],
         [
-          961,
-          409,
-          1922,
-          818
+          0,
+          724,
+          2172,
+          1094
+        ],
+        [
+          0,
+          1094,
+          2172,
+          1448
         ]
       ],
       "transform": {
-        "scale": 1.3337116912599318,
+        "scale": 0.9297725024727992,
         "offset": [
-          -51,
-          -243
+          -67,
+          -6
         ]
       },
       "animations": [
@@ -213,17 +222,6 @@
         },
         {
           "name": "damaged",
-          "row": 0,
-          "frameColumns": [
-            1
-          ],
-          "frameCount": 1,
-          "duration": 1.6,
-          "loop": true,
-          "distinctFrames": 1
-        },
-        {
-          "name": "heavy",
           "row": 1,
           "frameColumns": [
             0
@@ -234,10 +232,21 @@
           "distinctFrames": 1
         },
         {
-          "name": "wreck",
-          "row": 1,
+          "name": "heavy",
+          "row": 2,
           "frameColumns": [
-            1
+            0
+          ],
+          "frameCount": 1,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 1
+        },
+        {
+          "name": "wreck",
+          "row": 3,
+          "frameColumns": [
+            0
           ],
           "frameCount": 1,
           "duration": 1.6,
@@ -247,19 +256,28 @@
       ],
       "warnings": [],
       "rowRegistration": [],
-      "supplements": [],
+      "supplements": [
+        {
+          "source": "mfp-damage-generated.png",
+          "sha256": "bb7b249e752c0001841b92bb4444f6cc1b8f85eb2ef48024cc5891fa81452903"
+        }
+      ],
       "reference": null,
       "view": "top-down",
       "facing": 1,
       "generation": "generation.json",
-      "pixelsPerMetre": 25,
+      "muzzlePoint": [
+        333,
+        58
+      ],
+      "pixelsPerMetre": 40,
       "designLengthMetres": 47,
       "historicalClassIdentificationConfirmed": false,
       "crew": {
         "image": "assets/images/armies/game-ready/vojnici/deck-crew-sprites.png",
         "frame": [
-          24,
-          24
+          34,
+          34
         ],
         "frames": 4,
         "seconds": 1.6,
@@ -268,16 +286,16 @@
         ],
         "positions": [
           [
-            319,
-            98
+            510,
+            149
           ],
           [
-            509,
-            131
+            812,
+            199
           ],
           [
-            769,
-            87
+            1227,
+            133
           ]
         ]
       },
@@ -290,54 +308,54 @@
       "kind": "vessel",
       "integrated": true,
       "image": "../../game-ready/brodovi/vorpostenboot-sprites.png",
-      "sha256": "7d8d4daedf8998f279529adc2bcf964b5a975a4ed38cc1c7405004a6a9899894",
+      "sha256": "48e83ca878806df3610f469259b32a792bd09066ed91474d50db985c0a9a0b16",
       "frame": {
-        "width": 708,
-        "height": 161,
-        "columns": 2,
-        "rows": 2
+        "width": 1128,
+        "height": 225,
+        "columns": 1,
+        "rows": 4
       },
       "anchor": {
-        "x": 354.0,
-        "y": 80.5
+        "x": 564.0,
+        "y": 112.5
       },
       "source": "vorpostenboot-generated.png",
-      "sourceSha256": "ddf90c943fb9e9d5f62629fc3d4bfd22027a8934ebe8acd2c8cf0025b4148b28",
+      "sourceSha256": "6757bd0cc3c415a8e9e6e855674411e6ed7e951a301e4fbf0eee8f477d70a0b4",
       "sourceSize": [
-        1774,
-        887
+        2172,
+        1448
       ],
       "sourceCells": [
         [
           0,
           0,
-          887,
-          444
-        ],
-        [
-          887,
-          0,
-          1774,
-          444
+          2172,
+          360
         ],
         [
           0,
-          444,
-          887,
-          887
+          360,
+          2172,
+          724
         ],
         [
-          887,
-          444,
-          1774,
-          887
+          0,
+          724,
+          2172,
+          1091
+        ],
+        [
+          0,
+          1091,
+          2172,
+          1448
         ]
       ],
       "transform": {
-        "scale": 0.9247027741083224,
+        "scale": 0.6083650190114068,
         "offset": [
-          -57,
-          -149
+          -90,
+          1
         ]
       },
       "animations": [
@@ -354,17 +372,6 @@
         },
         {
           "name": "damaged",
-          "row": 0,
-          "frameColumns": [
-            1
-          ],
-          "frameCount": 1,
-          "duration": 1.6,
-          "loop": true,
-          "distinctFrames": 1
-        },
-        {
-          "name": "heavy",
           "row": 1,
           "frameColumns": [
             0
@@ -375,10 +382,21 @@
           "distinctFrames": 1
         },
         {
-          "name": "wreck",
-          "row": 1,
+          "name": "heavy",
+          "row": 2,
           "frameColumns": [
-            1
+            0
+          ],
+          "frameCount": 1,
+          "duration": 1.6,
+          "loop": true,
+          "distinctFrames": 1
+        },
+        {
+          "name": "wreck",
+          "row": 3,
+          "frameColumns": [
+            0
           ],
           "frameCount": 1,
           "duration": 1.6,
@@ -388,19 +406,28 @@
       ],
       "warnings": [],
       "rowRegistration": [],
-      "supplements": [],
+      "supplements": [
+        {
+          "source": "vorpostenboot-damage-generated.png",
+          "sha256": "a84f39392745be296a479baec50f722c9d20c801907e21ee91e8501be8897003"
+        }
+      ],
       "reference": null,
       "view": "top-down",
       "facing": 1,
       "generation": "generation.json",
-      "pixelsPerMetre": 25,
+      "muzzlePoint": [
+        932,
+        107
+      ],
+      "pixelsPerMetre": 40,
       "designLengthMetres": 28,
       "historicalClassIdentificationConfirmed": false,
       "crew": {
         "image": "assets/images/armies/game-ready/vojnici/deck-crew-sprites.png",
         "frame": [
-          24,
-          24
+          34,
+          34
         ],
         "frames": 4,
         "seconds": 1.6,
@@ -409,16 +436,16 @@
         ],
         "positions": [
           [
-            191,
-            72
+            305,
+            101
           ],
           [
-            304,
-            97
+            485,
+            135
           ],
           [
-            460,
-            64
+            733,
+            90
           ]
         ]
       },
@@ -510,173 +537,101 @@
       "kind": "aircraft",
       "integrated": true,
       "image": "../../game-ready/avioni/he111-sprites.png",
-      "sha256": "7a33eac4d9eae72c09952c262ac8fabc722eafd27734c6ebac81e154044e503f",
+      "sha256": "8807c82281934e24e3df9de724d65dc52bce5ace2c35b8aa3bed54afff57ac9f",
       "frame": {
-        "width": 520,
-        "height": 183,
-        "columns": 4,
+        "width": 706,
+        "height": 238,
+        "columns": 2,
         "rows": 4
       },
       "anchor": {
-        "x": 260.0,
-        "y": 91.5
+        "x": 353.0,
+        "y": 119.0
       },
       "source": "he111-generated.png",
-      "sourceSha256": "42d523dba857f85c01c0a38bab2989fde4d54bdcff06216cf5f2f639ee8716ec",
+      "sourceSha256": "f899de3992dc6d863296fa4af4fce7b989b598663c1a25223aae4bb5a5f740f4",
       "sourceSize": [
-        1374,
-        1145
+        1536,
+        1024
       ],
       "sourceCells": [
         [
           0,
           0,
-          344,
-          229
+          768,
+          256
         ],
         [
-          344,
+          768,
           0,
-          687,
-          229
-        ],
-        [
-          687,
-          0,
-          1030,
-          229
-        ],
-        [
-          1030,
-          0,
-          1374,
-          229
+          1536,
+          256
         ],
         [
           0,
-          229,
-          344,
-          458
+          256,
+          768,
+          512
         ],
         [
-          344,
-          229,
-          687,
-          458
-        ],
-        [
-          687,
-          229,
-          1030,
-          458
-        ],
-        [
-          1030,
-          229,
-          1374,
-          458
+          768,
+          256,
+          1536,
+          512
         ],
         [
           0,
-          458,
-          344,
-          687
+          512,
+          768,
+          768
         ],
         [
-          344,
-          458,
-          687,
-          687
-        ],
-        [
-          687,
-          458,
-          1030,
-          687
-        ],
-        [
-          1030,
-          458,
-          1374,
-          687
+          768,
+          512,
+          1536,
+          768
         ],
         [
           0,
-          687,
-          344,
-          916
+          768,
+          768,
+          1024
         ],
         [
-          344,
-          687,
-          687,
-          916
-        ],
-        [
-          687,
-          687,
-          1030,
-          916
-        ],
-        [
-          1030,
-          687,
-          1374,
-          916
-        ],
-        [
-          0,
-          916,
-          344,
-          1145
-        ],
-        [
-          344,
-          916,
-          687,
-          1145
-        ],
-        [
-          687,
-          916,
-          1030,
-          1145
-        ],
-        [
-          1030,
-          916,
-          1374,
-          1145
+          768,
+          768,
+          1536,
+          1024
         ]
       ],
       "transform": {
-        "scale": 1.563076923076923,
+        "scale": 0.983957219251337,
         "offset": [
-          -8,
-          -120
+          -25,
+          -12
         ]
       },
       "animations": [
         {
           "name": "idle",
           "row": 0,
-          "frameCount": 4,
+          "frameCount": 2,
           "duration": 1.6,
           "loop": true,
-          "distinctFrames": 4
+          "distinctFrames": 2
         },
         {
           "name": "attack",
           "row": 1,
-          "frameCount": 4,
+          "frameCount": 2,
           "duration": 0.8,
           "loop": false,
-          "distinctFrames": 4
+          "distinctFrames": 2
         },
         {
           "name": "damaged",
           "row": 2,
-          "frameCount": 4,
+          "frameCount": 2,
           "duration": 1.6,
           "loop": true,
           "distinctFrames": 2
@@ -698,15 +653,15 @@
         },
         {
           "row": 1,
-          "y": 27
+          "y": -14
         },
         {
           "row": 2,
-          "y": 54
+          "y": 21
         },
         {
           "row": 3,
-          "y": 80
+          "y": 0
         }
       ],
       "supplements": [],
@@ -725,8 +680,8 @@
           "frames": 4,
           "seconds": 0.12,
           "mount": [
-            31,
-            119
+            110,
+            179
           ],
           "anchor": [
             6,
@@ -747,16 +702,16 @@
       "kind": "aircraft",
       "integrated": true,
       "image": "../../game-ready/avioni/storch-sprites.png",
-      "sha256": "5766290a14abe460646d0aaa040af075583ee2daae8c5f4719eaf033c538290b",
+      "sha256": "09151a2cfa822c73b01640eeac2a9540267dbe3836c79edc0e43ed491aa4eca6",
       "frame": {
-        "width": 236,
-        "height": 152,
+        "width": 305,
+        "height": 195,
         "columns": 4,
         "rows": 4
       },
       "anchor": {
-        "x": 118.0,
-        "y": 76.0
+        "x": 152.5,
+        "y": 97.5
       },
       "source": "storch-generated.png",
       "sourceSha256": "2a66b311d5745496ea46bf2e3458d22bd68caf935ea77f87bcf0ee374dfe2949",
@@ -887,10 +842,10 @@
         ]
       ],
       "transform": {
-        "scale": 0.6788990825688074,
+        "scale": 0.8895705521472392,
         "offset": [
-          1,
-          -7
+          -1,
+          -12
         ]
       },
       "animations": [
@@ -954,8 +909,8 @@
           "frames": 4,
           "seconds": 0.12,
           "mount": [
-            12,
-            72
+            13,
+            92
           ],
           "anchor": [
             6,
@@ -1272,16 +1227,16 @@
       "kind": "vehicle",
       "integrated": true,
       "image": "../../game-ready/vozila/sdkfz251-sprites.png",
-      "sha256": "71b07f5176cf7293aca9dd3807f19bcf10714f1aae36e8471963fae8e0d7dc58",
+      "sha256": "87f9a2b34a058efac555fef88a763eb7dac4c9e4cb44af91860273b1528048b3",
       "frame": {
-        "width": 128,
-        "height": 65,
+        "width": 246,
+        "height": 118,
         "columns": 4,
         "rows": 6
       },
       "anchor": {
-        "x": 64.0,
-        "y": 61
+        "x": 123.0,
+        "y": 114
       },
       "source": "sdkfz251-generated.png",
       "sourceSha256": "7e71a37af95ba4a4bacfe4f818ff2f7649f4cdcec6d22c31907a5489ba1fc14d",
@@ -1436,10 +1391,10 @@
         ]
       ],
       "transform": {
-        "scale": 0.3411764705882353,
+        "scale": 0.6882352941176471,
         "offset": [
-          2,
-          4
+          -2,
+          -1
         ]
       },
       "animations": [
@@ -1520,6 +1475,10 @@
       "view": "side",
       "facing": -1,
       "generation": "generation.json",
+      "muzzlePoint": [
+        95,
+        31
+      ],
       "repositoryImage": "assets/images/armies/game-ready/vozila/sdkfz251-sprites.png",
       "style": "reference-pixel-art"
     },
@@ -3847,29 +3806,29 @@
       "kind": "damage",
       "integrated": true,
       "image": "../../game-ready/brodovi/s30-damaged.png",
-      "sha256": "efc865f56a690006c14497d2441a425e66a56a7ff7c11262cafc5080caf0e6aa",
+      "sha256": "3ce0ac2077e16f12cf05c79163638425ddb7faaea89ec0879af1710a04e57b88",
       "frame": {
-        "width": 1024,
-        "height": 184,
+        "width": 1327,
+        "height": 211,
         "columns": 1,
         "rows": 1
       },
       "anchor": {
-        "x": 512.0,
-        "y": 92.0
+        "x": 663.5,
+        "y": 105.5
       },
       "source": "s30-damaged-generated.png",
-      "sourceSha256": "efc865f56a690006c14497d2441a425e66a56a7ff7c11262cafc5080caf0e6aa",
+      "sourceSha256": "3ce0ac2077e16f12cf05c79163638425ddb7faaea89ec0879af1710a04e57b88",
       "sourceSize": [
-        1024,
-        184
+        1327,
+        211
       ],
       "sourceCells": [
         [
           0,
           0,
-          1024,
-          184
+          1327,
+          211
         ]
       ],
       "transform": {
@@ -4427,16 +4386,16 @@
       "kind": "crew",
       "integrated": true,
       "image": "../../game-ready/vojnici/deck-crew-sprites.png",
-      "sha256": "fe8d10831b7153c30e83ac91c47f410418565d9eea276ca06d696e14edbd2b63",
+      "sha256": "e4b3e4741ef2b734a090b35f854d959a3f157979d4ab66a21fd0618761b5ba36",
       "frame": {
-        "width": 24,
-        "height": 24,
+        "width": 34,
+        "height": 34,
         "columns": 4,
         "rows": 1
       },
       "anchor": {
-        "x": 12.0,
-        "y": 12.0
+        "x": 17.0,
+        "y": 17.0
       },
       "source": "deck-crew-generated.png",
       "sourceSha256": "365cf9ec3afc6b056e8d9e66b8e87e805ff0f57f917c68624b96590e88b27340",
@@ -4471,10 +4430,10 @@
         ]
       ],
       "transform": {
-        "scale": 0.06324110671936758,
+        "scale": 0.10276679841897234,
         "offset": [
-          -6,
-          -9
+          -12,
+          -17
         ]
       },
       "animations": [

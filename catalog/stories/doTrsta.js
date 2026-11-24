@@ -2,6 +2,8 @@ import AntiTankGun, * as antiTankGunModule from '/core/gameplay/bodies/artillery
 import Bunker, * as bunkerModule from '/core/gameplay/bodies/artillery/Bunker.js'
 import Tank, * as tankModule from '/core/gameplay/bodies/vehicles/Tank.js'
 import GunCarrier, * as gunCarrierModule from '/core/gameplay/bodies/vehicles/GunCarrier.js'
+import RoadVehicle, * as roadVehicleModule from '/core/gameplay/bodies/vehicles/RoadVehicle.js'
+import RoadVehicleSprite from '/core/actor/vehicles/RoadVehicleSprite.js'
 import AntiTankGunSprite from '/core/actor/artillery/AntiTankGunSprite.js'
 import BunkerSprite from '/core/actor/artillery/BunkerSprite.js'
 import TankSprite from '/core/actor/vehicles/TankSprite.js'
@@ -52,6 +54,13 @@ const bunker = kind => (stage, way) => {
 const game = 'Do Trsta'
 
 export const vehicles = [
+  ...Object.entries(roadVehicleModule.roadVehicleKinds).map(([id, kind]) => ({
+    id, name: kind.name, game, pxPerMeter, way: -1, block: roadVehicleModule,
+    create: (stage, way) => {
+      const body = new RoadVehicle({ ...placed(stage, kind.size, way), kind })
+      return put(stage, body, new RoadVehicleSprite(body, { id, ...views(stage) }))
+    },
+  })),
   { id: 'somua-s35', name: 'Somua S35', game, pxPerMeter, way: -1, block: tankModule, create: somua },
   { id: 'motociklista', name: 'Motociklista sa mitraljezom', game, pxPerMeter, way: -1, block: gunCarrierModule, create: gunCarrier('motorcycle') },
   { id: 'sdkfz-251', name: 'Sd.Kfz. 251', game, pxPerMeter, way: -1, block: gunCarrierModule, create: gunCarrier('halftrack') },

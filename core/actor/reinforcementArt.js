@@ -2,17 +2,17 @@
 export const actorArt = {
   'rboot': {
     'src': 'armies/game-ready/brodovi/rboot-sprites.png',
-    'width': 883,
-    'height': 175,
+    'width': 1408,
+    'height': 245,
     'anchor': {
-      'x': 441.5,
-      'y': 87.5
+      'x': 704.0,
+      'y': 122.5
     },
     'bounds': [
-      28,
-      24,
-      879,
-      171
+      5,
+      5,
+      1404,
+      222
     ],
     'facing': 1,
     'clips': {
@@ -27,16 +27,6 @@ export const actorArt = {
         ]
       },
       'damaged': {
-        'row': 0,
-        'ms': [
-          1600.0
-        ],
-        'loop': true,
-        'frameColumns': [
-          1
-        ]
-      },
-      'heavy': {
         'row': 1,
         'ms': [
           1600.0
@@ -46,35 +36,45 @@ export const actorArt = {
           0
         ]
       },
-      'wreck': {
-        'row': 1,
+      'heavy': {
+        'row': 2,
         'ms': [
           1600.0
         ],
         'loop': true,
         'frameColumns': [
-          1
+          0
+        ]
+      },
+      'wreck': {
+        'row': 3,
+        'ms': [
+          1600.0
+        ],
+        'loop': true,
+        'frameColumns': [
+          0
         ]
       }
     },
     'muzzlePoint': [
-      789,
-      101
+      1186,
+      109
     ]
   },
   'rboot-damaged': {
     'src': 'armies/game-ready/brodovi/rboot-damaged.png',
-    'width': 883,
-    'height': 175,
+    'width': 1408,
+    'height': 245,
     'anchor': {
-      'x': 441.5,
-      'y': 87.5
+      'x': 704.0,
+      'y': 122.5
     },
     'bounds': [
-      28,
-      24,
-      879,
-      171
+      5,
+      5,
+      1404,
+      222
     ],
     'facing': 1,
     'clips': {
@@ -87,24 +87,24 @@ export const actorArt = {
       }
     },
     'muzzlePoint': [
-      789,
-      101
+      1186,
+      109
     ],
     'heavy': 'rboot-heavy'
   },
   'rboot-heavy': {
     'src': 'armies/game-ready/brodovi/rboot-heavy.png',
-    'width': 883,
-    'height': 175,
+    'width': 1408,
+    'height': 245,
     'anchor': {
-      'x': 441.5,
-      'y': 87.5
+      'x': 704.0,
+      'y': 122.5
     },
     'bounds': [
-      28,
-      24,
-      879,
-      171
+      5,
+      5,
+      1404,
+      222
     ],
     'facing': 1,
     'clips': {
@@ -117,23 +117,23 @@ export const actorArt = {
       }
     },
     'muzzlePoint': [
-      789,
-      101
+      1186,
+      109
     ]
   },
   'mfp': {
     'src': 'armies/game-ready/brodovi/mfp-sprites.png',
-    'width': 1183,
-    'height': 218,
+    'width': 1888,
+    'height': 332,
     'anchor': {
-      'x': 591.5,
-      'y': 109.0
+      'x': 944.0,
+      'y': 166.0
     },
     'bounds': [
       4,
-      5,
-      1178,
-      213
+      9,
+      1883,
+      318
     ],
     'facing': 1,
     'clips': {
@@ -148,16 +148,6 @@ export const actorArt = {
         ]
       },
       'damaged': {
-        'row': 0,
-        'ms': [
-          1600.0
-        ],
-        'loop': true,
-        'frameColumns': [
-          1
-        ]
-      },
-      'heavy': {
         'row': 1,
         'ms': [
           1600.0
@@ -167,35 +157,45 @@ export const actorArt = {
           0
         ]
       },
-      'wreck': {
-        'row': 1,
+      'heavy': {
+        'row': 2,
         'ms': [
           1600.0
         ],
         'loop': true,
         'frameColumns': [
-          1
+          0
+        ]
+      },
+      'wreck': {
+        'row': 3,
+        'ms': [
+          1600.0
+        ],
+        'loop': true,
+        'frameColumns': [
+          0
         ]
       }
     },
     'muzzlePoint': [
-      242,
-      34
+      333,
+      58
     ]
   },
   'mfp-damaged': {
     'src': 'armies/game-ready/brodovi/mfp-damaged.png',
-    'width': 1183,
-    'height': 218,
+    'width': 1888,
+    'height': 332,
     'anchor': {
-      'x': 591.5,
-      'y': 109.0
+      'x': 944.0,
+      'y': 166.0
     },
     'bounds': [
       4,
-      5,
-      1178,
-      213
+      9,
+      1883,
+      318
     ],
     'facing': 1,
     'clips': {
@@ -208,24 +208,24 @@ export const actorArt = {
       }
     },
     'muzzlePoint': [
-      242,
-      34
+      333,
+      58
     ],
     'heavy': 'mfp-heavy'
   },
   'mfp-heavy': {
     'src': 'armies/game-ready/brodovi/mfp-heavy.png',
-    'width': 1183,
-    'height': 218,
+    'width': 1888,
+    'height': 332,
     'anchor': {
-      'x': 591.5,
-      'y': 109.0
+      'x': 944.0,
+      'y': 166.0
     },
     'bounds': [
       4,
-      5,
-      1178,
-      213
+      9,
+      1883,
+      318
     ],
     'facing': 1,
     'clips': {
@@ -238,23 +238,23 @@ export const actorArt = {
       }
     },
     'muzzlePoint': [
-      242,
-      34
+      333,
+      58
     ]
   },
   'vorpostenboot': {
     'src': 'armies/game-ready/brodovi/vorpostenboot-sprites.png',
-    'width': 708,
-    'height': 161,
+    'width': 1128,
+    'height': 225,
     'anchor': {
-      'x': 354.0,
-      'y': 80.5
+      'x': 564.0,
+      'y': 112.5
     },
     'bounds': [
-      4,
-      5,
-      704,
-      156
+      52,
+      13,
+      1069,
+      208
     ],
     'facing': 1,
     'clips': {
@@ -269,16 +269,6 @@ export const actorArt = {
         ]
       },
       'damaged': {
-        'row': 0,
-        'ms': [
-          1600.0
-        ],
-        'loop': true,
-        'frameColumns': [
-          1
-        ]
-      },
-      'heavy': {
         'row': 1,
         'ms': [
           1600.0
@@ -288,35 +278,45 @@ export const actorArt = {
           0
         ]
       },
-      'wreck': {
-        'row': 1,
+      'heavy': {
+        'row': 2,
         'ms': [
           1600.0
         ],
         'loop': true,
         'frameColumns': [
-          1
+          0
+        ]
+      },
+      'wreck': {
+        'row': 3,
+        'ms': [
+          1600.0
+        ],
+        'loop': true,
+        'frameColumns': [
+          0
         ]
       }
     },
     'muzzlePoint': [
-      609,
-      81
+      932,
+      107
     ]
   },
   'vorpostenboot-damaged': {
     'src': 'armies/game-ready/brodovi/vorpostenboot-damaged.png',
-    'width': 708,
-    'height': 161,
+    'width': 1128,
+    'height': 225,
     'anchor': {
-      'x': 354.0,
-      'y': 80.5
+      'x': 564.0,
+      'y': 112.5
     },
     'bounds': [
-      4,
-      5,
-      704,
-      156
+      52,
+      13,
+      1069,
+      208
     ],
     'facing': 1,
     'clips': {
@@ -329,24 +329,24 @@ export const actorArt = {
       }
     },
     'muzzlePoint': [
-      609,
-      81
+      932,
+      107
     ],
     'heavy': 'vorpostenboot-heavy'
   },
   'vorpostenboot-heavy': {
     'src': 'armies/game-ready/brodovi/vorpostenboot-heavy.png',
-    'width': 708,
-    'height': 161,
+    'width': 1128,
+    'height': 225,
     'anchor': {
-      'x': 354.0,
-      'y': 80.5
+      'x': 564.0,
+      'y': 112.5
     },
     'bounds': [
-      4,
-      5,
-      704,
-      156
+      52,
+      13,
+      1069,
+      208
     ],
     'facing': 1,
     'clips': {
@@ -359,8 +359,8 @@ export const actorArt = {
       }
     },
     'muzzlePoint': [
-      609,
-      81
+      932,
+      107
     ]
   },
   'sea-mine': {
@@ -393,47 +393,41 @@ export const actorArt = {
   },
   'he111': {
     'src': 'armies/game-ready/avioni/he111-sprites.png',
-    'width': 520,
-    'height': 183,
+    'width': 706,
+    'height': 238,
     'anchor': {
-      'x': 260.0,
-      'y': 91.5
+      'x': 353.0,
+      'y': 119.0
     },
     'bounds': [
-      8,
-      18,
-      513,
-      157
+      7,
+      29,
+      700,
+      213
     ],
     'facing': -1,
     'clips': {
       'idle': {
         'row': 0,
         'ms': [
-          400.0,
-          400.0,
-          400.0,
-          400.0
+          800.0,
+          800.0
         ],
         'loop': true
       },
       'attack': {
         'row': 1,
         'ms': [
-          200.0,
-          200.0,
-          200.0,
-          200.0
+          400.0,
+          400.0
         ],
         'loop': false
       },
       'damaged': {
         'row': 2,
         'ms': [
-          400.0,
-          400.0,
-          400.0,
-          400.0
+          800.0,
+          800.0
         ],
         'loop': true
       },
@@ -456,8 +450,8 @@ export const actorArt = {
         'frames': 4,
         'seconds': 0.12,
         'mount': [
-          31,
-          119
+          110,
+          179
         ],
         'anchor': [
           6,
@@ -472,17 +466,17 @@ export const actorArt = {
   },
   'storch': {
     'src': 'armies/game-ready/avioni/storch-sprites.png',
-    'width': 236,
-    'height': 152,
+    'width': 305,
+    'height': 195,
     'anchor': {
-      'x': 118.0,
-      'y': 76.0
+      'x': 152.5,
+      'y': 97.5
     },
     'bounds': [
       7,
-      23,
-      229,
-      124
+      28,
+      297,
+      160
     ],
     'facing': -1,
     'clips': {
@@ -525,8 +519,8 @@ export const actorArt = {
         'frames': 4,
         'seconds': 0.12,
         'mount': [
-          12,
-          72
+          13,
+          92
         ],
         'anchor': [
           6,
@@ -643,17 +637,17 @@ export const actorArt = {
   },
   'sdkfz251': {
     'src': 'armies/game-ready/vozila/sdkfz251-sprites.png',
-    'width': 128,
-    'height': 65,
+    'width': 246,
+    'height': 118,
     'anchor': {
-      'x': 64.0,
-      'y': 61
+      'x': 123.0,
+      'y': 114
     },
     'bounds': [
       6,
       9,
-      122,
-      61
+      239,
+      114
     ],
     'facing': -1,
     'clips': {
@@ -719,8 +713,8 @@ export const actorArt = {
       }
     },
     'muzzlePoint': [
-      50,
-      20
+      95,
+      31
     ]
   },
   'sdkfz222': {
@@ -1644,17 +1638,17 @@ export const actorArt = {
   },
   's30-damaged': {
     'src': 'armies/game-ready/brodovi/s30-damaged.png',
-    'width': 1024,
-    'height': 184,
+    'width': 1327,
+    'height': 211,
     'anchor': {
-      'x': 512.0,
-      'y': 92.0
+      'x': 663.5,
+      'y': 105.5
     },
     'bounds': [
       9,
       5,
-      1015,
-      179
+      1318,
+      206
     ],
     'facing': 1,
     'clips': {
@@ -1667,14 +1661,14 @@ export const actorArt = {
       }
     },
     'referenceSize': [
-      1024,
-      184
+      1327,
+      211
     ],
     'referenceBounds': [
       8,
       4,
-      1016,
-      180
+      1318,
+      207
     ]
   },
   'german-launch-damaged': {
@@ -1994,17 +1988,17 @@ export const actorArt = {
   },
   'deck-crew': {
     'src': 'armies/game-ready/vojnici/deck-crew-sprites.png',
-    'width': 24,
-    'height': 24,
+    'width': 34,
+    'height': 34,
     'anchor': {
-      'x': 12.0,
-      'y': 12.0
+      'x': 17.0,
+      'y': 17.0
     },
     'bounds': [
       4,
-      5,
-      18,
-      20
+      6,
+      27,
+      29
     ],
     'facing': 1,
     'clips': {
@@ -2129,14 +2123,15 @@ export const vesselLooks = {
     'src': 'armies/game-ready/brodovi/rboot.png',
     'wreck': 'armies/game-ready/brodovi/rboot-wreck.png',
     'frame': [
-      883,
-      175
+      1408,
+      245
     ],
+    'pixelsPerMetre': 40,
     'crew': {
       'image': 'assets/images/armies/game-ready/vojnici/deck-crew-sprites.png',
       'frame': [
-        24,
-        24
+        34,
+        34
       ],
       'frames': 4,
       'seconds': 1.6,
@@ -2145,16 +2140,16 @@ export const vesselLooks = {
       ],
       'positions': [
         [
-          238,
-          79
-        ],
-        [
           380,
-          105
+          110
         ],
         [
-          574,
-          70
+          605,
+          147
+        ],
+        [
+          915,
+          98
         ]
       ]
     }
@@ -2163,14 +2158,15 @@ export const vesselLooks = {
     'src': 'armies/game-ready/brodovi/mfp.png',
     'wreck': 'armies/game-ready/brodovi/mfp-wreck.png',
     'frame': [
-      1183,
-      218
+      1888,
+      332
     ],
+    'pixelsPerMetre': 40,
     'crew': {
       'image': 'assets/images/armies/game-ready/vojnici/deck-crew-sprites.png',
       'frame': [
-        24,
-        24
+        34,
+        34
       ],
       'frames': 4,
       'seconds': 1.6,
@@ -2179,16 +2175,16 @@ export const vesselLooks = {
       ],
       'positions': [
         [
-          319,
-          98
+          510,
+          149
         ],
         [
-          509,
-          131
+          812,
+          199
         ],
         [
-          769,
-          87
+          1227,
+          133
         ]
       ]
     }
@@ -2197,14 +2193,15 @@ export const vesselLooks = {
     'src': 'armies/game-ready/brodovi/vorpostenboot.png',
     'wreck': 'armies/game-ready/brodovi/vorpostenboot-wreck.png',
     'frame': [
-      708,
-      161
+      1128,
+      225
     ],
+    'pixelsPerMetre': 40,
     'crew': {
       'image': 'assets/images/armies/game-ready/vojnici/deck-crew-sprites.png',
       'frame': [
-        24,
-        24
+        34,
+        34
       ],
       'frames': 4,
       'seconds': 1.6,
@@ -2213,16 +2210,16 @@ export const vesselLooks = {
       ],
       'positions': [
         [
-          191,
-          72
+          305,
+          101
         ],
         [
-          304,
-          97
+          485,
+          135
         ],
         [
-          460,
-          64
+          733,
+          90
         ]
       ]
     }

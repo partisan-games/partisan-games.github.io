@@ -3,15 +3,15 @@ export default {
   'src': 'armies/game-ready/brodovi/schnellboot-s30.png',
   'gun': {
     'src': 'armies/game-ready/brodovi/s30-deck-gun.png',
-    'width': 64,
-    'height': 64,
+    'width': 96,
+    'height': 96,
     'anchor': {
-      'x': 22,
-      'y': 32
+      'x': 32,
+      'y': 48
     },
     'muzzle': [
-      58,
-      32
+      86,
+      48
     ],
     'clips': {
       'idle': {

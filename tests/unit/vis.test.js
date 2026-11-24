@@ -129,7 +129,7 @@ test('a formation flies with its members at their places, and a shot down plane 
   shot.body.setState('dead')
   const from = { x: shot.body.x, z: shot.body.z }
   play(1)
-  assert.ok(Math.abs(shot.body.z - from.z - settings.enemies.fighter.speed / 10) < .1, 'on ahead at its speed')
+  assert.ok(Math.abs(shot.body.z - from.z - settings.enemies.fighter.speed / scene.projection.pxPerMeter) < .1, 'on ahead at its speed')
   assert.equal(shot.body.x, from.x, 'without turning')
   const { flight } = flying
   assert.equal(flying.body.x, flight.position(flight.age).x, 'the others keep to their path')

@@ -13,12 +13,12 @@ image = Image.open(source).convert('RGBA')
 image.putalpha(image.getchannel('A').point(lambda value: 255 if value >= 128 else 0))
 rows = [0,265,545,image.height]
 cells = [image.crop((0,rows[i],image.width,rows[i+1])) for i in range(3)]
-sx,sy = 1008/1702,176/226
+sx,sy = 1311/1702,203/226
 ox,oy = 8-236*sx,4-22*sy
 outputs = []
 for index,name in enumerate(['schnellboot-s30.png','s30-damaged-generated.png']):
     shift = 0 if index == 0 else -13
-    hull = cells[index].transform((1024,184), Image.Transform.AFFINE,
+    hull = cells[index].transform((1327,211), Image.Transform.AFFINE,
                                  (1/sx,0,-ox/sx,0,1/sy,-oy/sy-shift),Image.Resampling.NEAREST)
     frame = Image.new('RGBA',hull.size)
     frame.alpha_composite(hull)
@@ -31,21 +31,21 @@ for index,name in enumerate(['schnellboot-s30.png','s30-damaged-generated.png'])
 # The naval cannon points right; its circular mounting center is the rotation pivot.
 px,py = 1030,101
 mx,my = 1232,99
-scale = 36/math.hypot(mx-px,my-py)
+scale = 54/math.hypot(mx-px,my-py)
 angle = -math.atan2(my-py,mx-px)
 a,b = math.cos(angle)/scale,math.sin(angle)/scale
 d,e = -b,a
-gun = cells[2].transform((64,64),Image.Transform.AFFINE,(a,b,px-a*22-b*32,d,e,py-d*22-e*32),Image.Resampling.NEAREST)
+gun = cells[2].transform((96,96),Image.Transform.AFFINE,(a,b,px-a*32-b*48,d,e,py-d*32-e*48),Image.Resampling.NEAREST)
 frame = Image.new('RGBA',gun.size)
 frame.alpha_composite(gun)
 assert frame.getbbox()
 frame.save(OUT/'s30-deck-gun.png',optimize=True)
-mounts = [(x*sx+ox)/1024-.5 for x in [563,1678]]
+mounts = [(x*sx+ox)/1327-.5 for x in [563,1678]]
 geometry = dict(mounts=mounts,gunReach=.04)
 art = dict(src='armies/game-ready/brodovi/schnellboot-s30.png',gun=dict(src='armies/game-ready/brodovi/s30-deck-gun.png',
-           width=64,height=64,anchor=dict(x=22,y=32),muzzle=[58,32],clips=dict(idle=dict(ms=[1000],loop=True))))
+           width=96,height=96,anchor=dict(x=32,y=48),muzzle=[86,48],clips=dict(idle=dict(ms=[1000],loop=True))))
 record = dict(source=source.name,sourceSha256=hashlib.sha256(source.read_bytes()).hexdigest(),rows=rows,
-              frame=[1024,184],scale=[sx,sy],offset=[ox,oy],registration=[0,-13],
+              frame=[1327,211],scale=[sx,sy],offset=[ox,oy],registration=[0,-13],
               appearances=outputs,geometry=geometry,art=art,alphaThreshold=128,
               gunSource=dict(pivot=[px,py],muzzle=[mx,my]),gunSha256=hashlib.sha256((OUT/'s30-deck-gun.png').read_bytes()).hexdigest())
 (HERE/'s30-redraw.json').write_text(json.dumps(record,indent=2)+'\n',encoding='utf-8')

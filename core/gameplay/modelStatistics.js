@@ -3,6 +3,10 @@
  * The partisan drawing uses a Panther proxy, not an identified historical vehicle.
  */
 export const modelStatistics = {
+  'pzkpf-612': { massKg: 8300, structure: 'armored', basis: 'unidentified source; explicit Sd.Kfz.231 collision proxy, not historical identification' },
+  'zundapp-k600': { massKg: 343, unladenMassKg: 193, structure: 'soft', basis: 'K600 193 kg reference plus two assumed 75 kg riders; load estimate' },
+  'bmw-r12': { massKg: 840, unladenMassKg: 188, structure: 'soft', basis: 'R12 solo 188 kg; sidecar collision mass uses explicit R75 laden proxy' },
+  'mercedes-830bl': { massKg: 2500, unladenMassKg: 1950, structure: 'soft', basis: 'Horch 830 BL, 1950 kg plus published 550 kg payload; legacy asset id' },
   partisanTank: { massKg: 44800, structure: 'tank', basis: 'Panther proxy; project reference' },
   'tiger-i': { massKg: 57000, structure: 'tank', basis: 'combat weight' },
   'somua-s35': { massKg: 19500, structure: 'tank', basis: 'combat weight' },

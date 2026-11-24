@@ -3,6 +3,24 @@ import assert from 'node:assert/strict'
 import PatrolBoat, { patrolBoatKinds, patrolBoat } from '/core/gameplay/bodies/boats/PatrolBoat.js'
 import GameClock from '/core/runtime/GameClock.js'
 import Body from '/core/gameplay/bodies/Body.js'
+import { createPageElements } from './helpers/dom.js'
+import { loadAtlas } from './helpers/atlas.js'
+
+test('native 40 px/m hulls retain the level scale instead of inheriting the former 25 px/m source scale', async() => {
+  createPageElements()
+  const { default: PatrolBoatSprite } = await import('/core/actor/boats/PatrolBoatSprite.js')
+  const { topProjection } = await import('/core/actor/projection.js')
+  for (const id of Object.keys(patrolBoatKinds)) for (const pixels of [25, 40]) {
+    const body = new PatrolBoat({ kind: patrolBoatKinds[id], clock: new GameClock() })
+    const view = new PatrolBoatSprite(body, { id, projection: topProjection({ pxPerMeter: pixels }) })
+    loadAtlas(view, ...view.art.frame)
+    const draws = []
+    view.render({ save() {}, restore() {}, translate() {}, rotate() {}, scale() {}, drawImage: (...args) => draws.push(args) })
+    assert.equal(view.art.pixelsPerMetre, 40)
+    assert.equal(draws[0][3], view.art.frame[0] * pixels / 40, id)
+    assert.equal(draws[0][4], view.art.frame[1] * pixels / 40, id)
+  }
+})
 
 test('every vessel offers a practice shot in front of its actual gun', () => {
   for (const kind of Object.values(patrolBoatKinds)) for (const yaw of [0, Math.PI, .8]) {

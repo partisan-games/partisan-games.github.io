@@ -3,29 +3,29 @@ export default {
   'german-launch': {
     'size': {
       'length': 7.1,
-      'width': 3.04,
+      'width': 3.05,
       'height': 0.6
     },
     'muzzle': {
-      'ahead': 3.4879999999999995,
+      'ahead': 3.4799999999999995,
       'across': 0.0
     }
   },
   'german-skiff': {
     'size': {
       'length': 6.75,
-      'width': 2.12,
+      'width': 2.1,
       'height': 0.6
     },
     'muzzle': {
-      'ahead': 2.924,
+      'ahead': 2.9025,
       'across': 0.0
     }
   },
   'german-patrol-vessel': {
     'size': {
       'length': 12,
-      'width': 2.76,
+      'width': 2.75,
       'height': 0.6
     },
     'muzzle': {

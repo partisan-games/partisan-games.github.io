@@ -53,6 +53,10 @@ Ovo su datirani dokazi svog obuhvata, ne tvrdnja da je sve danas provereno. Dnev
 <a id="art-verification-record"></a>
 ## Provere arta
 
+Razmera i sedam vozila za Do Trsta (2026-11-24): [provere razmere](../tests/unit/aircraftScale.test.js) potvrđuju native izvore za svih 13 avionskih izgleda, obe mere bočnih aviona i Sd.Kfz. 251, ose pogotka i očuvane brzine upravljanja, metaka, razmaka pušaka i petlje u pikselima. [Provere novih vozila](../tests/unit/roadVehicles.test.js) prolaze za oba smera, stvarnu štetu projektila, usklađenost nacrtanog otvora cevi sa metkom, mirovanje tokom pauze i završnu olupinu. [Patrolna plovila](../tests/unit/patrolBoat.test.js) čitaju izvornu razmeru 40 px/m i zadržavaju razmeru nivoa; [S-30](../tests/unit/sBoatArt.test.js) zadržava poravnate cevi tokom tonjenja. Ciljane provere frontalnih vojnika, tenkova, propelera, Visa i kataloga prolaze; prolazak celog Do Trsta potvrđuje pauzu, završetak, novu igru i postojeću pratnju.
+
+Priprema `plan-ideas-art/prepare.py --check` potvrđuje 40 paketa bez upozorenja; provereni su importi, putanje resursa, manji lossless prikazi i obnovljen indeks arta. Pregledač, ručno igranje i vlasnikovo prihvatanje izgleda nisu izvršeni; prema DOCS to radi vlasnik. Test prolaska obnavlja zdravlje igrača i zato ne potvrđuje težinu nivoa sa novim vozilima.
+
 Vlasnik je 2026-11-24 označio AR-P04 kao završen: pregled rasporeda rekvizita i preostalih ugrađenih ambijenata je zatvoren.
 
 Vlasnikov pregled AR-P03 završen je 2026-11-24; za zastavnika su ostala stanja ocenjena kao dobra. Četiri prijavljene greške ispravljene su sledećim proverljivim promenama, bez upisivanja novog vlasnikovog vizuelnog prihvatanja.

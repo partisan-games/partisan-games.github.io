@@ -5,22 +5,22 @@
     887
   ],
   "sourceSha256": "7aa7a26f38c1654069718c83d44eedb2c809178c6fc3ea15acd6c9b284a29f68",
-  "pixelsPerMetre": 25,
+  "pixelsPerMetre": 40,
   "integrated": true,
   "entries": [
     {
       "id": "german-launch",
       "size": [
-        182,
-        80
+        288,
+        126
       ],
       "anchor": [
-        91.0,
-        40.0
+        144.0,
+        63.0
       ],
       "hullMetres": {
         "length": 7.1,
-        "width": 3.04
+        "width": 3.05
       },
       "facing": 1,
       "view": "top-down",
@@ -39,31 +39,31 @@
         ]
       ],
       "muzzle": [
-        178.2,
-        40.0
+        283.2,
+        63.0
       ],
       "intact": {
         "src": "assets/images/armies/game-ready/brodovi/german-launch.png",
-        "sha256": "9628f7b13607e6e85fc1255680e2a9fc5e7d7d8110bbf556f3aa66be013f9d14"
+        "sha256": "ea787ef1e24b34fb6edfc52c1ab9bb2781c30693ec168a79f5ee83fe9643e00d"
       },
       "wreck": {
         "src": "assets/images/armies/game-ready/brodovi/german-launch-wreck.png",
-        "sha256": "4f51ffac77eb473db55ba7b538be4932199c1176c51446afe1fc9c160b8027b2"
+        "sha256": "5babf64cb33578029ccf32708836bff60838297489d59503fdfc86877c2d16d0"
       }
     },
     {
       "id": "german-skiff",
       "size": [
-        174,
-        57
+        274,
+        88
       ],
       "anchor": [
-        87.0,
-        28.5
+        137.0,
+        44.0
       ],
       "hullMetres": {
         "length": 6.75,
-        "width": 2.12
+        "width": 2.1
       },
       "facing": 1,
       "view": "top-down",
@@ -82,31 +82,31 @@
         ]
       ],
       "muzzle": [
-        160.1,
-        28.5
+        253.1,
+        44.0
       ],
       "intact": {
         "src": "assets/images/armies/game-ready/brodovi/german-skiff.png",
-        "sha256": "a205eb9e35a58b16c6d785b7308d01242aba9b77fe8d5e7017fef8bffbb56da5"
+        "sha256": "c36511c77aacf8632e6f5f34a7d90aace4541282aac1f119cb94132b0e0af5d4"
       },
       "wreck": {
         "src": "assets/images/armies/game-ready/brodovi/german-skiff-wreck.png",
-        "sha256": "3b94a26a8c62e33a5bab01a67391a58064773fa9597bd9f9c3af0531bf2da504"
+        "sha256": "5e82d57e307af54b2b03bd90ca12e81241dd4ba2ec79d39866766ff070ec7659"
       }
     },
     {
       "id": "german-patrol-vessel",
       "size": [
-        304,
-        73
+        484,
+        114
       ],
       "anchor": [
-        152.0,
-        36.5
+        242.0,
+        57.0
       ],
       "hullMetres": {
         "length": 12,
-        "width": 2.76
+        "width": 2.75
       },
       "facing": 1,
       "view": "top-down",
@@ -125,16 +125,16 @@
         ]
       ],
       "muzzle": [
-        272.0,
-        36.5
+        434.0,
+        57.0
       ],
       "intact": {
         "src": "assets/images/armies/game-ready/brodovi/german-patrol-vessel.png",
-        "sha256": "0d35c6589f768a72f48541a138066db4edc3b090241127c54632b2607027c943"
+        "sha256": "cee1be11f0046d34a068b4c84fcc5e7af9cee28adc48d43653dca216d7b5124d"
       },
       "wreck": {
         "src": "assets/images/armies/game-ready/brodovi/german-patrol-vessel-wreck.png",
-        "sha256": "5f80632dd995dcb40ab3425df8e492a9da18f5d572aca80b653ba64c5f1e51a4"
+        "sha256": "5d3892aa0faed7017c219c165b69b538b02d6f8477fb86383b8b5736df7ea919"
       }
     }
   ]

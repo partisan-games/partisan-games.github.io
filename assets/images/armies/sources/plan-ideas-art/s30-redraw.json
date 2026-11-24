@@ -8,16 +8,16 @@
     724
   ],
   "frame": [
-    1024,
-    184
+    1327,
+    211
   ],
   "scale": [
-    0.5922444183313749,
-    0.7787610619469026
+    0.7702702702702703,
+    0.8982300884955752
   ],
   "offset": [
-    -131.76968272620448,
-    -13.132743362831857
+    -173.78378378378378,
+    -15.761061946902654
   ],
   "registration": [
     0,
@@ -26,29 +26,29 @@
   "appearances": [
     {
       "path": "assets/images/armies/game-ready/brodovi/schnellboot-s30.png",
-      "sha256": "325a67f810ff09e671dbf6e85baf34ab57c2b21456d5a1b261e48ab854b0a2f7",
+      "sha256": "d32cfa0c3628187918147d90b77155edbfa42353746866204b1e879225f47f81",
       "bounds": [
         8,
         4,
-        1016,
-        180
+        1318,
+        207
       ]
     },
     {
       "path": "assets/images/armies/sources/plan-ideas-art/s30-damaged-generated.png",
-      "sha256": "efc865f56a690006c14497d2441a425e66a56a7ff7c11262cafc5080caf0e6aa",
+      "sha256": "3ce0ac2077e16f12cf05c79163638425ddb7faaea89ec0879af1710a04e57b88",
       "bounds": [
         9,
         5,
-        1015,
-        179
+        1318,
+        206
       ]
     }
   ],
   "geometry": {
     "mounts": [
-      -0.30306257344300824,
-      0.34181294065804935
+      -0.3041609808753742,
+      0.34305179331554614
     ],
     "gunReach": 0.04
   },
@@ -56,15 +56,15 @@
     "src": "armies/game-ready/brodovi/schnellboot-s30.png",
     "gun": {
       "src": "armies/game-ready/brodovi/s30-deck-gun.png",
-      "width": 64,
-      "height": 64,
+      "width": 96,
+      "height": 96,
       "anchor": {
-        "x": 22,
-        "y": 32
+        "x": 32,
+        "y": 48
       },
       "muzzle": [
-        58,
-        32
+        86,
+        48
       ],
       "clips": {
         "idle": {
@@ -87,5 +87,5 @@
       99
     ]
   },
-  "gunSha256": "c5eca9ea268a7fa41ee386283fd7cb1425b0a20a23c53113acde3adb7460d790"
+  "gunSha256": "33074fc48dd1d1775f1ae436967164a8dcc97698b00a1cea3419002c25b63548"
 }

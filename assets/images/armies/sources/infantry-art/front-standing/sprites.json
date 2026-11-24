@@ -1,11 +1,11 @@
 {
   "cell": [
-    144,
-    124
+    208,
+    188
   ],
   "anchor": [
-    72,
-    122
+    104,
+    186
   ],
   "frames": [
     "ready",
@@ -23,13 +23,13 @@
     "nemci": {
       "nemci-generated.png": "5cbcc40698ca80033a673e968badacb9cfb1c499bdf989c7448cce518e57ad82",
       "nemci-walk.png": "30200001eb7c149b933245e79887b0f4ec30a4c8bb5ac8f276525126e6803022",
-      "nemci-spreda-celo.png": "2fe68a836281932278d5dced873157eaeebd35557dcc5f68b901252739952a49",
+      "nemci-spreda-celo.png": "8b0581b37ab59c0ba679ee95278ba30521439a2a00b3f9fde050fc350a330acf",
       "nemci-reference.png": "ecf87a0a10c6989d7f462e246937a624228892ff1da4a9d9deff90ea5848d030"
     },
     "cetnici": {
       "cetnici-generated.png": "7d61234ab01a721f91416f050526f9bcf6146cbacfa5fa2ec7a8a81b2157dde8",
       "cetnici-walk.png": "3df8b96e5de49ed4011bb578e1ac611508ed6caa89dcf1ee7cc77efc26431f46",
-      "cetnici-spreda-celo.png": "9914aff8862e662cbe70d008abf6966f81db0eaa23faea399c9fc2433d30aecc",
+      "cetnici-spreda-celo.png": "4e32e6a3749cd5ca5dc7f02696773bc9fb179f272f332e67021311ea1a4d5dc4",
       "cetnici-reference.png": "2db21b3e8a82d6c9203d05a448c5354c9bcaea3e893936f76b96351121f1a115"
     }
   },
@@ -39,14 +39,14 @@
       "id": "nemci-spreda-celo",
       "image": "../../../game-ready/vojnici/nemci-spreda-celo.png",
       "frame": {
-        "width": 144,
-        "height": 124,
+        "width": 208,
+        "height": 188,
         "columns": 7,
         "rows": 1
       },
       "anchor": {
-        "x": 72,
-        "y": 122
+        "x": 104,
+        "y": 186
       },
       "animations": [
         {
@@ -101,14 +101,14 @@
       "id": "cetnici-spreda-celo",
       "image": "../../../game-ready/vojnici/cetnici-spreda-celo.png",
       "frame": {
-        "width": 144,
-        "height": 124,
+        "width": 208,
+        "height": 188,
         "columns": 7,
         "rows": 1
       },
       "anchor": {
-        "x": 72,
-        "y": 122
+        "x": 104,
+        "y": 186
       },
       "animations": [
         {

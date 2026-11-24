@@ -27,7 +27,8 @@ import { assets } from '/config.js'
 
 const { scrollSpeed: speed, clouds, restTime, engineVolume } = settings
 /** How many pixels a metre of the sky is drawn. */
-const pxPerMeter = 10
+const pxPerMeter = 14
+const distanceScale = 10 / pxPerMeter
 /** The plane fires on Space; on a phone, with its buttons. */
 export const inputOptions = { attackKey: 'Space', buttonDict: { attack: icons.shoot, attack2: icons.loop, special: icons.bomb } }
 /**
@@ -101,7 +102,7 @@ export default class VisScene extends Scene2D {
   /** The player plane of `aircraftId` at the bottom middle of the screen, kept within it. */
   createPlayer(aircraftId) {
     const { size, image } = fighterBomberPlane(aircraftId)
-    const body = new FighterBomber({ size: { ...size }, clock: this.session.clock, targets: this.targets, solids: this.targets,
+    const body = new FighterBomber({ size: { ...size }, distanceScale, clock: this.session.clock, targets: this.targets, solids: this.targets,
       canFire: () => this.session.state === 'running', view: this.screenView,
       bounds: { minX: 0, maxX: canvas2d.width / pxPerMeter, minZ: 0, maxZ: canvas2d.height / pxPerMeter } })
     this.placeAtStart(body)
@@ -115,7 +116,7 @@ export default class VisScene extends Scene2D {
   /** The plane starts, and comes back after a lost life, at the bottom middle of the screen. */
   placeAtStart(body) {
     body.x = canvas2d.width / 2 / pxPerMeter
-    body.z = canvas2d.height / pxPerMeter - body.size.width
+    body.z = (canvas2d.height - 127.5) / pxPerMeter
   }
 
   /** Whether an enemy plane is over the screen, from where it may fire. */
@@ -137,8 +138,7 @@ export default class VisScene extends Scene2D {
     Object.assign(this.player.size, plane.size)
     this.player.equip(modelPerformance[id])
     this.placeAtStart(this.player)
-    this.playerView.setImage(plane.image)
-    return this.playerView.imageLoaded
+    return this.playerView.setAircraft(plane.image)
   }
 
   start() {
@@ -150,7 +150,7 @@ export default class VisScene extends Scene2D {
   /** Whether the player plane touches `item`, a picture on the screen. */
   touches(item) {
     const { x, y } = this.projection.point(this.player)
-    const halfX = this.projection.length(this.player.size.length) / 2, halfY = this.projection.length(this.player.size.width) / 2
+    const halfX = this.projection.length(this.player.size.width) / 2, halfY = this.projection.length(this.player.size.length) / 2
     return item.visible && Math.abs(item.x - x) < halfX + item.width / 2 && Math.abs(item.y - y) < halfY + item.height / 2
   }
 
@@ -250,7 +250,7 @@ export default class VisScene extends Scene2D {
     this.player.setState('move')
     this.runwayLanding = new RunwayLanding(this.player, {
       runway: { start: this.projection.toWorld(start), stop: this.projection.toWorld(stop) },
-      rest: last ? Infinity : restTime,
+      rest: last ? Infinity : restTime, distanceScale,
       onLanded: () => last ? this.victory('You have successfully reached the island of Vis.') : this.service(),
       onRested: () => this.soundSirens(),
       onAirborne: () => this.nextStage(),

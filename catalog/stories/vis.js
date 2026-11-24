@@ -4,7 +4,7 @@ import AttackPlane, * as attackPlaneModule from '/core/gameplay/bodies/aircraft/
 import FighterBomberSprite from '/core/actor/aircraft/FighterBomberSprite.js'
 import AttackPlaneSprite, { attackPlaneImages } from '/core/actor/aircraft/AttackPlaneSprite.js'
 import { topProjection } from '/core/actor/projection.js'
-import { fighterBomberPlane } from '/core/actor/aircraft/fighterBomberPlanes.js'
+import { fighterBomberPlane, enemyAircraftSize } from '/core/actor/aircraft/fighterBomberPlanes.js'
 import { modelPerformance } from '/core/gameplay/modelPerformance.js'
 import scales from '../scales.js'
 
@@ -29,7 +29,8 @@ const player = aircraftId => stage => {
 
 /** An enemy plane in the middle with its nose down, drawn as picture `src`; its rounds fly at the stand-in. */
 const enemyPlane = type => (stage, way, src = attackPlaneImages[type][0]) => {
-  const body = new AttackPlane({ kind: attackPlaneModule.attackPlaneKinds[type], ...at(stage, .5), clock: stage.session.clock })
+  const body = new AttackPlane({ kind: { ...attackPlaneModule.attackPlaneKinds[type], size: enemyAircraftSize(src) },
+    ...at(stage, .5), clock: stage.session.clock })
   return put(stage, body, new AttackPlaneSprite(body, { src, ...fromAbove(stage) }))
 }
 

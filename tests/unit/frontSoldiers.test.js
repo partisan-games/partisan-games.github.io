@@ -89,13 +89,13 @@ test('the full front figure steps only as it covers ground', async() => {
   const projection = sideProjection({ pxPerMeter: 100, groundY: 500 })
   const frameOf = body => {
     const view = new TrenchSoldierSprite(body, { projection })
-    loadAtlas(view, 144 * 7, 124)
+    loadAtlas(view, 208 * 7, 188)
     body.setState('move')
     body.update(.2)
     view.update(.2)
     let frame
     view.render({ save() {}, restore() {}, translate() {}, rotate() {}, scale() {}, drawImage: (_, x) => {
-      frame = x / 144
+      frame = x / 208
     } })
     return frame
   }

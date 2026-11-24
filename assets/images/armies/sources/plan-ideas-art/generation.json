@@ -4,37 +4,11 @@
   "entries": [
     {
       "tool": "built-in image_gen",
-      "prompt": "Transparent pixel game sprite sheet. R-boot coastal minesweeper, long very narrow 35m hull with 5m beam, two small deck gun circles, central tiny wheelhouse roof, stern cable drums and sweeping gear. Ship length must be SEVEN TIMES its maximum hull width. STRICT ORTHOGRAPHIC OVERHEAD PLAN VIEW as in reference: roofs and deck only, no hull sides, cabin side windows, tall mast or side perspective. Mast seen from above is a dot or tiny cross. Bow points RIGHT in every state. Exactly 2 columns by2rows equal cells: intact; moderately damaged operational with small dark holes; heavily damaged; broken empty wreck. All four identical scale position and outline. Hull should occupy80%of each cell width but only10-12%of each cell height. Restrained olive-gray pixel art with clean dark outlines. Complete silhouettes with wide transparent gutters. No water/wake/flames/smoke, no people or insignia or text. Reference is projection/style only; use requested type and narrow proportions.",
-      "id": "rboot",
-      "source": "rboot-generated.png"
-    },
-    {
-      "tool": "built-in image_gen",
-      "prompt": "Edit the referenced MFP landing barge sheet: KEEP THIS EXACT FLAT-ENDED RECTANGULAR LANDING BARGE, aft square wheelhouse and flat hinged loading ramp on RIGHT, never turn it into a pointed motorboat. Preserve its four damage states in the same precise2x2grid, identical position and scale. Change hull proportions so each barge is LONG AND NARROW, its overall length47 units and beam6.5 units, seven times longer than wide. True overhead plan view: roof and decks only. Flat front loading ramp must span the entire straight right end. Metal gray-olive deck, simple long cargo bay, two circular deck guns. Same restrained pixel style. No lettering, flags, people, scenery, shadows, smoke/fire or water, fully transparent background with wide margins. Equal cells, full silhouettes uncut.",
-      "id": "mfp",
-      "source": "mfp-generated.png"
-    },
-    {
-      "tool": "built-in image_gen",
-      "prompt": "Transparent 2D pixel game sprite sheet. ONE armed fishing trawler seen in STRICT ORTHOGRAPHIC OVERHEAD PLAN VIEW, camera looking vertically straight down at DECK ROOFS. You see flat deck outlines and cabin roof; NO VISIBLE HULL SIDES, NO CABIN WINDOWS, NO SIDE PROFILE, NO HORIZON. Bow RIGHT, long narrow hull with length 6 times beam, fishing workdeck at stern left, small rectangular roof at center, one circular gun mount on forward deck at right. Mast is seen from directly above as a SMALL DOT/CROSS on roof, not an elevated pole. Gray olive pixel art matching the reference patrol boat's exact top-down projection. Four identical-position ships in a precise 2x2 grid: intact, damaged with small holes, heavily damaged, broken empty wreck. Complete hulls, ample transparent margins, no water or wake, no smoke/flames, no lettering or flags. Each ship spans about80%of cell width but only15%of cell height. Intended game sprite length700px. Reference is style and top-down projection only, use trawler outline rather than motor launch.",
-      "id": "vorpostenboot",
-      "source": "vorpostenboot-generated.png"
-    },
-    {
-      "tool": "built-in image_gen",
       "date": "2026-11-22",
       "reference": null,
       "prompt": "Production transparent 2D game sprite art for Partisan Games. WWII dark iron spherical floating contact sea mine, several short horns, strict overhead view, no chain below, no water. Layout: 4 columns x 1 row: four subtle floating tilt phases of the SAME contact mine viewed from overhead. Fixed center and scale. Style: restrained WW2 pixel art, crisp clusters, limited olive gray earth palette, clean dark contours, match supplied reference identity. Precise regular equal cells, generous transparent gutters and complete uncut silhouettes. No labels, text, backdrop, shadows, water, terrain, smoke, flames or muzzle flash. No added flags or insignia. Small readable figures, vehicles at 20px/m, planes at 30.8px/m, ships at25px/m. Source image is reference; remove its solid background and terrain strips.",
       "id": "sea-mine",
       "source": "sea-mine-generated.png"
-    },
-    {
-      "tool": "built-in image_gen",
-      "date": "2026-11-22",
-      "reference": "he111-reference.png",
-      "prompt": "Production transparent 2D game sprite art for Partisan Games. Heinkel He 111 H-2 twin-engine German bomber, LEFT-facing pure side profile, glazed asymmetric nose, two engine nacelles; separate propeller row; opening bomb bay doors during attack. Layout: 4 columns x 5 rows: intact flight hull without propeller blades; attack opening bomb bay doors (unarmed Storch entire second row empty); damaged operational hull; falling wreck hull; ONLY separated propeller blades in 4 foreshortened phases, no hull on last row. Propeller hub positions fixed in same local cell coordinates. All hulls face LEFT. Propeller seen edge on spins around horizontal shaft, never in picture plane. Style: restrained WW2 pixel art, crisp clusters, limited olive gray earth palette, clean dark contours, match supplied reference identity. Precise regular equal cells, generous transparent gutters and complete uncut silhouettes. No labels, text, backdrop, shadows, water, terrain, smoke, flames or muzzle flash. No added flags or insignia. Small readable figures, vehicles at 20px/m, planes at 30.8px/m, ships at25px/m. Source image is reference; remove its solid background and terrain strips.",
-      "id": "he111",
-      "source": "he111-generated.png"
     },
     {
       "tool": "built-in image_gen",
@@ -405,6 +379,55 @@
       "preparation": "prepare-shore.py",
       "id": "shore-mg-damaged",
       "derivedFrom": "shore-redraw-generated.png"
+    },
+    {
+      "id": "mfp",
+      "source": "mfp-generated.png",
+      "tool": "built-in image_gen",
+      "date": "2026-11-24",
+      "prompt": "Production realistic PIXEL ART redraw of reference Marinefahrprahm armed landing barge, strict OVERHEAD view bow RIGHT, transparent background. Preserve original silhouette, weathered muted gray olive materials, deck fixtures and style. ONE COLUMN ONLY, 2 vertically stacked full-width vessels, no side-by-side copies. Canvas 2304x768; each vessel about 2100 pixels wide and <=280 pixels high. Every pose same scale and anchor. TOP intact, BOTTOM lightly damaged. No water, wake, smoke, fire, scenery, shadows or text. Need NEW native detail, not an enlarged bitmap."
+    },
+    {
+      "id": "mfp-damage",
+      "source": "mfp-damage-generated.png",
+      "tool": "built-in image_gen",
+      "date": "2026-11-24",
+      "prompt": "Production realistic PIXEL ART redraw of reference Marinefahrprahm armed landing barge, strict OVERHEAD view bow RIGHT, transparent background. Preserve original silhouette, weathered muted gray olive materials, deck fixtures and style. ONE COLUMN ONLY, 2 vertically stacked full-width vessels, no side-by-side copies. Canvas 2304x768; each vessel about 2100 pixels wide and <=280 pixels high. Every pose same scale and anchor. TOP heavily damaged with holes, BOTTOM inert ruined wreck. No water, wake, smoke, fire, scenery, shadows or text. Need NEW native detail, not an enlarged bitmap."
+    },
+    {
+      "id": "he111",
+      "source": "he111-generated.png",
+      "tool": "built-in image_gen",
+      "date": "2026-11-24",
+      "prompt": "Redraw reference as detailed realistic pixel art transparent production sprite atlas, LEFT side profile Heinkel He111. Preserve accepted silhouette camouflage and windows, no propeller blades (separate runtime layer). 1536x1024 sheet TWO columns FOUR rows, each aircraft 680 pixels wide. Rows idle, attack bomb bay open, damaged, dead. Same scale and central anchor every cell, pure horizontal aircraft all poses. No flashes smoke shadows scenery text. Crisply shaded muted olive metal matching reference."
+    },
+    {
+      "id": "rboot",
+      "source": "rboot-generated.png",
+      "tool": "built-in image_gen",
+      "date": "2026-11-24",
+      "prompt": "Native high resolution production PIXEL ART matching reference vessel exactly, true overhead bow RIGHT. Transparent WIDE image 2304x768, ONE COLUMN, TWO ROWS: two complete long ships stacked vertically, each occupies 94% canvas width (at least2000 pixels), height about300pixels. Top intact, bottom lightly damaged. Preserve reference identity, fixtures, outline, muted colors and realistic pixel style. Absolutely no extra side-by-side columns or boats. No water shadows wake smoke fire text. New high-resolution details; no enlargement of reference raster."
+    },
+    {
+      "id": "rboot-damage",
+      "source": "rboot-damage-generated.png",
+      "tool": "built-in image_gen",
+      "date": "2026-11-24",
+      "prompt": "Native high resolution production PIXEL ART matching reference vessel exactly, true overhead bow RIGHT. Transparent WIDE image 2304x768, ONE COLUMN, TWO ROWS: two complete long ships stacked vertically, each occupies 94% canvas width (at least2000 pixels), height about300pixels. Top heavily damaged, bottom ruined inert wreck. Preserve reference identity, fixtures, outline, muted colors and realistic pixel style. Absolutely no extra side-by-side columns or boats. No water shadows wake smoke fire text. New high-resolution details; no enlargement of reference raster."
+    },
+    {
+      "id": "vorpostenboot",
+      "source": "vorpostenboot-generated.png",
+      "tool": "built-in image_gen",
+      "date": "2026-11-24",
+      "prompt": "Native high resolution production PIXEL ART matching reference vessel exactly, true overhead bow RIGHT. Transparent WIDE image 2304x768, ONE COLUMN, TWO ROWS: two complete long ships stacked vertically, each occupies 94% canvas width (at least2000 pixels), height about300pixels. Top intact, bottom lightly damaged. Preserve reference identity, fixtures, outline, muted colors and realistic pixel style. Absolutely no extra side-by-side columns or boats. No water shadows wake smoke fire text. New high-resolution details; no enlargement of reference raster."
+    },
+    {
+      "id": "vorpostenboot-damage",
+      "source": "vorpostenboot-damage-generated.png",
+      "tool": "built-in image_gen",
+      "date": "2026-11-24",
+      "prompt": "Native high resolution production PIXEL ART matching reference vessel exactly, true overhead bow RIGHT. Transparent WIDE image 2304x768, ONE COLUMN, TWO ROWS: two complete long ships stacked vertically, each occupies 94% canvas width (at least2000 pixels), height about300pixels. Top heavily damaged, bottom ruined inert wreck. Preserve reference identity, fixtures, outline, muted colors and realistic pixel style. Absolutely no extra side-by-side columns or boats. No water shadows wake smoke fire text. New high-resolution details; no enlargement of reference raster."
     }
   ]
 }

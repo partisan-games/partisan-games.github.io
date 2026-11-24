@@ -52,7 +52,7 @@ export default class PatrolBoatSprite extends HullSprite {
     if (!this.shown || !this.image.naturalWidth) return
     const sunk = this.body.dead ? Math.min(1, this.body.stateTime / sinking.hull) : 0
     if (sunk >= 1) return
-    const scale = this.projection.pxPerMeter / 25
+    const scale = this.projection.pxPerMeter / (this.art.pixelsPerMetre ?? 25)
     const [width, height] = this.art.frame.map(value => value * scale)
     ctx.save()
     ctx.translate(this.x, this.y)

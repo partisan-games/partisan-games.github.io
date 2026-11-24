@@ -56,16 +56,19 @@ for item in manifest['assets']:
     if item['kind']=='vessel':
         name = item['id']
         src = desc['src'].replace('-sprites.png','.png')
-        vessels[name]=dict(src=src,wreck=src.replace('.png','-wreck.png'),frame=[f['width'],f['height']],crew=item['crew'])
+        vessels[name]=dict(src=src,wreck=src.replace('.png','-wreck.png'),frame=[f['width'],f['height']],
+                           pixelsPerMetre=item['pixelsPerMetre'],crew=item['crew'])
         damage[src]=name+'-damaged'
         for state in ['damaged','heavy']:
             art[name+'-'+state]={**desc,'src':src.replace('.png','-'+state+'.png'),
                                  'clips':{state:dict(row=0,ms=[1600],loop=True)}}
         art[name+'-damaged']['heavy']=name+'-heavy'
         length=item['designLengthMetres']
-        profiles[name]=dict(size=dict(length=length,width=(f['height']-8)/25,height=.8),
-                            muzzle=dict(ahead=(tips[name][0]-f['width']/2)/25,
-                                        across=(tips[name][1]-f['height']/2)/25),
+        pixels=item['pixelsPerMetre']
+        beam={'rboot':6.68,'mfp':8.4,'vorpostenboot':6.12}[name]
+        profiles[name]=dict(size=dict(length=length,width=beam,height=.8),
+                            muzzle=dict(ahead=(tips[name][0]-f['width']/2)/pixels,
+                                        across=(tips[name][1]-f['height']/2)/pixels),
                             gunOffset=3.141592653589793 if name=='mfp' else 0,
                             speed={'rboot':3.2,'mfp':2.2,'vorpostenboot':3.5}[name],
                             health={'rboot':160,'mfp':200,'vorpostenboot':140}[name])

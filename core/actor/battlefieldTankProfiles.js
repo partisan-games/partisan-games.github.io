@@ -2,8 +2,8 @@
 export default {
   'm15-42': {
     'frame': {
-      'width': 181,
-      'height': 91
+      'width': 202,
+      'height': 102
     },
     'kind': {
       'size': {
@@ -21,8 +21,8 @@ export default {
   },
   'stug-iii': {
     'frame': {
-      'width': 194,
-      'height': 79
+      'width': 216,
+      'height': 89
     },
     'kind': {
       'size': {
@@ -40,8 +40,8 @@ export default {
   },
   'hotchkiss': {
     'frame': {
-      'width': 152,
-      'height': 78
+      'width': 169,
+      'height': 88
     },
     'kind': {
       'size': {

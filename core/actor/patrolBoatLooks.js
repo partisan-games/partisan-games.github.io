@@ -4,24 +4,27 @@ export default {
     'src': 'armies/game-ready/brodovi/german-launch.png',
     'wreck': 'armies/game-ready/brodovi/german-launch-wreck.png',
     'frame': [
-      182,
-      80
-    ]
+      288,
+      126
+    ],
+    'pixelsPerMetre': 40
   },
   'german-skiff': {
     'src': 'armies/game-ready/brodovi/german-skiff.png',
     'wreck': 'armies/game-ready/brodovi/german-skiff-wreck.png',
     'frame': [
-      174,
-      57
-    ]
+      274,
+      88
+    ],
+    'pixelsPerMetre': 40
   },
   'german-patrol-vessel': {
     'src': 'armies/game-ready/brodovi/german-patrol-vessel.png',
     'wreck': 'armies/game-ready/brodovi/german-patrol-vessel-wreck.png',
     'frame': [
-      304,
-      73
-    ]
+      484,
+      114
+    ],
+    'pixelsPerMetre': 40
   }
 }

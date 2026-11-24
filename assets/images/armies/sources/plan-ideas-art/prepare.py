@@ -75,7 +75,19 @@ def pack(job):
     if not source.exists():
         return None
     im = clean(Image.open(source))
+    if job.get('sourceParts'):
+        parts = [clean(Image.open(HERE/name)) for name in job['sourceParts']]
+        assert len({part.width for part in parts}) == 1
+        im = Image.new('RGBA',(parts[0].width,sum(part.height for part in parts)))
+        y = 0
+        for part in parts:
+            im.paste(part,(0,y))
+            y += part.height
     cols, rows, category, clips = layout(job)
+    cols = job.get('sourceColumns', cols)
+    rows = job.get('sourceRows', rows)
+    for animation in clips:
+        animation['frameCount'] = cols
     cells = []
     source_boxes = []
     for row in range(rows):
@@ -98,15 +110,15 @@ def pack(job):
         rows = 5
         clips = [c for c in clips if c['name'] != 'work']
     if job['kind'] == 'aircraft':
-        cells = cells[:16]
+        cells = cells[:cols*4]
         rows = 4
         clips = [c for c in clips if c['name'] != 'propeller']
         # The game rotates a static wreck; it must not rotate a pre-rotated drawing twice.
-        cells[13:16] = [cells[12].copy() for _ in range(3)]
+        cells[cols*3+1:cols*4] = [cells[cols*3].copy() for _ in range(cols-1)]
         for c in clips:
             if c['name'] == 'dead':
                 c['frameCount'] = 1
-        if job['id'] == 'he111':
+        if job['id'] == 'he111' and cols == 4:
             cells[10:12] = [cells[8].copy(), cells[9].copy()]
     if job.get('holdWreck'):
         for animation in clips:
@@ -163,15 +175,15 @@ def pack(job):
         frame = [math.ceil(max(rw, (union[2]-union[0])*factor))+8,
                  math.ceil(max(rh, (union[3]-union[1])*factor))+8]
     elif kind == 'vessel':
-        length = round(job['metres']*25)
+        length = round(job['metres']*job.get('pixelsPerMetre',25))
         factor = length/(union[2]-union[0])
         frame = [length+8, math.ceil((union[3]-union[1])*factor)+8]
     elif kind == 'mine':
         factor = 30/max(union[2]-union[0], union[3]-union[1])
         frame = [38, 38]
     elif kind == 'crew':
-        factor = 16/max(union[2]-union[0], union[3]-union[1])
-        frame = [24, 24]
+        factor = 26/max(union[2]-union[0], union[3]-union[1])
+        frame = [34, 34]
     elif kind == 'infantry':
         frame = [160, 144]
         idle_box = bounds_union([b for b in boxes[:cols] if b])
@@ -183,6 +195,11 @@ def pack(job):
         body_boxes = [b for b in boxes[:cols*3] if b]
         body = bounds_union(body_boxes)
         factor = length/(body[2]-body[0])
+        if job.get('nativeMinimumSize'):
+            first = boxes[0]
+            minimum = job['nativeMinimumSize']
+            factor = max(factor,(minimum[0]+2)/(first[2]-first[0]),(minimum[1]+2)/(first[3]-first[1]))
+            assert factor <= 1, (job['id'],'native source too small')
         frame = [math.ceil((union[2]-union[0])*factor)+12, math.ceil((union[3]-union[1])*factor)+12]
     offset = [round((frame[0]-(union[2]-union[0])*factor)/2 - union[0]*factor),
               round(frame[1]-4-union[3]*factor)]
@@ -214,6 +231,8 @@ def pack(job):
         if sb and (sb[0] == 0 or sb[1] == 0 or sb[2] == maxw or sb[3] == maxh):
             warnings.append(f'Source frame {index}: touches cell boundary; inspect for clipping')
     supplements = []
+    if job.get('sourceParts'):
+        supplements = [dict(source=name,sha256=sha(HERE/name)) for name in job['sourceParts'][1:]]
     if job['id'] == 'partisan-runner':
         fall_path = HERE/'partisan-runner-death-generated.png'
         if fall_path.exists():
@@ -237,7 +256,7 @@ def pack(job):
     atlas.save(path, optimize=True)
     if kind == 'vessel':
         states = ['intact', 'damaged', 'heavy', 'wreck']
-        clips = [dict(name=n, row=i//2, frameColumns=[i%2], frameCount=1, duration=1.6, loop=True) for i,n in enumerate(states)]
+        clips = [dict(name=n, row=i//cols, frameColumns=[i%cols], frameCount=1, duration=1.6, loop=True) for i,n in enumerate(states)]
         for name, cell in zip(states, outcells):
             cell.save(dest / (job['id'] + ('' if name == 'intact' else '-'+name) + '.png'), optimize=True)
     if not clips:
@@ -262,6 +281,8 @@ def pack(job):
     result['generation'] = 'generation.json'
     if 'renderOffset' in job:
         result['renderOffset'] = job['renderOffset']
+    if job.get('sourceMuzzlePoint'):
+        result['muzzlePoint'] = [round(offset[i] + job['sourceMuzzlePoint'][i] * factor) for i in range(2)]
     if job.get('muzzlePoint'):
         result['muzzlePoint'] = job['muzzlePoint']
     if job.get('gunLayer'):
@@ -273,15 +294,15 @@ def pack(job):
     if result['view'] == 'top-down':
         result['anchor']['y'] = frame[1]/2
     if kind in ['vessel','mine']:
-        result['pixelsPerMetre'] = 25
+        result['pixelsPerMetre'] = job.get('pixelsPerMetre',25)
         result['designLengthMetres'] = job.get('metres',1.2)
         result['historicalClassIdentificationConfirmed'] = False
     if kind == 'vessel':
         result['crew'] = dict(image='assets/images/armies/game-ready/vojnici/deck-crew-sprites.png',
-                              frame=[24,24],frames=4,seconds=1.6,hideOn=['wreck'],
+                              frame=[34,34],frames=4,seconds=1.6,hideOn=['wreck'],
                               positions=[[round(frame[0]*x),round(frame[1]*y)] for x,y in [(0.27,0.45),(0.43,0.6),(0.65,0.4)]])
     if kind == 'aircraft':
-        hub = [25,153] if job['id']=='he111' else [16,117]
+        hub = job.get('sourceHub', [25,153] if job['id']=='he111' else [16,117])
         result['layers'] = [dict(name='propeller',image='assets/images/armies/game-ready/avioni/propeller-side-sprites.png',
                                  frame=[12,48],frames=4,seconds=.12,
                                  mount=[round(offset[0]+hub[0]*factor),round(offset[1]+hub[1]*factor)],
@@ -332,7 +353,8 @@ def main():
         print(f"Verified {len(manifest['assets'])} prepared packages; not a runtime or browser check.")
         return
     jobs = read(HERE/'jobs.json')['jobs']
-    jobs.insert(0, dict(id='rboot', title='R-boot minolovac', kind='vessel', metres=35))
+    if not any(job['id']=='rboot' for job in jobs):
+        jobs.insert(0, dict(id='rboot', title='R-boot minolovac', kind='vessel', metres=35))
     jobs.append(dict(id='deck-crew',title='Posada plovila odozgo',kind='crew'))
     if args.only:
         job = next(j for j in jobs if j['id'] == args.only)

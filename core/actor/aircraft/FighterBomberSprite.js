@@ -1,5 +1,6 @@
 import TopViewSprite from './TopViewSprite.js'
 import Sound from '/core/io/audio/SoundSource.js'
+import AircraftPropellers from './AircraftPropellers.js'
 
 /**
  * How it looks: seconds between solid and faint while it is safe; the propeller seen edge on, in shares of the plane's
@@ -24,7 +25,14 @@ export default class FighterBomberSprite extends TopViewSprite {
     this.bombSound = new Sound('explosion.mp3', { profile: 'explosion', spatial: { getPosition: () => this.position } })
     this.sounds.push(this.gunSound, this.bombSound)
     this.propellerTime = 0
+    this.propellers = new AircraftPropellers(src)
     this.seen = { shots: body.shotsFired, bombs: body.bombsDropped }
+  }
+
+  setAircraft(src) {
+    this.setImage(src)
+    this.propellers = new AircraftPropellers(src)
+    return this.imageLoaded
   }
 
   /** A damaged plane smokes and a shot down one burns. */
@@ -37,6 +45,7 @@ export default class FighterBomberSprite extends TopViewSprite {
     const { body, seen } = this
     this.smoky = body.alive
     this.propellerTime += dt
+    this.propellers.update(dt, body.alive)
     if (body.shotsFired > seen.shots) this.gunSound.play()
     if (body.bombsDropped > seen.bombs) this.bombSound.play()
     Object.assign(seen, { shots: body.shotsFired, bombs: body.bombsDropped })
@@ -51,6 +60,10 @@ export default class FighterBomberSprite extends TopViewSprite {
   /** The turning blades, seen edge on: a bar at the nose that flickers between a few lengths. */
   drawOver(ctx) {
     if (this.body.dead) return
+    if (this.propellers.art) {
+      this.propellers.renderLocal(ctx, this)
+      return
+    }
     const { propeller } = look
     const frame = propellerFrames[Math.floor(this.propellerTime / propeller.frameTime) % propellerFrames.length]
     const half = this.width * propeller.span * frame.span / 2

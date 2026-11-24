@@ -6,6 +6,7 @@ import AttackPlaneSprite, { attackPlaneImages } from '/core/actor/aircraft/Attac
 import { formationMembers } from './formations.js'
 import { paths } from './paths.js'
 import { settings } from './settings.js'
+import { enemyAircraftSize } from '/core/actor/aircraft/fighterBomberPlanes.js'
 
 /** Seconds before the boss flies away, and seconds a shot down plane falls before it is gone. */
 export const boss = { timeLimit: 35 }
@@ -88,10 +89,14 @@ export default class Waves {
 
   /** A plane flown along its route, in pixels, that fires at the player while it may. */
   plane(type, path, delay = 0) {
-    const body = new AttackPlane({ kind: attackPlaneKinds[type], clock: this.scene.session.clock, targets: [this.player],
+    const src = pick(attackPlaneImages[type])
+    const distanceScale = 10 / this.projection.pxPerMeter
+    const base = attackPlaneKinds[type]
+    const kind = { ...base, size: enemyAircraftSize(src), speed: base.speed * distanceScale }
+    const body = new AttackPlane({ kind, distanceScale, clock: this.scene.session.clock, targets: [this.player],
       view: this.scene.screenView })
     body.canFire = () => this.canFire(body)
-    const view = new AttackPlaneSprite(body, { src: pick(attackPlaneImages[type]), projection: this.projection })
+    const view = new AttackPlaneSprite(body, { src, projection: this.projection })
     const position = t => this.projection.toWorld(path(t))
     const flight = new PathFlight(body, { position, delay })
     return { type, body, view, flight, gunner: new Gunner(body, this.player), entered: false }
