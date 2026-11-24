@@ -173,6 +173,33 @@ test('FPS camp initializes with real model files, ten enemies and two first aids
   assert.equal(repeat.camp.props[0].gateFraction, 1)
   assert.deepEqual([repeat.player.x, repeat.player.z], [-35, -35])
   assert.equal(repeat.camp.props.flatMap(prop => prop.lights).length, 2)
+
+  const weapons = repeat.children.find(child => child.guards)
+  const [guard] = weapons.guards
+  const { avatar } = weapons
+  const pipe = avatar.current.grip
+  const held = avatar.hand.getWorldPosition(new THREE.Vector3())
+  assert.equal(repeat.player.reach, 1.65)
+  repeat.player.attack()
+  const { length } = repeat.player.swing
+  repeat.player.swingOn(length / 2)
+  avatar.update(length / 2)
+  assert.equal(avatar.action.getClip().name, 'One Hand Sword Combo')
+  assert.ok(avatar.hand.getWorldPosition(new THREE.Vector3()).distanceTo(held) > .05)
+  repeat.player.swingOn(length / 2)
+  avatar.update(length / 2)
+  assert.ok(avatar.hand.getWorldPosition(new THREE.Vector3()).distanceTo(held) < .001)
+  guard.body.takeHit(guard.body.health.current)
+  assert.equal(weapons.pickUp(), false, 'a distant guard cannot be looted')
+  guard.body.x = repeat.player.x + 1
+  guard.body.z = repeat.player.z
+  assert.equal(weapons.pickUp(), true)
+  assert.equal(weapons.avatar.current.grip.name, guard.model.file)
+  assert.ok(repeat.player.reach > 1.65)
+  assert.equal(pipe.visible, false)
+  assert.equal(guard.carried.visible, false)
+  assert.equal(weapons.pickUp(), false, 'the same weapon transfers only once')
+
   const surface = repeat.camp.mesh.children.find(mesh => mesh.name === 'CampFence').material
   let disposed = false
   surface.addEventListener('dispose', () => {

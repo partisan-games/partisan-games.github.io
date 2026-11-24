@@ -19,7 +19,7 @@ import Turns from './Turns.js'
 import CannonAI from '/core/gameplay/controllers/CannonAI.js'
 import CannonKeys from '/core/gameplay/controllers/CannonKeys.js'
 import Bunker from '/core/objects/Bunker.js'
-import Battlefield from './Battlefield.js'
+import Battlefield, { landscapeFilter } from './Battlefield.js'
 import Airplane from '/core/objects/Airplane.js'
 import Wind from './Wind.js'
 import WindEffects from './WindEffects.js'
@@ -69,7 +69,7 @@ export default class UstanakScene extends Scene2D {
     this.projection = sideProjection({ pxPerMeter, groundY: floorY })
     this.battlefield = new Battlefield({ canvas: this.canvas, groundY: groundLevel, wind: this.wind, terrain: this.terrain })
     this.audioChildren = [this.wind, this.battlefield]
-    this.bunker = new Bunker({ x: canvas2d.width * .75, smoky: true, z: 1 })
+    this.bunker = new Bunker({ x: canvas2d.width * .75, smoky: true, z: 1, imageFilter: landscapeFilter })
     this.bunker.onload = () => this.bunker.placeOnGround(groundLevel + 20)
     const avion = new Airplane({ src: 'armies/talijani/avioni/fiat-cr42.png', y: canvas2d.height * .4, scale: .85, speed: -240 })
     const avion2 = new Airplane({ src: 'armies/talijani/avioni/imam-ro57.png', y: canvas2d.height * .2, scale: 0.66, speed: -320 })

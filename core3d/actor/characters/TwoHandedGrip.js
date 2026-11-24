@@ -5,6 +5,7 @@ const mounts = {
   'weapon/rifle.fbx': { length: 1.04, grip: [.68, .50, .22], fore: [.56, .72, .40], tip: [.13, .78, 1] },
   'weapon/rifle-berthier/model.fbx': { length: 1.09, grip: [.57, .533, .275], fore: [.67, .767, .50], tip: [.53, .89, 1] },
   'weapon/mg-42/lowpoly.fbx': { length: 1.19, grip: [.50, .545, .233], fore: [.51, .707, .47], tip: [.50, .76, 1] },
+  'weapon/flame-gun/model.fbx': { length: .90, grip: [.52, .44, .21], fore: [.52, .45, .58], tip: [.53, .82, 1] },
   'weapon/machine-gun/model.fbx': { length: .66, grip: [.50, .66, .36], fore: [.50, .80, .60], tip: [.50, .88, 1] },
 }
 const up = new THREE.Vector3(0, 1, 0), origin = new THREE.Vector3()

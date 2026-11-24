@@ -16,10 +16,10 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 | 6 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
 | 7 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
 | 8 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
-| 9 | [IG-29](#ig-29) | Prerediti lavirint Escape Enemy Base u logor Crveni krst | Codex, Claude | 🔄 In progress |
+| 9 | [IG-29](#ig-29) | Dovršiti logor Crveni krst u Escape Enemy Base | Codex, Claude | 🔄 In progress |
 | 10 | [IG-30](#ig-30) | Dodati partizane i četnike kao saborce u opsadi Kraljeva | Codex, Claude | 📋 TODO |
 | 11 | [IG-31](#ig-31) | Dodati Messerschmitt kao neprijateljskog lovca i saveznički lovac u Warplane | Codex, Claude | 📋 TODO |
-| 12 | [IG-32](#ig-32) | Pretvoriti Raid on Drvar u igru pucanja u nemačke padobrance | Claude, Codex | 📋 TODO |
+| 12 | [IG-32](#ig-32) | Dovršiti Raid on Drvar: modeli, izgled grada i težina | Claude, Codex | 🔄 In progress |
 
 ## Održavanje plana
 
@@ -48,7 +48,7 @@ Olupina poljskog topa može postati zaseban rekvizit bojišta; još nije raspore
 <a id="ar-p08"></a>
 ### AR-P08 · Animirani spriteovi za The Germans Advance
 
-Napraviti animirane spriteove za svakog aktera u animaciji [The Germans Advance](../index.html#bitka). Pokriti pokrete strelaca i mitraljezaca pri kretanju, pucanju i čučanju gde se koristi, kao i kretanje tenka i pokrete vojnika na kupoli. Klipove povezati sa postojećim radnjama aktera u sceni i na naslovnoj.
+Napraviti animirane spriteove za svakog aktera u animaciji [The Germans Advance](../index.html#bitka). Pokriti pokrete strelaca i mitraljezaca pri kretanju, pucanju i čučanju gde se koristi, kao i kretanje tenka i pokrete vojnika na kupoli. Klipove povezati sa postojećim radnjama aktera u sceni.
 
 <a id="igre"></a>
 ## Igre i ideje
@@ -91,17 +91,20 @@ Liberated City je Bihać krajem 1942. Natpisi o dolasku Crvene armije i plakat R
 
 Radnja (vlasnik, 2026-11-24): proboj iz nemačkog logora Crveni krst u Nišu, 12. februara 1942; tekst misije i naslov kartice su upisani. Okvir je u [KONTEKST](KONTEKST.md#escape-enemy-base).
 
-Ideja (vlasnik, 2026-11-24): igrač kreće bez puške, kao goloruki logoraši u proboju, a oružje može dobiti usput, npr. od savladanog stražara. Omogućiti uzimanje oružja svakom stražaru, ne samo prvom; to je opšte pravilo, ne poseban događaj na početku nivoa. Uzimanje puške i savladavanje stražara nisu obavezni za bekstvo; konkretan način otimanja tek treba razraditi.
+Proboj je dogovoren i logoraši su spremni (vlasnik, 2026-11-24). Istorijski opis govori o golorukim logorašima. U igri [3D logoraš](../scenes/fps-base/PrisonerAvatar.js) kreće s običnom metalnom cevi u ruci i može tasterom F da preuzme [oružje savladanog stražara](../scenes/fps-base/CampWeapons.js). Izlazak iz lavirinta dovoljan je za pobedu. [Test nivoa](../tests/unit/fpsCamp.test.js) pokriva preuzimanje oružja i pobedu dok su svi stražari živi.
 
-Šunjanje (vlasnik, 2026-11-24): omogućiti bekstvo bez borbe i bez oružja, kao ravnopravan izbor uz silu. Planirati tiše, sporije kretanje, korišćenje punih zaklona i prolazak dok stražari gledaju drugde; razraditi opažanje prema vidljivosti i buci, uključujući ulogu reflektora. Lavirint i traženje izlaza ostaju osnova igre, a šunjanje dodatna mogućnost. Pobeda ne traži ubistva, otimanje oružja niti novi obavezni cilj. Ovo je planirana dopuna, još nije implementirana.
+Zamah u prvom licu koristi snimljeni klip iz [kataloga](../catalog.html#drugi-svetski-rat-3d/radnik-3d/cev), prilagođen tako da se cev vidi pri pogledu pravo i da se logoraš na kraju vrati u početni stav. Povratak u stav pokriva i [test nivoa](../tests/unit/fpsCamp.test.js).
+
+Preostaje:
+
+1. Dodati šunjanje kao ravnopravan način bekstva. Dogovor obuhvata sporije i tiše kretanje, pune zaklone i opažanje stražara prema vidljivosti i buci. Razraditi ulogu reflektora i proveriti da se do izlaza može stići šunjanjem, bez borbe i preuzimanja oružja.
+2. Doterati gažene pravce i oslonce objekata na tlu prema [ART-u](ART.md#crveni-krst-priprema-3d-ambijenta) i uklopiti osvetljenje u kadar igre. Vlasnik u pregledaču proverava čitljivost prolaza, slepe puteve, pogled kroz žicu i zaklone.
 
 Prerada menja betonski ambijent u logor; sneg, noć i straže ostaju. Početni predlog baraka i kula u uglovima korigovati prema [istraženom stanju](ISTORIJA.md#crveni-krst-12-februar-1942), a ne predstaviti kao potvrđen tlocrt. Teksture i modele izrađuje Codex, bez privremenog crteža u nivou.
 
 Priprema je urađena: [reference sa poreklom](references/ww2-yu/crveni-krst/README.md) i [smernice za modele i teksture](ART.md#crveni-krst-priprema-3d-ambijenta). Preradu voditi prema [dogovorenom rasporedu i pravilima prepreka](KONTEKST.md#escape-enemy-base): lavirint ostaje, a prolazi dobijaju prostornu namenu.
 
 Prvi [paket arta](../assets/models/building/crveni-krst/README.md) povezan je u [katalogu](../catalog.html#ambijent-3d/sklop) i [igri](../index.html#fps-base). [Lokalni raspored](../scenes/fps-base/campLayout.js) čuva grananje i slepe prolaze oko ograđene zidane zgrade, sa jednim otvorenim dvorištem. [Sklop](../scenes/fps-base/CampEnvironment.js) povezuje žicu, pune zaklone, dvostruki obod, otvorenu izlaznu kapiju i dve kule sa reflektorima. Uslov pobede ostaje izlazak iz lavirinta, bez dodatnih obaveznih ciljeva.
-
-Preostaje završna dorada tla prema ART-u (gaženi pravci i oslonci objekata) i uklapanje osvetljenja prema stvarnom kadru igre. Vlasnik isprobava čitljivost prolaza, slepe puteve, pogled kroz žicu i zaklone; browser pokreće sam. Ovo je prva verzija za igranje, bez tvrdnje o istorijski tačnom punom tlocrtu.
 
 Tehničke granice: zajednički `Maze` nije menjan. Mreža ima 8×8 polja razmaka 10 m, od kojih je osam rezervisano za objekat sa dvorištem; 56 prohodnih polja ostaje povezano. Početak (−35, −35), izlaz (35, 40) i prag pobede manji od 5 m su očuvani, kao i deset protivnika, dve prve pomoći i deset rekvizita. Žica blokira hod, a propušta pogled i metke za obe strane; zgrada, puni zakloni i rekviziti blokiraju i pogled i pogotke. Nitima i stubovima se dele instancirani sklopovi, dok puni zakloni ostaju obični mesh-evi zbog tragova pogodaka. [Ciljane provere](TESTING.md#crveni-krst--priprema-i-art) obuhvataju prohodnost, sudare, ponovni ulazak, pobedu bez ubijanja i oslobađanje novih resursa.
 
@@ -118,11 +121,23 @@ Warplane je operacija Ratweek 1944 ([okvir](KONTEKST.md#warplane)). Dvokrilac, t
 <a id="ig-32"></a>
 ### IG-32 · Igra Raid on Drvar
 
-Raid on Drvar (1944) postaje igra (vlasnik, 2026-11-24): igrač puca u nemačke padobrance koji se spuštaju na Drvar. Sada je to besplatna animacija ([scena](../scenes/drvar/Main.js)); kad postane igra, kartica prelazi u Partisan Games, na svoje mesto po vremenu radnje (maj 1944). Istorijski okvir desanta je u [ISTORIJA](ISTORIJA.md).
+[Raid on Drvar](../scenes/drvar/Main.js) je igra odbrane iz prvog lica (vlasnik, 2026-11-24): igrač puca u nemačke padobrance koji se spuštaju na Drvar 25. maja 1944. Kartica je u War Games, posle Visa. Istorijski okvir desanta je u [ISTORIJA](ISTORIJA.md).
 
-Atmosfera (vlasnik, 2026-11-24): šačica partizana iza improvizovanih zaklona gleda kako elitne nemačke padobranske trupe niotkuda padaju s neba, u ogromnom broju. Scena rekreira fotografije desanta ([drugi talas](https://commons.wikimedia.org/wiki/File:Drugi_talas_padobranaca_spustio_se_izme%C4%91u_groblja_na_Sobi%C4%87a_glavici_i_Grahovske_ceste.jpg), [prašina i dim](https://commons.wikimedia.org/wiki/File:Drvar_je_bio_u_pra%C5%A1ini_i_dimu_od_bombi,_kada_su_se_nad_njim_pojavili_mnogobrojni_padobrani.jpg), [desant](https://commons.wikimedia.org/wiki/File:Desant_nema%C4%8Dkih_padobranaca_na_Drvar.jpg), [pogled iz rova](https://commons.wikimedia.org/wiki/File:Nema%C4%8Dki_vazdu%C5%A1ni_desant_na_Drvar,_25._maja_1944.jpg), [podne](https://commons.wikimedia.org/wiki/File:Oko_12_sati_padobranci_su_ponovo_prekrili_nebo,_Drvar_25._maj_1944.jpg)): pogled sa grebena iza kamenih gomila preko široke doline u izmaglici i prašini, nisko prelaze formacije Ju 52, a nebo je posuto desetinama padobrana u talasima. Na fotografiji iz rova su ranjeni Nemci, ne partizani.
+Atmosfera: šačica partizana iza improvizovanih zaklona gleda kako elitne nemačke padobranske trupe niotkuda padaju s neba, u ogromnom broju. Scena rekreira fotografije desanta ([drugi talas](https://commons.wikimedia.org/wiki/File:Drugi_talas_padobranaca_spustio_se_izme%C4%91u_groblja_na_Sobi%C4%87a_glavici_i_Grahovske_ceste.jpg), [prašina i dim](https://commons.wikimedia.org/wiki/File:Drvar_je_bio_u_pra%C5%A1ini_i_dimu_od_bombi,_kada_su_se_nad_njim_pojavili_mnogobrojni_padobrani.jpg), [desant](https://commons.wikimedia.org/wiki/File:Desant_nema%C4%8Dkih_padobranaca_na_Drvar.jpg), [pogled iz rova](https://commons.wikimedia.org/wiki/File:Nema%C4%8Dki_vazdu%C5%A1ni_desant_na_Drvar,_25._maja_1944.jpg), [podne](https://commons.wikimedia.org/wiki/File:Oko_12_sati_padobranci_su_ponovo_prekrili_nebo,_Drvar_25._maj_1944.jpg)): nisko prelaze formacije Ju 52, a nebo je posuto padobranima. Na fotografiji iz rova su ranjeni Nemci, ne partizani.
 
-Igra (vlasnik, 2026-11-24): odbrana položaja iz prvog lica; igrač drži jedno mesto iza kamenog zaklona i menja samo pravac pogleda i nišana. Saborci levo i desno sami pucaju i ginu tokom borbe. Dva talasa, jutarnji i podnevni; pobeda kad izdržiš oba, poraz ako igrač padne ili se Nemci probiju do zaklona. Prvi talas igrač dočekuje puškom, a pred drugi preuzima puškomitraljez od poginulog druga.
+Mesto radnje: uporište „Moskva” kod pravoslavne crkve, gde su se branili opkoljeni partizani. Jedini izvor je potpis fotografije na [sh.wikipedia](https://sh.wikipedia.org/wiki/Desant_na_Drvar): „Napadi esesovaca na »Moskvu«, uporište opkoljenih partizana kod pravoslavne crkve.” Ko je branio, kada i kakav je bio teren, izvori ne kažu; groblje na Šobića glavici bilo je nemačko uporište. Uporište je crkveno dvorište 24 × 20 m, ograđeno starim zidanim kamenim zidom od 1,1 m ([zid](../core3d/geometry/stoneWall.js)), sa ulazom na zapadu, na ravnom terenu grada; okolo su ruševine od bombardovanja ([kamene gomile](../core3d/geometry/rocks.js), improvizovane po vlasnikovom nalogu).
+
+Pravila: igrač drži mesto uz istočni zid i menja samo pravac pogleda i nišana, na sve strane, jer je uporište opkoljeno. Miš nišani, levi klik puca; puška ([oružje](../core/gameplay/Firearm.js)) ispaljuje metak pa repetira, a puškomitraljez puca dok se drži klik i posle okvira od 20 metaka puni. Četiri saborca uz zidove, različito obučena kao u Jablanici, sami pucaju i ginu ([upravljač](../core/gameplay/controllers/Defender.js)); igrač preuzima puškomitraljez prvog kad on padne, a najkasnije pred drugi talas. Dva talasa formacija Ju 52 ([avion](../core/gameplay/bodies/aircraft/Transport.js)) prelaze ispred igrača; [padobranci](../core/gameplay/bodies/characters/Parachutist.js) se pogađaju u vazduhu, a posle sletanja postaju [vojnici iz Neretve](../core/gameplay/bodies/soldiers/CoverSoldier.js), okrenuti licem ka nama, koji trče do najbliže ruševine i iza nje se povremeno dižu, nišane i pucaju ([upravljač](../core/gameplay/controllers/CoverFighter.js)); bez zaklona u blizini pucaju stojeći. Pobeda je posle drugog talasa, poraz kad igrač padne. Nemci i padobranci su ravne slike, saborci i ambijent 3D. Čučanja i ležanja s pucanjem nema; nove animacije dodaju se po potrebi.
+
+Preostaje:
+
+1. 📋 Modeli koje traži vlasnik: crkva po uzoru na drvarsku crkvu Svetog Save (1932–1939), drveće u dvorištu i džakovi sa peskom kao improvizovani bunker kod ulaza.
+2. 📋 Ju 52: ravna slika loše izgleda čim se kamera okrene. Vlasniku se sviđa izgled ravnih slika u 3D sceni, kao oživeli strip, pa se prvo razmatraju rešenja za 2D avione; 3D model (u projektu su samo He 111, Ju 87, Do 217 i Bf 109) je druga mogućnost.
+3. 📋 Izgled grada: tlo je jednolično, a kuća nema.
+4. 📋 Igranje nivoa i podešavanje broja padobranaca i težine: bez otpora igrač pada za oko 40 sekundi. Otvoreno je i da li se igra nastavlja kad igrač padne, a saborci su živi.
+5. 📋 Snimak kartice na naslovnoj je još iz stare animacije.
+
+Ideja (vlasnik, 2026-11-24): zanimljiva kombinacija 2D i 3D na sceni, npr. padobranci posle sletanja postaju 3D modeli vojnika; još nije odlučeno.
 
 ## Notes
 

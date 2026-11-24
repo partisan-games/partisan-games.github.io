@@ -80,10 +80,6 @@ const route = async() => {
 }
 
 if (location.hash) route()
-else import('./bitka/Preview.js').then(({ default: showBattlePreview }) => {
-  const preview = document.querySelector('.battle-preview')
-  if (preview && !location.hash) showBattlePreview(preview)
-})
 
 document.addEventListener('click', async e => {
   const button = e.target.closest('button')

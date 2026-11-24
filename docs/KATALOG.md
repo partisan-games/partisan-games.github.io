@@ -6,12 +6,12 @@ Za svaki izgled dostupan je [pregled proverenih radnji](../pregled-animacija.htm
 
 ## Stavke kataloga i varijante
 
-**Dogovor vlasnika, 2026-11-22:** katalog razdvaja aktere prema tipu, modelu i ulozi u igri. Deljenje koda, nasleđivanje, zajednička klasa ponašanja ili zajednički 3D model ne određuju broj stavki kataloga.
+**Dogovor vlasnika, dopunjen 2026-11-24.** Lik u katalogu ima jednu stavku koja prati njegov identitet. Kod vozila stavku određuju tip i model.
 
 - **Jedan tip i model vozila je jedna stavka.** Mali čamac, patrolni brod, desantna teglenica i različiti modeli tenkova imaju zasebne stavke, čak i kada koriste istu klasu. Različiti modeli vozila ne skrivaju se pod „Izgled”.
-- **Skinovi ostaju unutar iste stavke.** Boje, oznake i druge vizuelne varijacije istog aktera biraju se kroz „Izgled”; okretanje na drugu stranu takođe ne pravi novu stavku.
-- **Za vojnike su važni identitet i borbena uloga.** Italijanski strelac, nemački strelac i britanski strelac imaju zasebne stavke; strelac i mitraljezac takođe su odvojeni. Letnja i zimska uniforma istog vojnika mogu biti skinovi u njegovoj stavci.
-- **Isto pravilo važi za 3D.** Jedan model čoveka može poslužiti različitim vojnicima u zasebnim stavkama; unutar pojedinačnog aktera dostupni su njegovi skinovi i varijacije. Drugi model vozila ili drugog aktera dobija zasebnu stavku.
+- **Skinovi ostaju unutar iste stavke.** Boje, oznake i druge vizuelne varijacije istog aktera biraju se kroz „Izgled”; dodat predmet poput cevi bira se kao varijanta opreme istog aktera. Promena strane prikaza takođe pripada istoj stavci.
+- **Jedan vojnik ima jedno mesto u katalogu.** Čuvamo njegovo ime i lice kroz priču. Savo može da nosi pušku, nož ili mitraljez, a svako oružje i svaka uniforma su varijante u Savinoj stavci.
+- **Različiti ljudi imaju zasebne stavke.** Više likova može koristiti isti 3D model tela, uz lice koje pripada svakom od njih.
 - **Sekcije služe snalaženju.** Akteri koji dele kod mogu biti u istoj sekciji, ali to nije obavezno. Imena i raspored treba da pomognu vlasniku da pronađe aktera, nezavisno od organizacije klasa i datoteka.
 
 Ovo je pravilo organizacije.
@@ -24,7 +24,7 @@ Sezonska namena mora biti vidljiva u panelu. Stražar u šinjelu ima `allowedSea
 
 - Katalog prikazuje samo aktere, igrače i neprijatelje, uključujući bibliotečke klase za te uloge; pozadine, okolina, efekti, projektili i predmeti nemaju zasebne priče (odluka vlasnika). Saradnici poput metka ili eksplozije mogu se videti uz aktera tokom pucanja/pogotka, a svetlo, tlo i meta deo su pozornice. Obim određuje uloga, ne folder klase.
 - Levo je sklopivo stablo **2D / 3D → vrsta → podvrsta**, npr. **3D → Vojnici → Italijanski**. Nadgrupe rade mišem i tastaturom i pamte stanje u lokalnom skladištu pregledača. Pretraga po nazivu, igri ili skinu otvara put do rezultata; brisanje pretrage vraća zapamćene grupe. Direktan link otvara sve grupe izabranog aktera, a Reset ih ne gradi ponovo.
-- Priča ima adresu `#vrsta/priča`, skin `#vrsta/priča/izgled`. Različiti čamci, tenkovi, avioni i nacionalnosti/uloge pešadije imaju zasebne stavke. Stari linkovi ostaju aliasi; pregledač ih zamenjuje novom adresom bez ponovnog učitavanja. Primer: [mali nemački čamac](../catalog.html#brodovi/nemacki-mali-camac).
+- Priča ima adresu `#vrsta/priča`, a varijanta `#vrsta/priča/izgled`. Zasebne stavke imaju pojedinačni likovi i različiti modeli čamaca, tenkova i aviona. Pregledač preusmerava stare adrese na odgovarajuću stavku i varijantu. Primer je [mali nemački čamac](../catalog.html#brodovi/nemacki-mali-camac).
 - Priča nema upravljanje ni ulogu: pozornica ne daje tastere blokovima, a blok se pokreće samo dugmadima svojih stanja i pucanja.
 - Desno su izbor strane („Nalevo”, „Nadesno”), dugmad stanja bloka sa „Pogođen” ispred `dead` i „Reset” kao poslednjim u tom redu, zatim pucanja koja blok podržava („Pucaj gore”, „Pucaj pravo”), „Prati kamerom”, a na dnu traka trenutnog zdravlja bloka koji može biti pogođen. Panel nema podešavanja (odluka vlasnika, 2026-11-22).
 - Svaka priča stavlja svoj blok na sredinu pozornice, bez obzira na to odakle on ulazi u igri (odluka vlasnika, 2026-11-22).
@@ -72,7 +72,7 @@ Svaka dopuna arta mora postati dostupna u postojećoj ili novoj priči aktera. P
 
 [catalogStories.test.js](../tests/unit/catalogStories.test.js) pravi svaku priču, prolazi kroz sva njena stanja i proverava da svako navedeno pucanje ispali metak. [catalogCoverage.test.js](../tests/unit/catalogCoverage.test.js) traži priču za svakog aktera u navedenim folderima. [catalogStage2D.test.js](../tests/unit/catalogStage2D.test.js) proverava pozornicu, praćenje kamerom i da gašenje ne ostavlja rukovaoce na stranici. Izgled se proverava samo okom.
 
-Provera pokrivenosti prati module klasa; [catalogNavigation.test.js](../tests/unit/catalogNavigation.test.js) dodatno proverava razdvojene modele, sve postojeće pešadijske varijante, stare adrese, pretragu i pamćenje grupa. Novi tipovi i uloge moraju dobiti stavku i odgovarajuću proveru: sam prolazak provere klasa ne dokazuje potpunost kataloga.
+Provera pokrivenosti prati module koje koriste stavke i njihove varijante. [catalogNavigation.test.js](../tests/unit/catalogNavigation.test.js) dodatno proverava modele vozila, pešadijske identitete i opremu, stare adrese, pretragu i pamćenje grupa.
 
 Sklopive sekcije koriste native `details`/`summary`; `summary` mora biti UI cilj u [inputContext](../core/io/inputContext.js), da tastatura igre ne presretne Space/Enter. Izvršene dokaze čuva [TESTING](TESTING.md), bez održavanja broja adresa u ovom vodiču.
 

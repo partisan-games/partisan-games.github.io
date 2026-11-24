@@ -2,7 +2,7 @@ import Scene3D from '/core/Scene3D.js'
 import { createGround } from '/core3d/ground.js'
 import { sample, getHeight } from '/core3d/helpers.js'
 import { hemLight } from '/core3d/light.js'
-import { DirectionalLight, Fog, MeshStandardMaterial } from 'three'
+import { DirectionalLight, Fog, HemisphereLight, MeshStandardMaterial, PerspectiveCamera, Scene } from 'three'
 import campLayout from './campLayout.js'
 import CampEnvironment, { models as campModels } from './CampEnvironment.js'
 import { description as germanMachineGunner, models as germanMachineGunnerModels } from '/core3d/actor/derived/ww2/GermanMachineGunner.js'
@@ -24,21 +24,26 @@ import CharacterModel from '/core3d/actor/characters/CharacterModel.js'
 import makeCharacter from '/core3d/actor/characters/makeCharacter.js'
 import MouseLook from '/core3d/actor/characters/MouseLook.js'
 import FirstPersonView from '/core3d/actor/characters/FirstPersonView.js'
+import CampWeapons, { takeWeapon } from './CampWeapons.js'
+import PrisonerAvatar, { prisonerModel } from './PrisonerAvatar.js'
+
+const soldiers = [germanMachineGunner, ssSoldier, naziOfficer, germanFlameThrower, germanSoldier]
 
 export default class FpsBaseScene extends Scene3D {
   constructor() {
     super({
       toon: true,
       usePointerLock: true,
-      controlKeys: fpsControls,
-      intro: '<ul><li>Find the way out</li><li>Bonus: Kill all enemies</li></ul>',
+      controlKeys: { ...fpsControls, [takeWeapon.label]: 'take weapon' },
+      intro: 'The breakout is planned. The prisoners are ready. Find a way out.',
       reportText: 'Crveni Krst camp, Niš, February 1942. Your mission is to break out of the German camp and reach the partisans on Suva Planina.',
     })
+    this.viewRenderer = this.renderer
   }
 
   async init() {
     await requestModels([...germanMachineGunnerModels, ...ssSoldierModels, ...naziOfficerModels, ...germanFlameThrowerModels,
-      ...germanSoldierModels, ...firstAidModels, ...campModels], { parallelAnimations: true })
+      ...germanSoldierModels, ...firstAidModels, ...campModels, prisonerModel], { parallelAnimations: true })
     this.backgroundColor = 0x202835
     this.scene.fog = new Fog(0x202835, 55, 125)
     this.light = hemLight({ intensity: 1.25, skyColor: 0x9cabcf, groundColor: 0x36332e, scene: this.scene })
@@ -59,19 +64,28 @@ export default class FpsBaseScene extends Scene3D {
     const enemyWorld = this.camp.queries()
     const { impactAt, ...playerWorld } = this.camp.queries()
     this.player = new Character({ ...this.maze.tilePosition(1, 1), size: { length: .4, height: 1.78, width: .4 },
-      reach: 100, jumping: 'fly', strikeHeight: .82, ...playerWorld })
+      reach: 1.65, actions: { attack: .9 }, jumping: 'fly', strikeHeight: .89, ...playerWorld })
     this.player.face({ x: 0, z: 0 })
     this.controllers.push(new CharacterKeys(this.player, new Input({ useJoystick: false, useKeyboard: true, attackKey: 'pointer' })),
       new MouseLook(this.player))
-    const playerModel = new CharacterModel(this.player, { mesh: createPlayerBox({ visible: false }), attackSound: 'rifle.mp3', impactAt })
+    const playerModel = new CharacterModel(this.player, { mesh: createPlayerBox({ visible: false }), impactAt })
     this.audioPlayer = () => playerModel
-    this.add(this.player, playerModel, new FirstPersonView(this.player, { camera: this.camera }))
+    this.viewScene = new Scene()
+    this.viewCamera = new PerspectiveCamera(88, this.camera.aspect, .10, 20)
+    const viewLight = new DirectionalLight(0xdce4ef, 1.15)
+    viewLight.position.set(-.4, .9, .65)
+    this.viewScene.add(this.viewCamera, new HemisphereLight(0xc2cddb, 0x726054, 1.35), viewLight)
+    const avatar = new PrisonerAvatar(this.player, this.viewScene, this.viewCamera)
+    const weapons = new CampWeapons({ player: this.player, playerView: playerModel, avatar, queries: enemyWorld,
+      canTake: () => this.session.state === 'running', guardSounds: soldiers.map(soldier => soldier.attackSound) })
+    this.add(this.player, playerModel, new FirstPersonView(this.player, { camera: this.camera, weaponSrc: null, behind: 0 }), avatar, weapons)
 
-    const soldiers = [germanMachineGunner, ssSoldier, naziOfficer, germanFlameThrower, germanSoldier]
     this.enemies = Array.from({ length: 10 }, () => {
       const index = coords.findIndex(point => Math.hypot(point.x - this.player.x, point.z - this.player.z) > 12)
       const { x, z } = coords.splice(index, 1)[0]
-      const { body, model } = makeCharacter(sample(soldiers), { x, z, targets: [this.player], damage: computerDamage, ...enemyWorld })
+      const soldier = sample(soldiers)
+      const { body, model } = makeCharacter(soldier, { x, z, targets: [this.player], damage: computerDamage, ...enemyWorld })
+      weapons.register(body, model, soldier)
       this.controllers.push(new CharacterAI(body, { target: this.player, way: 'wander', sees: enemyWorld.sees }))
       this.add(body, model)
       return body
@@ -113,6 +127,30 @@ export default class FpsBaseScene extends Scene3D {
   end() {
     super.end()
     this.enemies = []
+  }
+
+  render() {
+    super.render()
+    if (!this.viewScene) return
+
+    const { viewRenderer, viewCamera } = this
+    if (viewCamera.aspect !== this.camera.aspect) {
+      viewCamera.aspect = this.camera.aspect
+      viewCamera.updateProjectionMatrix()
+    }
+    const { autoClear } = viewRenderer
+    viewRenderer.autoClear = false
+    try {
+      viewRenderer.clearDepth()
+      viewRenderer.render(this.viewScene, viewCamera)
+    } finally {
+      viewRenderer.autoClear = autoClear
+    }
+  }
+
+  disposeScene() {
+    super.disposeScene()
+    if (this.viewScene) super.disposeScene(this.viewScene)
   }
 
   update(dt, t) {

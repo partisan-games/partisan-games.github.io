@@ -102,7 +102,7 @@ export default class FPSRenderer extends HTMLCanvasElement {
 
   render(elapsedTime = time += .016) {
     this.clear()
-    this.drawWeapon(elapsedTime)
+    if (this.weaponSrc) this.drawWeapon(elapsedTime)
     this.drawTarget(elapsedTime)
   }
 }

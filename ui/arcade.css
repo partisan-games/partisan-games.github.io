@@ -1,36 +1,5 @@
 /* Painted steel cabinets and a mechanical coin door. */
 .homepage { padding-top: 16px; }
-.battle-preview {
-  position: relative;
-  max-width: 1120px;
-  aspect-ratio: 16 / 9;
-  margin: 0 auto 24px;
-  overflow: hidden;
-  border: 2px solid #5d5e54;
-  border-radius: 8px;
-  background: #101716;
-}
-.battle-preview > img,
-.battle-preview > canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-.battle-preview > canvas:not([hidden]) { display: block; }
-.battle-preview > button {
-  position: absolute;
-  right: 12px;
-  bottom: 12px;
-  min-height: 44px;
-  padding: 0 12px;
-  color: #f4e3b6;
-  border: 1px solid #8f8772;
-  border-radius: 4px;
-  background: #171c1cee;
-  font: 14px/1.4 system-ui, sans-serif;
-}
-.battle-preview > button:focus-visible { outline: 2px solid #ffe08b; }
 .arcade-wallet {
   display: none;
   position: fixed;

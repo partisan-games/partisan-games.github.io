@@ -64,7 +64,9 @@ before(async() => {
 })
 
 test('every actor in the covered folders has a story', async() => {
-  const shown = new Set(kinds.flatMap(kind => kind.stories.map(story => story.block)))
+  const shown = new Set(kinds.flatMap(kind => kind.stories.flatMap(story => [story.block,
+    ...(story.looks ?? []).filter(look => look.block).map(look => look.block),
+  ])))
   for (const [folder, without] of Object.entries(folders))
     for (const file of readdirSync(folder).filter(name => name.endsWith('.js') && !without.includes(name)))
       assert.ok(shown.has(await import(`/${folder}/${file}`)), `${folder}/${file} has no story`)

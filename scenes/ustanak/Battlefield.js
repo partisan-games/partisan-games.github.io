@@ -2,6 +2,8 @@ import BattleBackground, { battlefields } from '/scenes/tenkici/BattleBackground
 import imageReady from '/core/io/imageReady.js'
 import GroundLayer from './GroundLayer.js'
 
+export const landscapeFilter = 'sepia(75%) saturate(65%)'
+
 /** The places of the 1941 uprising on Sava Kovačević's path, one for each round (owner's decision). */
 export const placeOrder = ['grahovo', 'vilusi', 'niksic']
 /** The places go on in one sequence: the next round, and the next match, are fought on the next one. */
@@ -14,7 +16,7 @@ export default class Battlefield {
     this.ctx = canvas.getContext('2d')
     this.wind = wind
     this.time = 0
-    this.places = placeOrder.map(id => new BattleBackground(canvas, battlefields[id], { groundY }))
+    this.places = placeOrder.map(id => new BattleBackground(canvas, battlefields[id], { groundY, pictureFilter: landscapeFilter }))
     this.audioChildren = this.places
     this.ground = new GroundLayer({ width: canvas.width, height: canvas.height, floorY: terrain.floorY })
     terrain.view = this.ground
@@ -41,6 +43,7 @@ export default class Battlefield {
     ctx.save()
     ctx.imageSmoothingEnabled = false
     place.render(this.time, wind ? wind.drift * place.efekti.width / canvas.width : undefined)
+    ctx.filter = landscapeFilter
     this.ground.render(ctx)
     ctx.restore()
   }

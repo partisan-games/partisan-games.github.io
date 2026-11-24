@@ -6,7 +6,8 @@ export const bunkerScale = .5
 export const gunnerWindow = { x: 60, y: 20 }
 
 export default class Bunker extends GameObject2D {
-  constructor({ x, y, scale = bunkerScale, flammable = true, ...rest } = {}) {
+  constructor({ x, y, scale = bunkerScale, flammable = true, imageFilter, ...rest } = {}) {
     super('buildings/kuca-bunker.png', { x, y, z: -1, scale, flammable, ...rest })
+    this.imageFilter = imageFilter
   }
 }
