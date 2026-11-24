@@ -55,6 +55,7 @@ Ciljni prikaz svih aktera koristi [standardna stanja](ARHITEKTURA.md#standardna-
 
 - `states`, `state` i `setState(name)` daju dugmad stanja;
 - `health` (`current`, `maximum`) i `takeHit(damage)` daju dugme „Pogođen”, koje bloku skida desetinu zdravlja, pa se posle nekoliko klikova vidi oštećenje (dim, sporiji avion, pokvaren tenk), i traku zdravlja na dnu;
+- stvarna masa, najveća brzina i naoružanje modela iz `physical` ([zajednički zapis](../core/gameplay/modelStatistics.js)), uz `health.maximum` i `performance.bombs`, ispisuju se na dnu panela, ispod trake zdravlja. Odnosi balansa (`speed`, `firepower`) se ne prikazuju, jer ne govore koliko je model brz ili jak. Panel čita samo telo; vrednost koje nema u izvorima se izostavlja;
 - `shots` (tačka ispred bloka i iznad njega za svako pucanje), `forward` (1 desno, -1 levo) i `aimAt(point)` daju dugmad pucanja: dugme nanišani blok u tačku tog pucanja i stavi ga u `attack`; pucanje sa `automatic`, kao zadnji strelac Poteza, samo nanišani, jer to oružje puca samo, pa ostala oružja bloka ćute.
 
 Blok koji ne može da se napravi samo sa opcijama pozornice još nije nezavisan; prvo se refaktoriše po [pravilima](ARHITEKTURA.md#gradivni-blokovi).

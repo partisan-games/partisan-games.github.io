@@ -9,10 +9,10 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 | | **[Art](#art)** | | | |
 | 1 | [AR-P06](#ar-p06) | Precrtati krupnije slike manje od prikaza i vratiti stvarne veličine avionima u Visu | Codex, Claude | 📋 TODO |
 | 2 | [AR-P07](#ar-p07) | Napraviti pravu teksturu za 3D Renault FT | Codex, Claude | 📋 TODO |
+| 3 | [AR-P08](#ar-p08) | Napraviti animirane spriteove za sve aktere u animaciji The Germans Advance | — | 📋 TODO |
 | | **[Igre i ideje](#igre)** | | | |
-| 3 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [1](#note-1) |
-| 4 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
-| 5 | [IG-20](#ig-20) | Razmotriti nivo odbrane položaja odozgo, sa napadima sa svih strana | Vlasnik | 📋 TODO |
+| 4 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [1](#note-1) |
+| 5 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
 | 6 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
 | 7 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
 | 8 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
@@ -45,6 +45,11 @@ Olupina poljskog topa može postati zaseban rekvizit bojišta; još nije raspore
 
 3D Renault FT ([model](../assets/models/tank/renault-ft.fbx)) nema svoju teksturu, nego opštu metalnu sliku, pa izgleda kao beton i nije za produkciju. Codex pravi teksturu u boji jugoslovenske vojske 1941, kako su ga partizani zaplenili kod Kraljeva ([okvir](KONTEKST.md#demolish-barricades)); ista važi za igračev tenk i neprijateljski Renault u ostalim igrama ([telo](../core3d/actor/derived/Tank.js)).
 
+<a id="ar-p08"></a>
+### AR-P08 · Animirani spriteovi za The Germans Advance
+
+Napraviti animirane spriteove za svakog aktera u animaciji [The Germans Advance](../index.html#bitka). Pokriti pokrete strelaca i mitraljezaca pri kretanju, pucanju i čučanju gde se koristi, kao i kretanje tenka i pokrete vojnika na kupoli. Klipove povezati sa postojećim radnjama aktera u sceni i na naslovnoj.
+
 <a id="igre"></a>
 ## Igre i ideje
 
@@ -65,11 +70,6 @@ Kandidati nisu nalog za izradu. Posle izbora dopuniti art, telo, zajednički pri
 ### IG-18 · Arkadni prizor iz prvog lica
 
 Ideja iz README-a: Otpisani ili Neretva mogu dobiti pomeranje prizora i protivnike koji iskaču. Konkretna igra, tok i obim još nisu izabrani.
-
-<a id="ig-20"></a>
-### IG-20 · Odbrana položaja
-
-Ideja iz README-a: pogled odozgo i napadi sa svih strana, nalik igrama tipa tower defense. Kontekst, akteri i cilj nivoa još nisu razrađeni.
 
 <a id="ig-21"></a>
 ### IG-21 · Kampanja Jablanice
@@ -119,6 +119,10 @@ Warplane je operacija Ratweek 1944 ([okvir](KONTEKST.md#warplane)). Dvokrilac, t
 ### IG-32 · Igra Raid on Drvar
 
 Raid on Drvar (1944) postaje igra (vlasnik, 2026-11-24): igrač puca u nemačke padobrance koji se spuštaju na Drvar. Sada je to besplatna animacija ([scena](../scenes/drvar/Main.js)); kad postane igra, kartica prelazi u Partisan Games, na svoje mesto po vremenu radnje (maj 1944). Istorijski okvir desanta je u [ISTORIJA](ISTORIJA.md).
+
+Atmosfera (vlasnik, 2026-11-24): šačica partizana iza improvizovanih zaklona gleda kako elitne nemačke padobranske trupe niotkuda padaju s neba, u ogromnom broju. Scena rekreira fotografije desanta ([drugi talas](https://commons.wikimedia.org/wiki/File:Drugi_talas_padobranaca_spustio_se_izme%C4%91u_groblja_na_Sobi%C4%87a_glavici_i_Grahovske_ceste.jpg), [prašina i dim](https://commons.wikimedia.org/wiki/File:Drvar_je_bio_u_pra%C5%A1ini_i_dimu_od_bombi,_kada_su_se_nad_njim_pojavili_mnogobrojni_padobrani.jpg), [desant](https://commons.wikimedia.org/wiki/File:Desant_nema%C4%8Dkih_padobranaca_na_Drvar.jpg), [pogled iz rova](https://commons.wikimedia.org/wiki/File:Nema%C4%8Dki_vazdu%C5%A1ni_desant_na_Drvar,_25._maja_1944.jpg), [podne](https://commons.wikimedia.org/wiki/File:Oko_12_sati_padobranci_su_ponovo_prekrili_nebo,_Drvar_25._maj_1944.jpg)): pogled sa grebena iza kamenih gomila preko široke doline u izmaglici i prašini, nisko prelaze formacije Ju 52, a nebo je posuto desetinama padobrana u talasima. Na fotografiji iz rova su ranjeni Nemci, ne partizani.
+
+Igra (vlasnik, 2026-11-24): odbrana položaja iz prvog lica; igrač drži jedno mesto iza kamenog zaklona i menja samo pravac pogleda i nišana. Saborci levo i desno sami pucaju i ginu tokom borbe. Dva talasa, jutarnji i podnevni; pobeda kad izdržiš oba, poraz ako igrač padne ili se Nemci probiju do zaklona. Prvi talas igrač dočekuje puškom, a pred drugi preuzima puškomitraljez od poginulog druga.
 
 ## Notes
 

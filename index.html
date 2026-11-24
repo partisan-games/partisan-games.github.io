@@ -23,6 +23,12 @@
         <p class="dev-links" hidden><a href="/ui.html">UI</a> · <a href="/catalog.html">Katalog</a></p>
       </div>
 
+      <div class="battle-preview">
+        <img src="/assets/images/scenes/bitka.webp" width="480" height="270" alt="Pešadija i tenk na livadi">
+        <canvas id="battle-preview" width="480" height="270" aria-hidden="true" hidden></canvas>
+        <button type="button" aria-controls="battle-preview" hidden>Pause animation</button>
+      </div>
+
       <div class="uvod">
         <p>Web games (for PC) I’ve been making in my free time over the past 15 years. You don't need to install anything, just
           play.</p>
@@ -155,8 +161,14 @@
         </div>
       </div>
 
-      <h2>3D Scenes and Animations</h2>
+      <h2>Scenes and Animations</h2>
       <div class="main-menu" data-free>
+        <div data-path="bitka" class="arcade-cabinet">
+          <h3><span class="arcade-year">1941:</span>The Germans Advance</h3>
+          <div class="arcade-screen"><img loading="lazy" width="480" height="270" alt="Infantry and a tank advancing across a field" src="/assets/images/scenes/bitka.webp"></div>
+          <button type="button" class="arcade-slot" aria-label="Watch The Germans Advance"><span class="arcade-slot-label">WATCH</span></button>
+        </div>
+
         <div data-path="locomotive" class="arcade-cabinet">
           <h3><span class="arcade-year">1942:</span>Partisan Railway<small class="arcade-subtitle">Locomotive</small></h3>
           <div class="arcade-screen"><img loading="lazy" width="600" height="318" alt="game screen" src="/assets/images/scenes/locomotive.webp"></div>

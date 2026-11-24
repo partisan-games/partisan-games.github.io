@@ -7,6 +7,7 @@ import BunkerSprite from '/core/actor/artillery/BunkerSprite.js'
 import TankSprite from '/core/actor/vehicles/TankSprite.js'
 import GunCarrierSprite, { gunCarrierPictures } from '/core/actor/vehicles/GunCarrierSprite.js'
 import { somuaTank } from '/core/actor/tankLooks.js'
+import { modelPerformance } from '/core/gameplay/modelPerformance.js'
 
 import { yawOf } from './helpers.js'
 import scales from '../scales.js'
@@ -27,7 +28,7 @@ const put = (stage, body, view) => {
 /** The Somua S35, a French tank the Germans took, whose barrel art is a part of a larger picture. */
 const somua = (stage, way) => {
   const { somua: kind } = tankModule.tankKinds
-  const body = new Tank({ ...placed(stage, kind.size, way), kind })
+  const body = new Tank({ ...placed(stage, kind.size, way), kind, performance: modelPerformance[somuaTank.id] })
   return put(stage, body, new TankSprite(body, { ...somuaTank, ...views(stage) }))
 }
 
