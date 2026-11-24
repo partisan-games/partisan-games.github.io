@@ -7,7 +7,7 @@ from PIL import Image
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[4]
-TARGET = ROOT / 'assets/images/armies/game-ready/vojnici/otpisani-sentry-sprites.png'
+TARGET = ROOT / 'assets/images/game-ready/vojnici/otpisani-sentry-sprites.png'
 poses = runpy.run_path(str(HERE / 'prepare-rifleman-redraw.py'))['poses']
 
 
@@ -70,13 +70,13 @@ def prepare():
     fire = registration[12]
     point = [81, 80]
     muzzle = [fire['offset'][0]+point[0]*scales[1], fire['offset'][1]+point[1]*scales[1]]
-    runtime = {'src': 'armies/game-ready/vojnici/'+TARGET.name, 'width': 512, 'height': 512,
+    runtime = {'src': 'game-ready/vojnici/'+TARGET.name, 'width': 512, 'height': 512,
                'anchor': {'x': 256, 'y': 496}, 'standingPixels': standing,
                'effectStandingPixels': 194, 'muzzle': muzzle, 'clips': clips}
     animations = [{'name': name, 'row': clip['row'], 'frameCount': len(clip['ms']),
                    'frameDurationsMs': clip['ms'], 'duration': sum(clip['ms'])/1000, 'loop': clip.get('loop', False)}
                   for name, clip in clips.items()]
-    return {'id': 'otpisani-sentry', 'image': '../../game-ready/vojnici/'+TARGET.name,
+    return {'id': 'otpisani-sentry', 'image': '../../../game-ready/vojnici/'+TARGET.name,
             'frame': {'width': 512, 'height': 512, 'columns': 4, 'rows': 6},
             'anchor': runtime['anchor'], 'view': 'front-and-side', 'animations': animations,
             'source': sources[0].name, 'sourceSha256': sha(sources[0]),

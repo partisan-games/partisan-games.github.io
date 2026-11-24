@@ -1,7 +1,7 @@
 /** Generated from accepted atlas measurements by assets/images/armies/sources/ustanak/prepare.py. */
 export default {
   'partisanCrew': {
-    'src': 'armies/game-ready/artiljerija/partizanska-posada-sprites.png',
+    'src': 'game-ready/artiljerija/partizanska-posada-sprites.png',
     'names': [
       'idle',
       'load',
@@ -22,7 +22,7 @@ export default {
     'defaultAnimation': 'idle'
   },
   'italianCrew': {
-    'src': 'armies/game-ready/artiljerija/italijanska-posada-sprites.png',
+    'src': 'game-ready/artiljerija/italijanska-posada-sprites.png',
     'names': [
       'idle',
       'load',
@@ -43,7 +43,7 @@ export default {
     'defaultAnimation': 'idle'
   },
   'rifleman': {
-    'src': 'armies/game-ready/vojnici/partizanski-strelac-sprites.png',
+    'src': 'game-ready/vojnici/partizanski-strelac-sprites.png',
     'names': [
       'idle',
       'fire'
@@ -60,7 +60,7 @@ export default {
     'defaultAnimation': 'idle'
   },
   'partisanBearer': {
-    'src': 'armies/game-ready/vojnici/partizanski-zastavnik-sprites.png',
+    'src': 'game-ready/vojnici/partizanski-zastavnik-sprites.png',
     'names': [
       'partisan'
     ],
@@ -75,7 +75,7 @@ export default {
     'defaultAnimation': 'partisan'
   },
   'italianBearer': {
-    'src': 'armies/game-ready/vojnici/zastavnici-sprites.png',
+    'src': 'game-ready/vojnici/zastavnici-sprites.png',
     'names': [
       'partisan',
       'italian'

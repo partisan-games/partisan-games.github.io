@@ -7,7 +7,7 @@ from PIL import Image, ImageDraw
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[4]
-OUT = ROOT / 'assets/images/armies/game-ready/avioni'
+OUT = ROOT / 'assets/images/game-ready/avioni'
 
 def strip(vertical):
     width, height = (12, 48) if vertical else (64, 12)
@@ -23,8 +23,8 @@ def strip(vertical):
 def main():
     ju87 = json.loads((HERE.parent / 'plan-ideas-art/ju87-redraw.json').read_text(encoding='utf-8'))
     body_specs = [
-        ('ju87', 'armies/game-ready/avioni/ju87.png', ju87['frame'], 'side', [[*ju87['propellerHub'], ju87['propellerSpan']]]),
-        ('bf109-side', 'armies/game-ready/avioni/bf109.svg', [182, 48], 'side', [[4, 30, 34]]),
+        ('ju87', 'game-ready/avioni/ju87.png', ju87['frame'], 'side', [[*ju87['propellerHub'], ju87['propellerSpan']]]),
+        ('bf109-side', 'game-ready/avioni/bf109.svg', [182, 48], 'side', [[4, 30, 34]]),
         ('bf109-top', 'armies/nemci/avioni/bf-109-odozgo.png', [230, 196], 'top', [[114.5, 5, 58]]),
         ('fw190-top', 'armies/nemci/avioni/fw-190-odozgo.png', [230, 194], 'top', [[114.5, 5, 64]]),
         ('bf110-top', 'armies/nemci/avioni/bf-110-odozgo.png', [354, 265], 'top', [[126.5, 29, 64], [226.5, 29, 64]]),
@@ -38,8 +38,8 @@ def main():
         (OUT / name).write_text(strip(projection == 'side'), encoding='utf-8')
         raster = name.replace('.svg', '.png')
         subprocess.run(['magick', '-background', 'none', str(OUT / name), str(OUT / raster)], check=True)
-        layers[projection] = {'src': 'armies/game-ready/avioni/' + raster, 'frame': {'width': width, 'height': height}, 'columns': 4, 'seconds': .12}
-        metadata.append({'id': 'propeller-' + projection, 'image': '../../game-ready/avioni/' + raster, 'vectorSource': '../../game-ready/avioni/' + name,
+        layers[projection] = {'src': 'game-ready/avioni/' + raster, 'frame': {'width': width, 'height': height}, 'columns': 4, 'seconds': .12}
+        metadata.append({'id': 'propeller-' + projection, 'image': '../../../game-ready/avioni/' + raster, 'vectorSource': '../../../game-ready/avioni/' + name,
             'frame': {'width': width, 'height': height, 'columns': 4, 'rows': 1},
             'anchor': {'x': width/2, 'y': height/2},
             'animations': [{'name': 'spin', 'row': 0, 'frameCount': 4, 'duration': .12, 'loop': True}]})

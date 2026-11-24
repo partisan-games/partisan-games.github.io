@@ -5,7 +5,7 @@
     {
       "id": "field-gun-wreck",
       "title": "Shared field gun: destroyed",
-      "image": "../../game-ready/wrecks/field-gun.png",
+      "image": "../../../game-ready/wrecks/field-gun.png",
       "frame": {
         "width": 500,
         "height": 260,
@@ -53,7 +53,7 @@
           "sha256": "05420b443cea4c93390ddacfec595094f3e262fb59164a1dbceb3881356cd1c0"
         },
         {
-          "path": "../../game-ready/wrecks/pak38.png",
+          "path": "../../../game-ready/wrecks/pak38.png",
           "sha256": "6ea284081a264b49860871b61a617e5c09cf8e657934c8b0eed60b286c448725"
         }
       ],

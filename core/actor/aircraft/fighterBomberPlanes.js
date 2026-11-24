@@ -1,10 +1,10 @@
 /** Real model dimensions in metres: fuselage length, overall height and wingspan (width). Sources: docs/STATISTIKE.md. */
 export const fighterBomberPlanes = [
-  { id: 'spitfire', name: 'Spitfire Mk Vb', image: 'armies/game-ready/avioni/spitfire-top.png', size: { length: 9.12, height: 3.86, width: 11.23 } },
-  { id: 'hurricane', name: 'Hurricane Mk IV', image: 'armies/game-ready/avioni/hurricane-top.png', size: { length: 9.84, height: 4, width: 12.19 } },
-  { id: 'breguet', name: 'Breguet 19', image: 'armies/game-ready/avioni/breguet-top.png', size: { length: 9.51, height: 3.69, width: 14.83 } },
-  { id: 'yak', name: 'Yak-1b', image: 'armies/game-ready/avioni/yak-top.png', size: { length: 8.48, height: 2.64, width: 10 } },
-  { id: 'il2', name: 'Il-2', image: 'armies/game-ready/avioni/il2-top.png', size: { length: 11.6, height: 4.17, width: 14.6 } },
+  { id: 'spitfire', name: 'Spitfire Mk Vb', image: 'game-ready/avioni/spitfire-top.png', size: { length: 9.12, height: 3.86, width: 11.23 } },
+  { id: 'hurricane', name: 'Hurricane Mk IV', image: 'game-ready/avioni/hurricane-top.png', size: { length: 9.84, height: 4, width: 12.19 } },
+  { id: 'breguet', name: 'Breguet 19', image: 'game-ready/avioni/breguet-top.png', size: { length: 9.51, height: 3.69, width: 14.83 } },
+  { id: 'yak', name: 'Yak-1b', image: 'game-ready/avioni/yak-top.png', size: { length: 8.48, height: 2.64, width: 10 } },
+  { id: 'il2', name: 'Il-2', image: 'game-ready/avioni/il2-top.png', size: { length: 11.6, height: 4.17, width: 14.6 } },
 ]
 
 export const enemyAircraftSizes = {

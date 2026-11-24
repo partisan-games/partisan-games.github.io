@@ -2,8 +2,8 @@
   "format": "lossless WebP, exact RGBA pixels",
   "images": [
     {
-      "source": "armies/game-ready/artiljerija/bunker-damaged.png",
-      "runtime": "optimized/armies/game-ready/artiljerija/bunker-damaged.webp",
+      "source": "game-ready/artiljerija/bunker-damaged.png",
+      "runtime": "optimized/game-ready/artiljerija/bunker-damaged.webp",
       "sourceSha256": "1c01080783eb7edf8460a6ceb59feeed066b907f04af4632b1870e07a487e425",
       "sha256": "3ddccccf0976b4b839089cfe805e73dd3f382105ae3dc0a732e5cae2e98c4ddc",
       "originalBytes": 46475,
@@ -14,8 +14,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/artiljerija/field-gun-barrel-pixel.png",
-      "runtime": "optimized/armies/game-ready/artiljerija/field-gun-barrel-pixel.webp",
+      "source": "game-ready/artiljerija/field-gun-barrel-pixel.png",
+      "runtime": "optimized/game-ready/artiljerija/field-gun-barrel-pixel.webp",
       "sourceSha256": "084cd423e85da1b4adef23fa4d08e7d97b2a22f4885501c1ee6b8901fb2dc514",
       "sha256": "1f5465b391d25093ce8fd38fd0c49f2c407164dfdf6dd13de5d80efa4a51562b",
       "originalBytes": 18512,
@@ -26,8 +26,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/artiljerija/field-gun-carriage-pixel.png",
-      "runtime": "optimized/armies/game-ready/artiljerija/field-gun-carriage-pixel.webp",
+      "source": "game-ready/artiljerija/field-gun-carriage-pixel.png",
+      "runtime": "optimized/game-ready/artiljerija/field-gun-carriage-pixel.webp",
       "sourceSha256": "96c8ea806184978bb3156b649873ef2bc7bd51b94e8399a4e3c8b5d775aee3cc",
       "sha256": "d9850bb7eccc6294a807d72a1346d52b293c045be1c30f341510eb67691f3b8c",
       "originalBytes": 40247,
@@ -38,8 +38,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/artiljerija/field-gun-damaged.png",
-      "runtime": "optimized/armies/game-ready/artiljerija/field-gun-damaged.webp",
+      "source": "game-ready/artiljerija/field-gun-damaged.png",
+      "runtime": "optimized/game-ready/artiljerija/field-gun-damaged.webp",
       "sourceSha256": "725f01955a887eaf33f292adb480f7f4890ac1c917e19eb414a20fe17db33102",
       "sha256": "e0123cf8c3e3555d924ec65a9bc68dfd869feb2fd82eecd98ad70280f9abe44a",
       "originalBytes": 17633,
@@ -50,8 +50,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/artiljerija/flak38-crew-sprites.png",
-      "runtime": "optimized/armies/game-ready/artiljerija/flak38-crew-sprites.webp",
+      "source": "game-ready/artiljerija/flak38-crew-sprites.png",
+      "runtime": "optimized/game-ready/artiljerija/flak38-crew-sprites.webp",
       "sourceSha256": "a164db8110374437bead5f60b9a82b6115996f19a23ac00b832b9c34f2421b9e",
       "sha256": "ba9e588e71dec572ef41c3a3b152c89ea40025ea7f2cd5498de97d30927d82de",
       "originalBytes": 99659,
@@ -62,8 +62,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/artiljerija/flak38-damaged.png",
-      "runtime": "optimized/armies/game-ready/artiljerija/flak38-damaged.webp",
+      "source": "game-ready/artiljerija/flak38-damaged.png",
+      "runtime": "optimized/game-ready/artiljerija/flak38-damaged.webp",
       "sourceSha256": "2b943379c2b56274b26d1e96f9d3ef82cd782cc7bbb6a7070d8a31ef42b14ed9",
       "sha256": "5817e6ad3c5a415b2eac7b2845e4dcf7f55bd44169e6d37391c5f9a851c8477c",
       "originalBytes": 16501,
@@ -74,8 +74,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/artiljerija/house-bunker-damaged.png",
-      "runtime": "optimized/armies/game-ready/artiljerija/house-bunker-damaged.webp",
+      "source": "game-ready/artiljerija/house-bunker-damaged.png",
+      "runtime": "optimized/game-ready/artiljerija/house-bunker-damaged.webp",
       "sourceSha256": "ec980c2a1aa4091d8268dd41ba0a407eb01e7e45311be615e8ab32977bf57426",
       "sha256": "ad26559698ad7c6e97eccfca4d298fd9a91f150ade19f45f6501bb3afbd1be31",
       "originalBytes": 229228,
@@ -86,8 +86,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/artiljerija/italian-crew-hit-sprites.png",
-      "runtime": "optimized/armies/game-ready/artiljerija/italian-crew-hit-sprites.webp",
+      "source": "game-ready/artiljerija/italian-crew-hit-sprites.png",
+      "runtime": "optimized/game-ready/artiljerija/italian-crew-hit-sprites.webp",
       "sourceSha256": "c14d2df754abd3ff828a278235a3648e4efbccd5d786d24dd034de0383080405",
       "sha256": "9136a8f0edf911dc4b70da307be681188a20080feab50b8d02e714b3f79c4f17",
       "originalBytes": 180642,
@@ -98,8 +98,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/artiljerija/italijanska-posada-death-sprites.png",
-      "runtime": "optimized/armies/game-ready/artiljerija/italijanska-posada-death-sprites.webp",
+      "source": "game-ready/artiljerija/italijanska-posada-death-sprites.png",
+      "runtime": "optimized/game-ready/artiljerija/italijanska-posada-death-sprites.webp",
       "sourceSha256": "e4628accdf609f5712f3d78d8296dbfbc52c75da09e87022eecec8ab17494a00",
       "sha256": "05fbc3f0b64c7bf6c1c1035959d37294a4cf9063779b9947bca5882887ff4223",
       "originalBytes": 146491,
@@ -110,8 +110,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/artiljerija/italijanska-posada-sprites.png",
-      "runtime": "optimized/armies/game-ready/artiljerija/italijanska-posada-sprites.webp",
+      "source": "game-ready/artiljerija/italijanska-posada-sprites.png",
+      "runtime": "optimized/game-ready/artiljerija/italijanska-posada-sprites.webp",
       "sourceSha256": "c2808bb1d7dcf58ddd9c4ddfffa0becdd266785e0095734a2a5294759a8329ad",
       "sha256": "f2464ed80203ebd51586a8c30fc9d8d514b8b77e911e0bcf93d43e7fee1898df",
       "originalBytes": 969298,
@@ -122,8 +122,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/artiljerija/pak38-crew-sprites.png",
-      "runtime": "optimized/armies/game-ready/artiljerija/pak38-crew-sprites.webp",
+      "source": "game-ready/artiljerija/pak38-crew-sprites.png",
+      "runtime": "optimized/game-ready/artiljerija/pak38-crew-sprites.webp",
       "sourceSha256": "3a98bdfddfe498871fe39ff70ac0dfbac8c60fef112b4c79585a1180c0ab932f",
       "sha256": "c85608190f7c3dc88d170ba56d73959624572c73d4d94e7bb4a21c1f163e65b7",
       "originalBytes": 91790,
@@ -134,8 +134,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/artiljerija/pak38-damaged.png",
-      "runtime": "optimized/armies/game-ready/artiljerija/pak38-damaged.webp",
+      "source": "game-ready/artiljerija/pak38-damaged.png",
+      "runtime": "optimized/game-ready/artiljerija/pak38-damaged.webp",
       "sourceSha256": "0b798c17464ba55f096c94c7e43c656115532976653a8ffbea921689a6315531",
       "sha256": "67a1600d37259f16b5bf10f951c0920576fc1d88412ae5b70fea10598c1cc241",
       "originalBytes": 6329,
@@ -146,8 +146,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/artiljerija/partisan-crew-hit-sprites.png",
-      "runtime": "optimized/armies/game-ready/artiljerija/partisan-crew-hit-sprites.webp",
+      "source": "game-ready/artiljerija/partisan-crew-hit-sprites.png",
+      "runtime": "optimized/game-ready/artiljerija/partisan-crew-hit-sprites.webp",
       "sourceSha256": "b15a2ccfcb630aea1d71a41ab41a45c81042a4eb9c20dd5dcc5387dea2ed4695",
       "sha256": "8897b751134ea4e52e9331c18ae9c13b10eeb2222bc6416ce856739fbcf4730a",
       "originalBytes": 448404,
@@ -158,8 +158,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/artiljerija/partizanska-posada-death-sprites.png",
-      "runtime": "optimized/armies/game-ready/artiljerija/partizanska-posada-death-sprites.webp",
+      "source": "game-ready/artiljerija/partizanska-posada-death-sprites.png",
+      "runtime": "optimized/game-ready/artiljerija/partizanska-posada-death-sprites.webp",
       "sourceSha256": "738d0e09de5b9cab7306fed281f4294daeea65da3114fd94309acaf2c54bc140",
       "sha256": "0b1be56dfa80839956f67b3563bec0cf793753fd5d899b41f62697742d4db293",
       "originalBytes": 140795,
@@ -170,8 +170,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/artiljerija/partizanska-posada-sprites.png",
-      "runtime": "optimized/armies/game-ready/artiljerija/partizanska-posada-sprites.webp",
+      "source": "game-ready/artiljerija/partizanska-posada-sprites.png",
+      "runtime": "optimized/game-ready/artiljerija/partizanska-posada-sprites.webp",
       "sourceSha256": "be9df92b36d3016d1d07b5e8701093a917002b764e98390f6d78c4abc332b5ce",
       "sha256": "f2c84ad7cbf6a13c2435bffac1441b01b9403a13debc99da9f26fff9e20c52d5",
       "originalBytes": 844252,
@@ -182,8 +182,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/artiljerija/shore-mg-damaged.png",
-      "runtime": "optimized/armies/game-ready/artiljerija/shore-mg-damaged.webp",
+      "source": "game-ready/artiljerija/shore-mg-damaged.png",
+      "runtime": "optimized/game-ready/artiljerija/shore-mg-damaged.webp",
       "sourceSha256": "be70be40c34b021739aa93bb82a999a67d572229e8e21f7af8ad7d4762ce6de1",
       "sha256": "e24754e65f34a03914dac4f76cb2e148c13ea47f3fae4a92a2c0464a2079acd0",
       "originalBytes": 38350,
@@ -194,8 +194,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/avioni/bf109-damaged.png",
-      "runtime": "optimized/armies/game-ready/avioni/bf109-damaged.webp",
+      "source": "game-ready/avioni/bf109-damaged.png",
+      "runtime": "optimized/game-ready/avioni/bf109-damaged.webp",
       "sourceSha256": "c3e3c1799e8d34e7e41e21753155c24c776f92310d891b0c2ba777c51602df42",
       "sha256": "078671670a283cf1951d94dfe178ffaaca6bf0297abe82e66658cc2858250b24",
       "originalBytes": 41218,
@@ -206,8 +206,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/avioni/bf109-telo.png",
-      "runtime": "optimized/armies/game-ready/avioni/bf109-telo.webp",
+      "source": "game-ready/avioni/bf109-telo.png",
+      "runtime": "optimized/game-ready/avioni/bf109-telo.webp",
       "sourceSha256": "de76c43f7603a5f0ddc94e1aedc6b76c31adbb5529ba26d2e50fe0e82e2650fb",
       "sha256": "399ae153b36b86fbe275a7c08073123351aa5c421352b591ade9799eb3feab63",
       "originalBytes": 39183,
@@ -218,8 +218,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/avioni/bf109-top.png",
-      "runtime": "optimized/armies/game-ready/avioni/bf109-top.webp",
+      "source": "game-ready/avioni/bf109-top.png",
+      "runtime": "optimized/game-ready/avioni/bf109-top.webp",
       "sourceSha256": "98a621d19b262ca11253038ae6b90d22f628736a7e0fca56203fa59d9574143e",
       "sha256": "1d31fae51b360710c2ce5e7ea49f9ab4b4a206df2fb3633c242348d111a11e76",
       "originalBytes": 159006,
@@ -230,8 +230,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/avioni/bf110-top.png",
-      "runtime": "optimized/armies/game-ready/avioni/bf110-top.webp",
+      "source": "game-ready/avioni/bf110-top.png",
+      "runtime": "optimized/game-ready/avioni/bf110-top.webp",
       "sourceSha256": "d1303e2c9ca4c6a8381c79ce4a5b9b983f33607bc62f2a2d531115be9da3c239",
       "sha256": "41b1981424777794faa8900bb26195530ad9eb95b653dfc0a87fc9f6c7c8da80",
       "originalBytes": 376297,
@@ -242,8 +242,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/avioni/breguet-top.png",
-      "runtime": "optimized/armies/game-ready/avioni/breguet-top.webp",
+      "source": "game-ready/avioni/breguet-top.png",
+      "runtime": "optimized/game-ready/avioni/breguet-top.webp",
       "sourceSha256": "1686822790254496153a3c07722c8773669948d352c6d4f9db0caa90450c27dd",
       "sha256": "7c407f931748ebe6f7992fa7b3f302109750dd80d2ee07a38bc077b857bcdd1e",
       "originalBytes": 309346,
@@ -254,8 +254,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/avioni/fighter-01-top.png",
-      "runtime": "optimized/armies/game-ready/avioni/fighter-01-top.webp",
+      "source": "game-ready/avioni/fighter-01-top.png",
+      "runtime": "optimized/game-ready/avioni/fighter-01-top.webp",
       "sourceSha256": "da7922958526ba0b300bd8318ff0e27db320c941102904287f07ad45586c9b8e",
       "sha256": "0d0a28bd9027e5297d8b972bdd327274777b61d5fe088498e28f0730cb12aba8",
       "originalBytes": 166546,
@@ -266,8 +266,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/avioni/fighter-02-top.png",
-      "runtime": "optimized/armies/game-ready/avioni/fighter-02-top.webp",
+      "source": "game-ready/avioni/fighter-02-top.png",
+      "runtime": "optimized/game-ready/avioni/fighter-02-top.webp",
       "sourceSha256": "a7a07a38974316b2cf9727c245763929ba712d5de928644a4da08d6eb1d4b3f9",
       "sha256": "35ff862729bf98b34027f24a94978be9fa5b70ce0a9677f145ef6852c72621ed",
       "originalBytes": 181971,
@@ -278,8 +278,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/avioni/fighter-03-top.png",
-      "runtime": "optimized/armies/game-ready/avioni/fighter-03-top.webp",
+      "source": "game-ready/avioni/fighter-03-top.png",
+      "runtime": "optimized/game-ready/avioni/fighter-03-top.webp",
       "sourceSha256": "c68d9ed66490e30f41ee1d7fa1f3731331134719927fdc99a7ca864aff25e99c",
       "sha256": "990979fcbfebbb111c858668f4a27e3b7a2b09d52cf071d23da2dbee73146fc2",
       "originalBytes": 157442,
@@ -290,8 +290,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/avioni/fighter-05-top.png",
-      "runtime": "optimized/armies/game-ready/avioni/fighter-05-top.webp",
+      "source": "game-ready/avioni/fighter-05-top.png",
+      "runtime": "optimized/game-ready/avioni/fighter-05-top.webp",
       "sourceSha256": "aae22beed966b42c309f36b618987ed17ed8fadc40feea220c49bf3a475a1f78",
       "sha256": "5ffd115c1d463e6c7549485e4088c5623468cee8bcdba8e2d5fbba217d723ece",
       "originalBytes": 158874,
@@ -302,8 +302,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/avioni/fw190-top.png",
-      "runtime": "optimized/armies/game-ready/avioni/fw190-top.webp",
+      "source": "game-ready/avioni/fw190-top.png",
+      "runtime": "optimized/game-ready/avioni/fw190-top.webp",
       "sourceSha256": "0347ef635de05a49d01f72be3a6980e220efe2a334bb45b9355c908cfb731809",
       "sha256": "b95150c84389c3636fa6eac8c7800d801dd2149d48a6c0a45ad12dc6541fbf06",
       "originalBytes": 190289,
@@ -314,8 +314,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/avioni/he111-sprites.png",
-      "runtime": "optimized/armies/game-ready/avioni/he111-sprites.webp",
+      "source": "game-ready/avioni/he111-sprites.png",
+      "runtime": "optimized/game-ready/avioni/he111-sprites.webp",
       "sourceSha256": "8807c82281934e24e3df9de724d65dc52bce5ace2c35b8aa3bed54afff57ac9f",
       "sha256": "408400628fb0ce5ba5461bb3a63492eeb65f05d9875be22eb55be58c98ceb4f3",
       "originalBytes": 1643738,
@@ -326,8 +326,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/avioni/he111-top.png",
-      "runtime": "optimized/armies/game-ready/avioni/he111-top.webp",
+      "source": "game-ready/avioni/he111-top.png",
+      "runtime": "optimized/game-ready/avioni/he111-top.webp",
       "sourceSha256": "13d1fe7bcd10c87ff9a01736bd37d866ba3896c27e42f9baa5cb9ff5353f772a",
       "sha256": "36297a514efd70ad26193fe44b399824490d77ca13dc27be7a5e340721304dad",
       "originalBytes": 674753,
@@ -338,8 +338,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/avioni/hurricane-top.png",
-      "runtime": "optimized/armies/game-ready/avioni/hurricane-top.webp",
+      "source": "game-ready/avioni/hurricane-top.png",
+      "runtime": "optimized/game-ready/avioni/hurricane-top.webp",
       "sourceSha256": "14a3949fb0bc220baf2e98670cadd4426d873104353b9f02a567778bb8c2be24",
       "sha256": "3e6cc096b66c6faa48f471982c6ef2c256a1e54e0c731627dc2203afe1d3664a",
       "originalBytes": 281374,
@@ -350,8 +350,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/avioni/il2-top.png",
-      "runtime": "optimized/armies/game-ready/avioni/il2-top.webp",
+      "source": "game-ready/avioni/il2-top.png",
+      "runtime": "optimized/game-ready/avioni/il2-top.webp",
       "sourceSha256": "e6251866b2185604586aad9a206905617f35f2138d053f93587b169e7dea1781",
       "sha256": "a18245e8abc1838ff9a13b95ec43a68552b0051100620c5e0007d4f46a96f660",
       "originalBytes": 386864,
@@ -362,8 +362,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/avioni/ju87-damaged.png",
-      "runtime": "optimized/armies/game-ready/avioni/ju87-damaged.webp",
+      "source": "game-ready/avioni/ju87-damaged.png",
+      "runtime": "optimized/game-ready/avioni/ju87-damaged.webp",
       "sourceSha256": "8cbf7a47967f343962ebc142ef405deefafd7ca8f9372152d97cf493d211689f",
       "sha256": "9aa76e1aa94fb9d6d0c8ee3e6a4768937d1d686746441c6130296f1ce2cf8d97",
       "originalBytes": 46771,
@@ -374,8 +374,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/avioni/ju87.png",
-      "runtime": "optimized/armies/game-ready/avioni/ju87.webp",
+      "source": "game-ready/avioni/ju87.png",
+      "runtime": "optimized/game-ready/avioni/ju87.webp",
       "sourceSha256": "4be2a90b42bfdda18f7e20c41699351f18d8d94327ce524418ae700977a41b61",
       "sha256": "91572c511ceca6e7d10a6374cde6158501a05d04ac44a0850e71ba1fda474cb7",
       "originalBytes": 44284,
@@ -386,8 +386,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/avioni/potez-25-ndh-bez-mitraljeza.png",
-      "runtime": "optimized/armies/game-ready/avioni/potez-25-ndh-bez-mitraljeza.webp",
+      "source": "game-ready/avioni/potez-25-ndh-bez-mitraljeza.png",
+      "runtime": "optimized/game-ready/avioni/potez-25-ndh-bez-mitraljeza.webp",
       "sourceSha256": "6b14af50b2fcd1caf42700cb08886fc21458ad3ea5c651a8e465fc0a6e7c1e73",
       "sha256": "659380db6ba84e3b192dd5e606564334bfdb36bea4097ddba1558cef6a1154fa",
       "originalBytes": 51254,
@@ -398,8 +398,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/avioni/potez-25-partisan-bez-mitraljeza.png",
-      "runtime": "optimized/armies/game-ready/avioni/potez-25-partisan-bez-mitraljeza.webp",
+      "source": "game-ready/avioni/potez-25-partisan-bez-mitraljeza.png",
+      "runtime": "optimized/game-ready/avioni/potez-25-partisan-bez-mitraljeza.webp",
       "sourceSha256": "425b3e2af67f174156956b8ce7c59142ae3983029ded25714c0d24f3b68cc6d4",
       "sha256": "89541f38cf69e2c03efd3c74ae5bdaaf61b13011e26b36c3e19916d9a11171cf",
       "originalBytes": 51177,
@@ -410,8 +410,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/avioni/potez-25-posada-sprites.png",
-      "runtime": "optimized/armies/game-ready/avioni/potez-25-posada-sprites.webp",
+      "source": "game-ready/avioni/potez-25-posada-sprites.png",
+      "runtime": "optimized/game-ready/avioni/potez-25-posada-sprites.webp",
       "sourceSha256": "b36b76211d9b19174d076c39b5b6d4f9b5dda5cc52c8cbb78e3df2df439ef0f6",
       "sha256": "902cf6d7d16febdf19a948fc306f1dcda016c2ae809473f03283be5ca8c0156e",
       "originalBytes": 20346,
@@ -422,8 +422,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/avioni/potez-25-posada.png",
-      "runtime": "optimized/armies/game-ready/avioni/potez-25-posada.webp",
+      "source": "game-ready/avioni/potez-25-posada.png",
+      "runtime": "optimized/game-ready/avioni/potez-25-posada.webp",
       "sourceSha256": "e0865c47402919d18faecd739d5cece729c901529c549fc6b5bd0774a5995f69",
       "sha256": "194770b80ffc360e26d03ca7d3780226e33682b17aa473a377c52a66e002fcf4",
       "originalBytes": 5299,
@@ -434,8 +434,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/avioni/spitfire-top.png",
-      "runtime": "optimized/armies/game-ready/avioni/spitfire-top.webp",
+      "source": "game-ready/avioni/spitfire-top.png",
+      "runtime": "optimized/game-ready/avioni/spitfire-top.webp",
       "sourceSha256": "fec6b443987e229eb96e23e57559788f01a27e57c3ef8d8d1c1142cc8850537d",
       "sha256": "e5b4ba74f103241c26be8ac418f4c7cf6221bff5efddd724ed8c1c0b766b5a4f",
       "originalBytes": 215170,
@@ -446,8 +446,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/avioni/storch-sprites.png",
-      "runtime": "optimized/armies/game-ready/avioni/storch-sprites.webp",
+      "source": "game-ready/avioni/storch-sprites.png",
+      "runtime": "optimized/game-ready/avioni/storch-sprites.webp",
       "sourceSha256": "09151a2cfa822c73b01640eeac2a9540267dbe3836c79edc0e43ed491aa4eca6",
       "sha256": "48bfb2fd9db3bc91c4a149a289b5cb838fc0b0d59a3b6f59370452b5324449a0",
       "originalBytes": 345230,
@@ -458,8 +458,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/avioni/yak-top.png",
-      "runtime": "optimized/armies/game-ready/avioni/yak-top.webp",
+      "source": "game-ready/avioni/yak-top.png",
+      "runtime": "optimized/game-ready/avioni/yak-top.webp",
       "sourceSha256": "0c58dda1301e4740af33f6ce2a90d29591c3cf45fd8c93d6555a53df2015d804",
       "sha256": "54e3a05443cbbd2b30341003094d02d1a6367e887a81efe163756404b82548d7",
       "originalBytes": 169899,
@@ -470,8 +470,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/brodovi/german-launch-damaged.png",
-      "runtime": "optimized/armies/game-ready/brodovi/german-launch-damaged.webp",
+      "source": "game-ready/brodovi/german-launch-damaged.png",
+      "runtime": "optimized/game-ready/brodovi/german-launch-damaged.webp",
       "sourceSha256": "75645ff4eb2b6368aeeec19a46589b60a2c8cdd2948f7c855de176b6a4a14371",
       "sha256": "2f16fd0e979d7b5572806fb3692d60feebc7a18a730cccf3dab29e0fc166dbd7",
       "originalBytes": 23699,
@@ -482,8 +482,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/brodovi/german-launch-wreck.png",
-      "runtime": "optimized/armies/game-ready/brodovi/german-launch-wreck.webp",
+      "source": "game-ready/brodovi/german-launch-wreck.png",
+      "runtime": "optimized/game-ready/brodovi/german-launch-wreck.webp",
       "sourceSha256": "5babf64cb33578029ccf32708836bff60838297489d59503fdfc86877c2d16d0",
       "sha256": "813700028308dbd5937dfb22d76929002af844c10c27e6e3d95d0a050da84698",
       "originalBytes": 66437,
@@ -494,8 +494,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/brodovi/german-launch.png",
-      "runtime": "optimized/armies/game-ready/brodovi/german-launch.webp",
+      "source": "game-ready/brodovi/german-launch.png",
+      "runtime": "optimized/game-ready/brodovi/german-launch.webp",
       "sourceSha256": "ea787ef1e24b34fb6edfc52c1ab9bb2781c30693ec168a79f5ee83fe9643e00d",
       "sha256": "6b4f61737c649cc8d120708b74cc048c229d6ac7cf8b10778d49c37cb893a165",
       "originalBytes": 59840,
@@ -506,8 +506,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/brodovi/german-patrol-vessel-wreck.png",
-      "runtime": "optimized/armies/game-ready/brodovi/german-patrol-vessel-wreck.webp",
+      "source": "game-ready/brodovi/german-patrol-vessel-wreck.png",
+      "runtime": "optimized/game-ready/brodovi/german-patrol-vessel-wreck.webp",
       "sourceSha256": "5d3892aa0faed7017c219c165b69b538b02d6f8477fb86383b8b5736df7ea919",
       "sha256": "bccab36b1cbff95005ab40ea637eae3c62cd18d7475ae3d3b7a5bbbccff5db64",
       "originalBytes": 97641,
@@ -518,8 +518,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/brodovi/german-patrol-vessel.png",
-      "runtime": "optimized/armies/game-ready/brodovi/german-patrol-vessel.webp",
+      "source": "game-ready/brodovi/german-patrol-vessel.png",
+      "runtime": "optimized/game-ready/brodovi/german-patrol-vessel.webp",
       "sourceSha256": "cee1be11f0046d34a068b4c84fcc5e7af9cee28adc48d43653dca216d7b5124d",
       "sha256": "82d7986d01502434d9d81e3bf00a93c7dd00368cd436fff8511dd60e27819957",
       "originalBytes": 88261,
@@ -530,8 +530,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/brodovi/german-skiff-damaged.png",
-      "runtime": "optimized/armies/game-ready/brodovi/german-skiff-damaged.webp",
+      "source": "game-ready/brodovi/german-skiff-damaged.png",
+      "runtime": "optimized/game-ready/brodovi/german-skiff-damaged.webp",
       "sourceSha256": "4c74f3ea41f541a0cf0b31052a4640f0d0c54f206b705b78cbec65d8c1b942cd",
       "sha256": "b09b3751b58bec1b0afb8a31e60f228a73c6640a034e6945b61519ef592a7108",
       "originalBytes": 16340,
@@ -542,8 +542,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/brodovi/german-skiff-wreck.png",
-      "runtime": "optimized/armies/game-ready/brodovi/german-skiff-wreck.webp",
+      "source": "game-ready/brodovi/german-skiff-wreck.png",
+      "runtime": "optimized/game-ready/brodovi/german-skiff-wreck.webp",
       "sourceSha256": "5e82d57e307af54b2b03bd90ca12e81241dd4ba2ec79d39866766ff070ec7659",
       "sha256": "d38ff9d579e87ab718906ab3bf19db2d050a19bd350c8b27edab11c1082a5d34",
       "originalBytes": 39836,
@@ -554,8 +554,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/brodovi/german-skiff.png",
-      "runtime": "optimized/armies/game-ready/brodovi/german-skiff.webp",
+      "source": "game-ready/brodovi/german-skiff.png",
+      "runtime": "optimized/game-ready/brodovi/german-skiff.webp",
       "sourceSha256": "c36511c77aacf8632e6f5f34a7d90aace4541282aac1f119cb94132b0e0af5d4",
       "sha256": "0a7e2ac747ff76f7d723e00b6f872eb912983bc4515958fe796760781d6e871a",
       "originalBytes": 38626,
@@ -566,8 +566,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/brodovi/mfp-damaged.png",
-      "runtime": "optimized/armies/game-ready/brodovi/mfp-damaged.webp",
+      "source": "game-ready/brodovi/mfp-damaged.png",
+      "runtime": "optimized/game-ready/brodovi/mfp-damaged.webp",
       "sourceSha256": "d47e2355741f912e25710cdb9a65c9c85d7d82d6d6c232acb3f8185781dd3153",
       "sha256": "3685ed35eaba913995c1c7bfc4cbfd4e3191469e686232aa11b4e9902f51f8a9",
       "originalBytes": 924134,
@@ -578,8 +578,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/brodovi/mfp-heavy.png",
-      "runtime": "optimized/armies/game-ready/brodovi/mfp-heavy.webp",
+      "source": "game-ready/brodovi/mfp-heavy.png",
+      "runtime": "optimized/game-ready/brodovi/mfp-heavy.webp",
       "sourceSha256": "86af21b3a0dfc4ae7c71c7e9475516685200b1ab24f951b9cf950b1cda607a24",
       "sha256": "54e32fbd227b1e2f8c9df487c8d1018597d84c21b49f9f35a5a2343f54e27f5d",
       "originalBytes": 1065774,
@@ -590,8 +590,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/brodovi/mfp-sprites.png",
-      "runtime": "optimized/armies/game-ready/brodovi/mfp-sprites.webp",
+      "source": "game-ready/brodovi/mfp-sprites.png",
+      "runtime": "optimized/game-ready/brodovi/mfp-sprites.webp",
       "sourceSha256": "bd9db0c4a5e9eeaf3d50195c022496a61c0da7a878aa3879399e0dc3054d5f17",
       "sha256": "e77f911ccd53fac517fde51e34346a036e6e20e46dafd950908dedbcc9000b4a",
       "originalBytes": 4013265,
@@ -602,8 +602,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/brodovi/mfp-wreck.png",
-      "runtime": "optimized/armies/game-ready/brodovi/mfp-wreck.webp",
+      "source": "game-ready/brodovi/mfp-wreck.png",
+      "runtime": "optimized/game-ready/brodovi/mfp-wreck.webp",
       "sourceSha256": "25c3caa71f0387bde2e0b5d37b96121dbd977bfa1b8e0838d51f93f58aee28dd",
       "sha256": "22e129ff840c920fec553ece9e95d597fd79a60220738197af84050abecd0237",
       "originalBytes": 1124946,
@@ -614,8 +614,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/brodovi/mfp.png",
-      "runtime": "optimized/armies/game-ready/brodovi/mfp.webp",
+      "source": "game-ready/brodovi/mfp.png",
+      "runtime": "optimized/game-ready/brodovi/mfp.webp",
       "sourceSha256": "4924e0f0f8ed31f09b3c0c64bff366ef12b3fa9f0aea88cd2096e8f922e299a7",
       "sha256": "90e466b0459783506dbe599e0773ce4cb5e6d01aa3a901a64046c129078704e5",
       "originalBytes": 898920,
@@ -626,8 +626,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/brodovi/patrol-vessel-damaged.png",
-      "runtime": "optimized/armies/game-ready/brodovi/patrol-vessel-damaged.webp",
+      "source": "game-ready/brodovi/patrol-vessel-damaged.png",
+      "runtime": "optimized/game-ready/brodovi/patrol-vessel-damaged.webp",
       "sourceSha256": "4bfeebb9e1fad7bc55c50c2c1c737078dc966b10b00a0beaa62ce997e0460704",
       "sha256": "19e4a377553e921531202c2938d87ee62fe05afb70598fbce6d18574d5e4ca97",
       "originalBytes": 35752,
@@ -638,8 +638,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/brodovi/player-boat-damaged.png",
-      "runtime": "optimized/armies/game-ready/brodovi/player-boat-damaged.webp",
+      "source": "game-ready/brodovi/player-boat-damaged.png",
+      "runtime": "optimized/game-ready/brodovi/player-boat-damaged.webp",
       "sourceSha256": "b3ed29275c1605bcc36e1da447466ba85e746d63d57460b8c23293f4f20ac751",
       "sha256": "89065235fa5d84d953da6665b041e951383a4df0e00995b7c49cb1fd31b3c5b9",
       "originalBytes": 84431,
@@ -650,8 +650,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/brodovi/rboot-damaged.png",
-      "runtime": "optimized/armies/game-ready/brodovi/rboot-damaged.webp",
+      "source": "game-ready/brodovi/rboot-damaged.png",
+      "runtime": "optimized/game-ready/brodovi/rboot-damaged.webp",
       "sourceSha256": "987ab9c264ea49ce762a0cd4e666a14369be352012efd625a80c153c57376b0e",
       "sha256": "565c25f44e4c7dc9481115e7da397f7ab5bea06af405e8eeae2b72cd64aa6032",
       "originalBytes": 530595,
@@ -662,8 +662,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/brodovi/rboot-heavy.png",
-      "runtime": "optimized/armies/game-ready/brodovi/rboot-heavy.webp",
+      "source": "game-ready/brodovi/rboot-heavy.png",
+      "runtime": "optimized/game-ready/brodovi/rboot-heavy.webp",
       "sourceSha256": "f639474a269b0f4b1fc1e5549460bcbe9b9a80b5dc1d73a6d0b6f4dac2382f76",
       "sha256": "93b5c205fe23e88c885af5b205db8e19137a2c1442b2f43279e2b0d96d91a2dc",
       "originalBytes": 517732,
@@ -674,8 +674,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/brodovi/rboot-sprites.png",
-      "runtime": "optimized/armies/game-ready/brodovi/rboot-sprites.webp",
+      "source": "game-ready/brodovi/rboot-sprites.png",
+      "runtime": "optimized/game-ready/brodovi/rboot-sprites.webp",
       "sourceSha256": "d755acfb4539f1e9a835dbd3e3d4f061920b0bc872e3a64558585ac0d2ec5f89",
       "sha256": "15b5c32dec3ed8da3eab719d9e65ca689ebde01f77132264dca058824045f8b9",
       "originalBytes": 1960233,
@@ -686,8 +686,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/brodovi/rboot-wreck.png",
-      "runtime": "optimized/armies/game-ready/brodovi/rboot-wreck.webp",
+      "source": "game-ready/brodovi/rboot-wreck.png",
+      "runtime": "optimized/game-ready/brodovi/rboot-wreck.webp",
       "sourceSha256": "2d1e21bb4bf3678acf29faaa7f4a2d5699d37b6c4d7da13d9bff0d8b8e5dd907",
       "sha256": "ad0f1fe74037908b50efdbd0636f1aa85829783e3138f8ba3021deb500ad53e2",
       "originalBytes": 395569,
@@ -698,8 +698,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/brodovi/rboot.png",
-      "runtime": "optimized/armies/game-ready/brodovi/rboot.webp",
+      "source": "game-ready/brodovi/rboot.png",
+      "runtime": "optimized/game-ready/brodovi/rboot.webp",
       "sourceSha256": "9a374bca9af3da7e9cd5488cdc81acde0ccda1fb8d28723e3f13d2d0a3f46a6d",
       "sha256": "d9890c743e165b2736bddfa2adff7c05de205610fb5a14adad2791cc7d637f70",
       "originalBytes": 516544,
@@ -710,8 +710,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/brodovi/s30-damaged.png",
-      "runtime": "optimized/armies/game-ready/brodovi/s30-damaged.webp",
+      "source": "game-ready/brodovi/s30-damaged.png",
+      "runtime": "optimized/game-ready/brodovi/s30-damaged.webp",
       "sourceSha256": "3ce0ac2077e16f12cf05c79163638425ddb7faaea89ec0879af1710a04e57b88",
       "sha256": "c3ccc1847f26b289e53b3085818fcbc77c85b9ba0893d33d3eaf472d3772e0dc",
       "originalBytes": 487292,
@@ -722,8 +722,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/brodovi/s30-deck-gun.png",
-      "runtime": "optimized/armies/game-ready/brodovi/s30-deck-gun.webp",
+      "source": "game-ready/brodovi/s30-deck-gun.png",
+      "runtime": "optimized/game-ready/brodovi/s30-deck-gun.webp",
       "sourceSha256": "33074fc48dd1d1775f1ae436967164a8dcc97698b00a1cea3419002c25b63548",
       "sha256": "8de9d5e5c9bb675401b48873672f6a3fee4b86e8408029d3f89104345cedfc83",
       "originalBytes": 4117,
@@ -734,8 +734,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/brodovi/schnellboot-s30.png",
-      "runtime": "optimized/armies/game-ready/brodovi/schnellboot-s30.webp",
+      "source": "game-ready/brodovi/schnellboot-s30.png",
+      "runtime": "optimized/game-ready/brodovi/schnellboot-s30.webp",
       "sourceSha256": "d32cfa0c3628187918147d90b77155edbfa42353746866204b1e879225f47f81",
       "sha256": "083d5f6ae6d2731fdd1b732507c8069229b08a5762970b91b490e232d6e4aaed",
       "originalBytes": 466753,
@@ -746,8 +746,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/brodovi/sea-mine-sprites.png",
-      "runtime": "optimized/armies/game-ready/brodovi/sea-mine-sprites.webp",
+      "source": "game-ready/brodovi/sea-mine-sprites.png",
+      "runtime": "optimized/game-ready/brodovi/sea-mine-sprites.webp",
       "sourceSha256": "939677d667bae9ce208929c46aa5433e6e9c3a0f63f8f74e3049e3a62e396669",
       "sha256": "726b683328a4313bb01be779d66626726f6484c140ef159b61f2e07ccfe88843",
       "originalBytes": 6661,
@@ -758,8 +758,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/brodovi/vorpostenboot-damaged.png",
-      "runtime": "optimized/armies/game-ready/brodovi/vorpostenboot-damaged.webp",
+      "source": "game-ready/brodovi/vorpostenboot-damaged.png",
+      "runtime": "optimized/game-ready/brodovi/vorpostenboot-damaged.webp",
       "sourceSha256": "8ab0907ffa7f2925c7ac5b1f50fa1fa1e9bf19e51a7e9a0f9deae728aa8bc763",
       "sha256": "c8e2291f81063287a2fd7f51fe48507b18019f83031869391a81844c4e271482",
       "originalBytes": 398289,
@@ -770,8 +770,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/brodovi/vorpostenboot-heavy.png",
-      "runtime": "optimized/armies/game-ready/brodovi/vorpostenboot-heavy.webp",
+      "source": "game-ready/brodovi/vorpostenboot-heavy.png",
+      "runtime": "optimized/game-ready/brodovi/vorpostenboot-heavy.webp",
       "sourceSha256": "08a4e7042b66e89dac0c04efcf0362620ab9a556accd205bb239b4934e48ba35",
       "sha256": "6bba0a2448e3d8cd61dc13aee7c1807d33bd402f680ff1cf210963a61ce244d4",
       "originalBytes": 485279,
@@ -782,8 +782,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/brodovi/vorpostenboot-sprites.png",
-      "runtime": "optimized/armies/game-ready/brodovi/vorpostenboot-sprites.webp",
+      "source": "game-ready/brodovi/vorpostenboot-sprites.png",
+      "runtime": "optimized/game-ready/brodovi/vorpostenboot-sprites.webp",
       "sourceSha256": "48e83ca878806df3610f469259b32a792bd09066ed91474d50db985c0a9a0b16",
       "sha256": "75a1aa839e45e962a3b01a7d029390cbb4f8c93a80113587038c7b334a404c08",
       "originalBytes": 1693212,
@@ -794,8 +794,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/brodovi/vorpostenboot-wreck.png",
-      "runtime": "optimized/armies/game-ready/brodovi/vorpostenboot-wreck.webp",
+      "source": "game-ready/brodovi/vorpostenboot-wreck.png",
+      "runtime": "optimized/game-ready/brodovi/vorpostenboot-wreck.webp",
       "sourceSha256": "ab540b7afe710142812ff1abf0c6e87682a4620392f52d94b2ad565001339c49",
       "sha256": "d6004af84a4ff9dfaffdf07607ab54fa24aff2acb8bddbd704c50dffa9d76704",
       "originalBytes": 413424,
@@ -806,8 +806,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/brodovi/vorpostenboot.png",
-      "runtime": "optimized/armies/game-ready/brodovi/vorpostenboot.webp",
+      "source": "game-ready/brodovi/vorpostenboot.png",
+      "runtime": "optimized/game-ready/brodovi/vorpostenboot.webp",
       "sourceSha256": "1c1b82b3ac32a3b3bc964cbdd2de74cff767f6508fbe32e1d9c377a2a4f1ca33",
       "sha256": "2c3ab9595877fab7d57cd906de827a9163b2c94c767446849e2c58e966fa2454",
       "originalBytes": 396321,
@@ -818,8 +818,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/kamioni/opel-blitz-legion-sprites.png",
-      "runtime": "optimized/armies/game-ready/kamioni/opel-blitz-legion-sprites.webp",
+      "source": "game-ready/kamioni/opel-blitz-legion-sprites.png",
+      "runtime": "optimized/game-ready/kamioni/opel-blitz-legion-sprites.webp",
       "sourceSha256": "482447549d9c9f39ba999a6686098fe39bcdfb5ba74ba4ce81a9f52f58adddf8",
       "sha256": "0d2871ce5b077300dd7fa69c0ebfd7d1bcf328d21693aedb5759c09e6a3d1fc2",
       "originalBytes": 418693,
@@ -830,8 +830,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/kamioni/opel-blitz-sprites.png",
-      "runtime": "optimized/armies/game-ready/kamioni/opel-blitz-sprites.webp",
+      "source": "game-ready/kamioni/opel-blitz-sprites.png",
+      "runtime": "optimized/game-ready/kamioni/opel-blitz-sprites.webp",
       "sourceSha256": "1a61adcdf5a6f12f80e8a2534d840f4eb44e97b02541989ccaf9ac36ace4a311",
       "sha256": "63a50031f85f4cb4669305c7fc810bd7e7bc6917cf043d0e8d15cef36aaf9388",
       "originalBytes": 409424,
@@ -842,8 +842,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/kamioni/opel-damaged.png",
-      "runtime": "optimized/armies/game-ready/kamioni/opel-damaged.webp",
+      "source": "game-ready/kamioni/opel-damaged.png",
+      "runtime": "optimized/game-ready/kamioni/opel-damaged.webp",
       "sourceSha256": "f080fcdcb1ceaf3a3d1e1af3c2857c2969fb6df41211659bf05cbc06ee8a4e63",
       "sha256": "7bfe423cf32424336c3369349db1fe50e5b064f271ca13c28849f67a2981f3ff",
       "originalBytes": 58572,
@@ -854,8 +854,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/kamioni/opel-legion-damaged.png",
-      "runtime": "optimized/armies/game-ready/kamioni/opel-legion-damaged.webp",
+      "source": "game-ready/kamioni/opel-legion-damaged.png",
+      "runtime": "optimized/game-ready/kamioni/opel-legion-damaged.webp",
       "sourceSha256": "3b995b79e9d6e751a30b4be8dd7943ccf8fb2ad1aae0cf83501a75034e4ad3aa",
       "sha256": "b72fc913160a73edf5c9b0efc519ff2a46b55dcc935bf32be0c6573b6bd542ab",
       "originalBytes": 58653,
@@ -866,8 +866,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/polozaji/mitraljesko-gnezdo-odozgo.png",
-      "runtime": "optimized/armies/game-ready/polozaji/mitraljesko-gnezdo-odozgo.webp",
+      "source": "game-ready/polozaji/mitraljesko-gnezdo-odozgo.png",
+      "runtime": "optimized/game-ready/polozaji/mitraljesko-gnezdo-odozgo.webp",
       "sourceSha256": "b4369bd9994ee45482bfbfb889fb54de84e0dee198c0361ed3ee499d3866e3c2",
       "sha256": "a9ada68cb5d8aea2ea6603cfadb6311d2e28225365a86270df4b78f8b72f4703",
       "originalBytes": 37800,
@@ -878,8 +878,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/polozaji/shore-mg-crew.png",
-      "runtime": "optimized/armies/game-ready/polozaji/shore-mg-crew.webp",
+      "source": "game-ready/polozaji/shore-mg-crew.png",
+      "runtime": "optimized/game-ready/polozaji/shore-mg-crew.webp",
       "sourceSha256": "a32e6c42ae9adbc3352c285636c3b4e6cfff80612a4c4bb703f20ffe0d9ade70",
       "sha256": "0936667b8f9f54c54292c1f69e4d272e7f40ee834c5bcceb4802934e7cba1b50",
       "originalBytes": 15358,
@@ -890,8 +890,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/polozaji/shore-mg-gun.png",
-      "runtime": "optimized/armies/game-ready/polozaji/shore-mg-gun.webp",
+      "source": "game-ready/polozaji/shore-mg-gun.png",
+      "runtime": "optimized/game-ready/polozaji/shore-mg-gun.webp",
       "sourceSha256": "8672dc133df1f56da1d2cb7704bcc79261740baa100f7c491d2c367eb6c2407c",
       "sha256": "4eae4014b8575702693a20f08df14dfec24e28e29103590c6d632000ae9a89d4",
       "originalBytes": 7250,
@@ -902,8 +902,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/scenery/german-fallen-prone.png",
-      "runtime": "optimized/armies/game-ready/scenery/german-fallen-prone.webp",
+      "source": "game-ready/scenery/german-fallen-prone.png",
+      "runtime": "optimized/game-ready/scenery/german-fallen-prone.webp",
       "sourceSha256": "d3bcb3066dfad8363c2e510c6315769f5c9f74b41a0cbd7a4dfb1834abb59ebe",
       "sha256": "599c150875e0c6ff8ec27bd45f529a4cabf5c1fe001383f8b5cabb8533a489f3",
       "originalBytes": 8376,
@@ -914,8 +914,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/scenery/german-fallen-side.png",
-      "runtime": "optimized/armies/game-ready/scenery/german-fallen-side.webp",
+      "source": "game-ready/scenery/german-fallen-side.png",
+      "runtime": "optimized/game-ready/scenery/german-fallen-side.webp",
       "sourceSha256": "0255df08fd7e8661b278e0cc12f7693918721a5c7a85b83de5772f12798e69c2",
       "sha256": "6ba30c5b3e8d0f65c8210a709a7b9f23d060348805704cbfc9b07eefa597c751",
       "originalBytes": 8733,
@@ -926,8 +926,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/scenery/german-fallen-supine.png",
-      "runtime": "optimized/armies/game-ready/scenery/german-fallen-supine.webp",
+      "source": "game-ready/scenery/german-fallen-supine.png",
+      "runtime": "optimized/game-ready/scenery/german-fallen-supine.webp",
       "sourceSha256": "c0490758fe58eb8344261bb04629bf4a167f3f71019e553edd93796ad46581f9",
       "sha256": "762596f86b83aaca86539a7cf8fe7e84712379207aaa721017a1c4da02c6973b",
       "originalBytes": 8830,
@@ -938,8 +938,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/scenery/italian-fallen-prone.png",
-      "runtime": "optimized/armies/game-ready/scenery/italian-fallen-prone.webp",
+      "source": "game-ready/scenery/italian-fallen-prone.png",
+      "runtime": "optimized/game-ready/scenery/italian-fallen-prone.webp",
       "sourceSha256": "83eac89cf18ec827340bc75fbad6118413db130cf88f1ec3da4a0390a41bf692",
       "sha256": "2924dcd0d488a193543284fb6f65958e4ef1134b6d5f5c3b2466ea375e3bec27",
       "originalBytes": 8760,
@@ -950,8 +950,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/scenery/italian-fallen-side.png",
-      "runtime": "optimized/armies/game-ready/scenery/italian-fallen-side.webp",
+      "source": "game-ready/scenery/italian-fallen-side.png",
+      "runtime": "optimized/game-ready/scenery/italian-fallen-side.webp",
       "sourceSha256": "1b8e5c2a45adc676ef0695b80ccbcca789527a6f31c68ce55f7055f096658465",
       "sha256": "07269101466b15bb8e4f30115e274afd801c68a4a13eb230ce4b61571d4c04b8",
       "originalBytes": 8494,
@@ -962,8 +962,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/scenery/italian-fallen-supine.png",
-      "runtime": "optimized/armies/game-ready/scenery/italian-fallen-supine.webp",
+      "source": "game-ready/scenery/italian-fallen-supine.png",
+      "runtime": "optimized/game-ready/scenery/italian-fallen-supine.webp",
       "sourceSha256": "a1b72ba908b3dcacc53a823e8c2056e496dfb89e9b221ace975a333c166d55b2",
       "sha256": "306f969b927bdb2f53f2bbd9dded36c2c62c7c245e762b68a35e4f0015cef530",
       "originalBytes": 8867,
@@ -974,8 +974,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/scenery/partisan-fallen-prone.png",
-      "runtime": "optimized/armies/game-ready/scenery/partisan-fallen-prone.webp",
+      "source": "game-ready/scenery/partisan-fallen-prone.png",
+      "runtime": "optimized/game-ready/scenery/partisan-fallen-prone.webp",
       "sourceSha256": "13decd3f468ff2a44903bfd382c3e1848f94ab558cb693e0a3aef22979dff401",
       "sha256": "73a79bc60c95ccd3c79ec8050d1f36b21eae2ea8719ce5982b501a4a0d0ee6a4",
       "originalBytes": 8243,
@@ -986,8 +986,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/scenery/partisan-fallen-side.png",
-      "runtime": "optimized/armies/game-ready/scenery/partisan-fallen-side.webp",
+      "source": "game-ready/scenery/partisan-fallen-side.png",
+      "runtime": "optimized/game-ready/scenery/partisan-fallen-side.webp",
       "sourceSha256": "594687a081337b507a11490e084669335894b85b74331412e51ae5dba1743dc1",
       "sha256": "215b7f494f64d80dbde8c9c85e8900207e795ab83900fa1de71553145cc417c6",
       "originalBytes": 8408,
@@ -998,8 +998,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/scenery/partisan-fallen-supine.png",
-      "runtime": "optimized/armies/game-ready/scenery/partisan-fallen-supine.webp",
+      "source": "game-ready/scenery/partisan-fallen-supine.png",
+      "runtime": "optimized/game-ready/scenery/partisan-fallen-supine.webp",
       "sourceSha256": "98bc57716570ea176c3fe9846259e82675f2eca776896eb4b37bf04b0bc6b33a",
       "sha256": "abf0cc1b6bfe5918d72cef840c3be89063be2aa4154714817aae5e4edae8da58",
       "originalBytes": 8410,
@@ -1010,8 +1010,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/tenkovi/ansaldo-34.png",
-      "runtime": "optimized/armies/game-ready/tenkovi/ansaldo-34.webp",
+      "source": "game-ready/tenkovi/ansaldo-34.png",
+      "runtime": "optimized/game-ready/tenkovi/ansaldo-34.webp",
       "sourceSha256": "81b65abf01fcb2ec76d3b7add49bb7653ec2eef5f5a9a2c0c18bdb8b40746e9a",
       "sha256": "b932f2a8e36ac27653f1b21287dc80d706b8a9b536b9dca99ee4d59f2f7f9a5a",
       "originalBytes": 28367,
@@ -1022,8 +1022,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/tenkovi/hummel-damaged.png",
-      "runtime": "optimized/armies/game-ready/tenkovi/hummel-damaged.webp",
+      "source": "game-ready/tenkovi/hummel-damaged.png",
+      "runtime": "optimized/game-ready/tenkovi/hummel-damaged.webp",
       "sourceSha256": "2fdf480c8e02f41cf2828965488fbc7f69c1dc9497d7373d69a164d4e7cd5dd8",
       "sha256": "2236c349693b716c0a55765dc26e07aa60375b349fa104ae171c8638d18da084",
       "originalBytes": 74135,
@@ -1034,8 +1034,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/tenkovi/hummel-fire-sprites.png",
-      "runtime": "optimized/armies/game-ready/tenkovi/hummel-fire-sprites.webp",
+      "source": "game-ready/tenkovi/hummel-fire-sprites.png",
+      "runtime": "optimized/game-ready/tenkovi/hummel-fire-sprites.webp",
       "sourceSha256": "bff4c4161667e36d2f1ccbc45fceae0920f0aadfdb8114a793b4822d09c8a324",
       "sha256": "0660740f7ce170039c1b7645e1cda6e9c3fb26dae3432b755ad69a8ae357ae45",
       "originalBytes": 81709,
@@ -1046,8 +1046,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/tenkovi/hummel-sprites.png",
-      "runtime": "optimized/armies/game-ready/tenkovi/hummel-sprites.webp",
+      "source": "game-ready/tenkovi/hummel-sprites.png",
+      "runtime": "optimized/game-ready/tenkovi/hummel-sprites.webp",
       "sourceSha256": "18b5eb26dba8f24eb815cdda4ef0fe5628e2f3c0248d9433678259885b3866ff",
       "sha256": "482008f6bd7c401d20b7110115768eb0b0c7092c0050439caf3ccb01655915cd",
       "originalBytes": 509168,
@@ -1058,8 +1058,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/tenkovi/nemacki-tenk-bez-cevi-pixel.png",
-      "runtime": "optimized/armies/game-ready/tenkovi/nemacki-tenk-bez-cevi-pixel.webp",
+      "source": "game-ready/tenkovi/nemacki-tenk-bez-cevi-pixel.png",
+      "runtime": "optimized/game-ready/tenkovi/nemacki-tenk-bez-cevi-pixel.webp",
       "sourceSha256": "990a0a1966b5f79d9b309cb374cfc714603b63a9a517f4dc7f646804db6b65ef",
       "sha256": "dbb78629a87d24edd9bd44f5eb81a2a3a0e5322a7664ab52dc07e00d9f2a0260",
       "originalBytes": 60687,
@@ -1070,8 +1070,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/tenkovi/nemacki-tenk-cev-pixel.png",
-      "runtime": "optimized/armies/game-ready/tenkovi/nemacki-tenk-cev-pixel.webp",
+      "source": "game-ready/tenkovi/nemacki-tenk-cev-pixel.png",
+      "runtime": "optimized/game-ready/tenkovi/nemacki-tenk-cev-pixel.webp",
       "sourceSha256": "def71d3e8b6a64636d4d339943ea6347e54bdefb6d757bdcd8d353e1eafc5d7c",
       "sha256": "e7d96daa78e8732871f13fda3f8a1f1b0c809abda6ecd123362989cc32e08262",
       "originalBytes": 5040,
@@ -1082,8 +1082,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/tenkovi/nemacki-tenk-cev.png",
-      "runtime": "optimized/armies/game-ready/tenkovi/nemacki-tenk-cev.webp",
+      "source": "game-ready/tenkovi/nemacki-tenk-cev.png",
+      "runtime": "optimized/game-ready/tenkovi/nemacki-tenk-cev.webp",
       "sourceSha256": "f2c545c979d3d7e78cd7d1d7df035ef8395dcdb124ee6579590fcfce6a26d9e6",
       "sha256": "497bdd19dccc53bb186eee5159a4b8d1c8dad21a7ad3acfd204d5dbaccbc9b75",
       "originalBytes": 4945,
@@ -1094,8 +1094,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/tenkovi/nemacki-tenk-layers.png",
-      "runtime": "optimized/armies/game-ready/tenkovi/nemacki-tenk-layers.webp",
+      "source": "game-ready/tenkovi/nemacki-tenk-layers.png",
+      "runtime": "optimized/game-ready/tenkovi/nemacki-tenk-layers.webp",
       "sourceSha256": "61992c481244de006d16b3da065d4d1406129ebd586d0dcc69008ac63842999f",
       "sha256": "8a56b4abb45557ee9c3ab79aa3226f0ff822cbd58bc307c0f8e9af560c09c1f2",
       "originalBytes": 260844,
@@ -1106,8 +1106,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/tenkovi/nemacki-tenk-sprites.png",
-      "runtime": "optimized/armies/game-ready/tenkovi/nemacki-tenk-sprites.webp",
+      "source": "game-ready/tenkovi/nemacki-tenk-sprites.png",
+      "runtime": "optimized/game-ready/tenkovi/nemacki-tenk-sprites.webp",
       "sourceSha256": "b5cd70c2d7ae42b49691d8ee888e855fd77085dc5c183c5391020184f200ad67",
       "sha256": "fdb84b20194a3d7fcd54d3cff860d380defbbdf613ab1b4e7cf8e7e77290be50",
       "originalBytes": 233064,
@@ -1118,8 +1118,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/tenkovi/partizanski-tenk-bez-cevi-pixel.png",
-      "runtime": "optimized/armies/game-ready/tenkovi/partizanski-tenk-bez-cevi-pixel.webp",
+      "source": "game-ready/tenkovi/partizanski-tenk-bez-cevi-pixel.png",
+      "runtime": "optimized/game-ready/tenkovi/partizanski-tenk-bez-cevi-pixel.webp",
       "sourceSha256": "345baf6e0a8e5e9340aab2e0ff34f7fd0bd007698b531da9c0d1154437d78b9a",
       "sha256": "1a8f2065d7afd83c9ad27f02b975487156768209ee1e1abb4d9a413d1ab9bc83",
       "originalBytes": 53415,
@@ -1130,8 +1130,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/tenkovi/partizanski-tenk-cev-pixel.png",
-      "runtime": "optimized/armies/game-ready/tenkovi/partizanski-tenk-cev-pixel.webp",
+      "source": "game-ready/tenkovi/partizanski-tenk-cev-pixel.png",
+      "runtime": "optimized/game-ready/tenkovi/partizanski-tenk-cev-pixel.webp",
       "sourceSha256": "7dd753b95f03fdf93e1c0b99f91868413102e09f35535896ef98cebe1abb14f0",
       "sha256": "25b315ac7f3e404c863f3537cd76ab19ba5c93150d29d57316505e771e0cae26",
       "originalBytes": 5593,
@@ -1142,8 +1142,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/tenkovi/partizanski-tenk-cev.png",
-      "runtime": "optimized/armies/game-ready/tenkovi/partizanski-tenk-cev.webp",
+      "source": "game-ready/tenkovi/partizanski-tenk-cev.png",
+      "runtime": "optimized/game-ready/tenkovi/partizanski-tenk-cev.webp",
       "sourceSha256": "c099a978bc56faf4163b13b81e5a3ea6503cbff5ea061de5c3e00192d04efa18",
       "sha256": "b9f3825a49f328b8b67b2a462ff9aae08b095f3e4c93070f8868d5c48d282ba9",
       "originalBytes": 4546,
@@ -1154,8 +1154,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/tenkovi/partizanski-tenk-layers.png",
-      "runtime": "optimized/armies/game-ready/tenkovi/partizanski-tenk-layers.webp",
+      "source": "game-ready/tenkovi/partizanski-tenk-layers.png",
+      "runtime": "optimized/game-ready/tenkovi/partizanski-tenk-layers.webp",
       "sourceSha256": "416ac01fcc40b797d0b3e193e3da9edcb0e58a8423bbf4e53bdcfd54ff2e42b9",
       "sha256": "b52f490d701b14951501e77080b3a3cc39a310b2d0abda768a8547afbabcb5fe",
       "originalBytes": 218768,
@@ -1166,8 +1166,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/tenkovi/partizanski-tenk-sprites.png",
-      "runtime": "optimized/armies/game-ready/tenkovi/partizanski-tenk-sprites.webp",
+      "source": "game-ready/tenkovi/partizanski-tenk-sprites.png",
+      "runtime": "optimized/game-ready/tenkovi/partizanski-tenk-sprites.webp",
       "sourceSha256": "3b73bfe85c9ba4d5533f48dfee440189f9b522449070b0b955c1ee4fc70bdff0",
       "sha256": "7b25e8da1ae1bcc02eb059c3b96ba760f10af7ef150cf251afa6bdc4f20bd652",
       "originalBytes": 196500,
@@ -1178,8 +1178,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/tenkovi/somua-s35-barrel.png",
-      "runtime": "optimized/armies/game-ready/tenkovi/somua-s35-barrel.webp",
+      "source": "game-ready/tenkovi/somua-s35-barrel.png",
+      "runtime": "optimized/game-ready/tenkovi/somua-s35-barrel.webp",
       "sourceSha256": "b49670d218daa3dc5002ab21b497e37b5d6b4be93d7553514a9a2cb26a7d74d0",
       "sha256": "ac98e6ffbce3803151ed5d801c4edb29a55b1dc5da0349c23ec470b3a72e1e8c",
       "originalBytes": 313384,
@@ -1190,8 +1190,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/tenkovi/somua-s35-body-readable.png",
-      "runtime": "optimized/armies/game-ready/tenkovi/somua-s35-body-readable.webp",
+      "source": "game-ready/tenkovi/somua-s35-body-readable.png",
+      "runtime": "optimized/game-ready/tenkovi/somua-s35-body-readable.webp",
       "sourceSha256": "41a69909b74d78fd990aaf642141b1081cae22acba91ddf685db78bb93bebf9b",
       "sha256": "0113b21894d87a3d08bcdc5775cf59e7590eca5aede46973663a16e257af4ab6",
       "originalBytes": 1049118,
@@ -1202,8 +1202,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/assault-hit-sprites.png",
-      "runtime": "optimized/armies/game-ready/vojnici/assault-hit-sprites.webp",
+      "source": "game-ready/vojnici/assault-hit-sprites.png",
+      "runtime": "optimized/game-ready/vojnici/assault-hit-sprites.webp",
       "sourceSha256": "f3cd3b57885d7f40f3a5744bcc6bcf6021ad2d31e072651969396b246e13bfba",
       "sha256": "f186ab3e6a324dd6f68c17bbd7fd7ac09a5ec4a5485d9883d2f4584d2532a708",
       "originalBytes": 33964,
@@ -1214,8 +1214,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/bombas-sprites.png",
-      "runtime": "optimized/armies/game-ready/vojnici/bombas-sprites.webp",
+      "source": "game-ready/vojnici/bombas-sprites.png",
+      "runtime": "optimized/game-ready/vojnici/bombas-sprites.webp",
       "sourceSha256": "13c2d761ddb407a4cd995ec6b6e48399ada817c706323038e1ddeaaa836c5929",
       "sha256": "c37bcd7e5b9662d93e96f3c0a867922006d95e99b2309576ee3112c02b98f881",
       "originalBytes": 55989,
@@ -1226,8 +1226,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/bombas-throw-right-sprites.png",
-      "runtime": "optimized/armies/game-ready/vojnici/bombas-throw-right-sprites.webp",
+      "source": "game-ready/vojnici/bombas-throw-right-sprites.png",
+      "runtime": "optimized/game-ready/vojnici/bombas-throw-right-sprites.webp",
       "sourceSha256": "0653d73eedd834d8fb79989e732b29ac72c21942eec34f6ec9ba00e34bdd063a",
       "sha256": "c38598f7f12f7d08cf878438595f40d63c0794442ad9d8a1e35ced2854a7f6d1",
       "originalBytes": 4809,
@@ -1238,8 +1238,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/bombas-throw-sprites.png",
-      "runtime": "optimized/armies/game-ready/vojnici/bombas-throw-sprites.webp",
+      "source": "game-ready/vojnici/bombas-throw-sprites.png",
+      "runtime": "optimized/game-ready/vojnici/bombas-throw-sprites.webp",
       "sourceSha256": "72e312f818f2518451ed5d2036cd8488498f9e4b7132d36a6bd9ab13b5306ada",
       "sha256": "98b0d378091250d7b75f40641bf2230fb5aaf83168c519e2988339b136052ba0",
       "originalBytes": 60475,
@@ -1250,8 +1250,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/cetnici-spreda-02.png",
-      "runtime": "optimized/armies/game-ready/vojnici/cetnici-spreda-02.webp",
+      "source": "game-ready/vojnici/cetnici-spreda-02.png",
+      "runtime": "optimized/game-ready/vojnici/cetnici-spreda-02.webp",
       "sourceSha256": "41894b93aa8dc902310d63b0b1951605af69d82d1153ef18da3706bf64917ed9",
       "sha256": "1518e2a8c42923ce388d408595ba9275779a120dd87fcebe1c035bf8cd72ba71",
       "originalBytes": 87043,
@@ -1262,8 +1262,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/cetnici-spreda-celo.png",
-      "runtime": "optimized/armies/game-ready/vojnici/cetnici-spreda-celo.webp",
+      "source": "game-ready/vojnici/cetnici-spreda-celo.png",
+      "runtime": "optimized/game-ready/vojnici/cetnici-spreda-celo.webp",
       "sourceSha256": "4e32e6a3749cd5ca5dc7f02696773bc9fb179f272f332e67021311ea1a4d5dc4",
       "sha256": "4e349bbcd4ad3f228f03f4098fa8325d2a19be55fc2913fda4176d682dd63a0d",
       "originalBytes": 129032,
@@ -1274,8 +1274,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/cetnici-spreda.png",
-      "runtime": "optimized/armies/game-ready/vojnici/cetnici-spreda.webp",
+      "source": "game-ready/vojnici/cetnici-spreda.png",
+      "runtime": "optimized/game-ready/vojnici/cetnici-spreda.webp",
       "sourceSha256": "6c784b8f0af073504e5ecc51724b761d03c76d00b3f85fa7af54c01e6a904bc0",
       "sha256": "1fa7f00e130a454ae7607d3da1f7e6cfa10cf67dbb369bdae938ed907df96570",
       "originalBytes": 77268,
@@ -1286,8 +1286,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/deck-crew-sprites.png",
-      "runtime": "optimized/armies/game-ready/vojnici/deck-crew-sprites.webp",
+      "source": "game-ready/vojnici/deck-crew-sprites.png",
+      "runtime": "optimized/game-ready/vojnici/deck-crew-sprites.webp",
       "sourceSha256": "e4b3e4741ef2b734a090b35f854d959a3f157979d4ab66a21fd0618761b5ba36",
       "sha256": "0259c354d489ab9cc88f38152af704a3e8c1d68a0506ed620876d244a0ee7e4c",
       "originalBytes": 5306,
@@ -1298,8 +1298,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/grenadier-hit-sprites.png",
-      "runtime": "optimized/armies/game-ready/vojnici/grenadier-hit-sprites.webp",
+      "source": "game-ready/vojnici/grenadier-hit-sprites.png",
+      "runtime": "optimized/game-ready/vojnici/grenadier-hit-sprites.webp",
       "sourceSha256": "192b22dee7d0c546aca0beb3c8ff1d85d3c7569b08838225f93be0bea70d1cc7",
       "sha256": "4aadf3bbae5674b19128574f1182a8c8ce9f80595cfb9de1124d1afeb99bbfad",
       "originalBytes": 17740,
@@ -1310,8 +1310,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/italian-bearer-actions.png",
-      "runtime": "optimized/armies/game-ready/vojnici/italian-bearer-actions.webp",
+      "source": "game-ready/vojnici/italian-bearer-actions.png",
+      "runtime": "optimized/game-ready/vojnici/italian-bearer-actions.webp",
       "sourceSha256": "eb3fa03aa1debb1f6d3a5e9e724ce6e5a4ea6d0c78f1992ff2a578fa54c21713",
       "sha256": "ad34d8f9bd1151ee82325b84f5af17f5714c4fd8bf419cf6943cdd7e6802c86f",
       "originalBytes": 30043,
@@ -1322,8 +1322,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/italian-bearer-hit-sprites.png",
-      "runtime": "optimized/armies/game-ready/vojnici/italian-bearer-hit-sprites.webp",
+      "source": "game-ready/vojnici/italian-bearer-hit-sprites.png",
+      "runtime": "optimized/game-ready/vojnici/italian-bearer-hit-sprites.webp",
       "sourceSha256": "0ccad5cdc9821d868e3a0762b2c11be0b4a9dec380dd811baabe259ba140e304",
       "sha256": "862b8fae0ba01211c188b61c58bf02ced73c46f7bb4b051d7ec7089c97acdbb1",
       "originalBytes": 273094,
@@ -1334,8 +1334,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/machine-gunner-hit-sprites.png",
-      "runtime": "optimized/armies/game-ready/vojnici/machine-gunner-hit-sprites.webp",
+      "source": "game-ready/vojnici/machine-gunner-hit-sprites.png",
+      "runtime": "optimized/game-ready/vojnici/machine-gunner-hit-sprites.webp",
       "sourceSha256": "159c7eb2f1108c4bc155bc7b7193b1a6f19c53fd3a7aab1e20c57c1e453d6455",
       "sha256": "6c8b1f72621497c9e9715fb0b96f14fdd3621bc3e7ea3867aa0cbf46bca4ab01",
       "originalBytes": 7565,
@@ -1346,8 +1346,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/mitraljezac-sprites.png",
-      "runtime": "optimized/armies/game-ready/vojnici/mitraljezac-sprites.webp",
+      "source": "game-ready/vojnici/mitraljezac-sprites.png",
+      "runtime": "optimized/game-ready/vojnici/mitraljezac-sprites.webp",
       "sourceSha256": "c0aa4ef501c4902b310b4ca9336eb54811a1ab0e644c846385603d2bde00265a",
       "sha256": "30f797517316dfe34fec19d166972f1e4c55a276061728d4e2ca65f1b03e6ba0",
       "originalBytes": 16086,
@@ -1358,8 +1358,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/nemacki-jurisnik-sprites.png",
-      "runtime": "optimized/armies/game-ready/vojnici/nemacki-jurisnik-sprites.webp",
+      "source": "game-ready/vojnici/nemacki-jurisnik-sprites.png",
+      "runtime": "optimized/game-ready/vojnici/nemacki-jurisnik-sprites.webp",
       "sourceSha256": "a64361b69d2259e1c8bcf6c20fb82edb84f24ec716256d74bea8bcb129871cc5",
       "sha256": "b3f885e1f01ea1b98fd0e8452db6f6b4bc2e40a71086c09a3b8c98285ab35096",
       "originalBytes": 212765,
@@ -1370,8 +1370,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/nemacki-strelac-reload-sprites.png",
-      "runtime": "optimized/armies/game-ready/vojnici/nemacki-strelac-reload-sprites.webp",
+      "source": "game-ready/vojnici/nemacki-strelac-reload-sprites.png",
+      "runtime": "optimized/game-ready/vojnici/nemacki-strelac-reload-sprites.webp",
       "sourceSha256": "d8611ff54a9867c60ce2549e3fc85cbaaec70c4149d4bc5887fd8279404cc14e",
       "sha256": "e6861e704549c266208a265c6f65696e441d37bdf0e5429c9df51bb0f749bc60",
       "originalBytes": 144354,
@@ -1382,8 +1382,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/nemacki-strelac-sprites.png",
-      "runtime": "optimized/armies/game-ready/vojnici/nemacki-strelac-sprites.webp",
+      "source": "game-ready/vojnici/nemacki-strelac-sprites.png",
+      "runtime": "optimized/game-ready/vojnici/nemacki-strelac-sprites.webp",
       "sourceSha256": "476571f832554cf66da24fd870b883835f27ab27b10238755521d9ca188826f6",
       "sha256": "7958e1a8ac63a1d81bd5ca2388b40b56ac67dfb045f3e8219489dc78333ce133",
       "originalBytes": 194781,
@@ -1394,8 +1394,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/nemci-spreda-celo.png",
-      "runtime": "optimized/armies/game-ready/vojnici/nemci-spreda-celo.webp",
+      "source": "game-ready/vojnici/nemci-spreda-celo.png",
+      "runtime": "optimized/game-ready/vojnici/nemci-spreda-celo.webp",
       "sourceSha256": "8b0581b37ab59c0ba679ee95278ba30521439a2a00b3f9fde050fc350a330acf",
       "sha256": "f38306d40535da540bb080cd4cc191e7badd737573c48350acb019a9697a9310",
       "originalBytes": 119513,
@@ -1406,8 +1406,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/nemci-spreda.png",
-      "runtime": "optimized/armies/game-ready/vojnici/nemci-spreda.webp",
+      "source": "game-ready/vojnici/nemci-spreda.png",
+      "runtime": "optimized/game-ready/vojnici/nemci-spreda.webp",
       "sourceSha256": "30f9cfae6597a344bd628490a704568c25b285303689c8200b65bf1ece562e91",
       "sha256": "e9b18e963ad661a11e6f437bfcbcf334cf539b44ad12811bdb5eb4eadf5c44d2",
       "originalBytes": 74704,
@@ -1418,8 +1418,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/occupier-sprites.png",
-      "runtime": "optimized/armies/game-ready/vojnici/occupier-sprites.webp",
+      "source": "game-ready/vojnici/occupier-sprites.png",
+      "runtime": "optimized/game-ready/vojnici/occupier-sprites.webp",
       "sourceSha256": "fc79c578cc5f4e89476017e041988960d259e0aa8c5f34f4f8ff6b01627ce471",
       "sha256": "afdc2632a6f8a74c9194adf1d0f583675ff1ee3c68a48c0858e9bae70e83e85e",
       "originalBytes": 166340,
@@ -1430,8 +1430,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/otpisani-rifleman-sprites.png",
-      "runtime": "optimized/armies/game-ready/vojnici/otpisani-rifleman-sprites.webp",
+      "source": "game-ready/vojnici/otpisani-rifleman-sprites.png",
+      "runtime": "optimized/game-ready/vojnici/otpisani-rifleman-sprites.webp",
       "sourceSha256": "0ab05ccb02058bd6b30507aa8d2ee8169632d2a5d9a6c877485b31b763cddc62",
       "sha256": "05eb899c48668b9dc54b7a3cef726015bac37034e692cf25df5b05590a3bcd79",
       "originalBytes": 1976797,
@@ -1442,8 +1442,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/otpisani-sentry-sprites.png",
-      "runtime": "optimized/armies/game-ready/vojnici/otpisani-sentry-sprites.webp",
+      "source": "game-ready/vojnici/otpisani-sentry-sprites.png",
+      "runtime": "optimized/game-ready/vojnici/otpisani-sentry-sprites.webp",
       "sourceSha256": "855235fda68706f3a34fda68b7bc853cd15c6390880957e113ca9e171d324504",
       "sha256": "636118c3da2e453c1b91e4a3ac81eea03102e405f9356a9a4712daf8a551f741",
       "originalBytes": 1878987,
@@ -1454,8 +1454,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/partisan-bearer-actions.png",
-      "runtime": "optimized/armies/game-ready/vojnici/partisan-bearer-actions.webp",
+      "source": "game-ready/vojnici/partisan-bearer-actions.png",
+      "runtime": "optimized/game-ready/vojnici/partisan-bearer-actions.webp",
       "sourceSha256": "ac02b2038ac512cfdcf4b01969ce49ed5f79a30f6f169a4f1f06ee56b0a8a972",
       "sha256": "90152321b82ff08fd2527d189eced3a27ec059682b3f7e005a05eb65216b5235",
       "originalBytes": 34358,
@@ -1466,8 +1466,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/partisan-bearer-hit-sprites.png",
-      "runtime": "optimized/armies/game-ready/vojnici/partisan-bearer-hit-sprites.webp",
+      "source": "game-ready/vojnici/partisan-bearer-hit-sprites.png",
+      "runtime": "optimized/game-ready/vojnici/partisan-bearer-hit-sprites.webp",
       "sourceSha256": "fc072e7654e83a5612d63d4ac7bccabd438a0a691e6edea4d22c5e1a2174dd16",
       "sha256": "432416225a9daf9ef65b630ab33f9c4d9cd7b92c700b1d83c2ffc9592235d4a3",
       "originalBytes": 651246,
@@ -1478,8 +1478,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/partisan-lmg-sprites.png",
-      "runtime": "optimized/armies/game-ready/vojnici/partisan-lmg-sprites.webp",
+      "source": "game-ready/vojnici/partisan-lmg-sprites.png",
+      "runtime": "optimized/game-ready/vojnici/partisan-lmg-sprites.webp",
       "sourceSha256": "b53a2e27ded0286780e5936b0247e23e2fa29ce43a3836608036372bd648372d",
       "sha256": "2165c5dd4ba2c5185102a5c70028d2197b688fd41326118bfa92ab674ca08063",
       "originalBytes": 291123,
@@ -1490,8 +1490,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/partisan-loader-sprites.png",
-      "runtime": "optimized/armies/game-ready/vojnici/partisan-loader-sprites.webp",
+      "source": "game-ready/vojnici/partisan-loader-sprites.png",
+      "runtime": "optimized/game-ready/vojnici/partisan-loader-sprites.webp",
       "sourceSha256": "e11ca9dc4045a02b2e7827ff59727cf6b89aed474d3159cf6c7b0a4af8780652",
       "sha256": "6e3fbec801b14228e1aea80294b4a538c3e2eb00d56c6241fac49ed51fe5739e",
       "originalBytes": 312327,
@@ -1502,8 +1502,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/partisan-rear-sprites.png",
-      "runtime": "optimized/armies/game-ready/vojnici/partisan-rear-sprites.webp",
+      "source": "game-ready/vojnici/partisan-rear-sprites.png",
+      "runtime": "optimized/game-ready/vojnici/partisan-rear-sprites.webp",
       "sourceSha256": "65d25fc24d451bbfb857613404b103a3db46685a4b5f5416d2fb722bd5e33457",
       "sha256": "84fd09e2deefc22df0c119ee50bea7b0d17199913359aa1d436f2a01b5e94157",
       "originalBytes": 260675,
@@ -1514,8 +1514,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/partisan-runner-sprites.png",
-      "runtime": "optimized/armies/game-ready/vojnici/partisan-runner-sprites.webp",
+      "source": "game-ready/vojnici/partisan-runner-sprites.png",
+      "runtime": "optimized/game-ready/vojnici/partisan-runner-sprites.webp",
       "sourceSha256": "5f992ff14ef36284b670785f0d812083915221685be5b09541bf9af7dc48d7a4",
       "sha256": "8915f2b50f308e510820770fb8ae68f843fbc8063cfabbc51d5a10473ff107f1",
       "originalBytes": 254765,
@@ -1526,8 +1526,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/partizanski-strelac-movement-sprites.png",
-      "runtime": "optimized/armies/game-ready/vojnici/partizanski-strelac-movement-sprites.webp",
+      "source": "game-ready/vojnici/partizanski-strelac-movement-sprites.png",
+      "runtime": "optimized/game-ready/vojnici/partizanski-strelac-movement-sprites.webp",
       "sourceSha256": "ae00fe4b144da6b98746979facf6e056727df1a548fb287664d0938eedbfe56f",
       "sha256": "e8c88840b55aa7091c790ac5845b5fc5acc98baf07552075ba3c7157367ab5e7",
       "originalBytes": 354471,
@@ -1538,8 +1538,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/partizanski-strelac-sprites.png",
-      "runtime": "optimized/armies/game-ready/vojnici/partizanski-strelac-sprites.webp",
+      "source": "game-ready/vojnici/partizanski-strelac-sprites.png",
+      "runtime": "optimized/game-ready/vojnici/partizanski-strelac-sprites.webp",
       "sourceSha256": "8225f9aa369758271959621d1a2ad90d9b85064270f13f4a750089d4daf13ce6",
       "sha256": "6f7893aa46a8bdaa5cabeb17ab37da0c45a6884bd2af9aea9c21cb96c4f70417",
       "originalBytes": 577698,
@@ -1550,8 +1550,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/partizanski-zastavnik-sprites.png",
-      "runtime": "optimized/armies/game-ready/vojnici/partizanski-zastavnik-sprites.webp",
+      "source": "game-ready/vojnici/partizanski-zastavnik-sprites.png",
+      "runtime": "optimized/game-ready/vojnici/partizanski-zastavnik-sprites.webp",
       "sourceSha256": "f7d055fca103393a022c4e54aed966823df099aef47c4e97fb98c6058313e59c",
       "sha256": "1b7d868ce2dd46d2570a0fac951ff9f03aa2739ca33c1f4ae965523ab649d598",
       "originalBytes": 698231,
@@ -1562,8 +1562,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/rifleman-hit-sprites.png",
-      "runtime": "optimized/armies/game-ready/vojnici/rifleman-hit-sprites.webp",
+      "source": "game-ready/vojnici/rifleman-hit-sprites.png",
+      "runtime": "optimized/game-ready/vojnici/rifleman-hit-sprites.webp",
       "sourceSha256": "a55da4a38d7d97b43f462e592088a7be335e39c752da9c333764d858cc0a689f",
       "sha256": "a1fcd0937abb1e36e80e59431f3af62b5108afe7c2dd30283092ab69261efee8",
       "originalBytes": 30391,
@@ -1574,8 +1574,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/skirmisher-hit-sprites.png",
-      "runtime": "optimized/armies/game-ready/vojnici/skirmisher-hit-sprites.webp",
+      "source": "game-ready/vojnici/skirmisher-hit-sprites.png",
+      "runtime": "optimized/game-ready/vojnici/skirmisher-hit-sprites.webp",
       "sourceSha256": "02265b2e0f58d02cb96a8495214501dc56d11ba00bc9e77108c490ee4dce2b7a",
       "sha256": "425a930ad3b7c1275a6b39871c4255cc9c1f8af127744a509578353298229a95",
       "originalBytes": 221108,
@@ -1586,8 +1586,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vojnici/zastavnici-sprites.png",
-      "runtime": "optimized/armies/game-ready/vojnici/zastavnici-sprites.webp",
+      "source": "game-ready/vojnici/zastavnici-sprites.png",
+      "runtime": "optimized/game-ready/vojnici/zastavnici-sprites.webp",
       "sourceSha256": "d40d9dad58c2c83c14af90df778bf104b16d5aa5b033de7c3700211789088ec8",
       "sha256": "61860af27237adc29b77ac98a0ad9ea35cf914d4901e9bebdb2f8ab36521b6db",
       "originalBytes": 614968,
@@ -1598,8 +1598,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vozila/bmw-r12-sprites.png",
-      "runtime": "optimized/armies/game-ready/vozila/bmw-r12-sprites.webp",
+      "source": "game-ready/vozila/bmw-r12-sprites.png",
+      "runtime": "optimized/game-ready/vozila/bmw-r12-sprites.webp",
       "sourceSha256": "6550391f4939dca4021dbdf34bef4ef52acf193f7c95c48494d0783545b49616",
       "sha256": "800f6fe97f3dd63bb8398ff6e085915ee9df456c0999aab464ab63b61165918f",
       "originalBytes": 249198,
@@ -1610,8 +1610,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vozila/elefant-sprites.png",
-      "runtime": "optimized/armies/game-ready/vozila/elefant-sprites.webp",
+      "source": "game-ready/vozila/elefant-sprites.png",
+      "runtime": "optimized/game-ready/vozila/elefant-sprites.webp",
       "sourceSha256": "7079f733203d530158a71427282aba2de7003f6bbf036560c94c919deed1bb0a",
       "sha256": "caf2d635cac65ac124b009c27857f69e9ef7081bb51a5e0c3c7fb42c8d7ed566",
       "originalBytes": 1403697,
@@ -1622,8 +1622,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vozila/marder-ii-sprites.png",
-      "runtime": "optimized/armies/game-ready/vozila/marder-ii-sprites.webp",
+      "source": "game-ready/vozila/marder-ii-sprites.png",
+      "runtime": "optimized/game-ready/vozila/marder-ii-sprites.webp",
       "sourceSha256": "9041468f4581f1c1f0398c7c579637e332f073280b5f6865eb2124c0f337cf69",
       "sha256": "f476c5902311e26de6a9cfe9401aca2d3cdba5b6be49be27189bf45e7b478ae6",
       "originalBytes": 996053,
@@ -1634,8 +1634,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vozila/mercedes-830bl-sprites.png",
-      "runtime": "optimized/armies/game-ready/vozila/mercedes-830bl-sprites.webp",
+      "source": "game-ready/vozila/mercedes-830bl-sprites.png",
+      "runtime": "optimized/game-ready/vozila/mercedes-830bl-sprites.webp",
       "sourceSha256": "1d6410bf99377dadb23ca9a9a21a2526788ec3c28ec80ed925723561d826c16b",
       "sha256": "82a9173cdd7a2e9ff5513566a9eeb13e9cbc9baff2fe90251607035709ea0fac",
       "originalBytes": 583083,
@@ -1646,8 +1646,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vozila/motorcycle-sprites.png",
-      "runtime": "optimized/armies/game-ready/vozila/motorcycle-sprites.webp",
+      "source": "game-ready/vozila/motorcycle-sprites.png",
+      "runtime": "optimized/game-ready/vozila/motorcycle-sprites.webp",
       "sourceSha256": "60a1cb4a3b1053e0844bc9867adade715146cdc88312c1e9308abd42a6f0e5f7",
       "sha256": "4aba96b59ac0476637a71c324f69e10952f0a3e17c282b82635d560997cea024",
       "originalBytes": 482752,
@@ -1658,8 +1658,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vozila/pzkpf-612-sprites.png",
-      "runtime": "optimized/armies/game-ready/vozila/pzkpf-612-sprites.webp",
+      "source": "game-ready/vozila/pzkpf-612-sprites.png",
+      "runtime": "optimized/game-ready/vozila/pzkpf-612-sprites.webp",
       "sourceSha256": "3a0a63e2ffbc00b4933307c9b7b1b27c174e12894d2308327426aa7404d0e43b",
       "sha256": "5d02d28c5ede202f01945e205b3a6a6a7d6bf4fa532031dd3ebfd988e0c46f41",
       "originalBytes": 854749,
@@ -1670,8 +1670,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vozila/sdkfz-231-sprites.png",
-      "runtime": "optimized/armies/game-ready/vozila/sdkfz-231-sprites.webp",
+      "source": "game-ready/vozila/sdkfz-231-sprites.png",
+      "runtime": "optimized/game-ready/vozila/sdkfz-231-sprites.webp",
       "sourceSha256": "c55fa30c68e082a2e0778641a72f7566bb6fdcc545c9a323f5fd496bb856d40d",
       "sha256": "46d544841c443987daeebe2629da2534aea87a9fdbd9377b63de5e9dc12a9c05",
       "originalBytes": 907683,
@@ -1682,8 +1682,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vozila/sdkfz222-sprites.png",
-      "runtime": "optimized/armies/game-ready/vozila/sdkfz222-sprites.webp",
+      "source": "game-ready/vozila/sdkfz222-sprites.png",
+      "runtime": "optimized/game-ready/vozila/sdkfz222-sprites.webp",
       "sourceSha256": "e2159b18d81b1abe1389d634f0de0643ad7e7417b3c2062acfdd85446f59ea8a",
       "sha256": "8c2171ac74de994a4e9f56ba734e6caa61516632d8322ec6aed14560071028d4",
       "originalBytes": 626162,
@@ -1694,8 +1694,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vozila/sdkfz251-sprites.png",
-      "runtime": "optimized/armies/game-ready/vozila/sdkfz251-sprites.webp",
+      "source": "game-ready/vozila/sdkfz251-sprites.png",
+      "runtime": "optimized/game-ready/vozila/sdkfz251-sprites.webp",
       "sourceSha256": "87f9a2b34a058efac555fef88a763eb7dac4c9e4cb44af91860273b1528048b3",
       "sha256": "510a0bad7b737afc2f7ee15c7ca6e4736349ee7aa89bd17de4adde0b3abf7911",
       "originalBytes": 817314,
@@ -1706,8 +1706,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vozila/zundapp-k600-sprites.png",
-      "runtime": "optimized/armies/game-ready/vozila/zundapp-k600-sprites.webp",
+      "source": "game-ready/vozila/zundapp-k600-sprites.png",
+      "runtime": "optimized/game-ready/vozila/zundapp-k600-sprites.webp",
       "sourceSha256": "46378bc2526d9fe017a7e75f3a86920ec61a7a8a7c53296cca500f9a8f7d5734",
       "sha256": "98d99994a4dbc3f1a6c122ec223d3c213864c66ecfb41490365dc257fc46e035",
       "originalBytes": 259024,
@@ -1718,8 +1718,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vozovi/bp42-damaged.png",
-      "runtime": "optimized/armies/game-ready/vozovi/bp42-damaged.webp",
+      "source": "game-ready/vozovi/bp42-damaged.png",
+      "runtime": "optimized/game-ready/vozovi/bp42-damaged.webp",
       "sourceSha256": "bc6084de0bce1427655fe4dbdb740e0262acbbe6fadc347db2a7414c73718aaf",
       "sha256": "6b0b7e7d20aa52a7fe2a12e75ad45d978ee418c7558bb39fb7f4cfcaa5c06711",
       "originalBytes": 157002,
@@ -1730,8 +1730,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vozovi/bp42-fire-sprites.png",
-      "runtime": "optimized/armies/game-ready/vozovi/bp42-fire-sprites.webp",
+      "source": "game-ready/vozovi/bp42-fire-sprites.png",
+      "runtime": "optimized/game-ready/vozovi/bp42-fire-sprites.webp",
       "sourceSha256": "04818e042b20c2223863b6f7d29d7c64c78662133f684503967d0b21b10775e6",
       "sha256": "f3bd4dc0e98bad64ce71a55d154b28b2f3037a3f3c2eb142d800d67e9ebf03a2",
       "originalBytes": 130904,
@@ -1742,8 +1742,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/vozovi/bp42-sprites.png",
-      "runtime": "optimized/armies/game-ready/vozovi/bp42-sprites.webp",
+      "source": "game-ready/vozovi/bp42-sprites.png",
+      "runtime": "optimized/game-ready/vozovi/bp42-sprites.webp",
       "sourceSha256": "e43f6aef7402da1c7929d9769f1c323aad4a64b1c37c5a8d3b021389ee4a00bc",
       "sha256": "0aa3d6606d0442fc0bf170ef63eb561c7c43044488d49eed2275ac840b443dc4",
       "originalBytes": 773116,
@@ -1754,8 +1754,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/wrecks/bp42.png",
-      "runtime": "optimized/armies/game-ready/wrecks/bp42.webp",
+      "source": "game-ready/wrecks/bp42.png",
+      "runtime": "optimized/game-ready/wrecks/bp42.webp",
       "sourceSha256": "78090d5503c8af45f78ae4fa9a303cd474165dfb94c8d3cd49b8c81ead2767b4",
       "sha256": "aed97135dc7a73d6888d3fc786bdcf1b358055771c97db5cad261aa2b2af73c4",
       "originalBytes": 151058,
@@ -1766,8 +1766,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/wrecks/bunker.png",
-      "runtime": "optimized/armies/game-ready/wrecks/bunker.webp",
+      "source": "game-ready/wrecks/bunker.png",
+      "runtime": "optimized/game-ready/wrecks/bunker.webp",
       "sourceSha256": "94826e358e1b788a14111e5959cc1dd2557165691a6e5800d656dedb7053da6d",
       "sha256": "ebfad5d7ffc2261f2c366df0992598bedd72d6ed81a6e0bf3e3523f62d479fd6",
       "originalBytes": 29521,
@@ -1778,8 +1778,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/wrecks/field-gun.png",
-      "runtime": "optimized/armies/game-ready/wrecks/field-gun.webp",
+      "source": "game-ready/wrecks/field-gun.png",
+      "runtime": "optimized/game-ready/wrecks/field-gun.webp",
       "sourceSha256": "177fc210b2a7b8b6696a6aa521b8f3bd5660906d8efd8fccb15363ae51a5454d",
       "sha256": "e9af66200f5d9d047e317f2dd99abc8ec96fd448ebc03bf266bcb5b9ae676d66",
       "originalBytes": 27367,
@@ -1790,8 +1790,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/wrecks/flak38.png",
-      "runtime": "optimized/armies/game-ready/wrecks/flak38.webp",
+      "source": "game-ready/wrecks/flak38.png",
+      "runtime": "optimized/game-ready/wrecks/flak38.webp",
       "sourceSha256": "1050cc071cd47c176a7ddd2d1ab9afd9fef9623620891c4e43db8ac563511f0f",
       "sha256": "300d2010403633353080ec7ff1805defa219b2c5457164702e8af5b4f079ac20",
       "originalBytes": 14942,
@@ -1802,8 +1802,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/wrecks/german-tank.png",
-      "runtime": "optimized/armies/game-ready/wrecks/german-tank.webp",
+      "source": "game-ready/wrecks/german-tank.png",
+      "runtime": "optimized/game-ready/wrecks/german-tank.webp",
       "sourceSha256": "cb6c9d229800bbcfdf28c6e048f14f272cb7c3c71a59b5f8f994614e37f19205",
       "sha256": "319a091c9752b71e67af8fc29eab3621a0f7227d01c07a9cd4c22a718912a692",
       "originalBytes": 61272,
@@ -1814,8 +1814,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/wrecks/house-bunker.png",
-      "runtime": "optimized/armies/game-ready/wrecks/house-bunker.webp",
+      "source": "game-ready/wrecks/house-bunker.png",
+      "runtime": "optimized/game-ready/wrecks/house-bunker.webp",
       "sourceSha256": "593cbdae6401aacc328f58fdf81066a3cdd1e60281a976f4ecd17631a1054bd3",
       "sha256": "86d9b508a781c595a3bc34d9f5f2c5133924b96c6bd99ea96b59fbc511655a31",
       "originalBytes": 230750,
@@ -1826,8 +1826,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/wrecks/hummel.png",
-      "runtime": "optimized/armies/game-ready/wrecks/hummel.webp",
+      "source": "game-ready/wrecks/hummel.png",
+      "runtime": "optimized/game-ready/wrecks/hummel.webp",
       "sourceSha256": "51f5a94d6c6e0885885cd5a17954809840cba62b70d45cfb69f2b0c41f0a0efe",
       "sha256": "bb97deb39ac02a76d15bef42dd588837879d7aeeac3521227069cf1e1548e707",
       "originalBytes": 52357,
@@ -1838,8 +1838,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/wrecks/opel-blitz-legion.png",
-      "runtime": "optimized/armies/game-ready/wrecks/opel-blitz-legion.webp",
+      "source": "game-ready/wrecks/opel-blitz-legion.png",
+      "runtime": "optimized/game-ready/wrecks/opel-blitz-legion.webp",
       "sourceSha256": "aada710f9dffdc0fe74b230994d63b29912e07fbb8e1a7958a1fb378187bb323",
       "sha256": "af941b10a7b4ccc0642f2ecf8fee138abd02b98ddbbd87c06170c6e98fd66be4",
       "originalBytes": 55496,
@@ -1850,8 +1850,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/wrecks/opel-blitz.png",
-      "runtime": "optimized/armies/game-ready/wrecks/opel-blitz.webp",
+      "source": "game-ready/wrecks/opel-blitz.png",
+      "runtime": "optimized/game-ready/wrecks/opel-blitz.webp",
       "sourceSha256": "ffd9f1c9abc35bfc42fc2166917d129e032fea4bd3d6783c9d2cd7b6a188ada3",
       "sha256": "f300346c729cd427df12a25d3af2e7e3d2df57ad533e34a380ab4f3c5ea5edb1",
       "originalBytes": 53964,
@@ -1862,8 +1862,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/wrecks/pak38.png",
-      "runtime": "optimized/armies/game-ready/wrecks/pak38.webp",
+      "source": "game-ready/wrecks/pak38.png",
+      "runtime": "optimized/game-ready/wrecks/pak38.webp",
       "sourceSha256": "6ea284081a264b49860871b61a617e5c09cf8e657934c8b0eed60b286c448725",
       "sha256": "045e8805971d4b77a8e190f868020ea9db303e0d73e2ac23833c4d2351488c89",
       "originalBytes": 7672,
@@ -1874,8 +1874,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/wrecks/partisan-tank.png",
-      "runtime": "optimized/armies/game-ready/wrecks/partisan-tank.webp",
+      "source": "game-ready/wrecks/partisan-tank.png",
+      "runtime": "optimized/game-ready/wrecks/partisan-tank.webp",
       "sourceSha256": "01db18190d25b5c74cd03d6496812dc1d304edb37b31b3c16f90c8fb8b684cd3",
       "sha256": "03a77a0dcaa2355e0e3d73c78adabc5dec52a361ff0f215c2a8f9a8530d237bc",
       "originalBytes": 51751,
@@ -1886,8 +1886,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/wrecks/player-boat.png",
-      "runtime": "optimized/armies/game-ready/wrecks/player-boat.webp",
+      "source": "game-ready/wrecks/player-boat.png",
+      "runtime": "optimized/game-ready/wrecks/player-boat.webp",
       "sourceSha256": "9ff66fe9a66398abf9baf97d543a2e0f4c42b7a2cc2a16aa093edaa6cd133b33",
       "sha256": "4626949fed5a08c8eb88f68dd78675ebfc9638d4a890a6c460fbf886d6b05eaa",
       "originalBytes": 94415,
@@ -1898,8 +1898,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/wrecks/potez-25-ndh.png",
-      "runtime": "optimized/armies/game-ready/wrecks/potez-25-ndh.webp",
+      "source": "game-ready/wrecks/potez-25-ndh.png",
+      "runtime": "optimized/game-ready/wrecks/potez-25-ndh.webp",
       "sourceSha256": "2b81e304baebe23905b3d4a167bd2b01ae6d458a3f6ab83d35ea5e64683363cd",
       "sha256": "47fb200f7254da140a71a3317f2df6af2b907a4889f0c5de9166b95856041073",
       "originalBytes": 57427,
@@ -1910,8 +1910,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/wrecks/potez-25-partisan.png",
-      "runtime": "optimized/armies/game-ready/wrecks/potez-25-partisan.webp",
+      "source": "game-ready/wrecks/potez-25-partisan.png",
+      "runtime": "optimized/game-ready/wrecks/potez-25-partisan.webp",
       "sourceSha256": "805e5f256858bdf1806806416a50cc1b5614f48f5856cbbd8aa06bce1983fac1",
       "sha256": "c5cd7ae971e3e202532638f62042563b6bb82d19e9ab827bfd9b8c634f2ef019",
       "originalBytes": 54584,
@@ -1922,8 +1922,8 @@
       ]
     },
     {
-      "source": "armies/game-ready/wrecks/somua-s35.png",
-      "runtime": "optimized/armies/game-ready/wrecks/somua-s35.webp",
+      "source": "game-ready/wrecks/somua-s35.png",
+      "runtime": "optimized/game-ready/wrecks/somua-s35.webp",
       "sourceSha256": "73b496834c292ef7b6796146c5e5aa9fa25c52a88ad7cb84b4b51d8229ec4b25",
       "sha256": "c97aae52667725970a84607d73735a2dd8800d9e968746c18e417154783775d6",
       "originalBytes": 73119,

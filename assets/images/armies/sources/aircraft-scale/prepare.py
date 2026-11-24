@@ -7,7 +7,7 @@ from PIL import Image
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[4]
-OUT=ROOT/'assets/images/armies/game-ready/avioni'
+OUT=ROOT/'assets/images/game-ready/avioni'
 generation=json.loads((HERE/'generation.json').read_text(encoding='utf-8'))
 records=[]
 layers={}
@@ -43,9 +43,9 @@ for entry in generation['entries']:
     measured=[dict(x=at[0]+(x-box[0])*factor,y=at[1]+(y-box[1])*factor,span=span*factor) for x,y,span in hubs]
     src=target.relative_to(ROOT/'assets/images').as_posix()
     layers[src]=dict(id=key,bodySize=[width,height],projection='top',hubs=measured,
-                    layer=dict(src='armies/game-ready/avioni/propeller-top-sprites.png',frame=dict(width=64,height=12),columns=4,seconds=.12))
+                    layer=dict(src='game-ready/avioni/propeller-top-sprites.png',frame=dict(width=64,height=12),columns=4,seconds=.12))
     sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
-    records.append(dict(id=key,image='../../game-ready/avioni/'+target.name,source=source.name,sourceSha256=sha(source),
+    records.append(dict(id=key,image='../../../game-ready/avioni/'+target.name,source=source.name,sourceSha256=sha(source),
                         sha256=sha(target),frame=dict(width=width,height=height,columns=1,rows=1),
                         anchor=dict(x=width/2,y=height/2),animations=[dict(name='idle',row=0,frameCount=1,duration=1,loop=True)],
                         pixelsPerMetre=40,scale=factor,sourceBounds=box,offset=at,propellers=layers[src],

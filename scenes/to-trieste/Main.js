@@ -91,7 +91,7 @@ export default class ToTriesteScene extends Scene2D {
     this.player.y = this.player.size.height / 2
     this.vehicleCollisions = new VehicleCollisions(this.player)
     this.playerView = new TankSprite(this.player, { art: vehicleArt.partisanTank, ...this.views, z: layers.player,
-      barrel: { src: 'armies/game-ready/tenkovi/partizanski-tenk-cev-pixel.png' }, shellLayer: layers.projectile })
+      barrel: { src: 'game-ready/tenkovi/partizanski-tenk-cev-pixel.png' }, shellLayer: layers.projectile })
     this.audioPlayer = () => this.playerView
     this.controllers.push(new TankKeys(this.player, { keyboard, keys: leftPlayerKeys }))
     // partisan riflemen of the Fourth Army hold positions by the road and fire while the enemy is in sight
@@ -191,8 +191,8 @@ export default class ToTriesteScene extends Scene2D {
         breakdown: noBreakdown, rearAim: false, performance, health: enemy.health * performance.health / tank.health })
       view = new TankSprite(body, { ...this.views, z: layers.unit, shellLayer: layers.projectile, facing: -1,
         ...tankKind === 'german'
-          ? { art: vehicleArt.germanTank, barrel: { src: 'armies/game-ready/tenkovi/nemacki-tenk-cev-pixel.png', facing: -1 } }
-          : { art: vehicleArt.somuaS35, barrel: { src: 'armies/game-ready/tenkovi/somua-s35-barrel.png', facing: -1, crop: [126, 203, 1923, 309] } } })
+          ? { art: vehicleArt.germanTank, barrel: { src: 'game-ready/tenkovi/nemacki-tenk-cev-pixel.png', facing: -1 } }
+          : { art: vehicleArt.somuaS35, barrel: { src: 'game-ready/tenkovi/somua-s35-barrel.png', facing: -1, crop: [126, 203, 1923, 309] } } })
     }
     body.canFire = this.mayFire(body)
     body.y = body.size.height / 2

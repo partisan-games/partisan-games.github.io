@@ -3,7 +3,7 @@
   "assets": [
     {
       "id": "partisan-tank",
-      "image": "../../game-ready/wrecks/partisan-tank.png",
+      "image": "../../../game-ready/wrecks/partisan-tank.png",
       "frame": {
         "width": 300,
         "height": 129,
@@ -37,7 +37,7 @@
     },
     {
       "id": "german-tank",
-      "image": "../../game-ready/wrecks/german-tank.png",
+      "image": "../../../game-ready/wrecks/german-tank.png",
       "frame": {
         "width": 327,
         "height": 137,
@@ -71,7 +71,7 @@
     },
     {
       "id": "somua-s35",
-      "image": "../../game-ready/wrecks/somua-s35.png",
+      "image": "../../../game-ready/wrecks/somua-s35.png",
       "frame": {
         "width": 379,
         "height": 166,
@@ -105,7 +105,7 @@
     },
     {
       "id": "hummel",
-      "image": "../../game-ready/wrecks/hummel.png",
+      "image": "../../../game-ready/wrecks/hummel.png",
       "frame": {
         "width": 320,
         "height": 160,
@@ -139,7 +139,7 @@
     },
     {
       "id": "opel-blitz",
-      "image": "../../game-ready/wrecks/opel-blitz.png",
+      "image": "../../../game-ready/wrecks/opel-blitz.png",
       "frame": {
         "width": 320,
         "height": 160,
@@ -173,7 +173,7 @@
     },
     {
       "id": "opel-blitz-legion",
-      "image": "../../game-ready/wrecks/opel-blitz-legion.png",
+      "image": "../../../game-ready/wrecks/opel-blitz-legion.png",
       "frame": {
         "width": 320,
         "height": 160,
@@ -207,7 +207,7 @@
     },
     {
       "id": "bp42",
-      "image": "../../game-ready/wrecks/bp42.png",
+      "image": "../../../game-ready/wrecks/bp42.png",
       "frame": {
         "width": 576,
         "height": 256,
@@ -241,7 +241,7 @@
     },
     {
       "id": "flak38",
-      "image": "../../game-ready/wrecks/flak38.png",
+      "image": "../../../game-ready/wrecks/flak38.png",
       "frame": {
         "width": 204,
         "height": 122,
@@ -275,7 +275,7 @@
     },
     {
       "id": "pak38",
-      "image": "../../game-ready/wrecks/pak38.png",
+      "image": "../../../game-ready/wrecks/pak38.png",
       "frame": {
         "width": 233,
         "height": 51,
@@ -309,7 +309,7 @@
     },
     {
       "id": "house-bunker",
-      "image": "../../game-ready/wrecks/house-bunker.png",
+      "image": "../../../game-ready/wrecks/house-bunker.png",
       "frame": {
         "width": 428,
         "height": 286,
@@ -343,7 +343,7 @@
     },
     {
       "id": "bunker",
-      "image": "../../game-ready/wrecks/bunker.png",
+      "image": "../../../game-ready/wrecks/bunker.png",
       "frame": {
         "width": 246,
         "height": 93,
@@ -377,7 +377,7 @@
     },
     {
       "id": "player-boat",
-      "image": "../../game-ready/wrecks/player-boat.png",
+      "image": "../../../game-ready/wrecks/player-boat.png",
       "frame": {
         "width": 355,
         "height": 152,
@@ -411,7 +411,7 @@
     },
     {
       "id": "potez-25-partisan",
-      "image": "../../game-ready/wrecks/potez-25-partisan.png",
+      "image": "../../../game-ready/wrecks/potez-25-partisan.png",
       "frame": {
         "width": 400,
         "height": 173,
@@ -448,7 +448,7 @@
     },
     {
       "id": "potez-25-ndh",
-      "image": "../../game-ready/wrecks/potez-25-ndh.png",
+      "image": "../../../game-ready/wrecks/potez-25-ndh.png",
       "frame": {
         "width": 400,
         "height": 173,

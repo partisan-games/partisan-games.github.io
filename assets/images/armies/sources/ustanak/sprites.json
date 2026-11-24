@@ -5,7 +5,7 @@
     {
       "id": "partizanska-posada",
       "title": "partizanska-posada",
-      "image": "../../game-ready/artiljerija/partizanska-posada-sprites.png",
+      "image": "../../../game-ready/artiljerija/partizanska-posada-sprites.png",
       "sha256": "be9df92b36d3016d1d07b5e8701093a917002b764e98390f6d78c4abc332b5ce",
       "frame": {
         "width": 315.75,
@@ -150,7 +150,7 @@
     {
       "id": "italijanska-posada",
       "title": "italijanska-posada",
-      "image": "../../game-ready/artiljerija/italijanska-posada-sprites.png",
+      "image": "../../../game-ready/artiljerija/italijanska-posada-sprites.png",
       "sha256": "c2808bb1d7dcf58ddd9c4ddfffa0becdd266785e0095734a2a5294759a8329ad",
       "frame": {
         "width": 313.5,
@@ -295,7 +295,7 @@
     {
       "id": "partizanski-strelac",
       "title": "partizanski-strelac",
-      "image": "../../game-ready/vojnici/partizanski-strelac-sprites.png",
+      "image": "../../../game-ready/vojnici/partizanski-strelac-sprites.png",
       "sha256": "8225f9aa369758271959621d1a2ad90d9b85064270f13f4a750089d4daf13ce6",
       "frame": {
         "width": 443.5,
@@ -384,7 +384,7 @@
     {
       "id": "partizanski-zastavnik",
       "title": "partizanski-zastavnik",
-      "image": "../../game-ready/vojnici/partizanski-zastavnik-sprites.png",
+      "image": "../../../game-ready/vojnici/partizanski-zastavnik-sprites.png",
       "sha256": "f7d055fca103393a022c4e54aed966823df099aef47c4e97fb98c6058313e59c",
       "frame": {
         "width": 543.0,
@@ -445,7 +445,7 @@
     {
       "id": "zastavnici",
       "title": "zastavnici",
-      "image": "../../game-ready/vojnici/zastavnici-sprites.png",
+      "image": "../../../game-ready/vojnici/zastavnici-sprites.png",
       "sha256": "d40d9dad58c2c83c14af90df778bf104b16d5aa5b033de7c3700211789088ec8",
       "frame": {
         "width": 443.5,

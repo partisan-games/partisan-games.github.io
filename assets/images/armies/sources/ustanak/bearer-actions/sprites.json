@@ -2,7 +2,7 @@
   "assets": [
     {
       "id": "partisan",
-      "image": "../../../game-ready/vojnici/partisan-bearer-actions.png",
+      "image": "../../../../game-ready/vojnici/partisan-bearer-actions.png",
       "sha256": "ac02b2038ac512cfdcf4b01969ce49ed5f79a30f6f169a4f1f06ee56b0a8a972",
       "frame": {
         "width": 128,
@@ -48,7 +48,7 @@
     },
     {
       "id": "italian",
-      "image": "../../../game-ready/vojnici/italian-bearer-actions.png",
+      "image": "../../../../game-ready/vojnici/italian-bearer-actions.png",
       "sha256": "eb3fa03aa1debb1f6d3a5e9e724ce6e5a4ea6d0c78f1992ff2a578fa54c21713",
       "frame": {
         "width": 128,

@@ -16,7 +16,7 @@ const loop = art.fire.duration
  */
 export default class OccupierSprite extends BodySprite {
   constructor(body, { projection, camera }) {
-    super(body, 'armies/game-ready/vojnici/occupier-sprites.png', { projection, camera })
+    super(body, 'game-ready/vojnici/occupier-sprites.png', { projection, camera })
     this.flash = new Image()
     this.flash.src = `${assets.images}pucanje.png`
     this.burstSound = new Sound('rafal.mp3', { profile: 'rifle', spatial: { getPosition: () => this.position } })

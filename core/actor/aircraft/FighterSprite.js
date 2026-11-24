@@ -22,8 +22,8 @@ const burstLift = 64
  */
 export default class FighterSprite extends BodySprite {
   constructor(body, { projection, camera }) {
-    super(body, 'armies/game-ready/avioni/bf109-telo.png', { projection, camera, facing: -1, flammable: true })
-    this.propeller = new WorldPart('armies/game-ready/avioni/bf109-propeler.png', { camera })
+    super(body, 'game-ready/avioni/bf109-telo.png', { projection, camera, facing: -1, flammable: true })
+    this.propeller = new WorldPart('game-ready/avioni/bf109-propeler.png', { camera })
     this.burst = new Explosion(camera)
     this.children.push(this.propeller, this.burst)
     this.gunSound = new Sound('aircraft-gun.mp3', { profile: 'rifle', spatial: { getPosition: () => this.position } })

@@ -1,11 +1,11 @@
 {
   "files": {
-    "assets/images/armies/game-ready/vojnici/otpisani-rifleman-sprites.png": "0ab05ccb02058bd6b30507aa8d2ee8169632d2a5d9a6c877485b31b763cddc62",
+    "assets/images/game-ready/vojnici/otpisani-rifleman-sprites.png": "0ab05ccb02058bd6b30507aa8d2ee8169632d2a5d9a6c877485b31b763cddc62",
     "assets/images/armies/sources/enemy-front-variants/winter-sentry-redraw-idle.png": "ecd555582dab73a7df37eb0d2c4ab019e71c4a83a3e05629c288e36d55e829b9"
   },
   "runtime": {
     "otpisani-rifleman": {
-      "src": "armies/game-ready/vojnici/otpisani-rifleman-sprites.png",
+      "src": "game-ready/vojnici/otpisani-rifleman-sprites.png",
       "width": 512,
       "height": 512,
       "anchor": {

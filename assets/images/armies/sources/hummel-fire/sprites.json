@@ -5,7 +5,7 @@
     {
       "id": "hummel-fire",
       "title": "Hummel: cannon discharge and recoil",
-      "image": "../../game-ready/tenkovi/hummel-fire-sprites.png",
+      "image": "../../../game-ready/tenkovi/hummel-fire-sprites.png",
       "frame": {
         "width": 384,
         "height": 176,
@@ -26,7 +26,7 @@
       "referenceSha256": "48b4bcd54eea1a900ed45f378cb391472ef3cec047ae6ae6e08831505c64bf75",
       "source": "../franjo-kluz/hummel-redraw-generated.png",
       "sourceSha256": "bf59ae1a8ea71d553e842b3d23b7adebc90e2d5aedb6f7a94321fd6db17f62da",
-      "effectSource": "../../game-ready/efekti/plamen-pucnja-sprites.png",
+      "effectSource": "../../../game-ready/efekti/plamen-pucnja-sprites.png",
       "effectSourceSha256": "b68127b1a7186000190f24aabdbd13937e67259dc67b9eb201594a51e26e52c8",
       "sha256": "bff4c4161667e36d2f1ccbc45fceae0920f0aadfdb8114a793b4822d09c8a324",
       "inputs": [
@@ -35,11 +35,11 @@
           "sha256": "bf59ae1a8ea71d553e842b3d23b7adebc90e2d5aedb6f7a94321fd6db17f62da"
         },
         {
-          "path": "../../game-ready/tenkovi/hummel-sprites.png",
+          "path": "../../../game-ready/tenkovi/hummel-sprites.png",
           "sha256": "18b5eb26dba8f24eb815cdda4ef0fe5628e2f3c0248d9433678259885b3866ff"
         },
         {
-          "path": "../../game-ready/efekti/plamen-pucnja-sprites.png",
+          "path": "../../../game-ready/efekti/plamen-pucnja-sprites.png",
           "sha256": "b68127b1a7186000190f24aabdbd13937e67259dc67b9eb201594a51e26e52c8"
         },
         {

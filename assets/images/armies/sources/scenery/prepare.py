@@ -7,7 +7,7 @@ from PIL import Image, ImageDraw
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[4]
-OUTPUT = HERE.parents[1] / 'game-ready/scenery'
+OUTPUT = HERE.parents[2] / 'game-ready/scenery'
 
 
 def digest(path):

@@ -351,7 +351,7 @@
       "source": "somua-barrel-redraw-generated.png",
       "reference": "somua-barrel-redraw-reference.png",
       "supportingReferences": [
-        "../../game-ready/tenkovi/somua-s35-sprites.png"
+        "../../../game-ready/tenkovi/somua-s35-sprites.png"
       ],
       "prompt": "Redraw ONLY the separate LEFT-pointing Somua S35 tank gun barrel from reference1 so its style matches the accepted tank in reference2. Reference1 fixes the exact straight horizontal silhouette: narrow long cylindrical tube, short thicker ring/collar at muzzle LEFT, wider short mounting sleeve at RIGHT, overall painted visible shape about 6.2 times longer than tall. Preserve these proportions and orientation. Reference2 is ONLY the STYLE guide: simple clean dark outlines, restrained flat olive green color clusters, 3-4 stepped light/shadow shades, clearly drawn hand-painted pixel-game equipment. Remove all photographic mottling, highlights, metal grain, scratches, glossy realism and noise from the old barrel. Do not redraw or include any tank hull/turret/tracks from reference2. ONE complete isolated horizontal barrel, not a sheet. Transparent RGBA with generous empty margins, a readable dark muzzle opening at the extreme LEFT rim, slightly lighter upper edge and dark lower edge, smooth coherent pixel contours, no extra weapon details. No muzzle brake, flash, shell, smoke, fire, text, symbols, captions, shadow, scenery or background. It must look like a clean drawn component of that exact olive tank."
     },

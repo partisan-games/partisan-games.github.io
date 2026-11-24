@@ -11,7 +11,7 @@ source = Image.open(SOURCE).convert('RGBA')
 source.putalpha(source.getchannel('A').point(lambda value: 255 if value >= 128 else 0))
 scale = 376 / 1629
 offset = (round(14 - 270 * scale), round(65 - 230 * scale))
-outputs = [ROOT / 'assets/images/armies/game-ready/avioni/bf109-telo.png',
+outputs = [ROOT / 'assets/images/game-ready/avioni/bf109-telo.png',
            HERE / 'bf109-damaged-generated.png']
 cells = []
 for row, output in enumerate(outputs):

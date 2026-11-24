@@ -9,7 +9,7 @@ from PIL import Image, ImageDraw
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[4]
-TARGET = ROOT / 'assets/images/armies/game-ready/wrecks/field-gun.png'
+TARGET = ROOT / 'assets/images/game-ready/wrecks/field-gun.png'
 SOURCE = HERE / 'wreck-generated.png'
 SIZE = (500, 260)
 CROP = (18, 122, 1518, 902)
@@ -79,7 +79,7 @@ def metadata(wreck):
     return {'schemaVersion': 1, 'generatedWith': 'Built-in image_gen; fixed crop, alpha threshold, nearest-neighbour packing',
             'assets': [{
                 'id': 'field-gun-wreck', 'title': 'Shared field gun: destroyed',
-                'image': '../../game-ready/wrecks/field-gun.png',
+                'image': '../../../game-ready/wrecks/field-gun.png',
                 'frame': {'width': 500, 'height': 260, 'columns': 1, 'rows': 1},
                 'anchor': {'x': ANCHOR[0], 'y': ANCHOR[1]},
                 'groundAnchor': {'x': ANCHOR[0], 'y': GROUND_Y}, 'baseline': GROUND_Y,

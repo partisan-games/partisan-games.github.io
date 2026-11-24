@@ -5,7 +5,7 @@
     {
       "id": "bombas",
       "title": "Bombas",
-      "image": "../../game-ready/vojnici/bombas-sprites.png",
+      "image": "../../../game-ready/vojnici/bombas-sprites.png",
       "frame": {
         "width": 66,
         "height": 72,

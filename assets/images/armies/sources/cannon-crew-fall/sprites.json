@@ -5,7 +5,7 @@
     {
       "id": "partisan-cannon-crew-death",
       "title": "partizanska-posada: kneeling fall",
-      "image": "../../game-ready/artiljerija/partizanska-posada-death-sprites.png",
+      "image": "../../../game-ready/artiljerija/partizanska-posada-death-sprites.png",
       "frame": {
         "width": 160,
         "height": 128,
@@ -192,7 +192,7 @@
     {
       "id": "italian-cannon-crew-death",
       "title": "italijanska-posada: kneeling fall",
-      "image": "../../game-ready/artiljerija/italijanska-posada-death-sprites.png",
+      "image": "../../../game-ready/artiljerija/italijanska-posada-death-sprites.png",
       "frame": {
         "width": 160,
         "height": 128,
@@ -383,7 +383,7 @@
     "pathBase": "assets/images",
     "parts": {
       "barrel": {
-        "src": "armies/game-ready/artiljerija/field-gun-barrel-pixel.png",
+        "src": "game-ready/artiljerija/field-gun-barrel-pixel.png",
         "width": 274,
         "height": 52,
         "pivot": {
@@ -416,7 +416,7 @@
         ]
       },
       "carriage": {
-        "src": "armies/game-ready/artiljerija/field-gun-carriage-pixel.png",
+        "src": "game-ready/artiljerija/field-gun-carriage-pixel.png",
         "width": 400,
         "height": 99,
         "anchor": {

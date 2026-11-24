@@ -8,8 +8,8 @@ from PIL import Image, ImageChops, ImageDraw
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[4]
-TARGET = ROOT / 'assets/images/armies/game-ready/vojnici/bombas-throw-right-sprites.png'
-ACCEPTED = ROOT / 'assets/images/armies/game-ready/vojnici/bombas-sprites.png'
+TARGET = ROOT / 'assets/images/game-ready/vojnici/bombas-throw-right-sprites.png'
+ACCEPTED = ROOT / 'assets/images/game-ready/vojnici/bombas-sprites.png'
 SOURCE = HERE / 'throw-right-generated.png'
 FRAME_MS = [100, 100, 100, 100, 80, 100, 100, 120]
 SIZE = (66, 72)
@@ -97,12 +97,12 @@ def metadata(sheet, frames):
     generation = json.loads((HERE / 'right-generation.json').read_text(encoding='utf-8'))
     return {
         'id': 'bombas-throw-right', 'title': 'Bombas: screen-right overarm throw without turning',
-        'image': '../../game-ready/vojnici/bombas-throw-right-sprites.png',
+        'image': '../../../game-ready/vojnici/bombas-throw-right-sprites.png',
         'frame': {'width': 66, 'height': 72, 'columns': 8, 'rows': 1},
         'anchor': {'x': 33, 'y': 36}, 'groundAnchor': {'x': 33, 'y': 70},
         'source': SOURCE.name, 'sourceSha256': sha(SOURCE),
         'reference': 'right-idle-reference.png', 'referenceSha256': sha(HERE / 'right-idle-reference.png'),
-        'referenceAtlas': '../../game-ready/vojnici/bombas-sprites.png', 'referenceAtlasSha256': sha(ACCEPTED),
+        'referenceAtlas': '../../../game-ready/vojnici/bombas-sprites.png', 'referenceAtlasSha256': sha(ACCEPTED),
         'generationReference': 'right-layout-reference.png', 'generationReferenceSha256': sha(HERE / 'right-layout-reference.png'),
         'sha256': hashlib.sha256(png_bytes(sheet)).hexdigest(),
         'generation': 'right-generation.json', 'generationSha256': sha(HERE / 'right-generation.json'),

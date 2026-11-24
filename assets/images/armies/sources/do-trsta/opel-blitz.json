@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "metadata": "../franjo-kluz/sprites.json",
   "assetId": "opel-blitz",
-  "previousImage": "../../game-ready/kamioni/opel-blitz.svg",
+  "previousImage": "../../../game-ready/kamioni/opel-blitz.svg",
   "collision": {"width": 137, "height": 60, "origin": "center"},
   "render": {
     "sourceContentBounds": [15, 7, 306, 149],

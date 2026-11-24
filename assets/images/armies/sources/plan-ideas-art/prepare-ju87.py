@@ -16,7 +16,7 @@ left, top = min(box[0] for box in boxes), min(box[1] for box in boxes)
 right, bottom = max(box[2] for box in boxes), max(box[3] for box in boxes)
 scale = min(388/(right-left), 140/(bottom-top))
 offset = (round(6-left*scale), round(4-top*scale))
-outputs = [ROOT/'assets/images/armies/game-ready/avioni/ju87.png', HERE/'ju87-damaged-generated.png']
+outputs = [ROOT/'assets/images/game-ready/avioni/ju87.png', HERE/'ju87-damaged-generated.png']
 appearances = []
 for cell, output in zip(cells, outputs):
     scaled = cell.resize((round(cell.width*scale), round(cell.height*scale)), Image.Resampling.NEAREST)

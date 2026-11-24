@@ -4,6 +4,14 @@
 
 Za svaki izgled dostupan je [pregled proverenih radnji](../pregled-animacija.html) sa direktnim ulazom u priču.
 
+## Art katalog
+
+Dodir ili klik naziva slike kopira putanju relativnu od korena projekta, npr. `assets/images/armies/ameri/diverzanti/diverzant-01.png`, i prikazuje potvrdu; dodir same slike otvara original. Ako kopiranje nije dostupno ili je odbijeno, prikazuje se neuspeh umesto lažne potvrde.
+
+Pripremljeni art za igre je u `assets/images/game-ready`, izvan izvornog foldera `armies`, pa se ne prikazuje u Art katalogu; katalog aktera i nivoi ga i dalje koriste.
+
+[Art katalog](../art/index.html), povezan sa naslovne, prati celu strukturu `assets/images/armies`: levo je pretraživo stablo foldera, desno galerija izabranog foldera. Svaki folder ima statičku stranicu sa podfolderima i slikama koje se nalaze neposredno u njemu; krajnji folder, npr. `ameri/diverzanti`, otvara svoju galeriju. Slike se ne kopiraju, čuvaju providnost i GIF animaciju, prikazuju izvorne dimenzije i otvaraju original klikom. Posle dodavanja ili uklanjanja slika/foldera pokrenuti `python -B scripts/build-art-catalog.py`; `--check` proverava ažurnost stranica i sve lokalne veze, bez pregledača.
+
 ## Stavke kataloga i varijante
 
 **Dogovor vlasnika, dopunjen 2026-11-24.** Lik u katalogu ima jednu stavku koja prati njegov identitet. Kod vozila stavku određuju tip i model.

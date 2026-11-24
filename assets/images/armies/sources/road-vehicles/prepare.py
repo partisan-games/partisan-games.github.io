@@ -7,7 +7,7 @@ from PIL import Image
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[4]
-OUT = ROOT / 'assets/images/armies/game-ready/vozila'
+OUT = ROOT / 'assets/images/game-ready/vozila'
 # Length includes the fixed gun. Unidentified 612 uses a declared Sd.Kfz.231 physical proxy.
 MODELS = {
     'zundapp-k600': ('Zündapp K600', 2.15, .8, 1, 20, 5.5, None, [0, 0]),
@@ -65,7 +65,7 @@ for key, (title, length, width, facing, health, speed, physical, tip) in MODELS.
                                muzzle=dict(ahead=(muzzle_x-(first_out[0]+first_out[2])/2)*length/(first_out[2]-first_out[0])*facing,
                                            above=((first_out[1]+first_out[3])/2-muzzle_y)/40)))
     records.append(dict(id=key,title=title,source=source.name,sourceSha256=sha(source),generation='generation.json',
-                        image='../../game-ready/vozila/'+target.name,sha256=sha(target),
+                        image='../../../game-ready/vozila/'+target.name,sha256=sha(target),
                         frame=dict(width=w,height=h,columns=4,rows=5),anchor=art[key]['anchor'],
                         animations=[dict(name=name,row=c['row'],frameCount=4,duration=sum(c['ms'])/1000,loop=c['loop']) for name,c in clips.items()],
                         pixelsPerMetre=40,scale=factor,cells=transforms,art=art[key]))

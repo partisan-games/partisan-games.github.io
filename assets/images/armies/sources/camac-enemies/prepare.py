@@ -11,7 +11,7 @@ from PIL import Image, ImageDraw
 
 HERE = Path(__file__).resolve().parent
 PROJECT = HERE.parents[4]
-OUT = PROJECT / 'assets/images/armies/game-ready/brodovi'
+OUT = PROJECT / 'assets/images/game-ready/brodovi'
 RECIPES = [
     ('german-launch', (0, 360), 178, 7.1, .99),
     ('german-skiff', (360, 570), 170, 6.75, .93),

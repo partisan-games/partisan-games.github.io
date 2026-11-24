@@ -9,8 +9,8 @@ from PIL import Image, ImageDraw
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[4]
-ACCEPTED = ROOT / 'assets/images/armies/game-ready/vojnici/nemacki-strelac-sprites.png'
-TARGET = ROOT / 'assets/images/armies/game-ready/vojnici/nemacki-strelac-reload-sprites.png'
+ACCEPTED = ROOT / 'assets/images/game-ready/vojnici/nemacki-strelac-sprites.png'
+TARGET = ROOT / 'assets/images/game-ready/vojnici/nemacki-strelac-reload-sprites.png'
 DURATIONS = [160, 160, 180, 220, 220, 220, 220, 220]
 EVENTS = [('magazineRemoved', 3), ('magazineSeated', 5), ('boltPulled', 6), ('boltClosed', 7)]
 
@@ -56,7 +56,7 @@ def record(sheet, frames):
         'schemaVersion': 1, 'generatedWith': 'Built-in image_gen; mechanical Pillow packing',
         'assets': [{
             'id': 'rifleman-reload', 'title': 'German rifleman: detachable-magazine reload',
-            'image': '../../game-ready/vojnici/nemacki-strelac-reload-sprites.png',
+            'image': '../../../game-ready/vojnici/nemacki-strelac-reload-sprites.png',
             'frame': {'width': 128, 'height': 128, 'columns': 8, 'rows': 1},
             'anchor': {'x': 64, 'y': 120}, 'groundAnchor': {'x': 64, 'y': 120},
             'facing': 'right', 'previewScale': 0.625,

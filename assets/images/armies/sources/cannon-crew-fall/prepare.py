@@ -9,7 +9,7 @@ from PIL import Image, ImageDraw
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[4]
-GAME = ROOT / 'assets/images/armies/game-ready/artiljerija'
+GAME = ROOT / 'assets/images/game-ready/artiljerija'
 GUN = HERE.parent / 'field-gun/layout.json'
 FRAME = (160, 128)
 RENDER = (75, 60)
@@ -81,7 +81,7 @@ def record(prepared):
         assets.append({
             'id': profile['id'] + '-cannon-crew-death',
             'title': profile['original'] + ': kneeling fall',
-            'image': '../../game-ready/artiljerija/' + target(profile).name,
+            'image': '../../../game-ready/artiljerija/' + target(profile).name,
             'frame': {'width': FRAME[0], 'height': FRAME[1], 'columns': 6, 'rows': 1},
             'anchor': ANCHOR, 'groundAnchor': {'x': 80, 'y': reference(profile).getbbox()[3]},
             'facing': 'right', 'render': {'width': RENDER[0], 'height': RENDER[1]},

@@ -7,7 +7,7 @@ from PIL import Image
 
 HERE = Path(__file__).resolve().parent
 ARMY = HERE.parents[2]
-READY = ARMY / 'game-ready/vojnici'
+READY = ARMY.parent / 'game-ready/vojnici'
 WIDTH, HEIGHT, BASE = 128, 88, 80
 
 
@@ -70,7 +70,7 @@ def main():
         files = [source_file, HERE/f'{k}-reference.png', READY/idle_file]
         if k == 'partisan':
             files.append(HERE/'partisan-grounded.png')
-        assets.append({'id': k,'image': '../../../game-ready/vojnici/'+target.name,'sha256':digest(target),
+        assets.append({'id': k,'image': '../../../../game-ready/vojnici/'+target.name,'sha256':digest(target),
             'frame': {'width':WIDTH,'height':HEIGHT,'columns':4,'rows':2},
             'anchor':{'x':WIDTH//2,'y':BASE},'sources':{p.name:digest(p) for p in files},
             'animations':[{'name':'walk','row':0,'frameDurationsMs':[160]*4,'loop':True},

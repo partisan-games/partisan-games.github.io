@@ -46,9 +46,9 @@ for item in manifest['assets']:
         desc['referenceSize'] = list(ref.size)
         desc['referenceBounds'] = list(ref.getbbox())
         source = jobs[item['id']]['reference']
-        source = source if source.startswith('buildings/') else 'armies/'+source
+        source = source if source.startswith(('buildings/', 'game-ready/')) else 'armies/'+source
         if item['id']=='hummel-damaged':
-            source='armies/game-ready/tenkovi/hummel-sprites.png'
+            source='game-ready/tenkovi/hummel-sprites.png'
             desc['offset']=[11,10]
         if 'renderOffset' in item:
             desc['offset']=item['renderOffset']

@@ -37,7 +37,7 @@
   "assets": [
     {
       "id": "nemci-spreda-celo",
-      "image": "../../../game-ready/vojnici/nemci-spreda-celo.png",
+      "image": "../../../../game-ready/vojnici/nemci-spreda-celo.png",
       "frame": {
         "width": 208,
         "height": 188,
@@ -99,7 +99,7 @@
     },
     {
       "id": "cetnici-spreda-celo",
-      "image": "../../../game-ready/vojnici/cetnici-spreda-celo.png",
+      "image": "../../../../game-ready/vojnici/cetnici-spreda-celo.png",
       "frame": {
         "width": 208,
         "height": 188,

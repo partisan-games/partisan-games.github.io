@@ -5,7 +5,7 @@
     {
       "id": "bombas-throw",
       "title": "Bombas: overarm hand-grenade throw",
-      "image": "../../game-ready/vojnici/bombas-throw-sprites.png",
+      "image": "../../../game-ready/vojnici/bombas-throw-sprites.png",
       "frame": {
         "width": 66,
         "height": 72,
@@ -159,7 +159,7 @@
     {
       "id": "bombas-throw-right",
       "title": "Bombas: screen-right overarm throw without turning",
-      "image": "../../game-ready/vojnici/bombas-throw-right-sprites.png",
+      "image": "../../../game-ready/vojnici/bombas-throw-right-sprites.png",
       "frame": {
         "width": 66,
         "height": 72,
@@ -178,7 +178,7 @@
       "sourceSha256": "6a400ef91ec3e75bdea7faf832553285fac248271b6ab6e01c02e09ed665e494",
       "reference": "right-idle-reference.png",
       "referenceSha256": "813704b0161d2b66e57de2750489f5675e5c4852dd57731e43fa1d14ff95be4d",
-      "referenceAtlas": "../../game-ready/vojnici/bombas-sprites.png",
+      "referenceAtlas": "../../../game-ready/vojnici/bombas-sprites.png",
       "referenceAtlasSha256": "13c2d761ddb407a4cd995ec6b6e48399ada817c706323038e1ddeaaa836c5929",
       "generationReference": "right-layout-reference.png",
       "generationReferenceSha256": "0868ebaffa1458fac264465fd4353ab94d28922ce5a2cfbb225ee3d55c09de5c",

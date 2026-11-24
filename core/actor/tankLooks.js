@@ -2,7 +2,7 @@ import { tankKinds } from '/core/gameplay/bodies/vehicles/Tank.js'
 import profiles from './battlefieldTankProfiles.js'
 import vehicleArt from './vehicleArt.js'
 
-const folder = 'armies/game-ready/tenkovi/'
+const folder = 'game-ready/tenkovi/'
 
 export const germanTank = {
   id: 'tiger-i', name: 'Tigar I', kind: tankKinds.german, art: vehicleArt.germanTank, facing: -1,

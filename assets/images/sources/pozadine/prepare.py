@@ -12,7 +12,7 @@ from PIL import Image, ImageOps
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[3]
-ART = ROOT / 'assets/images/armies/game-ready'
+ART = ROOT / 'assets/images/game-ready'
 NEAREST = Image.Resampling.NEAREST
 VIEWPORTS = [(1280, 720), (1024, 768)]
 

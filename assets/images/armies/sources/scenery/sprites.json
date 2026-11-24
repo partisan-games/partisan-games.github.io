@@ -3,7 +3,7 @@
   "assets": [
     {
       "id": "partisan-fallen-prone",
-      "image": "../../game-ready/scenery/partisan-fallen-prone.png",
+      "image": "../../../game-ready/scenery/partisan-fallen-prone.png",
       "frame": {
         "width": 128,
         "height": 64,
@@ -35,7 +35,7 @@
     },
     {
       "id": "partisan-fallen-supine",
-      "image": "../../game-ready/scenery/partisan-fallen-supine.png",
+      "image": "../../../game-ready/scenery/partisan-fallen-supine.png",
       "frame": {
         "width": 128,
         "height": 64,
@@ -67,7 +67,7 @@
     },
     {
       "id": "partisan-fallen-side",
-      "image": "../../game-ready/scenery/partisan-fallen-side.png",
+      "image": "../../../game-ready/scenery/partisan-fallen-side.png",
       "frame": {
         "width": 128,
         "height": 64,
@@ -99,7 +99,7 @@
     },
     {
       "id": "german-fallen-prone",
-      "image": "../../game-ready/scenery/german-fallen-prone.png",
+      "image": "../../../game-ready/scenery/german-fallen-prone.png",
       "frame": {
         "width": 128,
         "height": 64,
@@ -131,7 +131,7 @@
     },
     {
       "id": "german-fallen-supine",
-      "image": "../../game-ready/scenery/german-fallen-supine.png",
+      "image": "../../../game-ready/scenery/german-fallen-supine.png",
       "frame": {
         "width": 128,
         "height": 64,
@@ -163,7 +163,7 @@
     },
     {
       "id": "german-fallen-side",
-      "image": "../../game-ready/scenery/german-fallen-side.png",
+      "image": "../../../game-ready/scenery/german-fallen-side.png",
       "frame": {
         "width": 128,
         "height": 64,
@@ -195,7 +195,7 @@
     },
     {
       "id": "italian-fallen-prone",
-      "image": "../../game-ready/scenery/italian-fallen-prone.png",
+      "image": "../../../game-ready/scenery/italian-fallen-prone.png",
       "frame": {
         "width": 128,
         "height": 64,
@@ -227,7 +227,7 @@
     },
     {
       "id": "italian-fallen-supine",
-      "image": "../../game-ready/scenery/italian-fallen-supine.png",
+      "image": "../../../game-ready/scenery/italian-fallen-supine.png",
       "frame": {
         "width": 128,
         "height": 64,
@@ -259,7 +259,7 @@
     },
     {
       "id": "italian-fallen-side",
-      "image": "../../game-ready/scenery/italian-fallen-side.png",
+      "image": "../../../game-ready/scenery/italian-fallen-side.png",
       "frame": {
         "width": 128,
         "height": 64,
@@ -291,7 +291,7 @@
     },
     {
       "id": "blood-patch",
-      "image": "../../game-ready/scenery/blood-patch.png",
+      "image": "../../../game-ready/scenery/blood-patch.png",
       "frame": {
         "width": 96,
         "height": 48,
@@ -323,7 +323,7 @@
     },
     {
       "id": "blood-smear",
-      "image": "../../game-ready/scenery/blood-smear.png",
+      "image": "../../../game-ready/scenery/blood-smear.png",
       "frame": {
         "width": 96,
         "height": 48,
@@ -355,7 +355,7 @@
     },
     {
       "id": "blood-pool",
-      "image": "../../game-ready/scenery/blood-pool.png",
+      "image": "../../../game-ready/scenery/blood-pool.png",
       "frame": {
         "width": 96,
         "height": 48,

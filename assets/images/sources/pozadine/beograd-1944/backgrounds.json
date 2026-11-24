@@ -129,7 +129,7 @@
     "note": "Existing Warsaw photograph used only as a style comparison."
   },
   "actors": {
-    "image": "../../../armies/game-ready/vojnici/occupier-sprites.png",
+    "image": "../../../../game-ready/vojnici/occupier-sprites.png",
     "sha256": "fc79c578cc5f4e89476017e041988960d259e0aa8c5f34f4f8ff6b01627ce471"
   },
   "placement": "Background.render stretches the whole image to the canvas; this review uses that same image placement."

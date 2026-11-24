@@ -4,7 +4,7 @@
   "pathBase": "assets/images",
   "parts": {
     "barrel": {
-      "src": "armies/game-ready/artiljerija/field-gun-barrel-pixel.png",
+      "src": "game-ready/artiljerija/field-gun-barrel-pixel.png",
       "width": 274,
       "height": 52,
       "pivot": {
@@ -37,7 +37,7 @@
       ]
     },
     "carriage": {
-      "src": "armies/game-ready/artiljerija/field-gun-carriage-pixel.png",
+      "src": "game-ready/artiljerija/field-gun-carriage-pixel.png",
       "width": 400,
       "height": 99,
       "anchor": {

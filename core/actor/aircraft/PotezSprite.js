@@ -11,8 +11,8 @@ import { runtimeImageSource } from '../imageSources.js'
 
 /** The plane in partisan markings, and in the NDH markings it flew in until it went over to the partisans. */
 export const markings = {
-  partisan: 'armies/game-ready/avioni/potez-25-partisan-bez-mitraljeza.png',
-  ndh: 'armies/game-ready/avioni/potez-25-ndh-bez-mitraljeza.png',
+  partisan: 'game-ready/avioni/potez-25-partisan-bez-mitraljeza.png',
+  ndh: 'game-ready/avioni/potez-25-ndh-bez-mitraljeza.png',
 }
 /**
  * The moving parts on the 400 × 173 airframe picture, in its pixels, from the art's `crew.json`: the crew strip of the
@@ -21,9 +21,9 @@ export const markings = {
  */
 const art = {
   airframe: { width: 400, height: 173 },
-  crew: { src: 'armies/game-ready/avioni/potez-25-posada-sprites.png', frames: 4 },
-  propeller: { src: 'armies/game-ready/avioni/potez-25-propeler-sprites.png', frames: 4, hub: { x: 390, y: 80 } },
-  gun: { src: 'armies/game-ready/avioni/potez-25-zadnji-mitraljez.png', width: 48, height: 20, mount: { x: 210, y: 52 },
+  crew: { src: 'game-ready/avioni/potez-25-posada-sprites.png', frames: 4 },
+  propeller: { src: 'game-ready/avioni/potez-25-propeler-sprites.png', frames: 4, hub: { x: 390, y: 80 } },
+  gun: { src: 'game-ready/avioni/potez-25-zadnji-mitraljez.png', width: 48, height: 20, mount: { x: 210, y: 52 },
     pivot: { x: 39, y: 12 } },
 }
 /** The living crew's breathing loop and the propeller's turn at full power, in seconds. */

@@ -9,7 +9,7 @@
       "name": "nemacki-strelac",
       "category": "vojnici",
       "source": "nemacki-strelac-generated.png",
-      "output": "../../game-ready/vojnici/nemacki-strelac-sprites.png",
+      "output": "../../../game-ready/vojnici/nemacki-strelac-sprites.png",
       "grid": {
         "columns": 4,
         "rows": 3
@@ -21,7 +21,7 @@
       "prompt": "Use case: historical-scene. Asset: production transparent PNG animation sprite sheet for an existing small 2D side-scrolling WW2 game. Image 1 is the exact German infantryman's identity/equipment reference; image 2 is the approved pixel-art animation style reference. Redraw the man from image 1, preserving his field cap (do not replace it with a helmet), gray-green uniform, dark boots, belt, compact long firearm silhouette, proportions and facing RIGHT. Match image 2's crisp pixel clusters, restrained olive/brown palette, dark readable outlines and small-game-scale readability. This sprite will appear about 56 pixels tall, so simplify detail purposefully rather than drawing a highly detailed illustration and shrinking it. Deliver exactly FOUR equally spaced columns and THREE equally spaced rows: twelve frames, no other objects or panels. Each cell is the same size and uses an identical ground baseline at 88% cell height and fixed foot anchor; every frame including the fallen body must fit entirely inside its own cell with transparent padding. Row 1, four frames: standing ready, a subtle breathing/weight-shift loop, feet stay planted. Row 2, four frames: raise/steady rifle, brief small warm muzzle flash with shoulder recoil, a tiny dissipating puff and recovery, return to ready. Row 3, four frames: non-graphic hit reaction, knees buckle/backward lean, controlled fall, fully fallen soldier resting on that same ground line. The death row progresses clearly; do not merely rotate the whole static sprite. Consistent identity, lighting, pixel density, camera and scale in all twelve frames. Strict side view, not isometric. True transparent alpha background throughout, including between frames: no black, white, checkerboard or scenery, no ground strip, no cast ground shadow, no gridlines, no captions or watermarks. Target sheet aspect 4:3 (1024x768), exact regular four-by-three grid. Preserve all source insignia only as tiny original details; add no new symbols.",
       "references": [
         "assets/images/armies/nemci/vojnici/vojnik-01.png",
-        "assets/images/armies/game-ready/vojnici/partizanski-strelac-sprites.png"
+        "assets/images/game-ready/vojnici/partizanski-strelac-sprites.png"
       ],
       "append": {
         "source": "nemacki-strelac-patrol-generated.png",
@@ -69,7 +69,7 @@
       "name": "nemacki-jurisnik",
       "category": "vojnici",
       "source": "nemacki-jurisnik-padded-generated.png",
-      "output": "../../game-ready/vojnici/nemacki-jurisnik-sprites.png",
+      "output": "../../../game-ready/vojnici/nemacki-jurisnik-sprites.png",
       "grid": {
         "columns": 4,
         "rows": 3
@@ -81,7 +81,7 @@
       "prompt": "Create a clean transparent pixel-art sprite atlas for a fictional 2D WW2 arcade game's adult infantry character. Image 1 is the exact character reference. Image 2 is the approved visual style. Keep image 1's field cap, gray-green clothing, equipment, dark boots, forward ready stance, firearm and RIGHT-facing side view; preserve one consistent man in every frame. The style must match image 2: crisp bold pixel clusters and dark outlines, simple readable shading rather than a detailed painting. The man will appear only about 56 pixels tall. Exact sheet layout: 4 equal columns x 3 equal rows, 12 complete equal-size square cells on a regular 4:3 canvas. Row 1 has 4 subtly animated ready/breathing poses, feet planted without traveling. Row 2 has 4 game action poses: steady aim, small mechanical shoulder/weapon recoil and tiny localized muzzle sparkle, return/recovery, original ready pose. Row 3 is a non-graphic balance-loss animation: startled lean, bent knees, naturally articulated gentle sideways fall, resting prone on the same ground baseline. No wounds, blood, impact effects, suffering or graphic imagery. Do not rotate the whole figure as a rigid cutout; change arms, knees and torso naturally. Use the same root placement, scale, camera and ground height in all cells. Completely contain the body and weapon within each cell, including the prone pose. Clear space between cells, true fully transparent alpha background and corners. No background smoke or clouds, no scenery, no ground strips or cast shadows, no grid lines, captions, labels or watermarks. Only a very small localized muzzle sparkle is allowed in the second row; all other non-character pixels must be transparent.",
       "references": [
         "assets/images/armies/nemci/vojnici/juris-01.png",
-        "assets/images/armies/game-ready/vojnici/partizanski-strelac-sprites.png"
+        "assets/images/game-ready/vojnici/partizanski-strelac-sprites.png"
       ],
       "edits": [
         {
@@ -136,7 +136,7 @@
       "name": "opel-blitz",
       "category": "kamioni",
       "source": "opel-blitz-generated.png",
-      "output": "../../game-ready/kamioni/opel-blitz-sprites.png",
+      "output": "../../../game-ready/kamioni/opel-blitz-sprites.png",
       "grid": {
         "columns": 4,
         "rows": 2
@@ -148,7 +148,7 @@
       "prompt": "Use case: historical-scene. Create a production transparent pixel-art vehicle sprite sheet for a small 2D side-scrolling WW2 game. Image 1 is the exact Opel Blitz truck reference: preserve the LEFT-facing strict side profile, cab, open slatted cargo body with four tall vertical posts, two large visible road wheels, proportions and small original red-white door marking. Image 2 is the approved crisp pixel-art style: readable dark outlines, controlled olive/gray/brown colors and simple shaded pixel clusters. Do not turn the truck into a caricature, toy, 3D isometric object or modern vehicle. Design for an on-screen truck width near 205 pixels, with only details visible at that scale. Deliver exactly FOUR columns and TWO rows, eight complete frames on a strict evenly spaced grid; identical wide rectangular cells, identical truck scale and wheel ground baseline in all frames. Target a wide 4:1 atlas: each cell is twice as wide as high. Row 1, four idle frames: wheels do not turn, subtle engine vibration and a small gray exhaust puff starting from the same exhaust outlet beneath the cab, expanding and fading. Row 2, four rolling frames: wheel spokes/hubs progress through a full smooth looping rotation, body has at most a one-pixel suspension movement, small controlled exhaust puffs progress and dissipate. Vehicle remains fixed at the same horizontal anchor; it does not drive across the sheet. All eight frames show the SAME complete truck, including both wheels, bumper, posts and rear body, with generous transparent padding for the smoke; never clip, overlap or morph vehicle parts. Strict side-on camera. TRUE transparent alpha background, no grass line, road, scenery, ground shadow, backdrop haze, huge smoke, panels, grids or text outside the vehicle. No newly added symbols or insignia. Small exhaust only, no fire or damage.",
       "references": [
         "assets/images/armies/ndh/kamioni/opel-blitz-01.png",
-        "assets/images/armies/game-ready/vojnici/partizanski-strelac-sprites.png"
+        "assets/images/game-ready/vojnici/partizanski-strelac-sprites.png"
       ]
     },
     {
@@ -156,7 +156,7 @@
       "name": "opel-blitz-legion",
       "category": "kamioni",
       "source": "opel-blitz-legion-generated.png",
-      "output": "../../game-ready/kamioni/opel-blitz-legion-sprites.png",
+      "output": "../../../game-ready/kamioni/opel-blitz-legion-sprites.png",
       "grid": {
         "columns": 4,
         "rows": 2
@@ -176,7 +176,7 @@
       "name": "hummel",
       "category": "tenkovi",
       "source": "hummel-redraw-generated.png",
-      "output": "../../game-ready/tenkovi/hummel-sprites.png",
+      "output": "../../../game-ready/tenkovi/hummel-sprites.png",
       "grid": {
         "columns": 4,
         "rows": 2
@@ -209,7 +209,7 @@
       "name": "bp42",
       "category": "vozovi",
       "source": "bp42-generated.png",
-      "output": "../../game-ready/vozovi/bp42-sprites.png",
+      "output": "../../../game-ready/vozovi/bp42-sprites.png",
       "grid": {
         "columns": 4,
         "rows": 2
@@ -232,7 +232,7 @@
       "name": "plamen-pucnja",
       "category": "efekti",
       "source": "plamen-pucnja-generated.png",
-      "output": "../../game-ready/efekti/plamen-pucnja-sprites.png",
+      "output": "../../../game-ready/efekti/plamen-pucnja-sprites.png",
       "grid": {
         "columns": 4,
         "rows": 1

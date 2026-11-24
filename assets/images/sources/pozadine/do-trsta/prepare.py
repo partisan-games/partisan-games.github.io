@@ -37,7 +37,7 @@ def main():
     manifest = json.loads((HERE / "backgrounds.json").read_text(encoding="utf-8"))
     ref = manifest["styleReference"]
     assert sha256((IMAGES / ref["src"]).read_bytes()).hexdigest() == ref["sha256"]
-    sources = IMAGES / "armies/game-ready/tenkovi"
+    sources = IMAGES / "game-ready/tenkovi"
     with Image.open(sources / "partizanski-tenk-layers.png") as atlas:
         tank = atlas.crop((0, 258, 300, 387)).convert("RGBA")
         tank.alpha_composite(atlas.crop((0, 0, 300, 129)).convert("RGBA"))

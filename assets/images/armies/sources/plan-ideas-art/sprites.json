@@ -7,7 +7,7 @@
       "title": "R-boot minolovac",
       "kind": "vessel",
       "integrated": true,
-      "image": "../../game-ready/brodovi/rboot-sprites.png",
+      "image": "../../../game-ready/brodovi/rboot-sprites.png",
       "sha256": "d755acfb4539f1e9a835dbd3e3d4f061920b0bc872e3a64558585ac0d2ec5f89",
       "frame": {
         "width": 1408,
@@ -124,7 +124,7 @@
       "designLengthMetres": 35,
       "historicalClassIdentificationConfirmed": false,
       "crew": {
-        "image": "assets/images/armies/game-ready/vojnici/deck-crew-sprites.png",
+        "image": "assets/images/game-ready/vojnici/deck-crew-sprites.png",
         "frame": [
           34,
           34
@@ -149,7 +149,7 @@
           ]
         ]
       },
-      "repositoryImage": "assets/images/armies/game-ready/brodovi/rboot-sprites.png",
+      "repositoryImage": "assets/images/game-ready/brodovi/rboot-sprites.png",
       "style": "reference-pixel-art"
     },
     {
@@ -157,7 +157,7 @@
       "title": "MFP naoružana desantna teglenica",
       "kind": "vessel",
       "integrated": true,
-      "image": "../../game-ready/brodovi/mfp-sprites.png",
+      "image": "../../../game-ready/brodovi/mfp-sprites.png",
       "sha256": "bd9db0c4a5e9eeaf3d50195c022496a61c0da7a878aa3879399e0dc3054d5f17",
       "frame": {
         "width": 1888,
@@ -274,7 +274,7 @@
       "designLengthMetres": 47,
       "historicalClassIdentificationConfirmed": false,
       "crew": {
-        "image": "assets/images/armies/game-ready/vojnici/deck-crew-sprites.png",
+        "image": "assets/images/game-ready/vojnici/deck-crew-sprites.png",
         "frame": [
           34,
           34
@@ -299,7 +299,7 @@
           ]
         ]
       },
-      "repositoryImage": "assets/images/armies/game-ready/brodovi/mfp-sprites.png",
+      "repositoryImage": "assets/images/game-ready/brodovi/mfp-sprites.png",
       "style": "reference-pixel-art"
     },
     {
@@ -307,7 +307,7 @@
       "title": "Naoružani ribarski brod",
       "kind": "vessel",
       "integrated": true,
-      "image": "../../game-ready/brodovi/vorpostenboot-sprites.png",
+      "image": "../../../game-ready/brodovi/vorpostenboot-sprites.png",
       "sha256": "48e83ca878806df3610f469259b32a792bd09066ed91474d50db985c0a9a0b16",
       "frame": {
         "width": 1128,
@@ -424,7 +424,7 @@
       "designLengthMetres": 28,
       "historicalClassIdentificationConfirmed": false,
       "crew": {
-        "image": "assets/images/armies/game-ready/vojnici/deck-crew-sprites.png",
+        "image": "assets/images/game-ready/vojnici/deck-crew-sprites.png",
         "frame": [
           34,
           34
@@ -449,7 +449,7 @@
           ]
         ]
       },
-      "repositoryImage": "assets/images/armies/game-ready/brodovi/vorpostenboot-sprites.png",
+      "repositoryImage": "assets/images/game-ready/brodovi/vorpostenboot-sprites.png",
       "style": "reference-pixel-art"
     },
     {
@@ -457,7 +457,7 @@
       "title": "Plutajuća morska mina",
       "kind": "mine",
       "integrated": true,
-      "image": "../../game-ready/brodovi/sea-mine-sprites.png",
+      "image": "../../../game-ready/brodovi/sea-mine-sprites.png",
       "sha256": "939677d667bae9ce208929c46aa5433e6e9c3a0f63f8f74e3049e3a62e396669",
       "frame": {
         "width": 38,
@@ -528,7 +528,7 @@
       "pixelsPerMetre": 25,
       "designLengthMetres": 1.2,
       "historicalClassIdentificationConfirmed": false,
-      "repositoryImage": "assets/images/armies/game-ready/brodovi/sea-mine-sprites.png",
+      "repositoryImage": "assets/images/game-ready/brodovi/sea-mine-sprites.png",
       "style": "reference-pixel-art"
     },
     {
@@ -536,7 +536,7 @@
       "title": "Heinkel He 111",
       "kind": "aircraft",
       "integrated": true,
-      "image": "../../game-ready/avioni/he111-sprites.png",
+      "image": "../../../game-ready/avioni/he111-sprites.png",
       "sha256": "8807c82281934e24e3df9de724d65dc52bce5ace2c35b8aa3bed54afff57ac9f",
       "frame": {
         "width": 706,
@@ -672,7 +672,7 @@
       "layers": [
         {
           "name": "propeller",
-          "image": "assets/images/armies/game-ready/avioni/propeller-side-sprites.png",
+          "image": "assets/images/game-ready/avioni/propeller-side-sprites.png",
           "frame": [
             12,
             48
@@ -693,7 +693,7 @@
           "reused": true
         }
       ],
-      "repositoryImage": "assets/images/armies/game-ready/avioni/he111-sprites.png",
+      "repositoryImage": "assets/images/game-ready/avioni/he111-sprites.png",
       "style": "reference-pixel-art"
     },
     {
@@ -701,7 +701,7 @@
       "title": "Fieseler Fi 156 Storch",
       "kind": "aircraft",
       "integrated": true,
-      "image": "../../game-ready/avioni/storch-sprites.png",
+      "image": "../../../game-ready/avioni/storch-sprites.png",
       "sha256": "09151a2cfa822c73b01640eeac2a9540267dbe3836c79edc0e43ed491aa4eca6",
       "frame": {
         "width": 305,
@@ -901,7 +901,7 @@
       "layers": [
         {
           "name": "propeller",
-          "image": "assets/images/armies/game-ready/avioni/propeller-side-sprites.png",
+          "image": "assets/images/game-ready/avioni/propeller-side-sprites.png",
           "frame": [
             12,
             48
@@ -922,7 +922,7 @@
           "reused": true
         }
       ],
-      "repositoryImage": "assets/images/armies/game-ready/avioni/storch-sprites.png",
+      "repositoryImage": "assets/images/game-ready/avioni/storch-sprites.png",
       "style": "reference-pixel-art"
     },
     {
@@ -930,7 +930,7 @@
       "title": "Motociklista sa mitraljezom",
       "kind": "vehicle",
       "integrated": true,
-      "image": "../../game-ready/vozila/motorcycle-sprites.png",
+      "image": "../../../game-ready/vozila/motorcycle-sprites.png",
       "sha256": "60a1cb4a3b1053e0844bc9867adade715146cdc88312c1e9308abd42a6f0e5f7",
       "frame": {
         "width": 156,
@@ -1182,7 +1182,7 @@
       "layers": [
         {
           "name": "turret",
-          "image": "assets/images/armies/game-ready/vozila/motorcycle-sprites.png",
+          "image": "assets/images/game-ready/vozila/motorcycle-sprites.png",
           "row": 5,
           "frames": 4,
           "seconds": 0.4,
@@ -1218,7 +1218,7 @@
           55
         ]
       },
-      "repositoryImage": "assets/images/armies/game-ready/vozila/motorcycle-sprites.png",
+      "repositoryImage": "assets/images/game-ready/vozila/motorcycle-sprites.png",
       "style": "reference-pixel-art"
     },
     {
@@ -1226,7 +1226,7 @@
       "title": "Sd.Kfz. 251",
       "kind": "vehicle",
       "integrated": true,
-      "image": "../../game-ready/vozila/sdkfz251-sprites.png",
+      "image": "../../../game-ready/vozila/sdkfz251-sprites.png",
       "sha256": "87f9a2b34a058efac555fef88a763eb7dac4c9e4cb44af91860273b1528048b3",
       "frame": {
         "width": 246,
@@ -1479,7 +1479,7 @@
         95,
         31
       ],
-      "repositoryImage": "assets/images/armies/game-ready/vozila/sdkfz251-sprites.png",
+      "repositoryImage": "assets/images/game-ready/vozila/sdkfz251-sprites.png",
       "style": "reference-pixel-art"
     },
     {
@@ -1487,7 +1487,7 @@
       "title": "Sd.Kfz. 222",
       "kind": "vehicle",
       "integrated": true,
-      "image": "../../game-ready/vozila/sdkfz222-sprites.png",
+      "image": "../../../game-ready/vozila/sdkfz222-sprites.png",
       "sha256": "e2159b18d81b1abe1389d634f0de0643ad7e7417b3c2062acfdd85446f59ea8a",
       "frame": {
         "width": 204,
@@ -1739,7 +1739,7 @@
       "layers": [
         {
           "name": "turret",
-          "image": "assets/images/armies/game-ready/vozila/sdkfz222-sprites.png",
+          "image": "assets/images/game-ready/vozila/sdkfz222-sprites.png",
           "row": 5,
           "frames": 4,
           "seconds": 0.4,
@@ -1775,7 +1775,7 @@
           44
         ]
       },
-      "repositoryImage": "assets/images/armies/game-ready/vozila/sdkfz222-sprites.png",
+      "repositoryImage": "assets/images/game-ready/vozila/sdkfz222-sprites.png",
       "renderBounds": [
         6,
         -30,
@@ -1789,7 +1789,7 @@
       "title": "Partizanski strelac u trku",
       "kind": "infantry",
       "integrated": true,
-      "image": "../../game-ready/vojnici/partisan-runner-sprites.png",
+      "image": "../../../game-ready/vojnici/partisan-runner-sprites.png",
       "sha256": "5f992ff14ef36284b670785f0d812083915221685be5b09541bf9af7dc48d7a4",
       "frame": {
         "width": 160,
@@ -2050,7 +2050,7 @@
         ],
         "eventTime": 0
       },
-      "repositoryImage": "assets/images/armies/game-ready/vojnici/partisan-runner-sprites.png",
+      "repositoryImage": "assets/images/game-ready/vojnici/partisan-runner-sprites.png",
       "style": "reference-pixel-art"
     },
     {
@@ -2058,7 +2058,7 @@
       "title": "Partizanski puškomitraljezac",
       "kind": "infantry",
       "integrated": true,
-      "image": "../../game-ready/vojnici/partisan-lmg-sprites.png",
+      "image": "../../../game-ready/vojnici/partisan-lmg-sprites.png",
       "sha256": "b53a2e27ded0286780e5936b0247e23e2fa29ce43a3836608036372bd648372d",
       "frame": {
         "width": 160,
@@ -2308,7 +2308,7 @@
         ],
         "eventTime": 0
       },
-      "repositoryImage": "assets/images/armies/game-ready/vojnici/partisan-lmg-sprites.png",
+      "repositoryImage": "assets/images/game-ready/vojnici/partisan-lmg-sprites.png",
       "style": "reference-pixel-art"
     },
     {
@@ -2316,7 +2316,7 @@
       "title": "Partizanski saborac otpozadi",
       "kind": "infantry",
       "integrated": true,
-      "image": "../../game-ready/vojnici/partisan-rear-sprites.png",
+      "image": "../../../game-ready/vojnici/partisan-rear-sprites.png",
       "sha256": "65d25fc24d451bbfb857613404b103a3db46685a4b5f5416d2fb722bd5e33457",
       "frame": {
         "width": 160,
@@ -2566,7 +2566,7 @@
         ],
         "eventTime": 0
       },
-      "repositoryImage": "assets/images/armies/game-ready/vojnici/partisan-rear-sprites.png",
+      "repositoryImage": "assets/images/game-ready/vojnici/partisan-rear-sprites.png",
       "style": "reference-pixel-art"
     },
     {
@@ -2574,7 +2574,7 @@
       "title": "Partizanska aerodromska posada",
       "kind": "infantry",
       "integrated": true,
-      "image": "../../game-ready/vojnici/partisan-loader-sprites.png",
+      "image": "../../../game-ready/vojnici/partisan-loader-sprites.png",
       "sha256": "e11ca9dc4045a02b2e7827ff59727cf6b89aed474d3159cf6c7b0a4af8780652",
       "frame": {
         "width": 160,
@@ -2819,7 +2819,7 @@
       "view": "side",
       "facing": 1,
       "generation": "generation.json",
-      "repositoryImage": "assets/images/armies/game-ready/vojnici/partisan-loader-sprites.png",
+      "repositoryImage": "assets/images/game-ready/vojnici/partisan-loader-sprites.png",
       "style": "reference-pixel-art"
     },
     {
@@ -2827,7 +2827,7 @@
       "title": "Nemački strelac — pogodak",
       "kind": "hit",
       "integrated": true,
-      "image": "../../game-ready/vojnici/rifleman-hit-sprites.png",
+      "image": "../../../game-ready/vojnici/rifleman-hit-sprites.png",
       "sha256": "a55da4a38d7d97b43f462e592088a7be335e39c752da9c333764d858cc0a689f",
       "frame": {
         "width": 136,
@@ -2895,7 +2895,7 @@
       "view": "side",
       "facing": 1,
       "generation": "generation.json",
-      "repositoryImage": "assets/images/armies/game-ready/vojnici/rifleman-hit-sprites.png",
+      "repositoryImage": "assets/images/game-ready/vojnici/rifleman-hit-sprites.png",
       "style": "reference-pixel-art"
     },
     {
@@ -2903,7 +2903,7 @@
       "title": "Nemački jurišnik — pogodak",
       "kind": "hit",
       "integrated": true,
-      "image": "../../game-ready/vojnici/assault-hit-sprites.png",
+      "image": "../../../game-ready/vojnici/assault-hit-sprites.png",
       "sha256": "f3cd3b57885d7f40f3a5744bcc6bcf6021ad2d31e072651969396b246e13bfba",
       "frame": {
         "width": 136,
@@ -2971,7 +2971,7 @@
       "view": "side",
       "facing": 1,
       "generation": "generation.json",
-      "repositoryImage": "assets/images/armies/game-ready/vojnici/assault-hit-sprites.png",
+      "repositoryImage": "assets/images/game-ready/vojnici/assault-hit-sprites.png",
       "style": "reference-pixel-art"
     },
     {
@@ -2979,7 +2979,7 @@
       "title": "Partizanski strelac — pogodak",
       "kind": "hit",
       "integrated": true,
-      "image": "../../game-ready/vojnici/skirmisher-hit-sprites.png",
+      "image": "../../../game-ready/vojnici/skirmisher-hit-sprites.png",
       "sha256": "02265b2e0f58d02cb96a8495214501dc56d11ba00bc9e77108c490ee4dce2b7a",
       "frame": {
         "width": 452,
@@ -3047,7 +3047,7 @@
       "view": "side",
       "facing": 1,
       "generation": "generation.json",
-      "repositoryImage": "assets/images/armies/game-ready/vojnici/skirmisher-hit-sprites.png",
+      "repositoryImage": "assets/images/game-ready/vojnici/skirmisher-hit-sprites.png",
       "style": "reference-pixel-art"
     },
     {
@@ -3055,7 +3055,7 @@
       "title": "Partizanski zastavnik — pogodak",
       "kind": "hit",
       "integrated": true,
-      "image": "../../game-ready/vojnici/partisan-bearer-hit-sprites.png",
+      "image": "../../../game-ready/vojnici/partisan-bearer-hit-sprites.png",
       "sha256": "fc072e7654e83a5612d63d4ac7bccabd438a0a691e6edea4d22c5e1a2174dd16",
       "frame": {
         "width": 551,
@@ -3123,7 +3123,7 @@
       "view": "side",
       "facing": 1,
       "generation": "generation.json",
-      "repositoryImage": "assets/images/armies/game-ready/vojnici/partisan-bearer-hit-sprites.png",
+      "repositoryImage": "assets/images/game-ready/vojnici/partisan-bearer-hit-sprites.png",
       "style": "reference-pixel-art"
     },
     {
@@ -3131,7 +3131,7 @@
       "title": "Italijanski zastavnik — pogodak",
       "kind": "hit",
       "integrated": true,
-      "image": "../../game-ready/vojnici/italian-bearer-hit-sprites.png",
+      "image": "../../../game-ready/vojnici/italian-bearer-hit-sprites.png",
       "sha256": "0ccad5cdc9821d868e3a0762b2c11be0b4a9dec380dd811baabe259ba140e304",
       "frame": {
         "width": 452,
@@ -3199,7 +3199,7 @@
       "view": "side",
       "facing": 1,
       "generation": "generation.json",
-      "repositoryImage": "assets/images/armies/game-ready/vojnici/italian-bearer-hit-sprites.png",
+      "repositoryImage": "assets/images/game-ready/vojnici/italian-bearer-hit-sprites.png",
       "style": "reference-pixel-art"
     },
     {
@@ -3207,7 +3207,7 @@
       "title": "Partizanska posada topa — pogodak",
       "kind": "hit",
       "integrated": true,
-      "image": "../../game-ready/artiljerija/partisan-crew-hit-sprites.png",
+      "image": "../../../game-ready/artiljerija/partisan-crew-hit-sprites.png",
       "sha256": "b15a2ccfcb630aea1d71a41ab41a45c81042a4eb9c20dd5dcc5387dea2ed4695",
       "frame": {
         "width": 324,
@@ -3275,7 +3275,7 @@
       "view": "side",
       "facing": 1,
       "generation": "generation.json",
-      "repositoryImage": "assets/images/armies/game-ready/artiljerija/partisan-crew-hit-sprites.png",
+      "repositoryImage": "assets/images/game-ready/artiljerija/partisan-crew-hit-sprites.png",
       "style": "reference-pixel-art"
     },
     {
@@ -3283,7 +3283,7 @@
       "title": "Italijanska posada topa — pogodak",
       "kind": "hit",
       "integrated": true,
-      "image": "../../game-ready/artiljerija/italian-crew-hit-sprites.png",
+      "image": "../../../game-ready/artiljerija/italian-crew-hit-sprites.png",
       "sha256": "c14d2df754abd3ff828a278235a3648e4efbccd5d786d24dd034de0383080405",
       "frame": {
         "width": 322,
@@ -3351,7 +3351,7 @@
       "view": "side",
       "facing": 1,
       "generation": "generation.json",
-      "repositoryImage": "assets/images/armies/game-ready/artiljerija/italian-crew-hit-sprites.png",
+      "repositoryImage": "assets/images/game-ready/artiljerija/italian-crew-hit-sprites.png",
       "style": "reference-pixel-art"
     },
     {
@@ -3359,7 +3359,7 @@
       "title": "Bombaš — pogodak",
       "kind": "hit",
       "integrated": true,
-      "image": "../../game-ready/vojnici/grenadier-hit-sprites.png",
+      "image": "../../../game-ready/vojnici/grenadier-hit-sprites.png",
       "sha256": "192b22dee7d0c546aca0beb3c8ff1d85d3c7569b08838225f93be0bea70d1cc7",
       "frame": {
         "width": 74,
@@ -3427,7 +3427,7 @@
       "view": "side",
       "facing": 1,
       "generation": "generation.json",
-      "repositoryImage": "assets/images/armies/game-ready/vojnici/grenadier-hit-sprites.png",
+      "repositoryImage": "assets/images/game-ready/vojnici/grenadier-hit-sprites.png",
       "style": "reference-pixel-art"
     },
     {
@@ -3435,7 +3435,7 @@
       "title": "Mitraljezac — pogodak",
       "kind": "hit",
       "integrated": true,
-      "image": "../../game-ready/vojnici/machine-gunner-hit-sprites.png",
+      "image": "../../../game-ready/vojnici/machine-gunner-hit-sprites.png",
       "sha256": "159c7eb2f1108c4bc155bc7b7193b1a6f19c53fd3a7aab1e20c57c1e453d6455",
       "frame": {
         "width": 71,
@@ -3503,7 +3503,7 @@
       "view": "side",
       "facing": 1,
       "generation": "generation.json",
-      "repositoryImage": "assets/images/armies/game-ready/vojnici/machine-gunner-hit-sprites.png",
+      "repositoryImage": "assets/images/game-ready/vojnici/machine-gunner-hit-sprites.png",
       "style": "reference-pixel-art"
     },
     {
@@ -3511,7 +3511,7 @@
       "title": "Hummel — oštećen",
       "kind": "damage",
       "integrated": true,
-      "image": "../../game-ready/tenkovi/hummel-damaged.png",
+      "image": "../../../game-ready/tenkovi/hummel-damaged.png",
       "sha256": "2fdf480c8e02f41cf2828965488fbc7f69c1dc9497d7373d69a164d4e7cd5dd8",
       "frame": {
         "width": 320,
@@ -3565,7 +3565,7 @@
         0,
         0
       ],
-      "repositoryImage": "assets/images/armies/game-ready/tenkovi/hummel-damaged.png",
+      "repositoryImage": "assets/images/game-ready/tenkovi/hummel-damaged.png",
       "style": "reference-pixel-art"
     },
     {
@@ -3573,7 +3573,7 @@
       "title": "Opel Blitz — oštećen",
       "kind": "damage",
       "integrated": true,
-      "image": "../../game-ready/kamioni/opel-damaged.png",
+      "image": "../../../game-ready/kamioni/opel-damaged.png",
       "sha256": "f080fcdcb1ceaf3a3d1e1af3c2857c2969fb6df41211659bf05cbc06ee8a4e63",
       "frame": {
         "width": 320,
@@ -3623,7 +3623,7 @@
       "view": "side",
       "facing": 1,
       "generation": "generation.json",
-      "repositoryImage": "assets/images/armies/game-ready/kamioni/opel-damaged.png",
+      "repositoryImage": "assets/images/game-ready/kamioni/opel-damaged.png",
       "style": "reference-pixel-art"
     },
     {
@@ -3631,7 +3631,7 @@
       "title": "Opel Blitz legija — oštećen",
       "kind": "damage",
       "integrated": true,
-      "image": "../../game-ready/kamioni/opel-legion-damaged.png",
+      "image": "../../../game-ready/kamioni/opel-legion-damaged.png",
       "sha256": "3b995b79e9d6e751a30b4be8dd7943ccf8fb2ad1aae0cf83501a75034e4ad3aa",
       "frame": {
         "width": 320,
@@ -3681,7 +3681,7 @@
       "view": "side",
       "facing": 1,
       "generation": "generation.json",
-      "repositoryImage": "assets/images/armies/game-ready/kamioni/opel-legion-damaged.png",
+      "repositoryImage": "assets/images/game-ready/kamioni/opel-legion-damaged.png",
       "style": "reference-pixel-art"
     },
     {
@@ -3689,7 +3689,7 @@
       "title": "BP-42 — oštećen",
       "kind": "damage",
       "integrated": true,
-      "image": "../../game-ready/vozovi/bp42-damaged.png",
+      "image": "../../../game-ready/vozovi/bp42-damaged.png",
       "sha256": "bc6084de0bce1427655fe4dbdb740e0262acbbe6fadc347db2a7414c73718aaf",
       "frame": {
         "width": 576,
@@ -3739,7 +3739,7 @@
       "view": "side",
       "facing": 1,
       "generation": "generation.json",
-      "repositoryImage": "assets/images/armies/game-ready/vozovi/bp42-damaged.png",
+      "repositoryImage": "assets/images/game-ready/vozovi/bp42-damaged.png",
       "style": "reference-pixel-art"
     },
     {
@@ -3747,7 +3747,7 @@
       "title": "Partizanski čamac — oštećen",
       "kind": "damage",
       "integrated": true,
-      "image": "../../game-ready/brodovi/player-boat-damaged.png",
+      "image": "../../../game-ready/brodovi/player-boat-damaged.png",
       "sha256": "b3ed29275c1605bcc36e1da447466ba85e746d63d57460b8c23293f4f20ac751",
       "frame": {
         "width": 355,
@@ -3797,7 +3797,7 @@
       "view": "top-down",
       "facing": 1,
       "generation": "generation.json",
-      "repositoryImage": "assets/images/armies/game-ready/brodovi/player-boat-damaged.png",
+      "repositoryImage": "assets/images/game-ready/brodovi/player-boat-damaged.png",
       "style": "reference-pixel-art"
     },
     {
@@ -3805,7 +3805,7 @@
       "title": "S-čamac S-30 — oštećen",
       "kind": "damage",
       "integrated": true,
-      "image": "../../game-ready/brodovi/s30-damaged.png",
+      "image": "../../../game-ready/brodovi/s30-damaged.png",
       "sha256": "3ce0ac2077e16f12cf05c79163638425ddb7faaea89ec0879af1710a04e57b88",
       "frame": {
         "width": 1327,
@@ -3855,7 +3855,7 @@
       "view": "top-down",
       "facing": 1,
       "generation": "generation.json",
-      "repositoryImage": "assets/images/armies/game-ready/brodovi/s30-damaged.png",
+      "repositoryImage": "assets/images/game-ready/brodovi/s30-damaged.png",
       "style": "reference-pixel-art"
     },
     {
@@ -3863,7 +3863,7 @@
       "title": "Nemački čamac — oštećen",
       "kind": "damage",
       "integrated": true,
-      "image": "../../game-ready/brodovi/german-launch-damaged.png",
+      "image": "../../../game-ready/brodovi/german-launch-damaged.png",
       "sha256": "75645ff4eb2b6368aeeec19a46589b60a2c8cdd2948f7c855de176b6a4a14371",
       "frame": {
         "width": 182,
@@ -3913,7 +3913,7 @@
       "view": "top-down",
       "facing": 1,
       "generation": "generation.json",
-      "repositoryImage": "assets/images/armies/game-ready/brodovi/german-launch-damaged.png",
+      "repositoryImage": "assets/images/game-ready/brodovi/german-launch-damaged.png",
       "style": "reference-pixel-art"
     },
     {
@@ -3921,7 +3921,7 @@
       "title": "Mali nemački čamac — oštećen",
       "kind": "damage",
       "integrated": true,
-      "image": "../../game-ready/brodovi/german-skiff-damaged.png",
+      "image": "../../../game-ready/brodovi/german-skiff-damaged.png",
       "sha256": "4c74f3ea41f541a0cf0b31052a4640f0d0c54f206b705b78cbec65d8c1b942cd",
       "frame": {
         "width": 174,
@@ -3971,7 +3971,7 @@
       "view": "top-down",
       "facing": 1,
       "generation": "generation.json",
-      "repositoryImage": "assets/images/armies/game-ready/brodovi/german-skiff-damaged.png",
+      "repositoryImage": "assets/images/game-ready/brodovi/german-skiff-damaged.png",
       "style": "reference-pixel-art"
     },
     {
@@ -3979,7 +3979,7 @@
       "title": "Nemački patrolni brod — oštećen",
       "kind": "damage",
       "integrated": true,
-      "image": "../../game-ready/brodovi/patrol-vessel-damaged.png",
+      "image": "../../../game-ready/brodovi/patrol-vessel-damaged.png",
       "sha256": "4bfeebb9e1fad7bc55c50c2c1c737078dc966b10b00a0beaa62ce997e0460704",
       "frame": {
         "width": 304,
@@ -4029,7 +4029,7 @@
       "view": "top-down",
       "facing": 1,
       "generation": "generation.json",
-      "repositoryImage": "assets/images/armies/game-ready/brodovi/patrol-vessel-damaged.png",
+      "repositoryImage": "assets/images/game-ready/brodovi/patrol-vessel-damaged.png",
       "style": "reference-pixel-art"
     },
     {
@@ -4037,7 +4037,7 @@
       "title": "Flak 38 — oštećen",
       "kind": "damage",
       "integrated": true,
-      "image": "../../game-ready/artiljerija/flak38-damaged.png",
+      "image": "../../../game-ready/artiljerija/flak38-damaged.png",
       "sha256": "2b943379c2b56274b26d1e96f9d3ef82cd782cc7bbb6a7070d8a31ef42b14ed9",
       "frame": {
         "width": 204,
@@ -4087,7 +4087,7 @@
       "view": "side",
       "facing": 1,
       "generation": "generation.json",
-      "repositoryImage": "assets/images/armies/game-ready/artiljerija/flak38-damaged.png",
+      "repositoryImage": "assets/images/game-ready/artiljerija/flak38-damaged.png",
       "style": "reference-pixel-art"
     },
     {
@@ -4095,7 +4095,7 @@
       "title": "Top iz Ustanka — oštećen",
       "kind": "damage",
       "integrated": true,
-      "image": "../../game-ready/artiljerija/field-gun-damaged.png",
+      "image": "../../../game-ready/artiljerija/field-gun-damaged.png",
       "sha256": "725f01955a887eaf33f292adb480f7f4890ac1c917e19eb414a20fe17db33102",
       "frame": {
         "width": 400,
@@ -4145,7 +4145,7 @@
       "view": "side",
       "facing": 1,
       "generation": "generation.json",
-      "repositoryImage": "assets/images/armies/game-ready/artiljerija/field-gun-damaged.png",
+      "repositoryImage": "assets/images/game-ready/artiljerija/field-gun-damaged.png",
       "style": "reference-pixel-art"
     },
     {
@@ -4153,7 +4153,7 @@
       "title": "Kuća-bunker — oštećen",
       "kind": "damage",
       "integrated": true,
-      "image": "../../game-ready/artiljerija/house-bunker-damaged.png",
+      "image": "../../../game-ready/artiljerija/house-bunker-damaged.png",
       "sha256": "ec980c2a1aa4091d8268dd41ba0a407eb01e7e45311be615e8ab32977bf57426",
       "frame": {
         "width": 428,
@@ -4203,7 +4203,7 @@
       "view": "side",
       "facing": 1,
       "generation": "generation.json",
-      "repositoryImage": "assets/images/armies/game-ready/artiljerija/house-bunker-damaged.png",
+      "repositoryImage": "assets/images/game-ready/artiljerija/house-bunker-damaged.png",
       "style": "reference-pixel-art"
     },
     {
@@ -4211,7 +4211,7 @@
       "title": "PaK 38 — oštećen",
       "kind": "damage",
       "integrated": true,
-      "image": "../../game-ready/artiljerija/pak38-damaged.png",
+      "image": "../../../game-ready/artiljerija/pak38-damaged.png",
       "sha256": "0b798c17464ba55f096c94c7e43c656115532976653a8ffbea921689a6315531",
       "frame": {
         "width": 233,
@@ -4261,7 +4261,7 @@
       "view": "side",
       "facing": 1,
       "generation": "generation.json",
-      "repositoryImage": "assets/images/armies/game-ready/artiljerija/pak38-damaged.png",
+      "repositoryImage": "assets/images/game-ready/artiljerija/pak38-damaged.png",
       "style": "reference-pixel-art"
     },
     {
@@ -4269,7 +4269,7 @@
       "title": "Bunker Do Trsta — oštećen",
       "kind": "damage",
       "integrated": true,
-      "image": "../../game-ready/artiljerija/bunker-damaged.png",
+      "image": "../../../game-ready/artiljerija/bunker-damaged.png",
       "sha256": "1c01080783eb7edf8460a6ceb59feeed066b907f04af4632b1870e07a487e425",
       "frame": {
         "width": 246,
@@ -4319,7 +4319,7 @@
       "view": "side",
       "facing": 1,
       "generation": "generation.json",
-      "repositoryImage": "assets/images/armies/game-ready/artiljerija/bunker-damaged.png",
+      "repositoryImage": "assets/images/game-ready/artiljerija/bunker-damaged.png",
       "style": "reference-pixel-art"
     },
     {
@@ -4327,7 +4327,7 @@
       "title": "Mitraljesko gnezdo — oštećen",
       "kind": "damage",
       "integrated": true,
-      "image": "../../game-ready/artiljerija/shore-mg-damaged.png",
+      "image": "../../../game-ready/artiljerija/shore-mg-damaged.png",
       "sha256": "be70be40c34b021739aa93bb82a999a67d572229e8e21f7af8ad7d4762ce6de1",
       "frame": {
         "width": 240,
@@ -4377,7 +4377,7 @@
       "view": "top-down",
       "facing": 1,
       "generation": "generation.json",
-      "repositoryImage": "assets/images/armies/game-ready/artiljerija/shore-mg-damaged.png",
+      "repositoryImage": "assets/images/game-ready/artiljerija/shore-mg-damaged.png",
       "style": "reference-pixel-art"
     },
     {
@@ -4385,7 +4385,7 @@
       "title": "Posada plovila odozgo",
       "kind": "crew",
       "integrated": true,
-      "image": "../../game-ready/vojnici/deck-crew-sprites.png",
+      "image": "../../../game-ready/vojnici/deck-crew-sprites.png",
       "sha256": "e4b3e4741ef2b734a090b35f854d959a3f157979d4ab66a21fd0618761b5ba36",
       "frame": {
         "width": 34,
@@ -4453,7 +4453,7 @@
       "view": "top-down",
       "facing": 1,
       "generation": "generation.json",
-      "repositoryImage": "assets/images/armies/game-ready/vojnici/deck-crew-sprites.png",
+      "repositoryImage": "assets/images/game-ready/vojnici/deck-crew-sprites.png",
       "style": "reference-pixel-art"
     },
     {
@@ -4461,7 +4461,7 @@
       "title": "Bf 109 — oštećen",
       "kind": "damage",
       "integrated": true,
-      "image": "../../game-ready/avioni/bf109-damaged.png",
+      "image": "../../../game-ready/avioni/bf109-damaged.png",
       "sha256": "c3e3c1799e8d34e7e41e21753155c24c776f92310d891b0c2ba777c51602df42",
       "frame": {
         "width": 404,
@@ -4511,7 +4511,7 @@
       "view": "side",
       "facing": 1,
       "generation": "generation.json",
-      "repositoryImage": "assets/images/armies/game-ready/avioni/bf109-damaged.png",
+      "repositoryImage": "assets/images/game-ready/avioni/bf109-damaged.png",
       "style": "reference-pixel-art"
     },
     {
@@ -4519,7 +4519,7 @@
       "title": "Ju 87 — oštećen",
       "kind": "damage",
       "integrated": true,
-      "image": "../../game-ready/avioni/ju87-damaged.png",
+      "image": "../../../game-ready/avioni/ju87-damaged.png",
       "sha256": "8cbf7a47967f343962ebc142ef405deefafd7ca8f9372152d97cf493d211689f",
       "frame": {
         "width": 400,
@@ -4569,7 +4569,7 @@
       "view": "side",
       "facing": 1,
       "generation": "generation.json",
-      "repositoryImage": "assets/images/armies/game-ready/avioni/ju87-damaged.png",
+      "repositoryImage": "assets/images/game-ready/avioni/ju87-damaged.png",
       "style": "reference-pixel-art"
     }
   ],

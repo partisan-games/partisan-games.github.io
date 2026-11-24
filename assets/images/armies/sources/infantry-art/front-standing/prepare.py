@@ -6,7 +6,7 @@ from pathlib import Path
 from PIL import Image
 
 here = Path(__file__).resolve().parent
-ready = here.parents[2] / 'game-ready' / 'vojnici'
+ready = here.parents[3] / 'game-ready' / 'vojnici'
 size = (208, 188)
 baseline = 186
 
@@ -59,7 +59,7 @@ for faction in ('nemci', 'cetnici'):
             ('idle', [0], 1, True), ('move', [3, 4, 5, 4], .64, True),
             ('attack', [6, 0], .18, True), ('dead', [0, 1, 2], .75, False))
     ]
-    manifest['assets'].append({'id': faction + '-spreda-celo', 'image': '../../../game-ready/vojnici/' + output.name,
+    manifest['assets'].append({'id': faction + '-spreda-celo', 'image': '../../../../game-ready/vojnici/' + output.name,
                                'frame': {'width': size[0], 'height': size[1], 'columns': 7, 'rows': 1},
                                'anchor': {'x': 104, 'y': baseline}, 'animations': animations})
     manifest['factions'][faction] = {p.name: digest(p) for p in (original, walking, output, here / (faction + '-reference.png'))}

@@ -7,7 +7,7 @@
     {
       "id": "rifleman",
       "title": "Nemački strelac",
-      "image": "../../game-ready/vojnici/nemacki-strelac-sprites.png",
+      "image": "../../../game-ready/vojnici/nemacki-strelac-sprites.png",
       "frame": {
         "width": 128,
         "height": 128,
@@ -231,7 +231,7 @@
     {
       "id": "assault",
       "title": "Nemački jurišnik",
-      "image": "../../game-ready/vojnici/nemacki-jurisnik-sprites.png",
+      "image": "../../../game-ready/vojnici/nemacki-jurisnik-sprites.png",
       "frame": {
         "width": 128,
         "height": 128,
@@ -455,7 +455,7 @@
     {
       "id": "opel-blitz",
       "title": "Opel Blitz",
-      "image": "../../game-ready/kamioni/opel-blitz-sprites.png",
+      "image": "../../../game-ready/kamioni/opel-blitz-sprites.png",
       "frame": {
         "width": 320,
         "height": 160,
@@ -543,7 +543,7 @@
     {
       "id": "opel-blitz-legion",
       "title": "Opel Blitz — Legione Croata",
-      "image": "../../game-ready/kamioni/opel-blitz-legion-sprites.png",
+      "image": "../../../game-ready/kamioni/opel-blitz-legion-sprites.png",
       "frame": {
         "width": 320,
         "height": 160,
@@ -631,7 +631,7 @@
     {
       "id": "hummel",
       "title": "Guseničar",
-      "image": "../../game-ready/tenkovi/hummel-sprites.png",
+      "image": "../../../game-ready/tenkovi/hummel-sprites.png",
       "frame": {
         "width": 320,
         "height": 160,
@@ -719,7 +719,7 @@
     {
       "id": "bp42",
       "title": "Oklopni vagon BP-42",
-      "image": "../../game-ready/vozovi/bp42-sprites.png",
+      "image": "../../../game-ready/vozovi/bp42-sprites.png",
       "frame": {
         "width": 576,
         "height": 256,
@@ -807,7 +807,7 @@
     {
       "id": "muzzle-flash",
       "title": "Plamen pucnja",
-      "image": "../../game-ready/efekti/plamen-pucnja-sprites.png",
+      "image": "../../../game-ready/efekti/plamen-pucnja-sprites.png",
       "frame": {
         "width": 48,
         "height": 48,

@@ -3,7 +3,7 @@
   "assets": [
     {
       "id": "occupier",
-      "image": "../../game-ready/vojnici/occupier-sprites.png",
+      "image": "../../../game-ready/vojnici/occupier-sprites.png",
       "frame": {
         "width": 210,
         "height": 210,

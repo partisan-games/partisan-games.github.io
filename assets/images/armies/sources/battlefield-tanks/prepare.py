@@ -7,7 +7,7 @@ from pathlib import Path
 from PIL import Image, ImageChops, ImageDraw, ImageOps
 
 HERE = Path(__file__).resolve().parent
-OUT = HERE.parent.parent / 'game-ready' / 'tenkovi'
+OUT = HERE.parents[2] / 'game-ready' / 'tenkovi'
 NEAREST = Image.Resampling.NEAREST
 # Source coordinates in vehicles.png. Wheel disks exclude the fixed axles and suspension arms.
 RECIPES = [
@@ -84,7 +84,7 @@ def pack(r, original, wrecks):
                        duration=None if name == 'dead' else .64 if name.lower().endswith('drive') else 1.4,
                        loop=name != 'dead')
                   for row, name in enumerate(rows)]
-    return dict(id=r['id'], image='../../game-ready/tenkovi/' + sheet_path.name,
+    return dict(id=r['id'], image='../../../game-ready/tenkovi/' + sheet_path.name,
                 frame=dict(width=w, height=h, columns=4, rows=len(rows)), anchor=dict(x=w/2, y=h/2),
                 baseline=h, direction=-1, columns=4, rows=rows, animations=animations,
                 durationsMs=dict(idle=1400, drive=640), wreckFrame=0,

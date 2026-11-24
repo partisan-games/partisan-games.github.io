@@ -5,15 +5,15 @@
   },
   "outputs": [
     {
-      "path": "../../game-ready/polozaji/mitraljesko-gnezdo-odozgo.png",
+      "path": "../../../game-ready/polozaji/mitraljesko-gnezdo-odozgo.png",
       "sha256": "b4369bd9994ee45482bfbfb889fb54de84e0dee198c0361ed3ee499d3866e3c2"
     },
     {
-      "path": "../../game-ready/polozaji/shore-mg-gun.png",
+      "path": "../../../game-ready/polozaji/shore-mg-gun.png",
       "sha256": "8672dc133df1f56da1d2cb7704bcc79261740baa100f7c491d2c367eb6c2407c"
     },
     {
-      "path": "../../game-ready/polozaji/shore-mg-crew.png",
+      "path": "../../../game-ready/polozaji/shore-mg-crew.png",
       "sha256": "a32e6c42ae9adbc3352c285636c3b4e6cfff80612a4c4bb703f20ffe0d9ade70"
     },
     {

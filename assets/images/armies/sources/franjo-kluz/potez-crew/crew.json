@@ -10,8 +10,8 @@
   },
   "facing": "right",
   "crew": {
-    "image": "../../../game-ready/avioni/potez-25-posada.png",
-    "src": "armies/game-ready/avioni/potez-25-posada.png",
+    "image": "../../../../game-ready/avioni/potez-25-posada.png",
+    "src": "game-ready/avioni/potez-25-posada.png",
     "sha256": "e0865c47402919d18faecd739d5cece729c901529c549fc6b5bd0774a5995f69",
     "anchor": {
       "x": 200,
@@ -42,8 +42,8 @@
       }
     ],
     "atlas": {
-      "image": "../../../game-ready/avioni/potez-25-posada-sprites.png",
-      "src": "armies/game-ready/avioni/potez-25-posada-sprites.png",
+      "image": "../../../../game-ready/avioni/potez-25-posada-sprites.png",
+      "src": "game-ready/avioni/potez-25-posada-sprites.png",
       "sha256": "b36b76211d9b19174d076c39b5b6d4f9b5dda5cc52c8cbb78e3df2df439ef0f6",
       "frame": {
         "width": 400,
@@ -64,8 +64,8 @@
     }
   },
   "rearGun": {
-    "image": "../../../game-ready/avioni/potez-25-zadnji-mitraljez.png",
-    "src": "armies/game-ready/avioni/potez-25-zadnji-mitraljez.png",
+    "image": "../../../../game-ready/avioni/potez-25-zadnji-mitraljez.png",
+    "src": "game-ready/avioni/potez-25-zadnji-mitraljez.png",
     "sha256": "c74454be71913858cf5544e8cda9d97f1c9e4ce3587bc8cb960909b4ee3a49f2",
     "frame": {
       "width": 48,
@@ -87,8 +87,8 @@
     "forwardAngleRadians": 3.141592653589793
   },
   "propeller": {
-    "image": "../../../game-ready/avioni/potez-25-propeler.png",
-    "src": "armies/game-ready/avioni/potez-25-propeler.png",
+    "image": "../../../../game-ready/avioni/potez-25-propeler.png",
+    "src": "game-ready/avioni/potez-25-propeler.png",
     "sha256": "f13da062ba0a96caea848e15b3f6068c4fbfdc990319c0cb40bec60ddc8a6de1",
     "frame": {
       "width": 20,
@@ -103,8 +103,8 @@
       "y": 80
     },
     "atlas": {
-      "image": "../../../game-ready/avioni/potez-25-propeler-sprites.png",
-      "src": "armies/game-ready/avioni/potez-25-propeler-sprites.png",
+      "image": "../../../../game-ready/avioni/potez-25-propeler-sprites.png",
+      "src": "game-ready/avioni/potez-25-propeler-sprites.png",
       "sha256": "d0a224dd09a91c13af5ee5ed3306b8c50bf7f403a054f52a7d1b7af823377709",
       "frame": {
         "width": 20,
@@ -127,15 +127,15 @@
   },
   "variants": {
     "partisan": {
-      "image": "../../../game-ready/avioni/potez-25-partisan-bez-mitraljeza.png",
-      "src": "armies/game-ready/avioni/potez-25-partisan-bez-mitraljeza.png",
+      "image": "../../../../game-ready/avioni/potez-25-partisan-bez-mitraljeza.png",
+      "src": "game-ready/avioni/potez-25-partisan-bez-mitraljeza.png",
       "sha256": "425b3e2af67f174156956b8ce7c59142ae3983029ded25714c0d24f3b68cc6d4",
       "reference": "../../../partizani/potez-25.png",
       "referenceSha256": "6dbd8f162ad291332b70edeca2e03cbfaa5965ca8c3899503f0a788a8a432685"
     },
     "ndh": {
-      "image": "../../../game-ready/avioni/potez-25-ndh-bez-mitraljeza.png",
-      "src": "armies/game-ready/avioni/potez-25-ndh-bez-mitraljeza.png",
+      "image": "../../../../game-ready/avioni/potez-25-ndh-bez-mitraljeza.png",
+      "src": "game-ready/avioni/potez-25-ndh-bez-mitraljeza.png",
       "sha256": "6b14af50b2fcd1caf42700cb08886fc21458ad3ea5c651a8e465fc0a6e7c1e73",
       "reference": "../../../ndh/avioni/potez-25.png",
       "referenceSha256": "c8adba135e1ce409b68eb3adda8adc9f9994a0f47d59e2ebf31a838874e0e80b"

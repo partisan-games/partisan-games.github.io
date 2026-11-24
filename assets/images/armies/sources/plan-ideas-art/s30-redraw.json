@@ -25,7 +25,7 @@
   ],
   "appearances": [
     {
-      "path": "assets/images/armies/game-ready/brodovi/schnellboot-s30.png",
+      "path": "assets/images/game-ready/brodovi/schnellboot-s30.png",
       "sha256": "d32cfa0c3628187918147d90b77155edbfa42353746866204b1e879225f47f81",
       "bounds": [
         8,
@@ -53,9 +53,9 @@
     "gunReach": 0.04
   },
   "art": {
-    "src": "armies/game-ready/brodovi/schnellboot-s30.png",
+    "src": "game-ready/brodovi/schnellboot-s30.png",
     "gun": {
-      "src": "armies/game-ready/brodovi/s30-deck-gun.png",
+      "src": "game-ready/brodovi/s30-deck-gun.png",
       "width": 96,
       "height": 96,
       "anchor": {

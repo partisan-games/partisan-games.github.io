@@ -9,7 +9,7 @@ from PIL import Image, ImageDraw
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[4]
-GAME = ROOT / 'assets/images/armies/game-ready/artiljerija'
+GAME = ROOT / 'assets/images/game-ready/artiljerija'
 SOURCES = [GAME / 'top-cev.gif', GAME / 'top-postolje.gif']
 BARREL = GAME / 'field-gun-barrel-pixel.png'
 CARRIAGE = GAME / 'field-gun-carriage-pixel.png'
@@ -62,14 +62,14 @@ def layout(barrel, carriage):
         'pathBase': 'assets/images',
         'parts': {
             'barrel': {
-                'src': 'armies/game-ready/artiljerija/field-gun-barrel-pixel.png',
+                'src': 'game-ready/artiljerija/field-gun-barrel-pixel.png',
                 'width': 274, 'height': 52, 'pivot': PIVOT,
                 'muzzle': {'x': 273, 'y': 36}, 'sha256': hashlib.sha256(png(barrel)).hexdigest(),
                 'packing': {'source': 'barrel-generated.png', 'crop': [78, 382, 1460, 642], 'output': [274, 52]},
                 'bounds': list(barrel.getbbox()),
             },
             'carriage': {
-                'src': 'armies/game-ready/artiljerija/field-gun-carriage-pixel.png',
+                'src': 'game-ready/artiljerija/field-gun-carriage-pixel.png',
                 'width': 400, 'height': 99, 'anchor': {'x': 200, 'y': 49.5},
                 'joint': JOINT, 'wheel': {'x': 220.5, 'y': 64.5, 'radius': 31.5}, 'groundY': 96,
                 'sha256': hashlib.sha256(png(carriage)).hexdigest(),

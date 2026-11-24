@@ -51,7 +51,7 @@ def main():
 
     cache = {entry['source']: entry for entry in old}
     entries = []
-    for i, path in enumerate(sorted((IMAGES / 'armies/game-ready').rglob('*.png')), 1):
+    for i, path in enumerate(sorted((IMAGES / 'game-ready').rglob('*.png')), 1):
         data = path.read_bytes()
         source = path.relative_to(IMAGES).as_posix()
         cached = cache.get(source)

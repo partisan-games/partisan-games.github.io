@@ -1,7 +1,7 @@
 /** Generated from the FK-13 sprites.json; regenerate with its prepare.py. */
 export default {
   'rifleman': {
-    'src': 'armies/game-ready/vojnici/nemacki-strelac-sprites.png',
+    'src': 'game-ready/vojnici/nemacki-strelac-sprites.png',
     'frame': {
       'width': 128,
       'height': 128
@@ -61,7 +61,7 @@ export default {
     }
   },
   'assault': {
-    'src': 'armies/game-ready/vojnici/nemacki-jurisnik-sprites.png',
+    'src': 'game-ready/vojnici/nemacki-jurisnik-sprites.png',
     'frame': {
       'width': 128,
       'height': 128
@@ -121,7 +121,7 @@ export default {
     }
   },
   'opel-blitz': {
-    'src': 'armies/game-ready/kamioni/opel-blitz-sprites.png',
+    'src': 'game-ready/kamioni/opel-blitz-sprites.png',
     'frame': {
       'width': 320,
       'height': 160
@@ -153,7 +153,7 @@ export default {
     }
   },
   'opel-blitz-legion': {
-    'src': 'armies/game-ready/kamioni/opel-blitz-legion-sprites.png',
+    'src': 'game-ready/kamioni/opel-blitz-legion-sprites.png',
     'frame': {
       'width': 320,
       'height': 160
@@ -185,7 +185,7 @@ export default {
     }
   },
   'hummel': {
-    'src': 'armies/game-ready/tenkovi/hummel-sprites.png',
+    'src': 'game-ready/tenkovi/hummel-sprites.png',
     'frame': {
       'width': 320,
       'height': 160
@@ -217,7 +217,7 @@ export default {
     }
   },
   'bp42': {
-    'src': 'armies/game-ready/vozovi/bp42-sprites.png',
+    'src': 'game-ready/vozovi/bp42-sprites.png',
     'frame': {
       'width': 576,
       'height': 256
@@ -249,7 +249,7 @@ export default {
     }
   },
   'muzzle-flash': {
-    'src': 'armies/game-ready/efekti/plamen-pucnja-sprites.png',
+    'src': 'game-ready/efekti/plamen-pucnja-sprites.png',
     'frame': {
       'width': 48,
       'height': 48

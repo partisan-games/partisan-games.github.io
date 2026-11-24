@@ -24,7 +24,7 @@ def clean_source_alpha():
     jobs = json.loads((HERE.parent / 'plan-ideas-art/jobs.json').read_text(encoding='utf-8'))['jobs']
     for ident, _, category, *_ in PROFILES:
         source = f'game-ready/{category}/{ident}-sprites.png'
-        path = IMAGE_ROOT / 'armies' / source
+        path = IMAGE_ROOT / source
         image = Image.open(path).convert('RGBA')
         alpha = image.getchannel('A')
         cleaned = alpha.point(lambda value: 0 if value < 8 else value)
@@ -50,13 +50,13 @@ def main():
     assets, runtime = [], {}
     page = ['<!doctype html><meta charset="utf-8"><title>Ustanak · prihvaćeni atlasi</title><style>body{background:#30372c;color:#eee;font:16px system-ui;padding:24px}img{image-rendering:pixelated;max-width:100%;display:block;margin:12px 0}a{color:#dedc9b}section{margin:32px 0}</style><h1>Ustanak · postojeći atlas i klipovi</h1><p>Sačuvani crteži i mreže kadrova; gotovo providan višak strelca očišćen je na izvoru. GIF petlje služe pregledu kadrova, ne izvršavanju igre.</p>']
     for ident, key, category, rows, names, durations, width, height, baseline, foot, default in PROFILES:
-        src = f'armies/game-ready/{category}/{ident}-sprites.png'
+        src = f'game-ready/{category}/{ident}-sprites.png'
         path = IMAGE_ROOT / src
         digest = hashlib.sha256(path.read_bytes()).hexdigest()
         original = Image.open(path).convert('RGBA')
         cell_width, cell_height = original.width / 4, original.height / rows
         animations, edge_counts = [], []
-        page.append(f'<section><h2>{ident}</h2><a href="../../game-ready/{category}/{ident}-sprites.png">Prihvaćeni izvor</a>')
+        page.append(f'<section><h2>{ident}</h2><a href="../../../game-ready/{category}/{ident}-sprites.png">Prihvaćeni izvor</a>')
         for row, (name, duration) in enumerate(zip(names, durations)):
             frames = []
             for column in range(4):
@@ -76,7 +76,7 @@ def main():
                 page.append(f'<p>{name} · {duration} s</p><img src="previews/{ident}-{name}.gif" alt="{ident} {name}"><img src="previews/{ident}-{name}.png" alt="Sva četiri kadra">')
             loop = name in ('idle', 'partisan', 'italian')
             animations.append({'name': name, 'row': row, 'frameCount': 4, 'duration': duration, 'loop': loop, 'used': ident != 'zastavnici' or row == 1})
-        assets.append({'id': ident, 'title': ident, 'image': f'../../game-ready/{category}/{ident}-sprites.png',
+        assets.append({'id': ident, 'title': ident, 'image': f'../../../game-ready/{category}/{ident}-sprites.png',
                        'sha256': digest, 'frame': {'width': cell_width, 'height': cell_height, 'columns': 4, 'rows': rows},
                        'anchor': {'x': cell_width / 2, 'y': cell_height * baseline},
                        'render': {'width': width, 'height': height, 'footOffset': foot, 'baseline': baseline},

@@ -18,7 +18,7 @@
     "partisan": "../../../partizani/potez-25.png",
     "ndh": "../../../ndh/avioni/potez-25.png"
   },
-  "outputDirectory": "../../../game-ready/avioni",
+  "outputDirectory": "../../../../game-ready/avioni",
   "airframes": {
     "masterSource": "airframe-partisan-generated.png",
     "ndhSource": "airframe-ndh-generated.png",

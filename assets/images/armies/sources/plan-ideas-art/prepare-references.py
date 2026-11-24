@@ -12,7 +12,7 @@ for job in jobs:
     if 'reference' not in job:
         continue
     name = job['reference']
-    source = IMAGES / name if name.startswith('buildings/') else IMAGES / 'armies' / name
+    source = IMAGES / name if name.startswith(('buildings/', 'game-ready/')) else IMAGES / 'armies' / name
     target = HERE / (job['id'] + '-reference.png')
     if source.suffix == '.svg':
         subprocess.run(['magick', '-background', 'none', str(source), str(target)], check=True)

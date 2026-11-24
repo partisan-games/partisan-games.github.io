@@ -12,7 +12,7 @@ from PIL import Image
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[4]
-OUT = ROOT / 'assets/images/armies/game-ready'
+OUT = ROOT / 'assets/images/game-ready'
 
 
 def read(path):
@@ -298,12 +298,12 @@ def pack(job):
         result['designLengthMetres'] = job.get('metres',1.2)
         result['historicalClassIdentificationConfirmed'] = False
     if kind == 'vessel':
-        result['crew'] = dict(image='assets/images/armies/game-ready/vojnici/deck-crew-sprites.png',
+        result['crew'] = dict(image='assets/images/game-ready/vojnici/deck-crew-sprites.png',
                               frame=[34,34],frames=4,seconds=1.6,hideOn=['wreck'],
                               positions=[[round(frame[0]*x),round(frame[1]*y)] for x,y in [(0.27,0.45),(0.43,0.6),(0.65,0.4)]])
     if kind == 'aircraft':
         hub = job.get('sourceHub', [25,153] if job['id']=='he111' else [16,117])
-        result['layers'] = [dict(name='propeller',image='assets/images/armies/game-ready/avioni/propeller-side-sprites.png',
+        result['layers'] = [dict(name='propeller',image='assets/images/game-ready/avioni/propeller-side-sprites.png',
                                  frame=[12,48],frames=4,seconds=.12,
                                  mount=[round(offset[0]+hub[0]*factor),round(offset[1]+hub[1]*factor)],
                                  anchor=[6,24],hideOn=['dead'],reused=True)]
@@ -323,7 +323,7 @@ def pack(job):
         gun = outcells[layer['row']*cols].getbbox()
         dx, dy = [layer['mount'][i]-layer['anchor'][i] for i in range(2)]
         result['renderBounds'] = list(bounds_union([hull, (gun[0]+dx, gun[1]+dy, gun[2]+dx, gun[3]+dy)]))
-    result['image'] = '../../game-ready/'+category+'/'+path.name
+    result['image'] = '../../../game-ready/'+category+'/'+path.name
     result['style'] = job.get('style','reference-pixel-art')
     return result
 

@@ -40,12 +40,12 @@ def main():
             sheet.paste(frame, (i%4*256, i//4*160))
             packed.append(frame)
         name = key + '-crew-sprites.png'
-        target = ROOT / 'assets/images/armies/game-ready/artiljerija' / name
+        target = ROOT / 'assets/images/game-ready/artiljerija' / name
         sheet.save(target)
-        art = {'src': 'armies/game-ready/artiljerija/' + name, 'frame': {'width': 256, 'height': 160},
+        art = {'src': 'game-ready/artiljerija/' + name, 'frame': {'width': 256, 'height': 160},
             'bodySize': body_size, 'bodyOffset': body_offset, 'fireSeconds': .8, 'deathSeconds': .64}
         runtime[key] = art
-        assets.append({'id': key + '-crew', 'image': '../../game-ready/artiljerija/' + name,
+        assets.append({'id': key + '-crew', 'image': '../../../game-ready/artiljerija/' + name,
             'frame': {'width': 256, 'height': 160, 'columns': 4, 'rows': 2}, 'anchor': {'x': 128, 'y': 148},
             'bodySize': body_size, 'bodyOffset': body_offset, 'source': key + '-crew-generated.png',
             'alphaCutoff': cutoff, 'mirrorFirstOperator': True,
@@ -55,11 +55,11 @@ def main():
                 {'name': 'death', 'row': 1, 'frameCount': 4, 'duration': .64, 'loop': False}]})
         for action, row, duration in [('fire', 0, 200), ('death', 1, 160)]:
             helpers['save_gif'](packed[row*4:row*4+4], previews / (key + '-crew-' + action + '.gif'), duration)
-        body = Image.open(ROOT / 'assets/images/armies/game-ready/artiljerija' / (key + '-postolje.png')).convert('RGBA')
+        body = Image.open(ROOT / 'assets/images/game-ready/artiljerija' / (key + '-postolje.png')).convert('RGBA')
         for i, frame in enumerate(packed):
             result = frame.copy()
             if i >= 4:
-                body = Image.open(ROOT / 'assets/images/armies/game-ready/wrecks' / (key + '.png')).convert('RGBA')
+                body = Image.open(ROOT / 'assets/images/game-ready/wrecks' / (key + '.png')).convert('RGBA')
             result.alpha_composite(body, tuple(body_offset))
             x, y = i%4*270, index*230+i//4*108
             show = result.resize((192, 120) if key == 'flak38' else (128, 80), Image.Resampling.NEAREST)

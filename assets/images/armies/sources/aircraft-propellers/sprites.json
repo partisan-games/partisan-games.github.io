@@ -3,8 +3,8 @@
   "assets": [
     {
       "id": "propeller-side",
-      "image": "../../game-ready/avioni/propeller-side-sprites.png",
-      "vectorSource": "../../game-ready/avioni/propeller-side-sprites.svg",
+      "image": "../../../game-ready/avioni/propeller-side-sprites.png",
+      "vectorSource": "../../../game-ready/avioni/propeller-side-sprites.svg",
       "frame": {
         "width": 12,
         "height": 48,
@@ -27,8 +27,8 @@
     },
     {
       "id": "propeller-top",
-      "image": "../../game-ready/avioni/propeller-top-sprites.png",
-      "vectorSource": "../../game-ready/avioni/propeller-top-sprites.svg",
+      "image": "../../../game-ready/avioni/propeller-top-sprites.png",
+      "vectorSource": "../../../game-ready/avioni/propeller-top-sprites.svg",
       "frame": {
         "width": 64,
         "height": 12,
@@ -51,14 +51,14 @@
     }
   ],
   "bodies": {
-    "armies/game-ready/avioni/ju87.png": {
+    "game-ready/avioni/ju87.png": {
       "id": "ju87",
       "bodySize": [
         400,
         148
       ],
       "layer": {
-        "src": "armies/game-ready/avioni/propeller-side-sprites.png",
+        "src": "game-ready/avioni/propeller-side-sprites.png",
         "frame": {
           "width": 12,
           "height": 48
@@ -76,14 +76,14 @@
       ],
       "bodyUnchanged": true
     },
-    "armies/game-ready/avioni/bf109.svg": {
+    "game-ready/avioni/bf109.svg": {
       "id": "bf109-side",
       "bodySize": [
         182,
         48
       ],
       "layer": {
-        "src": "armies/game-ready/avioni/propeller-side-sprites.png",
+        "src": "game-ready/avioni/propeller-side-sprites.png",
         "frame": {
           "width": 12,
           "height": 48
@@ -108,7 +108,7 @@
         196
       ],
       "layer": {
-        "src": "armies/game-ready/avioni/propeller-top-sprites.png",
+        "src": "game-ready/avioni/propeller-top-sprites.png",
         "frame": {
           "width": 64,
           "height": 12
@@ -133,7 +133,7 @@
         194
       ],
       "layer": {
-        "src": "armies/game-ready/avioni/propeller-top-sprites.png",
+        "src": "game-ready/avioni/propeller-top-sprites.png",
         "frame": {
           "width": 64,
           "height": 12
@@ -158,7 +158,7 @@
         265
       ],
       "layer": {
-        "src": "armies/game-ready/avioni/propeller-top-sprites.png",
+        "src": "game-ready/avioni/propeller-top-sprites.png",
         "frame": {
           "width": 64,
           "height": 12
@@ -188,7 +188,7 @@
         591
       ],
       "layer": {
-        "src": "armies/game-ready/avioni/propeller-top-sprites.png",
+        "src": "game-ready/avioni/propeller-top-sprites.png",
         "frame": {
           "width": 64,
           "height": 12
@@ -218,7 +218,7 @@
         225
       ],
       "layer": {
-        "src": "armies/game-ready/avioni/propeller-top-sprites.png",
+        "src": "game-ready/avioni/propeller-top-sprites.png",
         "frame": {
           "width": 64,
           "height": 12
@@ -243,7 +243,7 @@
         230
       ],
       "layer": {
-        "src": "armies/game-ready/avioni/propeller-top-sprites.png",
+        "src": "game-ready/avioni/propeller-top-sprites.png",
         "frame": {
           "width": 64,
           "height": 12

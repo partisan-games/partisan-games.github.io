@@ -3,7 +3,7 @@
   "method": "Deterministic animation of existing accepted barrel pixels; existing separate muzzle effect reused. No new generated drawing.",
   "request": "BP-42 attack: cannon recoil and projectile muzzle, with a stationary wagon hull.",
   "source": "../franjo-kluz/bp42-generated.png",
-  "acceptedAtlas": "../../game-ready/vozovi/bp42-sprites.png",
+  "acceptedAtlas": "../../../game-ready/vozovi/bp42-sprites.png",
   "referenceCell": {
     "row": 0,
     "column": 0

@@ -9,9 +9,9 @@ from PIL import Image, ImageDraw
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[4]
-TARGET = ROOT / 'assets/images/armies/game-ready/vojnici/bombas-throw-sprites.png'
+TARGET = ROOT / 'assets/images/game-ready/vojnici/bombas-throw-sprites.png'
 REFERENCE = HERE.parent / 'infantry-art/bombas-standing-reference.png'
-ACCEPTED = ROOT / 'assets/images/armies/game-ready/vojnici/bombas-sprites.png'
+ACCEPTED = ROOT / 'assets/images/game-ready/vojnici/bombas-sprites.png'
 SOURCE = HERE / 'throw-generated.png'
 SIZE = (66, 72)
 FRAME_MS = [100, 100, 100, 100, 80, 100, 100, 120]
@@ -61,7 +61,7 @@ def metadata(sheet):
         'assets': [{
             'id': 'bombas-throw',
             'title': 'Bombas: overarm hand-grenade throw',
-            'image': '../../game-ready/vojnici/bombas-throw-sprites.png',
+            'image': '../../../game-ready/vojnici/bombas-throw-sprites.png',
             'frame': {'width': 66, 'height': 72, 'columns': 8, 'rows': 1},
             'anchor': {'x': 33, 'y': 36},
             'groundAnchor': {'x': 33, 'y': 70},

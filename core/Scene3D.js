@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import Scene from './Scene.js'
 import { audioListener } from '/core/io/audio/audio3d.js'
 import { hasBlockingUi } from '/core/io/inputContext.js'
+import runCleanups from './runtime/runCleanups.js'
 
 export const skyGradients = {
   svetla: 'linear-gradient(to bottom, #94c5f8 1%, #a6e6ff 70%, #b1b5ea 100%)',
@@ -113,11 +114,13 @@ export default class Scene3D extends Scene {
   }
 
   end() {
-    super.end()
-    this.controls?.dispose() // orbit controls listen on the canvas that the next scene reuses
-    window.removeEventListener('resize', this.handleResize)
-    screen.orientation.removeEventListener('change', this.handleResize)
-    this.disposeScene()
+    runCleanups([
+      () => super.end(),
+      () => this.controls?.dispose(), // orbit controls listen on the canvas that the next scene reuses
+      () => window.removeEventListener('resize', this.handleResize),
+      () => screen.orientation.removeEventListener('change', this.handleResize),
+      () => this.disposeScene(),
+    ])
   }
 
   /**
@@ -125,20 +128,22 @@ export default class Scene3D extends Scene {
    * A model shared with a later game is uploaded again when that game draws it.
    */
   disposeScene(scene = this.scene) {
+    const cleanups = []
     const disposeTextures = values => Object.values(values).forEach(value => {
-      if (value?.isTexture) value.dispose()
-      else if (value?.value?.isTexture) value.value.dispose() // a shader uniform
+      if (value?.isTexture) cleanups.push(() => value.dispose())
+      else if (value?.value?.isTexture) cleanups.push(() => value.value.dispose()) // a shader uniform
     })
     scene.traverse(object => {
-      if (object.isLight) object.dispose() // its shadow map
-      if (object.isSkinnedMesh) object.skeleton.dispose() // the texture with its bones
-      object.geometry?.dispose()
+      if (object.isLight) cleanups.push(() => object.dispose()) // its shadow map
+      if (object.isSkinnedMesh) cleanups.push(() => object.skeleton.dispose()) // the texture with its bones
+      if (object.geometry) cleanups.push(() => object.geometry.dispose())
       for (const material of [object.material].flat().filter(Boolean)) {
         disposeTextures(material)
         if (material.uniforms) disposeTextures(material.uniforms)
-        material.dispose()
+        cleanups.push(() => material.dispose())
       }
     })
-    if (scene.background?.isTexture) scene.background.dispose()
+    if (scene.background?.isTexture) cleanups.push(() => scene.background.dispose())
+    runCleanups(cleanups)
   }
 }

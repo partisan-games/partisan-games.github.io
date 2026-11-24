@@ -3,7 +3,7 @@
   "assets": [
     {
       "id": "bunker-machine-gunner",
-      "image": "../../game-ready/vojnici/mitraljezac-sprites.png",
+      "image": "../../../game-ready/vojnici/mitraljezac-sprites.png",
       "frame": {
         "width": 63,
         "height": 27,

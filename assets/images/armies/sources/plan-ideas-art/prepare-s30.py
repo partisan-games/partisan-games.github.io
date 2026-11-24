@@ -7,7 +7,7 @@ from PIL import Image
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[4]
-OUT = ROOT/'assets/images/armies/game-ready/brodovi'
+OUT = ROOT/'assets/images/game-ready/brodovi'
 source = HERE/'s30-redraw-generated.png'
 image = Image.open(source).convert('RGBA')
 image.putalpha(image.getchannel('A').point(lambda value: 255 if value >= 128 else 0))
@@ -42,7 +42,7 @@ assert frame.getbbox()
 frame.save(OUT/'s30-deck-gun.png',optimize=True)
 mounts = [(x*sx+ox)/1327-.5 for x in [563,1678]]
 geometry = dict(mounts=mounts,gunReach=.04)
-art = dict(src='armies/game-ready/brodovi/schnellboot-s30.png',gun=dict(src='armies/game-ready/brodovi/s30-deck-gun.png',
+art = dict(src='game-ready/brodovi/schnellboot-s30.png',gun=dict(src='game-ready/brodovi/s30-deck-gun.png',
            width=96,height=96,anchor=dict(x=32,y=48),muzzle=[86,48],clips=dict(idle=dict(ms=[1000],loop=True))))
 record = dict(source=source.name,sourceSha256=hashlib.sha256(source.read_bytes()).hexdigest(),rows=rows,
               frame=[1327,211],scale=[sx,sy],offset=[ox,oy],registration=[0,-13],

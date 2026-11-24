@@ -1,7 +1,7 @@
 [
   {
     "id": "partisan-tank",
-    "original": "armies/game-ready/tenkovi/partizanski-tenk-bez-cevi-pixel.png",
+    "original": "game-ready/tenkovi/partizanski-tenk-bez-cevi-pixel.png",
     "frame": [
       300,
       129
@@ -10,7 +10,7 @@
   },
   {
     "id": "german-tank",
-    "original": "armies/game-ready/tenkovi/nemacki-tenk-bez-cevi-pixel.png",
+    "original": "game-ready/tenkovi/nemacki-tenk-bez-cevi-pixel.png",
     "frame": [
       327,
       137
@@ -19,7 +19,7 @@
   },
   {
     "id": "somua-s35",
-    "original": "armies/game-ready/tenkovi/somua-s35-body-readable.png",
+    "original": "game-ready/tenkovi/somua-s35-body-readable.png",
     "frame": [
       379,
       166
@@ -28,7 +28,7 @@
   },
   {
     "id": "hummel",
-    "original": "armies/game-ready/tenkovi/hummel-sprites.png",
+    "original": "game-ready/tenkovi/hummel-sprites.png",
     "frame": [
       320,
       160
@@ -37,7 +37,7 @@
   },
   {
     "id": "opel-blitz",
-    "original": "armies/game-ready/kamioni/opel-blitz-sprites.png",
+    "original": "game-ready/kamioni/opel-blitz-sprites.png",
     "frame": [
       320,
       160
@@ -46,7 +46,7 @@
   },
   {
     "id": "opel-blitz-legion",
-    "original": "armies/game-ready/kamioni/opel-blitz-legion-sprites.png",
+    "original": "game-ready/kamioni/opel-blitz-legion-sprites.png",
     "frame": [
       320,
       160
@@ -55,7 +55,7 @@
   },
   {
     "id": "bp42",
-    "original": "armies/game-ready/vozovi/bp42-sprites.png",
+    "original": "game-ready/vozovi/bp42-sprites.png",
     "frame": [
       576,
       256
@@ -64,7 +64,7 @@
   },
   {
     "id": "flak38",
-    "original": "armies/game-ready/artiljerija/flak38-postolje.png",
+    "original": "game-ready/artiljerija/flak38-postolje.png",
     "frame": [
       204,
       122
@@ -73,7 +73,7 @@
   },
   {
     "id": "pak38",
-    "original": "armies/game-ready/artiljerija/pak38-postolje.png",
+    "original": "game-ready/artiljerija/pak38-postolje.png",
     "frame": [
       233,
       51
@@ -106,7 +106,7 @@
   },
   {
     "id": "potez-25-partisan",
-    "original": "armies/game-ready/avioni/potez-25-partisan-bez-mitraljeza.png",
+    "original": "game-ready/avioni/potez-25-partisan-bez-mitraljeza.png",
     "frame": [400, 173],
     "reference": "potez-25-partisan-reference.png",
     "prompt": "potez-25-partisan-prompt.json",
@@ -114,7 +114,7 @@
   },
   {
     "id": "potez-25-ndh",
-    "original": "armies/game-ready/avioni/potez-25-ndh-bez-mitraljeza.png",
+    "original": "game-ready/avioni/potez-25-ndh-bez-mitraljeza.png",
     "frame": [400, 173],
     "reference": "potez-25-ndh-reference.png",
     "prompt": "potez-25-ndh-prompt.json",

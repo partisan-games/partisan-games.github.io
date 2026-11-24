@@ -3,7 +3,7 @@
     {
       "id": "partizanski-tenk",
       "title": "Partizanski tenk",
-      "reference": "../../game-ready/tenkovi/partizanski-tenk-bez-cevi-pixel.png",
+      "reference": "../../../game-ready/tenkovi/partizanski-tenk-bez-cevi-pixel.png",
       "source": "partizanski-tenk-drive-generated.png",
       "sourceSize": [
         2180,
@@ -74,10 +74,10 @@
           117
         ]
       ],
-      "output": "../../game-ready/tenkovi/partizanski-tenk-sprites.png",
+      "output": "../../../game-ready/tenkovi/partizanski-tenk-sprites.png",
       "facing": "right",
       "barrel": {
-        "image": "../../game-ready/tenkovi/partizanski-tenk-cev-pixel.png",
+        "image": "../../../game-ready/tenkovi/partizanski-tenk-cev-pixel.png",
         "anchorFromCenter": {
           "x": 0.07,
           "y": -0.33
@@ -88,7 +88,7 @@
     {
       "id": "nemacki-tenk",
       "title": "Nemački tenk",
-      "reference": "../../game-ready/tenkovi/nemacki-tenk-bez-cevi-pixel.png",
+      "reference": "../../../game-ready/tenkovi/nemacki-tenk-bez-cevi-pixel.png",
       "source": "nemacki-tenk-drive-generated.png",
       "sourceSize": [
         2172,
@@ -163,10 +163,10 @@
           109
         ]
       ],
-      "output": "../../game-ready/tenkovi/nemacki-tenk-sprites.png",
+      "output": "../../../game-ready/tenkovi/nemacki-tenk-sprites.png",
       "facing": "left",
       "barrel": {
-        "image": "../../game-ready/tenkovi/nemacki-tenk-cev-pixel.png",
+        "image": "../../../game-ready/tenkovi/nemacki-tenk-cev-pixel.png",
         "anchorFromCenter": {
           "x": -0.12,
           "y": -0.35
@@ -185,7 +185,7 @@
     {
       "id": "somua-s35",
       "title": "Somua S35",
-      "reference": "../../game-ready/tenkovi/somua-s35-body-readable.png",
+      "reference": "../../../game-ready/tenkovi/somua-s35-body-readable.png",
       "source": "somua-s35-drive-generated.png",
       "sourceSize": [
         2176,
@@ -296,10 +296,10 @@
           ]
         ]
       ],
-      "output": "../../game-ready/tenkovi/somua-s35-sprites.png",
+      "output": "../../../game-ready/tenkovi/somua-s35-sprites.png",
       "facing": "left",
       "barrel": {
-        "image": "../../game-ready/tenkovi/somua-s35-barrel.png",
+        "image": "../../../game-ready/tenkovi/somua-s35-barrel.png",
         "anchorFromCenter": {
           "x": -0.307,
           "y": -0.217

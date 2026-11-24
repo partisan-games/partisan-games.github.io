@@ -10,7 +10,7 @@ from PIL import Image, ImageChops, ImageDraw, ImageFilter
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[4]
 ORIGINAL = ROOT / 'assets/images/sprites/vojnici/okupator-sprite.png'
-TARGET = ROOT / 'assets/images/armies/game-ready/vojnici/occupier-sprites.png'
+TARGET = ROOT / 'assets/images/game-ready/vojnici/occupier-sprites.png'
 SIZE = 210
 FRAME_MS = [100] * 5
 # This follows the forearms, hands and gun, excluding shoulders and torso edges.
@@ -91,7 +91,7 @@ def metadata(sheet, muzzles):
     animations[-1].update(frameDurationsMs=FRAME_MS, muzzle=muzzles,
                           end='Frame 4 returns pixel-for-pixel to frame 0.')
     return {'schemaVersion': 1, 'assets': [{
-        'id': 'occupier', 'image': '../../game-ready/vojnici/occupier-sprites.png',
+        'id': 'occupier', 'image': '../../../game-ready/vojnici/occupier-sprites.png',
         'frame': {'width': SIZE, 'height': SIZE, 'columns': 5, 'rows': 6},
         'anchor': {'x': 105, 'y': 210}, 'animations': animations,
         'source': '../../../sprites/vojnici/okupator-sprite.png',

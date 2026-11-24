@@ -6,7 +6,7 @@
     {
       "id": "partizanski-tenk",
       "title": "Partizanski tenk",
-      "image": "../../game-ready/tenkovi/partizanski-tenk-sprites.png",
+      "image": "../../../game-ready/tenkovi/partizanski-tenk-sprites.png",
       "frame": {
         "width": 300,
         "height": 129,
@@ -22,7 +22,7 @@
         "y": 129
       },
       "facing": "right",
-      "reference": "../../game-ready/tenkovi/partizanski-tenk-bez-cevi-pixel.png",
+      "reference": "../../../game-ready/tenkovi/partizanski-tenk-bez-cevi-pixel.png",
       "referenceSha256": "345baf6e0a8e5e9340aab2e0ff34f7fd0bd007698b531da9c0d1154437d78b9a",
       "source": "partizanski-tenk-drive-generated.png",
       "sourceSha256": "2152e0336aa28a80e73d9cff097a43c501e76ecd9843519c0825a64730ed50c7",
@@ -49,7 +49,7 @@
         }
       ],
       "barrel": {
-        "image": "../../game-ready/tenkovi/partizanski-tenk-cev-pixel.png",
+        "image": "../../../game-ready/tenkovi/partizanski-tenk-cev-pixel.png",
         "anchorFromCenter": {
           "x": 0.07,
           "y": -0.33
@@ -60,7 +60,7 @@
     {
       "id": "nemacki-tenk",
       "title": "Nemački tenk",
-      "image": "../../game-ready/tenkovi/nemacki-tenk-sprites.png",
+      "image": "../../../game-ready/tenkovi/nemacki-tenk-sprites.png",
       "frame": {
         "width": 327,
         "height": 137,
@@ -76,7 +76,7 @@
         "y": 137
       },
       "facing": "left",
-      "reference": "../../game-ready/tenkovi/nemacki-tenk-bez-cevi-pixel.png",
+      "reference": "../../../game-ready/tenkovi/nemacki-tenk-bez-cevi-pixel.png",
       "referenceSha256": "990a0a1966b5f79d9b309cb374cfc714603b63a9a517f4dc7f646804db6b65ef",
       "source": "nemacki-tenk-drive-generated.png",
       "sourceSha256": "17bd0ae97f9c48f2f9c3b031e705d5ac894b93436ed974862082c5d9ac3c1832",
@@ -103,7 +103,7 @@
         }
       ],
       "barrel": {
-        "image": "../../game-ready/tenkovi/nemacki-tenk-cev-pixel.png",
+        "image": "../../../game-ready/tenkovi/nemacki-tenk-cev-pixel.png",
         "anchorFromCenter": {
           "x": -0.12,
           "y": -0.35
@@ -122,7 +122,7 @@
     {
       "id": "somua-s35",
       "title": "Somua S35",
-      "image": "../../game-ready/tenkovi/somua-s35-sprites.png",
+      "image": "../../../game-ready/tenkovi/somua-s35-sprites.png",
       "frame": {
         "width": 379,
         "height": 166,
@@ -138,7 +138,7 @@
         "y": 166
       },
       "facing": "left",
-      "reference": "../../game-ready/tenkovi/somua-s35-body-readable.png",
+      "reference": "../../../game-ready/tenkovi/somua-s35-body-readable.png",
       "referenceSha256": "41a69909b74d78fd990aaf642141b1081cae22acba91ddf685db78bb93bebf9b",
       "source": "somua-s35-drive-generated.png",
       "sourceSha256": "9d10038a04c85f60a1ad7372ad44ea49b017795b6aac8684a1a9261e9eca334f",
@@ -165,7 +165,7 @@
         }
       ],
       "barrel": {
-        "image": "../../game-ready/tenkovi/somua-s35-barrel.png",
+        "image": "../../../game-ready/tenkovi/somua-s35-barrel.png",
         "anchorFromCenter": {
           "x": -0.307,
           "y": -0.217

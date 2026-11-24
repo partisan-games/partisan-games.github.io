@@ -2,7 +2,7 @@ import GameObject2D from '/core/actor/GameObject2D.js'
 import { ctx } from '/core/io/canvas2d.js'
 
 /** The partisan seen from above, its uniform's colour, and the colours of the others aboard. */
-const figure = { src: 'armies/game-ready/vojnici/partizan-odozgo.png', size: [32, 36], drawn: [24, 27] }
+const figure = { src: 'game-ready/vojnici/partizan-odozgo.png', size: [32, 36], drawn: [24, 27] }
 const uniform = [101, 115, 73]
 const uniforms = [uniform, [123, 128, 119], [119, 99, 75], [94, 110, 108]]
 

@@ -3,7 +3,7 @@
   "assets": [
     {
       "id": "potez-crew",
-      "image": "../../../game-ready/avioni/potez-25-posada-sprites.png",
+      "image": "../../../../game-ready/avioni/potez-25-posada-sprites.png",
       "frame": {
         "width": 400,
         "height": 173,
@@ -27,7 +27,7 @@
     },
     {
       "id": "potez-propeller",
-      "image": "../../../game-ready/avioni/potez-25-propeler-sprites.png",
+      "image": "../../../../game-ready/avioni/potez-25-propeler-sprites.png",
       "frame": {
         "width": 20,
         "height": 128,

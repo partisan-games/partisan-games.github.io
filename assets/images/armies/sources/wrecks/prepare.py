@@ -7,11 +7,11 @@ from PIL import Image, ImageDraw
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[4]
-OUT = ROOT / 'assets/images/armies/game-ready/wrecks'
+OUT = ROOT / 'assets/images/game-ready/wrecks'
 ALIASES = {
-    'partisan-tank': ['armies/game-ready/tenkovi/partizanski-tenk-sprites.png'],
-    'german-tank': ['armies/game-ready/tenkovi/nemacki-tenk-sprites.png'],
-    'somua-s35': ['armies/game-ready/tenkovi/somua-s35-sprites.png'],
+    'partisan-tank': ['game-ready/tenkovi/partizanski-tenk-sprites.png'],
+    'german-tank': ['game-ready/tenkovi/nemacki-tenk-sprites.png'],
+    'somua-s35': ['game-ready/tenkovi/somua-s35-sprites.png'],
 }
 
 def bounds(image):
@@ -40,11 +40,11 @@ def main():
         target = OUT / (key + '.png')
         result.save(target)
         width, height = result.size
-        descriptor = {'src': 'armies/game-ready/wrecks/' + key + '.png', 'width': width, 'height': height}
+        descriptor = {'src': 'game-ready/wrecks/' + key + '.png', 'width': width, 'height': height}
         aliases = ALIASES.get(key, [])
         for path in [profile['original'], *aliases, *(p.replace('-sprites.png', '-layers.png') for p in aliases)]:
             runtime[path] = descriptor
-        assets.append({'id': key, 'image': '../../game-ready/wrecks/' + key + '.png',
+        assets.append({'id': key, 'image': '../../../game-ready/wrecks/' + key + '.png',
             'frame': {'width': width, 'height': height, 'columns': 1, 'rows': 1},
             'anchor': {'x': width / 2, 'y': bottom}, 'baseline': bottom,
             'source': source.name, 'reference': profile['reference'], 'sourceBounds': list(bounds(raw)),
@@ -73,8 +73,8 @@ def main():
             continue
         details = ('<p>image_gen (built-in): <a href="' + profile['prompt'] + '">prompt</a> · '
             '<a href="' + key + '-generated.png">izvor</a> · '
-            '<a href="../../game-ready/wrecks/' + key + '.png">PNG za igru</a></p>') if 'prompt' in profile else ''
-        cards.append('<figure id="' + key + '"><img src="../../game-ready/wrecks/' + key + '.png"><figcaption>' + key + details + '</figcaption></figure>')
+            '<a href="../../../game-ready/wrecks/' + key + '.png">PNG za igru</a></p>') if 'prompt' in profile else ''
+        cards.append('<figure id="' + key + '"><img src="../../../game-ready/wrecks/' + key + '.png"><figcaption>' + key + details + '</figcaption></figure>')
     (HERE / 'preview.html').write_text('<!doctype html><html lang="sr"><meta charset="utf-8"><title>Olupine</title><style>body{background:#58614a;color:white;font:16px sans-serif}main{display:flex;flex-wrap:wrap}figure{margin:16px}img{image-rendering:pixelated;max-width:576px}figcaption{padding:8px}</style><h1>Olupine — koordinatni sistemi živih aktera</h1><p>Statični završni kadrovi; požar i prelaz daje igra. Isti akteri u postojećem katalogu.</p><main>' + ''.join(cards) + '</main></html>', encoding='utf-8')
     print(f'Packed {len(assets)}/{len(profiles)} wrecks, preserving live frame size and ground baseline.')
 

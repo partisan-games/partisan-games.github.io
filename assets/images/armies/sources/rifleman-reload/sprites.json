@@ -5,7 +5,7 @@
     {
       "id": "rifleman-reload",
       "title": "German rifleman: detachable-magazine reload",
-      "image": "../../game-ready/vojnici/nemacki-strelac-reload-sprites.png",
+      "image": "../../../game-ready/vojnici/nemacki-strelac-reload-sprites.png",
       "frame": {
         "width": 128,
         "height": 128,

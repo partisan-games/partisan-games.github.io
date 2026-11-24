@@ -8,7 +8,7 @@ import { actorArt } from '../reinforcementArt.js'
 import DamageSmoke from '../effects/DamageSmoke.js'
 
 const wreck = {
-  src: 'armies/game-ready/wrecks/field-gun.png', width: 500, height: 260, anchor: { x: 240, y: 164.5 },
+  src: 'game-ready/wrecks/field-gun.png', width: 500, height: 260, anchor: { x: 240, y: 164.5 },
   clips: { dead: { ms: [1000] } },
 }
 
@@ -19,8 +19,8 @@ const wreck = {
  */
 export default class FieldGunSprite extends BodySprite {
   constructor(body, { projection, camera }) {
-    super(body, 'armies/game-ready/artiljerija/field-gun-barrel-pixel.png', { projection, camera, flammable: true })
-    this.carriage = new GameObject2D('armies/game-ready/artiljerija/field-gun-carriage-pixel.png', {
+    super(body, 'game-ready/artiljerija/field-gun-barrel-pixel.png', { projection, camera, flammable: true })
+    this.carriage = new GameObject2D('game-ready/artiljerija/field-gun-carriage-pixel.png', {
       scale: projection.length(gunShape.pixel),
     })
     this.carriage.layer = 1

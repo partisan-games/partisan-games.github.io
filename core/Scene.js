@@ -10,6 +10,7 @@ import PausePolicy from './PausePolicy.js'
 import World from './World.js'
 import SceneAudio from './io/audio/SceneAudio.js'
 import { admission } from './io/admission.js'
+import runCleanups from './runtime/runCleanups.js'
 
 // the scene that last showed each shared canvas; a scene ended late must not hide or wipe the next scene's drawing
 const canvasOwners = new WeakMap()
@@ -171,22 +172,26 @@ export default class Scene {
   }
 
   end() {
-    this.gameLoop.stop()
-    this.syncSounds()
-    this.sceneAudio.end()
-    this.world.end(this.player)
-    this.session.dispose()
-    this.ui.end()
-    if (canvasOwners.get(this.canvas) === this) {
-      this.clear()
-      this.canvas.style.display = 'none'
-      canvasOwners.delete(this.canvas)
-    }
-
-    document.removeEventListener('click', this.handleClick)
-    document.removeEventListener('click', this.unlockAudio, true)
-    document.removeEventListener('keydown', this.unlockAudio, true)
-    this.pausePolicy?.end()
+    runCleanups([
+      () => this.gameLoop.stop(),
+      () => this.syncSounds(),
+      () => this.sceneAudio.end(),
+      () => this.world.end(this.player),
+      () => this.session.dispose(),
+      () => this.ui.end(),
+      () => {
+        if (canvasOwners.get(this.canvas) === this) this.clear()
+      },
+      () => {
+        if (canvasOwners.get(this.canvas) !== this) return
+        this.canvas.style.display = 'none'
+        canvasOwners.delete(this.canvas)
+      },
+      () => document.removeEventListener('click', this.handleClick),
+      () => document.removeEventListener('click', this.unlockAudio, true),
+      () => document.removeEventListener('keydown', this.unlockAudio, true),
+      () => this.pausePolicy?.end(),
+    ])
   }
 
   pause() {

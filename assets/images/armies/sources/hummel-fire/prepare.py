@@ -9,10 +9,10 @@ from PIL import Image, ImageChops, ImageDraw
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[4]
-TARGET = ROOT / 'assets/images/armies/game-ready/tenkovi/hummel-fire-sprites.png'
+TARGET = ROOT / 'assets/images/game-ready/tenkovi/hummel-fire-sprites.png'
 HUMMEL = ROOT / 'assets/images/armies/sources/franjo-kluz/hummel-redraw-generated.png'
-LIVE = ROOT / 'assets/images/armies/game-ready/tenkovi/hummel-sprites.png'
-FX = ROOT / 'assets/images/armies/game-ready/efekti/plamen-pucnja-sprites.png'
+LIVE = ROOT / 'assets/images/game-ready/tenkovi/hummel-sprites.png'
+FX = ROOT / 'assets/images/game-ready/efekti/plamen-pucnja-sprites.png'
 SIZE = (384, 176)
 ANCHOR = (192, 156)
 FRAME_MS = [40, 60, 100, 140, 180, 280]
@@ -84,20 +84,20 @@ def build():
 
 
 def metadata(sheet, frames):
-    inputs = [('../franjo-kluz/hummel-redraw-generated.png', HUMMEL), ('../../game-ready/tenkovi/hummel-sprites.png', LIVE),
-              ('../../game-ready/efekti/plamen-pucnja-sprites.png', FX),
+    inputs = [('../franjo-kluz/hummel-redraw-generated.png', HUMMEL), ('../../../game-ready/tenkovi/hummel-sprites.png', LIVE),
+              ('../../../game-ready/efekti/plamen-pucnja-sprites.png', FX),
               ('../franjo-kluz/manifest.json', HERE.parent / 'franjo-kluz/manifest.json'),
               ('../franjo-kluz/hummel-redraw-generation.json', HERE.parent / 'franjo-kluz/hummel-redraw-generation.json')]
     return {'schemaVersion': 1, 'generatedWith': 'Mechanical composition of existing accepted Hummel and muzzle-effect pixels',
             'assets': [{
                 'id': 'hummel-fire', 'title': 'Hummel: cannon discharge and recoil',
-                'image': '../../game-ready/tenkovi/hummel-fire-sprites.png',
+                'image': '../../../game-ready/tenkovi/hummel-fire-sprites.png',
                 'frame': {'width': 384, 'height': 176, 'columns': 6, 'rows': 1},
                 'anchor': {'x': ANCHOR[0], 'y': ANCHOR[1]},
                 'groundAnchor': {'x': ANCHOR[0], 'y': ANCHOR[1]}, 'facing': 'right', 'previewScale': .75,
                 'reference': 'ready-reference.png', 'referenceSha256': sha(HERE / 'ready-reference.png'),
                 'source': '../franjo-kluz/hummel-redraw-generated.png', 'sourceSha256': sha(HUMMEL),
-                'effectSource': '../../game-ready/efekti/plamen-pucnja-sprites.png', 'effectSourceSha256': sha(FX),
+                'effectSource': '../../../game-ready/efekti/plamen-pucnja-sprites.png', 'effectSourceSha256': sha(FX),
                 'sha256': hashlib.sha256(png(sheet)).hexdigest(),
                 'inputs': [{'path': name, 'sha256': sha(p)} for name, p in inputs],
                 'animations': [{

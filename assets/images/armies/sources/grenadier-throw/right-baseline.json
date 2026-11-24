@@ -1,7 +1,7 @@
 {
   "files": {
-    "assets/images/armies/game-ready/vojnici/bombas-sprites.png": "13c2d761ddb407a4cd995ec6b6e48399ada817c706323038e1ddeaaa836c5929",
-    "assets/images/armies/game-ready/vojnici/bombas-throw-sprites.png": "72e312f818f2518451ed5d2036cd8488498f9e4b7132d36a6bd9ab13b5306ada",
+    "assets/images/game-ready/vojnici/bombas-sprites.png": "13c2d761ddb407a4cd995ec6b6e48399ada817c706323038e1ddeaaa836c5929",
+    "assets/images/game-ready/vojnici/bombas-throw-sprites.png": "72e312f818f2518451ed5d2036cd8488498f9e4b7132d36a6bd9ab13b5306ada",
     "assets/images/armies/sources/grenadier-throw/game-size.png": "a953c9334e234ce7b74b21728a6787641dae2e528fa5d28bd6a66f0c685aab1e",
     "assets/images/armies/sources/grenadier-throw/enlarged.png": "0fae84ce0dcd174abd72bedff1b2972a0d07a57ec508faa9e4c2691709ea04dd",
     "assets/images/armies/sources/grenadier-throw/throw.gif": "3bf0bdeb6e07507d78e5c28201d871d2f893d14476d041d6fa19a6412a68c4e7",

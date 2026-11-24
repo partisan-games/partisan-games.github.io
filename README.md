@@ -30,6 +30,20 @@ To see every background picture in the project, open `/pozadine.html` on the `np
 See [PLAN](docs/PLAN.md).
 
 - razrađivati postojeće nivoe redom
+- smisli kako da 3d igre po stilu vise lice na 2d igre. ja u nekim igrama koristim Toon renderer koji daje crne ivice kao crtez. sta bi jos mogli? 
+- Kako jos kreativno mozemo mesati 2d i 3d? Imamo drvar i german advance kao primere
+- treba dodati kratak istorijski info za svaki nivo negde. osmisliti gde da ne guši igru.
+- German advance animacija sa zivim likovima da bude promo animacija sajta, dodati na kraju tekst Partisan games
+- Prosiriti katalog zgradama i predmetima?
+- Mozda obrisati ostale igre? Dora voli balonka....
+UVODNE ANIMACIJE NA NIVOE:
+- gola zrtva izlazi iz kuce u plamenu i bezi od nemackog vojnika
+- animacija Nemci streljaju civile (taoce)
+- Napraviti par cetnika 2d i 3d.
+  assets/images/armies/cetnici/cetnik-03.png
+  assets/images/armies/cetnici/juris-01.png
+  assets/images/armies/cetnici/mitraljezac-07.png
+- ima li smisla napraviti prost 3d renderer za neke nivoe? Prednosti i mane?
 
 ## Credits
 

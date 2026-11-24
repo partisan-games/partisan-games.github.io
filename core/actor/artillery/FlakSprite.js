@@ -9,7 +9,7 @@ import GunCrew from './GunCrew.js'
 
 /** The base picture is 204 px wide; the barrel picture is drawn at the base's scale, turned about its middle. */
 const baseWidth = 204
-const base = 'armies/game-ready/artiljerija/flak38-postolje.png'
+const base = 'game-ready/artiljerija/flak38-postolje.png'
 
 /**
  * How a flak body looks and sounds in 2D: its base with the crew behind it, which works on a shot and falls when the
@@ -21,7 +21,7 @@ export default class FlakSprite extends BodySprite {
     super(body, base, { projection, camera, flammable: true })
     wreckFor(base)
     this.crew = new GunCrew('flak38')
-    this.barrel = new WorldPart('armies/game-ready/artiljerija/flak38-cev.png', { camera })
+    this.barrel = new WorldPart('game-ready/artiljerija/flak38-cev.png', { camera })
     this.shell = new WorldPart('items/granata.gif', { camera, scale: .4, visible: false })
     this.muzzleFlash = new MuzzleFlash(camera)
     this.burstView = new Explosion(camera, { scale: .75, smoke: true })

@@ -43,11 +43,11 @@
         63.0
       ],
       "intact": {
-        "src": "assets/images/armies/game-ready/brodovi/german-launch.png",
+        "src": "assets/images/game-ready/brodovi/german-launch.png",
         "sha256": "ea787ef1e24b34fb6edfc52c1ab9bb2781c30693ec168a79f5ee83fe9643e00d"
       },
       "wreck": {
-        "src": "assets/images/armies/game-ready/brodovi/german-launch-wreck.png",
+        "src": "assets/images/game-ready/brodovi/german-launch-wreck.png",
         "sha256": "5babf64cb33578029ccf32708836bff60838297489d59503fdfc86877c2d16d0"
       }
     },
@@ -86,11 +86,11 @@
         44.0
       ],
       "intact": {
-        "src": "assets/images/armies/game-ready/brodovi/german-skiff.png",
+        "src": "assets/images/game-ready/brodovi/german-skiff.png",
         "sha256": "c36511c77aacf8632e6f5f34a7d90aace4541282aac1f119cb94132b0e0af5d4"
       },
       "wreck": {
-        "src": "assets/images/armies/game-ready/brodovi/german-skiff-wreck.png",
+        "src": "assets/images/game-ready/brodovi/german-skiff-wreck.png",
         "sha256": "5e82d57e307af54b2b03bd90ca12e81241dd4ba2ec79d39866766ff070ec7659"
       }
     },
@@ -129,11 +129,11 @@
         57.0
       ],
       "intact": {
-        "src": "assets/images/armies/game-ready/brodovi/german-patrol-vessel.png",
+        "src": "assets/images/game-ready/brodovi/german-patrol-vessel.png",
         "sha256": "cee1be11f0046d34a068b4c84fcc5e7af9cee28adc48d43653dca216d7b5124d"
       },
       "wreck": {
-        "src": "assets/images/armies/game-ready/brodovi/german-patrol-vessel-wreck.png",
+        "src": "assets/images/game-ready/brodovi/german-patrol-vessel-wreck.png",
         "sha256": "5d3892aa0faed7017c219c165b69b538b02d6f8477fb86383b8b5736df7ea919"
       }
     }

@@ -9,8 +9,8 @@ from PIL import Image, ImageDraw
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[4]
-ACCEPTED = ROOT / 'assets/images/armies/game-ready/vojnici/partizanski-strelac-sprites.png'
-TARGET = ROOT / 'assets/images/armies/game-ready/vojnici/partizanski-strelac-movement-sprites.png'
+ACCEPTED = ROOT / 'assets/images/game-ready/vojnici/partizanski-strelac-sprites.png'
+TARGET = ROOT / 'assets/images/game-ready/vojnici/partizanski-strelac-movement-sprites.png'
 FRAME = (160, 160)
 RENDER = (110, 100)
 FLOOR = 137
@@ -89,7 +89,7 @@ def record(sheet, clips, registration):
         'schemaVersion': 1, 'generatedWith': 'Built-in image_gen; mechanical Pillow packing',
         'assets': [{
             'id': 'partisan-rifleman-movement', 'title': 'Partisan rifleman: stand up, walk, kneeling and standing falls',
-            'image': '../../game-ready/vojnici/partizanski-strelac-movement-sprites.png',
+            'image': '../../../game-ready/vojnici/partizanski-strelac-movement-sprites.png',
             'frame': {'width': 160, 'height': 160, 'columns': 8, 'rows': 4},
             'anchor': ANCHOR, 'groundAnchor': {'x': 80, 'y': FLOOR}, 'facing': 'right',
             'render': {'width': RENDER[0], 'height': RENDER[1]},

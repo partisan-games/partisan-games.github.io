@@ -8,8 +8,8 @@ from PIL import Image
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[4]
 SOURCE=HERE/'somua-barrel-redraw-generated.png'
-TARGET=ROOT/'assets/images/armies/game-ready/tenkovi/somua-s35-barrel.png'
-BODIES=[ROOT/'assets/images/armies/game-ready/tenkovi'/name for name in ['somua-s35-sprites.png','somua-s35-layers.png']]
+TARGET=ROOT/'assets/images/game-ready/tenkovi/somua-s35-barrel.png'
+BODIES=[ROOT/'assets/images/game-ready/tenkovi'/name for name in ['somua-s35-sprites.png','somua-s35-layers.png']]
 def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 
 parser=argparse.ArgumentParser(description=__doc__)

@@ -8,7 +8,7 @@
       "prompt": "REDRAW ONLY the rifleman from reference1 in the game's established style shown in reference2. Reference1 is identity only: keep his normal lean adult build, face, grey-green field uniform, steel helmet, dark boots and wood-stock bolt-action rifle. Reference2 is the mandatory DRAWING STYLE: clean bold dark contours, simple flat color shapes, TWO or THREE clearly separated cel-shaded tones, sharp readable folds and face, serious adult proportions. No photographic texture, canvas grain, soft painterly gradients or photoreal skin. Render at high resolution with deliberate clean linework, NOT enlarged low-resolution pixels. Game animation sheet FOUR COLUMNS TWO ROWS, 8 equal portrait cells, whole person and rifle in every cell, broad transparent margins. Each man about 400 source pixels tall; use a wide landscape high-resolution sheet. First row: FOUR front-facing idle poses with very subtle breathing, rifle held lowered diagonally across torso as identity reference. Second row: FOUR LEFT-facing profile walk cycle phases, alternating boots and arm weight, walk in place, no horizontal drift. Match camera and figure scale throughout, same boot baseline. Full head, rifle muzzle, hands and boot soles visible, no cuts or touching neighboring cells. TRUE TRANSPARENT BACKGROUND, zero alpha outside figures. No background, floor, shadows, smoke, symbols, text or grid. The result must look like the clear outlined game characters in reference2, not the realistic painted character style in reference1.",
       "references": [
         "01-rifleman.png",
-        "../../game-ready/vojnici/nemci-spreda-celo.png"
+        "../../../game-ready/vojnici/nemci-spreda-celo.png"
       ],
       "source": "rifleman-redraw-a-generated.png"
     },

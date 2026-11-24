@@ -3,7 +3,7 @@
   "assets": [
     {
       "id": "otpisani-rifleman",
-      "image": "../../game-ready/vojnici/otpisani-rifleman-sprites.png",
+      "image": "../../../game-ready/vojnici/otpisani-rifleman-sprites.png",
       "frame": {
         "width": 512,
         "height": 512,
@@ -662,7 +662,7 @@
       },
       "generator": "rifleman-redraw-generation.json",
       "runtime": {
-        "src": "armies/game-ready/vojnici/otpisani-rifleman-sprites.png",
+        "src": "game-ready/vojnici/otpisani-rifleman-sprites.png",
         "width": 512,
         "height": 512,
         "anchor": {
@@ -739,7 +739,7 @@
     },
     {
       "id": "otpisani-sentry",
-      "image": "../../game-ready/vojnici/otpisani-sentry-sprites.png",
+      "image": "../../../game-ready/vojnici/otpisani-sentry-sprites.png",
       "frame": {
         "width": 512,
         "height": 512,
@@ -1395,7 +1395,7 @@
       },
       "generator": "winter-sentry-animation-generation.json",
       "runtime": {
-        "src": "armies/game-ready/vojnici/otpisani-sentry-sprites.png",
+        "src": "game-ready/vojnici/otpisani-sentry-sprites.png",
         "width": 512,
         "height": 512,
         "anchor": {

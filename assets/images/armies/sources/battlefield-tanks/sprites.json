@@ -7,7 +7,7 @@
   "assets": [
     {
       "id": "m15-42",
-      "image": "../../game-ready/tenkovi/m15-42-layers.png",
+      "image": "../../../game-ready/tenkovi/m15-42-layers.png",
       "frame": {
         "width": 202,
         "height": 102,
@@ -106,7 +106,7 @@
     },
     {
       "id": "stug-iii",
-      "image": "../../game-ready/tenkovi/stug-iii-layers.png",
+      "image": "../../../game-ready/tenkovi/stug-iii-layers.png",
       "frame": {
         "width": 216,
         "height": 89,
@@ -205,7 +205,7 @@
     },
     {
       "id": "hotchkiss",
-      "image": "../../game-ready/tenkovi/hotchkiss-layers.png",
+      "image": "../../../game-ready/tenkovi/hotchkiss-layers.png",
       "frame": {
         "width": 169,
         "height": 88,

@@ -5,7 +5,7 @@
     {
       "id": "partisan-rifleman-movement",
       "title": "Partisan rifleman: stand up, walk, kneeling and standing falls",
-      "image": "../../game-ready/vojnici/partizanski-strelac-movement-sprites.png",
+      "image": "../../../game-ready/vojnici/partizanski-strelac-movement-sprites.png",
       "frame": {
         "width": 160,
         "height": 160,

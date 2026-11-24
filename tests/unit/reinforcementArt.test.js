@@ -80,7 +80,7 @@ for (const [kindId, artId] of [['armoredCar', 'sdkfz222'], ['motorcycle', 'motor
 test('a hit is a finite view reaction, freezes at zero time, and never overrides death or changes the collider', t => {
   const body = new Rifleman({ x: 10, clock: new GameClock() })
   const projection = sideProjection({ pxPerMeter: 22, groundY: 300 })
-  const art = Object.values(spriteArt).find(item => item.src === 'armies/game-ready/vojnici/nemacki-strelac-sprites.png')
+  const art = Object.values(spriteArt).find(item => item.src === 'game-ready/vojnici/nemacki-strelac-sprites.png')
   const view = new RiflemanSprite(body, { art, projection })
   const world = new World()
   world.add(body, view)

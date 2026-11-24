@@ -1,12 +1,10 @@
 import * as THREE from 'three'
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js'
-import { randomGrayish, getEmptyCoords, sample, maxItems } from '/core3d/helpers.js'
-import { createTrees } from '/core3d/geometry/trees.js'
+import { randomGrayish, sample } from '/core3d/helpers.js'
 import { assets } from '/config.js'
 
 const { randInt, randFloat } = THREE.MathUtils
 
-const basicMaterial = new THREE.MeshStandardMaterial({ vertexColors: true })
 const textureLoader = new THREE.TextureLoader()
 
 const loadTexture = (filepath, halfWidth) => {
@@ -297,105 +295,3 @@ export const createWarRuin = () => createTexturedBuilding({ width: 12, height: 1
 export const createRuin = () => createTexturedBuilding({ width: 12, height: 10, depth: 12, defaultFile: 'buildings/ruin-front.jpg' })
 
 export const createAirport = () => createTexturedBuilding({ width: 20, height: 10, depth: 10, defaultFile: 'buildings/airport.png', files: [null, null, 'terrain/beton.gif'], halfOnSides: true })
-
-const shouldRotate = (rotateEvery, i) => rotateEvery && i % rotateEvery === 0
-
-const shouldEnlarge = (enlargeEvery, i) => enlargeEvery && i % enlargeEvery === 0
-
-export function createCity({
-  mapSize = 400, fieldSize = 20, numBuildings = maxItems(mapSize, fieldSize) / 2, emptyCenter = 0, coords = getEmptyCoords({ mapSize, fieldSize, emptyCenter }), rotateEvery = 9, enlargeEvery = 0, addWindows = false, colorParams = { min: 0, max: .1, colorful: .1 }, map, castShadow = true, receiveShadow = true, numLampposts = 0, numTrees = 0
-} = {}) {
-  const buildings = []
-
-  for (let i = 0; i < numBuildings; i++) {
-    const color = colorParams ? randomGrayish(colorParams) : new THREE.Color(0x000000)
-    const { x, z } = coords.pop()
-
-    const rotY = shouldRotate(rotateEvery, i) ? Math.random() * Math.PI : 0
-    const bWidth = shouldEnlarge(enlargeEvery, i)
-      ? randFloat(fieldSize * .5, fieldSize * 1.25)
-      : randFloat(fieldSize * .5, fieldSize)
-    const bHeight = shouldEnlarge(enlargeEvery, i)
-      ? randFloat(bWidth * 4, bWidth * 6)
-      : randFloat(bWidth, bWidth * 4)
-
-    const geometry = createBuildingGeometry({ color, x, z, rotY, addWindows, width: bWidth, height: bHeight })
-    buildings.push(geometry)
-  }
-
-  const merged = BufferGeometryUtils.mergeGeometries(buildings)
-  const material = map
-    ? new THREE.MeshLambertMaterial({ map, vertexColors: true })
-    : basicMaterial
-
-  const city = new THREE.Mesh(merged, material)
-  city.castShadow = castShadow
-  city.receiveShadow = receiveShadow
-
-  if (numLampposts)
-    city.add(createLampposts({ coords, numLampposts }))
-
-  if (numTrees)
-    city.add(createTrees({ coords, n: numTrees }))
-
-  return city
-}
-
-export const createNightCity = ({ addWindows = true, colorParams = null, numLampposts = 15, ...rest } = {}) => createCity({ addWindows, colorParams, numLampposts, ...rest })
-
-export const createTexturedCity = param => createCity({ numBuildings: 10000, rotateEvery: 2, enlargeEvery: 10, map: createBuildingTexture(), colorParams: { colorful: .035, max: 1 }, ...param })
-
-function createLamppost({ x = 0, z = 0, height = 20 } = {}) {
-  const group = new THREE.Group()
-
-  const sphereGeometry = new THREE.SphereGeometry(1.5, 12, 16)
-  const colors = [0xF5F5DC, 0xdceff5, 0xFFFF8F, 0xFFFDD0]
-  const color = colors[Math.floor(Math.random() * colors.length)]
-  const sphereMaterial = new THREE.MeshBasicMaterial({ color })
-  const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial)
-  sphere.position.set(x, height, z)
-  group.add(sphere)
-
-  const cylinderGeometry = new THREE.CylinderGeometry(.25, .25, height, 6)
-  const cylinderMaterial = new THREE.MeshPhongMaterial({ color: 0x242731 })
-  const cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial)
-  cylinder.position.set(x, height * .5, z)
-  group.add(cylinder)
-
-  const lamppost = new THREE.SpotLight(color)
-  lamppost.position.set(x, height, z)
-  lamppost.target.position.set(x, 0, z)
-  lamppost.target.updateMatrixWorld()
-
-  lamppost.angle = randFloat(Math.PI / 6, Math.PI / 3)
-  lamppost.intensity = randFloat(.5, 2) // 1.8 // 0-2
-  lamppost.penumbra = 0.5
-  lamppost.distance = height * 2
-
-  lamppost.castShadow = true
-  group.add(lamppost)
-
-  return group
-}
-
-export function createLampposts({ mapSize = 200, coords = getEmptyCoords({ mapSize }), numLampposts = 10, height } = {}) {
-  const group = new THREE.Group()
-  for (let i = 0; i < numLampposts; i++) {
-    const { x, z } = coords.pop()
-    const lamppost = createLamppost({ x, z, height })
-    group.add(lamppost)
-  }
-  return group
-}
-
-export function createCityLights({ mapSize, coords = getEmptyCoords({ mapSize }), numLights = 4, height = 10 } = {}) {
-  const group = new THREE.Group()
-  for (let i = 0; i < numLights; i++) {
-    const light = new THREE.SpotLight(0xF5F5DC)
-    const { x, z } = coords.pop()
-    light.position.set(x, height, z)
-    light.castShadow = true
-    group.add(light)
-  }
-  return group
-}

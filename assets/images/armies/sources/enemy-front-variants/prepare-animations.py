@@ -7,7 +7,7 @@ from PIL import Image
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[4]
-READY = ROOT / 'assets/images/armies/game-ready/vojnici'
+READY = ROOT / 'assets/images/game-ready/vojnici'
 # stride: metres the body covers in one walk cycle as drawn, two heel-to-heel steps at double support measured on the
 # walk-left row against the figure's standing height
 PROFILES = {

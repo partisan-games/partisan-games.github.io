@@ -7,7 +7,7 @@
       "source": "zundapp-k600-generated.png",
       "sourceSha256": "09f6d99c8cdcaf7be593f7e63b05576920979e6a0dca365960aa84e5d732ccdc",
       "generation": "generation.json",
-      "image": "../../game-ready/vozila/zundapp-k600-sprites.png",
+      "image": "../../../game-ready/vozila/zundapp-k600-sprites.png",
       "sha256": "46378bc2526d9fe017a7e75f3a86920ec61a7a8a7c53296cca500f9a8f7d5734",
       "frame": {
         "width": 136,
@@ -301,7 +301,7 @@
         }
       ],
       "art": {
-        "src": "armies/game-ready/vozila/zundapp-k600-sprites.png",
+        "src": "game-ready/vozila/zundapp-k600-sprites.png",
         "width": 136,
         "height": 82,
         "bounds": [
@@ -376,7 +376,7 @@
       "source": "bmw-r12-generated.png",
       "sourceSha256": "95bec1dd59dc190facf98a36f1ac74d65e416f77bda409d37a04473dc71fe3d7",
       "generation": "generation.json",
-      "image": "../../game-ready/vozila/bmw-r12-sprites.png",
+      "image": "../../../game-ready/vozila/bmw-r12-sprites.png",
       "sha256": "6550391f4939dca4021dbdf34bef4ef52acf193f7c95c48494d0783545b49616",
       "frame": {
         "width": 97,
@@ -670,7 +670,7 @@
         }
       ],
       "art": {
-        "src": "armies/game-ready/vozila/bmw-r12-sprites.png",
+        "src": "game-ready/vozila/bmw-r12-sprites.png",
         "width": 97,
         "height": 79,
         "bounds": [
@@ -745,7 +745,7 @@
       "source": "sdkfz-231-generated.png",
       "sourceSha256": "2c525fb6a3111bb26d573ef935cecb24ed787cc2be9205251bfd8a6e949ed760",
       "generation": "generation.json",
-      "image": "../../game-ready/vozila/sdkfz-231-sprites.png",
+      "image": "../../../game-ready/vozila/sdkfz-231-sprites.png",
       "sha256": "c55fa30c68e082a2e0778641a72f7566bb6fdcc545c9a323f5fd496bb856d40d",
       "frame": {
         "width": 247,
@@ -1039,7 +1039,7 @@
         }
       ],
       "art": {
-        "src": "armies/game-ready/vozila/sdkfz-231-sprites.png",
+        "src": "game-ready/vozila/sdkfz-231-sprites.png",
         "width": 247,
         "height": 123,
         "bounds": [
@@ -1117,7 +1117,7 @@
       "source": "pzkpf-612-generated.png",
       "sourceSha256": "db676208c525647a6572c111c46b6db4bc938e37b6cffd25067a8aa588819f1c",
       "generation": "generation.json",
-      "image": "../../game-ready/vozila/pzkpf-612-sprites.png",
+      "image": "../../../game-ready/vozila/pzkpf-612-sprites.png",
       "sha256": "3a0a63e2ffbc00b4933307c9b7b1b27c174e12894d2308327426aa7404d0e43b",
       "frame": {
         "width": 246,
@@ -1411,7 +1411,7 @@
         }
       ],
       "art": {
-        "src": "armies/game-ready/vozila/pzkpf-612-sprites.png",
+        "src": "game-ready/vozila/pzkpf-612-sprites.png",
         "width": 246,
         "height": 121,
         "bounds": [
@@ -1489,7 +1489,7 @@
       "source": "mercedes-830bl-generated.png",
       "sourceSha256": "ca33f22e17196372986f55d29b84ac2fe4e52f794d4f2052d2b1e93d8be9caa2",
       "generation": "generation.json",
-      "image": "../../game-ready/vozila/mercedes-830bl-sprites.png",
+      "image": "../../../game-ready/vozila/mercedes-830bl-sprites.png",
       "sha256": "1d6410bf99377dadb23ca9a9a21a2526788ec3c28ec80ed925723561d826c16b",
       "frame": {
         "width": 215,
@@ -1783,7 +1783,7 @@
         }
       ],
       "art": {
-        "src": "armies/game-ready/vozila/mercedes-830bl-sprites.png",
+        "src": "game-ready/vozila/mercedes-830bl-sprites.png",
         "width": 215,
         "height": 96,
         "bounds": [
@@ -1858,7 +1858,7 @@
       "source": "marder-ii-generated.png",
       "sourceSha256": "6a7f12d17c5b610e12a6c8eabd6e90415d5aeaa90c38f36c86eadfbf17dec709",
       "generation": "generation.json",
-      "image": "../../game-ready/vozila/marder-ii-sprites.png",
+      "image": "../../../game-ready/vozila/marder-ii-sprites.png",
       "sha256": "9041468f4581f1c1f0398c7c579637e332f073280b5f6865eb2124c0f337cf69",
       "frame": {
         "width": 267,
@@ -2152,7 +2152,7 @@
         }
       ],
       "art": {
-        "src": "armies/game-ready/vozila/marder-ii-sprites.png",
+        "src": "game-ready/vozila/marder-ii-sprites.png",
         "width": 267,
         "height": 128,
         "bounds": [
@@ -2230,7 +2230,7 @@
       "source": "elefant-generated.png",
       "sourceSha256": "ea3e81b739a641fe4d9910266d9af8f9acff6ffe733e2e4a8f5fc081c6d065cb",
       "generation": "generation.json",
-      "image": "../../game-ready/vozila/elefant-sprites.png",
+      "image": "../../../game-ready/vozila/elefant-sprites.png",
       "sha256": "7079f733203d530158a71427282aba2de7003f6bbf036560c94c919deed1bb0a",
       "frame": {
         "width": 338,
@@ -2524,7 +2524,7 @@
         }
       ],
       "art": {
-        "src": "armies/game-ready/vozila/elefant-sprites.png",
+        "src": "game-ready/vozila/elefant-sprites.png",
         "width": 338,
         "height": 134,
         "bounds": [

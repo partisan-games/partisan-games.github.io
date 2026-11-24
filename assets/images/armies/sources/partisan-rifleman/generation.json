@@ -2,7 +2,7 @@
   "tool": "built-in image_gen",
   "scope": "Art-only handoff: stand-up, walk, kneeling and standing falls for the accepted partisan rifleman.",
   "reference": "kneel-reference.png",
-  "acceptedAtlas": "../../game-ready/vojnici/partizanski-strelac-sprites.png",
+  "acceptedAtlas": "../../../game-ready/vojnici/partizanski-strelac-sprites.png",
   "referenceRecipe": "First cell of the accepted four-column/two-row atlas, rounded crop from fractional 443.5px geometry; original file unchanged.",
   "prompts": [
     {

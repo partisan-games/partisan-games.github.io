@@ -10,7 +10,7 @@ from PIL import Image
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[4]
 BACKGROUND = ROOT / 'assets/images/background'
-ATLAS = ROOT / 'assets/images/armies/game-ready/vojnici/occupier-sprites.png'
+ATLAS = ROOT / 'assets/images/game-ready/vojnici/occupier-sprites.png'
 SIZE = (1536, 1024)
 VARIANTS = [('pixel', 'beograd-1944-pixel.png'), ('monochrome', 'beograd-1944-crno-belo.png')]
 
@@ -88,7 +88,7 @@ def main():
                 'sourceRecord': 'generation.json', 'historicalSources': generation['historicalSources'],
                 'reference': {'image': '../../../background/rusevine-varsava.jpg',
                               'note': 'Existing Warsaw photograph used only as a style comparison.'},
-                'actors': {'image': '../../../armies/game-ready/vojnici/occupier-sprites.png', 'sha256': sha(ATLAS)},
+                'actors': {'image': '../../../../game-ready/vojnici/occupier-sprites.png', 'sha256': sha(ATLAS)},
                 'placement': 'Background.render stretches the whole image to the canvas; this review uses that same image placement.'}
     template = (HERE / 'preview.template.html').read_text(encoding='utf-8')
     assert template.count('__BACKGROUND_MANIFEST__') == 1

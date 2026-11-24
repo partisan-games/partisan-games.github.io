@@ -3,7 +3,7 @@
   "assets": [
     {
       "id": "flak38-crew",
-      "image": "../../game-ready/artiljerija/flak38-crew-sprites.png",
+      "image": "../../../game-ready/artiljerija/flak38-crew-sprites.png",
       "frame": {
         "width": 256,
         "height": 160,
@@ -52,7 +52,7 @@
     },
     {
       "id": "pak38-crew",
-      "image": "../../game-ready/artiljerija/pak38-crew-sprites.png",
+      "image": "../../../game-ready/artiljerija/pak38-crew-sprites.png",
       "frame": {
         "width": 256,
         "height": 160,

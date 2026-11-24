@@ -2,7 +2,7 @@
   "tool": "built-in image_gen",
   "purpose": "Standalone throwing art preparation; does not enable throwing in Bunker or change Claude's runtime.",
   "reference": "../infantry-art/bombas-standing-reference.png",
-  "acceptedAtlas": "../../game-ready/vojnici/bombas-sprites.png",
+  "acceptedAtlas": "../../../game-ready/vojnici/bombas-sprites.png",
   "prompts": [
     {
       "source": "throw-attempt-01.png",

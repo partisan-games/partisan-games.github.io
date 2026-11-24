@@ -9,9 +9,9 @@ from PIL import Image, ImageChops, ImageDraw
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[4]
-LIVE = ROOT / 'assets/images/armies/game-ready/vozovi/bp42-sprites.png'
-FX = ROOT / 'assets/images/armies/game-ready/efekti/plamen-pucnja-sprites.png'
-TARGET = ROOT / 'assets/images/armies/game-ready/vozovi/bp42-fire-sprites.png'
+LIVE = ROOT / 'assets/images/game-ready/vozovi/bp42-sprites.png'
+FX = ROOT / 'assets/images/game-ready/efekti/plamen-pucnja-sprites.png'
+TARGET = ROOT / 'assets/images/game-ready/vozovi/bp42-fire-sprites.png'
 SIZE = (704, 256)
 OFFSET = (64, 0)
 ANCHOR = (352, 232)
@@ -107,11 +107,11 @@ def metadata(sheet, frames):
     muzzle = [{'x': MUZZLE[0] + r, 'y': MUZZLE[1]} for r in RECOIL]
     return {'schemaVersion': 1, 'preparedWith': 'Existing accepted BP-42 pixels and a separate existing muzzle effect', 'assets': [{
         'id': 'bp42-fire', 'title': 'BP-42: stationary cannon recoil',
-        'image': '../../game-ready/vozovi/bp42-fire-sprites.png',
+        'image': '../../../game-ready/vozovi/bp42-fire-sprites.png',
         'frame': {'width': 704, 'height': 256, 'columns': 6, 'rows': 1},
         'anchor': {'x': 352, 'y': 232}, 'groundAnchor': {'x': 352, 'y': 232},
         'facing': 'left', 'previewScale': SCALE,
-        'source': '../../game-ready/vozovi/bp42-sprites.png', 'sourceSha256': sha(LIVE),
+        'source': '../../../game-ready/vozovi/bp42-sprites.png', 'sourceSha256': sha(LIVE),
         'reference': 'ready-reference.png', 'referenceSha256': sha(HERE / 'ready-reference.png'),
         'preparation': 'preparation.json', 'preparationSha256': sha(HERE / 'preparation.json'),
         'sha256': hashlib.sha256(png(sheet)).hexdigest(),
@@ -127,7 +127,7 @@ def metadata(sheet, frames):
                     'fixed': 'Hull, turret, fixed recoil cylinders/collar, hatches, markings and wheels.',
                     'alpha': 'Existing accepted source alpha preserved exactly outside the barrel mask; no whole-body thresholding.',
                     'filter': 'nearest'},
-        'separateEffect': {'image': '../../game-ready/efekti/plamen-pucnja-sprites.png',
+        'separateEffect': {'image': '../../../game-ready/efekti/plamen-pucnja-sprites.png',
                            'sha256': sha(FX), 'sourceCell': [48, 48], 'frameDurationsMs': FX_MS,
                            'size': [60, 60], 'anchor': [45, 30], 'mirrorSource': True,
                            'alphaThreshold': 128, 'previewSmokeDriftPerPhase': [-5, -4],

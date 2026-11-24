@@ -10,7 +10,7 @@ from PIL import Image
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[4]
-GAME = ROOT / 'assets/images/armies/game-ready/vojnici'
+GAME = ROOT / 'assets/images/game-ready/vojnici'
 
 
 def sha(path):
@@ -59,7 +59,7 @@ def main():
     helpers = runpy.run_path(str(HERE.parent / 'tenkovi/prepare.py'))
     helpers['save_gif'](frames, previews / 'bombas-death.gif', [100, 100, 100, 100, 100, 1000])
     metadata = {'schemaVersion': 1, 'generatedWith': 'Built-in image_gen; mechanical Pillow packing', 'assets': [{
-        'id': 'bombas', 'title': 'Bombas', 'image': '../../game-ready/vojnici/bombas-sprites.png',
+        'id': 'bombas', 'title': 'Bombas', 'image': '../../../game-ready/vojnici/bombas-sprites.png',
         'frame': {'width': 66, 'height': 72, 'columns': 8, 'rows': 3},
         'anchor': {'x': 33, 'y': 36}, 'groundAnchor': {'x': 33, 'y': 72},
         'reference': 'references/bombas-idle.png', 'referenceSha256': sha(snapshot),

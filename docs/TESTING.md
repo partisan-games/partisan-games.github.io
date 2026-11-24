@@ -20,6 +20,10 @@ Za browser je potreban instaliran Chromium. Velike serije, buildovi i paralelni 
 
 ## Unit tests (`tests/unit/`)
 
+Art katalog (2026-11-24): `python -B scripts/build-art-catalog.py --check` proverava podudaranje stranica sa folderom `armies` i sve lokalne veze. [Ciljani DOM test](../tests/unit/artCatalog.test.js) potvrđuje originalne slike, izabrani folder, pretragu, prazne rezultate i vraćanje navigacije; izdvojeni `game-ready` nije u stablu. Posle premeštanja pripremljenog arta u `assets/images/game-ready` prolazi 17 ciljanih testova kataloga, razmera i vozila, provera projekta, lossless kopija i 40 paketa pripremljenog arta. Pri premeštanju potvrđeno je očuvanje bajtova slika. Pregledač nije pokretan.
+
+Gašenje posle greške (2026-11-24): [regresione provere](../tests/unit/cleanup.test.js), sesija i postojeće 3D provere prolaze, ukupno 20 testova. Pokriveni su neispravan upravljač i akter, objedinjavanje grešaka, pražnjenje vlasničkih spiskova, nastavak gašenja sesije/UI-ja/ulaza i oslobađanje preostalih GPU resursa posle greške geometrije. Provera importa i putanja takođe prolazi; pregledač nije pokretan.
+
 - Čista logika i runtime proveravaju se bez DOM-a; prikazi koriste [testno okruženje](../tests/unit/setup/register.js) i [DOM pomoćnike](../tests/unit/helpers/dom.js). Module koji čitaju stranicu učitati tek posle pripreme elemenata.
 - Koristiti stvarno telo i relevantan lanac saradnika; stub koji uvek prihvata napad ne dokazuje red, prekid ili odloženi udar. Blok proverava svoje sposobnosti, scena sastavljanje i pravila nivoa.
 - Test sam postavlja potrebne mere i simulira učitavanje slika; fake Image ne dokazuje rasterizaciju. Model pripremiti pre stvaranja aktera; poreklo geometrije mora odgovarati modelu.
