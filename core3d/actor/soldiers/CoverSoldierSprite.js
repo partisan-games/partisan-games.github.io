@@ -5,7 +5,8 @@ import Sound from '/core/io/audio/SoundSource.js'
 import { audioPoint } from '/core/io/audio/audio3d.js'
 
 /**
- * The German soldier of Neretva seen from the front, a 1.8 m man 63 px tall. The whole figure has seven poses:
+ * The German soldier of Neretva seen from the front, a 1.8 m man: `pxPerMeter` of each picture, as they are drawn at
+ * different sizes. The whole figure has seven poses:
  * standing with his rifle, kneeling and lying as he dies, three walking steps and firing; it covers `stride` metres
  * in one cycle of its steps. The upper body, which rises behind cover, has a row each for peeking, aiming, firing
  * and being hit, each in three faces; behind cover his head is `headroom` metres above it.
@@ -13,7 +14,7 @@ import { audioPoint } from '/core/io/audio/audio3d.js'
 export const coverSoldierArt = {
   whole: 'game-ready/vojnici/nemci-spreda-celo.webp',
   upper: 'game-ready/vojnici/nemci-spreda.webp',
-  pxPerMeter: 63, poses: 7, faces: 3, rows: 4, stride: 1.3, headroom: .45,
+  pxPerMeter: { whole: 100, upper: 63 }, poses: 7, faces: 3, rows: 4, stride: 1.3, headroom: .45,
 }
 
 const pose = { stand: 0, kneel: 1, lie: 2, steps: [3, 4, 5, 4], fire: 6 }
@@ -29,8 +30,8 @@ const flash = .055
 export default class CoverSoldierSprite {
   constructor(body, { whole, upper, face = 0, art = coverSoldierArt }) {
     Object.assign(this, { body, face, art })
-    this.whole = billboard(whole, { pxPerMeter: art.pxPerMeter, columns: art.poses })
-    this.upper = billboard(upper, { pxPerMeter: art.pxPerMeter, columns: art.faces, rows: art.rows })
+    this.whole = billboard(whole, { pxPerMeter: art.pxPerMeter.whole, columns: art.poses })
+    this.upper = billboard(upper, { pxPerMeter: art.pxPerMeter.upper, columns: art.faces, rows: art.rows })
     this.mesh = new Group()
     this.mesh.add(this.whole, this.upper)
     /** Metres walked, so the steps keep pace with the body. */

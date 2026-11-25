@@ -14,7 +14,7 @@ const style = `
 let time = 0
 
 export default class FPSRenderer extends HTMLCanvasElement {
-  constructor({ weaponSrc = '/assets/images/ui/savo.png', targetY = 0.5 } = {}) {
+  constructor({ weaponSrc = '/assets/images/ui/savo.png' } = {}) {
     super()
     this.width = window.innerWidth
     this.height = window.innerHeight
@@ -24,7 +24,6 @@ export default class FPSRenderer extends HTMLCanvasElement {
     this.weaponSrc = weaponSrc
     this.weaponImg = new Image()
     this.targetImg = new Image()
-    this.targetY = targetY
     this.showTarget = true
   }
 
@@ -58,9 +57,9 @@ export default class FPSRenderer extends HTMLCanvasElement {
     this.handleLoad(this.weaponImg, this.weaponSrc, 'drawWeaponOnLoad', elapsedTime)
   }
 
-  drawTarget(elapsedTime) {
+  drawTarget() {
     if (!this.showTarget) return
-    this.handleLoad(this.targetImg, targetSrc, 'drawTargetOnLoad', elapsedTime)
+    this.handleLoad(this.targetImg, targetSrc, 'drawTargetOnLoad')
   }
 
   handleLoad(img, src, drawMethod, elapsedTime) {
@@ -75,9 +74,11 @@ export default class FPSRenderer extends HTMLCanvasElement {
     this.drawShake(this.weaponImg, elapsedTime, 0.51)
   }
 
-  drawTargetOnLoad(elapsedTime) {
+  /** The crosshair stays still in the middle of the screen, where the shots go. */
+  drawTargetOnLoad() {
     if (!this.showTarget) return
-    this.drawShake(this.targetImg, elapsedTime, 0.5, this.targetY)
+    const { targetImg: img } = this
+    this.ctx.drawImage(img, (window.innerWidth - img.width) / 2, (window.innerHeight - img.height) / 2)
   }
 
   drawShake(img, elapsedTime = 1, xAlign = 0.5, yAlign = 1) {
@@ -94,19 +95,10 @@ export default class FPSRenderer extends HTMLCanvasElement {
     this.ctx.drawImage(img, x, y)
   }
 
-  drawFixedTarget() {
-    this.draw(this.targetImg, 0.5, this.targetY)
-  }
-
-  renderTarget(elapsedTime) {
-    this.clear()
-    this.drawTarget(elapsedTime)
-  }
-
   render(elapsedTime = time += .016) {
     this.clear()
     if (this.weaponSrc) this.drawWeapon(elapsedTime)
-    this.drawTarget(elapsedTime)
+    this.drawTarget()
   }
 }
 

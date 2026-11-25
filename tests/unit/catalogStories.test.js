@@ -38,7 +38,7 @@ test('the rear three-quarter partisan uses the side-view source scale', async() 
   assert.equal(story.pxPerMeter * 1.8, 72, 'the 82-pixel standing source is never enlarged')
 })
 
-test('the side-view Chetniks fire once, resume the selected motion and stay down after falling', async t => {
+test('the side-view Chetniks start an attack, resume the selected motion and stay down after falling', async t => {
   const { soldiers } = await import('/catalog/stories/cetnici.js')
   const { groupOf } = await import('/catalog/catalog.js')
   const kind = kinds.find(({ id }) => id === 'vojnici')
@@ -64,16 +64,45 @@ test('the side-view Chetniks fire once, resume the selected motion and stay down
     block.setState('attack')
     assert.ok(live(1, () => flash.visible))
     assert.equal(shots.mock.callCount(), 1)
-    assert.ok(live(1, () => block.state === 'move'))
+    assert.ok(live(2, () => block.state === 'move'))
+    const expectedRecordings = story.id === 'cetnik-mitraljezac' ? 3 : 1
+    assert.equal(shots.mock.callCount(), expectedRecordings)
     block.setState('attack')
     block.setState('dead')
     live(2)
     assert.deepEqual(sheet.sample(block.state, block.stateTime), { row: 3, frame: 3 })
-    assert.equal(shots.mock.callCount(), 1)
+    assert.equal(shots.mock.callCount(), expectedRecordings)
     block.setState('idle')
     assert.equal(block.state, 'dead')
     assert.equal(staged(t, story).block.state, 'idle')
   }
+})
+
+test('the Chetnik machine gunner sustains a burst with repeated flashes and cuts it short when he falls', async t => {
+  const { soldiers } = await import('/catalog/stories/cetnici.js')
+  const story = soldiers.find(({ id }) => id === 'cetnik-mitraljezac')
+  const { block, live } = staged(t, story)
+  const [, flash] = block.children
+  const flashes = t.mock.method(flash, 'start')
+  const shots = t.mock.method(block.sounds[0], 'play', () => {})
+  const stop = t.mock.method(block.sounds[0], 'stop')
+  block.setState('attack')
+  live(1.5)
+  assert.equal(block.state, 'attack')
+  assert.ok(flashes.mock.callCount() > 10)
+  assert.ok(live(1, () => block.state === 'idle'))
+  assert.equal(flashes.mock.callCount(), 15)
+  assert.equal(shots.mock.callCount(), 3)
+  assert.equal(stop.mock.callCount(), 0)
+
+  block.setState('attack')
+  assert.ok(live(.5, () => flash.visible))
+  block.setState('dead')
+  assert.equal(flash.visible, false)
+  assert.equal(stop.mock.callCount(), 1)
+  live(2)
+  assert.equal(flashes.mock.callCount(), 16)
+  assert.equal(shots.mock.callCount(), 4)
 })
 
 test('every story has its own address and names its game', () => {

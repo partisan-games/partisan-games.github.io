@@ -98,6 +98,18 @@ test('old infantry links open the equipment of the right individual', async() =>
   assert.notEqual(german.story, open('nemacki-vojnik-3d').story)
 })
 
+test('Sutjeska is the default look of Drug Marko and Maskirna keeps its address', () => {
+  const path = 'drugi-svetski-rat-3d/partizan-3d'
+  const original = findStory(kinds, `${path}/original`)
+  const candidate = findStory(kinds, `${path}/sutjeska`)
+  assert.equal(candidate.story, original.story)
+  assert.equal(candidate.look.id, 'sutjeska')
+  assert.equal(candidate.look.name, 'Sutjeska')
+  assert.ok(candidate.story.looks.includes(candidate.look))
+  assert.equal(original.look.name, 'Maskirna')
+  assert.equal(findStory(kinds, path).look, candidate.look)
+})
+
 test('search opens matching paths, restores disclosures and selection opens every ancestor', async() => {
   const root = document.createElement('nav')
   const storage = { value: '{"2D":false,"2D/Brodovi":false}', getItem() {

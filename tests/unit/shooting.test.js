@@ -62,17 +62,23 @@ async function trieste(t) {
   return scene
 }
 
-/** Leaves the tank alone on the road: no enemies, no air raid to come, and an escort that holds fire. */
-function alone(scene) {
+/**
+ * Leaves the tank alone on the road: no enemies, no air raid to come, and an escort that holds fire, with none of
+ * its bullets still in the air, which would hit the next enemy spawned in their way.
+ */
+async function alone(scene) {
   for (const hostile of [...scene.hostiles]) scene.despawn(hostile)
   scene.raid.at = Infinity
   scene.escort.enemyInSight = () => false
+  const landed = await watch(scene, { seconds: 5, shots: () => [],
+    done: () => scene.escort.soldiers.every(({ body }) => body.bullets.projectiles.every(bullet => !bullet.active)) })
+  assert.ok(landed, 'the escort holds fire')
 }
 
 test('Do Trsta: far along the road, a shell of the tank flies in view all the way to a bunker it reaches level', async t => {
   const scene = await trieste(t)
   const { player } = scene
-  alone(scene)
+  await alone(scene)
   // 26.4 m ahead of the muzzle, which a level shell without the speed of the marching tank falls short of
   const target = scene.spawn(scene.bunker('pillbox', player.muzzle.x + 26.4 + 3.08)).body
   target.canFire = () => false
@@ -344,7 +350,7 @@ test('Do Trsta: a bunker round that hits nothing flies across a wide screen and 
     canvas2d.width = width
   })
   const scene = await trieste(t)
-  alone(scene)
+  await alone(scene)
   const right = (scene.cameraX + canvas2d.width * .9) / scene.projection.pxPerMeter
   const { body, view } = scene.spawn(scene.bunker('pillbox', right))
   body.targets = []

@@ -1,4 +1,5 @@
 import { test } from 'node:test'
+import { readFileSync } from 'node:fs'
 import assert from 'node:assert/strict'
 import { Texture } from 'three'
 import CoverSoldier from '/core/gameplay/bodies/soldiers/CoverSoldier.js'
@@ -7,7 +8,14 @@ import ParachutistSprite from '/core3d/actor/soldiers/ParachutistSprite.js'
 import Parachutist from '/core/gameplay/bodies/characters/Parachutist.js'
 import Body from '/core/gameplay/bodies/Body.js'
 
-const textures = () => ({ whole: new Texture({ width: 1008, height: 124 }), upper: new Texture({ width: 192, height: 288 }) })
+/** The size of a lossless WebP picture, from its header. */
+const webpSize = file => {
+  const bytes = readFileSync(`assets/images/${file}`)
+  const bits = bytes.readUInt32LE(21)
+  return { width: (bits & 0x3fff) + 1, height: (bits >> 14 & 0x3fff) + 1 }
+}
+
+const textures = () => ({ whole: new Texture(webpSize(coverSoldierArt.whole)), upper: new Texture(webpSize(coverSoldierArt.upper)) })
 
 const run = (body, view, seconds, dt = 1 / 30) => {
   for (let t = 0; t < seconds; t += dt) {
@@ -38,6 +46,14 @@ test('in the open his whole figure stands on the ground and lies where he falls'
   body.takeHit(body.health.maximum)
   run(body, view, 1)
   assert.equal(view.wholePose, 2)
+})
+
+test('standing in the open he is drawn as tall as the body that takes the hits', () => {
+  const body = new CoverSoldier({ y: .9 })
+  const view = new CoverSoldierSprite(body, textures())
+  // in its picture the standing pose is 180 px of the frame's height
+  const standing = view.whole.scale.y * 180 / textures().whole.image.height
+  assert.ok(Math.abs(standing - body.size.height) < .01, `${standing} m`)
 })
 
 test('a paratrooper shows his canopy only in the air', () => {

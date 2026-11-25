@@ -15,6 +15,7 @@ import * as germanSoldierModule from '/core3d/actor/derived/ww2/GermanSoldier.js
 import * as naziAgentModule from '/core3d/actor/derived/ww2/NaziAgent.js'
 import * as naziOfficerModule from '/core3d/actor/derived/ww2/NaziOfficer.js'
 import * as partisanModule from '/core3d/actor/derived/ww2/Partisan.js'
+import * as sutjeskaModule from '/core3d/actor/derived/ww2/sutjeskaLook.js'
 import * as partisanLowpolyModule from '/core3d/actor/derived/ww2/PartisanLowpoly.js'
 import * as resistanceFighterModule from '/core3d/actor/derived/ww2/ResistanceFighter.js'
 import * as sSSoldierModule from '/core3d/actor/derived/ww2/SSSoldier.js'
@@ -28,6 +29,7 @@ import * as hotchkissModule from '/core3d/actor/derived/Hotchkiss.js'
 const library = 'Zajednička biblioteka'
 const { italianLooks } = italianLooksModule
 const { mountMetalPipe, pipeSwingModel, smoothPipeSwing } = workerPipeModule
+const sutjeskaLook = { id: 'sutjeska', name: 'Sutjeska', value: { dress: sutjeskaModule.default }, block: sutjeskaModule }
 
 /**
  * A story of a 3D character, with its model and weapon as its games have them. A 3D block needs its models loaded
@@ -95,7 +97,7 @@ function infantryStory(id, name, game, block, portraitNames = {}) {
     ...base, lookLabel: 'Varijacije',
     create: async(stage, way, look) => {
       await requestModels([...block.models, ...looks.map(({ value }) => value.weapon.model)], { parallelAnimations: true })
-      const { body, model } = makeCharacter(block.description)
+      const { body, model } = makeCharacter({ ...block.description, dress: undefined })
       stage.add(body, model)
       const infantry = enableInfantryLooks(stage, model)
       const arms = surrenderArms(model.mesh)
@@ -147,6 +149,7 @@ function infantryStory(id, name, game, block, portraitNames = {}) {
     identities.get(identity).looks.push(look)
   }
   original.looks.sort((a, b) => Number(b.id === 'strelac') - Number(a.id === 'strelac'))
+  if (block === partisanModule) original.looks.unshift(sutjeskaLook)
   return [original, ...identities.values()]
 }
 
@@ -172,8 +175,10 @@ function enableInfantryLooks(stage, { mesh, anim }) {
       part.material = material
       part.geometry = geometry
     }
-    if (look) {
+    look?.dress?.(mesh, textures)
+    if (look?.weapon) {
       dressFighter(mesh, look.outfit, textures, look.hatColor)
+      if (look === variants.strelac) sutjeskaModule.enlargePartisanCapBadge(mesh)
       equipment = look.equip?.(mesh)
       anim.twoHandedWeapon = null
       grip = new TwoHandedGrip(mesh, look.weapon.model)

@@ -135,6 +135,9 @@ Dodatna plovila imaju zasebne opise. Generički nacrtan brod ili projektna mera 
 
 ### 3D
 
+<a id="sutjeska-drug-marko"></a>
+Vlasnik je 25. 11. 2026. prihvatio [Sutjesku](../catalog.html#drugi-svetski-rat-3d/partizan-3d/sutjeska) kao glavni izgled Druga Marka. [Zajednički izgled](../core3d/actor/derived/ww2/sutjeskaLook.js) koriste katalog, Liberated City, Spomenici i prikazi istog partizana u Jablanici i 3D Tank. Mlađe lice, kestenjasta kosa, smeđe oči, veća crvena petokraka i braon pantalone primenjuju se na kopiji postojećeg modela sa istim skeletom. [Maskirna](../catalog.html#drugi-svetski-rat-3d/partizan-3d/original) i [Osnovna](../catalog.html#drugi-svetski-rat-3d/partizan-3d/strelac) i dalje su dostupne u katalogu. [Fotografija sa Sutjeske](https://commons.wikimedia.org/wiki/File:Druga_proleterska_divizija_na_Sutjesci.jpg) je polazište za izgled.
+
 Modele, skinove i klipove pregledati u [katalogu](../catalog.html) i [pregledu animacija](../pregled-animacija.html). Poreklo i licence ostaju uz modele; organizacija kataloga prati [pravila kataloga](KATALOG.md#stavke-kataloga-i-varijante).
 
 Poljski top u [katalogu](../catalog.html#artiljerija-3d/poljski-top-3d) ima [poseban prikaz oštećenja](../core3d/actor/artillery/FieldGunDamage.js): na 75% zdravlja boja je potamnela i nagorela, na 50% se razlabavljuje točak, na 25% spušta lafet, a `dead` ostavlja razdvojene točkove, spuštenu cev i rasklopljene krakove lafeta. Delovi su izvedeni iz trouglova izvornog GLB-a, uz očuvanje njegovih normala i boja; izvorni model i materijali se ne menjaju. Svaki otkinuti sklop zasebno naleže na tlo. U katalogu zdravlje pripada topu; „Pogođena posada” obara zasebnog člana, a Reset vraća zdrav top i živu posadu. Ovaj prikaz nije uključen u Jablanicu, gde smrt posade ostavlja top uspravno.

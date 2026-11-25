@@ -52,6 +52,9 @@ Gašenje posle greške (2026-11-24): [regresione provere](../tests/unit/cleanup.
 - Gašenje proverava stvarne dispose događaje i život kasnih rezultata; uklonjen mesh nije dokaz oslobođenog GPU resursa. Čistiti ulaz, sesije i tajmere koje test napravi.
 - Happy DOM ne završava sve browser animacije. Zamenu napraviti samo na granici potrebnoj testu; ne tvrditi da takav test dokazuje prirodan završetak u browseru.
 - `todo` beleži otvoren problem, ne izvršen dokaz ispravnosti. Lokalni prolaz nije dokaz prolaza CI-ja.
+- Nijedan test ne sme povremeno da pada: nestabilan test se popravlja do uzroka, ne pušta ponovo. Tako izazvan pad uhvatiti ponavljanjem samog testa (npr. 30 puta) i ispisom stanja tek pri padu; potvrda popravke je isto toliko čistih ponavljanja i tri čista `npm run verify`.
+- Kad test isprazni scenu, i projektili koji su već u letu moraju da nestanu, inače pogode ono što test posle postavi (Do Trsta, 2026-11-25: meci pratnje ubijali su novi bunker).
+- Na deo koji objekat sam učitava preko `import()` čekati dok ne postoji; `await import` istog modula u testu i jedan `await` ne garantuju redosled, jer testno okruženje razrešava module van glavne niti (Ustanak, 2026-11-25).
 
 ## Smoke test (`tests/smoke/`)
 
@@ -77,7 +80,9 @@ Ovo su datirani dokazi svog obuhvata, ne tvrdnja da je sve danas provereno. Dnev
 <a id="art-verification-record"></a>
 ## Provere arta
 
-Bočni četnici, 25. 11. 2026. [Ciljani test kataloga](../tests/unit/catalogStories.test.js) potvrđuje tri priče u grupi Četnici, visinu od 72 px, jedan pucanj po napadu, povratak u kretanje, prekid napada pri padu, zadržavanje završnog kadra i vraćanje početnog stanja na resetu. Prolaze 13 ciljanih testova, ESLint i provera projekta. Svih 48 kadrova pregledano je van pregledača, uz proveru providnih margina i oslonca stojećih i palih figura. Prikaz u pregledaču i vlasnikovo prihvatanje izgleda ostaju za vlasnikov pregled.
+Varijacija [Sutjeska](../catalog.html#drugi-svetski-rat-3d/partizan-3d/sutjeska), 25. 11. 2026. [Testovi kataloga](../tests/unit/catalogNavigation.test.js) proveravaju podrazumevani izbor, a [testovi resursa](../tests/unit/catalogResources.test.js) koriste stvarni FBX i klipove mirovanja, hoda, pucanja i pada. Provereni su postojeća mreža i skelet, izgled pri izradi lika za igru i prebacivanje varijacija na istoj pozornici uz očuvan položaj i trenutak animacije. [Test Jablanice](../tests/unit/cannonScene.test.js) potvrđuje isti izgled na strelcu u nivou. Prošla su 32 ciljana testa, ESLint i provera projekta. Vlasnik je prihvatio izgled. Agent je provere izvršio van pregledača.
+
+Bočni četnici, 25. 11. 2026. [Ciljani testovi kataloga](../tests/unit/catalogStories.test.js) potvrđuju tri priče u grupi Četnici, visinu od 72 px, pojedinačne pucnje strelca i jurišnika, 15 bljeskova i tri pokretanja snimka rafala mitraljesca, povratak u kretanje, prekid rafala pri padu, zadržavanje završnog kadra i reset. Prolaze 14 ciljanih testova, ESLint i provera projekta. Svih 48 kadrova pregledano je van pregledača, uz proveru providnih margina i oslonca stojećih i palih figura. Vlasnik je prihvatio duži rafal sa postojećim kadrovima i zatvorio stavku. Agent je prikaz proverio van pregledača.
 
 Ispravka osovina Ju 52: zapis u Blenderovim koordinatama čitan je kao glTF lokalni položaj, pa je propeler kružio oko pogrešne tačke. Dve nove provere u [testu modela](../tests/unit/ju52Art.test.js) reprodukovale su grešku pre ponovnog izvoza; prolaze posle pretvaranja osovine `[x, y, z] → [x, z, -y]`. Proveravaju položaj osovine unutar geometrije i centar stvarnih lopatica pri rotaciji; prethodna provera samo nepomičnog pivota nije dokazivala ispravnu osovinu.
 

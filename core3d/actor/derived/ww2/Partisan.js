@@ -1,3 +1,7 @@
+import dressSutjeska from './sutjeskaLook.js'
+
+export { partisanOutfits } from './sutjeskaLook.js'
+
 export const animDict = {
   idle: 'Rifle Idle',
   aimIdle: 'Rifle Aiming Idle',
@@ -14,8 +18,7 @@ export const animDict = {
 }
 
 export const partisanModel = { file: 'partisan.fbx', angle: Math.PI, prefix: 'character/soldier/', size: 1.8 }
-export const partisanTraits = { attackSound: 'rifle.mp3', body: { reach: 50 } }
-export const partisanOutfits = { wool: { '_1___Default': 'partisan-wool-uniform.png' } }
+export const partisanTraits = { attackSound: 'rifle.mp3', body: { reach: 50 }, dress: dressSutjeska }
 const meshModel = { ...partisanModel, animDict }
 const twoHandedWeaponModel = { file: 'weapon/rifle.fbx', scale: 1.25, angle: Math.PI }
 

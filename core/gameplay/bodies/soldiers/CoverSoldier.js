@@ -1,8 +1,17 @@
 import Body from '../Body.js'
 import { trench } from './TrenchSoldier.js'
 
-/** He runs to his cover at `speed` metres a second; he aims, fires and hurts as a soldier in a trench does. */
-export const coverSoldier = { speed: 2.5, size: { length: .5, height: 1.8, width: .5 } }
+/**
+ * He runs to his cover at `speed` metres a second; he aims and fires as a soldier in a trench does, hurting as he does
+ * up to `falloff.near` metres away and less beyond, down to `falloff.least` of it at `falloff.far` and farther.
+ * Crouching, he is `crouch` metres tall, so a lower cover does not hide him.
+ */
+export const coverSoldier = { speed: 2.5, size: { length: .5, height: 1.8, width: .5 }, crouch: 1.05,
+  falloff: { near: 20, far: 120, least: .25 } }
+
+/** The share of a burst's harm that reaches a target `distance` metres away. */
+export const harmAt = (distance, { near, far, least } = coverSoldier.falloff) =>
+  1 - (1 - least) * Math.min(1, Math.max(0, (distance - near) / (far - near)))
 
 const stop = soldier => {
   soldier.vx = soldier.vz = 0
@@ -42,7 +51,8 @@ const states = {
       const elapsed = Math.floor(soldier.stateTime / trench.shotInterval)
       const previous = Math.floor(Math.max(0, soldier.stateTime - dt) / trench.shotInterval)
       soldier.shotsFired += elapsed - previous
-      target.takeHit(trench.damage * dt)
+      const distance = Math.hypot(target.x - soldier.x, target.y - soldier.y, target.z - soldier.z)
+      target.takeHit(trench.damage * harmAt(distance) * dt)
     },
   },
   dead: { enter: stop },
@@ -80,8 +90,9 @@ export default class CoverSoldier extends Body {
     if (this.state === 'aim' || this.state === 'attack') this.setState('idle')
   }
 
-  /** Whether a shot can reach him: always in the open, behind cover only while he is up to fire. */
+  /** Whether a shot can reach him: always in the open, behind cover too low for him and while he is up to fire. */
   get exposed() {
-    return this.alive && (!this.inCover || this.state === 'aim' || this.state === 'attack')
+    const hidden = this.inCover && this.goal.cover >= coverSoldier.crouch
+    return this.alive && (!hidden || this.state === 'aim' || this.state === 'attack')
   }
 }

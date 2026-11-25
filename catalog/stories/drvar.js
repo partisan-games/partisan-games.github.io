@@ -5,6 +5,7 @@ import CoverSoldier, * as coverSoldierModule from '/core/gameplay/bodies/soldier
 import Transport, * as transportModule from '/core/gameplay/bodies/aircraft/Transport.js'
 import ParachutistSprite, { parachutistArt } from '/core3d/actor/soldiers/ParachutistSprite.js'
 import CoverSoldierSprite, { coverSoldierArt } from '/core3d/actor/soldiers/CoverSoldierSprite.js'
+import CoverSoldierModel, * as coverSoldierModelModule from '/core3d/actor/soldiers/CoverSoldierModel.js'
 import TransportSprite, { transportArt } from '/core3d/actor/aircraft/TransportSprite.js'
 import { loadPixelArt } from '/core3d/assets/pixelArt.js'
 import { requestModels } from '/core3d/assets/models.js'
@@ -42,6 +43,17 @@ export const soldiers = [
       const [whole, upper] = await Promise.all([loadPixelArt(coverSoldierArt.whole), loadPixelArt(coverSoldierArt.upper)])
       const body = new CoverSoldier({ y: coverSoldierModule.coverSoldier.size.height / 2 })
       stage.add(body, new CoverSoldierSprite(body, { whole, upper }))
+      return body
+    },
+  },
+  {
+    id: 'nemacki-vojnik-iza-zaklona', name: 'Nemački vojnik iza zaklona', game, block: coverSoldierModelModule, stage: Stage3D,
+    commands: soldierCommands,
+    create: async stage => {
+      await requestModels(coverSoldierModelModule.models)
+      const body = new CoverSoldier({ y: coverSoldierModule.coverSoldier.size.height / 2 })
+      // he faces the camera
+      stage.add(body, new CoverSoldierModel(body, { front: { x: 0, z: stage.camera.position.z } }))
       return body
     },
   },
