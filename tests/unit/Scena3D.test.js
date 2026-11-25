@@ -47,6 +47,19 @@ test('a 3D game frees its geometries, materials, textures, bones and shadow maps
   assert.ok(bonesFreed, 'bones')
 })
 
+test('a texture the shared renderer uploads again after its game ended is freed when the next 3D game ends', () => {
+  const wall = new THREE.Texture()
+  const scene = new THREE.Scene()
+  scene.add(new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshLambertMaterial({ map: wall })))
+  Scene3D.prototype.disposeScene.call({ scene })
+  const freedAgain = watchDispose(wall)
+
+  wall.onUpdate(wall) // the renderer uploads the freed texture during the next game
+  Scene3D.prototype.disposeScene.call({ scene: new THREE.Scene() })
+
+  assert.ok(freedAgain())
+})
+
 test('a game that ends frees the shared portrait atlas its Italian soldiers draw their faces from', async t => {
   t.mock.method(THREE.TextureLoader.prototype, 'load', () => new THREE.Texture())
   const { default: soldierFace } = await import('/core3d/actor/derived/ww2/soldierFace.js')

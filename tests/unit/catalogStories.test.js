@@ -38,6 +38,44 @@ test('the rear three-quarter partisan uses the side-view source scale', async() 
   assert.equal(story.pxPerMeter * 1.8, 72, 'the 82-pixel standing source is never enlarged')
 })
 
+test('the side-view Chetniks fire once, resume the selected motion and stay down after falling', async t => {
+  const { soldiers } = await import('/catalog/stories/cetnici.js')
+  const { groupOf } = await import('/catalog/catalog.js')
+  const kind = kinds.find(({ id }) => id === 'vojnici')
+  assert.equal(soldiers.length, 3)
+  for (const story of soldiers) {
+    assert.ok(kind.stories.includes(story))
+    assert.deepEqual(groupOf(kind, story), ['Vojnici', 'Četnici'])
+    const { block, live } = staged(t, story)
+    const [sheet, flash] = block.children
+    const shots = t.mock.method(block.sounds[0], 'play', () => {})
+    assert.deepEqual(block.states, ['idle', 'move', 'attack', 'dead'])
+    const boxes = []
+    Object.defineProperty(sheet.image, 'naturalWidth', { value: 1 })
+    block.render({
+      save() {}, translate() {}, scale() {}, restore() {},
+      drawImage(...args) {
+        boxes.push(args)
+      },
+    })
+    assert.equal(boxes[0][8] * sheet.art.standingPixels / sheet.art.height, 72)
+
+    block.setState('move')
+    block.setState('attack')
+    assert.ok(live(1, () => flash.visible))
+    assert.equal(shots.mock.callCount(), 1)
+    assert.ok(live(1, () => block.state === 'move'))
+    block.setState('attack')
+    block.setState('dead')
+    live(2)
+    assert.deepEqual(sheet.sample(block.state, block.stateTime), { row: 3, frame: 3 })
+    assert.equal(shots.mock.callCount(), 1)
+    block.setState('idle')
+    assert.equal(block.state, 'dead')
+    assert.equal(staged(t, story).block.state, 'idle')
+  }
+})
+
 test('every story has its own address and names its game', () => {
   const addresses = stories().map(({ kind, story }) => `${kind.id}/${story.id}`)
   assert.equal(new Set(addresses).size, addresses.length)

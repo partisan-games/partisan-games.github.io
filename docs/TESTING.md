@@ -77,6 +77,8 @@ Ovo su datirani dokazi svog obuhvata, ne tvrdnja da je sve danas provereno. Dnev
 <a id="art-verification-record"></a>
 ## Provere arta
 
+Bočni četnici, 25. 11. 2026. [Ciljani test kataloga](../tests/unit/catalogStories.test.js) potvrđuje tri priče u grupi Četnici, visinu od 72 px, jedan pucanj po napadu, povratak u kretanje, prekid napada pri padu, zadržavanje završnog kadra i vraćanje početnog stanja na resetu. Prolaze 13 ciljanih testova, ESLint i provera projekta. Svih 48 kadrova pregledano je van pregledača, uz proveru providnih margina i oslonca stojećih i palih figura. Prikaz u pregledaču i vlasnikovo prihvatanje izgleda ostaju za vlasnikov pregled.
+
 Ispravka osovina Ju 52: zapis u Blenderovim koordinatama čitan je kao glTF lokalni položaj, pa je propeler kružio oko pogrešne tačke. Dve nove provere u [testu modela](../tests/unit/ju52Art.test.js) reprodukovale su grešku pre ponovnog izvoza; prolaze posle pretvaranja osovine `[x, y, z] → [x, z, -y]`. Proveravaju položaj osovine unutar geometrije i centar stvarnih lopatica pri rotaciji; prethodna provera samo nepomičnog pivota nije dokazivala ispravnu osovinu.
 
 Ju 52 za Drvar, 24. 11. 2026: prošlo 13 ciljanih testova (`ju52Art`, `transport`, `presentationScenes`, `catalogNavigation`), ciljani ESLint i provera projekta. [Stvarni GLB i kataloški akter](../tests/unit/ju52Art.test.js) proveravaju očuvanje trouglova/UV, 12 primitiva, tri nepomične osovine pri rotaciji lopatica, nezavisne instance, odsustvo drugih aktera u katalogu i dim. [Transport](../tests/unit/transport.test.js) proverava raspored iskakanja, mirovanje/let/desant i prekid desanta pri padu na teren. GPU izgled i igranje novog 3D prikaza ostaju za vlasnikov pregled; browser nije pokretan.

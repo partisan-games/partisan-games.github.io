@@ -91,6 +91,9 @@ Kadar, trajanje, sidrište, tačke događaja i putanje završnih slika čitaju s
 | Punjenje nemačkog strelca | klip prati spremnik nacrtanog oružja i nije zamena za punjenje drugih pušaka |
 | The Germans Advance | [Zajednički prikaz](../core/actor/AdvanceSprite.js) za strelca, mitraljesca, strelca sa rancem, podoficira, Panzer III i vojnika na kupoli. Strelac ima čučeći hod, a podoficir znak rukom; klečanje, pucanje i davanje znaka zaustavljaju pomeranje. Položaj cevi je izmeren u kadrovima pucanja. Promo traje 24 s, sa 18 s scene i završnim [logom](../scenes/bitka/PromoLogo.js) u piksel fontu sajta, uz zvezdu; [vremenski tok](../scenes/bitka/PromoTimeline.js) pripada sceni. |
 
+<a id="cetnici-bocni-spriteovi"></a>
+Bočni četnici koriste [metapodatke atlasa](../core/actor/soldiers/cetnikArt.js) od 144 px po stojećoj figuri, prikazanoj kao 1,8 m pri 40 px/m. [Strelac](../catalog.html#vojnici/cetnik-strelac), [jurišnik](../catalog.html#vojnici/cetnik-jurisnik) i [mitraljezac](../catalog.html#vojnici/cetnik-mitraljezac) su u katalogu. [Poreklo, promptovi i hashovi](../assets/images/sources/cetnici/generation.json) povezuju originalne uzore, precrtane izvore i završne atlase. [Priprema](../scripts/prepare-cetnik-art.py) meri oslonac i kraj cevi, pa pakuje kadrove sa providnim marginama. Referentne slike određuju izgled ove tri figure.
+
 Šinjel je isključivo zimska uniforma; [metapodaci kandidata](../core/gameplay/frontEnemyKinds.js) ograničavaju stražara na zimu.
 
 Partizan otpozadi ima pogled iz zadnje tri četvrtine i bočnu izvornu razmeru 40 px/m u [katalogu](../catalog/stories/partisans.js); nije frontalni neprijatelj od 100 px/m. Neretva ga prikazuje pri 38 px/m. Njegovo telo ostaje visoko 1,8 m; pogrešnu grupu prikaza ne ispravljati smanjivanjem tela ili samo pojedinačne slike.
