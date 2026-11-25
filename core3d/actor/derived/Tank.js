@@ -1,4 +1,4 @@
-const meshModel = { file: 'tank/renault-ft.fbx', texture: 'metal/metal01.jpg', size: 2.5 }
+const meshModel = { file: 'tank/renault-ft/textured.fbx', texture: 'vehicles/renault-ft.webp', size: 2.5 }
 
 /** What to load; a game awaits requestModels(models) before it creates one of these. */
 export const models = [meshModel]

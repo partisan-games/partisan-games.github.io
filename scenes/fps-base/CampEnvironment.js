@@ -2,9 +2,10 @@ import { BoxGeometry, Group, InstancedMesh, Matrix4, MeshBasicMaterial } from 't
 import { loadedModel } from '/core3d/assets/models.js'
 import CampProp, { campModels } from '/core3d/actor/buildings/CampProp.js'
 import worldQueries from '/core3d/actor/characters/worldQueries.js'
+import Sandbags, { models as sandbagModels } from '/core3d/actor/buildings/Sandbags.js'
 
 export const models = ['storehouse', 'fence-straight', 'fence-terminal', 'gate', 'timber-screen', 'watchtower']
-  .map(kind => campModels[kind])
+  .map(kind => campModels[kind]).concat(sandbagModels)
 
 /** Scene-owned assembly: visual fence strands never become solid sight or projectile walls. */
 export default class CampEnvironment {
@@ -86,6 +87,14 @@ export default class CampEnvironment {
     collision.name = 'CampWalkColliders'
     this.mesh.add(collision)
     this.walkSolids.push(collision)
+    for (const { x, z, angle } of layout.sandbags) {
+      const bags = new Sandbags()
+      bags.mesh.position.set(x, 0, z)
+      bags.mesh.rotation.y = angle
+      this.mesh.add(bags.mesh)
+      this.walkSolids.push(bags.mesh)
+      this.opaqueSolids.push(bags.mesh)
+    }
     const gate = new CampProp(loadedModel(campModels.gate))
     gate.mesh.position.set(layout.gate.x, 0, layout.gate.z)
     gate.toggleGate()

@@ -2,6 +2,7 @@ import Stage3D from '../Stage3D.js'
 import * as campModule from '/core3d/actor/buildings/CampProp.js'
 import Church, * as churchModule from '/core3d/actor/buildings/Church.js'
 import { requestModels } from '/core3d/assets/models.js'
+import Sandbags, * as sandbagsModule from '/core3d/actor/buildings/Sandbags.js'
 
 const gateCommands = [{ label: 'Otvori/zatvori kapiju', run: block => block.toggleGate() }]
 const lightCommands = [
@@ -42,4 +43,16 @@ const church = {
   },
 }
 
-export const props = [...camp, church]
+const sandbags = {
+  id: 'sandbags', name: 'Džakovi sa peskom', game: 'Escape Enemy Base', block: sandbagsModule, stage: Stage3D,
+  catalogGroup: ['Scenografija', 'Zakloni'],
+  description: 'Preuzeti zid od džakova, visine 1,1 m; isti model služi kao zaklon u dvorištu Crvenog krsta.',
+  create: async stage => {
+    await requestModels(sandbagsModule.models)
+    const block = new Sandbags()
+    stage.add(block)
+    return block
+  },
+}
+
+export const props = [...camp, church, sandbags]

@@ -101,6 +101,14 @@ test('real camp assembly blocks exactly the closed maze edges and lets the open 
     }
   }
   assert.equal(queries.groundAt(0, 0, 10), 0)
+  for (const { x, z } of layout.sandbags) {
+    const from = { x: x - 2, y: .6, z }, to = { x: x + 2, y: .6, z }
+    assert.equal(queries.isBlocked({ ...from, y: 1.2 }, { x: 1, y: 0, z: 0 }, 4), true, 'sandbags stop walking')
+    assert.equal(queries.sees(from, to), false, 'sandbags provide low cover')
+    assert.equal(queries.sees({ ...from, y: 1.8 }, { ...to, y: 1.8 }), true, 'standing guards see over low sandbags')
+    const impact = queries.impactAt(from, { x: 1, y: 0, z: 0 }, 4)
+    assert.ok(impact && !impact.object.isInstancedMesh, 'sandbags receive actual bullet impacts')
+  }
   assert.equal(camp.props[0].gateFraction, 1)
   assert.equal(camp.props.filter(prop => prop.lights.length).length, 2)
   assert.ok(camp.props.flatMap(prop => prop.lights).every(light => !light.castShadow))
@@ -153,7 +161,7 @@ test('FPS camp initializes with real model files, ten enemies and two first aids
   assert.ok(game.scene.getObjectByName('CrveniKrstCamp'))
   assert.equal(game.enemies.length, 10)
   assert.equal(game.firstAids.length, 2)
-  assert.equal(game.camp.walkSolids.length, 11)
+  assert.equal(game.camp.walkSolids.length, 13)
   assert.ok(game.enemies.every(enemy => Math.hypot(enemy.x - game.player.x, enemy.z - game.player.z) > 12))
   assert.deepEqual(preloaded, ['halt.mp3'])
   const sentry = game.enemies[0]

@@ -30,7 +30,7 @@ class MissileModel {
  * bang where each one bursts. It only reads the body.
  */
 export default class WarplaneModel {
-  constructor(body, { mesh, propeller, propellerPlace = [0, .63, -.5] }) {
+  constructor(body, { mesh, propeller, propellerPlace = [0, .63, -.5], propellerName }) {
     this.body = body
     this.mesh = mesh.clone()
     this.mesh.rotation.order = 'YXZ'
@@ -38,6 +38,10 @@ export default class WarplaneModel {
       this.propeller = propeller.clone()
       this.propeller.position.set(propellerPlace[0], propellerPlace[1], propellerPlace[2] * body.size.length)
       this.mesh.add(this.propeller)
+    }
+    if (propellerName) {
+      this.propeller = this.mesh.getObjectByName(propellerName)
+      if (!this.propeller) throw new Error(`Missing aircraft propeller: ${propellerName}`)
     }
     this.missiles = []
     this.bursts = new Map()

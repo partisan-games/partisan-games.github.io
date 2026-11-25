@@ -1,0 +1,18 @@
+{
+  "triangles": 2324,
+  "dimensions_blender_xyz": [
+    4.270360946655273,
+    1.1091971397399902,
+    1.100000023841858
+  ],
+  "height_metres": 1.1,
+  "source": "Owner-supplied download D:/Downloads/sandbags",
+  "author": "Not supplied",
+  "license": "Not supplied; original files retained without relicensing",
+  "changes": "Uniform scale; centered horizontally; base at zero; supplied albedo embedded; geometry preserved",
+  "sha256": {
+    "source\\model.fbx": "193eae93d1fbec3576f43dad8507415a323cd41c275959fb8f4d20572a90ffd9",
+    "source\\sandbags01.png": "6d5610a8e27e39253918bbe358b05f4f13112d656b52a781838394dcf09ac81b",
+    "sandbags.glb": "a4bb4e149e1cc6d3ed6c6034218da594b1484b7170a84bc52650f08fa2188e6e"
+  }
+}

@@ -1,0 +1,27 @@
+This is cartoon Dieselpunk armored cars Polygonal Style(4 object)
+
+Models(4 unique objects):
+
+apc- 2
+destroyed apc- 2
+Create in Blender 3d v 4.0.2
+
+File formats:
+
+Blender 3d v 4.0.2
+OBJ; MTL
+Fbx
+Gltf
+The preview images were rendered in Blender 3d (Cycles; 1024 Samples)
+
+Materials: 1
+
+Texture: 1 (1024x1024, png) 1 texture for all models
+
+Vertices: 15639; Triangels: 29392
+
+Objects are not optimized for animation
+
+Created by Tykryk
+
+Thank you:)

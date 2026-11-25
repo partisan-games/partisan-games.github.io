@@ -1,0 +1,36 @@
+{
+  "triangles": 8126,
+  "meshes": 3,
+  "draws": 3,
+  "materials": 3,
+  "images": 0,
+  "embedded_images": true,
+  "external_buffers": [],
+  "animations": 0,
+  "asset": {
+    "extras": {
+      "author": "mudroljub (https://sketchfab.com/mudroljub)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/m4a3-sherman-tank-40799cb260654f17ada9731c9f70b949",
+      "title": "M4A3 Sherman tank"
+    },
+    "generator": "Sketchfab-13.42.0",
+    "version": "2.0"
+  },
+  "names": [
+    "Sketchfab_model",
+    "Collada visual scene group",
+    "Material4",
+    "Material2",
+    "Material2",
+    "SketchUp",
+    "skp_camera_Last_Saved_SketchUp_View",
+    "ID1"
+  ],
+  "sha256": "180989d47bf45aca88f933f489f5e2a272fb0aa68f3f02c40e35ceaaa4131f90",
+  "duplicates": [],
+  "downloaded_file": "D:\\Downloads\\modeli\\m4a3_sherman_tank.glb",
+  "decision": "New 3D tank type; 8126 indexed triangles; colored materials without image textures",
+  "integration": "reserve only; no catalog or level changes",
+  "verification": "GLB document inspected; imported and rendered offline in Blender 4.5"
+}

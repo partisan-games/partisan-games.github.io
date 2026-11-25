@@ -7,20 +7,21 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 | # | ID | Posao | Ko | Status |
 |---|---|---|---|---|
 | | **[Art](#art)** | | | |
-| 1 | [AR-P07](#ar-p07) | Napraviti pravu teksturu za 3D Renault FT | Codex, Claude | 📋 TODO |
-| 2 | [AR-P09](#ar-p09) | Zadržati samo WebP kao jedini original arta za igre | Claude, Codex | 📋 TODO |
-| 3 | [AR-P10](#ar-p10) | Napraviti spriteove četnika i dodati ih u katalog | Codex | 📋 TODO |
-| 4 | [AR-P11](#ar-p11) | Približiti 3D model partizana liku sa fotografije sa Sutjeske | Codex | 📋 TODO |
+| 1 | [AR-P09](#ar-p09) | Zadržati samo WebP kao jedini original arta za igre | Claude, Codex | 📋 TODO |
+| 2 | [AR-P10](#ar-p10) | Napraviti spriteove četnika i dodati ih u katalog | Codex | 📋 TODO |
+| 3 | [AR-P11](#ar-p11) | Približiti 3D model partizana liku sa fotografije sa Sutjeske | Codex | 📋 TODO |
 | | **[Igre i ideje](#igre)** | | | |
-| 5 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [1](#note-1) |
-| 6 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
-| 7 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
-| 8 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
-| 9 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
-| 10 | [IG-29](#ig-29) | Dovršiti logor Crveni krst u Escape Enemy Base | Codex, Claude | 🔄 In progress |
-| 11 | [IG-30](#ig-30) | Dodati partizane i četnike kao saborce u opsadi Kraljeva | Codex, Claude | 📋 TODO |
-| 12 | [IG-31](#ig-31) | Dodati pruge, mostove i saveznički lovac-bombarder u Warplane | Codex, Claude | 🔄 In progress |
-| 13 | [IG-32](#ig-32) | Dovršiti Raid on Drvar: modeli, izgled grada i težina | Claude, Codex | 🔄 In progress |
+| 4 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [1](#note-1) |
+| 5 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
+| 6 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
+| 7 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
+| 8 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
+| 9 | [IG-29](#ig-29) | Dovršiti logor Crveni krst u Escape Enemy Base | Codex, Claude | 🔄 In progress |
+| 10 | [IG-30](#ig-30) | Dodati partizane i četnike kao saborce u opsadi Kraljeva | Codex, Claude | 📋 TODO |
+| 11 | [IG-31](#ig-31) | Dodati pruge, mostove i saveznički lovac-bombarder u Warplane | Codex, Claude | 🔄 In progress |
+| 12 | [IG-32](#ig-32) | Dovršiti Raid on Drvar: modeli, izgled grada i težina | Claude, Codex | 🔄 In progress |
+| | **[Katalog](#katalog)** | | | |
+| 13 | [KT-01](#kt-01) | Organizovati katalog oko samostalnih, ponovo upotrebljivih objekata | Codex | 📋 TODO |
 
 ## Održavanje plana
 
@@ -35,11 +36,6 @@ Važe [DOCS](DOCS.md), [ugovor arta](ART.md#obavezna-integracija) i [arhitektura
 ### Mogućnosti bez naloga za izradu
 
 Olupina poljskog topa može postati zaseban rekvizit bojišta; još nije raspoređena kao takav rekvizit. Novi efekat vode traži posebno odgovarajuće rešenje, jer je prethodno proceduralno rešenje odbačeno. Dodatni desanti na Brač, Mljet i Korčulu ostaju ideje za igru uz istorijsku proveru, a ne zadaci izrade arta. Rezervni vojnički listovi i sezonske pozadine nisu obaveza za povezivanje: koriste se tek kada ih izabrani akter ili nivo zatraži.
-
-<a id="ar-p07"></a>
-### AR-P07 · Tekstura Renaulta FT
-
-3D Renault FT ([model](../assets/models/tank/renault-ft.fbx)) nema svoju teksturu, nego opštu metalnu sliku, pa izgleda kao beton i nije za produkciju. Codex pravi teksturu u boji jugoslovenske vojske 1941, kako su ga partizani zaplenili kod Kraljeva ([okvir](KONTEKST.md#demolish-barricades)); ista važi za igračev tenk i neprijateljski Renault u ostalim igrama ([telo](../core3d/actor/derived/Tank.js)).
 
 <a id="ar-p09"></a>
 ### AR-P09 · WebP kao jedini original
@@ -150,6 +146,18 @@ Preostaje:
 4. 📋 Snimak kartice na naslovnoj je još iz stare animacije.
 
 Ideja (vlasnik, 2026-11-24): zanimljiva kombinacija 2D i 3D na sceni, npr. padobranci posle sletanja postaju 3D modeli vojnika; još nije odlučeno.
+
+<a id="katalog"></a>
+## Katalog
+
+<a id="kt-01"></a>
+### KT-01 · Objekti kao osnova kataloga i igara
+
+Dogovor vlasnika: objekti su samostalni atomi, upotrebljivi u bilo kojoj igri. Izgled, ponašanje i zavisnosti pripadaju zajedničkom objektu; igra i katalog koriste isti objekat, bez kopiranja njegove logike.
+
+Preurediti [priče kataloga](../catalog/stories/) po vrstama objekata, kao što su vojnici, avioni, vozila, oružje i ambijent, umesto po igrama. Obuhvatiti sve postojeće priče organizovane po igrama, uključujući [Drvar](../catalog/stories/drvar.js). Priča samo napravi objekat na pozornici i ponudi njegove relevantne radnje. Sastav konkretne scene, protivnici, tok i pravila nivoa ostaju u igrama; katalog ne zavisi od njihovih scena ni naziva. Nezavisnost proveriti i u zajedničkom kodu, ne samo preimenovanjem fajlova. Postojeći obim kataloga ne širiti ovom reorganizacijom.
+
+Gotovo kada svaki postojeći objekat može sam da se napravi i isproba na pozornici, a igre koriste istu implementaciju; sačuvani su postojeći akteri, radnje, mere i javne adrese kataloga. Proveriti registraciju, učitavanje, radnje i ponovno otvaranje objekata, kao i pogođene igre ciljanim testovima; pregledač pokreće vlasnik. Ažurirati [pravila kataloga](KATALOG.md) i [arhitekturu](ARHITEKTURA.md#katalog-za-isprobavanje) prema ovoj podeli odgovornosti.
 
 ## Notes
 

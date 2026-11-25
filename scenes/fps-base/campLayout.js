@@ -57,5 +57,6 @@ export default function campLayout(random = Math.random) {
     ;[spawnPoints[i], spawnPoints[j]] = [spawnPoints[j], spawnPoints[i]]
   }
   return { maze, rooms, walls, start, spawnPoints, storehouse: { x: 0, z: -10 },
+    sandbags: [{ x: -8, z: 10, angle: Math.PI / 2 }, { x: 8, z: 10, angle: Math.PI / 2 }],
     gate: { x: 32.5, z: 40 }, towers: [{ x: -35, z: -45, angle: 0 }, { x: 45, z: 28, angle: -Math.PI / 2 }] }
 }

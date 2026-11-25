@@ -129,7 +129,7 @@ const offerTarget = (tower, stage) => {
 /** The looks of a warplane; the biplane left Warplane, which is set in 1944. */
 const planes = [
   ['dvokrilac', 'Dvokrilac', biplaneModule, 'Zajednička biblioteka'],
-  ['mesersmit', 'Mesersmit', messerschmittModule], ['bombarder', 'Bombarder', bomberModule],
+  ['mesersmit', 'Messerschmitt Bf 109', messerschmittModule], ['bombarder', 'Bombarder', bomberModule],
 ].map(([id, name, value, game]) => ({ id, name, value, game }))
 
 export const aircraft = [
@@ -138,6 +138,7 @@ export const aircraft = [
     commands: [{ label: 'Pomeri udesno', run: plane => plane.steer({ across: 1 }) },
       { label: 'Ispali raketu', run: plane => plane.fire() }, { label: 'Sleti', run: plane => plane.land() }] },
   { id: 'lovac-bf-109-3d', name: 'Nemački lovac Bf 109', game: 'Warplane', block: interceptorModule, stage: Stage3D, create: fighter,
+    description: 'Teksturisan Bf 109 sa 1.981 trouglom i originalnim rotirajućim propelerom; isti prikaz kao u igri.',
     commands: [{ label: 'Mitraljezi bombardera', run: plane => {
       const guns = bomberGuns.get(plane)
       guns.firing = !guns.firing

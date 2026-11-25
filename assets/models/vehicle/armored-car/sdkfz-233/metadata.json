@@ -1,0 +1,35 @@
+{
+  "triangles": 4378,
+  "meshes": 2,
+  "draws": 2,
+  "materials": 2,
+  "images": 0,
+  "embedded_images": true,
+  "external_buffers": [],
+  "animations": 0,
+  "asset": {
+    "extras": {
+      "author": "mudroljub (https://sketchfab.com/mudroljub)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/armoured-car-233-e10f3563bf174aa0a80385e9840bca7b",
+      "title": "Armoured car 233"
+    },
+    "generator": "Sketchfab-13.42.0",
+    "version": "2.0"
+  },
+  "names": [
+    "Sketchfab_model",
+    "Collada visual scene group",
+    "Material2",
+    "Material2",
+    "SketchUp",
+    "skp_camera_Last_Saved_SketchUp_View",
+    "ID1"
+  ],
+  "sha256": "d84f2ca09090f10be339fa4a4424514a6ff5ea14a9271b7c49ddcff4c3f9f4df",
+  "duplicates": [],
+  "downloaded_file": "D:\\Downloads\\modeli\\armoured_car_233.glb",
+  "decision": "New short-gun armored-car candidate; 4378 triangles; colored materials without image textures",
+  "integration": "reserve only; no catalog or level changes",
+  "verification": "GLB document inspected; imported and rendered offline in Blender 4.5"
+}

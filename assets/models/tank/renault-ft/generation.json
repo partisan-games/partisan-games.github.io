@@ -1,0 +1,17 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Use case: historical-scene. Asset type: production albedo texture atlas for a low-poly Renault FT tank in Yugoslav army service 1941. Generate a square 1024 x 1024 opaque image with EXACTLY TWO equally wide vertical rectangular material swatches filling the entire image edge to edge, with a straight boundary at x=512. LEFT HALF: muted DARK FRENCH OLIVE GREEN painted armor steel, restrained fine painted metal texture, subtle small scuffs and tiny exposed dark metal scratches, occasional subdued dry dirt, overall uniform dark olive green readable at distance. RIGHT HALF: dark charcoal iron tank track and running gear metal, faint brown oxidation and ingrained dry earth, subtle small worn grey metal scuffs, overall uniformly dark charcoal brown. These are flat continuous material surfaces seen orthographically, no depicted objects or tank parts, no panels, no rivets, no lettering, no seams, no border, no baked directional lighting, no gradients, no cast shadows, no dramatic rusty blotches, no concrete or stone texture, no camouflage patches, no markings or insignia. Fine restrained pixel-art-compatible game texture detail; lighting will come from the 3D engine. Both swatches should have consistent color and detail across their area.",
+  "dimensions": [
+    1254,
+    1254
+  ],
+  "conversion": "PNG to lossless WebP; no resizing or painting",
+  "historicalReference": "https://tanks-encyclopedia.com/renault-ft-and-renault-kegresse-in-service-with-the-kingdom-of-yugoslavia/",
+  "palette": "Dark French green; approximate visual interpretation, not a verified paint swatch",
+  "markings": "None: no verified specific vehicle markings; shared by both sides",
+  "sha256": {
+    "assets\\models\\tank\\renault-ft.fbx": "4343c80b912a54de92193a37aa0fd6301fc9aeecda11a615bf68cf9a1baeb6ab",
+    "assets\\models\\tank\\renault-ft\\textured.fbx": "b811ff44b4f5338bb06edab8ff0882857e80fe7f332aeeeec9ac39427932008d",
+    "assets\\images\\textures\\vehicles\\renault-ft.webp": "cf4e5f07b0573b836a742443451e00ee0f051c0967c769525e9b6fb3f9ff3a46"
+  }
+}

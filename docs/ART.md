@@ -2,7 +2,17 @@
 
 Pravila izrade i veze do izvora. Otvoreni poslovi su u [PLAN-u](PLAN.md#art), provere u [TESTING](TESTING.md#art-verification-record), a tema i prihvaćeni izbori igara u [KONTEKST](KONTEKST.md).
 
+## Bf 109 — zajednički 3D prikaz
+
+[Teksturisani model](../assets/models/aircraft/airplane/messerschmitt-bf-109/README.md) sa 1.981 trouglom zamenjuje raniji FBX sa 9.310 trouglova u Warplane-u i oba kataloška prikaza Bf 109. Koristi originalni odvojeni propeler umesto dodatnog generičkog; raspon je 9,92 m prema projektnim merama. Sačuvani su izvor, postupak pripreme, licenca i offline pregled; dostupni OBJ nosi isti identifikator kao vlasnikov izabrani FBX, ali njegove teksture nisu bajt-po-bajt isti preuzeti fajlovi. Izdvajanje propelera mora sačuvati sve trouglove i UV koordinate, a svaka instanca rotira samo svoj primerak.
+
+## Renault FT — 3D tekstura
+
+[Renault FT](../assets/models/tank/renault-ft/README.md) koristi originalno generisan tamnozeleni albedo, sa odvojenim tamnim hodnim delom, u katalogu i svim igrama preko zajedničkog opisa tenka. Izvorni model ostaje očuvan; runtime kopija prilagođava samo UV koordinate. Paleta je istorijski zasnovana umetnička procena bez oznaka konkretnog vozila; prompt, poreklo i provera geometrije čuvaju se uz model. Pre izvoza proveriti razdvajanje boja: izvorne UV oblasti se preklapaju.
+
 ## Pravila pripreme i ponovne upotrebe
+
+- Foldere resursa imenovati po sadržaju, bez sufiksa `-reserve`; status rezerve beležiti u opisu resursa (vlasnik, 2026-11-25).
 
 - Koristiti postojeći odgovarajući resurs pre izrade duplikata. Istorijsko prihvatanje izvora ne znači da je crtež konačan: `game-ready`, novi atlas, povezivanje i prolaz testova nisu ocena kvaliteta.
 - Crtati za stvarnu veličinu u igri: čitljiva silueta, uverljive proporcije, usklađena paleta i senčenje. Uvećana ilustracija koja se ne čita kao mali sprite nije upotrebljiva predaja. Proceduralni pokret je dovoljan kada jasno prikazuje radnju.
@@ -36,6 +46,8 @@ Pravila izrade i veze do izvora. Otvoreni poslovi su u [PLAN-u](PLAN.md#art), pr
 
 <a id="crveni-krst-priprema-3d-ambijenta"></a>
 ## Crveni krst — priprema 3D ambijenta
+
+[Preuzeti džakovi sa peskom](../assets/models/props/sandbags/README.md) čuvaju dostavljenu teksturu i 2.324 trougla; zid je visok procenjenih 1,1 m. Isti prikaz je u katalogu pod Scenografija → Zakloni i kao dva puna zaklona uz bočne strane dvorišta Crvenog krsta. Sredina dvorišta i izlaz ostaju prohodni; raspored nije istorijska rekonstrukcija.
 
 Osnova su [istorijsko istraživanje](ISTORIJA.md#crveni-krst-12-februar-1942), [tri pregledane reference](references/ww2-yu/crveni-krst/README.md) i [dogovor da lavirint ostane kroz smislene prolaze i dvorišta](KONTEKST.md#escape-enemy-base). Prvi [originalni paket](../assets/models/building/crveni-krst/README.md) ima sedam GLB modela i deljeni atlas, dostupne [u katalogu](../catalog.html#scenografija-3d/sklop) i povezane [u nivou](../index.html#fps-base). Sačuvani su generisana studija i dva mala offline prikaza stvarne geometrije, uključujući visinu očiju; prikazi nisu screenshot nivoa niti potvrđen tlocrt. Žica i puni zaklon jasno se razlikuju, jer imaju različita pravila za pogled i metke; arhitektura i paleta ostaju zasnovane na ovom logoru.
 

@@ -175,3 +175,15 @@ Sačuvano je da su unit provere, lint i provera projekta prošli za audio migrac
 [Kontrolisano opterećenje](../tests/fixtures/audioWorkload.js) poredi isti prizor sa zvukom i bez njega. Zabeležiti uređaj, browser, hladan/topao keš i ograničenja; JS vreme ne meri native DSP, a broj zadržanih snimaka nije memorija u bajtovima. CPU emulacija nije identifikovan spor uređaj.
 
 Uspešno dekodiranje i povezani izvori ne dokazuju čujnost: prvo potvrditi da se nameravani izvor stvarno čuje u igri, pa ocenjivati udaljenost, smer, petlju i performanse. Ne pretvarati nekadašnju grešku ili pripremljen slučaj u tvrdnju da problem danas postoji ili da je danas rešen.
+
+## Crveni krst — preuzeti džakovi
+
+Provereno 2026-11-25: ciljani testovi `fpsCamp` i `catalogCoverage` prolaze (4/4), kao i ESLint promenjenih JS fajlova. Stvarni GLB se učitava u sklop logora; nove provere potvrđuju blokiranje hoda, pogleda i pogodaka u visini zaklona i slobodan pogled preko njega na 1,8 m. Postojeće provere potvrđuju nepromenjene veze lavirinta, otvoren izlaz, ponovno pokretanje i pobedu bez ubijanja stražara. Pregledač i igranje nisu pokretani. Izvorni art i ograničenja porekla su uz [model](../assets/models/props/sandbags/README.md).
+
+## Bf 109 — zamena 3D modela
+
+Provereno 2026-11-25: `bf109Art`, `warplane` i `catalogNavigation` prolaze 18/18. Stvarni GLB se parsira projektnim Three.js loaderom uz zamenu samo dekodiranja slika u testu; provereni su 1.981 trougao, ugrađene teksture, UV atributi, raspon od 9,92 m i osovina propelera na nosu prema −Z. Obe fabrike prikaza koriste novi model i nezavisno okreću njegov propeler; pripremljeni keš i druga instanca ostaju mirni. Provereni su usklađen smer sa telom, nagib, obaranje i očuvano povezivanje zasebnog propelera drugih aviona. ESLint promenjenih JS fajlova prolazi. Pregledan je offline render; pregledač i igranje nisu pokretani.
+
+## Renault FT — tekstura
+
+Provereno 2026-11-25: [offline priprema](../assets/models/tank/renault-ft/preview.py) ponovo uvozi izvezeni FBX i potvrđuje 712 temena, 432 poligona i očuvane svetske koordinate unutar 0,01 mm. Ciljano parsiranje izvornog i runtime FBX-a projektnim Three.js loaderom potvrđuje iste granice unutar 0,01 mm, 864 trougla, UV atribut i odsustvo ugrađenih zahteva za teksture. Lossless WebP je sačuvan bez promene dimenzija; hashovi su u manifestu uz model. Pregledani su offline kadrovi spreda i otpozadi; pregledač i igranje nisu pokretani.
