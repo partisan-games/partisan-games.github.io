@@ -6,22 +6,22 @@
       "sources": [
         "sources/germans-advance/redrawn/rifleman-base.png",
         "sources/germans-advance/redrawn/crouch-base.png",
-        "sources/germans-advance/redrawn/crouch-walk-generated.png"
+        "sources/germans-advance/redrawn/crouch-walk-refined.png"
       ],
       "redrawn": true,
       "generation": "redrawn/generation.json",
-      "sha256": "ae1ec5fd6ae04332876e7293fba65a8471c63f1a2b1b5509ca8fb07cbc2b05ef",
+      "sha256": "c1f5d2dbaff53605926613710f9eb5723d7ae40467b60b47d3b290a7053ef3e0",
       "frame": {
-        "width": 96,
-        "height": 84,
+        "width": 192,
+        "height": 168,
         "columns": 12,
         "rows": 8
       },
       "anchor": {
-        "x": 31,
-        "y": 76
+        "x": 62,
+        "y": 152
       },
-      "standingPixels": 69,
+      "standingPixels": 138,
       "animations": [
         {
           "name": "idle",
@@ -68,20 +68,20 @@
           "loop": false,
           "muzzles": [
             [
-              43,
-              -56
+              85,
+              -110
             ],
             [
-              41,
-              -56
+              81,
+              -110
             ],
             [
-              43,
-              -56
+              85,
+              -110
             ],
             [
-              44,
-              -56
+              87,
+              -110
             ]
           ]
         },
@@ -142,20 +142,20 @@
           "loop": false,
           "muzzles": [
             [
-              50,
-              -38
+              98,
+              -74
             ],
             [
-              48,
-              -38
+              94,
+              -74
             ],
             [
-              50,
-              -38
+              98,
+              -74
             ],
             [
-              51,
-              -38
+              100,
+              -74
             ]
           ]
         },
@@ -184,18 +184,18 @@
       ],
       "redrawn": true,
       "generation": "redrawn/generation.json",
-      "sha256": "fd3e9986ac9dfef38cf1cd9c8891fa42a2f499e19870b9d29ad87c75f7eeb464",
+      "sha256": "33f270c472691d19608a6a558a67d400824bd5fc2fe13ab8e4b6cae14ffacd32",
       "frame": {
-        "width": 96,
-        "height": 84,
+        "width": 192,
+        "height": 168,
         "columns": 12,
         "rows": 3
       },
       "anchor": {
-        "x": 31,
-        "y": 76
+        "x": 62,
+        "y": 152
       },
-      "standingPixels": 69,
+      "standingPixels": 138,
       "animations": [
         {
           "name": "idle",
@@ -242,20 +242,20 @@
           "loop": false,
           "muzzles": [
             [
-              41,
-              -54
+              63,
+              -110
             ],
             [
-              39,
-              -54
+              59,
+              -110
             ],
             [
-              41,
-              -54
+              63,
+              -110
             ],
             [
-              42,
-              -54
+              65,
+              -110
             ]
           ]
         }
@@ -271,18 +271,18 @@
       ],
       "redrawn": true,
       "generation": "redrawn/generation.json",
-      "sha256": "3c97f18ccca914fbd6e2c9c978d6bc5d426c9ddc5d9d3043cb7d8279b9610c13",
+      "sha256": "812f3822dc1257644c941ac61f99a54f5135ddfa60fa80136ea4c4233a19dcb5",
       "frame": {
-        "width": 96,
-        "height": 84,
+        "width": 192,
+        "height": 168,
         "columns": 12,
         "rows": 3
       },
       "anchor": {
-        "x": 31,
-        "y": 76
+        "x": 62,
+        "y": 152
       },
-      "standingPixels": 69,
+      "standingPixels": 138,
       "animations": [
         {
           "name": "idle",
@@ -340,18 +340,18 @@
       ],
       "redrawn": true,
       "generation": "redrawn/generation.json",
-      "sha256": "5af8bdc0ce090fa10d9c78ac43f740a869312d207332da7160545e3de0e6c024",
+      "sha256": "d4181b41c545cb6d51be459208030d289573ed6a387a5d2b299e22ad547db198",
       "frame": {
-        "width": 96,
-        "height": 84,
+        "width": 192,
+        "height": 168,
         "columns": 12,
         "rows": 3
       },
       "anchor": {
-        "x": 31,
-        "y": 76
+        "x": 62,
+        "y": 152
       },
-      "standingPixels": 69,
+      "standingPixels": 138,
       "animations": [
         {
           "name": "idle",
@@ -398,20 +398,20 @@
           "loop": false,
           "muzzles": [
             [
-              39,
-              -54
+              70,
+              -108
             ],
             [
-              37,
-              -54
+              66,
+              -108
             ],
             [
-              39,
-              -54
+              70,
+              -108
             ],
             [
-              40,
-              -54
+              72,
+              -108
             ]
           ]
         }
@@ -425,18 +425,18 @@
       ],
       "redrawn": true,
       "generation": "redrawn/generation.json",
-      "sha256": "eee035d88bd263081d75a70441945b7a5282d979167f1688a5a11e9fc1f15500",
+      "sha256": "36f3c8a6d40c4209056a87645dbac9208c8a36c770b85d78161ec03a6c620e9e",
       "frame": {
-        "width": 271,
-        "height": 141,
+        "width": 542,
+        "height": 282,
         "columns": 6,
         "rows": 2
       },
       "anchor": {
-        "x": 100,
-        "y": 141
+        "x": 200,
+        "y": 282
       },
-      "standingPixels": 91,
+      "standingPixels": 182,
       "animations": [
         {
           "name": "idle",
@@ -465,8 +465,8 @@
         }
       ],
       "crewAnchor": {
-        "x": 103,
-        "y": 60
+        "x": 206,
+        "y": 120
       }
     },
     {
@@ -477,18 +477,18 @@
       ],
       "redrawn": true,
       "generation": "redrawn/generation.json",
-      "sha256": "9e2584c503f0dfbcba1aa00e2a764275244e8b5228631050432f1484220a5a0e",
+      "sha256": "18e746dffaa2647b1d6f04ea3f8ee4768d9be5155af5dc74fc54e8d699b5e1b4",
       "frame": {
-        "width": 52,
-        "height": 46,
+        "width": 104,
+        "height": 92,
         "columns": 6,
         "rows": 1
       },
       "anchor": {
-        "x": 17,
-        "y": 42
+        "x": 34,
+        "y": 84
       },
-      "standingPixels": 38,
+      "standingPixels": 76,
       "animations": [
         {
           "name": "idle",

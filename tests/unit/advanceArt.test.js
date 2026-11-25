@@ -71,7 +71,7 @@ test('the catalog exposes and draws all six crouch-walk frames, mirrored about t
       if (frame) actor.update(.144)
       actor.render(ctx)
     }
-    assert.deepEqual(seen, Array.from({ length: 6 }, (_, i) => [i * 96, 7 * 84]))
+    assert.deepEqual(seen, Array.from({ length: 6 }, (_, i) => [i * art.rifleman.width, art.rifleman.clips['crouch-walk'].row * art.rifleman.height]))
     assert.ok(anchors.every(([x, y]) => x === 400 && y === 500))
     assert.ok(flips.every(flip => flip === way))
   }
@@ -102,6 +102,19 @@ test('all six atlases match their runtime grids, anchors and recorded assets', a
       assert.deepEqual(runtime.clips[name].muzzles, muzzles)
     }
   }
+})
+
+test('every advance atlas doubles pixel density while preserving world dimensions and anchors', () => {
+  for (const kind of ['rifleman', 'gunner', 'backpack', 'officer']) {
+    assert.deepEqual([art[kind].width, art[kind].height, art[kind].standingPixels], [192, 168, 138])
+    assert.deepEqual(art[kind].anchor, { x: 62, y: 152 })
+    assert.equal(art[kind].width / art[kind].standingPixels, 96 / 69)
+  }
+  assert.deepEqual([art.tank.width, art.tank.height, art.tank.standingPixels], [542, 282, 182])
+  assert.deepEqual(art.tank.anchor, { x: 200, y: 282 })
+  assert.deepEqual(art.tank.crewAnchor, { x: 206, y: 120 })
+  assert.deepEqual([art.commander.width, art.commander.height, art.commander.standingPixels], [104, 92, 76])
+  assert.deepEqual(art.commander.anchor, { x: 34, y: 84 })
 })
 
 test('the actual shared view animates tracks and commander and mirrors their placement together', async() => {

@@ -16,6 +16,31 @@ HERE = Path(__file__).resolve().parent
 NORMALIZE_SPEC = importlib.util.spec_from_file_location('normalize_advance', HERE / 'redrawn/normalize.py')
 normalizer = importlib.util.module_from_spec(NORMALIZE_SPEC)
 NORMALIZE_SPEC.loader.exec_module(normalizer)
+DENSITY = normalizer.DENSITY
+
+
+def px(value):
+    """Animation geometry stays in reference units; raster drawing uses the chosen pixel density."""
+    if isinstance(value, (tuple, list)):
+        return tuple(px(item) for item in value)
+    return round(value * DENSITY)
+
+
+def blank(size):
+    return Image.new('RGBA', px(size))
+
+
+def cut(image, box):
+    return image.crop(px(box))
+
+
+def overlay(image, part, point=(0, 0)):
+    image.alpha_composite(part, px(point))
+
+
+def logical_size(image):
+    return tuple(value / DENSITY for value in image.size)
+
 
 SOURCES = {
     "backpack": "sources/germans-advance/redrawn/backpack-base.png",
@@ -25,7 +50,7 @@ SOURCES = {
     "gunner": "sources/germans-advance/redrawn/gunner-base.png",
     "rifleman": "sources/germans-advance/redrawn/rifleman-base.png",
     "crouch": "sources/germans-advance/redrawn/crouch-base.png",
-    "crouch-walk": "sources/germans-advance/redrawn/crouch-walk-generated.png",
+    "crouch-walk": "sources/germans-advance/redrawn/crouch-walk-refined.png",
     "tank": "sources/germans-advance/redrawn/tank-base.png",
     "commander": "sources/germans-advance/redrawn/commander-base.png",
 }
@@ -59,7 +84,7 @@ def marching_leg(draw, hip, floor, step, cloth, near):
     theta = radians(angle)
 
     def rotate(points):
-        return [(round(x * cos(theta) - y * sin(theta)), round(x * sin(theta) + y * cos(theta))) for x, y in points]
+        return [(x * cos(theta) - y * sin(theta), x * sin(theta) + y * cos(theta)) for x, y in points]
 
     boot = rotate([(-3, -7), (3, -7), (4, -3), (8, -2), (9, 0), (8, 1), (-3, 1)])
     ay = floor - lift - max(y for _, y in boot)
@@ -67,32 +92,34 @@ def marching_leg(draw, hip, floor, step, cloth, near):
     knee_y = min(ay - 8, hip_y + 10)
     shin_x, shin_y = rotate([(0, -5)])[0]
     bx, by = ax + shin_x, ay + shin_y
-    draw.polygon([(hip_x - 4, hip_y - 2), (hip_x + 4, hip_y - 2), (knee_x + 3, knee_y),
-                  (bx + 3, by), (bx - 3, by), (knee_x - 3, knee_y)], fill=cloth, outline="#151913")
+    draw.polygon(px([(hip_x - 4, hip_y - 2), (hip_x + 4, hip_y - 2), (knee_x + 3, knee_y),
+                  (bx + 3, by), (bx - 3, by), (knee_x - 3, knee_y)]), fill=cloth, outline="#151913", width=DENSITY)
     if near:
-        draw.line([(hip_x - 2, hip_y + 2), (knee_x - 1, knee_y), (bx - 1, by - 2)], fill=tuple(c * 4 // 5 for c in cloth))
-    draw.polygon([(ax + x, ay + y) for x, y in boot], fill="#282a27" if near else "#20211e", outline="#11130f")
+        draw.line(px([(hip_x - 2, hip_y + 2), (knee_x - 1, knee_y), (bx - 1, by - 2)]), fill=tuple(c * 4 // 5 for c in cloth), width=DENSITY)
+    draw.polygon(px([(ax + x, ay + y) for x, y in boot]), fill="#282a27" if near else "#20211e", outline="#11130f", width=DENSITY)
 
 
 def rifle_at_ready(image, hip, angle):
-    upper = image.crop((0, 0, image.width, hip))
+    w, _ = logical_size(image)
+    upper = cut(image, (0, 0, w, hip))
     # Keep both hands and the rifle together when lowering the arms around the shoulder.
     mask = Image.new("L", upper.size)
-    ImageDraw.Draw(mask).polygon([(18, 16), (34, 14), (36, 11), (77, 9), (77, 16),
-                                 (57, 19), (52, 22), (34, 27), (27, 25), (18, 25)], fill=255)
+    ImageDraw.Draw(mask).polygon(px([(18, 16), (34, 14), (36, 11), (77, 9), (77, 16),
+                                 (57, 19), (52, 22), (34, 27), (27, 25), (18, 25)]), fill=255)
     held = upper.copy()
     held.putalpha(ImageChops.multiply(held.getchannel("A"), mask))
-    upper.paste((0, 0, 0, 0), (29, 0, upper.width, hip))
+    upper.paste((0, 0, 0, 0), px((29, 0, w, hip)))
     draw = ImageDraw.Draw(upper)
-    draw.polygon([(19, 16), (24, 16), (27, 19), (27, 28), (21, 28), (18, 22)],
-                 fill="#626d5b", outline="#22271f")
-    upper.alpha_composite(held.rotate(-angle, center=(18, 17)))
+    draw.polygon(px([(19, 16), (24, 16), (27, 19), (27, 28), (21, 28), (18, 22)]),
+                 fill="#626d5b", outline="#22271f", width=DENSITY)
+    upper.alpha_composite(held.rotate(-angle, center=px((18, 17)), resample=Image.Resampling.NEAREST))
     return upper
 
 
 def gait(image, kind, hip, hip_x, baseline, frame, rifle_angle):
     # Room above the original helmet for the lift of the body over the planted leg.
-    pose = Image.new("RGBA", (image.width, image.height + HELMET_CLEARANCE))
+    w, h = logical_size(image)
+    pose = blank((w, h + HELMET_CLEARANCE))
     draw = ImageDraw.Draw(pose)
     rise = (0, 1, 2, 0, -1, -1)[frame % 6]
     hip_x += 1
@@ -109,36 +136,38 @@ def gait(image, kind, hip, hip_x, baseline, frame, rifle_angle):
     marching_leg(draw, (hip_x + 1, hip_y), floor, step(frame + 6), far, False)
     marching_leg(draw, (hip_x - 1, hip_y), floor, step(frame), near, True)
     upper = (rifle_at_ready(image, hip, rifle_angle + (0, 1, 2, 1, 0, -1)[frame % 6]) if kind == "rifleman"
-             else image.crop((0, 0, image.width, hip)))
-    pose.alpha_composite(upper, (1, rise + HELMET_CLEARANCE))
+             else cut(image, (0, 0, w, hip)))
+    overlay(pose, upper, (1, rise + HELMET_CLEARANCE))
     return pose
 
 
 def firing(image, hip, recoil):
+    w, h = logical_size(image)
     pose = Image.new("RGBA", image.size)
-    pose.alpha_composite(image.crop((0, hip, image.width, image.height)), (0, hip))
-    pose.alpha_composite(image.crop((0, 0, image.width, hip + 3)), (-recoil, 0))
+    overlay(pose, cut(image, (0, hip, w, h)), (0, hip))
+    overlay(pose, cut(image, (0, 0, w, hip + 3)), (-recoil, 0))
     return pose
 
 
 def dip(image, hip, baseline, pixels):
+    w, _ = logical_size(image)
     pose = Image.new("RGBA", image.size)
-    legs = image.crop((0, hip, image.width, baseline)).resize((image.width, baseline - hip - pixels))
-    pose.alpha_composite(legs, (0, hip + pixels))
-    pose.alpha_composite(image.crop((0, 0, image.width, hip + 2)), (0, pixels))
+    legs = cut(image, (0, hip, w, baseline)).resize(px((w, baseline - hip - pixels)), Image.Resampling.NEAREST)
+    overlay(pose, legs, (0, hip + pixels))
+    overlay(pose, cut(image, (0, 0, w, hip + 2)), (0, pixels))
     return pose
 
 
 def muzzle(image, anchor):
-    barrel = image.crop((image.width // 2, 0, image.width, 56))
+    barrel = image.crop((image.width // 2, 0, image.width, px(56)))
     end = barrel.getbbox()[2] - 1
     ys = [y for y in range(barrel.height) if barrel.getpixel((end, y))[3] > 0]
-    return [image.width // 2 + end + 1 - anchor[0], round(sum(ys) / len(ys)) - anchor[1]]
+    return [image.width // 2 + end + 1 - px(anchor[0]), round(sum(ys) / len(ys)) - px(anchor[1])]
 
 
 def pack(kind, size, anchor, standing, source_keys, clips):
     columns = max(len(frames) for _, frames, _, _ in clips)
-    w, h = size
+    w, h = px(size)
     atlas = Image.new("RGBA", (columns * w, len(clips) * h))
     actions = {}
     for row, (name, frames, ms, loop) in enumerate(clips):
@@ -150,8 +179,8 @@ def pack(kind, size, anchor, standing, source_keys, clips):
     folder = "tenkovi" if kind == "tank" else "vojnici"
     source = f"game-ready/{folder}/advance-{kind}.png"
     atlas.save(IMAGES / source, optimize=True)
-    return {"src": source, "width": w, "height": h, "anchor": {"x": anchor[0], "y": anchor[1]},
-            "standingPixels": standing, "clips": actions}, {
+    return {"src": source, "width": w, "height": h, "anchor": {"x": px(anchor[0]), "y": px(anchor[1])},
+            "standingPixels": px(standing), "clips": actions}, {
                 "sources": [SOURCES[key] for key in source_keys],
                 "redrawn": True, "generation": "redrawn/generation.json",
                 "sha256": sha256((IMAGES / source).read_bytes()).hexdigest(),
@@ -178,13 +207,13 @@ def crouch_walk():
         # Use the kneeling base's height; every frame retains this one common scale.
         target_height = load("crouch").height
         target_width = round(registered.width * target_height / registered.height)
-        assert target_width <= 80
+        assert target_width <= px(80)
         reduced = normalizer.recolor(registered.resize((target_width, target_height), Image.Resampling.NEAREST), 'rifleman')
-        frame = Image.new("RGBA", (96, 84))
-        frame.alpha_composite(reduced, (12, 76 - target_height))
+        frame = blank((96, 84))
+        frame.alpha_composite(reduced, (px(12), px(76) - target_height))
         frames.append(frame)
     assert len({frame.tobytes() for frame in frames}) == 6, "Crouch-walk cels must differ"
-    assert all(frame.getbbox()[3] == 76 for frame in frames), "Crouch-walk feet must share the ground anchor"
+    assert all(frame.getbbox()[3] == px(76) for frame in frames), "Crouch-walk feet must share the ground anchor"
     return "crouch-walk", frames, [144] * len(frames), True
 
 
@@ -194,8 +223,8 @@ def infantry(kind, hip, hip_x, source_anchor, baseline):
     size = (96, 84)
 
     def cell(pose, feet=baseline, shift=0):
-        frame = Image.new("RGBA", size)
-        frame.alpha_composite(pose.crop((0, 0, pose.width, feet)), (anchor[0] - source_anchor + shift, anchor[1] - feet))
+        frame = blank(size)
+        overlay(frame, cut(pose, (0, 0, pose.width / DENSITY, feet)), (anchor[0] - source_anchor + shift, anchor[1] - feet))
         return frame
 
     def march(name, angle):
@@ -216,12 +245,13 @@ def infantry(kind, hip, hip_x, source_anchor, baseline):
         keys += ["officer-half", "officer-full"]
     if kind == "rifleman":
         crouch = load("crouch")
-        lower = cell(crouch, crouch.height)
+        crouch_height = crouch.height / DENSITY
+        lower = cell(crouch, crouch_height)
         clips += [
             march("walk-aim", 9),
             ("kneel", [cell(dip(source, hip, baseline, d)) for d in (4, 9)] + [lower], [60, 60, 55], False),
             ("crouch", [lower], [1000], True),
-            ("crouch-fire", [cell(firing(crouch, round(crouch.height * .62), n), crouch.height) for n in (1, 3, 1, 0)], [34, 32, 34, 30], False),
+            ("crouch-fire", [cell(firing(crouch, crouch_height * .62, n), crouch_height) for n in (1, 3, 1, 0)], [34, 32, 34, 30], False),
             crouch_walk(),
         ]
         keys.append("crouch")
@@ -236,18 +266,18 @@ def tank_art():
     for phase in range(6):
         pose = source.copy()
         for box, direction in [((26, 103, 191, 107), 1), ((40, 137, 177, 141), -1)]:
-            tread = source.crop(box)
-            pose.paste(ImageChops.offset(tread, direction * phase * 2, 0), box[:2])
+            tread = cut(source, box)
+            pose.paste(ImageChops.offset(tread, px(direction * phase * 2), 0), px(box[:2]))
         for cx, cy, radius in wheels:
             box = (cx - radius, cy - radius, cx + radius + 1, cy + radius + 1)
-            wheel = source.crop(box).rotate(-phase * 12)
+            wheel = cut(source, box).rotate(-phase * 12, resample=Image.Resampling.NEAREST)
             mask = Image.new("L", wheel.size)
-            ImageDraw.Draw(mask).ellipse((0, 0, radius * 2, radius * 2), fill=255)
-            pose.paste(wheel, box[:2], mask)
+            ImageDraw.Draw(mask).ellipse(px((0, 0, radius * 2, radius * 2)), fill=255)
+            pose.paste(wheel, px(box[:2]), mask)
         frames.append(pose)
-    assert all(frame.crop((0, 0, source.width, 103)).tobytes() == source.crop((0, 0, source.width, 103)).tobytes()
+    assert all(cut(frame, (0, 0, source.width / DENSITY, 103)).tobytes() == cut(source, (0, 0, source.width / DENSITY, 103)).tobytes()
                for frame in frames), 'Driving must not alter the redrawn hull, turret or gun'
-    return pack("tank", source.size, (100, 141), 91, ["tank"], [
+    return pack("tank", logical_size(source), (100, 141), 91, ["tank"], [
         ("idle", [source], [1000], True), ("drive", frames, [95] * 6, True),
     ])
 
@@ -256,10 +286,10 @@ def commander_art():
     source = load("commander")
     frames = []
     for angle, drop in [(0, 0), (1, 0), (2, 1), (3, 1), (2, 1), (1, 0)]:
-        image = Image.new("RGBA", (52, 46))
-        image.alpha_composite(source, (0, 4 + drop))
-        image = image.rotate(-angle, center=(17, 42))
-        image.paste((0, 0, 0, 0), (0, 42, 52, 46))
+        image = blank((52, 46))
+        overlay(image, source, (0, 4 + drop))
+        image = image.rotate(-angle, center=px((17, 42)), resample=Image.Resampling.NEAREST)
+        image.paste((0, 0, 0, 0), px((0, 42, 52, 46)))
         frames.append(image)
     return pack("commander", (52, 46), (17, 42), 38, ["commander"], [
         ("idle", frames, [300, 135, 135, 245, 135, 135], True),
@@ -277,6 +307,7 @@ def js(value):
 def main():
     generation = json.loads((HERE / 'redrawn/generation.json').read_text(encoding='utf-8'))
     assert generation['tool'] == 'built-in image_gen'
+    assert generation['pixelDensity'] == DENSITY == 2, 'Keep the approved double-density pixel art'
     for entry in generation['assets']:
         path = HERE / 'redrawn' / entry['image']
         assert sha256(path.read_bytes()).hexdigest() == entry['sha256'], 'Redrawn source changed'
@@ -292,7 +323,7 @@ def main():
         "tank": tank_art(),
         "commander": commander_art(),
     }
-    atlases['tank'][0]['crewAnchor'] = {'x': 103, 'y': 60}
+    atlases['tank'][0]['crewAnchor'] = {'x': px(103), 'y': px(60)}
     runtime = {key: art for key, (art, _) in atlases.items()}
     assets = []
     for key, (art, meta) in atlases.items():

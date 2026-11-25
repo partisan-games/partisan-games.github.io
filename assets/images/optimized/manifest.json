@@ -1012,13 +1012,13 @@
     {
       "source": "game-ready/tenkovi/advance-tank.png",
       "runtime": "optimized/game-ready/tenkovi/advance-tank.webp",
-      "sourceSha256": "eee035d88bd263081d75a70441945b7a5282d979167f1688a5a11e9fc1f15500",
-      "sha256": "8f4221c56c444c4447a48265a407142ca86eb25c58f7ba6f3e066b73fba33ca3",
-      "originalBytes": 48405,
-      "bytes": 11894,
+      "sourceSha256": "36f3c8a6d40c4209056a87645dbac9208c8a36c770b85d78161ec03a6c620e9e",
+      "sha256": "dcde90606867a222a0fef25b6775e9403ae2998b16c0a749418adb0517efef56",
+      "originalBytes": 120252,
+      "bytes": 29076,
       "size": [
-        1626,
-        282
+        3252,
+        564
       ]
     },
     {
@@ -1216,49 +1216,49 @@
     {
       "source": "game-ready/vojnici/advance-backpack.png",
       "runtime": "optimized/game-ready/vojnici/advance-backpack.webp",
-      "sourceSha256": "fd3e9986ac9dfef38cf1cd9c8891fa42a2f499e19870b9d29ad87c75f7eeb464",
-      "sha256": "a05987cd544bc9295ef332e27d44f80867aef45a8fa8a1aba8594538773808a4",
-      "originalBytes": 9247,
-      "bytes": 3024,
+      "sourceSha256": "33f270c472691d19608a6a558a67d400824bd5fc2fe13ab8e4b6cae14ffacd32",
+      "sha256": "8611d02ff83e8d81d357af96cc8d40dd5d5bb3340de33cd95677dfff037102a0",
+      "originalBytes": 25353,
+      "bytes": 7026,
       "size": [
-        1152,
-        252
+        2304,
+        504
       ]
     },
     {
       "source": "game-ready/vojnici/advance-gunner.png",
       "runtime": "optimized/game-ready/vojnici/advance-gunner.webp",
-      "sourceSha256": "5af8bdc0ce090fa10d9c78ac43f740a869312d207332da7160545e3de0e6c024",
-      "sha256": "3cd19da4bc9cabfe913c05044a5bcb52dbc2d8e4ccf1f5c0d9ed90856a5471dc",
-      "originalBytes": 9558,
-      "bytes": 3104,
+      "sourceSha256": "d4181b41c545cb6d51be459208030d289573ed6a387a5d2b299e22ad547db198",
+      "sha256": "db11518b53aff62b9f55e0b8edfda3aebeef1ec0918d20d05302c4cfa518b492",
+      "originalBytes": 23898,
+      "bytes": 6932,
       "size": [
-        1152,
-        252
+        2304,
+        504
       ]
     },
     {
       "source": "game-ready/vojnici/advance-officer.png",
       "runtime": "optimized/game-ready/vojnici/advance-officer.webp",
-      "sourceSha256": "3c97f18ccca914fbd6e2c9c978d6bc5d426c9ddc5d9d3043cb7d8279b9610c13",
-      "sha256": "423c578bbe6835caf70945c06b97812d36a99ffe0ac042dfe05b9e64b1aaa140",
-      "originalBytes": 10444,
-      "bytes": 3646,
+      "sourceSha256": "812f3822dc1257644c941ac61f99a54f5135ddfa60fa80136ea4c4233a19dcb5",
+      "sha256": "d9ab07af05b34f5a07f8b52309e1b7b02fa3bbca88f2997480d67377311ec5d4",
+      "originalBytes": 25315,
+      "bytes": 8032,
       "size": [
-        1152,
-        252
+        2304,
+        504
       ]
     },
     {
       "source": "game-ready/vojnici/advance-rifleman.png",
       "runtime": "optimized/game-ready/vojnici/advance-rifleman.webp",
-      "sourceSha256": "ae1ec5fd6ae04332876e7293fba65a8471c63f1a2b1b5509ca8fb07cbc2b05ef",
-      "sha256": "6d3aa7ecf71494304c8cabd9ba439ca810fa1370f196df8c3ea41c5f157a5fcb",
-      "originalBytes": 30901,
-      "bytes": 9066,
+      "sourceSha256": "c1f5d2dbaff53605926613710f9eb5723d7ae40467b60b47d3b290a7053ef3e0",
+      "sha256": "8b22e6f900d750e41f7006ff68809360f06ebf87b96c3c945e8ea319735d3b1f",
+      "originalBytes": 84641,
+      "bytes": 21680,
       "size": [
-        1152,
-        672
+        2304,
+        1344
       ]
     },
     {
