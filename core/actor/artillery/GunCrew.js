@@ -1,13 +1,12 @@
 import art from './crewArt.js'
 import { assets } from '/config.js'
-import { runtimeImageSource } from '../imageSources.js'
 
 /** The crew stands behind the real gun, works only on a shot, and settles once when it is destroyed. */
 export default class GunCrew {
   constructor(kind) {
     this.art = art[kind]
     this.image = new Image()
-    this.image.src = assets.images + runtimeImageSource(this.art.src)
+    this.image.src = assets.images + this.art.src
     this.name = 'idle'
     this.elapsed = 0
   }

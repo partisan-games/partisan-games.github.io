@@ -1,7 +1,7 @@
 /** Measurements of the art, kept by hand. */
 export default {
   'rifleman': {
-    'src': 'game-ready/vojnici/nemacki-strelac-sprites.png',
+    'src': 'game-ready/vojnici/nemacki-strelac-sprites.webp',
     'frame': {
       'width': 128,
       'height': 128
@@ -61,7 +61,7 @@ export default {
     }
   },
   'assault': {
-    'src': 'game-ready/vojnici/nemacki-jurisnik-sprites.png',
+    'src': 'game-ready/vojnici/nemacki-jurisnik-sprites.webp',
     'frame': {
       'width': 128,
       'height': 128
@@ -121,7 +121,7 @@ export default {
     }
   },
   'opel-blitz': {
-    'src': 'game-ready/kamioni/opel-blitz-sprites.png',
+    'src': 'game-ready/kamioni/opel-blitz-sprites.webp',
     'frame': {
       'width': 320,
       'height': 160
@@ -153,7 +153,7 @@ export default {
     }
   },
   'opel-blitz-legion': {
-    'src': 'game-ready/kamioni/opel-blitz-legion-sprites.png',
+    'src': 'game-ready/kamioni/opel-blitz-legion-sprites.webp',
     'frame': {
       'width': 320,
       'height': 160
@@ -185,7 +185,7 @@ export default {
     }
   },
   'hummel': {
-    'src': 'game-ready/tenkovi/hummel-sprites.png',
+    'src': 'game-ready/tenkovi/hummel-sprites.webp',
     'frame': {
       'width': 320,
       'height': 160
@@ -217,7 +217,7 @@ export default {
     }
   },
   'bp42': {
-    'src': 'game-ready/vozovi/bp42-sprites.png',
+    'src': 'game-ready/vozovi/bp42-sprites.webp',
     'frame': {
       'width': 576,
       'height': 256
@@ -249,7 +249,7 @@ export default {
     }
   },
   'muzzle-flash': {
-    'src': 'game-ready/efekti/plamen-pucnja-sprites.png',
+    'src': 'game-ready/efekti/plamen-pucnja-sprites.webp',
     'frame': {
       'width': 48,
       'height': 48

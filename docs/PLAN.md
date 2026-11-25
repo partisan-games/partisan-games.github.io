@@ -7,33 +7,32 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 | # | ID | Posao | Ko | Status |
 |---|---|---|---|---|
 | | **[Art](#art)** | | | |
-| 1 | [AR-P09](#ar-p09) | Zadržati samo WebP kao jedini original arta za igre | Claude, Codex | 📋 TODO |
-| 2 | [AR-P10](#ar-p10) | Napraviti spriteove četnika i dodati ih u katalog | Codex | 📋 TODO |
-| 3 | [AR-P11](#ar-p11) | Približiti 3D model partizana liku sa fotografije sa Sutjeske | Codex | 📋 TODO |
-| 4 | [AR-P13](#ar-p13) | Popraviti 3D model Brke: kosa i detalji | Codex | 📋 TODO |
-| 5 | [AR-P14](#ar-p14) | Napraviti 3D model četnika za saborce u Kraljevu | Codex | 📋 TODO |
-| 6 | [AR-P15](#ar-p15) | Napraviti Ratarsku školu i Spomenik srpskim ratnicima za Kraljevo | Codex | 📋 TODO |
+| 1 | [AR-P10](#ar-p10) | Napraviti spriteove četnika i dodati ih u katalog | Codex | 📋 TODO |
+| 2 | [AR-P11](#ar-p11) | Približiti 3D model partizana liku sa fotografije sa Sutjeske | Codex | 📋 TODO |
+| 3 | [AR-P13](#ar-p13) | Popraviti 3D model Brke: kosa i detalji | Codex | 📋 TODO |
+| 4 | [AR-P14](#ar-p14) | Napraviti 3D model četnika za saborce u Kraljevu | Codex | 📋 TODO |
+| 5 | [AR-P15](#ar-p15) | Napraviti Ratarsku školu i Spomenik srpskim ratnicima za Kraljevo | Codex | 📋 TODO |
 | | **[Igre i ideje](#igre)** | | | |
-| 7 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [1](#note-1) |
-| 8 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
-| 9 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
-| 10 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
-| 11 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
-| 12 | [IG-29](#ig-29) | Dovršiti logor Crveni krst u Escape Enemy Base | Codex, Claude | 🔄 In progress |
-| 13 | [CK-01](#ck-01) | Crveni krst: uskladiti vidljivog lika, telo i stopala | Codex | 🔄 In progress |
-| 14 | [CK-02](#ck-02) | Crveni krst: prave animacije, držanje cevi i prelazi | Vlasnik: klipovi; Codex: povezivanje | 🔄 In progress |
-| 15 | [CK-03](#ck-03) | Crveni krst: prepoznatljivi logoraši i katalog | Codex | 📋 TODO |
-| 16 | [CK-04](#ck-04) | Crveni krst: praćenje, skretanje i razmicanje grupe | Codex | 📋 TODO |
-| 17 | [CK-05](#ck-05) | Crveni krst: zakloni, borba, ranjavanje i straže | Codex | 📋 TODO |
-| 18 | [CK-06](#ck-06) | Crveni krst: tlo, svetlo, pozadina i zvuk | Codex | 📋 TODO |
-| 19 | [CK-07](#ck-07) | Crveni krst: pregled celog proboja i regresije | Codex | 📋 TODO |
-| 20 | [IG-30](#ig-30) | Dodati četnike kao saborce u opsadi Kraljeva | Codex, Claude | 🔄 In progress |
-| 21 | [IG-31](#ig-31) | Dodati pruge, mostove i izbor savezničkih aviona u Warplane | Vlasnik, Codex, Claude | 🔄 In progress |
-| 22 | [IG-32](#ig-32) | Dovršiti Raid on Drvar: modeli, izgled grada i težina | Claude, Codex | 🔄 In progress |
-| 23 | [IG-33](#ig-33) | Pregledati art German Advance u duploj rezoluciji i završni promo | Vlasnik | 📋 TODO |
-| 24 | [IG-34](#ig-34) | Napraviti vernu scenu i igru opsade Kraljeva po dogovorenom scenariju | Vlasnik, Claude | 🔄 In progress |
+| 6 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [1](#note-1) |
+| 7 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
+| 8 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
+| 9 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
+| 10 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
+| 11 | [IG-29](#ig-29) | Dovršiti logor Crveni krst u Escape Enemy Base | Codex, Claude | 🔄 In progress |
+| 12 | [CK-01](#ck-01) | Crveni krst: uskladiti vidljivog lika, telo i stopala | Codex | 🔄 In progress |
+| 13 | [CK-02](#ck-02) | Crveni krst: prave animacije, držanje cevi i prelazi | Vlasnik: klipovi; Codex: povezivanje | 🔄 In progress |
+| 14 | [CK-03](#ck-03) | Crveni krst: prepoznatljivi logoraši i katalog | Codex | 📋 TODO |
+| 15 | [CK-04](#ck-04) | Crveni krst: praćenje, skretanje i razmicanje grupe | Codex | 📋 TODO |
+| 16 | [CK-05](#ck-05) | Crveni krst: zakloni, borba, ranjavanje i straže | Codex | 📋 TODO |
+| 17 | [CK-06](#ck-06) | Crveni krst: tlo, svetlo, pozadina i zvuk | Codex | 📋 TODO |
+| 18 | [CK-07](#ck-07) | Crveni krst: pregled celog proboja i regresije | Codex | 📋 TODO |
+| 19 | [IG-30](#ig-30) | Dodati četnike kao saborce u opsadi Kraljeva | Codex, Claude | 🔄 In progress |
+| 20 | [IG-31](#ig-31) | Dodati pruge, mostove i izbor savezničkih aviona u Warplane | Vlasnik, Codex, Claude | 🔄 In progress |
+| 21 | [IG-32](#ig-32) | Dovršiti Raid on Drvar: modeli, izgled grada i težina | Claude, Codex | 🔄 In progress |
+| 22 | [IG-33](#ig-33) | Pregledati art German Advance u duploj rezoluciji i završni promo | Vlasnik | 📋 TODO |
+| 23 | [IG-34](#ig-34) | Napraviti vernu scenu i igru opsade Kraljeva po dogovorenom scenariju | Vlasnik, Claude | 🔄 In progress |
 | | **[Katalog](#katalog)** | | | |
-| 25 | [KT-01](#kt-01) | Organizovati katalog oko samostalnih, ponovo upotrebljivih objekata | Codex | 📋 TODO |
+| 24 | [KT-01](#kt-01) | Organizovati katalog oko samostalnih, ponovo upotrebljivih objekata | Codex | 📋 TODO |
 
 ## Održavanje plana
 
@@ -48,11 +47,6 @@ Važe [DOCS](DOCS.md), [ugovor arta](ART.md#obavezna-integracija) i [arhitektura
 ### Mogućnosti bez naloga za izradu
 
 Olupina poljskog topa može postati zaseban rekvizit bojišta; još nije raspoređena kao takav rekvizit. Novi efekat vode traži posebno odgovarajuće rešenje, jer je prethodno proceduralno rešenje odbačeno. Dodatni desanti na Brač, Mljet i Korčulu ostaju ideje za igru uz istorijsku proveru, a ne zadaci izrade arta. Rezervni vojnički listovi i sezonske pozadine nisu obaveza za povezivanje: koriste se tek kada ih izabrani akter ili nivo zatraži.
-
-<a id="ar-p09"></a>
-### AR-P09 · WebP kao jedini original
-
-Svaka slika u [game-ready](../assets/images/game-ready) postoji dvaput: PNG original i njegova lossless WebP kopija u [optimized](../assets/images/optimized/game-ready), koju igra preuzima preko [mape zamene](../core/actor/optimizedImages.js). Pošto lossless WebP čuva svaki piksel, zadržati samo WebP: obrisati 190 PNG originala (49 MB), prepraviti putanje u kodu, alatima i podacima (oko 118 fajlova), ukinuti mapu zamene i [skriptu za kopije](../scripts/prepare-catalog-images.py), a Python alate za pripremu arta prilagoditi da čitaju i pišu WebP. Codex od tada isporučuje art kao lossless WebP.
 
 <a id="ar-p10"></a>
 ### AR-P10 · Spriteovi četnika
@@ -275,7 +269,7 @@ Pravila: igrač drži mesto uz istočni zid i menja samo pravac pogleda i nišan
 
 Preostaje:
 
-1. 📋 Modeli koje traži vlasnik: drveće u dvorištu i džakovi sa peskom kao improvizovani bunker kod ulaza. Crkva ([model](../assets/models/building/drvar-church/README.md)) i 3D Ju 52 ([prikaz](../core3d/actor/aircraft/Ju52.js)) su u igri.
+1. 📋 Model koji traži vlasnik: drveće u dvorištu. Džakovi sa peskom zatvaraju ulaz kao improvizovani bunker ([prikaz](../core3d/actor/buildings/Sandbags.js)); crkva ([model](../assets/models/building/drvar-church/README.md)) i 3D Ju 52 ([prikaz](../core3d/actor/aircraft/Ju52.js)) su u igri.
 2. 📋 Izgled grada: tlo je jednolično, a kuća nema.
 3. 📋 Igranje nivoa i podešavanje broja padobranaca i težine: bez otpora igrač pada za oko 40 sekundi. Otvoreno je i da li se igra nastavlja kad igrač padne, a saborci su živi.
 4. 📋 Snimak kartice na naslovnoj je još iz stare animacije.

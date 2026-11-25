@@ -2,7 +2,7 @@ import GameObject2D from '/core/actor/GameObject2D.js'
 import { ctx } from '/core/io/canvas2d.js'
 
 /** The partisan seen from above, as drawn. */
-const figure = { src: 'game-ready/vojnici/partizan-odozgo.png', drawn: [24, 27] }
+const figure = { src: 'game-ready/vojnici/partizan-odozgo.webp', drawn: [24, 27] }
 
 /**
  * The seats aboard, as shares of the boat's length ahead of its middle and of its width across, and the way each one

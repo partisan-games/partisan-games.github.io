@@ -3,7 +3,7 @@ import BombSprite from '/core/actor/projectiles/BombSprite.js'
 import Explosion from '/core/actor/effects/Explosion.js'
 import AircraftPropellers from './AircraftPropellers.js'
 
-const src = 'game-ready/avioni/ju87.png'
+const src = 'game-ready/avioni/ju87.webp'
 /** A crash burst is drawn this far above the ground, in pixels, so the fire stands on it. */
 const burstLift = 64
 

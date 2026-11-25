@@ -8,7 +8,7 @@ export default class FallingBlood extends GameObject2D {
     super('sprites/efekti/krv-mala.png', { width: 64, height: 64, visible: false })
     this.fallTime = fallTime
     this.layer = -2
-    this.stain = new GameObject2D('game-ready/scenery/blood-pool.png', { width: 1, height: 1, visible: false })
+    this.stain = new GameObject2D('game-ready/scenery/blood-pool.webp', { width: 1, height: 1, visible: false })
     this.stain.layer = 0
     this.children.push(this.stain)
   }

@@ -74,7 +74,7 @@ test('each new match goes on to the next battlefield, starting over after the la
     assert.equal(scene.tenk2.kind, enemy.kind)
     assert.equal(scene.tenk2View.art, enemy.art)
     assert.equal(scene.tenk2.rearAim, enemy !== stug, 'only a turret can turn behind the hull')
-    assert.match(scene.tenkView.art.src, /partizanski-tenk-layers\.png$/)
+    assert.match(scene.tenkView.art.src, /partizanski-tenk-layers\.webp$/)
     for (const [tank, left, right] of [[scene.tenk, 0, fieldLength / 2], [scene.tenk2, fieldLength / 2, fieldLength]]) {
       const radius = tank.size.length / 2
       assert.ok(tank.x >= tank.bounds.min && tank.x <= tank.bounds.max)

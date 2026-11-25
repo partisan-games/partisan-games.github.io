@@ -4,34 +4,18 @@ import { readFile } from 'node:fs/promises'
 import * as THREE from 'three'
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js'
 import optimizeGeometry from '/core3d/assets/optimizeGeometry.js'
-import optimized from '/core/actor/optimizedImages.js'
-import { canonicalImageSource, runtimeImageSource } from '/core/actor/imageSources.js'
 import { wreckFor } from '/core/actor/wreckView.js'
 import wreckArt from '/core/actor/wreckArt.js'
 import { loadImages } from './helpers/images.js'
 
-test('optimized downloads preserve canonical atlas identity, URL prefixes and query strings', () => {
-  for (const [source, runtime] of Object.entries(optimized))
-    for (const prefix of ['', '/assets/images/', 'https://example.org/assets/images/']) {
-      const original = prefix + source + '?v=2#frame'
-      const prepared = prefix + runtime + '?v=2#frame'
-      assert.equal(runtimeImageSource(original), prepared)
-      assert.equal(canonicalImageSource(prepared), original)
-      assert.equal(runtimeImageSource(prepared), prepared)
-    }
-  for (const source of [undefined, '', 'unknown.png', '/assets/images/ui/loader.gif'])
-    assert.equal(runtimeImageSource(source), source)
-})
-
-test('live optimized images still select and share their original wreck', t => {
+test('a picture finds its wreck from its full address as from its path, and they share it', t => {
   loadImages(t)
   let checked = 0
   for (const [source, descriptor] of Object.entries(wreckArt)) {
-    if (!optimized[source]) continue
-    const wreck = wreckFor('/assets/images/' + runtimeImageSource(source))
+    const wreck = wreckFor('/assets/images/' + source)
     assert.ok(wreck)
     assert.equal(wreck, wreckFor(source))
-    assert.equal(wreck.src, '/assets/images/' + runtimeImageSource(descriptor.src))
+    assert.equal(wreck.src, '/assets/images/' + descriptor.src)
     checked++
   }
   assert.ok(checked > 10)

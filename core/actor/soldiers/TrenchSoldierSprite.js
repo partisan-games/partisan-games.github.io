@@ -17,7 +17,7 @@ const stride = 1.3
  */
 export default class TrenchSoldierSprite extends BodySprite {
   constructor(body, { faction = 'nemci', variant = 0, scale = 1, projection, camera, inTrench = false }) {
-    super(body, `game-ready/vojnici/${faction}-spreda${inTrench ? '' : '-celo'}.png`, { projection, camera, scale,
+    super(body, `game-ready/vojnici/${faction}-spreda${inTrench ? '' : '-celo'}.webp`, { projection, camera, scale,
       width: (inTrench ? 68 : standingArt.width) * scale, height: (inTrench ? 76 : standingArt.height) * scale })
     Object.assign(this, { faction, variant, scale, inTrench })
     this.fit()

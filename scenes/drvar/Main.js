@@ -31,6 +31,7 @@ import { description as resistanceFighter, models as resistanceFighterModels } f
 import { description as partisanLowpoly, models as partisanLowpolyModels } from '/core3d/actor/derived/ww2/PartisanLowpoly.js'
 import { variants } from '/core3d/actor/derived/ww2/partisanLooks.js'
 import Church, { models as churchModels } from '/core3d/actor/buildings/Church.js'
+import Sandbags, { models as sandbagsModels } from '/core3d/actor/buildings/Sandbags.js'
 
 const messages = {
   intro: '<ul><li>Hold the position</li><li>Shoot the paratroopers before they reach cover</li></ul>',
@@ -45,7 +46,7 @@ const groundAt = () => 0
 
 /**
  * The stronghold "Moskva": the churchyard, `length` metres along x and `width` along z, walled round with old stone,
- * `wall` high and thick, with a `gate` metres wide in its west side. The partisans hold it close behind the wall,
+ * `wall` high and thick, with a `gate` metres wide in its west side, barred with sandbags. The partisans hold it close behind the wall,
  * `inside` metres from its middle, each looking out over it the way of his `yaw`: the player at the east wall, the
  * machine gunner beside him, the others along the other sides.
  */
@@ -103,7 +104,7 @@ export default class DrvarScene extends Scene3D {
     const pictures = [...parachutistArt.pictures, coverSoldierArt.whole, coverSoldierArt.upper]
     const [textures] = await Promise.all([
       Promise.all(pictures.map(loadPixelArt)).then(loaded => new Map(pictures.map((src, i) => [src, loaded[i]]))),
-      requestModels([...sovietPartisanModels, ...resistanceFighterModels, ...partisanLowpolyModels, ...churchModels, ...ju52Models]),
+      requestModels([...sovietPartisanModels, ...resistanceFighterModels, ...partisanLowpolyModels, ...churchModels, ...sandbagsModels, ...ju52Models]),
     ])
     // a newer start ended this scene while its pictures loaded: they are its alone, so it frees them
     if (!this.session.active) return textures.forEach(texture => texture.dispose())
@@ -163,7 +164,7 @@ export default class DrvarScene extends Scene3D {
     return body
   }
 
-  /** The churchyard's wall of old stone all round, broken only by the gate in its west side. */
+  /** The churchyard's wall of old stone all round, broken only by the gate in its west side, which sandbags bar. */
   buildYardWall() {
     const material = stoneWallMaterial()
     const { length, width, gate } = yard
@@ -180,6 +181,11 @@ export default class DrvarScene extends Scene3D {
     const leaf = (width - gate) / 2
     side(leaf, -length / 2, -(gate + leaf) / 2, true)
     side(leaf, -length / 2, (gate + leaf) / 2, true)
+    // an improvised bunker: a wall of sandbags across the gate
+    const sandbags = new Sandbags()
+    sandbags.mesh.position.set(-length / 2, 0, 0)
+    sandbags.mesh.rotation.y = Math.PI / 2
+    this.addMesh(sandbags.mesh)
   }
 
   /** Spreads the rubble heaps all round the stronghold; each covers as high as it is. */

@@ -22,7 +22,7 @@ const game = 'Tenkići'
 /** The tanks as large as Do Trsta's earlier pixel tank, at 25 px a metre. */
 const pxPerMeter = scales.side
 const partisan = { id: 'partisanTank', kind: tankModule.tankKinds.partisan, art: vehicleArt.partisanTank,
-  barrel: { src: 'game-ready/tenkovi/partizanski-tenk-cev-pixel.png' } }
+  barrel: { src: 'game-ready/tenkovi/partizanski-tenk-cev-pixel.webp' } }
 
 export const vehicles = [
   { id: 'partizanski-tenk', name: 'Partizanski tenk', game, pxPerMeter, way: 1, block: tankModule,

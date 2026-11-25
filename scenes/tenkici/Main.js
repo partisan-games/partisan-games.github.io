@@ -77,7 +77,7 @@ export default class TenkiciScene extends Scene2D {
     this.tenk.targets.push(this.tenk2)
     this.tenk2.targets.push(this.tenk)
     const view = (body, art, barrel, facing) => new TankSprite(body, { art, facing, barrel, projection: this.projection })
-    this.tenkView = view(this.tenk, vehicleArt.partisanTank, { src: 'game-ready/tenkovi/partizanski-tenk-cev-pixel.png' })
+    this.tenkView = view(this.tenk, vehicleArt.partisanTank, { src: 'game-ready/tenkovi/partizanski-tenk-cev-pixel.webp' })
     this.tenk2View = view(this.tenk2, enemy.art, enemy.barrel, enemy.facing)
     this.add(this.tenk, this.tenkView, this.tenk2, this.tenk2View)
     this.controllers.splice(0, this.controllers.length,

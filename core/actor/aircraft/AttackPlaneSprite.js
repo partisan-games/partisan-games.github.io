@@ -4,9 +4,9 @@ import Sound from '/core/io/audio/SoundSource.js'
 
 /** The pictures each kind of attack plane is drawn as, one picked for each plane. */
 export const attackPlaneImages = {
-  fighter: ['bf109', 'fw190', 'fighter-01', 'fighter-02', 'fighter-03', 'fighter-05'].map(id => `game-ready/avioni/${id}-top.png`),
-  heavy: ['game-ready/avioni/bf110-top.png'],
-  boss: ['game-ready/avioni/he111-top.png'],
+  fighter: ['bf109', 'fw190', 'fighter-01', 'fighter-02', 'fighter-03', 'fighter-05'].map(id => `game-ready/avioni/${id}-top.webp`),
+  heavy: ['game-ready/avioni/bf110-top.webp'],
+  boss: ['game-ready/avioni/he111-top.webp'],
 }
 
 /**

@@ -18,7 +18,7 @@ export default class FlagBearerSprite extends StandingSprite {
     super(body, italian ? ustanakArt.italianBearer : ustanakArt.partisanBearer, { projection, camera })
     this.flag = new Flag({ x: 0, y: 0, italian, getTime: flagTime })
     this.actions = new ArtClip({
-      src: `game-ready/vojnici/${italian ? 'italian' : 'partisan'}-bearer-actions.png`,
+      src: `game-ready/vojnici/${italian ? 'italian' : 'partisan'}-bearer-actions.webp`,
       width: 128, height: 88, anchor: { x: 64, y: 80 },
       clips: { walk: { ms: [160, 160, 160, 160], loop: true }, dead: { row: 1, ms: [120, 160, 180, 240] } },
     })

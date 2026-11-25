@@ -5,7 +5,7 @@ import { loadImages } from './helpers/images.js'
 
 test('an occupier loops the new fire row and keeps his flash on each measured muzzle, from either side', async t => {
   createPageElements()
-  loadImages(t, { 'occupier-sprites.png': [1050, 1260], 'pucanje.png': [19, 21] })
+  loadImages(t, { 'occupier-sprites.webp': [1050, 1260], 'pucanje.png': [19, 21] })
   const { default: Occupier } = await import('/core/gameplay/bodies/soldiers/Occupier.js')
   const { default: OccupierSprite } = await import('/core/actor/soldiers/OccupierSprite.js')
   const { sideProjection } = await import('/core/actor/projection.js')
@@ -35,7 +35,7 @@ test('an occupier loops the new fire row and keeps his flash on each measured mu
 
 test('the occupier still walks in either direction and holds the final death frame without a flash', async t => {
   createPageElements()
-  loadImages(t, { 'occupier-sprites.png': [1050, 1260], 'pucanje.png': [19, 21] })
+  loadImages(t, { 'occupier-sprites.webp': [1050, 1260], 'pucanje.png': [19, 21] })
   const { default: Occupier } = await import('/core/gameplay/bodies/soldiers/Occupier.js')
   const { default: OccupierSprite } = await import('/core/actor/soldiers/OccupierSprite.js')
   const { sideProjection } = await import('/core/actor/projection.js')

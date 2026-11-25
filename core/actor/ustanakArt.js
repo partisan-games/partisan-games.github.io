@@ -1,7 +1,7 @@
 /** Measurements of the art, kept by hand. */
 export default {
   'partisanCrew': {
-    'src': 'game-ready/artiljerija/partizanska-posada-sprites.png',
+    'src': 'game-ready/artiljerija/partizanska-posada-sprites.webp',
     'names': [
       'idle',
       'load',
@@ -22,7 +22,7 @@ export default {
     'defaultAnimation': 'idle'
   },
   'italianCrew': {
-    'src': 'game-ready/artiljerija/italijanska-posada-sprites.png',
+    'src': 'game-ready/artiljerija/italijanska-posada-sprites.webp',
     'names': [
       'idle',
       'load',
@@ -43,7 +43,7 @@ export default {
     'defaultAnimation': 'idle'
   },
   'rifleman': {
-    'src': 'game-ready/vojnici/partizanski-strelac-sprites.png',
+    'src': 'game-ready/vojnici/partizanski-strelac-sprites.webp',
     'names': [
       'idle',
       'fire'
@@ -60,7 +60,7 @@ export default {
     'defaultAnimation': 'idle'
   },
   'partisanBearer': {
-    'src': 'game-ready/vojnici/partizanski-zastavnik-sprites.png',
+    'src': 'game-ready/vojnici/partizanski-zastavnik-sprites.webp',
     'names': [
       'partisan'
     ],
@@ -75,7 +75,7 @@ export default {
     'defaultAnimation': 'partisan'
   },
   'italianBearer': {
-    'src': 'game-ready/vojnici/zastavnici-sprites.png',
+    'src': 'game-ready/vojnici/zastavnici-sprites.webp',
     'names': [
       'partisan',
       'italian'

@@ -1,6 +1,5 @@
 import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
-import { canonicalImageSource } from '/core/actor/imageSources.js'
 import { createPageElements } from './helpers/dom.js'
 
 let continueWithMission, missions, layout, raids, plane, airspeed, FranjoKluzScene, Flak, Rifleman, Sentry, Gunner
@@ -462,8 +461,8 @@ test('every soldier keeps watch as a sentry until he is alerted, when a gunner t
 })
 
 test('the plane flies the first mission in NDH markings and the second in partisan ones', t => {
-  assert.match(canonicalImageSource(createScene(t).playerView.image.src), /potez-25-ndh-[^/]*\.png$/)
-  assert.match(canonicalImageSource(createScene(t, { mission: 1 }).playerView.image.src), /potez-25-partisan-[^/]*\.png$/)
+  assert.match(createScene(t).playerView.image.src, /potez-25-ndh-[^/]*\.webp$/)
+  assert.match(createScene(t, { mission: 1 }).playerView.image.src, /potez-25-partisan-[^/]*\.webp$/)
 })
 
 /** The air raid, the last mission, with the sizes the images would give and the plane standing on the runway. */

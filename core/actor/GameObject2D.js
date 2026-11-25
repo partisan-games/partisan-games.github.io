@@ -7,7 +7,6 @@ import Vector from '../Vector.js'
 import { origins, FPS, frames } from '../constants.js'
 import { assets } from '/config.js'
 import Sound from '/core/io/audio/SoundSource.js'
-import { runtimeImageSource } from './imageSources.js'
 
 export default class GameObject2D {
   #angle = 0
@@ -58,7 +57,7 @@ export default class GameObject2D {
   onload() {} // for subclasses
 
   setImage(src) {
-    this.image.src = assets.images + runtimeImageSource(src)
+    this.image.src = assets.images + src
   }
 
   setSize = (width, height, scale) => {

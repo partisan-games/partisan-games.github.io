@@ -1,6 +1,5 @@
 import { before, test } from 'node:test'
 import assert from 'node:assert/strict'
-import { canonicalImageSource } from '/core/actor/imageSources.js'
 import { createPageElements } from './helpers/dom.js'
 import { loadAtlas } from './helpers/atlas.js'
 
@@ -87,7 +86,7 @@ test('the original release hand and flying grenade coincide in both directions',
     const ground = view.projection.point(released)
     assert.ok(Math.hypot(drawn.x - ground.x, drawn.y - (ground.y - view.projection.length(released.y))) < 1e-8)
     const flight = view.children.find(child => child.grenade === body.grenade)
-    assert.ok(canonicalImageSource(flight.image.src).endsWith('/bombas-throw-right-sprites.png'), 'flight uses the original drawn grenade')
+    assert.ok(flight.image.src.endsWith('/bombas-throw-right-sprites.webp'), 'flight uses the original drawn grenade')
   }
 })
 

@@ -1,7 +1,7 @@
 // Measurements of the art, kept by hand.
 export default {
   'partisan-fallen-prone': {
-    'src': 'game-ready/scenery/partisan-fallen-prone.png',
+    'src': 'game-ready/scenery/partisan-fallen-prone.webp',
     'width': 128,
     'height': 64,
     'anchor': {
@@ -13,7 +13,7 @@ export default {
     'layer': 1
   },
   'partisan-fallen-supine': {
-    'src': 'game-ready/scenery/partisan-fallen-supine.png',
+    'src': 'game-ready/scenery/partisan-fallen-supine.webp',
     'width': 128,
     'height': 64,
     'anchor': {
@@ -25,7 +25,7 @@ export default {
     'layer': 1
   },
   'partisan-fallen-side': {
-    'src': 'game-ready/scenery/partisan-fallen-side.png',
+    'src': 'game-ready/scenery/partisan-fallen-side.webp',
     'width': 128,
     'height': 64,
     'anchor': {
@@ -37,7 +37,7 @@ export default {
     'layer': 1
   },
   'german-fallen-prone': {
-    'src': 'game-ready/scenery/german-fallen-prone.png',
+    'src': 'game-ready/scenery/german-fallen-prone.webp',
     'width': 128,
     'height': 64,
     'anchor': {
@@ -49,7 +49,7 @@ export default {
     'layer': 1
   },
   'german-fallen-supine': {
-    'src': 'game-ready/scenery/german-fallen-supine.png',
+    'src': 'game-ready/scenery/german-fallen-supine.webp',
     'width': 128,
     'height': 64,
     'anchor': {
@@ -61,7 +61,7 @@ export default {
     'layer': 1
   },
   'german-fallen-side': {
-    'src': 'game-ready/scenery/german-fallen-side.png',
+    'src': 'game-ready/scenery/german-fallen-side.webp',
     'width': 128,
     'height': 64,
     'anchor': {
@@ -73,7 +73,7 @@ export default {
     'layer': 1
   },
   'italian-fallen-prone': {
-    'src': 'game-ready/scenery/italian-fallen-prone.png',
+    'src': 'game-ready/scenery/italian-fallen-prone.webp',
     'width': 128,
     'height': 64,
     'anchor': {
@@ -85,7 +85,7 @@ export default {
     'layer': 1
   },
   'italian-fallen-supine': {
-    'src': 'game-ready/scenery/italian-fallen-supine.png',
+    'src': 'game-ready/scenery/italian-fallen-supine.webp',
     'width': 128,
     'height': 64,
     'anchor': {
@@ -97,7 +97,7 @@ export default {
     'layer': 1
   },
   'italian-fallen-side': {
-    'src': 'game-ready/scenery/italian-fallen-side.png',
+    'src': 'game-ready/scenery/italian-fallen-side.webp',
     'width': 128,
     'height': 64,
     'anchor': {
@@ -109,7 +109,7 @@ export default {
     'layer': 1
   },
   'blood-patch': {
-    'src': 'game-ready/scenery/blood-patch.png',
+    'src': 'game-ready/scenery/blood-patch.webp',
     'width': 96,
     'height': 48,
     'anchor': {
@@ -121,7 +121,7 @@ export default {
     'layer': 0
   },
   'blood-smear': {
-    'src': 'game-ready/scenery/blood-smear.png',
+    'src': 'game-ready/scenery/blood-smear.webp',
     'width': 96,
     'height': 48,
     'anchor': {
@@ -133,7 +133,7 @@ export default {
     'layer': 0
   },
   'blood-pool': {
-    'src': 'game-ready/scenery/blood-pool.png',
+    'src': 'game-ready/scenery/blood-pool.webp',
     'width': 96,
     'height': 48,
     'anchor': {
@@ -145,7 +145,7 @@ export default {
     'layer': 0
   },
   'partisan-tank': {
-    'src': 'game-ready/wrecks/partisan-tank.png',
+    'src': 'game-ready/wrecks/partisan-tank.webp',
     'width': 300,
     'height': 129,
     'anchor': {
@@ -157,7 +157,7 @@ export default {
     'layer': 1
   },
   'german-tank': {
-    'src': 'game-ready/wrecks/german-tank.png',
+    'src': 'game-ready/wrecks/german-tank.webp',
     'width': 327,
     'height': 137,
     'anchor': {
@@ -169,7 +169,7 @@ export default {
     'layer': 1
   },
   'somua-s35': {
-    'src': 'game-ready/wrecks/somua-s35.png',
+    'src': 'game-ready/wrecks/somua-s35.webp',
     'width': 379,
     'height': 166,
     'anchor': {
@@ -181,7 +181,7 @@ export default {
     'layer': 1
   },
   'hummel': {
-    'src': 'game-ready/wrecks/hummel.png',
+    'src': 'game-ready/wrecks/hummel.webp',
     'width': 320,
     'height': 160,
     'anchor': {
@@ -193,7 +193,7 @@ export default {
     'layer': 1
   },
   'opel-blitz': {
-    'src': 'game-ready/wrecks/opel-blitz.png',
+    'src': 'game-ready/wrecks/opel-blitz.webp',
     'width': 320,
     'height': 160,
     'anchor': {
@@ -205,7 +205,7 @@ export default {
     'layer': 1
   },
   'opel-blitz-legion': {
-    'src': 'game-ready/wrecks/opel-blitz-legion.png',
+    'src': 'game-ready/wrecks/opel-blitz-legion.webp',
     'width': 320,
     'height': 160,
     'anchor': {
@@ -217,7 +217,7 @@ export default {
     'layer': 1
   },
   'bp42': {
-    'src': 'game-ready/wrecks/bp42.png',
+    'src': 'game-ready/wrecks/bp42.webp',
     'width': 576,
     'height': 256,
     'anchor': {
@@ -229,7 +229,7 @@ export default {
     'layer': 1
   },
   'flak38': {
-    'src': 'game-ready/wrecks/flak38.png',
+    'src': 'game-ready/wrecks/flak38.webp',
     'width': 204,
     'height': 122,
     'anchor': {
@@ -241,7 +241,7 @@ export default {
     'layer': 1
   },
   'pak38': {
-    'src': 'game-ready/wrecks/pak38.png',
+    'src': 'game-ready/wrecks/pak38.webp',
     'width': 233,
     'height': 51,
     'anchor': {
@@ -253,7 +253,7 @@ export default {
     'layer': 1
   },
   'house-bunker': {
-    'src': 'game-ready/wrecks/house-bunker.png',
+    'src': 'game-ready/wrecks/house-bunker.webp',
     'width': 428,
     'height': 286,
     'anchor': {
@@ -265,7 +265,7 @@ export default {
     'layer': 1
   },
   'bunker': {
-    'src': 'game-ready/wrecks/bunker.png',
+    'src': 'game-ready/wrecks/bunker.webp',
     'width': 246,
     'height': 93,
     'anchor': {
@@ -277,7 +277,7 @@ export default {
     'layer': 1
   },
   'player-boat': {
-    'src': 'game-ready/wrecks/player-boat.png',
+    'src': 'game-ready/wrecks/player-boat.webp',
     'width': 355,
     'height': 152,
     'anchor': {

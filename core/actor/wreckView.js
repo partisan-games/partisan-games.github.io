@@ -1,17 +1,16 @@
 import art from './wreckArt.js'
 import { assets } from '/config.js'
-import { canonicalImageSource, runtimeImageSource } from './imageSources.js'
 
 const images = new Map()
 
 /** Preload one shared wreck, addressed by the live resource; never resize the live actor. */
 export function wreckFor(src) {
-  const key = canonicalImageSource(src?.replace(/^.*\/assets\/images\//, ''))
+  const key = src?.replace(/^.*\/assets\/images\//, '')
   const descriptor = art[key]
   if (!descriptor) return null
   if (!images.has(descriptor.src)) {
     const image = new Image()
-    image.src = assets.images + runtimeImageSource(descriptor.src)
+    image.src = assets.images + descriptor.src
     images.set(descriptor.src, image)
   }
   return images.get(descriptor.src)

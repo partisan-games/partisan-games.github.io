@@ -1,8 +1,8 @@
 // Measurements of the art, kept by hand.
 export default {
-  'src': 'game-ready/brodovi/schnellboot-s30.png',
+  'src': 'game-ready/brodovi/schnellboot-s30.webp',
   'gun': {
-    'src': 'game-ready/brodovi/s30-deck-gun.png',
+    'src': 'game-ready/brodovi/s30-deck-gun.webp',
     'width': 96,
     'height': 96,
     'anchor': {

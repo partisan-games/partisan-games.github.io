@@ -8,7 +8,7 @@ import { assets } from '/config.js'
 const clips = { idle: { row: 0, frames: 2, seconds: .6 }, walk: { row: 1, frames: 8, seconds: .8 }, death: { row: 2, frames: 6, seconds: .6 } }
 const columns = 8
 /** The throw, drawn to the right from his standing pose, in its own atlas of eight frames, and the seconds of each. */
-const throwArt = { src: 'game-ready/vojnici/bombas-throw-right-sprites.png', frames: [.1, .1, .1, .1, .08, .1, .1, .12] }
+const throwArt = { src: 'game-ready/vojnici/bombas-throw-right-sprites.webp', frames: [.1, .1, .1, .1, .08, .1, .1, .12] }
 
 /** The frame of the throw `seconds` into it; the last one holds. */
 function throwFrame(seconds) {
@@ -30,7 +30,7 @@ const step = { every: 35, pace: 4 }
  */
 export default class GrenadierSprite extends BodySprite {
   constructor(body, { projection, camera }) {
-    super(body, 'game-ready/vojnici/bombas-sprites.png', { projection, camera, z: -1, hitReaction: false })
+    super(body, 'game-ready/vojnici/bombas-sprites.webp', { projection, camera, z: -1, hitReaction: false })
     this.stepSound = new Sound('footstep-gravel-01.mp3', { variants: ['footstep-gravel-02.mp3', 'footstep-gravel-03.mp3', 'footstep-gravel-04.mp3'],
       profile: 'footstep', spatial: { getPosition: () => this.position } })
     this.hitSound = new Sound('body-impact-01.mp3', { profile: 'impact', spatial: { getPosition: () => this.position } })

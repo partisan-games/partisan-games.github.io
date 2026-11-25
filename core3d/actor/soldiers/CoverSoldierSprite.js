@@ -11,8 +11,8 @@ import { audioPoint } from '/core/io/audio/audio3d.js'
  * and being hit, each in three faces; behind cover his head is `headroom` metres above it.
  */
 export const coverSoldierArt = {
-  whole: 'game-ready/vojnici/nemci-spreda-celo.png',
-  upper: 'game-ready/vojnici/nemci-spreda.png',
+  whole: 'game-ready/vojnici/nemci-spreda-celo.webp',
+  upper: 'game-ready/vojnici/nemci-spreda.webp',
   pxPerMeter: 63, poses: 7, faces: 3, rows: 4, stride: 1.3, headroom: .45,
 }
 

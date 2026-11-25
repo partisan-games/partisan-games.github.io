@@ -1,7 +1,7 @@
 // Measurements of the art, kept by hand.
 export default {
   'zundapp-k600': {
-    'src': 'game-ready/vozila/zundapp-k600-sprites.png',
+    'src': 'game-ready/vozila/zundapp-k600-sprites.webp',
     'width': 136,
     'height': 82,
     'bounds': [
@@ -70,7 +70,7 @@ export default {
     'muzzlePoint': null
   },
   'bmw-r12': {
-    'src': 'game-ready/vozila/bmw-r12-sprites.png',
+    'src': 'game-ready/vozila/bmw-r12-sprites.webp',
     'width': 97,
     'height': 79,
     'bounds': [
@@ -139,7 +139,7 @@ export default {
     'muzzlePoint': null
   },
   'sdkfz-231': {
-    'src': 'game-ready/vozila/sdkfz-231-sprites.png',
+    'src': 'game-ready/vozila/sdkfz-231-sprites.webp',
     'width': 247,
     'height': 123,
     'bounds': [
@@ -211,7 +211,7 @@ export default {
     ]
   },
   'pzkpf-612': {
-    'src': 'game-ready/vozila/pzkpf-612-sprites.png',
+    'src': 'game-ready/vozila/pzkpf-612-sprites.webp',
     'width': 246,
     'height': 121,
     'bounds': [
@@ -283,7 +283,7 @@ export default {
     ]
   },
   'mercedes-830bl': {
-    'src': 'game-ready/vozila/mercedes-830bl-sprites.png',
+    'src': 'game-ready/vozila/mercedes-830bl-sprites.webp',
     'width': 215,
     'height': 96,
     'bounds': [
@@ -352,7 +352,7 @@ export default {
     'muzzlePoint': null
   },
   'marder-ii': {
-    'src': 'game-ready/vozila/marder-ii-sprites.png',
+    'src': 'game-ready/vozila/marder-ii-sprites.webp',
     'width': 267,
     'height': 128,
     'bounds': [
@@ -424,7 +424,7 @@ export default {
     ]
   },
   'elefant': {
-    'src': 'game-ready/vozila/elefant-sprites.png',
+    'src': 'game-ready/vozila/elefant-sprites.webp',
     'width': 338,
     'height': 134,
     'bounds': [

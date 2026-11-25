@@ -1,17 +1,16 @@
 import art from './propellerArt.js'
 import topArt from './topAircraftArt.js'
 import { assets } from '/config.js'
-import { canonicalImageSource, runtimeImageSource } from '../imageSources.js'
 
 /** Edge-on blade projections, in the same local coordinates and transform as the accepted plane image. */
 export default class AircraftPropellers {
   constructor(src) {
-    const key = canonicalImageSource(src.replace(/^.*\/assets\/images\//, ''))
+    const key = src.replace(/^.*\/assets\/images\//, '')
     this.art = topArt[key] ?? art[key]
     this.elapsed = 0
     if (!this.art) return
     this.image = new Image()
-    this.image.src = assets.images + runtimeImageSource(this.art.layer.src)
+    this.image.src = assets.images + this.art.layer.src
   }
 
   update(dt, running = true) {

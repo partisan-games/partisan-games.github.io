@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "measuredAt": "2026-11-25T10:42:40.612780+00:00",
-  "baseRevision": "60fa5860ef54b0f0b1e43726b349eb10904e698e",
+  "measuredAt": "2026-11-25T10:50:31.249947+00:00",
+  "baseRevision": "be7a89ffdfa896073f6605aa6ff23384051b5370",
   "scope": "Art linked by docs/ART.md, including shared variants; not all unused library art or a runtime/visual acceptance test.",
   "interpretation": "imageFrames counts file-container frames. A PNG atlas normally has one; named sprite clips require metadata and a runtime mapping. hashes detect exact input changes, not art quality.",
   "images": [
@@ -46,9 +46,9 @@
       "distinctImageFrames": 1
     },
     {
-      "asset": "assets/images/game-ready/artiljerija/field-gun-barrel-pixel.png",
-      "sha256": "084cd423e85da1b4adef23fa4d08e7d97b2a22f4885501c1ee6b8901fb2dc514",
-      "kind": "PNG",
+      "asset": "assets/images/game-ready/artiljerija/field-gun-barrel-pixel.webp",
+      "sha256": "1f5465b391d25093ce8fd38fd0c49f2c407164dfdf6dd13de5d80efa4a51562b",
+      "kind": "WEBP",
       "width": 274,
       "height": 52,
       "imageFrames": 1,
@@ -56,9 +56,9 @@
       "distinctImageFrames": 1
     },
     {
-      "asset": "assets/images/game-ready/artiljerija/field-gun-carriage-pixel.png",
-      "sha256": "96c8ea806184978bb3156b649873ef2bc7bd51b94e8399a4e3c8b5d775aee3cc",
-      "kind": "PNG",
+      "asset": "assets/images/game-ready/artiljerija/field-gun-carriage-pixel.webp",
+      "sha256": "d9850bb7eccc6294a807d72a1346d52b293c045be1c30f341510eb67691f3b8c",
+      "kind": "WEBP",
       "width": 400,
       "height": 99,
       "imageFrames": 1,
@@ -66,9 +66,9 @@
       "distinctImageFrames": 1
     },
     {
-      "asset": "assets/images/game-ready/artiljerija/flak38-cev.png",
-      "sha256": "951756eeb3498b126e16edba94e46e2cf3241ab546687d62f54629dd63283461",
-      "kind": "PNG",
+      "asset": "assets/images/game-ready/artiljerija/flak38-cev.webp",
+      "sha256": "05ee29d9014089e7d6f755e726564103226374ec3034f824ac0ebbc3bb3ea312",
+      "kind": "WEBP",
       "width": 128,
       "height": 128,
       "imageFrames": 1,
@@ -76,9 +76,9 @@
       "distinctImageFrames": 1
     },
     {
-      "asset": "assets/images/game-ready/artiljerija/flak38-postolje.png",
-      "sha256": "91693171cd592250b335bfc06b920dcb4ca2665ba6b5eb55e858901a1050b2db",
-      "kind": "PNG",
+      "asset": "assets/images/game-ready/artiljerija/flak38-postolje.webp",
+      "sha256": "c7eacde806ff6417a8d9b12ee13c15152009f9bb1587a33ab9e7b6ae5fe41e70",
+      "kind": "WEBP",
       "width": 204,
       "height": 122,
       "imageFrames": 1,
@@ -86,9 +86,9 @@
       "distinctImageFrames": 1
     },
     {
-      "asset": "assets/images/game-ready/artiljerija/pak38-cev.png",
-      "sha256": "f16c5d5c158cddd4558acaf52015e61f7aff04639110098ce3e53a323976d2d3",
-      "kind": "PNG",
+      "asset": "assets/images/game-ready/artiljerija/pak38-cev.webp",
+      "sha256": "0d3af0a268d5ebd93ebcfbf4342472eab5f5b0c787c658d8c4c0e91dcafd850d",
+      "kind": "WEBP",
       "width": 90,
       "height": 8,
       "imageFrames": 1,
@@ -96,9 +96,9 @@
       "distinctImageFrames": 1
     },
     {
-      "asset": "assets/images/game-ready/artiljerija/pak38-postolje.png",
-      "sha256": "6de63d608deb61cc7e3f0a3bbfab83aa02685ae0d79eaf45d289d582f9be1771",
-      "kind": "PNG",
+      "asset": "assets/images/game-ready/artiljerija/pak38-postolje.webp",
+      "sha256": "d6dccd0fd40f271ee8f268f75de91d8841f4faaee8ea4ef032996214fde8532c",
+      "kind": "WEBP",
       "width": 233,
       "height": 51,
       "imageFrames": 1,
@@ -106,9 +106,9 @@
       "distinctImageFrames": 1
     },
     {
-      "asset": "assets/images/game-ready/avioni/bf109-damaged.png",
-      "sha256": "c3e3c1799e8d34e7e41e21753155c24c776f92310d891b0c2ba777c51602df42",
-      "kind": "PNG",
+      "asset": "assets/images/game-ready/avioni/bf109-damaged.webp",
+      "sha256": "078671670a283cf1951d94dfe178ffaaca6bf0297abe82e66658cc2858250b24",
+      "kind": "WEBP",
       "width": 404,
       "height": 132,
       "imageFrames": 1,
@@ -116,9 +116,9 @@
       "distinctImageFrames": 1
     },
     {
-      "asset": "assets/images/game-ready/avioni/bf109-propeler.png",
-      "sha256": "5269051b5cafc8b4d0ff097c5f01eb1e1a8da388388e5e234b1051ce2fa01b0e",
-      "kind": "PNG",
+      "asset": "assets/images/game-ready/avioni/bf109-propeler.webp",
+      "sha256": "b6b4c4422158fb0db451342e8f82a2e9d97f2038f27f24599f0cfbd8af7ee3eb",
+      "kind": "WEBP",
       "width": 11,
       "height": 134,
       "imageFrames": 1,
@@ -126,9 +126,9 @@
       "distinctImageFrames": 1
     },
     {
-      "asset": "assets/images/game-ready/avioni/bf109-telo.png",
-      "sha256": "de76c43f7603a5f0ddc94e1aedc6b76c31adbb5529ba26d2e50fe0e82e2650fb",
-      "kind": "PNG",
+      "asset": "assets/images/game-ready/avioni/bf109-telo.webp",
+      "sha256": "399ae153b36b86fbe275a7c08073123351aa5c421352b591ade9799eb3feab63",
+      "kind": "WEBP",
       "width": 404,
       "height": 132,
       "imageFrames": 1,
@@ -136,9 +136,9 @@
       "distinctImageFrames": 1
     },
     {
-      "asset": "assets/images/game-ready/avioni/ju87-damaged.png",
-      "sha256": "8cbf7a47967f343962ebc142ef405deefafd7ca8f9372152d97cf493d211689f",
-      "kind": "PNG",
+      "asset": "assets/images/game-ready/avioni/ju87-damaged.webp",
+      "sha256": "9aa76e1aa94fb9d6d0c8ee3e6a4768937d1d686746441c6130296f1ce2cf8d97",
+      "kind": "WEBP",
       "width": 400,
       "height": 148,
       "imageFrames": 1,
@@ -146,9 +146,9 @@
       "distinctImageFrames": 1
     },
     {
-      "asset": "assets/images/game-ready/avioni/ju87.png",
-      "sha256": "4be2a90b42bfdda18f7e20c41699351f18d8d94327ce524418ae700977a41b61",
-      "kind": "PNG",
+      "asset": "assets/images/game-ready/avioni/ju87.webp",
+      "sha256": "91572c511ceca6e7d10a6374cde6158501a05d04ac44a0850e71ba1fda474cb7",
+      "kind": "WEBP",
       "width": 400,
       "height": 148,
       "imageFrames": 1,
@@ -156,9 +156,9 @@
       "distinctImageFrames": 1
     },
     {
-      "asset": "assets/images/game-ready/brodovi/s30-deck-gun.png",
-      "sha256": "33074fc48dd1d1775f1ae436967164a8dcc97698b00a1cea3419002c25b63548",
-      "kind": "PNG",
+      "asset": "assets/images/game-ready/brodovi/s30-deck-gun.webp",
+      "sha256": "8de9d5e5c9bb675401b48873672f6a3fee4b86e8408029d3f89104345cedfc83",
+      "kind": "WEBP",
       "width": 96,
       "height": 96,
       "imageFrames": 1,
@@ -166,9 +166,9 @@
       "distinctImageFrames": 1
     },
     {
-      "asset": "assets/images/game-ready/brodovi/schnellboot-s30.png",
-      "sha256": "d32cfa0c3628187918147d90b77155edbfa42353746866204b1e879225f47f81",
-      "kind": "PNG",
+      "asset": "assets/images/game-ready/brodovi/schnellboot-s30.webp",
+      "sha256": "083d5f6ae6d2731fdd1b732507c8069229b08a5762970b91b490e232d6e4aaed",
+      "kind": "WEBP",
       "width": 1327,
       "height": 211,
       "imageFrames": 1,
@@ -176,9 +176,9 @@
       "distinctImageFrames": 1
     },
     {
-      "asset": "assets/images/game-ready/polozaji/mitraljesko-gnezdo-odozgo.png",
-      "sha256": "b4369bd9994ee45482bfbfb889fb54de84e0dee198c0361ed3ee499d3866e3c2",
-      "kind": "PNG",
+      "asset": "assets/images/game-ready/polozaji/mitraljesko-gnezdo-odozgo.webp",
+      "sha256": "a9ada68cb5d8aea2ea6603cfadb6311d2e28225365a86270df4b78f8b72f4703",
+      "kind": "WEBP",
       "width": 240,
       "height": 96,
       "imageFrames": 1,
@@ -186,9 +186,9 @@
       "distinctImageFrames": 1
     },
     {
-      "asset": "assets/images/game-ready/polozaji/shore-mg-crew.png",
-      "sha256": "a32e6c42ae9adbc3352c285636c3b4e6cfff80612a4c4bb703f20ffe0d9ade70",
-      "kind": "PNG",
+      "asset": "assets/images/game-ready/polozaji/shore-mg-crew.webp",
+      "sha256": "0936667b8f9f54c54292c1f69e4d272e7f40ee834c5bcceb4802934e7cba1b50",
+      "kind": "WEBP",
       "width": 256,
       "height": 80,
       "imageFrames": 1,
@@ -196,9 +196,9 @@
       "distinctImageFrames": 1
     },
     {
-      "asset": "assets/images/game-ready/polozaji/shore-mg-gun.png",
-      "sha256": "8672dc133df1f56da1d2cb7704bcc79261740baa100f7c491d2c367eb6c2407c",
-      "kind": "PNG",
+      "asset": "assets/images/game-ready/polozaji/shore-mg-gun.webp",
+      "sha256": "4eae4014b8575702693a20f08df14dfec24e28e29103590c6d632000ae9a89d4",
+      "kind": "WEBP",
       "width": 192,
       "height": 96,
       "imageFrames": 1,
@@ -206,9 +206,9 @@
       "distinctImageFrames": 1
     },
     {
-      "asset": "assets/images/game-ready/tenkovi/nemacki-tenk-cev-pixel.png",
-      "sha256": "def71d3e8b6a64636d4d339943ea6347e54bdefb6d757bdcd8d353e1eafc5d7c",
-      "kind": "PNG",
+      "asset": "assets/images/game-ready/tenkovi/nemacki-tenk-cev-pixel.webp",
+      "sha256": "e7d96daa78e8732871f13fda3f8a1f1b0c809abda6ecd123362989cc32e08262",
+      "kind": "WEBP",
       "width": 182,
       "height": 26,
       "imageFrames": 1,
@@ -216,9 +216,9 @@
       "distinctImageFrames": 1
     },
     {
-      "asset": "assets/images/game-ready/tenkovi/partizanski-tenk-cev-pixel.png",
-      "sha256": "7dd753b95f03fdf93e1c0b99f91868413102e09f35535896ef98cebe1abb14f0",
-      "kind": "PNG",
+      "asset": "assets/images/game-ready/tenkovi/partizanski-tenk-cev-pixel.webp",
+      "sha256": "25b315ac7f3e404c863f3537cd76ab19ba5c93150d29d57316505e771e0cae26",
+      "kind": "WEBP",
       "width": 194,
       "height": 28,
       "imageFrames": 1,
@@ -226,9 +226,9 @@
       "distinctImageFrames": 1
     },
     {
-      "asset": "assets/images/game-ready/tenkovi/somua-s35-barrel.png",
-      "sha256": "b49670d218daa3dc5002ab21b497e37b5d6b4be93d7553514a9a2cb26a7d74d0",
-      "kind": "PNG",
+      "asset": "assets/images/game-ready/tenkovi/somua-s35-barrel.webp",
+      "sha256": "ac98e6ffbce3803151ed5d801c4edb29a55b1dc5da0349c23ec470b3a72e1e8c",
+      "kind": "WEBP",
       "width": 2172,
       "height": 724,
       "imageFrames": 1,
@@ -236,9 +236,9 @@
       "distinctImageFrames": 1
     },
     {
-      "asset": "assets/images/game-ready/vozila/sdkfz251-sprites.png",
-      "sha256": "87f9a2b34a058efac555fef88a763eb7dac4c9e4cb44af91860273b1528048b3",
-      "kind": "PNG",
+      "asset": "assets/images/game-ready/vozila/sdkfz251-sprites.webp",
+      "sha256": "510a0bad7b737afc2f7ee15c7ca6e4736349ee7aa89bd17de4adde0b3abf7911",
+      "kind": "WEBP",
       "width": 984,
       "height": 708,
       "imageFrames": 1,
@@ -298,88 +298,84 @@
       "sha256": "9dc20e731e5050615ce43d865006e2e01521bee620033fc64162d36670e38aed"
     },
     {
-      "path": "assets/images/game-ready/artiljerija/field-gun-barrel-pixel.png",
-      "sha256": "084cd423e85da1b4adef23fa4d08e7d97b2a22f4885501c1ee6b8901fb2dc514"
+      "path": "assets/images/game-ready/artiljerija/field-gun-barrel-pixel.webp",
+      "sha256": "1f5465b391d25093ce8fd38fd0c49f2c407164dfdf6dd13de5d80efa4a51562b"
     },
     {
-      "path": "assets/images/game-ready/artiljerija/field-gun-carriage-pixel.png",
-      "sha256": "96c8ea806184978bb3156b649873ef2bc7bd51b94e8399a4e3c8b5d775aee3cc"
+      "path": "assets/images/game-ready/artiljerija/field-gun-carriage-pixel.webp",
+      "sha256": "d9850bb7eccc6294a807d72a1346d52b293c045be1c30f341510eb67691f3b8c"
     },
     {
-      "path": "assets/images/game-ready/artiljerija/flak38-cev.png",
-      "sha256": "951756eeb3498b126e16edba94e46e2cf3241ab546687d62f54629dd63283461"
+      "path": "assets/images/game-ready/artiljerija/flak38-cev.webp",
+      "sha256": "05ee29d9014089e7d6f755e726564103226374ec3034f824ac0ebbc3bb3ea312"
     },
     {
-      "path": "assets/images/game-ready/artiljerija/flak38-postolje.png",
-      "sha256": "91693171cd592250b335bfc06b920dcb4ca2665ba6b5eb55e858901a1050b2db"
+      "path": "assets/images/game-ready/artiljerija/flak38-postolje.webp",
+      "sha256": "c7eacde806ff6417a8d9b12ee13c15152009f9bb1587a33ab9e7b6ae5fe41e70"
     },
     {
-      "path": "assets/images/game-ready/artiljerija/pak38-cev.png",
-      "sha256": "f16c5d5c158cddd4558acaf52015e61f7aff04639110098ce3e53a323976d2d3"
+      "path": "assets/images/game-ready/artiljerija/pak38-cev.webp",
+      "sha256": "0d3af0a268d5ebd93ebcfbf4342472eab5f5b0c787c658d8c4c0e91dcafd850d"
     },
     {
-      "path": "assets/images/game-ready/artiljerija/pak38-postolje.png",
-      "sha256": "6de63d608deb61cc7e3f0a3bbfab83aa02685ae0d79eaf45d289d582f9be1771"
+      "path": "assets/images/game-ready/artiljerija/pak38-postolje.webp",
+      "sha256": "d6dccd0fd40f271ee8f268f75de91d8841f4faaee8ea4ef032996214fde8532c"
     },
     {
-      "path": "assets/images/game-ready/avioni/bf109-damaged.png",
-      "sha256": "c3e3c1799e8d34e7e41e21753155c24c776f92310d891b0c2ba777c51602df42"
+      "path": "assets/images/game-ready/avioni/bf109-damaged.webp",
+      "sha256": "078671670a283cf1951d94dfe178ffaaca6bf0297abe82e66658cc2858250b24"
     },
     {
-      "path": "assets/images/game-ready/avioni/bf109-propeler.png",
-      "sha256": "5269051b5cafc8b4d0ff097c5f01eb1e1a8da388388e5e234b1051ce2fa01b0e"
+      "path": "assets/images/game-ready/avioni/bf109-propeler.webp",
+      "sha256": "b6b4c4422158fb0db451342e8f82a2e9d97f2038f27f24599f0cfbd8af7ee3eb"
     },
     {
-      "path": "assets/images/game-ready/avioni/bf109-telo.png",
-      "sha256": "de76c43f7603a5f0ddc94e1aedc6b76c31adbb5529ba26d2e50fe0e82e2650fb"
+      "path": "assets/images/game-ready/avioni/bf109-telo.webp",
+      "sha256": "399ae153b36b86fbe275a7c08073123351aa5c421352b591ade9799eb3feab63"
     },
     {
-      "path": "assets/images/game-ready/avioni/ju87-damaged.png",
-      "sha256": "8cbf7a47967f343962ebc142ef405deefafd7ca8f9372152d97cf493d211689f"
+      "path": "assets/images/game-ready/avioni/ju87-damaged.webp",
+      "sha256": "9aa76e1aa94fb9d6d0c8ee3e6a4768937d1d686746441c6130296f1ce2cf8d97"
     },
     {
-      "path": "assets/images/game-ready/avioni/ju87.png",
-      "sha256": "4be2a90b42bfdda18f7e20c41699351f18d8d94327ce524418ae700977a41b61"
+      "path": "assets/images/game-ready/avioni/ju87.webp",
+      "sha256": "91572c511ceca6e7d10a6374cde6158501a05d04ac44a0850e71ba1fda474cb7"
     },
     {
-      "path": "assets/images/game-ready/brodovi/s30-deck-gun.png",
-      "sha256": "33074fc48dd1d1775f1ae436967164a8dcc97698b00a1cea3419002c25b63548"
+      "path": "assets/images/game-ready/brodovi/s30-deck-gun.webp",
+      "sha256": "8de9d5e5c9bb675401b48873672f6a3fee4b86e8408029d3f89104345cedfc83"
     },
     {
-      "path": "assets/images/game-ready/brodovi/schnellboot-s30.png",
-      "sha256": "d32cfa0c3628187918147d90b77155edbfa42353746866204b1e879225f47f81"
+      "path": "assets/images/game-ready/brodovi/schnellboot-s30.webp",
+      "sha256": "083d5f6ae6d2731fdd1b732507c8069229b08a5762970b91b490e232d6e4aaed"
     },
     {
-      "path": "assets/images/game-ready/polozaji/mitraljesko-gnezdo-odozgo.png",
-      "sha256": "b4369bd9994ee45482bfbfb889fb54de84e0dee198c0361ed3ee499d3866e3c2"
+      "path": "assets/images/game-ready/polozaji/mitraljesko-gnezdo-odozgo.webp",
+      "sha256": "a9ada68cb5d8aea2ea6603cfadb6311d2e28225365a86270df4b78f8b72f4703"
     },
     {
-      "path": "assets/images/game-ready/polozaji/shore-mg-crew.png",
-      "sha256": "a32e6c42ae9adbc3352c285636c3b4e6cfff80612a4c4bb703f20ffe0d9ade70"
+      "path": "assets/images/game-ready/polozaji/shore-mg-crew.webp",
+      "sha256": "0936667b8f9f54c54292c1f69e4d272e7f40ee834c5bcceb4802934e7cba1b50"
     },
     {
-      "path": "assets/images/game-ready/polozaji/shore-mg-gun.png",
-      "sha256": "8672dc133df1f56da1d2cb7704bcc79261740baa100f7c491d2c367eb6c2407c"
+      "path": "assets/images/game-ready/polozaji/shore-mg-gun.webp",
+      "sha256": "4eae4014b8575702693a20f08df14dfec24e28e29103590c6d632000ae9a89d4"
     },
     {
-      "path": "assets/images/game-ready/tenkovi/nemacki-tenk-cev-pixel.png",
-      "sha256": "def71d3e8b6a64636d4d339943ea6347e54bdefb6d757bdcd8d353e1eafc5d7c"
+      "path": "assets/images/game-ready/tenkovi/nemacki-tenk-cev-pixel.webp",
+      "sha256": "e7d96daa78e8732871f13fda3f8a1f1b0c809abda6ecd123362989cc32e08262"
     },
     {
-      "path": "assets/images/game-ready/tenkovi/partizanski-tenk-cev-pixel.png",
-      "sha256": "7dd753b95f03fdf93e1c0b99f91868413102e09f35535896ef98cebe1abb14f0"
+      "path": "assets/images/game-ready/tenkovi/partizanski-tenk-cev-pixel.webp",
+      "sha256": "25b315ac7f3e404c863f3537cd76ab19ba5c93150d29d57316505e771e0cae26"
     },
     {
-      "path": "assets/images/game-ready/tenkovi/somua-s35-barrel.png",
-      "sha256": "b49670d218daa3dc5002ab21b497e37b5d6b4be93d7553514a9a2cb26a7d74d0"
+      "path": "assets/images/game-ready/tenkovi/somua-s35-barrel.webp",
+      "sha256": "ac98e6ffbce3803151ed5d801c4edb29a55b1dc5da0349c23ec470b3a72e1e8c"
     },
     {
-      "path": "assets/images/game-ready/vozila/sdkfz251-sprites.png",
-      "sha256": "87f9a2b34a058efac555fef88a763eb7dac4c9e4cb44af91860273b1528048b3"
-    },
-    {
-      "path": "assets/images/optimized/manifest.json",
-      "sha256": "941586d367c2e28eaf0433f94b7b9af6fda759d2ea69bbd15dfed93bf60ee954"
+      "path": "assets/images/game-ready/vozila/sdkfz251-sprites.webp",
+      "sha256": "510a0bad7b737afc2f7ee15c7ca6e4736349ee7aa89bd17de4adde0b3abf7911"
     },
     {
       "path": "assets/models/aircraft/airplane/messerschmitt-bf-109/README.md",
@@ -415,7 +411,7 @@
     },
     {
       "path": "assets/models/props/sandbags/README.md",
-      "sha256": "f5dc8701e6dad2c035c2c736d0b4165e21612d905af4b3f044f056c91fb7b5bd"
+      "sha256": "8d97ff0d31163f4405cfd2c175fbfd8e25f55e45d00be49bbf84e2c5388fc853"
     },
     {
       "path": "assets/models/tank/renault-ft/README.md",
@@ -455,11 +451,7 @@
     },
     {
       "path": "core/actor/aircraft/fighterBomberPlanes.js",
-      "sha256": "0ca75c3a246d30664cd4de9c31b145948d8e77da07d937385f0b3314c8efd861"
-    },
-    {
-      "path": "core/actor/imageSources.js",
-      "sha256": "20d273190f8cdfa91bc95ccf1a68515ad9c64161eab70a92d5fa80781fe447b5"
+      "sha256": "3573b117dba1e40509102c56eaab23b1924c8b21ae31fe308c8efe583e9235a7"
     },
     {
       "path": "core/gameplay/frontEnemyKinds.js",
@@ -487,7 +479,7 @@
     },
     {
       "path": "docs/ART.md",
-      "sha256": "aba52fabf9a54b36c1881f80a357f88ed581860a8a8fd1dd3be340fa3fb72ef1"
+      "sha256": "ac8b8ffd97922469f15f189d0fb26bc98149944fddb11ac50551ac8d38394388"
     },
     {
       "path": "docs/ISTORIJA.md",
@@ -499,11 +491,11 @@
     },
     {
       "path": "docs/KONTEKST.md",
-      "sha256": "e068658422ea76d1f0db9b4e20f5275401f3f2f4cdb234dbb060b1384847f231"
+      "sha256": "1f046972b4c135c1a9ec2358db8db343853a7aa23e3c736a12c22695d6ce9575"
     },
     {
       "path": "docs/PLAN.md",
-      "sha256": "73adee20e1323733913727e2c81bdb1ca1ccd1282615ffe7457231f967937f23"
+      "sha256": "47bcd8b5dbb0e15270b1d2eb3e5fb33de063b20bbfa0da3d2c1b2dc2c148ed7c"
     },
     {
       "path": "docs/references/ww2-yu/crveni-krst/README.md",
@@ -511,7 +503,7 @@
     },
     {
       "path": "docs/TESTING.md",
-      "sha256": "0fc6cf5587cf91a75701b5d199f60517cfb0e5fc56f7b9fac6b484096314aeb6"
+      "sha256": "0aae7e5f818172a6c1585113131e9c51c1b4ee8bd86cc15d269762ee681588c2"
     },
     {
       "path": "index.html",
@@ -544,10 +536,6 @@
     {
       "path": "scripts/index-sprite-art.py",
       "sha256": "bfa9694a05005bd2495584b91b2d8f59ad519b4ee6251029ac502334f0c45fb0"
-    },
-    {
-      "path": "scripts/prepare-catalog-images.py",
-      "sha256": "8c6cf9dea33755fba7618aef1fb538fb603c33770402b79e1f3b9ca9f4e41b93"
     },
     {
       "path": "scripts/prepare-jablanica-texture.py",

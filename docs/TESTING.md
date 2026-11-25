@@ -28,7 +28,7 @@ The Germans Advance (2026-11-25): ciljane provere su `advanceArt`, `advancePromo
 
 Dorada rezolucije: svi atlasi imaju tačno dvostruke dimenzije kadrova, izvorne visine i sidrišta, uz iste mere u svetu i položaj posade; to štiti ciljana regresiona provera od ponovnog umanjivanja i četvorostruke razrade. Uvećani kontaktni pregled sada se crta direktno iz gušćih atlasa, umesto da uvećava mali pregled.
 
-Klizanje je sprečeno sabiranjem pomeranja samo u intervalima hoda: položaj je miran pri spuštanju na koleno i pucanju, a šest kadrova čučećeg hoda prati pređeni put pri polovini brzine. Katalog crta sve kadrove u oba smera sa istim sidrištem; posada prati sidrište kupole i pri ogledanju. Mapirane lossless WebP kopije su osvežene i piksel-po-piksel jednake PNG-ovima; test proverava njihove hashove i dimenzije, da ne ostane stari runtime art.
+Klizanje je sprečeno sabiranjem pomeranja samo u intervalima hoda: položaj je miran pri spuštanju na koleno i pucanju, a šest kadrova čučećeg hoda prati pređeni put pri polovini brzine. Katalog crta sve kadrove u oba smera sa istim sidrištem; posada prati sidrište kupole i pri ogledanju.
 
 [Promo provere](../tests/unit/advancePromo.test.js) obuhvataju 18 s scene, prelaz od 1,2 s, logo 4 s i zatamnjenje od 0,8 s (24 s ukupno), kontinuitet kamere na 60 Hz, komande iscrtavanja loga, širok/uspravan ekran, pauzu i ponavljanje kroz crno. Provera stvarnog `drawBattle` na svakih 0,25 s između 8. i 18. sekunde potvrđuje tenk i najmanje dva pratioca u kadru, sa pešakom u srednjoj polovini, uz iscrtavanje daljih aktera pre bližih. Kolona ima tri grupe po tri pešadinca i tenk, sa četiri vrste pešadije. Vizuelno prihvatanje animacije ostaje vlasnikovo.
 
@@ -153,7 +153,7 @@ Kratke Node reprodukcije potvrđuju sprint igrača 4 m/s naspram 3/3,24/3,48 m/s
 
 Pregledano je 45 različitih baznih putanja modela; 43 FBX/GLB modela su parsirana, a dva spoljašnja glTF-a popisana bez analize geometrije. Pored partizana, još dva modela dobijaju manje grupa: MG-42 68→11, puška 5→2. To su grupe materijala sa jednim implicitnim prolazom za mesh bez grupa, ne izmereni WebGL pozivi; izvorni fajlovi nisu smanjivani. [Test stvarnih modela](../tests/unit/catalogResources.test.js) potvrđuje iste trouglove, njihove materijale i redosled temena, sve atribute i iste skelete.
 
-Od 170 pregledanih PNG slika aktera, 140 ima manje lossless kopije: 28.034.177→18.839.666 bajtova (32,8%, ušteda 9.194.511 bajtova pri preuzimanju celog skupa; resursi se učitavaju po potrebi). `python -B scripts/prepare-catalog-images.py --check` prolazi za sve slike: svaki RGBA piksel, dimenzije, hashovi i mapa su isti kao u manifestu. Testovi potvrđuju prepoznavanje kanonskog atlasa i deljenje odgovarajuće olupine i preko WebP adresa. Izvorni PNG fajlovi ostaju u repozitorijumu.
+WebP kao jedini original (2026-11-25): svih 196 PNG slika u game-ready zamenjeno je lossless WebP-om, 49→34 MB. Pre brisanja svakog PNG-a dekodirani RGBA pikseli i dimenzije upoređeni su sa WebP-om i bili su isti. Pregledač nije pokretan.
 
 Završna provera 2026-11-23: svih 856 unit testova prolazi, ciljani ESLint nema nalaza, a `npm run check` potvrđuje 489 datoteka i 36 scena. Poznate dijagnostike FBX skinning težina i zamenskih slika putnika u čamcu ostaju; nisu neuspešni testovi. Pregledač nije pokretan; izgled na GPU-u, FPS i vreme mrežnog učitavanja nisu izmereni.
 

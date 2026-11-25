@@ -3,7 +3,7 @@ import Explosion from '/core/actor/effects/Explosion.js'
 import Sound from '/core/io/audio/SoundSource.js'
 
 /** The grenade in the grenadier's hand in the atlas of his throw, which flies alone once thrown, in pixels of it. */
-const picture = { src: 'game-ready/vojnici/bombas-throw-right-sprites.png', x: 213, y: 0, width: 9, height: 9 }
+const picture = { src: 'game-ready/vojnici/bombas-throw-right-sprites.webp', x: 213, y: 0, width: 9, height: 9 }
 /** How fast it tumbles in flight, in turns a second. */
 const tumble = 2
 

@@ -1,7 +1,7 @@
 // Measurements of the art, kept by hand.
 export const actorArt = {
   'rboot': {
-    'src': 'game-ready/brodovi/rboot-sprites.png',
+    'src': 'game-ready/brodovi/rboot-sprites.webp',
     'width': 1408,
     'height': 245,
     'anchor': {
@@ -63,7 +63,7 @@ export const actorArt = {
     ]
   },
   'rboot-damaged': {
-    'src': 'game-ready/brodovi/rboot-damaged.png',
+    'src': 'game-ready/brodovi/rboot-damaged.webp',
     'width': 1408,
     'height': 245,
     'anchor': {
@@ -93,7 +93,7 @@ export const actorArt = {
     'heavy': 'rboot-heavy'
   },
   'rboot-heavy': {
-    'src': 'game-ready/brodovi/rboot-heavy.png',
+    'src': 'game-ready/brodovi/rboot-heavy.webp',
     'width': 1408,
     'height': 245,
     'anchor': {
@@ -122,7 +122,7 @@ export const actorArt = {
     ]
   },
   'mfp': {
-    'src': 'game-ready/brodovi/mfp-sprites.png',
+    'src': 'game-ready/brodovi/mfp-sprites.webp',
     'width': 1888,
     'height': 332,
     'anchor': {
@@ -184,7 +184,7 @@ export const actorArt = {
     ]
   },
   'mfp-damaged': {
-    'src': 'game-ready/brodovi/mfp-damaged.png',
+    'src': 'game-ready/brodovi/mfp-damaged.webp',
     'width': 1888,
     'height': 332,
     'anchor': {
@@ -214,7 +214,7 @@ export const actorArt = {
     'heavy': 'mfp-heavy'
   },
   'mfp-heavy': {
-    'src': 'game-ready/brodovi/mfp-heavy.png',
+    'src': 'game-ready/brodovi/mfp-heavy.webp',
     'width': 1888,
     'height': 332,
     'anchor': {
@@ -243,7 +243,7 @@ export const actorArt = {
     ]
   },
   'vorpostenboot': {
-    'src': 'game-ready/brodovi/vorpostenboot-sprites.png',
+    'src': 'game-ready/brodovi/vorpostenboot-sprites.webp',
     'width': 1128,
     'height': 225,
     'anchor': {
@@ -305,7 +305,7 @@ export const actorArt = {
     ]
   },
   'vorpostenboot-damaged': {
-    'src': 'game-ready/brodovi/vorpostenboot-damaged.png',
+    'src': 'game-ready/brodovi/vorpostenboot-damaged.webp',
     'width': 1128,
     'height': 225,
     'anchor': {
@@ -335,7 +335,7 @@ export const actorArt = {
     'heavy': 'vorpostenboot-heavy'
   },
   'vorpostenboot-heavy': {
-    'src': 'game-ready/brodovi/vorpostenboot-heavy.png',
+    'src': 'game-ready/brodovi/vorpostenboot-heavy.webp',
     'width': 1128,
     'height': 225,
     'anchor': {
@@ -364,7 +364,7 @@ export const actorArt = {
     ]
   },
   'sea-mine': {
-    'src': 'game-ready/brodovi/sea-mine-sprites.png',
+    'src': 'game-ready/brodovi/sea-mine-sprites.webp',
     'width': 38,
     'height': 38,
     'anchor': {
@@ -392,7 +392,7 @@ export const actorArt = {
     }
   },
   'he111': {
-    'src': 'game-ready/avioni/he111-sprites.png',
+    'src': 'game-ready/avioni/he111-sprites.webp',
     'width': 706,
     'height': 238,
     'anchor': {
@@ -442,7 +442,7 @@ export const actorArt = {
     'layers': [
       {
         'name': 'propeller',
-        'image': 'assets/images/game-ready/avioni/propeller-side-sprites.png',
+        'image': 'assets/images/game-ready/avioni/propeller-side-sprites.webp',
         'frame': [
           12,
           48
@@ -465,7 +465,7 @@ export const actorArt = {
     ]
   },
   'storch': {
-    'src': 'game-ready/avioni/storch-sprites.png',
+    'src': 'game-ready/avioni/storch-sprites.webp',
     'width': 305,
     'height': 195,
     'anchor': {
@@ -511,7 +511,7 @@ export const actorArt = {
     'layers': [
       {
         'name': 'propeller',
-        'image': 'assets/images/game-ready/avioni/propeller-side-sprites.png',
+        'image': 'assets/images/game-ready/avioni/propeller-side-sprites.webp',
         'frame': [
           12,
           48
@@ -534,7 +534,7 @@ export const actorArt = {
     ]
   },
   'motorcycle': {
-    'src': 'game-ready/vozila/motorcycle-sprites.png',
+    'src': 'game-ready/vozila/motorcycle-sprites.webp',
     'width': 156,
     'height': 108,
     'anchor': {
@@ -613,7 +613,7 @@ export const actorArt = {
     'layers': [
       {
         'name': 'turret',
-        'image': 'assets/images/game-ready/vozila/motorcycle-sprites.png',
+        'image': 'assets/images/game-ready/vozila/motorcycle-sprites.webp',
         'row': 5,
         'frames': 4,
         'seconds': 0.4,
@@ -636,7 +636,7 @@ export const actorArt = {
     ]
   },
   'sdkfz251': {
-    'src': 'game-ready/vozila/sdkfz251-sprites.png',
+    'src': 'game-ready/vozila/sdkfz251-sprites.webp',
     'width': 246,
     'height': 118,
     'anchor': {
@@ -718,7 +718,7 @@ export const actorArt = {
     ]
   },
   'sdkfz222': {
-    'src': 'game-ready/vozila/sdkfz222-sprites.png',
+    'src': 'game-ready/vozila/sdkfz222-sprites.webp',
     'width': 204,
     'height': 91,
     'anchor': {
@@ -794,7 +794,7 @@ export const actorArt = {
     'layers': [
       {
         'name': 'turret',
-        'image': 'assets/images/game-ready/vozila/sdkfz222-sprites.png',
+        'image': 'assets/images/game-ready/vozila/sdkfz222-sprites.webp',
         'row': 5,
         'frames': 4,
         'seconds': 0.4,
@@ -817,7 +817,7 @@ export const actorArt = {
     ]
   },
   'partisan-runner': {
-    'src': 'game-ready/vojnici/partisan-runner-sprites.png',
+    'src': 'game-ready/vojnici/partisan-runner-sprites.webp',
     'width': 160,
     'height': 144,
     'anchor': {
@@ -894,7 +894,7 @@ export const actorArt = {
     }
   },
   'partisan-lmg': {
-    'src': 'game-ready/vojnici/partisan-lmg-sprites.png',
+    'src': 'game-ready/vojnici/partisan-lmg-sprites.webp',
     'width': 160,
     'height': 144,
     'anchor': {
@@ -971,7 +971,7 @@ export const actorArt = {
     }
   },
   'partisan-rear': {
-    'src': 'game-ready/vojnici/partisan-rear-sprites.png',
+    'src': 'game-ready/vojnici/partisan-rear-sprites.webp',
     'width': 160,
     'height': 144,
     'anchor': {
@@ -1048,7 +1048,7 @@ export const actorArt = {
     }
   },
   'partisan-loader': {
-    'src': 'game-ready/vojnici/partisan-loader-sprites.png',
+    'src': 'game-ready/vojnici/partisan-loader-sprites.webp',
     'width': 160,
     'height': 144,
     'anchor': {
@@ -1116,7 +1116,7 @@ export const actorArt = {
     }
   },
   'rifleman-hit': {
-    'src': 'game-ready/vojnici/rifleman-hit-sprites.png',
+    'src': 'game-ready/vojnici/rifleman-hit-sprites.webp',
     'width': 136,
     'height': 136,
     'anchor': {
@@ -1154,7 +1154,7 @@ export const actorArt = {
     ]
   },
   'assault-hit': {
-    'src': 'game-ready/vojnici/assault-hit-sprites.png',
+    'src': 'game-ready/vojnici/assault-hit-sprites.webp',
     'width': 136,
     'height': 136,
     'anchor': {
@@ -1192,7 +1192,7 @@ export const actorArt = {
     ]
   },
   'skirmisher-hit': {
-    'src': 'game-ready/vojnici/skirmisher-hit-sprites.png',
+    'src': 'game-ready/vojnici/skirmisher-hit-sprites.webp',
     'width': 452,
     'height': 452,
     'anchor': {
@@ -1230,7 +1230,7 @@ export const actorArt = {
     ]
   },
   'partisan-bearer-hit': {
-    'src': 'game-ready/vojnici/partisan-bearer-hit-sprites.png',
+    'src': 'game-ready/vojnici/partisan-bearer-hit-sprites.webp',
     'width': 551,
     'height': 732,
     'anchor': {
@@ -1268,7 +1268,7 @@ export const actorArt = {
     ]
   },
   'italian-bearer-hit': {
-    'src': 'game-ready/vojnici/italian-bearer-hit-sprites.png',
+    'src': 'game-ready/vojnici/italian-bearer-hit-sprites.webp',
     'width': 452,
     'height': 451,
     'anchor': {
@@ -1306,7 +1306,7 @@ export const actorArt = {
     ]
   },
   'partisan-crew-hit': {
-    'src': 'game-ready/artiljerija/partisan-crew-hit-sprites.png',
+    'src': 'game-ready/artiljerija/partisan-crew-hit-sprites.webp',
     'width': 324,
     'height': 320,
     'anchor': {
@@ -1344,7 +1344,7 @@ export const actorArt = {
     ]
   },
   'italian-crew-hit': {
-    'src': 'game-ready/artiljerija/italian-crew-hit-sprites.png',
+    'src': 'game-ready/artiljerija/italian-crew-hit-sprites.webp',
     'width': 322,
     'height': 322,
     'anchor': {
@@ -1382,7 +1382,7 @@ export const actorArt = {
     ]
   },
   'grenadier-hit': {
-    'src': 'game-ready/vojnici/grenadier-hit-sprites.png',
+    'src': 'game-ready/vojnici/grenadier-hit-sprites.webp',
     'width': 74,
     'height': 80,
     'anchor': {
@@ -1420,7 +1420,7 @@ export const actorArt = {
     ]
   },
   'machine-gunner-hit': {
-    'src': 'game-ready/vojnici/machine-gunner-hit-sprites.png',
+    'src': 'game-ready/vojnici/machine-gunner-hit-sprites.webp',
     'width': 71,
     'height': 37,
     'anchor': {
@@ -1458,7 +1458,7 @@ export const actorArt = {
     ]
   },
   'hummel-damaged': {
-    'src': 'game-ready/tenkovi/hummel-damaged.png',
+    'src': 'game-ready/tenkovi/hummel-damaged.webp',
     'width': 320,
     'height': 160,
     'anchor': {
@@ -1497,7 +1497,7 @@ export const actorArt = {
     ]
   },
   'opel-damaged': {
-    'src': 'game-ready/kamioni/opel-damaged.png',
+    'src': 'game-ready/kamioni/opel-damaged.webp',
     'width': 320,
     'height': 160,
     'anchor': {
@@ -1532,7 +1532,7 @@ export const actorArt = {
     ]
   },
   'opel-legion-damaged': {
-    'src': 'game-ready/kamioni/opel-legion-damaged.png',
+    'src': 'game-ready/kamioni/opel-legion-damaged.webp',
     'width': 320,
     'height': 160,
     'anchor': {
@@ -1567,7 +1567,7 @@ export const actorArt = {
     ]
   },
   'bp42-damaged': {
-    'src': 'game-ready/vozovi/bp42-damaged.png',
+    'src': 'game-ready/vozovi/bp42-damaged.webp',
     'width': 576,
     'height': 256,
     'anchor': {
@@ -1602,7 +1602,7 @@ export const actorArt = {
     ]
   },
   'player-boat-damaged': {
-    'src': 'game-ready/brodovi/player-boat-damaged.png',
+    'src': 'game-ready/brodovi/player-boat-damaged.webp',
     'width': 355,
     'height': 152,
     'anchor': {
@@ -1637,7 +1637,7 @@ export const actorArt = {
     ]
   },
   's30-damaged': {
-    'src': 'game-ready/brodovi/s30-damaged.png',
+    'src': 'game-ready/brodovi/s30-damaged.webp',
     'width': 1327,
     'height': 211,
     'anchor': {
@@ -1672,7 +1672,7 @@ export const actorArt = {
     ]
   },
   'german-launch-damaged': {
-    'src': 'game-ready/brodovi/german-launch-damaged.png',
+    'src': 'game-ready/brodovi/german-launch-damaged.webp',
     'width': 182,
     'height': 80,
     'anchor': {
@@ -1707,7 +1707,7 @@ export const actorArt = {
     ]
   },
   'german-skiff-damaged': {
-    'src': 'game-ready/brodovi/german-skiff-damaged.png',
+    'src': 'game-ready/brodovi/german-skiff-damaged.webp',
     'width': 174,
     'height': 57,
     'anchor': {
@@ -1742,7 +1742,7 @@ export const actorArt = {
     ]
   },
   'patrol-vessel-damaged': {
-    'src': 'game-ready/brodovi/patrol-vessel-damaged.png',
+    'src': 'game-ready/brodovi/patrol-vessel-damaged.webp',
     'width': 304,
     'height': 73,
     'anchor': {
@@ -1777,7 +1777,7 @@ export const actorArt = {
     ]
   },
   'flak38-damaged': {
-    'src': 'game-ready/artiljerija/flak38-damaged.png',
+    'src': 'game-ready/artiljerija/flak38-damaged.webp',
     'width': 204,
     'height': 122,
     'anchor': {
@@ -1812,7 +1812,7 @@ export const actorArt = {
     ]
   },
   'field-gun-damaged': {
-    'src': 'game-ready/artiljerija/field-gun-damaged.png',
+    'src': 'game-ready/artiljerija/field-gun-damaged.webp',
     'width': 400,
     'height': 99,
     'anchor': {
@@ -1847,7 +1847,7 @@ export const actorArt = {
     ]
   },
   'house-bunker-damaged': {
-    'src': 'game-ready/artiljerija/house-bunker-damaged.png',
+    'src': 'game-ready/artiljerija/house-bunker-damaged.webp',
     'width': 428,
     'height': 286,
     'anchor': {
@@ -1882,7 +1882,7 @@ export const actorArt = {
     ]
   },
   'pak38-damaged': {
-    'src': 'game-ready/artiljerija/pak38-damaged.png',
+    'src': 'game-ready/artiljerija/pak38-damaged.webp',
     'width': 233,
     'height': 51,
     'anchor': {
@@ -1917,7 +1917,7 @@ export const actorArt = {
     ]
   },
   'bunker-damaged': {
-    'src': 'game-ready/artiljerija/bunker-damaged.png',
+    'src': 'game-ready/artiljerija/bunker-damaged.webp',
     'width': 246,
     'height': 93,
     'anchor': {
@@ -1952,7 +1952,7 @@ export const actorArt = {
     ]
   },
   'shore-mg-damaged': {
-    'src': 'game-ready/artiljerija/shore-mg-damaged.png',
+    'src': 'game-ready/artiljerija/shore-mg-damaged.webp',
     'width': 240,
     'height': 96,
     'anchor': {
@@ -1987,7 +1987,7 @@ export const actorArt = {
     ]
   },
   'deck-crew': {
-    'src': 'game-ready/vojnici/deck-crew-sprites.png',
+    'src': 'game-ready/vojnici/deck-crew-sprites.webp',
     'width': 34,
     'height': 34,
     'anchor': {
@@ -2015,7 +2015,7 @@ export const actorArt = {
     }
   },
   'bf109-damaged': {
-    'src': 'game-ready/avioni/bf109-damaged.png',
+    'src': 'game-ready/avioni/bf109-damaged.webp',
     'width': 404,
     'height': 132,
     'anchor': {
@@ -2050,7 +2050,7 @@ export const actorArt = {
     ]
   },
   'ju87-damaged': {
-    'src': 'game-ready/avioni/ju87-damaged.png',
+    'src': 'game-ready/avioni/ju87-damaged.webp',
     'width': 400,
     'height': 148,
     'anchor': {
@@ -2086,49 +2086,49 @@ export const actorArt = {
   }
 }
 export const hitBySource = {
-  'game-ready/vojnici/nemacki-strelac-sprites.png': 'rifleman-hit',
-  'game-ready/vojnici/nemacki-jurisnik-sprites.png': 'assault-hit',
-  'game-ready/vojnici/partizanski-strelac-sprites.png': 'skirmisher-hit',
-  'game-ready/vojnici/partizanski-zastavnik-sprites.png': 'partisan-bearer-hit',
-  'game-ready/vojnici/zastavnici-sprites.png': 'italian-bearer-hit',
-  'game-ready/artiljerija/partizanska-posada-sprites.png': 'partisan-crew-hit',
-  'game-ready/artiljerija/italijanska-posada-sprites.png': 'italian-crew-hit',
-  'game-ready/vojnici/bombas-sprites.png': 'grenadier-hit',
-  'game-ready/vojnici/mitraljezac-sprites.png': 'machine-gunner-hit'
+  'game-ready/vojnici/nemacki-strelac-sprites.webp': 'rifleman-hit',
+  'game-ready/vojnici/nemacki-jurisnik-sprites.webp': 'assault-hit',
+  'game-ready/vojnici/partizanski-strelac-sprites.webp': 'skirmisher-hit',
+  'game-ready/vojnici/partizanski-zastavnik-sprites.webp': 'partisan-bearer-hit',
+  'game-ready/vojnici/zastavnici-sprites.webp': 'italian-bearer-hit',
+  'game-ready/artiljerija/partizanska-posada-sprites.webp': 'partisan-crew-hit',
+  'game-ready/artiljerija/italijanska-posada-sprites.webp': 'italian-crew-hit',
+  'game-ready/vojnici/bombas-sprites.webp': 'grenadier-hit',
+  'game-ready/vojnici/mitraljezac-sprites.webp': 'machine-gunner-hit'
 }
 export const damageBySource = {
-  'game-ready/brodovi/rboot.png': 'rboot-damaged',
-  'game-ready/brodovi/mfp.png': 'mfp-damaged',
-  'game-ready/brodovi/vorpostenboot.png': 'vorpostenboot-damaged',
-  'game-ready/tenkovi/hummel-sprites.png': 'hummel-damaged',
-  'game-ready/kamioni/opel-blitz-sprites.png': 'opel-damaged',
-  'game-ready/kamioni/opel-blitz-legion-sprites.png': 'opel-legion-damaged',
-  'game-ready/vozovi/bp42-sprites.png': 'bp42-damaged',
+  'game-ready/brodovi/rboot.webp': 'rboot-damaged',
+  'game-ready/brodovi/mfp.webp': 'mfp-damaged',
+  'game-ready/brodovi/vorpostenboot.webp': 'vorpostenboot-damaged',
+  'game-ready/tenkovi/hummel-sprites.webp': 'hummel-damaged',
+  'game-ready/kamioni/opel-blitz-sprites.webp': 'opel-damaged',
+  'game-ready/kamioni/opel-blitz-legion-sprites.webp': 'opel-legion-damaged',
+  'game-ready/vozovi/bp42-sprites.webp': 'bp42-damaged',
   'armies/camac.png': 'player-boat-damaged',
-  'game-ready/brodovi/schnellboot-s30.png': 's30-damaged',
-  'game-ready/brodovi/german-launch.png': 'german-launch-damaged',
-  'game-ready/brodovi/german-skiff.png': 'german-skiff-damaged',
-  'game-ready/brodovi/german-patrol-vessel.png': 'patrol-vessel-damaged',
-  'game-ready/artiljerija/flak38-postolje.png': 'flak38-damaged',
-  'game-ready/artiljerija/field-gun-carriage-pixel.png': 'field-gun-damaged',
+  'game-ready/brodovi/schnellboot-s30.webp': 's30-damaged',
+  'game-ready/brodovi/german-launch.webp': 'german-launch-damaged',
+  'game-ready/brodovi/german-skiff.webp': 'german-skiff-damaged',
+  'game-ready/brodovi/german-patrol-vessel.webp': 'patrol-vessel-damaged',
+  'game-ready/artiljerija/flak38-postolje.webp': 'flak38-damaged',
+  'game-ready/artiljerija/field-gun-carriage-pixel.webp': 'field-gun-damaged',
   'buildings/kuca-bunker.png': 'house-bunker-damaged',
-  'game-ready/artiljerija/pak38-postolje.png': 'pak38-damaged',
+  'game-ready/artiljerija/pak38-postolje.webp': 'pak38-damaged',
   'buildings/bunker-02.png': 'bunker-damaged',
-  'game-ready/polozaji/mitraljesko-gnezdo-odozgo.png': 'shore-mg-damaged',
-  'game-ready/avioni/bf109-telo.png': 'bf109-damaged',
-  'game-ready/avioni/ju87.png': 'ju87-damaged'
+  'game-ready/polozaji/mitraljesko-gnezdo-odozgo.webp': 'shore-mg-damaged',
+  'game-ready/avioni/bf109-telo.webp': 'bf109-damaged',
+  'game-ready/avioni/ju87.webp': 'ju87-damaged'
 }
 export const vesselLooks = {
   'rboot': {
-    'src': 'game-ready/brodovi/rboot.png',
-    'wreck': 'game-ready/brodovi/rboot-wreck.png',
+    'src': 'game-ready/brodovi/rboot.webp',
+    'wreck': 'game-ready/brodovi/rboot-wreck.webp',
     'frame': [
       1408,
       245
     ],
     'pixelsPerMetre': 40,
     'crew': {
-      'image': 'assets/images/game-ready/vojnici/deck-crew-sprites.png',
+      'image': 'assets/images/game-ready/vojnici/deck-crew-sprites.webp',
       'frame': [
         34,
         34
@@ -2155,15 +2155,15 @@ export const vesselLooks = {
     }
   },
   'mfp': {
-    'src': 'game-ready/brodovi/mfp.png',
-    'wreck': 'game-ready/brodovi/mfp-wreck.png',
+    'src': 'game-ready/brodovi/mfp.webp',
+    'wreck': 'game-ready/brodovi/mfp-wreck.webp',
     'frame': [
       1888,
       332
     ],
     'pixelsPerMetre': 40,
     'crew': {
-      'image': 'assets/images/game-ready/vojnici/deck-crew-sprites.png',
+      'image': 'assets/images/game-ready/vojnici/deck-crew-sprites.webp',
       'frame': [
         34,
         34
@@ -2190,15 +2190,15 @@ export const vesselLooks = {
     }
   },
   'vorpostenboot': {
-    'src': 'game-ready/brodovi/vorpostenboot.png',
-    'wreck': 'game-ready/brodovi/vorpostenboot-wreck.png',
+    'src': 'game-ready/brodovi/vorpostenboot.webp',
+    'wreck': 'game-ready/brodovi/vorpostenboot-wreck.webp',
     'frame': [
       1128,
       225
     ],
     'pixelsPerMetre': 40,
     'crew': {
-      'image': 'assets/images/game-ready/vojnici/deck-crew-sprites.png',
+      'image': 'assets/images/game-ready/vojnici/deck-crew-sprites.webp',
       'frame': [
         34,
         34

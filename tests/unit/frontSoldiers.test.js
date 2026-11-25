@@ -1,6 +1,5 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { canonicalImageSource } from '/core/actor/imageSources.js'
 import TrenchSoldier, { trench } from '/core/gameplay/bodies/soldiers/TrenchSoldier.js'
 import Occupier, { occupier } from '/core/gameplay/bodies/soldiers/Occupier.js'
 import { createPageElements } from './helpers/dom.js'
@@ -61,7 +60,7 @@ test('front-facing soldier views load their own poses and draw without owning a 
   for (const faction of ['nemci', 'cetnici']) for (const scale of [1, .5]) {
     const body = new TrenchSoldier({ x: 10 })
     const view = new TrenchSoldierSprite(body, { faction, scale, inTrench: true, projection: sideProjection({ pxPerMeter: 22, groundY: 500 }) })
-    assert.ok(canonicalImageSource(view.image.src).endsWith(`${faction}-spreda.png`))
+    assert.ok(view.image.src.endsWith(`${faction}-spreda.webp`))
     loadAtlas(view, 192, 288)
     await view.imageLoaded
     assert.equal(view.frames.length, 4, 'all poses are ready when the image loader finishes')

@@ -22,7 +22,7 @@ before(async() => {
 })
 
 test('blade phases advance with game time and hold for stopped engines and zero time', () => {
-  const propellers = new AircraftPropellers('game-ready/avioni/ju87.png')
+  const propellers = new AircraftPropellers('game-ready/avioni/ju87.webp')
   propellers.update(.031)
   assert.equal(propellers.frameIndex, 1)
   propellers.update(0)

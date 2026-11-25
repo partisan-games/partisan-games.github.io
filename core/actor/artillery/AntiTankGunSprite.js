@@ -5,7 +5,7 @@ import Sound from '/core/io/audio/SoundSource.js'
 import { wreckFor } from '/core/actor/wreckView.js'
 import GunCrew from './GunCrew.js'
 
-const base = 'game-ready/artiljerija/pak38-postolje.png'
+const base = 'game-ready/artiljerija/pak38-postolje.webp'
 
 /**
  * How a PaK 38 body looks and sounds in 2D, drawn facing left: its carriage with the crew behind it, which works on
@@ -18,7 +18,7 @@ export default class AntiTankGunSprite extends BodySprite {
     wreckFor(base)
     this.shellLayer = shellLayer
     this.crew = new GunCrew('pak38')
-    this.barrel = new Barrel({ src: 'game-ready/artiljerija/pak38-cev.png', facing: -1, crop: [0, 0, 90, 8] }, this)
+    this.barrel = new Barrel({ src: 'game-ready/artiljerija/pak38-cev.webp', facing: -1, crop: [0, 0, 90, 8] }, this)
     this.barrel.position.z = z
     this.children.push(this.barrel)
     this.shotSound = new Sound('cannon-shot.mp3', { profile: 'cannon', spatial: { getPosition: () => this.position } })

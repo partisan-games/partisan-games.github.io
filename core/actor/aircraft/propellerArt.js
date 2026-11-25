@@ -1,13 +1,13 @@
 // Measurements of the art, kept by hand.
 export default {
-  'game-ready/avioni/ju87.png': {
+  'game-ready/avioni/ju87.webp': {
     'id': 'ju87',
     'bodySize': [
       400,
       148
     ],
     'layer': {
-      'src': 'game-ready/avioni/propeller-side-sprites.png',
+      'src': 'game-ready/avioni/propeller-side-sprites.webp',
       'frame': {
         'width': 12,
         'height': 48
@@ -32,7 +32,7 @@ export default {
       48
     ],
     'layer': {
-      'src': 'game-ready/avioni/propeller-side-sprites.png',
+      'src': 'game-ready/avioni/propeller-side-sprites.webp',
       'frame': {
         'width': 12,
         'height': 48
@@ -57,7 +57,7 @@ export default {
       196
     ],
     'layer': {
-      'src': 'game-ready/avioni/propeller-top-sprites.png',
+      'src': 'game-ready/avioni/propeller-top-sprites.webp',
       'frame': {
         'width': 64,
         'height': 12
@@ -82,7 +82,7 @@ export default {
       194
     ],
     'layer': {
-      'src': 'game-ready/avioni/propeller-top-sprites.png',
+      'src': 'game-ready/avioni/propeller-top-sprites.webp',
       'frame': {
         'width': 64,
         'height': 12
@@ -107,7 +107,7 @@ export default {
       265
     ],
     'layer': {
-      'src': 'game-ready/avioni/propeller-top-sprites.png',
+      'src': 'game-ready/avioni/propeller-top-sprites.webp',
       'frame': {
         'width': 64,
         'height': 12
@@ -137,7 +137,7 @@ export default {
       591
     ],
     'layer': {
-      'src': 'game-ready/avioni/propeller-top-sprites.png',
+      'src': 'game-ready/avioni/propeller-top-sprites.webp',
       'frame': {
         'width': 64,
         'height': 12
@@ -167,7 +167,7 @@ export default {
       225
     ],
     'layer': {
-      'src': 'game-ready/avioni/propeller-top-sprites.png',
+      'src': 'game-ready/avioni/propeller-top-sprites.webp',
       'frame': {
         'width': 64,
         'height': 12
@@ -192,7 +192,7 @@ export default {
       230
     ],
     'layer': {
-      'src': 'game-ready/avioni/propeller-top-sprites.png',
+      'src': 'game-ready/avioni/propeller-top-sprites.webp',
       'frame': {
         'width': 64,
         'height': 12

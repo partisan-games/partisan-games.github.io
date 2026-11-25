@@ -1,7 +1,7 @@
 // Measurements of the art, kept by hand.
 export default {
   rifleman: {
-    src: 'game-ready/vojnici/advance-rifleman.png', width: 192, height: 168, anchor: { x: 62, y: 152 }, standingPixels: 138,
+    src: 'game-ready/vojnici/advance-rifleman.webp', width: 192, height: 168, anchor: { x: 62, y: 152 }, standingPixels: 138,
     clips: {
       idle: { row: 0, ms: [1000], loop: true },
       walk: { row: 1, ms: [72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72], loop: true },
@@ -14,7 +14,7 @@ export default {
     },
   },
   backpack: {
-    src: 'game-ready/vojnici/advance-backpack.png', width: 192, height: 168, anchor: { x: 62, y: 152 }, standingPixels: 138,
+    src: 'game-ready/vojnici/advance-backpack.webp', width: 192, height: 168, anchor: { x: 62, y: 152 }, standingPixels: 138,
     clips: {
       idle: { row: 0, ms: [1000], loop: true },
       walk: { row: 1, ms: [72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72], loop: true },
@@ -22,7 +22,7 @@ export default {
     },
   },
   officer: {
-    src: 'game-ready/vojnici/advance-officer.png', width: 192, height: 168, anchor: { x: 62, y: 152 }, standingPixels: 138,
+    src: 'game-ready/vojnici/advance-officer.webp', width: 192, height: 168, anchor: { x: 62, y: 152 }, standingPixels: 138,
     clips: {
       idle: { row: 0, ms: [1000], loop: true },
       walk: { row: 1, ms: [72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72], loop: true },
@@ -30,7 +30,7 @@ export default {
     },
   },
   gunner: {
-    src: 'game-ready/vojnici/advance-gunner.png', width: 192, height: 168, anchor: { x: 62, y: 152 }, standingPixels: 138,
+    src: 'game-ready/vojnici/advance-gunner.webp', width: 192, height: 168, anchor: { x: 62, y: 152 }, standingPixels: 138,
     clips: {
       idle: { row: 0, ms: [1000], loop: true },
       walk: { row: 1, ms: [72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72], loop: true },
@@ -38,14 +38,14 @@ export default {
     },
   },
   tank: {
-    src: 'game-ready/tenkovi/advance-tank.png', width: 542, height: 282, anchor: { x: 200, y: 282 }, standingPixels: 182, crewAnchor: { x: 206, y: 120 },
+    src: 'game-ready/tenkovi/advance-tank.webp', width: 542, height: 282, anchor: { x: 200, y: 282 }, standingPixels: 182, crewAnchor: { x: 206, y: 120 },
     clips: {
       idle: { row: 0, ms: [1000], loop: true },
       drive: { row: 1, ms: [95, 95, 95, 95, 95, 95], loop: true },
     },
   },
   commander: {
-    src: 'game-ready/vojnici/advance-commander.png', width: 104, height: 92, anchor: { x: 34, y: 84 }, standingPixels: 76,
+    src: 'game-ready/vojnici/advance-commander.webp', width: 104, height: 92, anchor: { x: 34, y: 84 }, standingPixels: 76,
     clips: {
       idle: { row: 0, ms: [300, 135, 135, 245, 135, 135], loop: true },
     },
