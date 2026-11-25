@@ -20,8 +20,9 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 | 10 | [IG-30](#ig-30) | Dodati partizane i četnike kao saborce u opsadi Kraljeva | Codex, Claude | 📋 TODO |
 | 11 | [IG-31](#ig-31) | Dodati pruge, mostove i saveznički lovac-bombarder u Warplane | Codex, Claude | 🔄 In progress |
 | 12 | [IG-32](#ig-32) | Dovršiti Raid on Drvar: modeli, izgled grada i težina | Claude, Codex | 🔄 In progress |
+| 13 | [IG-33](#ig-33) | Poboljšati kvalitet arta German Advance bez promene prihvaćenog stila i pregledati promo | Codex, Vlasnik | 📋 TODO |
 | | **[Katalog](#katalog)** | | | |
-| 13 | [KT-01](#kt-01) | Organizovati katalog oko samostalnih, ponovo upotrebljivih objekata | Codex | 📋 TODO |
+| 14 | [KT-01](#kt-01) | Organizovati katalog oko samostalnih, ponovo upotrebljivih objekata | Codex | 📋 TODO |
 
 ## Održavanje plana
 
@@ -146,6 +147,15 @@ Preostaje:
 4. 📋 Snimak kartice na naslovnoj je još iz stare animacije.
 
 Ideja (vlasnik, 2026-11-24): zanimljiva kombinacija 2D i 3D na sceni, npr. padobranci posle sletanja postaju 3D modeli vojnika; još nije odlučeno.
+
+<a id="ig-33"></a>
+### IG-33 · German Advance kao promo animacija sajta
+
+Animacija [German Advance](../scenes/bitka/Main.js) produžena je na 24 s: scena traje 18 s, zatim prelazi na logo **Partisan Games**, drži ga 4 s i zatamnjuje pre ponavljanja. Logo koristi piksel font i zvezdu sajta. Ostaje na postojećoj kartici u meniju; [provere](TESTING.md#art-verification-record) su izvršene bez pregledača.
+
+Kolona ima tri grupe sa po tri pešadinca i jednim tenkom, sa razmaknutim koracima, pucanjem i znacima za napredovanje. Strelac sa rancem i podoficir imaju nove crteže u izvornom stilu i zajedničke animacije u katalogu i sceni. [Pregled rasporeda](../assets/images/sources/germans-advance/formation-preview.png) sastavljen je iz runtime atlasa i koreografije bez pregledača; preostaje vlasnikov pregled pokreta, putanje kamere i čitljivosti loga u pregledaču. Promo tok pripada sceni.
+
+Dogovor vlasnika (2026-11-25): sadašnje stanje sačuvati; kasnije precrtati aktere u nešto većem kvalitetu, sa dovoljno detalja za krupne kadrove. Sadašnji stil je izričito prihvaćen i ne menja se; merilo je u [pravilima arta](ART.md#pravila-pripreme-i-ponovne-upotrebe). Dorada kvaliteta ostaje otvorena.
 
 <a id="katalog"></a>
 ## Katalog

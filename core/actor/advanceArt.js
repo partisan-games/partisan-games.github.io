@@ -5,30 +5,47 @@ export default {
     clips: {
       idle: { row: 0, ms: [1000], loop: true },
       walk: { row: 1, ms: [72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72], loop: true },
-      fire: { row: 2, ms: [34, 32, 34, 30], loop: false, muzzles: [[48, -56], [46, -56], [48, -56], [49, -56]] },
+      fire: { row: 2, ms: [34, 32, 34, 30], loop: false, muzzles: [[43, -56], [41, -56], [43, -56], [44, -56]] },
       'walk-aim': { row: 3, ms: [72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72], loop: true },
       kneel: { row: 4, ms: [60, 60, 55], loop: false },
       crouch: { row: 5, ms: [1000], loop: true },
-      'crouch-fire': { row: 6, ms: [34, 32, 34, 30], loop: false, muzzles: [[49, -42], [47, -42], [49, -42], [50, -42]] },
+      'crouch-fire': { row: 6, ms: [34, 32, 34, 30], loop: false, muzzles: [[50, -38], [48, -38], [50, -38], [51, -38]] },
+      'crouch-walk': { row: 7, ms: [144, 144, 144, 144, 144, 144], loop: true },
     },
   },
-  gunner: {
-    src: 'game-ready/vojnici/advance-gunner.png', width: 96, height: 84, anchor: { x: 31, y: 76 }, standingPixels: 65,
+  backpack: {
+    src: 'game-ready/vojnici/advance-backpack.png', width: 96, height: 84, anchor: { x: 31, y: 76 }, standingPixels: 69,
     clips: {
       idle: { row: 0, ms: [1000], loop: true },
       walk: { row: 1, ms: [72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72], loop: true },
-      fire: { row: 2, ms: [34, 32, 34, 30], loop: false, muzzles: [[42, -55], [40, -55], [42, -55], [43, -55]] },
+      fire: { row: 2, ms: [34, 32, 34, 30], loop: false, muzzles: [[41, -54], [39, -54], [41, -54], [42, -54]] },
+    },
+  },
+  officer: {
+    src: 'game-ready/vojnici/advance-officer.png', width: 96, height: 84, anchor: { x: 31, y: 76 }, standingPixels: 69,
+    clips: {
+      idle: { row: 0, ms: [1000], loop: true },
+      walk: { row: 1, ms: [72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72], loop: true },
+      signal: { row: 2, ms: [100, 140, 400, 400, 160, 200], loop: false },
+    },
+  },
+  gunner: {
+    src: 'game-ready/vojnici/advance-gunner.png', width: 96, height: 84, anchor: { x: 31, y: 76 }, standingPixels: 69,
+    clips: {
+      idle: { row: 0, ms: [1000], loop: true },
+      walk: { row: 1, ms: [72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72], loop: true },
+      fire: { row: 2, ms: [34, 32, 34, 30], loop: false, muzzles: [[39, -54], [37, -54], [39, -54], [40, -54]] },
     },
   },
   tank: {
-    src: 'game-ready/tenkovi/advance-tank.png', width: 271, height: 141, anchor: { x: 100, y: 141 }, standingPixels: 141,
+    src: 'game-ready/tenkovi/advance-tank.png', width: 271, height: 141, anchor: { x: 100, y: 141 }, standingPixels: 91, crewAnchor: { x: 103, y: 60 },
     clips: {
       idle: { row: 0, ms: [1000], loop: true },
       drive: { row: 1, ms: [95, 95, 95, 95, 95, 95], loop: true },
     },
   },
   commander: {
-    src: 'game-ready/vojnici/advance-commander.png', width: 93, height: 51, anchor: { x: 33, y: 48 }, standingPixels: 40,
+    src: 'game-ready/vojnici/advance-commander.png', width: 52, height: 46, anchor: { x: 17, y: 42 }, standingPixels: 38,
     clips: {
       idle: { row: 0, ms: [300, 135, 135, 245, 135, 135], loop: true },
     },

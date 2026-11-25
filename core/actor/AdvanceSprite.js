@@ -1,7 +1,7 @@
 import ArtClip from './ArtClip.js'
 import art from './advanceArt.js'
 
-export const advanceHeight = { rifleman: 1.72, gunner: 1.72, tank: 2.27, commander: .94 }
+export const advanceHeight = { rifleman: 1.72, gunner: 1.72, backpack: 1.72, officer: 1.72, tank: 2.27, commander: .94 }
 
 export default class AdvanceSprite {
   constructor(kind) {
@@ -16,11 +16,15 @@ export default class AdvanceSprite {
     return width * this.height / standingPixels
   }
 
-  draw(ctx, { name, time, x, y, scale, flip = 1, crewTime = time }) {
+  draw(ctx, { name, time, x, y, scale, flip = 1, crewTime = time, crewVisible = true }) {
     const scaleX = scale * this.height / this.sheet.art.standingPixels
     this.sheet.draw(ctx, { name, time, x, y, scaleX, flip })
-    this.crew?.draw(ctx, { name: 'idle', time: crewTime, x: x + flip * .55 * scale, y: y - 1.61 * scale,
-      scaleX: scale * advanceHeight.commander / art.commander.standingPixels, flip })
+    if (this.crew && crewVisible) {
+      const { crewAnchor, anchor } = this.sheet.art
+      this.crew.draw(ctx, { name: 'idle', time: crewTime,
+        x: x + flip * (crewAnchor.x - anchor.x) * scaleX, y: y + (crewAnchor.y - anchor.y) * scaleX,
+        scaleX: scale * advanceHeight.commander / art.commander.standingPixels, flip })
+    }
   }
 
   /** Flash and drift start at the muzzle in the first firing cel, independently of later recoil. */

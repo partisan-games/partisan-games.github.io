@@ -1012,10 +1012,10 @@
     {
       "source": "game-ready/tenkovi/advance-tank.png",
       "runtime": "optimized/game-ready/tenkovi/advance-tank.webp",
-      "sourceSha256": "a6725a59847d5ad43203b41220ecd3d35db6e19261a0e2c951a138c3bda1545b",
-      "sha256": "4ce3544e20acead67d6ae4fd491ea1b7db01ed1cd59bb468efa79e8735698755",
-      "originalBytes": 24888,
-      "bytes": 7318,
+      "sourceSha256": "eee035d88bd263081d75a70441945b7a5282d979167f1688a5a11e9fc1f15500",
+      "sha256": "8f4221c56c444c4447a48265a407142ca86eb25c58f7ba6f3e066b73fba33ca3",
+      "originalBytes": 48405,
+      "bytes": 11894,
       "size": [
         1626,
         282
@@ -1214,12 +1214,36 @@
       ]
     },
     {
+      "source": "game-ready/vojnici/advance-backpack.png",
+      "runtime": "optimized/game-ready/vojnici/advance-backpack.webp",
+      "sourceSha256": "fd3e9986ac9dfef38cf1cd9c8891fa42a2f499e19870b9d29ad87c75f7eeb464",
+      "sha256": "a05987cd544bc9295ef332e27d44f80867aef45a8fa8a1aba8594538773808a4",
+      "originalBytes": 9247,
+      "bytes": 3024,
+      "size": [
+        1152,
+        252
+      ]
+    },
+    {
       "source": "game-ready/vojnici/advance-gunner.png",
       "runtime": "optimized/game-ready/vojnici/advance-gunner.webp",
-      "sourceSha256": "27922cdb8d2ce86ec9d34290eefbeaf950eb06759eec01a6a6b2683e651176cb",
-      "sha256": "e86fe919fc1304e853d5e36682297fa912e787bd00171ee54f5cae3adbbae4bd",
-      "originalBytes": 9353,
-      "bytes": 3052,
+      "sourceSha256": "5af8bdc0ce090fa10d9c78ac43f740a869312d207332da7160545e3de0e6c024",
+      "sha256": "3cd19da4bc9cabfe913c05044a5bcb52dbc2d8e4ccf1f5c0d9ed90856a5471dc",
+      "originalBytes": 9558,
+      "bytes": 3104,
+      "size": [
+        1152,
+        252
+      ]
+    },
+    {
+      "source": "game-ready/vojnici/advance-officer.png",
+      "runtime": "optimized/game-ready/vojnici/advance-officer.webp",
+      "sourceSha256": "3c97f18ccca914fbd6e2c9c978d6bc5d426c9ddc5d9d3043cb7d8279b9610c13",
+      "sha256": "423c578bbe6835caf70945c06b97812d36a99ffe0ac042dfe05b9e64b1aaa140",
+      "originalBytes": 10444,
+      "bytes": 3646,
       "size": [
         1152,
         252
@@ -1228,13 +1252,13 @@
     {
       "source": "game-ready/vojnici/advance-rifleman.png",
       "runtime": "optimized/game-ready/vojnici/advance-rifleman.webp",
-      "sourceSha256": "d61d2566421d3e6811aae3b559a3d6cac6d387e2f7966072e6b4bf2b78e529d4",
-      "sha256": "18a6fa313358269d3a9f0a55c2c9df822346c03c9ac949485f49a11de3f7c39f",
-      "originalBytes": 25829,
-      "bytes": 7524,
+      "sourceSha256": "ae1ec5fd6ae04332876e7293fba65a8471c63f1a2b1b5509ca8fb07cbc2b05ef",
+      "sha256": "6d3aa7ecf71494304c8cabd9ba439ca810fa1370f196df8c3ea41c5f157a5fcb",
+      "originalBytes": 30901,
+      "bytes": 9066,
       "size": [
         1152,
-        588
+        672
       ]
     },
     {

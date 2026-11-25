@@ -33,8 +33,11 @@ function story(kind, id, name) {
 }
 
 export const soldiers = [
-  story('rifleman', 'advance-strelac', 'Nemački strelac · The Germans Advance'),
+  { ...story('rifleman', 'advance-strelac', 'Nemački strelac · The Germans Advance'),
+    description: 'Hod, nišanjenje, klečanje, pucanje i čučeći hod; iste animacije koristi promo scena.' },
   story('gunner', 'advance-mitraljezac', 'Nemački mitraljezac · The Germans Advance'),
+  story('backpack', 'advance-strelac-ranac', 'Nemački strelac sa rancem'),
+  story('officer', 'advance-podoficir', 'Nemački podoficir · znak za napredovanje'),
 ]
 
 export const vehicles = [story('tank', 'panzer-iii', 'Panzer III sa posadom')]

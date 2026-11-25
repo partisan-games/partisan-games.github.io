@@ -30,7 +30,6 @@ To see every background picture in the project, open `/pozadine.html` on the `np
 See [PLAN](docs/PLAN.md).
 
 - razrađivati postojeće nivoe redom
-- German advance animacija da bude promo animacija sajta. produžiti je, dodati na kraju logo Partisan games
 
 ## Credits
 

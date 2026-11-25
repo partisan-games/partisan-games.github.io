@@ -1,0 +1,74 @@
+{
+  "tool": "built-in image_gen",
+  "style": "preserve original pixel style, palette and proportions",
+  "purpose": "Redraw the four actor bases without changing their original style, then animate and share the prepared result in the catalog and promo.",
+  "assets": [
+    {
+      "id": "rifleman",
+      "image": "rifleman-generated.png",
+      "prompt": "Use case: precise-object-edit. REDRAW this tiny historical game sprite while STRICTLY PRESERVING THE ORIGINAL DRAWING STYLE. The reference is coarse classic hand-pixelled miniature military art: flat limited colors, thin black pixel outlines, compact simplified shapes, minimal two-tone shading, small simple faces, no surface texture. Keep exactly those stylistic properties and the original head/body proportions, uniform colors, helmet silhouette and equipment. This is NOT an upgrade to realism. Absolutely NO photographic detail, NO realistic illustration, NO gradients, NO textured cloth or metal, NO 3D render, NO larger more detailed heads. Make a clean NEW pixel drawing in that SAME original miniature style, with slightly clearer edges and coherent simple shading, not a pasted/upscaled copy. Show coarse native sprite pixels as if a 70-pixel-tall figure was enlarged with nearest-neighbor. Entire silhouette inside the image. Side view facing RIGHT. Transparent background, no halo, no ground or grass, no captions, no grid, no muzzle flashes, no new symbols. TWO equal cells side by side, one same rifleman at the same drawing scale: LEFT full-body standing and aiming rifle right as reference 1, RIGHT full-body kneeling on one knee aiming rifle right as reference 2. Identical common boot baseline near the bottom, standing figure clearly taller, original grey-violet trousers and olive tunic, dark helmet and boots, long thin brown rifle. Keep the long rifle length and silhouette of the tiny reference. Keep large empty margins between the figures.",
+      "references": [
+        "assets/images/armies/nemci/vojnici/vojnik-27.png",
+        "assets/images/armies/nemci/vojnici/vojnik-19.png"
+      ],
+      "sha256": "f007a4eaa2ff17672af5c8907bcb2f5e88968572ebc91b8f3437506eec406ca6"
+    },
+    {
+      "id": "gunner",
+      "image": "gunner-generated.png",
+      "prompt": "Use case: precise-object-edit. REDRAW this tiny historical game sprite while STRICTLY PRESERVING THE ORIGINAL DRAWING STYLE. The reference is coarse classic hand-pixelled miniature military art: flat limited colors, thin black pixel outlines, compact simplified shapes, minimal two-tone shading, small simple faces, no surface texture. Keep exactly those stylistic properties and the original head/body proportions, uniform colors, helmet silhouette and equipment. This is NOT an upgrade to realism. Absolutely NO photographic detail, NO realistic illustration, NO gradients, NO textured cloth or metal, NO 3D render, NO larger more detailed heads. Make a clean NEW pixel drawing in that SAME original miniature style, with slightly clearer edges and coherent simple shading, not a pasted/upscaled copy. Show coarse native sprite pixels as if a 70-pixel-tall figure was enlarged with nearest-neighbor. Entire silhouette inside the image. Side view facing RIGHT. Transparent background, no halo, no ground or grass, no captions, no grid, no muzzle flashes, no new symbols. ONE full-body standing machine gunner aiming right with both hands, matching the exact olive-grey colors and simple silhouette of the reference. Keep the long machine gun and small ammunition pouch, black boots and helmet. Clean side-view pixel-art sprite, original approximate 70-pixel native height style. Do not add details absent from the original.",
+      "references": [
+        "assets/images/armies/nemci/vojnici/vojnik-26.png"
+      ],
+      "sha256": "81f25fb07907998cb7b48cc4ca07987f5015faefd07475486bffc9b13ab8a85b"
+    },
+    {
+      "id": "tank",
+      "image": "tank-generated.png",
+      "prompt": "Use case: precise-object-edit. REDRAW this tiny historical game sprite while STRICTLY PRESERVING THE ORIGINAL DRAWING STYLE. The reference is coarse classic hand-pixelled miniature military art: flat limited colors, thin black pixel outlines, compact simplified shapes, minimal two-tone shading, small simple faces, no surface texture. Keep exactly those stylistic properties and the original head/body proportions, uniform colors, helmet silhouette and equipment. This is NOT an upgrade to realism. Absolutely NO photographic detail, NO realistic illustration, NO gradients, NO textured cloth or metal, NO 3D render, NO larger more detailed heads. Make a clean NEW pixel drawing in that SAME original miniature style, with slightly clearer edges and coherent simple shading, not a pasted/upscaled copy. Show coarse native sprite pixels as if a 70-pixel-tall figure was enlarged with nearest-neighbor. Entire silhouette inside the image. Side view facing RIGHT. Transparent background, no halo, no ground or grass, no captions, no grid, no muzzle flashes, no new symbols. ONE complete Panzer III tank, no human crew. Preserve the reference's flat muted dark-grey side-profile silhouette, turret shape, small long cannon aimed right, cupola and thin antenna, six small road wheels, continuous tracks, original cross marking. Use simple flat dark grey armor planes and at most two subtle highlight tones with thin dark pixel outlines. Broad clear pixels, NO rust or scratches or realistic metal texture. Redraw all surfaces in the same minimal original game sprite style. No ground pedestal. Keep the full cannon and tracks. Cupola has an open top for adding a separate commander sprite. Wide horizontal image composition.",
+      "references": [
+        "assets/images/armies/panzer3.png"
+      ],
+      "edits": [
+        "Edit this new flat pixel-art Panzer III drawing ONLY to correct the road wheel count. Preserve its exact current coarse hand-pixelled style, palette, outlines, armor surfaces, turret, cannon, antenna, cross, tracks, overall dimensions and transparent background. Between the TWO LARGE END wheels, there must be EXACTLY SIX SMALL ROAD WHEELS, not the eight currently drawn. Remove two small road wheels and redistribute the remaining SIX evenly at the same diameter within the existing unchanged track loop. The two large end wheels do not count toward the six. Do not add any other wheels. Keep everything else identical. No realism, no textures, no new details, no ground or background."
+      ],
+      "sha256": "c6283754b3dd8e5fc582d3e5801260fea36fd583e03886bdda2fb032cfd71c1d"
+    },
+    {
+      "id": "commander",
+      "image": "commander-generated.png",
+      "prompt": "Use case: precise-object-edit. REDRAW this tiny historical game sprite while STRICTLY PRESERVING THE ORIGINAL DRAWING STYLE. The reference is coarse classic hand-pixelled miniature military art: flat limited colors, thin black pixel outlines, compact simplified shapes, minimal two-tone shading, small simple faces, no surface texture. Keep exactly those stylistic properties and the original head/body proportions, uniform colors, helmet silhouette and equipment. This is NOT an upgrade to realism. Absolutely NO photographic detail, NO realistic illustration, NO gradients, NO textured cloth or metal, NO 3D render, NO larger more detailed heads. Make a clean NEW pixel drawing in that SAME original miniature style, with slightly clearer edges and coherent simple shading, not a pasted/upscaled copy. Show coarse native sprite pixels as if a 70-pixel-tall figure was enlarged with nearest-neighbor. Entire silhouette inside the image. Side view facing RIGHT. Transparent background, no halo, no ground or grass, no captions, no grid, no muzzle flashes, no new symbols. ONE small WAIST-UP German commander sprite ONLY, extracted in concept from the reference infantry identity but newly drawn, wearing the same dark helmet and olive-grey tunic. Same small simple head and flat pixel-face features, no detailed facial anatomy. Looking RIGHT, forearms resting forward at waist level on an implied hatch edge. No tank or hatch and NO rifle or other weapon. The visible upper body should have the coarse detail of a 38-pixel-tall sprite. No new uniform, no badges, no logos.",
+      "references": [
+        "assets/images/armies/nemci/vojnici/vojnik-27.png"
+      ],
+      "sha256": "92174fef71b6940a602846eeecb3abea930ccc0bfdfd5da2e3dc1a33cff03e31"
+    },
+    {
+      "id": "crouch-walk",
+      "image": "crouch-walk-generated.png",
+      "prompt": "Use case: precise-object-edit. Asset type: 2D game character crouch-walk animation sprite sheet. Reference image: the attached tiny side-view German rifleman (olive-grey uniform, dark helmet, brown rifle, realistic adult proportions), preserve this exact simple restrained pixel-art style, outfit, rifle, face, scale and identity. Primary request: draw SIX distinct consecutive crouch-walking poses, soldier facing RIGHT, rifle held forward at shoulder, upper body low, both knees bent, walking carefully with alternating planted and lifted boots. This is a LOW CROUCH WALK, not kneeling, not crawling, no sliding fixed knees: the feet actually alternate a crouched step. Six evenly spaced phases of one loop, pose 1 left boot ahead, 2 weight transfer, 3 right boot lifts and passes, 4 right boot ahead, 5 weight transfer, 6 left boot lifts and passes. Layout EXACTLY 3 columns by 2 rows of equally sized square cells, order left-to-right top-to-bottom. One complete isolated soldier per cell with identical framing and a common foot baseline at 85% of each cell height, head at about 25% cell height, identical size in all frames, generous clear margins between characters. Keep every boot and the entire rifle visible inside each cell. Crisp low-resolution PIXEL ART with few colors and hard pixel edges, nearest-neighbor enlarged appearance, not detailed modern pixel illustration. Transparent background everywhere outside the six soldiers. No ground, no shadows, no text, no guides, no grid lines, no muzzle flash, no smoke, no other characters. Maintain exactly the reference's uniform and gear; add no insignia or new equipment.",
+      "references": [
+        "assets/images/armies/nemci/vojnici/vojnik-19.png"
+      ],
+      "sha256": "85550b8c08457c6a3064178f4142d56fe9a7d3001eee11c9ddc9cc2a2d541f4a"
+    },
+    {
+      "id": "backpack",
+      "image": "backpack-generated.png",
+      "prompt": "Use reference ONLY as style guide. Draw new production game sprite in exactly same coarse flat pixel style, black outlines, olive tunic, grey-purple trousers, dark helmet, black boots; same head/body proportions. Transparent background. No realism, gradients, text, ground, shadows, effects or added insignia. Full body side view facing RIGHT, as 69-pixel-tall sprite enlarged nearest-neighbor. ONE rifleman with a compact backpack and blanket roll clearly visible behind his shoulders, rifle aimed horizontally right with both hands. Entire rifle and boots inside margins.",
+      "references": [
+        "assets/images/sources/germans-advance/redrawn/rifleman-generated.png"
+      ],
+      "sha256": "facd79c9040f272bc2dda5122d116fb8cb4e4daa0af9588be9f4553d7bd43537"
+    },
+    {
+      "id": "officer",
+      "image": "officer-generated.png",
+      "prompt": "Use reference ONLY as style guide. Draw new production game sprite in exactly same coarse flat pixel style, black outlines, olive tunic, grey-purple trousers, dark helmet, black boots; same head/body proportions. Transparent background. No realism, gradients, text, ground, shadows, effects or added insignia. Full body side view facing RIGHT, as 69-pixel-tall sprite enlarged nearest-neighbor. THREE equal cells in ONE horizontal row, SAME NCO at same scale and foot baseline in all three cells, rifle slung on back. Cell1 neutral arms down. Cell2 right arm halfway raised forward. Cell3 right arm extended horizontally RIGHT pointing advance. Same stationary legs and torso in every cell. Clear arm gesture, no firing. Wide margins between cells, no grid.",
+      "references": [
+        "assets/images/sources/germans-advance/redrawn/rifleman-generated.png"
+      ],
+      "sha256": "6f5b72e7a8a9ab72240b86a41143ae3b4f1313999e42dbf516c326e84a08c4e3"
+    }
+  ]
+}

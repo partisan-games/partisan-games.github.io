@@ -1,7 +1,9 @@
 import imageReady from '/core/io/imageReady.js'
 import AdvanceSprite from '/core/actor/AdvanceSprite.js'
-import { cameraAt, duration, soldierAt, soldiers, tank } from './Battle.js'
+import { cameraAt, soldierAt, soldiers, tankAt, tanks } from './Battle.js'
 import Meadow, { focalLength, height, horizon, width } from './Meadow.js'
+import { promoAt } from './PromoTimeline.js'
+import drawPromoLogo from './PromoLogo.js'
 
 export default class BattleView {
   constructor(canvas) {
@@ -14,9 +16,10 @@ export default class BattleView {
   async init() {
     const grass = new Image()
     grass.src = '/assets/images/textures/terrain/grass.jpg'
-    this.sprites = Object.fromEntries(['gunner', 'rifleman', 'tank'].map(kind => [kind, new AdvanceSprite(kind)]))
+    this.sprites = Object.fromEntries([...new Set(soldiers.map(soldier => soldier.kind)), 'tank'].map(kind => [kind, new AdvanceSprite(kind)]))
     const sheets = Object.values(this.sprites).flatMap(sprite => sprite.children)
-    await Promise.all([imageReady(grass), ...sheets.map(sheet => imageReady(sheet.image, sheet.imageLoaded))])
+    await Promise.all([imageReady(grass), ...sheets.map(sheet => imageReady(sheet.image, sheet.imageLoaded)),
+      document.fonts?.load('28px "Press Start 2P"')])
     this.meadow = new Meadow(this.frame, grass)
   }
 
@@ -25,7 +28,7 @@ export default class BattleView {
 
     const { frame } = this
     const { width: canvasWidth, height: canvasHeight } = frame.canvas
-    const time = elapsed % duration
+    const { battleTime, showBattle, logoOpacity, fade } = promoAt(elapsed)
     const scale = Math.min(canvasWidth / width, canvasHeight / height)
     if (scale <= 0) return
 
@@ -37,11 +40,17 @@ export default class BattleView {
     frame.rect(0, 0, width, height)
     frame.clip()
     frame.imageSmoothingEnabled = true
-    this.drawBattle(time, scale)
-    frame.fillStyle = this.vignette
-    frame.fillRect(0, 0, width, height)
+    if (showBattle) {
+      this.drawBattle(battleTime, scale)
+      frame.fillStyle = this.vignette
+      frame.fillRect(0, 0, width, height)
+    }
+    if (logoOpacity > 0) {
+      frame.fillStyle = `rgba(12, 18, 23, ${logoOpacity})`
+      frame.fillRect(0, 0, width, height)
+      drawPromoLogo(frame, logoOpacity)
+    }
 
-    const fade = Math.max(0, 1 - time / .21, 1 - (duration - time) / .3)
     if (fade > 0) {
       frame.fillStyle = `rgba(12, 18, 23, ${fade})`
       frame.fillRect(0, 0, width, height)
@@ -56,7 +65,7 @@ export default class BattleView {
     this.meadow.drawTufts(camera, time, 4.5, 28)
     const units = [
       ...soldiers.map(soldier => soldierAt(soldier, time)),
-      { kind: 'tank', x: tank.x + tank.speed * time, z: tank.z, pose: 'drive', poseTime: time },
+      ...tanks.map(tank => tankAt(tank, time)),
     ]
     units.sort((a, b) => b.z - a.z)
     for (const unit of units) this.drawActor(unit, camera)
@@ -81,7 +90,8 @@ export default class BattleView {
     this.frame.beginPath()
     this.frame.ellipse(anchorX + radius * .28, groundY - 1, radius, radius * .20, 0, 0, 2 * Math.PI)
     this.frame.fill()
-    sprite.draw(this.frame, { name: unit.pose, time: unit.poseTime, x: anchorX, y: groundY, scale })
+    sprite.draw(this.frame, { name: unit.pose, time: unit.poseTime, x: anchorX, y: groundY, scale,
+      crewTime: unit.crewTime, crewVisible: unit.crewVisible })
     if (unit.shotAge < .42)
       sprite.drawShot(this.frame, { name: unit.shot, age: unit.shotAge, x: width / 2 + (unit.shotX - cameraX) * scale,
         y: groundY, scale })

@@ -4,15 +4,18 @@
       "id": "advance-rifleman",
       "image": "../../game-ready/vojnici/advance-rifleman.png",
       "sources": [
-        "armies/nemci/vojnici/vojnik-27.png",
-        "armies/nemci/vojnici/vojnik-19.png"
+        "sources/germans-advance/redrawn/rifleman-base.png",
+        "sources/germans-advance/redrawn/crouch-base.png",
+        "sources/germans-advance/redrawn/crouch-walk-generated.png"
       ],
-      "sha256": "d61d2566421d3e6811aae3b559a3d6cac6d387e2f7966072e6b4bf2b78e529d4",
+      "redrawn": true,
+      "generation": "redrawn/generation.json",
+      "sha256": "ae1ec5fd6ae04332876e7293fba65a8471c63f1a2b1b5509ca8fb07cbc2b05ef",
       "frame": {
         "width": 96,
         "height": 84,
         "columns": 12,
-        "rows": 7
+        "rows": 8
       },
       "anchor": {
         "x": 31,
@@ -65,19 +68,19 @@
           "loop": false,
           "muzzles": [
             [
-              48,
+              43,
               -56
             ],
             [
-              46,
+              41,
               -56
             ],
             [
-              48,
+              43,
               -56
             ],
             [
-              49,
+              44,
               -56
             ]
           ]
@@ -139,32 +142,49 @@
           "loop": false,
           "muzzles": [
             [
-              49,
-              -42
+              50,
+              -38
             ],
             [
-              47,
-              -42
-            ],
-            [
-              49,
-              -42
+              48,
+              -38
             ],
             [
               50,
-              -42
+              -38
+            ],
+            [
+              51,
+              -38
             ]
           ]
+        },
+        {
+          "name": "crouch-walk",
+          "frameCount": 6,
+          "duration": 0.864,
+          "row": 7,
+          "ms": [
+            144,
+            144,
+            144,
+            144,
+            144,
+            144
+          ],
+          "loop": true
         }
       ]
     },
     {
-      "id": "advance-gunner",
-      "image": "../../game-ready/vojnici/advance-gunner.png",
+      "id": "advance-backpack",
+      "image": "../../game-ready/vojnici/advance-backpack.png",
       "sources": [
-        "armies/nemci/vojnici/vojnik-26.png"
+        "sources/germans-advance/redrawn/backpack-base.png"
       ],
-      "sha256": "27922cdb8d2ce86ec9d34290eefbeaf950eb06759eec01a6a6b2683e651176cb",
+      "redrawn": true,
+      "generation": "redrawn/generation.json",
+      "sha256": "fd3e9986ac9dfef38cf1cd9c8891fa42a2f499e19870b9d29ad87c75f7eeb464",
       "frame": {
         "width": 96,
         "height": 84,
@@ -175,7 +195,7 @@
         "x": 31,
         "y": 76
       },
-      "standingPixels": 65,
+      "standingPixels": 69,
       "animations": [
         {
           "name": "idle",
@@ -222,20 +242,176 @@
           "loop": false,
           "muzzles": [
             [
+              41,
+              -54
+            ],
+            [
+              39,
+              -54
+            ],
+            [
+              41,
+              -54
+            ],
+            [
               42,
-              -55
+              -54
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "advance-officer",
+      "image": "../../game-ready/vojnici/advance-officer.png",
+      "sources": [
+        "sources/germans-advance/redrawn/officer-base.png",
+        "sources/germans-advance/redrawn/officer-half-base.png",
+        "sources/germans-advance/redrawn/officer-full-base.png"
+      ],
+      "redrawn": true,
+      "generation": "redrawn/generation.json",
+      "sha256": "3c97f18ccca914fbd6e2c9c978d6bc5d426c9ddc5d9d3043cb7d8279b9610c13",
+      "frame": {
+        "width": 96,
+        "height": 84,
+        "columns": 12,
+        "rows": 3
+      },
+      "anchor": {
+        "x": 31,
+        "y": 76
+      },
+      "standingPixels": 69,
+      "animations": [
+        {
+          "name": "idle",
+          "frameCount": 1,
+          "duration": 1.0,
+          "row": 0,
+          "ms": [
+            1000
+          ],
+          "loop": true
+        },
+        {
+          "name": "walk",
+          "frameCount": 12,
+          "duration": 0.864,
+          "row": 1,
+          "ms": [
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72
+          ],
+          "loop": true
+        },
+        {
+          "name": "signal",
+          "frameCount": 6,
+          "duration": 1.4,
+          "row": 2,
+          "ms": [
+            100,
+            140,
+            400,
+            400,
+            160,
+            200
+          ],
+          "loop": false
+        }
+      ]
+    },
+    {
+      "id": "advance-gunner",
+      "image": "../../game-ready/vojnici/advance-gunner.png",
+      "sources": [
+        "sources/germans-advance/redrawn/gunner-base.png"
+      ],
+      "redrawn": true,
+      "generation": "redrawn/generation.json",
+      "sha256": "5af8bdc0ce090fa10d9c78ac43f740a869312d207332da7160545e3de0e6c024",
+      "frame": {
+        "width": 96,
+        "height": 84,
+        "columns": 12,
+        "rows": 3
+      },
+      "anchor": {
+        "x": 31,
+        "y": 76
+      },
+      "standingPixels": 69,
+      "animations": [
+        {
+          "name": "idle",
+          "frameCount": 1,
+          "duration": 1.0,
+          "row": 0,
+          "ms": [
+            1000
+          ],
+          "loop": true
+        },
+        {
+          "name": "walk",
+          "frameCount": 12,
+          "duration": 0.864,
+          "row": 1,
+          "ms": [
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72,
+            72
+          ],
+          "loop": true
+        },
+        {
+          "name": "fire",
+          "frameCount": 4,
+          "duration": 0.13,
+          "row": 2,
+          "ms": [
+            34,
+            32,
+            34,
+            30
+          ],
+          "loop": false,
+          "muzzles": [
+            [
+              39,
+              -54
+            ],
+            [
+              37,
+              -54
+            ],
+            [
+              39,
+              -54
             ],
             [
               40,
-              -55
-            ],
-            [
-              42,
-              -55
-            ],
-            [
-              43,
-              -55
+              -54
             ]
           ]
         }
@@ -245,9 +421,11 @@
       "id": "advance-tank",
       "image": "../../game-ready/tenkovi/advance-tank.png",
       "sources": [
-        "armies/panzer3.png"
+        "sources/germans-advance/redrawn/tank-base.png"
       ],
-      "sha256": "a6725a59847d5ad43203b41220ecd3d35db6e19261a0e2c951a138c3bda1545b",
+      "redrawn": true,
+      "generation": "redrawn/generation.json",
+      "sha256": "eee035d88bd263081d75a70441945b7a5282d979167f1688a5a11e9fc1f15500",
       "frame": {
         "width": 271,
         "height": 141,
@@ -258,7 +436,7 @@
         "x": 100,
         "y": 141
       },
-      "standingPixels": 141,
+      "standingPixels": 91,
       "animations": [
         {
           "name": "idle",
@@ -285,26 +463,32 @@
           ],
           "loop": true
         }
-      ]
+      ],
+      "crewAnchor": {
+        "x": 103,
+        "y": 60
+      }
     },
     {
       "id": "advance-commander",
       "image": "../../game-ready/vojnici/advance-commander.png",
       "sources": [
-        "armies/nemci/vojnici/vojnik-27.png"
+        "sources/germans-advance/redrawn/commander-base.png"
       ],
-      "sha256": "b59ff89af022993618249bca3bfb72bdfa82430d79d0b004e17fdbbacbeb5bba",
+      "redrawn": true,
+      "generation": "redrawn/generation.json",
+      "sha256": "9e2584c503f0dfbcba1aa00e2a764275244e8b5228631050432f1484220a5a0e",
       "frame": {
-        "width": 93,
-        "height": 51,
+        "width": 52,
+        "height": 46,
         "columns": 6,
         "rows": 1
       },
       "anchor": {
-        "x": 33,
-        "y": 48
+        "x": 17,
+        "y": 42
       },
-      "standingPixels": 40,
+      "standingPixels": 38,
       "animations": [
         {
           "name": "idle",
