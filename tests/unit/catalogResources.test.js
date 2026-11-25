@@ -85,7 +85,7 @@ test('Sutjeska dresses the existing catalogue mesh and keeps the original animat
   }
 })
 
-test('switching to Sutjeska and back keeps Drug Marko in the same scene and pose', async t => {
+test('switching to Sutjeska and back keeps Borac sa Sutjeske in the same scene and pose', async t => {
   createPageElements()
   t.mock.method(THREE.TextureLoader.prototype, 'load', () => new THREE.Texture())
   t.mock.method(FBXLoader.prototype, 'loadAsync', async url => {

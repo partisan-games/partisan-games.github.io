@@ -15,7 +15,7 @@ const triangles = geometry => {
   return result.sort()
 }
 
-test('the actual low-poly soldier drops from 1423 to 10 groups with identical triangles, skinning and source data', async t => {
+test('the actual low-poly soldier drops to 10 groups with identical triangles, skinning and source data', async t => {
   t.mock.method(THREE.TextureLoader.prototype, 'load', () => new THREE.Texture())
   const bytes = await readFile('assets/models/character/soldier/partisan-lowpoly.fbx')
   const source = new FBXLoader().parse(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), '')
@@ -27,7 +27,7 @@ test('the actual low-poly soldier drops from 1423 to 10 groups with identical tr
   })
   const count = () => meshes.reduce((sum, mesh) => sum + mesh.geometry.groups.length, 0)
   const before = meshes.map(mesh => ({ geometry: mesh.geometry, faces: triangles(mesh.geometry), skeleton: mesh.skeleton }))
-  assert.equal(count(), 1423)
+  assert.equal(count(), 1450)
   const elbow = figure.getObjectByName('mixamorigLeftForeArm')
   elbow.rotateZ(.2)
   figure.updateMatrixWorld(true)

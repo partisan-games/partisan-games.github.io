@@ -20,13 +20,14 @@ test('he runs to his cover and is safe behind it until he rises to fire', () => 
   assert.equal(soldier.exposed, true)
 })
 
-test('a cover lower than the crouching man does not hide him', () => {
-  const soldier = new CoverSoldier()
-  soldier.moveTo({ x: 1, z: 0, cover: coverSoldier.crouch - .1 })
-  run(soldier, 1)
-  assert.equal(soldier.inCover, true)
-  assert.equal(soldier.exposed, true)
-})
+for (const [cover, kind] of [[{ cover: coverSoldier.crouch - .1 }, 'lower than the crouching man'], [{ cover: 1.2, overlooked: true }, 'the enemy looks over']])
+  test(`a cover ${kind} does not hide him`, () => {
+    const soldier = new CoverSoldier()
+    soldier.moveTo({ x: 1, z: 0, ...cover })
+    run(soldier, 1)
+    assert.equal(soldier.inCover, true)
+    assert.equal(soldier.exposed, true)
+  })
 
 test('he aims before he fires, so the other side can shoot first, then hurts his target each second', () => {
   const soldier = new CoverSoldier(), target = new Body({ health: 100 })

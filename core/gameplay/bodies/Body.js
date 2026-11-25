@@ -20,6 +20,7 @@ export default class Body {
     this.health = new Health({ maximum: health })
     this.shotsFired = 0
     this.hitsTaken = 0
+    this.hitBy = null
     /** Seconds in the current state. */
     this.stateTime = 0
     this.machine = new StateMachine(this, states, initial)
@@ -48,10 +49,14 @@ export default class Body {
     return !this.alive
   }
 
-  /** Takes the damage of a hit; a kind with a `dead` state enters it when the hit kills. Returns whether it killed. */
-  takeHit(damage) {
+  /**
+   * Takes the damage of a hit, from the `source` body that dealt it if it is known, kept as `hitBy`; a kind with a
+   * `dead` state enters it when the hit kills. Returns whether it killed.
+   */
+  takeHit(damage, source = null) {
     if (this.dead) return false
     this.hitsTaken++
+    this.hitBy = source
     const killed = this.health.damage(damage)
     if (killed && this.states.includes('dead')) this.setState('dead')
     return killed

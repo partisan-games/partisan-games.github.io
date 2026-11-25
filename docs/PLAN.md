@@ -7,29 +7,28 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 | # | ID | Posao | Ko | Status |
 |---|---|---|---|---|
 | | **[Art](#art)** | | | |
-| 1 | [AR-P13](#ar-p13) | Popraviti 3D model Brke: kosa i detalji | Codex | 📋 TODO |
-| 2 | [AR-P14](#ar-p14) | Napraviti 3D model četnika za saborce u Kraljevu | Codex | 📋 TODO |
-| 3 | [AR-P15](#ar-p15) | Napraviti Ratarsku školu i Spomenik srpskim ratnicima za Kraljevo | Codex | 📋 TODO |
-| 4 | [AR-P16](#ar-p16) | Precrtati art koji 2D igre još koriste neprecrtan | Codex; vlasnik odobrava | 📋 TODO |
+| 1 | [AR-P14](#ar-p14) | Napraviti 3D model četnika za saborce u Kraljevu | Codex | 📋 TODO |
+| 2 | [AR-P15](#ar-p15) | Napraviti Ratarsku školu i Spomenik srpskim ratnicima za Kraljevo | Codex | 📋 TODO |
+| 3 | [AR-P16](#ar-p16) | Precrtati art koji 2D igre još koriste neprecrtan | Codex; vlasnik odobrava | 📋 TODO |
 | | **[Igre i ideje](#igre)** | | | |
-| 5 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [1](#note-1) |
-| 6 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
-| 7 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
-| 8 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
-| 9 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
-| 10 | [IG-29](#ig-29) | Dovršiti logor Crveni krst u Escape Concentration Camp | Codex, Claude | 🔄 In progress |
-| 11 | [CK-01](#ck-01) | Crveni krst: uskladiti vidljivog lika, telo i stopala | Codex | 🔄 In progress |
-| 12 | [CK-02](#ck-02) | Crveni krst: prave animacije, držanje cevi i prelazi | Vlasnik: klipovi; Codex: povezivanje | 🔄 In progress |
-| 13 | [CK-03](#ck-03) | Crveni krst: prepoznatljivi logoraši i katalog | Codex | 📋 TODO |
-| 14 | [CK-04](#ck-04) | Crveni krst: praćenje, skretanje i razmicanje grupe | Codex | 🔄 In progress |
-| 15 | [CK-05](#ck-05) | Crveni krst: zakloni, borba, ranjavanje i straže | Codex | 🔄 In progress |
-| 16 | [CK-06](#ck-06) | Crveni krst: tlo, svetlo, pozadina i zvuk | Codex | 📋 TODO |
-| 17 | [CK-07](#ck-07) | Crveni krst: pregled celog proboja i regresije | Codex | 📋 TODO |
-| 18 | [IG-30](#ig-30) | Dodati četnike kao saborce u opsadi Kraljeva | Codex, Claude | 🔄 In progress |
-| 19 | [IG-31](#ig-31) | Dodati pruge, mostove i izbor savezničkih aviona u Warplane | Vlasnik, Codex, Claude | 🔄 In progress |
-| 20 | [IG-32](#ig-32) | Dovršiti Raid on Drvar: modeli, izgled grada i težina | Claude, Codex | 🔄 In progress |
-| 21 | [IG-33](#ig-33) | Pregledati art German Advance u duploj rezoluciji i završni promo | Vlasnik | 📋 TODO |
-| 22 | [IG-34](#ig-34) | Napraviti vernu scenu i igru opsade Kraljeva po dogovorenom scenariju | Vlasnik, Claude, Codex | 🔄 In progress |
+| 4 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [1](#note-1) |
+| 5 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
+| 6 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
+| 7 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
+| 8 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
+| 9 | [IG-29](#ig-29) | Dovršiti logor Crveni krst u Escape Concentration Camp | Codex, Claude | 🔄 In progress |
+| 10 | [CK-01](#ck-01) | Crveni krst: uskladiti vidljivog lika, telo i stopala | Codex | 🔄 In progress |
+| 11 | [CK-02](#ck-02) | Crveni krst: prave animacije, držanje cevi i prelazi | Vlasnik: klipovi; Codex: povezivanje | 🔄 In progress |
+| 12 | [CK-03](#ck-03) | Crveni krst: prepoznatljivi logoraši i katalog | Codex | 📋 TODO |
+| 13 | [CK-04](#ck-04) | Crveni krst: praćenje, skretanje i razmicanje grupe | Codex | 🔄 In progress |
+| 14 | [CK-05](#ck-05) | Crveni krst: zakloni, borba, ranjavanje i straže | Codex | 🔄 In progress |
+| 15 | [CK-06](#ck-06) | Crveni krst: tlo, svetlo, pozadina i zvuk | Codex | 📋 TODO |
+| 16 | [CK-07](#ck-07) | Crveni krst: pregled celog proboja i regresije | Codex | 📋 TODO |
+| 17 | [IG-30](#ig-30) | Dodati četnike kao saborce u opsadi Kraljeva | Codex, Claude | 🔄 In progress |
+| 18 | [IG-31](#ig-31) | Dodati pruge, mostove i izbor savezničkih aviona u Warplane | Vlasnik, Codex, Claude | 🔄 In progress |
+| 19 | [IG-32](#ig-32) | Dovršiti Raid on Drvar: modeli, izgled grada i težina | Claude, Codex | 🔄 In progress |
+| 20 | [IG-33](#ig-33) | Pregledati art German Advance u duploj rezoluciji i završni promo | Vlasnik | 📋 TODO |
+| 21 | [IG-34](#ig-34) | Napraviti vernu scenu i igru opsade Kraljeva po dogovorenom scenariju | Vlasnik, Claude, Codex | 🔄 In progress |
 
 ## Održavanje plana
 
@@ -44,11 +43,6 @@ Važe [DOCS](DOCS.md), [ugovor arta](ART.md#obavezna-integracija) i [arhitektura
 ### Mogućnosti bez naloga za izradu
 
 Olupina poljskog topa može postati zaseban rekvizit bojišta; još nije raspoređena kao takav rekvizit. Novi efekat vode traži posebno odgovarajuće rešenje, jer je prethodno proceduralno rešenje odbačeno. Dodatni desanti na Brač, Mljet i Korčulu ostaju ideje za igru uz istorijsku proveru, a ne zadaci izrade arta. Rezervni vojnički listovi i sezonske pozadine nisu obaveza za povezivanje: koriste se tek kada ih izabrani akter ili nivo zatraži.
-
-<a id="ar-p13"></a>
-### AR-P13 · Model Brke
-
-3D partizanu Brki ([model](../assets/models/character/soldier/partisan-lowpoly.fbx), u [katalogu](../catalog.html#drugi-svetski-rat-3d/partizan-jednostavan-model-3d)) nedostaje kosa i još neki detalji (vlasnik, 2026-11-25). Codex dorađuje model: dodaje kosu ispod kape i proverava ostale nedostatke lica, odeće i opreme. Skelet, animacije i [opis lika](../core3d/actor/derived/ww2/PartisanLowpoly.js) ostaju isti, da model i dalje radi u Liberated City i kao saborac u Kraljevu.
 
 <a id="ar-p14"></a>
 ### AR-P14 · 3D četnik
@@ -286,8 +280,9 @@ Preostaje:
 3. 📋 Igranje nivoa i podešavanje broja padobranaca i težine. Od 2026-11-25 Nemci na zemlji ranjavaju punom snagom do 20 m, a dalje sve slabije, do četvrtine na 120 m ([vrednosti](../core/gameplay/bodies/soldiers/CoverSoldier.js)); padobranaca je manje i dolaze ređe (po tri iz aviona, prelet na 9 odnosno 8 s); vlasnik proverava da li je sada lakše taman koliko treba. Otvoreno je i da li se igra nastavlja kad igrač padne, a saborci su živi.
 4. 📋 Snimak kartice na naslovnoj je još iz stare 2D verzije. Novi kadar snimiti tek posle scenografije i precrtanih padobranaca; probni kadri iz pregledača (2026-11-25) bili su prazno nebo i jednolično tlo.
 5. 📋 Codex: precrtati 2D padobrance u vazduhu ([slike](../assets/images/armies/nemci/padobranci/), [prikaz](../core3d/actor/soldiers/ParachutistSprite.js)), u stilu i razmeri igre; čovek ostaje 1,8 m.
-6. [ ] Vlasnik u igri proverava (2026-11-25): Nemac više ne trči nazad do zaklona; uzima najbližu ruševinu ili spoljnu stranu naše ograde koja je bliža uporištu, a bez nje odmah napada sa mesta ([izbor zaklona](../scenes/drvar/coverGoal.js)).
+6. [ ] Vlasnik u igri proverava (2026-11-25): Nemac više ne trči nazad do zaklona; uzima najbližu ruševinu ili spoljnu stranu naše ograde koja je bliža uporištu, a bez nje odmah napada sa mesta ([izbor zaklona](../scenes/drvar/coverGoal.js)). Onaj koji čuči uz našu ogradu može se pogoditi, jer ga branioci vide preko zida.
 
+- [ ] Vlasnik (2026-11-25): crveni luk oko nišana pokazuje odakle te je pogodak stigao i bledi za 1,5 s (važi u svim igrama iz prvog lica); Nemac pri svakom metku ima bljesak na vrhu puške. Da li sada vidiš ko te gađa?
 - [ ] Vlasnik (2026-11-25): hodanje po dvorištu na WASD, uz zaustavljanje na zidovima, crkvi i saborcima; da li prelazak na drugi zid pomaže odbrani.
 - [ ] Vlasnik (proba od 2026-11-25): da li 3D vojnici posle doskoka izgledaju dobro, da li prelaz iz slike u model u trenutku doskoka smeta i da li igra ostaje glatka u drugom talasu. Agent je izmerio najgori slučaj, 61 vojnika na zemlji odjednom: kod i priprema crtanja traju oko 7 ms po kadru, ispod 16,7 ms za 60 kadrova; brzinu na pravoj grafičkoj kartici headless pregledač ne meri. Iza ograde od 1,1 m čučeći Nemac pokazuje samo vrh kape, a zaklon niži od 1,05 m ga ne skriva i tada se može pogoditi.
 

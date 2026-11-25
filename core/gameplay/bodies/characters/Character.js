@@ -200,9 +200,9 @@ export default class Character extends Body {
     else this.attack(name)
   }
 
-  takeHit(damage) {
+  takeHit(damage, source) {
     if (this.guarded && this.state === 'attack') return false
-    const killed = super.takeHit(damage)
+    const killed = super.takeHit(damage, source)
     if (!killed && this.alive) {
       this.hurt = this.actions.pain ?? 0
       // Pain interrupts the pose, but not the timing of the blow already under way.
@@ -247,7 +247,7 @@ export default class Character extends Body {
     const length = Math.min(distance, this.reach)
     this.strike = { from, to: { x: from.x + direction.x * length, y: from.y + direction.y * length,
       z: from.z + direction.z * length }, target }
-    target?.takeHit(damageAt({ distance, reach: this.reach, range: this.damage, roll: this.roll }))
+    target?.takeHit(damageAt({ distance, reach: this.reach, range: this.damage, roll: this.roll }), this)
   }
 
   /** The blow lands on every living target within the reach of its area blow around it. */

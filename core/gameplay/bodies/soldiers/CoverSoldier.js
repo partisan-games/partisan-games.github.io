@@ -4,7 +4,8 @@ import { trench } from './TrenchSoldier.js'
 /**
  * He runs to his cover at `speed` metres a second; he aims and fires as a soldier in a trench does, hurting as he does
  * up to `falloff.near` metres away and less beyond, down to `falloff.least` of it at `falloff.far` and farther.
- * Crouching, he is `crouch` metres tall, so a lower cover does not hide him.
+ * Crouching, he is `crouch` metres tall, so a lower cover does not hide him; nor does one the enemy looks over from
+ * close above, as the wall of the stronghold he attacks.
  */
 export const coverSoldier = { speed: 2.5, size: { length: .5, height: 1.8, width: .5 }, crouch: 1.05,
   falloff: { near: 20, far: 120, least: .25 } }
@@ -52,7 +53,7 @@ const states = {
       const previous = Math.floor(Math.max(0, soldier.stateTime - dt) / trench.shotInterval)
       soldier.shotsFired += elapsed - previous
       const distance = Math.hypot(target.x - soldier.x, target.y - soldier.y, target.z - soldier.z)
-      target.takeHit(trench.damage * harmAt(distance) * dt)
+      target.takeHit(trench.damage * harmAt(distance) * dt, soldier)
     },
   },
   dead: { enter: stop },
@@ -60,7 +61,7 @@ const states = {
 
 /**
  * A soldier on foot, seen from the front, who fights from where he stands: sent to a `goal` `{ x, z, cover }`, he runs
- * there and, if `cover` gives the height of a cover there in metres, ducks behind it. Told to fire at a `target`, any body with `alive` and `takeHit`, he
+ * there and, if `cover` gives the height of a cover there in metres, ducks behind it, seen still if it is `overlooked`. Told to fire at a `target`, any body with `alive` and `takeHit`, he
  * rises, aims for a while, so the other side can shoot him first, then fires a burst that hurts the target each
  * second until told to cease fire or the target dies. Behind cover he can be hit only while he is up.
  */
@@ -92,7 +93,7 @@ export default class CoverSoldier extends Body {
 
   /** Whether a shot can reach him: always in the open, behind cover too low for him and while he is up to fire. */
   get exposed() {
-    const hidden = this.inCover && this.goal.cover >= coverSoldier.crouch
+    const hidden = this.inCover && !this.goal.overlooked && this.goal.cover >= coverSoldier.crouch
     return this.alive && (!hidden || this.state === 'aim' || this.state === 'attack')
   }
 }

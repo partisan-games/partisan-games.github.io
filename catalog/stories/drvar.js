@@ -50,10 +50,10 @@ export const soldiers = [
     id: 'nemacki-vojnik-iza-zaklona', name: 'Nemački vojnik iza zaklona', game, block: coverSoldierModelModule, stage: Stage3D,
     commands: soldierCommands,
     create: async stage => {
-      await requestModels(coverSoldierModelModule.models)
+      const [flashPicture] = await Promise.all([loadPixelArt(coverSoldierModelModule.flash.picture), requestModels(coverSoldierModelModule.models)])
       const body = new CoverSoldier({ y: coverSoldierModule.coverSoldier.size.height / 2 })
       // he faces the camera
-      stage.add(body, new CoverSoldierModel(body, { front: { x: 0, z: stage.camera.position.z } }))
+      stage.add(body, new CoverSoldierModel(body, { flashPicture, front: { x: 0, z: stage.camera.position.z } }))
       return body
     },
   },

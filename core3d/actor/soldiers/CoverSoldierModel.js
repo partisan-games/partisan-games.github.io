@@ -1,7 +1,9 @@
-import { LoopOnce, LoopRepeat } from 'three'
+import { Box3, Group, LoopOnce, LoopRepeat, Object3D, Vector3 } from 'three'
 import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js'
 import Animator from '/core3d/actor/Animator.js'
 import { loadedModel } from '/core3d/assets/models.js'
+import { billboard, showFrame } from '/core3d/assets/pixelArt.js'
+import spriteArt from '/core/actor/spriteArt.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import { audioPoint } from '/core/io/audio/audio3d.js'
 
@@ -16,6 +18,22 @@ const rifleModel = { file: 'weapon/rifle.fbx', scale: 1.33, angle: Math.PI }
 /** What to load; a game awaits requestModels(models) before it creates one of these. */
 export const models = [meshModel, rifleModel]
 
+/** The flash of a shot, drawn for the 2D games: one of its frames shows `flash.seconds` at the muzzle, `flash.size` metres across. */
+const flashArt = spriteArt['muzzle-flash']
+export const flash = { picture: flashArt.src, size: .45, seconds: flashArt.clips.fire.seconds / flashArt.columns }
+
+/** The muzzle of the rifle in its own frame: the far end of the barrel, which points along its +z at the left hand. */
+function muzzleOf(rifle) {
+  rifle.updateMatrixWorld(true)
+  const toRifle = rifle.matrixWorld.clone().invert(), box = new Box3()
+  rifle.traverse(part => {
+    if (!part.isMesh) return
+    part.geometry.computeBoundingBox()
+    box.union(part.geometry.boundingBox.clone().applyMatrix4(part.matrixWorld).applyMatrix4(toRifle))
+  })
+  return new Vector3((box.min.x + box.max.x) / 2, (box.min.y + box.max.y) / 2, box.max.z)
+}
+
 /** Seconds one clip blends into the next. */
 const fade = .25
 /**
@@ -27,15 +45,25 @@ export const far = { distance: 50, frames: 3 }
 /**
  * A `CoverSoldier` as a 3D German rifleman, who faces where he runs, then his target, and otherwise the `front`
  * `{ x, z }` he holds. In the open he stands aiming; behind cover he crouches until he rises to aim and fire, and he
- * falls where he is shot, and lies still. His burst sounds from where he is. A `viewer` `{ x, z }` lets a far one
- * cost less.
+ * falls where he is shot, and lies still. His burst sounds from where he is, and each of its shots flashes at his
+ * muzzle, from the `flashPicture` texture of `flash.picture`. A `viewer` `{ x, z }` lets a far one cost less.
  */
 export default class CoverSoldierModel {
-  constructor(body, { front = { x: 0, z: 0 }, viewer = null } = {}) {
+  constructor(body, { flashPicture, front = { x: 0, z: 0 }, viewer = null }) {
     Object.assign(this, { body, front, viewer })
     const mesh = loadedModel(meshModel)
-    this.mesh = clone(mesh)
-    this.anim = new Animator({ mesh: this.mesh, animations: mesh.userData.animations, animDict, twoHandedWeapon: loadedModel(rifleModel) })
+    this.model = clone(mesh)
+    this.anim = new Animator({ mesh: this.model, animations: mesh.userData.animations, animDict, twoHandedWeapon: loadedModel(rifleModel) })
+    this.muzzle = new Object3D()
+    this.muzzle.position.copy(muzzleOf(loadedModel(rifleModel)))
+    this.anim.twoHandedWeapon.add(this.muzzle)
+    // the flash is its own object in the scene, at its own size, not scaled with the model's bones
+    this.flash = billboard(flashPicture, { pxPerMeter: flashArt.frame.width / flash.size, columns: flashArt.columns })
+    this.flash.center.set(.5, .5)
+    this.flash.visible = false
+    this.mesh = new Group().add(this.model, this.flash)
+    this.flashing = 0
+    this.shots = body.shotsFired
     this.burstSound = new Sound('rafal.mp3', { loop: true, profile: 'rifle', spatial: audioPoint(this) })
     this.sounds = [this.burstSound]
     this.clip = null
@@ -87,6 +115,22 @@ export default class CoverSoldierModel {
     this.burstSound.setPlaying(body.state === 'attack')
     this.play(this.chosenClip)
     this.animate(dt)
+    this.showFlash(dt)
+  }
+
+  /** A shot of his burst shows one frame of the flash at his muzzle for a moment. */
+  showFlash(dt) {
+    const { body, flash: picture } = this
+    this.flashing = Math.max(0, this.flashing - dt)
+    if (body.shotsFired > this.shots) {
+      this.flashing = flash.seconds
+      showFrame(picture, Math.floor(Math.random() * flashArt.columns))
+    }
+    this.shots = body.shotsFired
+    picture.visible = this.flashing > 0
+    if (!picture.visible) return
+    this.mesh.updateMatrixWorld(true)
+    picture.position.copy(this.mesh.worldToLocal(this.muzzle.getWorldPosition(new Vector3())))
   }
 
   get lying() {

@@ -135,8 +135,11 @@ Dodatna plovila imaju zasebne opise. Generički nacrtan brod ili projektna mera 
 
 ### 3D
 
+<a id="brka"></a>
+[Savo · Osnovna](../catalog.html#drugi-svetski-rat-3d/partizan-jednostavan-model-3d/original) ima šire lice, punije brkove i zulufe, tamnu kosu do kragne i tamne mat pantalone. Vlasnik je prihvatio izgled 25. 11. 2026. prema [portretu Save Kovačevića](https://commons.wikimedia.org/wiki/File:Savo_Kova%C4%8Devi%C4%87.jpg) i [fotografiji sa Crkvica](https://commons.wikimedia.org/wiki/File:Narodni_heroj_Sava_Kova%C4%8Devi%C4%87.jpg). Katalog i igre koriste isti [FBX](../assets/models/character/soldier/partisan-lowpoly.fbx), sa postojećim skeletom i animacijama.
+
 <a id="sutjeska-drug-marko"></a>
-Vlasnik je 25. 11. 2026. prihvatio [Sutjesku](../catalog.html#drugi-svetski-rat-3d/partizan-3d/sutjeska) kao glavni izgled Druga Marka. [Zajednički izgled](../core3d/actor/derived/ww2/sutjeskaLook.js) koriste katalog, Liberated City, Spomenici i prikazi istog partizana u Jablanici i 3D Tank. Mlađe lice, kestenjasta kosa, smeđe oči, veća crvena petokraka i braon pantalone primenjuju se na kopiji postojećeg modela sa istim skeletom. [Maskirna](../catalog.html#drugi-svetski-rat-3d/partizan-3d/original) i [Osnovna](../catalog.html#drugi-svetski-rat-3d/partizan-3d/strelac) i dalje su dostupne u katalogu. [Fotografija sa Sutjeske](https://commons.wikimedia.org/wiki/File:Druga_proleterska_divizija_na_Sutjesci.jpg) je polazište za izgled.
+Vlasnik je 25. 11. 2026. prihvatio [Sutjesku](../catalog.html#drugi-svetski-rat-3d/partizan-3d/sutjeska) kao glavni izgled lika koji se u katalogu zove „Borac sa Sutjeske”. [Zajednički izgled](../core3d/actor/derived/ww2/sutjeskaLook.js) koriste katalog, Liberated City, Spomenici i prikazi istog partizana u Jablanici i 3D Tank. Mlađe lice, kestenjasta kosa, smeđe oči, veća crvena petokraka i braon pantalone primenjuju se na kopiji postojećeg modela sa istim skeletom. [Maskirna](../catalog.html#drugi-svetski-rat-3d/partizan-3d/original) i [Osnovna](../catalog.html#drugi-svetski-rat-3d/partizan-3d/strelac) i dalje su dostupne u katalogu. [Fotografija sa Sutjeske](https://commons.wikimedia.org/wiki/File:Druga_proleterska_divizija_na_Sutjesci.jpg) je polazište za izgled.
 
 Modele, skinove i klipove pregledati u [katalogu](../catalog.html) i [pregledu animacija](../pregled-animacija.html). Poreklo i licence ostaju uz modele; organizacija kataloga prati [pravila kataloga](KATALOG.md#stavke-kataloga-i-varijante).
 

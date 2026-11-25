@@ -25,7 +25,7 @@ import makeCharacter from '/core3d/actor/characters/makeCharacter.js'
 import MouseLook from '/core3d/actor/characters/MouseLook.js'
 import FirstPersonView from '/core3d/actor/characters/FirstPersonView.js'
 import ParachutistSprite, { parachutistArt } from '/core3d/actor/soldiers/ParachutistSprite.js'
-import CoverSoldierModel, { models as coverSoldierModels } from '/core3d/actor/soldiers/CoverSoldierModel.js'
+import CoverSoldierModel, { flash, models as coverSoldierModels } from '/core3d/actor/soldiers/CoverSoldierModel.js'
 import Ju52, { models as ju52Models } from '/core3d/actor/aircraft/Ju52.js'
 import dressFighter from '/core3d/actor/characters/dressFighter.js'
 import { description as sovietPartisan, models as sovietPartisanModels } from '/core3d/actor/derived/ww2/SovietPartisan.js'
@@ -103,7 +103,7 @@ export default class DrvarScene extends Scene3D {
   }
 
   async init() {
-    const { pictures } = parachutistArt
+    const pictures = [...parachutistArt.pictures, flash.picture]
     const [textures] = await Promise.all([
       Promise.all(pictures.map(loadPixelArt)).then(loaded => new Map(pictures.map((src, i) => [src, loaded[i]]))),
       requestModels([...sovietPartisanModels, ...resistanceFighterModels, ...partisanLowpolyModels, ...churchModels, ...sandbagsModels, ...ju52Models,
@@ -281,7 +281,7 @@ export default class DrvarScene extends Scene3D {
       body.handedOver = true
       const soldier = new CoverSoldier({ x: body.x, z: body.z, y: groundAt(body.x) + coverSoldier.size.height / 2 })
       this.enemies.push(soldier)
-      this.add(soldier, new CoverSoldierModel(soldier, { front: this.player, viewer: this.player }))
+      this.add(soldier, new CoverSoldierModel(soldier, { flashPicture: this.textures.get(flash.picture), front: this.player, viewer: this.player }))
       if (body.dead) {
         soldier.setState('dead')
         continue

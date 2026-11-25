@@ -1,7 +1,8 @@
 import FPSRenderer from '/core3d/actor/FPSRenderer.js'
 
-/** Seconds the screen stays red after a hit. */
+/** Seconds the screen stays red after a hit, and a mark at its edge shows the way the hit came from. */
 const painTime = .3
+const markTime = 1.5
 /** How far the weapon's sway jumps at a shot, in its seconds. */
 const recoil = 5
 
@@ -22,6 +23,8 @@ export default class FirstPersonView {
     this.sway = 0
     this.pain = 0
     this.seen = { shots: body.shotsFired, hits: body.hitsTaken }
+    /** The seconds each body that hit the player stays marked. */
+    this.marks = new Map()
     this.place()
   }
 
@@ -39,7 +42,13 @@ export default class FirstPersonView {
     if (this.weaponSource) renderer.weaponSrc = this.weaponSource()
     this.place()
     if (this.renderer.weaponSrc && body.shotsFired > seen.shots) this.sway += recoil
-    if (body.hitsTaken > seen.hits) this.pain = painTime
+    if (body.hitsTaken > seen.hits) {
+      this.pain = painTime
+      if (body.hitBy) this.marks.set(body.hitBy, markTime)
+    }
+    for (const [source, left] of this.marks)
+      if (left > dt) this.marks.set(source, left - dt)
+      else this.marks.delete(source)
     Object.assign(seen, { shots: body.shotsFired, hits: body.hitsTaken })
     this.pain = Math.max(0, this.pain - dt)
     if (body.dead) renderer.clear()
@@ -48,6 +57,19 @@ export default class FirstPersonView {
       renderer.render(this.sway)
     }
     if (this.pain > 0 || body.dead) renderer.drawPain()
+    if (body.alive) for (const { angle, strength } of this.hitMarks) renderer.drawHitFrom(angle, strength)
+  }
+
+  /**
+   * The ways the player was hit from: each `angle` on the screen, as `Math.atan2` gives it with y down, so straight
+   * ahead is up and one behind is down, and its fading `strength`.
+   */
+  get hitMarks() {
+    const { body } = this
+    return [...this.marks].map(([source, left]) => {
+      const bearing = Math.atan2(body.z - source.z, source.x - body.x) - body.yaw
+      return { angle: Math.atan2(-Math.cos(bearing), -Math.sin(bearing)), strength: left / markTime }
+    })
   }
 
   end() {

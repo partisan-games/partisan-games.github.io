@@ -53,6 +53,17 @@ export default class FPSRenderer extends HTMLCanvasElement {
     this.ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
   }
 
+  /** A red arc round the crosshair the way a hit came from, at `angle` on the screen, as bright as its `strength`. */
+  drawHitFrom(angle, strength) {
+    const { ctx } = this
+    const radius = Math.min(window.innerWidth, window.innerHeight) * .3
+    ctx.strokeStyle = `rgba(220, 0, 0, ${.9 * strength})`
+    ctx.lineWidth = 12
+    ctx.beginPath()
+    ctx.arc(window.innerWidth / 2, window.innerHeight / 2, radius, angle - .35, angle + .35)
+    ctx.stroke()
+  }
+
   drawWeapon(elapsedTime) {
     this.handleLoad(this.weaponImg, this.weaponSrc, 'drawWeaponOnLoad', elapsedTime)
   }

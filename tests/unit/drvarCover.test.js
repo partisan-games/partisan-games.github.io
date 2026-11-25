@@ -18,7 +18,7 @@ test('one who lands near the stronghold does not run back to a cover behind him,
   assert.equal(behindHim.taken, false)
 })
 
-test('one who lands by the stronghold crouches outside its wall, on the side the wall faces out', () => {
+test('one who lands by the stronghold crouches outside its wall, on the side the wall faces out, where the defenders see him', () => {
   const wall = { x: 12, z: 4, height: 1.1, taken: false, out: { x: 1, z: 0 } }
-  assert.deepEqual(choose({ x: 15, z: 6 }, [wall, { x: 25, z: 0, height: 1.2, taken: false }]), { x: 13, z: 4, cover: 1.1 })
+  assert.deepEqual(choose({ x: 15, z: 6 }, [wall, { x: 25, z: 0, height: 1.2, taken: false }]), { x: 13, z: 4, cover: 1.1, overlooked: true })
 })

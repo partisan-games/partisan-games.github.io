@@ -153,9 +153,9 @@ export default class Tank extends Body {
     return true
   }
 
-  takeHit(damage) {
+  takeHit(damage, source) {
     if (this.alive) this.vx -= this.forward * tank.recoil
-    const killed = super.takeHit(damage)
+    const killed = super.takeHit(damage, source)
     if (this.alive) for (const part of ['drive', 'gun']) if (this.random() < this.breakdown[part]) this.broken[part] = true
     return killed
   }
