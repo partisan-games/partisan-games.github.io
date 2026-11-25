@@ -30,6 +30,14 @@ To see every background picture in the project, open `/pozadine.html` on the `np
 See [PLAN](docs/PLAN.md).
 
 - razrađivati postojeće nivoe redom
+TAČ SKRIN TESTIRANJE:
+- BUG: tač skrin kontrole otvaraju context menu. verovatno treba ukinuti context menu potpuno u igrama.
+- fps (pointer lock) igre neigrive na tač skrinu
+- jablanica: nema dugme za pucanje topa, samo kontrole za pomeranje. prođi svaki nivo i proveri dodaju li se sve potrebne komande za igru bez miša i tastature, na tač skrinu
+- nema načina da se otvori esc dugme prozor sa pauzom na tač skrinu
+- neretva: ai slop je ubacio besmisleni prvi red saboraca koji očajno izgleda, treba ih obrisati. razmotriti dodavanje pravih 3d saboraca ili kvazi-3d okrenutih leđima
+- vis: greška, igra neće da se učita
+- crveni krst: dodati još neki stojeći idle za saborce, svi rade isto, rastežu se. ne slaže se uz bekstvo iz logora
 
 ## Credits
 

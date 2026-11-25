@@ -153,7 +153,7 @@ export default class NeretvaScene extends Scene2D {
   smrt() {
     let poruka = 'You fell bravely. '
     if (this.pogoci > this.rekord) {
-      poruka += `You killed ${this.pogoci} occupiers. That’s a new record!`
+      poruka += `You killed ${this.pogoci} enemies. That’s a new record!`
       localStorage.setItem('svabeRekord', this.pogoci)
     }
     this.defeat(poruka)
