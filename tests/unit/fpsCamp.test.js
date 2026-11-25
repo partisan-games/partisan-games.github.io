@@ -134,6 +134,72 @@ test('real camp assembly blocks exactly the closed maze edges and lets the open 
   assert.equal(new Set(released).size, 4, 'each owned instance buffer is released once')
 })
 
+test('camp crouch slows the prisoner, keeps his feet planted and suppresses sprint and jump', async() => {
+  const { Prisoner, PrisonerKeys } = await import('/scenes/fps-base/stealth.js')
+  const prisoner = new Prisoner({ jumping: 'fly' })
+  const { size: { height }, feet } = prisoner
+  let held = true
+  const keys = new PrisonerKeys(prisoner, { keyboard: { isDown: () => held }, up: true, run: true, jump: true })
+  keys.update(.2)
+  prisoner.update(.2)
+  assert.equal(prisoner.crouched, true)
+  assert.equal(prisoner.running, false)
+  assert.equal(prisoner.airborne, false)
+  assert.ok(Math.abs(prisoner.steered.x - prisoner.speed * .45) < 1e-9)
+  assert.ok(Math.abs(prisoner.size.height - height * .7) < 1e-9)
+  assert.ok(Math.abs(prisoner.feet - feet) < 1e-9)
+  held = false
+  keys.input.jump = false
+  keys.update(.2)
+  prisoner.update(.2)
+  assert.equal(prisoner.running, true)
+  assert.equal(prisoner.size.height, height)
+})
+
+test('camp guards see a crouching prisoner at normal range only when he is lit and in view', async() => {
+  const { CampGuard, Prisoner } = await import('/scenes/fps-base/stealth.js')
+  const prisoner = new Prisoner({ x: 16, z: 0 })
+  const sentry = new Prisoner({ x: 0, z: 0 })
+  let lit = false, visible = true
+  const guard = new CampGuard(sentry, { target: prisoner, sees: () => visible, litAt: () => lit })
+  sentry.face(prisoner)
+  assert.equal(guard.spotted, true)
+  prisoner.crouched = true
+  assert.equal(guard.spotted, false)
+  lit = true
+  assert.equal(guard.spotted, true)
+  visible = false
+  assert.equal(guard.spotted, false)
+  visible = true
+  lit = false
+  prisoner.x = 8
+  assert.equal(guard.spotted, true)
+
+  prisoner.x = 10
+  prisoner.steer({ ahead: 1, running: true })
+  sentry.face({ x: -1, z: 0 })
+  guard.chaseIfSpotted()
+  assert.equal(guard.doing, 'wander')
+  prisoner.crouched = false
+  prisoner.steer({ ahead: 1, running: true })
+  guard.chaseIfSpotted()
+  assert.equal(guard.doing, 'pursue')
+})
+
+test('a camp searchlight reveals a point in its cone only while it is on and the beam is clear', () => {
+  const lamp = new THREE.SpotLight(0xffffff, 1, 24, Math.PI / 6)
+  lamp.position.set(0, 4, 0)
+  lamp.target.position.set(0, 0, 10)
+  const camp = { props: [{ lights: [lamp] }] }
+  const litAt = (point, clear) => CampEnvironment.prototype.litAt.call(camp, point, clear)
+  const underLight = { x: 0, y: 1.2, z: 7 }
+  assert.equal(litAt(underLight, () => true), true)
+  assert.equal(litAt(underLight, () => false), false)
+  assert.equal(litAt({ x: -20, y: 0, z: 0 }, () => true), false)
+  lamp.visible = false
+  assert.equal(litAt(underLight, () => true), false)
+})
+
 test('FPS camp initializes with real model files, ten enemies and two first aids, and wins near the old exit with every guard alive', async t => {
   createPageElements()
   modelFiles(t)
@@ -163,6 +229,89 @@ test('FPS camp initializes with real model files, ten enemies and two first aids
   assert.equal(game.firstAids.length, 2)
   assert.equal(game.camp.walkSolids.length, 13)
   assert.ok(game.enemies.every(enemy => Math.hypot(enemy.x - game.player.x, enemy.z - game.player.z) > 12))
+  assert.equal(game.escapees.length, 3)
+  assert.equal(new Set(game.escapees.map(({ body }) => body.name)).size, 3)
+  assert.equal(new Set(game.escapees.map(({ body }) => body.size.height)).size, 3)
+  const shirts = game.escapees.map(({ model }) => {
+    let shirt
+    model.mesh.traverse(part => {
+      const match = [part.material].flat().find(material => material?.name === 'mat_15-27374EA0.jpg')
+      if (match) shirt = `${match.map?.uuid}/${match.color.getHex()}`
+    })
+    return shirt
+  })
+  assert.equal(new Set(shirts).size, 3)
+  assert.equal(new Set(game.escapees.map(({ model }) => model.actions.crouchIdle.time)).size, 3)
+  assert.equal(new Set(game.escapees.map(({ model }) => model.actions.crouchIdle.timeScale)).size, 3)
+  for (const { body, model } of game.escapees) {
+    assert.equal(body.crouched, true)
+    assert.equal(model.chooseClip(), body.waitPose)
+    assert.equal(model.actions.crouchIdle.getClip().name, 'Crouching Idle')
+    assert.equal(model.actions.crouchRest.getClip().name, 'Crouch Idle')
+    assert.equal(model.actions.crouchPeek.getClip().name, 'Crouch Look Around Corner')
+    assert.equal(model.actions.crouchUp.getClip().name, 'Crouch To Stand')
+    assert.equal(model.actions.crouchDown.getClip().name, 'Stand To Crouch')
+    const hand = model.mesh.getObjectByName('mixamorigRightHand')
+    model.update(0, 0)
+    const start = hand.getWorldPosition(new THREE.Vector3())
+    let movement = 0
+    for (let frame = 0; frame < 180; frame++) {
+      model.update(1 / 60, frame / 60)
+      movement = Math.max(movement, hand.getWorldPosition(new THREE.Vector3()).distanceTo(start))
+    }
+    assert.ok(movement > .0005, `the recorded crouching idle moves ${body.name}'s hand and pipe: ${movement}`)
+    const root = model.mesh.getObjectByName('mixamorigHips')
+    const origin = root.position.clone()
+    body.steer({ ahead: 1 })
+    const walkFrames = Math.ceil(model.actions.crouchWalk.getClip().duration * 20 * 60) + 30
+    for (let frame = 0; frame < walkFrames; frame++) {
+      model.update(1 / 60, frame / 60)
+      const scale = root.getWorldScale(new THREE.Vector3()).x
+      assert.ok(Math.hypot(root.position.x - origin.x, root.position.z - origin.z) * scale < .01,
+        'crouch walking stays within one centimetre of the idle horizontal origin throughout every loop')
+    }
+    body.steer()
+    model.update(.3, 0)
+    assert.equal(model.clip, body.waitPose)
+    const head = model.mesh.getObjectByName('mixamorigHead')
+    const postureHeight = (name, fraction) => {
+      body.posture = { name, time: model.actions[name].getClip().duration * fraction }
+      model.update(.3, 0)
+      assert.equal(model.clip, name)
+      return head.getWorldPosition(new THREE.Vector3()).y
+    }
+    const low = postureHeight('crouchUp', 0)
+    const high = postureHeight('crouchUp', 1)
+    assert.ok(high > low + .2, 'the recorded transition lifts the actual head')
+    const reverseHigh = postureHeight('crouchDown', 0)
+    const reverseLow = postureHeight('crouchDown', 1)
+    assert.ok(reverseHigh > reverseLow + .2, 'reversing the recording lowers the actual head')
+    body.posture = null
+    model.update(.3, 0)
+  }
+  const leaderStart = { x: game.player.x, z: game.player.z }
+  for (const { controller, body, model } of game.escapees) {
+    assert.equal(model.actions.walk.getClip().name, 'Walk', 'escapees use the worker walking clip')
+    assert.equal(model.actions.run.getClip().name, 'Running', 'escapees run with the downloaded unarmed animation')
+    assert.equal(model.actions.attack.getClip().name, 'One Hand Sword Combo')
+    assert.equal(model.mesh.getObjectByName('MetalPipe').parent.name, 'mixamorigRightHand')
+    controller.enemies = []
+    body.targets = []
+    controller.update(.1)
+    assert.equal(body.moving, false, 'companions wait near the player instead of leaving for the gate')
+  }
+  game.player.x = 35
+  game.player.z = 35
+  const following = ({ body, controller }) => Math.hypot(body.x - game.player.x, body.z - game.player.z) <= controller.followDistance + .1
+  for (let step = 0; step < 30000 && !game.escapees.every(following); step++)
+    for (const { body, controller } of game.escapees) {
+      controller.update(1 / 30)
+      body.update(1 / 30)
+    }
+  assert.ok(game.escapees.every(following), JSON.stringify(game.escapees.map(({ body, controller }) => ({
+    x: body.x, z: body.z, blocked: body.blocked, route: controller.route.slice(0, 2), state: controller.state,
+  }))))
+  Object.assign(game.player, leaderStart)
   assert.deepEqual(preloaded, ['halt.mp3'])
   const sentry = game.enemies[0]
   sentry.x = game.player.x + 5
@@ -209,26 +358,48 @@ test('FPS camp initializes with real model files, ten enemies and two first aids
   const weapons = repeat.children.find(child => child.guards)
   const [guard] = weapons.guards
   const { avatar } = weapons
-  const pipe = avatar.current.grip
-  const held = avatar.hand.getWorldPosition(new THREE.Vector3())
-  assert.equal(repeat.player.reach, 1.65)
+  const firstPerson = repeat.children.find(child => child.showTarget)
+  firstPerson.update(0)
+  assert.equal(firstPerson.renderer.showTarget, true, 'the initial rifle has a crosshair')
+  assert.equal(firstPerson.renderer.weaponSrc, '/assets/images/ui/savo.png', 'the initial rifle uses the original 2D drawing')
+  assert.equal(avatar.current.pose, 'rifle')
+  assert.equal(repeat.player.reach, 100)
+  assert.equal(repeat.player.actions.attack, .48)
   repeat.player.attack()
   const { length } = repeat.player.swing
   repeat.player.swingOn(length / 2)
   avatar.update(length / 2)
-  assert.equal(avatar.action.getClip().name, 'One Hand Sword Combo')
-  assert.ok(avatar.hand.getWorldPosition(new THREE.Vector3()).distanceTo(held) > .05)
+  assert.equal(avatar.action.getClip().name, 'Firing Rifle')
   repeat.player.swingOn(length / 2)
   avatar.update(length / 2)
-  assert.ok(avatar.hand.getWorldPosition(new THREE.Vector3()).distanceTo(held) < .001)
+  assert.equal(avatar.action.getClip().name, 'Rifle Aiming Idle')
+  const standingHead = repeat.viewCamera.position.y
+  repeat.player.crouched = true
+  avatar.update(.2)
+  assert.equal(avatar.action.getClip().name, 'Crouched Walking')
+  assert.equal(avatar.action.paused, true)
+  assert.ok(repeat.viewCamera.position.y < standingHead - .15)
+  repeat.player.vx = .9
+  avatar.update(.2)
+  assert.equal(avatar.action.paused, false)
+  assert.ok(avatar.current.grip.visible)
+  for (let step = 0; step < 62; step++) {
+    avatar.update(1 / 60)
+    assert.ok(avatar.current.grip.visible)
+  }
+  repeat.player.vx = 0
+  repeat.player.crouched = false
+  avatar.update(.2)
+  assert.ok(Math.abs(repeat.viewCamera.position.y - standingHead) < .01)
   guard.body.takeHit(guard.body.health.current)
   assert.equal(weapons.pickUp(), false, 'a distant guard cannot be looted')
   guard.body.x = repeat.player.x + 1
   guard.body.z = repeat.player.z
   assert.equal(weapons.pickUp(), true)
   assert.equal(weapons.avatar.current.grip.name, guard.model.file)
+  firstPerson.update(0)
+  assert.equal(firstPerson.renderer.showTarget, true, 'a captured firearm restores the crosshair')
   assert.ok(repeat.player.reach > 1.65)
-  assert.equal(pipe.visible, false)
   assert.equal(guard.carried.visible, false)
   assert.equal(weapons.pickUp(), false, 'the same weapon transfers only once')
 

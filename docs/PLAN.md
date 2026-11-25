@@ -10,19 +10,30 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 | 1 | [AR-P09](#ar-p09) | Zadržati samo WebP kao jedini original arta za igre | Claude, Codex | 📋 TODO |
 | 2 | [AR-P10](#ar-p10) | Napraviti spriteove četnika i dodati ih u katalog | Codex | 📋 TODO |
 | 3 | [AR-P11](#ar-p11) | Približiti 3D model partizana liku sa fotografije sa Sutjeske | Codex | 📋 TODO |
+| 4 | [AR-P13](#ar-p13) | Popraviti 3D model Brke: kosa i detalji | Codex | 📋 TODO |
+| 5 | [AR-P14](#ar-p14) | Napraviti 3D model četnika za saborce u Kraljevu | Codex | 📋 TODO |
+| 6 | [AR-P15](#ar-p15) | Napraviti Ratarsku školu i Spomenik srpskim ratnicima za Kraljevo | Codex | 📋 TODO |
 | | **[Igre i ideje](#igre)** | | | |
-| 4 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [1](#note-1) |
-| 5 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
-| 6 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
-| 7 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
-| 8 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
-| 9 | [IG-29](#ig-29) | Dovršiti logor Crveni krst u Escape Enemy Base | Codex, Claude | 🔄 In progress |
-| 10 | [IG-30](#ig-30) | Dodati partizane i četnike kao saborce u opsadi Kraljeva | Codex, Claude | 📋 TODO |
-| 11 | [IG-31](#ig-31) | Dodati pruge, mostove i saveznički lovac-bombarder u Warplane | Codex, Claude | 🔄 In progress |
-| 12 | [IG-32](#ig-32) | Dovršiti Raid on Drvar: modeli, izgled grada i težina | Claude, Codex | 🔄 In progress |
-| 13 | [IG-33](#ig-33) | Pregledati art German Advance u duploj rezoluciji i završni promo | Vlasnik | 📋 TODO |
+| 7 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [1](#note-1) |
+| 8 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
+| 9 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
+| 10 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
+| 11 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
+| 12 | [IG-29](#ig-29) | Dovršiti logor Crveni krst u Escape Enemy Base | Codex, Claude | 🔄 In progress |
+| 13 | [CK-01](#ck-01) | Crveni krst: uskladiti vidljivog lika, telo i stopala | Codex | 🔄 In progress |
+| 14 | [CK-02](#ck-02) | Crveni krst: prave animacije, držanje cevi i prelazi | Vlasnik: klipovi; Codex: povezivanje | 🔄 In progress |
+| 15 | [CK-03](#ck-03) | Crveni krst: prepoznatljivi logoraši i katalog | Codex | 📋 TODO |
+| 16 | [CK-04](#ck-04) | Crveni krst: praćenje, skretanje i razmicanje grupe | Codex | 📋 TODO |
+| 17 | [CK-05](#ck-05) | Crveni krst: zakloni, borba, ranjavanje i straže | Codex | 📋 TODO |
+| 18 | [CK-06](#ck-06) | Crveni krst: tlo, svetlo, pozadina i zvuk | Codex | 📋 TODO |
+| 19 | [CK-07](#ck-07) | Crveni krst: pregled celog proboja i regresije | Codex | 📋 TODO |
+| 20 | [IG-30](#ig-30) | Dodati četnike kao saborce u opsadi Kraljeva | Codex, Claude | 🔄 In progress |
+| 21 | [IG-31](#ig-31) | Dodati pruge, mostove i izbor savezničkih aviona u Warplane | Vlasnik, Codex, Claude | 🔄 In progress |
+| 22 | [IG-32](#ig-32) | Dovršiti Raid on Drvar: modeli, izgled grada i težina | Claude, Codex | 🔄 In progress |
+| 23 | [IG-33](#ig-33) | Pregledati art German Advance u duploj rezoluciji i završni promo | Vlasnik | 📋 TODO |
+| 24 | [IG-34](#ig-34) | Napraviti vernu scenu i igru opsade Kraljeva po dogovorenom scenariju | Vlasnik, Claude | 🔄 In progress |
 | | **[Katalog](#katalog)** | | | |
-| 14 | [KT-01](#kt-01) | Organizovati katalog oko samostalnih, ponovo upotrebljivih objekata | Codex | 📋 TODO |
+| 25 | [KT-01](#kt-01) | Organizovati katalog oko samostalnih, ponovo upotrebljivih objekata | Codex | 📋 TODO |
 
 ## Održavanje plana
 
@@ -52,6 +63,24 @@ Codex pravi animirane spriteove četnika na osnovu tri postojeće slike: [strela
 ### AR-P11 · Partizan sa Sutjeske
 
 Uzor je [fotografija Druge proleterske divizije na Sutjesci](https://upload.wikimedia.org/wikipedia/commons/b/be/Druga_proleterska_divizija_na_Sutjesci.jpg) (vlasnik, 2026-11-25). Codex dorađuje [3D model partizana](../assets/models/character/soldier/partisan.fbx), u [katalogu](../catalog.html#drugi-svetski-rat-3d/partizan-3d/original) varijacija „Maskirna”, da više liči na borca u centru fotografije: lice, kapa, odeća, oprema i proporcije. Skelet, animacije i [opis lika](../core3d/actor/derived/ww2/Partisan.js) ostaju isti, da model i dalje radi u Liberated City, Spomenicima i Jablanici.
+
+<a id="ar-p13"></a>
+### AR-P13 · Model Brke
+
+3D partizanu Brki ([model](../assets/models/character/soldier/partisan-lowpoly.fbx), u [katalogu](../catalog.html#drugi-svetski-rat-3d/partizan-jednostavan-model-3d)) nedostaje kosa i još neki detalji (vlasnik, 2026-11-25). Codex dorađuje model: dodaje kosu ispod kape i proverava ostale nedostatke lica, odeće i opreme. Skelet, animacije i [opis lika](../core3d/actor/derived/ww2/PartisanLowpoly.js) ostaju isti, da model i dalje radi u Liberated City i kao saborac u Kraljevu.
+
+<a id="ar-p14"></a>
+### AR-P14 · 3D četnik
+
+U Kraljevu ([IG-34](#ig-34)) saborci uz tenk su četnici, a 3D modela četnika nema ni u katalogu ni u igrama (vlasnik, 2026-11-25). Codex pravi četnika po uzoru na [2D spriteove](#ar-p10): šajkača sa kokardom, brada, šinjel ili seljačka odeća, puška. Najbolje na skeletu postojećeg [3D partizana](../core3d/actor/derived/ww2/PartisanLowpoly.js), da odmah koristi iste animacije, pa ga dodaje u [katalog](../catalog.html) kao priču.
+
+<a id="ar-p15"></a>
+### AR-P15 · Ratarska škola i spomenik u Kraljevu
+
+Scena Kraljeva ([IG-34](#ig-34)) ima dva mesta koja izvori imenuju, a za koja nemamo model (2026-11-25). Codex pravi oba u metrima, kao GLB, i dodaje ih u katalog pod Scenografija → Zgrade:
+
+1. **Ratarska (poljoprivredna) škola**: zgrada škole na ulazu u grad, nemačko uporište. Do tada je na njenom mestu [zidana zgrada iz logora](../core3d/actor/buildings/CampProp.js).
+2. **Spomenik srpskim ratnicima**: bronzani vojnik na visokom postolju, na kružnom trgu u centru, cilj proboja. Do tada je trg prazan.
 
 <a id="igre"></a>
 ## Igre i ideje
@@ -93,14 +122,13 @@ Liberated City je Bihać krajem 1942. Natpisi o dolasku Crvene armije i plakat R
 
 Radnja (vlasnik, 2026-11-24): proboj iz nemačkog logora Crveni krst u Nišu, 12. februara 1942; tekst misije i naslov kartice su upisani. Okvir je u [KONTEKST](KONTEKST.md#escape-enemy-base).
 
-Proboj je dogovoren i logoraši su spremni (vlasnik, 2026-11-24). Istorijski opis govori o golorukim logorašima. U igri [3D logoraš](../scenes/fps-base/PrisonerAvatar.js) kreće s običnom metalnom cevi u ruci i može tasterom F da preuzme [oružje savladanog stražara](../scenes/fps-base/CampWeapons.js). Izlazak iz lavirinta dovoljan je za pobedu. [Test nivoa](../tests/unit/fpsCamp.test.js) pokriva preuzimanje oružja i pobedu dok su svi stražari živi.
+Proboj je dogovoren i logoraši su spremni. Po odluci vlasnika od 2026-11-25, [3D logoraš](../scenes/fps-base/PrisonerAvatar.js) počinje sa već otetom puškom. Uvod objašnjava da je pre početka nivoa savladao stražara. Tasterom F preuzima [oružje ostalih savladanih stražara](../scenes/fps-base/CampWeapons.js). Izlazak iz lavirinta dovoljan je za pobedu. [Test nivoa](../tests/unit/fpsCamp.test.js) pokriva početnu pušku, preuzimanje oružja i pobedu dok su svi stražari na mapi živi.
 
-Zamah u prvom licu koristi snimljeni klip iz [kataloga](../catalog.html#drugi-svetski-rat-3d/radnik-3d/cev), prilagođen tako da se cev vidi pri pogledu pravo i da se logoraš na kraju vrati u početni stav. Stražar prvi put uzvikne „Halt!“ kad primeti logoraša. Povratak u stav i trenutak uzvika pokriva [test nivoa](../tests/unit/fpsCamp.test.js).
+Stražar prvi put uzvikne „Halt!“ kad primeti logoraša. Trenutak uzvika pokriva [test nivoa](../tests/unit/fpsCamp.test.js).
 
-Preostaje:
+Držanje tastera C uključuje šunjanje uz Mixamo klip `Crouched Walking` koji je preuzeo vlasnik. Lik se spušta i korača sporije i tiše. Puni zakloni zaklanjaju pogled, kretanje izvan čučnja može privući pogled stražara, a snop reflektora vraća domet opažanja čučnutog lika. [Test nivoa](../tests/unit/fpsCamp.test.js) pokriva položaj kamere, ponašanje stražara i proveru snopa.
 
-1. Dodati šunjanje kao ravnopravan način bekstva. Dogovor obuhvata sporije i tiše kretanje, pune zaklone i opažanje stražara prema vidljivosti i buci. Razraditi ulogu reflektora i proveriti da se do izlaza može stići šunjanjem, bez borbe i preuzimanja oružja.
-2. Doterati gažene pravce i oslonce objekata na tlu prema [ART-u](ART.md#crveni-krst-priprema-3d-ambijenta) i uklopiti osvetljenje u kadar igre. Vlasnik u pregledaču proverava čitljivost prolaza, slepe puteve, pogled kroz žicu i zaklone.
+Preostali rad je razložen na [CK-01](#ck-01)–[CK-07](#ck-07), prema pregledu ispod. Pomeranje šake i nasumične poze nisu potvrda da je ceo pokret prirodan.
 
 Prerada menja betonski ambijent u logor; sneg, noć i straže ostaju. Početni predlog baraka i kula u uglovima korigovati prema [istraženom stanju](ISTORIJA.md#crveni-krst-12-februar-1942), a ne predstaviti kao potvrđen tlocrt. Teksture i modele izrađuje Codex, bez privremenog crteža u nivou.
 
@@ -110,10 +138,109 @@ Prvi [paket arta](../assets/models/building/crveni-krst/README.md) povezan je u 
 
 Tehničke granice: zajednički `Maze` nije menjan. Mreža ima 8×8 polja razmaka 10 m, od kojih je osam rezervisano za objekat sa dvorištem; 56 prohodnih polja ostaje povezano. Početak (−35, −35), izlaz (35, 40) i prag pobede manji od 5 m su očuvani, kao i deset protivnika, dve prve pomoći i deset rekvizita. Žica blokira hod, a propušta pogled i metke za obe strane; zgrada, puni zakloni i rekviziti blokiraju i pogled i pogotke. Nitima i stubovima se dele instancirani sklopovi, dok puni zakloni ostaju obični mesh-evi zbog tragova pogodaka. [Ciljane provere](TESTING.md#crveni-krst--priprema-i-art) obuhvataju prohodnost, sudare, ponovni ulazak, pobedu bez ubijanja i oslobađanje novih resursa.
 
+#### Kritički pregled umetnosti, animacije i prirodnosti
+
+Pregledano 25. 11. 2026: radno stablo nad `efce37abab2afc3efba1365817a417b70abc795a`, sa lokalnim izmenama. Pregledani su kod, stvarni FBX pokreti i dva postojeća offline prikaza scenografije. **To nisu snimci nivoa**; slika kartice još prikazuje stari betonski lavirint. Browser nije pokretan: konačan kadar, deformacije u pokretu, čitljivost žice, osvetljenje i FPS ostaju za proveru u igri. [Dokazi i granice provere](TESTING.md#crveni-krst--priprema-i-art).
+
+**Ocena:** zidana zgrada, žica i prigušena paleta daju smislenu osnovu, ali nivo još ima pokrete i ponašanje prototipa. Najpre rešiti položaj modela prema njegovom fizičkom telu, zatim radnje i odluke likova, pa završni izgled. Novi idle sam neće popraviti skretanje, preklapanje i izbor zaklona.
+
+P1 je kvar položaja lika/igre; P2 potvrđen problem prirodnosti ili neispunjen likovni zahtev. „Proveriti” označava rizik ili predlog koji nije viđen u konačnom kadru.
+
+| Nalaz | Dokaz i posledica | Korak |
+|---|---|---|
+| Proveriti · Stopala i kontakti pri prelazima | [Čučeći hod sada ostaje u mestu](../scenes/fps-base/CompanionModel.js#L15), uz zajedničku osnovu sa pravim `Crouching Idle`. Preostaje provera deformisanih stopala i odnosa tela/modela uz prepreke i pri promeni stava; samo stabilan koren ne dokazuje oslonac. | CK-01 |
+| P2 · Trenutni okreti pri kretanju | Praćenje i borba i dalje koriste trenutni `face`; ograničiti brzinu okreta tela. Čekanje sada menja stvarne mirovačke klipove bez nasumičnog okretanja tela; izbor trka ima odvojene pragove, a ustajanje/spuštanje stvarne prelaze. Njihovu prirodnost proveriti u igri. | CK-02/04 |
+| P2 · Grupa zaostaje i može da se preklapa | [Sprint saboraca](../scenes/fps-base/Main.js#L143) je 3/3,24/3,48 m/s, igračev 4 m/s. Svi idu ka istoj tački; [razmicanje](../scenes/fps-base/EscapingPrisoners.js#L62) gleda samo druge koji se kreću, a tela su `solid: false`. Različite udaljenosti praćenja nisu odvojena mesta u grupi. | CK-04 |
+| P2 · Zaklon ne obuhvata sve opasnosti | [Procena](../scenes/fps-base/EscapingPrisoners.js#L92) traži domet >9 m, pa izostavlja [plamenobacač od 7 m](../core3d/actor/derived/ww2/GermanFlameThrower.js#L19). Bez zaklona [trče ka vođi](../scenes/fps-base/EscapingPrisoners.js#L124) i kada je izložen. Put do zaklona proverava prepreke, ali ne izloženost vatri. | CK-05 |
+| P2 · Borba nema proverenu vezu pokreta i pogotka | Cev koristi [kombinaciju mačem](../core3d/actor/derived/ww2/WorkerPipe.js#L4), a telo zadaje jedan pogodak na polovini ukupne radnje. Nema povezane reakcije saborca na preživljen pogodak; smrt je `Dying` i iz čučnja. Tačan kontakt cevi i eventualno podizanje pri smrti treba pogledati u igri. | CK-02/05 |
+| P2 · Odeća još nije identitet čoveka | [Trojica](../scenes/fps-base/CompanionModel.js#L9) imaju isti model i osnovno lice, različite visine/odeću, brkove kod jednog i nijansu kože. Potrebna je trajna prepoznatljivost i pri istoj pozi; ne praviti novog čoveka promenom oružja. | CK-03 |
+| P2 · Podloga i efekti ne ostvaruju art ugovor | [Tlo](../scenes/fps-base/Main.js#L56) je jedna ponovljena snežna ravan, bez gaženih pravaca i podnožja iz [ART-a](ART.md#crveni-krst-priprema-3d-ambijenta). Četiri nasumična rekvizita dobijaju dim/plamen, a izlaz vatreni efekat; ART traži da nasumični požari ne budu glavni motiv. | CK-06 |
+| Proveriti · Dubina, pozadina i reflektori | [Nebo je jedna boja sa maglom](../scenes/fps-base/Main.js#L50); mesečevo svetlo i [reflektori](../core3d/actor/buildings/CampProp.js#L26) ne bacaju senke. Logika zaklanja reflektor iza zida, GPU svetlo nema tu senku. Proveriti kontakt sa tlom i da li osvetljenost odgovara stvarnom opažanju straže. | CK-06 |
+| P2 · Zvuk ne odgovara radnji i tlu | [Prikaz saboraca](../core3d/actor/characters/CharacterModel.js#L48) koristi korake po šljunku, punom jačinom i prema pređenom putu; tiši čučanj je povezan samo kod igrača. Nije povezan zvuk zamaha cevi. Novi FBX sam ovo ne rešava. | CK-05/06 |
+| Proveriti · Borba i čitljivost cilja | [Straža je nasumičan sastav koji luta](../scenes/fps-base/Main.js#L95). Smireno osmatranje, uzbuna, težina sa početnom puškom i više rasporeda nisu provereni kao celina. Završna poruka naglašava ubijene, a cilj je bekstvo. Predlog promene teksta podleže postojećem UI pravilu. | CK-05/07 |
+
+#### Zahtevi za animacije
+
+**Mixamo model:** postojeći radnik/logoraš `resistance-fighter`, sa istim skeletom kao u [Worker-u](../core3d/actor/derived/ww2/Worker.js#L9). Slede **engleski pojmovi za pretragu i opis radnje**, ne potvrđeni tačni naslovi u Mixamo biblioteci. Cev dodaje igra: birati desnu šaku pogodnu za jednoručni predmet, bez držanja nevidljivog pištolja i obavezne podrške drugom rukom.
+
+| Red potrebe | Šta tražimo | Uslov izbora |
+|---|---|---|
+| Povezano u nivou; čeka vizuelnu proveru | [Crouching Idle](../assets/models/character/soldier/Crouching%20Idle.fbx) i [Crouch Idle](../assets/models/character/soldier/Crouch%20Idle.fbx) | Dva različita čučeća mirovanja, različiti početni izbori/faze/tempo i nezavisno menjanje tokom čekanja. Proveriti stopala, hvat cevi i spoj petlje; katalog još nema te radnje. |
+| Povezano u nivou; čeka vizuelnu proveru | [Crouch Look Around Corner](../assets/models/character/soldier/Crouch%20Look%20Around%20Corner.fbx) | Osmatranje dok saborac miruje u zaklonu tokom zatišja, ne kao mirovanje na otvorenom. Nova vatra prekida osmatranje; fizičku blizinu ivice i položaj prema zaklonu još proveriti. |
+| Povezano u nivou; čeka vizuelnu proveru | [Crouch To Stand](../assets/models/character/soldier/Crouch%20To%20Stand.fbx), unazad za spuštanje | Koristi se aktivni deo snimka, frejmovi 24–71 pri 30 fps; početno/završno čekanje je izostavljeno, horizontalni koren usklađen. Saborac zastane tokom prelaza i tek uspravan trči/udara; povratni prelaz koristi isti snimak unazad. Visina tela prati napredak; vizuelnu prirodnost obrnutog snimka proveriti pre nove nabavke. |
+| Jedan udarac | **One Handed Melee Attack / Baton Strike / Club Swing** | Odlučan udarac desnom rukom sa oporavkom. Može odgovarajući pojedinačni zamah mačem; bez višestrukog komboa i akrobatike. |
+| Dopuna po potrebi | **Turn Left / Right In Place**, **Crouch Turn Left / Right** | Za velike okrete u mestu, ako ograničena brzina okreta i postojeće animacije ne budu dovoljne. |
+| Dopuna po potrebi | **Crouching Hit Reaction**, **Crouch Flinch / Cower / Cover Head** | Prvo probati postojeće reakcije; nova animacija samo za nepokriven pogodak/zaštitu od neposredne vatre. |
+
+**Već imamo — prvo isprobati:** `Running`, `Walk`, `Crouched Walking`, `Crouched Run`, `Standing Idle`, `Warrior Idle`, `Hit Reaction`, `Reaction`, `Crouch Death`, `Death Crouching Headshot Front`, `Dying` i `Standing React Death Backward`. Osnovni trk i čučeći hod ne treba ponovo preuzimati; prvo ukloniti pomeranje korena hoda i proveriti šake sa cevi. `Crouched Run` je kandidat, nije automatski dobar za jednoručni predmet. Smrti proveriti prema stvarnom stavu i korenu, a headshot ne koristiti za svaku pogibiju. Za smirenu stražu prvo proveriti postojeći `Rifle Idle`.
+
+**Predaja/prijem:** isti Mixamo skelet, dodatni FBX **Without Skin**, 30 fps; **In Place** gde postoji taj izbor. Sačuvati izvor, naziv i trim/postavke i proveriti pravo korišćenja. Mirovanja moraju imati prirodan spoj petlje; udarci/prelazi sačuvan zamah i završetak, bez prekratkog trimovanja. Prvo isprobati ceo model sa pričvršćenom cevi iz više uglova u katalogu: stopala, hvat prstiju, putanja cevi, koren, početak/kraj i trenutak dodira. Naziv klipa i kompatibilne kosti sami nisu potvrda da pokret odgovara nivou.
+
+#### Obim i način rada
+
+Plan vodi poboljšanje IG-29; povezivanje dostavljenog idle-a je započeti deo, ostale faze ostaju otvorene. Ostaju lavirint i istorijske granice, početna puška sa prihvaćenim 2D crtežom, tri saborca sa cevima i čučnjem kao osnovom, mogućnost njihove pogibije i pobeda izlaskom igrača. Ne uvoditi obavezno spasavanje grupe, novu grafičku tehniku ili obavezno šunjanje. Ne praviti commit. Rad držati u nivou; potreban zahvat u zajednički prikaz prvo obrazložiti i proveriti ostale potrošače.
+
+Codex sprovodi korake; vlasnik bira/preuzima Mixamo klipove kao do sada. Tehnički završetak znači provere navedene uz korak; izgled zahteva snimak/prolaz stvarne igre. Browser pokreće vlasnik ili Codex uz odobrenje. Procene su grube **min / verovatno / max**, u poenima jednog izvođača (**1 p ≈ idealan radni dan**), bez čekanja resursa i pregleda. To nije obećani rok; ponovo proceniti posle CK-01 i prvog pravog crouch idle-a.
+
+<a id="ck-01"></a>
+#### CK-01 · Položaj i stopala · 0.5 / 1 / 1.5 p · Codex
+
+**Osnova je povezana:** [hod je lokalno pripremljen](../scenes/fps-base/CompanionModel.js#L15) bez horizontalnog napredovanja, sa početkom novog pravog idle-a i očuvanim Y pokretom. **Preostaje:** potvrditi oslonac stopala i kontakte uz prepreke. **Gotovo kada:** horizontalni koren odstupa najviše 1 cm od dogovorenog oslonca kroz sve uzorke 20 petlji mirovanja/hoda i prelaze idle–hod–idle; nije dovoljna jednakost početka/kraja petlje. Uzastopni uzorci deformisanih stopala potvrđuju stabilan kontakt stopala koje nosi težinu (predložena tolerancija 1 cm), bez zaključavanja noge koja korača. Vidljiv model i telo ostaju sa iste strane zida. **Zavisnost:** postojeći resursi; novi idle je dostavljen, izvedene poze su uklonjene.
+
+<a id="ck-02"></a>
+#### CK-02 · Animacije i prelazi · 1 / 2 / 3 p · Codex
+
+**Osnova je povezana:** dva stvarna čučeća mirovanja sa različitim fazama/tempom, osmatranje iz zaklona i prelaz ustajanja/spuštanja za svu trojicu. **Preostaje:** paket radnji prikazati u katalogu, vizuelno proveriti celu sekvencu sa cevi i dopuniti udarac i reakcije. Slučajan izbor sme birati samo stvarno dostupne radnje; opasnost i borba imaju prednost. **Gotovo kada:** 30 s čekanja i deset ponavljanja svakog prelaza sa cevi, iz više uglova, bez skoka položaja, pogrešnog hvata i identičnog grupnog ritma; pogodak/smrt mogu prekinuti čekanje i prelaz. **Zavisnost:** CK-01 i preostali klipovi; čekanje ne sprečava nezavisan rad.
+
+<a id="ck-03"></a>
+#### CK-03 · Identitet i katalog · 0.5 / 1 / 2 p · Codex
+
+**Rad:** razviti [Iliju, Petra i Jovana](../scenes/fps-base/CompanionModel.js#L9) kroz prepoznatljiva lica, odeću i siluetu; proveriti zimski izgled prema mogućnostima modela. Jedna kataloška stavka po čoveku, oprema i radnje su njegov izbor. **Gotovo kada:** trojica se razlikuju i u istoj pozi pod istim svetlom na 3–8 m; šaka obuhvata cev i predmet ne prolazi kroz telo tokom postojećeg trka/zamaha. Novi art ima poreklo. **Zavisnost:** postojeći model/teksture; ako geometrija ne dozvoljava traženu razliku, prvo utvrditi potreban zahvat umesto zamene celog stila.
+
+<a id="ck-04"></a>
+#### CK-04 · Kretanje grupe · 0.5 / 1.5 / 2.5 p · Codex
+
+**Rad:** [praćenje i putanje](../scenes/fps-base/EscapingPrisoners.js#L44): odvojena mesta iza/oko vođe, razmicanje i mirujućih, ograničeno skretanje tela, različiti pragovi početka i kraja trčanja. Brzina sustizanja mora zatvarati razmak prema igračevih 4 m/s bez komičnog ubrzanja pokreta i teleportovanja; ne menjati podrazumevane brzine drugih igara. **Gotovo kada:** grupa prati pokretnog vođu koji hoda/trči/staje/vraća se kroz uglove i uska grla; nema okreta 180° u kadru, trajnog preklapanja i stalnog dizanja/spuštanja na jednom pragu, postoji oporavak od zastoja. **Zavisnost:** CK-01; logika se proverava pre novih klipova, konačan prikaz prelaza posle CK-02.
+
+<a id="ck-05"></a>
+#### CK-05 · Opasnost i borba · 0.5 / 1.5 / 2.5 p · Codex
+
+**Rad:** [procena pretnje](../scenes/fps-base/EscapingPrisoners.js#L87) po stvarnom napadu, uključujući plamen; zaklon prema visini čučnja, bezbednom prilazu i zauzetosti, razuman smer povlačenja kad zaklona nema. Osloboditi rezervaciju pri prekidu/smrti. Pripremiti trenutak kontakta cevi umesto univerzalne polovine radnje. Straža razlikuje smireno osmatranje, uzbunu i napad koristeći postojeće radnje gde odgovaraju. **Gotovo kada:** provereni puška, mitraljez, plamen, dva smera vatre, nedostupan/zauzet zaklon, nestanak mete, bliski napad i smrt saborca. Niko se ne vraća izloženom vođi samo zato što nema zaklona; jedan zamah daje jedan pogodak u označenom trenutku. **Zavisnost:** CK-01; logičke provere ne čekaju klipove, konačan prikaz čeka CK-02.
+
+<a id="ck-06"></a>
+#### CK-06 · Ambijent i zvuk · 1 / 2 / 3 p · Codex
+
+**Rad:** dovršiti [teren i svetlo](ART.md#crveni-krst-priprema-3d-ambijenta): gaženi pravci, podnožja, diskretna udaljena silueta ravničarskog/gradskog oboda i zgrada/kule/dvorište kao orijentiri. Uskladiti reflektore sa stvarnim zaklonom, senke i gustinu detalja. Nasumične požare zameniti smislenim izvorima svetla. Koraci po snegu i zvuci napora/udarca prate radnju, bez neprekidnog ponavljanja glasova. **Gotovo kada:** početak, prolazi, dvorište i izlaz čitljivi su stojeći/u čučnju, bez lebdenja, prejakog pozadinskog kontrasta i svetla koje pogrešno predstavlja opasnost. Uporediti cenu promena u istom kadru pre/posle. **Zavisnost:** postojeći paket i originalne dopune sa poreklom; Mixamo se ne čeka. Izgled potvrđuje stvarna igra, ne offline render; prihvaćen renderer i 2D puška ostaju.
+
+<a id="ck-07"></a>
+#### CK-07 · Proboj kao celina · 0.5 / 1 / 2 p · Codex
+
+**Rad:** posle obaveznih faza pregledati jedan ceo proboj i objediniti nalaze pre nove runde doterivanja. Na nekoliko ponovljivih rasporeda proveriti čekanje, hod, sprint, usko grlo, udaljenu vatru, cev izbliza, ranjavanje/smrt, pauzu/nastavak i novi ulazak. **Gotovo kada:** jedan isti prolaz potvrđuje model/telo, sve radnje, grupu, čitljiv ambijent i prihvaćenu pušku; ciljani testovi i ESLint prolaze, FPS se meri u stvarnom rendereru. Pobeda je moguća bez ubijanja straže i bez svih saboraca. Nalaze vraćati u postojeće korake, ne u niz pojedinačnih ad hoc zahvata. **Zavisnost:** CK-01–06 i snimak vlasnika ili odobreno pokretanje browsera. Node testovi nisu vizuelno prihvatanje.
+
+#### Redosled i zavisnosti
+
+Jedan izvođač, tri prolaza: **osnova i identitet** (CK-01, CK-03), **ponašanje i ambijent** (CK-04, CK-05, CK-06), pa **konačne animacije i pregled** (CK-02, CK-07). Zahtev za klipove predati odmah; povezivanje može početi čim stignu. Ukupno **4,5 / 10 / 16,5 p**, odnosno isto toliko idealnih radnih dana jednog izvođača, plus nepoznato čekanje resursa/provere. Najveći rizici su hvat cevi, različiti početni položaji pokreta i cena senki: prvo jedan lik i probni kadar, zatim cela grupa.
+
+Raspored je ugrađen u postojeći plan da se poštuje pravilo jednog dokumenta:
+
+```json
+{"waves":[{"name":"Osnova i identitet","sequential":["CK-01","CK-03"]},{"name":"Ponasanje i ambijent","sequential":["CK-04","CK-05","CK-06"]},{"name":"Animacije i celina","sequential":["CK-02","CK-07"]}]}
+```
+
+**Otvoreno:** povezana mirovanja, osmatranje i prelazi čekaju vizuelni prijem sa cevi i prikaz u katalogu; vlasnik još treba da izabere pojedinačni udarac. Zasebno spuštanje u čučanj tražiti samo ako obrnuti snimak ustajanja ne izgleda prirodno. Dostupnost ostalih traženih radnji nije proverena u Mixamo biblioteci. Codex pre nove nabavke proverava postojeće reakcije, smrti i trčanja. Istorijske i već prihvaćene grafičke odluke ne otvarati ponovo radi ovog doterivanja.
+
 <a id="ig-30"></a>
 ### IG-30 · Saborci u opsadi Kraljeva
 
-Kraljevo su 1941. opsedali partizani i četnici zajedno ([okvir](KONTEKST.md#demolish-barricades)), pa uz igračev tenk idu i pucaju na Nemce. Partizani postoje u 3D; četnika u 3D naručiti od Codexa, bez sklapanja od drugih likova.
+Kraljevo su 1941. opsedali partizani i četnici zajedno ([okvir](KONTEKST.md#demolish-barricades)), pa uz igračev tenk idu i pucaju na Nemce.
+
+Urađeno (2026-11-25): tri 3D partizana idu uz tenk ([pratilac](../core/gameplay/controllers/Escort.js)): drže se na nekoliko metara od njega, a kad vide Nemca, staju i pucaju na najbližeg. Nemci gađaju najbližeg od tenka i partizana ([izbor mete](../core/gameplay/controllers/NearestTarget.js)), pa partizani mogu da poginu.
+
+Preostaje:
+
+1. Četnika u 3D naručiti od Codexa, bez sklapanja od drugih likova, i dodati ga među pratioce.
+2. [ ] Vlasnik u pregledaču testira pratioce: da li prate tenk bez zaglavljivanja, da li se vidi kako pucaju i da li Nemci gađaju i njih.
+3. [ ] Vlasnik u pregledaču testira [top tenka](../core3d/physics/TankGun.js) (2026-11-25): kad se pusti Space, ispaljuje granatu iz kupole, koja se rasprsne na prvom što pogodi, ubija Nemce u krugu od 4 m, odbacuje sanduke barikade i ostavlja trag na zidovima i tlu; puni se 1,5 s. Tenk koči strelicom nazad.
 
 <a id="ig-31"></a>
 ### IG-31 · Avioni za Ratweek
@@ -125,8 +252,15 @@ Urađeno (2026-11-25): Bf 109 ([lovac](../core/gameplay/bodies/aircraft/Intercep
 Preostaje:
 
 1. Igrač bombarduje sve nemačko; sada su u igri samo fabrike. Dodati pruge i mostove, koje je Ratweek najviše gađao i koje navodi izveštaj nivoa; modele crta Codex. Inspiracija za art tla iz vazduha: [gusti grad sa starog plana](../assets/images/background/grad.png), ulice i blokovi kuća viđeni odozgo. Kontekst iz rata: [saveznička bombardovanja Kraljeva i Beograda 1944](references/ww2-yu/bombardovanje-1944/README.md).
-2. Codex pravi saveznički lovac-bombarder, P-51 Mustang ili P-38, koji su leteli u Ratweeku, kao drugi izbor igrača.
-3. [ ] Vlasnik u pregledaču testira lovca: da li se preleti vide i prate, da li mitraljezi na C obaraju lovca i da li je težina dobra (lovac počinje posle 12 s, sledeći dolazi 18 s posle obaranja).
+2. Izbor aviona za igrača: vlasnik traži 3D modele aviona koji su leteli u Ratweeku ili uz njega 1944 (vlasnik, 2026-11-25). Kandidati, po ulozi u igri:
+   - teški bombarderi američke 15. vazduhoplovne armije iz Fođe: **B-24 Liberator** i **B-17 Flying Fortress**; sadašnji četvoromotorac sa duplim repom može da prođe kao B-24;
+   - lovci-bombarderi, koji su rušili mostove i pruge u niskom letu: **P-51 Mustang** i **P-38 Lightning**;
+   - Balkansko vazduhoplovstvo RAF-a, u kom su letele i dve jugoslovenske eskadrile: **Hurricane IV** sa raketama (351. eskadrila) i **Spitfire IX** (352. eskadrila), za partizanskog pilota; učešće baš u Ratweeku proveriti u izvoru pre izbora;
+   - **Beaufighter** sa raketama, kojim je Balkansko vazduhoplovstvo napadalo vozove i obalski saobraćaj.
+
+   Svaki izabrani avion dobija model, telo i priču u katalogu pre ulaska u igru.
+3. Ideja za probu (vlasnik, 2026-11-25): pogled pravo odozgo, kao na [planu grada](../assets/images/background/grad.png) i u igri Vis, umesto kamere iza aviona. Prednost: jasno se vidi šta je ispod aviona, pa se pruge, mostovi i fabrike lakše gađaju. Mana: gubi se utisak dubine i leta kroz prostor, a 3D modeli se vide samo odozgo, pa bi i 2D slike bile dovoljne. Kamera već ima režim pogleda odozgo, pa je za probu dovoljno podešavanje; tlo u stilu tog plana, sa gustim blokovima kuća i ulicama, crta Codex.
+4. [ ] Vlasnik u pregledaču testira lovca: da li se preleti vide i prate, da li mitraljezi na C obaraju lovca i da li je težina dobra (lovac počinje posle 12 s, sledeći dolazi 18 s posle obaranja).
 
 <a id="ig-32"></a>
 ### IG-32 · Igra Raid on Drvar
@@ -153,9 +287,35 @@ Ideja (vlasnik, 2026-11-24): zanimljiva kombinacija 2D i 3D na sceni, npr. padob
 
 Animacija [German Advance](../scenes/bitka/Main.js) produžena je na 24 s: scena traje 18 s, zatim prelazi na logo **Partisan Games**, drži ga 4 s i zatamnjuje pre ponavljanja. Logo koristi piksel font i zvezdu sajta. Ostaje na postojećoj kartici u meniju; [provere](TESTING.md#art-verification-record) su izvršene bez pregledača.
 
-Kolona ima tri grupe sa po tri pešadinca i jednim tenkom, sa razmaknutim koracima, pucanjem i znacima za napredovanje. Strelac sa rancem i podoficir imaju nove crteže u izvornom stilu i zajedničke animacije u katalogu i sceni. [Pregled rasporeda](../assets/images/sources/germans-advance/formation-preview.png) sastavljen je iz runtime atlasa i koreografije bez pregledača; preostaje vlasnikov pregled pokreta, putanje kamere i čitljivosti loga u pregledaču. Promo tok pripada sceni.
+Kolona ima tri grupe sa po tri pešadinca i jednim tenkom, sa razmaknutim koracima, pucanjem i znacima za napredovanje. Strelac sa rancem i podoficir imaju nove crteže u izvornom stilu i zajedničke animacije u katalogu i sceni. Preostaje vlasnikov pregled pokreta, putanje kamere i čitljivosti loga u pregledaču. Promo tok pripada sceni.
 
-Po nalogu vlasnika (2026-11-25) svi novi akteri dorađeni su u tačno duploj rezoluciji, sa vidljivim pikselima, bez glatkih vektorskih kontura i četvorostruke razrade. [Pregled crteža](../assets/images/sources/germans-advance/preview-2x.png) i [faza animacija](../assets/images/sources/germans-advance/motion-preview.png) nastaju iz zajedničkih atlasa. Ranije prihvaćeni stil ostaje merilo iz [pravila arta](ART.md#pravila-pripreme-i-ponovne-upotrebe); preostaje vlasnikov pregled nove dorade u sceni i katalogu.
+Po nalogu vlasnika (2026-11-25) svi novi akteri dorađeni su u tačno duploj rezoluciji, sa vidljivim pikselima, bez glatkih vektorskih kontura i četvorostruke razrade. Ranije prihvaćeni stil ostaje merilo iz [pravila arta](ART.md#pravila-pripreme-i-ponovne-upotrebe); preostaje vlasnikov pregled nove dorade u sceni i katalogu.
+
+<a id="ig-34"></a>
+### IG-34 · Scenario opsade Kraljeva
+
+Nivo [Siege of Kraljevo](../scenes/3d-tank/Main.js) sada je samo nešto razbacano na sceni: kutije, bure, drveće i kuće bez reda, a cilj je da se obore sanduci barikade. Treba osmisliti bolju igru, scenario i ciljeve, istorijski verniji (vlasnik, 2026-11-25).
+
+Oslonci iz [okvira](KONTEKST.md#demolish-barricades): opsada je trajala od 9. do 31. oktobra 1941, a grad su zajedno opsedali partizani i četnici. Nemački garnizon branio se u gradu, a Nemci su od 15. do 20. oktobra u odmazdi streljali oko 2.000 stanovnika. U završnom napadu 31. oktobra dejstvovala su dva zaplenjena tenka, što se slavi kao Dan oklopnih jedinica. Igrač vozi [Hotchkiss H35](../core3d/actor/derived/Hotchkiss.js), sa saborcima koji ga prate ([IG-30](#ig-30)).
+
+Odluka vlasnika (2026-11-25): igrač može da pobedi, a jedini uslov pobede je proboj nemačke odbrane. Odbrana je utvrđena i proboj je težak. Prvo se pravi verna scena, pa tek onda igra. Tok: drum od Čačka, prvi pojas je utvrđena Ratarska škola (rovovi, žica, mitraljezi), drugi pojas ulica sa barikadama, a pobeda je kad tenk stigne do centra grada. Tenk ruši mitraljeska gnezda, nemački top i barikade koji kose pešadiju; bombaške grupe idu uz njega, i ako svi pešaci izginu, proboj je propao (31. oktobra tenkovi su se povukli baš zato što su ostali bez pešadije). Igrač vozi jedini tenk, drugog nema; saborci uz tenk su četnici. 3D model četnika još ne postoji ni u katalogu ni u igrama.
+
+Teren i objekti po izvorima ([Opsada Kraljeva](https://sr.wikipedia.org/sr-el/Opsada_Kraljeva), [znaci.org](https://znaci.org/odrednica.php?slug=opsada-kraljeva-1941)):
+
+- **Teren:** ravna dolina na ušću Ibra u Zapadnu Moravu. Ustanička artiljerija stajala je na Ružića brdu i u Sirči.
+- **Pravac napada:** napadi su išli drumovima Čačak–Kraljevo i Raška–Kraljevo, a 31. oktobra istim pravcem, noću.
+- **Nemačka uporišta:** Ratarska (poljoprivredna) škola na ulazu bila je jako uporište; tu je poginuo Bojović. Uporišta su bila i železnička radionica (Fabrika vagona) sa lokomotivskom halom, stanica i aerodrom.
+- **Centar:** sud i Spomenik srpskim ratnicima na trgu, dokle su 31. oktobra stigli tenkovi i Uzelčeva Četa smrti.
+- **Garnizon:** oko 3.000 Nemaca, sa tenkovima, teškom artiljerijom i avijacijom.
+- **Ishod 31. oktobra:** tenkovi, praćeni bombaškim grupama, probili su se do centra, ali su se bez pešadije povukli.
+- **Nema u izvorima:** bunkeri, rovovi, žica, mitraljeska gnezda i tačne ulice. Za njih proveriti izveštaje 717. divizije na znaci.org.
+
+Prva scena (2026-11-25, [raspored](../scenes/3d-tank/kraljevo.js)): drum od Čačka, žica preko druma, rov od džakova sa dva mitraljeska gnezda, bunker i top. Uz drum je škola, zatim ulica sa dve barikade i kuća koja gori, pa kružni trg. Nemci drže položaje okrenuti ka drumu. Kuće imaju postojeće fasade gradskih zgrada, a modeli škole i spomenika čekaju [AR-P15](#ar-p15). Pobeda je kad tenk stigne do centra grada (trga), a poraz kad izginu svi saborci; vreme se ne meri, jer bitka može trajati i satima. Logika igre (vlasnik, 2026-11-25): tenk mora prvo da pripremi teren. Ukopani Nemci dobacuju dalje od saboraca (mitraljez 55 m, puška 45 m, saborci 40 m), a tenkovski top dalje od svih; ako tenk samo projuri, saborci uđu u vatru i uglavnom izginu, a ako prvo izdaleka gađa položaje, otvara im put ([vrednosti](../scenes/3d-tank/kraljevo.js)).
+
+- [ ] Vlasnik: proći scenu u igri i reći šta ne valja u rasporedu i izgledu, i da li saborci izginu kad tenk projuri, a prežive kad prvo očisti položaje.
+- [ ] Vlasnik: naći besplatan low-poly model drveta za drvored uz drum od Čačka; crtano drvo je izgledalo smešno, pa je drvored uklonjen dok model ne stigne.
+
+Gusenice Hotchkissa stoje dok tenk vozi (vlasnik, 2026-11-25). Predlog: tekstura gusenice klizi duž nje brzinom svoje strane, različito pri skretanju i unazad u suprotnom smeru. U ovom modelu gusenica je lanac pojedinačnih članaka, pa prvo u Blenderu proveriti da li je tekstura razvučena duž gusenice; ako nije, [model](../assets/models/tank/hotchkiss-h35.glb) dobija umesto gusenica jednostavnim prstenom sa teksturom članaka. Točkovi hodnog dela su jedan komad sa trupom; mogu se izdvojiti kao kod lokomotive, ali se iza gusenica jedva vide.
 
 <a id="katalog"></a>
 ## Katalog

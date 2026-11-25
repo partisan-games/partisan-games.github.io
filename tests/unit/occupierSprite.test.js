@@ -1,6 +1,5 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { readFile } from 'node:fs/promises'
 import { createPageElements } from './helpers/dom.js'
 import { loadImages } from './helpers/images.js'
 
@@ -10,8 +9,8 @@ test('an occupier loops the new fire row and keeps his flash on each measured mu
   const { default: Occupier } = await import('/core/gameplay/bodies/soldiers/Occupier.js')
   const { default: OccupierSprite } = await import('/core/actor/soldiers/OccupierSprite.js')
   const { sideProjection } = await import('/core/actor/projection.js')
-  const metadata = JSON.parse(await readFile(new URL('../../assets/images/sources/infantry-art/occupier-sprites.json', import.meta.url), 'utf8'))
-  const fire = metadata.assets[0].animations.find(clip => clip.name === 'fire')
+  // the muzzle in each of the five fire frames, as measured on the 210 px frames
+  const fire = { muzzle: [{ x: 106, y: 77 }, { x: 106, y: 80 }, { x: 106, y: 78 }, { x: 107, y: 79 }, { x: 106, y: 77 }] }
   for (const yaw of [0, Math.PI]) {
     const body = new Occupier({ x: 5, y: .9, yaw })
     const view = new OccupierSprite(body, { projection: sideProjection({ pxPerMeter: 100, groundY: 600 }) })

@@ -25,6 +25,7 @@ export default class FPSRenderer extends HTMLCanvasElement {
     this.weaponImg = new Image()
     this.targetImg = new Image()
     this.targetY = targetY
+    this.showTarget = true
   }
 
   connectedCallback() {
@@ -58,6 +59,7 @@ export default class FPSRenderer extends HTMLCanvasElement {
   }
 
   drawTarget(elapsedTime) {
+    if (!this.showTarget) return
     this.handleLoad(this.targetImg, targetSrc, 'drawTargetOnLoad', elapsedTime)
   }
 
@@ -74,6 +76,7 @@ export default class FPSRenderer extends HTMLCanvasElement {
   }
 
   drawTargetOnLoad(elapsedTime) {
+    if (!this.showTarget) return
     this.drawShake(this.targetImg, elapsedTime, 0.5, this.targetY)
   }
 

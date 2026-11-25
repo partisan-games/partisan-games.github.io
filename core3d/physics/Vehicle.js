@@ -10,6 +10,9 @@ const FRONT_RIGHT = 1
 const BACK_LEFT = 2
 const BACK_RIGHT = 3
 
+// one for every vehicle and frame: a new native transform each frame would never be freed
+const chassisTransform = new Ammo.btTransform()
+
 const steeringIncrement = .04
 const steeringClamp = .5
 
@@ -20,6 +23,10 @@ function createWheelMesh(radius, width) {
   return mesh
 }
 
+/**
+ * A physics vehicle the player drives with the arrows. Space brakes it, unless it fires on Space (`attackKey`), as a
+ * tank does; then it brakes only by driving back.
+ */
 export default class Vehicle {
   constructor({
     world,
@@ -35,6 +42,7 @@ export default class Vehicle {
     pos,
     quaternion,
     camera,
+    attackKey,
   }) {
     this.mesh = mesh
     this.sounds = []
@@ -47,7 +55,8 @@ export default class Vehicle {
     this.engineForce = 0
     this.breakingForce = 0
     this.maxSpeed = maxSpeed
-    this.input = new Input()
+    this.input = new Input({ attackKey })
+    this.brakesOnSpace = attackKey !== 'Space'
     const { x, y, z } = getSize(mesh)
     this.width = x
     this.height = y
@@ -73,6 +82,11 @@ export default class Vehicle {
     this.vehicle = own(new Ammo.btRaycastVehicle(tuning, this.body, rayCaster))
     this.vehicle.setCoordinateSystem(0, 1, 2)
     world.addAction(this.vehicle)
+    // the mesh, the wheels and the camera follow the body once the world has stepped
+    this.stopFollowing = world.afterStep(dt => {
+      this.updateMeshes()
+      this.chaseCamera?.update(dt)
+    })
 
     this.createWheels(tuning)
     this.addWheelMeshes(wheelMesh)
@@ -134,6 +148,10 @@ export default class Vehicle {
     this.createWheel(false, own(new Ammo.btVector3(wheelBack.x, wheelBack.y, wheelBack.z)), wheelRadiusBack, tuning)
   }
 
+  /**
+   * Puts the meshes where the body is. The chassis comes from its motion state, which Bullet interpolates between its
+   * fixed steps, as the wheels do; the bare world transform jumps a whole step at a time, so the tank seemed to stall.
+   */
   updateMeshes() {
     const { vehicle, wheelMeshes } = this
     const n = vehicle.getNumWheels()
@@ -141,7 +159,8 @@ export default class Vehicle {
       vehicle.updateWheelTransform(i, true)
       updateMeshTransform(wheelMeshes[i], vehicle.getWheelTransformWS(i))
     }
-    updateMeshTransform(this.mesh, vehicle.getChassisWorldTransform())
+    this.body.getMotionState().getWorldTransform(chassisTransform)
+    updateMeshTransform(this.mesh, chassisTransform)
   }
 
   forward() {
@@ -184,7 +203,7 @@ export default class Vehicle {
     else
       this.vehicleSteering = 0
 
-    if (input.jump) this.break()
+    if (this.brakesOnSpace && input.jump) this.break()
   }
 
   updatePhysics() {
@@ -201,15 +220,15 @@ export default class Vehicle {
     vehicle.setSteeringValue(this.vehicleSteering, FRONT_RIGHT)
   }
 
-  update(dt) {
+  /** Reads the input and sets the forces for the next step; the meshes follow after the step. */
+  update() {
     this.break(.5)
     this.handleInput()
     this.updatePhysics()
-    this.updateMeshes()
-    this.chaseCamera?.update(dt)
   }
 
   end() {
+    this.stopFollowing()
     this.input.end()
     this.chaseCamera?.end()
   }

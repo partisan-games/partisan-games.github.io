@@ -85,7 +85,7 @@ test('the boss keeps its nose down and fires every barrel from its nose and its 
   body.face(0)
   assert.equal(body.yaw, -Math.PI / 2)
   const guns = [0, 1, 2].map(() => body.nextGun().x - body.x)
-  attackPlaneKinds.boss.guns.forEach((share, i) => assert.ok(Math.abs(guns[i] - share * body.size.length) < 1e-9))
+  attackPlaneKinds.boss.guns.forEach((share, i) => assert.ok(Math.abs(guns[i] - share * body.size.width) < 1e-9, 'its guns sit across its span'))
   body.aimAt(target)
   body.shoot()
   assert.equal(body.bullets.projectiles.length, attackPlaneKinds.boss.fire.spread.length)

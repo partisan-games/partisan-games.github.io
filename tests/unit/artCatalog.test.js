@@ -34,16 +34,22 @@ test('a leaf gallery shows its originals, filters folders and copies project-rel
   assert.equal(document.querySelector('[data-path="2d/ameri"] details').open, true)
   assert.equal(document.getElementById('no-folders').hidden, true)
   const names = []
-  t.mock.method(navigator.clipboard, 'writeText', async name => { names.push(name) })
+  t.mock.method(navigator.clipboard, 'writeText', async name => {
+    names.push(name)
+  })
   const button = document.querySelector('[data-copy-path]')
   assert.equal(button.closest('a'), null, 'copying a name cannot follow the image link')
   button.click()
-  await new Promise(resolve => setImmediate(resolve))
+  await new Promise(resolve => {
+    setImmediate(resolve)
+  })
   assert.deepEqual(names, ['assets/images/armies/ameri/diverzanti/diverzant-01.png'])
   const status = button.parentElement.querySelector('[data-copy-status]')
   assert.equal(status.textContent, '· Kopirano')
   assert.equal(button.disabled, false)
-  t.mock.method(navigator.clipboard, 'writeText', async() => { throw new Error('Denied') })
+  t.mock.method(navigator.clipboard, 'writeText', async() => {
+    throw new Error('Denied')
+  })
   let selectedFilename
   // Happy DOM does not implement the browser's legacy clipboard method.
   document.execCommand = () => false
@@ -56,12 +62,16 @@ test('a leaf gallery shows its originals, filters folders and copies project-rel
     return true
   })
   button.click()
-  await new Promise(resolve => setImmediate(resolve))
+  await new Promise(resolve => {
+    setImmediate(resolve)
+  })
   assert.equal(selectedFilename, 'assets/images/armies/ameri/diverzanti/diverzant-01.png')
   assert.equal(document.querySelector('.clipboard-field'), null)
   t.mock.method(document, 'execCommand', () => false)
   button.click()
-  await new Promise(resolve => setImmediate(resolve))
+  await new Promise(resolve => {
+    setImmediate(resolve)
+  })
   assert.equal(status.textContent, '· Kopiranje nije uspelo')
   assert.equal(button.disabled, false)
 })

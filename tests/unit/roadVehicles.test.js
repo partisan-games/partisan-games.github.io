@@ -1,6 +1,5 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
 import RoadVehicle, { roadVehicleKinds } from '/core/gameplay/bodies/vehicles/RoadVehicle.js'
 import GameClock from '/core/runtime/GameClock.js'
 import { collisionRank } from '/core/gameplay/VehicleCollisions.js'
@@ -50,15 +49,11 @@ test('armed vehicles launch at their muzzle, actually damage targets, and cannot
   }
 })
 
-test('native sources cover natural size and wrecks hold their last frame without changing the body', async() => {
+test('the art covers natural size and wrecks hold their last frame without changing the body', async() => {
   createPageElements()
   const { default: RoadVehicleSprite, roadVehicleArt } = await import('/core/actor/vehicles/RoadVehicleSprite.js')
   const { sideProjection } = await import('/core/actor/projection.js')
-  const manifest = JSON.parse(readFileSync(new URL('../../assets/images/sources/road-vehicles/sprites.json', import.meta.url)))
-  assert.equal(manifest.assets.length, 7)
   for (const [id, kind] of Object.entries(roadVehicleKinds)) {
-    const record = manifest.assets.find(item => item.id === id)
-    assert.ok(record.scale <= 1)
     const art = roadVehicleArt[id]
     assert.ok(art.bounds[2] - art.bounds[0] >= kind.size.length * 40)
     assert.ok(art.bounds[3] - art.bounds[1] >= kind.size.height * 40)

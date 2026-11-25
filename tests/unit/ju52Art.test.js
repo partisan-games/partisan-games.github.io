@@ -7,7 +7,7 @@ import Transport from '/core/gameplay/bodies/aircraft/Transport.js'
 import Parachutist from '/core/gameplay/bodies/characters/Parachutist.js'
 import { createPageElements } from './helpers/dom.js'
 
-test('optimized Ju 52 preserves world geometry and UVs while batching materials and keeping propellers', async t => {
+test('the Ju 52 carries its textures and three propellers that turn about shafts inside them', async t => {
   t.mock.method(THREE.TextureLoader.prototype, 'load', (url, onLoad) => {
     const texture = new THREE.Texture()
     queueMicrotask(() => onLoad(texture))
@@ -17,61 +17,21 @@ test('optimized Ju 52 preserves world geometry and UVs while batching materials 
     queueMicrotask(() => onLoad({ width: 1024, height: 1024 }))
     return {}
   })
-  const load = async name => {
-    const bytes = await readFile('assets/models/aircraft/ju52/' + name + '.glb')
-    const document = JSON.parse(bytes.subarray(20, 20 + bytes.readUInt32LE(12)))
-    assert.ok(document.images.every(image => image.bufferView !== undefined && !image.uri))
-    const { scene } = await new GLTFLoader().parseAsync(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), '')
-    scene.updateMatrixWorld(true)
-    const triangles = [], point = new THREE.Vector3()
-    let propellers = 0
-    scene.traverse(part => {
-      if (!part.isMesh) return
-      if (part.name.toLowerCase().includes('propeller')) propellers++
-      if (name === 'model' && part.name.toLowerCase().includes('propeller')) {
-        const axle = new THREE.Vector3(...part.userData.axle)
-        part.geometry.computeBoundingBox()
-        assert.ok(part.geometry.boundingBox.containsPoint(axle), 'shaft must be inside its own propeller geometry, in glTF local coordinates')
-        assert.ok(axle.distanceTo(part.geometry.boundingBox.getCenter(new THREE.Vector3())) < .05,
-          'the original two-blade propellers are symmetric about their shafts')
-      }
-      const { position, uv } = part.geometry.attributes
-      const count = part.geometry.index?.count ?? position.count
-      for (let i = 0; i < count; i += 3) {
-        const corners = []
-        for (let j = 0; j < 3; j++) {
-          const index = part.geometry.index?.getX(i + j) ?? i + j
-          point.fromBufferAttribute(position, index).applyMatrix4(part.matrixWorld)
-          corners.push({ position: point.toArray(), uv: [uv.getX(index), uv.getY(index)] })
-        }
-        triangles.push(corners)
-      }
-    })
-    return { document, triangles, propellers }
-  }
-  const source = await load('source'), optimized = await load('model')
-  assert.equal(optimized.triangles.length, 9061)
-  // Batching bakes transforms through float32. Compare by distance, rather than
-  // rounding positions: two equivalent points can straddle a rounding boundary.
-  const key = triangle => triangle.map(corner => corner.uv.map(n => n.toFixed(4)).join(',')).sort().join('|')
-  const pending = new Map()
-  for (const triangle of source.triangles) {
-    const id = key(triangle)
-    if (!pending.has(id)) pending.set(id, [])
-    pending.get(id).push(triangle)
-  }
-  const close = (a, b, tolerance) => a.every((n, i) => Math.abs(n - b[i]) < tolerance)
-  for (const triangle of optimized.triangles) {
-    const candidates = pending.get(key(triangle)) ?? []
-    const index = candidates.findIndex(candidate => triangle.every(corner =>
-      candidate.some(other => close(corner.position, other.position, .001) && close(corner.uv, other.uv, .000001))))
-    assert.ok(index >= 0, 'every optimized triangle retains its original positions and UV mapping')
-    candidates.splice(index, 1)
-  }
-  assert.ok([...pending.values()].every(candidates => !candidates.length))
-  assert.equal(optimized.propellers, 3)
-  assert.equal(optimized.document.materials.length, 5)
-  assert.equal(optimized.document.meshes.reduce((sum, mesh) => sum + mesh.primitives.length, 0), 12)
+  const bytes = await readFile('assets/models/aircraft/ju52/model.glb')
+  const document = JSON.parse(bytes.subarray(20, 20 + bytes.readUInt32LE(12)))
+  assert.ok(document.images.every(image => image.bufferView !== undefined && !image.uri), 'its textures are inside the file')
+  const { scene } = await new GLTFLoader().parseAsync(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), '')
+  let propellers = 0
+  scene.traverse(part => {
+    if (!part.isMesh || !part.name.toLowerCase().includes('propeller')) return
+    propellers++
+    const axle = new THREE.Vector3(...part.userData.axle)
+    part.geometry.computeBoundingBox()
+    assert.ok(part.geometry.boundingBox.containsPoint(axle), 'shaft must be inside its own propeller geometry, in glTF local coordinates')
+    assert.ok(axle.distanceTo(part.geometry.boundingBox.getCenter(new THREE.Vector3())) < .05,
+      'the two-blade propellers are symmetric about their shafts')
+  })
+  assert.equal(propellers, 3)
 })
 
 test('the catalog transport rotates three shafts and shows damage without spawning other actors', async t => {

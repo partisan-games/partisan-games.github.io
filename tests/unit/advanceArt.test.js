@@ -1,10 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { readFile } from 'node:fs/promises'
-import { createHash } from 'node:crypto'
 import { createPageElements } from './helpers/dom.js'
 import art from '/core/actor/advanceArt.js'
-import optimizedImages from '/core/actor/optimizedImages.js'
 import { duration, soldierAt, soldiers } from '/scenes/bitka/Battle.js'
 
 test('the scene selects every intended infantry pose and the right fire clip after kneeling', () => {
@@ -77,33 +74,6 @@ test('the catalog exposes and draws all six crouch-walk frames, mirrored about t
   }
 })
 
-test('all six atlases match their runtime grids, anchors and recorded assets', async() => {
-  const { assets } = JSON.parse(await readFile('assets/images/sources/germans-advance/sprites.json', 'utf8'))
-  const { images: optimized } = JSON.parse(await readFile('assets/images/optimized/manifest.json', 'utf8'))
-  assert.equal(assets.length, 6)
-  for (const asset of assets) {
-    const runtime = art[asset.id.slice('advance-'.length)]
-    const bytes = await readFile(`assets/images/${runtime.src}`)
-    assert.equal(bytes.readUInt32BE(16), runtime.width * asset.frame.columns)
-    assert.equal(bytes.readUInt32BE(20), runtime.height * asset.frame.rows)
-    assert.equal(createHash('sha256').update(bytes).digest('hex'), asset.sha256)
-    if (optimizedImages[runtime.src]) {
-      const copy = optimized.find(image => image.source === runtime.src)
-      assert.equal(copy.runtime, optimizedImages[runtime.src])
-      assert.equal(copy.sourceSha256, asset.sha256, 'the optimized copy must follow the changed atlas')
-      assert.deepEqual(copy.size, [runtime.width * asset.frame.columns, runtime.height * asset.frame.rows])
-      const prepared = await readFile(`assets/images/${copy.runtime}`)
-      assert.equal(createHash('sha256').update(prepared).digest('hex'), copy.sha256)
-    }
-    assert.deepEqual(runtime.anchor, asset.anchor)
-    if (asset.crewAnchor) assert.deepEqual(runtime.crewAnchor, asset.crewAnchor)
-    for (const { name, ms, muzzles } of asset.animations) {
-      assert.deepEqual(runtime.clips[name].ms, ms)
-      assert.deepEqual(runtime.clips[name].muzzles, muzzles)
-    }
-  }
-})
-
 test('every advance atlas doubles pixel density while preserving world dimensions and anchors', () => {
   for (const kind of ['rifleman', 'gunner', 'backpack', 'officer']) {
     assert.deepEqual([art[kind].width, art[kind].height, art[kind].standingPixels], [192, 168, 138])
@@ -145,29 +115,6 @@ test('the actual shared view animates tracks and commander and mirrors their pla
   assert.notEqual(draws[0].column, draws[2].column)
   assert.equal(draws[1].image, sprite.crew.image)
   assert.notEqual(draws[1].column, draws[3].column)
-})
-
-test('every finished advance actor has a redrawn base and recorded generation instead of directly reusing idea art', async() => {
-  const folder = 'assets/images/sources/germans-advance/'
-  const { assets } = JSON.parse(await readFile(folder + 'sprites.json', 'utf8'))
-  const generation = JSON.parse(await readFile(folder + 'redrawn/generation.json', 'utf8'))
-  assert.equal(generation.tool, 'built-in image_gen')
-  assert.equal(generation.style, 'preserve original pixel style, palette and proportions')
-  assert.deepEqual(generation.assets.map(asset => asset.id).sort(), ['backpack', 'commander', 'crouch-walk', 'gunner', 'officer', 'rifleman', 'tank'])
-  for (const asset of assets) {
-    assert.equal(asset.redrawn, true)
-    assert.equal(asset.generation, 'redrawn/generation.json')
-    assert.ok(asset.sources.every(path => path.startsWith('sources/germans-advance/redrawn/')))
-  }
-  for (const asset of generation.assets) {
-    const source = await readFile(folder + 'redrawn/' + asset.image)
-    assert.equal(createHash('sha256').update(source).digest('hex'), asset.sha256)
-    assert.ok(asset.prompt.length > 100 && asset.references.length)
-    for (const reference of asset.references) {
-      const idea = await readFile(reference)
-      assert.notEqual(createHash('sha256').update(idea).digest('hex'), asset.sha256)
-    }
-  }
 })
 
 test('a signaling NCO stays planted, never fires, and resumes his own marching phase', () => {

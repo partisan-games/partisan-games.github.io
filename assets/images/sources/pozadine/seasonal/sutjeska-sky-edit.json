@@ -1,6 +1,0 @@
-{
-  "reference": "assets/images/background/sutjeska-1943-pixel.png",
-  "exactPrompt": "Edit ONLY the sky in this exact Sutjeska spring river-canyon pixel-art background. Remove ALL cloud shapes and replace the whole sky area with a smooth muted pale blue-gray clear-sky gradient consistent with the scene's existing light. Keep every mountain ridge and all landscape pixels below the sky boundary unchanged: river, high water, white current accents, vivid spring foliage, ruined wall, empty trench, fallen tree, and exact y=822 ground-strip boundary. Keep EXACT 1536x1024 size and crisp pixel art; do not repaint or redesign the landscape, recolor the forest, simplify the river, crop, shift or zoom. The sky must contain ZERO clouds, haze streaks, smoke, birds or text. The river canyon must remain the unmistakable main subject. No people or fabric flags.",
-  "tool": "built-in image_gen",
-  "providerOutputName": "exec-cff0ba08-3e49-4b53-85e5-27d7e9a09e60.png"
-}

@@ -39,7 +39,7 @@ export const battlefields = {
       { x: 604, y: 230, faza: 5.1, broj: 26, trajanje: 17, speed: 16, vetar: 5.4, sirenje: 6.2, vijuganje: 11, seme: 4.7, nijansa: 45 },
     ],
   },
-  // from assets/images/sources/pozadine/backgrounds.json, its source pixels halved
+  // its source pixels halved
   bihac: {
     src: 'background/bihac-ww2-pixel.webp', width: 768, height: 512, ground: 818 / 1024,
     props: [
@@ -49,7 +49,7 @@ export const battlefields = {
     pozari: [{ x: 85, y: 272, velicina: .55, faza: 0 }, { x: 705, y: 284, velicina: .6, faza: 2.7 }],
     stuboviDima: [{ x: 388, y: 249, faza: 1.2, seme: 1.3, ...defaultColumn }],
   },
-  // from assets/images/sources/pozadine/seasonal-backgrounds.json: the raid of May 1944, with nothing burning
+  // the raid of May 1944, with nothing burning
   drvar: {
     src: 'background/drvar-spring-1944-pixel.webp', width: 768, height: 512, ground: 814 / 1024,
     props: [
@@ -66,7 +66,6 @@ export const battlefields = {
     pozari: [{ x: 670, y: 295, velicina: .6, faza: 0 }, { x: 500, y: 270, velicina: .3, faza: 4.2 }],
     stuboviDima: [{ x: 610, y: 254, faza: 2.4, seme: 3.6, ...defaultColumn }],
   },
-  // from assets/images/sources/pozadine/current-backgrounds.json
   sremFront1944: {
     label: 'Syrmian Front, October 1944',
     src: 'background/sremski-front-1944-static.webp', width: 768, height: 512, ground: 828 / 1024,

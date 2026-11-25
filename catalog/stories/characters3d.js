@@ -22,6 +22,7 @@ import * as soldierModule from '/core3d/actor/derived/ww2/Soldier.js'
 import * as sovietPartisanModule from '/core3d/actor/derived/ww2/SovietPartisan.js'
 import * as workerModule from '/core3d/actor/derived/ww2/Worker.js'
 import * as tankModule from '/core3d/actor/derived/Tank.js'
+import * as hotchkissModule from '/core3d/actor/derived/Hotchkiss.js'
 
 /** A character no game uses yet stays in the shared library, ready for one. */
 const library = 'Zajednička biblioteka'
@@ -241,5 +242,6 @@ export const ww2 = [
 ].flat()
 
 export const vehicles = [
-  { ...character('tenk-3d', 'Renault FT', '3D Tank, FPS Airport', tankModule), catalogGroup: ['Vozila'] },
+  { ...character('tenk-3d', 'Renault FT', 'FPS Airport', tankModule), catalogGroup: ['Vozila'] },
+  { ...character('hotchkiss-h35-3d', 'Hotchkiss H35', 'Siege of Kraljevo', hotchkissModule), catalogGroup: ['Vozila'] },
 ]

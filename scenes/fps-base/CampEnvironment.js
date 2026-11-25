@@ -1,4 +1,4 @@
-import { BoxGeometry, Group, InstancedMesh, Matrix4, MeshBasicMaterial } from 'three'
+import { BoxGeometry, Group, InstancedMesh, Matrix4, MeshBasicMaterial, Vector3 } from 'three'
 import { loadedModel } from '/core3d/assets/models.js'
 import CampProp, { campModels } from '/core3d/actor/buildings/CampProp.js'
 import worldQueries from '/core3d/actor/characters/worldQueries.js'
@@ -118,6 +118,19 @@ export default class CampEnvironment {
     const walk = worldQueries(this.walkSolids), opaque = worldQueries(this.opaqueSolids)
     return { ...opaque, groundAt: () => 0,
       isBlocked: (from, direction, distance) => walk.isBlocked({ ...from, y: Math.max(.1, from.y - .65) }, direction, distance) }
+  }
+
+  litAt(point, clear) {
+    const from = new Vector3(), direction = new Vector3(), offset = new Vector3()
+    for (const { lights } of this.props) for (const light of lights) {
+      if (!light.visible) continue
+      light.getWorldPosition(from)
+      light.target.getWorldPosition(direction).sub(from).normalize()
+      offset.set(point.x, point.y, point.z).sub(from)
+      if (offset.lengthSq() < light.distance ** 2 && direction.dot(offset.normalize()) >= Math.cos(light.angle)
+        && clear(from, point)) return true
+    }
+    return false
   }
 
   update(dt) {

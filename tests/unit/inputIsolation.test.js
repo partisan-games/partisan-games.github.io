@@ -112,7 +112,7 @@ test('Controls use click activation and cannot toggle behind a modal', t => {
   assert.equal(content.style.display, 'none')
 })
 
-test('a game\'s Controls open on its start screen, so the player can learn them before playing, but not on a pause', t => {
+test('a game\'s Controls open and close on the start and pause screens, and stay blocked behind a native dialog', t => {
   const ui = new UI({ sceneUI: () => '', controlKeys: { Space: 'jump' } })
   t.after(() => ui.end())
   const [button, content] = ui.controlsUI.div.children
@@ -123,7 +123,16 @@ test('a game\'s Controls open on its start screen, so the player can learn them 
   assert.equal(content.style.display, 'none')
   ui.showPauseScreen()
   button.click()
+  assert.equal(content.style.display, 'block')
+  button.click()
   assert.equal(content.style.display, 'none')
+  const dialog = document.createElement('dialog')
+  document.body.append(dialog)
+  dialog.showModal()
+  button.click()
+  assert.equal(content.style.display, 'none')
+  dialog.close()
+  dialog.remove()
 })
 
 test('Controls opened with the mouse give the game its keys back; opened from the keyboard, they keep the focus', t => {

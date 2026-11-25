@@ -2,7 +2,6 @@ import { test, before, mock } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 import { loadAtlas } from './helpers/atlas.js'
-import { readFile } from 'node:fs/promises'
 
 const context = { save() {}, restore() {}, translate() {}, rotate() {}, scale() {}, drawImage() {} }
 let AircraftPropellers, DiveBomber, DiveBomberSprite, sideProjection, topProjection, AttackPlane, attackPlaneKinds,
@@ -37,7 +36,8 @@ test('blade phases advance with game time and hold for stopped engines and zero 
 test('redrawn Bf 109 keeps its propeller on the registered hub and switches to aligned damage', async t => {
   const { default: Fighter } = await import('/core/gameplay/bodies/aircraft/Fighter.js')
   const { default: FighterSprite } = await import('/core/actor/aircraft/FighterSprite.js')
-  const record = JSON.parse(await readFile(new URL('../../assets/images/sources/plan-ideas-art/bf109-redraw.json', import.meta.url), 'utf8'))
+  // the hub as measured on the 404 × 132 px redrawn picture
+  const record = { frame: [404, 132], propellerHub: [38, 65] }
   const session = new GameSession()
   t.after(() => session.dispose())
   for (const yaw of [0, Math.PI]) {

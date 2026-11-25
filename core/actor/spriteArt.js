@@ -1,4 +1,4 @@
-/** Generated from the FK-13 sprites.json; regenerate with its prepare.py. */
+/** Measurements of the art, kept by hand. */
 export default {
   'rifleman': {
     'src': 'game-ready/vojnici/nemacki-strelac-sprites.png',

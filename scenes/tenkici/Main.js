@@ -117,7 +117,8 @@ export default class TenkiciScene extends Scene2D {
     if (mode !== 'dva-igraca') return
     const ai = this.controllers.findIndex(controller => controller.body === this.tenk2)
     this.controllers.splice(ai, 1, new TankKeys(this.tenk2, { keyboard, keys: rightPlayerKeys }))
-    this.controls2UI = new Controls({ positionClass: 'bottom-right', controlKeys: tankRightControls })
+    this.controls2UI = new Controls({ positionClass: 'bottom-right', controlKeys: tankRightControls,
+      canToggle: () => this.ui.canToggleControls() })
   }
 
   sideName(side) {

@@ -2,13 +2,13 @@
 
 [model.glb](model.glb) koriste [katalog](../../../../catalog.html#letelice-3d/junkers-ju-52-model) i nivo Drvar kroz isti prikaz.
 
-Izvor je vlasnikov `D:/Downloads/junkers-ju-52/source/ju52.glb`, sačuvan kao [source.glb](source.glb). Sve četiri korišćene teksture već su ugrađene u GLB; izdvojene kopije tekstura i nepovezana slika tla nisu potrebne.
+Sve četiri teksture su ugrađene u GLB.
 
-[optimize.py](optimize.py) pokreće se Blenderom 4.5 u background režimu. Uklanja duplirane opise tekstura i materijala i spaja neprozirne nepokretne delove; prozirni delovi i tri propelera ostaju odvojeni. Geometrija nije pojednostavljivana, teksture nisu umanjivane: 9.061 trougao, 66 → 5 materijala, 66 → 12 primitiva za iscrtavanje. Hashovi i veličine su u [optimization.json](optimization.json).
+Model ima 9.061 trougao, 5 materijala i 12 primitiva za iscrtavanje; prozirni delovi i tri propelera su odvojeni.
 
 [Telo transporta](../../../../core/gameplay/bodies/aircraft/Transport.js) ima samo `idle` (mirovanje), `move` (let) i `dead` (pad i zaustavljanje na tlu). Pogodak dodaje dim; obaranje ne dozvoljava ponovni let. Katalog prikazuje samo avion: desant i stvaranje padobranaca pripadaju nivou.
 
-[Prikaz](../../../../core3d/actor/aircraft/Ju52.js) prati položaj, smer i pad tela, okreće tri dvokraka propelera i prikazuje dim. Osovine su upisane pri optimizaciji iz obuhvatne kružnice lopatica. Izvoz GLB pretvara geometriju iz Blenderovog Z-up u Y-up, ali ne pretvara prilagođene JSON podatke: osovine se zato izričito zapisuju kao `[x, z, -y]`. Provera zahteva da osovina bude unutar geometrije i da sredina stvarnih lopatica ostane na njoj pri rotaciji, a ne samo da sam pivot miruje. Visina od 5,8 m je procenjena mera; pokreti su proceduralni, bez novih snimljenih klipova.
+[Prikaz](../../../../core3d/actor/aircraft/Ju52.js) prati položaj, smer i pad tela, okreće tri dvokraka propelera i prikazuje dim. Osovine propelera upisane su u model. Izvoz GLB pretvara geometriju iz Blenderovog Z-up u Y-up, ali ne pretvara prilagođene JSON podatke: osovine se zato izričito zapisuju kao `[x, z, -y]`. Provera zahteva da osovina bude unutar geometrije i da sredina stvarnih lopatica ostane na njoj pri rotaciji, a ne samo da sam pivot miruje. Visina od 5,8 m je procenjena mera; pokreti su proceduralni, bez novih snimljenih klipova.
 
 ## Poreklo i prava korišćenja
 

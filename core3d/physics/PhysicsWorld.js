@@ -11,6 +11,7 @@ export default class PhysicsWorld {
   #natives = new NativeAllocations()
   #bodies = new Set()
   #actions = new Set()
+  #afterStep = new Set()
 
   constructor({ scene, maxSteps = 10 } = {}) {
     this.scene = scene
@@ -46,6 +47,15 @@ export default class PhysicsWorld {
     this.#actions.add(action)
   }
 
+  /**
+   * Calls `follow(dt)` after every update, once the world has stepped, so what follows a body, as a vehicle's mesh
+   * and its camera, shows where the step left it. Returns what stops the calls.
+   */
+  afterStep(follow) {
+    this.#afterStep.add(follow)
+    return () => this.#afterStep.delete(follow)
+  }
+
   remove(mesh) {
     if (!this.rigidBodies.includes(mesh)) return
     this.contacts.remove(mesh.userData.body)
@@ -59,10 +69,12 @@ export default class PhysicsWorld {
     this.physicsWorld.stepSimulation(dt, this.maxSteps)
     this.rigidBodies.forEach(updateMesh)
     this.contacts.update(this.physicsWorld.getDispatcher())
+    this.#afterStep.forEach(follow => follow(dt))
   }
 
   dispose() {
     this.contacts.clear()
+    this.#afterStep.clear()
     this.#actions.forEach(action => this.physicsWorld.removeAction(action))
     this.#bodies.forEach(body => this.physicsWorld.removeRigidBody(body))
     this.#actions.clear()

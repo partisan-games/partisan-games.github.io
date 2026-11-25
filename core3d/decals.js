@@ -17,7 +17,8 @@ const decalMaterial = new THREE.MeshPhongMaterial({
 
 const helper = new THREE.Object3D()
 
-export function shootDecals(intersect, { scene, color } = {}) {
+/** A mark where a shot struck the surface of `intersect`, as big as `size` metres at least and at most: a bullet hole by default. */
+export function shootDecals(intersect, { scene, color, size: [least, most] = [.15, .3] } = {}) {
   const { face, point, object } = intersect
 
   const normal = face.normal.clone()
@@ -28,7 +29,7 @@ export function shootDecals(intersect, { scene, color } = {}) {
   helper.lookAt(normal)
   helper.rotation.z = Math.random() * 2 * Math.PI
 
-  const randSize = randFloat(.15, .3)
+  const randSize = randFloat(least, most)
   const size = new THREE.Vector3(randSize, randSize, randSize)
 
   const geometry = new DecalGeometry(object, point, helper.rotation, size)

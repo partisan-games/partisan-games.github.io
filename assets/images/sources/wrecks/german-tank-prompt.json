@@ -1,6 +1,0 @@
-{
-  "prompt": "Edit the supplied exact accepted side-view pixel-art game tank into its destroyed wreck state. ONE single vehicle, transparent background, no panels or labels. Keep the SAME vehicle identity, same facing direction LEFT, side-on orthographic view, same chassis length, wheels, turret proportions, black pixel outlines and low-resolution pixel texture. Retain the dark gray German tank and white turret cross. Real visible structural damage: broken slack caterpillar belt, two damaged road wheels, split scorched armor and a slumped partly displaced turret, dark open breach in hull. No operational long gun barrel, keep only a broken short stump inside the original body footprint. Still recognizable as the very same tank. No fire, no smoke, no explosion, no humans, no blood; the game supplies particle effects. Transparent area above the lower destroyed turret remains empty. Do not add terrain, shadow, glow, blur, photorealism, perspective, text or extra objects. Draw clear game-readable pixel clusters, not a painted realistic illustration. Entire wreck fully inside image with modest transparent gutter.",
-  "refs": [
-    "C:/Users/d_pavlica/OneDrive - Wargaming.net/Documents/GitHub/partisan-games.github.io/assets/images/sources/wrecks/german-tank-reference.png"
-  ]
-}

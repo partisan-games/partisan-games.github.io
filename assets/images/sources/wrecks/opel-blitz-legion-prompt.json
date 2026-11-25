@@ -1,6 +1,0 @@
-{
-  "prompt": "Edit this exact accepted side-on military game sprite into its destroyed wreck. ONE Opel Blitz truck facing LEFT, fully isolated on transparent background, no ground or shadows. Maintain exact original camera, direction, length-to-height proportions, recognizable vehicle construction, dark pixel outlines and muted olive-gray pixel-art palette. Same cabin, hood and open wooden-stake flatbed, now visibly wrecked: hood dented and open, cabin crushed, windscreen broken, front tire collapsed, one rear wheel damaged, rear cargo boards splintered and some support stakes bent or broken. Retain a few readable white letters of LEGIONE CROATA on the damaged side and the small red-white shield on the door. Add scorched dark openings and torn metal to make destruction readable at 150 pixels wide. No fire, smoke, explosion, people, blood, sky, terrain, text labels, extra vehicles, new markings or photorealistic rendering. The wreck remains within the original live vehicle's approximate footprint and stands at the same baseline, with empty transparent margin above. Clear pixel clusters, no soft brush or blur.",
-  "refs": [
-    "C:/Users/d_pavlica/OneDrive - Wargaming.net/Documents/GitHub/partisan-games.github.io/assets/images/sources/wrecks/opel-blitz-legion-reference.png"
-  ]
-}

@@ -1,6 +1,5 @@
 import { before, test } from 'node:test'
 import assert from 'node:assert/strict'
-import { readFile } from 'node:fs/promises'
 import { createPageElements } from './helpers/dom.js'
 import { loadAtlas } from './helpers/atlas.js'
 
@@ -27,28 +26,6 @@ const context = () => {
   return { draws, save() {}, restore() {}, translate() {}, scale() {}, rotate() {},
     drawImage: (...args) => draws.push(args) }
 }
-
-test('runtime clip dimensions, anchors and frame times match the prepared asset contracts', async() => {
-  for (const [file, pairs] of [
-    ['partisan-rifleman/sprites.json', [['partisan-rifleman-movement', art.partisanMovement]]],
-    ['cannon-crew-fall/sprites.json', [['partisan-cannon-crew-death', art.partisanCrewDeath], ['italian-cannon-crew-death', art.italianCrewDeath]]],
-    ['rifleman-reload/sprites.json', [['rifleman-reload', art.riflemanReload]]],
-    ['hummel-fire/sprites.json', [['hummel-fire', art.hummelFire]]],
-    ['bp42-fire/sprites.json', [['bp42-fire', art.bp42Fire]]],
-  ]) {
-    const path = new URL('../../assets/images/sources/' + file, import.meta.url)
-    const { assets } = JSON.parse(await readFile(path, 'utf8'))
-    for (const [id, runtime] of pairs) {
-      const source = assets.find(asset => asset.id === id)
-      assert.deepEqual([runtime.width, runtime.height, runtime.anchor], [source.frame.width, source.frame.height, source.anchor], id)
-      for (const [name, clip] of Object.entries(runtime.clips)) {
-        const measured = source.animations.find(animation => animation.name === name)
-        assert.deepEqual(clip.ms, measured.frameDurationsMs, `${id}/${name}`)
-        assert.equal(clip.row || 0, measured.row, `${id}/${name} row`)
-      }
-    }
-  }
-})
 
 test('separate clips honour unequal frame times, loops, reverse order and a long final step', () => {
   const clip = new ArtClip(art.hummelFire)

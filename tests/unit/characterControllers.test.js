@@ -3,6 +3,8 @@ import assert from 'node:assert/strict'
 import Character from '/core/gameplay/bodies/characters/Character.js'
 import CharacterKeys from '/core/gameplay/controllers/CharacterKeys.js'
 import CharacterAI from '/core/gameplay/controllers/CharacterAI.js'
+import Escort, { escort } from '/core/gameplay/controllers/Escort.js'
+import NearestTarget from '/core/gameplay/controllers/NearestTarget.js'
 
 /** Plays `seconds` at 30 frames a second, the controllers deciding before the bodies move, as in a scene. */
 const play = (seconds, controllers, bodies) => {
@@ -79,4 +81,46 @@ test('a follower walks after its target and stops close to it; a fleer runs away
   play(1, [flee], [fleer])
   assert.equal(flee.doing, 'flee')
   assert.ok(fleer.x > 7, 'it runs away from its target')
+})
+
+test('an escort keeps its place beside its leader, the way the leader faces, and stops to shoot the nearest enemy it sees', () => {
+  // the leader faces +z, so ahead is +z and its right is -x
+  const leader = { x: 30, z: 0, yaw: -Math.PI / 2 }
+  const enemies = []
+  const body = new Character({ reach: escort.sight, actions: { attack: .2 }, targets: enemies })
+  const guard = new Escort(body, { leader, enemies, place: { ahead: 4, side: 3 }, random: () => .5 })
+  play(8, [guard], [body])
+  const distance = Math.hypot(27 - body.x, 4 - body.z)
+  assert.ok(distance <= escort.keep + .5, `it keeps to its place ahead and to the right: ${body.x}, ${body.z}`)
+  const far = new Character({ x: body.x + 30, z: 1, health: 1000 }), near = new Character({ x: body.x + 15, health: 1000 })
+  enemies.push(far, near)
+  const { x } = body
+  play(escort.pause[1] * 2, [guard], [body, far, near])
+  assert.ok(Math.abs(body.x - x) < .5, 'it stands to shoot')
+  assert.ok(near.hitsTaken > 0 && far.hitsTaken === 0, 'it shoots the nearest')
+  const hidden = new Escort(new Character({ actions: { attack: .2 } }), { leader, enemies, sees: () => false })
+  assert.equal(hidden.target, null, 'it does not shoot what it cannot see')
+})
+
+test('a fighter turns to the nearest living candidate, and to the next when its target falls', () => {
+  const body = new Character()
+  const ai = new CharacterAI(body, { random: () => .5 })
+  const tank = { x: 20, z: 0, alive: true }, comrade = new Character({ x: 5 })
+  const pick = new NearestTarget(ai, { candidates: [tank, comrade] })
+  pick.update(1 / 30)
+  assert.equal(ai.target, comrade)
+  comrade.takeHit(1000)
+  pick.update(1 / 30)
+  assert.equal(ai.target, tank, 'a fallen target is replaced at once')
+})
+
+test('an escort left behind runs after its leader before it fights, even with an enemy in sight', () => {
+  const leader = { x: 0, z: 0, yaw: 0 }
+  const enemy = new Character({ x: -10, health: 1000 })
+  const body = new Character({ reach: escort.sight, actions: { attack: .2 }, targets: [enemy] })
+  const guard = new Escort(body, { leader, enemies: [enemy], random: () => .5 })
+  leader.x = 30
+  play(2, [guard], [body, enemy])
+  assert.ok(body.x > 5, `it runs toward its leader: ${body.x}`)
+  assert.equal(enemy.hitsTaken, 0, 'it does not stop to shoot while left behind')
 })

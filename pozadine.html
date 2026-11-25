@@ -25,7 +25,7 @@
   <main id="pozadine"></main>
   <script type="module">
     /** Folders whose every picture is a background or a study of one; the server lists them. */
-    const folders = ['/assets/images/background/', '/assets/images/sources/pozadine/seasonal/']
+    const folders = ['/assets/images/background/']
     const picture = /\.(png|jpe?g|gif|webp)$/i
     /** Ground textures, such as Ustanak's earth layer, are not backgrounds. */
     const groundTexture = /\btlo\b/
@@ -71,10 +71,10 @@
 
     /**
      * Animated backgrounds: a folder of layers (base.png, clouds.png, actors.png and layout.json) that the game's
-     * renderLayers composes, and Codex's preview of it, which a click opens.
+     * renderLayers composes.
      */
     const animatedBackgrounds = [
-      { layers: '/assets/images/background/batina-1944/', preview: '/assets/images/sources/pozadine/batina-layered/preview.html' },
+      { layers: '/assets/images/background/batina-1944/' },
     ]
 
     const load = src => new Promise((resolve, reject) => {
@@ -84,14 +84,14 @@
       image.src = src
     })
 
-    async function animated({ layers: folder, preview }) {
+    async function animated({ layers: folder }) {
       const [{ default: render }, layout, base, clouds, actors] = await Promise.all([
         import('/scenes/tenkici/renderLayers.js'), fetch(`${folder}layout.json`).then(response => response.json()),
         load(`${folder}base.png`), load(`${folder}clouds.png`), load(`${folder}actors.png`),
       ])
       const figure = document.createElement('figure')
-      figure.innerHTML = `<a href="${preview}" target="_blank"><canvas width="${layout.width}" height="${layout.height}"
-        style="width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated"></canvas></a>
+      figure.innerHTML = `<canvas width="${layout.width}" height="${layout.height}"
+        style="width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated"></canvas>
         <figcaption>${folder.split('/').at(-2)}<span>${layout.width}×${layout.height} · ${folder}</span></figcaption>`
       const ctx = figure.querySelector('canvas').getContext('2d')
       const start = performance.now()

@@ -1,6 +1,0 @@
-{
-  "tool": "OpenAI built-in ImageGen",
-  "reference": "partisan-reference.png",
-  "output": "partisan-grounded.png",
-  "prompt": "Exactly two frames in a single horizontal strip with transparent background. Use same moustached cap-wearing Yugoslav partisan flag bearer in the supplied reference. Two downward collapse poses only, no standing figures. LEFT frame: knees have given out and torso is halfway to the ground on one elbow, head toward the RIGHT, boots left, released rifle already fallen diagonally, barrel within 20 degrees of horizontal. RIGHT frame: fully collapsed on his side on the ground, boots on LEFT, head turned sideways on RIGHT, one limp arm and the rifle lying fully HORIZONTALLY alongside him, parallel to his body on the ground. At rest nothing sticks upward from the heap of gear or body. Both guns should rest on the ground with no hand gripping them and neither rifle should be vertical. Match original pixel art, olive uniform, kačket with red mark, black moustache, dark boots, same person. Anatomically plausible pixel game art, non-graphic, no blood, no flagpole, no flag, no soil, no ground line, no text, no shadow. Clear wide margins and space separating the two drawings. Transparent alpha background."
-}

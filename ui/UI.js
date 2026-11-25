@@ -66,9 +66,9 @@ export default class UI {
     this.messageElement.className = 'message'
     modalElement.after(this.messageElement)
 
-    // the player may read the controls on the start screen, before the game begins, but not behind a pause or a result
+    // Controls stay available while reading the briefing or pausing the game.
     if (showControls)
-      this.controlsUI = new Controls({ controlKeys, canToggle: () => !hasBlockingUi() || this.screen === 'start' })
+      this.controlsUI = new Controls({ controlKeys, canToggle: () => this.canToggleControls() })
 
     this.onStart = onStart
     this.onContinue = onContinue
@@ -88,6 +88,11 @@ export default class UI {
     const current = controls.indexOf(document.activeElement)
     const next = current < 0 ? (e.shiftKey ? controls.length - 1 : 0) : (current + (e.shiftKey ? -1 : 1) + controls.length) % controls.length
     ;(controls[next] || modalElement).focus({ preventScroll: true })
+  }
+
+  canToggleControls() {
+    return !document.querySelector('dialog[open]')
+      && (!hasBlockingUi() || (drawnBy.get(modalElement) === this && ['start', 'pause'].includes(this.screen)))
   }
 
   handleScreenClick = e => {

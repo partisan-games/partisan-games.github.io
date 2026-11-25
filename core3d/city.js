@@ -242,7 +242,7 @@ export function createBuilding(params = {}) {
   return new THREE.Mesh(geometry, material)
 }
 
-function createTexturedBuilding({ width, height, depth = width, color = 0x999999, path = assets.textures, files = [], defaultFile, halfOnSides = false, graffitiChance = 0, posters = [], slogans = [], postersPath = 'posters/', graffitiBgTexture, webFonts, fontColors, bigMural = false, ...rest } = {}) {
+export function createTexturedBuilding({ width, height, depth = width, color = 0x999999, path = assets.textures, files = [], defaultFile, halfOnSides = false, graffitiChance = 0, posters = [], slogans = [], postersPath = 'posters/', graffitiBgTexture, webFonts, fontColors, bigMural = false, ...rest } = {}) {
   const geometry = createBuildingGeometry({ width, height, depth, ...rest })
   const { width: buildingWidth, height: buildingHeight } = geometry.parameters
 

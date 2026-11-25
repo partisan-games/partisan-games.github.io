@@ -1,9 +1,0 @@
-{
-  "tool": "image_gen",
-  "mode": "built-in",
-  "transparent_background": true,
-  "prompt": "Edit target: the referenced isolated pixel-art side-view Potez 25 partisan aircraft. Create its DESTROYED / DEAD game sprite, a recognizable wreck of exactly this aircraft, nose pointing RIGHT and tail LEFT in the same perfectly side-on orthographic view. Preserve its long horizontal proportions, low-resolution hard pixel edges, muted olive palette, black/dark outlines, red-white-blue tail markings, red partisan star insignia and white number 8. Keep the basic fuselage and tail recognizably in the same location and size; damage the middle upper wing so it is broken and drooping with snapped struts, tear and scorch the forward engine cowling, buckle the wheel struts so the plane sits lower with a flat/bent front wheel, a broken propeller stub, small jagged holes and a visibly split rear fuselage. A clearly destroyed stationary airframe, not an intact plane with dark paint. No living or animated crew; no people visible. One single full wreck sprite only, entirely inside a wide landscape canvas of approximately 400:173 aspect ratio, centered with narrow transparent margins, no cropping. Truly transparent RGBA background. No ground, no floor, no scenery, no cast shadow, no smoke, no fire, no explosion, no text labels, no watermark, no extra detached object beyond the sprite footprint. Fire and smoke will be drawn separately by the game. Match the supplied pixel-art style closely, not photorealistic, not vector art, not 3D.",
-  "refs": [
-    "potez-25-partisan-reference.png"
-  ]
-}
