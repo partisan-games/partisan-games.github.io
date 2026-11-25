@@ -3,6 +3,7 @@ import spriteArt from './spriteArt.js'
 
 export default {
   'partisanTank': {
+    gutter: 4,
     'src': 'game-ready/tenkovi/partizanski-tenk-layers.webp',
     'frame': {
       'width': 300,
@@ -23,6 +24,7 @@ export default {
     }
   },
   'germanTank': {
+    gutter: 4,
     'src': 'game-ready/tenkovi/nemacki-tenk-layers.webp',
     'frame': {
       'width': 327,
@@ -43,6 +45,7 @@ export default {
     }
   },
   'somuaS35': {
+    gutter: 4,
     'src': 'game-ready/tenkovi/somua-s35-layers.webp',
     'frame': {
       'width': 379,

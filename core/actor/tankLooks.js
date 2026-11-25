@@ -18,7 +18,7 @@ export const somuaTank = {
 function profile(id, name, rearAim = true) {
   const { kind, frame } = profiles[id]
   return { id, name, kind, rearAim, facing: -1, barrel: { src: folder + id + '-barrel.webp', facing: -1 },
-    art: { src: folder + id + '-layers.webp', frame, columns: 4, clips: vehicleArt.germanTank.clips, wreckRow: 6 } }
+    art: { src: folder + id + '-layers.webp', frame, columns: 4, clips: vehicleArt.germanTank.clips, wreckRow: 6, gutter: 4 } }
 }
 
 export const m15 = profile('m15-42', 'M15/42')

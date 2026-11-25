@@ -111,10 +111,33 @@ test('the actual shared view animates tracks and commander and mirrors their pla
   sprite.draw(ctx, { ...pose, time: .35, flip: -1 })
   const mount = (art.tank.crewAnchor.x - art.tank.anchor.x) * 40 * 2.27 / art.tank.standingPixels
   assert.deepEqual(draws.map(({ flip, x }) => [flip, x]), [[1, 200], [1, 200 + mount], [-1, 200], [-1, 200 - mount]])
-  assert.equal(draws[0].row, art.tank.height)
+  assert.equal(draws[0].row, 294)
   assert.notEqual(draws[0].column, draws[2].column)
   assert.equal(draws[1].image, sprite.crew.image)
   assert.notEqual(draws[1].column, draws[3].column)
+})
+
+test('tank frames are sampled inside transparent gutters without changing their drawing bounds', async() => {
+  createPageElements()
+  const { default: AdvanceSprite } = await import('/core/actor/AdvanceSprite.js')
+  const sprite = new AdvanceSprite('tank')
+  Object.defineProperty(sprite.sheet.image, 'naturalWidth', { value: 3300, configurable: true })
+  const draws = []
+  const ctx = { save() {}, restore() {}, translate() {}, scale() {}, drawImage: (...args) => draws.push(args.slice(1)) }
+  assert.equal(art.tank.gutter, 4)
+  for (const flip of [1, -1]) for (const scale of [40, 320]) {
+    draws.length = 0
+    for (let i = 0; i < 6; i++) sprite.draw(ctx, {
+      name: 'drive', time: i * .095 + .01, x: 200, y: 150, scale, flip, crewVisible: false,
+    })
+    assert.deepEqual(draws.map(rect => rect.slice(0, 4)), Array.from({ length: 6 }, (_, i) => [4 + i * 550, 294, 542, 282]))
+    const size = scale * 2.27 / 182
+    assert.ok(draws.every(rect => rect[4] === -200 * size && rect[5] === -282 * size
+      && rect[6] === 542 * size && rect[7] === 282 * size))
+    draws.length = 0
+    sprite.draw(ctx, { name: 'idle', time: 0, x: 200, y: 150, scale, flip, crewVisible: false })
+    assert.deepEqual(draws[0].slice(0, 4), [4, 4, 542, 282])
+  }
 })
 
 test('a signaling NCO stays planted, never fires, and resumes his own marching phase', () => {

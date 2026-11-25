@@ -1,4 +1,5 @@
 import GameObject2D from './GameObject2D.js'
+import atlasFrame from './atlasFrame.js'
 
 /** A separately loaded atlas, drawn by its owning view at a measured anchor; never an independent actor. */
 export default class ArtClip extends GameObject2D {
@@ -30,13 +31,13 @@ export default class ArtClip extends GameObject2D {
 
   draw(ctx, { name, time, x, y, scaleX, scaleY = scaleX, flip = 1, reverse = false }) {
     if (!this.image.naturalWidth) return false
-    const { width, height, anchor } = this.art
+    const { width, height, anchor, gutter = 0 } = this.art
     const { row, frame } = this.sample(name, time, reverse)
     ctx.save()
     ctx.translate(x, y)
     ctx.scale(flip, 1)
     ctx.imageSmoothingEnabled = false
-    ctx.drawImage(this.image, frame * width, row * height, width, height,
+    ctx.drawImage(this.image, ...atlasFrame(width, height, frame, row, gutter),
       -anchor.x * scaleX, -anchor.y * scaleY, width * scaleX, height * scaleY)
     ctx.restore()
     return true

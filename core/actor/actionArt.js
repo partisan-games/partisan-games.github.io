@@ -24,6 +24,7 @@ export const riflemanReload = {
 }
 
 export const hummelFire = {
+  gutter: 4,
   muzzle: { x: 335, y: 56 },
   src: 'game-ready/tenkovi/hummel-fire-sprites.webp',
   width: 384, height: 176, anchor: { x: 192, y: 156 },

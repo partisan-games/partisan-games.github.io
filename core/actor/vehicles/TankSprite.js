@@ -3,6 +3,7 @@ import Barrel from '/core/actor/Barrel.js'
 import ShellSprite from '/core/actor/projectiles/ShellSprite.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import { bodyImage, wreckFor } from '/core/actor/wreckView.js'
+import atlasFrame from '/core/actor/atlasFrame.js'
 
 /**
  * How a tank body looks and sounds in 2D, from its atlas `art` (vehicleArt.js), which points the way `facing` says
@@ -79,7 +80,7 @@ export default class TankSprite extends BodySprite {
 
   render(ctx) {
     if (!this.shown) return
-    const { frame, clips, contentBounds } = this.art
+    const { frame, clips, contentBounds, gutter = 0 } = this.art
     let x = -this.width / 2, y = -this.height / 2, { width, height } = this
     if (contentBounds) {
       const [left, top, right, bottom] = contentBounds
@@ -97,12 +98,11 @@ export default class TankSprite extends BodySprite {
     const image = bodyImage(this)
     const wreckRow = this.body.dead && this.art.wreckRow !== undefined ? this.art.wreckRow : undefined
     if (image !== this.image || wreckRow !== undefined)
-      ctx.drawImage(image, 0, (wreckRow ?? 0) * frame.height, frame.width, frame.height, x, y, width, height)
+      ctx.drawImage(image, ...atlasFrame(frame.width, frame.height, 0, wreckRow ?? 0, image === this.image ? gutter : 0), x, y, width, height)
     else {
-      const frameX = this.frameIndex * frame.width
       const turretRow = clips[this.clip].row + (this.body.turretBack ? 4 : 2)
-      ctx.drawImage(image, frameX, turretRow * frame.height, frame.width, frame.height, x, y, width, height)
-      ctx.drawImage(image, frameX, clips[this.clip].row * frame.height, frame.width, frame.height, x, y, width, height)
+      ctx.drawImage(image, ...atlasFrame(frame.width, frame.height, this.frameIndex, turretRow, gutter), x, y, width, height)
+      ctx.drawImage(image, ...atlasFrame(frame.width, frame.height, this.frameIndex, clips[this.clip].row, gutter), x, y, width, height)
     }
     ctx.restore()
     if (this.burning) this.flame.render(this.smoky)

@@ -38,6 +38,7 @@ export default {
     },
   },
   tank: {
+    gutter: 4,
     src: 'game-ready/tenkovi/advance-tank.webp', width: 542, height: 282, anchor: { x: 200, y: 282 }, standingPixels: 182, crewAnchor: { x: 206, y: 120 },
     clips: {
       idle: { row: 0, ms: [1000], loop: true },

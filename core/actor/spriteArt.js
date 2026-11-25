@@ -185,6 +185,7 @@ export default {
     }
   },
   'hummel': {
+    gutter: 4,
     'src': 'game-ready/tenkovi/hummel-sprites.webp',
     'frame': {
       'width': 320,

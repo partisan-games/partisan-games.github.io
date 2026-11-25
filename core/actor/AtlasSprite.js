@@ -1,5 +1,6 @@
 import BodySprite from './BodySprite.js'
 import { bodyImage, wreckFor } from './wreckView.js'
+import atlasFrame from './atlasFrame.js'
 
 /**
  * The view of a body drawn from an atlas `art` of clips in rows (spriteArt.js): the drawn body, `art.body`, fills the
@@ -45,7 +46,8 @@ export default class AtlasSprite extends BodySprite {
     ctx.rotate(this.angle)
     ctx.scale(this.flipY, 1)
     ctx.imageSmoothingEnabled = false
-    ctx.drawImage(image, wrecked ? 0 : this.frame * width, wrecked ? 0 : art.clips[this.clip].row * height, sourceWidth, sourceHeight,
+    const source = wrecked ? [0, 0, sourceWidth, sourceHeight] : atlasFrame(width, height, this.frame, art.clips[this.clip].row, art.gutter)
+    ctx.drawImage(image, ...source,
       (dx - (left + right) / 2) * scale, this.height / 2 + (dy - art.anchor.y) * scale, sourceWidth * scale, sourceHeight * scale)
     ctx.restore()
     if (this.burning) this.flame.render(this.smoky)
