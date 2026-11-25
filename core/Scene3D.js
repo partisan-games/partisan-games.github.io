@@ -8,6 +8,17 @@ import { skyGradients } from '/core/constants.js'
 // One renderer per canvas for the whole site: games draw on the same canvas, and a new renderer
 // would leave the previous one's state and shaders on the graphics card.
 const renderers = new WeakMap()
+
+/**
+ * Textures that the shared renderer uploaded again after their game had freed them. Three.js r160 keeps the last
+ * shadow caster's texture in its shared depth material and can upload it in a later game, so the next game end frees it.
+ */
+const revived = new Set()
+
+const freeTexture = texture => {
+  texture.dispose()
+  texture.onUpdate = () => revived.add(texture)
+}
 const rendererFor = canvas => {
   if (!renderers.has(canvas)) renderers.set(canvas, new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true }))
   return renderers.get(canvas)
@@ -122,10 +133,11 @@ export default class Scene3D extends Scene {
    * A model shared with a later game is uploaded again when that game draws it.
    */
   disposeScene(scene = this.scene) {
-    const cleanups = []
+    const cleanups = [...revived].map(texture => () => freeTexture(texture))
+    revived.clear()
     const disposeTextures = values => Object.values(values).forEach(value => {
-      if (value?.isTexture) cleanups.push(() => value.dispose())
-      else if (value?.value?.isTexture) cleanups.push(() => value.value.dispose()) // a shader uniform
+      if (value?.isTexture) cleanups.push(() => freeTexture(value))
+      else if (value?.value?.isTexture) cleanups.push(() => freeTexture(value.value)) // a shader uniform
     })
     scene.traverse(object => {
       if (object.isLight) cleanups.push(() => object.dispose()) // its shadow map
@@ -137,7 +149,7 @@ export default class Scene3D extends Scene {
         cleanups.push(() => material.dispose())
       }
     })
-    if (scene.background?.isTexture) cleanups.push(() => scene.background.dispose())
+    if (scene.background?.isTexture) cleanups.push(() => freeTexture(scene.background))
     runCleanups(cleanups)
   }
 }

@@ -17,7 +17,10 @@ const decalMaterial = new THREE.MeshPhongMaterial({
 
 const helper = new THREE.Object3D()
 
-/** A mark where a shot struck the surface of `intersect`, as big as `size` metres at least and at most: a bullet hole by default. */
+/**
+ * Leaves a mark where a shot struck the surface of `intersect`, as big as `size` metres at least and at most: a bullet
+ * hole by default. Returns the mark, added to `scene`.
+ */
 export function shootDecals(intersect, { scene, color, size: [least, most] = [.15, .3] } = {}) {
   const { face, point, object } = intersect
 
@@ -38,4 +41,5 @@ export function shootDecals(intersect, { scene, color, size: [least, most] = [.1
     material.color = new THREE.Color(color)
   const decal = new THREE.Mesh(geometry, material)
   scene.add(decal)
+  return decal
 }

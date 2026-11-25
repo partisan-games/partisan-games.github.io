@@ -21,9 +21,8 @@ const camp = [
   ['gate', 'Kapija', 'Ograde i kapije', gateCommands],
   ['timber-screen', 'Drveni zaklon', 'Zakloni'],
 ].map(([kind, name, group, commands]) => ({
-  id: kind, name, game: 'Escape Enemy Base', block: campModule, stage: Stage3D,
+  id: kind, name, game: 'Escape Concentration Camp', block: campModule, stage: Stage3D,
   catalogGroup: ['Scenografija', group], commands,
-  description: 'Originalan art u metrima, sa procenjenim razmerama. Probni sklop nije istorijski tlocrt niti novi raspored nivoa.',
   create: async stage => {
     const block = kind === 'sklop' ? await campModule.createCampStudy() : await campModule.createCampProp(kind)
     stage.add(block)
@@ -34,7 +33,6 @@ const camp = [
 const church = {
   id: 'drvar-crkva', name: 'Crkva', game: 'Raid on Drvar (u izradi)', block: churchModule, stage: Stage3D,
   catalogGroup: ['Scenografija', 'Zgrade'],
-  description: 'Kamena crkva prema fotografiji iz Drvara: dvovodni krov i četvrtast zvonik. Visina je procenjenih 11 metara.',
   create: async stage => {
     await requestModels(churchModule.models)
     const block = new Church()
@@ -44,9 +42,8 @@ const church = {
 }
 
 const sandbags = {
-  id: 'sandbags', name: 'Džakovi sa peskom', game: 'Escape Enemy Base', block: sandbagsModule, stage: Stage3D,
+  id: 'sandbags', name: 'Džakovi sa peskom', game: 'Escape Concentration Camp', block: sandbagsModule, stage: Stage3D,
   catalogGroup: ['Scenografija', 'Zakloni'],
-  description: 'Preuzeti zid od džakova, visine 1,1 m; isti model služi kao zaklon u dvorištu Crvenog krsta.',
   create: async stage => {
     await requestModels(sandbagsModule.models)
     const block = new Sandbags()

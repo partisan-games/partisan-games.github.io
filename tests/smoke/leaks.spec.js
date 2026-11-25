@@ -4,6 +4,8 @@ import { test, watchProblems, waitForScene } from './helpers.js'
 // 2D and 3D games with listeners, DOM controls, orbit controls and start screens of their own
 const games = ['bunker', 'fps-base', 'avatar', 'cannon', 'vis', 'drvar']
 const switches = 20
+// bunker (2D) right after drvar (3D), in the third and fourth round
+const [gpuFirst, gpuLast] = [2 * games.length, 3 * games.length]
 
 /** Counts what a game can leave behind: document and window listeners, WebGL contexts and the objects in them, and page elements. */
 function countLeftovers() {
@@ -63,7 +65,7 @@ test(`${switches} game switches leave no listeners, WebGL contexts, graphics car
   const problems = watchProblems(page)
   await page.addInitScript(countLeftovers)
 
-  let afterSecond, gpuInSecondRound
+  let afterSecond, gpuInEarlierRound
   for (let i = 0; i <= switches; i++) {
     // Twenty switches span three daily allowances, using the real coin door.
     await page.clock.setFixedTime(new Date(2026, 10, 14 + Math.floor(i / 10), 12))
@@ -74,15 +76,15 @@ test(`${switches} game switches leave no listeners, WebGL contexts, graphics car
     }, game)
     await waitForScene(page)
     // in a 2D game right after a 3D one, the 3D game's objects on the graphics card must be gone;
-    // the shared renderer keeps the shaders it compiled in the first round
-    if (i === 10) gpuInSecondRound = await page.evaluate(() => window.gpuObjects())
-    if (i === 19) expect(await page.evaluate(() => window.gpuObjects())).toEqual(gpuInSecondRound)
+    // the shared renderer keeps the shaders it compiled in earlier rounds
+    if (i === gpuFirst) gpuInEarlierRound = await page.evaluate(() => window.gpuObjects())
+    if (i === gpuLast) expect(await page.evaluate(() => window.gpuObjects())).toEqual(gpuInEarlierRound)
     if (i === 2) afterSecond = await page.evaluate(() => window.leftovers())
   }
 
-  // switch 20 opens the same game as switch 2, and 19 the same 2D game as 10, since the list has 9 games
+  // the last switch opens the same game as switch 2
   expect(switches % games.length).toBe(2)
-  expect([games[10 % games.length], games[19 % games.length]]).toEqual(['bunker', 'bunker'])
+  expect(gpuLast).toBeLessThanOrEqual(switches)
   expect(await page.evaluate(() => window.leftovers())).toEqual(afterSecond)
   expect(problems).toEqual([])
 })

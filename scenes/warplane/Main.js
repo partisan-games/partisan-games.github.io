@@ -114,10 +114,10 @@ export default class WarplaneScene extends Scene3D {
     const { models, description } = await import(`/core3d/aircraft/derived/${plane}.js`)
     await requestModels([...models, ...fighterModels])
     if (this.ui.ended) return
-    const { groundAt } = worldQueries([this.ground, this.ground2])
-    this.groundAt = groundAt
+    const { groundAt, impactAt } = worldQueries([this.ground, this.ground2])
+    Object.assign(this, { groundAt, impactAt })
     const { body, model } = makeWarplane(description,
-      { clock: this.session.clock, limit: mapSize * .25, groundAt, targets: this.buildings.map(({ body }) => body) })
+      { clock: this.session.clock, limit: mapSize * .25, groundAt, targets: this.buildings.map(({ body }) => body) }, { impactAt })
     this.player = body
     this.guns = new GunTurrets({ plane: body, targets: this.fighters, clock: this.session.clock, turrets: description.turrets })
     this.add(this.guns, new ProjectilesModel(this.guns, { shotSound: 'aircraft-gun.mp3' }))
@@ -195,7 +195,7 @@ export default class WarplaneScene extends Scene3D {
     const { body, model, guns } = makeInterceptor(fighterPlane, {
       target: this.player, clock: this.session.clock, groundAt: this.groundAt,
       x: randFloatSpread(mapSize * .2), y: this.player.y + 15, z: -buildingDistance * .8,
-    })
+    }, { impactAt: this.impactAt })
     this.fighters.push(body)
     this.fighterParts.push({ body, model, guns, counted: false })
     this.add(body, model, guns)

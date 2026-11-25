@@ -5,6 +5,7 @@ import CoverSoldier, * as coverSoldierModule from '/core/gameplay/bodies/soldier
 import Transport, * as transportModule from '/core/gameplay/bodies/aircraft/Transport.js'
 import ParachutistSprite, { parachutistArt } from '/core3d/actor/soldiers/ParachutistSprite.js'
 import CoverSoldierSprite, { coverSoldierArt } from '/core3d/actor/soldiers/CoverSoldierSprite.js'
+import CoverSoldierModel, * as coverSoldierModelModule from '/core3d/actor/soldiers/CoverSoldierModel.js'
 import TransportSprite, { transportArt } from '/core3d/actor/aircraft/TransportSprite.js'
 import { loadPixelArt } from '/core3d/assets/pixelArt.js'
 import { requestModels } from '/core3d/assets/models.js'
@@ -29,7 +30,6 @@ const soldierCommands = [
 export const soldiers = [
   {
     id: 'nemacki-padobranac', name: 'Nemački padobranac', game, block: parachutistModule, stage: Stage3D, dimension: '2d',
-    description: 'Pada pod kupolom; pogađa se čovek, ne kupola. Posle sletanja ga igra prikazuje kao vojnika spreda.',
     create: async stage => {
       const body = new Parachutist({ y: dropHeight, drift: { x: .6, z: 0 } })
       stage.add(body, new ParachutistSprite(body, { texture: await loadPixelArt(parachutistArt.pictures[0]) }))
@@ -39,11 +39,21 @@ export const soldiers = [
   {
     id: 'nemacki-vojnik-spreda', name: 'Nemački vojnik spreda', game, block: coverSoldierModule, stage: Stage3D, dimension: '2d',
     commands: soldierCommands,
-    description: 'Vojnik iz Neretve kao uspravljena slika. Iza zaklona se vidi samo dok nišani i puca; zaklon se ovde ne crta.',
     create: async stage => {
       const [whole, upper] = await Promise.all([loadPixelArt(coverSoldierArt.whole), loadPixelArt(coverSoldierArt.upper)])
       const body = new CoverSoldier({ y: coverSoldierModule.coverSoldier.size.height / 2 })
       stage.add(body, new CoverSoldierSprite(body, { whole, upper }))
+      return body
+    },
+  },
+  {
+    id: 'nemacki-vojnik-iza-zaklona', name: 'Nemački vojnik iza zaklona', game, block: coverSoldierModelModule, stage: Stage3D,
+    commands: soldierCommands,
+    create: async stage => {
+      const [flashPicture] = await Promise.all([loadPixelArt(coverSoldierModelModule.flash.picture), requestModels(coverSoldierModelModule.models)])
+      const body = new CoverSoldier({ y: coverSoldierModule.coverSoldier.size.height / 2 })
+      // he faces the camera
+      stage.add(body, new CoverSoldierModel(body, { flashPicture, front: { x: 0, z: stage.camera.position.z } }))
       return body
     },
   },
@@ -64,7 +74,6 @@ export const aircraft3d = [
 export const aircraft = [
   {
     id: 'junkers-ju-52', name: 'Junkers Ju 52', game, block: transportModule, stage: Stage3D, dimension: '2d',
-    description: 'Transportni avion desanta, nacrtan sa strane; leti pravo, a nos mu je uvek okrenut kuda leti. Padobrance izbacuje igra.',
     create: async stage => {
       const body = new Transport({ x: -40, y: 20 })
       stage.add(body, new TransportSprite(body, { texture: await loadPixelArt(transportArt.picture), camera: stage.camera }))

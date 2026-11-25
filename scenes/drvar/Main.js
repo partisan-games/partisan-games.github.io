@@ -10,7 +10,9 @@ import CoverSoldier, { coverSoldier } from '/core/gameplay/bodies/soldiers/Cover
 import Transport from '/core/gameplay/bodies/aircraft/Transport.js'
 import Firearm, { firearms } from '/core/gameplay/Firearm.js'
 import TriggerKeys from '/core/gameplay/controllers/TriggerKeys.js'
+import WalkKeys from '/core/gameplay/controllers/WalkKeys.js'
 import CoverFighter from '/core/gameplay/controllers/CoverFighter.js'
+import coverGoal from './coverGoal.js'
 import Defender from '/core/gameplay/controllers/Defender.js'
 import { createPlayerBox } from '/core3d/geometry/index.js'
 import { requestModels } from '/core3d/assets/models.js'
@@ -23,7 +25,7 @@ import makeCharacter from '/core3d/actor/characters/makeCharacter.js'
 import MouseLook from '/core3d/actor/characters/MouseLook.js'
 import FirstPersonView from '/core3d/actor/characters/FirstPersonView.js'
 import ParachutistSprite, { parachutistArt } from '/core3d/actor/soldiers/ParachutistSprite.js'
-import CoverSoldierSprite, { coverSoldierArt } from '/core3d/actor/soldiers/CoverSoldierSprite.js'
+import CoverSoldierModel, { flash, models as coverSoldierModels } from '/core3d/actor/soldiers/CoverSoldierModel.js'
 import Ju52, { models as ju52Models } from '/core3d/actor/aircraft/Ju52.js'
 import dressFighter from '/core3d/actor/characters/dressFighter.js'
 import { description as sovietPartisan, models as sovietPartisanModels } from '/core3d/actor/derived/ww2/SovietPartisan.js'
@@ -50,7 +52,7 @@ const groundAt = () => 0
  * `inside` metres from its middle, each looking out over it the way of his `yaw`: the player at the east wall, the
  * machine gunner beside him, the others along the other sides.
  */
-const yard = { length: 24, width: 20, wall: { height: 1.1, thickness: .6 }, gate: 3, inside: .55 }
+const yard = { length: 24, width: 20, wall: { height: 1.1, thickness: .6, spacing: 2 }, gate: 3, inside: .55 }
 const posts = { player: { x: 1, z: 0, yaw: 0, pitch: .2 }, comrades: [{ x: 1, z: -.4, yaw: 0 }, { x: 0, z: -1, yaw: Math.PI / 2 },
   { x: 0, z: 1, yaw: -Math.PI / 2 }, { x: -1, z: .4, yaw: Math.PI }] }
 
@@ -61,8 +63,8 @@ const posts = { player: { x: 1, z: 0, yaw: 0, pitch: .2 }, comrades: [{ x: 1, z:
  * paratroopers fill the sky and come down all round. The second wave comes `pause` seconds after the first is beaten.
  */
 const waves = [
-  { passes: 3, jumpers: 5, interval: 6 },
-  { passes: 4, jumpers: 5, interval: 5 },
+  { passes: 3, jumpers: 3, interval: 9 },
+  { passes: 4, jumpers: 3, interval: 8 },
 ]
 const vee = [{ across: 0, back: 0 }, { across: -28, back: 22 }, { across: 28, back: 22 }]
 const flight = { height: 95, ahead: [25, 110], start: 380, zone: 180, wind: 1.5 }
@@ -101,10 +103,11 @@ export default class DrvarScene extends Scene3D {
   }
 
   async init() {
-    const pictures = [...parachutistArt.pictures, coverSoldierArt.whole, coverSoldierArt.upper]
+    const pictures = [...parachutistArt.pictures, flash.picture]
     const [textures] = await Promise.all([
       Promise.all(pictures.map(loadPixelArt)).then(loaded => new Map(pictures.map((src, i) => [src, loaded[i]]))),
-      requestModels([...sovietPartisanModels, ...resistanceFighterModels, ...partisanLowpolyModels, ...churchModels, ...sandbagsModels, ...ju52Models]),
+      requestModels([...sovietPartisanModels, ...resistanceFighterModels, ...partisanLowpolyModels, ...churchModels, ...sandbagsModels, ...ju52Models,
+        ...coverSoldierModels]),
     ])
     // a newer start ended this scene while its pictures loaded: they are its alone, so it frees them
     if (!this.session.active) return textures.forEach(texture => texture.dispose())
@@ -125,12 +128,12 @@ export default class DrvarScene extends Scene3D {
     this.enemies = []
     /** The enemies a shot can hit now: the living, and of those behind cover only the ones up to fire. */
     this.targets = []
-    this.coverSpots = this.placeCovers()
+    this.coverSpots = [...this.placeCovers(), ...this.wallCovers()]
     this.buildYardWall()
     const church = new Church()
     church.mesh.rotation.y = Math.PI / 2
     this.addMesh(church.mesh)
-    this.placePlayer()
+    this.placePlayer(new THREE.Box3().setFromObject(church.mesh, true))
     this.outfits = new Map()
     this.comrades = posts.comrades.map((post, i) => this.placeComrade(post, comrades[i]))
     this.partisans = [this.player, ...this.comrades]
@@ -138,13 +141,24 @@ export default class DrvarScene extends Scene3D {
     this.wave = 0
   }
 
-  placePlayer() {
-    this.player = new Character({ ...postAt(posts.player), yaw: posts.player.yaw, pitch: posts.player.pitch, y: .89, size: { length: .4, height: 1.78, width: .4 }, walks: false,
+  /**
+   * The player at his post by the east wall. He walks about the yard to hold another wall, kept inside it by its walls,
+   * out of the `church` `Box3` and off his living comrades; the stronghold is surrounded, so he never leaves it.
+   */
+  placePlayer(church) {
+    const size = { length: .4, height: 1.78, width: .4 }
+    const inside = { x: yard.length / 2 - yard.wall.thickness / 2 - size.length / 2, z: yard.width / 2 - yard.wall.thickness / 2 - size.width / 2 }
+    const isBlocked = (from, direction, distance) => {
+      const x = from.x + direction.x * distance, z = from.z + direction.z * distance, margin = size.length / 2
+      const inChurch = x > church.min.x - margin && x < church.max.x + margin && z > church.min.z - margin && z < church.max.z + margin
+      return inChurch || this.comrades.some(comrade => comrade.alive && Math.hypot(comrade.x - x, comrade.z - z) < size.length)
+    }
+    this.player = new Character({ ...postAt(posts.player), yaw: posts.player.yaw, pitch: posts.player.pitch, y: .89, size,
       strikeHeight: .82, actions: { attack: .1 }, pitchRange: { min: -Math.PI / 6, max: Math.PI / 2.5 }, targets: this.targets,
-      groundAt })
-    this.trigger = new TriggerKeys(this.player, new Input({ useJoystick: false, useKeyboard: true, attackKey: 'pointer' }),
-      new Firearm(firearms.rifle))
-    this.controllers.push(new MouseLook(this.player), this.trigger)
+      groundAt, isBlocked, bounds: { min: { x: -inside.x, z: -inside.z }, max: inside } })
+    const input = new Input({ useJoystick: false, useKeyboard: true, attackKey: 'pointer' })
+    this.trigger = new TriggerKeys(this.player, input, new Firearm(firearms.rifle))
+    this.controllers.push(new WalkKeys(this.player, input), new MouseLook(this.player), this.trigger)
     const playerModel = new CharacterModel(this.player, { mesh: createPlayerBox({ visible: false }), attackSound: 'rifle.mp3' })
     this.audioPlayer = () => playerModel
     this.add(this.player, playerModel, new FirstPersonView(this.player, { camera: this.camera, weaponSrc: null }))
@@ -186,6 +200,24 @@ export default class DrvarScene extends Scene3D {
     sandbags.mesh.position.set(-length / 2, 0, 0)
     sandbags.mesh.rotation.y = Math.PI / 2
     this.addMesh(sandbags.mesh)
+  }
+
+  /**
+   * The outer face of the churchyard wall as cover, a spot every `wall.spacing` metres along it and none at the
+   * gate, each facing out of the yard.
+   */
+  wallCovers() {
+    const { length, width, gate, wall } = yard
+    const spots = []
+    const along = (span, place) => {
+      for (let at = -span / 2 + wall.spacing / 2; at < span / 2; at += wall.spacing) spots.push(place(at))
+    }
+    along(length, x => ({ x, z: -width / 2, out: { x: 0, z: -1 } }))
+    along(length, x => ({ x, z: width / 2, out: { x: 0, z: 1 } }))
+    along(width, z => ({ x: length / 2, z, out: { x: 1, z: 0 } }))
+    along(width, z => ({ x: -length / 2, z, out: { x: -1, z: 0 } }))
+    return spots.filter(spot => spot.x > -length / 2 || Math.abs(spot.z) > gate / 2)
+      .map(spot => ({ ...spot, height: wall.height, taken: false }))
   }
 
   /** Spreads the rubble heaps all round the stronghold; each covers as high as it is. */
@@ -242,33 +274,22 @@ export default class DrvarScene extends Scene3D {
       }
   }
 
-  /** A paratrooper on the ground goes on as a soldier on foot: the living one to the nearest free cover, if near. */
+  /** A paratrooper on the ground goes on as a soldier on foot: the living one to a cover ahead of him, if near, or he fights at once. */
   landJumpers() {
     for (const body of this.enemies) {
       if (!(body instanceof Parachutist) || body.handedOver || body.feet > groundAt(body.x)) continue
       body.handedOver = true
       const soldier = new CoverSoldier({ x: body.x, z: body.z, y: groundAt(body.x) + coverSoldier.size.height / 2 })
       this.enemies.push(soldier)
-      this.add(soldier, new CoverSoldierSprite(soldier, { whole: this.textures.get(coverSoldierArt.whole),
-        upper: this.textures.get(coverSoldierArt.upper), face: Math.floor(Math.random() * 3) }))
+      this.add(soldier, new CoverSoldierModel(soldier, { flashPicture: this.textures.get(flash.picture), front: this.player, viewer: this.player }))
       if (body.dead) {
         soldier.setState('dead')
         continue
       }
       this.controllers.push(new CoverFighter(soldier, { targets: this.partisans }))
-      const cover = this.nearestCover(soldier)
-      if (!cover) continue
-      cover.taken = true
-      const away = Math.hypot(cover.x - this.player.x, cover.z - this.player.z)
-      soldier.moveTo({ x: cover.x + (cover.x - this.player.x) / away * covers.behind,
-        z: cover.z + (cover.z - this.player.z) / away * covers.behind, cover: cover.height })
+      const goal = coverGoal(soldier, { spots: this.coverSpots, target: this.player, reach: covers.reach, behind: covers.behind })
+      if (goal) soldier.moveTo(goal)
     }
-  }
-
-  nearestCover(soldier) {
-    const distance = cover => Math.hypot(cover.x - soldier.x, cover.z - soldier.z)
-    const free = this.coverSpots.filter(cover => !cover.taken && distance(cover) <= covers.reach)
-    return free.sort((a, b) => distance(a) - distance(b))[0]
   }
 
   /** The machine gunner beside the player falls before the second wave, if he has not already; his gun is the player's. */

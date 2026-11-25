@@ -2,6 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import Character from '/core/gameplay/bodies/characters/Character.js'
 import CharacterKeys from '/core/gameplay/controllers/CharacterKeys.js'
+import WalkKeys from '/core/gameplay/controllers/WalkKeys.js'
 import CharacterAI from '/core/gameplay/controllers/CharacterAI.js'
 import Escort, { escort } from '/core/gameplay/controllers/Escort.js'
 import NearestTarget from '/core/gameplay/controllers/NearestTarget.js'
@@ -13,6 +14,14 @@ const play = (seconds, controllers, bodies) => {
     bodies.forEach(body => body.update(1 / 30))
   }
 }
+
+test('walking keys walk a shooter whose gun fires on its own trigger, so the attack key does not swing', () => {
+  const input = { up: true, attack: true }
+  const body = new Character({ actions: { attack: .1 } })
+  play(.5, [new WalkKeys(body, input)], [body])
+  assert.ok(body.x > .5)
+  assert.equal(body.swing, null)
+})
 
 test('keys walk, run, turn and side-step a character, jump it and swing the attack held', () => {
   const input = {}

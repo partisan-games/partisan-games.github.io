@@ -14,11 +14,12 @@ function compatibleClip(clip, figure) {
 }
 
 class InfantryFighter {
-  constructor(body, source, { weapon, outfit, hatColor, equip, stature = 1 }, posts, textures) {
+  constructor(body, source, { weapon, outfit, hatColor, equip, dress, stature = 1 }, posts, textures) {
     this.body = body
     this.mesh = new THREE.Group()
     this.figure = clone(source)
     dressFighter(this.figure, outfit, textures, hatColor)
+    dress?.(this.figure, textures)
     this.figure.scale.multiplyScalar(stature)
     this.mesh.add(this.figure)
     equip?.(this.figure)

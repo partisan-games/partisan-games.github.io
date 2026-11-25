@@ -150,9 +150,9 @@ export default class FighterBomber extends Body {
   }
 
   /** A hit takes its energy, unless it is safe. */
-  takeHit(damage) {
+  takeHit(damage, source) {
     if (this.invulnerable) return false
-    return super.takeHit(damage)
+    return super.takeHit(damage, source)
   }
 
   /** Its bombs filled again, as on an airfield; more than a full load, from power-ups, it keeps. */

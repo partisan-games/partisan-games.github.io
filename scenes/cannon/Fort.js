@@ -9,11 +9,7 @@ const standsWithin = .5
 
 let concrete
 
-/**
- * One concrete texture for every fort. The renderer's shadow pass keeps the last texture it drew and uploads it again
- * in a later game; a texture of an earlier fort would then stay on the graphics card, while this one is freed again
- * when the next fort ends.
- */
+/** One concrete texture for every fort; the game that ends frees it and the next fort uploads it again. */
 function concreteTexture() {
   if (!concrete) {
     concrete = createTexture({ file: 'terrain/concrete.jpg' })

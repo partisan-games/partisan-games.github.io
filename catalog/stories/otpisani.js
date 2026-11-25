@@ -20,7 +20,6 @@ export const soldiers = [
     ['sentry', 'otpisani-strazar', 'Stražar u šinjelu'],
   ].map(([kind, id, name]) => ({ id, name, game: 'Otpisani', way: 1, block: occupierModule, pxPerMeter: scales.front,
     catalogGroup: ['Vojnici', 'Nemci'],
-    allowedSeasons: enemyKinds[kind].allowedSeasons,
     create(stage, way) {
       const body = new Occupier({ x: stage.width / 2 / stage.projection.pxPerMeter, y: .9,
         yaw: yawOf(way), shotInterval: enemyKinds[kind].shotInterval })

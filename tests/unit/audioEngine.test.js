@@ -1029,7 +1029,7 @@ test('a shared ambient area uses one loop, survives one owner removal and preser
   scene.sync([roots[1]], 'running')
   assert.equal(second.audio.paused, false)
   const wrongArea = scene.createSound('shared-fire.ogg', { ...options, spatial: { getArea: spatial.getArea } })
-  assert.throws(() => scene.sync([roots[1], { sounds: [wrongArea] }], 'running'), /physical area/)
+  assert.throws(() => scene.output.attachAmbience(wrongArea), /physical area/)
   scene.sync([], 'running')
   assert.equal(scene.output.ambiences.size, 0)
   assert.equal(engine.budget.active.size, 0)

@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import { createTexture } from '/core3d/helpers.js'
 import { bankHeight } from './Canyon.js'
 import { infantryWeapons, riflemanModel, variants } from '/core3d/actor/derived/ww2/partisanLooks.js'
+import dressSutjeska from '/core3d/actor/derived/ww2/sutjeskaLook.js'
 import makeInfantryFighter from './InfantryFighter.js'
 
 const gunfireProfile = {
@@ -20,7 +21,7 @@ export const exposure = { logs: .3, stone: .3, open: .7 }
 
 const positions = [
   { x: -7.5, z: .4, cover: 'logs', fighters: [
-    { ...variants.strelac, outfit: { ...variants.strelac.outfit, '_1___Default': 'partisan-wool-uniform.webp' } },
+    { model: variants.strelac.model, weapon: variants.strelac.weapon, dress: dressSutjeska },
     variants.smedji,
   ] },
   { x: 7.1, z: .15, cover: 'stone', fighters: [

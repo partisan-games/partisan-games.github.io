@@ -15,7 +15,7 @@ const play = (body, controller, seconds) => {
 
 test('a defender shoots down a paratrooper in the air, but not a soldier ducked behind cover', () => {
   const hidden = new CoverSoldier({ x: 30, z: 5, y: .9 })
-  hidden.inCover = true
+  Object.assign(hidden, { inCover: true, goal: { x: 30, z: 5, cover: 1.2 } })
   const falling = new Parachutist({ x: 40, y: 30, z: -10 })
   falling.update = () => {}
   const body = new Character({ walks: false, reach: 300, damage: [200, 200], actions: { attack: .1 },

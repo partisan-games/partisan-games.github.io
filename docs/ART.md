@@ -54,7 +54,7 @@ Pravila izrade i veze do izvora. Otvoreni poslovi su u [PLAN-u](PLAN.md#art), pr
 
 [Preuzeti džakovi sa peskom](../assets/models/props/sandbags/README.md) čuvaju dostavljenu teksturu i 2.324 trougla; zid je visok procenjenih 1,1 m. Isti prikaz je u katalogu pod Scenografija → Zakloni , kao dva puna zaklona uz bočne strane dvorišta Crvenog krsta i kao zid preko ulaza u crkveno dvorište u Drvaru. Sredina dvorišta i izlaz ostaju prohodni; raspored nije istorijska rekonstrukcija.
 
-Osnova su [istorijsko istraživanje](ISTORIJA.md#crveni-krst-12-februar-1942), [tri pregledane reference](references/ww2-yu/crveni-krst/README.md) i [dogovor da lavirint ostane kroz smislene prolaze i dvorišta](KONTEKST.md#escape-enemy-base). Prvi [originalni paket](../assets/models/building/crveni-krst/README.md) ima sedam GLB modela i deljeni atlas, dostupne [u katalogu](../catalog.html#scenografija-3d/sklop) i povezane [u nivou](../index.html#fps-base). Sačuvani su generisana studija i dva mala offline prikaza stvarne geometrije, uključujući visinu očiju; prikazi nisu screenshot nivoa niti potvrđen tlocrt. Žica i puni zaklon jasno se razlikuju, jer imaju različita pravila za pogled i metke; arhitektura i paleta ostaju zasnovane na ovom logoru.
+Osnova su [istorijsko istraživanje](ISTORIJA.md#crveni-krst-12-februar-1942), [tri pregledane reference](references/ww2-yu/crveni-krst/README.md) i [dogovor da lavirint ostane kroz smislene prolaze i dvorišta](KONTEKST.md#escape-concentration-camp). Prvi [originalni paket](../assets/models/building/crveni-krst/README.md) ima sedam GLB modela i deljeni atlas, dostupne [u katalogu](../catalog.html#scenografija-3d/sklop) i povezane [u nivou](../index.html#fps-base). Sačuvani su generisana studija i dva mala offline prikaza stvarne geometrije, uključujući visinu očiju; prikazi nisu screenshot nivoa niti potvrđen tlocrt. Žica i puni zaklon jasno se razlikuju, jer imaju različita pravila za pogled i metke; arhitektura i paleta ostaju zasnovane na ovom logoru.
 
 | Predmet pripreme | Specifikacija za narednu izradu |
 |---|---|
@@ -90,6 +90,9 @@ Kadar, trajanje, sidrište, tačke događaja i putanje završnih slika čitaju s
 | Frontalni kandidati sa animacijama | zasebne priče [strelca](../catalog.html#vojnici/otpisani-strelac) i [stražara](../catalog.html#vojnici/otpisani-strazar). Privremeno u Otpisanima: crtani su kao strip i odskaču od realističnog piksel arta, pa ih zameniti kad stigne bolji crtež. |
 | Punjenje nemačkog strelca | klip prati spremnik nacrtanog oružja i nije zamena za punjenje drugih pušaka |
 | The Germans Advance | [Zajednički prikaz](../core/actor/AdvanceSprite.js) za strelca, mitraljesca, strelca sa rancem, podoficira, Panzer III i vojnika na kupoli. Strelac ima čučeći hod, a podoficir znak rukom; klečanje, pucanje i davanje znaka zaustavljaju pomeranje. Položaj cevi je izmeren u kadrovima pucanja. Promo traje 24 s, sa 18 s scene i završnim [logom](../scenes/bitka/PromoLogo.js) u piksel fontu sajta, uz zvezdu; [vremenski tok](../scenes/bitka/PromoTimeline.js) pripada sceni. |
+
+<a id="cetnici-bocni-spriteovi"></a>
+Bočni četnici koriste [metapodatke atlasa](../core/actor/soldiers/cetnikArt.js) od 144 px po stojećoj figuri, prikazanoj kao 1,8 m pri 40 px/m. [Strelac](../catalog.html#vojnici/cetnik-strelac), [jurišnik](../catalog.html#vojnici/cetnik-jurisnik) i [mitraljezac](../catalog.html#vojnici/cetnik-mitraljezac) su u katalogu. [Poreklo, promptovi i hashovi](../assets/images/sources/cetnici/generation.json) povezuju originalne uzore, precrtane izvore i završne atlase. [Priprema](../scripts/prepare-cetnik-art.py) meri oslonac i kraj cevi, pa pakuje kadrove sa providnim marginama. Referentne slike određuju izgled ove tri figure.
 
 Šinjel je isključivo zimska uniforma; [metapodaci kandidata](../core/gameplay/frontEnemyKinds.js) ograničavaju stražara na zimu.
 
@@ -131,6 +134,12 @@ Nedostajuće resurse i ograničenja vodi [plan](PLAN.md#art).
 Dodatna plovila imaju zasebne opise. Generički nacrtan brod ili projektna mera nisu potvrda istorijske klase i njenog prisustva u konkretnoj bici.
 
 ### 3D
+
+<a id="brka"></a>
+[Savo · Osnovna](../catalog.html#drugi-svetski-rat-3d/partizan-jednostavan-model-3d/original) ima šire lice, punije brkove i zulufe, tamnu kosu do kragne i tamne mat pantalone. Vlasnik je prihvatio izgled 25. 11. 2026. prema [portretu Save Kovačevića](https://commons.wikimedia.org/wiki/File:Savo_Kova%C4%8Devi%C4%87.jpg) i [fotografiji sa Crkvica](https://commons.wikimedia.org/wiki/File:Narodni_heroj_Sava_Kova%C4%8Devi%C4%87.jpg). Katalog i igre koriste isti [FBX](../assets/models/character/soldier/partisan-lowpoly.fbx), sa postojećim skeletom i animacijama.
+
+<a id="sutjeska-drug-marko"></a>
+Vlasnik je 25. 11. 2026. prihvatio [Sutjesku](../catalog.html#drugi-svetski-rat-3d/partizan-3d/sutjeska) kao glavni izgled lika koji se u katalogu zove „Borac sa Sutjeske”. [Zajednički izgled](../core3d/actor/derived/ww2/sutjeskaLook.js) koriste katalog, Liberated City, Spomenici i prikazi istog partizana u Jablanici i 3D Tank. Mlađe lice, kestenjasta kosa, smeđe oči, veća crvena petokraka i braon pantalone primenjuju se na kopiji postojećeg modela sa istim skeletom. [Maskirna](../catalog.html#drugi-svetski-rat-3d/partizan-3d/original) i [Osnovna](../catalog.html#drugi-svetski-rat-3d/partizan-3d/strelac) i dalje su dostupne u katalogu. [Fotografija sa Sutjeske](https://commons.wikimedia.org/wiki/File:Druga_proleterska_divizija_na_Sutjesci.jpg) je polazište za izgled.
 
 Modele, skinove i klipove pregledati u [katalogu](../catalog.html) i [pregledu animacija](../pregled-animacija.html). Poreklo i licence ostaju uz modele; organizacija kataloga prati [pravila kataloga](KATALOG.md#stavke-kataloga-i-varijante).
 

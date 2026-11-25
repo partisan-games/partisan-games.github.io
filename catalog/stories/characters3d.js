@@ -15,6 +15,7 @@ import * as germanSoldierModule from '/core3d/actor/derived/ww2/GermanSoldier.js
 import * as naziAgentModule from '/core3d/actor/derived/ww2/NaziAgent.js'
 import * as naziOfficerModule from '/core3d/actor/derived/ww2/NaziOfficer.js'
 import * as partisanModule from '/core3d/actor/derived/ww2/Partisan.js'
+import * as sutjeskaModule from '/core3d/actor/derived/ww2/sutjeskaLook.js'
 import * as partisanLowpolyModule from '/core3d/actor/derived/ww2/PartisanLowpoly.js'
 import * as resistanceFighterModule from '/core3d/actor/derived/ww2/ResistanceFighter.js'
 import * as sSSoldierModule from '/core3d/actor/derived/ww2/SSSoldier.js'
@@ -28,6 +29,7 @@ import * as hotchkissModule from '/core3d/actor/derived/Hotchkiss.js'
 const library = 'Zajednička biblioteka'
 const { italianLooks } = italianLooksModule
 const { mountMetalPipe, pipeSwingModel, smoothPipeSwing } = workerPipeModule
+const sutjeskaLook = { id: 'sutjeska', name: 'Sutjeska', value: { dress: sutjeskaModule.default }, block: sutjeskaModule }
 
 /**
  * A story of a 3D character, with its model and weapon as its games have them. A 3D block needs its models loaded
@@ -54,7 +56,7 @@ const worker = {
   ...plainWorker,
   lookLabel: 'Oprema',
   looks: [
-    { id: 'original', name: 'Bez opreme', value: 'unarmed' },
+    { id: 'original', name: 'Goloruk', value: 'unarmed' },
     { id: 'cev', name: 'Cev', value: 'pipe', block: workerPipeModule, aliases: ['radnik-cev-3d'] },
   ],
   async create(stage, way, equipment) {
@@ -95,7 +97,7 @@ function infantryStory(id, name, game, block, portraitNames = {}) {
     ...base, lookLabel: 'Varijacije',
     create: async(stage, way, look) => {
       await requestModels([...block.models, ...looks.map(({ value }) => value.weapon.model)], { parallelAnimations: true })
-      const { body, model } = makeCharacter(block.description)
+      const { body, model } = makeCharacter({ ...block.description, dress: undefined })
       stage.add(body, model)
       const infantry = enableInfantryLooks(stage, model)
       const arms = surrenderArms(model.mesh)
@@ -117,8 +119,8 @@ function infantryStory(id, name, game, block, portraitNames = {}) {
       return body
     },
   }
-  const original = { ...story, looks: [{ id: 'original', name: 'Maskirna' }],
-    catalogGroup: ['Vojnici', id === 'vojnik-3d' ? 'Ostali' : id === 'sovjetski-partizan-3d' ? 'Sovjeti' : 'Partizani'] }
+  const original = { ...story, looks: [{ id: 'original', name: block === partisanLowpolyModule ? 'Osnovna' : 'Maskirna' }],
+    catalogGroup: ['Vojnici', id === 'vojnik-3d' ? 'Ostali' : 'Partizani'] }
   const identities = new Map()
   // Old links use the first equipment variant of each combat role as the story ID.
   const oldRoleIds = new Map()
@@ -147,6 +149,7 @@ function infantryStory(id, name, game, block, portraitNames = {}) {
     identities.get(identity).looks.push(look)
   }
   original.looks.sort((a, b) => Number(b.id === 'strelac') - Number(a.id === 'strelac'))
+  if (block === partisanModule) original.looks.unshift(sutjeskaLook)
   return [original, ...identities.values()]
 }
 
@@ -172,8 +175,10 @@ function enableInfantryLooks(stage, { mesh, anim }) {
       part.material = material
       part.geometry = geometry
     }
-    if (look) {
+    look?.dress?.(mesh, textures)
+    if (look?.weapon) {
       dressFighter(mesh, look.outfit, textures, look.hatColor)
+      if (look === variants.strelac) sutjeskaModule.enlargePartisanCapBadge(mesh)
       equipment = look.equip?.(mesh)
       anim.twoHandedWeapon = null
       grip = new TwoHandedGrip(mesh, look.weapon.model)
@@ -207,15 +212,15 @@ const germanHeavyInfantry = {
 }
 
 const [resistanceFighter, ...resistanceIdentities] = infantryStory(
-  'borac-pokreta-otpora-3d', 'Crni', 'Liberated City', resistanceFighterModule,
-  { moustache: 'Tihi' },
+  'borac-pokreta-otpora-3d', 'Drug Crni', 'Liberated City', resistanceFighterModule,
+  { moustache: 'Brka' },
 )
 const workerFighter = {
   ...worker, name: resistanceFighter.name, game: resistanceFighter.game,
   catalogGroup: resistanceFighter.catalogGroup, lookLabel: 'Varijacije',
   looks: [
-    ...worker.looks,
     { id: 'puska', name: 'Puška', block: resistanceFighter.block, aliases: [resistanceFighter.id, `${resistanceFighter.id}/original`] },
+    ...worker.looks,
     ...resistanceFighter.looks.slice(1),
   ],
   async create(stage, way, equipment) {
@@ -232,13 +237,13 @@ export const ww2 = [
   character('nemacki-vojnik-3d', 'Nemački vojnik', library, germanSoldierModule),
   character('nacisticki-agent-3d', 'Nacistički agent', library, naziAgentModule),
   character('nacisticki-oficir-3d', 'Nacistički oficir', '3D Tank, FPS Airport, FPS Base', naziOfficerModule),
-  infantryStory('partizan-3d', 'Drug Marko', 'Liberated City, Spomenici', partisanModule),
-  infantryStory('partizan-jednostavan-model-3d', 'Brka', 'Liberated City', partisanLowpolyModule),
+  infantryStory('partizan-3d', 'Borac sa Sutjeske', 'Liberated City, Spomenici', partisanModule),
+  infantryStory('partizan-jednostavan-model-3d', 'Savo', 'Liberated City', partisanLowpolyModule),
   workerFighter,
   ...resistanceIdentities,
   character('ss-vojnik-3d', 'SS vojnik', '3D Tank, FPS Airport, FPS Base', sSSoldierModule),
   infantryStory('vojnik-3d', 'Vojnik', library, soldierModule),
-  infantryStory('sovjetski-partizan-3d', 'Vasja', 'Liberated City', sovietPartisanModule),
+  infantryStory('sovjetski-partizan-3d', 'Nikoletina', 'Liberated City', sovietPartisanModule),
 ].flat()
 
 export const vehicles = [

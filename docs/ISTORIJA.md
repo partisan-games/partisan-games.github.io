@@ -253,7 +253,7 @@ Pejzaži služe prepoznatljivosti mesta, ne dokumentarnoj rekonstrukciji pojedin
 <a id="crveni-krst-12-februar-1942"></a>
 ## Crveni krst, 12. februar 1942.
 
-Istraženo 24. 11. 2026. za [Escape Enemy Base](KONTEKST.md#escape-enemy-base). [Narodni muzej Niš](https://narodnimuzejnis.rs/RS/o-muzeju/objekti/memorijalni-kompleks-12-februar/) potvrđuje datum proboja i navodi 147 učesnika, od kojih je 105 pobeglo; broj učesnika nije jednako naveden u svim izvorima.
+Istraženo 24. 11. 2026. za [Escape Concentration Camp](KONTEKST.md#escape-concentration-camp). [Narodni muzej Niš](https://narodnimuzejnis.rs/RS/o-muzeju/objekti/memorijalni-kompleks-12-februar/) potvrđuje datum proboja i navodi 147 učesnika, od kojih je 105 pobeglo; broj učesnika nije jednako naveden u svim izvorima.
 
 [Ivana Gruden, muzejska publikacija](https://narodnimuzejnis.rs/wp-content/uploads/2017/04/stradanje-slovenaca.pdf#page=29), štampana str. 29: glavni objekat je nekadašnji vojni magacin sa prizemljem, spratom i potkrovljem; dvorište ima apel plac i manji istočni prostor. Ograda je dvostruka, sa približno dva metra razmaka i koturima žice između; unutrašnja je niža. Opisane su dve kule sa mitraljezima i reflektorima, bez potvrđenog rasporeda u četiri ugla. Današnji pomoćni objekti građeni su posle proboja. Str. 34 pominje mraz i sneg u tom periodu; intenzitet sneženja tog dana nije utvrđen. Str. 39 navodi izlazak oko 19.30 i bekstvo preko žice iza zgrade prema Viniku; pominje i jednog poginulog nemačkog stražara. Noć ima oslonac u ovom izvoru; Suva planina ostaje cilj igre, ne potvrđeni neposredni smer bekstva.
 

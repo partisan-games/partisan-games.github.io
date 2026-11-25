@@ -2,7 +2,7 @@ const step = 2.5
 const key = ({ x, z }) => `${x},${z}`
 const directions = [[step, 0], [0, step], [-step, 0], [0, -step]]
 
-/** Scene-owned routes through the actual colliders, shared by all companions. */
+/** Scene-owned routes through the actual colliders, shared by prisoners and guards. */
 export default class CampNavigation {
   constructor(isBlocked, clearanceHeights = [.75, 1]) {
     this.isBlocked = isBlocked

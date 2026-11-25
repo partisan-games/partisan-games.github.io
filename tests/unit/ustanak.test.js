@@ -27,6 +27,17 @@ function createScene(t) {
   return scene
 }
 
+/**
+ * Waits for the flame the house imports on its own: importing the same module here does not finish after it, since
+ * the order of two imports is not fixed.
+ */
+async function flameOf(house) {
+  for (let turn = 0; !house.flame && turn < 100; turn++) await new Promise(resolve => {
+    setImmediate(resolve)
+  })
+  assert.ok(house.flame, 'the house has its flame')
+}
+
 test('only the active artillery side may fire and the turn changes once after settlement', () => {
   const turns = new Turns()
   assert.equal(turns.fire(1), false)
@@ -43,8 +54,7 @@ test('only the active artillery side may fire and the turn changes once after se
 test('the house starts intact without smoke and shells pass through it without a collision', async t => {
   const scene = createScene(t)
   loadAtlas(scene.bunker, 428, 286)
-  await import('/core/actor/Flame.js')
-  await null
+  await flameOf(scene.bunker)
   assert.equal(scene.bunker.alive, true)
   assert.equal(scene.bunker.burning, false)
   assert.equal(scene.bunker.flame.sparks.length, 0)
@@ -62,8 +72,7 @@ for (const side of [0, 1]) for (const terrainEnabled of [false, true])
     const scene = createScene(t)
     scene.terrain.enabled = terrainEnabled
     loadAtlas(scene.bunker, 428, 286)
-    await import('/core/actor/Flame.js')
-    await null
+    await flameOf(scene.bunker)
     const die = t.mock.method(scene.bunker, 'die')
     const land = screenX => {
       const { x } = scene.projection.toWorld({ x: screenX, y: 0 })

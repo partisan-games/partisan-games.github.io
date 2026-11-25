@@ -140,11 +140,13 @@ Nove frontalne likove vlasnik prvo bira u katalogu; do izbora nisu deo sastava n
 
 **Kontekst i granice:** opsada je trajala od 9. do 31. oktobra 1941, uz zajedničke snage partizana i četnika; Nemci su od 15. do 20. oktobra u odmazdi streljali oko 2.000 stanovnika ([Siege of Kraljevo](https://en.wikipedia.org/wiki/Siege_of_Kraljevo)). U završnom napadu 31. oktobra dejstvovao je vod od dva zaplenjena tenka, što se slavi kao Dan oklopnih jedinica ([Novosti](https://www.novosti.rs/c/drustvo/vesti/931236/cestitka-stefanovica-dan-roda-oklopnih-jedinica-secanje-prvo-dejstvovanje-tenkova-borbama-oslobodjenje-kraljeva)). To su bili tenkovi bivše jugoslovenske vojske koje su Nemci zaplenili u aprilu 1941, po [Kuriru](https://www.kurir.rs/vesti/srbija/3987871/srbi-ga-zaplenili-od-nemaca-a-sada-decenijama-cuva-uzice-ovaj-hockis-je-jedan-od-1200-koliko-ih-je-ukupno-proizvedeno-u-svetu) jedan Hotchkiss i jedan Renault; tačan model Renaulta izvori ne razrešavaju. Igrač vozi Renault FT (vlasnik, 2026-11-24).
 
-## Escape Enemy Base
+## Escape Concentration Camp
 
 **Okvir (vlasnik, 2026-11-24):** Igra je proboj iz nemačkog logora Crveni krst u Nišu, 12. februara 1942; na naslovnoj je „1942: Breakout from Crveni Krst”. Igrač je logoraš koji se probija kroz logor do partizana; neprijatelji su Nemci.
 
 **Saborci (vlasnik, 2026-11-25):** logoraši su spremni za proboj i hrabro napadaju sve bliske pretnje cevima, uključujući plamenobacača. Prilaze do dometa udarca; udaljena vatra ne prekida bliski napad. Zaklon služi zaštiti od udaljene paljbe, a ne izbegavanju bliske borbe.
+
+**Stražari (vlasnik, 2026-11-25):** prednost ima mala nadogradnja postojećeg ponašanja: pamćenje poslednjeg viđenog mesta, potraga kroz stvarne prolaze i stabilniji izbor mete. Skrivenog protivnika ne prate po trenutnim koordinatama. Po dolasku proveravaju okolinu, a neuspešna potraga se završava. Zakloni, grupna taktika i složeno planiranje nisu deo ove nadogradnje.
 
 **Raspored (vlasnik, 2026-11-24):** sačuvati lavirint, grananje, slepe prolaze i traženje izlaza. Uzor je način na koji Witcher 1 oblikuje naselja: putanje deluju kao smisleni prolazi između objekata i dvorišta. U logoru ih oblikuju žičane pregrade, neprohodni delovi velike zidane zgrade i poneki drveni zaklon. Jedno otvoreno dvorište i pogled na kule služe orijentaciji; nivo ostaje lavirint, bez pretvaranja u pretežno otvorenu igru izbegavanja patrola. Žica blokira prolaz, propušta pogled i metke; zgrada i puni drveni zakloni zaklanjaju i zaustavljaju metke. Unutrašnje pregrade i raspored prolaza su arkadna interpretacija, ne istorijski tlocrt. Witcher 1 je referenca za organizaciju prostora, ne za arhitekturu ili likovni stil.
 

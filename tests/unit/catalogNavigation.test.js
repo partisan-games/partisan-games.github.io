@@ -49,12 +49,17 @@ test('old model links resolve to separate actors instead of skins', () => {
   }
 })
 
-test('the worker and his equipment share one entry, including the old pipe link', () => {
+test('Drug Crni opens with a rifle and keeps his unarmed and pipe addresses', () => {
   const section = 'drugi-svetski-rat-3d'
   const worker = findStory(kinds, section + '/radnik-3d')
+  const unarmed = findStory(kinds, section + '/radnik-3d/original')
   const pipe = findStory(kinds, section + '/radnik-3d/cev')
   const old = findStory(kinds, section + '/radnik-cev-3d')
-  assert.equal(worker.look.id, 'original')
+  assert.equal(worker.story.name, 'Drug Crni')
+  assert.equal(worker.look.id, 'puska')
+  assert.equal(unarmed.story, worker.story)
+  assert.equal(unarmed.look.name, 'Goloruk')
+  assert.equal(unarmed.look.value, 'unarmed')
   assert.equal(pipe.look.id, 'cev')
   assert.equal(pipe.story, worker.story)
   assert.equal(old.story, worker.story)
@@ -79,14 +84,21 @@ test('old infantry links open the equipment of the right individual', async() =>
   assert.equal(new Set(italianSoldiers).size, italianSoldiers.length)
   assert.equal(open('vojnik-3d-italian-rifle/italian-rifleCoat').look.value, italianLooks.rifleCoat)
 
-  const lowpoly = open('partizan-jednostavan-model-3d').story
+  const { story: lowpoly, look: lowpolyOriginal } = open('partizan-jednostavan-model-3d')
+  assert.equal(lowpoly.name, 'Savo')
+  assert.equal(lowpolyOriginal.name, 'Osnovna')
+  assert.equal(open('partizan-jednostavan-model-3d/original').look, lowpolyOriginal)
   for (const id of ['smedji', 'zimski', 'maslinasti']) {
     const oldRole = open(`partizan-jednostavan-model-3d-${id}`)
     assert.equal(oldRole.story, lowpoly)
     assert.equal(oldRole.look.value, variants[id])
   }
   const partisan = id => open(`saborci-jablanica/${id}`).story
+  const nikoletina = open('sovjetski-partizan-3d')
+  assert.equal(nikoletina.story.name, 'Nikoletina')
+  assert.deepEqual(groupOf(nikoletina.kind, nikoletina.story), ['Vojnici', 'Partizani'])
   assert.equal(partisan('indigo'), partisan('brkovi'))
+  assert.equal(partisan('brkovi').name, 'Brka')
   assert.equal(partisan('vuna'), partisan('sivi'))
   assert.notEqual(partisan('indigo'), partisan('vuna'))
 
@@ -96,6 +108,19 @@ test('old infantry links open the equipment of the right individual', async() =>
   assert.equal(german.look.id, 'mitraljez')
   assert.equal(flame.look.id, 'bacac-plamena')
   assert.notEqual(german.story, open('nemacki-vojnik-3d').story)
+})
+
+test('Sutjeska is the default look of Borac sa Sutjeske and Maskirna keeps its address', () => {
+  const path = 'drugi-svetski-rat-3d/partizan-3d'
+  const original = findStory(kinds, `${path}/original`)
+  const candidate = findStory(kinds, `${path}/sutjeska`)
+  assert.equal(candidate.story, original.story)
+  assert.equal(candidate.story.name, 'Borac sa Sutjeske')
+  assert.equal(candidate.look.id, 'sutjeska')
+  assert.equal(candidate.look.name, 'Sutjeska')
+  assert.ok(candidate.story.looks.includes(candidate.look))
+  assert.equal(original.look.name, 'Maskirna')
+  assert.equal(findStory(kinds, path).look, candidate.look)
 })
 
 test('search opens matching paths, restores disclosures and selection opens every ancestor', async() => {

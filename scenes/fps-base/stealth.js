@@ -1,7 +1,8 @@
 import Character from '/core/gameplay/bodies/characters/Character.js'
-import CharacterAI from '/core/gameplay/controllers/CharacterAI.js'
+import PursuitAI from '/core/gameplay/controllers/PursuitAI.js'
 import CharacterKeys from '/core/gameplay/controllers/CharacterKeys.js'
 import CharacterModel from '/core3d/actor/characters/CharacterModel.js'
+import CampNavigation from './CampNavigation.js'
 
 export const crouchKey = { codes: ['KeyC'], label: 'C' }
 const crouchSpeed = .45
@@ -53,25 +54,10 @@ export class PrisonerFootsteps extends CharacterModel {
   }
 }
 
-export class CampGuard extends CharacterAI {
-  constructor(body, { litAt, candidates, ...options }) {
-    super(body, options)
+export class CampGuard extends PursuitAI {
+  constructor(body, { litAt = () => false, navigation = new CampNavigation(body.isBlocked), ...options }) {
+    super(body, { ...options, navigation })
     this.litAt = litAt
-    this.candidates = candidates
-  }
-
-  update(dt) {
-    if (this.candidates && !this.body.swing) {
-      const previous = this.target
-      const visible = this.candidates.filter(target => {
-        this.target = target
-        return this.spotted
-      }).sort((a, b) => Math.hypot(a.x - this.body.x, a.z - this.body.z)
-        - Math.hypot(b.x - this.body.x, b.z - this.body.z))
-      this.target = visible[0] ?? (previous?.alive ? previous : null)
-      this.body.targets = this.candidates
-    }
-    super.update(dt)
   }
 
   get spotted() {
@@ -87,8 +73,4 @@ export class CampGuard extends CharacterAI {
     super.chaseIfSpotted()
   }
 
-  attack() {
-    if (this.spotted) super.attack()
-    else this.set(this.way)
-  }
 }

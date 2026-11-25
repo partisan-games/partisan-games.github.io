@@ -12,7 +12,7 @@ export function makeCharacterBody(mesh, animDict, settings, options) {
  * as long as its clips, and the model that shows it. `options` are the body's, as where it stands and what it hits;
  * `impactAt` is the view's query for a bullet's mark on the world.
  */
-export default function makeCharacter({ model, animDict, twoHandedWeapon, rightHandWeapon, attackSound, attackProfile, flame, raise, deathPose, body: settings },
+export default function makeCharacter({ model, animDict, twoHandedWeapon, rightHandWeapon, attackSound, attackProfile, flame, raise, deathPose, dress, body: settings },
   { impactAt, ...options } = {}) {
   const mesh = loadedModel(model)
   const animations = mesh.userData.animations ?? []
@@ -20,5 +20,6 @@ export default function makeCharacter({ model, animDict, twoHandedWeapon, rightH
   const view = new CharacterModel(body, { mesh, animations, animDict, attackSound, attackProfile, flame, raise, deathPose, impactAt,
     twoHandedWeapon: twoHandedWeapon && loadedModel(twoHandedWeapon),
     rightHandWeapon: rightHandWeapon && loadedModel(rightHandWeapon) })
+  dress?.(view.mesh)
   return { body, model: view }
 }

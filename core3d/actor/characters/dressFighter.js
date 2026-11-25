@@ -1,6 +1,24 @@
 import * as THREE from 'three'
 import { assets } from '/config.js'
 
+export function outfitTexture(swatch, original, textures) {
+  if (!textures.has(swatch)) {
+    const map = new THREE.TextureLoader().load(assets.models + 'character/soldier/' + swatch)
+    map.colorSpace = THREE.SRGBColorSpace
+    if (original) {
+      map.wrapS = original.wrapS
+      map.wrapT = original.wrapT
+      map.offset.copy(original.offset)
+      map.repeat.copy(original.repeat)
+      map.rotation = original.rotation
+      map.center.copy(original.center)
+      map.flipY = original.flipY
+    }
+    textures.set(swatch, map)
+  }
+  return textures.get(swatch)
+}
+
 export default function dressFighter(figure, outfit, textures = new Map(), hatColor) {
   if (!outfit && hatColor === undefined) return
   function replace(material) {
@@ -8,24 +26,7 @@ export default function dressFighter(figure, outfit, textures = new Map(), hatCo
     if (swatch === undefined) return material
     const dressed = material.clone()
     if (typeof swatch === 'number') dressed.color.setHex(swatch)
-    else {
-      if (!textures.has(swatch)) {
-        const map = new THREE.TextureLoader().load(assets.models + 'character/soldier/' + swatch)
-        map.colorSpace = THREE.SRGBColorSpace
-        const original = material.map
-        if (original) {
-          map.wrapS = original.wrapS
-          map.wrapT = original.wrapT
-          map.offset.copy(original.offset)
-          map.repeat.copy(original.repeat)
-          map.rotation = original.rotation
-          map.center.copy(original.center)
-          map.flipY = original.flipY
-        }
-        textures.set(swatch, map)
-      }
-      dressed.map = textures.get(swatch)
-    }
+    else dressed.map = outfitTexture(swatch, material.map, textures)
     return dressed
   }
   figure.traverse(part => {
