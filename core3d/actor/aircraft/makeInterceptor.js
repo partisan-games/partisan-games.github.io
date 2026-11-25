@@ -7,9 +7,10 @@ import ProjectilesModel from '../ProjectilesModel.js'
 /**
  * An enemy fighter from a plane module's `description`, once its models are loaded: a body as big as its model, square
  * in plan so a round from any side meets it, the model that shows it and the tracers and rattle of its guns.
- * `options` are the body's, as its target and clock.
+ * `options` are the body's, as its target and clock; `impactAt` finds the ground its wreck scorches, as the model
+ * takes it.
  */
-export default function makeInterceptor({ model, propeller, propellerName, physical }, options = {}) {
+export default function makeInterceptor({ model, propeller, propellerName, physical }, options = {}, { impactAt } = {}) {
   const mesh = loadedModel(model)
   const size = modelSize(mesh)
   const span = Math.max(size.length, size.width)
@@ -17,7 +18,7 @@ export default function makeInterceptor({ model, propeller, propellerName, physi
   body.physical = physical
   return {
     body,
-    model: new WarplaneModel(body, { mesh, propeller: propeller && loadedModel(propeller), propellerName }),
+    model: new WarplaneModel(body, { mesh, propeller: propeller && loadedModel(propeller), propellerName, impactAt }),
     guns: new ProjectilesModel(body, { shotSound: 'aircraft-gun.mp3' }),
   }
 }

@@ -1,5 +1,6 @@
 import { separateModels } from './catalogEntries.js'
 import Stage3D from '../Stage3D.js'
+import Dummy from '../Dummy.js'
 import { playerControls } from '../playerControls.js'
 import { Mesh, MeshBasicMaterial, SphereGeometry } from 'three'
 import Body from '/core/gameplay/bodies/Body.js'
@@ -81,22 +82,16 @@ const warplane = async(stage, way, look) => {
   return body
 }
 
-/** The bomber's guns, by fighter, which the story's command holds. */
-const bomberGuns = new WeakMap()
-
 /**
- * A Bf 109 making passes at a bomber that flies on in place in the middle, as in Warplane; the bomber's guns fire at
- * it while the command holds them. Its passes take it far out, where the camera follows it on request.
+ * A Bf 109 making passes at an unseen stand-in for the bomber, as high as the bomber flies in its own story and above
+ * the lowest the fighter flies. Its passes take it far out, where the camera follows it on request.
  */
 const fighter = async stage => {
-  await requestModels([...bomberModule.models, ...messerschmittModule.models], { parallelAnimations: true })
-  const { clock } = stage.session
-  const bomber = makeWarplane(bomberModule.description, { clock, height: 3, limit: 10 })
-  const { body, model, guns: tracers } = makeInterceptor(messerschmittModule.description,
-    { target: bomber.body, clock, x: 30, y: 15, z: -150 })
-  const guns = new GunTurrets({ plane: bomber.body, targets: [body], clock, turrets: bomberModule.description.turrets })
-  stage.add(bomber.body, bomber.model, guns, new ProjectilesModel(guns, { shotSound: 'aircraft-gun.mp3' }), body, model, tracers)
-  bomberGuns.set(body, guns)
+  await requestModels(messerschmittModule.models, { parallelAnimations: true })
+  const standIn = new Dummy({ y: 20, size: { length: 20, height: 5, width: 30 } })
+  const { body, model, guns } = makeInterceptor(messerschmittModule.description,
+    { target: standIn, clock: stage.session.clock, x: 30, y: 15, z: -150 })
+  stage.add(body, model, guns)
   return body
 }
 
@@ -178,17 +173,11 @@ export const aircraft = [
     modelIds: { dvokrilac: 'dvokrilac-3d', mesersmit: 'mesersmit-3d' },
     commands: [{ label: 'Pomeri udesno', run: plane => plane.steer({ across: 1 }) },
       { label: 'Ispali raketu', run: plane => plane.fire() }, { label: 'Sleti', run: plane => plane.land() }] },
-  { id: 'bombarder-3d', aliases: ['ratni-avion-3d/bombarder'], name: 'Bombarder', game: 'Warplane', block: warplaneModule,
+  { id: 'bombarder-3d', aliases: ['ratni-avion-3d/bombarder'], name: 'Bombarder Avro Lancaster', game: 'Warplane', block: warplaneModule,
     stage: Stage3D, create: bomber,
-    description: 'Model: Avro Lancaster, četvoromotorni britanski bombarder. Elise su providni diskovi bez lopatica, pa se ne okreću. Upravlja se kao u Warplane-u: strelice, Space raketa, C mitraljezi.',
     commands: [{ label: 'Meta napred', run: practiceTarget(30, 0) }, { label: 'Meta gore', run: practiceTarget(0, 25) },
       { label: 'Meta iza', run: practiceTarget(-30, 0) }, { label: 'Sleti', run: plane => plane.land() }] },
-  { id: 'lovac-bf-109-3d', name: 'Nemački lovac Bf 109', game: 'Warplane', block: interceptorModule, stage: Stage3D, create: fighter,
-    description: 'Teksturisan Bf 109 sa 1.981 trouglom i originalnim rotirajućim propelerom; isti prikaz kao u igri.',
-    commands: [{ label: 'Mitraljezi bombardera', run: plane => {
-      const guns = bomberGuns.get(plane)
-      guns.firing = !guns.firing
-    } }] },
+  { id: 'lovac-bf-109-3d', name: 'Nemački lovac Bf 109', game: 'Warplane', block: interceptorModule, stage: Stage3D, create: fighter },
 ].flatMap(story => story.looks ? separateModels(story) : [story])
 
 export const artillery = [

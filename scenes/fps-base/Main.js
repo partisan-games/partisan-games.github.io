@@ -87,6 +87,7 @@ export default class FpsBaseScene extends Scene3D {
       weaponSrc: () => avatar.current.pose === 'rifle' ? '/assets/images/ui/savo.png' : null, behind: 0,
       showTarget: () => avatar.current.pose !== 'pipe' }), avatar, weapons)
 
+    const navigation = new CampNavigation(playerWorld.isBlocked, [.75, 1, ...companionLooks.map(look => look.height / 2)])
     const onFirstSpot = guard => this.sceneAudio.emit(halt, { profile: shout, spatial: { position: guard.eye } })
     const sees = (guard, prisoner) => enemyWorld.sees(guard.eye, prisoner.eye)
     const litAt = point => this.camp.litAt(point, enemyWorld.sees)
@@ -98,7 +99,7 @@ export default class FpsBaseScene extends Scene3D {
       const { body, model } = makeCharacter(soldier, { x, z, targets: [this.player], damage: computerDamage, ...enemyWorld })
       weapons.register(body, model, soldier)
       this.controllers.push(new CampGuard(body, { target: this.player, candidates: this.prisoners,
-        way: 'wander', sees, litAt, onFirstSpot }))
+        way: 'wander', sees, litAt, onFirstSpot, navigation }))
       this.add(body, model)
       return body
     })
@@ -129,7 +130,6 @@ export default class FpsBaseScene extends Scene3D {
       }
     }
 
-    const navigation = new CampNavigation(playerWorld.isBlocked, [.75, 1, ...companionLooks.map(look => look.height / 2)])
     const coverPoints = this.camp.opaqueSolids.flatMap(mesh => {
       const { min, max } = new Box3().setFromObject(mesh)
       return [

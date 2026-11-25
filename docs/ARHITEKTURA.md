@@ -18,6 +18,8 @@ Smer zavisnosti od nižeg ka višem je `runtime` → `gameplay/collision` → `i
 
 Opšta komponenta ostaje u zajedničkom kodu i kada ima samo jednog korisnika. U sceni ostaju pravila konkretne igre. Prednost imaju mali saradnici sa uskim zavisnostima i poznatim ugovorom, prema [vodiču za kompoziciju](COMPOSITION.md); zajedničku apstrakciju ne uvoditi na osnovu prividne sličnosti.
 
+Za protivnike koji pamte i traže izgubljenu metu postoji zajednički [PursuitAI](../core/gameplay/controllers/PursuitAI.js), koji nivo izričito bira umesto osnovnog `CharacterAI`. Prima `target`, živi niz `candidates`, upit `sees` i navigaciju sa `route(from, to)` i `clear(from, to)` u XZ koordinatama. Navigacija određuje granice i prepreke sveta; upravljač ne uvozi scenu, modele ili prikaz. [Logorski stražar](../scenes/fps-base/stealth.js) dodaje samo pravila vidljivosti u čučnju, reflektore i reakciju na korake. Ostali postojeći upravljači zadržavaju svoja pravila dok nivo ne izabere poteru.
+
 ## Gradivni blokovi
 
 Akter čine telo, prikaz i upravljač koje sastavlja scena:

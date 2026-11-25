@@ -388,10 +388,10 @@ test('FPS camp initializes with real model files, ten enemies and two first aids
   assert.deepEqual(shouted[0][1].spatial.position, sentry.eye)
   visible = false
   guardAI.update(0)
-  assert.equal(guardAI.doing, 'wander')
+  assert.equal(guardAI.doing, 'search')
   visible = true
   guardAI.update(0)
-  assert.equal(guardAI.doing, 'pursue')
+  assert.equal(guardAI.doing, 'attack')
   assert.equal(shouted.length, 1, 'seeing the prisoner again does not repeat the first shout')
   const wins = []
   game.victory = text => wins.push(text)

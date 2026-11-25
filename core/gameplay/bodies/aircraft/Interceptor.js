@@ -11,7 +11,7 @@ import Bullet from '../projectiles/Bullet.js'
  * `ceiling` metres above the ground. Shot down, it dives at `fall` metres a second, rolling `crashRoll` a second.
  */
 export const interceptor = { speed: 45, turn: 1.2, range: 150, cone: .15, interval: .15, bulletSpeed: 160, life: 1.5,
-  damage: { min: 4, max: 8 }, health: 120, breakAway: 30, reach: 220, floor: 12, ceiling: 140, fall: 18, crashRoll: 2 }
+  damage: { min: 20, max: 30 }, health: 120, breakAway: 30, reach: 220, floor: 12, ceiling: 140, fall: 18, crashRoll: 2 }
 
 /** The rate at which a heading turns toward `to` from `from`, both in radians, the short way round. */
 const turnToward = (from, to) => Math.atan2(Math.sin(to - from), Math.cos(to - from))

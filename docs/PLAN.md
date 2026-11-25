@@ -19,7 +19,7 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 | 9 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
 | 10 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
 | 11 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
-| 12 | [IG-29](#ig-29) | Dovršiti logor Crveni krst u Escape Enemy Base | Codex, Claude | 🔄 In progress |
+| 12 | [IG-29](#ig-29) | Dovršiti logor Crveni krst u Escape Concentration Camp | Codex, Claude | 🔄 In progress |
 | 13 | [CK-01](#ck-01) | Crveni krst: uskladiti vidljivog lika, telo i stopala | Codex | 🔄 In progress |
 | 14 | [CK-02](#ck-02) | Crveni krst: prave animacije, držanje cevi i prelazi | Vlasnik: klipovi; Codex: povezivanje | 🔄 In progress |
 | 15 | [CK-03](#ck-03) | Crveni krst: prepoznatljivi logoraši i katalog | Codex | 📋 TODO |
@@ -137,9 +137,9 @@ Italijanske i ustaške etape ostaju kandidati uz postojeće Nemce i četnike. Iz
 Liberated City je Bihać krajem 1942. Natpisi o dolasku Crvene armije i plakat RED_ARMY_IS_HERE pripadaju drugom okviru; vlasnik bira zamenu ili uklanjanje pre izmene sadržaja.
 
 <a id="ig-29"></a>
-### IG-29 · Logor Crveni krst u Escape Enemy Base
+### IG-29 · Logor Crveni krst u Escape Concentration Camp
 
-Radnja (vlasnik, 2026-11-24): proboj iz nemačkog logora Crveni krst u Nišu, 12. februara 1942; tekst misije i naslov kartice su upisani. Okvir je u [KONTEKST](KONTEKST.md#escape-enemy-base).
+Radnja (vlasnik, 2026-11-24): proboj iz nemačkog logora Crveni krst u Nišu, 12. februara 1942; tekst misije i naslov kartice su upisani. Okvir je u [KONTEKST](KONTEKST.md#escape-concentration-camp).
 
 Proboj je dogovoren i logoraši su spremni. Po odluci vlasnika od 2026-11-25, [3D logoraš](../scenes/fps-base/PrisonerAvatar.js) počinje sa već otetom puškom. Uvod objašnjava da je pre početka nivoa savladao stražara. Tasterom F preuzima [oružje ostalih savladanih stražara](../scenes/fps-base/CampWeapons.js). Izlazak iz lavirinta dovoljan je za pobedu. [Test nivoa](../tests/unit/fpsCamp.test.js) pokriva početnu pušku, preuzimanje oružja i pobedu dok su svi stražari na mapi živi.
 
@@ -151,7 +151,7 @@ Preostali rad je razložen na [CK-01](#ck-01)–[CK-07](#ck-07), prema pregledu 
 
 Prerada menja betonski ambijent u logor; sneg, noć i straže ostaju. Početni predlog baraka i kula u uglovima korigovati prema [istraženom stanju](ISTORIJA.md#crveni-krst-12-februar-1942), a ne predstaviti kao potvrđen tlocrt. Teksture i modele izrađuje Codex, bez privremenog crteža u nivou.
 
-Priprema je urađena: [reference sa poreklom](references/ww2-yu/crveni-krst/README.md) i [smernice za modele i teksture](ART.md#crveni-krst-priprema-3d-ambijenta). Preradu voditi prema [dogovorenom rasporedu i pravilima prepreka](KONTEKST.md#escape-enemy-base): lavirint ostaje, a prolazi dobijaju prostornu namenu.
+Priprema je urađena: [reference sa poreklom](references/ww2-yu/crveni-krst/README.md) i [smernice za modele i teksture](ART.md#crveni-krst-priprema-3d-ambijenta). Preradu voditi prema [dogovorenom rasporedu i pravilima prepreka](KONTEKST.md#escape-concentration-camp): lavirint ostaje, a prolazi dobijaju prostornu namenu.
 
 Prvi [paket arta](../assets/models/building/crveni-krst/README.md) povezan je u [katalogu](../catalog.html#scenografija-3d/sklop) i [igri](../index.html#fps-base). [Lokalni raspored](../scenes/fps-base/campLayout.js) čuva grananje i slepe prolaze oko ograđene zidane zgrade, sa jednim otvorenim dvorištem. [Sklop](../scenes/fps-base/CampEnvironment.js) povezuje žicu, pune zaklone, dvostruki obod, otvorenu izlaznu kapiju i dve kule sa reflektorima. Uslov pobede ostaje izlazak iz lavirinta, bez dodatnih obaveznih ciljeva.
 
@@ -280,8 +280,7 @@ Preostaje:
    Sada je u igri i u [katalogu](../catalog.html#letelice-3d/bombarder-3d) Avro Lancaster, koji nije leteo u Ratweeku; elise su mu providni diskovi bez lopatica, pa nema okretanja. Vlasnik traži izbor bombardera, sa elisama koje se okreću (2026-11-25). Besplatni modeli koje je agent našao, za preuzimanje (traže prijavu): [B-24 Liberator](https://cgtrader.com/free-3d-models/aircraft/historic/consolidated-b-24-liberator) (.blend), [B-17 Flying Fortress](https://cgtrader.com/free-3d-models/aircraft/historic-aircraft/boeing-b-17-flying-fortress-129ed1c57ac1e18d1fa3521aaf0c5a2d) i [B-25 Mitchell](https://cgtrader.com/free-3d-models/aircraft/historic/north-american-b-25-mitchell) (.blend). Agent ih svodi na malo trouglova, kao Hotchkiss, i odvaja elise da se okreću.
 3. Ideja za probu (vlasnik, 2026-11-25): pogled pravo odozgo, kao na [planu grada](../assets/images/background/grad.png) i u igri Vis, umesto kamere iza aviona. Prednost: jasno se vidi šta je ispod aviona, pa se pruge, mostovi i fabrike lakše gađaju. Mana: gubi se utisak dubine i leta kroz prostor, a 3D modeli se vide samo odozgo, pa bi i 2D slike bile dovoljne. Pogled pravo odozgo previše liči na Vis (vlasnik, 2026-11-25). Po uzoru na druge igre probaju se dva rešenja, redom: prvo, kao u arkadnom War Thunderu, kamera ostaje iza aviona, a narandžast krug na tlu pokazuje gde bi udarila raketa ispaljena u tom trenutku ([nišan](../core/gameplay/bodies/aircraft/Warplane.js)); drugo, kao u Desert Strike, kosi pogled iza i iznad aviona pod 45°, do kog vodi dugme za kameru.
    - [ ] Vlasnik: probati nišan na tlu, pa kosi pogled, i odlučiti šta ostaje.
-4. Nije prioritet (vlasnik, 2026-11-25): bolje obaranje aviona. Sada oboren avion pada uz dim i ostaje na tlu; treba eksplozija pri udaru, olupina koja gori i dimi i garež na tlu oko nje ([prikaz](../core3d/actor/aircraft/WarplaneModel.js)). Garež je trag na tlu, ne prefarbavanje modela.
-5. [ ] Vlasnik u pregledaču testira lovca: da li se preleti vide i prate, da li mitraljezi na C obaraju lovca i da li je težina dobra (lovac počinje posle 12 s, sledeći dolazi 18 s posle obaranja).
+4. [ ] Vlasnik u pregledaču testira lovca: da li se preleti vide i prate, da li mitraljezi na C obaraju lovca i da li je težina dobra (lovac počinje posle 12 s, sledeći dolazi 18 s posle obaranja).
 
 <a id="ig-32"></a>
 ### IG-32 · Igra Raid on Drvar

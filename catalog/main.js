@@ -1,7 +1,6 @@
 import { createCatalog, dimensionOf, findStory } from './catalog.js'
 import Stage2D from './Stage2D.js'
 import { attackControls } from './attackControls.js'
-import { createStoryDetails } from './storyDetails.js'
 import { blockStats } from './blockStats.js'
 import kinds from './stories/index.js'
 
@@ -138,8 +137,6 @@ function drawPanel() {
     ${canBeHit(block) ? healthBar(block) : ''}
     ${blockStats(block)}
   `
-  const details = createStoryDetails(story)
-  if (details.childElementCount) panel.querySelector('.catalog-heading').after(details)
 }
 
 /** Aims `block` at the point of its `shot`, ahead of it the way it faces. */

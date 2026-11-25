@@ -89,12 +89,17 @@ export default class Stage3D extends Scene3D {
   resetView(block) {
     const { followed } = this
     this.frame(block)
-    this.follow(followed)
+    this.track(followed)
+  }
+
+  /** What shows `block`: its own mesh, or its view's. */
+  meshOf(block) {
+    return block.mesh ?? this.children.find(child => child.body === block)?.mesh
   }
 
   /** Frame the actor itself, including the initial altitude of birds and airships. */
   frame(block) {
-    const mesh = block.mesh ?? this.children.find(child => child.body === block)?.mesh
+    const mesh = this.meshOf(block)
     if (!mesh) return
     optimizeGeometry(mesh)
     // The first rendered frame normally updates these, including each skinned mesh's inverse bind matrix.
@@ -109,11 +114,27 @@ export default class Stage3D extends Scene3D {
     this.controls.target.copy(center)
     this.camera.position.copy(center).addScaledVector(viewDirection, Math.max(this.camera.near * 2, distance))
     this.controls.update()
-    this.follow(block)
+    this.track(block)
   }
 
-  /** Keeps the camera orbiting `block`, or with none lets it stay where it is. */
+  /**
+   * Turns the view onto `block`, from as far and at the angle the mouse left it, and keeps the camera orbiting it;
+   * with none, lets the camera stay where it is.
+   */
   follow(block = null) {
+    if (block) {
+      const mesh = this.meshOf(block), box = mesh && new Box3().setFromObject(mesh)
+      const center = box && !box.isEmpty() ? box.getCenter(new Vector3()) : new Vector3().copy(block.mesh?.position ?? block)
+      const shift = center.sub(this.controls.target)
+      this.camera.position.add(shift)
+      this.controls.target.add(shift)
+      this.controls.update()
+    }
+    this.track(block)
+  }
+
+  /** Keeps the camera orbiting `block` from where it is, or with none lets it stay. */
+  track(block = null) {
     this.followed = block
     if (block) this.lastPosition = new Vector3().copy(block.mesh?.position ?? block)
   }
