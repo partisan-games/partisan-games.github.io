@@ -1,7 +1,7 @@
 import Body from '../Body.js'
 import Cooldown from '../../Cooldown.js'
 import ProjectilePool from '../projectiles/ProjectilePool.js'
-import Missile from '../projectiles/Missile.js'
+import Missile, { missile } from '../projectiles/Missile.js'
 
 /**
  * Measured from the earlier warplane, which flew on into the screen while the world came at it: its `speed` in
@@ -11,7 +11,7 @@ import Missile from '../projectiles/Missile.js'
  * second on the ground; shot down, it rolls over by `crashRoll` a second. Missiles fly at `missileSpeed`, diving at
  * `missileDive` below level.
  */
-export const warplane = { speed: 40, height: 29, health: 500, reload: .5, steering: 12, braking: 18, banking: 6,
+export const warplane = { speed: 40, height: 60, health: 500, reload: .5, steering: 12, braking: 18, banking: 6,
   maxRoll: Math.PI / 6, sink: .5, brake: 3, crashRoll: .375, missileSpeed: 60, missileDive: Math.atan2(50, 75) }
 
 /** It flies, or it is shot down. */
@@ -53,11 +53,30 @@ export default class Warplane extends Body {
     Object.assign(this.steering, { across, climb })
   }
 
+  /** Where its missiles leave it, under its belly. */
+  get launchPoint() {
+    return { x: this.x, y: this.y - this.size.height * .33, z: this.z }
+  }
+
+  /**
+   * Where the ground is now that a missile fired now would strike, as the ground comes at the plane at its speed, the
+   * world moving past it; found within `step` seconds of flight. Null if the missile would not come down in its life.
+   */
+  aim(step = .02) {
+    const from = this.launchPoint
+    const level = Math.cos(warplane.missileDive) * warplane.missileSpeed, sink = Math.sin(warplane.missileDive) * warplane.missileSpeed
+    for (let time = 0; time <= missile.life; time += step) {
+      const x = from.x + Math.cos(this.yaw) * level * time, z = from.z - Math.sin(this.yaw) * level * time
+      const ground = this.groundAt(x, z)
+      if (from.y - sink * time <= ground) return { x, y: ground, z: z - this.speed * time }
+    }
+    return null
+  }
+
   /** Fires a missile ahead and down if it may and has reloaded; returns whether it fired. */
   fire() {
     if (this.dead || this.landing || !this.reload.ready) return false
-    const from = { x: this.x, y: this.y - this.size.height * .33, z: this.z }
-    this.missiles.fire(from, this.yaw, -warplane.missileDive, warplane.missileSpeed)
+    this.missiles.fire(this.launchPoint, this.yaw, -warplane.missileDive, warplane.missileSpeed)
     this.shotsFired++
     this.reload.start()
     return true

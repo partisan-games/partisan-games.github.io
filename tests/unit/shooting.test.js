@@ -272,7 +272,7 @@ test('Bunker: the machine gunner hits the grenadier in his reach', async t => {
   assert.ok(hit, 'the grenadier is hit')
 })
 
-test('Bunker: the attack key throws a grenade in front of the grenadier, which destroys the bunker it bursts by', async t => {
+test('Bunker: the attack key held to full strength and let go throws a grenade in front of the grenadier, which destroys the bunker it bursts by', async t => {
   loadImages(t)
   const { default: Scene } = await import('/scenes/bunker/Main.js')
   const { grenadier } = await import('/core/gameplay/bodies/soldiers/Grenadier.js')
@@ -288,8 +288,10 @@ test('Bunker: the attack key throws a grenade in front of the grenadier, which d
   // left of the bunker, facing it, a throw away
   Object.assign(player, projection.toWorld({ x: bunker.x - projection.length(grenadier.throw.ahead), y: bunker.y - 36 }),
     { vx: 0, vz: 0, facing: 1 })
-  // the attack key held, as the page without a mouse has no keyboard input
-  scene.controllers.find(controller => controller.input).input = { attack: true }
+  // the attack key held and let go, as the page without a mouse has no keyboard input
+  const input = scene.controllers.find(controller => controller.input).input = { attack: true }
+  await play(scene, grenadier.throw.charge + .1)
+  input.attack = false
   const destroyed = await watch(scene, { seconds: 3, shots: () => [], done: () => bunker.dead })
   assert.ok(player.grenade.bursts > 0, 'the grenade burst')
   assert.ok(destroyed, 'the bunker is destroyed')

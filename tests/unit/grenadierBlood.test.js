@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 import { loadAtlas } from './helpers/atlas.js'
 
-let Grenadier, GrenadierSprite, World, Renderer2D, topProjection
+let Grenadier, grenadier, GrenadierSprite, World, Renderer2D, topProjection
 before(async() => {
   createPageElements()
   ;[Grenadier, GrenadierSprite, World, Renderer2D] = await Promise.all([
@@ -11,6 +11,7 @@ before(async() => {
     import('/core/World.js'), import('/core/Renderer2D.js'),
   ]).then(modules => modules.map(module => module.default))
   ;({ topProjection } = await import('/core/actor/projection.js'))
+  ;({ grenadier } = await import('/core/gameplay/bodies/soldiers/Grenadier.js'))
 })
 
 function scene() {
@@ -57,9 +58,9 @@ test('the throw sounds once when the grenade actually leaves the hand', t => {
   const { body, view, world } = scene()
   const cue = t.mock.method(view.throwSound, 'play', () => {})
   body.shoot()
-  live(world, .3, 30)
+  live(world, grenadier.throw.release - .1, 30)
   assert.equal(cue.mock.callCount(), 0)
-  live(world, .6, 30)
+  live(world, .2, 30)
   assert.equal(cue.mock.callCount(), 1)
 })
 
@@ -75,7 +76,7 @@ test('the original release hand and flying grenade coincide in both directions',
       launch(point, velocity)
     })
     body.shoot()
-    world.update(.399, 0)
+    world.update(grenadier.throw.release - .001, 0)
     assert.equal(released, undefined)
     assert.equal(view.frame.x, 66 * 3, 'the last held-grenade frame precedes release')
     world.update(.001, 0)

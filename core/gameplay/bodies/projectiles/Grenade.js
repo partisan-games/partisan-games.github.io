@@ -6,7 +6,7 @@ import Body from '../Body.js'
  * share of its speed it keeps each second sliding (`slide`); the seconds its burst lasts, and how far from where it
  * bursts the burst reaches, in metres.
  */
-export const grenade = { fuse: .8, bounce: .3, settle: .5, slide: .05, burst: .3, radius: .75 }
+export const grenade = { fuse: .5, bounce: .3, settle: .5, slide: .05, burst: .3, radius: .75 }
 
 /** It lies unused, or flies, bounces and slides until its fuse burns down, or bursts. */
 const states = {

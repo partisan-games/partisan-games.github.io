@@ -6,14 +6,19 @@ import { germanTank, m15, stug, hotchkiss } from '/core/actor/tankLooks.js'
 import { modelPerformance } from '/core/gameplay/modelPerformance.js'
 import { yawOf } from './helpers.js'
 import scales from '../scales.js'
+import { playerControls } from '../playerControls.js'
+import TankKeys from '/core/gameplay/controllers/TankKeys.js'
+import { keyboard } from '/core/io/Keyboard.js'
+import { leftPlayerKeys } from '/core/io/keys.js'
 
 /**
  * A tank alone in the middle of the stage, facing `way`, its shells hitting the stand-in; `facing` is the way its art
- * points; it moves and fights as its model `id` does in the game.
+ * points; it moves and fights as its model `id` does in the game, driven on the left player's keys.
  */
 const tank = (stage, way, { id, kind, art, barrel, facing = 1, rearAim = true }) => {
   const block = new Tank({ kind, rearAim, performance: modelPerformance[id], yaw: yawOf(way), x: stage.width / 2 / stage.projection.pxPerMeter, clock: stage.session.clock,
     targets: [stage.dummy] })
+  playerControls(stage, () => new TankKeys(block, { keyboard, keys: leftPlayerKeys }))
   stage.add(block, new TankSprite(block, { art, facing, barrel, projection: stage.projection }))
   return block
 }

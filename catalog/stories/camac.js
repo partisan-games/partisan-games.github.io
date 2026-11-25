@@ -1,4 +1,7 @@
 import { separateModels } from './catalogEntries.js'
+import { playerControls } from '../playerControls.js'
+import { inputLayouts } from '/core/io/inputLayouts.js'
+import TurnKeys from '/core/gameplay/controllers/TurnKeys.js'
 import Boat, * as boatModule from '/core/gameplay/bodies/boats/Boat.js'
 import SBoat, * as sBoatModule from '/core/gameplay/bodies/boats/SBoat.js'
 import ShoreMachineGun, * as shoreMachineGunModule from '/core/gameplay/bodies/artillery/ShoreMachineGun.js'
@@ -25,9 +28,10 @@ const put = (stage, body, view) => {
   return body
 }
 
-/** The partisan boat in the middle, heading down the river. */
+/** The partisan boat in the middle, heading down the river, steered and firing on the keys and buttons of the game. */
 const boat = stage => {
   const body = new Boat({ ...at(stage, .5, .5), clock: stage.session.clock })
+  playerControls(stage, input => new TurnKeys(body, { input }), inputLayouts.boat)
   return put(stage, body, new BoatSprite(body, views(stage)))
 }
 

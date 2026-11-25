@@ -1,6 +1,7 @@
 import Scene2D from '/core/Scene2D.js'
 import canvas2d from '/core/io/canvas2d.js'
 import Input from '/core/io/Input.js'
+import { inputLayouts } from '/core/io/inputLayouts.js'
 import { icons } from '/core/io/icons.js'
 import { progresBar } from '/ui/components.js'
 import { keys, attackLabels } from '/core/io/keys.js'
@@ -68,7 +69,7 @@ export default class CamacScene extends Scene2D {
       view: this.screenView })
     this.playerView = new BoatSprite(this.player, { projection: this.projection, camera: this })
     this.audioPlayer = () => this.playerView
-    this.input = new Input({ attackKey: 'Space', buttonDict: { attack: icons.shoot, attack2: icons.rocket } })
+    this.input = new Input(inputLayouts.boat)
     this.keys = new TurnKeys(this.player, { input: this.input })
     this.waterEffects = new WaterEffects({ session: this.session, viewLeft: () => this.cameraX })
     this.audioChildren.push(this.waterEffects)

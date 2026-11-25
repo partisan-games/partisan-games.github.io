@@ -71,6 +71,8 @@ export default class CompanionModel extends CharacterModel {
   play(name) {
     const changed = name !== this.clip
     super.play(name)
+    if (name === 'run') this.actions.run.setEffectiveTimeScale(Math.max(.85, Math.min(1.15,
+      Math.hypot(this.body.vx, this.body.vz) / 4)))
     if (changed && ['crouchIdle', 'crouchRest'].includes(name)) this.actions[name].time = this.idlePhases?.[name] ?? 0
     if (this.body.posture?.name === name) {
       this.actions[name].setLoop(LoopOnce, 1)

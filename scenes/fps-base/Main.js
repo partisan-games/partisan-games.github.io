@@ -129,7 +129,7 @@ export default class FpsBaseScene extends Scene3D {
       }
     }
 
-    const navigation = new CampNavigation(playerWorld.isBlocked)
+    const navigation = new CampNavigation(playerWorld.isBlocked, [.75, 1, ...companionLooks.map(look => look.height / 2)])
     const coverPoints = this.camp.opaqueSolids.flatMap(mesh => {
       const { min, max } = new Box3().setFromObject(mesh)
       return [

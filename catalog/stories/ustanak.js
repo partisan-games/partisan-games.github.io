@@ -1,4 +1,8 @@
 import { separateModels } from './catalogEntries.js'
+import { playerControls } from '../playerControls.js'
+import CannonKeys from '/core/gameplay/controllers/CannonKeys.js'
+import { keyboard } from '/core/io/Keyboard.js'
+import { leftPlayerKeys } from '/core/io/keys.js'
 import FieldGun, * as fieldGunModule from '/core/gameplay/bodies/artillery/FieldGun.js'
 import CannonCrew, * as crewModule from '/core/gameplay/bodies/soldiers/CannonCrew.js'
 import Skirmisher, * as skirmisherModule from '/core/gameplay/bodies/soldiers/Skirmisher.js'
@@ -38,9 +42,10 @@ const crew = (stage, way, italian) => {
   return put(stage, body, new CannonCrewSprite(body, { italian, ...views(stage) }))
 }
 
-/** A gun in the middle, whose shots hit the stand-in; both armies' guns are drawn alike. */
+/** A gun in the middle, aimed and fired on the left player's keys, whose shots hit the stand-in; both armies' guns are drawn alike. */
 const gun = (stage, way) => {
   const body = new FieldGun({ ...placed(stage, way), targets: [stage.dummy] })
+  playerControls(stage, () => new CannonKeys(body, { keyboard, keys: leftPlayerKeys }))
   return put(stage, body, new FieldGunSprite(body, views(stage)))
 }
 
@@ -53,9 +58,9 @@ const armies = (partisan, italian) => [
 const game = 'Ustanak'
 
 export const soldiers = [
-  { id: 'partizanski-strelac', name: 'Milan · Partizanski strelac', game, pxPerMeter, way: 1, block: skirmisherModule, create: skirmisher },
+  { id: 'partizanski-strelac', name: 'Partizanski strelac', game, pxPerMeter, way: 1, block: skirmisherModule, create: skirmisher },
   { id: 'zastavnik', name: 'Zastavnik', game, pxPerMeter, way: 1, looks: armies('partizanski', 'italijanski'), block: bearerModule, create: bearer,
-    modelNames: { partizanski: 'Savo · Partizanski zastavnik', italijanski: 'Italijanski zastavnik' } },
+    modelNames: { partizanski: 'Partizanski zastavnik', italijanski: 'Italijanski zastavnik' } },
   { id: 'posada-topa', name: 'Posada topa', game, pxPerMeter, way: 1, looks: armies('partizanska', 'italijanska'), block: crewModule, create: crew,
     modelNames: { partizanska: 'Partizanska posada topa', italijanska: 'Italijanska posada topa' } },
 ].flatMap(story => story.looks ? separateModels(story) : [story])

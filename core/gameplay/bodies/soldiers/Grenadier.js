@@ -6,12 +6,13 @@ import Grenade from '../projectiles/Grenade.js'
  * and 30 frames a second: the push of a key in metres a second squared, and the share of his speed he keeps each
  * second. His throw lasts `duration` seconds and lets the grenade go at `release` from his hand; it flies `flight`
  * seconds to the ground at his feet, `feet` metres down the view from his middle, from `short` metres in front of his
- * middle for the gentlest throw to `ahead` for the strongest. Where his `hand` lets go, ahead of his middle and above
- * that ground, is measured from the picture of his throw.
+ * middle for the gentlest throw to `ahead` for the strongest, which a player gets by holding the throw `charge`
+ * seconds. Where his `hand` lets go, ahead of his middle and above that ground, is measured from the picture of his
+ * throw.
  */
 export const grenadier = {
   thrust: 56.25, keep: .7 ** 30,
-  throw: { duration: .8, release: .4, flight: .8, short: 2.5, ahead: 5, feet: .85, hand: { ahead: .375, up: 1.675 } },
+  throw: { duration: .5, release: .25, flight: .5, short: 2.5, ahead: 5, feet: .85, charge: .5, hand: { ahead: .375, up: 1.675 } },
 }
 
 /**
@@ -91,15 +92,6 @@ export default class Grenadier extends Body {
     this.vx = this.vz = 0
     this.setState('attack')
     return true
-  }
-
-  /** What a story can ask of him once: his gentlest and his strongest throw. */
-  get acts() {
-    return ['throw short', 'throw long']
-  }
-
-  act(name) {
-    this.shoot(name === 'throw short' ? 0 : 1)
   }
 
   /**

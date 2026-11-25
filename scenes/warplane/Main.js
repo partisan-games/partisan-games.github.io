@@ -5,9 +5,9 @@ import { createTerrain, meadowColor } from '/core3d/ground.js'
 import { createFirTree } from '/core3d/geometry/trees.js'
 import { baseControls } from '/ui/Controls.js'
 import { attackLabels, keys } from '/core/io/keys.js'
-import { icons } from '/core/io/icons.js'
 import Input from '/core/io/Input.js'
 import WarplaneKeys from '/core/gameplay/controllers/WarplaneKeys.js'
+import { inputLayouts } from '/core/io/inputLayouts.js'
 import GunTurrets from '/core/gameplay/bodies/aircraft/GunTurrets.js'
 import makeWarplane from '/core3d/actor/aircraft/makeWarplane.js'
 import makeInterceptor from '/core3d/actor/aircraft/makeInterceptor.js'
@@ -31,8 +31,30 @@ const endDelay = 2.5 // seconds between the end of the flight and the end screen
 const planes = ['Bomber']
 /** Seconds of game time before the first enemy fighter, and between one shot down and the next. */
 const fighterWaits = { first: 12, next: 18 }
+/**
+ * The chase camera, as flight games keep it: `above` and `behind` the plane, in metres, looking at a point `ahead` of
+ * it and `below` it, so the plane sits low in the picture and the ground it attacks shows ahead of it.
+ */
+const chaseView = { above: 5, behind: 16, ahead: 25, below: 3 }
+/**
+ * The camera of the trial (IG-31): `above` and `behind` the plane, in metres, looking at the ground `ahead` of it; as
+ * `above` is `behind` plus `ahead`, it looks down at 45°.
+ */
+const oblique = { above: 30, behind: 15, ahead: 15 }
+/** The aim on the ground: a ring of `radius` metres, `width` thick, `lift` above the ground so it is not hidden. */
+const aimRing = { radius: 4, width: .6, lift: .3, color: 0xff7a1a, opacity: .8 }
+
+/** The ring that marks the aim, lying on the ground; it has no outline. */
+function createAimMark() {
+  const { radius, width, color, opacity } = aimRing
+  const material = new THREE.MeshBasicMaterial({ color, transparent: true, opacity, depthWrite: false, side: THREE.DoubleSide })
+  material.userData.outlineParameters = { visible: false }
+  const mark = new THREE.Mesh(new THREE.RingGeometry(radius - width, radius, 48), material)
+  mark.rotation.x = -Math.PI / 2
+  mark.visible = false
+  return mark
+}
 /** A plane has nothing to jump, so it fires its rockets on Space; its machine guns fire on the second attack. */
-const inputOptions = { attackKey: 'Space', buttonDict: { attack: icons.rocket, attack2: icons.shoot } }
 
 const customStartScreen = ({ container }) => {
   const options = planes
@@ -53,7 +75,7 @@ export default class WarplaneScene extends Scene3D {
   constructor() {
     super({
       toon: true,
-      controlKeys: { ...baseControls, [attackLabels[inputOptions.attackKey]]: 'rockets', [keys.attack2.label]: 'machine guns' },
+      controlKeys: { ...baseControls, [attackLabels[inputLayouts.warplane.attackKey]]: 'rockets', [keys.attack2.label]: 'machine guns' },
       customStartScreen,
       reportText: 'Yugoslavia, September 1944\n\nGerman troops from Greece rush north to stop the liberation of Belgrade. Your task is to bomb the railways and bridges in their way.',
     })
@@ -97,22 +119,35 @@ export default class WarplaneScene extends Scene3D {
     const { body, model } = makeWarplane(description,
       { clock: this.session.clock, limit: mapSize * .25, groundAt, targets: this.buildings.map(({ body }) => body) })
     this.player = body
-    this.guns = new GunTurrets({ plane: body, targets: this.fighters, clock: this.session.clock })
+    this.guns = new GunTurrets({ plane: body, targets: this.fighters, clock: this.session.clock, turrets: description.turrets })
     this.add(this.guns, new ProjectilesModel(this.guns, { shotSound: 'aircraft-gun.mp3' }))
     this.fighterWait.start(fighterWaits.first)
-    this.controllers.push(new WarplaneKeys(body, new Input(inputOptions), this.guns))
+    this.controllers.push(new WarplaneKeys(body, new Input(inputLayouts.warplane), this.guns))
     this.audioPlayer = () => model
-    // the camera flies behind the plane, never turning with it
-    const { length, height } = body.size
+    // the camera flies behind the plane, never turning with it; the camera button switches to the trial of a view
+    // from higher behind it, looking down at the ground ahead (IG-31)
     const chase = new ChaseCamera({ camera: this.camera, mesh: model.mesh, rotate: false, speed: body.speed * .75,
-      offset: [0, 0, length], lookAt: [0, 0, 0], birdsEyeOffset: [0, height * 12, 0], birdsEyeLookAt: [0, 0, -length] })
+      offset: [0, chaseView.above, chaseView.behind], lookAt: [0, -chaseView.below, -chaseView.ahead],
+      birdsEyeOffset: [0, oblique.above, oblique.behind], birdsEyeLookAt: [0, 0, -oblique.ahead], showCameraButton: true })
+    chase.setCamera(0)
     chase.far = mapSize * .5
     this.chase = chase
+    this.aimMark = createAimMark()
+    this.addMesh(this.aimMark)
     this.add(body, model, { update: () => this.followPlane(), end: () => chase.end() })
+  }
+
+  /** The mark on the ground where a missile fired now would strike, while the plane can fire. */
+  showAim() {
+    const { player, aimMark } = this
+    const aim = player.alive && !player.landing && player.aim()
+    aimMark.visible = Boolean(aim)
+    if (aim) aimMark.position.set(aim.x, aim.y + aimRing.lift, aim.z)
   }
 
   /** The camera keeps to the plane; down on the ground, it rises and draws back to see it roll to a stop. */
   followPlane() {
+    this.showAim()
     const { player, chase } = this
     if (player.landing && !player.airborne) {
       chase.offset[1] = player.size.height * 1.5

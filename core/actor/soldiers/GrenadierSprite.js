@@ -3,6 +3,7 @@ import FallingBlood from '/core/actor/effects/FallingBlood.js'
 import GrenadeSprite from '/core/actor/projectiles/GrenadeSprite.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import { assets } from '/config.js'
+import { grenadier } from '/core/gameplay/bodies/soldiers/Grenadier.js'
 
 /** The atlas: its rows, with their frames and seconds; how long it keeps walking after a stop, and its stride. */
 const clips = { idle: { row: 0, frames: 2, seconds: .6 }, walk: { row: 1, frames: 8, seconds: .8 }, death: { row: 2, frames: 6, seconds: .6 } }
@@ -10,12 +11,16 @@ const columns = 8
 /** The throw, drawn to the right from his standing pose, in its own atlas of eight frames, and the seconds of each. */
 const throwArt = { src: 'game-ready/vojnici/bombas-throw-right-sprites.webp', frames: [.1, .1, .1, .1, .08, .1, .1, .12] }
 
-/** The frame of the throw `seconds` into it; the last one holds. */
+/** The seconds the throw's frames are drawn for, which play faster or slower to last as long as his throw. */
+const throwArtSeconds = throwArt.frames.reduce((sum, length) => sum + length)
+
+/** The frame of the throw `seconds` into his throw; the last one holds. */
 function throwFrame(seconds) {
+  const drawn = seconds * throwArtSeconds / grenadier.throw.duration
   let end = 0
   for (const [frame, length] of throwArt.frames.entries()) {
     end += length
-    if (seconds < end) return frame
+    if (drawn < end) return frame
   }
   return throwArt.frames.length - 1
 }

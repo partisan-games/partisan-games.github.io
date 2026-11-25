@@ -10,11 +10,14 @@ export const gunTurrets = { range: 160, interval: .1, bulletSpeed: 220, life: 1.
 
 /**
  * The machine guns of `plane`, which its crew aims at the nearest living one of `targets`, leading it by how far it
- * moves while a round flies there; they fire only while `firing`, which the player holds. `clock` is the game clock.
+ * moves while a round flies there, or straight ahead with none in range; the turret nearest that aim fires, and only
+ * while `firing`, which the player holds. Each of its `turrets`, from its plane's model, sits `ahead` of the plane's
+ * place and `above` it by those shares of its length and height; without them it fires from the plane's place.
+ * `clock` is the game clock.
  */
 export default class GunTurrets {
-  constructor({ plane, targets = [], clock }) {
-    Object.assign(this, { plane, targets })
+  constructor({ plane, targets = [], clock, turrets = [{ ahead: 0, above: 0 }] }) {
+    Object.assign(this, { plane, targets, turrets })
     this.firing = false
     this.shotsFired = 0
     this.reload = new Cooldown({ seconds: gunTurrets.interval, clock })
@@ -56,12 +59,21 @@ export default class GunTurrets {
     return point
   }
 
+  /** Where the turret nearest `point` sits now. */
+  turretToward(point) {
+    const { plane } = this
+    const places = this.turrets.map(({ ahead, above }) => plane.ahead(ahead * plane.size.length, above * plane.size.height))
+    const away = place => Math.hypot(point.x - place.x, point.y - place.y, point.z - place.z)
+    return places.reduce((nearest, place) => away(place) < away(nearest) ? place : nearest)
+  }
+
   update(dt) {
     const { plane, target } = this
-    if (this.firing && plane.alive && target && this.reload.ready) {
-      const point = this.lead(target)
-      const way = { x: point.x - plane.x, y: point.y - plane.y, z: point.z - plane.z }
-      this.rounds.fire({ x: plane.x, y: plane.y, z: plane.z },
+    if (this.firing && plane.alive && this.reload.ready) {
+      const point = target ? this.lead(target) : plane.ahead(gunTurrets.range)
+      const turret = this.turretToward(point)
+      const way = { x: point.x - turret.x, y: point.y - turret.y, z: point.z - turret.z }
+      this.rounds.fire(turret,
         Math.atan2(-way.z, way.x), Math.atan2(way.y, Math.hypot(way.x, way.z)), gunTurrets.bulletSpeed)
       this.shotsFired++
       this.reload.start()

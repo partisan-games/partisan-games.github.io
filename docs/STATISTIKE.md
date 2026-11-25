@@ -53,7 +53,7 @@ Brzina i prazna masa: prva vrednost je sa Wikipedije, druga iz War Thundera.
 | Model (Wikipedia) | Igra | Najveća brzina km/h | Prazna masa kg | Motor KS | Naoružanje | Posada | Izdržljivost |
 |---|---|---|---|---|---|---|---|
 | Potez 25 ([Potez 25](https://en.wikipedia.org/wiki/Potez_25)) | Franjo Kluz | 230 | 1370 | 320 | 2 × 7.7 mm napred, 1 × 7.7 mm nazad; 200 kg bombi | 2 | — |
-| Bf 109 G-6 ([Messerschmitt Bf 109](https://en.wikipedia.org/wiki/Messerschmitt_Bf_109)) | Franjo Kluz, Vis | 530 / 666 | 2247 / 2730 | — | 2 × 13 mm MG 131, 1 × 20 mm MG 151/20; 250 kg bombi | 1 | 2075 |
+| Bf 109 G-6 ([Messerschmitt Bf 109](https://en.wikipedia.org/wiki/Messerschmitt_Bf_109)) | Franjo Kluz, Vis, Warplane | 530 / 666 | 2247 / 2730 | — | 2 × 13 mm MG 131, 1 × 20 mm MG 151/20; 250 kg bombi | 1 | 2075 |
 | Ju 87 D-5 ([Junkers Ju 87](https://en.wikipedia.org/wiki/Junkers_Ju_87)) | Franjo Kluz | — | — | 1400 | 2 × 7.92 mm napred, dvocevni 7.92 mm nazad; 250 + 4 × 50 kg bombi | 2 | 8678 |
 | He 111 H-6 ([Heinkel He 111](https://en.wikipedia.org/wiki/Heinkel_He_111)) | Franjo Kluz, Vis | 440 | 8680 | 1300 | do 7 × 7.92 mm; 2000 kg bombi | 5 | 12064 |
 | Fieseler Storch ([Fieseler Fi 156 Storch](https://en.wikipedia.org/wiki/Fieseler_Fi_156_Storch)) | Franjo Kluz | — | — | — | 1 × MG 15 | 2 | — |
@@ -63,9 +63,11 @@ Brzina i prazna masa: prva vrednost je sa Wikipedije, druga iz War Thundera.
 | Yak-1b ([Yakovlev Yak-1](https://en.wikipedia.org/wiki/Yakovlev_Yak-1)) | Vis | 592 / 575 | 2316 / 2350 | 1260 | 1 × 20 mm ShVAK, 1 × 12.7 mm UBS | 1 | 1974 |
 | Il-2 ([Ilyushin Il-2](https://en.wikipedia.org/wiki/Ilyushin_Il-2)) | katalog | 410 / 432 | 4425 / 4838 | 1720 | 2 × 23 mm, 2 × 7.62 mm; 600 kg bombi ili 8 raketa | 2 | 3452 |
 | Bf 110 G-2 ([Messerschmitt Bf 110](https://en.wikipedia.org/wiki/Messerschmitt_Bf_110)) | Vis | 475 / 540 | — / 6466 | 1050 | 2 × 20 mm MG FF/M i mitraljezi | 2–3 | 3396 |
+| Lancaster I ([Avro Lancaster](https://en.wikipedia.org/wiki/Avro_Lancaster)) | Warplane | 454 | 16738 | 4 × 1280 | 8 × 7.7 mm Browning; 6400 kg bombi | 7 | — |
+| Ju 52/3m g3e ([Junkers Ju 52](https://en.wikipedia.org/wiki/Junkers_Ju_52)) | Raid on Drvar | 265.5 | 5720 | 3 × 680 | 2 × 7.92 mm MG 15; 500 kg bombi | 2 | — |
 | Fw 190 A-5 ([Focke-Wulf Fw 190](https://en.wikipedia.org/wiki/Focke-Wulf_Fw_190)) | Vis | 652 / 670 | 3200 / 3353 | — | 2 × 13 mm MG 131, 2 × 20 mm MG 151/20 | 1 | 2102 |
 
-Inačica u zagradi je ona iz War Thundera. Wikipedija za Hurricane opisuje celu porodicu, pa su njeno oružje i motor za Mk IV približni.
+3D avioni (Lancaster, Bf 109 i Ju 52) prikazuju masu, brzinu i naoružanje u katalogu iz [istih zapisa](../core/gameplay/modelStatistics.js) kao tenkovi. Inačica u zagradi je ona iz War Thundera. Wikipedija za Hurricane opisuje celu porodicu, pa su njeno oružje i motor za Mk IV približni.
 
 ### Mere tela u Visu
 

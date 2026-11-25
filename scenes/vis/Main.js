@@ -2,6 +2,7 @@ import { icons } from '/core/io/icons.js'
 import Scene2D from '/core/Scene2D.js'
 import canvas2d from '/core/io/canvas2d.js'
 import Input from '/core/io/Input.js'
+import { inputLayouts } from '/core/io/inputLayouts.js'
 import { baseControls } from '/ui/Controls.js'
 import { keys, attackLabels } from '/core/io/keys.js'
 import { topProjection } from '/core/actor/projection.js'
@@ -30,7 +31,6 @@ const { scrollSpeed: speed, clouds, restTime, engineVolume } = settings
 const pxPerMeter = 14
 const distanceScale = 10 / pxPerMeter
 /** The plane fires on Space; on a phone, with its buttons. */
-export const inputOptions = { attackKey: 'Space', buttonDict: { attack: icons.shoot, attack2: icons.loop, special: icons.bomb } }
 /**
  * The game's rules for the player: the seconds the plane is safe as it takes off into a new stage; the share of its
  * energy a power-up or a health pack gives back; a bomb's blast, as a share of the shorter side of the screen, and the hits it takes off each plane in it; how many bursts it
@@ -61,7 +61,7 @@ const customStartScreen = ({ container }) => /* html */`
 export default class VisScene extends Scene2D {
   constructor() {
     super({
-      controlKeys: { ...baseControls, [attackLabels[inputOptions.attackKey]]: 'shoot', [keys.attack2.label]: 'loop', [keys.special.label]: 'bomb' },
+      controlKeys: { ...baseControls, [attackLabels[inputLayouts.fighterBomber.attackKey]]: 'shoot', [keys.attack2.label]: 'loop', [keys.special.label]: 'bomb' },
       intro: 'Reach the Island of Vis',
       reportText: 'Adriatic Sea, autumn 1944\n\nThe partisan squadron moves to Vis. Your task is to deliver a new Allied fighter from Italy.',
       customStartScreen,
@@ -81,7 +81,7 @@ export default class VisScene extends Scene2D {
     /** The enemy planes in play, which the player's guns hit and the player can crash into. */
     this.targets = []
     this.player = this.createPlayer('spitfire')
-    this.input = new Input(inputOptions)
+    this.input = new Input(inputLayouts.fighterBomber)
     this.keys = new TopDownKeys(this.player, { input: this.input })
     this.controllers.push(this.keys)
     this.audioPlayer = () => this.playerView

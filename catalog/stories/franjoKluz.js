@@ -1,4 +1,7 @@
 import Rifleman, * as riflemanModule from '/core/gameplay/bodies/soldiers/Rifleman.js'
+import { playerControls } from '../playerControls.js'
+import { inputLayouts } from '/core/io/inputLayouts.js'
+import PlaneKeys from '/core/gameplay/controllers/PlaneKeys.js'
 import * as vehicleModule from '/core/gameplay/bodies/vehicles/Vehicle.js'
 import * as hummelModule from '/core/gameplay/bodies/vehicles/Hummel.js'
 import * as trainModule from '/core/gameplay/bodies/vehicles/BP42.js'
@@ -76,9 +79,10 @@ const scout = (stage, way) => {
   return put(stage, body, new PictureAircraftSprite(body, { picture: aircraftPictures.storch, ...views(stage) }))
 }
 
-/** The plane flies on at its airspeed, so the view follows it from the start. */
+/** The plane flies on at its airspeed, so the view follows it from the start; it flies on the game's controls. */
 const plane = (stage, way, src) => {
   const body = new Potez({ ...middle(stage, stage.dummy.y), clock: stage.session.clock })
+  playerControls(stage, input => new PlaneKeys(body, { input, bombKey: inputLayouts.potez.bombKey }), inputLayouts.potez)
   stage.follow(body)
   return put(stage, body, new PotezSprite(body, { src, ...views(stage) }))
 }

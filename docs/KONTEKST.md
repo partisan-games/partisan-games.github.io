@@ -144,6 +144,8 @@ Nove frontalne likove vlasnik prvo bira u katalogu; do izbora nisu deo sastava n
 
 **Okvir (vlasnik, 2026-11-24):** Igra je proboj iz nemačkog logora Crveni krst u Nišu, 12. februara 1942; na naslovnoj je „1942: Breakout from Crveni Krst”. Igrač je logoraš koji se probija kroz logor do partizana; neprijatelji su Nemci.
 
+**Saborci (vlasnik, 2026-11-25):** logoraši su spremni za proboj i hrabro napadaju sve bliske pretnje cevima, uključujući plamenobacača. Prilaze do dometa udarca; udaljena vatra ne prekida bliski napad. Zaklon služi zaštiti od udaljene paljbe, a ne izbegavanju bliske borbe.
+
 **Raspored (vlasnik, 2026-11-24):** sačuvati lavirint, grananje, slepe prolaze i traženje izlaza. Uzor je način na koji Witcher 1 oblikuje naselja: putanje deluju kao smisleni prolazi između objekata i dvorišta. U logoru ih oblikuju žičane pregrade, neprohodni delovi velike zidane zgrade i poneki drveni zaklon. Jedno otvoreno dvorište i pogled na kule služe orijentaciji; nivo ostaje lavirint, bez pretvaranja u pretežno otvorenu igru izbegavanja patrola. Žica blokira prolaz, propušta pogled i metke; zgrada i puni drveni zakloni zaklanjaju i zaustavljaju metke. Unutrašnje pregrade i raspored prolaza su arkadna interpretacija, ne istorijski tlocrt. Witcher 1 je referenca za organizaciju prostora, ne za arhitekturu ili likovni stil.
 
 **Pobeda (vlasnik, 2026-11-24):** ostaje izlazak iz lavirinta; nije potrebno ubiti stražare, otključati kapiju ili ispuniti novi zadatak. U kodu ostaje postojeća provera udaljenosti manje od 5 m od izlaza; izlazna kapija je već otvorena.

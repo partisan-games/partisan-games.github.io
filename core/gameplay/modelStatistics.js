@@ -21,4 +21,7 @@ export const modelStatistics = {
   'opel-blitz': { massKg: 5500, unladenMassKg: 2500, structure: 'soft', basis: '3.6-36 S, maximum laden weight' },
   'bmw-r75': { massKg: 840, unladenMassKg: 420, structure: 'soft', basis: 'maximum laden weight, including sidecar' },
   'pak-38': { massKg: 1000, armament: '50 mm Pak 38', structure: 'towed', basis: 'firing configuration' },
+  lancaster: { massKg: 16738, speedKmh: 454, armament: '8 × 7,7 mm Browning; 6.400 kg bombi', structure: 'aircraft', basis: 'Lancaster I, empty weight' },
+  'bf-109': { massKg: 2247, speedKmh: 530, armament: '2 × 13 mm MG 131, 1 × 20 mm MG 151/20', structure: 'aircraft', basis: 'Bf 109 G-6, empty weight' },
+  'ju-52': { massKg: 5720, speedKmh: 265.5, armament: '2 × 7,92 mm MG 15; 500 kg bombi', structure: 'aircraft', basis: 'Ju 52/3m g3e, empty weight; speed at sea level' },
 }

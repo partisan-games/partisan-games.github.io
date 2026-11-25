@@ -2,8 +2,8 @@ import canvas2d from '/core/io/canvas2d.js'
 import { getRandomCoords, findFarthestPoints } from '/core/utils.js'
 import Scene2D from '/core/Scene2D.js'
 import Input from '/core/io/Input.js'
+import { inputLayouts } from '/core/io/inputLayouts.js'
 import { attackLabels } from '/core/io/keys.js'
-import { icons } from '/core/io/icons.js'
 import { baseControls } from '/ui/Controls.js'
 import Background from '/core/objects/Background.js'
 import Bunker, { gunnerWindow } from '/core/objects/Bunker.js'
@@ -15,10 +15,12 @@ import MachineGunner from '/core/gameplay/bodies/soldiers/MachineGunner.js'
 import GrenadierSprite from '/core/actor/soldiers/GrenadierSprite.js'
 import MachineGunnerSprite from '/core/actor/soldiers/MachineGunnerSprite.js'
 import Gunner from '/core/gameplay/controllers/Gunner.js'
-import TopDownKeys from '/core/gameplay/controllers/TopDownKeys.js'
+import GrenadierKeys from '/core/gameplay/controllers/GrenadierKeys.js'
 import Mina from './Mina.js'
 
 const ZADATO_VREME = 30
+/** How many grenades the grenadier carries. */
+const GRENADES = 3
 const fieldSize = 100
 const BROJ_PREPREKA = (canvas2d.width / fieldSize) * (canvas2d.height / fieldSize) / 4
 /** How many pixels a metre of the field is drawn. */
@@ -39,11 +41,11 @@ export default class BunkerScene extends Scene2D {
     const pozicije = getRandomCoords({ n: BROJ_PREPREKA, fieldSize, margin: 40 })
     const najdaljeTacke = findFarthestPoints(pozicije)
 
-    this.player = new Grenadier({ ...this.projection.toWorld(najdaljeTacke[0]), onBurst: point => this.blast(point) })
+    this.player = new Grenadier({ ...this.projection.toWorld(najdaljeTacke[0]), grenades: GRENADES, onBurst: point => this.blast(point) })
     this.playerView = new GrenadierSprite(this.player, { projection: this.projection })
     this.audioPlayer = () => this.playerView
-    this.input = new Input({ attackKey: 'Space', buttonDict: { attack: icons.bomb } })
-    this.controllers.push(new TopDownKeys(this.player, { input: this.input }))
+    this.input = new Input(inputLayouts.grenadier)
+    this.controllers.push(new GrenadierKeys(this.player, { input: this.input }))
     this.bunker = new Bunker(najdaljeTacke[1])
     // he sets out facing the bunker, to throw that way
     this.player.facing = Math.sign(najdaljeTacke[1].x - najdaljeTacke[0].x) || -1

@@ -17,7 +17,7 @@ export default class CampWeapons {
     Object.assign(this, { player, playerView, avatar, queries, canTake })
     this.guards = []
     this.attackSounds = new Map([...new Set(guardSounds)].map(file =>
-      [file, new Sound(file, { profile: file === 'fire-swoosh.mp3' ? 'fire' : 'rifle', spatial: { getPosition: () => player.position } })]))
+      [file, new Sound(file, { profile: file === 'fire-swoosh.mp3' ? 'fire' : 'rifle', spatial: { getPosition: () => player.eye } })]))
     this.sounds = [...this.attackSounds.values()]
     document.addEventListener('keydown', this.onKey)
   }

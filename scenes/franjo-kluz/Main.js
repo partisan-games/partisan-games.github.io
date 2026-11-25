@@ -6,7 +6,7 @@ import { randomInRange } from '/core/utils.js'
 import { assets } from '/config.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import Input from '/core/io/Input.js'
-import { attackLabels } from '/core/io/keys.js'
+import { inputLayouts } from '/core/io/inputLayouts.js'
 import { baseControls } from '/ui/Controls.js'
 import { isLocalCoinHost } from '/ui/DevelopmentCoins.js'
 import { sideProjection } from '/core/actor/projection.js'
@@ -63,8 +63,6 @@ const flightStart = { x: 200, y: 200 }
 const scenePath = 'franjo-kluz'
 /** Seconds the story of a won mission shows before the next one: as long as the UI shows a message. */
 const nextMissionDelay = 3
-/** The key that drops a bomb; on a phone the 💣 button. */
-export const bombKey = attackLabels.Enter
 
 /** The mission the next scene of this game starts with: the first, unless one was just won. */
 let missionToStart = 0
@@ -107,7 +105,7 @@ const crashScreenDelay = 1.5
 export default class FranjoKluzScene extends Scene2D {
   constructor(manager) {
     super({
-      controlKeys: { ...baseControls, Space: 'Machine gun', [bombKey]: 'Drop bomb' },
+      controlKeys: { ...baseControls, Space: 'Machine gun', [inputLayouts.potez.bombKey]: 'Drop bomb' },
       intro: 'Break through the enemy to the partisan airfield.',
       reportText: 'Prijedor, 23 May 1942\n\nThe partisans are fighting on Kozara. Your task is to seize an NDH plane and join them.',
     })
@@ -148,8 +146,8 @@ export default class FranjoKluzScene extends Scene2D {
     this.playerView = new PotezSprite(this.player, { src: this.mission.disguised ? markings.ndh : markings.partisan,
       ...this.views })
     this.audioPlayer = () => this.playerView
-    this.input = new Input({ attackKey: 'Space', buttonDict: { attack: icons.shoot, special: icons.bomb } })
-    this.controllers.push(new PlaneKeys(this.player, { input: this.input, bombKey }),
+    this.input = new Input(inputLayouts.potez)
+    this.controllers.push(new PlaneKeys(this.player, { input: this.input, bombKey: inputLayouts.potez.bombKey }),
       new RearGunner(this.player, { fighters: this.fighters }))
     /** How many shots and bombs the plane has let go, which give away a disguised plane to the enemy who sees them. */
     this.attacksSeen = 0

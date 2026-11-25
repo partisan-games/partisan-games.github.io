@@ -25,6 +25,10 @@
     }
     .catalog-panel { right: 12px; }
     .catalog-list { left: 12px; }
+    /* a story's on-screen controls stand on the stage between the list and the panel, not under them; "body" outranks
+       the controls' own placement, added to the page later */
+    body .joystick { left: 268px; }
+    body .button-container { right: 268px; }
     .catalog-list > div > details + details { margin-top: 12px; padding-top: 8px; border-top: 1px solid #666; }
     .catalog-list details details { margin-left: 8px; }
     .catalog-list section { margin-left: 8px; }
@@ -62,6 +66,9 @@
     @media (max-width: 600px) {
       .catalog-list { top: auto; bottom: 12px; left: 16px; right: 16px; width: auto; max-height: 35vh; }
       .catalog-panel { left: 16px; right: 16px; width: auto; }
+      /* the list lies along the bottom, so the controls stand above it */
+      body .joystick { left: 16px; bottom: calc(35vh + 24px); }
+      body .button-container { right: 16px; bottom: calc(35vh + 24px); }
     }
   </style>
 </head>

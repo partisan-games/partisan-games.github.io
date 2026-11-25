@@ -12,6 +12,8 @@ import { requestModels } from '/core3d/assets/models.js'
 import { createPageElements } from './helpers/dom.js'
 import GameSession from '/core/runtime/GameSession.js'
 import World from '/core/World.js'
+import SceneAudio from '/core/io/audio/SceneAudio.js'
+import { fixture } from './helpers/audioBackend.js'
 
 const randomFor = seed => {
   let value = seed
@@ -40,6 +42,37 @@ function modelFiles(t) {
   t.mock.method(OBJLoader.prototype, 'loadAsync', async url => new OBJLoader().parse(await readFile(url.slice(1), 'utf8')))
   t.mock.method(MTLLoader.prototype, 'loadAsync', async url => new MTLLoader().parse(await readFile(url.slice(1), 'utf8'), ''))
 }
+
+test('camp weapon shots play with active 3D audio at the moving player eye position', async t => {
+  createPageElements()
+  const { Prisoner } = await import('/scenes/fps-base/stealth.js')
+  const { default: CampWeapons } = await import('/scenes/fps-base/CampWeapons.js')
+  const { engine } = fixture()
+  await engine.unlock()
+  const player = new Prisoner({ x: -35, z: -35 })
+  const audio = new SceneAudio({ engine, coordinates: { dimensions: 3, unitsPerAudioUnit: 1 },
+    getListener: () => ({ position: player.eye, forward: player.aim, up: { x: 0, y: 1, z: 0 } }) })
+  const weapons = new CampWeapons({ player, guardSounds: ['rifle.mp3', 'rifle-burst.mp3', 'fire-swoosh.mp3'] })
+  t.after(async() => {
+    weapons.end()
+    audio.end()
+    await engine.dispose()
+  })
+  audio.sync([weapons], 'running')
+  for (const x of [-35, 12]) {
+    player.x = x
+    player.crouched = x > 0
+    player.update(.2)
+    for (const sound of weapons.sounds) {
+      const voice = sound.play()
+      assert.ok(voice, 'the active sound creates an actual audio voice')
+      await voice.started
+      assert.deepEqual(voice.spatialModel.position, player.eye)
+      assert.equal(voice.paused, false)
+      voice.dispose()
+    }
+  }
+})
 
 test('32 camp layouts retain connected branches and dead ends around the storehouse, with one joined yard and the original exit', () => {
   for (let seed = 1; seed <= 32; seed++) {
@@ -76,6 +109,10 @@ test('real camp assembly blocks exactly the closed maze edges and lets the open 
   const layout = campLayout(randomFor(9))
   const camp = new CampEnvironment(layout)
   const queries = camp.queries()
+  const { default: CampNavigation } = await import('/scenes/fps-base/CampNavigation.js')
+  const navigation = new CampNavigation(queries.isBlocked)
+  assert.equal(navigation.clear({ x: -7.5116, z: 10.6565 }, { x: -7.5, z: 11.2 }), false,
+    'a route must not clip the wider part of a sandbag above the crouching foot ray')
   for (const cell of layout.rooms) {
     const from = { ...layout.maze.tilePosition(cell.row * 2 + 1, cell.column * 2 + 1), y: .89 }
     for (const [name, direction] of [['north', { x: 0, y: 0, z: -1 }], ['south', { x: 0, y: 0, z: 1 }],
@@ -288,6 +325,21 @@ test('FPS camp initializes with real model files, ten enemies and two first aids
     assert.ok(reverseHigh > reverseLow + .2, 'reversing the recording lowers the actual head')
     body.posture = null
     model.update(.3, 0)
+    body.crouched = false
+    body.steer({ ahead: 1, running: true })
+    body.vx = 4.6
+    body.vz = 0
+    model.update(.1, 0)
+    assert.equal(model.clip, 'run')
+    assert.ok(model.actions.run.timeScale > 1 && model.actions.run.timeScale <= 1.15,
+      'the actual running clip speeds up by at most fifteen percent')
+    body.vx = 3
+    model.update(.1, 0)
+    assert.ok(model.actions.run.timeScale < 1 && model.actions.run.timeScale >= .85)
+    body.vx = body.vz = 0
+    body.crouched = true
+    body.steer()
+    model.update(.3, 0)
   }
   const leaderStart = { x: game.player.x, z: game.player.z }
   for (const { controller, body, model } of game.escapees) {
@@ -302,7 +354,10 @@ test('FPS camp initializes with real model files, ten enemies and two first aids
   }
   game.player.x = 35
   game.player.z = 35
-  const following = ({ body, controller }) => Math.hypot(body.x - game.player.x, body.z - game.player.z) <= controller.followDistance + .1
+  const following = ({ body, controller }) => {
+    const point = controller.formationPoint()
+    return Math.hypot(body.x - point.x, body.z - point.z) < .4
+  }
   for (let step = 0; step < 30000 && !game.escapees.every(following); step++)
     for (const { body, controller } of game.escapees) {
       controller.update(1 / 30)
@@ -311,6 +366,10 @@ test('FPS camp initializes with real model files, ten enemies and two first aids
   assert.ok(game.escapees.every(following), JSON.stringify(game.escapees.map(({ body, controller }) => ({
     x: body.x, z: body.z, blocked: body.blocked, route: controller.route.slice(0, 2), state: controller.state,
   }))))
+  for (let i = 0; i < game.escapees.length; i++) for (let j = i + 1; j < game.escapees.length; j++) {
+    const a = game.escapees[i].body, b = game.escapees[j].body
+    assert.ok(Math.hypot(a.x - b.x, a.z - b.z) > .75, 'companions stop in separate places')
+  }
   Object.assign(game.player, leaderStart)
   assert.deepEqual(preloaded, ['halt.mp3'])
   const sentry = game.enemies[0]
@@ -365,6 +424,21 @@ test('FPS camp initializes with real model files, ten enemies and two first aids
   assert.equal(avatar.current.pose, 'rifle')
   assert.equal(repeat.player.reach, 100)
   assert.equal(repeat.player.actions.attack, .48)
+  const playerKeys = repeat.controllers.find(controller => controller.body === repeat.player && controller.input)
+  repeat.player.face({ x: 0, z: -10 })
+  const beforeShot = repeat.player.shotsFired
+  playerKeys.input.keyboard.pressed.pointer = true
+  repeat.world.update(1 / 60, 0)
+  assert.equal(repeat.player.state, 'attack', 'the actual firing input starts a shot')
+  playerKeys.input.keyboard.pressed.pointer = false
+  for (let frame = 1; frame < 45; frame++) {
+    repeat.world.update(1 / 60, frame / 60)
+    await new Promise(resolve => {
+      setTimeout(resolve, 0)
+    })
+  }
+  assert.equal(repeat.player.shotsFired, beforeShot + 1)
+  assert.ok(weapons.playerView.ricochet, 'the shot runs through the real model impact effects')
   repeat.player.attack()
   const { length } = repeat.player.swing
   repeat.player.swingOn(length / 2)

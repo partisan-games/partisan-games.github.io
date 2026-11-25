@@ -1,4 +1,5 @@
 import audioEngine from './AudioEngine.js'
+import optionalEffect from '../optionalEffect.js'
 
 /**
  * Finds sounds through ownership, including non-drawable parts; never shares playback between scenes.
@@ -36,7 +37,7 @@ export default class SceneAudio {
   }
 
   update(dt) {
-    this.output.update(dt)
+    optionalEffect(this, 'audio update', () => this.output.update(dt))
   }
 
   allowed(sound) {
@@ -55,9 +56,11 @@ export default class SceneAudio {
     object.audioScene = this
     // A declaration binds itself; a handle made by createSound already belongs to this scene.
     if (object.sounds) for (const sound of object.sounds) {
-      sound.bind?.(this)
+      optionalEffect(sound, 'audio binding', () => {
+        sound.bind?.(this)
+        sound.setActive(this.allowed(sound))
+      })
       this.found.add(sound)
-      sound.setActive(this.allowed(sound))
     }
     if (object.children) for (const child of object.children) this.visit(child)
     if (object.audioChildren) for (const child of object.audioChildren) this.visit(child)
@@ -78,10 +81,14 @@ export default class SceneAudio {
 
   emit(file, options) {
     if (this.ended) return null
-    return this.output.emit(file, options)
+    return optionalEffect(this, `audio event: ${file}`, () => this.output.emit(file, options))
   }
 
   sync(roots, state) {
+    return optionalEffect(this, 'audio sync', () => this.syncSources(roots, state))
+  }
+
+  syncSources(roots, state) {
     if (this.ended) return
     this.engine.syncVolume()
     this.state = state
@@ -99,10 +106,12 @@ export default class SceneAudio {
   end() {
     this.ended = true
     this.sounds.forEach(sound => {
-      sound.setActive(false)
-      sound.stop()
+      optionalEffect(sound, 'audio cleanup', () => {
+        sound.setActive(false)
+        sound.stop()
+      })
     })
     this.sounds.clear()
-    this.output.dispose()
+    optionalEffect(this, 'audio cleanup', () => this.output.dispose())
   }
 }

@@ -1,4 +1,7 @@
 import { separateModels } from './catalogEntries.js'
+import { playerControls } from '../playerControls.js'
+import { inputLayouts } from '/core/io/inputLayouts.js'
+import TopDownKeys from '/core/gameplay/controllers/TopDownKeys.js'
 import FighterBomber, * as fighterBomberModule from '/core/gameplay/bodies/aircraft/FighterBomber.js'
 import AttackPlane, * as attackPlaneModule from '/core/gameplay/bodies/aircraft/AttackPlane.js'
 import FighterBomberSprite from '/core/actor/aircraft/FighterBomberSprite.js'
@@ -20,10 +23,11 @@ const put = (stage, body, view) => {
   return body
 }
 
-/** The player's plane in the middle of the stage. */
+/** The player's plane in the middle of the stage, flown on the keys and buttons of the game. */
 const player = aircraftId => stage => {
   const { size, image } = fighterBomberPlane(aircraftId)
   const body = new FighterBomber({ size, performance: modelPerformance[aircraftId], ...at(stage, .5), clock: stage.session.clock })
+  playerControls(stage, input => new TopDownKeys(body, { input }), inputLayouts.fighterBomber)
   return put(stage, body, new FighterBomberSprite(body, { src: image, ...fromAbove(stage) }))
 }
 

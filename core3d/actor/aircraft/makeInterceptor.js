@@ -9,11 +9,12 @@ import ProjectilesModel from '../ProjectilesModel.js'
  * in plan so a round from any side meets it, the model that shows it and the tracers and rattle of its guns.
  * `options` are the body's, as its target and clock.
  */
-export default function makeInterceptor({ model, propeller, propellerName }, options = {}) {
+export default function makeInterceptor({ model, propeller, propellerName, physical }, options = {}) {
   const mesh = loadedModel(model)
   const size = modelSize(mesh)
   const span = Math.max(size.length, size.width)
   const body = new Interceptor({ size: { ...size, length: span, width: span }, ...options })
+  body.physical = physical
   return {
     body,
     model: new WarplaneModel(body, { mesh, propeller: propeller && loadedModel(propeller), propellerName }),

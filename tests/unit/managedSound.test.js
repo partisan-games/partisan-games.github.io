@@ -27,6 +27,54 @@ before(async() => {
 const settle = async() => {
   for (let i = 0; i < 24; i++) await Promise.resolve()
 }
+
+test('bad runtime sound coordinates log once while another sound continues playing', async t => {
+  const { audio } = await audioFor(t)
+  const warn = t.mock.method(console, 'warn', () => {})
+  const broken = new SoundSource('rifle.mp3', { profile: 'rifle', spatial: { getPosition: () => undefined } })
+  const healthy = new SoundSource('rifle.mp3', { profile: 'rifle', spatial: { position: { x: 0, y: 0 } } })
+  audio.sync([{ sounds: [broken, healthy] }], 'running')
+  assert.equal(broken.play(), null)
+  assert.equal(broken.play(), null)
+  const voice = healthy.play()
+  assert.ok(voice)
+  await voice.started
+  assert.equal(voice.paused, false)
+  assert.equal(warn.mock.calls.length, 1)
+  assert.match(warn.mock.calls[0].arguments[1].message, /finite world positions/)
+})
+
+test('one invalid sound binding does not prevent other scene sources from attaching', async t => {
+  const { audio } = await audioFor(t)
+  const warn = t.mock.method(console, 'warn', () => {})
+  const broken = new SoundSource('broken.mp3', { profile: 'rifle', spatial: { position: null } })
+  const healthy = new SoundSource('rifle.mp3', { profile: 'rifle' })
+  audio.sync([{ sounds: [broken, healthy] }], 'running')
+  audio.sync([{ sounds: [broken, healthy] }], 'running')
+  assert.equal(broken.play(), null)
+  const voice = healthy.play()
+  await voice.started
+  assert.equal(voice.paused, false)
+  assert.equal(warn.mock.calls.length, 1)
+})
+
+test('failed direct audio events and audio updates are logged without repeated failures', async t => {
+  const { audio } = await audioFor(t)
+  const warn = t.mock.method(console, 'warn', () => {})
+  audio.sync([], 'running')
+  const options = { profile: 'rifle', spatial: { getPosition: () => undefined } }
+  assert.equal(audio.emit('broken.mp3', options), null)
+  assert.equal(audio.emit('broken.mp3', options), null)
+  const voice = audio.emit('rifle.mp3', { profile: 'rifle' })
+  await voice.started
+  const update = t.mock.method(audio.output, 'update', () => {
+    throw new Error('bad audio frame')
+  })
+  audio.update(.1)
+  audio.update(.1)
+  assert.equal(update.mock.calls.length, 1)
+  assert.equal(warn.mock.calls.length, 2)
+})
 async function audioFor(t, options = {}) {
   const backend = fixture()
   await backend.engine.unlock()

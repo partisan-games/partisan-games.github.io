@@ -4,6 +4,7 @@ import Animator from '/core3d/actor/Animator.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import { audioPoint } from '/core/io/audio/audio3d.js'
 import { getSize } from '/core3d/helpers.js'
+import optionalEffect, { failOptionalEffect } from '/core/io/optionalEffect.js'
 
 /** The clips played once and held at their end; every other clip loops. */
 const once = ['attack', 'attack2', 'special', 'jump', 'pain', 'death']
@@ -65,7 +66,7 @@ export default class CharacterModel {
             minRadius: 0, maxRadius: .5, minVelocity: 2.5, maxVelocity: 5 })
         this.flame.mesh.material.opacity = 0
         this.flame.mesh.visible = false
-      })
+      }).catch(error => failOptionalEffect(this, 'fire effect', error))
     }
     this.clip = null
     this.walked = 0
@@ -179,10 +180,11 @@ export default class CharacterModel {
     this.anim?.update(dt)
     if (body.dead) this.showDeath(dt)
     if (body.shotsFired > seen.shots) this.strike()
-    if (body.hitsTaken > seen.hits || (seen.airborne && !body.airborne && body.alive)) this.impactSound.play()
-    this.step(before)
-    this.ricochet?.expand({ velocity: 1.2, maxRounds: 5, gravity: .02 })
-    this.burn(dt, t)
+    if (body.hitsTaken > seen.hits || (seen.airborne && !body.airborne && body.alive))
+      optionalEffect(this, 'impact sound', () => this.impactSound.play())
+    optionalEffect(this, 'footsteps', () => this.step(before))
+    optionalEffect(this, 'hit particles', () => this.ricochet?.expand({ velocity: 1.2, maxRounds: 5, gravity: .02 }))
+    optionalEffect(this, 'fire effect', () => this.burn(dt, t))
     Object.assign(seen, { shots: body.shotsFired, hits: body.hitsTaken, airborne: body.airborne, alive: body.alive })
   }
 
@@ -237,8 +239,12 @@ export default class CharacterModel {
     this.fireSound?.setPlaying(burning)
   }
 
-  async strike() {
-    this.attackSound?.play()
+  strike() {
+    optionalEffect(this, 'shot sound', () => this.attackSound?.play())
+    return optionalEffect(this, 'shot impact', () => this.showShotImpact())
+  }
+
+  async showShotImpact() {
     const { body } = this
     if (body.reach <= shotReach || !body.strike) return
     const scene = this.mesh.parent
@@ -268,11 +274,13 @@ export default class CharacterModel {
     this.wreckMaterials?.forEach(material => material.dispose())
     for (const effect of [this.ricochet, this.flame]) {
       if (!effect) continue
-      const { mesh } = effect
-      mesh.geometry.dispose()
-      mesh.material.map?.dispose()
-      mesh.material.dispose()
-      mesh.removeFromParent()
+      optionalEffect(effect, 'effect cleanup', () => {
+        const { mesh } = effect
+        mesh.geometry.dispose()
+        mesh.material.map?.dispose()
+        mesh.material.dispose()
+        mesh.removeFromParent()
+      })
     }
   }
 }

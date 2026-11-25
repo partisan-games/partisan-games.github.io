@@ -4,16 +4,19 @@ const directions = [[step, 0], [0, step], [-step, 0], [0, -step]]
 
 /** Scene-owned routes through the actual colliders, shared by all companions. */
 export default class CampNavigation {
-  constructor(isBlocked) {
+  constructor(isBlocked, clearanceHeights = [.75, 1]) {
     this.isBlocked = isBlocked
+    this.clearanceHeights = clearanceHeights
     this.edges = new Map()
   }
 
   clear(from, to) {
     const dx = to.x - from.x, dz = to.z - from.z
     const distance = Math.hypot(dx, dz)
-    return distance < .01 || !this.isBlocked({ x: from.x, y: .9, z: from.z },
-      { x: dx, y: 0, z: dz }, distance + .35)
+    // Check every prisoner's standing origin as well as his current posture and crouching feet.
+    const heights = Number.isFinite(from.y) ? [from.y, ...this.clearanceHeights] : this.clearanceHeights
+    return distance < .01 || heights.every(y => !this.isBlocked({ x: from.x, y, z: from.z },
+      { x: dx, y: 0, z: dz }, distance + .35))
   }
 
   nearest(point) {

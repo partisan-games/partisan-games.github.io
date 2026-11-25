@@ -1,4 +1,5 @@
 import Body from '../Body.js'
+import { modelStatistics } from '../../modelStatistics.js'
 
 /**
  * The Ju 52 of the drop: about 180 km/h over the drop zone, in metres a second, and its length, height and span in
@@ -18,6 +19,7 @@ export default class Transport extends Body {
     groundAt = () => 0, initial = 'move', ...rest } = {}) {
     super({ size, ...rest, states, initial })
     Object.assign(this, { speed, jumpers, drop, groundAt })
+    this.physical = modelStatistics['ju-52']
     this.roll = 0
     /** Metres flown since it was made. */
     this.travelled = 0

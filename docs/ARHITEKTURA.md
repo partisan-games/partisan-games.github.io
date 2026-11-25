@@ -68,6 +68,8 @@ Borbena smrt, dodir tla, poleganje, prestanak blokiranja puta i konačno uklanja
 
 Efekat vezan za pokretni izvor razlikuje pomeraj izvora od sopstvene brzine čestica. Optimizacija i pool ne smeju promeniti putanje, broj, trajanje i redosled preživelih čestica. Rezultat se proverava pri mirovanju i kretanju izvora, bez prikrivanja greške deformacijom efekta.
 
+Ponašanje greške opcionog zvuka ili sporednog vizuelnog efekta određuje postojeći `isDev` iz [konfiguracije](../config.js) (odluka vlasnika, 2026-11-25). Kada je `isDev = true`, originalni sinhroni izuzetak ili odbijeni Promise propagira do uobičajenog prekida igre, sa očuvanim stekom; efekat se ne utišava i ne isključuje. Kada je `isDev = false` (produkcija), [obrađivač](../core/runtime/optionalEffect.js) hvata grešku, ispisuje je kroz `console.warn` jednom po vlasniku i operaciji, pa tu operaciju isključuje za život tog objekta; ostalo nastavlja da radi. [IO adapter](../core/io/optionalEffect.js) povezuje konfiguraciju sa čistim runtime obrađivačem. Granice su izričite: deklaracije/emitovanje/ažuriranje zvuka i efekti pogotka, koraka i plamena u 3D prikazu. Ako u produkciji zakaže cela audio sinhronizacija ili audio ažuriranje, isključuje se ta operacija za tu audio scenu. Validacija koordinata i dalje prijavljuje nevažeće podatke, bez izmišljene zamenske pozicije. Simulacija, ulaz, glavni renderer i obavezni resursi ostaju van ovog zaštitnog omotača u oba režima.
+
 ## Učitavanje i resursi
 
 - Scena je spremna tek kada su resursi učitani, inicijalizovani i prvi stalni prikaz nacrtan. Greška prekida učitavanje umesto beskrajnog čekanja; zakasneli rezultat ugašene scene ne menja novu scenu.

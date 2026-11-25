@@ -13,6 +13,43 @@ function figure() {
   return { mesh, animDict: { idle: 'Idle', walk: 'Walk', attack: 'Swing', death: 'Dying' } }
 }
 
+test('broken shot sound and particle effects do not interrupt damage or the next world object', async t => {
+  createPageElements()
+  t.mock.method(THREE.TextureLoader.prototype, 'load', () => new THREE.Texture())
+  const warn = t.mock.method(console, 'warn', () => {})
+  const { default: Character } = await import('/core/gameplay/bodies/characters/Character.js')
+  const { default: CharacterModel } = await import('/core3d/actor/characters/CharacterModel.js')
+  const { default: Particles } = await import('/core3d/Particles.js')
+  const { default: World } = await import('/core/World.js')
+  const enemy = new Character({ x: 1, health: 200 })
+  const body = new Character({ reach: 10, targets: [enemy], damage: [40, 40] })
+  const model = new CharacterModel(body, { ...figure(), attackSound: 'rifle.mp3' })
+  model.ricochet = new Particles({ num: 1 })
+  const sound = t.mock.method(model.attackSound, 'play', () => {
+    throw new Error('bad sound')
+  })
+  const particles = t.mock.method(model.ricochet, 'reset', () => {
+    throw new Error('bad particles')
+  })
+  new THREE.Scene().add(model.mesh)
+  t.after(() => model.end())
+  const world = new World()
+  let ticks = 0
+  world.add(body, model, { update: () => {
+    ticks++
+  } })
+  for (let i = 0; i < 2; i++) {
+    body.attack()
+    world.update(.5, i * .5)
+    await Promise.resolve()
+  }
+  assert.equal(enemy.health.current, 120)
+  assert.equal(ticks, 2)
+  assert.equal(sound.mock.calls.length, 1)
+  assert.equal(particles.mock.calls.length, 1)
+  assert.equal(warn.mock.calls.length, 2)
+})
+
 test('a character model stands on its body\'s feet, faces its way and plays the clip of what it does', async() => {
   createPageElements()
   const { default: Character } = await import('/core/gameplay/bodies/characters/Character.js')

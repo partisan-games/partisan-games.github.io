@@ -1,7 +1,6 @@
 /**
- * A player's keys on a body seen from above that the arrows push across the view, such as a plane or a soldier on
- * foot: holding fire fires its guns, and each press of the second attack key loops it and of the special key drops a
- * bomb, if it can. `input` has `left`, `right`, `up`, `down`, `attack`, `attack2` and `special`. The body has
+ * A player's keys on a body seen from above that the arrows push across the view, such as a plane: holding fire fires
+ * its guns, and each press of the second attack key loops it and of the special key drops a bomb, if it can. `input` has `left`, `right`, `up`, `down`, `attack`, `attack2` and `special`. The body has
  * `steer(x, z, dt)`, and may have `shoot()`, `loop()` and `dropBomb()`.
  */
 export default class TopDownKeys {

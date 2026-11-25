@@ -14,7 +14,7 @@ const zoomRange = { min: .25, max: 8 }
 
 /**
  * An empty 2D world where one building block lives on its own: sky, ground, a camera and an unseen stand-in for the
- * player, for a block that flies or drives after one. Nothing drives the block: the stage gives it no keys.
+ * player, for a block that flies or drives after one. The stage runs the controllers a story gives it, as a game does.
  * A block in metres is drawn through `projection`, at `pxPerMeter`, and its stand-in is `dummy`, until every block
  * is in metres.
  */
@@ -46,8 +46,6 @@ export default class Stage2D extends Scene2D {
   follow(block = null) {
     this.followed = block
   }
-
-  handleInput() {}
 
   update(dt, t) {
     super.update(dt, t)

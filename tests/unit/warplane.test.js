@@ -47,9 +47,9 @@ test('it banks into a move across, the way it moves', () => {
 
 test('keys fire a missile, and the next only after its reload of game time; it bursts on a building and destroys it', () => {
   const clock = new GameClock()
-  // a building ahead and below, where the missile's dive takes it
+  // a building ahead and below, where the missile's dive from 29 m up takes it
   const target = new Building({ x: 0, y: 5, z: -40, size: { length: 30, height: 10, width: 30 } })
-  const plane = new Warplane({ clock, targets: [target] })
+  const plane = new Warplane({ clock, targets: [target], height: 29 })
   const keys = new WarplaneKeys(plane, { attack: true })
   keys.update()
   keys.update()
@@ -60,6 +60,23 @@ test('keys fire a missile, and the next only after its reload of game time; it b
   fly(plane, clock, 1)
   assert.ok(target.dead, 'one missile destroys a building')
   assert.ok(plane.missiles.projectiles.some(missile => missile.bursts > 0))
+})
+
+test('a missile fired now strikes the ground the aim shows, as that ground comes at the plane, and nothing beyond it', () => {
+  for (const [beyond, struck] of [[0, true], [30, false]]) {
+    const clock = new GameClock(), plane = new Warplane({ clock, groundAt: () => 2 })
+    const { x, z } = plane.aim()
+    const target = new Building({ x, y: 4, z: z - beyond, size: { length: 8, height: 4, width: 8 } })
+    plane.targets.push(target)
+    plane.fire()
+    // the world moves past the plane, as in the game
+    for (let i = 0; i < 90; i++) {
+      clock.advance(1 / 30)
+      target.z += plane.speed / 30
+      plane.update(1 / 30)
+    }
+    assert.equal(target.dead, struck, beyond ? 'ground beyond the aim is missed' : 'the aimed ground is hit')
+  }
 })
 
 test('a missile that misses bursts on the ground', () => {
@@ -73,7 +90,8 @@ test('a missile that misses bursts on the ground', () => {
 
 test('a landed warplane slows down the same at 30 and at 60 frames a second', () => {
   const speeds = [30, 60].map(fps => {
-    const clock = new GameClock(), plane = new Warplane({ clock })
+    // from 29 m up it touches down on the same frame at either rate, then rolls on the ground
+    const clock = new GameClock(), plane = new Warplane({ clock, height: 29 })
     plane.land()
     fly(plane, clock, 3, fps)
     return plane.speed
@@ -161,6 +179,31 @@ test('the bomber\'s guns fire only while held, lead a crossing fighter and shoot
   play(clock, [fighter, guns], 3)
   assert.ok(guns.shotsFired > 0)
   assert.ok(fighter.dead, `the lead brings it down: ${fighter.health.current}`)
+})
+
+test('with no fighter in range, the held guns fire straight ahead of the bomber', () => {
+  const clock = new GameClock(), bomber = new Warplane({ clock })
+  const guns = new GunTurrets({ plane: bomber, clock })
+  guns.firing = true
+  guns.update(1 / 30)
+  assert.equal(guns.shotsFired, 1)
+  const [round] = guns.rounds.projectiles
+  near(round.yaw, bomber.yaw)
+  near(round.pitch, 0)
+})
+
+test('the turret facing a target fires at it from its muzzle: the nose ahead, the top turret above, the tail behind', async() => {
+  const { description: { turrets } } = await import('/core3d/aircraft/derived/Bomber.js')
+  for (const [ahead, above, turret] of [[40, 0, 0], [0, 30, 1], [-40, 0, 2]]) {
+    const clock = new GameClock(), bomber = new Warplane({ clock })
+    const target = new Interceptor({ target: bomber, clock, ...bomber.ahead(ahead, above) })
+    const guns = new GunTurrets({ plane: bomber, targets: [target], clock, turrets })
+    guns.firing = true
+    guns.update(1 / 30)
+    const { start } = guns.rounds.projectiles[0].path
+    const muzzle = bomber.ahead(turrets[turret].ahead * bomber.size.length, turrets[turret].above * bomber.size.height)
+    assert.ok(Math.hypot(start.x - muzzle.x, start.y - muzzle.y, start.z - muzzle.z) < 1e-9, `turret ${turret}`)
+  }
 })
 
 test('the guns aim only at a living fighter within their range', () => {

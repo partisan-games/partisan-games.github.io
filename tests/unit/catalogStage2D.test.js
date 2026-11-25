@@ -85,6 +85,14 @@ test('the stand-in stands still where the stage puts it, off the stage children,
   assert.deepEqual([target.x, target.y], place)
 })
 
+test('a controller the story gives the stage drives its block, as the player\'s keys do in a game', t => {
+  const { stage, live } = riflemanStage(t)
+  const driven = []
+  stage.controllers.push({ handleInput: dt => driven.push(dt) })
+  live(1)
+  assert.equal(driven.length, 30)
+})
+
 test('the view follows a block while asked to, and stands where it is once let go', t => {
   const { stage, soldier } = riflemanStage(t)
   const { pxPerMeter } = stage.projection

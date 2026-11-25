@@ -4,6 +4,7 @@ import MachineGunner, { machineGun } from '/core/gameplay/bodies/soldiers/Machin
 import Grenadier, { grenadier } from '/core/gameplay/bodies/soldiers/Grenadier.js'
 import Grenade, { grenade } from '/core/gameplay/bodies/projectiles/Grenade.js'
 import GameClock from '/core/runtime/GameClock.js'
+import GrenadierKeys from '/core/gameplay/controllers/GrenadierKeys.js'
 
 const live = (clock, bodies, seconds, fps = 30) => {
   for (let i = 0; i < seconds * fps; i++) {
@@ -73,18 +74,41 @@ test('a grenadier throws his grenade the way he last walked, 5 m from him, where
   assert.equal(body.state, 'idle')
 })
 
-test('a grenadier throws short or long, only the grenades he has, and not at all once he falls before letting go', () => {
+test('the longer the player holds the throw key, the farther the grenade flies, from short to his strongest', () => {
+  const clock = new GameClock()
+  const bursts = []
+  const body = new Grenadier({ x: 0, z: 0, onBurst: point => bursts.push(point.x) })
+  body.facing = 1
+  const input = { attack: false }
+  const keys = new GrenadierKeys(body, { input })
+  const { short, ahead, charge } = grenadier.throw
+  // held a `share` of the full charge, in steps that add up to it exactly
+  const hold = share => {
+    input.attack = true
+    for (let i = 0; i <= share * 10; i++) keys.handleInput(charge / 10)
+    input.attack = false
+    keys.handleInput(charge / 10)
+    assert.equal(body.state, 'attack', 'he throws when the key is let go')
+    live(clock, [body], 2)
+  }
+  hold(0)
+  hold(.5)
+  hold(1)
+  hold(3)
+  assert.deepEqual(bursts.map(x => Math.round(x * 1e6) / 1e6), [short, (short + ahead) / 2, ahead, ahead])
+})
+
+test('a grenadier throws only the grenades he has, and not at all once he falls before letting go', () => {
   const clock = new GameClock()
   const bursts = []
   const body = new Grenadier({ x: 0, z: 0, grenades: 2, onBurst: point => bursts.push(point) })
   body.facing = 1
   assert.deepEqual(body.states, ['idle', 'move', 'attack', 'dead'])
-  body.act('throw short')
+  body.shoot(0)
   assert.equal(body.state, 'attack')
   live(clock, [body], 2)
-  body.act('throw long')
+  body.shoot(1)
   live(clock, [body], 2)
-  assert.deepEqual(bursts.map(point => Math.round(point.x * 1e6) / 1e6), [grenadier.throw.short, grenadier.throw.ahead])
   assert.equal(body.grenades, 0)
   assert.equal(body.shotsFired, 2, 'one release cue for each grenade')
   assert.equal(body.shoot(), false, 'out of grenades')
