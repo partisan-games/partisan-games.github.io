@@ -27,10 +27,11 @@ export const kraljevo = {
   square: { z: 232, radius: 18, houses: [0, .25, .5, 1.5, 1.75, .72, 1.28] },
 }
 
-/** Where the Germans hold: the gunners in their nests, a man at the gun, the officer at the school and the street. */
+/** German posts cover the trench and school first, then the two street barricades. */
 export const posts = [
-  { x: -16, z: 63.5, arm: 'machineGun' }, { x: 18, z: 63.5, arm: 'machineGun' }, { x: 8, z: 79, arm: 'rifle' },
-  { x: 28, z: 86, arm: 'rifle' }, { x: -3, z: 144, arm: 'rifle' }, { x: 3, z: 179, arm: 'rifle' },
+  { x: -16, z: 63.5, arm: 'machineGun' }, { x: 18, z: 63.5, arm: 'machineGun' },
+  { x: -24, z: 75, arm: 'rifle' }, { x: 8, z: 79, arm: 'rifle' }, { x: 28, z: 86, arm: 'rifle', kind: 'officer' },
+  { x: -3, z: 144, arm: 'rifle', kind: 'ss' }, { x: 3, z: 179, arm: 'rifle' }, { x: -5, z: 182, arm: 'rifle' },
 ]
 
 /**

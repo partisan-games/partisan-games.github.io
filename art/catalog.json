@@ -1,0 +1,3844 @@
+{
+ "sections": [
+  {
+   "path": "2d",
+   "title": "2D",
+   "source": "assets/images/armies",
+   "units": ["slika","slike","slika"],
+   "files": [
+    ["avionce.gif",200,155],
+    ["avioni-formacija.png",292,71],
+    ["camac.png",355,152],
+    ["e-100.gif",498,179],
+    ["figurica-brka.png",73,138],
+    ["focke-wulf-fw-190.png",909,258],
+    ["hummel.png",298,138],
+    ["nemac-rov-puca.gif",100,150],
+    ["nemac-rov.gif",100,150],
+    ["panzer3-vojnik.png",271,141],
+    ["panzer3.png",271,141],
+    ["potez-25-spain.png",397,166],
+    ["rov-prazan.gif",100,150],
+    ["spitfire-gori.png",399,118],
+    ["spitfire.png",399,118],
+    ["tenk-rdjavi.gif",448,186],
+    ["unisten-tenk-gori.png",292,141],
+    ["unisten-tenk.png",292,141],
+    ["vagon-01.png",141,60],
+    ["vagon-02.png",141,60],
+    ["vojnik-lezi.png",69,27]
+   ],
+   "folders": [
+    {
+     "name": "ameri",
+     "files": [
+      ["kurir.png",50,70],
+      ["vezista-01.png",44,52],
+      ["vezista-02.png",44,53],
+      ["zastava.png",70,34]
+     ],
+     "folders": [
+      {
+       "name": "artiljerci",
+       "files": [
+        ["anti-tenk-gun-01.png",77,51],
+        ["anti-tenk-gun-02.png",58,52],
+        ["anti-tenk-gun-03.png",68,64],
+        ["anti-tenk-gun-04.png",117,47],
+        ["anti-tenk-gun-05.png",44,59],
+        ["anti-tenk-gun.png",233,58],
+        ["artiljerci-01.png",66,57],
+        ["artiljerci-02.png",52,75],
+        ["bazuka-01-pomocnik.png",117,47],
+        ["bazuka-01.png",74,59]
+       ],
+       "folders": []
+      },
+      {
+       "name": "avioni",
+       "files": [
+        ["b-29.png",576,162],
+        ["b17.png",862,273],
+        ["b25-02.png",669,192],
+        ["b25-03-tockovi.png",566,161],
+        ["b25-03.png",566,130],
+        ["b25.png",719,221],
+        ["b29.png",1172,311],
+        ["Boeing-B-17E-Flying-Fortres.png",800,231],
+        ["c47-padobranac.png",935,283],
+        ["c47-transport.png",940,284],
+        ["kitten.png",742,225],
+        ["liberator.png",740,215],
+        ["Martin-B-26-Marauder.png",800,224],
+        ["p39-d.png",388,113],
+        ["p39.png",388,113],
+        ["p40.png",387,124],
+        ["p61.png",590,152]
+       ],
+       "folders": []
+      },
+      {
+       "name": "diverzanti",
+       "files": [
+        ["diverzant-01.png",70,67],
+        ["diverzant-02.png",47,69],
+        ["diverzant-03.png",46,53],
+        ["diverzant-04.png",60,57],
+        ["diverzant-05.png",47,68]
+       ],
+       "folders": []
+      },
+      {
+       "name": "oruzje",
+       "files": [
+        ["m1-garand.png",60,14],
+        ["m1-karabin.png",51,13],
+        ["m1a1-thompson.png",50,19],
+        ["thompson.png",48,17]
+       ],
+       "folders": []
+      },
+      {
+       "name": "tenkovi",
+       "files": [
+        ["m4-francuska-1944.png",262,163],
+        ["m4-normandija1944.png",267,168],
+        ["m4-sherman-1944.png",274,165],
+        ["m4-sherman.png",265,164],
+        ["m4a1-belgija-1945.png",320,149],
+        ["m4a1-early.png",264,176],
+        ["m4a1-italija-1944.png",269,168],
+        ["m4a1-sherman-francuska-1944.png",267,151]
+       ],
+       "folders": []
+      },
+      {
+       "name": "vojnici",
+       "files": [
+        ["browning-01.png",86,49],
+        ["kapetan-01.png",51,55],
+        ["komandir.png",31,69],
+        ["lekar-01.png",33,70],
+        ["m3-greasy-gun.png",60,76],
+        ["masinka-01.png",62,57],
+        ["masinka-02.png",51,68],
+        ["masinka-03.png",63,58],
+        ["teski-mitraljez-01.png",140,46],
+        ["vojnik-01.png",75,69],
+        ["vojnik-02.png",80,63],
+        ["vojnik-03.png",67,73],
+        ["vojnik-04.png",58,72],
+        ["vojnik-05.png",63,74],
+        ["vojnik-06.png",77,69],
+        ["vojnik-07.png",82,58],
+        ["vojnik-08.png",64,67],
+        ["vojnik-09.png",72,69]
+       ],
+       "folders": []
+      },
+      {
+       "name": "vozila",
+       "files": [
+        ["vozilo-01.png",216,126],
+        ["vozilo-02.png",264,120]
+       ],
+       "folders": []
+      },
+      {
+       "name": "zarobljenici",
+       "files": [
+        ["zarobljenik-01.png",44,54],
+        ["zarobljenik-01a.png",30,66],
+        ["zarobljenik-02.png",44,58],
+        ["zarobljenik-02a.png",30,70]
+       ],
+       "folders": []
+      }
+     ]
+    },
+    {
+     "name": "britanci",
+     "files": [
+      ["zastava.png",70,34]
+     ],
+     "folders": [
+      {
+       "name": "artiljerija",
+       "files": [
+        ["artiljerci-01.png",68,55],
+        ["artiljerci-02.png",66,54],
+        ["top-01.png",215,68]
+       ],
+       "folders": []
+      },
+      {
+       "name": "avioni",
+       "files": [
+        ["avionce-01-slece.png",201,77],
+        ["avionce-01.png",197,79],
+        ["avionce-odozgo-01.png",826,682],
+        ["avionce-odozgo.png",225,180],
+        ["bomber-lancaster.png",282,200],
+        ["bomber-lancaster2.png",287,200],
+        ["liberator-raf-311-squadron.png",851,199],
+        ["pilot-01.png",62,71],
+        ["pilot-02.png",62,70],
+        ["spitfire-01.png",403,121],
+        ["spitfire-02.png",399,121],
+        ["spitfire-03.png",399,121],
+        ["vickers-wellington.png",933,265]
+       ],
+       "folders": []
+      },
+      {
+       "name": "brodovi",
+       "files": [
+        ["desantni-camac-01.png",204,104],
+        ["desantni-camac-02.png",263,110],
+        ["desantni-camac-03.png",248,102],
+        ["desantni-camac-04.png",266,104],
+        ["desantni-camac-05.png",300,115],
+        ["desantni-camac-06.png",299,99],
+        ["desantni-camac-07.png",253,99],
+        ["desantni-camac-08.png",294,105],
+        ["desantni-camac-09.png",297,106],
+        ["desantni-camac-10.png",290,108],
+        ["desantni-camac-dzip.png",291,123],
+        ["desantni-camac-komandosi.png",297,100],
+        ["desantni-camac-oficiri.png",271,104],
+        ["desantni-camac-prazan.png",292,104],
+        ["desantni-camac-ranjenici.png",223,100],
+        ["desantni-camac-top-02.png",300,108],
+        ["desantni-camac-top.png",298,107],
+        ["dukw-prevozi-dzip.png",393,98],
+        ["lca-01.png",506,96],
+        ["lca-02.png",593,131],
+        ["lca-03.png",612,128],
+        ["lca-04.png",578,130]
+       ],
+       "folders": []
+      },
+      {
+       "name": "inzenjerija",
+       "files": [
+        ["inzenjerci-01.png",353,76],
+        ["inzenjerci-02.png",298,77],
+        ["inzenjerci-03.png",353,76],
+        ["inzenjerci-04.png",256,83],
+        ["inzenjerci-05.png",207,69],
+        ["inzenjerci-most.png",1889,170],
+        ["kopac-01.png",97,36],
+        ["kopac-02.png",97,43],
+        ["kopaci-01-sprite.png",392,80],
+        ["kopaci-02-sprite.png",513,89]
+       ],
+       "folders": [
+        {
+         "name": "borbeni-inzenjerci",
+         "files": [
+          ["bacac-plamena-01.png",44,72],
+          ["ciscenje-mina.png",117,46],
+          ["detektor-mina.png",92,72],
+          ["detonator.png",81,61],
+          ["eksploziv-01.png",65,77],
+          ["eksploziv-02.png",66,75],
+          ["kopa-mine-02.png",129,46],
+          ["kopa-mine.png",109,26],
+          ["osigurac.png",133,48]
+         ],
+         "folders": []
+        }
+       ]
+      },
+      {
+       "name": "motocikli",
+       "files": [
+        ["motociklist-01.png",125,79],
+        ["motociklist-02.png",121,78],
+        ["motociklist-03.png",125,86],
+        ["motociklist-04.png",123,82],
+        ["motociklist-05.png",133,80],
+        ["motociklist-06.png",131,79],
+        ["motociklist-07.png",123,81],
+        ["motociklisti-01.png",157,88],
+        ["osmatra-01.png",124,84]
+       ],
+       "folders": []
+      },
+      {
+       "name": "oruzje",
+       "files": [
+        ["bren-lmg.png",59,21],
+        ["lee-enfield.png",60,14],
+        ["oruzje-sve.png",831,605]
+       ],
+       "folders": []
+      },
+      {
+       "name": "padobranci",
+       "files": [
+        ["padobranac-01.png",87,71],
+        ["padobranac-02.png",72,70],
+        ["padobranac-03.png",128,35]
+       ],
+       "folders": [
+        {
+         "name": "22nd-parachute",
+         "files": [
+          ["bacac-01.png",61,65],
+          ["bacac-02.png",63,65],
+          ["bacac-03.png",81,61],
+          ["bacac-komandir.png",67,73],
+          ["bacac-punjenje-sprite.png",229,67],
+          ["biciklist-01-sledja.png",123,90],
+          ["biciklist-01.png",123,90],
+          ["biciklist-02-sledja.png",123,91],
+          ["biciklist-02.png",123,91],
+          ["biciklist-03-sledja.png",123,84],
+          ["biciklist-03.png",123,85],
+          ["bren-gun-01.png",61,65],
+          ["desetar-01.png",63,66],
+          ["lekar-01.png",49,64],
+          ["lekar-02.png",90,64],
+          ["narednik-02.png",62,65],
+          ["narednik-03.png",69,64],
+          ["narednik-04.png",68,65],
+          ["narednik.png",70,64],
+          ["oficir-01.png",68,65],
+          ["oficir-02.png",73,65],
+          ["padobranac-01.png",80,65],
+          ["padobranac-02.png",80,64],
+          ["padobranac-03.png",79,65],
+          ["padobranac-04.png",77,64],
+          ["padobranac-05.png",81,65],
+          ["padobranac-06.png",81,65],
+          ["padobranci-sprite-02.png",544,63],
+          ["padobranci-sprite.png",555,63],
+          ["piat-01-sledja.png",61,64],
+          ["piat-01.png",61,64],
+          ["signalizacija-sledja.png",89,60],
+          ["signalizacija.png",183,60],
+          ["veza-01.png",89,66],
+          ["veza-02-eureka-radar.png",125,140],
+          ["veza-03.png",78,68]
+         ],
+         "folders": []
+        },
+        {
+         "name": "crvene-beretke",
+         "files": [
+          ["padobranac-01-sledja.png",90,84],
+          ["padobranac-01.png",93,82],
+          ["padobranac-02-sledja.png",93,91],
+          ["padobranac-02.png",94,87],
+          ["padobranac-03.png",100,88],
+          ["padobranac-04.png",97,64],
+          ["padobranac-05.png",105,200],
+          ["padobranac-06.png",99,61],
+          ["padobranac-07-sledja.png",98,65],
+          ["padobranac-07.png",101,64],
+          ["padobranac-08.png",95,85],
+          ["padobranac-09-sledja.png",87,78],
+          ["padobranac-09.png",82,78],
+          ["padobranac-10.png",87,65],
+          ["padobranac-11.png",93,87],
+          ["padobranac-12.png",91,82]
+         ],
+         "folders": []
+        },
+        {
+         "name": "maskirni",
+         "files": [
+          ["bazuka-01.png",94,68],
+          ["oficir-01.png",97,82],
+          ["padobranac-01.png",90,92],
+          ["padobranac-02.png",98,87],
+          ["padobranac-03.png",97,90],
+          ["padobranac-04.png",98,92],
+          ["padobranac-05.png",102,66],
+          ["padobranac-06.png",95,85],
+          ["padobranac-07.png",100,65],
+          ["padobranac-08.png",101,68]
+         ],
+         "folders": []
+        }
+       ]
+      },
+      {
+       "name": "podmornice",
+       "files": [
+        ["podmornica-01.png",315,75],
+        ["podmornica-02.png",587,80],
+        ["x-craft-01.png",656,136],
+        ["x-craft-cela.png",620,194]
+       ],
+       "folders": []
+      },
+      {
+       "name": "stvari",
+       "files": [
+        ["bure-01.png",29,41],
+        ["bure-02.png",29,41],
+        ["kanister.png",16,22]
+       ],
+       "folders": []
+      },
+      {
+       "name": "tenkovi",
+       "files": [
+        ["m7-01.png",161,72],
+        ["m7-02.png",162,81],
+        ["mk2-crusader-01.png",154,79],
+        ["mk2-crusader-02.png",145,69],
+        ["mk2-crusader-03.png",154,76],
+        ["mk2-crusader-puca.png",154,76],
+        ["sherman.png",175,78]
+       ],
+       "folders": []
+      },
+      {
+       "name": "vojnici",
+       "files": [
+        ["m1911-pistolj-01.png",66,69],
+        ["m1911-pistolj.png",62,59],
+        ["m1ma-karabin-02.png",63,72],
+        ["m1ma-karabin-03.png",71,71],
+        ["m1ma-karabin-04.png",63,72],
+        ["m1ma-karabin-05.png",72,73],
+        ["m1ma-karabin-06.png",61,73],
+        ["m1ma-karabin-07.png",70,74],
+        ["m1ma-karabin-08.png",63,71],
+        ["m1ma-karabin.png",84,75],
+        ["oficir-01.png",74,74],
+        ["sten-01.png",65,72],
+        ["sten-02.png",62,74],
+        ["sten-03.png",61,74],
+        ["sten-04.png",57,73],
+        ["sten-05.png",61,73],
+        ["sten-06.png",66,74],
+        ["sten-07.png",63,74],
+        ["sten-08.png",63,76],
+        ["sten-09.png",57,73],
+        ["sten-10.png",63,75]
+       ],
+       "folders": [
+        {
+         "name": "komandosi",
+         "files": [
+          ["bren-gun-01.png",67,69],
+          ["bren-gun-02.png",73,71],
+          ["bren-gun-03.png",74,54],
+          ["bren-gun-04.png",67,66],
+          ["bren-gun.png",70,67],
+          ["komandos-lee-rifle-01.png",81,73],
+          ["komandos-lee-rifle-02.png",85,65],
+          ["komandos-lee-rifle-03.png",74,69],
+          ["lanchester-01.png",76,58],
+          ["lanchester-sprite.png",145,68],
+          ["lee-01.png",75,55],
+          ["lee-02.png",77,49],
+          ["lee-03.png",67,49],
+          ["lee-04.png",81,54],
+          ["lee-rifle-01.png",84,69],
+          ["lee-rifle-02.png",78,67],
+          ["lee-rifle-03.png",84,68],
+          ["lee-rifle-04.png",79,70],
+          ["lee-rifle-sprite.png",590,60],
+          ["lee-sprite-02.png",260,68],
+          ["lee-sprite-03.png",258,54],
+          ["lee-sprite-04.png",387,60],
+          ["lezi-bren-gun.png",159,30],
+          ["lezi-lee.png",156,27],
+          ["lezi-minobacac.png",127,41],
+          ["lezi-piat.png",132,24],
+          ["oficir-01.png",74,68],
+          ["oficir-02.png",62,69],
+          ["oficir-03.png",50,69],
+          ["oficir-04.png",67,55],
+          ["oficir-browning.png",72,70],
+          ["oficir-i-veza.png",103,84],
+          ["oficiri.png",446,71],
+          ["podoficir-02.png",65,54],
+          ["podoficir-03.png",56,57],
+          ["podoficir-04.png",74,61],
+          ["podoficir.png",75,69],
+          ["sten-01.png",67,54],
+          ["sten-02.png",69,55],
+          ["sten-sprite.png",159,69],
+          ["thompson-01.png",70,66],
+          ["thompson-02.png",74,68],
+          ["thompson-03.png",60,49],
+          ["thompson-04.png",92,56],
+          ["thompson-05.png",65,52],
+          ["thompson-06.png",79,56],
+          ["thompson-07.png",61,55],
+          ["thompson-08.png",71,55],
+          ["thompson-09.png",82,56],
+          ["thompson-sprite.png",140,68],
+          ["thompson.png",72,72],
+          ["veza-01.png",85,79],
+          ["veza-02.png",55,79],
+          ["veza-03.png",78,68],
+          ["veza-04.png",85,104],
+          ["veza-05.png",66,71]
+         ],
+         "folders": []
+        },
+        {
+         "name": "mali",
+         "files": [
+          ["bazuka-01.png",70,37],
+          ["oficir-02.png",54,44],
+          ["oficir-03-sledja.png",37,37],
+          ["oficir-03.png",37,38],
+          ["oficir-04-sledja.png",37,49],
+          ["oficir-04.png",33,42],
+          ["vojnik-01.png",41,42],
+          ["vojnik-02.png",41,38],
+          ["vojnik-03.png",42,33],
+          ["vojnik-04.png",44,41],
+          ["vojnik-05.png",37,32],
+          ["vojnik-06.png",38,34],
+          ["vojnik-07.png",40,41],
+          ["vojnik-08.png",36,33],
+          ["vojnik-09.png",65,18],
+          ["vojnik-10.png",66,16]
+         ],
+         "folders": []
+        },
+        {
+         "name": "sas",
+         "files": [
+          ["bren-gun.png",157,30],
+          ["piat.png",143,25],
+          ["sas-01.png",74,74],
+          ["sas-02.png",90,69],
+          ["sas-03.png",76,70],
+          ["sas-04.png",65,68],
+          ["sas-05.png",61,66],
+          ["sas-06.png",76,68],
+          ["sas-07.png",64,68],
+          ["sas-08.png",64,69],
+          ["sas-09.png",68,66],
+          ["sas-10.png",73,69]
+         ],
+         "folders": []
+        },
+        {
+         "name": "skoti",
+         "files": [
+          ["bombas.png",102,89],
+          ["skot-01-sledja.png",85,89],
+          ["skot-01.png",76,86],
+          ["skot-02.png",105,201],
+          ["skot-03.png",80,94],
+          ["skot-04.png",100,65]
+         ],
+         "folders": []
+        },
+        {
+         "name": "specijalci",
+         "files": [
+          ["narednik-01.png",60,72],
+          ["oficir-01.png",62,73],
+          ["specijalac-01.png",71,72],
+          ["specijalac-02.png",60,72]
+         ],
+         "folders": []
+        },
+        {
+         "name": "veza",
+         "files": [
+          ["veza-01.png",129,57],
+          ["veza-02.png",129,49],
+          ["veza-03.png",166,49],
+          ["veza-04.png",129,58],
+          ["veza-05.png",130,54],
+          ["veza-06.png",166,49],
+          ["vezista-01.png",44,53],
+          ["vezista-02.png",44,53],
+          ["vezista-03.png",44,53],
+          ["vezista-04.png",44,53]
+         ],
+         "folders": []
+        },
+        {
+         "name": "zarobljenici",
+         "files": [
+          ["zarobljenik-01.png",44,54],
+          ["zarobljenik-01a.png",30,66],
+          ["zarobljenik-02.png",44,57],
+          ["zarobljenik-02a.png",30,69]
+         ],
+         "folders": []
+        }
+       ]
+      },
+      {
+       "name": "vozila",
+       "files": [
+        ["dzip-01.png",188,72],
+        ["dzip-bacac-plamena.png",167,79],
+        ["m3.png",153,60],
+        ["sas-dzip-01.png",180,76],
+        ["sas-dzip-02.png",178,72],
+        ["sas-dzip-03.png",180,72],
+        ["white-scout-01.png",128,50]
+       ],
+       "folders": []
+      }
+     ]
+    },
+    {
+     "name": "bugari",
+     "files": [
+      ["fi-156-01.png",390,160],
+      ["fi-156-02.png",390,160],
+      ["fi-156-03.png",217,93],
+      ["junkers-ju-52-02.png",824,261],
+      ["junkers-ju-52.png",824,261],
+      ["lezi-01.png",108,30],
+      ["vojnik-01.png",73,74],
+      ["vojnik-02.png",84,79],
+      ["vojnik-03.png",66,76],
+      ["vojnik-04.png",76,78],
+      ["vojnik-05.png",72,64],
+      ["vojnik-06.png",90,78],
+      ["vojnik-07.png",93,63]
+     ],
+     "folders": []
+    },
+    {
+     "name": "cetnici",
+     "files": [
+      ["cetnik-01.png",60,75],
+      ["cetnik-02.png",132,30],
+      ["cetnik-03.png",44,71],
+      ["juris-01.png",88,72],
+      ["mitraljezac-07.png",77,71],
+      ["zarobljenik-01.png",35,70],
+      ["zarobljenik-02.png",58,76]
+     ],
+     "folders": [
+      {
+       "name": "ustanici",
+       "files": [
+        ["juris-01.png",87,71],
+        ["juris-02.png",87,71],
+        ["juris-04.png",98,74],
+        ["ustanik-06.png",61,70],
+        ["ustanik-07.png",72,74],
+        ["ustanik-08.png",88,74],
+        ["ustanik-09.png",95,71],
+        ["ustanik-11.png",98,77],
+        ["ustanik-12.png",98,74],
+        ["ustanik-14.png",134,35],
+        ["ustanik-15.png",134,32],
+        ["ustanik-16.png",82,77],
+        ["ustanik-18.png",87,75],
+        ["ustanik-20.png",98,63]
+       ],
+       "folders": []
+      }
+     ]
+    },
+    {
+     "name": "civili",
+     "files": [
+      ["civil-01-sledja.png",37,73],
+      ["civil-01.png",37,73],
+      ["civil-02-sledja.png",37,73],
+      ["civil-02.png",37,73],
+      ["civil-03-sledja.png",36,74],
+      ["civil-03.png",36,75],
+      ["seljak-01.png",364,145]
+     ],
+     "folders": [
+      {
+       "name": "davljenici",
+       "files": [
+        ["davljenik-01.png",44,28],
+        ["davljenik-02.png",33,28],
+        ["davljenik-03.png",34,28],
+        ["davljenik-04.png",33,27],
+        ["davljenik-05.png",36,28],
+        ["davljenik-06.png",48,30],
+        ["davljenik-07.png",44,31]
+       ],
+       "folders": []
+      }
+     ]
+    },
+    {
+     "name": "komunikacije",
+     "files": [
+      ["lokomotiva-01.png",680,148],
+      ["lokomotiva-02.png",733,185],
+      ["most-01.png",1593,155],
+      ["most-02.png",1469,142],
+      ["pruga-01.png",359,57],
+      ["pruga-02.png",367,111],
+      ["pruga-03.png",104,504],
+      ["vagon-01.png",601,164],
+      ["vagon-02.png",413,128],
+      ["vagon-03.png",428,128],
+      ["vagon-04.png",383,143],
+      ["vagon-05.png",370,167],
+      ["vagon-06.png",418,90],
+      ["vagon-07.png",523,92],
+      ["vagon-08.png",325,98]
+     ],
+     "folders": []
+    },
+    {
+     "name": "kraljevina-jugoslavija",
+     "files": [
+      ["ft17.png",208,93],
+      ["hotchiss-h35.png",230,98],
+      ["Mesersmit-Bf-109E.png",765,262],
+      ["renault-m17.png",203,92],
+      ["renault-m2.png",221,104],
+      ["renault-r34.png",207,93],
+      ["renault-r35-02.png",225,91],
+      ["renault-r35-03.png",188,89],
+      ["renault-r35.png",202,92],
+      ["skoda-t32.png",158,67]
+     ],
+     "folders": []
+    },
+    {
+     "name": "madjari",
+     "files": [
+      ["mitraljezac-01.png",143,35],
+      ["mitraljezac-02.png",143,35],
+      ["mitraljezac-03.png",143,36],
+      ["raport-01.png",36,72],
+      ["raport-02.png",37,72],
+      ["vojnik-01.png",76,74],
+      ["vojnik-02.png",80,75],
+      ["vojnik-04.png",97,74],
+      ["vojnik-05.png",76,73],
+      ["vojnik-06.png",80,74],
+      ["vojnik-07.png",97,72],
+      ["vojnik-08.png",76,73],
+      ["vojnik-09.png",97,71],
+      ["vojnik-10.png",71,72],
+      ["vojnik-11.png",103,58],
+      ["vojnik-12.png",78,55]
+     ],
+     "folders": [
+      {
+       "name": "zimski",
+       "files": [
+        ["general-01.png",32,76],
+        ["mitraljezac-01.png",113,29],
+        ["municija-01.png",74,39],
+        ["oficir-01.png",58,72],
+        ["vojnik-01.png",64,72],
+        ["vojnik-02.png",64,72],
+        ["vojnik-03.png",64,72],
+        ["vojnik-04.png",64,72],
+        ["vojnik-05-sledja.png",54,72],
+        ["vojnik-05.png",51,72],
+        ["vojnik-06.png",56,74],
+        ["vojnik-07.png",72,55],
+        ["vojnik-08.png",111,28],
+        ["vojnik-09.png",111,28],
+        ["vojnik-10.png",63,63],
+        ["vojnik-11-sledja.png",56,55],
+        ["vojnik-11.png",56,55],
+        ["vojnik-12.png",54,72],
+        ["vojnik-13.png",86,46],
+        ["vojnik-14.png",63,63],
+        ["vojnik-15-sledja.png",56,72],
+        ["vojnik-15.png",56,72],
+        ["vojnik-16.png",61,72]
+       ],
+       "folders": []
+      }
+     ]
+    },
+    {
+     "name": "ndh",
+     "files": [],
+     "folders": [
+      {
+       "name": "avioni",
+       "files": [
+        ["fi156.png",390,160],
+        ["fi156d.png",390,160],
+        ["potez-25.png",400,173]
+       ],
+       "folders": []
+      },
+      {
+       "name": "kamioni",
+       "files": [
+        ["opel-blitz-01.png",273,118],
+        ["opel-blitz-02.png",287,118]
+       ],
+       "folders": []
+      },
+      {
+       "name": "tenkovi",
+       "files": [
+        ["ansaldo-34.png",142,58],
+        ["pzkpfw1.png",201,88]
+       ],
+       "folders": []
+      }
+     ]
+    },
+    {
+     "name": "nemci",
+     "files": [
+      ["artiljerci-01.png",66,56],
+      ["hitler.png",62,77],
+      ["mitraljezac-01.png",63,27],
+      ["panzer3.png",290,222],
+      ["veza-01.png",44,54],
+      ["veza-02.png",90,96],
+      ["zastava.png",70,34]
+     ],
+     "folders": [
+      {
+       "name": "artiljerija",
+       "files": [
+        ["65mm-02.png",216,64],
+        ["65mm-i-posada.png",285,78],
+        ["65mm.png",216,65],
+        ["artiljerija-01.png",146,68],
+        ["fh13-150mm.png",312,108],
+        ["fh14-100mm-02.png",233,82],
+        ["fh14-100mm-03.png",233,81],
+        ["fh14-100mm.png",239,82],
+        ["fh18-105mm.png",280,80],
+        ["fh18-150mm-vuca.png",786,114],
+        ["fh18-150mm.png",342,101],
+        ["fh255-75mm.png",206,84],
+        ["fh315-100mm-02.png",232,78],
+        ["fh315-100mm.png",235,81],
+        ["fh36-150mm.png",287,135],
+        ["fh414-155mm.png",295,103],
+        ["fk17-100mm.png",377,110],
+        ["fk38-75mm.png",206,72],
+        ["flak36-88mm-tockovi.png",305,115],
+        ["flak36-88mm.png",286,95],
+        ["gebg36-02.png",146,93],
+        ["gebg36.png",146,68],
+        ["gebh40-105mm-02.png",248,101],
+        ["gebh40-105mm.png",248,101],
+        ["k16-150mm.png",447,104],
+        ["k18-150mm.png",481,183],
+        ["k338-105mm.png",313,87],
+        ["k38-210mm.png",638,400],
+        ["k39-150mm.png",500,99],
+        ["k408-150mm.png",378,104],
+        ["k410-150mm.png",429,132],
+        ["k42-150mm.png",408,100],
+        ["k8-100mm.png",371,77],
+        ["k81-128mm-02.png",376,141],
+        ["k81-128mm.png",372,82],
+        ["lefh16-105mm.png",225,68],
+        ["lefh18-03.png",180,61],
+        ["lefh18-105mm-02.png",266,77],
+        ["lefh18-105mm.png",288,85],
+        ["mle17-155mm.png",412,84],
+        ["mrs18-210mm.png",457,105],
+        ["pak36-76mm.png",305,66],
+        ["pak38-50mm-02.png",233,51],
+        ["pak38-50mm.png",233,51],
+        ["pak40-75mm.png",261,55],
+        ["sfh18-150mm.png",392,109],
+        ["sk-150mm.png",492,184],
+        ["top-01.png",233,52]
+       ],
+       "folders": [
+        {
+         "name": "bacaci",
+         "files": [
+          ["81mm.png",52,52],
+          ["bacac-01.png",66,72],
+          ["bacac-02.png",48,44],
+          ["komandir-pokret.png",40,75],
+          ["posada-01.png",64,59],
+          ["posada-02.png",54,78],
+          ["posada-03.png",44,53],
+          ["posada-04.png",44,52],
+          ["posada-05.png",61,55],
+          ["posada-06.png",54,76],
+          ["posada-07.png",44,52],
+          ["posada-08.png",44,53],
+          ["posada-09.png",44,51],
+          ["posada-10.png",44,52],
+          ["posada-11.png",60,57],
+          ["posada-12.png",68,59],
+          ["posada-pokret-01.png",39,77],
+          ["posada-pokret-02.png",39,76],
+          ["posada-pokret-03.png",62,75],
+          ["posada-pokret-04.png",39,76],
+          ["posada-zimska-02.png",44,53],
+          ["posada-zimska-03.png",61,57],
+          ["posada-zimska.png",69,60],
+          ["vuca-01.png",211,92],
+          ["vuca-02.png",211,79],
+          ["vuca-03.png",244,79],
+          ["vuca-04.png",211,79],
+          ["vuca-05.png",211,93]
+         ],
+         "folders": []
+        },
+        {
+         "name": "posada",
+         "files": [
+          ["komandir-01.png",44,61],
+          ["komandir-02.png",68,61],
+          ["komandir-03.png",54,57],
+          ["komandir-04.png",50,78],
+          ["komandir-05.png",53,72],
+          ["maskirna-01.png",68,57],
+          ["maskirna-02.png",49,57],
+          ["maskirna-03.png",45,53],
+          ["maskirna-04.png",71,50],
+          ["maskirna-05.png",46,61],
+          ["maskirna-06.png",44,56],
+          ["maskirna-07.png",58,57],
+          ["nabijac-01.png",124,73],
+          ["nabijac-02.png",112,71],
+          ["nabijac-03.png",62,83],
+          ["nabijac-04.png",125,73],
+          ["nabijac-05.png",68,82],
+          ["nabijac-06.png",53,84],
+          ["nabijac-07.png",125,71],
+          ["nabijac-zimski.png",122,74],
+          ["pak41.png",307,59],
+          ["posada-01.png",39,55],
+          ["posada-02.png",43,54],
+          ["posada-03.png",85,61],
+          ["posada-04.png",77,66],
+          ["posada-05.png",44,58],
+          ["posada-06.png",49,61],
+          ["posada-07.png",47,52],
+          ["posada-08.png",68,61],
+          ["posada-09.png",65,63],
+          ["posada-10.png",50,58],
+          ["posada-11.png",50,58],
+          ["posada-12.png",50,76],
+          ["posada-13.png",45,72],
+          ["posada-14.png",47,74],
+          ["princ-eugen-01.png",55,53],
+          ["princ-eugen-02.png",47,52],
+          ["princ-eugen-03.png",47,58],
+          ["princ-eugen-04.png",47,56],
+          ["princ-eugen-05.png",47,53],
+          ["princ-eugen-06.png",49,59],
+          ["zimska-01.png",45,53],
+          ["zimska-02.png",49,57],
+          ["zimska-03.png",61,64],
+          ["zimska-04.png",50,58],
+          ["zimska-05.png",68,61]
+         ],
+         "folders": []
+        }
+       ]
+      },
+      {
+       "name": "avioni",
+       "files": [
+        ["avion-01.png",536,167],
+        ["avion-02.png",594,139],
+        ["avion-03.png",799,260],
+        ["avion-odozgo-01.png",256,225],
+        ["avion-odozgo-02.png",256,230],
+        ["avion-odozgo-03.png",228,186],
+        ["avion-odozgo-05.png",256,235],
+        ["bf-109-odozgo.png",230,196],
+        ["bf-110-odozgo.png",354,265],
+        ["Bucker-Bu-181.png",527,203],
+        ["do335.png",752,221],
+        ["dornier-do-355-01-slece.png",554,202],
+        ["dornier-do-355-01.png",545,168],
+        ["fieseler-fi-156-storch-01.png",780,304],
+        ["fieseler-fi-156-storch-02.png",442,186],
+        ["fieseler-fi-156-storch-03.png",519,222],
+        ["fieseler-fi-156-storch-04.png",800,342],
+        ["fieseler-fi-156-storch-05.png",966,391],
+        ["fieseler-fi-156.png",390,160],
+        ["focke-wulf-fw-190-02.png",770,189],
+        ["focke-wulf-fw-190-03.png",256,230],
+        ["focke-wulf-fw-190.png",439,161],
+        ["focke-wulf-fw-190f-2.png",1087,324],
+        ["fw-190-odozgo.png",230,194],
+        ["fw-190a.png",572,171],
+        ["fw-190f-2.png",572,180],
+        ["fw-190f-8-02.png",571,173],
+        ["fw-190f-8.png",571,143],
+        ["fw-190f.png",959,285],
+        ["Fw_190_A4_Dickfeld.png",600,159],
+        ["Fw_190_A4_Hanning.png",600,147],
+        ["Fw_190_A8_Moritz.png",759,227],
+        ["he-111-odozgo.png",820,591],
+        ["heinkel-he-111-h2-tocak.png",87,105],
+        ["heinkel-he-111-h2.png",690,190],
+        ["junkers-ju-52-padobranci.png",213,122],
+        ["junkers-ju-52.png",824,261],
+        ["junkers-ju-87b-stuka-02.png",443,139],
+        ["junkers-ju-87b-stuka.png",443,139],
+        ["junkers-ju87-stuka.png",985,372],
+        ["junkers-ju87b-stuka.png",380,148],
+        ["junkers-ju87d-5.png",549,205],
+        ["junkers-ju87d-stuka-02.png",552,206],
+        ["junkers-ju87d-stuka-03.png",380,148],
+        ["junkers-ju87d-stuka.png",908,338],
+        ["junkers-ju88-tockovi.png",819,331],
+        ["junkers-ju88.png",776,253],
+        ["me262-01.png",588,180],
+        ["me262-02.png",585,178],
+        ["Mesersmit-Bf-109-b2.png",752,180],
+        ["Mesersmit-Bf-109e-bomba.png",569,163],
+        ["Mesersmit-Bf-109e.png",569,150],
+        ["Messerschmitt-Bf-109.png",404,132],
+        ["Messerschmitt-Me-410.png",580,196],
+        ["posada-01.png",57,74],
+        ["posada-02.png",68,55],
+        ["Reggiane-Re-2005.png",221,182]
+       ],
+       "folders": []
+      },
+      {
+       "name": "biciklisti",
+       "files": [
+        ["biciklista-01.png",102,81],
+        ["biciklista-02.png",102,81],
+        ["biciklista-03.png",102,81],
+        ["biciklista-04.png",102,81],
+        ["biciklista-05.png",102,80],
+        ["biciklista-06.png",102,81],
+        ["biciklista-07.png",102,81],
+        ["biciklista-08.png",102,81],
+        ["biciklista-09.png",102,81],
+        ["biciklista-sprite-01.png",460,81],
+        ["biciklista-sprite-02.png",345,82],
+        ["biciklista-sprite-03.png",460,81],
+        ["biciklista-sprite-04.png",476,82],
+        ["biciklista-sprite-05.png",476,81],
+        ["biciklista-sprite-06.png",476,81],
+        ["biciklista-sprite-07.png",474,82],
+        ["oficir-01.png",104,81],
+        ["oficir-02.png",102,81],
+        ["oficir-03.png",102,81]
+       ],
+       "folders": []
+      },
+      {
+       "name": "lekari",
+       "files": [
+        ["lekar-01.png",47,73],
+        ["lekar-02.png",62,71],
+        ["lekar-03.png",94,73],
+        ["lekar-04.png",36,74],
+        ["lekar-05.png",59,54],
+        ["lekari-01.png",126,74],
+        ["lekari-02.png",126,73],
+        ["lekari-03.png",126,73],
+        ["lekari-04.png",185,73],
+        ["lekari-05.png",183,72],
+        ["lekari-06-sledja.png",52,72],
+        ["lekari-06.png",52,72],
+        ["lekari-07-sledja.png",78,73],
+        ["lekari-07.png",78,73],
+        ["lezaj.png",83,72],
+        ["poljska-bolnica.png",392,102],
+        ["sestra-01.png",33,66],
+        ["sestra-02.png",32,66]
+       ],
+       "folders": []
+      },
+      {
+       "name": "mornarica",
+       "files": [
+        ["gumenjak-01.png",331,102],
+        ["gumenjak-02.png",370,100],
+        ["motorboot-01.png",379,114],
+        ["podmornica-01.png",2531,322],
+        ["preko-reke.png",111,46],
+        ["recna-tvrdjava.png",725,224],
+        ["sturmboot-01.png",422,101],
+        ["sturmboot-02.png",422,102],
+        ["sturmboot-03.png",424,101],
+        ["sturmboot-04.png",436,100],
+        ["sturmboot-05.png",403,103],
+        ["sturmboot-06.png",419,109],
+        ["sturmboot-07.png",345,88],
+        ["sturmboot-08.png",455,69],
+        ["sturmboot-09.png",422,92],
+        ["sturmboot-veliki.png",700,123]
+       ],
+       "folders": [
+        {
+         "name": "pvo",
+         "files": [
+          ["artiljerac-01.png",51,47],
+          ["artiljerac-02.png",32,61],
+          ["artiljerac-03.png",51,47],
+          ["municija-01.png",44,71],
+          ["municija-02.png",44,71],
+          ["municija-03.png",44,72],
+          ["municija-04.png",44,72],
+          ["municija-05.png",44,71],
+          ["municija-06.png",44,71],
+          ["osmatrac-01.png",44,82],
+          ["osmatrac-02.png",40,76],
+          ["osmatrac-03.png",34,72],
+          ["osmatrac-04.png",44,72],
+          ["osmatrac-05.png",40,76],
+          ["osmatrac-06.png",50,77],
+          ["posada-01.png",44,72],
+          ["posada-02.png",44,72]
+         ],
+         "folders": []
+        }
+       ]
+      },
+      {
+       "name": "motori",
+       "files": [
+        ["bmw-r11-02.png",120,42],
+        ["bmw-r11-03.png",120,77],
+        ["bmw-r11-04.png",120,72],
+        ["bmw-r11-05.png",118,72],
+        ["bmw-r11-06.png",119,75],
+        ["bmw-r11.png",120,43],
+        ["bmw-r12-02.png",120,72],
+        ["bmw-r12-03.png",120,77],
+        ["bmw-r12.png",120,43],
+        ["bmw-r35.png",120,73],
+        ["bmw-r4-02.png",120,71],
+        ["bmw-r4-03.png",120,74],
+        ["bmw-r4.png",120,70],
+        ["bmw-r71-02.png",120,74],
+        ["bmw-r71-03.png",119,74],
+        ["bmw-r71.png",120,79],
+        ["dkw-nz350-02.png",120,85],
+        ["dkw-nz350-03.png",120,76],
+        ["dkw-nz350.png",120,72],
+        ["mg34.png",122,72],
+        ["mp40.png",122,72],
+        ["nsu-2510-02.png",120,72],
+        ["nsu-2510.png",120,77],
+        ["nsu-501-02.png",117,76],
+        ["nsu-501-03.png",120,92],
+        ["nsu-501.png",120,42],
+        ["nsu-601-02.png",120,80],
+        ["nsu-601-03.png",118,74],
+        ["nsu-601-04-sledja.png",120,73],
+        ["nsu-601-04.png",120,73],
+        ["nsu-601-05-sledja.png",120,80],
+        ["nsu-601-05.png",119,80],
+        ["nsu-601.png",120,42],
+        ["phanomen.png",120,74],
+        ["prikolica-01-sledja.png",70,40],
+        ["prikolica-01.png",70,40],
+        ["prikolica-02-sledja.png",70,34],
+        ["prikolica-02.png",70,34],
+        ["puch-350-02.png",120,75],
+        ["puch-350-03.png",120,75],
+        ["puch-350-04.png",120,77],
+        ["puch-350.png",120,75],
+        ["triumph-b350-02.png",120,71],
+        ["triumph-b350-03.png",120,73],
+        ["triumph-b350-04.png",120,74],
+        ["triumph-b350.png",120,75],
+        ["victoria-kr35-02.png",120,74],
+        ["victoria-kr35-03.png",120,73],
+        ["victoria-kr35-04.png",120,73],
+        ["victoria-kr35-05.png",120,76],
+        ["victoria-kr35.png",120,72],
+        ["victoria-kr6-02.png",120,77],
+        ["victoria-kr6-03.png",120,78],
+        ["victoria-kr6-04.png",119,77],
+        ["victoria-kr6.png",120,72],
+        ["zundapp-db200.png",120,72],
+        ["zundapp-k500-02.png",120,73],
+        ["zundapp-k500-03.png",120,73],
+        ["zundapp-k500.png",118,77],
+        ["zundapp-k600-02.png",120,82],
+        ["zundapp-k600.png",120,79],
+        ["zundapp-k800-02-sledja.png",121,79],
+        ["zundapp-k800-02.png",121,79],
+        ["zundapp-k800-03.png",120,72],
+        ["zundapp-k800-04.png",121,74],
+        ["zundapp-k800.png",120,42]
+       ],
+       "folders": []
+      },
+      {
+       "name": "oruzje",
+       "files": [
+        ["bazuka.png",57,12],
+        ["kar-98k.png",60,14],
+        ["mg-42.png",70,16],
+        ["mg-43.png",70,18],
+        ["mp-39-40.png",53,19],
+        ["mp-40-duplikat.png",40,19],
+        ["mp-40.png",34,19],
+        ["snajper.png",60,17],
+        ["stg-44.png",56,22],
+        ["walter-g43.png",58,13]
+       ],
+       "folders": []
+      },
+      {
+       "name": "padobranci",
+       "files": [
+        ["bombas-01.png",68,73],
+        ["mitraljezac-01.png",125,26],
+        ["padobranac-01.png",182,268],
+        ["padobranac-02.png",182,268],
+        ["padobranac-03-sledja.png",182,268],
+        ["padobranac-03.png",181,268],
+        ["padobranac-04.png",182,268],
+        ["padobranac-05.png",58,76],
+        ["vojnik-01.png",69,72],
+        ["vojnik-02.png",80,55],
+        ["vojnik-03.png",63,72],
+        ["vojnik-04.png",68,73],
+        ["vojnik-05.png",57,73],
+        ["vojnik-06.png",68,73],
+        ["vojnik-07.png",76,55],
+        ["vojnik-08.png",62,72]
+       ],
+       "folders": []
+      },
+      {
+       "name": "pvo",
+       "files": [
+        ["105mm-flack.png",369,178],
+        ["128mm-flack.png",396,125],
+        ["2cm-flak-madsten.png",166,132],
+        ["75mm-flack.png",257,179],
+        ["88mm-flack-02.png",257,212],
+        ["88mm-flack.png",248,258],
+        ["flak-breda.png",155,124],
+        ["flak-m39.png",331,146],
+        ["flak18.png",246,105],
+        ["flak28.png",189,92],
+        ["flak30.png",188,66],
+        ["flak36.png",222,77],
+        ["flak38.png",204,122],
+        ["flak39.png",181,123],
+        ["flak41-02.png",281,97],
+        ["flak41.png",281,163],
+        ["flakvierling38.png",175,84],
+        ["pvo-01.png",314,158],
+        ["pvo-02.png",202,128],
+        ["pvo-03.png",156,73],
+        ["pvo-04.png",172,122],
+        ["pvo-05.png",222,78],
+        ["pvo-06.png",352,78],
+        ["pvo-07.png",263,118],
+        ["pvo-08.png",222,77],
+        ["pvo-09.png",248,104],
+        ["pvo-10.png",188,68],
+        ["pvo-11.png",157,71],
+        ["pvo-12.png",176,84],
+        ["pvo-13.png",166,68]
+       ],
+       "folders": [
+        {
+         "name": "crnokosuljasi",
+         "files": [
+          ["artiljerac-01.png",51,47],
+          ["oficir-sprite.png",105,76],
+          ["punjenje-01.png",55,69],
+          ["punjenje-sprite.png",193,72],
+          ["pvo-01.png",285,142]
+         ],
+         "folders": []
+        },
+        {
+         "name": "posada",
+         "files": [
+          ["artiljerac-01.png",36,55],
+          ["artiljerac-02.png",47,52],
+          ["artiljerac-03.png",38,61],
+          ["artiljerac-04.png",50,47],
+          ["artiljerac-05.png",36,55],
+          ["artiljerac-06.png",47,52],
+          ["artiljerac-07.png",38,61],
+          ["artiljerac-08.png",36,55],
+          ["artiljerac-09.png",47,52],
+          ["artiljerac-10.png",38,61],
+          ["artiljerac-11.png",56,54],
+          ["artiljerac-12.png",44,61],
+          ["artiljerac-13.png",50,50],
+          ["artiljerac-14.png",59,44],
+          ["artiljerac-15.png",51,47],
+          ["municija-01-sledja.png",44,71],
+          ["municija-01.png",44,71],
+          ["municija-02.png",44,72],
+          ["municija-03-a.png",44,71],
+          ["municija-03.png",44,71],
+          ["municija-04-a.png",44,71],
+          ["municija-04.png",46,71],
+          ["municija-05.png",49,72],
+          ["municija-06.png",45,72],
+          ["municija-07.png",44,72],
+          ["municija-sprite-01.png",189,72],
+          ["municija-sprite-02.png",140,72],
+          ["municija-sprite-03.png",264,72],
+          ["municija-sprite-04.png",258,72],
+          ["municija-sprite-05.png",438,79],
+          ["oficir-01-sledja.png",52,72],
+          ["oficir-01.png",52,72],
+          ["oficir-02.png",44,72],
+          ["osmatrac-01.png",50,71],
+          ["osmatrac-02.png",48,81],
+          ["osmatrac-03.png",40,75],
+          ["osmatrac-04.png",44,71],
+          ["osmatrac-05.png",40,75],
+          ["osmatrac-06.png",58,72],
+          ["osmatrac-07.png",44,82],
+          ["osmatrac-08.png",40,74],
+          ["osmatrac-09.png",44,72],
+          ["osmatrac-10.png",40,74],
+          ["osmatrac-11.png",56,77],
+          ["osmatrac-12.png",39,75],
+          ["osmatrac-13.png",42,73],
+          ["osmatrac-14.png",44,83],
+          ["osmatrac-15.png",40,76],
+          ["osmatrac-16.png",40,74],
+          ["osmatrac-17.png",40,75],
+          ["osmatrac-18.png",44,82],
+          ["osmatrac-19.png",68,61],
+          ["osmatrac-sprite-01.png",91,76],
+          ["posada-01.png",52,73],
+          ["posada-02.png",54,72],
+          ["posada-03.png",44,75],
+          ["posada-04.png",55,73],
+          ["posada-05.png",44,73],
+          ["posada-06.png",59,74],
+          ["posada-07.png",65,71],
+          ["posada-08.png",53,82],
+          ["posada-09.png",44,71],
+          ["posada-10.png",58,72],
+          ["posada-sprite-01.png",683,79],
+          ["posada-sprite-02.png",698,80],
+          ["posada-sprite-03.png",710,84],
+          ["posada-sprite-04.png",519,81],
+          ["posada-sprite-05.png",243,81],
+          ["punjenje-sprite.png",214,64],
+          ["zimski-artiljerac-01.png",33,61],
+          ["zimski-artiljerac-02.png",50,49],
+          ["zimski-artiljerac-03.png",49,47],
+          ["zimski-municija-01.png",44,72],
+          ["zimski-municija-02.png",44,72],
+          ["zimski-municija-03.png",44,73],
+          ["zimski-municija-04.png",44,72],
+          ["zimski-municija-05.png",47,73],
+          ["zimski-municija-06.png",44,71],
+          ["zimski-municija-07.png",51,68],
+          ["zimski-osmatrac-01.png",40,75],
+          ["zimski-osmatrac-02.png",57,76],
+          ["zimski-osmatrac-03.png",40,77],
+          ["zimski-osmatrac-04.png",50,76],
+          ["zimski-osmatrac-05.png",40,75]
+         ],
+         "folders": []
+        }
+       ]
+      },
+      {
+       "name": "ss",
+       "files": [
+        ["anti-tenk-01.png",61,60],
+        ["bombas-01.png",84,77],
+        ["bombas-02.png",107,60],
+        ["bombas-03.png",61,93],
+        ["bombas-04.png",78,77],
+        ["bombas-05.png",78,77],
+        ["juris-01.png",68,68],
+        ["lekar-01.png",61,74],
+        ["lekar-02.png",61,76],
+        ["lezi-01.png",128,33],
+        ["lezi-02.png",148,33],
+        ["mitraljezac-01.png",125,35],
+        ["mitraljezac-02.png",83,55],
+        ["mitraljezac-03.png",148,33],
+        ["municija-01.png",100,43],
+        ["narednik-01.png",63,76],
+        ["narednik-02.png",83,61],
+        ["oficir-01.png",70,74],
+        ["oficir-02.png",72,72],
+        ["oficir-03.png",71,70],
+        ["oficir-04.png",62,77],
+        ["ss-02.png",63,59],
+        ["ss-04.png",77,58],
+        ["ss-05.png",66,58],
+        ["ss-06.png",82,72],
+        ["ss-07.png",75,55],
+        ["ss-08.png",83,71],
+        ["ss-09.png",70,71],
+        ["ss-10.png",68,71],
+        ["ss-11.png",75,71],
+        ["ss-12.png",79,70],
+        ["ss-13.png",79,55],
+        ["ss-14.png",73,55],
+        ["ss-15.png",77,61],
+        ["ss-16.png",74,68],
+        ["ss-17.png",99,48],
+        ["ss-18.png",79,61],
+        ["ss-19.png",71,68],
+        ["ss-vojnik-02.png",76,55],
+        ["vojnik-01.png",64,72]
+       ],
+       "folders": [
+        {
+         "name": "2-ss-diviziija",
+         "files": [
+          ["anti-tenk-01.png",95,74],
+          ["anti-tenk-02.png",124,73],
+          ["bombas-01.png",67,73],
+          ["bombas-02.png",75,65],
+          ["komandir-01.png",69,73],
+          ["komandir-02.png",66,73],
+          ["mitraljezac-01.png",112,59],
+          ["mitraljezac-02.png",112,57],
+          ["mitraljezac-03.png",61,57],
+          ["ss-01.png",75,73],
+          ["ss-02.png",77,59],
+          ["ss-03.png",90,78],
+          ["ss-04.png",61,73],
+          ["ss-05.png",62,59],
+          ["ss-06.png",64,73],
+          ["ss-07.png",74,73],
+          ["ss-08.png",95,61],
+          ["ss-09.png",71,65],
+          ["ss-10.png",62,73],
+          ["ss-11.png",91,75],
+          ["ss-12.png",74,73],
+          ["ss-13.png",78,68],
+          ["ss-14.png",72,73]
+         ],
+         "folders": []
+        },
+        {
+         "name": "29-ss-divizija",
+         "files": [
+          ["bombas-01.png",79,79],
+          ["maskirno-01.png",76,77],
+          ["maskirno-02.png",61,75],
+          ["maskirno-03.png",66,75],
+          ["maskirno-04.png",70,73],
+          ["mitraljezac-01.png",146,42],
+          ["mitraljezac-02.png",145,43],
+          ["mitraljezac-03.png",98,56],
+          ["mitraljezac-04.png",124,25],
+          ["oficir-01.png",83,81],
+          ["oficir-02.png",60,76],
+          ["oficir-maskirno.png",59,75],
+          ["vojnik-01.png",87,82],
+          ["vojnik-02-sledja.png",103,66],
+          ["vojnik-02.png",101,67],
+          ["vojnik-03.png",93,80],
+          ["vojnik-04-sledja.png",85,75],
+          ["vojnik-04.png",92,77],
+          ["vojnik-05.png",101,64]
+         ],
+         "folders": []
+        },
+        {
+         "name": "general-ss",
+         "files": [
+          ["ss-01.png",55,74],
+          ["ss-stroj-01.png",34,76],
+          ["ss-stroj-02.png",34,77],
+          ["zarobljenik-01.png",46,71],
+          ["zarobljenik-02.png",41,70],
+          ["zarobljenik-03.png",51,59]
+         ],
+         "folders": []
+        },
+        {
+         "name": "handzar-divizija",
+         "files": [
+          ["minobacac-01.png",52,52],
+          ["mitraljezac-01.png",70,73],
+          ["motor-01.png",110,77],
+          ["motor-02.png",124,77],
+          ["municija-01.png",46,75],
+          ["posada-01.png",52,76],
+          ["posada-02.png",51,58],
+          ["ss-imam.png",24,70],
+          ["vojnik-01.png",52,76],
+          ["vojnik-02.png",44,76],
+          ["vojnik-03.png",50,86],
+          ["vojnik-04.png",58,74],
+          ["vojnik-05.png",72,76],
+          ["vojnik-sprite-01.png",218,76],
+          ["vozilo-01.png",171,72],
+          ["vozilo-02.png",133,75]
+         ],
+         "folders": [
+          {
+           "name": "pvo",
+           "files": [
+            ["artiljerac-01.png",49,48],
+            ["artiljerac-sprite.png",161,61],
+            ["municija-sprite-01.png",259,72],
+            ["oficir-01.png",50,77],
+            ["oficir-02.png",40,76],
+            ["osmatrac-01.png",84,33],
+            ["osmatrac-sprite-01.png",123,75],
+            ["punjenje-sprite-01.png",687,82],
+            ["punjenje-sprite-02.png",692,83]
+           ],
+           "folders": []
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "name": "stab",
+       "files": [
+        ["stabni-01.png",60,70],
+        ["stabni-02.png",60,69]
+       ],
+       "folders": []
+      },
+      {
+       "name": "stvari",
+       "files": [
+        ["bure-01.png",29,41],
+        ["bure-02.png",29,41],
+        ["kanister.png",16,22],
+        ["kutija-02.png",56,56],
+        ["kutija.png",39,29],
+        ["sator-01.png",101,64],
+        ["sator-02.png",101,64],
+        ["sator-03.png",101,64],
+        ["zidic-01.png",67,18],
+        ["zidic-02.png",67,18]
+       ],
+       "folders": []
+      },
+      {
+       "name": "tenkovi",
+       "files": [
+        ["128mm.png",407,113],
+        ["elefant-01.png",379,143],
+        ["hummel-01.png",298,139],
+        ["jagdpanther-01.png",409,116],
+        ["jagdpanzer.png",422,120],
+        ["jagdpanzer38.png",277,96],
+        ["jagdpanzer4.png",759,204],
+        ["kanonen-jagdpanzer.png",489,137],
+        ["king-tiger-01.png",481,184],
+        ["king-tiger-zimski.png",443,133],
+        ["king-tiger.png",360,115],
+        ["lefh18-01.png",266,110],
+        ["lefh18-02.png",294,105],
+        ["pak38-01.png",261,118],
+        ["pak38-02.png",261,154],
+        ["panzer1a-02.png",179,79],
+        ["panzer2-01.png",577,245],
+        ["panzer2.png",210,98],
+        ["panzer2b.png",198,81],
+        ["panzer2d-76mm.png",247,102],
+        ["panzer2d.png",187,81],
+        ["panzer3-l60.png",254,111],
+        ["panzer3.png",245,114],
+        ["panzer38-3.png",574,298],
+        ["panzer38.png",220,109],
+        ["panzer4-02.png",251,115],
+        ["panzer4.png",387,134],
+        ["panzer5.png",378,137],
+        ["panzer6.png",356,123],
+        ["panzerjagen-ia-37mm.png",225,94],
+        ["panzerkampfwagen3-b-unisten.png",264,112],
+        ["panzerkampfwagen3-b.png",290,145],
+        ["panzerkampfwagen3-unisten.png",295,115],
+        ["panzerkampfwagen3.png",290,145],
+        ["pz-ii-c.png",56,109],
+        ["pz-iii-f.png",75,133],
+        ["pz-iv-f1.png",74,146],
+        ["pz-iv-g.png",70,162],
+        ["sd-kfz121.png",198,111],
+        ["sd-kfz161-02-vozac.png",262,162],
+        ["sd-kfz161-02.png",262,152],
+        ["sd-kfz161.png",295,122],
+        ["sd-kfz171.png",391,167],
+        ["sd-kfz251.png",282,87],
+        ["somua-s35.png",301,147],
+        ["stug3-a.png",214,78],
+        ["tenk-odozgo-01.png",203,560],
+        ["tenk-odozgo-02.png",203,551],
+        ["tenkovi-siluete.png",1300,1270],
+        ["unisten-tenk.png",387,117]
+       ],
+       "folders": [
+        {
+         "name": "posada",
+         "files": [
+          ["komandir-01.png",68,73],
+          ["posada-01.png",44,74],
+          ["posada-02.png",57,74],
+          ["radio-01.png",78,86],
+          ["vozac-01.png",59,74]
+         ],
+         "folders": []
+        }
+       ]
+      },
+      {
+       "name": "vojnici",
+       "files": [
+        ["juris-01.png",91,68],
+        ["juris-02.png",67,80],
+        ["juris-03.png",57,68],
+        ["juris-04.png",68,72],
+        ["narednik-01.png",74,74],
+        ["narednik-02.png",81,73],
+        ["narednik-03.png",80,73],
+        ["oficir-01.png",71,73],
+        ["oficir-02.png",94,80],
+        ["oficir-03.png",42,75],
+        ["oficir-04.png",71,73],
+        ["oficir-05.png",70,74],
+        ["osmatrac-01.png",40,75],
+        ["osmatrac-02.png",40,75],
+        ["osmatrac-03.png",84,33],
+        ["pesadija-01.png",76,81],
+        ["pesadija-02.png",76,80],
+        ["specijalac-01.png",62,75],
+        ["specijalac-02.png",51,74],
+        ["strazar-01-sledja.png",47,74],
+        ["strazar-01.png",47,74],
+        ["vojnik-01.png",58,75],
+        ["vojnik-02.png",52,74],
+        ["vojnik-03.png",65,73],
+        ["vojnik-04.png",80,74],
+        ["vojnik-05.png",81,74],
+        ["vojnik-06.png",80,77],
+        ["vojnik-07.png",66,73],
+        ["vojnik-08.png",74,73],
+        ["vojnik-09.png",74,73],
+        ["vojnik-10.png",74,73],
+        ["vojnik-11.png",70,59],
+        ["vojnik-12.png",77,73],
+        ["vojnik-13.png",85,64],
+        ["vojnik-14.png",74,73],
+        ["vojnik-15.png",76,73],
+        ["vojnik-16-sledja.png",69,85],
+        ["vojnik-16.png",87,84],
+        ["vojnik-17.png",82,60],
+        ["vojnik-18.png",61,72],
+        ["vojnik-19-sledja.png",79,53],
+        ["vojnik-19.png",79,53],
+        ["vojnik-20.png",80,80],
+        ["vojnik-21.png",80,58],
+        ["vojnik-22.png",75,82],
+        ["vojnik-23.png",63,80],
+        ["vojnik-24.png",58,78],
+        ["vojnik-25.png",83,70],
+        ["vojnik-26.png",68,71],
+        ["vojnik-27-sledja.png",78,73],
+        ["vojnik-27.png",78,73],
+        ["vojnik-lezi-01.png",69,27],
+        ["vojnik-lezi-02.png",68,27],
+        ["zastavnik-01.png",106,200],
+        ["zima-01.png",65,76]
+       ],
+       "folders": [
+        {
+         "name": "antipartizani",
+         "files": [
+          ["komandir.png",140,115],
+          ["konjanik-01.png",141,110],
+          ["konjanik-02.png",142,112],
+          ["konjanik-03.png",143,113],
+          ["konjanik-04.png",140,110],
+          ["konjanik-sprite-01.png",500,116],
+          ["protupartizan-01.png",52,87],
+          ["protupartizan-02.png",55,73],
+          ["protupartizan-03.png",47,73],
+          ["protupartizan-04.png",78,69],
+          ["protupartizan-05.png",62,71],
+          ["protupartizan-06.png",74,71],
+          ["protupartizan-07.png",64,73]
+         ],
+         "folders": []
+        },
+        {
+         "name": "antitenk",
+         "files": [
+          ["antitenk-01.png",58,62],
+          ["antitenk-02.png",84,64],
+          ["antitenk-03.png",181,33],
+          ["antitenk-04.png",95,70],
+          ["antitenk-05.png",134,81],
+          ["antitenk-06.png",87,64],
+          ["antitenk-07.png",72,64],
+          ["antitenk-08.png",89,67],
+          ["tellermine-01.png",66,72],
+          ["tellermine-02.png",61,70]
+         ],
+         "folders": []
+        },
+        {
+         "name": "bombasi",
+         "files": [
+          ["bombas-01-sledja.png",77,59],
+          ["bombas-01.png",93,67],
+          ["bombas-02.png",79,82],
+          ["bombas-03-sledja.png",92,88],
+          ["bombas-03.png",91,87],
+          ["bombas-04.png",84,78]
+         ],
+         "folders": []
+        },
+        {
+         "name": "kozaci",
+         "files": [
+          ["kozak-01.png",76,73],
+          ["kozak-02-sledja.png",71,57],
+          ["kozak-02.png",71,57],
+          ["kozak-03.png",66,58],
+          ["motorizacija-01.png",118,79],
+          ["motorizacija-02.png",121,74],
+          ["oficir-01.png",61,72],
+          ["oficir-02.png",66,72]
+         ],
+         "folders": []
+        },
+        {
+         "name": "mitraljesci",
+         "files": [
+          ["mitraljezac-01.png",124,26],
+          ["mitraljezac-02.png",78,67],
+          ["mitraljezac-03.png",112,59],
+          ["mitraljezac-04.png",65,73],
+          ["mitraljezac-05.png",138,30],
+          ["mitraljezac-06.png",96,60],
+          ["mitraljezac-07.png",72,69],
+          ["mitraljezac-08.png",88,58],
+          ["mitraljezac-09.png",89,65],
+          ["mitraljezac-10.png",118,31],
+          ["mitraljezac-11.png",84,63],
+          ["mitraljezac-12.png",85,63],
+          ["mitraljezac-pomocnik-01.png",100,42],
+          ["mitraljezac-pomocnik-02.png",75,67],
+          ["mitraljezac-zima-01.png",75,75],
+          ["municija-01.png",78,76],
+          ["municija-02.png",70,65]
+         ],
+         "folders": []
+        },
+        {
+         "name": "pokret",
+         "files": [
+          ["oficir-pokret.png",40,74],
+          ["pokret-01.png",40,75],
+          ["pokret-02.png",39,76],
+          ["pokret-03.png",62,75],
+          ["pokret-04.png",39,76],
+          ["pokret-05.png",39,76],
+          ["pokret-06.png",40,75],
+          ["pokret-07.png",39,76],
+          ["pokret-08.png",62,75],
+          ["pokret-09.png",39,76],
+          ["pokret-zima-01.png",39,76],
+          ["pokret-zima-02.png",62,72],
+          ["pokret-zima-03.png",39,77],
+          ["pokret-zima-04.png",39,76],
+          ["pokret-zima-05.png",39,77],
+          ["pokret-zima-06.png",40,74],
+          ["pokret-zima-07.png",39,76]
+         ],
+         "folders": []
+        },
+        {
+         "name": "ranjenici",
+         "files": [
+          ["ranjenik-01.png",112,37],
+          ["ranjenik-02.png",59,71],
+          ["ranjenik-03.png",72,58],
+          ["ranjenik-04.png",78,55],
+          ["ranjenik-05.png",66,71],
+          ["ranjenik-06.png",83,70],
+          ["ranjenik-07.png",53,75],
+          ["ranjenik-08.png",47,45],
+          ["ranjenik-09.png",47,46],
+          ["ranjenik-10.png",38,70],
+          ["ranjenik-11.png",33,77]
+         ],
+         "folders": []
+        },
+        {
+         "name": "rovovi",
+         "files": [
+          ["mitraljezac-01.png",100,26],
+          ["oficir-01.png",98,29],
+          ["osmatrac-01.png",98,25],
+          ["rov-01.png",98,26],
+          ["rov-02.png",98,32],
+          ["rov-03.png",98,28],
+          ["rov-04.png",98,29],
+          ["rov-05.png",98,25]
+         ],
+         "folders": []
+        },
+        {
+         "name": "zarobljenici",
+         "files": [
+          ["zarobljenik-01.png",44,54],
+          ["zarobljenik-01a.png",30,66],
+          ["zarobljenik-02.png",44,58],
+          ["zarobljenik-02a.png",30,71],
+          ["zarobljenik-03.png",51,71],
+          ["zarobljenik-04.png",47,69],
+          ["zarobljenik-05.png",47,70],
+          ["zarobljenik-06.png",47,56],
+          ["zarobljenik-07.png",52,59],
+          ["zarobljenik-08.png",48,69],
+          ["zarobljenik-09.png",50,61],
+          ["zimski-01.png",46,71],
+          ["zimski-02.png",41,67]
+         ],
+         "folders": []
+        }
+       ]
+      },
+      {
+       "name": "vozila",
+       "files": [
+        ["830bl-01.png",222,80],
+        ["830bl-02.png",222,80],
+        ["auto-01.png",199,92],
+        ["auto-02.png",199,92],
+        ["auto-03.png",235,87],
+        ["auto-04.png",236,82],
+        ["auto-05.png",263,120],
+        ["auto-06.png",248,85],
+        ["auto-radio-01.png",254,126],
+        ["autoblinda-ab43.png",259,107],
+        ["baf203.png",193,95],
+        ["daf201.png",215,98],
+        ["dzip-01.png",199,84],
+        ["dzip-02.png",195,112],
+        ["dzip-03.png",199,111],
+        ["dzip-04.png",236,79],
+        ["dzip-05.png",236,78],
+        ["dzip-06.png",240,89],
+        ["dzip-07.png",240,90],
+        ["dzip-radio.png",240,100],
+        ["dzip-vuce-top-01.png",388,78],
+        ["flak38-01.png",294,121],
+        ["flak38-02.png",270,121],
+        ["ford917t-i-pak38.png",499,99],
+        ["ford917t.png",283,100],
+        ["hitna-pomoc-01.png",237,119],
+        ["hitna-pomoc-02.png",243,104],
+        ["hitna-pomoc-03.png",241,100],
+        ["hitna-pomoc-04.png",273,119],
+        ["kamion-01.png",241,104],
+        ["kamion-02.png",241,100],
+        ["kamion-03.png",274,91],
+        ["kamion-04.png",274,104],
+        ["kamion-05.png",244,96],
+        ["kamion-06.png",380,109],
+        ["kamion-07.png",373,97],
+        ["kamion-08.png",303,118],
+        ["kamion-09.png",267,124],
+        ["kamion-10.png",269,91],
+        ["kamion-vuce-top-01.png",432,100],
+        ["kamion-vuce-top-02.png",482,117],
+        ["l2-h43.png",229,99],
+        ["l202.png",252,103],
+        ["leichte_Panzerspahwagen_SdK.png",600,339],
+        ["mg34.png",219,92],
+        ["mg42.png",221,94],
+        ["oa-vz-30-zeleni.png",162,82],
+        ["oa-vz-30.png",162,82],
+        ["p202.png",277,106],
+        ["pzkpf612-37mm.png",223,93],
+        ["sdkfz-221-01.png",232,85],
+        ["sdkfz-221-02.png",232,97],
+        ["sdkfz-231-01.png",260,140],
+        ["sdkfz-231-02.png",284,116],
+        ["sdkfz-231-03.png",273,97],
+        ["sdkfz-233-01.png",260,115],
+        ["sdkfz-234-01.png",865,331],
+        ["sdkfz-234-02.png",800,299],
+        ["sdkfz-250-02.png",199,123],
+        ["sdkfz-250-03.png",249,103],
+        ["sdkfz-250-04.png",250,112],
+        ["sdkfz-250.png",199,123],
+        ["sdkfz-251-02.png",284,108],
+        ["sdkfz-251-03.png",285,103],
+        ["sdkfz-251-04.png",284,116],
+        ["sdkfz-251-05.png",285,105],
+        ["sdkfz-251-06.png",285,111],
+        ["sdkfz-251-07.png",285,125],
+        ["sdkfz-251-08.png",285,124],
+        ["sdkfz-251-09.png",285,114],
+        ["sdkfz-251-10.png",290,110],
+        ["sdkfz-251-11.png",289,102],
+        ["sdkfz-251.png",285,107],
+        ["sdkfz11-01.png",279,99],
+        ["sdkfz11-02.png",510,98],
+        ["sdkfz11-03.png",270,95],
+        ["sdkfz11-vuce-top-01.png",529,104],
+        ["spw-m3.png",288,121],
+        ["tatra-t72.png",185,89],
+        ["vozilo-01.png",510,254],
+        ["vozilo-02.png",226,106],
+        ["wilton-fijenoord.png",226,90]
+       ],
+       "folders": []
+      },
+      {
+       "name": "vozovi",
+       "files": [
+        ["lokomotiva-01.png",613,126],
+        ["lokomotiva-02.png",243,129],
+        ["lokomotiva-03.png",305,115]
+       ],
+       "folders": [
+        {
+         "name": "oklopni-vozovi",
+         "files": [
+          ["bp42-01.png",758,217],
+          ["bp42-02.png",498,222],
+          ["bp42-03.png",498,201],
+          ["bp42-04.png",322,183],
+          ["bp42.png",505,198]
+         ],
+         "folders": []
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "name": "partizani",
+     "files": [
+      ["lokomotiva-01.png",735,159],
+      ["marshal-tito-sledja.png",48,73],
+      ["marshal-tito.png",48,73],
+      ["potez-25.png",400,173],
+      ["ranjenik-01.png",69,27],
+      ["ranjenik-02.png",69,27],
+      ["ranjenik-03.png",69,27],
+      ["vojnik-lezi-02.png",69,27],
+      ["vojnik-lezi.png",69,27],
+      ["zastava.gif",278,183]
+     ],
+     "folders": [
+      {
+       "name": "artiljerija",
+       "files": [
+        ["100mm-02.png",232,82],
+        ["100mm-03.png",234,81],
+        ["100mm-04.png",230,78],
+        ["100mm-skoda.png",317,78],
+        ["100mm.png",239,81],
+        ["105mm-02.png",289,84],
+        ["105mm-03.png",313,86],
+        ["105mm.png",313,87],
+        ["120mm.png",336,92],
+        ["150mm-skoda.png",297,126],
+        ["155mm.png",286,80],
+        ["37mm.png",152,45],
+        ["75mm-02.png",196,76],
+        ["75mm-03.png",226,75],
+        ["75mm.png",191,69],
+        ["76.5mm-02.png",231,76],
+        ["76.5mm.png",222,77],
+        ["fh315-100mm.png",230,80],
+        ["fh316-100mm.png",234,81],
+        ["fh317-100mm.png",232,77],
+        ["fh318-100mm.png",234,79],
+        ["fh402-150mm.png",290,126],
+        ["fk239-75mm.png",226,75],
+        ["fk249-75mm.png",197,75],
+        ["fk303-76mm.png",222,76],
+        ["fk304-76mm.png",231,75],
+        ["k338-105mm.png",313,86],
+        ["k339-105mm.png",317,78],
+        ["posada-01.png",51,53],
+        ["posada-02.png",51,53],
+        ["posada-03.png",51,53],
+        ["posada-04.png",51,53]
+       ],
+       "folders": []
+      },
+      {
+       "name": "avioni",
+       "files": [
+        ["breguet-19-realistic.png",300,200],
+        ["hurricane-mkiv-realistic.png",300,255],
+        ["hurricane-odozgo.png",300,236],
+        ["il-2-realistic.png",300,255],
+        ["spitfire-mkvb-realistic.png",300,255],
+        ["spitfire-odozgo.png",300,255],
+        ["yak-1b-realistic.png",300,255]
+       ],
+       "folders": []
+      },
+      {
+       "name": "bolnicari",
+       "files": [
+        ["bolnicarka-01.png",46,67],
+        ["bolnicarka-02.png",77,70]
+       ],
+       "folders": []
+      },
+      {
+       "name": "britanska-misija",
+       "files": [
+        ["oficir-01.png",75,70],
+        ["soe-01.png",129,54],
+        ["soe-02.png",129,50],
+        ["soe-03.png",165,50],
+        ["specijalac-01.png",62,70],
+        ["specijalac-02.png",61,70]
+       ],
+       "folders": []
+      },
+      {
+       "name": "stvari",
+       "files": [
+        ["bure-01.png",29,41],
+        ["bure-02.png",29,41],
+        ["bure-03.png",29,41],
+        ["kanister-02.png",16,22],
+        ["kanister.png",16,22],
+        ["kutija.png",39,29],
+        ["zidic-01.png",67,18],
+        ["zidic-02.png",67,18],
+        ["zidic-03.png",67,18]
+       ],
+       "folders": []
+      },
+      {
+       "name": "tenkovi",
+       "files": [
+        ["pz-r35.png",202,85],
+        ["pz38.png",245,106],
+        ["sedi-na-tenku.png",44,63],
+        ["somua-s35.png",377,144],
+        ["stuart-m3a1.png",216,117],
+        ["stuart-m3a3-75mm.png",251,117],
+        ["stuart-m3a3.png",216,141],
+        ["t34-02.png",392,124],
+        ["t34.png",392,123],
+        ["tenk-01.png",392,139],
+        ["tenk-02.png",259,112],
+        ["tenk-03.png",290,122],
+        ["tenk-04.png",380,129]
+       ],
+       "folders": []
+      },
+      {
+       "name": "vojnici",
+       "files": [
+        ["komesar-01-sledja.png",58,70],
+        ["komesar-01.png",58,70],
+        ["komesar-02.png",57,72],
+        ["komesar-03-sledja.png",53,66],
+        ["komesar-03.png",53,66],
+        ["lezi-03.png",99,29],
+        ["mp40-01.png",55,72],
+        ["mp40-02.png",55,72],
+        ["mp40-03.png",52,73],
+        ["mp40-04.png",52,73],
+        ["mp40-05.png",47,70],
+        ["partizan-01-sledja.png",65,70],
+        ["partizan-01.png",65,70],
+        ["partizan-02.png",77,70],
+        ["partizan-03.png",44,71],
+        ["partizan-04-sledja.png",72,71],
+        ["partizan-04.png",72,71],
+        ["partizan-05.png",76,71],
+        ["partizan-06.png",47,74],
+        ["partizan-07.png",65,69],
+        ["partizan-08.png",73,69],
+        ["partizan-09.png",67,71],
+        ["partizan-10.png",67,73],
+        ["partizan-11.png",78,79],
+        ["partizan-12.png",49,68],
+        ["partizan-13-sledja.png",49,69],
+        ["partizan-13.png",49,69],
+        ["partizan-14.png",72,70],
+        ["partizan-15.png",72,70],
+        ["partizan-16.png",41,70],
+        ["partizan-17.png",80,70],
+        ["partizan-18.png",79,71],
+        ["partizan-19.png",65,70],
+        ["partizan-20-sledja.png",65,69],
+        ["partizan-20.png",59,72],
+        ["partizan-21.png",65,69],
+        ["partizan-22.png",67,79],
+        ["partizan-23.png",69,71],
+        ["partizan-24-sledja.png",69,70],
+        ["partizan-24.png",70,72],
+        ["partizan-25.png",73,71],
+        ["partizan-26.png",85,69],
+        ["partizan-27.png",66,68],
+        ["partizan-28.png",71,70],
+        ["partizan-29.png",67,71],
+        ["partizan-30.png",75,49],
+        ["rus-01.png",52,67],
+        ["rus-02.png",79,72],
+        ["savo.png",60,72],
+        ["sten-02.png",55,70],
+        ["sten-03.png",55,70],
+        ["sten-04-sledja.png",62,71],
+        ["sten-04.png",62,71],
+        ["sten-05.png",60,72],
+        ["sten-06-sledja.png",60,72],
+        ["sten-06.png",60,72],
+        ["stoji-01.png",67,75],
+        ["stoji-02.png",60,72],
+        ["stoji-03.png",50,71],
+        ["stoji-04.png",50,72],
+        ["vojnik-01-sledja.png",58,71],
+        ["vojnik-01.png",58,71],
+        ["vojnik-02-sledja.png",78,69],
+        ["vojnik-02.png",78,71],
+        ["vojnik-03.png",65,71],
+        ["vojnik-04.png",70,73],
+        ["zastavnik-01.png",119,174]
+       ],
+       "folders": [
+        {
+         "name": "bombasi",
+         "files": [
+          ["bombas-02.png",66,73],
+          ["bombas-03.png",100,89],
+          ["bombas-04.png",67,91],
+          ["bombas-05.png",59,72],
+          ["bombas-06.png",87,86],
+          ["bombas-07.png",69,78],
+          ["bombas-08.png",66,92],
+          ["bombas-spanac-sledja.png",62,80],
+          ["bombas-spanac.png",62,79],
+          ["partizan-bombas-sledja.png",66,71],
+          ["partizan-bombas.gif",66,72]
+         ],
+         "folders": []
+        },
+        {
+         "name": "juris",
+         "files": [
+          ["juris-01.png",77,70],
+          ["juris-02.png",77,70],
+          ["juris-03-sledja.png",66,66],
+          ["juris-03.png",69,67],
+          ["juris-04.png",64,66],
+          ["juris-05.png",64,68],
+          ["juris-06.png",71,62],
+          ["juris-07.png",91,70],
+          ["juris-08.png",75,73],
+          ["juris-09.png",75,67],
+          ["juris-10.png",77,70],
+          ["juris-11.png",73,68],
+          ["juris-12.png",59,81],
+          ["juris-13-sledja.png",52,66],
+          ["juris-13.png",52,66],
+          ["juris-14.png",71,66],
+          ["juris-15.png",55,69],
+          ["juris-16.png",52,67],
+          ["juris-17.png",52,67],
+          ["juris-18.png",70,68],
+          ["zastavnik-01.png",93,105]
+         ],
+         "folders": []
+        },
+        {
+         "name": "komunisti",
+         "files": [
+          ["komunist-01.png",43,71],
+          ["komunist-02.png",66,60],
+          ["komunist-03-sledja.png",68,70],
+          ["komunist-03.png",60,69],
+          ["komunist-04.png",87,78],
+          ["komunist-05-sledja.png",64,72],
+          ["komunist-05.png",64,72],
+          ["komunist-06-sledja.png",76,72],
+          ["komunist-06.png",69,71],
+          ["komunist-07-sledja.png",70,72],
+          ["komunist-07.png",61,71],
+          ["komunist-08.png",69,59],
+          ["komunist-10.png",57,72],
+          ["komunist-11.png",51,72],
+          ["komunist-12.png",51,71],
+          ["komunist-13.png",66,72],
+          ["komunist-15.png",72,71]
+         ],
+         "folders": []
+        },
+        {
+         "name": "kuriri",
+         "files": [
+          ["kurir-01.png",55,70],
+          ["kurir-02.png",55,70],
+          ["kurir-03.png",46,65],
+          ["kurir-04.png",55,69],
+          ["kurir-05.png",49,67],
+          ["kurir-06.png",46,66],
+          ["kurir-07.png",53,67]
+         ],
+         "folders": []
+        },
+        {
+         "name": "mitraljesci",
+         "files": [
+          ["mitraljezac-02-sledja.png",83,53],
+          ["mitraljezac-02.png",83,53],
+          ["mitraljezac-03.png",113,27],
+          ["mitraljezac-04.png",75,75],
+          ["mitraljezac-05-sledja.png",60,69],
+          ["mitraljezac-05.png",77,70],
+          ["mitraljezac-07.png",70,70],
+          ["mitraljezac-09.png",82,58],
+          ["mitraljezac-10.png",87,59],
+          ["mitraljezac-11.png",76,71],
+          ["municija-01.png",87,60],
+          ["municija-02.png",73,63],
+          ["municija-03.png",81,33],
+          ["municija-04.png",80,60],
+          ["municija-05.png",69,59]
+         ],
+         "folders": []
+        },
+        {
+         "name": "pokret",
+         "files": [
+          ["pokret-01.png",45,73],
+          ["pokret-02.png",62,73],
+          ["pokret-03.png",59,73],
+          ["pokret-04.png",32,74],
+          ["pokret-05.png",67,73],
+          ["pokret-06.png",67,71],
+          ["spanac-02-sledja.png",32,78],
+          ["spanac-02.png",32,78],
+          ["spanac-03-sledja.png",70,71],
+          ["spanac-03.png",71,70],
+          ["vojnik-03.png",39,76],
+          ["vojnik-04.png",39,76],
+          ["vojnik-05.png",39,76],
+          ["vojnik-06.png",40,75]
+         ],
+         "folders": []
+        },
+        {
+         "name": "ranjenici",
+         "files": [
+          ["ranjenici-01.png",157,72],
+          ["ranjenik-01.png",91,33]
+         ],
+         "folders": []
+        },
+        {
+         "name": "snezni",
+         "files": [
+          ["bombas-02.png",67,78],
+          ["skije-01.png",48,77],
+          ["snezni-01.png",77,73],
+          ["snezni-02.png",85,73],
+          ["snezni-03.png",74,73],
+          ["snezni-04.png",52,72],
+          ["snezni-05-sledja.png",52,73],
+          ["snezni-05.png",52,73],
+          ["snezni-06.png",52,73],
+          ["snezni-07.png",68,72],
+          ["snezni-08-sledja.png",53,72],
+          ["snezni-08.png",53,74]
+         ],
+         "folders": []
+        },
+        {
+         "name": "spanci",
+         "files": [
+          ["lezi-04.png",112,31],
+          ["osmatra-01.png",79,30],
+          ["spanac-04-sledja.png",66,53],
+          ["spanac-04.png",65,54],
+          ["spanac-05-sledja.png",65,71],
+          ["spanac-05.png",65,71],
+          ["spanac-06.png",42,72],
+          ["spanac-07.png",60,72],
+          ["spanac-09.png",66,49],
+          ["spanac-10.png",65,71],
+          ["spanac-12.png",66,47],
+          ["spanac-14.png",72,64],
+          ["spanac-15-sledja.png",73,76],
+          ["spanac-15.png",73,75],
+          ["spanac-16.png",72,58],
+          ["spanac-22.png",63,80],
+          ["spanac-23.png",71,58],
+          ["spanac-24.png",49,81]
+         ],
+         "folders": []
+        },
+        {
+         "name": "ustanici",
+         "files": [
+          ["juris-03.png",98,71],
+          ["ustanik-01.png",88,74],
+          ["ustanik-02.png",88,74],
+          ["ustanik-03.png",124,32],
+          ["ustanik-04.png",124,32],
+          ["ustanik-05.png",88,60],
+          ["ustanik-10.png",88,73],
+          ["ustanik-13.png",98,74],
+          ["ustanik-17.png",82,74],
+          ["ustanik-19.png",98,60]
+         ],
+         "folders": []
+        },
+        {
+         "name": "zarobljenici",
+         "files": [
+          ["stoji-01.png",32,71],
+          ["stoji-02.png",32,71],
+          ["zarobljenik-02.png",27,69],
+          ["zarobljenik-03.png",27,69],
+          ["zarobljenik-04-sledja.png",58,76],
+          ["zarobljenik-04.png",58,76],
+          ["zarobljenik-05.png",57,73]
+         ],
+         "folders": []
+        },
+        {
+         "name": "zene",
+         "files": [
+          ["drugarica-01.png",55,65],
+          ["drugarica-01a.png",55,65],
+          ["drugarica-01b.png",55,65],
+          ["drugarica-02.png",59,58],
+          ["drugarica-03.png",74,59],
+          ["drugarica-04-sledja.png",65,66],
+          ["drugarica-04.png",63,65],
+          ["drugarica-05.png",76,69],
+          ["drugarica-06-sledja.png",72,66],
+          ["drugarica-06.png",72,64],
+          ["drugarica-07-sledja.png",61,67],
+          ["drugarica-07.png",61,67],
+          ["drugarica-08-sledja.png",67,66],
+          ["drugarica-08.png",67,66],
+          ["drugarica-09.png",49,66],
+          ["drugarica-10-sledja.png",55,67],
+          ["drugarica-10.png",55,67],
+          ["drugarica-11.png",59,72],
+          ["mitraljeskinja-01.png",119,24],
+          ["mitraljezac-01.png",61,67],
+          ["partizanka-01.png",74,71],
+          ["partizanka-02.png",46,70],
+          ["partizanka-03.png",40,73],
+          ["partizanka-04.png",67,73],
+          ["ranjenica-01.png",37,73],
+          ["spanjolka-01.png",72,70]
+         ],
+         "folders": []
+        },
+        {
+         "name": "zimski",
+         "files": [
+          ["spanac-01.png",65,53],
+          ["spanac-02.png",42,72],
+          ["spanac-03.png",57,65],
+          ["spanac-04.png",70,67],
+          ["spanac-05.png",70,67],
+          ["veza-01.png",79,58],
+          ["zimski-01.png",52,71],
+          ["zimski-02-sledja.png",60,71],
+          ["zimski-02.png",60,75],
+          ["zimski-03.png",89,54],
+          ["zimski-04-sledja.png",52,71],
+          ["zimski-04.png",52,71]
+         ],
+         "folders": []
+        }
+       ]
+      },
+      {
+       "name": "vozila",
+       "files": [
+        ["75mm.png",216,115],
+        ["dzip-01.png",171,78],
+        ["dzip-02.png",171,71],
+        ["dzip-03.png",142,75],
+        ["kamion-01.png",286,138],
+        ["kamion-02.png",263,121]
+       ],
+       "folders": []
+      }
+     ]
+    },
+    {
+     "name": "rusi",
+     "files": [
+      ["artiljerci-01.png",66,57],
+      ["figurica-pop.png",149,189],
+      ["gnezdo-01.png",210,88],
+      ["komesar-01.png",62,72],
+      ["lezi-01.png",134,29],
+      ["vezista-01.png",44,53],
+      ["zastava.png",70,34]
+     ],
+     "folders": [
+      {
+       "name": "artiljerija",
+       "files": [
+        ["120mm.png",132,76],
+        ["160mm.png",158,110],
+        ["50mm.png",72,41],
+        ["76.2mm-02.png",198,62],
+        ["76.2mm-03.png",296,79],
+        ["76.2mm-04.png",296,80],
+        ["76.2mm-05.png",261,71],
+        ["76.2mm-06.png",280,73],
+        ["76.2mm.png",186,63],
+        ["76mm.png",255,61],
+        ["82mm.png",52,52],
+        ["posada-01.png",52,73],
+        ["posada-02.png",50,54],
+        ["posada-03.png",74,53],
+        ["posada-04.png",52,73],
+        ["posada-05.png",51,53]
+       ],
+       "folders": []
+      },
+      {
+       "name": "avijacija",
+       "files": [
+        ["pilot-01.png",53,68],
+        ["pilot-02.png",58,71]
+       ],
+       "folders": []
+      },
+      {
+       "name": "oruzje",
+       "files": [
+        ["dp-28.png",58,16],
+        ["mosin-nagant.png",64,11],
+        ["ppd-34.png",45,15],
+        ["ppd-40.png",45,14],
+        ["pps-43.png",48,16],
+        ["ppsh-41-02.png",47,13],
+        ["ppsh-41.png",47,14],
+        ["ppsh.png",50,14],
+        ["snajper.png",64,15]
+       ],
+       "folders": []
+      },
+      {
+       "name": "stab",
+       "files": [
+        ["stabni-01.png",60,69],
+        ["stabni-02.png",60,70]
+       ],
+       "folders": []
+      },
+      {
+       "name": "tenkovi",
+       "files": [
+        ["bt2.png",280,101],
+        ["bt3.png",310,99],
+        ["bt7.png",308,99],
+        ["kv1.png",333,128],
+        ["t26.png",244,108],
+        ["t34-01.png",336,106],
+        ["t34-57.png",279,113],
+        ["t34-76.png",294,112],
+        ["t34-85.png",363,123],
+        ["t34.png",336,105],
+        ["t60.png",187,72],
+        ["t70.png",209,90]
+       ],
+       "folders": []
+      },
+      {
+       "name": "vojnici",
+       "files": [
+        ["antitenk-01.png",151,25],
+        ["antitenk-02.png",151,25],
+        ["bacac-plamena.png",69,71],
+        ["bombas-01.png",63,72],
+        ["bombas-02.png",64,72],
+        ["bombas-03.png",63,73],
+        ["bombas-04.png",74,72],
+        ["juris-01.png",72,68],
+        ["juris-02.png",53,69],
+        ["komesar-01.png",60,69],
+        ["komesar-02.png",67,71],
+        ["komesar-03.png",57,73],
+        ["komesar-04.png",75,72],
+        ["komesar-05.png",110,86],
+        ["mitraljezac-01.png",97,51],
+        ["mitraljezac-02.png",91,54],
+        ["mitraljezac-03.png",128,26],
+        ["mitraljezac-04.png",137,49],
+        ["mitraljezac-05.png",77,71],
+        ["mitraljezac-06.png",77,71],
+        ["mitraljezac-07.png",77,71],
+        ["mitraljezac-08.png",108,46],
+        ["mitraljezac-09.png",124,28],
+        ["mitraljezac-10.png",137,45],
+        ["municija-01.png",68,54],
+        ["municija-02.png",68,54],
+        ["oficir-01.png",57,72],
+        ["oficir-02.png",55,73],
+        ["oficir-03.png",57,71],
+        ["osmatrac-01.png",43,76],
+        ["osmatrac-02.png",93,35],
+        ["rov-01.png",98,25],
+        ["rov-02.png",96,25],
+        ["rov-03.png",98,28],
+        ["rov-04.png",99,28],
+        ["rov-osmatrac.png",98,29],
+        ["snajper-01.png",71,71],
+        ["snajper-02.png",78,72],
+        ["stoji-01.png",67,75],
+        ["vojnik-01.png",70,62],
+        ["vojnik-02.png",87,62],
+        ["vojnik-03.png",52,67],
+        ["vojnik-04.png",71,67],
+        ["vojnik-05.png",70,72],
+        ["vojnik-06.png",44,72],
+        ["vojnik-07.png",73,71],
+        ["vojnik-08.png",73,71],
+        ["vojnik-09.png",66,72],
+        ["vojnik-10.png",73,71],
+        ["vojnik-11.png",73,70],
+        ["vojnik-12.png",53,71],
+        ["vojnik-13.png",79,71],
+        ["vojnik-14.png",53,71],
+        ["vojnik-15.png",53,73],
+        ["vojnik-16.png",53,69],
+        ["vojnik-17.png",55,74],
+        ["vojnik-18.png",53,68],
+        ["vojnik-19.png",64,73],
+        ["vojnik-20.png",70,70],
+        ["zastavnik-01.png",145,106],
+        ["zastavnik-02.png",89,104],
+        ["zastavnik-03.png",117,93],
+        ["zastavnik-04.png",121,97],
+        ["zastavnik-05.png",126,180],
+        ["zimski-01.png",73,70],
+        ["zimski-02.png",73,70],
+        ["zimski-03.png",72,71],
+        ["zimski-04.png",71,71],
+        ["zimski-05.png",64,71],
+        ["zimski-06.png",73,71],
+        ["zimski-snajper.png",77,69]
+       ],
+       "folders": [
+        {
+         "name": "zene",
+         "files": [
+          ["borkinja-01.png",53,70],
+          ["borkinja-02.png",53,70],
+          ["borkinja-03.png",53,71],
+          ["borkinja-04.png",59,73],
+          ["borkinja-05.png",77,70],
+          ["komesarka-01.png",52,74],
+          ["komesarka-02.png",53,71],
+          ["mehanicarka-01.png",51,73],
+          ["mitraljeskinja-01.png",125,25],
+          ["ranjenica-01.png",48,73],
+          ["snajper-01.png",76,73],
+          ["tenkistkinja-01.png",75,72],
+          ["tenkistkinja-02.png",51,74]
+         ],
+         "folders": []
+        }
+       ]
+      },
+      {
+       "name": "vozila",
+       "files": [
+        ["b10.png",193,95],
+        ["b11.png",218,99],
+        ["ba1.png",193,91],
+        ["ba13.png",203,95],
+        ["ba21.png",207,94],
+        ["ba22.png",195,82],
+        ["ba27.png",206,92],
+        ["ba3.png",193,93],
+        ["ba5.png",223,110],
+        ["ba6-02.png",193,94],
+        ["ba6.png",232,105],
+        ["d13-02.png",203,93],
+        ["d13.png",211,97],
+        ["d9.png",249,101],
+        ["dzip-01.png",243,99],
+        ["gaz-tk.png",188,88],
+        ["hitna-01.png",257,124],
+        ["kamion-01.png",276,91],
+        ["kamion-02.png",287,122],
+        ["kamion-03.png",257,121],
+        ["kamion-04.png",279,127],
+        ["kamion-05.png",290,128],
+        ["kamion-06.png",290,118],
+        ["katjusha-01.png",336,118],
+        ["katjusha-02.png",247,145],
+        ["katjusha-03.png",279,118],
+        ["katjusha-04.png",334,121],
+        ["katjusha-05.png",227,134],
+        ["katjusha-06.png",338,121],
+        ["katjusha-07.png",335,116],
+        ["katjusha-08.png",318,119],
+        ["katjusha-09.png",321,129],
+        ["katjusha-10.png",321,119],
+        ["katjusha.png",281,115],
+        ["lb23.png",192,94],
+        ["mula.png",175,86],
+        ["oklopni-transport-01.png",284,92],
+        ["oklopni-transport-02.png",296,121],
+        ["oklopni-transport-03.png",284,118]
+       ],
+       "folders": []
+      },
+      {
+       "name": "zarobljenici",
+       "files": [
+        ["zarobljenik-03.png",44,57],
+        ["zarobljenik-03a.png",30,70],
+        ["zarobljenik-05.png",44,54],
+        ["zarobljenik-05a.png",30,66]
+       ],
+       "folders": []
+      }
+     ]
+    },
+    {
+     "name": "spanija",
+     "files": [],
+     "folders": [
+      {
+       "name": "tenkovi",
+       "files": [
+        ["AAC-37-green.png",408,204],
+        ["AAC-37.png",408,204],
+        ["Barbastro.png",491,244],
+        ["Barcelona_AC-2_FAI_CNT.png",482,221],
+        ["BT_model33_spanish_nationalist.png",458,187],
+        ["Carro_Breda_LegionCondor_1938.png",301,156],
+        ["Hispano-SuizaMC36_hotchkiss.png",621,255],
+        ["renault_TSF_spain1937.png",407,228],
+        ["sadurni-de-noya.png",245,126],
+        ["schneider_CA_spanish.png",467,186],
+        ["T26_model33_spain.png",394,200],
+        ["Trubia_Landesa.png",322,180],
+        ["trubia_modelo_A4.png",384,190],
+        ["Trubia_Naval_armed.png",317,166],
+        ["UNL-35-rep-2.png",300,163],
+        ["Verdeja-I.png",413,154]
+       ],
+       "folders": []
+      }
+     ]
+    },
+    {
+     "name": "talijani",
+     "files": [
+      ["general-01.png",24,74],
+      ["general-02.png",23,69],
+      ["general-03.png",23,73],
+      ["musolini.png",46,76],
+      ["zarobljenik-01.png",29,69]
+     ],
+     "folders": [
+      {
+       "name": "artiljerija",
+       "files": [
+        ["antitenk-47-posada.png",168,58],
+        ["antitenk-47.png",165,50],
+        ["bacac-01.png",52,52],
+        ["bacac-posada-01.png",60,76],
+        ["bacac-posada-02.png",56,58],
+        ["fk217-75mm.png",238,75],
+        ["fk237-75mm.png",211,75],
+        ["fk245-75mm.png",195,63],
+        ["howitzer-100-17.png",265,92],
+        ["howitzer-75.png",187,67],
+        ["howitzer-posada.png",174,58],
+        ["obice-100-17-02.png",235,81],
+        ["obice-100-17.png",242,84],
+        ["obice-100-22-02.png",243,87],
+        ["obice-100-22-03.png",243,87],
+        ["obice-100-22.png",241,88],
+        ["obice-149-13.png",261,94],
+        ["obice-149-19.png",328,112],
+        ["obice-152-13.png",276,89],
+        ["obice-210-22.png",403,106],
+        ["obice-75-18.png",213,90],
+        ["obice-mod35-01.png",394,100],
+        ["obice-mod35-02.png",394,212],
+        ["obice-mod35-03.png",679,149],
+        ["posada-01.png",65,77],
+        ["posada-02.png",52,56],
+        ["posada-03.png",51,76],
+        ["posada-04-sledja.png",48,73],
+        ["posada-04.png",48,75],
+        ["posada-05.png",57,74],
+        ["posada-06.png",54,55],
+        ["top-01.png",379,104],
+        ["top-105-28-02.png",312,91],
+        ["top-105-28.png",307,88],
+        ["top-105-32.png",328,97],
+        ["top-149-40.png",388,112],
+        ["top-149.png",387,109],
+        ["top-152-37.png",433,139],
+        ["top-155-14.png",289,106],
+        ["top-75-27-02.png",196,68],
+        ["top-75-27-03.png",248,74],
+        ["top-75-27-04.png",224,78],
+        ["top-75-27.png",232,78],
+        ["top-predratni.png",351,105]
+       ],
+       "folders": []
+      },
+      {
+       "name": "avioni",
+       "files": [
+        ["CR-42_82a_Squadriglia.png",1630,646],
+        ["fiat-cr42.png",272,120],
+        ["imam-ro57.png",458,131],
+        ["Reggiane-Re-2005-odozgo.png",216,179]
+       ],
+       "folders": []
+      },
+      {
+       "name": "bombasi",
+       "files": [
+        ["bombas-01.png",65,74],
+        ["bombas-02.png",65,74],
+        ["bombas-03-sledja.png",65,75],
+        ["bombas-03.png",65,75],
+        ["bombas-04.png",65,74],
+        ["bombas-05-sledja.png",65,74],
+        ["bombas-05.png",65,74],
+        ["bombas-06-sledja.png",65,74],
+        ["bombas-06.png",65,74],
+        ["bombas-07.png",65,74]
+       ],
+       "folders": []
+      },
+      {
+       "name": "gnezda",
+       "files": [
+        ["gnezdo-01.png",173,82],
+        ["gnezdo-02.png",173,84],
+        ["gnezdo-03.png",173,82],
+        ["gnezdo-04.png",186,83],
+        ["gnezdo-05.png",186,83],
+        ["gnezdo-06.png",186,83],
+        ["gnezdo-07.png",175,82],
+        ["gnezdo-08.png",175,83]
+       ],
+       "folders": []
+      },
+      {
+       "name": "oruzje",
+       "files": [
+        ["beretta-m38.png",48,14],
+        ["breda-1937.png",122,60],
+        ["carcano-m38.png",57,12],
+        ["carcano-m91.png",63,12],
+        ["m1914.png",116,70],
+        ["m1935.png",132,62],
+        ["m91-cavalleria.png",53,12]
+       ],
+       "folders": []
+      },
+      {
+       "name": "padobranci",
+       "files": [
+        ["bombas-01.png",63,73],
+        ["izvidjac-01.png",57,77],
+        ["izvidjac-02.png",55,58],
+        ["posada-01.png",57,74],
+        ["posada-02.png",64,75],
+        ["posada-03.png",53,57],
+        ["posada-04.png",60,76],
+        ["vojnik-02.png",53,74],
+        ["vojnik-03.png",65,74],
+        ["vojnik-04.png",74,57],
+        ["vojnik-05.png",126,28],
+        ["vojnik-06.png",89,56],
+        ["vojnik-07.png",52,74]
+       ],
+       "folders": []
+      },
+      {
+       "name": "razaraci",
+       "files": [
+        ["bolzano.png",247,62],
+        ["littorio.png",300,66],
+        ["roma.png",287,64],
+        ["trento.png",253,74],
+        ["trieste-1941.png",233,60],
+        ["trieste-1943.png",248,61],
+        ["vittorio-veneto.png",301,65]
+       ],
+       "folders": []
+      },
+      {
+       "name": "tenkovi",
+       "files": [
+        ["l6.png",187,93],
+        ["m11-39.png",226,96],
+        ["m11-40.png",226,139],
+        ["m11-41.png",226,139],
+        ["m11-42.png",226,139],
+        ["m15.png",226,139],
+        ["m40-02.png",226,141],
+        ["m40.png",226,139],
+        ["m41-02.png",267,142],
+        ["m41-03.png",238,157],
+        ["m41.png",224,138],
+        ["m42-01.png",244,142],
+        ["m42-02.png",248,140],
+        ["m43.png",279,143],
+        ["m6.png",167,85],
+        ["posada.png",128,76],
+        ["tanketa-01.png",164,80],
+        ["tenk-01.png",254,142],
+        ["tenkista-01.png",75,81]
+       ],
+       "folders": []
+      },
+      {
+       "name": "vojnici",
+       "files": [
+        ["balkan-01.png",70,71],
+        ["balkan-02.png",123,64],
+        ["bombas-01.png",70,78],
+        ["fasisti.png",71,80],
+        ["izvidjac-01-sledja.png",49,74],
+        ["izvidjac-01.png",46,74],
+        ["izvidjac-02-sledja.png",53,56],
+        ["izvidjac-02.png",51,56],
+        ["mitraljezac-01.png",80,79],
+        ["mitraljezac-02.png",132,30],
+        ["mitraljezac-03.png",95,59],
+        ["oficir-01.png",47,73],
+        ["padobranci.png",71,80],
+        ["pesadija.png",71,80],
+        ["rusija-01.png",71,75],
+        ["rusija-02.png",78,78],
+        ["rusija-03.png",59,75],
+        ["rusija-bombas.png",68,79],
+        ["strelci.png",82,81],
+        ["vojnik-01.png",69,75],
+        ["vojnik-02.png",63,76],
+        ["vojnik-03.png",74,73],
+        ["vojnik-04.png",86,75],
+        ["vojnik-05.png",80,55],
+        ["vojnik-06.png",72,74],
+        ["zimski-01.png",72,77],
+        ["zimski-02.png",55,77],
+        ["zimski-03.png",66,77]
+       ],
+       "folders": [
+        {
+         "name": "alpski",
+         "files": [
+          ["bombas-01.png",60,76],
+          ["breda-30.png",124,29],
+          ["breda-37.png",87,58],
+          ["mula.png",175,86],
+          ["oficir-01.png",44,76],
+          ["protivavionac-01.png",126,77],
+          ["protivavionac-posada.png",51,58],
+          ["skijas-01.png",122,74],
+          ["skijas-02.png",60,90],
+          ["snajper-01.png",71,76],
+          ["vojnik-01.png",77,58],
+          ["vojnik-02.png",71,76],
+          ["vojnik-03.png",52,76]
+         ],
+         "folders": []
+        },
+        {
+         "name": "crne-brigade",
+         "files": [
+          ["bazuka.png",106,72],
+          ["bombas-01-sledja.png",60,73],
+          ["bombas-01.png",60,73],
+          ["bombas-02.png",103,92],
+          ["breda-30.png",124,26],
+          ["breda-37.png",87,55],
+          ["general-02-sledja.png",95,85],
+          ["general-02.png",96,86],
+          ["general.png",44,73],
+          ["mitraljezac.png",96,64],
+          ["odstupanje.png",91,84],
+          ["oficir.png",44,72],
+          ["ranjenik-01-sledja.png",84,29],
+          ["ranjenik-01.png",83,32],
+          ["snajper.png",71,72],
+          ["strazar-01-sledja.png",55,83],
+          ["strazar-01.png",63,78],
+          ["vojnik-01.png",77,54],
+          ["vojnik-02.png",71,73],
+          ["vojnik-03-sledja.png",52,73],
+          ["vojnik-03.png",52,73],
+          ["vojnik-04.png",76,77],
+          ["vojnik-05.png",61,80],
+          ["vojnik-06.png",62,80],
+          ["vojnik-trk.png",89,78]
+         ],
+         "folders": []
+        },
+        {
+         "name": "crnokosuljasi",
+         "files": [
+          ["bombas-01.png",63,78],
+          ["izvidjac-01.png",47,73],
+          ["izvidjac-02.png",51,57],
+          ["mitraljezac-01.png",94,58],
+          ["oficir-01.png",56,74],
+          ["posada-01.png",53,56],
+          ["posada-02.png",56,75],
+          ["posada-03.png",53,56],
+          ["posada-04.png",49,74],
+          ["posada-05.png",57,75],
+          ["vojnik-01.png",74,75],
+          ["vojnik-02.png",57,77],
+          ["vojnik-03.png",65,76],
+          ["vojnik-04.png",63,78],
+          ["vojnik-05.png",82,57],
+          ["vojnik-06.png",71,76],
+          ["vojnik-07.png",54,75]
+         ],
+         "folders": []
+        },
+        {
+         "name": "karabinjeri",
+         "files": [
+          ["bazuka-01.png",130,82],
+          ["bombas-01.png",84,89],
+          ["bombas-02.png",80,75],
+          ["general.png",58,76],
+          ["mitraljezac-01.png",104,67],
+          ["mitraljezac-02.png",141,31],
+          ["mitraljezac-03.png",96,57],
+          ["oficir-01.png",85,84],
+          ["oficir-02.png",60,73],
+          ["veza-01.png",151,63],
+          ["vojnik-01.png",74,86],
+          ["vojnik-02.png",72,87],
+          ["vojnik-03.png",88,81],
+          ["vojnik-04.png",78,83],
+          ["vojnik-05.png",79,62],
+          ["vojnik-06.png",92,60],
+          ["vojnik-07.png",81,89],
+          ["vojnik-08.png",86,63],
+          ["vojnik-09.png",81,77],
+          ["vojnik-10.png",58,74]
+         ],
+         "folders": []
+        },
+        {
+         "name": "strelci",
+         "files": [
+          ["bazuka-02.png",103,71],
+          ["bazuka.png",91,72],
+          ["mitraljezac-02.png",96,65],
+          ["motorista-01.png",122,84],
+          ["municija.png",83,85],
+          ["oficir-01.png",83,84],
+          ["signal.png",81,108],
+          ["vojnik-01.png",82,87],
+          ["vojnik-02.png",90,88],
+          ["vojnik-03.png",90,88],
+          ["vojnik-04.png",86,86],
+          ["vojnik-05.png",85,66],
+          ["zastava.png",134,196],
+          ["zastava.svg",134,196]
+         ],
+         "folders": []
+        }
+       ]
+      },
+      {
+       "name": "vozila",
+       "files": [
+        ["alfa-romeo-2500-02.png",209,81],
+        ["alfa-romeo-2500.png",209,81],
+        ["autoblinda-ab40-01.png",259,102],
+        ["autoblinda-ab41.png",259,158],
+        ["breda-32-02.png",282,154],
+        ["breda-32-vojnici.png",242,132],
+        ["breda-32-vuce-obice-mod35-0.png",555,132],
+        ["breda-32-vuce-obice-mod35.png",584,131],
+        ["breda-32.png",265,131],
+        ["breda-40-02.png",278,133],
+        ["breda-40-vuce-top.png",644,133],
+        ["breda-40.png",282,142],
+        ["breda-51-02.png",300,127],
+        ["breda-51.png",300,142],
+        ["ceirano-50-cm.png",262,124],
+        ["dovunque-spa41-tamni.png",339,154],
+        ["dovunque-spa41-vuce-top.png",685,160],
+        ["dovunque-spa41.png",346,155],
+        ["dovunque35-02.png",256,115],
+        ["dovunque35-aa-02.png",253,158],
+        ["dovunque35-aa.png",259,158],
+        ["dovunque35.png",256,149],
+        ["fiat-1100-02.png",222,100],
+        ["fiat-1100.png",222,100],
+        ["fiat-508-01.png",214,86],
+        ["fiat-626-02.png",306,122],
+        ["fiat-626.png",305,136],
+        ["fiat-633.png",344,136],
+        ["fiat-634.png",381,152],
+        ["fiat-665-02.png",319,134],
+        ["fiat-665.png",319,133],
+        ["fiat-666.png",317,131],
+        ["lancia-3ro-02.png",356,131],
+        ["lancia-3ro.png",360,144],
+        ["om-ursus.png",427,155],
+        ["spa-cl39-02.png",214,115],
+        ["spa-cl39.png",214,116],
+        ["spa-tl37-02.png",239,115],
+        ["spa-tl37-sa-haubicom.png",451,114],
+        ["spa-tl37.png",239,115],
+        ["spa-tp42.png",348,144]
+       ],
+       "folders": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "path": "3d",
+   "title": "3D",
+   "source": "assets/models",
+   "units": ["model","modela","modela"],
+   "files": [],
+   "folders": [
+    {
+     "name": "aircraft",
+     "files": [],
+     "folders": [
+      {
+       "name": "airplane",
+       "files": [],
+       "folders": [
+        {
+         "name": "biplane-bristol-f2b",
+         "files": [
+          ["model.fbx",0.2]
+         ],
+         "folders": []
+        },
+        {
+         "name": "biplane-sopwith",
+         "files": [
+          ["model.fbx",0.2]
+         ],
+         "folders": []
+        },
+        {
+         "name": "bomber-lancaster",
+         "files": [
+          ["model.glb",0.7]
+         ],
+         "folders": []
+        },
+        {
+         "name": "dornier-do-217",
+         "files": [
+          ["WXSUTGFGGAETK9J6AYCJWA8OO.obj",0.2,"WXSUTGFGGAETK9J6AYCJWA8OO.mtl"]
+         ],
+         "folders": []
+        },
+        {
+         "name": "f4u-corsair",
+         "files": [
+          ["model.glb",1.0]
+         ],
+         "folders": []
+        },
+        {
+         "name": "heinkel-he-111",
+         "files": [
+          ["model.fbx",0.5]
+         ],
+         "folders": []
+        },
+        {
+         "name": "junkers-f13",
+         "files": [
+          ["T3T5I53NKR1PDNTV3P2ISTUPP.fbx",0.9]
+         ],
+         "folders": []
+        },
+        {
+         "name": "junkers-ju-87-stuka",
+         "files": [
+          ["B6L6UIB83ZKUE6YOCT94DAHM3.obj",0.1,"B6L6UIB83ZKUE6YOCT94DAHM3.mtl"]
+         ],
+         "folders": []
+        },
+        {
+         "name": "messerschmitt-bf-109",
+         "files": [
+          ["model.glb",0.8]
+         ],
+         "folders": []
+        }
+       ]
+      },
+      {
+       "name": "ju52",
+       "files": [
+        ["model.glb",3.5]
+       ],
+       "folders": []
+      }
+     ]
+    },
+    {
+     "name": "building",
+     "files": [
+      ["bunker.fbx",0.0]
+     ],
+     "folders": [
+      {
+       "name": "city",
+       "files": [
+        ["Building1_Large.fbx",0.5],
+        ["Building1_Small.fbx",0.2],
+        ["Building3_Big.fbx",0.1],
+        ["Building4.fbx",0.1],
+        ["House1.fbx",0.4]
+       ],
+       "folders": []
+      },
+      {
+       "name": "crveni-krst",
+       "files": [
+        ["fence-corner.glb",0.0],
+        ["fence-straight.glb",0.0],
+        ["fence-terminal.glb",0.0],
+        ["gate.glb",0.1],
+        ["storehouse.glb",0.4],
+        ["timber-screen.glb",0.1],
+        ["watchtower.glb",0.1]
+       ],
+       "folders": []
+      },
+      {
+       "name": "drvar-church",
+       "files": [
+        ["church.glb",0.6]
+       ],
+       "folders": []
+      },
+      {
+       "name": "factory",
+       "files": [
+        ["model.fbx",0.1]
+       ],
+       "folders": []
+      },
+      {
+       "name": "house",
+       "files": [],
+       "folders": [
+        {
+         "name": "hut",
+         "files": [
+          ["house5-01.obj",0.1,"house5-01.mtl"],
+          ["house5-02.obj",0.0,"house5-02.mtl"],
+          ["house5-03.obj",0.0,"house5-03.mtl"],
+          ["house5-04.obj",0.0,"house5-04.mtl"]
+         ],
+         "folders": []
+        },
+        {
+         "name": "lake-house",
+         "files": [
+          ["house3-01.obj",0.0,"house3-01.mtl"],
+          ["house3-02.obj",0.0,"house3-02.mtl"],
+          ["house3-03.obj",0.0,"house3-03.mtl"]
+         ],
+         "folders": []
+        },
+        {
+         "name": "medieval",
+         "files": [
+          ["well-01.obj",0.0,"well-01.mtl"]
+         ],
+         "folders": []
+        },
+        {
+         "name": "medieval-house",
+         "files": [
+          ["model.fbx",0.9]
+         ],
+         "folders": []
+        },
+        {
+         "name": "river-house",
+         "files": [
+          ["house4-01.obj",0.1,"house4-01.mtl"],
+          ["house4-02.obj",0.0,"house4-02.mtl"],
+          ["house4-03.obj",0.0,"house4-03.mtl"]
+         ],
+         "folders": []
+        }
+       ]
+      },
+      {
+       "name": "mine",
+       "files": [
+        ["scene.gltf",0.0]
+       ],
+       "folders": []
+      },
+      {
+       "name": "monument",
+       "files": [
+        ["ilirska-bistrica.fbx",0.1],
+        ["kadinjaca.fbx",0.2],
+        ["kosmaj.fbx",0.1],
+        ["kosovska-mitrovica.fbx",0.0],
+        ["milutin.glb",0.5],
+        ["podgaric.fbx",0.1]
+       ],
+       "folders": []
+      },
+      {
+       "name": "ruins",
+       "files": [
+        ["destroyed-walls.glb",0.9]
+       ],
+       "folders": []
+      },
+      {
+       "name": "tower",
+       "files": [],
+       "folders": [
+        {
+         "name": "black",
+         "files": [
+          ["black-tower.obj",0.1]
+         ],
+         "folders": []
+        },
+        {
+         "name": "roof",
+         "files": [
+          ["tower1.obj",0.1,"tower1.mtl"]
+         ],
+         "folders": []
+        },
+        {
+         "name": "round",
+         "files": [
+          ["tower2.obj",0.0,"tower2.mtl"]
+         ],
+         "folders": []
+        },
+        {
+         "name": "squared",
+         "files": [
+          ["tower3.obj",0.1,"tower3.mtl"]
+         ],
+         "folders": []
+        },
+        {
+         "name": "strange",
+         "files": [
+          ["tower.fbx",0.1]
+         ],
+         "folders": []
+        },
+        {
+         "name": "ww2",
+         "files": [
+          ["D85VT1X9UHDSYASVUM1UY02HA.obj",0.2,"D85VT1X9UHDSYASVUM1UY02HA.mtl"]
+         ],
+         "folders": []
+        }
+       ]
+      },
+      {
+       "name": "town",
+       "files": [],
+       "folders": [
+        {
+         "name": "apartment",
+         "files": [
+          ["apartment.fbx",0.1]
+         ],
+         "folders": []
+        },
+        {
+         "name": "building",
+         "files": [
+          ["building.obj",0.1,"building.mtl"]
+         ],
+         "folders": []
+        },
+        {
+         "name": "cabin",
+         "files": [
+          ["cabin.fbx",0.6]
+         ],
+         "folders": []
+        },
+        {
+         "name": "common-house",
+         "files": [
+          ["common-house.fbx",0.1]
+         ],
+         "folders": []
+        },
+        {
+         "name": "cornershop",
+         "files": [
+          ["cornershop.fbx",0.1]
+         ],
+         "folders": []
+        },
+        {
+         "name": "european-building",
+         "files": [
+          ["european-building.fbx",0.6]
+         ],
+         "folders": []
+        },
+        {
+         "name": "house",
+         "files": [
+          ["house.fbx",0.1]
+         ],
+         "folders": []
+        },
+        {
+         "name": "old-house",
+         "files": [
+          ["old-house.fbx",0.1]
+         ],
+         "folders": []
+        },
+        {
+         "name": "rock-house",
+         "files": [
+          ["rock-house.fbx",0.2]
+         ],
+         "folders": []
+        },
+        {
+         "name": "ruined-building",
+         "files": [
+          ["ruined-building.fbx",0.1]
+         ],
+         "folders": []
+        },
+        {
+         "name": "ruins-building",
+         "files": [
+          ["ruins-building.fbx",1.0]
+         ],
+         "folders": []
+        },
+        {
+         "name": "simple-house",
+         "files": [
+          ["simple-house.fbx",0.0]
+         ],
+         "folders": []
+        },
+        {
+         "name": "storey-house",
+         "files": [
+          ["storey-house.fbx",0.1]
+         ],
+         "folders": []
+        }
+       ]
+      },
+      {
+       "name": "windmill",
+       "files": [],
+       "folders": [
+        {
+         "name": "windmill1",
+         "files": [
+          ["model.fbx",0.1]
+         ],
+         "folders": []
+        },
+        {
+         "name": "windmill2",
+         "files": [
+          ["model.fbx",0.1]
+         ],
+         "folders": []
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "name": "character",
+     "files": [],
+     "folders": [
+      {
+       "name": "soldier",
+       "files": [
+        ["cetnik.fbx",0.7],
+        ["german-machine-gunner.fbx",1.1],
+        ["german-soldier.fbx",1.4],
+        ["nazi-agent.fbx",1.0],
+        ["nazi-officer.fbx",1.0],
+        ["nazi.fbx",1.3],
+        ["partisan-lowpoly.fbx",0.7],
+        ["partisan.fbx",1.4],
+        ["resistance-fighter.fbx",1.8],
+        ["soldier.fbx",0.6],
+        ["soviet-partisan.fbx",1.5]
+       ],
+       "folders": []
+      }
+     ]
+    },
+    {
+     "name": "item",
+     "files": [],
+     "folders": [
+      {
+       "name": "ammunition-box",
+       "files": [
+        ["scene.gltf",0.0]
+       ],
+       "folders": []
+      },
+      {
+       "name": "barrel",
+       "files": [
+        ["model.fbx",0.1]
+       ],
+       "folders": []
+      },
+      {
+       "name": "first-aid-kit",
+       "files": [
+        ["4X1LECF6RT2DKR1BQH4NBTCP3.obj",0.2,"4X1LECF6RT2DKR1BQH4NBTCP3.mtl"]
+       ],
+       "folders": []
+      },
+      {
+       "name": "propeller",
+       "files": [
+        ["model.fbx",0.1]
+       ],
+       "folders": []
+      }
+     ]
+    },
+    {
+     "name": "nature",
+     "files": [],
+     "folders": [
+      {
+       "name": "cloud",
+       "files": [
+        ["Cloud1.glb",0.0],
+        ["Cloud2.glb",0.0],
+        ["Cloud3.glb",0.0],
+        ["lowpoly.gltf",0.0]
+       ],
+       "folders": []
+      },
+      {
+       "name": "dead-tree",
+       "files": [
+        ["model.glb",0.0]
+       ],
+       "folders": []
+      },
+      {
+       "name": "trees",
+       "files": [
+        ["burnt-oak.glb",0.1],
+        ["linden.glb",0.4],
+        ["oak.glb",0.1]
+       ],
+       "folders": []
+      }
+     ]
+    },
+    {
+     "name": "props",
+     "files": [],
+     "folders": [
+      {
+       "name": "sandbags",
+       "files": [
+        ["sandbags.glb",2.7]
+       ],
+       "folders": []
+      }
+     ]
+    },
+    {
+     "name": "ship",
+     "files": [],
+     "folders": [
+      {
+       "name": "boat",
+       "files": [
+        ["E8WFREKPO0G38Y7T5BWRIUJV6.obj",0.1,"E8WFREKPO0G38Y7T5BWRIUJV6.mtl"]
+       ],
+       "folders": []
+      },
+      {
+       "name": "submarine-u-boat",
+       "files": [
+        ["model.fbx",0.7]
+       ],
+       "folders": []
+      }
+     ]
+    },
+    {
+     "name": "tank",
+     "files": [
+      ["hotchkiss-h35.glb",1.5],
+      ["italian-M13-40.fbx",0.1],
+      ["panzer-III.fbx",0.2],
+      ["renault-ft.fbx",0.0],
+      ["t-26-double.fbx",0.2],
+      ["t-26.fbx",0.2],
+      ["t-34.fbx",0.3]
+     ],
+     "folders": [
+      {
+       "name": "a7v",
+       "files": [
+        ["model.fbx",0.9]
+       ],
+       "folders": []
+      },
+      {
+       "name": "m4a3-sherman",
+       "files": [
+        ["model.glb",0.5]
+       ],
+       "folders": []
+      },
+      {
+       "name": "mark-1",
+       "files": [
+        ["model.fbx",0.7]
+       ],
+       "folders": []
+      },
+      {
+       "name": "panther-a",
+       "files": [
+        ["model.fbx",0.2]
+       ],
+       "folders": []
+      },
+      {
+       "name": "panzer-III-highpoly",
+       "files": [
+        ["model.fbx",1.1]
+       ],
+       "folders": []
+      },
+      {
+       "name": "renault-ft",
+       "files": [
+        ["textured.fbx",0.0]
+       ],
+       "folders": []
+      },
+      {
+       "name": "su-122",
+       "files": [
+        ["model.fbx",0.7]
+       ],
+       "folders": []
+      },
+      {
+       "name": "t-18-mc-1",
+       "files": [
+        ["model.fbx",0.2]
+       ],
+       "folders": []
+      },
+      {
+       "name": "t-50",
+       "files": [
+        ["model.fbx",0.3]
+       ],
+       "folders": []
+      },
+      {
+       "name": "tiger-i",
+       "files": [
+        ["model.fbx",0.6]
+       ],
+       "folders": []
+      }
+     ]
+    },
+    {
+     "name": "vehicle",
+     "files": [
+      ["kubelwagen-color.fbx",0.1],
+      ["kubelwagen.fbx",0.2]
+     ],
+     "folders": [
+      {
+       "name": "armored-car",
+       "files": [],
+       "folders": [
+        {
+         "name": "dieselpunk",
+         "files": [
+          ["apcf.fbx",1.2]
+         ],
+         "folders": []
+        },
+        {
+         "name": "ehrhardt-e-v4",
+         "files": [
+          ["model.fbx",0.5]
+         ],
+         "folders": []
+        },
+        {
+         "name": "lancia-1ZM",
+         "files": [
+          ["lancia.fbx",0.3]
+         ],
+         "folders": []
+        },
+        {
+         "name": "sdkfz-222",
+         "files": [
+          ["sdkfz-222.fbx",0.4]
+         ],
+         "folders": []
+        },
+        {
+         "name": "sdkfz-233",
+         "files": [
+          ["model.glb",0.3]
+         ],
+         "folders": []
+        },
+        {
+         "name": "sdkfz-234-lowpoly",
+         "files": [
+          ["model.fbx",0.1]
+         ],
+         "folders": []
+        },
+        {
+         "name": "sdkfz-234-puma",
+         "files": [
+          ["model.fbx",0.8]
+         ],
+         "folders": []
+        }
+       ]
+      },
+      {
+       "name": "car",
+       "files": [],
+       "folders": [
+        {
+         "name": "chevrolet-1936",
+         "files": [
+          ["model.fbx",1.0]
+         ],
+         "folders": []
+        },
+        {
+         "name": "volkswagen-beetle",
+         "files": [
+          ["buba.fbx",0.4]
+         ],
+         "folders": []
+        },
+        {
+         "name": "volkswagen-beetle-old",
+         "files": [
+          ["model.fbx",0.1]
+         ],
+         "folders": []
+        },
+        {
+         "name": "volkswagen-typ-82e",
+         "files": [
+          ["model.fbx",0.5]
+         ],
+         "folders": []
+        }
+       ]
+      },
+      {
+       "name": "ready",
+       "files": [],
+       "folders": [
+        {
+         "name": "humvee",
+         "files": [
+          ["hummer.obj",0.3,"hummer.mtl"],
+          ["hummerTire.obj",0.0,"hummerTire.mtl"]
+         ],
+         "folders": []
+        }
+       ]
+      },
+      {
+       "name": "train",
+       "files": [],
+       "folders": [
+        {
+         "name": "locomotive",
+         "files": [
+          ["locomotive.glb",0.8]
+         ],
+         "folders": []
+        }
+       ]
+      },
+      {
+       "name": "truck",
+       "files": [
+        ["GAZ-AAA.fbx",0.1],
+        ["truck-siluete.fbx",0.1]
+       ],
+       "folders": [
+        {
+         "name": "army-truck",
+         "files": [
+          ["model.fbx",1.1]
+         ],
+         "folders": []
+        },
+        {
+         "name": "opel-blitz",
+         "files": [
+          ["model.fbx",0.2]
+         ],
+         "folders": []
+        },
+        {
+         "name": "soviet",
+         "files": [
+          ["S1DFOZQ5F864VLTICPQDCCJ0D.obj",0.4,"S1DFOZQ5F864VLTICPQDCCJ0D.mtl"]
+         ],
+         "folders": []
+        },
+        {
+         "name": "zis-5b",
+         "files": [
+          ["model.fbx",0.5]
+         ],
+         "folders": []
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "name": "weapon",
+     "files": [
+      ["bomb.fbx",0.0],
+      ["kasikara.fbx",0.0],
+      ["rifle.fbx",0.0]
+     ],
+     "folders": [
+      {
+       "name": "axe-lowpoly",
+       "files": [
+        ["model.fbx",0.1]
+       ],
+       "folders": []
+      },
+      {
+       "name": "cannon",
+       "files": [
+        ["civil-war-cannon.fbx",0.8],
+        ["field-gun-75.glb",0.2],
+        ["ww2-gun.fbx",0.9]
+       ],
+       "folders": []
+      },
+      {
+       "name": "flame-gun",
+       "files": [
+        ["model.fbx",0.1]
+       ],
+       "folders": []
+      },
+      {
+       "name": "luger",
+       "files": [
+        ["model.fbx",0.0]
+       ],
+       "folders": []
+      },
+      {
+       "name": "machine-gun",
+       "files": [
+        ["model.fbx",0.0]
+       ],
+       "folders": []
+      },
+      {
+       "name": "mg-42",
+       "files": [
+        ["lowpoly.fbx",0.1],
+        ["model.fbx",0.3]
+       ],
+       "folders": []
+      },
+      {
+       "name": "mortar-81-mod35",
+       "files": [
+        ["model.glb",0.3],
+        ["round.glb",0.0]
+       ],
+       "folders": []
+      },
+      {
+       "name": "revolver",
+       "files": [
+        ["model.fbx",0.1]
+       ],
+       "folders": []
+      },
+      {
+       "name": "rifle-berthier",
+       "files": [
+        ["model.fbx",0.1]
+       ],
+       "folders": []
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

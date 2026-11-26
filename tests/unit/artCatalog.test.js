@@ -3,10 +3,14 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { createPageElements } from './helpers/dom.js'
 
-test('a leaf gallery shows its originals, filters folders and copies project-relative paths without opening the image', async t => {
+test('one page shows the folder the address names: a leaf gallery shows its originals, filters folders and copies project-relative paths without opening the image', async t => {
   createPageElements()
-  const html = readFileSync(new URL('../../art/2d/ameri/diverzanti/index.html', import.meta.url), 'utf8')
+  const html = readFileSync(new URL('../../art/index.html', import.meta.url), 'utf8')
   document.body.innerHTML = html.split('<body>')[1].split('</body>')[0]
+  const list = readFileSync(new URL('../../art/catalog.json', import.meta.url), 'utf8')
+  t.mock.method(globalThis, 'fetch', async() => new Response(list))
+  location.hash = '#2d/ameri/diverzanti'
+  await import('/art/catalog.js')
   const pictures = [...document.querySelectorAll('.gallery img')]
   assert.equal(pictures.length, 5)
   for (const picture of pictures) {
@@ -17,7 +21,6 @@ test('a leaf gallery shows its originals, filters folders and copies project-rel
   const selected = document.querySelector('.tree [aria-current="page"]')
   assert.equal(document.querySelector('[data-path="2d/game-ready"]'), null)
   assert.equal(selected.textContent, 'diverzanti')
-  await import('/art/navigation.js')
   const search = document.getElementById('folder-search')
   const filter = value => {
     search.value = value

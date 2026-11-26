@@ -23,7 +23,19 @@ import Escort, { escort } from '/core/gameplay/controllers/Escort.js'
 import { description as partisan, models as partisanModels } from '/core3d/actor/derived/ww2/Partisan.js'
 import { description as partisanLowpoly, models as partisanLowpolyModels } from '/core3d/actor/derived/ww2/PartisanLowpoly.js'
 import { description as resistanceFighter, models as resistanceFighterModels } from '/core3d/actor/derived/ww2/ResistanceFighter.js'
+import { description as chetnik, models as chetnikModels } from '/core3d/actor/derived/ww2/Chetnik.js'
+import { description as chetnikSubara, models as chetnikSubaraModels } from '/core3d/actor/derived/ww2/ChetnikSubara.js'
 import { computerDamage } from '/core/gameplay/damage.js'
+
+const formation = [
+  { description: partisan, ahead: 4, side: -4 },
+  { description: partisanLowpoly, ahead: 4, side: 4 },
+  { description: resistanceFighter, ahead: 8, side: -7 },
+  { description: chetnik, ahead: 8, side: 7 },
+  { description: chetnikSubara, ahead: 1.5, side: -3 },
+]
+
+const defenders = { machineGun: germanMachineGunner, rifle: germanSoldier, officer: naziOfficer, ss: ssSoldier }
 
 export default class Tank3DScene extends Scene3D {
   constructor() {
@@ -38,7 +50,8 @@ export default class Tank3DScene extends Scene3D {
 
   async init() {
     await requestModels([...tankModels, ...germanMachineGunnerModels, ...ssSoldierModels, ...naziOfficerModels, ...germanSoldierModels,
-      ...partisanModels, ...partisanLowpolyModels, ...resistanceFighterModels, ...kraljevoModels])
+      ...partisanModels, ...partisanLowpolyModels, ...resistanceFighterModels, ...chetnikModels, ...chetnikSubaraModels,
+      ...kraljevoModels])
     hemLight({ intensity: Math.PI * 1.25, scene: this.scene })
 
     this.physics = new PhysicsWorld({ scene: this.scene })
@@ -62,16 +75,15 @@ export default class Tank3DScene extends Scene3D {
     this.fire.mesh.position.set(-8.5, 1, 150)
     this.addMesh(this.fire.mesh)
 
-    // the soldiers' bullets do not harm the tank; the partisans who go with it can fall
+    // The soldiers' bullets do not harm the tank; its escort can fall.
     const tank = meshTarget(this.player.mesh, { facesPositiveZ: true })
     this.enemies = []
     // ahead of the tank and to its sides, where the camera behind it sees them
-    const places = [{ ahead: 4, side: -4 }, { ahead: 4, side: 4 }, { ahead: 8, side: -7 }]
-    this.comrades = [partisan, partisanLowpoly, resistanceFighter].map((description, i) => {
+    this.comrades = formation.map(({ description, ...place }) => {
       // they run 6 m/s, as fast as a man can, to keep up with the tank
       const { body, model } = makeCharacter(description,
         { speed: 3, reach: escort.sight, targets: this.enemies, damage: computerDamage })
-      const guard = new Escort(body, { leader: tank, enemies: this.enemies, place: places[i] })
+      const guard = new Escort(body, { leader: tank, enemies: this.enemies, place })
       Object.assign(body, guard.post)
       this.controllers.push(guard)
       this.add(body, model)
@@ -79,16 +91,14 @@ export default class Tank3DScene extends Scene3D {
     })
     const germanTargets = [tank, ...this.comrades]
     // each holds his post, facing down the road (-z), and fires on what comes into reach
-    const defenders = [germanMachineGunner, germanMachineGunner, germanSoldier, naziOfficer, ssSoldier, germanSoldier]
-    defenders.forEach((description, i) => {
-      const { arm, ...post } = posts[i]
-      const { body, model } = makeCharacter(description, { ...post, ...defence[arm], yaw: Math.PI / 2, targets: germanTargets })
+    for (const { arm, kind = arm, ...post } of posts) {
+      const { body, model } = makeCharacter(defenders[kind], { ...post, ...defence[arm], yaw: Math.PI / 2, targets: germanTargets })
       const ai = new CharacterAI(body, { target: tank, way: 'defend', sight: defence[arm].reach })
-      // each picks the nearest of the tank and the partisans before it decides what to do
+      // Each picks the nearest of the tank and its escort before it decides what to do.
       this.controllers.push(new NearestTarget(ai, { candidates: germanTargets }), ai)
       this.add(body, model)
       this.enemies.push(body)
-    })
+    }
     const gun = new TankGun({ tank: this.player, world: this.physics, targets: this.enemies, clock: this.session.clock })
     this.add(gun, new TankGunModel(gun))
   }

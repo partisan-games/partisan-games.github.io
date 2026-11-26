@@ -94,6 +94,8 @@ Kadar, trajanje, sidrište, tačke događaja i putanje završnih slika čitaju s
 <a id="cetnici-bocni-spriteovi"></a>
 Bočni četnici koriste [metapodatke atlasa](../core/actor/soldiers/cetnikArt.js) od 144 px po stojećoj figuri, prikazanoj kao 1,8 m pri 40 px/m. [Strelac](../catalog.html#vojnici/cetnik-strelac), [jurišnik](../catalog.html#vojnici/cetnik-jurisnik) i [mitraljezac](../catalog.html#vojnici/cetnik-mitraljezac) su u katalogu. [Poreklo, promptovi i hashovi](../assets/images/sources/cetnici/generation.json) povezuju originalne uzore, precrtane izvore i završne atlase. [Priprema](../scripts/prepare-cetnik-art.py) meri oslonac i kraj cevi, pa pakuje kadrove sa providnim marginama. Referentne slike određuju izgled ove tri figure.
 
+U 3D katalogu i u Opsadi Kraljeva su četnik strelac sa šajkačom, puškom i animacijama postojećeg partizana i četnik sa crnom šubarom izveden iz Nikoletine. Na šubari je nacrtana kokarda, a kosa i brada na teksturi lica i potiljka. [Četnik strelac](../catalog.html#drugi-svetski-rat-3d/cetnik-strelac-3d) · [Četnik sa šubarom](../catalog.html#drugi-svetski-rat-3d/cetnik-subara-3d)
+
 Šinjel je isključivo zimska uniforma; [metapodaci kandidata](../core/gameplay/frontEnemyKinds.js) ograničavaju stražara na zimu.
 
 Partizan otpozadi ima pogled iz zadnje tri četvrtine i bočnu izvornu razmeru 40 px/m u [katalogu](../catalog/stories/partisans.js); nije frontalni neprijatelj od 100 px/m. Neretva ga prikazuje pri 38 px/m. Njegovo telo ostaje visoko 1,8 m; pogrešnu grupu prikaza ne ispravljati smanjivanjem tela ili samo pojedinačne slike.

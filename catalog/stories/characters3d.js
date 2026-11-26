@@ -251,8 +251,8 @@ export const ww2 = [
   character('ss-vojnik-3d', 'SS vojnik', '3D Tank, FPS Airport, FPS Base', sSSoldierModule),
   infantryStory('vojnik-3d', 'Vojnik', library, soldierModule),
   infantryStory('sovjetski-partizan-3d', 'Nikoletina', 'Liberated City', sovietPartisanModule),
-  { ...character('cetnik-strelac-3d', 'Četnik strelac', library, chetnikModule), catalogGroup: ['Vojnici', 'Četnici'] },
-  { ...character('cetnik-subara-3d', 'Četnik sa šubarom', library, subaraModule), catalogGroup: ['Vojnici', 'Četnici'] },
+  { ...character('cetnik-strelac-3d', 'Četnik strelac', 'Siege of Kraljevo', chetnikModule), catalogGroup: ['Vojnici', 'Četnici'] },
+  { ...character('cetnik-subara-3d', 'Četnik sa šubarom', 'Siege of Kraljevo', subaraModule), catalogGroup: ['Vojnici', 'Četnici'] },
 ].flat()
 
 export const vehicles = [

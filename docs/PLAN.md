@@ -7,28 +7,26 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 | # | ID | Posao | Ko | Status |
 |---|---|---|---|---|
 | | **[Art](#art)** | | | |
-| 1 | [AR-P14](#ar-p14) | Napraviti 3D model četnika za saborce u Kraljevu | Codex | 📋 TODO |
-| 2 | [AR-P16](#ar-p16) | Precrtati art koji 2D igre još koriste neprecrtan | Codex; vlasnik odobrava | 📋 TODO |
-| 3 | [AR-P17](#ar-p17) | Probno precrtati jedan 3D model partizana u stilu postojećeg 2D pixel arta | Codex; vlasnik odobrava | 📋 TODO |
+| 1 | [AR-P16](#ar-p16) | Precrtati art koji 2D igre još koriste neprecrtan | Codex; vlasnik odobrava | 📋 TODO |
+| 2 | [AR-P17](#ar-p17) | Probno precrtati jedan 3D model partizana u stilu postojećeg 2D pixel arta | Codex; vlasnik odobrava | 📋 TODO |
 | | **[Igre i ideje](#igre)** | | | |
-| 4 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [1](#note-1) |
-| 5 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
-| 6 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
-| 7 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
-| 8 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
-| 9 | [IG-29](#ig-29) | Dovršiti logor Crveni krst u Escape Concentration Camp | Codex, Claude | 🔄 In progress |
-| 10 | [CK-01](#ck-01) | Crveni krst: uskladiti vidljivog lika, telo i stopala | Codex | 🔄 In progress |
-| 11 | [CK-02](#ck-02) | Crveni krst: prave animacije, držanje cevi i prelazi | Vlasnik: klipovi; Codex: povezivanje | 🔄 In progress |
-| 12 | [CK-03](#ck-03) | Crveni krst: prepoznatljivi logoraši i katalog | Codex | 📋 TODO |
-| 13 | [CK-04](#ck-04) | Crveni krst: praćenje, skretanje i razmicanje grupe | Codex | 🔄 In progress |
-| 14 | [CK-05](#ck-05) | Crveni krst: zakloni, borba, ranjavanje i straže | Codex | 🔄 In progress |
-| 15 | [CK-06](#ck-06) | Crveni krst: tlo, svetlo, pozadina i zvuk | Codex | 📋 TODO |
-| 16 | [CK-07](#ck-07) | Crveni krst: pregled celog proboja i regresije | Codex | 📋 TODO |
-| 17 | [IG-30](#ig-30) | Dodati četnike kao saborce u opsadi Kraljeva | Codex, Claude | 🔄 In progress |
-| 18 | [IG-31](#ig-31) | Dodati pruge, mostove i izbor savezničkih aviona u Warplane | Vlasnik, Codex, Claude | 🔄 In progress |
-| 19 | [IG-32](#ig-32) | Dovršiti Raid on Drvar: modeli, izgled grada i težina | Claude, Codex | 🔄 In progress |
-| 20 | [IG-33](#ig-33) | Pregledati art German Advance u duploj rezoluciji i završni promo | Vlasnik | 📋 TODO |
-| 21 | [IG-34](#ig-34) | Napraviti vernu scenu i igru opsade Kraljeva po dogovorenom scenariju | Vlasnik, Claude, Codex | 🔄 In progress |
+| 3 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [1](#note-1) |
+| 4 | [IG-18](#ig-18) | Razmotriti pomeranje prizora i iskakanje protivnika u Otpisanima ili Neretvi | Vlasnik | 📋 TODO |
+| 5 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
+| 6 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
+| 7 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
+| 8 | [IG-29](#ig-29) | Dovršiti logor Crveni krst u Escape Concentration Camp | Codex, Claude | 🔄 In progress |
+| 9 | [CK-01](#ck-01) | Crveni krst: uskladiti vidljivog lika, telo i stopala | Codex | 🔄 In progress |
+| 10 | [CK-02](#ck-02) | Crveni krst: prave animacije, držanje cevi i prelazi | Vlasnik: klipovi; Codex: povezivanje | 🔄 In progress |
+| 11 | [CK-03](#ck-03) | Crveni krst: prepoznatljivi logoraši i katalog | Codex | 📋 TODO |
+| 12 | [CK-04](#ck-04) | Crveni krst: praćenje, skretanje i razmicanje grupe | Codex | 🔄 In progress |
+| 13 | [CK-05](#ck-05) | Crveni krst: zakloni, borba, ranjavanje i straže | Codex | 🔄 In progress |
+| 14 | [CK-06](#ck-06) | Crveni krst: tlo, svetlo, pozadina i zvuk | Codex | 📋 TODO |
+| 15 | [CK-07](#ck-07) | Crveni krst: pregled celog proboja i regresije | Codex | 📋 TODO |
+| 16 | [IG-31](#ig-31) | Dodati pruge, mostove i izbor savezničkih aviona u Warplane | Vlasnik, Codex, Claude | 🔄 In progress |
+| 17 | [IG-32](#ig-32) | Dovršiti Raid on Drvar: modeli, izgled grada i težina | Claude, Codex | 🔄 In progress |
+| 18 | [IG-33](#ig-33) | Pregledati art German Advance u duploj rezoluciji i završni promo | Vlasnik | 📋 TODO |
+| 19 | [IG-34](#ig-34) | Napraviti vernu scenu i igru opsade Kraljeva po dogovorenom scenariju | Vlasnik, Claude, Codex | 🔄 In progress |
 
 ## Održavanje plana
 
@@ -43,13 +41,6 @@ Važe [DOCS](DOCS.md), [ugovor arta](ART.md#obavezna-integracija) i [arhitektura
 ### Mogućnosti bez naloga za izradu
 
 Olupina poljskog topa može postati zaseban rekvizit bojišta; još nije raspoređena kao takav rekvizit. Novi efekat vode traži posebno odgovarajuće rešenje, jer je prethodno proceduralno rešenje odbačeno. Dodatni desanti na Brač, Mljet i Korčulu ostaju ideje za igru uz istorijsku proveru, a ne zadaci izrade arta. Rezervni vojnički listovi i sezonske pozadine nisu obaveza za povezivanje: koriste se tek kada ih izabrani akter ili nivo zatraži.
-
-<a id="ar-p14"></a>
-### AR-P14 · 3D četnik
-
-U Kraljevu ([IG-34](#ig-34)) saborci uz tenk su četnici, a 3D modela četnika nema ni u katalogu ni u igrama (vlasnik, 2026-11-25). Codex pravi četnika po uzoru na [2D spriteove](ART.md#cetnici-bocni-spriteovi): šajkača sa kokardom, brada, šinjel ili seljačka odeća, puška. Najbolje na skeletu postojećeg [3D partizana](../core3d/actor/derived/ww2/PartisanLowpoly.js), da odmah koristi iste animacije, pa ga dodaje u [katalog](../catalog.html) kao priču.
-
-Prva proba koristi šajkaču sa kokardom, bradu i zemljane boje odeće na postojećem skeletu. [Četnik strelac u 3D katalogu](../catalog.html#drugi-svetski-rat-3d/cetnik-strelac-3d).
 
 <a id="ar-p17"></a>
 ### AR-P17 · 3D partizan u stilu 2D pixel arta
@@ -227,19 +218,6 @@ Raspored je ugrađen u postojeći plan da se poštuje pravilo jednog dokumenta:
 
 **Otvoreno:** povezana mirovanja, osmatranje i prelazi čekaju vizuelni prijem sa cevi i prikaz u katalogu; vlasnik još treba da izabere pojedinačni udarac. Zasebno spuštanje u čučanj tražiti samo ako obrnuti snimak ustajanja ne izgleda prirodno. Dostupnost ostalih traženih radnji nije proverena u Mixamo biblioteci. Codex pre nove nabavke proverava postojeće reakcije, smrti i trčanja. Istorijske i već prihvaćene grafičke odluke ne otvarati ponovo radi ovog doterivanja.
 
-<a id="ig-30"></a>
-### IG-30 · Saborci u opsadi Kraljeva
-
-U Kraljevu uz igračev tenk idu saborci koji pucaju na Nemce. Po odluci vlasnika za ovaj nivo treba da budu četnici ([scenario](#ig-34)); trenutni prikaz još koristi partizane dok ne bude izrađen [3D četnik](#ar-p14).
-
-Urađeno (2026-11-25): tri 3D partizana idu uz tenk ([pratilac](../core/gameplay/controllers/Escort.js)): drže se na nekoliko metara od njega, a kad vide Nemca, staju i pucaju na najbližeg. Nemci gađaju najbližeg od tenka i partizana ([izbor mete](../core/gameplay/controllers/NearestTarget.js)), pa partizani mogu da poginu.
-
-Preostaje:
-
-1. Kada bude izrađen [3D četnik iz AR-P14](#ar-p14), povezati ga među pratioce; samu izradu modela pratiti samo u toj stavci.
-2. [ ] Vlasnik u pregledaču testira pratioce: da li prate tenk bez zaglavljivanja, da li se vidi kako pucaju i da li Nemci gađaju i njih.
-3. [ ] Vlasnik u pregledaču testira [top tenka](../core3d/physics/TankGun.js) (2026-11-25): kad se pusti Space, ispaljuje granatu iz kupole, koja se rasprsne na prvom što pogodi, ubija Nemce u krugu od 4 m, odbacuje sanduke barikade i ostavlja trag na zidovima i tlu; puni se 1,5 s. Tenk koči strelicom nazad.
-
 <a id="ig-31"></a>
 ### IG-31 · Avioni za Ratweek
 
@@ -272,7 +250,7 @@ Atmosfera: šačica partizana iza improvizovanih zaklona gleda kako elitne nema�
 
 Mesto radnje: uporište „Moskva” kod pravoslavne crkve, gde su se branili opkoljeni partizani. Jedini izvor je potpis fotografije na [sh.wikipedia](https://sh.wikipedia.org/wiki/Desant_na_Drvar): „Napadi esesovaca na »Moskvu«, uporište opkoljenih partizana kod pravoslavne crkve.” Ko je branio, kada i kakav je bio teren, izvori ne kažu; groblje na Šobića glavici bilo je nemačko uporište. Uporište je crkveno dvorište 24 × 20 m, ograđeno starim zidanim kamenim zidom od 1,1 m ([zid](../core3d/geometry/stoneWall.js)), sa ulazom na zapadu, na ravnom terenu grada; okolo su ruševine od bombardovanja ([kamene gomile](../core3d/geometry/rocks.js), improvizovane po vlasnikovom nalogu).
 
-Pravila: igrač počinje uz istočni zid i hoda po dvorištu (WASD, mišem nišani), da bi branio zid na koji Nemci navale; dvorište ne napušta, jer je uporište opkoljeno, a crkva, zidovi i saborci ga zaustavljaju. Miš nišani, levi klik puca; puška ([oružje](../core/gameplay/Firearm.js)) ispaljuje metak pa repetira, a puškomitraljez puca dok se drži klik i posle okvira od 20 metaka puni. Četiri saborca uz zidove, različito obučena kao u Jablanici, sami pucaju i ginu ([upravljač](../core/gameplay/controllers/Defender.js)); igrač preuzima puškomitraljez prvog kad on padne, a najkasnije pred drugi talas. Dva talasa formacija Ju 52 ([avion](../core/gameplay/bodies/aircraft/Transport.js)) prelaze ispred igrača; [padobranci](../core/gameplay/bodies/characters/Parachutist.js) se pogađaju u vazduhu, a posle sletanja postaju [vojnici iz Neretve](../core/gameplay/bodies/soldiers/CoverSoldier.js), koji trče do najbliže ruševine bliže uporištu i iza nje se povremeno dižu, nišane i pucaju ([upravljač](../core/gameplay/controllers/CoverFighter.js)); bez zaklona u blizini pucaju stojeći. Pobeda je posle drugog talasa, poraz kad igrač padne. Padobranci u vazduhu su ravne slike; posle doskoka su [3D nemački vojnici](../core3d/actor/soldiers/CoverSoldierModel.js) koji čuče iza zaklona i dižu se da pucaju, a saborci i ambijent su 3D. Čučanja i ležanja s pucanjem nema; nove animacije dodaju se po potrebi.
+Pravila: igrač počinje uz istočni zid i hoda po dvorištu (WASD, mišem nišani), da bi branio zid na koji Nemci navale; dvorište ne napušta, jer je uporište opkoljeno, a crkva, zidovi i saborci ga zaustavljaju. Miš nišani, levi klik puca; puška ([oružje](../core/gameplay/Firearm.js)) ispaljuje metak pa repetira, a puškomitraljez puca dok se drži klik i posle okvira od 20 metaka puni. Četiri saborca uz zidove, različito obučena kao u Jablanici, sami pucaju i ginu ([upravljač](../core/gameplay/controllers/Defender.js)); igrač preuzima puškomitraljez prvog kad on padne, a najkasnije pred drugi talas. Dva talasa formacija Ju 52 ([avion](../core/gameplay/bodies/aircraft/Transport.js)) prelaze ispred igrača; [padobranci](../core/gameplay/bodies/characters/Parachutist.js) se pogađaju u vazduhu, a posle sletanja postaju [vojnici iz Neretve](../core/gameplay/bodies/soldiers/CoverSoldier.js), koji trče do najbliže ruševine bliže uporištu i iza nje se povremeno dižu, nišane i pucaju ([upravljač](../core/gameplay/controllers/CoverFighter.js)); bez zaklona u blizini pucaju stojeći. Dva talasa i dolazak pojačanja teku po vremenu igre. Pobeda nastupa kada prvi saborci iz 3. brigade 6. ličke divizije priđu dvorištu sa zapada, a poraz kad igrač padne. Padobranci u vazduhu su ravne slike; posle doskoka su [3D nemački vojnici](../core3d/actor/soldiers/CoverSoldierModel.js) koji čuče iza zaklona i dižu se da pucaju, a saborci i ambijent su 3D. Čučanja i ležanja s pucanjem nema; nove animacije dodaju se po potrebi.
 
 Preostaje:
 
@@ -305,9 +283,9 @@ Po nalogu vlasnika (2026-11-25) svi novi akteri dorađeni su u tačno duploj rez
 
 Dovršiti [Siege of Kraljevo](../scenes/3d-tank/Main.js) prema dogovorenom scenariju proboja do centra grada. Prvi raspored i uslovi pobede/poraza već su povezani; preostaju pregled i doterivanje scene, odgovarajući modeli i ponašanje prema opisu ispod.
 
-Oslonci iz [okvira](KONTEKST.md#demolish-barricades): opsada je trajala od 9. do 31. oktobra 1941, a grad su zajedno opsedali partizani i četnici. Nemački garnizon branio se u gradu, a Nemci su od 15. do 20. oktobra u odmazdi streljali oko 2.000 stanovnika. U završnom napadu 31. oktobra dejstvovala su dva zaplenjena tenka, što se slavi kao Dan oklopnih jedinica. Igrač vozi [Hotchkiss H35](../core3d/actor/derived/Hotchkiss.js), sa saborcima koji ga prate ([IG-30](#ig-30)).
+Oslonci iz [okvira](KONTEKST.md#demolish-barricades): opsada je trajala od 9. do 31. oktobra 1941, a grad su zajedno opsedali partizani i četnici. Nemački garnizon branio se u gradu, a Nemci su od 15. do 20. oktobra u odmazdi streljali oko 2.000 stanovnika. U završnom napadu 31. oktobra dejstvovala su dva zaplenjena tenka, što se slavi kao Dan oklopnih jedinica. Igrač vozi [Hotchkiss H35](../core3d/actor/derived/Hotchkiss.js).
 
-Odluka vlasnika (2026-11-25): igrač može da pobedi, a jedini uslov pobede je proboj nemačke odbrane. Odbrana je utvrđena i proboj je težak. Prvo se pravi verna scena, pa tek onda igra. Tok: drum od Čačka, prvi pojas je utvrđena Ratarska škola (rovovi, žica, mitraljezi), drugi pojas ulica sa barikadama, a pobeda je kad tenk stigne do centra grada. Tenk ruši mitraljeska gnezda, nemački top i barikade koji kose pešadiju; bombaške grupe idu uz njega, i ako svi pešaci izginu, proboj je propao (31. oktobra tenkovi su se povukli baš zato što su ostali bez pešadije). Igrač vozi jedini tenk, drugog nema; saborci uz tenk su četnici. 3D model četnika još ne postoji ni u katalogu ni u igrama.
+Odluka vlasnika (2026-11-25): igrač može da pobedi, a jedini uslov pobede je proboj nemačke odbrane. Odbrana je utvrđena i proboj je težak. Prvo se pravi verna scena, pa tek onda igra. Tok: drum od Čačka, prvi pojas je utvrđena Ratarska škola (rovovi, žica, mitraljezi), drugi pojas ulica sa barikadama, a pobeda je kad tenk stigne do centra grada. Tenk ruši mitraljeska gnezda, nemački top i barikade koji kose pešadiju; bombaške grupe idu uz njega, i ako svi pešaci izginu, proboj je propao (31. oktobra tenkovi su se povukli baš zato što su ostali bez pešadije). Igrač vozi jedini tenk. Prate ga tri partizana i dva četnika.
 
 Teren i objekti po izvorima ([Opsada Kraljeva](https://sr.wikipedia.org/sr-el/Opsada_Kraljeva), [znaci.org](https://znaci.org/odrednica.php?slug=opsada-kraljeva-1941)):
 
@@ -321,7 +299,8 @@ Teren i objekti po izvorima ([Opsada Kraljeva](https://sr.wikipedia.org/sr-el/Op
 
 Prva scena (2026-11-25, [raspored](../scenes/3d-tank/kraljevo.js)): drum od Čačka, žica preko druma, rov od džakova sa dva mitraljeska gnezda, bunker i top. Uz drum je škola, zatim ulica sa dve barikade i kuća koja gori, pa kružni trg sa spomenikom Milutinu. Nemci drže položaje okrenuti ka drumu. Kuće imaju postojeće fasade gradskih zgrada; Ratarska škola je „Gradska zgrada“ iz [kuća grada](../core3d/actor/buildings/TownHouse.js), a na trgu je [Spomenik srpskim ratnicima](../assets/models/building/monument/milutin.glb). Pobeda je kad tenk stigne do centra grada (trga), a poraz kad izginu svi saborci; vreme se ne meri, jer bitka može trajati i satima. Logika igre (vlasnik, 2026-11-25): tenk mora prvo da pripremi teren. Ukopani Nemci dobacuju dalje od saboraca (mitraljez 55 m, puška 45 m, saborci 40 m), a tenkovski top dalje od svih; ako tenk samo projuri, saborci uđu u vatru i uglavnom izginu, a ako prvo izdaleka gađa položaje, otvara im put ([vrednosti](../scenes/3d-tank/kraljevo.js)).
 
-- [ ] Vlasnik: proći scenu u igri i reći šta ne valja u rasporedu i izgledu, i da li saborci izginu kad tenk projuri, a prežive kad prvo očisti položaje.
+- [ ] Vlasnik u pregledaču proverava raspored i izgled scene, praćenje tenka bez zaglavljivanja, pucanje obe strane i koliko saboraca preživi kad tenk projuri ili prvo očisti položaje.
+- [ ] Vlasnik u pregledaču proverava da se pri puštanju Space granata rasprsne na prvom što pogodi, ubija Nemce u krugu od 4 m, odbacuje sanduke i ostavlja trag na zidu ili tlu. Proveriti i punjenje od 1,5 s i kočenje strelicom nazad. [Top tenka](../core3d/physics/TankGun.js)
 - [ ] Vlasnik: naći besplatan low-poly model drveta za drvored uz drum od Čačka; crtano drvo je izgledalo smešno, pa je drvored uklonjen dok model ne stigne.
 
 Gusenice Hotchkissa stoje dok tenk vozi (vlasnik, 2026-11-25). Predlog: tekstura gusenice klizi duž nje brzinom svoje strane, različito pri skretanju i unazad u suprotnom smeru. Provereno (2026-11-25): gusenice su zasebni delovi `track-left` i `track-right` sa svojim materijalom, ali je tekstura atlas, pa svaki članak uzima drugi deo slike i klizanje teksture ne radi. Zato Codex [modelu](../assets/models/tank/hotchkiss-h35.glb) zamenjuje gusenice jednostavnim prstenom sa teksturom članaka razvučenom duž prstena, pod istim imenima; agent zatim pomera teksturu. Točkovi hodnog dela su jedan komad sa trupom; mogu se izdvojiti kao kod lokomotive, ali se iza gusenica jedva vide.

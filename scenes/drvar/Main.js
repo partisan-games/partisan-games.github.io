@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import config from '/config.js'
 import Scene3D from '/core/Scene3D.js'
 import { createGroundMaterial } from '/core3d/ground.js'
 import { hemLight, dirLight } from '/core3d/light.js'
@@ -6,6 +7,7 @@ import { fpsControls } from '/ui/Controls.js'
 import { currentStyleClasses } from '/ui/styles.js'
 import Input from '/core/io/Input.js'
 import { inputLayouts } from '/core/io/inputLayouts.js'
+import optionalEffect from '/core/io/optionalEffect.js'
 import Character from '/core/gameplay/bodies/characters/Character.js'
 import Parachutist from '/core/gameplay/bodies/characters/Parachutist.js'
 import CoverSoldier, { coverSoldier } from '/core/gameplay/bodies/soldiers/CoverSoldier.js'
@@ -18,6 +20,7 @@ import fightingPlace from './fightingPlace.js'
 import buildTown, { river } from './town.js'
 import placeWarTraces from './warTraces.js'
 import Streets from './Streets.js'
+import ReliefColumn, { columnDepth } from './ReliefColumn.js'
 import { rayBoxEntry } from '/core/collision/ray.js'
 import Defender from '/core/gameplay/controllers/Defender.js'
 import { createPlayerBox } from '/core3d/geometry/index.js'
@@ -45,10 +48,12 @@ import { models as townHouseModels } from '/core3d/actor/buildings/TownHouse.js'
 import { models as warDebrisModels } from '/core3d/actor/buildings/WarDebris.js'
 
 const messages = {
-  intro: '<ul><li>Hold the position</li><li>Shoot the paratroopers before they reach cover</li></ul>',
-  report: 'Drvar, 25 May 1944\n\nGerman paratroopers descend on Drvar to capture the Partisan Supreme Headquarters. Hold your position while the headquarters staff escapes.',
+  intro: '<ul><li>Hold the churchyard until the Lika brigade arrives</li><li>Shoot the paratroopers before they reach cover</li></ul>',
+  report: 'Drvar, 25 May 1944\n\nGerman paratroopers descend on Drvar to capture the Partisan Supreme Headquarters. Hold the churchyard until reinforcements from the 3rd Brigade of the 6th Lika Division reach you.',
   machineGun: 'Take his machine gun',
-  victory: 'The staff got away. You held the position.',
+  relief: 'The Lika brigade is approaching from the west!',
+  victoryTitle: 'Stigli su Ličani!',
+  victory: 'The 3rd Brigade of the 6th Lika Division has reached you. You held the churchyard.',
   defeat: 'The position has fallen.',
 }
 
@@ -69,7 +74,7 @@ const posts = { player: { x: 1, z: 0, yaw: 0, pitch: .2 }, comrades: [{ x: 1, z:
  * Each wave is a stream of `passes` of Ju 52 in a vee over the town, one every `interval` seconds, each plane with
  * `jumpers`; the leader flies `height` metres up, `ahead` metres in front of the player, give or take, the
  * others `across` to its sides and `back` behind it. Each drops over `zone` metres across the stronghold, so the
- * paratroopers fill the sky and come down all round. The second wave comes `pause` seconds after the first is beaten.
+ * paratroopers fill the sky and come down all round.
  */
 const waves = [
   { passes: 3, jumpers: 3, interval: 9 },
@@ -77,7 +82,12 @@ const waves = [
 ]
 const vee = [{ across: 0, back: 0 }, { across: -28, back: 22 }, { across: 28, back: 22 }]
 const flight = { height: 95, ahead: [25, 110], start: 380, zone: 180, wind: 1.5 }
-const pause = 8
+// Use game time so a surviving paratrooper cannot delay the reinforcements.
+const secondWaveAt = 52
+const reliefAt = 112
+const reliefStart = -31
+const westApproach = { min: { x: reliefStart - columnDepth - 1, z: -3 }, max: { x: -13, z: 3 } }
+const reliefLine = -18
 
 /**
  * The rubble heaps of the bombed town the paratroopers run to: `count` of them, `width` and `height` metres between
@@ -141,7 +151,7 @@ export default class DrvarScene extends Scene3D {
     const { length, width, wall } = yard
     const yardBlock = { min: { x: -(length + wall.thickness) / 2, z: -(width + wall.thickness) / 2 },
       max: { x: (length + wall.thickness) / 2, z: (width + wall.thickness) / 2 } }
-    const traces = placeWarTraces([yardBlock, river, ...town.footprints])
+    const traces = placeWarTraces([yardBlock, river, westApproach, ...town.footprints])
     this.addMesh(...traces.meshes)
     /** The ground the houses and the wrecks stand on: no rubble lies there, and no one stays inside. */
     this.footprints = [...town.footprints, ...traces.footprints]
@@ -167,6 +177,9 @@ export default class DrvarScene extends Scene3D {
     this.placePlayer(churchBox)
     this.outfits = new Map()
     this.comrades = posts.comrades.map((post, i) => this.placeComrade(post, comrades[i]))
+    this.reliefColumn = new ReliefColumn(partisanLowpoly, variants.smedji.outfit, this.outfits)
+    this.addMesh(this.reliefColumn.mesh)
+    this.session.scope.add(() => this.reliefColumn.end())
     this.partisans = [this.player, ...this.comrades]
     this.planes = []
     this.wave = 0
@@ -261,7 +274,9 @@ export default class DrvarScene extends Scene3D {
         const distance = randFloat(covers.near, covers.far), angle = randFloat(0, Math.PI * 2)
         x = Math.cos(angle) * distance
         z = Math.sin(angle) * distance
-      } while (this.houseAt(x, z, covers.width[1]))
+      } while (this.houseAt(x, z, covers.width[1]) || (
+        x > westApproach.min.x - covers.width[1] && x < westApproach.max.x + covers.width[1]
+          && z > westApproach.min.z - covers.width[1] && z < westApproach.max.z + covers.width[1]))
       const height = randFloat(...covers.height)
       const heap = createRockPile({ width: randFloat(...covers.width), height, material: this.rock })
       heap.position.set(x, groundAt(x), z)
@@ -302,6 +317,12 @@ export default class DrvarScene extends Scene3D {
   start() {
     super.start()
     this.sendWave()
+    this.session.gameplay.after(secondWaveAt, () => {
+      this.wave++
+      this.takeMachineGun()
+      this.sendWave()
+    })
+    this.session.gameplay.after(reliefAt, () => this.sendRelief())
   }
 
   /** The next wave's vees, one after another, flying over the town from either side. */
@@ -309,8 +330,42 @@ export default class DrvarScene extends Scene3D {
     const wave = waves[this.wave]
     for (let i = 0; i < wave.passes; i++)
       this.session.gameplay.after(i * wave.interval, () => this.sendVee(wave.jumpers, i % 2 ? 1 : -1))
-    this.waveEnd = (wave.passes - 1) * wave.interval
-    this.waveTime = 0
+  }
+
+  sendRelief() {
+    this.relief = comrades.slice(1).map(({ figure, look }, i) => {
+      const { body, model } = makeCharacter(figure, { x: reliefStart - i * 1.5, z: (i - 1) * 1.5,
+        yaw: 0, solid: false, groundAt })
+      dressFighter(model.mesh, look.outfit, this.outfits, look.hatColor)
+      body.steer({ ahead: 1, running: true })
+      this.add(body, model)
+      return body
+    })
+    this.reliefColumn.follow(this.relief[0])
+    this.ui.showMessage(messages.relief)
+  }
+
+  welcomeRelief() {
+    this.reliefArrived = true
+    this.relief.forEach(body => body.steer())
+    this.victory(messages.victory, messages.victoryTitle)
+    optionalEffect(this, 'Lika brigade voice', () => {
+      const speech = globalThis.speechSynthesis
+      const voice = speech?.getVoices().find(({ lang, localService }) => localService && /^(sr|hr|bs)(-|$)/i.test(lang))
+      if (!voice || config.volume <= 0) return
+      const shout = new SpeechSynthesisUtterance(messages.victoryTitle)
+      shout.voice = voice
+      shout.volume = config.volume
+      speech.speak(shout)
+    })
+  }
+
+  render() {
+    if (this.reliefArrived) {
+      this.camera.position.set(-yard.length / 2 + 2, 5.2, 6.5)
+      this.camera.lookAt(reliefLine - 6, 1.2, 0)
+    }
+    super.render()
   }
 
   /** A vee of planes flying from the `side` of +z or -z over the stronghold, each dropping over the same zone. */
@@ -371,13 +426,9 @@ export default class DrvarScene extends Scene3D {
     this.ui.showMessage(messages.machineGun)
   }
 
-  get waveBeaten() {
-    return this.waveTime > this.waveEnd && this.planes.every(plane => plane.dead || plane.jumped === plane.jumpers)
-      && this.enemies.every(enemy => enemy.dead || (enemy instanceof Parachutist && enemy.handedOver))
-  }
-
   update(dt, t) {
     super.update(dt, t)
+    this.reliefColumn?.update(dt)
     this.dropJumpers()
     this.landJumpers()
     this.targets.length = 0
@@ -385,16 +436,7 @@ export default class DrvarScene extends Scene3D {
     if (this.comrades[0].dead && this.wave === 0) this.takeMachineGun()
     if (this.player.dead) return this.defeat(messages.defeat)
     if (this.session.state !== 'running') return
-    this.waveTime += dt
-    if (this.betweenWaves || !this.waveBeaten) return
-    if (this.wave === waves.length - 1) return this.victory(messages.victory)
-    this.betweenWaves = true
-    this.takeMachineGun()
-    this.session.gameplay.after(pause, () => {
-      this.betweenWaves = false
-      this.wave++
-      this.sendWave()
-    })
+    if (this.relief?.[0].x >= reliefLine) this.welcomeRelief()
   }
 
   sceneUI() {

@@ -1,19 +1,24 @@
-const search = document.getElementById('folder-search')
-const entries = [...document.querySelectorAll('.tree li')]
-const groups = [...document.querySelectorAll('.tree details')].map(element => ({ element, open: element.open }))
-const normalize = value => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+const normalize = value => value.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
 
-search.addEventListener('input', () => {
-  const words = normalize(search.value).trim().split(/\s+/).filter(Boolean)
-  const matches = entry => words.every(word => normalize(entry.dataset.path).includes(word))
-  for (const entry of entries)
-    entry.hidden = !matches(entry) && ![...entry.querySelectorAll('li')].some(matches)
-  for (const { element, open } of groups)
-    element.open = words.length ? !element.parentElement.hidden : open
-  document.getElementById('no-folders').hidden = entries.some(entry => !entry.hidden)
-})
-
-document.querySelector('.tree [aria-current="page"]')?.scrollIntoView?.({ block: 'nearest' })
+/**
+ * Shows only the folders of the `tree` whose path holds every word of `search`, with the folders above them opened,
+ * and `none` when nothing is left; an emptied search opens the folders again as they were before it.
+ */
+export function searchTree(search, tree, none) {
+  let before = null
+  search.addEventListener('input', () => {
+    const words = normalize(search.value).trim().split(/\s+/).filter(Boolean)
+    const entries = [...tree.querySelectorAll('li')], groups = [...tree.querySelectorAll('details')]
+    if (words.length && !before) before = new Map(groups.map(group => [group, group.open]))
+    const matches = entry => words.every(word => normalize(entry.dataset.path).includes(word))
+    for (const entry of entries)
+      entry.hidden = !matches(entry) && ![...entry.querySelectorAll('li')].some(matches)
+    for (const group of groups)
+      group.open = words.length ? !group.parentElement.hidden : before?.get(group) ?? group.open
+    if (!words.length) before = null
+    none.hidden = entries.some(entry => !entry.hidden)
+  })
+}
 
 async function copyPath(path) {
   if (navigator.clipboard?.writeText)
@@ -39,18 +44,21 @@ async function copyPath(path) {
   }
 }
 
-document.querySelector('.gallery')?.addEventListener('click', async event => {
-  const button = event.target.closest('[data-copy-path]')
-  if (!button || button.disabled) return
-  const status = button.parentElement.querySelector('[data-copy-status]')
-  button.disabled = true
-  status.textContent = ''
-  try {
-    await copyPath(button.dataset.copyPath)
-    status.textContent = '· Kopirano'
-  } catch {
-    status.textContent = '· Kopiranje nije uspelo'
-  } finally {
-    button.disabled = false
-  }
-})
+/** A click on a file's name in `gallery` copies its path in the project and says whether that worked. */
+export function copyNames(gallery) {
+  gallery.addEventListener('click', async event => {
+    const button = event.target.closest('[data-copy-path]')
+    if (!button || button.disabled) return
+    const status = button.parentElement.querySelector('[data-copy-status]')
+    button.disabled = true
+    status.textContent = ''
+    try {
+      await copyPath(button.dataset.copyPath)
+      status.textContent = '· Kopirano'
+    } catch {
+      status.textContent = '· Kopiranje nije uspelo'
+    } finally {
+      button.disabled = false
+    }
+  })
+}
