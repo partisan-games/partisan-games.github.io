@@ -8,7 +8,7 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 |---|---|---|---|---|
 | | **[Art](#art)** | | | |
 | 1 | [AR-P16](#ar-p16) | Precrtati art koji 2D igre još koriste neprecrtan | Codex; vlasnik odobrava | 📋 TODO |
-| 2 | [AR-P17](#ar-p17) | Probno precrtati jedan 3D model partizana u stilu postojećeg 2D pixel arta | Codex; vlasnik odobrava | 📋 TODO |
+| 2 | [AR-P17](#ar-p17) | Precrtati 3D aktere u pixel art | Codex; vlasnik odobrava | 📋 TODO |
 | | **[Igre i ideje](#igre)** | | | |
 | 3 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [1](#note-1) |
 | 4 | [IG-18](#ig-18) | Otpisani kao arkadna pucačina kroz četiri beogradske ulice | Codex: panorame; Claude: igra | 📋 TODO |
@@ -24,10 +24,9 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 | 14 | [CK-06](#ck-06) | Crveni krst: tlo, svetlo, pozadina i zvuk | Codex | 📋 TODO |
 | 15 | [CK-07](#ck-07) | Crveni krst: pregled celog proboja i regresije | Codex | 📋 TODO |
 | 16 | [IG-31](#ig-31) | Dodati pruge, mostove i izbor savezničkih aviona u Warplane | Vlasnik, Codex, Claude | 🔄 In progress |
-| 17 | [IG-32](#ig-32) | Dovršiti Raid on Drvar: modeli, izgled grada i težina | Claude, Codex | 🔄 In progress |
-| 18 | [IG-33](#ig-33) | Pregledati art German Advance u duploj rezoluciji i završni promo | Vlasnik | 📋 TODO |
-| 19 | [IG-34](#ig-34) | Napraviti vernu scenu i igru opsade Kraljeva po dogovorenom scenariju | Vlasnik, Claude, Codex | 🔄 In progress |
-| 20 | [IG-35](#ig-35-igre-na-telefonu) | Otkriti igre na telefonu posle merenja i optimizacije, kad su nivoi gotovi | Claude, vlasnik | 📋 TODO |
+| 17 | [IG-33](#ig-33) | Pregledati art German Advance u duploj rezoluciji i završni promo | Vlasnik | 📋 TODO |
+| 18 | [IG-34](#ig-34) | Napraviti vernu scenu i igru opsade Kraljeva po dogovorenom scenariju | Vlasnik, Claude, Codex | 🔄 In progress |
+| 19 | [IG-35](#ig-35-igre-na-telefonu) | Otkriti igre na telefonu posle merenja i optimizacije, kad su nivoi gotovi | Claude, vlasnik | 📋 TODO |
 
 ## Održavanje plana
 
@@ -42,11 +41,6 @@ Važe [DOCS](DOCS.md), [ugovor arta](ART.md#obavezna-integracija) i [arhitektura
 ### Mogućnosti bez naloga za izradu
 
 Olupina poljskog topa može postati zaseban rekvizit bojišta; još nije raspoređena kao takav rekvizit. Novi efekat vode traži posebno odgovarajuće rešenje, jer je prethodno proceduralno rešenje odbačeno. Dodatni desanti na Brač, Mljet i Korčulu ostaju ideje za igru uz istorijsku proveru, a ne zadaci izrade arta. Rezervni vojnički listovi i sezonske pozadine nisu obaveza za povezivanje: koriste se tek kada ih izabrani akter ili nivo zatraži.
-
-<a id="ar-p17"></a>
-### AR-P17 · 3D partizan u stilu 2D pixel arta
-
-Proba (vlasnik, 2026-11-25): jedan postojeći 3D model partizana precrtati tako da izgleda kao postojeći 2D pixel art igre, sa istom paletom, oštrim pikselima i istim licem, kapom i odećom kao [precrtani 2D partizani](../assets/images/game-ready). Model ostaje isti kostur i isti pokreti; menja se izgled tekstura. Ishod se pokazuje u katalogu, a vlasnik odlučuje da li se ovaj stil širi na ostale 3D likove.
 
 <a id="ar-p16"></a>
 ### AR-P16 · Neprecrtan art u 2D igrama
@@ -71,6 +65,11 @@ Igre poput Bunkera još prikazuju stare slike iz zbirke, koje nisu precrtane u s
 | [Plamen pucnja](../assets/images/pucanje.png) | Otpisani |
 
 Van popisa su pozadine, korisnički interfejs i teksture 3D igara; zapisi olupina i propelera samo prepoznaju slike, pa nisu upotreba.
+
+<a id="ar-p17"></a>
+### AR-P17 · Precrtati 3D aktere u pixel art
+
+Crtati nove teksture prema [odobrenom 3D pixel art stilu](ART.md#3d-pixel-art), po uzoru na Borca sa Sutjeske. Zadržati postojeću geometriju, kostur i animacije, a varijacije prikazati u katalogu za pregled.
 
 <a id="igre"></a>
 ## Igre i ideje
@@ -115,7 +114,7 @@ Moguće etape su Prozor, Rama i Jablanica, sa zasedom kod Drežnice kao kandidat
 
 Italijanske i ustaške etape ostaju kandidati uz postojeće Nemce i četnike. Izabrati mesta, datume, jedinice i borbene uloge, trajanje i prelaze, pa tek onda art i tok igre. Postojeći rov nije istorijski dokaz budućeg sastava.
 
-Saborci u rovu (predlog, 2026-11-26): jedan ili dva partizana u donjim uglovima ekrana, krupni i okrenuti leđima, kao da su odmah pored igrača u rovu; ne zaklanjaju Nemce. Pravi 3D modeli ne pristaju ravnoj pixel art slici, pa se crtež pravi od postojećeg 3D partizana snimljenog otpozadi i prevodi u pixel art, istim postupkom kao [AR-P17](#ar-p17). Prethodni red saboraca uklonjen je 2026-11-26 jer je loše izgledao.
+Saborci u rovu (predlog, 2026-11-26): jedan ili dva partizana u donjim uglovima ekrana, krupni i okrenuti leđima, kao da su odmah pored igrača u rovu; ne zaklanjaju Nemce. Pravi 3D modeli ne pristaju ravnoj pixel art slici, pa se crtež pravi od postojećeg 3D partizana snimljenog otpozadi i prevodi u pixel art, istim postupkom kao [odobreni 3D pixel art](ART.md#3d-pixel-art). Prethodni red saboraca uklonjen je 2026-11-26 jer je loše izgledao.
 
 <a id="ig-24"></a>
 ### IG-24 · Parole Bihaća
@@ -256,37 +255,6 @@ Preostaje:
    - [ ] Vlasnik: probati kosi pogled (dugme za kameru) i reći da li ostaje.
 4. [ ] Vlasnik u pregledaču testira lovca: da li se preleti vide i prate, da li mitraljezi na C obaraju lovca i da li je težina dobra (lovac počinje posle 12 s, sledeći dolazi 18 s posle obaranja).
 
-<a id="ig-32"></a>
-### IG-32 · Igra Raid on Drvar
-
-[Raid on Drvar](../scenes/drvar/Main.js) je igra odbrane iz prvog lica (vlasnik, 2026-11-24): igrač puca u nemačke padobrance koji se spuštaju na Drvar 25. maja 1944. Kartica je u War Games, posle Visa. Istorijski okvir desanta je u [ISTORIJA](ISTORIJA.md).
-
-**Referenca za 3D Drvar.** Vlasnik je izabrao [Battle for Jablanica](KONTEKST.md#battle-for-jablanica) kao uzor za raspored prizora. Prvi prolaz uređuje pogled sa zapadne kapije, sa saborcima i kamenim zaklonom u prvom planu, putem kroz prepoznatljive ruševine i Šobića glavicom u daljini. Tim putem pristižu Ličani. Isti princip vodi obale Unca i teren oko grada.
-
-Uz zapadni put su postavljene tri izdvojene [ruševine](../assets/models/building/ruins/readme.txt). U dvorištu su lisnati hrastovi od 10 m, a oko njega nagoreli hrastovi od 7 m. [Raspored](../scenes/drvar/scenery.js) ostavlja put otvoren za Ličane. Teren sada daje uzvišenje Šobića glavice, korito i obale Unca, drveni prelaz, stenoviti prilaz pećini i četiri kratera. U gradu su i porušena kamena kuća sa zabatom, namenski spaljeni kamioni i dim koji se razređuje do drugog talasa. Vlasnik sve vizuelne i borbene izmene pregleda zajedno.
-
-Atmosfera: šačica partizana iza improvizovanih zaklona gleda kako elitne nemačke padobranske trupe niotkuda padaju s neba, u ogromnom broju. Scena rekreira fotografije desanta ([drugi talas](https://commons.wikimedia.org/wiki/File:Drugi_talas_padobranaca_spustio_se_izme%C4%91u_groblja_na_Sobi%C4%87a_glavici_i_Grahovske_ceste.jpg), [prašina i dim](https://commons.wikimedia.org/wiki/File:Drvar_je_bio_u_pra%C5%A1ini_i_dimu_od_bombi,_kada_su_se_nad_njim_pojavili_mnogobrojni_padobrani.jpg), [desant](https://commons.wikimedia.org/wiki/File:Desant_nema%C4%8Dkih_padobranaca_na_Drvar.jpg), [pogled iz rova](https://commons.wikimedia.org/wiki/File:Nema%C4%8Dki_vazdu%C5%A1ni_desant_na_Drvar,_25._maja_1944.jpg), [podne](https://commons.wikimedia.org/wiki/File:Oko_12_sati_padobranci_su_ponovo_prekrili_nebo,_Drvar_25._maj_1944.jpg)): nisko prelaze formacije Ju 52, a nebo je posuto padobranima. Na fotografiji iz rova su ranjeni Nemci, ne partizani.
-
-Mesto radnje: uporište „Moskva” kod pravoslavne crkve, gde su se branili opkoljeni partizani. Jedini izvor je potpis fotografije na [sh.wikipedia](https://sh.wikipedia.org/wiki/Desant_na_Drvar): „Napadi esesovaca na »Moskvu«, uporište opkoljenih partizana kod pravoslavne crkve.” Ko je branio, kada i kakav je bio teren, izvori ne kažu; groblje na Šobića glavici bilo je nemačko uporište. Uporište je crkveno dvorište 24 × 20 m, ograđeno starim zidanim kamenim zidom od 1,1 m ([zid](../core3d/geometry/stoneWall.js)), sa ulazom na zapadu, na ravnom terenu grada; okolo su ruševine od bombardovanja ([kamene gomile](../core3d/geometry/rocks.js), improvizovane po vlasnikovom nalogu).
-
-Pravila: igrač počinje uz istočni zid i hoda po dvorištu (WASD, mišem nišani), da bi branio zid na koji Nemci navale; dvorište ne napušta, jer je uporište opkoljeno, a crkva, zidovi i saborci ga zaustavljaju. Miš nišani, levi klik puca; puška ([oružje](../core/gameplay/Firearm.js)) ispaljuje metak pa repetira, a puškomitraljez puca dok se drži klik i posle okvira od 20 metaka puni. Četiri saborca uz zidove, različito obučena kao u Jablanici, sami pucaju i ginu ([upravljač](../core/gameplay/controllers/Defender.js)); igrač preuzima puškomitraljez prvog samo ako on padne, u bilo kom talasu. Dva talasa formacija Ju 52 ([avion](../core/gameplay/bodies/aircraft/Transport.js)) prelaze ispred igrača; [padobranci](../core/gameplay/bodies/characters/Parachutist.js) se pogađaju u vazduhu, a posle sletanja postaju [vojnici iz Neretve](../core/gameplay/bodies/soldiers/CoverSoldier.js), koji trče do najbliže ruševine bliže uporištu i iza nje se povremeno dižu, nišane i pucaju ([upravljač](../core/gameplay/controllers/CoverFighter.js)); bez zaklona u blizini pucaju stojeći. Dva talasa i dolazak pojačanja teku po vremenu igre. U prvom talasu padobranci se rasipaju preko grada uz dim i prelet DFS 230, a u drugom sleću u zgusnutim grupama kod Šobića glavice. Najviše četiri protivnika odjednom nišane ili pucaju u prvom talasu, odnosno šest u drugom. Pobeda nastupa kada prvi saborci iz 3. brigade 6. ličke divizije priđu dvorištu sa zapada, a poraz kad igrač padne. Padobranci u vazduhu su ravne slike; posle doskoka su [3D nemački vojnici](../core3d/actor/soldiers/CoverSoldierModel.js) koji čuče iza zaklona i dižu se da pucaju, a saborci i ambijent su 3D. Igrač čuči dok drži C ili dugme za čučanj na ekranu. Saborci vire da pucaju, a između naleta i pri punjenju ponovo čučnu. Zid zaustavlja rafal čim zakloni metu. Iz prvog lica vidi se kratak deo cevi pri dnu ekrana, usmeren ka nišanu. Pored municije piše naziv trenutnog oružja. Saborci su odmaknuti od zida da im telo i oružje pri animaciji ostanu u dvorištu.
-
-Preostaje:
-
-1. 📋 **Najvažnije (vlasnik, 2026-11-25):** scena je sada pustoš, a treba da bude grad Drvar. Tlo je jednolično, a kuća nema; ruševine grada, kuće i drveće izrađuje Codex kao prave modele, bez crtanja u kodu. Izgled grada: [reference](references/ww2-yu/drvar/README.md). Prvi grad je postavljen (2026-11-25): 13 preuzetih modela kuća i ruševina ([blok](../core3d/actor/buildings/TownHouse.js), u katalogu pod Scenografija → Kuće grada) stoji u ulicama oko dvorišta ([raspored](../scenes/drvar/town.js)), sa otvorenim prostorom pred svakim zidom; padobranac koji sleti na krov izađe pored kuće. Kuće i crkva zaustavljaju metke obe strane; Nemac puca samo na onog koga vidi, bira zaklon iz kog se vidi uporište i do njega ide ulicama oko kuća ([ulice](../scenes/drvar/Streets.js)), a ako ga nema, odlazi do naše ograde. [ ] Vlasnik u igri ocenjuje izgled grada, obala i reljefa.
-2. [ ] Planski raspored grada (vlasnik, 2026-11-25), urađen po [taktičkoj karti 25. maja](references/ww2-yu/drvar/drvar-25-maj-1944-mapa.jpg): Unac teče istočno od dvorišta, glavna ulica prolazi zapadnom obalom sever–jug, na severu vodi preko reke ka pećini, a na jugu u srce grada sa još tri ulice; put kroz zapadnu kapiju vodi ka Šobića glavici ([raspored](../scenes/drvar/town.js)). U krugu od 70 m su uglavnom ruševine, a dalje uglavnom čitave kuće; ulice su zemljane, a preko usečenog korita vodi drveni most. Karta nema razmeru, pa su daljine procena. Vlasnik u igri proverava raspored; ruševine pred istočnim zidom se ponavljaju, jer postoje samo dva modela ruševine (vidi sledeću stavku).
-3. 📋 Tragovi rata na terenu oko crkve (vlasnik, 2026-11-25): krateri od bombi, golo i polomljeno drveće, slomljene stvari, prevrnuta i spaljena vozila i razaranja. Prvi sloj od postojećeg arta je postavljen ([raspored](../scenes/drvar/warTraces.js), u katalogu pod Scenografija → Tragovi rata): gareži od bombi na tlu, napušteni kamioni Opel Blitz i Kübelwageni, koji zaustavljaju ljude i metke, i razbacana bureta i sanduci municije. Krateri su usečeni u teren, a model spaljenog kamiona već predstavlja prevrnutu olupinu.
-4. 📋 Codex (vlasnik, 2026-11-25): obraditi zgrade grada tako da se na njima vide tragovi rata i bombardovanja tog jutra: čađ i garež oko prozora, rupe od gelera, oboreni delovi krova i oštećeni zidovi, kao na [fotografiji](references/ww2-yu/drvar/drvar-porusen.jpg); izmene ostaju u modelima i teksturama, ne prefarbavaju se u igri.
-5. [ ] Vlasnik u igri proverava raspored hrastova u dvorištu. Džakovi sa peskom zatvaraju ulaz kao improvizovani bunker ([prikaz](../core3d/actor/buildings/Sandbags.js)); crkva ([model](../assets/models/building/drvar-church/README.md)) i 3D Ju 52 ([prikaz](../core3d/actor/aircraft/Ju52.js)) su u igri.
-6. 📋 Igranje nivoa i podešavanje broja padobranaca i težine. Od 2026-11-25 Nemci na zemlji ranjavaju punom snagom do 20 m, a dalje sve slabije, do četvrtine na 120 m ([vrednosti](../core/gameplay/bodies/soldiers/CoverSoldier.js)); padobranaca je manje i dolaze ređe (po tri iz aviona, preleti prvog talasa na 0, 10 i 20 s, a drugog na 0, 4, 16 i 21 s od njegovog početka); vlasnik proverava da li je sada lakše taman koliko treba. Otvoreno je i da li se igra nastavlja kad igrač padne, a saborci su živi.
-7. 📋 Snimak kartice na naslovnoj je još iz stare 2D verzije. Novi kadar snimiti tek posle scenografije i precrtanih padobranaca; probni kadri iz pregledača (2026-11-25) bili su prazno nebo i jednolično tlo.
-8. [ ] Vlasnik u igri proverava (2026-11-25): Nemac više ne trči nazad do zaklona; uzima najbližu ruševinu ili spoljnu stranu naše ograde koja je bliža uporištu, a bez nje odmah napada sa mesta ([izbor mesta za borbu](../scenes/drvar/fightingPlace.js)). Onaj koji čuči uz našu ogradu može se pogoditi, jer ga branioci vide preko zida. Nemci pucaju samo sa 50 m ili bliže (2026-11-25); onaj koji sleti dalje prvo pritrči do zaklona u dometu ili do 45 m po otvorenom.
-
-- [ ] Vlasnik (2026-11-25): puška repetira za 0,7 s umesto 1,2 s; traka ispod nišana se puni dok puška repetira ili se puni, a gore levo piše „Ammo 3/5“, odnosno „Reloading“. Da li je pucanje sada dovoljno brzo?
-- [ ] Vlasnik (2026-11-25): crveni luk oko nišana pokazuje odakle te je pogodak stigao i bledi za 1,5 s (važi u svim igrama iz prvog lica); Nemac pri svakom metku ima bljesak na vrhu puške. Da li sada vidiš ko te gađa?
-- [ ] Vlasnik (2026-11-25): hodanje po dvorištu na WASD, uz zaustavljanje na zidovima, crkvi i saborcima; da li prelazak na drugi zid pomaže odbrani.
-- [ ] Vlasnik (proba od 2026-11-25): da li 3D vojnici posle doskoka izgledaju dobro, da li prelaz iz slike u model u trenutku doskoka smeta i da li igra ostaje glatka u drugom talasu. Agent je izmerio najgori slučaj, 61 vojnika na zemlji odjednom: kod i priprema crtanja traju oko 7 ms po kadru, ispod 16,7 ms za 60 kadrova; brzinu na pravoj grafičkoj kartici headless pregledač ne meri. Iza ograde od 1,1 m čučeći Nemac pokazuje samo vrh kape, a zaklon niži od 1,05 m ga ne skriva i tada se može pogoditi.
-
 <a id="ig-33"></a>
 ### IG-33 · German Advance kao promo animacija sajta
 
@@ -324,9 +292,8 @@ Gusenice Hotchkissa stoje dok tenk vozi (vlasnik, 2026-11-25). Predlog: tekstura
 
 ### IG-35 · Igre na telefonu
 
-Radi se na kraju, kad su nivoi gotovi (vlasnik, 2026-11-26). Na početnoj strani su sakrivene na telefonu (`hide-on-mobile` u [index.html](../index.html)): Ustanak, Crveni krst, Aerodrom, Drvar, Tenkići i Do Trsta. FPS igre od 2026-11-26 imaju komande za dodir (prevlačenje za pogled, strelice, pucanje, a u Crvenom krstu još šunjanje i uzimanje oružja), pa ih koči još samo brzina. Pre svakog otključavanja izmeriti kadrove i broj poziva za crtanje u igri na usporenom procesoru (Chrome, 4× sporije), pa je vlasnik proba na telefonu.
+Radi se na kraju, kad su nivoi gotovi (vlasnik, 2026-11-26). Na početnoj strani su sakrivene na telefonu (`hide-on-mobile` u [index.html](../index.html)): Ustanak, Crveni krst, Aerodrom, Tenkići i Do Trsta. FPS igre od 2026-11-26 imaju komande za dodir (prevlačenje za pogled, strelice, pucanje, a u Crvenom krstu još šunjanje i uzimanje oružja), pa ih koči još samo brzina. Pre svakog otključavanja izmeriti kadrove i broj poziva za crtanje u igri na usporenom procesoru (Chrome, 4× sporije), pa je vlasnik proba na telefonu.
 
-- **Drvar:** stotinak kuća grada su klonovi istih 13 modela; crtati ih kao jedan instancirani crtež po vrsti, senke samo blizu crkve, daleke kuće bez senki.
 - **Crveni krst i Aerodrom:** izmeriti; ako drže kadrove, otkriti ih na telefonu.
 - **Tenkići:** i dvojica igraju na jednom telefonu, naizmenično istim komandama na dodir (vlasnik, 2026-11-26); proveriti da dugmad vode igrača koji je na potezu, pa otkriti oba načina.
 - **Ustanak:** igra za dvojicu traži tastaturu; proveriti da li igra protiv računara ima sve komande na dodir, pa otkriti samo nju.

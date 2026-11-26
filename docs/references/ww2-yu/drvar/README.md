@@ -1,6 +1,6 @@
 # Drvar — reference za scenu
 
-Zadatak je u [PLAN](../../../PLAN.md#ig-32), a istorijski okvir desanta u [ISTORIJA](../../../ISTORIJA.md). [Manifest](sources.json) čuva izvor, datum preuzimanja i SHA-256.
+Pravila igre su u [KONTEKST](../../../KONTEKST.md#raid-on-drvar), a istorijski okvir desanta u [ISTORIJA](../../../ISTORIJA.md). [Manifest](sources.json) čuva izvor, datum preuzimanja i SHA-256.
 
 | Referenca | Upotreba i ograničenje |
 |---|---|

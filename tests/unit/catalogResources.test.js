@@ -85,23 +85,30 @@ test('Sutjeska dresses the existing catalogue mesh and keeps the original animat
   }
 })
 
-test('switching to Sutjeska and back keeps Borac sa Sutjeske in the same scene and pose', async t => {
+test('switching Borac sa Sutjeske variants keeps him in the same scene and pose', async t => {
   createPageElements()
-  t.mock.method(THREE.TextureLoader.prototype, 'load', () => new THREE.Texture())
+  t.mock.method(THREE.TextureLoader.prototype, 'load', url => Object.assign(new THREE.Texture(), { name: url }))
   t.mock.method(FBXLoader.prototype, 'loadAsync', async url => {
     const bytes = await readFile('.' + decodeURI(url))
     return new FBXLoader().parse(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), '')
   })
   const { ww2 } = await import('/catalog/stories/characters3d.js')
+  const { findStory } = await import('/catalog/catalog.js')
   const story = ww2.find(({ id }) => id === 'partizan-3d')
   const original = story.looks.find(({ id }) => id === 'original')
   const basic = story.looks.find(({ id }) => id === 'strelac')
   const sutjeska = story.looks.find(({ id }) => id === 'sutjeska')
+  const pixelArt = story.looks.find(({ id }) => id === 'pixel-art')
+  const kind = { id: 'drugi-svetski-rat-3d', stories: [story] }
+  const address = `${kind.id}/${story.id}`
+  assert.equal(findStory([kind], address).look, pixelArt)
+  assert.equal(findStory([kind], `${address}/sutjeska`).look, sutjeska)
   const objects = []
   const stage = { add: (...items) => objects.push(...items), session: { scope: { add() {} } } }
-  const body = await story.create(stage, 1, original.value)
+  const body = await story.create(stage, 1, findStory([kind], address).look.value)
   const [, view] = objects
   const skin = view.mesh.getObjectByProperty('isSkinnedMesh', true)
+  assert.match(skin.material.find(({ name }) => name === '_1___Default').map.name, /\/sutjeska-pixel-art\/uniform\.webp$/)
   const originalGeometry = skin.geometry
   const weapon = view.anim.twoHandedWeapon
   view.mesh.position.set(2, 0, 1)
@@ -122,6 +129,19 @@ test('switching to Sutjeska and back keeps Borac sa Sutjeske in the same scene a
   assert.doesNotMatch(basicShader.fragmentShader, /sutjeskaTrousers/)
   assert.equal(basicShader.uniforms.partisanBadgeRadius.value, .034)
   assert.equal(shader.uniforms.partisanBadgeRadius.value, .039)
+
+  stage.setLook(pixelArt.value)
+  assert.equal(skin.geometry, originalGeometry)
+  assert.equal(view.anim.twoHandedWeapon, weapon)
+  for (const [name, file] of [['_1___Default', 'uniform'], ['Tex_0534_0_dds', 'face'], ['Tex_0532_0_dds', 'eyes']]) {
+    const { map } = skin.material.find(material => material.name === name)
+    assert.ok(map.name.endsWith(`/sutjeska-pixel-art/${file}.webp`))
+    assert.equal(map.magFilter, THREE.NearestFilter)
+    assert.equal(map.minFilter, THREE.NearestMipmapLinearFilter)
+    const bytes = await readFile('.' + map.name)
+    assert.equal(bytes.toString('ascii', 8, 12), 'WEBP')
+  }
+
   stage.setLook(original.value)
   assert.equal(skin.geometry, originalGeometry)
   assert.equal(objects[0], body)

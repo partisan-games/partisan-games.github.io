@@ -17,12 +17,12 @@ import TriggerKeys from '/core/gameplay/controllers/TriggerKeys.js'
 import fightingPlace from './fightingPlace.js'
 import buildTown, { roads } from './town.js'
 import { createCave, createTerrain, createUnac, craterPlots, craters, groundAt, riverBanks } from './terrain.js'
-import { formationFor, reliefAt, secondWaveAt, waves, wind } from './assault.js'
-import placeWarTraces from './warTraces.js'
-import { placeRuins, placeTrees, ridgeTrees, treeModels } from './scenery.js'
+import { formationFor, reliefAt, waves, wind } from './assault.js'
+import placeWarTraces, { models as warTraceModels } from './warTraces.js'
+import { morningHaze, openingPost, placeRuins, placeTrees, ridgeTrees, treeModels } from './scenery.js'
 import Streets from './Streets.js'
 import ReliefColumn, { columnDepth } from './ReliefColumn.js'
-import WeaponView, { weaponKind, weaponNames } from './WeaponView.js'
+import WeaponView from './WeaponView.js'
 import { crouchHeight, crouchKey, YardAttacker, YardDefender, YardWalk } from './yardCover.js'
 import { rayBoxEntry } from '/core/collision/ray.js'
 import { createPlayerBox } from '/core3d/geometry/index.js'
@@ -40,6 +40,7 @@ import FirstPersonView from '/core3d/actor/characters/FirstPersonView.js'
 import ParachutistSprite, { parachutistArt } from '/core3d/actor/soldiers/ParachutistSprite.js'
 import CoverSoldierModel, { flash, models as coverSoldierModels } from '/core3d/actor/soldiers/CoverSoldierModel.js'
 import Ju52, { models as ju52Models } from '/core3d/actor/aircraft/Ju52.js'
+import Corpses from '/core3d/actor/Corpses.js'
 import Dfs230, { dfs230Model } from '/core3d/actor/aircraft/Dfs230.js'
 import dressFighter from '/core3d/actor/characters/dressFighter.js'
 import { description as sovietPartisan, models as sovietPartisanModels } from '/core3d/actor/derived/ww2/SovietPartisan.js'
@@ -49,7 +50,6 @@ import { variants } from '/core3d/actor/derived/ww2/partisanLooks.js'
 import Church, { models as churchModels } from '/core3d/actor/buildings/Church.js'
 import Sandbags, { models as sandbagsModels } from '/core3d/actor/buildings/Sandbags.js'
 import { models as townHouseModels } from '/core3d/actor/buildings/TownHouse.js'
-import { warDebris } from '/core3d/actor/buildings/WarDebris.js'
 import { models as drvarPropModels } from '/core3d/actor/buildings/DrvarProp.js'
 
 const messages = {
@@ -71,8 +71,6 @@ const messages = {
  * machine gunner beside him, the others along the other sides.
  */
 const yard = { length: 24, width: 20, wall: { height: 1.1, thickness: .6, spacing: 2 }, gate: 3, inside: .55 }
-const posts = { player: { x: 1, z: 0, yaw: 0, pitch: .2 }, comrades: [{ x: 1, z: -.4, yaw: 0 }, { x: 0, z: -1, yaw: Math.PI / 2 },
-  { x: 0, z: 1, yaw: -Math.PI / 2 }, { x: -1, z: .4, yaw: Math.PI }] }
 
 const reliefStart = -31
 const westApproach = { min: { x: reliefStart - columnDepth - 1, z: -3 }, max: { x: -13, z: 3 } }
@@ -91,7 +89,6 @@ const eyeHeight = 1.5
 const strikeHeight = .82
 const crouchAnimation = 'Crouching Idle'
 const comradeInset = yard.inside + .75
-const warDebrisModels = ['burnt-truck', 'barrel', 'ammunition-box'].map(kind => warDebris[kind].model)
 
 /** A house or the church as a box a shot can strike, from the ground it covers and its `height`. */
 const blockOf = ({ min, max, height, base = 0 }) => ({ x: (min.x + max.x) / 2, y: base + height / 2, z: (min.z + max.z) / 2,
@@ -130,15 +127,20 @@ class YardComradeModel extends CharacterModel {
   }
 }
 
-/**
- * The comrades, each his own man, as the defenders of Jablanica: the machine gunner with his captured MG 42, then
- * partisans in a wool shirt, a brown uniform and a grey cap with a moustache, each `figure` dressed in a `look`.
- */
-const comrades = [
-  { figure: sovietPartisan },
+const reliefLeaders = [
   { figure: resistanceFighter, look: variants.vuna },
   { figure: partisanLowpoly, look: variants.smedji },
   { figure: resistanceFighter, look: variants.brkovi },
+]
+
+export const yardDefenders = [
+  { figure: sovietPartisan, post: { x: 1, z: -.4, yaw: 0 } },
+  { ...reliefLeaders[0], post: { x: 0, z: -1, yaw: Math.PI / 2 } },
+  { ...reliefLeaders[1], post: { x: 0, z: 1, yaw: -Math.PI / 2 } },
+  { ...reliefLeaders[2], post: { x: -1, z: .4, yaw: Math.PI } },
+  { figure: resistanceFighter, look: variants.oker, post: { x: 1, z: .68, yaw: 0 } },
+  { figure: resistanceFighter, look: variants.indigo, post: { x: .66, z: -1, yaw: Math.PI / 2 } },
+  { figure: partisanLowpoly, look: variants.maslinasti, post: { x: -1, z: -.62, yaw: Math.PI } },
 ]
 
 /**
@@ -161,18 +163,25 @@ export default class DrvarScene extends Scene3D {
     const [textures] = await Promise.all([
       Promise.all(pictures.map(loadPixelArt)).then(loaded => new Map(pictures.map((src, i) => [src, loaded[i]]))),
       requestModels([...sovietPartisanModels, ...resistanceFighterModels, ...partisanLowpolyModels, ...churchModels, ...sandbagsModels, ...ju52Models, dfs230Model,
-        ...coverSoldierModels, ...townHouseModels, ...warDebrisModels, ...drvarPropModels, ...treeModels]),
+        ...coverSoldierModels, ...townHouseModels, ...warTraceModels, ...drvarPropModels, ...treeModels]),
     ])
     // a newer start ended this scene while its pictures loaded: they are its alone, so it frees them
     if (!this.session.active) return textures.forEach(texture => texture.dispose())
     this.textures = textures
-    this.backgroundColor = 0xb9ad94
-    this.scene.fog = new THREE.Fog(0xb9ad94, 120, 520)
-    hemLight({ intensity: 1.4, skyColor: 0xf1e6c8, groundColor: 0x6b6450, scene: this.scene })
-    // the morning sun shows the facets of the rubble
-    dirLight({ scene: this.scene, pos: [-60, 80, 30], intensity: 1.2 })
+    this.backgroundColor = morningHaze
+    this.scene.fog = new THREE.Fog(morningHaze, 62, 315)
+    hemLight({ intensity: 1.07, skyColor: 0xd2e0ef, groundColor: 0x77715f, scene: this.scene })
+    const shadowFocus = new THREE.Object3D()
+    shadowFocus.position.set(13, 0, 0)
+    this.scene.add(shadowFocus)
+    const sun = dirLight({ scene: this.scene, target: shadowFocus, pos: [-33, 47, 42],
+      color: 0xffdfb0, intensity: 1.74, area: 43, mapSize: 1024 })
+    sun.shadow.normalBias = .035
+    sun.shadow.bias = -.00022
+    sun.shadow.camera.far = 175
+    sun.shadow.camera.updateProjectionMatrix()
     this.rock = rockMaterial(createTexture({ file: 'terrain/rocks.jpg' }))
-    this.addMesh(createTerrain(), ...createUnac(), createCave(), createPanorama())
+    this.addMesh(createMorningSky(), createTerrain(), ...createUnac(), createCave(), createPanorama())
     const distantTrees = ridgeTrees()
     this.addMesh(...distantTrees)
     this.session.scope.add(() => distantTrees.forEach(mesh => mesh.dispose()))
@@ -184,12 +193,6 @@ export default class DrvarScene extends Scene3D {
     const { length, width, wall } = yard
     const yardBlock = { min: { x: -(length + wall.thickness) / 2, z: -(width + wall.thickness) / 2 },
       max: { x: (length + wall.thickness) / 2, z: (width + wall.thickness) / 2 } }
-    const previousFilter = document.body.style.filter
-    document.body.style.filter = 'sepia(0.4)'
-    this.session.scope.add(() => {
-      document.body.style.filter = previousFilter
-    })
-
     this.enemies = []
     /** The enemies a shot can hit now: the living, and of those behind cover only the ones up to fire. */
     this.targets = []
@@ -220,12 +223,19 @@ export default class DrvarScene extends Scene3D {
     this.streets = new Streets([...this.footprints, yardBlock])
     this.placePlayer(churchBox, yardTrunks)
     this.outfits = new Map()
-    this.comrades = posts.comrades.map((post, i) => this.placeComrade(post, comrades[i]))
+    this.comrades = yardDefenders.map(defender => this.placeComrade(defender.post, defender))
     this.reliefColumn = new ReliefColumn(partisanLowpoly, variants.smedji.outfit, this.outfits)
     this.addMesh(this.reliefColumn.mesh)
     this.session.scope.add(() => this.reliefColumn.end())
     this.partisans = [this.player, ...this.comrades]
     this.planes = []
+    /** The view of each plane and of each paratrooper in the air, to take away with him once his part is over. */
+    this.views = new Map()
+    /** The soldiers on foot still standing or falling; one who has come to lie joins the `corpses`. */
+    this.soldierViews = new Set()
+    this.corpses = new Corpses()
+    this.addMesh(this.corpses.mesh)
+    this.session.scope.add(() => this.corpses.end())
     this.wave = 0
   }
 
@@ -242,7 +252,7 @@ export default class DrvarScene extends Scene3D {
       const inTrunk = trunks.some(({ min, max }) => x > min.x - margin && x < max.x + margin && z > min.z - margin && z < max.z + margin)
       return inChurch || inTrunk || this.comrades.some(comrade => comrade.alive && Math.hypot(comrade.x - x, comrade.z - z) < size.length)
     }
-    this.player = new Character({ ...postAt(posts.player), yaw: posts.player.yaw, pitch: posts.player.pitch, y: .89, size,
+    this.player = new Character({ ...postAt(openingPost), yaw: openingPost.yaw, pitch: openingPost.pitch, y: .89, size,
       strikeHeight, actions: { attack: .1 }, pitchRange: { min: -Math.PI / 6, max: Math.PI / 2.5 }, targets: this.targets,
       groundAt, isBlocked, obstacleAt: this.obstacleAt, bounds: { min: { x: -inside.x, z: -inside.z }, max: inside } })
     const layout = inputLayouts.firstPerson
@@ -389,11 +399,14 @@ export default class DrvarScene extends Scene3D {
   start() {
     super.start()
     this.sendWave()
-    this.session.gameplay.after(secondWaveAt, () => {
-      this.wave++
-      this.ui.showMessage(messages.secondWave)
-      this.sendWave()
-    })
+    for (const [index, wave] of waves.entries()) {
+      if (index === 0) continue
+      this.session.gameplay.after(wave.start, () => {
+        this.wave = index
+        if (index === 1) this.ui.showMessage(messages.secondWave)
+        this.sendWave()
+      })
+    }
     this.session.gameplay.after(reliefAt, () => this.sendRelief())
   }
 
@@ -419,13 +432,13 @@ export default class DrvarScene extends Scene3D {
       mesh.frustumCulled = false
       this.add({ mesh, update: (dt, t) => {
         plume.update(dt, t, { rotateY: 0 })
-        mesh.material.opacity = opacity * (1 - .77 * THREE.MathUtils.smoothstep(this.session.clock.now, 21, secondWaveAt + 9))
+        mesh.material.opacity = opacity * (1 - .77 * THREE.MathUtils.smoothstep(this.session.clock.now, 21, waves[1].start + 9))
       } })
     }
   }
 
   sendRelief() {
-    this.relief = comrades.slice(1).map(({ figure, look }, i) => {
+    this.relief = reliefLeaders.map(({ figure, look }, i) => {
       const { body, model } = makeCharacter(figure, { x: reliefStart - i * 1.5, z: (i - 1) * 1.5,
         yaw: 0, solid: false, groundAt })
       dressFighter(model.mesh, look.outfit, this.outfits, look.hatColor)
@@ -465,8 +478,32 @@ export default class DrvarScene extends Scene3D {
     for (const transport of formationFor(wave, pass)) {
       const body = new Transport({ ...transport, groundAt })
       body.sent = 0
+      const view = new Ju52(body)
       this.planes.push(body)
-      this.add(body, new Ju52(body))
+      this.views.set(body, view)
+      this.add(body, view)
+    }
+  }
+
+  /** A soldier come to lie stays where he fell, drawn among the corpses: his own figure, with its bones, goes. */
+  layDead() {
+    const lying = [...this.soldierViews].filter(view => view.lying)
+    if (!lying.length) return
+    this.corpses.add(...lying.map(view => view.mesh))
+    for (const view of lying) this.soldierViews.delete(view)
+    this.remove(...lying)
+  }
+
+  /**
+   * A plane that has let all its men go and flown as far past the drop as it came in, out of sight, is gone: nothing
+   * left to draw or move. One shot down stays where it fell.
+   */
+  retirePlanes() {
+    for (const plane of [...this.planes]) {
+      if (!plane.alive || plane.sent < plane.jumpers || plane.travelled < plane.drop.from + plane.drop.to) continue
+      this.planes.splice(this.planes.indexOf(plane), 1)
+      this.remove(plane, this.views.get(plane))
+      this.views.delete(plane)
     }
   }
 
@@ -477,20 +514,28 @@ export default class DrvarScene extends Scene3D {
         plane.sent++
         const body = new Parachutist({ x: plane.x, y: plane.y - 3, z: plane.z, groundAt,
           drift: { x: -wind, z: THREE.MathUtils.randFloatSpread(wind) } })
+        const view = new ParachutistSprite(body, { texture: this.textures.get(parachutistArt.picture) })
         this.enemies.push(body)
-        this.add(body, new ParachutistSprite(body, { texture: this.textures.get(parachutistArt.picture) }))
+        this.views.set(body, view)
+        this.add(body, view)
       }
   }
 
-  /** A paratrooper on the ground goes on as a soldier on foot: the living one to his `fightingPlace`. */
+  /**
+   * A paratrooper on the ground goes on as a soldier on foot, the living one to his `fightingPlace`; the paratrooper
+   * himself, his part over, leaves the game.
+   */
   landJumpers() {
-    for (const body of this.enemies) {
-      if (!(body instanceof Parachutist) || body.handedOver || body.feet > groundAt(body.x, body.z)) continue
-      body.handedOver = true
+    for (const body of this.enemies.filter(enemy => enemy instanceof Parachutist && enemy.feet <= groundAt(enemy.x, enemy.z))) {
+      this.enemies.splice(this.enemies.indexOf(body), 1)
+      this.remove(body, this.views.get(body))
+      this.views.delete(body)
       const { x, z } = this.besideHouse(body.x, body.z)
       const soldier = new DrvarSoldier({ x, z, y: groundAt(x, z) + coverSoldier.size.height / 2 })
       this.enemies.push(soldier)
-      this.add(soldier, new CoverSoldierModel(soldier, { flashPicture: this.textures.get(flash.picture), front: this.player, viewer: this.player }))
+      const view = new CoverSoldierModel(soldier, { flashPicture: this.textures.get(flash.picture), front: this.player, viewer: this.player })
+      this.soldierViews.add(view)
+      this.add(soldier, view)
       if (body.dead) {
         soldier.setState('dead')
         continue
@@ -546,6 +591,8 @@ export default class DrvarScene extends Scene3D {
       if (enemy.dead && enemy.coverSpot) this.releaseCover(enemy)
     this.dropJumpers()
     this.landJumpers()
+    this.retirePlanes()
+    this.layDead()
     this.targets.length = 0
     this.targets.push(...this.enemies.filter(enemy => enemy.alive && enemy.exposed !== false))
     if (this.player.dead) return this.defeat(messages.defeat)
@@ -556,19 +603,37 @@ export default class DrvarScene extends Scene3D {
   }
 
   sceneUI() {
-    const left = this.enemies.filter(enemy => enemy.alive && !(enemy instanceof Parachutist && enemy.handedOver)).length
-    const { firearm } = this.trigger
-    const ammo = firearm.reloading ? 'Reloading' : `Ammo ${firearm.rounds}/${firearm.magazine}`
+    const remaining = Math.max(0, Math.ceil(reliefAt - this.session.clock.now))
+    const minutes = Math.floor(remaining / 60)
+    const seconds = String(remaining % 60).padStart(2, '0')
+    const reliefStatus = this.reliefArrived ? messages.victoryTitle
+      : this.relief ? 'Ličani are approaching' : `Hold until relief · ${minutes}:${seconds}`
     return /* html */`
       <div class="top-left ${currentStyleClasses().score}">
         <div>
           Wave: ${this.wave + 1}
-          <br><small>Paratroopers: ${left}</small>
-          <br><small>${weaponNames[weaponKind(firearm)]} · ${ammo}</small>
+          <br><small>${reliefStatus}</small>
         </div>
       </div>
     `
   }
+}
+
+function createMorningSky() {
+  const geometry = new THREE.SphereGeometry(810, 32, 16)
+  const { position } = geometry.attributes
+  const horizon = new THREE.Color(morningHaze), upper = new THREE.Color(0x668ba9)
+  const color = new THREE.Color(), colors = []
+  for (let i = 0; i < position.count; i++) {
+    const height = position.getY(i) / 810
+    color.copy(horizon).lerp(upper, THREE.MathUtils.smoothstep(height, .01, .65))
+    colors.push(color.r, color.g, color.b)
+  }
+  geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3))
+  const sky = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.BackSide,
+    depthWrite: false, fog: false }))
+  sky.renderOrder = -1
+  return sky
 }
 
 /** Keep the mountain silhouette near the horizon and show the scene's sky above it. */
@@ -579,6 +644,6 @@ function createPanorama(radius = 600) {
   texture.repeat.x = -1
   const geometry = new THREE.CylinderGeometry(radius, radius, 144, 64, 1, true)
   geometry.translate(0, -6, 0)
-  const material = new THREE.MeshBasicMaterial({ map: texture, side: THREE.BackSide, alphaTest: .5, fog: false })
+  const material = new THREE.MeshBasicMaterial({ map: texture, color: 0xc5d0da, side: THREE.BackSide, alphaTest: .5, fog: false })
   return new THREE.Mesh(geometry, material)
 }

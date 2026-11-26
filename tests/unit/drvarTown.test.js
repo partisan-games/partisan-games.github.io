@@ -10,7 +10,7 @@ import { requestModels } from '/core3d/assets/models.js'
 import { models } from '/core3d/actor/buildings/TownHouse.js'
 import buildTown, { overlap, river, roads } from '/scenes/drvar/town.js'
 import placeWarTraces from '/scenes/drvar/warTraces.js'
-import { placeRuins, placeTrees, ridgeTrees, treeModels } from '/scenes/drvar/scenery.js'
+import { openingPost, placeRuins, placeTrees, ridgeTrees, treeModels } from '/scenes/drvar/scenery.js'
 import { models as ruinModels } from '/core3d/actor/buildings/DrvarProp.js'
 import Church, { models as churchModels } from '/core3d/actor/buildings/Church.js'
 import { models as debrisModels } from '/core3d/actor/buildings/WarDebris.js'
@@ -139,6 +139,24 @@ test('separate ruins and real oaks frame the west approach without blocking the 
     const ray = new THREE.Raycaster(camera, direction.clone().normalize(), 0, direction.length())
     assert.equal(ray.intersectObjects(scenery).length, 0, `visible relief ranks at x=${x}`)
   }
+
+  const opening = new THREE.PerspectiveCamera(75, 4 / 3, .1, 1000)
+  opening.position.set(openingPost.x * 11.45, 1.78 * .82, openingPost.z * 9.45)
+  opening.rotation.set(openingPost.pitch, openingPost.yaw - Math.PI / 2, 0, 'YXZ')
+  opening.updateMatrixWorld(true)
+  assert.ok(!churchBox.clone().expandByScalar(.2).containsPoint(opening.position), 'the player starts clear of the church')
+  const gable = new THREE.Vector3(37.2, 3.9, -10.8)
+  const gunner = new THREE.Vector3(10.7, 1.2, -3.48)
+  for (const point of [gable, gunner]) {
+    const screen = point.clone().project(opening)
+    assert.ok(Math.abs(screen.x) < .9 && Math.abs(screen.y) < .9, 'the gunner and gable fit the opening view')
+  }
+  const towardGable = gable.clone().sub(opening.position)
+  const gableView = new THREE.Raycaster(opening.position, towardGable.clone().normalize(), 0, towardGable.length())
+  const visibleScenery = [church, ...scenery]
+  visibleScenery.forEach(mesh => mesh.updateMatrixWorld(true))
+  assert.equal(gableView.intersectObjects(visibleScenery.filter(mesh => mesh !== ruins[3].mesh)).length, 0, 'open view to the gable')
+
   const caveEye = new THREE.Vector3(11, 1.6, -5)
   const caveFace = new THREE.Vector3(129, landHeight(129, -132) + 3.1, -132)
   const towardCave = caveFace.sub(caveEye)

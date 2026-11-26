@@ -8,6 +8,7 @@ import optionalEffect, { failOptionalEffect } from '/core/io/optionalEffect.js'
 
 /** The clips played once and held at their end; every other clip loops. */
 const once = ['attack', 'attack2', 'special', 'jump', 'pain', 'death']
+const swings = ['attack', 'attack2', 'special']
 /** Seconds a clip takes to blend into the next. */
 const fade = .25
 /** A blow reaching farther than this, in metres, is a shot, and sparks where it ends. */
@@ -41,6 +42,8 @@ export default class CharacterModel {
     rightHandWeapon, attackSound, attackProfile = 'rifle', flame = null, raise = 0, deathPose = null,
     impactAt = () => null }) {
     this.body = body
+    this.lastSwing = null
+    this.sinceSwing = Infinity
     Object.assign(this, { raise, flameKind: flame, impactAt, deathPose })
     this.bounds = new Box3()
     this.mesh = animations.length ? clone(mesh) : mesh.clone()
@@ -111,6 +114,13 @@ export default class CharacterModel {
     const backwards = ['walk', 'run', 'aimWalk', 'aimRun', 'jump'].includes(name) && this.body.steering.ahead < 0
     if (name === this.clip && backwards === this.backwards) return
     const previous = this.actions[this.clip]
+    if (swings.includes(this.clip)) {
+      this.lastSwing = this.clip
+      this.sinceSwing = 0
+    }
+    // a swing begun again as soon as the last one ended, as held fire does, goes on as one clip in a loop: no blend
+    // back through the pose between, which a clip shorter than the blend would never leave
+    const again = name === this.lastSwing && this.sinceSwing < fade
     this.clip = name
     this.backwards = backwards
     const action = this.actions[name]
@@ -129,7 +139,10 @@ export default class CharacterModel {
     // a clip keeps its own pace, as a run made of a faster walk
     action.setEffectiveTimeScale((backwards ? -1 : 1) * Math.abs(action.timeScale || 1))
     if (backwards) action.time = action.getClip().duration
-    if (previous && previous !== action) action.crossFadeFrom(previous, fade)
+    if (again) {
+      previous?.stop()
+      action.setEffectiveWeight(1)
+    } else if (previous && previous !== action) action.crossFadeFrom(previous, fade)
     action.play()
   }
 
@@ -176,6 +189,7 @@ export default class CharacterModel {
     const { body, seen } = this
     const before = this.mesh.position.clone()
     this.place()
+    this.sinceSwing += dt
     this.play(this.chooseClip())
     this.anim?.update(dt)
     if (body.dead) this.showDeath(dt)

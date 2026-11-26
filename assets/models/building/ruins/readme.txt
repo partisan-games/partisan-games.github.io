@@ -7,6 +7,7 @@ Za Drvar su u Blenderu iz originalnog GLB-a razdvojeni nepovezani delovi i grupi
 wall-corner.glb: 385 trouglova; wall-fragment.glb: 274; wall-breach.glb: 276.
 Izdvojeni modeli su centrirani i izvezeni u GLB sa ugrađenom WebP teksturom. Razmera u metrima zadata je u DrvarProp.js.
 
-drvar-stone-house.glb je zaseban nov model sa kamenim zabatom, okruglim otvorom, nagorelim pregradama i dimnjakom.
-Polazište je fotografija porušenog Drvara u docs/references/ww2-yu/drvar. Teksture iz projekta ugrađene su kao WebP.
+drvar-stone-house.glb ima kameni zabat, okrugli otvor, čađ iznad prozora, tragove gelera i ostatak crepa na krovu.
+drvar-collapsed-house.glb je druga varijanta sa oborenom bočnom stranom i urušenim delom krova.
+Polazište je fotografija porušenog Drvara u docs/references/ww2-yu/drvar. Kamen je iz walls/stone-wall.jpg, a crep iz building/town/ruins-building/Roof_Tiles.jpg, uz licencu u folderu tog modela. Obe teksture ugrađene su kao WebP.
 Ponovljivi Blenderov izvoz je u scripts/build-drvar-props.py.

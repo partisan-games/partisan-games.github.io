@@ -1,3 +1,4 @@
+import { NearestFilter, NearestMipmapLinearFilter } from 'three'
 import Stage3D from '../Stage3D.js'
 import TwoHandedGrip from '/core3d/actor/characters/TwoHandedGrip.js'
 import dressFighter from '/core3d/actor/characters/dressFighter.js'
@@ -33,6 +34,20 @@ const library = 'Zajednička biblioteka'
 const { italianLooks } = italianLooksModule
 const { mountMetalPipe, pipeSwingModel, smoothPipeSwing } = workerPipeModule
 const sutjeskaLook = { id: 'sutjeska', name: 'Sutjeska', value: { dress: sutjeskaModule.default }, block: sutjeskaModule }
+const sutjeskaPixelMaps = {
+  '_1___Default': 'sutjeska-pixel-art/uniform.webp',
+  Tex_0534_0_dds: 'sutjeska-pixel-art/face.webp',
+  Tex_0532_0_dds: 'sutjeska-pixel-art/eyes.webp',
+}
+const sutjeskaPixelLook = { id: 'pixel-art', name: 'Pixel art', value: { dress(mesh, textures) {
+  dressFighter(mesh, sutjeskaPixelMaps, textures)
+  for (const file of Object.values(sutjeskaPixelMaps)) {
+    const map = textures.get(file)
+    if (!map) continue
+    map.magFilter = NearestFilter
+    map.minFilter = NearestMipmapLinearFilter
+  }
+} } }
 const nikoletinaLook = { id: 'jugoslovenska', name: 'Jugosloven', value: { dress: sovietPartisanModule.description.dress },
   block: nikoletinaModule }
 
@@ -156,7 +171,7 @@ function infantryStory(id, name, game, block, portraitNames = {}) {
     identities.get(identity).looks.push(look)
   }
   original.looks.sort((a, b) => Number(b.id === 'strelac') - Number(a.id === 'strelac'))
-  if (block === partisanModule) original.looks.unshift(sutjeskaLook)
+  if (block === partisanModule) original.looks.unshift(sutjeskaPixelLook, sutjeskaLook)
   return [original, ...identities.values()]
 }
 

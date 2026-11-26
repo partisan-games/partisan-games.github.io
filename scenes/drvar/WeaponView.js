@@ -1,8 +1,7 @@
 import { Box3, DirectionalLight, Group, HemisphereLight, PerspectiveCamera, Scene, Vector3 } from 'three'
 import { loadedModel } from '/core3d/assets/models.js'
 
-export const weaponNames = { rifle: 'Rifle', machineGun: 'Machine gun' }
-export const weaponKind = firearm => firearm.automatic ? 'machineGun' : 'rifle'
+const weaponKind = firearm => firearm.automatic ? 'machineGun' : 'rifle'
 
 const forward = new Vector3(0, 0, -1)
 const aimPoint = new Vector3(0, 0, -12)

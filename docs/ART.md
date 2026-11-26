@@ -43,6 +43,14 @@ Pravila izrade i veze do izvora. Otvoreni poslovi su u [PLAN-u](PLAN.md#art), pr
 - Bočni lik, mina odozgo, frontalna zgrada i kosa pozadina ne postaju usklađeni samom paletom i senkama. Proveriti veličinu mine prema stopalu, vrata i spratova prema čoveku, dodir sa tlom i zaklanjanje; pozadina ne sme nadjačati aktere.
 - Promena arta nije razlog za usputno menjanje sudara, broja prepreka ili rasporeda igre. Sačuvana bolnica je studija za buduće uklapanje, nije prihvaćena kao konačan art i nije povezana sa igrom; odbačeni teren i mine ne čuvaju se kao alternative.
 
+### Završna dorada 3D scene — primer Drvara
+
+Postupak je vlasnik projekta prihvatio na početnom kadru iz crkvenog dvorišta u Drvaru (2026-11-26). Za druge 3D scene primeniti isti princip kompozicije, a paletu prilagoditi mestu i dobu dana.
+
+- Kadar složiti sa stvarne početne pozicije i visine pogleda igrača. U Drvaru je početna pozicija povučena malo od istočnog zida, pa su mitraljezac i zid u prvom planu, porušena kuća sa prepoznatljivim zabatom je orijentir u srednjem planu, a iznad nje ostaje otvoreno nebo na kome se čitaju padobranci. Jablanica je referenca za raspored planova i jasan arhitektonski orijentir. [Početni pogled i raspored ruševina](../scenes/drvar/scenery.js).
+- Razdvojiti planove svetlom i bojom u samoj sceni. U Drvaru toplo usmereno jutarnje svetlo i senke izdvajaju obližnje zidove, a hladnija izmaglica i postepen prelaz boje neba daju dubinu brdima. Globalna sepija je uklonjena jer je davala isti ton svim planovima i interfejsu. [Osvetljenje i nebo](../scenes/drvar/Main.js).
+- Povezati odvojene modele istom razmerom materijala u metrima. Na dvorišnom zidu i ruševini Drvara kamen se ponavlja na 2,5 m, a ista tekstura se nastavlja preko pročelja, prozorskih parapeta i zabata. Nagoreli delovi dobijaju tamniji ton kamena. [Priprema modela kuće](../scripts/build-drvar-props.py).
+
 ## Drvar — crkva
 
 [3D Ju 52](../assets/models/aircraft/ju52/README.md) koristi isti prikaz u Drvaru i katalogu: mirovanje, let i obaranje, sa tri rotirajuća propelera i dimom pri oštećenju. Optimizacija spaja jednake materijale i neprozirne nepokretne delove: 66 → 5 materijala i 66 → 12 primitiva, uz očuvanih 9.061 trougao, ugrađene teksture i odvojene propelere. Poreklo i nepotvrđena prava ponovne upotrebe čuvaju se uz izvorni model.
@@ -139,11 +147,24 @@ Dodatna plovila imaju zasebne opise. Generički nacrtan brod ili projektna mera 
 
 ### 3D
 
+<a id="3d-pixel-art"></a>
+**Pixel art za 3D aktere (vlasnik, 2026-11-26).** Odobreni uzor i podrazumevani kataloški prikaz je [Borac sa Sutjeske · Pixel art](../catalog.html#drugi-svetski-rat-3d/partizan-3d/pixel-art). Za ostale 3D aktere crtati nove teksture u paleti postojećeg 2D arta, sa oštrim pikselima i jasnim oblicima. Koristiti postojeće UV koordinate, geometriju, kostur i pokrete, pa proveriti teksturu na modelu izbliza i u pokretu.
+
+Na odobrenom borcu maskirna šara pripada jakni i rukavima, a jednobojne braon pantalone dobijaju senke od svetla u sceni. Lice ima sopstveni identitet, sa kratkom crnom kosom, brkovima i očima boje lešnika. Crvena petokraka stoji niže na kapi i ima oštar obris. [Izvori i priprema tekstura](../assets/images/sources/partizani/sutjeska-pixel-art/generation.json).
+
 <a id="brka"></a>
 [Savo · Osnovna](../catalog.html#drugi-svetski-rat-3d/partizan-jednostavan-model-3d/original) ima šire lice, punije brkove i zulufe, tamnu kosu do kragne i tamne mat pantalone. Vlasnik je prihvatio izgled 25. 11. 2026. prema [portretu Save Kovačevića](https://commons.wikimedia.org/wiki/File:Savo_Kova%C4%8Devi%C4%87.jpg) i [fotografiji sa Crkvica](https://commons.wikimedia.org/wiki/File:Narodni_heroj_Sava_Kova%C4%8Devi%C4%87.jpg). Katalog i igre koriste isti [FBX](../assets/models/character/soldier/partisan-lowpoly.fbx), sa postojećim skeletom i animacijama.
 
 <a id="sutjeska-drug-marko"></a>
-Vlasnik je 25. 11. 2026. prihvatio [Sutjesku](../catalog.html#drugi-svetski-rat-3d/partizan-3d/sutjeska) kao glavni izgled lika koji se u katalogu zove „Borac sa Sutjeske”. [Zajednički izgled](../core3d/actor/derived/ww2/sutjeskaLook.js) koriste katalog, Liberated City, Spomenici i prikazi istog partizana u Jablanici i 3D Tank. Mlađe lice, kestenjasta kosa, smeđe oči, veća crvena petokraka i braon pantalone primenjuju se na kopiji postojećeg modela sa istim skeletom. [Maskirna](../catalog.html#drugi-svetski-rat-3d/partizan-3d/original) i [Osnovna](../catalog.html#drugi-svetski-rat-3d/partizan-3d/strelac) i dalje su dostupne u katalogu. [Fotografija sa Sutjeske](https://commons.wikimedia.org/wiki/File:Druga_proleterska_divizija_na_Sutjesci.jpg) je polazište za izgled.
+Vlasnik je 25. 11. 2026. prihvatio [Sutjesku](../catalog.html#drugi-svetski-rat-3d/partizan-3d/sutjeska) kao izgled lika „Borac sa Sutjeske” za 3D scene. [Zajednički izgled](../core3d/actor/derived/ww2/sutjeskaLook.js) koriste katalog, Liberated City, Spomenici i prikazi istog partizana u Jablanici i 3D Tank. Mlađe lice, kestenjasta kosa, smeđe oči, veća crvena petokraka i braon pantalone primenjuju se na kopiji postojećeg modela sa istim skeletom. [Maskirna](../catalog.html#drugi-svetski-rat-3d/partizan-3d/original) i [Osnovna](../catalog.html#drugi-svetski-rat-3d/partizan-3d/strelac) i dalje su dostupne u katalogu. [Fotografija sa Sutjeske](https://commons.wikimedia.org/wiki/File:Druga_proleterska_divizija_na_Sutjesci.jpg) je polazište za izgled.
+
+<a id="preuzeto-drvece"></a>
+Preuzeto drveće (2026-11-26) sklapa se u Blenderu iz izvornog OBJ ili `.blend` fajla i izvozi kao GLB sa WebP teksturama. Lišću se pri tom popravljaju tri stvari:
+- prozirnost je oštar izrez (`alphaMode: MASK`), a ne mešanje, da nema grešaka u redosledu crtanja i da senke prate list;
+- senčenje lista je usmereno naviše u svetu, pa je krošnja osvetljena i u scenama samo sa svetlom neba (Kraljevo);
+- svaki list ima i zadnju stranu kao posebnu površinu, jer three.js dvostranoj površini otpozadi okreće senčenje naniže, pa je list bio crn.
+
+Stablo zadržava normale okrenute spolja. Duplikati u drugim kolekcijama `.blend` fajla (lipa je imala dva preklopljena stabla) se uklanjaju. Modeli u metrima nisu: visinu daje `size` sa `fitVisible`.
 
 Modele, skinove i klipove pregledati u [katalogu](../catalog.html) i [pregledu animacija](../pregled-animacija.html). Poreklo i licence ostaju uz modele; organizacija kataloga prati [pravila kataloga](KATALOG.md#stavke-kataloga-i-varijante).
 

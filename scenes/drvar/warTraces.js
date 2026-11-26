@@ -1,5 +1,5 @@
 import { Box3, MathUtils, TextureLoader } from 'three'
-import WarDebris, { createScorch, scorchPicture } from '/core3d/actor/buildings/WarDebris.js'
+import WarDebris, { createScorch, scorchPicture, warDebris } from '/core3d/actor/buildings/WarDebris.js'
 import { assets } from '/config.js'
 
 /**
@@ -9,6 +9,9 @@ import { assets } from '/config.js'
 const traces = { near: 14, far: 70, scorches: 12, scorch: [2.5, 5], wrecks: 4, litter: 18 }
 const litter = ['barrel', 'ammunition-box']
 const wreckSites = [{ x: 25, z: -19 }, { x: -31, z: 15 }, { x: 47, z: 25 }, { x: -32, z: -17 }]
+
+/** What to load; the game awaits requestModels(models) before it places the traces. */
+export const models = ['burnt-truck', ...litter].map(kind => warDebris[kind].model)
 
 /** A random number from 0 to 1 that repeats from its `seed`, so the traces lie the same each game. */
 function seeded(seed) {

@@ -81,7 +81,7 @@ export class YardDefender {
 
   canShoot(target, eye) {
     const { gun } = this
-    return target?.alive && target.exposed !== false && !target.handedOver
+    return target?.alive && target.exposed !== false
       && Math.hypot(target.x - eye.x, target.y - eye.y, target.z - eye.z) < gun.reach
       && this.sees(eye, target)
   }

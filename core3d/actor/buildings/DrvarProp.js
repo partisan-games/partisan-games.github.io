@@ -7,6 +7,7 @@ export const drvarProps = {
   'wall-fragment': { name: 'Ostatak kamenog zida', model: ruin('wall-fragment', 2.7) },
   'wall-breach': { name: 'Razrušeni zid', model: ruin('wall-breach', 3.1) },
   'stone-house': { name: 'Porušena kamena kuća', model: ruin('drvar-stone-house', 5.9) },
+  'collapsed-house': { name: 'Kamena kuća sa urušenim krovom', model: ruin('drvar-collapsed-house', 5.9) },
 }
 
 export const models = Object.values(drvarProps).map(({ model }) => model)

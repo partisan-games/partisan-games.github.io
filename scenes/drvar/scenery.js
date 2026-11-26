@@ -5,14 +5,16 @@ import { overlap } from './town.js'
 import { groundAt } from './terrain.js'
 
 export const treeModels = [trees.oak.model, trees['burnt-oak'].model]
+export const openingPost = { x: .69, z: -.08, yaw: .22, pitch: .1 }
+export const morningHaze = 0xb7c4cc
 
-// These sit to either side of the road from the west gate, where the relief column can be seen between them.
+// The western walls frame the relief column. The gable is the first landmark from the eastern wall.
 const ruinSites = [
   { kind: 'wall-corner', x: -26, z: -9.5, yaw: 0 },
   { kind: 'wall-fragment', x: -35, z: 9.5, yaw: Math.PI / 2 },
   { kind: 'wall-breach', x: -46, z: -9.5, yaw: -.2 },
-  { kind: 'stone-house', x: 42.5, z: -12.5, yaw: -Math.PI / 2 },
-  { kind: 'stone-house', x: 19, z: 14, yaw: -1.02 },
+  { kind: 'stone-house', x: 39.5, z: -10.8, yaw: -Math.PI / 2 },
+  { kind: 'collapsed-house', x: 19, z: 14, yaw: -1.02 },
 ]
 
 const yardOaks = [

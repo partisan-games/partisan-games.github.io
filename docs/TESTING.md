@@ -62,7 +62,7 @@ Gašenje posle greške (2026-11-24): [regresione provere](../tests/unit/cleanup.
 
 Aktuelne provere uključuju [curenje pri smeni igara](../tests/smoke/leaks.spec.js), [pripremljeni art](../tests/smoke/prepared-art.spec.js) i [krv pri padu bombaša](../tests/smoke/grenadier-blood.spec.js). To nije automatski prolaz kroz svaku partiju ili potvrda svake touch komande. Nedostajuće teksture modela koje su poznato ograničenje vodi [known-issues](../tests/smoke/known-issues.js).
 
-Za ciljanu probu koristiti [probe](../scripts/probe.js). Sačekati stvarnu posledicu držanog tastera; softverski 3D prikaz može biti spor. `waitForFunction` ima sinhron predikat. Headless Escape ne dokazuje fizičko oslobađanje pointer lock-a; poziv `exitPointerLock` je samo ograničenje probe. Pravi touch zahteva držanje i nezavisne pokazivače, ne samo `tap`.
+Za ciljanu probu koristiti [probe](../scripts/probe.js). Merenje 3D nivoa kroz probe (Drvar, 2026-11-26): `renderer.info.render` daje broj poziva za crtanje i trouglova posle jednog `render`. Čiji su pozivi, pokazuje razlika kad se grupa sakrije. Kasna faza igre dostiže se pozivanjem `session.update` i `update` scene u petlji, uz neranjivog igrača. Vremena crtanja u pregledaču bez grafičke kartice su gruba, a brojevi poziva, trouglova i aktera su tačni. GLB sa WebP teksturom ne učitava se u unit testovima (happy-dom ne dekodira sliku), pa testovi rasporeda koriste zamenski model. Sačekati stvarnu posledicu držanog tastera; softverski 3D prikaz može biti spor. `waitForFunction` ima sinhron predikat. Headless Escape ne dokazuje fizičko oslobađanje pointer lock-a; poziv `exitPointerLock` je samo ograničenje probe. Pravi touch zahteva držanje i nezavisne pokazivače, ne samo `tap`.
 
 ## Sačuvani dokazni izvori
 

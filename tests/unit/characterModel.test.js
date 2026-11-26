@@ -297,3 +297,25 @@ test('a dead model with no death clip falls on its side, unless it is intact, as
   assert.ok(tilt(null) > 1)
   assert.equal(tilt('intact'), 0)
 })
+
+test('held fire with a clip shorter than the blend repeats it as one loop, never blending back to standing between shots', async() => {
+  createPageElements()
+  const { default: Character } = await import('/core/gameplay/bodies/characters/Character.js')
+  const { default: CharacterModel, clipLengths, modelSize } = await import('/core3d/actor/characters/CharacterModel.js')
+  const { mesh, animDict } = figure()
+  mesh.userData.animations.push(new THREE.AnimationClip('Burst', .2, []))
+  const actions = clipLengths(mesh.userData.animations, { ...animDict, attack: 'Burst' })
+  const body = new Character({ size: modelSize(mesh), actions })
+  const model = new CharacterModel(body, { mesh, animDict: { ...animDict, attack: 'Burst' } })
+  model.update(0)
+  const weights = []
+  for (let frame = 0; frame < 60; frame++) {
+    body.attack()
+    body.update(1 / 60)
+    model.update(1 / 60)
+    if (body.swing) weights.push(model.actions.attack.getEffectiveWeight())
+  }
+  assert.ok(weights.length > 50)
+  assert.ok(weights.slice(20).every(weight => weight === 1), 'once firing, the burst is all there is')
+  assert.equal(model.actions.idle.isRunning(), false)
+})

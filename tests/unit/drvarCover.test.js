@@ -84,24 +84,27 @@ test('a comrade pops up for the last shot, then reloads below the wall before st
   assert.equal(body.shotsFired, 2)
 })
 
-test('all four comrades keep their boots grounded and their crouching poses inside the churchyard', async t => {
+test('all seven comrades keep their boots grounded and their crouching poses inside the churchyard', async t => {
   createPageElements()
   t.mock.method(TextureLoader.prototype, 'load', () => new Texture())
   t.mock.method(FBXLoader.prototype, 'loadAsync', async url => {
     const bytes = await readFile(decodeURI(url.slice(1)))
     return new FBXLoader().parse(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), '')
   })
-  const { default: DrvarScene } = await import('/scenes/drvar/Main.js')
+  const { default: DrvarScene, yardDefenders } = await import('/scenes/drvar/Main.js')
   await requestModels([...coverSoldierModels, ...rifleman.models, ...partisan.models, ...gunner.models])
-  const posts = [[gunner, { x: 1, z: -.4, yaw: 0 }], [rifleman, { x: 0, z: -1, yaw: Math.PI / 2 }],
-    [partisan, { x: 0, z: 1, yaw: -Math.PI / 2 }], [rifleman, { x: -1, z: .4, yaw: Math.PI }]]
-  for (const [{ description: figure }, post] of posts) {
+  assert.equal(yardDefenders.length, 7)
+  const positions = []
+  for (const defender of yardDefenders) {
+    const { figure, post } = defender
     const scene = Object.assign(Object.create(DrvarScene.prototype), {
-      targets: [], enemies: [], world: { controllers: [] }, add(body, view) {
+      targets: [], enemies: [], outfits: new Map(), world: { controllers: [] }, add(body, view) {
         this.view = view
       },
     })
-    const body = scene.placeComrade(post, { figure })
+    const body = scene.placeComrade(post, defender)
+    assert.ok(positions.every(({ x, z }) => Math.hypot(body.x - x, body.z - z) > 2), 'each post leaves room for the others')
+    positions.push(body)
     const { view } = scene
     assert.equal(view.clip, 'crouch')
     const skin = new Box3()

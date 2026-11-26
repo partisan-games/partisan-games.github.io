@@ -50,6 +50,10 @@ Partizani koriste prihvaćen model zaplenjenog topa; ne otvarati ponovnu istorij
 - **Predaja:** kada manje od polovine prvobitnih branilaca ostane živo, obe strane prekidaju vatru dok se italijanska zastava spušta i bela zastava podiže; tek tada preživeli nude predaju. Prihvatanje završava etapu pobedom, a odbijanje nastavlja borbu sa belom zastavom na jarbolu dok ne pogine poslednji branilac. To je pravilo igre. Istorijski izvor predaju Jablanice vezuje za pogodak skladišta municije, ne za utvrđeni procenat gubitaka.
 - **Likovni i borbeni ton:** zimska hercegovačka klisura, magla, slab sneg, garež i fizički rekviziti stvaraju osećaj duge borbe. Utvrđenje u početku deluje stameno; precizan pogodak može ubiti vojnika ili mitraljesca, dok neprecizno granatiranje postepeno razara zaklon. Italijanske uniforme, M33 šlemovi, lica i oznake razlikuju vojnike bez pretvaranja prikaza u RPG statistiku.
 
+## Raid on Drvar
+
+Odbrana iz prvog lica smeštena je u crkveno dvorište u Drvaru 25. maja 1944. Igrač sa sedam saboraca izdržava tri talasa desanta, od kojih je poslednji najjači. Ličani se pojavljuju posle četiri minuta, a pobeda nastupa kad priđu dvorištu sa zapada. HUD prikazuje trenutni talas i vreme do pojave pojačanja. [Likovne smernice](ART.md#završna-dorada-3d-scene--primer-drvara) i [reference za scenu](references/ww2-yu/drvar/README.md).
+
 ## Ustanak
 
 Po jedan nepokretan top sa posadom i zastavom na obe strane; levi sastav i raspored ostaju sačuvani. Nišanjenje nema tajmer: W/S menja ugao, držanje Space puni ograničenu snagu, puštanje ispaljuje. Samo aktivni igrač upravlja svojim topom i posadom; potez se menja tek posle završetka leta, eksplozije i štete. Zdravlje pripada topu; posada i zastava su dekoracija, a samostalno opaljivanje strelca nema štetu ni uticaj na poteze. AI koristi istu fiziku i koriguje početne promašaje.

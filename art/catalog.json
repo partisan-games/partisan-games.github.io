@@ -3230,7 +3230,8 @@
        "name": "ruins",
        "files": [
         ["destroyed-walls.glb",0.9],
-        ["drvar-stone-house.glb",0.5],
+        ["drvar-collapsed-house.glb",0.4],
+        ["drvar-stone-house.glb",0.4],
         ["wall-breach.glb",0.1],
         ["wall-corner.glb",0.1],
         ["wall-fragment.glb",0.1]
