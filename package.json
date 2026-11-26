@@ -16,7 +16,7 @@
     "check": "node scripts/check-project.js",
     "smoke": "playwright test",
     "probe": "node scripts/probe.js",
-    "verify": "npm run lint && npm test && npm run check"
+    "verify": "npm run lint && npm test && npm run check && npm run smoke"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",

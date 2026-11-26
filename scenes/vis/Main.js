@@ -47,7 +47,7 @@ const customStartScreen = ({ container }) => /* html */`
   <div class="central-screen flex-column ${container}" id="start-screen">
     <p>Reach the Island of Vis</p>
     <h2>Choose your aircraft</h2>
-    <div class="game-screen-select vis-aircraft-select">
+    <div class="game-screen-select aircraft-select">
       ${planes.map(plane => /* html */`
         <label data-paid>
           <input type="image" data-aircraft="${plane.id}" src="${assets.images}${plane.image}" alt="Fly ${plane.name}">
@@ -75,7 +75,7 @@ export default class VisScene extends Scene2D {
     /** What the screen shows, where rounds leave play. */
     this.screenView = screenView(this.projection, this)
     this.oblaci = Array.from({ length: clouds }, () => new Cloud2D(speed))
-    this.ostrvo = new Pokretno('nature/ostrvo.gif', { thrust: speed, scale: 2 })
+    this.ostrvo = new Pokretno('game-ready/scenery/vis/ostrvo.webp', { thrust: speed, scale: 2 })
     this.zdravlje = new Pokretno('items/zdravlje.png', { thrust: speed, scale: .66, faktorY: 10, shadow: true })
     this.score = 0
     /** The enemy planes in play, which the player's guns hit and the player can crash into. */

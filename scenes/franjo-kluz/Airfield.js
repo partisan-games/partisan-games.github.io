@@ -9,7 +9,7 @@ const runwayThickness = 14
 /** The partisan airfield: its building, and the asphalt runway behind it where the plane must land. */
 export default class Airfield extends WorldSprite {
   constructor(options) {
-    super('buildings/aerodrom.png', options)
+    super('game-ready/scenery/franjo-kluz/aerodrom.webp', options)
     this.children.push(this.createRunway())
   }
 

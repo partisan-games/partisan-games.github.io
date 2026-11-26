@@ -7,7 +7,7 @@ import Sound from '/core/io/audio/SoundSource.js'
  */
 export default class ShellSprite extends WorldPart {
   constructor(shell, projection, camera = null) {
-    super('items/granata.gif', { camera, scale: .5, visible: false })
+    super('game-ready/projektili/granata.webp', { camera, scale: .5, visible: false })
     this.shell = shell
     this.projection = projection
     this.flightSound = new Sound('shell-flight.mp3', { volume: .45, loop: true, profile: 'flight', spatial: { getPosition: () => this.position } })

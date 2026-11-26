@@ -47,7 +47,7 @@ async function watch(scene, { seconds, shots, done, step = 1 / 30 }) {
 const play = (scene, seconds, step = 1 / 30) => watch(scene, { seconds, step, shots: () => [], done: () => false })
 
 async function trieste(t) {
-  loadImages(t, { '/items/granata.gif': [32, 8], '/plamen.gif': [75, 98] })
+  loadImages(t, { '/game-ready/projektili/granata.webp': [32, 8], '/plamen.gif': [75, 98] })
   const { default: Scene } = await import('/scenes/to-trieste/Main.js')
   const { default: Health } = await import('/core/gameplay/Health.js')
   const scene = new Scene()

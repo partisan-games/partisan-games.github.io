@@ -12,11 +12,13 @@ const belly = .2
  * that shows it, with its propeller if it has one. `options` are the body's, as its clock and its targets; `impactAt`
  * finds the ground its wreck scorches, as the model takes it.
  */
-export default function makeWarplane({ model, propeller, propellerName, physical }, options = {}, { impactAt } = {}) {
+export default function makeWarplane({ model, propeller, propellerNames, discPropellers, physical, performance },
+  options = {}, { impactAt } = {}) {
   const mesh = loadedModel(model)
   // missiles leave from low in the fuselage, wherever the model has its origin
   const { min, max } = new Box3().setFromObject(mesh)
-  const body = new Warplane({ size: modelSize(mesh), launchHeight: min.y + (max.y - min.y) * belly, ...options })
+  const body = new Warplane({ size: modelSize(mesh), launchHeight: min.y + (max.y - min.y) * belly, performance, ...options })
   body.physical = physical
-  return { body, model: new WarplaneModel(body, { mesh, propeller: propeller && loadedModel(propeller), propellerName, impactAt }) }
+  return { body, model: new WarplaneModel(body, { mesh, propeller: propeller && loadedModel(propeller), propellerNames,
+    discPropellers: discPropellers && { ...discPropellers, mesh: loadedModel(discPropellers.model) }, impactAt }) }
 }

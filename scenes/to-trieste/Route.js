@@ -44,7 +44,7 @@ export default class Route extends GameObject2D {
     this.buildings = [
       new GameObject2D('buildings/kuca-07.png', { width: 72, visible: false }),
       new GameObject2D('buildings/kuca-04.png', { width: 90, visible: false }),
-      new GameObject2D('buildings/crkva-01.png', { width: 78, visible: false }),
+      new GameObject2D('game-ready/scenery/crkva-do-trsta.webp', { width: 78, visible: false }),
     ]
     this.children.push(this.forest, ...this.buildings)
     this.clouds = []

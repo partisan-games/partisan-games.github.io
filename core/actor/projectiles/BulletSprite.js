@@ -6,7 +6,7 @@ import GameObject2D from '/core/actor/GameObject2D.js'
  * flies back from the plane as seen.
  */
 export default class BulletSprite extends GameObject2D {
-  constructor(body, projection, { src = 'items/granata.gif', scale = .5 } = {}) {
+  constructor(body, projection, { src = 'game-ready/projektili/granata.webp', scale = .5 } = {}) {
     super(src, { scale, visible: false })
     this.body = body
     this.projection = projection

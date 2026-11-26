@@ -5,8 +5,8 @@ import { createPageElements } from './helpers/dom.js'
 
 /**
  * The folders whose every actor, a player or an enemy, has a story in the catalog, and the modules in each that
- * are not actors: a game's own rules and lists, base classes, data and helpers, and the backgrounds, scenery,
- * effects and items, which the catalog leaves out (owner's decision).
+ * are not actors: a game's own rules and lists, base classes, data and helpers, and the backgrounds, effects and
+ * items, which the catalog leaves out (owner's decision); still scenery has its own group, outside these folders.
  */
 const folders = {
   'scenes/franjo-kluz': ['Main.js', 'missions.js', 'Airfield.js', 'ParallaxLayer.js', 'AirfieldGuard.js'],
@@ -33,7 +33,7 @@ const folders = {
   'core/actor/boats': ['HullSprite.js', 'BoatSprite.js', 'SBoatSprite.js', 'PatrolBoatSprite.js', 'SinkingWreck.js', 'SeaMineSprite.js', 'sBoatArt.js'],
   'core/gameplay/bodies/boats': ['SeaMine.js'],
   'scenes/bunker': ['Main.js', 'Mina.js'],
-  'scenes/neretva': ['Main.js', 'AirAttack.js', 'Battlefield.js', 'BridgeCrossing.js', 'Cover.js'],
+  'scenes/neretva': ['Main.js', 'AirAttack.js', 'Battlefield.js', 'BridgeCrossing.js'],
   'scenes/otpisani': ['Main.js'],
   'scenes/ustanak': [
     'Main.js', 'Turns.js', 'Battlefield.js', 'GroundLayer.js', 'Terrain.js', 'Wind.js', 'WindEffects.js',
@@ -50,7 +50,7 @@ const folders = {
   'core3d/actor/derived': ['Cannon.js'],
   // bases of the planes, a plane's look, and its missile, seen in the planes' stories
   // the planes are looks of the Warplane body, seen in its' stories
-  'core3d/aircraft/derived': ['Biplane.js', 'Bomber.js', 'Messerschmitt.js'],
+  'core3d/aircraft/derived': ['Bomber.js', 'FlyingFortress.js', 'Liberator.js', 'Messerschmitt.js', 'Mitchell.js', 'Spitfire.js'],
 }
 
 /** 3D objects that are actors: the towers that fire. */

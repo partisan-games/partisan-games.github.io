@@ -1,11 +1,13 @@
-import { test, before } from 'node:test'
+import { test, before, mock } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 
 let Explosion
+const context = { save() {}, restore() {}, translate() {}, scale() {}, drawImage() {} }
 
 before(async() => {
   createPageElements()
+  mock.method(HTMLCanvasElement.prototype, 'getContext', () => context)
   ;({ default: Explosion } = await import('/core/actor/effects/Explosion.js'))
 })
 
@@ -26,6 +28,21 @@ test('a burst is as big as its scale, and its fire reaches half its size', () =>
   assert.equal(new Explosion(null, { scale: 1.8 }).scaleX, 1.8)
   assert.equal(new Explosion(null, { scale: 1.8 }).reach, 128 * 1.8 / 2)
   assert.equal(new Explosion(null, { scale: 1 }).reach, 64)
+})
+
+test('a burst draws all eight frames past the transparent gutter around each centered cell', t => {
+  const burst = new Explosion()
+  Object.defineProperty(burst.image, 'naturalWidth', { value: 1088 })
+  const draw = t.mock.method(context, 'drawImage', () => {})
+  burst.start(300, 200)
+  for (let frame = 0; frame < 8; frame++) {
+    burst.render()
+    assert.deepEqual(draw.mock.calls[frame].arguments,
+      [burst.image, 4 + 136 * frame, 4, 128, 128, -64, -64, 128, 128])
+    burst.update(1 / 8)
+  }
+  burst.render()
+  assert.equal(draw.mock.callCount(), 8)
 })
 
 test('a burst on the screen is judged by the screen, one in the world by its camera', () => {

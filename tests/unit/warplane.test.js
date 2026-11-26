@@ -151,6 +151,30 @@ test('an enemy fighter makes pass after pass at the bomber, firing when it has i
   assert.ok(fighter.y > interceptor.floor - 5, `it keeps above the ground: ${fighter.y}`)
 })
 
+test('a fighter told to pull away, as the catalogue does, flies on and comes round again', () => {
+  const clock = new GameClock(), bomber = new Warplane({ clock })
+  const fighter = new Interceptor({ target: bomber, clock, y: bomber.y, z: -100 })
+  fighter.setState('extend')
+  play(clock, [bomber, fighter], 10)
+  assert.equal(fighter.state, 'attack')
+})
+
+test('a fighter set to fly on holds its fire, wings level; set to land, it glides down and rolls to a stop for good', () => {
+  const clock = new GameClock(), bomber = new Warplane({ clock })
+  const fighter = new Interceptor({ target: bomber, clock, groundAt: () => 2, x: -60, y: 40, z: -80 })
+  fighter.setState('move')
+  play(clock, [fighter], 3)
+  assert.equal(fighter.shotsFired, 0)
+  assert.ok(Math.abs(fighter.roll) < .01 && Math.abs(fighter.pitch) < .01)
+  fighter.setState('land')
+  play(clock, [fighter], 30)
+  assert.equal(fighter.airborne, false)
+  assert.equal(fighter.speed, 0)
+  near(fighter.y, 2 + fighter.size.height / 2)
+  fighter.setState('attack')
+  assert.equal(fighter.state, 'land')
+})
+
 test('a fighter shot down falls to the ground and lies there', () => {
   const clock = new GameClock(), bomber = new Warplane({ clock })
   const fighter = new Interceptor({ target: bomber, clock, groundAt: () => 3, y: 40, z: -100 })
@@ -234,4 +258,19 @@ test('a missile leaves the plane at its launch height, low in the fuselage of it
   assert.equal(plane.fire(), true)
   const [missile] = plane.missiles.projectiles.filter(round => round.active)
   assert.deepEqual([missile.x, missile.y, missile.z], [plane.x, 20.3, plane.z])
+})
+
+test('a bomber flies, lasts, fires and hits as its model does', () => {
+  const clock = new GameClock(), performance = { speed: 1.2, health: 300, firepower: 2, bombRate: 2 }
+  const plane = new Warplane({ clock, performance })
+  assert.equal(plane.speed, warplane.speed * 1.2)
+  assert.equal(plane.health.maximum, 300)
+  assert.equal(plane.fire(), true)
+  fly(plane, clock, warplane.reload / 2 + 1 / 30)
+  assert.equal(plane.fire(), true, 'twice the bomb rate, half the wait')
+  const guns = new GunTurrets({ plane, clock })
+  guns.firing = true
+  guns.update(1 / 30)
+  const [round] = guns.rounds.projectiles
+  assert.ok(round.damage >= gunTurrets.damage.min * 2, `twice the firepower: ${round.damage}`)
 })

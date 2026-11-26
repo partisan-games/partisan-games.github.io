@@ -1,0 +1,20 @@
+{
+  "status": "trial",
+  "tool": "built-in image_gen",
+  "stage": "land battle",
+  "source": "pozadina.png",
+  "runtime": "pozadina.webp",
+  "canvas": [
+    1536,
+    1024
+  ],
+  "coordinateOrigin": "top-left",
+  "groundRowsY": [
+    256,
+    512
+  ],
+  "prompt": "Make one entirely original landscape painting for a 2D realistic pixel art game, the Neretva gorge around Jablanica in early March 1943. This is a functional land-battle background with an unusually HIGH horizon, not a scenic postcard. COMPOSITION IS CRITICAL: the TOP 18 PERCENT is the distant view ONLY, a thin pale overcast sky above tall, blue-gray and pale limestone slopes framing a narrow muted turquoise bend of the river in the far upper right. The rest of the picture, from y=18% through the bottom edge, is a single continuous near-bank plateau of walkable solid ground, stretching edge to edge with no objects sticking into it. Most of the image is deliberately quiet dry winter grass and damp brown soil receding into the distance. At both y=25% and y=50% there must be a completely horizontal picture band of uninterrupted land all across its width, no slopes, cliff faces, water, sky, vegetation or features sticking up through either band. The game draws its small soldier sprites and foreground cover on those rows. Suggest fine depth from muted, flat horizontal olive-tan and warm gray patches that become smaller near the horizon, uneven shallow muddy ground, small stones and sparse clumps of straw-colored grass restricted mostly to very bottom corners. Use a narrow cool-vs-warm tonal contrast between the distant gorge and foreground, restrained range for the ground to let characters stand out. A late winter Balkan canyon environment, no valley snow or lush summer green, predominantly muted warm gray, ochre, dull olive and slate blue. Professionally drawn realistic pixel art with deliberately shaped clusters, crisp stair-step edges, no photographic texture and very little speckle. River and dramatic rock formations are only in the narrow top background band to preserve gameplay. High-angle ground view, eye aimed down over most of the near bank. No people, vehicles, bridges, roads, trenches, effects, buildings, flames, smoke, clouds, lettering or UI. Full-bleed single opaque 3:2 landscape scene, newly composed.",
+  "preparation": "From this directory: python -B -c \"from PIL import Image; Image.open('pozadina.png').convert('RGB').save('pozadina.webp', 'WEBP', quality=90, method=6)\"",
+  "sourceSha256": "64c784c9970025da0d5a6487623279be27c27f0aae9b8aa01e523bf20b4ef942",
+  "runtimeSha256": "a2c86c994882a8470a7c44c8809acce938c0d6b5a73d9cef3b1842654c39555c"
+}

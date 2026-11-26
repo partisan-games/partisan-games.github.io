@@ -6,7 +6,7 @@ const runway = { x: .478, start: .76, stop: .6 }
 
 export default class Baza extends GameObject2D {
   constructor({ speed, ...rest }) {
-    super('vis.png', { x: 0, y: -canvas2d.height, z: 1, width: canvas2d.width, origin: 'GORE_LEVO', shadow: false, ...rest })
+    super('game-ready/scenery/vis/baza.webp', { x: 0, y: -canvas2d.height, z: 1, width: canvas2d.width, origin: 'GORE_LEVO', shadow: false, ...rest })
     this.korak = speed
   }
 

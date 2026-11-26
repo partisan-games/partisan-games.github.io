@@ -5,6 +5,7 @@ import { loadAtlas } from './helpers/atlas.js'
 import World from '/core/World.js'
 import Occupier, { occupier } from '/core/gameplay/bodies/soldiers/Occupier.js'
 import kinds from '/core/gameplay/frontEnemyKinds.js'
+import atlasFrame from '/core/actor/atlasFrame.js'
 
 let FrontEnemySprite, sideProjection
 before(async() => {
@@ -55,17 +56,19 @@ test('all frontal roles use actual left/right walks, freeze hits in pause and ho
   for (const kind of Object.keys(kinds)) for (const yaw of [0, Math.PI]) {
     const { body, view, world, render, translations } = fixture(kind, yaw)
     t.after(() => world.end())
-    const { width, height } = view.clip.art
+    const { width, height, gutter } = view.clip.art
+    // where a frame of the atlas starts, with the clear gutter round each cell
+    const cell = (column, row) => atlasFrame(width, height, column, row, gutter)
     assert.equal(view.clip.seconds('attack'), body.shotInterval, 'the firing animation follows actual shots')
     const collider = { ...body.size }
     body.setState('move')
     world.update(.2)
     let draws = render()
-    assert.equal(draws[0][2], (yaw === 0 ? 2 : 1) * height)
+    assert.equal(draws[0][2], cell(0, yaw === 0 ? 2 : 1)[1])
     body.setState('attack')
     world.update(0)
     draws = render()
-    assert.equal(draws[0][2], 3 * height)
+    assert.equal(draws[0][2], cell(0, 3)[1])
     assert.ok(draws[1][0] === view.flash)
     const { muzzle, anchor } = view.clip.art
     const scale = view.height / view.clip.art.standingPixels
@@ -76,20 +79,20 @@ test('all frontal roles use actual left/right walks, freeze hits in pause and ho
     world.update(0)
     draws = render()
     assert.equal(draws.length, 1, 'hit hides the shooting picture and flash')
-    assert.equal(draws[0][2], 4 * height)
+    assert.equal(draws[0][2], cell(0, 4)[1])
     world.update(.1)
     const paused = render()[0].slice(1)
     world.update(0)
     assert.deepEqual(render()[0].slice(1), paused)
     world.update(.23)
-    assert.equal(render()[0][2], 3 * height, 'attack resumes after the finite hit')
+    assert.equal(render()[0][2], cell(0, 3)[1], 'attack resumes after the finite hit')
     body.takeHit(1)
     world.update(2)
     draws = render()
     assert.equal(draws.length, 1)
-    assert.deepEqual(draws[0].slice(1, 5), [3 * width, 5 * height, width, height])
+    assert.deepEqual(draws[0].slice(1, 5), cell(3, 5))
     world.update(20)
-    assert.deepEqual(render()[0].slice(1, 5), [3 * width, 5 * height, width, height])
+    assert.deepEqual(render()[0].slice(1, 5), cell(3, 5))
     assert.equal(translations[0][1], view.y + view.height / 2, 'the anchor is on the physical ground')
     assert.deepEqual(body.size, collider)
   }
@@ -115,6 +118,7 @@ test('frontal walkers step as far as they go, so their feet do not slide', t => 
     t.after(() => world.end())
     body.setState('move')
     world.update(kinds[kind].stride / occupier.speed / 4 + .005)
-    assert.equal(render()[0][1], view.clip.art.width, 'a quarter of the drawn stride walked shows the second walk frame')
+    const { width, height, gutter } = view.clip.art
+    assert.equal(render()[0][1], atlasFrame(width, height, 1, 0, gutter)[0], 'a quarter of the drawn stride walked shows the second walk frame')
   }
 })

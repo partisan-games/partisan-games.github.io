@@ -132,9 +132,22 @@ test('the Do Trsta gun and both bunkers draw their own wreck at their live size'
   t.mock.method(context, 'drawImage', (...args) => draws.push(args))
   const gun = new AntiTankGun({ clock: session.clock, x: 10, y: .73, yaw: Math.PI })
   const views = [[gun, new AntiTankGunSprite(gun, { projection }), 233]]
-  for (const [kind, width] of [['house', 856], ['pillbox', 246]]) {
+  for (const [kind, width] of [['house', 856], ['pillbox', 492]]) {
     const bunker = new Bunker({ kind: bunkerKinds[kind], clock: session.clock, x: 10, y: 3, yaw: Math.PI })
-    views.push([bunker, new BunkerSprite(bunker, { kind, projection }), width])
+    const view = new BunkerSprite(bunker, { kind, projection })
+    const { height } = view.damageArt.art
+    loadAtlas(view, width, height)
+    loadAtlas(view.damageArt, width, height)
+    Object.defineProperty(view.damageArt.image, 'complete', { value: true })
+    const geometry = [view.width, view.height, view.x, view.y]
+    const muzzle = projection.point(bunker.muzzle)
+    assert.equal(bodyImage(view), view.image)
+    bunker.takeHit(bunker.health.maximum * .4)
+    view.update(0)
+    assert.equal(bodyImage(view), view.damageArt.image)
+    assert.deepEqual([view.width, view.height, view.x, view.y], geometry)
+    assert.deepEqual(projection.point(bunker.muzzle), muzzle)
+    views.push([bunker, view, width])
   }
   for (const [body, view, width] of views) {
     const wreck = readyWreck(view, width)
@@ -164,7 +177,7 @@ test('destroying a Flak removes its operational tube and flash while preserving 
   assert.deepEqual([view.width, view.height, view.y], geometry)
 })
 
-test('the player boat shows its wreck once lost, at its live size', async t => {
+test('the player boat draws damage and then its wreck at the same size and bow position', async t => {
   const session = new GameSession()
   t.after(() => session.dispose())
   const { default: Boat } = await import('/core/gameplay/bodies/boats/Boat.js')
@@ -172,11 +185,20 @@ test('the player boat shows its wreck once lost, at its live size', async t => {
   const { topProjection } = await import('/core/actor/projection.js')
   const boat = new Boat({ clock: session.clock })
   const view = new BoatSprite(boat, { projection: topProjection({ pxPerMeter: 10 }) })
-  loadAtlas(view, 355, 152)
-  const wreck = readyWreck(view, 355)
+  loadAtlas(view, 710, 304)
+  loadAtlas(view.damageArt, 710, 304)
+  Object.defineProperty(view.damageArt.image, 'complete', { value: true })
+  const wreck = readyWreck(view, 710)
   const size = [view.width, view.height]
+  const bow = view.projection.point(boat.muzzle)
+  assert.deepEqual(size, [71, 30.4])
+  assert.equal(bodyImage(view), view.image)
+  boat.takeHit(60)
+  view.update(0)
+  assert.equal(bodyImage(view), view.damageArt.image)
   boat.setState('dead')
   view.update(0)
   assert.equal(bodyImage(view), wreck)
   assert.deepEqual([view.width, view.height], size)
+  assert.deepEqual(view.projection.point(boat.muzzle), bow)
 })

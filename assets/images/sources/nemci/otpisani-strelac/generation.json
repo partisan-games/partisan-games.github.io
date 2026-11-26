@@ -1,0 +1,85 @@
+{
+  "tool": "built-in image_gen",
+  "original": "assets/images/game-ready/vojnici/otpisani-rifleman-sprites.webp",
+  "styleReferences": [
+    "assets/images/game-ready/vojnici/nemci-spreda-celo.webp",
+    "assets/images/game-ready/vojnici/nemci-spreda.webp"
+  ],
+  "output": "assets/images/game-ready/vojnici/otpisani-rifleman-pixel-sprites.webp",
+  "preparation": "python -B scripts/prepare-otpisani-front-art.py assets/images/sources/nemci/otpisani-strelac/generation.json",
+  "cell": [
+    512,
+    512
+  ],
+  "grid": [
+    4,
+    6
+  ],
+  "gutter": 4,
+  "anchor": [
+    256,
+    496
+  ],
+  "standingPixels": 421,
+  "muzzle": [
+    273.1165501165501,
+    163.5081585081585
+  ],
+  "clips": [
+    "idle",
+    "walk-left",
+    "walk-right",
+    "attack",
+    "hit",
+    "dead"
+  ],
+  "blocks": [
+    {
+      "source": "idle-walk-left.png",
+      "rows": [
+        0,
+        1
+      ],
+      "prompt": "Precisely redraw IMAGE 1 as a 2D game animation sprite sheet with exactly 4 columns and 2 rows, one separate full-body German rifleman pose per cell, after the exact original eight poses in image 1, in exactly that order and same position. Image 1 is the binding stance, camera, layout, props and spacing. Image 2 is the exact desired pixel-art style from another scene of the same game. Image 3 provides the reference head, palette and uniform only. Same soldier in all eight frames, slate steel helmet, drab gray-olive tunic and trousers, dark webbing and tall black-brown boots, brown wood and gray steel rifle, clean war-era silhouette. No badges, letters, effects or added objects.\nTop row: existing four forward-facing standing/idle poses each preserving its specific slight variation and the downwards diagonal wooden rifle. Bottom row: original four full-body walking phases facing LEFT in profile, in the same order: long contact, rear heel lifted, passing and opposite full step. Copy each set of legs and stock/forearm pose from the corresponding cell, maintaining the planted feet.\nUse hand-drawn game pixel art with crisp deliberately stepped edges, coherent hard-edged color clusters, about 6 muted shades per material, blocked face and cloth shading, subtle warm skin, cool shadow; pixel clusters readable at a 180px standing figure. The original has heavy smooth contour lines; simplify those into thinner one-pixel-equivalent shaded edges while keeping authentic silhouettes. No vector shapes, gradients, airbrushing or noise. Keep full helmet, rifle, hands, and feet inside the original cell apart from clearly transparent margin. Match the supplied extra wide 2:1 canvas, evenly spaced four by two topology, and keep figure heights and placement from the original. True transparent background, no checkers, names, foot shadows, numbers, grid or border. Return only the single eight-pose sheet.",
+      "sourceSha256": "cf1ec332e470f639afcb5affb14c853cf087622e3c60f22c37929787b0b72088"
+    },
+    {
+      "source": "walk-right-attack.png",
+      "rows": [
+        2,
+        3
+      ],
+      "prompt": "Precisely redraw IMAGE 1 as a 2D game animation sprite sheet with exactly 4 columns and 2 rows, one separate full-body German rifleman pose per cell, after the exact original eight poses in image 1, in exactly that order and same position. Image 1 is the binding stance, camera, layout, props and spacing. Image 2 is the exact desired pixel-art style from another scene of the same game. Image 3 provides the reference head, palette and uniform only. Same soldier in all eight frames, slate steel helmet, drab gray-olive tunic and trousers, dark webbing and tall black-brown boots, brown wood and gray steel rifle, clean war-era silhouette. No badges, letters, effects or added objects.\nTop row: the four original walking phases facing RIGHT in profile, same step order and rifle angle. Keep carried rifle position and natural size. Bottom row: four original standing action poses facing directly toward the viewer, with both hands bracing the same wooden rifle and barrel pointing out of the picture. Keep the muzzle directly in front of the face and at the same spot in all four cells. The weapon reads in perspective; no flash, smoke or bullet.\nUse hand-drawn game pixel art with crisp deliberately stepped edges, coherent hard-edged color clusters, about 6 muted shades per material, blocked face and cloth shading, subtle warm skin, cool shadow; pixel clusters readable at a 180px standing figure. The original has heavy smooth contour lines; simplify those into thinner one-pixel-equivalent shaded edges while keeping authentic silhouettes. No vector shapes, gradients, airbrushing or noise. Keep full helmet, rifle, hands, and feet inside the original cell apart from clearly transparent margin. Match the supplied extra wide 2:1 canvas, evenly spaced four by two topology, and keep figure heights and placement from the original. True transparent background, no checkers, names, foot shadows, numbers, grid or border. Return only the single eight-pose sheet.",
+      "sourceSha256": "5153be313b4e7600a326b605567a59f440382f20058dfd830ef31df865dce7e3",
+      "muzzlePoints": [
+        [
+          260.5,
+          169.5
+        ],
+        [
+          259.5,
+          166
+        ],
+        [
+          262.5,
+          168
+        ],
+        [
+          261.5,
+          169.5
+        ]
+      ]
+    },
+    {
+      "source": "hit-death.png",
+      "rows": [
+        4,
+        5
+      ],
+      "prompt": "Precisely redraw IMAGE 1 as a 2D game animation sprite sheet with exactly 4 columns and 2 rows, one separate full-body German rifleman pose per cell, after the exact original eight poses in image 1, in exactly that order and same position. Image 1 is the binding stance, camera, layout, props and spacing. Image 2 is the exact desired pixel-art style from another scene of the same game. Image 3 provides the reference head, palette and uniform only. Same soldier in all eight frames, slate steel helmet, drab gray-olive tunic and trousers, dark webbing and tall black-brown boots, brown wood and gray steel rifle, clean war-era silhouette. No badges, letters, effects or added objects.\nTop row: the four original non-graphic flinch poses, subtle upper-body reaction and recover while still holding the rifle down diagonally. Bottom row: faithfully match the four-stage fall: knees buckle, drops to knees, falls diagonally to the side, lies completely horizontally across the last cell. Keep the original length of rifle and man in the ground poses. Do not make the second or third phase another standing pose. No blood, dirt or background.\nUse hand-drawn game pixel art with crisp deliberately stepped edges, coherent hard-edged color clusters, about 6 muted shades per material, blocked face and cloth shading, subtle warm skin, cool shadow; pixel clusters readable at a 180px standing figure. The original has heavy smooth contour lines; simplify those into thinner one-pixel-equivalent shaded edges while keeping authentic silhouettes. No vector shapes, gradients, airbrushing or noise. Keep full helmet, rifle, hands, and feet inside the original cell apart from clearly transparent margin. Match the supplied extra wide 2:1 canvas, evenly spaced four by two topology, and keep figure heights and placement from the original. True transparent background, no checkers, names, foot shadows, numbers, grid or border. Return only the single eight-pose sheet.",
+      "sourceSha256": "c2e9d529ac9ff1771ab5892ecd478764f37df0598ddd81ced2d690538facc005"
+    }
+  ],
+  "originalSha256": "05eb899c48668b9dc54b7a3cef726015bac37034e692cf25df5b05590a3bcd79",
+  "outputSha256": "5c648ca3c0c7daea3625265430b02df0107fe3464de43b58b311722d1167d665"
+}

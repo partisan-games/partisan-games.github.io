@@ -1,0 +1,11 @@
+{
+  "method": "Hand-authored pixel rows in prepare.py",
+  "reference": "original.gif",
+  "frame": [
+    32,
+    8
+  ],
+  "output": "assets/images/game-ready/projektili/granata.webp",
+  "referenceSha256": "c03e81f8289e1aca978fd61c27cb9496c0b15d300fdc28dff013d67171d03336",
+  "outputSha256": "feb7881343cac2324ef95cf373d8860dd1aec076c51f2d54336b63f9b1df9ddb"
+}

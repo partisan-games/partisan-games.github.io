@@ -1,9 +1,10 @@
 // Measurements of the art, kept by hand.
 export default {
   'rifleman': {
-    'src': 'game-ready/vojnici/otpisani-rifleman-sprites.webp',
+    'src': 'game-ready/vojnici/otpisani-rifleman-pixel-sprites.webp',
     'width': 512,
     'height': 512,
+    'gutter': 4,
     'anchor': {
       'x': 256,
       'y': 496
@@ -76,9 +77,10 @@ export default {
     }
   },
   'sentry': {
-    'src': 'game-ready/vojnici/otpisani-sentry-sprites.webp',
+    'src': 'game-ready/vojnici/otpisani-sentry-pixel-sprites.webp',
     'width': 512,
     'height': 512,
+    'gutter': 4,
     'anchor': {
       'x': 256,
       'y': 496

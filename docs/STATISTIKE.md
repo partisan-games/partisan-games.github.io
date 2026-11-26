@@ -64,10 +64,15 @@ Brzina i prazna masa: prva vrednost je sa Wikipedije, druga iz War Thundera.
 | Il-2 ([Ilyushin Il-2](https://en.wikipedia.org/wiki/Ilyushin_Il-2)) | katalog | 410 / 432 | 4425 / 4838 | 1720 | 2 × 23 mm, 2 × 7.62 mm; 600 kg bombi ili 8 raketa | 2 | 3452 |
 | Bf 110 G-2 ([Messerschmitt Bf 110](https://en.wikipedia.org/wiki/Messerschmitt_Bf_110)) | Vis | 475 / 540 | — / 6466 | 1050 | 2 × 20 mm MG FF/M i mitraljezi | 2–3 | 3396 |
 | Lancaster I ([Avro Lancaster](https://en.wikipedia.org/wiki/Avro_Lancaster)) | Warplane | 454 | 16738 | 4 × 1280 | 8 × 7.7 mm Browning; 6400 kg bombi | 7 | — |
+| B-17G ([Boeing B-17 Flying Fortress](https://en.wikipedia.org/wiki/Boeing_B-17_Flying_Fortress)) | Warplane | 462 | 16391 | 4 × 1200 | 13 × 12.7 mm M2 Browning; 3600 kg bombi | 10 | — |
+| B-24J ([Consolidated B-24 Liberator](https://en.wikipedia.org/wiki/Consolidated_B-24_Liberator)) | Warplane | 467 | 16556 | 4 × 1200 | 10 × 12.7 mm M2 Browning; 3600 kg bombi | 10 | — |
+| B-25J ([North American B-25 Mitchell](https://en.wikipedia.org/wiki/North_American_B-25_Mitchell)) | Warplane | 438 | 8836 | 2 × 1700 | 12 × 12.7 mm M2 Browning; 1360 kg bombi | 6 | — |
 | Ju 52/3m g3e ([Junkers Ju 52](https://en.wikipedia.org/wiki/Junkers_Ju_52)) | Raid on Drvar | 265.5 | 5720 | 3 × 680 | 2 × 7.92 mm MG 15; 500 kg bombi | 2 | — |
 | Fw 190 A-5 ([Focke-Wulf Fw 190](https://en.wikipedia.org/wiki/Focke-Wulf_Fw_190)) | Vis | 652 / 670 | 3200 / 3353 | — | 2 × 13 mm MG 131, 2 × 20 mm MG 151/20 | 1 | 2102 |
 
-3D avioni (Lancaster, Bf 109 i Ju 52) prikazuju masu, brzinu i naoružanje u katalogu iz [istih zapisa](../core/gameplay/modelStatistics.js) kao tenkovi. Inačica u zagradi je ona iz War Thundera. Wikipedija za Hurricane opisuje celu porodicu, pa su njeno oružje i motor za Mk IV približni.
+Bombarderi Ratweek-a imaju [vrednosti igre](../core/gameplay/modelPerformance.js) u odnosu na B-24. Vatrena moć prati broj i kalibar mitraljeza: B-17 ima 13 teških, a Lancaster osam pušaka kalibra 7,7 mm. Brzina bombardovanja prati nosivost bombi: Lancaster nosi 6.400 kg, a B-25 1.360 kg. Laki B-25 brže skreće, a B-17 najviše izdrži.
+
+3D avioni (Lancaster, B-17, B-24, B-25, Bf 109 i Ju 52) prikazuju masu, brzinu i naoružanje u katalogu iz [istih zapisa](../core/gameplay/modelStatistics.js) kao tenkovi. Inačica u zagradi je ona iz War Thundera. Wikipedija za Hurricane opisuje celu porodicu, pa su njeno oružje i motor za Mk IV približni.
 
 ### Mere tela u Visu
 

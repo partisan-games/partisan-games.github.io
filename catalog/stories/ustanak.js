@@ -11,6 +11,7 @@ import FieldGunSprite from '/core/actor/artillery/FieldGunSprite.js'
 import CannonCrewSprite from '/core/actor/soldiers/CannonCrewSprite.js'
 import SkirmisherSprite from '/core/actor/soldiers/SkirmisherSprite.js'
 import FlagBearerSprite from '/core/actor/soldiers/FlagBearerSprite.js'
+import Airplane, * as airplaneModule from '/core/objects/Airplane.js'
 import { yawOf } from './helpers.js'
 import scales from '../scales.js'
 
@@ -56,6 +57,19 @@ const armies = (partisan, italian) => [
 ]
 
 const game = 'Ustanak'
+
+const plane = src => (stage, way) => {
+  const view = new Airplane({ src, x: stage.width / 2, y: stage.groundY * .45, speed: 0, flipY: -way, flammable: false })
+  stage.add(view)
+  return view
+}
+
+export const aircraft = [
+  { id: 'fiat-cr42', name: 'Fiat CR.42', game, pxPerMeter, way: -1, block: airplaneModule,
+    create: plane(airplaneModule.italianAirplanePictures.fiat) },
+  { id: 'imam-ro57', name: 'IMAM Ro.57', game, pxPerMeter, way: -1, block: airplaneModule,
+    create: plane(airplaneModule.italianAirplanePictures.imam) },
+]
 
 export const soldiers = [
   { id: 'partizanski-strelac', name: 'Partizanski strelac', game, pxPerMeter, way: 1, block: skirmisherModule, create: skirmisher },

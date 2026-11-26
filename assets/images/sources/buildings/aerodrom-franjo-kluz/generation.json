@@ -1,0 +1,25 @@
+{
+  "tool": "built-in image_gen",
+  "source": "redraw.png",
+  "reference": "original.png",
+  "paletteReference": "assets/images/scenes/franjo-kluz.webp",
+  "prompt": "Redraw the FIRST reference as a single isolated pixel art side-view airfield building for the Partisan Games Franjo Kluz level. Match its architecture, facing, layout and baseline precisely. An uncomplicated period airfield service building, seen straight on with no perspective convergence. A very long rectangular plaster façade, flat roof, a taller rectangular operations block over the LEFT quarter, a short red-and-ivory striped base supporting a thin dark metal lattice communications mast above the left block. A linear row of twelve rectangular blue-gray windows above a mostly plain ground level, the small gray-green service door on the left, a shallow foundation aligned flush horizontally with the baseline. In the original 780×600 frame the lower roof is around y 278, the taller block y 201, the mast tip y 52, the wall ends x 752, and the building touches the bottom y 600. Use a restrained warm gray and light weathered beige plaster, slate blue-gray glass, matte warm shadows and subtle dated repairs. Add clean thin window frames, a few stone seams and larger worn plaster clusters. A fixed sun above left, strong readable silhouette at game size, hard-edged painterly pixel clusters that suit the game's olive aircraft and muted scenery palette visible in the SECOND reference. Second reference is environment palette only. Single isolated building on full transparent alpha, including the gaps in the mast, with no sky, runway, ground, path, lawn, aircraft, letters, flags, flames, external shadows or other objects. Preserve full roof and mast. The building fills the image width with a slight right margin and enough whitespace above the flat roof. Near 13:10 landscape composition.",
+  "frame": [
+    780,
+    600
+  ],
+  "placement": [
+    0,
+    48,
+    752,
+    600
+  ],
+  "pixelScale": 2,
+  "output": "assets/images/game-ready/scenery/franjo-kluz/aerodrom.webp",
+  "preparation": "python -B assets/images/sources/buildings/aerodrom-franjo-kluz/prepare.py",
+  "referenceBytes": 50461,
+  "outputBytes": 111882,
+  "referenceSha256": "fcc5650e2753d2e291b529ec5437c7e1cc30049d3ca301ca824e390237639c66",
+  "sourceSha256": "a3d200e4a4c5bbc713a7fe3eb24db971782022abf2057fe78be7f2ec71b0b405",
+  "outputSha256": "46dcba86269e8e0f35dd851a439b6574ad052107e17dcc7bb8e1a26f81bf1120"
+}

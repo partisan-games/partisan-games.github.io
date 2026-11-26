@@ -1608,18 +1608,18 @@ export const actorArt = {
     ]
   },
   'player-boat-damaged': {
-    'src': 'game-ready/brodovi/player-boat-damaged.webp',
-    'width': 355,
-    'height': 152,
+    'src': 'game-ready/brodovi/partizanski-camac-damaged.webp',
+    'width': 710,
+    'height': 304,
     'anchor': {
-      'x': 177.5,
-      'y': 76.0
+      'x': 355.0,
+      'y': 152.0
     },
     'bounds': [
-      8,
-      4,
-      346,
-      148
+      0,
+      3,
+      710,
+      301
     ],
     'facing': 1,
     'clips': {
@@ -1632,14 +1632,14 @@ export const actorArt = {
       }
     },
     'referenceSize': [
-      355,
-      152
+      710,
+      304
     ],
     'referenceBounds': [
       0,
-      0,
-      355,
-      152
+      3,
+      710,
+      301
     ]
   },
   's30-damaged': {
@@ -1923,18 +1923,18 @@ export const actorArt = {
     ]
   },
   'bunker-damaged': {
-    'src': 'game-ready/artiljerija/bunker-damaged.webp',
-    'width': 246,
-    'height': 93,
+    'src': 'game-ready/artiljerija/betonski-bunker-damaged.webp',
+    'width': 492,
+    'height': 186,
     'anchor': {
-      'x': 123.0,
-      'y': 46.5
+      'x': 246.0,
+      'y': 93.0
     },
     'bounds': [
-      7,
       4,
-      238,
-      89
+      8,
+      488,
+      182
     ],
     'facing': 1,
     'clips': {
@@ -1947,14 +1947,14 @@ export const actorArt = {
       }
     },
     'referenceSize': [
-      246,
-      93
+      492,
+      186
     ],
     'referenceBounds': [
-      0,
-      0,
-      246,
-      93
+      4,
+      8,
+      488,
+      182
     ]
   },
   'shore-mg-damaged': {
@@ -2110,7 +2110,7 @@ export const damageBySource = {
   'game-ready/kamioni/opel-blitz-sprites.webp': 'opel-damaged',
   'game-ready/kamioni/opel-blitz-legion-sprites.webp': 'opel-legion-damaged',
   'game-ready/vozovi/bp42-sprites.webp': 'bp42-damaged',
-  'armies/camac.png': 'player-boat-damaged',
+  'game-ready/brodovi/partizanski-camac.webp': 'player-boat-damaged',
   'game-ready/brodovi/schnellboot-s30.webp': 's30-damaged',
   'game-ready/brodovi/german-launch.webp': 'german-launch-damaged',
   'game-ready/brodovi/german-skiff.webp': 'german-skiff-damaged',
@@ -2119,7 +2119,7 @@ export const damageBySource = {
   'game-ready/artiljerija/field-gun-carriage-pixel.webp': 'field-gun-damaged',
   'game-ready/artiljerija/house-bunker-pixel.webp': 'house-bunker-damaged',
   'game-ready/artiljerija/pak38-postolje.webp': 'pak38-damaged',
-  'buildings/bunker-02.png': 'bunker-damaged',
+  'game-ready/artiljerija/betonski-bunker.webp': 'bunker-damaged',
   'game-ready/polozaji/mitraljesko-gnezdo-odozgo.webp': 'shore-mg-damaged',
   'game-ready/avioni/bf109-telo.webp': 'bf109-damaged',
   'game-ready/avioni/ju87.webp': 'ju87-damaged'

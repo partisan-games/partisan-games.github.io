@@ -3,7 +3,7 @@ import Sound from '/core/io/audio/SoundSource.js'
 import { bodyImage, wreckFor } from '/core/actor/wreckView.js'
 import BulletSprite from '/core/actor/projectiles/BulletSprite.js'
 
-const boatPicture = 'armies/camac.png'
+const boatPicture = 'game-ready/brodovi/partizanski-camac.webp'
 
 /**
  * How the partisan motor boat looks and sounds from above: its hull, wrecked once it is lost, its engine and wake, the
@@ -40,6 +40,7 @@ export default class BoatSprite extends HullSprite {
     ctx.save()
     ctx.translate(this.x, this.y)
     ctx.rotate(this.angle)
+    ctx.imageSmoothingEnabled = false
     ctx.drawImage(bodyImage(this), -this.width / 2, -this.height / 2, this.width, this.height)
     ctx.restore()
   }

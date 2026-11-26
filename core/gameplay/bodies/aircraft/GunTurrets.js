@@ -39,7 +39,10 @@ export default class GunTurrets {
     this.aim = unit(this.way(plane.ahead(1)))
     this.shotsFired = 0
     this.reload = new Cooldown({ seconds: gunTurrets.interval, clock })
-    this.rounds = new ProjectilePool(() => new Bullet({ life: gunTurrets.life, damage: gunTurrets.damage }))
+    // the guns of its model hit harder or softer than the plain bomber's
+    const firepower = plane.performance?.firepower ?? 1
+    const damage = { min: gunTurrets.damage.min * firepower, max: gunTurrets.damage.max * firepower }
+    this.rounds = new ProjectilePool(() => new Bullet({ life: gunTurrets.life, damage }))
   }
 
   /** The guns sit in the plane. */

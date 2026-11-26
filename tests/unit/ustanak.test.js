@@ -32,6 +32,8 @@ function createScene(t) {
  * the order of two imports is not fixed.
  */
 async function flameOf(house) {
+  // the house loads its flame on its own; once that module is in, the house has it a few turns later, however busy
+  await import('/core/actor/Flame.js')
   for (let turn = 0; !house.flame && turn < 100; turn++) await new Promise(resolve => {
     setImmediate(resolve)
   })

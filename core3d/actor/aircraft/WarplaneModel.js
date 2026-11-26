@@ -28,28 +28,71 @@ class MissileModel {
   }
 }
 
+/** The middle of the blades of `part`, in the world: alike and evenly spaced, they have it on their shaft. */
+function bladesMiddle(part) {
+  const sum = new THREE.Vector3(), point = new THREE.Vector3()
+  let count = 0
+  part.traverse(child => {
+    if (!child.isMesh) return
+    const { index, attributes: { position } } = child.geometry
+    const corners = index ? index.array : Array.from({ length: position.count }, (_, i) => i)
+    for (const i of corners) sum.add(point.fromBufferAttribute(position, i).applyMatrix4(child.matrixWorld))
+    count += corners.length
+  })
+  return sum.divideScalar(count)
+}
+
+/**
+ * The propeller `part`, or, when its model puts its origin off its shaft, a pivot set on the shaft that holds it, so
+ * it turns in place rather than round its origin.
+ */
+function onShaft(part) {
+  const middle = bladesMiddle(part)
+  const across = new THREE.Box3().setFromObject(part).getSize(new THREE.Vector3()).length()
+  if (middle.distanceTo(part.getWorldPosition(new THREE.Vector3())) < across * .02) return part
+  const pivot = new THREE.Group()
+  part.parent.add(pivot)
+  pivot.position.copy(part.parent.worldToLocal(middle))
+  pivot.updateMatrixWorld(true)
+  pivot.attach(part)
+  return pivot
+}
+
 /**
  * How a warplane looks and sounds in 3D: its model where the body flies, nosed up as it pitches and banked as it rolls,
- * its propeller, if it has one at `propellerPlace`, turning as fast as it flies, smoke trailing from the first hit on,
- * its engine while it flies and, when it comes down shot, the blast and crash of its fall, its wreck burning and the
- * scorch on the ground under it, which `impactAt(from, direction, far)` finds, as `worldQueries` gives; its missiles,
+ * its propellers turning as fast as it flies, its own ones named in `propellerNames` and the `propeller` given, set at
+ * `propellerPlace`, or the blades of `discPropellers` over the discs its model has for them, smoke trailing from the first hit on, its engine while it flies and, when it comes down shot, the
+ * blast and crash of its fall, its wreck burning and the scorch on the ground under it, which `impactAt(from, direction, far)` finds, as `worldQueries` gives; its missiles,
  * if it fires them, and the blast and bang where each one bursts. It only reads the body.
  */
 export default class WarplaneModel {
-  constructor(body, { mesh, propeller, propellerPlace = [0, .63, -.5], propellerName, impactAt }) {
+  constructor(body, { mesh, propeller, propellerPlace = [0, .63, -.5], propellerNames = [], discPropellers, impactAt }) {
     this.body = body
     this.impactAt = impactAt
     this.mesh = mesh.clone()
     this.mesh.rotation.order = 'YXZ'
+    this.mesh.updateMatrixWorld(true)
+    this.propellers = propellerNames.map(name => {
+      const own = this.mesh.getObjectByName(name)
+      if (!own) throw new Error(`Missing aircraft propeller: ${name}`)
+      return onShaft(own)
+    })
     if (propeller) {
-      this.propeller = propeller.clone()
-      this.propeller.position.set(propellerPlace[0], propellerPlace[1], propellerPlace[2] * body.size.length)
-      this.mesh.add(this.propeller)
+      const added = propeller.clone()
+      added.position.set(propellerPlace[0], propellerPlace[1], propellerPlace[2] * body.size.length)
+      this.mesh.add(added)
+      this.propellers.push(added)
     }
-    if (propellerName) {
-      this.propeller = this.mesh.getObjectByName(propellerName)
-      if (!this.propeller) throw new Error(`Missing aircraft propeller: ${propellerName}`)
-    }
+    if (discPropellers) this.coverDiscs(discPropellers)
+    // each turns about its own shaft: of its axes, the one nearest the line of flight, as its model may tilt it
+    this.mesh.updateMatrixWorld(true)
+    const meshInverse = this.mesh.matrixWorld.clone().invert()
+    this.propellerAxes = this.propellers.map(part => {
+      const inMesh = meshInverse.clone().multiply(part.matrixWorld)
+      const along = axis => Math.abs(axis.clone().transformDirection(inMesh).z)
+      return [new THREE.Vector3(1, 0, 0), new THREE.Vector3(0, 1, 0), new THREE.Vector3(0, 0, 1)]
+        .reduce((best, axis) => along(axis) > along(best) ? axis : best)
+    })
     this.missiles = []
     this.bursts = new Map()
     this.engineSound = new Sound('engine-aircraft.mp3', { volume: .25, loop: true, profile: 'engine', spatial: audioPoint(this) })
@@ -124,6 +167,28 @@ export default class WarplaneModel {
     }
   }
 
+  /**
+   * Hides the discs of each engine, `engines` lists their names, and turns a copy of `mesh`, blades one metre across,
+   * in their place: at the middle of the first, `across` metres wide or, without it, as wide as the widest.
+   */
+  coverDiscs({ mesh, engines, across }) {
+    this.mesh.updateMatrixWorld(true)
+    const toMesh = this.mesh.matrixWorld.clone().invert()
+    for (const names of engines) {
+      const discs = names.map(name => {
+        const disc = this.mesh.getObjectByName(name)
+        if (!disc) throw new Error(`Missing aircraft propeller disc: ${name}`)
+        disc.visible = false
+        return new THREE.Box3().setFromObject(disc).applyMatrix4(toMesh)
+      })
+      const blades = mesh.clone()
+      discs[0].getCenter(blades.position)
+      blades.scale.setScalar(across ?? Math.max(...discs.map(disc => Math.max(...disc.getSize(new THREE.Vector3()).toArray()))))
+      this.mesh.add(blades)
+      this.propellers.push(blades)
+    }
+  }
+
   update(dt, t) {
     const { body } = this
     this.place()
@@ -140,7 +205,7 @@ export default class WarplaneModel {
       this.smoke.mesh.position.z += body.size.length * .4
     }
     this.smoke?.update(dt, t, { min: body.health.current / 100 - 5 })
-    this.propeller?.rotateZ(-body.speed * dt)
+    this.propellers.forEach((propeller, i) => propeller.rotateOnAxis(this.propellerAxes[i], -body.speed * dt))
     this.syncMissiles()
     this.missiles.forEach(missile => missile.update())
     this.showBursts()

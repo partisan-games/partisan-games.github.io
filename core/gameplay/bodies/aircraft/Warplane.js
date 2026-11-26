@@ -14,6 +14,9 @@ import Missile, { missile } from '../projectiles/Missile.js'
 export const warplane = { speed: 40, height: 60, health: 500, reload: .5, steering: 12, braking: 18, banking: 6,
   maxRoll: Math.PI / 6, sink: .5, brake: 3, crashRoll: .375, missileSpeed: 60, missileDive: Math.atan2(50, 75) }
 
+/** A model as the plain warplane: its speed, firepower and rate of missiles as shares, and its health. */
+const plainPerformance = { speed: 1, health: warplane.health, firepower: 1, bombRate: 1 }
+
 /** It flies, comes down to land, or is shot down. */
 const states = {
   move: {},
@@ -25,18 +28,20 @@ const states = {
  * A warplane flying on its way, `yaw`, while the world moves past it: steered, it moves across within `limit` metres
  * either side and up or down between half and twice its cruising height, banking as it goes. It fires missiles ahead
  * and down at the living ones of `targets`; they burst on the ground `groundAt(x, z)` gives. Set to `land`, or shot
- * down, it sinks to the ground. `clock` is the game clock.
+ * down, it sinks to the ground. `clock` is the game clock. Its model's `performance` sets how fast it flies and steers,
+ * how much it takes, how hard its guns hit and how often it fires.
  */
 export default class Warplane extends Body {
   constructor({ clock, limit = 50, height = warplane.height, groundAt = () => 0, targets = [],
-    size = { length: 6, height: 2, width: 6 }, launchHeight = -size.height * .33, ...rest } = {}) {
-    super({ size, health: warplane.health, y: height, yaw: Math.PI / 2, ...rest, states })
-    Object.assign(this, { limit, targets, groundAt, launchHeight, speed: warplane.speed })
+    size = { length: 6, height: 2, width: 6 }, launchHeight = -size.height * .33, performance = {}, ...rest } = {}) {
+    const model = { ...plainPerformance, ...performance }
+    super({ size, health: model.health, y: height, yaw: Math.PI / 2, ...rest, states })
+    Object.assign(this, { limit, targets, groundAt, launchHeight, performance: model, speed: warplane.speed * model.speed })
     this.heights = { min: height / 2, max: height * 2 }
     this.velocity = { x: 0, y: 0 }
     this.roll = 0
     this.steering = { across: 0, climb: 0 }
-    this.reload = new Cooldown({ seconds: warplane.reload, clock })
+    this.reload = new Cooldown({ seconds: warplane.reload / model.bombRate, clock })
     this.missiles = new ProjectilePool(() => new Missile({ groundAt }))
   }
 

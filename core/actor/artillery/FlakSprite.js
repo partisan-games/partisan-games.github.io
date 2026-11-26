@@ -22,7 +22,7 @@ export default class FlakSprite extends BodySprite {
     wreckFor(base)
     this.crew = new GunCrew('flak38')
     this.barrel = new WorldPart('game-ready/artiljerija/flak38-cev.webp', { camera })
-    this.shell = new WorldPart('items/granata.gif', { camera, scale: .4, visible: false })
+    this.shell = new WorldPart('game-ready/projektili/granata.webp', { camera, scale: .4, visible: false })
     this.muzzleFlash = new MuzzleFlash(camera)
     this.burstView = new Explosion(camera, { scale: .75, smoke: true })
     this.children.push(this.barrel, this.shell, this.burstView, this.muzzleFlash)

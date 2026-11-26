@@ -1,0 +1,45 @@
+{
+  "tool": "built-in image_gen",
+  "sharedReference": "assets/images/textures/okean.gif",
+  "preparation": "python -B assets/images/sources/vis/prepare.py",
+  "states": [
+    {
+      "name": "baza",
+      "reference": "original-baza.png",
+      "source": "redraw-baza.png",
+      "frame": [
+        1536,
+        1024
+      ],
+      "output": "assets/images/game-ready/scenery/vis/baza.webp",
+      "prompt": "Redraw the supplied airfield island for the 2D arcade game Vis, a wide 3:2 game backdrop sprite seen from directly overhead. Trace and keep the supplied composition and major locations with high precision. Preserve the broad island on screen and its margin (land extends from about x9–90%, y8–93%). The upright runway is the layout reference: absolutely straight vertical center line at x47.8%, runway upper end y29%, broad horizontal turning pad at y74–80%. Dark slate gray landing strip with narrow warm gray edge and interrupted pale stripe, plainly readable behind a small aircraft. Preserve the arrangement of a few hangars left, two service roofs up top, path and small utility buildings right. Quiet background. Give the scene carefully drawn restrained Adriatic pixel art: chalky light gray and pale warm limestone, a narrow turquoise shallows fringe (#348996, #418e9d), weathered olive grass (#697947, #85935a), deep scrub olive (#455c3e), warm gray-green roof, subtle dry tan dust. Use flat sunlight from upper left and short muted shadows. Clean clusters with consistently visible little square pixel steps, tactile middle detail, uneven rocky shore instead of a thick cartoon band of yellow beach; unobtrusive light ripples limited to the shoreline. Everything beyond the shallow turquoise fringe must be true transparent alpha so the scrolling sea shows through seamlessly. Keep the runway itself as dark and clear as in the old reference. Slightly raised roofs only, no oblique horizon, no aircraft, no people, no UI or text, no other islands, no oversized trees. Output a single 3:2 landscape composition; maintain the original item positions and transparent exterior margins.",
+      "offset": [
+        -2,
+        0
+      ],
+      "referenceSha256": "dae140175eb50e690913dea6e1990df9c6682a222ee70a06a8cb96c87be87a10",
+      "sourceSha256": "6dd5eae50548c585634881480869686c122aaf9d7540c963aa74bc5b85020dd1",
+      "outputSha256": "2dfb769fb48e985a6a1609642ceeeeb93a99d92a139f0b294e615ec990e860a3"
+    },
+    {
+      "name": "ostrvo",
+      "reference": "original-ostrvo.gif",
+      "source": "redraw-ostrvo.png",
+      "frame": [
+        62,
+        63
+      ],
+      "output": "assets/images/game-ready/scenery/vis/ostrvo.webp",
+      "prompt": "Redraw the FIRST image only, an isolated little natural Adriatic island terrain sprite for the 2D arcade game Vis, seen straight down from an aircraft. Preserve that source silhouette: irregular roughly round rocky islet with broad lower-left shoulder, narrow notch towards upper-right of center and small rocky rightward projection. Keep it substantially filling a square frame, with narrow transparent safety margin. This is a small natural offshore islet during flight; no buildings, runway, beach furniture, people, labels or text. It should look at home beside the airfield island shown in the second image after both are restyled. Use chalky light gray and pale warm limestone, weathered olive grass (#697947, #85935a), deep scrub olive (#455c3e), narrow muted turquoise shoreline fringe (#348996, #418e9d), subtle dry ochre stone in the sun. Sun from upper left. Show distinct natural limestone slabs clustered around headlands and a few clumps of scrub inland. Clean, restrained hard-edged square pixels, coherent large forms, readable when reduced to 62x63 pixels; no speckling, glossy cartoon outline, scenery, full water background, cast shadow outside the islet, horizon or perspective. Place a little shallow turquoise water along the coast and fade it out to TRUE transparent alpha so the scrolling ocean in the third reference can be seen under the sprite. Single isolated sprite.",
+      "placement": [
+        0,
+        1,
+        62,
+        61
+      ],
+      "referenceSha256": "776fdafe58ac92fe2fe99a6edf583fc41ecc9fbfbeec2bbedadcba7590fde2fd",
+      "sourceSha256": "7f33bc1e17a4f22433a4d904cddaac11d6bd3aeea4d767b1af41ab9695abf55b",
+      "outputSha256": "18877758f51e477ca2f70e894e0cda226d3baefbf4164e07c8dfb57a61eb0f20"
+    }
+  ]
+}

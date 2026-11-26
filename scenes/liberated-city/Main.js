@@ -42,8 +42,8 @@ const slogans = [
   'КОМУНИЗАМ ЋЕ ПОБИЈЕДИТИ',
   'SMRT OKUPATORU I IZDAJICAMA!',
   'ZGRABIMO ORUŽJE SVI!',
-  'CRVENA ARMIJA DOLAZI',
-  'ЦРВЕНА АРМИЈА ДОЛАЗИ',
+  'CRVENA ARMIJA DOLAZI!',
+  'ЦРВЕНА АРМИЈА ДОЛАЗИ!',
   'U BORBU PROTIV OKUPATORA!',
   'SVI U PARTIZANE!',
   'СВИ У ПАРТИЗАНЕ!',
@@ -53,14 +53,13 @@ const slogans = [
   ČITATI?`,
   `ЗАР ТИ ЈОШ НЕ ЗНАШ
   ЧИТАТИ?`,
-  'ŽIVJELA CRVENA ARMIJA',
   `ŽIVILA KOMUNISTIČKA 
   PARTIJA JUGOSLAVIJE`,
   'ŽIVIO DRUG STARI',
 ]
 
 const posters = [
-  '15_rujan_zadnji_rok.webp', 'iz_naroda_hlapcev.webp', 'kultura_fasizma.jpg', 'ni_zrno_zita_okupatoru.webp', 'omladina_jugoslavije.webp', 'partizanka.webp', 'petokolonas_vreba.jpg', 'RED_ARMY_IS_HERE.jpg', 'smrt_fasizmu_sloboda_narodu.webp', 'svi_na_front.webp', 'svi_u_NOVJ.webp', 'tko bude uhvacen da pljacka.jpg', 'zar_ti_jos_ne_znas_citati.webp', 'zgrabimo_za_orozje_vsi.webp', 'zivio_27_mart.webp'
+  '15_rujan_zadnji_rok.webp', 'iz_naroda_hlapcev.webp', 'kultura_fasizma.jpg', 'ni_zrno_zita_okupatoru.webp', 'omladina_jugoslavije.webp', 'partizanka.webp', 'petokolonas_vreba.jpg', 'smrt_fasizmu_sloboda_narodu.webp', 'svi_na_front.webp', 'svi_u_NOVJ.webp', 'tko bude uhvacen da pljacka.jpg', 'zar_ti_jos_ne_znas_citati.webp', 'zgrabimo_za_orozje_vsi.webp', 'zivio_27_mart.webp'
 ]
 
 const textures = ['ruin-01.jpg', 'ruin-02.jpg', 'ruin-03.jpg', 'ruin-04.jpg', 'ruin-back.jpg', 'warehouse.jpg']

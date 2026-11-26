@@ -1,0 +1,12 @@
+{
+  "status": "reserve",
+  "tool": "built-in image_gen",
+  "source": "pozadina.png",
+  "canvas": [
+    1536,
+    1024
+  ],
+  "description": "Klisura Neretve sa rekom u srednjem planu i širokom obalom u prvom planu. Sačuvana za buduću scenu.",
+  "prompt": "Create from scratch one original, wide 3:2 landscape environment background for a realistic pixel-art 2D historical game set around the Neretva gorge near Jablanica in early March 1943. This is a LAND BATTLE backdrop, not the bridge crossing. Fixed camera on low ground, looking across a broad near river shelf and down the gorge. Ground fills the lower 48 percent of the frame from left to right: make it a quiet, mostly continuous wide band of worn damp olive-brown and taupe soil with patches of matted straw-colored grass, a few low angular limestone stones, and open space with uninterrupted visibility behind the two rows of small standing soldiers the game adds. No people or shadows of people. Keep the bottom third very quiet and planted on land, without water or black borders, and avoid designated pits or cover shapes in the center. Above that land, a subdued blue-green ribbon of the Neretva is visible mid-distance as it bends leftward into the background, unbroken land between viewer and river. The high pale gray layered limestone walls of a Dinaric gorge on both sides have distinct angular rock planes, dry leafless trees in small clusters at edges and sparse dark olive shrubs. Gorge opens slightly toward a receding desaturated blue-gray mountain saddle in the upper center. Keep strong geometric depth and readable broad rock shapes instead of noisy texture. Early March end of winter, no snow in the valley, no bright green grass, no alpine pines as a dominant motif. Slight overcast light through a pale slate-gray sky without drawn clouds, wet stone, shadowed base of cliffs, natural muted rock and earth palette, no global sepia tint. Cohesive hand-painted high-quality realistic pixel art, hard stepped clusters and shadow planes, clear 2D side-view game composition; do not use photographic textures, excessive dither, fake scanlines or blurring. Layout lets the river and gorge be recognizable while leaving the play area low contrast. No bridges, houses, roads, soldiers, corpses, vehicles, weapons, trench structures, smoke, fires, lettering, borders, UI, modern elements or overlays. Full bleed opaque scenery. Exactly one new 3:2 landscape.",
+  "sourceSha256": "365102afed6cf503a9cdca408cf00372dc015a3d3dd98ad27e2ae4ddf55f8ead"
+}

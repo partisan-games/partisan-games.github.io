@@ -1,0 +1,67 @@
+{
+  "tool": "built-in image_gen",
+  "reference": "reference.png",
+  "source": "redraw.png",
+  "prompt": "Subtle edit of these same three small fictional 2D pixel art game sprites of soldiers fallen in battle. Keep the three horizontal rows in order and the entire present silhouettes, limbs, outfits, orientation, muted mud and dried dark reddish-brown stains. Preserve exactly the existing poses and placement of each body: Partisan top head left prone, German center head right on back, Italian bottom head left on side with the far hand naturally occluded. Modestly soften expression and fingers only. Ease the knitted brows, remove bared white teeth on all three, use a slightly slack lower jaw and a small dark mouth line, reduce tension around the eyes, and let hands rest loosely with slightly curved fingers. Limp, heavy faces and wrists after a fall, somber and neutral, not smiling. Preserve the ground-contact position of each head and hand. On the bottom sprite, only one visible hand directly in front of the chest, clearly joined to the sleeve; between the legs and under the waist there must be no extra hands or skin. Same simple restrained dark-outline pixel art at actual 118-pixel game sprite width, no blur or soft airbrushed effects. Keep full bodies inside their existing rows separated by transparent blank space. Output one transparent 4:3 landscape sheet with 3 rows. No additional objects, no added injuries, no graphic detail, no background or text.",
+  "frame": [
+    128,
+    64
+  ],
+  "anchor": [
+    64,
+    56
+  ],
+  "preparation": "python -B assets/images/sources/scenery/fallen/prepare.py",
+  "figures": [
+    {
+      "id": "partisan-fallen-prone",
+      "sourceRows": [
+        0,
+        362
+      ],
+      "left": 4,
+      "width": 119,
+      "bounds": [
+        4,
+        35,
+        123,
+        56
+      ],
+      "outputSha256": "10b892be725a4bdd2c6e8f440825a354abb3c99d7479921d9375935db4825ede"
+    },
+    {
+      "id": "german-fallen-supine",
+      "sourceRows": [
+        362,
+        724
+      ],
+      "left": 5,
+      "width": 118,
+      "bounds": [
+        5,
+        28,
+        123,
+        56
+      ],
+      "outputSha256": "27ba7767dd3d065b2ea1e93b7a24b1f5fb19416dc8d4ff39e25db685cedec3b0"
+    },
+    {
+      "id": "italian-fallen-side",
+      "sourceRows": [
+        724,
+        1086
+      ],
+      "left": 5,
+      "width": 118,
+      "bounds": [
+        5,
+        29,
+        123,
+        56
+      ],
+      "outputSha256": "758e77b11168dc4b9c5384fd09e614430ef8f0d306305f2b65143c61f8657180"
+    }
+  ],
+  "sourceSha256": "fb78b7260b6dd37e37f91a0e6f17c55ee3fb8ab20a890e1bd8ab5187d34e1a48",
+  "referenceSha256": "5d44c418b0fe5633901e085a1da761a60f4a553c6ab18a600bb7a0ed84838d9c"
+}

@@ -12,7 +12,7 @@ Katalog (2026-11-23): prošlo 19 ciljanih testova navigacije, kataloga, pokriven
 | `node --import ./tests/unit/setup/register.js --test <test>` | Ciljana Node provera. |
 | `npm test` | Cela unit serija. |
 | `npm run check` | Importi, literalne putanje resursa i scene kartica. |
-| `npm run verify` | Lint sa ispravkama, unit serija i provera projekta; prethodi komitu u dozvoljenom obimu. |
+| `npm run verify` | Lint sa ispravkama, unit serija, provera projekta i smoke; provera pred svaki commit (vlasnik, 2026-11-26). |
 | `npm run smoke` | Chromium specifikacije iz [tests/smoke](../tests/smoke/); obuhvat se čita iz postojećih fajlova. |
 | `npm run probe -- <adresa> [koraci]` | Jedna igra ili priča, stvarni ulaz, `eval:` i `shot`; alat pokreće i gasi svoj server. `--touch` glumi telefon (tač ekran bez miša), `--size=390x844` njegov ekran. |
 

@@ -142,6 +142,7 @@ export default class Scene3D extends Scene {
     scene.traverse(object => {
       if (object.isLight) cleanups.push(() => object.dispose()) // its shadow map
       if (object.isSkinnedMesh) cleanups.push(() => object.skeleton.dispose()) // the texture with its bones
+      if (object.isInstancedMesh) cleanups.push(() => object.dispose()) // the places and colours of its copies
       if (object.geometry) cleanups.push(() => object.geometry.dispose())
       for (const material of [object.material].flat().filter(Boolean)) {
         disposeTextures(material)

@@ -86,37 +86,6 @@ def clear():
     bpy.ops.object.delete(use_global=False)
 
 
-def glider():
-    fabric = material("Olive fabric", (.22, .25, .15))
-    underside = material("Pale underside", (.49, .51, .43))
-    glass = material("Cockpit", (.09, .16, .17))
-    dark = material("Skid", (.10, .085, .06))
-    stations = [(-5.7, .16, .23, .27), (-3.6, .41, .05, .55), (1.5, .7, -.12, .91),
-                (3.5, .67, -.09, .87), (5.2, .43, .08, .49), (5.7, .13, .21, .34)]
-    fuselage = []
-    for x, width, low, high in stations:
-        fuselage += [(x, -width * .75, low), (x, width * .75, low), (x, width, low + .3),
-                     (x, width * .65, high), (x, -width * .65, high), (x, -width, low + .3)]
-    faces = [(i * 6 + j, i * 6 + (j + 1) % 6, (i + 1) * 6 + (j + 1) % 6, (i + 1) * 6 + j)
-             for i in range(len(stations) - 1) for j in range(6)]
-    shape("Tapered fuselage", fuselage, faces + [tuple(reversed(range(6))), tuple(range(30, 36))], fabric)
-    for side in [-1, 1]:
-        outline = [(2.65, .1, .8), (1.6, 7.7, .91), (.98, 10.55, .97), (-.05, 10.7, .96),
-                   (-.95, 7.7, .91), (-.74, .1, .79)]
-        wing = [(x, side * y, z + offset) for offset in [-.07, .07] for x, y, z in outline]
-        shape("Wing upper", wing, [(6, 7, 8, 9, 10, 11)], fabric)
-        shape("Wing lower and edges", wing, [(0, 1, 2, 3, 4, 5)] +
-              [(i, (i + 1) % 6, (i + 1) % 6 + 6, i + 6) for i in range(6)], underside)
-        beam("Wing strut", (1.2, side * .50, .15), (.65, side * 3.8, .83), .10, fabric)
-    shape("Tailplane", [(-3.8, -2.3, .58), (-3.2, 0, .58), (-3.8, 2.3, .58), (-5.05, 2.1, .58),
-                        (-5.23, -2.1, .58)], [(0, 1, 2, 3, 4)], fabric)
-    shape("Vertical tail", [(-3.85, 0, .45), (-4.74, 0, 2.0), (-5.52, 0, 1.86), (-5.63, 0, .4)],
-          [(0, 1, 2, 3)], fabric)
-    shape("Windscreen", [(3.56, -.43, .87), (3.56, .43, .87), (4.8, .29, .57), (4.8, -.29, .57)], [(0, 1, 2, 3)], glass)
-    beam("Landing skid", (3.9, 0, -.16), (-1.1, 0, -.24), .16, dark)
-    export("aircraft/dfs-230/dfs-230.glb")
-
-
 def stone_house(collapsed=False):
     stone = material("Rough limestone", (.63, .57, .48), "walls/stone-wall.jpg")
     burnt = material("Scorched stone", (.19, .15, .12), "walls/stone-wall.jpg")
@@ -223,6 +192,6 @@ def truck():
 
 
 if __name__ == "__main__":
-    for build in [glider, stone_house, lambda: stone_house(collapsed=True), truck]:
+    for build in [stone_house, lambda: stone_house(collapsed=True), truck]:
         clear()
         build()

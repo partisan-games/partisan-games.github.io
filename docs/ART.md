@@ -4,7 +4,7 @@ Pravila izrade i veze do izvora. Otvoreni poslovi su u [PLAN-u](PLAN.md#art), pr
 
 ## Bf 109 — zajednički 3D prikaz
 
-[Teksturisani model](../assets/models/aircraft/airplane/messerschmitt-bf-109/README.md) sa 1.981 trouglom zamenjuje raniji FBX sa 9.310 trouglova u Warplane-u i oba kataloška prikaza Bf 109. Koristi originalni odvojeni propeler umesto dodatnog generičkog; raspon je 9,92 m prema projektnim merama. Sačuvani su izvor, postupak pripreme, licenca i offline pregled; dostupni OBJ nosi isti identifikator kao vlasnikov izabrani FBX, ali njegove teksture nisu bajt-po-bajt isti preuzeti fajlovi. Izdvajanje propelera mora sačuvati sve trouglove i UV koordinate, a svaka instanca rotira samo svoj primerak.
+[Teksturisani model](../assets/models/aircraft/messerschmitt-bf-109/README.md) sa 1.981 trouglom zamenjuje raniji FBX sa 9.310 trouglova u Warplane-u i oba kataloška prikaza Bf 109. Koristi originalni odvojeni propeler umesto dodatnog generičkog; raspon je 9,92 m prema projektnim merama. Sačuvani su izvor, postupak pripreme, licenca i offline pregled; dostupni OBJ nosi isti identifikator kao vlasnikov izabrani FBX, ali njegove teksture nisu bajt-po-bajt isti preuzeti fajlovi. Izdvajanje propelera mora sačuvati sve trouglove i UV koordinate, a svaka instanca rotira samo svoj primerak.
 
 ## Renault FT — 3D tekstura
 
@@ -28,6 +28,7 @@ Pravila izrade i veze do izvora. Otvoreni poslovi su u [PLAN-u](PLAN.md#art), pr
 - Pregledati alfu i providne rubove na neprozirnoj podlozi. Slab generisani veo može pokvariti granice figure; ukloniti ga na izvoru, obnoviti reference i porediti vidljivu visinu i oslonac pre i tokom pogotka, umesto ispravljanja razmere u rendereru. Poze jednog klipa dele razmeru i registraciju, bez pojedinačnog sabijanja tela.
 - Razdvojiti telo, pokretne delove i efekte. Metak/plamen izlazi iz stvarne cevi; bomba ostaje u šaci do otpuštanja. Ogledanje prati ceo sklop i njegove tačke događaja. Rov i teren nisu deo figure; krupan kadar nije celo telo.
 - Stvarni propeler menja projekciju oko osovine, ne okreće se kao ploča u ravni slike. Generisano preokrenuta olupina ne sme ponovo dobiti istu rotaciju u igri. Završni kadar pada ostaje prema ugovoru aktera.
+- Delovi koje sprite crta uz telo, poput mitraljesca u prozoru kuće-bunkera, dobijaju veličinu u metrima preko projekcije, ne u pikselima crteža. Katalog crta 40 px/m, a igra može manje, pa deo zadat u pikselima ispada pogrešne veličine i na pogrešnom mestu (2026-11-26).
 - Konačni vojni art čuvati po vrsti opreme u [game-ready](../assets/images/game-ready/). Izvor, stvarni prompt, poreklo, hashovi i ponovljiva priprema ostaju uz resurs; tok pokušaja i duplirani opisi rada ne pripadaju ovoj dokumentaciji.
 
 <a id="stil-aerodromske-posade"></a>
@@ -42,6 +43,12 @@ Pravila izrade i veze do izvora. Otvoreni poslovi su u [PLAN-u](PLAN.md#art), pr
 - Prvo složiti jedan zajednički kadar u stvarnoj veličini igre: lik, mina, zgrada i teren. Utvrditi jedinstven ugao gledanja, razmeru prema čoveku, ravan tla, stil detalja i osvetljenje; tek potom dorađivati zasebne resurse. Dobra pojedinačna slika ne dokazuje dobru scenu.
 - Bočni lik, mina odozgo, frontalna zgrada i kosa pozadina ne postaju usklađeni samom paletom i senkama. Proveriti veličinu mine prema stopalu, vrata i spratova prema čoveku, dodir sa tlom i zaklanjanje; pozadina ne sme nadjačati aktere.
 - Promena arta nije razlog za usputno menjanje sudara, broja prepreka ili rasporeda igre. Sačuvana bolnica je studija za buduće uklapanje, nije prihvaćena kao konačan art i nije povezana sa igrom; odbačeni teren i mine ne čuvaju se kao alternative.
+
+### 2D scenografija i pali borci
+
+- Pali borac ima opuštenu vilicu i šake. Pad treba da se vidi po osloncu tela i asimetričnom položaju udova, a blato i prigušeni tragovi krvi na odeći daju kontekst bojišta. Izbegavati pozu sna i prenaglašen grč lica.
+- Pre izvoza proveriti gde su lice, grudi i leđa i ispratiti svaki vidljivi ud od ramena do šake ili od kuka do čizme. Ako je ud iza tela, nacrtati samo deo koji se zaista vidi. Pregledati uvećan crtež zbog anatomije i isti kadar u veličini igre zbog čitljivosti. Zadržati mali izbor poza jasnih silueta. [Pali borci u katalogu](../catalog.html#scenografija/partisan-fallen-prone).
+- Kada igra koristi odvojene slike, uskladiti im pogled, paletu i svetlo pri zajedničkom prikazu. Na Visu se providne ivice ostrva i baze proveravaju preko istog mora. Pre zamene resursa proveriti šta igra računa iz dimenzija slike i oslonca. U Franji Kluzu širina zgrade određuje početak piste, a na Visu osa nacrtane piste mora pratiti putanju sletanja. [Pista u Franji Kluzu](../scenes/franjo-kluz/Airfield.js) i [sletanje na Vis](../scenes/vis/Baza.js).
 
 ### Završna dorada 3D scene — primer Drvara
 
@@ -86,8 +93,9 @@ Postojeća [kula](../core3d/actor/buildings/buildingModels.js) nije izabrana za 
 1. Pretragom resursa, klase i konfiguracija pronaći sve potrošače.
 2. Povezati novi art u zajedničkom prikazu ili mapiranju aktera, uz očuvanje mera, oslonaca i tačaka pucnja. Nivoi i katalog koriste isti resurs.
 3. Omogućiti relevantne radnje u [katalogu aktera](KATALOG.md#stavke-kataloga-i-varijante); poseban HTML/GIF nije zamena za priču i upotrebu u igri.
-4. Proveriti učitavanje, prelaze, pokret, završetak, oba smera, pauzu i reset u katalogu i pogođenim nivoima. Skrolovanje ne pokreće animaciju vožnje mirnog vozila. Izvršne provere prate važeću dozvolu.
-5. Sačuvati izvor i metapodatke, obnoviti indeks i zabeležiti stvarne dokaze u TESTING. Stavku zatvoriti kada je dogovorena celina gotova; vlasnikov pregled i izričito odložene provere navode se odvojeno.
+4. Novo vozilo ili avion dobija stvarne podatke i svoje vrednosti igre (vlasnik, 2026-11-26). Masa, najveća brzina i naoružanje idu u [STATISTIKE](STATISTIKE.md) i [modelStatistics](../core/gameplay/modelStatistics.js), a katalog ih ispisuje. Brzina, izdržljivost, vatrena moć i bombe, izvedeni iz tih podataka, idu u [modelPerformance](../core/gameplay/modelPerformance.js). Tako se modeli razlikuju i u igri, kao avioni u Visu i bombarderi u Ratweek-u, a ne samo izgledom.
+5. Proveriti učitavanje, prelaze, pokret, završetak, oba smera, pauzu i reset u katalogu i pogođenim nivoima. Skrolovanje ne pokreće animaciju vožnje mirnog vozila. Izvršne provere prate važeću dozvolu.
+6. Sačuvati izvor i metapodatke, obnoviti indeks i zabeležiti stvarne dokaze u TESTING. Stavku zatvoriti kada je dogovorena celina gotova; vlasnikov pregled i izričito odložene provere navode se odvojeno.
 
 ## Resursi i zajednički potrošači
 
@@ -97,7 +105,7 @@ Kadar, trajanje, sidrište, tačke događaja i putanje završnih slika čitaju s
 
 | Resurs | Metapodaci / izvor |
 |---|---|
-| Frontalni kandidati sa animacijama | zasebne priče [strelca](../catalog.html#vojnici/otpisani-strelac) i [stražara](../catalog.html#vojnici/otpisani-strazar). Privremeno u Otpisanima: crtani su kao strip i odskaču od realističnog piksel arta, pa ih zameniti kad stigne bolji crtež. |
+| Frontalna pešadija u Otpisanima | [Strelac sa puškom](../catalog.html#vojnici/otpisani-strelac) i [stražar u šinjelu](../catalog.html#vojnici/otpisani-strazar) dele isti pixel art stil. Njihovi atlasi ([strelac](../assets/images/game-ready/vojnici/otpisani-rifleman-pixel-sprites.webp) i [stražar](../assets/images/game-ready/vojnici/otpisani-sentry-pixel-sprites.webp)) imaju isti raspored redova za mirovanje, hod u oba smera, pucanje, pogodak i pad. |
 | Punjenje nemačkog strelca | klip prati spremnik nacrtanog oružja i nije zamena za punjenje drugih pušaka |
 | The Germans Advance | [Zajednički prikaz](../core/actor/AdvanceSprite.js) za strelca, mitraljesca, strelca sa rancem, podoficira, Panzer III i vojnika na kupoli. Strelac ima čučeći hod, a podoficir znak rukom; klečanje, pucanje i davanje znaka zaustavljaju pomeranje. Položaj cevi je izmeren u kadrovima pucanja. Promo traje 24 s, sa 18 s scene i završnim [logom](../scenes/bitka/PromoLogo.js) u piksel fontu sajta, uz zvezdu; [vremenski tok](../scenes/bitka/PromoTimeline.js) pripada sceni. |
 
@@ -120,9 +128,9 @@ Neretva i Otpisani imaju istu perspektivu spreda i dele pešadiju spreda (odluka
 | Sedam vozila za Do Trsta | Zündapp K600, BMW R12, Sd.Kfz. 231, Pz.Kpfw. 612, Horch 830 BL, Marder II i Elefant dele telo i prikaz u katalogu i nivou. Motori i automobil nemaju montirano oružje. |
 | Odvojene cevi glavnih tenkova | [partizanska](../assets/images/game-ready/tenkovi/partizanski-tenk-cev-pixel.webp), [nemačka](../assets/images/game-ready/tenkovi/nemacki-tenk-cev-pixel.webp), [Somua](../assets/images/game-ready/tenkovi/somua-s35-barrel.webp) |
 | Delovi oruđa | [poljski top: cev](../assets/images/game-ready/artiljerija/field-gun-barrel-pixel.webp) i [lafet](../assets/images/game-ready/artiljerija/field-gun-carriage-pixel.webp); [Flak: postolje](../assets/images/game-ready/artiljerija/flak38-postolje.webp) i [cev](../assets/images/game-ready/artiljerija/flak38-cev.webp); [PaK: postolje](../assets/images/game-ready/artiljerija/pak38-postolje.webp) i [cev](../assets/images/game-ready/artiljerija/pak38-cev.webp) |
-| Utvrđeni položaji | [kuća-bunker](../assets/images/game-ready/artiljerija/house-bunker-pixel.webp), [bunker](../assets/images/buildings/bunker-02.png), [obalni položaj](../assets/images/game-ready/polozaji/mitraljesko-gnezdo-odozgo.webp), [mitraljez](../assets/images/game-ready/polozaji/shore-mg-gun.webp), [posada](../assets/images/game-ready/polozaji/shore-mg-crew.webp) |
+| Utvrđeni položaji | [kuća-bunker](../assets/images/game-ready/artiljerija/house-bunker-pixel.webp), [betonski bunker](../assets/images/game-ready/artiljerija/betonski-bunker.webp), [oštećenje](../assets/images/game-ready/artiljerija/betonski-bunker-damaged.webp) i [ruševina](../assets/images/game-ready/wrecks/betonski-bunker.webp), [obalni položaj](../assets/images/game-ready/polozaji/mitraljesko-gnezdo-odozgo.webp), [mitraljez](../assets/images/game-ready/polozaji/shore-mg-gun.webp), [posada](../assets/images/game-ready/polozaji/shore-mg-crew.webp) |
 | Bunker: sačuvana studija bolnice, nije povezana sa igrom | [slika](../assets/images/buildings/bunker-house.png) |
-| Osnovni brodovi | [partizanski čamac](../assets/images/armies/camac.png), [S-30: trup](../assets/images/game-ready/brodovi/schnellboot-s30.webp), [palubno oruđe](../assets/images/game-ready/brodovi/s30-deck-gun.webp) |
+| Osnovni brodovi | [partizanski čamac](../assets/images/game-ready/brodovi/partizanski-camac.webp), [oštećenje](../assets/images/game-ready/brodovi/partizanski-camac-damaged.webp), [olupina](../assets/images/game-ready/wrecks/partizanski-camac.webp), [S-30: trup](../assets/images/game-ready/brodovi/schnellboot-s30.webp), [palubno oruđe](../assets/images/game-ready/brodovi/s30-deck-gun.webp) |
 
 Poljski top Ustanka je zajednički prihvaćen crtež za obe posade. Sličnost sa [Schneiderom 155 L iz 1918.](https://en.wikipedia.org/wiki/Canon_de_155_L_mod%C3%A8le_1918_Schneider) je procena vlasnika i agenta, bez potvrde tipa ili istorijske upotrebe u tom nivou; pri novom artu ne predstavljati ga kao potvrđen laki top od 75 mm.
 
@@ -137,6 +145,12 @@ Poljski top Ustanka je zajednički prihvaćen crtež za obe posade. Sličnost sa
 | Avioni Visa i Il-2 iz kataloga | [mere modela](../core/actor/aircraft/fighterBomberPlanes.js); varijanta žutog nosa koristi veliki Bf 109 sa lokalnom promenom palete. Il-2 ostaje samo u katalogu. |
 
 Pripremljeni Sd.Kfz. 251, He 111, Storch, M15/42, StuG III, Hotchkiss i plovila imaju osnovu od 40 px/m; cele figure Nemca i Četnika spreda imaju vidljivu visinu 180 px pri 100 px/m. Veći dostupni izvori ponovo se pripremaju bez uvećavanja sitnog rastera. Prikaz patrolnog plovila čita `pixelsPerMetre` iz njegovih metapodataka; fiksnih 25 px/m posle promene izvora pogrešno bi uvećalo brod. Pri promeni atlasa obnoviti i geometriju priključaka, izlazne slike i manje kopije za učitavanje.
+
+<a id="3d-avioni"></a>
+**3D avioni (2026-11-26).** Preuzeti modeli su u [aircraft](../assets/models/aircraft), po jedan folder po avionu, sa README-om i pregledom; posle dodavanja ili premeštanja obnoviti [art katalog](KATALOG.md#art-katalog). Redosled uvoza vodi [veština za uvoz asseta](../.agents/skills/game-asset-import/SKILL.md).
+- Trouglovi se ne smanjuju, jer automatsko smanjenje u Blenderu lomi modele u igri, iako ih Blender iscrta dobro. Smanjuju se samo ugrađene slike, na najviše 512 px, [pripremom](../scripts/shrink-glb-textures.py). Pretežak model zamenjuje vlasnik lakšim.
+- Smer nosa i veličinu meriti u three.js, kao što ih igra učitava: Blender je visinu B-25 izmerio bez velikog diska elise, pa je avion ispao za petinu manji. Bombarderi imaju raspon krila 0,585 stvarnog, kao Lancaster; lovci su stvarne veličine.
+- Elise se okreću oko svoje ose najbliže liniji leta ([prikaz aviona](../core3d/actor/aircraft/WarplaneModel.js)). Elisi čije je ishodište van osovine prikaz sam postavlja osovinu u sredinu lopatica. Providne diskove umesto lopatica (B-17, B-25, Lancaster) prikaz sakriva i preko njih vrti [elisu B-24](../assets/models/aircraft/consolidated-b-24-liberator/propeller.glb), trokraku Hamilton Standard, koju su ti avioni nosili.
 
 <a id="dopune-iz-plana-ideja--predaja-arta"></a>
 ### Zajedničke dopune aktera
@@ -193,7 +207,7 @@ Slike u [game-ready](../assets/images/game-ready) čuvaju se samo kao lossless W
 - Paletu, osvetljenje i gustinu piksela uskladiti sa prihvaćenim uzorom igre. Loše uklapanje ne prikrivati nasumičnim rotacijama, sečenjem silueta ili globalnim zamućenjem; ponavljanje izdvojenih slika nije zamena za celovit ambijent.
 - Osnovna slika nema zamrznute žive ljude, zastave, životinje, vozila, oblake, dim ili plamen. Potrebni živi elementi su odvojeni i prate vreme scene i pauzu prema [pravilima animacije](ANIMACIJA-POZADINE.md). Naslikan znak na zidu može ostati statičan. Voda zasad ostaje mirna po odluci vlasnika; odbačeni efekat svetlih tragova ne vraćati.
 - Metapodaci čuvaju dimenzije, liniju tla i žarišta u izvornim pikselima. Linija tla nije horizont ni sidrište čizama. Pri promeni razmere slike jednako prevesti tlo, efekte i projektile.
-- Predaja sadrži izvor, stvarni prompt, poreklo, hashove, ponovljivu pripremu i pregled sa jedinicama u 1280×720 i 1024×768. Pozadine i rekviziti imaju svoje preglede, ne zasebne priče u katalogu.
+- Predaja sadrži izvor, stvarni prompt, poreklo, hashove, ponovljivu pripremu i pregled sa jedinicama u 1280×720 i 1024×768. Pozadine imaju pregled u sceni. Nove i precrtane zgrade i rekviziti dobijaju zasebne stavke prema [pravilima kataloga](KATALOG.md#upotreba).
 - Prihvaćena pozadina ostaje PNG, a igre učitavaju WebP iste slike, oko sedam puta manji, koji pravi [skripta](../scripts/webp-backgrounds.py) za svaku pozadinu koju kod igre navodi. Posle izmene PNG-a pokrenuti je ponovo.
 
 <a id="šest-ambijenata-sadašnjih-nivoa"></a>

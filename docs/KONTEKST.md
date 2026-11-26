@@ -124,7 +124,7 @@ Nove frontalne likove vlasnik prvo bira u katalogu; do izbora nisu deo sastava n
 
 **Okvir (vlasnik, 2026-11-22):** Igra je obilazak Bihaća krajem 1942, posle oslobođenja grada, u vreme Prvog zasedanja AVNOJ-a.
 
-**Kontekst i granice:** parole i plakati po gradu treba da odgovaraju slobodnoj teritoriji u kasnu jesen 1942. Natpisi o dolasku Crvene armije, poput „CRVENA ARMIJA DOLAZI” i plakata RED_ARMY_IS_HERE, pripadaju 1944. i u tom okviru su anahroni; o njihovoj sudbini odlučuje vlasnik. Činjenice i izvori: [Bihać, kraj 1942](ISTORIJA.md#bihać-kraj-1942--polazište-za-igru-liberated-city).
+**Kontekst i granice:** parole i plakati po gradu treba da odgovaraju slobodnoj teritoriji u kasnu jesen 1942. Crvena armija stiže tek 1944, pa o njoj grad ima samo parolu iščekivanja „CRVENA ARMIJA DOLAZI!”, latinicom i ćirilicom, bez pozdrava njenom dolasku (vlasnik, 2026-11-26). Činjenice i izvori: [Bihać, kraj 1942](ISTORIJA.md#bihać-kraj-1942--polazište-za-igru-liberated-city).
 
 ## Locomotive
 
@@ -134,7 +134,7 @@ Nove frontalne likove vlasnik prvo bira u katalogu; do izbora nisu deo sastava n
 
 ## Warplane
 
-**Okvir (vlasnik, 2026-11-24):** Igra je operacija Ratweek, septembar 1944, kada su savezničko vazduhoplovstvo i partizani zajedno napadali nemačke saobraćajnice; na naslovnoj je „1944: Operation Ratweek”. Avioni koji ne pripadaju tom okviru izlaze iz igre ([PLAN](PLAN.md#ig-31)). Fotografije savezničkih bombardovanja Kraljeva i Beograda 1944: [reference](references/ww2-yu/bombardovanje-1944/README.md).
+**Okvir (vlasnik, 2026-11-24):** Igra je operacija Ratweek, septembar 1944, kada su savezničko vazduhoplovstvo i partizani zajedno napadali nemačke saobraćajnice; na naslovnoj je „1944: Operation Ratweek”. Nivo je o bombardovanju, pa igrač bira samo bombarder: B-24, B-17 i B-25, koji su leteli nad Jugoslavijom 1944, i Lancaster (vlasnik, 2026-11-26). Fotografije savezničkih bombardovanja Kraljeva i Beograda 1944: [reference](references/ww2-yu/bombardovanje-1944/README.md).
 
 **Kontekst i granice:** Ratweek je počeo 1. septembra 1944. i trajao do druge polovine meseca; cilj je bio da se prekinu pruge i putevi kojima su se nemačke grupe armija E i F povlačile iz Grčke i sa Balkana, pre svega pruga Beograd–Solun kroz dolinu Vardara. Učestvovali su 15. američka vazduhoplovna armija iz Fođe, RAF i Balkansko vazduhoplovstvo; pominju se B-17, P-51 Mustang i P-38 kao lovci-bombarderi. Gađani su mostovi, vijadukti, tuneli, železnički čvorovi i dunavski mostovi kod Beograda; Mustangi su srušili most kod Litije. Fabrike su gađane u drugim napadima 1944, npr. fabrike avionskih motora u Mariboru. Kraljevo je 1944. bombardovano šest puta, a Beograd, Niš, Leskovac, Novi Sad, Kragujevac i Kruševac takođe. Izvori: [Allied bombing of Yugoslavia](https://en.wikipedia.org/wiki/Allied_bombing_of_Yugoslavia_in_World_War_II), [Operation Ratweek](https://en.wikipedia.org/wiki/Operation_Ratweek_(1944)); izvori ne navode tipove nemačkih lovaca, pa je Bf 109 izbor igre.
 

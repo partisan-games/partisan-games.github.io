@@ -11,8 +11,9 @@ const css = /* css */`
     background-color: #cccccc;
     background-image: url(/assets/images/ui/document.jpg);
     background-size: cover;
+    /* as wide as its window, which the rest of the start screen sizes: its own text never widens it */
     width: 100%;
-    max-width: 420px;
+    contain: inline-size;
     min-height: 260px;
 
     & p {

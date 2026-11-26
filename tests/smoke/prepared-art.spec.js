@@ -88,8 +88,9 @@ test('Hummel actual fire control uses the new attack, a shell, then the existing
   await page.goto('/catalog.html#vozila/hummel')
   await state(page, 'attack')
   await drawn(page, '/hummel-fire-sprites.webp')
+  // the shell flies only a moment: look for it before a slow screenshot lets it land
+  await drawn(page, '/projektili/granata.webp')
   await page.locator('#platno').screenshot({ path: info.outputPath('hummel-fire.png') })
-  await drawn(page, '/granata.gif')
   await drawn(page, '/hummel-sprites.webp')
   await state(page, 'dead')
   await drawn(page, '/wrecks/hummel.webp')

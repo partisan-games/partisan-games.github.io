@@ -22,6 +22,9 @@ export const modelStatistics = {
   'bmw-r75': { massKg: 840, unladenMassKg: 420, structure: 'soft', basis: 'maximum laden weight, including sidecar' },
   'pak-38': { massKg: 1000, armament: '50 mm Pak 38', structure: 'towed', basis: 'firing configuration' },
   lancaster: { massKg: 16738, speedKmh: 454, armament: '8 × 7,7 mm Browning; 6.400 kg bombi', structure: 'aircraft', basis: 'Lancaster I, empty weight' },
+  'b-17': { massKg: 16391, speedKmh: 462, armament: '13 × 12,7 mm M2 Browning; 3.600 kg bombi', structure: 'aircraft', basis: 'B-17G, empty weight' },
+  'b-24': { massKg: 16556, speedKmh: 467, armament: '10 × 12,7 mm M2 Browning; 3.600 kg bombi', structure: 'aircraft', basis: 'B-24J, empty weight' },
+  'b-25': { massKg: 8836, speedKmh: 438, armament: '12 × 12,7 mm M2 Browning; 1.360 kg bombi', structure: 'aircraft', basis: 'B-25J, empty weight' },
   'bf-109': { massKg: 2247, speedKmh: 530, armament: '2 × 13 mm MG 131, 1 × 20 mm MG 151/20', structure: 'aircraft', basis: 'Bf 109 G-6, empty weight' },
   'ju-52': { massKg: 5720, speedKmh: 265.5, armament: '2 × 7,92 mm MG 15; 500 kg bombi', structure: 'aircraft', basis: 'Ju 52/3m g3e, empty weight; speed at sea level' },
 }

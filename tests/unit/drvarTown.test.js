@@ -14,7 +14,6 @@ import { openingPost, placeRuins, placeTrees, ridgeTrees, treeModels } from '/sc
 import { models as ruinModels } from '/core3d/actor/buildings/DrvarProp.js'
 import Church, { models as churchModels } from '/core3d/actor/buildings/Church.js'
 import { models as debrisModels } from '/core3d/actor/buildings/WarDebris.js'
-import Dfs230, { dfs230Model } from '/core3d/actor/aircraft/Dfs230.js'
 import { createCave, createTerrain, createUnac, craters, groundAt, landHeight } from '/scenes/drvar/terrain.js'
 
 /** The models load from disk, their pictures as blank ones. */
@@ -184,14 +183,4 @@ test('the Unac runs below the crossing, craters cut into the rendered ground, an
   const caveBox = new THREE.Box3().setFromObject(cave)
   assert.ok(caveBox.max.y > landHeight(129, -132) + 5)
   assert.equal(cave.geometry.groups.length, 2)
-
-  await requestModels([dfs230Model])
-  const glider = new Dfs230(groundAt)
-  const start = glider.mesh.position.clone()
-  glider.update(4)
-  assert.ok(glider.mesh.position.z < start.z && glider.mesh.position.y < start.y)
-  glider.update(10)
-  const { x, y, z } = glider.mesh.position
-  assert.ok(Math.abs(y - groundAt(x, z)) < .001)
-  assert.ok(new THREE.Box3().setFromObject(glider.mesh).getSize(new THREE.Vector3()).length() > 15)
 })

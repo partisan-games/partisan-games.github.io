@@ -12,42 +12,6 @@ export default {
     'faction': 'partisan',
     'layer': 1
   },
-  'partisan-fallen-supine': {
-    'src': 'game-ready/scenery/partisan-fallen-supine.webp',
-    'width': 128,
-    'height': 64,
-    'anchor': {
-      'x': 64.0,
-      'y': 56
-    },
-    'kind': 'fallen',
-    'faction': 'partisan',
-    'layer': 1
-  },
-  'partisan-fallen-side': {
-    'src': 'game-ready/scenery/partisan-fallen-side.webp',
-    'width': 128,
-    'height': 64,
-    'anchor': {
-      'x': 64.0,
-      'y': 56
-    },
-    'kind': 'fallen',
-    'faction': 'partisan',
-    'layer': 1
-  },
-  'german-fallen-prone': {
-    'src': 'game-ready/scenery/german-fallen-prone.webp',
-    'width': 128,
-    'height': 64,
-    'anchor': {
-      'x': 64.0,
-      'y': 56
-    },
-    'kind': 'fallen',
-    'faction': 'german',
-    'layer': 1
-  },
   'german-fallen-supine': {
     'src': 'game-ready/scenery/german-fallen-supine.webp',
     'width': 128,
@@ -58,42 +22,6 @@ export default {
     },
     'kind': 'fallen',
     'faction': 'german',
-    'layer': 1
-  },
-  'german-fallen-side': {
-    'src': 'game-ready/scenery/german-fallen-side.webp',
-    'width': 128,
-    'height': 64,
-    'anchor': {
-      'x': 64.0,
-      'y': 56
-    },
-    'kind': 'fallen',
-    'faction': 'german',
-    'layer': 1
-  },
-  'italian-fallen-prone': {
-    'src': 'game-ready/scenery/italian-fallen-prone.webp',
-    'width': 128,
-    'height': 64,
-    'anchor': {
-      'x': 64.0,
-      'y': 56
-    },
-    'kind': 'fallen',
-    'faction': 'italian',
-    'layer': 1
-  },
-  'italian-fallen-supine': {
-    'src': 'game-ready/scenery/italian-fallen-supine.webp',
-    'width': 128,
-    'height': 64,
-    'anchor': {
-      'x': 64.0,
-      'y': 56
-    },
-    'kind': 'fallen',
-    'faction': 'italian',
     'layer': 1
   },
   'italian-fallen-side': {
@@ -265,7 +193,7 @@ export default {
     'layer': 1
   },
   'bunker': {
-    'src': 'game-ready/wrecks/bunker.webp',
+    'src': 'game-ready/wrecks/betonski-bunker.webp',
     'width': 246,
     'height': 93,
     'anchor': {
@@ -277,7 +205,7 @@ export default {
     'layer': 1
   },
   'player-boat': {
-    'src': 'game-ready/wrecks/player-boat.webp',
+    'src': 'game-ready/wrecks/partizanski-camac.webp',
     'width': 355,
     'height': 152,
     'anchor': {

@@ -1,0 +1,73 @@
+{
+  "tool": "built-in image_gen",
+  "styleReferences": [
+    "assets/images/game-ready/avioni/potez-25-ndh-bez-mitraljeza.webp",
+    "assets/images/game-ready/avioni/ju87.webp"
+  ],
+  "preparation": "python -B assets/images/sources/talijani/avioni-ustanak/prepare.py",
+  "aircraft": [
+    {
+      "source": "fiat-cr42.png",
+      "reference": "assets/images/armies/talijani/avioni/fiat-cr42.png",
+      "historicalReference": "https://www.aeronautica.difesa.it/en/2023/10/10/fiatcr42/",
+      "output": "assets/images/game-ready/avioni/fiat-cr42.webp",
+      "paintReference": "The established game sprite, including its markings. The official aircraft reference was used to check airframe identity.",
+      "flight": {
+        "facing": "left",
+        "displayScale": 0.85,
+        "speed": -240
+      },
+      "prompt": "Redraw exactly one existing 2D game aircraft sprite using image 1 as the binding airframe, orientation, projected view, framing and markings. Image 2 is the game's accepted aircraft pixel art reference for scale of pixel clusters and light, not a design source. Image 3 is another game style reference only. Keep the fuselage facing LEFT, at the exact original pitch with no banking or foreshortening beyond the original. Image 1 dominates geometry. Fiat CR.42 Falco. One compact radial engine and a small side-on propeller, upper and lower fabric wings with the original angular interplane struts, fixed spatted main wheel, open cockpit with the tiny seated pilot silhouette, rounded vertical tail. Retain the reference's muted tan-gray field and irregular olive mottling, off-white original tail cross and blue-toned disc exactly where present, without adding lettering or markings. Restrained shading on metal cowling and fabric skin.\nMake a finished side sprite for a WWII pixel-art game. Deliberate blocky pixel clusters of flat local colors, controlled charcoal outlines where needed and selective grey/olive or ochre highlights, restrained light from top. Full small-size readability, visually similar to the pixel-art style of the support images. Keep the same wide framing and anchors: nose at the extreme left, tail at right, only small true-transparent margins, propeller(s) as narrow edge-on blades matching the original axis. One object only. Transparent background, no labels, extra text, scenery, cast ground shadows, grid, exhaust trails, fire or effects. Avoid noise, texture stipple, vector-smooth shading and photorealism. Keep full silhouette and fine details sufficient for twice the source resolution.",
+      "frame": [
+        544,
+        240
+      ],
+      "anchor": [
+        272.0,
+        120.0
+      ],
+      "bounds": [
+        0,
+        2,
+        544,
+        237
+      ],
+      "sourceSha256": "a691274f7470ab62d32cfcf4b26623e1daf3231b28175251121cfcc8a3863f93",
+      "referenceSha256": "b08752acc2c6018a4484ffabf9710fa90d38550d6a1a3c162d693e49f7aa193e",
+      "outputSha256": "6ee7c401bbbe9c961650cab82aec5aafd2276bb24fed690bc6aa87a3c4c2b0eb"
+    },
+    {
+      "source": "imam-ro57.png",
+      "reference": "assets/images/armies/talijani/avioni/imam-ro57.png",
+      "historicalReference": "https://www.aeronautica.difesa.it/2023/10/06/imam-ro-57-2/",
+      "output": "assets/images/game-ready/avioni/imam-ro57.webp",
+      "paintReference": "The established game sprite, including its markings. The official aircraft reference was used to check airframe identity.",
+      "flight": {
+        "facing": "left",
+        "displayScale": 0.66,
+        "speed": -320
+      },
+      "prompt": "Precise game-art redraw of the IMAM Ro.57 in reference 1. That original thin left-facing sprite is the airframe and camera template; use reference 2 only to match the hand-drawn pixel art texture. Preserve the twin-engine identity: one small hub and narrow side-on blades on the distant nacelle just forward of the main silhouette, and a second hub and narrow upright blades on the nearer nacelle below the fuselage, each directly on its engine nose. Short canopy sits ahead of the slender tail and there is one tail fin. Paint the far wing as a shallow, swept-back planar surface behind the cockpit, with a visible sloping edge. Do not turn it into an antenna, blade or upright mast. Keep the original olive / dark green paint, pale-gray underwing, white fuselage stripe and simple red 9, small white cross on the tail. Preserve the proportions and horizontal pitch. Render matte 16-bit pixel art with strong blocky shading, small authentic panel lines and no smooth textures. The aircraft is isolated on TRUE transparency everywhere outside its silhouette, including the area above the aircraft. No white, haze, clouds, highlight halo, border, shadows or ground outside the sprite. No other object. Very wide 3.5:1 composition with only a little space around the full silhouette.",
+      "styleReferences": [
+        "assets/images/game-ready/avioni/ju87.webp"
+      ],
+      "frame": [
+        916,
+        262
+      ],
+      "anchor": [
+        458.0,
+        131.0
+      ],
+      "bounds": [
+        24,
+        0,
+        892,
+        262
+      ],
+      "sourceSha256": "a6fc90f8cdc64d0e672d2b00e804757c19c8ab68cc093ac16ef74ba8db9df381",
+      "referenceSha256": "338296f719dcf1e7f93c26d159db63487a1161f6fca8aa0205b604a07a4536e7",
+      "outputSha256": "f9a5287fffae9645c87b82f168ed36a4b1af99b227c8703986f5f500e0f100fd"
+    }
+  ]
+}

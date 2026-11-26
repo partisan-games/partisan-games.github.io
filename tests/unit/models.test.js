@@ -37,7 +37,7 @@ test('one file prepared at two sizes is two models', async() => {
 
 test('every aircraft module loads nothing when imported and names the models it needs', async() => {
   const { default: makeWarplane } = await import('/core3d/actor/aircraft/makeWarplane.js')
-  for (const name of ['Biplane', 'Bomber', 'Messerschmitt']) {
+  for (const name of ['Bomber', 'FlyingFortress', 'Liberator', 'Mitchell', 'Messerschmitt', 'Spitfire']) {
     const { models, description } = await import(`/core3d/aircraft/derived/${name}.js`)
     assert.ok(models.length >= 1, name)
     assert.throws(() => makeWarplane(description), /before it has loaded/, name)

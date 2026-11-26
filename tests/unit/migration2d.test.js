@@ -5,6 +5,28 @@ import { loadAtlas } from './helpers/atlas.js'
 
 before(() => createPageElements())
 
+test('the Italian aircraft load the 2× redraws at their original sizes in Ustanak and in the catalog', async t => {
+  const { default: Ustanak } = await import('/scenes/ustanak/Main.js')
+  const { aircraft } = await import('/catalog/stories/ustanak.js')
+  const scene = new Ustanak()
+  scene.init()
+  scene.clear = () => {}
+  t.after(() => scene.end())
+  const originals = [[272, 120, .85, -240], [458, 131, .66, -320]]
+  for (const [i, story] of aircraft.entries()) {
+    const [width, height, scale, speed] = originals[i]
+    const plane = scene.children.find(view => view.image?.src.endsWith(`/${story.id}.webp`))
+    assert.ok(plane, story.id)
+    loadAtlas(plane, width * 2, height * 2)
+    assert.deepEqual([plane.width, plane.height, plane.dx], [width * scale, height * scale, speed])
+
+    const preview = story.create({ add() {}, width: 1280, groundY: 560 }, story.way)
+    loadAtlas(preview, width * 2, height * 2)
+    assert.equal(preview.image.src, plane.image.src)
+    assert.deepEqual([preview.width, preview.height, preview.flipY], [width, height, 1])
+  }
+})
+
 test('neretva aiming waits for game updates and its health cannot fall below zero', async t => {
   const { default: Neretva } = await import('/scenes/neretva/Main.js')
   const scene = new Neretva()

@@ -18,7 +18,6 @@
     ["panzer3-vojnik.png",271,141],
     ["panzer3.png",271,141],
     ["potez-25-spain.png",397,166],
-    ["rov-prazan.gif",100,150],
     ["spitfire-gori.png",399,118],
     ["spitfire.png",399,118],
     ["tenk-rdjavi.gif",448,186],
@@ -3031,78 +3030,59 @@
      "files": [],
      "folders": [
       {
-       "name": "airplane",
-       "files": [],
-       "folders": [
-        {
-         "name": "biplane-bristol-f2b",
-         "files": [
-          ["model.fbx",0.2]
-         ],
-         "folders": []
-        },
-        {
-         "name": "biplane-sopwith",
-         "files": [
-          ["model.fbx",0.2]
-         ],
-         "folders": []
-        },
-        {
-         "name": "bomber-lancaster",
-         "files": [
-          ["model.glb",0.7]
-         ],
-         "folders": []
-        },
-        {
-         "name": "dornier-do-217",
-         "files": [
-          ["WXSUTGFGGAETK9J6AYCJWA8OO.obj",0.2,"WXSUTGFGGAETK9J6AYCJWA8OO.mtl"]
-         ],
-         "folders": []
-        },
-        {
-         "name": "f4u-corsair",
-         "files": [
-          ["model.glb",1.0]
-         ],
-         "folders": []
-        },
-        {
-         "name": "heinkel-he-111",
-         "files": [
-          ["model.fbx",0.5]
-         ],
-         "folders": []
-        },
-        {
-         "name": "junkers-f13",
-         "files": [
-          ["T3T5I53NKR1PDNTV3P2ISTUPP.fbx",0.9]
-         ],
-         "folders": []
-        },
-        {
-         "name": "junkers-ju-87-stuka",
-         "files": [
-          ["B6L6UIB83ZKUE6YOCT94DAHM3.obj",0.1,"B6L6UIB83ZKUE6YOCT94DAHM3.mtl"]
-         ],
-         "folders": []
-        },
-        {
-         "name": "messerschmitt-bf-109",
-         "files": [
-          ["model.glb",0.8]
-         ],
-         "folders": []
-        }
-       ]
+       "name": "biplane-bristol-f2b",
+       "files": [
+        ["model.fbx",0.2]
+       ],
+       "folders": []
       },
       {
-       "name": "dfs-230",
+       "name": "biplane-sopwith",
        "files": [
-        ["dfs-230.glb",0.0]
+        ["model.fbx",0.2]
+       ],
+       "folders": []
+      },
+      {
+       "name": "boeing-b-17-flying-fortress",
+       "files": [
+        ["model.glb",5.8]
+       ],
+       "folders": []
+      },
+      {
+       "name": "bomber-lancaster",
+       "files": [
+        ["model.glb",0.7]
+       ],
+       "folders": []
+      },
+      {
+       "name": "consolidated-b-24-liberator",
+       "files": [
+        ["model.glb",1.5],
+        ["propeller.glb",0.1]
+       ],
+       "folders": []
+      },
+      {
+       "name": "dornier-do-217",
+       "files": [
+        ["WXSUTGFGGAETK9J6AYCJWA8OO.obj",0.2,"WXSUTGFGGAETK9J6AYCJWA8OO.mtl"]
+       ],
+       "folders": []
+      },
+      {
+       "name": "f4u-corsair",
+       "files": [
+        ["model.glb",1.0]
+       ],
+       "folders": []
+      },
+      {
+       "name": "heinkel-he-111",
+       "files": [
+        ["model.fbx",0.5]
        ],
        "folders": []
       },
@@ -3110,6 +3090,62 @@
        "name": "ju52",
        "files": [
         ["model.glb",3.5]
+       ],
+       "folders": []
+      },
+      {
+       "name": "junkers-f13",
+       "files": [
+        ["T3T5I53NKR1PDNTV3P2ISTUPP.fbx",0.9]
+       ],
+       "folders": []
+      },
+      {
+       "name": "junkers-ju-87-stuka",
+       "files": [
+        ["B6L6UIB83ZKUE6YOCT94DAHM3.obj",0.1,"B6L6UIB83ZKUE6YOCT94DAHM3.mtl"]
+       ],
+       "folders": []
+      },
+      {
+       "name": "junkers-ju-88",
+       "files": [
+        ["model.glb",1.2]
+       ],
+       "folders": []
+      },
+      {
+       "name": "lockheed-p-38-lightning",
+       "files": [
+        ["model.glb",0.1]
+       ],
+       "folders": []
+      },
+      {
+       "name": "messerschmitt-bf-109",
+       "files": [
+        ["model.glb",0.8]
+       ],
+       "folders": []
+      },
+      {
+       "name": "north-american-b-25-mitchell",
+       "files": [
+        ["model.glb",1.1]
+       ],
+       "folders": []
+      },
+      {
+       "name": "north-american-p-51-mustang",
+       "files": [
+        ["model.glb",2.3]
+       ],
+       "folders": []
+      },
+      {
+       "name": "supermarine-spitfire",
+       "files": [
+        ["model.glb",1.7]
        ],
        "folders": []
       }

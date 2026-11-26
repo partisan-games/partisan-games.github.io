@@ -27,7 +27,7 @@ export const icons = Object.freeze({
 
 /** Paths are relative to the image root, independent of UI and game classes. */
 export const iconImages = Object.freeze({
-  ammunition: 'items/granata.gif',
+  ammunition: 'game-ready/projektili/granata.webp',
   coin: 'ui/coin.gif',
   coinStill: 'ui/coin-still.png',
   camera: 'ui/change-camera.png',

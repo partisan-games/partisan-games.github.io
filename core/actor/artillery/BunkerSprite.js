@@ -13,7 +13,7 @@ import { houseBunkerPicture } from '/core/objects/Bunker.js'
 export const gunnerLength = 2.079
 
 /** The picture of each kind of bunker. */
-export const bunkerPictures = { pillbox: 'buildings/bunker-02.png', house: houseBunkerPicture }
+export const bunkerPictures = { pillbox: 'game-ready/artiljerija/betonski-bunker.webp', house: houseBunkerPicture }
 
 /**
  * The machine gunner who lies in the window of a manned bunker, behind his gun: he turns it where the bunker aims, works

@@ -1,0 +1,18 @@
+{
+  "tool": "built-in image_gen",
+  "reference": "original.png",
+  "source": "redraw.png",
+  "prompt": "Redraw the supplied gameplay explosion as an 8-frame hard-edged 2D pixel art sprite animation for Partisan Games. Rearrange into a 4-column 2-row perfectly regular sprite sheet on TRUE transparent alpha, square canvas, exactly one drawing centered in each equal square cell (x centers 12.5%,37.5%,62.5%,87.5%; y centers 25% and 75%). Order left to right then next row. Top row frames: 1 tiny sharp hot yellow-white starburst with a few sparks at the center, ~20% of cell span; 2 expanding jagged yellow and amber blaze, ~50%; 3 bright orange turbulent broad fireball with off-white core, ~80%; 4 broad irregular expanding rust-orange lobes and warm charcoal smoke with a shrinking hot core, ~85%. Bottom row: 5 broken ring of dark rust fire and gray-brown smoke, a few amber embers, ~85%; 6 broken loose set of thinning compact ash-gray wisps and dying sparks, ~65%; 7 three little drifting gray wisps and ember pinpoints, lots of empty space, ~50%; 8 only two or three very small dim disconnected ash and ember flecks. One uninterrupted event viewed front-on at an unchanged anchor. Volumes shaped by bold, visibly stepped pixel clusters, few purposeful shades from warm cream through burnt orange to taupe and dark smoke. Cinematic shape, lighting from the heat, readable when reduced to 128 by 128 per frame. Matte graphic treatment without blur or glow. Full gap between all neighboring frames, since this sheet will be cut into equal square cells. No letters, numbers, gutters drawn, grid, backgrounds, ground or scenery.",
+  "sourceRowTops": [
+    300,
+    631
+  ],
+  "sourceColumns": 4,
+  "frameSize": 128,
+  "gutter": 4,
+  "output": "assets/images/game-ready/efekti/eksplozija.webp",
+  "preparation": "python -B assets/images/sources/efekti/eksplozija/prepare.py",
+  "referenceSha256": "e4a4b885635ce24ee71f3d6815c214c3fba6f83544cb9efe371d3d6dd5502125",
+  "sourceSha256": "19b76d23a3fb3eb91aef7afe3c54c215375ab1a1cad71351dba8649926229f95",
+  "outputSha256": "e5ba2fb3ffb86bcad339d6bee7d6943a3ef6a9edf2d6e3a6d68dfc0c1afdc40a"
+}

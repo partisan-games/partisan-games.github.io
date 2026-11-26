@@ -5,6 +5,7 @@ import * as vis from './vis.js'
 import * as doTrsta from './doTrsta.js'
 import * as camac from './camac.js'
 import * as bunker from './bunker.js'
+import { scenery } from './scenery.js'
 import * as neretva from './neretva.js'
 import * as cetnici from './cetnici.js'
 import * as otpisani from './otpisani.js'
@@ -23,9 +24,10 @@ import * as advance from './advance.js'
 export default [
   { id: 'vojnici', title: 'Vojnici', stories: [...franjoKluz.soldiers, ...ustanak.soldiers, ...bunker.soldiers, ...neretva.soldiers, ...cetnici.soldiers, ...otpisani.soldiers, ...partisans.soldiers, ...drvar.soldiers, ...advance.soldiers] },
   { id: 'vozila', title: 'Tenkovi i vozila', stories: [...tenkici.vehicles, ...franjoKluz.vehicles, ...doTrsta.vehicles, ...characters3d.vehicles, ...advance.vehicles] },
-  { id: 'avioni', title: 'Avioni', stories: [...franjoKluz.aircraft, ...vis.aircraft, ...drvar.aircraft] },
+  { id: 'avioni', title: 'Avioni', stories: [...franjoKluz.aircraft, ...ustanak.aircraft, ...vis.aircraft, ...drvar.aircraft] },
   { id: 'brodovi', title: 'Brodovi', stories: [...camac.boats] },
   { id: 'artiljerija', title: 'Artiljerija', stories: [...franjoKluz.artillery, ...ustanak.artillery, ...doTrsta.artillery, ...camac.artillery] },
+  { id: 'scenografija', title: 'Scenografija', stories: scenery },
   { id: 'drugi-svetski-rat-3d', title: '3D Drugi svetski rat', stories: characters3d.ww2 },
   { id: 'letelice-3d', title: '3D letelice', stories: [...objects3d.aircraft, ...drvar.aircraft3d] },
   { id: 'artiljerija-3d', title: '3D artiljerija', stories: objects3d.artillery },

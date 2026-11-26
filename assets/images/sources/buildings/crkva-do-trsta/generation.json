@@ -1,0 +1,23 @@
+{
+  "tool": "built-in image_gen",
+  "references": [
+    "assets/images/buildings/crkva-01.png",
+    "assets/images/buildings/kuca-04.png"
+  ],
+  "prompt": "Redraw the first reference, a small church sprite for the Partisan Games 2D WWII side-view level Do Trsta. The second image is a palette and weathering reference only. Deliver a single isolated transparent sprite. Preserve the distinctive silhouette and almost orthographic straight-on view of the church, with main gabled nave on the left, taller square bell tower on the right with a reddish-brown pyramidal tile roof, the narrow belfry apertures with a visible dark bronze bell, smaller arched tower window and entry. Keep the nave's round window and its paired arched wooden doors, at the same proportions and positions as in the first reference. Put the base of both parts on the same horizontal line. Replace the original cyan and pale chartreuse with aged warm gray limestone and worn lime plaster, subdued weathered terracotta roof, deep brown doors and recesses, muted blue-gray reflected light in the glass. Hand-crafted 2D pixel art with coherent hard-edged, restrained clusters, simple architectural details that read clearly at 78 pixels wide, defined outlines and softly weathered stone in the same muted natural palette as the second reference. Draw clear pixel steps at a logical size of around 106 by 120 pixels, scaled cleanly for rendering; no soft photographic textures. No outline glow. No surrounding scene, ground, floating shadow, vegetation, text, perspective angle or extra objects. Preserve full roof peak and walls, leave slim transparent margin around entire sprite. Portrait composition.",
+  "source": "crkva.png",
+  "output": "assets/images/game-ready/scenery/crkva-do-trsta.webp",
+  "frame": [
+    213,
+    239
+  ],
+  "preparation": "python -B assets/images/sources/buildings/crkva-do-trsta/prepare.py",
+  "bounds": [
+    0,
+    0,
+    212,
+    239
+  ],
+  "sourceSha256": "83915288acde6f6cbf014108a066f0af2f785be65d30954cdf258fbf86a9f5cb",
+  "outputSha256": "f7e1f1f4443e9c82932defbf4722d9b55ad7e3c1c8877dd7812dfcc70e5a28c7"
+}

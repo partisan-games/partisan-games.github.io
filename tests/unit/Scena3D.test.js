@@ -47,6 +47,18 @@ test('a 3D game frees its geometries, materials, textures, bones and shadow maps
   assert.ok(bonesFreed, 'bones')
 })
 
+test('a 3D game frees the places of the copies of an instanced mesh when it ends', () => {
+  const scene = new THREE.Scene()
+  const copies = new THREE.InstancedMesh(new THREE.BoxGeometry(), new THREE.MeshBasicMaterial(), 3)
+  scene.add(copies)
+  let freed = false
+  copies.addEventListener('dispose', () => {
+    freed = true
+  })
+  Scene3D.prototype.disposeScene.call({ scene })
+  assert.ok(freed, 'its instance matrix, which the renderer uploads as a buffer of its own')
+})
+
 test('a texture the shared renderer uploads again after its game ended is freed when the next 3D game ends', () => {
   const wall = new THREE.Texture()
   const scene = new THREE.Scene()

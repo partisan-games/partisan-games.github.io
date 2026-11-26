@@ -1,12 +1,51 @@
 import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
+import { loadImages } from './helpers/images.js'
 
 let kinds, createCatalog, findStory, groupOf
 before(async() => {
   createPageElements()
   ;({ default: kinds } = await import('/catalog/stories/index.js'))
   ;({ createCatalog, findStory, groupOf } = await import('/catalog/catalog.js'))
+})
+
+test('redrawn scenery has its own entries, loads the game art and fits the stage', async t => {
+  const scenery = [
+    ['crkva-do-trsta', 'Zgrade', 'scenery/crkva-do-trsta.webp', [213, 239]],
+    ['aerodrom-franjo-kluz', 'Zgrade', 'scenery/franjo-kluz/aerodrom.webp', [780, 600]],
+    ['baza-vis', 'Zgrade', 'scenery/vis/baza.webp', [1536, 1024]],
+    ['ostrvo-vis', 'Teren', 'scenery/vis/ostrvo.webp', [62, 63]],
+    ['krater-neretva', 'Tragovi rata', 'scenery/neretva-crater.webp', [416, 124]],
+    ['granata', 'Predmeti', 'projektili/granata.webp', [32, 8]],
+  ]
+  loadImages(t, Object.fromEntries(scenery.map(([, , path, size]) => [path, size])))
+  for (const [id, group, path, [width, height]] of scenery) {
+    const { kind, story } = findStory(kinds, `scenografija/${id}`)
+    assert.deepEqual(groupOf(kind, story), ['Scenografija', group])
+    const added = []
+    const stage = { width: 640, groundY: 400, add: block => added.push(block) }
+    const block = story.create(stage)
+    assert.deepEqual(added, [block])
+    await block.imageLoaded
+    assert.ok(block.image.src.endsWith(path), id)
+    assert.ok(block.width <= 576 && block.height <= 360, id)
+    assert.ok(Math.abs(block.width / block.height - width / height) < 1e-9, id)
+    assert.equal(block.x, stage.width / 2, id)
+    if (id === 'crkva-do-trsta' || id === 'aerodrom-franjo-kluz')
+      assert.equal(block.y + block.height / 2, stage.groundY, id)
+  }
+})
+
+test('fallen scenery keeps one pose per faction and all battlefields link to existing props', async() => {
+  const { default: sceneryArt } = await import('/core/sceneryArt.js')
+  const { battlefields } = await import('/scenes/tenkici/BattleBackground.js')
+  const kind = kinds.find(({ id }) => id === 'scenografija')
+  const fallen = kind.stories.filter(story => groupOf(kind, story).at(-1) === 'Pali borci')
+  assert.deepEqual(fallen.map(({ id }) => id),
+    ['partisan-fallen-prone', 'german-fallen-supine', 'italian-fallen-side'])
+  for (const battlefield of Object.values(battlefields))
+    for (const { id } of battlefield.props ?? []) assert.ok(sceneryArt[id], id)
 })
 
 test('Drvar sprites stay under 2D despite needing a 3D stage, while real models stay under 3D', () => {
@@ -55,7 +94,7 @@ test('old model links resolve to separate actors instead of skins', () => {
     ['brodovi', 'nemacko-patrolno-plovilo', ['german-launch', 'german-skiff', 'german-patrol-vessel', 'rboot', 'mfp', 'vorpostenboot']],
     ['vozila', 'nemacki-tenk', ['tiger-i', 'm15-42', 'stug-iii', 'hotchkiss']],
     ['avioni', 'vis-lovac', ['bf109', 'fw190', 'sivi', 'pustinjski', 'zeleni', 'zuti-nos']],
-    ['letelice-3d', 'ratni-avion-3d', ['dvokrilac', 'mesersmit', 'bombarder']],
+    ['letelice-3d', 'ratni-avion-3d', ['mesersmit', 'bombarder']],
     ['vojnici', 'zastavnik', ['partizanski', 'italijanski']],
     ['vojnici', 'posada-topa', ['partizanska', 'italijanska']],
   ]) {

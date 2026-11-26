@@ -1,0 +1,98 @@
+{
+  "tool": "built-in image_gen",
+  "referenceFrame": [
+    355,
+    152
+  ],
+  "frame": [
+    710,
+    304
+  ],
+  "anchor": [
+    355,
+    152
+  ],
+  "orientation": "top view, bow right",
+  "bow": [
+    710,
+    152
+  ],
+  "displayInCamac": [
+    177.5,
+    76
+  ],
+  "preparation": "python -B assets/images/sources/partizani/partizanski-camac/prepare.py",
+  "states": [
+    {
+      "name": "intact",
+      "source": "intact.png",
+      "output": "assets/images/game-ready/brodovi/partizanski-camac.webp",
+      "references": [
+        "assets/images/armies/camac.png",
+        "assets/images/armies/camac.png",
+        "assets/images/game-ready/brodovi/schnellboot-s30.webp"
+      ],
+      "prompt": "Create one precisely redrawn game sprite following reference 1 for the exact state, hull silhouette, 355:152 framing, layout and prop positions. Reference 2 is the original intact same boat for identity, colors and fixed anchor points. Reference 3 is existing game pixel-art style only, not a boat to copy. Camera is exact overhead orthographic from directly above, with rounded bow facing RIGHT, straight open stern with twin stern blocks at LEFT and no perspective, drop shadow or visible side wall. Keep the left-to-right shaft, open low hull, start and endpoint and existing proportions. One isolated boat, no people, added weapons, markings, water, foam, wake, smoke, flames, text, exterior shadow, effects or labels. True transparent alpha everywhere outside the silhouette.\nThis is the intact moving boat. Clean but service-worn dark charcoal olive inflatable pontoon tubes, dark weathered wooden floorboards along the hull, two dull brown narrow cross braces and the existing small warm-brown supply crates at the stern. Keep the original small rectangular centerline equipment housing close to the bow and two dark stern blocks. Make the silhouettes and materials readable against water with muted gray-green highlights and blocky wood tones.\nRender fresh deliberate 16-bit style pixel art with crisp distinct pixel clusters, clean contrast at the edges and limited matte warm gray-green/charcoal and muted brown planes. Use 4–6 tones per material, subtle top-left light, sparse scuff pixels, no gradients, chrome, noise, photorealism or smooth vector surfaces. Retain clear visible visual details suitable for twice the original source resolution. Very wide single sprite, preserving the original framing and proportions.",
+      "bounds": [
+        0,
+        3,
+        710,
+        301
+      ],
+      "sourceSha256": "55e92287497cd2d8de02424de06e2f10449be81fa13cededae8af30a568cd0b5",
+      "outputSha256": "6a3c6470908d9ba589c75b87499ccab3920949a53f84806763acc7130fcddb1e",
+      "referenceSha256": {
+        "assets/images/armies/camac.png": "dc4e1cfb0dc783c347793837b6b91989a260f7aa59932d55012ea646e074dc5c",
+        "assets/images/game-ready/brodovi/schnellboot-s30.webp": "083d5f6ae6d2731fdd1b732507c8069229b08a5762970b91b490e232d6e4aaed"
+      }
+    },
+    {
+      "name": "damaged",
+      "source": "damaged.png",
+      "output": "assets/images/game-ready/brodovi/partizanski-camac-damaged.webp",
+      "references": [
+        "assets/images/game-ready/brodovi/player-boat-damaged.webp",
+        "assets/images/armies/camac.png",
+        "assets/images/game-ready/brodovi/schnellboot-s30.webp"
+      ],
+      "prompt": "Create one precisely redrawn game sprite following reference 1 for the exact state, hull silhouette, 355:152 framing, layout and prop positions. Reference 2 is the original intact same boat for identity, colors and fixed anchor points. Reference 3 is existing game pixel-art style only, not a boat to copy. Camera is exact overhead orthographic from directly above, with rounded bow facing RIGHT, straight open stern with twin stern blocks at LEFT and no perspective, drop shadow or visible side wall. Keep the left-to-right shaft, open low hull, start and endpoint and existing proportions. One isolated boat, no people, added weapons, markings, water, foam, wake, smoke, flames, text, exterior shadow, effects or labels. True transparent alpha everywhere outside the silhouette.\nThis is the same boat with moderate damage. Keep the exact outline and all parts except minor scuffs. Follow reference 1 for a handful of small chips on the floor and irregular scuff clusters in the same spots on the tubes, with small gray-tan exposed scratches and a little soot. Keep the floor and both cross braces fully in place. Aim for an obvious yet moderate difference when compared to the intact boat.\nRender fresh deliberate 16-bit style pixel art with crisp distinct pixel clusters, clean contrast at the edges and limited matte warm gray-green/charcoal and muted brown planes. Use 4–6 tones per material, subtle top-left light, sparse scuff pixels, no gradients, chrome, noise, photorealism or smooth vector surfaces. Retain clear visible visual details suitable for twice the original source resolution. Very wide single sprite, preserving the original framing and proportions.",
+      "bounds": [
+        0,
+        3,
+        710,
+        301
+      ],
+      "sourceSha256": "5bf66c78154da7d80bf20d940fdbc58483f55d3327ec954ae9dc6819642c455e",
+      "outputSha256": "5d872084c1f2248a75dfa8ae9803806848845e9cf1b0eee7bfe9c36d45e0157a",
+      "referenceSha256": {
+        "assets/images/game-ready/brodovi/player-boat-damaged.webp": "89065235fa5d84d953da6665b041e951383a4df0e00995b7c49cb1fd31b3c5b9",
+        "assets/images/armies/camac.png": "dc4e1cfb0dc783c347793837b6b91989a260f7aa59932d55012ea646e074dc5c",
+        "assets/images/game-ready/brodovi/schnellboot-s30.webp": "083d5f6ae6d2731fdd1b732507c8069229b08a5762970b91b490e232d6e4aaed"
+      }
+    },
+    {
+      "name": "wreck",
+      "source": "wreck.png",
+      "output": "assets/images/game-ready/wrecks/partizanski-camac.webp",
+      "references": [
+        "assets/images/game-ready/wrecks/player-boat.webp",
+        "assets/images/armies/camac.png",
+        "assets/images/game-ready/brodovi/schnellboot-s30.webp"
+      ],
+      "prompt": "Create one precisely redrawn game sprite following reference 1 for the exact state, hull silhouette, 355:152 framing, layout and prop positions. Reference 2 is the original intact same boat for identity, colors and fixed anchor points. Reference 3 is existing game pixel-art style only, not a boat to copy. Camera is exact overhead orthographic from directly above, with rounded bow facing RIGHT, straight open stern with twin stern blocks at LEFT and no perspective, drop shadow or visible side wall. Keep the left-to-right shaft, open low hull, start and endpoint and existing proportions. One isolated boat, no people, added weapons, markings, water, foam, wake, smoke, flames, text, exterior shadow, effects or labels. True transparent alpha everywhere outside the silhouette.\nThis is the same boat in its wrecked state, viewed directly from above at the same heading and same size. Keep the footprint and original component anchors and paint the damage from reference 1: deflated wrinkled and torn sections of the charcoal olive tube, partially splintered floor boards in the center, sections of broken cross-brace and chipped crates, with patches of dark gaps and torn edges. Preserve bow equipment and the small stern blocks where still attached. Make the bow, the empty stern, and the original silhouette still recognizable. No extra debris beyond the hull.\nRender fresh deliberate 16-bit style pixel art with crisp distinct pixel clusters, clean contrast at the edges and limited matte warm gray-green/charcoal and muted brown planes. Use 4–6 tones per material, subtle top-left light, sparse scuff pixels, no gradients, chrome, noise, photorealism or smooth vector surfaces. Retain clear visible visual details suitable for twice the original source resolution. Very wide single sprite, preserving the original framing and proportions.",
+      "bounds": [
+        0,
+        2,
+        710,
+        302
+      ],
+      "sourceSha256": "d618bce1d965ffe6a2271a7b4252ce5c2cf167ab35a26379cb0c25dc1ccdf470",
+      "outputSha256": "b90ea16e4818b10f2216ed871cd5f2ed01f706488b843ee28a424b24d5e3e8d9",
+      "referenceSha256": {
+        "assets/images/game-ready/wrecks/player-boat.webp": "4626949fed5a08c8eb88f68dd78675ebfc9638d4a890a6c460fbf886d6b05eaa",
+        "assets/images/armies/camac.png": "dc4e1cfb0dc783c347793837b6b91989a260f7aa59932d55012ea646e074dc5c",
+        "assets/images/game-ready/brodovi/schnellboot-s30.webp": "083d5f6ae6d2731fdd1b732507c8069229b08a5762970b91b490e232d6e4aaed"
+      }
+    }
+  ]
+}

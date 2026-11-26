@@ -8,25 +8,42 @@ import Bullet from '../projectiles/Bullet.js'
  * second, turns `turn` radians a second, and fires bursts at it when it is within `range` metres and `cone` radians
  * of its nose, a round every `interval` seconds, flying at `bulletSpeed` for `life` seconds and taking `damage` off.
  * Nearer than `breakAway` it pulls away, and comes round again once `reach` metres off; it keeps between `floor` and
- * `ceiling` metres above the ground. Shot down, it dives at `fall` metres a second, rolling `crashRoll` a second.
+ * `ceiling` metres above the ground. Shot down, it dives at `fall` metres a second, rolling `crashRoll` a second; set to
+ * land, it glides down `glide` radians nose down and on the ground slows by `brake` metres a second each second.
  */
 export const interceptor = { speed: 45, turn: 1.2, range: 150, cone: .15, interval: .15, bulletSpeed: 160, life: 1.5,
-  damage: { min: 20, max: 30 }, health: 120, breakAway: 30, reach: 220, floor: 12, ceiling: 140, fall: 18, crashRoll: 2 }
+  damage: { min: 20, max: 30 }, health: 120, breakAway: 30, reach: 220, floor: 12, ceiling: 140, fall: 18, crashRoll: 2,
+  glide: .15, brake: 6 }
 
 /** The rate at which a heading turns toward `to` from `from`, both in radians, the short way round. */
 const turnToward = (from, to) => Math.atan2(Math.sin(to - from), Math.cos(to - from))
 
 const states = {
+  /** It flies straight on, wings level, holding its fire. */
+  move: {
+    update: (plane, dt) => plane.fly(0, dt),
+  },
+  /** It glides down to the ground and rolls to a stop, for good. */
+  land: {
+    update: (plane, dt) => {
+      if (!plane.airborne) plane.speed = Math.max(0, plane.speed - interceptor.brake * dt)
+      plane.fly(plane.airborne ? -interceptor.glide : 0, dt)
+    },
+  },
   /** It flies at its target and fires when it has it in its sights. */
   attack: {
     update: (plane, dt) => {
       plane.steerTo(plane.target, dt)
-      if (plane.distance < interceptor.breakAway) plane.breakAway()
+      if (plane.distance < interceptor.breakAway) plane.setState('extend')
       else if (plane.inSights) plane.fire()
     },
   },
-  /** It flies on the way it broke away until far enough to turn and come again. */
+  /** It pulls away the way it flies, to a point `reach` metres on, until far enough to turn and come again. */
   extend: {
+    enter: plane => {
+      plane.goal = plane.ahead(interceptor.reach * 1.5)
+      plane.goal.y = plane.target.y + interceptor.floor
+    },
     update: (plane, dt) => {
       plane.steerTo(plane.goal, dt)
       if (plane.distance > interceptor.reach) plane.setState('attack')
@@ -44,7 +61,6 @@ export default class Interceptor extends Body {
     super({ size, health: interceptor.health, ...rest, states, initial: 'attack' })
     Object.assign(this, { target, groundAt, speed: interceptor.speed })
     this.roll = 0
-    this.landing = false
     this.goal = null
     this.reload = new Cooldown({ seconds: interceptor.interval, clock })
     this.rounds = new ProjectilePool(() => new Bullet({ life: interceptor.life, damage: interceptor.damage }))
@@ -96,11 +112,25 @@ export default class Interceptor extends Body {
     this.vz = -Math.sin(this.yaw) * level
   }
 
-  /** Pulls away the way it flies, to a point `reach` metres on, and from there comes round again. */
-  breakAway() {
-    this.goal = this.ahead(interceptor.reach * 1.5)
-    this.goal.y = this.target.y + interceptor.floor
-    this.setState('extend')
+  /** Flies on its heading, its nose easing to `pitch` and its wings to level. */
+  fly(pitch, dt) {
+    const step = interceptor.turn * dt
+    this.pitch += Math.max(-step, Math.min(step, pitch - this.pitch))
+    this.roll -= this.roll * Math.min(1, dt * 3)
+    const level = Math.cos(this.pitch) * this.speed
+    this.vx = Math.cos(this.yaw) * level
+    this.vy = Math.sin(this.pitch) * this.speed
+    this.vz = -Math.sin(this.yaw) * level
+  }
+
+  /** Set to land, it comes down and rolls to a stop. */
+  get landing() {
+    return this.state === 'land'
+  }
+
+  /** Landing or shot down, it does not take off again; a landing plane can still be shot down. */
+  setState(name) {
+    if (name === 'dead' || (this.alive && !this.landing)) super.setState(name)
   }
 
   /** Fires a round along its nose if it has reloaded. */
@@ -117,8 +147,10 @@ export default class Interceptor extends Body {
       this.roll += interceptor.crashRoll * dt
     }
     super.update(dt)
-    if (this.dead && !this.airborne) {
-      this.vx = this.vy = this.vz = 0
+    if ((this.dead || this.landing) && !this.airborne) {
+      if (this.dead) this.vx = this.vz = 0
+      else this.pitch = 0
+      this.vy = 0
       this.y = this.groundAt(this.x, this.z) + this.size.height / 2
     }
     this.rounds.update(dt, [this.target])

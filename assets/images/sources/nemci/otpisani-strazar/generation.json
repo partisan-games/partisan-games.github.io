@@ -1,0 +1,87 @@
+{
+  "tool": "built-in image_gen",
+  "original": "assets/images/game-ready/vojnici/otpisani-sentry-sprites.webp",
+  "styleReferences": [
+    "assets/images/game-ready/vojnici/otpisani-rifleman-pixel-sprites.webp"
+  ],
+  "output": "assets/images/game-ready/vojnici/otpisani-sentry-pixel-sprites.webp",
+  "preparation": "python -B scripts/prepare-otpisani-front-art.py assets/images/sources/nemci/otpisani-strazar/generation.json",
+  "cell": [
+    512,
+    512
+  ],
+  "grid": [
+    4,
+    6
+  ],
+  "gutter": 4,
+  "anchor": [
+    256,
+    496
+  ],
+  "standingPixels": 448,
+  "muzzle": [
+    258.58490566037733,
+    138.52830188679246
+  ],
+  "singleFrameRows": [
+    0
+  ],
+  "clips": [
+    "idle",
+    "walk-left",
+    "walk-right",
+    "attack",
+    "hit",
+    "dead"
+  ],
+  "blocks": [
+    {
+      "source": "idle-walk-left.png",
+      "rows": [
+        0,
+        1
+      ],
+      "prompt": "Redraw IMAGE 1 as a precisely registered 2D game sprite sheet, exact 4 columns × 2 rows, one full-body pose per cell, each matching the same cell of image 1. IMAGE 1 fixes the composition, viewing directions, pose, firearm silhouette and position of helmet, hem, feet, hands, face, and bare transparent cell margins. IMAGE 2 is the project's already approved rifleman sprite and is a STYLE reference ONLY. Keep the sentry recognizable and different: long warm grey-brown double breasted winter wool greatcoat almost to the boots, dark brown knit scarf, charcoal gloves, slate steel helmet, dark belt with buckle, brown leather gaiters and tall boots. Do not substitute the other character's short jacket or alter the sentry's clothing. The sentry carries the same plain wooden rifle from his template.\nTOP exactly four identical copies of the stationary frontal sentry, holding his full-length rifle upright along the left side of his image. BOTTOM exactly four LEFT-facing patrol steps, preserve the upright carry and the original marching wide/narrow/wide/narrow foot positions. The long coat opens and sways the same way as the matching template frame.\nHand-drawn pixel art as in image 2. Strong contiguous stepping pixel clusters, 5–7 matte tonal groups per material, short selective charcoal edges, highlights on folds and helmets in the same light as the approved short jacket character. Readable at 180px character height, restrained earth palette. No smooth vector gradients, airbrushing, random dot texture or graphic overlays. Extra-wide 2:1 canvas matching the original layout, complete sprites with enough space between cells. Transparent everywhere outside the characters. No labels, grids, borders, symbols or added parts. Return only one 4x2 pose sheet.",
+      "sourceSha256": "aa727644ec078d3a860c2df42fd79ad80da2aaae32014c24e156fad0a47ec752"
+    },
+    {
+      "source": "walk-right-attack.png",
+      "rows": [
+        2,
+        3
+      ],
+      "prompt": "Redraw IMAGE 1 as a precisely registered 2D game sprite sheet, exact 4 columns × 2 rows, one full-body pose per cell, each matching the same cell of image 1. IMAGE 1 fixes the composition, viewing directions, pose, firearm silhouette and position of helmet, hem, feet, hands, face, and bare transparent cell margins. IMAGE 2 is the project's already approved rifleman sprite and is a STYLE reference ONLY. Keep the sentry recognizable and different: long warm grey-brown double breasted winter wool greatcoat almost to the boots, dark brown knit scarf, charcoal gloves, slate steel helmet, dark belt with buckle, brown leather gaiters and tall boots. Do not substitute the other character's short jacket or alter the sentry's clothing. The sentry carries the same plain wooden rifle from his template.\nTOP exactly four original RIGHT-facing profile walking steps, same contact positions and phase order as reference 1. Rifle held diagonally down across front in this direction. BOTTOM exactly four original forward-facing standing poses aiming the same wooden rifle straight toward the viewer. Keep the small round muzzle in the exact same spot in each cell; keep both hands in charcoal gloves, no flash, smoke or projectile.\nHand-drawn pixel art as in image 2. Strong contiguous stepping pixel clusters, 5–7 matte tonal groups per material, short selective charcoal edges, highlights on folds and helmets in the same light as the approved short jacket character. Readable at 180px character height, restrained earth palette. No smooth vector gradients, airbrushing, random dot texture or graphic overlays. Extra-wide 2:1 canvas matching the original layout, complete sprites with enough space between cells. Transparent everywhere outside the characters. No labels, grids, borders, symbols or added parts. Return only one 4x2 pose sheet.",
+      "sourceSha256": "baedff5dee8705ea57dab2f235630301f43657391ace3e5b9a2aa88a476ffc57",
+      "muzzlePoints": [
+        [
+          257,
+          137
+        ],
+        [
+          254.5,
+          136
+        ],
+        [
+          254,
+          135
+        ],
+        [
+          254.5,
+          137
+        ]
+      ]
+    },
+    {
+      "source": "hit-death.png",
+      "rows": [
+        4,
+        5
+      ],
+      "prompt": "Redraw IMAGE 1 as a precisely registered 2D game sprite sheet, exact 4 columns × 2 rows, one full-body pose per cell, each matching the same cell of image 1. IMAGE 1 fixes the composition, viewing directions, pose, firearm silhouette and position of helmet, hem, feet, hands, face, and bare transparent cell margins. IMAGE 2 is the project's already approved rifleman sprite and is a STYLE reference ONLY. Keep the sentry recognizable and different: long warm grey-brown double breasted winter wool greatcoat almost to the boots, dark brown knit scarf, charcoal gloves, slate steel helmet, dark belt with buckle, brown leather gaiters and tall boots. Do not substitute the other character's short jacket or alter the sentry's clothing. The sentry carries the same plain wooden rifle from his template.\nTOP four original non-graphic hit reactions, modest stoop and recovery with rifle upright. BOTTOM four original stages of collapse in order, standing with bent knees, kneeling, diagonally reclined, lying fully sideways across the ground. Keep the same long coat, rifle and gloves throughout. Do not replace the kneeling or reclining phase with standing. No blood or effects.\nHand-drawn pixel art as in image 2. Strong contiguous stepping pixel clusters, 5–7 matte tonal groups per material, short selective charcoal edges, highlights on folds and helmets in the same light as the approved short jacket character. Readable at 180px character height, restrained earth palette. No smooth vector gradients, airbrushing, random dot texture or graphic overlays. Extra-wide 2:1 canvas matching the original layout, complete sprites with enough space between cells. Transparent everywhere outside the characters. No labels, grids, borders, symbols or added parts. Return only one 4x2 pose sheet.",
+      "sourceSha256": "225722eab84b5cb7f60505296606cf78b239084c8cbb40936df67667dc2b8c4d"
+    }
+  ],
+  "originalSha256": "636118c3da2e453c1b91e4a3ac81eea03102e405f9356a9a4712daf8a551f741",
+  "outputSha256": "f3ef13e29ed474cc0f856cbeaf49efefd43f2d9cc415f08cf0a110b31ce46324"
+}

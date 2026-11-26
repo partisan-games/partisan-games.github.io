@@ -1,0 +1,93 @@
+{
+  "tool": "built-in image_gen",
+  "referenceFrame": [
+    246,
+    93
+  ],
+  "frame": [
+    492,
+    186
+  ],
+  "anchor": [
+    246,
+    93
+  ],
+  "orientation": "front with shallow right face",
+  "mechanics": "The shared Bunker body defines the firing point and the hit box for all three images.",
+  "preparation": "python -B assets/images/sources/buildings/betonski-bunker/prepare.py",
+  "states": [
+    {
+      "name": "base",
+      "source": "base.png",
+      "output": "assets/images/game-ready/artiljerija/betonski-bunker.webp",
+      "placement": [
+        4,
+        4,
+        488,
+        182
+      ],
+      "references": [
+        "assets/images/buildings/bunker-02.png",
+        "assets/images/game-ready/artiljerija/house-bunker-pixel.webp"
+      ],
+      "prompt": "One isolated 2D game sprite of the same very wide, squat concrete pillbox, viewed straight at the front with a VERY narrow right wall and narrow top of the roof visible. Match the supplied original 246:93 sprite framing and position, broad rectangular concrete block, single long black centered horizontal firing slit from approximately x60 to181 and y56 to70 with its stepped concrete recess and muted rusty inside lip. Roof cap, light from upper left, lower slab and baseline in their exact old positions. Slit is dark opaque, outside is true transparent alpha. No weapons or people shown, no ground, scenery, effects, cast shadow outside the sprite, labels or text. Final asset is twice the original density with very deliberate contiguous pixel clusters, about five matte shades of weathered gray-brown concrete with restrained moss olive, sharp clean edges and little speckle. Shading style follows reference 3, but never copy its house shapes. Reference 1 defines this exact intact silhouette. Reference 2 shows the same original and its anchor. Redraw the low horizontal roof cap, understated seams, shallow bevels and two or three tiny preexisting nicks. Leave the concrete sturdy and largely intact; keep the right end and lower slab. Use flat readable surface planes and dark warm recess.",
+      "bounds": [
+        4,
+        8,
+        488,
+        182
+      ],
+      "sourceSha256": "94755cb812001f844748837e00835bee464102d4468ce4142d2c4dea48202f9f",
+      "outputSha256": "19166cbba1e15f5ea2edd550881f17ed7a0dad191e34259665671eae238cbed7"
+    },
+    {
+      "name": "damaged",
+      "source": "damaged.png",
+      "output": "assets/images/game-ready/artiljerija/betonski-bunker-damaged.webp",
+      "placement": [
+        4,
+        4,
+        488,
+        182
+      ],
+      "references": [
+        "base.png",
+        "assets/images/game-ready/artiljerija/bunker-damaged.webp"
+      ],
+      "prompt": "Make a tightly controlled edit of image 1, the exact painted concrete bunker sprite. Preserve its entire silhouette, roof and roof depth, narrow right side, long dark horizontal firing slit and its stepped concrete and brown steel frame in the exact locations and shapes. Keep existing colors, blocky pixel clusters, outer transparent background and the three existing tiny pockmarks in the same places. Add visible, moderate progressive damage only to the face and surfaces, guided by image 2: a few more dark projectile chips with slightly light rim at irregular spacing, a diagonal crack and a smaller chipped upper-right corner on the face, two restrained warm charcoal soot patches, a nick on the firing slit frame. Roof cap and all walls remain sturdy and clearly in place. Keep the opening dark and usable. Do not move frame edges or change roof height. No collapse, no people, no added gun, flames, smoke, text or any element outside the current silhouette. Output a single transparent game sprite, same framing as image 1, with crisp modest damage.",
+      "bounds": [
+        4,
+        8,
+        488,
+        182
+      ],
+      "sourceSha256": "67c9ae523a4c297bb310c423ed9ff809832264cf2b6c94081acc3237a39468f5",
+      "outputSha256": "f548d30b334e22c738e221243a477ad90d53d2d8a75c4814feb3c6d573e1343b"
+    },
+    {
+      "name": "wreck",
+      "source": "wreck.png",
+      "output": "assets/images/game-ready/wrecks/betonski-bunker.webp",
+      "placement": [
+        0,
+        82,
+        492,
+        186
+      ],
+      "references": [
+        "assets/images/game-ready/wrecks/bunker.webp",
+        "assets/images/buildings/bunker-02.png",
+        "assets/images/game-ready/artiljerija/house-bunker-pixel.webp"
+      ],
+      "prompt": "One isolated 2D game sprite of the same very wide, squat concrete pillbox, viewed straight at the front with a VERY narrow right wall and narrow top of the roof visible. Match the supplied original 246:93 sprite framing and position, broad rectangular concrete block, single long black centered horizontal firing slit from approximately x60 to181 and y56 to70 with its stepped concrete recess and muted rusty inside lip. Roof cap, light from upper left, lower slab and baseline in their exact old positions. Slit is dark opaque, outside is true transparent alpha. No weapons or people shown, no ground, scenery, effects, cast shadow outside the sprite, labels or text. Final asset is twice the original density with very deliberate contiguous pixel clusters, about five matte shades of weathered gray-brown concrete with restrained moss olive, sharp clean edges and little speckle. Shading style follows reference 3, but never copy its house shapes. Reference 1 defines the destroyed state and is the main silhouette guide. Reference 2 is the intact pillbox and fixes architecture, proportions and baseline. Follow the existing wreck, same low damaged height, with the entire cap fallen behind, cracked concrete spanning the base and much of the layered slit still readable. Keep at least the lower left slab and left part of the aperture at the same position and two or three familiar small dark scars on remaining slabs. Broken dark metal rods and slabs in the collapse and on the right follow reference 1. Keep all rubble tight within the original footprint, retain the existing asset's moderate ruin profile. No collapse into flat dust, no more destruction than reference 1.",
+      "bounds": [
+        6,
+        82,
+        486,
+        186
+      ],
+      "sourceSha256": "9cc7f0fc6146ac5d241bbb2d7a34d353780e47bab98d26fd63324dbad4a3a02b",
+      "outputSha256": "4907530996161992e7a6790798bdad390cc8f926462e2b108d0a73d3ac64eb61"
+    }
+  ]
+}

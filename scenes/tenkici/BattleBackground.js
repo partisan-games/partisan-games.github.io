@@ -27,7 +27,7 @@ export const battlefields = {
     src: 'background/razrusen-grad-ww2-pixel.webp', width: 724, height: 543, ground: 395 / 543,
     props: [
       { id: 'opel-blitz', x: 535, y: 766, scale: .43 },
-      { id: 'partisan-fallen-side', x: 997, y: 786, scale: .46, flip: true },
+      { id: 'partisan-fallen-prone', x: 997, y: 786, scale: .46, flip: true },
     ],
     pozari: [
       { x: 176, y: 365, velicina: 1, faza: 0 },
@@ -53,7 +53,7 @@ export const battlefields = {
   drvar: {
     src: 'background/drvar-spring-1944-pixel.webp', width: 768, height: 512, ground: 814 / 1024,
     props: [
-      { id: 'german-fallen-side', x: 1120, y: 775, scale: .42 },
+      { id: 'german-fallen-supine', x: 1120, y: 775, scale: .42, flip: true },
       { id: 'partisan-fallen-prone', x: 461, y: 802, scale: .51, flip: true },
     ],
     pozari: [], stuboviDima: [],
@@ -61,7 +61,7 @@ export const battlefields = {
   uzice: {
     src: 'background/uzice-ww2-pixel.webp', width: 768, height: 512, ground: 813 / 1024,
     props: [
-      { id: 'partisan-fallen-side', x: 1338, y: 789, scale: .44 },
+      { id: 'partisan-fallen-prone', x: 1338, y: 789, scale: .44 },
     ],
     pozari: [{ x: 670, y: 295, velicina: .6, faza: 0 }, { x: 500, y: 270, velicina: .3, faza: 4.2 }],
     stuboviDima: [{ x: 610, y: 254, faza: 2.4, seme: 3.6, ...defaultColumn }],
@@ -71,9 +71,9 @@ export const battlefields = {
     src: 'background/sremski-front-1944-static.webp', width: 768, height: 512, ground: 828 / 1024,
     props: [
       { id: 'pak38', x: 941, y: 727, scale: .49 },
-      { id: 'german-fallen-prone', x: 1001, y: 740, scale: .42 },
+      { id: 'german-fallen-supine', x: 1001, y: 740, scale: .42, flip: true },
       { id: 'blood-patch', x: 485, y: 807, scale: .42 },
-      { id: 'partisan-fallen-side', x: 501, y: 803, scale: .55, flip: true },
+      { id: 'partisan-fallen-prone', x: 501, y: 803, scale: .55, flip: true },
     ],
     // three, as the owner chose: the broken roof, the trench timber and a farm on the plain
     ...burningSpots([[300, 370, .6, 0, 1.1], [935, 560, .35, 4.1, 3.4], [1160, 350, .2, 1.4, 5.2]]),
@@ -86,7 +86,7 @@ export const battlefields = {
     props: [
       { id: 'partisan-fallen-prone', x: 461, y: 812, scale: .47, flip: true },
       { id: 'blood-smear', x: 1037, y: 834, scale: .39 },
-      { id: 'german-fallen-side', x: 1047, y: 830, scale: .52 },
+      { id: 'german-fallen-supine', x: 1047, y: 830, scale: .52, flip: true },
     ],
   },
   sremFront1945: {
@@ -104,7 +104,7 @@ export const battlefields = {
   grahovo: {
     label: 'Grahovo, 1941',
     src: 'background/grahovo-1941-war-sparse-static.webp', width: 768, height: 512, ground: 852 / 1024,
-    props: [{ id: 'italian-fallen-prone', x: 557, y: 753, scale: .41, flip: true }],
+    props: [{ id: 'italian-fallen-side', x: 557, y: 753, scale: .41, flip: true }],
     ...burning(220, 387, .25, .6, 1.6),
   },
   vilusi: {
@@ -113,7 +113,7 @@ export const battlefields = {
     props: [
       { id: 'italian-fallen-side', x: 881, y: 772, scale: .42 },
       { id: 'blood-patch', x: 600, y: 828, scale: .35 },
-      { id: 'partisan-fallen-supine', x: 611, y: 824, scale: .5 },
+      { id: 'partisan-fallen-prone', x: 611, y: 824, scale: .5, flip: true },
     ],
     ...burning(1320, 522, .25, 2.2, 2.9),
   },
@@ -121,8 +121,8 @@ export const battlefields = {
     label: 'Nikšić area, 1941',
     src: 'background/niksic-1941-static.webp', width: 768, height: 512, ground: 798 / 1024,
     props: [
-      { id: 'partisan-fallen-side', x: 472, y: 754, scale: .46 },
-      { id: 'italian-fallen-supine', x: 876, y: 767, scale: .43, flip: true },
+      { id: 'partisan-fallen-prone', x: 472, y: 754, scale: .46 },
+      { id: 'italian-fallen-side', x: 876, y: 767, scale: .43 },
     ],
     ...burning(260, 475, .25, 4.1, 4.4),
   },

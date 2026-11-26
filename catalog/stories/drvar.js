@@ -8,8 +8,7 @@ import CoverSoldierSprite, { coverSoldierArt } from '/core3d/actor/soldiers/Cove
 import CoverSoldierModel, * as coverSoldierModelModule from '/core3d/actor/soldiers/CoverSoldierModel.js'
 import TransportSprite, { transportArt } from '/core3d/actor/aircraft/TransportSprite.js'
 import { loadPixelArt } from '/core3d/assets/pixelArt.js'
-import { loadedModel, requestModels } from '/core3d/assets/models.js'
-import * as gliderModule from '/core3d/actor/aircraft/Dfs230.js'
+import { requestModels } from '/core3d/assets/models.js'
 import Ju52, * as ju52Module from '/core3d/actor/aircraft/Ju52.js'
 
 const game = 'Raid on Drvar (u izradi)'
@@ -73,16 +72,6 @@ export const aircraft3d = [
       const body = new Transport({ y: 20 })
       stage.add(body, new Ju52(body))
       return body
-    },
-  },
-  {
-    id: 'dfs-230', name: 'Jedrilica DFS 230', game, block: gliderModule, stage: Stage3D,
-    create: async stage => {
-      const { dfs230Model } = gliderModule
-      await requestModels([dfs230Model])
-      const glider = { mesh: loadedModel(dfs230Model).clone(true) }
-      stage.add(glider)
-      return glider
     },
   },
 ]

@@ -7,22 +7,20 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 | # | ID | Posao | Ko | Status |
 |---|---|---|---|---|
 | | **[Art](#art)** | | | |
-| 1 | [AR-P16](#ar-p16) | Precrtati art koji 2D igre još koriste neprecrtan | Codex | 📋 TODO |
+| 1 | [AR-P16](#ar-p16) | Precrtati art koji 2D igre još koriste neprecrtan | Codex | 🔄 In progress |
 | 2 | [AR-P17](#ar-p17) | Precrtati 3D aktere u pixel art | Codex | 📋 TODO |
 | | **[Igre i ideje](#igre)** | | | |
 | 3 | [IG-18](#ig-18) | Otpisani kao arkadna pucačina kroz četiri beogradske ulice | Codex: panorame; Claude: igra | 📋 TODO |
-| 4 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
 | 5 | [IG-29](#ig-29) | Dovršiti logor Crveni krst u Escape Concentration Camp | Codex, Claude | 🔄 In progress |
 | 6 | [CK-01](#ck-01) | Crveni krst: uskladiti vidljivog lika, telo i stopala | Claude | 🔄 In progress |
-| 7 | [CK-02](#ck-02) | Crveni krst: prave animacije, držanje cevi i prelazi | Vlasnik: klipovi; Claude: povezivanje | 🔄 In progress |
+| 7 | [CK-02](#ck-02) | Crveni krst: prave animacije, držanje cevi i prelazi | Claude | 🔄 In progress |
 | 8 | [CK-03](#ck-03) | Crveni krst: prepoznatljivi logoraši i katalog | Codex | 📋 TODO |
 | 9 | [CK-06](#ck-06) | Crveni krst: tlo, pozadina i zvuci po snegu | Codex: teren i pozadina; zvuci nedostaju | 📋 TODO |
 | 10 | [CK-07](#ck-07) | Crveni krst: pregled celog proboja i regresije | Claude | 📋 TODO |
-| 11 | [IG-31](#ig-31) | Dodati pruge, mostove i izbor savezničkih aviona u Warplane | Vlasnik, Codex, Claude | 🔄 In progress |
+| 11 | [IG-31](#ig-31) | Dodati pruge i mostove u Warplane | Codex: modeli; Claude: igra | 📋 TODO |
 | 12 | [IG-34](#ig-34) | Napraviti vernu scenu i igru opsade Kraljeva po dogovorenom scenariju | Vlasnik, Claude, Codex | 🔄 In progress |
 | 13 | [IG-35](#ig-35-igre-na-telefonu) | Otkriti igre na telefonu posle merenja i optimizacije, kad su nivoi gotovi | Claude, vlasnik | 📋 TODO |
 | 14 | [IG-36](#ig-36) | Ustanak: probati dvoboj minobacača umesto topova | Claude | 📋 TODO |
-| 15 | [IG-37](#ig-37) | Čamac: razmotriti desante na Brač, Mljet i Korčulu | Vlasnik | 📋 TODO |
 
 ## Održavanje plana
 
@@ -41,21 +39,21 @@ Olupina poljskog topa može postati zaseban rekvizit bojišta; još nije raspore
 <a id="ar-p16"></a>
 ### AR-P16 · Neprecrtan art u 2D igrama
 
-Igre poput Bunkera još prikazuju stare slike iz zbirke, koje nisu precrtane u stilu projekta kao akteri u [game-ready](../assets/images/game-ready) (vlasnik, 2026-11-25). Codex ih precrtava u istom stilu i meri, kao lossless WebP u game-ready, sa pričom u katalogu. Igre zatim prelaze na novu sliku, a stara se briše ako je više niko ne koristi. Popis je napravljen iz koda, praćenjem importa svake igre:
+Stare crteže koje 2D igre još koriste precrtati u istom stilu i meri, kao lossless WebP u [game-ready](../assets/images/game-ready). Akteri i vozila dele art između igre i kataloga. Nove slike povezati u igri, a stare ukloniti kada više nemaju potrošače.
+
+**Precrtano i povezano.** [Partizanski čamac](../catalog.html#brodovi/partizanski-camac) ima precrtan trup, oštećenje i olupinu. [Betonski bunker](../catalog.html#artiljerija/bunker-do-trsta) koristi novi osnovni crtež, oštećenje i ruševinu u Do Trsta. [Kuća-bunker](../catalog.html#artiljerija/kuca-bunker) ima tri stepena oštećenja i [novog mitraljesca](../assets/images/game-ready/vojnici/mitraljezac-pixel-sprites.webp). [Fiat CR.42](../catalog.html#avioni/fiat-cr42) i [IMAM Ro.57](../catalog.html#avioni/imam-ro57) koriste nove crteže u Ustanku. U Neretvi Nemci koriste [precrtani rov](../assets/images/game-ready/polozaji/neretva/rov-prazan.webp), a četnici [gomilu kamenja](../assets/images/game-ready/polozaji/neretva/gomila-kamenja.webp). Do Trsta koristi [precrtanu crkvu](../assets/images/game-ready/scenery/crkva-do-trsta.webp). Nova [eksplozija](../assets/images/game-ready/efekti/eksplozija.webp) koristi se u Bunkeru, Čamcu, Franji Kluzu, Neretvi, Do Trsta i Visu. Precrtana [granata](../assets/images/game-ready/projektili/granata.webp) koristi se za zajednički prikaz projektila u letu i za ikonu municije u Franji Kluzu. Vis koristi precrtano [ostrvo](../assets/images/game-ready/scenery/vis/ostrvo.webp) tokom leta i [bazu](../assets/images/game-ready/scenery/vis/baza.webp) pri sletanju. Franjo Kluz koristi precrtanu [zgradu aerodroma](../assets/images/game-ready/scenery/franjo-kluz/aerodrom.webp).
 
 | Slika | Igre |
 |---|---|
-| [Bunker](../assets/images/buildings/bunker-02.png) | Do Trsta |
+| [Raketa](../assets/images/items/raketa.png) | Čamac |
 | [Nagazna mina](../assets/images/items/nagazna.png) | Bunker |
-| [Eksplozija](../assets/images/sprites/efekti/eksplozija-01.png) | Bunker, Čamac, Franjo Kluz, Neretva, Do Trsta, Vis |
 | [Krv](../assets/images/sprites/efekti/krv-mala.png) | Bunker |
-| [Granata](../assets/images/items/granata.gif) i [plamen](../assets/images/plamen.gif) | Bunker, Čamac, Franjo Kluz, Neretva, Tenkići, Do Trsta, Vis, Ustanak |
+| [Plamen](../assets/images/plamen.gif) | Prikaz udara topovske granate, npr. Tenkići, Do Trsta i Ustanak |
 | [Bomba](../assets/images/items/bomba.png) | Franjo Kluz, Neretva, Do Trsta, Vis |
-| [Raketa](../assets/images/items/raketa.png) i [partizanski čamac](../assets/images/armies/camac.png) | Čamac |
-| [Fiat CR.42](../assets/images/armies/talijani/avioni/fiat-cr42.png), [IMAM Ro.57](../assets/images/armies/talijani/avioni/imam-ro57.png), [partizanska](../assets/images/sprites/zastava.png) i [italijanska zastava](../assets/images/armies/talijani/vojnici/strelci/zastava.svg) | Ustanak; italijanska zastava i u Jablanici |
-| [Aerodrom](../assets/images/buildings/aerodrom.png), [ruševina](../assets/images/buildings/ruina.png), [šumarak](../assets/images/nature/shumarak.png), [žbun](../assets/images/nature/zbun.png) i [oblak](../assets/images/nature/oblak.gif) | Franjo Kluz; šumarak i u Do Trsta, oblak i u Visu |
-| [Kuće](../assets/images/buildings/kuca-04.png) ([druga](../assets/images/buildings/kuca-07.png)) i [crkva](../assets/images/buildings/crkva-01.png) | Do Trsta |
-| [Ostrvo](../assets/images/nature/ostrvo.gif), [baza](../assets/images/vis.png), [municija](../assets/images/items/municija.png) i [zdravlje](../assets/images/items/zdravlje.png) | Vis |
+| [Partizanska zastava](../assets/images/sprites/zastava.png) i [italijanska zastava](../assets/images/armies/talijani/vojnici/strelci/zastava.svg) | Ustanak, italijanska zastava i u Jablanici |
+| [Ruševina](../assets/images/buildings/ruina.png), [šumarak](../assets/images/nature/shumarak.png), [žbun](../assets/images/nature/zbun.png) i [oblak](../assets/images/nature/oblak.gif) | Franjo Kluz; šumarak i u Do Trsta, oblak i u Visu |
+| [Kuće](../assets/images/buildings/kuca-04.png) ([druga](../assets/images/buildings/kuca-07.png)) | Do Trsta |
+| [Municija](../assets/images/items/municija.png) i [zdravlje](../assets/images/items/zdravlje.png) | Vis |
 | [Plamen pucnja](../assets/images/pucanje.png) | Otpisani |
 
 Van popisa su pozadine, korisnički interfejs i teksture 3D igara; zapisi olupina i propelera samo prepoznaju slike, pa nisu upotreba.
@@ -83,13 +81,8 @@ Etape idu pravcem borbi za Beograd u oktobru 1944:
 Neprijatelji su i tenkovi i oklopna vozila, koji bočno prelaze ulicu; koriste se bočni crteži nemačkih vozila iz projekta, a crta se samo ono što nedostaje. Igrač ima i ograničen broj ručnih bombi (desni klik ili posebno dugme na dodir): bomba obara grupu pešaka, a tenk traži dve ili tri. Bombe i municija dopunjuju se gađanjem sanduka. Bombe su izabrane jer su verodostojne za beogradske ulice i služe i protiv pešaka; vlasniku je svejedno, samo da se tenk može uništiti (2026-11-26).
 
 - [ ] Codex: četiri crno-bele panorame u stilu [sadašnje pozadine](../assets/images/background/beograd-1944-crno-belo.webp), svaka široka tri do četiri ekrana (oko 5000 × 1024 px), sa zaklonima, prozorima i kapijama iz kojih Nemci iskaču.
-- [ ] Codex: precrtati u pixel art [nemačkog strelca](../assets/images/game-ready/vojnici/otpisani-rifleman-sprites.webp) i [stražara u šinjelu](../assets/images/game-ready/vojnici/otpisani-sentry-sprites.webp) Otpisanih, sa istim pozama i rasporedom kadrova; sada su glatki, sa debelim obrisom, kao vektorski crtež, i odskaču od ostalih 2D igara (vlasnik, 2026-11-26). Uzor su Nemci iz rova u Neretvi. U istom stilu i novi neprijatelji etapa.
+- [ ] Codex: nacrtati neprijatelje koji nedostaju za nove etape u stilu [precrtanog strelca i stražara](ART.md#pešadija-i-posade).
 - [ ] Claude: klizanje prizora, iskakanje Nemaca i etape, kad panorame stignu.
-
-<a id="ig-24"></a>
-### IG-24 · Parole Bihaća
-
-Liberated City je Bihać krajem 1942. Natpisi o dolasku Crvene armije i plakat RED_ARMY_IS_HERE pripadaju drugom okviru; vlasnik bira zamenu ili uklanjanje pre izmene sadržaja.
 
 <a id="ig-29"></a>
 ### IG-29 · Logor Crveni krst u Escape Concentration Camp
@@ -139,7 +132,7 @@ P1 je kvar položaja lika/igre; P2 potvrđen problem prirodnosti ili neispunjen 
 | Povezano u nivou; čeka vizuelnu proveru | [Crouching Idle](../assets/models/character/soldier/Crouching%20Idle.fbx) i [Crouch Idle](../assets/models/character/soldier/Crouch%20Idle.fbx) | Dva različita čučeća mirovanja, različiti početni izbori/faze/tempo i nezavisno menjanje tokom čekanja. Proveriti stopala, hvat cevi i spoj petlje; katalog još nema te radnje. |
 | Povezano u nivou; čeka vizuelnu proveru | [Crouch Look Around Corner](../assets/models/character/soldier/Crouch%20Look%20Around%20Corner.fbx) | Osmatranje dok saborac miruje u zaklonu tokom zatišja, ne kao mirovanje na otvorenom. Nova vatra prekida osmatranje; fizičku blizinu ivice i položaj prema zaklonu još proveriti. |
 | Povezano u nivou; čeka vizuelnu proveru | [Crouch To Stand](../assets/models/character/soldier/Crouch%20To%20Stand.fbx), unazad za spuštanje | Koristi se aktivni deo snimka, frejmovi 24–71 pri 30 fps; početno/završno čekanje je izostavljeno, horizontalni koren usklađen. Saborac zastane tokom prelaza i tek uspravan trči/udara; povratni prelaz koristi isti snimak unazad. Visina tela prati napredak; vizuelnu prirodnost obrnutog snimka proveriti pre nove nabavke. |
-| Jedan udarac | **One Handed Melee Attack / Baton Strike / Club Swing** | Odlučan udarac desnom rukom sa oporavkom. Može odgovarajući pojedinačni zamah mačem; bez višestrukog komboa i akrobatike. |
+| Povezano u nivou | [One Hand Sword Combo](../core3d/actor/derived/ww2/WorkerPipe.js), uglađen na početku i kraju | Udarac cevi desnom rukom sa oporavkom. |
 | Dopuna po potrebi | **Turn Left / Right In Place**, **Crouch Turn Left / Right** | Za velike okrete u mestu, ako ograničena brzina okreta i postojeće animacije ne budu dovoljne. |
 | Dopuna po potrebi | **Crouching Hit Reaction**, **Crouch Flinch / Cower / Cover Head** | Prvo probati postojeće reakcije; nova animacija samo za nepokriven pogodak/zaštitu od neposredne vatre. |
 
@@ -159,9 +152,9 @@ Codex sprovodi korake; vlasnik bira/preuzima Mixamo klipove kao do sada. Tehnič
 **Izmereno (2026-11-26):** u mirovanjima i osvrtanju stopala se pomeraju najviše 0,7 cm. Ustajanje iz čučnja ima snimljen korak napred od oko 37 cm; telo saborca sada pravi taj korak sa snimkom ([CompanionModel](../scenes/crveni-krst/CompanionModel.js), osim kroz zid), pa stopalo koje nosi težinu ostaje na mestu. **Preostaje:** spuštanje u čučanj (obrnut snimak ustajanja) i dalje vuče stopala oko 44 cm, jer bi korak unazad pomerao saborca sa njegovog mesta u grupi pri svakom zaustavljanju; rešenje je zaseban snimak spuštanja u mestu ili mesto u grupi koje računa sa tim korakom.
 
 <a id="ck-02"></a>
-#### CK-02 · Animacije i prelazi · 1 / 2 / 3 p · Vlasnik: klipovi; Claude: povezivanje
+#### CK-02 · Animacije i prelazi · 1 / 2 / 3 p · Claude
 
-**Osnova je povezana:** dva stvarna čučeća mirovanja sa različitim fazama/tempom, osmatranje iz zaklona i prelaz ustajanja/spuštanja za svu trojicu. **Preostaje:** paket radnji prikazati u katalogu, vizuelno proveriti celu sekvencu sa cevi i dopuniti udarac i reakcije. Slučajan izbor sme birati samo stvarno dostupne radnje; opasnost i borba imaju prednost. **Gotovo kada:** 30 s čekanja i deset ponavljanja svakog prelaza sa cevi, iz više uglova, bez skoka položaja, pogrešnog hvata i identičnog grupnog ritma; pogodak/smrt mogu prekinuti čekanje i prelaz. **Zavisnost:** CK-01 i preostali klipovi; čekanje ne sprečava nezavisan rad.
+**Osnova je povezana:** dva stvarna čučeća mirovanja sa različitim fazama/tempom, osmatranje iz zaklona i prelaz ustajanja/spuštanja za svu trojicu. **Preostaje:** paket radnji prikazati u katalogu, vizuelno proveriti celu sekvencu sa cevi i proveriti da li postojeće reakcije pokrivaju pogodak; nove klipove vlasnik daje samo ako ne pokrivaju. Slučajan izbor sme birati samo stvarno dostupne radnje; opasnost i borba imaju prednost. **Gotovo kada:** 30 s čekanja i deset ponavljanja svakog prelaza sa cevi, iz više uglova, bez skoka položaja, pogrešnog hvata i identičnog grupnog ritma; pogodak/smrt mogu prekinuti čekanje i prelaz. **Zavisnost:** CK-01.
 
 <a id="ck-03"></a>
 #### CK-03 · Identitet i katalog · 0.5 / 1 / 2 p · Codex
@@ -191,24 +184,9 @@ Raspored je ugrađen u postojeći plan da se poštuje pravilo jednog dokumenta:
 **Otvoreno:** povezana mirovanja, osmatranje i prelazi čekaju vizuelni prijem sa cevi i prikaz u katalogu; vlasnik još treba da izabere pojedinačni udarac. Zasebno spuštanje u čučanj tražiti samo ako obrnuti snimak ustajanja ne izgleda prirodno. Dostupnost ostalih traženih radnji nije proverena u Mixamo biblioteci. Codex pre nove nabavke proverava postojeće reakcije, smrti i trčanja. Istorijske i već prihvaćene grafičke odluke ne otvarati ponovo radi ovog doterivanja.
 
 <a id="ig-31"></a>
-### IG-31 · Avioni za Ratweek
+### IG-31 · Pruge i mostovi u Warplane
 
-Warplane je operacija Ratweek 1944 ([okvir](KONTEKST.md#warplane)). Igrač leti samo bombarderom ([izbor](../scenes/warplane/Main.js)); dvokrilac je ostao samo u katalogu. Bombarder sa četiri motora i duplim repom odgovara, jer su američki teški bombarderi B-17 i B-24 dejstvovali na Balkanu 1944, i u Ratweeku; po obliku može da prođe kao B-24.
-
-Urađeno (2026-11-25): Bf 109 ([lovac](../core/gameplay/bodies/aircraft/Interceptor.js)) dolazi iz izmaglice i pravi prelet za preletom na bombarder, pucajući kad ga ima na nišanu. [Mitraljezi bombardera](../core/gameplay/bodies/aircraft/GunTurrets.js) sami prate lovca nišanom, sa predujmom, a pucaju dok igrač drži drugi taster za napad (C); Space ispaljuje rakete na zemlju. Oboren lovac donosi poen, a sledeći dolazi posle predaha. Priča je u [katalogu](../catalog.html#letelice-3d/lovac-bf-109-3d).
-
-Preostaje:
-
-1. Igrač bombarduje sve nemačko; sada su u igri samo fabrike. Dodati pruge i mostove, koje je Ratweek najviše gađao i koje navodi izveštaj nivoa; modele crta Codex. Inspiracija za art tla iz vazduha: [gusti grad sa starog plana](../assets/images/background/grad.png), ulice i blokovi kuća viđeni odozgo. Kontekst iz rata: [saveznička bombardovanja Kraljeva i Beograda 1944](references/ww2-yu/bombardovanje-1944/README.md).
-2. Izbor aviona za igrača: vlasnik traži 3D modele aviona koji su leteli u Ratweeku ili uz njega 1944 (vlasnik, 2026-11-25). Kandidati, po ulozi u igri:
-   - teški bombarderi američke 15. vazduhoplovne armije iz Fođe: **B-24 Liberator** i **B-17 Flying Fortress**; sadašnji četvoromotorac sa duplim repom može da prođe kao B-24;
-   - lovci-bombarderi, koji su rušili mostove i pruge u niskom letu: **P-51 Mustang** i **P-38 Lightning**;
-   - Balkansko vazduhoplovstvo RAF-a, u kom su letele i dve jugoslovenske eskadrile: **Hurricane IV** sa raketama (351. eskadrila) i **Spitfire IX** (352. eskadrila), za partizanskog pilota; učešće baš u Ratweeku proveriti u izvoru pre izbora;
-   - **Beaufighter** sa raketama, kojim je Balkansko vazduhoplovstvo napadalo vozove i obalski saobraćaj.
-
-   Svaki izabrani avion dobija model, telo i priču u katalogu pre ulaska u igru.
-
-   Sada je u igri i u [katalogu](../catalog.html#letelice-3d/bombarder-3d) Avro Lancaster, koji nije leteo u Ratweeku; elise su mu providni diskovi bez lopatica, pa nema okretanja. Vlasnik traži izbor bombardera, sa elisama koje se okreću (2026-11-25). Besplatni modeli koje je agent našao, za preuzimanje (traže prijavu): [B-24 Liberator](https://cgtrader.com/free-3d-models/aircraft/historic/consolidated-b-24-liberator) (.blend), [B-17 Flying Fortress](https://cgtrader.com/free-3d-models/aircraft/historic-aircraft/boeing-b-17-flying-fortress-129ed1c57ac1e18d1fa3521aaf0c5a2d) i [B-25 Mitchell](https://cgtrader.com/free-3d-models/aircraft/historic/north-american-b-25-mitchell) (.blend). Agent ih svodi na malo trouglova, kao Hotchkiss, i odvaja elise da se okreću.
+Warplane je operacija Ratweek 1944 ([okvir](KONTEKST.md#warplane)) i nivo o bombardovanju: igrač bira samo bombarder (vlasnik, 2026-11-26). Igrač bombarduje sve nemačko, a sada su u igri samo fabrike. Dodati pruge i mostove, koje je Ratweek najviše gađao i koje navodi izveštaj nivoa; modele crta Codex. Inspiracija za art tla iz vazduha: [gusti grad sa starog plana](../assets/images/background/grad.png), ulice i blokovi kuća viđeni odozgo. Kontekst iz rata: [saveznička bombardovanja Kraljeva i Beograda 1944](references/ww2-yu/bombardovanje-1944/README.md).
 
 <a id="ig-34"></a>
 ### IG-34 · Scenario opsade Kraljeva
@@ -249,11 +227,7 @@ Radi se na kraju, kad su nivoi gotovi (vlasnik, 2026-11-26). Na početnoj strani
 
 Ideja za probu (vlasnik, 2026-11-26): u Ustanku dvoboj [italijanskih minobacača](../assets/images/armies/talijani/artiljerija/bacac-posada-01.png) umesto topova, jer bi mina letela duže, visokim lukom.
 
-<a id="ig-37"></a>
-### IG-37 · Čamac
-
-Dodatni desanti na Brač, Mljet i Korčulu ostaju ideje za [Čamac](KONTEKST.md#čamac), uz istorijsku proveru; nisu nalog za izradu arta.
-
 ## Ideje za kasnije
 
+- **Čamac:** dodatni desanti na Brač, Mljet i Korčulu ([kontekst](KONTEKST.md#čamac)), uz istorijsku proveru.
 - **Battle for Jablanica:** kampanja kroz Prozor, Ramu i Jablanicu, možda i zasedu kod Drežnice, sa kolonom kamiona koja se probija putem uz reku; svaka etapa sa svojim događajem ([istorijske granice](ISTORIJA.md#neretva-februar-1943--napadi-na-italijanske-garnizone-igra-battle-for-jablanica)).

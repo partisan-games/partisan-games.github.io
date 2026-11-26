@@ -274,17 +274,27 @@ button {
   }
 }
 
-.vis-aircraft-select {
+/* a choice of four under the start report, in two rows of two, so it does not widen the window past the report */
+.two-by-two-select {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  justify-content: center;
+}
+
+.aircraft-select {
   gap: 16px;
   max-height: 55vh;
   overflow-y: auto;
   padding: 4px;
 
+  /* as wide as its picture, a long name breaking onto a second line rather than running into the next */
   label {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 8px;
+    width: min-content;
+    text-align: center;
   }
 
   input[type="image"] {

@@ -41,7 +41,6 @@ import ParachutistSprite, { parachutistArt } from '/core3d/actor/soldiers/Parach
 import CoverSoldierModel, { flash, models as coverSoldierModels } from '/core3d/actor/soldiers/CoverSoldierModel.js'
 import Ju52, { models as ju52Models } from '/core3d/actor/aircraft/Ju52.js'
 import Corpses from '/core3d/actor/Corpses.js'
-import Dfs230, { dfs230Model } from '/core3d/actor/aircraft/Dfs230.js'
 import dressFighter from '/core3d/actor/characters/dressFighter.js'
 import { description as sovietPartisan, models as sovietPartisanModels } from '/core3d/actor/derived/ww2/SovietPartisan.js'
 import { description as resistanceFighter, models as resistanceFighterModels } from '/core3d/actor/derived/ww2/ResistanceFighter.js'
@@ -162,7 +161,7 @@ export default class DrvarScene extends Scene3D {
     const pictures = [parachutistArt.picture, flash.picture]
     const [textures] = await Promise.all([
       Promise.all(pictures.map(loadPixelArt)).then(loaded => new Map(pictures.map((src, i) => [src, loaded[i]]))),
-      requestModels([...sovietPartisanModels, ...resistanceFighterModels, ...partisanLowpolyModels, ...churchModels, ...sandbagsModels, ...ju52Models, dfs230Model,
+      requestModels([...sovietPartisanModels, ...resistanceFighterModels, ...partisanLowpolyModels, ...churchModels, ...sandbagsModels, ...ju52Models,
         ...coverSoldierModels, ...townHouseModels, ...warTraceModels, ...drvarPropModels, ...treeModels]),
     ])
     // a newer start ended this scene while its pictures loaded: they are its alone, so it frees them
@@ -413,10 +412,7 @@ export default class DrvarScene extends Scene3D {
   /** The next wave's vees, one after another, flying over the town from either side. */
   sendWave() {
     const wave = waves[this.wave]
-    if (this.wave === 0) {
-      this.ui.showMessage(messages.firstWave)
-      this.session.gameplay.after(4, () => this.add(new Dfs230(groundAt)))
-    }
+    if (this.wave === 0) this.ui.showMessage(messages.firstWave)
     for (const pass of wave.passes)
       this.session.gameplay.after(pass.at, () => this.sendVee(wave, pass))
   }

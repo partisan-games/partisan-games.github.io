@@ -80,15 +80,15 @@ export default {
     'width': 856,
     'height': 572
   },
-  'buildings/bunker-02.png': {
-    'src': 'game-ready/wrecks/bunker.webp',
-    'width': 246,
-    'height': 93
+  'game-ready/artiljerija/betonski-bunker.webp': {
+    'src': 'game-ready/wrecks/betonski-bunker.webp',
+    'width': 492,
+    'height': 186
   },
-  'armies/camac.png': {
-    'src': 'game-ready/wrecks/player-boat.webp',
-    'width': 355,
-    'height': 152
+  'game-ready/brodovi/partizanski-camac.webp': {
+    'src': 'game-ready/wrecks/partizanski-camac.webp',
+    'width': 710,
+    'height': 304
   },
   'game-ready/avioni/potez-25-partisan-bez-mitraljeza.webp': {
     'src': 'game-ready/wrecks/potez-25-partisan.webp',
