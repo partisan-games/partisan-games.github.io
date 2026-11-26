@@ -9,8 +9,6 @@ import stageColors from './stageColors.js'
 
 /** The share of the view's height above the ground line, so the ground under the blocks is seen. */
 const skyShare = .8
-/** How far the view can be zoomed in and out. */
-const zoomRange = { min: .25, max: 8 }
 
 /**
  * An empty 2D world where one building block lives on its own: sky, ground, a camera and an unseen stand-in for the
@@ -34,7 +32,8 @@ export default class Stage2D extends Scene2D {
 
   /** Zooms the view in, or out with a `factor` below 1. */
   zoomBy(factor) {
-    this.zoom = Math.min(zoomRange.max, Math.max(zoomRange.min, this.zoom * factor))
+    const zoom = this.zoom * factor
+    if (zoom > 0 && Number.isFinite(zoom)) this.zoom = zoom
   }
 
   /** Draws the blocks at their natural size again. */

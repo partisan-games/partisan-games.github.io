@@ -34,3 +34,22 @@ test('he does not rise with no one left to fire at, nor while he runs to cover',
   fighter.update(1)
   assert.equal(soldier.state, 'move')
 })
+
+test('he fires only at a target within his range', () => {
+  const far = new Body({ x: 60, health: 1000 }), near = new Body({ x: 40, health: 1000 })
+  const soldier = new CoverSoldier()
+  const fighter = new CoverFighter(soldier, { targets: [far], range: 50, random: () => 0 })
+  fighter.update(1 / 30)
+  assert.equal(soldier.state, 'idle')
+  fighter.targets.push(near)
+  fighter.update(1 / 30)
+  assert.equal(soldier.target, near)
+})
+
+test('he fires only at a target he sees', () => {
+  const hidden = new Body({ x: 10, health: 1000 })
+  const soldier = new CoverSoldier()
+  const fighter = new CoverFighter(soldier, { targets: [hidden], sees: () => false, random: () => 0 })
+  fighter.update(1 / 30)
+  assert.equal(soldier.state, 'idle')
+})

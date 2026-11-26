@@ -53,6 +53,25 @@ test('model loaders take models from /assets/models and textures from /assets/im
   assert.deepEqual(await requestsOf(() => loaders.loadMd2({ file: 'ogro/ogro.md2', texture: 'ogro/skin.jpg' })), ['/assets/models/ogro/skin.jpg'])
 })
 
+test('a model exported with its pictures at a web address takes them from its own folder, never from that site', async t => {
+  const loaders = await import('/core3d/loaders.js')
+  const { FBXLoader } = await import('three/examples/jsm/loaders/FBXLoader.js')
+  const { Group } = await import('three')
+  let manager
+  const loader = {
+    async loadAsync() {
+      ;({ manager } = this)
+      return new Group()
+    },
+  }
+  t.mock.method(FBXLoader.prototype, 'loadAsync', loader.loadAsync)
+  await loaders.loadFbx({ file: 'building/town/house/house.fbx' })
+  assert.equal(manager.resolveURL('https://example.com/3dmodels/X/Prev/house_diff.jpg'), '/assets/models/building/town/house/house_diff.jpg')
+  assert.equal(manager.resolveURL('/assets/models/building/town/house/https://example.com/X/Prev/house_diff.jpg'),
+    '/assets/models/building/town/house/house_diff.jpg')
+  assert.equal(manager.resolveURL('/assets/models/building/town/house/own.jpg'), '/assets/models/building/town/house/own.jpg')
+})
+
 test('textured shapes take their textures from /assets/images/textures', async() => {
   const { createBox } = await import('/core3d/geometry/index.js')
   assert.deepEqual(await requestsOf(async() => createBox({ file: 'crate.gif' })), ['/assets/images/textures/crate.gif'])

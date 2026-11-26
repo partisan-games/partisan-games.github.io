@@ -9,6 +9,8 @@ import optimizeGeometry from '/core3d/assets/optimizeGeometry.js'
 import makeCharacter, { makeCharacterBody } from '/core3d/actor/characters/makeCharacter.js'
 import CharacterModel from '/core3d/actor/characters/CharacterModel.js'
 import * as workerPipeModule from '/core3d/actor/derived/ww2/WorkerPipe.js'
+import * as chetnikModule from '/core3d/actor/derived/ww2/Chetnik.js'
+import * as subaraModule from '/core3d/actor/derived/ww2/ChetnikSubara.js'
 import * as germanFlameThrowerModule from '/core3d/actor/derived/ww2/GermanFlameThrower.js'
 import * as germanMachineGunnerModule from '/core3d/actor/derived/ww2/GermanMachineGunner.js'
 import * as germanSoldierModule from '/core3d/actor/derived/ww2/GermanSoldier.js'
@@ -21,6 +23,7 @@ import * as resistanceFighterModule from '/core3d/actor/derived/ww2/ResistanceFi
 import * as sSSoldierModule from '/core3d/actor/derived/ww2/SSSoldier.js'
 import * as soldierModule from '/core3d/actor/derived/ww2/Soldier.js'
 import * as sovietPartisanModule from '/core3d/actor/derived/ww2/SovietPartisan.js'
+import * as nikoletinaModule from '/core3d/actor/derived/ww2/nikoletinaLook.js'
 import * as workerModule from '/core3d/actor/derived/ww2/Worker.js'
 import * as tankModule from '/core3d/actor/derived/Tank.js'
 import * as hotchkissModule from '/core3d/actor/derived/Hotchkiss.js'
@@ -30,6 +33,8 @@ const library = 'Zajednička biblioteka'
 const { italianLooks } = italianLooksModule
 const { mountMetalPipe, pipeSwingModel, smoothPipeSwing } = workerPipeModule
 const sutjeskaLook = { id: 'sutjeska', name: 'Sutjeska', value: { dress: sutjeskaModule.default }, block: sutjeskaModule }
+const nikoletinaLook = { id: 'jugoslovenska', name: 'Jugosloven', value: { dress: sovietPartisanModule.description.dress },
+  block: nikoletinaModule }
 
 /**
  * A story of a 3D character, with its model and weapon as its games have them. A 3D block needs its models loaded
@@ -119,7 +124,9 @@ function infantryStory(id, name, game, block, portraitNames = {}) {
       return body
     },
   }
-  const original = { ...story, looks: [{ id: 'original', name: block === partisanLowpolyModule ? 'Osnovna' : 'Maskirna' }],
+  const baseLook = block === sovietPartisanModule ? nikoletinaLook
+    : { id: 'original', name: block === partisanLowpolyModule ? 'Osnovna' : 'Maskirna' }
+  const original = { ...story, looks: [baseLook],
     catalogGroup: ['Vojnici', id === 'vojnik-3d' ? 'Ostali' : 'Partizani'] }
   const identities = new Map()
   // Old links use the first equipment variant of each combat role as the story ID.
@@ -244,6 +251,8 @@ export const ww2 = [
   character('ss-vojnik-3d', 'SS vojnik', '3D Tank, FPS Airport, FPS Base', sSSoldierModule),
   infantryStory('vojnik-3d', 'Vojnik', library, soldierModule),
   infantryStory('sovjetski-partizan-3d', 'Nikoletina', 'Liberated City', sovietPartisanModule),
+  { ...character('cetnik-strelac-3d', 'Četnik strelac', library, chetnikModule), catalogGroup: ['Vojnici', 'Četnici'] },
+  { ...character('cetnik-subara-3d', 'Četnik sa šubarom', library, subaraModule), catalogGroup: ['Vojnici', 'Četnici'] },
 ].flat()
 
 export const vehicles = [

@@ -3,6 +3,7 @@ import { description as partisan } from './PartisanAim.js'
 import { description as machineGunner } from './GermanMachineGunner.js'
 import { description as resistance } from './ResistanceFighter.js'
 import { description as soviet } from './SovietPartisan.js'
+import { dressNikoletinaNavy } from './nikoletinaLook.js'
 import { description as simple } from './PartisanLowpoly.js'
 
 const size = { fitVisible: true, size: 1.74 }
@@ -26,7 +27,7 @@ const indigo = 'indigo-work-shirt.jpg', wool = 'brown-wool-shirt.jpg', moustache
 export const variants = {
   strelac: { name: 'Osnovna', model: regular, weapon: rifle, outfit: partisanOutfits.wool },
   smedji: { name: 'Brown uniform · Berthier', model: lowpoly, weapon: berthier, outfit: { 'army.green': 0x665541, avocado: 0x40372f } },
-  mitraljezac: { name: 'Machine gunner', model: riflemanModel, weapon: mg },
+  mitraljezac: { name: 'Machine gunner', model: riflemanModel, weapon: mg, dress: dressNikoletinaNavy },
   vuna: { name: 'Wool shirt · rifle', model: resistanceFighterModel, weapon: rifle, outfit: { [shirt]: wool, [trousers]: 0xc7ac82 } },
   indigo: { name: 'Blue shirt · moustache', model: resistanceFighterModel, weapon: berthier, portrait: 'moustache', outfit: { [shirt]: indigo, [face]: moustache } },
   zimski: { name: 'Dark olive uniform · machine gun', model: lowpoly, weapon: mg, hatColor: 0x343a27, outfit: { 'army.green': 0x3d422d, avocado: 0x303626 } },

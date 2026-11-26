@@ -86,7 +86,7 @@ export default class CoverSoldierModel {
   /** The point he faces: where he runs, whom he fires at, or else his front. */
   get facing() {
     const { body } = this
-    if (body.state === 'move' && body.goal) return body.goal
+    if (body.state === 'move' && body.goal) return body.waypoint
     if ((body.state === 'aim' || body.state === 'attack') && body.target) return body.target
     return this.front
   }

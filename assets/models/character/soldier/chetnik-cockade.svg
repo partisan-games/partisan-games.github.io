@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="128" height="152" viewBox="0 0 128 152">
+  <title>Kokarda sa krunisanim dvoglavim orlom</title>
+  <desc>Stilizovano prema kokardi M/72 u zbirci Pokrajinskog muzeja Celje.</desc>
+  <defs>
+    <linearGradient id="silver" x1="0" y1="0" x2=".8" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#fbf4df"/>
+      <stop offset=".51" stop-color="#cec3ad"/>
+      <stop offset="1" stop-color="#908474"/>
+    </linearGradient>
+    <g id="eagle-side">
+      <path d="M 68,86 C 59,77 51,63 53,48 C 54,40 49,34 42,35
+        L 31,40 L 39,44 L 33,47 L 43,49 C 44,62 48,70 51,76
+        C 44,71 35,66 21,52 L 17,47 C 19,63 26,69 29,73 L 15,67
+        C 19,79 27,83 33,86 L 18,82 C 23,93 32,96 38,97 L 25,97
+        C 30,104 39,106 46,104 L 38,115 L 51,113 L 59,101 L 66,98 Z"
+        fill="url(#silver)" stroke="#51463a" stroke-width="2.8" stroke-linejoin="round"/>
+      <path d="M 24,60 Q 35,78 48,82 M 23,76 Q 35,87 48,90
+        M 29,92 Q 40,98 49,96 M 45,58 Q 47,72 53,78"
+        fill="none" stroke="#716454" stroke-width="1.8" stroke-linecap="round"/>
+      <circle cx="44" cy="42" r="1.7" fill="#55483a"/>
+    </g>
+    <g id="laurel" fill="url(#silver)" stroke="#54483c" stroke-width="1.4">
+      <path d="M 63,139 C 28,139 10,115 10,83 C 10,64 15,45 24,33
+        C 14,58 11,86 18,106 C 26,126 44,135 63,135 Z"/>
+      <path d="M 12,88 Q 2,83 6,72 Q 12,75 12,88 M 14,101 Q 2,97 7,87 Q 13,91 14,101
+        M 20,113 Q 8,112 8,100 Q 18,102 20,113 M 30,125 Q 17,127 16,115 Q 27,115 30,125
+        M 43,133 Q 32,138 25,126 Q 37,124 43,133 M 12,74 Q 6,67 13,57 Q 17,64 12,74
+        M 16,61 Q 12,51 21,44 Q 24,51 16,61"/>
+    </g>
+  </defs>
+  <use xlink:href="#laurel"/>
+  <use xlink:href="#laurel" transform="translate(128,0) scale(-1,1)"/>
+  <path d="M 64,101 L 50,128 L 59,125 L 64,133 L 69,125 L 78,128 Z"
+    fill="url(#silver)" stroke="#51463a" stroke-width="2.5"/>
+  <use xlink:href="#eagle-side"/>
+  <use xlink:href="#eagle-side" transform="translate(128,0) scale(-1,1)"/>
+  <path d="M 50,31 L 43,16 L 53,23 L 57,12 L 64,21 L 71,12 L 75,23 L 85,16 L 78,31 Z"
+    fill="url(#silver)" stroke="#6e5943" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M 50,28 H 78 V 34 H 50 Z" fill="#d2bd9b" stroke="#655542" stroke-width="2"/>
+  <path d="M 64,5 V 13 M 60,8 H 68" stroke="#ece1c5" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M 51,76 L 77,76 L 76,97 Q 73,106 64,111 Q 55,106 52,97 Z"
+    fill="#64544b" stroke="#e0d4bd" stroke-width="2.8" stroke-linejoin="round"/>
+  <path d="M 56,96 V 83 H 65 V 96 M 69,86 V 96 M 73,86 V 96"
+    fill="none" stroke="#eee0c2" stroke-width="2.35" stroke-linecap="round"/>
+</svg>

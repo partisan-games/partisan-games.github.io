@@ -9,11 +9,13 @@ const recoil = 5
 /**
  * What a first-person player sees through the character's eyes: the camera at its eye height, a little behind its
  * middle, turned the way it looks; its weapon swaying as it walks and kicking at each shot, the screen red for a
- * moment after a hit and for good once it is dead.
+ * moment after a hit and for good once it is dead. A bar under the crosshair fills as its gun's `readiness()`, from 0
+ * to 1, while it cannot fire.
  */
 export default class FirstPersonView {
-  constructor(body, { camera, weaponSrc, behind = body.size.height / 4, showTarget = () => true }) {
+  constructor(body, { camera, weaponSrc, behind = body.size.height / 4, showTarget = () => true, readiness = () => 1 }) {
     this.body = body
+    this.readiness = readiness
     this.camera = camera
     this.behind = behind
     this.showTarget = showTarget
@@ -56,6 +58,8 @@ export default class FirstPersonView {
       this.sway += body.running ? dt * body.run : dt
       renderer.render(this.sway)
     }
+    const readiness = this.readiness()
+    if (body.alive && readiness < 1) renderer.drawCharge(readiness)
     if (this.pain > 0 || body.dead) renderer.drawPain()
     if (body.alive) for (const { angle, strength } of this.hitMarks) renderer.drawHitFrom(angle, strength)
   }

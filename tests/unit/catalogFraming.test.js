@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { Bone, BoxGeometry, BufferGeometry, Float32BufferAttribute, Group, Mesh, PerspectiveCamera, Skeleton, SkinnedMesh,
+import { Bone, BoxGeometry, BufferGeometry, Float32BufferAttribute, Group, Mesh, PerspectiveCamera, Scene, Skeleton, SkinnedMesh,
   Uint16BufferAttribute, Vector3 } from 'three'
 import { createPageElements } from './helpers/dom.js'
 
@@ -49,4 +49,31 @@ test('following a block that has flown out of view turns the view onto it, from 
   assert.deepEqual(target.toArray(), [200, 40, -300])
   assert.ok(camera.position.clone().sub(target).distanceTo(offset) < 1e-9)
   assert.equal(stage.followed.mesh, mesh)
+})
+
+test('the 3D catalog zooms closer than the old distance limits with the wheel and buttons', async t => {
+  createPageElements()
+  const { default: Stage3D } = await import('/catalog/Stage3D.js')
+  const canvas = document.createElement('canvas')
+  const stage = {
+    camera: new PerspectiveCamera(75, 1, .1),
+    renderer: { domElement: canvas },
+    scene: new Scene(),
+    session: { scope: { add: callback => t.after(callback) } },
+    addMesh(mesh) {
+      this.scene.add(mesh)
+    },
+    enableTouchpadRotation: Stage3D.prototype.enableTouchpadRotation,
+  }
+  await Stage3D.prototype.init.call(stage)
+  t.after(() => stage.controls.dispose())
+  const distance = () => stage.camera.position.distanceTo(stage.controls.target)
+  for (let i = 0; i < 90; i++)
+    canvas.dispatchEvent(new WheelEvent('wheel', { deltaY: -100, cancelable: true }))
+  assert.ok(distance() < 2)
+  for (let i = 0; i < 14; i++) Stage3D.prototype.zoomBy.call(stage, 1.25)
+  const close = distance()
+  assert.ok(close > 0 && close < stage.camera.near * 2)
+  Stage3D.prototype.zoomBy.call(stage, .8)
+  assert.ok(distance() > close)
 })

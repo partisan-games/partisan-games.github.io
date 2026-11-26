@@ -1,3 +1,5 @@
+import dressNikoletina from './nikoletinaLook.js'
+
 const animDict = {
   idle: 'Machine Gun Idle',
   walk: 'Machine Gun Walk',
@@ -14,4 +16,5 @@ const twoHandedWeaponModel = { file: 'weapon/mg-42/model.fbx', scale: .4 }
 export const models = [meshModel, twoHandedWeaponModel]
 
 /** How it looks, sounds and acts, for a character made of a body and its model. */
-export const description = { model: meshModel, animDict, twoHandedWeapon: twoHandedWeaponModel, attackSound: 'rifle.mp3', body: { reach: 10 } }
+export const description = { model: meshModel, animDict, twoHandedWeapon: twoHandedWeaponModel, dress: dressNikoletina,
+  attackSound: 'rifle.mp3', body: { reach: 10 } }

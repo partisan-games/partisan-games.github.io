@@ -40,3 +40,20 @@ test('the player fires his gun the moment it allows, and takes up another one', 
   keys.equip(new Firearm(firearms.machineGun))
   assert.deepEqual(body.damage, firearms.machineGun.damage)
 })
+
+test('its readiness fills from a shot to the next, and through a reload', () => {
+  const rifle = new Firearm(firearms.rifle)
+  assert.equal(rifle.readiness, 1)
+  rifle.pull(true, 0)
+  rifle.pull(false, rifle.repeat / 2)
+  assert.ok(Math.abs(rifle.readiness - .5) < 1e-9)
+  rifle.pull(false, rifle.repeat / 2)
+  assert.equal(rifle.readiness, 1)
+  for (let shot = 1; shot < rifle.magazine; shot++) {
+    rifle.pull(false, rifle.repeat)
+    rifle.pull(true, 0)
+  }
+  assert.equal(rifle.reloading, true)
+  rifle.pull(false, rifle.reload / 4)
+  assert.ok(Math.abs(rifle.readiness - .25) < 1e-9)
+})

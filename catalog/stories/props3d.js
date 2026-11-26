@@ -1,8 +1,11 @@
 import Stage3D from '../Stage3D.js'
 import * as campModule from '/core3d/actor/buildings/CampProp.js'
 import Church, * as churchModule from '/core3d/actor/buildings/Church.js'
+import Milutin, * as monumentModule from '/core3d/actor/buildings/Milutin.js'
 import { requestModels } from '/core3d/assets/models.js'
 import Sandbags, * as sandbagsModule from '/core3d/actor/buildings/Sandbags.js'
+import TownHouse, * as townHouseModule from '/core3d/actor/buildings/TownHouse.js'
+import WarDebris, * as warDebrisModule from '/core3d/actor/buildings/WarDebris.js'
 
 const gateCommands = [{ label: 'Otvori/zatvori kapiju', run: block => block.toggleGate() }]
 const lightCommands = [
@@ -41,6 +44,17 @@ const church = {
   },
 }
 
+const milutin = {
+  id: 'kraljevo-milutin', name: 'Spomenik srpskim ratnicima (Milutin)', game: 'Siege of Kraljevo', block: monumentModule, stage: Stage3D,
+  catalogGroup: ['Scenografija', 'Zgrade'],
+  create: async stage => {
+    await requestModels(monumentModule.models)
+    const block = new Milutin()
+    stage.add(block)
+    return block
+  },
+}
+
 const sandbags = {
   id: 'sandbags', name: 'Džakovi sa peskom', game: 'Escape Concentration Camp', block: sandbagsModule, stage: Stage3D,
   catalogGroup: ['Scenografija', 'Zakloni'],
@@ -52,4 +66,28 @@ const sandbags = {
   },
 }
 
-export const props = [...camp, church, sandbags]
+/** The houses and ruins of a small town, each alone. */
+const town = Object.entries(townHouseModule.townHouses).map(([kind, { name }]) => ({
+  id: `grad-${kind}`, name, game: 'Raid on Drvar (u izradi)', block: townHouseModule, stage: Stage3D,
+  catalogGroup: ['Scenografija', 'Kuće grada'],
+  create: async stage => {
+    await requestModels([townHouseModule.modelOf(kind)])
+    const block = new TownHouse(kind)
+    stage.add(block)
+    return block
+  },
+}))
+
+/** What the war leaves on the ground, each alone. */
+const debris = Object.entries(warDebrisModule.warDebris).map(([kind, { name, model }]) => ({
+  id: `rat-${kind}`, name, game: 'Raid on Drvar (u izradi)', block: warDebrisModule, stage: Stage3D,
+  catalogGroup: model.file.startsWith('vehicle/') ? ['Vozila'] : ['Scenografija', 'Tragovi rata'],
+  create: async stage => {
+    await requestModels([model])
+    const block = new WarDebris(kind)
+    stage.add(block)
+    return block
+  },
+}))
+
+export const props = [...camp, church, milutin, sandbags, ...town, ...debris]

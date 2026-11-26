@@ -137,6 +137,166 @@ test('switching to Sutjeska and back keeps Borac sa Sutjeske in the same scene a
   assert.deepEqual(runtime.body.size, body.size)
 })
 
+test('Nikoletina keeps the same cap when switching weapons and trouser colors', async t => {
+  createPageElements()
+  t.mock.method(THREE.TextureLoader.prototype, 'load', () => new THREE.Texture())
+  t.mock.method(FBXLoader.prototype, 'loadAsync', async url => {
+    const bytes = await readFile('.' + decodeURI(url))
+    return new FBXLoader().parse(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), '')
+  })
+  const { ww2 } = await import('/catalog/stories/characters3d.js')
+  const story = ww2.find(({ id }) => id === 'sovjetski-partizan-3d')
+  const [defaultLook, machineGunner] = story.looks
+  const objects = []
+  const stage = { add: (...items) => objects.push(...items), session: { scope: { add() {} } } }
+  await story.create(stage, 1, defaultLook.value)
+  const [, view] = objects
+  const skin = view.mesh.getObjectByProperty('isSkinnedMesh', true)
+  const { skeleton, geometry: reshaped, material: recolored } = skin
+  const gun = view.anim.twoHandedWeapon
+  assert.ok(gun.parent)
+
+  const { default: makeCharacter } = await import('/core3d/actor/characters/makeCharacter.js')
+  const { loadedModel } = await import('/core3d/assets/models.js')
+  const source = loadedModel(story.block.description.model).getObjectByProperty('isSkinnedMesh', true)
+  const { geometry, material } = source
+  geometry.computeBoundingBox()
+  const capDrop = geometry.boundingBox.max.x - reshaped.boundingBox.max.x
+  assert.ok(capDrop > 0 && capDrop < .02)
+  assert.deepEqual(reshaped.attributes.skinWeight.array, geometry.attributes.skinWeight.array)
+  assert.deepEqual(reshaped.attributes.skinIndex.array, geometry.attributes.skinIndex.array)
+  assert.equal(recolored.map, material.map)
+  const brownShader = { ...THREE.ShaderLib.phong, uniforms: {} }
+  recolored.onBeforeCompile(brownShader)
+  assert.match(brownShader.vertexShader, /vNikoletinaHeight = position.x/)
+  assert.match(brownShader.fragmentShader, /mix\(cloth, wool, leg \* fabric\)/)
+  const brown = brownShader.uniforms.nikoletinaWool.value
+  assert.ok(brown.x > brown.y && brown.y > brown.z)
+
+  const runtime = makeCharacter(story.block.description)
+  const runtimeSkin = runtime.model.mesh.getObjectByProperty('isSkinnedMesh', true)
+  assert.deepEqual(runtimeSkin.geometry.attributes.position.array, reshaped.attributes.position.array)
+  assert.equal(runtimeSkin.material.customProgramCacheKey(), recolored.customProgramCacheKey())
+
+  stage.setLook(machineGunner.value)
+  assert.equal(gun.parent, null)
+  assert.deepEqual(skin.geometry.attributes.position.array, reshaped.attributes.position.array)
+  const navyShader = { ...THREE.ShaderLib.phong, uniforms: {} }
+  skin.material.onBeforeCompile(navyShader)
+  assert.equal(navyShader.fragmentShader, brownShader.fragmentShader)
+  const navy = navyShader.uniforms.nikoletinaWool.value
+  assert.ok(navy.z > navy.y && navy.y > navy.x)
+  stage.setLook(defaultLook.value)
+  assert.equal(view.anim.twoHandedWeapon, gun)
+  assert.ok(gun.parent)
+  assert.equal(skin.skeleton, skeleton)
+  assert.equal(skin.geometry.boundingBox.max.x, reshaped.boundingBox.max.x)
+  const restoredShader = { ...THREE.ShaderLib.phong, uniforms: {} }
+  skin.material.onBeforeCompile(restoredShader)
+  assert.deepEqual(restoredShader.uniforms.nikoletinaWool.value, brown)
+})
+
+test('the 3D Chetnik uses the rifle animations and the reshaped cap follows the head', async t => {
+  createPageElements()
+  t.mock.method(THREE.TextureLoader.prototype, 'load', () => new THREE.Texture())
+  t.mock.method(FBXLoader.prototype, 'loadAsync', async url => {
+    const bytes = await readFile('.' + decodeURI(url))
+    return new FBXLoader().parse(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), '')
+  })
+  const { ww2 } = await import('/catalog/stories/characters3d.js')
+  const story = ww2.find(({ id }) => id === 'cetnik-strelac-3d')
+  const objects = []
+  const body = await story.create({ add: (...items) => objects.push(...items) })
+  const [, view] = objects
+  assert.equal(objects[0], body)
+  assert.ok(view.anim.twoHandedWeapon?.parent)
+  const skin = view.mesh.getObjectByProperty('name', 'Partisan')
+  const source = await new FBXLoader().loadAsync('/assets/models/character/soldier/partisan-lowpoly.fbx')
+  const original = source.getObjectByName('Partisan')
+  assert.deepEqual(skin.skeleton.bones.map(bone => bone.name), original.skeleton.bones.map(bone => bone.name))
+  const { position, skinIndex, skinWeight } = skin.geometry.attributes
+  const felt = skin.material.findIndex(({ name }) => name === 'dark.felt.and.boots')
+  const cloth = skin.geometry.groups.filter(({ materialIndex }) => materialIndex === felt)
+  const point = index => new THREE.Vector3().fromBufferAttribute(position, index)
+  for (const [height, across] of [[1.141, -.013], [1.170, -.006]]) {
+    const ray = new THREE.Ray(new THREE.Vector3(-.35, height, across), new THREE.Vector3(1, 0, 0))
+    const covered = cloth.some(({ start, count }) => {
+      for (let i = start; i < start + count; i += 3) {
+        const hit = ray.intersectTriangle(point(i), point(i + 1), point(i + 2), true, new THREE.Vector3())
+        if (hit && hit.x < -.2) return true
+      }
+      return false
+    })
+    assert.ok(covered, 'felt closes the opening under the cockade')
+  }
+  const badge = skin.material.findIndex(({ name }) => name === 'cockade')
+  assert.ok(badge >= 0)
+  const vertex = skin.geometry.groups.find(group => group.materialIndex === badge).start
+  const head = skin.skeleton.bones.findIndex(bone => bone.name === 'mixamorigHead')
+  assert.ok([0, 1, 2, 3].some(i => skinIndex.getComponent(vertex, i) === head && skinWeight.getComponent(vertex, i) > .5))
+
+  const { mixer, actions } = view.anim
+  for (const [state, name] of Object.entries({ walk: 'Rifle Walk', run: 'Rifle Run', attack: 'Firing Rifle', death: 'Dying' })) {
+    const action = actions[state]
+    const clip = action.getClip()
+    assert.equal(clip.name, name)
+    action.reset().play()
+    mixer.update(0)
+    view.mesh.updateMatrixWorld(true)
+    const before = skin.getVertexPosition(vertex, new THREE.Vector3())
+    mixer.update(.64 * clip.duration)
+    view.mesh.updateMatrixWorld(true)
+    assert.ok(skin.getVertexPosition(vertex, new THREE.Vector3()).distanceTo(before) > .001, name)
+    mixer.stopAllAction()
+  }
+})
+
+test('the second Chetnik wears a fur cap and uses hair and beard textures on the original skin', async t => {
+  createPageElements()
+  t.mock.method(THREE.TextureLoader.prototype, 'load', name => Object.assign(new THREE.Texture(), { name }))
+  t.mock.method(FBXLoader.prototype, 'loadAsync', async url => {
+    const bytes = await readFile('.' + decodeURI(url))
+    return new FBXLoader().parse(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), '')
+  })
+  const { ww2 } = await import('/catalog/stories/characters3d.js')
+  const story = ww2.find(({ id }) => id === 'cetnik-subara-3d')
+  const objects = []
+  await story.create({ add: (...items) => objects.push(...items) })
+  const [, view] = objects
+  const head = view.mesh.getObjectByName('mixamorigHead')
+  const hat = view.mesh.getObjectByName('Šubara')
+  const skin = view.mesh.getObjectByProperty('isSkinnedMesh', true)
+  assert.ok(skin.geometry.index.count < skin.geometry.attributes.position.count, 'the old cap is hidden')
+  assert.ok(view.anim.twoHandedWeapon?.parent)
+  assert.equal(hat.parent, head)
+  assert.deepEqual(head.children.filter(child => child.isMesh), [hat])
+  assert.equal(hat.children.filter(child => child.isMesh).length, 0)
+  const hatShader = { ...THREE.ShaderLib.standard, uniforms: {} }
+  hat.material.onBeforeCompile(hatShader)
+  assert.match(hatShader.uniforms.chetnikCockade.value.name, /chetnik-cockade\.svg$/)
+  assert.match(hatShader.fragmentShader, /if \(vCockadeFront > 0\.0 &&/)
+  const shader = { ...THREE.ShaderLib.phong, uniforms: {} }
+  skin.material.onBeforeCompile(shader)
+  assert.match(shader.uniforms.chetnikFace.value.name, /chetnik-face\.svg$/)
+  assert.match(shader.fragmentShader, /if \(onFace \|\| onNape\)/)
+  assert.match(shader.fragmentShader, /mix\(sampledDiffuseColor\.rgb, hair\.rgb, hair\.a\)/)
+  view.mesh.updateMatrixWorld(true)
+  const before = hat.localToWorld(new THREE.Vector3(1, .05, 0))
+  view.actions.death.reset().play()
+  view.anim.mixer.update(view.actions.death.getClip().duration * .7)
+  assert.ok(hat.localToWorld(new THREE.Vector3(1, .05, 0)).distanceTo(before) > .1)
+
+  const { default: makeCharacter } = await import('/core3d/actor/characters/makeCharacter.js')
+  const nikoletina = ww2.find(({ id }) => id === 'sovjetski-partizan-3d')
+  const { model } = makeCharacter(nikoletina.block.description)
+  assert.equal(model.mesh.getObjectByName('Šubara'), undefined)
+  const nikoletinaSkin = model.mesh.getObjectByProperty('isSkinnedMesh', true)
+  assert.equal(nikoletinaSkin.geometry.index, null)
+  const nikoletinaShader = { ...THREE.ShaderLib.phong, uniforms: {} }
+  nikoletinaSkin.material.onBeforeCompile(nikoletinaShader)
+  assert.equal(nikoletinaShader.uniforms.chetnikFace, undefined)
+})
+
 test('a picture finds its wreck from its full address as from its path, and they share it', t => {
   loadImages(t)
   let checked = 0

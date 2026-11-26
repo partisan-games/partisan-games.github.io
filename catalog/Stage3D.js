@@ -47,6 +47,7 @@ export default class Stage3D extends Scene3D {
     this.addMesh(createFloor({ size: floorSize * 2, color: stageColors.ground }))
     this.camera.position.set(0, 3, 6)
     this.controls = await createOrbitControls(this.camera, this.renderer.domElement)
+    this.controls.minDistance = 0
     this.controls.target.set(0, 1, 0)
     this.enableTouchpadRotation()
   }
@@ -80,8 +81,7 @@ export default class Stage3D extends Scene3D {
   zoomBy(factor) {
     const { camera, controls } = this
     const offset = camera.position.clone().sub(controls.target).divideScalar(factor)
-    const distance = Math.min(controls.maxDistance, Math.max(Math.max(controls.minDistance, camera.near * 2), offset.length()))
-    camera.position.copy(controls.target).add(offset.setLength(distance))
+    camera.position.copy(controls.target).add(offset)
     controls.update()
   }
 

@@ -86,6 +86,13 @@ export function createCatalog(root, kinds, storage) {
     entries.push({ link, ancestors, text: normalize([...path, story.name, story.game, ...(story.looks ?? []).map(look => look.name)].join(' ')) })
   }
   for (const [key, group] of groups) if (key.endsWith('/Ostali')) group.parentElement.append(group)
+  for (const [key, group] of groups) {
+    if (!key.endsWith('/Vojnici')) continue
+    const partisans = groups.get(key + '/Partizani')
+    const germans = groups.get(key + '/Nemci')
+    if (partisans) group.firstElementChild.after(partisans)
+    if (germans) (partisans ?? group.firstElementChild).after(germans)
+  }
   // Only the first two group levels fold, regardless of their contents.
   for (const [key, group] of groups) {
     if (key.split('/').length <= 2) continue

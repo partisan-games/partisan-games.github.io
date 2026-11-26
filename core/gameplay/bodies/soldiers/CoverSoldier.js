@@ -22,13 +22,14 @@ const states = {
   idle: { enter: stop },
   move: {
     update: soldier => {
-      const { goal } = soldier
+      const { goal, waypoint } = soldier
       if (!goal) return soldier.setState('idle')
-      const dx = goal.x - soldier.x, dz = goal.z - soldier.z
+      const dx = waypoint.x - soldier.x, dz = waypoint.z - soldier.z
       const distance = Math.hypot(dx, dz)
       if (distance < .05) {
-        soldier.x = goal.x
-        soldier.z = goal.z
+        soldier.x = waypoint.x
+        soldier.z = waypoint.z
+        if (soldier.route.shift()) return states.move.update(soldier)
         soldier.inCover = Boolean(goal.cover)
         return soldier.setState('idle')
       }
@@ -61,7 +62,7 @@ const states = {
 
 /**
  * A soldier on foot, seen from the front, who fights from where he stands: sent to a `goal` `{ x, z, cover }`, he runs
- * there and, if `cover` gives the height of a cover there in metres, ducks behind it, seen still if it is `overlooked`. Told to fire at a `target`, any body with `alive` and `takeHit`, he
+ * there, by the points `{ x, z }` of his route first, and, if `cover` gives the height of a cover there in metres, ducks behind it, seen still if it is `overlooked`. Told to fire at a `target`, any body with `alive` and `takeHit`, he
  * rises, aims for a while, so the other side can shoot him first, then fires a burst that hurts the target each
  * second until told to cease fire or the target dies. Behind cover he can be hit only while he is up.
  */
@@ -70,15 +71,23 @@ export default class CoverSoldier extends Body {
     super({ size, ...rest, states })
     this.speed = speed
     this.goal = null
+    /** The points he still runs by on his way to his goal. */
+    this.route = []
     this.target = null
     this.inCover = false
   }
 
-  moveTo(goal) {
+  moveTo(goal, via = []) {
     if (this.dead) return
     this.goal = goal
+    this.route = [...via]
     this.inCover = false
     this.setState('move')
+  }
+
+  /** The point he runs to next: the first of his route, or his goal. */
+  get waypoint() {
+    return this.route[0] ?? this.goal
   }
 
   fireAt(target) {

@@ -1,0 +1,38 @@
+{
+  "purpose": "Research references, not game assets",
+  "images": [
+    {
+      "file": "drvar-porusen.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Drvar_poru%C5%A1en_od_nema%C4%8Dkih_bombi.jpg/1280px-Drvar_poru%C5%A1en_od_nema%C4%8Dkih_bombi.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Drvar_poru%C5%A1en_od_nema%C4%8Dkih_bombi.jpg",
+      "credit": "Unknown author; Commons credit: https://znaci.org/fotogalerija.php",
+      "rights": "Public domain (Wikimedia Commons)",
+      "description": "Drvar porušen od nemačkih bombi",
+      "date": "1944-05-25 (per Commons)",
+      "retrieved": "2026-11-25",
+      "note": "Wikimedia standard 1280 px thumbnail of the 1375 x 876 original; the original refused this client with 429",
+      "sha256": "29c7925535e0db453182bf950c55763f073e298db79f0631857732ddd8a6748d",
+      "bytes": 233430,
+      "size": [
+        1280,
+        815
+      ]
+    },
+    {
+      "file": "drvar-25-maj-1944-mapa.jpg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Desant_na_Drvar_%2825._maja_1944%29.jpg/1280px-Desant_na_Drvar_%2825._maja_1944%29.jpg",
+      "page": "https://commons.wikimedia.org/wiki/File:Desant_na_Drvar_(25._maja_1944).jpg",
+      "credit": "Unknown author (Commons: 1950s map)",
+      "rights": "Public domain (Wikimedia Commons)",
+      "description": "Desant na Drvar (25. maja 1944): tactical map of the town, the strongpoints Moskva, London and Amerika, gliders and drop zones",
+      "retrieved": "2026-11-25",
+      "note": "Wikimedia standard 1280 px thumbnail of the 1518 x 1183 original",
+      "sha256": "d35b84a9cdbcb7effa49447c18618a35297625347ff10199e79a5a6ce695596e",
+      "bytes": 219332,
+      "size": [
+        1280,
+        998
+      ]
+    }
+  ]
+}

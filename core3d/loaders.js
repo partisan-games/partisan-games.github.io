@@ -106,13 +106,23 @@ export async function loadMd2(params) {
   return await prepareMesh({ model, animations, ...params, texture: null })
 }
 
+/**
+ * Where a model's picture loads from: one exported with its pictures at a web address, as the site it came from,
+ * finds them by file name in its own `folder`, so a game never asks another site for them; the loader may have put
+ * the folder before that address.
+ */
+const fromOwnFolder = folder => url =>
+  /https?:\/\//.test(url.replace(location.origin, '')) ? folder + url.split('/').pop() : url
+
 export async function loadFbx(params) {
   const { FBXLoader } = await import('three/examples/jsm/loaders/FBXLoader.js')
 
-  const manager = params.texture ? new THREE.LoadingManager() : undefined
-  manager?.setURLModifier(url => /\.(jpe?g|png|tga)$/i.test(url) ? assets.textures + params.texture : url)
-  const loader = new FBXLoader(manager)
   const { file = 'model.fbx', doubleSide } = params
+  const manager = new THREE.LoadingManager()
+  manager.setURLModifier(params.texture
+    ? url => /\.(jpe?g|png|tga)$/i.test(url) ? assets.textures + params.texture : url
+    : fromOwnFolder(assets.models + file.slice(0, file.lastIndexOf('/') + 1)))
+  const loader = new FBXLoader(manager)
   const model = await loader.loadAsync(`${assets.models}${file}`)
 
   // fix holes in model

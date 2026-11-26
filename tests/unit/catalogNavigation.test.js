@@ -31,6 +31,23 @@ test('chetniks have their own army group, not the miscellaneous one', () => {
   const soldiers = kinds.find(({ id }) => id === 'vojnici')
   const chetnik = soldiers.stories.find(({ id }) => id === 'cetnik-u-rovu')
   assert.deepEqual(groupOf(soldiers, chetnik), ['Vojnici', 'Četnici'])
+  const { kind, story } = findStory(kinds, 'drugi-svetski-rat-3d/cetnik-strelac-3d')
+  assert.equal(story.id, 'cetnik-strelac-3d')
+  assert.deepEqual(groupOf(kind, story), ['Vojnici', 'Četnici'])
+  const subara = findStory(kinds, 'drugi-svetski-rat-3d/cetnik-subara-3d')
+  assert.equal(subara.story.name, 'Četnik sa šubarom')
+  assert.deepEqual(groupOf(subara.kind, subara.story), ['Vojnici', 'Četnici'])
+})
+
+test('Partizani and Nemci are the first two army groups in both dimensions', () => {
+  const root = document.createElement('nav')
+  createCatalog(root, kinds)
+  const soldiers = [...root.querySelectorAll('summary')].filter(heading => heading.textContent === 'Vojnici')
+  assert.equal(soldiers.length, 2)
+  for (const heading of soldiers) {
+    const armies = [...heading.parentElement.querySelectorAll(':scope > section > h3')]
+    assert.deepEqual(armies.slice(0, 2).map(army => army.textContent), ['Partizani', 'Nemci'])
+  }
 })
 
 test('old model links resolve to separate actors instead of skins', () => {
@@ -97,6 +114,12 @@ test('old infantry links open the equipment of the right individual', async() =>
   const nikoletina = open('sovjetski-partizan-3d')
   assert.equal(nikoletina.story.name, 'Nikoletina')
   assert.deepEqual(groupOf(nikoletina.kind, nikoletina.story), ['Vojnici', 'Partizani'])
+  assert.equal(nikoletina.look.name, 'Jugosloven')
+  assert.deepEqual(nikoletina.story.looks.map(({ id }) => id), ['jugoslovenska', 'mitraljezac'])
+  const jugoslovenska = open('sovjetski-partizan-3d/jugoslovenska')
+  assert.equal(jugoslovenska.story, nikoletina.story)
+  assert.equal(jugoslovenska.look, nikoletina.look)
+  assert.equal(open('sovjetski-partizan-3d/original').look, nikoletina.look)
   assert.equal(partisan('indigo'), partisan('brkovi'))
   assert.equal(partisan('brkovi').name, 'Brka')
   assert.equal(partisan('vuna'), partisan('sivi'))

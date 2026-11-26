@@ -53,6 +53,16 @@ export default class FPSRenderer extends HTMLCanvasElement {
     this.ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
   }
 
+  /** A thin bar under the crosshair, full as far as the gun is ready to fire again. */
+  drawCharge(readiness) {
+    const { ctx } = this
+    const width = 48, x = (window.innerWidth - width) / 2, y = window.innerHeight / 2 + 24
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.5)'
+    ctx.fillRect(x, y, width, 5)
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)'
+    ctx.fillRect(x, y, width * readiness, 5)
+  }
+
   /** A red arc round the crosshair the way a hit came from, at `angle` on the screen, as bright as its `strength`. */
   drawHitFrom(angle, strength) {
     const { ctx } = this

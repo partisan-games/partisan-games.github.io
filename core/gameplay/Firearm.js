@@ -4,7 +4,7 @@
  * `reload` the seconds to fill it again, `reach` metres and `damage` the range of a hit's damage.
  */
 export const firearms = {
-  rifle: { automatic: false, repeat: 1.2, magazine: 5, reload: 3, reach: 300, damage: [80, 120] },
+  rifle: { automatic: false, repeat: .7, magazine: 5, reload: 3, reach: 300, damage: [80, 120] },
   machineGun: { automatic: true, repeat: .12, magazine: 20, reload: 3, reach: 300, damage: [40, 60] },
 }
 
@@ -22,6 +22,12 @@ export default class Firearm {
 
   get reloading() {
     return this.rounds === 0
+  }
+
+  /** How far it is through working its bolt or reloading, from 0 just after a shot to 1 when it can fire again. */
+  get readiness() {
+    if (this.wait <= 0) return 1
+    return 1 - this.wait / (this.reloading ? this.reload : this.repeat)
   }
 
   /** Whether it fires now, with its trigger `held` or not this frame. */

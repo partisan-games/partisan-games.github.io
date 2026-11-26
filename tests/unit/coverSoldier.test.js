@@ -29,6 +29,20 @@ for (const [cover, kind] of [[{ cover: coverSoldier.crouch - .1 }, 'lower than t
     assert.equal(soldier.exposed, true)
   })
 
+test('he runs by the points of his route before he goes into cover at his goal', () => {
+  const soldier = new CoverSoldier()
+  soldier.moveTo({ x: 4, z: 4, cover: 1.2 }, [{ x: 4, z: 0 }])
+  let offRoute = 0
+  for (let t = 0; t < 8 / coverSoldier.speed + .2; t += 1 / 30) {
+    soldier.update(1 / 30)
+    // the first leg runs along z = 0, the second along x = 4
+    offRoute = Math.max(offRoute, Math.min(Math.abs(soldier.z), Math.abs(soldier.x - 4)))
+  }
+  assert.ok(offRoute < 1e-9, `${offRoute} m off his route`)
+  assert.deepEqual([soldier.x, soldier.z], [4, 4])
+  assert.equal(soldier.inCover, true)
+})
+
 test('he aims before he fires, so the other side can shoot first, then hurts his target each second', () => {
   const soldier = new CoverSoldier(), target = new Body({ health: 100 })
   soldier.fireAt(target)

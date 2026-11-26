@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import { createTexture } from '/core3d/helpers.js'
 import { bankHeight } from './Canyon.js'
 import { infantryWeapons, riflemanModel, variants } from '/core3d/actor/derived/ww2/partisanLooks.js'
+import dressNikoletina from '/core3d/actor/derived/ww2/nikoletinaLook.js'
 import dressSutjeska from '/core3d/actor/derived/ww2/sutjeskaLook.js'
 import makeInfantryFighter from './InfantryFighter.js'
 
@@ -41,7 +42,7 @@ const positions = [
     variants.oker,
   ] },
   // a rifleman beside the gun, in the open
-  { x: -2.25, z: -.35, fighters: [{ model: riflemanModel, weapon: infantryWeapons.rifle }] },
+  { x: -2.25, z: -.35, fighters: [{ model: riflemanModel, weapon: infantryWeapons.rifle, dress: dressNikoletina }] },
 ]
 
 function buildCover(scene, scope, scenery, logs, stones) {

@@ -4,6 +4,8 @@ import { createTexturedBuilding } from '/core3d/city.js'
 import { loadModel } from '/core3d/loaders.js'
 import { loadedModel } from '/core3d/assets/models.js'
 import { campModels } from '/core3d/actor/buildings/CampProp.js'
+import Milutin, { models as monumentModels } from '/core3d/actor/buildings/Milutin.js'
+import TownHouse, { modelOf as townHouseModel } from '/core3d/actor/buildings/TownHouse.js'
 import { models as sandbagsModels } from '/core3d/actor/buildings/Sandbags.js'
 import { models as cannonModels } from '/core3d/actor/derived/Cannon.js'
 
@@ -19,7 +21,7 @@ export const kraljevo = {
   nests: [{ x: -16, z: 62 }, { x: 18, z: 62 }],
   bunker: { x: -30, z: 72 },
   gun: { x: 8, z: 76 },
-  school: { x: 36, z: 96 },
+  school: { x: 31, z: 96 },
   street: { half: 13, from: 130, length: 18, gap: 2, houses: 4, height: [9, 13] },
   barricades: [58, 140, 175],
   square: { z: 232, radius: 18, houses: [0, .25, .5, 1.5, 1.75, .72, 1.28] },
@@ -40,7 +42,10 @@ export const posts = [
 export const defence = { machineGun: { reach: 55, damage: [30, 50] }, rifle: { reach: 45, damage: [15, 35] } }
 
 /** What to load before the scene is built. */
-export const models = [...sandbagsModels, campModels['fence-straight'], campModels.storehouse, ...cannonModels]
+/** The farming school: a two-storey public building of the town's kind. */
+const schoolKind = 'european-building'
+
+export const models = [...sandbagsModels, campModels['fence-straight'], townHouseModel(schoolKind), ...cannonModels, ...monumentModels]
 
 const facades = ['building-front.png', 'building-green-front.png', 'building-blue-front.png', 'ruin-front.jpg']
 const earth = 0x8a7350
@@ -75,6 +80,7 @@ export async function buildKraljevo(physics) {
   flat(new THREE.PlaneGeometry(road.width, road.to - road.from), earth, 0, (road.from + road.to) / 2)
   flat(new THREE.PlaneGeometry(street.half * 2, square.z - street.from + street.length), cobbles, 0, (street.from + square.z) / 2)
   flat(new THREE.CircleGeometry(square.radius, 32), cobbles, 0, square.z)
+  solid(new Milutin().mesh, { x: 10, y: 1.5, z: 10 }, { x: 0, z: square.z })
 
   // the barbed wire before the trench, across the road too
   for (let x = -wire.half; x < wire.half; x += 5) {
@@ -100,8 +106,10 @@ export async function buildKraljevo(physics) {
   // the gun looks down the road at what comes
   solid(loadedModel(cannonModels[0]).clone(true), { x: 1.6, y: 1.3, z: 4 }, gun)
 
-  // the farming school by the road, its long side along it
-  solid(loadedModel(campModels.storehouse).clone(true), { x: 33, y: 10, z: 9.7 }, school, Math.PI / 2)
+  // the farming school by the road, its long side along it and its near side `school.x` from the road's middle
+  const schoolHouse = new TownHouse(schoolKind).mesh
+  const schoolSize = new THREE.Box3().setFromObject(schoolHouse).getSize(new THREE.Vector3())
+  solid(schoolHouse, schoolSize, { x: school.x + schoolSize.z / 2, z: school.z }, Math.PI / 2)
 
   // the street: houses face each other across it
   for (let i = 0; i < street.houses; i++)
