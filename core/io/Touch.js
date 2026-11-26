@@ -10,6 +10,7 @@ const css = /* css */`
     bottom: var(--edge);
     user-select: none;
     -webkit-user-select: none;
+    -webkit-touch-callout: none;
     touch-action: none;
     z-index: var(--z-top);
   }
@@ -193,6 +194,8 @@ export default class Touch {
     element.addEventListener('click', e => {
       e.preventDefault(); e.stopPropagation()
     })
+    // a held button is a long press, which opens the browser's menu instead of moving on
+    element.addEventListener('contextmenu', e => e.preventDefault())
   }
 
   /** Tells the corner how tall the buttons are now, as their rows change with the screen width. */

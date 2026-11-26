@@ -234,22 +234,6 @@ test('a mine can be shot on the continuous path and stays destroyed', () => {
   assert.equal(mine.alive, false)
 })
 
-test('Neretva adds rear-facing allies who fire through real scene updates', async t => {
-  const { default: Scene } = await import('/scenes/neretva/Main.js')
-  const scene = new Scene()
-  scene.init()
-  scene.clear = () => {}
-  t.after(() => scene.end())
-  scene.update(.1)
-  assert.equal(scene.allies.length, 3)
-  for (const body of scene.allies) {
-    assert.equal(body.role, 'rear')
-    assert.ok(body.shotsFired > 0)
-    assert.equal(body.targets.length, 0, 'supporting fire preserves the existing outcome rules')
-    assert.ok(scene.children.some(view => view.body === body && view.sheet?.art.src === actorArt['partisan-rear'].src))
-  }
-})
-
 test('a deployed contact mine damages the player once and leaves no target in the next stage', async t => {
   const { default: Scene } = await import('/scenes/camac/Main.js')
   const scene = new Scene({ stage: 0 })

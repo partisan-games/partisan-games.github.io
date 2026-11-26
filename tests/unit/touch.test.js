@@ -46,3 +46,13 @@ test('when the buttons wrap into more rows, the camera button rises above all of
   touch.end()
   assert.equal(getComputedStyle(cameraButton).bottom, '8px')
 })
+
+test('holding a touch button does not open the browser menu', t => {
+  const touch = new Touch({ useJoystick: true, buttonDict: { attack: 'attack' } })
+  t.after(() => touch.end())
+  for (const button of document.querySelectorAll('.joystick-btn, .game-btn')) {
+    const longPress = new MouseEvent('contextmenu', { bubbles: true, cancelable: true })
+    button.dispatchEvent(longPress)
+    assert.ok(longPress.defaultPrevented)
+  }
+})

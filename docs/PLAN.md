@@ -110,6 +110,8 @@ Moguće etape su Prozor, Rama i Jablanica, sa zasedom kod Drežnice kao kandidat
 
 Italijanske i ustaške etape ostaju kandidati uz postojeće Nemce i četnike. Izabrati mesta, datume, jedinice i borbene uloge, trajanje i prelaze, pa tek onda art i tok igre. Postojeći rov nije istorijski dokaz budućeg sastava.
 
+Saborci u rovu (predlog, 2026-11-26): jedan ili dva partizana u donjim uglovima ekrana, krupni i okrenuti leđima, kao da su odmah pored igrača u rovu; ne zaklanjaju Nemce. Pravi 3D modeli ne pristaju ravnoj pixel art slici, pa se crtež pravi od postojećeg 3D partizana snimljenog otpozadi i prevodi u pixel art, istim postupkom kao [AR-P17](#ar-p17). Prethodni red saboraca uklonjen je 2026-11-26 jer je loše izgledao.
+
 <a id="ig-24"></a>
 ### IG-24 · Parole Bihaća
 
@@ -323,6 +325,17 @@ Prva scena (2026-11-25, [raspored](../scenes/3d-tank/kraljevo.js)): drum od Ča�
 - [ ] Vlasnik: naći besplatan low-poly model drveta za drvored uz drum od Čačka; crtano drvo je izgledalo smešno, pa je drvored uklonjen dok model ne stigne.
 
 Gusenice Hotchkissa stoje dok tenk vozi (vlasnik, 2026-11-25). Predlog: tekstura gusenice klizi duž nje brzinom svoje strane, različito pri skretanju i unazad u suprotnom smeru. Provereno (2026-11-25): gusenice su zasebni delovi `track-left` i `track-right` sa svojim materijalom, ali je tekstura atlas, pa svaki članak uzima drugi deo slike i klizanje teksture ne radi. Zato Codex [modelu](../assets/models/tank/hotchkiss-h35.glb) zamenjuje gusenice jednostavnim prstenom sa teksturom članaka razvučenom duž prstena, pod istim imenima; agent zatim pomera teksturu. Točkovi hodnog dela su jedan komad sa trupom; mogu se izdvojiti kao kod lokomotive, ali se iza gusenica jedva vide.
+
+### IG-35 · Igre na telefonu
+
+Radi se na kraju, kad su nivoi gotovi (vlasnik, 2026-11-26). Na početnoj strani su sakrivene na telefonu (`hide-on-mobile` u [index.html](../index.html)): Ustanak, Crveni krst, Aerodrom, Drvar, Tenkići i Do Trsta. FPS igre od 2026-11-26 imaju komande za dodir (prevlačenje za pogled, strelice, pucanje, a u Crvenom krstu još šunjanje i uzimanje oružja), pa ih koči još samo brzina. Pre svakog otključavanja izmeriti kadrove i broj poziva za crtanje u igri na usporenom procesoru (Chrome, 4× sporije), pa je vlasnik proba na telefonu.
+
+- **Drvar:** stotinak kuća grada su klonovi istih 13 modela; crtati ih kao jedan instancirani crtež po vrsti, senke samo blizu crkve, daleke kuće bez senki.
+- **Crveni krst i Aerodrom:** izmeriti; ako drže kadrove, otkriti ih na telefonu.
+- **Tenkići:** i dvojica igraju na jednom telefonu, naizmenično istim komandama na dodir (vlasnik, 2026-11-26); proveriti da dugmad vode igrača koji je na potezu, pa otkriti oba načina.
+- **Ustanak:** igra za dvojicu traži tastaturu; proveriti da li igra protiv računara ima sve komande na dodir, pa otkriti samo nju.
+- **Do Trsta:** utvrditi zašto je sakrivena, pa rešiti uzrok.
+- **Sve 3D igre:** na telefonu ograničiti gustinu piksela platna (na primer najviše 1.5), jer ekran od 3× crta devet puta više piksela.
 
 ## Notes
 

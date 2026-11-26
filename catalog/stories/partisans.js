@@ -6,7 +6,6 @@ import scales from '../scales.js'
 export const soldiers = [
   ['runner', 'partizanski-strelac-trk', 'Partizanski strelac u trku', 'Do Trsta', scales.side],
   ['lmg', 'partizanski-puskomitraljezac', 'Partizanski puškomitraljezac', 'Do Trsta, Franjo Kluz', scales.side],
-  ['rear', 'partizan-otpozadi', 'Partizan otpozadi', 'Neretva', scales.side],
   ['loader', 'aerodromska-posada', 'Partizanska aerodromska posada', 'Franjo Kluz', scales.side],
 ].map(([role, id, name, game, pxPerMeter]) => ({ id, name, game, pxPerMeter, block: partisanModule, way: 1,
   create(stage, way) {

@@ -233,3 +233,17 @@ test('a closed result window gives the focus back, so game keys reach the game a
   assert.notEqual(document.activeElement, document.getElementById('modal'))
   ui.end()
 })
+
+test('on a touch screen the pause button pauses the game, hides under a screen and goes with the game', () => {
+  let paused = 0
+  const ui = new UI({ ...fakeScene, pause: () => paused++ }, { showPauseButton: true, onContinue: () => {} })
+  const button = document.querySelector('.pause-button')
+  button.click()
+  assert.equal(paused, 1)
+  ui.showPauseScreen()
+  assert.ok(button.hidden)
+  ui.hideScreen()
+  assert.ok(!button.hidden)
+  ui.end()
+  assert.equal(document.querySelector('.pause-button'), null)
+})

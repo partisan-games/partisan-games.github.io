@@ -10,9 +10,11 @@ const preventSome = e => {
 class Keyboard {
   #capsLock = false
 
-  constructor({ listen = true, attackKey = defaultAttackKey } = {}) {
+  /** `touchPressesPointer`: whether a finger on the game holds the pointer as the mouse button does. */
+  constructor({ listen = true, attackKey = defaultAttackKey, touchPressesPointer = true } = {}) {
     this.pressed = {}
     this.attackKey = attackKey
+    this.touchPressesPointer = touchPressesPointer
     this.listen = listen
 
     if (!listen) return
@@ -47,7 +49,7 @@ class Keyboard {
   }
 
   handlePointerDown(e) {
-    if (!gameplayInputAllowed(e.target)) return
+    if (!gameplayInputAllowed(e.target) || (!this.touchPressesPointer && e.pointerType === 'touch')) return
     if (e.button === 0) this.pressed.pointer = true
   }
 

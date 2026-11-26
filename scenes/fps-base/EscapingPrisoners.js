@@ -1,7 +1,11 @@
 import { description as worker } from '/core3d/actor/derived/ww2/Worker.js'
 import { pipeSwingName } from '/core3d/actor/derived/ww2/WorkerPipe.js'
 
-const animDict = { ...worker.animDict, run: 'Running', attack: pipeSwingName,
+/** Ways to stand and wait, one for each companion in turn, so they do not all move alike; one stretches. */
+export const standingIdles = ['Standing Idle', 'Dwarf Idle', worker.animDict.idle]
+const animDict = { ...worker.animDict, idle: standingIdles[0], restIdle: standingIdles[1],
+  // the pipe swing eases from this pose
+  swingRest: worker.animDict.idle, run: 'Running', attack: pipeSwingName,
   crouchWalk: 'Crouched Walking', crouchIdle: 'Crouching Idle', crouchRest: 'Crouch Idle',
   crouchPeek: 'Crouch Look Around Corner', crouchUp: 'Crouch To Stand' }
 export const escapingPrisoner = { ...worker, model: { ...worker.model, animDict }, animDict }

@@ -61,3 +61,18 @@ test('a driven vehicle\'s mesh moves on every frame, between the fixed steps, as
   vehicle.end()
   world.dispose()
 })
+
+test('a vehicle that fires on Space has a fire button for a touch screen; one that brakes on it has none', async() => {
+  const { default: Vehicle } = await import('/core3d/physics/Vehicle.js')
+  const world = new PhysicsWorld()
+  const make = attackKey => new Vehicle({ world, mesh: new THREE.Mesh(new THREE.BoxGeometry(2, 1, 4)), pos: { x: 0, y: 1, z: 0 }, attackKey })
+  const gun = make('Space')
+  const button = document.querySelector('.game-btn')
+  button.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, cancelable: true, pointerId: 1 }))
+  assert.ok(gun.input.attack)
+  gun.end()
+  const car = make()
+  assert.equal(document.querySelector('.game-btn'), null)
+  car.end()
+  world.dispose()
+})

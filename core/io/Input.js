@@ -6,8 +6,8 @@ import Keyboard from './Keyboard.js'
  * Interface for all user inputs
  */
 class Input {
-  constructor({ useKeyboard = hasMouse, useJoystick = isTouchScreen, buttonDict, attackKey } = {}) {
-    if (useKeyboard) this.keyboard = new Keyboard({ attackKey })
+  constructor({ useKeyboard = hasMouse, useJoystick = isTouchScreen, buttonDict, attackKey, touchPressesPointer } = {}) {
+    if (useKeyboard) this.keyboard = new Keyboard({ attackKey, touchPressesPointer })
     this.screen = new Touch({ useJoystick, buttonDict })
   }
 

@@ -11,10 +11,13 @@ const equipment = {
   'weapon/flame-gun/model.fbx': { pose: 'heavy', attack: .4, reach: 7, fire: true },
 }
 
-/** Handles one transfer per guard. Their actual model, sound and attack type follow the weapon. */
+/**
+ * Handles one transfer per guard. Their actual model, sound and attack type follow the weapon. On a touch screen the
+ * button of `touch`, the screen of the player's input, takes it as its `attack2` is pressed.
+ */
 export default class CampWeapons {
-  constructor({ player, playerView, avatar, queries, canTake, guardSounds }) {
-    Object.assign(this, { player, playerView, avatar, queries, canTake })
+  constructor({ player, playerView, avatar, queries, canTake, guardSounds, touch }) {
+    Object.assign(this, { player, playerView, avatar, queries, canTake, touch })
     this.guards = []
     this.attackSounds = new Map([...new Set(guardSounds)].map(file =>
       [file, new Sound(file, { profile: file === 'fire-swoosh.mp3' ? 'fire' : 'rifle', spatial: { getPosition: () => player.eye } })]))
@@ -31,6 +34,12 @@ export default class CampWeapons {
   onKey = event => {
     if (event.code !== takeWeapon.code || event.repeat || !this.canTake() || !gameplayInputAllowed(event.target)) return
     this.pickUp()
+  }
+
+  update() {
+    const pressed = Boolean(this.touch?.attack2)
+    if (pressed && !this.touchHeld && this.canTake()) this.pickUp()
+    this.touchHeld = pressed
   }
 
   pickUp() {

@@ -10,6 +10,7 @@ import { Ammo } from '/core3d/physics/index.js'
 import PowerMeter from '/ui/PowerMeter.js'
 import { requestModels } from '/core3d/assets/models.js'
 import { keys } from '/core/io/keys.js'
+import { icons } from '/core/io/icons.js'
 import { bankHeight, buildCanyon } from './Canyon.js'
 import { buildFort } from './Fort.js'
 import { clearFortPath } from './fortPath.js'
@@ -66,9 +67,11 @@ export default class CannonScene extends Scene3D {
 
   async init() {
     await requestModels([...new Set([...cannonModels, ...crewModels, ...infantryModels, ...defenderModels])], { parallelAnimations: true })
-    // the keyboard also tracks a held pointer, which charges the shot on touch screens too
+    // the keyboard also tracks a held pointer, which charges the shot on touch screens too; the fire button there
+    // stands for Space, held to charge and let go to fire
     // it faces the fort, down -z
-    const { body, model, keys, chase } = leadCharacter(this, cannon, { yaw: Math.PI / 2, health: stations.length * memberHealth, input: { useKeyboard: true },
+    const { body, model, keys, chase } = leadCharacter(this, cannon, { yaw: Math.PI / 2, health: stations.length * memberHealth,
+      input: { useKeyboard: true, buttonDict: { jump: icons.shoot } },
       view: { showCameraButton: false } })
     Object.assign(this, { player: body, cannon: model, input: keys.input })
     this.aimCamera = chase.view.chaseCamera

@@ -30,14 +30,6 @@ function staged(t, story, look = story.looks?.[0]) {
   return { stage, block, live }
 }
 
-test('the rear three-quarter partisan uses the side-view source scale', async() => {
-  const { soldiers } = await import('/catalog/stories/partisans.js')
-  const { default: scales } = await import('/catalog/scales.js')
-  const story = soldiers.find(item => item.id === 'partizan-otpozadi')
-  assert.equal(story.pxPerMeter, scales.side)
-  assert.equal(story.pxPerMeter * 1.8, 72, 'the 82-pixel standing source is never enlarged')
-})
-
 test('the side-view Chetniks start an attack, resume the selected motion and stay down after falling', async t => {
   const { soldiers } = await import('/catalog/stories/cetnici.js')
   const { groupOf } = await import('/catalog/catalog.js')

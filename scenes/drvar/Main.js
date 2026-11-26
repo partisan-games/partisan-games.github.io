@@ -5,6 +5,7 @@ import { hemLight, dirLight } from '/core3d/light.js'
 import { fpsControls } from '/ui/Controls.js'
 import { currentStyleClasses } from '/ui/styles.js'
 import Input from '/core/io/Input.js'
+import { inputLayouts } from '/core/io/inputLayouts.js'
 import Character from '/core/gameplay/bodies/characters/Character.js'
 import Parachutist from '/core/gameplay/bodies/characters/Parachutist.js'
 import CoverSoldier, { coverSoldier } from '/core/gameplay/bodies/soldiers/CoverSoldier.js'
@@ -28,6 +29,7 @@ import { createTexture } from '/core3d/helpers.js'
 import CharacterModel from '/core3d/actor/characters/CharacterModel.js'
 import makeCharacter from '/core3d/actor/characters/makeCharacter.js'
 import MouseLook from '/core3d/actor/characters/MouseLook.js'
+import TouchLook from '/core3d/actor/characters/TouchLook.js'
 import FirstPersonView from '/core3d/actor/characters/FirstPersonView.js'
 import ParachutistSprite, { parachutistArt } from '/core3d/actor/soldiers/ParachutistSprite.js'
 import CoverSoldierModel, { flash, models as coverSoldierModels } from '/core3d/actor/soldiers/CoverSoldierModel.js'
@@ -185,9 +187,9 @@ export default class DrvarScene extends Scene3D {
     this.player = new Character({ ...postAt(posts.player), yaw: posts.player.yaw, pitch: posts.player.pitch, y: .89, size,
       strikeHeight: .82, actions: { attack: .1 }, pitchRange: { min: -Math.PI / 6, max: Math.PI / 2.5 }, targets: this.targets,
       groundAt, isBlocked, obstacleAt: this.obstacleAt, bounds: { min: { x: -inside.x, z: -inside.z }, max: inside } })
-    const input = new Input({ useJoystick: false, useKeyboard: true, attackKey: 'pointer' })
+    const input = new Input(inputLayouts.firstPerson)
     this.trigger = new TriggerKeys(this.player, input, new Firearm(firearms.rifle))
-    this.controllers.push(new WalkKeys(this.player, input), new MouseLook(this.player), this.trigger)
+    this.controllers.push(new WalkKeys(this.player, input), new MouseLook(this.player), new TouchLook(this.player), this.trigger)
     const playerModel = new CharacterModel(this.player, { mesh: createPlayerBox({ visible: false }), attackSound: 'rifle.mp3' })
     this.audioPlayer = () => playerModel
     this.add(this.player, playerModel, new FirstPersonView(this.player, { camera: this.camera, weaponSrc: null,

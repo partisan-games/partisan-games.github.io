@@ -176,7 +176,7 @@ test('camp crouch slows the prisoner, keeps his feet planted and suppresses spri
   const prisoner = new Prisoner({ jumping: 'fly' })
   const { size: { height }, feet } = prisoner
   let held = true
-  const keys = new PrisonerKeys(prisoner, { keyboard: { isDown: () => held }, up: true, run: true, jump: true })
+  const keys = new PrisonerKeys(prisoner, { keyboard: { isDown: () => held }, screen: {}, up: true, run: true, jump: true })
   keys.update(.2)
   prisoner.update(.2)
   assert.equal(prisoner.crouched, true)
@@ -280,6 +280,8 @@ test('FPS camp initializes with real model files, ten enemies and two first aids
   assert.equal(new Set(shirts).size, 3)
   assert.equal(new Set(game.escapees.map(({ model }) => model.actions.crouchIdle.time)).size, 3)
   assert.equal(new Set(game.escapees.map(({ model }) => model.actions.crouchIdle.timeScale)).size, 3)
+  const standing = game.escapees.map(({ model }) => model.actions.idle.getClip().name)
+  assert.equal(new Set(standing).size, 3, `each stands his own way: ${standing}`)
   for (const { body, model } of game.escapees) {
     assert.equal(body.crouched, true)
     assert.equal(model.chooseClip(), body.waitPose)
@@ -484,4 +486,21 @@ test('FPS camp initializes with real model files, ten enemies and two first aids
   })
   repeat.disposeScene()
   assert.equal(disposed, true, 'scene disposal owns the new fence materials')
+})
+
+test('on a touch screen the sneak button, held, crouches the prisoner and the hand button takes a weapon once per press', async t => {
+  const { Prisoner, PrisonerKeys } = await import('/scenes/fps-base/stealth.js')
+  const { default: CampWeapons } = await import('/scenes/fps-base/CampWeapons.js')
+  const prisoner = new Prisoner({})
+  const screen = { special: true }
+  new PrisonerKeys(prisoner, { keyboard: { isDown: () => false }, screen }).update(.2)
+  assert.equal(prisoner.crouched, true)
+  const weapons = new CampWeapons({ player: prisoner, guardSounds: [], canTake: () => true, touch: screen })
+  t.after(() => weapons.end())
+  const pickUp = t.mock.method(weapons, 'pickUp', () => true)
+  for (const pressed of [true, true, false, true]) {
+    screen.attack2 = pressed
+    weapons.update()
+  }
+  assert.equal(pickUp.mock.callCount(), 2)
 })

@@ -326,3 +326,13 @@ test('a crew hit at once falls slowly and comes to lie on the ground, not under 
     assert.ok(Math.abs(lowest) < .02, `lowest point ${lowest}`)
   }
 })
+
+test('on a touch screen the fire button, held and let go, fires the gun', async t => {
+  const game = await level(t)
+  const button = document.querySelector('.game-btn')
+  button.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, cancelable: true, pointerId: 1 }))
+  play(game, .5)
+  button.dispatchEvent(new PointerEvent('pointerup', { bubbles: true, cancelable: true, pointerId: 1 }))
+  play(game, reload.total)
+  assert.equal(game.shells.length, 1)
+})

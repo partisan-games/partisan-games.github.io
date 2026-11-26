@@ -4,7 +4,7 @@ import { loadedModel } from '/core3d/assets/models.js'
 import { mountMetalPipe, smoothPipeSwing, pipeSwingName } from '/core3d/actor/derived/ww2/WorkerPipe.js'
 import dressFighter from '/core3d/actor/characters/dressFighter.js'
 import { variants } from '/core3d/actor/derived/ww2/partisanLooks.js'
-import { escapingPrisoner } from './EscapingPrisoners.js'
+import { escapingPrisoner, standingIdles } from './EscapingPrisoners.js'
 
 export const companionLooks = [
   { name: 'Ilija', height: 1.70, outfit: variants.vuna.outfit },
@@ -56,12 +56,13 @@ export default class CompanionModel extends CharacterModel {
     })
     animations.push(reverseTransition(stand))
     body.actions.attack = swing.duration
-    super(body, { mesh, animations, animDict: { ...animDict, crouchDown: 'Stand To Crouch' }, ...options })
+    super(body, { mesh, animations,
+      animDict: { ...animDict, idle: standingIdles[index % standingIdles.length], crouchDown: 'Stand To Crouch' }, ...options })
     this.mesh.scale.multiplyScalar(companionLooks[index].height / 1.8)
     dressFighter(this.mesh, companionLooks[index].outfit, textures)
     mountMetalPipe(this.mesh, { tipLength: .32 })
     this.idlePhases = {}
-    for (const state of ['crouchIdle', 'crouchRest']) {
+    for (const state of ['idle', 'crouchIdle', 'crouchRest']) {
       this.idlePhases[state] = this.actions[state].getClip().duration * index / companionLooks.length
       this.actions[state].time = this.idlePhases[state]
       this.actions[state].setEffectiveTimeScale(.94 + index * .06)
@@ -73,7 +74,7 @@ export default class CompanionModel extends CharacterModel {
     super.play(name)
     if (name === 'run') this.actions.run.setEffectiveTimeScale(Math.max(.85, Math.min(1.15,
       Math.hypot(this.body.vx, this.body.vz) / 4)))
-    if (changed && ['crouchIdle', 'crouchRest'].includes(name)) this.actions[name].time = this.idlePhases?.[name] ?? 0
+    if (changed && ['idle', 'crouchIdle', 'crouchRest'].includes(name)) this.actions[name].time = this.idlePhases?.[name] ?? 0
     if (this.body.posture?.name === name) {
       this.actions[name].setLoop(LoopOnce, 1)
       this.actions[name].paused = true

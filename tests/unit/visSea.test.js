@@ -1,19 +1,19 @@
 import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
+import { loadAtlas } from './helpers/atlas.js'
 
 before(() => {
   createPageElements()
 })
 
-test('the sea scrolls down without end, from the top of the screen', async() => {
+test('the sea reaches the bottom of the screen, also one taller than wide, wherever it has scrolled', async() => {
   const { default: PokretnaPozadina } = await import('/scenes/vis/PokretnaPozadina.js')
-  const sea = new PokretnaPozadina(10, 800)
-  sea.height = 400
-  sea.onload()
-  assert.deepEqual([sea.x, sea.y], [400, 0])
-  sea.update(19)
-  assert.equal(sea.y, 190)
-  sea.update(2)
-  assert.equal(sea.y, 10, 'past half its height it goes back up by that half')
+  for (const [width, height] of [[390, 844], [1200, 800]]) {
+    const sea = new PokretnaPozadina(10, width, height)
+    loadAtlas(sea, 640, 1440)
+    await sea.imageLoaded
+    assert.ok(sea.width >= width)
+    assert.ok(sea.height / 2 >= height, `${width}×${height}: one tile ${sea.height / 2} px high`)
+  }
 })

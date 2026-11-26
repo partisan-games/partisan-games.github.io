@@ -93,7 +93,7 @@ export default class VisScene extends Scene2D {
     this.landing = false
     this.siren = { sounds: [new Sound('air-raid-siren.mp3', { profile: 'ambience' })] }
     this.audioChildren.push(this.siren)
-    const okean = new PokretnaPozadina(speed, this.width)
+    const okean = new PokretnaPozadina(speed, this.width, this.height)
     this.add(okean, this.zdravlje, this.ostrvo, this.player, this.playerView, ...this.oblaci)
     this.engineSound = new Sound('avion-mali.mp3', { volume: engineVolume, loop: true, profile: 'engine', spatial: { getPosition: () => this.playerView.position } })
     this.playerView.sounds.push(this.engineSound)

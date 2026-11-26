@@ -11,6 +11,7 @@ import World from './World.js'
 import SceneAudio from './io/audio/SceneAudio.js'
 import { admission } from './io/admission.js'
 import runCleanups from './runtime/runCleanups.js'
+import { gameplayInputAllowed } from './io/inputContext.js'
 
 // the scene that last showed each shared canvas; a scene ended late must not hide or wipe the next scene's drawing
 const canvasOwners = new WeakMap()
@@ -47,6 +48,7 @@ export default class Scene {
     document.addEventListener('click', this.unlockAudio, true)
     document.addEventListener('keydown', this.unlockAudio, true)
     document.addEventListener('click', this.handleClick)
+    document.addEventListener('pointerdown', this.notePointer, true)
     this.pausePolicy = new PausePolicy({ usePointerLock, pause: () => this.pause() })
   }
 
@@ -156,13 +158,24 @@ export default class Scene {
     }
   }
 
+  /** A game played by touch does not lock the pointer; a mouse click in it, once it runs, locks it again. */
+  notePointer = event => {
+    this.pointerType = event.pointerType
+    if (this.usePointerLock && event.pointerType === 'mouse' && !document.pointerLockElement
+      && this.session.state === 'running' && !this.ui.screen && gameplayInputAllowed(event.target)) this.lockPointer()
+  }
+
+  lockPointer() {
+    if (this.usePointerLock && this.pointerType !== 'touch') document.body.requestPointerLock()
+  }
+
   start() {
     this.gameLoop.start()
     this.session.start()
     this.syncSounds()
     this.ui.clearIntro()
     this.focusCanvas()
-    if (this.usePointerLock) document.body.requestPointerLock()
+    this.lockPointer()
   }
 
   focusCanvas() {
@@ -188,6 +201,7 @@ export default class Scene {
         canvasOwners.delete(this.canvas)
       },
       () => document.removeEventListener('click', this.handleClick),
+      () => document.removeEventListener('pointerdown', this.notePointer, true),
       () => document.removeEventListener('click', this.unlockAudio, true),
       () => document.removeEventListener('keydown', this.unlockAudio, true),
       () => this.pausePolicy?.end(),
@@ -210,7 +224,7 @@ export default class Scene {
     this.syncSounds()
     this.ui.hideScreen()
     this.focusCanvas()
-    if (this.usePointerLock) document.body.requestPointerLock()
+    this.lockPointer()
   }
 
   handleInput(dt) {

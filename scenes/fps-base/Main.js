@@ -17,8 +17,12 @@ import { createCrate, createRustyBarrel, createMetalBarrel, createPlayerBox } fr
 import { requestModels } from '/core3d/assets/models.js'
 import { computerDamage } from '/core/gameplay/damage.js'
 import Input from '/core/io/Input.js'
+import { inputLayouts } from '/core/io/inputLayouts.js'
+import { icons } from '/core/io/icons.js'
+import { isTouchScreen } from '/config.js'
 import makeCharacter from '/core3d/actor/characters/makeCharacter.js'
 import MouseLook from '/core3d/actor/characters/MouseLook.js'
+import TouchLook from '/core3d/actor/characters/TouchLook.js'
 import FirstPersonView from '/core3d/actor/characters/FirstPersonView.js'
 import CampWeapons, { takeWeapon } from './CampWeapons.js'
 import PrisonerAvatar, { prisonerModel } from './PrisonerAvatar.js'
@@ -69,8 +73,11 @@ export default class FpsBaseScene extends Scene3D {
     this.player = new Prisoner({ ...this.maze.tilePosition(1, 1), size: { length: .4, height: 1.78, width: .4 },
       reach: 1.65, actions: { attack: .9 }, jumping: 'fly', strikeHeight: .89, ...playerWorld })
     this.player.face({ x: 0, z: 0 })
-    this.controllers.push(new PrisonerKeys(this.player, new Input({ useJoystick: false, useKeyboard: true, attackKey: 'pointer' })),
-      new MouseLook(this.player))
+    // on a touch screen two more buttons stand for the keys to sneak and to take a weapon
+    const input = new Input({ ...inputLayouts.firstPerson, ...isTouchScreen && {
+      buttonDict: { ...inputLayouts.firstPerson.buttonDict, special: icons.sneak, attack2: icons.take } } })
+    this.controllers.push(new PrisonerKeys(this.player, input),
+      new MouseLook(this.player), new TouchLook(this.player))
     const playerModel = new PrisonerFootsteps(this.player, { mesh: createPlayerBox({ visible: false }), impactAt })
     this.audioPlayer = () => playerModel
     this.viewScene = new Scene()
@@ -81,7 +88,7 @@ export default class FpsBaseScene extends Scene3D {
     const avatar = new PrisonerAvatar(this.player, this.viewScene, this.viewCamera)
     this.prisonerAvatar = avatar
     const weapons = new CampWeapons({ player: this.player, playerView: playerModel, avatar, queries: enemyWorld,
-      canTake: () => this.session.state === 'running', guardSounds: soldiers.map(soldier => soldier.attackSound) })
+      canTake: () => this.session.state === 'running', touch: input.screen, guardSounds: soldiers.map(soldier => soldier.attackSound) })
     weapons.equip(germanSoldier.twoHandedWeapon, germanSoldier.attackSound)
     this.add(this.player, playerModel, new FirstPersonView(this.player, { camera: this.camera,
       weaponSrc: () => avatar.current.pose === 'rifle' ? '/assets/images/ui/savo.png' : null, behind: 0,

@@ -1,19 +1,21 @@
-/** Pauses a running game when the player leaves it: a released mouse lock, or, in a game without one, a hidden page. */
+/** Pauses a running game when the player leaves it: a hidden page, or a released mouse lock in a game that locks it. */
 export default class PausePolicy {
   constructor({ usePointerLock, pause }) {
     this.pause = pause
-    this.event = usePointerLock ? 'pointerlockchange' : 'visibilitychange'
-    this.hasLeft = usePointerLock
-      ? () => !document.pointerLockElement
-      : () => document.visibilityState === 'hidden'
-    document.addEventListener(this.event, this.handleChange)
+    document.addEventListener('visibilitychange', this.handleVisibility)
+    if (usePointerLock) document.addEventListener('pointerlockchange', this.handleLock)
   }
 
-  handleChange = () => {
-    if (this.hasLeft()) this.pause()
+  handleVisibility = () => {
+    if (document.visibilityState === 'hidden') this.pause()
+  }
+
+  handleLock = () => {
+    if (!document.pointerLockElement) this.pause()
   }
 
   end() {
-    document.removeEventListener(this.event, this.handleChange)
+    document.removeEventListener('visibilitychange', this.handleVisibility)
+    document.removeEventListener('pointerlockchange', this.handleLock)
   }
 }

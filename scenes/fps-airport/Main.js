@@ -20,10 +20,12 @@ import CharacterKeys from '/core/gameplay/controllers/CharacterKeys.js'
 import CharacterAI from '/core/gameplay/controllers/CharacterAI.js'
 import { computerDamage } from '/core/gameplay/damage.js'
 import Input from '/core/io/Input.js'
+import { inputLayouts } from '/core/io/inputLayouts.js'
 import CharacterModel, { modelSize } from '/core3d/actor/characters/CharacterModel.js'
 import makeCharacter from '/core3d/actor/characters/makeCharacter.js'
 import worldQueries from '/core3d/actor/characters/worldQueries.js'
 import MouseLook from '/core3d/actor/characters/MouseLook.js'
+import TouchLook from '/core3d/actor/characters/TouchLook.js'
 import FirstPersonView from '/core3d/actor/characters/FirstPersonView.js'
 import BuildingModel from '/core3d/actor/buildings/BuildingModel.js'
 import { towerModel, parkedBombers } from '/core3d/actor/buildings/buildingModels.js'
@@ -73,8 +75,8 @@ export default class FpsAirportScene extends Scene3D {
     this.player = new Character({ x: 100, size: { length: .4, height: 1.78, width: .4 }, reach: 100, jumping: 'fly',
       strikeHeight: .82, targets: this.enemies, ...worldQueries(playerSolids) })
     this.player.face({ x: 78, z: 48 })
-    this.controllers.push(new CharacterKeys(this.player, new Input({ useJoystick: false, useKeyboard: true, attackKey: 'pointer' })),
-      new MouseLook(this.player))
+    this.controllers.push(new CharacterKeys(this.player, new Input(inputLayouts.firstPerson)),
+      new MouseLook(this.player), new TouchLook(this.player))
     const playerModel = new CharacterModel(this.player, { mesh: createPlayerBox({ visible: false }), attackSound: 'rifle.mp3' })
     this.audioPlayer = () => playerModel
     this.add(this.player, playerModel, new FirstPersonView(this.player, { camera: this.camera }))

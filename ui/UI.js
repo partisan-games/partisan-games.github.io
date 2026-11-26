@@ -42,6 +42,8 @@ export default class UI {
   constructor(scene, {
     intro = '',
     showControls = !isTouchScreen,
+    // a touch screen has no Esc, so it gets a button that does the same
+    showPauseButton = isTouchScreen,
     startButtonText = 'Start mission',
     reportText,
     controlKeys,
@@ -65,6 +67,13 @@ export default class UI {
     this.messageElement = document.createElement('div')
     this.messageElement.className = 'message'
     modalElement.after(this.messageElement)
+    if (showPauseButton && onContinue) {
+      this.pauseButton = Object.assign(document.createElement('button'), {
+        className: 'pause-button', textContent: icons.pause, title: 'Pause',
+      })
+      this.pauseButton.addEventListener('click', () => this.scene.pause())
+      this.messageElement.after(this.pauseButton)
+    }
 
     // Controls stay available while reading the briefing or pausing the game.
     if (showControls)
@@ -156,6 +165,7 @@ export default class UI {
       && modalElement.querySelector('button:not(:disabled), input:not(:disabled), select:not(:disabled)')
     ;(first || modalElement).focus({ preventScroll: true })
     this.messageElement.hidden = true
+    if (this.pauseButton) this.pauseButton.hidden = true
   }
 
   /**
@@ -205,6 +215,7 @@ export default class UI {
     }
     erase(modalElement, this)
     this.messageElement.hidden = false
+    if (this.pauseButton) this.pauseButton.hidden = false
   }
 
   startScreen() {
@@ -334,6 +345,7 @@ export default class UI {
     document.removeEventListener('keydown', this.handleModalKey)
     this.clear()
     this.messageElement.remove()
+    this.pauseButton?.remove()
     this.report?.stop()
     this.controlsUI?.end()
   }

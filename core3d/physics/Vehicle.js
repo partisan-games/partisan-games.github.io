@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 
 import Input from '/core/io/Input.js'
+import { icons } from '/core/io/icons.js'
 import { getSize } from '/core3d/helpers.js'
 import { Ammo, createRigidBody, updateMeshTransform } from '/core3d/physics/index.js'
 import ChaseCamera from '/core3d/actor/ChaseCamera.js'
@@ -55,7 +56,7 @@ export default class Vehicle {
     this.engineForce = 0
     this.breakingForce = 0
     this.maxSpeed = maxSpeed
-    this.input = new Input({ attackKey })
+    this.input = new Input({ attackKey, ...attackKey && { buttonDict: { attack: icons.shoot } } })
     this.brakesOnSpace = attackKey !== 'Space'
     const { x, y, z } = getSize(mesh)
     this.width = x

@@ -1,5 +1,6 @@
 // Opens a game or a catalogue story in Chromium, plays a few steps and reports what it saw, on its own server that it
-// stops when done. Usage: npm run probe -- <address> [steps...] [--size=1200x800] [--no-start]
+// stops when done. Usage: npm run probe -- <address> [steps...] [--size=1200x800] [--no-start] [--touch]
+//   --touch  a phone: a touch screen without a mouse or keyboard
 //   address  a game, as `cannon`, or a story, as `catalog/vozila/partizanski-tenk` (a look may follow: `/italijanska`)
 //   Key:ms   holds a key (Playwright's name: ArrowUp, Space, Enter, KeyA...) for that many milliseconds
 //   mouse:ms holds the left mouse button in the middle of the page
@@ -36,7 +37,7 @@ await new Promise(ready => {
 const browser = await chromium.launch()
 const problems = []
 try {
-  const page = await browser.newPage({ viewport: { width, height } })
+  const page = await browser.newPage({ viewport: { width, height }, ...'touch' in options && { hasTouch: true, isMobile: true } })
   page.on('pageerror', error => problems.push(`pageerror: ${error.message}`))
   page.on('console', message => {
     if (message.type() === 'error' && !message.text().startsWith('Failed to load resource')) problems.push(`console: ${message.text()}`)

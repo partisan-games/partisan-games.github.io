@@ -14,7 +14,7 @@ Katalog (2026-11-23): prošlo 19 ciljanih testova navigacije, kataloga, pokriven
 | `npm run check` | Importi, literalne putanje resursa i scene kartica. |
 | `npm run verify` | Lint sa ispravkama, unit serija i provera projekta; prethodi komitu u dozvoljenom obimu. |
 | `npm run smoke` | Chromium specifikacije iz [tests/smoke](../tests/smoke/); obuhvat se čita iz postojećih fajlova. |
-| `npm run probe -- <adresa> [koraci]` | Jedna igra ili priča, stvarni ulaz, `eval:` i `shot`; alat pokreće i gasi svoj server. |
+| `npm run probe -- <adresa> [koraci]` | Jedna igra ili priča, stvarni ulaz, `eval:` i `shot`; alat pokreće i gasi svoj server. `--touch` glumi telefon (tač ekran bez miša), `--size=390x844` njegov ekran. |
 
 Za browser je potreban instaliran Chromium. Velike serije, buildovi i paralelni browseri traže posebno izričito odobrenje; odobrena ciljana provera ne odobrava ceo `verify` ili smoke.
 

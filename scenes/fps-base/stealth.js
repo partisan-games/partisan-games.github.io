@@ -42,7 +42,8 @@ export class Prisoner extends Character {
 export class PrisonerKeys extends CharacterKeys {
   update(dt) {
     const { body, input } = this
-    body.crouched = body.alive && !body.airborne && !body.swing && !input.attack && input.keyboard.isDown(crouchKey)
+    body.crouched = body.alive && !body.airborne && !body.swing && !input.attack
+      && (input.keyboard.isDown(crouchKey) || input.screen.special)
     super.update(dt)
   }
 }

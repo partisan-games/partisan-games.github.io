@@ -9,8 +9,6 @@ import Trench from '/core/objects/Trench.js'
 import { sideProjection } from '/core/actor/projection.js'
 import Health from '/core/gameplay/Health.js'
 import AirAttack, { airAttack } from './AirAttack.js'
-import Partisan from '/core/gameplay/bodies/soldiers/Partisan.js'
-import PartisanSprite from '/core/actor/soldiers/PartisanSprite.js'
 
 const DALJI_Y = window.innerHeight * 0.25
 const BLIZI_Y = window.innerHeight * 0.5
@@ -38,16 +36,6 @@ export default class NeretvaScene extends Scene2D {
     this.ubrzano = false
     this.chetniks = this.army('cetnici')
     this.manTrenches(this.army('nemci'))
-    const allyProjection = sideProjection({ pxPerMeter: 38, groundY: this.height * .94 })
-    this.allies = [.2, .5, .8].map(across => {
-      const body = new Partisan({ role: 'rear', x: this.width * across / 38, y: .9 })
-      const view = new PartisanSprite(body, { projection: allyProjection })
-      view.position.z = -3
-      const cover = new Trench({ x: this.width * across, y: this.height * .94 - 15, scale: 1.5 })
-      cover.position.z = -4
-      this.add(body, view, cover)
-      return body
-    })
     // Ju 87s attack the crossing while the Germans hold the trenches
     this.airAttack = new AirAttack({ scene: this, projection: sideProjection({ pxPerMeter, groundY: BLIZI_Y }),
       onBomb: () => this.health.damage(airAttack.damage) })
@@ -176,10 +164,6 @@ export default class NeretvaScene extends Scene2D {
       return this.victory('You defended the position; the wounded have been saved.')
 
     this.preostaloVreme -= dt
-    for (const body of this.allies) {
-      body.aimAt(body.ahead(15))
-      body.setState('attack')
-    }
 
     super.update(dt)
     if (!this.ubrzano && this.preostaloVreme < 60) {
