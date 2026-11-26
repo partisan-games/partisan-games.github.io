@@ -1,11 +1,13 @@
-import { Box3, Mesh, MeshLambertMaterial, PlaneGeometry, RepeatWrapping, SRGBColorSpace } from 'three'
+import { Box3, MeshLambertMaterial, RepeatWrapping, SRGBColorSpace } from 'three'
 import TownHouse from '/core3d/actor/buildings/TownHouse.js'
 import { createTexture } from '/core3d/helpers.js'
+import { craterPlots, crossing, groundAt, river, riverBanks, roadCoordinates, surface } from './terrain.js'
+export { river }
 
 /**
  * Drvar on 25 May 1944, after the map of the raid in docs/references/ww2-yu/drvar: north is -z and east +x, the
  * churchyard of the stronghold "Moskva" at the middle. The Unac runs east of it, north to south; the main road runs
- * by its east side, south into the heart of the town and north over the river to the cave; the road from its west gate
+ * along its west bank, south into the heart of the town and north over the river to the cave; the road from its west gate
  * leads to the cemetery hill of Šobića glavica. Each road and the river is `{ min: { x, z }, max: { x, z } }`.
  */
 export const roads = [
@@ -17,7 +19,6 @@ export const roads = [
   { min: { x: 60, z: 60 }, max: { x: 66, z: 230 } },
   { min: { x: 33, z: 137 }, max: { x: 60, z: 143 } },
 ]
-export const river = { min: { x: 92, z: -300 }, max: { x: 110, z: 300 } }
 
 /** The open ground round the churchyard where the fight is; within `ruinsWithin` metres the bombs left mostly ruins. */
 const open = { min: { x: -22, z: -20 }, max: { x: 22, z: 20 } }
@@ -46,31 +47,33 @@ function seeded(seed) {
   }
 }
 
-const overlap = (a, b) => a.min.x < b.max.x && b.min.x < a.max.x && a.min.z < b.max.z && b.min.z < a.max.z
+export const overlap = (a, b) => a.min.x < b.max.x && b.min.x < a.max.x && a.min.z < b.max.z && b.min.z < a.max.z
 
-/** A flat strip of ground showing `file`, a picture `tile` metres across, `lift` metres over the strip `{ min, max }`. */
-function strip({ min, max }, file, tile, lift) {
-  const width = max.x - min.x, depth = max.z - min.z
-  const map = createTexture({ file })
+/** Skip the span of the bridge, where the wooden deck is the road. */
+function roadSurfaces() {
+  const map = createTexture({ file: 'terrain/dirt.jpg' })
   map.colorSpace = SRGBColorSpace
   map.wrapS = map.wrapT = RepeatWrapping
-  map.repeat.set(width / tile, depth / tile)
-  const mesh = new Mesh(new PlaneGeometry(width, depth), new MeshLambertMaterial({ map }))
-  mesh.rotation.x = -Math.PI / 2
-  mesh.position.set((min.x + max.x) / 2, lift, (min.z + max.z) / 2)
-  mesh.receiveShadow = true
-  return mesh
+  const material = new MeshLambertMaterial({ map })
+  return roads.flatMap(road => {
+    const { min, max } = road
+    const parts = overlap(road, crossing)
+      ? [{ min, max: { x: crossing.min.x, z: max.z } }, { min: { x: crossing.max.x, z: min.z }, max }]
+      : [road]
+    return parts.map(part => surface(roadCoordinates(part.min.x, part.max.x), roadCoordinates(part.min.z, part.max.z),
+      (x, z) => groundAt(x, z) + .025, 6, material))
+  })
 }
 
 /**
  * The town round the stronghold, its houses already loaded: houses packed along both sides of each road, their long
  * side along it, kept off the other roads, the river and the open ground round the churchyard. Gives the houses, the
- * strips of the roads and the river, and the ground each house covers, `{ min: { x, z }, max: { x, z }, height }`.
+ * strips of the roads, and the ground each house covers, `{ min: { x, z }, max: { x, z }, height }`.
  */
-export default function buildTown(random = seeded(1944)) {
+export default function buildTown(random = seeded(1944), landmarks = []) {
   const houses = [], footprints = []
   const pick = list => list[Math.floor(random() * list.length)]
-  const kept = [open, river, ...roads]
+  const kept = [open, riverBanks, ...roads, ...landmarks, ...craterPlots]
   for (const road of roads) {
     const along = road.max.x - road.min.x > road.max.z - road.min.z ? 'x' : 'z'
     const across = along === 'x' ? 'z' : 'x'
@@ -92,7 +95,9 @@ export default function buildTown(random = seeded(1944)) {
         house.mesh.position[along] = cursor + length / 2
         house.mesh.position[across] = edge + side * depth / 2
         const box = new Box3().setFromObject(house.mesh)
-        const footprint = { min: { x: box.min.x, z: box.min.z }, max: { x: box.max.x, z: box.max.z }, height: box.max.y }
+        const base = Math.min(...[box.min.x, box.max.x].flatMap(x => [box.min.z, box.max.z].map(z => groundAt(x, z))))
+        house.mesh.position.y = base
+        const footprint = { min: { x: box.min.x, z: box.min.z }, max: { x: box.max.x, z: box.max.z }, height: box.max.y, base }
         if (cursor + length <= road.max[along] && ![...kept, ...footprints].some(taken => overlap(taken, footprint))) {
           footprints.push(footprint)
           houses.push(house)
@@ -101,6 +106,5 @@ export default function buildTown(random = seeded(1944)) {
       }
     }
   }
-  const ground = [...roads.map(road => strip(road, 'terrain/dirt.jpg', 6, .02)), strip(river, 'water512.jpg', 12, .03)]
-  return { houses, ground, footprints }
+  return { houses, ground: roadSurfaces(), footprints }
 }

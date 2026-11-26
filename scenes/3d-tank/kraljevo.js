@@ -5,6 +5,7 @@ import { loadModel } from '/core3d/loaders.js'
 import { loadedModel } from '/core3d/assets/models.js'
 import { campModels } from '/core3d/actor/buildings/CampProp.js'
 import Milutin, { models as monumentModels } from '/core3d/actor/buildings/Milutin.js'
+import Tree, { trees } from '/core3d/actor/nature/Tree.js'
 import TownHouse, { modelOf as townHouseModel } from '/core3d/actor/buildings/TownHouse.js'
 import { models as sandbagsModels } from '/core3d/actor/buildings/Sandbags.js'
 import { models as cannonModels } from '/core3d/actor/derived/Cannon.js'
@@ -16,6 +17,8 @@ import { models as cannonModels } from '/core3d/actor/derived/Cannon.js'
  */
 export const kraljevo = {
   road: { width: 8, from: -90, to: 215 },
+  // lindens line the road from Čačak up to the wire, `apart` metres along it and `aside` from its middle
+  avenue: { aside: 7, apart: 12, to: 38, height: [.9, 1.1] },
   wire: { z: 45, half: 40 },
   trench: { z: 58, half: 38, gap: 4.5 },
   nests: [{ x: -16, z: 62 }, { x: 18, z: 62 }],
@@ -46,7 +49,8 @@ export const defence = { machineGun: { reach: 55, damage: [30, 50] }, rifle: { r
 /** The farming school: a two-storey public building of the town's kind. */
 const schoolKind = 'european-building'
 
-export const models = [...sandbagsModels, campModels['fence-straight'], townHouseModel(schoolKind), ...cannonModels, ...monumentModels]
+export const models = [...sandbagsModels, campModels['fence-straight'], townHouseModel(schoolKind), ...cannonModels, ...monumentModels,
+  trees.linden.model]
 
 const facades = ['building-front.png', 'building-green-front.png', 'building-blue-front.png', 'ruin-front.jpg']
 const earth = 0x8a7350
@@ -55,7 +59,7 @@ const cobbles = 0x8c8a84
 /** Builds the way in on `physics`; solid things are fixed, the crates of the barricades loose, for the tank to push. */
 export async function buildKraljevo(physics) {
   const { scene } = physics
-  const { road, wire, trench, nests, bunker, gun, school, street, barricades, square } = kraljevo
+  const { road, avenue, wire, trench, nests, bunker, gun, school, street, barricades, square } = kraljevo
 
   /** A fixed box `size` big at `at`, unseen, for what is drawn by `visual`; a shell that strikes it scars there. */
   const solid = (visual, size, at, turn = 0) => {
@@ -82,6 +86,14 @@ export async function buildKraljevo(physics) {
   flat(new THREE.PlaneGeometry(street.half * 2, square.z - street.from + street.length), cobbles, 0, (street.from + square.z) / 2)
   flat(new THREE.CircleGeometry(square.radius, 32), cobbles, 0, square.z)
   solid(new Milutin().mesh, { x: 10, y: 1.5, z: 10 }, { x: 0, z: square.z })
+
+  // each linden a little taller or shorter than the next, turned its own way, its trunk solid
+  for (let z = road.from + avenue.apart / 2; z < avenue.to; z += avenue.apart)
+    for (const side of [-1, 1]) {
+      const tree = new Tree('linden').mesh
+      tree.scale.multiplyScalar(THREE.MathUtils.randFloat(...avenue.height))
+      solid(tree, { x: .6, y: 4, z: .6 }, { x: side * avenue.aside, z: z + THREE.MathUtils.randFloatSpread(2) }, Math.random() * Math.PI * 2)
+    }
 
   // the barbed wire before the trench, across the road too
   for (let x = -wire.half; x < wire.half; x += 5) {

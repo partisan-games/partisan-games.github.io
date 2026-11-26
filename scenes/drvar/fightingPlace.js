@@ -7,7 +7,7 @@
  * one out of range runs in the open to a tenth within it, and one in range fights from where he landed: null. Where
  * he would not see the stronghold, as behind a house, he goes instead to the nearest free stretch of its wall.
  */
-export default function fightingPlace(soldier, { spots, target, range, reach, behind, inSight = () => true }) {
+export default function fightingPlace(soldier, { spots, target, range, reach, behind, inSight = () => true, onReserve = () => {} }) {
   const distance = (a, b) => Math.hypot(a.x - b.x, a.z - b.z)
   const ownDistance = distance(soldier, target)
   const [cover] = spots
@@ -16,6 +16,7 @@ export default function fightingPlace(soldier, { spots, target, range, reach, be
     .sort((a, b) => distance(a, soldier) - distance(b, soldier))
   const take = spot => {
     spot.taken = true
+    onReserve(spot)
     const away = distance(spot, target)
     const out = spot.out ?? { x: (spot.x - target.x) / away, z: (spot.z - target.z) / away }
     const goal = { x: spot.x + out.x * behind, z: spot.z + out.z * behind, cover: spot.height }

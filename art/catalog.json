@@ -3100,6 +3100,13 @@
        ]
       },
       {
+       "name": "dfs-230",
+       "files": [
+        ["dfs-230.glb",0.0]
+       ],
+       "folders": []
+      },
+      {
        "name": "ju52",
        "files": [
         ["model.glb",3.5]
@@ -3222,7 +3229,11 @@
       {
        "name": "ruins",
        "files": [
-        ["destroyed-walls.glb",0.9]
+        ["destroyed-walls.glb",0.9],
+        ["drvar-stone-house.glb",0.5],
+        ["wall-breach.glb",0.1],
+        ["wall-corner.glb",0.1],
+        ["wall-fragment.glb",0.1]
        ],
        "folders": []
       },
@@ -3475,7 +3486,7 @@
        "name": "trees",
        "files": [
         ["burnt-oak.glb",0.1],
-        ["linden.glb",0.4],
+        ["linden.glb",0.3],
         ["oak.glb",0.1]
        ],
        "folders": []
@@ -3733,6 +3744,13 @@
          "name": "army-truck",
          "files": [
           ["model.fbx",1.1]
+         ],
+         "folders": []
+        },
+        {
+         "name": "drvar-wreck",
+         "files": [
+          ["drvar-wreck.glb",0.1]
          ],
          "folders": []
         },

@@ -1,11 +1,13 @@
 import Stage3D from '../Stage3D.js'
 import * as campModule from '/core3d/actor/buildings/CampProp.js'
 import Church, * as churchModule from '/core3d/actor/buildings/Church.js'
+import DrvarProp, * as drvarModule from '/core3d/actor/buildings/DrvarProp.js'
 import Milutin, * as monumentModule from '/core3d/actor/buildings/Milutin.js'
 import { requestModels } from '/core3d/assets/models.js'
 import Sandbags, * as sandbagsModule from '/core3d/actor/buildings/Sandbags.js'
 import TownHouse, * as townHouseModule from '/core3d/actor/buildings/TownHouse.js'
 import WarDebris, * as warDebrisModule from '/core3d/actor/buildings/WarDebris.js'
+import Tree, * as treeModule from '/core3d/actor/nature/Tree.js'
 
 const gateCommands = [{ label: 'Otvori/zatvori kapiju', run: block => block.toggleGate() }]
 const lightCommands = [
@@ -90,4 +92,27 @@ const debris = Object.entries(warDebrisModule.warDebris).map(([kind, { name, mod
   },
 }))
 
-export const props = [...camp, church, milutin, sandbags, ...town, ...debris]
+/** The trees of the countryside, each alone. */
+const trees = Object.entries(treeModule.trees).map(([kind, { name, model }]) => ({
+  id: `drvo-${kind}`, name, game: kind === 'linden' ? 'Siege of Kraljevo' : 'Raid on Drvar (u izradi)', block: treeModule, stage: Stage3D,
+  catalogGroup: ['Scenografija', 'Drveće'],
+  create: async stage => {
+    await requestModels([model])
+    const block = new Tree(kind)
+    stage.add(block)
+    return block
+  },
+}))
+
+const ruins = Object.entries(drvarModule.drvarProps).map(([kind, { name, model }]) => ({
+  id: `drvar-${kind}`, name, game: 'Raid on Drvar (u izradi)', block: drvarModule, stage: Stage3D,
+  catalogGroup: ['Scenografija', 'Tragovi rata'],
+  create: async stage => {
+    await requestModels([model])
+    const block = new DrvarProp(kind)
+    stage.add(block)
+    return block
+  },
+}))
+
+export const props = [...camp, church, milutin, sandbags, ...town, ...debris, ...trees, ...ruins]

@@ -10,6 +10,7 @@ export const warDebris = {
   'army-truck': { name: 'Nemački vojni kamion', model: { file: 'vehicle/truck/army-truck/model.fbx', size: 3, fitVisible: true } },
   barrel: { name: 'Bure', model: { file: 'item/barrel/model.fbx', size: .9, fitVisible: true } },
   'ammunition-box': { name: 'Sanduk municije', model: { file: 'item/ammunition-box/scene.gltf', size: .4, fitVisible: true } },
+  'burnt-truck': { name: 'Spaljeni prevrnuti kamion', model: { file: 'vehicle/truck/drvar-wreck/drvar-wreck.glb', size: 2.15, fitVisible: true } },
 }
 
 /** What to load; a game awaits requestModels(models) before it makes a piece of debris. */

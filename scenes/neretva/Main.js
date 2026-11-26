@@ -17,6 +17,21 @@ const pxPerMeter = 22
 /** Seconds to hold the position: the Germans attack first, the Chetniks in the second half (owner's decision). */
 const holdTime = 120
 const chetniksAt = holdTime / 2
+/**
+ * Trenches dug by hand, not by a ruler: in groups of `group`, `close` apart within and `apart` between, in trench
+ * widths roughly; the row bowed toward the player at its middle by `bow` px, each trench `rise` px forward or back;
+ * scaled with the row's art, the same each game.
+ */
+const dug = { group: [2, 3], close: 1.15, apart: 1.8, bow: 24, rise: 8 }
+
+/** A random number from 0 to 1 that repeats from its `seed`, so the trenches lie the same each game. */
+function seeded(seed) {
+  let state = seed
+  return () => {
+    state = Math.imul(1664525, state) + 1013904223 | 0
+    return (state >>> 0) / 4294967296
+  }
+}
 
 export default class NeretvaScene extends Scene2D {
   constructor() {
@@ -47,7 +62,7 @@ export default class NeretvaScene extends Scene2D {
   army(faction) {
     return {
       background: new Background(`background/neretva-1943-${faction}.png`),
-      near: this.praviSvabe(10, sideProjection({ pxPerMeter, groundY: BLIZI_Y }), { scale: 1, faction }),
+      near: this.praviSvabe(8, sideProjection({ pxPerMeter, groundY: BLIZI_Y }), { scale: 1, faction }),
       far: this.praviSvabe(12, sideProjection({ pxPerMeter: pxPerMeter / 2, groundY: DALJI_Y }), { scale: .5, faction }),
     }
   }
@@ -79,15 +94,26 @@ export default class NeretvaScene extends Scene2D {
     this.ui.showMessage('Chetniks are next')
   }
 
-  /** `n` soldiers evenly along a row of trenches, which `projection` draws. */
+  /** `n` soldiers along a row of trenches as `dug`, across the screen, which `projection` draws. */
   praviSvabe(n, projection, { faction, scale }) {
-    const razmak = this.width / n
-    const polaRazmaka = razmak / 2
+    const random = seeded(n * 1943)
+    const { width } = this
+    // steps from trench to trench: one within a group, `apart` between groups; then the whole row fitted to the width
+    const steps = []
+    for (let left = n - 1, size = 0; left > 0; left--) {
+      size ||= dug.group[Math.floor(random() * dug.group.length)]
+      steps.push(--size ? dug.close : dug.apart)
+    }
+    const unit = width / (steps.reduce((sum, step) => sum + step, 0) + 1)
+    const ground = projection.point({ x: 0, y: 0 }).y
+    let x = unit / 2
     return Array.from({ length: n }, (_, i) => {
-      const body = new TrenchSoldier(projection.toWorld({ x: i * razmak + polaRazmaka, y: projection.point({ x: 0, y: 0 }).y }))
+      if (i) x += steps[i - 1] * unit
+      const along = x / width
+      const at = { x, y: ground + (dug.bow * 4 * along * (1 - along) + dug.rise * (random() * 2 - 1)) * scale }
+      const body = new TrenchSoldier(projection.toWorld(at))
       const view = new TrenchSoldierSprite(body, { faction, variant: i % 3, scale, projection, inTrench: true })
-      const { x, y } = projection.point(body)
-      const cover = new Trench({ x, y, scale })
+      const cover = new Trench({ ...projection.point(body), scale })
       return { body, view, cover }
     })
   }
@@ -121,21 +147,24 @@ export default class NeretvaScene extends Scene2D {
       this.pogoci++
       return
     }
-    const ciljaniRovovi = (aim.y <= DALJI_Y) ? this.daljiRovovi : this.bliziRovovi
-    this.proveriPogotke(ciljaniRovovi, aim)
+    // the near row stands in front of the far one
+    if (!this.proveriPogotke(this.bliziRovovi, aim)) this.proveriPogotke(this.daljiRovovi, aim)
   }
 
   get energija() {
     return this.health.current
   }
 
-  /** Preserve this game's shot window at the trench opening, independently of the figure's art bounds. */
+  /** Whether the aim hits a risen soldier at his trench's opening, the shot window, whatever the figure's art bounds. */
   proveriPogotke(rovovi, aim) {
+    let hit = false
     for (const { body, cover } of rovovi)
       if (body.standing && Math.abs(aim.x - cover.x) < cover.width / 2 && Math.abs(aim.y - cover.y) < cover.height / 2) {
         body.setState('dead')
         this.pogoci++
+        hit = true
       }
+    return hit
   }
 
   smrt() {

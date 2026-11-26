@@ -1,0 +1,181 @@
+"""Run in Blender background mode from the repository root to export the Drvar props."""
+from math import radians
+from pathlib import Path
+
+import bpy
+from mathutils import Vector
+
+
+ROOT = Path.cwd() / "assets"
+
+
+def material(name, color, texture=None):
+    result = bpy.data.materials.new(name)
+    result.diffuse_color = (*color, 1)
+    result.use_nodes = True
+    shader = result.node_tree.nodes.get("Principled BSDF")
+    shader.inputs["Base Color"].default_value = result.diffuse_color
+    shader.inputs["Roughness"].default_value = .88
+    if texture:
+        image = result.node_tree.nodes.new("ShaderNodeTexImage")
+        image.image = bpy.data.images.load(str(ROOT / "images/textures" / texture), check_existing=True)
+        tint = result.node_tree.nodes.new("ShaderNodeMix")
+        tint.data_type = "RGBA"
+        tint.blend_type = "MULTIPLY"
+        factor, base, pigment = (next(pin for pin in tint.inputs if pin.identifier == identifier)
+                                 for identifier in ["Factor_Float", "A_Color", "B_Color"])
+        factor.default_value = 1
+        pigment.default_value = result.diffuse_color
+        result.node_tree.links.new(image.outputs["Color"], base)
+        result.node_tree.links.new(next(pin for pin in tint.outputs if pin.identifier == "Result_Color"),
+                                   shader.inputs["Base Color"])
+    return result
+
+
+def shape(name, vertices, faces, finish):
+    data = bpy.data.meshes.new(name)
+    data.from_pydata(vertices, [], faces)
+    data.update()
+    uv = data.uv_layers.new()
+    for face in data.polygons:
+        axis = max(range(3), key=lambda i: abs(face.normal[i]))
+        u, v = [i for i in range(3) if i != axis]
+        for index in face.loop_indices:
+            point = data.vertices[data.loops[index].vertex_index].co
+            uv.data[index].uv = (point[u] / 1.7, point[v] / 1.7)
+    obj = bpy.data.objects.new(name, data)
+    bpy.context.collection.objects.link(obj)
+    obj.data.materials.append(finish)
+    return obj
+
+
+def box(name, location, size, finish):
+    bpy.ops.mesh.primitive_cube_add(size=1, location=location)
+    obj = bpy.context.object
+    obj.name = name
+    obj.dimensions = size
+    bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
+    obj.data.materials.append(finish)
+    return obj
+
+
+def beam(name, start, end, width, finish):
+    a, b = Vector(start), Vector(end)
+    obj = box(name, (a + b) / 2, (width, width, (b - a).length), finish)
+    obj.rotation_euler = (b - a).to_track_quat("Z", "Y").to_euler()
+    return obj
+
+
+def export(path):
+    target = ROOT / "models" / path
+    target.parent.mkdir(parents=True, exist_ok=True)
+    bpy.ops.object.select_all(action="DESELECT")
+    for obj in bpy.context.scene.objects:
+        if obj.type == "MESH":
+            obj.select_set(True)
+            bpy.context.view_layer.objects.active = obj
+            for modifier in list(obj.modifiers):
+                bpy.ops.object.modifier_apply(modifier=modifier.name)
+    bpy.ops.object.join()
+    bpy.ops.export_scene.gltf(filepath=str(target), export_format="GLB", export_image_format="WEBP", export_yup=True)
+
+
+def clear():
+    bpy.ops.object.select_all(action="SELECT")
+    bpy.ops.object.delete(use_global=False)
+
+
+def glider():
+    fabric = material("Olive fabric", (.22, .25, .15))
+    underside = material("Pale underside", (.49, .51, .43))
+    glass = material("Cockpit", (.09, .16, .17))
+    dark = material("Skid", (.10, .085, .06))
+    stations = [(-5.7, .16, .23, .27), (-3.6, .41, .05, .55), (1.5, .7, -.12, .91),
+                (3.5, .67, -.09, .87), (5.2, .43, .08, .49), (5.7, .13, .21, .34)]
+    fuselage = []
+    for x, width, low, high in stations:
+        fuselage += [(x, -width * .75, low), (x, width * .75, low), (x, width, low + .3),
+                     (x, width * .65, high), (x, -width * .65, high), (x, -width, low + .3)]
+    faces = [(i * 6 + j, i * 6 + (j + 1) % 6, (i + 1) * 6 + (j + 1) % 6, (i + 1) * 6 + j)
+             for i in range(len(stations) - 1) for j in range(6)]
+    shape("Tapered fuselage", fuselage, faces + [tuple(reversed(range(6))), tuple(range(30, 36))], fabric)
+    for side in [-1, 1]:
+        outline = [(2.65, .1, .8), (1.6, 7.7, .91), (.98, 10.55, .97), (-.05, 10.7, .96),
+                   (-.95, 7.7, .91), (-.74, .1, .79)]
+        wing = [(x, side * y, z + offset) for offset in [-.07, .07] for x, y, z in outline]
+        shape("Wing upper", wing, [(6, 7, 8, 9, 10, 11)], fabric)
+        shape("Wing lower and edges", wing, [(0, 1, 2, 3, 4, 5)] +
+              [(i, (i + 1) % 6, (i + 1) % 6 + 6, i + 6) for i in range(6)], underside)
+        beam("Wing strut", (1.2, side * .50, .15), (.65, side * 3.8, .83), .10, fabric)
+    shape("Tailplane", [(-3.8, -2.3, .58), (-3.2, 0, .58), (-3.8, 2.3, .58), (-5.05, 2.1, .58),
+                        (-5.23, -2.1, .58)], [(0, 1, 2, 3, 4)], fabric)
+    shape("Vertical tail", [(-3.85, 0, .45), (-4.74, 0, 2.0), (-5.52, 0, 1.86), (-5.63, 0, .4)],
+          [(0, 1, 2, 3)], fabric)
+    shape("Windscreen", [(3.56, -.43, .87), (3.56, .43, .87), (4.8, .29, .57), (4.8, -.29, .57)], [(0, 1, 2, 3)], glass)
+    beam("Landing skid", (3.9, 0, -.16), (-1.1, 0, -.24), .16, dark)
+    export("aircraft/dfs-230/dfs-230.glb")
+
+
+def stone_house():
+    stone = material("Rough limestone", (.63, .57, .48), "walls/stone-wall.jpg")
+    burnt = material("Scorched stone", (.19, .15, .12), "walls/old-wal.jpg")
+    timbers = material("Charred rafters", (.15, .095, .065))
+    for x, width in [(-2.85, 1.3), (-1.12, .65), (1.12, .65), (2.85, 1.3)]:
+        box("Facade stone", (x, -2.85, 1.8), (width, .36, 3.6), stone)
+    for x in [-1.95, 1.95]:
+        box("Window sill wall", (x, -2.85, .46), (1.02, .36, .92), stone)
+        box("Sooted window head", (x, -2.85, 3.19), (1.09, .37, .82), burnt)
+    box("Lintel above entry", (0, -2.85, 3.13), (1.65, .36, .94), stone)
+    outline = [(3.55, 3.6), (2.26, 4.42), (1.08, 5.18), (0, 5.9), (-1.15, 5.15),
+               (-2.35, 4.37), (-3.55, 3.6), (0, 3.6)]
+    ring = []
+    for radius in [0, .47]:
+        for x, z in outline:
+            offset = Vector((x, z - 4.55))
+            if radius:
+                offset = offset.normalized() * radius
+            ring.append((offset.x, -3.025, offset.y + 4.55))
+    gable = shape("Gable with round opening", ring, [(i, (i + 1) % 8, (i + 1) % 8 + 8, i + 8) for i in range(8)], stone)
+    thickness = gable.modifiers.new("Masonry thickness", "SOLIDIFY")
+    thickness.thickness = .34
+    thickness.offset = 0
+    for side, lengths in [(-1, [3.5, 2.75, 2.05, 1.2, .75]), (1, [3.4, 2.9, 1.85, 1.5, .95])]:
+        for i, height in enumerate(lengths):
+            box("Broken side wall", (side * 3.34, -2.18 + i * 1.12, height / 2), (.36, 1.13, height), stone)
+    box("Standing chimney", (-2.5, 1.45, 2.65), (.82, .83, 5.3), stone)
+    box("Chimney cap", (-2.5, 1.45, 5.34), (.96, .97, .16), burnt)
+    beam("Broken rafter", (-3.35, -2.05, 3.6), (.18, -1.8, 5.77), .18, timbers)
+    beam("Fallen rafter", (-.45, .45, .23), (2.27, 1.8, 1.55), .19, timbers)
+    export("building/ruins/drvar-stone-house.glb")
+
+
+def truck():
+    rust = material("Oxidised steel", (.22, .13, .09), "metal/rust.jpg")
+    black = material("Burnt rubber", (.055, .047, .039))
+    chassis = material("Sooted steel", (.14, .11, .08))
+    frame = bpy.data.objects.new("Tilted wreck", None)
+    bpy.context.collection.objects.link(frame)
+    frame.rotation_euler.x = radians(62)
+    frame.rotation_euler.y = radians(-8)
+    for side in [-1, 1]:
+        box("Frame rail", (0, side * .39, .65), (5.3, .17, .2), chassis).parent = frame
+        for x in [-1.74, 1.48]:
+            bpy.ops.mesh.primitive_cylinder_add(vertices=12, radius=.48, depth=.24,
+                                               rotation=(radians(90), 0, 0), location=(x, side * .88, .5))
+            wheel = bpy.context.object
+            wheel.name = "Charred wheel"
+            wheel.data.materials.append(black if x < 0 else chassis)
+            wheel.parent = frame
+    box("Collapsed bonnet", (1.95, 0, 1.11), (1.6, 1.48, .52), rust).parent = frame
+    box("Deformed cab back", (.32, .03, 1.45), (.21, 1.65, 1.35), rust).parent = frame
+    for side in [-1, 1]:
+        beam("Empty windscreen frame", (1.45, side * .76, 1.13), (.98, side * .72, 2.1), .11, chassis).parent = frame
+    beam("Roof edge", (.98, -.72, 2.1), (.98, .72, 2.1), .11, rust).parent = frame
+    for i in range(5):
+        box("Split load bed", (-1.07 - i * .33, .02 + i * .025, .88), (.28, 1.8 - .09 * i, .10), rust).parent = frame
+    export("vehicle/truck/drvar-wreck/drvar-wreck.glb")
+
+
+for build in [glider, stone_house, truck]:
+    clear()
+    build()

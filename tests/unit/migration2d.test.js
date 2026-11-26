@@ -148,3 +148,22 @@ test('all remaining 2D scenes can initialize, pause, finish and be replaced with
       replay.end()
     })
 })
+
+test('neretva trenches lie in groups, not evenly, and a click on the lower half of a far trench still hits its soldier', async t => {
+  const { default: Neretva } = await import('/scenes/neretva/Main.js')
+  const scene = new Neretva()
+  scene.init()
+  scene.clear = () => {}
+  t.after(() => scene.end())
+  const gaps = scene.bliziRovovi.slice(1).map(({ cover }, i) => Math.round(cover.x - scene.bliziRovovi[i].cover.x))
+  assert.ok(new Set(gaps).size > 1, `gaps ${gaps}`)
+  for (const rovovi of scene.ucestalost.keys()) scene.ucestalost.set(rovovi, 0)
+  const [post] = scene.daljiRovovi
+  // the trench picture does not load here; its opening is the shot window
+  for (const { cover } of scene.sveSvabe) Object.assign(cover, { width: 30, height: 20 })
+  post.body.setState('aim')
+  scene.session.ready()
+  scene.session.start()
+  scene.handleClick({ target: scene.canvas, pageX: post.cover.x, pageY: post.cover.y + 8 })
+  assert.equal(post.body.state, 'dead')
+})

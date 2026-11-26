@@ -8,27 +8,34 @@ import { requestModels } from '/core3d/assets/models.js'
 import { description, models } from '/core3d/actor/derived/ww2/PartisanLowpoly.js'
 import { variants } from '/core3d/actor/derived/ww2/partisanLooks.js'
 import ReliefColumn, { columnDepth, columnSize } from '/scenes/drvar/ReliefColumn.js'
+import { formationFor, waves } from '/scenes/drvar/assault.js'
 import { createPageElements } from './helpers/dom.js'
 
 test('Drvar advances with game time and wins when the Ličani reach the churchyard', async() => {
   createPageElements()
   const { default: DrvarScene } = await import('/scenes/drvar/Main.js')
-  const waves = [], outcomes = []
+  const sent = [], outcomes = [], weapons = []
   const lead = { x: -31, steer() {} }
+  const gunner = { dead: false, setState() {
+    this.dead = true
+  } }
   const session = new GameSession()
   const scene = Object.assign(Object.create(DrvarScene.prototype), {
     session, wave: 0, enemies: [{ alive: true }], targets: [], planes: [], player: { dead: false },
     gameLoop: { start() {} },
-    ui: { clearIntro() {} },
+    ui: { clearIntro() {}, showMessage() {} },
     world: { update() {} },
-    comrades: [{ dead: false }],
+    comrades: [gunner],
+    trigger: { firearm: { automatic: false }, equip(firearm) {
+      weapons.push(firearm)
+      this.firearm = firearm
+    } },
     syncSounds() {},
     focusCanvas() {},
     lockPointer() {},
     sendWave() {
-      waves.push(this.wave)
+      sent.push(this.wave)
     },
-    takeMachineGun() {},
     sendRelief() {
       this.relief = [lead]
     },
@@ -46,10 +53,17 @@ test('Drvar advances with game time and wins when the Ličani reach the churchya
   step(51)
   session.pause()
   step(100)
-  assert.deepEqual(waves, [0])
+  assert.deepEqual(sent, [0])
   session.resume()
   step(1)
-  assert.deepEqual(waves, [0, 1])
+  assert.deepEqual(sent, [0, 1])
+  assert.equal(gunner.dead, false)
+  assert.equal(weapons.length, 0)
+  gunner.dead = true
+  step(0)
+  step(0)
+  assert.equal(weapons.length, 1)
+  assert.equal(weapons[0].automatic, true)
 
   step(59)
   assert.equal(scene.relief, undefined)
@@ -61,6 +75,15 @@ test('Drvar advances with game time and wins when the Ličani reach the churchya
   step(1)
   assert.deepEqual(outcomes, ['Stigli su Ličani!'])
   assert.equal(scene.enemies[0].alive, true)
+})
+
+test('the first drop spreads across town and the later formations concentrate west in shorter groups', () => {
+  const [first, second] = waves
+  assert.ok(first.zone > second.zone)
+  assert.ok(second.fireLimit > first.fireLimit)
+  assert.deepEqual(second.passes.map(({ at }) => at), [0, 4, 16, 21])
+  for (const pass of first.passes) assert.ok(formationFor(first, pass).every(plane => plane.x > 0))
+  for (const pass of second.passes) assert.ok(formationFor(second, pass).every(plane => plane.x < 0))
 })
 
 test('the moving reserve draws the real riflemen as shared geometry within the west road', async t => {

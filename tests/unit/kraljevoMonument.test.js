@@ -8,7 +8,7 @@ import { requestModels } from '/core3d/assets/models.js'
 import { props } from '/catalog/stories/props3d.js'
 import { buildKraljevo, kraljevo, models } from '/scenes/3d-tank/kraljevo.js'
 
-test('Milutin loads with its embedded textures and stands on a solid base at the centre of the square', async t => {
+test('Milutin loads with its embedded textures and stands on a solid base at the centre of the square; lindens line the road', async t => {
   const file = '/assets/models/building/monument/milutin.glb'
   const bytes = await readFile('.' + file)
   const gltf = JSON.parse(bytes.subarray(20, 20 + bytes.readUInt32LE(12)))
@@ -53,4 +53,13 @@ test('Milutin loads with its embedded textures and stands on a solid base at the
   const preview = await entry.create({ add: block => catalogObjects.push(block) })
   assert.equal(catalogObjects[0], preview)
   assert.notEqual(preview.mesh, monument)
+
+  // a linden's model stands in as a box of its height; its unseen trunk beside it stops the tank
+  const lindens = scene.children.filter(child => child.visible && Math.abs(Math.abs(child.position.x) - kraljevo.avenue.aside) < .001)
+  assert.ok(lindens.length >= 20, `${lindens.length} lindens`)
+  for (const linden of lindens) {
+    assert.ok(linden.position.z < kraljevo.wire.z, 'the avenue ends before the wire')
+    const height = new THREE.Box3().setFromObject(linden).getSize(new THREE.Vector3()).y
+    assert.ok(height > 10 && height < 14, `a linden ${height} m tall`)
+  }
 })

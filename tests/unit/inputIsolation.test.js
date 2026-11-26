@@ -227,6 +227,7 @@ test('shooting handlers reject inactive phases and UI clicks, and aim at the tri
       session: { state: 'ready' }, ui: { screen: null }, energija: 100, player: { shotSound: { play: () => shots++ } },
       proveriPogotke: (rows, point) => {
         aim = point; hits++
+        return true
       },
       daljiRovovi: [target], bliziRovovi: [target], occupiers: [target], audio: { setPlaying() {} }, airAttack: { shoot: () => false },
     }
