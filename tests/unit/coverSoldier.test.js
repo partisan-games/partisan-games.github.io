@@ -78,3 +78,13 @@ test('he stops firing at a dead target, and a dead soldier fires at no one', () 
   soldier.fireAt(new Body())
   assert.equal(soldier.state, 'dead')
 })
+
+test('a soldier set to move leaves his cover at once, however he is sent on', () => {
+  const soldier = new CoverSoldier()
+  soldier.moveTo({ x: 1, z: 0, cover: 1.2 })
+  for (let i = 0; i < 30 && soldier.state === 'move'; i++) soldier.update(.1)
+  assert.equal(soldier.inCover, true)
+  soldier.goal = { x: 0, z: 0 }
+  soldier.setState('move')
+  assert.equal(soldier.inCover, false)
+})

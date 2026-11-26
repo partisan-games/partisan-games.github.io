@@ -88,9 +88,11 @@ Sklopive sekcije koriste native `details`/`summary`; `summary` mora biti UI cilj
 
 ## Granice i odluke
 
+- Predmet se isprobava samo kroz svoja stanja, radnje i pucanje, uz tastere igre za upravljive aktere; katalog nema odeljak sa posebnim probnim komandama (vlasnik, 2026-11-26). Protivnik ili meta koju predmet treba da gađa je nevidljiva zamena koju priča postavlja.
+
 - Morska mina je predmet/prepreka, pa nema zasebnu stavku u katalogu aktera.
 
 - 3D lik se ne može napraviti u unit testu bez učitanog modela, pa 3D priče proverava browser. Top iz igre Battle for Jablanica ima priču bez fizike: posada puni top i trgne se pri opaljenju, a let granate i rušenje tvrđave ostaju u igri (odluka vlasnika, 2026-11-23).
 - Katalog je za predmete i aktere, ne za prikaz scena (odluka vlasnika, 2026-11-25): pozornica prikazuje jednog aktera, a protivnika ili metu mu zamenjuje nevidljivi zamenik, kao lovcu Bf 109 zamenik bombardera. Više aktera koji deluju jedan na drugog uvodi se tek ako vlasnik to zatraži.
-- [Nemac](../catalog.html#vojnici/nemac-u-rovu) i [Četnik](../catalog.html#vojnici/cetnik-u-rovu) imaju celu figuru koja hoda, nišani, puca i ostaje na zemlji posle pada. Neretva koristi isti model ponašanja sa posebnim crtežom za položaj iza [zaklona](../scenes/neretva/Cover.js), rova ili prirodnog.
+- [Nemac](../catalog.html#vojnici/nemac-u-rovu) i [Četnik](../catalog.html#vojnici/cetnik-u-rovu) imaju celu figuru koja hoda, nišani, puca i ostaje na zemlji posle pada. U Neretvi se Nemci zaklanjaju u rovovima, a četnici iza gomila kamenja. [Zakloni](../scenes/neretva/Cover.js) su zasebna scenografija.
 - Namerno nije preuzeto: biblioteka Storybook i React (traže build), kontrole iz unutrašnjih polja objekta (daju besmislena polja) i upravljanje vremenom igre, poput pauze ili usporavanja (vlasniku ne treba).

@@ -1,9 +1,9 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import Character from '/core/gameplay/bodies/characters/Character.js'
-import CampCompanion from '/scenes/fps-base/EscapingPrisoners.js'
-import CampNavigation from '/scenes/fps-base/CampNavigation.js'
-import { CampGuard, Prisoner, alarm, raiseAlarm } from '/scenes/fps-base/stealth.js'
+import CampCompanion from '/scenes/crveni-krst/EscapingPrisoners.js'
+import CampNavigation from '/scenes/crveni-krst/CampNavigation.js'
+import { CampGuard, Prisoner, alarm, raiseAlarm } from '/scenes/crveni-krst/stealth.js'
 import { description as flameThrower } from '/core3d/actor/derived/ww2/GermanFlameThrower.js'
 
 function setup({ enemyX = 15, coverPoints = [], sees = () => true, postureDuration = 0 } = {}) {
@@ -512,4 +512,18 @@ test('a guard\'s shout sends the guards in hearing to search where it came from,
   assert.notEqual(far.doing, 'search')
   near.update(.1)
   assert.ok(near.body.running, 'he hurries to the shout')
+})
+
+test('getting up a companion takes the recorded step forward, but not through a wall', () => {
+  for (const wall of [false, true]) {
+    const { body, controller } = setup({ postureDuration: 1 })
+    controller.navigation = new CampNavigation(() => wall)
+    controller.postureShift = (name, time) => name === 'crouchUp' ? time * .4 : 0
+    controller.crouched = true
+    controller.decide = () => {
+      body.crouched = false
+    }
+    for (let i = 0; i < 10; i++) controller.update(.1)
+    assert.ok(Math.abs(body.x - (wall ? 0 : .4)) < 1e-9, wall ? 'a wall stops the step' : 'he steps 0.4 m ahead')
+  }
 })

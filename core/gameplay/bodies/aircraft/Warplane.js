@@ -14,16 +14,17 @@ import Missile, { missile } from '../projectiles/Missile.js'
 export const warplane = { speed: 40, height: 60, health: 500, reload: .5, steering: 12, braking: 18, banking: 6,
   maxRoll: Math.PI / 6, sink: .5, brake: 3, crashRoll: .375, missileSpeed: 60, missileDive: Math.atan2(50, 75) }
 
-/** It flies, or it is shot down. */
+/** It flies, comes down to land, or is shot down. */
 const states = {
   move: {},
+  land: {},
   dead: {},
 }
 
 /**
  * A warplane flying on its way, `yaw`, while the world moves past it: steered, it moves across within `limit` metres
  * either side and up or down between half and twice its cruising height, banking as it goes. It fires missiles ahead
- * and down at the living ones of `targets`; they burst on the ground `groundAt(x, z)` gives. Told to land, or shot
+ * and down at the living ones of `targets`; they burst on the ground `groundAt(x, z)` gives. Set to `land`, or shot
  * down, it sinks to the ground. `clock` is the game clock.
  */
 export default class Warplane extends Body {
@@ -34,7 +35,6 @@ export default class Warplane extends Body {
     this.heights = { min: height / 2, max: height * 2 }
     this.velocity = { x: 0, y: 0 }
     this.roll = 0
-    this.landing = false
     this.steering = { across: 0, climb: 0 }
     this.reload = new Cooldown({ seconds: warplane.reload, clock })
     this.missiles = new ProjectilePool(() => new Missile({ groundAt }))
@@ -44,8 +44,9 @@ export default class Warplane extends Body {
     return this.y > this.groundAt(this.x, this.z) + this.size.height * 2 / 3
   }
 
+  /** Landing or shot down, it does not take off again; a landing plane can still be shot down. */
   setState(name) {
-    if (this.alive || name === 'dead') super.setState(name)
+    if (name === 'dead' || (this.alive && !this.landing)) super.setState(name)
   }
 
   /** Moves across (1 to its right) and up (1) until steered again. */
@@ -82,9 +83,9 @@ export default class Warplane extends Body {
     return true
   }
 
-  /** From now on it comes down and rolls to a stop. */
-  land() {
-    this.landing = true
+  /** Set to land, it comes down and rolls to a stop, for good. */
+  get landing() {
+    return this.state === 'land'
   }
 
   /** Takes up `target` speed along `axis` within `min` and `max`, its speed easing in as the earlier plane's did. */

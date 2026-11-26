@@ -18,15 +18,20 @@ const game = 'Raid on Drvar (u izradi)'
 const dropHeight = 25
 /** The height of the cover the soldier is sent to, in metres; the catalog draws no cover. */
 const coverHeight = 1.1
-/** What the soldier fires at: it takes his hits and never dies, so his burst goes on until it is stopped. */
-const standIn = new Body({ health: 1e9 })
 
-const soldierCommands = [
-  { label: 'Iza zaklona', run: block => block.moveTo({ x: block.x + 3, z: block.z, cover: coverHeight }) },
-  { label: 'Na otvoreno', run: block => block.moveTo({ x: block.x - 3, z: block.z }) },
-  { label: 'Puca', run: block => block.fireAt(standIn) },
-  { label: 'Prekida vatru', run: block => block.ceaseFire() },
-]
+/**
+ * Readies `soldier` for his states: he aims and fires at an unseen stand-in that takes his hits and never dies, and
+ * each `move` takes him 3 m aside behind cover, the next back into the open.
+ */
+function drill(stage, soldier) {
+  soldier.target = new Body({ health: 1e9 })
+  const places = [{ x: soldier.x + 3, z: soldier.z, cover: coverHeight }, { x: soldier.x, z: soldier.z }]
+  soldier.goal = places[0]
+  stage.controllers.push({ update() {
+    if (soldier.state !== 'move' && soldier.x === soldier.goal.x && soldier.z === soldier.goal.z)
+      soldier.goal = places[(places.indexOf(soldier.goal) + 1) % places.length]
+  } })
+}
 
 export const soldiers = [
   {
@@ -39,20 +44,20 @@ export const soldiers = [
   },
   {
     id: 'nemacki-vojnik-spreda', name: 'Nemački vojnik spreda', game, block: coverSoldierModule, stage: Stage3D, dimension: '2d',
-    commands: soldierCommands,
     create: async stage => {
       const [whole, upper] = await Promise.all([loadPixelArt(coverSoldierArt.whole), loadPixelArt(coverSoldierArt.upper)])
       const body = new CoverSoldier({ y: coverSoldierModule.coverSoldier.size.height / 2 })
+      drill(stage, body)
       stage.add(body, new CoverSoldierSprite(body, { whole, upper }))
       return body
     },
   },
   {
     id: 'nemacki-vojnik-iza-zaklona', name: 'Nemački vojnik iza zaklona', game, block: coverSoldierModelModule, stage: Stage3D,
-    commands: soldierCommands,
     create: async stage => {
       const [flashPicture] = await Promise.all([loadPixelArt(coverSoldierModelModule.flash.picture), requestModels(coverSoldierModelModule.models)])
       const body = new CoverSoldier({ y: coverSoldierModule.coverSoldier.size.height / 2 })
+      drill(stage, body)
       // he faces the camera
       stage.add(body, new CoverSoldierModel(body, { flashPicture, front: { x: 0, z: stage.camera.position.z } }))
       return body

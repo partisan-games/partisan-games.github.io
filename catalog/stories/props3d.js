@@ -9,25 +9,19 @@ import TownHouse, * as townHouseModule from '/core3d/actor/buildings/TownHouse.j
 import WarDebris, * as warDebrisModule from '/core3d/actor/buildings/WarDebris.js'
 import Tree, * as treeModule from '/core3d/actor/nature/Tree.js'
 
-const gateCommands = [{ label: 'Otvori/zatvori kapiju', run: block => block.toggleGate() }]
-const lightCommands = [
-  { label: 'Upali/ugasi reflektor', run: block => block.toggleLight() },
-  { label: 'Pokreni/zaustavi reflektor', run: block => block.toggleSweep() },
-]
-
 /** The props of a camp, each with its group by what it is, so any game can take the same one. */
 const camp = [
-  ['sklop', 'Logor', 'Sklopovi', [...gateCommands, ...lightCommands]],
+  ['sklop', 'Logor', 'Sklopovi'],
   ['storehouse', 'Zidana zgrada', 'Zgrade'],
-  ['watchtower', 'Kula sa reflektorom', 'Zgrade', lightCommands],
+  ['watchtower', 'Kula sa reflektorom', 'Zgrade'],
   ['fence-straight', 'Žičana ograda', 'Ograde i kapije'],
   ['fence-corner', 'Ugao ograde', 'Ograde i kapije'],
   ['fence-terminal', 'Završni stub ograde', 'Ograde i kapije'],
-  ['gate', 'Kapija', 'Ograde i kapije', gateCommands],
+  ['gate', 'Kapija', 'Ograde i kapije'],
   ['timber-screen', 'Drveni zaklon', 'Zakloni'],
-].map(([kind, name, group, commands]) => ({
+].map(([kind, name, group]) => ({
   id: kind, name, game: 'Escape Concentration Camp', block: campModule, stage: Stage3D,
-  catalogGroup: ['Scenografija', group], commands,
+  catalogGroup: ['Scenografija', group],
   create: async stage => {
     const block = kind === 'sklop' ? await campModule.createCampStudy() : await campModule.createCampProp(kind)
     stage.add(block)

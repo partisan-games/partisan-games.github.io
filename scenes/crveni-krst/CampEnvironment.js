@@ -6,6 +6,8 @@ import Sandbags, { models as sandbagModels } from '/core3d/actor/buildings/Sandb
 
 export const models = ['storehouse', 'fence-straight', 'fence-terminal', 'gate', 'timber-screen', 'watchtower']
   .map(kind => campModels[kind]).concat(sandbagModels)
+/** The side of a searchlight's shadow map, in pixels: two towers, sharp enough at their 24 m reach. */
+const searchlightShadow = 1024
 
 /** Scene-owned assembly: visual fence strands never become solid sight or projectile walls. */
 export default class CampEnvironment {
@@ -97,7 +99,7 @@ export default class CampEnvironment {
     }
     const gate = new CampProp(loadedModel(campModels.gate))
     gate.mesh.position.set(layout.gate.x, 0, layout.gate.z)
-    gate.toggleGate()
+    gate.setState('open')
     gate.update(1)
     this.mesh.add(gate.mesh)
     this.props.push(gate)
@@ -105,7 +107,13 @@ export default class CampEnvironment {
       const tower = new CampProp(loadedModel(campModels.watchtower))
       tower.mesh.position.set(x, 0, z)
       tower.mesh.rotation.y = angle
-      tower.toggleSweep()
+      tower.setState('sweeping')
+      // the beam stops at walls on screen as it does for the guards (`litAt`)
+      for (const light of tower.lights) {
+        light.castShadow = true
+        light.shadow.mapSize.set(searchlightShadow, searchlightShadow)
+        light.shadow.camera.far = light.distance
+      }
       this.mesh.add(tower.mesh)
       this.props.push(tower)
       this.opaqueSolids.push(tower.mesh)

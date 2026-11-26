@@ -18,8 +18,8 @@ const retreats = { turns: 12, distances: [2.5, 4, 6] }
 /** Follow through the maze, charge nearby guards and wait out distant fire behind solid cover. */
 export default class CampCompanion {
   constructor(body, { leader, enemies, navigation, coverPoints, sees, index, companions = [], random = Math.random,
-    postureDuration = 0 }) {
-    Object.assign(this, { body, leader, enemies, navigation, coverPoints, sees, index, companions, random })
+    postureDuration = 0, postureShift = () => 0 }) {
+    Object.assign(this, { body, leader, enemies, navigation, coverPoints, sees, index, companions, random, postureShift })
     this.state = 'follow'
     this.route = []
     this.repath = 0
@@ -213,13 +213,23 @@ export default class CampCompanion {
         time: this.posture ? postureDuration - this.posture.time : 0 } : null
     }
     if (this.posture) {
-      this.posture.time = Math.min(postureDuration, this.posture.time + dt)
+      const { name, time } = this.posture
+      this.posture.time = Math.min(postureDuration, time + dt)
+      this.stepWithPosture(name, time, this.posture.time)
       if (this.posture.time >= postureDuration || body.swing) this.posture = null
       else body.steer()
     }
     body.posture = this.posture
     const fraction = this.posture ? this.posture.time / postureDuration : 1
     body.crouchProgress = this.crouched ? fraction : 1 - fraction
+  }
+
+  /** Getting up or crouching takes a recorded step; the body takes it too, unless a wall is in the way. */
+  stepWithPosture(name, from, to) {
+    const { body } = this
+    const step = this.postureShift(name, to) - this.postureShift(name, from)
+    const point = { x: body.x + Math.cos(body.yaw) * step, z: body.z - Math.sin(body.yaw) * step }
+    if (step && this.navigation.clear(body, point)) Object.assign(body, point)
   }
 
   decide(dt) {

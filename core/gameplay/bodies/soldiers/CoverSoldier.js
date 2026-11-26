@@ -21,6 +21,10 @@ const stop = soldier => {
 const states = {
   idle: { enter: stop },
   move: {
+    // on his way he is out of cover
+    enter: soldier => {
+      soldier.inCover = false
+    },
     update: soldier => {
       const { goal, waypoint } = soldier
       if (!goal) return soldier.setState('idle')
@@ -81,7 +85,6 @@ export default class CoverSoldier extends Body {
     if (this.dead) return
     this.goal = goal
     this.route = [...via]
-    this.inCover = false
     this.setState('move')
   }
 

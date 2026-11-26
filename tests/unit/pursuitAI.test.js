@@ -2,7 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import Character from '/core/gameplay/bodies/characters/Character.js'
 import PursuitAI from '/core/gameplay/controllers/PursuitAI.js'
-import CampNavigation from '/scenes/fps-base/CampNavigation.js'
+import CampNavigation from '/scenes/crveni-krst/CampNavigation.js'
 
 function setup({ isBlocked = () => false, sees = () => true } = {}) {
   const target = new Character({ x: 8 })

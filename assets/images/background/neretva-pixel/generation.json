@@ -1,0 +1,133 @@
+{
+  "status": "trial",
+  "tool": "built-in image_gen",
+  "canvas": [
+    1536,
+    1024
+  ],
+  "coordinateOrigin": "top-left",
+  "sharedReferences": [
+    {
+      "path": "assets/images/game-ready/vojnici/nemci-spreda.webp",
+      "role": "Pixel-art cluster size and edge definition, supplied as a PNG copy.",
+      "sha256": "e9b18e963ad661a11e6f437bfcbcf334cf539b44ad12811bdb5eb4eadf5c44d2"
+    },
+    {
+      "path": "assets/images/game-ready/polozaji/neretva/rov-prazan.webp",
+      "role": "Dry ochre soil and trench palette.",
+      "sha256": "59214589ef2faf3261c227ae5455a96300bdc9dec7041c77dbba790deb38b190"
+    }
+  ],
+  "preparation": "Copy each generated PNG into this directory without resampling and run python -B scripts/webp-backgrounds.py.",
+  "views": [
+    {
+      "stage": "nemci",
+      "references": [
+        "assets/images/background/neretva-1943-nemci.png"
+      ],
+      "source": "nemci.png",
+      "runtime": "nemci.webp",
+      "focalPoint": [
+        1180,
+        140
+      ],
+      "groundRowsY": [
+        256,
+        512
+      ],
+      "prompt": "Use case: precise art-direction redraw of the supplied 2D game background. Image 1 is the exact existing 3:2 stage artwork and technical layout; honor pixel positions, same frame and field of view. Image 2 is this game's German soldier sprite atlas, for intentional crisp contiguous pixel clusters and compact shading only. Image 3 is the palette and material cue for the in-game earth trench. Do not put the soldier or the trench art into the background.\nKeep this exact lookout on the grassy slope, open playable terrain and original skyline. The river is a small blue-green accent between distant slate ridges. Cool quiet foreground greens only as occasional gray-olive straw shadows, predominantly muted gray ochre. Keep broad uninterrupted horizontal bands of gently sloping ground through the upper and center field where units go.\nArt direction: an authored and restrained 16-bit pixel-art WWII game terrain plate in Jablanica, late winter. Render the composition with larger deliberate two-to-six-pixel clusters, decisive grouped terrain shapes, and about five shades per material, with no texture noise, no lone stipple pixels, no continuous gradients and no brushy filtered edges. Cool slate and limestone grays in the cliffs, subdued slate-blue distance, rich but quiet dark teal river, gray-ochre dry earth and straw, with small warmer foreground accents. Clear atmospheric perspective and peaceful unbroken patches under the enemy rows. Strongest edges on key rock planes and the bridge landmark, never an all-over black outline. Flat matte color and moderate contrast so the separately overlaid soldiers read clearly. Simplify the sky to clean overcast bands without individual clouds and keep the river still, with no painted foam streaks. No new paths, no foreground set dressing, no units, no text, no borders, no mist that obscures the playing field. Keep full landscape 1536 by 1024 aspect, fit all the original landmarks in the same positions. This is a literal redrawing preserving layout, with a clearly visible new pixel art style.",
+      "referenceSha256": {
+        "assets/images/background/neretva-1943-nemci.png": "377a1472f14de524f6a547bee6868c98a7f06eab6dacd01cfc8f32ac592af438"
+      },
+      "sourceSha256": "44b473ed7260c870356ebcaa4b4c93e6123881544af8667c00eb81dd80e54ccf",
+      "runtimeSha256": "c6f1394ebf66f406de783ff1eefa0698c130c04ff88a7f0751b607e3d1e78719"
+    },
+    {
+      "stage": "most",
+      "references": [
+        "assets/images/background/neretva-late-winter-1943-pixel.png"
+      ],
+      "source": "most.png",
+      "runtime": "most.webp",
+      "focalPoint": [
+        370,
+        410
+      ],
+      "pixelsPerMeter": 25,
+      "groundPath": [
+        [
+          -200,
+          405
+        ],
+        [
+          350,
+          405
+        ],
+        [
+          370,
+          410
+        ],
+        [
+          550,
+          535
+        ],
+        [
+          700,
+          615
+        ],
+        [
+          810,
+          650
+        ],
+        [
+          950,
+          670
+        ],
+        [
+          1100,
+          705
+        ],
+        [
+          1200,
+          685
+        ],
+        [
+          1250,
+          680
+        ],
+        [
+          1800,
+          680
+        ]
+      ],
+      "prompt": "Use case: precise art-direction redraw of the supplied 2D game background. Image 1 is the exact existing 3:2 stage artwork and technical layout; honor pixel positions, same frame and field of view. Image 2 is this game's German soldier sprite atlas, for intentional crisp contiguous pixel clusters and compact shading only. Image 3 is the palette and material cue for the in-game earth trench. Do not put the soldier or the trench art into the background.\nTrace the bridge and terrain precisely at their existing pixel coordinates. On the 1536x1024 frame the walkable left pier deck starts at y405 and reaches x350 y405. Top edge of collapsed truss runs through x370 y410, x550 y535, x700 y615, x810 y650 and ends near x950 y670. Keep those points exactly, and the opposite stony bank around y680-705. Keep the fallen bridge shape with a continuous visible route and the ruined houses behind the bridge. Thin truss structure should read in broad rusty-charcoal shapes and its deck should have enough silvery taupe contrast to see small pixel characters pass along it. Blue-green water is more prominent in this shot; keep banks at their exact positions. Lower foreground road and background hills remain in their original locations but much quieter.\nArt direction: an authored and restrained 16-bit pixel-art WWII game terrain plate in Jablanica, late winter. Render the composition with larger deliberate two-to-six-pixel clusters, decisive grouped terrain shapes, and about five shades per material, with no texture noise, no lone stipple pixels, no continuous gradients and no brushy filtered edges. Cool slate and limestone grays in the cliffs, subdued slate-blue distance, rich but quiet dark teal river, gray-ochre dry earth and straw, with small warmer foreground accents. Clear atmospheric perspective and peaceful unbroken patches under the enemy rows. Strongest edges on key rock planes and the bridge landmark, never an all-over black outline. Flat matte color and moderate contrast so the separately overlaid soldiers read clearly. Simplify the sky to clean overcast bands without individual clouds and keep the river still, with no painted foam streaks. No new paths, no foreground set dressing, no units, no text, no borders, no mist that obscures the playing field. Keep full landscape 1536 by 1024 aspect, fit all the original landmarks in the same positions. This is a literal redrawing preserving layout, with a clearly visible new pixel art style.",
+      "referenceSha256": {
+        "assets/images/background/neretva-late-winter-1943-pixel.png": "788aa42f887485c24a8d4db135b149a14fe95a98658f6ccf71488bc4bd10c027"
+      },
+      "sourceSha256": "14a3ce7104f57d58f82bc15c89246af683d21ae9bc38bcb1bfa87a40f462aecc",
+      "runtimeSha256": "513ffc766686cf29fb640b6c104efe39d9dae1346890a828f70ac34913316b9d"
+    },
+    {
+      "stage": "cetnici",
+      "references": [
+        "assets/images/background/neretva-1943-cetnici.png"
+      ],
+      "source": "cetnici.png",
+      "runtime": "cetnici.webp",
+      "focalPoint": [
+        245,
+        64
+      ],
+      "groundRowsY": [
+        256,
+        512
+      ],
+      "prompt": "Use case: precise art-direction redraw of the supplied 2D game background. Image 1 is the exact existing 3:2 stage artwork and technical layout; honor pixel positions, same frame and field of view. Image 2 is this game's German soldier sprite atlas, for intentional crisp contiguous pixel clusters and compact shading only. Image 3 is the palette and material cue for the in-game earth trench. Do not put the soldier or the trench art into the background.\nKeep this exact reverse lookout, with the broken bridge only as a recognizable small distant silhouette at top left, blue-green river and cold grey cliffs in the distance. Reserve large uninterrupted gently sloping fields across the upper-middle and middle for enemies. Small irregular dark ochre erosion and straw groups should be sparse, mainly lower and toward the edges.\nArt direction: an authored and restrained 16-bit pixel-art WWII game terrain plate in Jablanica, late winter. Render the composition with larger deliberate two-to-six-pixel clusters, decisive grouped terrain shapes, and about five shades per material, with no texture noise, no lone stipple pixels, no continuous gradients and no brushy filtered edges. Cool slate and limestone grays in the cliffs, subdued slate-blue distance, rich but quiet dark teal river, gray-ochre dry earth and straw, with small warmer foreground accents. Clear atmospheric perspective and peaceful unbroken patches under the enemy rows. Strongest edges on key rock planes and the bridge landmark, never an all-over black outline. Flat matte color and moderate contrast so the separately overlaid soldiers read clearly. Simplify the sky to clean overcast bands without individual clouds and keep the river still, with no painted foam streaks. No new paths, no foreground set dressing, no units, no text, no borders, no mist that obscures the playing field. Keep full landscape 1536 by 1024 aspect, fit all the original landmarks in the same positions. This is a literal redrawing preserving layout, with a clearly visible new pixel art style.",
+      "referenceSha256": {
+        "assets/images/background/neretva-1943-cetnici.png": "0df5e1c9d360b835fd14d4951cb9bbb733a8073445390ddad398b29e8fbab6eb"
+      },
+      "sourceSha256": "a7b0a77e9df11e0341e5b10ef95fb5f7bf64e9db078021189e9f028d767e94a0",
+      "runtimeSha256": "acb5671f6da4e2fc9de2c4f57688cffea0731d608f0170f70d8ec57ae138ea98"
+    }
+  ]
+}

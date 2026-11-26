@@ -6,8 +6,8 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js'
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js'
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js'
-import campLayout from '/scenes/fps-base/campLayout.js'
-import CampEnvironment, { models } from '/scenes/fps-base/CampEnvironment.js'
+import campLayout from '/scenes/crveni-krst/campLayout.js'
+import CampEnvironment, { models } from '/scenes/crveni-krst/CampEnvironment.js'
 import { requestModels } from '/core3d/assets/models.js'
 import { createPageElements } from './helpers/dom.js'
 import GameSession from '/core/runtime/GameSession.js'
@@ -45,8 +45,8 @@ function modelFiles(t) {
 
 test('camp weapon shots play with active 3D audio at the moving player eye position', async t => {
   createPageElements()
-  const { Prisoner } = await import('/scenes/fps-base/stealth.js')
-  const { default: CampWeapons } = await import('/scenes/fps-base/CampWeapons.js')
+  const { Prisoner } = await import('/scenes/crveni-krst/stealth.js')
+  const { default: CampWeapons } = await import('/scenes/crveni-krst/CampWeapons.js')
   const { engine } = fixture()
   await engine.unlock()
   const player = new Prisoner({ x: -35, z: -35 })
@@ -109,7 +109,7 @@ test('real camp assembly blocks exactly the closed maze edges and lets the open 
   const layout = campLayout(randomFor(9))
   const camp = new CampEnvironment(layout)
   const queries = camp.queries()
-  const { default: CampNavigation } = await import('/scenes/fps-base/CampNavigation.js')
+  const { default: CampNavigation } = await import('/scenes/crveni-krst/CampNavigation.js')
   const navigation = new CampNavigation(queries.isBlocked)
   assert.equal(navigation.clear({ x: -7.5116, z: 10.6565 }, { x: -7.5, z: 11.2 }), false,
     'a route must not clip the wider part of a sandbag above the crouching foot ray')
@@ -148,7 +148,8 @@ test('real camp assembly blocks exactly the closed maze edges and lets the open 
   }
   assert.equal(camp.props[0].gateFraction, 1)
   assert.equal(camp.props.filter(prop => prop.lights.length).length, 2)
-  assert.ok(camp.props.flatMap(prop => prop.lights).every(light => !light.castShadow))
+  assert.ok(camp.props.flatMap(prop => prop.lights).every(light => light.castShadow && light.shadow.mapSize.x <= 1024
+    && light.shadow.camera.far === light.distance), 'the beams stop at walls on screen, with small shadow maps')
   assert.equal(camp.mesh.children.filter(child => child.name === 'CampFence').length, 3, 'all wire and posts use three instanced draws')
   assert.ok(camp.mesh.children.filter(child => child.name === 'CampFence')
     .every(child => child.material.userData.outlineParameters.visible === false))
@@ -172,7 +173,7 @@ test('real camp assembly blocks exactly the closed maze edges and lets the open 
 })
 
 test('camp crouch slows the prisoner, keeps his feet planted and suppresses sprint and jump', async() => {
-  const { Prisoner, PrisonerKeys } = await import('/scenes/fps-base/stealth.js')
+  const { Prisoner, PrisonerKeys } = await import('/scenes/crveni-krst/stealth.js')
   const prisoner = new Prisoner({ jumping: 'fly' })
   const { size: { height }, feet } = prisoner
   let held = true
@@ -194,7 +195,7 @@ test('camp crouch slows the prisoner, keeps his feet planted and suppresses spri
 })
 
 test('camp guards see a crouching prisoner at normal range only when he is lit and in view', async() => {
-  const { CampGuard, Prisoner } = await import('/scenes/fps-base/stealth.js')
+  const { CampGuard, Prisoner } = await import('/scenes/crveni-krst/stealth.js')
   const prisoner = new Prisoner({ x: 16, z: 0 })
   const sentry = new Prisoner({ x: 0, z: 0 })
   let lit = false, visible = true
@@ -240,7 +241,7 @@ test('a camp searchlight reveals a point in its cone only while it is on and the
 test('FPS camp initializes with real model files, ten enemies and two first aids, and wins near the old exit with every guard alive', async t => {
   createPageElements()
   modelFiles(t)
-  const { default: FpsBaseScene } = await import('/scenes/fps-base/Main.js')
+  const { default: FpsBaseScene } = await import('/scenes/crveni-krst/Main.js')
   const { default: FPSRenderer } = await import('/core3d/actor/FPSRenderer.js')
   t.mock.method(FPSRenderer.prototype, 'render', () => {})
   const games = []
@@ -279,6 +280,12 @@ test('FPS camp initializes with real model files, ten enemies and two first aids
   })
   assert.equal(new Set(shirts).size, 3)
   assert.equal(new Set(game.escapees.map(({ model }) => model.actions.crouchIdle.time)).size, 3)
+  const [{ body: crouching, model: steps }] = game.escapees
+  crouching.crouched = true
+  steps.step(0)
+  assert.equal(steps.stepSound.volume, .22, 'a crouching companion steps as quietly as the crouching player')
+  const standUp = steps.actions.crouchUp.getClip().duration
+  assert.ok(steps.postureShift('crouchUp', standUp) > .3, 'getting up he steps forward as recorded, about 0.35 m')
   assert.equal(new Set(game.escapees.map(({ model }) => model.actions.crouchIdle.timeScale)).size, 3)
   const standing = game.escapees.map(({ model }) => model.actions.idle.getClip().name)
   assert.equal(new Set(standing).size, 3, `each stands his own way: ${standing}`)
@@ -489,8 +496,8 @@ test('FPS camp initializes with real model files, ten enemies and two first aids
 })
 
 test('on a touch screen the sneak button, held, crouches the prisoner and the hand button takes a weapon once per press', async t => {
-  const { Prisoner, PrisonerKeys } = await import('/scenes/fps-base/stealth.js')
-  const { default: CampWeapons } = await import('/scenes/fps-base/CampWeapons.js')
+  const { Prisoner, PrisonerKeys } = await import('/scenes/crveni-krst/stealth.js')
+  const { default: CampWeapons } = await import('/scenes/crveni-krst/CampWeapons.js')
   const prisoner = new Prisoner({})
   const screen = { special: true }
   new PrisonerKeys(prisoner, { keyboard: { isDown: () => false }, screen }).update(.2)

@@ -16,15 +16,14 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 | 6 | [CK-01](#ck-01) | Crveni krst: uskladiti vidljivog lika, telo i stopala | Claude | 🔄 In progress |
 | 7 | [CK-02](#ck-02) | Crveni krst: prave animacije, držanje cevi i prelazi | Vlasnik: klipovi; Claude: povezivanje | 🔄 In progress |
 | 8 | [CK-03](#ck-03) | Crveni krst: prepoznatljivi logoraši i katalog | Codex | 📋 TODO |
-| 9 | [CK-04](#ck-04) | Crveni krst: praćenje, skretanje i razmicanje grupe | Claude | 🔄 In progress |
-| 10 | [CK-06](#ck-06) | Crveni krst: tlo, svetlo, pozadina i zvuk | Codex: teren i pozadina; Claude: svetlo i zvuk | 📋 TODO |
-| 11 | [CK-07](#ck-07) | Crveni krst: pregled celog proboja i regresije | Claude, vlasnik | 📋 TODO |
-| 12 | [IG-31](#ig-31) | Dodati pruge, mostove i izbor savezničkih aviona u Warplane | Vlasnik, Codex, Claude | 🔄 In progress |
-| 13 | [IG-33](#ig-33) | Pregledati art German Advance u duploj rezoluciji i završni promo | Vlasnik | 📋 TODO |
-| 14 | [IG-34](#ig-34) | Napraviti vernu scenu i igru opsade Kraljeva po dogovorenom scenariju | Vlasnik, Claude, Codex | 🔄 In progress |
-| 15 | [IG-35](#ig-35-igre-na-telefonu) | Otkriti igre na telefonu posle merenja i optimizacije, kad su nivoi gotovi | Claude, vlasnik | 📋 TODO |
-| 16 | [IG-36](#ig-36) | Ustanak: probati dvoboj minobacača umesto topova | Claude | 📋 TODO |
-| 17 | [IG-37](#ig-37) | Čamac: razmotriti desante na Brač, Mljet i Korčulu | Vlasnik | 📋 TODO |
+| 9 | [CK-06](#ck-06) | Crveni krst: tlo, pozadina i zvuci po snegu | Codex: teren i pozadina; zvuci nedostaju | 📋 TODO |
+| 10 | [CK-07](#ck-07) | Crveni krst: pregled celog proboja i regresije | Claude, vlasnik | 📋 TODO |
+| 11 | [IG-31](#ig-31) | Dodati pruge, mostove i izbor savezničkih aviona u Warplane | Vlasnik, Codex, Claude | 🔄 In progress |
+| 12 | [IG-33](#ig-33) | Pregledati art German Advance u duploj rezoluciji i završni promo | Vlasnik | 📋 TODO |
+| 13 | [IG-34](#ig-34) | Napraviti vernu scenu i igru opsade Kraljeva po dogovorenom scenariju | Vlasnik, Claude, Codex | 🔄 In progress |
+| 14 | [IG-35](#ig-35-igre-na-telefonu) | Otkriti igre na telefonu posle merenja i optimizacije, kad su nivoi gotovi | Claude, vlasnik | 📋 TODO |
+| 15 | [IG-36](#ig-36) | Ustanak: probati dvoboj minobacača umesto topova | Claude | 📋 TODO |
+| 16 | [IG-37](#ig-37) | Čamac: razmotriti desante na Brač, Mljet i Korčulu | Vlasnik | 📋 TODO |
 
 ## Održavanje plana
 
@@ -99,7 +98,7 @@ Liberated City je Bihać krajem 1942. Natpisi o dolasku Crvene armije i plakat R
 
 Radnja (vlasnik, 2026-11-24): proboj iz nemačkog logora Crveni krst u Nišu, 12. februara 1942; tekst misije i naslov kartice su upisani. Okvir je u [KONTEKST](KONTEKST.md#escape-concentration-camp).
 
-Proboj je dogovoren i logoraši su spremni. Po odluci vlasnika od 2026-11-25, [3D logoraš](../scenes/fps-base/PrisonerAvatar.js) počinje sa već otetom puškom. Uvod objašnjava da je pre početka nivoa savladao stražara. Tasterom F preuzima [oružje ostalih savladanih stražara](../scenes/fps-base/CampWeapons.js). Izlazak iz lavirinta dovoljan je za pobedu. [Test nivoa](../tests/unit/fpsCamp.test.js) pokriva početnu pušku, preuzimanje oružja i pobedu dok su svi stražari na mapi živi.
+Proboj je dogovoren i logoraši su spremni. Po odluci vlasnika od 2026-11-25, [3D logoraš](../scenes/crveni-krst/PrisonerAvatar.js) počinje sa već otetom puškom. Uvod objašnjava da je pre početka nivoa savladao stražara. Tasterom F preuzima [oružje ostalih savladanih stražara](../scenes/crveni-krst/CampWeapons.js). Izlazak iz lavirinta dovoljan je za pobedu. [Test nivoa](../tests/unit/fpsCamp.test.js) pokriva početnu pušku, preuzimanje oružja i pobedu dok su svi stražari na mapi živi.
 
 Stražar prvi put uzvikne „Halt!“ kad primeti logoraša. Trenutak uzvika pokriva [test nivoa](../tests/unit/fpsCamp.test.js).
 
@@ -111,7 +110,7 @@ Prerada menja betonski ambijent u logor; sneg, noć i straže ostaju. Početni p
 
 Priprema je urađena: [reference sa poreklom](references/ww2-yu/crveni-krst/README.md) i [smernice za modele i teksture](ART.md#crveni-krst-priprema-3d-ambijenta). Preradu voditi prema [dogovorenom rasporedu i pravilima prepreka](KONTEKST.md#escape-concentration-camp): lavirint ostaje, a prolazi dobijaju prostornu namenu.
 
-Prvi [paket arta](../assets/models/building/crveni-krst/README.md) povezan je u [katalogu](../catalog.html#scenografija-3d/sklop) i [igri](../index.html#fps-base). [Lokalni raspored](../scenes/fps-base/campLayout.js) čuva grananje i slepe prolaze oko ograđene zidane zgrade, sa jednim otvorenim dvorištem. [Sklop](../scenes/fps-base/CampEnvironment.js) povezuje žicu, pune zaklone, dvostruki obod, otvorenu izlaznu kapiju i dve kule sa reflektorima. Uslov pobede ostaje izlazak iz lavirinta, bez dodatnih obaveznih ciljeva.
+Prvi [paket arta](../assets/models/building/crveni-krst/README.md) povezan je u [katalogu](../catalog.html#scenografija-3d/sklop) i [igri](../index.html#crveni-krst). [Lokalni raspored](../scenes/crveni-krst/campLayout.js) čuva grananje i slepe prolaze oko ograđene zidane zgrade, sa jednim otvorenim dvorištem. [Sklop](../scenes/crveni-krst/CampEnvironment.js) povezuje žicu, pune zaklone, dvostruki obod, otvorenu izlaznu kapiju i dve kule sa reflektorima. Uslov pobede ostaje izlazak iz lavirinta, bez dodatnih obaveznih ciljeva.
 
 Tehničke granice: zajednički `Maze` nije menjan. Mreža ima 8×8 polja razmaka 10 m, od kojih je osam rezervisano za objekat sa dvorištem; 56 prohodnih polja ostaje povezano. Početak (−35, −35), izlaz (35, 40) i prag pobede manji od 5 m su očuvani, kao i deset protivnika, dve prve pomoći i deset rekvizita. Žica blokira hod, a propušta pogled i metke za obe strane; zgrada, puni zakloni i rekviziti blokiraju i pogled i pogotke. Nitima i stubovima se dele instancirani sklopovi, dok puni zakloni ostaju obični mesh-evi zbog tragova pogodaka. [Ciljane provere](TESTING.md#crveni-krst--priprema-i-art) obuhvataju prohodnost, sudare, ponovni ulazak, pobedu bez ubijanja i oslobađanje novih resursa.
 
@@ -125,13 +124,13 @@ P1 je kvar položaja lika/igre; P2 potvrđen problem prirodnosti ili neispunjen 
 
 | Nalaz | Dokaz i posledica | Korak |
 |---|---|---|
-| Proveriti · Stopala i kontakti pri prelazima | [Čučeći hod sada ostaje u mestu](../scenes/fps-base/CompanionModel.js#L15), uz zajedničku osnovu sa pravim `Crouching Idle`. Preostaje provera deformisanih stopala i odnosa tela/modela uz prepreke i pri promeni stava; samo stabilan koren ne dokazuje oslonac. | CK-01 |
+| Proveriti · Stopala i kontakti pri prelazima | [Čučeći hod sada ostaje u mestu](../scenes/crveni-krst/CompanionModel.js#L15), uz zajedničku osnovu sa pravim `Crouching Idle`. Preostaje provera deformisanih stopala i odnosa tela/modela uz prepreke i pri promeni stava; samo stabilan koren ne dokazuje oslonac. | CK-01 |
 | P2 · Borba nema proverenu vezu pokreta i pogotka | Cev koristi [kombinaciju mačem](../core3d/actor/derived/ww2/WorkerPipe.js#L4); pogodak na polovini radnje (0,87 s) poklapa se sa udarcem u snimku (0,91 s od 1,74 s). Nema povezane reakcije saborca na preživljen pogodak; smrt je `Dying` i iz čučnja. Tačan kontakt cevi i eventualno podizanje pri smrti treba pogledati u igri. | CK-02 |
-| P2 · Odeća još nije identitet čoveka | [Trojica](../scenes/fps-base/CompanionModel.js#L9) imaju isti model i osnovno lice, različite visine/odeću, brkove kod jednog i nijansu kože. Potrebna je trajna prepoznatljivost i pri istoj pozi; ne praviti novog čoveka promenom oružja. | CK-03 |
-| P2 · Podloga i efekti ne ostvaruju art ugovor | [Tlo](../scenes/fps-base/Main.js#L56) je jedna ponovljena snežna ravan, bez gaženih pravaca i podnožja iz [ART-a](ART.md#crveni-krst-priprema-3d-ambijenta). Četiri nasumična rekvizita dobijaju dim/plamen, a izlaz vatreni efekat; ART traži da nasumični požari ne budu glavni motiv. | CK-06 |
-| Proveriti · Dubina, pozadina i reflektori | [Nebo je jedna boja sa maglom](../scenes/fps-base/Main.js#L50); mesečevo svetlo i [reflektori](../core3d/actor/buildings/CampProp.js#L26) ne bacaju senke. Logika zaklanja reflektor iza zida, GPU svetlo nema tu senku. Proveriti kontakt sa tlom i da li osvetljenost odgovara stvarnom opažanju straže. | CK-06 |
-| P2 · Zvuk ne odgovara radnji i tlu | [Prikaz saboraca](../core3d/actor/characters/CharacterModel.js#L48) koristi korake po šljunku, punom jačinom i prema pređenom putu; tiši čučanj je povezan samo kod igrača. Nije povezan zvuk zamaha cevi. Novi FBX sam ovo ne rešava. | CK-06 |
-| Proveriti · Borba i čitljivost cilja | [Straža je nasumičan sastav koji luta](../scenes/fps-base/Main.js#L95). Smireno osmatranje, uzbuna, težina sa početnom puškom i više rasporeda nisu provereni kao celina. Završna poruka naglašava ubijene, a cilj je bekstvo. Predlog promene teksta podleže postojećem UI pravilu. | CK-07 |
+| P2 · Odeća još nije identitet čoveka | [Trojica](../scenes/crveni-krst/CompanionModel.js#L9) imaju isti model i osnovno lice, različite visine/odeću, brkove kod jednog i nijansu kože. Potrebna je trajna prepoznatljivost i pri istoj pozi; ne praviti novog čoveka promenom oružja. | CK-03 |
+| P2 · Podloga i efekti ne ostvaruju art ugovor | [Tlo](../scenes/crveni-krst/Main.js#L56) je jedna ponovljena snežna ravan, bez gaženih pravaca i podnožja iz [ART-a](ART.md#crveni-krst-priprema-3d-ambijenta). Nasumični dim i plamen na rekvizitima su uklonjeni; ostaje vatra na izlazu kao oznaka cilja. | CK-06 |
+| Proveriti · Dubina, pozadina i reflektori | [Nebo je jedna boja sa maglom](../scenes/crveni-krst/Main.js#L50); mesečevo svetlo ne baca senke, a [reflektori](../scenes/crveni-krst/CampEnvironment.js) ih bacaju, pa snop staje na zidu kao i za stražu. Proveriti cenu dve mape senki i kontakt sa tlom i da li osvetljenost odgovara stvarnom opažanju straže. | CK-06 |
+| P2 · Zvuk ne odgovara radnji i tlu | [Prikaz saboraca](../core3d/actor/characters/CharacterModel.js#L48) koristi korake po šljunku prema pređenom putu, u čučnju tiše kao kod igrača. Za korake po snegu i zamah cevi nema zvuka u projektu. Novi FBX sam ovo ne rešava. | CK-06 |
+| Proveriti · Borba i čitljivost cilja | [Straža je nasumičan sastav koji luta](../scenes/crveni-krst/Main.js#L95). Smireno osmatranje, uzbuna, težina sa početnom puškom i više rasporeda nisu provereni kao celina. Završna poruka naglašava ubijene, a cilj je bekstvo. Predlog promene teksta podleže postojećem UI pravilu. | CK-07 |
 
 #### Zahtevi za animacije
 
@@ -159,7 +158,7 @@ Codex sprovodi korake; vlasnik bira/preuzima Mixamo klipove kao do sada. Tehnič
 <a id="ck-01"></a>
 #### CK-01 · Položaj i stopala · 0.5 / 1 / 1.5 p · Claude
 
-**Osnova je povezana:** [hod je lokalno pripremljen](../scenes/fps-base/CompanionModel.js#L15) bez horizontalnog napredovanja, sa početkom novog pravog idle-a i očuvanim Y pokretom. **Preostaje:** potvrditi oslonac stopala i kontakte uz prepreke. **Gotovo kada:** horizontalni koren odstupa najviše 1 cm od dogovorenog oslonca kroz sve uzorke 20 petlji mirovanja/hoda i prelaze idle–hod–idle; nije dovoljna jednakost početka/kraja petlje. Uzastopni uzorci deformisanih stopala potvrđuju stabilan kontakt stopala koje nosi težinu (predložena tolerancija 1 cm), bez zaključavanja noge koja korača. Vidljiv model i telo ostaju sa iste strane zida. **Zavisnost:** postojeći resursi; novi idle je dostavljen, izvedene poze su uklonjene.
+**Izmereno (2026-11-26):** u mirovanjima i osvrtanju stopala se pomeraju najviše 0,7 cm. Ustajanje iz čučnja ima snimljen korak napred od oko 37 cm; telo saborca sada pravi taj korak sa snimkom ([CompanionModel](../scenes/crveni-krst/CompanionModel.js), osim kroz zid), pa stopalo koje nosi težinu ostaje na mestu. **Preostaje:** spuštanje u čučanj (obrnut snimak ustajanja) i dalje vuče stopala oko 44 cm, jer bi korak unazad pomerao saborca sa njegovog mesta u grupi pri svakom zaustavljanju; rešenje je zaseban snimak spuštanja u mestu ili mesto u grupi koje računa sa tim korakom.
 
 <a id="ck-02"></a>
 #### CK-02 · Animacije i prelazi · 1 / 2 / 3 p · Vlasnik: klipovi; Claude: povezivanje
@@ -169,17 +168,12 @@ Codex sprovodi korake; vlasnik bira/preuzima Mixamo klipove kao do sada. Tehnič
 <a id="ck-03"></a>
 #### CK-03 · Identitet i katalog · 0.5 / 1 / 2 p · Codex
 
-**Rad:** razviti [Iliju, Petra i Jovana](../scenes/fps-base/CompanionModel.js#L9) kroz prepoznatljiva lica, odeću i siluetu; proveriti zimski izgled prema mogućnostima modela. Jedna kataloška stavka po čoveku, oprema i radnje su njegov izbor. **Gotovo kada:** trojica se razlikuju i u istoj pozi pod istim svetlom na 3–8 m; šaka obuhvata cev i predmet ne prolazi kroz telo tokom postojećeg trka/zamaha. Novi art ima poreklo. **Zavisnost:** postojeći model/teksture; ako geometrija ne dozvoljava traženu razliku, prvo utvrditi potreban zahvat umesto zamene celog stila.
-
-<a id="ck-04"></a>
-#### CK-04 · Kretanje grupe · 0.5 / 1.5 / 2.5 p · Claude
-
-**Tehnički deo je povezan i testiran; preostaje pregled grupe u igri.** Saborci sustižu igrača koji sprinta 4 m/s, najviše do 4,6 m/s, zatim usklađuju tempo sa svojim mestom u grupi. Dok igrač sprinta ostaju uspravni; kad stane, usporavaju, vraćaju se na mesto i čučnu. Tempo postojećeg `Running` klipa prati stvarnu brzinu u granicama 0,85–1,15; nema teleportovanja i zajedničke brzine drugih igara nisu menjane. Povezani su odvojena mesta iza vođe prema pravcu njegovog kretanja, prohodne alternative uz zid, obilazak i mirujućih ljudi sa razmakom oko 0,8 m i čekanje kad za obilazak nema mesta. Samo pomeranje pogleda ne premešta grupu. Okretanje je ograničeno na 270°/s najkraćim putem; uglovi i udarci sačekaju pravac. **Završna provera:** vlasnik prati grupu tokom hodanja, sprinta, stajanja i vraćanja kroz uglove/uske prolaze; proverava prirodnost novog tempa i izostanak preklapanja/zastoja. Testove i njihove granice čuva [TESTING](TESTING.md). **Zavisnost:** CK-01 i CK-02 za završnu proveru prikaza.
+**Rad:** razviti [Iliju, Petra i Jovana](../scenes/crveni-krst/CompanionModel.js#L9) kroz prepoznatljiva lica, odeću i siluetu; proveriti zimski izgled prema mogućnostima modela. Jedna kataloška stavka po čoveku, oprema i radnje su njegov izbor. **Gotovo kada:** trojica se razlikuju i u istoj pozi pod istim svetlom na 3–8 m; šaka obuhvata cev i predmet ne prolazi kroz telo tokom postojećeg trka/zamaha. Novi art ima poreklo. **Zavisnost:** postojeći model/teksture; ako geometrija ne dozvoljava traženu razliku, prvo utvrditi potreban zahvat umesto zamene celog stila.
 
 <a id="ck-06"></a>
-#### CK-06 · Ambijent i zvuk · 1 / 2 / 3 p · Codex: teren i pozadina; Claude: svetlo i zvuk
+#### CK-06 · Ambijent i zvuk · 1 / 2 / 3 p · Codex: teren i pozadina; zvuci nedostaju
 
-**Rad:** dovršiti [teren i svetlo](ART.md#crveni-krst-priprema-3d-ambijenta): gaženi pravci, podnožja, diskretna udaljena silueta ravničarskog/gradskog oboda i zgrada/kule/dvorište kao orijentiri. Uskladiti reflektore sa stvarnim zaklonom, senke i gustinu detalja. Nasumične požare zameniti smislenim izvorima svetla. Koraci po snegu i zvuci napora/udarca prate radnju, bez neprekidnog ponavljanja glasova. **Gotovo kada:** početak, prolazi, dvorište i izlaz čitljivi su stojeći/u čučnju, bez lebdenja, prejakog pozadinskog kontrasta i svetla koje pogrešno predstavlja opasnost. Uporediti cenu promena u istom kadru pre/posle. **Zavisnost:** postojeći paket i originalne dopune sa poreklom; Mixamo se ne čeka. Izgled potvrđuje stvarna igra, ne offline render; prihvaćen renderer i 2D puška ostaju.
+**Rad:** dovršiti [teren i svetlo](ART.md#crveni-krst-priprema-3d-ambijenta): gaženi pravci, podnožja, diskretna udaljena silueta ravničarskog/gradskog oboda i zgrada/kule/dvorište kao orijentiri. Reflektori bacaju senke i nasumični požari su uklonjeni (Claude, 2026-11-26); preostaje gustina detalja. Koraci po snegu i zvuci napora/udarca prate radnju, bez neprekidnog ponavljanja glasova. **Gotovo kada:** početak, prolazi, dvorište i izlaz čitljivi su stojeći/u čučnju, bez lebdenja, prejakog pozadinskog kontrasta i svetla koje pogrešno predstavlja opasnost. Uporediti cenu promena u istom kadru pre/posle. **Zavisnost:** postojeći paket i originalne dopune sa poreklom; Mixamo se ne čeka. Izgled potvrđuje stvarna igra, ne offline render; prihvaćen renderer i 2D puška ostaju.
 
 <a id="ck-07"></a>
 #### CK-07 · Proboj kao celina · 0.5 / 1 / 2 p · Claude, vlasnik
@@ -188,12 +182,12 @@ Codex sprovodi korake; vlasnik bira/preuzima Mixamo klipove kao do sada. Tehnič
 
 #### Redosled i zavisnosti
 
-Jedan izvođač, tri prolaza: **osnova, identitet i animacije** (CK-01, CK-03, CK-02), **ponašanje i ambijent** (CK-04, CK-06), pa **pregled celine** (CK-07). CK-02 prethodi završnoj proveri CK-04, koja zavisi od njegovih pokreta. Dok se čeka preostali klip, nezavisna logika i ambijent mogu napredovati. Početna procena celog obima je **4,5 / 10 / 16,5 p**, plus nepoznato čekanje resursa/provere; ovo nije procena preostalog rada posle već izvršenih dopuna. Najveći rizici su hvat cevi, različiti početni položaji pokreta i cena senki: prvo jedan lik i probni kadar, zatim cela grupa.
+Jedan izvođač, tri prolaza: **osnova, identitet i animacije** (CK-01, CK-03, CK-02), **ambijent** (CK-06), pa **pregled celine** (CK-07). Dok se čeka preostali klip, nezavisna logika i ambijent mogu napredovati. Početna procena celog obima je **4,5 / 10 / 16,5 p**, plus nepoznato čekanje resursa/provere; ovo nije procena preostalog rada posle već izvršenih dopuna. Najveći rizici su hvat cevi, različiti početni položaji pokreta i cena senki: prvo jedan lik i probni kadar, zatim cela grupa.
 
 Raspored je ugrađen u postojeći plan da se poštuje pravilo jednog dokumenta:
 
 ```json
-{"waves":[{"name":"Osnova, identitet i animacije","sequential":["CK-01","CK-03","CK-02"]},{"name":"Ponasanje i ambijent","sequential":["CK-04","CK-06"]},{"name":"Pregled celine","sequential":["CK-07"]}],"handoffs":[["CK-01","CK-02"],["CK-02","CK-04"],["CK-04","CK-07"],["CK-06","CK-07"]]}
+{"waves":[{"name":"Osnova, identitet i animacije","sequential":["CK-01","CK-03","CK-02"]},{"name":"Ponasanje i ambijent","sequential":["CK-06"]},{"name":"Pregled celine","sequential":["CK-07"]}],"handoffs":[["CK-01","CK-02"],["CK-02","CK-07"],["CK-06","CK-07"]]}
 ```
 
 **Otvoreno:** povezana mirovanja, osmatranje i prelazi čekaju vizuelni prijem sa cevi i prikaz u katalogu; vlasnik još treba da izabere pojedinačni udarac. Zasebno spuštanje u čučanj tražiti samo ako obrnuti snimak ustajanja ne izgleda prirodno. Dostupnost ostalih traženih radnji nije proverena u Mixamo biblioteci. Codex pre nove nabavke proverava postojeće reakcije, smrti i trčanja. Istorijske i već prihvaćene grafičke odluke ne otvarati ponovo radi ovog doterivanja.

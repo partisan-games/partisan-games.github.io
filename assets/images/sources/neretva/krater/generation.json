@@ -1,0 +1,17 @@
+{
+  "tool": "built-in image_gen",
+  "references": [
+    "assets/images/background/neretva-1943-nemci.png",
+    "assets/images/background/neretva-1943-cetnici.png"
+  ],
+  "prompt": "Use case: a single 2D pixel art terrain decal for the Neretva game. The supplied game landscapes are references for dry muted straw, damp taupe-brown ground and pixel grouping only. Draw one shallow weathered shell crater on bare muddy pasture in early spring. Oblique view from low above looking slightly down, compressed as a low wide horizontal ellipse around 2.5 to 1. A broken irregular lip of darker freshly exposed earth, a mostly dark damp middle with a small matte depression, a few ochre crumbs and pebbles breaking the edges. Use limited warm muted dark brown and gray ochre, relative contrast subdued enough to sit among actors. Flat, deliberate hand drawn pixel clusters, identical sharpness to supplied backgrounds. Small scale game readability, no clean circle, no rock walls, no ornamental hole, no perspective horizon, no landscape, no smoke, no people, no text, no surrounding ground tile or shadows. Isolated object with clean genuine alpha transparency, centered and filling most of a landscape canvas.",
+  "source": "crater.png",
+  "output": "assets/images/game-ready/scenery/neretva-crater.webp",
+  "preparation": "python -B assets/images/sources/neretva/krater/prepare.py",
+  "size": [
+    416,
+    124
+  ],
+  "sourceSha256": "b2234ca0e11f46fe26458423b968e0c1d7494f402daa6fa05aa5fee4f8e753ae",
+  "outputSha256": "d2ce2f603c200e7ff09d8c63a26ad8ec492b7e10911851f15ac4c7975d76f3aa"
+}

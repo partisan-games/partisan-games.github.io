@@ -128,8 +128,6 @@ function drawPanel() {
     ${block.states ? stateButtons('Stanja', controls.states, (dies ? '' : hit) + resetButton, { dead: hit }) : hit + resetButton}
     ${controls.animations.length ? stateButtons('Animacije', controls.animations) : ''}
     ${controls.acts.length ? actButtons(controls.acts) : ''}
-    ${story.commands ? `<fieldset><legend>Proba</legend>${story.commands.map(({ label }, index) =>
-    `<button data-command="${index}">${label}</button>`).join('')}</fieldset>` : ''}
     ${controls.shots.length ? /* html */`
       <fieldset>
         <legend>Pucanje</legend>
@@ -155,7 +153,6 @@ panel.addEventListener('click', event => {
     return show()
   }
   const { block, stage } = shown
-  if ('command' in button.dataset) return shown.story.commands[Number(button.dataset.command)].run(block, stage)
   if ('hit' in button.dataset) return block.takeHit(block.health.maximum * hitShare)
   // another look is the story at its own address
   if ('look' in button.dataset) {

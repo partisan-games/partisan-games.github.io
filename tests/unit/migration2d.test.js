@@ -68,21 +68,20 @@ test('neretva replaces a fallen defender only after his collapse and reuses his 
   assert.ok(scene.children.indexOf(cover) > scene.children.indexOf(view))
 })
 
-test('in neretva the Germans rise from trenches and the Chetniks from behind heaps of stones', async t => {
+test('in neretva only the Germans use trenches and the Chetniks rise from behind heaps of stones', async t => {
   const { default: Neretva } = await import('/scenes/neretva/Main.js')
   const scene = new Neretva()
   scene.init()
   scene.clear = () => {}
   t.after(() => scene.end())
-  const kinds = () => new Set(scene.sveSvabe.map(({ cover }) => cover.kind))
-  assert.deepEqual([...kinds()], ['trench'])
+  const images = () => new Set(scene.sveSvabe.map(({ cover }) => cover.image.src.split('/').at(-1)))
+  assert.deepEqual([...images()], ['rov-prazan.webp'])
   scene.manTrenches(scene.chetniks)
-  assert.deepEqual([...kinds()], ['stones'])
+  assert.deepEqual([...images()], ['gomila-kamenja.webp'])
 })
 
 test('neretva owns separate covers, keeps its shot window and replaces the whole formation together', async t => {
   const { default: Neretva } = await import('/scenes/neretva/Main.js')
-  const { covers } = await import('/scenes/neretva/Cover.js')
   const scene = new Neretva()
   scene.init()
   scene.clear = () => {}
@@ -95,7 +94,7 @@ test('neretva owns separate covers, keeps its shot window and replaces the whole
     } }
   for (const { body, view, cover } of original) {
     loadAtlas(cover, 200, 300)
-    assert.ok(cover.image.src.endsWith(`/neretva/${covers[cover.kind]}.webp`))
+    assert.ok(cover.image.src.endsWith('/neretva/rov-prazan.webp'))
     assert.ok(scene.children.indexOf(cover) > scene.children.indexOf(view), 'cover is drawn in front of the figure')
     const { scale } = view
     assert.equal(view.y, cover.y - 24 * scale)
@@ -125,9 +124,14 @@ test('neretva: the Germans hold the trenches first, the partisans cross the rive
   t.mock.method(scene.ui, 'showMessage')
   assert.deepEqual([...factions()], ['nemci'])
   assert.ok(scene.background.image.src.endsWith('/neretva-1943-nemci.png'))
+  const impact = { x: scene.width / 2, y: scene.height * .85 }
+  scene.airAttack.onBomb(scene.airAttack.projection.toWorld(impact))
+  assert.deepEqual(scene.battlefield.impacts, [{ ...impact, at: 0 }])
+  assert.ok(scene.energija < 100, 'the impact still damages the defender')
   scene.preostaloVreme = 60.5
   scene.update(1)
   assert.deepEqual([...factions()], [], 'the trenches stand empty while the partisans cross')
+  assert.deepEqual(scene.battlefield.impacts, [], 'the shell marks stay on the former battlefield')
   assert.ok(scene.background.image.src.endsWith('/neretva-late-winter-1943-pixel.png'))
   assert.equal(scene.ui.showMessage.mock.callCount(), 1)
   const held = scene.preostaloVreme

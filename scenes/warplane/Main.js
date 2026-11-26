@@ -283,7 +283,7 @@ export default class WarplaneScene extends Scene3D {
 
     if (time < totalTime - 10) this.spawnObjects(time)
     if (time >= totalTime) {
-      this.player.land()
+      this.player.setState('land')
       this.finishAfterDelay(delta, () => this.victory('You have completed the mission.'))
     }
   }

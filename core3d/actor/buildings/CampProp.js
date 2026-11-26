@@ -37,26 +37,31 @@ export default class CampProp {
     this.gateOpen = false
     this.gateFraction = 0
     this.sweeping = false
-    this.lightOn = true
     this.elapsed = 0
+    this.state = this.states[0] ?? null
   }
 
-  toggleGate() {
-    this.gateOpen = !this.gateOpen
+  /** What its parts can do: a gate is `closed` or `open`; a searchlight is `on`, `off` or `sweeping`, on. */
+  get states() {
+    return [...this.gates.length ? ['closed', 'open'] : [], ...this.lights.length ? ['on', 'off', 'sweeping'] : []]
   }
 
-  toggleLight() {
-    this.lightOn = !this.lightOn
+  /** Puts the part the state belongs to in it; the other part stays as it is. */
+  setState(name) {
+    if (!this.states.includes(name)) return
+    this.state = name
+    if (name === 'closed' || name === 'open') {
+      this.gateOpen = name === 'open'
+      return
+    }
+    this.sweeping = name === 'sweeping'
+    const on = name !== 'off'
     this.lights.forEach(light => {
-      light.visible = this.lightOn
+      light.visible = on
     })
     this.lenses.forEach(material => {
-      material.emissiveIntensity = this.lightOn ? 1 : 0
+      material.emissiveIntensity = on ? 1 : 0
     })
-  }
-
-  toggleSweep() {
-    this.sweeping = !this.sweeping
   }
 
   update(dt) {

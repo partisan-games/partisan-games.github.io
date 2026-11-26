@@ -26,25 +26,22 @@ async function audioFor(t, dimensions = 2) {
   return { ...backend, audio, player }
 }
 
-test('different occupiers have independent burst points and sound randomness does not consume gameplay random', async t => {
+test('different soldiers have independent shot points and sound randomness does not consume gameplay random', async t => {
   const { audio, engine } = await audioFor(t)
   const { default: Occupier } = await import('/core/gameplay/bodies/soldiers/Occupier.js')
-  const { default: OccupierSprite } = await import('/core/actor/soldiers/OccupierSprite.js')
+  const { default: FrontEnemySprite } = await import('/core/actor/soldiers/FrontEnemySprite.js')
   const { sideProjection } = await import('/core/actor/projection.js')
   const projection = sideProjection({ pxPerMeter: 22, groundY: 600 })
-  const [first, second] = [5, 25].map(x => new OccupierSprite(new Occupier({ x }), { projection }))
+  const [first, second] = [5, 25].map(x => new FrontEnemySprite(new Occupier({ x }), { projection }))
   audio.sync([first, second], 'running')
-  for (const occupier of [first, second]) {
-    occupier.body.setState('attack')
-    occupier.update(0)
-  }
-  assert.notEqual(first.burstSound.playback.audio, second.burstSound.playback.audio)
-  assert.notDeepEqual(first.burstSound.playback.audio.spatialModel.position, second.burstSound.playback.audio.spatialModel.position)
+  for (const soldier of [first, second]) soldier.shotSound.play()
+  assert.notEqual(first.shotSound.playback.audio, second.shotSound.playback.audio)
+  assert.notDeepEqual(first.shotSound.playback.audio.spatialModel.position, second.shotSound.playback.audio.spatialModel.position)
   await settle()
   const random = t.mock.method(Math, 'random', () => {
     throw new Error('audio touched gameplay random')
   })
-  const voice = first.burstSound.play()
+  const voice = first.shotSound.play()
   random.mock.restore()
   await voice.started
   assert.equal(engine.master.gain.value, config.volume)

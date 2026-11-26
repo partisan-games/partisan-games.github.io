@@ -9,6 +9,7 @@ import Cover from './Cover.js'
 import { sideProjection } from '/core/actor/projection.js'
 import Health from '/core/gameplay/Health.js'
 import AirAttack, { airAttack } from './AirAttack.js'
+import Battlefield from './Battlefield.js'
 import BridgeCrossing from './BridgeCrossing.js'
 
 const DALJI_Y = window.innerHeight * 0.25
@@ -30,12 +31,11 @@ const chetniksAt = holdTime / 2
 const dug = { group: [2, 3], close: 1.15, apart: 1.8, bow: 24, rise: 8 }
 /**
  * The chance per second that a hidden soldier of the far and the near row rises: the Chetniks, routed after the
- * crossing, half as often as the Germans (owner's decision); `calm` is how many seconds pass before the first rises;
- * the cover each soldier rises from: the Germans dug in, the Chetniks behind heaps of stones (owner's decision).
+ * crossing, half as often as the Germans (owner's decision); `calm` is how many seconds pass before the first rises.
  */
 const armies = {
-  nemci: { rises: { far: .02, near: .03 }, calm: 0, cover: 'trench' },
-  cetnici: { rises: { far: .01, near: .015 }, calm: 3, cover: 'stones' },
+  nemci: { rises: { far: .02, near: .03 }, calm: 0, kind: 'trench' },
+  cetnici: { rises: { far: .01, near: .015 }, calm: 3, kind: 'stones' },
 }
 
 /** A random number from 0 to 1 that repeats from its `seed`, so the trenches lie the same each game. */
@@ -64,26 +64,30 @@ export default class NeretvaScene extends Scene2D {
     this.preostaloVreme = holdTime
     this.chetniks = this.army('cetnici')
     this.crossing = new BridgeCrossing({ width: this.width, height: this.height })
+    this.battlefield = new Battlefield()
     this.manTrenches(this.army('nemci'))
     // Ju 87s attack the crossing while the Germans hold the trenches
-    this.airAttack = new AirAttack({ scene: this, projection: sideProjection({ pxPerMeter: planePxPerMeter, groundY: BLIZI_Y }),
-      onBomb: () => this.health.damage(airAttack.damage) })
+    const projection = sideProjection({ pxPerMeter: planePxPerMeter, groundY: BLIZI_Y })
+    this.airAttack = new AirAttack({ scene: this, projection, onBomb: point => {
+      this.health.damage(airAttack.damage)
+      this.battlefield.impact(projection.point(point))
+    } })
     this.ucitajRekord()
     showCrosshair()
   }
 
   /** Each soldier has a body, its view and a separate scenery cover placed in front. */
   army(faction) {
-    const { cover, ...army } = armies[faction]
+    const { kind, ...army } = armies[faction]
     return {
       ...army,
       background: new Background(`background/neretva-1943-${faction}.png`),
-      near: this.praviSvabe(8, sideProjection({ pxPerMeter, groundY: BLIZI_Y }), { scale: 1, faction, cover }),
-      far: this.praviSvabe(12, sideProjection({ pxPerMeter: pxPerMeter / 2, groundY: DALJI_Y }), { scale: .5, faction, cover }),
+      near: this.praviSvabe(8, sideProjection({ pxPerMeter, groundY: BLIZI_Y }), { scale: 1, faction, kind }),
+      far: this.praviSvabe(12, sideProjection({ pxPerMeter: pxPerMeter / 2, groundY: DALJI_Y }), { scale: .5, faction, kind }),
     }
   }
 
-  /** Puts an army in the trenches, in place of the one there. */
+  /** Replaces the formation and its cover with the incoming army's. */
   manTrenches({ near, far, background, rises = {}, calm = 0 }) {
     if (this.sveSvabe)
       this.remove(...this.sveSvabe.flatMap(({ body, view, cover }) => [body, view, cover]))
@@ -94,12 +98,21 @@ export default class NeretvaScene extends Scene2D {
     this.sveSvabe = [...far, ...near]
     this.ucestalost = new Map([[far, rises.far], [near, rises.near]])
     this.calm = calm
+    this.battlefield.setFormation(this.sveSvabe)
     this.add(...this.sveSvabe.flatMap(({ body, view, cover }) => [body, view, cover]))
   }
 
   imagesLoaded() {
-    return Promise.all([super.imagesLoaded(), this.chetniks && imageReady(this.chetniks.background.image),
-      this.crossing && imageReady(this.crossing.background.image)])
+    const chetniks = this.chetniks ? [this.chetniks.background,
+      ...[...this.chetniks.near, ...this.chetniks.far].flatMap(({ view, cover }) => [view, cover])] : []
+    const crossing = this.crossing ? [this.crossing.background, ...this.crossing.men.map(({ view }) => view)] : []
+    return Promise.all([super.imagesLoaded(), imageReady(this.battlefield.crater),
+      ...[...chetniks, ...crossing].map(object => imageReady(object.image, object.imageLoaded))])
+  }
+
+  clear() {
+    super.clear()
+    this.battlefield?.render(this.renderer.ctx, this.width, this.height)
   }
 
   /** Half way the Germans are beaten off and the partisans cross the river, where the Chetniks wait. */
@@ -112,7 +125,7 @@ export default class NeretvaScene extends Scene2D {
     this.ui.showMessage('Position held. Our forces are crossing the Neretva.')
   }
 
-  /** Once the crossing has been shown, the Chetniks take the trenches. */
+  /** Once the crossing has been shown, the Chetniks take cover behind stones. */
   bringChetniks() {
     this.remove(...this.crossing.drawables)
     this.manTrenches(this.chetniks)
@@ -121,8 +134,8 @@ export default class NeretvaScene extends Scene2D {
     this.ui.showMessage('Chetniks are next')
   }
 
-  /** `n` soldiers along a row of trenches as `dug`, across the screen, which `projection` draws. */
-  praviSvabe(n, projection, { faction, scale, cover: kind }) {
+  /** `n` soldiers in a row across the screen, spaced as `dug` and drawn by `projection`. */
+  praviSvabe(n, projection, { faction, scale, kind }) {
     const random = seeded(n * 1943)
     const { width } = this
     // steps from post to post: one within a group, `apart` between groups; then the whole row fitted to the width
@@ -140,7 +153,7 @@ export default class NeretvaScene extends Scene2D {
       const at = { x, y: ground + (dug.bow * 4 * along * (1 - along) + dug.rise * (random() * 2 - 1)) * scale }
       const body = new TrenchSoldier(projection.toWorld(at))
       const view = new TrenchSoldierSprite(body, { faction, variant: i % 3, scale, projection, inTrench: true })
-      const cover = new Cover({ ...projection.point(body), scale, kind })
+      const cover = new Cover({ ...projection.point(body), scale, kind, flipY: i % 2 ? -1 : 1 })
       return { body, view, cover }
     })
   }
@@ -221,6 +234,7 @@ export default class NeretvaScene extends Scene2D {
     if (Math.ceil(this.preostaloVreme) < 1)
       return this.victory('You defended the position; the wounded have been saved.')
 
+    this.battlefield.update(dt)
     if (this.crossing?.shown) {
       super.update(dt)
       this.crossing.update(dt)

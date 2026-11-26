@@ -17,7 +17,7 @@ const folders = {
     'ShoreMachineGunSprite.js', 'ShoreDestruction.js', 'shoreNestArt.js'],
   'core/actor/soldiers': ['machineGunnerArt.js', 'RiflemanSprite.js', 'CannonCrewSprite.js', 'SkirmisherSprite.js',
     'FlagBearerSprite.js', 'Flag.js', 'MachineGunnerSprite.js', 'GrenadierSprite.js',
-    'TrenchSoldierSprite.js', 'OccupierSprite.js', 'PartisanSprite.js', 'FrontEnemySprite.js', 'frontEnemyArt.js', 'frontStandingArt.js'],
+    'TrenchSoldierSprite.js', 'PartisanSprite.js', 'FrontEnemySprite.js', 'frontEnemyArt.js', 'frontStandingArt.js'],
   'core/actor/vehicles': ['TankSprite.js', 'VehicleSprite.js', 'GunCarrierSprite.js', 'RoadVehicleSprite.js', 'roadVehicleArt.js'],
   // a bomber's guns are seen in the story of the fighter they fire at
   'core/gameplay/bodies/aircraft': ['wreck.js', 'GunTurrets.js'],
@@ -32,7 +32,7 @@ const folders = {
   'core/actor/boats': ['HullSprite.js', 'BoatSprite.js', 'SBoatSprite.js', 'PatrolBoatSprite.js', 'SinkingWreck.js', 'SeaMineSprite.js', 'sBoatArt.js'],
   'core/gameplay/bodies/boats': ['SeaMine.js'],
   'scenes/bunker': ['Main.js', 'Mina.js'],
-  'scenes/neretva': ['Main.js', 'AirAttack.js', 'BridgeCrossing.js', 'Cover.js'],
+  'scenes/neretva': ['Main.js', 'AirAttack.js', 'Battlefield.js', 'BridgeCrossing.js', 'Cover.js'],
   'scenes/otpisani': ['Main.js'],
   'scenes/ustanak': [
     'Main.js', 'Turns.js', 'Battlefield.js', 'GroundLayer.js', 'Terrain.js', 'Wind.js', 'WindEffects.js',

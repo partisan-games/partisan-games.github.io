@@ -1,10 +1,10 @@
 import { AnimationUtils, LoopOnce } from 'three'
-import CharacterModel from '/core3d/actor/characters/CharacterModel.js'
 import { loadedModel } from '/core3d/assets/models.js'
 import { mountMetalPipe, smoothPipeSwing, pipeSwingName } from '/core3d/actor/derived/ww2/WorkerPipe.js'
 import dressFighter from '/core3d/actor/characters/dressFighter.js'
 import { variants } from '/core3d/actor/derived/ww2/partisanLooks.js'
 import { escapingPrisoner, standingIdles } from './EscapingPrisoners.js'
+import { PrisonerFootsteps } from './stealth.js'
 
 export const companionLooks = [
   { name: 'Ilija', height: 1.70, outfit: variants.vuna.outfit },
@@ -25,6 +25,12 @@ function alignCrouch(clip, idle, inPlace = false) {
   return animation
 }
 
+/** How far forward the hips of `clip` have gone at `time` since its start, in the model's units. */
+function hipsForward(clip, time) {
+  const root = clip.tracks.find(track => track.name === 'mixamorigHips.position')
+  return root.createInterpolant().evaluate(time)[2] - root.values[2]
+}
+
 function reverseTransition(clip) {
   const reversed = clip.clone()
   reversed.name = 'Stand To Crouch'
@@ -37,7 +43,7 @@ function reverseTransition(clip) {
   return reversed
 }
 
-export default class CompanionModel extends CharacterModel {
+export default class CompanionModel extends PrisonerFootsteps {
   constructor(body, { index, textures, ...options }) {
     const mesh = loadedModel(escapingPrisoner.model)
     const { animDict } = escapingPrisoner
@@ -45,8 +51,10 @@ export default class CompanionModel extends CharacterModel {
     const idle = source.find(clip => clip.name === animDict.crouchIdle)
     const swing = smoothPipeSwing(source)
     // The first/last holds are not part of getting up; keep the recorded movement and recovery.
-    const stand = alignCrouch(AnimationUtils.subclip(source.find(clip => clip.name === animDict.crouchUp),
-      animDict.crouchUp, 24, 72, 30), idle, true)
+    const recordedStand = AnimationUtils.subclip(source.find(clip => clip.name === animDict.crouchUp),
+      animDict.crouchUp, 24, 72, 30)
+    // played in place: the body itself takes the recorded step, so the planted foot stays put
+    const stand = alignCrouch(recordedStand, idle, true)
     const animations = source.map(clip => {
       if (clip.name === pipeSwingName) return swing
       if (clip.name === animDict.crouchUp) return stand
@@ -61,12 +69,21 @@ export default class CompanionModel extends CharacterModel {
     this.mesh.scale.multiplyScalar(companionLooks[index].height / 1.8)
     dressFighter(this.mesh, companionLooks[index].outfit, textures)
     mountMetalPipe(this.mesh, { tipLength: .32 })
+    this.recordedStand = recordedStand
     this.idlePhases = {}
     for (const state of ['idle', 'crouchIdle', 'crouchRest']) {
       this.idlePhases[state] = this.actions[state].getClip().duration * index / companionLooks.length
       this.actions[state].time = this.idlePhases[state]
       this.actions[state].setEffectiveTimeScale(.94 + index * .06)
     }
+  }
+
+  /**
+   * How far forward, in metres, the body has stepped `time` seconds into getting up, as the recording moves his hips.
+   * Crouching down stays in place: a step back would move him off his place in the group each time he stops.
+   */
+  postureShift(name, time) {
+    return name === 'crouchUp' ? hipsForward(this.recordedStand, time) * this.mesh.scale.z : 0
   }
 
   play(name) {

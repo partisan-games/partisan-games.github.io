@@ -1,6 +1,6 @@
 import Scene3D from '/core/Scene3D.js'
 import { createGround } from '/core3d/ground.js'
-import { sample, getHeight } from '/core3d/helpers.js'
+import { sample } from '/core3d/helpers.js'
 import { hemLight } from '/core3d/light.js'
 import { Box3, DirectionalLight, Fog, HemisphereLight, MeshStandardMaterial, PerspectiveCamera, Scene } from 'three'
 import campLayout from './campLayout.js'
@@ -12,7 +12,7 @@ import { description as germanFlameThrower, models as germanFlameThrowerModels }
 import { description as germanSoldier, models as germanSoldierModels } from '/core3d/actor/derived/ww2/GermanSoldier.js'
 import FirstAid, { models as firstAidModels } from '/core3d/objects/FirstAid.js'
 import { fpsControls } from '/ui/Controls.js'
-import { Snow, Smoke, FlameUp, Fire } from '/core3d/Particles.js'
+import { Snow, Fire } from '/core3d/Particles.js'
 import { createCrate, createRustyBarrel, createMetalBarrel, createPlayerBox } from '/core3d/geometry/index.js'
 import { requestModels } from '/core3d/assets/models.js'
 import { computerDamage } from '/core/gameplay/damage.js'
@@ -124,7 +124,6 @@ export default class FpsBaseScene extends Scene3D {
       return firstAid
     })
 
-    this.smokes = []
     const createObject = [createCrate, createRustyBarrel, createMetalBarrel]
     for (let i = 0; i < 10; i++) {
       const pos = coords.pop()
@@ -134,13 +133,6 @@ export default class FpsBaseScene extends Scene3D {
       this.camp.walkSolids.push(mesh)
       this.camp.opaqueSolids.push(mesh)
 
-      if (i % 3 === 0) {
-        const Effect = Math.random() > .5 ? Smoke : FlameUp
-        this.smoke = new Effect({ pos })
-        this.smoke.mesh.position.y += getHeight(mesh)
-        this.addMesh(this.smoke.mesh)
-        this.smokes.push(this.smoke)
-      }
     }
 
     const coverPoints = this.camp.opaqueSolids.flatMap(mesh => {
@@ -162,7 +154,8 @@ export default class FpsBaseScene extends Scene3D {
       this.prisoners.push(body)
       const controller = new CampCompanion(body, { leader: this.player, enemies: this.enemies,
         navigation, coverPoints, sees: enemyWorld.sees, index, companions: this.prisoners,
-        postureDuration: model.actions.crouchUp.getClip().duration })
+        postureDuration: model.actions.crouchUp.getClip().duration,
+        postureShift: (name, time) => model.postureShift(name, time) })
       this.controllers.push(controller)
       this.add(body, model)
       return { body, model, controller }
@@ -207,7 +200,6 @@ export default class FpsBaseScene extends Scene3D {
   update(dt, t) {
     super.update(dt, t)
     this.snow.update(dt, t)
-    this.smokes.forEach(smoke => smoke.update(dt, t))
     this.fire.update(dt, t)
     this.healPlayer()
     const killed = this.enemies.filter(enemy => enemy.dead)

@@ -2,9 +2,9 @@
 
 Originalni modeli za pripremu IG-29; mere su procena za igru, ne arhitektonsko merenje. Istorijska osnova i ograničenja: [istraživanje](../../../../docs/ISTORIJA.md#crveni-krst-12-februar-1942), [vizuelne reference](../../../../docs/references/ww2-yu/crveni-krst/README.md), [pravila rasporeda](../../../../docs/KONTEKST.md#escape-concentration-camp).
 
-Paket koriste katalog i [Escape Concentration Camp / Crveni krst](../../../../index.html#fps-base). Uslov pobede ostaje izlazak iz lavirinta.
+Paket koriste katalog i [Escape Concentration Camp / Crveni krst](../../../../index.html#crveni-krst). Uslov pobede ostaje izlazak iz lavirinta.
 
-[Katalog: zajednički sklop](../../../../catalog.html#scenografija-3d/sklop) je pod **3D → Scenografija → Sklopovi**. Pojedinačni modeli imaju zasebne stavke; kapija ima probu otvaranja, kula probu paljenja i usmeravanja reflektora. [Zajednički prikaz](../../../../core3d/actor/buildings/CampProp.js) čuva iste metre i modele za oba potrošača. [Sklop nivoa](../../../../scenes/fps-base/CampEnvironment.js) zasebno određuje prepreke za hod, vidljivost i metke; početni kataloški sklop nije njegov tlocrt.
+[Katalog: zajednički sklop](../../../../catalog.html#scenografija-3d/sklop) je pod **3D → Scenografija → Sklopovi**. Pojedinačni modeli imaju zasebne stavke; kapija ima probu otvaranja, kula probu paljenja i usmeravanja reflektora. [Zajednički prikaz](../../../../core3d/actor/buildings/CampProp.js) čuva iste metre i modele za oba potrošača. [Sklop nivoa](../../../../scenes/crveni-krst/CampEnvironment.js) zasebno određuje prepreke za hod, vidljivost i metke; početni kataloški sklop nije njegov tlocrt.
 
 | Model | Namena i spajanje u Three.js koordinatama |
 |---|---|

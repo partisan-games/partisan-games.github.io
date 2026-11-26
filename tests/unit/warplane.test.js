@@ -92,7 +92,7 @@ test('a landed warplane slows down the same at 30 and at 60 frames a second', ()
   const speeds = [30, 60].map(fps => {
     // from 29 m up it touches down on the same frame at either rate, then rolls on the ground
     const clock = new GameClock(), plane = new Warplane({ clock, height: 29 })
-    plane.land()
+    plane.setState('land')
     fly(plane, clock, 3, fps)
     return plane.speed
   })
