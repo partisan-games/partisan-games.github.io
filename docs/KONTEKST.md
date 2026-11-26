@@ -138,6 +138,8 @@ Nove frontalne likove vlasnik prvo bira u katalogu; do izbora nisu deo sastava n
 
 **Kontekst i granice:** Ratweek je počeo 1. septembra 1944. i trajao do druge polovine meseca; cilj je bio da se prekinu pruge i putevi kojima su se nemačke grupe armija E i F povlačile iz Grčke i sa Balkana, pre svega pruga Beograd–Solun kroz dolinu Vardara. Učestvovali su 15. američka vazduhoplovna armija iz Fođe, RAF i Balkansko vazduhoplovstvo; pominju se B-17, P-51 Mustang i P-38 kao lovci-bombarderi. Gađani su mostovi, vijadukti, tuneli, železnički čvorovi i dunavski mostovi kod Beograda; Mustangi su srušili most kod Litije. Fabrike su gađane u drugim napadima 1944, npr. fabrike avionskih motora u Mariboru. Kraljevo je 1944. bombardovano šest puta, a Beograd, Niš, Leskovac, Novi Sad, Kragujevac i Kruševac takođe. Izvori: [Allied bombing of Yugoslavia](https://en.wikipedia.org/wiki/Allied_bombing_of_Yugoslavia_in_World_War_II), [Operation Ratweek](https://en.wikipedia.org/wiki/Operation_Ratweek_(1944)); izvori ne navode tipove nemačkih lovaca, pa je Bf 109 izbor igre.
 
+**Kamera (vlasnik, 2026-11-26):** jedna kamera, bez izbora na ekranu: iza aviona i malo ispod njega, pa je avion visoko u kadru i vidi mu se donja strana; narandžast krug na tlu pokazuje gde bi udarila raketa.
+
 ## Demolish Barricades
 
 **Okvir (vlasnik, 2026-11-24):** Igra je opsada Kraljeva u oktobru 1941; na naslovnoj je „1941: Siege of Kraljevo”. Igrač vozi jedan od dva tenka koje su partizani tada zaplenili od Nemaca i ruši nemačke barikade na ulazu u grad.

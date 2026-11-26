@@ -132,7 +132,7 @@ test('the Do Trsta gun and both bunkers draw their own wreck at their live size'
   t.mock.method(context, 'drawImage', (...args) => draws.push(args))
   const gun = new AntiTankGun({ clock: session.clock, x: 10, y: .73, yaw: Math.PI })
   const views = [[gun, new AntiTankGunSprite(gun, { projection }), 233]]
-  for (const [kind, width] of [['house', 428], ['pillbox', 246]]) {
+  for (const [kind, width] of [['house', 856], ['pillbox', 246]]) {
     const bunker = new Bunker({ kind: bunkerKinds[kind], clock: session.clock, x: 10, y: 3, yaw: Math.PI })
     views.push([bunker, new BunkerSprite(bunker, { kind, projection }), width])
   }

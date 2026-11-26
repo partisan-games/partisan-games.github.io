@@ -1,0 +1,53 @@
+{
+  "tool": "built-in image_gen",
+  "source": "atlas.png",
+  "output": "assets/images/game-ready/vojnici/mitraljezac-pixel-sprites.webp",
+  "references": [
+    {
+      "path": "assets/images/game-ready/vojnici/mitraljezac-sprites.webp",
+      "role": "First three rows of the pose template, aiming, firing and collapse.",
+      "sha256": "30f797517316dfe34fec19d166972f1e4c55a276061728d4e2ca65f1b03e6ba0"
+    },
+    {
+      "path": "assets/images/game-ready/vojnici/machine-gunner-hit-sprites.webp",
+      "role": "Fourth row of the pose template, cropped to the same visible pose area.",
+      "sha256": "6c8b1f72621497c9e9715fb0b96f14fdd3621bc3e7ea3867aa0cbf46bca4ab01"
+    },
+    {
+      "path": "assets/images/game-ready/vojnici/nemci-spreda.webp",
+      "role": "Pixel-art style and uniform palette.",
+      "sha256": "e9b18e963ad661a11e6f437bfcbcf334cf539b44ad12811bdb5eb4eadf5c44d2"
+    }
+  ],
+  "prompt": "Precisely redraw the supplied 2D game sprite animation sheet, 4 columns by 4 rows, into crisp deliberate pixel art. Image 1 is the exact frame sheet and binding pose/camera registration for all 16 cells; image 2 provides only the muted palette, sharply defined pixel outlines and shading of the game. Keep the same identity and silhouette: WWII German gunner in feldgrau, slate-gray helmet, in profile facing screen LEFT, crouched leaning forward from the waist behind a very long horizontal MG on its stationary support, body at the far right end of the silhouette and muzzle near the extreme left. The long idle, fire, hit and fallen poses share the same rigid straight gun hardware and thin resting support; stable orientation and muzzle position in every frame. Keep the original high side-on elevation and original relative sizes. Redraw with compact solid pixel clusters, coherent steel/grayed-green palette, clear helmet, sleeve and hands. Preserve a slim readable silhouette, even at its display size. Top row shows slight breathing in the original aiming pose. Second row shows subtle brief kick and return of shoulder and hands with four closely related firing poses, no flash, colors or effects around gun. Third row follows original four poses of gradual slump onto the sill, body increasingly lowered on the right, without blood, gun stays on its mount. Fourth row follows four short flinch poses, slight torso and head recoil and return, consistent pose scale. No text, labels, numbers, radiating marks, extra parts, borders, ground, frames, or background. True alpha. Keep the input's exact 4×4 frame positions with generous transparent spacing, each sprite drawn once in its cell and at reference size. Retain the same very wide sheet aspect ratio. All sprites face LEFT.",
+  "preparation": "python -B assets/images/sources/nemci/mitraljezac-pixel/prepare.py",
+  "frame": [
+    126,
+    54
+  ],
+  "gutter": 4,
+  "anchor": [
+    126,
+    54
+  ],
+  "muzzle": [
+    2,
+    30
+  ],
+  "rows": [
+    "aim",
+    "fire",
+    "death",
+    "hit"
+  ],
+  "framesPerRow": 4,
+  "baseDisplayFromAbove": [
+    63,
+    27
+  ],
+  "fireDurationMs": 100,
+  "deathDurationMs": 600,
+  "hitFrameMs": 80,
+  "sourceSha256": "173f22b99bfbddbd810edda2832278d3d2729b97b84ca2b57d8b3d0125d8831b",
+  "outputSha256": "319f3b34f22afb2fc76ef619dda40bfd6abf051a950c6a5c01c18eaba223e864"
+}

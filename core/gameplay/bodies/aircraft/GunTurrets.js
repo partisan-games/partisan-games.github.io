@@ -4,13 +4,29 @@ import Bullet from '../projectiles/Bullet.js'
 
 /**
  * A bomber's machine guns: within `range` metres they fire a round every `interval` seconds, at `bulletSpeed` for
- * `life` seconds, each taking `damage` off what it hits.
+ * `life` seconds, each taking `damage` off what it hits; the crew swings them `traverse` radians a second.
  */
-export const gunTurrets = { range: 160, interval: .1, bulletSpeed: 220, life: 1.2, damage: { min: 8, max: 14 } }
+export const gunTurrets = { range: 160, interval: .1, bulletSpeed: 220, life: 1.2, damage: { min: 8, max: 14 }, traverse: .9 }
+
+const unit = ({ x, y, z }) => {
+  const length = Math.hypot(x, y, z)
+  return { x: x / length, y: y / length, z: z / length }
+}
+
+/** The unit direction `from` turned toward the unit direction `to`, by at most `angle` radians. */
+function turnToward(from, to, angle) {
+  const between = Math.acos(Math.max(-1, Math.min(1, from.x * to.x + from.y * to.y + from.z * to.z)))
+  if (between <= angle) return to
+  // straight behind, any way round will do: first turn across
+  if (Math.sin(between) < 1e-6) return turnToward(from, unit({ x: -from.z, y: 0, z: from.x }), angle)
+  const sin = Math.sin(between), keep = Math.sin(between - angle) / sin, take = Math.sin(angle) / sin
+  return unit({ x: from.x * keep + to.x * take, y: from.y * keep + to.y * take, z: from.z * keep + to.z * take })
+}
 
 /**
  * The machine guns of `plane`, which its crew aims at the nearest living one of `targets`, leading it by how far it
- * moves while a round flies there, or straight ahead with none in range; the turret nearest that aim fires, and only
+ * moves while a round flies there, or straight ahead with none in range; the guns swing toward that aim, which they start
+ * on straight ahead, and the turret nearest where they point fires, and only
  * while `firing`, which the player holds. Each of its `turrets`, from its plane's model, sits `ahead` of the plane's
  * place and `above` it by those shares of its length and height; without them it fires from the plane's place.
  * `clock` is the game clock.
@@ -19,6 +35,8 @@ export default class GunTurrets {
   constructor({ plane, targets = [], clock, turrets = [{ ahead: 0, above: 0 }] }) {
     Object.assign(this, { plane, targets, turrets })
     this.firing = false
+    /** The unit direction the guns point, from the plane. */
+    this.aim = unit(this.way(plane.ahead(1)))
     this.shotsFired = 0
     this.reload = new Cooldown({ seconds: gunTurrets.interval, clock })
     this.rounds = new ProjectilePool(() => new Bullet({ life: gunTurrets.life, damage: gunTurrets.damage }))
@@ -59,6 +77,12 @@ export default class GunTurrets {
     return point
   }
 
+  /** The way from the plane to `point`. */
+  way(point) {
+    const { plane } = this
+    return { x: point.x - plane.x, y: point.y - plane.y, z: point.z - plane.z }
+  }
+
   /** Where the turret nearest `point` sits now. */
   turretToward(point) {
     const { plane } = this
@@ -69,12 +93,15 @@ export default class GunTurrets {
 
   update(dt) {
     const { plane, target } = this
+    const way = this.way(target ? this.lead(target) : plane.ahead(gunTurrets.range))
+    this.aim = turnToward(this.aim, unit(way), gunTurrets.traverse * dt)
     if (this.firing && plane.alive && this.reload.ready) {
-      const point = target ? this.lead(target) : plane.ahead(gunTurrets.range)
+      const distance = Math.hypot(way.x, way.y, way.z)
+      const point = { x: plane.x + this.aim.x * distance, y: plane.y + this.aim.y * distance, z: plane.z + this.aim.z * distance }
       const turret = this.turretToward(point)
-      const way = { x: point.x - turret.x, y: point.y - turret.y, z: point.z - turret.z }
+      const line = { x: point.x - turret.x, y: point.y - turret.y, z: point.z - turret.z }
       this.rounds.fire(turret,
-        Math.atan2(-way.z, way.x), Math.atan2(way.y, Math.hypot(way.x, way.z)), gunTurrets.bulletSpeed)
+        Math.atan2(-line.z, line.x), Math.atan2(line.y, Math.hypot(line.x, line.z)), gunTurrets.bulletSpeed)
       this.shotsFired++
       this.reload.start()
     }

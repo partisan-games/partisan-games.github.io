@@ -71,4 +71,5 @@ export const vehicles = [
 export const artillery = [
   { id: 'pak38', name: 'PaK 38', game, pxPerMeter, way: -1, block: antiTankGunModule, create: gun },
   { id: 'bunker-do-trsta', name: 'Bunker', game, pxPerMeter, way: -1, block: bunkerModule, create: bunker('pillbox') },
+  { id: 'kuca-bunker', name: 'Kuća-bunker', game: 'Bunker, Ustanak, Do Trsta', pxPerMeter, way: -1, block: bunkerModule, create: bunker('house') },
 ]

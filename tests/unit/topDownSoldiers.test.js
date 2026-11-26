@@ -5,6 +5,7 @@ import Grenadier, { grenadier } from '/core/gameplay/bodies/soldiers/Grenadier.j
 import Grenade, { grenade } from '/core/gameplay/bodies/projectiles/Grenade.js'
 import GameClock from '/core/runtime/GameClock.js'
 import GrenadierKeys from '/core/gameplay/controllers/GrenadierKeys.js'
+import { loadAtlas } from './helpers/atlas.js'
 
 const live = (clock, bodies, seconds, fps = 30) => {
   for (let i = 0; i < seconds * fps; i++) {
@@ -198,15 +199,83 @@ test('a machine gunner\'s rounds leave from the muzzle of his drawn gun, whichev
   }
 })
 
-test('the original window gunner keeps the existing size in the house', async() => {
+test('the house bunker gunner keeps his size in metres and lies in its right window, as in the game Bunker', async() => {
   const { createPageElements } = await import('./helpers/dom.js')
   createPageElements()
+  const { default: HouseBunker } = await import('/core/objects/Bunker.js')
   const { default: Bunker, bunkerKinds } = await import('/core/gameplay/bodies/artillery/Bunker.js')
   const { default: BunkerSprite } = await import('/core/actor/artillery/BunkerSprite.js')
   const { default: art } = await import('/core/actor/soldiers/machineGunnerArt.js')
   const { sideProjection } = await import('/core/actor/projection.js')
   const body = new Bunker({ kind: bunkerKinds.house, clock: new GameClock() })
   const view = new BunkerSprite(body, { kind: 'house', projection: sideProjection({ pxPerMeter: 20, groundY: 400 }) })
-  assert.equal(art.width * view.gunner.scale, 63 * .66)
-  assert.equal(art.height * view.gunner.scale, 27 * .66)
+  const house = new HouseBunker()
+  loadAtlas(house, 856, 572)
+  assert.equal(house.image.src, view.image.src)
+  assert.deepEqual([house.width, house.height], [214, 143])
+  assert.ok(view.damageArt.image.src.endsWith('/house-bunker-pixel-damaged.webp'))
+  // the gunner keeps his size in metres, beside the house, at the game's scale and at the catalogue's
+  const near = (actual, expected) => assert.ok(Math.abs(actual - expected) < 1e-9, `${actual} is not ${expected}`)
+  near(art.width * view.gunner.scale, 63 * .66)
+  const larger = new BunkerSprite(body, { kind: 'house', projection: sideProjection({ pxPerMeter: 40, groundY: 400 }) })
+  near(art.width * larger.gunner.scale, 2 * 63 * .66)
+  // he lies in the same window as in the game Bunker, his back where its gunner's is; facing right, the picture is mirrored
+  const { gunnerWindow } = await import('/core/objects/Bunker.js')
+  view.fit()
+  const back = view.gunner.pivot(view.projection.point(body.muzzle), body.forward)
+  assert.ok(Math.abs((back.x - view.x) / view.width + body.forward * gunnerWindow.x / house.width) < .01, `across: ${back.x - view.x}`)
+  assert.ok(Math.abs((back.y - view.y) / view.height - gunnerWindow.y / house.height) < .01, `down: ${back.y - view.y}`)
+})
+
+test('both machine gunner views sample the registered poses inside their transparent gutters', async() => {
+  const { createPageElements } = await import('./helpers/dom.js')
+  createPageElements()
+  const { default: MachineGunnerSprite } = await import('/core/actor/soldiers/MachineGunnerSprite.js')
+  const { default: Bunker, bunkerKinds } = await import('/core/gameplay/bodies/artillery/Bunker.js')
+  const { default: BunkerSprite } = await import('/core/actor/artillery/BunkerSprite.js')
+  const { topProjection, sideProjection } = await import('/core/actor/projection.js')
+  const clock = new GameClock()
+  const body = new MachineGunner({ clock })
+  const top = new MachineGunnerSprite(body, { projection: topProjection({ pxPerMeter: 40 }) })
+  const house = new Bunker({ kind: bunkerKinds.house, clock })
+  const { gunner } = new BunkerSprite(house, { kind: 'house', projection: sideProjection({ pxPerMeter: 20, groundY: 400 }) })
+  loadAtlas(top, 536, 248)
+  loadAtlas(top.hitReaction, 536, 248)
+  loadAtlas(gunner.hitReaction, 536, 248)
+  Object.defineProperty(gunner.image, 'naturalWidth', { value: 536 })
+
+  const draws = []
+  const ctx = { save() {}, restore() {}, translate() {}, rotate() {}, scale() {}, drawImage: (...args) => draws.push(args) }
+  const assertPose = (x, y) => {
+    top.render(ctx)
+    gunner.render(ctx, { x: 0, y: 0 }, Math.PI, house.dead)
+    assert.equal(draws.length, 2)
+    for (const args of draws.splice(0)) assert.deepEqual(args.slice(1, 5), [x, y, 126, 54])
+  }
+  assertPose(4, 4)
+  top.sinceShot = gunner.sinceShot = .06
+  assertPose(272, 66)
+  top.hitReaction.elapsed = gunner.hitReaction.elapsed = .09
+  assertPose(138, 190)
+  body.setState('dead')
+  house.setState('dead')
+  body.stateTime = gunner.sinceDeath = .5
+  assertPose(406, 128)
+})
+
+test('the house bunker shows its damage before it starts to smoke', async() => {
+  const { createPageElements } = await import('./helpers/dom.js')
+  createPageElements()
+  const { default: Bunker, bunkerKinds } = await import('/core/gameplay/bodies/artillery/Bunker.js')
+  const { default: BunkerSprite } = await import('/core/actor/artillery/BunkerSprite.js')
+  const { bodyImage } = await import('/core/actor/wreckView.js')
+  const { sideProjection } = await import('/core/actor/projection.js')
+  const body = new Bunker({ kind: bunkerKinds.house, clock: new GameClock() })
+  const view = new BunkerSprite(body, { kind: 'house', projection: sideProjection({ pxPerMeter: 20, groundY: 400 }) })
+  const { image } = view.damageArt
+  Object.defineProperties(image, { complete: { value: true }, naturalWidth: { value: 856 } })
+  const smoke = view.children.find(child => child.constructor.name === 'DamageSmoke')
+  body.takeHit(body.health.maximum * .4)
+  assert.equal(bodyImage(view), image)
+  assert.equal(smoke.active, false)
 })

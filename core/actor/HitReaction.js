@@ -1,4 +1,5 @@
 import ArtClip from './ArtClip.js'
+import atlasFrame from './atlasFrame.js'
 
 /** A view-owned flinch, registered to the original picture rather than its padded atlas cell. */
 export default class HitReaction extends ArtClip {
@@ -27,7 +28,7 @@ export default class HitReaction extends ArtClip {
     ctx.rotate(angle)
     ctx.scale(flip, 1)
     ctx.imageSmoothingEnabled = false
-    ctx.drawImage(this.image, frame * this.art.width, row * this.art.height, this.art.width, this.art.height,
+    ctx.drawImage(this.image, ...atlasFrame(this.art.width, this.art.height, frame, row, this.art.gutter),
       left + dx * width / rw, top + dy * height / rh,
       this.art.width * scale * width / rw, this.art.height * scale * height / rh)
     ctx.restore()

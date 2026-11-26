@@ -35,3 +35,23 @@ test('the rounds of a gun show where they fly, one mesh each, and hide once spen
   view.end()
   assert.equal(view.rounds.mesh.parent, null)
 })
+
+test('a tracer\'s trail grows from the muzzle to its full length as the round flies', async() => {
+  createPageElements()
+  const { default: ProjectilesModel, trailLength } = await import('/core3d/actor/ProjectilesModel.js')
+  const { default: GunTurrets } = await import('/core/gameplay/bodies/aircraft/GunTurrets.js')
+  const clock = new GameClock(), guns = new GunTurrets({ plane: new Warplane({ clock }), clock })
+  const view = new ProjectilesModel(guns)
+  guns.firing = true
+  guns.update(1 / 30)
+  guns.firing = false
+  const trail = () => {
+    view.update()
+    return view.mesh.children[0].getObjectByName('trail').scale.z
+  }
+  const [round] = guns.rounds.projectiles
+  const flown = Math.hypot(round.vx, round.vy, round.vz) * round.stateTime
+  assert.ok(flown < trailLength && Math.abs(trail() - flown / trailLength) < 1e-6, 'it reaches back only to the muzzle')
+  for (let i = 0; i < 6; i++) guns.update(1 / 30)
+  assert.equal(trail(), 1)
+})

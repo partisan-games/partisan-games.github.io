@@ -29,9 +29,9 @@ const states = {
  */
 export default class Warplane extends Body {
   constructor({ clock, limit = 50, height = warplane.height, groundAt = () => 0, targets = [],
-    size = { length: 6, height: 2, width: 6 }, ...rest } = {}) {
+    size = { length: 6, height: 2, width: 6 }, launchHeight = -size.height * .33, ...rest } = {}) {
     super({ size, health: warplane.health, y: height, yaw: Math.PI / 2, ...rest, states })
-    Object.assign(this, { limit, targets, groundAt, speed: warplane.speed })
+    Object.assign(this, { limit, targets, groundAt, launchHeight, speed: warplane.speed })
     this.heights = { min: height / 2, max: height * 2 }
     this.velocity = { x: 0, y: 0 }
     this.roll = 0
@@ -55,8 +55,9 @@ export default class Warplane extends Body {
   }
 
   /** Where its missiles leave it, under its belly. */
+  /** Where its missiles leave it: `launchHeight` metres above its position, under its fuselage. */
   get launchPoint() {
-    return { x: this.x, y: this.y - this.size.height * .33, z: this.z }
+    return { x: this.x, y: this.y + this.launchHeight, z: this.z }
   }
 
   /**

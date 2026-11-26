@@ -159,7 +159,7 @@ export default class ToTriesteScene extends Scene2D {
     return new Marksman(body, this.player, { rest, sees: this.sees, aim: lead(speed) })
   }
 
-  /** A bunker by the road at `x` metres, firing at the tank; the fortified house has its machine gunner at the door. */
+  /** A bunker by the road at `x` metres, firing at the tank; the fortified house has its machine gunner in its right window. */
   bunker(kind, x) {
     const body = new Bunker({ kind: bunkerKinds[kind], x, yaw: Math.PI, clock: this.session.clock, targets: [this.player],
       view: this.screenView })

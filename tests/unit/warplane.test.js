@@ -198,12 +198,24 @@ test('the turret facing a target fires at it from its muzzle: the nose ahead, th
     const clock = new GameClock(), bomber = new Warplane({ clock })
     const target = new Interceptor({ target: bomber, clock, ...bomber.ahead(ahead, above) })
     const guns = new GunTurrets({ plane: bomber, targets: [target], clock, turrets })
+    play(clock, [guns], 2)
     guns.firing = true
     guns.update(1 / 30)
     const { start } = guns.rounds.projectiles[0].path
     const muzzle = bomber.ahead(turrets[turret].ahead * bomber.size.length, turrets[turret].above * bomber.size.height)
     assert.ok(Math.hypot(start.x - muzzle.x, start.y - muzzle.y, start.z - muzzle.z) < 1e-9, `turret ${turret}`)
   }
+})
+
+test('the guns swing toward a fighter that comes in range at their traverse, not at once', () => {
+  const clock = new GameClock(), bomber = new Warplane({ clock })
+  // abeam of the bomber, a quarter turn from where its guns point at first
+  const fighter = new Interceptor({ target: bomber, clock, x: bomber.x + 80, y: bomber.y, z: bomber.z })
+  const guns = new GunTurrets({ plane: bomber, targets: [fighter], clock })
+  guns.firing = true
+  guns.update(1 / 30)
+  const [round] = guns.rounds.projectiles
+  near(Math.abs(round.yaw - bomber.yaw), gunTurrets.traverse / 30, 1e-3)
 })
 
 test('the guns aim only at a living fighter within their range', () => {
@@ -215,4 +227,11 @@ test('the guns aim only at a living fighter within their range', () => {
   assert.equal(guns.target, far)
   far.takeHit(interceptor.health)
   assert.equal(guns.target, null)
+})
+
+test('a missile leaves the plane at its launch height, low in the fuselage of its model', () => {
+  const plane = new Warplane({ clock: new GameClock(), height: 20, launchHeight: .3 })
+  assert.equal(plane.fire(), true)
+  const [missile] = plane.missiles.projectiles.filter(round => round.active)
+  assert.deepEqual([missile.x, missile.y, missile.z], [plane.x, 20.3, plane.z])
 })

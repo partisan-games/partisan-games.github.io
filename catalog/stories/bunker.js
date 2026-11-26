@@ -1,10 +1,7 @@
-import MachineGunner, * as machineGunnerModule from '/core/gameplay/bodies/soldiers/MachineGunner.js'
 import Grenadier, * as grenadierModule from '/core/gameplay/bodies/soldiers/Grenadier.js'
-import MachineGunnerSprite from '/core/actor/soldiers/MachineGunnerSprite.js'
 import GrenadierSprite from '/core/actor/soldiers/GrenadierSprite.js'
 import { topProjection } from '/core/actor/projection.js'
 import { fromAbove } from './helpers.js'
-import Bunker, { gunnerWindow } from '/core/objects/Bunker.js'
 import scales from '../scales.js'
 import { playerControls } from '../playerControls.js'
 import { inputLayouts } from '/core/io/inputLayouts.js'
@@ -12,6 +9,7 @@ import GrenadierKeys from '/core/gameplay/controllers/GrenadierKeys.js'
 
 /** Bunker is seen from above at 40 px a metre. */
 const pxPerMeter = scales.top
+const game = 'Bunker'
 const views = stage => {
   fromAbove(stage)
   return { projection: topProjection({ pxPerMeter }), camera: stage }
@@ -23,16 +21,6 @@ const put = (stage, body, view) => {
   return body
 }
 
-/** The gunner lies at the window of his bunker in the middle of the view, as in the game, his rounds flying at the stand-in. */
-const gunner = stage => {
-  const bunker = new Bunker({ x: stage.width / 2, y: stage.height / 2 })
-  const { projection, camera } = views(stage)
-  const body = new MachineGunner({ ...projection.toWorld({ x: bunker.x + gunnerWindow.x, y: bunker.y + gunnerWindow.y }),
-    clock: stage.session.clock, targets: [stage.dummy] })
-  stage.add(bunker)
-  return put(stage, body, new MachineGunnerSprite(body, { projection, camera }))
-}
-
 /** The player's grenadier, walked and throwing on the keys and buttons of the game, with grenades to test without end. */
 const grenadier = (stage, way = 1) => {
   const body = new Grenadier(middle(stage))
@@ -40,13 +28,6 @@ const grenadier = (stage, way = 1) => {
   playerControls(stage, input => new GrenadierKeys(body, { input }), inputLayouts.grenadier)
   return put(stage, body, new GrenadierSprite(body, views(stage)))
 }
-
-const game = 'Bunker'
-
-/** The fortified house with its machine gunner in the window, the one bunker block of the library. */
-export const artillery = [
-  { id: 'kuca-bunker', name: 'Kuća-bunker', game: 'Bunker, Do Trsta', pxPerMeter, block: machineGunnerModule, create: gunner },
-]
 
 export const soldiers = [
   { id: 'bombas', name: 'Bombaš', game, pxPerMeter, way: 1, block: grenadierModule, create: grenadier,

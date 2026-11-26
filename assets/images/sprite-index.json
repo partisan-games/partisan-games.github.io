@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "measuredAt": "2026-11-25T10:50:31.249947+00:00",
-  "baseRevision": "be7a89ffdfa896073f6605aa6ff23384051b5370",
+  "measuredAt": "2026-11-26T19:14:10.068119+00:00",
+  "baseRevision": "2d71685f4a979fe25066a3acdbe73c56e1fc6bd0",
   "scope": "Art linked by docs/ART.md, including shared variants; not all unused library art or a runtime/visual acceptance test.",
   "interpretation": "imageFrames counts file-container frames. A PNG atlas normally has one; named sprite clips require metadata and a runtime mapping. hashes detect exact input changes, not art quality.",
   "images": [
@@ -31,16 +31,6 @@
       "kind": "PNG",
       "width": 720,
       "height": 440,
-      "imageFrames": 1,
-      "hasTransparentPixelsInFirstFrame": true,
-      "distinctImageFrames": 1
-    },
-    {
-      "asset": "assets/images/buildings/kuca-bunker.png",
-      "sha256": "9dc20e731e5050615ce43d865006e2e01521bee620033fc64162d36670e38aed",
-      "kind": "PNG",
-      "width": 428,
-      "height": 286,
       "imageFrames": 1,
       "hasTransparentPixelsInFirstFrame": true,
       "distinctImageFrames": 1
@@ -81,6 +71,16 @@
       "kind": "WEBP",
       "width": 204,
       "height": 122,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/game-ready/artiljerija/house-bunker-pixel.webp",
+      "sha256": "a473b7725a843afb852c6721868a50d6e908b1ec81da9768476f1d13779459dc",
+      "kind": "WEBP",
+      "width": 856,
+      "height": 572,
       "imageFrames": 1,
       "hasTransparentPixelsInFirstFrame": true,
       "distinctImageFrames": 1
@@ -236,6 +236,16 @@
       "distinctImageFrames": 1
     },
     {
+      "asset": "assets/images/game-ready/vojnici/drvar-padobranac.webp",
+      "sha256": "703660023eac5635a2d74f51ca81f81b44b5d0bded6e4d5a089080990071016f",
+      "kind": "WEBP",
+      "width": 377,
+      "height": 585,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1
+    },
+    {
       "asset": "assets/images/game-ready/vozila/sdkfz251-sprites.webp",
       "sha256": "510a0bad7b737afc2f7ee15c7ca6e4736349ee7aa89bd17de4adde0b3abf7911",
       "kind": "WEBP",
@@ -278,6 +288,10 @@
   ],
   "reviewInputs": [
     {
+      "path": ".agents/skills/game-actor-art-3d/SKILL.md",
+      "sha256": "0f52e9085993595fd07f6c72d1a249b63fb89ffe7973dd90f0be5d1526299e1f"
+    },
+    {
       "path": "assets/images/armies/camac.png",
       "sha256": "dc4e1cfb0dc783c347793837b6b91989a260f7aa59932d55012ea646e074dc5c"
     },
@@ -294,10 +308,6 @@
       "sha256": "843cfe12b880b643400ef5ad0a79d4f5c6959aa60d0272612f0d4cede5a93b17"
     },
     {
-      "path": "assets/images/buildings/kuca-bunker.png",
-      "sha256": "9dc20e731e5050615ce43d865006e2e01521bee620033fc64162d36670e38aed"
-    },
-    {
       "path": "assets/images/game-ready/artiljerija/field-gun-barrel-pixel.webp",
       "sha256": "1f5465b391d25093ce8fd38fd0c49f2c407164dfdf6dd13de5d80efa4a51562b"
     },
@@ -312,6 +322,10 @@
     {
       "path": "assets/images/game-ready/artiljerija/flak38-postolje.webp",
       "sha256": "c7eacde806ff6417a8d9b12ee13c15152009f9bb1587a33ab9e7b6ae5fe41e70"
+    },
+    {
+      "path": "assets/images/game-ready/artiljerija/house-bunker-pixel.webp",
+      "sha256": "a473b7725a843afb852c6721868a50d6e908b1ec81da9768476f1d13779459dc"
     },
     {
       "path": "assets/images/game-ready/artiljerija/pak38-cev.webp",
@@ -374,8 +388,24 @@
       "sha256": "ac98e6ffbce3803151ed5d801c4edb29a55b1dc5da0349c23ec470b3a72e1e8c"
     },
     {
+      "path": "assets/images/game-ready/vojnici/drvar-padobranac.webp",
+      "sha256": "703660023eac5635a2d74f51ca81f81b44b5d0bded6e4d5a089080990071016f"
+    },
+    {
       "path": "assets/images/game-ready/vozila/sdkfz251-sprites.webp",
       "sha256": "510a0bad7b737afc2f7ee15c7ca6e4736349ee7aa89bd17de4adde0b3abf7911"
+    },
+    {
+      "path": "assets/images/sources/cetnici/generation.json",
+      "sha256": "5ddba558d4f8ff030d7bd7bf122d6dff4b6d38ce2d2e241a6bb651066116ed9f"
+    },
+    {
+      "path": "assets/images/sources/nemci/padobranci/generation.json",
+      "sha256": "8e1fcb2f9436df87f39f5ba89dd51cdd63fdc4f0abdf1e38202f95ec39305163"
+    },
+    {
+      "path": "assets/images/sources/partizani/sutjeska-pixel-art/generation.json",
+      "sha256": "908ee44a1703f140929aba21e683ecd12f951545adeec166e26bc5fe350b0e5a"
     },
     {
       "path": "assets/models/aircraft/airplane/messerschmitt-bf-109/README.md",
@@ -391,7 +421,7 @@
     },
     {
       "path": "assets/models/building/crveni-krst/README.md",
-      "sha256": "3be69ba17c0cacf3d0b4bb00a7ce3a48bf11746aaa3da4e23b6fd9758a117181"
+      "sha256": "3456907130c8cb3c887d9846abae4dd7f245cc4116c80bf41d5d9eeed455f025"
     },
     {
       "path": "assets/models/building/drvar-church/README.md",
@@ -400,6 +430,10 @@
     {
       "path": "assets/models/building/tower/ww2/License.txt",
       "sha256": "9fbf579226d262897832ce1ce7e94645d3de5e1c59fccb819c9d038acc3c5915"
+    },
+    {
+      "path": "assets/models/character/soldier/partisan-lowpoly.fbx",
+      "sha256": "d4191c7ea3b555e44efb3e903a8aa9e412ad0e689170ce158ebdecf3d78e6f5b"
     },
     {
       "path": "assets/models/character/soldier/partisan-wool-uniform.png",
@@ -439,11 +473,11 @@
     },
     {
       "path": "catalog/stories/partisans.js",
-      "sha256": "0b47ce701d1489f194a8bb4ceab891acd0f5b42e246131c52cb6a96b789c32f2"
+      "sha256": "6a69d191bd997c5b8de9645b09d9efeb155056ec6a42e7310584c4198e623f4a"
     },
     {
       "path": "catalog.html",
-      "sha256": "e1d28c7eb3f467b0b3453f22358ebaf21886122965248be49c5cb4edfabb40e9"
+      "sha256": "18a55b2b0a0d90282f6b8dedfbf671330732bd1456e954410d81886b1ac10b9c"
     },
     {
       "path": "core/actor/AdvanceSprite.js",
@@ -452,6 +486,10 @@
     {
       "path": "core/actor/aircraft/fighterBomberPlanes.js",
       "sha256": "3573b117dba1e40509102c56eaab23b1924c8b21ae31fe308c8efe583e9235a7"
+    },
+    {
+      "path": "core/actor/soldiers/cetnikArt.js",
+      "sha256": "92331e426601e0818d65a5c459bcb27a316f6f639043d855c270ebaca11702ff"
     },
     {
       "path": "core/gameplay/frontEnemyKinds.js",
@@ -474,28 +512,32 @@
       "sha256": "6374a24ee9497db2984d43c8646ebf9939712069b6acd27567b0a3af6d1abcf2"
     },
     {
+      "path": "core3d/actor/derived/ww2/sutjeskaLook.js",
+      "sha256": "9d79506241bbae8c69ec0339b1da049da07f6ead88190bb86c409391ee6aa0fa"
+    },
+    {
       "path": "docs/ANIMACIJA-POZADINE.md",
       "sha256": "f235587a3db93a1ff46a1fe08b76346a5bc367806ef126d79965eae31de1cb5d"
     },
     {
       "path": "docs/ART.md",
-      "sha256": "ac8b8ffd97922469f15f189d0fb26bc98149944fddb11ac50551ac8d38394388"
+      "sha256": "16cdac32e809631bc9503172edf0b7c3d6c2db862833aeae29089a76642ca42a"
     },
     {
       "path": "docs/ISTORIJA.md",
-      "sha256": "bdddbfe6cf1d64eb72b2046899aa94054ea96b988abf0a6d9e28c237919ffe22"
+      "sha256": "091f949a48d63c267b1d70bffefe3f6c1bf37b1a72b16ec4d93d3c512698af6a"
     },
     {
       "path": "docs/KATALOG.md",
-      "sha256": "2ffa9e3c758ced0dc6f589bd42fab237e476062d4cb6afe0d68ed346beb2cd45"
+      "sha256": "d72933d13e3cd432e82bc27777268fe3e5734562d25f8deecb43fd4dc05da8e1"
     },
     {
       "path": "docs/KONTEKST.md",
-      "sha256": "1f046972b4c135c1a9ec2358db8db343853a7aa23e3c736a12c22695d6ce9575"
+      "sha256": "ced54f17294cfe004bd60a6806c0d13b639bed9e0dfdba2b8d5b777898d2dd4b"
     },
     {
       "path": "docs/PLAN.md",
-      "sha256": "47bcd8b5dbb0e15270b1d2eb3e5fb33de063b20bbfa0da3d2c1b2dc2c148ed7c"
+      "sha256": "4c943529c9feb653ac992e62e3fa57289bad3bad9df8e35fef22c461c467fa94"
     },
     {
       "path": "docs/references/ww2-yu/crveni-krst/README.md",
@@ -503,11 +545,11 @@
     },
     {
       "path": "docs/TESTING.md",
-      "sha256": "0aae7e5f818172a6c1585113131e9c51c1b4ee8bd86cc15d269762ee681588c2"
+      "sha256": "a56bd8799f83bb54b0a1edda1fa71a7ce66dfe5506abcbf976b8334173a1d7a3"
     },
     {
       "path": "index.html",
-      "sha256": "53ea7055265e9d47d8c218eb5d0e18d051006699a844b7ff2186fcbde8f785e5"
+      "sha256": "d7d33815490e13b18755d0134b46d5dd45803acd2a8ae05a3e5f143752506bfe"
     },
     {
       "path": "pregled-animacija.html",
@@ -530,12 +572,28 @@
       "sha256": "6df8bba75df37b9d99c7af80c9101530c112f53fc94b8a1957c5beedd63ac667"
     },
     {
+      "path": "scenes/drvar/Main.js",
+      "sha256": "97d096b10ab053a9c325bb841a3f9d3d87879f49932e8e9524d014b89aefc259"
+    },
+    {
+      "path": "scenes/drvar/scenery.js",
+      "sha256": "83106d9ac4470f3e723e763cba5258569c73be1dd3c93c33a0ab41fbdde1d9e4"
+    },
+    {
       "path": "scenes/to-trieste/Route.js",
       "sha256": "e74dfaefe1ce8fa709a947d225420527be8ecc8605260219a48ef99768c0c559"
     },
     {
+      "path": "scripts/build-drvar-props.py",
+      "sha256": "4df64c23a7760c63419f1e8e07f8db480e0722102c47b8f278a72b91ae0fb67d"
+    },
+    {
       "path": "scripts/index-sprite-art.py",
       "sha256": "bfa9694a05005bd2495584b91b2d8f59ad519b4ee6251029ac502334f0c45fb0"
+    },
+    {
+      "path": "scripts/prepare-cetnik-art.py",
+      "sha256": "c1d7d29a4364d5c129978e7a38f5d8b08af964c50324066815d785130afa0dfc"
     },
     {
       "path": "scripts/prepare-jablanica-texture.py",

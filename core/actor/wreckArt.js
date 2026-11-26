@@ -75,10 +75,10 @@ export default {
     'width': 233,
     'height': 51
   },
-  'buildings/kuca-bunker.png': {
-    'src': 'game-ready/wrecks/house-bunker.webp',
-    'width': 428,
-    'height': 286
+  'game-ready/artiljerija/house-bunker-pixel.webp': {
+    'src': 'game-ready/wrecks/house-bunker-pixel.webp',
+    'width': 856,
+    'height': 572
   },
   'buildings/bunker-02.png': {
     'src': 'game-ready/wrecks/bunker.webp',

@@ -253,12 +253,12 @@ export default {
     'layer': 1
   },
   'house-bunker': {
-    'src': 'game-ready/wrecks/house-bunker.webp',
-    'width': 428,
-    'height': 286,
+    'src': 'game-ready/wrecks/house-bunker-pixel.webp',
+    'width': 856,
+    'height': 572,
     'anchor': {
-      'x': 214.0,
-      'y': 286
+      'x': 428.0,
+      'y': 572
     },
     'kind': 'wreck',
     'faction': null,

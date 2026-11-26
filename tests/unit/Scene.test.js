@@ -140,7 +140,7 @@ test('first drawing waits for the wreck of an object destroyed from the start', 
   }, configurable: true, writable: true })
   t.after(() => Object.defineProperty(globalThis, 'Image', descriptor))
   const scene = createScene()
-  const src = '/assets/images/buildings/kuca-bunker.png'
+  const src = '/assets/images/game-ready/artiljerija/house-bunker-pixel.webp'
   scene.add({ image: { complete: true, naturalWidth: 1, src }, dead: true })
   const wreck = wreckFor(src)
   let ready = false

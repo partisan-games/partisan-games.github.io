@@ -32,22 +32,22 @@ const planes = ['Bomber']
 /** Seconds of game time before the first enemy fighter, and between one shot down and the next. */
 const fighterWaits = { first: 12, next: 18 }
 /**
- * The chase camera, as flight games keep it: `above` and `behind` the plane, in metres, looking at a point `ahead` of
- * it and `below` it, so the plane sits low in the picture and the ground it attacks shows ahead of it.
+ * The chase camera: `above` (here below, as it is negative) and `behind` the plane, in metres, looking at a point
+ * `ahead` of it and `below` it, so the plane sits high in the picture, its underside in view, over the ground it
+ * attacks (owner's decision, 2026-11-26).
  */
-const chaseView = { above: 5, behind: 16, ahead: 25, below: 3 }
+const chaseView = { above: -1.5, behind: 16, ahead: 25, below: 6 }
 /**
- * The camera of the trial (IG-31): `above` and `behind` the plane, in metres, looking at the ground `ahead` of it; as
- * `above` is `behind` plus `ahead`, it looks down at 45°.
+ * The aim on the ground: a ring of `radius` metres, `width` thick, `lift` above the ground so it is not hidden; farther
+ * from the camera than `readableAt` metres it grows with the distance, so it keeps its size on the screen.
  */
-const oblique = { above: 30, behind: 15, ahead: 15 }
-/** The aim on the ground: a ring of `radius` metres, `width` thick, `lift` above the ground so it is not hidden. */
-const aimRing = { radius: 4, width: .6, lift: .3, color: 0xff7a1a, opacity: .8 }
+const aimRing = { radius: 4, width: .6, lift: .3, color: 0xff7a1a, opacity: .8, readableAt: 40 }
 
-/** The ring that marks the aim, lying on the ground; it has no outline. */
+/** The ring that marks the aim, lying on the ground; it has no outline and the haze does not fade it. */
 function createAimMark() {
   const { radius, width, color, opacity } = aimRing
-  const material = new THREE.MeshBasicMaterial({ color, transparent: true, opacity, depthWrite: false, side: THREE.DoubleSide })
+  const material = new THREE.MeshBasicMaterial({ color, transparent: true, opacity, depthWrite: false, side: THREE.DoubleSide,
+    fog: false })
   material.userData.outlineParameters = { visible: false }
   const mark = new THREE.Mesh(new THREE.RingGeometry(radius - width, radius, 48), material)
   mark.rotation.x = -Math.PI / 2
@@ -124,11 +124,9 @@ export default class WarplaneScene extends Scene3D {
     this.fighterWait.start(fighterWaits.first)
     this.controllers.push(new WarplaneKeys(body, new Input(inputLayouts.warplane), this.guns))
     this.audioPlayer = () => model
-    // the camera flies behind the plane, never turning with it; the camera button switches to the trial of a view
-    // from higher behind it, looking down at the ground ahead (IG-31)
+    // the camera flies behind the plane, never turning with it
     const chase = new ChaseCamera({ camera: this.camera, mesh: model.mesh, rotate: false, speed: body.speed * .75,
-      offset: [0, chaseView.above, chaseView.behind], lookAt: [0, -chaseView.below, -chaseView.ahead],
-      birdsEyeOffset: [0, oblique.above, oblique.behind], birdsEyeLookAt: [0, 0, -oblique.ahead], showCameraButton: true })
+      offset: [0, chaseView.above, chaseView.behind], lookAt: [0, -chaseView.below, -chaseView.ahead] })
     chase.setCamera(0)
     chase.far = mapSize * .5
     this.chase = chase
@@ -142,7 +140,9 @@ export default class WarplaneScene extends Scene3D {
     const { player, aimMark } = this
     const aim = player.alive && !player.landing && player.aim()
     aimMark.visible = Boolean(aim)
-    if (aim) aimMark.position.set(aim.x, aim.y + aimRing.lift, aim.z)
+    if (!aim) return
+    aimMark.position.set(aim.x, aim.y + aimRing.lift, aim.z)
+    aimMark.scale.setScalar(Math.max(1, this.camera.position.distanceTo(aimMark.position) / aimRing.readableAt))
   }
 
   /** The camera keeps to the plane; down on the ground, it rises and draws back to see it roll to a stop. */

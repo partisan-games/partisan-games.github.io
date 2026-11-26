@@ -25,7 +25,7 @@ export default [
   { id: 'vozila', title: 'Tenkovi i vozila', stories: [...tenkici.vehicles, ...franjoKluz.vehicles, ...doTrsta.vehicles, ...characters3d.vehicles, ...advance.vehicles] },
   { id: 'avioni', title: 'Avioni', stories: [...franjoKluz.aircraft, ...vis.aircraft, ...drvar.aircraft] },
   { id: 'brodovi', title: 'Brodovi', stories: [...camac.boats] },
-  { id: 'artiljerija', title: 'Artiljerija', stories: [...franjoKluz.artillery, ...ustanak.artillery, ...bunker.artillery, ...doTrsta.artillery, ...camac.artillery] },
+  { id: 'artiljerija', title: 'Artiljerija', stories: [...franjoKluz.artillery, ...ustanak.artillery, ...doTrsta.artillery, ...camac.artillery] },
   { id: 'drugi-svetski-rat-3d', title: '3D Drugi svetski rat', stories: characters3d.ww2 },
   { id: 'letelice-3d', title: '3D letelice', stories: [...objects3d.aircraft, ...drvar.aircraft3d] },
   { id: 'artiljerija-3d', title: '3D artiljerija', stories: objects3d.artillery },

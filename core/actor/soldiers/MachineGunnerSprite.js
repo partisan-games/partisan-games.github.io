@@ -2,6 +2,7 @@ import BodySprite from '/core/actor/BodySprite.js'
 import BulletSprite from '/core/actor/projectiles/BulletSprite.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import art from './machineGunnerArt.js'
+import atlasFrame from '../atlasFrame.js'
 
 /**
  * How a machine gunner looks and sounds from above: lying behind his gun, which he turns where he aims about its
@@ -46,8 +47,9 @@ export default class MachineGunnerSprite extends BodySprite {
     ctx.translate(this.x, this.y)
     ctx.rotate(this.angle)
     ctx.imageSmoothingEnabled = false
-    ctx.drawImage(this.image, frame * art.width, body.dead ? art.height * 2 : firing ? art.height : 0,
-      art.width, art.height, -this.width, -this.height, this.width, this.height)
+    const { width, height, gutter } = art
+    ctx.drawImage(this.image, ...atlasFrame(width, height, frame, body.dead ? 2 : firing ? 1 : 0, gutter),
+      -this.width, -this.height, this.width, this.height)
     ctx.restore()
   }
 }

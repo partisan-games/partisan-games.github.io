@@ -22,7 +22,8 @@ const folders = {
   // a bomber's guns are seen in the story of the fighter they fire at
   'core/gameplay/bodies/aircraft': ['wreck.js', 'GunTurrets.js'],
   'core/gameplay/bodies/artillery': [],
-  'core/gameplay/bodies/soldiers': [],
+  // the Bunker game's machine gunner lies in the window of the house bunker, whose story shows him (owner's decision)
+  'core/gameplay/bodies/soldiers': ['MachineGunner.js'],
   'core/gameplay/bodies/vehicles': ['CannonVehicle.js'],
   'scenes/to-trieste': ['Main.js', 'BattleFeedback.js', 'Route.js', 'Escort.js'],
   'scenes/camac': [

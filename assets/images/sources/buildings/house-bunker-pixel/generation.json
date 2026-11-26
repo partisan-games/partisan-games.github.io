@@ -1,0 +1,233 @@
+{
+  "tool": "built-in image_gen",
+  "referenceFrame": [
+    428,
+    286
+  ],
+  "outputFrame": [
+    856,
+    572
+  ],
+  "normalDisplay": [
+    214,
+    143
+  ],
+  "anchor": [
+    428,
+    286
+  ],
+  "preparation": "python -B assets/images/sources/buildings/house-bunker-pixel/prepare.py",
+  "windowAnchor": {
+    "aboveViewDisplayOffset": [
+      60,
+      20
+    ],
+    "sideView": "Bunker house muzzle registration from bunkerKinds.house"
+  },
+  "states": [
+    {
+      "source": "intact.png",
+      "output": "game-ready/artiljerija/house-bunker-pixel.webp",
+      "references": [
+        "assets/images/buildings/kuca-bunker.png",
+        "assets/images/game-ready/vojnici/nemci-spreda.webp"
+      ],
+      "prompt": "Precise in-place redraw of the supplied game prop. Reference 1 is the exact sprite in its intact state and fixes the silhouette, framing and openings. Reference 2 is the original intact house and fixes the common architecture and palette for all states. Reference 3 shows the game's crisp dark pixel cluster approach and is only a style reference. Draw exactly one unoccupied building.\nRepaint the intact house, with an intact red clay tile roof, pale weathered limewashed plaster, dark brown timber lintels and sills, sandbags in both windows and the lower half of the entrance, a short dark center doorstep. The window openings above the sandbags read as quiet shaded recesses; no glass shine.\nStay with the original broad elevation, a shallow visible right side and the huge foreshortened trapezoid roof. The normalized layout in the 428 by 286 source canvas is binding: left window spans x18 to120 around y108 to199, center door x156 to225 around y177 to263, right window x265 to355 around y116 to199, wall foot at y263, doorstep down to y285, intact eave at y70. Right wall is very narrow on the right edge. Keep the silhouette almost edge-to-edge, flat floor, exact placements and roof pitch. No extra wing, isometric angle, house behind it, extra window, roof gable or painted weapon. Transparent outer background with no ground, scenery, shadows outside the house, letters or labels.\nHand-painted period game pixel art. Use sharp purposeful pixel clusters and defined broken outlines within the existing overhead-leaning elevation. Muted brick-red/terracotta tiles with readable offset tile courses, pale warm gray plaster in large quiet groups, gray-beige sandbags, dark brown trim, subdued natural light, consistent across all states. Improve readability with large clean planes and selective texture, no noise, gradients, airbrushing or modern details. Preserve real visual detail at 2x resolution and the full 428:286 frame.",
+      "yRegistration": [
+        [
+          0,
+          0
+        ],
+        [
+          70,
+          71
+        ],
+        [
+          108,
+          110
+        ],
+        [
+          116,
+          116
+        ],
+        [
+          177,
+          175
+        ],
+        [
+          198,
+          197
+        ],
+        [
+          263,
+          267
+        ],
+        [
+          285,
+          282
+        ],
+        [
+          286,
+          286
+        ]
+      ],
+      "bounds": [
+        3,
+        2,
+        850,
+        570
+      ],
+      "sourceSha256": "e60d43be87d83ee23d5c1e40b124420fb2f9b3cc20d1c74858ee4caabeaabbe9",
+      "outputSha256": "a473b7725a843afb852c6721868a50d6e908b1ec81da9768476f1d13779459dc"
+    },
+    {
+      "source": "damaged.png",
+      "output": "game-ready/artiljerija/house-bunker-pixel-damaged.webp",
+      "references": [
+        "intact.png",
+        "assets/images/game-ready/artiljerija/house-bunker-damaged.webp"
+      ],
+      "prompt": "Precise minimal edit of image 1, the newly redrawn pixel-art sprite, which is the base image. Keep its exact canvas, colored pixels, windows with dark charcoal recesses, sandbags, dark brown timber, intact architectural forms, pale cream plaster and terracotta tiles. Follow image 2 only for where to apply moderate impact wear. Paint a handful of small chips in the plaster and tiles, a few tiny cracks and soot-colored scuffs, and a chipped upper edge on one sill. Make the difference visible but local. Match the same pixel cluster style and layout, do not copy image 2's white window openings or bright-red wood. Do not change any window, doorway, roof angle or roof silhouette, wall outline, colors of the undamaged surfaces, sandbags or camera. Do not add people, smoke, flames, shadow or ground. Preserve genuine transparent alpha around the house and the original non-transparent dark openings. Final deliverable is one transparent game sprite consisting of the exact first house with discreet non-structural battle damage.",
+      "yRegistration": [
+        [
+          0,
+          0
+        ],
+        [
+          70,
+          71
+        ],
+        [
+          108,
+          110
+        ],
+        [
+          116,
+          116
+        ],
+        [
+          177,
+          175
+        ],
+        [
+          198,
+          197
+        ],
+        [
+          263,
+          267
+        ],
+        [
+          285,
+          282
+        ],
+        [
+          286,
+          286
+        ]
+      ],
+      "bounds": [
+        3,
+        2,
+        849,
+        570
+      ],
+      "sourceSha256": "663bb0247d9dbcd08423e1d80c745a795a47fee8a136c687a6f7f404a2a2d6ed",
+      "outputSha256": "2aa94a80a818980a7c03ac480e4ccda3feafa3d969da73623c00a41532bac3bd"
+    },
+    {
+      "source": "destroyed.png",
+      "output": "game-ready/wrecks/house-bunker-pixel.webp",
+      "references": [
+        "assets/images/game-ready/wrecks/house-bunker.webp",
+        "assets/images/buildings/kuca-bunker.png",
+        "assets/images/game-ready/vojnici/nemci-spreda.webp"
+      ],
+      "prompt": "Precise in-place redraw of the supplied game prop. Reference 1 is the exact sprite in its destroyed state and fixes the silhouette, framing and openings. Reference 2 is the original intact house and fixes the common architecture and palette for all states. Reference 3 shows the game's crisp dark pixel cluster approach and is only a style reference. Draw exactly one unoccupied building.\nRepaint the destroyed state of this exact same house. Trace the same foundation, wall positions, door, both window openings and sandbags from the references. Match the source wreck's large irregular missing roof with exposed charred rafters, broken tiles at the two outer edges, cracked remaining plaster, dark interior holes and a little rubble inside the middle entrance. Keep this an empty building with no fire or smoke.\nStay with the original broad elevation, a shallow visible right side and the huge foreshortened trapezoid roof. The normalized layout in the 428 by 286 source canvas is binding: left window spans x18 to120 around y108 to199, center door x156 to225 around y177 to263, right window x265 to355 around y116 to199, wall foot at y263, doorstep down to y285, intact eave at y70. Right wall is very narrow on the right edge. Keep the silhouette almost edge-to-edge, flat floor, exact placements and roof pitch. No extra wing, isometric angle, house behind it, extra window, roof gable or painted weapon. Transparent outer background with no ground, scenery, shadows outside the house, letters or labels.\nHand-painted period game pixel art. Use sharp purposeful pixel clusters and defined broken outlines within the existing overhead-leaning elevation. Muted brick-red/terracotta tiles with readable offset tile courses, pale warm gray plaster in large quiet groups, gray-beige sandbags, dark brown trim, subdued natural light, consistent across all states. Improve readability with large clean planes and selective texture, no noise, gradients, airbrushing or modern details. Preserve real visual detail at 2x resolution and the full 428:286 frame.",
+      "xRegistration": [
+        [
+          0,
+          0
+        ],
+        [
+          18,
+          29
+        ],
+        [
+          120,
+          125
+        ],
+        [
+          156,
+          160
+        ],
+        [
+          225,
+          223
+        ],
+        [
+          265,
+          266
+        ],
+        [
+          355,
+          353
+        ],
+        [
+          400,
+          397
+        ],
+        [
+          428,
+          428
+        ]
+      ],
+      "yRegistration": [
+        [
+          0,
+          0
+        ],
+        [
+          70,
+          86
+        ],
+        [
+          108,
+          125
+        ],
+        [
+          116,
+          132
+        ],
+        [
+          177,
+          187
+        ],
+        [
+          198,
+          211
+        ],
+        [
+          263,
+          275
+        ],
+        [
+          285,
+          285
+        ],
+        [
+          286,
+          286
+        ]
+      ],
+      "bounds": [
+        3,
+        5,
+        846,
+        570
+      ],
+      "sourceSha256": "390bfcc77d4f931e12e894c62f50463244dfbb0497b81ba4107a030eac500368",
+      "outputSha256": "bdf07612c8454cc738500c4323092c2c5778199e597e176b0d987b2a9418c025"
+    }
+  ]
+}

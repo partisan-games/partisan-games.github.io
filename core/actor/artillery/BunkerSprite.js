@@ -5,10 +5,15 @@ import { bodyImage, wreckFor } from '/core/actor/wreckView.js'
 import { assets } from '/config.js'
 import gunnerArt from '/core/actor/soldiers/machineGunnerArt.js'
 import HitReaction from '../HitReaction.js'
+import atlasFrame from '../atlasFrame.js'
 import { actorArt } from '../reinforcementArt.js'
+import { houseBunkerPicture } from '/core/objects/Bunker.js'
+
+/** How long the house's gunner lies, gun and all, in metres, as Do Trsta draws him. */
+export const gunnerLength = 2.079
 
 /** The picture of each kind of bunker. */
-export const bunkerPictures = { pillbox: 'buildings/bunker-02.png', house: 'buildings/kuca-bunker.png' }
+export const bunkerPictures = { pillbox: 'buildings/bunker-02.png', house: houseBunkerPicture }
 
 /**
  * The machine gunner who lies in the window of a manned bunker, behind his gun: he turns it where the bunker aims, works
@@ -38,7 +43,7 @@ class WindowGunner {
   /** Lies at `pivot`; his gun points along `angle` on the screen. */
   render(ctx, { x, y }, angle, dead) {
     if (!this.image.naturalWidth) return
-    const { width, height, fireDuration, fireFrames, deathDuration } = gunnerArt
+    const { width, height, gutter, fireDuration, fireFrames, deathDuration } = gunnerArt
     const firing = !dead && this.sinceShot < fireDuration
     const frame = dead ? Math.min(3, Math.floor(this.sinceDeath / deathDuration * 4))
       : firing ? Math.min(fireFrames - 1, Math.floor(this.sinceShot / fireDuration * fireFrames)) : 0
@@ -49,7 +54,7 @@ class WindowGunner {
     ctx.imageSmoothingEnabled = false
     if (!this.hitReaction.draw(ctx, { width: width * this.scale, height: height * this.scale,
       left: -width * this.scale, top: -height * this.scale }))
-      ctx.drawImage(this.image, frame * width, dead ? height * 2 : firing ? height : 0, width, height,
+      ctx.drawImage(this.image, ...atlasFrame(width, height, frame, dead ? 2 : firing ? 1 : 0, gutter),
         -width * this.scale, -height * this.scale, width * this.scale, height * this.scale)
     ctx.restore()
   }
@@ -61,12 +66,14 @@ class WindowGunner {
  * from. It only reads the body.
  */
 export default class BunkerSprite extends BodySprite {
-  /** `kind` is the name of the body's kind; `gunnerScale` sizes the house's gunner. */
-  constructor(body, { kind, gunnerScale = .66, projection, camera, z = -1, roundLayer }) {
+  /** `kind` is the name of the body's kind. */
+  constructor(body, { kind, projection, camera, z = -1, roundLayer }) {
     super(body, bunkerPictures[kind], { projection, camera, facing: -1, flammable: true, z })
     wreckFor(bunkerPictures[kind])
     this.roundLayer = roundLayer
-    this.gunner = kind === 'house' ? new WindowGunner(gunnerScale, this) : null
+    // the house shows its damage a little before it starts to smoke (owner, 2026-11-26)
+    this.damagedBelow = .7
+    this.gunner = kind === 'house' ? new WindowGunner(projection.length(gunnerLength) / gunnerArt.width, this) : null
     if (this.gunner) this.children.push(this.gunner.hitReaction)
     this.gunSound = new Sound('rifle.mp3', { profile: 'rifle', spatial: { getPosition: () => this.position } })
     this.sounds.push(this.gunSound)

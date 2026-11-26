@@ -1425,23 +1425,24 @@ export const actorArt = {
     ]
   },
   'machine-gunner-hit': {
-    'src': 'game-ready/vojnici/machine-gunner-hit-sprites.webp',
-    'width': 71,
-    'height': 37,
+    'src': 'game-ready/vojnici/mitraljezac-pixel-sprites.webp',
+    'width': 126,
+    'height': 54,
+    'gutter': 4,
     'anchor': {
-      'x': 35.5,
-      'y': 33
+      'x': 126,
+      'y': 54
     },
     'bounds': [
-      12,
-      6,
-      60,
-      33
+      0,
+      0,
+      126,
+      54
     ],
     'facing': 1,
     'clips': {
       'hit': {
-        'row': 0,
+        'row': 3,
         'ms': [
           80.0,
           80.0,
@@ -1452,14 +1453,14 @@ export const actorArt = {
       }
     },
     'referenceSize': [
-      63,
-      27
+      126,
+      54
     ],
     'referenceBounds': [
       0,
       0,
-      63,
-      27
+      126,
+      54
     ]
   },
   'hummel-damaged': {
@@ -1852,18 +1853,18 @@ export const actorArt = {
     ]
   },
   'house-bunker-damaged': {
-    'src': 'game-ready/artiljerija/house-bunker-damaged.webp',
-    'width': 428,
-    'height': 286,
+    'src': 'game-ready/artiljerija/house-bunker-pixel-damaged.webp',
+    'width': 856,
+    'height': 572,
     'anchor': {
-      'x': 214.0,
-      'y': 143.0
+      'x': 428.0,
+      'y': 286.0
     },
     'bounds': [
-      4,
-      11,
-      425,
-      282
+      3,
+      2,
+      849,
+      570
     ],
     'facing': 1,
     'clips': {
@@ -1876,14 +1877,14 @@ export const actorArt = {
       }
     },
     'referenceSize': [
-      428,
-      286
+      856,
+      572
     ],
     'referenceBounds': [
-      0,
-      1,
-      428,
-      286
+      3,
+      2,
+      850,
+      570
     ]
   },
   'pak38-damaged': {
@@ -2099,7 +2100,7 @@ export const hitBySource = {
   'game-ready/artiljerija/partizanska-posada-sprites.webp': 'partisan-crew-hit',
   'game-ready/artiljerija/italijanska-posada-sprites.webp': 'italian-crew-hit',
   'game-ready/vojnici/bombas-sprites.webp': 'grenadier-hit',
-  'game-ready/vojnici/mitraljezac-sprites.webp': 'machine-gunner-hit'
+  'game-ready/vojnici/mitraljezac-pixel-sprites.webp': 'machine-gunner-hit'
 }
 export const damageBySource = {
   'game-ready/brodovi/rboot.webp': 'rboot-damaged',
@@ -2116,7 +2117,7 @@ export const damageBySource = {
   'game-ready/brodovi/german-patrol-vessel.webp': 'patrol-vessel-damaged',
   'game-ready/artiljerija/flak38-postolje.webp': 'flak38-damaged',
   'game-ready/artiljerija/field-gun-carriage-pixel.webp': 'field-gun-damaged',
-  'buildings/kuca-bunker.png': 'house-bunker-damaged',
+  'game-ready/artiljerija/house-bunker-pixel.webp': 'house-bunker-damaged',
   'game-ready/artiljerija/pak38-postolje.webp': 'pak38-damaged',
   'buildings/bunker-02.png': 'bunker-damaged',
   'game-ready/polozaji/mitraljesko-gnezdo-odozgo.webp': 'shore-mg-damaged',

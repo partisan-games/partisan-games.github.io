@@ -16,13 +16,16 @@ export function wreckFor(src) {
   return images.get(descriptor.src)
 }
 
-/** Until the replacement finishes loading keep the previous body, rather than drawing an empty object. */
+/**
+ * Until the replacement finishes loading keep the previous body, rather than drawing an empty object. A view shows its
+ * damage below `damagedBelow` of its body's health, by default half, where its smoke starts.
+ */
 export function bodyImage(body) {
   const wreck = body.dead && wreckFor(body.image?.src)
   if (wreck?.complete && wreck.naturalWidth > 0) return wreck
   const target = body.body ?? body.damageBody
   const heavy = target?.alive && target.health.current < target.health.maximum / 4 && body.heavyArt?.image
   if (heavy?.complete && heavy.naturalWidth > 0) return heavy
-  const damaged = target?.alive && target.health.current < target.health.maximum / 2 && body.damageArt?.image
+  const damaged = target?.alive && target.health.current < target.health.maximum * (body.damagedBelow ?? .5) && body.damageArt?.image
   return damaged?.complete && damaged.naturalWidth > 0 ? damaged : body.image
 }
