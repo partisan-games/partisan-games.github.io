@@ -1,5 +1,6 @@
 import BodySprite from '../BodySprite.js'
 import ArtClip from '../ArtClip.js'
+import atlasFrame from '../atlasFrame.js'
 import { actorArt } from '../reinforcementArt.js'
 import BulletSprite from '../projectiles/BulletSprite.js'
 import MuzzleFlash from '../effects/MuzzleFlash.js'
@@ -22,6 +23,7 @@ export default class PartisanSprite extends BodySprite {
     this.seen = { shots: body.shotsFired, hits: body.hitsTaken }
     this.sinceHit = Infinity
     this.elapsed = 0
+    this.runTime = 0
     this.walked = 0
   }
 
@@ -29,6 +31,8 @@ export default class PartisanSprite extends BodySprite {
     super.update(dt)
     this.elapsed += dt
     const { body, seen } = this
+    // At 8 m/s this is clip time; slower runners take the same stride over more time.
+    if (body.role === 'runner') this.runTime += Math.abs(body.vx) * dt / body.kind.speed
     this.sinceHit = body.hitsTaken > seen.hits ? 0 : this.sinceHit + dt
     if (body.shotsFired > seen.shots) {
       this.shotSound.play()
@@ -49,18 +53,18 @@ export default class PartisanSprite extends BodySprite {
     const { body } = this
     const name = body.dead ? 'dead' : this.sinceHit < .32 ? 'hit' : body.state === 'work' ? 'work'
       : body.sinceShot < .4 && body.kind.armed ? 'attack' : Math.abs(body.vx) > .025 ? 'run' : 'idle'
-    const time = name === 'hit' ? this.sinceHit : name === 'attack' ? body.sinceShot : name === 'dead' ? body.stateTime : this.elapsed
+    const time = name === 'hit' ? this.sinceHit : name === 'attack' ? body.sinceShot : name === 'dead' ? body.stateTime
+      : name === 'run' && body.role === 'runner' ? this.runTime : this.elapsed
     // A man's standing height sets the scale; weapons and the fallen pose may extend past his hit box.
-    const [, top, , bottom] = this.sheet.art.bounds
+    const { bounds, width, height, gutter } = this.sheet.art
+    const [left, top, right, bottom] = bounds
     const scale = this.projection.length(body.size.height) / (bottom - top)
-    const [left, , right] = this.sheet.art.bounds
     ctx.save()
     ctx.translate(this.x, this.y + this.height / 2)
     ctx.scale(this.flipY, 1)
     const { row, frame } = this.sheet.sample(name, time)
     if (this.sheet.image.naturalWidth) ctx.drawImage(this.sheet.image,
-      frame * this.sheet.art.width, row * this.sheet.art.height, this.sheet.art.width, this.sheet.art.height,
-      -(left + right) / 2 * scale, -bottom * scale, this.sheet.art.width * scale, this.sheet.art.height * scale)
+      ...atlasFrame(width, height, frame, row, gutter), -(left + right) / 2 * scale, -bottom * scale, width * scale, height * scale)
     ctx.restore()
   }
 }

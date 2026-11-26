@@ -4,18 +4,22 @@ import { fall } from './wreck.js'
 
 /**
  * A Ju 87: its level speed, faster than a plane takes off, and its speed straight down, in metres a second; how fast
- * it climbs back to its height after a dive; how fast its nose turns, in radians a second; the shallowest dive it
- * takes, in radians below level; how far it sees a target to dive on and how high above the point it aims at it lets
- * its bomb go, in metres; its own health in bullet damage, more than a fighter's. Measured from the earlier pixel
+ * it climbs back to its height after a dive; how fast its nose turns, in radians a second, slow enough that it bends
+ * into the dive and out of it in wide arcs; the shallowest dive it
+ * takes, in radians below level; how far it sees a target to dive on, how close to the point it aims at a bomb let go
+ * must fall, and how high above that point it lets its bomb go at the latest, in metres; its own health in bullet damage, more than a fighter's. Measured from the earlier pixel
  * Ju 87 at 30.8 px a metre.
  */
 export const diveBomber = {
-  speed: 11.69, diveSpeed: 16.89, climb: 4.87, pitchRate: 2.2, shallowest: .6, reach: 21.07, releaseHeight: 9.71, health: 60,
+  speed: 11.69, diveSpeed: 16.89, climb: 9, pitchRate: 1.2, shallowest: .6, reach: 21.07, spread: .5, releaseHeight: 11.5, health: 60,
 }
 
+/** Its speed with its nose at `pitch`: the steeper it dives, the faster. */
+const speedAt = pitch => diveBomber.speed + (diveBomber.diveSpeed - diveBomber.speed) * Math.max(0, -Math.sin(pitch))
+
 /**
- * A Ju 87 flies level at its height; set to fire, it dives on the point it aims at, lets its one bomb go above it,
- * pulls up and climbs back; shot down, it falls and crashes.
+ * A Ju 87 flies level at its height; set to fire, it dives on the point it aims at, lets its one bomb go as soon as
+ * it would fall there, pulls up and climbs back; shot down, it falls and crashes.
  */
 const states = {
   idle: { update: (plane, dt) => plane.cruise(dt) },
@@ -93,8 +97,27 @@ export default class DiveBomber extends Body {
   pitchTowards(pitch, dt) {
     const step = diveBomber.pitchRate * dt
     this.pitch += Math.max(-step, Math.min(step, pitch - this.pitch))
-    const steepness = Math.max(0, -Math.sin(this.pitch))
-    this.steer(diveBomber.speed + (diveBomber.diveSpeed - diveBomber.speed) * steepness)
+    this.steer(speedAt(this.pitch))
+  }
+
+  /** How far ahead a bomb let go now, flying at `pitch`, falls to the height of `point`. */
+  bombReach(pitch, point) {
+    const speed = speedAt(pitch), { pull } = this.bomb
+    const down = speed * Math.sin(pitch), height = Math.max(0, this.y - point.y)
+    return speed * Math.cos(pitch) * (down + Math.sqrt(down ** 2 + 2 * pull * height)) / pull
+  }
+
+  /** The pitch at which a bomb let go would fall on `point`: level if even then it falls short, at most straight down. */
+  bombingPitch(point) {
+    const ahead = this.forward * (point.x - this.x)
+    let level = 0, steep = -Math.PI / 2
+    if (this.bombReach(level, point) <= ahead) return level
+    for (let i = 0; i < 20; i++) {
+      const middle = (level + steep) / 2
+      if (this.bombReach(middle, point) > ahead) level = middle
+      else steep = middle
+    }
+    return steep
   }
 
   /** It climbs or sinks back to its height, no faster than it flies, and flies level there. */
@@ -104,11 +127,20 @@ export default class DiveBomber extends Body {
     this.pitchTowards(Math.asin(climb / diveBomber.speed), dt)
   }
 
-  /** It dives with its nose on the aimed point and lets the bomb go once low enough above it. */
+  /** How far at most it sinks while it pulls out of its dive to level, turning at its rate along an arc. */
+  get pullOutDrop() {
+    return diveBomber.diveSpeed / diveBomber.pitchRate * (1 - Math.cos(this.pitch))
+  }
+
+  /**
+   * It dives as steep as its bomb needs to fall on the aimed point and lets it go as soon as it would; at the latest
+   * so that pulling out it stays at least three quarters of its release height above the point.
+   */
   dive(dt) {
     const { aim } = this
-    this.pitchTowards(Math.atan2(aim.y - this.y, Math.max(.05, this.forward * (aim.x - this.x))), dt)
-    if (this.y <= aim.y + diveBomber.releaseHeight) this.release()
+    this.pitchTowards(this.bombingPitch(aim), dt)
+    const onTarget = Math.abs(this.bombReach(this.pitch, aim) - this.forward * (aim.x - this.x)) <= diveBomber.spread
+    if (onTarget || this.y <= aim.y + diveBomber.releaseHeight * .75 + this.pullOutDrop) this.release()
   }
 
   /** The bomb leaves with its own velocity; that of a pass before, still falling, is not taken back. */

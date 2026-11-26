@@ -95,3 +95,22 @@ test('the offered dive targets the ground after cruising in either direction', (
     assert.ok(Math.abs(body.y - body.cruiseY) < .1)
   }
 })
+
+test('a Ju 87 bends into its dive and out of it in wide arcs and pulls out well above the point it bombs', () => {
+  for (const depth of [12.86, 27]) {
+    const { body, live } = bomberAlone()
+    const aim = { x: body.x - 9.71, y: body.y - depth }
+    body.aimAt(aim)
+    body.setState('attack')
+    let lowest = body.y, tightest = Infinity
+    for (let i = 0; i < 30 * 8; i++) {
+      const { pitch } = body
+      live(1 / 30)
+      lowest = Math.min(lowest, body.y)
+      const turn = Math.abs(body.pitch - pitch) * 30
+      if (turn > .01) tightest = Math.min(tightest, Math.hypot(body.vx, body.vy) / turn)
+    }
+    assert.ok(tightest >= 9, `no turn tighter than 9 m across, ${tightest.toFixed(1)} m from ${depth} m up`)
+    assert.ok(lowest >= aim.y + diveBomber.releaseHeight * .75 - .1, `it stays above the point, ${(lowest - aim.y).toFixed(1)} m from ${depth} m up`)
+  }
+})

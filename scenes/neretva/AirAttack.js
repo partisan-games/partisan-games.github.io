@@ -8,14 +8,14 @@ import Bombardier from '/core/gameplay/controllers/Bombardier.js'
  * near trenches the plane comes in, in metres; how much of the defenders' strength its bomb takes; how long a shot
  * down one falls before it is gone, in seconds; and how far down the screen the defenders lie, as a share of its height.
  */
-export const airAttack = { first: 15, wait: { least: 20, most: 30 }, altitude: 13, damage: 15, fall: 3, defendersAt: .85 }
+export const airAttack = { first: 15, wait: { least: 20, most: 30 }, altitude: 10, damage: 15, fall: 3, defendersAt: .85 }
 
 /** Nothing in the scene moves the camera; the plane's burst and bomb are drawn where they are. */
 const still = { cameraX: 0, cameraY: 0 }
 
 /**
- * Now and then a Ju 87 comes in from a side of the sky, dives on the defenders below the near trenches and drops its
- * bomb there, `onBomb(point)`; a click on it brings it down. `projection` draws the near row; the scene adds and removes
+ * Now and then a Ju 87 comes in from a side of the sky and, once within its reach of them, dives on the defenders below
+ * the near trenches and drops its bomb there, `onBomb(point)`; a click on it brings it down. `projection` draws the near row; the scene adds and removes
  * the plane, `{ body, view, controller }`.
  */
 export default class AirAttack {
@@ -38,7 +38,7 @@ export default class AirAttack {
     const body = new DiveBomber({ x, y: airAttack.altitude, yaw: fromLeft ? 0 : Math.PI, canFire: () => scene.session.state === 'running',
       groundAt: () => this.defenders.y, onImpact: point => this.onBomb(point) })
     const view = new DiveBomberSprite(body, { projection, camera: still })
-    const controller = new Bombardier(body, this.defenders, { sees: () => true })
+    const controller = new Bombardier(body, this.defenders, { sees: target => Math.abs(target.x - body.x) <= body.reach })
     this.plane = { body, view, controller }
     scene.add(body, view)
     scene.controllers.push(controller)

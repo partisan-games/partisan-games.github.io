@@ -225,6 +225,45 @@ test('partisan roles move, actually shoot, reject unsupported work/attack, and c
   }
 })
 
+test('the runner draws all eight padded frames at the same traveled distances in both games', async() => {
+  const { default: PartisanSprite } = await import('/core/actor/soldiers/PartisanSprite.js')
+  const { clips, anchor, bounds } = actorArt['partisan-runner']
+  assert.deepEqual(anchor, { x: 80, y: 140 })
+  assert.deepEqual(bounds, [45, 59, 120, 140])
+  assert.equal(clips.run.ms.length, 8)
+  assert.equal(clips.run.ms.reduce((sum, ms) => sum + ms, 0), 560)
+
+  for (const speed of [8, 3.5]) {
+    const body = new Partisan({ role: 'runner', y: .9 })
+    const view = new PartisanSprite(body, { projection: sideProjection({ pxPerMeter: 40, groundY: 300 }) })
+    loaded(view.sheet, 1344, 760)
+    const draws = []
+    const canvas = { ...ctx, drawImage: (...args) => draws.push(args.slice(1)) }
+    view.render(canvas)
+    assert.deepEqual(draws.at(-1).slice(0, 4), [4, 4, 160, 144])
+
+    body.moveSpeed = speed
+    body.setState('move')
+    let phase = 0, previous = 0
+    for (const [index, duration] of clips.run.ms.entries()) {
+      const sample = phase + duration / 2
+      const dt = (sample - previous) / 1000 * 8 / speed
+      body.update(dt)
+      view.update(dt)
+      view.render(canvas)
+      assert.deepEqual(draws.at(-1).slice(0, 4), [4 + index * 168, 156, 160, 144])
+      assert.ok(Math.abs(body.x - sample * .008) < 1e-6)
+      previous = sample
+      phase += duration
+    }
+    const dt = (phase + 1 - previous) / 1000 * 8 / speed
+    body.update(dt)
+    view.update(dt)
+    view.render(canvas)
+    assert.deepEqual(draws.at(-1).slice(0, 4), [4, 156, 160, 144])
+  }
+})
+
 test('a mine can be shot on the continuous path and stays destroyed', () => {
   const mine = new SeaMine({ x: 5, z: 3 })
   assert.ok(mine.hitTime({ x: 0, z: 3 }, { x: 10, z: 3 }) !== null)

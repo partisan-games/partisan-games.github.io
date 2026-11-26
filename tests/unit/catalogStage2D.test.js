@@ -124,3 +124,30 @@ test('the zoom buttons draw the blocks around the middle of the ground line beyo
   stage.resetView()
   assert.equal(stage.zoom, 1, 'the reset shows the natural size again')
 })
+
+test('the catalog keeps a block stocked: the Ju 87 dives and bombs again each time it is set to attack', async t => {
+  const { aircraft } = await import('/catalog/stories/franjoKluz.js')
+  const { default: keepStocked } = await import('/catalog/keepStocked.js')
+  const stage = new Stage2D()
+  stage.clear = stage.render = () => {}
+  t.after(() => stage.end())
+  const plane = aircraft.find(story => story.id === 'ju87-obrusavac').create(stage, -1)
+  stage.controllers.push(keepStocked(plane))
+  stage.session.start()
+  for (const pass of [1, 2]) {
+    const { x, y } = plane.shots.down
+    plane.aimAt({ x: plane.x + plane.forward * x, y: plane.y + y })
+    plane.setState('attack')
+    for (let i = 0; i < 30 * 8; i++) stage.loop(1 / 30, 0)
+    assert.equal(plane.shotsFired, pass)
+  }
+})
+
+test('the catalog gives a Potez its rounds and bombs back after every shot', async() => {
+  const { default: keepStocked } = await import('/catalog/keepStocked.js')
+  const plane = { ammo: 200, bombs: 4, loaded: undefined, cruise() {} }
+  const stocked = keepStocked(plane)
+  Object.assign(plane, { ammo: 0, bombs: 1 })
+  stocked.update()
+  assert.deepEqual([plane.ammo, plane.bombs, plane.loaded], [200, 4, undefined])
+})

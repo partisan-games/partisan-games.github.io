@@ -50,6 +50,7 @@ const sutjeskaPixelLook = { id: 'pixel-art', name: 'Pixel art', value: { dress(m
 } } }
 const nikoletinaLook = { id: 'jugoslovenska', name: 'Jugosloven', value: { dress: sovietPartisanModule.description.dress },
   block: nikoletinaModule }
+const nikoletinaPixelLook = { id: 'pixel-art', name: 'Pixel art', value: { dress: nikoletinaModule.dressNikoletinaPixelArt } }
 
 /**
  * A story of a 3D character, with its model and weapon as its games have them. A 3D block needs its models loaded
@@ -172,6 +173,7 @@ function infantryStory(id, name, game, block, portraitNames = {}) {
   }
   original.looks.sort((a, b) => Number(b.id === 'strelac') - Number(a.id === 'strelac'))
   if (block === partisanModule) original.looks.unshift(sutjeskaPixelLook, sutjeskaLook)
+  if (block === sovietPartisanModule) original.looks.unshift(nikoletinaPixelLook)
   return [original, ...identities.values()]
 }
 

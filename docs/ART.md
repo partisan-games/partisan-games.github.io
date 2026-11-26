@@ -148,7 +148,7 @@ Dodatna plovila imaju zasebne opise. Generički nacrtan brod ili projektna mera 
 ### 3D
 
 <a id="3d-pixel-art"></a>
-**Pixel art za 3D aktere (vlasnik, 2026-11-26).** Odobreni uzor i podrazumevani kataloški prikaz je [Borac sa Sutjeske · Pixel art](../catalog.html#drugi-svetski-rat-3d/partizan-3d/pixel-art). Za ostale 3D aktere crtati nove teksture u paleti postojećeg 2D arta, sa oštrim pikselima i jasnim oblicima. Koristiti postojeće UV koordinate, geometriju, kostur i pokrete, pa proveriti teksturu na modelu izbliza i u pokretu.
+**Pixel art za 3D aktere (vlasnik, 2026-11-26).** Odobreni uzor i podrazumevani kataloški prikaz je [Borac sa Sutjeske · Pixel art](../catalog.html#drugi-svetski-rat-3d/partizan-3d/pixel-art). Za ostale 3D aktere crtati nove teksture u paleti postojećeg 2D arta, sa oštrim pikselima i jasnim oblicima. Koristiti postojeće UV koordinate, geometriju, kostur i pokrete, pa proveriti teksturu na modelu izbliza i u pokretu. Postupak, optimizaciju modela i redosled varijacija vodi [veština za 3D pixel art](../.agents/skills/game-actor-art-3d/SKILL.md).
 
 Na odobrenom borcu maskirna šara pripada jakni i rukavima, a jednobojne braon pantalone dobijaju senke od svetla u sceni. Lice ima sopstveni identitet, sa kratkom crnom kosom, brkovima i očima boje lešnika. Crvena petokraka stoji niže na kapi i ima oštar obris. [Izvori i priprema tekstura](../assets/images/sources/partizani/sutjeska-pixel-art/generation.json).
 

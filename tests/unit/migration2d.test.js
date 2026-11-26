@@ -24,7 +24,7 @@ test('neretva aiming waits for game updates and its health cannot fall below zer
   assert.equal(scene.energija, 0)
 })
 
-test('neretva raises hidden soldiers now and then, and twice as often in the last minute', async t => {
+test('neretva raises hidden soldiers now and then, the routed Chetniks half as often and only after a calm', async t => {
   const { default: Neretva } = await import('/scenes/neretva/Main.js')
   const scene = new Neretva()
   scene.init()
@@ -34,10 +34,15 @@ test('neretva raises hidden soldiers now and then, and twice as often in the las
   scene.update(.5)
   assert.ok(scene.daljiRovovi.every(({ body }) => body.state === 'idle'), 'the far row rises less often')
   assert.ok(scene.bliziRovovi.every(({ body }) => body.state === 'aim'))
-  scene.preostaloVreme = 59
+
+  scene.manTrenches(scene.chetniks)
+  scene.update(2.9)
+  assert.ok(scene.sveSvabe.every(({ body }) => body.state === 'idle'), 'none rises in the calm after the crossing')
   scene.update(.5)
+  assert.ok(scene.bliziRovovi.every(({ body }) => body.state === 'idle'), 'half as often as the Germans')
+  Math.random.mock.mockImplementation(() => .007)
   scene.update(.5)
-  assert.ok(scene.daljiRovovi.every(({ body }) => body.state === 'aim'))
+  assert.ok(scene.bliziRovovi.every(({ body }) => body.state === 'aim'))
 })
 
 test('neretva replaces a fallen defender only after his collapse and reuses his cover and view', async t => {
@@ -97,7 +102,7 @@ test('neretva owns separate trench covers, keeps its shot window and replaces th
     assert.ok(scene.children.includes(body) && scene.children.includes(view) && scene.children.includes(cover))
 })
 
-test('neretva: the Germans hold the trenches first, the Chetniks take over half way, and only the end wins', async t => {
+test('neretva: the Germans hold the trenches first, the partisans cross the river half way, then the Chetniks, and only the end wins', async t => {
   const { default: Neretva } = await import('/scenes/neretva/Main.js')
   const scene = new Neretva()
   scene.init()
@@ -109,12 +114,20 @@ test('neretva: the Germans hold the trenches first, the Chetniks take over half 
   assert.ok(scene.background.image.src.endsWith('/neretva-1943-nemci.png'))
   scene.preostaloVreme = 60.5
   scene.update(1)
+  assert.deepEqual([...factions()], [], 'the trenches stand empty while the partisans cross')
+  assert.ok(scene.background.image.src.endsWith('/neretva-late-winter-1943-pixel.png'))
+  assert.equal(scene.ui.showMessage.mock.callCount(), 1)
+  const held = scene.preostaloVreme
+  for (let i = 0; i < 9; i++) scene.update(1)
+  assert.equal(scene.preostaloVreme, held, 'the evacuation clock waits for the crossing')
+  assert.deepEqual([...factions()], [])
+  scene.update(1)
   assert.deepEqual([...factions()], ['cetnici'])
   assert.ok(scene.background.image.src.endsWith('/neretva-1943-cetnici.png'))
-  assert.equal(scene.ui.showMessage.mock.calls[0].arguments[0], 'Chetniks are next')
+  assert.equal(scene.ui.showMessage.mock.calls[1].arguments[0], 'Chetniks are next')
   assert.ok(!scene.ui.outro, 'not won yet')
   scene.update(1)
-  assert.equal(scene.ui.showMessage.mock.callCount(), 1, 'the Chetniks come once')
+  assert.equal(scene.ui.showMessage.mock.callCount(), 2, 'the river is crossed once')
   t.mock.method(scene, 'victory')
   scene.preostaloVreme = 0
   scene.update(.01)

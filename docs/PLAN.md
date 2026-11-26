@@ -10,27 +10,26 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 | 1 | [AR-P16](#ar-p16) | Precrtati art koji 2D igre još koriste neprecrtan | Codex; vlasnik odobrava | 📋 TODO |
 | 2 | [AR-P17](#ar-p17) | Precrtati 3D aktere u pixel art | Codex; vlasnik odobrava | 📋 TODO |
 | | **[Igre i ideje](#igre)** | | | |
-| 3 | [IG-14](#ig-14) | Izabrati sledeće aktere od postojećeg arta | Vlasnik, Claude, Codex | 📋 TODO<br>Waiting: izbor kandidata [1](#note-1) |
-| 4 | [IG-18](#ig-18) | Otpisani kao arkadna pucačina kroz četiri beogradske ulice | Codex: panorame; Claude: igra | 📋 TODO |
-| 5 | [IG-21](#ig-21) | Razmotriti kampanju Jablanice i kolonu kamiona | Vlasnik | 📋 TODO |
-| 6 | [IG-22](#ig-22) | Razraditi dodatne etape Neretve | Vlasnik | 📋 TODO |
-| 7 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
-| 8 | [IG-29](#ig-29) | Dovršiti logor Crveni krst u Escape Concentration Camp | Codex, Claude | 🔄 In progress |
-| 9 | [CK-01](#ck-01) | Crveni krst: uskladiti vidljivog lika, telo i stopala | Codex | 🔄 In progress |
-| 10 | [CK-02](#ck-02) | Crveni krst: prave animacije, držanje cevi i prelazi | Vlasnik: klipovi; Codex: povezivanje | 🔄 In progress |
-| 11 | [CK-03](#ck-03) | Crveni krst: prepoznatljivi logoraši i katalog | Codex | 📋 TODO |
-| 12 | [CK-04](#ck-04) | Crveni krst: praćenje, skretanje i razmicanje grupe | Codex | 🔄 In progress |
-| 13 | [CK-05](#ck-05) | Crveni krst: zakloni, borba, ranjavanje i straže | Codex | 🔄 In progress |
-| 14 | [CK-06](#ck-06) | Crveni krst: tlo, svetlo, pozadina i zvuk | Codex | 📋 TODO |
-| 15 | [CK-07](#ck-07) | Crveni krst: pregled celog proboja i regresije | Codex | 📋 TODO |
-| 16 | [IG-31](#ig-31) | Dodati pruge, mostove i izbor savezničkih aviona u Warplane | Vlasnik, Codex, Claude | 🔄 In progress |
-| 17 | [IG-33](#ig-33) | Pregledati art German Advance u duploj rezoluciji i završni promo | Vlasnik | 📋 TODO |
-| 18 | [IG-34](#ig-34) | Napraviti vernu scenu i igru opsade Kraljeva po dogovorenom scenariju | Vlasnik, Claude, Codex | 🔄 In progress |
-| 19 | [IG-35](#ig-35-igre-na-telefonu) | Otkriti igre na telefonu posle merenja i optimizacije, kad su nivoi gotovi | Claude, vlasnik | 📋 TODO |
+| 3 | [IG-18](#ig-18) | Otpisani kao arkadna pucačina kroz četiri beogradske ulice | Codex: panorame; Claude: igra | 📋 TODO |
+| 4 | [IG-24](#ig-24) | Odlučiti o anahronim parolama u Liberated City | Vlasnik | 📋 TODO |
+| 5 | [IG-29](#ig-29) | Dovršiti logor Crveni krst u Escape Concentration Camp | Codex, Claude | 🔄 In progress |
+| 6 | [CK-01](#ck-01) | Crveni krst: uskladiti vidljivog lika, telo i stopala | Codex | 🔄 In progress |
+| 7 | [CK-02](#ck-02) | Crveni krst: prave animacije, držanje cevi i prelazi | Vlasnik: klipovi; Codex: povezivanje | 🔄 In progress |
+| 8 | [CK-03](#ck-03) | Crveni krst: prepoznatljivi logoraši i katalog | Codex | 📋 TODO |
+| 9 | [CK-04](#ck-04) | Crveni krst: praćenje, skretanje i razmicanje grupe | Codex | 🔄 In progress |
+| 10 | [CK-05](#ck-05) | Crveni krst: zakloni, borba, ranjavanje i straže | Codex | 🔄 In progress |
+| 11 | [CK-06](#ck-06) | Crveni krst: tlo, svetlo, pozadina i zvuk | Codex | 📋 TODO |
+| 12 | [CK-07](#ck-07) | Crveni krst: pregled celog proboja i regresije | Codex | 📋 TODO |
+| 13 | [IG-31](#ig-31) | Dodati pruge, mostove i izbor savezničkih aviona u Warplane | Vlasnik, Codex, Claude | 🔄 In progress |
+| 14 | [IG-33](#ig-33) | Pregledati art German Advance u duploj rezoluciji i završni promo | Vlasnik | 📋 TODO |
+| 15 | [IG-34](#ig-34) | Napraviti vernu scenu i igru opsade Kraljeva po dogovorenom scenariju | Vlasnik, Claude, Codex | 🔄 In progress |
+| 16 | [IG-35](#ig-35-igre-na-telefonu) | Otkriti igre na telefonu posle merenja i optimizacije, kad su nivoi gotovi | Claude, vlasnik | 📋 TODO |
+| 17 | [IG-36](#ig-36) | Ustanak: probati dvoboj minobacača umesto topova | Claude | 📋 TODO |
+| 18 | [IG-37](#ig-37) | Čamac: razmotriti desante na Brač, Mljet i Korčulu | Vlasnik | 📋 TODO |
 
 ## Održavanje plana
 
-Ovo je jedino mesto za otvorene poslove, nalaze, ideje i preostale preglede. Nove oblasti dobijaju sekciju ovde, ne novi fajl plana ili TODO u matičnoj dokumentaciji. PLAN se čuva u gitu i ostaje i kada nema otvorenih stavki. Dokumentacija vodi ka sekcijama, da završetak stavke ne pokvari njene veze; sekcija koja ostane bez stavki briše se sa poslednjom, a veze ka njoj se preusmeravaju.
+Ovo je jedino mesto za otvorene poslove, nalaze, ideje i preostale preglede. Odložene ideje, bez reda u tabeli, stoje u [Idejama za kasnije](#ideje-za-kasnije). Nove oblasti dobijaju sekciju ovde, ne novi fajl plana ili TODO u matičnoj dokumentaciji. PLAN se čuva u gitu i ostaje i kada nema otvorenih stavki. Dokumentacija vodi ka sekcijama, da završetak stavke ne pokvari njene veze; sekcija koja ostane bez stavki briše se sa poslednjom, a veze ka njoj se preusmeravaju.
 
 Po završetku ukloniti stavku i njene nepotrebne beleške. Korisne potvrđene odluke i ograničenja sačuvati u postojećem matičnom dokumentu, bez dnevnika rada; zatim popraviti preostale reference. ID-jeve stavki ne koristiti ponovo. Premeštanje stavke nije nova provera ni prihvatanje, a izbor ideje nije automatski nalog za izradu.
 
@@ -40,7 +39,7 @@ Važe [DOCS](DOCS.md), [ugovor arta](ART.md#obavezna-integracija) i [arhitektura
 
 ### Mogućnosti bez naloga za izradu
 
-Olupina poljskog topa može postati zaseban rekvizit bojišta; još nije raspoređena kao takav rekvizit. Novi efekat vode traži posebno odgovarajuće rešenje, jer je prethodno proceduralno rešenje odbačeno. Dodatni desanti na Brač, Mljet i Korčulu ostaju ideje za igru uz istorijsku proveru, a ne zadaci izrade arta. Rezervni vojnički listovi i sezonske pozadine nisu obaveza za povezivanje: koriste se tek kada ih izabrani akter ili nivo zatraži.
+Olupina poljskog topa može postati zaseban rekvizit bojišta; još nije raspoređena kao takav rekvizit. Novi efekat vode traži posebno odgovarajuće rešenje, jer je prethodno proceduralno rešenje odbačeno. Rezervni vojnički listovi i sezonske pozadine nisu obaveza za povezivanje: koriste se tek kada ih izabrani akter ili nivo zatraži.
 
 <a id="ar-p16"></a>
 ### AR-P16 · Neprecrtan art u 2D igrama
@@ -69,22 +68,10 @@ Van popisa su pozadine, korisnički interfejs i teksture 3D igara; zapisi olupin
 <a id="ar-p17"></a>
 ### AR-P17 · Precrtati 3D aktere u pixel art
 
-Crtati nove teksture prema [odobrenom 3D pixel art stilu](ART.md#3d-pixel-art), po uzoru na Borca sa Sutjeske. Zadržati postojeću geometriju, kostur i animacije, a varijacije prikazati u katalogu za pregled.
+Precrtati teksture svih 3D aktera, uključujući likove, vozila i opremu, da 2D i 3D art dele isti likovni stil. Borac sa Sutjeske je [odobreni uzor](ART.md#3d-pixel-art). Za svaki model primeniti [projektnu veštinu za 3D pixel art](../.agents/skills/game-actor-art-3d/SKILL.md).
 
 <a id="igre"></a>
 ## Igre i ideje
-
-<a id="ig-14"></a>
-### IG-14 · Kandidati za vlasnikov izbor
-
-Kandidati nisu nalog za izradu. Posle izbora dopuniti art, telo, zajednički prikaz i priču u katalogu, povezati aktera sa igrom i odigrati nivo.
-
-- **Frontalni neprijatelji:** [strelac](../catalog.html#vojnici/otpisani-strelac) i [stražar](../catalog.html#vojnici/otpisani-strazar) čekaju vlasnikov izbor za nivo. Stražar u šinjelu dozvoljen je samo zimi.
-
-- **Vis:** partizanski [Hurricane, Spitfire i Il-2](../assets/images/armies/partizani/avioni/) odozgo.
-- **Ustanak:** [italijanski top 47 mm sa posadom i minobacači](../assets/images/armies/talijani/artiljerija/); zahteva novu odluku o proširenju dvoboja.
-- **Pešadija:** italijanski, britanski, ruski, četnički i SS vojnici; potrebni su atlasi pokreta.
-- **Otpisani:** nemački motociklista sa mitraljezom.
 
 <a id="ig-18"></a>
 ### IG-18 · Otpisani kao arkadna pucačina
@@ -103,18 +90,6 @@ Neprijatelji su i tenkovi i oklopna vozila, koji bočno prelaze ulicu; koriste s
 - [ ] Codex: četiri crno-bele panorame u stilu [sadašnje pozadine](../assets/images/background/beograd-1944-crno-belo.webp), svaka široka tri do četiri ekrana (oko 5000 × 1024 px), sa zaklonima, prozorima i kapijama iz kojih Nemci iskaču.
 - [ ] Codex: precrtati u pixel art [nemačkog strelca](../assets/images/game-ready/vojnici/otpisani-rifleman-sprites.webp) i [stražara u šinjelu](../assets/images/game-ready/vojnici/otpisani-sentry-sprites.webp) Otpisanih, sa istim pozama i rasporedom kadrova; sada su glatki, sa debelim obrisom, kao vektorski crtež, i odskaču od ostalih 2D igara (vlasnik, 2026-11-26). Uzor su Nemci iz rova u Neretvi. U istom stilu i novi neprijatelji etapa.
 - [ ] Claude: klizanje prizora, iskakanje Nemaca i etape, kad panorame stignu.
-
-<a id="ig-21"></a>
-### IG-21 · Kampanja Jablanice
-
-Moguće etape su Prozor, Rama i Jablanica, sa zasedom kod Drežnice kao kandidatom. Kolona kamiona pokušava proboj putem uz reku. To su ideje, ne nalog za izradu; mesta imaju različite događaje i ne treba ponavljati isti bunker. Istorijske granice su u [ISTORIJA](ISTORIJA.md#neretva-februar-1943--napadi-na-italijanske-garnizone-igra-battle-for-jablanica).
-
-<a id="ig-22"></a>
-### IG-22 · Dodatne etape Neretve
-
-Italijanske i ustaške etape ostaju kandidati uz postojeće Nemce i četnike. Izabrati mesta, datume, jedinice i borbene uloge, trajanje i prelaze, pa tek onda art i tok igre. Postojeći rov nije istorijski dokaz budućeg sastava.
-
-Saborci u rovu (predlog, 2026-11-26): jedan ili dva partizana u donjim uglovima ekrana, krupni i okrenuti leđima, kao da su odmah pored igrača u rovu; ne zaklanjaju Nemce. Pravi 3D modeli ne pristaju ravnoj pixel art slici, pa se crtež pravi od postojećeg 3D partizana snimljenog otpozadi i prevodi u pixel art, istim postupkom kao [odobreni 3D pixel art](ART.md#3d-pixel-art). Prethodni red saboraca uklonjen je 2026-11-26 jer je loše izgledao.
 
 <a id="ig-24"></a>
 ### IG-24 · Parole Bihaća
@@ -300,8 +275,16 @@ Radi se na kraju, kad su nivoi gotovi (vlasnik, 2026-11-26). Na početnoj strani
 - **Do Trsta:** utvrditi zašto je sakrivena, pa rešiti uzrok.
 - **Sve 3D igre:** na telefonu ograničiti gustinu piksela platna (na primer najviše 1.5), jer ekran od 3× crta devet puta više piksela.
 
-## Notes
+<a id="ig-36"></a>
+### IG-36 · Ustanak
 
-Waiting: čeka navedeni zavisni posao.
+Ideja za probu (vlasnik, 2026-11-26): u Ustanku dvoboj [italijanskih minobacača](../assets/images/armies/talijani/artiljerija/bacac-posada-01.png) umesto topova, jer bi mina letela duže, visokim lukom.
 
-1. <a id="note-1"></a>**IG-14:** dosadašnji izbori su povezani; [art](ART.md#dopune-iz-plana-ideja--predaja-arta) i [provere](TESTING.md#predaja-arta-iz-plana-ideja). Čeka se izbor novih kandidata.
+<a id="ig-37"></a>
+### IG-37 · Čamac
+
+Dodatni desanti na Brač, Mljet i Korčulu ostaju ideje za [Čamac](KONTEKST.md#čamac), uz istorijsku proveru; nisu nalog za izradu arta.
+
+## Ideje za kasnije
+
+- **Battle for Jablanica:** kampanja kroz Prozor, Ramu i Jablanicu, možda i zasedu kod Drežnice, sa kolonom kamiona koja se probija putem uz reku; svaka etapa sa svojim događajem ([istorijske granice](ISTORIJA.md#neretva-februar-1943--napadi-na-italijanske-garnizone-igra-battle-for-jablanica)).

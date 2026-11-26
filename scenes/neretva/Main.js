@@ -9,11 +9,16 @@ import Trench from '/core/objects/Trench.js'
 import { sideProjection } from '/core/actor/projection.js'
 import Health from '/core/gameplay/Health.js'
 import AirAttack, { airAttack } from './AirAttack.js'
+import BridgeCrossing from './BridgeCrossing.js'
 
 const DALJI_Y = window.innerHeight * 0.25
 const BLIZI_Y = window.innerHeight * 0.5
-/** How many pixels a metre is drawn in the near row of trenches; the far row is half as near. */
+/**
+ * How many pixels a metre is drawn in the near row of trenches; the far row is half as near, and the Ju 87 flies
+ * nearer the defenders than the near row.
+ */
 const pxPerMeter = 22
+const planePxPerMeter = 28
 /** Seconds to hold the position: the Germans attack first, the Chetniks in the second half (owner's decision). */
 const holdTime = 120
 const chetniksAt = holdTime / 2
@@ -23,6 +28,14 @@ const chetniksAt = holdTime / 2
  * scaled with the row's art, the same each game.
  */
 const dug = { group: [2, 3], close: 1.15, apart: 1.8, bow: 24, rise: 8 }
+/**
+ * The chance per second that a hidden soldier of the far and the near row rises: the Chetniks, routed after the
+ * crossing, half as often as the Germans (owner's decision); `calm` is how many seconds pass before the first rises.
+ */
+const armies = {
+  nemci: { rises: { far: .02, near: .03 }, calm: 0 },
+  cetnici: { rises: { far: .01, near: .015 }, calm: 3 },
+}
 
 /** A random number from 0 to 1 that repeats from its `seed`, so the trenches lie the same each game. */
 function seeded(seed) {
@@ -48,11 +61,11 @@ export default class NeretvaScene extends Scene2D {
     this.rekord = 0
     this.health = new Health()
     this.preostaloVreme = holdTime
-    this.ubrzano = false
     this.chetniks = this.army('cetnici')
+    this.crossing = new BridgeCrossing({ width: this.width, height: this.height })
     this.manTrenches(this.army('nemci'))
     // Ju 87s attack the crossing while the Germans hold the trenches
-    this.airAttack = new AirAttack({ scene: this, projection: sideProjection({ pxPerMeter, groundY: BLIZI_Y }),
+    this.airAttack = new AirAttack({ scene: this, projection: sideProjection({ pxPerMeter: planePxPerMeter, groundY: BLIZI_Y }),
       onBomb: () => this.health.damage(airAttack.damage) })
     this.ucitajRekord()
     showCrosshair()
@@ -61,6 +74,7 @@ export default class NeretvaScene extends Scene2D {
   /** Each soldier has a body, its view and a separate scenery cover placed in front. */
   army(faction) {
     return {
+      ...armies[faction],
       background: new Background(`background/neretva-1943-${faction}.png`),
       near: this.praviSvabe(8, sideProjection({ pxPerMeter, groundY: BLIZI_Y }), { scale: 1, faction }),
       far: this.praviSvabe(12, sideProjection({ pxPerMeter: pxPerMeter / 2, groundY: DALJI_Y }), { scale: .5, faction }),
@@ -68,29 +82,40 @@ export default class NeretvaScene extends Scene2D {
   }
 
   /** Puts an army in the trenches, in place of the one there. */
-  manTrenches({ near, far, background }) {
+  manTrenches({ near, far, background, rises = {}, calm = 0 }) {
     if (this.sveSvabe)
       this.remove(...this.sveSvabe.flatMap(({ body, view, cover }) => [body, view, cover]))
 
-    const speedUp = this.ubrzano ? 2 : 1
     this.background = background
     this.bliziRovovi = near
     this.daljiRovovi = far
     this.sveSvabe = [...far, ...near]
-    /** The chance per second that a hidden soldier of each row rises. */
-    this.ucestalost = new Map([[far, .02 * speedUp], [near, .03 * speedUp]])
+    this.ucestalost = new Map([[far, rises.far], [near, rises.near]])
+    this.calm = calm
     this.add(...this.sveSvabe.flatMap(({ body, view, cover }) => [body, view, cover]))
   }
 
   imagesLoaded() {
-    return Promise.all([super.imagesLoaded(), this.chetniks && imageReady(this.chetniks.background.image)])
+    return Promise.all([super.imagesLoaded(), this.chetniks && imageReady(this.chetniks.background.image),
+      this.crossing && imageReady(this.crossing.background.image)])
   }
 
-  /** Half way the Germans give way to the Chetniks. */
+  /** Half way the Germans are beaten off and the partisans cross the river, where the Chetniks wait. */
+  crossRiver() {
+    if (!this.chetniks || this.crossing.shown || this.preostaloVreme > chetniksAt) return
+    this.manTrenches({ near: [], far: [], background: this.crossing.background })
+    this.airAttack.clear()
+    this.crossing.show()
+    this.add(...this.crossing.drawables)
+    this.ui.showMessage('Position held. Our forces are crossing the Neretva.')
+  }
+
+  /** Once the crossing has been shown, the Chetniks take the trenches. */
   bringChetniks() {
-    if (!this.chetniks || this.preostaloVreme > chetniksAt) return
+    this.remove(...this.crossing.drawables)
     this.manTrenches(this.chetniks)
     this.chetniks = null
+    this.crossing = null
     this.ui.showMessage('Chetniks are next')
   }
 
@@ -120,6 +145,7 @@ export default class NeretvaScene extends Scene2D {
 
   /** Now and then a hidden soldier rises to fire; one who has just fallen waits until he lies in the trench. */
   podizi(dt) {
+    this.calm = Math.max(0, this.calm - dt)
     for (const [rovovi, ucestalost] of this.ucestalost)
       for (const post of rovovi) {
         if (post.body.dead && post.body.stateTime >= trench.fallTime) {
@@ -129,7 +155,7 @@ export default class NeretvaScene extends Scene2D {
           this.remove(previous)
           this.addBehind(post.body)
         }
-        if (post.body.state === 'idle' && Math.random() < ucestalost * dt) post.body.setState('aim')
+        if (!this.calm && post.body.state === 'idle' && Math.random() < ucestalost * dt) post.body.setState('aim')
       }
   }
 
@@ -140,6 +166,7 @@ export default class NeretvaScene extends Scene2D {
 
   handleClick(event) {
     if (this.session.state !== 'running' || this.ui.screen || this.ui.outro || this.energija <= 0) return
+    if (this.crossing?.shown) return
     if (event.target.closest('button, input, select, a, #ui, #modal, dialog')) return
     this.player.shotSound.play()
     const aim = { x: event.pageX, y: event.pageY }
@@ -192,16 +219,19 @@ export default class NeretvaScene extends Scene2D {
     if (Math.ceil(this.preostaloVreme) < 1)
       return this.victory('You defended the position; the wounded have been saved.')
 
+    if (this.crossing?.shown) {
+      super.update(dt)
+      this.crossing.update(dt)
+      if (this.crossing.done) this.bringChetniks()
+      return
+    }
+
     this.preostaloVreme -= dt
 
     super.update(dt)
-    if (!this.ubrzano && this.preostaloVreme < 60) {
-      for (const [rovovi, ucestalost] of this.ucestalost) this.ucestalost.set(rovovi, ucestalost * 2)
-      this.ubrzano = true
-    }
     this.takeFire(dt)
     this.airAttack.update(dt, Boolean(this.chetniks))
-    this.bringChetniks()
+    this.crossRiver()
     this.podizi(dt)
     if (this.energija <= 0) this.smrt()
   }

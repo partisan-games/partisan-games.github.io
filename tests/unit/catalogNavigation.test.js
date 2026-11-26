@@ -114,12 +114,12 @@ test('old infantry links open the equipment of the right individual', async() =>
   const nikoletina = open('sovjetski-partizan-3d')
   assert.equal(nikoletina.story.name, 'Nikoletina')
   assert.deepEqual(groupOf(nikoletina.kind, nikoletina.story), ['Vojnici', 'Partizani'])
-  assert.equal(nikoletina.look.name, 'Jugosloven')
-  assert.deepEqual(nikoletina.story.looks.map(({ id }) => id), ['jugoslovenska', 'mitraljezac'])
+  assert.equal(nikoletina.look.name, 'Pixel art', 'Pixel art is his default look (owner, 2026-11-26)')
+  assert.deepEqual(nikoletina.story.looks.map(({ id }) => id), ['pixel-art', 'jugoslovenska', 'mitraljezac'])
   const jugoslovenska = open('sovjetski-partizan-3d/jugoslovenska')
   assert.equal(jugoslovenska.story, nikoletina.story)
-  assert.equal(jugoslovenska.look, nikoletina.look)
-  assert.equal(open('sovjetski-partizan-3d/original').look, nikoletina.look)
+  assert.equal(jugoslovenska.look.name, 'Jugosloven')
+  assert.equal(open('sovjetski-partizan-3d/original').look, nikoletina.look, 'an unknown look opens the default')
   assert.equal(partisan('indigo'), partisan('brkovi'))
   assert.equal(partisan('brkovi').name, 'Brka')
   assert.equal(partisan('vuna'), partisan('sivi'))
@@ -133,7 +133,7 @@ test('old infantry links open the equipment of the right individual', async() =>
   assert.notEqual(german.story, open('nemacki-vojnik-3d').story)
 })
 
-test('Sutjeska is the default look of Borac sa Sutjeske and Maskirna keeps its address', () => {
+test('Pixel art is the default look of Borac sa Sutjeske, and Sutjeska and Maskirna keep their addresses', () => {
   const path = 'drugi-svetski-rat-3d/partizan-3d'
   const original = findStory(kinds, `${path}/original`)
   const candidate = findStory(kinds, `${path}/sutjeska`)
@@ -143,7 +143,7 @@ test('Sutjeska is the default look of Borac sa Sutjeske and Maskirna keeps its a
   assert.equal(candidate.look.name, 'Sutjeska')
   assert.ok(candidate.story.looks.includes(candidate.look))
   assert.equal(original.look.name, 'Maskirna')
-  assert.equal(findStory(kinds, path).look, candidate.look)
+  assert.equal(findStory(kinds, path).look.id, 'pixel-art')
 })
 
 test('search opens matching paths, restores disclosures and selection opens every ancestor', async() => {

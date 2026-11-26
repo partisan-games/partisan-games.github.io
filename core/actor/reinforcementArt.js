@@ -820,6 +820,7 @@ export const actorArt = {
     'src': 'game-ready/vojnici/partisan-runner-sprites.webp',
     'width': 160,
     'height': 144,
+    'gutter': 4,
     'anchor': {
       'x': 80.0,
       'y': 140
@@ -845,10 +846,14 @@ export const actorArt = {
       'run': {
         'row': 1,
         'ms': [
-          140.0,
-          140.0,
-          140.0,
-          140.0
+          56,
+          64,
+          70,
+          90,
+          56,
+          64,
+          70,
+          90
         ],
         'loop': true
       },

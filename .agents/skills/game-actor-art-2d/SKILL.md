@@ -1,5 +1,5 @@
 ---
-name: game-actor-art
+name: game-actor-art-2d
 description: "Izrađuje i povezuje 2D sprite art aktera sa njihovim radnjama i prelazima u igri. Koristi pri dopuni poza, animacija i završnih prikaza aktera; ne za pozadine, UI ikone ili samostalno sređivanje fizike."
 ---
 

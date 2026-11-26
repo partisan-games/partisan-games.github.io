@@ -1,4 +1,5 @@
-import { MathUtils, ShaderChunk, Vector3 } from 'three'
+import { MathUtils, NearestFilter, NearestMipmapLinearFilter, ShaderChunk, Vector3 } from 'three'
+import { outfitTexture } from '/core3d/actor/characters/dressFighter.js'
 
 const { smoothstep, clamp } = MathUtils
 const brownWool = new Vector3(.168, .102, .052)
@@ -35,7 +36,7 @@ function recolorUniform(material, woolColor) {
 }
 
 /** Recut Nikoletina's cap. The badge stays on its original UV island. */
-function dress(figure, woolColor) {
+function capMesh(figure) {
   const skin = figure.getObjectByProperty('isSkinnedMesh', true)
   const geometry = skin.geometry.clone()
   const { position, uv } = geometry.attributes
@@ -44,7 +45,6 @@ function dress(figure, woolColor) {
     const u = uv.getX(i), down = 1 - uv.getY(i)
     if (height < 1.062 || u < .357 || u > .491 || down < .850 || down > .987) continue
     const crown = clamp((height - 1.064) / .186, 0, 1)
-    // Bring in the folded sides while keeping most of the height and volume above the head.
     const taper = .13 * smoothstep(crown, .02, .40) + .045 * smoothstep(crown, .43, 1)
     position.setX(i, height - .012 * smoothstep(crown, 0, 1))
     position.setZ(i, position.getZ(i) * (1 - taper))
@@ -52,6 +52,11 @@ function dress(figure, woolColor) {
   geometry.computeBoundingBox()
   geometry.computeBoundingSphere()
   skin.geometry = geometry
+  return skin
+}
+
+function dress(figure, woolColor) {
+  const skin = capMesh(figure)
   skin.material = skin.material.clone()
   recolorUniform(skin.material, woolColor)
 }
@@ -62,4 +67,14 @@ export default function dressNikoletina(figure) {
 
 export function dressNikoletinaNavy(figure) {
   dress(figure, navyWool)
+}
+
+export function dressNikoletinaPixelArt(figure, textures) {
+  const skin = capMesh(figure)
+  const material = skin.material.clone()
+  const map = outfitTexture('nikoletina-pixel-art.webp', material.map, textures)
+  map.magFilter = NearestFilter
+  map.minFilter = NearestMipmapLinearFilter
+  material.map = map
+  skin.material = material
 }

@@ -32,7 +32,7 @@ const folders = {
   'core/actor/boats': ['HullSprite.js', 'BoatSprite.js', 'SBoatSprite.js', 'PatrolBoatSprite.js', 'SinkingWreck.js', 'SeaMineSprite.js', 'sBoatArt.js'],
   'core/gameplay/bodies/boats': ['SeaMine.js'],
   'scenes/bunker': ['Main.js', 'Mina.js'],
-  'scenes/neretva': ['Main.js', 'AirAttack.js'],
+  'scenes/neretva': ['Main.js', 'AirAttack.js', 'BridgeCrossing.js'],
   'scenes/otpisani': ['Main.js'],
   'scenes/ustanak': [
     'Main.js', 'Turns.js', 'Battlefield.js', 'GroundLayer.js', 'Terrain.js', 'Wind.js', 'WindEffects.js',

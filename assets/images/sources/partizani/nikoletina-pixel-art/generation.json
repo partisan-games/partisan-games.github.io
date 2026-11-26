@@ -1,0 +1,20 @@
+{
+  "tool": "built-in image_gen",
+  "inputs": [
+    "assets/models/character/soldier/soviet-partisan.fbx · embedded texture.jpg · UV layout",
+    "assets/models/character/soldier/sutjeska-pixel-art/uniform.webp · visual style"
+  ],
+  "prompt": "Paint one square flat 2D pixel-art albedo UV texture for the exact existing skinned 3D character in image 1. Image 1 is the UV template: keep all island shapes and positions locked, including the cap and little red star at the bottom center around UV (.387,.886), the diagonal head at the center, the oval eye islands at the right, both gloves-free hands at left, equipment strips, and the tall cloth islands in lower center and lower right. Image 2 is style only, our own game's chunky clean painted pixel clusters; do not copy its UVs or camouflage. Paint a visibly different Yugoslav partisan called Nikoletina. Slate blue/washed navy wool field jacket, collar, upper sleeves and cap, with low-contrast blocky blue-gray folds, simple brown wool trousers with restrained shadows, weathered dark leather boots/belts and satchel, gunmetal buckles, small red star in the cap’s existing badge position, remove the red Soviet shoulder stripes. Paint the diagonal central face texture in the exact same location and orientation, keep both eye sockets, nose, lips and both ears in their exact UV positions, with a broad adult face, angular dark auburn sideburns, clean-shaven cheeks and jaw, chestnut red-brown short hair, thick reddish eyebrows and cool gray-blue eyes. Both circular actual eye texture islands should use a dark slate-blue iris at the same center and scale. Make the skin a fair warm ochre, with 5 shades, matching the hands. Hand-painted pixel art with deliberate small angular pixel clusters and a limited historical palette, deep value separation between wool, leather, and metal, no photo grain, brush noise, gradients, outlines around UV islands, cast shadows or fake three dimensional view. Background gray, output one single square edge-to-edge atlas, no labels, frame or type.",
+  "source": "atlas.png",
+  "uvDetails": "uv-details.png · lip tones and badge shape projected from the front onto the existing FBX UVs",
+  "sideburns": "sideburns.png · auburn sideburn added to the opposite profile, aligned to the original face UVs",
+  "capReference": "https://www.pb-franja.si/zbirka/osebni-predmeti/ · Caps worn by Viktor Volčjak and Ivan Goljat, PBF-827 and PBF-1067, for the restrained folded seam.",
+  "optimization": "The character uses one skinned mesh, one material and 13,382 triangles. It shares the same geometry and rig as the other Nikoletina looks and samples one 1024 × 1024 lossless WebP.",
+  "preparation": "scripts/prepare-nikoletina-pixel-art.py",
+  "output": "assets/models/character/soldier/nikoletina-pixel-art.webp",
+  "capRedraw": {
+    "source": "cap-redraw.png",
+    "input": "Nikoletina's own UV island at x=360–510, y=860–1018 on the 1024 × 1024 atlas, enlarged with nearest-neighbor sampling.",
+    "prompt": "Edit only the original cap's cloth in place. Paint desaturated military olive wool in pixel clusters and replace the parallel lines with one subtle diagonal fold. Retain its outline, badge, and surroundings."
+  }
+}

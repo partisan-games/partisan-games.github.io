@@ -159,17 +159,19 @@ test('switching Borac sa Sutjeske variants keeps him in the same scene and pose'
 
 test('Nikoletina keeps the same cap when switching weapons and trouser colors', async t => {
   createPageElements()
-  t.mock.method(THREE.TextureLoader.prototype, 'load', () => new THREE.Texture())
+  t.mock.method(THREE.TextureLoader.prototype, 'load', url => Object.assign(new THREE.Texture(), { name: url }))
   t.mock.method(FBXLoader.prototype, 'loadAsync', async url => {
     const bytes = await readFile('.' + decodeURI(url))
     return new FBXLoader().parse(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), '')
   })
   const { ww2 } = await import('/catalog/stories/characters3d.js')
   const story = ww2.find(({ id }) => id === 'sovjetski-partizan-3d')
-  const [defaultLook, machineGunner] = story.looks
+  const [pixelArt, yugoslav, machineGunner] = story.looks
+  assert.equal(pixelArt.id, 'pixel-art', 'the default look')
+  assert.equal(yugoslav.id, 'jugoslovenska')
   const objects = []
   const stage = { add: (...items) => objects.push(...items), session: { scope: { add() {} } } }
-  await story.create(stage, 1, defaultLook.value)
+  await story.create(stage, 1, yugoslav.value)
   const [, view] = objects
   const skin = view.mesh.getObjectByProperty('isSkinnedMesh', true)
   const { skeleton, geometry: reshaped, material: recolored } = skin
@@ -206,7 +208,21 @@ test('Nikoletina keeps the same cap when switching weapons and trouser colors', 
   assert.equal(navyShader.fragmentShader, brownShader.fragmentShader)
   const navy = navyShader.uniforms.nikoletinaWool.value
   assert.ok(navy.z > navy.y && navy.y > navy.x)
-  stage.setLook(defaultLook.value)
+
+  view.actions.idle.time = .18
+  stage.setLook(pixelArt.value)
+  assert.equal(view.anim.twoHandedWeapon, gun)
+  assert.equal(view.actions.idle.time, .18)
+  assert.equal(skin.skeleton, skeleton)
+  for (const key of ['position', 'normal', 'uv', 'skinWeight', 'skinIndex'])
+    assert.deepEqual(skin.geometry.attributes[key].array, reshaped.attributes[key].array)
+  const { map } = skin.material
+  assert.equal(map.magFilter, THREE.NearestFilter)
+  assert.equal(map.minFilter, THREE.NearestMipmapLinearFilter)
+  assert.match(map.name, /\/nikoletina-pixel-art\.webp$/)
+  assert.equal((await readFile('.' + map.name)).toString('ascii', 8, 12), 'WEBP')
+
+  stage.setLook(yugoslav.value)
   assert.equal(view.anim.twoHandedWeapon, gun)
   assert.ok(gun.parent)
   assert.equal(skin.skeleton, skeleton)
