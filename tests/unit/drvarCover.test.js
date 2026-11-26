@@ -6,7 +6,8 @@ import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js'
 import Body from '/core/gameplay/bodies/Body.js'
 import Character from '/core/gameplay/bodies/characters/Character.js'
 import CoverSoldier from '/core/gameplay/bodies/soldiers/CoverSoldier.js'
-import { firearms } from '/core/gameplay/Firearm.js'
+import Firearm, { firearms } from '/core/gameplay/Firearm.js'
+import TriggerKeys from '/core/gameplay/controllers/TriggerKeys.js'
 import { createStoneWall } from '/core3d/geometry/stoneWall.js'
 import { requestModels } from '/core3d/assets/models.js'
 import { models as coverSoldierModels } from '/core3d/actor/soldiers/CoverSoldierModel.js'
@@ -18,9 +19,9 @@ import { createPageElements } from './helpers/dom.js'
 
 test('crouching keeps feet on the ground, slows movement, and uses a real stone wall as cover', () => {
   const player = new Character({ x: -.55, strikeHeight: .82 })
-  let held = false, reloading = false, nearWall = true
-  const walk = new YardWalk(player, { keyboard: { isDown: () => held }, run: true, up: true },
-    { reloading: () => reloading, nearWall: () => nearWall })
+  let held = false
+  const input = { keyboard: { isDown: () => held }, run: true, up: true }
+  const walk = new YardWalk(player, input)
   const wall = createStoneWall({ length: 6, height: 1.1, thickness: .6 })
   wall.rotation.y = Math.PI / 2
   wall.updateMatrixWorld(true)
@@ -49,21 +50,18 @@ test('crouching keeps feet on the ground, slows movement, and uses a real stone 
   assert.equal(attacker.state, 'idle')
   assert.equal(player.health.current, health)
 
-  held = false
-  reloading = true
-  walk.update(.25)
-  assert.equal(walk.waitingToStand, true)
-  assert.equal(seen(), false)
-  reloading = false
-  walk.update(.03)
-  assert.equal(walk.waitingToStand, true)
-  walk.update(.25)
-  assert.equal(walk.waitingToStand, false)
-  assert.equal(seen(), true)
-  nearWall = false
-  reloading = true
-  walk.update(.25)
-  assert.equal(player.crouched, false)
+  const rifle = new Firearm(firearms.rifle)
+  rifle.rounds = 0
+  rifle.wait = rifle.reload
+  const trigger = new TriggerKeys(player, input, rifle)
+  for (const manual of [false, true, false]) {
+    held = manual
+    walk.update(.25)
+    trigger.update(.25)
+    assert.equal(rifle.reloading, true)
+    assert.equal(player.crouched, manual)
+    assert.equal(seen(), !manual)
+  }
 })
 
 test('a comrade pops up for the last shot, then reloads below the wall before standing again', () => {

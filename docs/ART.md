@@ -49,6 +49,8 @@ Pravila izrade i veze do izvora. Otvoreni poslovi su u [PLAN-u](PLAN.md#art), pr
 
 [Crkva](../assets/models/building/drvar-church/README.md) je oblikovana prema fotografiji koju je vlasnik zadao: kamena fasada, dvovodni krov, četvrtast zvonik sa piramidalnim četvorovodnim krovom, lučni prozori i ulaz. Visina od 11 m je procena, ne istorijska mera. Isti model je u sredini dvorišta Drvara i u katalogu pod Ambijent / Drvar; izvor, ponovljiva izrada i offline prikaz čuvaju se uz model.
 
+[Padobranac](../assets/images/game-ready/vojnici/drvar-padobranac.webp) je prihvaćen 26. 11. 2026. Isti kadar koriste Drvar i katalog aktera. Figura pod kupolom meri 180 px pri razmeri 100 px/m, odnosno 1,8 m u igri. [Izvor i priprema](../assets/images/sources/nemci/padobranci/generation.json).
+
 <a id="crveni-krst-priprema-3d-ambijenta"></a>
 ## Crveni krst — priprema 3D ambijenta
 

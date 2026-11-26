@@ -30,25 +30,19 @@ class Posture {
 }
 
 export class YardWalk extends WalkKeys {
-  constructor(body, input, { reloading, nearWall }) {
+  constructor(body, input) {
     super(body, input)
     this.posture = new Posture(body)
-    this.reloading = reloading
-    this.nearWall = nearWall
     this.walkSpeed = body.speed
     this.runScale = body.run
-    this.waitingToStand = false
   }
 
   update(dt) {
     const { body, input } = this
     if (body.dead) return
     const manual = input.keyboard?.isDown(crouchKey) || input.screen?.special
-    const loadingInCover = this.reloading() && this.nearWall(body) && (!body.swing || body.swing.landed)
-    const crouched = !body.airborne && Boolean(manual || loadingInCover)
-    const ready = this.posture.update(crouched, dt)
-    if (manual || (!crouched && ready)) this.waitingToStand = false
-    else if (loadingInCover) this.waitingToStand = true
+    const crouched = !body.airborne && Boolean(manual)
+    this.posture.update(crouched, dt)
     body.speed = this.walkSpeed * (crouched ? .55 : 1)
     body.run = crouched ? 1 : this.runScale
     super.update(dt)

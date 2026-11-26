@@ -1,16 +1,15 @@
 import { billboard } from '/core3d/assets/pixelArt.js'
 
 /**
- * The German paratroopers under their canopies, all drawn alike: the man hangs at the foot of the picture, 72 px for
- * his 1.8 m.
+ * The paratrooper's helmet-to-boots span is 180 px for his 1.8 m. The bottom edge is the foot anchor.
  */
 export const parachutistArt = {
-  pictures: [1, 2, 3, 4].map(n => `armies/nemci/padobranci/padobranac-0${n}.png`),
-  pxPerMeter: 40,
+  picture: 'game-ready/vojnici/drvar-padobranac.webp',
+  pxPerMeter: 100,
 }
 
 /**
- * A paratrooper under his canopy, drawn from `texture`, one of the pictures of `parachutistArt`, facing the camera.
+ * A paratrooper under his canopy, drawn from `texture`, facing the camera.
  * Once he is down, landed or dead, the scene shows him as a soldier on foot, and his canopy is gone.
  */
 export default class ParachutistSprite {

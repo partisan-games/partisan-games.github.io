@@ -1,0 +1,40 @@
+{
+  "tool": "Built-in OpenAI image_gen",
+  "references": [
+    {
+      "path": "assets/images/armies/nemci/padobranci/padobranac-01.png",
+      "role": "Frontal pose, equipment silhouette and proportions"
+    },
+    {
+      "path": "assets/images/game-ready/vojnici/advance-rifleman.webp",
+      "role": "Project pixel-art style and muted palette"
+    },
+    {
+      "url": "https://znaci.org/fotografija.php?br=36",
+      "role": "Period photograph of the unit in Drvar"
+    },
+    {
+      "url": "https://commons.wikimedia.org/wiki/File:Drugi_talas_padobranaca,_desant_na_Drvar.jpg",
+      "role": "Photograph of open canopies during the second wave"
+    }
+  ],
+  "prompt": "Use case: historical-scene game sprite. Redraw the FIRST input as one original, crisp realistic pixel-art sprite for the 1944 Drvar game. The SECOND input is only the style/palette reference: mature natural proportions, spare hard-edged pixel clusters, muted field-grey, brown-olive, charcoal and few highlights. One frontal, full-length adult German Fallschirmjäger descending, hands grasping risers beside his short rounded M38 helmet, boots relaxed downward, olive-grey period jump smock, darker harness and strapped gear, restrained and readable, no insignia. Preserve the first input's working silhouette and relative scale: one round dome canopy spanning approximately 68% of the full sprite height, top dome about one third of the vertical span, taut clean long suspension lines, soldier only the lowest 27% of the image from helmet crown to lowest boot, aligned to the canopy center. Canopy subdued warm off-white, with muted highlights and gentle cloth panels, visible against sky and earth. The soldier's helmet should be distinct from the risers. One centered cutout, tight but with clear padding outside the highest canopy and lowest boots. No ground, scenery, shadow on the ground, outlines beyond the object, lettering, glow, grain, gore, or checkerboard. Genuine transparent background, including gaps between the cords and around the legs. Original hand-drawn pixel-art clusters of enough detail to show a 180-pixel-tall body in game-ready form, not blurry, not 3D or painted. Whole canopy and both boots must be visible. Portrait canvas.",
+  "source": "drvar-padobranac.png",
+  "sourceSha256": "a5cb7b2590d44ff6fed5d119fc5621a92d8b76e7772800da096c22ee1784ab79",
+  "preparation": "scripts/prepare-drvar-parachutist.py",
+  "output": "assets/images/game-ready/vojnici/drvar-padobranac.webp",
+  "outputSha256": "703660023eac5635a2d74f51ca81f81b44b5d0bded6e4d5a089080990071016f",
+  "crop": [
+    34,
+    17,
+    988,
+    1499
+  ],
+  "size": [
+    377,
+    585
+  ],
+  "pixelsPerMetre": 100,
+  "helmetToBoots": 180,
+  "anchor": "Bottom center"
+}

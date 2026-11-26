@@ -4,7 +4,7 @@ import assert from 'node:assert/strict'
 import { Texture } from 'three'
 import CoverSoldier from '/core/gameplay/bodies/soldiers/CoverSoldier.js'
 import CoverSoldierSprite, { coverSoldierArt } from '/core3d/actor/soldiers/CoverSoldierSprite.js'
-import ParachutistSprite from '/core3d/actor/soldiers/ParachutistSprite.js'
+import ParachutistSprite, { parachutistArt } from '/core3d/actor/soldiers/ParachutistSprite.js'
 import Parachutist from '/core/gameplay/bodies/characters/Parachutist.js'
 import Body from '/core/gameplay/bodies/Body.js'
 
@@ -58,8 +58,12 @@ test('standing in the open he is drawn as tall as the body that takes the hits',
 
 test('a paratrooper shows his canopy only in the air', () => {
   const body = new Parachutist({ y: 10 })
-  const view = new ParachutistSprite(body, { texture: new Texture({ width: 182, height: 268 }) })
+  const size = webpSize(parachutistArt.picture)
+  const view = new ParachutistSprite(body, { texture: new Texture(size) })
   assert.equal(view.mesh.visible, true)
+  assert.equal(view.mesh.center.y, 0)
+  assert.equal(view.mesh.position.y, body.feet)
+  assert.ok(Math.abs(view.mesh.scale.y * 180 / size.height - body.size.height) < 1e-6)
   run(body, view, 5)
   assert.equal(body.landed, true)
   assert.equal(view.mesh.visible, false)

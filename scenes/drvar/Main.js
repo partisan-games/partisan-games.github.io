@@ -157,7 +157,7 @@ export default class DrvarScene extends Scene3D {
   }
 
   async init() {
-    const pictures = [...parachutistArt.pictures, flash.picture]
+    const pictures = [parachutistArt.picture, flash.picture]
     const [textures] = await Promise.all([
       Promise.all(pictures.map(loadPixelArt)).then(loaded => new Map(pictures.map((src, i) => [src, loaded[i]]))),
       requestModels([...sovietPartisanModels, ...resistanceFighterModels, ...partisanLowpolyModels, ...churchModels, ...sandbagsModels, ...ju52Models, dfs230Model,
@@ -247,12 +247,8 @@ export default class DrvarScene extends Scene3D {
       groundAt, isBlocked, obstacleAt: this.obstacleAt, bounds: { min: { x: -inside.x, z: -inside.z }, max: inside } })
     const layout = inputLayouts.firstPerson
     const input = new Input({ ...layout, ...layout.buttonDict && { buttonDict: { ...layout.buttonDict, special: icons.sneak } } })
-    const canFire = () => !this.playerWalk.waitingToStand
-    this.trigger = new TriggerKeys(this.player, { get attack() {
-      return canFire() && input.attack
-    } }, new Firearm(firearms.rifle))
-    this.playerWalk = new YardWalk(this.player, input, { reloading: () => this.trigger.firearm.reloading,
-      nearWall: body => Math.min(yard.length / 2 - Math.abs(body.x), yard.width / 2 - Math.abs(body.z)) < 1.65 })
+    this.trigger = new TriggerKeys(this.player, input, new Firearm(firearms.rifle))
+    this.playerWalk = new YardWalk(this.player, input)
     this.weaponView = new WeaponView(this.player, () => this.trigger.firearm, {
       rifle: resistanceFighter.twoHandedWeapon, machineGun: sovietPartisan.twoHandedWeapon,
     })
@@ -481,9 +477,8 @@ export default class DrvarScene extends Scene3D {
         plane.sent++
         const body = new Parachutist({ x: plane.x, y: plane.y - 3, z: plane.z, groundAt,
           drift: { x: -wind, z: THREE.MathUtils.randFloatSpread(wind) } })
-        const picture = parachutistArt.pictures[Math.floor(Math.random() * parachutistArt.pictures.length)]
         this.enemies.push(body)
-        this.add(body, new ParachutistSprite(body, { texture: this.textures.get(picture) }))
+        this.add(body, new ParachutistSprite(body, { texture: this.textures.get(parachutistArt.picture) }))
       }
   }
 

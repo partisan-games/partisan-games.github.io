@@ -33,7 +33,7 @@ export const soldiers = [
     id: 'nemacki-padobranac', name: 'Nemački padobranac', game, block: parachutistModule, stage: Stage3D, dimension: '2d',
     create: async stage => {
       const body = new Parachutist({ y: dropHeight, drift: { x: .6, z: 0 } })
-      stage.add(body, new ParachutistSprite(body, { texture: await loadPixelArt(parachutistArt.pictures[0]) }))
+      stage.add(body, new ParachutistSprite(body, { texture: await loadPixelArt(parachutistArt.picture) }))
       return body
     },
   },
