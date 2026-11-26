@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import Character from '/core/gameplay/bodies/characters/Character.js'
 import CampCompanion from '/scenes/fps-base/EscapingPrisoners.js'
 import CampNavigation from '/scenes/fps-base/CampNavigation.js'
-import { CampGuard, Prisoner } from '/scenes/fps-base/stealth.js'
+import { CampGuard, Prisoner, alarm, raiseAlarm } from '/scenes/fps-base/stealth.js'
 import { description as flameThrower } from '/core3d/actor/derived/ww2/GermanFlameThrower.js'
 
 function setup({ enemyX = 15, coverPoints = [], sees = () => true, postureDuration = 0 } = {}) {
@@ -442,4 +442,74 @@ test('catch-up pace is cleared when a companion stops following to defend himsel
   controller.update(.1)
   assert.equal(controller.state, 'defend')
   assert.equal(body.run, normalRun)
+})
+
+test('a cover counts by his crouching height, even while he still stands', () => {
+  // a wall up to 1.2 m between him and the guard
+  const cover = { x: -3, z: 2 }
+  const { body, enemy, controller } = setup({ coverPoints: [cover], sees: (from, to) => to.z < 1 || to.y > 1.2 })
+  body.size.height = 1.8
+  body.crouched = false
+  enemy.shotsFired++
+  controller.update(.1)
+  assert.equal(controller.cover, cover)
+})
+
+test('a companion prefers the cover he can reach out of the line of fire to a nearer one across it', () => {
+  // everything beyond z 1.5 is out of the guard's sight
+  const near = { x: 1, z: 2 }, sheltered = { x: -2, z: 3.4 }
+  const { enemy, controller } = setup({ coverPoints: [near, sheltered], sees: (from, to) => to.z <= 1.5 })
+  enemy.shotsFired++
+  controller.update(.1)
+  assert.equal(controller.cover, sheltered)
+  assert.equal(sheltered.owner, controller.body)
+  assert.equal(near.owner, undefined)
+})
+
+test('with no cover a companion gets out of sight nearby instead of running back to an exposed leader', () => {
+  const { body, enemy, controller } = setup({ sees: (from, to) => to.z < 1 })
+  enemy.shotsFired++
+  controller.update(.1)
+  assert.equal(controller.state, 'cover')
+  assert.ok(controller.retreat.z >= 1, 'the place he heads for is out of sight')
+  for (let i = 0; i < 40; i++) {
+    controller.update(.05)
+    body.update(.05)
+  }
+  assert.ok(body.z > .5 && body.x > -4, 'he moved out of sight nearby, not back to the leader at x -8')
+})
+
+test('with nowhere out of sight a companion stays down where he is', () => {
+  const { body, enemy, controller } = setup()
+  enemy.shotsFired++
+  controller.update(.1)
+  assert.equal(controller.state, 'cover')
+  assert.equal(controller.retreat, null)
+  assert.equal(body.moving, false)
+  assert.equal(body.crouched, true)
+})
+
+test('a companion who dies frees the cover he reserved', () => {
+  const cover = { x: -3, z: 2 }
+  const { body, enemy, controller } = setup({ coverPoints: [cover], sees: (from, to) => to.z < 1 })
+  enemy.shotsFired++
+  controller.update(.1)
+  assert.equal(cover.owner, body)
+  body.takeHit(1000)
+  controller.update(.1)
+  assert.equal(cover.owner, null)
+})
+
+test('a guard\'s shout sends the guards in hearing to search where it came from, not those far off', () => {
+  const navigation = new CampNavigation(() => false)
+  const prisoner = new Prisoner({ x: 0 })
+  const guard = x => new CampGuard(new Character({ x }), { target: prisoner, candidates: [prisoner], sees: () => false,
+    navigation })
+  const caller = guard(5), near = guard(5 + alarm.hearing - 1), far = guard(5 + alarm.hearing + 1)
+  raiseAlarm([caller, near, far], caller)
+  assert.equal(near.doing, 'search')
+  assert.deepEqual([near.lastSeen.x, near.lastSeen.z], [5, 0])
+  assert.notEqual(far.doing, 'search')
+  near.update(.1)
+  assert.ok(near.body.running, 'he hurries to the shout')
 })

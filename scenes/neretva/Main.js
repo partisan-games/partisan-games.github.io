@@ -5,7 +5,7 @@ import Background from '/core/objects/Background.js'
 import imageReady from '/core/io/imageReady.js'
 import TrenchSoldier, { trench } from '/core/gameplay/bodies/soldiers/TrenchSoldier.js'
 import TrenchSoldierSprite from '/core/actor/soldiers/TrenchSoldierSprite.js'
-import Trench from '/core/objects/Trench.js'
+import Cover from './Cover.js'
 import { sideProjection } from '/core/actor/projection.js'
 import Health from '/core/gameplay/Health.js'
 import AirAttack, { airAttack } from './AirAttack.js'
@@ -30,11 +30,12 @@ const chetniksAt = holdTime / 2
 const dug = { group: [2, 3], close: 1.15, apart: 1.8, bow: 24, rise: 8 }
 /**
  * The chance per second that a hidden soldier of the far and the near row rises: the Chetniks, routed after the
- * crossing, half as often as the Germans (owner's decision); `calm` is how many seconds pass before the first rises.
+ * crossing, half as often as the Germans (owner's decision); `calm` is how many seconds pass before the first rises;
+ * the cover each soldier rises from: the Germans dug in, the Chetniks behind heaps of stones (owner's decision).
  */
 const armies = {
-  nemci: { rises: { far: .02, near: .03 }, calm: 0 },
-  cetnici: { rises: { far: .01, near: .015 }, calm: 3 },
+  nemci: { rises: { far: .02, near: .03 }, calm: 0, cover: 'trench' },
+  cetnici: { rises: { far: .01, near: .015 }, calm: 3, cover: 'stones' },
 }
 
 /** A random number from 0 to 1 that repeats from its `seed`, so the trenches lie the same each game. */
@@ -73,11 +74,12 @@ export default class NeretvaScene extends Scene2D {
 
   /** Each soldier has a body, its view and a separate scenery cover placed in front. */
   army(faction) {
+    const { cover, ...army } = armies[faction]
     return {
-      ...armies[faction],
+      ...army,
       background: new Background(`background/neretva-1943-${faction}.png`),
-      near: this.praviSvabe(8, sideProjection({ pxPerMeter, groundY: BLIZI_Y }), { scale: 1, faction }),
-      far: this.praviSvabe(12, sideProjection({ pxPerMeter: pxPerMeter / 2, groundY: DALJI_Y }), { scale: .5, faction }),
+      near: this.praviSvabe(8, sideProjection({ pxPerMeter, groundY: BLIZI_Y }), { scale: 1, faction, cover }),
+      far: this.praviSvabe(12, sideProjection({ pxPerMeter: pxPerMeter / 2, groundY: DALJI_Y }), { scale: .5, faction, cover }),
     }
   }
 
@@ -120,10 +122,10 @@ export default class NeretvaScene extends Scene2D {
   }
 
   /** `n` soldiers along a row of trenches as `dug`, across the screen, which `projection` draws. */
-  praviSvabe(n, projection, { faction, scale }) {
+  praviSvabe(n, projection, { faction, scale, cover: kind }) {
     const random = seeded(n * 1943)
     const { width } = this
-    // steps from trench to trench: one within a group, `apart` between groups; then the whole row fitted to the width
+    // steps from post to post: one within a group, `apart` between groups; then the whole row fitted to the width
     const steps = []
     for (let left = n - 1, size = 0; left > 0; left--) {
       size ||= dug.group[Math.floor(random() * dug.group.length)]
@@ -138,7 +140,7 @@ export default class NeretvaScene extends Scene2D {
       const at = { x, y: ground + (dug.bow * 4 * along * (1 - along) + dug.rise * (random() * 2 - 1)) * scale }
       const body = new TrenchSoldier(projection.toWorld(at))
       const view = new TrenchSoldierSprite(body, { faction, variant: i % 3, scale, projection, inTrench: true })
-      const cover = new Trench({ ...projection.point(body), scale })
+      const cover = new Cover({ ...projection.point(body), scale, kind })
       return { body, view, cover }
     })
   }

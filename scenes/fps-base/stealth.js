@@ -6,7 +6,8 @@ import CampNavigation from './CampNavigation.js'
 
 export const crouchKey = { codes: ['KeyC'], label: 'C' }
 const crouchSpeed = .45
-const crouchHeight = .70
+/** A crouching prisoner's height, as a share of his standing height. */
+export const crouchHeight = .70
 const postureSpeed = 3.5
 
 export class Prisoner extends Character {
@@ -55,6 +56,9 @@ export class PrisonerFootsteps extends CharacterModel {
   }
 }
 
+/** How far, in metres, a guard's shout is heard by the others, and how many seconds they search where it came from. */
+export const alarm = { hearing: 20, search: 12 }
+
 export class CampGuard extends PursuitAI {
   constructor(body, { litAt = () => false, navigation = new CampNavigation(body.isBlocked), ...options }) {
     super(body, { ...options, navigation })
@@ -74,4 +78,18 @@ export class CampGuard extends PursuitAI {
     super.chaseIfSpotted()
   }
 
+  /** Hearing another guard's shout at `point` while he sees no one himself, he runs there and searches for `target`. */
+  alarm(point, target) {
+    if (this.body.dead || this.spotted || this.lastSeen) return
+    this.lastSeen = { x: point.x, z: point.z, target }
+    this.searchLeft = alarm.search
+    this.set('search')
+  }
+}
+
+/** The guard `caller` shouts on spotting a prisoner: every other guard of `guards` in hearing comes to look. */
+export function raiseAlarm(guards, caller) {
+  for (const guard of guards)
+    if (guard.body !== caller.body && Math.hypot(guard.body.x - caller.body.x, guard.body.z - caller.body.z) <= alarm.hearing)
+      guard.alarm(caller.body, caller.target)
 }

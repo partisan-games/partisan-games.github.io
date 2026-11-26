@@ -1,5 +1,6 @@
 import { description as worker } from '/core3d/actor/derived/ww2/Worker.js'
 import { pipeSwingName } from '/core3d/actor/derived/ww2/WorkerPipe.js'
+import { crouchHeight } from './stealth.js'
 
 /** Ways to stand and wait, one for each companion in turn, so they do not all move alike; one stretches. */
 export const standingIdles = ['Standing Idle', 'Dwarf Idle', worker.animDict.idle]
@@ -11,6 +12,8 @@ const animDict = { ...worker.animDict, idle: standingIdles[0], restIdle: standin
 export const escapingPrisoner = { ...worker, model: { ...worker.model, animDict }, animDict }
 export const models = [escapingPrisoner.model]
 const distance = (a, b) => Math.hypot(a.x - b.x, a.z - b.z)
+/** Directions and distances, in metres, a companion with no cover looks along for a place out of the enemy's sight. */
+const retreats = { turns: 12, distances: [2.5, 4, 6] }
 
 /** Follow through the maze, charge nearby guards and wait out distant fire behind solid cover. */
 export default class CampCompanion {
@@ -37,6 +40,25 @@ export default class CampCompanion {
 
   exposed(enemy, point = this.body.eye) {
     return this.sees(enemy.eye, point)
+  }
+
+  /** Whether `point` on the ground hides him crouching from every one of `threats`, whatever his posture now. */
+  hidden(point, threats) {
+    const { body } = this
+    const y = (body.standingHeight ?? body.size.height) * crouchHeight * .9
+    return threats.every(enemy => !this.exposed(enemy, { x: point.x, y, z: point.z }))
+  }
+
+  /** How many legs of `route` from where he is run in sight of `threats`, checked at his running eye height. */
+  exposedLegs(route, threats) {
+    const { body } = this
+    const y = (body.standingHeight ?? body.size.height) * .9
+    let from = body
+    return route.filter(point => {
+      const middle = { x: (from.x + point.x) / 2, y, z: (from.z + point.z) / 2 }
+      from = point
+      return threats.some(enemy => this.exposed(enemy, middle) || this.exposed(enemy, { ...point, y }))
+    }).length
   }
 
   turnToward(point, dt) {
@@ -110,25 +132,45 @@ export default class CampCompanion {
     return null
   }
 
+  /**
+   * The nearest free cover that hides him crouching, preferring one he can reach with the fewest legs in the enemy's
+   * sight; he reserves it.
+   */
   chooseCover(threats) {
     const { body, navigation } = this
     this.bypass = null
-    if (this.cover) this.cover.owner = null
-    const candidates = this.coverPoints.filter(point => (!point.owner || point.owner === body || point.owner.dead)
-      && distance(body, point) < 18 && threats.every(enemy =>
-      !this.exposed(enemy, { ...point, y: body.size.height * .9 })))
-      .sort((a, b) => distance(body, a) - distance(body, b))
-    for (const point of candidates) {
-      const route = navigation.route(body, point)
-      if (route.length) {
-        this.route = route
-        this.cover = point
-        point.owner = body
-        return
-      }
-    }
+    this.releaseCover()
+    const reachable = this.coverPoints.filter(point => (!point.owner || point.owner === body || point.owner.dead)
+      && distance(body, point) < 18 && this.hidden(point, threats))
+      .map(point => ({ point, route: navigation.route(body, point) }))
+      .filter(({ route }) => route.length)
+      .map(choice => ({ ...choice, exposure: this.exposedLegs(choice.route, threats) }))
+      .sort((a, b) => a.exposure - b.exposure || distance(body, a.point) - distance(body, b.point))
+    const best = reachable[0]
+    this.route = best?.route ?? []
+    this.cover = best?.point ?? null
+    if (this.cover) this.cover.owner = body
+  }
+
+  releaseCover() {
+    if (this.cover?.owner === this.body) this.cover.owner = null
     this.cover = null
-    this.route = []
+  }
+
+  /**
+   * With no cover, a place nearby out of the threats' sight that he can walk straight to, the leader's if it is one;
+   * the nearest, so he does not run along an open line of fire. None if every place nearby is in sight.
+   */
+  retreatPoint(threats) {
+    const { body, leader, navigation } = this
+    const places = [{ x: leader.x, z: leader.z }]
+    for (const reach of retreats.distances)
+      for (let i = 0; i < retreats.turns; i++) {
+        const angle = i / retreats.turns * Math.PI * 2
+        places.push({ x: body.x + Math.cos(angle) * reach, z: body.z - Math.sin(angle) * reach })
+      }
+    return places.filter(place => navigation.clear(body, place) && this.hidden(place, threats))
+      .sort((a, b) => distance(body, a) - distance(body, b))[0] ?? null
   }
 
   moveTo(point, dt, running) {
@@ -184,7 +226,7 @@ export default class CampCompanion {
     const { body, leader } = this
     body.crouched = true
     if (body.dead) {
-      if (this.cover) this.cover.owner = null
+      this.releaseCover()
       return
     }
     this.waitTime -= dt
@@ -215,8 +257,7 @@ export default class CampCompanion {
         this.destination = null
         this.repath = 0
       }
-      if (this.cover) this.cover.owner = null
-      this.cover = null
+      this.releaseCover()
       this.state = 'defend'
       if (body.waitPose === 'crouchPeek') body.waitPose = 'crouchIdle'
       if (distance(body, nearby) > body.reach * .9) this.moveTo(nearby, dt, true)
@@ -230,9 +271,9 @@ export default class CampCompanion {
     }
     if (threats.length) {
       this.safeTime = 4
-      if (this.state !== 'cover' || !this.cover || threats.some(enemy =>
-        this.exposed(enemy, { ...this.cover, y: body.size.height * .9 }))) {
+      if (this.state !== 'cover' || !this.cover || !this.hidden(this.cover, threats)) {
         this.chooseCover(threats)
+        this.retreat = this.cover ? null : this.retreatPoint(threats)
         this.repath = 1
       }
       this.state = 'cover'
@@ -250,13 +291,15 @@ export default class CampCompanion {
       return
     }
     if (this.safeTime > 0) {
+      // no cover: out of sight nearby, or down where he is, never back along an open line of fire
       this.state = 'cover'
-      this.moveTo(leader, dt, true)
+      if (this.retreat && distance(body, this.retreat) > .4) this.moveTo(this.retreat, dt, true)
+      else body.steer()
       return
     }
     this.state = 'follow'
-    if (this.cover) this.cover.owner = null
-    this.cover = null
+    this.releaseCover()
+    this.retreat = null
     this.knownThreats.clear()
     if (body.waitPose === 'crouchPeek') body.waitPose = 'crouchIdle'
     if (leader.dead) return body.steer()

@@ -1,0 +1,82 @@
+{
+  "tool": "built-in image_gen",
+  "references": [
+    {
+      "path": "assets/images/armies/rov-prazan.gif",
+      "role": "Original trench front, placement, and center lip. Reference shown at 3× nearest-neighbor.",
+      "sha256": "616a1fa795dff727d966295ec0834297f72fff3800e72b8abd0422eee49d4ad0"
+    },
+    {
+      "path": "assets/images/game-ready/vojnici/nemci-spreda.webp",
+      "role": "Pixel clusters, contour accents and front-view rendering style.",
+      "sha256": "e9b18e963ad661a11e6f437bfcbcf334cf539b44ad12811bdb5eb4eadf5c44d2"
+    },
+    {
+      "path": "assets/images/background/neretva-1943-nemci.png",
+      "role": "Muted late-winter terrain palette and diffuse light. Reference reduced to fit within 850 × 470.",
+      "sha256": "377a1472f14de524f6a547bee6868c98a7f06eab6dacd01cfc8f32ac592af438"
+    },
+    {
+      "path": "assets/images/background/neretva-1943-cetnici.png",
+      "role": "Local limestone, terrain palette and dry vegetation. Reference reduced to fit within 850 × 470.",
+      "sha256": "0df5e1c9d360b835fd14d4951cb9bbb733a8073445390ddad398b29e8fbab6eb"
+    }
+  ],
+  "preparation": "python -B assets/images/sources/neretva/zakloni/prepare.py",
+  "canvas": [
+    200,
+    300
+  ],
+  "displaySize": [
+    100,
+    150
+  ],
+  "anchor": [
+    100,
+    150
+  ],
+  "assets": [
+    {
+      "source": "rov-prazan.png",
+      "output": "assets/images/game-ready/polozaji/neretva/rov-prazan.webp",
+      "prompt": "Use case: game asset sprite. Generate a single isolated foreground cover sprite for the Neretva 2D game.\nReferences in order: 1 the old trench sprite for position, silhouette scale and slight top visibility only (keep actual alpha, ignore its green and stylization); 2 sprite sheet for bold cohesive pixel clusters, sharp single-pixel details, restrained contours and hand-pixel shading only; 3 and 4 the game's terrain for colors and diffuse light only. Do not include people, scenery or terrain from the references.\nSubject: An empty earthen trench foreground lip. Use the old sprite's shallow U-shaped top contour as the placement template: broad low opening over the center, ends rise modestly. Show only the viewer-facing cut bank and its crumbly lip, with wet compacted brown soil, small embedded limestone and sparse desaturated dry straw tufts. No rear bank, hole floor, framing timbers or visible interior beyond the edge.\nComposition: portrait canvas aspect 2:3, object centered horizontally and flush near bottom. A wide, squat continuous foreground occluder, visible from front at very slightly above eye level; height roughly half the width. At center the solid lip is approximately 57% of the way down the canvas, with bottom near 99%. Preserve empty transparent space above for the soldier to be composited behind the lip. Make this a true transparent cutout with a clean hand-pixel silhouette, no white outline or checkerboard. A small irregular footprint stopping at the actual edge of the object, no cast ground shadow, no field, no rectangular tile edge, no captions or other props.\nStyle: hand-drawn game pixel art, deliberate chunky jagged pixel clusters, about 90–110 pixel steps across the entire subject, matte surfaces with bold but not black contour accents. Flat clustered tones, zero vector smoothness or painterly gradients. Muted warm charcoal and damp clay brown with taupe-grey limestone or bark where applicable, desaturated ochre straw, subtle cool shadows. Early March, overcast, no snow and no bright green. One object/prop only.",
+      "visibleBounds": [
+        0,
+        140,
+        200,
+        256
+      ],
+      "centerLipY": 170,
+      "sourceSha256": "50a5de5b2e15c5654720adb24fd9e993bfcac567f8c703c62495cd76c70e40e6",
+      "outputSha256": "59214589ef2faf3261c227ae5455a96300bdc9dec7041c77dbba790deb38b190"
+    },
+    {
+      "source": "stena.png",
+      "output": "assets/images/game-ready/polozaji/neretva/stena.webp",
+      "prompt": "Use case: game asset sprite. Generate a single isolated foreground cover sprite for the Neretva 2D game.\nReferences in order: 1 the old trench sprite for position, silhouette scale and slight top visibility only (keep actual alpha, ignore its green and stylization); 2 sprite sheet for bold cohesive pixel clusters, sharp single-pixel details, restrained contours and hand-pixel shading only; 3 and 4 the game's terrain for colors and diffuse light only. Do not include people, scenery or terrain from the references.\nSubject: One horizontal low broad angular local limestone boulder, with an uneven but almost level top. Give it a strong readable middle and an asymmetric profile with a chip at one corner. One big slanted gray-beige plane, dark cool gray cracks and just a few earth pixels at feet, sparse brown grass at base. It must read as a single natural rock, extending across nearly the whole width, with no tall point in the middle.\nComposition: portrait canvas aspect 2:3, object centered horizontally and flush near bottom. A wide, squat continuous foreground occluder, visible from front at very slightly above eye level; height roughly half the width. At center the solid lip is approximately 57% of the way down the canvas, with bottom near 99%. Preserve empty transparent space above for the soldier to be composited behind the lip. Make this a true transparent cutout with a clean hand-pixel silhouette, no white outline or checkerboard. A small irregular footprint stopping at the actual edge of the object, no cast ground shadow, no field, no rectangular tile edge, no captions or other props.\nStyle: hand-drawn game pixel art, deliberate chunky jagged pixel clusters, about 90–110 pixel steps across the entire subject, matte surfaces with bold but not black contour accents. Flat clustered tones, zero vector smoothness or painterly gradients. Muted warm charcoal and damp clay brown with taupe-grey limestone or bark where applicable, desaturated ochre straw, subtle cool shadows. Early March, overcast, no snow and no bright green. One object/prop only.",
+      "visibleBounds": [
+        3,
+        162,
+        197,
+        251
+      ],
+      "centerLipY": 167,
+      "sourceSha256": "0830405eef8ab5822f8a1c1fcd198055bd2e3a1d917d68652c5263bb5f89540e",
+      "outputSha256": "f1b1bc78c68f1a65ec5ecf385fd21bb9fde5650b64e62dfda88ee7d0007e5245"
+    },
+    {
+      "source": "gomila-kamenja.png",
+      "output": "assets/images/game-ready/polozaji/neretva/gomila-kamenja.webp",
+      "prompt": "Use case: game asset sprite. Generate a single isolated foreground cover sprite for the Neretva 2D game.\nReferences in order: 1 the old trench sprite for position, silhouette scale and slight top visibility only (keep actual alpha, ignore its green and stylization); 2 sprite sheet for bold cohesive pixel clusters, sharp single-pixel details, restrained contours and hand-pixel shading only; 3 and 4 the game's terrain for colors and diffuse light only. Do not include people, scenery or terrain from the references.\nSubject: A low irregular heap of naturally collapsed loose limestone chunks. Five to seven clearly separate large jagged stones, two smaller fragments at the base, varied taupe-gray planes and dark gaps, hints of damp soil among bottom stones. Asymmetric but broad across the central half with a low nearly level crown, no tall central peak. Naturally tumbled, no mortar, no brick pattern, no orderly wall.\nComposition: portrait canvas aspect 2:3, object centered horizontally and flush near bottom. A wide, squat continuous foreground occluder, visible from front at very slightly above eye level; height roughly half the width. At center the solid lip is approximately 57% of the way down the canvas, with bottom near 99%. Preserve empty transparent space above for the soldier to be composited behind the lip. Make this a true transparent cutout with a clean hand-pixel silhouette, no white outline or checkerboard. A small irregular footprint stopping at the actual edge of the object, no cast ground shadow, no field, no rectangular tile edge, no captions or other props.\nStyle: hand-drawn game pixel art, deliberate chunky jagged pixel clusters, about 90–110 pixel steps across the entire subject, matte surfaces with bold but not black contour accents. Flat clustered tones, zero vector smoothness or painterly gradients. Muted warm charcoal and damp clay brown with taupe-grey limestone or bark where applicable, desaturated ochre straw, subtle cool shadows. Early March, overcast, no snow and no bright green. One object/prop only.",
+      "visibleBounds": [
+        2,
+        156,
+        198,
+        235
+      ],
+      "centerLipY": 169,
+      "sourceSha256": "331dd6374f4bf7fed21f4b8b203ec79b9000a89e32769182245eb89371271791",
+      "outputSha256": "868b6b77edd35f91b1b368d93b2f32efc5a704fb80c0fa82c7dd18387de24944"
+    }
+  ]
+}

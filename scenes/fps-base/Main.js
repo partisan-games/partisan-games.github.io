@@ -26,7 +26,7 @@ import TouchLook from '/core3d/actor/characters/TouchLook.js'
 import FirstPersonView from '/core3d/actor/characters/FirstPersonView.js'
 import CampWeapons, { takeWeapon } from './CampWeapons.js'
 import PrisonerAvatar, { prisonerModel } from './PrisonerAvatar.js'
-import { CampGuard, Prisoner, PrisonerFootsteps, PrisonerKeys, crouchKey } from './stealth.js'
+import { CampGuard, Prisoner, PrisonerFootsteps, PrisonerKeys, crouchKey, raiseAlarm } from './stealth.js'
 import CampCompanion, { models as escapeModels } from './EscapingPrisoners.js'
 import CampNavigation from './CampNavigation.js'
 import CompanionModel, { companionLooks } from './CompanionModel.js'
@@ -95,7 +95,11 @@ export default class FpsBaseScene extends Scene3D {
       showTarget: () => avatar.current.pose !== 'pipe' }), avatar, weapons)
 
     const navigation = new CampNavigation(playerWorld.isBlocked, [.75, 1, ...companionLooks.map(look => look.height / 2)])
-    const onFirstSpot = guard => this.sceneAudio.emit(halt, { profile: shout, spatial: { position: guard.eye } })
+    const guards = []
+    const onFirstSpot = guard => {
+      this.sceneAudio.emit(halt, { profile: shout, spatial: { position: guard.eye } })
+      raiseAlarm(guards, guards.find(controller => controller.body === guard))
+    }
     const sees = (guard, prisoner) => enemyWorld.sees(guard.eye, prisoner.eye)
     const litAt = point => this.camp.litAt(point, enemyWorld.sees)
     this.prisoners = [this.player]
@@ -105,8 +109,10 @@ export default class FpsBaseScene extends Scene3D {
       const soldier = sample(soldiers)
       const { body, model } = makeCharacter(soldier, { x, z, targets: [this.player], damage: computerDamage, ...enemyWorld })
       weapons.register(body, model, soldier)
-      this.controllers.push(new CampGuard(body, { target: this.player, candidates: this.prisoners,
-        way: 'wander', sees, litAt, onFirstSpot, navigation }))
+      const guard = new CampGuard(body, { target: this.player, candidates: this.prisoners,
+        way: 'wander', sees, litAt, onFirstSpot, navigation })
+      guards.push(guard)
+      this.controllers.push(guard)
       this.add(body, model)
       return body
     })

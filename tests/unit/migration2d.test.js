@@ -68,8 +68,21 @@ test('neretva replaces a fallen defender only after his collapse and reuses his 
   assert.ok(scene.children.indexOf(cover) > scene.children.indexOf(view))
 })
 
-test('neretva owns separate trench covers, keeps its shot window and replaces the whole formation together', async t => {
+test('in neretva the Germans rise from trenches and the Chetniks from behind heaps of stones', async t => {
   const { default: Neretva } = await import('/scenes/neretva/Main.js')
+  const scene = new Neretva()
+  scene.init()
+  scene.clear = () => {}
+  t.after(() => scene.end())
+  const kinds = () => new Set(scene.sveSvabe.map(({ cover }) => cover.kind))
+  assert.deepEqual([...kinds()], ['trench'])
+  scene.manTrenches(scene.chetniks)
+  assert.deepEqual([...kinds()], ['stones'])
+})
+
+test('neretva owns separate covers, keeps its shot window and replaces the whole formation together', async t => {
+  const { default: Neretva } = await import('/scenes/neretva/Main.js')
+  const { covers } = await import('/scenes/neretva/Cover.js')
   const scene = new Neretva()
   scene.init()
   scene.clear = () => {}
@@ -81,18 +94,18 @@ test('neretva owns separate trench covers, keeps its shot window and replaces th
       draws.push({ args, smooth: this.imageSmoothingEnabled })
     } }
   for (const { body, view, cover } of original) {
-    loadAtlas(cover, 100, 150)
-    assert.ok(cover.image.src.endsWith('/armies/rov-prazan.gif'))
+    loadAtlas(cover, 200, 300)
+    assert.ok(cover.image.src.endsWith(`/neretva/${covers[cover.kind]}.webp`))
     assert.ok(scene.children.indexOf(cover) > scene.children.indexOf(view), 'cover is drawn in front of the figure')
     const { scale } = view
     assert.equal(view.y, cover.y - 24 * scale)
     assert.deepEqual([cover.width, cover.height], [100 * scale, 150 * scale])
     cover.render(ctx)
-    assert.equal(draws.at(-1).smooth, false, 'far and near trenches keep the original pixel sampling')
+    assert.equal(draws.at(-1).smooth, false, 'far and near covers keep the pixel sampling')
     assert.equal(draws.at(-1).args[0], cover.image)
     body.setState('aim')
     scene.proveriPogotke([{ body, view, cover }], { x: cover.x + 45 * scale, y: cover.y })
-    assert.equal(body.state, 'dead', 'the existing trench shot window is preserved')
+    assert.equal(body.state, 'dead', 'the existing shot window is preserved')
   }
   scene.preostaloVreme = 59
   scene.bringChetniks()

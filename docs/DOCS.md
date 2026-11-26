@@ -47,7 +47,7 @@ Vlasnikovi nazivi i ono što znače u kodu. Ovde idu samo pojmovi koji se stvarn
 | Bombaš (Žikica) | [Grenadier](../core/gameplay/bodies/soldiers/Grenadier.js) | Bunker |
 | Kuća-bunker | [Bunker](../core/gameplay/bodies/artillery/Bunker.js) sa [mitraljescem](../core/gameplay/bodies/soldiers/MachineGunner.js) u prozoru | Bunker, Do Trsta |
 | Okupator | [Occupier](../core/gameplay/bodies/soldiers/Occupier.js), nemački vojnik koji hoda i puca ka gledaocu; isto telo nose i strelac i stražar spreda ([FrontEnemySprite](../core/actor/soldiers/FrontEnemySprite.js)) | Okupator samo u katalogu; strelac i stražar u Otpisanima |
-| Nemac/Četnik spreda, ranije „u rovu” | [TrenchSoldier](../core/gameplay/bodies/soldiers/TrenchSoldier.js) sa odgovarajućim prikazom; [rov](../core/objects/Trench.js) je zasebna scenografija | Neretva; Nemac i u Otpisanima, hodajući; stare adrese u katalogu ostaju važeće ([granice](KATALOG.md#granice-i-odluke)) |
+| Nemac/Četnik spreda, ranije „u rovu” | [TrenchSoldier](../core/gameplay/bodies/soldiers/TrenchSoldier.js) sa odgovarajućim prikazom; [zaklon](../scenes/neretva/Cover.js), rov ili prirodni, zasebna je scenografija | Neretva; Nemac i u Otpisanima, hodajući; stare adrese u katalogu ostaju važeće ([granice](KATALOG.md#granice-i-odluke)) |
 | Partizanski/italijanski top | Isto telo [FieldGun](../core/gameplay/bodies/artillery/FieldGun.js) sa [prikazom topa](../core/actor/artillery/FieldGunSprite.js); [posada](../core/gameplay/bodies/soldiers/CannonCrew.js) je zaseban akter | Ustanak |
 | Potez | [Potez](../core/gameplay/bodies/aircraft/Potez.js) | Franjo Kluz |
 | Tenkić | [Tank](../core/gameplay/bodies/vehicles/Tank.js) kojim upravlja igrač; isto telo voze i neprijatelji | Tenkići, Do Trsta |
