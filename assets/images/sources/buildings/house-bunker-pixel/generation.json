@@ -78,48 +78,83 @@
         570
       ],
       "sourceSha256": "e60d43be87d83ee23d5c1e40b124420fb2f9b3cc20d1c74858ee4caabeaabbe9",
-      "outputSha256": "a473b7725a843afb852c6721868a50d6e908b1ec81da9768476f1d13779459dc"
+      "outputSha256": "6dc950b85c8d23fad8e7a4bfeef9b4eeeeca9b8e3eed4a9d6aa843b326dedab2",
+      "stage": "light damage",
+      "impactPositions": [
+        [
+          0,
+          150,
+          109
+        ],
+        [
+          1,
+          306,
+          172
+        ],
+        [
+          2,
+          485,
+          251
+        ],
+        [
+          3,
+          568,
+          471
+        ]
+      ],
+      "impactPrompt": "Exact sprite edit for a 2D game. Base image is number 1; image 2 is the existing intermediate battle damage state, and indicates the same recurring bullet impacts. Retain the exact 856:572 canvas, image framing, anchor, perspective, terracotta tiles, pale plaster, dark interior recesses and hand-drawn pixel clusters. Transparent outside the house. No people, text, effects, smoke, light or ground. This is the lightly damaged first state. Keep the original shape of the picture exactly and keep architecture and surface pixels as close to the base as possible. Add exactly FOUR small dark existing-style bullet holes with narrow chipped rims located in the base frame at x149 y110 on the left roof, x306 y172 in the wall above the door between openings, x486 y250 in the central wall immediately left of the right window, and x568 y472 on the wall underneath the right window. Take the shapes from the same visible marks in image 2, but lightly chip the plaster beside them with minimal changes. Most of the roof, plaster, wooden frames and the dark windows are still completely in place. Sparse limited damage with four pinpoints only.",
+      "impactReferences": [
+        "intact.png registered to the runtime frame",
+        "the registered intermediate damage state using damaged-bullet-holes.png and damaged-dark-recesses.png"
+      ],
+      "impactSheet": "impact-patches.png",
+      "impactDraftSha256": "f4290dabd844b3c2bf3c9d238b8f98168b4e00a7e269bf7c409c2419e5e1e5f4",
+      "impactSheetSha256": "f0fced78acb8b54ce5384e091572a7a8b73726d1710ad3c2ec522a1fefe3d7e3"
     },
     {
-      "source": "damaged.png",
+      "source": "damaged-bullet-holes.png",
       "output": "game-ready/artiljerija/house-bunker-pixel-damaged.webp",
       "references": [
-        "intact.png",
-        "assets/images/game-ready/artiljerija/house-bunker-damaged.webp"
+        "damaged-bullet-holes.png",
+        "intact.png"
       ],
-      "prompt": "Precise minimal edit of image 1, the newly redrawn pixel-art sprite, which is the base image. Keep its exact canvas, colored pixels, windows with dark charcoal recesses, sandbags, dark brown timber, intact architectural forms, pale cream plaster and terracotta tiles. Follow image 2 only for where to apply moderate impact wear. Paint a handful of small chips in the plaster and tiles, a few tiny cracks and soot-colored scuffs, and a chipped upper edge on one sill. Make the difference visible but local. Match the same pixel cluster style and layout, do not copy image 2's white window openings or bright-red wood. Do not change any window, doorway, roof angle or roof silhouette, wall outline, colors of the undamaged surfaces, sandbags or camera. Do not add people, smoke, flames, shadow or ground. Preserve genuine transparent alpha around the house and the original non-transparent dark openings. Final deliverable is one transparent game sprite consisting of the exact first house with discreet non-structural battle damage.",
+      "prompt": "Make a precise minimal edit of image 1, the damaged pixel art house with many bullet holes. This is a game damage state, so keep image 1's original framing, alpha, color and every painted bullet hole, soot smudge, crack, chipped wood, roof tile, wall, doorframe and sandbag exactly. The ONLY paint change is inside three white opening areas: the empty upper part of the left window, the empty upper part of the right window, and above the bags in the center doorway. Fill these cleanly edge to edge with subdued dark gray-brown interior shadow and a few angular warm charcoal pixel-art clusters matching the three dark interior openings of the intact house in image 2. Think of a dark unlit interior immediately behind the sandbags. Keep sandbag borders and framing exactly in place. Avoid black voids, bright highlights, glass, extra items, or any changes to damage, outside alpha, shape or positions. Return the original whole damaged sprite with these three changes and true transparent outside.",
       "yRegistration": [
         [
           0,
           0
         ],
         [
+          1,
+          10
+        ],
+        [
           70,
-          71
+          78
         ],
         [
           108,
-          110
+          117
         ],
         [
           116,
-          116
+          124
         ],
         [
           177,
-          175
+          184
         ],
         [
           198,
-          197
+          204
         ],
         [
           263,
-          267
+          271
         ],
         [
           285,
-          282
+          281
         ],
         [
           286,
@@ -127,13 +162,74 @@
         ]
       ],
       "bounds": [
-        3,
-        2,
-        849,
+        6,
+        4,
+        848,
         570
       ],
-      "sourceSha256": "663bb0247d9dbcd08423e1d80c745a795a47fee8a136c687a6f7f404a2a2d6ed",
-      "outputSha256": "2aa94a80a818980a7c03ac480e4ccda3feafa3d969da73623c00a41532bac3bd"
+      "sourceSha256": "8d2859d68a1a797bb53c2d57f731c35b0c8aec47ef5a0a9ff2da7c2aa2c51e07",
+      "outputSha256": "dd74f1661cc8dd375f52f9339f31d5868ac2abbe14cada67fff98283c6f01d20",
+      "recessRedraw": "damaged-dark-recesses.png",
+      "openings": [
+        [
+          75,
+          413,
+          449,
+          729
+        ],
+        [
+          934,
+          440,
+          1270,
+          737
+        ],
+        [
+          568,
+          656,
+          797,
+          963
+        ]
+      ],
+      "xRegistration": [
+        [
+          0,
+          0
+        ],
+        [
+          19,
+          22
+        ],
+        [
+          122,
+          122
+        ],
+        [
+          160,
+          161
+        ],
+        [
+          222,
+          220
+        ],
+        [
+          264,
+          264
+        ],
+        [
+          355,
+          353
+        ],
+        [
+          397,
+          397
+        ],
+        [
+          428,
+          428
+        ]
+      ],
+      "recessRedrawSha256": "2b5502d2d7dbd71537890ce43619a11d5afbaf94d18cc0c2890ce93bd436f815",
+      "stage": "heavy damage"
     },
     {
       "source": "destroyed.png",
@@ -227,7 +323,47 @@
         570
       ],
       "sourceSha256": "390bfcc77d4f931e12e894c62f50463244dfbb0497b81ba4107a030eac500368",
-      "outputSha256": "bdf07612c8454cc738500c4323092c2c5778199e597e176b0d987b2a9418c025"
+      "outputSha256": "d39f079b3504461cdfd6337a07a76716e73776e1e93d70d99f7a375c687fe977",
+      "stage": "destroyed",
+      "impactPositions": [
+        [
+          4,
+          150,
+          109
+        ],
+        [
+          5,
+          67,
+          485
+        ],
+        [
+          6,
+          193,
+          476
+        ],
+        [
+          7,
+          568,
+          471
+        ],
+        [
+          8,
+          725,
+          471
+        ],
+        [
+          9,
+          816,
+          424
+        ]
+      ],
+      "impactReferences": [
+        "Six paint samples retained from the generated collapse draft.",
+        "Placement follows the prepared intermediate damage frame."
+      ],
+      "impactSheet": "impact-patches.png",
+      "impactDraftSha256": "c252ad6ce8ee0983b10c407f6afa4d240ce0c27568de0aee35c00c3e22478209",
+      "impactSheetSha256": "f0fced78acb8b54ce5384e091572a7a8b73726d1710ad3c2ec522a1fefe3d7e3"
     }
   ]
 }

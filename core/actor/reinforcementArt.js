@@ -1861,9 +1861,9 @@ export const actorArt = {
       'y': 286.0
     },
     'bounds': [
-      3,
-      2,
-      849,
+      6,
+      4,
+      848,
       570
     ],
     'facing': 1,
