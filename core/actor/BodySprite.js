@@ -71,7 +71,12 @@ export default class BodySprite extends GameObject2D {
 
   update(dt) {
     this.fit()
+    if (this.body.state === 'wreck') this.flame?.clear()
     this.updateFlame(dt)
+  }
+
+  get burning() {
+    return this.body.state !== 'wreck' && super.burning
   }
 
   drawUnder() {}

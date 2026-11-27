@@ -76,6 +76,7 @@ export default class GunCarrier extends Body {
   }
 
   setState(name) {
+    if (name === 'wreck' && this.states.includes('wreck')) return super.setState(name)
     if (this.dead && name !== 'dead') return
     super.setState(name)
   }

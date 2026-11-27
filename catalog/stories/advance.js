@@ -1,6 +1,7 @@
 import AdvanceSprite from '/core/actor/AdvanceSprite.js'
 import * as advanceArt from '/core/actor/advanceArt.js'
 import Health from '/core/gameplay/Health.js'
+import Flame from '/core/actor/Flame.js'
 import scales from '../scales.js'
 
 const pxPerMeter = scales.side
@@ -15,10 +16,15 @@ function story(kind, id, name, game = 'The Germans Advance') {
       const tank = Boolean(sprite.damage)
       const states = Object.keys(clips)
       if (sprite.crew) states.push(commanderHit)
-      if (tank) states.push('dead')
+      if (tank) states.push('dead', 'wreck')
+      const fire = tank && new Flame(0, 0, { reuseParticles: true })
+      const smoke = tank && new Flame(0, 0, { reuseParticles: true })
       const actor = {
         x: stage.width / 2, state: 'idle', stateTime: 0, crewTime: 0, children: sprite.children,
         states,
+        get destroyed() {
+          return this.state === 'dead' || this.state === 'wreck'
+        },
         ...(tank && {
           health: new Health(),
           takeHit(damage) {
@@ -29,27 +35,40 @@ function story(kind, id, name, game = 'The Germans Advance') {
           },
         }),
         setState(state) {
-          if (this.state === 'dead' || !states.includes(state)) return
+          if (!states.includes(state) || (this.destroyed && state !== 'dead' && state !== 'wreck')) return
           if (state !== commanderHit || this.state !== 'drive') this.stateTime = 0
           if (state === commanderHit || this.state === commanderHit) this.crewTime = 0
-          if (state === 'dead') this.health.damage(this.health.current)
           this.state = state
+          if (this.destroyed) this.health.damage(this.health.current)
+          if (state === 'wreck') {
+            fire.clear()
+            smoke.clear()
+          }
         },
         update(dt) {
           this.stateTime += dt
           this.crewTime += dt
+          if (this.state === 'dead') {
+            fire.x = smoke.x = this.x - way * sprite.worldWidth * pxPerMeter * .13
+            fire.y = smoke.y = stage.groundY - sprite.height * pxPerMeter * .55
+            fire.update(dt * .22)
+            smoke.update(dt * .36)
+          }
         },
         render(ctx) {
-          const dead = this.state === 'dead'
           const hit = this.state === commanderHit
           const damaged = this.health && this.health.current < this.health.maximum
           const name = hit ? 'drive' : this.state
           const pose = { name, time: this.stateTime, x: this.x, y: stage.groundY, scale: pxPerMeter, flip: way }
           const fall = hit && this.crewTime >= hitDuration
-          const condition = dead ? 'dead' : damaged ? 'damaged' : undefined
+          const condition = this.destroyed ? 'dead' : damaged ? 'damaged' : undefined
           sprite.draw(ctx, { ...pose, crewName: fall ? 'dead' : hit ? 'hit' : 'idle',
             crewTime: fall ? this.crewTime - hitDuration : this.crewTime, condition })
           sprite.drawShot(ctx, { ...pose, age: this.stateTime })
+          if (this.state === 'dead') {
+            smoke.render(true)
+            fire.render()
+          }
         },
       }
       stage.add(actor)

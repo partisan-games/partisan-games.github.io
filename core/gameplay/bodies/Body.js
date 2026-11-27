@@ -13,7 +13,7 @@ import { earthGravity } from '../gravity.js'
 export default class Body {
   constructor({
     x = 0, y = 0, z = 0, yaw = 0, pitch = 0, size = { length: 1, height: 1, width: 1 }, health = 100, gravity = earthGravity,
-    states = { idle: {} }, initial = Object.keys(states)[0],
+    states = { idle: {} }, initial = Object.keys(states)[0], wreckState = false,
   } = {}) {
     Object.assign(this, { x, y, z, yaw, pitch, size, gravity })
     this.vx = this.vy = this.vz = 0
@@ -23,7 +23,7 @@ export default class Body {
     this.hitBy = null
     /** Seconds in the current state. */
     this.stateTime = 0
-    this.machine = new StateMachine(this, states, initial)
+    this.machine = new StateMachine(this, wreckState ? { ...states, wreck: states.dead } : states, initial)
   }
 
   get states() {
@@ -34,10 +34,13 @@ export default class Body {
     return this.machine.name
   }
 
-  /** Enters `name`; set to `dead`, it dies whatever its health. */
+  /** Enters a state, with an optional stationary wreck for scenery previews. */
   setState(name) {
+    if (this.state === 'wreck' && name !== 'wreck' && name !== 'dead') return
     if (name !== this.state) this.stateTime = 0
-    if (name === 'dead' && this.alive) this.health.damage(this.health.current)
+    const wreck = name === 'wreck' && this.states.includes(name)
+    if ((name === 'dead' || wreck) && this.alive) this.health.damage(this.health.current)
+    if (wreck) this.vx = this.vz = 0
     this.machine.set(name)
   }
 

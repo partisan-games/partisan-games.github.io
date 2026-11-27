@@ -235,9 +235,17 @@ test('the T-34-85 catalogue uses the prepared drive and fire rows with a shared 
   }
 })
 
-test('the Panzer and T-34 catalogue show hull damage and a stationary wreck', async() => {
+test('the Panzer and T-34 catalogue use the same hull for burning and cold wrecks', async t => {
   createPageElements()
   const { vehicles } = await import('/catalog/stories/advance.js')
+  const { default: Flame } = await import('/core/actor/Flame.js')
+  const effects = []
+  const effectSpy = {
+    render(smoke = false) {
+      if (this.sparks.length) effects.push(smoke)
+    },
+  }
+  t.mock.method(Flame.prototype, 'render', effectSpy.render)
   for (const id of ['panzer-iii', 't34-85']) {
     const story = vehicles.find(vehicle => vehicle.id === id)
     const actor = story.create({ width: 800, groundY: 500, add() {} }, 1)
@@ -250,7 +258,7 @@ test('the Panzer and T-34 catalogue show hull damage and a stationary wreck', as
         draws.push([image, x, y])
       } }
     actor.setState('drive')
-    assert.ok(actor.states.includes('dead'))
+    assert.ok(actor.states.includes('wreck'))
     assert.equal(actor.takeHit(10), false)
     assert.equal(actor.health.current, 90)
     actor.render(ctx)
@@ -272,6 +280,13 @@ test('the Panzer and T-34 catalogue show hull damage and a stationary wreck', as
     actor.render(ctx)
     const wreckX = id === 'panzer-iii' ? 554 : 684
     assert.deepEqual(draws, [[condition.image, wreckX, 4], [condition.image, wreckX, 4]])
+    assert.deepEqual(effects.splice(0), [true, false])
+    actor.setState('wreck')
+    actor.update(.5)
+    actor.render(ctx)
+    assert.equal(actor.state, 'wreck')
+    assert.deepEqual(draws.at(-1), [condition.image, wreckX, 4])
+    assert.deepEqual(effects, [])
   }
 })
 

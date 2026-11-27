@@ -133,3 +133,35 @@ test('the Hummel catalogue drives with the game atlas and stops on one still fra
   }
   assert.deepEqual(frames.slice(-2), [[4, 4], [4, 4]])
 })
+
+test('regular 2D catalogue vehicles can switch from a burning wreck to scenery', async() => {
+  const modules = await Promise.all(['tenkici', 'franjoKluz', 'doTrsta'].map(name => import(`/catalog/stories/${name}.js`)))
+  const { default: Flame } = await import('/core/actor/Flame.js')
+  const projection = sideProjection({ pxPerMeter: 40, groundY: 400 })
+  for (const { id, create, way } of modules.flatMap(module => module.vehicles)) {
+    let view
+    const stage = { width: 800, groundY: 400, cameraX: 0, cameraY: 0, projection, controllers: [],
+      session: { clock: new GameClock() },
+      add(_body, sprite) {
+        view = sprite
+      },
+    }
+    const body = create(stage, way)
+    view.flame = new Flame()
+    assert.ok(body.states.includes('wreck'), id)
+    body.setState('dead')
+    view.update(.1)
+    assert.equal(view.burning, true, id)
+    assert.ok(view.flame.sparks.length, id)
+    body.setState('wreck')
+    body.setState('move')
+    const { x } = body
+    body.update(.1)
+    view.update(.1)
+    assert.equal(body.state, 'wreck', id)
+    assert.equal(body.health.current, 0, id)
+    assert.equal(body.x, x, id)
+    assert.equal(view.burning, false, id)
+    assert.equal(view.flame.sparks.length, 0, id)
+  }
+})

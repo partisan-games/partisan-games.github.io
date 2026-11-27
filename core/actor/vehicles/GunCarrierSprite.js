@@ -54,12 +54,14 @@ export default class GunCarrierSprite extends BodySprite {
     const moving = Math.abs(this.body.vx) > .025
     const damaged = this.body.health.current < this.body.health.maximum / 2
     const clip = this.body.dead ? 'dead' : damaged ? 'damaged' : this.sinceShot < .4 ? 'attack' : moving ? 'drive' : 'idle'
+    const time = this.body.state === 'wreck' ? this.sheet.seconds('dead')
+      : clip === 'attack' ? this.sinceShot : moving || clip === 'idle' ? this.elapsed : 0
     const gunAngle = -this.body.gunPitch * this.facing
     ctx.save()
     ctx.translate(this.x, this.y)
     ctx.rotate(this.angle)
     ctx.scale(this.flipY, 1)
-    this.sheet.drawLocal(ctx, this, clip, clip === 'attack' ? this.sinceShot : moving || clip === 'idle' ? this.elapsed : 0,
+    this.sheet.drawLocal(ctx, this, clip, time,
       { elapsed: this.elapsed, gunTime: this.sinceShot < .4 ? this.sinceShot : 0, gunAngle })
     ctx.restore()
     if (this.burning) this.flame.render(this.smoky)

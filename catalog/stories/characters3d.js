@@ -501,7 +501,9 @@ function tankStory(id, name, game, module) {
   return {
     ...story, catalogGroup: ['Vozila'],
     async create(stage) {
-      const body = await story.create(stage)
+      await requestModels(module.models)
+      const { body, model } = makeCharacter(module.description, { wreckState: true })
+      stage.add(body, model)
       stage.controllers.push({
         update() {
           body.steer({ ahead: body.state === 'move' ? 1 : 0 })

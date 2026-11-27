@@ -46,7 +46,7 @@ const vehicle = kind => (stage, way) => {
   const settings = vehicleModule.vehicleKinds[kind]
   const { art, attack, facing, Body: VehicleBody } = kinds[kind]
   const body = new VehicleBody({ kind: settings, ...middle(stage, settings.size.height / 2), yaw: yawOf(way),
-    targets: [stage.dummy] })
+    targets: [stage.dummy], wreckState: true })
   return put(stage, body, new VehicleSprite(body, { art, attack, facing, ...views(stage) }))
 }
 

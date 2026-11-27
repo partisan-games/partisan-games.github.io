@@ -47,7 +47,8 @@ export default class RoadVehicleSprite extends BodySprite {
     const moving = Math.abs(body.vx) > .025
     const clip = body.dead ? 'dead' : this.sinceShot < .4 ? 'attack' : body.health.current < body.health.maximum / 2
       ? 'damaged' : moving ? 'drive' : 'idle'
-    const time = body.dead ? body.stateTime : clip === 'attack' ? this.sinceShot : moving || clip === 'idle' ? this.elapsed : 0
+    const time = body.state === 'wreck' ? this.sheet.seconds('dead')
+      : body.dead ? body.stateTime : clip === 'attack' ? this.sinceShot : moving || clip === 'idle' ? this.elapsed : 0
     ctx.save()
     ctx.translate(this.x, this.y)
     ctx.rotate(this.angle)

@@ -2,7 +2,7 @@ import { Box3, Matrix4, NearestFilter, SRGBColorSpace, TextureLoader, Vector3 } 
 import { assets } from '/config.js'
 
 let paint
-const plateMaps = new Map()
+const surfaceMaps = new Map()
 
 function armorPaint() {
   if (!paint) {
@@ -18,13 +18,13 @@ function armorPaint() {
 }
 
 function paintedMap(file) {
-  if (!plateMaps.has(file)) {
+  if (!surfaceMaps.has(file)) {
     const map = new TextureLoader().load(file)
     map.colorSpace = SRGBColorSpace
     map.magFilter = NearestFilter
-    plateMaps.set(file, map)
+    surfaceMaps.set(file, map)
   }
-  return plateMaps.get(file)
+  return surfaceMaps.get(file)
 }
 
 const plateSampling = /* glsl */ `
@@ -92,40 +92,40 @@ function paintArmor(material, projection, condition, plates, truckWreck) {
 
 /** Paint intact or damaged surfaces on one vehicle instance without touching its source model. */
 export function paintVehicleCondition(mesh, readCondition, { plateFile, wreckFile } = {}) {
-    mesh.updateWorldMatrix(true, true)
-    const inverse = mesh.matrixWorld.clone().invert()
-    const bounds = new Box3()
-    const parts = []
-    mesh.traverse(part => {
-      if (!part.isMesh) return
-      part.geometry.computeBoundingBox()
-      const local = new Matrix4().multiplyMatrices(inverse, part.matrixWorld)
-      bounds.union(part.geometry.boundingBox.clone().applyMatrix4(local))
-      parts.push({ part, local, original: part.material })
-    })
-    if (bounds.isEmpty()) return undefined
-    const size = bounds.getSize(new Vector3())
-    const fit = new Matrix4().makeScale(1 / size.x, 1 / size.y, 1 / size.z)
-      .multiply(new Matrix4().makeTranslation(-bounds.min.x, -bounds.min.y, -bounds.min.z))
-    const condition = { value: 0 }
-    const plates = plateFile && paintedMap(assets.textures + plateFile)
-    const wreck = wreckFile && paintedMap(assets.models + wreckFile)
-    for (const { part, local, original } of parts) {
-      const project = fit.clone().multiply(local)
-      const finish = (material, index = 0) => paintArmor(material, project, condition, index === 0 ? plates : undefined, wreck)
-      part.material = Array.isArray(original) ? original.map(finish) : finish(original)
-    }
-    return {
-      update() {
-        condition.value = readCondition()
-      },
-      dispose() {
-        for (const { part, original } of parts) {
-          for (const material of [].concat(part.material)) material.dispose()
-          part.material = original
-        }
-      },
-    }
+  mesh.updateWorldMatrix(true, true)
+  const inverse = mesh.matrixWorld.clone().invert()
+  const bounds = new Box3()
+  const parts = []
+  mesh.traverse(part => {
+    if (!part.isMesh) return
+    part.geometry.computeBoundingBox()
+    const local = new Matrix4().multiplyMatrices(inverse, part.matrixWorld)
+    bounds.union(part.geometry.boundingBox.clone().applyMatrix4(local))
+    parts.push({ part, local, original: part.material })
+  })
+  if (bounds.isEmpty()) return undefined
+  const size = bounds.getSize(new Vector3())
+  const fit = new Matrix4().makeScale(1 / size.x, 1 / size.y, 1 / size.z)
+    .multiply(new Matrix4().makeTranslation(-bounds.min.x, -bounds.min.y, -bounds.min.z))
+  const condition = { value: 0 }
+  const plates = plateFile && paintedMap(assets.textures + plateFile)
+  const wreck = wreckFile && paintedMap(assets.models + wreckFile)
+  for (const { part, local, original } of parts) {
+    const project = fit.clone().multiply(local)
+    const finish = (material, index = 0) => paintArmor(material, project, condition, index === 0 ? plates : undefined, wreck)
+    part.material = Array.isArray(original) ? original.map(finish) : finish(original)
+  }
+  return {
+    update() {
+      condition.value = readCondition()
+    },
+    dispose() {
+      for (const { part, original } of parts) {
+        for (const material of [].concat(part.material)) material.dispose()
+        part.material = original
+      }
+    },
+  }
 }
 
 /** Compose travel and authored damage on the same tank instance. */

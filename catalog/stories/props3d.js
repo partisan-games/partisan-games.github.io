@@ -7,7 +7,8 @@ import Milutin, * as monumentModule from '/core3d/actor/buildings/Milutin.js'
 import { requestModels } from '/core3d/assets/models.js'
 import Sandbags, * as sandbagsModule from '/core3d/actor/buildings/Sandbags.js'
 import TownHouse, * as townHouseModule from '/core3d/actor/buildings/TownHouse.js'
-import WarDebris, * as warDebrisModule from '/core3d/actor/buildings/WarDebris.js'
+import WarDebris, { hasTruckWreck, TruckDebris } from '/core3d/actor/buildings/WarDebris.js'
+import * as warDebrisModule from '/core3d/actor/buildings/WarDebris.js'
 import Tree, * as treeModule from '/core3d/actor/nature/Tree.js'
 
 /** The props of a camp, each with its group by what it is, so any game can take the same one. */
@@ -98,7 +99,7 @@ const debris = Object.entries(warDebrisModule.warDebris).map(([kind, { name, mod
   catalogGroup: model.file.startsWith('vehicle/') ? ['Vozila'] : ['Scenografija', 'Tragovi rata'],
   create: async stage => {
     await requestModels([model])
-    const block = new WarDebris(kind)
+    const block = hasTruckWreck(kind) ? new TruckDebris(kind) : new WarDebris(kind)
     stage.add(block)
     return block
   },

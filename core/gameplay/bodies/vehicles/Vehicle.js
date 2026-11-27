@@ -43,7 +43,7 @@ export default class Vehicle extends Body {
   }
 
   setState(name) {
-    if ((this.dead && name !== 'dead') || !this.states.includes(name)) return
+    if ((this.dead && name !== 'dead' && name !== 'wreck') || !this.states.includes(name)) return
     super.setState(name)
   }
 }

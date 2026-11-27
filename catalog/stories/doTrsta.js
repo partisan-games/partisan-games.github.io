@@ -30,14 +30,14 @@ const put = (stage, body, view) => {
 /** The Somua S35, a French tank the Germans took, whose barrel art is a part of a larger picture. */
 const somua = (stage, way) => {
   const { somua: kind } = tankModule.tankKinds
-  const body = new Tank({ ...placed(stage, kind.size, way), kind, performance: modelPerformance[somuaTank.id] })
+  const body = new Tank({ ...placed(stage, kind.size, way), kind, performance: modelPerformance[somuaTank.id], wreckState: true })
   return put(stage, body, new TankSprite(body, { ...somuaTank, ...views(stage) }))
 }
 
 /** A machine-gun carrier of `kind`, driving at the stand-in when it is set to fire. */
 const gunCarrier = id => (stage, way) => {
   const kind = gunCarrierModule.gunCarrierKinds[id]
-  const body = new GunCarrier({ ...placed(stage, kind.size, way), kind })
+  const body = new GunCarrier({ ...placed(stage, kind.size, way), kind, wreckState: true })
   return put(stage, body, new GunCarrierSprite(body, { picture: gunCarrierPictures[id], ...views(stage) }))
 }
 
@@ -58,7 +58,7 @@ export const vehicles = [
   ...Object.entries(roadVehicleModule.roadVehicleKinds).map(([id, kind]) => ({
     id, name: kind.name, game, pxPerMeter, way: -1, block: roadVehicleModule,
     create: (stage, way) => {
-      const body = new RoadVehicle({ ...placed(stage, kind.size, way), kind })
+      const body = new RoadVehicle({ ...placed(stage, kind.size, way), kind, wreckState: true })
       return put(stage, body, new RoadVehicleSprite(body, { id, ...views(stage) }))
     },
   })),

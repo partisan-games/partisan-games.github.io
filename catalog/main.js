@@ -70,7 +70,7 @@ async function show() {
 const stateButtons = (legend, names, more = '', before = {}) => /* html */`
   <fieldset>
     <legend>${legend}</legend>
-    ${names.map(name => `${before[name] ?? ''}<button data-state="${name}">${name}</button>`).join('')}
+    ${names.map(name => `${before[name] ?? ''}<button data-state="${name}">${name === 'wreck' ? 'Olupina' : name}</button>`).join('')}
     ${more}
   </fieldset>`
 

@@ -1,0 +1,12 @@
+{
+  "source": "wreck-paint.png",
+  "tool": "OpenAI ImageGen",
+  "sha256": "028dee9b1e8effa79397f592c7f658f309dac37770631f4d35d22247a8414866",
+  "prompt": "Create a wide transparent game decal sheet. Exactly two separate clusters: LEFT, an irregular dark charred patch on destroyed World War II military truck bodywork, with dramatic black burnt center, holes and two curled jagged split edges of scorched steel, dark muted ash gray and a bit of muted rust brown at the perimeter. RIGHT, torn charred truck cargo bed wood with jagged broken split boards running horizontally, patches of black soot and desaturated charcoal brown, exposing a dark gap. Large stepped pixel-art clusters, matte flat unlit albedo, professional WWII strategy game sprite style recognizable at small size, no glossy gradients. Both clusters isolated on fully transparent background without a bounding rectangle. No truck, people, weapon, lettering, smoke, fire, grass, shadows or environment. Clear margin between left and right halves, all drawn details comfortably inside their respective halves. 2:1 landscape sheet.",
+  "preparation": "prepare.py",
+  "projectedArtwork": [
+    "assets/models/vehicle/truck/opel-blitz/wreck.webp",
+    "assets/models/vehicle/truck/army-truck/wreck.webp"
+  ],
+  "placement": "Burned steel over the cab and engine, split boards over the cargo bed. Each 256 × 160 mask follows the model's own front direction."
+}

@@ -41,7 +41,7 @@ export default class TankSprite extends BodySprite {
 
   /** Its fire shows once the flame it loads on its own is here. */
   get burning() {
-    return this.flammable && this.body.burning
+    return this.body.state !== 'wreck' && this.flammable && this.body.burning
   }
 
   /** The atlas frame: a drive played backwards when the tank backs up. */

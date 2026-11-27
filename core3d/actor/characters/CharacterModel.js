@@ -210,7 +210,13 @@ export default class CharacterModel {
     this.anim?.update(dt)
     if (body.dead) {
       this.showDeath(dt)
-      if (this.deathPose === 'armor') optionalEffect(this, 'wreck fire', () => this.showWreckFire(dt, t))
+      if (this.deathPose === 'armor') optionalEffect(this, 'wreck fire', () => {
+        if (body.state !== 'wreck') this.showWreckFire(dt, t)
+        else if (this.wreckFlames) {
+          this.wreckFlames.dispose()
+          this.wreckFlames = undefined
+        }
+      })
     }
     if (body.shotsFired > seen.shots) this.strike()
     if (body.hitsTaken > seen.hits || (seen.airborne && !body.airborne && body.alive))

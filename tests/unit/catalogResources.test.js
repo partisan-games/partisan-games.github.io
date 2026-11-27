@@ -63,6 +63,7 @@ test('the Renault and Hotchkiss use painted armor states and live tracks in the 
     } else assert.equal(shader.uniforms.armorPlates, undefined)
     const { armorCondition } = shader.uniforms
     assert.equal(armorCondition.value, 0)
+    assert.ok(body.states.includes('wreck'))
     body.setState('move')
     stage.controllers[0].update()
     body.update(.07)
@@ -71,7 +72,15 @@ test('the Renault and Hotchkiss use painted armor states and live tracks in the 
     body.takeHit(body.health.maximum * .1)
     view.update(0, .07)
     assert.equal(armorCondition.value, 1)
-    assert.equal(view.wreckFire, undefined)
+    assert.equal(view.wreckFlames, undefined)
+    if (hotchkiss) {
+      body.setState('wreck')
+      view.update(0, .07)
+      assert.equal(body.dead, true)
+      assert.equal(body.state, 'wreck')
+      assert.equal(armorCondition.value, 2)
+      assert.equal(view.wreckFlames, undefined)
+    }
     body.setState('dead')
     const position = track.offset.x
     const hullSide = part.geometry.attributes.position.array.slice()
@@ -85,7 +94,7 @@ test('the Renault and Hotchkiss use painted armor states and live tracks in the 
     assert.equal(view.mesh.rotation.x, 0)
     assert.equal(view.mesh.rotation.z, 0)
     assert.ok(Math.abs(new THREE.Box3().setFromObject(view.mesh, true).min.y - body.feet) < 1e-6)
-    const { wreckFire, wreckSmoke } = view
+    const { fire: wreckFire, smoke: wreckSmoke } = view.wreckFlames
     assert.equal(wreckFire.mesh.parent, scene)
     assert.equal(wreckSmoke.mesh.parent, scene)
     assert.ok(wreckSmoke.mesh.position.y > wreckFire.mesh.position.y)
@@ -93,14 +102,116 @@ test('the Renault and Hotchkiss use painted armor states and live tracks in the 
     assert.ok(engine.z > 0, 'flames come from the rear engine deck')
     const plume = wreckSmoke.mesh.geometry.attributes.position.array.slice()
     view.update(.1, 1.17)
-    assert.equal(view.wreckSmoke, wreckSmoke, 'the plume persists while the wreck is held')
+    assert.equal(view.wreckFlames.smoke, wreckSmoke, 'the plume persists while the wreck is held')
     assert.notDeepEqual(wreckSmoke.mesh.geometry.attributes.position.array, plume)
     assert.deepEqual(part.geometry.attributes.position.array, hullSide)
     if (turret) assert.ok(turret.quaternion.equals(turretRotation))
     if (hotchkiss) assert.equal(view.flameKind.muzzle[2], -1.43)
+    body.setState('wreck')
+    view.update(.1, 1.27)
+    assert.equal(body.state, 'wreck')
+    assert.equal(armorCondition.value, 2)
+    assert.equal(view.wreckFlames, undefined)
+    assert.equal(wreckFire.mesh.parent, null)
+    assert.equal(wreckSmoke.mesh.parent, null)
+    body.setState('dead')
+    view.update(.1, 1.37)
+    assert.equal(view.wreckFlames.fire.mesh.parent, scene)
     view.end()
     assert.equal(wreckFire.mesh.parent, null)
     assert.equal(wreckSmoke.mesh.parent, null)
+  }
+})
+
+test('the catalogue trucks roll on their axles, keep painted wrecks and use dark army truck glass', async t => {
+  createPageElements()
+  t.mock.method(THREE.TextureLoader.prototype, 'load', (name, onLoad) => {
+    const texture = Object.assign(new THREE.Texture(), { name })
+    if (onLoad) queueMicrotask(() => onLoad(texture))
+    return texture
+  })
+  t.mock.method(FBXLoader.prototype, 'loadAsync', async url => {
+    const bytes = await readFile('.' + decodeURI(url))
+    return new FBXLoader().parse(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), '')
+  })
+  const { props } = await import('/catalog/stories/props3d.js')
+  const { default: WarDebris } = await import('/core3d/actor/buildings/WarDebris.js')
+  for (const [id, folder, front] of [['truck', 'opel-blitz', -1], ['army-truck', 'army-truck', 1]]) {
+    const scene = new THREE.Scene()
+    const story = props.find(({ id: key }) => key === 'rat-' + id)
+    const truck = await story.create({ add: block => scene.add(block.mesh) })
+    assert.deepEqual(truck.states, ['idle', 'move', 'dead', 'wreck'])
+    const rotation = truck.mesh.quaternion.clone()
+    const part = truck.mesh.getObjectByProperty('isMesh', true)
+    const shader = { ...THREE.ShaderLib.phong, uniforms: {} }
+    const material = Array.isArray(part.material) ? part.material[0] : part.material
+    material.onBeforeCompile(shader)
+    const { armorCondition, armorWreck } = shader.uniforms
+    assert.ok(armorWreck.value.name.endsWith('/' + folder + '/wreck.webp'))
+    assert.equal((await readFile('.' + armorWreck.value.name)).toString('ascii', 8, 16), 'WEBPVP8L')
+    const windows = truck.mesh.getObjectByName('ArmyTruck_Window_ArmyTruck_Glass_0')
+    if (id === 'army-truck') {
+      assert.equal(windows.material.transparent, true)
+      assert.ok(windows.material.opacity < 1)
+      assert.notEqual(windows.material.color.getHex(), 0xffffff)
+      assert.ok(truck.mesh.getObjectByName('Truck_ArmyTruck_main_0').material.map)
+    }
+    truck.update(.1, .1)
+    assert.equal(armorCondition.value, 0)
+    assert.equal(truck.wreckFlames, undefined)
+    const wheels = []
+    truck.mesh.traverse(wheel => {
+      if (!(id === 'truck' ? /^Cube00[1237]$/ : /^Wheel_/).test(wheel.name)) return
+      const box = new THREE.Box3().setFromObject(wheel, true)
+      const center = box.getCenter(new THREE.Vector3())
+      wheels.push({
+        wheel, center, axle: wheel.worldToLocal(center.clone()), radius: (box.max.y - box.min.y) / 2,
+        rest: wheel.getWorldQuaternion(new THREE.Quaternion()),
+      })
+    })
+    assert.equal(wheels.length, id === 'truck' ? 4 : 6)
+    truck.setState('move')
+    truck.update(.2, .3)
+    const distance = truck.mesh.position.z
+    assert.equal(Math.sign(distance), front)
+    for (const { wheel, center, axle, radius, rest } of wheels) {
+      const expected = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), distance / radius)
+        .multiply(rest)
+      assert.ok(wheel.getWorldQuaternion(new THREE.Quaternion()).angleTo(expected) < 1e-6, wheel.name)
+      assert.ok(wheel.localToWorld(axle).distanceTo(center.clone().add(new THREE.Vector3(0, 0, distance))) < 1e-6, wheel.name)
+    }
+    truck.setState('idle')
+    const stopped = wheels[0].wheel.quaternion.clone()
+    truck.update(.2, .5)
+    assert.equal(truck.mesh.position.z, distance)
+    assert.ok(wheels[0].wheel.quaternion.equals(stopped))
+    truck.setState('move')
+    truck.setState('wreck')
+    truck.setState('move')
+    truck.update(.1, .6)
+    assert.equal(truck.mesh.position.z, distance)
+    assert.ok(wheels[0].wheel.quaternion.equals(stopped))
+    assert.equal(armorCondition.value, 2)
+    assert.ok(truck.mesh.quaternion.equals(rotation))
+    if (windows) {
+      assert.equal(windows.visible, false)
+      assert.equal(new WarDebris(id).mesh.getObjectByName(windows.name).visible, true)
+    }
+    assert.equal(truck.state, 'wreck')
+    assert.equal(truck.wreckFlames, undefined)
+    truck.setState('dead')
+    truck.update(.1, .7)
+    const { fire, smoke } = truck.wreckFlames
+    assert.equal(fire.mesh.parent, scene)
+    assert.equal(smoke.mesh.parent, scene)
+    assert.equal(Math.sign(fire.mesh.position.z), front)
+    assert.ok(smoke.mesh.position.y > fire.mesh.position.y)
+    truck.setState('wreck')
+    assert.equal(armorCondition.value, 2)
+    assert.equal(truck.wreckFlames, undefined)
+    truck.end()
+    assert.equal(fire.mesh.parent, null)
+    assert.equal(smoke.mesh.parent, null)
   }
 })
 

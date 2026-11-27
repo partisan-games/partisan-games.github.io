@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "measuredAt": "2026-11-27T22:40:42.499041+00:00",
+  "measuredAt": "2026-11-27T22:48:49.571527+00:00",
   "baseRevision": "ba47b5fe8fab31f58a1c3da8ea03c8ed8275c774",
   "scope": "Art linked by docs/ART.md, including shared variants; not all unused library art or a runtime/visual acceptance test.",
   "interpretation": "imageFrames counts file-container frames. A PNG atlas normally has one; named sprite clips require metadata and a runtime mapping. hashes detect exact input changes, not art quality.",
@@ -444,6 +444,26 @@
       "imageFrames": 1,
       "hasTransparentPixelsInFirstFrame": true,
       "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/models/vehicle/truck/army-truck/wreck.webp",
+      "sha256": "6c920b4ca0228abccf63d2580dde7381d2cbe18eab363067b751d7c97f9b338a",
+      "kind": "WEBP",
+      "width": 256,
+      "height": 160,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/models/vehicle/truck/opel-blitz/wreck.webp",
+      "sha256": "2498fd3b0a1b097ab86eaced73e49394d71f8c9ab3ba9eec918df2972071d260",
+      "kind": "WEBP",
+      "width": 256,
+      "height": 160,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1
     }
   ],
   "reviewInputs": [
@@ -680,6 +700,10 @@
       "sha256": "5d4d8115b7e0c25de874dd14328b5c2da070b15f3b22c7b96535716f9fe46fef"
     },
     {
+      "path": "assets/images/sources/vehicles/3d-truck-wrecks/generation.json",
+      "sha256": "bfcb392a2de1a2af292ccd6ef0836c1147ba5490d1ae57510236aaa8192b7f4e"
+    },
+    {
       "path": "assets/images/sources/vehicles/hummel/drive-generation.json",
       "sha256": "dcb1ec4e23f8fb41909ae759c0c8cd283d892ccc4d12840dec696e48dfd30459"
     },
@@ -746,6 +770,14 @@
     {
       "path": "assets/models/tank/renault-ft/README.md",
       "sha256": "2871e797fc3520017f94137071c13cf331162a76e8eeb9bea462391d3e5903df"
+    },
+    {
+      "path": "assets/models/vehicle/truck/army-truck/wreck.webp",
+      "sha256": "6c920b4ca0228abccf63d2580dde7381d2cbe18eab363067b751d7c97f9b338a"
+    },
+    {
+      "path": "assets/models/vehicle/truck/opel-blitz/wreck.webp",
+      "sha256": "2498fd3b0a1b097ab86eaced73e49394d71f8c9ab3ba9eec918df2972071d260"
     },
     {
       "path": "assets/models/weapon/cannon/field-gun-75.glb",
@@ -825,7 +857,7 @@
     },
     {
       "path": "core3d/actor/derived/tankCondition.js",
-      "sha256": "112316636f4f59a506fbde30a6170805c4baff43c4fededdfa557618deca9423"
+      "sha256": "57971a9ac627333e88bd1675d8bac7ea535f0737e039639acc0aeddfec0c0e75"
     },
     {
       "path": "core3d/actor/derived/ww2/savoBlouse.js",
@@ -841,7 +873,7 @@
     },
     {
       "path": "docs/ART.md",
-      "sha256": "79b5613d30a122de9495602d3286f8aab91bfdcdadfad5e6c00ac71b65cb2f15"
+      "sha256": "6aa5dda84b576b5b38cf3d638f2ff8d8b7027ad874e1e957c505412d7f6ca0ba"
     },
     {
       "path": "docs/ISTORIJA.md",

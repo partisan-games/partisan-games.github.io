@@ -107,6 +107,7 @@ export default class Character extends Body {
   }
 
   setState(name) {
+    if (name === 'wreck' && this.states.includes('wreck')) return super.setState(name)
     if (this.dead && name !== 'dead') return
     if (name === 'attack') return this.attack()
     super.setState(name)
