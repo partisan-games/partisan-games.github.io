@@ -1,12 +1,12 @@
 import * as THREE from 'three'
 import { createBoxes } from '/core3d/geometry/index.js'
-import { createTexturedBuilding } from '/core3d/city.js'
 import { loadModel } from '/core3d/loaders.js'
 import { loadedModel } from '/core3d/assets/models.js'
 import { campModels } from '/core3d/actor/buildings/CampProp.js'
 import Milutin, { models as monumentModels } from '/core3d/actor/buildings/Milutin.js'
 import Tree, { trees } from '/core3d/actor/nature/Tree.js'
 import TownHouse, { modelOf as townHouseModel } from '/core3d/actor/buildings/TownHouse.js'
+import FacadeHouse, { facades as facadeKinds } from '/core3d/actor/buildings/FacadeHouse.js'
 import { models as sandbagsModels } from '/core3d/actor/buildings/Sandbags.js'
 import { models as cannonModels } from '/core3d/actor/derived/Cannon.js'
 
@@ -52,7 +52,7 @@ const schoolKind = 'european-building'
 export const models = [...sandbagsModels, campModels['fence-straight'], townHouseModel(schoolKind), ...cannonModels, ...monumentModels,
   trees.linden.model]
 
-const facades = ['building-front.png', 'building-green-front.png', 'building-blue-front.png', 'ruin-front.jpg']
+const facades = Object.keys(facadeKinds)
 const earth = 0x8a7350
 const cobbles = 0x8c8a84
 
@@ -128,26 +128,27 @@ export async function buildKraljevo(physics) {
   for (let i = 0; i < street.houses; i++)
     for (const side of [-1, 1]) {
       const height = THREE.MathUtils.randFloat(...street.height)
-      const front = `buildings/${facades[(i * 2 + (side + 1) / 2) % facades.length]}`
-      const width = 12
-      // a house's face to the street is its +x side on the left and its -x side on the right
-      const house = createTexturedBuilding({ width, height, depth: street.length, y: 0, defaultFile: 'buildings/building-back.png',
-        files: side < 0 ? [front] : [null, front] })
-      house.position.set(side * (street.half - 5 + width / 2), height / 2, street.from + i * (street.length + street.gap))
-      physics.add(house, 0)
+      const facade = facades[(i * 2 + (side + 1) / 2) % facades.length]
+      const depth = 12
+      const { mesh } = new FacadeHouse({ facade, width: street.length, height, depth })
+      mesh.position.x = side * (street.half - 5 + depth / 2)
+      mesh.position.z = street.from + i * (street.length + street.gap)
+      // its front, +z, to the street
+      mesh.rotation.y = -side * Math.PI / 2
+      physics.add(mesh, 0)
     }
 
   // the square, built round but where the street comes in, at half a turn
   square.houses.forEach((turn, i) => {
     const angle = Math.PI * turn
     const height = THREE.MathUtils.randFloat(...street.height)
-    const house = createTexturedBuilding({ width: 16, height, depth: 10, y: 0, defaultFile: 'buildings/building-back.png',
-      files: [null, null, null, `buildings/${facades[i % facades.length]}`] })
+    const { mesh } = new FacadeHouse({ facade: facades[i % facades.length], width: 16, height, depth: 10 })
     const distance = square.radius + 8
-    house.position.set(Math.sin(angle) * distance, height / 2, square.z + Math.cos(angle) * distance)
+    mesh.position.x = Math.sin(angle) * distance
+    mesh.position.z = square.z + Math.cos(angle) * distance
     // its front, +z, to the middle of the square
-    house.rotation.y = angle + Math.PI
-    physics.add(house, 0)
+    mesh.rotation.y = angle + Math.PI
+    physics.add(mesh, 0)
   })
 
   barricades.flatMap(z => createBoxes({ width: 8, height: 2, depth: 1, z: z - 6 })).forEach(mesh => physics.add(mesh, 20))

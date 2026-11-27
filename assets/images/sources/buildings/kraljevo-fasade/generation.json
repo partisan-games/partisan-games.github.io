@@ -1,0 +1,83 @@
+{
+  "tool": "built-in image_gen",
+  "outputFolder": "assets/images/textures/buildings/kraljevo-pixel",
+  "paletteSize": 128,
+  "preparation": "python -B assets/images/sources/buildings/kraljevo-fasade/prepare.py",
+  "facades": [
+    {
+      "reference": "assets/images/textures/buildings/building-front.png",
+      "source": "front.png",
+      "output": "building-front.webp",
+      "prompt": "Redraw the supplied full-bleed facade UV texture as a modest older town elevation for wartime Kraljevo in the central Balkans, stylistically interpreted in realistic hand-painted pixel art. Think simple publicly visible small-town Serbian and Yugoslav construction: locally sourced rough limestone plinths, limewashed plaster repaired by hand, horizontal lightly projecting cornices, practical dark woodwork, straight bars, a few broad areas of multi-tone worn plaster. The supplied image is ONLY the rigid flat architectural placement guide and the existing major color variant. Replace its ornate cosmopolitan decoration with quiet provincial Balkan craftsmanship and simplified surface treatment, with period-appropriate shapes. Keep EXACT positions, sizes, shapes and number of windows and doors, floor lines, balconies and the original full-bleed rectangular rectangle. Dusty peach limewash upper walls and pale warm rough limestone on the ground floor. Keep the two rows of SIX slender rectangular windows and the center double timber entrance plus four lower windows. Simple square-headed wooden shutters in a deep tobacco brown, sober dark metal straight-bar railings on the existing balconies. Replace ornate carved trim with simple horizontal plaster bands, clear plaster surrounds, and occasional exposed brick near the plinth. Flat straight-on orthographic 2D material texture with absolutely no perspective, no building sides, top planes or shadows cast beyond existing edges. Every pixel must belong to the elevation, all the way to the four original edges. Cohesive restrained warm gray shadow and hard-stepped low-frequency pixel clusters, matte paint. No dramatic rim lights, excess fine dither, glossy plastic, modern materials, air conditioners, graffiti, letters, vehicles, labels, people, sky, ground, streets, surrounding buildings or extra objects. Match the original aspect ratio and retain exact floor count.",
+      "size": [
+        495,
+        342
+      ],
+      "referenceBytes": 106157,
+      "outputBytes": 124548,
+      "referenceSha256": "ca755d4c7d900ed5f2a1796061709e98d989f82c6cfd1c08ee9fb0e8b3a08070",
+      "sourceSha256": "a131dc3b5d2e56b6095c1dab049ac6bfc9fe3c2dde7c1ff7db1544e15241e01e",
+      "outputSha256": "e1a8180bf35d462921a4afe3734643061fb14f82700f4de2dea8e1eeb063e006"
+    },
+    {
+      "reference": "assets/images/textures/buildings/building-green-front.png",
+      "source": "green.png",
+      "output": "building-green-front.webp",
+      "prompt": "Redraw the supplied full-bleed facade UV texture as a modest older town elevation for wartime Kraljevo in the central Balkans, stylistically interpreted in realistic hand-painted pixel art. Think simple publicly visible small-town Serbian and Yugoslav construction: locally sourced rough limestone plinths, limewashed plaster repaired by hand, horizontal lightly projecting cornices, practical dark woodwork, straight bars, a few broad areas of multi-tone worn plaster. The supplied image is ONLY the rigid flat architectural placement guide and the existing major color variant. Replace its ornate cosmopolitan decoration with quiet provincial Balkan craftsmanship and simplified surface treatment, with period-appropriate shapes. Keep EXACT positions, sizes, shapes and number of windows and doors, floor lines, balconies and the original full-bleed rectangular rectangle. Faded pale green-gray limewash plaster with muted green wooden outer shutters and rough gray-brown stone plinth. Keep the two upper rows of SIX tall rectangular window openings, the existing balcony widths, and the FOUR narrow arched ground-floor openings. Use straightforward vertical railings and replace florid ornamental pilasters with flat stepped plaster piers. Tiny worn plaster repairs at the base. Flat straight-on orthographic 2D material texture with absolutely no perspective, no building sides, top planes or shadows cast beyond existing edges. Every pixel must belong to the elevation, all the way to the four original edges. Cohesive restrained warm gray shadow and hard-stepped low-frequency pixel clusters, matte paint. No dramatic rim lights, excess fine dither, glossy plastic, modern materials, air conditioners, graffiti, letters, vehicles, labels, people, sky, ground, streets, surrounding buildings or extra objects. Match the original aspect ratio and retain exact floor count.",
+      "size": [
+        495,
+        344
+      ],
+      "referenceBytes": 104868,
+      "outputBytes": 123168,
+      "referenceSha256": "6937b4c16d26b0eb3e4074612911ff5a022669466c23087aef75ff93cea565e8",
+      "sourceSha256": "24e32e0d16f61f606981ba240609b0f10bf227a55b9f2e9b7cb38d827f0c202d",
+      "outputSha256": "1774a1b0183c4be434dcf16b845d2ecc72619b37e54e1d9e7e0a440d355dd072"
+    },
+    {
+      "reference": "assets/images/textures/buildings/building-blue-front.png",
+      "source": "blue.png",
+      "output": "building-blue-front.webp",
+      "prompt": "Redraw the supplied full-bleed facade UV texture as a modest older town elevation for wartime Kraljevo in the central Balkans, stylistically interpreted in realistic hand-painted pixel art. Think simple publicly visible small-town Serbian and Yugoslav construction: locally sourced rough limestone plinths, limewashed plaster repaired by hand, horizontal lightly projecting cornices, practical dark woodwork, straight bars, a few broad areas of multi-tone worn plaster. The supplied image is ONLY the rigid flat architectural placement guide and the existing major color variant. Replace its ornate cosmopolitan decoration with quiet provincial Balkan craftsmanship and simplified surface treatment, with period-appropriate shapes. Keep EXACT positions, sizes, shapes and number of windows and doors, floor lines, balconies and the original full-bleed rectangular rectangle. Muted foggy blue-gray limewash, dusty faded blue wooden shutters and warm gray rough local stone base. Upper floors each have SIX narrow windows, with the balcony layout EXACTLY as original. Ground floor has precisely the TWO tall centered arched entrances and two narrow blue windows on each side. Plain cornice, simple flat surrounds, simple dark iron railings and modest patched plaster. Keep main wall pale to contrast with shutters. Flat straight-on orthographic 2D material texture with absolutely no perspective, no building sides, top planes or shadows cast beyond existing edges. Every pixel must belong to the elevation, all the way to the four original edges. Cohesive restrained warm gray shadow and hard-stepped low-frequency pixel clusters, matte paint. No dramatic rim lights, excess fine dither, glossy plastic, modern materials, air conditioners, graffiti, letters, vehicles, labels, people, sky, ground, streets, surrounding buildings or extra objects. Match the original aspect ratio and retain exact floor count.",
+      "size": [
+        495,
+        341
+      ],
+      "referenceBytes": 99776,
+      "outputBytes": 121440,
+      "referenceSha256": "5131a4599489954fa038160a4aecb1ae64bd3d79f877dffee706f63dc6cf9a46",
+      "sourceSha256": "07b04fc37e7259fb71d1eb85014fbd1616a8a62648d0881c31860df5afa95132",
+      "outputSha256": "0bfa13e4ef0934fcfe1ac2b3bf7a5aded9e32d341dc985d16152873f2e2de94d"
+    },
+    {
+      "reference": "assets/images/textures/buildings/ruin-front.jpg",
+      "source": "ruin.png",
+      "output": "ruin-front.webp",
+      "prompt": "Redraw the supplied full-bleed facade UV texture as a modest older town elevation for wartime Kraljevo in the central Balkans, stylistically interpreted in realistic hand-painted pixel art. Think simple publicly visible small-town Serbian and Yugoslav construction: locally sourced rough limestone plinths, limewashed plaster repaired by hand, horizontal lightly projecting cornices, practical dark woodwork, straight bars, a few broad areas of multi-tone worn plaster. The supplied image is ONLY the rigid flat architectural placement guide and the existing major color variant. Replace its ornate cosmopolitan decoration with quiet provincial Balkan craftsmanship and simplified surface treatment, with period-appropriate shapes. Keep EXACT positions, sizes, shapes and number of windows and doors, floor lines, balconies and the original full-bleed rectangular rectangle. Wartime damaged weathered pale ochre limewashed brick masonry with muted gray-blue window infill. Preserve every existing arched opening and exactly the same three rows and existing central balcony. Preserve intact rectangular crop and wall outline. Redraw plain plaster piers, simple iron fence, crumbling and peeled plaster revealing patches of local brick and stone, and muted dark soot at the same existing damaged openings. Keep dark windows clearly separate and use no flame or smoke. Flat straight-on orthographic 2D material texture with absolutely no perspective, no building sides, top planes or shadows cast beyond existing edges. Every pixel must belong to the elevation, all the way to the four original edges. Cohesive restrained warm gray shadow and hard-stepped low-frequency pixel clusters, matte paint. No dramatic rim lights, excess fine dither, glossy plastic, modern materials, air conditioners, graffiti, letters, vehicles, labels, people, sky, ground, streets, surrounding buildings or extra objects. Match the original aspect ratio and retain exact floor count.",
+      "size": [
+        395,
+        273
+      ],
+      "referenceBytes": 28869,
+      "outputBytes": 80550,
+      "referenceSha256": "5560831f50d4627676459a29ae8d6cfc15a48f45d92c0a7291bf85ce4afc3a02",
+      "sourceSha256": "ed36c853f755286e6fa90a20acbf91cecd3299f2787727e00879d01e8007b564",
+      "outputSha256": "dc4ea6e305698a8f591124d7e41b6cdfb4e354863be4eed809ffb8688f495f4b"
+    },
+    {
+      "reference": "assets/images/textures/buildings/building-back.png",
+      "source": "back.png",
+      "output": "building-back.webp",
+      "prompt": "Redraw the supplied full-bleed facade UV texture as a modest older town elevation for wartime Kraljevo in the central Balkans, stylistically interpreted in realistic hand-painted pixel art. Think simple publicly visible small-town Serbian and Yugoslav construction: locally sourced rough limestone plinths, limewashed plaster repaired by hand, horizontal lightly projecting cornices, practical dark woodwork, straight bars, a few broad areas of multi-tone worn plaster. The supplied image is ONLY the rigid flat architectural placement guide and the existing major color variant. Replace its ornate cosmopolitan decoration with quiet provincial Balkan craftsmanship and simplified surface treatment, with period-appropriate shapes. Keep EXACT positions, sizes, shapes and number of windows and doors, floor lines, balconies and the original full-bleed rectangular rectangle. Modest rear elevation. Dusty peach and pale ochre limewash above, limestone-gray ground floor. Keep all THREE rows of SIX narrow rectangular shuttered windows, original balcony spans and floor heights. Ground floor has six windows and no added doors. Plain horizontal painted plaster bands, simple timber shutters, sober thin straight iron bars, occasional damp marks at the bottom. Flat straight-on orthographic 2D material texture with absolutely no perspective, no building sides, top planes or shadows cast beyond existing edges. Every pixel must belong to the elevation, all the way to the four original edges. Cohesive restrained warm gray shadow and hard-stepped low-frequency pixel clusters, matte paint. No dramatic rim lights, excess fine dither, glossy plastic, modern materials, air conditioners, graffiti, letters, vehicles, labels, people, sky, ground, streets, surrounding buildings or extra objects. Match the original aspect ratio and retain exact floor count.",
+      "size": [
+        427,
+        342
+      ],
+      "referenceBytes": 94547,
+      "outputBytes": 105276,
+      "referenceSha256": "2c67917f55f5ef7514cfe31be952b34f208aee750eb4ccfe3fcc2bbcff0a3752",
+      "sourceSha256": "3e16e6dcf59358fdcbb49db0228c5c6da47023678644a386cdf6f617eff87682",
+      "outputSha256": "39373387ff06020d3dde359622f18b6eb4b3e5becf6f17f7259f25b5e9061db5"
+    }
+  ]
+}

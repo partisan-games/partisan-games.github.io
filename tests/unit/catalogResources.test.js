@@ -157,6 +157,74 @@ test('switching Borac sa Sutjeske variants keeps him in the same scene and pose'
   assert.deepEqual(runtime.body.size, body.size)
 })
 
+test('Drug Crni uses his rifle model with the pixel-art maps in the existing UV slots', async t => {
+  createPageElements()
+  t.mock.method(THREE.TextureLoader.prototype, 'load', url => Object.assign(new THREE.Texture(), { name: url }))
+  t.mock.method(FBXLoader.prototype, 'loadAsync', async url => {
+    const bytes = await readFile('.' + decodeURI(url))
+    return new FBXLoader().parse(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), '')
+  })
+  const { ww2 } = await import('/catalog/stories/characters3d.js')
+  const { default: makeCharacter } = await import('/core3d/actor/characters/makeCharacter.js')
+  const { description } = await import('/core3d/actor/derived/ww2/ResistanceFighter.js')
+  const story = ww2.find(({ id }) => id === 'radnik-3d')
+  const look = story.looks.find(({ id }) => id === 'pixel-art')
+  assert.equal(story.looks[0].id, 'puska')
+  const objects = []
+  const stage = { add: (...items) => objects.push(...items), session: { scope: { add() {} } } }
+  const body = await story.create(stage, 1, look.value)
+  const [, view] = objects
+  const original = makeCharacter(description)
+  const maps = []
+  view.mesh.traverse(part => {
+    if (!part.isSkinnedMesh) return
+    const source = original.model.mesh.getObjectByName(part.name)
+    assert.equal(part.geometry, source.geometry)
+    assert.equal(part.skeleton.bones.length, source.skeleton.bones.length)
+    if (part.material.map.name.includes('/crni-pixel-art/')) maps.push(part.material.map)
+  })
+  assert.equal(maps.length, 5)
+  for (const map of maps) {
+    assert.equal(map.magFilter, THREE.NearestFilter)
+    assert.equal((await readFile('.' + map.name)).toString('ascii', 8, 12), 'WEBP')
+  }
+  assert.deepEqual(body.size, original.body.size)
+  assert.ok(view.actions.walk && view.actions.attack && view.anim.twoHandedWeapon.parent)
+})
+
+test('Brka switches his face and clothing maps on the same model with the Berthier rifle', async t => {
+  createPageElements()
+  t.mock.method(THREE.TextureLoader.prototype, 'load', url => Object.assign(new THREE.Texture(), { name: url }))
+  t.mock.method(FBXLoader.prototype, 'loadAsync', async url => {
+    const bytes = await readFile('.' + decodeURI(url))
+    return new FBXLoader().parse(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), '')
+  })
+  const { ww2 } = await import('/catalog/stories/characters3d.js')
+  const brka = ww2.find(({ id }) => id === 'borac-pokreta-otpora-3d-s-brkovima')
+  const original = brka.looks.find(({ id }) => id === 'brkovi')
+  const pixelArt = brka.looks.find(({ id }) => id === 'pixel-art')
+  const objects = []
+  const stage = { add: (...items) => objects.push(...items), session: { scope: { add() {} } } }
+  await brka.create(stage, 1, original.value)
+  const [, view] = objects
+  const skin = view.mesh.getObjectByProperty('isSkinnedMesh', true)
+  const face = view.mesh.getObjectsByProperty('isSkinnedMesh', true).find(part => part.material.name === 'mat_12-27374460.jpg')
+  const { geometry, skeleton, material } = face
+  const { actions } = view
+  stage.setLook(pixelArt.value)
+  assert.notEqual(face.material, material)
+  assert.ok(face.material.map.name.endsWith('/brka-pixel-art/face.webp'))
+  assert.equal((await readFile('.' + face.material.map.name)).toString('ascii', 8, 12), 'WEBP')
+  assert.equal(face.material.map.magFilter, THREE.NearestFilter)
+  assert.equal(pixelArt.value.weapon, original.value.weapon)
+  assert.equal(face.geometry, geometry)
+  assert.equal(face.skeleton, skeleton)
+  assert.equal(view.actions, actions)
+  assert.ok(skin.parent)
+  stage.setLook(original.value)
+  assert.equal(face.material.map, material.map)
+})
+
 test('the German rifleman switches texture on his existing animated catalogue model', async t => {
   createPageElements()
   t.mock.method(THREE.TextureLoader.prototype, 'load', url => Object.assign(new THREE.Texture(), { name: url }))

@@ -1,0 +1,71 @@
+{
+  "tool": "built-in image_gen",
+  "model": "assets/models/character/soldier/resistance-fighter.fbx",
+  "reference": "uv-reference.png",
+  "styleReference": "assets/models/character/soldier/sutjeska-pixel-art/uniform.webp",
+  "source": "redraw.png",
+  "meshTriangles": 9921,
+  "meshCount": 18,
+  "textureSize": [
+    256,
+    256
+  ],
+  "outputFolder": "assets/models/character/soldier/crni-pixel-art",
+  "maps": [
+    {
+      "name": "cap",
+      "material": "mat_11-27373E00.jpg",
+      "column": 0,
+      "row": 0,
+      "outputSha256": "bdac908f494c4f47084e5dcfbb9fd0e95711dcb3636f8aeb174507bb3700f1b3",
+      "outputBytes": 64886
+    },
+    {
+      "name": "shirt",
+      "material": "mat_15-27374EA0.jpg",
+      "column": 1,
+      "row": 0,
+      "outputSha256": "9719ffd1144c726994901f710e94ebd89dd874147850e197aced98f1b050ab1a",
+      "outputBytes": 58758
+    },
+    {
+      "name": "trousers",
+      "material": "mat_9-27375500.jpg",
+      "column": 0,
+      "row": 1,
+      "outputSha256": "4a3101402a0d99b80411130fd859d09fb3175729abb6416b8af5d0456e3699f4",
+      "outputBytes": 65594
+    },
+    {
+      "name": "face",
+      "material": "mat_12-27374460.jpg",
+      "column": 1,
+      "row": 1,
+      "outputSha256": "fd7d43212c25180a61c4b3bd3bfc8673b1d2abcd4fe38aa4a82821bb8a10d6f1",
+      "outputBytes": 66670
+    },
+    {
+      "name": "nape",
+      "material": "mat_14-color_0.467440-0.467440-0.467440.jpg",
+      "column": 1,
+      "row": 1,
+      "crop": [
+        0.06,
+        0.09,
+        0.16,
+        0.19
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "outputSha256": "8f21e1f1eb502abad733b29198e160c6996d622f419351082ab40a67d7ec2194",
+      "outputBytes": 1128
+    }
+  ],
+  "prompt": "Repaint image 1 exactly in place as a crisp square 2x2 sheet of four existing UV textures for a fictional WWII Yugoslav Partisan named Drug Crni. The 2nd image is style only. The first image is a rigid UV layout to edit, NOT to redesign; the four quadrants are individual textures whose canvas, silhouettes, seam shapes, orientation and empty margins must be kept precisely fixed. No grids drawn or text. Top-left: reconstruct that precise original dark cloth cap texture with warm charcoal-brown wool, crisp worn seams and subdued highlights. Top-right: repaint original shirt in faded slate blue with a beige placket and small matte buttons; preserve every shirt panel and every crease's position on atlas and hand-paint them as stepped pixel clusters. Bottom-left: repaint the original trousers using muted dark olive earth tone, retain original pocket placements, panels, and closures, simple flat pixel clusters. Bottom-right: keep the exact original unwrapped 3D head UV with the pronounced dark brown short hair and clean-shaven adult face, human warm skin tone, sides, ears, chin, eye sockets, nose, lips and neck precisely aligned within less than a pixel. The original thin hairline, unlit eye sockets and edge positions are crucial. Do not add a second face or alter anatomy. For only this head tile back off the redesign and preserve the precise original face placements while consolidating the noisy texture into restrained pixel clusters. The result should look deliberately hand-drawn in coherent 3D pixel art like image 2, with hard-edged connected shade clusters, not photographic textures, no gradient noise, no black outlines around UV folds. Dimensions square, exactly equal quadrant sizes. Preserve existing dominant empty padding colors close to respective materials to avoid visible seams. No insignia, objects, people standing in front, text, rotation, borders or newly introduced patches.",
+  "preparation": "python -B assets/images/sources/partizani/crni-pixel-art/prepare.py",
+  "sourceSha256": "23902a162df9e7603e03dad766ba88e4c3aa8fa13c11808f7ef4006aa4a5f967",
+  "referenceSha256": "cd8452c9f2288b0812bb02163d83ec9a6853bd90bb5254ed1f6db3272a8bb508",
+  "modelSha256": "7fe2ca47c2410f4327bb07499fc37b54d97b9d278ae0579be9dd0595c665dc8b"
+}

@@ -1,0 +1,55 @@
+{
+  "tool": "built-in image_gen",
+  "model": "assets/models/character/soldier/resistance-fighter.fbx",
+  "reference": "uv-reference.png",
+  "faceReference": "assets/models/character/soldier/partisan-moustache.jpg",
+  "styleReference": "assets/models/character/soldier/sutjeska-pixel-art/uniform.webp",
+  "source": "redraw.png",
+  "meshTriangles": 9921,
+  "meshCount": 18,
+  "textureSize": [
+    256,
+    256
+  ],
+  "outputFolder": "assets/models/character/soldier/brka-pixel-art",
+  "sharedNape": "assets/models/character/soldier/crni-pixel-art/nape.webp",
+  "maps": [
+    {
+      "name": "cap",
+      "material": "mat_11-27373E00.jpg",
+      "column": 0,
+      "row": 0,
+      "outputSha256": "c2d6164c11cb0a341bbc7c038198f7240282ae3188fc15ee79ef2561fa1c0143",
+      "outputBytes": 62176
+    },
+    {
+      "name": "shirt",
+      "material": "mat_15-27374EA0.jpg",
+      "column": 1,
+      "row": 0,
+      "outputSha256": "e3489b24316911cc28b886aca48a8a1dd6e711c78006019f3df616087bd2f77d",
+      "outputBytes": 60830
+    },
+    {
+      "name": "trousers",
+      "material": "mat_9-27375500.jpg",
+      "column": 0,
+      "row": 1,
+      "outputSha256": "d68b9291d0cefc3c5fc816b0d0686b8ef9f4fff079ecfcb0911faad329f844c4",
+      "outputBytes": 63544
+    },
+    {
+      "name": "face",
+      "material": "mat_12-27374460.jpg",
+      "column": 1,
+      "row": 1,
+      "outputSha256": "d0d11ba1be60278c152d11922e03d9e3b13452e8a49e7270133b352a37496cff",
+      "outputBytes": 64192
+    }
+  ],
+  "prompt": "Repaint image 1 exactly in place as a square 2x2 sheet of four existing UV textures for AMBIENT GAME 3D skinned fictional Yugoslav Partisan Brka. This is an EDIT of a technical UV atlas, not an illustration of a standing man. Image 2 is the approved style for pixels, not layout, and image 1 is the only layout authority. LOCK every feature and all four quadrant borders, no padding or shifting. Top-left: muted cool dark ash gray matte wool cap with stepped seams, original islands exactly. Top-right: the same simple field shirt in weathered unbleached flax and light dusty beige with dark dull brown collar placket, preserve all panels and folds, no pattern. Bottom-left: dark cool gray or slightly gray olive wool trousers, distinctly quieter cooler gray than the prior olive original, original pockets and cut. Bottom-right: repaint the exact existing human face UV atlas in hard stepped blocks and warm skin tones, keep the dark short hair, recognizable strong wide black moustache in precisely the original position, no beard. Eyes sockets, nose, nostrils, mouth, ears, hairline, detached tiny color swatches, neck and bottom patches must stay at their original positions exactly so they map to unchanged geometry and clothes. Aim for dignified serious mature expression, no extra eye or mouth. Use sharply stepped hand painted square-pixel clusters and a restrained matte palette, consistent with second reference, no photo grain, no jitter, no exaggerated contrast and no black outline around atlas shapes. Same complete 2x2 equal squares, same unwrapped arrangement and edges, no inset, no cropping, no text, no added insignia or symbols, no compositional changes.",
+  "preparation": "python -B assets/images/sources/partizani/crni-pixel-art/prepare.py assets/images/sources/partizani/brka-pixel-art/generation.json",
+  "sourceSha256": "4b48ef1ba05da8bd5c2468ddb70d0bdb4ac2c3f0f4f0daed5572d9f244869f62",
+  "referenceSha256": "8e1f810a31ff4d143a72ebb1d1d1f48dde7f5afefae73a592088f7d9b1c61c53",
+  "modelSha256": "7fe2ca47c2410f4327bb07499fc37b54d97b9d278ae0579be9dd0595c665dc8b"
+}

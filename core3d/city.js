@@ -7,9 +7,13 @@ const { randInt, randFloat } = THREE.MathUtils
 
 const textureLoader = new THREE.TextureLoader()
 
-const loadTexture = (filepath, halfWidth) => {
+const loadTexture = (filepath, halfWidth, pixelArt) => {
   const texture = textureLoader.load(filepath)
   if (halfWidth) texture.repeat.set(.5, 1)
+  if (pixelArt) {
+    texture.magFilter = THREE.NearestFilter
+    texture.minFilter = THREE.NearestMipmapLinearFilter
+  }
   return texture
 }
 
@@ -242,13 +246,13 @@ export function createBuilding(params = {}) {
   return new THREE.Mesh(geometry, material)
 }
 
-export function createTexturedBuilding({ width, height, depth = width, color = 0x999999, path = assets.textures, files = [], defaultFile, halfOnSides = false, graffitiChance = 0, posters = [], slogans = [], postersPath = 'posters/', graffitiBgTexture, webFonts, fontColors, bigMural = false, ...rest } = {}) {
+export function createTexturedBuilding({ width, height, depth = width, color = 0x999999, path = assets.textures, files = [], defaultFile, halfOnSides = false, pixelArt = false, graffitiChance = 0, posters = [], slogans = [], postersPath = 'posters/', graffitiBgTexture, webFonts, fontColors, bigMural = false, ...rest } = {}) {
   const geometry = createBuildingGeometry({ width, height, depth, ...rest })
   const { width: buildingWidth, height: buildingHeight } = geometry.parameters
 
   const textures = Array(5).fill().map((x, i) => {
     const halfWidth = halfOnSides && (i === 0 || i === 1)
-    if (files[i]) return loadTexture(path + files[i], halfWidth)
+    if (files[i]) return loadTexture(path + files[i], halfWidth, pixelArt)
 
     if (i === 2) return null // roof no texture
 
@@ -264,7 +268,7 @@ export function createTexturedBuilding({ width, height, depth = width, color = 0
       fontColors,
     })
 
-    if (defaultFile) return loadTexture(path + defaultFile, halfWidth)
+    if (defaultFile) return loadTexture(path + defaultFile, halfWidth, pixelArt)
 
     return createBuildingTexture({ width: buildingWidth, height: buildingHeight })
   })
@@ -292,6 +296,7 @@ export const createWarehouse2 = () => createTexturedBuilding({ width: 20, height
 
 export const createWarRuin = () => createTexturedBuilding({ width: 12, height: 10, depth: 12, defaultFile: 'buildings/ruin-01.jpg', files: [null, null, 'terrain/beton-krater.jpg'] })
 
-export const createRuin = () => createTexturedBuilding({ width: 12, height: 10, depth: 12, defaultFile: 'buildings/ruin-front.jpg' })
+export const ruinFacadeFile = 'buildings/kraljevo-pixel/ruin-front.webp'
+export const createRuin = () => createTexturedBuilding({ width: 12, height: 10, depth: 12, defaultFile: ruinFacadeFile, pixelArt: true })
 
 export const createAirport = () => createTexturedBuilding({ width: 20, height: 10, depth: 10, defaultFile: 'buildings/airport.png', files: [null, null, 'terrain/beton.gif'], halfOnSides: true })

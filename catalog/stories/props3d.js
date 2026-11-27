@@ -2,6 +2,7 @@ import Stage3D from '../Stage3D.js'
 import * as campModule from '/core3d/actor/buildings/CampProp.js'
 import Church, * as churchModule from '/core3d/actor/buildings/Church.js'
 import DrvarProp, * as drvarModule from '/core3d/actor/buildings/DrvarProp.js'
+import FacadeHouse, * as facadeModule from '/core3d/actor/buildings/FacadeHouse.js'
 import Milutin, * as monumentModule from '/core3d/actor/buildings/Milutin.js'
 import { requestModels } from '/core3d/assets/models.js'
 import Sandbags, * as sandbagsModule from '/core3d/actor/buildings/Sandbags.js'
@@ -62,6 +63,23 @@ const sandbags = {
   },
 }
 
+const facadeHouse = {
+  id: 'kuca-sa-fasadom', name: 'Kuća sa fasadom', game: 'Siege of Kraljevo', block: facadeModule, stage: Stage3D,
+  catalogGroup: ['Scenografija', 'Kuće grada'], lookLabel: 'Fasada',
+  // a picture, a front or the back, on every wall, so each shows from any side
+  looks: [
+    ...Object.entries(facadeModule.facades).map(([id, { name }]) => ({ id, name, value: { facade: id, side: 4 } })),
+    { id: 'zadnja', name: 'Zadnja', value: { facade: 'white', side: 5 } },
+  ],
+  create: async(stage, way, { facade, side }) => {
+    const block = new FacadeHouse({ facade })
+    const { material } = block.mesh
+    for (const wall of [0, 1, 4, 5]) material[wall].map = material[side].map
+    stage.add(block)
+    return block
+  },
+}
+
 /** The houses and ruins of a small town, each alone. */
 const town = Object.entries(townHouseModule.townHouses).map(([kind, { name }]) => ({
   id: `grad-${kind}`, name, game: 'Raid on Drvar (u izradi)', block: townHouseModule, stage: Stage3D,
@@ -109,4 +127,4 @@ const ruins = Object.entries(drvarModule.drvarProps).map(([kind, { name, model }
   },
 }))
 
-export const props = [...camp, church, milutin, sandbags, ...town, ...debris, ...trees, ...ruins]
+export const props = [...camp, church, milutin, sandbags, facadeHouse, ...town, ...debris, ...trees, ...ruins]

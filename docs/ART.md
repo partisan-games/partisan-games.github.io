@@ -164,6 +164,8 @@ Dodatna plovila imaju zasebne opise. Generički nacrtan brod ili projektna mera 
 
 ### 3D
 
+**Fasade Kraljeva.** Tri prednje fasade, ruševina i zajednička zadnja strana imaju jednostavniji krečni malter, kamene sokle, drvenu stolariju i gvozdene ograde. Mape imaju izvorne dimenzije, a kuće koriste postojeću geometriju od 12 trouglova i šest materijala. Pet WebP mapa zajedno ima 555 kB prema 434 kB za izvorne slike, uz isti broj piksela za dekodiranje. [Katalog](../catalog.html#scenografija-3d/kuca-sa-fasadom) i [izvori](../assets/images/sources/buildings/kraljevo-fasade/generation.json).
+
 <a id="3d-pixel-art"></a>
 **Pixel art za 3D aktere (vlasnik, 2026-11-26).** Odobreni uzor i podrazumevani kataloški prikaz je [Borac sa Sutjeske · Pixel art](../catalog.html#drugi-svetski-rat-3d/partizan-3d/pixel-art). Za ostale 3D aktere crtati nove teksture u paleti postojećeg 2D arta, sa oštrim pikselima i jasnim oblicima. Koristiti postojeće UV koordinate, geometriju, kostur i pokrete, pa proveriti teksturu na modelu izbliza i u pokretu. Postupak, optimizaciju modela i redosled varijacija vodi [veština za 3D pixel art](../.agents/skills/game-actor-art-3d/SKILL.md).
 
@@ -171,6 +173,12 @@ Na odobrenom borcu maskirna šara pripada jakni i rukavima, a jednobojne braon p
 
 <a id="nemacki-strelac-pixel-art"></a>
 [Nemački strelac · Pixel art](../catalog.html#drugi-svetski-rat-3d/nemacki-vojnik-3d/pixel-art) je probna varijacija na postojećem modelu iz Drvara, Kraljeva, Aerodroma i Crvenog krsta. Sivomaslinasta uniforma, kožni kaiševi i lice su precrtani na istoj UV mapi. Telo ima 7.436 trouglova i jedan materijal, odnosno jedan poziv za crtanje tela po prolazu. Drvar spušta po devet padobranaca u jednom naletu. Nova mapa od 512 × 512 ima 251 kB, a ugrađeni JPEG od 2048 × 2048 ima 716 kB. Sa mip nivoima nova mapa zauzima oko 1,33 MiB prema oko 21,33 MiB za RGBA original. [Izvor i priprema](../assets/images/sources/nemci/german-soldier-pixel-art/generation.json).
+
+<a id="drug-crni-pixel-art"></a>
+[Drug Crni · Pixel art](../catalog.html#drugi-svetski-rat-3d/radnik-3d/pixel-art) je probni izgled na postojećem modelu sa puškom. Potamnjena kapa, izbledela plavosiva košulja, maslinaste pantalone, lice i potiljak koriste postojeće UV mape. Telo ima 9.921 trougao i 18 mreža sa po jednim materijalom. Isti model nosi igrača u Liberated City i koristi se za saborce u Drvaru i Kraljevu. Četiri mape od 256 × 256 i potiljak od 32 × 32 zajedno imaju 257 kB. Pri istom RGBA formatu i mip nivoima, pet izmenjenih mapa zauzima oko 1,34 MiB prema 4,33 MiB za izvornike. [Izvor i priprema](../assets/images/sources/partizani/crni-pixel-art/generation.json).
+
+<a id="brka-pixel-art"></a>
+[Brka · Pixel art](../catalog.html#drugi-svetski-rat-3d/borac-pokreta-otpora-3d-s-brkovima/pixel-art) zadržava brkove i pušku Berthier varijacije sa sivom kapom. Precrtani su lice, kapa, svetla košulja i sive pantalone. Isti model kao kod [Druga Crnog](#drug-crni-pixel-art) ima 9.921 trougao i 18 mreža sa po jednim materijalom. Četiri mape od 256 × 256 imaju ukupno 251 kB i oko 1,33 MiB dekodirano sa mip nivoima. Mapa potiljka deli se sa Drugom Crnim. [Izvor i priprema](../assets/images/sources/partizani/brka-pixel-art/generation.json).
 
 <a id="brka"></a>
 [Savo · Osnovna](../catalog.html#drugi-svetski-rat-3d/partizan-jednostavan-model-3d/original) ima šire lice, punije brkove i zulufe, tamnu kosu do kragne i tamne mat pantalone. Vlasnik je prihvatio izgled 25. 11. 2026. prema [portretu Save Kovačevića](https://commons.wikimedia.org/wiki/File:Savo_Kova%C4%8Devi%C4%87.jpg) i [fotografiji sa Crkvica](https://commons.wikimedia.org/wiki/File:Narodni_heroj_Sava_Kova%C4%8Devi%C4%87.jpg). Katalog i igre koriste isti [FBX](../assets/models/character/soldier/partisan-lowpoly.fbx), sa postojećim skeletom i animacijama.

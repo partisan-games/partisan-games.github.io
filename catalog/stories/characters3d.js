@@ -39,15 +39,30 @@ const sutjeskaPixelMaps = {
   Tex_0534_0_dds: 'sutjeska-pixel-art/face.webp',
   Tex_0532_0_dds: 'sutjeska-pixel-art/eyes.webp',
 }
-const sutjeskaPixelLook = { id: 'pixel-art', name: 'Pixel art', value: { dress(mesh, textures) {
-  dressFighter(mesh, sutjeskaPixelMaps, textures)
-  for (const file of Object.values(sutjeskaPixelMaps)) {
+const pixelOutfitLook = maps => ({ id: 'pixel-art', name: 'Pixel art', value: { dress(mesh, textures) {
+  dressFighter(mesh, maps, textures)
+  for (const file of Object.values(maps)) {
     const map = textures.get(file)
     if (!map) continue
     map.magFilter = NearestFilter
     map.minFilter = NearestMipmapLinearFilter
   }
-} } }
+} } })
+const sutjeskaPixelLook = pixelOutfitLook(sutjeskaPixelMaps)
+const crniPixelLook = pixelOutfitLook({
+  'mat_11-27373E00.jpg': 'crni-pixel-art/cap.webp',
+  'mat_12-27374460.jpg': 'crni-pixel-art/face.webp',
+  'mat_14-color_0.467440-0.467440-0.467440.jpg': 'crni-pixel-art/nape.webp',
+  'mat_15-27374EA0.jpg': 'crni-pixel-art/shirt.webp',
+  'mat_9-27375500.jpg': 'crni-pixel-art/trousers.webp',
+})
+const brkaPixelLook = pixelOutfitLook({
+  'mat_11-27373E00.jpg': 'brka-pixel-art/cap.webp',
+  'mat_12-27374460.jpg': 'brka-pixel-art/face.webp',
+  'mat_14-color_0.467440-0.467440-0.467440.jpg': 'crni-pixel-art/nape.webp',
+  'mat_15-27374EA0.jpg': 'brka-pixel-art/shirt.webp',
+  'mat_9-27375500.jpg': 'brka-pixel-art/trousers.webp',
+})
 const nikoletinaLook = { id: 'jugoslovenska', name: 'Jugosloven', value: { dress: sovietPartisanModule.description.dress },
   block: nikoletinaModule }
 const nikoletinaPixelLook = { id: 'pixel-art', name: 'Pixel art', value: { dress: nikoletinaModule.dressNikoletinaPixelArt } }
@@ -270,6 +285,8 @@ const [resistanceFighter, ...resistanceIdentities] = infantryStory(
   'borac-pokreta-otpora-3d', 'Drug Crni', 'Liberated City', resistanceFighterModule,
   { moustache: 'Brka' },
 )
+const brka = resistanceIdentities.find(({ id }) => id.endsWith('-s-brkovima'))
+brka.looks.push({ ...brkaPixelLook, value: { ...brkaPixelLook.value, weapon: variants.brkovi.weapon } })
 const workerFighter = {
   ...worker, name: resistanceFighter.name, game: resistanceFighter.game,
   catalogGroup: resistanceFighter.catalogGroup, lookLabel: 'Varijacije',
@@ -277,6 +294,7 @@ const workerFighter = {
     { id: 'puska', name: 'Puška', block: resistanceFighter.block, aliases: [resistanceFighter.id, `${resistanceFighter.id}/original`] },
     ...worker.looks,
     ...resistanceFighter.looks.slice(1),
+    { ...crniPixelLook, block: resistanceFighter.block },
   ],
   async create(stage, way, equipment) {
     if (equipment === 'unarmed' || equipment === 'pipe') return worker.create(stage, way, equipment)
