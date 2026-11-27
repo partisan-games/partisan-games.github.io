@@ -30,6 +30,10 @@ To see every background picture in the project, open `/pozadine.html` on the `np
 See [PLAN](docs/PLAN.md).
 
 - razrađivati postojeće nivoe redom
+- coins na naslovnoj: previše prođe dok se ne pojave. ispitaj tok i predloži popravke
+- dugme pauza: ikonica nije centrirana
+- UI stranica: dodati sve UI elemente koji se koriste u igri, prozore, dugmiće, ikonice, sve
+- crveni krst: cev i udarac jednom rukom su izbačeni iz igre, izbaci iz plana
 
 ## Credits
 
@@ -37,6 +41,7 @@ See [PLAN](docs/PLAN.md).
 - Game UI: https://ronenness.github.io/RPGUI/
 
 Free 3D Models are from: 
+- opengameart.org
 - 3dwarehouse.sketchup.com
 - sketchfab.com
 - turbosquid.com 
