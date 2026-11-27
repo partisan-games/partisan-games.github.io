@@ -23,7 +23,8 @@ import { morningHaze, openingPost, placeRuins, placeTrees, ridgeTrees, treeModel
 import Streets from './Streets.js'
 import ReliefColumn, { columnDepth } from './ReliefColumn.js'
 import WeaponView from './WeaponView.js'
-import { crouchHeight, crouchKey, YardAttacker, YardDefender, YardWalk } from './yardCover.js'
+import { keys } from '/core/io/keys.js'
+import { crouchHeight, YardAttacker, YardDefender, YardWalk } from './yardCover.js'
 import { rayBoxEntry } from '/core/collision/ray.js'
 import { createPlayerBox } from '/core3d/geometry/index.js'
 import { loadedModel, requestModels } from '/core3d/assets/models.js'
@@ -153,7 +154,7 @@ const postAt = ({ x, z }, inset = yard.inside) => ({
 
 export default class DrvarScene extends Scene3D {
   constructor() {
-    super({ usePointerLock: true, controlKeys: { ...fpsControls, [crouchKey.label]: 'hold to crouch' },
+    super({ usePointerLock: true, controlKeys: { ...fpsControls, [keys.crouch.label]: 'hold to crouch' },
       intro: messages.intro, reportText: messages.report })
   }
 

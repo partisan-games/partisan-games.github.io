@@ -1,0 +1,23 @@
+{
+  "generator": "OpenAI ImageGen",
+  "prompt": "Redraw a single game scenery sprite, a small Balkan woodland grove of mostly firs and spruces. Input image is structural reference for outline, base height and composition. Isolated straight-on side view with a straight grounded baseline, a very wide compact silhouette 2.3:1. Keep about a dozen overlapping evergreens of deliberately different heights, highest tree slightly right of center, two or three mid-high groups, sparse tips at sides, crowns legible at a final sprite size of 202 by 88. No empty gaps through the bottom band. Draw as real deliberate low-resolution pixel art, with chunky clean color clusters, matte closed shapes, readable trunks and layered boughs, no noise, no outlines in black. Restrained olive pine greens with muted dusty sage highlights and narrow earth-brown bases, behind the active characters of a historical 1940s game. Small irregular rocky dirt edge along the very bottom only, no floating platform. No forest backdrop, no sky, no shadows outside the object, no text, no borders. True transparent background. Single centered grove across frame, not multiple assets.",
+  "original": "original.png",
+  "generated": "redraw.png",
+  "output": "assets/images/game-ready/scenery/shumarak.webp",
+  "frame": [
+    202,
+    88
+  ],
+  "visibleBounds": [
+    0,
+    2,
+    202,
+    88
+  ],
+  "preparation": "Threshold alpha at 128, crop to opaque bounds, fit proportionally into the original frame using nearest-neighbor, center horizontally, align to the bottom and export as lossless WebP.",
+  "sha256": {
+    "original.png": "b7c5da4a51d34be5684b8571b44e9c7fe8cf4a1fe77f8612fe96d94f7c1b4e98",
+    "redraw.png": "321f6ffb4c31f24cd9642b2f3a3a1f4caebd01596ff53dba0fbab6d771191b7d",
+    "shumarak.webp": "3da7fc881d9c6aaf6ab0f20a347967460283ff04518387558844e1a22ca79212"
+  }
+}

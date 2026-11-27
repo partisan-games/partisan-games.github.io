@@ -13,15 +13,15 @@ const folders = {
   // a view is seen in the story of its body
   'core/actor/aircraft': ['AircraftPropellers.js', 'propellerArt.js', 'FighterSprite.js', 'DiveBomberSprite.js', 'PotezSprite.js',
     'TopViewSprite.js', 'FighterBomberSprite.js', 'AttackPlaneSprite.js', 'fighterBomberPlanes.js', 'PictureAircraftSprite.js', 'topAircraftArt.js'],
-  'core/actor/artillery': ['GunCrew.js', 'crewArt.js', 'FlakSprite.js', 'FieldGunSprite.js', 'AntiTankGunSprite.js', 'BunkerSprite.js',
+  'core/actor/artillery': ['GunCrew.js', 'crewArt.js', 'FlakSprite.js', 'FieldGunSprite.js', 'MortarSprite.js', 'AntiTankGunSprite.js', 'BunkerSprite.js',
     'ShoreMachineGunSprite.js', 'ShoreDestruction.js', 'shoreNestArt.js'],
-  'core/actor/soldiers': ['machineGunnerArt.js', 'RiflemanSprite.js', 'CannonCrewSprite.js', 'SkirmisherSprite.js',
+  'core/actor/soldiers': ['machineGunnerArt.js', 'RiflemanSprite.js', 'CannonCrewSprite.js', 'MortarCrewSprite.js', 'SkirmisherSprite.js',
     'FlagBearerSprite.js', 'Flag.js', 'MachineGunnerSprite.js', 'GrenadierSprite.js',
     'TrenchSoldierSprite.js', 'PartisanSprite.js', 'FrontEnemySprite.js', 'frontEnemyArt.js', 'frontStandingArt.js'],
   'core/actor/vehicles': ['TankSprite.js', 'VehicleSprite.js', 'GunCarrierSprite.js', 'RoadVehicleSprite.js', 'roadVehicleArt.js'],
   // a bomber's guns are seen in the story of the fighter they fire at
   'core/gameplay/bodies/aircraft': ['wreck.js', 'GunTurrets.js'],
-  'core/gameplay/bodies/artillery': [],
+  'core/gameplay/bodies/artillery': ['ArtilleryPiece.js'],
   // the Bunker game's machine gunner lies in the window of the house bunker, whose story shows him (owner's decision)
   'core/gameplay/bodies/soldiers': ['MachineGunner.js'],
   'core/gameplay/bodies/vehicles': ['CannonVehicle.js'],

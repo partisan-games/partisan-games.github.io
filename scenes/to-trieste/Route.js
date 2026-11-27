@@ -40,10 +40,10 @@ export default class Route extends GameObject2D {
     this.distance = distance
     this.stageLength = length / stages.length
     this.roadHeight = Math.min(140, Math.max(64, canvas2d.height * .16))
-    this.forest = new GameObject2D('nature/shumarak.png', { width: 250, visible: false })
+    this.forest = new GameObject2D('game-ready/scenery/shumarak.webp', { width: 250, visible: false })
     this.buildings = [
-      new GameObject2D('buildings/kuca-07.png', { width: 72, visible: false }),
-      new GameObject2D('buildings/kuca-04.png', { width: 90, visible: false }),
+      new GameObject2D('game-ready/scenery/do-trsta/kuca-07.webp', { width: 72, visible: false }),
+      new GameObject2D('game-ready/scenery/do-trsta/kuca-04.webp', { width: 90, visible: false }),
       new GameObject2D('game-ready/scenery/crkva-do-trsta.webp', { width: 78, visible: false }),
     ]
     this.children.push(this.forest, ...this.buildings)

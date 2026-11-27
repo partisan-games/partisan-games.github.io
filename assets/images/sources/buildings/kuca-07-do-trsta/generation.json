@@ -1,0 +1,28 @@
+{
+  "generator": "OpenAI ImageGen",
+  "prompt": "Redraw the FIRST image as one isolated near-frontal rural cottage game sprite in a quiet realistic hand-painted 2D pixel art style. Keep EXACT silhouette/layout: vertical narrow portrait 113:135 ratio, one straight rectangular ground floor, simple triangular gable rising toward the middle, chimney to the left of its slope extending to the top, centered timber door on lower floor with one small shuttered rectangular window on each side, one small attic shuttered window centered inside the gable. Preserve the BASELINE and size of the house in that frame, roof/sides fully in view. The second and third images guide warm weathered stone, subdued wood and edges to match the existing assets from Do Trsta; no objects copied from them. Give this particular cottage a pale warm gray lime-plastered facade with a little local limestone visible at the low plinth and corners, a muted burnt-terracotta pitched roof, a modest red-brown masonry chimney, dark brown matte shutters and door, and olive-toned shadow under the eave. Leave an airy, readable clear shape, restrained wear and medium contrast at a mere 72 pixels of game width. Cohesive clusters with crisp square steps like the stylized church, little dither, no excessive grain or very dark outlines, no forced oblique angle. House only with true transparent alpha around the cottage including above both roof edges; absolutely no background, sky, path, ground or shadow outside the house, text, smoke, plants or people.",
+  "original": "original.png",
+  "generated": "redraw.png",
+  "styleReferences": [
+    "assets/images/game-ready/scenery/do-trsta/kuca-04.webp",
+    "assets/images/game-ready/scenery/crkva-do-trsta.webp"
+  ],
+  "output": "assets/images/game-ready/scenery/do-trsta/kuca-07.webp",
+  "frame": [
+    113,
+    135
+  ],
+  "visibleBounds": [
+    2,
+    0,
+    110,
+    135
+  ],
+  "sceneWidth": 72,
+  "preparation": "Threshold alpha at 128, crop to opaque bounds, fit proportionally into the original frame using nearest-neighbor, center horizontally, align to the bottom and export as lossless WebP.",
+  "sha256": {
+    "original.png": "c3214c26bae9099a4df4e776eae4cd8fef33405cd301cb2aa8e54c4f7dfe6e83",
+    "redraw.png": "c6834ae57fb6d1993a357400dabc9295febcc6efc1a781d09ae4dcd06528caa1",
+    "kuca-07.webp": "ca0df8dd0c92ffb4001c0be0bc6d0660f36fa41a2ba01c73d688d024fc400b67"
+  }
+}

@@ -2,13 +2,16 @@ import canvas2d from '/core/io/canvas2d.js'
 import Scene2D from '/core/Scene2D.js'
 import { sideProjection } from '/core/actor/projection.js'
 import FieldGun, { fieldGun } from '/core/gameplay/bodies/artillery/FieldGun.js'
+import Mortar, { mortar } from '/core/gameplay/bodies/artillery/Mortar.js'
 import CannonCrew from '/core/gameplay/bodies/soldiers/CannonCrew.js'
 import Skirmisher from '/core/gameplay/bodies/soldiers/Skirmisher.js'
 import FlagBearer, { bearerKinds } from '/core/gameplay/bodies/soldiers/FlagBearer.js'
 import FieldGunSprite from '/core/actor/artillery/FieldGunSprite.js'
+import MortarSprite from '/core/actor/artillery/MortarSprite.js'
 import { wreckFor } from '/core/actor/wreckView.js'
 import imageReady from '/core/io/imageReady.js'
 import CannonCrewSprite from '/core/actor/soldiers/CannonCrewSprite.js'
+import MortarCrewSprite from '/core/actor/soldiers/MortarCrewSprite.js'
 import SkirmisherSprite from '/core/actor/soldiers/SkirmisherSprite.js'
 import FlagBearerSprite from '/core/actor/soldiers/FlagBearerSprite.js'
 import { progresBar } from '/ui/components.js'
@@ -31,10 +34,23 @@ const floorY = groundLevel + 34.875
 /** How many pixels a metre of the battle is drawn: the bodies are in metres, the field and its craters in pixels. */
 const pxPerMeter = 40
 /**
- * Where each side stands, in metres from its own edge of the field: its gun, its crew, its flag bearer, and the
- * partisan skirmisher in front of the gun.
+ * Where each side stands, in metres from its own edge of the field: its gun, its flag bearer, and the partisan
+ * skirmisher in front of the gun.
  */
-const places = { gun: 5.75, crew: 2.75, bearer: { partisan: 1, italian: 2 }, skirmisher: 7.5 }
+const places = { gun: 5.75, bearer: { partisan: 1, italian: 2 }, skirmisher: 7.5 }
+
+/**
+ * What the two sides duel with: the piece, its settings, its view, its crew's view, and where the crew stands, in
+ * metres from its own edge; a crew drawn `under` the piece stands behind it, as a mortar's loader. The messages call
+ * the piece by its `name` and open with its `instructions`. A `hill` between the sides, `height` metres high and a
+ * `width` share of the screen wide, is left for a piece that throws over it.
+ */
+export const cannonDuel = { Piece: FieldGun, settings: fieldGun, PieceSprite: FieldGunSprite, CrewSprite: CannonCrewSprite,
+  crew: 2.75, under: false, name: 'cannon',
+  instructions: 'Aim at the enemy cannon. Hold Space to build power, then release to fire.' }
+export const mortarDuel = { Piece: Mortar, settings: mortar, PieceSprite: MortarSprite, CrewSprite: MortarCrewSprite,
+  crew: 5.45, under: true, name: 'mortar', hill: { height: 2.5, width: .3 },
+  instructions: 'Destroy the enemy mortar. Hold Space to charge, release to fire.' }
 
 /** The history before the match; the messages in play keep to the turns and how to play. */
 const report = 'Montenegro, 13 July 1941\n\nThe people of Montenegro rise against the Italian occupiers. You are ordered to destroy the Italian garrison at Grahovo.'
@@ -52,6 +68,8 @@ const customStartScreen = ({ container }) => /* html */`
 `
 
 export default class UstanakScene extends Scene2D {
+  duel = cannonDuel
+
   constructor() {
     super({ controlKeys: { W: 'up', S: 'down', Space: 'shoot' }, customStartScreen, reportText: report, showControls: true })
   }
@@ -68,7 +86,9 @@ export default class UstanakScene extends Scene2D {
     this.wind = new Wind()
     this.windEffects = new WindEffects(this.wind)
     // Craters stop 8 px above the bottom of the screen, so the layer never opens to nothing.
-    this.terrain = new Terrain({ floorY, width: canvas2d.width, bottom: canvas2d.height - 8 })
+    const { hill } = this.duel
+    this.terrain = new Terrain({ floorY, width: canvas2d.width, bottom: canvas2d.height - 8, hill: hill && {
+      middle: canvas2d.width / 2, width: canvas2d.width * hill.width, height: hill.height * pxPerMeter } })
     this.projection = sideProjection({ pxPerMeter, groundY: floorY })
     this.battlefield = new Battlefield({ canvas: this.canvas, groundY: groundLevel, wind: this.wind, terrain: this.terrain })
     this.audioChildren = [this.wind, this.battlefield]
@@ -99,20 +119,23 @@ export default class UstanakScene extends Scene2D {
     const groundAt = x => this.groundAt(x)
     const views = { projection: this.projection, camera: this }
     const flagTime = () => this.battlefield.time
-    this.guns = [0, 1].map(side => new FieldGun({ x: this.placeOf(side, places.gun), yaw: side * Math.PI, groundAt,
+    const { Piece, PieceSprite, CrewSprite } = this.duel
+    this.guns = [0, 1].map(side => new Piece({ x: this.placeOf(side, places.gun), yaw: side * Math.PI, groundAt,
       wind: this.wind, bounds: { min: 0, max: canvas2d.width / pxPerMeter }, onBlast: x => this.blast(x),
       canFire: () => this.canShoot(side) }))
     this.guns[0].targets.push(this.guns[1])
     this.guns[1].targets.push(this.guns[0])
-    this.crews = [0, 1].map(side => new CannonCrew({ x: this.placeOf(side, places.crew), yaw: side * Math.PI, groundAt }))
+    this.crews = [0, 1].map(side => new CannonCrew({ x: this.placeOf(side, this.duel.crew), yaw: side * Math.PI, groundAt }))
     const bearers = ['partisan', 'italian'].map((kind, side) => new FlagBearer({ kind: bearerKinds[kind],
       x: this.placeOf(side, places.bearer[kind]), yaw: side * Math.PI, groundAt }))
     this.skirmisher = new Skirmisher({ x: places.skirmisher, groundAt })
     this.skirmisher.setState('attack')
-    this.gunViews = this.guns.map(gun => new FieldGunSprite(gun, views))
+    this.gunViews = this.guns.map(gun => new PieceSprite(gun, views))
+    const guns = [this.guns[1], this.gunViews[1], this.guns[0], this.gunViews[0]]
+    const crews = this.crews.flatMap((crew, side) => [crew, new CrewSprite(crew, { italian: side === 1, ...views })])
+    const skirmisher = [this.skirmisher, new SkirmisherSprite(this.skirmisher, views)]
     this.roundObjects = [
-      this.guns[1], this.gunViews[1], this.guns[0], this.gunViews[0], this.skirmisher, new SkirmisherSprite(this.skirmisher, views),
-      ...this.crews.flatMap((crew, side) => [crew, new CannonCrewSprite(crew, { italian: side === 1, ...views })]),
+      ...this.duel.under ? [...crews, ...guns, ...skirmisher] : [...guns, ...skirmisher, ...crews],
       ...bearers.flatMap((bearer, side) => [bearer, new FlagBearerSprite(bearer, { italian: side === 1, flagTime, ...views })]),
     ]
     this.add(...this.roundObjects)
@@ -187,7 +210,7 @@ export default class UstanakScene extends Scene2D {
     const showInstructions = !this.instructionsShown && (!this.vsComputer || this.turns.active === 0)
     if (showInstructions) {
       const instructions = document.createElement('p')
-      instructions.textContent = 'Aim at the enemy cannon. Hold Space to build power, then release to fire.'
+      instructions.textContent = this.duel.instructions
       screen.append(instructions)
       this.instructionsShown = true
     }
@@ -254,7 +277,8 @@ export default class UstanakScene extends Scene2D {
       const target = this.guns[1 - shooter]
       const hit = target.health.current < this.shotTargetHealth
       const subject = this.vsComputer ? (shooter === 0 ? 'You' : 'Enemy') : `Player ${shooter + 1}`
-      const targetName = this.vsComputer ? (shooter === 0 ? 'the enemy cannon' : 'your cannon') : `Player ${2 - shooter}'s cannon`
+      const { name } = this.duel
+      const targetName = this.vsComputer ? (shooter === 0 ? `the enemy ${name}` : `your ${name}`) : `Player ${2 - shooter}'s ${name}`
       this.announceTurn(hit ? `${subject} hit ${targetName}!` : `${subject} missed!`)
     }
     if (this.vsComputer && this.canShoot(1)) this.ai.update()
@@ -332,12 +356,12 @@ export default class UstanakScene extends Scene2D {
     <div aria-label="Round score" style="position: absolute; top: var(--spacing); left: 50%; transform: translateX(-50%)">${this.score.join(' : ')}</div>
     <div class='top-left'>
       ${progresBar(this.guns[0].health.current)}
-      <progress class="potisak" value="${this.guns[0].force}" max="${fieldGun.maxForce}"></progress>
+      <progress class="potisak" value="${this.guns[0].force}" max="${this.duel.settings.maxForce}"></progress>
     </div>
 
     <div class='top-right'>
       ${progresBar(this.guns[1].health.current)}
-      ${this.vsComputer ? '' : `<progress class="potisak" value="${this.guns[1].force}" max="${fieldGun.maxForce}"></progress>`}
+      ${this.vsComputer ? '' : `<progress class="potisak" value="${this.guns[1].force}" max="${this.duel.settings.maxForce}"></progress>`}
     </div>
     `
   }

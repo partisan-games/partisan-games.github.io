@@ -1,14 +1,11 @@
 import Cooldown from '../Cooldown.js'
-import { fieldGun } from '../bodies/artillery/FieldGun.js'
-
-const { minForce, maxForce } = fieldGun
 
 /**
  * The computer at a field gun: it opens on the target at a random elevation with a power somewhat short or long,
  * watches where each shot lands and corrects the next towards the target, halving its correction once it has missed
  * on both sides. It fires once each wait of the game `clock` is over and the gun may fire. The gun has `forward`,
- * `elevation`, `force`, `forceFor(point, elevation)`, `launch()`, `hasActiveShot` and `shells`; the target has `x`,
- * `y` and `health`.
+ * `elevation`, `force`, `forceFor(point, elevation)`, `launch()`, `hasActiveShot`, `shells` and `settings`, with its
+ * `minForce`, `maxForce` and the `aimElevations` to open with; the target has `x`, `y` and `health`.
  */
 export default class CannonAI {
   constructor({ cannon, target, clock, random = Math.random }) {
@@ -29,7 +26,8 @@ export default class CannonAI {
 
   prepareAim() {
     const { cannon, target } = this
-    const solutions = [.15, .22, .3, .4, .5].map(elevation => {
+    const { minForce, maxForce, aimElevations } = cannon.settings
+    const solutions = aimElevations.map(elevation => {
       cannon.elevation = elevation
       return { elevation, force: cannon.forceFor(target, elevation) ?? minForce }
     })
@@ -48,6 +46,7 @@ export default class CannonAI {
 
   observeShot() {
     if (!this.lastShot || this.cannon.hasActiveShot) return
+    const { minForce, maxForce } = this.cannon.settings
     const { projectile, force, health } = this.lastShot
     if (this.target.health.current < health) {
       this.nextForce = force
@@ -57,9 +56,11 @@ export default class CannonAI {
       if (this.previousMiss && miss !== this.previousMiss) this.adjustment = Math.max(.375, this.adjustment * .5)
       this.previousMiss = miss
       this.nextForce = force + miss * this.adjustment
-      // At a power limit, change the trajectory instead of repeating an unreachable shot.
+      // At a power limit, change the trajectory instead of repeating an unreachable shot: below 45° a higher barrel
+      // carries farther, above it nearer.
       if (this.nextForce < minForce || this.nextForce > maxForce) {
-        this.cannon.elevation = this.elevation + miss * .04
+        const farther = this.elevation < Math.PI / 4 ? 1 : -1
+        this.cannon.elevation = this.elevation + farther * miss * .04
         this.elevation = this.cannon.elevation
       }
     }
@@ -70,6 +71,7 @@ export default class CannonAI {
   update() {
     if (!this.wait.ready) return
     const { cannon } = this
+    const { minForce, maxForce } = cannon.settings
     if (this.nextForce === null) this.prepareAim()
     cannon.elevation = this.elevation
     cannon.force = Math.max(minForce, Math.min(maxForce, this.nextForce * (.98 + this.random() * .04)))

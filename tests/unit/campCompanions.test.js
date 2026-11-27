@@ -3,17 +3,18 @@ import assert from 'node:assert/strict'
 import Character from '/core/gameplay/bodies/characters/Character.js'
 import CampCompanion from '/scenes/crveni-krst/EscapingPrisoners.js'
 import CampNavigation from '/scenes/crveni-krst/CampNavigation.js'
-import { CampGuard, Prisoner, alarm, raiseAlarm } from '/scenes/crveni-krst/stealth.js'
+import { CampGuard, alarm, raiseAlarm } from '/scenes/crveni-krst/stealth.js'
+import Prisoner from '/core/gameplay/bodies/characters/Prisoner.js'
 import { description as flameThrower } from '/core3d/actor/derived/ww2/GermanFlameThrower.js'
 
-function setup({ enemyX = 15, coverPoints = [], sees = () => true, postureDuration = 0 } = {}) {
+function setup({ enemyX = 15, coverPoints = [], sees = () => true, postureDuration = 0, postureShift } = {}) {
   const body = new Character({ reach: 1.65, actions: { attack: .9 }, damage: [40, 40] })
   const leader = new Character({ x: -8 })
   const enemy = new Character({ x: enemyX, reach: 25, health: 100 })
   enemy.face(body)
   body.targets = [enemy]
   const controller = new CampCompanion(body, { leader, enemies: [enemy], index: 0, coverPoints, sees,
-    navigation: new CampNavigation(() => false), postureDuration })
+    navigation: new CampNavigation(() => false), postureDuration, postureShift })
   return { body, leader, enemy, controller }
 }
 
@@ -516,10 +517,8 @@ test('a guard\'s shout sends the guards in hearing to search where it came from,
 
 test('getting up a companion takes the recorded step forward, but not through a wall', () => {
   for (const wall of [false, true]) {
-    const { body, controller } = setup({ postureDuration: 1 })
+    const { body, controller } = setup({ postureDuration: 1, postureShift: (name, time) => name === 'crouchUp' ? time * .4 : 0 })
     controller.navigation = new CampNavigation(() => wall)
-    controller.postureShift = (name, time) => name === 'crouchUp' ? time * .4 : 0
-    controller.crouched = true
     controller.decide = () => {
       body.crouched = false
     }

@@ -1,16 +1,6 @@
-import { description as worker } from '/core3d/actor/derived/ww2/Worker.js'
-import { pipeSwingName } from '/core3d/actor/derived/ww2/WorkerPipe.js'
-import { crouchHeight } from './stealth.js'
+import Posture from '/core/gameplay/bodies/characters/Posture.js'
+import { crouchHeight } from '/core/gameplay/bodies/characters/Prisoner.js'
 
-/** Ways to stand and wait, one for each companion in turn, so they do not all move alike; one stretches. */
-export const standingIdles = ['Standing Idle', 'Dwarf Idle', worker.animDict.idle]
-const animDict = { ...worker.animDict, idle: standingIdles[0], restIdle: standingIdles[1],
-  // the pipe swing eases from this pose
-  swingRest: worker.animDict.idle, run: 'Running', attack: pipeSwingName,
-  crouchWalk: 'Crouched Walking', crouchIdle: 'Crouching Idle', crouchRest: 'Crouch Idle',
-  crouchPeek: 'Crouch Look Around Corner', crouchUp: 'Crouch To Stand' }
-export const escapingPrisoner = { ...worker, model: { ...worker.model, animDict }, animDict }
-export const models = [escapingPrisoner.model]
 const distance = (a, b) => Math.hypot(a.x - b.x, a.z - b.z)
 /** Directions and distances, in metres, a companion with no cover looks along for a place out of the enemy's sight. */
 const retreats = { turns: 12, distances: [2.5, 4, 6] }
@@ -19,7 +9,7 @@ const retreats = { turns: 12, distances: [2.5, 4, 6] }
 export default class CampCompanion {
   constructor(body, { leader, enemies, navigation, coverPoints, sees, index, companions = [], random = Math.random,
     postureDuration = 0, postureShift = () => 0 }) {
-    Object.assign(this, { body, leader, enemies, navigation, coverPoints, sees, index, companions, random, postureShift })
+    Object.assign(this, { body, leader, enemies, navigation, coverPoints, sees, index, companions, random })
     this.state = 'follow'
     this.route = []
     this.repath = 0
@@ -28,14 +18,14 @@ export default class CampCompanion {
     this.knownThreats = new Set()
     this.followDistance = 2.2 + index * 1.3
     this.waitTime = 1 + index * .8 + random() * 2
-    this.postureDuration = postureDuration
-    this.crouched = true
     this.catchUp = false
     this.baseRun = body.run
     this.formationYaw = leader.yaw
     this.leaderPosition = { x: leader.x, z: leader.z }
     body.crouched = true
     body.waitPose = index % 2 ? 'crouchRest' : 'crouchIdle'
+    this.posture = new Posture(body, { duration: postureDuration, shift: postureShift,
+      clear: (who, point) => this.navigation.clear(who, point) })
   }
 
   exposed(enemy, point = this.body.eye) {
@@ -202,34 +192,7 @@ export default class CampCompanion {
   update(dt) {
     this.body.run = this.baseRun
     this.decide(dt)
-    const { body, postureDuration } = this
-    if (body.dead) {
-      body.posture = this.posture = null
-      return
-    }
-    if (body.crouched !== this.crouched && (!body.swing || !postureDuration)) {
-      this.crouched = body.crouched
-      this.posture = postureDuration ? { name: this.crouched ? 'crouchDown' : 'crouchUp',
-        time: this.posture ? postureDuration - this.posture.time : 0 } : null
-    }
-    if (this.posture) {
-      const { name, time } = this.posture
-      this.posture.time = Math.min(postureDuration, time + dt)
-      this.stepWithPosture(name, time, this.posture.time)
-      if (this.posture.time >= postureDuration || body.swing) this.posture = null
-      else body.steer()
-    }
-    body.posture = this.posture
-    const fraction = this.posture ? this.posture.time / postureDuration : 1
-    body.crouchProgress = this.crouched ? fraction : 1 - fraction
-  }
-
-  /** Getting up or crouching takes a recorded step; the body takes it too, unless a wall is in the way. */
-  stepWithPosture(name, from, to) {
-    const { body } = this
-    const step = this.postureShift(name, to) - this.postureShift(name, from)
-    const point = { x: body.x + Math.cos(body.yaw) * step, z: body.z - Math.sin(body.yaw) * step }
-    if (step && this.navigation.clear(body, point)) Object.assign(body, point)
+    this.posture.update(dt)
   }
 
   decide(dt) {
@@ -275,7 +238,7 @@ export default class CampCompanion {
         body.crouched = false
         body.steer()
         const angle = this.turnToward(nearby, dt)
-        if (angle < .1 && (!this.postureDuration || (!body.posture && !this.crouched))) body.attack()
+        if (angle < .1 && (!this.posture.duration || (!body.posture && !this.posture.crouched))) body.attack()
       }
       return
     }

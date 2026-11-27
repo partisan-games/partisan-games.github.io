@@ -1,0 +1,220 @@
+{
+  "outputFolder": "assets/images/game-ready/artiljerija/minobacac",
+  "preparation": "python -B assets/images/sources/artiljerija/minobacac/prepare.py",
+  "presentation": "Pure side view. Sprites point right; mirror the visual layers as one assembly for the other side.",
+  "pixelsPerMetre": 80,
+  "partsMethod": "Hand-painted pixel shapes in prepare.py",
+  "references": [
+    "assets/images/armies/talijani/artiljerija/bacac-01.png",
+    "assets/images/armies/talijani/artiljerija/bacac-posada-01.png",
+    "assets/images/game-ready/artiljerija/field-gun-barrel-pixel.webp"
+  ],
+  "parts": [
+    {
+      "file": "cev.webp",
+      "anchor": [
+        6,
+        14
+      ],
+      "tip": [
+        98,
+        14
+      ],
+      "size": [
+        104,
+        28
+      ],
+      "sha256": "9fa5bf289b01b061a49d17782d69d8d431cd47e021f000a8e915f00b20d583d3"
+    },
+    {
+      "file": "dvonozac.webp",
+      "anchor": [
+        28,
+        54
+      ],
+      "top": [
+        28,
+        6
+      ],
+      "size": [
+        58,
+        56
+      ],
+      "sha256": "ae97b11af2c152bf6481bef5f450ebeaa55abd6b5450fd8c17eb87c0ef66bd61"
+    },
+    {
+      "file": "ploca.webp",
+      "anchor": [
+        36,
+        26
+      ],
+      "seat": [
+        36,
+        12
+      ],
+      "size": [
+        74,
+        26
+      ],
+      "sha256": "7c364a0f2ca42209b93b6c79385314bb696703665d53ea10f8c57fd623973564"
+    },
+    {
+      "file": "mina.webp",
+      "anchor": [
+        16,
+        9
+      ],
+      "size": [
+        32,
+        18
+      ],
+      "sha256": "49dcfb1d1e5af5b39275711aab18de210b142e6d48782d7c6607a998f98aba13"
+    }
+  ],
+  "crew": {
+    "file": "posada-sprites.webp",
+    "frame": [
+      160,
+      160
+    ],
+    "anchor": [
+      76,
+      154
+    ],
+    "gutter": 4,
+    "states": [
+      "idle",
+      "reach",
+      "load"
+    ],
+    "factions": [
+      "italijanska",
+      "partizanska"
+    ],
+    "prompts": {
+      "standing.png": "Draw a transparent 2x2 sprite sheet for a fictional WWII-era 2D arcade historical game, a stylized soldier crew member in side view facing RIGHT, four full-body drawings, one complete isolated sprite per equal square cell with ample transparent gutters. Follow the first image as palette/silhouette cue for the Italian infantry uniform and the second as a hand-painted pixel art style cue. TOP ROWS are the same Italian crewman in muted gray-green regulation uniform and steel helmet. BOTTOM ROWS are the same Yugoslav Partisan crewman in mixed brown trousers and muted olive short jacket and basic soft cap. Two columns are ONLY display poses: LEFT column neutral leaning stance beside unseen equipment, right hand around sternum height, holding a tiny plain olive projectile prop; RIGHT column forward lean, RIGHT arm extending diagonally forward and slightly up, the small matching prop oriented slightly upward at the fingertips just in front of his face line, to stage the impression of a loading animation, left arm kept away. All feet remain clearly planted at same positions within each row, same head and outfit, relaxed natural limb shape, coherent muted pixel clusters, side-view camera about waist height. Half the neighboring picture is transparent isolation space. Keep characters separate and visually consistent. No actual mortar drawn, no procedures, no ground or shadows separate from the body, no effects, no other objects, no lettering and no decorative labels. Exactly four full figures at consistent scale, true transparent background square canvas.",
+      "kneeling.png": "Draw two individual low kneeling action pose sprites for a fictional stylized 2D historical arcade character sheet, using the supplied image as the character reference and matching the 2D pixel art rigorously. Split the new 2:1 transparent wide landscape sheet into two equal square cells, Italian on LEFT (the upper-row gray-green soldier with steel helmet), Yugoslav Partisan on RIGHT (the lower-row olive-cloth-capped partisan in brown trousers). Both facing RIGHT in pure side view. One knee rests on the invisible ground just behind, forward boot planted, torso leaning partly forward from hips. The forward arm reaches forward about shoulder height with a small gray-green cartridge-shaped prop pinched vertically in hand; the other arm is clearly at the hip. Entire character head-to-toes, no cropping, powerful readable pose. Keep lower relative silhouette, with hand approximately 60 percent of corresponding standing sprite height above ground; this is a dynamic 2D game animation frame. Same muted olive palette, face, clothing and proportion as their separate references, placed well inside each cell with transparent clean wide gaps in between. NO equipment other than the small abstract held game prop, no realistic mechanics, no extra parts, no people other than these forms, no ground, no shadow, no borders or text."
+    },
+    "poses": [
+      {
+        "row": 0,
+        "column": 0,
+        "source": "standing.png",
+        "crop": [
+          0,
+          0,
+          627,
+          627
+        ],
+        "height": 144,
+        "feetAcross": 0.5,
+        "bounds": [
+          41,
+          10,
+          111,
+          154
+        ]
+      },
+      {
+        "row": 0,
+        "column": 1,
+        "source": "standing.png",
+        "crop": [
+          627,
+          0,
+          1254,
+          627
+        ],
+        "height": 138,
+        "feetAcross": 0.34,
+        "bounds": [
+          41,
+          16,
+          144,
+          154
+        ]
+      },
+      {
+        "row": 0,
+        "column": 2,
+        "source": "kneeling.png",
+        "crop": [
+          0,
+          0,
+          887,
+          887
+        ],
+        "height": 101,
+        "feetAcross": 0.41,
+        "bounds": [
+          36,
+          53,
+          134,
+          154
+        ]
+      },
+      {
+        "row": 1,
+        "column": 0,
+        "source": "standing.png",
+        "crop": [
+          0,
+          627,
+          627,
+          1254
+        ],
+        "height": 144,
+        "feetAcross": 0.5,
+        "bounds": [
+          40,
+          10,
+          111,
+          154
+        ]
+      },
+      {
+        "row": 1,
+        "column": 1,
+        "source": "standing.png",
+        "crop": [
+          627,
+          627,
+          1254,
+          1254
+        ],
+        "height": 138,
+        "feetAcross": 0.34,
+        "bounds": [
+          41,
+          16,
+          145,
+          154
+        ]
+      },
+      {
+        "row": 1,
+        "column": 2,
+        "source": "kneeling.png",
+        "crop": [
+          887,
+          0,
+          1774,
+          887
+        ],
+        "height": 100,
+        "feetAcross": 0.41,
+        "bounds": [
+          33,
+          54,
+          137,
+          154
+        ]
+      }
+    ],
+    "sha256": "74093ae1c8012876fb73847bbf182980cdffc657ec51928b2984b4c2395cf547"
+  },
+  "sourceSha256": {
+    "kneeling.png": "2e23b82bbc98e73476162280568f46caf6b6a15d59d91578b387f154b97451fa",
+    "standing.png": "65b7b33c909c4bbef93c917f0299a97acde1d2ae958db6f84c6c22379995051e"
+  }
+}

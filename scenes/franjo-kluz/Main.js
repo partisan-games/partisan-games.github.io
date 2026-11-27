@@ -128,7 +128,7 @@ export default class FranjoKluzScene extends Scene2D {
     const departure = this.mission.takeoff && new Airfield({ camera, groundY: groundLevel, x: departureX })
     this.aerodrom = new Airfield({ camera, groundY: groundLevel, x: this.mission.airfieldX })
     this.airfields = [departure, this.aerodrom].filter(Boolean)
-    this.ruina = new WorldSprite('buildings/ruina.png', { camera, groundY: groundLevel, x: ruinX })
+    this.ruina = new WorldSprite('game-ready/scenery/franjo-kluz/ruina.webp', { camera, groundY: groundLevel, x: ruinX })
 
     /** What the plane's guns and bombs can hit, what the observer fires back at, and what it can crash into. */
     this.targets = []
@@ -169,7 +169,7 @@ export default class FranjoKluzScene extends Scene2D {
     this.followPlane(0)
 
     this.scenery = [
-      new ParallaxLayer({ src: 'nature/shumarak.png', count: 10, depth: .2, z: 2, camera,
+      new ParallaxLayer({ src: 'game-ready/scenery/shumarak.webp', count: 10, depth: .2, z: 2, camera,
         place: height => groundLevel + 5 - height / 2 }),
       new ParallaxLayer({ src: 'nature/oblak.gif', count: 3, depth: .1, drift: -32, z: 3, camera,
         place: () => randomInRange(0, groundLevel) }),

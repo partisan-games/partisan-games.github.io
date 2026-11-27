@@ -4,10 +4,13 @@ import CannonKeys from '/core/gameplay/controllers/CannonKeys.js'
 import { keyboard } from '/core/io/Keyboard.js'
 import { leftPlayerKeys } from '/core/io/keys.js'
 import FieldGun, * as fieldGunModule from '/core/gameplay/bodies/artillery/FieldGun.js'
+import Mortar, * as mortarModule from '/core/gameplay/bodies/artillery/Mortar.js'
 import CannonCrew, * as crewModule from '/core/gameplay/bodies/soldiers/CannonCrew.js'
 import Skirmisher, * as skirmisherModule from '/core/gameplay/bodies/soldiers/Skirmisher.js'
 import FlagBearer, * as bearerModule from '/core/gameplay/bodies/soldiers/FlagBearer.js'
 import FieldGunSprite from '/core/actor/artillery/FieldGunSprite.js'
+import MortarSprite from '/core/actor/artillery/MortarSprite.js'
+import MortarCrewSprite from '/core/actor/soldiers/MortarCrewSprite.js'
 import CannonCrewSprite from '/core/actor/soldiers/CannonCrewSprite.js'
 import SkirmisherSprite from '/core/actor/soldiers/SkirmisherSprite.js'
 import FlagBearerSprite from '/core/actor/soldiers/FlagBearerSprite.js'
@@ -50,6 +53,18 @@ const gun = (stage, way) => {
   return put(stage, body, new FieldGunSprite(body, views(stage)))
 }
 
+/** A mortar in the middle, aimed and fired as the gun is, whose bombs hit the stand-in; both armies' mortars are alike. */
+const mortarPiece = (stage, way) => {
+  const body = new Mortar({ ...placed(stage, way), targets: [stage.dummy] })
+  playerControls(stage, () => new CannonKeys(body, { keyboard, keys: leftPlayerKeys }))
+  return put(stage, body, new MortarSprite(body, views(stage)))
+}
+
+const mortarCrew = (stage, way, italian) => {
+  const body = new CannonCrew(placed(stage, way))
+  return put(stage, body, new MortarCrewSprite(body, { italian, ...views(stage) }))
+}
+
 /** The partisan and the Italian look of a block, named as its story says them. */
 const armies = (partisan, italian) => [
   { id: partisan, name: partisan[0].toUpperCase() + partisan.slice(1), value: false },
@@ -57,6 +72,7 @@ const armies = (partisan, italian) => [
 ]
 
 const game = 'Ustanak'
+const mortarGame = 'Ustanak, proba sa minobacačima'
 
 const plane = src => (stage, way) => {
   const view = new Airplane({ src, x: stage.width / 2, y: stage.groundY * .45, speed: 0, flipY: -way, flammable: false })
@@ -77,8 +93,12 @@ export const soldiers = [
     modelNames: { partizanski: 'Partizanski zastavnik', italijanski: 'Italijanski zastavnik' } },
   { id: 'posada-topa', name: 'Posada topa', game, pxPerMeter, way: 1, looks: armies('partizanska', 'italijanska'), block: crewModule, create: crew,
     modelNames: { partizanska: 'Partizanska posada topa', italijanska: 'Italijanska posada topa' } },
+  { id: 'posada-minobacaca', name: 'Posada minobacača', game: mortarGame, pxPerMeter, way: 1, looks: armies('partizanska', 'italijanska'),
+    block: crewModule, create: mortarCrew,
+    modelNames: { partizanska: 'Partizanska posada minobacača', italijanska: 'Italijanska posada minobacača' } },
 ].flatMap(story => story.looks ? separateModels(story) : [story])
 
 export const artillery = [
   { id: 'ustanak-top', name: 'Schneider 155 L', game, pxPerMeter, way: 1, block: fieldGunModule, create: gun },
+  { id: 'minobacac-81', name: 'Minobacač 81 mm Mod. 35', game: mortarGame, pxPerMeter, way: 1, block: mortarModule, create: mortarPiece },
 ]

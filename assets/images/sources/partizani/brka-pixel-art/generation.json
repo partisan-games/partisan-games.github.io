@@ -5,6 +5,11 @@
   "faceReference": "assets/models/character/soldier/partisan-moustache.jpg",
   "styleReference": "assets/models/character/soldier/sutjeska-pixel-art/uniform.webp",
   "source": "redraw.png",
+  "clothingRevision": {
+    "reference": "clothes-reference.png",
+    "source": "clothes.png",
+    "prompt": "Edit these TWO existing technical UV maps precisely in place. This is a flat game texture atlas for one fictional 3D character's plain clothes. Same 2:1 wide canvas and two equal 1:1 square images side by side, identical UV island positions, outlines, margins and feature positions. The left tile is a single solid light warm flax-gray shirt material, approximately #a99b84. The right tile is a single solid charcoal gray fabric for the trousers, approximately #535147. The current art wrongly shows bold tigerstripe-like folds like camouflage. Remove broad contrasting patches, stripes, speckle, bands and dark painted-in shading from every main fabric island. Use practically uniform midtone fill with ONLY fine very low contrast tone-on-tone shading close to the existing loose fold edges, within roughly plus or minus 5 RGB levels of the base material. Clean, quiet shapes. Use crisp subtle pixel stepped seams and same-color seams at pockets and hems. Let 3D scene lighting supply volume. Preserve functional collar placket and its buttons on the shirt and the existing belt loops, pockets and hems in precisely the same locations. The placket can remain brown but can be a little lighter at its edges. Pants are matte charcoal without khaki camouflage. Don't add visual features, gradients, dirt, stains, text, objects, repositioned islands or framing. Keep the neutral unused/background margins as in the supplied image. Two geometrically identical UV maps in subdued plain solid-color pixel art."
+  },
   "meshTriangles": 9921,
   "meshCount": 18,
   "textureSize": [
@@ -24,19 +29,36 @@
     },
     {
       "name": "shirt",
+      "padFabricEdges": true,
+      "source": "clothes.png",
+      "sourceBox": [
+        0,
+        0,
+        0.5,
+        1
+      ],
       "material": "mat_15-27374EA0.jpg",
       "column": 1,
       "row": 0,
-      "outputSha256": "e3489b24316911cc28b886aca48a8a1dd6e711c78006019f3df616087bd2f77d",
-      "outputBytes": 60830
+      "outputSha256": "521584405e3fe160ef900d8b8702615b3f5707bfc603e4e58dec16aa8312c287",
+      "outputBytes": 53050,
+      "sourceSha256": "1ecd4bc83a5f1adf7b8e8b071b20c2c93e3f3717cd6b377edf7da9c241f26c2e"
     },
     {
       "name": "trousers",
+      "source": "clothes.png",
+      "sourceBox": [
+        0.5,
+        0,
+        1,
+        1
+      ],
       "material": "mat_9-27375500.jpg",
       "column": 0,
       "row": 1,
-      "outputSha256": "d68b9291d0cefc3c5fc816b0d0686b8ef9f4fff079ecfcb0911faad329f844c4",
-      "outputBytes": 63544
+      "outputSha256": "9f819f83d57662d17d9f677731661850262f903bb2b6ea4648d8dc4ef53fbc82",
+      "outputBytes": 50746,
+      "sourceSha256": "1ecd4bc83a5f1adf7b8e8b071b20c2c93e3f3717cd6b377edf7da9c241f26c2e"
     },
     {
       "name": "face",

@@ -26,6 +26,9 @@ import * as soldierModule from '/core3d/actor/derived/ww2/Soldier.js'
 import * as sovietPartisanModule from '/core3d/actor/derived/ww2/SovietPartisan.js'
 import * as nikoletinaModule from '/core3d/actor/derived/ww2/nikoletinaLook.js'
 import * as workerModule from '/core3d/actor/derived/ww2/Worker.js'
+import * as prisonerModule from '/core3d/actor/derived/ww2/Prisoner.js'
+import Prisoner from '/core/gameplay/bodies/characters/Prisoner.js'
+import Posture from '/core/gameplay/bodies/characters/Posture.js'
 import * as tankModule from '/core3d/actor/derived/Tank.js'
 import * as hotchkissModule from '/core3d/actor/derived/Hotchkiss.js'
 
@@ -305,6 +308,45 @@ const workerFighter = {
   },
 }
 
+/** The crouched poses the buttons put a prisoner in. */
+const crouchedPoses = { crouch: 'crouchIdle', rest: 'crouchRest', peek: 'crouchPeek' }
+
+/**
+ * The men who break out of the camp, a story each: as in their level, each crouches down and gets up through his
+ * recorded movement, rests or peers round a corner in a crouch, and swings his pipe only once he stands.
+ */
+const prisoners = prisonerModule.prisonerLooks.map(({ name, height }, index) => ({
+  id: `logoras-${name.toLowerCase()}`, name: `Logoraš ${name}`, game: 'Escape Concentration Camp', block: prisonerModule,
+  stage: Stage3D,
+  create: async stage => {
+    await requestModels(prisonerModule.models, { parallelAnimations: true })
+    const body = new Prisoner({ size: { height, length: .4, width: .4 } })
+    const model = new prisonerModule.default(body, { index, textures: new Map() })
+    const posture = new Posture(body, { duration: model.actions.crouchUp.getClip().duration,
+      shift: (clip, time) => model.postureShift(clip, time) })
+    const attack = body.act.bind(body)
+    let swing = false
+    Object.defineProperty(body, 'acts', { value: [...Object.keys(crouchedPoses), ...body.acts] })
+    body.act = act => {
+      if (act === 'attack') {
+        body.crouched = false
+        swing = true
+        return
+      }
+      body.crouched = act !== 'crouch' || !body.crouched
+      body.waitPose = crouchedPoses[act]
+    }
+    stage.controllers.push({ update: dt => {
+      posture.update(dt)
+      if (!swing || body.posture || posture.crouched) return
+      swing = false
+      attack('attack')
+    } })
+    stage.add(body, model)
+    return body
+  },
+}))
+
 export const ww2 = [
   germanHeavyInfantry,
   germanRifleman,
@@ -313,6 +355,7 @@ export const ww2 = [
   infantryStory('partizan-3d', 'Borac sa Sutjeske', 'Liberated City, Spomenici', partisanModule),
   infantryStory('partizan-jednostavan-model-3d', 'Savo', 'Liberated City', partisanLowpolyModule),
   workerFighter,
+  ...prisoners,
   ...resistanceIdentities,
   character('ss-vojnik-3d', 'SS vojnik', '3D Tank, FPS Airport, FPS Base', sSSoldierModule),
   infantryStory('vojnik-3d', 'Vojnik', library, soldierModule),

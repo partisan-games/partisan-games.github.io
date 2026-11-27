@@ -27,7 +27,7 @@ const states = {
   flight: {
     update: (ball, dt) => {
       ball.vx += (ball.wind?.acceleration ?? 0) * dt
-      ball.vy -= ball.gravity * cannonball.fall * dt
+      ball.vy -= ball.gravity * ball.fall * dt
       ball.pitch = Math.atan2(ball.vy, Math.abs(ball.vx))
     },
   },
@@ -48,14 +48,15 @@ const states = {
  * along +x), or bursting (`burst`) on a target, which takes the damage when the burst ends, or on the ground. Whatever
  * a step reaches first ends the flight: a target, the ground `groundAt(x)`, which may have craters, or a side of
  * `bounds`, past which it leaves play without a burst. Each burst calls `onBlast(x)`, which digs a crater under it,
- * and `bursts` counts them for the view. A high arc may leave the top and come back.
+ * and `bursts` counts them for the view. A high arc may leave the top and come back. It falls `fall` times the
+ * world's gravity.
  */
 export default class Cannonball extends Body {
   constructor({ wind = null, groundAt = () => 0, bounds = { min: -Infinity, max: Infinity }, onBlast = () => {},
-    random = Math.random, ...rest } = {}) {
+    random = Math.random, fall = cannonball.fall, ...rest } = {}) {
     const diameter = cannonball.radius * 2
     super({ size: { length: diameter, height: diameter, width: diameter }, ...rest, states })
-    Object.assign(this, { wind, groundAt, bounds, onBlast, random })
+    Object.assign(this, { wind, groundAt, bounds, onBlast, random, fall })
     this.target = null
     this.damage = 0
     this.bursts = 0

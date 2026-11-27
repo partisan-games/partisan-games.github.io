@@ -13,6 +13,7 @@ export const keys = {
   run: { codes: ['ShiftLeft'], lock: 'CapsLock', label: 'CapsLock' },
   jump: { codes: ['Space'], label: 'Space' },
   attack2: { codes: ['KeyC'], label: 'C' },
+  crouch: { codes: ['KeyC'], label: 'C' },
   special: { codes: ['KeyV'], label: 'V' },
   pause: { codes: ['Escape'], label: 'Esc' },
 }

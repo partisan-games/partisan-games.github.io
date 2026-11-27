@@ -32,3 +32,15 @@ test('a blast cuts a crater into the ground, a blast in it deepens it to the bot
   assert.equal(terrain.blast(100), null)
   assert.equal(terrain.heightAt(100), 500)
 })
+
+test('a hill rises in crater-column steps between the sides, shots cut it down, and a new round raises it again', () => {
+  const terrain = new Terrain({ floorY: 500, width: 800, hill: { middle: 400, width: 200, height: 100 }, random: even })
+  assert.equal(terrain.heightAt(400), 400, 'its top is 100 px over the ground')
+  assert.equal(terrain.heightAt(290), 500, 'level ground beyond it')
+  assert.ok(terrain.heightAt(350) > 400 && terrain.heightAt(350) < 500, 'its slope')
+  assert.equal(terrain.heightAt(350), terrain.heightAt(351), 'in 2 px steps')
+  terrain.blast(400)
+  assert.equal(terrain.heightAt(400), 424, 'a crater in its top')
+  terrain.reset()
+  assert.equal(terrain.heightAt(400), 400)
+})

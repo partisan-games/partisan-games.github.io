@@ -59,7 +59,8 @@ for (const file of sourceFiles)
 const scenes = readdirSync(join(root, 'scenes')).filter(name => existsSync(join(root, 'scenes', name, 'Main.js')))
 const menuPaths = new Set()
 indexHtml.split('\n').forEach((text, i) => {
-  for (const [, path] of text.matchAll(/data-path="([^"]+)"/g)) {
+  // a cabinet on the home page, or a trial level's link among the links shown only in development
+  for (const [, path] of text.matchAll(/(?:data-path="|href="\/#)([\w-]+)"/g)) {
     menuPaths.add(path)
     if (!scenes.includes(path)) report(join(root, 'index.html'), i + 1, `menu entry without scene "${path}"`)
   }

@@ -36,3 +36,23 @@ test('the ground layer cuts the same crater floors that Terrain digs', t => {
   layer.redraw()
   assert.equal(fills.filter(fill => fill.operation === 'destination-out').length, 0, 'a new round has a whole layer')
 })
+
+test('the ground layer stands its earth, grass on top, up from a hill', t => {
+  const draws = []
+  const recorder = {
+    globalCompositeOperation: 'source-over', clearRect() {}, fillRect() {},
+    createPattern: () => ({ setTransform() {} }),
+    drawImage(image, sx, sy, sw, sh, x, y) {
+      draws.push({ x, y })
+    },
+  }
+  t.mock.method(HTMLCanvasElement.prototype, 'getContext', () => recorder)
+  const terrain = new Terrain({ floorY: 500, width: 800, hill: { middle: 400, width: 200, height: 100 } })
+  const layer = new GroundLayer({ width: 800, height: 600, floorY: 500, surface: terrain.surface })
+  layer.redraw()
+  const raised = terrain.surface.filter((surface, x) => x % 2 === 0 && surface < 500).length
+  assert.ok(raised > 80)
+  assert.equal(draws.length, raised, 'a column for each 2 px of its slopes and top')
+  const top = draws.find(draw => draw.x === 400)
+  assert.equal(top.y, 400 - 7, 'the grass stands 7 px over the hill, as over the ground')
+})

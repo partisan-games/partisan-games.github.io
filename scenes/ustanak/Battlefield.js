@@ -18,7 +18,7 @@ export default class Battlefield {
     this.time = 0
     this.places = placeOrder.map(id => new BattleBackground(canvas, battlefields[id], { groundY, pictureFilter: landscapeFilter }))
     this.audioChildren = this.places
-    this.ground = new GroundLayer({ width: canvas.width, height: canvas.height, floorY: terrain.floorY })
+    this.ground = new GroundLayer({ width: canvas.width, height: canvas.height, floorY: terrain.floorY, surface: terrain.surface })
     terrain.view = this.ground
   }
 

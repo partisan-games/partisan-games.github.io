@@ -1,12 +1,24 @@
 import { AnimationUtils, LoopOnce } from 'three'
 import { loadedModel } from '/core3d/assets/models.js'
-import { mountMetalPipe, smoothPipeSwing, pipeSwingName } from '/core3d/actor/derived/ww2/WorkerPipe.js'
+import CharacterModel from '/core3d/actor/characters/CharacterModel.js'
 import dressFighter from '/core3d/actor/characters/dressFighter.js'
-import { variants } from '/core3d/actor/derived/ww2/partisanLooks.js'
-import { escapingPrisoner, standingIdles } from './EscapingPrisoners.js'
-import { PrisonerFootsteps } from './stealth.js'
+import { mountMetalPipe, smoothPipeSwing, pipeSwingName } from './WorkerPipe.js'
+import { variants } from './partisanLooks.js'
+import { description as worker } from './Worker.js'
 
-export const companionLooks = [
+/** Ways to stand and wait, one for each companion in turn, so they do not all move alike; one stretches. */
+export const standingIdles = ['Standing Idle', 'Dwarf Idle', worker.animDict.idle]
+const animDict = { ...worker.animDict, idle: standingIdles[0], restIdle: standingIdles[1],
+  // the pipe swing eases from this pose
+  swingRest: worker.animDict.idle, run: 'Running', attack: pipeSwingName,
+  crouchWalk: 'Crouched Walking', crouchIdle: 'Crouching Idle', crouchRest: 'Crouch Idle',
+  crouchPeek: 'Crouch Look Around Corner', crouchUp: 'Crouch To Stand' }
+/** A prisoner of the camp: the worker's model with the crouching, resting, peering and getting-up recordings. */
+export const description = { ...worker, model: { ...worker.model, animDict }, animDict }
+export const models = [description.model]
+
+/** The three men who break out with the player, each his own height and clothes. */
+export const prisonerLooks = [
   { name: 'Ilija', height: 1.70, outfit: variants.vuna.outfit },
   { name: 'Petar', height: 1.82, outfit: variants.indigo.outfit },
   { name: 'Jovan', height: 1.76, outfit: { ...variants.oker.outfit, 'mat_12-27374460.jpg': 0xd6baa1 } },
@@ -43,10 +55,22 @@ function reverseTransition(clip) {
   return reversed
 }
 
-export default class CompanionModel extends PrisonerFootsteps {
+/** A character whose steps are quieter while he crouches. */
+export class PrisonerFootsteps extends CharacterModel {
+  step(before) {
+    this.stepSound.volume = this.body.crouched ? .22 : 1
+    super.step(before)
+  }
+}
+
+/**
+ * A prisoner as `prisonerLooks[index]`, with a metal pipe: his crouching rests start at different moments and tempos
+ * from the others', and getting up or down follows his `posture`.
+ */
+export default class PrisonerModel extends PrisonerFootsteps {
   constructor(body, { index, textures, ...options }) {
-    const mesh = loadedModel(escapingPrisoner.model)
-    const { animDict } = escapingPrisoner
+    const mesh = loadedModel(description.model)
+    const { animDict } = description
     const source = mesh.userData.animations
     const idle = source.find(clip => clip.name === animDict.crouchIdle)
     const swing = smoothPipeSwing(source)
@@ -66,13 +90,13 @@ export default class CompanionModel extends PrisonerFootsteps {
     body.actions.attack = swing.duration
     super(body, { mesh, animations,
       animDict: { ...animDict, idle: standingIdles[index % standingIdles.length], crouchDown: 'Stand To Crouch' }, ...options })
-    this.mesh.scale.multiplyScalar(companionLooks[index].height / 1.8)
-    dressFighter(this.mesh, companionLooks[index].outfit, textures)
+    this.mesh.scale.multiplyScalar(prisonerLooks[index].height / 1.8)
+    dressFighter(this.mesh, prisonerLooks[index].outfit, textures)
     mountMetalPipe(this.mesh, { tipLength: .32 })
     this.recordedStand = recordedStand
     this.idlePhases = {}
     for (const state of ['idle', 'crouchIdle', 'crouchRest']) {
-      this.idlePhases[state] = this.actions[state].getClip().duration * index / companionLooks.length
+      this.idlePhases[state] = this.actions[state].getClip().duration * index / prisonerLooks.length
       this.actions[state].time = this.idlePhases[state]
       this.actions[state].setEffectiveTimeScale(.94 + index * .06)
     }

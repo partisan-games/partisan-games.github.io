@@ -1,58 +1,15 @@
-import Character from '/core/gameplay/bodies/characters/Character.js'
 import PursuitAI from '/core/gameplay/controllers/PursuitAI.js'
 import CharacterKeys from '/core/gameplay/controllers/CharacterKeys.js'
-import CharacterModel from '/core3d/actor/characters/CharacterModel.js'
+import { keys } from '/core/io/keys.js'
 import CampNavigation from './CampNavigation.js'
 
-export const crouchKey = { codes: ['KeyC'], label: 'C' }
-const crouchSpeed = .45
-/** A crouching prisoner's height, as a share of his standing height. */
-export const crouchHeight = .70
-const postureSpeed = 3.5
-
-export class Prisoner extends Character {
-  constructor(options) {
-    super(options)
-    this.standingHeight = this.size.height
-    this.crouched = false
-  }
-
-  steer(controls) {
-    super.steer({ ...controls, running: !this.crouched && controls?.running })
-  }
-
-  jump(dt) {
-    if (!this.crouched) super.jump(dt)
-  }
-
-  get steered() {
-    const speed = super.steered
-    return this.crouched ? { x: speed.x * crouchSpeed, z: speed.z * crouchSpeed } : speed
-  }
-
-  update(dt) {
-    const crouch = this.crouchProgress ?? (this.crouched ? 1 : 0)
-    const height = this.standingHeight * (1 - crouch * (1 - crouchHeight))
-    const change = Math.sign(height - this.size.height) * Math.min(Math.abs(height - this.size.height), postureSpeed * dt)
-    this.size.height += change
-    this.y += change / 2
-    super.update(dt)
-  }
-}
-
+/** Leads a prisoner as `CharacterKeys` leads a character; he crouches while the crouch key or the screen's button is held. */
 export class PrisonerKeys extends CharacterKeys {
   update(dt) {
     const { body, input } = this
     body.crouched = body.alive && !body.airborne && !body.swing && !input.attack
-      && (input.keyboard.isDown(crouchKey) || input.screen.special)
+      && (input.keyboard.isDown(keys.crouch) || input.screen.special)
     super.update(dt)
-  }
-}
-
-export class PrisonerFootsteps extends CharacterModel {
-  step(before) {
-    this.stepSound.volume = this.body.crouched ? .22 : 1
-    super.step(before)
   }
 }
 

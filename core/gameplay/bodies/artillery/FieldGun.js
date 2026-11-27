@@ -1,22 +1,17 @@
-import Body from '../Body.js'
-import ProjectilePool from '../projectiles/ProjectilePool.js'
-import Cannonball, { cannonball } from '../projectiles/Cannonball.js'
+import ArtilleryPiece from './ArtilleryPiece.js'
+import { cannonball } from '../projectiles/Cannonball.js'
 import { stand } from '../ground.js'
-import { box, circle, fromImage, placeShape } from '../../../collision/shapes.js'
-import { sweepCircle } from '../../../collision/sweep.js'
+import { box, circle, fromImage } from '../../../collision/shapes.js'
 
 /**
- * The force of a shot, at least and at most, in metres a second, and how much holding fire adds to it each second;
- * how fast the barrel rises and sinks, in radians a second, and how far; how far a shot throws the gun back, in
- * metres, and how fast it rolls forward again; under what health it burns. Measured from the earlier pixel cannon at
- * 40 px a metre, where its crew are 1.8 m tall.
+ * The settings of an `ArtilleryPiece`, and how far a shot throws the gun back, in metres, and how fast it rolls
+ * forward again; the elevations the computer opens with. Measured from the earlier pixel cannon at 40 px a metre,
+ * where its crew are 1.8 m tall.
  */
 export const fieldGun = {
   minForce: 7.5, maxForce: 22.5, chargeRate: 7.5, aimRate: .5, lowest: .0832, highest: .6032, recoil: .125,
-  recoilReturn: .5, burnBelow: 20,
+  recoilReturn: .5, burnBelow: 20, shellFall: cannonball.fall, aimElevations: [.15, .22, .3, .4, .5],
 }
-/** The elevations `aimAt` tries, from the highest down, so the farther the point, the higher the barrel. */
-const aimStep = .005
 
 /**
  * The gun in metres from its barrel pivot: the muzzle ahead and above that pivot, the carriage's middle behind
@@ -49,38 +44,14 @@ const carriageShapes = fromImage(gunShape.carriage.image, pixel, [
 const standingHeight = gunShape.wheel.below + gunShape.wheel.radius
 
 /**
- * The gun stands, its crew loads it, or it fires where `aimAt` set it as soon as its last shot is over, or it lies
- * destroyed. Who aims and fires it, and when, is up to the world.
+ * A muzzle-loading field gun standing on `groundAt(x)`, which may give way under its wheel; a shot throws it back. Its
+ * drawn outline, not a box, takes the hits.
  */
-const states = {
-  idle: {},
-  load: { update: (gun, dt) => gun.charge(dt) },
-  attack: {
-    update: gun => {
-      if (gun.hasActiveShot || gun.aimedForce === null) return
-      gun.force = gun.aimedForce
-      gun.launch()
-    },
-  },
-  dead: {},
-}
-
-/**
- * A muzzle-loading field gun, facing right (yaw 0) or left (yaw π), standing on `groundAt(x)`, which may give way
- * under its wheel. Its shots fly with the `wind`, hit the living ones of `targets`, burst on the ground, where
- * `onBlast(x)` digs a crater, and leave play past the sides of `bounds`. It fires only while `canFire()`. Its drawn
- * outline, not a box, takes the hits.
- */
-export default class FieldGun extends Body {
-  constructor({ targets = [], wind = null, groundAt = () => 0, bounds, onBlast, canFire = () => true,
-    random = Math.random, ...rest } = {}) {
-    super({ size: { length: 7.5, height: 2.6, width: .75 }, ...rest, states })
-    Object.assign(this, { targets, wind, groundAt, canFire })
+export default class FieldGun extends ArtilleryPiece {
+  constructor({ groundAt = () => 0, ...rest } = {}) {
+    super({ size: { length: 7.5, height: 2.6, width: .75 }, settings: fieldGun, groundAt, ...rest })
     this.home = this.x
     this.elevation = .2
-    this.force = fieldGun.minForce
-    this.aimedForce = null
-    this.shells = new ProjectilePool(() => new Cannonball({ gravity: this.gravity, wind, groundAt, bounds, onBlast, random }))
     this.y = groundAt(this.wheelX) + standingHeight
     /** The parts the hit shapes turn and flip with, in the frame the pictures were measured in (y down). */
     const gun = this
@@ -106,30 +77,6 @@ export default class FieldGun extends Body {
     ]
   }
 
-  /** The way it faces: 1 right, -1 left. */
-  get forward() {
-    return Math.cos(this.yaw) < 0 ? -1 : 1
-  }
-
-  setState(name) {
-    if ((this.dead && name !== 'dead') || !this.states.includes(name)) return
-    super.setState(name)
-  }
-
-  get elevation() {
-    return this.barrelElevation
-  }
-
-  /** The barrel's angle above level, kept between the lowest and the highest it goes. */
-  set elevation(value) {
-    this.barrelElevation = Math.max(fieldGun.lowest, Math.min(fieldGun.highest, value))
-  }
-
-  /** The barrel's angle from +x. */
-  get barrelAngle() {
-    return this.forward > 0 ? this.elevation : Math.PI - this.elevation
-  }
-
   get carriage() {
     const { behind, below } = gunShape.carriage
     return { x: this.x - this.forward * behind, y: this.y - below }
@@ -151,56 +98,14 @@ export default class FieldGun extends Body {
     }
   }
 
-  get burning() {
-    return this.health.current <= fieldGun.burnBelow
-  }
-
-  get hasActiveShot() {
-    return this.shells.projectiles.some(shell => shell.active)
-  }
-
-  /** When the step of a round shot of `radius` from `start` to `end` first touches the drawn gun, or null. */
-  hitTime(start, end, radius = 0) {
-    let first = null
-    for (const part of this.parts)
-      for (const shape of part.shapes) {
-        const time = sweepCircle(start, end, radius, placeShape(shape, part))
-        if (time !== null && (first === null || time < first)) first = time
-      }
-    return first
-  }
-
-  /** Fires the charged force along the barrel if it may and its last shot is over, and recoils; returns whether. */
+  /** Fires as any piece does, and recoils. */
   launch() {
-    if (this.dead || !this.canFire() || this.hasActiveShot) return false
-    this.shells.fire(this.muzzle, this.forward > 0 ? 0 : Math.PI, this.elevation, this.force)
-    this.shotsFired++
+    if (!super.launch()) return false
     this.x -= fieldGun.recoil * this.forward
-    this.force = fieldGun.minForce
     return true
   }
 
-  /** Builds up the force of the next shot while fire is held. */
-  charge(dt) {
-    this.force = Math.min(fieldGun.maxForce, this.force + fieldGun.chargeRate * dt)
-  }
-
-  /** Whether fire has been held, so letting it go fires. */
-  get charged() {
-    return this.force > fieldGun.minForce
-  }
-
-  /** Raises the barrel for `way` 1, or lowers it for -1. */
-  turnBarrel(way, dt) {
-    this.elevation += way * fieldGun.aimRate * dt
-  }
-
   /** As far as the strongest shot carries over level ground, with the barrel highest and no wind. */
-  /** How hard its balls are pulled down. */
-  get ballPull() {
-    return this.gravity * cannonball.fall
-  }
-
   get reach() {
     return fieldGun.maxForce ** 2 * Math.sin(2 * fieldGun.highest) / this.ballPull
   }
@@ -210,48 +115,11 @@ export default class FieldGun extends Body {
     return { straight: { x: 17.5, y: -standingHeight }, up: { x: 25, y: -standingHeight } }
   }
 
-  /**
-   * The force that throws a shot from the muzzle to `point` at `elevation`, which the barrel is set to, with the
-   * wind, or null when no throw at it gets there.
-   */
-  forceFor(point, elevation = this.elevation) {
-    const { x, y } = this.muzzle
-    const distance = Math.abs(point.x - x)
-    const drop = y - point.y
-    const acceleration = this.forward * (this.wind?.acceleration || 0)
-    const timeSquared = 2 * (distance * Math.tan(elevation) + drop) / (this.ballPull + acceleration * Math.tan(elevation))
-    return timeSquared > 0
-      ? (distance - acceleration * timeSquared / 2) / (Math.cos(elevation) * Math.sqrt(timeSquared))
-      : null
-  }
-
-  /**
-   * Sets the barrel and the force of the next shot for `point`, at the highest elevation whose force the gun has, and
-   * gives whether the point is ahead and within reach. An unreachable point leaves the aim as it was.
-   */
-  aimAt(point) {
-    if (Math.sign(point.x - this.x) !== this.forward) return false
-    const { elevation } = this
-    const steps = Math.ceil((fieldGun.highest - fieldGun.lowest) / aimStep)
-    for (let i = 0; i <= steps; i++) {
-      const tried = Math.max(fieldGun.lowest, fieldGun.highest - i * aimStep)
-      this.elevation = tried
-      const force = this.forceFor(point)
-      if (force !== null && force >= fieldGun.minForce && force <= fieldGun.maxForce) {
-        this.aimedForce = force
-        return true
-      }
-    }
-    this.elevation = elevation
-    return false
-  }
-
-  /** It stands on the ground under its wheel, rolls back to its place after a shot, and its shots fly on. */
+  /** It stands on the ground under its wheel and rolls back to its place after a shot; its shots fly on. */
   update(dt) {
     super.update(dt)
     stand(this, dt, { footX: this.wheelX, height: standingHeight })
     const recoil = this.home - this.x
     this.x += Math.sign(recoil) * Math.min(Math.abs(recoil), fieldGun.recoilReturn * dt)
-    this.shells.update(dt, this.targets)
   }
 }

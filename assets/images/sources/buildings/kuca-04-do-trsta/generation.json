@@ -1,0 +1,18 @@
+{
+  "tool": "built-in image_gen",
+  "source": "redraw.png",
+  "reference": "original.png",
+  "styleReference": "assets/images/game-ready/scenery/crkva-do-trsta.webp",
+  "frame": [
+    163,
+    148
+  ],
+  "groundEdge": 148,
+  "displayWidth": 90,
+  "output": "assets/images/game-ready/scenery/do-trsta/kuca-04.webp",
+  "prompt": "Redraw image 1 as one simple 2D side-view realistic pixel art game sprite, following image 2 for the warm gray limestone, dark muted wood, contour thickness and restrained pixel shading. It is a short modest rural stone house in a 1940s Adriatic hinterland village in the game Do Trsta. Keep the exact existing strict flat frontal elevation, near-square 163:148 composition and earlier outline. Top 41 percent of the rectangular sprite is a long straight roof seen slope-on, clad with small weathered gray-brown wooden shingles as in the reference, horizontal roofline flush with the image top and left/right sides. Below it a thick warm gray and beige masonry wall of irregular rectangular stone blocks. One small shuttered rectangular window at original left-of-center location; one taller rough brown wooden door at the original right-of-center position; door and stone wall meet same flat ground line. Strong broad crisp pixel clusters and restrained handmade surface texture, readable at 90 game pixels wide. Coherent shadows and stones, minimal black outlines, darker under the eave, subtle age wear rather than conspicuous damage. Use modest contrast so it will recede behind the game units. One isolated FULL RECTANGLE house texture exactly filling the frame, no perspective, no side wall, no sloping triangular silhouette, no sky, no surrounding terrain, no outdoor shadows, no people, plants, furniture, signs, words or labels.",
+  "preparation": "From repository root: python -B -c \"from PIL import Image; i=Image.open('assets/images/sources/buildings/kuca-04-do-trsta/redraw.png'); i.convert('RGB').crop((11,11,i.width-11,i.height-11)).resize((163,148), Image.Resampling.NEAREST).save('assets/images/game-ready/scenery/do-trsta/kuca-04.webp',lossless=True,exact=True,method=6)\"",
+  "sourceSha256": "6c1aba7792ef84cf11cf366ab7ab7ae1ecdc16b88c5a58e068edef7b43c17584",
+  "referenceSha256": "ca7ea3a4b6e7c41e5a2f56aa961c016ea5c1d40b46a25002199d4cd554060594",
+  "outputSha256": "7d79f6e200492bb85e0e14bd8dae838d17448d013c50ee543d1e8e32b1d23391"
+}

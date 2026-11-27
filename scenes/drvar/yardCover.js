@@ -1,7 +1,7 @@
 import WalkKeys from '/core/gameplay/controllers/WalkKeys.js'
 import CoverFighter from '/core/gameplay/controllers/CoverFighter.js'
+import { keys } from '/core/io/keys.js'
 
-export const crouchKey = { codes: ['KeyC'], label: 'C' }
 export const crouchHeight = 1.02
 const postureSpeed = 4.4
 
@@ -40,7 +40,7 @@ export class YardWalk extends WalkKeys {
   update(dt) {
     const { body, input } = this
     if (body.dead) return
-    const manual = input.keyboard?.isDown(crouchKey) || input.screen?.special
+    const manual = input.keyboard?.isDown(keys.crouch) || input.screen?.special
     const crouched = !body.airborne && Boolean(manual)
     this.posture.update(crouched, dt)
     body.speed = this.walkSpeed * (crouched ? .55 : 1)

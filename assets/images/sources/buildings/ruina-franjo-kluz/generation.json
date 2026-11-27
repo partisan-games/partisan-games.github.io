@@ -1,0 +1,17 @@
+{
+  "tool": "built-in image_gen",
+  "source": "redraw.png",
+  "reference": "original.png",
+  "styleReference": "assets/images/textures/buildings/kraljevo-pixel/ruin-front.webp",
+  "frame": [
+    740,
+    276
+  ],
+  "groundEdge": 276,
+  "output": "assets/images/game-ready/scenery/franjo-kluz/ruina.webp",
+  "prompt": "Repaint the FIRST reference, a single broad straight-on ruined masonry building sprite for the 2D side-view game Franjo Kluz, into the style of the SECOND reference. Same 740:276 wide full-bleed opaque rectangular facade, same silhouette and two adjoining sides separated by a vertical seam at x about 54 percent of the original image. Keep the horizontal cornice flush with top, the base flush with bottom, and same framing. Maintain the existing number, span and positions of the arched shuttered windows on all three levels, the dark recessed doorways and damaged central balcony on the left wing, the narrower middle row of arches and short damaged balcony on the right wing, and the right wing's solid blank ground floor. Preserve building scale and keep everything directly front-on, no perspective. Restrained historic Balkan town lime plaster in dusty ochre, spalled spots exposing reddish brown brick, warm gray limestone arches, cool desaturated window frames, a few clear dark open voids and smoke staining that increases above the damaged openings. Main lower right stays solid. Use crisply stepped contiguous square pixel clusters and simple shadow planes, avoid photo grain or microscopic grit. No roof added above, no detached wall or obstacle, no ground or sky, no outer outline outside the original rectangle, no vehicles, people, blooms, smoke, flames, signs, text or windows added. Draw art edge to edge, landscape about 2.68 times as wide as tall.",
+  "preparation": "From the repository root: python -B -c \"from PIL import Image; src='assets/images/sources/buildings/ruina-franjo-kluz/redraw.png'; out='assets/images/game-ready/scenery/franjo-kluz/ruina.webp'; Image.open(src).convert('RGB').resize((740,276),Image.Resampling.NEAREST).quantize(colors=128,dither=Image.Dither.NONE).convert('RGB').save(out,lossless=True,exact=True,method=6)\"",
+  "sourceSha256": "0bcb830ad5d947fab285127ee81f89930af5e2c15fc439a7eaa13ff7133f064e",
+  "referenceSha256": "69e1dc458dc5628534f09f73e7e9b817e2e150705cb63c09753efd916c3ac6d4",
+  "outputSha256": "ada44832703cf8bec59a7fb4d33117fac2d8aa7619354b0d5574ff22760bca7d"
+}

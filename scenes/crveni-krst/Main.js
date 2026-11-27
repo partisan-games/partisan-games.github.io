@@ -26,10 +26,12 @@ import TouchLook from '/core3d/actor/characters/TouchLook.js'
 import FirstPersonView from '/core3d/actor/characters/FirstPersonView.js'
 import CampWeapons, { takeWeapon } from './CampWeapons.js'
 import PrisonerAvatar, { prisonerModel } from './PrisonerAvatar.js'
-import { CampGuard, Prisoner, PrisonerFootsteps, PrisonerKeys, crouchKey, raiseAlarm } from './stealth.js'
-import CampCompanion, { models as escapeModels } from './EscapingPrisoners.js'
+import { CampGuard, PrisonerKeys, raiseAlarm } from './stealth.js'
+import CampCompanion from './EscapingPrisoners.js'
+import Prisoner from '/core/gameplay/bodies/characters/Prisoner.js'
+import { keys } from '/core/io/keys.js'
+import PrisonerModel, { PrisonerFootsteps, models as escapeModels, prisonerLooks } from '/core3d/actor/derived/ww2/Prisoner.js'
 import CampNavigation from './CampNavigation.js'
-import CompanionModel, { companionLooks } from './CompanionModel.js'
 
 const soldiers = [germanMachineGunner, ssSoldier, naziOfficer, germanFlameThrower, germanSoldier]
 const halt = 'halt.mp3'
@@ -40,7 +42,7 @@ export default class FpsBaseScene extends Scene3D {
     super({
       toon: true,
       usePointerLock: true,
-      controlKeys: { ...fpsControls, [crouchKey.label]: 'hold to sneak', [takeWeapon.label]: 'take weapon' },
+      controlKeys: { ...fpsControls, [keys.crouch.label]: 'hold to sneak', [takeWeapon.label]: 'take weapon' },
       intro: 'Find a way out.',
       reportText: 'Crveni Krst camp, Niš, 12 February 1942\n\nThe prisoners have planned their breakout. You have overpowered a guard and taken his rifle. Find a way out.',
     })
@@ -94,7 +96,7 @@ export default class FpsBaseScene extends Scene3D {
       weaponSrc: () => avatar.current.pose === 'rifle' ? '/assets/images/ui/savo.png' : null, behind: 0,
       showTarget: () => avatar.current.pose !== 'pipe' }), avatar, weapons)
 
-    const navigation = new CampNavigation(playerWorld.isBlocked, [.75, 1, ...companionLooks.map(look => look.height / 2)])
+    const navigation = new CampNavigation(playerWorld.isBlocked, [.75, 1, ...prisonerLooks.map(look => look.height / 2)])
     const guards = []
     const onFirstSpot = guard => {
       this.sceneAudio.emit(halt, { profile: shout, spatial: { position: guard.eye } })
@@ -143,14 +145,14 @@ export default class FpsBaseScene extends Scene3D {
       ].filter(point => Math.abs(point.x) < 38 && Math.abs(point.z) < 38)
     })
     this.escapees = Array.from({ length: 3 }, (_, index) => {
-      const look = companionLooks[index]
+      const look = prisonerLooks[index]
       const body = new Prisoner({ x: this.layout.start.x - .6 + index * .6,
         z: this.layout.start.z + 1, speed: 1.5 + index * .12, reach: 1.65,
         size: { height: look.height, length: .4, width: .4 }, actions: { attack: 1.74 },
         targets: this.enemies, solid: false, ...playerWorld })
       body.crouched = true
       body.name = look.name
-      const model = new CompanionModel(body, { index, textures: this.companionTextures ??= new Map(), impactAt })
+      const model = new PrisonerModel(body, { index, textures: this.companionTextures ??= new Map(), impactAt })
       this.prisoners.push(body)
       const controller = new CampCompanion(body, { leader: this.player, enemies: this.enemies,
         navigation, coverPoints, sees: enemyWorld.sees, index, companions: this.prisoners,

@@ -15,19 +15,29 @@ export function craterProfile(random = Math.random) {
   return depths
 }
 
+/** How high, in px, a `hill` rises over the column `x`: a smooth mound, in whole steps of a crater column. */
+function hillHeight({ middle, width, height }, x) {
+  const column = Math.floor(x / crater.column) * crater.column + crater.column / 2
+  const across = (column - middle) / (width / 2)
+  if (Math.abs(across) >= 1) return 0
+  return Math.round(height * Math.cos(across * Math.PI / 2) ** 2 / crater.column) * crater.column
+}
+
 /**
  * The ground the guns and their crews stand on, as a height for every pixel column of the screen, y down.
  * A shot cuts a crater into it: later shots fall into the hole, and what stands above it falls with the ground, which
  * the scene gives the bodies as their ground. `view` draws the same craters (see GroundLayer). Without a `width` the
- * ground stays flat.
+ * ground stays flat. A `hill`, `width` px wide and `height` px high round its `middle`, rises out of the level ground
+ * in steps of a crater column; shots cut it down as they cut the ground. `surface` is the ground a round starts on.
  */
 export default class Terrain {
-  constructor({ floorY, width = 0, bottom = Infinity, random = Math.random }) {
+  constructor({ floorY, width = 0, bottom = Infinity, hill = null, random = Math.random }) {
     this.floorY = floorY
     this.bottom = bottom
     this.random = random
     this.enabled = true
-    this.heights = new Float32Array(Math.ceil(width)).fill(floorY)
+    this.surface = new Float32Array(Math.ceil(width)).map((_, x) => floorY - (hill ? hillHeight(hill, x) : 0))
+    this.heights = this.surface.slice()
     this.view = null
   }
 
@@ -54,7 +64,7 @@ export default class Terrain {
   }
 
   reset() {
-    this.heights.fill(this.floorY)
+    this.heights.set(this.surface)
     this.view?.reset()
   }
 }

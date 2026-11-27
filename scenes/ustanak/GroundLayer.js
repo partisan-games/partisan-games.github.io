@@ -14,12 +14,15 @@ const image = src => {
 }
 
 /**
- * The front layer of earth that shells cut into. It is redrawn into its own canvas only when a crater
- * appears or a round starts; through each hole the dark crater wall is seen, not the street or the sky.
+ * The front layer of earth that shells cut into, rising over a hill where the `surface` (a height a pixel column, y
+ * down) is above `floorY`, with its grass on top. It is redrawn into its own canvas only when a crater appears or a
+ * round starts; through each hole in the level ground the dark crater wall is seen, not the street or the sky.
  */
 export default class GroundLayer {
-  constructor({ width, height, floorY }) {
+  constructor({ width, height, floorY, surface = [] }) {
     this.top = floorY - grassAbove
+    this.floorY = floorY
+    this.surface = surface
     this.width = width
     this.height = height
     this.earth = image('ustanak-tlo.png')
@@ -63,6 +66,13 @@ export default class GroundLayer {
     ctx.clearRect(0, 0, this.width, this.height)
     ctx.fillStyle = this.pattern(ctx, this.earth)
     ctx.fillRect(0, this.top, this.width, this.height - this.top)
+    // a hill: the earth, grass first, stands each crater column up from the hill's surface
+    for (let x = 0; x < this.surface.length; x += crater.column) {
+      const surface = this.surface[x]
+      if (surface >= this.floorY) continue
+      ctx.drawImage(this.earth, x % this.earth.naturalWidth, 0, crater.column, this.earth.naturalHeight,
+        x, surface - grassAbove, crater.column, this.earth.naturalHeight)
+    }
     const rim = this.pattern(ctx, this.rim)
     for (const { left, floors } of this.cuts)
       floors.forEach((floor, i) => {

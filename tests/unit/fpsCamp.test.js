@@ -45,7 +45,7 @@ function modelFiles(t) {
 
 test('camp weapon shots play with active 3D audio at the moving player eye position', async t => {
   createPageElements()
-  const { Prisoner } = await import('/scenes/crveni-krst/stealth.js')
+  const { default: Prisoner } = await import('/core/gameplay/bodies/characters/Prisoner.js')
   const { default: CampWeapons } = await import('/scenes/crveni-krst/CampWeapons.js')
   const { engine } = fixture()
   await engine.unlock()
@@ -173,7 +173,8 @@ test('real camp assembly blocks exactly the closed maze edges and lets the open 
 })
 
 test('camp crouch slows the prisoner, keeps his feet planted and suppresses sprint and jump', async() => {
-  const { Prisoner, PrisonerKeys } = await import('/scenes/crveni-krst/stealth.js')
+  const { default: Prisoner } = await import('/core/gameplay/bodies/characters/Prisoner.js')
+  const { PrisonerKeys } = await import('/scenes/crveni-krst/stealth.js')
   const prisoner = new Prisoner({ jumping: 'fly' })
   const { size: { height }, feet } = prisoner
   let held = true
@@ -195,7 +196,8 @@ test('camp crouch slows the prisoner, keeps his feet planted and suppresses spri
 })
 
 test('camp guards see a crouching prisoner at normal range only when he is lit and in view', async() => {
-  const { CampGuard, Prisoner } = await import('/scenes/crveni-krst/stealth.js')
+  const { CampGuard } = await import('/scenes/crveni-krst/stealth.js')
+  const { default: Prisoner } = await import('/core/gameplay/bodies/characters/Prisoner.js')
   const prisoner = new Prisoner({ x: 16, z: 0 })
   const sentry = new Prisoner({ x: 0, z: 0 })
   let lit = false, visible = true
@@ -496,7 +498,8 @@ test('FPS camp initializes with real model files, ten enemies and two first aids
 })
 
 test('on a touch screen the sneak button, held, crouches the prisoner and the hand button takes a weapon once per press', async t => {
-  const { Prisoner, PrisonerKeys } = await import('/scenes/crveni-krst/stealth.js')
+  const { default: Prisoner } = await import('/core/gameplay/bodies/characters/Prisoner.js')
+  const { PrisonerKeys } = await import('/scenes/crveni-krst/stealth.js')
   const { default: CampWeapons } = await import('/scenes/crveni-krst/CampWeapons.js')
   const prisoner = new Prisoner({})
   const screen = { special: true }

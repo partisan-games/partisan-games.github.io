@@ -13,9 +13,13 @@ before(async() => {
 test('redrawn scenery has its own entries, loads the game art and fits the stage', async t => {
   const scenery = [
     ['crkva-do-trsta', 'Zgrade', 'scenery/crkva-do-trsta.webp', [213, 239]],
+    ['kamena-kuca-do-trsta', 'Zgrade', 'scenery/do-trsta/kuca-04.webp', [163, 148]],
+    ['kuca-sa-dimnjakom-do-trsta', 'Zgrade', 'scenery/do-trsta/kuca-07.webp', [113, 135]],
     ['aerodrom-franjo-kluz', 'Zgrade', 'scenery/franjo-kluz/aerodrom.webp', [780, 600]],
+    ['rusevina-franjo-kluz', 'Zgrade', 'scenery/franjo-kluz/ruina.webp', [740, 276]],
     ['baza-vis', 'Zgrade', 'scenery/vis/baza.webp', [1536, 1024]],
     ['ostrvo-vis', 'Teren', 'scenery/vis/ostrvo.webp', [62, 63]],
+    ['sumarak', 'Teren', 'scenery/shumarak.webp', [202, 88]],
     ['krater-neretva', 'Tragovi rata', 'scenery/neretva-crater.webp', [416, 124]],
     ['granata', 'Predmeti', 'projektili/granata.webp', [32, 8]],
   ]
@@ -32,7 +36,7 @@ test('redrawn scenery has its own entries, loads the game art and fits the stage
     assert.ok(block.width <= 576 && block.height <= 360, id)
     assert.ok(Math.abs(block.width / block.height - width / height) < 1e-9, id)
     assert.equal(block.x, stage.width / 2, id)
-    if (id === 'crkva-do-trsta' || id === 'aerodrom-franjo-kluz')
+    if ((group === 'Zgrade' && id !== 'baza-vis') || id === 'sumarak')
       assert.equal(block.y + block.height / 2, stage.groundY, id)
   }
 })

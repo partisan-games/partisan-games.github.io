@@ -14,9 +14,9 @@ before(async() => {
   Scene = (await import('/scenes/ustanak/Main.js')).default
 })
 
-/** A running Ustanak scene, which the test plays step by step. */
-function createScene(t) {
-  const scene = new Scene()
+/** A running Ustanak scene, or one of `SceneClass`, which the test plays step by step. */
+function createScene(t, SceneClass = Scene) {
+  const scene = new SceneClass()
   scene.init()
   scene.clear = () => {}
   t.after(() => {
@@ -316,3 +316,42 @@ for (const windEnabled of [false, true])
       assert.deepEqual(scene.score, [1, 0])
       assert.equal(scene.round, 2)
     })
+
+test('the uprising duels with field guns, and its trial beside it with mortars, each with its own crew drawn', async t => {
+  const { default: FieldGun } = await import('/core/gameplay/bodies/artillery/FieldGun.js')
+  const { default: Mortar } = await import('/core/gameplay/bodies/artillery/Mortar.js')
+  const { default: CannonCrewSprite } = await import('/core/actor/soldiers/CannonCrewSprite.js')
+  const { default: MortarCrewSprite } = await import('/core/actor/soldiers/MortarCrewSprite.js')
+  const { default: MortarScene } = await import('/scenes/ustanak-minobacaci/Main.js')
+  const cannons = createScene(t)
+  assert.ok(cannons.guns.every(gun => gun instanceof FieldGun))
+  assert.ok(cannons.roundObjects.some(view => view instanceof CannonCrewSprite))
+  const scene = createScene(t, MortarScene)
+  assert.ok(scene.guns.every(gun => gun instanceof Mortar))
+  assert.ok(scene.roundObjects.some(view => view instanceof MortarCrewSprite))
+  assert.ok(scene.guns[0].targets.includes(scene.guns[1]) && scene.guns[1].targets.includes(scene.guns[0]))
+})
+
+test('the mortar trial tells the player to destroy the enemy mortar and reports hitting it', async t => {
+  const { default: MortarScene } = await import('/scenes/ustanak-minobacaci/Main.js')
+  const scene = createScene(t, MortarScene)
+  scene.start()
+  assert.match(scene.ui.messageElement.textContent, /Destroy the enemy mortar\. Hold Space to charge, release to fire\./)
+  scene.shotTargetHealth = 100
+  scene.guns[1].takeHit(30)
+  scene.turns.settle = () => true
+  scene.update(0, 0)
+  assert.match(scene.ui.messageElement.textContent, /You hit the enemy mortar!/)
+})
+
+test('a hill rises between the mortars of the trial, while the guns duel over level ground', async t => {
+  const { default: MortarScene } = await import('/scenes/ustanak-minobacaci/Main.js')
+  const cannons = createScene(t)
+  const scene = createScene(t, MortarScene)
+  const { default: canvas2d } = await import('/core/io/canvas2d.js')
+  // the field is drawn at 40 px a metre
+  const middle = canvas2d.width / 2 / 40
+  assert.equal(cannons.groundAt(middle), 0)
+  assert.ok(Math.abs(scene.groundAt(middle) - 2.5) < .1, 'a hill about 2.5 m high')
+  assert.equal(scene.groundAt(scene.guns[0].x), 0, 'the mortars stand on level ground')
+})
