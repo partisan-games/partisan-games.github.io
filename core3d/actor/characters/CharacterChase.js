@@ -12,10 +12,10 @@ const motion = body => {
  * and its health bar. The scene adds it after the model, so the camera follows where the model was just put.
  */
 export default class CharacterChase {
-  constructor(body, model, { camera, showHealthBar = true, showCameraButton, height, distance, lookAt, speed } = {}) {
+  constructor(body, model, { camera, showHealthBar = true, height, distance, lookAt, speed } = {}) {
     this.body = body
     this.view = new PlayerView({ mesh: model.mesh, height: body.size.height, health: body.health, camera,
-      showHealthBar, showCameraButton })
+      showHealthBar })
     // a scene may bring the camera closer, raise it, have it look elsewhere on the model or follow faster
     if (height !== undefined) this.view.chaseCamera.height = height
     if (distance !== undefined) this.view.chaseCamera.distance = distance

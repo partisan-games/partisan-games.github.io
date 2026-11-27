@@ -1,6 +1,8 @@
 # Renault FT — tekstura
 
-[Tekstura](../../../images/textures/vehicles/renault-ft.webp) je originalno generisan albedo ugrađenim `image_gen`, 1254 × 1254 px, sačuvan kao lossless WebP bez promene piksela. Leva polovina je tamnozeleni oklop, desna tamni čelik gusenica i hodnog dela. Stvarni prompt, izvor za paletu i SHA-256 otisci su u [generation.json](generation.json). Nema oznaka jedinice ni vojske, jer isti model koriste obe strane.
+[Ploče oklopa](../../../images/textures/vehicles/renault-ft-plates.webp) imaju nacrtane zakovice, šarke, proreze, rubove panela i habanje preko [osnovne teksture](../../../images/textures/vehicles/renault-ft-base.webp). Šablon je izveden iz četiri ortografska pogleda na postojeći FBX. [Prikaz](../../../../core3d/actor/derived/tankCondition.js) poravnava atlas u lokalnim koordinatama jer se UV ostrva preklapaju. Zasebni materijali pokretnih gusenica zadržavaju svoju ponovljivu teksturu. [Šablon, poreklo i priprema](plates.json).
+
+[Raniji albedo](../../../images/textures/vehicles/renault-ft.webp) ima 1254 × 1254 px, sa tamnozelenim oklopom na levoj i tamnim čelikom na desnoj polovini. Služi kao izvor za osnovnu teksturu. Dve runtime mape od 512 × 512 zajedno koriste oko 2,67 MiB RGBA sa mip nivoima, prema oko 8,0 MiB ranije. Model i raspored grupa za iscrtavanje ostaju isti.
 
 [Istorijski opis](https://tanks-encyclopedia.com/renault-ft-and-renault-kegresse-in-service-with-the-kingdom-of-yugoslavia/) navodi zadržanu francusku tamnozelenu boju jugoslovenskih FT. Nijansa i istrošenost su umetnička procena; nisu rekonstrukcija konkretnog vozila kod Kraljeva. Tačan model tamo zaplenjenog Renaulta ostaje nepotvrđen prema [kontekstu igre](../../../../docs/KONTEKST.md#demolish-barricades).
 

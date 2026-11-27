@@ -43,4 +43,4 @@ Vrednost koje nema u izvoru se izostavlja, ne izmišlja.
 
 1. Posle dodavanja, premeštanja ili brisanja modela obnovi art katalog: `python -B scripts/build-art-catalog.py`.
 2. Pokreni `node scripts/check-project.js` i testove kataloga i modela koje izmena dotiče, uključujući pokrivenost kataloga i učitavanje opisa modela.
-3. Vlasniku daj adresu priče u katalogu (`http://localhost:8080/catalog/#...`) i reci šta nisi video na ekranu.
+3. Vlasniku daj adresu priče u katalogu (`http://localhost:8080/pages/catalog.html#...`) i reci šta nisi video na ekranu.

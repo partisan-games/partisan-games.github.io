@@ -15,7 +15,6 @@ export const icons = Object.freeze({
   start: '🔥',
   continue: '🔥',
   menu: '☰',
-  pause: '⏸',
   sneak: '🐾',
   take: '✋',
   replay: '↻',
@@ -30,5 +29,6 @@ export const iconImages = Object.freeze({
   ammunition: 'game-ready/projektili/granata.webp',
   coin: 'ui/coin.gif',
   coinStill: 'ui/coin-still.png',
-  camera: 'ui/change-camera.png',
+  /** The one gun sight: in the middle of a first-person view, and the pointer where the player aims with the mouse. */
+  sight: 'ui/crosshair.png',
 })

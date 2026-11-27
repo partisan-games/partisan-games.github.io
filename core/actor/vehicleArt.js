@@ -5,6 +5,7 @@ export default {
   'partisanTank': {
     gutter: 4,
     'src': 'game-ready/tenkovi/partizanski-tenk-layers.webp',
+    damageSrc: 'game-ready/tenkovi/partisan-tank-armor-hits.webp',
     'frame': {
       'width': 300,
       'height': 129
@@ -26,6 +27,7 @@ export default {
   'germanTank': {
     gutter: 4,
     'src': 'game-ready/tenkovi/nemacki-tenk-layers.webp',
+    damageSrc: 'game-ready/tenkovi/tiger-i-armor-hits.webp',
     'frame': {
       'width': 327,
       'height': 137
@@ -47,6 +49,7 @@ export default {
   'somuaS35': {
     gutter: 4,
     'src': 'game-ready/tenkovi/somua-s35-layers.webp',
+    damageSrc: 'game-ready/tenkovi/somua-s35-armor-hits.webp',
     'frame': {
       'width': 379,
       'height': 166

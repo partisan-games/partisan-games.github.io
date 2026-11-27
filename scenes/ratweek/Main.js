@@ -18,7 +18,7 @@ import ChaseCamera from '/core3d/actor/ChaseCamera.js'
 import Cooldown from '/core/gameplay/Cooldown.js'
 import { requestModels } from '/core3d/assets/models.js'
 import { createBuilding } from './utils.js'
-import { assets } from '/config.js'
+import customStartScreen, { planes } from './startScreen.js'
 
 const { randFloatSpread } = THREE.MathUtils
 
@@ -28,9 +28,6 @@ const buildingInterval = 2 // seconds of game time
 const buildingDistance = mapSize * .4
 const groundDistance = mapSize * .99
 const endDelay = 2.5 // seconds between the end of the flight and the end screen
-/** The bombers to choose from, the ones of Ratweek first, by their modules and names. */
-const planes = [['Liberator', 'B-24 Liberator'], ['FlyingFortress', 'B-17 Flying Fortress'], ['Mitchell', 'B-25 Mitchell'],
-  ['Bomber', 'Avro Lancaster']].map(([id, name]) => ({ id, name }))
 /** Seconds of game time before the first enemy fighter, and between one shot down and the next. */
 const fighterWaits = { first: 12, next: 18 }
 /**
@@ -55,25 +52,6 @@ function createAimMark() {
   mark.rotation.x = -Math.PI / 2
   mark.visible = false
   return mark
-}
-/** A plane has nothing to jump, so it fires its rockets on Space; its machine guns fire on the second attack. */
-
-const customStartScreen = ({ container }) => {
-  const options = planes.map(({ id, name }) => /* html */`
-    <label data-paid>
-      <input type="image" id="${id}" src="${assets.images}scenes/ratweek/${id}.webp" alt="Fly ${name}">
-      <span>${name}</span>
-    </label>
-  `).join('')
-
-  return /* html */`
-    <div class="central-screen flex-column ${container}" id="start-screen">
-        <h2>Choose your aircraft</h2>
-        <div class="game-screen-select aircraft-select two-by-two-select">
-            ${options}
-        </div>
-    </div>
-`
 }
 
 export default class WarplaneScene extends Scene3D {
@@ -132,12 +110,11 @@ export default class WarplaneScene extends Scene3D {
     // the camera flies behind the plane, never turning with it
     const chase = new ChaseCamera({ camera: this.camera, mesh: model.mesh, rotate: false, speed: body.speed * .75,
       offset: [0, chaseView.above, chaseView.behind], lookAt: [0, -chaseView.below, -chaseView.ahead] })
-    chase.setCamera(0)
     chase.far = mapSize * .5
     this.chase = chase
     this.aimMark = createAimMark()
     this.addMesh(this.aimMark)
-    this.add(body, model, { update: () => this.followPlane(), end: () => chase.end() })
+    this.add(body, model, { update: () => this.followPlane() })
   }
 
   /** The mark on the ground where a missile fired now would strike, while the plane can fire. */

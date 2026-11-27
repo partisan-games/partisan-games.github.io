@@ -1,6 +1,6 @@
 # Junkers Ju 52
 
-[model.glb](model.glb) koriste [katalog](../../../../catalog.html#letelice-3d/junkers-ju-52-model) i nivo Drvar kroz isti prikaz.
+[model.glb](model.glb) koriste [katalog](../../../../pages/catalog.html#letelice-3d/junkers-ju-52-model) i nivo Drvar kroz isti prikaz.
 
 Sve četiri teksture su ugrađene u GLB.
 

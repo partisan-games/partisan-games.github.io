@@ -8,7 +8,7 @@ import TrenchSoldierSprite from '/core/actor/soldiers/TrenchSoldierSprite.js'
 import enemyKinds from '/core/gameplay/frontEnemyKinds.js'
 import { sideProjection } from '/core/actor/projection.js'
 import { showCrosshair, hideCrosshair } from '/core/io/crosshair.js'
-import { progresBar } from '/ui/components.js'
+import { healthBar } from '/ui/components.js'
 import Health from '/core/gameplay/Health.js'
 import Explosion from '/core/actor/effects/Explosion.js'
 import { gameplayInputAllowed } from '/core/io/inputContext.js'
@@ -20,6 +20,9 @@ import AmbushView from './AmbushView.js'
 import CrossingTank from './CrossingTank.js'
 import CrossingArmoredCar from './CrossingArmoredCar.js'
 import SupplyCrate from '/core/objects/SupplyCrate.js'
+import standingArt from '/core/actor/soldiers/frontStandingArt.js'
+import ThrownGrenade from './ThrownGrenade.js'
+import ReliefTank from './ReliefTank.js'
 
 /** The Germans come in turn: the rifleman, the sentry and the full figure shared with Neretva. */
 const lineup = ['rifleman', 'sentry', 'nemac']
@@ -31,6 +34,11 @@ const doorLineup = ['rifleman', 'submachineGunner', 'sentry', 'nemac']
  */
 const pace = { slide: .03, aim: [.6, 1.4], exposed: [2.5, 4], ambushShare: .7 }
 const tankArrival = 9
+/**
+ * The Red Army's help (owner, 2026-11-27): once a street, `arrival` seconds into it and once no German vehicle is on
+ * it, a T-34 drives across the other way and fells a few of the Germans in sight.
+ */
+const relief = { arrival: 24 }
 const supplies = { magazine: 24, roundsPerCrate: 12, grenades: 3, reloadTime: 1.6 }
 /** How far, in metres at each German's own distance, a hand grenade fells the men round where it bursts. */
 const grenadeReach = 2
@@ -39,7 +47,7 @@ const canShoot = ({ session, ui }) => session.state === 'running' && !ui.screen 
 export default class OtpisaniScene extends Scene2D {
   constructor() {
     super({
-      controlKeys: { [attackLabels.pointer]: 'shoot' },
+      controlKeys: { [attackLabels.pointer]: 'shoot', [attackLabels.rightPointer]: 'grenade' },
       intro: 'Kill all the occupiers!',
       reportText: 'Belgrade, October 1944\n\nPartisans and the Red Army fight their way into the city. Your task is to strike the Germans from behind their lines.',
     })
@@ -64,6 +72,8 @@ export default class OtpisaniScene extends Scene2D {
     /** The occupiers, `{ body, view, spot }`; a German in hiding has the spot he hides at. */
     this.occupiers = []
     this.crates = []
+    /** The grenades in flight, which burst once they land. */
+    this.thrown = new Set()
     /** How long each occupier still walking has walked, and how long he walks before he fires, in seconds. */
     this.walks = new Map()
     /** How long each German out of hiding has been out, when he fires and when he hides again. */
@@ -77,7 +87,8 @@ export default class OtpisaniScene extends Scene2D {
   /** The street of `index` slides in from its start, with no Germans yet and its own count of the fallen. */
   startStage(index) {
     for (const { body, view } of this.occupiers) this.remove(body, view)
-    this.remove(...this.crates)
+    this.remove(...this.crates, ...this.thrown)
+    this.thrown.clear()
     this.occupiers = []
     this.walks.clear()
     this.ambushes.clear()
@@ -85,6 +96,10 @@ export default class OtpisaniScene extends Scene2D {
     this.tank = null
     this.tankTimer = 0
     this.tankSpawned = false
+    if (this.relief) this.remove(this.relief)
+    this.relief = null
+    this.reliefTimer = 0
+    this.reliefSent = false
     this.grenades = supplies.grenades
     this.ammunition = supplies.magazine
     this.reloadTime = 0
@@ -93,8 +108,8 @@ export default class OtpisaniScene extends Scene2D {
     this.stage = streets[index]
     this.stageIndex = index
     this.fallen = 0
-    this.cameraX = 0
     this.background = this.panoramas[index]
+    this.cameraX = 0
     this.crates = this.stage.supplies.map(([x, feet]) => new SupplyCrate({ x, feet, scale: () => this.scale }))
     this.add(...this.crates)
     this.spawnElapsed = 0
@@ -124,8 +139,10 @@ export default class OtpisaniScene extends Scene2D {
     // the full figure stands with its feet on its point, the others with their middle
     const body = new Occupier({ x: x * this.scale / projection.length(1), y: kind === 'nemac' ? 0 : .9,
       shotInterval: enemyKinds[kind]?.shotInterval, ...options })
+    // the full figure is drawn at its art's own scale unless told how many of its pixels make a metre here
     const view = kind === 'nemac'
-      ? new TrenchSoldierSprite(body, { faction: 'nemci', projection, camera: this })
+      ? new TrenchSoldierSprite(body, { faction: 'nemci', projection, camera: this,
+        scale: projection.length(1) / standingArt.pixelsPerMetre })
       : new FrontEnemySprite(body, { kind, projection, camera: this })
     return { body, view }
   }
@@ -220,33 +237,92 @@ export default class OtpisaniScene extends Scene2D {
     if (this.tankSpawned) return
     this.tankTimer += dt
     if (this.tankTimer < tankArrival) return
-    const direction = this.stageIndex % 2 === 0 ? 1 : -1
-    const edge = direction > 0 ? this.cameraX : this.cameraX + this.width
-    const farEdge = edge + direction * this.width
-    const lane = this.stage.streets.find(({ from, to }) =>
-      from * this.scale <= Math.min(edge, farEdge) && to * this.scale >= Math.max(edge, farEdge))
-    if (!lane) return
-    const place = { x: edge, feet: lane.feet * this.scale, pixelsPerMeter: this.projectionAt(lane).length(1), direction,
-      camera: this, onShot: damage => this.health.damage(damage) }
+    const place = this.crossingFrom(this.germanDirection)
+    if (!place) return
     const { vehicle } = this.stage
-    const tank = vehicle === 'tank' ? new CrossingTank(place) : new CrossingArmoredCar({ kind: vehicle, ...place })
-    tank.x -= direction * tank.width / 2
+    const tank = vehicle === 'tank' ? new CrossingTank({ ...place, onShot: damage => this.health.damage(damage) })
+      : new CrossingArmoredCar({ kind: vehicle, ...place, onShot: damage => this.health.damage(damage) })
+    tank.x -= place.direction * tank.width / 2
     this.tank = tank
     this.tankSpawned = true
     this.add(tank)
   }
 
+  /** The way the German vehicle of this street drives; the Red Army comes the other way. */
+  get germanDirection() {
+    return this.stageIndex % 2 === 0 ? 1 : -1
+  }
+
+  /** Where a vehicle driving the way of `direction` comes into the view, on a street that crosses all of it. */
+  crossingFrom(direction) {
+    const edge = direction > 0 ? this.cameraX : this.cameraX + this.width
+    const farEdge = edge + direction * this.width
+    const lane = this.stage.streets.find(({ from, to }) =>
+      from * this.scale <= Math.min(edge, farEdge) && to * this.scale >= Math.max(edge, farEdge))
+    if (!lane) return null
+    return { x: edge, feet: lane.feet * this.scale, pixelsPerMeter: this.projectionAt(lane).length(1), direction, camera: this }
+  }
+
+  /** The T-34 comes once a street, when no German vehicle is on it, and goes once it has passed. */
+  updateRelief(dt) {
+    if (this.relief) {
+      if (!this.relief.passed) return
+      this.remove(this.relief)
+      this.relief = null
+      return
+    }
+    if (this.reliefSent) return
+    this.reliefTimer += dt
+    if (this.reliefTimer < relief.arrival || this.tank) return
+    const place = this.crossingFrom(-this.germanDirection)
+    if (!place) return
+    const tank = new ReliefTank({ ...place, onShot: () => this.reliefShot() })
+    tank.x -= place.direction * tank.width / 2
+    this.relief = tank
+    this.reliefSent = true
+    this.add(tank)
+  }
+
+  /** The T-34's shell fells a living German in sight, the nearest one to it; it has none to hit otherwise. */
+  reliefShot() {
+    const { from, to } = this.shown
+    const inSight = this.occupiers.filter(({ body, view: shown }) => {
+      const x = (shown.view ?? shown).x / this.scale
+      return body.alive && x > from && x < to
+    })
+    if (!inSight.length) return false
+    const distance = ({ view: shown }) => Math.abs((shown.view ?? shown).x - this.relief.x)
+    const target = inSight.reduce((nearest, occupier) => distance(occupier) < distance(nearest) ? occupier : nearest)
+    const view = target.view.view ?? target.view
+    this.blast.start(view.x, this.middleOf(target.view))
+    this.fell(target.body, { scored: false })
+    return true
+  }
+
   handleAuxClick = e => {
     if (e.button !== 2 || !canShoot(this) || !gameplayInputAllowed(e.target)) return
     e.preventDefault()
+    this.audio.setPlaying(true)
     this.throwGrenade(e.pageX + this.cameraX, e.pageY + this.cameraY)
   }
 
-  /** A grenade bursts at `x`, `y`: it fells every German near it, behind cover too, and damages the tank it hits. */
+  /** The player throws a grenade from the bottom of the screen at `x`, `y`; it bursts once it lands. */
   throwGrenade(x, y) {
     if (this.grenades === 0) return
     this.grenades--
     this.grenadeArmed = false
+    const grenade = new ThrownGrenade({ from: { x: this.cameraX + this.width / 2, y: this.cameraY + this.height },
+      to: { x, y }, onLand: point => {
+        this.remove(grenade)
+        this.thrown.delete(grenade)
+        this.burstGrenade(point)
+      } })
+    this.thrown.add(grenade)
+    this.add(grenade)
+  }
+
+  /** A grenade bursts at `x`, `y`: it fells every German near it, behind cover too, and damages the tank it hits. */
+  burstGrenade({ x, y }) {
     this.blast.start(x, y)
     this.grenadeSound.play()
     if (this.tank?.blast(x, y) && this.tank.destroyed) this.poeni += 3
@@ -265,9 +341,14 @@ export default class OtpisaniScene extends Scene2D {
     return (view.inTrench === false ? view.y - view.height / 2 : view.y + (view.height - height) / 2) + sunk
   }
 
-  fell(body) {
+  fell(body, options) {
     body.setState('dead')
-    this.poeni++
+    this.count(options)
+  }
+
+  /** A German down counts towards the street's end, and towards the score if the player `scored` him. */
+  count({ scored = true } = {}) {
+    if (scored) this.poeni++
     this.fallen++
   }
 
@@ -275,6 +356,7 @@ export default class OtpisaniScene extends Scene2D {
   handleClick(e) {
     if (!canShoot(this)) return
     if (e.target.closest('[data-grenade]')) {
+      this.audio.setPlaying(true)
       if (this.grenades) this.grenadeArmed = !this.grenadeArmed
       return
     }
@@ -286,6 +368,7 @@ export default class OtpisaniScene extends Scene2D {
     this.ammunition--
     if (this.ammunition === 0) this.reloadTime = supplies.reloadTime
     this.player.shotSound.play()
+    if (this.tank?.shootCommander?.(x, y)) return this.count()
     if (this.tank?.contains(x, y)) return
     if (this.crates.some(crate => crate.openAt(x, y))) {
       this.ammunition = Math.min(supplies.magazine, this.ammunition + supplies.roundsPerCrate)
@@ -324,6 +407,7 @@ export default class OtpisaniScene extends Scene2D {
       if (this.reloadTime === 0) this.ammunition = supplies.magazine
     }
     this.updateTank(dt)
+    this.updateRelief(dt)
     this.takeFire(dt)
     this.attack(dt)
     this.lieInWait(dt)
@@ -347,9 +431,9 @@ export default class OtpisaniScene extends Scene2D {
         Score: ${this.poeni} <br>
       </div>
       <div class="top-right">
-        ${progresBar(this.energija)}
+        ${healthBar(this.health.current / this.health.maximum)}
         <div>${this.reloadTime > 0 ? 'Reloading…' : `Ammo: ${this.ammunition}`}</div>
-        <button data-grenade aria-label="Grenades" aria-pressed="${this.grenadeArmed}" ${this.grenades ? '' : 'disabled'}>${icons.bomb} ${this.grenades}</button>
+        <button class="hud-button" data-grenade aria-label="Grenades" aria-pressed="${this.grenadeArmed}" ${this.grenades ? '' : 'disabled'}>${icons.bomb} ${this.grenades}</button>
       </div>
     `
   }

@@ -1,0 +1,67 @@
+{
+  "tool": "OpenAI ImageGen",
+  "source": "poses-revised.png",
+  "revision": {
+    "previousSource": "poses.png",
+    "previousSourceSha256": "ef89c509a1903aa2bd070063c9aa515cad65375f0cb5a9f48fdcb9267c08eb83",
+    "styleReferences": [
+      "../../../game-ready/vojnici/partisan-bearer-actions.webp",
+      "../../../game-ready/vojnici/partizanski-strelac-sprites.webp"
+    ],
+    "styleDraft": "poses-flat.png",
+    "styleDraftSha256": "e2e6f742a0baeafdbcf68e88aa95c2fa0436c367d1cd6a410d3282336908469c",
+    "stylePrompt": "Precisely repaint the FIRST image as a replacement 4×4 sprite atlas for this exact side-on World War II game character. The SECOND reference shows the actual in-game sprite style to copy, especially the LEFT standing figure's small head and adult human proportions, sparse face pixels, hard flat colors and simple dark stepped outlines. First image supplies identity and motion only. Put exactly sixteen isolated sprites, 4 columns and 4 rows, same poses/body directions and order as the first image and consistent unobstructed space in every cell. True transparent RGBA. All face right. No words, scenery, grid or weapons, poles and flags. Preserve the near forward fist holding an invisible flagpole at chest height for the first 3 rows. Back fist stays close to the belt. Feet planted on one baseline in each row; final frame lying on his side.\n\nCORRECT THE PROPORTIONS, do not preserve the first image's caricature: shrink the entire head, face and cap about 40% relative to the body. In upright frames the cap top down to chin is only about 14–15% of the standing figure's total height. In a 260px tall source figure this means around 38px tall INCLUDING CAP and about 33px wide. The torso and especially the legs should be long enough for natural adult anatomy and fill the same total screen height as the first reference. Legs below hips ~49% of total height, moderate shoulder width, normal sized hands. Short head-to-neck distance and a naturally attached neck. Keep a modest olive garrison cap with a small crisp red star and a small dark moustache, a subtly different identity from the pose reference but the same recognizable character. Dusty olive tunic, brown-gray trousers, dark brown boots, modest brown belt. Like the SECOND reference: hard pixel clusters, only 2–3 flat shades per material, flat simple face with barely an eye pixel and a short moustache, no painterly or photo detail, no fine-hair gradients. Dark brown/olive outlines. Clear readable silhouettes, simple black/earth contour and no sharp black patches inside the cloth. Keep the first image's animation order: idle ×4, march ×4 alternating leading feet, hit reaction ×4, then upright-stagger, one knee, forward on hands, and fully landed with legs left and head right. Keep a clean transparent margin between frames with the last frame fully inside column four. Use the same width and height and a square grid.",
+    "proportionPrompt": "Make ONE strictly local correction to this existing sprite sheet. Shrink each of the sixteen HEADS, including cap and face, to about 74 percent of its current linear size, while keeping the base of each chin aligned with the neck. The body, sleeves, fists, legs, clothes, shadows, canvas and position in each cell stay in place, except for the tiny collar/neck adjustment needed to join the new smaller head. This is the whole job. The tops of caps must move DOWN by ~15 pixels and neither shoulder nor feet should move. This way the head with cap is approximately one sixth of the height of the upright adult figure. These are slim realistic adult proportions in the authentic combat sprite of an old 16-bit game. Head distinctly narrower than shoulders, modest narrow nose, small black stripe of moustache, small red star, rounded olive garrison cap, normal chin. Keep the exact existing flat stepped and sparse pixel-art shading and charcoal brown outlines. Preserve ALL sixteen poses in their exact order in four columns and four rows, each on the exact same baseline, facing the same way and with all parts visibly intact. Keep fully transparent backgrounds and margins. No writing, no labels, no background, no shadow, no weapons, poles or flags."
+  },
+  "prompt": "Create a single game sprite sheet with SIXTEEN separate full-body hand-drawn pixel-art sprites of the same adult character, Savo, for an original WWII partisan history game. Canvas exactly square, regular 4 columns × 4 rows, no text, no lines, no numbers, no decoration. Every equal square cell has one isolated figure with substantial transparent padding, approximately 15–20% left/right breathing room and all silhouette pixels safely inside its own cell. True plain transparent background, feet never on a floor drawn into the image. First reference is the identity and art style: olive cap with one small sharply red five-pointed star, broad clean-shaven cheeks, strong dark moustache and visible dark short sideburns, olive jacket in solid cloth, brown-grey wool trousers, dark leather boots, small tan belt. No camouflage. Second reference is the view and broad action layout only: this is the friendly flag bearer in a side-on 2D game (only the character's near side and a sliver of his front visible, facing SCREEN RIGHT). Show identical matched anatomy, cap, nose, moustache, clothes colors and body size in every frame. Full boots and hands. For all upright frames keep boot baseline around 83% of the cell and middle of hips around 50% horizontally; the head should be around 17% down. A separate game engine draws the wooden pole and flag, so DO NOT draw pole, flag, rifle or weapon. Near arm extends forward to the right with visibly closed empty fist, thumb above fingers, at chest level around x=63%, right forearm extended roughly level in every upright frame, as he grips an invisible upright pole. Hands stay near that fixed position in idle and walk. Far arm sits near belt or behind the body. \nRow 1, columns 1–4: light breathing, four subtly different idle poses with weight on both boots, two tiny shoulder/chest changes and a return to pose, stable feet.\nRow 2, columns 1–4: four in-place frames of a walking cycle with moving legs: first left heel contacts out in front and right toe back, second right leg lifts and passes as left leg supports, third right heel contacts out front and left toe back, fourth left leg lifts and passes as right leg supports. Travel direction right, head stays level, asymmetrical boot shading clearly differentiates the near and far legs. Do not repeat poses.\nRow 3, columns 1–4: four mild momentary recoil poses for a game hit reaction, starting neutral and recovering to neutral, stagger at the knees and shoulders, keep feet on baseline and mouth closed, no injury or effects.\nRow 4, columns 1–4: a four-frame fictional game collapse. Upright losing balance, then one knee and bracing himself, then torso rolling down and forward at an angle, then completely grounded body on his side, face turned away slightly, legs left, head right. All frames share the same independent ground baseline; the final figure is a long low readable silhouette, not sitting. No blood and no effects. \nModern refinements of authentic hand-drawn high-detail pixel clusters like the portrait, sharp stepped edges at a consistent pixel size; clearly drawn facial features and readable limbs, flat olive fabric with only two or three subtle values. No blur, antialias glow, gradient backgrounds, visual grid, ground line, cast shadow or scenery. Prioritize tight registration and consistency over varying silhouette on idle. One figure in every cell and exactly four columns by four rows.",
+  "identityReference": "../savo-pixel-art/portrait.png",
+  "motionReference": "../../../game-ready/vojnici/partisan-bearer-actions.webp",
+  "historicalReference": {
+    "url": "https://commons.wikimedia.org/wiki/File:Savo_Kova%C4%8Devi%C4%87.jpg",
+    "note": "Fotografija iz 1942, referenca lika. Odeća u Ustanku zadržava maslinasto-smeđu paletu i oznaku portreta kao stilizaciju igre."
+  },
+  "prepare": "python -B assets/images/sources/partizani/savo-ustanak/prepare.py",
+  "output": "../../../game-ready/vojnici/savo-ustanak-sprites.webp",
+  "size": [
+    736,
+    608
+  ],
+  "cell": [
+    176,
+    144
+  ],
+  "gutter": 4,
+  "sourceSha256": "c7e617859ba0e620684379d5122c3ffc35d47e64519ecee3a21e0334ab602bb2",
+  "outputSha256": "8bf7d41903c0b40135736ef20c04f62e78b6acce6d872a8b4a91d26bd8fc6534",
+  "anchor": [
+    88,
+    134
+  ],
+  "referenceHeight": 112,
+  "rows": {
+    "idle": [
+      400,
+      400,
+      400,
+      400
+    ],
+    "walk": [
+      160,
+      160,
+      160,
+      160
+    ],
+    "hit": [
+      80,
+      80,
+      80,
+      80
+    ],
+    "dead": [
+      120,
+      160,
+      180,
+      240
+    ]
+  }
+}

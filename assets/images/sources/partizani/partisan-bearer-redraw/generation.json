@@ -1,0 +1,20 @@
+{
+  "tool": "OpenAI ImageGen",
+  "reference": "reference.png",
+  "referenceSha256": "60833f632bee02595978528001281b6d6f0d03609f114f04035e847acfa6c639",
+  "source": "poses.png",
+  "sourceSha256": "d8b778aa45953804cbdf27c586b817b3bd6fc28d162e8b6b4a89c154a2462760",
+  "prompt": "Meticulously retrace this exact in-game transparent pixel-art sprite sheet into a finished clean pixel-art asset. This is a very close restoration, not a redesign. Same 4×4 arrangement and aspect ratio; preserve all sixteen poses, their exact anchors in each cell, placement within the grid, silhouettes and relative sizes. Retain the specific adult partisan, with the exact mature stern face looking three-quarters right, small flat dark olive side cap with a tiny red mark at the front tip, prominent black horseshoe moustache descending on both sides of his mouth, exposed chin, dark hair and short sideburns. Keep his adult body proportions and his distinctive light gray-olive button-neck tunic with two chest pockets, dark olive trousers tucked into black boots, and paired brown leather pouches. Match every local color to the reference, and preserve the reference's flat hard-edged 1990s pixel clusters and dark contours. Preserve the short extended closed gripping fist and nearly horizontal arm facing right, and the vertical long wooden-stock object held in the other hand on his left, following the original pose exactly, and its positions next to him in the final two frames. Add no flag artwork or props or other objects. \nOnly redraw the outlines and pixel clusters cleanly, and give existing folds, seams and boot outlines just enough crisp intentional detail to read well; no added colors, bulk, gradient, shine, lighting or photo detail. The silhouette, face, cap, clothing and gesture should read as the exact same game character at a glance. Trace pose by pose: row 1 subtle idle; row 2 existing march; row 3 existing lean and recovery; row 4 existing collapse all the way to lying low. Bottom of the feet or body stays at the matching level. Four columns and four rows with plenty of transparent separation and nothing cut off. True alpha, no text, no guide lines, no background.",
+  "originalAtlases": [
+    "../../../game-ready/vojnici/partizanski-zastavnik-sprites.webp",
+    "../../../game-ready/vojnici/partisan-bearer-actions.webp",
+    "../../../game-ready/vojnici/partisan-bearer-hit-sprites.webp"
+  ],
+  "rows": [
+    "idle",
+    "walk",
+    "hit",
+    "dead"
+  ],
+  "prepare": "python -B assets/images/sources/partizani/partisan-bearer-redraw/prepare.py"
+}

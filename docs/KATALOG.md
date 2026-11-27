@@ -1,8 +1,6 @@
 # Katalog
 
-[catalog.html](../catalog.html) je vlasnikov katalog aktera igre: igrača i neprijatelja koje može pojedinačno da pregleda i isproba na praznoj pozornici. Otvara se na istom serveru kao igre, npr. `/catalog.html`. Nije deo igre, pa ne troši novčiće i nije u meniju; njegove kontrole bira agent, a vlasnik ih pregleda ([pravilo](DOCS.md#odobravanje-ui-elemenata)). Pravila samih blokova su u [arhitekturi](ARHITEKTURA.md#gradivni-blokovi).
-
-Za svaki izgled dostupan je [pregled proverenih radnji](../pregled-animacija.html) sa direktnim ulazom u priču.
+[pages/catalog.html](../pages/catalog.html) je vlasnikov katalog aktera igre: igrača i neprijatelja koje može pojedinačno da pregleda i isproba na praznoj pozornici. Otvara se na istom serveru kao igre, npr. `/pages/catalog.html`. Nije deo igre, pa ne troši novčiće i nije u meniju; njegove kontrole bira agent, a vlasnik ih pregleda ([pravilo](DOCS.md#odobravanje-ui-elemenata)). Pravila samih blokova su u [arhitekturi](ARHITEKTURA.md#gradivni-blokovi).
 
 ## Art katalog
 
@@ -18,7 +16,8 @@ Pripremljeni art za igre je u `assets/images/game-ready`, izvan izvornog foldera
 
 - **Jedan tip i model vozila je jedna stavka.** Mali čamac, patrolni brod, desantna teglenica i različiti modeli tenkova imaju zasebne stavke, čak i kada koriste istu klasu. Različiti modeli vozila ne skrivaju se pod „Izgled”.
 - **Skinovi ostaju unutar iste stavke.** Boje, oznake i druge vizuelne varijacije istog aktera biraju se kroz „Izgled”; dodat predmet poput cevi bira se kao varijanta opreme istog aktera. Promena strane prikaza takođe pripada istoj stavci.
-- **Jedan vojnik ima jedno mesto u katalogu.** Čuvamo njegovo ime i lice kroz priču. Savo može da nosi pušku, nož ili mitraljez, a svako oružje i svaka uniforma su varijante u Savinoj stavci.
+- **Jedan vojnik ima jedno mesto u katalogu.** Čuvamo lice i identitet lika kroz priču. Sava može da nosi pušku, nož ili mitraljez, a svako oružje i svaka uniforma su varijante u Savinoj stavci.
+- **2D partizani se nazivaju po ulozi.** Koristimo nazive poput „Partizanski zastavnik“ i „Partizanski strelac“, bez ličnih imena i nadimaka.
 - **Različiti ljudi imaju zasebne stavke.** Više likova može koristiti isti 3D model tela, uz lice koje pripada svakom od njih.
 - **Sekcije služe snalaženju.** Akteri koji dele kod mogu biti u istoj sekciji, ali to nije obavezno. Imena i raspored treba da pomognu vlasniku da pronađe aktera, nezavisno od organizacije klasa i datoteka.
 
@@ -32,7 +31,7 @@ Sezonska namena mora biti vidljiva u panelu. Stražar u šinjelu ima `allowedSea
 
 - Katalog prikazuje aktere i scenografiju. Svaka nova ili precrtana zgrada i svaki rekvizit dobija svoju stavku u **Scenografiji**, pod odgovarajućom vrstom. Igra i katalog učitavaju isti crtež. Pozadine nivoa i efekti poput eksplozije vide se uz scenu ili aktera.
 - Levo je sklopivo stablo **2D / 3D → vrsta → podvrsta**, npr. **3D → Vojnici → Italijanski**. Nadgrupe rade mišem i tastaturom i pamte stanje u lokalnom skladištu pregledača. Pretraga po nazivu, igri ili skinu otvara put do rezultata; brisanje pretrage vraća zapamćene grupe. Direktan link otvara sve grupe izabranog aktera, a Reset ih ne gradi ponovo.
-- Priča ima adresu `#vrsta/priča`, a varijanta `#vrsta/priča/izgled`. Zasebne stavke imaju pojedinačni likovi i različiti modeli čamaca, tenkova i aviona. Pregledač preusmerava stare adrese na odgovarajuću stavku i varijantu. Primer je [mali nemački čamac](../catalog.html#brodovi/nemacki-mali-camac).
+- Priča ima adresu `#vrsta/priča`, a varijanta `#vrsta/priča/izgled`. Zasebne stavke imaju pojedinačni likovi i različiti modeli čamaca, tenkova i aviona. Pregledač preusmerava stare adrese na odgovarajuću stavku i varijantu. Primer je [mali nemački čamac](../pages/catalog.html#brodovi/nemacki-mali-camac).
 - Akter kojim igrač upravlja u svojoj igri u katalogu se vodi istim, standardnim kontrolama: tastaturom igre i strelicama i dugmadima na ekranu, preko kontrolera te igre ([kontrole igrača](../catalog/playerControls.js), [rasporedi unosa](../core/io/inputLayouts.js)). Strelice stoje na sceni između spiska i panela. Panel tada nema dugmad koja ponavljaju kontrole, poput „Levo” ili „Ispali”; komande ostaju samo za ono što kontrole ne mogu, kao meta za vežbu ili sletanje (odluka vlasnika, 2026-11-25). Ostali blokovi nemaju upravljanje: pokreću se dugmadima svojih stanja i pucanja.
 - Desno su izbor strane („Nalevo”, „Nadesno”), dugmad stanja bloka sa „Pogođen” ispred `dead` i „Reset” kao poslednjim u tom redu, zatim pucanja koja blok podržava („Pucaj gore”, „Pucaj pravo”), „Prati kamerom”, a na dnu traka trenutnog zdravlja bloka koji može biti pogođen. Panel nema podešavanja (odluka vlasnika, 2026-11-22). Nema ni pasusa sa opisima i napomenama: ime stavke navodi model, kao „Bombarder Avro Lancaster” (odluka vlasnika, 2026-11-25).
 - Svaka priča stavlja svoj blok na sredinu pozornice, bez obzira na to odakle on ulazi u igri (odluka vlasnika, 2026-11-22).
@@ -67,6 +66,7 @@ Ciljni prikaz svih aktera koristi [standardna stanja](ARHITEKTURA.md#standardna-
 - svako stanje mora moći da se uključi direktno, dugmetom, mimo toka igre: ono što mu treba postavlja samo pri ulasku (lovac pri ulasku u `extend` sam bira tačku ispred sebe), inače dugme ruši blok;
 - letelica u katalogu leti u mestu, kao bombarderi: priča joj svakog kadra vraća položaj, a nevidljiva meta stoji ispred nje. Avioni imaju ista stanja `move`, `land` i `dead` kao ostali, uz svoja (vlasnik, 2026-11-26);
 - `health` (`current`, `maximum`) i `takeHit(damage)` daju dugme „Pogođen”, koje bloku skida desetinu zdravlja, pa se posle nekoliko klikova vidi oštećenje (dim, sporiji avion, pokvaren tenk), i traku zdravlja na dnu;
+- svaki tenk ima dugme „Pogođen“ i stanje `dead`. Posebno stanje „Komandir pogođen“ kod Panzera III prikazuje pogodak posade dok tenk nastavlja da vozi;
 - stvarna masa, najveća brzina i naoružanje modela iz `physical` ([zajednički zapis](../core/gameplay/modelStatistics.js)), uz `health.maximum` i `performance.bombs`, ispisuju se na dnu panela, ispod trake zdravlja. Odnosi balansa (`speed`, `firepower`) se ne prikazuju, jer ne govore koliko je model brz ili jak. Panel čita samo telo; vrednost koje nema u izvorima se izostavlja;
 - `shots` (tačka ispred bloka i iznad njega za svako pucanje), `forward` (1 desno, -1 levo) i `aimAt(point)` daju dugmad pucanja: dugme nanišani blok u tačku tog pucanja i stavi ga u `attack`; pucanje sa `automatic`, kao zadnji strelac Poteza, samo nanišani, jer to oružje puca samo, pa ostala oružja bloka ćute.
 
@@ -74,7 +74,7 @@ Blok koji ne može da se napravi samo sa opcijama pozornice još nije nezavisan;
 
 ## Provere
 
-Scenografija je složena po vrsti predmeta, ne po igrama, da isti predmet služi u više igara. U 2D su [pali borci i krv](../core/sceneryArt.js) kojima igre pokrivaju bojište, crkva iz Do Trsta i zakloni iz Neretve ([priče](../catalog/stories/scenery.js)); nemaju stanja, pa se samo vide. Scenografija ne ponavlja ono što pripada drugde: olupine su stanje `dead` svojih vozila i oruđa (vlasnik, 2026-11-26). Paket [Crveni krst](../catalog.html#scenografija-3d/sklop) daje sedam originalnih delova ambijenta, raspoređenih u **Zgrade**, **Ograde i kapije** i **Zakloni**, i jedan zajednički sklop u **Sklopovi**, sa probama kapije i reflektora. Isti paket koristi Escape Concentration Camp; kataloški sklop nije njegov raspored niti istorijski tlocrt. [Mere, poreklo i povezivanje](../assets/models/building/crveni-krst/README.md).
+Scenografija je složena po vrsti predmeta, ne po igrama, da isti predmet služi u više igara. U 2D su [pali borci i krv](../core/sceneryArt.js) kojima igre pokrivaju bojište, crkva iz Do Trsta i zakloni iz Neretve ([priče](../catalog/stories/scenery.js)); nemaju stanja, pa se samo vide. Scenografija ne ponavlja ono što pripada drugde: olupine su stanje `dead` svojih vozila i oruđa (vlasnik, 2026-11-26). Paket [Crveni krst](../pages/catalog.html#scenografija-3d/sklop) daje sedam originalnih delova ambijenta, raspoređenih u **Zgrade**, **Ograde i kapije** i **Zakloni**, i jedan zajednički sklop u **Sklopovi**, sa probama kapije i reflektora. Isti paket koristi Escape Concentration Camp; kataloški sklop nije njegov raspored niti istorijski tlocrt. [Mere, poreklo i povezivanje](../assets/models/building/crveni-krst/README.md).
 
 3D priče učitavaju FBX telo i lokalne klipove paralelno, uz čekanje svih animacija. [Pozornica](../catalog/Stage3D.js) posle pripreme izgleda grupiše neprozirne trouglove po materijalu preko [zajedničke optimizacije](../core3d/assets/optimizeGeometry.js). Pri promeni pešadijske varijante prvo se vraća sačuvana izvorna geometrija, zatim primenjuje oprema i tek onda optimizuje; sačuvati taj redosled. Detalji modela, kosti i providni redosled ostaju isti. 2D akteri koriste [manje kopije istih slika](ART.md#manje-slike-aktera-bez-promene-arta).
 
@@ -96,5 +96,5 @@ Sklopive sekcije koriste native `details`/`summary`; `summary` mora biti UI cilj
 
 - 3D lik se ne može napraviti u unit testu bez učitanog modela, pa 3D priče proverava browser. Top iz igre Battle for Jablanica ima priču bez fizike: posada puni top i trgne se pri opaljenju, a let granate i rušenje tvrđave ostaju u igri (odluka vlasnika, 2026-11-23).
 - Katalog je za predmete i aktere, ne za prikaz scena (odluka vlasnika, 2026-11-25): pozornica prikazuje jednog aktera, a protivnika ili metu mu zamenjuje nevidljivi zamenik, kao lovcu Bf 109 zamenik bombardera. Više aktera koji deluju jedan na drugog uvodi se tek ako vlasnik to zatraži.
-- [Nemac](../catalog.html#vojnici/nemac-u-rovu) i [Četnik](../catalog.html#vojnici/cetnik-u-rovu) imaju celu figuru koja hoda, nišani, puca i ostaje na zemlji posle pada. U Neretvi se Nemci zaklanjaju u rovovima, a četnici iza gomila kamenja. [Zakloni](../core/objects/Cover.js) su zasebna scenografija.
+- [Nemac](../pages/catalog.html#vojnici/nemac-u-rovu) i [Četnik](../pages/catalog.html#vojnici/cetnik-u-rovu) imaju celu figuru koja hoda, nišani, puca i ostaje na zemlji posle pada. U Neretvi se Nemci zaklanjaju u rovovima, a četnici iza gomila kamenja. [Zakloni](../core/objects/Cover.js) su zasebna scenografija.
 - Namerno nije preuzeto: biblioteka Storybook i React (traže build), kontrole iz unutrašnjih polja objekta (daju besmislena polja) i upravljanje vremenom igre, poput pauze ili usporavanja (vlasniku ne treba).

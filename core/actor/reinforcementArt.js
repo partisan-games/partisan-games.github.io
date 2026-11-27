@@ -1235,7 +1235,7 @@ export const actorArt = {
     ]
   },
   'partisan-bearer-hit': {
-    'src': 'game-ready/vojnici/partisan-bearer-hit-sprites.webp',
+    'src': 'game-ready/vojnici/partisan-bearer-hit-sprites-redraw.webp',
     'width': 551,
     'height': 732,
     'anchor': {
@@ -2095,7 +2095,7 @@ export const hitBySource = {
   'game-ready/vojnici/nemacki-strelac-sprites.webp': 'rifleman-hit',
   'game-ready/vojnici/nemacki-jurisnik-sprites.webp': 'assault-hit',
   'game-ready/vojnici/partizanski-strelac-sprites.webp': 'skirmisher-hit',
-  'game-ready/vojnici/partizanski-zastavnik-sprites.webp': 'partisan-bearer-hit',
+  'game-ready/vojnici/partizanski-zastavnik-sprites-redraw.webp': 'partisan-bearer-hit',
   'game-ready/vojnici/zastavnici-sprites.webp': 'italian-bearer-hit',
   'game-ready/artiljerija/partizanska-posada-sprites.webp': 'partisan-crew-hit',
   'game-ready/artiljerija/italijanska-posada-sprites.webp': 'italian-crew-hit',

@@ -10,6 +10,7 @@ import TankGunModel from '/core3d/physics/TankGunModel.js'
 import { baseControls } from '/ui/Controls.js'
 import { BigSmoke, Fire } from '/core3d/Particles.js'
 import { buildKraljevo, kraljevo, posts, defence, models as kraljevoModels } from './kraljevo.js'
+import { buildValley } from './valley.js'
 import { description as germanMachineGunner, models as germanMachineGunnerModels } from '/core3d/actor/derived/ww2/GermanMachineGunner.js'
 import { description as ssSoldier, models as ssSoldierModels } from '/core3d/actor/derived/ww2/SSSoldier.js'
 import { description as naziOfficer, models as naziOfficerModels } from '/core3d/actor/derived/ww2/NaziOfficer.js'
@@ -61,6 +62,7 @@ export default class Tank3DScene extends Scene3D {
     this.physics.add(this.ground, 0)
 
     await buildKraljevo(this.physics)
+    buildValley(this.physics)
 
     // a tank has no jump, so it fires on Space and brakes by driving back
     this.player = new Tank({ world: this.physics, camera: this.camera, pos: { x: 0, y: 1, z: -40 }, attackKey: 'Space' })

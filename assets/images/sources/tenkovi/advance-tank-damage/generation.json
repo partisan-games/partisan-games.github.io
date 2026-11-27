@@ -1,0 +1,40 @@
+{
+  "tool": "OpenAI ImageGen",
+  "prepare": "python -B assets/images/sources/tenkovi/advance-tank-damage/prepare.py",
+  "columns": [
+    "armor impacts layer",
+    "wreck"
+  ],
+  "tanks": {
+    "panzer-iii": {
+      "reference": "../../../game-ready/tenkovi/advance-tank.webp",
+      "source": "panzer-iii.png",
+      "output": "../../../game-ready/tenkovi/panzer-iii-damage.webp",
+      "cell": [
+        542,
+        282
+      ],
+      "anchor": [
+        200,
+        282
+      ]
+    },
+    "t34-85": {
+      "reference": "../../../game-ready/tenkovi/t34-85-sprites.webp",
+      "source": "t34-85.png",
+      "output": "../../../game-ready/tenkovi/t34-85-damage.webp",
+      "cell": [
+        672,
+        240
+      ],
+      "anchor": [
+        265,
+        232
+      ]
+    }
+  },
+  "prompt": {
+    "panzer-iii": "Draw one wide game sprite sheet containing exactly TWO separate full side-view tanks arranged horizontally with a large transparent gap, true transparent RGBA. These are two stages of DAMAGE to the exact tank in the supplied reference, not different vehicles. Match its side-on orthographic view facing right, identical wheelbase and ground line, structures and faded olive/gray palette, and its hand-drawn hard stepped pixels. Preserve identity: flat charcoal-gray plate armor, boxy offset turret with black-and-white cross, rear-top round cupola and very thin antenna, six small road wheels, short segmented right-pointing gun. Same coherent scale in both slots. Leave lots of transparent space at the top and sides. No ground, no lettering, no border, no people, no flames, no smoke cloud, no huge debris, no photo texture. LEFT, damaged but still operating: preserve the original gun, wheel and track silhouette, keep turret and hatch shape exactly. Draw a few dark irregular chipped impact pits with bright chipped steel lip and surrounding soot on the side armor and turret, plus bent narrow fender or missing small fitting. Genuinely localized marks only, clearly visible light/dark edges, majority recognizable original colors, readable at small size. RIGHT, final burned-out wreck: stationary and clearly broken, with the center and scale unchanged and both ends still visible. Draw a split and sagging track end, visible exposed or tilted road wheel, gouged scorched torn hull plates, and a visibly bent/broken cannon pointing down. Turret remains mounted and heavily battered, with a chipped open hatch and scorch marks. Make the outline change caused by collapsed plate metal read distinctly at small size. Modest dust tones and scorched dark patches, intact marks partly visible, not a flat dark recolor. Both sprites flat, tightly clean outlined, separately and completely in frame, equal original scale.",
+    "t34-85": "Draw one wide game sprite sheet containing exactly TWO separate full side-view tanks arranged horizontally with a large transparent gap, true transparent RGBA. These are two stages of DAMAGE to the exact tank in the supplied reference, not different vehicles. Match its side-on orthographic view facing right, identical wheelbase and ground line, structures and faded olive/gray palette, and its hand-drawn hard stepped pixels. Preserve identity: dull olive green rounded turret, red star, long right-pointing gun, two left external stowage drums, five large road wheels. Same coherent scale in both slots. Leave lots of transparent space at the top and sides. No ground, no lettering, no border, no people, no flames, no smoke cloud, no huge debris, no photo texture. LEFT, damaged but still operating: preserve the original gun, wheel and track silhouette, keep turret and hatch shape exactly. Draw a few dark irregular chipped impact pits with bright chipped steel lip and surrounding soot on the side armor and turret, plus bent narrow fender or missing small fitting. Genuinely localized marks only, clearly visible light/dark edges, majority recognizable original colors, readable at small size. RIGHT, final burned-out wreck: stationary and clearly broken, with the center and scale unchanged and both ends still visible. Draw a split and sagging track end, visible exposed or tilted road wheel, gouged scorched torn hull plates, and a visibly bent/broken cannon pointing down. Turret remains mounted and heavily battered, with a chipped open hatch and scorch marks. Make the outline change caused by collapsed plate metal read distinctly at small size. Modest dust tones and scorched dark patches, intact marks partly visible, not a flat dark recolor. Both sprites flat, tightly clean outlined, separately and completely in frame, equal original scale."
+  }
+}

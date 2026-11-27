@@ -231,6 +231,5 @@ export default class Vehicle {
   end() {
     this.stopFollowing()
     this.input.end()
-    this.chaseCamera?.end()
   }
 }

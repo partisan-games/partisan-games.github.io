@@ -1,6 +1,7 @@
 import { BufferGeometry, DoubleSide, Float32BufferAttribute, Mesh, MeshStandardMaterial,
-  SRGBColorSpace, TextureLoader } from 'three'
+  NearestFilter, NearestMipmapLinearFilter, SRGBColorSpace, TextureLoader } from 'three'
 import { assets } from '/config.js'
+import { outfitTexture } from '/core3d/actor/characters/dressFighter.js'
 import { description as nikoletina, models } from './SovietPartisan.js'
 
 export { models }
@@ -69,8 +70,9 @@ function furHat() {
 let cockadeMap
 function paintCockade(material) {
   if (!cockadeMap) {
-    cockadeMap = new TextureLoader().load(assets.models + 'character/soldier/chetnik-cockade.svg')
+    cockadeMap = new TextureLoader().load(assets.models + 'character/soldier/chetnik-cockade-m72.webp')
     cockadeMap.colorSpace = SRGBColorSpace
+    cockadeMap.magFilter = NearestFilter
   }
   const varyings = 'varying vec2 vCockadeUv;\nvarying float vCockadeFront;\n'
   material.onBeforeCompile = shader => {
@@ -118,7 +120,7 @@ function paintFace(material) {
   }
 }
 
-function dressWithSubara(figure) {
+function prepareSubara(figure) {
   nikoletina.dress(figure)
   const skin = figure.getObjectByProperty('isSkinnedMesh', true)
   const { geometry } = skin
@@ -132,13 +134,39 @@ function dressWithSubara(figure) {
   for (let i = 0; i < position.count; i += 3)
     if (!(isOldCap(i) && isOldCap(i + 1) && isOldCap(i + 2))) visible.push(i, i + 1, i + 2)
   geometry.setIndex(visible)
-  paintFace(skin.material)
   const { bones, boneInverses } = skin.skeleton
   const headIndex = bones.findIndex(({ name }) => name === 'mixamorigHead')
   const bindToHead = boneInverses[headIndex].clone().multiply(skin.bindMatrix)
   const hat = furHat()
   bindToHead.decompose(hat.position, hat.quaternion, hat.scale)
   bones[headIndex].add(hat)
+  return skin
+}
+
+function dressWithSubara(figure) {
+  paintFace(prepareSubara(figure).material)
+}
+
+export function subaraLooks(figure, scope) {
+  const skin = prepareSubara(figure)
+  const original = skin.material
+  const paintUniform = original.onBeforeCompile
+  paintFace(original)
+  let pixel
+  return enabled => {
+    if (enabled && !pixel) {
+      pixel = original.clone()
+      pixel.onBeforeCompile = paintUniform
+      pixel.map = outfitTexture('cetnik-subara-pixel-art.webp', original.map, new Map())
+      pixel.map.magFilter = NearestFilter
+      pixel.map.minFilter = NearestMipmapLinearFilter
+      scope.add(() => {
+        pixel.map.dispose()
+        pixel.dispose()
+      })
+    }
+    skin.material = enabled ? pixel : original
+  }
 }
 
 export const description = { ...nikoletina, dress: dressWithSubara }

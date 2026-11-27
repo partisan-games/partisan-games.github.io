@@ -78,20 +78,21 @@ test('the town of Drvar stands the same each game, its houses apart and off the 
   assert.ok(ruinsNear.filter(house => house.kind.startsWith('ruin')).length / ruinsNear.length > .6, 'mostly ruins near the yard')
 })
 
-test('the wrecks of the bombing lie round the churchyard, the same each game, off the houses and apart', async t => {
+test('the traces of the bombing lie round the churchyard, the same each game, off the yard, the river and the houses', async t => {
   modelFiles(t)
   await requestModels([...models, ...debrisModels])
   const yard = { min: { x: -12.3, z: -10.3 }, max: { x: 12.3, z: 10.3 } }
   const { footprints: houses } = buildTown()
   const taken = [yard, river, ...houses]
-  const { meshes, footprints } = placeWarTraces(taken)
+  const { meshes, fires } = placeWarTraces(taken)
+  const places = traces => traces.meshes.map(({ position }) => position.toArray())
   assert.ok(meshes.length >= 30)
-  assert.ok(footprints.length >= 4, `${footprints.length} wrecks`)
-  assert.deepEqual(placeWarTraces(taken).footprints, footprints)
-  footprints.forEach((wreck, i) => {
-    assert.ok(!taken.some(block => overlap(block, wreck)), 'off the yard, the river and the houses')
-    assert.ok(!footprints.slice(i + 1).some(other => overlap(other, wreck)), 'apart')
-  })
+  assert.equal(fires.length, 3, 'smoke rises at three of them')
+  assert.deepEqual(places(placeWarTraces(taken)), places({ meshes }))
+  for (const debris of meshes.filter(mesh => !mesh.geometry?.type?.includes('Plane'))) {
+    const box = new THREE.Box3().setFromObject(debris)
+    assert.ok(!taken.some(block => overlap(block, { min: box.min, max: box.max })), 'off the yard, the river and the houses')
+  }
 })
 
 test('separate ruins and real oaks frame the west approach without blocking the road', async t => {

@@ -71,11 +71,9 @@ export default class CannonScene extends Scene3D {
     // stands for Space, held to charge and let go to fire
     // it faces the fort, down -z
     const { body, model, keys, chase } = leadCharacter(this, cannon, { yaw: Math.PI / 2, health: stations.length * memberHealth,
-      input: { useKeyboard: true, buttonDict: { jump: icons.shoot } },
-      view: { showCameraButton: false } })
+      input: { useKeyboard: true, buttonDict: { jump: icons.shoot } } })
     Object.assign(this, { player: body, cannon: model, input: keys.input })
     this.aimCamera = chase.view.chaseCamera
-    this.aimCamera.setCamera(0)
     this.aimCamera.lookAt = [0, cameraAimHeight(body), -16]
     this.aimCamera.speed = 14
     this.camera.fov = 64

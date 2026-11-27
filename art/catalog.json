@@ -3535,9 +3535,36 @@
      "files": [],
      "folders": [
       {
+       "name": "barricade-sandbags",
+       "files": [
+        ["model.glb",0.1]
+       ],
+       "folders": []
+      },
+      {
        "name": "sandbags",
        "files": [
         ["sandbags.glb",2.7]
+       ],
+       "folders": []
+      }
+     ]
+    },
+    {
+     "name": "railway",
+     "files": [],
+     "folders": [
+      {
+       "name": "bridge",
+       "files": [
+        ["model.glb",2.2]
+       ],
+       "folders": []
+      },
+      {
+       "name": "track",
+       "files": [
+        ["model.glb",0.9]
        ],
        "folders": []
       }
@@ -3566,7 +3593,7 @@
     {
      "name": "tank",
      "files": [
-      ["hotchkiss-h35.glb",1.5],
+      ["hotchkiss-h35.glb",0.7],
       ["italian-M13-40.fbx",0.1],
       ["panzer-III.fbx",0.2],
       ["renault-ft.fbx",0.0],
@@ -3781,13 +3808,6 @@
          "name": "army-truck",
          "files": [
           ["model.fbx",1.1]
-         ],
-         "folders": []
-        },
-        {
-         "name": "drvar-wreck",
-         "files": [
-          ["drvar-wreck.glb",0.1]
          ],
          "folders": []
         },

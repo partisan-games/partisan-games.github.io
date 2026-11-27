@@ -83,7 +83,7 @@ test('every advance atlas doubles pixel density while preserving world dimension
   assert.deepEqual([art.tank.width, art.tank.height, art.tank.standingPixels], [542, 282, 182])
   assert.deepEqual(art.tank.anchor, { x: 200, y: 282 })
   assert.deepEqual(art.tank.crewAnchor, { x: 206, y: 120 })
-  assert.deepEqual([art.commander.width, art.commander.height, art.commander.standingPixels], [104, 92, 76])
+  assert.deepEqual([art.commander.width, art.commander.height, art.commander.standingPixels], [104, 128, 76])
   assert.deepEqual(art.commander.anchor, { x: 34, y: 84 })
 })
 
@@ -140,6 +140,72 @@ test('tank frames are sampled inside transparent gutters without changing their 
   }
 })
 
+test('the Panzer catalogue runs the commander hit and fall independently of the tracks', async() => {
+  createPageElements()
+  const { vehicles } = await import('/catalog/stories/advance.js')
+  const story = vehicles.find(({ id }) => id === 'panzer-iii')
+  for (const way of [1, -1]) {
+    const actor = story.create({ width: 800, groundY: 500, add() {} }, way)
+    const [tank, commander] = actor.children
+    for (const { image } of actor.children) Object.defineProperty(image, 'naturalWidth', { value: 672 })
+    const draws = [], anchors = [], flips = []
+    const ctx = { save() {}, restore() {}, translate: (...at) => anchors.push(at), scale: flip => flips.push(flip),
+      drawImage: (image, x, y) => draws.push([image, x, y]) }
+    assert.ok(actor.states.includes('Komandir pogođen'))
+    assert.equal(actor.acts, undefined)
+    actor.setState('drive')
+    actor.update(.11)
+    actor.setState('Komandir pogođen')
+    assert.equal(actor.state, 'Komandir pogođen')
+    actor.render(ctx)
+    actor.update(.07)
+    actor.render(ctx)
+    actor.update(.1)
+    actor.render(ctx)
+    actor.update(1)
+    actor.render(ctx)
+    actor.update(.5)
+    actor.render(ctx)
+    assert.deepEqual(draws.filter(([image]) => image === commander.image).map(([, x, y]) => [x, y]),
+      [[4, 140], [116, 140], [4, 276], [452, 276], [452, 276]])
+    assert.ok(draws.filter(([image]) => image === tank.image).every(([, , y]) => y === 294))
+    assert.equal(draws[0][1], 554, 'switching states keeps the current drive frame')
+    assert.ok(new Set(draws.filter(([image]) => image === tank.image).map(([, x]) => x)).size > 1)
+    assert.ok(flips.every(flip => flip === way))
+    assert.ok(anchors.filter((_, i) => i % 2).every(([x, y]) => x === anchors[1][0] && y === anchors[1][1]))
+    actor.setState('idle')
+    actor.render(ctx)
+    assert.deepEqual(draws.at(-1), [commander.image, 4, 4])
+  }
+})
+
+test('the Panzer catalogue fires from the existing barrel tip in both directions', async() => {
+  createPageElements()
+  const { vehicles } = await import('/catalog/stories/advance.js')
+  const story = vehicles.find(({ id }) => id === 'panzer-iii')
+  for (const way of [1, -1]) {
+    const actor = story.create({ width: 800, groundY: 500, add() {} }, way)
+    for (const { image } of actor.children) Object.defineProperty(image, 'naturalWidth', { value: 672 })
+    const flash = actor.children.find(clip => clip.art.src.endsWith('plamen-pucnja-sprites.webp'))
+    const draws = []
+    let point
+    const ctx = {
+      save() {}, restore() {}, scale() {},
+      translate(...xy) {
+        point = xy
+      },
+      drawImage: (image, x, y) => draws.push([image, point, x, y]),
+    }
+    actor.setState('fire')
+    actor.render(ctx)
+    const size = 40 * 2.27 / 182
+    assert.deepEqual(draws.at(-1), [flash.image, [400 + 201 * size * way, 500 - 133 * size], 0, 0])
+    actor.update(.25)
+    actor.render(ctx)
+    assert.equal(draws.filter(([image]) => image === flash.image).length, 1)
+  }
+})
+
 test('the T-34-85 catalogue uses the prepared drive and fire rows with a shared ground anchor', async() => {
   createPageElements()
   const { vehicles } = await import('/catalog/stories/advance.js')
@@ -166,6 +232,46 @@ test('the T-34-85 catalogue uses the prepared drive and fire rows with a shared 
     assert.ok(draws.every(rect => rect[4] === -anchor.x * size && rect[5] === -anchor.y * size))
     assert.ok(flips.every(flip => flip === way))
     assert.equal(flashes[0][0] + (way < 0 ? flashes[0][2] : 0), Math.round(400 + way * 390 * size))
+  }
+})
+
+test('the Panzer and T-34 catalogue show hull damage and a stationary wreck', async() => {
+  createPageElements()
+  const { vehicles } = await import('/catalog/stories/advance.js')
+  for (const id of ['panzer-iii', 't34-85']) {
+    const story = vehicles.find(vehicle => vehicle.id === id)
+    const actor = story.create({ width: 800, groundY: 500, add() {} }, 1)
+    const hull = actor.children[0]
+    const condition = actor.children.find(clip => clip.art.clips.damaged)
+    for (const { image } of actor.children) Object.defineProperty(image, 'naturalWidth', { value: 672 })
+    const draws = []
+    const ctx = { save() {}, restore() {}, translate() {}, scale() {},
+      drawImage(image, x, y) {
+        draws.push([image, x, y])
+      } }
+    actor.setState('drive')
+    assert.ok(actor.states.includes('dead'))
+    assert.equal(actor.takeHit(10), false)
+    assert.equal(actor.health.current, 90)
+    actor.render(ctx)
+    assert.deepEqual(draws.slice(0, 2), [[hull.image, 4, id === 'panzer-iii' ? 294 : 252], [condition.image, 4, 4]])
+    draws.length = 0
+    actor.update(.1)
+    actor.render(ctx)
+    assert.equal(draws[0][1], id === 'panzer-iii' ? 554 : 684)
+    assert.deepEqual(draws[1], [condition.image, 4, 4])
+    draws.length = 0
+
+    if (id === 'panzer-iii') assert.equal(actor.takeHit(90), true)
+    else actor.setState('dead')
+    assert.equal(actor.health.current, 0)
+    assert.equal(actor.state, 'dead')
+    actor.render(ctx)
+    actor.setState('drive')
+    actor.update(.5)
+    actor.render(ctx)
+    const wreckX = id === 'panzer-iii' ? 554 : 684
+    assert.deepEqual(draws, [[condition.image, wreckX, 4], [condition.image, wreckX, 4]])
   }
 })
 

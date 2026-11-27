@@ -27,7 +27,7 @@ test('a prisoner in the catalog crouches, rests and peers as in his level, and g
       view.update(1 / 30)
     }
   }
-  assert.deepEqual(body.acts, ['crouch', 'rest', 'peek', 'attack'])
+  assert.deepEqual(body.acts, ['crouch', 'rest', 'peek', 'wounded', 'attack'])
 
   body.act('rest')
   live(.1)
@@ -44,4 +44,12 @@ test('a prisoner in the catalog crouches, rests and peers as in his level, and g
   assert.equal(body.swing, null)
   live(2)
   assert.ok(body.swing, 'standing, he swings')
+
+  live(2)
+  body.act('wounded')
+  live(.1)
+  assert.equal(view.clip, 'injuredIdle', 'wounded, he stands bent over his wound')
+  body.act('wounded')
+  live(.1)
+  assert.equal(view.clip, 'idle', 'healed, he stands as before')
 })

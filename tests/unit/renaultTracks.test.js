@@ -40,6 +40,7 @@ test('the shared Renault view animates only its belts and freezes, reverses and 
   const [a, b] = phases()
   assert.ok(a > 0 && b > 0)
   assert.ok(Math.abs(a + b - 1) < 1e-9)
-  assert.equal(mesh.material, animated.material[0])
+  assert.notEqual(mesh.material, animated.material[0])
+  assert.equal(mesh.material.map, animated.material[0].map, 'damage material keeps the original armor texture')
   view.end()
 })

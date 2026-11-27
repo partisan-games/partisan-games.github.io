@@ -6,7 +6,6 @@ const whiteStyle = {
   score: '',
   controlButton: 'white-button',
   healthBar: '',
-  cameraButton: '',
 }
 
 /** The classes that each UI style gives to the shared elements. */
@@ -17,7 +16,6 @@ export const styleClasses = {
     score: '',
     controlButton: '',
     healthBar: '',
-    cameraButton: '',
   },
   white: whiteStyle,
   ww2: { ...whiteStyle, container: `${whiteStyle.container} ww2-container` },

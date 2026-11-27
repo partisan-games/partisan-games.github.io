@@ -7,13 +7,17 @@ import { variants } from './partisanLooks.js'
 import { description as worker } from './Worker.js'
 
 /** Ways to stand and wait, one for each companion in turn, so they do not all move alike; one stretches. */
-export const standingIdles = ['Standing Idle', 'Dwarf Idle', worker.animDict.idle]
+export const standingIdles = ['Idle', 'Dwarf Idle', worker.animDict.idle]
 const animDict = { ...worker.animDict, idle: standingIdles[0], restIdle: standingIdles[1],
   // the pipe swing eases from this pose
   swingRest: worker.animDict.idle, run: 'Running', attack: pipeSwingName,
   crouchWalk: 'Crouched Walking', crouchIdle: 'Crouching Idle', crouchRest: 'Crouch Idle',
-  crouchPeek: 'Crouch Look Around Corner', crouchUp: 'Crouch To Stand' }
-/** A prisoner of the camp: the worker's model with the crouching, resting, peering and getting-up recordings. */
+  crouchPeek: 'Crouch Look Around Corner', crouchUp: 'Crouch To Stand', crouchDown: 'Standing To Crouched',
+  injuredIdle: 'Injured Idle' }
+/**
+ * A prisoner of the camp: the worker's model with the crouching, resting, peering, getting-up and crouching-down
+ * recordings, and a wounded man's way of standing.
+ */
 export const description = { ...worker, model: { ...worker.model, animDict }, animDict }
 export const models = [description.model]
 
@@ -43,18 +47,6 @@ function hipsForward(clip, time) {
   return root.createInterpolant().evaluate(time)[2] - root.values[2]
 }
 
-function reverseTransition(clip) {
-  const reversed = clip.clone()
-  reversed.name = 'Stand To Crouch'
-  for (const track of reversed.tracks) {
-    const size = track.getValueSize(), values = track.values.slice()
-    track.times = track.times.map(time => clip.duration - time).reverse()
-    for (let i = 0; i < track.times.length; i++)
-      track.values.set(values.subarray((track.times.length - i - 1) * size, (track.times.length - i) * size), i * size)
-  }
-  return reversed
-}
-
 /** A character whose steps are quieter while he crouches. */
 export class PrisonerFootsteps extends CharacterModel {
   step(before) {
@@ -65,7 +57,7 @@ export class PrisonerFootsteps extends CharacterModel {
 
 /**
  * A prisoner as `prisonerLooks[index]`, with a metal pipe: his crouching rests start at different moments and tempos
- * from the others', and getting up or down follows his `posture`.
+ * from the others', getting up or down follows his `posture`, and wounded he stands as one.
  */
 export default class PrisonerModel extends PrisonerFootsteps {
   constructor(body, { index, textures, ...options }) {
@@ -79,21 +71,22 @@ export default class PrisonerModel extends PrisonerFootsteps {
       animDict.crouchUp, 24, 72, 30)
     // played in place: the body itself takes the recorded step, so the planted foot stays put
     const stand = alignCrouch(recordedStand, idle, true)
+    const recordedCrouch = source.find(clip => clip.name === animDict.crouchDown)
     const animations = source.map(clip => {
       if (clip.name === pipeSwingName) return swing
       if (clip.name === animDict.crouchUp) return stand
+      if (clip.name === animDict.crouchDown) return alignCrouch(clip, idle, true)
       if (clip.name === animDict.crouchWalk) return alignCrouch(clip, idle, true)
       if ([animDict.crouchRest, animDict.crouchPeek].includes(clip.name)) return alignCrouch(clip, idle)
       return clip
     })
-    animations.push(reverseTransition(stand))
     body.actions.attack = swing.duration
     super(body, { mesh, animations,
-      animDict: { ...animDict, idle: standingIdles[index % standingIdles.length], crouchDown: 'Stand To Crouch' }, ...options })
+      animDict: { ...animDict, idle: standingIdles[index % standingIdles.length] }, ...options })
     this.mesh.scale.multiplyScalar(prisonerLooks[index].height / 1.8)
     dressFighter(this.mesh, prisonerLooks[index].outfit, textures)
     mountMetalPipe(this.mesh, { tipLength: .32 })
-    this.recordedStand = recordedStand
+    this.recorded = { crouchUp: recordedStand, crouchDown: recordedCrouch }
     this.idlePhases = {}
     for (const state of ['idle', 'crouchIdle', 'crouchRest']) {
       this.idlePhases[state] = this.actions[state].getClip().duration * index / prisonerLooks.length
@@ -103,11 +96,16 @@ export default class PrisonerModel extends PrisonerFootsteps {
   }
 
   /**
-   * How far forward, in metres, the body has stepped `time` seconds into getting up, as the recording moves his hips.
-   * Crouching down stays in place: a step back would move him off his place in the group each time he stops.
+   * How far forward, in metres, the body has stepped `time` seconds into getting up or crouching down, as the
+   * recording moves his hips: up he steps forward, down back, about as far, so he keeps his place in the group.
    */
   postureShift(name, time) {
-    return name === 'crouchUp' ? hipsForward(this.recordedStand, time) * this.hipsScale : 0
+    return hipsForward(this.recorded[name], time) * this.hipsScale
+  }
+
+  /** How long getting up and crouching down take, as recorded. */
+  get postureDurations() {
+    return { crouchDown: this.actions.crouchDown.getClip().duration, crouchUp: this.actions.crouchUp.getClip().duration }
   }
 
   /** How many metres a unit of the recorded hips is: the scales of everything between the hips and the whole. */
@@ -136,6 +134,12 @@ export default class PrisonerModel extends PrisonerFootsteps {
     if (body.alive && !body.swing && body.posture) return body.posture.name
     if (body.alive && !body.swing && body.crouched)
       return body.state === 'move' ? 'crouchWalk' : (body.waitPose ?? 'crouchIdle')
-    return super.chooseClip()
+    const clip = super.chooseClip()
+    return clip === 'idle' && this.wounded ? 'injuredIdle' : clip
+  }
+
+  /** Hit down to under half his health, he stands bent over his wound. */
+  get wounded() {
+    return this.body.health.current < this.body.health.maximum / 2
   }
 }

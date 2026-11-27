@@ -60,7 +60,7 @@ export default {
     'defaultAnimation': 'idle'
   },
   'partisanBearer': {
-    'src': 'game-ready/vojnici/partizanski-zastavnik-sprites.webp',
+    'src': 'game-ready/vojnici/partizanski-zastavnik-sprites-redraw.webp',
     'names': [
       'partisan'
     ],

@@ -1,5 +1,7 @@
 import BodySprite from '/core/actor/BodySprite.js'
 import Barrel from '/core/actor/Barrel.js'
+import GameObject2D from '/core/actor/GameObject2D.js'
+import MuzzleFlash from '/core/actor/effects/MuzzleFlash.js'
 import ShellSprite from '/core/actor/projectiles/ShellSprite.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import { bodyImage, wreckFor } from '/core/actor/wreckView.js'
@@ -19,12 +21,16 @@ export default class TankSprite extends BodySprite {
     this.shellLayer = shellLayer
     this.barrel = new Barrel(barrel, this)
     this.barrel.position.z = z
+    this.flash = new MuzzleFlash(camera ?? { cameraX: 0, cameraY: 0 })
+    this.flash.position.z = z
+    this.armorHits = art.damageSrc && new GameObject2D(art.damageSrc, { visible: false })
     this.shellViews = this.projectileViews
     this.shotSound = new Sound('cannon-shot.mp3', { volume: .8, profile: 'cannon', spatial: { getPosition: () => this.shotPoint ?? this.position } })
     this.loadSound = new Sound('cannon-load.mp3', { volume: .4, profile: 'cannon', spatial: { getPosition: () => this.position } })
     this.engineSound = new Sound('engine-diesel.mp3', { volume: .2, loop: true, profile: 'engine', spatial: { getPosition: () => this.position } })
     this.sounds.push(this.shotSound, this.loadSound, this.engineSound)
-    this.children.push(this.barrel)
+    this.children.push(this.barrel, this.flash)
+    if (this.armorHits) this.children.push(this.armorHits)
     this.shotsSeen = body.shotsFired
     /** The clip the atlas plays, how far into it, and the way its tracks turn: 1 ahead, -1 back. */
     this.clip = 'idle'
@@ -63,9 +69,11 @@ export default class TankSprite extends BodySprite {
     this.engineSound.setPlaying(body.alive)
     if (body.shotsFired > this.shotsSeen) {
       this.shotPoint = projection.point(body.muzzle)
+      this.flash.start(this.shotPoint, projection.angle(body.barrelYaw ?? body.yaw, body.elevation))
       this.shotSound.play()
       this.loadSound.play()
     }
+    if (body.dead) this.flash.hide()
     this.shotsSeen = body.shotsFired
     this.syncShells()
     const movement = this.x - previousX
@@ -103,6 +111,8 @@ export default class TankSprite extends BodySprite {
       const turretRow = clips[this.clip].row + (this.body.turretBack ? 4 : 2)
       ctx.drawImage(image, ...atlasFrame(frame.width, frame.height, this.frameIndex, turretRow, gutter), x, y, width, height)
       ctx.drawImage(image, ...atlasFrame(frame.width, frame.height, this.frameIndex, clips[this.clip].row, gutter), x, y, width, height)
+      if (this.body.health.current < this.body.health.maximum && this.armorHits?.image.naturalWidth)
+        ctx.drawImage(this.armorHits.image, x, y, width, height)
     }
     ctx.restore()
     if (this.burning) this.flame.render(this.smoky)

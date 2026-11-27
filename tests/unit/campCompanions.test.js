@@ -7,14 +7,14 @@ import { CampGuard, alarm, raiseAlarm } from '/scenes/crveni-krst/stealth.js'
 import Prisoner from '/core/gameplay/bodies/characters/Prisoner.js'
 import { description as flameThrower } from '/core3d/actor/derived/ww2/GermanFlameThrower.js'
 
-function setup({ enemyX = 15, coverPoints = [], sees = () => true, postureDuration = 0, postureShift } = {}) {
+function setup({ enemyX = 15, coverPoints = [], sees = () => true, postureDurations, postureShift } = {}) {
   const body = new Character({ reach: 1.65, actions: { attack: .9 }, damage: [40, 40] })
   const leader = new Character({ x: -8 })
   const enemy = new Character({ x: enemyX, reach: 25, health: 100 })
   enemy.face(body)
   body.targets = [enemy]
   const controller = new CampCompanion(body, { leader, enemies: [enemy], index: 0, coverPoints, sees,
-    navigation: new CampNavigation(() => false), postureDuration, postureShift })
+    navigation: new CampNavigation(() => false), postureDurations, postureShift })
   return { body, leader, enemy, controller }
 }
 
@@ -191,7 +191,7 @@ test('waiting companions alternate real crouching idles without rotating or star
 })
 
 test('companions finish getting up before running and lower gradually when the leader stops', () => {
-  const { body, leader, controller } = setup({ postureDuration: 1 })
+  const { body, leader, controller } = setup({ postureDurations: { crouchDown: 1, crouchUp: 1 } })
   controller.update(.1)
   assert.equal(body.posture.name, 'crouchUp')
   assert.equal(body.moving, false)
@@ -212,7 +212,7 @@ test('companions finish getting up before running and lower gradually when the l
 })
 
 test('reversing a posture transition preserves its progress and death interrupts it', () => {
-  const { body, leader, controller } = setup({ postureDuration: 1 })
+  const { body, leader, controller } = setup({ postureDurations: { crouchDown: 1, crouchUp: 1 } })
   controller.update(.5)
   leader.x = 1
   controller.update(.01)
@@ -228,7 +228,7 @@ test('the prisoner collision height follows the companion posture without moving
   const leader = new Character({ x: -8 })
   const { size: { height }, feet } = body
   const controller = new CampCompanion(body, { leader, enemies: [], index: 0, coverPoints: [],
-    sees: () => true, navigation: new CampNavigation(() => false), postureDuration: 1 })
+    sees: () => true, navigation: new CampNavigation(() => false), postureDurations: { crouchDown: 1, crouchUp: 1 } })
   controller.update(.25)
   body.update(.25)
   const first = body.size.height
@@ -243,7 +243,7 @@ test('the prisoner collision height follows the companion posture without moving
 })
 
 test('a crouching companion gets up before striking a nearby guard', () => {
-  const { body, enemy, controller } = setup({ enemyX: 1.2, postureDuration: 1 })
+  const { body, enemy, controller } = setup({ enemyX: 1.2, postureDurations: { crouchDown: 1, crouchUp: 1 } })
   controller.update(.1)
   assert.equal(body.swing, null)
   assert.equal(body.posture.name, 'crouchUp')
@@ -368,7 +368,7 @@ test('the group keeps its spacing and rejoins after the leader walks and changes
   const companions = [leader, ...[-1, 0, 1].map(z => new Prisoner({ z, speed: 1.5 }))]
   const navigation = new CampNavigation(() => false)
   const controllers = companions.slice(1).map((body, index) => new CampCompanion(body, {
-    leader, index, companions, navigation, enemies: [], coverPoints: [], sees: () => true, postureDuration: 1,
+    leader, index, companions, navigation, enemies: [], coverPoints: [], sees: () => true, postureDurations: { crouchDown: 1, crouchUp: 1 },
   }))
   for (let frame = 0; frame < 2400; frame++) {
     if (frame === 600) leader.steer({ ahead: 1 })
@@ -400,7 +400,7 @@ test('all companions close a gap during a long player sprint and settle when he 
   const companions = [leader, ...[-1, 0, 1].map((z, index) => new Prisoner({ z, speed: 1.5 + index * .12 }))]
   const navigation = new CampNavigation(() => false)
   const controllers = companions.slice(1).map((body, index) => new CampCompanion(body, {
-    leader, index, companions, navigation, enemies: [], coverPoints: [], sees: () => true, postureDuration: 1.567,
+    leader, index, companions, navigation, enemies: [], coverPoints: [], sees: () => true, postureDurations: { crouchDown: 1.567, crouchUp: 1.567 },
   }))
   leader.steer({ ahead: 1, running: true })
   const atTen = []
@@ -517,7 +517,7 @@ test('a guard\'s shout sends the guards in hearing to search where it came from,
 
 test('getting up a companion takes the recorded step forward, but not through a wall', () => {
   for (const wall of [false, true]) {
-    const { body, controller } = setup({ postureDuration: 1, postureShift: (name, time) => name === 'crouchUp' ? time * .4 : 0 })
+    const { body, controller } = setup({ postureDurations: { crouchDown: 1, crouchUp: 1 }, postureShift: (name, time) => name === 'crouchUp' ? time * .4 : 0 })
     controller.navigation = new CampNavigation(() => wall)
     controller.decide = () => {
       body.crouched = false

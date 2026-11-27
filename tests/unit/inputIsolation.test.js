@@ -232,7 +232,7 @@ test('shooting handlers reject inactive phases and UI clicks, and aim at the tri
       daljiRovovi: [target], bliziRovovi: [target], occupiers: [target], audio: { setPlaying() {} }, airAttack: { shoot: () => false },
       ammunition: 24, crates: [],
       // Otpisani's own ways of finding and felling an occupier
-      middleOf: Otpisani.prototype.middleOf, fell: Otpisani.prototype.fell,
+      middleOf: Otpisani.prototype.middleOf, fell: Otpisani.prototype.fell, count: Otpisani.prototype.count,
     }
     const click = target => SceneType.prototype.handleClick.call(scene, { target, pageX: 123, pageY: 45 })
     for (const state of ['loading', 'ready', 'paused', 'finished', 'disposed']) {

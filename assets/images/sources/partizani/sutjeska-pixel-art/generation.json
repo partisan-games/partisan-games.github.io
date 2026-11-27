@@ -1,6 +1,29 @@
 {
   "tool": "built-in image_gen",
   "date": "2026-11-26",
+  "portraitReference": {
+    "subject": "Koča Popović",
+    "place": "Drvar",
+    "date": "1943",
+    "file": "koca-popovic-drvar-1943.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Ko%C4%8Da_Popovi%C4%87.jpg",
+    "credit": "Yugoslav state; cropped by Wikimedia Commons user Goldorak",
+    "license": "https://creativecommons.org/licenses/by/3.0/",
+    "sha256": "e49007d50ada3f70e99610fae4d7414b90ddb97fd513f6a951615cba2edc7569"
+  },
+  "kocaPortraitTrial": {
+    "tool": "OpenAI ImageGen",
+    "source": "koca-portrait-trial.png",
+    "sourceSha256": "8c316af97881d2a42b484cf9b32a9f8880d7286ce321d11a283374c6e6459e20",
+    "inputs": ["portrait.png", "koca-popovic-drvar-1943.jpg"],
+    "prompt": "Edit the FIRST attached square raster pixel art UV texture atlas in place. It is a technical unfolded face texture, not a picture of a head facing the viewer. Keep exactly the same square canvas, pixel scale, landmarks and island positions as first image. The second reference is a black and white wartime photo of a man (Koča Popović); use this photo ONLY as a close likeness reference for the face and hair. Do not render his clothing, hat, body, trees, or photographic lighting. Make the man in the central face area of the first atlas look recognizably like the man in the second photo. Particularly reproduce the much narrower and smaller moustache which is thickest at the center under the nose but tapers naturally, ends within the mouth corners and has no drooping ends. Make eyebrows slimmer, softly arched and not angry. The photograph shows deep-set eyes, lean oval cheeks, thin closed lips, a long comparatively narrow straight nose with a rounded tip and dark smooth short hair. Render those traits by deliberate pixel clusters while preserving the underlying 3D landmarks and exact old UV locations of the eyelids, nostrils, lips and ears. Tidy the old deep V at the hairline into a plausible shallow hairline with subtle side part and reduce the thick wavy highlights in the upper hair islands. Preserve the familiar muted warm palette of the first texture, with no hard photorealistic baked shadows from the photograph. Pixel art hard edges, intentional blocky clusters about the same width as old atlas. Outside the upper head and hair islands copy the old original artwork unchanged: the bottom half (hands, mouth-interior, teeth, big separate eyeball), edges, and isolated ears all remain exactly as they were. Same framing and registration. No turning or shifting any part of the UV. No framing, no borders, no new islands, no words, no central bust.",
+    "prepare": "python -B scripts/prepare-sutjeska-pixel-art.py --koca-portrait",
+    "output": "assets/models/character/soldier/sutjeska-pixel-art/face-koca-1943.webp",
+    "outputSha256": "6d2e73b66115993f7655b7b5b9ab4ac0ef41b80f7093319d789d45107684ecb8",
+    "eyesOutput": "assets/models/character/soldier/sutjeska-pixel-art/eyes-koca-1943.webp",
+    "eyesSha256": "9ff6e31c3eecfb9a94b930ef088773ac62b0c94bb31edda3be69c6f51d9b03bb",
+    "registration": "Blend the central face into the base cheek and jaw. Keep the base temples and ear UVs. Remove the iris painted into the lids on the skin map and center the separate iris texture using both modeled eye apertures."
+  },
   "inputs": [
     "assets/models/character/soldier/partisan.fbx · embedded uniform (3.jpg)",
     "assets/models/character/soldier/partisan.fbx · embedded face (5.jpg)",

@@ -35,6 +35,8 @@ import CampNavigation from './CampNavigation.js'
 
 const soldiers = [germanMachineGunner, ssSoldier, naziOfficer, germanFlameThrower, germanSoldier]
 const halt = 'halt.mp3'
+/** Everyone in the camp walks on snow. */
+const footing = 'snow'
 const shout = { group: 'speech', nearDistance: 4, fadeStart: 20, maxDistance: 32, farCutoff: 2500, maxVoices: 2 }
 
 export default class FpsBaseScene extends Scene3D {
@@ -80,7 +82,7 @@ export default class FpsBaseScene extends Scene3D {
       buttonDict: { ...inputLayouts.firstPerson.buttonDict, special: icons.sneak, attack2: icons.take } } })
     this.controllers.push(new PrisonerKeys(this.player, input),
       new MouseLook(this.player), new TouchLook(this.player))
-    const playerModel = new PrisonerFootsteps(this.player, { mesh: createPlayerBox({ visible: false }), impactAt })
+    const playerModel = new PrisonerFootsteps(this.player, { mesh: createPlayerBox({ visible: false }), impactAt, ground: footing })
     this.audioPlayer = () => playerModel
     this.viewScene = new Scene()
     this.viewCamera = new PerspectiveCamera(88, this.camera.aspect, .10, 20)
@@ -93,8 +95,8 @@ export default class FpsBaseScene extends Scene3D {
       canTake: () => this.session.state === 'running', touch: input.screen, guardSounds: soldiers.map(soldier => soldier.attackSound) })
     weapons.equip(germanSoldier.twoHandedWeapon, germanSoldier.attackSound)
     this.add(this.player, playerModel, new FirstPersonView(this.player, { camera: this.camera,
-      weaponSrc: () => avatar.current.pose === 'rifle' ? '/assets/images/ui/savo.png' : null, behind: 0,
-      showTarget: () => avatar.current.pose !== 'pipe' }), avatar, weapons)
+      weaponSrc: () => avatar.current.pose === 'rifle' ? '/assets/images/ui/savo.png' : null, behind: 0 }),
+    avatar, weapons)
 
     const navigation = new CampNavigation(playerWorld.isBlocked, [.75, 1, ...prisonerLooks.map(look => look.height / 2)])
     const guards = []
@@ -109,7 +111,8 @@ export default class FpsBaseScene extends Scene3D {
       const index = coords.findIndex(point => Math.hypot(point.x - this.player.x, point.z - this.player.z) > 12)
       const { x, z } = coords.splice(index, 1)[0]
       const soldier = sample(soldiers)
-      const { body, model } = makeCharacter(soldier, { x, z, targets: [this.player], damage: computerDamage, ...enemyWorld })
+      const { body, model } = makeCharacter(soldier, { x, z, targets: [this.player], damage: computerDamage, ground: footing,
+        ...enemyWorld })
       weapons.register(body, model, soldier)
       const guard = new CampGuard(body, { target: this.player, candidates: this.prisoners,
         way: 'wander', sees, litAt, onFirstSpot, navigation })
@@ -152,11 +155,12 @@ export default class FpsBaseScene extends Scene3D {
         targets: this.enemies, solid: false, ...playerWorld })
       body.crouched = true
       body.name = look.name
-      const model = new PrisonerModel(body, { index, textures: this.companionTextures ??= new Map(), impactAt })
+      const model = new PrisonerModel(body, { index, textures: this.companionTextures ??= new Map(), impactAt,
+        ground: footing })
       this.prisoners.push(body)
       const controller = new CampCompanion(body, { leader: this.player, enemies: this.enemies,
         navigation, coverPoints, sees: enemyWorld.sees, index, companions: this.prisoners,
-        postureDuration: model.actions.crouchUp.getClip().duration,
+        postureDurations: model.postureDurations,
         postureShift: (name, time) => model.postureShift(name, time) })
       this.controllers.push(controller)
       this.add(body, model)

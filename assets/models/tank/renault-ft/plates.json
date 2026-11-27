@@ -1,0 +1,25 @@
+{
+  "generator": "OpenAI ImageGen",
+  "source": "plates-source.png",
+  "sourceSha256": "11231a4828f78e4b3b99da72e9d293b9894366165feab0cf83e2b573fdb5cc35",
+  "guide": "plates-guide.png",
+  "guideSha256": "5c917f05568625ffab35cec87b41608e193b8fb72355a0dc3cb7e1553e0a676a",
+  "guideModel": "textured.fbx",
+  "paletteSource": "../../../images/textures/vehicles/renault-ft.webp",
+  "prompt": "Paint texture on top of this EXACT 4-panel orthographic game model guide. Output a square-ish 4:3 landscape RGB-alpha PNG, 2 columns and 2 rows. In each quadrant TRACE the supplied flat silhouettes and keep positions, aspect ratios, directions, turret, tracks, and proportions perfectly aligned. Top left = side of the Renault FT (gun points LEFT, thin tail frame RIGHT); top right = head-on face; bottom left = back face; bottom right = overhead plan (gun LEFT). Keep the same figure sizes and margins within their cells. The result will be sampled directly as existing-model albedo, so outside each supplied silhouette is full transparency. Paint real visual detail missing from the bare low-poly guide, on the EXISTING surfaces: WWII-era weathered French FT dark olive painted steel, rows of small raised rivet heads along armor edges, clearly separated armored panel seams, a rectangular driver's hatch and thin shadow slit where appropriate, hinge and bolt details, a few crisp stepped patches of chipped pale green/gray metal along edges, discreet very muted dark rust next to seams, muddy lower metal, dark steel rollers/guide assembly details on the side where the current mesh has big blank steel. Turret stays faceted, little octagonal cupola and short gun exactly where shown; top/rear show the simple hood lid, vent slits and access panel seams already suggested by geometry. Use the same mean olive hue on all faces, with a confident readable pale gray-green highlight and deep muted hardware, crisp hard-step pixel clusters in the aesthetic of a high-quality isometric WWII game. This is a diffuse texture lit flat: no directional cast shadows, thick line around silhouette, gradients, fog, background, typography, labels, camouflage, flags, crosses, badges, numbers, stencils, weapons added, symbols, extra vehicles or altered track design. Respect the exact project shape and keep the entire guide as transparent orthographic orthogonal images, no perspective or 3/4. No 3D redraw, only paint surface detail.",
+  "prepare": "python -B assets/models/tank/renault-ft/prepare-plates.py",
+  "atlas": {
+    "size": [
+      512,
+      512
+    ],
+    "tile": 256,
+    "gutter": 4,
+    "order": [
+      "side",
+      "front",
+      "rear",
+      "top"
+    ]
+  }
+}

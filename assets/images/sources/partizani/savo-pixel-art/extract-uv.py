@@ -6,8 +6,9 @@ from pathlib import Path
 import bpy
 
 
-model = Path("assets/models/character/soldier/partisan-lowpoly.fbx").resolve()
-destination = Path(sys.argv[sys.argv.index("--") + 1])
+args = sys.argv[sys.argv.index("--") + 1:]
+destination = Path(args[0])
+model = Path(args[1] if len(args) > 1 else "assets/models/character/soldier/partisan-lowpoly.fbx").resolve()
 bpy.ops.wm.read_factory_settings(use_empty=True)
 bpy.ops.import_scene.fbx(filepath=str(model))
 parts = []

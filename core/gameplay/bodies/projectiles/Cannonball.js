@@ -47,7 +47,7 @@ const states = {
  * A cannonball: out of play (`idle`), flying under gravity and the `wind` (`acceleration` in metres a second squared,
  * along +x), or bursting (`burst`) on a target, which takes the damage when the burst ends, or on the ground. Whatever
  * a step reaches first ends the flight: a target, the ground `groundAt(x)`, which may have craters, or a side of
- * `bounds`, past which it leaves play without a burst. Each burst calls `onBlast(x)`, which digs a crater under it,
+ * `bounds`, past which it leaves play without a burst. Each burst calls `onBlast(x, y)`, which digs a crater under it,
  * and `bursts` counts them for the view. A high arc may leave the top and come back. It falls `fall` times the
  * world's gravity.
  */
@@ -135,6 +135,6 @@ export default class Cannonball extends Body {
     this.setState('burst')
     this.target = target
     this.bursts++
-    this.onBlast(this.x)
+    this.onBlast(this.x, this.y)
   }
 }

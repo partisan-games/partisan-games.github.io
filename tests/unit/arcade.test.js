@@ -19,3 +19,18 @@ test('a disposed cabinet stops its midnight timer and leaves the page', t => {
   assert.ok(!arcade.wallet.isConnected)
 })
 
+test('only the token in the pocket turns, while one is left; those on the cabinets stand still', async t => {
+  const { iconImages } = await import('/core/io/icons.js')
+  document.body.insertAdjacentHTML('beforeend', `<img class="arcade-coin cabinet-coin" src="/assets/images/${iconImages.coinStill}" alt="">`)
+  const arcade = new Arcade()
+  t.after(() => arcade.dispose())
+  const pocket = () => arcade.wallet.querySelector('.arcade-coin').getAttribute('src')
+  const cabinet = () => document.querySelector('.cabinet-coin').getAttribute('src')
+  t.mock.method(arcade.coins, 'read', () => ({ remaining: 3 }))
+  arcade.refresh()
+  assert.ok(pocket().endsWith(iconImages.coin))
+  assert.ok(cabinet().endsWith(iconImages.coinStill))
+  arcade.coins.read.mock.mockImplementation(() => ({ remaining: 0 }))
+  arcade.refresh()
+  assert.ok(pocket().endsWith(iconImages.coinStill))
+})

@@ -20,6 +20,7 @@ import * as naziOfficerModule from '/core3d/actor/derived/ww2/NaziOfficer.js'
 import * as partisanModule from '/core3d/actor/derived/ww2/Partisan.js'
 import * as sutjeskaModule from '/core3d/actor/derived/ww2/sutjeskaLook.js'
 import * as partisanLowpolyModule from '/core3d/actor/derived/ww2/PartisanLowpoly.js'
+import shapeSavoBlouse from '/core3d/actor/derived/ww2/savoBlouse.js'
 import * as resistanceFighterModule from '/core3d/actor/derived/ww2/ResistanceFighter.js'
 import * as sSSoldierModule from '/core3d/actor/derived/ww2/SSSoldier.js'
 import * as soldierModule from '/core3d/actor/derived/ww2/Soldier.js'
@@ -42,7 +43,8 @@ const sutjeskaPixelMaps = {
   Tex_0534_0_dds: 'sutjeska-pixel-art/face.webp',
   Tex_0532_0_dds: 'sutjeska-pixel-art/eyes.webp',
 }
-const pixelOutfitLook = (maps, { useMapColors = false } = {}) => ({ id: 'pixel-art', name: 'Pixel art', value: { dress(mesh, textures) {
+const pixelOutfitLook = (maps, { useMapColors = false, shape } = {}) => ({ id: 'pixel-art', name: 'Pixel art', value: { dress(mesh, textures) {
+  shape?.(mesh)
   dressFighter(mesh, maps, textures)
   if (useMapColors) mesh.traverse(part => {
     if (!part.isMesh) return
@@ -57,12 +59,29 @@ const pixelOutfitLook = (maps, { useMapColors = false } = {}) => ({ id: 'pixel-a
   }
 } } })
 const sutjeskaPixelLook = pixelOutfitLook(sutjeskaPixelMaps)
-const savoPixelLook = pixelOutfitLook({
+const kocaPortraitLook = {
+  ...pixelOutfitLook({
+    ...sutjeskaPixelMaps,
+    Tex_0534_0_dds: 'sutjeska-pixel-art/face-koca-1943.webp',
+    Tex_0532_0_dds: 'sutjeska-pixel-art/eyes-koca-1943.webp',
+  }),
+  id: 'portret-1943',
+  name: 'Portret 1943',
+}
+const savoPixelMaps = {
   'army.green': 'savo-pixel-art/uniform.webp',
   skin: 'savo-pixel-art/face.webp',
   brown: 'savo-pixel-art/hair-and-leather.webp',
   'navy.blue': 'savo-pixel-art/trousers.webp',
-}, { useMapColors: true })
+}
+const savoPixelLook = pixelOutfitLook(savoPixelMaps, { useMapColors: true, shape: shapeSavoBlouse })
+const brownSavoPixel = pixelOutfitLook({
+  ...savoPixelMaps, 'army.green': 'savo-pixel-art/uniform-brown.webp',
+}, { useMapColors: true, shape: shapeSavoBlouse })
+const brownSavoLook = {
+  id: 'smedji-pixel-art', name: 'Braon · Berthier · Pixel art',
+  value: { ...variants.smedji, ...brownSavoPixel.value, outfit: { avocado: variants.smedji.outfit.avocado } },
+}
 const crniPixelLook = pixelOutfitLook({
   'mat_11-27373E00.jpg': 'crni-pixel-art/cap.webp',
   'mat_12-27374460.jpg': 'crni-pixel-art/face.webp',
@@ -201,8 +220,11 @@ function infantryStory(id, name, game, block, portraitNames = {}) {
     identities.get(identity).looks.push(look)
   }
   original.looks.sort((a, b) => Number(b.id === 'strelac') - Number(a.id === 'strelac'))
-  if (block === partisanModule) original.looks.unshift(sutjeskaPixelLook, sutjeskaLook)
-  if (block === partisanLowpolyModule) original.looks.push(savoPixelLook)
+  if (block === partisanModule) original.looks.unshift(sutjeskaPixelLook, kocaPortraitLook, sutjeskaLook)
+  if (block === partisanLowpolyModule) {
+    original.looks.unshift(savoPixelLook)
+    original.looks.splice(original.looks.findIndex(look => look.id === 'smedji') + 1, 0, brownSavoLook)
+  }
   if (block === sovietPartisanModule) original.looks.unshift(nikoletinaPixelLook)
   return [original, ...identities.values()]
 }
@@ -253,6 +275,35 @@ function enableInfantryLooks(stage, { mesh, anim }) {
 }
 
 const machineGunner = character('nemacki-mitraljezac-3d', 'Nemački vojnik s teškom opremom', '3D Tank, FPS Airport, FPS Base', germanMachineGunnerModule)
+const heavyPixelMaps = Object.fromEntries([
+  ['3359EFA0', 'face', [6]],
+  ['3754B440', 'trousers', [3, 10, 18]],
+  ['278A34A0', 'eyes', [15]],
+  ['3359AD00', 'canvas-bag', [2]],
+  ['37547580', 'tunic', [4, 17, 22]],
+  ['278A3DA0', 'helmet', [5, 11, 13]],
+].flatMap(([source, map, slots]) => slots.map(slot =>
+  [`mat_${slot}-${source}.jpg`, `german-heavy-pixel-art/${map}.webp`])))
+const pixelMachineGunner = maps => ({
+  async create(stage) {
+    await requestModels(germanMachineGunnerModule.models, { parallelAnimations: true })
+    const { body, model } = makeCharacter(germanMachineGunnerModule.description)
+    const textures = new Map()
+    pixelOutfitLook(maps).value.dress(model.mesh, textures)
+    const materials = new Set()
+    model.mesh.traverse(part => {
+      if (!part.isSkinnedMesh) return
+      for (const material of [].concat(part.material))
+        if (Object.hasOwn(maps, material.name)) materials.add(material)
+    })
+    stage.session.scope.add(() => {
+      textures.forEach(texture => texture.dispose())
+      materials.forEach(material => material.dispose())
+    })
+    stage.add(body, model)
+    return body
+  },
+})
 const germanRifleman = {
   ...character('nemacki-vojnik-3d', 'Nemački vojnik', 'Drvar, Kraljevo, Aerodrom, Crveni krst', germanSoldierModule),
   catalogGroup: ['Vojnici', 'Nemci'],
@@ -288,7 +339,13 @@ const flameThrower = character('nemacki-bacac-plamena-3d', 'Bacač plamena', 'FP
 const germanHeavyInfantry = {
   ...machineGunner, lookLabel: 'Oprema', catalogGroup: ['Vojnici', 'Nemci'],
   looks: [
+    { id: 'pixel-art-drugo-lice', name: 'Mitraljez · Pixel art · Drugo lice', value: pixelMachineGunner({
+      ...heavyPixelMaps,
+      'mat_6-3359EFA0.jpg': 'german-heavy-pixel-art/face-new-identity.webp',
+      'mat_15-278A34A0.jpg': 'german-heavy-pixel-art/eyes-new-identity.webp',
+    }) },
     { id: 'mitraljez', name: 'Mitraljez', value: machineGunner },
+    { id: 'pixel-art', name: 'Mitraljez · Pixel art', value: pixelMachineGunner(heavyPixelMaps) },
     { id: 'bacac-plamena', name: flameThrower.name, value: flameThrower, block: flameThrower.block, aliases: [flameThrower.id] },
   ],
   create(stage, way, equipment) {
@@ -325,7 +382,8 @@ const crouchedPoses = { crouch: 'crouchIdle', rest: 'crouchRest', peek: 'crouchP
 
 /**
  * The men who break out of the camp, a story each: as in their level, each crouches down and gets up through his
- * recorded movement, rests or peers round a corner in a crouch, and swings his pipe only once he stands.
+ * recorded movement, rests or peers round a corner in a crouch, swings his pipe only once he stands, and wounded
+ * stands bent over his wound.
  */
 const prisoners = prisonerModule.prisonerLooks.map(({ name, height }, index) => ({
   id: `logoras-${name.toLowerCase()}`, name: `Logoraš ${name}`, game: 'Escape Concentration Camp', block: prisonerModule,
@@ -334,15 +392,21 @@ const prisoners = prisonerModule.prisonerLooks.map(({ name, height }, index) => 
     await requestModels(prisonerModule.models, { parallelAnimations: true })
     const body = new Prisoner({ size: { height, length: .4, width: .4 } })
     const model = new prisonerModule.default(body, { index, textures: new Map() })
-    const posture = new Posture(body, { duration: model.actions.crouchUp.getClip().duration,
+    const posture = new Posture(body, { durations: model.postureDurations,
       shift: (clip, time) => model.postureShift(clip, time) })
     const attack = body.act.bind(body)
     let swing = false
-    Object.defineProperty(body, 'acts', { value: [...Object.keys(crouchedPoses), ...body.acts] })
+    Object.defineProperty(body, 'acts', { value: [...Object.keys(crouchedPoses), 'wounded', ...body.acts] })
     body.act = act => {
       if (act === 'attack') {
         body.crouched = false
         swing = true
+        return
+      }
+      if (act === 'wounded') {
+        body.crouched = false
+        if (model.wounded) body.health.reset()
+        else body.health.damage(body.health.current - body.health.maximum / 3)
         return
       }
       body.crouched = act !== 'crouch' || !body.crouched
@@ -359,24 +423,96 @@ const prisoners = prisonerModule.prisonerLooks.map(({ name, height }, index) => 
   },
 }))
 
+const chetnikPixelMaps = {
+  skin: 'cetnik-strelac-pixel-art/face.webp',
+  brown: 'cetnik-strelac-pixel-art/hair-beard.webp',
+  'brown.uniform': 'cetnik-strelac-pixel-art/blouse.webp',
+  'khaki.trousers': 'cetnik-strelac-pixel-art/trousers.webp',
+  lips: 'cetnik-strelac-pixel-art/lips.webp',
+}
+const chetnikPixelLook = pixelOutfitLook(chetnikPixelMaps, { useMapColors: true })
+const chetnikRifleman = {
+  ...character('cetnik-strelac-3d', 'Četnik strelac', 'Siege of Kraljevo', chetnikModule),
+  catalogGroup: ['Vojnici', 'Četnici'],
+  looks: [{ id: 'original', name: 'Osnovna' }, chetnikPixelLook],
+  async create(stage, way, look) {
+    await requestModels(chetnikModule.models, { parallelAnimations: true })
+    const { body, model } = makeCharacter(chetnikModule.description)
+    const parts = model.mesh.getObjectsByProperty('isSkinnedMesh', true)
+    const originals = parts.map(part => part.material)
+    let dressed
+    stage.setLook = candidate => {
+      if (candidate && !dressed) {
+        const textures = new Map()
+        candidate.dress(model.mesh, textures)
+        dressed = parts.map(part => part.material)
+        stage.session.scope.add(() => {
+          textures.forEach(texture => texture.dispose())
+          parts.forEach((part, i) => dressed[i].forEach((material, j) => {
+            if (material !== originals[i][j]) material.dispose()
+          }))
+        })
+      }
+      const materials = candidate ? dressed : originals
+      parts.forEach((part, i) => {
+        part.material = materials[i]
+      })
+    }
+    stage.setLook(look)
+    stage.add(body, model)
+    return body
+  },
+}
+
 export const ww2 = [
   germanHeavyInfantry,
   germanRifleman,
   character('nacisticki-agent-3d', 'Nacistički agent', library, naziAgentModule),
   character('nacisticki-oficir-3d', 'Nacistički oficir', '3D Tank, FPS Airport, FPS Base', naziOfficerModule),
-  infantryStory('partizan-3d', 'Borac sa Sutjeske', 'Liberated City, Spomenici', partisanModule),
-  infantryStory('partizan-jednostavan-model-3d', 'Savo', 'Liberated City', partisanLowpolyModule),
+  infantryStory('partizan-3d', 'Koča', 'Liberated City, Spomenici', partisanModule),
+  infantryStory('partizan-jednostavan-model-3d', 'Sava', 'Liberated City', partisanLowpolyModule),
   workerFighter,
   ...prisoners,
   ...resistanceIdentities,
   character('ss-vojnik-3d', 'SS vojnik', '3D Tank, FPS Airport, FPS Base', sSSoldierModule),
   infantryStory('vojnik-3d', 'Vojnik', library, soldierModule),
   infantryStory('sovjetski-partizan-3d', 'Nikoletina', 'Liberated City', sovietPartisanModule),
-  { ...character('cetnik-strelac-3d', 'Četnik strelac', 'Siege of Kraljevo', chetnikModule), catalogGroup: ['Vojnici', 'Četnici'] },
-  { ...character('cetnik-subara-3d', 'Četnik sa šubarom', 'Siege of Kraljevo', subaraModule), catalogGroup: ['Vojnici', 'Četnici'] },
+  chetnikRifleman,
+  {
+    ...character('cetnik-subara-3d', 'Četnik sa šubarom', 'Siege of Kraljevo', subaraModule),
+    catalogGroup: ['Vojnici', 'Četnici'],
+    looks: [
+      { id: 'original', name: 'Osnovna' },
+      { id: 'pixel-art', name: 'Pixel art', value: true },
+    ],
+    async create(stage, way, pixelArt) {
+      await requestModels(subaraModule.models, { parallelAnimations: true })
+      const { body, model } = makeCharacter({ ...subaraModule.description, dress: undefined })
+      stage.setLook = subaraModule.subaraLooks(model.mesh, stage.session.scope)
+      stage.setLook(pixelArt)
+      stage.add(body, model)
+      return body
+    },
+  },
 ].flat()
 
+function tankStory(id, name, game, module) {
+  const story = character(id, name, game, module)
+  return {
+    ...story, catalogGroup: ['Vozila'],
+    async create(stage) {
+      const body = await story.create(stage)
+      stage.controllers.push({
+        update() {
+          body.steer({ ahead: body.state === 'move' ? 1 : 0 })
+        },
+      })
+      return body
+    },
+  }
+}
+
 export const vehicles = [
-  { ...character('tenk-3d', 'Renault FT', 'FPS Airport', tankModule), catalogGroup: ['Vozila'] },
-  { ...character('hotchkiss-h35-3d', 'Hotchkiss H35', 'Siege of Kraljevo', hotchkissModule), catalogGroup: ['Vozila'] },
+  tankStory('tenk-3d', 'Renault FT', 'FPS Airport', tankModule),
+  tankStory('hotchkiss-h35-3d', 'Hotchkiss H35', 'Siege of Kraljevo', hotchkissModule),
 ]

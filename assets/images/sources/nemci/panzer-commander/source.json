@@ -1,0 +1,23 @@
+{
+  "generator": "OpenAI ImageGen",
+  "reference": "assets/images/game-ready/vojnici/advance-commander.webp, original idle frame 1",
+  "source": "redraw.png",
+  "preparation": "python -B assets/images/sources/nemci/panzer-commander/prepare.py",
+  "fallRevision": {
+    "source": "fall-over-hatch.png",
+    "sourceSha256": "62faec8e43c41d8598ccd997100244e2d4884fe9d5706cfa54d782aae2693027",
+    "mountedReference": "mounted-reference.png",
+    "mountedReferenceSha256": "f662c8adc8a17a53e0b9aef36088ba072a44b0f63ab892cd42d1e757d8e6bceb",
+    "prompt": "Use the first image as exact character and pixel style, and the second only to understand where the tank's hatch is. Draw exactly FIVE isolated animation frames on a single wide horizontal strip with a truly transparent background. Each frame is the same upper body of the original soldier from the references, at the same scale. Only the soldier: NO tank, NO hatch, NO antenna, no ground, no props, no blood, no text. Preserve original large pixel clusters, thick stepped dark lines, simple grey round helmet, flat peach skin, olive jacket with grey straps. The right-facing soldier starts falling bodily FORWARD and OVER the tank's outside edge, with his waist and hips caught at the lip of the hatch throughout. The whole upper body stays visible throughout.\n1. Upper body pitches forward slightly, head drooping, hands releasing. 2. Chest tilts forward about 45 degrees, head leads to the right, nearer arm slips over. 3. Torso is nearly horizontal lying over the lip, face tilted down, fingers relaxed and open, arm beginning to hang down. 4. Fully slumped over the OUTSIDE of the tank, waist at left, forearms and head drooping down freely on the right. 5. Final held pose: limp body lying across the outside edge, torso roughly horizontal from left to right, head bowed and face down, one arm dangling almost vertically BELOW the waist level, a relaxed open hand. Same posture as 4 with a small final drop of head and hand. The last 3 sprites must sit horizontally from waist to shoulders, and the hand in frames 4 and 5 must extend down with gravity. Keep the left waist at the same position in all 5 cells so the motion pivots around the lip. Keep equal-size cells and large transparent gaps, original physical size. 1990s flat chunky pixel-art sprite, no soft lines. Limit palette to the original. Face facing right or down as he tips.",
+    "cell": [
+      104,
+      128
+    ],
+    "anchor": [
+      34,
+      84
+    ],
+    "lastPose": "Held while the tank moves; the hands extend below the hatch lip."
+  },
+  "prompt": "Edit the provided reference pixel-art tank commander. Produce a wide horizontal animation strip with EXACTLY six isolated, equal-width and well-spaced bust sprites on a fully transparent background. Same World War II German tank commander from the reference, facing right in profile, same rounded charcoal helmet, plain desaturated olive cloth, gray shoulder straps, flat pale orange skin, thick dark broken outline, same very large square pixel size and unshaded pixel-art style, same bust proportions throughout. No tank, no hatch artwork, no background, no other objects, no text, no glow, no blood. Frame 1: sharp short recoil, helmet and head tip back to the left, shoulders rise, hands still just above the hatch. Frame 2: head tips lower, shoulders slump, arms loosen. Frame 3: head bows forward and upper body sinks slightly. Frame 4: body crouches and sinks farther into the hatch; torso partly cropped by the flat hatch line. Frame 5: lowest posture with helmet crown visible and shoulder nearly gone. Frame 6: only a thin sliver of the gray helmet crown peeks above the flat hatch line. Keep the line where the bust is cropped at one consistent baseline through all frames and render only above the line. Each pose the same physical scale, head size, and visual proportions whenever visible. Keep each sprite in its own equal-width column with very large transparent margins to allow slicing. Clean hard pixels with a single limited palette, as in the input. Output wide landscape transparent PNG."
+}

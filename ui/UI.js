@@ -27,6 +27,100 @@ const priceTag = available => {
   return `<span class="price" role="img" aria-label="costs 1 token"><img src="${assets.images}${image}" alt="" width="24" height="24"></span>`
 }
 
+/**
+ * Shows the token of a paid game on each button in `screen` that starts it (`data-paid`); several pictures to choose
+ * from, which are not buttons, share one token by the screen's title. With `left` none, they are disabled; an unknown
+ * pocket, `null`, leaves them working, as it is not empty. Returns whether the screen asks for a token.
+ */
+export function markPaid(screen, left) {
+  const paid = [...screen.querySelectorAll('[data-paid]')]
+  screen.querySelectorAll('.price').forEach(price => price.remove())
+  const pictures = paid.filter(element => !element.matches('button'))
+  const priced = pictures.length > 1
+    ? [...paid.filter(element => element.matches('button')), screen.querySelector('h2, h3') ?? pictures[0]]
+    : paid
+  for (const element of priced) element.insertAdjacentHTML('beforeend', priceTag(left !== 0))
+  for (const element of paid) {
+    element.classList.add('paid')
+    const control = element.matches('button, input') ? element : element.querySelector('button, input')
+    if (control) control.disabled = left === 0
+  }
+  return paid.length > 0
+}
+
+/** The window a game starts with: its one-sentence task and the Start button. */
+export const startScreen = ({ container, button }, { intro, startText }) => /* html */`
+  <div class="central-screen flex-column ${container}" id="start-screen">
+    <p>${intro}</p>
+    <button class="${button}" id="start" data-paid><span class="icon">${icons.start}</span> ${startText}</button>
+  </div>
+`
+
+/** The window Esc opens; playing again costs a token in a game that `costsToken`. */
+export const pauseScreen = ({ container, button }, { costsToken }) => /* html */`
+  <div class="central-screen flex-column ${container}">
+    <h3 class="olive">Game paused</h3>
+    ${mainMenuButton(button)}
+    <button class="${button}" id="settings"><span class="icon">${icons.settings}</span> Settings</button>
+    <button class="${button}" id="continue"><span class="icon">${icons.continue}</span> Continue</button>
+    <button class="${button}" id="igraj-opet" ${costsToken ? 'data-paid' : ''}><span class="icon replay-icon">${icons.replay}</span> Play again</button>
+  </div>
+`
+
+/** Shared by every game; more settings join the volume here. */
+export const settingsScreen = ({ container, button }) => /* html */`
+  <div class="central-screen flex-column ${container}">
+    <h3 class="olive"><span class="icon">${icons.settings}</span> Settings</h3>
+    ${mainMenuButton(button)}
+    <label for="volume">Volume</label>
+    <input type="range" id="volume" min="0" max="100" step="5" value="${Math.round(config.volume * 100)}">
+    <label for="ui-style">UI style</label>
+    <select id="ui-style">
+      ${Object.entries(styleChoices).map(([value, name]) => `<option value="${value}" ${value === uiStyleChoice() ? 'selected' : ''}>${name}</option>`).join('')}
+    </select>
+    <button class="${button}" id="settings-back"><span class="icon">${icons.back}</span> Back</button>
+  </div>
+`
+
+/** The heading and words of a lost game. */
+export const defeatOutcome = text =>
+  `<h3 class="red"><span class="icon">${icons.defeat}</span> Game over</h3>${text ? `<p>${text}</p>` : ''}`
+
+/** The heading and words of a won game. */
+export const victoryOutcome = (text, title = 'Pobeda!') =>
+  `<h3 class="olive"><span class="icon">${icons.victory}</span> ${title}</h3>${text ? `<p>${text}</p>` : ''}`
+
+/** The window a game ends with: its `outcome`, and playing again, for a token in a game that `costsToken`. */
+export const endScreen = ({ container, button }, { outcome, costsToken }) => /* html */`
+  <div class="central-screen flex-column ${container}">
+    ${outcome}
+    ${mainMenuButton(button)}
+    <button class="${button}" id="igraj-opet" ${costsToken ? 'data-paid' : ''}><span class="icon replay-icon">${icons.replay}</span> Play again</button>
+  </div>
+`
+
+/** A word over the game for a few seconds. */
+export const messageScreen = text => /* html */`
+  <div class="central-screen">
+    <h3>${text}</h3>
+  </div>
+`
+
+/** The score in a corner of the game, `placement`, with a second count under it in `smallClass`. */
+export const scoreBoard = ({ score }, { text = 'Score', points = 0, subtext, subpoints, smallClass = '', placement = 'top-left' } = {}) => /* html */`
+  <div class="${placement} ${score}">
+    <div>
+      ${text}: ${points}
+      ${subtext ? `<br><small class="${smallClass}">${subtext}: ${subpoints}</small>` : ''}
+    </div>
+  </div>
+`
+
+/** The button a touch screen has for Esc; its two bars are drawn by the page's style. */
+export const pauseButton = () => Object.assign(document.createElement('button'), {
+  className: 'pause-button', title: 'Pause', ariaLabel: 'Pause',
+})
+
 const draw = (element, ui, html) => {
   element.innerHTML = html
   drawnBy.set(element, ui)
@@ -68,9 +162,7 @@ export default class UI {
     this.messageElement.className = 'message'
     modalElement.after(this.messageElement)
     if (showPauseButton && onContinue) {
-      this.pauseButton = Object.assign(document.createElement('button'), {
-        className: 'pause-button', textContent: icons.pause, title: 'Pause',
-      })
+      this.pauseButton = pauseButton()
       this.pauseButton.addEventListener('click', () => this.scene.pause())
       this.messageElement.after(this.pauseButton)
     }
@@ -168,28 +260,12 @@ export default class UI {
     if (this.pauseButton) this.pauseButton.hidden = true
   }
 
-  /**
-   * Shows the token of a paid game on each button that starts it (`data-paid`); several pictures to choose from, which
-   * are not buttons, share one token by the screen's title. Disables them with none left and shows the pocket; called
-   * again when the pocket changes. An unknown pocket leaves them working, as it is not empty.
-   */
+  /** Marks the paid controls of the open screen and shows the pocket; called again when the pocket changes. */
   markPaid() {
     if (this.ended || drawnBy.get(modalElement) !== this) return
-    const paid = [...modalElement.querySelectorAll('[data-paid]')]
-    const left = paid.length ? admission.remaining() : null
+    const left = modalElement.querySelector('[data-paid]') ? admission.remaining() : null
     // the pocket shows how many tokens are left while a screen asks for one
-    document.body.classList.toggle('paid-screen', paid.length > 0)
-    modalElement.querySelectorAll('.price').forEach(price => price.remove())
-    const pictures = paid.filter(element => !element.matches('button'))
-    const priced = pictures.length > 1
-      ? [...paid.filter(element => element.matches('button')), modalElement.querySelector('h2, h3') ?? pictures[0]]
-      : paid
-    for (const element of priced) element.insertAdjacentHTML('beforeend', priceTag(left !== 0))
-    for (const element of paid) {
-      element.classList.add('paid')
-      const control = element.matches('button, input') ? element : element.querySelector('button, input')
-      if (control) control.disabled = left === 0
-    }
+    document.body.classList.toggle('paid-screen', markPaid(modalElement, left))
   }
 
   /** A word in the open start screen, such as why the game could not start. */
@@ -221,56 +297,19 @@ export default class UI {
   startScreen() {
     const classes = currentStyleClasses()
     if (this.customStartScreen) return this.customStartScreen(classes)
-
-    const { container, button } = classes
-    return /* html */`
-      <div class="central-screen flex-column ${container}" id="start-screen">
-        <p>${this.intro}</p>
-        <button class="${button}" id="start" data-paid><span class="icon">${icons.start}</span> ${this.startButtonText}</button>
-      </div>
-    `
+    return startScreen(classes, { intro: this.intro, startText: this.startButtonText })
   }
 
   escModal() {
-    const { container, button } = currentStyleClasses()
-    return /* html */`
-      <div class="central-screen flex-column ${container}">
-        <h3 class="olive">Game paused</h3>
-        ${mainMenuButton(button)}
-        <button class="${button}" id="settings"><span class="icon">${icons.settings}</span> Settings</button>
-        <button class="${button}" id="continue"><span class="icon">${icons.continue}</span> Continue</button>
-        <button class="${button}" id="igraj-opet" ${this.scene.costsToken ? 'data-paid' : ''}><span class="icon replay-icon">${icons.replay}</span> Play again</button>
-      </div>
-    `
+    return pauseScreen(currentStyleClasses(), { costsToken: this.scene.costsToken })
   }
 
-  /** Shared by every game; more settings join the volume here. */
   settingsScreen() {
-    const { container, button } = currentStyleClasses()
-    return /* html */`
-      <div class="central-screen flex-column ${container}">
-        <h3 class="olive"><span class="icon">${icons.settings}</span> Settings</h3>
-        ${mainMenuButton(button)}
-        <label for="volume">Volume</label>
-        <input type="range" id="volume" min="0" max="100" step="5" value="${Math.round(config.volume * 100)}">
-        <label for="ui-style">UI style</label>
-        <select id="ui-style">
-          ${Object.entries(styleChoices).map(([value, name]) => `<option value="${value}" ${value === uiStyleChoice() ? 'selected' : ''}>${name}</option>`).join('')}
-        </select>
-        <button class="${button}" id="settings-back"><span class="icon">${icons.back}</span> Back</button>
-      </div>
-    `
+    return settingsScreen(currentStyleClasses())
   }
 
   endScreen() {
-    const { container, button } = currentStyleClasses()
-    return /* html */`
-      <div class="central-screen flex-column ${container}">
-        ${this.outro}
-        ${mainMenuButton(button)}
-        <button class="${button}" id="igraj-opet" ${this.scene.costsToken ? 'data-paid' : ''}><span class="icon replay-icon">${icons.replay}</span> Play again</button>
-      </div>
-    `
+    return endScreen(currentStyleClasses(), { outcome: this.outro, costsToken: this.scene.costsToken })
   }
 
   renderStartScreen() {
@@ -291,30 +330,19 @@ export default class UI {
   showDefeatScreen(text) {
     if (this.ended) return
     this.defeatSound.play()
-    let html = `<h3 class="red"><span class="icon">${icons.defeat}</span> Game over</h3>`
-    if (text) html += `<p>${text}</p>`
-    this.outro = html
+    this.outro = defeatOutcome(text)
     this.showScreen('end', this.endScreen())
   }
 
   showVictoryScreen(text, title = 'Pobeda!') {
     if (this.ended) return
     this.victorySound.play()
-    let html = `<h3 class="olive"><span class="icon">${icons.victory}</span> ${title}</h3>`
-    if (text) html += `<p>${text}</p>`
-    this.outro = html
+    this.outro = victoryOutcome(text, title)
     this.showScreen('end', this.endScreen())
   }
 
-  scoreUI(text = 'Score', points = 0, subtext, subpoints, smallClass = '', placement = 'top-left') {
-    return /* html */`
-      <div class="${placement} ${currentStyleClasses().score}">
-        <div>
-          ${text}: ${points}
-          ${subtext ? `<br><small class="${smallClass}">${subtext}: ${subpoints}</small>` : ''}
-        </div>
-      </div>
-    `
+  scoreUI(text, points, subtext, subpoints, smallClass, placement) {
+    return scoreBoard(currentStyleClasses(), { text, points, subtext, subpoints, smallClass, placement })
   }
 
   showMessage(txt) {
@@ -322,11 +350,7 @@ export default class UI {
 
     this.message = txt
     clearTimeout(this.messageTimer)
-    this.messageElement.innerHTML = /* html */`
-      <div class="central-screen">
-        <h3>${txt}</h3>
-      </div>
-    `
+    this.messageElement.innerHTML = messageScreen(txt)
     this.messageTimer = setTimeout(() => {
       if (this.ended) return
       this.message = ''

@@ -1,6 +1,6 @@
 import canvas2d, { ctx } from '/core/io/canvas2d.js'
 import Scene2D from '/core/Scene2D.js'
-import { progresBar } from '/ui/components.js'
+import { healthBar } from '/ui/components.js'
 import { tankLeftControls } from '/ui/Controls.js'
 import { keyboard } from '/core/io/Keyboard.js'
 import { leftPlayerKeys } from '/core/io/keys.js'
@@ -339,7 +339,7 @@ export default class ToTriesteScene extends Scene2D {
     return /* html */`
       <main class="top-left">
         Score: ${this.score}
-        ${progresBar(this.player.health.current / this.player.health.maximum * 100)}
+        ${healthBar(this.player.health.current / this.player.health.maximum)}
       </main>
     `
   }

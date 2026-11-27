@@ -3,11 +3,11 @@ import { currentStyleClasses, onStyleChange } from '/ui/styles.js'
 
 /** The player's HUD and camera read gameplay state; they do not drive movement or own health. */
 export default class PlayerView {
-  constructor({ mesh, height, health, camera, showCameraButton, showHealthBar }) {
+  constructor({ mesh, height, health, camera, showHealthBar }) {
     this.health = health
     if (camera) {
       this.alignCamera = true
-      this.chaseCamera = new ChaseCamera({ camera, mesh, height, showCameraButton })
+      this.chaseCamera = new ChaseCamera({ camera, mesh, height })
     }
     if (showHealthBar) {
       this.healthBar = document.createElement('progress')
@@ -39,6 +39,5 @@ export default class PlayerView {
   end() {
     this.stopRestyling?.()
     this.healthBar?.remove()
-    this.chaseCamera?.end()
   }
 }

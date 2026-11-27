@@ -36,10 +36,6 @@
 
 /* DEFAULTS */
 
-body:not(.dev-mode) .dev-only {
-  display: none !important;
-}
-
 * {
   user-select: none;
   box-sizing: border-box;
@@ -219,6 +215,20 @@ button {
   overflow-y: auto;
 }
 
+/* a choice on a start screen, such as turns or real time, made before the button that starts */
+.mode-choice {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.mode-choice label {
+  cursor: pointer;
+}
+
 .simple-container, .white-container {
   display: inline-block; /* za UI book */
   padding: 12px;
@@ -316,13 +326,25 @@ button {
   width: 44px;
   height: 44px;
   padding: 0;
-  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: rgba(126, 126, 126, 0.25);
   border: 2px solid white;
   outline: 2px solid black;
   border-radius: 8px;
   -webkit-tap-highlight-color: transparent;
   z-index: var(--z-top);
+}
+
+/* the two bars of pause, drawn rather than a font's glyph, which no font centres in its box */
+.pause-button::before {
+  content: '';
+  width: 16px;
+  height: 20px;
+  box-sizing: border-box;
+  border-inline: 6px solid var(--white);
+  filter: drop-shadow(1px 0 0 var(--black)) drop-shadow(-1px 0 0 var(--black)) drop-shadow(0 1px 0 var(--black)) drop-shadow(0 -1px 0 var(--black));
 }
 
 .top-left,
@@ -360,7 +382,9 @@ button {
 
 /* PROGRESS */
 
+/* the health bar, on a line of its own */
 .progress {
+  display: block;
   width: 96%;
 }
 
@@ -489,6 +513,22 @@ progress[data-cannon-meter="power"] {
 @media (pointer: coarse) and (hover: none){
   .hide-on-mobile {
     display: none;
+  }
+
+  /* a game's own button in its HUD, as grenades in Otpisani, looks on a touch screen as the touch buttons do */
+  .hud-button {
+    min-width: 48px;
+    min-height: 48px;
+    padding: 0 12px;
+    background: rgba(126, 126, 126, 0.25);
+    border: 2px solid var(--white);
+    outline: 2px solid var(--black);
+    border-radius: 24px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .hud-button[aria-pressed="true"] {
+    background: rgba(0, 0, 0, 0.5);
   }
 }
 

@@ -60,7 +60,7 @@ const css = /* css */`
     justify-content: flex-end;
     max-width: calc(100vw - var(--edge) * 3 - ${btnSize} * 3 - 8px);
   }
-  /* a camera button or meter in the same corner goes above the touch buttons, however many rows they take */
+  /* what stands in the same corner, as the second player's controls, goes above the touch buttons, however many rows they take */
   .button-container ~ .bottom-right {
     bottom: calc(var(--edge) * 2 + var(--touch-buttons-height, ${btnSize}) + 8px);
   }

@@ -19,7 +19,9 @@ async function play(path) {
 
 before(async() => {
   createPageElements()
-  document.body.insertAdjacentHTML('beforeend', games.map(menuCard).join(''))
+  document.getElementById('ui').innerHTML = '<div class="homepage"><h1>Partisan Games</h1></div>'
+  document.body.insertAdjacentHTML('beforeend', games.map(menuCard).join('')
+    + '<div class="arcade-cabinet" data-path="trial" data-dev hidden><h3>Trial</h3><img></div>')
   SceneManager.instance = null
   const manager = new SceneManager(async path => {
     if (path === 'missing') throw new Error('404')
@@ -28,7 +30,8 @@ before(async() => {
   manager.spinner = { show() {}, hide() {} }
 
   location.hash = '#first'
-  ;({ arcade } = await import('/scenes/main.js'))
+  await import('/scenes/main.js')
+  ;({ arcade } = await import('/ui/homeArcade.js'))
   await settle()
 })
 
@@ -90,4 +93,29 @@ test('play again starts the same game anew without reloading the page', async() 
   assert.equal(location.hash, '#fifth')
   assert.equal(modal().innerHTML, '')
   reload.mock.restore()
+})
+
+test('a trial level whose cabinet shows only in development opens like a game on the menu', async() => {
+  const before = log.length
+  await play('trial')
+  assert.equal(log.length, before + 1)
+  assert.doesNotMatch(modal().textContent, /could not be loaded/)
+})
+
+test('the way back to the menu ends the game and shows the menu again without reloading the page', async() => {
+  await play('second')
+  const game = log.at(-1)
+  document.documentElement.classList.add('game-link')
+  document.getElementById('ui').innerHTML = '<div class="top-left">Score: 3</div>'
+  modal().innerHTML = '<div class="central-screen">Game paused</div>'
+  location.hash = ''
+  await settle()
+  assert.equal(game.ended, 1)
+  assert.equal(document.getElementById('ui').querySelector('.homepage h1').textContent, 'Partisan Games')
+  assert.equal(document.getElementById('ui').children.length, 1, 'the HUD is gone')
+  assert.equal(modal().innerHTML, '')
+  assert.ok(!document.documentElement.classList.contains('game-link'))
+  assert.ok(document.body.classList.contains('arcade-home'))
+  await play('third')
+  assert.equal(log.at(-1).started, 1, 'a game opens again from the menu')
 })

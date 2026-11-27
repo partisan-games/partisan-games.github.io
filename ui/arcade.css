@@ -26,20 +26,13 @@
   font-variant-numeric: tabular-nums;
 }
 .arcade-wallet small { font: 11px/1.4 Courier, monospace; color: #c1c2b8; text-shadow: none; }
+/* the drawn token at a whole share of its 96 px, so every pixel of it stays sharp */
 .arcade-coin {
-  display: inline-grid;
+  display: block;
   flex: 0 0 auto;
-  place-items: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  border: 3px ridge #e9c46b;
-  outline: 1px solid #6c4918;
-  color: #8b551a;
-  background: radial-gradient(circle at 30% 25%, #ffe7a2, #dca642 65%, #a06c23);
-  box-shadow: inset 0 0 0 3px #f3cf7d, 2px 3px 0 #6e4a22;
-  text-shadow: 0 1px #ffe4a2;
-  font: bold 23px/1 Georgia, serif;
+  width: 32px;
+  height: 32px;
+  image-rendering: pixelated;
 }
 .arcade-cabinet {
   overflow: hidden;
@@ -133,7 +126,7 @@
 @media (max-width: 500px) {
   .homepage { padding-top: 96px; }
   .arcade-wallet { right: 12px; top: 12px; gap: 10px; padding: 10px 12px; }
-  .arcade-wallet .arcade-coin { width: 30px; height: 30px; font-size: 18px; }
+  .arcade-wallet .arcade-coin { width: 24px; height: 24px; }
   .arcade-eyebrow { font-size: 7px; letter-spacing: 1px; }
   .arcade-balance { font-size: 17px; }
   .arcade-wallet small { font-size: 9px; }
@@ -153,9 +146,6 @@
   .paid-screen .arcade-wallet .arcade-coin {
     width: 24px;
     height: 24px;
-    border-width: 2px;
-    box-shadow: inset 0 0 0 2px #f3cf7d;
-    font-size: 14px;
   }
   .paid-screen .arcade-balance { font-size: 14px; line-height: 20px; }
   .paid-screen .arcade-wallet small,

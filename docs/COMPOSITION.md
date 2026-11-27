@@ -134,7 +134,7 @@ Samo menjanje maksimuma ne zahteva prosleđivanje celog `Health` objekta: dovolj
 
 ## Top: sudar od delova
 
-Top u Ustanku nije jedan pravougaonik: točak je krug, a cev i postolje su uski pravougaonici. Umesto podklase „precizan top” on dobija saradnika `collider`, koji zna samo oblike i tela sa kojima se delovi crtaju:
+Poljski top nije jedan pravougaonik: točak je krug, a cev i postolje su uski pravougaonici. Umesto podklase „precizan top” on dobija saradnika `collider`, koji zna samo oblike i tela sa kojima se delovi crtaju:
 
 ```js
 this.collider = new Collider([

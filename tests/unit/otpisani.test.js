@@ -22,6 +22,8 @@ function createScene(t, chance) {
 }
 
 const target = () => document.createElement('div')
+/** Every grenade in flight lands now. */
+const land = scene => [...scene.thrown].forEach(grenade => grenade.update(1))
 /** A click at the screen point of the world point `x`, `y`. */
 const shoot = (scene, x, y) => scene.handleClick({ target: target(), pageX: x - scene.cameraX, pageY: y })
 
@@ -162,6 +164,8 @@ test('the Panzer crosses the street, blocks bullets and stops after two bombs hi
     target: target(), button: 2, pageX: tank.x - scene.cameraX, pageY: y, preventDefault() {},
   })
   throwBomb()
+  assert.equal(tank.armor, 2, 'the grenade is still in the air')
+  land(scene)
   assert.equal(tank.armor, 1)
   assert.equal(scene.grenades, 2)
   const grenadeButton = document.createElement('button')
@@ -169,6 +173,7 @@ test('the Panzer crosses the street, blocks bullets and stops after two bombs hi
   scene.handleClick({ target: grenadeButton })
   assert.equal(scene.grenadeArmed, true)
   shoot(scene, tank.x, y)
+  land(scene)
   assert.equal(tank.destroyed, true)
   assert.equal(scene.grenadeArmed, false)
   assert.equal(scene.grenades, 1)
@@ -179,6 +184,31 @@ test('the Panzer crosses the street, blocks bullets and stops after two bombs hi
   scene.startStage(1)
   assert.ok(!scene.children.includes(tank))
   assert.equal(scene.grenades, 3)
+})
+
+test('a bullet in the commander looking out of the Panzer fells him as one German, and the tank drives on', async t => {
+  const { default: art } = await import('/core/actor/advanceArt.js')
+  const { advanceHeight } = await import('/core/actor/AdvanceSprite.js')
+  const scene = createScene(t, .9)
+  scene.update(9, 0)
+  const { tank } = scene
+  const { crewAnchor, anchor, standingPixels } = art.tank
+  const hull = tank.pixelsPerMeter * advanceHeight.tank / standingPixels
+  const head = tank.pixelsPerMeter * advanceHeight.commander / art.commander.standingPixels * 40
+  const x = tank.x + tank.direction * (crewAnchor.x - anchor.x) * hull
+  const y = tank.feet + (crewAnchor.y - anchor.y) * hull - head
+  const { poeni, fallen } = scene
+  shoot(scene, x, y)
+  assert.equal(scene.fallen, fallen + 1)
+  assert.equal(scene.poeni, poeni + 1)
+  assert.equal(tank.armor, 2)
+  assert.equal(tank.crewPose.crewName, 'hit')
+  shoot(scene, x, y)
+  assert.equal(scene.fallen, fallen + 1, 'he falls once')
+  const start = tank.x
+  tank.update(1)
+  assert.ok(tank.x > start, 'the tank drives on')
+  assert.equal(tank.crewPose.crewName, 'dead')
 })
 
 test('shooting a supply crate opens it once and replenishes ammunition and grenades', t => {
@@ -217,7 +247,7 @@ test('an empty weapon reloads after a delay so the last crate cannot end the sta
   assert.equal(scene.ammunition, 24)
 })
 
-test('a grenade fells the Germans round where it bursts, behind cover too, but not those farther off', t => {
+test('a grenade flies in an arc from the bottom of the screen, then fells the Germans round where it lands, behind cover too, but not those farther off', async t => {
   const scene = createScene(t, .1)
   const sandbags = streets[0].spots.find(spot => spot.opening && spot.opening.top === undefined && spot.to - spot.from > 150)
   scene.cameraX = sandbags.from * scene.scale - 100
@@ -230,6 +260,15 @@ test('a grenade fells the Germans round where it bursts, behind cover too, but n
     && Math.abs((shown.view ?? shown).x - view.x) > 3 * metre)
   scene.handleAuxClick({ button: 2, target: target(), preventDefault() {},
     pageX: view.x + metre - scene.cameraX, pageY: near.view.opening.bottom + 5 })
+  assert.equal(near.body.alive, true, 'the grenade flies before it bursts')
+  const [grenade] = scene.thrown
+  const { flight } = await import('/scenes/otpisani/ThrownGrenade.js')
+  grenade.update(flight.duration / 2)
+  const middle = grenade.at(.5), straight = (grenade.from.y + grenade.to.y) / 2
+  assert.ok(middle.y < straight, 'it flies in an arc above the straight way')
+  assert.equal(near.body.alive, true)
+  grenade.update(flight.duration / 2)
+  assert.equal(scene.thrown.size, 0)
   assert.equal(near.body.dead, true, 'a metre off, below the top of his cover')
   if (far) assert.equal(far.body.alive, true)
   assert.equal(scene.grenades, 2)
@@ -251,6 +290,7 @@ test('on Terazije an armoured car and by Kalemegdan a half-track cross instead, 
     shoot(scene, car.x, y)
     assert.equal(car.destroyed, false, 'a bullet glances off')
     scene.handleAuxClick({ target: target(), button: 2, pageX: car.x - scene.cameraX, pageY: y, preventDefault() {} })
+    land(scene)
     assert.equal(car.destroyed, true, 'one grenade wrecks it')
     const stopped = car.x
     car.update(1)
@@ -285,4 +325,58 @@ test('a crossing vehicle fires at the player only while in sight, costs him at m
   const left = scene.energija
   for (let i = 0; i < 50; i++) tank.update(.1)
   assert.equal(scene.energija, left, 'a wreck fires no more')
+})
+
+test('every kind of German is drawn as tall as a man 1.8 m standing where he is, in a doorway or a window alike', t => {
+  const scene = createScene(t, .9)
+  const standingHeight = 180
+  for (const spot of scene.stage.spots) {
+    const man = spot.man * scene.scale
+    for (const kind of ['rifleman', 'sentry', 'submachineGunner', 'nemac']) {
+      const { view } = scene.occupierAt(spot, spot.from, kind)
+      const drawn = kind === 'nemac' ? standingHeight * view.scale : view.height
+      assert.ok(Math.abs(drawn - man) < .5, `${kind} is ${drawn} px where a man is ${man} px`)
+    }
+  }
+})
+
+test('the music starts with the first thing the player does, a right-click grenade or the grenade button too', t => {
+  for (const act of [
+    scene => scene.handleAuxClick({ target: target(), button: 2, pageX: 100, pageY: 100, preventDefault() {} }),
+    scene => {
+      const button = document.createElement('button')
+      button.setAttribute('data-grenade', '')
+      scene.handleClick({ target: button })
+    },
+  ]) {
+    const scene = createScene(t, .9)
+    assert.equal(scene.audio.desired, false)
+    act(scene)
+    assert.equal(scene.audio.desired, true)
+  }
+})
+
+test('once a street a Red Army T-34 crosses the other way, fells up to three Germans in sight for the player, and goes', async t => {
+  const { default: ReliefTank } = await import('/scenes/otpisani/ReliefTank.js')
+  const scene = createScene(t, .9)
+  scene.update(23.9, 0)
+  assert.equal(scene.relief, null, 'not before its time')
+  // it waits for the German vehicle to leave the street
+  scene.tank && scene.remove(scene.tank)
+  scene.tank = null
+  scene.update(.2, 0)
+  const { relief: tank } = scene
+  assert.ok(tank instanceof ReliefTank)
+  assert.equal(tank.direction, -scene.germanDirection, 'the other way from the Germans')
+  const { poeni: points, fallen } = scene
+  for (let step = 0; step < 300 && scene.relief; step++) {
+    if (scene.occupiers.filter(({ body }) => body.alive).length < 4) scene.dodajNeprijatelja()
+    scene.update(.1, 0)
+  }
+  assert.equal(scene.fallen - fallen, 3, 'three Germans fell to its shells')
+  assert.equal(tank.shells, 0)
+  assert.equal(scene.poeni, points, 'its kills are not the player\'s score')
+  assert.equal(scene.relief, null, 'it has passed')
+  scene.update(100, 0)
+  assert.equal(scene.relief, null, 'only once a street')
 })

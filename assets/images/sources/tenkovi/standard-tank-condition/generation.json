@@ -1,0 +1,21 @@
+{
+  "tool": "OpenAI ImageGen",
+  "source": "damage-decals.png",
+  "prompt": "Create a wide transparent PNG sheet of exactly six isolated video game pixel-art decals, arranged in a regular 3-column by 2-row grid with very generous clear gaps. These will overlay the armor of 2D and low-poly 3D WWII tanks. Each is fully detached from any vehicle or background. Large intentional hard pixel clusters, like a 1990s tactical game, grayscale with only slightly warm rust and soot. Row one: (1) small black irregular gouge with jagged chipped silvery steel lip and a short soot trail, (2) a caved-in triangular impact with bent light steel corners and a rim of soot, (3) two narrow scrapes and a chipped weld dark flecks with no backing plate. Row two: (1) a much larger irregular scorched black torn gap with layered jagged cold gray metal rim, (2) elongated burnt-out torn seam panel with ash-dark center and a broken kink across the middle, (3) a cluster of darkened orange-brown burnt metal pores with small black chips. Transparent ALL around the shapes, no rectangular background, no intact armor panels, no tanks, no flames, no bodies, no outlines around the grid, no text. Hard stepped silhouette and short dark edging, sized for readable game sprites.",
+  "prepare": "python -B assets/images/sources/tenkovi/standard-tank-condition/prepare.py",
+  "layout": [
+    "armor impacts and scratches",
+    "torn seams and burned steel"
+  ],
+  "targets": [
+    "Partizanski tenk",
+    "Tigar I",
+    "Somua S35",
+    "M15/42",
+    "StuG III",
+    "Hotchkiss 2D",
+    "Renault FT",
+    "Hotchkiss H35 3D"
+  ],
+  "artUsage": "2D tank coordinates are registered against the live atlases. The two 3D masks are projected across existing armor surfaces without changing source meshes."
+}

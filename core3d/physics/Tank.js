@@ -1,7 +1,9 @@
+import { Vector3 } from 'three'
 import { mapRange } from '/core3d/helpers.js'
 import { loadedModel } from '/core3d/assets/models.js'
 import Vehicle from '/core3d/physics/Vehicle.js'
 import { models as hotchkissModels } from '/core3d/actor/derived/Hotchkiss.js'
+import { hotchkissTrackMotion } from '/core3d/actor/derived/HotchkissTracks.js'
 import { Smoke } from '/core3d/Particles.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import { audioPoint } from '/core/io/audio/audio3d.js'
@@ -19,7 +21,13 @@ const smokeParam = { size: .5, num: 25, maxRadius: .22, color: 0xffffff, opacity
 
 export default class Tank extends Vehicle {
   constructor(param = {}) {
-    super({ mesh: loadedModel(model), wheelFront, wheelBack, maxSpeed: 40, maxEngineForce: 1000, ...param })
+    super({ mesh: loadedModel(model).clone(), wheelFront, wheelBack, maxSpeed: 40, maxEngineForce: 1000, ...param })
+    const forward = new Vector3()
+    this.tracks = hotchkissTrackMotion(this.mesh, () => {
+      const { position: { x, z }, quaternion } = this.mesh
+      forward.set(0, 0, 1).applyQuaternion(quaternion)
+      return { x, z, yaw: Math.atan2(-forward.z, forward.x) }
+    })
     this.zvuk = new Sound('engine-6000.mp3', { volume: .2, loop: true, profile: 'engine', spatial: audioPoint(this) })
     this.sounds.push(this.zvuk)
     this.smokeLeft = this.createSmoke()
@@ -40,7 +48,13 @@ export default class Tank extends Vehicle {
 
   end() {
     super.end()
+    this.tracks?.dispose()
     this.zvuk.stop() // the engine must not go on in the next game
+  }
+
+  updateMeshes() {
+    super.updateMeshes()
+    this.tracks?.update()
   }
 
   update(delta, t) {

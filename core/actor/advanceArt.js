@@ -40,13 +40,16 @@ export default {
   tank: {
     gutter: 4,
     src: 'game-ready/tenkovi/advance-tank.webp', width: 542, height: 282, anchor: { x: 200, y: 282 }, standingPixels: 182, crewAnchor: { x: 206, y: 120 },
+    conditionSrc: 'game-ready/tenkovi/panzer-iii-damage.webp',
     clips: {
       idle: { row: 0, ms: [1000], loop: true },
       drive: { row: 1, ms: [95, 95, 95, 95, 95, 95], loop: true },
+      fire: { row: 0, ms: [240], muzzles: [[201, -133]] },
     },
   },
   t34: {
     src: 'game-ready/tenkovi/t34-85-sprites.webp', width: 672, height: 240, gutter: 4,
+    conditionSrc: 'game-ready/tenkovi/t34-85-damage.webp',
     anchor: { x: 265, y: 232 }, standingPixels: 216,
     clips: {
       idle: { row: 0, ms: [1000], loop: true },
@@ -55,9 +58,11 @@ export default {
     },
   },
   commander: {
-    src: 'game-ready/vojnici/advance-commander.webp', width: 104, height: 92, anchor: { x: 34, y: 84 }, standingPixels: 76,
+    src: 'game-ready/vojnici/advance-commander.webp', width: 104, height: 128, gutter: 4, anchor: { x: 34, y: 84 }, standingPixels: 76,
     clips: {
       idle: { row: 0, ms: [300, 135, 135, 245, 135, 135], loop: true },
+      hit: { row: 1, ms: [65, 85] },
+      dead: { row: 2, ms: [75, 90, 100, 120, 100] },
     },
   },
 }

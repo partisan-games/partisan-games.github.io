@@ -19,7 +19,7 @@ const tank = (stage, way, { id, kind, art, barrel, facing = 1, rearAim = true })
   const block = new Tank({ kind, rearAim, performance: modelPerformance[id], yaw: yawOf(way), x: stage.width / 2 / stage.projection.pxPerMeter, clock: stage.session.clock,
     targets: [stage.dummy] })
   playerControls(stage, () => new TankKeys(block, { keyboard, keys: leftPlayerKeys }))
-  stage.add(block, new TankSprite(block, { art, facing, barrel, projection: stage.projection }))
+  stage.add(block, new TankSprite(block, { art, facing, barrel, projection: stage.projection, camera: stage }))
   return block
 }
 

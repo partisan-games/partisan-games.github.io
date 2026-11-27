@@ -1,9 +1,11 @@
 """Register the painted sheets to the existing partisan.fbx UVs and export lossless maps."""
 
+from argparse import ArgumentParser
 from pathlib import Path
 
 import numpy as np
 from PIL import Image, ImageDraw
+from scipy.ndimage import distance_transform_edt
 from scipy.spatial import Delaunay
 
 
@@ -161,5 +163,47 @@ def main():
     save(eye.resize((64, 64), Image.Resampling.NEAREST), 'eyes')
 
 
+def prepare_koca_portrait():
+    # Start from the accepted map so the hands, jaw seam and ears keep their original colors.
+    with Image.open(TARGET / 'face.webp') as image:
+        skin = image.convert('RGB')
+    with Image.open(SOURCE / 'koca-portrait-trial.png') as image:
+        portrait = image.convert('RGB')
+    # The generated portrait paints ears beside the face that already has ear UVs.
+    # Below the hairline, take only the central face and leave both temples intact.
+    head = mask_of(skin.width, [[(0, 0), (1000, 0), (1000, 205), (638, 205),
+                                 (619, 230), (617, 333), (631, 374), (604, 450), (507, 467),
+                                 (413, 453), (373, 374), (385, 333), (383, 230), (362, 205),
+                                 (0, 205)]])
+    # Feather inward from the mask so the skin tone flows into both cheeks and the jaw.
+    weight = np.clip(distance_transform_edt(head) / 9, 0, 1)
+    mask = Image.fromarray(np.rint(weight * 255).astype(np.uint8))
+    skin.paste(registered(portrait, PORTRAIT, skin.width), mask=mask)
+
+    # The eye mesh supplies the iris and white. Paint the surrounding lid without
+    # the second iris embedded in the frontal art, preserving the brow above it.
+    pixels = np.array(skin)
+    y, x = np.mgrid[:skin.height, :skin.width]
+    eyelid = np.array([(102, 57, 39), (113, 64, 45), (142, 81, 57), (167, 95, 66)])
+    for center in (87, 107):
+        blend = np.clip(2.4 - (x - center) ** 2 / 18 - (y - 45.6) ** 2 / 1.65, 0, 1)
+        shade = eyelid[(y - 44).clip(0, len(eyelid) - 1)]
+        pixels = np.rint(pixels * (1 - blend[..., None]) + shade * blend[..., None]).astype(np.uint8)
+    save(Image.fromarray(pixels), 'face-koca-1943')
+
+    # A common center for both mapped apertures, measured on the model in front view.
+    with Image.open(TARGET / 'eyes.webp') as image:
+        eye = np.asarray(image.convert('RGB'))
+    y, x = np.mgrid[:eye.shape[0], :eye.shape[1]]
+    centered = eye[(y + 2).clip(0, eye.shape[0] - 1), (x - 4).clip(0, eye.shape[1] - 1)]
+    save(Image.fromarray(centered), 'eyes-koca-1943')
+
+
 if __name__ == '__main__':
-    main()
+    parser = ArgumentParser()
+    parser.add_argument('--koca-portrait', action='store_true')
+    args = parser.parse_args()
+    if args.koca_portrait:
+        prepare_koca_portrait()
+    else:
+        main()

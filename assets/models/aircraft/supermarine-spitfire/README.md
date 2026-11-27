@@ -4,4 +4,4 @@
 
 Pustinjska kamuflaža odgovara Spitfireima Balkanskog vazduhoplovstva RAF-a, u kom je letela 352. (jugoslovenska) eskadrila. Elisa je odvojena (`Object001`) i ima animaciju okretanja. Od sedam preuzetih Spitfirea ovaj je najlakši i najbolje odgovara; dva se nisu ni učitala.
 
-Ugrađeni metapodaci navode autora [Kapi777](https://sketchfab.com/Kapi777) i [izvornu stranicu](https://sketchfab.com/3d-models/aircraftspitfiremotion-846b96b7a2084c5789145ad18ad0f8b6). U [katalogu](../../../../catalog.html#letelice-3d/lovac-spitfire-3d) leti kao lovac, sa istim stanjima kao Bf 109; nijedna igra ga ne koristi.
+Ugrađeni metapodaci navode autora [Kapi777](https://sketchfab.com/Kapi777) i [izvornu stranicu](https://sketchfab.com/3d-models/aircraftspitfiremotion-846b96b7a2084c5789145ad18ad0f8b6). U [katalogu](../../../../pages/catalog.html#letelice-3d/lovac-spitfire-3d) leti kao lovac, sa istim stanjima kao Bf 109; nijedna igra ga ne koristi.

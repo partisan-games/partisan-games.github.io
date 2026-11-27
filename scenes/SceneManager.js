@@ -39,6 +39,13 @@ class SceneManager {
     this.scene = null
   }
 
+  /** Ends the game and abandons one still loading, as on the way back to the menu. */
+  leave() {
+    this.startId++
+    this.spinner?.hide()
+    this.endScene()
+  }
+
   /**
    * Only the latest call wins; older pending starts are abandoned. `prepaid` starts a scene that continues a game already paid
    * for, such as its next mission.

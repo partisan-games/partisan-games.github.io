@@ -164,34 +164,7 @@ def stone_house(collapsed=False):
     export(f"building/ruins/{name}.glb")
 
 
-def truck():
-    rust = material("Oxidised steel", (.22, .13, .09), "metal/rust.jpg")
-    black = material("Burnt rubber", (.055, .047, .039))
-    chassis = material("Sooted steel", (.14, .11, .08))
-    frame = bpy.data.objects.new("Tilted wreck", None)
-    bpy.context.collection.objects.link(frame)
-    frame.rotation_euler.x = radians(62)
-    frame.rotation_euler.y = radians(-8)
-    for side in [-1, 1]:
-        box("Frame rail", (0, side * .39, .65), (5.3, .17, .2), chassis).parent = frame
-        for x in [-1.74, 1.48]:
-            bpy.ops.mesh.primitive_cylinder_add(vertices=12, radius=.48, depth=.24,
-                                               rotation=(radians(90), 0, 0), location=(x, side * .88, .5))
-            wheel = bpy.context.object
-            wheel.name = "Charred wheel"
-            wheel.data.materials.append(black if x < 0 else chassis)
-            wheel.parent = frame
-    box("Collapsed bonnet", (1.95, 0, 1.11), (1.6, 1.48, .52), rust).parent = frame
-    box("Deformed cab back", (.32, .03, 1.45), (.21, 1.65, 1.35), rust).parent = frame
-    for side in [-1, 1]:
-        beam("Empty windscreen frame", (1.45, side * .76, 1.13), (.98, side * .72, 2.1), .11, chassis).parent = frame
-    beam("Roof edge", (.98, -.72, 2.1), (.98, .72, 2.1), .11, rust).parent = frame
-    for i in range(5):
-        box("Split load bed", (-1.07 - i * .33, .02 + i * .025, .88), (.28, 1.8 - .09 * i, .10), rust).parent = frame
-    export("vehicle/truck/drvar-wreck/drvar-wreck.glb")
-
-
 if __name__ == "__main__":
-    for build in [stone_house, lambda: stone_house(collapsed=True), truck]:
+    for build in [stone_house, lambda: stone_house(collapsed=True)]:
         clear()
         build()

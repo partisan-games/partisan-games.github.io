@@ -22,18 +22,15 @@ npm run verify
 
 The separate checks and how the tests work: [docs/TESTING.md](docs/TESTING.md).
 
-To try the game blocks one by one (soldiers, vehicles, aircraft, their states and shots), open the catalogue, `/catalog.html`, on the same server; see [docs/KATALOG.md](docs/KATALOG.md).
+To try the game blocks one by one (soldiers, vehicles, aircraft, their states and shots), open the catalogue, `/pages/catalog.html`, on the same server; see [docs/KATALOG.md](docs/KATALOG.md).
 
-To see every background picture in the project, open `/pozadine.html` on the `npm start` server; it reads the folder each time, so new pictures appear without editing the page.
+To see every background picture in the project, open `/pages/pozadine.html` on the `npm start` server; it reads the folder each time, so new pictures appear without editing the page.
 
 ## TODO
 See [PLAN](docs/PLAN.md).
 
 - razrađivati postojeće nivoe redom
-- coins na naslovnoj: previše prođe dok se ne pojave. ispitaj tok i predloži popravke
-- dugme pauza: ikonica nije centrirana
-- UI stranica: dodati sve UI elemente koji se koriste u igri, prozore, dugmiće, ikonice, sve
-- crveni krst: cev i udarac jednom rukom su izbačeni iz igre, izbaci iz plana
+- preispitati toon renderer u 3d scenama (crveni krst, ratweek i druge)
 
 ## Credits
 

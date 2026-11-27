@@ -142,6 +142,18 @@ Drvar, Užice i Bihać nisu deo Tenkića; izvori ostaju za eventualnu drugu prim
 - **Granice rekonstrukcije:** u pregledanim izvorima nije potvrđeno minsko polje ispred bolnice, niti vrsta i raspored mina. Postojeće mine su arkadna prepreka, ne istorijski podatak. Tačna geometrija prilaza, boja fasade 1941. i raspored pojedinačnih biljaka ostaju nepoznati; prostorna kompresija kadra i ambijentalna paleta moraju biti označene kao umetnička interpretacija.
 - **Krupanj:** oslobođen je pre sredine septembra 1941; posle toga Tito dolazi u obližnje Stolice, gde je 26. septembra savetovanje glavnih štabova ([Stolice conference](https://en.wikipedia.org/wiki/Stolice_conference), [znaci.org](https://www.znaci.org/00001/53_9.pdf)).
 
+## Kraljevo, oktobar 1941 — polazište za izgled Opsade Kraljeva
+
+**Potvrđeno u izvorima:**
+- **Položaj grada:** Kraljevo leži na ušću Ibra u Zapadnu Moravu, između Kotlenika na severu i Stolova na jugu ([Kraljevo](https://en.wikipedia.org/wiki/Kraljevo)). Centar je na levoj obali Ibra ([Novosti](https://www.novosti.rs/srbija/vesti/1042139/laksi-pristup-reci-uredjenje-leve-obale-ibra-centru-kraljeva-foto)).
+- **Pravci napada:** glavni napadi išli su „duž komunikacije Čačak - Kraljevo i Raška - Kraljevo“, a završni, u noći 31. oktobra, „istim pravcem kao i prethodni“. Ustanički tenkovi su sa bombaškim grupama „prodrli duboko u grad“ ([sh.wikipedia](https://sh.wikipedia.org/wiki/Opsada_Kraljeva)), odnosno „do centra grada“, pa su se vratili, jer pešadija nije išla za njima ([znaci.org](https://znaci.org/odrednica.php?slug=opsada-kraljeva-1941)).
+- **Mesta u borbama:**
+  - Poljoprivredna škola na severozapadnim nemačkim položajima ustanici su zauzeli 15. oktobra, a stigli su i do zgrade suda i crkve u centru ([Siege of Kraljevo](https://en.wikipedia.org/wiki/Siege_of_Kraljevo)).
+  - Ustanička artiljerija bila je na Ružića brdu i u Sirči i gađala je zapadni i centralni deo grada.
+  - Pominju se i nemački aerodrom, železnička stanica, Fabrika vagona (u njenom krugu su vršena streljanja), ispad Nemaca „dolinom Ibra“ i most između stanice i Vrbe ([znaci.org](https://znaci.org/odrednica.php?slug=opsada-kraljeva-1941)).
+
+**Nije utvrđeno:** tačan položaj škole, aerodroma, Fabrike vagona, stanice i mostova prema centru i rekama, put tenkova kroz grad i izgled grada 1941. Za to slede izveštaji 717. divizije na znaci.org (`dokument.php?br=295`, `dokument.php?br=32483`).
+
 ## Crna Gora, jul 1941 — polazište za igru Ustanak
 
 - **Početak i protivnik:** ustanak protiv italijanske okupacije počinje 13. jula 1941, dan posle skupštine na Cetinju koja je 12. jula pod italijanskim pokroviteljstvom proglasila „nezavisnu“ Crnu Goru ([Uprising in Montenegro (1941)](https://en.wikipedia.org/wiki/Uprising_in_Montenegro_(1941))). Brzo se diže oko 32.000 naoružanih ljudi.

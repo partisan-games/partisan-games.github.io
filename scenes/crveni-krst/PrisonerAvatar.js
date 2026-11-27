@@ -1,17 +1,15 @@
-import { AnimationMixer, LoopOnce, Quaternion, Vector3 } from 'three'
+import { AnimationMixer, LoopOnce, Vector3 } from 'three'
 import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js'
 import { loadedModel } from '/core3d/assets/models.js'
 import TwoHandedGrip from '/core3d/actor/characters/TwoHandedGrip.js'
 import { Flame } from '/core3d/Particles.js'
 import { model as worker } from '/core3d/actor/derived/ww2/Worker.js'
-import { mountMetalPipe, pipeSwingName, smoothPipeSwing } from '/core3d/actor/derived/ww2/WorkerPipe.js'
 
 const heldFrame = .32
 const crouchClip = 'Crouched Walking'
 const postureBlend = .16
 
 const motions = {
-  pipe: { idle: 'Shooting', walk: 'Pistol Walk', attack: pipeSwingName },
   rifle: { idle: 'Rifle Aiming Idle', walk: 'Rifle Walk', attack: 'Firing Rifle' },
   pistol: { idle: 'Shooting', walk: 'Pistol Walk', attack: 'Shooting' },
   heavy: { idle: 'Rifle Aiming Idle', walk: 'Rifle Walk', attack: 'Crouch Rapid Fire' },
@@ -19,21 +17,16 @@ const motions = {
 const animDict = {
   ...Object.fromEntries(Object.entries(motions).flatMap(([pose, clips]) =>
     Object.entries(clips).map(([state, name]) => [pose + state, name]))),
-  pipeRest: 'Warrior Idle',
   sneakIdle: crouchClip,
   sneakWalk: crouchClip,
 }
 export const prisonerModel = { ...worker, animDict }
 
-const leftArmTrack = /^mixamorigLeft(?:Shoulder|Arm|ForeArm|Hand)/
 const armTrack = /^mixamorig(?:Left|Right)(?:Shoulder|Arm|ForeArm|Hand)/
 
 function inPlace(clip, state) {
   const animation = clip.clone()
-  // Keep the left arm in the worker's relaxed pose while the right hand holds the pipe.
-  if (state === 'pipeRest') animation.tracks = animation.tracks.filter(track => leftArmTrack.test(track.name))
-  else if (state.startsWith('pipe')) animation.tracks = animation.tracks.filter(track => !leftArmTrack.test(track.name))
-  else if (state.startsWith('sneak')) animation.tracks = animation.tracks.filter(track => !armTrack.test(track.name))
+  if (state.startsWith('sneak')) animation.tracks = animation.tracks.filter(track => !armTrack.test(track.name))
   const root = animation.tracks.find(track => track.name === 'mixamorigHips.position')
   if (!root) return animation
 
@@ -57,27 +50,17 @@ export default class PrisonerAvatar {
     this.head = this.model.getObjectByName('mixamorigHead')
     this.hand = this.model.getObjectByName('mixamorigRightHand')
     this.headPosition = new Vector3()
-    this.pipeArm = this.model.getObjectByName('mixamorigRightArm')
-    this.pipeArmPose = new Quaternion()
-    this.armAxis = new Vector3()
-    this.armTurn = new Quaternion()
-    this.pipeTuck = 0
     this.mixer = new AnimationMixer(this.model)
     const { animations } = source.userData
     const clips = new Map(animations.map(clip => [clip.name, clip]))
-    const rest = clips.get(motions.pipe.idle)
-    // The full combo winds up behind the camera. Blend it toward the held pose in first person.
-    clips.set(pipeSwingName, smoothPipeSwing(animations, { restName: rest.name, restTime: rest.duration * heldFrame, strength: .18 }))
     this.clips = new Map(Object.entries(animDict).map(([state, name]) =>
       [state, this.mixer.clipAction(inPlace(clips.get(name), state))]))
     this.crouchHolds = new Map(Object.entries(motions).map(([pose, { idle }]) => {
       const hold = clips.get(idle).clone()
-      hold.tracks = hold.tracks.filter(({ name }) => armTrack.test(name) && (pose !== 'pipe' || !leftArmTrack.test(name)))
+      hold.tracks = hold.tracks.filter(({ name }) => armTrack.test(name))
       return [pose, this.mixer.clipAction(hold)]
     }))
     this.attachments = new Map()
-    this.current = { grip: mountMetalPipe(this.model, { tipLength: .32 }), pose: 'pipe' }
-    this.update(0)
   }
 
   equip(model, { pose, fire }) {
@@ -105,7 +88,7 @@ export default class PrisonerAvatar {
       attachment.grip.name = model.file
       this.attachments.set(model.file, attachment)
     }
-    this.current.grip.visible = false
+    if (this.current) this.current.grip.visible = false
     this.current = attachment
     this.current.grip.visible = true
     this.update(0)
@@ -117,7 +100,6 @@ export default class PrisonerAvatar {
     if (!body.alive) return
 
     const { swing } = body
-    const holdingPipe = current.pose === 'pipe'
     const motion = swing ? 'attack' : body.moving ? 'walk' : 'idle'
     const crouching = body.crouched && !swing
     const creeping = crouching && Math.hypot(body.vx, body.vz) > .04
@@ -126,7 +108,7 @@ export default class PrisonerAvatar {
       const previous = this.action
       action.reset()
       if (swing) action.setLoop(LoopOnce, 1).setEffectiveTimeScale(action.getClip().duration / swing.length)
-      if ((crouching && !creeping) || (!crouching && (holdingPipe || current.pose === 'pistol') && motion === 'idle')) {
+      if ((crouching && !creeping) || (!crouching && current.pose === 'pistol' && motion === 'idle')) {
         action.time = action.getClip().duration * heldFrame
         action.paused = true
       }
@@ -148,28 +130,7 @@ export default class PrisonerAvatar {
       }
       this.holdAction = hold
     }
-    const arm = holdingPipe ? this.clips.get('pipeRest') : null
-    if (arm !== this.armAction) {
-      this.armAction?.stop()
-      if (arm) {
-        arm.reset()
-        arm.time = arm.getClip().duration * heldFrame
-        arm.paused = true
-        arm.play()
-      }
-      this.armAction = arm
-    }
-    if (this.pipeTuck > 0) this.pipeArm.quaternion.copy(this.pipeArmPose)
     this.mixer.update(dt)
-    // Bring the pipe in toward the body as the lower stance brings the shoulder closer to the camera.
-    const tuck = crouching && holdingPipe ? 1 : 0
-    this.pipeTuck += Math.sign(tuck - this.pipeTuck) * Math.min(Math.abs(tuck - this.pipeTuck), dt / postureBlend)
-    if (this.pipeTuck > 0) {
-      this.pipeArmPose.copy(this.pipeArm.quaternion)
-      this.pipeArm.parent.getWorldQuaternion(this.armTurn).invert()
-      this.armAxis.set(0, 1, 0).applyQuaternion(this.armTurn)
-      this.pipeArm.quaternion.premultiply(this.armTurn.setFromAxisAngle(this.armAxis, .38 * this.pipeTuck))
-    }
     this.model.updateMatrixWorld(true)
     current.support?.fitHands()
     if (current.flame) {

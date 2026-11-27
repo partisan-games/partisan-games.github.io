@@ -1,22 +1,21 @@
 import SceneManager from './SceneManager.js'
-import Arcade from '/ui/Arcade.js'
+import { arcade } from '/ui/homeArcade.js'
 import { mainMenuButton } from '/ui/UI.js'
 import { admission } from '/core/io/admission.js'
 import audioEngine from '/core/io/audio/AudioEngine.js'
-import { isDev } from '/config.js'
-
-document.body.classList.toggle('dev-mode', isDev)
 
 const manager = new SceneManager()
 const elementUI = document.getElementById('ui')
 const modalElement = document.getElementById('modal')
-export const arcade = new Arcade()
-
-// the development pages are linked only on the local server
-if (arcade.isLocal) document.querySelector('.dev-links')?.removeAttribute('hidden')
+// the menu sits where a game draws its HUD; it is kept, to come back to without reloading the page
+const homepage = elementUI.querySelector('.homepage')
 
 let navigation = 0
 let openingCabinet = false
+
+/** The games whose address is not the name of their folder. */
+const addresses = { cannon: 'jablanica' }
+const gameAt = address => Object.keys(addresses).find(path => addresses[path] === address) ?? address
 
 const showError = title => {
   modalElement.innerHTML = /* html */`
@@ -56,11 +55,24 @@ admission.remaining = () => arcade.storageAvailable ? arcade.coins.read().remain
 // the paid buttons of the open game follow the pocket
 arcade.onChange = () => manager.scene?.ui.markPaid()
 
+/** Back to the menu: the game ends, its HUD and windows go, and the cabinets and the pocket show again. */
+const showMenu = () => {
+  manager.leave()
+  if (document.pointerLockElement) document.exitPointerLock()
+  delete document.body.dataset.loadedGame
+  modalElement.innerHTML = ''
+  elementUI.replaceChildren(homepage)
+  // a game opened by its link hid the menu from the start
+  document.documentElement.classList.remove('game-link')
+  arcade.refresh()
+  scrollTo(0, 0)
+}
+
 /** Opens the game in the address. */
 const route = async() => {
   const currentNavigation = ++navigation
-  const path = location.hash.slice(1).replace(/^jablanica$/, 'cannon')
-  if (!path) return location.reload()
+  const path = gameAt(location.hash.slice(1))
+  if (!path) return showMenu()
 
   delete document.body.dataset.loadedGame
   arcade.refresh()
@@ -95,7 +107,7 @@ document.addEventListener('click', async e => {
     const currentNavigation = navigation
     try {
       await arcade.insertCoin(card.dataset.path)
-      if (currentNavigation === navigation && !location.hash) location.hash = card.dataset.path === 'cannon' ? 'jablanica' : card.dataset.path
+      if (currentNavigation === navigation && !location.hash) location.hash = addresses[card.dataset.path] ?? card.dataset.path
     } finally {
       openingCabinet = false
     }

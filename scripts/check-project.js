@@ -1,10 +1,11 @@
-// Checks what the browser would only report at runtime: broken imports, missing assets and menu entries without a scene.
+// Checks what the browser would only report at runtime: broken imports, missing assets, menu entries without a scene
+// and pages that reach a bare import, as `three`, without the import map that names it.
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
 import { dirname, join, relative, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const sourceDirs = ['core', 'core3d', 'scenes', 'ui']
+const sourceDirs = ['core', 'core3d', 'scenes', 'ui', 'pages']
 const assetExtensions = 'png|jpe?g|gif|webp|svg|fbx|glb|gltf|obj|mtl|dae|md2|mp3|ogg|wav|m4a|bvh|ttf|otf|woff2?'
 
 const problems = []
@@ -71,6 +72,34 @@ indexHtml.split('\n').forEach((text, i) => {
 scenes
   .filter(scene => !menuPaths.has(scene))
   .forEach(scene => report(join(root, 'scenes', scene, 'Main.js'), 1, 'scene missing from the menu in index.html'))
+
+/** The bare specifiers, as `three`, that a module reaches through its imports. */
+const bareImports = new Map()
+function reachedBare(file, seen = new Set()) {
+  if (bareImports.has(file)) return bareImports.get(file)
+  if (seen.has(file) || !existsSync(file)) return new Set()
+  seen.add(file)
+  const found = new Set()
+  for (const [, specifier] of readFileSync(file, 'utf8').matchAll(importPattern))
+    if (!/^[./]/.test(specifier)) found.add(specifier.split('/')[0])
+    else for (const name of reachedBare(resolveImport(specifier, file), seen)) found.add(name)
+
+  bareImports.set(file, found)
+  return found
+}
+
+const htmlPages = ['index.html', ...readdirSync(join(root, 'pages')).filter(name => name.endsWith('.html')).map(name => `pages/${name}`)]
+for (const page of htmlPages) {
+  const html = readFileSync(join(root, page), 'utf8')
+  const map = html.match(/<script type="importmap">([\s\S]*?)<\/script>/)
+  const names = map ? Object.keys(JSON.parse(map[1]).imports).map(name => name.replace(/\/$/, '')) : []
+  const modules = [
+    ...[...html.matchAll(/<script[^>]*type="module"[^>]*src="([^"]+)"/g)].map(([, src]) => join(root, src)),
+    ...[...html.matchAll(importPattern)].map(([, specifier]) => resolveImport(specifier, join(root, page))),
+  ].filter(Boolean)
+  const missing = new Set(modules.flatMap(module => [...reachedBare(module)]).filter(name => !names.includes(name)))
+  for (const name of missing) report(join(root, page), 1, `imports "${name}" without an import map for it`)
+}
 
 if (problems.length) {
   console.error(problems.join('\n'))

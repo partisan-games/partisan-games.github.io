@@ -207,11 +207,11 @@ export default class DrvarScene extends Scene3D {
     const outdoorTrunks = trees.filter(tree => !tree.inside).map(({ footprint }) => footprint)
     const traces = placeWarTraces([yardBlock, riverBanks, westApproach, ...craterPlots, ...occupied, ...outdoorTrunks], undefined, groundAt)
     this.addMesh(...trees.map(({ mesh }) => mesh), ...traces.meshes)
-    this.addBombSmoke(traces.footprints)
-    this.footprints = [...occupied, ...traces.footprints, ...outdoorTrunks]
+    this.addBombSmoke(traces.fires)
+    this.footprints = [...occupied, ...outdoorTrunks]
     const churchFootprint = { min: churchBox.min, max: churchBox.max, height: churchBox.max.y }
     // Use wall surfaces for the yard and ruined houses so shots follow visible gaps and changes in height.
-    this.shotBlocks = [...town.footprints, ...traces.footprints, ...outdoorTrunks, ...yardTrunks, churchFootprint].map(blockOf)
+    this.shotBlocks = [...town.footprints, ...outdoorTrunks, ...yardTrunks, churchFootprint].map(blockOf)
     this.surfaceBlocks = [...ruins.map(({ mesh, footprint }) => ({ mesh, box: blockOf(footprint) })),
       ...walls.map(mesh => {
         const { min, max } = new THREE.Box3().setFromObject(mesh, true)
@@ -418,13 +418,13 @@ export default class DrvarScene extends Scene3D {
       this.session.gameplay.after(pass.at, () => this.sendVee(wave, pass))
   }
 
-  addBombSmoke(wrecks) {
-    for (const [i, { min, max, base }] of wrecks.slice(0, 3).entries()) {
+  addBombSmoke(fires) {
+    for (const [i, { x, z, base }] of fires.entries()) {
       const opacity = .26 + i * .025
       const plume = new Smoke({ num: 22, size: 3.1 + i * .4, color: 0x554c44, opacity, minRadius: .3, maxRadius: 1.25,
         minVelocity: .7, maxVelocity: 1.35, min: -11, max: 0 })
       const { mesh } = plume
-      mesh.position.set((min.x + max.x) / 2, base + .65, (min.z + max.z) / 2)
+      mesh.position.set(x, base + .65, z)
       mesh.rotation.z = .23
       mesh.frustumCulled = false
       this.add({ mesh, update: (dt, t) => {

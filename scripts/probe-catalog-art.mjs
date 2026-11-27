@@ -9,7 +9,7 @@ const filter = process.argv[2] ?? ''
 const output = process.argv[3] || 'test-results/katalog-animacije.json'
 
 async function readCatalog(page) {
-  await page.goto(base + '/catalog.html')
+  await page.goto(base + '/pages/catalog.html')
   return page.evaluate(async() => {
     const { default: kinds } = await import('/catalog/stories/index.js')
     return kinds.flatMap(kind => kind.stories.flatMap(story => (story.looks ?? [null]).map(look => ({
@@ -67,7 +67,7 @@ try {
       if (r.status() >= 400) errors.add(r.status() + ' ' + new URL(r.url()).pathname)
     })
     try {
-      await page.goto(base + '/catalog.html#' + entry.path)
+      await page.goto(base + '/pages/catalog.html#' + entry.path)
       await page.waitForFunction(() => window.inspectStory?.() || document.querySelector('[data-unavailable]'), null, { timeout: 30000 })
       const unavailable = page.locator('[data-unavailable]')
       if (await unavailable.count()) {

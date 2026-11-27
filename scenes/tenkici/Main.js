@@ -1,7 +1,7 @@
 import { canvas2d } from '/core/io/canvas2d.js'
 import Scene2D from '/core/Scene2D.js'
 import BattleBackground, { battlefields } from './BattleBackground.js'
-import { progresBar } from '/ui/components.js'
+import { healthBar } from '/ui/components.js'
 import { mainMenuButton } from '/ui/UI.js'
 import { currentStyleClasses } from '/ui/styles.js'
 import Controls, { tankLeftControls, tankRightControls } from '/ui/Controls.js'
@@ -16,6 +16,7 @@ import { modelPerformance } from '/core/gameplay/modelPerformance.js'
 import { keyboard } from '/core/io/Keyboard.js'
 import { leftPlayerKeys, rightPlayerKeys } from '/core/io/keys.js'
 import { randomInRange } from '/core/utils.js'
+import customStartScreen from './startScreen.js'
 
 const groundLevel = canvas2d.height * 0.8
 /** The battlefield is this many metres wide, whatever the screen, so the tanks keep their size to it. */
@@ -31,18 +32,6 @@ let nextBattlefield = 0
 
 /** The history before the match; the report names where it begins, so only later rounds announce their place. */
 const report = 'Syrmian Front, October 1944\n\nThe Germans dig in on the plain west of Belgrade. Your task is to destroy the enemy.'
-
-const customStartScreen = ({ container }) => /* html */`
-  <div class="central-screen flex-column ${container}" id="start-screen">
-    <h2>Choose mode</h2>
-    <button class="bg-olive" id="jedan-igrac" data-paid>
-      1 player
-    </button>
-    <button class="bg-olive" id="dva-igraca" data-paid>
-      2 players
-    </button>
-  </div>
-`
 
 export default class TenkiciScene extends Scene2D {
   constructor() {
@@ -185,12 +174,12 @@ export default class TenkiciScene extends Scene2D {
     return /* html*/`
       <div class='top-left'>
         Partisan tank
-        ${progresBar(this.tenk.health.current / this.tenk.health.maximum * 100)}
+        ${healthBar(this.tenk.health.current / this.tenk.health.maximum)}
       </div>
 
       <div class='top-right'>
         German tank
-        ${progresBar(this.tenk2.health.current / this.tenk2.health.maximum * 100)}
+        ${healthBar(this.tenk2.health.current / this.tenk2.health.maximum)}
       </div>
 
       <div aria-label="Round score" style="position: absolute; top: var(--spacing); left: 50%; transform: translateX(-50%)">

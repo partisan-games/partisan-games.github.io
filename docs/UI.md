@@ -12,11 +12,11 @@ Važeća pravila prikaza i veze do implementacije. Otvoreni poslovi su u [PLAN-u
 
 ## Razvojne igre na naslovnoj
 
-`dev-only` kartice prate `isDev` u [konfiguraciji](../config.js). Vidljivost razvojne kartice i lokalni uslov za razvojne žetone ili alate nisu ista odluka.
+Razvojne stranice su veze, a probni nivoi kartice sa `data-dev`; i jedne i druge su vidljive samo na lokalnom serveru ([homeArcade](../ui/homeArcade.js)), a ruter probni nivo otvara kao svaku igru i preko adrese.
 
 ## Brzina naslovne
 
-Sve što se dodaje na naslovnu mora biti optimizovano (odluka vlasnika, 2026-11-23): slika kartice je webp širine do 600 px sa upisanim `width` i `height` i `loading="lazy"`, a sadržaj ne sme da pomeri raspored kad stigne font ili kad se pokrene skripta. Link na igru (`#igra`) sakriva naslovnu pre nego što se njene slike preuzmu. Naslovna nema 3D scenu ni dekoraciju koja usporava učitavanje.
+Sve što se dodaje na naslovnu mora biti optimizovano (odluka vlasnika, 2026-11-23): slika kartice je webp širine do 600 px sa upisanim `width` i `height` i `loading="lazy"`, a sadržaj ne sme da pomeri raspored kad stigne font ili kad se pokrene skripta. Link na igru (`#igra`) sakriva naslovnu pre nego što se njene slike preuzmu. Naslovna nema 3D scenu ni dekoraciju koja usporava učitavanje. Novčanik i kartice prikazuju nacrtan žeton, isti kao naplativa dugmad; vrti se samo onaj u novčaniku, dok ima žetona i kretanje nije smanjeno, a na karticama stoji (vlasnik, 2026-11-27). Ono što naslovna prikazuje odmah, kao novčanik sa žetonima, ne čeka skript igara: učitava se kao zaseban mali modul ([homeArcade](../ui/homeArcade.js)) pre [rutera](../scenes/main.js).
 
 ### Vraćanje animacije The Germans Advance na naslovnu
 
@@ -66,7 +66,7 @@ Jedna radnja je jedan red sa kratkim imenom i javnim tasterima; rukovanje držan
 <a id="skrivene-precice-za-bocno-kretanje"></a>
 **Bočno kretanje:** javno se navode Q/E; PageUp/PageDown ostaju skrivene alternative. Skrivene tastere ne otkrivati kroz Controls ili nagoveštaje; njihovo izostavljanje nije propust.
 
-Igre su namenjene desktop računaru; provera na telefonu trenutno nije potrebna (odluka vlasnika, 2026-11-23). Touch nije potpuna zamena tastature. Radnja neophodna za upotrebljivost određene igre dobija odgovarajuće dugme kada je ta igra zatraži, uz odobren raspored i simbol. Ne dodavati mobilno dugme pauze: gubitak vidljivosti pauzira, a browserovo vraćanje vodi u meni. Dugme kamere ostaje iznad akcijskih redova; kontrole i centralni prozori ne smeju izlaziti van uskog ekrana.
+Igre su namenjene desktop računaru; provera na telefonu trenutno nije potrebna (odluka vlasnika, 2026-11-23). Touch nije potpuna zamena tastature. Radnja neophodna za upotrebljivost određene igre dobija odgovarajuće dugme kada je ta igra zatraži, uz odobren raspored i simbol. Na dodirnom ekranu igra koja se može pauzirati ima dugme pauze gore na sredini, jer ekran nema Esc, a igrač mora moći da pauzira (vlasnik, 2026-11-27). Ono što stoji u donjem desnom uglu ostaje iznad akcijskih redova; kontrole i centralni prozori ne smeju izlaziti van uskog ekrana.
 
 ## Životni ciklus, fokus i odloženi poslovi
 
@@ -88,7 +88,7 @@ Odobrene poruke su „Allow this site to save data to use arcade tokens.” za b
 
 Naplativo dugme desno od natpisa pokazuje samo zlatan žeton sa zvezdom, bez broja cene. Raspoložive žetone pokazuje džep. Aktivna oznaka se kreće, disabled miruje; smanjeno kretanje daje mirnu sliku i na aktivnom dugmetu. Nedostatak žetona daje native disabled stanje, bez dodatne poruke ili prozora, a dostupnost se obnavlja po promeni džepa.
 
-Odobrenje animacije u prozoru ne menja kartice naslovne: naplative kartice zadržavaju prethodni CSS žeton, dok scene i animacije imaju TRY. Resurse i izbor mirne/pokretne varijante održavaju [icons](../core/io/icons.js) i UI; pregled je na [ui.html](../ui.html).
+Odobrenje animacije u prozoru ne menja kartice naslovne: naplative kartice zadržavaju prethodni CSS žeton, dok scene i animacije imaju TRY. Resurse i izbor mirne/pokretne varijante održavaju [icons](../core/io/icons.js) i UI; pregled je na [pages/ui.html](../pages/ui.html).
 
 ### Pouke za usklađivanje prikaza
 

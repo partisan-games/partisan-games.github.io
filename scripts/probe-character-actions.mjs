@@ -7,7 +7,7 @@ const browser = await chromium.launch()
 try {
   const page = await browser.newPage()
   await page.routeWebSocket('**', () => {})
-  await page.goto(base + '/catalog.html#vozila/nemacki-tenk')
+  await page.goto(base + '/pages/catalog.html#vozila/nemacki-tenk')
   await page.waitForSelector('#catalog-panel h2')
   const rows = await page.evaluate(async() => {
     const { requestModels } = await import('/core3d/assets/models.js')

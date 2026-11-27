@@ -2,7 +2,7 @@ import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
 import Turns from '/scenes/ustanak/Turns.js'
-import { fieldGun } from '/core/gameplay/bodies/artillery/FieldGun.js'
+import { mortar } from '/core/gameplay/bodies/artillery/Mortar.js'
 import { crater } from '/scenes/ustanak/Terrain.js'
 import { loadAtlas } from './helpers/atlas.js'
 
@@ -14,15 +14,24 @@ before(async() => {
   Scene = (await import('/scenes/ustanak/Main.js')).default
 })
 
-/** A running Ustanak scene, or one of `SceneClass`, which the test plays step by step. */
-function createScene(t, SceneClass = Scene) {
-  const scene = new SceneClass()
+/**
+ * A running Ustanak scene, which the test plays step by step, with the choices of its start screen made: the `tempo`
+ * and the players' `mode`.
+ */
+function createScene(t, { tempo = 'turns', mode = 'jedan-igrac' } = {}) {
+  const scene = new Scene()
   scene.init()
   scene.clear = () => {}
   t.after(() => {
     keyboard.reset()
     scene.end()
   })
+  const screen = document.createElement('div')
+  screen.id = 'start-screen'
+  screen.innerHTML = `<input type="radio" name="tempo" value="${tempo}" checked>`
+  document.body.append(screen)
+  scene.prepare(mode)
+  screen.remove()
   scene.session.start()
   return scene
 }
@@ -108,28 +117,28 @@ test('the scene routes shared keys only to the active human gun', t => {
   const [own, enemy] = scene.guns
   keyboard.pressed.Space = true
   scene.handleInput(.5)
-  assert.equal(own.force, fieldGun.minForce + fieldGun.chargeRate * .5)
-  assert.equal(enemy.force, fieldGun.minForce)
+  assert.equal(own.force, mortar.minForce + mortar.chargeRate * .5)
+  assert.equal(enemy.force, mortar.minForce)
   keyboard.pressed.Space = false
   scene.handleInput(.01)
   scene.update(0, 0)
   assert.equal(scene.turns.phase, 'flight')
   keyboard.pressed.Space = true
   scene.handleInput(.5)
-  assert.equal(enemy.force, fieldGun.minForce)
+  assert.equal(enemy.force, mortar.minForce)
   own.shells.projectiles.forEach(shell => shell.setState('idle'))
   scene.update(.01, .01)
   assert.equal(scene.turns.active, 1)
   assert.equal(scene.ui.message, 'Player 2\'s turn')
   scene.session.update(1.2)
   scene.handleInput(.5)
-  assert.equal(enemy.force, fieldGun.minForce, 'held fire does not transfer to the next player')
+  assert.equal(enemy.force, mortar.minForce, 'held fire does not transfer to the next player')
   keyboard.pressed.Space = false
   scene.handleInput(.01)
   keyboard.pressed.Space = true
   scene.handleInput(.5)
-  assert.equal(enemy.force, fieldGun.minForce + fieldGun.chargeRate * .5)
-  assert.equal(own.force, fieldGun.minForce)
+  assert.equal(enemy.force, mortar.minForce + mortar.chargeRate * .5)
+  assert.equal(own.force, mortar.minForce)
 })
 
 test('a player can charge and fire while the opening instructions remain visible', t => {
@@ -298,11 +307,12 @@ for (const windEnabled of [false, true])
       scene.terrain.enabled = terrainEnabled
       scene.wind.strength = .3
 
-      const ball = scene.guns[0].shells.fire({ x: 12.5, y: .25, z: 0 }, 0, -Math.PI / 2, 2.5)
+      // left of the hill, on level ground
+      const ball = scene.guns[0].shells.fire({ x: 8, y: .25, z: 0 }, 0, -Math.PI / 2, 2.5)
       ball.update(.1)
       ball.strike(ball.firstHit([]))
       assert.equal(ball.state, 'burst', 'the shot really reached the ground')
-      assert.equal(scene.terrain.heightAt(500) > scene.terrain.floorY, terrainEnabled)
+      assert.equal(scene.terrain.heightAt(320) > scene.terrain.floorY, terrainEnabled)
       // landing stops the ball; its swept path keeps the drift before it
       const drift = ball.path.end.x - ball.path.start.x
       if (windEnabled) assert.ok(drift > 0)
@@ -312,29 +322,22 @@ for (const windEnabled of [false, true])
       scene.nextRound()
       assert.equal(scene.wind.enabled, windEnabled)
       assert.equal(scene.terrain.enabled, terrainEnabled)
-      assert.equal(scene.terrain.heightAt(500), scene.terrain.floorY)
+      assert.equal(scene.terrain.heightAt(320), scene.terrain.floorY)
       assert.deepEqual(scene.score, [1, 0])
       assert.equal(scene.round, 2)
     })
 
-test('the uprising duels with field guns, and its trial beside it with mortars, each with its own crew drawn', async t => {
-  const { default: FieldGun } = await import('/core/gameplay/bodies/artillery/FieldGun.js')
+test('the uprising duels with mortars, each with its own crew drawn', async t => {
   const { default: Mortar } = await import('/core/gameplay/bodies/artillery/Mortar.js')
-  const { default: CannonCrewSprite } = await import('/core/actor/soldiers/CannonCrewSprite.js')
   const { default: MortarCrewSprite } = await import('/core/actor/soldiers/MortarCrewSprite.js')
-  const { default: MortarScene } = await import('/scenes/ustanak-minobacaci/Main.js')
-  const cannons = createScene(t)
-  assert.ok(cannons.guns.every(gun => gun instanceof FieldGun))
-  assert.ok(cannons.roundObjects.some(view => view instanceof CannonCrewSprite))
-  const scene = createScene(t, MortarScene)
+  const scene = createScene(t)
   assert.ok(scene.guns.every(gun => gun instanceof Mortar))
   assert.ok(scene.roundObjects.some(view => view instanceof MortarCrewSprite))
   assert.ok(scene.guns[0].targets.includes(scene.guns[1]) && scene.guns[1].targets.includes(scene.guns[0]))
 })
 
-test('the mortar trial tells the player to destroy the enemy mortar and reports hitting it', async t => {
-  const { default: MortarScene } = await import('/scenes/ustanak-minobacaci/Main.js')
-  const scene = createScene(t, MortarScene)
+test('the duel tells the player to destroy the enemy mortar and reports hitting it', t => {
+  const scene = createScene(t)
   scene.start()
   assert.match(scene.ui.messageElement.textContent, /Destroy the enemy mortar\. Hold Space to charge, release to fire\./)
   scene.shotTargetHealth = 100
@@ -344,14 +347,62 @@ test('the mortar trial tells the player to destroy the enemy mortar and reports 
   assert.match(scene.ui.messageElement.textContent, /You hit the enemy mortar!/)
 })
 
-test('a hill rises between the mortars of the trial, while the guns duel over level ground', async t => {
-  const { default: MortarScene } = await import('/scenes/ustanak-minobacaci/Main.js')
-  const cannons = createScene(t)
-  const scene = createScene(t, MortarScene)
+test('a hill rises between the mortars, which stand on level ground', async t => {
+  const scene = createScene(t)
   const { default: canvas2d } = await import('/core/io/canvas2d.js')
   // the field is drawn at 40 px a metre
   const middle = canvas2d.width / 2 / 40
-  assert.equal(cannons.groundAt(middle), 0)
   assert.ok(Math.abs(scene.groundAt(middle) - 2.5) < .1, 'a hill about 2.5 m high')
   assert.equal(scene.groundAt(scene.guns[0].x), 0, 'the mortars stand on level ground')
+})
+
+test('a bomb that meets an airplane bursts on it in the air and fells it, digging no crater', t => {
+  const scene = createScene(t)
+  const [plane] = scene.airplanes
+  Object.assign(plane, { x: 400, y: 120, width: 120, height: 40, visible: true, alive: true, dx: 0 })
+  const target = scene.projection.toWorld(plane)
+  const ground = scene.groundAt(target.x)
+  const [gun] = scene.guns
+  gun.shells.fire({ x: target.x, y: target.y - 2, z: gun.z }, 0, Math.PI / 2, 20)
+  const [shell] = gun.shells.projectiles
+  for (let step = 0; step < 20 && shell.active; step++) gun.shells.update(.02, gun.targets)
+  assert.equal(plane.alive, false, 'the airplane is felled')
+  assert.ok(shell.y > ground + 3, 'the bomb burst in the air')
+  assert.equal(scene.groundAt(target.x), ground, 'no crater under it')
+})
+
+test('in real time two players fire at once, the second with the arrows and Enter, each again once its shot is over', t => {
+  const scene = createScene(t, { tempo: 'real-time', mode: 'dva-igraca' })
+  assert.equal(scene.realTime, true)
+  const [own, enemy] = scene.guns
+  keyboard.pressed.Space = keyboard.pressed.Enter = true
+  scene.handleInput(.5)
+  keyboard.pressed.Space = keyboard.pressed.Enter = false
+  scene.handleInput(.01)
+  assert.equal(own.hasActiveShot && enemy.hasActiveShot, true, 'both shots fly at once')
+  keyboard.pressed.Space = true
+  scene.handleInput(.5)
+  keyboard.pressed.Space = false
+  scene.handleInput(.01)
+  assert.equal(own.shotsFired, 1, 'no second shot while the first flies')
+  own.shells.projectiles.forEach(shell => shell.setState('idle'))
+  keyboard.pressed.Space = true
+  scene.handleInput(.5)
+  keyboard.pressed.Space = false
+  scene.handleInput(.01)
+  assert.equal(own.shotsFired, 2)
+})
+
+test('in real time the computer fires without waiting for the player, and again after its shot has fallen', t => {
+  const scene = createScene(t)
+  scene.realTime = true
+  const enemy = scene.guns[1]
+  scene.session.update(1.3)
+  scene.update(0, 0)
+  assert.equal(enemy.shotsFired, 1)
+  enemy.shells.projectiles.forEach(shell => shell.setState('idle'))
+  scene.update(0, 0)
+  scene.session.update(1.3)
+  scene.update(0, 0)
+  assert.equal(enemy.shotsFired, 2)
 })

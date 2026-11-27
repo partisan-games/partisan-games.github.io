@@ -52,7 +52,7 @@ try {
     await page.goto(`http://localhost:${port}${address}`)
     await page.waitForLoadState('networkidle')
   } else if (story) {
-    await page.goto(`http://localhost:${port}/catalog.html#${address.slice('catalog/'.length)}`)
+    await page.goto(`http://localhost:${port}/pages/catalog.html#${address.slice('catalog/'.length)}`)
     await page.waitForSelector('#catalog-panel h2', { timeout: 60_000 })
     await page.waitForTimeout(800)
   } else {

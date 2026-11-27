@@ -1,0 +1,23 @@
+{
+  "tool": "OpenAI ImageGen",
+  "model": "assets/models/character/soldier/cetnik.fbx",
+  "modelReference": "model-reference.png",
+  "styleReference": "assets/images/sources/partizani/savo-pixel-art/portrait.png",
+  "source": "portrait.png",
+  "prompt": "Paint a new FRONT ORTHOGRAPHIC albedo color study for the exact fictional historic game mesh in the FIRST reference. The first image is the technical position guide: keep exact framing, aspect ratio, center, face and ear outline, forehead, eyes, nostrils, lips, chin, the existing full beard area and the same coat and hat silhouette. Do not turn the head. Second image is a reference ONLY for discrete retro pixel clusters, not its identity, symbols, outfit, or cap. The first character wears the unchanged dark brown charcoal historical side cap with its small existing round light badge, the same plain muted brown-khaki military wool blouse and darker brown inner collar in the first image. All clothing colors and badge exactly as in first picture and no new symbols. Give the man a DISTINCT older face (roughly 44–50 years), ash brown hair with scattered gray at the temples, visibly salt-and-pepper full beard, thick but tidy gray-brown moustache, slightly heavy brows and subtle creases at the outer corners of the eyes, a calm weary expression, natural slightly tan skin instead of orange makeup. Eyes should be a muted gray-blue looking straight ahead. Keep the first reference’s eye centers, eyelids and mouth positions with pixel-level accuracy because this will be projected onto the EXISTING THREE-DIMENSIONAL model. Do not move or duplicate ears, eyes or mouth. Render the face and beard with large cohesive clusters of crisp square pixels, several matte color ramps, controlled beard streaks rather than every strand, dark side curls confined to the present hair outline. Softly tonal rather than shiny, no noise or camouflage, low contrast monochromatic folds only on clothing. Flat even light exactly like albedo, simple medium-grey background. No new shape, no busy background, no prop, no signature.",
+  "uvExtraction": "blender -b --python assets/images/sources/partizani/savo-pixel-art/extract-uv.py -- <triangles.json> assets/models/character/soldier/cetnik.fbx",
+  "prepare": "python -B assets/images/sources/cetnici/cetnik-strelac-3d-pixel-art/prepare.py <triangles.json>",
+  "output": "assets/models/character/soldier/cetnik-strelac-pixel-art",
+  "trianglesInThree": 6206,
+  "meshCount": 2,
+  "drawGroupsBeforeBatching": 1678,
+  "drawGroupsAfterBatching": 10,
+  "sourceSha256": "474189c2a7d46dd71910f0a80dd378d866ec0b27c80d87b81a57ff78c73325bb",
+  "maps": {
+    "blouse.webp": "c2fe0658c539a96f9b8af6f1fb1da59a7c4cf193621b6428e7230d3f8fa94b37",
+    "face.webp": "3979a5b58510c2dc77c230b9f788176abbc4d6e77b316bc6eebe08e4044d5760",
+    "hair-beard.webp": "eb07f07f6b380e3c08895fe61adaf2009e32384d70f468f53f83ce7a68d7057c",
+    "lips.webp": "e6d78bef7280edf2c10a34699ede9b89793abc9d76503b4311c6cacfa86c2a8b",
+    "trousers.webp": "2b8a96b9f3ef2664363d0be50055d710ee6315b40eb29767b79210d208bc4148"
+  }
+}

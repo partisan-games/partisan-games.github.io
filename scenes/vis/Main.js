@@ -19,12 +19,12 @@ import Baza from './Baza.js'
 import Waves from './Waves.js'
 import PowerUps from './PowerUps.js'
 import { levels } from './levels.js'
-import { currentStyleClasses } from '/ui/styles.js'
+import { healthBar } from '/ui/components.js'
 import Sound from '/core/io/audio/SoundSource.js'
 import { settings } from './settings.js'
 import { fighterBomberPlane } from '/core/actor/aircraft/fighterBomberPlanes.js'
 import { modelPerformance } from '/core/gameplay/modelPerformance.js'
-import { assets } from '/config.js'
+import customStartScreen, { planes } from './startScreen.js'
 
 const { scrollSpeed: speed, clouds, restTime, engineVolume } = settings
 /** How many pixels a metre of the sky is drawn. */
@@ -39,24 +39,6 @@ const distanceScale = 10 / pxPerMeter
 export const rules = {
   shieldTime: 2, repair: .5, bombRadius: .5, bombHits: 10, bombBursts: 12, bombSpread: .4, burstScale: 1.8,
 }
-
-/** The aircraft the player may fly to Vis. */
-const planes = ['spitfire', 'hurricane', 'breguet', 'yak'].map(fighterBomberPlane)
-
-const customStartScreen = ({ container }) => /* html */`
-  <div class="central-screen flex-column ${container}" id="start-screen">
-    <p>Reach the Island of Vis</p>
-    <h2>Choose your aircraft</h2>
-    <div class="game-screen-select aircraft-select">
-      ${planes.map(plane => /* html */`
-        <label data-paid>
-          <input type="image" data-aircraft="${plane.id}" src="${assets.images}${plane.image}" alt="Fly ${plane.name}">
-          <span>${plane.name}</span>
-        </label>
-      `).join('')}
-    </div>
-  </div>
-`
 
 export default class VisScene extends Scene2D {
   constructor() {
@@ -315,8 +297,8 @@ export default class VisScene extends Scene2D {
       <div class="top-left">
         <div>
           Score: ${this.score}
-          <br>${this.healthBar(health.current / health.maximum)}
-          <br>${bombs}
+          ${healthBar(health.current / health.maximum)}
+          ${bombs}
           <br>${loops}
         </div>
       </div>
@@ -327,12 +309,7 @@ export default class VisScene extends Scene2D {
   bossBar() {
     const boss = this.waves.boss?.body
     if (!boss?.alive) return ''
-    return this.healthBar(boss.health.current / boss.kind.hits, 'top-right')
-  }
-
-  /** A bar of the `left` share of a health: top right for the boss, under the score for the plane. */
-  healthBar(left, place = '') {
-    return `<progress class="progress ${place} ${currentStyleClasses().healthBar}" value="${left * 100}" max="100"></progress>`
+    return healthBar(boss.health.current / boss.kind.hits, 'top-right')
   }
 
   end() {

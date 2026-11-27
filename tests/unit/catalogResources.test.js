@@ -2,6 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import * as THREE from 'three'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js'
 import { clone } from 'three/examples/jsm/utils/SkeletonUtils.js'
 import optimizeGeometry from '/core3d/assets/optimizeGeometry.js'
@@ -9,6 +10,99 @@ import { wreckFor } from '/core/actor/wreckView.js'
 import wreckArt from '/core/actor/wreckArt.js'
 import { createPageElements } from './helpers/dom.js'
 import { loadImages } from './helpers/images.js'
+
+test('the Renault and Hotchkiss use painted armor states and live tracks in the catalogue', async t => {
+  createPageElements()
+  t.mock.method(THREE.TextureLoader.prototype, 'load', (name, onLoad) => {
+    const texture = Object.assign(new THREE.Texture(), { name })
+    if (onLoad) queueMicrotask(() => onLoad(texture))
+    return texture
+  })
+  t.mock.method(THREE.ImageBitmapLoader.prototype, 'load', (_url, onLoad) => {
+    queueMicrotask(() => onLoad({ width: 512, height: 512 }))
+    return {}
+  })
+  for (const Loader of [GLTFLoader, FBXLoader]) t.mock.method(Loader.prototype, 'loadAsync', async url => {
+    const bytes = await readFile('.' + decodeURI(url))
+    const buffer = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength)
+    return Loader === GLTFLoader ? new Loader().parseAsync(buffer, '') : new Loader().parse(buffer, '')
+  })
+  const { vehicles } = await import('/catalog/stories/characters3d.js')
+  for (const story of vehicles) {
+    const added = []
+    const scene = new THREE.Scene()
+    const stage = {
+      controllers: [],
+      add(...args) {
+        added.push(...args)
+        scene.add(args[1].mesh)
+      },
+    }
+    const body = await story.create(stage)
+    const [, view] = added
+    t.after(() => view.end())
+    const hotchkiss = story.id === 'hotchkiss-h35-3d'
+    const part = view.mesh.getObjectByName(hotchkiss ? 'track-left' : 'GUN_FT17P_LP')
+    const material = hotchkiss ? part.material : part.material[0]
+    const track = hotchkiss ? part.material.map : part.material[1].map
+    const shader = { ...THREE.ShaderLib.standard, uniforms: {} }
+    material.onBeforeCompile(shader)
+    assert.match(shader.fragmentShader, /texture2D\(armorWreck/)
+    for (const key of ['armorHits', 'armorWreck'])
+      assert.equal((await readFile('.' + shader.uniforms[key].value.name)).toString('ascii', 8, 16), 'WEBPVP8L')
+    if (!hotchkiss) {
+      assert.match(material.map.name, /renault-ft-base\.webp$/)
+      const plates = shader.uniforms.armorPlates.value
+      assert.match(plates.name, /renault-ft-plates\.webp$/)
+      assert.equal(plates.magFilter, THREE.NearestFilter)
+      assert.equal((await readFile('.' + plates.name)).toString('ascii', 8, 16), 'WEBPVP8L')
+      const beltShader = { ...THREE.ShaderLib.standard, uniforms: {} }
+      part.material[1].onBeforeCompile(beltShader)
+      assert.equal(beltShader.uniforms.armorPlates, undefined)
+      assert.notEqual(material.customProgramCacheKey(), part.material[1].customProgramCacheKey())
+    } else assert.equal(shader.uniforms.armorPlates, undefined)
+    const { armorCondition } = shader.uniforms
+    assert.equal(armorCondition.value, 0)
+    body.setState('move')
+    stage.controllers[0].update()
+    body.update(.07)
+    view.update(.07, .07)
+    assert.notEqual(track.offset.x, 0)
+    body.takeHit(body.health.maximum * .1)
+    view.update(0, .07)
+    assert.equal(armorCondition.value, 1)
+    assert.equal(view.wreckFire, undefined)
+    body.setState('dead')
+    const position = track.offset.x
+    const hullSide = part.geometry.attributes.position.array.slice()
+    const turret = view.mesh.getObjectByName('turret')
+    const turretRotation = turret?.quaternion.clone()
+    body.update(1)
+    view.update(1, 1.07)
+    assert.equal(armorCondition.value, 2)
+    assert.equal(track.offset.x, position)
+    assert.equal(view.wreckMaterials, undefined)
+    assert.equal(view.mesh.rotation.x, 0)
+    assert.equal(view.mesh.rotation.z, 0)
+    assert.ok(Math.abs(new THREE.Box3().setFromObject(view.mesh, true).min.y - body.feet) < 1e-6)
+    const { wreckFire, wreckSmoke } = view
+    assert.equal(wreckFire.mesh.parent, scene)
+    assert.equal(wreckSmoke.mesh.parent, scene)
+    assert.ok(wreckSmoke.mesh.position.y > wreckFire.mesh.position.y)
+    const engine = view.mesh.worldToLocal(wreckFire.mesh.position.clone())
+    assert.ok(engine.z > 0, 'flames come from the rear engine deck')
+    const plume = wreckSmoke.mesh.geometry.attributes.position.array.slice()
+    view.update(.1, 1.17)
+    assert.equal(view.wreckSmoke, wreckSmoke, 'the plume persists while the wreck is held')
+    assert.notDeepEqual(wreckSmoke.mesh.geometry.attributes.position.array, plume)
+    assert.deepEqual(part.geometry.attributes.position.array, hullSide)
+    if (turret) assert.ok(turret.quaternion.equals(turretRotation))
+    if (hotchkiss) assert.equal(view.flameKind.muzzle[2], -1.43)
+    view.end()
+    assert.equal(wreckFire.mesh.parent, null)
+    assert.equal(wreckSmoke.mesh.parent, null)
+  }
+})
 
 test('Sutjeska dresses the existing catalogue mesh and keeps the original animation skeleton', async t => {
   t.mock.method(THREE.TextureLoader.prototype, 'load', url => Object.assign(new THREE.Texture(), { name: url }))
@@ -85,7 +179,7 @@ test('Sutjeska dresses the existing catalogue mesh and keeps the original animat
   }
 })
 
-test('switching Borac sa Sutjeske variants keeps him in the same scene and pose', async t => {
+test('switching Koča variants keeps him in the same scene and pose', async t => {
   createPageElements()
   t.mock.method(THREE.TextureLoader.prototype, 'load', url => Object.assign(new THREE.Texture(), { name: url }))
   t.mock.method(FBXLoader.prototype, 'loadAsync', async url => {
@@ -99,9 +193,11 @@ test('switching Borac sa Sutjeske variants keeps him in the same scene and pose'
   const basic = story.looks.find(({ id }) => id === 'strelac')
   const sutjeska = story.looks.find(({ id }) => id === 'sutjeska')
   const pixelArt = story.looks.find(({ id }) => id === 'pixel-art')
+  const portrait1943 = story.looks.find(({ id }) => id === 'portret-1943')
   const kind = { id: 'drugi-svetski-rat-3d', stories: [story] }
   const address = `${kind.id}/${story.id}`
   assert.equal(findStory([kind], address).look, pixelArt)
+  assert.equal(findStory([kind], `${address}/portret-1943`).look, portrait1943)
   assert.equal(findStory([kind], `${address}/sutjeska`).look, sutjeska)
   const objects = []
   const stage = { add: (...items) => objects.push(...items), session: { scope: { add() {} } } }
@@ -141,6 +237,21 @@ test('switching Borac sa Sutjeske variants keeps him in the same scene and pose'
     const bytes = await readFile('.' + map.name)
     assert.equal(bytes.toString('ascii', 8, 12), 'WEBP')
   }
+
+  const mapFor = name => skin.material.find(material => material.name === name).map
+  const baseMaps = ['_1___Default', 'Tex_0532_0_dds', 'Tex_0534_0_dds'].map(mapFor)
+  stage.setLook(portrait1943.value)
+  assert.equal(skin.geometry, originalGeometry)
+  assert.equal(mapFor('_1___Default'), baseMaps[0])
+  const trialEyes = mapFor('Tex_0532_0_dds')
+  assert.match(trialEyes.name, /\/sutjeska-pixel-art\/eyes-koca-1943\.webp$/)
+  assert.equal((await readFile('.' + trialEyes.name)).toString('ascii', 8, 16), 'WEBPVP8L')
+  const portraitMap = mapFor('Tex_0534_0_dds')
+  assert.match(portraitMap.name, /\/sutjeska-pixel-art\/face-koca-1943\.webp$/)
+  assert.equal((await readFile('.' + portraitMap.name)).toString('ascii', 8, 16), 'WEBPVP8L')
+  stage.setLook(pixelArt.value)
+  assert.equal(mapFor('Tex_0532_0_dds'), baseMaps[1])
+  assert.equal(mapFor('Tex_0534_0_dds'), baseMaps[2])
 
   stage.setLook(original.value)
   assert.equal(skin.geometry, originalGeometry)
@@ -225,7 +336,7 @@ test('Brka switches his face and clothing maps on the same model with the Berthi
   assert.equal(face.material.map, material.map)
 })
 
-test('Savo keeps his original look first and uses four pixel-art maps on the same mesh', async t => {
+test('Sava opens in pixel art and can switch to his original materials on the same mesh', async t => {
   createPageElements()
   t.mock.method(THREE.TextureLoader.prototype, 'load', url => Object.assign(new THREE.Texture(), { name: url }))
   t.mock.method(FBXLoader.prototype, 'loadAsync', async url => {
@@ -234,9 +345,11 @@ test('Savo keeps his original look first and uses four pixel-art maps on the sam
   })
   const { ww2 } = await import('/catalog/stories/characters3d.js')
   const savo = ww2.find(({ id }) => id === 'partizan-jednostavan-model-3d')
-  const [original] = savo.looks
-  const pixelArt = savo.looks.find(look => look.id === 'pixel-art')
-  assert.equal(original.id, 'original')
+  const [pixelArt] = savo.looks
+  const original = savo.looks.find(look => look.id === 'original')
+  const brown = savo.looks.find(look => look.id === 'smedji-pixel-art')
+  const originalBrown = savo.looks.find(look => look.id === 'smedji')
+  assert.equal(pixelArt.id, 'pixel-art')
   const objects = []
   const stage = { add: (...items) => objects.push(...items), session: { scope: { add() {} } } }
   await savo.create(stage, 1, original.value)
@@ -249,7 +362,34 @@ test('Savo keeps his original look first and uses four pixel-art maps on the sam
   stage.setLook(pixelArt.value)
   const maps = new Set()
   for (const [i, part] of parts.entries()) {
-    assert.equal(part.geometry, before[i].geometry)
+    if (part.name === 'Partisan') {
+      const originalGeometry = before[i].geometry
+      assert.notEqual(part.geometry, originalGeometry)
+      assert.equal(part.geometry.index.count, originalGeometry.index.count - (44 - 16) * 3)
+      assert.deepEqual(part.geometry.attributes.skinWeight.array, originalGeometry.attributes.skinWeight.array)
+      const cloth = part.material.findIndex(material => material.name === 'army.green')
+      const group = part.geometry.groups.find(group => group.materialIndex === cloth)
+      const panelStart = group.start + group.count - 16 * 3
+      const { index, attributes: { position } } = part.geometry
+      const attached = []
+      for (let j = panelStart; j < group.start + group.count; j += 3) {
+        const edge = index.getX(j)
+        const point = new THREE.Vector3().fromBufferAttribute(position, edge)
+        const other = new THREE.Vector3()
+        const originalEdge = index.array.subarray(group.start, panelStart)
+          .find(vertex => other.fromBufferAttribute(position, vertex).distanceTo(point) < .00001)
+        assert.notEqual(originalEdge, undefined, 'each new edge meets the existing blouse')
+        attached.push([edge, originalEdge])
+      }
+      view.anim.mixer.stopAllAction()
+      actions.walk.play()
+      view.anim.mixer.update(.25)
+      view.mesh.updateMatrixWorld(true)
+      for (const [edge, originalEdge] of attached) {
+        const posed = vertex => part.applyBoneTransform(vertex, new THREE.Vector3().fromBufferAttribute(position, vertex))
+        assert.ok(posed(edge).distanceTo(posed(originalEdge)) < .001, 'the join follows the skeleton during a step')
+      }
+    } else assert.equal(part.geometry, before[i].geometry)
     assert.equal(part.skeleton, before[i].skeleton)
     for (const material of [].concat(part.material)) {
       if (!material.map?.name.includes('/savo-pixel-art/')) continue
@@ -267,8 +407,77 @@ test('Savo keeps his original look first and uses four pixel-art maps on the sam
   assert.equal(view.actions, actions)
   assert.equal(view.anim.twoHandedWeapon, rifle)
   assert.ok(rifle.parent)
+  const torso = parts.find(part => part.name === 'Partisan')
+  const material = name => torso.material.find(item => item.name === name)
+  const shared = ['skin', 'brown', 'navy.blue'].map(name => material(name).map)
+  const olive = material('army.green').map
+  const blouseIndices = torso.geometry.index.count
+  stage.setLook(brown.value)
+  assert.equal(brown.value.weapon, originalBrown.value.weapon)
+  assert.equal(brown.value.weapon.model.file, 'weapon/rifle-berthier/model.fbx')
+  assert.equal(torso.geometry.index.count, blouseIndices)
+  assert.equal(material('avocado').color.getHex(), originalBrown.value.outfit.avocado)
+  assert.deepEqual(['skin', 'brown', 'navy.blue'].map(name => material(name).map), shared)
+  const brownUniform = material('army.green').map
+  assert.match(brownUniform.name, /\/savo-pixel-art\/uniform-brown\.webp$/)
+  assert.equal((await readFile('.' + brownUniform.name)).toString('ascii', 8, 16), 'WEBPVP8L')
+  assert.equal(material('army.green').color.getHex(), 0xffffff)
+  stage.setLook(pixelArt.value)
+  assert.equal(material('army.green').map, olive)
+  assert.equal(view.anim.twoHandedWeapon, rifle)
   stage.setLook(original.value)
-  for (const [i, part] of parts.entries()) assert.equal(part.material, before[i].material)
+  for (const [i, part] of parts.entries()) {
+    assert.equal(part.material, before[i].material)
+    assert.equal(part.geometry, before[i].geometry)
+  }
+})
+
+test('the heavy German infantry trial uses six pixel maps and the original MG animations', async t => {
+  createPageElements()
+  t.mock.method(THREE.TextureLoader.prototype, 'load', url => Object.assign(new THREE.Texture(), { name: url }))
+  t.mock.method(FBXLoader.prototype, 'loadAsync', async url => {
+    const bytes = await readFile('.' + decodeURI(url))
+    return new FBXLoader().parse(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), '')
+  })
+  const { ww2 } = await import('/catalog/stories/characters3d.js')
+  const story = ww2.find(({ id }) => id === 'nemacki-mitraljezac-3d')
+  assert.deepEqual(story.looks.map(({ id }) => id), ['pixel-art-drugo-lice', 'mitraljez', 'pixel-art', 'bacac-plamena'])
+  const views = []
+  const cleanups = []
+  const stage = { add: (body, view) => views.push(view), session: { scope: { add: cleanup => cleanups.push(cleanup) } } }
+  await story.create(stage, 1, story.looks[0].value)
+  await story.create(stage, 1, story.looks[1].value)
+  await story.create(stage, 1, story.looks[2].value)
+  const [newPortrait, original, pixelArt] = views
+  const skin = view => view.mesh.getObjectByProperty('isSkinnedMesh', true)
+  assert.equal(skin(original).geometry, skin(pixelArt).geometry)
+  assert.equal(skin(pixelArt).geometry.groups.length, 23)
+  assert.equal(skin(newPortrait).geometry, skin(pixelArt).geometry)
+  const textures = new Set(skin(pixelArt).material.map(({ map }) => map).filter(map => map?.name.includes('/german-heavy-pixel-art/')))
+  assert.equal(textures.size, 6)
+  const originalMaterials = skin(original).material
+  for (const material of skin(pixelArt).material) {
+    const base = originalMaterials.find(({ name }) => name === material.name)
+    assert.equal(material.color.getHex(), base.color.getHex())
+    if (textures.has(material.map)) {
+      assert.equal(material.map.magFilter, THREE.NearestFilter)
+      assert.equal(material.map.wrapT, base.map.wrapT)
+    }
+  }
+  for (const map of textures)
+    assert.equal((await readFile('.' + map.name)).toString('ascii', 8, 16), 'WEBPVP8L')
+  const changed = skin(newPortrait).material.filter((material, i) => material.map.name !== skin(pixelArt).material[i].map.name)
+  assert.deepEqual(changed.map(({ map }) => map.name.split('/').pop()),
+    ['face-new-identity.webp', 'eyes-new-identity.webp'])
+  for (const { map } of changed)
+    assert.equal((await readFile('.' + map.name)).toString('ascii', 8, 16), 'WEBPVP8L')
+  assert.equal(pixelArt.actions.walk.getClip().name, original.actions.walk.getClip().name)
+  assert.equal(pixelArt.actions.attack.getClip().name, original.actions.attack.getClip().name)
+  assert.ok(pixelArt.anim.twoHandedWeapon.parent)
+  let disposed = 0
+  for (const map of textures) map.addEventListener('dispose', () => disposed++)
+  cleanups.forEach(cleanup => cleanup())
+  assert.equal(disposed, 6)
 })
 
 test('the German rifleman switches texture on his existing animated catalogue model', async t => {
@@ -386,7 +595,7 @@ test('Nikoletina keeps the same cap when switching weapons and trouser colors', 
 
 test('the 3D Chetnik uses the rifle animations and the reshaped cap follows the head', async t => {
   createPageElements()
-  t.mock.method(THREE.TextureLoader.prototype, 'load', () => new THREE.Texture())
+  t.mock.method(THREE.TextureLoader.prototype, 'load', name => Object.assign(new THREE.Texture(), { name }))
   t.mock.method(FBXLoader.prototype, 'loadAsync', async url => {
     const bytes = await readFile('.' + decodeURI(url))
     return new FBXLoader().parse(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), '')
@@ -394,7 +603,9 @@ test('the 3D Chetnik uses the rifle animations and the reshaped cap follows the 
   const { ww2 } = await import('/catalog/stories/characters3d.js')
   const story = ww2.find(({ id }) => id === 'cetnik-strelac-3d')
   const objects = []
-  const body = await story.create({ add: (...items) => objects.push(...items) })
+  const cleanups = []
+  const stage = { add: (...items) => objects.push(...items), session: { scope: { add: cleanup => cleanups.push(cleanup) } } }
+  const body = await story.create(stage)
   const [, view] = objects
   assert.equal(objects[0], body)
   assert.ok(view.anim.twoHandedWeapon?.parent)
@@ -424,6 +635,25 @@ test('the 3D Chetnik uses the rifle animations and the reshaped cap follows the 
   assert.ok([0, 1, 2, 3].some(i => skinIndex.getComponent(vertex, i) === head && skinWeight.getComponent(vertex, i) > .5))
 
   const { mixer, actions } = view.anim
+  const [base, pixel] = story.looks
+  assert.deepEqual([base.id, pixel.id], ['original', 'pixel-art'])
+  const originalMaterials = skin.material
+  const { geometry, skeleton } = skin
+  const rifle = view.anim.twoHandedWeapon
+  stage.setLook(pixel.value)
+  const textures = skin.material.filter(material => material.map).map(material => material.map)
+  assert.deepEqual(textures.map(map => map.name.split('/').pop()).sort(),
+    ['blouse.webp', 'face.webp', 'hair-beard.webp', 'lips.webp', 'trousers.webp'])
+  for (const map of textures)
+    assert.equal((await readFile('.' + map.name)).toString('ascii', 8, 16), 'WEBPVP8L')
+  assert.equal(skin.material[badge], originalMaterials[badge])
+  assert.equal(skin.material[felt], originalMaterials[felt])
+  assert.equal(skin.geometry, geometry)
+  assert.equal(skin.skeleton, skeleton)
+  assert.equal(view.anim.twoHandedWeapon, rifle)
+  stage.setLook(base.value)
+  assert.equal(skin.material, originalMaterials)
+  cleanups.forEach(cleanup => cleanup())
   for (const [state, name] of Object.entries({ walk: 'Rifle Walk', run: 'Rifle Run', attack: 'Firing Rifle', death: 'Dying' })) {
     const action = actions[state]
     const clip = action.getClip()
@@ -449,7 +679,13 @@ test('the second Chetnik wears a fur cap and uses hair and beard textures on the
   const { ww2 } = await import('/catalog/stories/characters3d.js')
   const story = ww2.find(({ id }) => id === 'cetnik-subara-3d')
   const objects = []
-  await story.create({ add: (...items) => objects.push(...items) })
+  const cleanups = []
+  const stage = {
+    add: (...items) => objects.push(...items),
+    session: { scope: { add: cleanup => cleanups.push(cleanup) } },
+  }
+  assert.deepEqual(story.looks.map(({ id }) => id), ['original', 'pixel-art'])
+  await story.create(stage, undefined, story.looks[0].value)
   const [, view] = objects
   const head = view.mesh.getObjectByName('mixamorigHead')
   const hat = view.mesh.getObjectByName('Šubara')
@@ -461,13 +697,39 @@ test('the second Chetnik wears a fur cap and uses hair and beard textures on the
   assert.equal(hat.children.filter(child => child.isMesh).length, 0)
   const hatShader = { ...THREE.ShaderLib.standard, uniforms: {} }
   hat.material.onBeforeCompile(hatShader)
-  assert.match(hatShader.uniforms.chetnikCockade.value.name, /chetnik-cockade\.svg$/)
+  const badge = hatShader.uniforms.chetnikCockade.value
+  assert.match(badge.name, /chetnik-cockade-m72\.webp$/)
+  assert.equal(badge.magFilter, THREE.NearestFilter)
+  assert.equal((await readFile('.' + badge.name)).toString('ascii', 8, 16), 'WEBPVP8L')
   assert.match(hatShader.fragmentShader, /if \(vCockadeFront > 0\.0 &&/)
   const shader = { ...THREE.ShaderLib.phong, uniforms: {} }
   skin.material.onBeforeCompile(shader)
   assert.match(shader.uniforms.chetnikFace.value.name, /chetnik-face\.svg$/)
   assert.match(shader.fragmentShader, /if \(onFace \|\| onNape\)/)
   assert.match(shader.fragmentShader, /mix\(sampledDiffuseColor\.rgb, hair\.rgb, hair\.a\)/)
+  const original = skin.material
+  const { geometry, skeleton } = skin
+  stage.setLook(story.looks[1].value)
+  const pixel = skin.material
+  assert.notEqual(pixel, original)
+  assert.equal(skin.geometry, geometry)
+  assert.equal(skin.skeleton, skeleton)
+  assert.deepEqual(head.children.filter(child => child.isMesh), [hat])
+  assert.match(pixel.map.name, /cetnik-subara-pixel-art\.webp$/)
+  assert.equal(pixel.map.magFilter, THREE.NearestFilter)
+  assert.equal((await readFile('.' + pixel.map.name)).toString('ascii', 8, 16), 'WEBPVP8L')
+  const pixelShader = { ...THREE.ShaderLib.phong, uniforms: {} }
+  pixel.onBeforeCompile(pixelShader)
+  assert.deepEqual(pixelShader.uniforms.nikoletinaWool, shader.uniforms.nikoletinaWool)
+  assert.equal(pixelShader.uniforms.chetnikFace, undefined)
+  stage.setLook(story.looks[0].value)
+  assert.equal(skin.material, original)
+  assert.equal(cleanups.length, 1)
+  const dispose = t.mock.method(pixel.map, 'dispose')
+  const disposeMaterial = t.mock.method(pixel, 'dispose')
+  cleanups[0]()
+  assert.equal(dispose.mock.callCount(), 1)
+  assert.equal(disposeMaterial.mock.callCount(), 1)
   view.mesh.updateMatrixWorld(true)
   const before = hat.localToWorld(new THREE.Vector3(1, .05, 0))
   view.actions.death.reset().play()

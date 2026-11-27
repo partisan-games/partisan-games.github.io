@@ -1,6 +1,12 @@
+import { assets } from '/config.js'
+import { iconImages } from './icons.js'
+
+/** Half the sight's 32 px, where it points. */
+const centre = 16
+
 /** The gun sight the pointer becomes in a game where the player aims with it, and the plain pointer again after. */
 export function showCrosshair() {
-  document.body.style.cursor = 'url(/assets/images/ui/nisan.png) 50 50, crosshair'
+  document.body.style.cursor = `url(${assets.images}${iconImages.sight}) ${centre} ${centre}, crosshair`
 }
 
 export function hideCrosshair() {

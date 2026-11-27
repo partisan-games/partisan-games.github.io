@@ -263,21 +263,6 @@ test('a flame finishing its import after teardown creates no effect resources', 
   assert.equal(model.flame, undefined)
 })
 
-test('a led character\'s camera button comes after its touch buttons, so the page lifts it above them', async t => {
-  createPageElements()
-  const { default: Character } = await import('/core/gameplay/bodies/characters/Character.js')
-  const { lead } = await import('/core3d/actor/characters/leadCharacter.js')
-  const scene = { camera: new THREE.PerspectiveCamera(), controllers: [], add: (...parts) => scene.parts.push(...parts), parts: [] }
-  const { keys, chase } = lead(scene, { body: new Character(), model: { mesh: new THREE.Object3D(), clip: 'idle' } },
-    { input: { useJoystick: true, buttonDict: { attack: '' } }, view: { showCameraButton: true } })
-  t.after(() => {
-    keys.end(); chase.end()
-  })
-  const buttons = document.querySelector('.button-container'), camera = chase.view.chaseCamera.button
-  assert.ok(buttons && camera)
-  assert.ok(buttons.compareDocumentPosition(camera) & Node.DOCUMENT_POSITION_FOLLOWING)
-})
-
 test('a dead model with no death clip falls on its side, unless it is intact, as a gun whose crew has fallen', async() => {
   createPageElements()
   const { default: Character } = await import('/core/gameplay/bodies/characters/Character.js')
@@ -318,4 +303,24 @@ test('held fire with a clip shorter than the blend repeats it as one loop, never
   assert.ok(weights.length > 50)
   assert.ok(weights.slice(20).every(weight => weight === 1), 'once firing, the burst is all there is')
   assert.equal(model.actions.idle.isRunning(), false)
+})
+
+test('steps sound on the ground the character walks, each recording of it in the project', async t => {
+  createPageElements()
+  const { existsSync } = await import('node:fs')
+  const { default: Character } = await import('/core/gameplay/bodies/characters/Character.js')
+  const { default: CharacterModel } = await import('/core3d/actor/characters/CharacterModel.js')
+  for (const ground of ['gravel', 'snow']) {
+    const model = new CharacterModel(new Character(), { ...figure(), ground })
+    t.after(() => model.end())
+    const files = [model.stepSound.file, ...model.stepSound.options.variants]
+    assert.equal(new Set(files).size, files.length)
+    for (const file of files) {
+      assert.match(file, new RegExp(`^footstep-${ground}-`))
+      assert.ok(existsSync(`assets/sounds/${file}`), file)
+    }
+  }
+  const usual = new CharacterModel(new Character(), figure())
+  t.after(() => usual.end())
+  assert.match(usual.stepSound.file, /^footstep-gravel-/)
 })

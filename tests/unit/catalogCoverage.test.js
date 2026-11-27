@@ -34,21 +34,22 @@ const folders = {
   'core/gameplay/bodies/boats': ['SeaMine.js'],
   'scenes/bunker': ['Main.js', 'Mina.js'],
   'scenes/neretva': ['Main.js', 'AirAttack.js', 'Battlefield.js', 'BridgeCrossing.js'],
-  // The crossing view uses the Panzer III already shown in The Germans Advance.
-  'scenes/otpisani': ['Main.js', 'streets.js', 'Panorama.js', 'AmbushView.js', 'CrossingTank.js', 'CrossingArmoredCar.js', 'VehicleGun.js'],
+  // The street tank views reuse the Panzer III and T-34-85 already shown in the catalog.
+  'scenes/otpisani': ['Main.js', 'streets.js', 'Panorama.js', 'AmbushView.js', 'CrossingTank.js', 'CrossingArmoredCar.js', 'VehicleGun.js',
+    'ThrownGrenade.js', 'ReliefTank.js'],
   'scenes/ustanak': [
-    'Main.js', 'Turns.js', 'Battlefield.js', 'GroundLayer.js', 'Terrain.js', 'Wind.js', 'WindEffects.js',
+    'Main.js', 'startScreen.js', 'Turns.js', 'airTarget.js', 'Battlefield.js', 'GroundLayer.js', 'Terrain.js', 'Wind.js', 'WindEffects.js',
   ],
-  'scenes/tenkici': ['Main.js', 'BattleBackground.js', 'renderLayers.js'],
+  'scenes/tenkici': ['Main.js', 'startScreen.js', 'BattleBackground.js', 'renderLayers.js'],
   'scenes/vis': [
-    'Main.js', 'settings.js', 'levels.js', 'paths.js', 'formations.js', 'Waves.js', 'Baza.js',
+    'Main.js', 'startScreen.js', 'settings.js', 'levels.js', 'paths.js', 'formations.js', 'Waves.js', 'Baza.js',
     'Oblak.js', 'PokretnaPozadina.js', 'Pokretno.js', 'PowerUps.js',
   ],
   // PartisanAim is the existing Partisan's aiming configuration; look libraries and mesh dressers are shown
   // through their owning character stories rather than as duplicate actors.
-  'core3d/actor/derived/ww2': ['PartisanAim.js', 'partisanLooks.js', 'italianLooks.js', 'shapeM33.js', 'soldierFace.js'],
+  'core3d/actor/derived/ww2': ['PartisanAim.js', 'partisanLooks.js', 'italianLooks.js', 'shapeM33.js', 'soldierFace.js', 'savoBlouse.js'],
   // the cannon fires through the Ammo physics world, which its stage does not have yet
-  'core3d/actor/derived': ['Cannon.js', 'RenaultTracks.js'],
+  'core3d/actor/derived': ['Cannon.js', 'RenaultTracks.js', 'HotchkissTracks.js', 'tankCondition.js'],
   // bases of the planes, a plane's look, and its missile, seen in the planes' stories
   // the planes are looks of the Warplane body, seen in its' stories
   'core3d/aircraft/derived': ['Bomber.js', 'FlyingFortress.js', 'Liberator.js', 'Messerschmitt.js', 'Mitchell.js', 'Spitfire.js'],

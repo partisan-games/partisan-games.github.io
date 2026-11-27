@@ -3,7 +3,7 @@ import canvas2d from '/core/io/canvas2d.js'
 import Input from '/core/io/Input.js'
 import { inputLayouts } from '/core/io/inputLayouts.js'
 import { icons } from '/core/io/icons.js'
-import { progresBar } from '/ui/components.js'
+import { healthBar } from '/ui/components.js'
 import { keys, attackLabels } from '/core/io/keys.js'
 import { baseControls } from '/ui/Controls.js'
 import { topProjection } from '/core/actor/projection.js'
@@ -232,7 +232,7 @@ export default class CamacScene extends Scene2D {
     const { health, rockets } = this.player
     return /* html */`
       <div class="top-left">
-        ${progresBar(health.current / health.maximum * 100)}
+        ${healthBar(health.current / health.maximum)}
         <div>${icons.rocket.repeat(rockets)}</div>
       </div>
     `

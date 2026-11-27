@@ -1,23 +1,21 @@
 import canvas2d from '/core/io/canvas2d.js'
 import Scene2D from '/core/Scene2D.js'
 import { sideProjection } from '/core/actor/projection.js'
-import FieldGun, { fieldGun } from '/core/gameplay/bodies/artillery/FieldGun.js'
 import Mortar, { mortar } from '/core/gameplay/bodies/artillery/Mortar.js'
 import CannonCrew from '/core/gameplay/bodies/soldiers/CannonCrew.js'
 import Skirmisher from '/core/gameplay/bodies/soldiers/Skirmisher.js'
 import FlagBearer, { bearerKinds } from '/core/gameplay/bodies/soldiers/FlagBearer.js'
-import FieldGunSprite from '/core/actor/artillery/FieldGunSprite.js'
 import MortarSprite from '/core/actor/artillery/MortarSprite.js'
 import { wreckFor } from '/core/actor/wreckView.js'
 import imageReady from '/core/io/imageReady.js'
-import CannonCrewSprite from '/core/actor/soldiers/CannonCrewSprite.js'
 import MortarCrewSprite from '/core/actor/soldiers/MortarCrewSprite.js'
 import SkirmisherSprite from '/core/actor/soldiers/SkirmisherSprite.js'
 import FlagBearerSprite from '/core/actor/soldiers/FlagBearerSprite.js'
-import { progresBar } from '/ui/components.js'
+import { healthBar } from '/ui/components.js'
 import { mainMenuButton } from '/ui/UI.js'
 import { keyboard } from '/core/io/Keyboard.js'
-import { keys, leftPlayerKeys } from '/core/io/keys.js'
+import { keys, leftPlayerKeys, rightPlayerKeys } from '/core/io/keys.js'
+import Controls from '/ui/Controls.js'
 import Turns from './Turns.js'
 import CannonAI from '/core/gameplay/controllers/CannonAI.js'
 import CannonKeys from '/core/gameplay/controllers/CannonKeys.js'
@@ -27,49 +25,48 @@ import Airplane, { italianAirplanePictures } from '/core/objects/Airplane.js'
 import Wind from './Wind.js'
 import WindEffects from './WindEffects.js'
 import Terrain, { crater } from './Terrain.js'
+import customStartScreen from './startScreen.js'
+import airTarget from './airTarget.js'
+import { randomInRange } from '/core/utils.js'
+import GameObject2D from '/core/actor/GameObject2D.js'
 
 const groundLevel = canvas2d.height * .75
+const italianRiflemanSource = 'armies/talijani/vojnici/vojnik-05.png'
 /** The line the wheels and the feet stand on, in pixels: a little under the far edge of the field. */
 const floorY = groundLevel + 34.875
+/**
+ * The chance each second that a plane waiting past the left edge flies over: rarely, yet they still come, each about
+ * once in two and a half minutes, so one of the two a little more than once a minute (owner, 2026-11-27). The second waits there from the start; the first
+ * comes in once in the first half minute, `firstPass` seconds into the game.
+ */
+const airplaneChance = 1 / 150
+const waiting = -10000
+const firstPass = [10, 25]
+/** Metres above the ground from which a burst is in the air. */
+const airBurst = 3
 /** How many pixels a metre of the battle is drawn: the bodies are in metres, the field and its craters in pixels. */
 const pxPerMeter = 40
 /**
- * Where each side stands, in metres from its own edge of the field: its gun, its flag bearer, and the partisan
- * skirmisher in front of the gun.
+ * Where each side stands, in metres from its own edge of the field: its mortar, the loader behind it, the partisan one
+ * a little farther back (owner, 2026-11-27), its flag bearer, and the skirmishers in front of the mortar.
  */
-const places = { gun: 5.75, bearer: { partisan: 1, italian: 2 }, skirmisher: 7.5 }
-
+const places = { gun: 3.75, crew: [3.15, 3.45], bearer: { partisan: 1, italian: 2 }, skirmisher: 5.5 }
 /**
- * What the two sides duel with: the piece, its settings, its view, its crew's view, and where the crew stands, in
- * metres from its own edge; a crew drawn `under` the piece stands behind it, as a mortar's loader. The messages call
- * the piece by its `name` and open with its `instructions`. A `hill` between the sides, `height` metres high and a
- * `width` share of the screen wide, is left for a piece that throws over it.
+ * The two sides duel with mortars only (owner, 2026-11-27), over a hill `height` metres high and a `width` share of
+ * the screen wide in the middle of the field.
  */
-export const cannonDuel = { Piece: FieldGun, settings: fieldGun, PieceSprite: FieldGunSprite, CrewSprite: CannonCrewSprite,
-  crew: 2.75, under: false, name: 'cannon',
-  instructions: 'Aim at the enemy cannon. Hold Space to build power, then release to fire.' }
-export const mortarDuel = { Piece: Mortar, settings: mortar, PieceSprite: MortarSprite, CrewSprite: MortarCrewSprite,
-  crew: 5.45, under: true, name: 'mortar', hill: { height: 2.5, width: .3 },
-  instructions: 'Destroy the enemy mortar. Hold Space to charge, release to fire.' }
+const hill = { height: 2.5, width: .3 }
+const howToPlay = 'Destroy the enemy mortar. Hold Space to charge, release to fire.'
 
 /** The history before the match; the messages in play keep to the turns and how to play. */
 const report = 'Montenegro, 13 July 1941\n\nThe people of Montenegro rise against the Italian occupiers. You are ordered to destroy the Italian garrison at Grahovo.'
 
-const customStartScreen = ({ container }) => /* html */`
-  <div class="central-screen flex-column ${container}" id="start-screen">
-    <h2>Choose mode</h2>
-    <button class="bg-olive" id="jedan-igrac" data-paid>
-      Player vs computer
-    </button>
-    <button class="bg-olive" id="dva-igraca" data-paid>
-      2 players
-    </button>
-  </div>
-`
+/** The second player's keys in real time, beside the first one's. */
+const secondPlayerControls = {
+  [rightPlayerKeys.up.label]: 'up', [rightPlayerKeys.down.label]: 'down', [rightPlayerKeys.shoot.label]: 'shoot',
+}
 
 export default class UstanakScene extends Scene2D {
-  duel = cannonDuel
-
   constructor() {
     super({ controlKeys: { W: 'up', S: 'down', Space: 'shoot' }, customStartScreen, reportText: report, showControls: true })
   }
@@ -80,23 +77,27 @@ export default class UstanakScene extends Scene2D {
     this.roundWinner = null
     this.turns = new Turns()
     this.vsComputer = true
-    this.audioPlayer = () => this.gunViews[this.vsComputer ? 0 : this.turns.active]
+    /** In real time both pieces aim and fire at once, each again once its last shot is over (owner, 2026-11-27). */
+    this.realTime = false
+    this.audioPlayer = () => this.gunViews[this.vsComputer || this.realTime ? 0 : this.turns.active]
     this.announcingTurn = false
     this.instructionsShown = false
     this.wind = new Wind()
     this.windEffects = new WindEffects(this.wind)
     // Craters stop 8 px above the bottom of the screen, so the layer never opens to nothing.
-    const { hill } = this.duel
-    this.terrain = new Terrain({ floorY, width: canvas2d.width, bottom: canvas2d.height - 8, hill: hill && {
+    this.terrain = new Terrain({ floorY, width: canvas2d.width, bottom: canvas2d.height - 8, hill: {
       middle: canvas2d.width / 2, width: canvas2d.width * hill.width, height: hill.height * pxPerMeter } })
     this.projection = sideProjection({ pxPerMeter, groundY: floorY })
     this.battlefield = new Battlefield({ canvas: this.canvas, groundY: groundLevel, wind: this.wind, terrain: this.terrain })
     this.audioChildren = [this.wind, this.battlefield]
     this.bunker = new Bunker({ x: canvas2d.width * .75, smoky: true, z: 1, imageFilter: landscapeFilter })
     this.bunker.onload = () => this.bunker.placeOnGround(groundLevel + 20)
-    const avion = new Airplane({ src: italianAirplanePictures.fiat, y: canvas2d.height * .4, scale: .85, speed: -240 })
-    const avion2 = new Airplane({ src: italianAirplanePictures.imam, y: canvas2d.height * .2, scale: 0.66, speed: -320 })
+    const avion = new Airplane({ src: italianAirplanePictures.fiat, y: canvas2d.height * .4, scale: .85, speed: -240,
+      x: canvas2d.width + 240 * randomInRange(...firstPass), probability: airplaneChance })
+    const avion2 = new Airplane({ src: italianAirplanePictures.imam, y: canvas2d.height * .2, scale: 0.66, speed: -320,
+      x: waiting, probability: airplaneChance })
     this.add(avion, avion2)
+    this.airplanes = [avion, avion2]
     this.setUpRound()
     this.setRoundScenery()
   }
@@ -112,41 +113,59 @@ export default class UstanakScene extends Scene2D {
   }
 
   /**
-   * Both sides of a round: each gun with its crew and flag bearer, and the partisan skirmisher. The guns fire only in
-   * their turn, at each other, with the round's wind; their shots dig craters.
+   * Both sides of a round: each mortar with its crew and flag bearer, and the partisan skirmisher. The mortars fire at
+   * each other, in turns or at once, with the round's wind; their shots dig craters.
    */
   setUpRound() {
     const groundAt = x => this.groundAt(x)
     const views = { projection: this.projection, camera: this }
     const flagTime = () => this.battlefield.time
-    const { Piece, PieceSprite, CrewSprite } = this.duel
-    this.guns = [0, 1].map(side => new Piece({ x: this.placeOf(side, places.gun), yaw: side * Math.PI, groundAt,
-      wind: this.wind, bounds: { min: 0, max: canvas2d.width / pxPerMeter }, onBlast: x => this.blast(x),
+    this.guns = [0, 1].map(side => new Mortar({ x: this.placeOf(side, places.gun), yaw: side * Math.PI, groundAt,
+      wind: this.wind, bounds: { min: 0, max: canvas2d.width / pxPerMeter }, onBlast: (x, y) => this.blast(x, y),
       canFire: () => this.canShoot(side) }))
-    this.guns[0].targets.push(this.guns[1])
-    this.guns[1].targets.push(this.guns[0])
-    this.crews = [0, 1].map(side => new CannonCrew({ x: this.placeOf(side, this.duel.crew), yaw: side * Math.PI, groundAt }))
+    // a bomb bursts on an airplane it meets in flight (owner, 2026-11-27)
+    const aircraft = this.airplanes.map(plane => airTarget(plane, this.projection))
+    this.guns[0].targets.push(this.guns[1], ...aircraft)
+    this.guns[1].targets.push(this.guns[0], ...aircraft)
+    this.crews = [0, 1].map(side => new CannonCrew({ x: this.placeOf(side, places.crew[side]), yaw: side * Math.PI, groundAt }))
     const bearers = ['partisan', 'italian'].map((kind, side) => new FlagBearer({ kind: bearerKinds[kind],
       x: this.placeOf(side, places.bearer[kind]), yaw: side * Math.PI, groundAt }))
     this.skirmisher = new Skirmisher({ x: places.skirmisher, groundAt })
     this.skirmisher.setState('attack')
-    this.gunViews = this.guns.map(gun => new PieceSprite(gun, views))
+    this.gunViews = this.guns.map(gun => new MortarSprite(gun, views))
     const guns = [this.guns[1], this.gunViews[1], this.guns[0], this.gunViews[0]]
-    const crews = this.crews.flatMap((crew, side) => [crew, new CrewSprite(crew, { italian: side === 1, ...views })])
+    const crews = this.crews.flatMap((crew, side) => [crew, new MortarCrewSprite(crew, { italian: side === 1, ...views })])
     const skirmisher = [this.skirmisher, new SkirmisherSprite(this.skirmisher, views)]
+    // an Italian rifleman across from the skirmisher, so both sides are as many: his old source picture, kneeling and
+    // aiming as the skirmisher does, at its own size and turned to face left, stands in until he is drawn (owner,
+    // 2026-11-27; IG-37)
+    const italian = new GameObject2D(italianRiflemanSource, { x: this.placeOf(1, places.skirmisher) * pxPerMeter,
+      flipY: -1 })
+    italian.onload = () => italian.placeOnGround(floorY)
+    const opposite = [italian]
     this.roundObjects = [
-      ...this.duel.under ? [...crews, ...guns, ...skirmisher] : [...guns, ...skirmisher, ...crews],
+      // the loader stands behind the mortar
+      ...crews, ...guns, ...skirmisher, ...opposite,
       ...bearers.flatMap((bearer, side) => [bearer, new FlagBearerSprite(bearer, { italian: side === 1, flagTime, ...views })]),
     ]
     this.add(...this.roundObjects)
     this.shotsSeen = [0, 0]
-    /** Both players aim with the same keys, each in their turn. */
-    this.cannonKeys = this.guns.map(gun => new CannonKeys(gun, { keyboard, keys: leftPlayerKeys }))
+    this.bindKeys()
     this.ai = new CannonAI({ cannon: this.guns[1], target: this.guns[0], clock: this.session.clock })
   }
 
-  /** The house is scenery, never a shell target; only a nearby explosion ruins it. */
-  blast(x) {
+  /** In turns both players aim with the same keys; in real time the second one has the arrows and Enter. */
+  keysOf(side) {
+    return this.realTime && side === 1 ? rightPlayerKeys : leftPlayerKeys
+  }
+
+  bindKeys() {
+    this.cannonKeys = this.guns.map((gun, side) => new CannonKeys(gun, { keyboard, keys: this.keysOf(side) }))
+  }
+
+  /** The house is scenery, never a shell target; only a nearby explosion ruins it. A burst in the air digs nothing. */
+  blast(x, y) {
+    if (y > this.groundAt(x) + airBurst) return
     const screenX = x * pxPerMeter
     this.terrain.blast(screenX)
     if (this.round === 1 && this.bunker.alive
@@ -167,14 +186,19 @@ export default class UstanakScene extends Scene2D {
     if (button && ['jedan-igrac', 'dva-igraca'].includes(button.id)) this.play(button.id)
   }
 
+  /** The players and the tempo chosen on the start screen. */
   prepare(mode) {
     this.vsComputer = mode !== 'dva-igraca'
+    this.realTime = document.querySelector('#start-screen input[name="tempo"]:checked')?.value === 'real-time'
+    this.bindKeys()
+    if (this.realTime && !this.vsComputer) this.controls2UI = new Controls({ positionClass: 'bottom-right',
+      controlKeys: secondPlayerControls, canToggle: () => this.ui.canToggleControls() })
   }
 
   canShoot(side) {
     return this.session.state === 'running' && !this.ui.outro
       && this.roundWinner === null
-      && this.turns.phase === 'aim' && this.turns.active === side
+      && (this.realTime || (this.turns.phase === 'aim' && this.turns.active === side))
   }
 
   start() {
@@ -189,14 +213,17 @@ export default class UstanakScene extends Scene2D {
     this.turnNotice?.dispose()
     this.turnNotice = this.session.gameplay.child()
     this.announcingTurn = true
-    const text = this.vsComputer
+    // real time has no turns to name, only the place of a new round and how to play
+    const text = this.realTime ? '' : this.vsComputer
       ? (this.turns.active === 0 ? 'Your turn' : 'Computer\'s turn')
       : `Player ${this.turns.active + 1}'s turn`
     const screen = document.createElement('div')
     screen.className = 'central-screen'
-    const title = document.createElement('h3')
-    title.textContent = text
-    screen.append(title)
+    if (text) {
+      const title = document.createElement('h3')
+      title.textContent = text
+      screen.append(title)
+    }
     if (newRound) {
       const location = document.createElement('p')
       location.textContent = this.battlefield.place.place.label
@@ -207,10 +234,11 @@ export default class UstanakScene extends Scene2D {
       status.textContent = result
       screen.prepend(status)
     }
-    const showInstructions = !this.instructionsShown && (!this.vsComputer || this.turns.active === 0)
+    const showInstructions = !this.instructionsShown && (!this.vsComputer || this.realTime || this.turns.active === 0)
     if (showInstructions) {
       const instructions = document.createElement('p')
-      instructions.textContent = this.duel.instructions
+      instructions.textContent = howToPlay
+      if (this.realTime && !this.vsComputer) instructions.textContent += ' Player 2: ↑ ↓ to aim, hold Enter to charge.'
       screen.append(instructions)
       this.instructionsShown = true
     }
@@ -218,7 +246,7 @@ export default class UstanakScene extends Scene2D {
     this.ui.turnSound.play()
     this.ui.messageElement.replaceChildren(screen)
     this.ai.beginTurn()
-    if (this.vsComputer && this.turns.active === 1) this.crews[1].setState('load')
+    if (this.vsComputer && !this.realTime && this.turns.active === 1) this.crews[1].setState('load')
     this.turnNotice.after(showInstructions ? 5 : newRound ? 3 : result ? 2 : 1.2, () => {
       this.ui.message = ''
       this.ui.messageElement.replaceChildren()
@@ -233,14 +261,22 @@ export default class UstanakScene extends Scene2D {
       return
     }
     if (this.roundWinner !== null) return
+    if (this.realTime) {
+      for (const side of this.vsComputer ? [0] : [0, 1]) this.aim(side, dt)
+      return
+    }
     if (this.turns.waitForRelease && !keyboard.isDown(leftPlayerKeys.shoot))
       this.turns.waitForRelease = false
     if (this.turns.phase !== 'aim' || (this.vsComputer && this.turns.active === 1)) return
     if (this.turns.waitForRelease) return
-    const crew = this.crews[this.turns.active]
-    // the crew loads while the fire key is held, and stands by again when it is let go before the shot
-    if (crew.state !== 'attack') crew.setState(keyboard.isDown(leftPlayerKeys.shoot) ? 'load' : 'idle')
-    this.cannonKeys[this.turns.active].handleInput(dt)
+    this.aim(this.turns.active, dt)
+  }
+
+  /** A player aims and fires the piece of `side`; its crew loads while fire is held and stands by when it is let go. */
+  aim(side, dt) {
+    const crew = this.crews[side]
+    if (crew.state !== 'attack') crew.setState(keyboard.isDown(this.keysOf(side).shoot) ? 'load' : 'idle')
+    this.cannonKeys[side].handleInput(dt)
   }
 
   /** A shot of a gun ends its side's aim: the turn waits for the shot, and the crew fires it. */
@@ -248,7 +284,7 @@ export default class UstanakScene extends Scene2D {
     this.guns.forEach((gun, side) => {
       if (gun.shotsFired === this.shotsSeen[side]) return
       this.shotsSeen[side] = gun.shotsFired
-      this.turns.fire(side)
+      if (!this.realTime) this.turns.fire(side)
       this.shotTargetHealth = this.guns[1 - side].health.current
       this.crews[side].setState('attack')
     })
@@ -273,12 +309,14 @@ export default class UstanakScene extends Scene2D {
     if (own.dead) return this.finishRound(1)
     if (enemy.dead) return this.finishRound(0)
     const shooter = this.turns.active
-    if (this.turns.settle(own.hasActiveShot || enemy.hasActiveShot)) {
+    if (this.realTime) {
+      // the computer looks where its shot fell before it aims the next
+      if (this.vsComputer && this.ai.lastShot && !enemy.hasActiveShot) this.ai.beginTurn()
+    } else if (this.turns.settle(own.hasActiveShot || enemy.hasActiveShot)) {
       const target = this.guns[1 - shooter]
       const hit = target.health.current < this.shotTargetHealth
       const subject = this.vsComputer ? (shooter === 0 ? 'You' : 'Enemy') : `Player ${shooter + 1}`
-      const { name } = this.duel
-      const targetName = this.vsComputer ? (shooter === 0 ? `the enemy ${name}` : `your ${name}`) : `Player ${2 - shooter}'s ${name}`
+      const targetName = this.vsComputer ? (shooter === 0 ? 'the enemy mortar' : 'your mortar') : `Player ${2 - shooter}'s mortar`
       this.announceTurn(hit ? `${subject} hit ${targetName}!` : `${subject} missed!`)
     }
     if (this.vsComputer && this.canShoot(1)) this.ai.update()
@@ -348,6 +386,7 @@ export default class UstanakScene extends Scene2D {
 
   end() {
     super.end()
+    this.controls2UI?.end()
     this.battlefield?.ground.dispose()
   }
 
@@ -355,13 +394,13 @@ export default class UstanakScene extends Scene2D {
     return /* html */`
     <div aria-label="Round score" style="position: absolute; top: var(--spacing); left: 50%; transform: translateX(-50%)">${this.score.join(' : ')}</div>
     <div class='top-left'>
-      ${progresBar(this.guns[0].health.current)}
-      <progress class="potisak" value="${this.guns[0].force}" max="${this.duel.settings.maxForce}"></progress>
+      ${healthBar(this.guns[0].health.current / this.guns[0].health.maximum)}
+      <progress class="potisak" value="${this.guns[0].force}" max="${mortar.maxForce}"></progress>
     </div>
 
     <div class='top-right'>
-      ${progresBar(this.guns[1].health.current)}
-      ${this.vsComputer ? '' : `<progress class="potisak" value="${this.guns[1].force}" max="${this.duel.settings.maxForce}"></progress>`}
+      ${healthBar(this.guns[1].health.current / this.guns[1].health.maximum)}
+      ${this.vsComputer ? '' : `<progress class="potisak" value="${this.guns[1].force}" max="${mortar.maxForce}"></progress>`}
     </div>
     `
   }

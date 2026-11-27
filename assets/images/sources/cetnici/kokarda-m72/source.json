@@ -1,0 +1,15 @@
+{
+  "inventory": "M/72",
+  "collection": "Pokrajinski muzej Celje, Zbirka medalj, odlikovanj, značk in znakov",
+  "record": "https://www.pokmuz-ce.si/sl/zbirke/kokarda-s-kape-castnika-vojske-kraljevine-jugoslavije/",
+  "photo": "https://www.pokmuz-ce.si/assets/items/_resampled/ScaleHeightWyI0NjAiXQ/M-72-splet.jpg",
+  "photoSha256": "d0e400f504ca4ac464330b1d0de60a55cd5bbcfa541136a7a374d23b03b9064e",
+  "method": "Manual pixel drawing from the museum photograph. The game version uses a subdued silver palette and leaves the spaces between the metal parts transparent.",
+  "prepare": "python -B assets/images/sources/cetnici/kokarda-m72/prepare.py",
+  "output": "assets/models/character/soldier/chetnik-cockade-m72.webp",
+  "outputSha256": "fce36f768c72e1bbf37e0dd3dd4da2ea07163208a29b439084267a9980aec384",
+  "size": [
+    64,
+    64
+  ]
+}

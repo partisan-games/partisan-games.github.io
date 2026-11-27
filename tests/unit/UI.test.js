@@ -238,6 +238,7 @@ test('on a touch screen the pause button pauses the game, hides under a screen a
   let paused = 0
   const ui = new UI({ ...fakeScene, pause: () => paused++ }, { showPauseButton: true, onContinue: () => {} })
   const button = document.querySelector('.pause-button')
+  assert.equal(button.ariaLabel, 'Pause')
   button.click()
   assert.equal(paused, 1)
   ui.showPauseScreen()

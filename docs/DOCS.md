@@ -40,7 +40,7 @@ Vlasnikovi nazivi i ono što znače u kodu. Ovde idu samo pojmovi koji se stvarn
 | Atlas, sprite tabla; kadar | Slika sa mrežom poza/animacije; kadar je jedno polje, ne cela PNG slika | [Art i sprite animacije](ART.md) |
 | Sidrište; linija oslonca | Tačka u kadru vezana za položaj objekta; linija po kojoj čizme, točkovi ili trup naležu na tlo | [Priprema arta](ART.md) |
 | Tragovi rata, rekviziti bojišta | Olupine, poginuli i drugi zasebni elementi ambijenta; nisu nužno aktivni akteri niti ostaci nastali tokom partije | [Zasebni rekviziti bojišta](ART.md#zasebni-rekviziti-bojišta) |
-| Katalog | [catalog.html](../catalog.html) i `catalog/`, ranije Storybook: priča za svakog aktera i model iz arta, i za one koje još nijedna igra ne koristi | [Katalog](KATALOG.md) |
+| Katalog | [pages/catalog.html](../pages/catalog.html) i `catalog/`, ranije Storybook: priča za svakog aktera i model iz arta, i za one koje još nijedna igra ne koristi | [Katalog](KATALOG.md) |
 | Priča, pozornica | Unos u `catalog/stories/`, `Stage2D`/`Stage3D` | [Katalog](KATALOG.md) |
 | Avionče | [FighterBomber](../core/gameplay/bodies/aircraft/FighterBomber.js): Spitfire, Hurricane, Breguet 19 i Yak-1b | Vis |
 | Kraljica | Bilo koji boss, glavni i najjači protivnik nivoa; u Visu He 111, [AttackPlane](../core/gameplay/bodies/aircraft/AttackPlane.js) vrste `boss` | Vis |
@@ -48,7 +48,8 @@ Vlasnikovi nazivi i ono što znače u kodu. Ovde idu samo pojmovi koji se stvarn
 | Kuća-bunker | [Bunker](../core/gameplay/bodies/artillery/Bunker.js) sa [mitraljescem](../core/gameplay/bodies/soldiers/MachineGunner.js) u prozoru | Bunker, Do Trsta |
 | Strelac i stražar spreda | [Occupier](../core/gameplay/bodies/soldiers/Occupier.js), nemački vojnik koji hoda i puca ka gledaocu, sa prikazom [FrontEnemySprite](../core/actor/soldiers/FrontEnemySprite.js) | Otpisani |
 | Nemac/Četnik spreda, ranije „u rovu” | [TrenchSoldier](../core/gameplay/bodies/soldiers/TrenchSoldier.js) sa odgovarajućim prikazom. [Zakloni](../core/objects/Cover.js) su zasebna scenografija. | Neretva; Nemac i u Otpisanima, hodajući; stare adrese u katalogu ostaju važeće ([granice](KATALOG.md#granice-i-odluke)) |
-| Partizanski/italijanski top | Isto telo [FieldGun](../core/gameplay/bodies/artillery/FieldGun.js) sa [prikazom topa](../core/actor/artillery/FieldGunSprite.js); [posada](../core/gameplay/bodies/soldiers/CannonCrew.js) je zaseban akter | Ustanak |
+| Partizanski/italijanski minobacač | Isto telo [Mortar](../core/gameplay/bodies/artillery/Mortar.js) sa [prikazom minobacača](../core/actor/artillery/MortarSprite.js); [posada](../core/gameplay/bodies/soldiers/CannonCrew.js) je zaseban akter | Ustanak |
+| Poljski top | Telo [FieldGun](../core/gameplay/bodies/artillery/FieldGun.js) sa [prikazom topa](../core/actor/artillery/FieldGunSprite.js) | katalog |
 | Potez | [Potez](../core/gameplay/bodies/aircraft/Potez.js) | Franjo Kluz |
 | Tenkić | [Tank](../core/gameplay/bodies/vehicles/Tank.js) kojim upravlja igrač; isto telo voze i neprijatelji | Tenkići, Do Trsta |
 | Kamenko, Balonko, Laveni | Kože `STONE`, `DISCO` i `LAVA` u [Avatar.js](../core3d/actor/characters/Avatar.js) | Avatar |
@@ -91,7 +92,7 @@ Isto važi za izmenu postojećih UI tekstova: uvoda, poruka, ishoda, natpisa dug
 
 Za uputstva postojećih komandi važi dodatna odluka vlasnika: nedostajuće i netačne opise ispravljati automatski prema stvarnom kodu. Pitanje je potrebno kada dva tastera rade isto, a jedan je već naveden; skrivene prečice i granice ovog odobrenja opisuje [UI vodič](UI.md#komande-tastatura-i-touch).
 
-Pravilo važi za sadržaj igara. Razvojne stranice za pregled, kao [ui.html](../ui.html) i [katalog](../catalog.html), nisu igra: agent sam bira njihove kontrole i tekstove, a vlasnik ih pregleda kad su gotove (odluka vlasnika, 2026-11-20).
+Pravilo važi za sadržaj igara. Razvojne stranice za pregled, kao [pages/ui.html](../pages/ui.html) i [katalog](../pages/catalog.html), nisu igra: agent sam bira njihove kontrole i tekstove, a vlasnik ih pregleda kad su gotove (odluka vlasnika, 2026-11-20).
 
 Ni planirana mogućnost uključivanja/isključivanja opcije ne odobrava checkbox, indikator ili drugo UI rešenje. Pre izmene prikazati konkretan predlog i sačekati izričito odobrenje; do tada pripremiti samo logiku.
 

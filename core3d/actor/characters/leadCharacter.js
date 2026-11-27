@@ -13,8 +13,7 @@ export default function leadCharacter(scene, description, { input, view, ...opti
 
 /**
  * Puts a made character a player leads into `scene`: led by keys from an `Input` made with `input`, heard from where
- * it stands, and seen through the scene's camera chasing it, with `view` as the chase's options. The keys come first,
- * so their touch buttons come before the camera button in the page, and the page's style lifts that button above them.
+ * it stands, and seen through the scene's camera chasing it, with `view` as the chase's options.
  */
 export function lead(scene, { body, model }, { input = {}, view = {} } = {}) {
   const keys = new CharacterKeys(body, new Input(input))

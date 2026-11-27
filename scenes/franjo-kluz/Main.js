@@ -1,7 +1,7 @@
 import { icons, iconImages } from '/core/io/icons.js'
 import canvas2d, { drawSky } from '/core/io/canvas2d.js'
 import Scene2D from '/core/Scene2D.js'
-import { progresBar } from '/ui/components.js'
+import { healthBar } from '/ui/components.js'
 import { randomInRange } from '/core/utils.js'
 import { assets } from '/config.js'
 import Sound from '/core/io/audio/SoundSource.js'
@@ -520,7 +520,7 @@ export default class FranjoKluzScene extends Scene2D {
     const { bombs, ammo, health } = this.player
     return /* html */`
       <div class="top-left">
-        ${progresBar(health.current / plane.health * 100)}
+        ${healthBar(health.current / plane.health)}
         <div>
           <img src="${assets.images}${iconImages.ammunition}" alt="Rounds" width="32" height="8"> ${ammo}
           <br>${icons.bomb.repeat(bombs)}

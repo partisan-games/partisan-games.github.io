@@ -144,10 +144,12 @@ test('old infantry links open the equipment of the right individual', async() =>
   assert.equal(new Set(italianSoldiers).size, italianSoldiers.length)
   assert.equal(open('vojnik-3d-italian-rifle/italian-rifleCoat').look.value, italianLooks.rifleCoat)
 
-  const { story: lowpoly, look: lowpolyOriginal } = open('partizan-jednostavan-model-3d')
-  assert.equal(lowpoly.name, 'Savo')
-  assert.equal(lowpolyOriginal.name, 'Osnovna')
-  assert.equal(open('partizan-jednostavan-model-3d/original').look, lowpolyOriginal)
+  const { story: lowpoly, look: lowpolyDefault } = open('partizan-jednostavan-model-3d')
+  assert.equal(lowpoly.name, 'Sava')
+  assert.equal(findStory(kinds, 'vojnici/zastavnik').story.name, 'Partizanski zastavnik')
+  assert.equal(lowpolyDefault.id, 'pixel-art')
+  assert.equal(open('partizan-jednostavan-model-3d/pixel-art').look, lowpolyDefault)
+  assert.equal(open('partizan-jednostavan-model-3d/original').look.name, 'Osnovna')
   for (const id of ['smedji', 'zimski', 'maslinasti']) {
     const oldRole = open(`partizan-jednostavan-model-3d-${id}`)
     assert.equal(oldRole.story, lowpoly)
@@ -171,17 +173,18 @@ test('old infantry links open the equipment of the right individual', async() =>
   const german = open('nemacki-mitraljezac-3d')
   const flame = open('nemacki-bacac-plamena-3d')
   assert.equal(flame.story, german.story)
-  assert.equal(german.look.id, 'mitraljez')
+  assert.equal(german.look.id, 'pixel-art-drugo-lice')
+  assert.equal(open('nemacki-mitraljezac-3d/mitraljez').look.id, 'mitraljez')
   assert.equal(flame.look.id, 'bacac-plamena')
   assert.notEqual(german.story, open('nemacki-vojnik-3d').story)
 })
 
-test('Pixel art is the default look of Borac sa Sutjeske, and Sutjeska and Maskirna keep their addresses', () => {
+test('Pixel art is the default look of Koča, and Sutjeska and Maskirna keep their addresses', () => {
   const path = 'drugi-svetski-rat-3d/partizan-3d'
   const original = findStory(kinds, `${path}/original`)
   const candidate = findStory(kinds, `${path}/sutjeska`)
   assert.equal(candidate.story, original.story)
-  assert.equal(candidate.story.name, 'Borac sa Sutjeske')
+  assert.equal(candidate.story.name, 'Koča')
   assert.equal(candidate.look.id, 'sutjeska')
   assert.equal(candidate.look.name, 'Sutjeska')
   assert.ok(candidate.story.looks.includes(candidate.look))

@@ -29,7 +29,7 @@ const states = {
  * the force of a shot, at least and at most, in metres a second, and how much holding fire adds to it each second;
  * how fast the barrel rises and sinks, in radians a second, and how far; under what health it burns; and how many
  * times the world's gravity pulls its shots down (`shellFall`). Its shots fly with the `wind`, hit the living ones of
- * `targets`, burst on the ground, where `onBlast(x)` digs a crater, and leave play past the sides of `bounds`. It
+ * `targets`, burst on the ground, where `onBlast(x, y)` digs a crater, and leave play past the sides of `bounds`. It
  * fires only while `canFire()`. A piece gives its own `muzzle`, and its `parts`: the shapes drawn on it that take the
  * hits, each with the place, turn and mirroring it is drawn with.
  */

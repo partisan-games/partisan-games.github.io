@@ -1,0 +1,72 @@
+{
+  "tool": "OpenAI ImageGen",
+  "model": "assets/models/character/soldier/german-machine-gunner.fbx",
+  "reference": "uv-reference.png",
+  "source": "redraw.png",
+  "embeddedPanels": [
+    "3359EFA0.jpg",
+    "3754B440.jpg",
+    "278A34A0.jpg",
+    "3359AD00.jpg"
+  ],
+  "clothReferences": {
+    "tunic-reference.jpg": "37547580.jpg",
+    "helmet-reference.jpg": "278A3DA0.jpg"
+  },
+  "prompt": "Precisely repaint this fictional video game UV texture atlas as clean matte pixel art. The square image is divided into 2 equally sized square columns and 2 rows with absolutely no gaps, borders, words or lines. Trace each panel in place, preserve fixed outlines, anchors, colors, feature positions and orientation. This is a texture edition, not a character illustration. Upper left is exactly the unfolded adult face and neck and hair UV, with fixed eyebrows, eye holes (the pale placeholder openings at their exact locations), nose and mouth, close-cropped brown hair and a little beard stubble. Keep its scowling expression and all separate details below the chin. Upper right is muted dark slate grey cloth and black leather UV, with the dark red thin line and folds in exactly the same places. Bottom left is one brown eyeball texture with centered brown iris, black pupil and off-white surrounding color, no veins. Bottom right is the worn muted olive canvas military bag texture on white, with fixed silhouette, pockets, seams and stitching. Make careful discreet pixel clusters at medium retro game resolution with 4 to 6 earthy color values in each material. Natural warm light complexion, dark brown hair, slate grey wool, drab canvas, low contrast and simple contours. No markings, change of garment cut, gradients, blur, heavy outline, extra facial features or layout changes. Preserve seamless color continuity, especially at the face and clothing edges.",
+  "prepare": "python -B assets/images/sources/nemci/german-heavy-pixel-art/prepare.py",
+  "outputDirectory": "assets/models/character/soldier/german-heavy-pixel-art",
+  "sizes": {
+    "face": 128,
+    "trousers": 256,
+    "eyes": 64,
+    "canvas-bag": 128,
+    "tunic": 256,
+    "helmet": 256
+  },
+  "portraitVariation": {
+    "source": "portrait-new-identity.png",
+    "reference": "3359EFA0.jpg · embedded FBX map, upper-left tile in uv-reference.png",
+    "prompt": "Create a very visibly DIFFERENT original fictional man as a position-locked UV texture edit of the reference. Precisely retain its square unfolded UV format, exact face and neck outline, exact empty white eye openings, exact center and geometry registration of the mouth, nostrils and ear positions, and the small separate texture islands below the chin. Absolutely do not move any UV island or add a new pair of ears or any eyeballs to the face. This is the flat albedo texture for a skinned 3D game model, not a portrait render. Replace the existing dark-haired bearded man with a clean-shaven, slightly older lean-looking man, pale muted peach complexion, chestnut-blond close-cropped hair with receding high temples and ash blond sideburns ending above the center of the ears. Give him thin widely spaced soft-brown eyebrows, deliberate shallow under-eye folds, a broad straight nose bridge (use shading instead of shifting the nose), flatter thinner lips, and two lighter blocky highlights telling the cheeks apart. Chin clean shaven, no beard shadow or mustache. Normal subtle expression, no scowl. Place two or three faint pale freckles on the nose and cheeks, no facial hair. Use explicit 1990s game pixel art with large clean sharply stepped square clusters, limited coherent 4–6 skin ramps, and simple chunky matte hair highlights, distinctly drawn, not airbrushed and no photo grain. Around the eye holes paint only flat brown lids, leave the tiny preexisting blank white slits in exactly their original spots. Face, ears, hair and neck fill precisely the same canvas area as the first reference. Preserve separated mouth/eye-inset pieces along bottom in position. Preserve warmer natural light flesh, no baked directional lighting, no borders, no text.",
+    "prepare": "python -B assets/images/sources/nemci/german-heavy-pixel-art/prepare.py --new-portrait",
+    "sourceSha256": "ae04f51f6bf2a7623278468f5e5cf175d7aa3c746aa17870726b21d95f197418",
+    "maps": {
+      "face-new-identity.webp": "97aaafdc099929356f9f3db0f7525fcc477b8fa2ac8ea96f0486f0659beac988",
+      "eyes-new-identity.webp": "a44fa62f2bc7ff35018cea6d4aea1950fadc1eb0e90178b17cbb66b0ddade6b7"
+    }
+  },
+  "runtime": {
+    "triangles": 10281,
+    "meshCount": 1,
+    "drawGroups": 23
+  },
+  "sourceSha256": "ce2564e186cf82f5169849a18ba1189f90fe48815ac2e1385194624927c8fd85",
+  "referenceSha256": "10300004892c06edf55573db25e8cdb4923cdbb3b32b05d82d85650b1f5d69e8",
+  "modelSha256": "93e80a1cc47774ed6d4e8eebd756401e18001881a42eead886747aa01821b0b5",
+  "outputs": {
+    "face": {
+      "sha256": "8a75979e0b44c041eef05387f88531904d4c7373e5d04a81dc694c3299fddd41",
+      "bytes": 20588
+    },
+    "trousers": {
+      "sha256": "961ae1753b7e20aa1d341decc23b4af3e80426569bc4ff7eb1604c01721714cc",
+      "bytes": 52712
+    },
+    "eyes": {
+      "sha256": "6d37803a5ce7debd8bc82c5bfc9583c104970329ed489d482dcf979e32909a9e",
+      "bytes": 4716
+    },
+    "canvas-bag": {
+      "sha256": "e204e3a490c28d00512b56be0479535947224025f8b3a7633d01b3bbda3ff66b",
+      "bytes": 17246
+    },
+    "tunic": {
+      "sha256": "3c27549487cb027366e4284bc5c1a8fdfaa5c184f87d17dd4c9170a077cacc7f",
+      "bytes": 33722
+    },
+    "helmet": {
+      "sha256": "d9c5573d675a40f086073a5e7e6e8059c6624b621e68917b2c00b3e74e638423",
+      "bytes": 48664
+    }
+  }
+}

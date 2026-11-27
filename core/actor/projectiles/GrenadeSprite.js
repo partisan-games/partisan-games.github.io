@@ -3,7 +3,7 @@ import Explosion from '/core/actor/effects/Explosion.js'
 import Sound from '/core/io/audio/SoundSource.js'
 
 /** The grenade in the grenadier's hand in the atlas of his throw, which flies alone once thrown, in pixels of it. */
-const picture = { src: 'game-ready/vojnici/bombas-throw-right-sprites.webp', x: 213, y: 0, width: 9, height: 9 }
+export const grenadePicture = { src: 'game-ready/vojnici/bombas-throw-right-sprites.webp', x: 213, y: 0, width: 9, height: 9 }
 /** How fast it tumbles in flight, in turns a second. */
 const tumble = 2
 
@@ -13,7 +13,7 @@ const tumble = 2
  */
 export default class GrenadeSprite extends GameObject2D {
   constructor(grenade, { projection, camera = null }) {
-    super(picture.src, { visible: false, z: -2 })
+    super(grenadePicture.src, { visible: false, z: -2 })
     Object.assign(this, { grenade, projection })
     this.burst = new Explosion(camera, { scale: .6 })
     this.children.push(this.burst)
@@ -49,8 +49,8 @@ export default class GrenadeSprite extends GameObject2D {
     ctx.translate(this.x, this.y)
     ctx.rotate(this.turn * Math.PI * 2)
     ctx.imageSmoothingEnabled = false
-    ctx.drawImage(this.image, picture.x, picture.y, picture.width, picture.height,
-      -picture.width / 2, -picture.height / 2, picture.width, picture.height)
+    ctx.drawImage(this.image, grenadePicture.x, grenadePicture.y, grenadePicture.width, grenadePicture.height,
+      -grenadePicture.width / 2, -grenadePicture.height / 2, grenadePicture.width, grenadePicture.height)
     ctx.restore()
   }
 }

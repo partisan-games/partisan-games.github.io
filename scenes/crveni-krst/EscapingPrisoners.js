@@ -8,7 +8,7 @@ const retreats = { turns: 12, distances: [2.5, 4, 6] }
 /** Follow through the maze, charge nearby guards and wait out distant fire behind solid cover. */
 export default class CampCompanion {
   constructor(body, { leader, enemies, navigation, coverPoints, sees, index, companions = [], random = Math.random,
-    postureDuration = 0, postureShift = () => 0 }) {
+    postureDurations, postureShift = () => 0 }) {
     Object.assign(this, { body, leader, enemies, navigation, coverPoints, sees, index, companions, random })
     this.state = 'follow'
     this.route = []
@@ -24,7 +24,7 @@ export default class CampCompanion {
     this.leaderPosition = { x: leader.x, z: leader.z }
     body.crouched = true
     body.waitPose = index % 2 ? 'crouchRest' : 'crouchIdle'
-    this.posture = new Posture(body, { duration: postureDuration, shift: postureShift,
+    this.posture = new Posture(body, { durations: postureDurations, shift: postureShift,
       clear: (who, point) => this.navigation.clear(who, point) })
   }
 
@@ -238,7 +238,7 @@ export default class CampCompanion {
         body.crouched = false
         body.steer()
         const angle = this.turnToward(nearby, dt)
-        if (angle < .1 && (!this.posture.duration || (!body.posture && !this.posture.crouched))) body.attack()
+        if (angle < .1 && (!this.posture.durations.crouchUp || (!body.posture && !this.posture.crouched))) body.attack()
       }
       return
     }

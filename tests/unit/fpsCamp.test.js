@@ -286,10 +286,16 @@ test('FPS camp initializes with real model files, ten enemies and two first aids
   crouching.crouched = true
   steps.step(0)
   assert.equal(steps.stepSound.volume, .22, 'a crouching companion steps as quietly as the crouching player')
+  const walkers = game.world.objects.filter(object => object.stepSound)
+  assert.equal(walkers.length, 1 + game.escapees.length + game.enemies.length)
+  for (const { stepSound } of walkers) assert.match(stepSound.file, /^footstep-snow-/, 'everyone in the camp steps on snow')
   const standUp = steps.actions.crouchUp.getClip().duration
   const standStep = steps.postureShift('crouchUp', standUp)
   // the recording moves his hips in its own units; only the model's scales make them metres
   assert.ok(standStep > .15 && standStep < .4, `getting up he steps forward as recorded, about a quarter metre: ${standStep}`)
+  const crouchStep = steps.postureShift('crouchDown', steps.actions.crouchDown.getClip().duration)
+  assert.ok(crouchStep < -.1 && standStep + crouchStep > -.1 && standStep + crouchStep < .1,
+    `crouching down he steps back as recorded, so up and down again he keeps his place: ${crouchStep}`)
   assert.equal(new Set(game.escapees.map(({ model }) => model.actions.crouchIdle.timeScale)).size, 3)
   const standing = game.escapees.map(({ model }) => model.actions.idle.getClip().name)
   assert.equal(new Set(standing).size, 3, `each stands his own way: ${standing}`)
@@ -300,7 +306,7 @@ test('FPS camp initializes with real model files, ten enemies and two first aids
     assert.equal(model.actions.crouchRest.getClip().name, 'Crouch Idle')
     assert.equal(model.actions.crouchPeek.getClip().name, 'Crouch Look Around Corner')
     assert.equal(model.actions.crouchUp.getClip().name, 'Crouch To Stand')
-    assert.equal(model.actions.crouchDown.getClip().name, 'Stand To Crouch')
+    assert.equal(model.actions.crouchDown.getClip().name, 'Standing To Crouched')
     const hand = model.mesh.getObjectByName('mixamorigRightHand')
     model.update(0, 0)
     const start = hand.getWorldPosition(new THREE.Vector3())

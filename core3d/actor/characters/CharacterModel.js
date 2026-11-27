@@ -5,6 +5,7 @@ import Sound from '/core/io/audio/SoundSource.js'
 import { audioPoint } from '/core/io/audio/audio3d.js'
 import { getSize } from '/core3d/helpers.js'
 import optionalEffect, { failOptionalEffect } from '/core/io/optionalEffect.js'
+import wreckFire from './wreckFire.js'
 
 /** The clips played once and held at their end; every other clip loops. */
 const once = ['attack', 'attack2', 'special', 'jump', 'pain', 'death']
@@ -13,6 +14,8 @@ const swings = ['attack', 'attack2', 'special']
 const fade = .25
 /** A blow reaching farther than this, in metres, is a shot, and sparks where it ends. */
 const shotReach = 9
+/** How many recorded steps each ground has, `footstep-<ground>-01.mp3` onwards. */
+const stepsRecorded = 12
 
 /** The seconds of each one-off clip in `animDict`, which a character's body takes as the lengths of its actions. */
 export function clipLengths(animations, animDict) {
@@ -32,15 +35,15 @@ export function modelSize(mesh) {
 
 /**
  * How a character on foot looks and sounds in 3D: its model, standing on the body's feet and facing its way, playing
- * the clip of what it does, with its weapon in its hands; its steps, its blows, the thud of a hit or a landing,
- * sparks where a shot ends and the `flame` of its attack. A model whose feet sink below its soles is
- * drawn `raise` metres higher; dead, an `intact` one, as a gun whose crew has fallen, stays as it stands. It only reads
- * the body.
+ * the clip of what it does, with its weapon in its hands; its steps on its `ground`, gravel or snow, its blows, the
+ * thud of a hit or a landing, sparks where a shot ends and the `flame` of its attack. A model whose feet sink below its
+ * soles is drawn `raise` metres higher; dead, an `intact` one, as a gun whose crew has fallen, stays as it stands. It
+ * only reads the body.
  */
 export default class CharacterModel {
   constructor(body, { mesh, animations = mesh.userData.animations ?? [], animDict = {}, twoHandedWeapon,
     rightHandWeapon, attackSound, attackProfile = 'rifle', flame = null, raise = 0, deathPose = null,
-    impactAt = () => null, partMotion }) {
+    impactAt = () => null, partMotion, ground = 'gravel' }) {
     this.body = body
     this.lastSwing = null
     this.sinceSwing = Infinity
@@ -50,7 +53,9 @@ export default class CharacterModel {
     this.anim = animations.length
       ? new Animator({ mesh: this.mesh, animations, animDict, twoHandedWeapon, rightHandWeapon }) : null
     this.sounds = []
-    this.stepSound = new Sound('footstep-gravel-01.mp3', { variants: Array.from({ length: 11 }, (_, i) => `footstep-gravel-${String(i + 2).padStart(2, '0')}.mp3`), profile: 'footstep', spatial: audioPoint(this) })
+    const [step, ...variants] = Array.from({ length: stepsRecorded },
+      (_, i) => `footstep-${ground}-${String(i + 1).padStart(2, '0')}.mp3`)
+    this.stepSound = new Sound(step, { variants, profile: 'footstep', spatial: audioPoint(this) })
     this.impactSound = new Sound('body-impact-01.mp3', { variants: ['body-impact-03.mp3', 'body-impact-04.mp3'], profile: 'impact', spatial: audioPoint(this) })
     this.sounds.push(this.stepSound, this.impactSound)
     if (attackSound) {
@@ -147,7 +152,7 @@ export default class CharacterModel {
     action.play()
   }
 
-  /** An unrigged vehicle settles on its side, a tank tilting less and burning. */
+  /** Ground the final pose, keeping destroyed armor level. */
   showDeath(dt) {
     const { body, mesh, deathPose } = this
     if (deathPose === 'intact') return
@@ -156,8 +161,9 @@ export default class CharacterModel {
       const ease = t * t * (3 - 2 * t)
       const airborne = body.altitude && body.feet > body.supportHeight + .01
       this.settled = airborne ? 0 : Math.min((this.settled ?? 0) + dt / .55, 1)
-      mesh.rotation.z = (deathPose === 'armor' ? .24 : 1.45) * ease
-      if (deathPose === 'armor') this.charWreck()
+      if (deathPose === 'armor') {
+        if (!this.partMotion?.paintedWreck) this.charWreck()
+      } else mesh.rotation.z = 1.45 * ease
     }
     // Ground the actual deformed skin, including a long gun, and cache its held final pose.
     if (this.finalOffset === undefined) {
@@ -186,6 +192,14 @@ export default class CharacterModel {
     })
   }
 
+  showWreckFire(dt, t) {
+    const { mesh, body } = this
+    if (!mesh.parent) return
+    const { height, length } = body.size
+    this.wreckFlames ??= wreckFire(mesh, [0, height * .53, length * .27])
+    this.wreckFlames.update(dt, t)
+  }
+
   update(dt, t) {
     const { body, seen } = this
     const before = this.mesh.position.clone()
@@ -194,7 +208,10 @@ export default class CharacterModel {
     this.sinceSwing += dt
     this.play(this.chooseClip())
     this.anim?.update(dt)
-    if (body.dead) this.showDeath(dt)
+    if (body.dead) {
+      this.showDeath(dt)
+      if (this.deathPose === 'armor') optionalEffect(this, 'wreck fire', () => this.showWreckFire(dt, t))
+    }
     if (body.shotsFired > seen.shots) this.strike()
     if (body.hitsTaken > seen.hits || (seen.airborne && !body.airborne && body.alive))
       optionalEffect(this, 'impact sound', () => this.impactSound.play())
@@ -289,6 +306,7 @@ export default class CharacterModel {
     this.ended = true
     this.wreckMaterials?.forEach(material => material.dispose())
     this.partMotion?.dispose()
+    optionalEffect(this, 'wreck fire cleanup', () => this.wreckFlames?.dispose())
     for (const effect of [this.ricochet, this.flame]) {
       if (!effect) continue
       optionalEffect(effect, 'effect cleanup', () => {

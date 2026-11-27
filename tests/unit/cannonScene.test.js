@@ -77,10 +77,7 @@ test('after a refused surrender only the death of the last defender ends combat'
   assert.equal(game.session.state, 'finished')
 })
 
-test('Battle for Jablanica initializes its actual model and puts the camera close to the barrel regardless of a saved orbital view', async t => {
-  const saved = localStorage.getItem('cameraIndex')
-  localStorage.setItem('cameraIndex', '2')
-  t.after(() => saved === null ? localStorage.removeItem('cameraIndex') : localStorage.setItem('cameraIndex', saved))
+test('Battle for Jablanica initializes its actual model and puts the camera close to the barrel', async t => {
   const game = await level(t)
   const partisan = game.infantry.fighters[0].figure.getObjectByProperty('isSkinnedMesh', true)
   const uniform = partisan.material.find(({ name }) => name === '_1___Default')
@@ -94,7 +91,6 @@ test('Battle for Jablanica initializes its actual model and puts the camera clos
   const cameraDistance = game.camera.position.distanceTo(breech)
   assert.ok(cameraDistance > 3.7 && cameraDistance < 4.7)
   assert.ok(game.camera.fov >= 60 && game.camera.fov < 70)
-  assert.equal(localStorage.getItem('cameraIndex'), '2', 'other games retain the saved camera choice')
   const initial = game.camera.getWorldDirection(new THREE.Vector3())
   assert.ok(initial.z < -.98 && Math.abs(initial.x) < .01)
   game.shoot()

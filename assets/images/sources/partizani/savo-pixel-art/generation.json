@@ -4,9 +4,19 @@
   "prompt": "Repaint the first reference as a flat original color study for a video game's 3D albedo texture. It is a frontal orthographic portrait of the SAME mature Yugoslav partisan field character with olive cloth cap and its small red five-pointed star, broad cheekbones, dark brown eyebrows, full dark moustache, sideburns, dark brown hair and olive jacket. Preserve the FIRST reference's exact silhouette, head width, position and proportions, with the same centered eyes, nose, moustache, jaw, neck, cap and collar in the original vertical place. Same aspect ratio and framing as first image. The second image is stylistic only: restrained sharp pixel-art clusters, muted flesh hues and deliberately blocked tones. Color the face using muted warm weather-worn skin, no exaggerated nose or wrinkles, light restrained clusters around temples and cheekbones, matte olive jacket with subtle edge detail, natural dark brown hair. Keep the red star crisp and in the same size and position. This is a color map, use even neutral lighting, no strong highlight, cast shadow or gradients. A plain uniform gray backdrop the same as the first reference, no props, lettering or borders. One portrait from eye level, no tilt, no profile, no modernization.",
   "references": {
     "model-reference.png": "Frontalni ortografski prikaz Savinog postojećeg modela.",
-    "style": "Odobreni 3D pixel art Borca sa Sutjeske, iz iste igre."
+    "style": "Odobreni 3D pixel art Koče, iz iste igre."
   },
   "generated": "portrait.png",
+  "brownUniform": {
+    "tool": "OpenAI ImageGen",
+    "input": "portrait.png",
+    "source": "brown-portrait.png",
+    "prompt": "Use the provided square-pixel ortho bust of Sava as the precise registered input, with the same canvas aspect, scale, and landmark positions. Create a color study to map onto an existing 3D character in an original WWII partisan game. Repaint the current olive outer layer as a plain warm medium-brown military wool blouse with a low folded collar, restrained brown khaki highlights and warm umber shadows. The side cap should be cloth in the same warm faded brown family, with the original small sharply red five-pointed star untouched. Keep all face features, dark moustache, eyebrows and sideburns EXACTLY in place, untouched; neck and head act as positional reference. Keep the blouse shoulders and jacket edges in place. Repaint the cap and outer blouse using clean small clusters of pixel art and sparing readable folds which follow the collar and shoulders. Warm dusty brown, muted field wool, use brown around RGB (102,85,65) with slight tonal variations, no orange, no green, no grey, no camouflage or mottling, no strong contrast. The under-blouse insert is dark brown. Front facing orthographic portrait with no perspective, neutral even color without shiny highlights or baked directional illumination. Keep the same neutral dark grey background, composition and framing. No new ornament, shoulder tabs, rifle, or equipment.",
+    "prepare": "python -B assets/images/sources/partizani/savo-pixel-art/prepare.py <triangles.json> --brown-uniform",
+    "output": "uniform-brown.webp",
+    "sourceSha256": "0453b1301e39f26932b086a96c915df186ca49095a2854280349c2f42262a085",
+    "outputSha256": "cfea8bb2b86425fc6dfd1c056e8f15726057b51536f5423774c7c4ee83bd1e49"
+  },
   "historicalReferences": [
     "https://commons.wikimedia.org/wiki/File:Savo_Kova%C4%8Devi%C4%87.jpg",
     "https://commons.wikimedia.org/wiki/File:Narodni_heroj_Sava_Kova%C4%8Devi%C4%87.jpg"
