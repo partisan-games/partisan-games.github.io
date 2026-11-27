@@ -39,7 +39,8 @@ export default class FrontEnemySprite extends BodySprite {
 
   get animation() {
     if (this.body.dead) return { name: 'dead', time: this.body.stateTime }
-    if (this.hitTime < this.clip.seconds('hit')) return { name: 'hit', time: this.hitTime }
+    if (this.clip.art.clips.hit && this.hitTime < this.clip.seconds('hit'))
+      return { name: 'hit', time: this.hitTime }
     if (this.body.state === 'move') {
       const name = this.body.forward < 0 ? 'walk-left' : 'walk-right'
       return { name, time: this.walked / kinds[this.kind].stride * this.clip.seconds(name) }
@@ -47,9 +48,20 @@ export default class FrontEnemySprite extends BodySprite {
     return { name: this.body.state === 'attack' ? 'attack' : 'idle', time: this.body.stateTime }
   }
 
+  get targetHeight() {
+    const { targetPixels, standingPixels } = this.clip.art
+    return targetPixels ? this.height * targetPixels[this.body.state === 'attack' ? 'attack' : 'idle'] / standingPixels
+      : this.height
+  }
+
+  get leavesBody() {
+    return Boolean(this.clip.art.clips.dead)
+  }
+
   render(ctx) {
     if (!this.shown) return
     const { name, time } = this.animation
+    if (!this.clip.art.clips[name]) return
     const { anchor, muzzle, standingPixels } = this.clip.art
     const scale = this.height / standingPixels
     const { x } = this, y = this.y + this.height / 2

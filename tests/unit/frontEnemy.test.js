@@ -36,14 +36,18 @@ function fixture(kind, yaw = 0) {
   return { body, view, world, render, translations }
 }
 
-test('frontal riflemen fire at their cadence and stop when killed', () => {
+/** The kinds that walk in from an edge; the gunners in hiding only rise and fire. */
+const walkers = Object.keys(kinds).filter(kind => kinds[kind].stride)
+
+test('frontal Germans fire at their own cadence and stop when killed', () => {
   for (const kind of Object.keys(kinds)) {
-    const body = new Occupier({ shotInterval: kinds[kind].shotInterval })
+    const { shotInterval } = kinds[kind]
+    const body = new Occupier({ shotInterval })
     body.setState('attack')
     body.update(.5)
     assert.equal(body.shotsFired, 1)
-    body.update(.7)
-    assert.equal(body.shotsFired, 2)
+    body.update(shotInterval - .5)
+    assert.equal(body.shotsFired, 2, kind)
     body.takeHit(1)
     const fired = body.shotsFired
     body.setState('attack')
@@ -52,8 +56,8 @@ test('frontal riflemen fire at their cadence and stop when killed', () => {
   }
 })
 
-test('all frontal roles use actual left/right walks, freeze hits in pause and hold the final corpse', t => {
-  for (const kind of Object.keys(kinds)) for (const yaw of [0, Math.PI]) {
+test('all frontal walkers use actual left/right walks, freeze hits in pause and hold the final corpse', t => {
+  for (const kind of walkers) for (const yaw of [0, Math.PI]) {
     const { body, view, world, render, translations } = fixture(kind, yaw)
     t.after(() => world.end())
     const { width, height, gutter } = view.clip.art
@@ -113,7 +117,7 @@ test('both retained frontal actors preserve physical figure and muzzle-flash siz
 })
 
 test('frontal walkers step as far as they go, so their feet do not slide', t => {
-  for (const kind of Object.keys(kinds)) {
+  for (const kind of walkers) {
     const { body, view, world, render } = fixture(kind)
     t.after(() => world.end())
     body.setState('move')

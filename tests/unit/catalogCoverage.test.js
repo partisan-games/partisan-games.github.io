@@ -34,7 +34,8 @@ const folders = {
   'core/gameplay/bodies/boats': ['SeaMine.js'],
   'scenes/bunker': ['Main.js', 'Mina.js'],
   'scenes/neretva': ['Main.js', 'AirAttack.js', 'Battlefield.js', 'BridgeCrossing.js'],
-  'scenes/otpisani': ['Main.js'],
+  // The crossing view uses the Panzer III already shown in The Germans Advance.
+  'scenes/otpisani': ['Main.js', 'streets.js', 'Panorama.js', 'AmbushView.js', 'CrossingTank.js', 'CrossingArmoredCar.js', 'VehicleGun.js'],
   'scenes/ustanak': [
     'Main.js', 'Turns.js', 'Battlefield.js', 'GroundLayer.js', 'Terrain.js', 'Wind.js', 'WindEffects.js',
   ],
@@ -47,7 +48,7 @@ const folders = {
   // through their owning character stories rather than as duplicate actors.
   'core3d/actor/derived/ww2': ['PartisanAim.js', 'partisanLooks.js', 'italianLooks.js', 'shapeM33.js', 'soldierFace.js'],
   // the cannon fires through the Ammo physics world, which its stage does not have yet
-  'core3d/actor/derived': ['Cannon.js'],
+  'core3d/actor/derived': ['Cannon.js', 'RenaultTracks.js'],
   // bases of the planes, a plane's look, and its missile, seen in the planes' stories
   // the planes are looks of the Warplane body, seen in its' stories
   'core3d/aircraft/derived': ['Bomber.js', 'FlyingFortress.js', 'Liberator.js', 'Messerschmitt.js', 'Mitchell.js', 'Spitfire.js'],

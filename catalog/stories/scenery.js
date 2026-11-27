@@ -2,6 +2,7 @@ import SceneryLayer, * as sceneryModule from '/core/SceneryLayer.js'
 import sceneryArt from '/core/sceneryArt.js'
 import GameObject2D, * as pictureModule from '/core/actor/GameObject2D.js'
 import Cover, * as coverModule from '/core/objects/Cover.js'
+import SupplyCrate, * as supplyCrateModule from '/core/objects/SupplyCrate.js'
 import { iconImages } from '/core/io/icons.js'
 
 /** Adds a still prop to the stage. */
@@ -69,6 +70,11 @@ const pictures = [
 
 export const scenery = [
   ...props,
+  {
+    id: 'sanduk-otpisani', name: 'Sanduk sa zalihama', game: 'Otpisani', block: supplyCrateModule,
+    catalogGroup: ['Scenografija', 'Predmeti'],
+    create: stage => put(stage, new SupplyCrate({ x: stage.width / 2, feet: stage.groundY })),
+  },
   ...pictures.map(({ id, name, game, group, src, view }) => ({
     id, name, game, block: pictureModule, catalogGroup: ['Scenografija', group],
     create: stage => picture(stage, src, view),

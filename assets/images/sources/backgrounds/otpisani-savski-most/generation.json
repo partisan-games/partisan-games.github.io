@@ -1,0 +1,71 @@
+{
+  "generator": "OpenAI ImageGen",
+  "panels": [
+    {
+      "source": "right.png",
+      "prompt": "Draw one extremely wide 2.5:1 grayscale side-scrolling game backdrop, RIGHT half of a panorama, Old Sava road bridge in Belgrade on 20 October 1944. First reference is actual November 1944 from the deck, use ONLY for the steel construction, cross-braced grid beams, narrow geometry, wooden deck and modest railings. Second reference is the series' same gray archival illustrative grain and across-street arcade composition. Now show a new side-biased almost broadside view at road level (slightly elevated just enough to see roadway), so the travel lane is the same horizontal band all the way across, from y=72% (far railing foot) to y=86% (near deck edge). Full river below deck from left to right with simple masonry piers ending in the water. A single long recognizable steel tied-arch main span occupies x24?88%: two gray plate-girder smooth curved arch ribs (one on each side of deck), shallow bow rises to y=27%, connected by crossbeams and top X bracing; vertical rigid slim hangers descending to level continuous road deck. Accurate simple 1942 industrial silhouette, no cable suspension, no multiple gothic arches. Leftmost 18% is only straight low deck approach above water, low scrap timber railing, horizontal street play lane, fine river fog and distant shore, absolutely no large foreground obstacles; this aligns with adjoining panel. On the right main arch leads into simple low approach girders. Several low sparse sandbag clusters and period crates along the FAR railing or girder recesses for sprite placement, with strong readable open gaps and most of lane empty. The bridge stands and the deck is intact. Plain bare shores and foggy low river horizon behind, muted gray sky with diffuse October light, subtle analogue grain, neutral monochrome. No characters, vehicles, flags, modern deck equipment, rails for trams, cables for trolley wires, UI or letters. One coherent image, not a collage.",
+      "visualReferences": [
+        "bridge-1944-reference.jpg",
+        "assets/images/sources/backgrounds/otpisani-kalemegdan/right.png"
+      ]
+    },
+    {
+      "source": "left.png",
+      "prompt": "Create one extra-wide 2.5:1 full-bleed grayscale game background continuing directly to the LEFT of reference 1. Savamala riverside, Belgrade, October 1944, transition from the city bank onto the Old Sava road bridge. Hand-rendered black and white documentary atmosphere, match reference 1 sky, values, empty foggy shore and river, and exact vertical alignment of deck and rail. This is a new stretch, no main arch here; that appears just to the right outside this image. Composition: left 53% approach past one austere low warehouse with shuttered goods bays, one short war-damaged masonry corner and a brick retaining wall and embankment of the Savamala quay area. Sparse low sandbags, crates and rubble by dark doorway and parapet, open travel lane. Town building shape distinctly industrial riverside depot, no famous city landmarks or ornate multistorey hotel. From x=55% on, bank drops down below the road into the river, the road carries on seamlessly as the same straight narrow steel-deck approach and rail that enters reference 1. From x=76% to right edge deliberately match left 15% of reference 1: low angled rail top at y68%, roadway/deck surface near y73%, straight bottom of steel girder at y78%, water below it extending right with faint reflections, distant low hazy shore; no prominent pier, sandbag or post in last 10% so seam is clean. Keep ground and deck the real same level, no extra bridges, no double decks, no tram rails, no contemporary buildings, signs, vehicles, people or lettering. Image 2 gives level of war damage and grain only. One coherent panoramic side-biased gameplay view.",
+      "visualReferences": [
+        "right.png",
+        "assets/images/sources/backgrounds/otpisani-kalemegdan/left.png"
+      ]
+    }
+  ],
+  "historicalReferences": [
+    {
+      "publisher": "Biblioteka Znaci",
+      "collection": "Muzej revolucije naroda Jugoslavije",
+      "url": "https://znaci.org/fotografija.php?br=15105",
+      "file": "bridge-1944-reference.jpg",
+      "author": "Unknown",
+      "date": "1944-11",
+      "rights": "Public domain per archive",
+      "record": "5th Krajina Division crossing on the way to the Syrmian Front; reference for road deck, railings and arch bracing."
+    },
+    {
+      "publisher": "Opstina Savski venac",
+      "url": "https://savskivenac.rs/sites/default/files/inline-files/Savskivenac-48-2016.pdf",
+      "record": "Pages 10?11: road bridge opened in 1942 and saved from destruction in October 1944."
+    },
+    {
+      "publisher": "Dom omladine Beograda",
+      "url": "https://arhiv.domomladine.org/",
+      "record": "Bitka za Beograd ? Oktobar 1944, reporting fighting around the railway station and the Sava bridge."
+    },
+    {
+      "publisher": "Muzej grada Beograda",
+      "url": "https://www.mgb.org.rs/public/files/yearbook_by_year_documents/document/godisnjak%202010-134-150.pdf",
+      "record": "Jelena A. Petrovic, historic port, warehouses and trading district on the right bank of the Sava."
+    }
+  ],
+  "historicalScope": "Original artistic reconstruction for the October 1944 finale. The approach from Savamala and length of the crossing are compressed for horizontal scrolling. Warehouse frontage, rubble and cover locations are composed for the game.",
+  "preparation": {
+    "mode": "L",
+    "resampling": "Pillow LANCZOS",
+    "panelSize": [
+      2560,
+      1024
+    ],
+    "overlap": 120,
+    "blend": "Linear horizontal ramp from left to right across the overlap.",
+    "encoding": "WebP lossless, method 6"
+  },
+  "output": "assets/images/background/otpisani/savski-most.webp",
+  "frame": [
+    5000,
+    1024
+  ],
+  "sha256": {
+    "left.png": "4151bdcfea3dd827f40c46ec6bc5e969a34a744b0b3e039cf8e4d93a65c82bb8",
+    "right.png": "3c97b2924b5a53b560f5324e3b8bad1772a1137f1ac077f2370dcc77da2ddfb4",
+    "bridge-1944-reference.jpg": "f3a6746743616269cc58a1e6aaaa096f2ff5ff8407714411b464eef00f0adb45",
+    "savski-most.webp": "a0268fff455b8545d068fee0665d91d0fb46b407ed4748a6c260e4ed5c53a59a"
+  }
+}

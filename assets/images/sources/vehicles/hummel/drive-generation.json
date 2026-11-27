@@ -1,0 +1,20 @@
+{
+  "source": "original-idle.png",
+  "origin": "The first idle cell of the existing pre-redrawn Hummel atlas before the drive animation update.",
+  "previousAtlasSha256": "af5fb3bd911e8822cf4f9ad0e14015deb9588e1e1b9c59e31e21f2cd57d33d44",
+  "output": "assets/images/game-ready/tenkovi/hummel-sprites.webp",
+  "preparation": "python -B assets/images/sources/vehicles/hummel/prepare-drive.py",
+  "cell": [
+    320,
+    160
+  ],
+  "gutter": 4,
+  "clips": {
+    "idle": 1,
+    "drive": 4
+  },
+  "sha256": {
+    "original-idle.png": "11a9a8f65d803a1de2b2b3b71e2bc343d5fb89715e83e3349a060f36e60e7043",
+    "hummel-sprites.webp": "a72aecb1a7ba74d713774adcda53e1ca5427848921c1bd5b38160311547eea8b"
+  }
+}

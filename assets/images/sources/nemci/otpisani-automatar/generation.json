@@ -1,0 +1,64 @@
+{
+  "generator": "OpenAI ImageGen",
+  "sources": [
+    {
+      "file": "poses.png",
+      "prompt": "Create one transparent pixel-art sprite sheet for an original 1940s game. Exactly two equal square panels side by side, with no lines or labels, one full-body adult soldier in each, both standing directly front-facing, both shoulders seen, both boots pointing at viewer. Same gray steel helmet with no insignia, plain field gray-green wool jacket and trousers, plain dark boots and two slim pouches on belt, between the two poses absolutely same face, anatomy and style. He holds a compact dark 1940s prop carbine with slim straight magazine and narrow stock against his chest. Left pose relaxed ready low with prop across waist; right pose steady with the same prop raised closer to the shoulder, slightly foreshortened so it remains recognizable, held securely in both hands. No muzzle effect, no action or contact between people, no scenery, no background, no props elsewhere, no text. Deliberate realistic pixel clusters matching the muted green frontal rifleman in the reference. Fit the whole silhouette in each invisible cell, substantial transparent gaps, exact consistent height and foot positions.",
+      "visualReference": "assets/images/game-ready/vojnici/otpisani-rifleman-pixel-sprites.webp, comparison with sentry"
+    },
+    {
+      "file": "frontal-aim.png",
+      "prompt": "Revise only the RIGHT figure of this two-cell transparent pixel art sheet for an arcade first-person game. Preserve the left figure and same helmet, face, uniform, stance, level of detail and absolute body height. In the right pose the compact arcade prop now crosses depth toward the camera, not sideways across the screen: very short foreshortened silhouette, near end appears as a small centered dark round face just right of sternum, hands wrap naturally, shoulders remain frontal with both boots visible in the exact same position as left. Avoid a long horizontal projection or barrel sticking out to the side. The composition should read from a camera right in front, with an unobscured face, no impact, no firing effects and no other subjects. Retain both original cell locations and generous transparent space. Original pixel art muted light-and-shadow, strictly transparent background, no scenery, no text.",
+      "visualReference": "poses.png"
+    }
+  ],
+  "preparation": {
+    "selection": "Left half of poses.png, right half of frontal-aim.png",
+    "alphaThreshold": 128,
+    "scale": 0.22959183673469388,
+    "resampling": "nearest neighbor",
+    "sourceAnchorX": [
+      450,
+      414
+    ],
+    "alignment": "Common baseline at the bottom of the opaque figures."
+  },
+  "output": "assets/images/game-ready/vojnici/otpisani-submachine-gunner-pixel-sprites.webp",
+  "cell": [
+    192,
+    216
+  ],
+  "gutter": 4,
+  "anchor": [
+    96,
+    200
+  ],
+  "standingPixels": 180,
+  "muzzle": [
+    96,
+    70
+  ],
+  "visibleBounds": {
+    "idle": [
+      59,
+      20,
+      139,
+      200
+    ],
+    "attack": [
+      65,
+      20,
+      127,
+      200
+    ]
+  },
+  "columns": {
+    "idle": 0,
+    "attack": 1
+  },
+  "sha256": {
+    "poses.png": "b25f0a4878383f7da4f40be2ecaed3ec349285fc54b9cddb288bac1247dacc6e",
+    "frontal-aim.png": "8333929c9d99db9d84a962894b311ad49d2543a9bce894f0bbb2ca5308670330",
+    "otpisani-submachine-gunner-pixel-sprites.webp": "d2d8101bd8d0107dbd732f88e968fa5f0bb35b7c8e5b2f2e37731cd4820729fa"
+  }
+}

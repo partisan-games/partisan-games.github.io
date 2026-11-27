@@ -1,0 +1,35 @@
+{
+  "model": "assets/models/character/soldier/partisan-lowpoly.fbx",
+  "tool": "OpenAI ImageGen",
+  "prompt": "Repaint the first reference as a flat original color study for a video game's 3D albedo texture. It is a frontal orthographic portrait of the SAME mature Yugoslav partisan field character with olive cloth cap and its small red five-pointed star, broad cheekbones, dark brown eyebrows, full dark moustache, sideburns, dark brown hair and olive jacket. Preserve the FIRST reference's exact silhouette, head width, position and proportions, with the same centered eyes, nose, moustache, jaw, neck, cap and collar in the original vertical place. Same aspect ratio and framing as first image. The second image is stylistic only: restrained sharp pixel-art clusters, muted flesh hues and deliberately blocked tones. Color the face using muted warm weather-worn skin, no exaggerated nose or wrinkles, light restrained clusters around temples and cheekbones, matte olive jacket with subtle edge detail, natural dark brown hair. Keep the red star crisp and in the same size and position. This is a color map, use even neutral lighting, no strong highlight, cast shadow or gradients. A plain uniform gray backdrop the same as the first reference, no props, lettering or borders. One portrait from eye level, no tilt, no profile, no modernization.",
+  "references": {
+    "model-reference.png": "Frontalni ortografski prikaz Savinog postojećeg modela.",
+    "style": "Odobreni 3D pixel art Borca sa Sutjeske, iz iste igre."
+  },
+  "generated": "portrait.png",
+  "historicalReferences": [
+    "https://commons.wikimedia.org/wiki/File:Savo_Kova%C4%8Devi%C4%87.jpg",
+    "https://commons.wikimedia.org/wiki/File:Narodni_heroj_Sava_Kova%C4%8Devi%C4%87.jpg"
+  ],
+  "prepare": [
+    "Iz korena repozitorijuma pokrenuti Blender -b --python assets/images/sources/partizani/savo-pixel-art/extract-uv.py -- <privremeni-triangles.json>.",
+    "Pokrenuti python -B assets/images/sources/partizani/savo-pixel-art/prepare.py <privremeni-triangles.json> uz Pillow i NumPy."
+  ],
+  "output": {
+    "directory": "assets/models/character/soldier/savo-pixel-art",
+    "files": [
+      "face.webp",
+      "hair-and-leather.webp",
+      "trousers.webp",
+      "uniform.webp"
+    ],
+    "width": 256,
+    "height": 256,
+    "format": "lossless WebP"
+  },
+  "modelCost": {
+    "triangles": 5964,
+    "meshes": 2,
+    "materialDrawsAfterGrouping": 10
+  }
+}

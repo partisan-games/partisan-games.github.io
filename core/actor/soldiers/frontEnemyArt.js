@@ -1,5 +1,42 @@
 // Measurements of the art, kept by hand.
+export const coveredMachineGunner = {
+  src: 'game-ready/vojnici/otpisani-machine-gunner-pixel-sprites.webp',
+  width: 192,
+  height: 180,
+  gutter: 4,
+  anchor: { x: 72, y: 168 },
+  standingPixels: 180,
+  muzzle: [160, 70],
+  targetPixels: { idle: 125, attack: 136 },
+  clips: {
+    crouch: { row: 0, frameColumns: [0], ms: [1000] },
+    peek: { row: 0, frameColumns: [1], ms: [1000] },
+  },
+}
+
+export const submachineGunner = {
+  src: 'game-ready/vojnici/otpisani-submachine-gunner-pixel-sprites.webp',
+  width: 192,
+  height: 216,
+  gutter: 4,
+  anchor: { x: 96, y: 200 },
+  standingPixels: 180,
+  muzzle: [96, 70],
+  clips: {
+    idle: { row: 0, frameColumns: [0], ms: [1000] },
+    attack: { row: 0, frameColumns: [1], ms: [1000] },
+  },
+}
+
 export default {
+  submachineGunner,
+  machineGunner: {
+    ...coveredMachineGunner,
+    clips: {
+      idle: coveredMachineGunner.clips.crouch,
+      attack: coveredMachineGunner.clips.peek,
+    },
+  },
   'rifleman': {
     'src': 'game-ready/vojnici/otpisani-rifleman-pixel-sprites.webp',
     'width': 512,

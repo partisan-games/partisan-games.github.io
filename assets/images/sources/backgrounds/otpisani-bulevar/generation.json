@@ -1,0 +1,54 @@
+{
+  "generator": "OpenAI ImageGen",
+  "panels": [
+    {
+      "source": "left.png",
+      "prompt": "Create ONE extra-wide panoramic 2D arcade-game background, left half of one continuous 2.45:1 + 2.45:1 scrolling image, October 1944 Belgrade, Bulevar kralja Aleksandra university quarter as viewed obliquely across the boulevard at eye height. Aspect ratio 2.45:1 intended, edge-to-edge artwork including lower road, no letterboxing. The attached game background is a reference for the precise strictly black-and-white grainy archival newspaper tonality, cobbles and contrast ONLY, DO NOT reproduce its Terazije skyscraper or destroyed buildings. Camera for scrolling arcade is mostly straight across boulevard toward the long street-facing fa?ade line, subtle local perspective only; street and tram rails RUN HORIZONTALLY across the lower strip, far curb at y=78% and rails at y=91%, absolutely horizontal and continue past both edges. First two thirds have densely spaced recognizable Serbian interwar masonry facades, rendered academic university library with raised central stone pediment and sober pale classical detailing, adjacent small shops with modest shutters, balcony railings, deep black doors and dark readable ground and first-floor windows large enough to place game sprites. Interspersed patched plaster, isolated broken parapets, a partial rubble mound, sandbags along sidewalk. KEEP the final 16% width an open side-street gap and quiet grayscale pale hazy open sky from the horizon at y=78% upwards, with no wall, vertical pole or trees near the RIGHT edge, to join a second street block. The entire uninterrupted foreground is passable road across bottom 22%, with modest tonal highlights. Sparse historic overhead tram wires but terminate well before the right edge. Medium distance building height about 60% of image. No characters, no text, no cars, no signage, no postwar architecture, no giant smoke cloud. No borders or vignetting. Monochrome hand-rendered documentary noir with coarse period film texture, appropriate to blend with the game reference. One single uninterrupted panorama.",
+      "visualReference": "assets/images/background/beograd-1944-crno-belo.webp"
+    },
+    {
+      "source": "right.png",
+      "prompt": "Draw one NEW very wide 2.45:1 full bleed background tile continuing immediately to the RIGHT of the supplied grayscale image. Match its camera height, building scale, contrast, sky tone, subtle historic film grain and 1944 Belgrade war setting. Match precisely the horizontal foreground: far curb at 86% of image height, paired rail lines visible crossing horizontally at 93% and 96% of frame height all the way across, textured gray cobbles to bottom. View straight across long curved boulevard. At the LEFT edge keep the first 14% width relatively open pale sky and low distant hazy block details around 77?83% of height, suggesting a gap for a side street and joining the supplied image seamlessly. No near objects or poles in that left 14%. Then a different recognizable interwar Belgrade Modernist rounded corner building modeled after the Faculty of Law of 1940, understated rounded stone corner facade above a street-level entrance, wide simple rows of windows, then older brick and stucco shops and apartment houses with timber doorways, ribbed lintels, wrought iron, two shallow entrances, a derelict wall and just one modest pile of bricks near the curb. Dark open windows, doors and cover read separately, clear texture but shadows not crushed. War damage localized to a couple of facades. Clear empty foreground all along the bottom. Same film-like neutral gray values as reference. One single background, no crops or letterbox, no people, no contemporary vehicles or signs, no typography, no vignette. Buildings only occupy about same height and band as reference.",
+      "visualReference": "left.png"
+    }
+  ],
+  "historicalReferences": [
+    {
+      "publisher": "Istorijski arhiv Beograda",
+      "url": "https://stalnapostavka.arhiv-beograda.org/sr/postavka/xx/drgugi-svetski-rat-oslobodjenje.html",
+      "record": "247, photograph of destroyed German motorized artillery outside the Students' Home, 1944; establishes wartime context near the university quarter."
+    },
+    {
+      "publisher": "Univerzitetska biblioteka",
+      "url": "https://unilib.rs/vesti/2020/rodjendan-biblioteke/",
+      "record": "University Library opened in 1926; contemporary newspaper mention of the tram on Aleksandrova."
+    },
+    {
+      "publisher": "Zavod za zastitu spomenika kulture grada Beograda",
+      "url": "https://beogradskonasledje.rs/wp-content/uploads/2012/10/Katalog-moderna-bgd-final-small-resolution.pdf",
+      "record": "Faculty of Law, Bulevar kralja Aleksandra 67, completed in 1940; rounded corner entrance and restrained Modernist facade."
+    }
+  ],
+  "historicalScope": "Original artistic reconstruction of the university district in October 1944. Facade sequence, cover locations and damage are gameplay composition choices.",
+  "preparation": {
+    "mode": "L",
+    "resampling": "Pillow LANCZOS",
+    "panelSize": [
+      2560,
+      1024
+    ],
+    "overlap": 120,
+    "blend": "Linear horizontal ramp from left to right across the overlap.",
+    "encoding": "WebP lossless, method 6"
+  },
+  "output": "assets/images/background/otpisani/bulevar-kralja-aleksandra.webp",
+  "frame": [
+    5000,
+    1024
+  ],
+  "sha256": {
+    "left.png": "603a743ca967d6e050e033dc16519477706ba73ce26bdb2327ccc70153fd5bf7",
+    "right.png": "b1bcc5df3cdcb090b8f1dcb0890c768ae7ba55fef2d50ee40b31b3bbad167a1c",
+    "bulevar-kralja-aleksandra.webp": "0848ab68f98c9be0e5fb9ef82e7702318f5c896b8395fc17f1aa0001d3f56edc"
+  }
+}

@@ -42,8 +42,13 @@ const sutjeskaPixelMaps = {
   Tex_0534_0_dds: 'sutjeska-pixel-art/face.webp',
   Tex_0532_0_dds: 'sutjeska-pixel-art/eyes.webp',
 }
-const pixelOutfitLook = maps => ({ id: 'pixel-art', name: 'Pixel art', value: { dress(mesh, textures) {
+const pixelOutfitLook = (maps, { useMapColors = false } = {}) => ({ id: 'pixel-art', name: 'Pixel art', value: { dress(mesh, textures) {
   dressFighter(mesh, maps, textures)
+  if (useMapColors) mesh.traverse(part => {
+    if (!part.isMesh) return
+    for (const material of [].concat(part.material))
+      if (Object.hasOwn(maps, material.name)) material.color.setHex(0xffffff)
+  })
   for (const file of Object.values(maps)) {
     const map = textures.get(file)
     if (!map) continue
@@ -52,6 +57,12 @@ const pixelOutfitLook = maps => ({ id: 'pixel-art', name: 'Pixel art', value: { 
   }
 } } })
 const sutjeskaPixelLook = pixelOutfitLook(sutjeskaPixelMaps)
+const savoPixelLook = pixelOutfitLook({
+  'army.green': 'savo-pixel-art/uniform.webp',
+  skin: 'savo-pixel-art/face.webp',
+  brown: 'savo-pixel-art/hair-and-leather.webp',
+  'navy.blue': 'savo-pixel-art/trousers.webp',
+}, { useMapColors: true })
 const crniPixelLook = pixelOutfitLook({
   'mat_11-27373E00.jpg': 'crni-pixel-art/cap.webp',
   'mat_12-27374460.jpg': 'crni-pixel-art/face.webp',
@@ -191,6 +202,7 @@ function infantryStory(id, name, game, block, portraitNames = {}) {
   }
   original.looks.sort((a, b) => Number(b.id === 'strelac') - Number(a.id === 'strelac'))
   if (block === partisanModule) original.looks.unshift(sutjeskaPixelLook, sutjeskaLook)
+  if (block === partisanLowpolyModule) original.looks.push(savoPixelLook)
   if (block === sovietPartisanModule) original.looks.unshift(nikoletinaPixelLook)
   return [original, ...identities.values()]
 }

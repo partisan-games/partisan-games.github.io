@@ -2,10 +2,9 @@ import AdvanceSprite from '/core/actor/AdvanceSprite.js'
 import * as advanceArt from '/core/actor/advanceArt.js'
 import scales from '../scales.js'
 
-const game = 'The Germans Advance'
 const pxPerMeter = scales.side
 
-function story(kind, id, name) {
+function story(kind, id, name, game = 'The Germans Advance') {
   return { id, name, game, pxPerMeter, way: 1, block: advanceArt,
     create(stage, way) {
       const sprite = new AdvanceSprite(kind)
@@ -39,4 +38,7 @@ export const soldiers = [
   story('officer', 'advance-podoficir', 'Nemački podoficir · znak za napredovanje'),
 ]
 
-export const vehicles = [story('tank', 'panzer-iii', 'Panzer III sa posadom')]
+export const vehicles = [
+  story('tank', 'panzer-iii', 'Panzer III sa posadom'),
+  story('t34', 't34-85', 'T-34-85', 'Otpisani'),
+]

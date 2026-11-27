@@ -40,7 +40,7 @@ export function modelSize(mesh) {
 export default class CharacterModel {
   constructor(body, { mesh, animations = mesh.userData.animations ?? [], animDict = {}, twoHandedWeapon,
     rightHandWeapon, attackSound, attackProfile = 'rifle', flame = null, raise = 0, deathPose = null,
-    impactAt = () => null }) {
+    impactAt = () => null, partMotion }) {
     this.body = body
     this.lastSwing = null
     this.sinceSwing = Infinity
@@ -75,6 +75,7 @@ export default class CharacterModel {
     this.walked = 0
     this.seen = { shots: body.shotsFired, hits: body.hitsTaken, airborne: body.airborne, alive: body.alive }
     this.place()
+    this.partMotion = partMotion?.(this.mesh, body)
     this.play(this.chooseClip())
     this.anim?.mixer.update(0)
   }
@@ -189,6 +190,7 @@ export default class CharacterModel {
     const { body, seen } = this
     const before = this.mesh.position.clone()
     this.place()
+    this.partMotion?.update()
     this.sinceSwing += dt
     this.play(this.chooseClip())
     this.anim?.update(dt)
@@ -286,6 +288,7 @@ export default class CharacterModel {
     if (this.ended) return
     this.ended = true
     this.wreckMaterials?.forEach(material => material.dispose())
+    this.partMotion?.dispose()
     for (const effect of [this.ricochet, this.flame]) {
       if (!effect) continue
       optionalEffect(effect, 'effect cleanup', () => {

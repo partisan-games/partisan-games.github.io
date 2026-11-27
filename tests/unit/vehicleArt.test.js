@@ -94,3 +94,32 @@ test('a tank view mirrors its art only when the body faces the other way than th
     { art: vehicleArt.germanTank, facing, barrel: { src: 'barrel.png' }, projection }).flipY
   assert.deepEqual([flip(Math.PI, -1), flip(0, -1), flip(0, 1), flip(Math.PI, 1)], [1, -1, 1, -1])
 })
+
+test('the Hummel catalogue drives with the game atlas and stops on one still frame', async t => {
+  const { vehicles } = await import('/catalog/stories/franjoKluz.js')
+  const { create } = vehicles.find(({ id }) => id === 'hummel')
+  let view
+  const projection = sideProjection({ pxPerMeter: 40, groundY: 400 })
+  const stage = { width: 800, groundY: 400, cameraX: 0, cameraY: 0, projection,
+    add(_body, sprite) {
+      view = sprite
+    } }
+  const body = create(stage, 1)
+  loadAtlas(view, 1312, 336)
+  const frames = []
+  t.mock.method(context, 'drawImage', (_image, x, y) => frames.push([x, y]))
+  body.setState('move')
+  for (let i = 0; i < 4; i++) {
+    body.update(.16)
+    view.update(.16)
+    view.render(context)
+  }
+  assert.deepEqual(frames, [[332, 172], [660, 172], [988, 172], [4, 172]])
+  body.setState('idle')
+  for (let i = 0; i < 2; i++) {
+    body.update(.3)
+    view.update(.3)
+    view.render(context)
+  }
+  assert.deepEqual(frames.slice(-2), [[4, 4], [4, 4]])
+})

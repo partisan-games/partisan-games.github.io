@@ -140,6 +140,35 @@ test('tank frames are sampled inside transparent gutters without changing their 
   }
 })
 
+test('the T-34-85 catalogue uses the prepared drive and fire rows with a shared ground anchor', async() => {
+  createPageElements()
+  const { vehicles } = await import('/catalog/stories/advance.js')
+  const story = vehicles.find(({ id }) => id === 't34-85')
+  const { width, height, anchor, standingPixels } = art.t34
+  for (const way of [1, -1]) {
+    const actor = story.create({ width: 800, groundY: 500, add() {} }, way)
+    const [{ image }] = actor.children
+    Object.defineProperty(image, 'naturalWidth', { value: 4080 })
+    const draws = [], flips = [], flashes = []
+    const ctx = { save() {}, restore() {}, translate() {}, scale: flip => flips.push(flip),
+      drawImage: (...args) => draws.push(args.slice(1)), fillRect: (...args) => flashes.push(args),
+      createRadialGradient: () => ({ addColorStop() {} }) }
+    actor.setState('drive')
+    actor.update(.2)
+    actor.render(ctx)
+    actor.setState('fire')
+    actor.render(ctx)
+    actor.update(.06)
+    actor.render(ctx)
+    assert.deepEqual(draws.map(rect => rect.slice(0, 4)),
+      [[1364, 252, width, height], [4, 500, width, height], [684, 500, width, height]])
+    const size = 40 * 2.72 / standingPixels
+    assert.ok(draws.every(rect => rect[4] === -anchor.x * size && rect[5] === -anchor.y * size))
+    assert.ok(flips.every(flip => flip === way))
+    assert.equal(flashes[0][0] + (way < 0 ? flashes[0][2] : 0), Math.round(400 + way * 390 * size))
+  }
+})
+
 test('a signaling NCO stays planted, never fires, and resumes his own marching phase', () => {
   for (const soldier of soldiers.filter(unit => unit.kind === 'officer')) for (const at of soldier.signals) {
     const start = soldierAt(soldier, at + .01), end = soldierAt(soldier, at + 1.39)

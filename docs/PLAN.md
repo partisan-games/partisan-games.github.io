@@ -6,21 +6,23 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 
 | # | ID | Posao | Ko | Status |
 |---|---|---|---|---|
+| | **[Vlasnik](#vlasnik)** | | | |
+| 1 | [VL-01](#vl-01) | Pronaći snimke, modele i zvuke koje igre čekaju | Vlasnik | 📋 TODO |
 | | **[Art](#art)** | | | |
-| 1 | [AR-P16](#ar-p16) | Precrtati art koji 2D igre još koriste neprecrtan | Codex | 🔄 In progress |
-| 2 | [AR-P17](#ar-p17) | Precrtati 3D aktere u pixel art | Codex | 🔄 In progress |
+| 2 | [AR-P16](#ar-p16) | Precrtati art koji 2D igre još koriste neprecrtan | Codex | 🔄 In progress |
+| 3 | [AR-P17](#ar-p17) | Precrtati 3D aktere u pixel art | Codex | 🔄 In progress |
 | | **[Igre i ideje](#igre)** | | | |
-| 3 | [IG-18](#ig-18) | Otpisani kao arkadna pucačina kroz četiri beogradske ulice | Codex: panorame; Claude: igra | 📋 TODO |
-| 4 | [IG-29](#ig-29) | Dovršiti logor Crveni krst u Escape Concentration Camp | Codex, Claude | 🔄 In progress |
-| 5 | [CK-01](#ck-01) | Crveni krst: uskladiti vidljivog lika, telo i stopala | Vlasnik: snimak; Claude | 🔄 In progress |
-| 6 | [CK-02](#ck-02) | Crveni krst: prave animacije, držanje cevi i prelazi | Claude | 🔄 In progress |
-| 7 | [CK-03](#ck-03) | Crveni krst: prepoznatljivi logoraši i katalog | Codex | 📋 TODO |
-| 8 | [CK-06](#ck-06) | Crveni krst: tlo, pozadina i zvuci po snegu | Codex: teren i pozadina; zvuci nedostaju | 📋 TODO |
-| 9 | [CK-07](#ck-07) | Crveni krst: pregled celog proboja i regresije | Claude | 📋 TODO |
-| 10 | [IG-31](#ig-31) | Dodati pruge i mostove u Warplane | Codex: modeli; Claude: igra | 📋 TODO |
-| 11 | [IG-34](#ig-34) | Napraviti vernu scenu i igru opsade Kraljeva po dogovorenom scenariju | Vlasnik, Claude, Codex | 🔄 In progress |
-| 12 | [IG-35](#ig-35) | Otkriti igre na telefonu posle merenja i optimizacije, kad su nivoi gotovi | Claude, vlasnik | 📋 TODO |
-| 13 | [IG-36](#ig-36) | Ustanak: probati dvoboj minobacača umesto topova | Claude | 🔄 In progress |
+| 4 | [IG-18](#ig-18) | Otpisani kao arkadna pucačina kroz četiri beogradske ulice | Claude | 🔄 In progress |
+| 5 | [IG-29](#ig-29) | Dovršiti logor Crveni krst u Escape Concentration Camp | Codex, Claude | 🔄 In progress |
+| 6 | [CK-01](#ck-01) | Crveni krst: uskladiti vidljivog lika, telo i stopala | Claude | 🔄 In progress |
+| 7 | [CK-02](#ck-02) | Crveni krst: prave animacije, držanje cevi i prelazi | Claude | 🔄 In progress |
+| 8 | [CK-03](#ck-03) | Crveni krst: prepoznatljivi logoraši i katalog | Codex | 📋 TODO |
+| 9 | [CK-06](#ck-06) | Crveni krst: tlo, pozadina i zvuci po snegu | Codex: teren i pozadina; Claude: zvuci | 📋 TODO |
+| 10 | [CK-07](#ck-07) | Crveni krst: pregled celog proboja i regresije | Claude | 📋 TODO |
+| 11 | [IG-31](#ig-31) | Dodati pruge i mostove u Warplane | Claude | 📋 TODO |
+| 12 | [IG-34](#ig-34) | Napraviti vernu scenu i igru opsade Kraljeva po dogovorenom scenariju | Vlasnik, Claude, Codex | 🔄 In progress |
+| 13 | [IG-35](#ig-35) | Otkriti igre na telefonu posle merenja i optimizacije, kad su nivoi gotovi | Claude, vlasnik | 📋 TODO |
+| 14 | [IG-36](#ig-36) | Ustanak: probati dvoboj minobacača umesto topova | Claude | 🔄 In progress |
 
 ## Održavanje plana
 
@@ -29,6 +31,20 @@ Ovo je jedino mesto za otvorene poslove, nalaze, ideje i preostale preglede. Odl
 Po završetku ukloniti stavku i njene nepotrebne beleške. Korisne potvrđene odluke i ograničenja sačuvati u postojećem matičnom dokumentu, bez dnevnika rada; zatim popraviti preostale reference. ID-jeve stavki ne koristiti ponovo. Premeštanje stavke nije nova provera ni prihvatanje, a izbor ideje nije automatski nalog za izradu.
 
 Važe [DOCS](DOCS.md), [ugovor arta](ART.md#obavezna-integracija) i [arhitektura](ARHITEKTURA.md). Izvršene dokaze i ograničenja čuva [TESTING](TESTING.md). Plan je za agente: u njemu nema vlasnikovih pregleda, jer vlasnik gleda tek na kraju; stavka se zatvara kad je agentov deo urađen i proveren (vlasnik, 2026-11-26). Ranije završene provere ne ponavljati zbog reorganizacije plana.
+
+<a id="vlasnik"></a>
+## Vlasnik
+
+<a id="vl-01"></a>
+### VL-01 · Šta vlasnik traži
+
+Ovo je jedini spisak onoga što vlasnik nalazi i preuzima; stavke za koje služi samo vode ovamo. Novi 3D modeli dolaze od vlasnika, ne od Codexa (vlasnik, 2026-11-27).
+
+- [ ] Mixamo **Stand To Crouch** za model radnika, Without Skin, 30 fps, In Place ako postoji, sačuvan pored [Crouch To Stand.fbx](../assets/models/character/soldier/Crouch%20To%20Stand.fbx). Za [CK-01](#ck-01).
+- [ ] Mixamo pojedinačni udarac jednom rukom za cev logoraša, umesto sadašnje kombinacije mačem. Za [CK-02](#ck-02).
+- [ ] Zvuci koraka po snegu (hod i trk) i zamaha metalnom cevi. Za [CK-06](#ck-06).
+- [ ] 3D modeli pruge i čeličnog železničkog mosta za pogled iz vazduha. Za [IG-31](#ig-31).
+- [ ] 3D model barikade za ulicu u Kraljevu (sanduci, kola, nameštaj). Za [IG-34](#ig-34).
 
 ## Art
 
@@ -41,19 +57,19 @@ Olupina poljskog topa može postati zaseban rekvizit bojišta; još nije raspore
 
 Stare crteže koje 2D igre još koriste precrtati u istom stilu i meri, kao lossless WebP u [game-ready](../assets/images/game-ready). Akteri i vozila dele art između igre i kataloga. Nove slike povezati u igri, a stare ukloniti kada više nemaju potrošače.
 
-**Precrtano i povezano.** [Partizanski čamac](../catalog.html#brodovi/partizanski-camac) ima precrtan trup, oštećenje i olupinu. [Betonski bunker](../catalog.html#artiljerija/bunker-do-trsta) koristi novi osnovni crtež, oštećenje i ruševinu u Do Trsta. [Kuća-bunker](../catalog.html#artiljerija/kuca-bunker) ima tri stepena oštećenja i [novog mitraljesca](../assets/images/game-ready/vojnici/mitraljezac-pixel-sprites.webp). [Fiat CR.42](../catalog.html#avioni/fiat-cr42) i [IMAM Ro.57](../catalog.html#avioni/imam-ro57) koriste nove crteže u Ustanku. U Neretvi Nemci koriste [precrtani rov](../assets/images/game-ready/polozaji/neretva/rov-prazan.webp), a četnici [gomilu kamenja](../assets/images/game-ready/polozaji/neretva/gomila-kamenja.webp). Do Trsta koristi [precrtanu crkvu](../assets/images/game-ready/scenery/crkva-do-trsta.webp). Nova [eksplozija](../assets/images/game-ready/efekti/eksplozija.webp) koristi se u Bunkeru, Čamcu, Franji Kluzu, Neretvi, Do Trsta i Visu. Precrtana [granata](../assets/images/game-ready/projektili/granata.webp) koristi se za zajednički prikaz projektila u letu i za ikonu municije u Franji Kluzu. Vis koristi precrtano [ostrvo](../assets/images/game-ready/scenery/vis/ostrvo.webp) tokom leta i [bazu](../assets/images/game-ready/scenery/vis/baza.webp) pri sletanju. Franjo Kluz koristi precrtanu [zgradu aerodroma](../assets/images/game-ready/scenery/franjo-kluz/aerodrom.webp) i [ruševinu](../catalog.html#scenografija/rusevina-franjo-kluz). [Kamena kuća](../catalog.html#scenografija/kamena-kuca-do-trsta) i [kuća sa dimnjakom](../catalog.html#scenografija/kuca-sa-dimnjakom-do-trsta) precrtane su za Do Trsta. [Šumarak](../catalog.html#scenografija/sumarak) je precrtan za Do Trsta i Franjo Kluz.
+Redosled precrtavanja (vlasnik, 2026-11-27): prvo akteri, neprijatelji, vozila i ono što nose, zatim zgrade i velika scenografija, a sitni predmeti i efekti na kraju.
 
-| Slika | Igre |
-|---|---|
-| [Raketa](../assets/images/items/raketa.png) | Čamac |
-| [Nagazna mina](../assets/images/items/nagazna.png) | Bunker |
-| [Krv](../assets/images/sprites/efekti/krv-mala.png) | Bunker |
-| [Plamen](../assets/images/plamen.gif) | Prikaz udara topovske granate, npr. Tenkići, Do Trsta i Ustanak |
-| [Bomba](../assets/images/items/bomba.png) | Franjo Kluz, Neretva, Do Trsta, Vis |
-| [Partizanska zastava](../assets/images/sprites/zastava.png) i [italijanska zastava](../assets/images/armies/talijani/vojnici/strelci/zastava.svg) | Ustanak, italijanska zastava i u Jablanici |
-| [Žbun](../assets/images/nature/zbun.png) i [oblak](../assets/images/nature/oblak.gif) | Franjo Kluz; oblak i u Visu |
-| [Municija](../assets/images/items/municija.png) i [zdravlje](../assets/images/items/zdravlje.png) | Vis |
-| [Plamen pucnja](../assets/images/pucanje.png) | Otpisani |
+| Prioritet | Slika | Igre |
+|---|---|---|
+| Visok | [Partizanska zastava](../assets/images/sprites/zastava.png) i [italijanska zastava](../assets/images/armies/talijani/vojnici/strelci/zastava.svg), koje nose zastavnici | Ustanak, italijanska zastava i u Jablanici |
+| Srednji | [Žbun](../assets/images/nature/zbun.png) i [oblak](../assets/images/nature/oblak.gif) | Franjo Kluz; oblak i u Visu |
+| Nizak | [Nagazna mina](../assets/images/items/nagazna.png) | Bunker |
+| Nizak | [Bomba](../assets/images/items/bomba.png) | Franjo Kluz, Neretva, Do Trsta, Vis |
+| Nizak | [Raketa](../assets/images/items/raketa.png) | Čamac |
+| Nizak | [Municija](../assets/images/items/municija.png) i [zdravlje](../assets/images/items/zdravlje.png) | Vis |
+| Nizak | [Plamen](../assets/images/plamen.gif) | Prikaz udara topovske granate, npr. Tenkići, Do Trsta i Ustanak |
+| Nizak | [Plamen pucnja](../assets/images/pucanje.png) | Otpisani |
+| Nizak | [Krv](../assets/images/sprites/efekti/krv-mala.png) | Bunker |
 
 Van popisa su pozadine, korisnički interfejs i teksture 3D igara; zapisi olupina i propelera samo prepoznaju slike, pa nisu upotreba.
 
@@ -62,13 +78,17 @@ Van popisa su pozadine, korisnički interfejs i teksture 3D igara; zapisi olupin
 
 Precrtati teksture svih 3D aktera, uključujući likove, vozila i opremu, da 2D i 3D art dele isti likovni stil. Borac sa Sutjeske je [odobreni uzor](ART.md#3d-pixel-art). Za svaki model primeniti [projektnu veštinu za 3D pixel art](../.agents/skills/game-actor-art-3d/SKILL.md).
 
-Nemački strelac ima [probni Pixel art izgled](../catalog.html#drugi-svetski-rat-3d/nemacki-vojnik-3d/pixel-art) u katalogu. [Tekstura i procena troška](ART.md#nemacki-strelac-pixel-art).
+Redosled precrtavanja (vlasnik, 2026-11-27): prvo partizani, pa ostali akteri i vozila, zatim zgrade i velika scenografija, a sitni rekviziti na kraju.
 
-Kuće u Kraljevu i [katalogu scenografije](../catalog.html#scenografija-3d/kuca-sa-fasadom) koriste pet precrtanih fasada u balkanskom pixel art stilu, sa sačuvanim merama i rasporedom otvora. Ruševinu koristi i Warplane. [Izvori i priprema](../assets/images/sources/buildings/kraljevo-fasade/generation.json).
-
-Drug Crni ima [probni Pixel art izgled](../catalog.html#drugi-svetski-rat-3d/radnik-3d/pixel-art) sa puškom. [Teksture i procena troška](ART.md#drug-crni-pixel-art).
-
-Brka ima [probni Pixel art izgled](../catalog.html#drugi-svetski-rat-3d/borac-pokreta-otpora-3d-s-brkovima/pixel-art) sa sivom kapom i puškom Berthier. [Teksture i procena troška](ART.md#brka-pixel-art).
+| Prioritet | Šta |
+|---|---|
+| Visok | Partizani: [Savina probna pixel art varijacija](../catalog.html#drugi-svetski-rat-3d/partizan-jednostavan-model-3d/pixel-art) je u katalogu za pregled. Ostaju druge varijacije i borci pokreta otpora. |
+| Visok | Nemci: SS vojnik, oficir, vojnik s teškom opremom, bacač plamena i nacistički agent |
+| Visok | Četnici (strelac i sa šubarom) i [logoraši](../catalog.html#drugi-svetski-rat-3d/logoras-ilija) |
+| Visok | Vozila i oruđa: Hotchkiss H35, Renault FT, poljski top i minobacač sa posadom |
+| Visok | Avioni Warplane-a: ratni avion, B-17, B-24, B-25, Bf 109 i Spitfire |
+| Srednji | Zgrade i velika scenografija: kuće grada (Drvar, škola u Kraljevu), crkva u Drvaru, logor Crveni krst, betonski bunker i spomenik Milutinu |
+| Nizak | Rekviziti: džakovi, bure, sanduci, kamioni i olupine, ruševine u Drvaru |
 
 <a id="igre"></a>
 ## Igre i ideje
@@ -76,20 +96,10 @@ Brka ima [probni Pixel art izgled](../catalog.html#drugi-svetski-rat-3d/borac-po
 <a id="ig-18"></a>
 ### IG-18 · Otpisani kao arkadna pucačina
 
-Odluke vlasnika (2026-11-26): Otpisani postaju arkadna pucačina po uzoru na Operation Wolf, a Neretva ostaje nepokretna, jer je njena suština držanje položaja. Prizor sam klizi kroz ulicu, igrač ga ne pomera; Nemci iskaču iz prozora, kapija i iza ruševina. Etapa traje dok igrač ne obori zadati broj Nemaca. Od te igre se uzima mehanika, ne izgled.
+Odluke vlasnika i pravila igre su u [KONTEKST](KONTEKST.md#otpisani).
 
-Etape idu pravcem borbi za Beograd u oktobru 1944:
-
-1. Bulevar kralja Aleksandra (kasnije Bulevar revolucije);
-2. Terazije sa Palatom Albanijom;
-3. Kalemegdan;
-4. Savski most, završnica.
-
-Neprijatelji su i tenkovi i oklopna vozila, koji bočno prelaze ulicu; koriste se bočni crteži nemačkih vozila iz projekta, a crta se samo ono što nedostaje. Igrač ima i ograničen broj ručnih bombi (desni klik ili posebno dugme na dodir): bomba obara grupu pešaka, a tenk traži dve ili tri. Bombe i municija dopunjuju se gađanjem sanduka. Bombe su izabrane jer su verodostojne za beogradske ulice i služe i protiv pešaka; vlasniku je svejedno, samo da se tenk može uništiti (2026-11-26).
-
-- [ ] Codex: četiri crno-bele panorame u stilu [sadašnje pozadine](../assets/images/background/beograd-1944-crno-belo.webp), svaka široka tri do četiri ekrana (oko 5000 × 1024 px), sa zaklonima, prozorima i kapijama iz kojih Nemci iskaču.
-- [ ] Codex: nacrtati neprijatelje koji nedostaju za nove etape u stilu [precrtanog strelca i stražara](ART.md#pešadija-i-posade).
-- [ ] Claude: klizanje prizora, iskakanje Nemaca i etape, kad panorame stignu.
+- [ ] Claude: natpis etape pri prelasku u novu ulicu; tekst čeka vlasnikovo odobrenje.
+- [ ] Claude: pomoć Crvene armije (vlasnik, 2026-11-27): jednom po etapi T-34 prođe ulicom i obori nekoliko Nemaca na vidiku, kratak predah igraču.
 
 <a id="ig-29"></a>
 ### IG-29 · Logor Crveni krst u Escape Concentration Camp
@@ -156,10 +166,9 @@ Codex sprovodi korake; vlasnik bira/preuzima Mixamo klipove kao do sada. Tehnič
 <a id="ck-01"></a>
 #### CK-01 · Položaj i stopala · 0.5 / 1 / 1.5 p · Claude
 
-**Izmereno (2026-11-26):** u mirovanjima i osvrtanju stopala se pomeraju najviše 0,7 cm. Ustajanje iz čučnja ima snimljen korak napred od oko 37 cm; telo saborca sada pravi taj korak sa snimkom ([prikaz logoraša](../core3d/actor/derived/ww2/Prisoner.js), osim kroz zid), pa stopalo koje nosi težinu ostaje na mestu. **Preostaje:** spuštanje u čučanj (obrnut snimak ustajanja) i dalje vuče stopala oko 44 cm, jer bi korak unazad pomerao saborca sa njegovog mesta u grupi pri svakom zaustavljanju; rešenje je zaseban snimak spuštanja.
+**Izmereno (2026-11-26):** u mirovanjima i osvrtanju stopala se pomeraju najviše 0,7 cm. Ustajanje iz čučnja ima snimljen korak napred od oko 25 cm; telo saborca sada pravi taj korak sa snimkom ([prikaz logoraša](../core3d/actor/derived/ww2/Prisoner.js), osim kroz zid), pa stopalo koje nosi težinu ostaje na mestu. **Preostaje:** spuštanje u čučanj (obrnut snimak ustajanja) i dalje vuče stopala oko 44 cm, jer bi korak unazad pomerao saborca sa njegovog mesta u grupi pri svakom zaustavljanju; rešenje je zaseban snimak spuštanja.
 
-- [ ] Vlasnik: na Mixamu za model radnika preuzeti **Stand To Crouch**, Without Skin, 30 fps, In Place ako postoji, i sačuvati ga pored [Crouch To Stand.fbx](../assets/models/character/soldier/Crouch%20To%20Stand.fbx).
-- [ ] Claude: kad snimak stigne, njime zameniti obrnuto ustajanje i proveriti da stopala ne klize.
+- [ ] Claude: kad snimak spuštanja stigne ([VL-01](#vl-01)), njime zameniti obrnuto ustajanje i proveriti da stopala ne klize.
 
 <a id="ck-02"></a>
 #### CK-02 · Animacije i prelazi · 1 / 2 / 3 p · Claude
@@ -172,9 +181,11 @@ Codex sprovodi korake; vlasnik bira/preuzima Mixamo klipove kao do sada. Tehnič
 **Rad:** razviti [Iliju, Petra i Jovana](../core3d/actor/derived/ww2/Prisoner.js) kroz prepoznatljiva lica, odeću i siluetu; proveriti zimski izgled prema mogućnostima modela. Jedna kataloška stavka po čoveku, oprema i radnje su njegov izbor. **Gotovo kada:** trojica se razlikuju i u istoj pozi pod istim svetlom na 3–8 m; šaka obuhvata cev i predmet ne prolazi kroz telo tokom postojećeg trka/zamaha. Novi art ima poreklo. **Zavisnost:** postojeći model/teksture; ako geometrija ne dozvoljava traženu razliku, prvo utvrditi potreban zahvat umesto zamene celog stila.
 
 <a id="ck-06"></a>
-#### CK-06 · Ambijent i zvuk · 1 / 2 / 3 p · Codex: teren i pozadina; zvuci nedostaju
+#### CK-06 · Ambijent i zvuk · 1 / 2 / 3 p · Codex: teren i pozadina; Claude: zvuci
 
 **Rad:** dovršiti [teren i svetlo](ART.md#crveni-krst-priprema-3d-ambijenta): gaženi pravci, podnožja, diskretna udaljena silueta ravničarskog/gradskog oboda i zgrada/kule/dvorište kao orijentiri. Reflektori bacaju senke i nasumični požari su uklonjeni (Claude, 2026-11-26); preostaje gustina detalja. Koraci po snegu i zvuci napora/udarca prate radnju, bez neprekidnog ponavljanja glasova. **Gotovo kada:** početak, prolazi, dvorište i izlaz čitljivi su stojeći/u čučnju, bez lebdenja, prejakog pozadinskog kontrasta i svetla koje pogrešno predstavlja opasnost. Uporediti cenu promena u istom kadru pre/posle. **Zavisnost:** postojeći paket i originalne dopune sa poreklom; Mixamo se ne čeka. Izgled potvrđuje stvarna igra, ne offline render; prihvaćen renderer i 2D puška ostaju.
+
+- [ ] Claude: povezati zvuke koraka po snegu i zamaha cevi sa saborcima i igračem kad stignu ([VL-01](#vl-01)).
 
 <a id="ck-07"></a>
 #### CK-07 · Proboj kao celina · 0.5 / 1 / 2 p · Claude
@@ -191,12 +202,14 @@ Raspored je ugrađen u postojeći plan da se poštuje pravilo jednog dokumenta:
 {"waves":[{"name":"Osnova, identitet i animacije","sequential":["CK-01","CK-03","CK-02"]},{"name":"Ponasanje i ambijent","sequential":["CK-06"]},{"name":"Pregled celine","sequential":["CK-07"]}],"handoffs":[["CK-01","CK-02"],["CK-02","CK-07"],["CK-06","CK-07"]]}
 ```
 
-**Otvoreno:** povezana mirovanja, osmatranje i prelazi čekaju vizuelni prijem sa cevi i prikaz u katalogu; vlasnik još treba da izabere pojedinačni udarac. Obrnuti snimak ustajanja vuče stopala, pa se traži zaseban snimak spuštanja ([CK-01](#ck-01)). Dostupnost ostalih traženih radnji nije proverena u Mixamo biblioteci. Codex pre nove nabavke proverava postojeće reakcije, smrti i trčanja. Istorijske i već prihvaćene grafičke odluke ne otvarati ponovo radi ovog doterivanja.
+**Otvoreno:** povezana mirovanja, osmatranje i prelazi čekaju vizuelni prijem sa cevi i prikaz u katalogu; pojedinačni udarac bira vlasnik ([VL-01](#vl-01)). Obrnuti snimak ustajanja vuče stopala, pa se traži zaseban snimak spuštanja ([CK-01](#ck-01)). Dostupnost ostalih traženih radnji nije proverena u Mixamo biblioteci. Codex pre nove nabavke proverava postojeće reakcije, smrti i trčanja. Istorijske i već prihvaćene grafičke odluke ne otvarati ponovo radi ovog doterivanja.
 
 <a id="ig-31"></a>
 ### IG-31 · Pruge i mostovi u Warplane
 
-Warplane je operacija Ratweek 1944 ([okvir](KONTEKST.md#warplane)) i nivo o bombardovanju: igrač bira samo bombarder (vlasnik, 2026-11-26). Igrač bombarduje sve nemačko, a sada su u igri samo fabrike. Dodati pruge i mostove, koje je Ratweek najviše gađao i koje navodi izveštaj nivoa; modele crta Codex. Inspiracija za art tla iz vazduha: [gusti grad sa starog plana](../assets/images/background/grad.png), ulice i blokovi kuća viđeni odozgo. Kontekst iz rata: [saveznička bombardovanja Kraljeva i Beograda 1944](references/ww2-yu/bombardovanje-1944/README.md).
+Warplane je operacija Ratweek 1944 ([okvir](KONTEKST.md#warplane)) i nivo o bombardovanju: igrač bira samo bombarder (vlasnik, 2026-11-26). Igrač bombarduje sve nemačko, a sada su u igri samo fabrike. Dodati pruge i mostove, koje je Ratweek najviše gađao i koje navodi izveštaj nivoa; modele nalazi vlasnik ([VL-01](#vl-01)). Inspiracija za art tla iz vazduha: [gusti grad sa starog plana](../assets/images/background/grad.png), ulice i blokovi kuća viđeni odozgo. Kontekst iz rata: [saveznička bombardovanja Kraljeva i Beograda 1944](references/ww2-yu/bombardovanje-1944/README.md).
+
+- [ ] Claude: rasporediti pruge i mostove na tlu Warplane-a kao mete, uz fabrike, kad modeli stignu ([VL-01](#vl-01)).
 
 <a id="ig-34"></a>
 ### IG-34 · Scenario opsade Kraljeva
@@ -222,6 +235,10 @@ Prva scena (2026-11-25, [raspored](../scenes/3d-tank/kraljevo.js)): drum od Ča�
 
 Gusenice Hotchkissa stoje dok tenk vozi (vlasnik, 2026-11-25). Predlog: tekstura gusenice klizi duž nje brzinom svoje strane, različito pri skretanju i unazad u suprotnom smeru. Provereno (2026-11-25): gusenice su zasebni delovi `track-left` i `track-right` sa svojim materijalom, ali je tekstura atlas, pa svaki članak uzima drugi deo slike i klizanje teksture ne radi. Zato Codex [modelu](../assets/models/tank/hotchkiss-h35.glb) zamenjuje gusenice jednostavnim prstenom sa teksturom članaka razvučenom duž prstena, pod istim imenima; agent zatim pomera teksturu. Točkovi hodnog dela su jedan komad sa trupom; mogu se izdvojiti kao kod lokomotive, ali se iza gusenica jedva vide.
 
+- [ ] Codex: gusenice [Hotchkissa](../assets/models/tank/hotchkiss-h35.glb) kao prsten sa teksturom članaka duž njega, pod istim imenima.
+- [ ] Claude: tekstura gusenica klizi brzinom svoje strane, kad model stigne.
+- [ ] Claude: barikade u ulici od modela barikade, kad stigne ([VL-01](#vl-01)).
+
 <a id="ig-35"></a>
 ### IG-35 · Igre na telefonu
 
@@ -236,12 +253,8 @@ Radi se na kraju, kad su nivoi gotovi (vlasnik, 2026-11-26). Na početnoj strani
 <a id="ig-36"></a>
 ### IG-36 · Ustanak
 
-Ideja za probu (vlasnik, 2026-11-26): u Ustanku dvoboj [italijanskih minobacača](../assets/images/armies/talijani/artiljerija/bacac-posada-01.png) umesto topova, jer bi mina letela duže, visokim lukom.
+Proba (vlasnik, 2026-11-26): dvoboj minobacača umesto topova. Uporedo sa [Ustankom](../index.html#ustanak) je probni nivo [Ustanak sa minobacačima](../index.html#ustanak-minobacaci), opisan u [KONTEKST](KONTEKST.md#ustanak).
 
-Postojeći [minobacač](../assets/images/armies/talijani/artiljerija/bacac-01.png) je star sitan crtež iz jednog komada, pa cev ne može da se diže za nišanjenje, a partizanska strana nema svoj.
-
-- [x] Codex: pripremljen [2D art minobacača](../assets/images/game-ready/artiljerija/minobacac/) sa odvojenom cevi, dvonošcem, pločom i minom. [Metapodaci predaje](../assets/images/sources/artiljerija/minobacac/generation.json) daju sidrišta i tri poze za italijansku i partizansku posadu.
-- [x] Claude: [Ustanak](../index.html#ustanak) ostaje sa topovima, a uporedo je probni nivo [Ustanak sa minobacačima](../index.html#ustanak-minobacaci) (samo preko adrese, bez kartice na početnoj strani); oba prave isti [nivo](../scenes/ustanak/Main.js) sa drugim oruđem. [Minobacač](../catalog.html#artiljerija/minobacac-81) i posada su u katalogu. Između minobacača je brdo visoko 2,5 m i široko trećinu ekrana, od istog tla, koje mine raskopavaju kraterima.
 - [ ] Claude: kad vlasnik izabere, ukloniti oruđe i nivo koji ne prođe probu.
 
 ## Ideje za kasnije

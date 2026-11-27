@@ -20,6 +20,21 @@ test('the remaining enemy candidates remain individually selectable', () => {
 for (const [id, marking] of [['otpisani-strelac', 'rifleman'], ['otpisani-strazar', 'sentry']])
   test(`the redrawn ${marking} reads all six action rows inside the atlas margins`, () => checkActionRows(id, marking))
 
+test('the covered gunner uses a fixed anchor for both poses', () => {
+  const story = stories.find(({ id }) => id === 'otpisani-mitraljezac')
+  const actor = story.create({ width: 800, groundY: 500, add() {} })
+  const [sheet] = actor.children
+  loadAtlas(sheet, 400, 188)
+  const draws = []
+  const ctx = { save() {}, restore() {}, translate() {}, scale() {}, drawImage: (...args) => draws.push(args) }
+  assert.deepEqual(actor.states, ['crouch', 'peek'])
+  for (const [state, x] of [['peek', 204], ['crouch', 4]]) {
+    actor.setState(state)
+    actor.render(ctx)
+    assert.deepEqual(draws.pop(), [sheet.image, x, 4, 192, 180, -72, -168, 192, 180])
+  }
+})
+
 async function checkActionRows(id, marking) {
   const { sideProjection } = await import('/core/actor/projection.js')
   const story = stories.find(candidate => candidate.id === id)

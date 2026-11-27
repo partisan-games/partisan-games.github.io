@@ -1,7 +1,7 @@
 import ArtClip from './ArtClip.js'
 import art from './advanceArt.js'
 
-export const advanceHeight = { rifleman: 1.72, gunner: 1.72, backpack: 1.72, officer: 1.72, tank: 2.27, commander: .94 }
+export const advanceHeight = { rifleman: 1.72, gunner: 1.72, backpack: 1.72, officer: 1.72, tank: 2.27, t34: 2.72, commander: .94 }
 
 export default class AdvanceSprite {
   constructor(kind) {
@@ -30,19 +30,23 @@ export default class AdvanceSprite {
   /** Flash and drift start at the muzzle in the first firing cel, independently of later recoil. */
   drawShot(ctx, { name, age, x, y, scale, flip = 1 }) {
     if (age >= .42) return
-    const muzzle = this.sheet.art.clips[name]?.muzzles?.[0]
+    const clip = this.sheet.art.clips[name]
+    const muzzle = clip?.muzzles?.[0]
     if (!muzzle) return
     const size = scale * this.height / this.sheet.art.standingPixels
     const muzzleX = x + flip * muzzle[0] * size
     const muzzleY = y + muzzle[1] * size
+    const effectScale = scale * (clip.effectScale ?? 1)
     ctx.save()
     if (age < .035) {
       ctx.fillStyle = '#e6d8ad'
-      ctx.fillRect(Math.round(muzzleX), Math.round(muzzleY), Math.max(1, Math.round(scale * .055)), Math.max(1, Math.round(scale * .021)))
+      const length = Math.max(1, Math.round(effectScale * .055))
+      ctx.fillRect(Math.round(muzzleX) - (flip < 0 ? length : 0), Math.round(muzzleY),
+        length, Math.max(1, Math.round(effectScale * .021)))
     }
     const smokeX = muzzleX + flip * age * scale * .36
     const smokeY = muzzleY - age * scale * .32
-    const radius = scale * (.025 + age * .23)
+    const radius = effectScale * (.025 + age * .23)
     ctx.globalAlpha = (1 - age / .42) * .25
     const smoke = ctx.createRadialGradient(smokeX, smokeY, 0, smokeX, smokeY, radius)
     smoke.addColorStop(0, '#bac0c9')

@@ -1,0 +1,89 @@
+{
+  "generator": "OpenAI ImageGen",
+  "panels": [
+    {
+      "source": "left.png",
+      "prompt": "Generate one edge-to-edge extra-wide 2.5:1 opaque grayscale 2D scrolling arcade background, LEFT panel of a two-panel panorama of Terazije square in Belgrade on the eve of its liberation in October 1944. FIRST input image is the reference for camera, cross-street scrolling and exact film-like texture and level of gray. SECOND input is a reference for the one iconic stepped office tower Palata Albanija only. Composition: broad level foreground viewed directly across the square at eye height like first image, flat horizontal paving, street frontage line at y 86%, uninterrupted soft gray period paving in bottom 14%. At x=35%, the recognizable Hotel Moskva with its 1908 Russian Art Nouveau architecture: tan glazed ceramic normally but represented in pale and dark grays, distinctive narrow vertical pilasters, ornate floral ceramic bands, twin differently shaped steep gables, dark mansard roof, four storeys; not a church or palace. Nearby individual three to five story prewar shops with clearly dark readable doors and first-floor windows for game actors, some broken glass and debris, slight war damage to hotel, one substantial partial collapse only on a smaller neighboring building, scattered sandbags. At x=70%, feature a low oval period 1927 square fountain basin with low central jet and a partly damaged ornamental island in the middle ground, with enough background context to distinguish it from the modern tall drinking fountain. Last 10% on the RIGHT is empty pale sky and low distant buildings up to y=82% to form an open street mouth; absolutely no tall poles at the right seam. Do not include Palata Albanija in this left panel, it will appear in the right panel. No people, flags, vehicles, signs, text, modern architecture or frame borders. Authentic mid-gray neutral blacks and whites, fine archival texture, readable at arcade framing, cloudy oct 1944. Single panorama, not panels or a collage.",
+      "visualReferences": [
+        "assets/images/sources/backgrounds/otpisani-bulevar/left.png",
+        "assets/images/background/beograd-1944-crno-belo.webp"
+      ]
+    },
+    {
+      "source": "right.png",
+      "prompt": "Create one wide 2.50:1 edge-to-edge monochrome scrolling game background, as a NEW continuation to the RIGHT of the FIRST attached image, Terazije, Belgrade, October 1944. Match first image's grayscale photographic drawing, grain, sky and side-on eye-level camera, ground facade feet about 84% height, thin straight curb around y=86%, gray period paving covering bottom 14%, no modern markings. Leftmost 14% is a wide quiet side street mouth with pale cloudy sky and very low distant buildings at y=75?82%, no tall buildings or poles along the actual left edge, to make a clean connection to the right edge of the first image. Then 3?4 story central-European late historicist shop/hotel/row facades from prewar Belgrade with recognizable period detailing, sparse war damage and visible dark ground level doorways and first story openings. Near x=72% position the one unmistakable Palata Albanija, a prewar late Art Deco Belgrade high-rise, extremely faithful to its tall slender SILHOUETTE in the CENTER of the SECOND attached image: light gray rectilinear masonry and orderly punched windows, wedge corner facade, stepped tiered shoulders on both sides with tallest narrow central stack, short mast, height around twice neighboring buildings. A notably taller real-world urban landmark with thirteen floor levels, not a Gothic or modern skyscraper. Show it from a slight angle from the square but maintain the across-street foreground framing; whole roof and mast visible, wary sparse chipped windows and low sandbag line at its ground-level entrance. One localized heavily damaged smaller adjacent building with bricks lying by the sidewalk, gunfire-scarred facades elsewhere, no active fires. No people or vehicles or text, no second tower, no Moskva hotel, no fountain on right panel, no modern street furniture, no grading warm tint, no vignette. One image all the way to edges, one long streetscape; first ref is composition/color/edge only, second ref is exact Palata Albanija visual shape.",
+      "visualReferences": [
+        "left.png",
+        "assets/images/background/beograd-1944-crno-belo.webp"
+      ]
+    }
+  ],
+  "historicalReferences": [
+    {
+      "publisher": "Narodna biblioteka Srbije",
+      "url": "https://digitalna.nb.rs/view/URN%3ANB%3ARS%3ASD_EA45D441EC2A6F7C785E069C86768133",
+      "record": "Early 1940s postcard showing Hotel Balkan, the old fountain and completed Palata Albanija."
+    },
+    {
+      "publisher": "Istorijski arhiv Beograda",
+      "url": "https://www.arhiv-beograda.org/images/publikacije_elektronske_pdf/bombardovanje_beograda_1941-1944_res.pdf",
+      "record": "Bombardovanje Beograda 1941-1944, pp. 60-62, photographs of damaged Terazije facades, including Hotel Moskva vicinity and Palata Albanija."
+    },
+    {
+      "publisher": "Arhiv Jugoslavije",
+      "url": "https://www.arhivyu.rs/public/source/aj_9_miz54_kat.pdf",
+      "record": "Catalogue photo entries 253 and 254, Palata Albanija and Terazije in 1944."
+    }
+  ],
+  "historicalScope": "Original artistic reconstruction of Terazije at the end of the fighting in October 1944. The arcade layout compresses the square and arranges facades, cover and damage for the scrolling viewpoint.",
+  "preparation": {
+    "mode": "L",
+    "resampling": "Pillow LANCZOS",
+    "panelSize": [
+      2560,
+      1024
+    ],
+    "overlap": 120,
+    "blend": "Linear horizontal ramp from left to right across the overlap.",
+    "encoding": "WebP lossless, method 6"
+  },
+  "output": "assets/images/background/otpisani/terazije.webp",
+  "frame": [
+    5000,
+    1024
+  ],
+  "sha256": {
+    "left.png": "f2329506522ff63be74562cb6d6858b25d3549d69c86ab1c5cedda173cd67939",
+    "right.png": "93a382da0eccedaead82c1e7266ce8e85fb9580ddd5be689087ca6899353517e",
+    "terazije.webp": "11cdbe9e77fbb936b746a5db34210c10a0b5289c639af82c7b1eb908f0058f61",
+    "right-albanija.png": "ce13b417074d3eb2a685caa3ea17e3ae8ef7c4cfd0bff5ea1f17763547728c15",
+    "palata-albanija-1944-reference.jpg": "db01214df88c4e1ac1798f1ccb6ff2358f5c8177df7595a4356324b93ce34aa8"
+  },
+  "palataAlbanijaRevision": {
+    "source": "right-albanija.png",
+    "prompt": "Edit the first image only, its exact wide grayscale scrolling game background, 2.50:1 full bleed, preserving the scene. Correct ONLY the building Palata Albanija at x72% and the relative height of the immediate neighbors. The second image is a genuine 1944 architecture reference for the palace's distinctive narrow rounded corner slab, strong vertical pilasters, rows of individual windows, tall curved corner mass rising uninterrupted above its distinct two-floor rounded retail podium, with broad side wings stepping back to emphasize the tower. Use those architectural features, not the camera perspective or content of the photo. Keep the palace position and base alignment, the grounding curb at y90%. The main roof should be at y5% with full roof visible. Lower only the roofs flanking the palace to roughly y60?63% (two or three levels), so the palace towers roughly three times as tall as its closest neighbors and dominates the skyline. Aim for 13 levels on the tower as built; smaller regular window spacing and slender vertical shafts, no stacking concentric boxes or Gothic spire. Use the existing top as a loose shape guide where the archive photo cuts it off. Keep everything in the left half as it was, including the seam on the far LEFT, keep the rubble, ground floor openings and monochrome archival texture. No people, tank, extra objects, graphics, signs or text copied from the reference. Single coherent street with broad paving.",
+    "visualReferences": [
+      "right.png",
+      "palata-albanija-1944-reference.jpg"
+    ],
+    "historicalPhotograph": {
+      "file": "palata-albanija-1944-reference.jpg",
+      "title": "Unisten tenk ispred palate Albanija",
+      "author": "Unknown",
+      "date": "1944-10",
+      "source": "Mesta stradanja i antifasisticke borbe u Beogradu 1941-44, via Wikimedia Commons",
+      "url": "https://commons.wikimedia.org/wiki/File:Uni%C5%A1ten_tenk_ispred_palate_Albanija.jpg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "use": "Unmodified reference photograph. Used to study the structure and proportions of the building."
+    },
+    "preparation": {
+      "rightPanelOrigin": 2440,
+      "horizontalBlendInRightPanelPixels": [
+        400,
+        560
+      ],
+      "blend": "Linear transition from the original merged panorama to the revision, with the original junction and left image retained."
+    }
+  }
+}

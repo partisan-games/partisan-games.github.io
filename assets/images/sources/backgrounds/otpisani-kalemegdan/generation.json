@@ -1,0 +1,66 @@
+{
+  "generator": "OpenAI ImageGen",
+  "panels": [
+    {
+      "source": "left.png",
+      "visualReference": "left-initial.png",
+      "prompt": "Edit only the LEFTMOST 44% of this extra-wide B&W 2.5:1 game background for Kalemegdan, 1944. Preserve everything from the iron fence to the right edge, absolutely retain the existing trees, park, distant wall, pale skies, curb and uninterrupted roadway. Replace the entire tall ornate building with the two decorative gables on the left with the rubble and collapsed masonry footprint of the bombed Hotel Srpski Kralj on Pariska Street. In 1944 this hotel had been ruined since the 1941 air raids. Plausible remnants of a demolished 1920s masonry hotel at street level: broad low jagged ruined brick and rubble aligned with street, a few exposed ground floor bays and wall sections suitable as cover. Behind it and on its left only one or two restrained neighboring interwar facades with FLAT horizontal cornices and a low-pitched roof, no spires, no symmetrical gables, no surviving grand hotel facade. Street-left should be a short transition out of the city, not look like the Moskva hotel or Terazije. Preserve the arcade viewpoint, camera, curb height and tone exactly, no people, cars, titles or contemporary objects. Keep the same visual aspect and neutral grayscale archive-photo texture.",
+      "initialPrompt": "One extra-wide 2.5:1 full bleed opaque monochrome game background, left half of a two-panel continuous arcade panorama. Belgrade October 1944, from the city end of Knez Mihailova and the Pariska street edge toward the Veliki Kalemegdan park and Belgrade Fortress. Reference image is strictly for archive-looking grainy neutral black-and-white documentary rendering, side-scrolling eye-level angle and curb at y~86%; use original composition and setting. Left quarter shows a few authentic ornate late 19th-century masonry urban fa?ades at the last block before the open park, including a heavily bomb-damaged prewar hotel wing inspired by the documented Srpski Kralj ruins. Clear doorways and exposed dark lower windows, localized rubble. Transition deliberately to open park on the right: old stone low retaining wall, iron fence sections on low footing, a row of broad deciduous trees with sparse autumn foliage and branches, a low receding bastion far on the right behind the park. Some sandbags and one low stone opening or stone pier near the street, localized war debris, no devastation of the entire park. No towers yet, no modern objects, no people, no vehicles, no flags, no text, no intrusive foreground. Lower 14% from y86% edge to edge is uninterrupted level stone/gravel street strip from right to left, pale soft overcast sky. IMPORTANT rightmost 12% is an open park path fading into pale haze, low hazy turf and pale sky, no sharp tall feature near the right edge, transition designed for blending with a second tile. Ground plane, curb, faint footpath stay readable for sprites. No heavy border or vignette. Single image.",
+      "initialVisualReference": "assets/images/sources/backgrounds/otpisani-terazije/left.png"
+    },
+    {
+      "source": "right.png",
+      "visualReferences": [
+        "left-initial.png",
+        "https://www.beogradskatvrdjava.co.rs/wp-content/uploads/2014/07/slika_876_OuterStambolGate002.jpg",
+        "https://www.beogradskatvrdjava.co.rs/wp-content/uploads/2020/12/Sahat-kula-scaled.jpg"
+      ],
+      "prompt": "Create one extra-wide 2.5:1 full-bleed grayscale 2D background, the RIGHT continuation of image 1 for a continuously scrolling game. Same grit, diffuse neutral gray sky, open pavement/gravel finishing strip at the bottom 14% with a straight foreground edge at y86%. First 13% at left remains open park with distant low hazy turf and a pale path, match image 1 right edge; leave near-left edge quiet. Then Kalemegdan Belgrade fortress in October 1944: low varying earthen grass banks, masonry bastions with long grounded sloped battered stone and brick walls, a few bare deciduous trees in distance. Principal landmark near right-center (x~63%) is the actual Outer Stambol Gate, a low, wide Ottoman segmental portal of light ashlar with three tiny rosettes, set in an austere red-brick (gray in monochrome) rampart with plain stone corners, silhouette and masonry matching image 2. Earth causeway and path in front, no wooden bridge. Much further back and slightly offset to the right rises the single Sahat Kula clock tower, exactly like upper structure of image 3: slender pale square masonry shaft growing out of a deep rampart, polygonal clock stage with simple dark round clocks and its real dark small Baroque octagonal metal roof and finial. Tower must be tucked in distance and clearly separate from the near gate, it is NOT built on top of the outer gate. No fantasy crenellations, no Gothic architecture, don't copy missiles, signs or modern objects from the architectural images. A few low piles of stone, sandbags and readable guardroom/openings by the approaches for sprite cover, modest damage only, keep the real fortress solid. No people, no vehicles, no cannons, no banners, no lettering. Single uninterrupted grayscale scroll panel."
+    }
+  ],
+  "historicalReferences": [
+    {
+      "publisher": "Istorijski arhiv Beograda",
+      "url": "https://stalnapostavka.arhiv-beograda.org/en/chapters/20th-century-century-of-mass-suffering/liberation.html",
+      "record": "The liberation of central Belgrade and Kalemegdan on 20 October 1944."
+    },
+    {
+      "publisher": "Muzej grada Beograda",
+      "url": "https://mgb.org.rs/public/files/yearbook_by_year_documents/document/Godisnjak%2049-50-83-107.pdf",
+      "record": "Catalogue item 64, the ruins of Hotel Srpski Kralj viewed from Pariska Street."
+    },
+    {
+      "publisher": "Fortepan",
+      "url": "https://fortepan.hu/en/photos/?id=24635",
+      "record": "Martin Djemil, Pariska Street and the hotel ruins, 1941."
+    },
+    {
+      "publisher": "Beogradska tvr?ava",
+      "url": "https://www.beogradskatvrdjava.co.rs/%D0%B8%D0%BD%D1%84%D0%BE/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D0%B0-%D0%BC%D0%B0%D0%BF%D0%B0/?lang=la",
+      "record": "Outer Stambol Gate on the main approach, with its former bridge replaced by an earth embankment before 1944."
+    }
+  ],
+  "historicalScope": "Original reconstruction in grayscale. The actual Pariska Street, park and fortress approach are compressed into one side-view level. Cover, rubble placement and the sightline to Sahat Tower are composed for the game.",
+  "preparation": {
+    "mode": "L",
+    "resampling": "Pillow LANCZOS",
+    "panelSize": [
+      2560,
+      1024
+    ],
+    "overlap": 120,
+    "blend": "Linear horizontal ramp from left to right across the overlap.",
+    "encoding": "WebP lossless, method 6"
+  },
+  "output": "assets/images/background/otpisani/kalemegdan.webp",
+  "frame": [
+    5000,
+    1024
+  ],
+  "sha256": {
+    "left.png": "f5358f9fa4c0a01e965f93835d384afabd9bf9693b74707f5e31f3e8f808fdb6",
+    "right.png": "20b79a89175f43a95b43f81163195780bc85929c10e5775527549cadfea4d601",
+    "left-initial.png": "15b6baa951b881d92061fc91efe26cf753fc490d70c7b8da2083b85d4dccf3ad",
+    "kalemegdan.webp": "fb8e942a654be7d05ac463286d5325e967603e37d614b09d90a4eaec4d4625ca"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "generator": "OpenAI ImageGen",
+  "source": "poses.png",
+  "prompt": "Create a single wide transparent two-cell sprite sheet for an original 1944 arcade game. Two equally sized square cells side by side with a wide gap. Each cell shows the same small low wooden supply crate from eye level directly across the street, slight top visible. Worn matte medium-brown slats with two dark metal corner straps, and one faded pale marking made of two short parallel lines on the front centered for readability. Left crate intact with lid closed. Right crate in the same position and exact width and perspective, lid slightly tilted open with a few muted beige paper supply parcels visible, chipped edge; same front panel and straps. Deliberate clean pixel art clusters, limited olive brown subdued palette, plausible 1940s plain box, easy to read at 55x40 pixels. Reference is only to indicate it is a supply box, redesign style using muted tones. Both crates fully in their cells and resting on exactly the same baseline. True transparency, no cast shadow, people, scenery, explosive materials, writing, interface, borders, or effects.",
+  "visualReference": "assets/images/items/municija.png",
+  "output": "assets/images/game-ready/scenery/otpisani/supply-crate.webp",
+  "frame": [
+    72,
+    56
+  ],
+  "gutter": 4,
+  "anchor": [
+    36,
+    52
+  ],
+  "columns": {
+    "closed": 0,
+    "open": 1
+  },
+  "visibleBounds": {
+    "closed": [
+      8,
+      16,
+      64,
+      52
+    ],
+    "open": [
+      8,
+      12,
+      64,
+      52
+    ]
+  },
+  "preparation": "Split the sheet at the center; threshold alpha at 128; crop each pose; resize proportionally to 56 px wide with nearest-neighbor; center and align both to the common baseline.",
+  "sha256": {
+    "poses.png": "54f770000a0c9a861eb7781f0b32b94acd2a61879d62f2d5ee8c53253cb0fdab",
+    "supply-crate.webp": "90a7e796557dd79403fa92063272785c7274e6daef40ba24be666c98b60a9c92"
+  }
+}

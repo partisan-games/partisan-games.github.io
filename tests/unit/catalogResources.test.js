@@ -225,6 +225,52 @@ test('Brka switches his face and clothing maps on the same model with the Berthi
   assert.equal(face.material.map, material.map)
 })
 
+test('Savo keeps his original look first and uses four pixel-art maps on the same mesh', async t => {
+  createPageElements()
+  t.mock.method(THREE.TextureLoader.prototype, 'load', url => Object.assign(new THREE.Texture(), { name: url }))
+  t.mock.method(FBXLoader.prototype, 'loadAsync', async url => {
+    const bytes = await readFile('.' + decodeURI(url))
+    return new FBXLoader().parse(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), '')
+  })
+  const { ww2 } = await import('/catalog/stories/characters3d.js')
+  const savo = ww2.find(({ id }) => id === 'partizan-jednostavan-model-3d')
+  const [original] = savo.looks
+  const pixelArt = savo.looks.find(look => look.id === 'pixel-art')
+  assert.equal(original.id, 'original')
+  const objects = []
+  const stage = { add: (...items) => objects.push(...items), session: { scope: { add() {} } } }
+  await savo.create(stage, 1, original.value)
+  const [, view] = objects
+  const parts = view.mesh.getObjectsByProperty('isSkinnedMesh', true)
+  assert.ok(parts.some(part => part.name === 'brkovi'))
+  const before = parts.map(({ geometry, skeleton, material }) => ({ geometry, skeleton, material }))
+  const { actions } = view
+  const rifle = view.anim.twoHandedWeapon
+  stage.setLook(pixelArt.value)
+  const maps = new Set()
+  for (const [i, part] of parts.entries()) {
+    assert.equal(part.geometry, before[i].geometry)
+    assert.equal(part.skeleton, before[i].skeleton)
+    for (const material of [].concat(part.material)) {
+      if (!material.map?.name.includes('/savo-pixel-art/')) continue
+      assert.equal(material.color.getHex(), 0xffffff)
+      assert.equal(material.map.magFilter, THREE.NearestFilter)
+      maps.add(material.map.name)
+    }
+  }
+  assert.deepEqual([...maps].map(path => path.split('/').pop()).sort(),
+    ['face.webp', 'hair-and-leather.webp', 'trousers.webp', 'uniform.webp'])
+  for (const path of maps) {
+    const bytes = await readFile('.' + path)
+    assert.equal(bytes.toString('ascii', 8, 16), 'WEBPVP8L')
+  }
+  assert.equal(view.actions, actions)
+  assert.equal(view.anim.twoHandedWeapon, rifle)
+  assert.ok(rifle.parent)
+  stage.setLook(original.value)
+  for (const [i, part] of parts.entries()) assert.equal(part.material, before[i].material)
+})
+
 test('the German rifleman switches texture on his existing animated catalogue model', async t => {
   createPageElements()
   t.mock.method(THREE.TextureLoader.prototype, 'load', url => Object.assign(new THREE.Texture(), { name: url }))

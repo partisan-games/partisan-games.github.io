@@ -287,7 +287,9 @@ test('FPS camp initializes with real model files, ten enemies and two first aids
   steps.step(0)
   assert.equal(steps.stepSound.volume, .22, 'a crouching companion steps as quietly as the crouching player')
   const standUp = steps.actions.crouchUp.getClip().duration
-  assert.ok(steps.postureShift('crouchUp', standUp) > .3, 'getting up he steps forward as recorded, about 0.35 m')
+  const standStep = steps.postureShift('crouchUp', standUp)
+  // the recording moves his hips in its own units; only the model's scales make them metres
+  assert.ok(standStep > .15 && standStep < .4, `getting up he steps forward as recorded, about a quarter metre: ${standStep}`)
   assert.equal(new Set(game.escapees.map(({ model }) => model.actions.crouchIdle.timeScale)).size, 3)
   const standing = game.escapees.map(({ model }) => model.actions.idle.getClip().name)
   assert.equal(new Set(standing).size, 3, `each stands his own way: ${standing}`)

@@ -1,0 +1,71 @@
+{
+  "generator": "OpenAI ImageGen",
+  "source": "redraw.png",
+  "prompt": "Create one historical tank sprite for an original 2D arcade game, exact orthographic side elevation, facing RIGHT. The first reference, a simplified Soviet T-34-85, is the geometric subject; turn its direction to the right. Preserve unmistakable T-34-85 1944 proportions: long slim horizontal barrel, long cast rounded three-man turret with broad rear bustle, low command cupola and small ventilators, very distinctly sloping front glacis at right, five equal large visible road wheels in a row, one smaller idler or sprocket raised at each end, track drawn continuously around them, wide tracks with visible segmented links, flat ground contact, cylindrical spare fuel drums at rear side left. Keep all five wheel centers aligned and unobscured, show tire rims separated from track. Project second reference is pixel art style only, not the shape: coherent deliberate pixel clusters, restrained shading in 5?7 muted olive greens and charcoal steel, no gradients or thick caricatured outlines. Subtle highlights on upper cast metal. Small neutral red five-pointed star painted alone on turret with no characters, no numbers/text; it is a generic game identification marking. No crew, no perspective, no top/front strongly visible. Complete silhouette including muzzle, with clear framing margins, no base, floor, grass or shadow, true transparent alpha. Medium resolution detailed pixel art suitable for drawing at about 330x110 pixels at final in-game scale. No action, effects or extras. One single still vehicle.",
+  "visualReferences": [
+    "assets/images/armies/rusi/tenkovi/t34-85.png",
+    "assets/images/game-ready/tenkovi/advance-tank.webp"
+  ],
+  "historicalReferences": [
+    {
+      "institution": "The Tank Museum",
+      "url": "https://tankmuseum.org/tank-nuts/tank-collection/t-34-85",
+      "use": "Late 1944 example and larger three-man turret."
+    },
+    {
+      "institution": "Arhiv Jugoslavije",
+      "url": "https://www.arhivyu.rs/public/source/aj_9_miz54_kat.pdf",
+      "use": "Item 250: photograph of Soviet T-34 in Belgrade, October 1944."
+    }
+  ],
+  "marking": "The legacy sprite supplies the small red star used to identify the friendly vehicle. No specific historical unit or vehicle number is assigned.",
+  "preparation": "python -B assets/images/sources/vehicles/t34-85/prepare.py",
+  "output": "assets/images/game-ready/tenkovi/t34-85-sprites.webp",
+  "frame": [
+    672,
+    240
+  ],
+  "gutter": 4,
+  "anchor": [
+    265,
+    232
+  ],
+  "standingPixels": 216,
+  "displayHeightMeters": 2.72,
+  "clips": {
+    "idle": {
+      "row": 0,
+      "ms": [
+        1000
+      ]
+    },
+    "drive": {
+      "row": 1,
+      "ms": [
+        95,
+        95,
+        95,
+        95,
+        95,
+        95
+      ]
+    },
+    "fire": {
+      "row": 2,
+      "ms": [
+        40,
+        70,
+        100,
+        130
+      ],
+      "muzzle": [
+        390,
+        -161
+      ]
+    }
+  },
+  "sha256": {
+    "redraw.png": "f1e40e6236d15acfd4e6297af605092f7b4881e8c7b1de370f5fa6ac39b97b6a",
+    "t34-85-sprites.webp": "9dbe4a07a88a791ed2540e1db22feb20194c48f690387163c9fedcf2e00da435"
+  }
+}

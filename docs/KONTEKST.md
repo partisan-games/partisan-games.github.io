@@ -76,6 +76,8 @@ Ambijenti redom, po putu Save Kovačevića 1941: Grahovo, Vilusi, okolina Nikši
 
 **Prihvaćen prikaz Ustanka:** borci, njihove animacije, topovi i zastave ostaju osnova; prihvatanje prikaza ne dokazuje tehničke provere kasnijih izmena.
 
+**Proba minobacača (vlasnik, 2026-11-26):** uporedo sa Ustankom je probni nivo [Ustanak sa minobacačima](../index.html#ustanak-minobacaci), dostupan samo preko adrese i dev linka na naslovnoj strani. Isti nivo dobija italijanske minobacače 81 mm sa posadama: nišan je strm, od 45° do 85°, a mina leti visokim lukom 5–10 s. Na sredini polja je brdo visoko 2,5 m, koje mine raskopavaju kraterima, a poruke govore o minobacaču. Top ostaje u Ustanku dok vlasnik ne izabere ([IG-36](PLAN.md#ig-36)).
+
 ## Vis
 
 Vertikalna arkadna pucačina o partizanskom letu do Visa, sa sopstvenim izgledom i sadržajem. Zamišljeni tok su tri etape: posle prve dve sletanje na aerodrom, posle treće na Vis; ovo opisuje koncept, ne stanje implementacije.
@@ -117,6 +119,8 @@ Vertikalna arkadna pucačina o partizanskom letu do Visa, sa sopstvenim izgledom
 **Okvir (vlasnik):** Igra je „Povratak otpisanih“, ilegalci u Beogradu 1944, u borbama za oslobođenje grada. Serija je igrani film, ne istorijski izvor; istorijski okvir je Beogradska operacija.
 
 **Kontekst i granice:** protivnik su nemačke jedinice koje brane Beograd; borba ulicu po ulicu odgovara poslednjim danima operacije. Uloga ilegalaca kao u seriji je umetnički okvir igre i ne treba je predstavljati kao istorijsku tvrdnju; stvarna uloga beogradske ilegale u oktobru 1944. zahteva zaseban istorijski dokaz. Muzika iz serije ostaje neprostorni sloj kao i do sada. Činjenice i izvori: [Beograd, oktobar 1944](ISTORIJA.md#beograd-oktobar-1944--polazište-za-igru-otpisani).
+
+**Pucačina kroz Beograd (vlasnik, 2026-11-26):** Otpisani su arkadna pucačina po uzoru na Operation Wolf, od koje se uzima mehanika, ne izgled; Neretva ostaje nepokretna, jer je njena suština držanje položaja. Prizor sam klizi kroz četiri ulice, redom borbi u oktobru 1944: Bulevar kralja Aleksandra (kasnije Bulevar revolucije), Terazije sa Palatom Albanijom, Kalemegdan i Savski most kao završnica. Etapa traje dok igrač ne obori zadati broj Nemaca (10, 12, 12 i 14). Nemci izlaze na vrata, izranjaju iza zaklona i u prozorima ili prelaze ulicu; mesta su izmerena na panoramama ([ulice](../scenes/otpisani/streets.js)). Po etapi ulicu bočno prelazi jedno nemačko vozilo: Panzer III na Bulevaru i mostu, Sd.Kfz. 222 na Terazijama i Sd.Kfz. 251 na Kalemegdanu. Dok je na vidiku, vozilo puca, a jedan prolaz bez bombe odnese najviše petinu zdravlja. Ručne bombe (desni klik ili dugme na dodir) obaraju pešake oko eksplozije, i iza zaklona; tenku trebaju dve, oklopnom vozilu jedna. Bombe su izabrane jer su verodostojne za beogradske ulice; vlasniku je bitno samo da se tenk može uništiti. Sanduci na ulici dopunjuju municiju i bombe.
 
 Nove frontalne likove vlasnik prvo bira u katalogu; do izbora nisu deo sastava nivoa. Šinjel je isključivo zimska uniforma i ne koristi se u prolećnim ili letnjim nivoima; stražar u šinjelu je u jesenjim Otpisanima samo privremeno, po odluci vlasnika (2026-11-23), dok se ne nađe bolji frontalni lik.
 

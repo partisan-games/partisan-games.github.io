@@ -107,7 +107,15 @@ export default class PrisonerModel extends PrisonerFootsteps {
    * Crouching down stays in place: a step back would move him off his place in the group each time he stops.
    */
   postureShift(name, time) {
-    return name === 'crouchUp' ? hipsForward(this.recordedStand, time) * this.mesh.scale.z : 0
+    return name === 'crouchUp' ? hipsForward(this.recordedStand, time) * this.hipsScale : 0
+  }
+
+  /** How many metres a unit of the recorded hips is: the scales of everything between the hips and the whole. */
+  get hipsScale() {
+    let scale = 1
+    for (let part = this.mesh.getObjectByName('mixamorigHips').parent; part !== this.mesh.parent; part = part.parent)
+      scale *= part.scale.z
+    return scale
   }
 
   play(name) {
