@@ -8,7 +8,7 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 |---|---|---|---|---|
 | | **[Art](#art)** | | | |
 | 1 | [AR-P16](#ar-p16) | Precrtati art koji 2D igre još koriste neprecrtan | Codex | 🔄 In progress |
-| 2 | [AR-P17](#ar-p17) | Precrtati 3D aktere u pixel art | Codex | 📋 TODO |
+| 2 | [AR-P17](#ar-p17) | Precrtati 3D aktere u pixel art | Codex | 🔄 In progress |
 | | **[Igre i ideje](#igre)** | | | |
 | 3 | [IG-18](#ig-18) | Otpisani kao arkadna pucačina kroz četiri beogradske ulice | Codex: panorame; Claude: igra | 📋 TODO |
 | 5 | [IG-29](#ig-29) | Dovršiti logor Crveni krst u Escape Concentration Camp | Codex, Claude | 🔄 In progress |
@@ -62,6 +62,8 @@ Van popisa su pozadine, korisnički interfejs i teksture 3D igara; zapisi olupin
 ### AR-P17 · Precrtati 3D aktere u pixel art
 
 Precrtati teksture svih 3D aktera, uključujući likove, vozila i opremu, da 2D i 3D art dele isti likovni stil. Borac sa Sutjeske je [odobreni uzor](ART.md#3d-pixel-art). Za svaki model primeniti [projektnu veštinu za 3D pixel art](../.agents/skills/game-actor-art-3d/SKILL.md).
+
+Nemački strelac ima [probni Pixel art izgled](../catalog.html#drugi-svetski-rat-3d/nemacki-vojnik-3d/pixel-art) u katalogu. [Tekstura i procena troška](ART.md#nemacki-strelac-pixel-art).
 
 <a id="igre"></a>
 ## Igre i ideje

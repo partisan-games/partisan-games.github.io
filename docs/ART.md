@@ -12,6 +12,9 @@ Pravila izrade i veze do izvora. Otvoreni poslovi su u [PLAN-u](PLAN.md#art), pr
 
 ## Pravila pripreme i ponovne upotrebe
 
+<a id="precrtavanje-uniformi"></a>
+**Precrtavanje odeće i uniformi u 2D i 3D (vlasnik, 2026-11-27).** Kod partizana se odeća može menjati i kombinovati s istorijski primerenim zaplenjenim komadima različitih uniformi. Kod nemačke, italijanske i drugih regularnih vojski pri precrtavanju sačuvati propisanu osnovnu boju i šaru uniforme prema potvrđenom prikazu jedinice i perioda. Pixel art menja način crtanja, a propisana boja i šara ostaju iste.
+
 - Foldere resursa imenovati po sadržaju, bez sufiksa `-reserve`; status rezerve beležiti u opisu resursa (vlasnik, 2026-11-25).
 
 - Koristiti postojeći odgovarajući resurs pre izrade duplikata. Istorijsko prihvatanje izvora ne znači da je crtež konačan: `game-ready`, novi atlas, povezivanje i prolaz testova nisu ocena kvaliteta.
@@ -165,6 +168,9 @@ Dodatna plovila imaju zasebne opise. Generički nacrtan brod ili projektna mera 
 **Pixel art za 3D aktere (vlasnik, 2026-11-26).** Odobreni uzor i podrazumevani kataloški prikaz je [Borac sa Sutjeske · Pixel art](../catalog.html#drugi-svetski-rat-3d/partizan-3d/pixel-art). Za ostale 3D aktere crtati nove teksture u paleti postojećeg 2D arta, sa oštrim pikselima i jasnim oblicima. Koristiti postojeće UV koordinate, geometriju, kostur i pokrete, pa proveriti teksturu na modelu izbliza i u pokretu. Postupak, optimizaciju modela i redosled varijacija vodi [veština za 3D pixel art](../.agents/skills/game-actor-art-3d/SKILL.md).
 
 Na odobrenom borcu maskirna šara pripada jakni i rukavima, a jednobojne braon pantalone dobijaju senke od svetla u sceni. Lice ima sopstveni identitet, sa kratkom crnom kosom, brkovima i očima boje lešnika. Crvena petokraka stoji niže na kapi i ima oštar obris. [Izvori i priprema tekstura](../assets/images/sources/partizani/sutjeska-pixel-art/generation.json).
+
+<a id="nemacki-strelac-pixel-art"></a>
+[Nemački strelac · Pixel art](../catalog.html#drugi-svetski-rat-3d/nemacki-vojnik-3d/pixel-art) je probna varijacija na postojećem modelu iz Drvara, Kraljeva, Aerodroma i Crvenog krsta. Sivomaslinasta uniforma, kožni kaiševi i lice su precrtani na istoj UV mapi. Telo ima 7.436 trouglova i jedan materijal, odnosno jedan poziv za crtanje tela po prolazu. Drvar spušta po devet padobranaca u jednom naletu. Nova mapa od 512 × 512 ima 251 kB, a ugrađeni JPEG od 2048 × 2048 ima 716 kB. Sa mip nivoima nova mapa zauzima oko 1,33 MiB prema oko 21,33 MiB za RGBA original. [Izvor i priprema](../assets/images/sources/nemci/german-soldier-pixel-art/generation.json).
 
 <a id="brka"></a>
 [Savo · Osnovna](../catalog.html#drugi-svetski-rat-3d/partizan-jednostavan-model-3d/original) ima šire lice, punije brkove i zulufe, tamnu kosu do kragne i tamne mat pantalone. Vlasnik je prihvatio izgled 25. 11. 2026. prema [portretu Save Kovačevića](https://commons.wikimedia.org/wiki/File:Savo_Kova%C4%8Devi%C4%87.jpg) i [fotografiji sa Crkvica](https://commons.wikimedia.org/wiki/File:Narodni_heroj_Sava_Kova%C4%8Devi%C4%87.jpg). Katalog i igre koriste isti [FBX](../assets/models/character/soldier/partisan-lowpoly.fbx), sa postojećim skeletom i animacijama.

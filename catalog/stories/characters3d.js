@@ -1,7 +1,7 @@
 import { NearestFilter, NearestMipmapLinearFilter } from 'three'
 import Stage3D from '../Stage3D.js'
 import TwoHandedGrip from '/core3d/actor/characters/TwoHandedGrip.js'
-import dressFighter from '/core3d/actor/characters/dressFighter.js'
+import dressFighter, { outfitTexture } from '/core3d/actor/characters/dressFighter.js'
 import { variants, infantryWeapons } from '/core3d/actor/derived/ww2/partisanLooks.js'
 import * as italianLooksModule from '/core3d/actor/derived/ww2/italianLooks.js'
 import { poseSurrender, surrenderArms } from '/core3d/actor/characters/surrenderPose.js'
@@ -223,6 +223,37 @@ function enableInfantryLooks(stage, { mesh, anim }) {
 }
 
 const machineGunner = character('nemacki-mitraljezac-3d', 'Nemački vojnik s teškom opremom', '3D Tank, FPS Airport, FPS Base', germanMachineGunnerModule)
+const germanRifleman = {
+  ...character('nemacki-vojnik-3d', 'Nemački vojnik', 'Drvar, Kraljevo, Aerodrom, Crveni krst', germanSoldierModule),
+  catalogGroup: ['Vojnici', 'Nemci'],
+  looks: [
+    { id: 'original', name: 'Osnovna' },
+    { id: 'pixel-art', name: 'Pixel art', value: true },
+  ],
+  async create(stage, way, pixelArt) {
+    await requestModels(germanSoldierModule.models, { parallelAnimations: true })
+    const { body, model } = makeCharacter(germanSoldierModule.description)
+    const skin = model.mesh.getObjectByProperty('isSkinnedMesh', true)
+    const original = skin.material
+    let pixel
+    stage.setLook = enabled => {
+      if (enabled && !pixel) {
+        pixel = original.clone()
+        pixel.map = outfitTexture('german-soldier-pixel-art/uniform.webp', original.map, new Map())
+        pixel.map.magFilter = NearestFilter
+        pixel.map.minFilter = NearestMipmapLinearFilter
+        stage.session.scope.add(() => {
+          pixel.map.dispose()
+          pixel.dispose()
+        })
+      }
+      skin.material = enabled ? pixel : original
+    }
+    stage.setLook(pixelArt)
+    stage.add(body, model)
+    return body
+  },
+}
 const flameThrower = character('nemacki-bacac-plamena-3d', 'Bacač plamena', 'FPS Base', germanFlameThrowerModule)
 const germanHeavyInfantry = {
   ...machineGunner, lookLabel: 'Oprema', catalogGroup: ['Vojnici', 'Nemci'],
@@ -258,7 +289,7 @@ const workerFighter = {
 
 export const ww2 = [
   germanHeavyInfantry,
-  character('nemacki-vojnik-3d', 'Nemački vojnik', library, germanSoldierModule),
+  germanRifleman,
   character('nacisticki-agent-3d', 'Nacistički agent', library, naziAgentModule),
   character('nacisticki-oficir-3d', 'Nacistički oficir', '3D Tank, FPS Airport, FPS Base', naziOfficerModule),
   infantryStory('partizan-3d', 'Borac sa Sutjeske', 'Liberated City, Spomenici', partisanModule),

@@ -1,0 +1,22 @@
+{
+  "tool": "built-in image_gen",
+  "model": "assets/models/character/soldier/german-soldier.fbx",
+  "material": "TexMap",
+  "reference": "uv-reference.png",
+  "styleReference": "assets/models/character/soldier/sutjeska-pixel-art/uniform.webp",
+  "source": "redraw.png",
+  "output": "assets/models/character/soldier/german-soldier-pixel-art/uniform.webp",
+  "frame": [
+    512,
+    512
+  ],
+  "meshTriangles": 7436,
+  "materialCount": 1,
+  "prompt": "Precisely repaint image 1, an existing square UV texture atlas for a skinned fictional WWII German rifleman in a historic game. This is a TECHNICAL UV MAP editing task, NOT a picture of a standing soldier, and image 2 is pixel rendering style reference only. LOCK every island in exactly its original pixel position, orientation, extent and shape; maintain the same 1:1 canvas, gray empty regions, and all small rectangles, lines and separate islands where they are. Follow image 1 precisely to locate the unfolded skin, uniform fulcrums, seams, folds, pocket panels, buttons, straps, dark brown leather, slate field gray helmet and trouser scraps. Large skin patch at lower left is the actual face/head UV, preserve all existing features, their geometry alignment and complexion, do not add any detached faces, eyes, or mouths. Maintain existing historical uniform identity without adding any markings, symbols, camo or text. Repaint the mostly blue material clusters as muted gray-green field wool, gently varied charcoal and slate-gray shadow planes. Keep the worn matte brown kit and dark boots, and the natural warm skin. Make fold edges, stitches and counters hard-stepped, with crisp groups of square pixels akin to a 256 by 256 hand-painted game texture with 4–6 contiguous tones per material. Clear stylized patch shading rather than mottled photo texture. Repaint all material surfaces using deliberate pixel-art clusters and simplify surface noise, but absolutely do not invent, rotate, enlarge or rearrange any UV patch. No new decoration and no repeating camouflage. Preserve the visible seam locations, especially the two large green-blue polygons on the middle and lower center. Output the edited atlas itself, flat square and definitive.",
+  "preparation": "python -B assets/images/sources/nemci/german-soldier-pixel-art/prepare.py",
+  "sourceSha256": "dd7376120be24ba61bb54c5cad16ac2fa1c2468cd3e9d17c82024550f2302ae1",
+  "referenceSha256": "e2779451d62df559d36fc7d431570fb8d155932bf360860e02ca9945dc2cb001",
+  "modelSha256": "e598a81534fa4b03317dd555277b7f7e9fd343f21fe4adb3ac4934716f9ca948",
+  "outputSha256": "e4e83523516dce50537fff665f929fa8f44db7de829c3c4cb1114b9ca167f2fd",
+  "outputBytes": 250952
+}

@@ -157,6 +157,44 @@ test('switching Borac sa Sutjeske variants keeps him in the same scene and pose'
   assert.deepEqual(runtime.body.size, body.size)
 })
 
+test('the German rifleman switches texture on his existing animated catalogue model', async t => {
+  createPageElements()
+  t.mock.method(THREE.TextureLoader.prototype, 'load', url => Object.assign(new THREE.Texture(), { name: url }))
+  t.mock.method(FBXLoader.prototype, 'loadAsync', async url => {
+    const bytes = await readFile('.' + decodeURI(url))
+    return new FBXLoader().parse(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), '')
+  })
+  const { ww2 } = await import('/catalog/stories/characters3d.js')
+  const story = ww2.find(({ id }) => id === 'nemacki-vojnik-3d')
+  const [original, pixelArt] = story.looks
+  assert.deepEqual([original.id, pixelArt.id], ['original', 'pixel-art'])
+  const objects = []
+  const cleanups = []
+  const stage = { add: (...items) => objects.push(...items), session: { scope: { add: cleanup => cleanups.push(cleanup) } } }
+  await story.create(stage, 1, original.value)
+  const [, view] = objects
+  const skin = view.mesh.getObjectByProperty('isSkinnedMesh', true)
+  const { geometry, skeleton, material } = skin
+  const { actions } = view
+  const rifle = view.anim.twoHandedWeapon
+  stage.setLook(pixelArt.value)
+  const dressed = skin.material
+  assert.ok(dressed.map.name.endsWith('/german-soldier-pixel-art/uniform.webp'))
+  assert.equal(dressed.map.magFilter, THREE.NearestFilter)
+  assert.equal(dressed.map.minFilter, THREE.NearestMipmapLinearFilter)
+  const bytes = await readFile('.' + dressed.map.name)
+  assert.equal(bytes.toString('ascii', 8, 12), 'WEBP')
+  assert.equal(skin.geometry, geometry)
+  assert.equal(skin.skeleton, skeleton)
+  assert.equal(view.actions, actions)
+  assert.equal(view.anim.twoHandedWeapon, rifle)
+  stage.setLook(original.value)
+  assert.equal(skin.material, material)
+  stage.setLook(pixelArt.value)
+  assert.equal(skin.material, dressed)
+  for (const cleanup of cleanups) cleanup()
+})
+
 test('Nikoletina keeps the same cap when switching weapons and trouser colors', async t => {
   createPageElements()
   t.mock.method(THREE.TextureLoader.prototype, 'load', url => Object.assign(new THREE.Texture(), { name: url }))
