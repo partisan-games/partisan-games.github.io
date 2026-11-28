@@ -4,7 +4,7 @@ Pravila izrade i veze do izvora. Otvoreni poslovi su u [PLAN-u](PLAN.md#art), pr
 
 ## Bf 109 — zajednički 3D prikaz
 
-[Teksturisani model](../assets/models/aircraft/messerschmitt-bf-109/README.md) sa 1.981 trouglom zamenjuje raniji FBX sa 9.310 trouglova u Warplane-u i oba kataloška prikaza Bf 109. Koristi originalni odvojeni propeler umesto dodatnog generičkog; raspon je 9,92 m prema projektnim merama. Sačuvani su izvor, postupak pripreme, licenca i offline pregled; dostupni OBJ nosi isti identifikator kao vlasnikov izabrani FBX, ali njegove teksture nisu bajt-po-bajt isti preuzeti fajlovi. Izdvajanje propelera mora sačuvati sve trouglove i UV koordinate, a svaka instanca rotira samo svoj primerak.
+[Bf 109 K-4](../assets/models/aircraft/messerschmitt-bf-109/README.md) sa 1.886 trouglova je lovac u Ratweeku, Franji Kluzu i oba kataloška prikaza (2026-11-28). Koristi sopstveni odvojeni propeler; raspon je 9,92 m prema projektnim merama. Izdvajanje propelera mora sačuvati sve trouglove i UV koordinate, a svaka instanca rotira samo svoj primerak.
 
 ## Renault FT — 3D tekstura
 
@@ -113,6 +113,7 @@ Kadar, trajanje, sidrište, tačke događaja i putanje završnih slika čitaju s
 
 | Resurs | Metapodaci / izvor |
 |---|---|
+| Italijanski strelac za Ustanak | [Atlas](../assets/images/game-ready/vojnici/italijanski-strelac-sprites.webp), [poreklo i priprema](../assets/images/sources/talijani/ustanak-strelac/generation.json), [radnje u katalogu](../pages/catalog.html#vojnici/italijanski-strelac). Prikaz 88 × 80 pri 40 px/m, kao kod partizanskog strelca. |
 | Frontalna pešadija u Otpisanima | [Strelac sa puškom](../pages/catalog.html#vojnici/otpisani-strelac) i [stražar u šinjelu](../pages/catalog.html#vojnici/otpisani-strazar) dele isti pixel art stil. Njihovi atlasi ([strelac](../assets/images/game-ready/vojnici/otpisani-rifleman-pixel-sprites.webp) i [stražar](../assets/images/game-ready/vojnici/otpisani-sentry-pixel-sprites.webp)) imaju isti raspored redova za mirovanje, hod u oba smera, pucanje, pogodak i pad. |
 | Punjenje nemačkog strelca | klip prati spremnik nacrtanog oružja i nije zamena za punjenje drugih pušaka |
 | The Germans Advance | [Zajednički prikaz](../core/actor/AdvanceSprite.js) za strelca, mitraljesca, strelca sa rancem, podoficira, Panzer III i vojnika na kupoli. Strelac ima čučeći hod, a podoficir znak rukom; klečanje, pucanje i davanje znaka zaustavljaju pomeranje. Položaj cevi je izmeren u kadrovima pucanja. Promo traje 24 s, sa 18 s scene i završnim [logom](../scenes/bitka/PromoLogo.js) u piksel fontu sajta, uz zvezdu; [vremenski tok](../scenes/bitka/PromoTimeline.js) pripada sceni. |
@@ -151,6 +152,12 @@ Poljski top Ustanka je zajednički prihvaćen crtež za obe posade. Sličnost sa
 
 
 ### Avioni
+
+[B-25 Mitchell · Pixel art](../pages/catalog.html#letelice-3d/bombarder-b-25-3d/pixel-art) je podrazumevani izgled u katalogu. Staklo nosa, kabine i kupola je prigušeno, a lim nosi pikselizovane spojeve i tragove habanja uz očuvane oznake. Osam lossless WebP mapa upola je manje po strani od izvornih i ukupno zauzima oko 40 kB, odnosno oko 1,25 MiB dekodirano sa mip nivoima. Ista mreža ima 17.489 trouglova i 36 primitiva u GLB-u. U igri se koristi osnovni izgled. [Poreklo i priprema](../assets/models/aircraft/north-american-b-25-mitchell/art-source/generation.json).
+
+[Avro Lancaster · Pixel art](../pages/catalog.html#letelice-3d/bombarder-3d/pixel-art) je podrazumevani izgled u katalogu. Svih 17 mapa nacrtano je od praznog platna, uz postojeći UV raspored. Novi crteži pokrivaju kamuflažu, donje površine, motore, staklo, zakovice i RAF oznake. Lossless WebP mape imaju iste dimenzije i ukupno oko 7 kB. GLB ima 9.057 trouglova i 51 primitivu pre zamene diskova elisama. [Poreklo i priprema](../assets/models/aircraft/bomber-lancaster/art-source/generation.json).
+
+[B-24 Liberator · Pixel art](../pages/catalog.html#letelice-3d/bombarder-b-24-3d/pixel-art) je probni izgled u katalogu. Maslinasti lim iznad, sivoplav ispod, paneli i američke oznake su nacrtani od praznog platna. Projekcija gornje, donje i bočne mape prati postojeću mrežu i pokriva površine bez upotrebljivog UV rasporeda. Tri lossless WebP mape zauzimaju oko 5 kB, odnosno oko 2 MiB dekodirano sa mip nivoima. Model zadržava 25.971 trougao i 20 primitiva. [Poreklo i priprema](../assets/models/aircraft/consolidated-b-24-liberator/art-source/source.json).
 
 
 | Resurs | Metapodaci / izvor |
@@ -220,6 +227,9 @@ U 3D Pixel art prikazu uklonjena su 44 trougla kapuljače. Leđa su popunjena sa
 <a id="savo-2d"></a>
 [Partizanski zastavnik](../pages/catalog.html#vojnici/zastavnik/partizanski) u Ustanku i katalogu koristi precrtane atlase [mirovanja](../assets/images/game-ready/vojnici/partizanski-zastavnik-sprites-redraw.webp), [hoda i pada](../assets/images/game-ready/vojnici/partisan-bearer-actions-redraw.webp) i [pogotka](../assets/images/game-ready/vojnici/partisan-bearer-hit-sprites-redraw.webp). Precrtavanje prati svih 16 starih poza, sa istim granicama kadrova, bojama i obeležjima. Zastava se crta odvojeno. [Izvor i priprema](../assets/images/sources/partizani/partisan-bearer-redraw/generation.json).
 
+<a id="zastave-za-ustanak-i-jablanicu"></a>
+Posle poređenja vlasnik je izabrao da Ustanak, katalog i Jablanica zadrže originalne zastave. Kao rezerva su sačuvani pixel art crteži [partizanske zastave](../assets/images/game-ready/zastave/partizanska-zastava.webp) i [italijanske trobojke sa štitom Savoja](../assets/images/game-ready/zastave/zastava-kraljevine-italije.webp). [Poreklo i priprema](../assets/images/sources/zastave/ustanak-jablanica/source.json).
+
 <a id="sutjeska-drug-marko"></a>
 **Uzor za Kočin lik (vlasnik, 27. 11. 2026).** [Portret Koče Popovića iz Drvara, 1943.](../assets/images/sources/partizani/sutjeska-pixel-art/koca-popovic-drvar-1943.jpg) glavni je uzor za lice i kosu. [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Ko%C4%8Da_Popovi%C4%87.jpg) navodi poreklo, autora isečka i licencu.
 
@@ -275,6 +285,12 @@ Slike u [game-ready](../assets/images/game-ready) čuvaju se samo kao lossless W
 | Do Trsta | [Slojeviti pejzaž](../scenes/to-trieste/Route.js), prema [izboru vlasnika](KONTEKST.md#to-trieste); ranije slikane panorame nisu uključene u igru. |
 
 Za Batinu je izabrana slojevita osnova sa pokretnim oblacima; ljudi, civili i platnena zastava ostaju isključeni. Obrisane alternative ne vraćati. Ostale prihvaćene izbore vodi [kontekst igara](KONTEKST.md#potvrđena-grupa-pozadina-za-ustanak-i-tenkiće).
+
+## Ratweek — teren iz vazduha
+
+[Tekstura doline](../assets/images/textures/terrain/ratweek-dolina.webp) prikazuje parcele, redove useva, međe, zemljane puteve i šumarake na padinama. Poprečne ulice prate prolaze koje raspored kuća već ostavlja u oba naselja. Oko reke ostaje priobalje, a preko polja prati se postojeća pruga. [Izvor i postupak izrade](../assets/images/sources/ratweek-dolina/source.json).
+
+Cela deonica deli jednu sliku od 384 × 2048 i postojeći materijal tla. Susedni segmenti koriste iste koordinatne linije. Lossless WebP ima oko 418 kB, odnosno oko 4 MiB dekodirano sa mip nivoima. Pri izvozu se susedni pikseli usrednjavaju da uski putevi ostanu vidljivi. Teren pri umanjivanju uzorkuje jedan mip nivo. Jele dele geometriju i crtaju se u četiri grupe po deonici. [Prikaz terena](../scenes/ratweek/landscape.js).
 
 ## Zasebni rekviziti bojišta
 

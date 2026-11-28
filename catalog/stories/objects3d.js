@@ -1,4 +1,3 @@
-import { separateModels } from './catalogEntries.js'
 import Stage3D from '../Stage3D.js'
 import Dummy from '../Dummy.js'
 import { playerControls } from '../playerControls.js'
@@ -6,6 +5,8 @@ import * as bomberModule from '/core3d/aircraft/derived/Bomber.js'
 import * as flyingFortressModule from '/core3d/aircraft/derived/FlyingFortress.js'
 import * as liberatorModule from '/core3d/aircraft/derived/Liberator.js'
 import * as mitchellModule from '/core3d/aircraft/derived/Mitchell.js'
+import { lancasterLooks, mitchellLooks } from '/core3d/actor/aircraft/bomberLooks.js'
+import { liberatorLooks } from '/core3d/actor/aircraft/liberatorLooks.js'
 import * as spitfireModule from '/core3d/aircraft/derived/Spitfire.js'
 import * as messerschmittModule from '/core3d/aircraft/derived/Messerschmitt.js'
 import * as towerModule from '/core/gameplay/bodies/buildings/Tower.js'
@@ -70,18 +71,6 @@ const fieldGun = async stage => {
 }
 
 /**
- * The warplane low over the stage, flying on in place, far enough ahead for the stage's camera to see it whole, flown
- * with the game's own controls: the arrows steer it and Space fires a rocket.
- */
-const warplane = async(stage, way, look) => {
-  await requestModels(look.models, { parallelAnimations: true })
-  const { body, model } = makeWarplane(look.description, { clock: stage.session.clock, height: 3, limit: 10, z: -12 })
-  stage.add(body, model)
-  playerControls(stage, input => new WarplaneKeys(body, input), inputLayouts.warplane)
-  return body
-}
-
-/**
  * A fighter of `plane`'s module flying on in place, as the bombers do, at an unseen stand-in for the bomber ahead of it and off to its side:
  * attacking, it turns at the stand-in and fires when it has it in its sights; pulling away or moving, it flies on;
  * landing, it glides down and rolls to a stop; shot down, it falls.
@@ -94,17 +83,23 @@ const fighter = plane => async stage => {
     { target: standIn, clock: stage.session.clock, ...place, y: 20 })
   stage.add(body, model, guns)
   stage.controllers.push({ update: () => Object.assign(body, place) })
+  // the game's keys fly it and fire its guns, as the warplanes are flown
+  playerControls(stage, input => new WarplaneKeys(body, input), inputLayouts.warplane)
   return body
 }
 
 /**
- * A bomber of Warplane, of `plane`'s module, over the stage, flying on in place, flown with the game's own controls: the arrows steer it,
+ * A bomber of Ratweek, of `plane`'s module, over the stage, flying on in place, flown with the game's own controls: the arrows steer it,
  * Space fires a rocket and C, held, its guns, on the keyboard or the buttons on the screen. Its guns fire at an unseen
  * stand-in for a fighter circling it, ahead, above and behind in turn, so each turret's arc shows.
  */
-const bomber = plane => async stage => {
+const bomber = (plane, looks) => async(stage, _way, look) => {
   await requestModels(plane.models, { parallelAnimations: true })
   const { body, model } = makeWarplane(plane.description, { clock: stage.session.clock, height: 20, limit: 10, z: -12 })
+  if (looks) {
+    stage.setLook = await looks(model.mesh, stage.session.scope)
+    stage.setLook(look)
+  }
   const guns = new GunTurrets({ plane: body, clock: stage.session.clock, turrets: plane.description.turrets })
   stage.add(body, model, guns, new ProjectilesModel(guns, { shotSound: 'aircraft-gun.mp3' }))
   playerControls(stage, input => new WarplaneKeys(body, input, guns), inputLayouts.warplane)
@@ -130,27 +125,24 @@ const gunTower = async stage => {
   return body
 }
 
-/** The looks of a warplane flown with the game's controls. */
-const planes = [
-  ['mesersmit', 'Messerschmitt Bf 109', messerschmittModule],
-].map(([id, name, value, game]) => ({ id, name, value, game }))
-
 export const aircraft = [
-  { id: 'ratni-avion-3d', name: 'Ratni avion', game: 'Warplane', block: warplaneModule, stage: Stage3D, looks: planes, create: warplane,
-    modelIds: { mesersmit: 'mesersmit-3d' } },
-  { id: 'bombarder-3d', aliases: ['ratni-avion-3d/bombarder'], name: 'Bombarder Avro Lancaster', game: 'Warplane', block: warplaneModule,
-    stage: Stage3D, create: bomber(bomberModule) },
-  { id: 'bombarder-b-17-3d', name: 'Bombarder B-17 Flying Fortress', game: 'Warplane', block: warplaneModule, stage: Stage3D,
+  { id: 'bombarder-3d', aliases: ['ratni-avion-3d/bombarder'], name: 'Bombarder Avro Lancaster', game: 'Operation Ratweek', block: warplaneModule,
+    stage: Stage3D, looks: [{ id: 'pixel-art', name: 'Pixel art', value: true }, { id: 'original', name: 'Osnovna' }],
+    create: bomber(bomberModule, lancasterLooks) },
+  { id: 'bombarder-b-17-3d', name: 'Bombarder B-17 Flying Fortress', game: 'Operation Ratweek', block: warplaneModule, stage: Stage3D,
     create: bomber(flyingFortressModule) },
-  { id: 'bombarder-b-24-3d', name: 'Bombarder B-24 Liberator', game: 'Warplane', block: warplaneModule, stage: Stage3D,
-    create: bomber(liberatorModule) },
-  { id: 'bombarder-b-25-3d', name: 'Bombarder B-25 Mitchell', game: 'Warplane', block: warplaneModule, stage: Stage3D,
-    create: bomber(mitchellModule) },
-  { id: 'lovac-bf-109-3d', name: 'Nemački lovac Bf 109', game: 'Warplane', block: interceptorModule, stage: Stage3D,
+  { id: 'bombarder-b-24-3d', name: 'Bombarder B-24 Liberator', game: 'Operation Ratweek', block: warplaneModule, stage: Stage3D,
+    looks: [{ id: 'original', name: 'Osnovna' }, { id: 'pixel-art', name: 'Pixel art', value: true }],
+    create: bomber(liberatorModule, liberatorLooks) },
+  { id: 'bombarder-b-25-3d', name: 'Bombarder B-25 Mitchell', game: 'Operation Ratweek', block: warplaneModule, stage: Stage3D,
+    looks: [{ id: 'pixel-art', name: 'Pixel art', value: true }, { id: 'original', name: 'Osnovna' }],
+    create: bomber(mitchellModule, mitchellLooks) },
+  { id: 'lovac-bf-109-3d', aliases: ['mesersmit-3d', 'ratni-avion-3d', 'ratni-avion-3d/mesersmit'], name: 'Messerschmitt Bf 109',
+    game: 'Operation Ratweek', block: interceptorModule, stage: Stage3D,
     create: fighter(messerschmittModule) },
   { id: 'lovac-spitfire-3d', name: 'Lovac Supermarine Spitfire', game: 'Zajednička biblioteka', block: interceptorModule,
     stage: Stage3D, create: fighter(spitfireModule) },
-].flatMap(story => story.looks ? separateModels(story) : [story])
+]
 
 export const artillery = [
   { id: 'poljski-top-3d', name: 'Poljski top 75 mm sa posadom', game: 'Battle for Jablanica', block: cannonModule, stage: Stage3D,
@@ -166,6 +158,6 @@ export const artillery = [
 ]
 
 export const towers = [
-  { id: 'kula-3d', name: 'Kula sa topom', game: 'Warplane, FPS Airport', block: towerModule, stage: Stage3D, create: gunTower,
+  { id: 'kula-3d', name: 'Kula sa topom', game: 'Operation Ratweek, FPS Airport', block: towerModule, stage: Stage3D, create: gunTower,
     catalogGroup: ['Scenografija', 'Zgrade'] },
 ]

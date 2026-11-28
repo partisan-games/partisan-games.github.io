@@ -4,4 +4,4 @@
 
 Vlasnik je model preuzeo kao FBX sa jednom teksturom; autor, izvorna stranica i licenca nisu bili priloženi. Pri pretvaranju u GLB razmera je određena po pragovima (2,6 m), istom merom kao [pruga](../track/README.md), a providnost neprozirne teksture je isključena. Ima 8.710 trouglova, jedan materijal i jednu sliku smanjenu sa 2048 na 1024 px; fajl je 2,2 MB, a izvor sa slikom 7,4 MB.
 
-Rezerva za [IG-31](../../../../docs/PLAN.md#ig-31); još nije u katalogu ni u igri.
+Ratweek od nekoliko raspona slaže most gde pruga preseca reku ([mete](../../../../scenes/ratweek/utils.js)); u katalogu još nije.

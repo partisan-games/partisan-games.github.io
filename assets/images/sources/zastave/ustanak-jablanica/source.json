@@ -1,0 +1,30 @@
+{
+  "source": "paint.py",
+  "method": "Original pixel drawing of cloth folds, seam stitches, and heraldry.",
+  "references": [
+    "../../../sprites/zastava.png",
+    "../../../armies/talijani/vojnici/strelci/zastava.svg"
+  ],
+  "historicalReferences": [
+    {
+      "url": "https://www.quirinale.it/it/pagine/simboli-repubblica-tricolore",
+      "use": "Savoy shield with blue border. The 1925 Kingdom of Italy state flag adds a royal crown."
+    },
+    {
+      "url": "https://www.marina.difesa.it/cosa-facciamo/per-la-cultura/tradizioni/Pagine/LaBandiera.aspx",
+      "use": "The four-part naval emblem from the old sprite dates to the 1947 republican flag."
+    }
+  ],
+  "partisanDesign": "The existing game's red cloth and gold symbols are retained as a game design.",
+  "frame": { "width": 208, "height": 130, "hoistX": 0 },
+  "outputs": [
+    {
+      "file": "../../../game-ready/zastave/partizanska-zastava.webp",
+      "sha256": "e74335509ce4b60994b23f7f41f848e786435e727fb861d3f3d451aa4249b0e9"
+    },
+    {
+      "file": "../../../game-ready/zastave/zastava-kraljevine-italije.webp",
+      "sha256": "a1c6fa9d84517c663a3a7c3e19ff2f7de4849a4825bef72d017ce1ef87c4f803"
+    }
+  ]
+}

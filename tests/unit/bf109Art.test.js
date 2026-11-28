@@ -33,7 +33,7 @@ test('the replacement Bf 109 embeds its textures, points forward and rotates its
     assert.ok(part.geometry.attributes.uv)
     assert.ok(part.material.map)
   })
-  assert.equal(triangles, 1981)
+  assert.equal(triangles, 1886)
   const box = new THREE.Box3().setFromObject(mesh)
   assert.ok(Math.abs(box.getSize(new THREE.Vector3()).x - 9.92) < .001)
   const propeller = mesh.getObjectByName('Propeller')

@@ -20,6 +20,8 @@ Za browser je potreban instaliran Chromium. Velike serije, buildovi i paralelni 
 
 ## Unit tests (`tests/unit/`)
 
+Teren Ratweeka. [Ciljani test](../tests/unit/ratweekLand.test.js) proverava visine, zajedničku teksturu, neprekinut spoj između segmenata i da ulice koriste prolaze između postojećih kuća. Ravnicu, prilaz Nišu i klisuru uporedili smo u offline prikazu iz ugla prateće kamere.
+
 U Opsadi Kraljeva ciljani test koristi stvarne FBX modele i proverava pet različitih mesta u pratnji, oba četnika, osam nemačkih branilaca i veći domet odbrane. Proba težine u pregledaču vodi se u [IG-34](PLAN.md#ig-34). [Test scene](../tests/unit/kraljevoEscort.test.js) · [Test modela u katalogu](../tests/unit/catalogResources.test.js)
 
 Saborci u Crvenom krstu (2026-11-25). [Test nivoa](../tests/unit/fpsCamp.test.js) proverava različite košulje i visine, izbor dva stvarna čučeća mirovanja sa različitim fazama/tempom, pomeranje šaka i praćenje kroz sudare lavirinta. Izvedene poze iz hoda i stojećih mirovanja su uklonjene. Čučeći hod je lokalna kopija sa zajedničkim horizontalnim početkom, bez promene izvornog FBX-a ili keša. Na sva tri stvarna modela test uzorkuje više od 20 petlji hoda: koren ostaje unutar 1 cm od mirovanja; zatim proverava povratak u izabrani idle. Novi klipovi su stvarno učitani, a snimljeni i obrnuti prelaz podižu/spuštaju stvarnu kost glave za više od 20 cm.
@@ -63,6 +65,8 @@ Gašenje posle greške (2026-11-24): [regresione provere](../tests/unit/cleanup.
 ## Smoke test (`tests/smoke/`)
 
 Aktuelne provere uključuju [curenje pri smeni igara](../tests/smoke/leaks.spec.js), [pripremljeni art](../tests/smoke/prepared-art.spec.js) i [krv pri padu bombaša](../tests/smoke/grenadier-blood.spec.js). To nije automatski prolaz kroz svaku partiju ili potvrda svake touch komande. Nedostajuće teksture modela koje su poznato ograničenje vodi [known-issues](../tests/smoke/known-issues.js).
+
+Kad se iz igre ukloni ili zameni oruđe, crtež ili dugme, pretražiti i `tests/smoke` po imenu fajla i selektoru: smoke se ne pokreće sa unit testovima, pa je provera topa u Ustanku pala tek u `npm run verify` (2026-11-27).
 
 Za ciljanu probu koristiti [probe](../scripts/probe.js). Merenje 3D nivoa kroz probe (Drvar, 2026-11-26): `renderer.info.render` daje broj poziva za crtanje i trouglova posle jednog `render`. Čiji su pozivi, pokazuje razlika kad se grupa sakrije. Kasna faza igre dostiže se pozivanjem `session.update` i `update` scene u petlji, uz neranjivog igrača. Vremena crtanja u pregledaču bez grafičke kartice su gruba, a brojevi poziva, trouglova i aktera su tačni. GLB sa WebP teksturom ne učitava se u unit testovima (happy-dom ne dekodira sliku), pa testovi rasporeda koriste zamenski model. Sačekati stvarnu posledicu držanog tastera; softverski 3D prikaz može biti spor. `waitForFunction` ima sinhron predikat. Headless Escape ne dokazuje fizičko oslobađanje pointer lock-a; poziv `exitPointerLock` je samo ograničenje probe. Pravi touch zahteva držanje i nezavisne pokazivače, ne samo `tap`.
 
@@ -227,6 +231,9 @@ Provere strukture i izvora ne potvrđuju osećaj leta, zvuk i svaku misiju. Kori
 
 [Test nivoa](../tests/unit/ustanak.test.js) proverava pravila; ugao cevi, stvarno nišanjenje, vetar, rupe u tlu, fokus i oslonci zahtevaju odgovarajući prikaz/runtime dokaz. Vlasnikovo prihvatanje terena nije automatsko prihvatanje kasnijeg miksa ili arta.
 
+[Test kataloga](../tests/unit/catalogStories.test.js) za italijanskog strelca proverava istu razmeru kao kod partizana, prelaz na pucanj i pogodak i zadržavanje završnog kadra pada. Učitavanje novog prikaza u nivou ostaje u [IG-37](PLAN.md#ig-37).
+
+
 ## Global audio migration verification limits
 
 Sačuvano je da su unit provere, lint i provera projekta prošli za audio migraciju i da je vlasnik preslušao poboljšan zvuk 20. novembra 2026. To nije dokaz sadašnje radne verzije, svakog spoja petlje, native dekodiranja, kontakata, mixed peak-a, DSP troška, p95 vremena ili audio RAM-a.
@@ -241,7 +248,7 @@ Provereno 2026-11-25: ciljani testovi `fpsCamp` i `catalogCoverage` prolaze (4/4
 
 ## Bf 109 — zamena 3D modela
 
-Provereno 2026-11-25: `bf109Art`, `warplane` i `catalogNavigation` prolaze 18/18. Stvarni GLB se parsira projektnim Three.js loaderom uz zamenu samo dekodiranja slika u testu; provereni su 1.981 trougao, ugrađene teksture, UV atributi, raspon od 9,92 m i osovina propelera na nosu prema −Z. Obe fabrike prikaza koriste novi model i nezavisno okreću njegov propeler; pripremljeni keš i druga instanca ostaju mirni. Provereni su usklađen smer sa telom, nagib, obaranje i očuvano povezivanje zasebnog propelera drugih aviona. ESLint promenjenih JS fajlova prolazi. Pregledan je offline render; pregledač i igranje nisu pokretani.
+Provereno 2026-11-25: `bf109Art`, `warplane` i `catalogNavigation` prolaze 18/18. Stvarni GLB se parsira projektnim Three.js loaderom uz zamenu samo dekodiranja slika u testu; provereni su broj trouglova (od 2026-11-28 1.886, model K-4), ugrađene teksture, UV atributi, raspon od 9,92 m i osovina propelera na nosu prema −Z. Obe fabrike prikaza koriste novi model i nezavisno okreću njegov propeler; pripremljeni keš i druga instanca ostaju mirni. Provereni su usklađen smer sa telom, nagib, obaranje i očuvano povezivanje zasebnog propelera drugih aviona. ESLint promenjenih JS fajlova prolazi. Pregledan je offline render; pregledač i igranje nisu pokretani.
 
 ## Renault FT — tekstura
 

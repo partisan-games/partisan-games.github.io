@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import { createTexture } from '/core3d/helpers.js'
+import Tree, { trees, willows } from '/core3d/actor/nature/Tree.js'
 
 /**
  * The valley round Kraljevo, in metres, as the way in sees it: the tank comes along +z from Čačak, so its left, +x, is
@@ -15,7 +16,12 @@ export const valley = {
   bank: 4,
   hills: { from: 380, to: 720, south: 120, north: 70, east: 35, west: 20 },
   ruzica: { x: -120, z: -330, radius: 90, height: 45 },
+  // weeping willows on the far banks, about `apart` metres from one another, `off` metres from the water
+  willows: { apart: 22, off: [3, 9] },
 }
+
+/** What to load before the valley is built. */
+export const models = willows.map(kind => trees[kind].model)
 
 const palette = { water: 0x497e7e, bank: 0xb3aa8c, hill: 0x6f7f55 }
 /** How high a riverbank stops the tank, in metres. */
@@ -109,4 +115,23 @@ export function buildValley(physics) {
   }
   wall({ x: [morava.x[0] - bank, morava.x[0]], z: [morava.z[0], ibar.z[0] - bank] })
   wall({ x: [ibar.x[0], morava.x[0]], z: [ibar.z[0] - bank, ibar.z[0]] })
+  scene.add(...plantWillows())
+}
+
+/** Willows of each shape by turns along the far bank of the Morava and the Ibar, beyond the tank's way, each turned and spaced its own way. */
+function plantWillows() {
+  const { morava, ibar, bank, willows: row } = valley
+  const { randFloat, randFloatSpread } = THREE.MathUtils
+  const spots = []
+  for (let z = morava.z[0]; z < morava.z[1]; z += row.apart)
+    spots.push({ x: morava.x[1] + bank + randFloat(...row.off), z: z + randFloatSpread(row.apart / 2) })
+  for (let x = ibar.x[0]; x < morava.x[0] - bank; x += row.apart)
+    spots.push({ x: x + randFloatSpread(row.apart / 2), z: ibar.z[1] + bank + randFloat(...row.off) })
+  return spots.map(({ x, z }, i) => {
+    const { mesh } = new Tree(willows[i % willows.length])
+    mesh.position.set(x, 0, z)
+    mesh.rotation.y = Math.random() * Math.PI * 2
+    mesh.scale.multiplyScalar(randFloat(.85, 1.1))
+    return mesh
+  })
 }

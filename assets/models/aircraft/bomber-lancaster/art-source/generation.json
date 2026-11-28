@@ -1,0 +1,15 @@
+{
+  "method": "Original pixel drawing from blank canvases",
+  "source": "prepare.py",
+  "baseModel": "../model.glb",
+  "baseModelSha256": "c81763e1de79ce20448e1f2d8fe0adb099d24a74edcb04054b4cff076799b2b7",
+  "outputs": "../pixel-art/",
+  "registration": "Seventeen newly drawn albedo maps at the original UV locations. The base model is used for reference and fitting only. The export does not read the old raster maps.",
+  "previousTrial": "wear.png",
+  "references": [
+    {
+      "url": "https://collections.rafmuseum.org.uk/collection/object/object-1765/",
+      "use": "Lancaster camouflage and markings reference. Existing visual identity guides the model's markings."
+    }
+  ]
+}

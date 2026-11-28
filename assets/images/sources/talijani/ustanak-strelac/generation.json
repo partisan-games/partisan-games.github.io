@@ -1,0 +1,68 @@
+{
+  "tool": "OpenAI ImageGen",
+  "source": "poses.png",
+  "sourceSha256": "dedb4d2a4a85f7e312a04b252155002348ab732a3349a180ad0ef0e977fc04b6",
+  "prompt": "Create a game-ready original sprite sheet for a 1941 Italian infantry rifleman, in the style and fixed right-facing side view of the supplied game reference. The upper left of the reference shows kneeling pose and restrained retro pixel-art language only. The lower left olive Italian gun crew is the uniform, colors, proportions and helmet reference. The old small sprite at right shows the intended kneeling pose only. Draw a NEW male Italian rifleman with realistic adult proportions, muted grey-olive wool tunic and trousers, scuffed dark brown boots with muted olive wraps, plain Italian steel M33 helmet and narrow strap, subdued leather cartridge pouches and a wooden-stock Carcano rifle, no emblems, with thick charcoal pixel contours and limited warm highlights. The design must fit right beside these game sprites so use the same deliberately simple, bold readable 16-bit tactical sprite art and small stepped pixel clusters. Make a regular EXACTLY four columns by four rows of separate equally spaced full-body sprites, 3:2 landscape canvas, with each sprite contained in its own equal-size invisible cell, same character and scale in all poses, large clear transparent gutters, no drawn grid. Direction always right, no mirroring. Keep the down knee, forward boot and rifle shouldered just like the reference, sightline horizontally right, simple grounded silhouette with rifle clearly held by both hands. Rows from top to bottom: (1) idle: four very similar kneeling aiming cels with subtle breathing; (2) firing: [aim, small brief recoil backward, slight recovery, normal aim], show rifle action in the pose only, NO muzzle flash; (3) hit: [small shoulder jolt, abrupt torso flinch and lower rifle a little, start recovery, almost back to aim], still on knee and feet; (4) fatal fall: [kneeling recoils and rifle dips, slumps forward off raised leg with one hand toward floor, shoulders and helmet tumble toward right, ends completely relaxed and inert lying full body on ground side/front facing right with lowered rifle beside him, no gore]. Shared horizontal floor contact about 82% height of each cell with clear bottom margin; character fills 60% to 78% of width. Do not change size between cels, no perspective changes, never cut off rifle or foot. Transparent background everywhere, no shadow, no ground or props, no guns apart from the one in each pose, no labels or UI. Matte low-color pixel art with solid opaque interior.",
+  "references": [
+    "../../../game-ready/vojnici/partizanski-strelac-sprites.webp",
+    "../../../game-ready/artiljerija/italijanska-posada-sprites.webp",
+    "../../../armies/talijani/vojnici/vojnik-05.png",
+    "../../../game-ready/artiljerija/italijanska-posada-death-sprites.webp"
+  ],
+  "historicalReferences": [
+    {
+      "url": "https://www.awm.gov.au/collection/C1147868",
+      "item": "Italian M33 helmet, marked 1939"
+    },
+    {
+      "url": "https://www.awm.gov.au/collection/C235828",
+      "item": "Italian Carcano M91 rifle"
+    }
+  ],
+  "prepare": "prepare.py",
+  "output": "../../../game-ready/vojnici/italijanski-strelac-sprites.webp",
+  "outputSha256": "0a834f418b93caac9edbc3688ac1c1f602313f77541550f0e6946b1ab56825b9",
+  "cell": [
+    440,
+    400
+  ],
+  "displayCell": [
+    88,
+    80
+  ],
+  "anchor": [
+    220,
+    340
+  ],
+  "muzzle": [
+    356,
+    175
+  ],
+  "gutter": 4,
+  "rows": {
+    "idle": [
+      350,
+      350,
+      350,
+      350
+    ],
+    "fire": [
+      100,
+      100,
+      100,
+      100
+    ],
+    "hit": [
+      70,
+      80,
+      90,
+      80
+    ],
+    "dead": [
+      200,
+      200,
+      200,
+      200
+    ]
+  }
+}

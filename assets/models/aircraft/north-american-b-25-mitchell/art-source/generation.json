@@ -1,0 +1,21 @@
+{
+  "source": "wear.png",
+  "tool": "OpenAI ImageGen",
+  "sourceSha256": "e0d1a0a697fb969fa419008b5bbfcc04c29d14f0a63a4ca4ac2a331a30a71858",
+  "baseModel": "../model.glb",
+  "baseModelSha256": "4515d7091058b71ef217961b588439e5bf85464662d053dc11a166bd90b3c1bb",
+  "prompt": "Draw a square seamless-looking 2D video-game texture swatch, flat orthographic up close, showing worn painted olive-drab WWII aircraft sheet metal in authentic crisp hand-painted 16-bit pixel art. This is the PAINT ALBEDO only; no aircraft outline, no perspective, no insignia, no text, no framing, no bullet holes, no damage panels, no rivet rows across the whole image. Restrained olive drab close to RGB 79,84,51 with muted olive-gray clusters of paint abrasion and a few sparse horizontal short 3–12 pixel nicks, scattered tiny touches of warmer brown on the olive grey. Keep over 80 percent visually almost even, matte, with only 4 closely related subdued tones. Use visible stepped pixel clusters with hard contour and clean color, as professionally hand-painted for a historical isometric strategy game. Prefer sparse short scratches and little broken squares to smudges, avoid photographic grain and avoid camouflage-like large patches or blotchy high contrast. The entire square filled with the same kind of old olive aircraft skin, edge to edge, seamless-friendly. This swatch will be masked into the original UV and recolored to match the existing real aircraft.",
+  "preparation": "prepare.py",
+  "outputs": "../pixel-art/",
+  "registration": "Keep GLB UV transforms and reconstruct paint on the existing color masks. Nose art, aircraft markings and original bands remain in place. The patterned abrasion swatch is applied only to existing olive and gray metal, with separate pixel reflections on the glazing.",
+  "references": [
+    {
+      "url": "https://airandspace.si.edu/air-and-space-quarterly/issue-19/military-aircraft-camouflage",
+      "use": "USAAF olive upper surfaces and blue-gray lower surfaces"
+    },
+    {
+      "url": "https://www.nationalmuseum.af.mil/Visit/Museum-Exhibits/Fact-Sheets/Display/Article/196310/USAFmuseum/north-american-b-25b-mitchell/",
+      "use": "Glass nose and canopy reference, no new unit or aircraft identity claimed"
+    }
+  ]
+}

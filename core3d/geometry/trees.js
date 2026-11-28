@@ -50,33 +50,60 @@ export function createTree({ x = 0, y = 0, z = 0, size = 5, trunkColor, crownCol
   return trunk
 }
 
+const firParts = [
+  { y: 6, shape: [1.5, 1.5, 12, 6, 1, true] },
+  { y: 18, shape: [0, 10, 14, 8] },
+  { y: 25, shape: [0, 9, 13, 8] },
+  { y: 32, shape: [0, 8, 12, 8] },
+]
+
+function placeFir(tree, { x, y, z, size }) {
+  const scale = size / 10
+  tree.scale.set(scale, randFloat(scale / 2, scale), scale)
+  tree.position.set(x, y, z)
+  tree.rotation.z = randFloat(-0.15, 0.15)
+}
+
 export function createFirTree({ x = 0, y = 0, z = 0, size = 5 } = {}) {
-  const trunk = new THREE.Mesh(
-    new THREE.CylinderGeometry(1.5, 1.5, 12, 6, 1, true),
-    new THREE.MeshLambertMaterial({ color: similarColor(browns[1]) })
-  )
-  trunk.position.y = 6
-
-  const greenMaterial = new THREE.MeshLambertMaterial({ color: randomNuance() })
-  const c1 = new THREE.Mesh(new THREE.CylinderGeometry(0, 10, 14, 8), greenMaterial)
-  c1.position.y = 18
-  const c2 = new THREE.Mesh(new THREE.CylinderGeometry(0, 9, 13, 8), greenMaterial)
-  c2.position.y = 25
-  const c3 = new THREE.Mesh(new THREE.CylinderGeometry(0, 8, 12, 8), greenMaterial)
-  c3.position.y = 32
-
+  const bark = new THREE.MeshLambertMaterial({ color: similarColor(browns[1]) })
+  const needles = new THREE.MeshLambertMaterial({ color: randomNuance() })
   const group = new THREE.Group()
-
-  ;[trunk, c1, c2, c3].forEach(mesh => {
+  firParts.forEach(({ y, shape }, i) => {
+    const mesh = new THREE.Mesh(new THREE.CylinderGeometry(...shape), i ? needles : bark)
+    mesh.position.y = y
     mesh.castShadow = true
     group.add(mesh)
   })
+  placeFir(group, { x, y, z, size })
+  return group
+}
 
-  const scale = size / 10
-  group.scale.set(scale, randFloat(scale / 2, scale), scale)
-  group.position.set(x, y, z)
+let firBatch
 
-  group.rotateZ(randFloat(-0.15, 0.15))
+/** Draw the firs of a piece of land in one batch per part, sharing their geometry between pieces. */
+export function createFirTrees(positions) {
+  const group = new THREE.Group()
+  if (!positions.length) return group
+  firBatch ??= {
+    material: new THREE.MeshLambertMaterial(),
+    geometries: firParts.map(({ y, shape }) => new THREE.CylinderGeometry(...shape).translate(0, y, 0)),
+  }
+  const batches = firBatch.geometries.map(geometry => {
+    const mesh = new THREE.InstancedMesh(geometry, firBatch.material, positions.length)
+    mesh.castShadow = true
+    group.add(mesh)
+    return mesh
+  })
+  const tree = new THREE.Object3D()
+  positions.forEach(({ x, y, z }, i) => {
+    const bark = similarColor(browns[1]), needles = randomNuance()
+    placeFir(tree, { x, y, z, size: 5 })
+    tree.updateMatrix()
+    batches.forEach((mesh, part) => {
+      mesh.setMatrixAt(i, tree.matrix)
+      mesh.setColorAt(i, part ? needles : bark)
+    })
+  })
   return group
 }
 

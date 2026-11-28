@@ -1,0 +1,22 @@
+{
+  "source": "paint.py",
+  "method": "Original pixel drawings from blank canvases, projected in airframe-local coordinates.",
+  "baseModel": "../model.glb",
+  "baseModelSha256": "6e4f745d8fc3f52437ed870930aa4598e99c7366e7445d8326b710c26cf4e2b9",
+  "registration": "Top and lower views fit the wingspan and body length. The side view fits the length and height. Surface normals blend the views across the original mesh. Windows, propellers and existing geometry stay intact.",
+  "references": [
+    {
+      "url": "https://www.nationalmuseum.af.mil/Visit/Museum-Exhibits/Fact-Sheets/Display/Article/196286/consolidated-b-24d-liberator/",
+      "use": "B-24 airframe and paint placement reference. The variant does not represent a named aircraft."
+    },
+    {
+      "url": "https://airandspace.si.edu/air-and-space-quarterly/issue-19/military-aircraft-camouflage",
+      "use": "USAAF olive upper surfaces and blue-gray lower surfaces."
+    }
+  ],
+  "outputs": {
+    "../pixel-art/belly.webp": "987817360742e65e9995d97ac9b39650e022971a1b319a0198600335c2eb4cec",
+    "../pixel-art/deck.webp": "59da4b76df565feef0a00f5c4742928e8b7899c438565f79b3db64158a172e00",
+    "../pixel-art/side.webp": "9547906956147a9de4325afea0038776ec7b97d0ff8fd6d4322447fd95d57791"
+  }
+}

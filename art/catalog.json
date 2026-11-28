@@ -3124,7 +3124,7 @@
       {
        "name": "messerschmitt-bf-109",
        "files": [
-        ["model.glb",0.8]
+        ["model.glb",0.3]
        ],
        "folders": []
       },
@@ -3526,7 +3526,36 @@
         ["linden.glb",0.3],
         ["oak.glb",0.1]
        ],
-       "folders": []
+       "folders": [
+        {
+         "name": "willow-04",
+         "files": [
+          ["model.glb",1.1]
+         ],
+         "folders": []
+        },
+        {
+         "name": "willow-06",
+         "files": [
+          ["model.glb",1.1]
+         ],
+         "folders": []
+        },
+        {
+         "name": "willow-11",
+         "files": [
+          ["model.glb",1.2]
+         ],
+         "folders": []
+        },
+        {
+         "name": "willow-15",
+         "files": [
+          ["model.glb",1.1]
+         ],
+         "folders": []
+        }
+       ]
       }
      ]
     },
@@ -3789,9 +3818,30 @@
        "files": [],
        "folders": [
         {
+         "name": "boxcar",
+         "files": [
+          ["model.glb",0.3]
+         ],
+         "folders": []
+        },
+        {
+         "name": "high-boxcar",
+         "files": [
+          ["model.glb",0.3]
+         ],
+         "folders": []
+        },
+        {
          "name": "locomotive",
          "files": [
           ["locomotive.glb",0.8]
+         ],
+         "folders": []
+        },
+        {
+         "name": "ore-car",
+         "files": [
+          ["model.glb",0.3]
          ],
          "folders": []
         }

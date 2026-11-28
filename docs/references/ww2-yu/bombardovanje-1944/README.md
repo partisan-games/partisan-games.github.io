@@ -1,6 +1,6 @@
-# Saveznička bombardovanja 1944 — reference za Warplane
+# Saveznička bombardovanja 1944 — reference za Ratweek
 
-Kontekst i inspiracija za [Warplane](../../../KONTEKST.md#warplane), zadatak u [PLAN](../../../PLAN.md#ig-31). Po jedna reprezentativna slika za svaku temu.
+Kontekst i inspiracija za [Ratweek](../../../KONTEKST.md#ratweek), zadatak u [PLAN](../../../PLAN.md#ig-31). Po jedna reprezentativna slika za svaku temu.
 
 | Referenca | Šta pokazuje |
 |---|---|

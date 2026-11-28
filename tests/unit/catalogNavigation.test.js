@@ -104,9 +104,13 @@ test('old model links resolve to separate actors instead of skins', () => {
   ]) {
     const resolved = selections.map(look => findStory(kinds, `${kind}/${story}/${look}`).story)
     assert.equal(new Set(resolved).size, selections.length, story)
-    for (const actor of resolved) assert.equal(actor.looks, undefined)
+    for (const actor of resolved.filter(actor => actor.id !== 'bombarder-3d')) assert.equal(actor.looks, undefined)
     assert.equal(findStory(kinds, `${kind}/${story}`).story, resolved[0])
   }
+  const lancaster = findStory(kinds, 'letelice-3d/ratni-avion-3d/bombarder')
+  assert.equal(lancaster.look.id, 'pixel-art')
+  assert.equal(findStory(kinds, 'letelice-3d/bombarder-3d/pixel-art').story, lancaster.story)
+  assert.equal(findStory(kinds, 'letelice-3d/bombarder-3d/original').look.id, 'original')
 })
 
 test('Drug Crni opens with a rifle and keeps his unarmed and pipe addresses', () => {

@@ -1,14 +1,15 @@
 import * as THREE from 'three'
-import { createBoxes } from '/core3d/geometry/index.js'
 import { loadModel } from '/core3d/loaders.js'
 import { loadedModel } from '/core3d/assets/models.js'
 import { campModels } from '/core3d/actor/buildings/CampProp.js'
 import Milutin, { models as monumentModels } from '/core3d/actor/buildings/Milutin.js'
+import Church, { models as churchModels } from '/core3d/actor/buildings/Church.js'
 import Tree, { trees } from '/core3d/actor/nature/Tree.js'
 import TownHouse, { modelOf as townHouseModel } from '/core3d/actor/buildings/TownHouse.js'
 import FacadeHouse, { facades as facadeKinds } from '/core3d/actor/buildings/FacadeHouse.js'
 import { models as sandbagsModels } from '/core3d/actor/buildings/Sandbags.js'
 import { models as cannonModels } from '/core3d/actor/derived/Cannon.js'
+import Barricade, { models as barricadeModels } from '/core3d/actor/buildings/Barricade.js'
 
 /**
  * The way into Kraljevo on 31 October 1941, in metres, the tank coming along +z on the road from Čačak: the wire and
@@ -27,7 +28,8 @@ export const kraljevo = {
   school: { x: 31, z: 96 },
   street: { half: 13, from: 130, length: 18, gap: 2, houses: 4, height: [9, 13] },
   barricades: [58, 140, 175],
-  square: { z: 232, radius: 18, houses: [0, .25, .5, 1.5, 1.75, .72, 1.28] },
+  // the church on the square, half a turn round from the street, `scale` times the village church it is drawn from
+  square: { z: 232, radius: 18, houses: [0, .25, 1.5, 1.75, .72, 1.28], church: { turn: .5, scale: 1.5 } },
 }
 
 /** German posts cover the trench and school first, then the two street barricades. */
@@ -50,13 +52,18 @@ export const defence = { machineGun: { reach: 55, damage: [30, 50] }, rifle: { r
 const schoolKind = 'european-building'
 
 export const models = [...sandbagsModels, campModels['fence-straight'], townHouseModel(schoolKind), ...cannonModels, ...monumentModels,
-  trees.linden.model]
+  trees.linden.model, ...barricadeModels, ...churchModels]
 
 const facades = Object.keys(facadeKinds)
 const earth = 0x8a7350
+/**
+ * Each barricade is three stretches of sandbags across the road, each light enough, at `mass` kilograms, for the tank
+ * to push aside, as it pushed the crates before them.
+ */
+const barricade = { across: [-1, 0, 1], mass: 110 }
 const cobbles = 0x8c8a84
 
-/** Builds the way in on `physics`; solid things are fixed, the crates of the barricades loose, for the tank to push. */
+/** Builds the way in on `physics`; solid things are fixed, the sandbags of the barricades loose, for the tank to push. */
 export async function buildKraljevo(physics) {
   const { scene } = physics
   const { road, avenue, wire, trench, nests, bunker, gun, school, street, barricades, square } = kraljevo
@@ -151,5 +158,18 @@ export async function buildKraljevo(physics) {
     physics.add(mesh, 0)
   })
 
-  barricades.flatMap(z => createBoxes({ width: 8, height: 2, depth: 1, z: z - 6 })).forEach(mesh => physics.add(mesh, 20))
+  // the church, its tower and door toward the monument, solid as its walls
+  const church = new Church().mesh
+  church.scale.multiplyScalar(square.church.scale)
+  const churchSize = new THREE.Box3().setFromObject(church).getSize(new THREE.Vector3())
+  const churchAngle = Math.PI * square.church.turn, churchDistance = square.radius + churchSize.z / 2
+  solid(church, churchSize, { x: Math.sin(churchAngle) * churchDistance, z: square.z + Math.cos(churchAngle) * churchDistance }, churchAngle)
+
+  for (const z of barricades)
+    for (const side of barricade.across) {
+      const { mesh } = new Barricade()
+      mesh.position.x = side * Barricade.width
+      mesh.position.z = z
+      physics.add(mesh, barricade.mass)
+    }
 }

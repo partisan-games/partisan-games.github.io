@@ -1,4 +1,5 @@
 import BodySprite from './BodySprite.js'
+import atlasFrame from './atlasFrame.js'
 
 /**
  * The view of a body drawn from an atlas `art` with one clip a row, named in `art.names`, of `art.columns` frames,
@@ -26,14 +27,15 @@ export default class StandingSprite extends BodySprite {
     if (!this.shown || !this.image.naturalWidth) return
     if (this.renderHit(ctx)) return
     const { art } = this
-    const width = this.image.naturalWidth / art.columns
-    const height = this.image.naturalHeight / art.names.length
+    const gutter = art.gutter ?? 0
+    const width = this.image.naturalWidth / art.columns - 2 * gutter
+    const height = this.image.naturalHeight / art.names.length - 2 * gutter
     const feet = this.y + this.height / 2
     ctx.save()
     ctx.translate(this.x, feet)
     ctx.scale(this.flipY, 1)
     ctx.imageSmoothingEnabled = false
-    ctx.drawImage(this.image, this.frame * width, art.names.indexOf(this.clip) * height, width, height,
+    ctx.drawImage(this.image, ...atlasFrame(width, height, this.frame, art.names.indexOf(this.clip), gutter),
       -this.width / 2, -this.height * art.baseline, this.width, this.height)
     ctx.restore()
   }

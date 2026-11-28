@@ -10,7 +10,7 @@ import TankGunModel from '/core3d/physics/TankGunModel.js'
 import { baseControls } from '/ui/Controls.js'
 import { BigSmoke, Fire } from '/core3d/Particles.js'
 import { buildKraljevo, kraljevo, posts, defence, models as kraljevoModels } from './kraljevo.js'
-import { buildValley } from './valley.js'
+import { buildValley, models as valleyModels } from './valley.js'
 import { description as germanMachineGunner, models as germanMachineGunnerModels } from '/core3d/actor/derived/ww2/GermanMachineGunner.js'
 import { description as ssSoldier, models as ssSoldierModels } from '/core3d/actor/derived/ww2/SSSoldier.js'
 import { description as naziOfficer, models as naziOfficerModels } from '/core3d/actor/derived/ww2/NaziOfficer.js'
@@ -52,7 +52,7 @@ export default class Tank3DScene extends Scene3D {
   async init() {
     await requestModels([...tankModels, ...germanMachineGunnerModels, ...ssSoldierModels, ...naziOfficerModels, ...germanSoldierModels,
       ...partisanModels, ...partisanLowpolyModels, ...resistanceFighterModels, ...chetnikModels, ...chetnikSubaraModels,
-      ...kraljevoModels])
+      ...kraljevoModels, ...valleyModels])
     hemLight({ intensity: Math.PI * 1.25, scene: this.scene })
 
     this.physics = new PhysicsWorld({ scene: this.scene })

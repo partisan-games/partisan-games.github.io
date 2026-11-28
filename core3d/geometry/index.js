@@ -105,25 +105,6 @@ export function createRandomBoxes({ n = 100, size = 5, mapSize = 100 } = {}) {
   return arr
 }
 
-export function createBoxes({ width = 8, height = 6, depth = 2, size = 1, x = 0, z = 0, file } = {}) {
-  const boxes = []
-  for (let w = 0; w < width; w++)
-    for (let h = 0; h < height; h++)
-      for (let d = 0; d < depth; d++) {
-        const mesh = createBox({ file, size, translateHeight: false })
-
-        mesh.position.x = (w - width / 2 + 0.5) * size + x
-        mesh.position.y = (h - height / 2 + 0.5) * size
-        mesh.position.z = (d - depth / 2 + 0.5) * size + z
-
-        mesh.position.y += height / 2 * size
-        mesh.position.z += 6
-
-        boxes.push(mesh)
-      }
-  return boxes
-}
-
 export function createWall({ brickWidth = 0.6, brickDepth = 1, rows = 8, columns = 6, brickMass = 2, friction, x = 0 } = {}) {
   const bricks = []
   const brickHeight = brickDepth * 0.5

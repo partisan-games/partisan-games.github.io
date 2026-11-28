@@ -154,6 +154,17 @@ Drvar, Užice i Bihać nisu deo Tenkića; izvori ostaju za eventualnu drugu prim
 
 **Nije utvrđeno:** tačan položaj škole, aerodroma, Fabrike vagona, stanice i mostova prema centru i rekama, put tenkova kroz grad i izgled grada 1941. Za to slede izveštaji 717. divizije na znaci.org (`dokument.php?br=295`, `dokument.php?br=32483`).
 
+## Dolina Morave, septembar 1944 — polazište za teren Ratweeka
+
+**Potvrđeno u izvorima:**
+- **Cilj Ratweeka:** od 1. septembra 1944. saveznička avijacija i partizani napadali su saobraćajnice, pre svega pruge; glavna je bila pruga Beograd–Solun, kojom su se Nemci povlačili iz Grčke. Fitzroy Maclean je sa Kočom Popovićem kod Bojnika organizovao rušenje pruge kod Leskovca ([Operation Ratweek](https://en.wikipedia.org/wiki/Operation_Ratweek_(1944))).
+- **Leskovac, 6. septembar:** napad je bio deo Ratweeka; izviđanje je tog dana javilo jaku koncentraciju oklopa i kamiona u gradu ([376. bombarderska grupa](https://www.armyaircorps-376bg.com/planning_440906.html)). Oko 12.18 bačeno je 69 t bombi sa oko 7.000 m i razoren je centar grada ([Kurir](https://www.kurir.rs/vesti/drustvo/4236094/saveznici-leskovac-sravnili-sa-zemljom-6-septembra), [Danas](https://www.danas.rs/drustvo/secanje-na-heroje-prkosa/)); procene poginulih kreću se od oko 1.000 do 6.000.
+- **Niš i jug:** od 15. do 21. septembra napadani su železnički mostovi i drugi objekti kod Niša, Skoplja i Kruševa ([Belgrade offensive](https://en.wikipedia.org/wiki/Belgrade_offensive)); to je kasnija faza od prvih udara Ratweeka.
+
+**Nije utvrđeno:** koji su mostovi u dolini Južne Morave gađani i kada. Za to treba vojnoistorijski izvor, npr. Milivoje Perović o Leskovcu u ratu (str. 369–371).
+
+**Za igru:** deonica prati prugu dolinom, sa gradom nalik Leskovcu i Nišu, klisurom i mostovima; civilne kuće ostaju zabranjena meta, jer je razaranje Leskovca odnelo mnogo civilnih života.
+
 ## Crna Gora, jul 1941 — polazište za igru Ustanak
 
 - **Početak i protivnik:** ustanak protiv italijanske okupacije počinje 13. jula 1941, dan posle skupštine na Cetinju koja je 12. jula pod italijanskim pokroviteljstvom proglasila „nezavisnu“ Crnu Goru ([Uprising in Montenegro (1941)](https://en.wikipedia.org/wiki/Uprising_in_Montenegro_(1941))). Brzo se diže oko 32.000 naoružanih ljudi.

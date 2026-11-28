@@ -97,6 +97,38 @@ test('the Chetnik machine gunner sustains a burst with repeated flashes and cuts
   assert.equal(shots.mock.callCount(), 4)
 })
 
+test('the Italian rifleman shares the partisan scale and shoots, flinches and falls in the catalogue', async t => {
+  const { soldiers } = await import('/catalog/stories/ustanak.js')
+  const { stage, block, live } = staged(t, soldiers.find(({ id }) => id === 'italijanski-strelac'))
+  const view = stage.children.find(child => child.body === block)
+  const partisan = staged(t, soldiers.find(({ id }) => id === 'partizanski-strelac')).block
+  assert.deepEqual(block.size, partisan.size)
+  assert.deepEqual(block.states, ['idle', 'attack', 'dead'])
+  for (const image of [view.image, view.hitReaction.image, view.flashArt.image])
+    Object.defineProperties(image, { naturalWidth: { value: 1792 }, naturalHeight: { value: 1632 } })
+  const draws = []
+  const ctx = { save() {}, restore() {}, translate() {}, rotate() {}, scale() {},
+    drawImage(image, ...rect) {
+      draws.push({ image, rect })
+    } }
+  view.render(ctx)
+  assert.deepEqual(draws.at(-1).rect.slice(0, 4), [4, 4, 440, 400])
+  block.setState('attack')
+  assert.ok(live(3.2, () => block.shotsFired === 1))
+  view.render(ctx)
+  assert.equal(draws.at(-2).rect[1], 412)
+  assert.equal(draws.at(-1).image, view.flashArt.image)
+  block.takeHit(10)
+  live(.04)
+  view.render(ctx)
+  assert.equal(draws.at(-1).rect[1], 820)
+  block.setState('dead')
+  live(1)
+  view.render(ctx)
+  assert.deepEqual(draws.at(-1).rect.slice(0, 4), [1348, 1228, 440, 400])
+  assert.equal(block.shotsFired, 1)
+})
+
 test('every story has its own address and names its game', () => {
   const addresses = stories().map(({ kind, story }) => `${kind.id}/${story.id}`)
   assert.equal(new Set(addresses).size, addresses.length)

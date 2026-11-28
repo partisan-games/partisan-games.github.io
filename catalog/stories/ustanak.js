@@ -31,9 +31,9 @@ const put = (stage, body, view) => {
   return body
 }
 
-const skirmisher = (stage, way) => {
-  const body = new Skirmisher(placed(stage, way))
-  return put(stage, body, new SkirmisherSprite(body, views(stage)))
+const skirmisher = (stage, way, italian = false) => {
+  const body = new Skirmisher({ ...placed(stage, way), canWalk: !italian })
+  return put(stage, body, new SkirmisherSprite(body, { ...views(stage), italian }))
 }
 
 const bearer = (stage, way, italian) => {
@@ -89,6 +89,8 @@ export const aircraft = [
 
 export const soldiers = [
   { id: 'partizanski-strelac', name: 'Partizanski strelac', game, pxPerMeter, way: 1, block: skirmisherModule, create: skirmisher },
+  { id: 'italijanski-strelac', name: 'Italijanski strelac', game, pxPerMeter, way: -1, block: skirmisherModule,
+    create: (stage, way) => skirmisher(stage, way, true) },
   { id: 'zastavnik', name: 'Zastavnik', game, pxPerMeter, way: 1, looks: armies('partizanski', 'italijanski'), block: bearerModule, create: bearer,
     modelNames: { partizanski: 'Partizanski zastavnik', italijanski: 'Italijanski zastavnik' } },
   { id: 'posada-topa', name: 'Posada topa', game, pxPerMeter, way: 1, looks: armies('partizanska', 'italijanska'), block: crewModule, create: crew,

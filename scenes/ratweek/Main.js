@@ -1,8 +1,6 @@
 import * as THREE from 'three'
 import Scene3D from '/core/Scene3D.js'
 import { createSun } from '/core3d/light.js'
-import { createTerrain, meadowColor } from '/core3d/ground.js'
-import { createFirTree } from '/core3d/geometry/trees.js'
 import { baseControls } from '/ui/Controls.js'
 import { attackLabels, keys } from '/core/io/keys.js'
 import Input from '/core/io/Input.js'
@@ -17,19 +15,24 @@ import worldQueries from '/core3d/actor/characters/worldQueries.js'
 import ChaseCamera from '/core3d/actor/ChaseCamera.js'
 import Cooldown from '/core/gameplay/Cooldown.js'
 import { requestModels } from '/core3d/assets/models.js'
-import { createBuilding } from './utils.js'
+import { createLandmark, landmarkModels } from './utils.js'
+import { createLandPiece, trackModel } from './landscape.js'
+import { landmarks } from './route.js'
 import customStartScreen, { planes } from './startScreen.js'
 
 const { randFloatSpread } = THREE.MathUtils
 
 const totalTime = 150
 const mapSize = 800
-const buildingInterval = 2 // seconds of game time
+/** How far ahead, in metres of the route, what stands on it comes into being, in the haze at the end of the view. */
 const buildingDistance = mapSize * .4
-const groundDistance = mapSize * .99
+/** The land is made in pieces `piece` metres long, from `behind` the plane to `ahead` of it. */
+const land = { piece: 100, ahead: 460, behind: 260 }
 const endDelay = 2.5 // seconds between the end of the flight and the end screen
 /** Seconds of game time before the first enemy fighter, and between one shot down and the next. */
 const fighterWaits = { first: 12, next: 18 }
+/** What the bomber is sent to destroy (owner, 2026-11-27); the other buildings are not its targets. */
+const missionTargets = ['factory', 'bridge', 'train']
 /**
  * The chase camera: `above` (here below, as it is negative) and `behind` the plane, in metres, looking at a point
  * `ahead` of it and `below` it, so the plane sits high in the picture, its underside in view, over the ground it
@@ -64,22 +67,20 @@ export default class WarplaneScene extends Scene3D {
     })
   }
 
-  init() {
-    this.i = 0
-    this.buildingWait = new Cooldown({ seconds: buildingInterval, clock: this.session.clock })
+  async init() {
     this.buildings = []
     this.audioWorldOffset = { x: 0, y: 0, z: 0 }
-    this.objects = []
+    /** Metres of the route flown, the pieces of land on it, and the ground among them that shots strike. */
+    this.travelled = 0
+    this.landPieces = []
+    this.grounds = []
+    this.landEnd = -land.behind
+    this.landmarks = landmarks()
+    this.nextLandmark = 0
 
     this.camera.position.set(0, 29, 0)
     this.scene.fog = new THREE.Fog(0xE5C5AB, mapSize * .25, buildingDistance)
     this.addMesh(createSun({ pos: [50, 200, 50], intensity: Math.PI * 2 }))
-
-    const groundParams = { size: mapSize, color: meadowColor, colorRange: .1, segments: 50, min: 0, max: 15 }
-    this.ground = createTerrain(groundParams)
-    this.ground2 = createTerrain(groundParams)
-    this.ground2.position.z = -groundDistance
-    this.addMesh(this.ground, this.ground2)
 
     this.score = 0
     this.sinceEnd = 0
@@ -87,6 +88,35 @@ export default class WarplaneScene extends Scene3D {
     this.fighters = []
     this.fighterParts = []
     this.fighterWait = new Cooldown({ seconds: fighterWaits.next, clock: this.session.clock })
+    await requestModels([trackModel])
+    if (this.ui.ended) return
+    this.extendLand()
+  }
+
+  /** Lays the land of the route ahead of the plane, piece by piece, to `land.ahead` metres. */
+  extendLand() {
+    while (this.landEnd < this.travelled + land.ahead) {
+      const piece = createLandPiece(this.landEnd, this.landEnd + land.piece)
+      piece.group.position.z = this.travelled - this.landEnd
+      piece.to = this.landEnd + land.piece
+      this.landPieces.push(piece)
+      this.grounds.push(piece.ground)
+      this.addMesh(piece.group)
+      this.landEnd = piece.to
+    }
+  }
+
+  /** The land comes at the plane as it flies; a piece left `land.behind` metres behind it is taken away. */
+  moveLand(deltaSpeed) {
+    for (const piece of [...this.landPieces]) {
+      piece.group.position.z += deltaSpeed
+      if (piece.to > this.travelled - land.behind) continue
+      this.landPieces.splice(this.landPieces.indexOf(piece), 1)
+      this.grounds.splice(this.grounds.indexOf(piece.ground), 1)
+      this.scene.remove(piece.group)
+      piece.dispose()
+    }
+    this.extendLand()
   }
 
   handleClick(e) {
@@ -95,9 +125,16 @@ export default class WarplaneScene extends Scene3D {
 
   async prepare(plane) {
     const { models, description } = await import(`/core3d/aircraft/derived/${plane}.js`)
-    await requestModels([...models, ...fighterModels])
+    await requestModels([...models, ...fighterModels, ...landmarkModels])
     if (this.ui.ended) return
-    const { groundAt, impactAt } = worldQueries([this.ground, this.ground2])
+    const { impactAt } = worldQueries(this.grounds)
+    const groundAt = (x, z) => {
+      for (const piece of this.landPieces) {
+        const height = piece.heightAt(x, z)
+        if (height !== undefined) return height
+      }
+      return 0
+    }
     Object.assign(this, { groundAt, impactAt })
     const { body, model } = makeWarplane(description,
       { clock: this.session.clock, limit: mapSize * .25, groundAt, targets: this.buildings.map(({ body }) => body) }, { impactAt })
@@ -140,36 +177,21 @@ export default class WarplaneScene extends Scene3D {
 
   start() {
     super.start()
-    this.ui.showMessage('Destroy enemy factories,<br><br>do not target civilian buildings')
+    this.ui.showMessage('Destroy bridges, trains and factories.<br><br>Do not hit civilian houses.')
   }
 
-  pushMesh(mesh, spread = .33) {
-    mesh.position.copy({ x: randFloatSpread(mapSize * spread), y: 0, z: -buildingDistance })
-    this.addMesh(mesh)
-    this.objects.push(mesh)
-  }
-
-  async addBuilding(time) {
-    const building = await createBuilding(time, { clock: this.session.clock, targets: [this.player] })
-    if (!this.session.active) return // the game ended while the building was made
-    const { body, model } = building
-    Object.assign(body, { x: randFloatSpread(mapSize * .33), z: -buildingDistance })
-    building.counted = false
-    this.buildings.push(building)
-    this.player.targets.push(body)
-    this.add(body, model)
-  }
-
-  addTree = () => this.pushMesh(createFirTree(), .4)
-
-  spawnObjects(time) {
-    if (this.i++ % 5 === 0) this.addTree()
-
-    if (this.buildingWait.ready) {
-      this.addBuilding(time)
-      this.buildingWait.start()
+  /** What stands on the route comes into being, in its order, once it is `buildingDistance` ahead of the plane. */
+  addLandmarks() {
+    while (this.landmarks[this.nextLandmark]?.u < this.travelled + buildingDistance) {
+      const thing = this.landmarks[this.nextLandmark++]
+      const building = createLandmark(thing, { clock: this.session.clock, targets: [this.player] })
+      const { body, model } = building
+      Object.assign(body, { x: thing.x, z: this.travelled - thing.u })
+      building.counted = false
+      this.buildings.push(building)
+      this.player.targets.push(body)
+      this.add(body, model)
     }
-    if (this.fighterWait.ready && !this.fighters.some(fighter => fighter.alive)) this.addFighter()
   }
 
   /** A Bf 109 comes at the bomber from ahead, out of the haze, and makes pass after pass at it. */
@@ -200,19 +222,6 @@ export default class WarplaneScene extends Scene3D {
     model.end()
   })
 
-  moveGround = deltaSpeed => [this.ground, this.ground2].forEach(g => {
-    g.translateZ(deltaSpeed)
-    if (g.position.z >= mapSize * .75) g.position.z = -groundDistance
-  })
-
-  moveObjects = deltaSpeed => this.objects.forEach(mesh => {
-    mesh.translateZ(deltaSpeed)
-    if (mesh.position.z > this.camera.position.z + 200) {
-      this.objects.splice(this.objects.indexOf(mesh), 1)
-      this.scene.remove(mesh)
-    }
-  })
-
   /** Buildings come at the plane with the ground and are gone once behind it. */
   moveBuildings = deltaSpeed => [...this.buildings].forEach(building => {
     const { body, model } = building
@@ -224,12 +233,12 @@ export default class WarplaneScene extends Scene3D {
     model.end()
   })
 
-  /** A destroyed factory scores, a destroyed civil building costs a point. */
+  /** A destroyed factory, bridge or train scores, a destroyed civil building costs a point. */
   countDestroyed() {
     for (const building of this.buildings) {
       if (building.counted || building.body.alive) continue
       building.counted = true
-      if (building.body.kind === 'factory') this.score++
+      if (missionTargets.includes(building.body.kind)) this.score++
       if (building.body.kind === 'civil') {
         this.ui.showMessage('No! Destruction of civilian buildings is a war crime.')
         this.score--
@@ -250,20 +259,21 @@ export default class WarplaneScene extends Scene3D {
   }
 
   update(delta, time) {
-    super.update(delta, time)
+    // the world comes at the plane first, so the models drawn this frame stand where their bodies and the land are
     const deltaSpeed = this.player.speed * delta
     this.audioWorldOffset.z -= deltaSpeed
-
-    this.moveGround(deltaSpeed)
-    this.moveObjects(deltaSpeed)
+    this.travelled += deltaSpeed
+    this.moveLand(deltaSpeed)
     this.moveBuildings(deltaSpeed)
     this.moveFighters(deltaSpeed)
+    super.update(delta, time)
     this.countDestroyed()
 
     if (this.player.dead)
       return this.finishAfterDelay(delta, () => this.defeat('You have failed.'))
 
-    if (time < totalTime - 10) this.spawnObjects(time)
+    this.addLandmarks()
+    if (time < totalTime - 10 && this.fighterWait.ready && !this.fighters.some(fighter => fighter.alive)) this.addFighter()
     if (time >= totalTime) {
       this.player.setState('land')
       this.finishAfterDelay(delta, () => this.victory('You have completed the mission.'))

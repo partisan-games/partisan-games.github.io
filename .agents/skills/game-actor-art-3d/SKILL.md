@@ -5,7 +5,7 @@ description: "Precrtava teksture 3D aktera Partisan Games u odobreni pixel art, 
 
 # Pixel art za 3D aktere
 
-Prati [odobreni stil](../../../docs/ART.md#3d-pixel-art) i [AR-P17](../../../docs/PLAN.md#ar-p17). Uporedi Kočin odobreni izgled u katalogu sa uzorom iz 2D igre. Uzmi zajednički jezik boje, kontrasta i ivica, uz prepoznatljive materijale i identitet svakog aktera. Za 2D sprite i njegove poze primeni veštinu game-actor-art-2d.
+Prati [odobreni stil](../../../docs/ART.md#3d-pixel-art). Uporedi Kočin odobreni izgled u katalogu sa uzorom iz 2D igre. Uzmi zajednički jezik boje, kontrasta i ivica, uz prepoznatljive materijale i identitet svakog aktera. Za 2D sprite i njegove poze primeni veštinu game-actor-art-2d.
 
 ## Izvor i novi crtež
 

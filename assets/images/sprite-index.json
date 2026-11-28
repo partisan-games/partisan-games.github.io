@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "measuredAt": "2026-11-27T22:48:49.571527+00:00",
-  "baseRevision": "ba47b5fe8fab31f58a1c3da8ea03c8ed8275c774",
+  "measuredAt": "2026-11-28T00:09:28.819193+00:00",
+  "baseRevision": "87c725fb6f9bd01412f7c838cbdfdb75d64e695c",
   "scope": "Art linked by docs/ART.md, including shared variants; not all unused library art or a runtime/visual acceptance test.",
   "interpretation": "imageFrames counts file-container frames. A PNG atlas normally has one; named sprite clips require metadata and a runtime mapping. hashes detect exact input changes, not art quality.",
   "images": [
@@ -306,6 +306,16 @@
       "distinctImageFrames": 1
     },
     {
+      "asset": "assets/images/game-ready/vojnici/italijanski-strelac-sprites.webp",
+      "sha256": "0a834f418b93caac9edbc3688ac1c1f602313f77541550f0e6946b1ab56825b9",
+      "kind": "WEBP",
+      "width": 1792,
+      "height": 1632,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1
+    },
+    {
       "asset": "assets/images/game-ready/vojnici/otpisani-rifleman-pixel-sprites.webp",
       "sha256": "5c648ca3c0c7daea3625265430b02df0107fe3464de43b58b311722d1167d665",
       "kind": "WEBP",
@@ -386,11 +396,41 @@
       "distinctImageFrames": 1
     },
     {
+      "asset": "assets/images/game-ready/zastave/partizanska-zastava.webp",
+      "sha256": "e74335509ce4b60994b23f7f41f848e786435e727fb861d3f3d451aa4249b0e9",
+      "kind": "WEBP",
+      "width": 208,
+      "height": 130,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/game-ready/zastave/zastava-kraljevine-italije.webp",
+      "sha256": "a1c6fa9d84517c663a3a7c3e19ff2f7de4849a4825bef72d017ce1ef87c4f803",
+      "kind": "WEBP",
+      "width": 208,
+      "height": 130,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
       "asset": "assets/images/sources/partizani/sutjeska-pixel-art/koca-popovic-drvar-1943.jpg",
       "sha256": "e49007d50ada3f70e99610fae4d7414b90ddb97fd513f6a951615cba2edc7569",
       "kind": "JPEG",
       "width": 289,
       "height": 362,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": false,
+      "distinctImageFrames": 1
+    },
+    {
+      "asset": "assets/images/textures/terrain/ratweek-dolina.webp",
+      "sha256": "e745241f7e01df5d3c456841a30dbd8d3f148a713bb6868d5eeeb9f8af4fe74b",
+      "kind": "WEBP",
+      "width": 512,
+      "height": 4096,
       "imageFrames": 1,
       "hasTransparentPixelsInFirstFrame": false,
       "distinctImageFrames": 1
@@ -469,11 +509,11 @@
   "reviewInputs": [
     {
       "path": ".agents/skills/game-actor-art-3d/SKILL.md",
-      "sha256": "1834b328d4c381543e7c002d3e2dc914a150f4e7c7c29196e04ee825fab40ff7"
+      "sha256": "4fbebd9c48fa1fa325fb5078b2a507a058bd9ea78e012ccd06bdd58bb1ee7794"
     },
     {
       "path": ".agents/skills/game-asset-import/SKILL.md",
-      "sha256": "6b770417e7fa3770e959c2d91342004da0659d3f6ef3efc8cf67e4e6e231ec95"
+      "sha256": "5fb00fcaf9fe928d69bf11bf14edb86adbc5e62e9e540b5c8a200c69db933e09"
     },
     {
       "path": "assets/images/background/batina-1944/layout.json",
@@ -600,6 +640,10 @@
       "sha256": "703660023eac5635a2d74f51ca81f81b44b5d0bded6e4d5a089080990071016f"
     },
     {
+      "path": "assets/images/game-ready/vojnici/italijanski-strelac-sprites.webp",
+      "sha256": "0a834f418b93caac9edbc3688ac1c1f602313f77541550f0e6946b1ab56825b9"
+    },
+    {
       "path": "assets/images/game-ready/vojnici/otpisani-rifleman-pixel-sprites.webp",
       "sha256": "5c648ca3c0c7daea3625265430b02df0107fe3464de43b58b311722d1167d665"
     },
@@ -630,6 +674,14 @@
     {
       "path": "assets/images/game-ready/wrecks/partizanski-camac.webp",
       "sha256": "b90ea16e4818b10f2216ed871cd5f2ed01f706488b843ee28a424b24d5e3e8d9"
+    },
+    {
+      "path": "assets/images/game-ready/zastave/partizanska-zastava.webp",
+      "sha256": "e74335509ce4b60994b23f7f41f848e786435e727fb861d3f3d451aa4249b0e9"
+    },
+    {
+      "path": "assets/images/game-ready/zastave/zastava-kraljevine-italije.webp",
+      "sha256": "a1c6fa9d84517c663a3a7c3e19ff2f7de4849a4825bef72d017ce1ef87c4f803"
     },
     {
       "path": "assets/images/sources/buildings/kraljevo-fasade/generation.json",
@@ -692,6 +744,14 @@
       "sha256": "e49007d50ada3f70e99610fae4d7414b90ddb97fd513f6a951615cba2edc7569"
     },
     {
+      "path": "assets/images/sources/ratweek-dolina/source.json",
+      "sha256": "2492dd5a26da32f24f735cd0e7b3ce743042def98bbbf5aba1f13190292bb9c1"
+    },
+    {
+      "path": "assets/images/sources/talijani/ustanak-strelac/generation.json",
+      "sha256": "e9b810d9a9131163719c31d87cd7b26db6a12119532f5ad752d0a2b0110c472f"
+    },
+    {
       "path": "assets/images/sources/tenkovi/advance-tank-damage/generation.json",
       "sha256": "11e29977610ae53d52ddb6fd83789bf4f099beaf59c7906988ace229c36f54d9"
     },
@@ -708,6 +768,22 @@
       "sha256": "dcb1ec4e23f8fb41909ae759c0c8cd283d892ccc4d12840dec696e48dfd30459"
     },
     {
+      "path": "assets/images/sources/zastave/ustanak-jablanica/source.json",
+      "sha256": "ec0c5066af810aff4e6725612fd6b9fc64594b040148a729e91e9c0abe2bebaa"
+    },
+    {
+      "path": "assets/images/textures/terrain/ratweek-dolina.webp",
+      "sha256": "e745241f7e01df5d3c456841a30dbd8d3f148a713bb6868d5eeeb9f8af4fe74b"
+    },
+    {
+      "path": "assets/models/aircraft/bomber-lancaster/art-source/generation.json",
+      "sha256": "a5211f0703c969a894c00aa319af36c396d8b15ade547808203211a9b6287d48"
+    },
+    {
+      "path": "assets/models/aircraft/consolidated-b-24-liberator/art-source/source.json",
+      "sha256": "ca2ea8f643e427bcbb606be45b0136989ef73dc7154c3d937ed3cd825db340b7"
+    },
+    {
       "path": "assets/models/aircraft/consolidated-b-24-liberator/propeller.glb",
       "sha256": "1bc35aae7800ddd0313e6c3e8f73237c82f65c504cb9f47a66b88efa97f5ddf3"
     },
@@ -717,7 +793,11 @@
     },
     {
       "path": "assets/models/aircraft/messerschmitt-bf-109/README.md",
-      "sha256": "3e75c6f5bf9fe63fafd3ef38239e03354b984dabe86eefcf93b54a65c9f18d7a"
+      "sha256": "c73aaf2a418a52543ef4596089e936d35a2d948f32b91267901a9f0cbe1bcb25"
+    },
+    {
+      "path": "assets/models/aircraft/north-american-b-25-mitchell/art-source/generation.json",
+      "sha256": "723b37a3d3f9bdf15263dc0fe7c65c4168caa4903376a66a837b3064ad8f787b"
     },
     {
       "path": "assets/models/building/crveni-krst/materials.png",
@@ -873,23 +953,23 @@
     },
     {
       "path": "docs/ART.md",
-      "sha256": "6aa5dda84b576b5b38cf3d638f2ff8d8b7027ad874e1e957c505412d7f6ca0ba"
+      "sha256": "682261e814f651725994ba5b681bb9151b86f51a3076e3b9718b87785b727fea"
     },
     {
       "path": "docs/ISTORIJA.md",
-      "sha256": "2f5bd61eddb3f415e177461ef1f4e5aa51f5d9563580f7bdfedcf48153d48c01"
+      "sha256": "1ce645ae7fcf6841db50baa1d50decf8160a1307fbb39559f6b55038f0bbe9d3"
     },
     {
       "path": "docs/KATALOG.md",
-      "sha256": "8da8fad2dc334f76a5303d3e822679448c45aa3f96b77f6d82095d7b4174a9c6"
+      "sha256": "d1c1a1dd68f8059327efb1bb5ea2c0cf05c5f91a7b98337983e8742553da06cc"
     },
     {
       "path": "docs/KONTEKST.md",
-      "sha256": "2f956d7cb2be9eda2cbdb336bc784af9541e120865f956cd2da7986d56d4bfbd"
+      "sha256": "203c520a5ed7678e09a7ce2bbb1608804ac0292120d1c027a71eda10b2baa0f7"
     },
     {
       "path": "docs/PLAN.md",
-      "sha256": "14d271748cce1b07660d1af60f5b174ad8bc869b1695e0dc6390c6f80a2a6ab3"
+      "sha256": "53da8a37294f16bb37549b9cf74ae79ae404671bfafcf4fc75c2cce51e1b6821"
     },
     {
       "path": "docs/references/ww2-yu/crveni-krst/README.md",
@@ -897,11 +977,11 @@
     },
     {
       "path": "docs/STATISTIKE.md",
-      "sha256": "5b51e2ff03945c920ae2758287955a72145005f9a7f8f42426a73f4d82f942d9"
+      "sha256": "42ba33d09719541f6746537fac0440c7d4e223e46f33840c932736ca16facb96"
     },
     {
       "path": "docs/TESTING.md",
-      "sha256": "38f365400c9e1ce0dfa58147ff90fb6bd100577d6cf51f41cab2679ecf83fca4"
+      "sha256": "c5242b38b576d8424b9370a31189abebbcecb7e82a4439f02a3d3ca871d49c03"
     },
     {
       "path": "index.html",
@@ -934,6 +1014,10 @@
     {
       "path": "scenes/franjo-kluz/Airfield.js",
       "sha256": "9c457e7079dd59d10ff59a07f6baba49b5e3e8a4c9ac68a71135ee994acb52cf"
+    },
+    {
+      "path": "scenes/ratweek/landscape.js",
+      "sha256": "ceba1a376d041c3a760fbd7694a28c15114a0416b66653074e6467ef8cf1395c"
     },
     {
       "path": "scenes/to-trieste/Route.js",

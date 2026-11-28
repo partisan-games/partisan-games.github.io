@@ -1,9 +1,7 @@
 # Messerschmitt Bf 109
 
-[model.glb](model.glb) zamenjuje stari FBX u Warplane-u i oba prikaza lovca u katalogu. Ima 1.981 trougao: trup 1.857 i propeler 124. Teksture su ugrađene, a propeler je odvojen od trupa i okreće se oko osovine; dodatni generički propeler se ne koristi.
+[model.glb](model.glb) je Bf 109 K-4 u Ratweeku, Franji Kluzu i oba prikaza lovca u katalogu. Ima 1.886 trouglova: trup 1.664 i propeler 222, dve ugrađene slike (512 i 64 px), fajl 0,29 MB. [Pregled](preview.png) prikazuje pripremljen model.
 
-Vlasnik je izabrao paket „German Bf 109 Fighter Plane”, identifikatora `B6L6UIB83ZKUE6YOCT94DAHM3`. Pošto preuzeti folder u trenutku zamene više nije bio dostupan, priprema koristi već prisutni [OBJ istog identifikatora](../junkers-ju-87-stuka/B6L6UIB83ZKUE6YOCT94DAHM3.obj), sa istim brojem trouglova i nazivima materijala kao pregledani FBX. Taj primerak je ranije smešten pod pogrešnim nazivom „Štuka”; njegovu postojeću upotrebu kod parkiranih aviona ova zamena ne menja. Njegove JPG teksture nisu bajt-po-bajt iste kao iz kasnije preuzetog foldera; ovde se koriste dostupne projektne teksture.
+Vlasnik je preuzeo četiri modela (2026-11-28); izabran je „messerschmitt_bf-109_k4_low_poly” zbog najboljeg odnosa kvaliteta i trouglova: oštre teksture sa kamuflažom i oznakama, odvojen propeler i uvučen stajni trap, kao u letu. G-6 (3.022 trougla) nije imao lopatice propelera, a dva detaljnija (oko 7.100 i 7.900) su četiri puta teža za sličan izgled iz kamere. Autor i izvorna stranica nisu bili u metapodacima.
 
-Model gleda ka −Z u Three.js, tri lopatice sa okovima su odvojene, a raspon krila na 9,92 m prema [projektnim merama](../../../../docs/STATISTIKE.md). Dužina proizlazi iz proporcija modela, oko 8,80 m. To nije precizna rekonstrukcija istorijske varijante ili livereje za Ratweek; stajni trap ostaje izvučen kao na izvoru.
-
-Licenca je postojeća [RigModels Personal Use](../junkers-ju-87-stuka/License.txt); model nije relicenciran.
+Priprema: raspon krila 9,92 m prema [projektnim merama](../../../../docs/STATISTIKE.md), dužina iz proporcija modela 8,39 m; nos ka −Z u Three.js, sredina u ishodištu, propeler „Propeller” sa ishodištem na osovini, trup „Airframe”. Metalnost materijala je postavljena na 0, jer je bez okolnog odraza metalni model taman. K-4 je kasnija varijanta od G-6 iz [statistika](../../../../docs/STATISTIKE.md), čije vrednosti igra i dalje koristi.

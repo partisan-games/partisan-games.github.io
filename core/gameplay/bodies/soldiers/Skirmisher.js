@@ -50,13 +50,15 @@ const states = {
   dead: { enter: stop },
 }
 
+const kneelingStates = { idle: states.idle, attack: states.attack, dead: states.dead }
+
 /**
  * A soldier in the line who fires at the enemy far off, hitting nothing that the game counts, standing on
  * `groundAt(x)`, which may give way under him.
  */
 export default class Skirmisher extends Body {
-  constructor({ groundAt = () => 0, ...rest } = {}) {
-    super({ size: { length: 2.2, height: 2, width: .25 }, ...rest, states })
+  constructor({ groundAt = () => 0, canWalk = true, ...rest } = {}) {
+    super({ size: { length: 2.2, height: 2, width: .25 }, ...rest, states: canWalk ? states : kneelingStates })
     this.groundAt = groundAt
     this.shotsInState = 0
     this.y = groundAt(this.x) + this.size.height / 2

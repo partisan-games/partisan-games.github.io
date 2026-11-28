@@ -6,4 +6,4 @@ Model ima 1.393 trougla i jedan materijal sa ugrađenom PNG teksturom od 512 × 
 
 Ugrađeni metapodaci navode autora [fertator99](https://sketchfab.com/fertator99) i [izvornu stranicu](https://sketchfab.com/3d-models/barricade-sandbags-lod0-18d348bd76004edd9a1c39155970382d).
 
-Za barikade u ulici Kraljeva ([IG-34](../../../../docs/PLAN.md#ig-34)); još nije u katalogu ni u igri.
+Koristi ga [Barricade](../../../../core3d/actor/buildings/Barricade.js): tri dela čine svaku barikadu na drumu i u ulici Kraljeva, a u katalogu je „Barikada od džakova“.

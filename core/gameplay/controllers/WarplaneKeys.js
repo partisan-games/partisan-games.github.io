@@ -14,7 +14,7 @@ export default class WarplaneKeys {
     const way = (more, less) => (more ? 1 : 0) - (less ? 1 : 0)
     body.steer({ across: way(input.right, input.left), climb: way(input.up, input.down) })
     if (input.attack) body.fire()
-    if (guns) guns.firing = Boolean(input.attack2)
+    if (guns) guns.firing = !body.landing && Boolean(input.attack2)
   }
 
   end() {

@@ -1,0 +1,10 @@
+{
+  "source": "paint.py",
+  "route": "../../../../scenes/ratweek/route.js",
+  "output": "../../textures/terrain/ratweek-dolina.webp",
+  "sha256": "7adb1a2a5ace35d4438be888559ad46c06cd201e89b98505372eeb22c4405f6a",
+  "size": [384, 2048],
+  "boundsInMetres": { "width": 900, "from": -320, "to": 8700 },
+  "method": "Original painted palette and deterministic pixel pattern. The generator reads the current route to fit fields, banks, slope colors, and the lanes already left between the houses.",
+  "reference": "../../../../docs/ISTORIJA.md#dolina-morave-septembar-1944--polazište-za-teren-ratweeka"
+}

@@ -11,6 +11,137 @@ import wreckArt from '/core/actor/wreckArt.js'
 import { createPageElements } from './helpers/dom.js'
 import { loadImages } from './helpers/images.js'
 
+test('the Bf 109 in the catalogue shows its states and is flown and fired with the game keys', async t => {
+  createPageElements()
+  t.mock.method(THREE.ImageBitmapLoader.prototype, 'load', (_url, onLoad) => {
+    queueMicrotask(() => onLoad({ width: 512, height: 512 }))
+    return {}
+  })
+  t.mock.method(GLTFLoader.prototype, 'loadAsync', async url => {
+    const bytes = await readFile('.' + url)
+    return new GLTFLoader().parseAsync(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), '')
+  })
+  const { aircraft } = await import('/catalog/stories/objects3d.js')
+  const { default: GameClock } = await import('/core/runtime/GameClock.js')
+  const clock = new GameClock(), cleanup = []
+  const stage = { controllers: [], session: { clock, scope: { add: fn => cleanup.push(fn) } }, add() {} }
+  t.after(() => cleanup.reverse().forEach(fn => fn()))
+  const story = aircraft.find(({ id }) => id === 'lovac-bf-109-3d')
+  assert.equal(story.name, 'Messerschmitt Bf 109')
+  assert.ok(story.aliases.includes('mesersmit-3d'), 'the old address of the flown plane leads here')
+  const body = await story.create(stage, 1)
+  assert.ok(['move', 'land', 'attack', 'extend', 'dead'].every(state => body.states.includes(state)))
+  const controls = stage.controllers.find(controller => controller.input)
+  const keys = { right: false, attack: false }
+  for (const key of Object.keys(keys)) t.mock.getter(controls.input, key, () => keys[key])
+  keys.right = true
+  const heading = body.yaw
+  controls.update()
+  body.update(.2)
+  assert.equal(body.state, 'flown', 'the arrows take it over')
+  assert.ok(body.yaw < heading && body.roll < 0, 'it turns right, banking')
+  keys.attack = true
+  clock.advance(.2)
+  controls.update()
+  assert.equal(body.shotsFired, 1, 'Space fires its guns')
+})
+
+test('the catalogue bombers switch paint on the same model and propellers', async t => {
+  createPageElements()
+  const loadSkin = t.mock.method(THREE.TextureLoader.prototype, 'loadAsync', async url => {
+    assert.equal((await readFile('.' + url)).toString('ascii', 8, 16), 'WEBPVP8L')
+    return Object.assign(new THREE.Texture(), { name: url })
+  })
+  t.mock.method(THREE.ImageBitmapLoader.prototype, 'load', (_url, onLoad) => {
+    queueMicrotask(() => onLoad({ width: 512, height: 512 }))
+    return {}
+  })
+  t.mock.method(GLTFLoader.prototype, 'loadAsync', async url => {
+    const bytes = await readFile('.' + url)
+    return new GLTFLoader().parseAsync(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), '')
+  })
+  const { findStory } = await import('/catalog/catalog.js')
+  const { aircraft } = await import('/catalog/stories/objects3d.js')
+  const { default: GameClock } = await import('/core/runtime/GameClock.js')
+  const kinds = [{ id: 'letelice-3d', stories: aircraft }]
+  for (const [id, first, propellerCount, material, skin, mapCount] of [
+    ['bombarder-b-25-3d', 'pixel-art', 2, 'S_22-FACES', 'fuselage', 8],
+    ['bombarder-3d', 'pixel-art', 4, 'VMtl44', 'fuselage-a', 17],
+  ]) {
+    const { story, look } = findStory(kinds, 'letelice-3d/' + id)
+    assert.equal(look.id, first)
+    const cleanup = []
+    let view
+    const stage = { controllers: [], session: { clock: new GameClock(), scope: { add: fn => cleanup.push(fn) } },
+      add(_body, model) {
+        view = model
+      } }
+    t.after(() => cleanup.reverse().forEach(fn => fn()))
+    const beforeMaps = loadSkin.mock.callCount()
+    const body = await story.create(stage, 1, look.value)
+    assert.equal(loadSkin.mock.callCount() - beforeMaps, mapCount)
+    const { propellers, mesh } = view
+    assert.equal(propellers.length, propellerCount)
+    let hull, glass
+    mesh.traverse(part => {
+      if (part.material?.name === material) hull = part
+      if (part.material?.name === 'TUREL-FACES') glass = part
+    })
+    const { geometry } = hull
+    const initial = hull.material
+    assert.equal(initial.map.name?.endsWith('/pixel-art/' + skin + '.webp') ?? false, look.value === true)
+    stage.setLook(undefined)
+    const originalHull = hull.material
+    const originalGlass = glass?.material
+    stage.setLook(true)
+    assert.ok(hull.material.map.name.endsWith('/pixel-art/' + skin + '.webp'))
+    assert.equal(hull.material.map.wrapS, originalHull.map.wrapS)
+    assert.equal(hull.material.map.flipY, originalHull.map.flipY)
+    assert.equal(hull.material.map.magFilter, THREE.NearestFilter)
+    if (glass) {
+      assert.equal(glass.material.color.getHex(), 0x6b7e78)
+      assert.equal(glass.material.transparent, originalGlass.transparent)
+    }
+    assert.equal(hull.geometry, geometry)
+    assert.equal(view.propellers, propellers)
+    assert.equal(view.body, body)
+    stage.setLook(undefined)
+    assert.equal(hull.material, originalHull)
+    assert.equal(glass?.material, originalGlass)
+  }
+
+  const { story, look } = findStory(kinds, 'letelice-3d/bombarder-b-24-3d')
+  assert.equal(look.id, 'original')
+  const release = []
+  let liberator
+  const stage = { controllers: [], session: { clock: new GameClock(), scope: { add: fn => release.push(fn) } },
+    add(_body, model) {
+      liberator = model
+    } }
+  t.after(() => release.reverse().forEach(fn => fn()))
+  const beforeMaps = loadSkin.mock.callCount()
+  const body = await story.create(stage, 1, look.value)
+  assert.equal(loadSkin.mock.callCount() - beforeMaps, 3)
+  const { mesh, propellers } = liberator
+  const wing = mesh.getObjectByProperty('name', 'Object_10')
+  assert.ok(wing.isMesh)
+  const { geometry, material: original } = wing
+  assert.equal(original.map, null)
+  stage.setLook(true)
+  const shader = { ...THREE.ShaderLib.standard, uniforms: {} }
+  wing.material.onBeforeCompile(shader)
+  for (const name of ['Deck', 'Belly', 'Side'])
+    assert.ok(shader.uniforms['liberator' + name].value.name.endsWith('/' + name.toLowerCase() + '.webp'))
+  assert.match(shader.vertexShader, /liberatorProject \* vec4\(position, 1\.0\)/)
+  assert.match(shader.fragmentShader, /texture2D\(liberatorDeck, plan\)/)
+  assert.equal(wing.geometry, geometry)
+  assert.equal(liberator.body, body)
+  assert.equal(liberator.propellers, propellers)
+  assert.equal(propellers.length, 4)
+  stage.setLook(undefined)
+  assert.equal(wing.material, original)
+})
+
 test('the Renault and Hotchkiss use painted armor states and live tracks in the catalogue', async t => {
   createPageElements()
   t.mock.method(THREE.TextureLoader.prototype, 'load', (name, onLoad) => {

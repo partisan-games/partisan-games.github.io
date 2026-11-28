@@ -9,7 +9,7 @@ Ovo je redosled koraka; pravila su u odeljcima na koje koraci vode, i ona važe.
 
 ## 1. Izbor i smeštaj
 
-1. Od više preuzetih verzija istog modela uporedi trouglove, slike, odvojene delove i izgled, pa uzmi najlakši koji odgovara periodu i ulozi u igri. Pregled iscrtaj u Blenderu.
+1. Od više preuzetih verzija istog modela uporedi trouglove, slike, odvojene delove i izgled, pa uzmi onaj sa najvećim kvalitetom za najmanje trouglova, kako izgleda u igri, koji odgovara periodu i ulozi. Pregled iscrtaj u Blenderu. Različiti oblici iste vrste, kao vrbe ili vagoni, nisu verzije: uvezi sve, da ih igra koristi naizmenično (vlasnik, 2026-11-28).
 2. 3D model sačuvaj u folder nazvan po modelu: avioni idu u [aircraft](../../../assets/models/aircraft), ostalo u odgovarajuću vrstu pod `assets/models`. U folder idu `model.glb`, `preview.png` i kratak `README.md`. README navodi trouglove i veličinu, autora i izvornu stranicu iz metapodataka modela, i da li je model u igri, katalogu ili rezervi. Uz pripremljeni 2D art čuvaj izvor i ponovljivu pripremu, kao u [game-ready](../../../docs/ART.md#pravila-pripreme-i-ponovne-upotrebe).
 3. Proceni trošak modela u sceni koja ga koristi: trouglove, materijale, pozive za iscrtavanje i veličinu tekstura, prema tome koliko se primeraka vidi odjednom. Dozvoljene su samo optimizacije koje ne menjaju oblik:
    - smanjenje slika, [pripremom](../../../scripts/shrink-glb-textures.py);
@@ -24,6 +24,8 @@ Ovo je redosled koraka; pravila su u odeljcima na koje koraci vode, i ona važe.
 1. Smer nosa, veličinu i delove meri u three.js, onako kako ih igra učitava, a ne samo u Blenderu (vidi [3D avione](../../../docs/ART.md#3d-avioni)).
 2. Razmeru odredi po pravilima [razmere](../../../docs/ART.md#razmera): telo je stvarne veličine, a bombarderi Ratweek-a imaju raspon krila 0,585 stvarnog.
 3. Pokretne delove, poput elisa i gusenica, poveži u zajedničkom prikazu tako da se pomeraju oko svoje ose.
+4. Model već pripremljen u metrima opiši sa `scale: 1`: bez `size` ili `scale` [učitavač](../../../core3d/loaders.js) svaki model smanjuje ili uvećava na visinu od 2 m. Tako su most i pruga u Ratweeku isprva bili pogrešne veličine (2026-11-28).
+5. Posle pretvaranja FBX-a u GLB pročitati materijale u GLB-u. Blender izostavlja `metallicFactor` kad je metalnost 0 u čvoru koji nije povezan, a glTF tada podrazumeva 1, pa je model u igri crn; vagoni Ratweeka su tako izašli crni (2026-11-28). Uvoznik FBX-a vezuje alfu teksture u svaki materijal, pa neprozirnim materijalima alfu treba odvezati; lišće nacrtano na crnoj podlozi bez alfe dobija masku iz boje, kao [vrba](../../../assets/models/nature/trees/willow/README.md).
 
 ## 3. Podaci i vrednosti igre
 

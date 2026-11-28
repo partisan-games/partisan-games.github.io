@@ -10,10 +10,11 @@ import Bullet from '../projectiles/Bullet.js'
  * Nearer than `breakAway` it pulls away, and comes round again once `reach` metres off; it keeps between `floor` and
  * `ceiling` metres above the ground. Shot down, it dives at `fall` metres a second, rolling `crashRoll` a second; set to
  * land, it glides down `glide` radians nose down and on the ground slows by `brake` metres a second each second.
+ * Flown by a player, it climbs or dives at up to `climb` radians.
  */
 export const interceptor = { speed: 45, turn: 1.2, range: 150, cone: .15, interval: .15, bulletSpeed: 160, life: 1.5,
   damage: { min: 20, max: 30 }, health: 120, breakAway: 30, reach: 220, floor: 12, ceiling: 140, fall: 18, crashRoll: 2,
-  glide: .15, brake: 6 }
+  glide: .15, brake: 6, climb: .5 }
 
 /** The rate at which a heading turns toward `to` from `from`, both in radians, the short way round. */
 const turnToward = (from, to) => Math.atan2(Math.sin(to - from), Math.cos(to - from))
@@ -49,6 +50,17 @@ const states = {
       if (plane.distance > interceptor.reach) plane.setState('attack')
     },
   },
+  /** A player flies it: it turns, banking, and climbs or dives as told, firing only when told. */
+  flown: {
+    update: (plane, dt) => {
+      const { across, climb } = plane.command
+      const step = interceptor.turn * dt
+      plane.yaw -= across * step
+      plane.pitch += Math.max(-step, Math.min(step, climb * interceptor.climb - plane.pitch))
+      plane.roll += (-across - plane.roll) * Math.min(1, dt * 3)
+      plane.cruise()
+    },
+  },
   dead: {},
 }
 
@@ -61,6 +73,8 @@ export default class Interceptor extends Body {
     super({ size, health: interceptor.health, ...rest, states, initial: 'attack' })
     Object.assign(this, { target, groundAt, speed: interceptor.speed })
     this.roll = 0
+    /** What a player tells it, each from -1 to 1: right or left, and up or down. */
+    this.command = { across: 0, climb: 0 }
     this.goal = null
     this.reload = new Cooldown({ seconds: interceptor.interval, clock })
     this.rounds = new ProjectilePool(() => new Bullet({ life: interceptor.life, damage: interceptor.damage }))
@@ -106,10 +120,21 @@ export default class Interceptor extends Body {
     const ground = this.groundAt(this.x, this.z)
     if (this.y < ground + interceptor.floor) this.pitch = Math.max(this.pitch, .2)
     if (this.y > ground + interceptor.ceiling) this.pitch = Math.min(this.pitch, -.2)
+    this.cruise()
+  }
+
+  /** Flies at its speed along its nose. */
+  cruise() {
     const level = Math.cos(this.pitch) * this.speed
     this.vx = Math.cos(this.yaw) * level
     this.vy = Math.sin(this.pitch) * this.speed
     this.vz = -Math.sin(this.yaw) * level
+  }
+
+  /** A player's `across` and `climb`, each from -1 to 1, take it over from what it was doing, as the game's keys do. */
+  steer({ across, climb }) {
+    this.command = { across, climb }
+    if ((across || climb) && this.state !== 'flown') this.setState('flown')
   }
 
   /** Flies on its heading, its nose easing to `pitch` and its wings to level. */
@@ -117,10 +142,7 @@ export default class Interceptor extends Body {
     const step = interceptor.turn * dt
     this.pitch += Math.max(-step, Math.min(step, pitch - this.pitch))
     this.roll -= this.roll * Math.min(1, dt * 3)
-    const level = Math.cos(this.pitch) * this.speed
-    this.vx = Math.cos(this.yaw) * level
-    this.vy = Math.sin(this.pitch) * this.speed
-    this.vz = -Math.sin(this.yaw) * level
+    this.cruise()
   }
 
   /** Set to land, it comes down and rolls to a stop. */

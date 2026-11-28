@@ -136,11 +136,13 @@ Nove frontalne likove vlasnik prvo bira u katalogu; do izbora nisu deo sastava n
 
 **Kontekst i granice:** pruga je radila u više perioda: jul–septembar 1941, od maja 1942. do nemačke ofanzive početkom 1943, od jeseni 1943. do januara 1944. na pravcima Jajce–Bugojno i Jajce–Šipovo, i septembar–novembar 1944. Godina 1942 na kartici je period kada je Vrhovni štab boravio u vagonima kod Oštrelja, a pruga od jula do oktobra prevezla oko 600 vagona žita. Prevozila je borce, ratni materijal i ranjenike. Poznate lokomotive su Krauss-Maffei iz 1904, Titov voz kod Oštrelja, i „Mala partizanka” (Krauss, Linc) u Jajcu.
 
-## Warplane
+## Ratweek
 
 **Okvir (vlasnik, 2026-11-24):** Igra je operacija Ratweek, septembar 1944, kada su savezničko vazduhoplovstvo i partizani zajedno napadali nemačke saobraćajnice; na naslovnoj je „1944: Operation Ratweek”. Nivo je o bombardovanju, pa igrač bira samo bombarder: B-24, B-17 i B-25, koji su leteli nad Jugoslavijom 1944, i Lancaster (vlasnik, 2026-11-26). Fotografije savezničkih bombardovanja Kraljeva i Beograda 1944: [reference](references/ww2-yu/bombardovanje-1944/README.md).
 
 **Kontekst i granice:** Ratweek je počeo 1. septembra 1944. i trajao do druge polovine meseca; cilj je bio da se prekinu pruge i putevi kojima su se nemačke grupe armija E i F povlačile iz Grčke i sa Balkana, pre svega pruga Beograd–Solun kroz dolinu Vardara. Učestvovali su 15. američka vazduhoplovna armija iz Fođe, RAF i Balkansko vazduhoplovstvo; pominju se B-17, P-51 Mustang i P-38 kao lovci-bombarderi. Gađani su mostovi, vijadukti, tuneli, železnički čvorovi i dunavski mostovi kod Beograda; Mustangi su srušili most kod Litije. Fabrike su gađane u drugim napadima 1944, npr. fabrike avionskih motora u Mariboru. Kraljevo je 1944. bombardovano šest puta, a Beograd, Niš, Leskovac, Novi Sad, Kragujevac i Kruševac takođe. Izvori: [Allied bombing of Yugoslavia](https://en.wikipedia.org/wiki/Allied_bombing_of_Yugoslavia_in_World_War_II), [Operation Ratweek](https://en.wikipedia.org/wiki/Operation_Ratweek_(1944)); izvori ne navode tipove nemačkih lovaca, pa je Bf 109 izbor igre.
+
+**Teren (vlasnik, 2026-11-27):** let prati prugu Beograd–Solun dolinom Južne Morave, istu u svakoj igri: reljef, reka, pruga sa mostovima, gradovi sa stanicama i fabrike, umesto nasumičnih zgrada. Poen donose srušena fabrika, most i voz; srušena kuća oduzima poen, a stanica i kula ne računaju se.
 
 **Kamera (vlasnik, 2026-11-26):** jedna kamera, bez izbora na ekranu: iza aviona i malo ispod njega, pa je avion visoko u kadru i vidi mu se donja strana; narandžast krug na tlu pokazuje gde bi udarila raketa.
 

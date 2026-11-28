@@ -6,10 +6,12 @@ import FacadeHouse, * as facadeModule from '/core3d/actor/buildings/FacadeHouse.
 import Milutin, * as monumentModule from '/core3d/actor/buildings/Milutin.js'
 import { requestModels } from '/core3d/assets/models.js'
 import Sandbags, * as sandbagsModule from '/core3d/actor/buildings/Sandbags.js'
+import Barricade, * as barricadeModule from '/core3d/actor/buildings/Barricade.js'
 import TownHouse, * as townHouseModule from '/core3d/actor/buildings/TownHouse.js'
 import WarDebris, { hasTruckWreck, TruckDebris } from '/core3d/actor/buildings/WarDebris.js'
 import * as warDebrisModule from '/core3d/actor/buildings/WarDebris.js'
 import Tree, * as treeModule from '/core3d/actor/nature/Tree.js'
+import Train, * as trainModule from '/core3d/actor/derived/Train.js'
 
 /** The props of a camp, each with its group by what it is, so any game can take the same one. */
 const camp = [
@@ -64,6 +66,17 @@ const sandbags = {
   },
 }
 
+const barricade = {
+  id: 'barikada-dzakovi', name: 'Barikada od džakova', game: 'Siege of Kraljevo', block: barricadeModule, stage: Stage3D,
+  catalogGroup: ['Scenografija', 'Zakloni'],
+  create: async stage => {
+    await requestModels(barricadeModule.models)
+    const block = new Barricade()
+    stage.add(block)
+    return block
+  },
+}
+
 const facadeHouse = {
   id: 'kuca-sa-fasadom', name: 'Kuća sa fasadom', game: 'Siege of Kraljevo', block: facadeModule, stage: Stage3D,
   catalogGroup: ['Scenografija', 'Kuće grada'], lookLabel: 'Fasada',
@@ -107,7 +120,8 @@ const debris = Object.entries(warDebrisModule.warDebris).map(([kind, { name, mod
 
 /** The trees of the countryside, each alone. */
 const trees = Object.entries(treeModule.trees).map(([kind, { name, model }]) => ({
-  id: `drvo-${kind}`, name, game: kind === 'linden' ? 'Siege of Kraljevo' : 'Raid on Drvar (u izradi)', block: treeModule, stage: Stage3D,
+  id: `drvo-${kind}`, name, game: kind === 'linden' || treeModule.willows.includes(kind) ? 'Siege of Kraljevo' : 'Raid on Drvar (u izradi)', block: treeModule,
+  stage: Stage3D,
   catalogGroup: ['Scenografija', 'Drveće'],
   create: async stage => {
     await requestModels([model])
@@ -128,4 +142,18 @@ const ruins = Object.entries(drvarModule.drvarProps).map(([kind, { name, model }
   },
 }))
 
-export const props = [...camp, church, milutin, sandbags, facadeHouse, ...town, ...debris, ...trees, ...ruins]
+/** A freight train, and each of its cars alone, as Operation Ratweek's trains are made of them. */
+const trains = [
+  { id: 'teretni-voz', name: 'Teretni voz', cars: undefined },
+  ...Object.entries(trainModule.railwayCars).map(([kind, { name }]) => ({ id: `vagon-${kind}`, name, cars: [kind] })),
+].map(({ id, name, cars }) => ({
+  id, name, game: 'Operation Ratweek', block: trainModule, stage: Stage3D, catalogGroup: ['Vozila', 'Vozovi'],
+  create: async stage => {
+    await requestModels(trainModule.models)
+    const block = new Train(cars)
+    stage.add(block)
+    return block
+  },
+}))
+
+export const props = [...camp, church, milutin, sandbags, barricade, facadeHouse, ...town, ...debris, ...trees, ...ruins, ...trains]
