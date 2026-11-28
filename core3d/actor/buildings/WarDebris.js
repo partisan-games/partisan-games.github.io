@@ -38,13 +38,16 @@ function truckWheels(mesh, names) {
 
 /**
  * What the war leaves on the ground of a town, each its model at its real `size`, its height in metres: things dropped
- * or abandoned.
+ * or abandoned. One not yet in a game names the catalogue's shared library as its `game`.
  */
 export const warDebris = {
   truck: { name: 'Kamion Opel Blitz', model: { file: 'vehicle/truck/opel-blitz/model.fbx', size: 2.6, fitVisible: true } },
   'army-truck': { name: 'Nemački vojni kamion', model: { file: 'vehicle/truck/army-truck/model.fbx', size: 3, fitVisible: true } },
   barrel: { name: 'Bure', model: { file: 'item/barrel/model.fbx', size: .9, fitVisible: true } },
   'ammunition-box': { name: 'Sanduk municije', model: { file: 'item/ammunition-box/scene.gltf', size: .4, fitVisible: true } },
+  // the Italian armoured car of the Great War, still with Italian units in Yugoslavia in 1941-1943
+  'lancia-1zm': { name: 'Oklopni automobil Lancia 1ZM', game: 'Zajednička biblioteka',
+    model: { file: 'vehicle/armored-car/lancia-1ZM/lancia.fbx', size: 2.8, fitVisible: true } },
 }
 
 /** What to load; a game awaits requestModels(models) before it makes a piece of debris. */

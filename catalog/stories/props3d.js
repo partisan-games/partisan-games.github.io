@@ -107,8 +107,8 @@ const town = Object.entries(townHouseModule.townHouses).map(([kind, { name }]) =
 }))
 
 /** What the war leaves on the ground, each alone. */
-const debris = Object.entries(warDebrisModule.warDebris).map(([kind, { name, model }]) => ({
-  id: `rat-${kind}`, name, game: 'Raid on Drvar (u izradi)', block: warDebrisModule, stage: Stage3D,
+const debris = Object.entries(warDebrisModule.warDebris).map(([kind, { name, model, game = 'Raid on Drvar (u izradi)' }]) => ({
+  id: `rat-${kind}`, name, game, block: warDebrisModule, stage: Stage3D,
   catalogGroup: model.file.startsWith('vehicle/') ? ['Vozila'] : ['Scenografija', 'Tragovi rata'],
   create: async stage => {
     await requestModels([model])

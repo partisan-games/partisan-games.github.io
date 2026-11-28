@@ -4,8 +4,9 @@ const animDict = {
   run: 'Rifle Run Aim',
   attack: 'Firing Rifle',
   attack2: 'Fire Rifle Crouch',
-  pain: 'Hit Reaction',
-  death: 'Dying'
+  // a hit and a fall of their own, so the German rifleman does not react as every other soldier
+  pain: 'Reaction',
+  death: 'Rifle Death',
 }
 
 const meshModel = { file: 'german-soldier.fbx', angle: Math.PI, animDict, prefix: 'character/soldier/', size: 1.8 }

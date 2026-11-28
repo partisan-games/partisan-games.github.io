@@ -3094,13 +3094,6 @@
        "folders": []
       },
       {
-       "name": "junkers-f13",
-       "files": [
-        ["T3T5I53NKR1PDNTV3P2ISTUPP.fbx",0.9]
-       ],
-       "folders": []
-      },
-      {
        "name": "junkers-ju-87-stuka",
        "files": [
         ["B6L6UIB83ZKUE6YOCT94DAHM3.obj",0.1,"B6L6UIB83ZKUE6YOCT94DAHM3.mtl"]
@@ -3158,17 +3151,6 @@
      ],
      "folders": [
       {
-       "name": "city",
-       "files": [
-        ["Building1_Large.fbx",0.5],
-        ["Building1_Small.fbx",0.2],
-        ["Building3_Big.fbx",0.1],
-        ["Building4.fbx",0.1],
-        ["House1.fbx",0.4]
-       ],
-       "folders": []
-      },
-      {
        "name": "crveni-krst",
        "files": [
         ["fence-corner.glb",0.0],
@@ -3194,54 +3176,6 @@
         ["model.fbx",0.1]
        ],
        "folders": []
-      },
-      {
-       "name": "house",
-       "files": [],
-       "folders": [
-        {
-         "name": "hut",
-         "files": [
-          ["house5-01.obj",0.1,"house5-01.mtl"],
-          ["house5-02.obj",0.0,"house5-02.mtl"],
-          ["house5-03.obj",0.0,"house5-03.mtl"],
-          ["house5-04.obj",0.0,"house5-04.mtl"]
-         ],
-         "folders": []
-        },
-        {
-         "name": "lake-house",
-         "files": [
-          ["house3-01.obj",0.0,"house3-01.mtl"],
-          ["house3-02.obj",0.0,"house3-02.mtl"],
-          ["house3-03.obj",0.0,"house3-03.mtl"]
-         ],
-         "folders": []
-        },
-        {
-         "name": "medieval",
-         "files": [
-          ["well-01.obj",0.0,"well-01.mtl"]
-         ],
-         "folders": []
-        },
-        {
-         "name": "medieval-house",
-         "files": [
-          ["model.fbx",0.9]
-         ],
-         "folders": []
-        },
-        {
-         "name": "river-house",
-         "files": [
-          ["house4-01.obj",0.1,"house4-01.mtl"],
-          ["house4-02.obj",0.0,"house4-02.mtl"],
-          ["house4-03.obj",0.0,"house4-03.mtl"]
-         ],
-         "folders": []
-        }
-       ]
       },
       {
        "name": "mine",
@@ -3278,41 +3212,6 @@
        "name": "tower",
        "files": [],
        "folders": [
-        {
-         "name": "black",
-         "files": [
-          ["black-tower.obj",0.1]
-         ],
-         "folders": []
-        },
-        {
-         "name": "roof",
-         "files": [
-          ["tower1.obj",0.1,"tower1.mtl"]
-         ],
-         "folders": []
-        },
-        {
-         "name": "round",
-         "files": [
-          ["tower2.obj",0.0,"tower2.mtl"]
-         ],
-         "folders": []
-        },
-        {
-         "name": "squared",
-         "files": [
-          ["tower3.obj",0.1,"tower3.mtl"]
-         ],
-         "folders": []
-        },
-        {
-         "name": "strange",
-         "files": [
-          ["tower.fbx",0.1]
-         ],
-         "folders": []
-        },
         {
          "name": "ww2",
          "files": [
@@ -3502,16 +3401,6 @@
      "name": "nature",
      "files": [],
      "folders": [
-      {
-       "name": "cloud",
-       "files": [
-        ["Cloud1.glb",0.0],
-        ["Cloud2.glb",0.0],
-        ["Cloud3.glb",0.0],
-        ["lowpoly.gltf",0.0]
-       ],
-       "folders": []
-      },
       {
        "name": "dead-tree",
        "files": [
@@ -3715,13 +3604,6 @@
        "files": [],
        "folders": [
         {
-         "name": "dieselpunk",
-         "files": [
-          ["apcf.fbx",1.2]
-         ],
-         "folders": []
-        },
-        {
          "name": "ehrhardt-e-v4",
          "files": [
           ["model.fbx",0.5]
@@ -3773,13 +3655,6 @@
          "name": "chevrolet-1936",
          "files": [
           ["model.fbx",1.0]
-         ],
-         "folders": []
-        },
-        {
-         "name": "volkswagen-beetle",
-         "files": [
-          ["buba.fbx",0.4]
          ],
          "folders": []
         },
@@ -3865,13 +3740,6 @@
          "name": "opel-blitz",
          "files": [
           ["model.fbx",0.2]
-         ],
-         "folders": []
-        },
-        {
-         "name": "soviet",
-         "files": [
-          ["S1DFOZQ5F864VLTICPQDCCJ0D.obj",0.4,"S1DFOZQ5F864VLTICPQDCCJ0D.mtl"]
          ],
          "folders": []
         },

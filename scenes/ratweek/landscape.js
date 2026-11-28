@@ -56,7 +56,7 @@ function groundSampler(geometry) {
   const { width, height: length, widthSegments: columns, heightSegments: rows } = geometry.parameters
   const { position } = geometry.attributes
   return (x, z) => {
-    const column = (.5 + x / width) * columns, row = -z / length * rows
+    const column = (.5 + x / width) * columns, row = (1 + z / length) * rows
     if (column < 0 || column > columns || row < 0 || row > rows) return undefined
     const i = Math.min(Math.floor(column), columns - 1), j = Math.min(Math.floor(row), rows - 1)
     const across = column - i, along = row - j

@@ -106,12 +106,11 @@ test('reading the height on the grid matches a vertical ray against the terrain'
   piece.group.position.z -= 37.5
   piece.group.updateMatrixWorld(true)
   const { groundAt } = worldQueries([piece.ground])
-  for (const x of [-449, -271.3, -23.64, 0, 46.95, 277.19, 449]) {
+  for (const x of [-449, -271.3, -23.64, 0, 46.95, 277.19, 449])
     for (const depth of [.2, 2, 4, 5.7, 13.6, 41.9, 59.9, 99.8]) {
       const z = piece.group.position.z - depth
-      assert.ok(Math.abs(piece.heightAt(x, z) - groundAt(x, z)) < 1e-4, `height at ${x}, ${z}`)
+      assert.ok(Math.abs(piece.heightAt(x, z) - groundAt(x, z, 1000)) < 1e-4, `height at ${x}, ${z}`)
     }
-  }
   assert.equal(piece.heightAt(451, piece.group.position.z - 12), undefined)
   assert.equal(piece.heightAt(0, piece.group.position.z - 101), undefined)
 })

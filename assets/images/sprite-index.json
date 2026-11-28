@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "measuredAt": "2026-11-28T00:09:28.819193+00:00",
+  "measuredAt": "2026-11-28T00:18:15.720107+00:00",
   "baseRevision": "87c725fb6f9bd01412f7c838cbdfdb75d64e695c",
   "scope": "Art linked by docs/ART.md, including shared variants; not all unused library art or a runtime/visual acceptance test.",
   "interpretation": "imageFrames counts file-container frames. A PNG atlas normally has one; named sprite clips require metadata and a runtime mapping. hashes detect exact input changes, not art quality.",
@@ -427,10 +427,10 @@
     },
     {
       "asset": "assets/images/textures/terrain/ratweek-dolina.webp",
-      "sha256": "e745241f7e01df5d3c456841a30dbd8d3f148a713bb6868d5eeeb9f8af4fe74b",
+      "sha256": "7adb1a2a5ace35d4438be888559ad46c06cd201e89b98505372eeb22c4405f6a",
       "kind": "WEBP",
-      "width": 512,
-      "height": 4096,
+      "width": 384,
+      "height": 2048,
       "imageFrames": 1,
       "hasTransparentPixelsInFirstFrame": false,
       "distinctImageFrames": 1
@@ -513,7 +513,7 @@
     },
     {
       "path": ".agents/skills/game-asset-import/SKILL.md",
-      "sha256": "5fb00fcaf9fe928d69bf11bf14edb86adbc5e62e9e540b5c8a200c69db933e09"
+      "sha256": "e464df2bd720d003685ccbd3a7e75dc8e00dc8783ab300b797c029d07c5df433"
     },
     {
       "path": "assets/images/background/batina-1944/layout.json",
@@ -745,7 +745,7 @@
     },
     {
       "path": "assets/images/sources/ratweek-dolina/source.json",
-      "sha256": "2492dd5a26da32f24f735cd0e7b3ce743042def98bbbf5aba1f13190292bb9c1"
+      "sha256": "9349e662b94ebe84c2068f0daf0e57f5a951cd96dc27e78468a7c018d90d9443"
     },
     {
       "path": "assets/images/sources/talijani/ustanak-strelac/generation.json",
@@ -773,7 +773,7 @@
     },
     {
       "path": "assets/images/textures/terrain/ratweek-dolina.webp",
-      "sha256": "e745241f7e01df5d3c456841a30dbd8d3f148a713bb6868d5eeeb9f8af4fe74b"
+      "sha256": "7adb1a2a5ace35d4438be888559ad46c06cd201e89b98505372eeb22c4405f6a"
     },
     {
       "path": "assets/models/aircraft/bomber-lancaster/art-source/generation.json",
@@ -953,7 +953,7 @@
     },
     {
       "path": "docs/ART.md",
-      "sha256": "682261e814f651725994ba5b681bb9151b86f51a3076e3b9718b87785b727fea"
+      "sha256": "41a3c2db6483179a7f9da423cf6c1bded8732a0795b841de506ce02ce6314dca"
     },
     {
       "path": "docs/ISTORIJA.md",
@@ -1017,7 +1017,7 @@
     },
     {
       "path": "scenes/ratweek/landscape.js",
-      "sha256": "ceba1a376d041c3a760fbd7694a28c15114a0416b66653074e6467ef8cf1395c"
+      "sha256": "e56337256039fdd3ba5156dae78fa619bf73c96c5f0860fee8ab2de84e9d748a"
     },
     {
       "path": "scenes/to-trieste/Route.js",
