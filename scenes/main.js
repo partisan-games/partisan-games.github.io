@@ -1,6 +1,7 @@
 import SceneManager from './SceneManager.js'
 import { arcade } from '/ui/homeArcade.js'
 import { mainMenuButton } from '/ui/UI.js'
+import { currentStyleClasses } from '/ui/styles.js'
 import { admission } from '/core/io/admission.js'
 import audioEngine from '/core/io/audio/AudioEngine.js'
 
@@ -14,14 +15,15 @@ let navigation = 0
 let openingCabinet = false
 
 /** The games whose address is not the name of their folder. */
-const addresses = { cannon: 'jablanica' }
+const addresses = { cannon: 'jablanica', bunker: 'krupanj' }
 const gameAt = address => Object.keys(addresses).find(path => addresses[path] === address) ?? address
 
 const showError = title => {
+  const { container, button } = currentStyleClasses()
   modalElement.innerHTML = /* html */`
-    <div class="central-screen flex-column simple-container">
+    <div class="central-screen flex-column ${container}">
       <h3 class="red">${title}</h3>
-      ${mainMenuButton('default-button')}
+      ${mainMenuButton(button)}
     </div>
   `
 }

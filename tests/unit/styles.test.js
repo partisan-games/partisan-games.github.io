@@ -30,7 +30,7 @@ function renderedClasses(uiStyle) {
   return classes
 }
 
-test('a scene without a style uses WW2 with the White button and an ammo belt frame', () => {
+test('a scene without a style uses WW2 with the White button', () => {
   const { container, button } = renderedClasses()
   assert.equal(container, 'white-container ww2-container')
   assert.equal(button, 'white-button')
@@ -46,7 +46,7 @@ test('the style picked in Settings wins over the style of every game, is kept, a
   const { readSetting } = await import('/ui/settings.js')
   try {
     chooseUiStyle('white')
-    assert.equal(renderedClasses('simple').button, 'white-button')
+    assert.equal(renderedClasses('ww2').container, 'white-container')
     assert.equal(uiStyleChoice(), 'white')
     assert.equal(readSetting('uiStyle'), 'white', 'kept for the next visit')
     chooseUiStyle('rpg')
@@ -54,7 +54,7 @@ test('the style picked in Settings wins over the style of every game, is kept, a
   } finally {
     chooseUiStyle('predefined')
   }
-  assert.equal(renderedClasses('simple').button, 'default-button')
+  assert.equal(renderedClasses('ww2').container, 'white-container ww2-container')
   assert.equal(renderedClasses('white').button, 'white-button')
 })
 
@@ -67,9 +67,6 @@ test('a style picked while a screen is open restyles it at once, and an ended sc
     assert.ok(document.querySelector('#start-screen.white-container.ww2-container'))
     chooseUiStyle('white')
     assert.equal(document.querySelector('#start-screen.ww2-container'), null)
-    chooseUiStyle('simple')
-    assert.equal(classesOf(document.querySelector('#start')), 'default-button')
-    assert.equal(classesOf(document.querySelector('#start-screen')).replace('central-screen flex-column ', ''), 'simple-container')
   } finally {
     scene.end()
     chooseUiStyle('predefined')

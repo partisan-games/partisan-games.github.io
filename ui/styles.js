@@ -10,19 +10,12 @@ const whiteStyle = {
 
 /** The classes that each UI style gives to the shared elements. */
 export const styleClasses = {
-  simple: {
-    container: 'simple-container',
-    button: 'default-button',
-    score: '',
-    controlButton: '',
-    healthBar: '',
-  },
   white: whiteStyle,
   ww2: { ...whiteStyle, container: `${whiteStyle.container} ww2-container` },
 }
 
 /** What the player can pick in Settings: the style each game has, or one style for every game. */
-export const styleChoices = { predefined: 'Predefined', simple: 'Simple', white: 'White', ww2: 'WW2' }
+export const styleChoices = { predefined: 'Predefined', white: 'White', ww2: 'WW2' }
 
 // only one scene lives at a time, and it sets its style before it creates any element
 const defaultStyle = 'ww2'

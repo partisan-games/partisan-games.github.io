@@ -126,7 +126,7 @@ test('the surrender dialog follows the saved UI choice and subsequent style chan
   chooseUiStyle('white')
   const scene = battle(t)
   scene.surrender.offer()
-  for (const choice of ['white', 'simple']) {
+  for (const choice of ['white', 'ww2']) {
     chooseUiStyle(choice)
     const { container, button } = currentStyleClasses()
     assert.ok(document.querySelector(`#modal .${container.split(' ').join('.')}`))

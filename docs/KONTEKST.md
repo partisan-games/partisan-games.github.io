@@ -68,7 +68,7 @@ U 1P slušalac ostaje levi igrač/top i tokom računarevog poteza; prati njegov 
 
 Meč traje do dve dobijene runde, najviše tri. Strane naizmenično otvaraju runde; između njih igrač bira nastavak, rezultat ostaje, a topovi i nišanjenje kreću iz početka. U 2P ishod imenuje pobedničkog igrača; protiv računara poraz znači gubitak meča.
 
-Ambijenti redom, po putu Save Kovačevića 1941: Grahovo, Vilusi, okolina Nikšića. Svaka runda se bije na sledećem mestu, a niz se nastavlja i u sledećem meču; tlo slike pada na fizičko tlo jedinica i granata. Bunker se prikazuje samo u prvoj rundi meča; žarište svake slike ima živu vatru i dim, koji nastavljaju i posle ishoda.
+Ambijenti redom, po putu Save Kovačevića 1941: Grahovo, Vilusi, okolina Nikšića. Svaka započeta runda uzima sledeće mesto, a niz se nastavlja i u sledećem meču. Naslovni ekran prikazuje mesto predstojeće runde i ponovni ulazak pre pokretanja meča ponovo prikazuje isto mesto. Tlo slike pada na fizičko tlo jedinica i granata. Bunker se prikazuje samo u prvoj rundi meča; žarište svake slike ima živu vatru i dim, koji nastavljaju i posle ishoda.
 
 **Kontekst i granice:** italijanski protivnik i zastava odgovaraju; tri mesta ustanka uklapaju se u crnogorski teren i spaljena sela leta 1941. Nije potvrđeno da su ustanici imali top u dvoboju sa italijanskom artiljerijom: zarobljena oruđa i mesto takve borbe treba tražiti u vojnim istorijama napada na Berane i Kolašin (npr. Zoran Lakić). Partizanski minobacač ostaje pretpostavka igre, a avioni nad bojištem su italijanski. Činjenice i izvori: [Crna Gora, jul 1941](ISTORIJA.md#crna-gora-jul-1941--polazište-za-igru-ustanak).
 

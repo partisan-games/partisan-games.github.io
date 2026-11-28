@@ -16,7 +16,7 @@ Razvojne stranice su veze, a probni nivoi kartice sa `data-dev`; i jedne i druge
 
 ## Brzina naslovne
 
-Sve što se dodaje na naslovnu mora biti optimizovano (odluka vlasnika, 2026-11-23): slika kartice je webp širine do 600 px sa upisanim `width` i `height` i `loading="lazy"`, a sadržaj ne sme da pomeri raspored kad stigne font ili kad se pokrene skripta. Link na igru (`#igra`) sakriva naslovnu pre nego što se njene slike preuzmu. Naslovna nema 3D scenu ni dekoraciju koja usporava učitavanje. Novčanik i kartice prikazuju nacrtan žeton, isti kao naplativa dugmad; vrti se samo onaj u novčaniku, dok ima žetona i kretanje nije smanjeno, a na karticama stoji (vlasnik, 2026-11-27). Ono što naslovna prikazuje odmah, kao novčanik sa žetonima, ne čeka skript igara: učitava se kao zaseban mali modul ([homeArcade](../ui/homeArcade.js)) pre [rutera](../scenes/main.js).
+Sve što se dodaje na naslovnu mora biti optimizovano (odluka vlasnika, 2026-11-23): slika kartice je webp širine do 600 px sa upisanim `width` i `height` i `loading="lazy"`, a sadržaj ne sme da pomeri raspored kad stigne font ili kad se pokrene skripta. Link na igru (`#igra`) sakriva naslovnu pre nego što se njene slike preuzmu. Naslovna nema 3D scenu ni dekoraciju koja usporava učitavanje. Novčanik i kartice prikazuju nacrtan žeton, isti kao naplativa dugmad; vrti se samo onaj u novčaniku, dok ima žetona i kretanje nije smanjeno, a na karticama stoji (vlasnik, 2026-11-27). Novčanik je jedna komponenta ([createWallet i showBalance](../ui/Arcade.js)) i svuda izgleda isto: na naslovnoj, na UI stranici i preko igre (vlasnik, 2026-11-28). Ono što naslovna prikazuje odmah, kao novčanik sa žetonima, ne čeka skript igara: učitava se kao zaseban mali modul ([homeArcade](../ui/homeArcade.js)) pre [rutera](../scenes/main.js).
 
 ### Vraćanje animacije The Germans Advance na naslovnu
 
@@ -24,11 +24,11 @@ Animacija se otvara sa kartice u **Scenes and Animations**. Raniji automatski pr
 
 ## Stilovi
 
-`ww2` je podrazumevana tema, sa White dugmadima i okvirom od redenika na glavnim prozorima. Avatar zadaje `white`, a korisnikov izbor ima prednost. [Stilovi](../ui/styles.js) i [CSS](../ui/style.css).
+`ww2` je podrazumevana tema, sa White dugmadima i maslinastom ivicom na glavnim prozorima; od White se razlikuje samo po ivici (vlasnik, 2026-11-28). Naslovna i novčanik ne prate izbor teme i uvek imaju ivicu WW2. Prozori i novčanik imaju podlogu providnu 80% (`--screen-fill`), a zaobljeni uglovi su svuda 4 px (`--radius`). Avatar zadaje `white`, a korisnikov izbor ima prednost. [Stilovi](../ui/styles.js) i [CSS](../ui/style.css).
 
 ### Potvrđeni birač teme
 
-Settings sadrži Volume i **UI style**, redom **Predefined, Simple, White, WW2**. Predefined prati temu igre, a ostali izbori važe za sve igre. Izbor se pamti i osvežava već napravljene prozore, HUD, Controls, zdravlje i kameru. Pretplate se uklanjaju pri gašenju vlasnika.
+Settings sadrži Volume i **UI style**, redom **Predefined, White, WW2**; tema Simple je izbačena (vlasnik, 2026-11-28). Predefined prati temu igre, a ostali izbori važe za sve igre. Izbor se pamti i osvežava već napravljene prozore, HUD, Controls, zdravlje i kameru. Pretplate se uklanjaju pri gašenju vlasnika.
 
 Početni prozor prima fokus, a Tab vodi do prvog dostupnog dugmeta. White i WW2 koriste beli okvir za fokus i dodatno osvetle pozadinu dugmeta kad je miš iznad njega.
 

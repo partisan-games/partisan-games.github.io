@@ -31,7 +31,6 @@ export default class GroundLayer {
     this.cuts = []
     this.dirty = true
     this.canvas = null
-    this.wallPattern = null
   }
 
   loaded() {
@@ -56,6 +55,31 @@ export default class GroundLayer {
     return pattern
   }
 
+  /** Warm the near soil and pick out sparse limestone and dry grass along its silhouette. */
+  paintSurface(ctx) {
+    const soil = ctx.createLinearGradient(0, this.top - 100, 0, this.height)
+    soil.addColorStop(0, 'rgba(156, 118, 70, .10)')
+    soil.addColorStop(.55, 'rgba(136, 93, 59, .27)')
+    soil.addColorStop(1, 'rgba(58, 42, 33, .40)')
+    ctx.globalCompositeOperation = 'source-atop'
+    ctx.fillStyle = soil
+    ctx.fillRect(0, 0, this.width, this.height)
+    for (let x = 8; x < this.width - 5; x += 7) {
+      const seed = Math.imul(x ^ (x >>> 3), 0x45d9f3b) >>> 0
+      const y = (this.surface[x] ?? this.floorY) - grassAbove
+      if (seed % 7 < 2) {
+        ctx.fillStyle = '#87744f'
+        ctx.fillRect(x, y + 1, 4, 2)
+        ctx.fillStyle = '#b7a180'
+        ctx.fillRect(x + 1, y, 3, 2)
+      } else if (seed % 7 === 2) {
+        ctx.fillStyle = '#ad955c'
+        ctx.fillRect(x, y + 1, 2, 3)
+      }
+    }
+    ctx.globalCompositeOperation = 'source-over'
+  }
+
   redraw() {
     if (!this.canvas) {
       this.canvas = document.createElement('canvas')
@@ -73,6 +97,7 @@ export default class GroundLayer {
       ctx.drawImage(this.earth, x % this.earth.naturalWidth, 0, crater.column, this.earth.naturalHeight,
         x, surface - grassAbove, crater.column, this.earth.naturalHeight)
     }
+    this.paintSurface(ctx)
     const rim = this.pattern(ctx, this.rim)
     for (const { left, floors } of this.cuts)
       floors.forEach((floor, i) => {
@@ -81,27 +106,29 @@ export default class GroundLayer {
         ctx.globalCompositeOperation = 'source-atop'
         ctx.fillStyle = rim
         ctx.fillRect(x, seen, crater.column, rimThickness)
+        ctx.fillStyle = 'rgba(151, 104, 69, .6)'
+        ctx.fillRect(x, seen, crater.column, 2)
         ctx.globalCompositeOperation = 'destination-out'
         ctx.fillRect(x, 0, crater.column, seen)
       })
+    ctx.globalCompositeOperation = 'destination-over'
+    ctx.fillStyle = this.pattern(ctx, this.wall)
+    ctx.fillRect(0, this.top, this.width, this.height - this.top)
     ctx.globalCompositeOperation = 'source-over'
     this.dirty = false
   }
 
-  /** The crater wall behind the layer, then the layer with its holes. */
+  /** A single copy of the cached soil and the exposed crater walls. */
   render(ctx) {
     if (![this.earth, this.wall, this.rim].every(img => img.complete && img.naturalWidth)) return
     if (this.dirty) this.redraw()
-    this.wallPattern ??= this.pattern(ctx, this.wall)
-    ctx.fillStyle = this.wallPattern
-    ctx.fillRect(0, this.top, this.width, this.height - this.top)
     ctx.drawImage(this.canvas, 0, 0)
   }
 
   /** Frees the hidden canvas when the scene ends. */
   dispose() {
     if (this.canvas) this.canvas.width = this.canvas.height = 0
-    this.canvas = this.wallPattern = null
+    this.canvas = null
     this.dirty = true
   }
 }

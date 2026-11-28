@@ -3046,7 +3046,8 @@
       {
        "name": "boeing-b-17-flying-fortress",
        "files": [
-        ["model.glb",5.8]
+        ["model.glb",5.8],
+        ["optimized.glb",3.6]
        ],
        "folders": []
       },

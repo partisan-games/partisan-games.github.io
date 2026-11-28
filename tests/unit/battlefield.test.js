@@ -31,11 +31,7 @@ test('each round is fought on the next place of the uprising, and the next match
   const shown = []
   for (const match of [loaded(), loaded()])
     for (let round = 0; round < 2; round++) {
-      match.nextRound()
-      drawn.length = 0
-      match.render()
-      const pictures = match.places.map(place => place.image)
-      assert.deepEqual(pictures.filter(picture => drawn.includes(picture)), [match.place.image], 'only its own picture')
+      match.startRound()
       shown.push(placeOrder[match.places.indexOf(match.place)])
     }
   const first = placeOrder.indexOf(shown[0])
@@ -44,6 +40,6 @@ test('each round is fought on the next place of the uprising, and the next match
 
 test('only the place being fought on is heard burning', () => {
   const field = loaded()
-  field.nextRound()
+  field.startRound()
   for (const place of field.places) assert.equal(place.fireSound.desired, place === field.place)
 })

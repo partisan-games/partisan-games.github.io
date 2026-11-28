@@ -11,7 +11,7 @@ import Report from '/ui/Report.js'
 import { healthBar } from '/ui/components.js'
 import { createWallet, showBalance } from '/ui/Arcade.js'
 import avatarStart from '/scenes/avatar/startScreen.js'
-import warplaneStart from '/scenes/ratweek/startScreen.js'
+import ratweekStart from '/scenes/ratweek/startScreen.js'
 import tankStart from '/scenes/tenkici/startScreen.js'
 import uprisingStart from '/scenes/ustanak/startScreen.js'
 import visStart from '/scenes/vis/startScreen.js'
@@ -24,7 +24,7 @@ const windows = [
   ['Izbor režima (Tenkići)', tankStart],
   ['Izbor režima (Ustanak)', uprisingStart],
   ['Izbor aviona (Vis)', visStart],
-  ['Izbor aviona (Warplane)', warplaneStart],
+  ['Izbor bombardera (Ratweek)', ratweekStart],
   ['Izbor avatara', avatarStart],
   ['Pauza', classes => pauseScreen(classes, { costsToken: true })],
   ['Podešavanja', settingsScreen],
@@ -80,11 +80,11 @@ const cell = content => {
   return td
 }
 
-/** A table of `rows`, one column for each theme. */
+/** A table of `rows`, one column for each theme, the columns of every such table in line. */
 function themeTable(rows) {
   const table = document.createElement('table')
   table.className = 'preview-table'
-  table.innerHTML = `<thead><tr><td></td>${themes.map(({ name }) => `<th scope="col">${name}</th>`).join('')}</tr></thead>`
+  table.innerHTML = `<colgroup><col>${themes.map(() => '<col>').join('')}</colgroup>`
   const body = table.createTBody()
   for (const [name, draw] of rows) {
     const row = body.insertRow()
@@ -92,6 +92,11 @@ function themeTable(rows) {
     for (const { classes } of themes) row.append(cell(draw(classes)))
   }
   return table
+}
+
+/** The names of the themes over the columns of `table`, the first of the tables, so they are not repeated. */
+function nameThemes(table) {
+  table.createTHead().innerHTML = `<tr><td></td>${themes.map(({ name }) => `<th scope="col">${name}</th>`).join('')}</tr>`
 }
 
 const section = (title, ...content) => {
@@ -127,6 +132,7 @@ function iconList() {
  */
 export default function renderPreview(root) {
   const windowTable = themeTable(windows)
+  nameThemes(windowTable)
   const wallet = createWallet('10 coins every day')
   root.append(
     section('Prozori', windowTable),

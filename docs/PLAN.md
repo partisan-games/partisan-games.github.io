@@ -19,6 +19,7 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 | 8 | [IG-31](#ig-31) | Ratweek: proveriti brzinu prikaza terena u letu | Claude, Codex, vlasnik | 🔄 In progress |
 | 9 | [IG-34](#ig-34) | Napraviti vernu scenu i igru opsade Kraljeva po dogovorenom scenariju | Vlasnik, Claude, Codex | 🔄 In progress |
 | 10 | [IG-35](#ig-35) | Otkriti igre na telefonu posle merenja i optimizacije, kad su nivoi gotovi | Claude, vlasnik | 📋 TODO |
+| 11 | [IG-38](#ig-38) | Ustanak: pogoci granate u strelca i zastavnika | Codex, Claude | 📋 TODO |
 
 ## Održavanje plana
 
@@ -199,6 +200,11 @@ Radi se na kraju, kad su nivoi gotovi (vlasnik, 2026-11-26). Na početnoj strani
 - **Ustanak:** igra za dvojicu traži tastaturu; proveriti da li igra protiv računara ima sve komande na dodir, pa otkriti samo nju.
 - **Do Trsta:** utvrditi zašto je sakrivena, pa rešiti uzrok.
 - **Sve 3D igre:** na telefonu ograničiti gustinu piksela platna (na primer najviše 1.5), jer ekran od 3× crta devet puta više piksela.
+
+<a id="ig-38"></a>
+### IG-38 · Ustanak — pogoci u strelca i zastavnika
+
+U [Ustanku](../scenes/ustanak/Main.js) granata može da pogodi i ubije strelca ili zastavnika na obe strane. Pogibija svakog od njih nanosi malu jednokratnu štetu minobacaču njegove strane. Pobedu u rundi i dalje određuje uništenje minobacača.
 
 ## Ideje za kasnije
 

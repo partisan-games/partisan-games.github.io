@@ -2,7 +2,7 @@ import BattleBackground, { battlefields } from '/scenes/tenkici/BattleBackground
 import imageReady from '/core/io/imageReady.js'
 import GroundLayer from './GroundLayer.js'
 
-export const landscapeFilter = 'sepia(75%) saturate(65%)'
+export const landscapeFilter = 'sepia(12%) saturate(76%) brightness(92%)'
 
 /** The places of the 1941 uprising on Sava Kovačević's path, one for each round (owner's decision). */
 export const placeOrder = ['grahovo', 'vilusi', 'niksic']
@@ -20,13 +20,24 @@ export default class Battlefield {
     this.audioChildren = this.places
     this.ground = new GroundLayer({ width: canvas.width, height: canvas.height, floorY: terrain.floorY, surface: terrain.surface })
     terrain.view = this.ground
+    this.picture = document.createElement('canvas')
+    this.showNextPlace()
   }
 
-  /** Moves the battle on to the next place; only the shown place burns and is heard. */
-  nextRound() {
-    this.place = this.places[nextPlace++ % this.places.length]
+  /** The start screen previews the next place without advancing the sequence. */
+  showNextPlace() {
+    const next = this.places[nextPlace]
+    if (this.place === next) return
+    this.place = next
+    this.pictureReady = false
     for (const place of this.places) place.active = place === this.place
     this.update(0)
+  }
+
+  /** Only a round that actually starts takes its place in the sequence. */
+  startRound() {
+    this.showNextPlace()
+    nextPlace = (nextPlace + 1) % this.places.length
   }
 
   loaded() {
@@ -38,13 +49,47 @@ export default class Battlefield {
     for (const place of this.places) place.update(dt)
   }
 
+  preparePicture() {
+    const { place, picture, canvas } = this
+    this.pictureReady = false
+    if (place.scenery && [...place.scenery.images.values()].some(image => !image.complete || !image.naturalWidth)) return
+    picture.width = canvas.width
+    picture.height = canvas.height
+    const ctx = picture.getContext('2d')
+    ctx.imageSmoothingEnabled = false
+    if (!place.renderPicture(this.time, ctx)) return
+    // The far edge of the field meets the cutaway through a narrow band of earth and grass.
+    const edge = place.groundY - 5
+    const depth = this.ground.top + 3 - edge
+    const contact = ctx.createLinearGradient(0, edge, 0, edge + depth)
+    contact.addColorStop(0, 'rgba(105, 92, 57, 0)')
+    contact.addColorStop(.28, 'rgba(105, 92, 57, .19)')
+    contact.addColorStop(1, 'rgba(91, 78, 51, .62)')
+    ctx.fillStyle = contact
+    ctx.fillRect(0, edge, picture.width, depth)
+    if (place.propCanvas) {
+      place.propCanvas.width = place.propCanvas.height = 0
+      place.propCanvas = null
+    }
+    this.pictureReady = true
+  }
+
   render() {
-    const { place, ctx, canvas, wind } = this
+    const { place, ctx, canvas, picture, wind } = this
+    if (!this.pictureReady || picture.width !== canvas.width || picture.height !== canvas.height) this.preparePicture()
     ctx.save()
     ctx.imageSmoothingEnabled = false
-    place.render(this.time, wind ? wind.drift * place.efekti.width / canvas.width : undefined)
-    ctx.filter = landscapeFilter
+    if (this.pictureReady) {
+      ctx.drawImage(picture, 0, 0)
+      place.renderEffects(this.time, wind ? wind.drift * place.efekti.width / canvas.width : undefined)
+    }
     this.ground.render(ctx)
     ctx.restore()
+  }
+
+  dispose() {
+    this.picture.width = this.picture.height = 0
+    this.pictureReady = false
+    this.ground.dispose()
   }
 }

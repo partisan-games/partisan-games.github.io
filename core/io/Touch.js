@@ -1,9 +1,6 @@
 import { hasBlockingUi } from './inputContext.js'
 import { icons } from './icons.js'
 
-/** Big enough for a thumb, smaller on a narrow phone so the arrows and two buttons fit side by side. */
-const btnSize = 'clamp(48px, 15vw, 60px)'
-
 const css = /* css */`
   .joystick, .button-container {
     position: fixed;
@@ -22,14 +19,14 @@ const css = /* css */`
     gap: 4px;
   }
   .joystick-btn, .game-btn {
-    background: rgba(126, 126, 126, 0.25);
+    background: var(--touch-fill);
     display: flex;
     align-items: center;
     justify-content: center;
-    height: ${btnSize};
-    width: ${btnSize};
-    border: 2px solid white;
-    outline: 2px solid black;
+    height: var(--touch-size);
+    width: var(--touch-size);
+    border: var(--touch-border);
+    outline: var(--touch-outline);
     -webkit-tap-highlight-color: transparent;
     padding: 0;
   }
@@ -37,10 +34,10 @@ const css = /* css */`
   .game-btn:hover,
   .joystick-btn:active,
   .game-btn:active {
-    background: rgba(0, 0, 0, 0.5);
+    background: var(--touch-pressed);
   }
   .joystick-btn {
-    border-radius: 8px;
+    border-radius: var(--radius);
     transition: all 0.1s ease;
   }
   .game-btn {
@@ -59,11 +56,11 @@ const css = /* css */`
   .joystick ~ .button-container {
     flex-wrap: wrap-reverse;
     justify-content: flex-end;
-    max-width: calc(100vw - var(--edge) * 3 - ${btnSize} * 3 - 8px);
+    max-width: calc(100vw - var(--edge) * 3 - var(--touch-size) * 3 - 8px);
   }
   /* what stands in the same corner, as the second player's controls, goes above the touch buttons, however many rows they take */
   .button-container ~ .bottom-right {
-    bottom: calc(var(--edge) * 2 + var(--touch-buttons-height, ${btnSize}) + 8px);
+    bottom: calc(var(--edge) * 2 + var(--touch-buttons-height, var(--touch-size)) + 8px);
   }
 `
 

@@ -61,7 +61,12 @@ export default class Scene3D extends Scene {
     this.renderer.setSize(canvasWidth, canvasHeight)
     this.renderer.setPixelRatio(Math.min(2, window.devicePixelRatio)) // save battery by limit pixel ratio to 2
     this.renderer.shadowMap.enabled = true
-    if (toon) this.createToonRenderer()
+    // Compare outlines in place without changing the scene's materials or lighting.
+    const outline = new URLSearchParams(window.location.search).get('outline')
+    if (outline === 'soft')
+      this.createToonRenderer({ defaultThickness: 0.0015, defaultAlpha: 0.55 })
+    else if (outline === 'on' || (toon && outline !== 'off'))
+      this.createToonRenderer()
 
     this.handleResize = this.handleResize.bind(this)
 
@@ -85,9 +90,9 @@ export default class Scene3D extends Scene {
     this.camera.updateProjectionMatrix()
   }
 
-  async createToonRenderer(defaultThickness = 0.0025) {
+  async createToonRenderer(options = {}) {
     const { OutlineEffect } = await import('three/examples/jsm/effects/OutlineEffect.js')
-    this.renderer = new OutlineEffect(this.renderer, { defaultThickness })
+    this.renderer = new OutlineEffect(this.renderer, { defaultThickness: 0.0025, ...options })
   }
 
   /** A body has no mesh: only its model is put in the 3D scene. */

@@ -55,6 +55,8 @@ Kod [Renaulta FT](../core3d/actor/derived/RenaultTracks.js) tekstura obe gusenic
 
 ### 2D scenografija i pali borci
 
+- Vojnici u stanju `dead` mogu se koristiti kao scenografija mrtvih tela, odnosno palih boraca (vlasnik, 2026-11-28): njihov završni kadar pada već je nacrtan i usklađen sa živim vojnikom, pa nije potreban poseban crtež.
+- Isto važi za vozila: njihovo stanje olupine može se koristiti kao scenografija uništenih vozila (vlasnik, 2026-11-28).
 - Pali borac ima opuštenu vilicu i šake. Pad treba da se vidi po osloncu tela i asimetričnom položaju udova, a blato i prigušeni tragovi krvi na odeći daju kontekst bojišta. Izbegavati pozu sna i prenaglašen grč lica.
 - Pre izvoza proveriti gde su lice, grudi i leđa i ispratiti svaki vidljivi ud od ramena do šake ili od kuka do čizme. Ako je ud iza tela, nacrtati samo deo koji se zaista vidi. Pregledati uvećan crtež zbog anatomije i isti kadar u veličini igre zbog čitljivosti. Zadržati mali izbor poza jasnih silueta. [Pali borci u katalogu](../pages/catalog.html#scenografija/partisan-fallen-prone).
 - Kada igra koristi odvojene slike, uskladiti im pogled, paletu i svetlo pri zajedničkom prikazu. Na Visu se providne ivice ostrva i baze proveravaju preko istog mora. Pre zamene resursa proveriti šta igra računa iz dimenzija slike i oslonca. U Franji Kluzu širina zgrade određuje početak piste, a na Visu osa nacrtane piste mora pratiti putanju sletanja. [Pista u Franji Kluzu](../scenes/franjo-kluz/Airfield.js) i [sletanje na Vis](../scenes/vis/Baza.js).

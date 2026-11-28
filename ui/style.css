@@ -15,18 +15,36 @@
 }
 
 :root {
-  --spacing: 8px;
+  --spacing: 8px; /* between the things side by side in a box */
+  --padding: 12px; /* inside a window, and from a button's edge to its label */
   --edge: 16px; /* from the screen edge to the controls along it */
+  --border-width: 2px; /* the frames of windows and the edges of buttons */
+  /* how wide a window over the game may be: never wider than the phone, with the usual margin from its edges */
+  --window-max-width: min(480px, calc(100vw - var(--edge) * 2));
+  --window-min-width: min(320px, calc(100vw - var(--edge) * 2));
+  /* a button big enough for a thumb, smaller on a narrow phone so the arrows and two buttons fit side by side */
+  --touch-size: clamp(48px, 15vw, 60px);
   --z-top: 9; /* touch controls and the menu ribbon, above everything */
   --z-screen: 1; /* central screens, above the game */
-  --radius: 4px;
+  --radius: 4px; /* the corners of every rounded box of the UI (owner, 2026-11-28) */
   --white: #FFFFFF;
   --black: #1B1B1B;
   --charcoal: #222;
-  --gray: #ECEBE4;
   --red: #D94A38;
   --olive: #848C58;
   --sand: #f2e6d8;
+  /* the olive frame of the WW2 style */
+  --khaki: #8a7750;
+  /* behind the text of a window over the game, and of the coin pocket */
+  --screen-fill: rgba(0, 0, 0, 0.8);
+  /* a button under the pointer */
+  --hover-fill: rgb(255 255 255 / 14%);
+  /* the buttons on the screen of a touch device, and those that look like them: see-through, pressed darker, a white
+     edge with a black line round it */
+  --touch-fill: rgba(126, 126, 126, 0.25);
+  --touch-pressed: rgba(0, 0, 0, 0.5);
+  --touch-border: var(--border-width) solid var(--white);
+  --touch-outline: var(--border-width) solid var(--black);
 }
 
 /* BREAKPOINTS:
@@ -122,15 +140,17 @@ img {
 
 /* BUTTONS */
 
-button, .pointer {
-  cursor: url("/assets/images/rpgui/cursor/point.png") 10 0, auto;
+/* the same pixel hand over everything that can be clicked, on the home page as in the games (owner, 2026-11-28) */
+button, a[href], label, select, summary, input[type="image"], input[type="radio"], input[type="checkbox"],
+input[type="range"], .arcade-cabinet {
+  cursor: url("/assets/images/rpgui/cursor/point.png") 10 0, pointer;
 }
 
 button {
   background-color: transparent;
   border-radius: var(--radius);
   border: none;
-  padding: 12px 16px;
+  padding: var(--padding) var(--edge);
   transition: background-color 0.45s;
   text-transform: uppercase;
 }
@@ -153,11 +173,6 @@ button {
   background-repeat: no-repeat;
 }
 
-.default-button:hover,
-.default-button:focus-visible {
-  background-color: var(--red);
-}
-
 /*
  * Keyboard focus uses the colors of the games.
  */
@@ -166,21 +181,13 @@ button {
   outline-offset: 2px;
 }
 
-.default-button:focus-visible {
-  outline: none;
-}
-
 .white-button:focus-visible {
-  outline: 1px solid white;
-}
-
-.no-hover:hover {
-  background-color: unset;
+  outline: 1px solid var(--white);
 }
 
 .white-button:not(:disabled):hover {
-  background-color: rgb(255 255 255 / 14%);
-  outline: 1px solid white;
+  background-color: var(--hover-fill);
+  outline: 1px solid var(--white);
 }
 
 /* HOMEPAGE */
@@ -220,9 +227,8 @@ button {
   transform: translate(-50%, -50%);
   z-index: var(--z-screen);
   text-align: center;
-  /* never wider than the phone, with the usual margin from its edges */
-  max-width: min(540px, calc(100vw - var(--edge) * 2));
-  min-width: min(320px, calc(100vw - var(--edge) * 2));
+  max-width: var(--window-max-width);
+  min-width: var(--window-min-width);
   /* a window taller than the screen scrolls instead of losing its top and bottom off screen */
   max-height: calc(100dvh - var(--edge) * 2);
   overflow-y: auto;
@@ -238,44 +244,37 @@ button {
   border: 0;
 }
 
-.mode-choice label {
-  cursor: pointer;
-}
-
-.simple-container, .white-container {
-  display: inline-block; /* za UI book */
-  padding: 12px;
-  border: 2px solid transparent;
-  border-radius: var(--radius);
-}
-
-.simple-container {
-  background-color: rgba(0, 0, 0, 0.8);
-  border-image-repeat: repeat;
-  border-image-slice: 3 3 3 3;
-  border-image-source: url(/assets/images/rpgui/border-image-grey.png);
-  border-image-width: 1;
-  color: #8D9573;
+/*
+ * The frame of each style's windows (owner, 2026-11-28): WW2 has an olive edge (an ammunition belt before), White a
+ * black one with a white line inside. Outside the windows, as the home page's cabinets and the coin pocket, it is the
+ * WW2 frame whatever style is picked.
+ */
+:root,
+.central-screen.ww2-container {
+  --frame: var(--border-width) solid var(--khaki);
+  --frame-line: none;
 }
 
 .white-container {
-  background-color: rgba(0, 0, 0, 0.7);
-  border-color: var(--black);
-  outline: 1px solid var(--white);
-  outline-offset: -1px;
+  --frame: var(--border-width) solid var(--black);
+  --frame-line: 1px solid var(--white);
 }
 
-.central-screen.ww2-container {
-  --frame-outset: 16px;
-  border-image: url('/assets/images/ui/ww2-ammo-frame.png') 18 / calc(2px + var(--frame-outset)) / var(--frame-outset) round;
-  outline: none;
+.white-container {
+  display: inline-block; /* za UI book */
+  padding: var(--padding);
+  border: var(--frame);
+  border-radius: var(--radius);
+  background-color: var(--screen-fill);
+  outline: var(--frame-line);
+  outline-offset: -1px;
 }
 
 .flex-column {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: var(--spacing);
 }
 
 .game-screen-select {
@@ -286,7 +285,7 @@ button {
   input[type="image"] {
     min-width: 140px;
     height: 110px;
-    border: 3px solid black;
+    border: 3px solid var(--black);
   }
 }
 
@@ -315,7 +314,7 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: var(--spacing);
     width: min-content;
     text-align: center;
   }
@@ -342,15 +341,14 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(126, 126, 126, 0.25);
-  border: 2px solid white;
-  outline: 2px solid black;
-  border-radius: 8px;
+  background: var(--touch-fill);
+  border: var(--touch-border);
+  outline: var(--touch-outline);
+  border-radius: var(--radius);
   -webkit-tap-highlight-color: transparent;
   z-index: var(--z-top);
 }
 
-/* the two bars of pause, drawn rather than a font's glyph, which no font centres in its box */
 .pause-button .icon-art {
   width: 85%;
   height: 85%;
@@ -449,10 +447,6 @@ progress[data-cannon-meter="power"] {
   color: var(--red);
 }
 
-.bg-red {
-  background-color: var(--red);
-}
-
 .olive {
   color: var(--olive);
 }
@@ -469,10 +463,6 @@ progress[data-cannon-meter="power"] {
 
 .full {
   width: 100%;
-}
-
-.centar {
-  text-align: center;
 }
 
 .align-right {
@@ -526,18 +516,18 @@ progress[data-cannon-meter="power"] {
 
   /* a game's own button in its HUD, as grenades in Otpisani, looks on a touch screen as the touch buttons do */
   .hud-button {
-    min-width: 48px;
-    min-height: 48px;
-    padding: 0 12px;
-    background: rgba(126, 126, 126, 0.25);
-    border: 2px solid var(--white);
-    outline: 2px solid var(--black);
+    min-width: var(--touch-size);
+    min-height: var(--touch-size);
+    padding: 0 var(--padding);
+    background: var(--touch-fill);
+    border: var(--touch-border);
+    outline: var(--touch-outline);
     border-radius: 24px;
     -webkit-tap-highlight-color: transparent;
   }
 
   .hud-button[aria-pressed="true"] {
-    background: rgba(0, 0, 0, 0.5);
+    background: var(--touch-pressed);
   }
 }
 
@@ -547,7 +537,7 @@ button.paid {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: var(--spacing);
   max-width: 100%;
   white-space: nowrap;
 }
@@ -599,4 +589,3 @@ button.paid {
 }
 
 .paid.bg-olive:disabled { background-color: #555d43; }
-.default-button:disabled:hover { background-color: transparent; }

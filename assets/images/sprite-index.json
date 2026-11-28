@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "measuredAt": "2026-11-28T10:46:07.326978+00:00",
-  "baseRevision": "e80c19a3879c843520dbbdf2cf9730f70dc92718",
+  "measuredAt": "2026-11-28T11:57:12.654819+00:00",
+  "baseRevision": "e97023d4f4efff3a85998bb2b2c134e9b8120863",
   "scope": "Art linked by docs/ART.md, including shared variants; not all unused library art or a runtime/visual acceptance test.",
   "interpretation": "imageFrames counts file-container frames. A PNG atlas normally has one; named sprite clips require metadata and a runtime mapping. hashes detect exact input changes, not art quality.",
   "images": [
@@ -1001,7 +1001,7 @@
     },
     {
       "path": "docs/ART.md",
-      "sha256": "eef4d4d9b51bfb417228f94604bb679f8755728683c3b4af0a52d8a7d2061d8c"
+      "sha256": "a9f812d2c94f1cae3f0f8bcc677b89781418951d7b8114955ccca5467b69a4a1"
     },
     {
       "path": "docs/ISTORIJA.md",
@@ -1013,11 +1013,11 @@
     },
     {
       "path": "docs/KONTEKST.md",
-      "sha256": "c2ae608bd4dccd80820bf55ee2a8b6b7347d7f867c8799b374fdb2960a94c855"
+      "sha256": "1d12b1b688961552113ec4b48b08d26aa6aa822c72d519fa2032f989b95fcbb9"
     },
     {
       "path": "docs/PLAN.md",
-      "sha256": "34967b55db0d50cb28d5cc8000d7b9ea2403375664d1493eb80f651382cf7428"
+      "sha256": "07ac1b12d19d99e9e345a8caa3be7254ecf58458aa3ce5126fa949f828eff41e"
     },
     {
       "path": "docs/references/ww2-yu/crveni-krst/README.md",
@@ -1029,11 +1029,11 @@
     },
     {
       "path": "docs/TESTING.md",
-      "sha256": "3fc041c310c1720da005b46ff161c0c61fa523d163fc50c9e6c3b1dac7c763b7"
+      "sha256": "4fc69993c8ee08122c3c07d664fdd6cc9f23d9a6abfa239141605e1e3d7c8f2a"
     },
     {
       "path": "index.html",
-      "sha256": "b5ebc8ebbf023ce8ab35b7bd912e6e273d00f7e47187d5ef143332e57836f6d4"
+      "sha256": "fbdfd131df79d5d0aa7a27edec50d78ee45a4ee3400ce8ff90028662c98b2f68"
     },
     {
       "path": "pages/catalog.html",

@@ -1,6 +1,6 @@
 # Testing
 
-Postupci, dokazni izvori i granice provera. Preostali posao je u [PLAN-u](PLAN.md); pripremljen test i raniji prolaz ne dokazuju prolaz sadašnje radne verzije. Izvršavanje prati dozvole iz [DOCS](DOCS.md).
+Postupci, dokazni izvori i granice provera. Testovi ne smeju trošiti memoriju (vlasnik, 2026-11-28): ne crtaju cele slike nivoa niti prave velika platna, nego proveravaju ponašanje. Preostali posao je u [PLAN-u](PLAN.md); pripremljen test i raniji prolaz ne dokazuju prolaz sadašnje radne verzije. Izvršavanje prati dozvole iz [DOCS](DOCS.md).
 
 ## Komande
 
@@ -236,6 +236,8 @@ Vlasnik je izabrao pregled izgleda kroz igranje, bez obavezne serije screenshot-
 Provere strukture i izvora ne potvrđuju osećaj leta, zvuk i svaku misiju. Koristiti postojeći pregled animacija za obuhvaćene priče i ciljano proveriti promenjene [misije](../tests/unit/franjoKluz.test.js), bez oslanjanja na ranije brojeve prolaza.
 
 ## Ustanak verification limits
+
+Završna dorada Ustanka proverena je offline na Grahovu, Vilusima i okolini Nikšića, u istom kadru pre i posle i sa probnim kraterima. Test proverava da se statična pozadina priprema jednom po rundi, dok se efekti i vetar ažuriraju svaki kadar. Zemlja i izloženi zidovi kratera crtaju se iz istog pomoćnog platna. Prikaz i FPS u igri ostaju za proveru u pregledaču.
 
 [Test nivoa](../tests/unit/ustanak.test.js) proverava pravila; ugao cevi, stvarno nišanjenje, vetar, rupe u tlu, fokus i oslonci zahtevaju odgovarajući prikaz/runtime dokaz. Vlasnikovo prihvatanje terena nije automatsko prihvatanje kasnijeg miksa ili arta.
 

@@ -62,6 +62,62 @@ test('only the active artillery side may fire and the turn changes once after se
   assert.equal(turns.settle(false), false)
 })
 
+test('the round composes the still backdrop once and keeps drawing the live wind effects', t => {
+  const scene = createScene(t)
+  const { battlefield } = scene
+  let preparations = 0
+  const frames = []
+  battlefield.picture.getContext = () => ({ createLinearGradient: () => ({ addColorStop() {} }), fillRect() {} })
+  battlefield.ctx = { save() {}, restore() {}, drawImage() {} }
+  battlefield.ground.render = () => {}
+  for (const place of battlefield.places) {
+    for (const image of place.scenery.images.values())
+      Object.defineProperties(image, { complete: { value: true }, naturalWidth: { value: 1 } })
+    place.renderPicture = () => {
+      preparations++
+      return true
+    }
+    place.renderEffects = (time, wind) => frames.push({ place, time, wind })
+  }
+
+  battlefield.startRound()
+  battlefield.render()
+  battlefield.update(.5)
+  battlefield.render()
+  assert.equal(preparations, 1)
+  assert.equal(frames[1].time - frames[0].time, .5)
+  assert.ok(Number.isFinite(frames[1].wind))
+  battlefield.startRound()
+  battlefield.render()
+  assert.equal(preparations, 2)
+  assert.notEqual(frames[2].place, frames[1].place)
+})
+
+test('opening the start screen previews the same place until a round actually starts', t => {
+  const order = ['Grahovo, 1941', 'Vilusi, 1941', 'Nikšić area, 1941']
+  const title = new Scene()
+  title.init()
+  title.clear = () => {}
+  t.after(() => title.end())
+  const { place } = title.battlefield.place
+  const index = order.indexOf(place.label)
+  assert.ok(index >= 0)
+  const reopened = new Scene()
+  reopened.init()
+  reopened.clear = () => {}
+  t.after(() => reopened.end())
+  assert.equal(reopened.battlefield.place.place, place)
+
+  t.mock.method(reopened.gameLoop, 'start', () => {})
+  reopened.start()
+  assert.equal(reopened.battlefield.place.place, place)
+  const next = new Scene()
+  next.init()
+  next.clear = () => {}
+  t.after(() => next.end())
+  assert.equal(next.battlefield.place.place.label, order[(index + 1) % order.length])
+})
+
 test('the house starts intact without smoke and shells pass through it without a collision', async t => {
   const scene = createScene(t)
   loadAtlas(scene.bunker, 428, 286)

@@ -32,6 +32,7 @@ Vlasnikovi nazivi i ono što znače u kodu. Ovde idu samo pojmovi koji se stvarn
 | Naziv | U kodu | Gde |
 |---|---|---|
 | Jablanica, Battle for Jablanica | Postojeća scena `cannon`; javna adresa je `#jablanica` | [Kontekst igre](KONTEKST.md#battle-for-jablanica) |
+| Krupanj, Battle for Krupanj | Postojeća scena `bunker`; javna adresa je `#krupanj` (vlasnik, 2026-11-28) | [Kontekst igre](KONTEKST.md#bunker) |
 | Atom, gradivni blok | Samostalan deo od kog sastavljamo igre i svetove; nije naziv posebne klase | [Gradivni blokovi](ARHITEKTURA.md#gradivni-blokovi) |
 | Akter, lik | Vojnik, vozilo, avion ili drugi učesnik: telo sa prikazom i dodeljenim upravljačem | [Gradivni blokovi](ARHITEKTURA.md#gradivni-blokovi) |
 | Telo, prikaz, upravljač | [Body](../core/gameplay/bodies/Body.js) drži stanje i pravila; sprite/model ga prikazuje; kontroler iz `core/gameplay/controllers/` zadaje radnje | [ARHITEKTURA](ARHITEKTURA.md#gradivni-blokovi) |

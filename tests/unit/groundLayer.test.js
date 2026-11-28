@@ -14,6 +14,7 @@ test('the ground layer cuts the same crater floors that Terrain digs', t => {
     globalCompositeOperation: 'source-over',
     clearRect() {},
     createPattern: () => ({ setTransform() {} }),
+    createLinearGradient: () => ({ addColorStop() {} }),
     fillRect(x, y, width, height) {
       fills.push({ operation: this.globalCompositeOperation, x, y, width, height })
     },
@@ -42,6 +43,7 @@ test('the ground layer stands its earth, grass on top, up from a hill', t => {
   const recorder = {
     globalCompositeOperation: 'source-over', clearRect() {}, fillRect() {},
     createPattern: () => ({ setTransform() {} }),
+    createLinearGradient: () => ({ addColorStop() {} }),
     drawImage(image, sx, sy, sw, sh, x, y) {
       draws.push({ x, y })
     },

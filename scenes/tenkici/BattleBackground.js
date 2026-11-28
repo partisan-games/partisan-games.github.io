@@ -223,8 +223,8 @@ export default class BattleBackground {
   }
 
   /** Draws `picture` with its ground strip on the ground line: the part above stretched to it, the rest below it. */
-  drawOnGround(picture, width, height) {
-    const { ctx, canvas, groundY } = this
+  drawOnGround(picture, width, height, ctx = this.ctx) {
+    const { canvas, groundY } = this
     const horizon = height * this.place.ground
     ctx.drawImage(picture, 0, 0, width, horizon, 0, 0, canvas.width, groundY)
     ctx.drawImage(picture, 0, horizon, width, height - horizon, 0, groundY, canvas.width, canvas.height - groundY)
@@ -317,15 +317,19 @@ export default class BattleBackground {
     }
   }
 
-  render(t = this.vreme, windSpeed) {
-    const { ctx, image, efekti } = this
-    if (!image.complete || !image.naturalWidth) return
+  renderPicture(t, ctx = this.ctx) {
+    if (!this.image.complete || !this.image.naturalWidth) return false
     const picture = this.picture(t)
-    if (!picture) return
+    if (!picture) return false
     ctx.save()
     ctx.filter = this.pictureFilter
-    this.drawOnGround(picture, picture.naturalWidth ?? picture.width, picture.naturalHeight ?? picture.height)
+    this.drawOnGround(picture, picture.naturalWidth ?? picture.width, picture.naturalHeight ?? picture.height, ctx)
     ctx.restore()
+    return true
+  }
+
+  renderEffects(t, windSpeed) {
+    const { ctx, efekti } = this
     this.crtez.clearRect(0, 0, this.efekti.width, this.efekti.height)
     for (const profil of this.place.stuboviDima) this.gustiDim(t, profil, windSpeed)
     this.dim(t, windSpeed)
@@ -334,5 +338,9 @@ export default class BattleBackground {
     ctx.imageSmoothingEnabled = false
     this.drawOnGround(efekti, efekti.width, efekti.height)
     ctx.restore()
+  }
+
+  render(t = this.vreme, windSpeed) {
+    if (this.renderPicture(t)) this.renderEffects(t, windSpeed)
   }
 }

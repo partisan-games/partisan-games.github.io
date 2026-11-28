@@ -13,6 +13,7 @@ import SkirmisherSprite from '/core/actor/soldiers/SkirmisherSprite.js'
 import FlagBearerSprite from '/core/actor/soldiers/FlagBearerSprite.js'
 import { healthBar } from '/ui/components.js'
 import { mainMenuButton } from '/ui/UI.js'
+import { currentStyleClasses } from '/ui/styles.js'
 import { keyboard } from '/core/io/Keyboard.js'
 import { keys, leftPlayerKeys, rightPlayerKeys } from '/core/io/keys.js'
 import Controls from '/ui/Controls.js'
@@ -168,7 +169,6 @@ export default class UstanakScene extends Scene2D {
   }
 
   setRoundScenery() {
-    this.battlefield.nextRound()
     this.remove(this.bunker)
     if (this.round === 1) this.add(this.bunker)
     else this.bunker.flame?.clear()
@@ -196,6 +196,7 @@ export default class UstanakScene extends Scene2D {
   }
 
   start() {
+    this.battlefield.startRound()
     super.start()
     this.turns.waitForRelease = keyboard.isDown(leftPlayerKeys.shoot)
     // the report has told where the match begins, so the opening message is only the turn and how to play
@@ -345,7 +346,7 @@ export default class UstanakScene extends Scene2D {
 
   showRoundResult() {
     this.ui.showScreen('round', /* html */`
-      <div class="central-screen flex-column simple-container">
+      <div class="central-screen flex-column ${currentStyleClasses().container}">
         <h3>Round ${this.round}: ${this.sideName(this.roundWinner)} ${this.vsComputer && this.roundWinner === 0 ? 'win' : 'wins'}!</h3>
         <p>${this.score.join(' : ')}</p>
         ${mainMenuButton('bg-olive')}
@@ -364,6 +365,7 @@ export default class UstanakScene extends Scene2D {
     this.wind.nextRound()
     this.terrain.reset()
     this.setUpRound()
+    this.battlefield.startRound()
     this.setRoundScenery()
     this.roundWinner = null
     this.turns = new Turns()
@@ -381,7 +383,7 @@ export default class UstanakScene extends Scene2D {
   end() {
     super.end()
     this.controls2UI?.end()
-    this.battlefield?.ground.dispose()
+    this.battlefield?.dispose()
   }
 
   sceneUI() {
