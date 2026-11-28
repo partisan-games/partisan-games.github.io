@@ -2,6 +2,7 @@
 
 python -B scripts/prepare-kraljevo-models.py sandbags <original.glb> <output.glb> <burlap.png>
 python -B scripts/prepare-kraljevo-models.py tracks <original.glb> <output.glb>
+python -B scripts/prepare-kraljevo-models.py gun <original.glb> <output.glb>
 """
 import argparse
 import io
@@ -203,9 +204,97 @@ def tracks(gltf, chunks):
         material['pbrMetallicRoughness']['baseColorTexture'] = {'index': link}
 
 
+def gun_assemblies(positions, faces):
+    """Use connected islands, including vertices duplicated along texture seams."""
+    parents, owners = list(range(len(faces))), {}
+
+    def root(face):
+        while face != parents[face]:
+            face = parents[face]
+        return face
+
+    for face, triangle in enumerate(faces):
+        for index in triangle:
+            key = tuple(round(float(value), 5) for value in positions[index])
+            parents[root(face)] = root(owners.setdefault(key, face))
+    components = {}
+    for face in range(len(faces)):
+        components.setdefault(root(face), []).append(face)
+    gun_faces = np.zeros(len(faces), dtype=bool)
+    for indices in components.values():
+        points = positions[faces[indices].reshape(-1)]
+        low, high = points.min(axis=0), points.max(axis=0)
+        if low[2] > .50 and low[0] > -.32 and high[0] < .02:
+            gun_faces[indices] = True
+    return gun_faces
+
+
+def write_accessor(gltf, chunks, index, array):
+    accessor = gltf['accessors'][index]
+    accessor.update(count=len(array), min=array.min(axis=0).reshape(-1).tolist(),
+                    max=array.max(axis=0).reshape(-1).tolist())
+    chunks[accessor['bufferView']] = array.tobytes()
+
+
+def gun(gltf, chunks):
+    nodes, meshes = gltf['nodes'], gltf['meshes']
+    turret = next(node for node in nodes if node['name'] == 'turret')
+    if any(node['name'] == 'gun' for node in nodes):
+        raise ValueError('The Hotchkiss already has a separate gun.')
+    primitive = meshes[turret['mesh']]['primitives'][0]
+    attrs = primitive['attributes']
+    keys = ('POSITION', 'NORMAL', 'TEXCOORD_0')
+    position, normals, uv = (values(gltf, chunks, attrs[key]) for key in keys)
+    faces = values(gltf, chunks, primitive['indices']).reshape(-1, 3)
+    movable = gun_assemblies(position, faces)
+    if int(movable.sum()) != 164:
+        raise ValueError('The Hotchkiss mantlet and barrel no longer match the source mesh.')
+
+    # Positions are in turret-local metres. Positive local X rotation lowers the +Z barrel.
+    pivot = np.array([-.155, .367, .55], dtype='<f4')
+    muzzle = np.array([-.155, .367, 1.3664], dtype='<f4')
+    movable_indices, local_faces = np.unique(faces[movable], return_inverse=True)
+    movable_arrays = [position[movable_indices] - pivot, normals[movable_indices], uv[movable_indices],
+                      local_faces.reshape(-1).astype('<u2')]
+
+    # A recessed face behind the mantlet. Its UVs continue the adjoining front armor.
+    closure = np.array([[-.305, .187, .518], [.004, .187, .518],
+                        [.004, .518, .497], [-.305, .518, .497]], dtype='<f4')
+    normal = normalized(np.cross(closure[1] - closure[0], closure[2] - closure[0]))
+    closure_uv = np.array([.429, .952], dtype='<f4') + (closure[:, :2] - [-.305, .19]) * .102
+    stationary_indices, fixed_faces = np.unique(faces[~movable], return_inverse=True)
+    n = len(stationary_indices)
+    stationary_arrays = [
+        np.concatenate((position[stationary_indices], closure)),
+        np.concatenate((normals[stationary_indices], np.tile(normal, (4, 1)))),
+        np.concatenate((uv[stationary_indices], closure_uv.astype('<f4'))),
+        np.concatenate((fixed_faces.reshape(-1), [n, n + 1, n + 2, n, n + 2, n + 3])).astype('<u2'),
+    ]
+
+    indices = [*(attrs[key] for key in keys), primitive['indices']]
+    gun_accessors = []
+    for index, fixed, moving in zip(indices, stationary_arrays, movable_arrays, strict=True):
+        old = gltf['accessors'][index]
+        view = gltf['bufferViews'][old['bufferView']]
+        gun_accessors.append(len(gltf['accessors']))
+        gltf['accessors'].append({'bufferView': len(chunks), 'componentType': old['componentType'], 'type': old['type']})
+        gltf['bufferViews'].append({'buffer': 0, 'target': view['target']})
+        chunks.append(b'')
+        write_accessor(gltf, chunks, index, fixed)
+        write_accessor(gltf, chunks, gun_accessors[-1], moving)
+
+    turret.setdefault('children', []).append(len(nodes))
+    nodes.append({'name': 'gun', 'mesh': len(meshes), 'translation': pivot.tolist(), 'children': [len(nodes) + 1]})
+    nodes.append({'name': 'muzzle', 'translation': (muzzle - pivot).tolist()})
+    meshes.append({'name': 'Hotchkiss gun and mantlet', 'primitives': [
+        {'attributes': dict(zip(keys, gun_accessors[:3], strict=True)), 'indices': gun_accessors[3],
+         'material': primitive['material']},
+    ]})
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('part', choices=('sandbags', 'tracks'))
+    parser.add_argument('part', choices=('sandbags', 'tracks', 'gun'))
     parser.add_argument('input', type=Path)
     parser.add_argument('output', type=Path)
     parser.add_argument('swatch', nargs='?', type=Path)
@@ -213,6 +302,8 @@ if __name__ == '__main__':
     gltf, chunks = load(args.input)
     if args.part == 'sandbags':
         sandbags(gltf, chunks, args.swatch)
-    else:
+    elif args.part == 'tracks':
         tracks(gltf, chunks)
+    else:
+        gun(gltf, chunks)
     save(args.output, gltf, chunks)

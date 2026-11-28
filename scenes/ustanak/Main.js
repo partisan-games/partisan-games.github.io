@@ -55,9 +55,9 @@ const pxPerMeter = 40
 const places = { gun: 3.75, crew: [3.15, 3.45], bearer: { partisan: 1, italian: 2 }, skirmisher: 5.5 }
 /**
  * The two sides duel with mortars only (owner, 2026-11-27), over a hill `height` metres high and a `width` share of
- * the screen wide in the middle of the field.
+ * the screen wide in the middle of the field: a low broad mound (owner, 2026-11-28).
  */
-const hill = { height: 2.5, width: .3 }
+const hill = { height: 1.8, width: .42 }
 
 /** The history before the match; the messages in play keep to the turns and how to play. */
 

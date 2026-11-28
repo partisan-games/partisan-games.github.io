@@ -14,19 +14,23 @@ const from = new THREE.Vector3(), way = new THREE.Vector3()
 
 /**
  * A gun at `x`, `z` firing at `target`, which has `x`, `y`, `z`, `alive`, `takeHit` and the `mesh` the shell may strike;
- * the meshes of `world` stand in the way. `clock` is the game clock. Views read `yaw`, `shotsFired`, `blasts`, `lastBlast`
- * and `dead`.
+ * the meshes of `world` stand in the way; its own `mesh` is the solid that stands for it, which a shell may strike.
+ * `clock` is the game clock. It holds fire, fires at its target, or lies
+ * destroyed. The catalog can also select the cold wreck directly. Views read shot, hit and blast counters.
  */
 export default class EnemyGun {
-  constructor({ x, z, target, world, clock, random = Math.random }) {
-    Object.assign(this, { x, z, target, world, random })
+  constructor({ x, z, target, world, clock, mesh = null, firstShot = enemyGun.firstShot, canFire = () => true, random = Math.random }) {
+    Object.assign(this, { x, z, target, world, mesh, canFire, random })
     this.y = enemyGun.height
     this.yaw = 0
     this.health = new Health({ maximum: enemyGun.health })
+    this.states = ['idle', 'attack', 'dead', 'wreck']
+    this.order = 'attack'
     this.reload = new Cooldown({ seconds: enemyGun.interval, clock })
-    this.reload.start(enemyGun.firstShot)
+    this.reload.start(firstShot)
     this.raycaster = new THREE.Raycaster()
     this.shotsFired = 0
+    this.hitsTaken = 0
     this.blasts = 0
     this.lastBlast = new THREE.Vector3()
   }
@@ -39,18 +43,55 @@ export default class EnemyGun {
     return !this.alive
   }
 
+  get state() {
+    if (this.dead) return this.order === 'wreck' ? 'wreck' : 'dead'
+    return this.order
+  }
+
+  /** Holds fire, fires, or is destroyed at once; a destroyed gun stays so. */
+  setState(name) {
+    if (!this.states.includes(name)) return
+    if (name === 'dead' || name === 'wreck') {
+      this.health.damage(this.health.current)
+      this.order = name
+    } else if (this.alive) this.order = name
+  }
+
   takeHit(damage) {
-    return this.health.damage(damage)
+    const before = this.health.current
+    const killed = this.health.damage(damage)
+    if (this.health.current < before) this.hitsTaken++
+    return killed
+  }
+
+  /**
+   * Run into by the rigid `body` of a tank, it is crushed: its solid gives way, so the tank rolls on over its wreck
+   * (owner, 2026-11-28). It needs a `world` that reports contacts, the physics world of a game.
+   */
+  crushedBy(body) {
+    const { contacts } = this.world
+    const crusher = contacts.pointerOf(body)
+    const watch = () => contacts.once(this.mesh.userData.body, (point, other) => {
+      if (other === crusher) this.crushed = true
+      else watch()
+    })
+    watch()
   }
 
   /** It turns to its target, and fires as soon as it has reloaded while the target is in reach. */
   update() {
+    // the solid goes between the steps of the physics, which reports the contact during one
+    if (this.crushed) {
+      this.crushed = false
+      this.world.remove(this.mesh)
+      this.setState('dead')
+    }
     const { target } = this
-    if (this.dead || !target.alive) return
+    if (this.state !== 'attack' || !target.alive) return
     const distance = Math.hypot(target.x - this.x, target.z - this.z)
     if (distance > enemyGun.reach) return
     this.yaw = Math.atan2(target.x - this.x, target.z - this.z)
-    if (this.reload.ready) this.fire(distance)
+    if (this.reload.ready && this.canFire()) this.fire(distance)
   }
 
   /** A shell at the target: it bursts on whatever stands in its way, or by the target, which it hits if near enough. */

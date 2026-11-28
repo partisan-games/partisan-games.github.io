@@ -13,5 +13,5 @@ export const models = [meshModel]
 /** How it looks and fights, for a character made of a body and its model: its 37 mm gun fires as the tank's shot. */
 export const description = { model: meshModel, animDict: {}, partMotion: tankCondition(hotchkissTracks),
   deathPose: 'armor', attackSound: 'cannon-shot.mp3', attackProfile: 'cannon',
-  flame: { kinds: ['attack'], fromBlow: true, muzzle: [.139, 1.663, -1.43], duration: .12 },
+  flame: { kinds: ['attack'], fromBlow: true, muzzleNode: 'muzzle', duration: .12 },
   body: { speed: 2, health: 1000, reach: 40, strikeHeight: .796, strikeAhead: 1.43, actions: { attack: .8 } } }

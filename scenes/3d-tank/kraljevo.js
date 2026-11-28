@@ -7,7 +7,7 @@ import Tree, { trees } from '/core3d/actor/nature/Tree.js'
 import TownHouse, { modelOf as townHouseModel } from '/core3d/actor/buildings/TownHouse.js'
 import FacadeHouse, { facades as facadeKinds } from '/core3d/actor/buildings/FacadeHouse.js'
 import SandbagWall, { models as sandbagsModels } from '/core3d/actor/buildings/SandbagWall.js'
-import { models as cannonModels } from '/core3d/actor/derived/Cannon.js'
+import { models as cannonModels, hitModel, wreckModel } from '/core3d/actor/derived/Cannon.js'
 import Barricade, { models as barricadeModels } from '/core3d/actor/buildings/Barricade.js'
 import WireFence, { models as wireModels } from '/core3d/actor/buildings/WireFence.js'
 import ConcreteBlock, { concreteMaterial, wallCourses } from '/core3d/actor/buildings/ConcreteBlock.js'
@@ -25,8 +25,8 @@ export const kraljevo = {
   trench: { z: 58, half: 38, gap: 4.5 },
   nests: [{ x: -16, z: 62 }, { x: 18, z: 62 }],
   bunker: { x: -30, z: 72 },
-  // the German guns, one behind the trench and one before the square, which fire at the tank (owner, 2026-11-28)
-  guns: [{ x: 8, z: 76 }, { x: -8, z: 200 }],
+  // the two German guns behind the trench, either side of the road, which fire at the tank (owner, 2026-11-28)
+  guns: [{ x: 8, z: 76 }, { x: -8, z: 76 }],
   // what the tank takes before it is destroyed: a shell of a gun takes `enemyGun.damage`
   armor: { health: 500 },
   school: { x: 31, z: 96 },
@@ -71,7 +71,7 @@ const courtKind = 'building'
 
 /** What to load before the scene is built. */
 export const models = [...sandbagsModels, ...wireModels, townHouseModel(schoolKind), townHouseModel(courtKind),
-  ...cannonModels, ...monumentModels,
+  ...cannonModels, hitModel, wreckModel, ...monumentModels,
   trees.linden.model, ...barricadeModels, ...churchModels]
 
 const facades = Object.keys(facadeKinds)
@@ -85,7 +85,7 @@ const cobbles = 0x8c8a84
 
 /**
  * Builds the way in on `physics`; solid things are fixed, the sandbags of the barricades loose, for the tank to push.
- * Gives the drawn guns, one for each of `kraljevo.guns`, for the scene to turn.
+ * Gives the drawn guns, one for each of `kraljevo.guns`, each with its unseen wreck, for the scene to turn and wreck.
  */
 export async function buildKraljevo(physics) {
   const { scene } = physics
@@ -103,6 +103,7 @@ export async function buildKraljevo(physics) {
       visual.rotation.y = turn
       scene.add(visual)
     }
+    return body
   }
 
   const flat = (geometry, color, x, z) => {
@@ -154,11 +155,18 @@ export async function buildKraljevo(physics) {
   const pillbox = await loadModel({ file: 'building/bunker.fbx', size: 3, texture: 'terrain/concrete.jpg' })
   solid(pillbox, new THREE.Box3().setFromObject(pillbox).getSize(new THREE.Vector3()), bunker)
 
-  // each gun looks down the road at what comes, turning to it once in reach
+  // Each gun turns to its target. Its damaged and destroyed models wait at the same anchor.
   const gunVisuals = guns.map(at => {
     const visual = loadedModel(cannonModels[0]).clone(true)
-    solid(visual, { x: 1.6, y: 1.3, z: 4 }, at)
-    return visual
+    const body = solid(visual, { x: 1.6, y: 1.3, z: 4 }, at)
+    const damaged = loadedModel(hitModel).clone(true)
+    const wreck = loadedModel(wreckModel).clone(true)
+    for (const mesh of [damaged, wreck]) {
+      mesh.position.copy(visual.position)
+      mesh.visible = false
+      scene.add(mesh)
+    }
+    return { visual, damaged, wreck, body }
   })
 
   // the farming school by the road, its long side along it and its near side `school.x` from the road's middle

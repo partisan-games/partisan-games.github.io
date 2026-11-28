@@ -56,5 +56,5 @@ test('the ground layer stands its earth, grass on top, up from a hill', t => {
   assert.ok(raised > 80)
   assert.equal(draws.length, raised, 'a column for each 2 px of its slopes and top')
   const top = draws.find(draw => draw.x === 400)
-  assert.equal(top.y, 400 - 7, 'the grass stands 7 px over the hill, as over the ground')
+  assert.equal(top.y, terrain.surface[400] - 7, 'the grass stands 7 px over the hill, as over the ground')
 })

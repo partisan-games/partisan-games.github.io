@@ -186,18 +186,24 @@ export default class Character extends Body {
     return { kind, time: 0, length: this.actions[kind] ?? character.swing, landed: !lands }
   }
 
-  /** What it can be asked to do once: its kinds of attack and its jump, the ones it has a length for. */
+  /**
+   * What it can be asked to do once: its kinds of attack and its jump, the ones it has a length for, and to crouch or
+   * get up, if it can crouch (has `crouched`).
+   */
   get acts() {
     const names = Object.keys(this.actions).filter(name => name !== 'pain')
     if (this.aimable) names.unshift('aim')
     if (this.jumping === 'fly' && !names.includes('jump')) names.push('jump')
+    if ('crouched' in this) names.push('crouch')
     return names
   }
 
   /** One of its `acts` by name, as a story's button asks for it. */
   act(name) {
     if (name === 'aim' && this.aimable && this.alive) this.aiming = !this.aiming
-    else if (name === 'jump') this.jump(this.maxLift)
+    else if (name === 'crouch') {
+      if (this.alive && 'crouched' in this) this.crouched = !this.crouched
+    } else if (name === 'jump') this.jump(this.maxLift)
     else this.attack(name)
   }
 

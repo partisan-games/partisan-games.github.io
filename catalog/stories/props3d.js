@@ -10,6 +10,7 @@ import Sandbags, * as sandbagsModule from '/core3d/actor/buildings/Sandbags.js'
 import Barricade, * as barricadeModule from '/core3d/actor/buildings/Barricade.js'
 import WireFence, * as wireModule from '/core3d/actor/buildings/WireFence.js'
 import ConcreteBlock, * as concreteModule from '/core3d/actor/buildings/ConcreteBlock.js'
+import SandbagWall, * as sandbagWallModule from '/core3d/actor/buildings/SandbagWall.js'
 import TownHouse, * as townHouseModule from '/core3d/actor/buildings/TownHouse.js'
 import WarDebris, { hasTruckWreck, TruckDebris } from '/core3d/actor/buildings/WarDebris.js'
 import * as warDebrisModule from '/core3d/actor/buildings/WarDebris.js'
@@ -86,6 +87,17 @@ const wireFence = {
   create: async stage => {
     await requestModels(wireModule.models)
     const block = new WireFence()
+    stage.add(block)
+    return block
+  },
+}
+
+const sandbagWall = {
+  id: 'zid-od-dzakova-rov', name: 'Zid od džakova rova i gnezda', game: 'Siege of Kraljevo', block: sandbagWallModule,
+  stage: Stage3D, catalogGroup: ['Scenografija', 'Zakloni'],
+  create: async stage => {
+    await requestModels(sandbagWallModule.models)
+    const block = new SandbagWall()
     stage.add(block)
     return block
   },
@@ -187,4 +199,4 @@ const trains = [
   },
 }))
 
-export const props = [...camp, church, milutin, sandbags, barricade, wireFence, concreteWall, facadeHouse, ...town, ...debris, ...trees, ...ruins, ...trains]
+export const props = [...camp, church, milutin, sandbags, barricade, wireFence, sandbagWall, concreteWall, facadeHouse, ...town, ...debris, ...trees, ...ruins, ...trains]

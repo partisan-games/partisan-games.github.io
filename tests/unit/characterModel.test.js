@@ -80,6 +80,27 @@ test('a character model stands on its body\'s feet, faces its way and plays the 
   assert.equal(model.clip, 'death')
 })
 
+test('a character with a crouch clip crouches on its button when it stands, and walks upright', async() => {
+  createPageElements()
+  const { default: Character } = await import('/core/gameplay/bodies/characters/Character.js')
+  const { default: CharacterModel } = await import('/core3d/actor/characters/CharacterModel.js')
+  const { mesh, animDict } = figure()
+  mesh.userData.animations.push(new THREE.AnimationClip('Crouching', 2, []))
+  const body = new Character({ actions: {} })
+  assert.ok(!body.acts.includes('crouch'), 'one that cannot crouch has no such button')
+  body.crouched = false
+  const model = new CharacterModel(body, { mesh, animDict: { ...animDict, crouch: 'Crouching' } })
+  body.act('crouch')
+  model.update(1 / 30)
+  assert.equal(model.clip, 'crouch')
+  body.steer({ ahead: 1 })
+  body.update(1 / 30)
+  model.update(1 / 30)
+  assert.equal(model.clip, 'walk')
+  body.act('crouch')
+  assert.equal(body.crouched, false, 'the button gets it up again')
+})
+
 test('with no run clip of its own, a character runs its walk faster, and plays it back to front going back', async() => {
   createPageElements()
   const { default: Character } = await import('/core/gameplay/bodies/characters/Character.js')

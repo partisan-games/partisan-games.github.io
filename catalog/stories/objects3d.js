@@ -1,3 +1,4 @@
+import { Group } from 'three'
 import Stage3D from '../Stage3D.js'
 import Dummy from '../Dummy.js'
 import { playerControls } from '../playerControls.js'
@@ -25,9 +26,12 @@ import { modelSize } from '/core3d/actor/characters/CharacterModel.js'
 import makeCharacter from '/core3d/actor/characters/makeCharacter.js'
 import * as cannonModule from '/core3d/actor/derived/Cannon.js'
 import * as mortarModule from '/core3d/actor/artillery/MortarCrew.js'
-import Crew, { models as crewModels } from '/core3d/actor/artillery/Crew.js'
+import Crew, { models as crewModels, stations } from '/core3d/actor/artillery/Crew.js'
+import { description as germanRifleman } from '/core3d/actor/derived/ww2/GermanSoldier.js'
 import GunHit from '/core3d/actor/artillery/GunHit.js'
 import FieldGunDamage from '/core3d/actor/artillery/FieldGunDamage.js'
+import EnemyGun, * as enemyGunModule from '/core3d/actor/artillery/EnemyGun.js'
+import EnemyGunModel from '/core3d/actor/artillery/EnemyGunModel.js'
 
 /** Seconds the loaded field gun waits before it recoils. */
 const firingPause = 1
@@ -144,9 +148,48 @@ export const aircraft = [
     stage: Stage3D, create: fighter(spitfireModule) },
 ]
 
+const germanCrewman = { ...germanRifleman.model, animDict: { death: 'Crouch Death' } }
+
+/** The crew demonstrates the drill in the catalog. The gun's target stays outside the preview. */
+const germanGun = async stage => {
+  await requestModels([...cannonModule.models, cannonModule.hitModel, cannonModule.wreckModel, germanCrewman], { parallelAnimations: true })
+  const visual = loadedModel(cannonModule.models[0]).clone(true)
+  const damaged = loadedModel(cannonModule.hitModel).clone(true)
+  const wreck = loadedModel(cannonModule.wreckModel).clone(true)
+  const crewFrame = new Group()
+  const mesh = new Group().add(visual, damaged, wreck, crewFrame)
+  stage.scene.add(mesh)
+  const crew = new Crew(crewFrame, { elevation: visual.getObjectByName('Elevation'),
+    positions: stations.map(station => ({ ...station, model: germanCrewman })), fallModel: germanCrewman })
+  // Place the off-camera target straight ahead of the gun's resting heading.
+  const target = { x: 0, y: 1, z: 30, mesh: null, alive: true, takeHit: () => {} }
+  const gun = new EnemyGun({ x: 0, z: 0, target, world: { rigidBodies: [] }, clock: stage.session.clock, firstShot: 0, mesh,
+    canFire: () => crew.ready })
+  gun.setState('idle')
+  const model = new EnemyGunModel(gun, { visual, damaged, wreck })
+  model.update(0)
+  const drill = { crew, shots: 0, hits: 0, update(dt) {
+    crewFrame.rotation.y = visual.rotation.y
+    crewFrame.visible = gun.state !== 'wreck'
+    if (gun.state === 'dead')
+      for (const member of crew.members)
+        if (member.health.alive) crew.hit(member, member.health.current, crewFrame)
+    if (gun.shotsFired !== this.shots) crew.fired()
+    else if (gun.alive && gun.hitsTaken !== this.hits) crew.brace()
+    this.shots = gun.shotsFired
+    this.hits = gun.hitsTaken
+    crew.update(dt, 0, gun.state === 'attack')
+  } }
+  drill.update(0)
+  stage.add(gun, model, drill)
+  return gun
+}
+
 export const artillery = [
   { id: 'poljski-top-3d', name: 'Poljski top 75 mm sa posadom', game: 'Battle for Jablanica', block: cannonModule, stage: Stage3D,
     create: fieldGun },
+  { id: 'nemacki-top-kraljevo', name: 'Nemački poljski top sa posadom', game: 'Siege of Kraljevo', block: enemyGunModule, stage: Stage3D,
+    create: germanGun },
   { id: 'minobacac-81-3d', name: 'Italijanski minobacač sa posadom', game: 'Battle for Jablanica (proba posade)',
     block: mortarModule, stage: Stage3D, create: async stage => {
       await requestModels(mortarModule.models, { parallelAnimations: true })

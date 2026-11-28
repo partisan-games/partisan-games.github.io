@@ -1,4 +1,4 @@
-import { NearestFilter, NearestMipmapLinearFilter } from 'three'
+import { MathUtils, NearestFilter, NearestMipmapLinearFilter } from 'three'
 import Stage3D from '../Stage3D.js'
 import TwoHandedGrip from '/core3d/actor/characters/TwoHandedGrip.js'
 import dressFighter, { outfitTexture } from '/core3d/actor/characters/dressFighter.js'
@@ -396,7 +396,8 @@ const prisoners = prisonerModule.prisonerLooks.map(({ name, height }, index) => 
       shift: (clip, time) => model.postureShift(clip, time) })
     const attack = body.act.bind(body)
     let swing = false
-    Object.defineProperty(body, 'acts', { value: [...Object.keys(crouchedPoses), 'wounded', ...body.acts] })
+    Object.defineProperty(body, 'acts', { value: [...Object.keys(crouchedPoses), 'wounded',
+      ...body.acts.filter(act => act !== 'crouch')] })
     body.act = act => {
       if (act === 'attack') {
         body.crouched = false
@@ -496,17 +497,36 @@ export const ww2 = [
   },
 ].flat()
 
-function tankStory(id, name, game, module) {
+/** Preview the Hotchkiss barrel above and below its level position. */
+function barrelControls(body, gun) {
+  const positions = { 'Spusti cev': MathUtils.degToRad(6), 'Podigni cev': MathUtils.degToRad(-6) }
+  const act = body.act.bind(body)
+  let target = gun.rotation.x
+  Object.defineProperty(body, 'acts', { value: [...body.acts, ...Object.keys(positions)] })
+  body.act = action => {
+    if (!Object.hasOwn(positions, action)) return act(action)
+    if (body.alive) target = positions[action]
+  }
+  return dt => {
+    if (body.dead) return
+    const step = MathUtils.degToRad(30) * dt
+    gun.rotation.x += MathUtils.clamp(target - gun.rotation.x, -step, step)
+  }
+}
+
+function tankStory(id, name, game, module, { aimBarrel = false } = {}) {
   const story = character(id, name, game, module)
   return {
     ...story, catalogGroup: ['Vozila'],
     async create(stage) {
       await requestModels(module.models)
       const { body, model } = makeCharacter(module.description, { wreckState: true })
+      const turnBarrel = aimBarrel ? barrelControls(body, model.mesh.getObjectByName('gun')) : null
       stage.add(body, model)
       stage.controllers.push({
-        update() {
+        update(dt = 0) {
           body.steer({ ahead: body.state === 'move' ? 1 : 0 })
+          turnBarrel?.(dt)
         },
       })
       return body
@@ -516,5 +536,5 @@ function tankStory(id, name, game, module) {
 
 export const vehicles = [
   tankStory('tenk-3d', 'Renault FT', 'FPS Airport', tankModule),
-  tankStory('hotchkiss-h35-3d', 'Hotchkiss H35', 'Siege of Kraljevo', hotchkissModule),
+  tankStory('hotchkiss-h35-3d', 'Hotchkiss H35', 'Siege of Kraljevo', hotchkissModule, { aimBarrel: true }),
 ]

@@ -5,6 +5,8 @@ const animDict = {
   walk: 'Machine Gun Walk',
   run: 'Rifle Run',
   attack: 'Gunplay',
+  // crouched, as the escorts of a tank between shots (owner, 2026-11-28)
+  crouch: 'Crouching Idle',
   pain: 'Hit Reaction',
   death: 'Dying',
 }

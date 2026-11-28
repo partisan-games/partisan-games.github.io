@@ -30,8 +30,7 @@ To see every background picture in the project, open `/pages/pozadine.html` on t
 See [PLAN](docs/PLAN.md).
 
 - razrađivati postojeće nivoe redom
-- ui - dugmići da pucanje i ostali na ekranu imaju providnu pozadinu pa nekad to deluje loše. mozda da dobiju neko zatamnjenje, ali da i dalje bude razlika na hover
-- kraljevo: tenk je prebrz i loše puca
+- kritički proveri game engine arhitekturu, reusability, DRY i tehnički dug
 
 ## Credits
 

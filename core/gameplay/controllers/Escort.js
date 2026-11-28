@@ -1,21 +1,27 @@
 /**
- * An escort keeps within `keep` metres of its place beside its leader, matching pace as it approaches.
- * Beyond `stray` metres, it catches up before it fires at enemies within `sight` metres it can see, a
- * shot every `pause` seconds at least and at most, aiming within `spread` radians.
+ * An escort keeps within `keep` metres of its place by its leader, matching pace as it approaches. It fights first: an
+ * enemy within `sight` metres it can see stops it wherever it is, and it fires a shot every `pause` seconds at least
+ * and at most, aiming within `spread` radians. When its last enemy is gone it holds `calm` seconds before it goes on,
+ * so it does not run on into fire in the middle of a fight (owner, 2026-11-28).
  */
-export const escort = { keep: 2, stray: 6, sight: 40, pause: [1.5, 3], spread: .03 }
+export const escort = { keep: 2, sight: 40, pause: [1.5, 3], spread: .03, calm: 3 }
 
 /**
- * Goes with `leader` (anything with `x`, `z` and `yaw`) and fights beside it: it stops to shoot at the nearest living
- * one of `enemies`, an array the scene keeps, that `sees(from, to)` finds in view, unless it has strayed from its `place`,
- * `ahead` and `side` (to the right) metres from the leader the way the leader faces, which it keeps to otherwise. The body has `eye`,
- * `face(point)`, `steer({ ahead, running })` and `attack()`; `random` varies its aim and its pauses.
+ * Goes with `leader` (anything with `x`, `z` and `yaw`) and fights beside it, as infantry with a tank: it stops to shoot
+ * at the nearest living one of `enemies`, an array the scene keeps, that `sees(from, to)` finds in view, holds a while
+ * after the fight, and otherwise keeps to its `place`, `ahead` and `side` (to the right) metres from the leader the way
+ * the leader faces; a place behind the leader keeps it in the leader's lee. Hit while it sees no one to fire back at, it
+ * does not wait there to be hit again but goes to its place. The body has `eye`, `hitsTaken`, `face(point)`,
+ * `steer({ ahead, running })` and `attack()`; a body that can crouch, with `crouched`, crouches while it fights and
+ * holds. `random` varies its aim and its pauses.
  */
 export default class Escort {
   constructor(body, { leader, enemies, place = { ahead: 0, side: 0 }, sees = () => true, keep = escort.keep, sight = escort.sight,
     random = Math.random }) {
     Object.assign(this, { body, leader, enemies, place, sees, keep, sight, random })
     this.wait = this.nextPause()
+    this.quiet = Infinity
+    this.hits = body.hitsTaken
   }
 
   nextPause() {
@@ -44,28 +50,31 @@ export default class Escort {
     return nearest
   }
 
-  update(dt) {
+  /** Crouches the body, if it can. */
+  crouch(down) {
+    if ('crouched' in this.body) this.body.crouched = down
+  }
+
+  fight(target) {
     const { body } = this
-    if (body.dead) return
-    this.wait -= dt
-    const { post } = this
+    this.quiet = 0
+    body.steer({ ahead: 0 })
+    this.crouch(true)
+    body.face(target)
+    if (this.wait > 0) return
+    const { eye } = body
+    const dx = target.x - eye.x, dy = target.y - eye.y, dz = target.z - eye.z
+    const off = () => (this.random() * 2 - 1) * escort.spread
+    body.yaw = Math.atan2(-dz, dx) + off()
+    body.pitch = Math.atan2(dy, Math.hypot(dx, dz)) + off()
+    body.attack()
+    this.wait = this.nextPause()
+  }
+
+  follow() {
+    const { body, post } = this
+    this.crouch(false)
     const distance = Math.hypot(post.x - body.x, post.z - body.z)
-    // left behind, it catches up with its leader before it fights
-    this.catchingUp = distance > (this.catchingUp ? Math.min(this.keep * 2, escort.stray) : escort.stray)
-    const target = this.catchingUp ? null : this.target
-    if (target) {
-      body.steer({ ahead: 0 })
-      body.face(target)
-      if (this.wait > 0) return
-      const { eye } = body
-      const dx = target.x - eye.x, dy = target.y - eye.y, dz = target.z - eye.z
-      const off = () => (this.random() * 2 - 1) * escort.spread
-      body.yaw = Math.atan2(-dz, dx) + off()
-      body.pitch = Math.atan2(dy, Math.hypot(dx, dz)) + off()
-      body.attack()
-      this.wait = this.nextPause()
-      return
-    }
     // A fixed walking speed would overtake a slow tank, then switch back to idle every few frames.
     const speed = Math.max(0, (distance - this.keep) * 2)
     if (speed <= (body.moving ? .1 : .25)) return body.steer()
@@ -74,5 +83,22 @@ export default class Escort {
     const pace = body.speed * (running ? body.run : 1)
     body.face(post)
     body.steer({ ahead: Math.min(1, speed / pace), running })
+  }
+
+  update(dt) {
+    const { body } = this
+    if (body.dead) return
+    this.wait -= dt
+    this.quiet += dt
+    const hit = body.hitsTaken !== this.hits
+    this.hits = body.hitsTaken
+    const { target } = this
+    if (target) return this.fight(target)
+    if (hit) this.quiet = Infinity
+    if (this.quiet < escort.calm) {
+      body.steer()
+      return this.crouch(true)
+    }
+    this.follow()
   }
 }

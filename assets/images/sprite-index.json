@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "measuredAt": "2026-11-28T12:10:01.044211+00:00",
-  "baseRevision": "e97023d4f4efff3a85998bb2b2c134e9b8120863",
+  "measuredAt": "2026-11-28T14:13:03.326061+00:00",
+  "baseRevision": "5687b127de0c8e50a32be762e5d4e4ac623e41f3",
   "scope": "Art linked by docs/ART.md, including shared variants; not all unused library art or a runtime/visual acceptance test.",
   "interpretation": "imageFrames counts file-container frames. A PNG atlas normally has one; named sprite clips require metadata and a runtime mapping. hashes detect exact input changes, not art quality.",
   "images": [
@@ -529,7 +529,7 @@
   "reviewInputs": [
     {
       "path": ".agents/skills/game-actor-art-3d/SKILL.md",
-      "sha256": "4fbebd9c48fa1fa325fb5078b2a507a058bd9ea78e012ccd06bdd58bb1ee7794"
+      "sha256": "87ffd129c8a99142b439c01a28115f9129ea5f585d34a1ada74502f15ca5b888"
     },
     {
       "path": ".agents/skills/game-asset-import/SKILL.md",
@@ -885,7 +885,7 @@
     },
     {
       "path": "assets/models/tank/hotchkiss-h35.glb",
-      "sha256": "5bbba1146ba23fa4357cf56a404f82e00ce6eb145cdd374a12219a181190b5f5"
+      "sha256": "5ef84b6fd734414732c4911fa6785364988dbae20d858e1a15b5391c03e95649"
     },
     {
       "path": "assets/models/tank/renault-ft/plates.json",
@@ -1001,7 +1001,7 @@
     },
     {
       "path": "docs/ART.md",
-      "sha256": "6fa0e7ca2e090a78f00066c215cb024916554f7f00476437c156dc20616c1c07"
+      "sha256": "10197ae72a495c5c8cc9e439989425d0fa2dd9e074537264a8e02317f8879b3e"
     },
     {
       "path": "docs/ISTORIJA.md",
@@ -1009,15 +1009,15 @@
     },
     {
       "path": "docs/KATALOG.md",
-      "sha256": "d1c1a1dd68f8059327efb1bb5ea2c0cf05c5f91a7b98337983e8742553da06cc"
+      "sha256": "eca18b253e191c6c3e6d151dab3f4d2e22e68123adcc715201bbe03c44c68a11"
     },
     {
       "path": "docs/KONTEKST.md",
-      "sha256": "1d12b1b688961552113ec4b48b08d26aa6aa822c72d519fa2032f989b95fcbb9"
+      "sha256": "fa66aa937374eeaca8f1693255439222ebd11cb6bda410d9db01f2d468c0848c"
     },
     {
       "path": "docs/PLAN.md",
-      "sha256": "07ac1b12d19d99e9e345a8caa3be7254ecf58458aa3ce5126fa949f828eff41e"
+      "sha256": "308b48bbb79c0c2259b84b7584f5bfcfa2f6b2ead7b99adffc5d4e9a2a7ef79b"
     },
     {
       "path": "docs/references/ww2-yu/crveni-krst/README.md",
@@ -1029,11 +1029,11 @@
     },
     {
       "path": "docs/TESTING.md",
-      "sha256": "edfd1703646082bbdee43c2445ae6ef2dbc2cd37fc6581193540f838ea14aec3"
+      "sha256": "f4715349c6c5b6da88427bce3175f6f45fdd0c6f0b12d9fd52787a0faa96690b"
     },
     {
       "path": "index.html",
-      "sha256": "fbdfd131df79d5d0aa7a27edec50d78ee45a4ee3400ce8ff90028662c98b2f68"
+      "sha256": "981e589314cf03ecb3b3312f3c6861f8fd0984eb57e65a46c3a353ac83ddb151"
     },
     {
       "path": "pages/catalog.html",
@@ -1057,7 +1057,7 @@
     },
     {
       "path": "scenes/drvar/Main.js",
-      "sha256": "64702d53004a97654dd63ce3096a1d59b4478a332aa1dfcd4fd3d595335b9cdd"
+      "sha256": "e19eb8234e16ca02a2ac7111b90e701fd4e5f8a1c74b30fe92984d5324331a3b"
     },
     {
       "path": "scenes/drvar/scenery.js",
@@ -1084,8 +1084,16 @@
       "sha256": "57b595c35c6d2c2a8db3d71d87b703ea7fc2cb71abebb98290f9d6f966ea48a8"
     },
     {
+      "path": "scripts/build-field-gun-wreck.py",
+      "sha256": "2264ae3626f0a893dd6f6972fbb81db362e0f42a9c482b58ee0bc53d225d5adf"
+    },
+    {
       "path": "scripts/index-sprite-art.py",
       "sha256": "bfa9694a05005bd2495584b91b2d8f59ad519b4ee6251029ac502334f0c45fb0"
+    },
+    {
+      "path": "scripts/paint-field-gun-hit.py",
+      "sha256": "54d0338f3bb09c4f05119bc23764dbbeb53b674e34c5ab0cf2398f1cc56ad7c7"
     },
     {
       "path": "scripts/prepare-cetnik-art.py",
@@ -1097,7 +1105,7 @@
     },
     {
       "path": "scripts/prepare-kraljevo-models.py",
-      "sha256": "abc6e5db4d8270fb5b701bbe602ba82d5f3ebc0db33a3bf788d7c56812e1cb96"
+      "sha256": "980f83d2b7bf6d5371baaf5fc69e238dffb38bd67f7e2dc6e994d433f6e90c5b"
     },
     {
       "path": "scripts/shrink-glb-textures.py",
@@ -1106,6 +1114,10 @@
     {
       "path": "scripts/webp-backgrounds.py",
       "sha256": "8886128b0966e936f9f942a68047c612ee23b4bf6513e444f80aab13bd4aa3de"
+    },
+    {
+      "path": "tests/unit/catalogResources.test.js",
+      "sha256": "b78b956066f5579f011b76ae9daf2f0ff8f26ac06bf220dcc93373a691669a49"
     }
   ]
 }

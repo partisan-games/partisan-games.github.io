@@ -15,12 +15,27 @@ export function craterProfile(random = Math.random) {
   return depths
 }
 
-/** How high, in px, a `hill` rises over the column `x`: a smooth mound, in whole steps of a crater column. */
+/** A rise round `at`, `half` wide each way, across the hill from -1 to 1: its slopes long and gentle at the foot. */
+const rise = (across, at, half) => {
+  const u = (across - at) / half
+  return Math.abs(u) >= 1 ? 0 : (1 - u * u) ** 2
+}
+
+/**
+ * The shape of a hill across it, from -1 to 1, its top 1: a broad rise a little left of the middle and a lower
+ * shoulder to the right, with small unevenness on the slopes, so it reads as a natural mound and not a bell
+ * (owner, 2026-11-28); it fades into the level ground at both ends.
+ */
+const hillShape = across => Math.max(0, rise(across, -.12, .85) + .55 * rise(across, .42, .55) +
+  .04 * Math.sin(across * 13 + 1.3) * (1 - across * across))
+const hillTop = Math.max(...Array.from({ length: 201 }, (_, i) => hillShape(i / 100 - 1)))
+
+/** How high, in px, a `hill` rises over the column `x`, in whole steps of a crater column. */
 function hillHeight({ middle, width, height }, x) {
   const column = Math.floor(x / crater.column) * crater.column + crater.column / 2
   const across = (column - middle) / (width / 2)
   if (Math.abs(across) >= 1) return 0
-  return Math.round(height * Math.cos(across * Math.PI / 2) ** 2 / crater.column) * crater.column
+  return Math.round(height * hillShape(across) / hillTop / crater.column) * crater.column
 }
 
 /**

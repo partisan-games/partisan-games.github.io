@@ -1,8 +1,7 @@
 """Run in Blender background mode from the repository root to rebuild the Kraljevo wreck."""
 from collections import defaultdict
-from math import atan2, exp, sin, sqrt
 from pathlib import Path
-from random import Random
+from runpy import run_path
 import sys
 
 import bpy
@@ -61,14 +60,14 @@ def collect_parts(root):
     for obj in root.children_recursive:
         if obj.type != "MESH":
             continue
+        world_normal = obj.matrix_world.to_3x3().inverted().transposed()
         for component in islands(obj.data):
             points = {i: obj.matrix_world @ obj.data.vertices[i].co
                       for face in component for i in face.vertices}
             name = classify(obj, component, list(points.values()))
             for face in component:
                 material = obj.data.materials[face.material_index]
-                base = material.node_tree.nodes.get("Principled BSDF").inputs["Base Color"].default_value
-                parts[name].append((obj.name, tuple(face.vertices), points, base[:3], face.use_smooth))
+                parts[name].append((obj.name, tuple(face.vertices), points, material, face.use_smooth, world_normal @ face.normal))
     return parts
 
 
@@ -85,21 +84,6 @@ def shape_point(name, point, pivot, rotation, offset):
     return pivot + rotation @ local + offset
 
 
-def stain(name, point, base):
-    x, y, z = point
-    soot = exp(-((x - .12) ** 2 * 4 + (y - .20) ** 2 * 2.4 + (z - .72) ** 2))
-    grain = .5 + .25 * sin(x * 31 - y * 27 + z * 36) + .25 * sin(y * 59 + z * 41)
-    severity = .24 + .58 * soot + .15 * grain
-    if name == "barrel":
-        angle = atan2(z - .84, x)
-        burn_band = exp(-((y - .46 - .035 * sin(3 * angle)) / .16) ** 2)
-        severity = max(severity, .42 + .55 * burn_band)
-    if name.endswith("wheel"):
-        severity *= .82
-    ash = (.020, .015, .012)
-    return (*(v + (a - v) * severity for v, a in zip(base, ash)), 1)
-
-
 def finish_material(name):
     material = bpy.data.materials.new(name)
     material.use_nodes = True
@@ -109,53 +93,19 @@ def finish_material(name):
     return material, shader
 
 
-def painted_plate():
-    """A small opaque pixel map with a soot bloom and broken-edged bright shrapnel marks."""
-    rng = Random(7575)
-    size = 128
-    scars = [(rng.randrange(12, 118), rng.randrange(12, 115), rng.choice([2, 3, 4, 6]), rng.choice([-1, 1]))
-             for _ in range(18)]
-    pixels = []
-    for y in range(size):
-        for x in range(size):
-            d = sqrt(((x - 81) / 40) ** 2 + ((y - 58) / 32) ** 2)
-            soot = max(0, min(1, 1.22 - d + .11 * sin(x * .24 + y * .31) + .05 * sin(x + y * .8)))
-            soot = round(soot * 7) / 7
-            gray = .29 - .267 * soot + rng.choice([-.009, 0, 0, 0, .009])
-            rgb = (gray * .90, gray * .87, gray * .69)
-            for sx, sy, length, slope in scars:
-                dx, dy = x - sx, y - sy
-                line = dy - slope * (dx // 2)
-                if abs(dx) <= length and abs(line) < 2:
-                    rgb = (.46, .41, .32) if line == 1 else (.026, .019, .014)
-                    break
-            pixels.extend((*rgb, 1))
-    image = bpy.data.images.new("Plate soot and shrapnel", width=size, height=size, alpha=False)
-    image.pixels.foreach_set(pixels)
-    image.pack()
-    material, shader = finish_material("Scored carriage plate")
-    texture = material.node_tree.nodes.new("ShaderNodeTexImage")
-    texture.image = image
-    texture.interpolation = "Closest"
-    material.node_tree.links.new(texture.outputs["Color"], shader.inputs["Base Color"])
-    return material
-
-
-def make_part(name, entries, parent, material):
+def make_part(name, entries, parent, material, project):
     pivot, offset, angles = FINISHES[name]
     pivot, offset, rotation = Vector(pivot), Vector(offset), Euler(angles).to_matrix()
-    vertices, indices, faces, colors = [], {}, [], []
-    source_points = []
-    for source, face, points, base, smooth in entries:
+    vertices, indices, faces, paint_uv = [], {}, [], []
+    for source, face, points, original, _, normal in entries:
         polygon = []
         for i in face:
             key = (source, i)
             if key not in indices:
                 indices[key] = len(vertices)
                 vertices.append(shape_point(name, points[i], pivot, rotation, offset))
-                source_points.append(points[i])
             polygon.append(indices[key])
-            colors.append(stain(name, points[i], base))
+            paint_uv.append(project(points[i], normal, original))
         faces.append(polygon)
 
     lowest = min(point.z for point in vertices)
@@ -173,21 +123,14 @@ def make_part(name, entries, parent, material):
     obj.parent = parent
     obj.data.materials.append(material)
     for polygon, entry in zip(data.polygons, entries):
-        polygon.use_smooth = entry[-1]
-    if name == "plate":
-        uv = data.uv_layers.new().uv
-        for loop in data.loops:
-            point = source_points[loop.vertex_index]
-            uv[loop.index].vector = ((point.x + .25) * 2, (point.y + .14) / .48)
-    else:
-        layer = data.color_attributes.new(name="Scorched paint", type="BYTE_COLOR", domain="CORNER")
-        for i, color in enumerate(colors):
-            layer.data[i].color = color
-        data.color_attributes.active_color = layer
+        polygon.use_smooth = entry[-2]
+    uv = data.uv_layers.new(name="Impact paint").uv
+    for index, coords in enumerate(paint_uv):
+        uv[index].vector = coords
     return obj
 
 
-def render_preview(folder):
+def render_preview(folder, label="wreck"):
     scene = bpy.context.scene
     scene.world = bpy.data.worlds.new("Overcast")
     scene.world.use_nodes = True
@@ -213,7 +156,7 @@ def render_preview(folder):
     for view, position in [("front", (3.5, 5.5, 2.8)), ("rear", (-4, -4, 2.65))]:
         camera.location = position
         camera.rotation_euler = (Vector((0, -.50, .38)) - camera.location).to_track_quat("-Z", "Y").to_euler()
-        scene.render.filepath = str(folder / f"field-gun-wreck-{view}.png")
+        scene.render.filepath = str(folder / f"field-gun-{label}-{view}.png")
         bpy.ops.render.render(write_still=True)
 
 
@@ -223,16 +166,24 @@ def main():
     root = bpy.data.objects["FieldGun"]
     parts = collect_parts(root)
     assert parts.keys() == FINISHES.keys()
+    materials = sorted({entry[3] for entries in parts.values() for entry in entries}, key=lambda mat: mat.name)
+    rows = {material: row for row, material in enumerate(materials)}
+    paint = run_path(str(Path(__file__).with_name("paint-field-gun-hit.py")))
+    image = paint["make_atlas"](materials, destroyed=True)
+
+    def project(point, normal, material):
+        return paint["surface_uv"](point, normal, rows[material], image)
+
     for obj in root.children_recursive:
         bpy.data.objects.remove(obj, do_unlink=True)
     root.name = "FieldGunWreck"
     painted, shader = finish_material("Charred timber and metal")
-    vertex_colors = painted.node_tree.nodes.new("ShaderNodeVertexColor")
-    vertex_colors.layer_name = "Scorched paint"
-    painted.node_tree.links.new(vertex_colors.outputs["Color"], shader.inputs["Base Color"])
-    plate = painted_plate()
+    texture = painted.node_tree.nodes.new("ShaderNodeTexImage")
+    texture.image = image
+    texture.interpolation = "Closest"
+    painted.node_tree.links.new(texture.outputs["Color"], shader.inputs["Base Color"])
     for name, faces in parts.items():
-        make_part(name, faces, root, plate if name == "plate" else painted)
+        make_part(name, faces, root, painted, project)
     bpy.ops.export_scene.gltf(filepath=str(FOLDER / "field-gun-75-wreck.glb"), export_format="GLB")
     if "--" in sys.argv:
         render_preview(Path(sys.argv[sys.argv.index("--") + 1]))

@@ -6,8 +6,8 @@ import { leaveTracks } from '/core3d/physics/leaveTracks.js'
 import Tank, { models as tankModels } from '/core3d/physics/Tank.js'
 import TankGun from '/core3d/physics/TankGun.js'
 import TankGunModel from '/core3d/physics/TankGunModel.js'
-import EnemyGun from './EnemyGun.js'
-import EnemyGunModel from './EnemyGunModel.js'
+import EnemyGun from '/core3d/actor/artillery/EnemyGun.js'
+import EnemyGunModel from '/core3d/actor/artillery/EnemyGunModel.js'
 import Health from '/core/gameplay/Health.js'
 import { healthBar } from '/ui/components.js'
 import { baseControls } from '/ui/Controls.js'
@@ -34,12 +34,16 @@ import { texts } from '/scenes/texts.js'
 
 const text = texts['3d-tank']
 
+/**
+ * Where the men go by the tank: beside it and no farther ahead than its middle, so it stays nearer the Germans ahead and
+ * draws their fire, as infantry keeps in a tank's lee, and yet within sight of the camera behind it.
+ */
 const formation = [
-  { description: partisan, ahead: 4, side: -4 },
-  { description: partisanLowpoly, ahead: 4, side: 4 },
-  { description: resistanceFighter, ahead: 8, side: -7 },
-  { description: chetnik, ahead: 8, side: 7 },
-  { description: chetnikSubara, ahead: 1.5, side: -3 },
+  { description: partisan, ahead: 0, side: -3 },
+  { description: partisanLowpoly, ahead: 0, side: 3 },
+  { description: resistanceFighter, ahead: 0, side: -5.5 },
+  { description: chetnik, ahead: 0, side: 5.5 },
+  { description: chetnikSubara, ahead: -1, side: -2 },
 ]
 
 const defenders = { machineGun: germanMachineGunner, rifle: germanSoldier, officer: naziOfficer, ss: ssSoldier }
@@ -48,7 +52,7 @@ export default class Tank3DScene extends Scene3D {
   constructor() {
     super({
       toon: 'soft',
-      controlKeys: { ...baseControls, Space: 'fire' },
+      controlKeys: { ...baseControls, Space: 'hold to charge, release to fire' },
       reportText: text.report,
       intro: text.intro,
       canvasBackground: skyGradients.modra,
@@ -90,12 +94,12 @@ export default class Tank3DScene extends Scene3D {
       facesPositiveZ: true, takeHit: damage => this.armor.damage(damage), alive: () => this.armor.alive,
     }), { mesh: this.player.mesh })
     this.guns = kraljevo.guns.map((at, i) => {
-      const gun = new EnemyGun({ ...at, target: armored, world: this.physics, clock: this.session.clock })
+      const gun = new EnemyGun({ ...at, target: armored, world: this.physics, clock: this.session.clock, mesh: gunVisuals[i].body })
+      gun.crushedBy(this.player.body)
       this.add(gun, new EnemyGunModel(gun, gunVisuals[i]))
       return gun
     })
     this.enemies = []
-    // ahead of the tank and to its sides, where the camera behind it sees them
     this.comrades = formation.map(({ description, ...place }) => {
       // they run 6 m/s, as fast as a man can, to keep up with the tank
       const { body, model } = makeCharacter(description,
@@ -124,7 +128,7 @@ export default class Tank3DScene extends Scene3D {
   update(dt, t) {
     super.update(dt)
 
-    if ((this.player.input.left || this.player.input.right) && this.player.speed >= 30)
+    if ((this.player.input.left || this.player.input.right) && this.player.speed >= 20)
       leaveTracks({ body: this.player.body, wheelMeshes: this.player.wheelMeshes,
         ground: this.trackGround(this.player.mesh.position), scene: this.scene })
 

@@ -53,6 +53,10 @@ const folders = {
   // bases of the planes, a plane's look, and its missile, seen in the planes' stories
   // the planes are looks of the Warplane body, seen in its' stories
   'core3d/aircraft/derived': ['Bomber.js', 'FlyingFortress.js', 'Liberator.js', 'Messerschmitt.js', 'Mitchell.js', 'Spitfire.js'],
+  // nothing stands in a level before it stands in the catalog (owner, 2026-11-28): the scenery and cover of the games
+  // the list of models, and the view of a tower, seen in the tower's story
+  'core3d/actor/buildings': ['buildingModels.js', 'BuildingModel.js'],
+  'scenes/3d-tank': ['Main.js', 'kraljevo.js', 'valley.js'],
 }
 
 /** 3D objects that are actors: the towers that fire. */

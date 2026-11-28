@@ -13,6 +13,8 @@ export const animDict = {
   // attack2: 'Fire Rifle Crouch',
   jump: 'Jump Forward',
   // special: 'Toss Grenade',
+  // crouched, as the escorts of a tank between shots (owner, 2026-11-28)
+  crouch: 'Crouching Idle',
   pain: 'Hit Reaction',
   death: 'Dying',
 }

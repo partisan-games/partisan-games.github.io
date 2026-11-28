@@ -65,16 +65,30 @@ Ciljni prikaz svih aktera koristi [standardna stanja](ARHITEKTURA.md#standardna-
 - `states`, `state` i `setState(name)` daju dugmad stanja;
 - svako stanje mora moći da se uključi direktno, dugmetom, mimo toka igre: ono što mu treba postavlja samo pri ulasku (lovac pri ulasku u `extend` sam bira tačku ispred sebe), inače dugme ruši blok;
 - letelica u katalogu leti u mestu, kao bombarderi: priča joj svakog kadra vraća položaj, a nevidljiva meta stoji ispred nje. Avioni imaju ista stanja `move`, `land` i `dead` kao ostali, uz svoja (vlasnik, 2026-11-26);
-- `health` (`current`, `maximum`) i `takeHit(damage)` daju dugme „Pogođen”, koje bloku skida desetinu zdravlja, pa se posle nekoliko klikova vidi oštećenje (dim, sporiji avion, pokvaren tenk), i traku zdravlja na dnu;
-- svaki tenk ima dugme „Pogođen“ i stanje `dead`. Posebno stanje „Komandir pogođen“ kod Panzera III prikazuje pogodak posade dok tenk nastavlja da vozi;
+- `health` (`current`, `maximum`) i `takeHit(damage)` daju dugme „Pogođen”, koje bloku skida desetinu zdravlja, i traku zdravlja na dnu;
+- posebno stanje „Komandir pogođen“ kod Panzera III prikazuje pogodak posade dok tenk nastavlja da vozi;
 - stvarna masa, najveća brzina i naoružanje modela iz `physical` ([zajednički zapis](../core/gameplay/modelStatistics.js)), uz `health.maximum` i `performance.bombs`, ispisuju se na dnu panela, ispod trake zdravlja. Odnosi balansa (`speed`, `firepower`) se ne prikazuju, jer ne govore koliko je model brz ili jak. Panel čita samo telo; vrednost koje nema u izvorima se izostavlja;
 - `shots` (tačka ispred bloka i iznad njega za svako pucanje), `forward` (1 desno, -1 levo) i `aimAt(point)` daju dugmad pucanja: dugme nanišani blok u tačku tog pucanja i stavi ga u `attack`; pucanje sa `automatic`, kao zadnji strelac Poteza, samo nanišani, jer to oružje puca samo, pa ostala oružja bloka ćute.
 
 Blok koji ne može da se napravi samo sa opcijama pozornice još nije nezavisan; prvo se refaktoriše po [pravilima](ARHITEKTURA.md#gradivni-blokovi).
 
+<a id="obavezne-faze-unistenja"></a>
+### Obavezne faze uništenja
+
+Svako uništivo vozilo i oruđe u 2D i 3D katalogu prikazuje sve sledeće faze:
+
+| Prikaz | Šta igrač mora da vidi |
+|---|---|
+| Ispravno stanje | Osnovni crtež ili model sa izvornom bojom, kompletnim delovima i čitljivom siluetom. |
+| **Pogođen** | Već prvi neubitačni pogodak ostavlja vidljivu promenu na crtežu ili modelu, na primer ogoljenu boju, udubljenje ili lokalnu garež. Trag ostaje kad prođu bljesak, trzaj i prašina. |
+| **Uništen** (`dead`) | Kumulativna šteta završnog arta i jasno vidljiv aktivan efekat, na primer malo žarište ili dim primeren akteru. Prikaz ostaje prepoznatljiv kao aktivno uništenje i kad se prvi prasak i dim raziđu. Letelica odigra pad ako ga ima. |
+| **Olupina** (`wreck`) | Direktan prikaz završnog oštećenog arta kao hladnog ostatka, bez vatre, dima, eksplozije ili ponavljanja pada. |
+
+Pre predaje proveri direktan izbor `dead` i **Olupine**, dugme **Pogođen** i **Reset**. Uporedi sva četiri prikaza u istom kadru i pri istoj razmeri. Posebno proveri da trajni trag prvog pogotka ostaje ili je vidljivo pojačan na uništenom artu i da se aktivno i hladno stanje razlikuju posle kratkih efekata. Vizuelnu proveru radi prema [pravilima projekta](DOCS.md). [Likovna gradacija](ART.md#gradacija-unistenja).
+
 ## Provere
 
-Scenografija je složena po vrsti predmeta, ne po igrama, da isti predmet služi u više igara. U 2D su [pali borci i krv](../core/sceneryArt.js) kojima igre pokrivaju bojište, crkva iz Do Trsta i zakloni iz Neretve ([priče](../catalog/stories/scenery.js)); nemaju stanja, pa se samo vide. Scenografija ne ponavlja ono što pripada drugde: olupine su stanje `dead` svojih vozila i oruđa (vlasnik, 2026-11-26). Paket [Crveni krst](../pages/catalog.html#scenografija-3d/sklop) daje sedam originalnih delova ambijenta, raspoređenih u **Zgrade**, **Ograde i kapije** i **Zakloni**, i jedan zajednički sklop u **Sklopovi**, sa probama kapije i reflektora. Isti paket koristi Escape Concentration Camp; kataloški sklop nije njegov raspored niti istorijski tlocrt. [Mere, poreklo i povezivanje](../assets/models/building/crveni-krst/README.md).
+Scenografija je složena po vrsti predmeta, ne po igrama, da isti predmet služi u više igara. U 2D su [pali borci i krv](../core/sceneryArt.js) kojima igre pokrivaju bojište, crkva iz Do Trsta i zakloni iz Neretve ([priče](../catalog/stories/scenery.js)); nemaju stanja, pa se samo vide. Hladna olupina je stanje `wreck` u priči svog vozila ili oruđa. Paket [Crveni krst](../pages/catalog.html#scenografija-3d/sklop) daje sedam originalnih delova ambijenta, raspoređenih u **Zgrade**, **Ograde i kapije** i **Zakloni**, i jedan zajednički sklop u **Sklopovi**, sa probama kapije i reflektora. Isti paket koristi Escape Concentration Camp; kataloški sklop nije njegov raspored niti istorijski tlocrt. [Mere, poreklo i povezivanje](../assets/models/building/crveni-krst/README.md).
 
 3D priče učitavaju FBX telo i lokalne klipove paralelno, uz čekanje svih animacija. [Pozornica](../catalog/Stage3D.js) posle pripreme izgleda grupiše neprozirne trouglove po materijalu preko [zajedničke optimizacije](../core3d/assets/optimizeGeometry.js). Pri promeni pešadijske varijante prvo se vraća sačuvana izvorna geometrija, zatim primenjuje oprema i tek onda optimizuje; sačuvati taj redosled. Detalji modela, kosti i providni redosled ostaju isti. 2D akteri koriste [manje kopije istih slika](ART.md#manje-slike-aktera-bez-promene-arta).
 

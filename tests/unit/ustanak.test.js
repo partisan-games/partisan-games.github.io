@@ -364,11 +364,11 @@ for (const windEnabled of [false, true])
       scene.wind.strength = .3
 
       // left of the hill, on level ground
-      const ball = scene.guns[0].shells.fire({ x: 8, y: .25, z: 0 }, 0, -Math.PI / 2, 2.5)
+      const ball = scene.guns[0].shells.fire({ x: 5, y: .25, z: 0 }, 0, -Math.PI / 2, 2.5)
       ball.update(.1)
       ball.strike(ball.firstHit([]))
       assert.equal(ball.state, 'burst', 'the shot really reached the ground')
-      assert.equal(scene.terrain.heightAt(320) > scene.terrain.floorY, terrainEnabled)
+      assert.equal(scene.terrain.heightAt(200) > scene.terrain.floorY, terrainEnabled)
       // landing stops the ball; its swept path keeps the drift before it
       const drift = ball.path.end.x - ball.path.start.x
       if (windEnabled) assert.ok(drift > 0)
@@ -378,7 +378,7 @@ for (const windEnabled of [false, true])
       scene.nextRound()
       assert.equal(scene.wind.enabled, windEnabled)
       assert.equal(scene.terrain.enabled, terrainEnabled)
-      assert.equal(scene.terrain.heightAt(320), scene.terrain.floorY)
+      assert.equal(scene.terrain.heightAt(200), scene.terrain.floorY)
       assert.deepEqual(scene.score, [1, 0])
       assert.equal(scene.round, 2)
     })
@@ -419,7 +419,9 @@ test('a hill rises between the mortars, which stand on level ground', async t =>
   const { default: canvas2d } = await import('/core/io/canvas2d.js')
   // the field is drawn at 40 px a metre
   const middle = canvas2d.width / 2 / 40
-  assert.ok(Math.abs(scene.groundAt(middle) - 2.5) < .1, 'a hill about 2.5 m high')
+  const heights = Array.from({ length: 41 }, (_, i) => scene.groundAt(middle + (i - 20) * .25))
+  assert.ok(Math.abs(Math.max(...heights) - 1.8) < .1, 'a hill about 1.8 m high')
+  assert.notEqual(heights[10], heights[30], 'its two sides unlike each other, as a natural mound')
   assert.equal(scene.groundAt(scene.guns[0].x), 0, 'the mortars stand on level ground')
 })
 

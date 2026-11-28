@@ -76,7 +76,7 @@ Ambijenti redom, po putu Save Kovačevića 1941: Grahovo, Vilusi, okolina Nikši
 
 **Prihvaćen prikaz Ustanka:** borci, njihove animacije, minobacači i zastave ostaju osnova; prihvatanje prikaza ne dokazuje tehničke provere kasnijih izmena.
 
-**Samo minobacači (vlasnik, 2026-11-27):** top je izbačen iz Ustanka; na početku se bira tempo, podrazumevano potezni. Minobacači su italijanski 81 mm sa posadama: nišan je strm, od 45° do 85°, a mina leti visokim lukom 5–10 s; na sredini njihovog polja je brdo visoko 2,5 m, koje mine raskopavaju kraterima, a poruke govore o minobacaču. Mina koja u letu naiđe na avion eksplodira na njemu i obara ga, bez kratera na zemlji. Tempo je potezni ili real time: u real time igri oba oruđa nišane i pucaju istovremeno, svako ponovo čim mu padne prethodni hitac, a drugi igrač koristi strelice i Enter. Obe strane imaju isto vojnika: ispred svakog minobacača kleči strelac koji puca ka drugoj strani.
+**Samo minobacači (vlasnik, 2026-11-27):** top je izbačen iz Ustanka; na početku se bira tempo, podrazumevano potezni. Minobacači su italijanski 81 mm sa posadama: nišan je strm, od 45° do 85°, a mina leti visokim lukom 5–10 s; na sredini njihovog polja je nizak širok humak, visok 1,8 m, nepravilnog oblika (vlasnik, 2026-11-28), koje mine raskopavaju kraterima, a poruke govore o minobacaču. Mina koja u letu naiđe na avion eksplodira na njemu i obara ga, bez kratera na zemlji. Tempo je potezni ili real time: u real time igri oba oruđa nišane i pucaju istovremeno, svako ponovo čim mu padne prethodni hitac, a drugi igrač koristi strelice i Enter. Obe strane imaju isto vojnika: ispred svakog minobacača kleči strelac koji puca ka drugoj strani.
 
 ## Vis
 
@@ -150,7 +150,11 @@ Nove frontalne likove vlasnik prvo bira u katalogu; do izbora nisu deo sastava n
 
 **Okvir (vlasnik, 2026-11-24):** Igra je opsada Kraljeva u oktobru 1941; na naslovnoj je „1941: Siege of Kraljevo”. Igrač vozi jedan od dva tenka koje su partizani tada zaplenili od Nemaca i ruši nemačke barikade na ulazu u grad.
 
-U igri Hotchkiss H35 prate tri partizana i dva četnika. Raspored osam nemačkih branilaca uključuje dva mitraljeska gnezda, strelca kod bunkera i strelce uz barikade. [Scena](../scenes/3d-tank/Main.js) · [Položaji](../scenes/3d-tank/kraljevo.js)
+Hotchkiss H35 prate tri partizana i dva četnika. Šesnaest nemačkih pešadinaca drži položaje od Ratarske škole preko obe barikade do ulaza na trg. Dva odvojena poljska topa mogu da unište tenk. Dolazak na trg donosi pobedu, a gubitak tenka ili svih saboraca znači poraz. [Igra](../index.html#kraljevo) · [Položaji](../scenes/3d-tank/kraljevo.js) · [Scena](../scenes/3d-tank/Main.js)
+
+**Potisak (vlasnik, 2026-11-28)** je napunjena snaga tenkovskog hica koju pokazuje traka gore desno. Držanje dugmeta povećava domet, a puštanje opaljuje ako je top spreman. Mali bljesak kreće sa vrha cevi, granata ostavlja svetleći trag, a eksplozija i šteta nastaju pri dolasku. [Logika topa](../core3d/physics/TankGun.js) · [Prikaz](../core3d/physics/TankGunModel.js)
+
+**Dolina** ima niske terase uz prohodan drum i brda u daljini. Lipe uz put imaju nejednake razmake i odmak od druma, vrbe rastu u manjim grupama uz obale, a hrastovi u šumarcima na terasama. [Dolina](../scenes/3d-tank/valley.js) · [Drum i lipe](../scenes/3d-tank/kraljevo.js)
 
 **Kontekst i granice:** opsada je trajala od 9. do 31. oktobra 1941, uz zajedničke snage partizana i četnika; Nemci su od 15. do 20. oktobra u odmazdi streljali oko 2.000 stanovnika ([Siege of Kraljevo](https://en.wikipedia.org/wiki/Siege_of_Kraljevo)). U završnom napadu 31. oktobra dejstvovao je vod od dva zaplenjena tenka, što se slavi kao Dan oklopnih jedinica ([Novosti](https://www.novosti.rs/c/drustvo/vesti/931236/cestitka-stefanovica-dan-roda-oklopnih-jedinica-secanje-prvo-dejstvovanje-tenkova-borbama-oslobodjenje-kraljeva)). To su bili tenkovi bivše jugoslovenske vojske koje su Nemci zaplenili u aprilu 1941, po [Kuriru](https://www.kurir.rs/vesti/srbija/3987871/srbi-ga-zaplenili-od-nemaca-a-sada-decenijama-cuva-uzice-ovaj-hockis-je-jedan-od-1200-koliko-ih-je-ukupno-proizvedeno-u-svetu) jedan Hotchkiss i jedan Renault; tačan model Renaulta izvori ne razrešavaju.
 

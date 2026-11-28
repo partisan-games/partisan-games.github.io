@@ -39,10 +39,10 @@
   --screen-fill: rgba(0, 0, 0, 0.8);
   /* a button under the pointer */
   --hover-fill: rgb(255 255 255 / 14%);
-  /* the buttons on the screen of a touch device, and those that look like them: see-through, pressed darker, a white
-     edge with a black line round it */
-  --touch-fill: rgba(126, 126, 126, 0.25);
-  --touch-pressed: rgba(0, 0, 0, 0.5);
+  /* the buttons on the screen of a touch device, and those that look like them: dark and see-through enough to show on
+     any ground, darker under a finger or the pointer (owner, 2026-11-28), a white edge with a black line round it */
+  --touch-fill: rgba(0, 0, 0, 0.45);
+  --touch-pressed: rgba(0, 0, 0, 0.75);
   --touch-border: var(--border-width) solid var(--white);
   --touch-outline: var(--border-width) solid var(--black);
 }
@@ -437,7 +437,9 @@ progress[data-cannon-meter] {
   min-width: 0;
 }
 
-progress[data-cannon-meter="power"] {
+/* a second bar in a corner, as the power under the health */
+progress[data-cannon-meter="power"],
+.top-right[data-row="second"] {
   top: calc(var(--spacing) + 32px);
 }
 

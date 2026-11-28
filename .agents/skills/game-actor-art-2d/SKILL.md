@@ -27,6 +27,7 @@ Za generisanje ili vizuelnu izmenu rastera koristi raspoloživi alat i pravila z
 
 ## Faze i granice aktera
 
+- Za uništiva vozila i oruđa obavezno poveži i uporedi ispravan crtež, trajno nacrtan **Pogođen**, aktivno uništenje (`dead`) i hladnu **Olupinu** (`wreck`) na istoj razmeri i sidrištu. Tragovi pogotka prenose se i pojačavaju do završnog crteža. Dugmad i razliku posle prolaska kratkih efekata proveri prema [obaveznim fazama u katalogu](../../../docs/KATALOG.md#obavezne-faze-unistenja).
 - Zdravlje nula ne znači nužno gotovu olupinu. Prati stvarni tok aktera: obaranje, pad, dodir, poleganje ili tonjenje i završetak, gde postoje. Izbor slike i skrivanje delova veži za odgovarajuću fazu. Ne dodaj svakom akteru isto novo stanje samo zato što je jednom avionu trebalo `falling`.
 - Proveri ceo završetak: preostalo kretanje, oslonac pri okretanju, poslednju pozu, trajanje krvi/olupine i uklanjanje efekata. Pogrešnu fiziku ne prikrivaj pomeranjem PNG-a; u art zadatku prijavi potreban zahvat van obima umesto da sam menjaš simulaciju.
 - Razdvoji aktera od scenografije koju scena sklapa sa njim. Rov nije deo vojnika, dok njegovo oružje ili propeler vozila mogu biti njegovi delovi. Uklanjanje zaklona ne docrtava noge: jasno navedi kada je postojeći art samo gornji deo tela ili krupan kadar.

@@ -17,6 +17,8 @@ export default function makeCharacter({ model, animDict, twoHandedWeapon, rightH
   const mesh = loadedModel(model)
   const animations = mesh.userData.animations ?? []
   const body = makeCharacterBody(mesh, animDict, settings, options)
+  // one with a crouch clip can crouch
+  if (animations.some(clip => clip.name === animDict.crouch)) body.crouched = false
   const view = new CharacterModel(body, { mesh, animations, animDict, attackSound, attackProfile, flame, raise, deathPose, impactAt, partMotion, ground,
     twoHandedWeapon: twoHandedWeapon && loadedModel(twoHandedWeapon),
     rightHandWeapon: rightHandWeapon && loadedModel(rightHandWeapon) })

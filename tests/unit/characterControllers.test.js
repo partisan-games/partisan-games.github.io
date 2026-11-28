@@ -148,13 +148,28 @@ test('a fighter turns to the nearest living candidate, and to the next when its 
   assert.equal(ai.target, tank, 'a fallen target is replaced at once')
 })
 
-test('an escort left behind runs after its leader before it fights, even with an enemy in sight', () => {
+test('an escort fights before it follows, holds a while after the fight, and a hit it cannot answer sends it on', () => {
   const leader = { x: 0, z: 0, yaw: 0 }
   const enemy = new Character({ x: -10, health: 1000 })
   const body = new Character({ reach: escort.sight, actions: { attack: .2 }, targets: [enemy] })
+  body.crouched = false
   const guard = new Escort(body, { leader, enemies: [enemy], random: () => .5 })
   leader.x = 30
+  play(escort.pause[1] * 2, [guard], [body, enemy])
+  assert.ok(Math.abs(body.x) < .5, `left behind in a fight, it stands its ground: ${body.x}`)
+  assert.ok(enemy.hitsTaken > 0, 'and fires back')
+  assert.equal(body.crouched, true, 'crouched, as it can')
+  enemy.takeHit(1000)
+  play(escort.calm - .5, [guard], [body, enemy])
+  assert.ok(Math.abs(body.x) < .5, 'it holds a while after the fight')
   play(2, [guard], [body, enemy])
-  assert.ok(body.x > 5, `it runs toward its leader: ${body.x}`)
-  assert.equal(enemy.hitsTaken, 0, 'it does not stop to shoot while left behind')
+  assert.ok(body.x > 3, `then it goes after its leader: ${body.x}`)
+  assert.equal(body.crouched, false, 'upright')
+
+  const hitBody = new Character({ actions: { attack: .2 } })
+  const hitGuard = new Escort(hitBody, { leader, enemies: [], random: () => .5 })
+  hitGuard.quiet = 0
+  hitBody.takeHit(1)
+  play(1, [hitGuard], [hitBody])
+  assert.ok(hitBody.x > 1, `hit with no one in sight, it does not wait to be hit again: ${hitBody.x}`)
 })

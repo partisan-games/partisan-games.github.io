@@ -60,10 +60,10 @@ function loadRound(member, elevation, dt) {
 }
 
 export default class Crew {
-  constructor(carriage) {
-    this.elevation = carriage.getObjectByName('Elevation')
-    this.deathClip = loadedModel(regular).userData.animations.find(clip => clip.name === regular.animDict.death)
-    this.members = stations.map(({ x, z, yaw, loader, model }) => {
+  constructor(carriage, { elevation = carriage.getObjectByName('Elevation'), positions = stations, fallModel = regular } = {}) {
+    this.elevation = elevation
+    this.deathClip = loadedModel(fallModel).userData.animations.find(clip => clip.name === fallModel.animDict.death)
+    this.members = positions.map(({ x, z, yaw, loader, model }) => {
       const mesh = new THREE.Group(), figure = clone(loadedModel(model))
       const pose = fitCrewPose(figure, loader)
       mesh.add(figure)
@@ -93,8 +93,12 @@ export default class Crew {
   }
 
   fired() {
-    this.recoil = 1
+    this.brace()
     this.loader.needsRound = true
+  }
+
+  brace() {
+    this.recoil = 1
   }
 
   /** The living member a hit takes: the gunner first, then the loader, so the gun fires until the last falls (owner). */

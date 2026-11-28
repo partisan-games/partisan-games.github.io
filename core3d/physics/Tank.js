@@ -11,7 +11,10 @@ import { audioPoint } from '/core/io/audio/audio3d.js'
 const wheelFront = { x: .75, y: .1, z: 1.25 }
 const wheelBack = { x: .75, y: .1, z: -1.25 }
 
-/** The Hotchkiss H35 of Kraljevo, at its real size, centred on the wheels of the body; it drives forward as built. */
+/**
+ * The Hotchkiss H35 of Kraljevo, at its real size, centred on the wheels of the body; it drives forward as built, at
+ * most 28 km/h, as fast as the real one (owner, 2026-11-28).
+ */
 const model = { ...hotchkissModels[0], shouldCenter: true }
 
 /** What to load; a game awaits requestModels(models) before it creates one. */
@@ -21,7 +24,7 @@ const smokeParam = { size: .5, num: 25, maxRadius: .22, color: 0xffffff, opacity
 
 export default class Tank extends Vehicle {
   constructor(param = {}) {
-    super({ mesh: loadedModel(model).clone(), wheelFront, wheelBack, maxSpeed: 40, maxEngineForce: 1000, ...param })
+    super({ mesh: loadedModel(model).clone(), wheelFront, wheelBack, maxSpeed: 28, maxEngineForce: 1000, ...param })
     const forward = new Vector3()
     this.tracks = hotchkissTrackMotion(this.mesh, () => {
       const { position: { x, z }, quaternion } = this.mesh
@@ -44,6 +47,11 @@ export default class Tank extends Vehicle {
     smoke.mesh.rotateX(-Math.PI * .5)
     this.mesh.add(smoke.mesh)
     return smoke
+  }
+
+  /** The centre of the muzzle ring, which goes down with the gun. */
+  get muzzle() {
+    return this.mesh.getObjectByName('muzzle')?.getWorldPosition(new Vector3())
   }
 
   end() {

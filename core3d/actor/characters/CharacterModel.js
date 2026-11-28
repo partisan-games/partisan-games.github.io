@@ -50,6 +50,7 @@ export default class CharacterModel {
     Object.assign(this, { raise, flameKind: flame, impactAt, deathPose })
     this.bounds = new Box3()
     this.mesh = animations.length ? clone(mesh) : mesh.clone()
+    this.flameMuzzle = flame?.muzzleNode && this.mesh.getObjectByName(flame.muzzleNode)
     this.anim = animations.length
       ? new Animator({ mesh: this.mesh, animations, animDict, twoHandedWeapon, rightHandWeapon }) : null
     this.sounds = []
@@ -107,6 +108,7 @@ export default class CharacterModel {
       if (body.leap > 0 || body.vy > 0) return has('jump') ? 'jump' : this.clip
       return has('fall') ? 'fall' : this.clip
     }
+    if (body.crouched && body.state !== 'move' && has('crouch')) return 'crouch'
     if (body.aiming && has('aimIdle')) {
       if (body.state === 'move') return body.running && has('aimRun') ? 'aimRun' : has('aimWalk') ? 'aimWalk' : 'aimIdle'
       return 'aimIdle'
@@ -255,13 +257,16 @@ export default class CharacterModel {
       && (!duration || swing.time <= swing.length / 2 + duration)
     if (burning && !this.burning) {
       this.mesh.parent?.add(flame.mesh)
-      flame.reset({ pos: this.mesh.position, unitAngle: muzzle || weaponMuzzle ? .12 : .5 })
+      flame.reset({ pos: this.mesh.position, unitAngle: muzzle || weaponMuzzle || this.flameMuzzle ? .12 : .5 })
     }
     if (burning) {
       flame.mesh.position.copy(this.mesh.position)
       flame.mesh.rotation.copy(this.mesh.rotation)
       flame.mesh.rotateX(Math.PI)
-      if (weaponMuzzle) {
+      if (this.flameMuzzle) {
+        this.flameMuzzle.getWorldPosition(flame.mesh.position)
+        this.flameMuzzle.getWorldQuaternion(flame.mesh.quaternion)
+      } else if (weaponMuzzle) {
         const gun = this.anim.twoHandedWeapon
         gun.localToWorld(flame.mesh.position.fromArray(weaponMuzzle))
         gun.getWorldQuaternion(flame.mesh.quaternion)
