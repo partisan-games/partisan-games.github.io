@@ -41,7 +41,7 @@ const defenders = { machineGun: germanMachineGunner, rifle: germanSoldier, offic
 export default class Tank3DScene extends Scene3D {
   constructor() {
     super({
-      toon: true,
+      toon: 'soft',
       controlKeys: { ...baseControls, Space: 'fire' },
       reportText: 'Kraljevo, October 1941\n\nPartisans and Chetniks besiege the German garrison in Kraljevo. Two captured tanks join the final assault.',
       intro: 'Break through the German defence to the town centre. Protect your comrades at all costs.',

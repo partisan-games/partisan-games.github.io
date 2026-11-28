@@ -42,7 +42,7 @@ const shout = { group: 'speech', nearDistance: 4, fadeStart: 20, maxDistance: 32
 export default class FpsBaseScene extends Scene3D {
   constructor() {
     super({
-      toon: true,
+      toon: 'soft',
       usePointerLock: true,
       controlKeys: { ...fpsControls, [keys.crouch.label]: 'hold to sneak', [takeWeapon.label]: 'take weapon' },
       intro: 'Find a way out.',

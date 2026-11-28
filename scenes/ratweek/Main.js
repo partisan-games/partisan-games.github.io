@@ -60,7 +60,6 @@ function createAimMark() {
 export default class WarplaneScene extends Scene3D {
   constructor() {
     super({
-      toon: true,
       controlKeys: { ...baseControls, [attackLabels[inputLayouts.warplane.attackKey]]: 'rockets', [keys.attack2.label]: 'machine guns' },
       customStartScreen,
       reportText: 'Yugoslavia, September 1944\n\nGerman troops from Greece rush north to stop the liberation of Belgrade. Your task is to bomb the railways and bridges in their way.',

@@ -69,6 +69,7 @@ Postupak je vlasnik projekta prihvatio na početnom kadru iz crkvenog dvorišta 
 - Razdvojiti planove svetlom i bojom u samoj sceni. U Drvaru toplo usmereno jutarnje svetlo i senke izdvajaju obližnje zidove, a hladnija izmaglica i postepen prelaz boje neba daju dubinu brdima. Globalna sepija je uklonjena jer je davala isti ton svim planovima i interfejsu. [Osvetljenje i nebo](../scenes/drvar/Main.js).
 - Povezati odvojene modele istom razmerom materijala u metrima. Na dvorišnom zidu i ruševini Drvara kamen se ponavlja na 2,5 m, a ista tekstura se nastavlja preko pročelja, prozorskih parapeta i zabata. Nagoreli delovi dobijaju tamniji ton kamena. [Priprema modela kuće](../scripts/build-drvar-props.py).
 - Posle završne dorade proveriti kadar sa najviše vidljivog terena i ponovljenih objekata tokom igre. Na Ratweeku su smanjena tekstura i grupisano drveće rasteretili prikaz, a čitljivost njiva i puteva proverena je iz ugla kamere u letu. Statičan kadar služi za poređenje izgleda, a učinak na brzinu potvrđuje merenje u igri.
+- Crveni krst i Kraljevo koriste tanje i blaže konture radi čitljivosti figura i vozila. Ratweek se oslanja na svetlo, paletu i izmaglicu za odvajanje prvog plana od daljine. Za poređenje istog kadra parametar `outline` u adresi prima `on`, `soft` ili `off`.
 
 ## Drvar — crkva
 

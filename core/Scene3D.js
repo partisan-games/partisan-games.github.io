@@ -62,10 +62,11 @@ export default class Scene3D extends Scene {
     this.renderer.setPixelRatio(Math.min(2, window.devicePixelRatio)) // save battery by limit pixel ratio to 2
     this.renderer.shadowMap.enabled = true
     // Compare outlines in place without changing the scene's materials or lighting.
-    const outline = new URLSearchParams(window.location.search).get('outline')
+    const preview = new URLSearchParams(window.location.search).get('outline')
+    const outline = ['on', 'soft', 'off'].includes(preview) ? preview : toon
     if (outline === 'soft')
       this.createToonRenderer({ defaultThickness: 0.0015, defaultAlpha: 0.55 })
-    else if (outline === 'on' || (toon && outline !== 'off'))
+    else if (outline === 'on' || outline === true)
       this.createToonRenderer()
 
     this.handleResize = this.handleResize.bind(this)
