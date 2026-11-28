@@ -197,12 +197,12 @@ test('two pointers holding one touch action release independently; keyboard hold
 
 test('touch catalog preserves missing, empty and unknown bindings and their order', t => {
   const omitted = new Touch({ useJoystick: false })
-  const touch = new Touch({ useJoystick: false, buttonDict: { special: '', unknown: 'ignored', attack: icons.magic, jump: '' } })
+  const touch = new Touch({ useJoystick: false, buttonDict: { special: icons.bomb, unknown: 'ignored', attack: icons.shoot, jump: '' } })
   t.after(() => {
     omitted.end(); touch.end()
   })
   assert.equal(omitted.buttonContainer, undefined)
-  assert.deepEqual([...touch.buttonContainer.children].map(button => button.innerText), [icons.special, icons.magic, icons.jump])
+  assert.deepEqual([...touch.buttonContainer.children].map(button => button.innerHTML), [icons.bomb, icons.shoot, icons.jump])
   const modal = document.getElementById('modal')
   modal.innerHTML = '<div>Paused</div>'
   t.after(() => {

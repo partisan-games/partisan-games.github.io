@@ -14,5 +14,5 @@ export const inputLayouts = {
   // a finger on the game turns the view, so on a touch screen the fire button shoots; the mouse needs none
   firstPerson: { useKeyboard: true, attackKey: 'pointer', touchPressesPointer: false,
     ...isTouchScreen && { buttonDict: { attack: icons.shoot } } },
-  fighterBomber: { attackKey: 'Space', buttonDict: { attack: icons.shoot, attack2: icons.loop, special: icons.bomb } },
+  fighterBomber: { attackKey: 'Space', buttonDict: { attack: icons.shoot, special: icons.bomb } },
 }

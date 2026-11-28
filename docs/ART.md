@@ -79,6 +79,8 @@ Postupak je vlasnik projekta prihvatio na početnom kadru iz crkvenog dvorišta 
 <a id="crveni-krst-priprema-3d-ambijenta"></a>
 ## Crveni krst — priprema 3D ambijenta
 
+[Ilija](../pages/catalog.html#drugi-svetski-rat-3d/logoras-ilija), [Petar](../pages/catalog.html#drugi-svetski-rat-3d/logoras-petar) i [Jovan](../pages/catalog.html#drugi-svetski-rat-3d/logoras-jovan) imaju zasebna lica i civilnu odeću na zajedničkom FBX-u. Ilija je niži i širi, u smeđoj vuni, prosede brade. Petar je visok i uži, u tamnoplavoj bluzi, sa tankim brkovima. Jovan nosi svetliju košulju i kapu, sa kestenjastom kosom i obrijanim licem. Razlike u širini i visini koristi ceo akter, uz isti kostur i pokrete. [UV izvori, promptovi i priprema](../assets/images/sources/prisoners-pixel-art/source.json).
+
 [Preuzeti džakovi sa peskom](../assets/models/props/sandbags/README.md) čuvaju dostavljenu teksturu i 2.324 trougla; zid je visok procenjenih 1,1 m. Isti prikaz je u katalogu pod Scenografija → Zakloni , kao dva puna zaklona uz bočne strane dvorišta Crvenog krsta i kao zid preko ulaza u crkveno dvorište u Drvaru. Sredina dvorišta i izlaz ostaju prohodni; raspored nije istorijska rekonstrukcija.
 
 Osnova su [istorijsko istraživanje](ISTORIJA.md#crveni-krst-12-februar-1942), [tri pregledane reference](references/ww2-yu/crveni-krst/README.md) i [dogovor da lavirint ostane kroz smislene prolaze i dvorišta](KONTEKST.md#escape-concentration-camp). Prvi [originalni paket](../assets/models/building/crveni-krst/README.md) ima sedam GLB modela i deljeni atlas, dostupne [u katalogu](../pages/catalog.html#scenografija-3d/sklop) i povezane [u nivou](../index.html#crveni-krst). Sačuvani su generisana studija i dva mala offline prikaza stvarne geometrije, uključujući visinu očiju; prikazi nisu screenshot nivoa niti potvrđen tlocrt. Žica i puni zaklon jasno se razlikuju, jer imaju različita pravila za pogled i metke; arhitektura i paleta ostaju zasnovane na ovom logoru.
@@ -88,8 +90,8 @@ Osnova su [istorijsko istraživanje](ISTORIJA.md#crveni-krst-12-februar-1942), [
 | Glavni objekat | Originalan jednostavan model dugog zidanog magacina, prema referentnoj silueti; fasada sa ponovljivim prozorima i vratima, krov, dimnjaci. Meriti prema postojećem čoveku od 1,78 m; predložene metre beležiti kao procenu, ne istorijsku meru. Ne praviti niz generičkih drvenih baraka. |
 | Ograda i kapija | Pravi i ugaoni modularni segment, završni stub i dvokrilna kapija. Prvi paket koristi jeftinu geometriju niti i bodlji umesto planiranih alpha ravni: praznine ostaju stvarne i za raycast. Proveriti čitljivost i treperenje sa nekoliko metara u stvarnom rendereru; tačke spajanja su dokumentovane uz modele. |
 | Kula i reflektor | Originalan model prema drvenoj silueti reference; svetiljka odvojena radi usmeravanja. Broj i istorijske granice pratiti iz istraživanja; obilazak svetlosnim snopom je predlog efekta, ne potvrđena radnja straže. |
-| Materijali | Zajednička paleta prigušenog maltera, starog drveta, metala i krova. [Atlas](../assets/models/building/crveni-krst/materials.png) je nastao ugrađenim `image_gen`; izvorna slika 1254² zadržana je bez vizuelnih izmena, umesto početnog predloga 1024². Žica ne traži zasebnu teksturu. Tlo za budući nivo još koristi postojeći resurs. |
-| Teren i svetlo | Postojeći sneg je kandidat za ponovnu upotrebu, uz gažene pravce i tamnije podnožje objekata. Bez pejzaža planinskog logora, bujne šume i nasumičnih požara kao glavnog motiva. Neutralno hladna noć i lokalno svetlo; otvoren prostor i izlaz moraju se čitati bez stalnog bleskanja. |
+| Materijali | Zajednička paleta prigušenog maltera, starog drveta, metala i krova. [Atlas](../assets/models/building/crveni-krst/materials.png) je nastao ugrađenim `image_gen`; izvorna slika 1254² zadržana je bez vizuelnih izmena, umesto početnog predloga 1024². Žica deli postojeće materijale. |
+| Teren i svetlo | [Izvorni postupak](../scenes/crveni-krst/campTerrain.js) slika gaženi sneg prema otvorenim prolazima svakog rasporeda. Podnožja magacina i kula i trag oko izlaza izdvajaju postojeće orijentire. Udaljeni krovovi i nizak obod su naslikani u panorami sa bojom usklađenom s maglom. Osvetljenje reflektora prati postojeći sistem opažanja straže. |
 
 Pre izvoza proveriti perspektivu, visinu vrata prema čoveku, zajedničku gustinu detalja, dodir sa tlom i čitljivost žice na snegu. Modeli u metrima, oslonac na Y=0, položaji priključaka dokumentovani; geometrija i materijali se dele među segmentima. Za statične sklopove koristiti GLB bez nepotrebnih kostiju i skrivenih delova. Nove teksture i modele praviti originalno, sa promptom/postupkom, licencom, dimenzijama i hashovima; arhivske slike nisu runtime teksture.
 
@@ -154,6 +156,8 @@ Poljski top Ustanka je zajednički prihvaćen crtež za obe posade. Sličnost sa
 
 
 ### Avioni
+
+[B-17 Flying Fortress](../assets/models/aircraft/boeing-b-17-flying-fortress/README.md) u Ratweeku i katalogu koristi lakšu geometriju i izvorne teksture. Paneli, oznake i razlika između stakla i oplate već se jasno čitaju na postojećem prikazu, pa je zadržan izvorni izgled.
 
 [B-25 Mitchell · Pixel art](../pages/catalog.html#letelice-3d/bombarder-b-25-3d/pixel-art) je podrazumevani izgled u katalogu. Staklo nosa, kabine i kupola je prigušeno, a lim nosi pikselizovane spojeve i tragove habanja uz očuvane oznake. Osam lossless WebP mapa upola je manje po strani od izvornih i ukupno zauzima oko 40 kB, odnosno oko 1,25 MiB dekodirano sa mip nivoima. Ista mreža ima 17.489 trouglova i 36 primitiva u GLB-u. U igri se koristi osnovni izgled. [Poreklo i priprema](../assets/models/aircraft/north-american-b-25-mitchell/art-source/generation.json).
 
@@ -263,6 +267,10 @@ Minobacač za Jablanicu je originalna vizuelna interpretacija italijanskog tipa 
 Za Battle for Jablanica važe [kontekst i izbor scene](KONTEKST.md#battle-for-jablanica); [model topa](../assets/models/weapon/cannon/field-gun-75.glb) i podaci scene određuju postojeći prikaz.
 
 Jablanica koristi [WebP uniforme bez gubitka](../assets/models/character/soldier/partisan-wool-uniform.webp), izveden iz [prihvaćenog PNG-a](../assets/models/character/soldier/partisan-wool-uniform.png) pomoću [pripreme](../scripts/prepare-jablanica-texture.py). Skripta proverava jednakost dekodiranih RGBA piksela; dimenzije ostaju 1254×1254. [Lokalna optimizacija figura](../scenes/cannon/optimizeFigure.js) grupiše neprozirne trouglove po materijalu, bez promene položaja, normala, UV koordinata, boja, kostiju i težina; providni materijali zadržavaju redosled. Izvorni modeli se ne menjaju, a instance u nivou dele pripremljenu geometriju.
+
+## UI ikonice
+
+[UI atlas](../assets/images/ui/pixel-icons.webp) sadrži 19 ikonica u providnim ćelijama od 64 × 64 px. Svaka je nacrtana u punoj rezoluciji, sa glatkim ivicama, podebljanom konturom i jednostavnom siluetom. Prasak označava pucanje svim vrstama oružja, a čučanj koristi obrnuti znak za skok. [Izvor i koordinate](../assets/images/sources/ui-icons/source.json) čuvaju i uzore iz igara o Drugom svetskom ratu, a [crtež](../assets/images/sources/ui-icons/draw.py) ponovljivu pripremu. Zvanični [žeton](../assets/images/ui/coin.gif) koristi se kao zasebna slika. Igre ikonice uzimaju samo preko [icons.js](../core/io/icons.js), koji ih pravi iz koordinata atlasa; atlas sadrži samo ikonice koje neka igra prikazuje (vlasnik, 2026-11-28). Svaka se crta u punoj rezoluciji: uvećan stari crtež vlasnik smatra fušerajem i ne prihvata ga. Posle izmene crteža `draw.py` se pokreće ponovo, a novi atlas dobija novu adresu, pa ga pregledač ne uzima iz keša.
 
 ## Slike aktera kao lossless WebP
 

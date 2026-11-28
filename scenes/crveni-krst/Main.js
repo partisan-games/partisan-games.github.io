@@ -1,10 +1,10 @@
 import Scene3D from '/core/Scene3D.js'
-import { createGround } from '/core3d/ground.js'
 import { sample } from '/core3d/helpers.js'
 import { hemLight } from '/core3d/light.js'
-import { Box3, DirectionalLight, Fog, HemisphereLight, MeshStandardMaterial, PerspectiveCamera, Scene } from 'three'
+import { Box3, DirectionalLight, Fog, HemisphereLight, PerspectiveCamera, Scene } from 'three'
 import campLayout from './campLayout.js'
 import CampEnvironment, { models as campModels } from './CampEnvironment.js'
+import { createCampGround, createCampHorizon, horizonColor } from './campTerrain.js'
 import { description as germanMachineGunner, models as germanMachineGunnerModels } from '/core3d/actor/derived/ww2/GermanMachineGunner.js'
 import { description as ssSoldier, models as ssSoldierModels } from '/core3d/actor/derived/ww2/SSSoldier.js'
 import { description as naziOfficer, models as naziOfficerModels } from '/core3d/actor/derived/ww2/NaziOfficer.js'
@@ -55,20 +55,15 @@ export default class FpsBaseScene extends Scene3D {
     this.sceneAudio.output.preload(halt)
     await requestModels([...germanMachineGunnerModels, ...ssSoldierModels, ...naziOfficerModels, ...germanFlameThrowerModels,
       ...germanSoldierModels, ...firstAidModels, ...campModels, ...escapeModels, prisonerModel], { parallelAnimations: true })
-    this.backgroundColor = 0x202835
-    this.scene.fog = new Fog(0x202835, 55, 125)
+    this.scene.background = createCampHorizon()
+    this.scene.fog = new Fog(horizonColor, 55, 125)
     this.light = hemLight({ intensity: 1.25, skyColor: 0x9cabcf, groundColor: 0x36332e, scene: this.scene })
     const moon = new DirectionalLight(0xb8caf0, 1.1)
     moon.position.set(-25, 45, 20)
     this.scene.add(moon)
-    const ground = createGround({ file: 'terrain/snow.jpg', size: 130, circle: false })
-    const previous = ground.material
-    ground.material = new MeshStandardMaterial({ map: previous.map, color: 0xb7c2d2, roughness: 1 })
-    previous.dispose()
-    this.addMesh(ground)
-
     this.layout = campLayout()
     this.maze = this.layout.maze
+    this.addMesh(createCampGround(this.layout))
     this.camp = new CampEnvironment(this.layout)
     this.add(this.camp)
     const coords = [...this.layout.spawnPoints]

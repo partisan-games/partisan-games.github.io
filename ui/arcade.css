@@ -34,6 +34,12 @@
   height: 32px;
   image-rendering: pixelated;
 }
+/* bigger in the coin slots and the pocket (owner, 2026-11-28), still half of its 96 px */
+.arcade-slot .arcade-coin,
+.arcade-wallet .arcade-coin {
+  width: 48px;
+  height: 48px;
+}
 .arcade-cabinet {
   overflow: hidden;
   text-align: center;
@@ -126,7 +132,7 @@
 @media (max-width: 500px) {
   .homepage { padding-top: 96px; }
   .arcade-wallet { right: 12px; top: 12px; gap: 10px; padding: 10px 12px; }
-  .arcade-wallet .arcade-coin { width: 24px; height: 24px; }
+  .arcade-wallet .arcade-coin { width: 32px; height: 32px; }
   .arcade-eyebrow { font-size: 7px; letter-spacing: 1px; }
   .arcade-balance { font-size: 17px; }
   .arcade-wallet small { font-size: 9px; }

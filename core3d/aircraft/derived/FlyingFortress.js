@@ -3,7 +3,7 @@ import { modelPerformance } from '/core/gameplay/modelPerformance.js'
 
 // the model has its nose along x; turned, it faces ahead, as the game flies it; its height makes its wingspan 0.585 of
 // the real one, as the Lancaster's of Bomber.js
-const body = { file: 'aircraft/boeing-b-17-flying-fortress/model.glb', size: 3.42, angle: Math.PI / 2 }
+const body = { file: 'aircraft/boeing-b-17-flying-fortress/optimized.glb', size: 3.42, angle: Math.PI / 2 }
 
 /**
  * Its propellers: the model has two see-through discs on each engine, which hide; the three blades of the B-24, the

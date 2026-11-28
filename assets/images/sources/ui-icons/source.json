@@ -1,0 +1,97 @@
+{
+  "image": "../../ui/pixel-icons.webp",
+  "sha256": "b251793936cb470df0327e0ea8cd58fcbf2b1a0f78251b07e2d653e360bdece8",
+  "cell": {
+    "width": 64,
+    "height": 64
+  },
+  "atlas": {
+    "width": 384,
+    "height": 256
+  },
+  "origin": "top-left",
+  "source": "Original icons drawn in draw.py for Partisan Games.",
+  "references": {
+    "ww2EquipmentIcons": "https://enlisted.net/en/news/show/326/current/",
+    "distinctCommandIcons": "https://ftp.matrixgames.com/pub/HeadquartersWorldWarII/HQWW2manualEBOOK.pdf",
+    "millsGrenadeShape": "https://collection.awm.gov.au/C985657"
+  },
+  "icons": {
+    "start": {
+      "x": 0,
+      "y": 0
+    },
+    "continue": {
+      "x": 64,
+      "y": 0
+    },
+    "pause": {
+      "x": 128,
+      "y": 0
+    },
+    "menu": {
+      "x": 192,
+      "y": 0
+    },
+    "settings": {
+      "x": 256,
+      "y": 0
+    },
+    "back": {
+      "x": 320,
+      "y": 0
+    },
+    "replay": {
+      "x": 0,
+      "y": 64
+    },
+    "victory": {
+      "x": 64,
+      "y": 64
+    },
+    "defeat": {
+      "x": 128,
+      "y": 64
+    },
+    "up": {
+      "x": 192,
+      "y": 64
+    },
+    "down": {
+      "x": 256,
+      "y": 64
+    },
+    "left": {
+      "x": 320,
+      "y": 64
+    },
+    "right": {
+      "x": 0,
+      "y": 128
+    },
+    "jump": {
+      "x": 64,
+      "y": 128
+    },
+    "sneak": {
+      "x": 128,
+      "y": 128
+    },
+    "shoot": {
+      "x": 192,
+      "y": 128
+    },
+    "bomb": {
+      "x": 256,
+      "y": 128
+    },
+    "rocket": {
+      "x": 320,
+      "y": 128
+    },
+    "take": {
+      "x": 0,
+      "y": 192
+    }
+  }
+}

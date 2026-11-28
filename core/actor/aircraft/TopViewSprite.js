@@ -8,8 +8,7 @@ const groundScale = .75
 /**
  * The view of a plane seen from above, its picture pointing up the view: turned the way the body flies, with its
  * shadow on the sea, smaller and nearer its shadow the lower a landing body flies (`lift`), shrinking as it falls once
- * shot down, and its fire. A subclass sets `scaleX`, `scaleY` and
- * `alpha` for a loop or a blink, and may draw over it in `drawOver(ctx)`.
+ * shot down, and its fire. A subclass may set `alpha` for a blink and draw over it in `drawOver(ctx)`.
  */
 export default class TopViewSprite extends BodySprite {
   constructor(body, src, options) {

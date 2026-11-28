@@ -41,13 +41,14 @@ const css = /* css */`
   }
   .joystick-btn {
     border-radius: 8px;
-    font-size: 2.5rem;
-    font-weight: bold;
     transition: all 0.1s ease;
   }
   .game-btn {
     border-radius: 50%;
-    font-size: 1.75rem;
+  }
+  .joystick-btn .icon-art, .game-btn .icon-art {
+    width: 85%;
+    height: 85%;
   }
   .button-container {
     display: flex;
@@ -67,18 +68,15 @@ const css = /* css */`
 `
 
 const arrowsData = [
-  { icon: '▲', key: 'up', row: 1, col: 2 },
-  { icon: '▼', key: 'down', row: 2, col: 2 },
-  { icon: '◀', key: 'left', row: 2, col: 1 },
-  { icon: '▶', key: 'right', row: 2, col: 3 }
+  { key: 'up', row: 1, col: 2 },
+  { key: 'down', row: 2, col: 2 },
+  { key: 'left', row: 2, col: 1 },
+  { key: 'right', row: 2, col: 3 }
 ]
 
-const buttonsData = {
-  jump: icons.jump,
-  attack: icons.attack,
-  attack2: icons.attack2,
-  special: icons.special,
-}
+/** The game buttons a touch screen can show, in their order; a game names the icon of each, the jump has its own. */
+const buttonKeys = ['jump', 'attack', 'attack2', 'special']
+const defaultIcons = { jump: icons.jump }
 
 export default class Touch {
   constructor({ useJoystick, buttonDict }) {
@@ -125,7 +123,7 @@ export default class Touch {
   addArrow(data) {
     const element = document.createElement('button')
     element.className = 'joystick-btn'
-    element.innerText = data.icon
+    element.innerHTML = icons[data.key]
     Object.assign(element.style, {
       gridRow: data.row,
       gridColumn: data.col,
@@ -143,13 +141,13 @@ export default class Touch {
     this.buttonsResize.observe(this.buttonContainer)
 
     Object.keys(buttonDict)
-      .filter(key => key in buttonsData)
-      .forEach(key => this.addButton(key, buttonDict[key] || buttonsData[key]))
+      .filter(key => buttonKeys.includes(key))
+      .forEach(key => this.addButton(key, buttonDict[key] || defaultIcons[key] || ''))
   }
 
   addButton(key, icon) {
     const element = document.createElement('button')
-    element.innerText = icon
+    element.innerHTML = icon
     element.classList.add('game-btn')
 
     this.addBtnEvents(element, key)

@@ -144,6 +144,10 @@ Datirani pregled animacija iz tabele iznad zamenjuje starije opšte beleške „
 
 ## Crveni krst — priprema i art
 
+Nova podloga je upoređena sa starom iz početka, prolaza, dvorišta i izlaza, a novi kadar i iz čučnja. Offline prikaz koristi stvarne boje tla i neba, a zgrade i ograde prikazuje pojednostavljeno. Od 47 ciljanih testova svi su prošli, uključujući gažene staze između povezanih soba i kontakt s podnožjem magacina. Podloga i dalje ima dva trougla u jednom glavnom crtanju i više nema dodatnu konturu. U glavnom prolazu pojavljuje se jedno crtanje panorame i jednokratna priprema panorame pri učitavanju. Mape od 512² i 512 × 256 zauzimaju oko 1,83 MiB pre interne kopije panorame. U probnom Node pokretanju obe su pripremljene za oko 31 ms. Vreme kadra u igri nije mereno.
+
+Ilija, Petar i Jovan su upoređeni korišćenjem iste poze iz stvarnog FBX-a, pod istim svetlom i iz istog ugla na 3 i 8 m u softverskom prikazu. Na 8 m razlikuju se prvenstveno po visini, širini i odeći, a lica su proverena i u krupnom kadru. Prošlo je 34 ciljanih testova iz `prisonerCatalog` i `campCompanions`. Browser nije pokretan.
+
 [Provere zajedničke potere](../tests/unit/pursuitAI.test.js) pokrivaju odlazak do snimljenog viđenog položaja i pogled po okolini pri 30 i 120 FPS, bez ažuriranja skrivenim kretanjem mete ili pucanja tokom potrage. Poseban slučaj koristi drugu navigaciju na koordinatama van granica logora, bez logorskog upravljača. Stvarna logorska navigacija i fizičko telo proveravaju obilazak žičane prepreke do dometa uspešnog pogotka. Provereni su zadržavanje mete pri maloj promeni udaljenosti, prebacivanje na znatno bližu/novu vidljivu metu, smrt mete, izostanak potrage bez prethodnog opažanja, prekid nedostupne potrage i ponovno uočavanje bez ponavljanja prvog povika. Integraciona provera nivoa očekuje potragu posle gubitka pogleda i povratak borbi pri ponovnom uočavanju. Vizuelno ponašanje potrage u igri još nije provereno; browser nije pokretan.
 
 Provere [borbe saboraca](../tests/unit/campCompanions.test.js) prate [odluku vlasnika](KONTEKST.md#escape-concentration-camp): vidljiv neprijatelj unutar 4 m pokreće juriš, a započeti prilaz traje do 6 m da malo povlačenje mete ne izazove odustajanje. Puškar i plamenobacač pod vatrom dobijaju stvarni udarac tek posle prilaska u domet cevi. Bliska pretnja ima prednost nad udaljenom vatrom, oslobađa rezervisani zaklon, a posle njene smrti ponovo se procenjuje udaljena paljba. Plamenobacač izvan bliske borbe i dalje izaziva traženje zaklona prema stvarnom dometu od 7 m, smeru i vidljivosti; nastavak napada zadržava saborca u zaklonu. Izvan dometa, iza prepreke ili pri napadu u drugom smeru nema lažne uzbune. Ciljane provere su `campCompanions` i `fpsCamp`, uz ESLint izmenjenih fajlova. Zaklon važi ako krije saborca u čučnju, bez obzira na trenutni stav; od takvih bira onaj sa najmanje izloženih deonica prilaza, a bez zaklona ide na najbliže mesto van pogleda ili ostaje dole, nikad nazad ka izloženom vođi. Povik stražara šalje stražare do 20 m da pretraže mesto povika (`raiseAlarm`). Browser nije pokretan.
@@ -186,6 +190,8 @@ Kratke Node reprodukcije potvrđuju sprint igrača 4 m/s naspram 3/3,24/3,48 m/s
 
 ## Optimizacija resursa kataloga
 
+[B-17](../assets/models/aircraft/boeing-b-17-flying-fortress/README.md) je upoređen u tri projekcije iz geometrije oba GLB fajla, uz podudaranje siluete preko 99%. Očitane su geometrija kupola i granice osam diskova elisa. Procena poziva računa dvostrano providno staklo i sakrivene diskove, bez FPS merenja. Prošlo je devet provera iz `bf109Art` i `models`.
+
 Pregledano je 45 različitih baznih putanja modela; 43 FBX/GLB modela su parsirana, a dva spoljašnja glTF-a popisana bez analize geometrije. Pored partizana, još dva modela dobijaju manje grupa: MG-42 68→11, puška 5→2. To su grupe materijala sa jednim implicitnim prolazom za mesh bez grupa, ne izmereni WebGL pozivi; izvorni fajlovi nisu smanjivani. [Test stvarnih modela](../tests/unit/catalogResources.test.js) potvrđuje iste trouglove, njihove materijale i redosled temena, sve atribute i iste skelete.
 
 WebP kao jedini original (2026-11-25): svih 196 PNG slika u game-ready zamenjeno je lossless WebP-om, 49→34 MB. Pre brisanja svakog PNG-a dekodirani RGBA pikseli i dimenzije upoređeni su sa WebP-om i bili su isti. Pregledač nije pokretan.
@@ -219,6 +225,8 @@ U istoj sceni 196 nepomičnih objekata ima zamrznute matrice; [test scene](../te
 
 ## UI verification limits
 
+[Atlas ikonica](../assets/images/ui/pixel-icons.webp) je proveren kao lossless WebP sa 19 jedinstvenih ćelija od 64 × 64 px i prozirnim ivicama. Offline prikaz u prirodnoj veličini koristi svetlu i tamnu podlogu. Provereni su očuvani položaji ćelija, antialiasing novih kontura i obrnuti skok za čučanj. [UI stranica](../pages/ui.html) prikazuje svaku ikonicu iz atlasa u njenoj ćeliji, a [test ikonica](../tests/unit/icons.test.js) proverava da svaka pokazuje svoju ćeliju u bilo kojoj veličini i da novi atlas ima novu adresu.
+
 DOM provere ne potvrđuju native tastaturu, fokus, fizički touch, pointer lock ili vidljivu geometriju. Za vidljivost proveriti stvarnu kontrolu, ne nužno omotač bez dimenzija. Pri izmeni naplate proveriti najduži natpis, sve teme, enabled/disabled/povratak i smanjeno kretanje na stvarnoj veličini dugmeta.
 
 Vlasnik je izabrao pregled izgleda kroz igranje, bez obavezne serije screenshot-ova svake teme i veličine ekrana. Ciljana slika može potkrepiti konkretnu promenu, ali ne zamenjuje stvarnu radnju.
@@ -231,7 +239,7 @@ Provere strukture i izvora ne potvrđuju osećaj leta, zvuk i svaku misiju. Kori
 
 [Test nivoa](../tests/unit/ustanak.test.js) proverava pravila; ugao cevi, stvarno nišanjenje, vetar, rupe u tlu, fokus i oslonci zahtevaju odgovarajući prikaz/runtime dokaz. Vlasnikovo prihvatanje terena nije automatsko prihvatanje kasnijeg miksa ili arta.
 
-[Test kataloga](../tests/unit/catalogStories.test.js) za italijanskog strelca proverava istu razmeru kao kod partizana, prelaz na pucanj i pogodak i zadržavanje završnog kadra pada. Učitavanje novog prikaza u nivou ostaje u [IG-37](PLAN.md#ig-37).
+[Test kataloga](../tests/unit/catalogStories.test.js) za italijanskog strelca proverava istu razmeru kao kod partizana, prelaz na pucanj i pogodak i zadržavanje završnog kadra pada. [Test Ustanka](../tests/unit/ustanak.test.js) proverava da obe strane imaju klečećeg strelca okrenutog ka drugoj, Italijana u njegovoj uniformi.
 
 
 ## Global audio migration verification limits

@@ -28,10 +28,8 @@ import Terrain, { crater } from './Terrain.js'
 import customStartScreen from './startScreen.js'
 import airTarget from './airTarget.js'
 import { randomInRange } from '/core/utils.js'
-import GameObject2D from '/core/actor/GameObject2D.js'
 
 const groundLevel = canvas2d.height * .75
-const italianRiflemanSource = 'armies/talijani/vojnici/vojnik-05.png'
 /** The line the wheels and the feet stand on, in pixels: a little under the far edge of the field. */
 const floorY = groundLevel + 34.875
 /**
@@ -113,7 +111,7 @@ export default class UstanakScene extends Scene2D {
   }
 
   /**
-   * Both sides of a round: each mortar with its crew and flag bearer, and the partisan skirmisher. The mortars fire at
+   * Both sides of a round: each mortar with its crew, flag bearer and skirmisher. The mortars fire at
    * each other, in turns or at once, with the round's wind; their shots dig craters.
    */
   setUpRound() {
@@ -130,22 +128,18 @@ export default class UstanakScene extends Scene2D {
     this.crews = [0, 1].map(side => new CannonCrew({ x: this.placeOf(side, places.crew[side]), yaw: side * Math.PI, groundAt }))
     const bearers = ['partisan', 'italian'].map((kind, side) => new FlagBearer({ kind: bearerKinds[kind],
       x: this.placeOf(side, places.bearer[kind]), yaw: side * Math.PI, groundAt }))
-    this.skirmisher = new Skirmisher({ x: places.skirmisher, groundAt })
-    this.skirmisher.setState('attack')
+    // a kneeling skirmisher on each side, so both are as many (owner, 2026-11-27)
+    this.skirmishers = [0, 1].map(side => new Skirmisher({ x: this.placeOf(side, places.skirmisher), yaw: side * Math.PI,
+      groundAt, canWalk: side === 0 }))
+    this.skirmishers.forEach(skirmisher => skirmisher.setState('attack'))
     this.gunViews = this.guns.map(gun => new MortarSprite(gun, views))
     const guns = [this.guns[1], this.gunViews[1], this.guns[0], this.gunViews[0]]
     const crews = this.crews.flatMap((crew, side) => [crew, new MortarCrewSprite(crew, { italian: side === 1, ...views })])
-    const skirmisher = [this.skirmisher, new SkirmisherSprite(this.skirmisher, views)]
-    // an Italian rifleman across from the skirmisher, so both sides are as many: his old source picture, kneeling and
-    // aiming as the skirmisher does, at its own size and turned to face left, stands in until he is drawn (owner,
-    // 2026-11-27; IG-37)
-    const italian = new GameObject2D(italianRiflemanSource, { x: this.placeOf(1, places.skirmisher) * pxPerMeter,
-      flipY: -1 })
-    italian.onload = () => italian.placeOnGround(floorY)
-    const opposite = [italian]
+    const skirmishers = this.skirmishers.flatMap((skirmisher, side) =>
+      [skirmisher, new SkirmisherSprite(skirmisher, { italian: side === 1, ...views })])
     this.roundObjects = [
       // the loader stands behind the mortar
-      ...crews, ...guns, ...skirmisher, ...opposite,
+      ...crews, ...guns, ...skirmishers,
       ...bearers.flatMap((bearer, side) => [bearer, new FlagBearerSprite(bearer, { italian: side === 1, flagTime, ...views })]),
     ]
     this.add(...this.roundObjects)

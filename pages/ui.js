@@ -1,5 +1,6 @@
 import { icons, iconImages } from '/core/io/icons.js'
 import Touch from '/core/io/Touch.js'
+import { inputLayouts } from '/core/io/inputLayouts.js'
 import { assets } from '/config.js'
 import { styleChoices, styleClasses } from '/ui/styles.js'
 import { defeatOutcome, endScreen, markPaid, messageScreen, pauseButton, pauseScreen, scoreBoard, settingsScreen,
@@ -8,7 +9,7 @@ import Controls, { baseControls } from '/ui/Controls.js'
 import PowerMeter from '/ui/PowerMeter.js'
 import Report from '/ui/Report.js'
 import { healthBar } from '/ui/components.js'
-import { walletContent } from '/ui/Arcade.js'
+import { createWallet, showBalance } from '/ui/Arcade.js'
 import avatarStart from '/scenes/avatar/startScreen.js'
 import warplaneStart from '/scenes/ratweek/startScreen.js'
 import tankStart from '/scenes/tenkici/startScreen.js'
@@ -100,9 +101,9 @@ const section = (title, ...content) => {
   return element
 }
 
-/** The touch arrows and buttons, as a touch screen shows them. */
+/** The touch arrows and buttons, as a touch screen shows them: all the buttons the Vis fighter has, and a jump. */
 function touchControls() {
-  const touch = new Touch({ useJoystick: true, buttonDict: { jump: null, attack: null, attack2: null, special: null } })
+  const touch = new Touch({ useJoystick: true, buttonDict: { jump: null, ...inputLayouts.fighterBomber.buttonDict } })
   touch.buttonsResize.disconnect()
   const element = document.createElement('div')
   element.className = 'preview-touch'
@@ -114,17 +115,10 @@ function iconList() {
   const list = document.createElement('dl')
   list.className = 'preview-icons'
   list.innerHTML = [
-    ...Object.entries(icons).map(([name, icon]) => `<div><dt>${name}</dt><dd class="preview-glyph">${icon}</dd></div>`),
+    ...Object.entries(icons).map(([name, icon]) => `<div><dt>${name}</dt><dd class="preview-icon">${icon}</dd></div>`),
     ...pictures.map(([name, src]) => `<div><dt>${name}</dt><dd><img src="${src}" alt=""></dd></div>`),
   ].join('')
   return list
-}
-
-function wallet() {
-  const element = document.createElement('aside')
-  element.className = 'arcade-wallet'
-  element.innerHTML = walletContent('10 coins every day', 7)
-  return element
 }
 
 /**
@@ -133,15 +127,19 @@ function wallet() {
  */
 export default function renderPreview(root) {
   const windowTable = themeTable(windows)
+  const wallet = createWallet('10 coins every day')
   root.append(
     section('Prozori', windowTable),
     section('Tokom igre', themeTable(hud)),
     section('Dodir', touchControls()),
-    section('Žetoni', wallet()),
+    section('Žetoni', wallet),
     section('Ikonice i slike', iconList()),
   )
   for (const start of windowTable.querySelectorAll('tbody tr:first-child .central-screen'))
     new Report({ text: reportText, container: start })
   const screens = [...windowTable.querySelectorAll('.preview-stage')]
-  return available => screens.forEach(screen => markPaid(screen, available ? 1 : 0))
+  return available => {
+    screens.forEach(screen => markPaid(screen, available ? 1 : 0))
+    showBalance(wallet, available ? 7 : 0)
+  }
 }

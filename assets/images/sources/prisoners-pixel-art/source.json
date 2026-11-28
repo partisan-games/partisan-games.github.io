@@ -1,0 +1,33 @@
+{
+  "tool": "built-in image_gen",
+  "model": "assets/models/character/soldier/resistance-fighter.fbx",
+  "guide": "assets/models/character/soldier/crni-pixel-art/face.webp",
+  "output": "assets/models/character/soldier/prisoners-pixel-art",
+  "size": [
+    256,
+    256
+  ],
+  "prompt": "Create a square diffuse UV texture map for one fictional WWII-era adult Yugoslav prisoner for Partisan Games. Image 1 is the exact UV layout guide and the realistic pixel-art style reference. Keep the entire square flat layout and feature registration precisely. Preserve silhouette and all island boundaries, central centered forehead and chin, ears at the same x/y as the guide, the separate neck and corners, and the existing dark neutral background. Eyes must occupy precisely the same coordinates, aligned at one level, gazing straight forward together. Keep the same mouth center and nose center. Only redesign the appearance inside the islands so that it is clearly a different man. Restrained pixel clusters, somber natural adult proportions, matte colors, low contrast at seams. This is a game texture, no labels, no borders, no lighting gradients, no new islands, no extra ears, no portrait crop. The dark areas at both upper corners are the two sides of the same scalp.",
+  "faces": {
+    "ilija": {
+      "promptSuffix": "Ilija is an older, wide-faced man with gray temples and dark gray short stubble along jaw, broad nose shading, low bushy gray-brown brows, warm lightly ruddy cheeks and dark brown eyes. No prominent mustache.",
+      "sourceSha256": "1866c1a4c32461ae3a658be8d8817ede60a83028db78e7e544c14864c4446ab9",
+      "outputSha256": "86d2765faf19587881f992acafcad751a6ffe833403deadbcd7469d8533c3b43",
+      "outputBytes": 80228
+    },
+    "petar": {
+      "promptSuffix": "Petar is a tall thin man, mid thirties, dark hair with noticeably receded temples, straight thin eyebrows, thin neatly trimmed black mustache, slightly sallow light skin and brown eyes. Use overall muted dark brown hair.",
+      "sourceSha256": "7c08c5aa57b2a8c4de370fa09b941d457975f5434fa77f9b1f48451a60b2493f",
+      "outputSha256": "016f8314de04ba045b86341838a03a0dff5fe525e020584727e6e9288a26751b",
+      "outputBytes": 72148
+    },
+    "jovan": {
+      "promptSuffix": "Jovan is a younger adult with full auburn brown short hair, clean-shaven, warm olive skin, noticeably thick dark eyebrows, hazel eyes and a subtle freckle near one cheek. Give him healthy adult proportions and neutral expression.",
+      "sourceSha256": "338aa8d2bd4d35becff7e841609716a4b18d398ff383ba4788f816911bf102b4",
+      "outputSha256": "6f1cda7fde816eb7e975669dd7157741c6e66b3d66dc3f6a4321f4c3bb4ea011",
+      "outputBytes": 75202
+    }
+  },
+  "modelSha256": "7fe2ca47c2410f4327bb07499fc37b54d97b9d278ae0579be9dd0595c665dc8b",
+  "guideSha256": "fd7d43212c25180a61c4b3bd3bfc8673b1d2abcd4fe38aa4a82821bb8a10d6f1"
+}

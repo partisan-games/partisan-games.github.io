@@ -63,7 +63,7 @@ export const pauseScreen = ({ container, button }, { costsToken }) => /* html */
     ${mainMenuButton(button)}
     <button class="${button}" id="settings"><span class="icon">${icons.settings}</span> Settings</button>
     <button class="${button}" id="continue"><span class="icon">${icons.continue}</span> Continue</button>
-    <button class="${button}" id="igraj-opet" ${costsToken ? 'data-paid' : ''}><span class="icon replay-icon">${icons.replay}</span> Play again</button>
+    <button class="${button}" id="igraj-opet" ${costsToken ? 'data-paid' : ''}><span class="icon">${icons.replay}</span> Play again</button>
   </div>
 `
 
@@ -95,7 +95,7 @@ export const endScreen = ({ container, button }, { outcome, costsToken }) => /* 
   <div class="central-screen flex-column ${container}">
     ${outcome}
     ${mainMenuButton(button)}
-    <button class="${button}" id="igraj-opet" ${costsToken ? 'data-paid' : ''}><span class="icon replay-icon">${icons.replay}</span> Play again</button>
+    <button class="${button}" id="igraj-opet" ${costsToken ? 'data-paid' : ''}><span class="icon">${icons.replay}</span> Play again</button>
   </div>
 `
 
@@ -118,7 +118,7 @@ export const scoreBoard = ({ score }, { text = 'Score', points = 0, subtext, sub
 
 /** The button a touch screen has for Esc; its two bars are drawn by the page's style. */
 export const pauseButton = () => Object.assign(document.createElement('button'), {
-  className: 'pause-button', title: 'Pause', ariaLabel: 'Pause',
+  className: 'pause-button', title: 'Pause', ariaLabel: 'Pause', innerHTML: icons.pause,
 })
 
 const draw = (element, ui, html) => {

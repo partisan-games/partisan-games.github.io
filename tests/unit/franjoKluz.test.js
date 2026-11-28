@@ -1,6 +1,7 @@
 import { test, before } from 'node:test'
 import assert from 'node:assert/strict'
 import { createPageElements } from './helpers/dom.js'
+import { icons } from '/core/io/icons.js'
 
 let continueWithMission, missions, layout, raids, plane, airspeed, FranjoKluzScene, Flak, Rifleman, Sentry, Gunner
 
@@ -265,9 +266,9 @@ test('the corner shows the plane health, then rounds left above bombs left', t =
   scene.player.bombs = 2
   scene.player.ammo = 37
   const hud = scene.sceneUI()
-  assert.match(hud, /💣💣\s/)
+  assert.equal(hud.split(icons.bomb).length - 1, 2, 'a bomb icon for each bomb left')
   assert.match(hud, /game-ready\/projektili\/granata\.webp" alt="Rounds" width="32" height="8"> 37/)
-  assert.ok(hud.indexOf('Rounds') < hud.indexOf('💣'), 'rounds first')
+  assert.ok(hud.indexOf('Rounds') < hud.indexOf(icons.bomb), 'rounds first')
   assert.match(hud, /<progress[^>]*value="40"/)
   assert.ok(hud.indexOf('<progress') < hud.indexOf('Rounds'), 'health on top')
 })

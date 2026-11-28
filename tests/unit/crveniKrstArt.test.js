@@ -4,10 +4,35 @@ import { readFile } from 'node:fs/promises'
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { createCampProp, createCampStudy, campModels } from '/core3d/actor/buildings/CampProp.js'
+import campLayout from '/scenes/crveni-krst/campLayout.js'
+import { createCampGround, createCampHorizon } from '/scenes/crveni-krst/campTerrain.js'
 import { createPageElements } from './helpers/dom.js'
 
 const directory = 'assets/models/building/crveni-krst/'
 const bufferOf = bytes => bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength)
+
+test('snow compaction follows open camp links and foundations on the existing flat ground', () => {
+  const layout = campLayout(() => .5)
+  const { maze, rooms, storehouse } = layout
+  const ground = createCampGround(layout)
+  const { data, width } = ground.material.map.image
+  const centre = cell => maze.tilePosition(cell.row * 2 + 1, cell.column * 2 + 1)
+  const tone = (x, z) => data[(Math.floor((.5 - z / 130) * width) * width + Math.floor((.5 + x / 130) * width)) * 4 + 1]
+  const passes = rooms.flatMap(room => [room.east, room.south].filter(Boolean).map(next => ({ room, next })))
+  const toneBetween = ({ room, next }) => {
+    const a = centre(room), b = centre(next)
+    return tone((a.x + b.x) / 2, (a.z + b.z) / 2)
+  }
+  const open = passes.find(({ room, next }) => room.linked(next))
+  const closed = passes.find(({ room, next }) => rooms.includes(next) && !room.linked(next))
+  assert.ok(toneBetween(open) < toneBetween(closed) - 8)
+  assert.ok(tone(storehouse.x, storehouse.z - storehouse.depth / 2 - .1) < tone(storehouse.x, storehouse.z - 8) - 12)
+  assert.equal(ground.geometry.index.count, 6)
+  assert.ok(ground.receiveShadow)
+  const horizon = createCampHorizon()
+  assert.equal(horizon.mapping, THREE.EquirectangularReflectionMapping)
+  assert.equal(horizon.image.data.length, 512 * 256 * 4)
+})
 
 function textures(t) {
   t.mock.method(THREE.ImageBitmapLoader.prototype, 'load', (url, onLoad) => {

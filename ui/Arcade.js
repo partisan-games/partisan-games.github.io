@@ -7,9 +7,24 @@ import { assets } from '/config.js'
 const coin = `<img class="arcade-coin" src="${assets.images}${iconImages.coinStill}" alt="" width="32" height="32">`
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)')
 
-/** What the pocket of tokens shows: the coin, `note` over it, and the `balance` left. */
-export const walletContent = (note, balance = '') =>
-  `${coin}<div><small>${note}</small><strong class="arcade-balance" aria-live="polite">${balance}</strong><span class="arcade-eyebrow">coins left</span></div>`
+/** The pocket of tokens: the coin, `note` over it, and the coins left, which `showBalance` fills. */
+export function createWallet(note) {
+  const wallet = document.createElement('aside')
+  wallet.className = 'arcade-wallet'
+  wallet.setAttribute('aria-label', 'Daily arcade coins')
+  wallet.innerHTML = `${coin}<div><small>${note}</small><strong class="arcade-balance" aria-live="polite"></strong>` +
+    '<span class="arcade-eyebrow">coins left</span></div>'
+  return wallet
+}
+
+/** Shows `remaining` tokens in `wallet`, or `text` in their place; as on the paid buttons, its coin turns while one is left, unless motion is reduced. */
+export function showBalance(wallet, remaining, text = String(remaining)) {
+  wallet.querySelector('.arcade-balance').textContent = text
+  const turning = remaining > 0 && !reducedMotion.matches
+  const src = assets.images + (turning ? iconImages.coin : iconImages.coinStill)
+  const pocketCoin = wallet.querySelector('.arcade-coin')
+  if (pocketCoin.getAttribute('src') !== src) pocketCoin.src = src
+}
 
 /** The cabinets of the homepage and the pocket of daily tokens; routing, loading and paying stay in scenes/main. */
 export default class Arcade {
@@ -33,10 +48,7 @@ export default class Arcade {
   }
 
   createWallet() {
-    const wallet = document.createElement('aside')
-    wallet.className = 'arcade-wallet'
-    wallet.setAttribute('aria-label', 'Daily arcade coins')
-    wallet.innerHTML = walletContent(this.isLocal ? 'LOCAL DEVELOPMENT' : `${this.coins.allowance} coins every day`)
+    const wallet = createWallet(this.isLocal ? 'LOCAL DEVELOPMENT' : `${this.coins.allowance} coins every day`)
     document.body.appendChild(wallet)
     return wallet
   }
@@ -86,22 +98,16 @@ export default class Arcade {
   }
 
   refresh = () => {
-    let remaining = 0
     try {
-      ;({ remaining } = this.coins.read())
-      this.wallet.querySelector('.arcade-balance').textContent = String(remaining)
+      const { remaining } = this.coins.read()
+      showBalance(this.wallet, remaining)
       document.body.classList.toggle('arcade-empty', remaining === 0)
       this.storageAvailable = true
     } catch {
-      this.wallet.querySelector('.arcade-balance').textContent = 'UNAVAILABLE'
+      showBalance(this.wallet, 0, 'UNAVAILABLE')
       this.storageAvailable = false
     }
     document.body.classList.toggle('arcade-home', !location.hash)
-    // as on the paid buttons: it turns while a token is left, unless motion is reduced
-    const turning = remaining > 0 && !reducedMotion.matches
-    const src = assets.images + (turning ? iconImages.coin : iconImages.coinStill)
-    const pocketCoin = this.wallet.querySelector('.arcade-coin')
-    if (pocketCoin.getAttribute('src') !== src) pocketCoin.src = src
     this.onChange?.()
   }
 }

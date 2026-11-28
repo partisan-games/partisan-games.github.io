@@ -5,7 +5,7 @@ import GameClock from '/core/runtime/GameClock.js'
 import { fighterBomberPlanes } from '/core/actor/aircraft/fighterBomberPlanes.js'
 import { createPageElements } from './helpers/dom.js'
 
-test('the new Vis projection preserves steering, bullet speed, gun spacing and loop displacement in pixels', () => {
+test('the new Vis projection preserves steering, bullet speed and gun spacing in pixels', () => {
   const make = pixels => new FighterBomber({ clock: new GameClock(), distanceScale: 10 / pixels })
   const old = make(10), current = make(14)
   old.steer(1, -1, .1)
@@ -19,11 +19,6 @@ test('the new Vis projection preserves steering, bullet speed, gun spacing and l
     assert.ok(Math.abs(a.vz * 10 - b.vz * 14) < 1e-9)
     assert.ok(Math.abs(a.x * 10 - b.x * 14) < 1e-9)
   }
-  old.loop()
-  current.loop()
-  old.flyLoop(.5)
-  current.flyLoop(.5)
-  assert.ok(Math.abs(old.z * 10 - current.z * 14) < 1e-9)
 })
 
 test('top view and projectile contact use wingspan across and fuselage length along the heading', async() => {

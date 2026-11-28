@@ -68,7 +68,7 @@ export default class CampEnvironment {
       if (kind === 'wire') post(...b)
     }
     place('storehouse', layout.storehouse.x, layout.storehouse.z)
-    boxes.push({ ...layout.storehouse, length: 32.3, depth: 9.3, height: 7.3, angle: 0 })
+    boxes.push({ ...layout.storehouse, height: 7.3, angle: 0 })
     for (const batch of batches.values()) {
       const mesh = new InstancedMesh(batch.geometry, batch.material, batch.transforms.length)
       batch.transforms.forEach((matrix, index) => mesh.setMatrixAt(index, matrix))

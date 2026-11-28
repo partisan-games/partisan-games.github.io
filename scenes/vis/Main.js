@@ -43,7 +43,7 @@ export const rules = {
 export default class VisScene extends Scene2D {
   constructor() {
     super({
-      controlKeys: { ...baseControls, [attackLabels[inputLayouts.fighterBomber.attackKey]]: 'shoot', [keys.attack2.label]: 'loop', [keys.special.label]: 'bomb' },
+      controlKeys: { ...baseControls, [attackLabels[inputLayouts.fighterBomber.attackKey]]: 'shoot', [keys.special.label]: 'bomb' },
       intro: 'Reach the Island of Vis',
       reportText: 'Adriatic Sea, autumn 1944\n\nThe partisan squadron moves to Vis. Your task is to deliver a new Allied fighter from Italy.',
       customStartScreen,
@@ -292,14 +292,12 @@ export default class VisScene extends Scene2D {
   sceneUI() {
     const { health } = this.player
     const bombs = icons.bomb.repeat(this.player.bombs)
-    const loops = icons.loop.repeat(this.player.loopsLeft)
     return /* html */`
       <div class="top-left">
         <div>
           Score: ${this.score}
           ${healthBar(health.current / health.maximum)}
           ${bombs}
-          <br>${loops}
         </div>
       </div>
       ${this.bossBar()}

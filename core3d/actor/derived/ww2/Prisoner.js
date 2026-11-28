@@ -3,7 +3,6 @@ import { loadedModel } from '/core3d/assets/models.js'
 import CharacterModel from '/core3d/actor/characters/CharacterModel.js'
 import dressFighter from '/core3d/actor/characters/dressFighter.js'
 import { mountMetalPipe, smoothPipeSwing, pipeSwingName } from './WorkerPipe.js'
-import { variants } from './partisanLooks.js'
 import { description as worker } from './Worker.js'
 
 /** Ways to stand and wait, one for each companion in turn, so they do not all move alike; one stretches. */
@@ -21,11 +20,17 @@ const animDict = { ...worker.animDict, idle: standingIdles[0], restIdle: standin
 export const description = { ...worker, model: { ...worker.model, animDict }, animDict }
 export const models = [description.model]
 
-/** The three men who break out with the player, each his own height and clothes. */
+const shirt = 'mat_15-27374EA0.jpg', trousers = 'mat_9-27375500.jpg'
+const cap = 'mat_11-27373E00.jpg', face = 'mat_12-27374460.jpg'
+
+/** The three men who break out with the player, in their own civilian clothes and proportions. */
 export const prisonerLooks = [
-  { name: 'Ilija', height: 1.70, outfit: variants.vuna.outfit },
-  { name: 'Petar', height: 1.82, outfit: variants.indigo.outfit },
-  { name: 'Jovan', height: 1.76, outfit: { ...variants.oker.outfit, 'mat_12-27374460.jpg': 0xd6baa1 } },
+  { name: 'Ilija', height: 1.70, breadth: 1.09, outfit: { [shirt]: 'brown-wool-shirt.jpg', [trousers]: 0xa08c72,
+    [cap]: 0x87766a, [face]: 'prisoners-pixel-art/ilija.webp' } },
+  { name: 'Petar', height: 1.82, breadth: .94, outfit: { [shirt]: 'indigo-work-shirt.jpg', [trousers]: 0x777d7f,
+    [cap]: 0x535965, [face]: 'prisoners-pixel-art/petar.webp' } },
+  { name: 'Jovan', height: 1.76, breadth: 1, outfit: { [shirt]: 'brka-pixel-art/shirt.webp', [trousers]: 0xa89775,
+    [cap]: 0xc0a987, [face]: 'prisoners-pixel-art/jovan.webp' } },
 ]
 
 /** Keep every crouching recording on the same horizontal origin; the controller moves the body. */
@@ -83,8 +88,10 @@ export default class PrisonerModel extends PrisonerFootsteps {
     body.actions.attack = swing.duration
     super(body, { mesh, animations,
       animDict: { ...animDict, idle: standingIdles[index % standingIdles.length] }, ...options })
-    this.mesh.scale.multiplyScalar(prisonerLooks[index].height / 1.8)
-    dressFighter(this.mesh, prisonerLooks[index].outfit, textures)
+    const look = prisonerLooks[index]
+    this.mesh.scale.multiplyScalar(look.height / 1.8)
+    this.mesh.scale.x *= look.breadth
+    dressFighter(this.mesh, look.outfit, textures)
     mountMetalPipe(this.mesh, { tipLength: .32 })
     this.recorded = { crouchUp: recordedStand, crouchDown: recordedCrouch }
     this.idlePhases = {}

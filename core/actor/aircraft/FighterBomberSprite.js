@@ -9,12 +9,10 @@ import AircraftPropellers from './AircraftPropellers.js'
 export const look = { blinkTime: .1, propeller: { span: .29, nose: .066, frameTime: .04 } }
 /** How the blades flicker as they turn: a share of their span and how solid they are. */
 const propellerFrames = [{ span: 1, alpha: .55 }, { span: .82, alpha: .35 }, { span: .92, alpha: .45 }]
-/** How much bigger it grows at the top of a loop. */
-const loopGrowth = .5
 
 /**
  * How a fighter-bomber looks and sounds from above, in the picture `src`: its turning propeller, its guns and rounds,
- * the bang of a bomb, its blinking while it is safe, a loop that grows it and turns it over on its back, the smoke of
+ * the bang of a bomb, its blinking while it is safe, the smoke of
  * a damaged plane, and its fall and fire.
  * It only reads the body.
  */
@@ -49,10 +47,6 @@ export default class FighterBomberSprite extends TopViewSprite {
     if (body.shotsFired > seen.shots) this.gunSound.play()
     if (body.bombsDropped > seen.bombs) this.bombSound.play()
     Object.assign(seen, { shots: body.shotsFired, bombs: body.bombsDropped })
-    const progress = body.loopProgress
-    this.scaleX = 1 + loopGrowth * Math.sin(Math.PI * progress)
-    // 1, 0, -1 on its back, 0 and 1 again
-    this.scaleY = this.scaleX * Math.cos(2 * Math.PI * progress)
     this.alpha = body.shield > 0 && Math.floor(body.shield / look.blinkTime) % 2 ? .3 : 1
     this.syncRounds(body.bullets)
   }

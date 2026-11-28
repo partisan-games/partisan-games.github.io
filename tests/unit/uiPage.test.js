@@ -19,8 +19,8 @@ test('the UI page draws every window and HUD element in each theme, with every i
   assert.ok(root.querySelector('.report'), 'the start window has its briefing')
   assert.equal(root.querySelectorAll('.joystick-btn').length, 4)
   assert.ok(root.querySelector('.arcade-wallet'))
-  const glyphs = [...root.querySelectorAll('.preview-glyph')].map(glyph => glyph.textContent)
-  assert.deepEqual(glyphs, Object.values(icons))
+  const shown = [...root.querySelectorAll('.preview-icon')].map(cell => cell.innerHTML)
+  assert.deepEqual(shown, Object.values(icons))
 
   showTokens(false)
   const paid = [...windows.querySelectorAll('.paid')]

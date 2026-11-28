@@ -137,7 +137,20 @@ button {
 
 .icon {
   font-size: 1.4rem;
-  -webkit-text-fill-color: initial;
+}
+
+.icon .icon-art {
+  width: 1.2em;
+  height: 1.2em;
+}
+
+/* an icon of the atlas, as big as a letter of its text unless its place sizes it */
+.icon-art {
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  vertical-align: middle;
+  background-repeat: no-repeat;
 }
 
 .default-button:hover,
@@ -338,13 +351,9 @@ button {
 }
 
 /* the two bars of pause, drawn rather than a font's glyph, which no font centres in its box */
-.pause-button::before {
-  content: '';
-  width: 16px;
-  height: 20px;
-  box-sizing: border-box;
-  border-inline: 6px solid var(--white);
-  filter: drop-shadow(1px 0 0 var(--black)) drop-shadow(-1px 0 0 var(--black)) drop-shadow(0 1px 0 var(--black)) drop-shadow(0 -1px 0 var(--black));
+.pause-button .icon-art {
+  width: 85%;
+  height: 85%;
 }
 
 .top-left,
@@ -591,8 +600,3 @@ button.paid {
 
 .paid.bg-olive:disabled { background-color: #555d43; }
 .default-button:disabled:hover { background-color: transparent; }
-
-/* the replay glyph's visible center sits below the font's line-box center */
-.replay-icon {
-  transform: translateY(-.18em);
-}

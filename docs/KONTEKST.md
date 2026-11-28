@@ -76,7 +76,7 @@ Ambijenti redom, po putu Save Kovačevića 1941: Grahovo, Vilusi, okolina Nikši
 
 **Prihvaćen prikaz Ustanka:** borci, njihove animacije, minobacači i zastave ostaju osnova; prihvatanje prikaza ne dokazuje tehničke provere kasnijih izmena.
 
-**Samo minobacači (vlasnik, 2026-11-27):** top je izbačen iz Ustanka; na početku se bira tempo, podrazumevano potezni. Minobacači su italijanski 81 mm sa posadama: nišan je strm, od 45° do 85°, a mina leti visokim lukom 5–10 s; na sredini njihovog polja je brdo visoko 2,5 m, koje mine raskopavaju kraterima, a poruke govore o minobacaču. Mina koja u letu naiđe na avion eksplodira na njemu i obara ga, bez kratera na zemlji. Tempo je potezni ili real time: u real time igri oba oruđa nišane i pucaju istovremeno, svako ponovo čim mu padne prethodni hitac, a drugi igrač koristi strelice i Enter.
+**Samo minobacači (vlasnik, 2026-11-27):** top je izbačen iz Ustanka; na početku se bira tempo, podrazumevano potezni. Minobacači su italijanski 81 mm sa posadama: nišan je strm, od 45° do 85°, a mina leti visokim lukom 5–10 s; na sredini njihovog polja je brdo visoko 2,5 m, koje mine raskopavaju kraterima, a poruke govore o minobacaču. Mina koja u letu naiđe na avion eksplodira na njemu i obara ga, bez kratera na zemlji. Tempo je potezni ili real time: u real time igri oba oruđa nišane i pucaju istovremeno, svako ponovo čim mu padne prethodni hitac, a drugi igrač koristi strelice i Enter. Obe strane imaju isto vojnika: ispred svakog minobacača kleči strelac koji puca ka drugoj strani.
 
 ## Vis
 

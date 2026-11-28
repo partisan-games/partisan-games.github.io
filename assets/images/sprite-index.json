@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "measuredAt": "2026-11-28T00:18:15.720107+00:00",
-  "baseRevision": "87c725fb6f9bd01412f7c838cbdfdb75d64e695c",
+  "measuredAt": "2026-11-28T10:46:07.326978+00:00",
+  "baseRevision": "e80c19a3879c843520dbbdf2cf9730f70dc92718",
   "scope": "Art linked by docs/ART.md, including shared variants; not all unused library art or a runtime/visual acceptance test.",
   "interpretation": "imageFrames counts file-container frames. A PNG atlas normally has one; named sprite clips require metadata and a runtime mapping. hashes detect exact input changes, not art quality.",
   "images": [
@@ -436,6 +436,26 @@
       "distinctImageFrames": 1
     },
     {
+      "asset": "assets/images/ui/coin.gif",
+      "sha256": "cf39fd3a4db05026d2c6246f0c6d58d1cf4668d78dc0a065dd39aeb9554091a5",
+      "kind": "GIF",
+      "width": 96,
+      "height": 96,
+      "imageFrames": 60,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 30
+    },
+    {
+      "asset": "assets/images/ui/pixel-icons.webp",
+      "sha256": "b251793936cb470df0327e0ea8cd58fcbf2b1a0f78251b07e2d653e360bdece8",
+      "kind": "WEBP",
+      "width": 384,
+      "height": 256,
+      "imageFrames": 1,
+      "hasTransparentPixelsInFirstFrame": true,
+      "distinctImageFrames": 1
+    },
+    {
       "asset": "assets/models/building/crveni-krst/materials.png",
       "sha256": "9a9410b85ee77d0e42a598c3fd1d8e26bc96094ef86620c2d632fa872a521a72",
       "kind": "PNG",
@@ -744,6 +764,10 @@
       "sha256": "e49007d50ada3f70e99610fae4d7414b90ddb97fd513f6a951615cba2edc7569"
     },
     {
+      "path": "assets/images/sources/prisoners-pixel-art/source.json",
+      "sha256": "58117ead25445f3fb321436550185d4067f18a5e605c9880e0830a92c40a688e"
+    },
+    {
       "path": "assets/images/sources/ratweek-dolina/source.json",
       "sha256": "9349e662b94ebe84c2068f0daf0e57f5a951cd96dc27e78468a7c018d90d9443"
     },
@@ -760,6 +784,14 @@
       "sha256": "5d4d8115b7e0c25de874dd14328b5c2da070b15f3b22c7b96535716f9fe46fef"
     },
     {
+      "path": "assets/images/sources/ui-icons/draw.py",
+      "sha256": "d0ffb6e8f69b8bc6748c1de677657633f639515c1b405c3e3289b78a4605cc91"
+    },
+    {
+      "path": "assets/images/sources/ui-icons/source.json",
+      "sha256": "35ebd095332e2c0ca48770fe4886db48a3613d60ad0521f2e077bd6b489036e8"
+    },
+    {
       "path": "assets/images/sources/vehicles/3d-truck-wrecks/generation.json",
       "sha256": "bfcb392a2de1a2af292ccd6ef0836c1147ba5490d1ae57510236aaa8192b7f4e"
     },
@@ -774,6 +806,18 @@
     {
       "path": "assets/images/textures/terrain/ratweek-dolina.webp",
       "sha256": "7adb1a2a5ace35d4438be888559ad46c06cd201e89b98505372eeb22c4405f6a"
+    },
+    {
+      "path": "assets/images/ui/coin.gif",
+      "sha256": "cf39fd3a4db05026d2c6246f0c6d58d1cf4668d78dc0a065dd39aeb9554091a5"
+    },
+    {
+      "path": "assets/images/ui/pixel-icons.webp",
+      "sha256": "b251793936cb470df0327e0ea8cd58fcbf2b1a0f78251b07e2d653e360bdece8"
+    },
+    {
+      "path": "assets/models/aircraft/boeing-b-17-flying-fortress/README.md",
+      "sha256": "45c77ae65d880eb0b6b13302aabd624a4c110ae0ebfd7a6fb123c9b3a17087c6"
     },
     {
       "path": "assets/models/aircraft/bomber-lancaster/art-source/generation.json",
@@ -908,6 +952,10 @@
       "sha256": "4a7a33d94c800a9ee3cf48c09f76f661ef62ed5460d40ff4359622859db52d82"
     },
     {
+      "path": "core/io/icons.js",
+      "sha256": "ffd4044922d90d5b0520cc3a86d4a1b6f4567171c8b7a399ff55dac231e562f5"
+    },
+    {
       "path": "core3d/actor/aircraft/WarplaneModel.js",
       "sha256": "3d8019d8ec5550563d08dd0ee2793af5a9ca6e6fc8996395c8f6f13bd41d60f1"
     },
@@ -953,7 +1001,7 @@
     },
     {
       "path": "docs/ART.md",
-      "sha256": "41a3c2db6483179a7f9da423cf6c1bded8732a0795b841de506ce02ce6314dca"
+      "sha256": "eef4d4d9b51bfb417228f94604bb679f8755728683c3b4af0a52d8a7d2061d8c"
     },
     {
       "path": "docs/ISTORIJA.md",
@@ -965,11 +1013,11 @@
     },
     {
       "path": "docs/KONTEKST.md",
-      "sha256": "203c520a5ed7678e09a7ce2bbb1608804ac0292120d1c027a71eda10b2baa0f7"
+      "sha256": "c2ae608bd4dccd80820bf55ee2a8b6b7347d7f867c8799b374fdb2960a94c855"
     },
     {
       "path": "docs/PLAN.md",
-      "sha256": "53da8a37294f16bb37549b9cf74ae79ae404671bfafcf4fc75c2cce51e1b6821"
+      "sha256": "34967b55db0d50cb28d5cc8000d7b9ea2403375664d1493eb80f651382cf7428"
     },
     {
       "path": "docs/references/ww2-yu/crveni-krst/README.md",
@@ -981,7 +1029,7 @@
     },
     {
       "path": "docs/TESTING.md",
-      "sha256": "c5242b38b576d8424b9370a31189abebbcecb7e82a4439f02a3d3ca871d49c03"
+      "sha256": "3fc041c310c1720da005b46ff161c0c61fa523d163fc50c9e6c3b1dac7c763b7"
     },
     {
       "path": "index.html",
@@ -1002,6 +1050,10 @@
     {
       "path": "scenes/cannon/optimizeFigure.js",
       "sha256": "6df8bba75df37b9d99c7af80c9101530c112f53fc94b8a1957c5beedd63ac667"
+    },
+    {
+      "path": "scenes/crveni-krst/campTerrain.js",
+      "sha256": "5f097537acf054d844514c83dcfee663cc80ce1f6caef78a4aab5248faed4fa9"
     },
     {
       "path": "scenes/drvar/Main.js",

@@ -336,6 +336,17 @@ test('the uprising duels with mortars, each with its own crew drawn', async t =>
   assert.ok(scene.guns[0].targets.includes(scene.guns[1]) && scene.guns[1].targets.includes(scene.guns[0]))
 })
 
+test('each side has its skirmisher kneeling and firing toward the other, the Italian in his own uniform', async t => {
+  const { default: SkirmisherSprite } = await import('/core/actor/soldiers/SkirmisherSprite.js')
+  const scene = createScene(t)
+  const [partisan, italian] = scene.skirmishers
+  assert.ok(partisan.x < scene.guns[1].x && italian.x > scene.guns[0].x)
+  assert.ok(Math.cos(partisan.yaw) > 0 && Math.cos(italian.yaw) < 0, 'they face each other')
+  assert.ok(scene.skirmishers.every(soldier => soldier.state === 'attack'))
+  const views = scene.roundObjects.filter(view => view instanceof SkirmisherSprite)
+  assert.deepEqual(views.map(view => Boolean(view.flashArt)), [false, true], 'the Italian is drawn as the Italian rifleman')
+})
+
 test('the duel tells the player to destroy the enemy mortar and reports hitting it', t => {
   const scene = createScene(t)
   scene.start()
