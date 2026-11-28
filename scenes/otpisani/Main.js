@@ -23,6 +23,9 @@ import SupplyCrate from '/core/objects/SupplyCrate.js'
 import standingArt from '/core/actor/soldiers/frontStandingArt.js'
 import ThrownGrenade from './ThrownGrenade.js'
 import ReliefTank from './ReliefTank.js'
+import { texts } from '/scenes/texts.js'
+
+const text = texts.otpisani
 
 /** The Germans come in turn: the rifleman, the sentry and the full figure shared with Neretva. */
 const lineup = ['rifleman', 'sentry', 'nemac']
@@ -48,8 +51,8 @@ export default class OtpisaniScene extends Scene2D {
   constructor() {
     super({
       controlKeys: { [attackLabels.pointer]: 'shoot', [attackLabels.rightPointer]: 'grenade' },
-      intro: 'Kill all the occupiers!',
-      reportText: 'Belgrade, October 1944\n\nPartisans and the Red Army fight their way into the city. Your task is to strike the Germans from behind their lines.',
+      intro: text.intro,
+      reportText: text.report,
     })
     document.addEventListener('auxclick', this.handleAuxClick)
   }

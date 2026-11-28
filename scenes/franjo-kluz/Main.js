@@ -40,6 +40,9 @@ import GunCarrierSprite, { gunCarrierPictures } from '/core/actor/vehicles/GunCa
 import { missions } from './missions.js'
 import Airfield from './Airfield.js'
 import ParallaxLayer from './ParallaxLayer.js'
+import { texts } from '/scenes/texts.js'
+
+const text = texts['franjo-kluz']
 
 /** The Potez sinks unless it is flown, metres a second squared: the player has to keep it up (a rule of this game). */
 const potezSink = 2.92
@@ -106,7 +109,7 @@ export default class FranjoKluzScene extends Scene2D {
   constructor(manager) {
     super({
       controlKeys: { ...baseControls, Space: 'Machine gun', [inputLayouts.potez.bombKey]: 'Drop bomb' },
-      intro: 'Break through the enemy to the partisan airfield.',
+      intro: text.intro,
       reportText: 'Prijedor, 23 May 1942\n\nThe partisans are fighting on Kozara. Your task is to seize an NDH plane and join them.',
     })
     this.manager = manager
@@ -284,7 +287,7 @@ export default class FranjoKluzScene extends Scene2D {
     const { player } = this
     if (player.dead || !player.isGrounded) return
     if (Math.hypot(player.x - x, player.y - y) > blast.radius + Math.max(player.size.length, player.size.height) / 2) return
-    this.crashReason = 'The bombs caught you on the ground.'
+    this.crashReason = text.bombedOnGround
     player.setState('dead')
   }
 
@@ -471,7 +474,7 @@ export default class FranjoKluzScene extends Scene2D {
   checkOutcome() {
     if (this.player.wrecked && !this.crashSeen) {
       this.crashSeen = true
-      this.session.gameplay.after(crashScreenDelay, () => this.defeat(this.crashReason ?? 'You fell gloriously.'))
+      this.session.gameplay.after(crashScreenDelay, () => this.defeat(this.crashReason ?? text.fallen))
     }
     this.checkLanding()
   }
@@ -485,17 +488,17 @@ export default class FranjoKluzScene extends Scene2D {
     const { player, aerodrom } = this
     if (player.dead) return
     if (!player.isGrounded) {
-      if (player.x * pxPerMeter > aerodrom.runway.right) this.defeat('You missed the airfield.')
+      if (player.x * pxPerMeter > aerodrom.runway.right) this.defeat(text.missedAirfield)
       return
     }
     const { airspeed, sink } = player.touchdown
-    this.crashReason = !this.airfieldAt(player.x) ? 'You touched down off the runway.'
-      : airspeed > landing.airspeed ? 'You touched down too fast.'
-        : sink > landing.crashSink ? 'You landed too hard.' : null
+    this.crashReason = !this.airfieldAt(player.x) ? text.offRunway
+      : airspeed > landing.airspeed ? text.tooFast
+        : sink > landing.crashSink ? text.tooHard : null
     if (this.crashReason) return player.setState('dead')
     if (aerodrom.holds(player.x * pxPerMeter) && player.airspeed < landing.stopped && this.raidersDown) {
-      const kind = sink < landing.hardSink ? 'A soft landing.' : 'A hard landing.'
-      this.completeMission(`Mission successfully completed! ${kind}`)
+      const kind = sink < landing.hardSink ? text.softLanding : text.hardLanding
+      this.completeMission(text.missionDone(kind))
     }
   }
 

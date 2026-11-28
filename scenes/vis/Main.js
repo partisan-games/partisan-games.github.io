@@ -25,6 +25,9 @@ import { settings } from './settings.js'
 import { fighterBomberPlane } from '/core/actor/aircraft/fighterBomberPlanes.js'
 import { modelPerformance } from '/core/gameplay/modelPerformance.js'
 import customStartScreen, { planes } from './startScreen.js'
+import { texts } from '/scenes/texts.js'
+
+const text = texts.vis
 
 const { scrollSpeed: speed, clouds, restTime, engineVolume } = settings
 /** How many pixels a metre of the sky is drawn. */
@@ -44,8 +47,8 @@ export default class VisScene extends Scene2D {
   constructor() {
     super({
       controlKeys: { ...baseControls, [attackLabels[inputLayouts.fighterBomber.attackKey]]: 'shoot', [keys.special.label]: 'bomb' },
-      intro: 'Reach the Island of Vis',
-      reportText: 'Adriatic Sea, autumn 1944\n\nThe partisan squadron moves to Vis. Your task is to deliver a new Allied fighter from Italy.',
+      intro: text.intro,
+      reportText: text.report,
       customStartScreen,
     })
   }
@@ -234,7 +237,7 @@ export default class VisScene extends Scene2D {
     this.runwayLanding = new RunwayLanding(this.player, {
       runway: { start: this.projection.toWorld(start), stop: this.projection.toWorld(stop) },
       rest: last ? Infinity : restTime, distanceScale,
-      onLanded: () => last ? this.victory('You have successfully reached the island of Vis.') : this.service(),
+      onLanded: () => last ? this.victory(text.victory) : this.service(),
       onRested: () => this.soundSirens(),
       onAirborne: () => this.nextStage(),
     })
@@ -250,7 +253,7 @@ export default class VisScene extends Scene2D {
   /** The sirens wail as the enemy attacks the airfield, and the plane takes off. */
   soundSirens() {
     this.siren.sounds[0].play()
-    this.ui.showMessage('Sirens! The enemy is attacking the base!')
+    this.ui.showMessage(text.sirens)
   }
 
   /** In the air again, the plane is the player's, safe for a while, and the next stage begins. */

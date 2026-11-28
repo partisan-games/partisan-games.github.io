@@ -51,18 +51,9 @@ import Church, { models as churchModels } from '/core3d/actor/buildings/Church.j
 import Sandbags, { models as sandbagsModels } from '/core3d/actor/buildings/Sandbags.js'
 import { models as townHouseModels } from '/core3d/actor/buildings/TownHouse.js'
 import { models as drvarPropModels } from '/core3d/actor/buildings/DrvarProp.js'
+import { texts } from '/scenes/texts.js'
 
-const messages = {
-  intro: '<ul><li>Hold the churchyard until the Lika brigade arrives</li><li>Shoot the paratroopers before they reach cover</li></ul>',
-  report: 'Drvar, 25 May 1944\n\nGerman paratroopers descend on Drvar to capture the Partisan Supreme Headquarters. Hold the churchyard until reinforcements from the 3rd Brigade of the 6th Lika Division reach you.',
-  machineGun: 'Take his machine gun',
-  firstWave: 'First drop incoming over the town.',
-  secondWave: 'Second drop near Šobića glavica. Watch the west!',
-  relief: 'The Lika brigade is approaching from the west!',
-  victoryTitle: 'Stigli su Ličani!',
-  victory: 'The 3rd Brigade of the 6th Lika Division has reached you. You held the churchyard.',
-  defeat: 'The position has fallen.',
-}
+const messages = texts.drvar
 
 /**
  * The stronghold "Moskva": the churchyard, `length` metres along x and `width` along z, walled round with old stone,
@@ -604,7 +595,7 @@ export default class DrvarScene extends Scene3D {
     const minutes = Math.floor(remaining / 60)
     const seconds = String(remaining % 60).padStart(2, '0')
     const reliefStatus = this.reliefArrived ? messages.victoryTitle
-      : this.relief ? 'Ličani are approaching' : `Hold until relief · ${minutes}:${seconds}`
+      : this.relief ? messages.approaching : messages.holdUntilRelief(`${minutes}:${seconds}`)
     return /* html */`
       <div class="top-left ${currentStyleClasses().score}">
         <div>

@@ -17,6 +17,9 @@ import { keyboard } from '/core/io/Keyboard.js'
 import { leftPlayerKeys, rightPlayerKeys } from '/core/io/keys.js'
 import { randomInRange } from '/core/utils.js'
 import customStartScreen from './startScreen.js'
+import { texts } from '/scenes/texts.js'
+
+const text = texts.tenkici
 
 const groundLevel = canvas2d.height * 0.8
 /** The battlefield is this many metres wide, whatever the screen, so the tanks keep their size to it. */
@@ -30,12 +33,9 @@ export const battlefieldOrder = ['sremFront1944', 'batina', 'sremFront1945']
 const opponents = { sremFront1944: m15, batina: stug, sremFront1945: germanTank }
 let nextBattlefield = 0
 
-/** The history before the match; the report names where it begins, so only later rounds announce their place. */
-const report = 'Syrmian Front, October 1944\n\nThe Germans dig in on the plain west of Belgrade. Your task is to destroy the enemy.'
-
 export default class TenkiciScene extends Scene2D {
   constructor() {
-    super({ controlKeys: tankLeftControls, customStartScreen, reportText: report, showControls: true })
+    super({ controlKeys: tankLeftControls, customStartScreen, reportText: text.report, showControls: true })
   }
 
   /** A match goes to two won rounds, at most three, as in Ustanak; each round is fought on the next battlefield. */
@@ -111,7 +111,7 @@ export default class TenkiciScene extends Scene2D {
   }
 
   sideName(side) {
-    return side === 0 ? 'Partisan tank' : 'German tank'
+    return text.sides[side]
   }
 
   /** The round goes to the tank left standing; a match is won with two rounds. Both lost at once count for the left. */
@@ -123,10 +123,10 @@ export default class TenkiciScene extends Scene2D {
     this.roundWinner = winner
     this.score[winner]++
     keyboard.reset()
-    const text = `${this.sideName(1 - winner)} destroyed. ${this.score.join(' : ')}`
+    const result = text.destroyed(this.sideName(1 - winner), this.score.join(' : '))
     if (this.score[winner] === 2) {
-      if (winner === 0) this.victory(text)
-      else this.defeat(text)
+      if (winner === 0) this.victory(result)
+      else this.defeat(result)
       return
     }
     if (winner === 0) this.ui.victorySound.play()
@@ -137,7 +137,7 @@ export default class TenkiciScene extends Scene2D {
   showRoundResult() {
     this.ui.showScreen('round', /* html */`
       <div class="central-screen flex-column ${currentStyleClasses().container}">
-        <h3>Round ${this.round}: ${this.sideName(this.roundWinner)} wins!</h3>
+        <h3>${text.roundWon(this.round, this.sideName(this.roundWinner))}</h3>
         <p>${this.score.join(' : ')}</p>
         ${mainMenuButton('bg-olive')}
         <button class="bg-olive" id="next-round">Next round</button>

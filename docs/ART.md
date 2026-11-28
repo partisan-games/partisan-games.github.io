@@ -14,6 +14,8 @@ Kod [Renaulta FT](../core3d/actor/derived/RenaultTracks.js) tekstura obe gusenic
 
 ## Pravila pripreme i ponovne upotrebe
 
+**Novi 3D modeli dolaze od vlasnika, ne od Codexa (vlasnik, 2026-11-27).** Codex dorađuje postojeće modele i teksture. Kad modela nema, igra koristi najbližu zgradu ili predmet iz projekta, koju Codex po potrebi dorađuje (vlasnik, 2026-11-28).
+
 <a id="precrtavanje-uniformi"></a>
 **Precrtavanje odeće i uniformi u 2D i 3D (vlasnik, 2026-11-27).** Kod partizana se odeća može menjati i kombinovati s istorijski primerenim zaplenjenim komadima različitih uniformi. Kod nemačke, italijanske i drugih regularnih vojski pri precrtavanju sačuvati propisanu osnovnu boju i šaru uniforme prema potvrđenom prikazu jedinice i perioda. Pixel art menja način crtanja, a propisana boja i šara ostaju iste.
 

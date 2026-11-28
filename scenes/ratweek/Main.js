@@ -19,6 +19,9 @@ import { createLandmark, landmarkModels } from './utils.js'
 import { createLandPiece, trackModel } from './landscape.js'
 import { landmarks } from './route.js'
 import customStartScreen, { planes } from './startScreen.js'
+import { texts } from '/scenes/texts.js'
+
+const text = texts.ratweek
 
 const { randFloatSpread } = THREE.MathUtils
 
@@ -62,7 +65,7 @@ export default class WarplaneScene extends Scene3D {
     super({
       controlKeys: { ...baseControls, [attackLabels[inputLayouts.warplane.attackKey]]: 'rockets', [keys.attack2.label]: 'machine guns' },
       customStartScreen,
-      reportText: 'Yugoslavia, September 1944\n\nGerman troops from Greece rush north to stop the liberation of Belgrade. Your task is to bomb the railways and bridges in their way.',
+      reportText: text.report,
     })
   }
 
@@ -176,7 +179,7 @@ export default class WarplaneScene extends Scene3D {
 
   start() {
     super.start()
-    this.ui.showMessage('Destroy bridges, trains and factories.<br><br>Do not hit civilian houses.')
+    this.ui.showMessage(text.task)
   }
 
   /** What stands on the route comes into being, in its order, once it is `buildingDistance` ahead of the plane. */
@@ -239,7 +242,7 @@ export default class WarplaneScene extends Scene3D {
       building.counted = true
       if (missionTargets.includes(building.body.kind)) this.score++
       if (building.body.kind === 'civil') {
-        this.ui.showMessage('No! Destruction of civilian buildings is a war crime.')
+        this.ui.showMessage(text.warCrime)
         this.score--
       }
     }
@@ -269,13 +272,13 @@ export default class WarplaneScene extends Scene3D {
     this.countDestroyed()
 
     if (this.player.dead)
-      return this.finishAfterDelay(delta, () => this.defeat('You have failed.'))
+      return this.finishAfterDelay(delta, () => this.defeat(text.defeat))
 
     this.addLandmarks()
     if (time < totalTime - 10 && this.fighterWait.ready && !this.fighters.some(fighter => fighter.alive)) this.addFighter()
     if (time >= totalTime) {
       this.player.setState('land')
-      this.finishAfterDelay(delta, () => this.victory('You have completed the mission.'))
+      this.finishAfterDelay(delta, () => this.victory(text.victory))
     }
   }
 }

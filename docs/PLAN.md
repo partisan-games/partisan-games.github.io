@@ -6,20 +6,18 @@ Trajni spisak otvorenih poslova i ideja; završene stavke se uklanjaju, ovaj dok
 
 | # | ID | Posao | Ko | Status |
 |---|---|---|---|---|
-| | **[Vlasnik](#vlasnik)** | | | |
-| 1 | [VL-01](#vl-01) | Pronaći modele koje igre čekaju | Vlasnik | 📋 TODO |
 | | **[Art](#art)** | | | |
 | | **[Igre i ideje](#igre)** | | | |
-| 2 | [IG-18](#ig-18) | Otpisani kao arkadna pucačina kroz četiri beogradske ulice | Claude | 🔄 In progress |
-| 3 | [IG-29](#ig-29) | Dovršiti logor Crveni krst u Escape Concentration Camp | Codex, Claude | 🔄 In progress |
-| 4 | [CK-01](#ck-01) | Crveni krst: uskladiti vidljivog lika, telo i stopala | Claude | 🔄 In progress |
-| 5 | [CK-02](#ck-02) | Crveni krst: prave animacije i prelazi | Claude | 🔄 In progress |
-| 6 | [CK-06](#ck-06) | Crveni krst: zvuci po snegu i završna provera ambijenta | Claude | 🔄 In progress |
-| 7 | [CK-07](#ck-07) | Crveni krst: pregled celog proboja i regresije | Claude | 📋 TODO |
-| 8 | [IG-31](#ig-31) | Ratweek: proveriti brzinu prikaza terena u letu | Claude, Codex, vlasnik | 🔄 In progress |
-| 9 | [IG-34](#ig-34) | Napraviti vernu scenu i igru opsade Kraljeva po dogovorenom scenariju | Vlasnik, Claude, Codex | 🔄 In progress |
-| 10 | [IG-35](#ig-35) | Otkriti igre na telefonu posle merenja i optimizacije, kad su nivoi gotovi | Claude, vlasnik | 📋 TODO |
-| 11 | [IG-38](#ig-38) | Ustanak: pogoci granate u strelca i zastavnika | Codex, Claude | 📋 TODO |
+| 1 | [IG-18](#ig-18) | Otpisani kao arkadna pucačina kroz četiri beogradske ulice | Claude | 🔄 In progress |
+| 2 | [IG-29](#ig-29) | Dovršiti logor Crveni krst u Escape Concentration Camp | Codex, Claude | 🔄 In progress |
+| 3 | [CK-01](#ck-01) | Crveni krst: uskladiti vidljivog lika, telo i stopala | Claude | 🔄 In progress |
+| 4 | [CK-02](#ck-02) | Crveni krst: prave animacije i prelazi | Claude | 🔄 In progress |
+| 5 | [CK-06](#ck-06) | Crveni krst: zvuci po snegu i završna provera ambijenta | Claude | 🔄 In progress |
+| 6 | [CK-07](#ck-07) | Crveni krst: pregled celog proboja i regresije | Claude | 📋 TODO |
+| 7 | [IG-31](#ig-31) | Ratweek: proveriti brzinu prikaza terena u letu | Claude, Codex, vlasnik | 🔄 In progress |
+| 8 | [IG-34](#ig-34) | Napraviti vernu scenu i igru opsade Kraljeva po dogovorenom scenariju | Vlasnik, Claude, Codex | 🔄 In progress |
+| 9 | [IG-35](#ig-35) | Otkriti igre na telefonu posle merenja i optimizacije, kad su nivoi gotovi | Claude, vlasnik | 📋 TODO |
+| 10 | [IG-38](#ig-38) | Ustanak: pogoci granate u strelca i zastavnika | Codex, Claude | 📋 TODO |
 
 ## Održavanje plana
 
@@ -30,15 +28,6 @@ Po završetku ukloniti stavku i njene nepotrebne beleške. Korisne potvrđene od
 Važe [DOCS](DOCS.md), [ugovor arta](ART.md#obavezna-integracija) i [arhitektura](ARHITEKTURA.md). Izvršene dokaze i ograničenja čuva [TESTING](TESTING.md). Plan je za agente: u njemu nema vlasnikovih pregleda, jer vlasnik gleda tek na kraju; stavka se zatvara kad je agentov deo urađen i proveren (vlasnik, 2026-11-26). Ranije završene provere ne ponavljati zbog reorganizacije plana.
 
 <a id="vlasnik"></a>
-## Vlasnik
-
-<a id="vl-01"></a>
-### VL-01 · Šta vlasnik traži
-
-Ovo je jedini spisak onoga što vlasnik nalazi i preuzima; stavke za koje služi samo vode ovamo. Novi 3D modeli dolaze od vlasnika, ne od Codexa (vlasnik, 2026-11-27).
-
-- [ ] 3D model zgrade suda iz međuratne Srbije, za trg u Kraljevu; crkva je [Church](../core3d/actor/buildings/Church.js) iz Drvara. Za [IG-34](#ig-34).
-
 ## Art
 
 ### Mogućnosti bez naloga za izradu
@@ -182,13 +171,16 @@ Teren i objekti po izvorima ([Opsada Kraljeva](https://sr.wikipedia.org/sr-el/Op
 - **Ishod 31. oktobra:** tenkovi, praćeni bombaškim grupama, probili su se do centra, ali su se bez pešadije povukli.
 - **Nema u izvorima:** bunkeri, rovovi, žica, mitraljeska gnezda i tačne ulice. Za njih proveriti izveštaje 717. divizije na znaci.org.
 
-Prva scena (2026-11-25, [raspored](../scenes/3d-tank/kraljevo.js)): drum od Čačka, žica preko druma, rov od džakova sa dva mitraljeska gnezda, bunker i top. Uz drum je škola, zatim ulica sa dve barikade i kuća koja gori, pa kružni trg sa spomenikom Milutinu. Nemci drže položaje okrenuti ka drumu. Uz drum od Čačka do žice stoji drvored [lipa](../core3d/actor/nature/Tree.js) (2026-11-26). Kuće u ulici i oko trga imaju [precrtane fasade](ART.md#3d); Ratarska škola je „Gradska zgrada“ iz [kuća grada](../core3d/actor/buildings/TownHouse.js), a na trgu je [Spomenik srpskim ratnicima](../assets/models/building/monument/milutin.glb). Pobeda je kad tenk stigne do centra grada (trga), a poraz kad izginu svi saborci; vreme se ne meri, jer bitka može trajati i satima. Logika igre (vlasnik, 2026-11-25): tenk mora prvo da pripremi teren. Ukopani Nemci dobacuju dalje od saboraca (mitraljez 55 m, puška 45 m, saborci 40 m), a tenkovski top dalje od svih; ako tenk samo projuri, saborci uđu u vatru i uglavnom izginu, a ako prvo izdaleka gađa položaje, otvara im put ([vrednosti](../scenes/3d-tank/kraljevo.js)).
+Prva scena (2026-11-25, [raspored](../scenes/3d-tank/kraljevo.js)): drum od Čačka, žica preko druma, rov od džakova sa dva mitraljeska gnezda, bunker i top. Uz drum je škola, zatim ulica sa dve barikade i kuća koja gori, pa kružni trg sa spomenikom Milutinu. Nemci drže položaje okrenuti ka drumu. Uz drum od Čačka do žice stoji drvored [lipa](../core3d/actor/nature/Tree.js) (2026-11-26). Kuće u ulici i oko trga imaju [precrtane fasade](ART.md#3d); Ratarska škola je „Gradska zgrada“ iz [kuća grada](../core3d/actor/buildings/TownHouse.js), a na trgu je [Spomenik srpskim ratnicima](../assets/models/building/monument/milutin.glb). Pobeda je kad tenk stigne do centra grada (trga), a poraz kad izginu svi saborci ili kad nemački topovi unište tenk (vlasnik, 2026-11-28: dva topa, kod rova i pred trgom, gađaju tenk; puške mu ne mogu ništa); vreme se ne meri, jer bitka može trajati i satima. Logika igre (vlasnik, 2026-11-25): tenk mora prvo da pripremi teren. Ukopani Nemci dobacuju dalje od saboraca (mitraljez 55 m, puška 45 m, saborci 40 m), a tenkovski top dalje od svih; ako tenk samo projuri, saborci uđu u vatru i uglavnom izginu, a ako prvo izdaleka gađa položaje, otvara im put ([vrednosti](../scenes/3d-tank/kraljevo.js)).
 
+
+Nemačka odbrana pojačana je na 16 branilaca. Osam ih drži rov i prilaz Ratarskoj školi, po trojica brane ulične barikade, a dvojica ulaz na trg. Težinu proboja sa pojačanom odbranom treba proveriti u igri.
 
 Scena treba više da liči na Kraljevo (vlasnik, 2026-11-27), prema [istraživanju](ISTORIJA.md#kraljevo-oktobar-1941--polazište-za-izgled-opsade-kraljeva): grad je u dolini na ušću Ibra u Zapadnu Moravu, a tenkovi su išli putem od Čačka do centra.
 
-- [ ] Claude: [dolina](../scenes/3d-tank/valley.js) je napravljena (brda u prstenu oko grada, Ružića brdo iza tenka, Morava uz drum i Ibar iza trga, mirna voda sa obalama koje tenk ne prelazi); pogledati je u igri i doterati boje i visine.
-- [ ] Claude: zgrada suda na trgu, kad stigne model ([VL-01](#vl-01)); crkva već stoji na trgu, naspram ulaza ulice.
+- [ ] [Dolina](../scenes/3d-tank/valley.js) ima vidljive planinske padine, Ružića brdo iza tenka, Moravu uz drum, Ibar iza trga i niske terase sa obe strane prilaza. Tenk prati reljef po terasama, a drum i trg ostaju prohodni. Pogledati iz tenka u igri i doterati boje i visine po potrebi.
+- [ ] Codex: doraditi [sud na trgu](../scenes/3d-tank/kraljevo.js), naspram ulaza ulice: privremeno je to zgrada sa lučnim ulazom iz [gradskih kuća](../assets/models/building/town/building/preview.jpg), na kojoj treba bar ukloniti italijanski natpis pozorišta i uskladiti je sa međuratnom Srbijom (vlasnik, 2026-11-28).
+- [x] Codex: pripremljena [olupina poljskog topa](../assets/models/weapon/cannon/field-gun-75-wreck.glb) iz [istog modela](../assets/models/weapon/cannon/field-gun-75.glb), sa istim ishodištem i cevi ka −Z. [Blender priprema](../scripts/build-field-gun-wreck.py) zadržava 4.768 trouglova, sa sedam primitiva i dva materijala. Povezivanje uništenog stanja u sceni preuzima autor logike topa.
 
 <a id="ig-35"></a>
 ### IG-35 · Igre na telefonu

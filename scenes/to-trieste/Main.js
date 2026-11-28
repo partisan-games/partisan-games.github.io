@@ -37,6 +37,9 @@ import vehicleArt from '/core/actor/vehicleArt.js'
 import spriteArt from '/core/actor/spriteArt.js'
 import Route from './Route.js'
 import BattleFeedback from './BattleFeedback.js'
+import { texts } from '/scenes/texts.js'
+
+const text = texts['to-trieste']
 
 /** How many pixels a metre of the road is drawn: the bodies are in metres, the view and its scenery in pixels. */
 const pxPerMeter = 20
@@ -69,8 +72,8 @@ const bomb = { radius: 1.76, damage: 12 }
 export default class ToTriesteScene extends Scene2D {
   constructor() {
     super({ controlKeys: tankLeftControls,
-      intro: 'Break through the enemy positions, shoot down the planes and reach the end of the road.',
-      reportText: 'Istria, April 1945\n\nThe Yugoslav Fourth Army races the Allies to Trieste. Your task is to lead the tanks into the city first.' })
+      intro: text.intro,
+      reportText: text.report })
   }
 
   async init() {
@@ -326,8 +329,8 @@ export default class ToTriesteScene extends Scene2D {
     this.countKills()
     this.returnPassed()
     this.feedback.update()
-    if (this.player.dead) this.defeat('Tvoj tenk je uništen.')
-    else if (this.cameraX >= this.levelLength) this.victory('Proboj je uspeo. Stigao si do kraja puta.')
+    if (this.player.dead) this.defeat(text.defeat)
+    else if (this.cameraX >= this.levelLength) this.victory(text.victory)
   }
 
   clear() {

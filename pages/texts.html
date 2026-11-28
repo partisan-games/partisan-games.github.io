@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="sr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tekstovi igara</title>
+  <link rel="icon" href="data:,">
+  <style>
+    body { margin: 0; padding: 24px; background: #1d1f1a; color: #ddd; font: 15px/1.5 system-ui, sans-serif; }
+    main { max-width: 960px; margin: auto; }
+    a { color: #e4c86c; }
+    h1 { margin: 12px 0 4px; font-size: 24px; }
+    header p { margin: 0 0 24px; color: #aaa; }
+    h2 { margin: 32px 0 8px; font-size: 19px; color: #e4c86c; }
+    dl { display: grid; grid-template-columns: minmax(120px, 200px) 1fr; gap: 6px 16px; margin: 0; }
+    dt { color: #999; font-family: ui-monospace, monospace; font-size: 13px; overflow-wrap: anywhere; }
+    dd { margin: 0; white-space: pre-line; }
+    .template { color: #b8d48a; }
+    /* the report and the task, read first */
+    dd.main { padding: 10px 14px; border-left: 3px solid #e4c86c; background: #2a2d25; color: #f3ecd8; font-size: 17px; }
+    dt.main { padding-top: 10px; color: #e4c86c; font-weight: 600; }
+    @media (max-width: 560px) { body { padding: 16px; } dl { grid-template-columns: 1fr; } dd { margin-bottom: 8px; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <a href="/">← Početna</a>
+      <h1>Tekstovi igara</h1>
+      <p>Svi tekstovi koje igre prikazuju igraču, po igrama. Menjaju se na jednom mestu, u <code>scenes/texts.js</code>.
+        Zeleno su tekstovi sa delom koji igra popunjava u toku igre, u <code>${…}</code>.</p>
+    </header>
+    <div id="texts"></div>
+  </main>
+  <script type="module">
+    import renderTexts from '/pages/texts.js'
+    renderTexts(document.getElementById('texts'))
+  </script>
+</body>
+</html>

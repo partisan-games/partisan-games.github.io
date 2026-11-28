@@ -15,7 +15,7 @@ let navigation = 0
 let openingCabinet = false
 
 /** The games whose address is not the name of their folder. */
-const addresses = { cannon: 'jablanica', bunker: 'krupanj' }
+const addresses = { cannon: 'jablanica', bunker: 'krupanj', '3d-tank': 'kraljevo' }
 const gameAt = address => Object.keys(addresses).find(path => addresses[path] === address) ?? address
 
 const showError = title => {
@@ -73,7 +73,8 @@ const showMenu = () => {
 /** Opens the game in the address. */
 const route = async() => {
   const currentNavigation = ++navigation
-  const path = gameAt(location.hash.slice(1))
+  const address = location.hash.slice(1)
+  const path = gameAt(address)
   if (!path) return showMenu()
 
   delete document.body.dataset.loadedGame
@@ -88,7 +89,7 @@ const route = async() => {
   elementUI.innerHTML = modalElement.innerHTML = ''
   try {
     await manager.start(path)
-    if (currentNavigation === navigation) document.body.dataset.loadedGame = path
+    if (currentNavigation === navigation) document.body.dataset.loadedGame = address
   } catch (error) {
     showLoadError(error)
   }

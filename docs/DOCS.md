@@ -89,7 +89,7 @@ Pre uklanjanja proveriti zavisnosti, a posle uskladiti skripte, metapodatke i ve
 
 Svaki novi UI element zahteva prethodno izričito odobrenje vlasnika, uključujući brojače, tekstove, indikatore, dugmad i obaveštenja. Nalog za izmenu gameplay-a ili završetak plana sam po sebi ne odobrava dodavanje UI elemenata.
 
-Isto važi za izmenu postojećih UI tekstova: uvoda, poruka, ishoda, natpisa dugmadi i opisa kontrola. Izuzetak je usklađivanje teksta sa promenjenim gameplay-om bez kreativnosti i bez novih termina (npr. uklonjen tenk iz uvoda, „refuel” kad goriva više nema): radi se odmah i javlja vlasniku. Sve ostalo čeka odobrenje; do tada stari tekst ostaje, a predlog se pokazuje vlasniku.
+Tekstovi koje igre prikazuju igraču (izveštaj pre starta, zadatak, poruke u toku igre i ishodi) stoje na jednom mestu, u [scenes/texts.js](../scenes/texts.js), a [stranica tekstova](../pages/texts.html) ih prikazuje po igrama (vlasnik, 2026-11-28). Isto važi za izmenu postojećih UI tekstova: uvoda, poruka, ishoda, natpisa dugmadi i opisa kontrola. Izuzetak je usklađivanje teksta sa promenjenim gameplay-om bez kreativnosti i bez novih termina (npr. uklonjen tenk iz uvoda, „refuel” kad goriva više nema): radi se odmah i javlja vlasniku. Sve ostalo čeka odobrenje; do tada stari tekst ostaje, a predlog se pokazuje vlasniku.
 
 Za uputstva postojećih komandi važi dodatna odluka vlasnika: nedostajuće i netačne opise ispravljati automatski prema stvarnom kodu. Pitanje je potrebno kada dva tastera rade isto, a jedan je već naveden; skrivene prečice i granice ovog odobrenja opisuje [UI vodič](UI.md#komande-tastatura-i-touch).
 

@@ -29,6 +29,9 @@ import Terrain, { crater } from './Terrain.js'
 import customStartScreen from './startScreen.js'
 import airTarget from './airTarget.js'
 import { randomInRange } from '/core/utils.js'
+import { texts } from '/scenes/texts.js'
+
+const text = texts.ustanak
 
 const groundLevel = canvas2d.height * .75
 /** The line the wheels and the feet stand on, in pixels: a little under the far edge of the field. */
@@ -55,10 +58,8 @@ const places = { gun: 3.75, crew: [3.15, 3.45], bearer: { partisan: 1, italian: 
  * the screen wide in the middle of the field.
  */
 const hill = { height: 2.5, width: .3 }
-const howToPlay = 'Destroy the enemy mortar. Hold Space to charge, release to fire.'
 
 /** The history before the match; the messages in play keep to the turns and how to play. */
-const report = 'Montenegro, 13 July 1941\n\nThe people of Montenegro rise against the Italian occupiers. You are ordered to destroy the Italian garrison at Grahovo.'
 
 /** The second player's keys in real time, beside the first one's. */
 const secondPlayerControls = {
@@ -67,7 +68,7 @@ const secondPlayerControls = {
 
 export default class UstanakScene extends Scene2D {
   constructor() {
-    super({ controlKeys: { W: 'up', S: 'down', Space: 'shoot' }, customStartScreen, reportText: report, showControls: true })
+    super({ controlKeys: { W: 'up', S: 'down', Space: 'shoot' }, customStartScreen, reportText: text.report, showControls: true })
   }
 
   init() {
@@ -209,14 +210,14 @@ export default class UstanakScene extends Scene2D {
     this.turnNotice = this.session.gameplay.child()
     this.announcingTurn = true
     // real time has no turns to name, only the place of a new round and how to play
-    const text = this.realTime ? '' : this.vsComputer
-      ? (this.turns.active === 0 ? 'Your turn' : 'Computer\'s turn')
-      : `Player ${this.turns.active + 1}'s turn`
+    const turn = this.realTime ? '' : this.vsComputer
+      ? (this.turns.active === 0 ? text.yourTurn : text.computerTurn)
+      : text.playerTurn(this.turns.active + 1)
     const screen = document.createElement('div')
     screen.className = 'central-screen'
-    if (text) {
+    if (turn) {
       const title = document.createElement('h3')
-      title.textContent = text
+      title.textContent = turn
       screen.append(title)
     }
     if (newRound) {
@@ -232,12 +233,12 @@ export default class UstanakScene extends Scene2D {
     const showInstructions = !this.instructionsShown && (!this.vsComputer || this.realTime || this.turns.active === 0)
     if (showInstructions) {
       const instructions = document.createElement('p')
-      instructions.textContent = howToPlay
-      if (this.realTime && !this.vsComputer) instructions.textContent += ' Player 2: ↑ ↓ to aim, hold Enter to charge.'
+      instructions.textContent = text.howToPlay
+      if (this.realTime && !this.vsComputer) instructions.textContent += text.secondPlayer
       screen.append(instructions)
       this.instructionsShown = true
     }
-    this.ui.message = text
+    this.ui.message = turn
     this.ui.turnSound.play()
     this.ui.messageElement.replaceChildren(screen)
     this.ai.beginTurn()
@@ -310,15 +311,15 @@ export default class UstanakScene extends Scene2D {
     } else if (this.turns.settle(own.hasActiveShot || enemy.hasActiveShot)) {
       const target = this.guns[1 - shooter]
       const hit = target.health.current < this.shotTargetHealth
-      const subject = this.vsComputer ? (shooter === 0 ? 'You' : 'Enemy') : `Player ${shooter + 1}`
-      const targetName = this.vsComputer ? (shooter === 0 ? 'the enemy mortar' : 'your mortar') : `Player ${2 - shooter}'s mortar`
-      this.announceTurn(hit ? `${subject} hit ${targetName}!` : `${subject} missed!`)
+      const subject = this.vsComputer ? (shooter === 0 ? text.you : text.enemy) : text.player(shooter + 1)
+      const targetName = this.vsComputer ? (shooter === 0 ? text.enemyMortar : text.yourMortar) : text.playerMortar(2 - shooter)
+      this.announceTurn(hit ? text.hit(subject, targetName) : text.missed(subject))
     }
     if (this.vsComputer && this.canShoot(1)) this.ai.update()
   }
 
   sideName(side) {
-    return this.vsComputer ? (side === 0 ? 'You' : 'Computer') : `Player ${side + 1}`
+    return this.vsComputer ? (side === 0 ? text.you : text.computer) : text.player(side + 1)
   }
 
   finishRound(winner) {
@@ -334,9 +335,9 @@ export default class UstanakScene extends Scene2D {
     for (const gun of this.guns)
       gun.shells.projectiles.forEach(shell => shell.setState('idle'))
     if (this.score[winner] === 2) {
-      const text = `${this.sideName(winner)} ${this.vsComputer && winner === 0 ? 'win' : 'wins'} the match! ${this.score.join(' : ')}`
-      if (this.vsComputer && winner === 1) this.defeat(text)
-      else this.victory(text)
+      const result = text.matchWon(this.sideName(winner), this.vsComputer && winner === 0, this.score.join(' : '))
+      if (this.vsComputer && winner === 1) this.defeat(result)
+      else this.victory(result)
       return
     }
     if (this.vsComputer && winner === 1) this.ui.defeatSound.play()
@@ -347,7 +348,7 @@ export default class UstanakScene extends Scene2D {
   showRoundResult() {
     this.ui.showScreen('round', /* html */`
       <div class="central-screen flex-column ${currentStyleClasses().container}">
-        <h3>Round ${this.round}: ${this.sideName(this.roundWinner)} ${this.vsComputer && this.roundWinner === 0 ? 'win' : 'wins'}!</h3>
+        <h3>${text.roundWon(this.round, this.sideName(this.roundWinner), this.vsComputer && this.roundWinner === 0)}</h3>
         <p>${this.score.join(' : ')}</p>
         ${mainMenuButton('bg-olive')}
         <button class="bg-olive" id="next-round">Next round</button>

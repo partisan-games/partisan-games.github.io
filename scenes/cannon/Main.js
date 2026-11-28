@@ -30,6 +30,9 @@ import { infantryModels } from '/core3d/actor/derived/ww2/partisanLooks.js'
 import Tracers from './Tracers.js'
 import SurrenderChoice from './SurrenderChoice.js'
 import ScorchMarks from './ScorchMarks.js'
+import { texts } from '/scenes/texts.js'
+
+const text = texts.cannon
 
 /** The fort faces the gun on the same bank, with barrels in front of the wall. */
 const fortFront = -13
@@ -58,8 +61,8 @@ const controlKeys = {
 export default class CannonScene extends Scene3D {
   constructor() {
     super({
-      intro: 'Shell the Italian fort until its garrison surrenders.',
-      reportText: 'Jablanica, February 1943\n\nItalian troops hold the old Austrian barracks above the Neretva. The partisan guns are ready to open fire.',
+      intro: text.intro,
+      reportText: text.report,
       canvasBackground: 'linear-gradient(#8499a5, #c7d1d6 70%, #d8dede)',
       controlKeys,
     })
@@ -306,8 +309,8 @@ export default class CannonScene extends Scene3D {
     this.blasts.update()
     this.defenders.update(dt)
     if (!this.player.dead && this.surrender.accepted && this.defenders.prisonersReady)
-      return this.victory('The garrison has surrendered.', 'Bravo!')
-    if (!this.player.dead && !this.defenders.living) return this.victory('The garrison has been defeated.', 'Bravo!')
+      return this.victory(text.surrendered, text.victoryTitle)
+    if (!this.player.dead && !this.defenders.living) return this.victory(text.defeated, text.victoryTitle)
     this.flag.update(dt)
     this.surrender.update()
     if (this.surrender.pending) return
@@ -318,6 +321,6 @@ export default class CannonScene extends Scene3D {
     this.tracers.update(dt)
 
     // the battle is lost once the last of the crew lies on the ground, so his fall plays out
-    if (this.player.dead && this.crew.members.every(member => !member.fallMixer)) this.defeat('Your gun crew has been killed.')
+    if (this.player.dead && this.crew.members.every(member => !member.fallMixer)) this.defeat(text.crewKilled)
   }
 }

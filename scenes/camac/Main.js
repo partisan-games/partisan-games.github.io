@@ -21,6 +21,9 @@ import Passengers from './Passengers.js'
 import AirRaids from './AirRaids.js'
 import WaterEffects from './WaterEffects.js'
 import Minefield from './Minefield.js'
+import { texts } from '/scenes/texts.js'
+
+const text = texts.camac
 
 /** How many pixels a metre of the sea is drawn. */
 const pxPerMeter = 25
@@ -47,8 +50,8 @@ export default class CamacScene extends Scene2D {
   constructor({ stage = 0, ...options } = {}) {
     super({
       controlKeys: { ...baseControls, [keys.down.label]: '', [attackLabels.Space]: 'shoot', [keys.attack2.label]: 'rocket' },
-      intro: 'Strike at night and return safely to base.',
-      reportText: 'Vis, May 1944\n\nPartisan boats raid the German-held islands. Your task is to land troops on Šolta.',
+      intro: text.intro,
+      reportText: text.report,
       ...options,
     })
     this.stage = stage
@@ -110,16 +113,16 @@ export default class CamacScene extends Scene2D {
   /** After the last stage the game is won; after another, the game rests a moment, saying so, and the next begins. */
   finishStage() {
     this.minefield.clear()
-    if (this.stage === stages.length - 1) return this.victory('Mission accomplished. The assault on Šolta succeeded and your troops have returned safely to Vis.')
+    if (this.stage === stages.length - 1) return this.victory(text.victory)
     if (this.betweenStages) return
     this.betweenStages = true
     this.releaseKeys()
-    this.ui.showMessage(`Stage ${this.stage + 1} of ${stages.length} complete`)
+    this.ui.showMessage(text.stageDone(this.stage + 1, stages.length))
     this.session.gameplay.after(stagePause, () => {
       this.betweenStages = false
       this.stage++
       this.startStage()
-      this.ui.showMessage(`Stage ${this.stage + 1}: ${stages[this.stage].name}`)
+      this.ui.showMessage(text.stageStart(this.stage + 1, stages[this.stage].name))
     })
   }
 

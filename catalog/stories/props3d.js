@@ -1,3 +1,4 @@
+import * as THREE from 'three'
 import Stage3D from '../Stage3D.js'
 import * as campModule from '/core3d/actor/buildings/CampProp.js'
 import Church, * as churchModule from '/core3d/actor/buildings/Church.js'
@@ -7,6 +8,8 @@ import Milutin, * as monumentModule from '/core3d/actor/buildings/Milutin.js'
 import { requestModels } from '/core3d/assets/models.js'
 import Sandbags, * as sandbagsModule from '/core3d/actor/buildings/Sandbags.js'
 import Barricade, * as barricadeModule from '/core3d/actor/buildings/Barricade.js'
+import WireFence, * as wireModule from '/core3d/actor/buildings/WireFence.js'
+import ConcreteBlock, * as concreteModule from '/core3d/actor/buildings/ConcreteBlock.js'
 import TownHouse, * as townHouseModule from '/core3d/actor/buildings/TownHouse.js'
 import WarDebris, { hasTruckWreck, TruckDebris } from '/core3d/actor/buildings/WarDebris.js'
 import * as warDebrisModule from '/core3d/actor/buildings/WarDebris.js'
@@ -74,6 +77,34 @@ const barricade = {
     const block = new Barricade()
     stage.add(block)
     return block
+  },
+}
+
+const wireFence = {
+  id: 'bodljikava-zica', name: 'Bodljikava žica pred rovom', game: 'Siege of Kraljevo', block: wireModule, stage: Stage3D,
+  catalogGroup: ['Scenografija', 'Zakloni'],
+  create: async stage => {
+    await requestModels(wireModule.models)
+    const block = new WireFence()
+    stage.add(block)
+    return block
+  },
+}
+
+const concreteWall = {
+  id: 'zid-od-betonskih-blokova', name: 'Zid od betonskih blokova', game: 'Siege of Kraljevo', block: concreteModule,
+  stage: Stage3D, catalogGroup: ['Scenografija', 'Zakloni'],
+  create: stage => {
+    const material = concreteModule.concreteMaterial()
+    const mesh = new THREE.Group()
+    for (const { x, y } of concreteModule.wallCourses(4, 3)) {
+      const block = new ConcreteBlock(material).mesh
+      block.position.set(x, y, 0)
+      mesh.add(block)
+    }
+    const wall = { mesh }
+    stage.add(wall)
+    return wall
   },
 }
 
@@ -156,4 +187,4 @@ const trains = [
   },
 }))
 
-export const props = [...camp, church, milutin, sandbags, barricade, facadeHouse, ...town, ...debris, ...trees, ...ruins, ...trains]
+export const props = [...camp, church, milutin, sandbags, barricade, wireFence, concreteWall, facadeHouse, ...town, ...debris, ...trees, ...ruins, ...trains]

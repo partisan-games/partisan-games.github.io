@@ -1,6 +1,6 @@
 /**
- * An escort keeps within `keep` metres of its place beside its leader, running when it falls more than twice that
- * behind; more than `stray` metres off, it only runs back. It fires at enemies within `sight` metres it can see, a
+ * An escort keeps within `keep` metres of its place beside its leader, matching pace as it approaches.
+ * Beyond `stray` metres, it catches up before it fires at enemies within `sight` metres it can see, a
  * shot every `pause` seconds at least and at most, aiming within `spread` radians.
  */
 export const escort = { keep: 2, stray: 6, sight: 40, pause: [1.5, 3], spread: .03 }
@@ -51,7 +51,8 @@ export default class Escort {
     const { post } = this
     const distance = Math.hypot(post.x - body.x, post.z - body.z)
     // left behind, it catches up with its leader before it fights
-    const target = distance > escort.stray ? null : this.target
+    this.catchingUp = distance > (this.catchingUp ? Math.min(this.keep * 2, escort.stray) : escort.stray)
+    const target = this.catchingUp ? null : this.target
     if (target) {
       body.steer({ ahead: 0 })
       body.face(target)
@@ -65,8 +66,13 @@ export default class Escort {
       this.wait = this.nextPause()
       return
     }
-    if (distance <= this.keep) return body.steer({ ahead: 0 })
+    // A fixed walking speed would overtake a slow tank, then switch back to idle every few frames.
+    const speed = Math.max(0, (distance - this.keep) * 2)
+    if (speed <= (body.moving ? .1 : .25)) return body.steer()
+    // Keep the current gait near walking speed so small changes in the tank's pace don't restart the animation.
+    const running = speed > body.speed * (body.running ? .85 : 1.1)
+    const pace = body.speed * (running ? body.run : 1)
     body.face(post)
-    body.steer({ ahead: 1, running: distance > this.keep * 2 })
+    body.steer({ ahead: Math.min(1, speed / pace), running })
   }
 }

@@ -1,3 +1,5 @@
+import { texts } from '/scenes/texts.js'
+
 /**
  * The first mission's raids: where the view is when each raider comes, in world x, its kind, 'fighter',
  * 'diveBomber', 'bomber' (a He 111) or 'scout' (a Storch), and whether it comes from behind.
@@ -80,8 +82,7 @@ const thirdEnemies = [
  */
 export const missions = [
   {
-    intro: 'Break through the enemy and join the partisans!',
-    outro: 'You joined the partisans! Your plane gets the red star.',
+    ...texts['franjo-kluz'].missions[0],
     takeoff: false,
     disguised: true,
     solidRuin: true,
@@ -91,8 +92,7 @@ export const missions = [
     airRaid: false,
   },
   {
-    intro: 'Destroy the enemy and land on the airfield!',
-    outro: 'Stukas are coming for the airfield! Sirens wail.',
+    ...texts['franjo-kluz'].missions[1],
     takeoff: true,
     disguised: false,
     solidRuin: true,
@@ -102,7 +102,7 @@ export const missions = [
     airRaid: false,
   },
   {
-    intro: 'Air raid! Take off before the Stukas bomb you, shoot them all down and land!',
+    ...texts['franjo-kluz'].missions[2],
     takeoff: true,
     disguised: false,
     solidRuin: false,

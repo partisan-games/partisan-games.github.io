@@ -111,6 +111,31 @@ test('an escort keeps its place beside its leader, the way the leader faces, and
   assert.equal(hidden.target, null, 'it does not shoot what it cannot see')
 })
 
+test('a tank escort keeps a steady gait as the tank creeps, speeds up and stops', () => {
+  for (const fps of [30, 120]) {
+    const leader = { x: 0, z: 0, yaw: -Math.PI / 2 }
+    const body = new Character({ speed: 3 })
+    const guard = new Escort(body, { leader, enemies: [] })
+    const drive = (speed, check) => {
+      for (let frame = 0; frame < fps * 6; frame++) {
+        leader.z += speed / fps
+        guard.update(1 / fps)
+        body.update(1 / fps)
+        if (frame >= fps * 4) check()
+      }
+    }
+    for (const speed of [.8, 3, 5]) drive(speed, () => {
+      assert.equal(body.state, 'move')
+      assert.equal(body.running, speed > body.speed)
+      assert.ok(Math.abs(body.vz - speed) < .1)
+    })
+    drive(0, () => {
+      assert.equal(body.state, 'idle')
+      assert.ok(Math.abs(body.vz) < .01)
+    })
+  }
+})
+
 test('a fighter turns to the nearest living candidate, and to the next when its target falls', () => {
   const body = new Character()
   const ai = new CharacterAI(body, { random: () => .5 })

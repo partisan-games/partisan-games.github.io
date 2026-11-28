@@ -30,6 +30,9 @@ import FirstPersonView from '/core3d/actor/characters/FirstPersonView.js'
 import BuildingModel from '/core3d/actor/buildings/BuildingModel.js'
 import { towerModel, parkedBombers } from '/core3d/actor/buildings/buildingModels.js'
 import airfieldMarkings from './airfieldMarkings.js'
+import { texts } from '/scenes/texts.js'
+
+const text = texts['fps-airport']
 
 const mapSize = 200
 const dornierNum = 8, stukaNum = 8, heinkelNum = 7
@@ -55,8 +58,8 @@ export default class FpsAirportScene extends Scene3D {
       showControls: true,
       canvasBackground: 'linear-gradient(#779db6, #ced9d6 58%, #d3d7c9)',
       controlKeys: fpsControls,
-      intro: 'Destroy all enemy aircraft.',
-      reportText: 'Rajlovac Airfield, Sarajevo, 1943\n\nGerman planes from this airfield sow death among our comrades. Your task is to sneak in and destroy them.',
+      intro: text.intro,
+      reportText: text.report,
     })
   }
 
@@ -148,9 +151,9 @@ export default class FpsAirportScene extends Scene3D {
     const destroyed = this.aircraft.filter(plane => plane.dead)
 
     if (this.player.dead)
-      this.defeat('You are dead.')
+      this.defeat(text.defeat)
 
     if (destroyed.length === this.aircraft.length)
-      this.victory('All enemy planes were destroyed.')
+      this.victory(text.victory)
   }
 }

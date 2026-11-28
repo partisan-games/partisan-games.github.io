@@ -1,16 +1,19 @@
 import Scene3D from '/core/Scene3D.js'
 import { skyGradients } from '/core/constants.js'
 import PhysicsWorld from '/core3d/physics/PhysicsWorld.js'
-import { createGround, grassColor } from '/core3d/ground.js'
 import { hemLight } from '/core3d/light.js'
 import { leaveTracks } from '/core3d/physics/leaveTracks.js'
 import Tank, { models as tankModels } from '/core3d/physics/Tank.js'
 import TankGun from '/core3d/physics/TankGun.js'
 import TankGunModel from '/core3d/physics/TankGunModel.js'
+import EnemyGun from './EnemyGun.js'
+import EnemyGunModel from './EnemyGunModel.js'
+import Health from '/core/gameplay/Health.js'
+import { healthBar } from '/ui/components.js'
 import { baseControls } from '/ui/Controls.js'
 import { BigSmoke, Fire } from '/core3d/Particles.js'
 import { buildKraljevo, kraljevo, posts, defence, models as kraljevoModels } from './kraljevo.js'
-import { buildValley, models as valleyModels } from './valley.js'
+import { buildValley, buildValleyFloor, groundHeight, models as valleyModels } from './valley.js'
 import { description as germanMachineGunner, models as germanMachineGunnerModels } from '/core3d/actor/derived/ww2/GermanMachineGunner.js'
 import { description as ssSoldier, models as ssSoldierModels } from '/core3d/actor/derived/ww2/SSSoldier.js'
 import { description as naziOfficer, models as naziOfficerModels } from '/core3d/actor/derived/ww2/NaziOfficer.js'
@@ -27,6 +30,9 @@ import { description as resistanceFighter, models as resistanceFighterModels } f
 import { description as chetnik, models as chetnikModels } from '/core3d/actor/derived/ww2/Chetnik.js'
 import { description as chetnikSubara, models as chetnikSubaraModels } from '/core3d/actor/derived/ww2/ChetnikSubara.js'
 import { computerDamage } from '/core/gameplay/damage.js'
+import { texts } from '/scenes/texts.js'
+
+const text = texts['3d-tank']
 
 const formation = [
   { description: partisan, ahead: 4, side: -4 },
@@ -43,8 +49,8 @@ export default class Tank3DScene extends Scene3D {
     super({
       toon: 'soft',
       controlKeys: { ...baseControls, Space: 'fire' },
-      reportText: 'Kraljevo, October 1941\n\nPartisans and Chetniks besiege the German garrison in Kraljevo. Two captured tanks join the final assault.',
-      intro: 'Break through the German defence to the town centre. Protect your comrades at all costs.',
+      reportText: text.report,
+      intro: text.intro,
       canvasBackground: skyGradients.modra,
     })
   }
@@ -58,10 +64,9 @@ export default class Tank3DScene extends Scene3D {
     this.physics = new PhysicsWorld({ scene: this.scene })
     this.session.scope.add(() => this.physics.dispose())
 
-    this.ground = createGround({ color: grassColor })
-    this.physics.add(this.ground, 0)
+    this.trackGround = buildValleyFloor(this.physics).trackGround
 
-    await buildKraljevo(this.physics)
+    const { gunVisuals } = await buildKraljevo(this.physics)
     buildValley(this.physics)
 
     // a tank has no jump, so it fires on Space and brakes by driving back
@@ -79,12 +84,22 @@ export default class Tank3DScene extends Scene3D {
 
     // The soldiers' bullets do not harm the tank; its escort can fall.
     const tank = meshTarget(this.player.mesh, { facesPositiveZ: true })
+    // the shells of the German guns do
+    this.armor = new Health({ maximum: kraljevo.armor.health })
+    const armored = Object.assign(meshTarget(this.player.mesh, {
+      facesPositiveZ: true, takeHit: damage => this.armor.damage(damage), alive: () => this.armor.alive,
+    }), { mesh: this.player.mesh })
+    this.guns = kraljevo.guns.map((at, i) => {
+      const gun = new EnemyGun({ ...at, target: armored, world: this.physics, clock: this.session.clock })
+      this.add(gun, new EnemyGunModel(gun, gunVisuals[i]))
+      return gun
+    })
     this.enemies = []
     // ahead of the tank and to its sides, where the camera behind it sees them
     this.comrades = formation.map(({ description, ...place }) => {
       // they run 6 m/s, as fast as a man can, to keep up with the tank
       const { body, model } = makeCharacter(description,
-        { speed: 3, reach: escort.sight, targets: this.enemies, damage: computerDamage })
+        { speed: 3, reach: escort.sight, targets: this.enemies, damage: computerDamage, groundAt: groundHeight })
       const guard = new Escort(body, { leader: tank, enemies: this.enemies, place })
       Object.assign(body, guard.post)
       this.controllers.push(guard)
@@ -94,14 +109,15 @@ export default class Tank3DScene extends Scene3D {
     const germanTargets = [tank, ...this.comrades]
     // each holds his post, facing down the road (-z), and fires on what comes into reach
     for (const { arm, kind = arm, ...post } of posts) {
-      const { body, model } = makeCharacter(defenders[kind], { ...post, ...defence[arm], yaw: Math.PI / 2, targets: germanTargets })
+      const { body, model } = makeCharacter(defenders[kind],
+        { ...post, ...defence[arm], yaw: Math.PI / 2, targets: germanTargets, groundAt: groundHeight })
       const ai = new CharacterAI(body, { target: tank, way: 'defend', sight: defence[arm].reach })
       // Each picks the nearest of the tank and its escort before it decides what to do.
       this.controllers.push(new NearestTarget(ai, { candidates: germanTargets }), ai)
       this.add(body, model)
       this.enemies.push(body)
     }
-    const gun = new TankGun({ tank: this.player, world: this.physics, targets: this.enemies, clock: this.session.clock })
+    const gun = new TankGun({ tank: this.player, world: this.physics, targets: [...this.enemies, ...this.guns], clock: this.session.clock })
     this.add(gun, new TankGunModel(gun))
   }
 
@@ -109,7 +125,8 @@ export default class Tank3DScene extends Scene3D {
     super.update(dt)
 
     if ((this.player.input.left || this.player.input.right) && this.player.speed >= 30)
-      leaveTracks({ body: this.player.body, wheelMeshes: this.player.wheelMeshes, ground: this.ground, scene: this.scene })
+      leaveTracks({ body: this.player.body, wheelMeshes: this.player.wheelMeshes,
+        ground: this.trackGround(this.player.mesh.position), scene: this.scene })
 
     this.physics.update(dt)
     this.smoke?.update(dt, t)
@@ -122,11 +139,13 @@ export default class Tank3DScene extends Scene3D {
     })
 
     // the town centre is the square; without the men who go with it, the tank cannot take the town
-    if (Math.hypot(x, z - kraljevo.square.z) < kraljevo.square.radius) this.victory('You broke through to the town centre.')
-    if (this.comrades.every(comrade => comrade.dead)) this.defeat('Your comrades have fallen. The tank cannot take the town alone.')
+    if (Math.hypot(x, z - kraljevo.square.z) < kraljevo.square.radius) this.victory(text.victory)
+    if (this.comrades.every(comrade => comrade.dead)) this.defeat(text.comradesFallen)
+    if (!this.armor.alive) this.defeat(text.tankDestroyed)
   }
 
   sceneUI() {
-    return this.ui.scoreUI('Comrades', this.comrades.filter(comrade => !comrade.dead).length)
+    return this.ui.scoreUI('Comrades', this.comrades.filter(comrade => !comrade.dead).length) +
+      healthBar(this.armor.current / this.armor.maximum, 'top-right')
   }
 }

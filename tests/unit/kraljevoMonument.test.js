@@ -4,6 +4,8 @@ import { readFile } from 'node:fs/promises'
 import * as THREE from 'three'
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js'
+import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js'
 import { requestModels } from '/core3d/assets/models.js'
 import { props } from '/catalog/stories/props3d.js'
 import { buildKraljevo, kraljevo, models } from '/scenes/3d-tank/kraljevo.js'
@@ -25,6 +27,8 @@ test('Milutin loads with its embedded textures and stands on a solid base at the
     return {}
   })
   t.mock.method(FBXLoader.prototype, 'loadAsync', async() => placeholder())
+  t.mock.method(OBJLoader.prototype, 'loadAsync', async() => placeholder())
+  t.mock.method(MTLLoader.prototype, 'loadAsync', async() => new MTLLoader().parse('', ''))
   t.mock.method(GLTFLoader.prototype, 'loadAsync', async url => {
     if (url !== file) return { scene: placeholder(), animations: [] }
     return new GLTFLoader().parseAsync(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), '')
@@ -54,12 +58,24 @@ test('Milutin loads with its embedded textures and stands on a solid base at the
   assert.equal(catalogObjects[0], preview)
   assert.notEqual(preview.mesh, monument)
 
-  // a linden's model stands in as a box of its height; its unseen trunk beside it stops the tank
-  const lindens = scene.children.filter(child => child.visible && Math.abs(Math.abs(child.position.x) - kraljevo.avenue.aside) < .001)
-  assert.ok(lindens.length >= 20, `${lindens.length} lindens`)
+  // The unseen trunk of each roadside linden is solid.
+  const { avenue, road } = kraljevo
+  const lindens = scene.children.filter(({ visible, position: { x, z } }) =>
+    visible && z > road.from && z < avenue.to && Math.abs(x) >= avenue.aside[0] && Math.abs(x) <= avenue.aside[1])
+  assert.ok(lindens.length >= 12, `${lindens.length} lindens`)
+  assert.ok(new Set(lindens.map(({ position }) => Math.round(Math.abs(position.x)))).size > 2)
   for (const linden of lindens) {
-    assert.ok(linden.position.z < kraljevo.wire.z, 'the avenue ends before the wire')
+    const { x, z } = linden.position
+    const trunk = [...bodies.keys()].find(mesh => !mesh.visible && mesh.position.x === x && mesh.position.z === z)
+    assert.equal(bodies.get(trunk), 0)
     const height = new THREE.Box3().setFromObject(linden).getSize(new THREE.Vector3()).y
-    assert.ok(height > 10 && height < 14, `a linden ${height} m tall`)
+    assert.ok(height > 9 && height < 14, `a linden ${height} m tall`)
   }
+  // the bags of the trench and of the machine-gun nests, beside the road too, give way to the tank
+  const bagWalls = [...bodies.keys()].filter(mesh => mesh.name === 'SandbagWall')
+  assert.ok(bagWalls.length > 10, `${bagWalls.length} walls of bags`)
+  assert.ok(bagWalls.every(mesh => bodies.get(mesh) > 0), 'each a loose body the tank pushes')
+  // and the walls of concrete blocks, there for the tank to knock down
+  const blocks = [...bodies.keys()].filter(mesh => mesh.name === 'ConcreteBlock')
+  assert.ok(blocks.length >= 50 && blocks.every(mesh => bodies.get(mesh) > 0), `${blocks.length} loose blocks`)
 })

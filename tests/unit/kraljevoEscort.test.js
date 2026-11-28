@@ -5,6 +5,8 @@ import { register } from 'node:module'
 import * as THREE from 'three'
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js'
+import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js'
 import Escort from '/core/gameplay/controllers/Escort.js'
 import NearestTarget from '/core/gameplay/controllers/NearestTarget.js'
 import GameClock from '/core/runtime/GameClock.js'
@@ -12,7 +14,7 @@ import { createPageElements } from './helpers/dom.js'
 
 register('./setup/ammo-node.js', import.meta.url)
 
-test('the Kraljevo scene fields five distinct escorts against eight German defenders', async t => {
+test('the Kraljevo scene fields five distinct escorts against sixteen German defenders', async t => {
   createPageElements()
   t.mock.method(THREE.TextureLoader.prototype, 'load', (url, onLoad) => {
     const texture = new THREE.Texture()
@@ -26,8 +28,10 @@ test('the Kraljevo scene fields five distinct escorts against eight German defen
   t.mock.method(GLTFLoader.prototype, 'loadAsync', async() => ({
     scene: new THREE.Mesh(new THREE.BoxGeometry(2, 2, 4)), animations: [],
   }))
+  t.mock.method(OBJLoader.prototype, 'loadAsync', async() => new THREE.Mesh(new THREE.BoxGeometry(2, 2, 4)))
+  t.mock.method(MTLLoader.prototype, 'loadAsync', async() => new MTLLoader().parse('', ''))
   const { default: Kraljevo } = await import('/scenes/3d-tank/Main.js')
-  const { posts, defence } = await import('/scenes/3d-tank/kraljevo.js')
+  const { posts, defence, kraljevo } = await import('/scenes/3d-tank/kraljevo.js')
   const cleanups = [], objects = []
   const scene = {
     scene: new THREE.Scene(), camera: new THREE.PerspectiveCamera(), controllers: [],
@@ -35,14 +39,17 @@ test('the Kraljevo scene fields five distinct escorts against eight German defen
     add: (...items) => objects.push(...items), addMesh(mesh) {
       this.scene.add(mesh)
     },
-    ui: { scoreUI: (label, value) => [label, value] },
+    ui: { scoreUI: (label, value) => `${label} ${value}` },
   }
   t.after(() => {
     for (const object of objects) object.end?.()
     for (const cleanup of cleanups) cleanup()
   })
   await Kraljevo.prototype.init.call(scene)
-  assert.deepEqual(Kraljevo.prototype.sceneUI.call(scene), ['Comrades', 5])
+  const hud = Kraljevo.prototype.sceneUI.call(scene)
+  assert.ok(hud.startsWith('Comrades 5'))
+  assert.match(hud, /<progress[^>]*value="100"/, 'the tank whole, its armor bar full')
+  assert.equal(scene.guns.length, 2, 'two German guns fire at it')
   assert.equal(new Set(scene.comrades.map(({ x, z }) => `${x},${z}`)).size, 5)
   assert.equal(scene.controllers.filter(controller => controller instanceof Escort).length, 5)
   const viewOf = body => objects.find(object => object.body === body && object.mesh)
@@ -50,8 +57,17 @@ test('the Kraljevo scene fields five distinct escorts against eight German defen
   assert.ok(viewOf(rifleman).mesh.getObjectByName('Partisan').material.some(material => material.name === 'cockade'))
   assert.ok(viewOf(furCap).mesh.getObjectByName('Šubara'))
 
-  assert.equal(scene.enemies.length, 8)
+  assert.equal(scene.enemies.length, 16)
   assert.equal(posts.filter(({ arm }) => arm === 'machineGun').length, 2)
+  const [firstBarricade, secondBarricade] = kraljevo.barricades.slice(1)
+  const { square, street } = kraljevo
+  const ranges = [[kraljevo.trench.z, street.from, 8], [firstBarricade, secondBarricade, 3],
+    [secondBarricade, square.z - square.radius, 3], [square.z - square.radius, square.z, 2]]
+  for (const [from, to, count] of ranges) {
+    const line = scene.enemies.filter(({ z }) => z >= from && z < to)
+    assert.equal(line.length, count)
+    assert.ok(line.some(({ x }) => x < 0) && line.some(({ x }) => x > 0))
+  }
   const targetPickers = scene.controllers.filter(controller => controller instanceof NearestTarget)
   for (const [i, { x, z, arm }] of posts.entries()) {
     const enemy = scene.enemies[i]

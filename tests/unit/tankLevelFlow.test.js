@@ -78,7 +78,7 @@ test('the complete level keeps scrolling through its stages, ground combat, airc
   }
   assert.deepEqual(stagesSeen, ['lika', 'senj', 'rijeka', 'trst'], 'the road runs through its stages in order, to Trieste')
   assert.equal(scene.session.state, 'finished')
-  assert.match(scene.ui.outro, /Proboj je uspeo/)
+  assert.match(scene.ui.outro, /The breakthrough succeeded/)
   scene.end()
   const replay = new Scene()
   t.after(() => replay.end())

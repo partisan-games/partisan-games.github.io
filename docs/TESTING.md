@@ -22,7 +22,7 @@ Za browser je potreban instaliran Chromium. Velike serije, buildovi i paralelni 
 
 Teren Ratweeka. [Ciljani test](../tests/unit/ratweekLand.test.js) proverava visine, zajedničku teksturu, neprekinut spoj između segmenata i da ulice koriste prolaze između postojećih kuća. Ravnicu, prilaz Nišu i klisuru uporedili smo u offline prikazu iz ugla prateće kamere.
 
-U Opsadi Kraljeva ciljani test koristi stvarne FBX modele i proverava pet različitih mesta u pratnji, oba četnika, osam nemačkih branilaca i veći domet odbrane. Proba težine u pregledaču vodi se u [IG-34](PLAN.md#ig-34). [Test scene](../tests/unit/kraljevoEscort.test.js) · [Test modela u katalogu](../tests/unit/catalogResources.test.js)
+U Opsadi Kraljeva ciljani test koristi stvarne FBX modele i proverava pet različitih mesta u pratnji, oba četnika, raspored 16 nemačkih branilaca duž proboja i veći domet odbrane. Proba težine u pregledaču vodi se u [IG-34](PLAN.md#ig-34). [Test scene](../tests/unit/kraljevoEscort.test.js) · [Test modela u katalogu](../tests/unit/catalogResources.test.js)
 
 Saborci u Crvenom krstu (2026-11-25). [Test nivoa](../tests/unit/fpsCamp.test.js) proverava različite košulje i visine, izbor dva stvarna čučeća mirovanja sa različitim fazama/tempom, pomeranje šaka i praćenje kroz sudare lavirinta. Izvedene poze iz hoda i stojećih mirovanja su uklonjene. Čučeći hod je lokalna kopija sa zajedničkim horizontalnim početkom, bez promene izvornog FBX-a ili keša. Na sva tri stvarna modela test uzorkuje više od 20 petlji hoda: koren ostaje unutar 1 cm od mirovanja; zatim proverava povratak u izabrani idle. Novi klipovi su stvarno učitani, a snimljeni i obrnuti prelaz podižu/spuštaju stvarnu kost glave za više od 20 cm.
 

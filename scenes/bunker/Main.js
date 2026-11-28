@@ -17,6 +17,9 @@ import MachineGunnerSprite from '/core/actor/soldiers/MachineGunnerSprite.js'
 import Gunner from '/core/gameplay/controllers/Gunner.js'
 import GrenadierKeys from '/core/gameplay/controllers/GrenadierKeys.js'
 import Mina from './Mina.js'
+import { texts } from '/scenes/texts.js'
+
+const text = texts.bunker
 
 const ZADATO_VREME = 30
 /** How many grenades the grenadier carries. */
@@ -28,8 +31,8 @@ const pxPerMeter = 40
 
 export default class BunkerScene extends Scene2D {
   constructor() {
-    super({ intro: 'Bring Žikica Jovanović Španac to the German bunker!',
-      reportText: 'Krupanj, September 1941\n\nInsurgents besiege the German garrison in Krupanj. Young bombers led by Žikica Jovanović Španac attack it at night.',
+    super({ intro: text.intro,
+      reportText: text.report,
       controlKeys: { ...baseControls, [attackLabels.Space]: 'throw grenade' } })
   }
 
@@ -78,7 +81,7 @@ export default class BunkerScene extends Scene2D {
   destroyBunker() {
     this.bunker.die()
     this.mitraljezac.setState('dead')
-    this.victory('The enemy bunker has been destroyed!')
+    this.victory(text.victory)
   }
 
   /** A mine the grenadier steps on goes off under him. */
@@ -101,8 +104,8 @@ export default class BunkerScene extends Scene2D {
     if (this.ui.outro) return
     this.checkMines()
 
-    if (this.player.dead) this.defeat('You fell gloriously.')
-    if (t > ZADATO_VREME) this.defeat('Your time is up.')
+    if (this.player.dead) this.defeat(text.fallen)
+    if (t > ZADATO_VREME) this.defeat(text.timeUp)
 
     this.proveriPobedu()
   }

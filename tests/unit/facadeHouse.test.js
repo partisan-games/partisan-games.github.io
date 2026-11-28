@@ -4,6 +4,8 @@ import { readFile } from 'node:fs/promises'
 import * as THREE from 'three'
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js'
+import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js'
 import { requestModels } from '/core3d/assets/models.js'
 import FacadeHouse, { facades } from '/core3d/actor/buildings/FacadeHouse.js'
 import { createRuin } from '/core3d/city.js'
@@ -38,6 +40,8 @@ test('the houses of Kraljevo stand on the ground with their facades to the stree
   const placeholder = () => new THREE.Mesh(new THREE.BoxGeometry())
   t.mock.method(FBXLoader.prototype, 'loadAsync', async() => placeholder())
   t.mock.method(GLTFLoader.prototype, 'loadAsync', async() => ({ scene: placeholder(), animations: [] }))
+  t.mock.method(OBJLoader.prototype, 'loadAsync', async() => placeholder())
+  t.mock.method(MTLLoader.prototype, 'loadAsync', async() => new MTLLoader().parse('', ''))
   await requestModels(models)
   const scene = new THREE.Scene()
   await buildKraljevo({ scene, add: mesh => scene.add(mesh) })

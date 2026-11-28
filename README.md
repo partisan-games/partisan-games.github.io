@@ -30,9 +30,8 @@ To see every background picture in the project, open `/pages/pozadine.html` on t
 See [PLAN](docs/PLAN.md).
 
 - razrađivati postojeće nivoe redom
-- preispitati toon renderer u 3d scenama (crveni krst, kraljevo, ratweek i druge)
-- promeni url 3d-tank u kraljevo
-- kraljevo bug: saborci se tresu dok prate tenk.
+- ui - dugmići da pucanje i ostali na ekranu imaju providnu pozadinu pa nekad to deluje loše. mozda da dobiju neko zatamnjenje, ali da i dalje bude razlika na hover
+- kraljevo: tenk je prebrz i loše puca
 
 ## Credits
 

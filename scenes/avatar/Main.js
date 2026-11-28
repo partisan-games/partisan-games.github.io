@@ -10,6 +10,9 @@ import { Box3 } from 'three'
 import coinPosition from './coinPosition.js'
 import { jumpArc, reachableBoxes } from './reachableBoxes.js'
 import customStartScreen from './startScreen.js'
+import { texts } from '/scenes/texts.js'
+
+const text = texts.avatar
 
 const numBoxes = 400, mapSize = 200, lavaSize = 100
 const numCoins = numBoxes / 4
@@ -17,14 +20,6 @@ const numCoins = numBoxes / 4
 const withinCircle = position => Math.pow(position.x, 2) + Math.pow(position.z, 2) < Math.pow(lavaSize, 2)
 
 const inLava = player => player.feet <= .1 && withinCircle(player)
-
-const messageDict = {
-  1: 'Well, that\'s a good start!',
-  10: 'Keep up the good work!',
-  25: 'Nice result so far...',
-  50: 'Half down, half to go!',
-  75: 'You smell victory in the air...',
-}
 
 export default class AvatarScene extends Scene3D {
   constructor() {
@@ -117,7 +112,7 @@ export default class AvatarScene extends Scene3D {
   }
 
   showMotivationalMessage() {
-    const message = messageDict[this.score]
+    const message = text.motivation[this.score]
     if (message) this.ui.showMessage(message)
   }
 
@@ -131,7 +126,7 @@ export default class AvatarScene extends Scene3D {
 
     this.lava.material.uniforms.time.value = t * .5
     if (inLava(this.player) && !this.immuneToLava) {
-      this.ui.showMessage('Get out of the lava, you\'re burning!')
+      this.ui.showMessage(text.lava)
       this.player.health.damage(6 * dt) // 6 per second, the old .1 per frame at 60 fps
     }
 

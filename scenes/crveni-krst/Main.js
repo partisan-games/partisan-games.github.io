@@ -32,6 +32,9 @@ import Prisoner from '/core/gameplay/bodies/characters/Prisoner.js'
 import { keys } from '/core/io/keys.js'
 import PrisonerModel, { PrisonerFootsteps, models as escapeModels, prisonerLooks } from '/core3d/actor/derived/ww2/Prisoner.js'
 import CampNavigation from './CampNavigation.js'
+import { texts } from '/scenes/texts.js'
+
+const text = texts['crveni-krst']
 
 const soldiers = [germanMachineGunner, ssSoldier, naziOfficer, germanFlameThrower, germanSoldier]
 const halt = 'halt.mp3'
@@ -45,7 +48,7 @@ export default class FpsBaseScene extends Scene3D {
       toon: 'soft',
       usePointerLock: true,
       controlKeys: { ...fpsControls, [keys.crouch.label]: 'hold to sneak', [takeWeapon.label]: 'take weapon' },
-      intro: 'Find a way out.',
+      intro: text.intro,
       reportText: 'Crveni Krst camp, Niš, 12 February 1942\n\nThe prisoners have planned their breakout. You have overpowered a guard and taken his rifle. Find a way out.',
     })
     this.viewRenderer = this.renderer
@@ -208,10 +211,10 @@ export default class FpsBaseScene extends Scene3D {
     const won = Math.hypot(this.player.x - x, this.player.z - z) < 5
 
     if (won)
-      this.victory(`You found a way out and kill ${killed.length} of ${this.enemies.length} enemies`)
+      this.victory(text.victory(killed.length, this.enemies.length))
 
     if (this.player.dead)
-      this.defeat('You are dead.')
+      this.defeat(text.defeat)
 
   }
 

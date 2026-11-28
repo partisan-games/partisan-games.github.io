@@ -11,6 +11,9 @@ import Health from '/core/gameplay/Health.js'
 import AirAttack, { airAttack } from './AirAttack.js'
 import Battlefield from './Battlefield.js'
 import BridgeCrossing from './BridgeCrossing.js'
+import { texts } from '/scenes/texts.js'
+
+const text = texts.neretva
 
 const DALJI_Y = window.innerHeight * 0.25
 const BLIZI_Y = window.innerHeight * 0.5
@@ -49,8 +52,7 @@ function seeded(seed) {
 
 export default class NeretvaScene extends Scene2D {
   constructor() {
-    super({ intro: 'Hold the enemy at all costs until the wounded are safe.', showControls: false,
-      reportText: 'Neretva, March 1943\n\nThe partisan main force is trapped on the Neretva with four thousand wounded. Your task is to cover their evacuation.' })
+    super({ intro: text.intro, showControls: false, reportText: text.report })
   }
 
   init() {
@@ -122,7 +124,7 @@ export default class NeretvaScene extends Scene2D {
     this.airAttack.clear()
     this.crossing.show()
     this.add(...this.crossing.drawables)
-    this.ui.showMessage('Position held. Our forces are crossing the Neretva.')
+    this.ui.showMessage(text.positionHeld)
   }
 
   /** Once the crossing has been shown, the Chetniks take cover behind stones. */
@@ -131,7 +133,7 @@ export default class NeretvaScene extends Scene2D {
     this.manTrenches(this.chetniks)
     this.chetniks = null
     this.crossing = null
-    this.ui.showMessage('Chetniks are next')
+    this.ui.showMessage(text.chetniksNext)
   }
 
   /** `n` soldiers in a row across the screen, spaced as `dug` and drawn by `projection`. */
@@ -210,9 +212,9 @@ export default class NeretvaScene extends Scene2D {
   }
 
   smrt() {
-    let poruka = 'You fell bravely. '
+    let poruka = text.fallen
     if (this.pogoci > this.rekord) {
-      poruka += `You killed ${this.pogoci} enemies. That’s a new record!`
+      poruka += text.record(this.pogoci)
       localStorage.setItem('svabeRekord', this.pogoci)
     }
     this.defeat(poruka)
@@ -232,7 +234,7 @@ export default class NeretvaScene extends Scene2D {
     if (this.ui.outro || this.energija <= 0) return
 
     if (Math.ceil(this.preostaloVreme) < 1)
-      return this.victory('You defended the position; the wounded have been saved.')
+      return this.victory(text.victory)
 
     this.battlefield.update(dt)
     if (this.crossing?.shown) {
